@@ -42,6 +42,7 @@
       !||    inter7_candidate_pairs_mod   ../engine/source/interfaces/intsort/inter7_candidate_pairs.F90
       !||    inter_struct_mod             ../engine/share/modules/inter_struct_mod.F
       !||    message_mod                  ../engine/share/message_module/message_mod.F
+      !||    precision_mod                ../common_source/modules/precision_mod.F90
       !||    tri7box                      ../engine/share/modules/tri7box.F
       !||    voxel_dimensions_mod         ../engine/source/interfaces/intsort/voxel_dimensions.F90
       !||====================================================================
@@ -70,12 +71,12 @@
           USE TRI7BOX
           USE INTER7_CANDIDATE_PAIRS_MOD
           USE MESSAGE_MOD
+          USE PRECISION_MOD, ONLY : WP
           USE CONSTANT_MOD , ONLY : THREE_OVER_4
 !-----------------------------------------------
 !   I m p l i c i t   T y p e s
 !-----------------------------------------------
           implicit none
-#include "my_real.inc"
 !-----------------------------------------------
 !   D u m m y   A r g u m e n t s
 !-----------------------------------------------
@@ -119,29 +120,29 @@
           integer, intent(in) :: nodadt_therm
 
 !     REAL
-          my_real ::  GAP
-          my_real ::  TZINF
-          my_real ::  GAPMIN
-          my_real ::  GAPMAX
-          my_real ::  BMINMA(12)
-          my_real ::  CURV_MAX(NRTM)
-          my_real ::  BGAPSMX
-          my_real , INTENT(IN) :: DRAD
-          my_real , INTENT(IN) :: DGAPLOAD
-          my_real :: X(3,NUMNOD)
-          my_real :: CAND_P(NCONTACT)
-          my_real :: STF(NRTM)
-          my_real :: GAP_S(NSN)
-          my_real :: GAP_M(NRTM)
-          my_real :: GAP_S_L(NSN)
-          my_real :: GAP_M_L(NRTM)
-          my_real :: CAND_F(NCONTACT)
+          real(kind=WP) ::  GAP
+          real(kind=WP) ::  TZINF
+          real(kind=WP) ::  GAPMIN
+          real(kind=WP) ::  GAPMAX
+          real(kind=WP) ::  BMINMA(12)
+          real(kind=WP) ::  CURV_MAX(NRTM)
+          real(kind=WP) ::  BGAPSMX
+          real(kind=WP) , INTENT(IN) :: DRAD
+          real(kind=WP) , INTENT(IN) :: DGAPLOAD
+          real(kind=WP) :: X(3,NUMNOD)
+          real(kind=WP) :: CAND_P(NCONTACT)
+          real(kind=WP) :: STF(NRTM)
+          real(kind=WP) :: GAP_S(NSN)
+          real(kind=WP) :: GAP_M(NRTM)
+          real(kind=WP) :: GAP_S_L(NSN)
+          real(kind=WP) :: GAP_M_L(NRTM)
+          real(kind=WP) :: CAND_F(NCONTACT)
 !-----------------------------------------------
 !   L o c a l   V a r i a b l e s
 !-----------------------------------------------
-          INTEGER S_PREV_REMOTE_NUMBER
+          INTEGER :: S_PREV_REMOTE_NUMBER
 !     REAL
-          my_real XYZM(6,2), MARGE
+          real(kind=WP) :: XYZM(6,2), MARGE
 
 !-----------------------------------------------
 !   S o u r c e  L i n e s
@@ -331,5 +332,5 @@
           ENDIF
 !
           RETURN
-        END
-      END MODULE
+        end subroutine INTER7_COLLISION_DETECTION
+      end module INTER7_COLLISION_DETECTION_MOD

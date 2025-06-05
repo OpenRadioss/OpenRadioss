@@ -41,6 +41,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
+      use precision_mod, only : WP
       use ebcs_mod
       use unitab_mod
       use message_mod
@@ -57,28 +58,27 @@
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
 #include      "units_c.inc"
-#include      "my_real.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
       integer,intent(in) :: nsurf !< array sizes
       type (unit_type_),intent(in) ::unitab
-      integer id,uid
+      integer :: id,uid
       type (multi_fvm_struct), intent(inout) :: multi_fvm
       type (surf_)   ,target,  dimension(nsurf)   :: igrsurf
       character(len=nchartitle), intent(in) :: titr
-      type(submodel_data) lsubmodel(nsubmod)
-      logical is_available,is_encrypted
+      type(submodel_data) :: lsubmodel(nsubmod)
+      logical :: is_available,is_encrypted
       type(t_ebcs_propergol), intent(inout) :: ebcs
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local Variables
 ! ----------------------------------------------------------------------------------------------------------------------
-      integer isu,surf,j,nseg
-      integer imat,iflagunit
-      integer sensor_id, submat_id
-      integer ffunc_id, gfunc_id, hfunc_id
-      my_real :: fscaleX,fscaleY,gscaleX,gscaleY,hscaleX,hscaleY
-      my_real :: param_a, param_n, param_q, param_rho0s,param_t
+      integer :: isu,surf,j,nseg
+      integer :: imat,iflagunit
+      integer :: sensor_id, submat_id
+      integer :: ffunc_id, gfunc_id, hfunc_id
+      real(kind=WP) :: fscaleX,fscaleY,gscaleX,gscaleY,hscaleX,hscaleY
+      real(kind=WP) :: param_a, param_n, param_q, param_rho0s,param_t
       integer, dimension(:), pointer :: ingr2usr
       integer, external :: ngr2usr
 ! ----------------------------------------------------------------------------------------------------------------------

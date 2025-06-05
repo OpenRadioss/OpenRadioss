@@ -20,9 +20,6 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-! ======================================================================================================================
-!                                                   PROCEDURES
-! ======================================================================================================================
       !||====================================================================
       !||    bcs_mod                  ../common_source/modules/boundary_conditions/bcs_mod.F90
       !||--- called by ------------------------------------------------------
@@ -44,6 +41,7 @@
       !||    wrrestp                  ../engine/source/output/restart/wrrestp.F
       !||====================================================================
       module bcs_mod
+        use precision_mod, only : WP
         !use constant_mod , only : zero, ep20
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
@@ -53,7 +51,6 @@
 !                                                   Included files
 ! ----------------------------------------------------------------------------------------------------------------------
         implicit none
-#include "my_real.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -70,8 +67,8 @@
           logical :: is_enabled = .false.
           logical :: is_depending_on_time = .false.
           logical :: is_depending_on_sensor = .false.
-          my_real :: tstart
-          my_real :: tstop
+          real(kind=WP) :: tstart
+          real(kind=WP) :: tstop
           integer :: user_id = 0
           integer :: grnod_id = 0
           integer :: sensor_id = 0
@@ -110,7 +107,6 @@
 !                                                   Included files
 ! ----------------------------------------------------------------------------------------------------------------------
           implicit none
-#include "my_real.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------

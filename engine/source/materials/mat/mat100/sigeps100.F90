@@ -66,12 +66,12 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   modules
 ! ----------------------------------------------------------------------------------------------------------------------
+          use precision_mod, only : WP
           use constant_mod
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
           implicit none
-#include "my_real.inc"
 #include "mvsiz_p.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   arguments
@@ -81,61 +81,61 @@
           integer ,intent(in) :: nel,jcvt,nvarf,nuparam,nuvar,ihet,iexpan
           integer ,intent(in) :: snpc
           integer ,intent(in) :: stf
-          my_real ,intent(in) :: time
-          my_real ,intent(in) :: timestep
-          my_real ,intent(in) :: uparam(nuparam)
-          my_real ,intent(in) :: uparamf(nparf)
-          my_real ,intent(in) :: rho(nel)
-          my_real ,intent(in) :: depsxx(nel)
-          my_real ,intent(in) :: depsyy(nel)
-          my_real ,intent(in) :: depszz(nel)
-          my_real ,intent(in) :: depsxy(nel)
-          my_real ,intent(in) :: depsyz(nel)
-          my_real ,intent(in) :: depszx(nel)
-          my_real ,intent(in) :: sigoxx(nel)
-          my_real ,intent(in) :: sigoyy(nel)
-          my_real ,intent(in) :: sigozz(nel)
-          my_real ,intent(in) :: sigoxy(nel)
-          my_real ,intent(in) :: sigoyz(nel)
-          my_real ,intent(in) :: sigozx(nel)
-          my_real ,intent(in) :: mfxx(nel)
-          my_real ,intent(in) :: mfxy(nel)
-          my_real ,intent(in) :: mfxz(nel)
-          my_real ,intent(in) :: mfyx(nel)
-          my_real ,intent(in) :: mfyy(nel)
-          my_real ,intent(in) :: mfyz(nel)
-          my_real ,intent(in) :: mfzx(nel)
-          my_real ,intent(in) :: mfzy(nel)
-          my_real ,intent(in) :: mfzz(nel)
-          my_real ,intent(in) :: epsth(nel)
-          my_real ,intent(in) :: tempel(nel)
-          my_real ,intent(in) :: gama_r(nel,6)
+          real(kind=WP) ,intent(in) :: time
+          real(kind=WP) ,intent(in) :: timestep
+          real(kind=WP) ,intent(in) :: uparam(nuparam)
+          real(kind=WP) ,intent(in) :: uparamf(nparf)
+          real(kind=WP) ,intent(in) :: rho(nel)
+          real(kind=WP) ,intent(in) :: depsxx(nel)
+          real(kind=WP) ,intent(in) :: depsyy(nel)
+          real(kind=WP) ,intent(in) :: depszz(nel)
+          real(kind=WP) ,intent(in) :: depsxy(nel)
+          real(kind=WP) ,intent(in) :: depsyz(nel)
+          real(kind=WP) ,intent(in) :: depszx(nel)
+          real(kind=WP) ,intent(in) :: sigoxx(nel)
+          real(kind=WP) ,intent(in) :: sigoyy(nel)
+          real(kind=WP) ,intent(in) :: sigozz(nel)
+          real(kind=WP) ,intent(in) :: sigoxy(nel)
+          real(kind=WP) ,intent(in) :: sigoyz(nel)
+          real(kind=WP) ,intent(in) :: sigozx(nel)
+          real(kind=WP) ,intent(in) :: mfxx(nel)
+          real(kind=WP) ,intent(in) :: mfxy(nel)
+          real(kind=WP) ,intent(in) :: mfxz(nel)
+          real(kind=WP) ,intent(in) :: mfyx(nel)
+          real(kind=WP) ,intent(in) :: mfyy(nel)
+          real(kind=WP) ,intent(in) :: mfyz(nel)
+          real(kind=WP) ,intent(in) :: mfzx(nel)
+          real(kind=WP) ,intent(in) :: mfzy(nel)
+          real(kind=WP) ,intent(in) :: mfzz(nel)
+          real(kind=WP) ,intent(in) :: epsth(nel)
+          real(kind=WP) ,intent(in) :: tempel(nel)
+          real(kind=WP) ,intent(in) :: gama_r(nel,6)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                            output arguments
 ! ----------------------------------------------------------------------------------------------------------------------
-          my_real ,intent(out) :: signxx(nel)
-          my_real ,intent(out) :: signyy(nel)
-          my_real ,intent(out) :: signzz(nel)
-          my_real ,intent(out) :: signxy(nel)
-          my_real ,intent(out) :: signyz(nel)
-          my_real ,intent(out) :: signzx(nel)
-          my_real ,intent(out) :: soundsp(nel)
-          my_real ,intent(out) :: viscmax(nel)
-          my_real ,intent(out) :: et(nel)
+          real(kind=WP) ,intent(out) :: signxx(nel)
+          real(kind=WP) ,intent(out) :: signyy(nel)
+          real(kind=WP) ,intent(out) :: signzz(nel)
+          real(kind=WP) ,intent(out) :: signxy(nel)
+          real(kind=WP) ,intent(out) :: signyz(nel)
+          real(kind=WP) ,intent(out) :: signzx(nel)
+          real(kind=WP) ,intent(out) :: soundsp(nel)
+          real(kind=WP) ,intent(out) :: viscmax(nel)
+          real(kind=WP) ,intent(out) :: et(nel)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                        input/output arguments
 ! ----------------------------------------------------------------------------------------------------------------------
-          my_real ,intent(inout) :: uvar(nel,nuvar)
-          my_real ,intent(inout) :: uvarf(nel,nvarf)
+          real(kind=WP) ,intent(inout) :: uvar(nel,nuvar)
+          real(kind=WP) ,intent(inout) :: uvarf(nel,nvarf)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                        interpolation variables
 ! ----------------------------------------------------------------------------------------------------------------------
           integer , intent(in) :: npf(snpc)
           integer , intent(in) :: nfunc
           integer , intent(in) :: ifunc(nfunc)
-          my_real , intent(in) :: tf(stf)
-          my_real fint2v
-          my_real finter,fintte
+          real(kind=WP) , intent(in) :: tf(stf)
+          real(kind=WP) fint2v
+          real(kind=WP) finter,fintte
           external finter,fintte
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                        local variables
@@ -147,7 +147,7 @@
           &ipos1(nel),ilen1(nel),iad1(nel),&
           &ipos2(nel),ilen2(nel),iad2(nel)
 
-          my_real et1,et2,et3,g,rbulk,aa,bb,cc,sb, factor,&
+          real(kind=WP) et1,et2,et3,g,rbulk,aa,bb,cc,sb, factor,&
           &maxl,stiff0,dsig,deps,coef1,coef2,coef3,coef4,coef5,coef6,&
           &c10,c01,c20,c11,c02,c30,c21,c12,c03,d1,d2,d3,tauy0,ff, epshat,&
           &temp1,facpl,hh,r3r3,&
@@ -169,11 +169,11 @@
           &fftn(nel,3,3),fpeq(nel,3,3),fpeqo(nel,3,3),s(nel,3,3),fedp(nel,3,3),&
           &dfp(nel,3,3),lb(nel,3,3),dfp2(nel,3,3),fpdot(nel,3,3),invfe(nel,3,3)
           !
-          my_real a1(10),expc(10),expm(10),ksi(10),a10(10),stiffn(10),&
+          real(kind=WP) a1(10),expc(10),expm(10),ksi(10),a10(10),stiffn(10),&
           &b0(10),expn(10),tauref(10)
           !
-          my_real c1,c2,c3,c4,c5,mu,lm,d,beta,scale1,scale2,cmax
-          my_real coefr,betaf ,coefm
+          real(kind=WP) c1,c2,c3,c4,c5,mu,lm,d,beta,scale1,scale2,cmax
+          real(kind=WP) coefr,betaf ,coefm
 !----------------------------------------------------------------
 !     material model : prf : parallel rheological framework
 !=======================================================================

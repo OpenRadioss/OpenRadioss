@@ -123,7 +123,7 @@
           call python_call_function(py%functs(funct_id)%name, 1, argin, 1, argout)
 !$OMP END CRITICAL
           y = real(argout(1),kind(1.0))
-        end subroutine
+        end subroutine python_call_funct_cload_sp
 
       !||====================================================================
       !||    python_call_funct_cload_dp      ../engine/source/loads/general/python_call_funct_cload.F90
@@ -206,6 +206,6 @@
           call python_call_function(py%functs(funct_id)%name, 1, argin, 1, argout)
 !$OMP END CRITICAL
           y = argout(1)
-        end subroutine
-        end module
+        end subroutine python_call_funct_cload_dp
+        end module python_call_funct_cload_mod
 

@@ -63,28 +63,27 @@
 ! ----------------------------------------------------------------------------------------------------------------------
           implicit none
 
-#include "my_real.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
       integer ,intent(in)        :: nel
       integer ,intent(in)        :: npropm
       integer ,intent(in)        :: jtur
-      my_real ,dimension(nel)    :: tempel
-      my_real ,dimension(nel)    :: lc
-      my_real ,dimension(nel)    :: off
-      my_real ,dimension(nel)    :: vol0
-      my_real ,dimension(nel)    :: rho
-      my_real ,dimension(nel)    :: rk
-      my_real ,dimension(nel)    :: re
-      my_real ,dimension(nel)    :: conde
-      my_real ,dimension(npropm) :: pm
+      real(kind=WP) ,dimension(nel)    :: tempel
+      real(kind=WP) ,dimension(nel)    :: lc
+      real(kind=WP) ,dimension(nel)    :: off
+      real(kind=WP) ,dimension(nel)    :: vol0
+      real(kind=WP) ,dimension(nel)    :: rho
+      real(kind=WP) ,dimension(nel)    :: rk
+      real(kind=WP) ,dimension(nel)    :: re
+      real(kind=WP) ,dimension(nel)    :: conde
+      real(kind=WP) ,dimension(npropm) :: pm
       type (glob_therm_) ,intent(inout) :: glob_therm
 !-----------------------------------------------
 !   L o c a l   V a r i a b l e s
 !-----------------------------------------------
       integer :: i
-      my_real :: rhocp,as,bs,al,bl,tmelt,akk,xmu,tmu,atu,dt,lc2,rpr
+      real(kind=WP) :: rhocp,as,bs,al,bl,tmelt,akk,xmu,tmu,atu,dt,lc2,rpr
 !=======================================================================
       rhocp = pm(69)
       as    = pm(75)

@@ -48,6 +48,7 @@
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
           use constant_mod , only: zero,em20
+          use precision_mod, only : WP
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -55,22 +56,21 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Included files
 ! ----------------------------------------------------------------------------------------------------------------------
-#include "my_real.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
           integer,                                   intent(in) :: numnod                      !< number of nodes
           integer,                                   intent(in) :: sz_npcont2                  !< dimension of array npcont2
           integer,                                   intent(in) :: weight(numnod)              !< weight
-          my_real,                                intent(inout) :: fcont(3,numnod)             !< output vector for PCONT2
-          my_real,                                intent(inout) :: fcont_max(3,numnod)         !< max of output vector
-          my_real,                                   intent(in) :: npcont2(3,sz_npcont2)       !< average normal on node for tied contact
-          my_real,                                intent(inout) :: npcont2_max(3,numnod)       !< average normal on node for max force
+          real(kind=WP),                                intent(inout) :: fcont(3,numnod)             !< output vector for PCONT2
+          real(kind=WP),                                intent(inout) :: fcont_max(3,numnod)         !< max of output vector
+          real(kind=WP),                                   intent(in) :: npcont2(3,sz_npcont2)       !< average normal on node for tied contact
+          real(kind=WP),                                intent(inout) :: npcont2_max(3,numnod)       !< average normal on node for max force
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
           integer :: n
-          my_real :: fold,fnew,normal(1:3),nnn
+          real(kind=WP) :: fold,fnew,normal(1:3),nnn
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------

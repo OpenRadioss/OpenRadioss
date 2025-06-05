@@ -93,9 +93,9 @@
 ! ----------------------------------------------------------------------------------------------------------------------
           integer :: i,l,k,m 
           integer :: pos 
-          integer n,jj,iprt0,iprt,ii
-          integer ng,nel,nft,lft,llt,ity,ioff
-          integer work(70000)
+          integer :: n,jj,iprt0,iprt,ii
+          integer :: ng,nel,nft,lft,llt,ity,ioff
+          integer :: work(70000)
           integer,dimension(:,:),allocatable :: iadg
           integer,dimension(:,:),allocatable :: clef
           integer,dimension(:),allocatable :: npglob

@@ -58,12 +58,12 @@
 ! ----------------------------------------------------------------------------------------------------------------------
       use constant_mod,   only : zero,one_over_8,one_over_64
       use shour_ctl_mod,  only : shour_ctl
+      use precision_mod, only : WP
 ! ----------------------------------------------------------------------------------------------------------------------
           implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Included files
 ! ----------------------------------------------------------------------------------------------------------------------
-#include "my_real.inc"
 #include "mvsiz_p.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                           d u m m y   a r g u m e n t s
@@ -73,37 +73,37 @@
           integer, intent(in)                              :: npropm           !< number of properties
           integer, intent(in)                              :: nummat           !< number of laws
           integer, dimension(mvsiz), intent(in   )         :: mxt              !< material id
-          my_real, dimension(npropm,nummat) ,intent(in)    :: pm               !< material data
-          my_real, dimension(nel,12)        ,intent(inout) :: fhour            !< hourglass stress 
-          my_real, dimension(nel),   intent(in   )         :: rho              !< density
-          my_real, dimension(mvsiz), intent(in   )         :: ssp              !< speed sound 
-          my_real, dimension(mvsiz), intent(in   )         :: off              !< off value 
-          my_real, dimension(mvsiz), intent(in   )         :: vol              !< volume 
-          my_real, dimension(mvsiz), intent(in   )         :: vol0             !< initial volume 
-          my_real, dimension(mvsiz) ,intent(in   )         ::             &
+          real(kind=WP), dimension(npropm,nummat) ,intent(in)    :: pm               !< material data
+          real(kind=WP), dimension(nel,12)        ,intent(inout) :: fhour            !< hourglass stress 
+          real(kind=WP), dimension(nel),   intent(in   )         :: rho              !< density
+          real(kind=WP), dimension(mvsiz), intent(in   )         :: ssp              !< speed sound 
+          real(kind=WP), dimension(mvsiz), intent(in   )         :: off              !< off value 
+          real(kind=WP), dimension(mvsiz), intent(in   )         :: vol              !< volume 
+          real(kind=WP), dimension(mvsiz), intent(in   )         :: vol0             !< initial volume 
+          real(kind=WP), dimension(mvsiz) ,intent(in   )         ::             &
                            x1,x2,x3,x7,x5,x6,                             &
                            y1,y2,y3,y7,y5,y6,                             &
                            z1,z2,z3,z7,z5,z6                                   !< nodal coordinates
-          my_real, dimension(mvsiz) ,intent(in   )         ::             &
+          real(kind=WP), dimension(mvsiz) ,intent(in   )         ::             &
                            vx1,vx2,vx3,vx7,vx5,vx6,                       &
                            vy1,vy2,vy3,vy7,vy5,vy6,                       &
                            vz1,vz2,vz3,vz7,vz5,vz6                             !< nodal velocity
-          my_real, dimension(mvsiz) ,intent(inout)         ::             &
+          real(kind=WP), dimension(mvsiz) ,intent(inout)         ::             &
                            f11,f12,f13,f15,f16,f17,                       &
                            f21,f22,f23,f25,f26,f27,                       &
                            f31,f32,f33,f35,f36,f37                             !< nodal internal force
-         my_real, dimension(mvsiz)  ,intent(inout)         :: eint             !< internal energy (hourglass)
-         my_real, dimension(mvsiz)  ,intent(inout)         :: sti              !< nodal stiffness
-         my_real, intent(in   )                            :: dt1              !< time step
-         my_real, intent(in   )                            :: dn               !< coef of viscous hourglass 
+         real(kind=WP), dimension(mvsiz)  ,intent(inout)         :: eint             !< internal energy (hourglass)
+         real(kind=WP), dimension(mvsiz)  ,intent(inout)         :: sti              !< nodal stiffness
+         real(kind=WP), intent(in   )                            :: dt1              !< time step
+         real(kind=WP), intent(in   )                            :: dn               !< coef of viscous hourglass 
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                        l o c a l   v a r i a b l e s
 ! ----------------------------------------------------------------------------------------------------------------------
       integer i, j
 !
-      my_real    f14(mvsiz), f18(mvsiz), f24(mvsiz), f28(mvsiz),          &
+      real(kind=WP)    f14(mvsiz), f18(mvsiz), f24(mvsiz), f28(mvsiz),          &
                  f34(mvsiz), f38(mvsiz)
-      my_real  dett ,jaci1, jaci2, jaci3,jaci4, jaci5, jaci6,             &
+      real(kind=WP)  dett ,jaci1, jaci2, jaci3,jaci4, jaci5, jaci6,             &
                jaci7, jaci8, jaci9, jaci12, jaci45, jaci78,               &
                x_17_46 , x_28_35 ,y_17_46 , y_28_35 ,z_17_46 , z_28_35 ,  &
                x17(mvsiz) , x28(mvsiz) , x35(mvsiz) , x46(mvsiz),         &

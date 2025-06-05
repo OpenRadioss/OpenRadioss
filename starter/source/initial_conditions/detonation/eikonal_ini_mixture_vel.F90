@@ -51,6 +51,7 @@
           use constant_mod , only : zero, one
           use multimat_param_mod , only : m51_n0phas, m51_nvphas
           use material_is_high_explosive_mod , only : material_is_high_explosive
+          use precision_mod, only : WP
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -58,18 +59,17 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Included files
 ! ----------------------------------------------------------------------------------------------------------------------
-#include "my_real.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
           integer,intent(in) :: lgth,npropm,npropmi,nummat,ngroup !< array sizes
           integer,intent(in) :: multimat_id          !< tag for law 51 or 151
           integer,intent(in) :: mid                  !<internal material identifier
-          my_real,intent(inout) :: vel(lgth)         !< velocity to initialize
+          real(kind=WP),intent(inout) :: vel(lgth)         !< velocity to initialize
           integer,intent(in) :: idx_ng(lgth)         !< group numbers
           integer,intent(in) :: idx_i(lgth)          !< local identifers in groups
           integer,intent(in) :: ipm(npropmi,nummat)  !< material buffer (integer)
-          my_real,intent(in) :: pm(npropm,nummat)    !< material buffer (real)
+          real(kind=WP),intent(in) :: pm(npropm,nummat)    !< material buffer (real)
           type (elbuf_struct_), target, dimension(ngroup) :: elbuf_tab
           integer,intent(in) :: nparg
           integer,intent(in) :: iparg(nparg,ngroup) !< group parameters
@@ -84,9 +84,9 @@
           integer :: nel
           integer :: submat_mlw(21)
           integer :: submat_mid(21)
-          my_real :: vfrac(21)
-          my_real :: detvel(21)
-          my_real :: mix_detvel
+          real(kind=WP) :: vfrac(21)
+          real(kind=WP) :: detvel(21)
+          real(kind=WP) :: mix_detvel
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------

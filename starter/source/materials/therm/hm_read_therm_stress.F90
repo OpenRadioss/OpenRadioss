@@ -64,6 +64,7 @@
       use names_and_titles_mod , only : nchartitle
       use matparam_def_mod
       use constant_mod, only : zero, one
+      use precision_mod, only : WP
 !============================================================================
 !                                                   Implicit none
 ! --------------------------------------------------------------------------------------------------
@@ -71,7 +72,6 @@
 ! --------------------------------------------------------------------------------------------------
 !                                                   Included files
 ! --------------------------------------------------------------------------------------------------
-#include "my_real.inc"
 ! --------------------------------------------------------------------------------------------------
 !   D u m m y   A r g u m e n t s
 !-----------------------------------------------
@@ -80,7 +80,7 @@
       integer ,intent(in) :: npropmi
       integer ,intent(in) :: iout
       integer ,dimension(npropmi,nummat)  ,intent(inout) :: ipm
-      my_real ,dimension(npropm ,nummat)  ,intent(inout) :: pm
+      real(kind=WP) ,dimension(npropm ,nummat)  ,intent(inout) :: pm
       type (unit_type_)                   ,intent(in)    :: unitab 
       type(mlaw_tag_)        ,dimension(nummat) ,intent(inout) :: mlaw_tag
       type(submodel_data)    ,dimension(*)      ,intent(in)    :: lsubmodel
@@ -89,9 +89,9 @@
 !   L o c a l   V a r i a b l e s
 !-----------------------------------------------
       integer :: ith,mat_id,imat,ilaw,jthe,ntherm_st,ifunc_alpha
-      my_real ::  fscal_alpha
+      real(kind=WP) ::  fscal_alpha
       character(len=nchartitle) :: titr
-      character key*80
+      character :: key*80
       logical :: is_available
 !=======================================================================
 
@@ -159,6 +159,6 @@
       5x,'THERMAL EXPANSION FUNCTION SCALE FACTOR .=',1pg20.13//)
 !-----------------------------------------      
       return
-      end
+      end subroutine hm_read_therm_stress
 !-----------------------------------------      
       end module hm_read_therm_stress_mod

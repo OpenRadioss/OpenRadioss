@@ -46,6 +46,7 @@
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
           use constant_mod, only : zero,half,third,fourth,ep20,em01
+          use precision_mod, only : WP
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -53,7 +54,6 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Included files
 ! ----------------------------------------------------------------------------------------------------------------------
-#include "my_real.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -64,17 +64,17 @@
           integer,   dimension(nsu1),             intent(inout) :: itag1               !< tag array for surf1
           integer,   dimension(nsu2),             intent(inout) :: itag2               !< tag array for surf2
           integer,                                intent(in   ) :: numnod              !< the size of x
-          my_real,                                intent(in   ) :: dsearch             !< search distance
-          my_real,    dimension(3,numnod),        intent(in   ) :: x                   !< coordinates of the nodes
+          real(kind=WP),                                intent(in   ) :: dsearch             !< search distance
+          real(kind=WP),    dimension(3,numnod),        intent(in   ) :: x                   !< coordinates of the nodes
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
           integer :: i,j,k,m,nj(4),ii,ifound,iwork(4),nj1(4),ier,jmin,i_old,n_buck,ihuge
           integer :: n_dir(3),ix,iy,iz,nsu_1,nsu_2,jj,ndiv_min,nb_seg1(3),nb_seg2(3)
-          my_real :: area1(nsu1),area2(nsu2),xs1(3,nsu1),xs2(3,nsu2),n1(3,nsu1),n2(3,nsu2)
-          my_real :: ds,dsn,dmin,xj(3,4),marge1(nsu1),marge2(nsu2),angle,angle_min
-          my_real :: marge,xmin(3),xmax(3),xmin2(3),xmax2(3),tol_d,xmin_i(3),xmax_i(3)
-          my_real :: sz_g(3),sz_max,sz_min,marge_1,marge_2,xming(3),xmaxg(3),marge_g,ll,marge_max
+          real(kind=WP) :: area1(nsu1),area2(nsu2),xs1(3,nsu1),xs2(3,nsu2),n1(3,nsu1),n2(3,nsu2)
+          real(kind=WP) :: ds,dsn,dmin,xj(3,4),marge1(nsu1),marge2(nsu2),angle,angle_min
+          real(kind=WP) :: marge,xmin(3),xmax(3),xmin2(3),xmax2(3),tol_d,xmin_i(3),xmax_i(3)
+          real(kind=WP) :: sz_g(3),sz_max,sz_min,marge_1,marge_2,xming(3),xmaxg(3),marge_g,ll,marge_max
           integer,  dimension(:), allocatable   :: ind_1,ind_2
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body

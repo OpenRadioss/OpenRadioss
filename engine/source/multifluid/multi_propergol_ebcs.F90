@@ -58,7 +58,6 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Include files
 ! ----------------------------------------------------------------------------------------------------------------------
-#include      "my_real.inc"
 #include      "task_c.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
@@ -66,39 +65,39 @@
       INTEGER,INTENT(IN) :: NIXS, NIXQ, NIXTG, NPROPMI, NPROPM, NSURF, STF, SNPC, NUMMAT !< array size
       INTEGER,INTENT(IN) :: NUMELS, NUMELQ, NUMELTG, NUMNOD !< array size
       INTEGER,INTENT(IN) :: NCYCLE
-      my_real,INTENT(INOUT) :: FSAVSURF(TH_SURF_NUM_CHANNEL,NSURF)
+      real(kind=WP),INTENT(INOUT) :: FSAVSURF(TH_SURF_NUM_CHANNEL,NSURF)
       INTEGER, INTENT(IN) :: EBCS_ID
       TYPE(MULTI_FVM_STRUCT), INTENT(INOUT) :: MULTI_FVM
       INTEGER, INTENT(IN) :: ITASK, NELEM, ELEM_LIST(NELEM), FACE_LIST(NELEM)
       INTEGER, INTENT(IN) :: IXS(NIXS, NUMELS), IXQ(NIXQ, NUMELQ), IXTG(NIXTG, NUMELTG)
-      my_real, INTENT(IN) :: XGRID(3, NUMNOD), WGRID(3, NUMNOD)
+      real(kind=WP), INTENT(IN) :: XGRID(3, NUMNOD), WGRID(3, NUMNOD)
       INTEGER, INTENT(IN) :: IPM(NPROPMI, NUMMAT)
-      my_real, INTENT(IN) :: PM(NPROPM, NUMMAT), FUNC_VALUE(*)
+      real(kind=WP), INTENT(IN) :: PM(NPROPM, NUMMAT), FUNC_VALUE(*)
       TYPE(FVM_INLET_DATA_STRUCT), INTENT(IN) :: FVM_INLET_DATA
       TYPE(t_ebcs_nrf), INTENT(INOUT) :: EBCS
       INTEGER, INTENT(IN) :: NPF(SNPC)
-      my_real, INTENT(IN) :: TF(STF), TIMESTEP
+      real(kind=WP), INTENT(IN) :: TF(STF), TIMESTEP
       TYPE(MATPARAM_STRUCT_), DIMENSION(NUMMAT), INTENT(IN) :: MATPARAM !material data structure
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local Variables
 ! ----------------------------------------------------------------------------------------------------------------------
       INTEGER :: IELEM, ELEMID
       INTEGER :: KFACE
-      my_real :: SURF, NX, NY, NZ
-      my_real :: SSTAR, PSTAR, SL, SR, WFAC(3), VII(5), NORMALW
-      my_real :: FII(5), VIISTAR(5),  FIISTAR(5), PP(5)
+      real(kind=WP) :: SURF, NX, NY, NZ
+      real(kind=WP) :: SSTAR, PSTAR, SL, SR, WFAC(3), VII(5), NORMALW
+      real(kind=WP) :: FII(5), VIISTAR(5),  FIISTAR(5), PP(5)
       INTEGER :: IMAT, NBMAT
       INTEGER :: MATLAW(MULTI_FVM%NBMAT), LOCAL_MATID(MULTI_FVM%NBMAT)
-      my_real :: PHASE_RHOII(MULTI_FVM%NBMAT), PHASE_PRESII(MULTI_FVM%NBMAT)
-      my_real :: PHASE_EINTII(MULTI_FVM%NBMAT)
-      my_real :: PHASE_ALPHAII(MULTI_FVM%NBMAT), PHASE_RHOJJ(MULTI_FVM%NBMAT)
-      my_real :: PHASE_PRESJJ(MULTI_FVM%NBMAT), PHASE_EINTJJ(MULTI_FVM%NBMAT)
-      my_real :: PHASE_SSPJJ(MULTI_FVM%NBMAT), PHASE_ALPHAJJ(MULTI_FVM%NBMAT)
-      my_real :: DUMMY(6), DUMMY2(1), DUMMY3(1), RHOII, PII, EINTII, VXII, VYII, VZII, SSPII, NORMAL_VELII, RHOJJ, SSPJJ
-      my_real :: P_JJ, NORMAL_VELJJ, VXJJ, VYJJ, VZJJ, VELII2, ALPHAII, SUB_RHOII, SUB_RHOEINTII, SUB_VIISTAR(3)
-      my_real :: SUB_FIISTAR(3), ALPHASTAR, SUB_RHOSTAR, SUB_PII, VELJJ2, SUB_ESTAR, EINTJJ
+      real(kind=WP) :: PHASE_RHOII(MULTI_FVM%NBMAT), PHASE_PRESII(MULTI_FVM%NBMAT)
+      real(kind=WP) :: PHASE_EINTII(MULTI_FVM%NBMAT)
+      real(kind=WP) :: PHASE_ALPHAII(MULTI_FVM%NBMAT), PHASE_RHOJJ(MULTI_FVM%NBMAT)
+      real(kind=WP) :: PHASE_PRESJJ(MULTI_FVM%NBMAT), PHASE_EINTJJ(MULTI_FVM%NBMAT)
+      real(kind=WP) :: PHASE_SSPJJ(MULTI_FVM%NBMAT), PHASE_ALPHAJJ(MULTI_FVM%NBMAT)
+      real(kind=WP) :: DUMMY(6), DUMMY2(1), DUMMY3(1), RHOII, PII, EINTII, VXII, VYII, VZII, SSPII, NORMAL_VELII, RHOJJ, SSPJJ
+      real(kind=WP) :: P_JJ, NORMAL_VELJJ, VXJJ, VYJJ, VZJJ, VELII2, ALPHAII, SUB_RHOII, SUB_RHOEINTII, SUB_VIISTAR(3)
+      real(kind=WP) :: SUB_FIISTAR(3), ALPHASTAR, SUB_RHOSTAR, SUB_PII, VELJJ2, SUB_ESTAR, EINTJJ
       INTEGER :: IELEM_START, IELEM_END, ID_SURF
-      my_real :: TCAR_P, TCAR_VF,ALPHA,BETA,DP0,Vnew,Vold,Pvois,POld,MACH,RHOC2,ROC,PSURF,ABURN(1)
+      real(kind=WP) :: TCAR_P, TCAR_VF,ALPHA,BETA,DP0,Vnew,Vold,Pvois,POld,MACH,RHOC2,ROC,PSURF,ABURN(1)
       INTEGER :: VARTMP_EOS(1,128) !nel=1
       INTEGER :: NVARTMP_EOS !upper bound
 ! ----------------------------------------------------------------------------------------------------------------------

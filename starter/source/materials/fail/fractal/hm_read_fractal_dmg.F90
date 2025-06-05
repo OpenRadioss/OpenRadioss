@@ -61,13 +61,13 @@
           use submodel_mod
           use hm_option_read_mod
           use constant_mod ,only : zero,one
+          use precision_mod ,only : WP
 ! ---------------------------------------------------------------------------------------------
           implicit none
 ! ---------------------------------------------------------------------------------------------
 !     included files
 ! ---------------------------------------------------------------------------------------------
 
-#include "my_real.inc"
 
 !-----------------------------------------------
 !   D u m m y   a r g u m e n t s
@@ -84,7 +84,7 @@
 !-----------------------------------------------
           integer :: n_rwalk,seed,debug
           integer :: grsh4n_1,grsh3n_1,grsh4n_2,grsh3n_2
-          my_real :: dmg,probability
+          real(kind=WP) :: dmg,probability
           logical :: is_available,is_encrypted
 !=======================================================================
           is_encrypted = .false.
@@ -157,7 +157,7 @@
             5X,'DAMAGED SH3N ELEMENT GROUP. . . . . . . . . . . . .=',I10/)
 !-----------
           return
-        end
+        end subroutine hm_read_fractal_dmg
 !-----------
-      end module
+      end module hm_read_fractal_dmg_mod
 

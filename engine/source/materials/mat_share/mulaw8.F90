@@ -121,7 +121,6 @@
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
           implicit none
-#include "my_real.inc"
 #include "mvsiz_p.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
@@ -165,13 +164,13 @@
 
           ! floating point arguments (in)
           ! --------------------------------
-          my_real, dimension(npropm,nummat), intent(in) :: pm
-          my_real, dimension(npropg,numgeo), intent(in) :: geo
-          my_real, dimension(sbufmat), intent(in) :: bufmat
-          my_real, dimension(stf), intent(in) :: tf
-          my_real, intent(in) :: dt1
-          my_real, intent(in) :: tt
-          my_real, intent(in) :: dt2t
+          real(kind=WP), dimension(npropm,nummat), intent(in) :: pm
+          real(kind=WP), dimension(npropg,numgeo), intent(in) :: geo
+          real(kind=WP), dimension(sbufmat), intent(in) :: bufmat
+          real(kind=WP), dimension(stf), intent(in) :: tf
+          real(kind=WP), intent(in) :: dt1
+          real(kind=WP), intent(in) :: tt
+          real(kind=WP), intent(in) :: dt2t
 
           ! integer arguments (inout)
           ! --------------------------------
@@ -179,46 +178,46 @@
 
           ! floating point arguments (inout)
           ! --------------------------------
-          my_real, dimension(llt), intent(inout) :: rho
-          my_real, dimension(llt), intent(inout) :: qold
-          my_real, dimension(llt), intent(inout) :: vol
-          my_real, dimension(mvsiz,6), intent(inout) :: gama
-          my_real, dimension(llt), intent(inout) :: epsd
-          my_real, dimension(llt), intent(inout) :: off
-          my_real, dimension(llt), intent(inout) :: offg
-          my_real, dimension(llt), intent(inout) :: eint
-          my_real, dimension(llt), intent(inout) :: mssa
-          my_real, dimension(llt), intent(inout) :: dmels
-          my_real, dimension(nel,6), intent(inout) :: sig
-          my_real, dimension(mvsiz), intent(inout) :: voln
-          my_real, dimension(mvsiz), intent(inout) :: vis
-          my_real, dimension(mvsiz), intent(inout) :: ssp
-          my_real, dimension(mvsiz), intent(inout) :: rho0
-          my_real, dimension(mvsiz), intent(inout) :: dvol
-          my_real, dimension(mvsiz), intent(inout) :: vd2
-          my_real, dimension(mvsiz), intent(inout) :: deltax
-          my_real, dimension(mvsiz), intent(inout) :: rx
-          my_real, dimension(mvsiz), intent(inout) :: ry
-          my_real, dimension(mvsiz), intent(inout) :: rz
-          my_real, dimension(mvsiz), intent(inout) :: sx
-          my_real, dimension(mvsiz), intent(inout) :: sy
-          my_real, dimension(mvsiz), intent(inout) :: sz
-          my_real, dimension(mvsiz), intent(inout) :: tx
-          my_real, dimension(mvsiz), intent(inout) :: ty
-          my_real, dimension(mvsiz), intent(inout) :: tz
-          my_real, dimension(mvsiz), intent(inout) :: stifn
-          my_real, dimension(mvsiz), intent(inout) :: et
-          my_real, dimension(mvsiz,6), intent(inout) :: svis
-          my_real, dimension(mvsiz,npt), intent(inout) :: volgp
-          my_real, dimension(mvsiz,npt), intent(inout) :: d1
-          my_real, dimension(mvsiz,npt), intent(inout) :: d2
-          my_real, dimension(mvsiz,npt), intent(inout) :: d3
-          my_real, dimension(mvsiz,npt), intent(inout) :: d4
-          my_real, dimension(mvsiz,npt), intent(inout) :: d5
-          my_real, dimension(mvsiz,npt), intent(inout) :: d6
-          my_real, dimension(mvsiz,npt), intent(inout) :: wxx
-          my_real, dimension(mvsiz,npt), intent(inout) :: wyy
-          my_real, dimension(mvsiz,npt), intent(inout) :: wzz
+          real(kind=WP), dimension(llt), intent(inout) :: rho
+          real(kind=WP), dimension(llt), intent(inout) :: qold
+          real(kind=WP), dimension(llt), intent(inout) :: vol
+          real(kind=WP), dimension(mvsiz,6), intent(inout) :: gama
+          real(kind=WP), dimension(llt), intent(inout) :: epsd
+          real(kind=WP), dimension(llt), intent(inout) :: off
+          real(kind=WP), dimension(llt), intent(inout) :: offg
+          real(kind=WP), dimension(llt), intent(inout) :: eint
+          real(kind=WP), dimension(llt), intent(inout) :: mssa
+          real(kind=WP), dimension(llt), intent(inout) :: dmels
+          real(kind=WP), dimension(nel,6), intent(inout) :: sig
+          real(kind=WP), dimension(mvsiz), intent(inout) :: voln
+          real(kind=WP), dimension(mvsiz), intent(inout) :: vis
+          real(kind=WP), dimension(mvsiz), intent(inout) :: ssp
+          real(kind=WP), dimension(mvsiz), intent(inout) :: rho0
+          real(kind=WP), dimension(mvsiz), intent(inout) :: dvol
+          real(kind=WP), dimension(mvsiz), intent(inout) :: vd2
+          real(kind=WP), dimension(mvsiz), intent(inout) :: deltax
+          real(kind=WP), dimension(mvsiz), intent(inout) :: rx
+          real(kind=WP), dimension(mvsiz), intent(inout) :: ry
+          real(kind=WP), dimension(mvsiz), intent(inout) :: rz
+          real(kind=WP), dimension(mvsiz), intent(inout) :: sx
+          real(kind=WP), dimension(mvsiz), intent(inout) :: sy
+          real(kind=WP), dimension(mvsiz), intent(inout) :: sz
+          real(kind=WP), dimension(mvsiz), intent(inout) :: tx
+          real(kind=WP), dimension(mvsiz), intent(inout) :: ty
+          real(kind=WP), dimension(mvsiz), intent(inout) :: tz
+          real(kind=WP), dimension(mvsiz), intent(inout) :: stifn
+          real(kind=WP), dimension(mvsiz), intent(inout) :: et
+          real(kind=WP), dimension(mvsiz,6), intent(inout) :: svis
+          real(kind=WP), dimension(mvsiz,npt), intent(inout) :: volgp
+          real(kind=WP), dimension(mvsiz,npt), intent(inout) :: d1
+          real(kind=WP), dimension(mvsiz,npt), intent(inout) :: d2
+          real(kind=WP), dimension(mvsiz,npt), intent(inout) :: d3
+          real(kind=WP), dimension(mvsiz,npt), intent(inout) :: d4
+          real(kind=WP), dimension(mvsiz,npt), intent(inout) :: d5
+          real(kind=WP), dimension(mvsiz,npt), intent(inout) :: d6
+          real(kind=WP), dimension(mvsiz,npt), intent(inout) :: wxx
+          real(kind=WP), dimension(mvsiz,npt), intent(inout) :: wyy
+          real(kind=WP), dimension(mvsiz,npt), intent(inout) :: wzz
 
           type(ttable),dimension(ntable),intent(in) ::  table
           type (buf_lay_),intent(inout), target :: bufly
@@ -244,40 +243,40 @@
           integer :: nvarf, iexpan8,jj(6),inloc,ieos,dmg_flag
           integer :: niparf
           ! floating point variables
-          my_real, dimension(llt) :: cst1
-          my_real, dimension(mvsiz) :: c1
-          my_real, dimension(mvsiz) :: pnew
-          my_real, dimension(mvsiz) :: pp
-          my_real, dimension(mvsiz) :: defp
-          my_real, dimension(mvsiz) :: ep1,ep2,ep3,ep4,ep5,ep6
-          my_real, dimension(mvsiz) :: s1,s2,s3,s4,s5,s6
-          my_real, dimension(mvsiz) :: es1,es2,es3,es4,es5,es6
-          my_real, dimension(mvsiz) :: de1,de2,de3,de4,de5,de6
-          my_real, dimension(mvsiz) :: sv1,sv2,sv3,sv4,sv5,sv6
-          my_real, dimension(mvsiz) :: so1,so2,so3,so4,so5,so6
-          my_real, dimension(mvsiz) :: r11,r12,r13
-          my_real, dimension(mvsiz) :: r21,r22,r23
-          my_real, dimension(mvsiz) :: r31,r32,r33
-          my_real, dimension(mvsiz) :: sold1,sold2,sold3,sold4,sold5,sold6
-          my_real, dimension(mvsiz) :: sspp
-          my_real, dimension(mvsiz) :: sigy
-          my_real, dimension(mvsiz) :: dpla
-          my_real, dimension(mvsiz) :: epsp1
-          my_real, dimension(mvsiz) :: tstar
-          my_real, dimension(mvsiz) :: df
-          my_real, dimension(mvsiz) :: amu
-          my_real, dimension(mvsiz) :: bidv
+          real(kind=WP), dimension(llt) :: cst1
+          real(kind=WP), dimension(mvsiz) :: c1
+          real(kind=WP), dimension(mvsiz) :: pnew
+          real(kind=WP), dimension(mvsiz) :: pp
+          real(kind=WP), dimension(mvsiz) :: defp
+          real(kind=WP), dimension(mvsiz) :: ep1,ep2,ep3,ep4,ep5,ep6
+          real(kind=WP), dimension(mvsiz) :: s1,s2,s3,s4,s5,s6
+          real(kind=WP), dimension(mvsiz) :: es1,es2,es3,es4,es5,es6
+          real(kind=WP), dimension(mvsiz) :: de1,de2,de3,de4,de5,de6
+          real(kind=WP), dimension(mvsiz) :: sv1,sv2,sv3,sv4,sv5,sv6
+          real(kind=WP), dimension(mvsiz) :: so1,so2,so3,so4,so5,so6
+          real(kind=WP), dimension(mvsiz) :: r11,r12,r13
+          real(kind=WP), dimension(mvsiz) :: r21,r22,r23
+          real(kind=WP), dimension(mvsiz) :: r31,r32,r33
+          real(kind=WP), dimension(mvsiz) :: sold1,sold2,sold3,sold4,sold5,sold6
+          real(kind=WP), dimension(mvsiz) :: sspp
+          real(kind=WP), dimension(mvsiz) :: sigy
+          real(kind=WP), dimension(mvsiz) :: dpla
+          real(kind=WP), dimension(mvsiz) :: epsp1
+          real(kind=WP), dimension(mvsiz) :: tstar
+          real(kind=WP), dimension(mvsiz) :: df
+          real(kind=WP), dimension(mvsiz) :: amu
+          real(kind=WP), dimension(mvsiz) :: bidv
 
-          my_real :: e1,e2,e3,e4,e5,e6
-          my_real :: dav,dta
-          my_real :: ss1,ss2,ss3,ss4,ss5,ss6
-          my_real :: q1,q2,q3
-          my_real :: asrate,epsp
-          my_real :: bidon,bidon1,bidon2,bidon3,bidon4,bidon5
-          my_real tt_local
+          real(kind=WP) :: e1,e2,e3,e4,e5,e6
+          real(kind=WP) :: dav,dta
+          real(kind=WP) :: ss1,ss2,ss3,ss4,ss5,ss6
+          real(kind=WP) :: q1,q2,q3
+          real(kind=WP) :: asrate,epsp
+          real(kind=WP) :: bidon,bidon1,bidon2,bidon3,bidon4,bidon5
+          real(kind=WP) tt_local
           !
-          my_real, dimension(:)  ,pointer :: sigp,siglp,strain,uvar,uvarf
-          my_real, dimension(:)  ,pointer :: dfmax,tdele,uparam0,uparam,uparamf
+          real(kind=WP), dimension(:)  ,pointer :: sigp,siglp,strain,uvar,uvarf
+          real(kind=WP), dimension(:)  ,pointer :: dfmax,tdele,uparam0,uparam,uparamf
           !
           integer, dimension(:), pointer :: vartmp,itabl_fail,iparam,iparamf
           type(l_bufel_)  ,pointer :: lbuf
@@ -285,9 +284,9 @@
           character option*256
           integer size
           integer :: nrate
-          my_real :: fisokin
-          my_real, dimension(nel), target :: vecnul
-          my_real, dimension(:), pointer  :: sigbxx,sigbyy,sigbzz,sigbxy,sigbyz,sigbzx
+          real(kind=WP) :: fisokin
+          real(kind=WP), dimension(nel), target :: vecnul
+          real(kind=WP), dimension(:), pointer  :: sigbxx,sigbyy,sigbzz,sigbxy,sigbyz,sigbzx
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------

@@ -31,83 +31,81 @@
       !||    write_matparam         ../starter/source/materials/mat/write_matparam.F
       !||====================================================================
       module write_therpmaram_mod
+        implicit none
       contains
 
-      !||====================================================================
-      !||    write_thermparam   ../starter/source/materials/mat/write_thermparam.F90
-      !||--- called by ------------------------------------------------------
-      !||    write_matparam     ../starter/source/materials/mat/write_matparam.F
-      !||--- calls      -----------------------------------------------------
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
-      subroutine write_thermparam(therm,len)
+        !||====================================================================
+        !||    write_thermparam   ../starter/source/materials/mat/write_thermparam.F90
+        !||--- called by ------------------------------------------------------
+        !||    write_matparam     ../starter/source/materials/mat/write_matparam.F
+        !||--- calls      -----------------------------------------------------
+        !||--- uses       -----------------------------------------------------
+        !||====================================================================
+        subroutine write_thermparam(therm,len)
 ! --------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! --------------------------------------------------------------------------------------------------
-      use therm_param_mod
+          use therm_param_mod
+          use precision_mod, only : WP
 ! --------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! --------------------------------------------------------------------------------------------------
-      implicit none
-! --------------------------------------------------------------------------------------------------
-!                                                   Included files
-! --------------------------------------------------------------------------------------------------
-#include "my_real.inc"
+          implicit none
 ! --------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! --------------------------------------------------------------------------------------------------
-      type(therm_param_) ,intent(in)    :: therm
-      integer            ,intent(inout) :: len
+          type(therm_param_) ,intent(in)    :: therm
+          integer            ,intent(inout) :: len
 ! --------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! --------------------------------------------------------------------------------------------------
-      integer :: iad,ifix,rfix
-      integer ,dimension(:) ,allocatable :: ibuf
-      my_real ,dimension(:) ,allocatable :: rbuf
+          integer :: iad,ifix,rfix
+          integer ,dimension(:) ,allocatable :: ibuf
+          real(kind=WP) ,dimension(:) ,allocatable :: rbuf
 ! --------------------------------------------------------------------------------------------------
 !                                                   Body
 ! --------------------------------------------------------------------------------------------------
-      ! write integer parameters
-      ifix = 2
-      allocate (ibuf(ifix))
+          ! write integer parameters
+          ifix = 2
+          allocate (ibuf(ifix))
 !
-      iad = 1
-        ibuf(iad) = therm%iform
-      iad = iad+1
-        ibuf(iad) = therm%func_thexp
+          iad = 1
+          ibuf(iad) = therm%iform
+          iad = iad+1
+          ibuf(iad) = therm%func_thexp
 !
-      call write_i_c(ibuf,ifix)
-      deallocate(ibuf)
+          call write_i_c(ibuf,ifix)
+          deallocate(ibuf)
 
-      ! write real value parameters
-      rfix = 9
-      allocate (rbuf(rfix))
+          ! write real value parameters
+          rfix = 9
+          allocate (rbuf(rfix))
 !
-      iad = 1
-        rbuf(iad) = therm%tref
-      iad = iad+1
-        rbuf(iad) = therm%tmelt
-      iad = iad+1
-        rbuf(iad) = therm%rhocp
-      iad = iad+1
-        rbuf(iad) = therm%as
-      iad = iad+1
-        rbuf(iad) = therm%bs
-      iad = iad+1
-        rbuf(iad) = therm%al
-      iad = iad+1
-        rbuf(iad) = therm%bl
-      iad = iad+1
-        rbuf(iad) = therm%efrac
-      iad = iad+1
-        rbuf(iad) = therm%scale_thexp
+          iad = 1
+          rbuf(iad) = therm%tref
+          iad = iad+1
+          rbuf(iad) = therm%tmelt
+          iad = iad+1
+          rbuf(iad) = therm%rhocp
+          iad = iad+1
+          rbuf(iad) = therm%as
+          iad = iad+1
+          rbuf(iad) = therm%bs
+          iad = iad+1
+          rbuf(iad) = therm%al
+          iad = iad+1
+          rbuf(iad) = therm%bl
+          iad = iad+1
+          rbuf(iad) = therm%efrac
+          iad = iad+1
+          rbuf(iad) = therm%scale_thexp
 !
-      call write_db(rbuf,rfix)
-      deallocate(rbuf)
+          call write_db(rbuf,rfix)
+          deallocate(rbuf)
 !
-      len = len + ifix + rfix
+          len = len + ifix + rfix
 !-----------
-      return
-      end
+          return
+        end subroutine write_thermparam
 
       end module write_therpmaram_mod

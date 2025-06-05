@@ -65,7 +65,6 @@
 !c   i m p l i c i t   t y p e 
 !c-----------------------------------------------    
       implicit none
-#include      "my_real.inc" 
 #include      "units_c.inc" 
 !c-----------------------------------------------
 !c   d u m m y   a r g u m e n t s
@@ -76,27 +75,27 @@
       type(ttable), dimension(ntable), intent(inout)   :: table      ! table data
       integer                     ,intent(in)     :: ntablf   ! number of table functions 
       integer, dimension(ntablf)  ,intent(in)     :: itablf   ! table function identifiers 
-      my_real                     ,intent(in)     :: time     ! current time 
-      my_real, dimension(nuparam) ,intent(in)     :: uparam   ! user parameters
+      real(kind=WP)                     ,intent(in)     :: time     ! current time 
+      real(kind=WP), dimension(nuparam) ,intent(in)     :: uparam   ! user parameters
       integer, dimension(nel)     ,intent(in)     :: ngl      ! element identifiers 
-      my_real, dimension(nel)     ,intent(in)     :: aldt     ! 
-      my_real, dimension(nel)     ,intent(in)     :: dpla     ! increment of plastic strain 
-      my_real, dimension(nel)     ,intent(in)     :: epsp     ! ok strain rate (confirmed by the tensstrain_criterion in solid element and beam3 element) 
-      my_real, dimension(nel, nuvar), intent(inout)    :: uvar       ! user variables
-      my_real, dimension(nel)     ,intent(inout)  :: signxx   ! stress component xx 
-      my_real, dimension(nel)     ,intent(inout)  :: signxy   ! stress component xy 
-      my_real, dimension(nel)     ,intent(inout)  :: signzx   ! stress component zx 
-      my_real, dimension(nel)     ,intent(in)     :: pla      ! the plastic strain of the current element   
-      my_real, dimension(nel)     ,intent(in)     :: sigy     ! yield stress
+      real(kind=WP), dimension(nel)     ,intent(in)     :: aldt     ! 
+      real(kind=WP), dimension(nel)     ,intent(in)     :: dpla     ! increment of plastic strain 
+      real(kind=WP), dimension(nel)     ,intent(in)     :: epsp     ! ok strain rate (confirmed by the tensstrain_criterion in solid element and beam3 element) 
+      real(kind=WP), dimension(nel, nuvar), intent(inout)    :: uvar       ! user variables
+      real(kind=WP), dimension(nel)     ,intent(inout)  :: signxx   ! stress component xx 
+      real(kind=WP), dimension(nel)     ,intent(inout)  :: signxy   ! stress component xy 
+      real(kind=WP), dimension(nel)     ,intent(inout)  :: signzx   ! stress component zx 
+      real(kind=WP), dimension(nel)     ,intent(in)     :: pla      ! the plastic strain of the current element   
+      real(kind=WP), dimension(nel)     ,intent(in)     :: sigy     ! yield stress
       integer, dimension(nel)     ,intent(inout)  :: foff     ! offset 
-      my_real, dimension(nel)     ,intent(inout)  :: off      ! offset 
-      my_real, dimension(nel)     ,intent(inout)  :: dfmax     ! maximum damage
-      my_real, dimension(nel)     ,intent(inout)  :: tdele   
-      my_real, dimension(nel)     ,intent(inout)  :: dmg_scale 
-      my_real, dimension(nel)     ,intent(inout)  :: uelr 
+      real(kind=WP), dimension(nel)     ,intent(inout)  :: off      ! offset 
+      real(kind=WP), dimension(nel)     ,intent(inout)  :: dfmax     ! maximum damage
+      real(kind=WP), dimension(nel)     ,intent(inout)  :: tdele   
+      real(kind=WP), dimension(nel)     ,intent(inout)  :: dmg_scale 
+      real(kind=WP), dimension(nel)     ,intent(inout)  :: uelr 
       integer                     ,intent(in)     :: ipg      ! current integration point ok
       integer                      ,intent(in)    :: npg    
-      my_real, dimension(nel)     ,intent(inout)  :: damini !
+      real(kind=WP), dimension(nel)     ,intent(inout)  :: damini !
       integer ,intent(in) :: ntable
 
 !c-----------------------------------------------
@@ -109,17 +108,17 @@
     integer, dimension(:), allocatable :: initype, evotype, evoshap, comptyp, tab_id, &
                              tab_el, fcrit
 
-    my_real, dimension(:), allocatable :: sr_ref, fscale, ini_p1, el_ref, elscal, disp, &
+    real(kind=WP), dimension(:), allocatable :: sr_ref, fscale, ini_p1, el_ref, elscal, disp, &
                              ener, alpha2
 
-    my_real :: lambda, fac, df, sxx, syy, szz, plas_disp, r_inter, yld0, center, &
+    real(kind=WP) :: lambda, fac, df, sxx, syy, szz, plas_disp, r_inter, yld0, center, &
                devsp1, devsp2, radius, sigp1, sigp2
-    my_real, dimension(nel) :: l0, triax, epsf, depsf, sizefac, epsmod, p, svm, &
+    real(kind=WP), dimension(nel) :: l0, triax, epsf, depsf, sizefac, epsmod, p, svm, &
                                dmgmax, dmgmul, maxshear, sigpmaj, alpha, dsize
-    my_real, dimension(nel, 3, 3) :: sigtens, vect_pr
-    my_real, dimension(nel, 3) :: sig_pr
-    my_real, dimension(nel, 2) :: xvec
-    my_real, dimension(:,:), allocatable :: dmgini, dmgevo
+    real(kind=WP), dimension(nel, 3, 3) :: sigtens, vect_pr
+    real(kind=WP), dimension(nel, 3) :: sig_pr
+    real(kind=WP), dimension(nel, 2) :: xvec
+    real(kind=WP), dimension(:,:), allocatable :: dmgini, dmgevo
 !c=======================================================================
 !c=======================================================================
      !c user variables

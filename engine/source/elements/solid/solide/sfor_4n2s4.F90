@@ -64,12 +64,12 @@
 ! ----------------------------------------------------------------------------------------------------------------------
       use constant_mod,          only : zero,one,em20
       use sfor_ns2s4_mod,        only : sfor_ns2s4
+      use precision_mod, only : WP
 ! ----------------------------------------------------------------------------------------------------------------------
           implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Included files
 ! ----------------------------------------------------------------------------------------------------------------------
-#include "my_real.inc"
 #include "mvsiz_p.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
@@ -77,39 +77,39 @@
           integer, intent(in)                                          :: nel       !< number of elements
           integer, dimension(mvsiz), intent(in)                        :: ifc1      !< first criterion to check self-contact
           integer, intent (inout)                                      :: nctl      !< number of self-contact pairs
-          my_real, dimension(mvsiz), intent(in)                        :: stif0     !< initial nodal stiffness 
-          my_real, dimension(mvsiz), intent(in)                        :: penmin    !< minimum penetration 
-          my_real, dimension(mvsiz), intent(in)                        :: penref    !< reference penetration for quadratic stiffness 
-          my_real, dimension(mvsiz), intent(in)                        :: marge     !< sorting marge 
-          my_real, intent(in)                                          :: fqmax     !< quadratic stiffness limite of self-contact
-          my_real, intent(in)                                          :: dt1       !< time step
-          my_real, dimension(mvsiz), intent(in)                        :: ll        !< characteristic length
-          my_real, dimension(mvsiz), intent(inout)                     :: stif      !< nodal stiffness to be updated
-          my_real, dimension(nel),   intent(inout)                     :: e_distor  ! distortion energy
-          my_real, dimension(mvsiz), intent(in   )                     ::       &        
+          real(kind=WP), dimension(mvsiz), intent(in)                        :: stif0     !< initial nodal stiffness 
+          real(kind=WP), dimension(mvsiz), intent(in)                        :: penmin    !< minimum penetration 
+          real(kind=WP), dimension(mvsiz), intent(in)                        :: penref    !< reference penetration for quadratic stiffness 
+          real(kind=WP), dimension(mvsiz), intent(in)                        :: marge     !< sorting marge 
+          real(kind=WP), intent(in)                                          :: fqmax     !< quadratic stiffness limite of self-contact
+          real(kind=WP), intent(in)                                          :: dt1       !< time step
+          real(kind=WP), dimension(mvsiz), intent(in)                        :: ll        !< characteristic length
+          real(kind=WP), dimension(mvsiz), intent(inout)                     :: stif      !< nodal stiffness to be updated
+          real(kind=WP), dimension(nel),   intent(inout)                     :: e_distor  ! distortion energy
+          real(kind=WP), dimension(mvsiz), intent(in   )                     ::       &        
                              xn1,     xn2,    xn3,    xn4,                      &
                              yn1,     yn2,    yn3,    yn4,                      &
                              zn1,     zn2,    zn3,    zn4,                      &
                             vnx1,    vnx2,   vnx3,   vnx4,                      &
                             vny1,    vny2,   vny3,   vny4,                      &
                             vnz1,    vnz2,   vnz3,   vnz4                            !< 2nd nodal x,v array
-          my_real, dimension(mvsiz,3), intent (inout) ::                        &
+          real(kind=WP), dimension(mvsiz,3), intent (inout) ::                        &
                            for_n1, for_n2, for_n3, for_n4                            !< 2nd nodal force array
-          my_real, dimension(mvsiz), intent(in   )                     ::       &        
+          real(kind=WP), dimension(mvsiz), intent(in   )                     ::       &        
                               x1,      x2,     x3,     x4,                      &
                               y1,      y2,     y3,     y4,                      &
                               z1,      z2,     z3,     z4,                      &
                              vx1,     vx2,    vx3,    vx4,                      &
                              vy1,     vy2,    vy3,    vy4,                      &
                              vz1,     vz2,    vz3,    vz4                           !< main quad segment nodal x,v array
-          my_real, dimension(mvsiz,3), intent (inout) ::                        &
+          real(kind=WP), dimension(mvsiz,3), intent (inout) ::                        &
                            for_t1, for_t2, for_t3, for_t4                           !< main quad segment force array
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
       integer i,j,ifctl,ifctl1,ifc2(mvsiz),ifde_s(mvsiz),itgsub(mvsiz)
 !                                                                    
-      my_real :: rx,ry,rz,sx,sy,sz,nx(mvsiz),ny(mvsiz),nz(mvsiz),dx,dy,dz,dn,norm,area,dmin
+      real(kind=WP) :: rx,ry,rz,sx,sy,sz,nx(mvsiz),ny(mvsiz),nz(mvsiz),dx,dy,dz,dn,norm,area,dmin
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -410,12 +410,12 @@
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
       use constant_mod,          only : zero,one,em20
+      use precision_mod, only : WP
 ! ----------------------------------------------------------------------------------------------------------------------
           implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Included files
 ! ----------------------------------------------------------------------------------------------------------------------
-#include "my_real.inc"
 #include "mvsiz_p.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
@@ -423,39 +423,39 @@
           integer, intent(in)                                          :: nel       !< number of elements
           integer, dimension(mvsiz), intent(in)                        :: ifc1      !< first criterion to check self-contact
           integer, intent (inout)                                      :: nctl      !< number of self-contact pairs
-          my_real, dimension(mvsiz), intent(in)                        :: stif0     !< initial nodal stiffness 
-          my_real, dimension(mvsiz), intent(in)                        :: penmin    !< minimum penetration 
-          my_real, dimension(mvsiz), intent(in)                        :: penref    !< reference penetration for quadratic stiffness 
-          my_real, dimension(mvsiz), intent(in)                        :: marge     !< sorting marge 
-          my_real, intent(in)                                          :: fqmax     !< quadratic stiffness limite of self-contact
-          my_real, intent(in)                                          :: dt1       !< time step
-          my_real, dimension(mvsiz), intent(in)                        :: ll        !< characteristic length
-          my_real, dimension(mvsiz), intent(inout)                     :: stif      !< nodal stiffness to be updated
-          my_real, dimension(nel),   intent(inout)                     :: e_distor  ! distortion energy
-          my_real, dimension(mvsiz), intent(in   )                     ::       &        
+          real(kind=WP), dimension(mvsiz), intent(in)                        :: stif0     !< initial nodal stiffness 
+          real(kind=WP), dimension(mvsiz), intent(in)                        :: penmin    !< minimum penetration 
+          real(kind=WP), dimension(mvsiz), intent(in)                        :: penref    !< reference penetration for quadratic stiffness 
+          real(kind=WP), dimension(mvsiz), intent(in)                        :: marge     !< sorting marge 
+          real(kind=WP), intent(in)                                          :: fqmax     !< quadratic stiffness limite of self-contact
+          real(kind=WP), intent(in)                                          :: dt1       !< time step
+          real(kind=WP), dimension(mvsiz), intent(in)                        :: ll        !< characteristic length
+          real(kind=WP), dimension(mvsiz), intent(inout)                     :: stif      !< nodal stiffness to be updated
+          real(kind=WP), dimension(nel),   intent(inout)                     :: e_distor  ! distortion energy
+          real(kind=WP), dimension(mvsiz), intent(in   )                     ::       &        
                              xn1,     xn2,    xn3,                              &
                              yn1,     yn2,    yn3,                              &
                              zn1,     zn2,    zn3,                              &
                             vnx1,    vnx2,   vnx3,                              &
                             vny1,    vny2,   vny3,                              &
                             vnz1,    vnz2,   vnz3                                   !< 2nd nodal x,v array
-          my_real, dimension(mvsiz,3), intent (inout) ::                        &
+          real(kind=WP), dimension(mvsiz,3), intent (inout) ::                        &
                            for_n1, for_n2, for_n3                                   !< 2nd nodal force array
-          my_real, dimension(mvsiz), intent(in   )                     ::       &        
+          real(kind=WP), dimension(mvsiz), intent(in   )                     ::       &        
                               x1,      x2,     x3,                              &
                               y1,      y2,     y3,                              &
                               z1,      z2,     z3,                              &
                              vx1,     vx2,    vx3,                              &
                              vy1,     vy2,    vy3,                              &
                              vz1,     vz2,    vz3                                   !< main quad segment nodal x,v array
-          my_real, dimension(mvsiz,3), intent (inout) ::                        &
+          real(kind=WP), dimension(mvsiz,3), intent (inout) ::                        &
                            for_t1, for_t2, for_t3                                   !< main quad segment force array
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
       integer i,j,ifctl1,ifctl,ifc2(mvsiz)
 !                                                                    
-      my_real :: rx,ry,rz,sx,sy,sz,nx(mvsiz),ny(mvsiz),nz(mvsiz),dx,dy,dz,dn,norm,area,dmin,fkt(mvsiz)
+      real(kind=WP) :: rx,ry,rz,sx,sy,sz,nx(mvsiz),ny(mvsiz),nz(mvsiz),dx,dy,dz,dn,norm,area,dmin,fkt(mvsiz)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------

@@ -66,6 +66,7 @@
 
       use table4d_mod
       use names_and_titles_mod
+      use precision_mod, only : WP 
 
 !----------------------------------------------------------------------- 
 !     included files
@@ -73,7 +74,6 @@
 
       implicit none
 !
-#include "my_real.inc"
 !
 !=======================================================================      
       
@@ -86,7 +86,7 @@
         integer     :: nfunc                  !< number of local functions in material
         integer     :: ntable                 !< number of local function tables
         
-        my_real        ,dimension(:) ,allocatable :: uparam  !< real value viscosity parameter table
+        real(kind=WP)        ,dimension(:) ,allocatable :: uparam  !< real value viscosity parameter table
         integer        ,dimension(:) ,allocatable :: iparam  !< int  value viscosity parameter table
         integer        ,dimension(:) ,allocatable :: func    !< function table in viscosity models
         type(table_4d_),dimension(:) ,allocatable :: table   !< local function tables

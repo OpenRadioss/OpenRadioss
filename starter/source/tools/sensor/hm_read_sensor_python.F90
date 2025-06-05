@@ -26,6 +26,7 @@
       !||    hm_read_sensors          ../starter/source/tools/sensor/hm_read_sensors.F
       !||====================================================================
       module read_sensor_python_mod                
+        implicit none
       contains
 !! \details Read the python function defined by /FUNCT_PYTHON/
       !||====================================================================
@@ -138,6 +139,6 @@
            ! enddo
           deallocate(code)
           return
-        end
+        end subroutine read_sensor_python
 ! end the module
       end module read_sensor_python_mod

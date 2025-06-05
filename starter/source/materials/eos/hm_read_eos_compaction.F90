@@ -59,6 +59,7 @@
       use elbuftag_mod , only : eos_tag_
       use constant_mod , only : zero, two_third, one, two, three, three100
       use eos_param_mod , only : eos_param_
+      use precision_mod, only : WP
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -66,14 +67,13 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Included files
 ! ----------------------------------------------------------------------------------------------------------------------
-#include "my_real.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
       integer,intent(in) :: npropm, maxeos  !< array sizes
       type (unit_type_),intent(in) ::unitab !< data structure for units (/UNIT)
       integer, intent(in) :: iout !< file units
-      my_real, intent(inout) :: pm(npropm)  !< data structure for material laws
+      real(kind=WP), intent(inout) :: pm(npropm)  !< data structure for material laws
       type(submodel_data), dimension(nsubmod), intent(in) :: lsubmodel !< data structure for sumobeling method (//SUBMODEL)
       integer,intent(in) :: imideos
       type(eos_tag_),dimension(0:maxeos) ,intent(inout) :: eos_tag !< data structure for EoS
@@ -82,11 +82,11 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-      my_real  p0, e0, psh, rho0,rhoi,rhor
-      my_real  c0,c1,c2,c3,bunl,mu,mumin,mumax
-      my_real  mu0,ssp0,df, g0, bulk,bulk2, bb, pold, mu2, muold, alpha,dpdmu
-      my_real dpdmu_mumax
-      integer iform, ioutp
+      real(kind=WP)  :: p0, e0, psh, rho0,rhoi,rhor
+      real(kind=WP)  :: c0,c1,c2,c3,bunl,mu,mumin,mumax
+      real(kind=WP)  :: mu0,ssp0,df, g0, bulk,bulk2, bb, pold, mu2, muold, alpha,dpdmu
+      real(kind=WP) :: dpdmu_mumax
+      integer :: iform, ioutp
       logical :: is_encrypted, is_available, is_available_rho0
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body

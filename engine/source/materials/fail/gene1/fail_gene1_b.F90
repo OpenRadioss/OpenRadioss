@@ -72,7 +72,6 @@
 !c-----------------------------------------------
 !c   c o m m o n   b l o c k s
 !c-----------------------------------------------
-#include      "my_real.inc" 
 #include      "units_c.inc" 
 !c-----------------------------------------------
 !c   d u m m y   a r g u m e n t s
@@ -88,21 +87,21 @@
       integer, dimension(ntablf)  ,intent(in)     :: itablf   ! table function identifiers
       integer, dimension(nel)     ,intent(in)     :: ngl      ! element identifiers
       integer, dimension(niparam) ,intent(in)     :: iparam   ! integer parameters
-      my_real                     ,intent(in)     :: time     ! current time
-      my_real                     ,intent(in)     :: timestep ! current timestep
-      my_real, dimension(nuparam) ,intent(in)     :: uparam   ! user parameters
-      my_real, dimension(nel)     ,intent(in)     :: dt       ! time increment
-      my_real, dimension(nel)     ,intent(in)     :: epsp     ! strain rate (confirmed by the tensstrain_criterion in solid element and beam3 element) 
-      my_real, dimension(nel)     ,intent(in)     :: aldt     ! element size
-      my_real, dimension(nel)     ,intent(in)     :: temp     ! temperature
-      my_real ,dimension(nel)     ,intent(inout)    :: f1        ! force in local x direction
-      my_real ,dimension(nel)     ,intent(in)    :: epsxx      !< strain increment component xx
-      my_real ,dimension(nel)     ,intent(in)    :: epsxy      !< strain increment component xy
-      my_real ,dimension(nel)     ,intent(in)    :: epszx      !< strain increment component xz
-      my_real                     ,intent(in)    :: area       !< cross section area
-      my_real, dimension(nel)     ,intent(inout)  :: off      ! offset
-      my_real, dimension(nel, lf_dammx), intent(inout) :: dfmax      ! maximum damage
-      my_real, dimension(nel, nuvar), intent(inout)    :: uvar       ! user variables
+      real(kind=WP)                     ,intent(in)     :: time     ! current time
+      real(kind=WP)                     ,intent(in)     :: timestep ! current timestep
+      real(kind=WP), dimension(nuparam) ,intent(in)     :: uparam   ! user parameters
+      real(kind=WP), dimension(nel)     ,intent(in)     :: dt       ! time increment
+      real(kind=WP), dimension(nel)     ,intent(in)     :: epsp     ! strain rate (confirmed by the tensstrain_criterion in solid element and beam3 element) 
+      real(kind=WP), dimension(nel)     ,intent(in)     :: aldt     ! element size
+      real(kind=WP), dimension(nel)     ,intent(in)     :: temp     ! temperature
+      real(kind=WP) ,dimension(nel)     ,intent(inout)    :: f1        ! force in local x direction
+      real(kind=WP) ,dimension(nel)     ,intent(in)    :: epsxx      !< strain increment component xx
+      real(kind=WP) ,dimension(nel)     ,intent(in)    :: epsxy      !< strain increment component xy
+      real(kind=WP) ,dimension(nel)     ,intent(in)    :: epszx      !< strain increment component xz
+      real(kind=WP)                     ,intent(in)    :: area       !< cross section area
+      real(kind=WP), dimension(nel)     ,intent(inout)  :: off      ! offset
+      real(kind=WP), dimension(nel, lf_dammx), intent(inout) :: dfmax      ! maximum damage
+      real(kind=WP), dimension(nel, nuvar), intent(inout)    :: uvar       ! user variables
       type(ttable), dimension(ntable), intent(inout)   :: table      ! table data
       integer ,intent(in) :: snpc
       integer ,intent(in) :: stf
@@ -111,8 +110,8 @@
 !c!   variables for function interpolation 
 !c!-----------------------------------------------
       integer, dimension(snpc), intent(in) :: npf
-      my_real, dimension(stf), intent(in) :: tf
-      my_real, external :: finter
+      real(kind=WP), dimension(stf), intent(in) :: tf
+      real(kind=WP), external :: finter
 !c-----------------------------------------------
 !c   l o c a l   v a r i a b l e s
 !c-----------------------------------------------
@@ -123,15 +122,15 @@
      is1max, itmax, imindt, isigmax, isigth, iepsmax, ieffeps, ivoleps, &
      imineps, ishear, imix12, imix13, imxe1c, ifld, imaxtemp
   integer, dimension(nel, 2) :: ipos
-  my_real :: &
+  real(kind=WP) :: &
      minpres, maxpres, sigp1, tmax, dtmin, epsdot_sm, sigvm, sigth, &
      kf, epsdot_ps, maxeps, effeps, voleps, mineps, epssh, epsdot_fld, &
      volfrac, maxtemp, fscale_el, el_ref, lambda, fac, df, thin 
-  my_real :: &
+  real(kind=WP) :: &
      e1, e4, e6, e42, e62, i1, i2, q, r, r_inter, phi, dav, e1d, e2d, e3d, e4d, e6d, denom,sxx,syy,szz
-  my_real, dimension(nel) :: p, svm, e11, e22, e33, vol_strain, s11, s22, s33, eff_strain, &
+  real(kind=WP), dimension(nel) :: p, svm, e11, e22, e33, vol_strain, s11, s22, s33, eff_strain, &
      epsmax, sigmax, facl, sh12, sh13, e1c, e1fld, dfld, triax, signxx, signxy, signzx,hardr
-  my_real, dimension(nel, 2) :: xvec
+  real(kind=WP), dimension(nel, 2) :: xvec
 !c=======================================================================
 !c=======================================================================
      !c user variables

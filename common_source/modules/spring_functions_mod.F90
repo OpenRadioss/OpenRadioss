@@ -25,11 +25,11 @@
       !||    spring_functions_mod   ../common_source/modules/spring_functions_mod.F90
       !||====================================================================
        module spring_functions_mod
-#include "my_real.inc"
+        use precision_mod, only : WP
 #include "mvsiz_p.inc"
         type chunk_of_table_type
-          my_real, pointer :: X(:) !< X values for a chunk of a table
-          my_real, pointer :: Y(:) !< Y values for a chunk of a table
+          real(kind=WP), pointer :: X(:) !< X values for a chunk of a table
+          real(kind=WP), pointer :: Y(:) !< Y values for a chunk of a table
         end type chunk_of_table_type
         type :: spring_functions_type
           integer, dimension(MVSIZ) :: Hi !< Hardening type for each spring, simimar to IECROU

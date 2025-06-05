@@ -56,12 +56,12 @@
       use table4d_mod
       use names_and_titles_mod , only : nchartitle
       use constant_mod         , only : zero
+      use precision_mod, only : WP
 ! --------------------------------------------------------------------------------------------------------------
       implicit none
 !-----------------------------------------------
 !     included files
 ! ----------------------------------------------
-#include "my_real.inc"
 ! --------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! --------------------------------------------------------------------------------------------------------------
@@ -69,11 +69,11 @@
       integer                         ,intent(in)    :: mat_id     !< material law Id
       integer                         ,intent(in)    :: ntable     !< number of function tables in input deck
       integer                         ,intent(in)    :: nfunc      !< number of functions to convert
-      my_real                         ,intent(in)    :: x1scale    !< scale factor for function abscissa  
-      my_real                         ,intent(in)    :: x2scale    !< scale factor for second abscissa dimension
+      real(kind=WP)                         ,intent(in)    :: x1scale    !< scale factor for function abscissa  
+      real(kind=WP)                         ,intent(in)    :: x2scale    !< scale factor for second abscissa dimension
       integer      ,dimension(nfunc)  ,intent(in)    :: ifunc      !< liste of functions Ids
-      my_real      ,dimension(nfunc)  ,intent(in)    :: x2vect     !< second variable values for each function  
-      my_real      ,dimension(nfunc)  ,intent(in)    :: fscale     !< scale factor for values of each function  
+      real(kind=WP)      ,dimension(nfunc)  ,intent(in)    :: x2vect     !< second variable values for each function  
+      real(kind=WP)      ,dimension(nfunc)  ,intent(in)    :: fscale     !< scale factor for values of each function  
       type(ttable) ,dimension(ntable) ,intent(in)    :: table      !< input table array
       type(table_4d_)                 ,intent(inout) :: mat_table  !< target material table structure
       integer                         ,intent(out)   :: ierr       !< output error flag : no error=0 , error=1
@@ -84,10 +84,10 @@
       integer :: ndim,nptx,npi,lmax,idebug
       integer :: func_n                              
       integer ,dimension(:)   ,allocatable :: len
-      my_real ,dimension(:)   ,allocatable :: xf
-      my_real ,dimension(:,:) ,allocatable :: yf
-      my_real ,dimension(:,:) ,allocatable :: xi
-      my_real ,dimension(:,:) ,allocatable :: yi
+      real(kind=WP) ,dimension(:)   ,allocatable :: xf
+      real(kind=WP) ,dimension(:,:) ,allocatable :: yf
+      real(kind=WP) ,dimension(:,:) ,allocatable :: xi
+      real(kind=WP) ,dimension(:,:) ,allocatable :: yi
 !=========================================================================================
       idebug = 0
       ierr   = 0
@@ -194,5 +194,5 @@
       end if
 !------------------------------
       return
-      end
+      end subroutine func_table_copy
       end module func_table_copy_mod

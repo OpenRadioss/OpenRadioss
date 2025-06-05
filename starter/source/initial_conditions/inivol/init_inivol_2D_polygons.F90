@@ -57,6 +57,7 @@
       use multi_fvm_mod , only : MULTI_FVM_STRUCT
       use polygon_clipping_mod
       use matparam_def_mod, only : matparam_struct_
+      use precision_mod, only : WP
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -64,7 +65,6 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Included files
 ! ----------------------------------------------------------------------------------------------------------------------
-#include "my_real.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -78,10 +78,10 @@
       integer,intent(in) :: ipart(sipart)                                      !< buffer for parts
       integer,intent(in) :: sbufsf                                             !< buffer size for surfaces
       integer,intent(in) :: ngrnod                                             !< array size igrnod
-      my_real, intent(in) :: x(3,numnod)                                       !< node coordinates
-      my_real,intent(inout) :: kvol(nbsubmat,numelq+numeltg)                   !< volume fractions (for polygon clipping)
-      my_real,intent(in) :: bufsf(sbufsf)                                      !< buffer for surfaces
-      my_real,intent(in) :: GLOBAL_xyz(6)                                      !< global min,max (/surf/plane)
+      real(kind=WP), intent(in) :: x(3,numnod)                                       !< node coordinates
+      real(kind=WP),intent(inout) :: kvol(nbsubmat,numelq+numeltg)                   !< volume fractions (for polygon clipping)
+      real(kind=WP),intent(in) :: bufsf(sbufsf)                                      !< buffer for surfaces
+      real(kind=WP),intent(in) :: GLOBAL_xyz(6)                                      !< global min,max (/surf/plane)
       type (inivol_struct_), dimension(NUM_INIVOL), intent(inout) :: inivol    !< inivol data structure
       type (surf_), dimension(nsurf), intent(in) :: igrsurf                    !< surface buffer
       integer,intent(in) :: itab(numnod)                                       !< user identifier for nodes
@@ -90,39 +90,39 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-      my_real :: vfrac                                                           !< user volume fraction for /INIVOL option (current container)
-      my_real ratio                                                              !< ratio of area immersed inside the surface
-      my_real XYZ(6)                                                             !<box size xmin ymin zmin, xmax ymax zmax (box encompassing the user polygon)
-      my_real xyz_elem(6)                                                        !<box size for current elem
-      my_real :: coor_node(2:3)                                                  !< temporary point
-      my_real DL, DLy, DLz                                                       !< element of length for margin estimation
-      my_real :: sumvf                                                           !< sum of volume fractions
-      my_real :: vf_to_substract
-      my_real :: vfrac0(nbsubmat)                                                !< volume fraction (initial def from material law)
-      my_real :: tol
-      my_real :: YP1,ZP1,YP2,ZP2                                                 !< planar surface definition
-      my_real :: normal(3), tangent(3)                                           !< normal and tangent to the planar surface
-      my_real :: bb,cc,nn,yg,zg                                                  !< superellipse surface definition
-      my_real skw(9)                                                             !< skew data for superell transformation
-      my_real :: tmp(3)                                                          !< temporary array
-      my_real :: theta
+      real(kind=WP) :: vfrac                                                           !< user volume fraction for /INIVOL option (current container)
+      real(kind=WP) :: ratio                                                              !< ratio of area immersed inside the surface
+      real(kind=WP) :: XYZ(6)                                                             !<box size xmin ymin zmin, xmax ymax zmax (box encompassing the user polygon)
+      real(kind=WP) :: xyz_elem(6)                                                        !<box size for current elem
+      real(kind=WP) :: coor_node(2:3)                                                  !< temporary point
+      real(kind=WP) :: DL, DLy, DLz                                                       !< element of length for margin estimation
+      real(kind=WP) :: sumvf                                                           !< sum of volume fractions
+      real(kind=WP) :: vf_to_substract
+      real(kind=WP) :: vfrac0(nbsubmat)                                                !< volume fraction (initial def from material law)
+      real(kind=WP) :: tol
+      real(kind=WP) :: YP1,ZP1,YP2,ZP2                                                 !< planar surface definition
+      real(kind=WP) :: normal(3), tangent(3)                                           !< normal and tangent to the planar surface
+      real(kind=WP) :: bb,cc,nn,yg,zg                                                  !< superellipse surface definition
+      real(kind=WP) :: skw(9)                                                             !< skew data for superell transformation
+      real(kind=WP) :: tmp(3)                                                          !< temporary array
+      real(kind=WP) :: theta
 
       integer :: iadbuf                                                          !< index for buffer bufmat
-      integer nsegsurf                                                           !< number of segments for a given 2d surface
-      integer npoints                                                            !< number of points for ordered list of nodes
-      integer ng,nel,mtn,imat,icumu,I15_,nft,ity,isolnod,invol,iad,part_id,idp   !< local variables
-      integer iseg                                                               !< loop over segments
-      integer ii,ipt                                                             !< various loops
+      integer :: nsegsurf                                                           !< number of segments for a given 2d surface
+      integer :: npoints                                                            !< number of points for ordered list of nodes
+      integer :: ng,nel,mtn,imat,icumu,I15_,nft,ity,isolnod,invol,iad,part_id,idp   !< local variables
+      integer :: iseg                                                               !< loop over segments
+      integer :: ii,ipt                                                             !< various loops
       integer :: idsurf,idgrnod,ireversed,isubmat                                !< user parameter for /INIVOL option (current container)
       integer :: inod1, inod2                                                    !< node identifier of current segment
       integer, allocatable, dimension (:) :: list_quad, list_tria                !<list of elements to retain
-      integer icur_q, icur_t                                                     !< cursor for array indexes (quad and tria)
+      integer :: icur_q, icur_t                                                     !< cursor for array indexes (quad and tria)
       integer :: iel                                                             !< elem loop for the current group
       integer :: ielg                                                            !< global elem id
       integer :: inod                                                            !< local node 1:4 (quad) or 1:3 (tria)
       integer, allocatable, dimension(:) :: itag_n                               !< tag to mark relevant nodes
       integer :: node_id(1:4)                                                    !< mesh elem connectivity
-      integer ipoly                                                              !< current polygon (loop)
+      integer :: ipoly                                                              !< current polygon (loop)
       integer :: isubmat_to_substract
       integer :: mid                                                             !< material internal identifier
       integer :: iter

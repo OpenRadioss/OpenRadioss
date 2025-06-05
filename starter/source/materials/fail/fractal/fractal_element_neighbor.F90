@@ -289,6 +289,6 @@
       deallocate(elmat)
 !-----------
       return
-      end
+      end subroutine fractal_element_neighbor
 !-----------
       end module fractal_element_neighbor_mod

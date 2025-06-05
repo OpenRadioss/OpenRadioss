@@ -64,6 +64,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
        use constant_mod , only : zero, half, one, two, three, three100
        use eos_param_mod , only : eos_param_
+       use precision_mod , only : WP
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -71,33 +72,32 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Included files
 ! ----------------------------------------------------------------------------------------------------------------------
-#include "my_real.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
       integer,intent(in) :: nel !< number of element in the currenbt group
       integer,intent(in) :: npropm, nummat !< array sizes
       integer,intent(in) :: mat(nel), iflag
-      my_real,intent(inout) :: pm(npropm,nummat) !< material data (real parameters)
-      my_real,intent(inout) :: off(nel),eint(nel),mu(nel),dvol(nel)
-      my_real,intent(inout) :: pnew(nel),dpdm(nel),dpde(nel)
+      real(kind=WP),intent(inout) :: pm(npropm,nummat) !< material data (real parameters)
+      real(kind=WP),intent(inout) :: off(nel),eint(nel),mu(nel),dvol(nel)
+      real(kind=WP),intent(inout) :: pnew(nel),dpdm(nel),dpde(nel)
       integer,intent(in) :: snpc, stf !< array sizes
       integer,intent(in)::npf(snpc) !< data structure for /FUNCT
-      my_real,intent(in)::tf(stf) !< data structure for /FUNCT
+      real(kind=WP),intent(in)::tf(stf) !< data structure for /FUNCT
       type(eos_param_),intent(in) :: eos_param !< data structure for EoS parameters
-      my_real,intent(inout) :: mu_bak(nel) !< backup of mu for unloading
+      real(kind=WP),intent(inout) :: mu_bak(nel) !< backup of mu for unloading
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local Variables
 ! ----------------------------------------------------------------------------------------------------------------------
       integer i, mx, iform, p_func_id
-      my_real :: p0,psh(nel),e0,sph, b(nel),pne1,pfrac
-      my_real :: p(nel),p_
-      my_real :: alpha
-      my_real :: bmin, bmax, mumin, mumax,Fscale,Xscale
+      real(kind=WP) :: p0,psh(nel),e0,sph, b(nel),pne1,pfrac
+      real(kind=WP) :: p(nel),p_
+      real(kind=WP) :: alpha
+      real(kind=WP) :: bmin, bmax, mumin, mumax,Fscale,Xscale
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   External
 ! ----------------------------------------------------------------------------------------------------------------------
-      my_real, external :: finter
+      real(kind=WP), external :: finter
 ! In order to get : y <- f(x)  and dydx <- f'(x) :
 ! Use :             y = FINTER(func_id,x,NPF,TF,dydx)
 !                       where - NPF,TF are constant arrays automatically built by Starter (/FUNCT data).

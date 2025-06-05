@@ -52,6 +52,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
           use constant_mod , only: one,zero, third, four_over_3, half, two
           use elbufdef_mod , only: buf_damp_range_
+          use precision_mod , only: WP
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -59,40 +60,39 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Included files
 ! ----------------------------------------------------------------------------------------------------------------------
-#include "my_real.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
           integer,                                   intent(in)    :: nel                      !< number of elements
           integer,                                   intent(in)    :: nvarvis                  !< number of variables in buf_visc
           integer,                                   intent(in)    :: nvar_damp                !< number of variables in buf_visc used for damping        
-          my_real, dimension(nel,nvarvis) ,          intent(inout) :: uvarvis                  !< buffer for viscous variables
-          my_real, dimension(nel) ,                  intent(in)    :: et                       !< tangent young modulus coefficient
-          my_real,                                   intent(in)    :: timestep                 !< time step
-          my_real,                                   intent(in)    :: young                    !< young modulus
-          my_real,                                   intent(in)    :: shear_modulus            !< shear modulus
-          my_real, dimension(nel) ,                  intent(in)    :: epspxx                   !< strain xx
-          my_real, dimension(nel) ,                  intent(in)    :: epspyy                   !< strain yy
-          my_real, dimension(nel) ,                  intent(in)    :: epspzz                   !< strain zz
-          my_real, dimension(nel) ,                  intent(in)    :: epspxy                   !< strain xy
-          my_real, dimension(nel) ,                  intent(in)    :: epspyz                   !< strain yz
-          my_real, dimension(nel) ,                  intent(in)    :: epspzx                   !< strain zx
-          my_real, dimension(nel) ,                  intent(inout) :: sv1                      !< damp stress xx
-          my_real, dimension(nel) ,                  intent(inout) :: sv2                      !< damp stress yy
-          my_real, dimension(nel) ,                  intent(inout) :: sv3                      !< damp stress zz
-          my_real, dimension(nel) ,                  intent(inout) :: sv4                      !< damp stress xy
-          my_real, dimension(nel) ,                  intent(inout) :: sv5                      !< damp stress yz
-          my_real, dimension(nel) ,                  intent(inout) :: sv6                      !< damp stress zx   
-          my_real, dimension(nel) ,                  intent(in)    :: rho                      !< density
-          my_real, dimension(nel) ,                  intent(inout) :: soundsp                  !< sound speed    
+          real(kind=WP), dimension(nel,nvarvis) ,          intent(inout) :: uvarvis                  !< buffer for viscous variables
+          real(kind=WP), dimension(nel) ,                  intent(in)    :: et                       !< tangent young modulus coefficient
+          real(kind=WP),                                   intent(in)    :: timestep                 !< time step
+          real(kind=WP),                                   intent(in)    :: young                    !< young modulus
+          real(kind=WP),                                   intent(in)    :: shear_modulus            !< shear modulus
+          real(kind=WP), dimension(nel) ,                  intent(in)    :: epspxx                   !< strain xx
+          real(kind=WP), dimension(nel) ,                  intent(in)    :: epspyy                   !< strain yy
+          real(kind=WP), dimension(nel) ,                  intent(in)    :: epspzz                   !< strain zz
+          real(kind=WP), dimension(nel) ,                  intent(in)    :: epspxy                   !< strain xy
+          real(kind=WP), dimension(nel) ,                  intent(in)    :: epspyz                   !< strain yz
+          real(kind=WP), dimension(nel) ,                  intent(in)    :: epspzx                   !< strain zx
+          real(kind=WP), dimension(nel) ,                  intent(inout) :: sv1                      !< damp stress xx
+          real(kind=WP), dimension(nel) ,                  intent(inout) :: sv2                      !< damp stress yy
+          real(kind=WP), dimension(nel) ,                  intent(inout) :: sv3                      !< damp stress zz
+          real(kind=WP), dimension(nel) ,                  intent(inout) :: sv4                      !< damp stress xy
+          real(kind=WP), dimension(nel) ,                  intent(inout) :: sv5                      !< damp stress yz
+          real(kind=WP), dimension(nel) ,                  intent(inout) :: sv6                      !< damp stress zx   
+          real(kind=WP), dimension(nel) ,                  intent(in)    :: rho                      !< density
+          real(kind=WP), dimension(nel) ,                  intent(inout) :: soundsp                  !< sound speed    
           type(buf_damp_range_)   ,                  intent(in)    :: damp_buf                 !< damping frequency range buffer
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
           integer :: i, j, ii, offset
-          my_real :: g, rbulk,h0(6),h(6),hp0,hp,dav
-          my_real, dimension(nel) :: p, epxx, epyy, epzz, trace
-          my_real, dimension(3)   :: aa, bb, gv, beta, aak, bbk, betak, kv
+          real(kind=WP) :: g, rbulk,h0(6),h(6),hp0,hp,dav
+          real(kind=WP), dimension(nel) :: p, epxx, epyy, epzz, trace
+          real(kind=WP), dimension(3)   :: aa, bb, gv, beta, aak, bbk, betak, kv
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------

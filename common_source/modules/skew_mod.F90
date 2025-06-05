@@ -45,10 +45,12 @@
       !||    wrrestp           ../engine/source/output/restart/wrrestp.F
       !||====================================================================
       module skew_mod
+
+        use precision_mod, only : WP
+        implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Included files
 ! ----------------------------------------------------------------------------------------------------------------------
-#include "my_real.inc"
   ! ======================================================================================================================
   !                                                   TYPES
   ! ======================================================================================================================
@@ -64,7 +66,7 @@
              integer :: total_skew_number                    !< Total number of skews : deck skews + 1 + SPH + NSUBMOD 
              integer :: skew_number                          !< input deck skew
              integer :: n_skew_var                           !< Number of variables per Skew for Skew array
-             my_real, dimension(:,:),  allocatable :: skew   !< Float variables for skew
+             real(kind=WP), dimension(:,:),  allocatable :: skew   !< Float variables for skew
              ! integer :: s_iskew                              !< size of iskew
              ! integer, dimension (:,:), allocatable :: iskwn  !< iskwn array
              ! integer, dimension (:), allocatable :: iskew    !< node skew 

@@ -54,12 +54,12 @@
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
       use constant_mod,          only : zero,one,two,em20,four
+      use precision_mod, only : WP
 ! ----------------------------------------------------------------------------------------------------------------------
           implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Included files
 ! ----------------------------------------------------------------------------------------------------------------------
-#include "my_real.inc"
 #include "mvsiz_p.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
@@ -67,21 +67,21 @@
       integer, intent (in)                                  :: nel           !< number of elements
       integer, intent (out)                                 :: ifctl         !< if at least one element reached criterion 
       integer, dimension(mvsiz),intent (inout)              :: ifc1          !< if element reached velocity criterion
-      my_real, dimension(mvsiz), intent (in)                :: fld           !< undimensional damping array
-      my_real, dimension(mvsiz), intent (inout)             :: sti           !< nodal stifness
-      my_real, dimension(mvsiz,3), intent (in)              :: vc            !< average velocity
-      my_real, intent (in)                                  :: tol_v         !< tolerance
-      my_real, intent (in)                                  :: mu            !< damping coefficient
-      my_real, intent (in)                                  :: dt1           !< time step
-      my_real, dimension(nel),   intent(inout)              :: e_distor      ! distortion energy
-      my_real, dimension(mvsiz), intent (in)                ::             &       
+      real(kind=WP), dimension(mvsiz), intent (in)                :: fld           !< undimensional damping array
+      real(kind=WP), dimension(mvsiz), intent (inout)             :: sti           !< nodal stifness
+      real(kind=WP), dimension(mvsiz,3), intent (in)              :: vc            !< average velocity
+      real(kind=WP), intent (in)                                  :: tol_v         !< tolerance
+      real(kind=WP), intent (in)                                  :: mu            !< damping coefficient
+      real(kind=WP), intent (in)                                  :: dt1           !< time step
+      real(kind=WP), dimension(nel),   intent(inout)              :: e_distor      ! distortion energy
+      real(kind=WP), dimension(mvsiz), intent (in)                ::             &       
                             vx1,      vx2,      vx3,                       &    
                             vx4,      vx5,      vx6,                       &          
                             vy1,      vy2,      vy3,                       &          
                             vy4,      vy5,      vy6,                       &          
                             vz1,      vz2,      vz3,                       &          
                             vz4,      vz5,      vz6                          !< nodal velocity     
-      my_real, dimension(mvsiz,3), intent (inout)           ::             &       
+      real(kind=WP), dimension(mvsiz,3), intent (inout)           ::             &       
                              for_t1, for_t2, for_t3,                       &  
                              for_t4, for_t5, for_t6                          !< nodal internal force (viscous)
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -89,7 +89,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
       integer :: i,j,IFCONT
 !                                                                   
-      my_real :: fx,fy,fz,fac,vnj(6),vl,tol_v2,v2max,vc2
+      real(kind=WP) :: fx,fy,fz,fac,vnj(6),vl,tol_v2,v2max,vc2
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------

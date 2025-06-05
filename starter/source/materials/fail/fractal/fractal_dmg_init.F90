@@ -60,13 +60,13 @@
       use groupdef_mod
       use random_walk_def_mod
       use constant_mod ,only : zero,one
+      use precision_mod, only : WP
 ! ---------------------------------------------------------------------------------------------
           implicit none
 ! ---------------------------------------------------------------------------------------------
 !     included files
 ! ---------------------------------------------------------------------------------------------
 
-#include "my_real.inc"
 
 !-----------------------------------------------
 !   D u m m y   A r g u m e n t s
@@ -89,7 +89,7 @@
       integer :: ifract,ifail,nfail,l_dmx,l_dam
       integer :: debug
       integer ,dimension(:) ,allocatable :: lay_dmg
-      my_real :: dmg
+      real(kind=WP) :: dmg
       integer :: tagsh(nshell)
       integer :: elem_dmg(nel)
 !=======================================================================

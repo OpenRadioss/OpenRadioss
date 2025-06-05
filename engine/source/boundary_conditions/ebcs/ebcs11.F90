@@ -66,7 +66,6 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   include files
 ! ----------------------------------------------------------------------------------------------------------------------
-#include "my_real.inc"
 #include "task_c.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   arguments
@@ -74,20 +73,20 @@
       integer,intent(in) :: n2d !< 2d/3d flag
       integer,intent(in) :: iale !< ale flag
       integer,intent(in) :: numeltg, numels, numelq, numnod, nparg, ngroup, nixs, nixq, nixtg, nsurf !< array sizes
-      my_real, intent(in) :: dt1 !< time step
-      my_real, intent(in) :: time !< simulation time
+      real(kind=WP), intent(in) :: dt1 !< time step
+      real(kind=WP), intent(in) :: time !< simulation time
       integer,intent(in) :: iparit !< /parith/on flag
-      my_real, intent(inout) :: fsavsurf(th_surf_num_channel,nsurf)
+      real(kind=WP), intent(inout) :: fsavsurf(th_surf_num_channel,nsurf)
       integer,intent(in) :: nseg,nod,iseg(nseg),liste(nod),irect(4,nseg),ielem(nseg),iface(nseg)
       integer,intent(in) :: ixq(nixq,numelq),ixs(nixs,numels),ixtg(nixtg,numeltg)
       integer,intent(in) :: nfunct    !< number of user functions
       integer,intent(in) :: snpc      !< size of npc array
       integer,intent(in) :: npc(snpc) !< function working array
       integer,intent(in) :: stf       !< array size of array tf
-      my_real,intent(in) :: tf(stf)   !< function working array
-      my_real,intent(inout) :: ms(numnod) !< nodal mass
-      my_real,intent(inout) :: v(3,numnod),w(3,numnod),x(3,numnod) !< mat. velocity, grid velocity, coordinates
-      my_real,intent(inout) :: la(3,nod),stifn(numnod)
+      real(kind=WP),intent(in) :: tf(stf)   !< function working array
+      real(kind=WP),intent(inout) :: ms(numnod) !< nodal mass
+      real(kind=WP),intent(inout) :: v(3,numnod),w(3,numnod),x(3,numnod) !< mat. velocity, grid velocity, coordinates
+      real(kind=WP),intent(inout) :: la(3,nod),stifn(numnod)
       type(t_ebcs_propergol), intent(inout) :: ebcs !< ebcs data structure
       integer :: iparg(nparg,ngroup) !< data for all group of elems
       type(elbuf_struct_), target, dimension(ngroup) :: elbuf_tab !< element buffer
@@ -103,22 +102,22 @@
       integer ii,is,kk,kseg,nn(4),nng(4),num,kty,klt,mft,ngrp,iloc,ivoi,idx(6),ix(4)
       integer icf_2d(2,4), icf_3d(4,6), jj, isubmat, ipos, mtn
       integer isolnod
-      my_real npt
-      my_real orient,rho,vol,volg,mass,mass_face
-      my_real x13,y13,z13,x24,y24,z24
-      my_real v0(3,nod)
-      my_real xn, yn, zn, vold, vnew, padj, eadj, tadj
-      my_real pp,ee,tt,ssp,vel_front,fac1,fac2
-      my_real param_a, param_n, param_q, surf,phase_alpha(21),phase_rho(21), phase_eint(21)
-      my_real face_force
-      my_real :: param_rho0s  !< initial propergol density
-      my_real :: dmass_g     !< mass increment (burnt propergol)
-      my_real :: dvol_s      !< burnt volume
-      my_real :: tmp(3)
-      my_real :: fscaleX, fscaleY, gscaleX, gscaleY, hscaleX, hscaleY
-      my_real :: tstart
-      my_real :: ff, gg, hh
-      my_real :: dydx
+      real(kind=WP) npt
+      real(kind=WP) orient,rho,vol,volg,mass,mass_face
+      real(kind=WP) x13,y13,z13,x24,y24,z24
+      real(kind=WP) v0(3,nod)
+      real(kind=WP) xn, yn, zn, vold, vnew, padj, eadj, tadj
+      real(kind=WP) pp,ee,tt,ssp,vel_front,fac1,fac2
+      real(kind=WP) param_a, param_n, param_q, surf,phase_alpha(21),phase_rho(21), phase_eint(21)
+      real(kind=WP) face_force
+      real(kind=WP) :: param_rho0s  !< initial propergol density
+      real(kind=WP) :: dmass_g     !< mass increment (burnt propergol)
+      real(kind=WP) :: dvol_s      !< burnt volume
+      real(kind=WP) :: tmp(3)
+      real(kind=WP) :: fscaleX, fscaleY, gscaleX, gscaleY, hscaleX, hscaleY
+      real(kind=WP) :: tstart
+      real(kind=WP) :: ff, gg, hh
+      real(kind=WP) :: dydx
 
       logical bfound
       type(buf_mat_)  ,pointer :: mbuf
@@ -139,7 +138,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   External Functions
 ! ----------------------------------------------------------------------------------------------------------------------
-      my_real, external :: FINTER,FINTER_SMOOTH
+      real(kind=WP), external :: FINTER,FINTER_SMOOTH
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   body
 ! ----------------------------------------------------------------------------------------------------------------------

@@ -56,8 +56,8 @@
 !c   i m p l i c i t   t y p e s
 !c-----------------------------------------------
           use constant_mod      
+          use precision_mod, only : WP
           implicit none
-#include  "my_real.inc"
 !c-----------------------------------------------
 !c   g l o b a l   p a r a m e t e r s
 !c-----------------------------------------------
@@ -72,30 +72,30 @@
       integer                     ,intent(in)    :: ipt     ! current integration point     
       integer ,dimension(nel)     ,intent(in)    :: ngl     ! table of element identifiers
       integer                     ,intent(in)    :: nvar    ! number of user variables
-      my_real                     ,intent(in)    :: time    ! current time
-      my_real ,dimension(nuparam) ,intent(in)    :: uparam  ! failure model parameter array
-      my_real ,dimension(nel)     ,intent(inout) :: dfmax   ! maximum damage
-      my_real ,dimension(nel,nvar),intent(inout) :: uvar    ! user variable / user element variable array
+      real(kind=WP)                     ,intent(in)    :: time    ! current time
+      real(kind=WP) ,dimension(nuparam) ,intent(in)    :: uparam  ! failure model parameter array
+      real(kind=WP) ,dimension(nel)     ,intent(inout) :: dfmax   ! maximum damage
+      real(kind=WP) ,dimension(nel,nvar),intent(inout) :: uvar    ! user variable / user element variable array
       integer                     ,intent(in)    :: ismstr    ! 
-      my_real                     ,intent(in)    :: timestep 
-      my_real ,dimension(nel)     ,intent(in)    :: signxx  !< stress component xx
-      my_real ,dimension(nel)     ,intent(in)    :: signxy  !< stress component xy
-      my_real ,dimension(nel)     ,intent(in)    :: signxz  !< stress component xz 
-      my_real ,dimension(nel)     ,intent(in)    :: epsxx   !< total strain component xx
-      my_real ,dimension(nel)     ,intent(in)    :: epsxy   !< total strain component xy
-      my_real ,dimension(nel)     ,intent(in)    :: epsxz   !< total strain component xz
+      real(kind=WP)                     ,intent(in)    :: timestep 
+      real(kind=WP) ,dimension(nel)     ,intent(in)    :: signxx  !< stress component xx
+      real(kind=WP) ,dimension(nel)     ,intent(in)    :: signxy  !< stress component xy
+      real(kind=WP) ,dimension(nel)     ,intent(in)    :: signxz  !< stress component xz 
+      real(kind=WP) ,dimension(nel)     ,intent(in)    :: epsxx   !< total strain component xx
+      real(kind=WP) ,dimension(nel)     ,intent(in)    :: epsxy   !< total strain component xy
+      real(kind=WP) ,dimension(nel)     ,intent(in)    :: epsxz   !< total strain component xz
 !c-----------------------------------------------
 !c   l o c a l   v a r i a b l e s
 !c-----------------------------------------------
       integer :: i,j,nindx,nindxd,type_max,f_flag,strdef,strflag
       integer ,dimension(nel) :: indx,indxd
-      my_real :: rfac,r1,r2,ie_sp,dydx,rief1,rief2,xfac,finter,fact, &
+      real(kind=WP) :: rfac,r1,r2,ie_sp,dydx,rief1,rief2,xfac,finter,fact, &
                  eps11,eps22,eps33,eps12,eps13,eps23,i1,i2,i3, &
                  e_eq,e_eq1,e11,e22,e33,e_eq2,q,r,r_inter,phi, &
                  c_min,c_max,ema,f,ff, & 
                  sig11,sig22,sig33,sig12,sig13,sig23 
       external finter
-      my_real ,dimension(nel) :: damage
+      real(kind=WP) ,dimension(nel) :: damage
       double precision :: a0(2),a1(2),a2(2),c0,c1,c2,c3,c4,c5,c6,c7,c8,c9, &
        x1,x2,x3,y1,y2,y3,z1,z2,z3,d,dd,d2,dp,e,g
       double precision, parameter :: pi8   = 0.3926990817d0 

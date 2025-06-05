@@ -44,6 +44,7 @@
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
           use constant_mod , only : zero, one, ep21, two, four, em06, zep87
+          use precision_mod, only : WP
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -51,28 +52,27 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Included files
 ! ----------------------------------------------------------------------------------------------------------------------
-#include "my_real.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
           integer, intent(in) :: n_adj ! number of adjacent points
-          my_real, intent(in) :: Xel(3) ! centroids coordinates
-          my_real, intent(in) :: Xel_adj(3, n_adj) ! centroids coordinates of adjacent points
-          my_real, intent(inout) :: tt ! arrival time
-          my_real, intent(in) :: tt_adj(4) ! arrival time of adjacent points
-          my_real, intent(in) :: Velocity ! velocity on current point
-          my_real, intent(in) :: Velocity_adj(n_adj) ! velocity on adjacent points
+          real(kind=WP), intent(in) :: Xel(3) ! centroids coordinates
+          real(kind=WP), intent(in) :: Xel_adj(3, n_adj) ! centroids coordinates of adjacent points
+          real(kind=WP), intent(inout) :: tt ! arrival time
+          real(kind=WP), intent(in) :: tt_adj(4) ! arrival time of adjacent points
+          real(kind=WP), intent(in) :: Velocity ! velocity on current point
+          real(kind=WP), intent(in) :: Velocity_adj(n_adj) ! velocity on adjacent points
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
           integer :: k,l
-          my_real :: dy, dz, dist
-          my_real :: tt_candidate
-          my_real :: a, b
-          my_real :: s
-          my_real :: delta
-          my_real :: A1,A2,B1,B2,C1,C2,AA,BB,CC,DENOM
-          my_real :: fac
+          real(kind=WP) :: dy, dz, dist
+          real(kind=WP) :: tt_candidate
+          real(kind=WP) :: a, b
+          real(kind=WP) :: s
+          real(kind=WP) :: delta
+          real(kind=WP) :: A1,A2,B1,B2,C1,C2,AA,BB,CC,DENOM
+          real(kind=WP) :: fac
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------

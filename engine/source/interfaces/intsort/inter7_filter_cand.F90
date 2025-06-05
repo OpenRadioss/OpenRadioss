@@ -41,6 +41,7 @@
       !||    constant_mod             ../common_source/modules/constant_mod.F
       !||    inter7_gather_cand_mod   ../engine/source/interfaces/int07/inter7_gather_cand.F90
       !||    inter7_penetration_mod   ../engine/source/interfaces/intsort/inter7_penetration.F90
+      !||    precision_mod            ../common_source/modules/precision_mod.F90
       !||====================================================================
         SUBROUTINE INTER7_FILTER_CAND(&
         &j_stok,irect  ,x     ,nsv   ,ii_stok,&
@@ -58,12 +59,12 @@
           USE COLLISION_MOD , ONLY : GROUP_SIZE
           USE INTER7_GATHER_CAND_MOD , ONLY: INTER7_GATHER_CAND
           USE INTER7_PENETRATION_MOD , ONLY: INTER7_PENETRATION
+          USE PRECISION_MOD, ONLY : WP
           USE CONSTANT_MOD
 !-----------------------------------------------
 !   I m p l i c i t   T y p e s
 !-----------------------------------------------
           implicit none
-#include   "my_real.inc"
 !-----------------------------------------------
 !   D u m m y   A r g u m e n t s
 !-----------------------------------------------
@@ -90,23 +91,23 @@
           integer, intent(inout) :: ifpen(mulnsn) !
           integer, intent(in) :: oldnum(isznsnr) !< numbering of previous collisions
           integer, intent(inout) :: ii_stok !< current total number of candidate pairs
-          my_real, intent(in) :: drad
-          my_real, intent(in) :: dgapload
-          my_real, intent(in) :: x(3,numnod) !< coordinates of all the nodes
-          my_real, intent(inout) :: cand_p(mulnsn) !< penetration of the candidate pair
-          my_real, intent(in) :: gap_s(nsn)
-          my_real, intent(in) :: gap_m(nrtm)
-          my_real, intent(in) :: margin
-          my_real, intent(in) :: gap
-          my_real, intent(in) :: gapmin
-          my_real, intent(in) :: gapmax
-          my_real, intent(in) :: curv_max(nrtm)
-          my_real, intent(in) :: gap_s_l(nsn)
-          my_real, intent(in) :: gap_m_l(nrtm)
-          my_real, intent(inout) :: cand_f(8,mulnsn)
+          real(kind=WP), intent(in) :: drad
+          real(kind=WP), intent(in) :: dgapload
+          real(kind=WP), intent(in) :: x(3,numnod) !< coordinates of all the nodes
+          real(kind=WP), intent(inout) :: cand_p(mulnsn) !< penetration of the candidate pair
+          real(kind=WP), intent(in) :: gap_s(nsn)
+          real(kind=WP), intent(in) :: gap_m(nrtm)
+          real(kind=WP), intent(in) :: margin
+          real(kind=WP), intent(in) :: gap
+          real(kind=WP), intent(in) :: gapmin
+          real(kind=WP), intent(in) :: gapmax
+          real(kind=WP), intent(in) :: curv_max(nrtm)
+          real(kind=WP), intent(in) :: gap_s_l(nsn)
+          real(kind=WP), intent(in) :: gap_m_l(nrtm)
+          real(kind=WP), intent(inout) :: cand_f(8,mulnsn)
           integer, intent(in) :: nsnr !< number of remote nodes
           integer, intent(in) :: s_xrem !< size of xrem
-          my_real, intent(in) :: xrem(s_xrem, nsnr)
+          real(kind=WP), intent(in) :: xrem(s_xrem, nsnr)
 !-----------------------------------------------
 !   L o c a l   V a r i a b l e s
 !-----------------------------------------------
@@ -114,23 +115,23 @@
           integer :: inacti_l, itied_l, ifq_l
           integer :: j_start, j_end
           integer, parameter :: itype = 7
-          my_real :: x1(GROUP_SIZE) !< x coordinate of the first node of the quadrangle or triangle
-          my_real :: x2(GROUP_SIZE)
-          my_real :: x3(GROUP_SIZE)
-          my_real :: x4(GROUP_SIZE)
-          my_real :: y1(GROUP_SIZE)
-          my_real :: y2(GROUP_SIZE)
-          my_real :: y3(GROUP_SIZE)
-          my_real :: y4(GROUP_SIZE)
-          my_real :: z1(GROUP_SIZE)
-          my_real :: z2(GROUP_SIZE)
-          my_real :: z3(GROUP_SIZE)
-          my_real :: z4(GROUP_SIZE)
-          my_real :: xi(GROUP_SIZE) !< x coordinate of the second nodes
-          my_real :: yi(GROUP_SIZE)
-          my_real :: zi(GROUP_SIZE)
-          my_real :: pene(GROUP_SIZE)
-          my_real :: gapv(GROUP_SIZE)
+          real(kind=WP) :: x1(GROUP_SIZE) !< x coordinate of the first node of the quadrangle or triangle
+          real(kind=WP) :: x2(GROUP_SIZE)
+          real(kind=WP) :: x3(GROUP_SIZE)
+          real(kind=WP) :: x4(GROUP_SIZE)
+          real(kind=WP) :: y1(GROUP_SIZE)
+          real(kind=WP) :: y2(GROUP_SIZE)
+          real(kind=WP) :: y3(GROUP_SIZE)
+          real(kind=WP) :: y4(GROUP_SIZE)
+          real(kind=WP) :: z1(GROUP_SIZE)
+          real(kind=WP) :: z2(GROUP_SIZE)
+          real(kind=WP) :: z3(GROUP_SIZE)
+          real(kind=WP) :: z4(GROUP_SIZE)
+          real(kind=WP) :: xi(GROUP_SIZE) !< x coordinate of the second nodes
+          real(kind=WP) :: yi(GROUP_SIZE)
+          real(kind=WP) :: zi(GROUP_SIZE)
+          real(kind=WP) :: pene(GROUP_SIZE)
+          real(kind=WP) :: gapv(GROUP_SIZE)
           integer :: ix1(GROUP_SIZE)
           integer :: ix2(GROUP_SIZE)
           integer :: ix3(GROUP_SIZE)
@@ -214,5 +215,5 @@
             endif
           enddo
           return
-        end
-      END MODULE
+        end subroutine INTER7_FILTER_CAND
+      end module INTER7_FILTER_CAND_MOD

@@ -26,20 +26,20 @@
       !||    polygon_clipping_mod   ../common_source/tools/clipping/polygon_clipping_mod.F90
       !||====================================================================
       module polygon_mod
+        use precision_mod, only : WP
         implicit none
-#include  "my_real.inc"
 
         type polygon_point_
-          my_real :: y
-          my_real :: z
+          real(kind=WP) :: y
+          real(kind=WP) :: z
         end type polygon_point_
 
         type polygon_
           type(polygon_point_), allocatable, dimension(:) :: point
           integer :: numpoint ! defined points
           integer :: size ! allocated size numpoint <= size)
-          my_real :: area
-          my_real :: diag ! maximum dimension along y and z
+          real(kind=WP) :: area
+          real(kind=WP) :: diag ! maximum dimension along y and z
         end type polygon_
 
         type polygon_list_
@@ -64,7 +64,6 @@
         function polygon_addpoint(poly, point) result(ierr)
           use constant_mod , only : zero
           implicit none
-#include  "my_real.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -141,7 +140,6 @@
         subroutine polygon_zeroing(poly)
           use constant_mod , only : zero
           implicit none
-#include  "my_real.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -175,7 +173,6 @@
       !||====================================================================
         subroutine polygon_destroy(poly)
           implicit none
-#include  "my_real.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -201,7 +198,6 @@
         subroutine polygon_list_destroy(list)
           use constant_mod , only : zero
           implicit none
-#include  "my_real.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -230,7 +226,6 @@
       !||====================================================================
         subroutine polygon_copy(Base_polygon, Target_polygon)
           implicit none
-#include  "my_real.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------

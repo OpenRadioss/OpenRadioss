@@ -56,26 +56,23 @@
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
       use matparam_def_mod
+      use precision_mod, only: WP
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
       implicit none
-!-----------------------------------------------
-!   included files
-! ----------------------------------------------
-#include "my_real.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
       type(matparam_struct_)              ,intent(inout) :: mat_param !< material model data structure
-      my_real, dimension(mat_param%ntable),intent(in)    :: x2vect    !< x2 vector flag
-      my_real, dimension(mat_param%ntable),intent(in)    :: x3vect    !< x3 vector flag
-      my_real, dimension(mat_param%ntable),intent(in)    :: x4vect    !< x4 vector flag
-      my_real                             ,intent(in)    :: x1scale   !< x1 scale factor
-      my_real                             ,intent(in)    :: x2scale   !< x2 scale factor
-      my_real                             ,intent(in)    :: x3scale   !< x3 scale factor
-      my_real                             ,intent(in)    :: x4scale   !< x4 scale factor
-      my_real, dimension(mat_param%ntable),intent(in)    :: fscale    !< function scale factor
+      real(kind=WP), dimension(mat_param%ntable),intent(in)    :: x2vect    !< x2 vector flag
+      real(kind=WP), dimension(mat_param%ntable),intent(in)    :: x3vect    !< x3 vector flag
+      real(kind=WP), dimension(mat_param%ntable),intent(in)    :: x4vect    !< x4 vector flag
+      real(kind=WP)                             ,intent(in)    :: x1scale   !< x1 scale factor
+      real(kind=WP)                             ,intent(in)    :: x2scale   !< x2 scale factor
+      real(kind=WP)                             ,intent(in)    :: x3scale   !< x3 scale factor
+      real(kind=WP)                             ,intent(in)    :: x4scale   !< x4 scale factor
+      real(kind=WP), dimension(mat_param%ntable),intent(in)    :: fscale    !< function scale factor
       integer                             ,intent(in)    :: ntable    !< number of function tables in input deck
       type(ttable), dimension(ntable)     ,intent(in)    :: table     !< input table array
       integer                             ,intent(out)   :: ierr      !< output error flag : no error=0 , error=1
@@ -194,5 +191,5 @@
       deallocate (ifunc)
 !------------------------------
       return
-      end
+      end subroutine mat_table_copy
       end module mat_table_copy_mod

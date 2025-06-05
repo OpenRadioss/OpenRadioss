@@ -140,6 +140,6 @@
           if(numelq > 0)  call python_expose_ints(py, "IXQ", 3, c_loc(ixq), numelq*nixq)
           if(ngroup > 0)  call python_expose_ints(py, "IPARG", 5, c_loc(iparg), ngroup*nparg)
             
-        end subroutine
+        end subroutine python_share_memory
 
       end module python_share_memory_mod

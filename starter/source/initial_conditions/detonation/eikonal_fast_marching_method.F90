@@ -68,6 +68,7 @@
           use eikonal_init_start_list_2d_mod , only : eikonal_init_start_list_2d
           use eikonal_init_mixture_vel_mod , only : eikonal_init_mixture_vel
           use detonators_mod , only : detonators_struct_
+          use precision_mod, only : WP
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -75,7 +76,6 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Included files
 ! ----------------------------------------------------------------------------------------------------------------------
-#include "my_real.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -86,9 +86,9 @@
           integer,intent(in) :: ix(nix,numel) !< quad connectivities
           integer,intent(in) :: nparg !< array size
           integer,intent(in) :: iparg(nparg,ngroup)
-          my_real,intent(in) :: x(3,numnod) !< node coordinates
+          real(kind=WP),intent(in) :: x(3,numnod) !< node coordinates
           integer,intent(in) :: npropm, nummat
-          my_real,intent(in) :: pm(npropm,nummat)
+          real(kind=WP),intent(in) :: pm(npropm,nummat)
           type (elbuf_struct_), target, dimension(ngroup) :: elbuf_tab
           type (t_ale_connectivity), intent(inout) :: ale_connectivity
           type (detonators_struct_),intent(in) :: detonators
@@ -117,26 +117,26 @@
           integer, allocatable, dimension(:) :: idx_ng  !< group identifier for a given solid elem
           integer, allocatable, dimension(:) :: idx_i   !< local id in group
           integer, allocatable, dimension(:) :: elem_list
-          my_real, allocatable, dimension(:) :: vel
-          my_real :: vel_adj(6)   ! tria 3<6, quad:4<6, hexa 6
-          my_real, allocatable, dimension(:) :: tdet   !< detonation time
-          my_real :: tdet_adj(6)  ! tria 3<6, quad:4<6, hexa 6
-          my_real, allocatable, dimension(:,:) :: Xel   !< centroids coordinates
-          my_real :: xel_adj(3,6) ! tria 3<6, quad:4<6, hexa 6
+          real(kind=WP), allocatable, dimension(:) :: vel
+          real(kind=WP) :: vel_adj(6)   ! tria 3<6, quad:4<6, hexa 6
+          real(kind=WP), allocatable, dimension(:) :: tdet   !< detonation time
+          real(kind=WP) :: tdet_adj(6)  ! tria 3<6, quad:4<6, hexa 6
+          real(kind=WP), allocatable, dimension(:,:) :: Xel   !< centroids coordinates
+          real(kind=WP) :: xel_adj(3,6) ! tria 3<6, quad:4<6, hexa 6
           integer, allocatable, dimension(:) :: priority_queue_id
-          my_real, allocatable, dimension(:) :: priority_queue_tt
+          real(kind=WP), allocatable, dimension(:) :: priority_queue_tt
           integer,allocatable, dimension(:) :: updown ! -1 down, 1:up, 0:narrow_band
           integer :: nstart !< number of deotnation points (centroids)  ! can be adapt later from mesh nodes to elem centroid (spherical wave from node to centroid)
           integer,allocatable,dimension(:) :: start_elem_list
-          my_real,allocatable,dimension(:) :: start_elem_tdet
+          real(kind=WP),allocatable,dimension(:) :: start_elem_tdet
           integer, allocatable, dimension(:) :: elem_list_bij
-          integer num_new_activated, list_new_activated(6)
-          my_real :: dx,dy,dz,dl,s, tmp
-          my_real :: Dcj !< Detonation velocity (law5 and 97)
+          integer :: num_new_activated, list_new_activated(6)
+          real(kind=WP) :: dx,dy,dz,dl,s, tmp
+          real(kind=WP) :: Dcj !< Detonation velocity (law5 and 97)
           integer :: multimat_id !< 0:default, 51:if law51 found, 151:if law151 found
           integer :: mid
           integer :: ishadow !< shadowing option for detonators (Eikonal equation solver)
-          my_real :: fac
+          real(kind=WP) :: fac
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------

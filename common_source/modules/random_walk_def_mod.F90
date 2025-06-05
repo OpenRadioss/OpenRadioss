@@ -42,16 +42,16 @@
 !! \brief data structure for random walk algorithm used in fractal damage initialization
 !! \details
 ! ======================================================================================================================
+        use precision_mod, only : WP
         implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
-#include "my_real.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
 
         type random_walk_
           integer :: id                                   ! element id
           integer :: elnum                                ! element number
           integer :: nix                                  ! number of edge connexions (3/4)
-          my_real :: damage                               ! damage value
+          real(kind=WP) :: damage                               ! damage value
           integer, dimension(:), allocatable :: neighbor  ! neighbor element list (nix)
         end type random_walk_
 

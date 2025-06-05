@@ -52,9 +52,9 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-        integer ii,jj,p
-        integer proc_index(nspmd)     ! index for working array
-        integer size_on_proc(nspmd)   ! total number of entity on each domain
+        integer :: ii,jj,p
+        integer :: proc_index(nspmd)     ! index for working array
+        integer :: size_on_proc(nspmd)   ! total number of entity on each domain
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Preconditions
 ! ----------------------------------------------------------------------------------------------------------------------

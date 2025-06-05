@@ -45,22 +45,22 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
-      use rbe3_mod
+          use rbe3_mod
+          use precision_mod, only : WP
 ! ----------------------------------------------------------------------------------------------------------------------
           implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Included files
 ! ----------------------------------------------------------------------------------------------------------------------
-#include "my_real.inc"
 !-----------------------------------------------
 !   d u m m y   a r g u m e n t s
 !-----------------------------------------------
           integer, intent(in)                                :: numnod          !< number of nodes
-          my_real, dimension(numnod),  intent(inout)         :: ms              !< nodal mass
-          my_real, dimension(numnod),  intent(inout)         :: in              !< nodal inertia
-          my_real, dimension(numnod),  intent(in   )         :: stifn           !< nodal stifness
-          my_real, dimension(numnod),  intent(in   )         :: stifr           !< nodal rotational stifness
-          my_real, dimension(3,numnod),intent(in   )         :: x               !< coordinates
+          real(kind=WP), dimension(numnod),  intent(inout)         :: ms              !< nodal mass
+          real(kind=WP), dimension(numnod),  intent(inout)         :: in              !< nodal inertia
+          real(kind=WP), dimension(numnod),  intent(in   )         :: stifn           !< nodal stifness
+          real(kind=WP), dimension(numnod),  intent(in   )         :: stifr           !< nodal rotational stifness
+          real(kind=WP), dimension(3,numnod),intent(in   )         :: x               !< coordinates
           type (rbe3_)                ,intent(inout)         :: rbe3            !< rbe3 data structure
 !
 !-----------------------------------------------
@@ -110,13 +110,10 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
-      use constant_mod,          only : one,two,zero,zep05,em6,em20,third,fourth,four,ten
+          use constant_mod,          only : one,two,zero,zep05,em6,em20,third,fourth,four,ten
+          use precision_mod, only : WP
 ! ----------------------------------------------------------------------------------------------------------------------
           implicit none
-! ----------------------------------------------------------------------------------------------------------------------
-!                                                   Included files
-! ----------------------------------------------------------------------------------------------------------------------
-#include "my_real.inc"
 !-----------------------------------------------
 !   d u m m y   a r g u m e n t s
 !-----------------------------------------------
@@ -125,26 +122,26 @@
           integer, intent(in)                                :: numnod          !< number of nodes
           integer, intent(in)                                :: nml             !< number of independent nodes
           integer, dimension(nml),     intent(in   )         :: iml             !< independent node list
-          my_real, dimension(6,nml),   intent(in   )         :: frbe3           !< normalized weight 
-          my_real, dimension(3,numnod),intent(in   )         :: x               !< coordinates
-          my_real, dimension(numnod),  intent(in   )         :: ms              !< nodal mass
-          my_real, dimension(numnod),  intent(in   )         :: in              !< nodal inertia
-          my_real, dimension(numnod),  intent(in   )         :: stifn           !< nodal stifness
-          my_real, dimension(numnod),  intent(in   )         :: stifr           !< nodal rotational stifness
-          my_real, dimension(3),       intent(inout)         :: rrbe3pen_d      !< initial displacement
-          my_real, dimension(2),       intent(inout)         :: rrbe3pen_stf    !< stiffness
-          my_real,                     intent(inout)         :: rrbe3pen_fac    !< stiffness factor
-          my_real,                     intent(inout)         :: rrbe3pen_vi     !< damping coefficient
-          my_real, dimension(3),       intent(inout)         :: rrbe3pen_m      !< moment
+          real(kind=WP), dimension(6,nml),   intent(in   )         :: frbe3           !< normalized weight 
+          real(kind=WP), dimension(3,numnod),intent(in   )         :: x               !< coordinates
+          real(kind=WP), dimension(numnod),  intent(in   )         :: ms              !< nodal mass
+          real(kind=WP), dimension(numnod),  intent(in   )         :: in              !< nodal inertia
+          real(kind=WP), dimension(numnod),  intent(in   )         :: stifn           !< nodal stifness
+          real(kind=WP), dimension(numnod),  intent(in   )         :: stifr           !< nodal rotational stifness
+          real(kind=WP), dimension(3),       intent(inout)         :: rrbe3pen_d      !< initial displacement
+          real(kind=WP), dimension(2),       intent(inout)         :: rrbe3pen_stf    !< stiffness
+          real(kind=WP),                     intent(inout)         :: rrbe3pen_fac    !< stiffness factor
+          real(kind=WP),                     intent(inout)         :: rrbe3pen_vi     !< damping coefficient
+          real(kind=WP), dimension(3),       intent(inout)         :: rrbe3pen_m      !< moment
 !
 !-----------------------------------------------
 !   l o c a l   v a r i a b l e s
 !-----------------------------------------------
           integer :: i,j,m,icoline
-          my_real, dimension(3) :: xbar,wri,rR,rn
-          my_real :: wi(nml),rndotrn,facn,facr,det,gamma(9),gminv(9),gamma_max,jgamma,wmax
-          my_real :: msbar,dk_m,rdummy,stfnm,stfrm,stif,damp,lsm2,ins 
-          my_real ::  srR(3,3),srRT(3,3),srn(3,3),omgsrn(3,3),A(3,3),Ar(3,3)
+          real(kind=WP), dimension(3) :: xbar,wri,rR,rn
+          real(kind=WP) :: wi(nml),rndotrn,facn,facr,det,gamma(9),gminv(9),gamma_max,jgamma,wmax
+          real(kind=WP) :: msbar,dk_m,rdummy,stfnm,stfrm,stif,damp,lsm2,ins 
+          real(kind=WP) ::  srR(3,3),srRT(3,3),srn(3,3),omgsrn(3,3),A(3,3),Ar(3,3)
           double precision :: disdp(3)
 !=======================================================================
       xbar(1:3) = zero

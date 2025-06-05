@@ -67,7 +67,6 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Included files
 ! ----------------------------------------------------------------------------------------------------------------------
-#include "my_real.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -88,8 +87,8 @@
           integer, intent (in   ) ,dimension(sfr_elem)     :: fr_elem          !< comm node array
           integer, intent (in   ) ,dimension(nixc,numelc)  :: ixc              !< shell 4n connectivity
           integer, intent (in   ),dimension(nixtg,numeltg) :: ixtg             !< shell 3n connectivity
-          my_real, intent (in   ),dimension(numelc+numeltg):: thke             !< initial thickness
-          my_real, intent (in   ),dimension(npropg,numgeo) :: geo              !< property array
+          real(kind=WP), intent (in   ),dimension(numelc+numeltg):: thke             !< initial thickness
+          real(kind=WP), intent (in   ),dimension(npropg,numgeo) :: geo              !< property array
           type (elbuf_struct_), target, dimension(ngroup)  :: elbuf_tab        !< el_buf struct_
           type (sh_offset_)                                :: sh_offset_tab    !< offset struct_
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -97,8 +96,8 @@
 ! ----------------------------------------------------------------------------------------------------------------------
         integer i,j,k,n,nel,nft,nn,ie,ii,igtyp,nf1,ity,nnode,pid,nshel,ng,stat,lenr,nsh_oset,nnoset
         integer ibid(1),ndim1,ndim2,nsh_oset_g,nfr
-        my_real shelloff
-        my_real, dimension(:)  ,  allocatable :: thkoset,thkoset_n    
+        real(kind=WP) shelloff
+        real(kind=WP), dimension(:)  ,  allocatable :: thkoset,thkoset_n    
         double precision, dimension(:,:),  allocatable :: thkoset6,thkoset_n6    
         type(g_bufel_)     , pointer :: gbuf
 !

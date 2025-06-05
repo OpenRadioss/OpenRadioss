@@ -53,34 +53,34 @@
 !   M o d u l e s
 !-----------------------------------------------
       use constant_mod
+      use precision_mod, only : WP
 !-----------------------------------------------
 !   I m p l i c i t   T y p e s
 !-----------------------------------------------
       implicit none
-#include "my_real.inc"
 #include "units_c.inc"
 !-----------------------------------------------
 !   I N P U T   A r g u m e n t s
 !-----------------------------------------------
       integer, intent(in) :: nel
       integer, intent(in) :: nuparam
-      my_real, intent(in) :: time
-      my_real, dimension(nuparam), intent(in) :: uparam
+      real(kind=WP), intent(in) :: time
+      real(kind=WP), dimension(nuparam), intent(in) :: uparam
       integer, dimension(nel), intent(in) :: ngl
-      my_real, dimension(nel), intent(inout) :: signxx
-      my_real, dimension(nel), intent(inout) :: signyy
-      my_real, dimension(nel), intent(inout) :: signzz
-      my_real, dimension(nel), intent(inout) :: signxy
-      my_real, dimension(nel), intent(inout) :: signyz
-      my_real, dimension(nel), intent(inout) :: signzx
-      my_real, dimension(nel), intent(in) :: dpla
-      my_real, dimension(nel), intent(in) :: epsp
-      my_real, dimension(nel), intent(in) :: tstar
-      my_real, dimension(nel), intent(inout) :: off
+      real(kind=WP), dimension(nel), intent(inout) :: signxx
+      real(kind=WP), dimension(nel), intent(inout) :: signyy
+      real(kind=WP), dimension(nel), intent(inout) :: signzz
+      real(kind=WP), dimension(nel), intent(inout) :: signxy
+      real(kind=WP), dimension(nel), intent(inout) :: signyz
+      real(kind=WP), dimension(nel), intent(inout) :: signzx
+      real(kind=WP), dimension(nel), intent(in) :: dpla
+      real(kind=WP), dimension(nel), intent(in) :: epsp
+      real(kind=WP), dimension(nel), intent(in) :: tstar
+      real(kind=WP), dimension(nel), intent(inout) :: off
       integer, intent(in) :: lf_dammx
-      my_real, dimension(nel,lf_dammx), intent(inout) :: dfmax
-      my_real, dimension(nel), intent(inout) :: tdele
-      my_real, dimension(nel), intent(in) :: offg
+      real(kind=WP), dimension(nel,lf_dammx), intent(inout) :: dfmax
+      real(kind=WP), dimension(nel), intent(inout) :: tdele
+      real(kind=WP), dimension(nel), intent(in) :: offg
       integer, intent(in) :: niparam
       integer, dimension(niparam), intent(in) :: iparam
       integer, intent(in) :: mvsiz
@@ -89,7 +89,7 @@
 !-----------------------------------------------
       integer :: i,j,idel,idev,iflag,indx(nel),iadbuf,nindx,nindex,index(nel), &
                  ifail,jj,ispall
-      my_real :: d1,d2,d3,d4,d5,epsp0,p,pmin,epsf,svm,scale,sxx,syy,szz,       &
+      real(kind=WP) :: d1,d2,d3,d4,d5,epsp0,p,pmin,epsf,svm,scale,sxx,syy,szz,       &
                  sig(mvsiz,6),valp(mvsiz,3),vec(mvsiz,9),sigp_max(nel)
 !-----------------------------------------------
 !   S o u r c e   L i n e s

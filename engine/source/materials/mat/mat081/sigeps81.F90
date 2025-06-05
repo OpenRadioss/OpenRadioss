@@ -55,66 +55,66 @@
 !-------------------------------------------------------------------------------
           use matparam_def_mod
           use constant_mod
+          use precision_mod, only : WP
 !-------------------------------------------------------------------------------
 !   I m p l i c i t   T y p e s
 !-------------------------------------------------------------------------------
           implicit none
-#include  "my_real.inc"
 !-------------------------------------------------------------------------------
 !   D u m m y   A r g u m e n t s
 !-------------------------------------------------------------------------------
           integer, intent(in) :: nel                           !< number of elements in the group
           integer, intent(in) :: nuvar                         !< number of user variables
-          my_real, dimension(nel,nuvar), intent(inout) :: uvar !< user variables
+          real(kind=WP), dimension(nel,nuvar), intent(inout) :: uvar !< user variables
           type(matparam_struct_), intent(in) :: matparam       !< material parameters data
           integer, intent(in) :: nfunc                         !< number of functions
           integer, dimension(nfunc), intent(in) :: ifunc       !< function index
           integer, intent(in) :: snpc                          !< number of parameters for each function
           integer, dimension(snpc), intent(in) :: npf          !< number of values for each function
           integer, intent(in) :: stf                           !< number of parameters
-          my_real, dimension(stf), intent(in) :: tf            !< function parameters
-          my_real, dimension(nel), intent(in) :: rho0          !< initial density
-          my_real, dimension(nel), intent(in) :: rho           !< current density
-          my_real, dimension(nel), intent(in) :: volume        !< integration point associated volume
-          my_real, dimension(nel), intent(in) :: amu           !< element volumetric strain
-          my_real, dimension(nel,2), intent(inout) :: defp     !< element plastic strain
-          my_real, dimension(nel), intent(inout) :: soundsp    !< sound speed
-          my_real, dimension(nel), intent(inout) :: viscmax    !< maximum viscosity
-          my_real, intent(in) :: dt1                           !< time step
-          my_real, dimension(nel), intent(in)  :: depsxx       !< strain increment component xx
-          my_real, dimension(nel), intent(in)  :: depsyy       !< strain increment component yy
-          my_real, dimension(nel), intent(in)  :: depszz       !< strain increment component zz
-          my_real, dimension(nel), intent(in)  :: depsxy       !< strain increment component xy
-          my_real, dimension(nel), intent(in)  :: depsyz       !< strain increment component yz
-          my_real, dimension(nel), intent(in)  :: depszx       !< strain increment component zx
-          my_real, dimension(nel), intent(in)  :: sigoxx       !< old stress component xx
-          my_real, dimension(nel), intent(in)  :: sigoyy       !< old stress component yy
-          my_real, dimension(nel), intent(in)  :: sigozz       !< old stress component zz
-          my_real, dimension(nel), intent(in)  :: sigoxy       !< old stress component xy
-          my_real, dimension(nel), intent(in)  :: sigoyz       !< old stress component yz
-          my_real, dimension(nel), intent(in)  :: sigozx       !< old stress component zx
-          my_real, dimension(nel), intent(out) :: signxx       !< new stress component xx
-          my_real, dimension(nel), intent(out) :: signyy       !< new stress component yy
-          my_real, dimension(nel), intent(out) :: signzz       !< new stress component zz
-          my_real, dimension(nel), intent(out) :: signxy       !< new stress component xy
-          my_real, dimension(nel), intent(out) :: signyz       !< new stress component yz
-          my_real, dimension(nel), intent(out) :: signzx       !< new stress component zx
-          my_real, dimension(nel), intent(out) :: sigvxx       !< viscous stress component xx
-          my_real, dimension(nel), intent(out) :: sigvyy       !< viscous stress component yy
-          my_real, dimension(nel), intent(out) :: sigvzz       !< viscous stress component zz
+          real(kind=WP), dimension(stf), intent(in) :: tf            !< function parameters
+          real(kind=WP), dimension(nel), intent(in) :: rho0          !< initial density
+          real(kind=WP), dimension(nel), intent(in) :: rho           !< current density
+          real(kind=WP), dimension(nel), intent(in) :: volume        !< integration point associated volume
+          real(kind=WP), dimension(nel), intent(in) :: amu           !< element volumetric strain
+          real(kind=WP), dimension(nel,2), intent(inout) :: defp     !< element plastic strain
+          real(kind=WP), dimension(nel), intent(inout) :: soundsp    !< sound speed
+          real(kind=WP), dimension(nel), intent(inout) :: viscmax    !< maximum viscosity
+          real(kind=WP), intent(in) :: dt1                           !< time step
+          real(kind=WP), dimension(nel), intent(in)  :: depsxx       !< strain increment component xx
+          real(kind=WP), dimension(nel), intent(in)  :: depsyy       !< strain increment component yy
+          real(kind=WP), dimension(nel), intent(in)  :: depszz       !< strain increment component zz
+          real(kind=WP), dimension(nel), intent(in)  :: depsxy       !< strain increment component xy
+          real(kind=WP), dimension(nel), intent(in)  :: depsyz       !< strain increment component yz
+          real(kind=WP), dimension(nel), intent(in)  :: depszx       !< strain increment component zx
+          real(kind=WP), dimension(nel), intent(in)  :: sigoxx       !< old stress component xx
+          real(kind=WP), dimension(nel), intent(in)  :: sigoyy       !< old stress component yy
+          real(kind=WP), dimension(nel), intent(in)  :: sigozz       !< old stress component zz
+          real(kind=WP), dimension(nel), intent(in)  :: sigoxy       !< old stress component xy
+          real(kind=WP), dimension(nel), intent(in)  :: sigoyz       !< old stress component yz
+          real(kind=WP), dimension(nel), intent(in)  :: sigozx       !< old stress component zx
+          real(kind=WP), dimension(nel), intent(out) :: signxx       !< new stress component xx
+          real(kind=WP), dimension(nel), intent(out) :: signyy       !< new stress component yy
+          real(kind=WP), dimension(nel), intent(out) :: signzz       !< new stress component zz
+          real(kind=WP), dimension(nel), intent(out) :: signxy       !< new stress component xy
+          real(kind=WP), dimension(nel), intent(out) :: signyz       !< new stress component yz
+          real(kind=WP), dimension(nel), intent(out) :: signzx       !< new stress component zx
+          real(kind=WP), dimension(nel), intent(out) :: sigvxx       !< viscous stress component xx
+          real(kind=WP), dimension(nel), intent(out) :: sigvyy       !< viscous stress component yy
+          real(kind=WP), dimension(nel), intent(out) :: sigvzz       !< viscous stress component zz
           integer, intent(in) :: nvartmp                       !< number of temporary variables
           integer, dimension(nel,nvartmp), intent(inout) :: vartmp !< temporary variables
-          my_real, dimension(nel), intent(inout) :: seq        !< Von Mises equivalent stress
-          my_real, dimension(nel), intent(out) :: et           !< for hourglass stiffness
+          real(kind=WP), dimension(nel), intent(inout) :: seq        !< Von Mises equivalent stress
+          real(kind=WP), dimension(nel), intent(out) :: et           !< for hourglass stiffness
 !-------------------------------------------------------------------------------
 !  L o c a l   V a r i a b l e s
 !-------------------------------------------------------------------------------
           integer :: i,ii,soft_flag,iter,nindx,ntricomp
           integer, dimension(nel) :: indx,indxtricomp,ipos,iad,ilen
           integer, parameter :: niter = 3
-          my_real :: kini,gini,tgphi,tgpsi,alpha,max_dilat,epspvol0,kwater,    &
+          real(kind=WP) :: kini,gini,tgphi,tgpsi,alpha,max_dilat,epspvol0,kwater,    &
             por0,sat0,u0,tolmu,viscfac,cini,capini
-          my_real :: delta,depspd_dlam,depspv_dlam,df_dlam,dfdc,dfdp,dfdrc,    &
+          real(kind=WP) :: delta,depspd_dlam,depspv_dlam,df_dlam,dfdc,dfdp,dfdrc,    &
             dfdseq,dfdsig_dsigdlam,dfdsigxx,dfdsigyy,dfdsigzz,dfdsigxy,        &
             dfdsigyz,dfdsigzx,dgdp,dgdseq,dgdsigxx,dgdsigyy,dgdsigzz,dlam,     &
             dgdsigxy,dgdsigyz,dgdsigzx,drcdpa,drcdpb,dseqdsigxx,dseqdsigyy,    &
@@ -122,7 +122,7 @@
             dsigzzdlam,dsigxydlam,dsigyzdlam,dsigzxdlam,drcdp,ldav,trdgpds,    &
             fac,ddepspv,ddepspd,dpxx,dpyy,dpzz,dpxy,dpyz,dpzx,dfdpu,dgdpu,     &
             dftrcdepspv,ftrc,dmuwdpor,dpordepspv,drcdpu
-          my_real, dimension(nel) :: k,g,lame,g2,c,pa,pb,p0,dcdepsp,dpbdepsp,  &
+          real(kind=WP), dimension(nel) :: k,g,lame,g2,c,pa,pb,p0,dcdepsp,dpbdepsp,  &
             deri,epspd,epspv,depspd,depspv,dcdepspd,dpbdepspv,dpadepspv,f,     &
             p,sxx,syy,szz,sxy,syz,szx,pu,rc,a,muw,u,dudmuw,por,epspv0,epspd0,  &
             young,dpudp,dpudu

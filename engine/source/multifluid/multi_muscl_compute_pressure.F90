@@ -49,23 +49,23 @@
       USE MATPARAM_DEF_MOD , ONLY : MATPARAM_STRUCT_
       USE MULTI_SUBMATLAW_MOD , ONLY : MULTI_SUBMATLAW
       USE CONSTANT_MOD , ONLY : ZERO, EM06, ONE
+      USE PRECISION_MOD, ONLY : WP
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit None
 ! ----------------------------------------------------------------------------------------------------------------------
       implicit none
-#include "my_real.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
       INTEGER, INTENT(IN) :: MATLAW, LOCAL_MATID, NPROPM, NPROPMI, NUMMAT, SNPC, STF
-      my_real, INTENT(IN) :: PM(NPROPM, *), CURRENT_TIME
+      real(kind=WP), INTENT(IN) :: PM(NPROPM, *), CURRENT_TIME
       INTEGER, INTENT(IN) :: IPM(NPROPMI, *)
-      my_real, INTENT(IN) :: SIG(6)
-      my_real, INTENT(INOUT) :: SSP(1), PRES(1), EINT(1), RHO(1), BURNFRAC(1), BURNTIME(1), DELTAX(1), ABURN(1)
-      my_real, INTENT(OUT) :: OFF(1)
-      my_real, INTENT(INOUT) :: BUFMAT(*)
+      real(kind=WP), INTENT(IN) :: SIG(6)
+      real(kind=WP), INTENT(INOUT) :: SSP(1), PRES(1), EINT(1), RHO(1), BURNFRAC(1), BURNTIME(1), DELTAX(1), ABURN(1)
+      real(kind=WP), INTENT(OUT) :: OFF(1)
+      real(kind=WP), INTENT(INOUT) :: BUFMAT(*)
       INTEGER,INTENT(IN)::NPF(SNPC),NVAREOS
-      my_real,INTENT(IN)::TF(STF),VAREOS(NVAREOS*1)
+      real(kind=WP),INTENT(IN)::TF(STF),VAREOS(NVAREOS*1)
       TYPE(MATPARAM_STRUCT_), INTENT(IN) :: MAT_PARAM !material data structure
       INTEGER,INTENT(IN) :: NVARTMP_EOS
       INTEGER,INTENT(INOUT) :: VARTMP_EOS(1,NVARTMP_EOS)
@@ -73,8 +73,8 @@
 !                                                   Local Variables
 ! ----------------------------------------------------------------------------------------------------------------------
       INTEGER :: ITER, MAX_ITER
-      my_real :: TOL, ERROR
-      my_real :: GRUN(1), VOL(1), TEMP(1)
+      real(kind=WP) :: TOL, ERROR
+      real(kind=WP) :: GRUN(1), VOL(1), TEMP(1)
       LOGICAL :: CONT
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body

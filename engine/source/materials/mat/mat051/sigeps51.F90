@@ -54,7 +54,7 @@
       !||    prop_param_mod                   ../common_source/modules/mat_elem/prop_param_mod.F90
       !||    sigeps51_boundary_material_mod   ../engine/source/materials/mat/mat051/sigeps51_boundary_material.F90
       !||====================================================================
-      subroutine sigeps51 ( &
+      subroutine sigeps51( &
            nel    ,nuparam     ,nuvar   ,nfunc   ,ifunc    ,tburn  , &
            npf    ,tf          ,time    ,timestep,uparam   ,numel  , &
            rho    ,volume       ,eint   ,vel_o   ,wfext    , &
@@ -82,6 +82,7 @@
       use constant_mod , only : zero,one,em03,em12,em13,em14,ep10,ep20,em06,em10,em20,em4,half,third,three,two, three100
       use prop_param_mod , only : n_var_ipm, n_var_pm, n_var_geo, n_var_iparg
       use i22bufbric_mod , only : ninter22
+      use precision_mod , only : WP
 !---------+---------+---+---+--------------------------------------------
 ! VAR     | SIZE    |TYP| RW| DEFINITION
 !---------+---------+---+---+--------------------------------------------
@@ -158,7 +159,6 @@
 ! ======================================================================================================================
 !                                                   Included Files
 ! ======================================================================================================================
-#include "my_real.inc"
 ! ======================================================================================================================
 !                                                   Arguments
 ! ======================================================================================================================
@@ -169,7 +169,7 @@
       integer,intent(in) :: nel, nuparam, nuvar,nft,n48,nix,jthe,numel, &
                             ix(nix,numel), pid(nel), ilay, ng,iparg(n_var_iparg,ngroup), &
                             ipm(n_var_ipm,nummat),nv46
-      my_real,intent(in) :: time,timestep,uparam(nuparam),pm(n_var_pm,nummat), &
+      real(kind=WP),intent(in) :: time,timestep,uparam(nuparam),pm(n_var_pm,nummat), &
                             volume(nel),bufvois(*),ddvol(nel),qqold(nel), &
                             epspxx(nel),epspyy(nel),epspzz(nel), &
                             epspxy(nel),epspyz(nel),epspzx(nel), &
@@ -178,25 +178,25 @@
                             w(3,numnod),x(3,numnod),geo(n_var_geo,numgeo), bufmat(*), &
                             vd2(nel)
 
-      my_real,intent(inout) :: sigoxx(nel),sigoyy(nel),sigozz(nel),sigoxy(nel),sigoyz(nel),sigozx(nel)
-      my_real,intent(inout) :: rho(nel),eint(nel), soundsp(nel)
+      real(kind=WP),intent(inout) :: sigoxx(nel),sigoyy(nel),sigozz(nel),sigoxy(nel),sigoyz(nel),sigozx(nel)
+      real(kind=WP),intent(inout) :: rho(nel),eint(nel), soundsp(nel)
 
       type (elbuf_struct_), target, dimension(ngroup) :: elbuf_tab
       type(t_ale_connectivity), intent(in) :: ale_connect
-      my_real,intent(inout) :: &
+      real(kind=WP),intent(inout) :: &
           signxx(nel),signyy(nel),signzz(nel), &
           signxy(nel),signyz(nel),signzx(nel), &
           sigvxx(nel),sigvyy(nel),sigvzz(nel), &
           sigvxy(nel),sigvyz(nel),sigvzx(nel), &
           viscmax(nel)
-      my_real,intent(inout) :: uvar(nel,nuvar),qvis(nel),stifn(nel),vdx(nel),vdy(nel),vdz(nel),v(3,numnod)
-      my_real,intent(in) :: off(nel)
-      my_real,intent(inout) :: tburn(nel)
+      real(kind=WP),intent(inout) :: uvar(nel,nuvar),qvis(nel),stifn(nel),vdx(nel),vdy(nel),vdz(nel),v(3,numnod)
+      real(kind=WP),intent(in) :: off(nel)
+      real(kind=WP),intent(inout) :: tburn(nel)
 ! ======================================================================================================================
 !                                                   External
 ! ======================================================================================================================
       integer npf(*), nfunc, ifunc(nfunc)
-      my_real finter ,tf(*)
+      real(kind=WP) finter ,tf(*)
       external finter
 !        Y = FINTER(IFUNC(J),X,NPF,TF,DYDX)
 !        Y       : y = f(x)
@@ -212,7 +212,7 @@
 
       INTEGER SUBMAT_CODE
       INTEGER I,J,K,KK,ITER,NITER
-      my_real P,PEXT,WFEXTT, &
+      real(kind=WP) P,PEXT,WFEXTT, &
               GG1,GG2,GG3, &
               C11,C12,C13,C21,C22,C23,C31,C32,C33,C41,C42,C43,C51,C52,C53, &
               AV1(nel),AV2(nel),AV3(nel),AV4(nel),RHO10,RHO20,RHO30,RHO40,RHO1,RHO2,RHO3,RHO4, &
@@ -236,7 +236,7 @@
               DE(NEL), &
               AAA, &
               ECOLD,T
-      my_real DEPS(6,nel),EPD(nel), &
+      real(kind=WP) DEPS(6,nel),EPD(nel), &
               P1OLD(nel),P2OLD(nel),P3OLD(nel),P4OLD(nel), &
               SIGD(6,nel), EINT0(nel),PLAS1(nel),PLAS2(nel),PLAS3(nel), &
               VOL(nel), TEMP(nel), &
@@ -250,7 +250,7 @@
               EINT1_INI, EINT2_INI, EINT3_INI, EINT4_INI, &
               ALPHA1OLD, ALPHA2OLD, ALPHA3OLD, ALPHA4OLD, &
               RHOOLD, SSP1_INI, SSP2_INI, SSP3_INI, SSP4_INI, VFRAC(nel)
-      my_real :: VISC1, VISC2, VISC3,VISC4
+      real(kind=WP) :: VISC1, VISC2, VISC3,VISC4
       INTEGER :: CONT
       INTEGER IFLG,IEXP, &
               IOPT, IPLA, IPLA1, IPLA2, IPLA3,&

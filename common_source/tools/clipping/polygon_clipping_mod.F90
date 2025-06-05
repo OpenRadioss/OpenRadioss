@@ -30,7 +30,6 @@
       module polygon_clipping_mod
         use polygon_mod
         implicit none
-#include  "my_real.inc"
 
           !pointer to a list of data structure below
           type pointer_to_point_
@@ -40,7 +39,7 @@
 
           !data structure for Weiler Atherton algorithm
           type points_on_edge_
-            my_real, allocatable, dimension(:) :: alpha !position on edge 0.0:first endpoint, ]0.,1.[:intersection point, 1.0:second edge endpoint
+            real(kind=WP), allocatable, dimension(:) :: alpha !position on edge 0.0:first endpoint, ]0.,1.[:intersection point, 1.0:second edge endpoint
             type(polygon_point_), allocatable, dimension(:) :: coor ! coordinates in global frame
             integer,dimension(:),allocatable :: point_id !identifier for intersection point (same id for Clipped polygon and Clipping polygon)
             integer :: numpoints !number of points on the edge : min is 2 for both edge endpoints
@@ -60,12 +59,11 @@
 !! \details On [P1 P2[ : position is alpha in \[0,1[ and On [Q1 Q2[ : position is beta in \[0,1[
    use constant_mod , only : zero, one, ep20
     implicit none
-#include "my_real.inc"
     type(polygon_point_), intent(in) :: P1, P2, Q1, Q2
-    my_real, intent(inout) :: alpha, beta
-    my_real, intent(in) :: tol
+    real(kind=WP), intent(inout) :: alpha, beta
+    real(kind=WP), intent(in) :: tol
     type(polygon_point_) :: intersection
-    my_real :: denom, numer_a, numer_b
+    real(kind=WP) :: denom, numer_a, numer_b
 
     intersection%y = ep20  ! Initialize with NaN (or use other convention)
     intersection%z = ep20
@@ -254,7 +252,6 @@
           use insertion_sort_mod , only : real_insertion_sort_with_index
           use array_reindex_mod , only : integer_array_reindex
           implicit none
-#include "my_real.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -285,12 +282,12 @@
           integer :: counter_entering_point
           integer :: total_number_poly
 
-          my_real :: tol   !< tolerance
-          my_real :: Ny,Nz !< normal vector (used to defined entering or leaving intersection point)
-          my_real :: Vy,Vz !< temporary array
-          my_real :: alpha !< alpha \in ]0.,1.[ is position on edge1 (clipped polygon)
-          my_real :: beta  !< beta \in ]0.,1.[ is position on edge2 (clipping polygon)
-          my_real :: dotproduct
+          real(kind=WP) :: tol   !< tolerance
+          real(kind=WP) :: Ny,Nz !< normal vector (used to defined entering or leaving intersection point)
+          real(kind=WP) :: Vy,Vz !< temporary array
+          real(kind=WP) :: alpha !< alpha \in ]0.,1.[ is position on edge1 (clipped polygon)
+          real(kind=WP) :: beta  !< beta \in ]0.,1.[ is position on edge2 (clipping polygon)
+          real(kind=WP) :: dotproduct
           logical :: finished
           logical :: vertice_on_edge
 
@@ -676,7 +673,6 @@
         subroutine polygon_SetClockWise( Polyg )
           use constant_mod , only : zero, half
           implicit none
-#include "my_real.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -685,7 +681,7 @@
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
           type(polygon_point_),allocatable,dimension(:) :: point
-          my_real :: total
+          real(kind=WP) :: total
           integer :: i,n
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
@@ -723,7 +719,6 @@
         function polygon_is_point_inside( Polyg, pt ) result(is_inside)
           use constant_mod , only : zero, em20, em10, half, one
           implicit none
-#include "my_real.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -738,9 +733,9 @@
           integer npt !< number of polygon points
           type(polygon_point_) :: P1,P2
           integer :: num_inter_pt !depending if number is odd or even we can status about point location (inside/outside)
-          my_real dy,dz
-          my_real lambda
-          my_real tol
+          real(kind=WP) dy,dz
+          real(kind=WP) lambda
+          real(kind=WP) tol
           logical cond1, cond2  !< conditional test to determine the final result
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
@@ -793,7 +788,6 @@
       !||====================================================================
       subroutine points_array_reindex(array, index, n)
         implicit none
-#include "my_real.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------

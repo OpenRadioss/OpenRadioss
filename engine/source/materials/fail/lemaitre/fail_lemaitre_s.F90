@@ -49,36 +49,36 @@
 !-----------------------------------------------
       use constant_mod
       use matparam_def_mod
+      use precision_mod, only : WP
 !-----------------------------------------------
 !   I m p l i c i t   T y p e s
 !-----------------------------------------------
       implicit none
-#include "my_real.inc"
 #include "units_c.inc"
 !-----------------------------------------------
 !   I N P U T   A r g u m e n t s
 !-----------------------------------------------
       integer, intent(in)                     :: nel      !< Number of elements
       integer, intent(in)                     :: nuparam  !< Number of real parameters
-      my_real, dimension(nuparam), intent(in) :: uparam   !< Real parameters
-      my_real, intent(in)                     :: time     !< Current time
+      real(kind=WP), dimension(nuparam), intent(in) :: uparam   !< Real parameters
+      real(kind=WP), intent(in)                     :: time     !< Current time
       integer, dimension(nel), intent(in)     :: ngl      !< Global element numbers
       type(matparam_struct_) , intent(in)     :: matparam !< Material parameters data structure
-      my_real, dimension(nel), intent(inout)  :: signxx   !< Stress xx
-      my_real, dimension(nel), intent(inout)  :: signyy   !< Stress yy
-      my_real, dimension(nel), intent(inout)  :: signzz   !< Stress zz
-      my_real, dimension(nel), intent(inout)  :: signxy   !< Stress xy
-      my_real, dimension(nel), intent(inout)  :: signyz   !< Stress yz
-      my_real, dimension(nel), intent(inout)  :: signzx   !< Stress zx
-      my_real, dimension(nel), intent(in)     :: dpla     !< Plastic strain increment
-      my_real, dimension(nel), intent(in)     :: pla      !< Cumulated plastic strain
-      my_real, dimension(nel), intent(inout)  :: loff     !< Integration point failure flag
-      my_real, dimension(nel), intent(inout)  :: off      !< Element failure flag
-      my_real, dimension(nel), intent(inout)  :: dfmax    !< Damage variable
-      my_real, dimension(nel), intent(inout)  :: tdele    !< Deletion time
+      real(kind=WP), dimension(nel), intent(inout)  :: signxx   !< Stress xx
+      real(kind=WP), dimension(nel), intent(inout)  :: signyy   !< Stress yy
+      real(kind=WP), dimension(nel), intent(inout)  :: signzz   !< Stress zz
+      real(kind=WP), dimension(nel), intent(inout)  :: signxy   !< Stress xy
+      real(kind=WP), dimension(nel), intent(inout)  :: signyz   !< Stress yz
+      real(kind=WP), dimension(nel), intent(inout)  :: signzx   !< Stress zx
+      real(kind=WP), dimension(nel), intent(in)     :: dpla     !< Plastic strain increment
+      real(kind=WP), dimension(nel), intent(in)     :: pla      !< Cumulated plastic strain
+      real(kind=WP), dimension(nel), intent(inout)  :: loff     !< Integration point failure flag
+      real(kind=WP), dimension(nel), intent(inout)  :: off      !< Element failure flag
+      real(kind=WP), dimension(nel), intent(inout)  :: dfmax    !< Damage variable
+      real(kind=WP), dimension(nel), intent(inout)  :: tdele    !< Deletion time
       integer, intent(in)                     :: niparam  !< Number of integer parameters
       integer, dimension(niparam), intent(in) :: iparam   !< Integer parameters
-      my_real, dimension(nel), intent(inout)  :: dmgscl   !< Damage softening scaling factor
+      real(kind=WP), dimension(nel), intent(inout)  :: dmgscl   !< Damage softening scaling factor
       integer, dimension(nel), intent(inout)  :: noff     !< Number of failed integration points
       integer, intent(in)                     :: npg      !< Number of integration points
 !-----------------------------------------------
@@ -86,10 +86,10 @@
 !-----------------------------------------------
       integer :: i,j,indx(nel),nindx,failip
       integer :: indx2(nel),nindx2
-      my_real :: epsd,s,dc,nu,young
-      my_real :: p,svm(nel),triax(nel),r_inter
-      my_real :: i1,i2,i3,q,r,phi,s11,s22,s33
-      my_real :: rv,ye,sig1(nel)
+      real(kind=WP) :: epsd,s,dc,nu,young
+      real(kind=WP) :: p,svm(nel),triax(nel),r_inter
+      real(kind=WP) :: i1,i2,i3,q,r,phi,s11,s22,s33
+      real(kind=WP) :: rv,ye,sig1(nel)
 !-----------------------------------------------
 !   S o u r c e   L i n e s
 !-----------------------------------------------

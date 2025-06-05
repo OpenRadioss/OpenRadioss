@@ -29,6 +29,7 @@
       !||    read_material_models   ../starter/source/materials/read_material_models.F
       !||====================================================================
       module hm_read_mat_mod
+        implicit none
       contains
 ! --------------------------------------------------------------------------------------------------
 !! \brief Read materials cards
@@ -219,10 +220,10 @@
       use names_and_titles_mod ,only : nchartitle, ncharline
       use reader_old_mod     ,only : key0
       use multimat_param_mod ,only : m51_ssp0max,m51_lc0max,m51_tcp_ref,m51_lset_iflg6,m20_discrete_fill
+      use precision_mod, only : WP
 ! -------------------------------------------------------------------------------------------------------
       implicit none
 
-#include "my_real.inc"
 ! -------------------------------------------------------------------------------------------------------
 !      Arguments
 ! -------------------------------------------------------------------------------------------------------
@@ -242,8 +243,8 @@
       integer ,intent(inout) :: buflen,iadbuf
       integer ,dimension(npropmi,nummat), intent(inout) :: ipm
       !
-      my_real ,dimension(npropm ,nummat), intent(inout) :: pm
-      my_real ,dimension(sbufmat), intent(inout)        :: bufmat
+      real(kind=WP) ,dimension(npropm ,nummat), intent(inout) :: pm
+      real(kind=WP) ,dimension(sbufmat), intent(inout)        :: bufmat
       type(ttable) ,dimension(ntable) ,intent(in)       :: table
 
       type(mlaw_tag_), target, dimension(nummat),intent(inout)    :: mlaw_tag
@@ -254,20 +255,20 @@
 ! -----------------------------------------------------------------------------
 !     Local variables
 ! -----------------------------------------------------------------------------
-      integer i,j,mat_id,uid,ilaw,jale,jtur,jthe,&
+      integer :: i,j,mat_id,uid,ilaw,jale,jtur,jthe,&
       &imatvis,israte,iuser_law,nfunc,numtabl,nuparam,nuvar,nvartmp,&
       &maxuparam,maxfunc,maxtabl,iunit,iflagunit,k
       parameter (maxuparam = 1048576)
       parameter (maxfunc  = 128, maxtabl = 9)
-      my_real :: rho,rho0,rhor,young,nu,bulk,g,asrate,rbid
+      real(kind=WP) :: rho,rho0,rhor,young,nu,bulk,g,asrate,rbid
       integer ,dimension(maxfunc) :: ifunc
       integer ,dimension(maxtabl) :: itable
-      my_real ,dimension(:), allocatable :: uparam
-      my_real ,dimension(128) :: parmat
+      real(kind=WP) ,dimension(:), allocatable :: uparam
+      real(kind=WP) ,dimension(128) :: parmat
       character(len=nchartitle) :: titr
       character(len=ncharline) :: key
       character(len=ncharline) :: solverkeyword
-      character mess*40
+      character :: mess*40
       character(len = ncharline) :: key2
 !
       type(ulawbuf) :: userbuf
@@ -1578,6 +1579,6 @@
       &5X,'MATERIAL NUMBER . . . . . . . . . . . .=',I10/,&
       &5X,'USER MATERIAL LAW . . . . . . . . . . .=',I10/)
 !------------------------------
-   end
+   end subroutine hm_read_mat
 !------------------------------
 end module hm_read_mat_mod

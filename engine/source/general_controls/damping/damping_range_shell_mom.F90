@@ -19,7 +19,7 @@
 !Copyright>
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
-!Copyright>    !ommercial version may interest you: https://www.altair.com/radioss/.
+!Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
       !||    damping_range_shell_mom_mod   ../engine/source/general_controls/damping/damping_range_shell_mom.F90
       !||--- called by ------------------------------------------------------
@@ -52,6 +52,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
           use constant_mod , only: one,zero, third, four_over_3, half, two,em20,three,two_third,one_over_12
           use elbufdef_mod , only: buf_damp_range_
+          use precision_mod, only : WP
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -59,35 +60,34 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Included files
 ! ----------------------------------------------------------------------------------------------------------------------
-#include "my_real.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
           integer,                                   intent(in)    :: nel                      !< number of elements
           integer,                                   intent(in)    :: nuvarv                   !< number of variables in buf_visc
-          my_real, dimension(nel,nuvarv) ,           intent(inout) :: uvarv                    !< buffer for viscous variables
-          my_real,                                   intent(in)    :: timestep                 !< time step
-          my_real,                                   intent(in)    :: young                    !< young modulus
-          my_real,                                   intent(in)    :: shear_mod                !< shear modulus
-          my_real, dimension(nel) ,                  intent(in)    :: dt_inv                   !< strain xx          
-          my_real, dimension(nel) ,                  intent(in)    :: depbxx                   !< strain xx
-          my_real, dimension(nel) ,                  intent(in)    :: depbyy                   !< strain yy
-          my_real, dimension(nel) ,                  intent(in)    :: depbxy                   !< strain xy          
-          my_real, dimension(nel) ,                  intent(inout) :: momnxx                   !< damp stress xx
-          my_real, dimension(nel) ,                  intent(inout) :: momnyy                   !< damp stress yy
-          my_real, dimension(nel) ,                  intent(inout) :: momnxy                   !< damp stress xy
-          my_real, dimension(nel) ,                  intent(in)    :: thk0                     !< density
-          my_real, dimension(nel) ,                  intent(in)    :: off                      !< off flag
-          my_real, dimension(nel) ,                  intent(in)    :: etse                     !< tangent young modulus coefficient
+          real(kind=WP), dimension(nel,nuvarv) ,           intent(inout) :: uvarv                    !< buffer for viscous variables
+          real(kind=WP),                                   intent(in)    :: timestep                 !< time step
+          real(kind=WP),                                   intent(in)    :: young                    !< young modulus
+          real(kind=WP),                                   intent(in)    :: shear_mod                !< shear modulus
+          real(kind=WP), dimension(nel) ,                  intent(in)    :: dt_inv                   !< strain xx          
+          real(kind=WP), dimension(nel) ,                  intent(in)    :: depbxx                   !< strain xx
+          real(kind=WP), dimension(nel) ,                  intent(in)    :: depbyy                   !< strain yy
+          real(kind=WP), dimension(nel) ,                  intent(in)    :: depbxy                   !< strain xy          
+          real(kind=WP), dimension(nel) ,                  intent(inout) :: momnxx                   !< damp stress xx
+          real(kind=WP), dimension(nel) ,                  intent(inout) :: momnyy                   !< damp stress yy
+          real(kind=WP), dimension(nel) ,                  intent(inout) :: momnxy                   !< damp stress xy
+          real(kind=WP), dimension(nel) ,                  intent(in)    :: thk0                     !< density
+          real(kind=WP), dimension(nel) ,                  intent(in)    :: off                      !< off flag
+          real(kind=WP), dimension(nel) ,                  intent(in)    :: etse                     !< tangent young modulus coefficient
           type(buf_damp_range_)   ,                  intent(in)    :: damp_buf                 !< damping frequency range buffer
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
           integer :: i, j, ii, offset, offset2
-          my_real :: h0(3),h(3,3),hp0,dav,fac,epbxx,epbyy,epbxy,p,p_old,thk08,epspbxx,epspbyy
-          my_real, dimension(nel) :: a2,a3,fac_nu,et
-          my_real, dimension(3)   :: aa, bb, gv, kv, beta, aak, bbk, betak, hp
-          my_real, dimension(3)   :: s,s_old
+          real(kind=WP) :: h0(3),h(3,3),hp0,dav,fac,epbxx,epbyy,epbxy,p,p_old,thk08,epspbxx,epspbyy
+          real(kind=WP), dimension(nel) :: a2,a3,fac_nu,et
+          real(kind=WP), dimension(3)   :: aa, bb, gv, kv, beta, aak, bbk, betak, hp
+          real(kind=WP), dimension(3)   :: s,s_old
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------

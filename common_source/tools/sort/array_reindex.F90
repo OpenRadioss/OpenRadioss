@@ -20,7 +20,7 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-module array_reindex_mod
+      module array_reindex_mod
       contains
 ! ======================================================================================================================
 !                                                   PROCEDURES
@@ -31,32 +31,32 @@ module array_reindex_mod
 !! \details      result will be  (/ 440 330 220 110/)
 
 
-      !||====================================================================
-      !||    integer_array_reindex      ../common_source/tools/sort/array_reindex.F90
-      !||--- called by ------------------------------------------------------
-      !||    clipping_weiler_atherton   ../common_source/tools/clipping/polygon_clipping_mod.F90
-      !||====================================================================
-          subroutine integer_array_reindex(array, index, n)
-            implicit none
+        !||====================================================================
+        !||    integer_array_reindex      ../common_source/tools/sort/array_reindex.F90
+        !||--- called by ------------------------------------------------------
+        !||    clipping_weiler_atherton   ../common_source/tools/clipping/polygon_clipping_mod.F90
+        !||====================================================================
+        subroutine integer_array_reindex(array, index, n)
+          implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
-            integer, intent(in) :: n
-            integer, intent(inout) :: array(n)
-            integer, intent(inout) :: index(n)
+          integer, intent(in) :: n
+          integer, intent(inout) :: array(n)
+          integer, intent(inout) :: index(n)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local Variables
 ! ----------------------------------------------------------------------------------------------------------------------
-            integer :: ii
-            integer :: temp_array(n)
+          integer :: ii
+          integer :: temp_array(n)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
-            temp_array(1:n)=array(1:n)
-            do ii = 1, n
-              array(ii) = temp_array(index(ii))
-            end do
-          end subroutine integer_array_reindex
+          temp_array(1:n)=array(1:n)
+          do ii = 1, n
+            array(ii) = temp_array(index(ii))
+          end do
+        end subroutine integer_array_reindex
 
 ! ======================================================================================================================
 !                                                   PROCEDURES
@@ -65,32 +65,32 @@ module array_reindex_mod
 !! \details      Example array = (/ 110.1 220.1 330.1 440.1/)
 !! \details              index = (/4 3 2 1/)
 !! \details      result will be  (/ 440.1 330.1 220.1 110.1/)
-      !||====================================================================
-      !||    real_array_reindex         ../common_source/tools/sort/array_reindex.F90
-      !||--- called by ------------------------------------------------------
-      !||    iniebcs_propergol_get_cv   ../starter/source/boundary_conditions/ebcs/iniebcs_propergol.F90
-      !||====================================================================
-          subroutine real_array_reindex(array, index, n)
-            implicit none
-#include "my_real.inc"
+        !||====================================================================
+        !||    real_array_reindex         ../common_source/tools/sort/array_reindex.F90
+        !||--- called by ------------------------------------------------------
+        !||    iniebcs_propergol_get_cv   ../starter/source/boundary_conditions/ebcs/iniebcs_propergol.F90
+        !||====================================================================
+        subroutine real_array_reindex(array, index, n)
+          use precision_mod, only: WP
+          implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
-            integer, intent(in) :: n
-            my_real, intent(inout) :: array(n)
-            integer, intent(inout) :: index(n)
+          integer, intent(in) :: n
+          real(kind=WP), intent(inout) :: array(n)
+          integer, intent(inout) :: index(n)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local Variables
 ! ----------------------------------------------------------------------------------------------------------------------
-            integer :: ii
-            my_real :: temp_array(n)
+          integer :: ii
+          real(kind=WP) :: temp_array(n)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
-            temp_array(1:n)=array(1:n)
-            do ii = 1, n
-              array(ii) = temp_array(index(ii))
-            end do
-          end subroutine real_array_reindex
+          temp_array(1:n)=array(1:n)
+          do ii = 1, n
+            array(ii) = temp_array(index(ii))
+          end do
+        end subroutine real_array_reindex
 
-end module array_reindex_mod
+      end module array_reindex_mod

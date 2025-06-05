@@ -47,45 +47,45 @@
 !-----------------------------------------------
       use constant_mod
       use matparam_def_mod
+      use precision_mod, only : WP
 !-----------------------------------------------
 !   I m p l i c i t   T y p e s
 !-----------------------------------------------
       implicit none
-#include "my_real.inc"
 #include "units_c.inc"
 !-----------------------------------------------
 !   I N P U T   A r g u m e n t s
 !-----------------------------------------------
       integer, intent(in)                     :: nel      !< Number of elements
       integer, intent(in)                     :: nuparam  !< Number of real parameters
-      my_real, dimension(nuparam), intent(in) :: uparam   !< Real parameters
+      real(kind=WP), dimension(nuparam), intent(in) :: uparam   !< Real parameters
       type(matparam_struct_) , intent(in)     :: matparam !< Material parameters data structure
-      my_real, dimension(nel), intent(inout)  :: signxx   !< Stress xx
-      my_real, dimension(nel), intent(inout)  :: signyy   !< Stress yy
-      my_real, dimension(nel), intent(inout)  :: signxy   !< Stress xy
-      my_real, dimension(nel), intent(in)     :: dpla     !< Plastic strain increment
-      my_real, dimension(nel), intent(in)     :: pla      !< Cumulated plastic strain
+      real(kind=WP), dimension(nel), intent(inout)  :: signxx   !< Stress xx
+      real(kind=WP), dimension(nel), intent(inout)  :: signyy   !< Stress yy
+      real(kind=WP), dimension(nel), intent(inout)  :: signxy   !< Stress xy
+      real(kind=WP), dimension(nel), intent(in)     :: dpla     !< Plastic strain increment
+      real(kind=WP), dimension(nel), intent(in)     :: pla      !< Cumulated plastic strain
       integer, dimension(nel), intent(inout)  :: foff     !< Integration point failure flag
-      my_real, dimension(nel), intent(inout)  :: off      !< Element failure flag
-      my_real, dimension(nel), intent(inout)  :: dfmax    !< Damage variable
-      my_real, dimension(nel), intent(inout)  :: tdele    !< Deletion time
+      real(kind=WP), dimension(nel), intent(inout)  :: off      !< Element failure flag
+      real(kind=WP), dimension(nel), intent(inout)  :: dfmax    !< Damage variable
+      real(kind=WP), dimension(nel), intent(inout)  :: tdele    !< Deletion time
       integer, intent(inout)                  :: dmg_flag !< Damage softening flag
-      my_real, dimension(nel), intent(inout)  :: dmgscl   !< Damage softening scaling factor
+      real(kind=WP), dimension(nel), intent(inout)  :: dmgscl   !< Damage softening scaling factor
       integer, intent(in)                     :: ipg      !< Gauss point number
       integer, intent(in)                     :: ply_id   !< Ply ID
       integer, intent(in)                     :: ilay     !< Layer number
       integer, intent(in)                     :: ipt      !< Integration point number
       integer, dimension(nel), intent(in)     :: ngl      !< Global element numbers
-      my_real, intent(in)                     :: time     !< Current time
+      real(kind=WP), intent(in)                     :: time     !< Current time
       integer, intent(in)                     :: igtyp    !< Property type
 !-----------------------------------------------
 !   L o c a l   V a r i a b l e s
 !-----------------------------------------------
       integer :: i,j,indx(nel),nindx
       integer :: indx2(nel),nindx2
-      my_real :: epsd,s,dc,nu,young
-      my_real :: p,svm(nel),triax(nel)
-      my_real :: rv,ye,center,radius,sig1(nel)
+      real(kind=WP) :: epsd,s,dc,nu,young
+      real(kind=WP) :: p,svm(nel),triax(nel)
+      real(kind=WP) :: rv,ye,center,radius,sig1(nel)
 !-----------------------------------------------
 !   S o u r c e   L i n e s
 !-----------------------------------------------

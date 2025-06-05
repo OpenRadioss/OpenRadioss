@@ -26,6 +26,7 @@
       !||    resol                              ../engine/source/engine/resol.F
       !||====================================================================
       module funct_python_update_elements_mod
+      implicit none
       contains
 !! \brief initialize the python elemental variables found in the python function
       !||====================================================================
@@ -47,6 +48,7 @@
       !||    multi_fvm_mod                  ../common_source/modules/ale/multi_fvm_mod.F90
       !||    names_and_titles_mod           ../common_source/modules/names_and_titles_mod.F
       !||    nodal_arrays_mod               ../engine/source/engine/node_spliting/nodal_arrays.F90
+      !||    precision_mod                  ../common_source/modules/precision_mod.F90
       !||    python_funct_mod               ../common_source/modules/python_mod.F90
       !||    python_spmd_mod                ../engine/source/mpi/python_spmd_mod.F90
       !||    stack_mod                      ../engine/share/modules/stack_mod.F
@@ -71,6 +73,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                     Module
 ! ----------------------------------------------------------------------------------------------------------------------
+          use precision_mod, only : WP
           use python_funct_mod, only : python_
           use python_spmd_mod, only : python_element_sync
           use elbufdef_mod, only : ELBUF_STRUCT_
@@ -90,7 +93,6 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                     include
 ! ----------------------------------------------------------------------------------------------------------------------
-#include "my_real.inc"
 #include "mvsiz_p.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                     Arguments
@@ -125,14 +127,14 @@
           integer, intent(in) :: n0phas !< law 51 phases
           integer, intent(in) :: nvphas !< law 51 phases
           integer, intent(in) :: itherm
-          TYPE(nodal_arrays_) :: nodes
-          my_real, intent(inout) :: w(3,numnod) !< for ALE?
-          my_real, intent(inout) :: thke(sthke) !< thickness of shell elements ?
-          my_real, intent(inout) :: ehour(seani) !< working array ?
-          my_real, intent(inout) :: geo(npropg,numgeo) !< property array
-          my_real, intent(inout) :: pm(npropm,nummat) !< property array
-          my_real, intent(inout) :: err_thk_sh4(numelc) !< ?
-          my_real, intent(inout) :: err_thk_sh3(numeltg) !< ?
+          TYPE(nodal_arrays_), intent(inout) :: nodes
+          real(kind=WP), intent(inout) :: w(3,numnod) !< for ALE?
+          real(kind=WP), intent(inout) :: thke(sthke) !< thickness of shell elements ?
+          real(kind=WP), intent(inout) :: ehour(seani) !< working array ?
+          real(kind=WP), intent(inout) :: geo(npropg,numgeo) !< property array
+          real(kind=WP), intent(inout) :: pm(npropm,nummat) !< property array
+          real(kind=WP), intent(inout) :: err_thk_sh4(numelc) !< ?
+          real(kind=WP), intent(inout) :: err_thk_sh3(numeltg) !< ?
           integer, intent(inout) :: iparg(nparg,ngroup) !< element group properties
           integer, intent(inout) :: ixc(nixc,numelc) !< shell connectivity array
           integer, intent(inout) :: ixtg(nixtg,numeltg) !< triangle connectivity array
@@ -151,15 +153,15 @@
           type(ELBUF_STRUCT_), dimension(ngroup), intent(inout), target :: elbuf_tab !< element buffer structure
           type(STACK_PLY), intent(inout) :: stack !< tack structure
           type(MULTI_FVM_STRUCT), intent(in) :: multi_fvm !< finite volume structure
-          my_real, intent(in) :: bufmat(*) !< buffer material ?
+          real(kind=WP), intent(in) :: bufmat(*) !< buffer material ?
           type(T_ALE_CONNECTIVITY), intent(in) :: ale_connect !< ALE connectivity structure
           type(MATPARAM_STRUCT_), dimension(nummat), intent(in) :: mat_param !< material parameters
           type(FANI_CELL_), intent(in) :: fani_cell !< ALE cell animation structure
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-          integer ii,j,ng,i
-          my_real, dimension(:), allocatable :: scalar_results
+          integer :: ii,j,ng,i
+          real(kind=WP), dimension(:), allocatable :: scalar_results
           integer, dimension(:), allocatable :: id_elem
           integer, dimension(:), allocatable :: ity_elem
           integer, dimension(:), allocatable :: is_written
@@ -276,8 +278,8 @@
             deallocate(h3d_part)
           endif
           return
-        end subroutine
-      end module
+        end subroutine funct_python_update_elements
+      end module funct_python_update_elements_mod
 
 
 

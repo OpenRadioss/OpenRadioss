@@ -64,78 +64,78 @@
           use matparam_def_mod 
           use constant_mod      
           use table_mat_vinterp_mod
+          use precision_mod, only : WP
 !-----------------------------------------------
 !   I m p l i c i t   T y p e s
 !-----------------------------------------------
           implicit none 
-#include  "my_real.inc"
 #include  "units_c.inc"
 !-----------------------------------------------
 !   D u m m y   A r g u m e n t s
 !-----------------------------------------------
           integer, intent(in)                    :: nel        !< number of elements in the group
           integer, intent(in)                    :: nuvar      !< number of user variables
-          my_real, dimension(nel,nuvar), intent(inout) :: uvar !< user variables
+          real(kind=WP), dimension(nel,nuvar), intent(inout) :: uvar !< user variables
           type(matparam_struct_), intent(in)     :: matparam   !< material parameters data
-          my_real, intent(in)                    :: timestep   !< time step
-          my_real, dimension(nel), intent(inout) :: et         !< coefficient for hourglass
-          my_real, dimension(nel), intent(in)    :: rho0       !< material initial density
-          my_real, dimension(nel), intent(inout) :: sigy       !< yield stress
-          my_real, dimension(nel), intent(inout) :: ssp        !< sound speed
+          real(kind=WP), intent(in)                    :: timestep   !< time step
+          real(kind=WP), dimension(nel), intent(inout) :: et         !< coefficient for hourglass
+          real(kind=WP), dimension(nel), intent(in)    :: rho0       !< material initial density
+          real(kind=WP), dimension(nel), intent(inout) :: sigy       !< yield stress
+          real(kind=WP), dimension(nel), intent(inout) :: ssp        !< sound speed
           integer, intent(in)                    :: nvartmp    !< number of temporary variables
           integer, dimension(nel,nvartmp), intent(inout) :: vartmp !< temporary variables
           integer, intent(in)                    :: mvsiz      !< maximum size of the arrays
-          my_real, dimension(nel), intent(in)    :: depsxx     !< strain increment xx 
-          my_real, dimension(nel), intent(in)    :: depsyy     !< strain increment yy
-          my_real, dimension(nel), intent(in)    :: depszz     !< strain increment zz 
-          my_real, dimension(nel), intent(in)    :: depsxy     !< strain increment xy 
-          my_real, dimension(nel), intent(in)    :: depsyz     !< strain increment yz 
-          my_real, dimension(nel), intent(in)    :: depszx     !< strain increment zx 
-          my_real, dimension(nel), intent(in)    :: epsxx      !< strain xx
-          my_real, dimension(nel), intent(in)    :: epsyy      !< strain yy
-          my_real, dimension(nel), intent(in)    :: epszz      !< strain zz
-          my_real, dimension(nel), intent(in)    :: epsxy      !< strain xy
-          my_real, dimension(nel), intent(in)    :: epsyz      !< strain yz
-          my_real, dimension(nel), intent(in)    :: epszx      !< strain zx
-          my_real, dimension(nel), intent(in)    :: epspxx     !< strain rate xx
-          my_real, dimension(nel), intent(in)    :: epspyy     !< strain rate yy
-          my_real, dimension(nel), intent(in)    :: epspzz     !< strain rate zz
-          my_real, dimension(nel), intent(in)    :: epspxy     !< strain rate xy
-          my_real, dimension(nel), intent(in)    :: epspyz     !< strain rate yz
-          my_real, dimension(nel), intent(in)    :: epspzx     !< strain rate zx
-          my_real, dimension(nel), intent(in)    :: sigoxx     !< initial stress xx 
-          my_real, dimension(nel), intent(in)    :: sigoyy     !< initial stress yy
-          my_real, dimension(nel), intent(in)    :: sigozz     !< initial stress zz 
-          my_real, dimension(nel), intent(in)    :: sigoxy     !< initial stress xy 
-          my_real, dimension(nel), intent(in)    :: sigoyz     !< initial stress yz 
-          my_real, dimension(nel), intent(in)    :: sigozx     !< initial stress zx 
-          my_real, dimension(nel), intent(inout) :: signxx     !< new stress xx 
-          my_real, dimension(nel), intent(inout) :: signyy     !< new stress yy
-          my_real, dimension(nel), intent(inout) :: signzz     !< new stress zz 
-          my_real, dimension(nel), intent(inout) :: signxy     !< new stress xy 
-          my_real, dimension(nel), intent(inout) :: signyz     !< new stress yz 
-          my_real, dimension(nel), intent(inout) :: signzx     !< new stress zx 
-          my_real, dimension(nel), intent(inout) :: sigvxx     !< viscous stress xx
-          my_real, dimension(nel), intent(inout) :: sigvyy     !< viscous stress yy
-          my_real, dimension(nel), intent(inout) :: sigvzz     !< viscous stress zz
-          my_real, dimension(nel), intent(inout) :: sigvxy     !< viscous stress xy
-          my_real, dimension(nel), intent(inout) :: sigvyz     !< viscous stress yz
-          my_real, dimension(nel), intent(inout) :: sigvzx     !< viscous stress zx
-          my_real, dimension(nel), intent(in)    :: aldt       !< element characteristic length
-          my_real, dimension(nel), intent(in)    :: rho        !< material current density
+          real(kind=WP), dimension(nel), intent(in)    :: depsxx     !< strain increment xx 
+          real(kind=WP), dimension(nel), intent(in)    :: depsyy     !< strain increment yy
+          real(kind=WP), dimension(nel), intent(in)    :: depszz     !< strain increment zz 
+          real(kind=WP), dimension(nel), intent(in)    :: depsxy     !< strain increment xy 
+          real(kind=WP), dimension(nel), intent(in)    :: depsyz     !< strain increment yz 
+          real(kind=WP), dimension(nel), intent(in)    :: depszx     !< strain increment zx 
+          real(kind=WP), dimension(nel), intent(in)    :: epsxx      !< strain xx
+          real(kind=WP), dimension(nel), intent(in)    :: epsyy      !< strain yy
+          real(kind=WP), dimension(nel), intent(in)    :: epszz      !< strain zz
+          real(kind=WP), dimension(nel), intent(in)    :: epsxy      !< strain xy
+          real(kind=WP), dimension(nel), intent(in)    :: epsyz      !< strain yz
+          real(kind=WP), dimension(nel), intent(in)    :: epszx      !< strain zx
+          real(kind=WP), dimension(nel), intent(in)    :: epspxx     !< strain rate xx
+          real(kind=WP), dimension(nel), intent(in)    :: epspyy     !< strain rate yy
+          real(kind=WP), dimension(nel), intent(in)    :: epspzz     !< strain rate zz
+          real(kind=WP), dimension(nel), intent(in)    :: epspxy     !< strain rate xy
+          real(kind=WP), dimension(nel), intent(in)    :: epspyz     !< strain rate yz
+          real(kind=WP), dimension(nel), intent(in)    :: epspzx     !< strain rate zx
+          real(kind=WP), dimension(nel), intent(in)    :: sigoxx     !< initial stress xx 
+          real(kind=WP), dimension(nel), intent(in)    :: sigoyy     !< initial stress yy
+          real(kind=WP), dimension(nel), intent(in)    :: sigozz     !< initial stress zz 
+          real(kind=WP), dimension(nel), intent(in)    :: sigoxy     !< initial stress xy 
+          real(kind=WP), dimension(nel), intent(in)    :: sigoyz     !< initial stress yz 
+          real(kind=WP), dimension(nel), intent(in)    :: sigozx     !< initial stress zx 
+          real(kind=WP), dimension(nel), intent(inout) :: signxx     !< new stress xx 
+          real(kind=WP), dimension(nel), intent(inout) :: signyy     !< new stress yy
+          real(kind=WP), dimension(nel), intent(inout) :: signzz     !< new stress zz 
+          real(kind=WP), dimension(nel), intent(inout) :: signxy     !< new stress xy 
+          real(kind=WP), dimension(nel), intent(inout) :: signyz     !< new stress yz 
+          real(kind=WP), dimension(nel), intent(inout) :: signzx     !< new stress zx 
+          real(kind=WP), dimension(nel), intent(inout) :: sigvxx     !< viscous stress xx
+          real(kind=WP), dimension(nel), intent(inout) :: sigvyy     !< viscous stress yy
+          real(kind=WP), dimension(nel), intent(inout) :: sigvzz     !< viscous stress zz
+          real(kind=WP), dimension(nel), intent(inout) :: sigvxy     !< viscous stress xy
+          real(kind=WP), dimension(nel), intent(inout) :: sigvyz     !< viscous stress yz
+          real(kind=WP), dimension(nel), intent(inout) :: sigvzx     !< viscous stress zx
+          real(kind=WP), dimension(nel), intent(in)    :: aldt       !< element characteristic length
+          real(kind=WP), dimension(nel), intent(in)    :: rho        !< material current density
           integer, intent(in)                    :: iresp      !< precision flag
-          my_real, dimension(nel), intent(inout) :: plas       !< effective volumetric true strain
-          my_real, dimension(nel), intent(inout) :: epsd       !< effective volumetric strain rate
+          real(kind=WP), dimension(nel), intent(inout) :: plas       !< effective volumetric true strain
+          real(kind=WP), dimension(nel), intent(inout) :: epsd       !< effective volumetric strain rate
 !-----------------------------------------------
 !  L o c a l   V a r i a b l e s
 !-----------------------------------------------
           integer :: i,j,ncycle,nrs,nindx,indx(nel),iter,ndim
-          my_real :: young,nu,g,bulk,cii,cij,tsc,damp,srclmt,alpha,ldav,a
-          my_real, dimension(nel) :: dgamdt,gama,dsdgam,le,seq,epst
-          my_real, dimension(mvsiz,6) :: sig,eps
-          my_real, dimension(mvsiz,3) :: sigp,epsp
-          my_real, dimension(mvsiz,3,3) :: dirp
-          my_real, dimension(nel,2) :: xvec
+          real(kind=WP) :: young,nu,g,bulk,cii,cij,tsc,damp,srclmt,alpha,ldav,a
+          real(kind=WP), dimension(nel) :: dgamdt,gama,dsdgam,le,seq,epst
+          real(kind=WP), dimension(mvsiz,6) :: sig,eps
+          real(kind=WP), dimension(mvsiz,3) :: sigp,epsp
+          real(kind=WP), dimension(mvsiz,3,3) :: dirp
+          real(kind=WP), dimension(nel,2) :: xvec
 !
           !=====================================================================
           !< - Initialisation of computation on time step

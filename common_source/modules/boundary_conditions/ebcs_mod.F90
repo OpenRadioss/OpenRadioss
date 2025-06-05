@@ -91,7 +91,6 @@
       MODULE EBCS_MOD
         USE MULTI_FVM_MOD
         USE NAMES_AND_TITLES_MOD , only : nchartitle
-#include "my_real.inc"
 
 
 !     -----------------
@@ -129,23 +128,23 @@
 
 !     work tables
           logical :: has_la = .false.
-          my_real, dimension(:, :), allocatable :: la
+          real(kind=WP), dimension(:, :), allocatable :: la
           logical :: has_p0 = .false.
-          my_real, dimension(:), allocatable :: p0
+          real(kind=WP), dimension(:), allocatable :: p0
           logical :: has_dp0 = .false.
-          my_real, dimension(:), allocatable :: dp0
+          real(kind=WP), dimension(:), allocatable :: dp0
           logical :: has_ro0 = .false.
-          my_real, dimension(:), allocatable :: ro0
+          real(kind=WP), dimension(:), allocatable :: ro0
           logical :: has_en0 = .false.
-          my_real, dimension(:), allocatable :: en0
+          real(kind=WP), dimension(:), allocatable :: en0
           logical :: has_vold = .false.
-          my_real, dimension(:), allocatable :: vold
+          real(kind=WP), dimension(:), allocatable :: vold
           logical :: has_pold = .false.
-          my_real, dimension(:), allocatable :: pold
+          real(kind=WP), dimension(:), allocatable :: pold
           logical :: has_v0 = .false.
-          my_real, dimension(:, :), allocatable :: v0
+          real(kind=WP), dimension(:, :), allocatable :: v0
           logical :: has_reso = .false.
-          my_real, dimension(:, :), allocatable :: reso
+          real(kind=WP), dimension(:, :), allocatable :: reso
 
         contains
 
@@ -159,7 +158,7 @@
 !     -------------------
         type, public, extends(t_ebcs) :: t_ebcs_pres
           integer :: ipres = 0, irho = 0, iener = 0, ivx = 0, ivy = 0, ivz = 0
-          my_real :: c = 0, pres = 0, rho = 0, lcar = 0, r1 = 0, r2 = 0,&
+          real(kind=WP) :: c = 0, pres = 0, rho = 0, lcar = 0, r1 = 0, r2 = 0,&
           &ener = 0, vx = 0, vy = 0, vz = 0
 
         contains
@@ -172,8 +171,8 @@
 !     ---------------------
         type, public, extends(t_ebcs) :: t_ebcs_valvin
           integer :: ipres = 0, irho = 0, iener = 0
-          my_real :: c = 0, ener = 0, rho = 0, pres = 0
-          my_real :: lcar = 0, r1 = 0, r2 = 0
+          real(kind=WP) :: c = 0, ener = 0, rho = 0, pres = 0
+          real(kind=WP) :: lcar = 0, r1 = 0, r2 = 0
 
         contains
 
@@ -185,8 +184,8 @@
 !     ----------------------
         type, public, extends(t_ebcs) :: t_ebcs_valvout
           integer :: ipres = 0, irho = 0, iener = 0
-          my_real :: c = 0, ener = 0, rho = 0, pres = 0
-          my_real :: lcar = 0, r1 = 0, r2 = 0
+          real(kind=WP) :: c = 0, ener = 0, rho = 0, pres = 0
+          real(kind=WP) :: lcar = 0, r1 = 0, r2 = 0
 
         contains
 
@@ -198,8 +197,8 @@
 !     ---------------------
         type, public, extends(t_ebcs) :: t_ebcs_gradp0
           integer :: ipres = 0, irho = 0, iener = 0
-          my_real :: c = 0, ener = 0, rho = 0, pres = 0
-          my_real :: lcar = 0, r1 = 0, r2 = 0
+          real(kind=WP) :: c = 0, ener = 0, rho = 0, pres = 0
+          real(kind=WP) :: lcar = 0, r1 = 0, r2 = 0
 
         contains
 
@@ -211,8 +210,8 @@
 !     ------------------
         type, public, extends(t_ebcs) :: t_ebcs_vel
           integer :: ivx = 0, ivy = 0, ivz = 0, irho = 0, iener = 0
-          my_real :: c = 0, ener = 0, rho = 0, vx = 0, vy = 0, vz = 0
-          my_real :: lcar = 0, r1 = 0, r2 = 0
+          real(kind=WP) :: c = 0, ener = 0, rho = 0, vx = 0, vy = 0, vz = 0
+          real(kind=WP) :: lcar = 0, r1 = 0, r2 = 0
 
         contains
 
@@ -224,8 +223,8 @@
 !     --------------------
         type, public, extends(t_ebcs) :: t_ebcs_normv
           integer :: ivimp = 0, irho = 0, iener = 0
-          my_real :: c = 0, ener = 0, rho = 0, vimp = 0
-          my_real :: lcar = 0, r1 = 0, r2 = 0
+          real(kind=WP) :: c = 0, ener = 0, rho = 0, vimp = 0
+          real(kind=WP) :: lcar = 0, r1 = 0, r2 = 0
 
         contains
 
@@ -236,7 +235,7 @@
 !     type = 6 /EBCS/INIP
 !     -------------------
         type, public, extends(t_ebcs) :: t_ebcs_inip
-          my_real :: rho = 0, c = 0, lcar = 0
+          real(kind=WP) :: rho = 0, c = 0, lcar = 0
 
         contains
 
@@ -247,7 +246,7 @@
 !     type = 7 /EBCS/INIV
 !     -------------------
         type, public, extends(t_ebcs) :: t_ebcs_iniv
-          my_real :: rho = 0, c = 0, lcar = 0
+          real(kind=WP) :: rho = 0, c = 0, lcar = 0
 
         contains
 
@@ -292,8 +291,8 @@
 !     ----------------------
         type, public, extends(t_ebcs) :: t_ebcs_nrf
           integer :: nbmat=21
-          my_real :: tcar_p = 0., tcar_vf = 1E20
-          !my_real, dimension(:,:), allocatable :: phase_alpha
+          real(kind=WP) :: tcar_p = 0., tcar_vf = 1E20
+          !real(kind=WP), dimension(:,:), allocatable :: phase_alpha
           type(fvm_inlet_data_struct) :: fvm_inlet_data
 
         contains
@@ -306,9 +305,9 @@
 !     ----------------------
       type, public, extends(t_ebcs) :: t_ebcs_propergol
       integer :: sensor_id=0, submat_id=1
-      my_real :: a = 0., n = 0., q = 0., rho0s=0.
+      real(kind=WP) :: a = 0., n = 0., q = 0., rho0s=0.
       integer :: ffunc_id=0, gfunc_id=0, hfunc_id=0
-      my_real :: fscaleX=1.0, fscaleY=1.0, gscaleX=1.0, gscaleY=0., hscaleX=1.0, hscaleY=1.0
+      real(kind=WP) :: fscaleX=1.0, fscaleY=1.0, gscaleX=1.0, gscaleY=0., hscaleX=1.0, hscaleY=1.0
       type(fvm_inlet_data_struct) :: fvm_inlet_data
       contains
       procedure, pass :: write_data => write_data_propergol
@@ -980,7 +979,7 @@
           class (t_ebcs_pres), intent(inout) :: this
           integer, intent(inout) :: leni, lenr
           integer, dimension(6) :: integer_data
-          my_real, dimension(10) :: real_data
+          real(kind=WP), dimension(10) :: real_data
 
           integer_data(1) = this%ipres
           integer_data(2) = this%irho
@@ -1016,7 +1015,7 @@
           class (t_ebcs_pres), intent(inout) :: this
 
           integer, dimension(6) :: integer_data
-          my_real, dimension(10) :: real_data
+          real(kind=WP), dimension(10) :: real_data
 
           call read_i_array_c(integer_data, 6)
           this%ipres =integer_data(1)
@@ -1053,7 +1052,7 @@
           integer, intent(inout) :: leni, lenr
 
           integer, dimension(3) :: integer_data
-          my_real, dimension(7) :: real_data
+          real(kind=WP), dimension(7) :: real_data
 
           integer_data(1) = this%ipres
           integer_data(2) = this%irho
@@ -1084,7 +1083,7 @@
           class (t_ebcs_valvin), intent(inout) :: this
 
           integer, dimension(3) :: integer_data
-          my_real, dimension(7) :: real_data
+          real(kind=WP), dimension(7) :: real_data
 
           call read_i_array_c(integer_data, 3)
           this%ipres =integer_data(1)
@@ -1115,7 +1114,7 @@
           integer, intent(inout) :: leni, lenr
 
           integer, dimension(3) :: integer_data
-          my_real, dimension(7) :: real_data
+          real(kind=WP), dimension(7) :: real_data
 
           integer_data(1) = this%ipres
           integer_data(2) = this%irho
@@ -1146,7 +1145,7 @@
           class (t_ebcs_valvout), intent(inout) :: this
 
           integer, dimension(3) :: integer_data
-          my_real, dimension(7) :: real_data
+          real(kind=WP), dimension(7) :: real_data
 
           call read_i_array_c(integer_data, 3)
           this%ipres =integer_data(1)
@@ -1177,7 +1176,7 @@
           integer, intent(inout) :: leni, lenr
 
           integer, dimension(3) :: integer_data
-          my_real, dimension(7) :: real_data
+          real(kind=WP), dimension(7) :: real_data
 
           integer_data(1) = this%ipres
           integer_data(2) = this%irho
@@ -1208,7 +1207,7 @@
           class (t_ebcs_gradp0), intent(inout) :: this
 
           integer, dimension(3) :: integer_data
-          my_real, dimension(7) :: real_data
+          real(kind=WP), dimension(7) :: real_data
 
           call read_i_array_c(integer_data, 3)
           this%ipres =integer_data(1)
@@ -1239,7 +1238,7 @@
           integer, intent(inout) :: leni, lenr
 
           integer, dimension(5) :: integer_data
-          my_real, dimension(9) :: real_data
+          real(kind=WP), dimension(9) :: real_data
 
           integer_data(1) = this%ivx
           integer_data(2) = this%ivy
@@ -1274,7 +1273,7 @@
           class (t_ebcs_vel), intent(inout) :: this
 
           integer, dimension(5) :: integer_data
-          my_real, dimension(9) :: real_data
+          real(kind=WP), dimension(9) :: real_data
 
           call read_i_array_c(integer_data, 5)
           this%ivx = integer_data(1)
@@ -1309,7 +1308,7 @@
           integer, intent(inout) :: leni, lenr
 
           integer, dimension(3) :: integer_data
-          my_real, dimension(7) :: real_data
+          real(kind=WP), dimension(7) :: real_data
 
           integer_data(1) = this%ivimp
           integer_data(2) = this%irho
@@ -1340,7 +1339,7 @@
           class (t_ebcs_normv), intent(inout) :: this
 
           integer, dimension(3) :: integer_data
-          my_real, dimension(7) :: real_data
+          real(kind=WP), dimension(7) :: real_data
 
           call read_i_array_c(integer_data, 3)
           this%ivimp = integer_data(1)
@@ -1370,7 +1369,7 @@
           class (t_ebcs_inip), intent(inout) :: this
           integer, intent(inout) :: leni, lenr
 
-          my_real, dimension(3) :: real_data
+          real(kind=WP), dimension(3) :: real_data
 
           real_data(1) = this%rho
           real_data(2) = this%c
@@ -1389,7 +1388,7 @@
           implicit none
           class (t_ebcs_inip), intent(inout) :: this
 
-          my_real, dimension(3) :: real_data
+          real(kind=WP), dimension(3) :: real_data
 
           call read_db_array(real_data, 3)
           this%rho = real_data(1)
@@ -1410,7 +1409,7 @@
           class (t_ebcs_iniv), intent(inout) :: this
           integer, intent(inout) :: leni, lenr
 
-          my_real, dimension(3) :: real_data
+          real(kind=WP), dimension(3) :: real_data
 
           real_data(1) = this%rho
           real_data(2) = this%c
@@ -1429,7 +1428,7 @@
           implicit none
           class (t_ebcs_iniv), intent(inout) :: this
 
-          my_real, dimension(3) :: real_data
+          real(kind=WP), dimension(3) :: real_data
 
           call read_db_array(real_data, 3)
           this%rho = real_data(1)
@@ -1608,7 +1607,7 @@
           class (t_ebcs_nrf), intent(inout) :: this
           integer, intent(inout) :: leni, lenr
 
-          my_real, dimension(2) :: real_data
+          real(kind=WP), dimension(2) :: real_data
 
       real_data(1) = this%tcar_p
       real_data(2) = this%tcar_vf
@@ -1687,7 +1686,7 @@
       class (t_ebcs_propergol), intent(inout) :: this
       integer, intent(inout) :: leni, lenr
       integer, dimension(5) :: integer_data
-      my_real, dimension(10) :: real_data
+      real(kind=WP), dimension(10) :: real_data
 
       integer_data(1) = this%sensor_id
       integer_data(2) = this%ffunc_id

@@ -26,39 +26,40 @@
       !||    updmat           ../starter/source/materials/updmat.F
       !||====================================================================
       module law163_upd_mod
+        implicit none
       contains
 !! \brief update material law 190
-      !||====================================================================
-      !||    law163_upd         ../starter/source/materials/mat/mat163/law163_upd.F90
-      !||--- called by ------------------------------------------------------
-      !||    updmat             ../starter/source/materials/updmat.F
-      !||--- calls      -----------------------------------------------------
-      !||    table_slope        ../starter/source/materials/tools/table_slope.F
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+        !||====================================================================
+        !||    law163_upd         ../starter/source/materials/mat/mat163/law163_upd.F90
+        !||--- called by ------------------------------------------------------
+        !||    updmat             ../starter/source/materials/updmat.F
+        !||--- calls      -----------------------------------------------------
+        !||    table_slope        ../starter/source/materials/tools/table_slope.F
+        !||--- uses       -----------------------------------------------------
+        !||====================================================================
         subroutine law163_upd(  matparam ,pm , npropm   )
 ! ----------------------------------------------------------------------------------------------------------------------
 !   M o d u l e s
 ! ----------------------------------------------------------------------------------------------------------------------
           use constant_mod
           use matparam_def_mod
+          use precision_mod, only : WP
 !-----------------------------------------------
 !   I m p l i c i t   T y p e s
 !-----------------------------------------------
           implicit none
-#include "my_real.inc"
 !-----------------------------------------------
 !   D u m m y   a r g u m e n t s
 !-----------------------------------------------
           type(matparam_struct_), target :: matparam
           integer, intent(in) :: npropm
-          my_real, dimension(npropm), intent(inout) :: pm
+          real(kind=WP), dimension(npropm), intent(inout) :: pm
 !-----------------------------------------------
 !   L o c a l   V a r i a b l e s
 !-----------------------------------------------
-          my_real :: nu,g,bulk,lam
-          my_real :: youngmin,youngini,youngmax
-          my_real :: xmax
+          real(kind=WP) :: nu,g,bulk,lam
+          real(kind=WP) :: youngmin,youngini,youngmax
+          real(kind=WP) :: xmax
 !--------------------------------------------------------------------------
 !     copy global functions/tables to matparam data structure
 !--------------------------------------------------------------------------
@@ -80,7 +81,7 @@
           g = half*youngmax/(one + nu)
           matparam%shear = g
           !< Stiffness matrix components
-          lam = youngmax*nu / (one+nu) / (one - two*nu) 
+          lam = youngmax*nu / (one+nu) / (one - two*nu)
           matparam%uparam(1) = lam + g*two
           matparam%uparam(2) = lam
           !< Update PM array
@@ -89,6 +90,6 @@
           pm(24) = youngmax
           pm(32) = bulk
 !
-        end
-      end module
+        end subroutine law163_upd
+      end module law163_upd_mod
 

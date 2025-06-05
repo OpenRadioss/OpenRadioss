@@ -64,7 +64,6 @@
 !c   i m p l i c i t   t y p e 
 !c-----------------------------------------------    
       implicit none
-#include      "my_real.inc" 
 #include      "units_c.inc" 
 !c-----------------------------------------------
 !c   d u m m y   a r g u m e n t s
@@ -75,22 +74,22 @@
       type(ttable), dimension(ntable), intent(inout)   :: table  ! table data
       integer                     ,intent(in)     :: ntablf      ! number of table functions 
       integer, dimension(ntablf)  ,intent(in)     :: itablf      ! table function identifiers 
-      my_real                     ,intent(in)     :: time        ! current time 
-      my_real, dimension(nuparam) ,intent(in)     :: uparam      ! user parameters
+      real(kind=WP)                     ,intent(in)     :: time        ! current time 
+      real(kind=WP), dimension(nuparam) ,intent(in)     :: uparam      ! user parameters
       integer, dimension(nel)     ,intent(in)     :: ngl         ! element identifiers 
-      my_real, dimension(nel)     ,intent(in)     :: aldt        ! element size
-      my_real, dimension(nel)     ,intent(in)     :: dpla        ! increment of plastic strain 
-      my_real, dimension(nel)     ,intent(in)     :: epsp        ! strain rate (confirmed by the tensstrain_criterion in solid element and beam3 element) 
-      my_real, dimension(nel, nuvar), intent(inout)    :: uvar   ! user variables
-      my_real, dimension(nel)     ,intent(inout)  :: f1          ! force in direction x 
-      my_real                     ,intent(in)     :: area        ! cross section area
-      my_real, dimension(nel)     ,intent(in)     :: pla         ! the plastic strain of the current element
-      my_real, dimension(nel)     ,intent(in)     :: sigy        ! yield stress
-      my_real, dimension(nel)     ,intent(inout)  :: off         ! offset 
-      my_real, dimension(nel)     ,intent(inout)  :: dfmax       ! maximum damage
-      my_real, dimension(nel)     ,intent(inout)  :: tdele       !
-      my_real, dimension(nel)     ,intent(inout)  :: damini      !
-      my_real, dimension(nel)     ,intent(inout)  :: dmgscl
+      real(kind=WP), dimension(nel)     ,intent(in)     :: aldt        ! element size
+      real(kind=WP), dimension(nel)     ,intent(in)     :: dpla        ! increment of plastic strain 
+      real(kind=WP), dimension(nel)     ,intent(in)     :: epsp        ! strain rate (confirmed by the tensstrain_criterion in solid element and beam3 element) 
+      real(kind=WP), dimension(nel, nuvar), intent(inout)    :: uvar   ! user variables
+      real(kind=WP), dimension(nel)     ,intent(inout)  :: f1          ! force in direction x 
+      real(kind=WP)                     ,intent(in)     :: area        ! cross section area
+      real(kind=WP), dimension(nel)     ,intent(in)     :: pla         ! the plastic strain of the current element
+      real(kind=WP), dimension(nel)     ,intent(in)     :: sigy        ! yield stress
+      real(kind=WP), dimension(nel)     ,intent(inout)  :: off         ! offset 
+      real(kind=WP), dimension(nel)     ,intent(inout)  :: dfmax       ! maximum damage
+      real(kind=WP), dimension(nel)     ,intent(inout)  :: tdele       !
+      real(kind=WP), dimension(nel)     ,intent(inout)  :: damini      !
+      real(kind=WP), dimension(nel)     ,intent(inout)  :: dmgscl
       integer ,intent(in) :: ntable
 !c-----------------------------------------------
 !c   l o c a l   v a r i a b l e s
@@ -100,16 +99,16 @@
     integer, dimension(nel, 2) :: ipos
     integer, dimension(:), allocatable :: initype, evotype, evoshap, comptyp, tab_id, &
                              tab_el, fcrit
-    my_real, dimension(:), allocatable :: sr_ref, fscale, ini_p1, el_ref, elscal, disp, &
+    real(kind=WP), dimension(:), allocatable :: sr_ref, fscale, ini_p1, el_ref, elscal, disp, &
                              ener, alpha2
-    my_real :: lambda, fac, df, sxx, syy, szz, plas_disp, r_inter, yld0, center, &
+    real(kind=WP) :: lambda, fac, df, sxx, syy, szz, plas_disp, r_inter, yld0, center, &
                devsp1, devsp2, radius, sigp1, sigp2
-    my_real, dimension(nel) :: l0, triax, epsf, depsf, sizefac, epsmod, p, svm, &
+    real(kind=WP), dimension(nel) :: l0, triax, epsf, depsf, sizefac, epsmod, p, svm, &
                                dmgmax, dmgmul, maxshear, sigpmaj, alpha, dsize
-    my_real, dimension(nel, 3, 3) :: sigtens, vect_pr
-    my_real, dimension(nel, 3) :: sig_pr
-    my_real, dimension(nel, 2) :: xvec
-    my_real, dimension(:,:), allocatable :: dmgini, dmgevo
+    real(kind=WP), dimension(nel, 3, 3) :: sigtens, vect_pr
+    real(kind=WP), dimension(nel, 3) :: sig_pr
+    real(kind=WP), dimension(nel, 2) :: xvec
+    real(kind=WP), dimension(:,:), allocatable :: dmgini, dmgevo
 !c=======================================================================
 !c=======================================================================
      !c user variables

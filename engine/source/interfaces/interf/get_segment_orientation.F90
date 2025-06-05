@@ -54,6 +54,7 @@
           use intbufdef_mod , only : intbuf_struct_
           use get_segment_normal_mod , only : get_segment_normal
           use shooting_node_mod , only : shooting_node_type
+          use precision_mod, only : WP
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -61,7 +62,6 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   included files
 ! ----------------------------------------------------------------------------------------------------------------------
-#include "my_real.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   arguments
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -78,7 +78,7 @@
           integer, dimension(nixs,numels), intent(in) :: ixs !< solid element data
           integer, dimension(nixc,numelc), intent(in) :: ixc !< shell element data
           integer, dimension(nixtg,numeltg), intent(in) :: ixtg !< shell3n element data
-          my_real, dimension(3,numnod), intent(in) :: x !< nodal position
+          real(kind=WP), dimension(3,numnod), intent(in) :: x !< nodal position
           type(intbuf_struct_), intent(inout) :: intbuf_tab    !< interface data 
           type(shooting_node_type), intent(inout) :: shoot_struct !< structure for shooting node algo
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -90,10 +90,10 @@
           integer :: node_number,real_nb_node,error
           integer, dimension(4) :: segment_node_id
           integer, dimension(8) :: list,node_id_list,perm_list
-          my_real :: dds,ratio
-          my_real :: xc,yc,zc
-          my_real, dimension(3) :: segment_position ! coordinates of the segment barycentre
-          my_real, dimension(3) :: normal ! normal of the segment
+          real(kind=WP) :: dds,ratio
+          real(kind=WP) :: xc,yc,zc
+          real(kind=WP), dimension(3) :: segment_position ! coordinates of the segment barycentre
+          real(kind=WP), dimension(3) :: normal ! normal of the segment
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   external functions
 ! ----------------------------------------------------------------------------------------------------------------------

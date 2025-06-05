@@ -43,22 +43,19 @@
       !||    defaults_mod       ../starter/source/modules/defaults_mod.F90
       !||====================================================================
         subroutine shell_offset_ini(                                          &
-                       ngroup,    nparg,      iparg,        npropg,           &
-                       numgeo,      geo,     numelc,       numeltg,           &
-                       npropgi,    igeo,     itagsh,     elbuf_tab,           &
-                       defaults_shell)
+          ngroup,    nparg,      iparg,        npropg,           &
+          numgeo,      geo,     numelc,       numeltg,           &
+          npropgi,    igeo,     itagsh,     elbuf_tab,           &
+          defaults_shell)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
           use elbufdef_mod
           use constant_mod, only : zero,half
           use defaults_mod, only : shell_defaults_
+          use precision_mod, only : WP
 ! ----------------------------------------------------------------------------------------------------------------------
           implicit none
-! ----------------------------------------------------------------------------------------------------------------------
-!                                                   Included files
-! ----------------------------------------------------------------------------------------------------------------------
-#include "my_real.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -71,14 +68,14 @@
           integer, intent (in   )                          :: numeltg          !< number shell 3n element
           integer, intent (in   ) ,dimension(nparg,ngroup) :: iparg            !< elem group array
           integer, intent (inout),dimension(npropgi,numgeo):: igeo             !< property array
-          my_real, intent (inout),dimension(npropg,numgeo) :: geo              !< property array
+          real(kind=WP), intent (inout),dimension(npropg,numgeo) :: geo              !< property array
           integer, intent (in   ),dimension(numelc+numeltg):: itagsh           !< shell w/ offset
           type (elbuf_struct_),  target, dimension(ngroup) :: elbuf_tab        !< el_buf struct_
           type (shell_defaults_),intent(in)                :: defaults_shell   !< Default values for Shell : /DEF_SHELL option
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-          integer i,nel,nft,nn,ie,igtyp,ity,nnode,pid,ng
+          integer :: i,nel,nft,nn,ie,igtyp,ity,nnode,pid,ng
 !
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body

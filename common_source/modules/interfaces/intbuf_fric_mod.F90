@@ -20,24 +20,6 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-!hd|====================================================================
-!hd|  intbuf_fric_mod               share/modules/intbuf_fric_mod.f
-!hd|-- called by -----------
-!hd|        i11mainf                      source/interfaces/int11/i11mainf.f
-!hd|        i24mainf                      source/interfaces/int24/i24main.f
-!hd|        i25mainf                      source/interfaces/int25/i25mainf.f
-!hd|        i7mainf                       source/interfaces/int07/i7mainf.f
-!hd|        intfop2                       source/interfaces/interf/intfop2.f
-!hd|        intfric_rresti                share/modules/intbuf_fric_mod.f
-!hd|        intfric_rrestr                share/modules/intbuf_fric_mod.f
-!hd|        intfric_wresti                share/modules/intbuf_fric_mod.f
-!hd|        intfric_wrestr                share/modules/intbuf_fric_mod.f
-!hd|        resol                         source/engine/resol.f
-!hd|        resol_head                    source/engine/resol_head.f
-!hd|        wrrestp                       source/output/restart/wrrestp.f
-!hd|        intbuffric_mod                share/modules/restart_mod.f
-!hd|-- calls ---------------
-!hd|====================================================================
       !||====================================================================
       !||    intbuf_fric_mod                 ../common_source/modules/interfaces/intbuf_fric_mod.F90
       !||--- called by ------------------------------------------------------
@@ -85,11 +67,8 @@
 !-----------------------------------------------
 !   m o d u l e s
 !-----------------------------------------------
-
-!-----------------------------------------------
-!   m y _ r e a l
-!-----------------------------------------------
-#include      "my_real.inc"
+        use precision_mod , only: WP
+        implicit none
 !-----------------------------------------------
         type intbuf_fric_struct_
 
@@ -99,13 +78,13 @@
           integer ::    iffilter       !friction filtering flag
           integer ::    s_tabparts_fric  ! number of parts
           integer ::    iorthfric          ! flag for orthotropic friction
-          my_real :: xfiltr_fric        !filtering coefficient
+          real(kind=WP) :: xfiltr_fric        !filtering coefficient
 
           integer, dimension(:), allocatable :: tabcoupleparts_fric    ! table of couple of parts
           integer, dimension(:), allocatable :: tabparts_fric          ! table of parts
           integer, dimension(:), allocatable :: adparts_fric           ! table of adress of couple of parts
           integer, dimension(:), allocatable :: ifricorth              ! table of orthotropic type of couple of parts
-          my_real,dimension(:), allocatable :: tabcoef_fric            ! table of friction coefficients
+          real(kind=WP),dimension(:), allocatable :: tabcoef_fric            ! table of friction coefficients
 
         end type intbuf_fric_struct_
 

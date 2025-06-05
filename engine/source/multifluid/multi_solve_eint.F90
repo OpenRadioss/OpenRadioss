@@ -56,37 +56,34 @@
       USE MULTI_SUBMATLAW_MOD , ONLY : MULTI_SUBMATLAW
       USE CONSTANT_MOD , ONLY : ZERO, ONE, EM06
       USE EOSMAIN_MOD , ONLY : EOSMAIN
+      USE PRECISION_MOD, ONLY : WP
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
       implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
-!                                                   Included files
-! ----------------------------------------------------------------------------------------------------------------------
-#include "my_real.inc"
-! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
       INTEGER,INTENT(IN) :: SNPC,STF,NUMMAT, NPROPM, NPROPMI !< array size
       INTEGER, INTENT(IN) :: MATLAW, LOCAL_MATID
-      my_real, INTENT(IN) :: PM(NPROPM, NUMMAT)
+      real(kind=WP), INTENT(IN) :: PM(NPROPM, NUMMAT)
       INTEGER, INTENT(IN) :: IPM(NPROPMI, NUMMAT)
-      my_real, INTENT(INOUT) :: RHO(1)
-      my_real, INTENT(INOUT) :: SSP(1), PRES(1), EINT(1)
-      my_real, INTENT(INOUT) :: BURNFRAC(1), BURNTIME(1), DELTAX(1), CURRENT_TIME, BUFMAT(*)
-      my_real, INTENT(INOUT) :: OFF(1)
+      real(kind=WP), INTENT(INOUT) :: RHO(1)
+      real(kind=WP), INTENT(INOUT) :: SSP(1), PRES(1), EINT(1)
+      real(kind=WP), INTENT(INOUT) :: BURNFRAC(1), BURNTIME(1), DELTAX(1), CURRENT_TIME, BUFMAT(*)
+      real(kind=WP), INTENT(INOUT) :: OFF(1)
       INTEGER, INTENT(IN) :: NPF(SNPC),NVAREOS
-      my_real, INTENT(IN) :: TF(STF),VAREOS(NVAREOS*1)
+      real(kind=WP), INTENT(IN) :: TF(STF),VAREOS(NVAREOS*1)
       TYPE(MATPARAM_STRUCT_), INTENT(IN) :: MAT_PARAM !material data structure
       INTEGER,INTENT(IN) :: NVARTMP_EOS
       INTEGER,INTENT(INOUT) :: VARTMP_EOS(1,NVARTMP_EOS)
-      my_real,INTENT(INOUT) :: ABURN(1) !< after burning (JWL extension)
+      real(kind=WP),INTENT(INOUT) :: ABURN(1) !< after burning (JWL extension)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local Variables
 ! ----------------------------------------------------------------------------------------------------------------------
       INTEGER :: ITER, MAX_ITER
-      my_real :: TOL, ERROR
-      my_real :: FUNC, DFUNC, GRUN(1), VOL(1), INCR, TEMP(1), PRESK(1), DUMMY(6)
+      real(kind=WP) :: TOL, ERROR
+      real(kind=WP) :: FUNC, DFUNC, GRUN(1), VOL(1), INCR, TEMP(1), PRESK(1), DUMMY(6)
       LOGICAL :: CONT
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body

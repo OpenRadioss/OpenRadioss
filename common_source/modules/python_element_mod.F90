@@ -41,18 +41,18 @@
             integer(kind=c_int), value, intent(in) :: uid
             real(kind=c_double), value, intent(in) :: val
             character(kind=c_char), dimension(100), intent(in) :: name
-          end subroutine
+          end subroutine python_update_elemental_entity
           subroutine python_get_number_elemental_entities(nb) bind(c,name="cpp_python_get_number_elemental_entities")
             use iso_c_binding, only : c_int
             integer(kind=c_int), intent(inout) :: nb
-          end subroutine
+          end subroutine python_get_number_elemental_entities
 !  void cpp_python_get_elemental_entity(int nb,  char *name, int *uid)
           subroutine python_get_elemental_entity(nb,name,uid) bind(c,name="cpp_python_get_elemental_entity")
             use iso_c_binding
             integer(kind=c_int), value, intent(in) :: nb
             integer(kind=c_int), intent(inout) :: uid !< returns the user id of the nth variable found in the python code
             character(kind=c_char), dimension(100), intent(inout) :: name !< variable name, as defined in H3D keyword
-          end subroutine
+          end subroutine python_get_elemental_entity
         end interface
 
 ! ----------------------------------------------------------------------------------------------------------------------

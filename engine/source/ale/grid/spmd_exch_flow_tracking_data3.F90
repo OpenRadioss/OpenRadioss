@@ -21,110 +21,110 @@
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 ! ======================================================================================================================
-module spmd_exch_flow_tracking_data3_mod
-  contains
+      module spmd_exch_flow_tracking_data3_mod
+      contains
 ! ======================================================================================================================
 !                                                   PROCEDURES
 ! ======================================================================================================================
 !! \brief  SPMD exchange necessary for option /ALE/GRID/MASS-WEIGHTED-VEL
 !! \details  gathering  SUM(mi.ITMi,i) : DOMAIN_DATA%ITM(1:6)    where ITM is Inertia Tensor Matrix
 !
-      !||====================================================================
-      !||    spmd_exch_flow_tracking_data3   ../engine/source/ale/grid/spmd_exch_flow_tracking_data3.F90
-      !||--- called by ------------------------------------------------------
-      !||    alew7                           ../engine/source/ale/grid/alew7.F
-      !||--- calls      -----------------------------------------------------
-      !||    spmd_wait                       ../engine/source/mpi/spmd_mod.F90
-      !||--- uses       -----------------------------------------------------
-      !||    ale_mod                         ../common_source/modules/ale/ale_mod.F
-      !||    constant_mod                    ../common_source/modules/constant_mod.F
-      !||    spmd_mod                        ../engine/source/mpi/spmd_mod.F90
-      !||====================================================================
-      subroutine spmd_exch_flow_tracking_data3( domain_data, nspmd )
+        !||====================================================================
+        !||    spmd_exch_flow_tracking_data3   ../engine/source/ale/grid/spmd_exch_flow_tracking_data3.F90
+        !||--- called by ------------------------------------------------------
+        !||    alew7                           ../engine/source/ale/grid/alew7.F
+        !||--- calls      -----------------------------------------------------
+        !||    spmd_wait                       ../engine/source/mpi/spmd_mod.F90
+        !||--- uses       -----------------------------------------------------
+        !||    ale_mod                         ../common_source/modules/ale/ale_mod.F
+        !||    constant_mod                    ../common_source/modules/constant_mod.F
+        !||    spmd_mod                        ../engine/source/mpi/spmd_mod.F90
+        !||====================================================================
+        subroutine spmd_exch_flow_tracking_data3( domain_data, nspmd )
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
-        use ale_mod , only : flow_tracking_data_
-        use spmd_mod
-        use constant_mod , only: zero
+          use ale_mod , only : flow_tracking_data_
+          use spmd_mod
+          use constant_mod , only: zero
+          use precision_mod , only : WP
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Included file
 ! ----------------------------------------------------------------------------------------------------------------------
-        implicit none
-#include "my_real.inc"
+          implicit none
 #include "task_c.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
-        type(flow_tracking_data_),intent(inout)::domain_data !< intent(in) ale mass weighted velocity data buffer for given domain
-        integer,intent(in)::nspmd                       !< number of SPMD domains
+          type(flow_tracking_data_),intent(inout)::domain_data !< intent(in) ale mass weighted velocity data buffer for given domain
+          integer,intent(in)::nspmd                       !< number of SPMD domains
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-        integer :: msgtyp, msgoff, p, nbirecv
-        integer :: req_sb(nspmd),irindexi(nspmd)
-        integer :: loc_proc, isize
-        my_real :: rbuf(6,nspmd)
-        data msgoff/2205/
+          integer :: msgtyp, msgoff, p, nbirecv
+          integer :: req_sb(nspmd),irindexi(nspmd)
+          integer :: loc_proc, isize
+          real(kind=WP) :: rbuf(6,nspmd)
+          data msgoff/2205/
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Preconditions
 ! ----------------------------------------------------------------------------------------------------------------------
-        if(nspmd == 1)return
+          if(nspmd == 1)return
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
 
-        loc_proc=ispmd+1
-        rbuf(1:6,1:nspmd)=zero
-        rbuf(1:6,loc_proc) = domain_data%itm_l(1:6)
-        isize=6
-        !-------------------------------------------!
-        ! SENDING %ITM(1:6)                         !
-        !-------------------------------------------!
-        do p = 1, nspmd
-          if(p /= loc_proc) then
-            msgtyp = msgoff
-            call spmd_isend(rbuf(1,loc_proc),isize,it_spmd(p),msgtyp,req_sb(p))
-          endif
-        enddo
-        !-------------------------------------------!
-        ! RECEIVING %ITM(1:6)                       !
-        !-------------------------------------------!
-        nbirecv=0
-        do p = 1, nspmd
-          if(loc_proc /= p) then
-            nbirecv=nbirecv+1
-            irindexi(nbirecv)=p
-            msgtyp = msgoff
-            call spmd_recv(rbuf(1,p), isize, it_spmd(p), msgtyp)
-          endif
-        enddo
-        !-------------------------------------------!
-        !     MPI_WAITING                           !
-        !-------------------------------------------!
-        do p = 1, nspmd
-          if(p /= loc_proc) then
-            call spmd_wait(req_sb(p))
-          endif
-        enddo
+          loc_proc=ispmd+1
+          rbuf(1:6,1:nspmd)=zero
+          rbuf(1:6,loc_proc) = domain_data%itm_l(1:6)
+          isize=6
+          !-------------------------------------------!
+          ! SENDING %ITM(1:6)                         !
+          !-------------------------------------------!
+          do p = 1, nspmd
+            if(p /= loc_proc) then
+              msgtyp = msgoff
+              call spmd_isend(rbuf(1,loc_proc),isize,it_spmd(p),msgtyp,req_sb(p))
+            endif
+          enddo
+          !-------------------------------------------!
+          ! RECEIVING %ITM(1:6)                       !
+          !-------------------------------------------!
+          nbirecv=0
+          do p = 1, nspmd
+            if(loc_proc /= p) then
+              nbirecv=nbirecv+1
+              irindexi(nbirecv)=p
+              msgtyp = msgoff
+              call spmd_recv(rbuf(1,p), isize, it_spmd(p), msgtyp)
+            endif
+          enddo
+          !-------------------------------------------!
+          !     MPI_WAITING                           !
+          !-------------------------------------------!
+          do p = 1, nspmd
+            if(p /= loc_proc) then
+              call spmd_wait(req_sb(p))
+            endif
+          enddo
 
-        !-------------------------------------------!
-        ! COMPUTE AVERAGE ON CURRENT DOMAIN         !
-        !-------------------------------------------!
-        domain_data%itm_l(1:6)=zero
+          !-------------------------------------------!
+          ! COMPUTE AVERAGE ON CURRENT DOMAIN         !
+          !-------------------------------------------!
+          domain_data%itm_l(1:6)=zero
 
-        do p=1,nspmd
-          domain_data%itm_l(1) = domain_data%itm_l(1) + rbuf(1,p)
-          domain_data%itm_l(2) = domain_data%itm_l(2) + rbuf(2,p)
-          domain_data%itm_l(3) = domain_data%itm_l(3) + rbuf(3,p)
-          domain_data%itm_l(4) = domain_data%itm_l(4) + rbuf(4,p)
-          domain_data%itm_l(5) = domain_data%itm_l(5) + rbuf(5,p)
-          domain_data%itm_l(6) = domain_data%itm_l(6) + rbuf(6,p)
-        enddo
+          do p=1,nspmd
+            domain_data%itm_l(1) = domain_data%itm_l(1) + rbuf(1,p)
+            domain_data%itm_l(2) = domain_data%itm_l(2) + rbuf(2,p)
+            domain_data%itm_l(3) = domain_data%itm_l(3) + rbuf(3,p)
+            domain_data%itm_l(4) = domain_data%itm_l(4) + rbuf(4,p)
+            domain_data%itm_l(5) = domain_data%itm_l(5) + rbuf(5,p)
+            domain_data%itm_l(6) = domain_data%itm_l(6) + rbuf(6,p)
+          enddo
 
 
 !-----------------------------------------------
-        return
-      end subroutine spmd_exch_flow_tracking_data3
-end module spmd_exch_flow_tracking_data3_mod
+          return
+        end subroutine spmd_exch_flow_tracking_data3
+      end module spmd_exch_flow_tracking_data3_mod
 

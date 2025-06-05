@@ -40,6 +40,7 @@
       !||--- uses       -----------------------------------------------------
       !||    collision_mod        ../engine/source/interfaces/intsort/collision_mod.F
       !||    constant_mod         ../common_source/modules/constant_mod.F
+      !||    precision_mod        ../common_source/modules/precision_mod.F90
       !||====================================================================
         subroutine inter7_penetration(jlt   ,margin ,x1    ,x2     ,x3   ,&
         &x4    ,y1    ,y2    ,y3     ,y4   ,&
@@ -51,25 +52,25 @@
 !-----------------------------------------------
           USE CONSTANT_MOD
           USE COLLISION_MOD , ONLY : GROUP_SIZE
+          USE PRECISION_MOD, ONLY : WP
           implicit none
-#include "my_real.inc"
 !-----------------------------------------------
 !   D u m m y   A r g u m e n t s
 !-----------------------------------------------
           integer, intent(in) :: jlt
-          my_real, intent(in) :: gapv(GROUP_SIZE), margin
-          my_real, intent(in) ::&
+          real(kind=WP), intent(in) :: gapv(GROUP_SIZE), margin
+          real(kind=WP), intent(in) ::&
           &x1(GROUP_SIZE), x2(GROUP_SIZE), x3(GROUP_SIZE), x4(GROUP_SIZE),& !< x coordinates of the 4 nodes of the surface
           &y1(GROUP_SIZE), y2(GROUP_SIZE), y3(GROUP_SIZE), y4(GROUP_SIZE),& !< y coordinates of the 4 nodes of the surface
           &z1(GROUP_SIZE), z2(GROUP_SIZE), z3(GROUP_SIZE), z4(GROUP_SIZE),& !< z coordinates of the 4 nodes of the surface
           &xi(GROUP_SIZE), yi(GROUP_SIZE), zi(GROUP_SIZE)
-          my_real, intent(inout) ::  pene(GROUP_SIZE) !< secondary nodes and penetration
+          real(kind=WP), intent(inout) ::  pene(GROUP_SIZE) !< secondary nodes and penetration
           integer, intent(in) :: ix3(GROUP_SIZE), ix4(GROUP_SIZE) !< index of the 3rd and 4th nodes of the surface
 !-----------------------------------------------
 !   L o c a l   V a r i a b l e s
 !-----------------------------------------------
-          integer i, i3n
-          my_real X0(GROUP_SIZE), Y0(GROUP_SIZE), Z0(GROUP_SIZE), GAP2(GROUP_SIZE),&
+          integer :: i, i3n
+          real(kind=WP) :: X0(GROUP_SIZE), Y0(GROUP_SIZE), Z0(GROUP_SIZE), GAP2(GROUP_SIZE),&
           &NX1(GROUP_SIZE), NX2(GROUP_SIZE), NX3(GROUP_SIZE), NX4(GROUP_SIZE),&
           &NY1(GROUP_SIZE), NY2(GROUP_SIZE), NY3(GROUP_SIZE), NY4(GROUP_SIZE),&
           &NZ1(GROUP_SIZE), NZ2(GROUP_SIZE), NZ3(GROUP_SIZE), NZ4(GROUP_SIZE),&
@@ -85,7 +86,7 @@
           &ZI1(GROUP_SIZE),  ZI2(GROUP_SIZE),  ZI3(GROUP_SIZE), ZI4(GROUP_SIZE),&
           &HLB1(GROUP_SIZE), HLC1(GROUP_SIZE), HLB2(GROUP_SIZE),HLC2(GROUP_SIZE),&
           &HLB3(GROUP_SIZE), HLC3(GROUP_SIZE), HLB4(GROUP_SIZE),HLC4(GROUP_SIZE)
-          my_real s2,d1,d2,d3,d4,&
+          real(kind=WP) :: s2,d1,d2,d3,d4,&
           &x12,x23,x34,x41,xi0,sx1,sx2,sx3,sx4,sx0,&
           &y12,y23,y34,y41,yi0,sy1,sy2,sy3,sy4,sy0,&
           &z12,z23,z34,z41,zi0,sz1,sz2,sz3,sz4,sz0,&
@@ -460,5 +461,5 @@
             enddo
           endif
           return
-        end
-      end module
+        end subroutine inter7_penetration
+      end module INTER7_PENETRATION_MOD

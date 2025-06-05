@@ -48,6 +48,7 @@
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
           use constant_mod ,only : zero,one,four,eight,two,em02,half,pi
+          use precision_mod ,only : WP
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -55,22 +56,21 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Included files
 ! ----------------------------------------------------------------------------------------------------------------------
-#include "my_real.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
-          my_real,                                intent(in   ) :: damp_ratio           !< target damping ration in frequency range
-          my_real,                                intent(in   ) :: f_low                !< lower bound of frequency range
-          my_real,                                intent(in   ) :: f_high               !< upper bound of frequency range     
-          my_real,                                intent(inout) :: maxwell_alpha(3)     !< alpha parameters of the 3 maxwell components
-          my_real,                                intent(inout) :: maxwell_tau(3)       !< tau parameters of the 3 maxwell components          
+          real(kind=WP),                                intent(in   ) :: damp_ratio           !< target damping ration in frequency range
+          real(kind=WP),                                intent(in   ) :: f_low                !< lower bound of frequency range
+          real(kind=WP),                                intent(in   ) :: f_high               !< upper bound of frequency range     
+          real(kind=WP),                                intent(inout) :: maxwell_alpha(3)     !< alpha parameters of the 3 maxwell components
+          real(kind=WP),                                intent(inout) :: maxwell_tau(3)       !< tau parameters of the 3 maxwell components          
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
           integer :: i,j,nerror
-          my_real :: f_mid,f_max,damp_ratio_sample,e_fac   
-          my_real :: e_max(3),freq_sample(3),factor(3)          
-          my_real :: matrix(3,3),inv_mat(3,3) 
+          real(kind=WP) :: f_mid,f_max,damp_ratio_sample,e_fac   
+          real(kind=WP) :: e_max(3),freq_sample(3),factor(3)          
+          real(kind=WP) :: matrix(3,3),inv_mat(3,3) 
 ! ----------------------------------------------------------------------------------------------------------------------
 !
 ! ----------------------------------------------------------------------------------------------------------------------

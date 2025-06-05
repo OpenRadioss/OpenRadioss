@@ -111,7 +111,7 @@
 !-----------------------------------------------
 !   L o c a l   v a r i a b l e s
 !-----------------------------------------------
-          integer imat,ir,nfail,ifail,flag_brokmann,nfail_fractal,nfail_brokmann
+          integer :: imat,ir,nfail,ifail,flag_brokmann,nfail_fractal,nfail_brokmann
 !=======================================================================
       nfail_fractal  = 0
       nfail_brokmann = 0
@@ -238,6 +238,6 @@
       end if
 !-----------
       return
-      end
+      end subroutine updfail
 !-----------
       end module updfail_mod

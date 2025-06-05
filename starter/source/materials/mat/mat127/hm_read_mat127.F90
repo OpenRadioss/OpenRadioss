@@ -46,10 +46,10 @@
       !||    message_mod              ../starter/share/message_module/message_mod.F
       !||    submodel_mod             ../starter/share/modules1/submodel_mod.F
       !||====================================================================
-      subroutine hm_read_mat127(                                      &       
-               nuvar    ,maxfunc  ,npropm   ,iout,                    &
-               nfunc    ,ifunc    ,mtag     ,parmat   ,unitab   ,     &
-               pm       ,lsubmodel,israte   ,mat_id   ,titr     ,     &
+      subroutine hm_read_mat127(                                      &         
+               nuvar    ,maxfunc  ,npropm   ,iout,                    &  
+               nfunc    ,ifunc    ,mtag     ,parmat   ,unitab   ,     &  
+               pm       ,lsubmodel,israte   ,mat_id   ,titr     ,     &  
                matparam ,nvartmp  )
  !-----------------------------------------------
  !   M o d u l e s
@@ -60,11 +60,11 @@
           use matparam_def_mod    
           use elbuftag_mod      
           use constant_mod    
+          use precision_mod, only : WP
  !-----------------------------------------------
  !   I m p l i c i t   T y p e sXM
  !-----------------------------------------------
          implicit none 
-#include  "my_real.inc"
  !-----------------------------------------------
  !   D u m m y   A r g u m e n t s
  !-----------------------------------------------
@@ -73,34 +73,34 @@
       integer, intent(inout)                       :: israte
       integer, dimension(maxfunc), intent(inout)   :: ifunc
       type(mlaw_tag_), intent(inout)               :: mtag
-      my_real, dimension(100),intent(inout)        :: parmat
+      real(kind=WP), dimension(100),intent(inout)        :: parmat
       type (unit_type_),intent(in)                 :: unitab 
-      my_real, dimension(npropm) ,intent(inout)    :: pm   
+      real(kind=WP), dimension(npropm) ,intent(inout)    :: pm   
       type(submodel_data), dimension(*),intent(in) :: lsubmodel  
       character(len=nchartitle),intent(in)         :: titr 
       type(matparam_struct_) ,intent(inout)        :: matparam    
  !-----------------------------------------------
  !   L o c a l   V a r i a b l e s
  !-----------------------------------------------
-      integer ifxc,ifxt,ifyc,ifyt,ifsc,ilaw, twoway, ti,ncyred
-      my_real                                                                &
+      integer :: ifxc,ifxt,ifyc,ifyt,ifsc,ilaw, twoway, ti,ncyred
+      real(kind=WP)                                                                &  
          ! Material properties
-         rho0, e1, e2, e3, g12, g23, g13, nu12, nu21, nu23, nu31, nu13, nu32, &
-         young, nu, g31, gmax, ssp, asrate, fac, fbrt, ycfac,           &
-         beta, alpha, epsf, epsr, tsmd, c1,                                      &
+         :: rho0, e1, e2, e3, g12, g23, g13, nu12, nu21, nu23, nu31, nu13, nu32, &  
+         young, nu, g31, gmax, ssp, asrate, fac, fbrt, ycfac,           &  
+         beta, alpha, epsf, epsr, tsmd, c1,                                      &  
          ! Strength parameters
-         xc, xt, yc, yt, sc,                                                  &
+         xc, xt, yc, yt, sc,                                                  &  
          ! Failure criteria
-         dfailc, dfailm, dfails, dfailt, efs, ratio,                          &
+         dfailc, dfailm, dfails, dfailt, efs, ratio,                          &  
          ! Scaling factors
-         yfac_xt, yfac_xc, yfac_yt, yfac_yc, yfac_sc,                         &
+         yfac_xt, yfac_xc, yfac_yt, yfac_yc, yfac_sc,                         &  
          ! Slenderness limits
-         slimt1, slimc1, slimt2, slimc2, slims,                               &
+         slimt1, slimc1, slimt2, slimc2, slims,                               &  
          ! Matrix coefficients
-         a11, a22, a12, c11, c22, c33, c12, c13, c23, detc,  c21,c32,c31 ,     &
+         a11, a22, a12, c11, c22, c33, c12, c13, c23, detc,  c21,c32,c31 ,     &  
          ! Inverse matrix elements
-         d11, d22, d33, d12, d13, d23, invd ,                     &
-         e2_mod, nu12_mod, nu31_mod, nu13_mod, nu23_mod,                       &
+         d11, d22, d33, d12, d13, d23, invd ,                     &  
+         e2_mod, nu12_mod, nu31_mod, nu13_mod, nu23_mod,                       &  
          ! Cut-off frequency
          fcut
       logical :: is_available,is_encrypted
@@ -186,10 +186,10 @@
       nu12 = nu21*e1/e2 
       ! checking poisson's ratio 
       if(nu12*nu21 >= one ) then
-        call ancmsg(msgid=3068,                        &
-                  msgtype=msgerror,                    &
-                  anmode=aninfo_blind_2,               &
-                  i1=mat_id,                           &
+        call ancmsg(msgid=3068,                        &  
+                  msgtype=msgerror,                    &  
+                  anmode=aninfo_blind_2,               &  
+                  i1=mat_id,                           &  
                   c1=titr)
       endif
       ! to be checked if are used for 3D as nu12 & nu21
@@ -197,10 +197,10 @@
       nu13 = nu31*e1/e3
       detc = one - nu12*nu21
       if (detc <= zero) then
-        call ancmsg(msgid=307,                        &
-                    msgtype=msgerror,                 &
-                    anmode=aninfo,                    &
-                    i1=mat_id,                        &
+        call ancmsg(msgid=307,                        &  
+                    msgtype=msgerror,                 &  
+                    anmode=aninfo,                    &  
+                    i1=mat_id,                        &  
                     c1=titr)
       endif 
       ! elasticity matrix for 2d plane stress
@@ -232,15 +232,15 @@
       c31 = -nu13_mod / e1 
       c32 = -nu23_mod / e2_mod 
      ! Calculate the determinant
-      detc = c11 * (c22 * c33 - c23 * c32) - &
-                   c12 * (c21 * c33 - c23 * c31) + &
+      detc = c11 * (c22 * c33 - c23 * c32) - &  
+                   c12 * (c21 * c33 - c23 * c31) + &  
                    c13 * (c21 * c32 - c22 * c31)
       ! Ensure the determinant is not zero
       if(detc <= zero) then
-         call ancmsg(msgid=307,                                  &
-                    msgtype=msgerror,                            &     
-                    anmode=aninfo,                               &
-                    i1=mat_id,                                   &
+         call ancmsg(msgid=307,                                  &  
+                    msgtype=msgerror,                            &       
+                    anmode=aninfo,                               &  
+                    i1=mat_id,                                   &  
                     c1=titr) 
        endif
       ! Calculate the inverse determinant
@@ -482,115 +482,115 @@
         write(iout,2800) fcut
       endif     
 !-----------------------------------------------------------------------
- 1000 format(/                                                               &
-       5x,a,/,                                                               &
-       5x,'material number. . . . . . . . . . . . =',i10/,                   &
+ 1000 format(/                                                               &  
+       5x,a,/,                                                               &  
+       5x,'material number. . . . . . . . . . . . =',i10/,                   &  
        5x,'material law . . . . . . . . . . . . . =',i10/)
- 1050 format                                                                 &
-      (5x,'material model : enhanced composite ',/,                         &
+ 1050 format                                                                 &  
+      (5x,'material model : enhanced composite ',/,                         &  
        5x,'----------------------------------',/)
- 1200 format(                                                                &
+ 1200 format(                                                                &  
        5x,'initial density . . . . . . . . . . . . . . . . .=',1pg20.13/) 
- 1300 format(                                                                &
-       5x,'elasticity parameters:                            ',/             &
-       5x,'----------------------                            ',/             &
-       7x,'young modulus in dir. 1 (fiber)  e1 . . . . . . .=',1pg20.13/     &
-       7x,'young modulus in dir. 2 (matrix) e2 . . . . . . .=',1pg20.13/     &
-       7x,'young modulus in dir. 3 (matrix) e3 . . . . . . .=',1pg20.13/     &
-       7x,'shear modulus in plane 12 g12 . . . . . . . . . .=',1pg20.13/     &
-       7x,'shear modulus in plane 23 g23 . . . . . . . . . .=',1pg20.13/     &
-       7x,'shear modulus in plane 31 g13 . . . . . . . . . .=',1pg20.13/     &
-       7x,'poisson ratio in plane 21 nu21. . . . . . . . . .=',1pg20.13/     &
-       7x,'poisson ratio in plane 32 nu32. . . . . . . . . .=',1pg20.13/     &
+ 1300 format(                                                                &  
+       5x,'elasticity parameters:                            ',/             &  
+       5x,'----------------------                            ',/             &  
+       7x,'young modulus in dir. 1 (fiber)  e1 . . . . . . .=',1pg20.13/     &  
+       7x,'young modulus in dir. 2 (matrix) e2 . . . . . . .=',1pg20.13/     &  
+       7x,'young modulus in dir. 3 (matrix) e3 . . . . . . .=',1pg20.13/     &  
+       7x,'shear modulus in plane 12 g12 . . . . . . . . . .=',1pg20.13/     &  
+       7x,'shear modulus in plane 23 g23 . . . . . . . . . .=',1pg20.13/     &  
+       7x,'shear modulus in plane 31 g13 . . . . . . . . . .=',1pg20.13/     &  
+       7x,'poisson ratio in plane 21 nu21. . . . . . . . . .=',1pg20.13/     &  
+       7x,'poisson ratio in plane 32 nu32. . . . . . . . . .=',1pg20.13/     &  
        7x,'poisson ratio in plane 31 nu31. . . . . . . . . .=',1pg20.13/ )
- 1400 format(                                                                     &
-       5x,' fiber (dir. 1) parameters   :                            ',/          &
-       5x,'---------------------------                               ',/          &
-       7x,'longitudinal tensile strength  . . . .  . . . . . . . . =',1pg20.13/   &
-       7x,'scale for minimum longitudinal tensile stress limit. . .=',1pg20.13/   &
-       7x,'longitudinal compressive strength  . . . .  . . . . . . =',1pg20.13/   &
+ 1400 format(                                                                     &  
+       5x,' fiber (dir. 1) parameters   :                            ',/          &  
+       5x,'---------------------------                               ',/          &  
+       7x,'longitudinal tensile strength  . . . .  . . . . . . . . =',1pg20.13/   &  
+       7x,'scale for minimum longitudinal tensile stress limit. . .=',1pg20.13/   &  
+       7x,'longitudinal compressive strength  . . . .  . . . . . . =',1pg20.13/   &  
        7x,'scale for minimum compressive tensile stress limit. . . =',1pg20.13/ )
 
- 1500 format(                                                                     &
-       5x,'matrix (dir. 2) parameters   :                            ',/          &
-       5x,'---------------------------                               ',/          &   
-       7x,'transverse tensile strength  . . . .  . . . . . . . . =',1pg20.13/     &
-       7x,'scale for minimum transverse tensile stress limit. . .=',1pg20.13/     &   
-       7x,'transverse compressive strength  . . . .  . . . . . . =',1pg20.13/     &
+ 1500 format(                                                                     &  
+       5x,'matrix (dir. 2) parameters   :                            ',/          &  
+       5x,'---------------------------                               ',/          &     
+       7x,'transverse tensile strength  . . . .  . . . . . . . . =',1pg20.13/     &  
+       7x,'scale for minimum transverse tensile stress limit. . .=',1pg20.13/     &     
+       7x,'transverse compressive strength  . . . .  . . . . . . =',1pg20.13/     &  
        7x,'scale for minimum compressive tensile stress limit. . . =',1pg20.13/ )
 
- 1700 format(                                                                    &
-       5x,' shear (12) parameters   :                            ',/               &
-       5x,'---------------------------                               ',/           &
-       7x,'shear strength 12 . . . . . . . . . . . . . . . . . . . =',1pg20.13/    &
+ 1700 format(                                                                    &  
+       5x,' shear (12) parameters   :                            ',/               &  
+       5x,'---------------------------                               ',/           &  
+       7x,'shear strength 12 . . . . . . . . . . . . . . . . . . . =',1pg20.13/    &  
        7x,'scale for minimum shear stress limit 12 . . . . .. . . =',1pg20.13/ )
- 1800 format(                                                                    &
-       5x,'  parameters   :                            ',/               &
-       5x,'---------------------------                               ',/           &
-       7x,'Weighting factor for shear term in tensile fiber mode . =',1pg20.13/    &
-       7x,'Shear stress parameter for the nonlinear term . . . . . =',1pg20.13/    &
-       7x,'Softening for fiber tensile strength: . . . . . . . . . =',1pg20.13/    &
-       7x, '   = 0.0: Tensile strength = XT',/                                      &
-       7x, '   > 0.0: Tensile strength = XT, reduced to XT*FBRT after ',/           &
-       7x, '       failure has occurred in compressive matrix mode',/                  &
-       7x,'Reduction factor for compressive fiber strength . . . .=',1pg20.13 /  &
+ 1800 format(                                                                    &  
+       5x,'  parameters   :                            ',/               &  
+       5x,'---------------------------                               ',/           &  
+       7x,'Weighting factor for shear term in tensile fiber mode . =',1pg20.13/    &  
+       7x,'Shear stress parameter for the nonlinear term . . . . . =',1pg20.13/    &  
+       7x,'Softening for fiber tensile strength: . . . . . . . . . =',1pg20.13/    &  
+       7x, '   = 0.0: Tensile strength = XT',/                                      &  
+       7x, '   > 0.0: Tensile strength = XT, reduced to XT*FBRT after ',/           &  
+       7x, '       failure has occurred in compressive matrix mode',/                  &  
+       7x,'Reduction factor for compressive fiber strength . . . .=',1pg20.13 /  &  
        10x,    ' after matrix compressive failure xc=yfac*yc ',/  )
        
- 2000 format(                                                                   &
-       5x,' fiber (dir. 1) strain rate dependency  :                 ',/          &
-       5x,'---------------------------                               ',/          &
-       7x,'curve id defining longitudinal tensile strength xt . . .  =',i10/      &
-       7X,'scale of the curve defining xt . . . . . . . . . . . . .  =',1pg20.13 /&
-       7x,'curve id defining longitudinal compresssive strength xc . =',i10/      &
+ 2000 format(                                                                   &  
+       5x,' fiber (dir. 1) strain rate dependency  :                 ',/          &  
+       5x,'---------------------------                               ',/          &  
+       7x,'curve id defining longitudinal tensile strength xt . . .  =',i10/      &  
+       7X,'scale of the curve defining xt . . . . . . . . . . . . .  =',1pg20.13 /&  
+       7x,'curve id defining longitudinal compresssive strength xc . =',i10/      &  
        7X,'scale of the curve defining xc . . . . . . . . . . . . . .=',1pg20.13/ )
- 2100 format(                                                                   &                                                              
-       5x,' matrix (dir. 2) strain rate dependency  :                ',/        &
-       5x,'---------------------------                               ',/        &
-       7x,'curve id defining longitudinal tensile strength yt . . .  =',i10/    &
-       7X,'scale of the curve defining yt . . . . . . . . . . . . .  =',1pg20.13 /&
-       7x,'curve id defining longitudinal compresssive strength yc . =',i10/      &
+ 2100 format(                                                                   &
+       5x,' matrix (dir. 2) strain rate dependency  :                ',/        &  
+       5x,'---------------------------                               ',/        &  
+       7x,'curve id defining longitudinal tensile strength yt . . .  =',i10/    &  
+       7X,'scale of the curve defining yt . . . . . . . . . . . . .  =',1pg20.13 /&  
+       7x,'curve id defining longitudinal compresssive strength yc . =',i10/      &  
        7X,'scale of the curve defining yc. . . . . . . . . . . . .  =',1pg20.13 /)
- 2300 format(                                                                   &
-       5x,' dir 12 - strain rate dependency  :                       ',/        &
-       5x,'---------------------------                               ',/        &
-       7x,'curve id defining shear strength sc . . . . . . .  . . . =',i10/     &
+ 2300 format(                                                                   &  
+       5x,' dir 12 - strain rate dependency  :                       ',/        &  
+       5x,'---------------------------                               ',/        &  
+       7x,'curve id defining shear strength sc . . . . . . .  . . . =',i10/     &  
        7X,'scale of the curve defining sc. . . . . . . . . . . . .  =',1pg20.13 /) 
 
 ! Format for failure parameters used if dfailt > 0
- 2400 format(                                                                   &                                                              
-       5x,' failure parameters  used if dfailt > 0 :                ',/         &
-       5x,'------------------------------------                              ',/           &
-       7x,'Maximum strain for fiber tension. . . . . . . .. .  . . . . . . =',1pg20.13/    &
-       7X,'Maximum strain for fiber compression  . . . . . .. . . . . . .  =',1pg20.13 /   &
-       7x,'Maximum strain for matrix straining in tension or compression . =',1pg20.13 /   &
-       7X,'Maximum tensorial shear strain. . . . . . . . . . . . . . . . . =',1pg20.13 /   &
-       7x,'Effective failure strain . . . . . . . . . . . . . . . . . . . .=',1pg20.13 /   &
-       7x,'Number of cycles for stress reduction from maximum to minimum . =',i10 /        &
+ 2400 format(                                                                   &
+       5x,' failure parameters  used if dfailt > 0 :                ',/         &  
+       5x,'------------------------------------                              ',/           &  
+       7x,'Maximum strain for fiber tension. . . . . . . .. .  . . . . . . =',1pg20.13/    &  
+       7X,'Maximum strain for fiber compression  . . . . . .. . . . . . .  =',1pg20.13 /   &  
+       7x,'Maximum strain for matrix straining in tension or compression . =',1pg20.13 /   &  
+       7X,'Maximum tensorial shear strain. . . . . . . . . . . . . . . . . =',1pg20.13 /   &  
+       7x,'Effective failure strain . . . . . . . . . . . . . . . . . . . .=',1pg20.13 /   &  
+       7x,'Number of cycles for stress reduction from maximum to minimum . =',i10 /        &  
        7x, 'Ratio Parameter Control to Delete Shell Elements . . . . . . . =',1pg20.13 /)         
 
 ! Format for transverse damage parameters
- 2500 format(                                                                   &                                                              
-       5x,' transverse damage parameters :                ',/                   &
-       5x,'------------------------------------                              ',/           &
-       7x,'Damage initiation transverse shear strain. . . . . . . .. .  .  =',1pg20.13/    &
-       7X,'Final rupture transverse shear strain . . . . . .. . . . . . .  =',1pg20.13 /   &
+ 2500 format(                                                                   &
+       5x,' transverse damage parameters :                ',/                   &  
+       5x,'------------------------------------                              ',/           &  
+       7x,'Damage initiation transverse shear strain. . . . . . . .. .  .  =',1pg20.13/    &  
+       7X,'Final rupture transverse shear strain . . . . . .. . . . . . .  =',1pg20.13 /   &  
        7x,'Transverse shear maximum damage  . . . . . . . . . . . . . . .  =',1pg20.13 /   )
 
 ! Format for formulation flags
- 2600 format(                                                                   &                                                              
-       5x,' formulation Flag  :                ',/                             &
-       5x,'------------------------------------                              ',/           &
-       7x,'Flag to turn on transversal isotropic behavior for solid   . .  =',i10/         &
-       7x,'      =0 : Standard unidirectional behavior  ',/                                &    
-       7x,'      =1 : Transversal isotropic behavior ',/                                   & 
-       7X,'Flag to turn on 2-way fiber action: . . . . . . .. . . . . . .  =',i10 /        &
-       7x,'      =0 : Standard unidirectional behavior, meaning fibers run',/             &
-       7x,'            only in the a-direction' ,/                                        & 
-       7x,'      =1 : fiber action, meaning fibers run in both the a and b',/             &
+ 2600 format(                                                                   &
+       5x,' formulation Flag  :                ',/                             &  
+       5x,'------------------------------------                              ',/           &  
+       7x,'Flag to turn on transversal isotropic behavior for solid   . .  =',i10/         &  
+       7x,'      =0 : Standard unidirectional behavior  ',/                                &      
+       7x,'      =1 : Transversal isotropic behavior ',/                                   &   
+       7X,'Flag to turn on 2-way fiber action: . . . . . . .. . . . . . .  =',i10 /        &  
+       7x,'      =0 : Standard unidirectional behavior, meaning fibers run',/             &  
+       7x,'            only in the a-direction' ,/                                        &   
+       7x,'      =1 : fiber action, meaning fibers run in both the a and b',/             &  
        7x,'            direction ', /)      
 
 ! Format for strain rate filtering cutoff frequency
- 2800 format(                                                                    &
+ 2800 format(                                                                    &  
        5x,'strain rate filtering cutoff frequency fcut . . .=',1pg20.13/)
 
 !-----------------------------------------------------------------------

@@ -20,14 +20,6 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !|====================================================================
-      !|  sigeps169_connect            source/materials/mat/mat169/sigeps169_connect.f
-      !|-- called by -----------
-      !|        suser43                       source/elements/solid/sconnect/suser43.F
-      !|-- calls ---------------
-      !|        finter                        source/tools/curve/finter.f   
-      !|====================================================================
-
       !||====================================================================
       !||    sigeps169_connect_mod   ../engine/source/materials/mat/mat169/sigeps169_connect.F90
       !||--- called by ------------------------------------------------------
@@ -58,10 +50,10 @@
 !   m o d u l e s
 !-----------------------------------------------
       use constant_mod , only : one , zero,two,em6,em20,four,five,half
+      use precision_mod, only : WP
 !-----------------------------------------------
       implicit none
 ! ----------------------------------------------
-#include "my_real.inc"
 !-----------------------------------------------
 !   d u m m y   a r g u m e n t s
 !-----------------------------------------------       
@@ -74,16 +66,16 @@
       integer ,dimension(nel)     ,intent(in) :: ngl
       integer ,dimension(niparam) ,intent(in) :: iparam
 
-      my_real ,intent(in) :: dtfacs
-      my_real ,intent(in) :: dtmins
-      my_real ,intent(in) :: time
-      my_real ,dimension(nel)  ,intent(inout) :: off,area,pla,dmels
-      my_real ,dimension(nel)  ,intent(in)    :: depszz,depsyz,depszx,epszz,epsyz,epszx,thick0
-      my_real ,dimension(nel)  ,intent(in)    :: sigozz  ,sigoyz  ,sigozx  
-      my_real ,dimension(nel)  ,intent(out)   :: signzz,signyz,signzx
-      my_real ,dimension(nel)  ,intent(inout) :: dmg,stifm
-      my_real ,dimension(nuparam)   ,intent(in)    :: uparam
-      my_real ,dimension(nel,nuvar) ,intent(inout) :: uvar
+      real(kind=WP) ,intent(in) :: dtfacs
+      real(kind=WP) ,intent(in) :: dtmins
+      real(kind=WP) ,intent(in) :: time
+      real(kind=WP) ,dimension(nel)  ,intent(inout) :: off,area,pla,dmels
+      real(kind=WP) ,dimension(nel)  ,intent(in)    :: depszz,depsyz,depszx,epszz,epsyz,epszx,thick0
+      real(kind=WP) ,dimension(nel)  ,intent(in)    :: sigozz  ,sigoyz  ,sigozx  
+      real(kind=WP) ,dimension(nel)  ,intent(out)   :: signzz,signyz,signzx
+      real(kind=WP) ,dimension(nel)  ,intent(inout) :: dmg,stifm
+      real(kind=WP) ,dimension(nuparam)   ,intent(in)    :: uparam
+      real(kind=WP) ,dimension(nel,nuvar) ,intent(inout) :: uvar
 
 !-----------------------------------------------
 !   l o c a l   v a r i a b l e s
@@ -93,13 +85,13 @@
         integer :: pwrt,pwrs
         integer ,dimension(nel) :: indxd,indf
 
-        my_real :: young,nu, wave,gcten,gcshr,shrp,sht_sl,taumax,tau_n
-        my_real :: dlam, dpla_dlam,shear,dp,g1,g2,sigeq,dtb,norm,nxz,nyz,d0fn,d0fs
-        my_real, dimension(nel) :: dstrnz, dstrnxz, dstrnyz,strs_tr_sh,fyld,strn_pl,dstr_sh,eps_n0
-        my_real, dimension(nel) :: normzz, normxz, normyz, df,dpzx,dpyz,dpzz,ddpla,dpla,dmg_n,dmg_s
-        my_real, dimension(nel) :: fdam_n,fdam_s,thick,stf,tempr,normyz_norm,normxz_norm,normzz_norm
-        my_real, dimension(nel) :: eps_s0,eps_sh,dfn,dfs
-        my_real, dimension(nel) :: tenmax,shrmax
+        real(kind=WP) :: young,nu, wave,gcten,gcshr,shrp,sht_sl,taumax,tau_n
+        real(kind=WP) :: dlam, dpla_dlam,shear,dp,g1,g2,sigeq,dtb,norm,nxz,nyz,d0fn,d0fs
+        real(kind=WP), dimension(nel) :: dstrnz, dstrnxz, dstrnyz,strs_tr_sh,fyld,strn_pl,dstr_sh,eps_n0
+        real(kind=WP), dimension(nel) :: normzz, normxz, normyz, df,dpzx,dpyz,dpzz,ddpla,dpla,dmg_n,dmg_s
+        real(kind=WP), dimension(nel) :: fdam_n,fdam_s,thick,stf,tempr,normyz_norm,normxz_norm,normzz_norm
+        real(kind=WP), dimension(nel) :: eps_s0,eps_sh,dfn,dfs
+        real(kind=WP), dimension(nel) :: tenmax,shrmax
 
 !--------------------------------------------------------
 !    uvar(1) = dmg_n 

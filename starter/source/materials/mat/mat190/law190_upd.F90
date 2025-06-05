@@ -41,11 +41,11 @@
 ! ----------------------------------------------------------------------------------------------------------------------
           use constant_mod
           use matparam_def_mod
+          use precision_mod, only : WP
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
           implicit none
-#include "my_real.inc"
 #include "mvsiz_p.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
@@ -56,7 +56,7 @@
           integer, dimension(numtabl) :: itable
           type(matparam_struct_), target :: matparam
           type(ttable), dimension(ntable) ,intent(inout) ::  table
-          my_real, dimension(npropm), intent(inout) :: pm
+          real(kind=WP), dimension(npropm), intent(inout) :: pm
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -68,9 +68,9 @@
           integer :: sizetozero,stat,len2,len3
 
           ! real variables
-          my_real :: x_i,x_ii,y_i,y_ii
-          my_real :: ener,scalefac,dx,dy,dydx,stiffini,nu,g,c1
-          my_real ,dimension(:)  ,allocatable :: x_ener,y_ener
+          real(kind=WP) :: x_i,x_ii,y_i,y_ii
+          real(kind=WP) :: ener,scalefac,dx,dy,dydx,stiffini,nu,g,c1
+          real(kind=WP) ,dimension(:)  ,allocatable :: x_ener,y_ener
           type(table_4d_), dimension(:) ,pointer ::  table_mat
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
@@ -223,6 +223,6 @@
           end do
           deallocate(x_ener,y_ener)
 !
-        end
-      end module
+        end subroutine law190_upd
+      end module law190_upd_mod
 

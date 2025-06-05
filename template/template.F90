@@ -21,6 +21,7 @@
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       module my_subroutine_mod
+        implicit none
       contains
 ! ======================================================================================================================
 !                                                   procedures
@@ -35,6 +36,7 @@
 !  [ ONLY is mandatory, note the space before the ,]
           use intbuf_def_mod, only: intbuf_struct
           use constant_mod, only : PI
+          use precision_mod, only : WP
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -43,8 +45,6 @@
 !                                                   Included files
 ! ----------------------------------------------------------------------------------------------------------------------
 ! [ no comment on the same line as #include #define #ifdef, #endif ]
-! [ my_real.inc must be included, it was included in "implicit_f.inc"]
-#include "my_real.inc"
 ! [ generally spealing, #include is forbidden, there are only few exceptions: ]
 #include "nchar_c.inc"
 #include "task_c.inc"
@@ -57,7 +57,7 @@
           integer,                                   intent(in) :: buffer_size         !< the size of the buffer
           integer,                                intent(inout) :: buffer(buffer_size) !< it is possible to allocate arrays within the routine
           integer,                                   intent(in) :: acceleration_size !< the size of array must appear before the array
-          my_real,                                   intent(in) :: acceleration(3,acceleration_size) !< assumed size arrays are not allowed
+          real(kind=WP),                                   intent(in) :: acceleration(3,acceleration_size) !< assumed size arrays are not allowed
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------

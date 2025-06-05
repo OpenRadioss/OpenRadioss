@@ -67,7 +67,7 @@
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
 #ifdef MPI
-      integer msgtyp,i,nod,loc_proc,ierror,msgoff,                     &
+      integer :: msgtyp,i,nod,loc_proc,ierror,msgoff,                     &
               siz,j,l,nb_nod,siz6,len,                                 &
               status(mpi_status_size),                                 &
               iad_send(nspmd+1),                                       &

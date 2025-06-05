@@ -53,13 +53,13 @@
       use brokmann_random_def_mod
       use newman_raju_mod
       use constant_mod ,only : zero,half,one,two,pi,em6,ep06
+      use precision_mod, only : WP
 ! ---------------------------------------------------------------------------------------------
           implicit none
 ! ---------------------------------------------------------------------------------------------
 !     included files
 ! ---------------------------------------------------------------------------------------------
 
-#include "my_real.inc"
 
 !-----------------------------------------------
 !    D u m m y   A r g u m e n t s
@@ -71,23 +71,23 @@
       integer ,intent(in)  :: nuvar                           !< number of state variables
       integer ,dimension(nel)      ,intent(in)    :: indx     !< element index table
       integer ,dimension(nel)      ,intent(in)    :: ngl      !< element id table
-      my_real ,dimension(nuparam)  ,intent(in)    :: uparam   !< failure model parameter table
-      my_real ,dimension(nel,nuvar),intent(inout) :: uvar     !< state variables of failure model
-      my_real ,dimension(nel) ,intent(in)         :: thk      !< element thickness
-      my_real ,dimension(nel) ,intent(in)         :: aldt     !< element size
+      real(kind=WP) ,dimension(nuparam)  ,intent(in)    :: uparam   !< failure model parameter table
+      real(kind=WP) ,dimension(nel,nuvar),intent(inout) :: uvar     !< state variables of failure model
+      real(kind=WP) ,dimension(nel) ,intent(in)         :: thk      !< element thickness
+      real(kind=WP) ,dimension(nel) ,intent(in)         :: aldt     !< element size
       type (brokmann_)        ,intent(in)         :: brokmann !< brokmann data structure
 !-----------------------------------------------
 !    L o c a l   v a r i a b l e s
 !-----------------------------------------------
       integer :: i,ib,p_switch,iter,irand,idebug
-      my_real :: v0,vm,randp,a_drb,exp_n,k_ic,kcm,af,afp,al,crleN
-      my_real :: eta,eta1,eta2,beta1,beta2,tau1,tau2,eta_drb,beta_drb,tau_drb,betai
-      my_real :: p_scale,ff,phi,facn,ns1,ns2,ns3,ns4,m1,m2,thkm,aldtm,yiter
-      my_real :: yi1,yi2,py,pf,pw,p0,p1,p2,p3,p4,p5,y_drb,y_shift,depth_max,ytol,delta_y
-      my_real :: dsig_drb,sig0,sig1,sig2,sig3,sig4,sig5,sig6,sshift,sig_mpa
-      my_real :: fsize,fac_m,fac_l,fac_t,fac_v,fac_lenm,fac_mpa,fac_pi2
-      my_real, dimension(nel) :: cr_len,cr_depth,cr_ang
-      my_real, dimension(nel) :: sig_drb,y0
+      real(kind=WP) :: v0,vm,randp,a_drb,exp_n,k_ic,kcm,af,afp,al,crleN
+      real(kind=WP) :: eta,eta1,eta2,beta1,beta2,tau1,tau2,eta_drb,beta_drb,tau_drb,betai
+      real(kind=WP) :: p_scale,ff,phi,facn,ns1,ns2,ns3,ns4,m1,m2,thkm,aldtm,yiter
+      real(kind=WP) :: yi1,yi2,py,pf,pw,p0,p1,p2,p3,p4,p5,y_drb,y_shift,depth_max,ytol,delta_y
+      real(kind=WP) :: dsig_drb,sig0,sig1,sig2,sig3,sig4,sig5,sig6,sshift,sig_mpa
+      real(kind=WP) :: fsize,fac_m,fac_l,fac_t,fac_v,fac_lenm,fac_mpa,fac_pi2
+      real(kind=WP), dimension(nel) :: cr_len,cr_depth,cr_ang
+      real(kind=WP), dimension(nel) :: sig_drb,y0
 !-----------------------
 !---  state variables for ch.brokmann extension
 !     uvar(15) = fail_b   :  failure flag, set = 1 to allow alter test

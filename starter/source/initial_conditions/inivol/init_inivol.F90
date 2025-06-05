@@ -71,6 +71,7 @@
       use multi_fvm_mod , only : multi_fvm_struct
       use matparam_def_mod , only : matparam_struct_
       use glob_therm_mod
+      use precision_mod, only : WP
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -78,7 +79,6 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Included files
 ! ----------------------------------------------------------------------------------------------------------------------
-#include "my_real.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -91,12 +91,12 @@
       integer,intent(in) :: ipart(sipart)                                                         !< buffer for parts
       integer,intent(in) :: ipm(npropmi,nummat)                                                   !< material data (integers)
       integer,intent(in) :: ngrnod                                                                !< array size igrnod
-      my_real, intent(in) :: x(3,numnod)                                                          !< coordinates
-      my_real :: xrefs(8,3,numels8)                                                               !<
-      my_real, intent(inout) :: kvol(nbsubmat,skvol/nbsubmat)                                     !< inivol working array
-      my_real,intent(in) :: bufsf(sbufsf)                                                         !< buffer
-      my_real,intent(in) :: bufmat(sbufmat)                                                       !< material buffer
-      my_real,intent(in) :: geo(npropg,numgeo)                                                    !< property buffer (real parameters)
+      real(kind=WP), intent(in) :: x(3,numnod)                                                          !< coordinates
+      real(kind=WP) :: xrefs(8,3,numels8)                                                               !<
+      real(kind=WP), intent(inout) :: kvol(nbsubmat,skvol/nbsubmat)                                     !< inivol working array
+      real(kind=WP),intent(in) :: bufsf(sbufsf)                                                         !< buffer
+      real(kind=WP),intent(in) :: bufmat(sbufmat)                                                       !< material buffer
+      real(kind=WP),intent(in) :: geo(npropg,numgeo)                                                    !< property buffer (real parameters)
       type (elbuf_struct_), target, dimension(ngroup), intent(in) :: elbuf_tab                    !< elem buffer
       type (multi_fvm_struct),intent(in) :: multi_fvm                                             !< buffer for colocated scheme (law151)
       type (inivol_struct_), dimension(NUM_INIVOL), intent(inout) :: inivol                       !< inivol data structure
@@ -118,19 +118,19 @@
       integer, dimension(:), allocatable :: list_ale_node ! list of ale node
       integer, dimension(:,:), allocatable :: nsoltosf,nbip,inphase
       integer, dimension(:), allocatable :: knod2surf
-      integer ntrace0,ntrace,nnod2surf,nsegsurf
-      integer stat, ng, nf1, nel, mtn
+      integer :: ntrace0,ntrace,nnod2surf,nsegsurf
+      integer :: stat, ng, nf1, nel, mtn
       integer :: ifrac,idp,idc,idsurf,ireversed,jmid
       integer ::nb_container,nseg_swift_surf,nseg_used,nsurf_invol,imat,NUMEL_TOT,ICUMU,I15_,nuvar,nft
       integer :: ity,isolnod,invol,ii,kk,iad,isize_inivol,sipart_
       integer :: imid
-      my_real, dimension(3) :: size_cell ! cell's size in x/y/z direction
-      my_real, dimension(:,:), allocatable :: dis
-      my_real :: element_size ! max element size
-      my_real, dimension(6) :: min_max_position ! min/max position
-      my_real, dimension(:), allocatable :: nod_norm
-      my_real :: vfrac
-      my_real :: GLOBAL_xyz(6)
+      real(kind=WP), dimension(3) :: size_cell ! cell's size in x/y/z direction
+      real(kind=WP), dimension(:,:), allocatable :: dis
+      real(kind=WP) :: element_size ! max element size
+      real(kind=WP), dimension(6) :: min_max_position ! min/max position
+      real(kind=WP), dimension(:), allocatable :: nod_norm
+      real(kind=WP) :: vfrac
+      real(kind=WP) :: GLOBAL_xyz(6)
       type(buf_mat_) ,pointer :: mbuf
       type(array_type), dimension(:), allocatable :: cell ! voxcell
       type(array_type), dimension(:), allocatable :: nodal_phase ! phase of node

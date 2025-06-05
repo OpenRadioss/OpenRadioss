@@ -43,6 +43,7 @@
       !||    message_mod              ../engine/share/message_module/message_mod.F
       !||    multi_fvm_mod            ../common_source/modules/ale/multi_fvm_mod.F90
       !||    names_and_titles_mod     ../common_source/modules/names_and_titles_mod.F
+      !||    pblast_mod               ../common_source/modules/loads/pblast_mod.F90
       !||    stack_mod                ../engine/share/modules/stack_mod.F
       !||    tri7box                  ../engine/share/modules/tri7box.F
       !||====================================================================
@@ -91,21 +92,21 @@
 !-----------------------------------------------
 !   L o c a l   V a r i a b l e s
 !-----------------------------------------------
-        integer i,j,k,l,cpt,id_input,is_char_key3,is_char_key4
-        integer is_char_key5,is_char_key6,is_char_key7,is_char_key8
-        integer is_empty_key3,is_empty_key4,is_empty_key5,is_empty_key6
-        integer is_empty_key7,is_empty_key8,is_all,is_upper,is_lower
-        integer is_def,is_ply,is_layer,is_ipt,is_ply_all,is_layer_all
-        integer is_layer_lower,is_layer_upper,is_ipt_all,is_ipt_lower
-        integer is_ipt_upper,is_ipt_memb,ply,layer,ipt,iuvar,is_uvar
-        integer is_uvar_all,ir,is_ir,is_ir_all,is_ir_lower,is_ir_upper
-        integer is,is_is,is_is_all,is_is_lower,is_is_upper
-        integer it,is_it,is_it_all,is_it_lower,is_it_upper
-        integer nb_key,cpt_key,is_inter,inter,is_inter_all
-        integer is_mdsvar_def,is_mdsvar,is_model_npt,is_model_ply
-        integer is_model_layer,is_id,id,is_id_all,is_mode,mode
-        integer is_mode_all,nfail,is_memb,imat,nmod
-        integer ibid1,ibid2,ibid3,ibid4,is_mdsvar_all,imdsvar
+        integer :: i,j,k,l,cpt,id_input,is_char_key3,is_char_key4
+        integer :: is_char_key5,is_char_key6,is_char_key7,is_char_key8
+        integer :: is_empty_key3,is_empty_key4,is_empty_key5,is_empty_key6
+        integer :: is_empty_key7,is_empty_key8,is_all,is_upper,is_lower
+        integer :: is_def,is_ply,is_layer,is_ipt,is_ply_all,is_layer_all
+        integer :: is_layer_lower,is_layer_upper,is_ipt_all,is_ipt_lower
+        integer :: is_ipt_upper,is_ipt_memb,ply,layer,ipt,iuvar,is_uvar
+        integer :: is_uvar_all,ir,is_ir,is_ir_all,is_ir_lower,is_ir_upper
+        integer :: is,is_is,is_is_all,is_is_lower,is_is_upper
+        integer :: it,is_it,is_it_all,is_it_lower,is_it_upper
+        integer :: nb_key,cpt_key,is_inter,inter,is_inter_all
+        integer :: is_mdsvar_def,is_mdsvar,is_model_npt,is_model_ply
+        integer :: is_model_layer,is_id,id,is_id_all,is_mode,mode
+        integer :: is_mode_all,nfail,is_memb,imat,nmod
+        integer :: ibid1,ibid2,ibid3,ibid4,is_mdsvar_all,imdsvar
         character(len=ncharkey) :: key2,key3,key4,key5,key6,key7,key8,         &
           key2_read
         character(len=ncharline100) :: key3_read,key3_glob

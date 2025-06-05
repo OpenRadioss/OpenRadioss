@@ -55,7 +55,6 @@
       implicit none
 !----------------------------------------------------------------------- 
 
-#include "my_real.inc"
 !----------------------------------------------------------------------- 
 
       integer ,parameter  :: n_var_iparg = 100    ! number of iparg variables = nparg
@@ -73,7 +72,7 @@
         type (ply_param_) ,dimension(:) ,allocatable :: ply_param !< nlay
         
         integer  ,dimension(:) ,allocatable :: igeo               !< npropg
-        my_real  ,dimension(:) ,allocatable :: geo                !< npropgi
+        real(kind=WP)  ,dimension(:) ,allocatable :: geo                !< npropgi
         
       end type prop_param_
 !

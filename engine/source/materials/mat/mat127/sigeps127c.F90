@@ -57,11 +57,11 @@
 !-----------------------------------------------
           use matparam_def_mod 
           use constant_mod      
+          use precision_mod, only : WP
 !-----------------------------------------------
 !   I m p l i c i t   T y p e s
 !-----------------------------------------------
           implicit none 
-#include  "my_real.inc"
 #include  "units_c.inc"
 !-----------------------------------------------
 !   D u m m y   A r g u m e n t s
@@ -75,48 +75,48 @@
           integer, intent(in) :: nply_max  !< nbre of integration pt in the thickness
           integer, intent(in) :: ifunc(nfunc),npf(snpc)
           !
-          my_real, dimension(nel,nuvar), intent(inout) :: uvar !< user variables
+          real(kind=WP), dimension(nel,nuvar), intent(inout) :: uvar !< user variables
           type(matparam_struct_), intent(in) :: mat_param !< material parameters data
-          my_real, dimension(nel), intent(in) :: rho !< material density
-          my_real, dimension(nel), intent(inout) :: sigy !< yield stress
-          my_real, dimension(nel), intent(inout) :: shf !< shear factor correction 
-          my_real, dimension(nel), intent(in)    :: thkly !< ply thickness  
-          my_real, dimension(nel), intent(inout)    :: thk !< element thickness  
-          my_real, dimension(stf), intent(in) :: tf
-          my_real, dimension(nel), intent(in) :: epsp !<  equiv. strain rate
-          my_real, dimension(nel), intent(inout) :: etse !< ratio of rigidity  
-          my_real, dimension(nel), intent(in) :: depsxx !< incr strain xx 
-          my_real, dimension(nel), intent(in) :: depsyy !< incr strain yy
-          my_real, dimension(nel), intent(in) :: depsxy !< incr strain xy 
-          my_real, dimension(nel), intent(in) :: depsyz !< incr strain yz 
-          my_real, dimension(nel), intent(in) :: depszx !< incr strain zx 
-          my_real, dimension(nel), intent(in) :: epsxx !< total strain xx 
-          my_real, dimension(nel), intent(in) :: epsyy !< total strain yy
-          my_real, dimension(nel), intent(in) :: epsxy !< total strain xy 
-          my_real, dimension(nel), intent(in) :: epsyz !< incr strain yz 
-          my_real, dimension(nel), intent(in) :: epszx !< incr strain zx 
-          my_real, dimension(nel), intent(in) :: sigoxx !< old stress xx 
-          my_real, dimension(nel), intent(in) :: sigoyy !< old stress yy
-          my_real, dimension(nel), intent(in) :: sigoxy !< old stress xy 
-          my_real, dimension(nel), intent(in) :: sigoyz !< old stress yz 
-          my_real, dimension(nel), intent(in) :: sigozx !< old stress zx 
-          my_real, dimension(nel), intent(inout) :: signxx !< new stress xx 
-          my_real, dimension(nel), intent(inout) :: signyy !< new stress yy
-          my_real, dimension(nel), intent(inout) :: signxy !< new stress xy 
-          my_real, dimension(nel), intent(inout) :: signyz !< new stress yz 
-          my_real, dimension(nel), intent(inout) :: signzx !< new stress zx 
-          my_real, dimension(nel), intent(inout) :: ssp !< sound speed
-          my_real, dimension(nel), intent(inout) :: off !< element deletion flag
-          my_real, dimension(nel,8), intent(inout) ::  dmg 
-          my_real, dimension(nel), intent(inout) ::  dmg_g 
-          my_real, dimension(nel), intent(inout) :: offply !< ply element deletion flag
+          real(kind=WP), dimension(nel), intent(in) :: rho !< material density
+          real(kind=WP), dimension(nel), intent(inout) :: sigy !< yield stress
+          real(kind=WP), dimension(nel), intent(inout) :: shf !< shear factor correction 
+          real(kind=WP), dimension(nel), intent(in)    :: thkly !< ply thickness  
+          real(kind=WP), dimension(nel), intent(inout)    :: thk !< element thickness  
+          real(kind=WP), dimension(stf), intent(in) :: tf
+          real(kind=WP), dimension(nel), intent(in) :: epsp !<  equiv. strain rate
+          real(kind=WP), dimension(nel), intent(inout) :: etse !< ratio of rigidity  
+          real(kind=WP), dimension(nel), intent(in) :: depsxx !< incr strain xx 
+          real(kind=WP), dimension(nel), intent(in) :: depsyy !< incr strain yy
+          real(kind=WP), dimension(nel), intent(in) :: depsxy !< incr strain xy 
+          real(kind=WP), dimension(nel), intent(in) :: depsyz !< incr strain yz 
+          real(kind=WP), dimension(nel), intent(in) :: depszx !< incr strain zx 
+          real(kind=WP), dimension(nel), intent(in) :: epsxx !< total strain xx 
+          real(kind=WP), dimension(nel), intent(in) :: epsyy !< total strain yy
+          real(kind=WP), dimension(nel), intent(in) :: epsxy !< total strain xy 
+          real(kind=WP), dimension(nel), intent(in) :: epsyz !< incr strain yz 
+          real(kind=WP), dimension(nel), intent(in) :: epszx !< incr strain zx 
+          real(kind=WP), dimension(nel), intent(in) :: sigoxx !< old stress xx 
+          real(kind=WP), dimension(nel), intent(in) :: sigoyy !< old stress yy
+          real(kind=WP), dimension(nel), intent(in) :: sigoxy !< old stress xy 
+          real(kind=WP), dimension(nel), intent(in) :: sigoyz !< old stress yz 
+          real(kind=WP), dimension(nel), intent(in) :: sigozx !< old stress zx 
+          real(kind=WP), dimension(nel), intent(inout) :: signxx !< new stress xx 
+          real(kind=WP), dimension(nel), intent(inout) :: signyy !< new stress yy
+          real(kind=WP), dimension(nel), intent(inout) :: signxy !< new stress xy 
+          real(kind=WP), dimension(nel), intent(inout) :: signyz !< new stress yz 
+          real(kind=WP), dimension(nel), intent(inout) :: signzx !< new stress zx 
+          real(kind=WP), dimension(nel), intent(inout) :: ssp !< sound speed
+          real(kind=WP), dimension(nel), intent(inout) :: off !< element deletion flag
+          real(kind=WP), dimension(nel,8), intent(inout) ::  dmg 
+          real(kind=WP), dimension(nel), intent(inout) ::  dmg_g 
+          real(kind=WP), dimension(nel), intent(inout) :: offply !< ply element deletion flag
 !-----------------------------------------------
 !   L o c a l   V a r i a b l e s
 !-----------------------------------------------
       integer ::  fs, i,damage,updat,updat1,updat2,nkey,                  &
                   ncyred, n,ndex,twoway, ncy0,ndel_ply,ndex0
       integer , dimension(nel) :: index,iad,ipos,ilen,index0
-      my_real                                                             &
+      real(kind=WP)                                                             &
         e1, e2, nu12, nu21, xt0, slimt1, xc0, slimc1,                     &
         yt0, slimt2, yc0, slimc2s, sc0, d, damt, damc,                    &
         slims, invd, m2c, m2t, slimc2, alpha, beta, dfailt, dfailc,       &
@@ -125,7 +125,7 @@
         yfac_xt, yfac_xc, yfac_yc, yfac_yt, yfac_sc, eft, efc, emt, emc,  &
         scale,dam, ratio,del_ratio,eps_ef,tau2,sc2,tau_bar
 
-      my_real, dimension(nel) :: dezz, check, xc, xt, yc, yt, sc, dydx
+      real(kind=WP), dimension(nel) :: dezz, check, xc, xt, yc, yt, sc, dydx
       !
       logical :: abit_t,abit_c,abit_s,abit_check
 !!======================================================================

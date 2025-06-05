@@ -630,6 +630,7 @@ C-----------------------------------------------
       use pblast_mod
       use iniebcs_propergol_
       use init_monvol_mod ,only : init_monvol
+      use python_duplicate_nodes_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

@@ -33,51 +33,49 @@
       !||    s20init3      ../starter/source/elements/solid/solide20/s20init3.F
       !||====================================================================
       module s20temp_mod
+        implicit none
       contains
 
 
       !||====================================================================
-      !||    s20temp        ../starter/source/elements/solid/solide20/s20temp.F90
+      !||    s20temp         ../starter/source/elements/solid/solide20/s20temp.F90
       !||--- called by ------------------------------------------------------
-      !||    s16init3       ../starter/source/elements/thickshell/solide16/s16init3.F
-      !||    s20init3       ../starter/source/elements/solid/solide20/s20init3.F
+      !||    s16init3        ../starter/source/elements/thickshell/solide16/s16init3.F
+      !||    s20init3        ../starter/source/elements/solid/solide20/s20init3.F
       !||--- uses       -----------------------------------------------------
       !||====================================================================
-      subroutine s20temp(nel ,numnod ,mvsiz ,npe, nc, ni, temp ,tempel)
+        subroutine s20temp(nel ,numnod ,mvsiz ,npe, nc, ni, temp ,tempel)
 
 !-----------------------------------------------
 !   M o d u l e s
 !-----------------------------------------------
-      use constant_mod, only : zero
+          use precision_mod, only : WP
+          use constant_mod, only : zero
 !-----------------------------------------------
-      implicit none
-!----------------------------------------------------------------------------------------
-!   Included files
-!----------------------------------------------------------------------------------------
-#include "my_real.inc"
+          implicit none
 !-----------------------------------------------
 !   D u m m y   A r g u m e n t s
 !-----------------------------------------------
-      integer ,intent(in) :: nel
-      integer ,intent(in) :: numnod
-      integer ,intent(in) :: mvsiz
-      integer ,intent(in) :: npe
-      integer ,dimension(mvsiz,npe) ,intent(in)  :: nc       !< element connectivity
-      my_real ,dimension(npe)       ,intent(in)  :: ni       !< form functions
-      my_real ,dimension(numnod)    ,intent(in)  :: temp     !< nodal temperature
-      my_real ,dimension(nel)       ,intent(out) :: tempel   !< element temperature in Gauss point
+          integer ,intent(in) :: nel
+          integer ,intent(in) :: numnod
+          integer ,intent(in) :: mvsiz
+          integer ,intent(in) :: npe
+          integer ,dimension(mvsiz,npe) ,intent(in)  :: nc       !< element connectivity
+          real(kind=WP) ,dimension(npe)       ,intent(in)  :: ni       !< form functions
+          real(kind=WP) ,dimension(numnod)    ,intent(in)  :: temp     !< nodal temperature
+          real(kind=WP) ,dimension(nel)       ,intent(out) :: tempel   !< element temperature in Gauss point
 !-----------------------------------------------
 !   L o c a l   v a r i a b l e s
 !-----------------------------------------------
-      integer i,j
+          integer :: i,j
 !=========================================================================================
-      tempel(1:nel) = zero 
-      do i=1,nel
-        do j=1,npe                                                  
-          tempel(i) = tempel(i) + ni(j) * temp(nc(i,j)) 
-        enddo  
-      enddo  
+          tempel(1:nel) = zero
+          do i=1,nel
+            do j=1,npe
+              tempel(i) = tempel(i) + ni(j) * temp(nc(i,j))
+            enddo
+          enddo
 !-----------
-      return
-      end
+          return
+        end subroutine s20temp
       end module s20temp_mod

@@ -61,6 +61,7 @@
       use elbuftag_mod , only : eos_tag_
       use constant_mod , only : zero, em12, two_third, one, two, three, three100, ep20
       use eos_param_mod , only : eos_param_
+      use precision_mod , only : WP
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -68,14 +69,13 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Included files
 ! ----------------------------------------------------------------------------------------------------------------------
-#include "my_real.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
       integer,intent(in) :: npropm, maxeos  !< array sizes
       type (unit_type_),intent(in) ::unitab !< data structure for units (/UNIT)
       integer, intent(in) :: iout !< file units
-      my_real, intent(inout) :: pm(npropm)  !< data structure for material laws
+      real(kind=WP), intent(inout) :: pm(npropm)  !< data structure for material laws
       type(submodel_data), dimension(nsubmod), intent(in) :: lsubmodel !< data structure for sumobeling method (//SUBMODEL)
       integer,intent(in) :: imideos
       type(eos_tag_),dimension(0:maxeos) ,intent(inout) :: eos_tag !< data structure for EoS
@@ -84,27 +84,27 @@
       integer,intent(in) :: iunit !< unit identifier
       integer,intent(in) :: snpc, npts, nfunc
       integer,intent(in) :: npc(snpc)
-      my_real,intent(in) :: tf(npts)
+      real(kind=WP),intent(in) :: tf(npts)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-      my_real  p0, psh, rho0,rhoi,rhor
-      my_real  mumin,mumax
-      my_real  mu0,ssp0, dpdmu
-      integer iform
+      real(kind=WP)  :: p0, psh, rho0,rhoi,rhor
+      real(kind=WP)  :: mumin,mumax
+      real(kind=WP)  :: mu0,ssp0, dpdmu
+      integer :: iform
       logical :: is_encrypted, is_available, is_available_rho0
 
       integer :: P_FUNC_ID !< user function identifer
       integer :: jfunc !< loop
-      my_real :: Fscale, Xscale !< function scale factors
-      my_real :: bmin, bmax !< unload modulus
-      my_real :: tmp, dpdmu_mumax, dpdmu_mumin
+      real(kind=WP) :: Fscale, Xscale !< function scale factors
+      real(kind=WP) :: bmin, bmax !< unload modulus
+      real(kind=WP) :: tmp, dpdmu_mumax, dpdmu_mumin
 
-      my_real :: FAC_M,FAC_L,FAC_T,FAC_PRES !< factors for unit translation (case iunit > 0)
+      real(kind=WP) :: FAC_M,FAC_L,FAC_T,FAC_PRES !< factors for unit translation (case iunit > 0)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   External
 ! ----------------------------------------------------------------------------------------------------------------------
-      my_real, external :: finter
+      real(kind=WP), external :: finter
 ! In order to get : y <- f(x)  and dydx <- f'(x) :
 ! Use :             y = FINTER(func_id,x,NPF,TF,dydx)
 !                       where - NPF,TF are constant arrays automatically built by Starter (/FUNCT data).

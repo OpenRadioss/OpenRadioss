@@ -64,7 +64,6 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Included files
 ! ----------------------------------------------------------------------------------------------------------------------
-#include "my_real.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -85,17 +84,17 @@
           integer,                                   intent(in)    :: nspmd                    !< number of cpus      
           integer,                                   intent(in)    :: voxsiz                   !< sorting criteria                
           integer, dimension(nisp,numsph),           intent(in)    :: kxsp                     !< sorted particles
-          my_real,                                   intent(inout) :: xmax                     !< maximum coordinates
-          my_real,                                   intent(inout) :: ymax                     !< maximum coordinates
-          my_real,                                   intent(inout) :: zmax                     !< maximum coordinates
-          my_real,                                   intent(inout) :: xmin                     !< minimum coordinates
-          my_real,                                   intent(inout) :: ymin                     !< minimum coordinates
-          my_real,                                   intent(inout) :: zmin                     !< minimum coordinates
-          my_real,                                   intent(in)    :: diam_max                 !< maximum diameter    
-          my_real,                                   intent(inout) :: majord_vox               !< majorant of interparticle distance
-          my_real, dimension(nspbuf,numsph),         intent(in)    :: spbuf                    !< sorted particles
-          my_real, dimension(3,numnod),              intent(in)    :: x                        !< node corrdinates
-          my_real, dimension(llgauge,nbgauge),       intent(in)    :: gauge                    !< gauge coordinates
+          real(kind=WP),                                   intent(inout) :: xmax                     !< maximum coordinates
+          real(kind=WP),                                   intent(inout) :: ymax                     !< maximum coordinates
+          real(kind=WP),                                   intent(inout) :: zmax                     !< maximum coordinates
+          real(kind=WP),                                   intent(inout) :: xmin                     !< minimum coordinates
+          real(kind=WP),                                   intent(inout) :: ymin                     !< minimum coordinates
+          real(kind=WP),                                   intent(inout) :: zmin                     !< minimum coordinates
+          real(kind=WP),                                   intent(in)    :: diam_max                 !< maximum diameter    
+          real(kind=WP),                                   intent(inout) :: majord_vox               !< majorant of interparticle distance
+          real(kind=WP), dimension(nspbuf,numsph),         intent(in)    :: spbuf                    !< sorted particles
+          real(kind=WP), dimension(3,numnod),              intent(in)    :: x                        !< node corrdinates
+          real(kind=WP), dimension(llgauge,nbgauge),       intent(in)    :: gauge                    !< gauge coordinates
           type(sph_work_voxel_),                     intent(inout) :: voxel                    !< work array for voxels (shared in openmp)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
@@ -103,13 +102,13 @@
           integer :: inod
           integer :: bnbnod(nbk, nbk, nbk),bnbnod2(nbk, nbk, nbk)
           integer :: ibx, iby, ibz, n, ns, ippx, ippz, ippy
-          my_real :: dx,dy,dz,majord_vox_g
-          my_real :: xminl, yminl, zminl, xmaxl, ymaxl, zmaxl
-          my_real :: bdxmin(nbk, nbk, nbk), bdxmax(nbk, nbk, nbk)
-          my_real :: bdymin(nbk, nbk, nbk), bdymax(nbk, nbk, nbk)
-          my_real :: bdzmin(nbk, nbk, nbk), bdzmax(nbk, nbk, nbk)
-          my_real :: llx, lly, llz, zob(6)
-          my_real :: send_buf(voxsiz), recv_buf(voxsiz)
+          real(kind=WP) :: dx,dy,dz,majord_vox_g
+          real(kind=WP) :: xminl, yminl, zminl, xmaxl, ymaxl, zmaxl
+          real(kind=WP) :: bdxmin(nbk, nbk, nbk), bdxmax(nbk, nbk, nbk)
+          real(kind=WP) :: bdymin(nbk, nbk, nbk), bdymax(nbk, nbk, nbk)
+          real(kind=WP) :: bdzmin(nbk, nbk, nbk), bdzmax(nbk, nbk, nbk)
+          real(kind=WP) :: llx, lly, llz, zob(6)
+          real(kind=WP) :: send_buf(voxsiz), recv_buf(voxsiz)
           save    :: majord_vox_g
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body

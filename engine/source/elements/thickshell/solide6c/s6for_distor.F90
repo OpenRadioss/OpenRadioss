@@ -73,35 +73,35 @@
       use constant_mod,          only : zero,zep2,two,five,ten,em20,one_over_6,em02
       use sfor_visn6_mod,        only : sfor_visn6
       use sfor_nsn2seg_mod,      only : sfor_3n2s3
+      use precision_mod,         only : WP
 ! ----------------------------------------------------------------------------------------------------------------------
           implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Included files
 ! ----------------------------------------------------------------------------------------------------------------------
-#include "my_real.inc"
 #include "mvsiz_p.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
           integer, intent(in)                                          :: nel       !< number of elements
           integer, dimension(mvsiz), intent(in)                        :: istab     !< if already high stress (buckling)
-          my_real, dimension(mvsiz), intent(in)                        :: sti_c     !< initial nodal stiffness 
-          my_real, intent(in)                                          :: mu        !< damping coefficient
-          my_real, intent(in)                                          :: fqmax     !< quadratic stiffness limite of self-contact
-          my_real, intent(in)                                          :: dt1       !< time step
-          my_real, dimension(mvsiz), intent(in)                        :: fld       !< damping undimensional array
-          my_real, dimension(mvsiz), intent(in)                        :: ll        !< characteristic length
-          my_real, dimension(mvsiz), intent(inout)                     :: sti       !< nodal stiffness to be updated
-          my_real, dimension(nel),   intent(inout)                     :: e_distor  ! distortion energy
-          my_real, dimension(mvsiz), intent(in   )                     ::        &        
+          real(kind=WP), dimension(mvsiz), intent(in)                        :: sti_c     !< initial nodal stiffness 
+          real(kind=WP), intent(in)                                          :: mu        !< damping coefficient
+          real(kind=WP), intent(in)                                          :: fqmax     !< quadratic stiffness limite of self-contact
+          real(kind=WP), intent(in)                                          :: dt1       !< time step
+          real(kind=WP), dimension(mvsiz), intent(in)                        :: fld       !< damping undimensional array
+          real(kind=WP), dimension(mvsiz), intent(in)                        :: ll        !< characteristic length
+          real(kind=WP), dimension(mvsiz), intent(inout)                     :: sti       !< nodal stiffness to be updated
+          real(kind=WP), dimension(nel),   intent(inout)                     :: e_distor  ! distortion energy
+          real(kind=WP), dimension(mvsiz), intent(in   )                     ::        &        
                                        x1,x2,x3,x4,x5,x6,                        &        
                                        y1,y2,y3,y4,y5,y6,                        &                              
                                        z1,z2,z3,z4,z5,z6                            !< nodal coordinate array
-          my_real, dimension(mvsiz), intent(in   )                     ::        &        
+          real(kind=WP), dimension(mvsiz), intent(in   )                     ::        &        
                                  vx1,vx2,vx3,vx4,vx5,vx6,                        &
                                  vy1,vy2,vy3,vy4,vy5,vy6,                        &
                                  vz1,vz2,vz3,vz4,vz5,vz6                            !< nodal coordinate array
-          my_real, dimension(mvsiz), intent(inout)                     ::        &        
+          real(kind=WP), dimension(mvsiz), intent(inout)                     ::        &        
                                  f11,      f12,      f13,                        &  
                                  f14,      f15,      f16,                        &     
                                  f21,      f22,      f23,                        &     
@@ -111,7 +111,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-      my_real :: xc(mvsiz),yc(mvsiz),zc(mvsiz),stif(mvsiz),                      &
+      real(kind=WP) :: xc(mvsiz),yc(mvsiz),zc(mvsiz),stif(mvsiz),                      &
                  vc(mvsiz,3),forc_n(mvsiz,3),for_t1(mvsiz,3),                    &
                  for_t2(mvsiz,3),for_t3(mvsiz,3),for_t4(mvsiz,3),                &
                  for_t5(mvsiz,3),for_t6(mvsiz,3),                                &

@@ -74,7 +74,7 @@
           integer,                                   intent(in)    :: itabm1(NUMNOD,2)               !< MAP Table UID -> LocalID
           type(SET_),                                intent(inout) :: clause                         !< (SET structure) Clause to be treated
           type(SUBMODEL_DATA),                       intent(in) :: lsubmodel(nsubmod)                !< SUBMODEL Structure
-          integer set_usrtos
+          integer :: set_usrtos
           external set_usrtos
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables

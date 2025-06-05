@@ -54,6 +54,7 @@
           use constant_mod
           use elbufdef_mod
           use names_and_titles_mod, only: ncharline100
+          use precision_mod , only : WP
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                     implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -61,7 +62,6 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                     include
 ! ----------------------------------------------------------------------------------------------------------------------
-#include "my_real.inc"
 #include "mvsiz_p.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                     Arguments
@@ -99,11 +99,11 @@
           integer, dimension(numelr),intent(in)       :: ipartr
           integer, dimension(npart),intent(in)        :: h3d_part
           ! Float arrays
-          my_real, intent(in) :: anim(sz_anin)
-          my_real, intent(in) :: geo(npropg,numgeo)
-          my_real, intent(in) :: pm(npropm,nummat)
-          my_real, intent(in) :: x(3,numnod)
-          my_real, intent(in) :: d(3,numnod)
+          real(kind=WP), intent(in) :: anim(sz_anin)
+          real(kind=WP), intent(in) :: geo(npropg,numgeo)
+          real(kind=WP), intent(in) :: pm(npropm,nummat)
+          real(kind=WP), intent(in) :: x(3,numnod)
+          real(kind=WP), intent(in) :: d(3,numnod)
 
           ! Type arrays
           type (elbuf_struct_), dimension(ngroup), target :: elbuf_tab
@@ -119,19 +119,19 @@
           integer, dimension(numelpg+numelrg+numeltrg),intent(inout) :: is_written_oned
 
           ! Float Arrays
-          my_real, intent(inout) :: oned_scalar(numelt+numelp+numelr)
+          real(kind=WP), intent(inout) :: oned_scalar(numelt+numelp+numelr)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                     Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-          MY_REAL :: MASS(MVSIZ)
-          MY_REAL :: VALUE(MVSIZ)
-          MY_REAL :: OFF
-          MY_REAL :: A1,   B1, B2,    B3
-          MY_REAL :: F1,   M1, M2,    M3
-          MY_REAL :: YEQ,  XM, DAMMX, VOL, DAMINI
-          MY_REAL :: FOR,  AREA, FEQ, EPLAS
-          MY_REAL :: RHO0, A0, XX1, YY1, ZZ1
-          MY_REAL :: AL0,EFRAC
+          real(kind=WP) :: MASS(MVSIZ)
+          real(kind=WP) :: VALUE(MVSIZ)
+          real(kind=WP) :: OFF
+          real(kind=WP) :: A1,   B1, B2,    B3
+          real(kind=WP) :: F1,   M1, M2,    M3
+          real(kind=WP) :: YEQ,  XM, DAMMX, VOL, DAMINI
+          real(kind=WP) :: FOR,  AREA, FEQ, EPLAS
+          real(kind=WP) :: RHO0, A0, XX1, YY1, ZZ1
+          real(kind=WP) :: AL0,EFRAC
 
           INTEGER I,  NG, NEL, NFT,  ITY,  NPT
           INTEGER N,   MLW, IGTYP,IFAIL, IPID

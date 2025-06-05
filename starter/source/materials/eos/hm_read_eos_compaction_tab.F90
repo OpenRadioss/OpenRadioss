@@ -69,6 +69,7 @@
       use eos_table_copy_mod , only : eos_table_copy
       use table_mat_vinterp_mod , only : table_mat_vinterp
       use names_and_titles_mod , only : ncharline
+      use precision_mod, only : WP
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -76,14 +77,13 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Included files
 ! ----------------------------------------------------------------------------------------------------------------------
-#include "my_real.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
       integer,intent(in) :: npropm, maxeos  !< array sizes
       type (unit_type_),intent(in) ::unitab !< data structure for units (/UNIT)
       integer, intent(in) :: iout !< file units
-      my_real, intent(inout) :: pm(npropm)  !< data structure for material laws
+      real(kind=WP), intent(inout) :: pm(npropm)  !< data structure for material laws
       type(submodel_data), dimension(nsubmod), intent(in) :: lsubmodel !< data structure for sumobeling method (//SUBMODEL)
       integer,intent(in) :: uid
       type(eos_tag_),dimension(0:maxeos) ,intent(inout) :: eos_tag !< data structure for EoS
@@ -94,35 +94,35 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-      my_real :: p0, psh, rhoi,rhor
-      my_real :: ssp0
+      real(kind=WP) :: p0, psh, rhoi,rhor
+      real(kind=WP) :: ssp0
       logical :: is_encrypted, is_available
       integer :: P_FUNC_ID, C_FUNC_ID, G_FUNC_ID !< user function identifer
       integer :: IPLAS
       integer :: iform
       integer :: ierror
       integer :: npt
-      my_real :: PSCALE, CSCALE, GSCALE
-      my_real :: GAMMA_TMD,RHO_TMD, C_SOLID
-      my_real :: density_unit
-      my_real :: rhomax_plastic
+      real(kind=WP) :: PSCALE, CSCALE, GSCALE
+      real(kind=WP) :: GAMMA_TMD,RHO_TMD, C_SOLID
+      real(kind=WP) :: density_unit
+      real(kind=WP) :: rhomax_plastic
 
-      my_real :: x1scale, x2scale, x3scale, x4scale
-      my_real :: x2vect(3),x3vect(3),x4vect(3)
-      my_real :: fscale(3)
+      real(kind=WP) :: x1scale, x2scale, x3scale, x4scale
+      real(kind=WP) :: x2vect(3),x3vect(3),x4vect(3)
+      real(kind=WP) :: fscale(3)
 
-      my_real :: slope_end
+      real(kind=WP) :: slope_end
 
-      my_real :: puser, ff, df, rho_, tol, residu  !< variable for newton iteration
+      real(kind=WP) :: puser, ff, df, rho_, tol, residu  !< variable for newton iteration
       integer :: niter, iter !< variable for newton iteration
 
-      my_real, dimension(1,1) :: xvec1 !<temporary array for table interpolation
+      real(kind=WP), dimension(1,1) :: xvec1 !<temporary array for table interpolation
 
       integer :: vartmp(1,3)
-      my_real :: slope(1)
-      my_real :: yy(2)
+      real(kind=WP) :: slope(1)
+      real(kind=WP) :: yy(2)
 
-      integer ipt
+      integer :: ipt
 
       character(len=ncharline) :: mesg2
 

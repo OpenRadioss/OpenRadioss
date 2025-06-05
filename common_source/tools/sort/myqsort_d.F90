@@ -50,8 +50,8 @@
 !-----------------------------------------------
 !   d u m m y   a r g u m e n t s
 !-----------------------------------------------
-      integer n,error,perm(n)
-      double precision a(n)
+      integer :: n,error,perm(n)
+      double precision :: a(n)
 !-----------------------------------------------
 !   l o c a l   v a r i a b l e s
 !-----------------------------------------------
@@ -223,6 +223,6 @@
       enddo
 !-----------
       return
-      end subroutine
+      end subroutine myqsort_d
 
       end module myqsort_d_mod
