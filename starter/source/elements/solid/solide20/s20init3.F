@@ -250,6 +250,8 @@ c
 C
           IF (JTHE == 0 .and. GLOB_THERM%NINTEMP > 0) THEN
             CALL S20TEMP(NEL,NUMNOD,MVSIZ,NPE, NC,NI(1,IP),TEMP,TEMPEL)
+          ELSE
+            TEMPEL(1:NEL) = TEMP0(1:NEL)
           ENDIF             
 !
           CALL MATINI(PM      ,IXS      ,NIXS      ,X         ,
