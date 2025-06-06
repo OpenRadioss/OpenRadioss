@@ -72,9 +72,9 @@ c
         MAT_ELEM%MAT_PARAM(IMAT)%IXFEM        = 0
 c
         MAT_ELEM%MAT_PARAM(IMAT)%NMOD         = 0        ! Number of damage modes
-c
-c       initialize viscosity parameters
-c
+!
+!       ! initialize viscosity model parameters
+!
         MAT_ELEM%MAT_PARAM(IMAT)%VISC%ILAW    = 0
         MAT_ELEM%MAT_PARAM(IMAT)%VISC%NUPARAM = 0
         MAT_ELEM%MAT_PARAM(IMAT)%VISC%NIPARAM = 0
@@ -104,7 +104,7 @@ c
         MAT_ELEM%MAT_PARAM(IMAT)%STIFF_HGLASS  = ZERO
         MAT_ELEM%MAT_PARAM(IMAT)%STIFF_TSTEP   = ZERO
 
-        ! Options compatibility flags
+        ! EOS model parameters
         MAT_ELEM%MAT_PARAM(IMAT)%EOS%TITLE = ''
         MAT_ELEM%MAT_PARAM(IMAT)%EOS%NUPARAM = 0
         MAT_ELEM%MAT_PARAM(IMAT)%EOS%NIPARAM = 0
@@ -113,6 +113,20 @@ c
         MAT_ELEM%MAT_PARAM(IMAT)%EOS%ISFLUID = 0
         MAT_ELEM%MAT_PARAM(IMAT)%EOS%CV = ZERO
         MAT_ELEM%MAT_PARAM(IMAT)%EOS%CP = ZERO
+c        
+        ! Thermal parameters
+        MAT_ELEM%MAT_PARAM(IMAT)%THERM%iform      = 0
+        MAT_ELEM%MAT_PARAM(IMAT)%THERM%func_thexp = 0
+        MAT_ELEM%MAT_PARAM(IMAT)%THERM%TINI       = ZERO
+        MAT_ELEM%MAT_PARAM(IMAT)%THERM%TREF       = ZERO
+        MAT_ELEM%MAT_PARAM(IMAT)%THERM%TMELT      = ZERO
+        MAT_ELEM%MAT_PARAM(IMAT)%THERM%RHOCP      = ZERO
+        MAT_ELEM%MAT_PARAM(IMAT)%THERM%AS         = ZERO
+        MAT_ELEM%MAT_PARAM(IMAT)%THERM%BS         = ZERO
+        MAT_ELEM%MAT_PARAM(IMAT)%THERM%AL         = ZERO
+        MAT_ELEM%MAT_PARAM(IMAT)%THERM%BL         = ZERO
+        MAT_ELEM%MAT_PARAM(IMAT)%THERM%EFRAC      = ZERO
+        MAT_ELEM%MAT_PARAM(IMAT)%THERM%scale_thexp= ZERO
 c        
       END DO
 c-----------

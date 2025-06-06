@@ -61,7 +61,7 @@
 ! --------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! --------------------------------------------------------------------------------------------------
-      integer :: iad,ifix,rfix
+      integer :: ifix,rfix
       integer ,dimension(:) ,allocatable :: ibuf
       real(kind=WP) ,dimension(:) ,allocatable :: rbuf
 ! --------------------------------------------------------------------------------------------------
@@ -72,36 +72,26 @@
       allocate (ibuf(ifix))
       call read_i_c(ibuf,ifix)
 !
-      iad = 1
-        therm%iform = ibuf(iad)
-      iad = iad+1
-        therm%func_thexp = ibuf(iad)
+      therm%iform      = ibuf(1)
+      therm%func_thexp = ibuf(2)
 !
       deallocate(ibuf)
 
       ! read real value parameters
-      rfix = 9
+      rfix = 10
       allocate (rbuf(rfix))
       call read_db(rbuf,rfix)
 !
-      iad = 1
-        therm%tref        = rbuf(iad)
-      iad = iad+1
-        therm%tmelt       = rbuf(iad)
-      iad = iad+1
-        therm%rhocp       = rbuf(iad)
-      iad = iad+1
-        therm%as          = rbuf(iad)
-      iad = iad+1
-        therm%bs          = rbuf(iad)
-      iad = iad+1
-        therm%al          = rbuf(iad)
-      iad = iad+1
-        therm%bl          = rbuf(iad)
-      iad = iad+1
-        therm%efrac       = rbuf(iad)
-      iad = iad+1
-        therm%scale_thexp = rbuf(iad)
+      therm%tini        = rbuf(1)
+      therm%tref        = rbuf(2)
+      therm%tmelt       = rbuf(3)
+      therm%rhocp       = rbuf(4)
+      therm%as          = rbuf(5)
+      therm%bs          = rbuf(6)
+      therm%al          = rbuf(7)
+      therm%bl          = rbuf(8)
+      therm%efrac       = rbuf(9)
+      therm%scale_thexp = rbuf(10)
 !
       deallocate(rbuf)
 !-----------
