@@ -43,9 +43,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    rbe3_mod             ../common_source/modules/constraints/rbe3_mod.F90
       !||    rbe3pen_init_mod     ../engine/source/constraints/general/rbe3/rbe3pen_init.F90
       !||====================================================================
-      SUBROUTINE RBE3T1(RBE3  ,NODES    ,SKEW ,
+      SUBROUTINE RBE3T1(RBE3  ,NODES    ,SKEW  ,
      *                  DMAST ,ADM      ,DINERT,
-     *                  ADI   ,H3D_DATA , DT1,TT )
+     *                  ADI   ,H3D_DATA , DT1  ,
+     *                  TT    ,IMPL_S   )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -76,6 +77,7 @@ C     REAL
       my_real ADM(*)
       my_real DINERT
       my_real ADI(*)    !< Animation buffer
+      INTEGER, INTENT(IN) :: IMPL_S
       TYPE (RBE3_),INTENT(INOUT) :: RBE3
       TYPE (H3D_DATABASE) :: H3D_DATA
       TYPE(NODAL_ARRAYS_), INTENT(INOUT) :: NODES
@@ -95,7 +97,7 @@ C======================================================================|
       ICOM = RBE3%mpi%IAD_RBE3(NSPMD+1)-RBE3%mpi%IAD_RBE3(1)   !< Flag for SPMD communication
       
       IF (NMT0>0) THEN
-       IF (TT==ZERO) CALL RBE3PEN_INIT(NODES%X,NODES%MS,NODES%IN,NODES%STIFN ,NODES%STIFR,NUMNOD,RBE3)
+       IF (NCYCLE==0) CALL RBE3PEN_INIT(NODES%X,NODES%MS,NODES%IN,NODES%STIFN ,NODES%STIFR,NUMNOD,RBE3,TT,IMPL_S)
        CALL PRERBE3P(RBE3%IRBE3 ,RBE3%LRBE3 ,IADMP ,IML   , NMT   )
        IADA=1
        IADMS=IADA+3*NMT
@@ -117,7 +119,7 @@ C       ALLOCATE(RSUM(IADL),STAT=IERR)
      2           NODES%STIFN ,NODES%STIFR ,JT   ,JR    ,RBE3%IROTG ,
      3           MAX_M ,RBE3%RRBE3(IADA),RBE3%RRBE3(IADAR) ,RBE3%RRBE3(IADMS),
      4           RBE3%RRBE3(IADIN),RBE3%RRBE3(IADFN),RBE3%RRBE3(IADFR),NMT0  ,
-     5           IADMP ,RBE3%pen,NODES%V,NODES%VR,NMT ,DT1 ,IRODDL,ncycle)
+     5           IADMP ,RBE3%pen,NODES%V,NODES%VR,NMT ,DT1 ,IRODDL )
 C
        IF (NSPMD>1.AND.IPARIT==0) THEN
             CALL RBE3POFF(RBE3%IRBE3 ,RBE3%LRBE3 ,NODES%A ,NODES%MS ,NODES%WEIGHT,
@@ -189,7 +191,7 @@ C---  reset of secnd nodes forces is necessary w/AMS
       DO N=1,NRBE3
         NS  = RBE3%IRBE3(3,N)
         IPEN= RBE3%IRBE3(9,N)
-        IF(NS/=0.AND.IPEN==0) THEN
+        IF(NS/=0.AND.IPEN<=0) THEN
           IF (NODES%WEIGHT(NS)/=0) THEN
             DO J = 1,3
               IF(JT(J,N)/=0)NODES%A(J,NS)=ZERO
@@ -275,7 +277,7 @@ C-----------
      2                 STIFN ,STIFR ,JT   ,JR    ,IROTG ,
      3                 MAX_M ,AM    ,ARM  ,MSM   ,INM   ,
      4                 STIFNM,STIFRM,NMT0 ,IADMP ,PEN   ,
-     5                 V     ,VR    ,NMT  ,DT1   ,IRODDL,ncycle)
+     5                 V     ,VR    ,NMT  ,DT1   ,IRODDL)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -296,7 +298,7 @@ C-----------------------------------------------
       INTEGER IRBE3(NRBE3L,*),LRBE3(*),WEIGHT(*)
       INTEGER MAX_M,IROTG,JT(3,*),JR(3,*),NMT0,IADMP(*)
       INTEGER, INTENT(IN) :: NMT ! dimension of AM,STIFNM...
-      INTEGER, INTENT(IN) :: IRODDL,ncycle
+      INTEGER, INTENT(IN) :: IRODDL
 C     REAL
       my_real
      .   X(3,*), A(3,*), AR(3,*), MS(*), IN(*), FRBE3(*),SKEW(*),
@@ -470,11 +472,9 @@ C  MS(NS) = ZERO
         IROT =IRBE3(6,N)
         IMOD =IRBE3(8,N)
         IPEN =IRBE3(9,N)
-        IF (NS==0.OR.IPEN==0) CYCLE
+        IF (NS==0.OR.IPEN<=0) CYCLE
         IF (WEIGHT(NS)==1) THEN !STIFNM(k),STIFN(NS),AM(1:3,k)
           N_P = N_P +1 
-          ipr = 0
-          if (IRBE3(2,N)==1.and.ncycle<=1000.and.mod(ncycle,10)==0)ipr = 1
           CALL RBE3F_PEN(                                       
      .          NS      ,NMT0        ,NUMNOD      ,NMT         ,         
      .          NML     ,LRBE3(IAD+1),LRBE3(IADS+IAD+1),IADMP(IAD+1),        
@@ -484,7 +484,7 @@ C  MS(NS) = ZERO
      .         LSKEW    ,NUMSKW      ,SKEW          ,
      .         PEN%RRBE3PEN_D(1,N_P) ,PEN%RRBE3PEN_STF(1,N_P) ,         
      .         PEN%RRBE3PEN_FAC(N_P) ,PEN%RRBE3PEN_VI(N_P)    ,
-     .         PEN%RRBE3PEN_M(1,N_P) ,DT1           ,IRODDL,ipr )
+     .         PEN%RRBE3PEN_M(1,N_P) ,DT1           ,IRODDL )
         ENDIF
       ENDDO
 C
@@ -872,22 +872,17 @@ C----accumulated secnd masses---
         NS  = IRBE3(3,N)
         NML = IRBE3(5,N)
         IPEN= IRBE3(9,N)
-        IF (NS>0.AND.IPEN==0) THEN
+        IF (NS>0.AND.IPEN<=0) THEN
           IF (WEIGHT(NS)==1) THEN
             IF (NML>0) MNS= MNS+MS(NS)*WEIGHT(NS)
-c         DO J = 1,NML
-c    K = IADMP(IAD+J)
-c          DMS(K) = DMS(K) -MNS
-c   ENDDO
             MS(NS) = ZERO
-              IF (IRODDL/=0) IN(NS) = ZERO
+            IF (IRODDL/=0) IN(NS) = ZERO
           ENDIF
         ENDIF
       ENDDO
 C
        DMAS0 = -MNS
        DO J=1,NMT
-C         DMS(J)= MAX(ZERO,DMS(J))
         DMAS0 = DMAS0 + DMS(J)
        ENDDO
        DMAST = DMAST + MAX(ZERO,DMAS0)
@@ -907,7 +902,7 @@ C-------output only when real added mass happened: debug usage
         NS  = IRBE3(3,N)
         NML = IRBE3(5,N)
         IPEN= IRBE3(9,N)
-        IF (NS>0.AND.IPEN==0) THEN
+        IF (NS>0.AND.IPEN<=0) THEN
           IF (WEIGHT(NS)==1) THEN
              DO J = 1,NML
                M = LRBE3(IAD+J)
@@ -926,7 +921,7 @@ C-------output only when real added mass happened: debug usage
         NML = IRBE3(5,N)
         IROT= IRBE3(6,N)
         IPEN= IRBE3(9,N)
-        IF (NS>0.AND.IROT>0.AND.WEIGHT(NS)==1.AND.IPEN==0) THEN
+        IF (NS>0.AND.IROT>0.AND.WEIGHT(NS)==1.AND.IPEN<=0) THEN
          DO J = 1,NML
           M = LRBE3(IAD+J)
           K = IADMP(IAD+J)

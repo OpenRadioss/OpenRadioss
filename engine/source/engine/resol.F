@@ -5926,7 +5926,8 @@ C----------------------------------------------------------
 
                 CALL RBE3T1(RBE3         ,NODES        ,SKEWS%SKEW,
      1                      DMAS         ,ANIN(NDMA+1) ,DINER,
-     2                      ANIN(NDIN+1) ,H3D_DATA, DT1,TT  )
+     2                      ANIN(NDIN+1) ,H3D_DATA     ,  DT1,
+     3                      TT           ,IMPL_S    )
 
                 IF (IMONM > 0) CALL STOPTIME(TIMERS,45)
                 IF (IMON>0) CALL STOPTIME(TIMERS,TIMER_KIN)
