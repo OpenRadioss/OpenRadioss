@@ -65,8 +65,8 @@
       MODULE PBLAST_MOD
 
         use precision_mod, only : WP
-
         implicit none
+        private :: WP
         ! --- data structure for blast parameters (each segment)
         ! ------------------------------------------------------------
         type pblast_struct_

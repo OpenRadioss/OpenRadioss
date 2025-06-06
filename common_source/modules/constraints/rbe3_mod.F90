@@ -46,6 +46,7 @@
       module rbe3_mod
          use precision_mod, only: WP
          implicit none
+         private :: WP
          ! ----------------------------------------------------------------------------------------------------------------------
          
                   integer, parameter :: irbe3_variables = 10      !< first dimension of irbe3

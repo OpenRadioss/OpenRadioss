@@ -91,6 +91,10 @@
       MODULE EBCS_MOD
         USE MULTI_FVM_MOD
         USE NAMES_AND_TITLES_MOD , only : nchartitle
+        USE PRECISION_MOD, ONLY : WP
+        implicit none
+
+        private :: WP 
 
 
 !     -----------------

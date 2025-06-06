@@ -51,6 +51,7 @@
       USE CONSTANT_MOD , ONLY : EM20, EP20, ONE, ZERO, HALF
       USE MATPARAM_DEF_MOD , ONLY :  MATPARAM_STRUCT_
       USE MULTI_SUBMATLAW_MOD , ONLY : MULTI_SUBMATLAW
+      use precision_mod, only : WP
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------

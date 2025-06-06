@@ -83,6 +83,7 @@
       use interface_table_mod
       use elbufdef_mod 
       use constant_mod  
+      use precision_mod, only : WP
 !c-----------------------------------------------
 !c   i m p l i c i t   t y p e 
 !c-----------------------------------------------    

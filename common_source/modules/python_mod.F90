@@ -102,6 +102,8 @@
         use iso_c_binding
         use precision_mod, only : WP
         use python_element_mod
+        implicit none
+        private :: WP
         integer, parameter :: max_line_length = 500 !< the maximum length of a line of code of python function
         integer, parameter :: max_num_lines = 1000 !< the maximum number of lines of python function
         integer, parameter :: max_code_length = max_line_length*max_num_lines

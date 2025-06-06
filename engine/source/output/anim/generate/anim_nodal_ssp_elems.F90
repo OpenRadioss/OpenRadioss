@@ -47,6 +47,7 @@ module anim_nodal_ssp_elems_mod
         use elbufdef_mod
         use multi_fvm_mod , only : multi_fvm_struct
         use constant_mod , only : zero
+        use precision_mod, only : WP
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------

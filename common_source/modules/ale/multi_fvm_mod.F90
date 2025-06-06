@@ -225,6 +225,7 @@
         use elbufdef_mod ,only: l_bufel_,buf_eos_
         use precision_mod, only : WP
         implicit none
+        private :: WP
 
         ! --------------------------------------------------
         ! /INT18 + LAW 151

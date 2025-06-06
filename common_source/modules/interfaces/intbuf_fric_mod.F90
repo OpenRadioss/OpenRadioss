@@ -69,6 +69,7 @@
 !-----------------------------------------------
         use precision_mod , only: WP
         implicit none
+        private :: WP
 !-----------------------------------------------
         type intbuf_fric_struct_
 

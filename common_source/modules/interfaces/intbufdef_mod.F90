@@ -520,6 +520,7 @@
         use metric_mod
         use precision_mod, only : WP
         implicit none
+        private :: WP
 
 
 !

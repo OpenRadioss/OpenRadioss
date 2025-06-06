@@ -26,6 +26,8 @@
       !||====================================================================
        module spring_functions_mod
         use precision_mod, only : WP
+        implicit none
+        private :: WP
 #include "mvsiz_p.inc"
         type chunk_of_table_type
           real(kind=WP), pointer :: X(:) !< X values for a chunk of a table
