@@ -400,17 +400,17 @@
         ! --------------------------------- !<
         integer     :: nmod                 !< number of rupture/damage modes
         ! --------------------------------- !
-        real(kind=WP)     :: rho                  !< reference density
-        real(kind=WP)     :: rho0                 !< initial density        
-        real(kind=WP)     :: young                !< Young modulus        
-        real(kind=WP)     :: bulk                 !< bulk modulus      
-        real(kind=WP)     :: shear                !< shear modulus 
-        real(kind=WP)     :: nu                   !< Poisson's ratio     
-        real(kind=WP)     :: stiff_contact        !< initial contact stiffness 
-        real(kind=WP)     :: stiff_hglass         !< initial hourglass stiffness      
-        real(kind=WP)     :: stiff_tstep          !< initial stiffness for time step stability
+        real(kind=WP) :: rho                !< reference density
+        real(kind=WP) :: rho0               !< initial density        
+        real(kind=WP) :: young              !< Young modulus        
+        real(kind=WP) :: bulk               !< bulk modulus      
+        real(kind=WP) :: shear              !< shear modulus 
+        real(kind=WP) :: nu                 !< Poisson's ratio     
+        real(kind=WP) :: stiff_contact      !< initial contact stiffness 
+        real(kind=WP) :: stiff_hglass       !< initial hourglass stiffness      
+        real(kind=WP) :: stiff_tstep        !< initial stiffness for time step stability
 !
-        real(kind=WP)                   ,dimension(:) ,allocatable :: uparam !< real value material parameter table (nuparam)
+        real(kind=WP)             ,dimension(:) ,allocatable :: uparam !< real value material parameter table (nuparam)
         integer                   ,dimension(:) ,allocatable :: iparam !< integer value material parameter table (niparam)
         type (table_4d_)          ,dimension(:) ,allocatable :: table  !< local function tables
         character(len=nchartitle) ,dimension(:) ,allocatable :: mode   !< damage mode keywords
@@ -468,7 +468,8 @@
             !THERM
             this%therm%iform = 0
             this%therm%func_thexp = 0
-            this%therm%tref = zero
+            this%therm%tini  = zero
+            this%therm%tref  = zero
             this%therm%tmelt = zero
             this%therm%rhocp = zero
             this%therm%as = zero

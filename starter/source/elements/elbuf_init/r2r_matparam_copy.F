@@ -158,6 +158,7 @@ c
 !
         IF (MATPARAM_TAB(I)%ITHERM > 0 .or. MATPARAM_TAB(I)%IEXPAN > 0) THEN
           MATPARAM_TAB(I)%THERM%iform       = MATPARAM_INI(I)%THERM%iform      
+          MATPARAM_TAB(I)%THERM%tini        = MATPARAM_INI(I)%THERM%tini         
           MATPARAM_TAB(I)%THERM%tref        = MATPARAM_INI(I)%THERM%tref         
           MATPARAM_TAB(I)%THERM%tmelt       = MATPARAM_INI(I)%THERM%tmelt      
           MATPARAM_TAB(I)%THERM%rhocp       = MATPARAM_INI(I)%THERM%rhocp      
