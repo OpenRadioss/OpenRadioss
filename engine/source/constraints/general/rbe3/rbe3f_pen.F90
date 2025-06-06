@@ -46,7 +46,7 @@
                 v       ,vr          ,frbe3       ,x          ,         &
                 lskew   ,numskw      ,skew        ,rrbe3pen_d ,         &
             rrbe3pen_stf,rrbe3pen_fac,rrbe3pen_vi ,rrbe3pen_m ,         &
-                dt1     ,iroddl      ,iprint)
+                dt1     ,iroddl      )
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -67,7 +67,7 @@
           integer, intent(in)                                :: nml             !< number of independent nodes
           integer, intent(in)                                :: lskew           !< 1er dimension of skew
           integer, intent(in)                                :: numskw          !< number of skew
-          integer, intent(in)                                :: iroddl,iprint          !< rotational dof flag
+          integer, intent(in)                                :: iroddl          !< rotational dof flag
           integer, dimension(nml),     intent(in   )         :: iml             !< independent node list
           integer, dimension(nml),     intent(in   )         :: ilsk            !< local skew id of independent node
           integer, dimension(nmt0),    intent(in   )         :: iadmp           !< maping to local ind nodes
@@ -232,15 +232,6 @@
           rrbe3pen_m(1:3) = mom(1:3)
           frefb(1:3) = for(1:3)  ! will be distributed to ind nodes
           mrefb(1:3) = mom(1:3)  ! will be distributed to ind nodes
-          if (iprint>0) then 
-            print *,'RBE3:stf',rrbe3pen_stf(1:2),rrbe3pen_vi
-            print *,'RBE3:disp',disp(1:3)
-            print *,'RBE3: omgRb',omgRb(1:3)
-            print *,'RBE3: drot',drot(1:3)
-            print *,'RBE3: v',vit(1:3)
-            print *,'for:',for(1:3)
-            print *,'mom:',mom(1:3)
-          end if
 !
 !-------forces distributions & stifn,stifr update
         fac_vi = one + two*zep05
@@ -329,9 +320,6 @@
       endif !if (icoline>0) then
 !
       a(1:3,ns) = a(1:3,ns) - for(1:3)
-          if (iprint>0) then 
-            print *,'1 for:',for(1:3)
-          end if
 !
 !         
         end subroutine rbe3f_pen
