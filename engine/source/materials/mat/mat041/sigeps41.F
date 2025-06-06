@@ -158,7 +158,7 @@ C-----------------------------------------------
      .        cappa,chi,ccrit,tol,cv,dedv,
      .        artvisc,dt,pres,fc,cburn,enq,SHEAR,vol_rel,dvol_rel
       my_real oldfc,tem1,tem2,chydro,chydro2,dpdmu,dpde,heat
-      my_real mt,pold,er,WFEXTt,wr,wp
+      my_real mt,pold,er,WFEXTt,wr,wp_coef
       integer  itrmax,i_reac,i
       my_real :: beta !volumic fraction of reagent
       my_real, dimension(25) :: funct_parameter
@@ -194,7 +194,7 @@ C-----------------------------------------------
       r1p = uparam(10)
       r2p = uparam(11)
       r3p = uparam(12)
-      wp = uparam(13)
+      wp_coef = uparam(13)
       cvp = uparam(15)
       enq = uparam(16)
       epsil = uparam(17)
@@ -301,7 +301,7 @@ c  dF/dt (F function)
         tmp = tmp + (fc - oldfc) * heat/cv
 c  sound speed (time step criteria)
         chydro2 = dpdmu + abs(pres)*(vol_rel*vol_rel)*dpde + ONEP33*SHEAR
-        chydro2=max(chydro2,max(wr+ONE,wp+ONE)*abs(pres)/max(em30,RHO(I)))
+        chydro2=max(chydro2,max(wr+ONE,wp_coef+ONE)*abs(pres)/max(em30,RHO(I)))
         chydro = sqrt(chydro2)
 c
 C       BUFFER STORAGE

@@ -36,6 +36,7 @@
 
       use precision_mod , only : WP
       implicit none
+      private :: WP
 !=======================================================================      
       
       type therm_param_

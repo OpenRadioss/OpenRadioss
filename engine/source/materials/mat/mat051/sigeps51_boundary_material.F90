@@ -72,6 +72,7 @@
        use multimat_param_mod , only : m51_n0phas, m51_nvphas
        use constant_mod , only : half, zero, one, em20, ep20, two, third, em4,em10, three,em06
        use prop_param_mod , only : n_var_ipm, n_var_pm, n_var_geo, n_var_iparg
+       use precision_mod, only :WP 
 ! ======================================================================================================================
 ! phase 0  dim=M51_N0PHAS
 !          UVAR(1) = TEMP  !post

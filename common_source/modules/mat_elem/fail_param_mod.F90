@@ -20,64 +20,6 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-!Chd|====================================================================
-!Chd|  fail_param_mod                modules/mat_elem/fail_param_mod.f
-!Chd|-- called by -----------
-!Chd|        matparam_def_mod              common_source/modules/mat_elem/matparam_def_mod.f
-!Chd|        fail_fun2sys                  starter/source/materials/tools/fail_fun2sys.f
-!Chd|        fail_tab2sys                  starter/source/materials/tools/fail_tab2sys.f
-!Chd|        hm_read_fail_alter            starter/source/materials/fail/windshield_alter/hm_read_fail_alter.F
-!Chd|        hm_read_fail_biquad           starter/source/materials/fail/biquad/hm_read_fail_biquad.F
-!Chd|        hm_read_fail_chang            starter/source/materials/fail/changchang/hm_read_fail_chang.F
-!Chd|        hm_read_fail_cockcroft        starter/source/materials/fail/cockroft_latham/hm_read_fail_cockcroft.F
-!Chd|        hm_read_fail_connect          starter/source/materials/fail/connect/hm_read_fail_connect.F
-!Chd|        hm_read_fail_emc              starter/source/materials/fail/emc/hm_read_fail_emc.f
-!Chd|        hm_read_fail_energy           starter/source/materials/fail/energy/hm_read_fail_energy.F
-!Chd|        hm_read_fail_fabric           starter/source/materials/fail/fabric/hm_read_fail_fabric.F
-!Chd|        hm_read_fail_fld              starter/source/materials/fail/fld/hm_read_fail_fld.f
-!Chd|        hm_read_fail_gene1            starter/source/materials/fail/gene1/hm_read_fail_gene1.f
-!Chd|        hm_read_fail_gurson           starter/source/materials/fail/gurson/hm_read_fail_gurson.F
-!Chd|        hm_read_fail_hashin           starter/source/materials/fail/hashin/hm_read_fail_hashin.F
-!Chd|        hm_read_fail_hc_dsse          starter/source/materials/fail/hc_dsse/hm_read_fail_hc_dsse.F
-!Chd|        hm_read_fail_hoffman          starter/source/materials/fail/hoffman/hm_read_fail_hoffman.F
-!Chd|        hm_read_fail_inievo           starter/source/materials/fail/inievo/hm_read_fail_inievo.F
-!Chd|        hm_read_fail_johnson          starter/source/materials/fail/johnson_cook/hm_read_fail_johnson.F
-!Chd|        hm_read_fail_ladeveze         starter/source/materials/fail/ladeveze/hm_read_fail_ladeveze.F
-!Chd|        hm_read_fail_maxstrain        starter/source/materials/fail/max_strain/hm_read_fail_maxstrain.F
-!Chd|        hm_read_fail_nxt              starter/source/materials/fail/nxt/hm_read_fail_nxt.f
-!Chd|        hm_read_fail_orthbiquad       starter/source/materials/fail/orthbiquad/hm_read_fail_orthbiquad.F
-!Chd|        hm_read_fail_orthenerg        starter/source/materials/fail/orthenerg/hm_read_fail_orthenerg.F
-!Chd|        hm_read_fail_orthstrain       starter/source/materials/fail/orthstrain/hm_read_fail_orthstrain.F
-!Chd|        hm_read_fail_puck             starter/source/materials/fail/puck/hm_read_fail_puck.f
-!Chd|        hm_read_fail_rtcl             starter/source/materials/fail/rtcl/hm_read_fail_rtcl.f
-!Chd|        hm_read_fail_sahraei          starter/source/materials/fail/sahraei/hm_read_fail_sahraei.F
-!Chd|        hm_read_fail_snconnect        starter/source/materials/fail/snconnect/hm_read_fail_snconnect.F
-!Chd|        hm_read_fail_spalling         starter/source/materials/fail/spalling/hm_read_fail_spalling.F
-!Chd|        hm_read_fail_syazwan          starter/source/materials/fail/syazwan/hm_read_fail_syazwan.F
-!Chd|        hm_read_fail_tab1             starter/source/materials/fail/tabulated/hm_read_fail_tab1.F
-!Chd|        hm_read_fail_tab2             starter/source/materials/fail/tabulated/hm_read_fail_tab2.F
-!Chd|        hm_read_fail_tab_old          starter/source/materials/fail/tabulated/hm_read_fail_tab_old.F
-!Chd|        hm_read_fail_tbutcher         starter/source/materials/fail/tuler_butcher/hm_read_fail_tbutcher.F
-!Chd|        hm_read_fail_tensstrain       starter/source/materials/fail/tensstrain/hm_read_fail_tensstrain.F
-!Chd|        hm_read_fail_tsaihill         starter/source/materials/fail/tsaihill/hm_read_fail_tsaihill.F
-!Chd|        hm_read_fail_tsaiwu           starter/source/materials/fail/tsaiwu/hm_read_fail_tsaiwu.F
-!Chd|        hm_read_fail_user             starter/source/materials/fail/failuser/hm_read_fail_user.F
-!Chd|        hm_read_fail_visual           starter/source/materials/fail/visual/hm_read_fail_visual.F
-!Chd|        hm_read_fail_wierzbicki       starter/source/materials/fail/wierzbicki/hm_read_fail_wierzbicki.F
-!Chd|        hm_read_fail_wilkins          starter/source/materials/fail/wilkins/hm_read_fail_wilkins.F
-!Chd|        hm_read_mullins_or            starter/source/materials/fail/mullins_or/hm_read_fail_mullins_or.F
-!Chd|        write_failparam               starter/source/materials/fail/write_failparam.f
-!Chd|        delm01law                     engine/source/properties/composite_options/stack/delm01law.F
-!Chd|        delm02law                     engine/source/properties/composite_options/stack/delm02law.F
-!Chd|        delm24law                     engine/source/properties/composite_options/stack/delm24law.F
-!Chd|        h3d_fld_tsh                   engine/source/output/h3d/h3d_results/h3d_fld_tsh.f
-!Chd|        read_failparam                engine/source/output/restart/read_failparam.f
-!Chd|        write_failparam               engine/source/output/restart/write_failparam.f
-!Chd|-- calls ---------------
-!Chd|        names_and_titles_mod          modules/names_and_titles_mod.f
-!Chd|        table4d_mod                   modules/table4d_mod.f         
-!Chd|====================================================================
-!
       !||====================================================================
       !||    fail_param_mod            ../common_source/modules/mat_elem/fail_param_mod.F90
       !||--- called by ------------------------------------------------------
@@ -150,6 +92,7 @@
       use precision_mod , only : WP
 
       implicit none
+      private :: WP
 !
 !=======================================================================      
       

@@ -59,6 +59,7 @@
       use constant_mod , only : zero, em06, one, third, fourth, half, two, three, four, em20
       use sensor_mod, only : sensor_str_
       use python_funct_mod
+      use precision_mod, only : WP
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   implicit none
 ! ----------------------------------------------------------------------------------------------------------------------

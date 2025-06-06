@@ -33,6 +33,7 @@
       use precision_mod, only : WP
 
       implicit none
+      private :: WP
 !
 
 !=======================================================================      

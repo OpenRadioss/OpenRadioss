@@ -32,6 +32,7 @@
       module inter_sh_offset_mod
         use precision_mod, only : WP
         implicit none
+        private :: WP
         type sh_offset_
           integer ::  nsh_oset                                 ! number of offset shell to be projected
           integer ::  nnsh_oset                                ! number of nodal offset 

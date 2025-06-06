@@ -334,9 +334,7 @@
       use names_and_titles_mod
       use multimat_param_mod
       use eos_param_mod
-!----------------------------------------------------------------------------------------------------------------------
-!     included files
-!----------------------------------------------------------------------- 
+      use precision_mod, only : WP
       implicit none
 
       private :: WP

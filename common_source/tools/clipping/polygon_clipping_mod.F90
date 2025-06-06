@@ -29,7 +29,9 @@
       !||====================================================================
       module polygon_clipping_mod
         use polygon_mod
+        use precision_mod, only : WP
         implicit none
+        private :: WP
 
           !pointer to a list of data structure below
           type pointer_to_point_

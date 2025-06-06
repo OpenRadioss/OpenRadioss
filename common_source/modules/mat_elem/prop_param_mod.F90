@@ -20,14 +20,6 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-!Chd|====================================================================
-!Chd|  prop_param_mod                modules/mat_elem/prop_param_mod.f
-!Chd|-- called by -----------
-!Chd|        mat_elem_mod                  common_source/modules/mat_elem/mat_elem_mod.f
-!Chd|-- calls ---------------
-!Chd|        ply_param_mod                 modules/mat_elem/ply_param_mod.f
-!Chd|====================================================================
-
       !||====================================================================
       !||    prop_param_mod               ../common_source/modules/mat_elem/prop_param_mod.F90
       !||--- called by ------------------------------------------------------
@@ -47,12 +39,11 @@
 
         use ply_param_mod
         use names_and_titles_mod, only: nchartitle
+        use precision_mod, only: WP
 
-!----------------------------------------------------------------------- 
-!     included files
-!----------------------------------------------------------------------- 
 
       implicit none
+      private :: WP
 !----------------------------------------------------------------------- 
 
 !----------------------------------------------------------------------- 

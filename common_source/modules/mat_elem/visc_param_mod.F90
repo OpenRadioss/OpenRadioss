@@ -20,25 +20,6 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-!Chd|====================================================================
-!Chd|  visc_param_mod                modules/mat_elem/visc_param_mod.f
-!Chd|-- called by -----------
-!Chd|        matparam_def_mod              common_source/modules/mat_elem/matparam_def_mod.F90
-!Chd|        hm_read_visc_lprony           starter/source/materials/visc/hm_read_visc_lprony.f
-!Chd|        hm_read_visc_prony            starter/source/materials/visc/hm_read_visc_prony.f
-!Chd|        updmat                        starter/source/materials/updmat.f
-!Chd|        write_viscparam               starter/source/materials/mat/write_viscparam.f
-!Chd|        read_viscparam                engine/source/output/restart/read_viscparam.f
-!Chd|        viscmain                      engine/source/materials/visc/viscmain.f
-!Chd|        visc_et                       engine/source/elements/solid/solidez/visc_et.f
-!Chd|        visc_prony                    engine/source/materials/visc/visc_prony.f
-!Chd|        visc_prony_lstrain            engine/source/materials/visc/visc_prony_lstrain.f
-!Chd|        write_viscparam               engine/source/output/restart/write_viscparam.f
-!Chd|-- calls ---------------
-!Chd|        names_and_titles_mod          modules/names_and_titles_mod.f
-!Chd|        table4d_mod                   modules/table4d_mod.f         
-!Chd|====================================================================
-
       !||====================================================================
       !||    visc_param_mod         ../common_source/modules/mat_elem/visc_param_mod.F90
       !||--- called by ------------------------------------------------------
@@ -73,6 +54,7 @@
 !----------------------------------------------------------------------- 
 
       implicit none
+      private :: WP
 !
 !
 !=======================================================================      

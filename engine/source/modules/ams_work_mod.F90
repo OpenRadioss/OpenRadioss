@@ -32,6 +32,7 @@
         module ams_work_mod
             use precision_mod , only: WP
             implicit none
+            private :: WP 
             type ams_check_                                  !< replace module name in sms_fsa_inv (sms_check routine)
                   integer, dimension(:), allocatable :: iadm
                   integer, dimension(:), allocatable :: jadm

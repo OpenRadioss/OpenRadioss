@@ -62,6 +62,7 @@
           use inter_sh_offset_mod ,     only: sh_offset_
           use inter_sh_offset_dim_mod , only: inter_sh_offset_dim
           use spmd_exch_vnpon_mod ,     only: spmd_exch_vnpon
+          use precision_mod, only : WP
 ! ----------------------------------------------------------------------------------------------------------------------
           implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
