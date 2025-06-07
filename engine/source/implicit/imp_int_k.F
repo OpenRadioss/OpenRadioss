@@ -33,6 +33,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    i7ke3           ../engine/source/interfaces/int07/i7ke3.F
       !||    upd_int_k       ../engine/source/implicit/upd_glob_k.F
       !||--- uses       -----------------------------------------------------
+      !||    imp_intbuf      ../engine/share/modules/imp_mod_def.F90
+      !||    imp_inttd       ../engine/share/modules/imp_mod_def.F90
+      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
       !||    sensor_mod      ../common_source/modules/sensor_mod.F90
       !||====================================================================
       SUBROUTINE IMP_INT_K( A     ,V         ,
@@ -376,6 +379,7 @@ C
       !||    imp_icomcrit       ../engine/source/implicit/imp_int_k.F
       !||    spmd_min_s         ../engine/source/mpi/implicit/imp_spmd.F
       !||--- uses       -----------------------------------------------------
+      !||    intbufdef_mod      ../common_source/modules/interfaces/intbufdef_mod.F90
       !||    sensor_mod         ../common_source/modules/sensor_mod.F90
       !||====================================================================
       SUBROUTINE IMP_INTDT(
@@ -545,6 +549,7 @@ C
       !||    spmd_get_stif11   ../engine/source/mpi/interfaces/send_cand.F
       !||    spmd_sync_mmx     ../engine/source/mpi/interfaces/spmd_sync_mmx.F
       !||--- uses       -----------------------------------------------------
+      !||    intbufdef_mod     ../common_source/modules/interfaces/intbufdef_mod.F90
       !||    sensor_mod        ../common_source/modules/sensor_mod.F90
       !||====================================================================
       SUBROUTINE IMP_ICOMCRIT(
@@ -703,6 +708,7 @@ C
       !||    glob_therm_mod   ../common_source/modules/mat_elem/glob_therm_mod.F90
       !||    groupdef_mod     ../common_source/modules/groupdef_mod.F
       !||    h3d_mod          ../engine/share/modules/h3d_mod.F
+      !||    intbufdef_mod    ../common_source/modules/interfaces/intbufdef_mod.F90
       !||    multi_fvm_mod    ../common_source/modules/ale/multi_fvm_mod.F90
       !||    sensor_mod       ../common_source/modules/sensor_mod.F90
       !||    timer_mod        ../engine/source/system/timer_mod.F90
@@ -1079,6 +1085,7 @@ C
       !||    glob_therm_mod    ../common_source/modules/mat_elem/glob_therm_mod.F90
       !||    groupdef_mod      ../common_source/modules/groupdef_mod.F
       !||    h3d_mod           ../engine/share/modules/h3d_mod.F
+      !||    intbufdef_mod     ../common_source/modules/interfaces/intbufdef_mod.F90
       !||    multi_fvm_mod     ../common_source/modules/ale/multi_fvm_mod.F90
       !||    sensor_mod        ../common_source/modules/sensor_mod.F90
       !||    timer_mod         ../engine/source/system/timer_mod.F90
@@ -1370,6 +1377,7 @@ C
       !||--- calls      -----------------------------------------------------
       !||    cp_int       ../engine/source/implicit/produt_v.F
       !||--- uses       -----------------------------------------------------
+      !||    imp_inttd    ../engine/share/modules/imp_mod_def.F90
       !||====================================================================
       SUBROUTINE CP_INTTD(NT_IMP1,NUMIMP ,NS_IMP,NE_IMP,IND_IMP,NUMIMP1)
 C-----------------------------------------------
@@ -1424,6 +1432,7 @@ C
       !||--- called by ------------------------------------------------------
       !||    imp_solv    ../engine/source/implicit/imp_solv.F
       !||--- uses       -----------------------------------------------------
+      !||    imp_inttd   ../engine/share/modules/imp_mod_def.F90
       !||====================================================================
       SUBROUTINE SAV_INTTD(NT_IMP,NUMIMP,NS_IMP,NE_IMP,IND_IMP,
      1                     NUMIMP1)
@@ -1531,6 +1540,7 @@ C
       !||    i23main_tri   ../engine/source/interfaces/intsort/i23main_tri.F
       !||    i7main_tri    ../engine/source/interfaces/intsort/i7main_tri.F
       !||--- uses       -----------------------------------------------------
+      !||    imp_inttd     ../engine/share/modules/imp_mod_def.F90
       !||====================================================================
       SUBROUTINE IMP_RNUMCD(CAND_N ,NIN,NSN,NUM_IMP,INDEX )
 C-----------------------------------------------
@@ -1570,6 +1580,7 @@ C
       !||--- calls      -----------------------------------------------------
       !||    imp_intdt       ../engine/source/implicit/imp_int_k.F
       !||--- uses       -----------------------------------------------------
+      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
       !||    sensor_mod      ../common_source/modules/sensor_mod.F90
       !||====================================================================
       SUBROUTINE IMP_DTKIN(
@@ -1676,6 +1687,7 @@ C
       !||--- uses       -----------------------------------------------------
       !||    imp_aspc        ../engine/share/modules/impbufdef_mod.F
       !||    imp_knon        ../engine/share/modules/impbufdef_mod.F
+      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
       SUBROUTINE KIN_KNL(         
      1    IPARI     ,INTBUF_TAB ,NUM_IMP   ,NS_IMP    ,NE_IMP    ,
@@ -1839,6 +1851,7 @@ C------------return origine NDOFI(I)----
       !||--- uses       -----------------------------------------------------
       !||    imp_aspc        ../engine/share/modules/impbufdef_mod.F
       !||    imp_rwl         ../engine/share/modules/impbufdef_mod.F
+      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
       SUBROUTINE DIM_KINKN(
      1    NPBY      ,LPBY      ,NRBYAC    ,IRBYAC    ,NINT2     ,
@@ -1976,6 +1989,7 @@ C----6---------------------------------------------------------------7---------8
       !||--- uses       -----------------------------------------------------
       !||    imp_aspc        ../engine/share/modules/impbufdef_mod.F
       !||    imp_rwl         ../engine/share/modules/impbufdef_mod.F
+      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
       SUBROUTINE INI_KINKN(
      1    NPBY      ,LPBY      ,NRBYAC    ,IRBYAC    ,NINT2     ,
@@ -2166,6 +2180,7 @@ C----6---------------------------------------------------------------7---------8
       !||--- called by ------------------------------------------------------
       !||    kin_knl         ../engine/source/implicit/imp_int_k.F
       !||--- uses       -----------------------------------------------------
+      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
       SUBROUTINE IDDL_MINT(NML    ,IML     ,IDDL    ,IKC     ,NDOF     ,
      .                    IDDLM   ,IPARI   ,INTBUF_TAB,IDDML   ,NRB_FR   ,
@@ -2381,6 +2396,7 @@ C
       !||    zeror           ../engine/source/system/zero.F
       !||--- uses       -----------------------------------------------------
       !||    imp_knon        ../engine/share/modules/impbufdef_mod.F
+      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
       SUBROUTINE INT_MATV(IPARI  ,INTBUF_TAB     ,NDOF   ,NUM_IMP,
      1                    NS_IMP ,NE_IMP ,INDEX2 ,A      ,AR     ,
@@ -2476,6 +2492,7 @@ C----------------
       !||--- uses       -----------------------------------------------------
       !||    imp_intm        ../engine/share/modules/imp_intm.F
       !||    imp_knon        ../engine/share/modules/impbufdef_mod.F
+      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
       SUBROUTINE INT_MATVP(IPARI  ,INTBUF_TAB  ,NDOF   ,NUM_IMP,
      1                    NS_IMP ,NE_IMP ,INDEX2 ,A      ,AR     ,
@@ -2574,6 +2591,7 @@ C----------------
       !||    i11fku3         ../engine/source/interfaces/int11/i11ke3.F
       !||    i7fku3          ../engine/source/interfaces/int07/i7ke3.F
       !||--- uses       -----------------------------------------------------
+      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
       SUBROUTINE INT_FKU3(A      ,V      ,MS     ,D      ,IPARI  ,
      1                   INTBUF_TAB      ,X      ,NUM_IMP,NS_IMP ,

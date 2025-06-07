@@ -31,6 +31,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    imp_frsl        ../engine/source/mpi/implicit/imp_fri.F
       !||    spmd_sumf_v     ../engine/source/mpi/implicit/imp_spmd.F
       !||--- uses       -----------------------------------------------------
+      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
       SUBROUTINE IMP_FRI(
      1    NUM_IMP   ,NS_IMP    ,NE_IMP    ,IPARI     ,INTBUF_TAB,
@@ -129,6 +130,7 @@ C----6---------------------------------------------------------------7---------8
       !||    produt_vmhp     ../engine/source/implicit/produt_v.F
       !||    spmd_sumf_v     ../engine/source/mpi/implicit/imp_spmd.F
       !||--- uses       -----------------------------------------------------
+      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
       SUBROUTINE IMP_FRFV(
      1    NUM_IMP   ,NS_IMP    ,NE_IMP    ,IPARI     ,INTBUF_TAB,
@@ -245,6 +247,7 @@ C----6---------------------------------------------------------------7---------8
       !||    tag_intm11      ../engine/source/mpi/implicit/imp_fri.F
       !||    tag_ints        ../engine/source/mpi/implicit/imp_fri.F
       !||--- uses       -----------------------------------------------------
+      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
       SUBROUTINE IMP_FRKI(
      1    IPARI     ,INTBUF_TAB,NUM_IMP   ,NS_IMP    ,NE_IMP    ,
@@ -375,6 +378,7 @@ C  ------retouve ISL en num global(par chaque proc)---
       !||    imp_frki        ../engine/source/mpi/implicit/imp_fri.F
       !||--- uses       -----------------------------------------------------
       !||    imp_intm        ../engine/share/modules/imp_intm.F
+      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
       SUBROUTINE IMP_FRSN(IPARI ,INTBUF_TAB  ,NBINTC,INTLIST)
 C-----------------------------------------------
@@ -494,6 +498,7 @@ C
       !||    imp_solv        ../engine/source/implicit/imp_solv.F
       !||--- uses       -----------------------------------------------------
       !||    imp_intm        ../engine/share/modules/imp_intm.F
+      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
       !||    tri7box         ../engine/share/modules/tri7box.F
       !||====================================================================
       SUBROUTINE IMP_FR7I(IPARI ,INTBUF_TAB,NUM_IMP ,NS_IMP ,NSREM ,
@@ -867,6 +872,7 @@ C----6---------------------------------------------------------------7---------8
       !||    imp_frfv        ../engine/source/mpi/implicit/imp_fri.F
       !||--- uses       -----------------------------------------------------
       !||    imp_intm        ../engine/share/modules/imp_intm.F
+      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
       SUBROUTINE INI_DDFV(IDDL ,IKC  ,NDOF  ,IPARI ,INTBUF_TAB ,
      .                    D    ,DR   ,DD    ,DDR   ,NSL   ,
@@ -1030,6 +1036,7 @@ C----6---------------------------------------------------------------7---------8
       !||    imp_frfv        ../engine/source/mpi/implicit/imp_fri.F
       !||--- uses       -----------------------------------------------------
       !||    imp_intm        ../engine/share/modules/imp_intm.F
+      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
       SUBROUTINE INI_DD0(IDDL ,IKC  ,NDOF  ,IPARI ,INTBUF_TAB ,
      .                   DD   ,DDR  ,NSL   ,IRBE3 ,LRBE3 ,
@@ -1235,6 +1242,7 @@ C----6---------------------------------------------------------------7---------8
       !||--- called by ------------------------------------------------------
       !||    imp_frki        ../engine/source/mpi/implicit/imp_fri.F
       !||--- uses       -----------------------------------------------------
+      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
       SUBROUTINE DIM_KINEFR(
      1    NPBY      ,LPBY      ,ITAB      ,NRBYAC    ,IRBYAC    ,
@@ -1345,6 +1353,7 @@ C----6---------------------------------------------------------------7---------8
       !||    imp_aspc        ../engine/share/modules/impbufdef_mod.F
       !||    imp_intm        ../engine/share/modules/imp_intm.F
       !||    imp_rwl         ../engine/share/modules/impbufdef_mod.F
+      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
       SUBROUTINE IND_KINEFR(
      1    NPBY      ,LPBY      ,ITAB      ,NRBYAC    ,IRBYAC    ,
@@ -1599,6 +1608,7 @@ C----6---------------------------------------------------------------7---------8
       !||    rbe3cl          ../engine/source/constraints/general/rbe3/rbe3f.F
       !||--- uses       -----------------------------------------------------
       !||    imp_intm        ../engine/share/modules/imp_intm.F
+      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
       SUBROUTINE IDDL_INT(NSL    ,IDDL    ,IKC     ,NDOF     ,IDDLM   ,
      .                    IPARI  ,INTBUF_TAB,IRBE3   ,LRBE3    ,FRBE3   ,
@@ -1821,6 +1831,7 @@ C
       !||    imp_aspc        ../engine/share/modules/impbufdef_mod.F
       !||    imp_intm        ../engine/share/modules/imp_intm.F
       !||    imp_rwl         ../engine/share/modules/impbufdef_mod.F
+      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
       SUBROUTINE DIAG_INT(NSL    ,NDOF    ,IPARI  ,INTBUF_TAB,
      .                    KSS    ,X       ,IBFV   ,SKEW    ,XFRAME,
@@ -2157,6 +2168,7 @@ C   --------- ----
       !||    lin_solvih2     ../engine/source/implicit/lin_solv.F
       !||--- uses       -----------------------------------------------------
       !||    imp_intm        ../engine/share/modules/imp_intm.F
+      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
       SUBROUTINE IMP_DIAGS(DIAG_K,NDOF,NSL,IPARI,INTBUF_TAB,IRBE3,LRBE3,
      .                     IRBE2 )
@@ -2270,6 +2282,7 @@ C   --------- ----
       !||    lin_solvih2     ../engine/source/implicit/lin_solv.F
       !||--- uses       -----------------------------------------------------
       !||    imp_intm        ../engine/share/modules/imp_intm.F
+      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
       SUBROUTINE IMP_DIAGSN(DIAG_K,NDOF,NSL,IPARI,INTBUF_TAB,IRBE3,LRBE3,
      .                      IRBE2 )
@@ -2395,6 +2408,7 @@ C----6---------------------------------------------------------------7---------8
       !||    spmd_ifru       ../engine/source/mpi/implicit/imp_spmd.F
       !||    upd_fr          ../engine/source/mpi/implicit/imp_fri.F
       !||--- uses       -----------------------------------------------------
+      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
       SUBROUTINE FR_MATV(  A     ,V     ,D      ,MS     ,X      ,
      1                     DR    ,AR    ,IPARI  ,INTBUF_TAB     ,
@@ -2584,6 +2598,7 @@ C
       !||    imp_aspc        ../engine/share/modules/impbufdef_mod.F
       !||    imp_intm        ../engine/share/modules/imp_intm.F
       !||    imp_rwl         ../engine/share/modules/impbufdef_mod.F
+      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
       SUBROUTINE FR_U2DD( D     ,DR    ,X     ,IPARI  ,INTBUF_TAB,
      .                    NDOF  ,A     ,AR     ,LX     ,
@@ -2807,6 +2822,7 @@ C
       !||    imp_aspc        ../engine/share/modules/impbufdef_mod.F
       !||    imp_intm        ../engine/share/modules/imp_intm.F
       !||    imp_rwl         ../engine/share/modules/impbufdef_mod.F
+      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
       SUBROUTINE UPD_FR(  A     ,AR     ,X     ,IPARI  ,INTBUF_TAB,
      1                   NDOF   ,IBFV  ,SKEW   ,XFRAME ,
@@ -2977,6 +2993,7 @@ C
       !||    fr_matv         ../engine/source/mpi/implicit/imp_fri.F
       !||--- uses       -----------------------------------------------------
       !||    imp_intm        ../engine/share/modules/imp_intm.F
+      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
       SUBROUTINE FR_A2BD(NDOF  ,IPARI ,INTBUF_TAB  ,LB    ,A     ,
      .                   AR    ,IRBE3 ,LRBE3  ,IRBE2 ,LRBE2  )
@@ -4696,6 +4713,7 @@ C--------------------------------------------
       !||    rowfr_ind24     ../engine/source/mpi/implicit/imp_fri.F
       !||    set_ind_fr      ../engine/source/mpi/implicit/imp_fri.F
       !||--- uses       -----------------------------------------------------
+      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
       SUBROUTINE IND_FRKD(
      1    IPARI     ,INTBUF_TAB,NUM_IMP   ,NS_IMP    ,NE_IMP    ,
@@ -5306,6 +5324,7 @@ C----6---------------------------------------------------------------7---------8
       !||    upd_kml         ../engine/source/mpi/implicit/imp_fri.F
       !||    upd_ksl         ../engine/source/mpi/implicit/imp_fri.F
       !||--- uses       -----------------------------------------------------
+      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
       SUBROUTINE IMP_FRKD(
      1      NPBY      ,LPBY      ,ITAB      ,NRBYAC    ,IRBYAC    ,
@@ -5717,6 +5736,7 @@ C
       !||    imp_aspc        ../engine/share/modules/impbufdef_mod.F
       !||    imp_intm        ../engine/share/modules/imp_intm.F
       !||    imp_rwl         ../engine/share/modules/impbufdef_mod.F
+      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
       SUBROUTINE UPD_KSL(
      1    IPARI     ,INTBUF_TAB,NINT2     ,IINT2     ,
@@ -6522,6 +6542,7 @@ C----6---------------------------------------------------------------7---------8
       !||    ini_slnr        ../engine/source/mpi/implicit/imp_fri.F
       !||    tag_ints        ../engine/source/mpi/implicit/imp_fri.F
       !||--- uses       -----------------------------------------------------
+      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
       SUBROUTINE KIN_KSL(
      1    IPARI     ,INTBUF_TAB,NINT2     ,IINT2     ,
@@ -6716,6 +6737,7 @@ C----6---------------------------------------------------------------7---------8
       !||    kin_kml         ../engine/source/mpi/implicit/imp_fri.F
       !||    kin_ksl         ../engine/source/mpi/implicit/imp_fri.F
       !||--- uses       -----------------------------------------------------
+      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
       SUBROUTINE DIM_KINFRK(
      1    NPBY      ,LPBY      ,ITAB      ,NRBYAC    ,IRBYAC    ,
@@ -6859,6 +6881,7 @@ C----6---------------------------------------------------------------7---------8
       !||    imp_aspc        ../engine/share/modules/impbufdef_mod.F
       !||    imp_intm        ../engine/share/modules/imp_intm.F
       !||    imp_rwl         ../engine/share/modules/impbufdef_mod.F
+      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
       SUBROUTINE IND_KINFRK(
      1    NPBY      ,LPBY      ,ITAB      ,NRBYAC    ,IRBYAC    ,
@@ -7402,6 +7425,7 @@ C
       !||    ind_kinfrk      ../engine/source/mpi/implicit/imp_fri.F
       !||    ini_slnr        ../engine/source/mpi/implicit/imp_fri.F
       !||--- uses       -----------------------------------------------------
+      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
       SUBROUTINE KIN_KML(
      1    IPARI     ,INTBUF_TAB,NINT2     ,IINT2     ,     
@@ -7697,6 +7721,7 @@ C
       !||    imp_aspc        ../engine/share/modules/impbufdef_mod.F
       !||    imp_intm        ../engine/share/modules/imp_intm.F
       !||    imp_rwl         ../engine/share/modules/impbufdef_mod.F
+      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
       SUBROUTINE UPD_KML(
      1    IPARI     ,INTBUF_TAB,NINT2     ,IINT2     ,
@@ -9941,6 +9966,7 @@ C
       !||    spmd_nddlig     ../engine/source/mpi/implicit/imp_spmd.F
       !||--- uses       -----------------------------------------------------
       !||    imp_frk         ../engine/share/modules/impbufdef_mod.F
+      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
       SUBROUTINE GETNDDLI_G(
      1    NPBY      ,LPBY      ,ITAB      ,NRBYAC    ,IRBYAC    ,
@@ -9996,6 +10022,7 @@ C
       !||--- calls      -----------------------------------------------------
       !||    ndofi_nsl       ../engine/source/mpi/implicit/imp_fri.F
       !||--- uses       -----------------------------------------------------
+      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
       SUBROUTINE NDDLI_NS(
      1    NPBY      ,LPBY      ,ITAB      ,NRBYAC    ,IRBYAC    ,

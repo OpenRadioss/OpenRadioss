@@ -321,6 +321,7 @@
       !||    fail_param_mod                      ../common_source/modules/mat_elem/fail_param_mod.F90
       !||    multimat_param_mod                  ../common_source/modules/multimat_param_mod.F90
       !||    names_and_titles_mod                ../common_source/modules/names_and_titles_mod.F
+      !||    precision_mod                       ../common_source/modules/precision_mod.F90
       !||    table4d_mod                         ../common_source/modules/table4d_mod.F
       !||    therm_param_mod                     ../common_source/modules/mat_elem/therm_param_mod.F90
       !||    visc_param_mod                      ../common_source/modules/mat_elem/visc_param_mod.F90

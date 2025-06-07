@@ -47,6 +47,7 @@
       !||    constant_mod          ../common_source/modules/constant_mod.F
       !||    groupdef_mod          ../common_source/modules/groupdef_mod.F
       !||    monvol_struct_mod     ../engine/share/modules/monvol_struct_mod.F
+      !||    precision_mod         ../common_source/modules/precision_mod.F90
       !||====================================================================
         subroutine get_volume_area(ispmd,nspmd,numelc,numeltg, &
                        nvolu,nsurf,intbag,sporo,&

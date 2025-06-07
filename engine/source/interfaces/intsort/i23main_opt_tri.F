@@ -27,6 +27,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- calls      -----------------------------------------------------
       !||    i23optcd          ../engine/source/interfaces/int23/i23optcd.F
       !||--- uses       -----------------------------------------------------
+      !||    intbufdef_mod     ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
       SUBROUTINE I23MAIN_OPT_TRI(
      1                  IPARI   ,INTBUF_TAB ,NIN     ,ITASK ,

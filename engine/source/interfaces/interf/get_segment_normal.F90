@@ -41,6 +41,8 @@
       !||    get_segment_orientation                  ../engine/source/interfaces/interf/get_segment_orientation.F90
       !||--- uses       -----------------------------------------------------
       !||    constant_mod                             ../common_source/modules/constant_mod.F
+      !||    intbufdef_mod                            ../common_source/modules/interfaces/intbufdef_mod.F90
+      !||    precision_mod                            ../common_source/modules/precision_mod.F90
       !||====================================================================
         subroutine get_segment_normal( segment_id,segment_node_id,segment_position,normal,intbuf_tab,numnod,x )
 ! ----------------------------------------------------------------------------------------------------------------------

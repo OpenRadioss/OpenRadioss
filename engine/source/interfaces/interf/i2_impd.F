@@ -27,6 +27,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- calls      -----------------------------------------------------
       !||    int2_imp2       ../engine/source/interfaces/interf/i2_imp2.F
       !||--- uses       -----------------------------------------------------
+      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
       SUBROUTINE I2_IMPD(NINT2 ,IINT2,IPARI,INTBUF_TAB  ,
      .                   X     ,MS   ,IN   ,WEIGHT,NDOF ,

@@ -32,6 +32,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    my_barrier         ../engine/source/system/machine.F
       !||    upgrade_cand_opt   ../common_source/interf/upgrade_multimp.F
       !||--- uses       -----------------------------------------------------
+      !||    intbufdef_mod      ../common_source/modules/interfaces/intbufdef_mod.F90
       !||    tri7box            ../engine/share/modules/tri7box.F
       !||====================================================================
       SUBROUTINE I25MAIN_OPT_TRI(

@@ -130,6 +130,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    imp_pcg_proj     ../engine/share/modules/impbufdef_mod.F
       !||    imp_worki        ../engine/share/modules/impbufdef_mod.F
       !||    impbufdef_mod    ../engine/share/modules/impbufdef_mod.F
+      !||    intbufdef_mod    ../common_source/modules/interfaces/intbufdef_mod.F90
       !||    message_mod      ../engine/share/message_module/message_mod.F
       !||    multi_fvm_mod    ../common_source/modules/ale/multi_fvm_mod.F90
       !||    sensor_mod       ../common_source/modules/sensor_mod.F90
@@ -3112,6 +3113,7 @@ C------------------------------------------
       !||    h3d_mod         ../engine/share/modules/h3d_mod.F
       !||    imp_worki       ../engine/share/modules/impbufdef_mod.F
       !||    impbufdef_mod   ../engine/share/modules/impbufdef_mod.F
+      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
       !||    sensor_mod      ../common_source/modules/sensor_mod.F90
       !||    skew_mod        ../common_source/modules/skew_mod.F90
       !||    stack_mod       ../engine/share/modules/stack_mod.F
@@ -3741,6 +3743,7 @@ C    /---------------/
       !||--- called by ------------------------------------------------------
       !||    imp_chkm        ../engine/source/implicit/imp_solv.F
       !||--- uses       -----------------------------------------------------
+      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
       !||    sensor_mod      ../common_source/modules/sensor_mod.F90
       !||====================================================================
       SUBROUTINE IMP_COMPAB(
@@ -4137,6 +4140,7 @@ C--------rwall---------
       !||    spmd_send_vi    ../engine/source/mpi/implicit/imp_spmd.F
       !||    spmd_sum_s      ../engine/source/mpi/implicit/imp_spmd.F
       !||--- uses       -----------------------------------------------------
+      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
       !||    sensor_mod      ../common_source/modules/sensor_mod.F90
       !||====================================================================
       SUBROUTINE IMP_COMPABP(
@@ -4902,6 +4906,7 @@ C------------------------------------------
       !||--- uses       -----------------------------------------------------
       !||    imp_bfgs          ../engine/share/modules/impbufdef_mod.F
       !||    imp_dyna          ../engine/share/modules/impbufdef_mod.F
+      !||    imp_intbuf        ../engine/share/modules/imp_mod_def.F90
       !||    imp_kbcs          ../engine/share/modules/impbufdef_mod.F
       !||    imp_pcg_proj      ../engine/share/modules/impbufdef_mod.F
       !||    imp_qstat         ../engine/share/modules/impbufdef_mod.F
@@ -7026,6 +7031,7 @@ C------------------------------------------
       !||====================================================================
       !||    print_stif      ../engine/source/implicit/imp_solv.F
       !||--- uses       -----------------------------------------------------
+      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
       !||    tri7box         ../engine/share/modules/tri7box.F
       !||====================================================================
       SUBROUTINE PRINT_STIF(IPARI,INTBUF_TAB,IFLAG,NN     ,JG    )
@@ -7196,6 +7202,7 @@ C
       !||    rby_impr1       ../engine/source/constraints/general/rbody/rby_imp0.F
       !||    rby_impr2       ../engine/source/constraints/general/rbody/rby_imp0.F
       !||--- uses       -----------------------------------------------------
+      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
       SUBROUTINE UPD_RHS_FR(ICODT ,ICODR ,ISKEW ,IBFV    ,XFRAME ,
      1                   RBY   ,X     ,SKEW   ,LPBY   ,NPBY   ,
@@ -7300,6 +7307,7 @@ C
       !||    imp_setba       ../engine/source/implicit/imp_setb.F
       !||    upd_rhs_fr      ../engine/source/implicit/imp_solv.F
       !||--- uses       -----------------------------------------------------
+      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
       SUBROUTINE IMP_INTFR(
      1    NUM_IMP   ,NS_IMP    ,NE_IMP    ,IPARI     ,INTBUF_TAB,
@@ -7418,6 +7426,7 @@ C----6---------------------------------------------------------------7---------8
       !||--- called by ------------------------------------------------------
       !||    imp_solv         ../engine/source/implicit/imp_solv.F
       !||--- uses       -----------------------------------------------------
+      !||    intbufdef_mod    ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
       SUBROUTINE INI_BMINMA_IMP(INTBUF_TAB)
 C-----------------------------------------------
@@ -8545,6 +8554,7 @@ C------------------------------------------
       !||--- called by ------------------------------------------------------
       !||    dim_int7         ../engine/source/implicit/ind_glob_k.F
       !||--- uses       -----------------------------------------------------
+      !||    imp_intbufdef    ../engine/share/modules/imp_mod_def.F90
       !||====================================================================
       SUBROUTINE IMP_INTBUF_INI(IMP_INTBUF_TAB,NIMP)
 C-----------------------------------------------

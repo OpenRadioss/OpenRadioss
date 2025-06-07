@@ -42,6 +42,8 @@
       !||    restalloc        ../engine/source/output/restart/arralloc.F
       !||    write_rrbe3pen   ../engine/source/output/restart/restart_rbe3pen.F90
       !||    wrrestp          ../engine/source/output/restart/wrrestp.F
+      !||--- uses       -----------------------------------------------------
+      !||    precision_mod    ../common_source/modules/precision_mod.F90
       !||====================================================================
       module rbe3_mod
          use precision_mod, only: WP

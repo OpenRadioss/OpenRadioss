@@ -46,6 +46,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    nfwrest                   ../engine/source/output/restart/wrrest.F
       !||    nfwrestp                  ../starter/source/restart/ddsplit/wrrest.F
       !||    nitschewrest              ../engine/source/output/restart/wrrest.F
+      !||    pblast_write_engine       ../common_source/modules/loads/pblast_mod.F90
+      !||    pblast_write_starter      ../common_source/modules/loads/pblast_mod.F90
       !||    plyxfem_wravuply          ../engine/source/output/restart/wrrest.F
       !||    plyxfem_wrest             ../engine/source/output/restart/wrrest.F
       !||    radiawrest                ../engine/source/output/restart/wrrest.F

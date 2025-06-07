@@ -31,6 +31,8 @@
       !||    read_inivel      ../engine/source/output/restart/read_inivel.F90
       !||    w_inivel_str     ../starter/source/restart/ddsplit/w_inivel_str.F90
       !||    write_inivel     ../engine/source/output/restart/write_inivel.F90
+      !||--- uses       -----------------------------------------------------
+      !||    precision_mod    ../common_source/modules/precision_mod.F90
       !||====================================================================
       module inivel_mod
         use precision_mod, only: WP

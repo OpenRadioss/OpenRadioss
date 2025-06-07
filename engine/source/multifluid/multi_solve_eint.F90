@@ -43,6 +43,7 @@
       !||    eosmain_mod           ../common_source/eos/eosmain.F
       !||    matparam_def_mod      ../common_source/modules/mat_elem/matparam_def_mod.F90
       !||    multi_submatlaw_mod   ../engine/source/multifluid/multi_submatlaw.F
+      !||    precision_mod         ../common_source/modules/precision_mod.F90
       !||====================================================================
       SUBROUTINE MULTI_SOLVE_EINT(MATLAW   , LOCAL_MATID, PM        , IPM         , NPROPM , NPROPMI,&
                                   EINT     , RHO        , PRES      , SSP         , &

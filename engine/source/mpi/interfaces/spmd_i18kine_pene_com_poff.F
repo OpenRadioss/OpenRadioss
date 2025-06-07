@@ -32,6 +32,7 @@ C
       !||--- uses       -----------------------------------------------------
       !||    anim_mod                     ../common_source/modules/output/anim_mod.F
       !||    h3d_mod                      ../engine/share/modules/h3d_mod.F
+      !||    intbufdef_mod                ../common_source/modules/interfaces/intbufdef_mod.F90
       !||    message_mod                  ../engine/share/message_module/message_mod.F
       !||    tri7box                      ../engine/share/modules/tri7box.F
       !||====================================================================

@@ -32,6 +32,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    i24keg3         ../engine/source/interfaces/int24/i24ke3.F
       !||    i24kgeo3        ../engine/source/interfaces/int24/i24ke3.F
       !||--- uses       -----------------------------------------------------
+      !||    imp_intbufdef   ../engine/share/modules/imp_mod_def.F90
+      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
       SUBROUTINE I24KE3( A     ,V      ,MS   ,
      1                   IPARI ,INTBUF_TAB,X    ,NIN   ,

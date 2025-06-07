@@ -2855,6 +2855,7 @@ C
       !||    spmd_split_comm_joint        ../engine/source/mpi/init/spmd_split_comm_joint.F
       !||--- uses       -----------------------------------------------------
       !||    groupdef_mod                 ../common_source/modules/groupdef_mod.F
+      !||    intbufdef_mod                ../common_source/modules/interfaces/intbufdef_mod.F90
       !||    inter_sorting_mod            ../engine/share/modules/inter_sorting_mod.F
       !||    interface_modification_mod   ../engine/share/modules/interface_modification_mod.F
       !||    message_mod                  ../engine/share/message_module/message_mod.F
@@ -5109,6 +5110,7 @@ C
       !||    write_i_c                    ../common_source/tools/input_output/write_routtines.c
       !||    write_r_c                    ../common_source/tools/input_output/write_routtines.c
       !||--- uses       -----------------------------------------------------
+      !||    intbufdef_mod                ../common_source/modules/interfaces/intbufdef_mod.F90
       !||    interface_modification_mod   ../engine/share/modules/interface_modification_mod.F
       !||    intstamp_glob_mod            ../engine/share/modules/intstamp_glob_mod.F
       !||    parameters_mod               ../common_source/modules/interfaces/parameters_mod.F

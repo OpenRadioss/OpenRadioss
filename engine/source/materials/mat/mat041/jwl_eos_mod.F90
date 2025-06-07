@@ -36,6 +36,8 @@
       !||--- called by ------------------------------------------------------
       !||    jwl_eos_delta         ../engine/source/materials/mat/mat041/jwl_eos_mod.F90
       !||    mixture_equilibrium   ../engine/source/materials/mat/mat041/sigeps41.F
+      !||--- uses       -----------------------------------------------------
+      !||    precision_mod         ../common_source/modules/precision_mod.F90
       !||====================================================================
         subroutine jwl_eos_state(a,b,r1,r2 ,r3,cv ,eta,tmp,dedv,p,bth,dpdt,en)
 !  JWL EoS
@@ -98,6 +100,7 @@
       !||    jwl_eos_state         ../engine/source/materials/mat/mat041/jwl_eos_mod.F90
       !||--- uses       -----------------------------------------------------
       !||    constant_mod          ../common_source/modules/constant_mod.F
+      !||    precision_mod         ../common_source/modules/precision_mod.F90
       !||====================================================================
         function jwl_eos_delta(beta,funct_parameter)
 ! ----------------------------------------------------------------------------------------------------------------------

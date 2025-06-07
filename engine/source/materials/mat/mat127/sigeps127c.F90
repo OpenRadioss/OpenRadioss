@@ -40,6 +40,7 @@
       !||--- uses       -----------------------------------------------------
       !||    constant_mod       ../common_source/modules/constant_mod.F
       !||    matparam_def_mod   ../common_source/modules/mat_elem/matparam_def_mod.F90
+      !||    precision_mod      ../common_source/modules/precision_mod.F90
       !||====================================================================
          SUBROUTINE sigeps127c(                                   &
            nel     ,mat_param  , nuvar   ,uvar    ,               &

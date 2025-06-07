@@ -53,7 +53,9 @@
       !||    get_segment_edge_mod                     ../engine/source/interfaces/interf/get_segment_edge.F90
       !||    get_segment_interface_id_mod             ../engine/source/interfaces/interf/get_segment_interface_id.F90
       !||    get_segment_normal_mod                   ../engine/source/interfaces/interf/get_segment_normal.F90
+      !||    intbufdef_mod                            ../common_source/modules/interfaces/intbufdef_mod.F90
       !||    nodal_arrays_mod                         ../engine/source/engine/node_spliting/nodal_arrays.F90
+      !||    precision_mod                            ../common_source/modules/precision_mod.F90
       !||    shooting_node_mod                        ../engine/share/modules/shooting_node_mod.F
       !||====================================================================
         subroutine get_neighbour_surface_from_remote_proc( ninter,numnod,nspmd,  &

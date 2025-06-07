@@ -27,6 +27,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- calls      -----------------------------------------------------
       !||    i24optcd          ../engine/source/interfaces/intsort/i24optcd.F
       !||--- uses       -----------------------------------------------------
+      !||    intbufdef_mod     ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
       SUBROUTINE I24MAIN_OPT_TRI(
      1                  IPARI   ,INTBUF_TAB,X    ,V      ,

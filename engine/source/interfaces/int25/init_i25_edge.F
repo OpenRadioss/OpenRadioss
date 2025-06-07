@@ -25,6 +25,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- called by ------------------------------------------------------
       !||    resol           ../engine/source/engine/resol.F
       !||--- uses       -----------------------------------------------------
+      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
         SUBROUTINE INIT_I25_EDGE(NLEDGE,NINTER,NPARI,IPARI,INTBUF_TAB)
 !$COMMENT

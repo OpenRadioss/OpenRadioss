@@ -34,6 +34,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    i25glob_22      ../engine/source/interfaces/int25/i25dst3_22.F
       !||    my_barrier      ../engine/source/system/machine.F
       !||--- uses       -----------------------------------------------------
+      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
       !||    tri7box         ../engine/share/modules/tri7box.F
       !||====================================================================
       SUBROUTINE I25COMP_2(

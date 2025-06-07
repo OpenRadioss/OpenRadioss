@@ -25,6 +25,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- called by ------------------------------------------------------
       !||    inttri          ../engine/source/interfaces/intsort/inttri.F
       !||--- uses       -----------------------------------------------------
+      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
       SUBROUTINE I21RESET(
      1  IPARI  ,INTBUF_TAB  ,NIN    ,ITASK  )

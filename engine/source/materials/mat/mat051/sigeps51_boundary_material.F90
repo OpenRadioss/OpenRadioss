@@ -46,6 +46,7 @@
       !||    constant_mod                 ../common_source/modules/constant_mod.F
       !||    elbufdef_mod                 ../common_source/modules/mat_elem/elbufdef_mod.F90
       !||    multimat_param_mod           ../common_source/modules/multimat_param_mod.F90
+      !||    precision_mod                ../common_source/modules/precision_mod.F90
       !||    prop_param_mod               ../common_source/modules/mat_elem/prop_param_mod.F90
       !||====================================================================
       subroutine sigeps51_boundary_material ( &

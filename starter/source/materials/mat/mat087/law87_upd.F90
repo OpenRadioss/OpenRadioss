@@ -408,11 +408,11 @@
       end subroutine law87_upd
 !
       !||====================================================================
-      !||    crityld2000    ../starter/source/materials/mat/mat087/law87_upd.F90
+      !||    crityld2000     ../starter/source/materials/mat/mat087/law87_upd.F90
       !||--- called by ------------------------------------------------------
-      !||    law87_upd      ../starter/source/materials/mat/mat087/law87_upd.F90
+      !||    law87_upd       ../starter/source/materials/mat/mat087/law87_upd.F90
       !||--- uses       -----------------------------------------------------
-      !||    message_mod    ../starter/share/message_module/message_mod.F
+      !||    message_mod     ../starter/share/message_module/message_mod.F
       !||====================================================================
       subroutine crityld2000(                                                  &
         f        ,g        ,d        ,aa       ,al       )
@@ -444,11 +444,11 @@
       end subroutine crityld2000
 !
       !||====================================================================
-      !||    r_yld2000      ../starter/source/materials/mat/mat087/law87_upd.F90
+      !||    r_yld2000       ../starter/source/materials/mat/mat087/law87_upd.F90
       !||--- called by ------------------------------------------------------
-      !||    law87_upd      ../starter/source/materials/mat/mat087/law87_upd.F90
+      !||    law87_upd       ../starter/source/materials/mat/mat087/law87_upd.F90
       !||--- uses       -----------------------------------------------------
-      !||    message_mod    ../starter/share/message_module/message_mod.F
+      !||    message_mod     ../starter/share/message_module/message_mod.F
       !||====================================================================
       subroutine r_yld2000(dx,dy,gamma, delta, a, al)
 !-----------------------------------------------
@@ -485,9 +485,9 @@
       end subroutine r_yld2000
 !
       !||====================================================================
-      !||    prodmat        ../starter/source/materials/mat/mat087/law87_upd.F90
+      !||    prodmat         ../starter/source/materials/mat/mat087/law87_upd.F90
       !||--- uses       -----------------------------------------------------
-      !||    message_mod    ../starter/share/message_module/message_mod.F
+      !||    message_mod     ../starter/share/message_module/message_mod.F
       !||====================================================================
       subroutine prodmat(a, b, c, n)
 !-----------------------------------------------
@@ -529,11 +529,11 @@
       end subroutine prodmat
 !
       !||====================================================================
-      !||    prodmatvect    ../starter/source/materials/mat/mat087/law87_upd.F90
+      !||    prodmatvect     ../starter/source/materials/mat/mat087/law87_upd.F90
       !||--- called by ------------------------------------------------------
-      !||    law87_upd      ../starter/source/materials/mat/mat087/law87_upd.F90
+      !||    law87_upd       ../starter/source/materials/mat/mat087/law87_upd.F90
       !||--- uses       -----------------------------------------------------
-      !||    message_mod    ../starter/share/message_module/message_mod.F
+      !||    message_mod     ../starter/share/message_module/message_mod.F
       !||====================================================================
       subroutine prodmatvect(a, b, c, n)
 !-----------------------------------------------

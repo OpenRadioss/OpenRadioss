@@ -24,6 +24,7 @@
       !||====================================================================
       !||    myqsort_d_mod      ../common_source/tools/sort/myqsort_d.F90
       !||--- called by ------------------------------------------------------
+      !||    hm_read_mat70      ../starter/source/materials/mat/mat070/hm_read_mat70.F
       !||    hm_read_table2_1   ../starter/source/tools/curve/hm_read_table2_1.F
       !||====================================================================
       module myqsort_d_mod
@@ -34,6 +35,7 @@
       !||====================================================================
       !||    myqsort_d          ../common_source/tools/sort/myqsort_d.F90
       !||--- called by ------------------------------------------------------
+      !||    hm_read_mat70      ../starter/source/materials/mat/mat070/hm_read_mat70.F
       !||    hm_read_table2_1   ../starter/source/tools/curve/hm_read_table2_1.F
       !||====================================================================
       subroutine myqsort_d(n, a, perm, error)

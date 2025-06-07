@@ -38,6 +38,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    i5impk3         ../engine/source/interfaces/inter3d/i5impk3.F
       !||--- uses       -----------------------------------------------------
       !||    h3d_mod         ../engine/share/modules/h3d_mod.F
+      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
       SUBROUTINE INTVO3(IPARI,X ,A  ,
      2                  ICODT,FSAV ,MWA  ,V ,MS ,

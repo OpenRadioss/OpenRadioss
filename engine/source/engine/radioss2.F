@@ -111,6 +111,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    names_and_titles_mod         ../common_source/modules/names_and_titles_mod.F
       !||    nodal_arrays_mod             ../engine/source/engine/node_spliting/nodal_arrays.F90
       !||    output_mod                   ../common_source/modules/output/output_mod.F90
+      !||    pblast_mod                   ../common_source/modules/loads/pblast_mod.F90
       !||    pinchtype_mod                ../common_source/modules/pinchtype_mod.F
       !||    python_funct_mod             ../common_source/modules/python_mod.F90
       !||    qa_out_mod                   ../common_source/qa/qa_out_mod.F

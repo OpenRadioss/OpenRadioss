@@ -90,6 +90,7 @@ C
       !||    rwl_impd        ../engine/source/constraints/general/rwall/srw_imp.F
       !||--- uses       -----------------------------------------------------
       !||    imp_fvbcl       ../engine/share/modules/impbufdef_mod.F
+      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
       SUBROUTINE RECUKIN(RBY   ,LPBY  ,NPBY  ,SKEW  ,ISKEW ,
      1                   ITAB  ,WEIGHT,MS    ,IN    ,

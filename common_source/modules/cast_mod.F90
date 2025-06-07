@@ -34,6 +34,8 @@
 !! \brief Convert a double precision value to a my_real value
       !||====================================================================
       !||    double_to_my_real   ../common_source/modules/cast_mod.F90
+      !||--- uses       -----------------------------------------------------
+      !||    precision_mod       ../common_source/modules/precision_mod.F90
       !||====================================================================
         pure function double_to_my_real(x,nan_replacement, max_value) result(res)
           use precision_mod, only: WP

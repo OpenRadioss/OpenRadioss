@@ -30,19 +30,20 @@
 !=======================================================================================================================
 !!\brief This subroutine do nodal offset projection for shell
 !=======================================================================================================================
-        !||====================================================================
-        !||    offset_nproj          ../engine/source/interfaces/shell_offset/offset_nproj.F90
-        !||--- called by ------------------------------------------------------
-        !||    resol                 ../engine/source/engine/resol.F
-        !||--- calls      -----------------------------------------------------
-        !||    foat_to_6_float       ../engine/source/system/parit.F
-        !||    spmd_exch_n           ../engine/source/mpi/generic/spmd_exch_n.F
-        !||    spmd_exch_vnpon       ../engine/source/mpi/nodes/spmd_exch_vnpon.F90
-        !||--- uses       -----------------------------------------------------
-        !||    constant_mod          ../common_source/modules/constant_mod.F
-        !||    inter_sh_offset_mod   ../engine/source/modules/interfaces/sh_offset_mod.F90
-        !||    spmd_exch_vnpon_mod   ../engine/source/mpi/nodes/spmd_exch_vnpon.F90
-        !||====================================================================
+      !||====================================================================
+      !||    offset_nproj          ../engine/source/interfaces/shell_offset/offset_nproj.F90
+      !||--- called by ------------------------------------------------------
+      !||    resol                 ../engine/source/engine/resol.F
+      !||--- calls      -----------------------------------------------------
+      !||    foat_to_6_float       ../engine/source/system/parit.F
+      !||    spmd_exch_n           ../engine/source/mpi/generic/spmd_exch_n.F
+      !||    spmd_exch_vnpon       ../engine/source/mpi/nodes/spmd_exch_vnpon.F90
+      !||--- uses       -----------------------------------------------------
+      !||    constant_mod          ../common_source/modules/constant_mod.F
+      !||    inter_sh_offset_mod   ../engine/source/modules/interfaces/sh_offset_mod.F90
+      !||    precision_mod         ../common_source/modules/precision_mod.F90
+      !||    spmd_exch_vnpon_mod   ../engine/source/mpi/nodes/spmd_exch_vnpon.F90
+      !||====================================================================
         subroutine offset_nproj(nspmd,numnod,xyz,sh_offset_tab,iparit)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                    Modules

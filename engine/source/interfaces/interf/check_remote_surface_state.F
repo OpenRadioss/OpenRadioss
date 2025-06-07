@@ -30,6 +30,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    surface_deactivation         ../engine/source/interfaces/interf/surface_deactivation.F
       !||--- uses       -----------------------------------------------------
       !||    array_mod                    ../common_source/modules/array_mod.F
+      !||    intbufdef_mod                ../common_source/modules/interfaces/intbufdef_mod.F90
       !||    shooting_node_mod            ../engine/share/modules/shooting_node_mod.F
       !||====================================================================
         SUBROUTINE CHECK_REMOTE_SURFACE_STATE( SURFARCE_NB,SURFACE_ID,SHIFT_INTERFACE,INTBUF_TAB,

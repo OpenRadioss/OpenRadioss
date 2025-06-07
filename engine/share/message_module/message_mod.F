@@ -304,6 +304,13 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    multi_i18_force_pon                ../engine/source/interfaces/int18/multi_i18_force_pon.F
       !||    multi_timeevolution                ../engine/source/multifluid/multi_timeevolution.F
       !||    ndof_fv                            ../engine/source/implicit/ind_glob_k.F
+      !||    pblast_deallocate                  ../common_source/modules/loads/pblast_mod.F90
+      !||    pblast_load                        ../common_source/modules/loads/pblast_mod.F90
+      !||    pblast_parameters__air_burst       ../common_source/modules/loads/pblast_mod.F90
+      !||    pblast_parameters__free_air        ../common_source/modules/loads/pblast_mod.F90
+      !||    pblast_parameters__surface_burst   ../common_source/modules/loads/pblast_mod.F90
+      !||    pblast_write_engine                ../common_source/modules/loads/pblast_mod.F90
+      !||    pblast_write_starter               ../common_source/modules/loads/pblast_mod.F90
       !||    plot_curve                         ../common_source/sortie/plot_curve.F
       !||    ply_info_rest                      ../engine/source/output/restart/rdresb.F
       !||    prelech3d                          ../engine/source/output/h3d/h3d_build_fortran/prelech3d.F90

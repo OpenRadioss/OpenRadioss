@@ -39,6 +39,7 @@
       !||    redef3_law113          ../engine/source/elements/spring/redef3_law113.F
       !||--- calls      -----------------------------------------------------
       !||--- uses       -----------------------------------------------------
+      !||    precision_mod          ../common_source/modules/precision_mod.F90
       !||    python_funct_mod       ../common_source/modules/python_mod.F90
       !||====================================================================
         subroutine vinter_mixed(python, tf,iad,ipos ,ilen,nel0,x,dydx,y)

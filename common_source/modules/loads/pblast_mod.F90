@@ -156,6 +156,7 @@
       !||    read_i_c             ../common_source/tools/input_output/write_routtines.c
       !||--- uses       -----------------------------------------------------
       !||    message_mod          ../engine/share/message_module/message_mod.F
+      !||    precision_mod        ../common_source/modules/precision_mod.F90
       !||====================================================================
         subroutine pblast_load(pblast)
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -274,6 +275,7 @@
       !||    resol               ../engine/source/engine/resol.F
       !||--- uses       -----------------------------------------------------
       !||    message_mod         ../engine/share/message_module/message_mod.F
+      !||    precision_mod       ../common_source/modules/precision_mod.F90
       !||====================================================================
         subroutine pblast_deallocate(pblast)
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -335,6 +337,7 @@
       !||--- uses       -----------------------------------------------------
       !||    glob_therm_mod         ../common_source/modules/mat_elem/glob_therm_mod.F90
       !||    message_mod            ../engine/share/message_module/message_mod.F
+      !||    precision_mod          ../common_source/modules/precision_mod.F90
       !||====================================================================
         subroutine pblast_write_starter(pblast,glob_therm,proc,cep,scep,&
         &                               numelc,numeltg,numels,          &
@@ -453,6 +456,7 @@
       !||    write_i_c             ../common_source/tools/input_output/write_routtines.c
       !||--- uses       -----------------------------------------------------
       !||    message_mod           ../engine/share/message_module/message_mod.F
+      !||    precision_mod         ../common_source/modules/precision_mod.F90
       !||====================================================================
         subroutine pblast_write_engine(pblast)
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -3320,6 +3324,7 @@
       !||--- uses       -----------------------------------------------------
       !||    constant_mod                  ../common_source/modules/constant_mod.F
       !||    message_mod                   ../engine/share/message_module/message_mod.F
+      !||    precision_mod                 ../common_source/modules/precision_mod.F90
       !||====================================================================
         subroutine pblast_parameters__free_air( pblast,z, w13, tdet,          &
         &                                       fac_p_bb, fac_i_bb, fac_t_bb, &
@@ -3563,6 +3568,7 @@
       !||--- uses       -----------------------------------------------------
       !||    constant_mod                       ../common_source/modules/constant_mod.F
       !||    message_mod                        ../engine/share/message_module/message_mod.F
+      !||    precision_mod                      ../common_source/modules/precision_mod.F90
       !||====================================================================
         subroutine pblast_parameters__surface_burst(  pblast,z, w13, tdet,         &
         &                                            fac_p_bb, fac_i_bb, fac_t_bb, &
@@ -3780,6 +3786,7 @@
       !||    file_descriptor_mod            ../engine/source/modules/file_descriptor_mod.F90
       !||    message_mod                    ../engine/share/message_module/message_mod.F
       !||    names_and_titles_mod           ../common_source/modules/names_and_titles_mod.F
+      !||    precision_mod                  ../common_source/modules/precision_mod.F90
       !||====================================================================
         subroutine pblast_parameters__air_burst( pblast,z_struct, zc, zg, angle_g, w13, tdet, &
         &                                        fac_p_bb, fac_i_bb, fac_t_bb,                &

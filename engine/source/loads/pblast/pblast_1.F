@@ -28,11 +28,13 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    arret                         ../engine/source/system/arret.F
       !||    my_barrier                    ../engine/source/system/machine.F
       !||    omp_get_thread_num            ../engine/source/engine/openmp_stub.F90
+      !||    pblast_parameters__free_air   ../common_source/modules/loads/pblast_mod.F90
       !||--- uses       -----------------------------------------------------
       !||    groupdef_mod                  ../common_source/modules/groupdef_mod.F
       !||    h3d_inc_mod                   ../engine/share/modules/h3d_inc_mod.F
       !||    h3d_mod                       ../engine/share/modules/h3d_mod.F
       !||    names_and_titles_mod          ../common_source/modules/names_and_titles_mod.F
+      !||    pblast_mod                    ../common_source/modules/loads/pblast_mod.F90
       !||    th_surf_mod                   ../common_source/modules/interfaces/th_surf_mod.F
       !||====================================================================
       SUBROUTINE PBLAST_1(PBLAST,ILOADP  ,FAC      ,A       ,V         ,X       ,

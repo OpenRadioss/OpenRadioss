@@ -38,20 +38,21 @@
 ! \brief some parameter initialization for solid distortion control
 ! ======================================================================================================================
       !||====================================================================
-      !||    sdistor_ini    ../engine/source/elements/solid/solide/sdistror_ini.F90
+      !||    sdistor_ini     ../engine/source/elements/solid/solide/sdistror_ini.F90
       !||--- called by ------------------------------------------------------
-      !||    s10forc3       ../engine/source/elements/solid/solide10/s10forc3.F
-      !||    s4forc3        ../engine/source/elements/solid/solide4/s4forc3.F
-      !||    s6cforc3       ../engine/source/elements/thickshell/solide6c/s6cforc3.F
-      !||    s8cforc3       ../engine/source/elements/thickshell/solide8c/s8cforc3.F
-      !||    s8eforc3       ../engine/source/elements/solid/solide8e/s8eforc3.F
-      !||    scforc3        ../engine/source/elements/thickshell/solidec/scforc3.F
-      !||    sforc3         ../engine/source/elements/solid/solide/sforc3.F
-      !||    szforc3        ../engine/source/elements/solid/solidez/szforc3.F
+      !||    s10forc3        ../engine/source/elements/solid/solide10/s10forc3.F
+      !||    s4forc3         ../engine/source/elements/solid/solide4/s4forc3.F
+      !||    s6cforc3        ../engine/source/elements/thickshell/solide6c/s6cforc3.F
+      !||    s8cforc3        ../engine/source/elements/thickshell/solide8c/s8cforc3.F
+      !||    s8eforc3        ../engine/source/elements/solid/solide8e/s8eforc3.F
+      !||    scforc3         ../engine/source/elements/thickshell/solidec/scforc3.F
+      !||    sforc3          ../engine/source/elements/solid/solide/sforc3.F
+      !||    szforc3         ../engine/source/elements/solid/solidez/szforc3.F
       !||--- calls      -----------------------------------------------------
-      !||    scre_sig3      ../engine/source/elements/solid/solide/scre_sig3.F
+      !||    scre_sig3       ../engine/source/elements/solid/solide/scre_sig3.F
       !||--- uses       -----------------------------------------------------
-      !||    constant_mod   ../common_source/modules/constant_mod.F
+      !||    constant_mod    ../common_source/modules/constant_mod.F
+      !||    precision_mod   ../common_source/modules/precision_mod.F90
       !||====================================================================
         subroutine sdistor_ini(                                 &
                 nel      ,sti_c    ,npropm     ,nummat  ,       &

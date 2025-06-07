@@ -38,6 +38,8 @@
       !||    outpart5              ../starter/source/elements/initia/initia.F
       !||    set_elgroup_param     ../starter/source/elements/shell/coque/set_elgroup_param.F
       !||    write_elgroup_param   ../engine/source/output/restart/write_elgroup_param.F
+      !||--- uses       -----------------------------------------------------
+      !||    precision_mod         ../common_source/modules/precision_mod.F90
       !||====================================================================
       module group_param_mod
 

@@ -29,6 +29,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    i9wal3          ../engine/source/interfaces/int09/i9wal3.F
       !||--- uses       -----------------------------------------------------
       !||    elbufdef_mod    ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
       SUBROUTINE I9WALE(IPARI,INTBUF_TAB,X        ,V      ,
      2                  A    ,VG      ,ICODE     ,ISKEW    ,SKEW   ,

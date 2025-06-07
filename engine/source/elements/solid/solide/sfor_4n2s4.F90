@@ -39,6 +39,7 @@
       !||    sfor_ns2s4       ../engine/source/elements/solid/solide/sfor_ns2s4.F90
       !||--- uses       -----------------------------------------------------
       !||    constant_mod     ../common_source/modules/constant_mod.F
+      !||    precision_mod    ../common_source/modules/precision_mod.F90
       !||    sfor_ns2s4_mod   ../engine/source/elements/solid/solide/sfor_ns2s4.F90
       !||====================================================================
          subroutine sfor_4n2s4(                                                 &
@@ -379,13 +380,14 @@
 ! \brief self-contact for 3-node to tria 
 ! ======================================================================================================================
       !||====================================================================
-      !||    sfor_3n2s3     ../engine/source/elements/solid/solide/sfor_4n2s4.F90
+      !||    sfor_3n2s3      ../engine/source/elements/solid/solide/sfor_4n2s4.F90
       !||--- called by ------------------------------------------------------
-      !||    s6for_distor   ../engine/source/elements/thickshell/solide6c/s6for_distor.F90
+      !||    s6for_distor    ../engine/source/elements/thickshell/solide6c/s6for_distor.F90
       !||--- calls      -----------------------------------------------------
-      !||    sfor_n2s3      ../engine/source/elements/solid/solide4/sfor_n2s3.F
+      !||    sfor_n2s3       ../engine/source/elements/solid/solide4/sfor_n2s3.F
       !||--- uses       -----------------------------------------------------
-      !||    constant_mod   ../common_source/modules/constant_mod.F
+      !||    constant_mod    ../common_source/modules/constant_mod.F
+      !||    precision_mod   ../common_source/modules/precision_mod.F90
       !||====================================================================
         subroutine sfor_3n2s3(                                                  &
                              xn1,     xn2,    xn3,                              &

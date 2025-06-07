@@ -30,6 +30,7 @@ C
       !||    getdpdaanc       ../engine/source/mpi/interfaces/spmd_i7tool.F
       !||    putdpdaanc       ../engine/source/mpi/interfaces/spmd_i7tool.F
       !||--- uses       -----------------------------------------------------
+      !||    intbufdef_mod    ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
       SUBROUTINE SPMD_EXCH_DA20(
      1   INTBUF_TAB,IPARI,IAD_ELEM,FR_ELEM,

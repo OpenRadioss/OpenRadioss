@@ -154,6 +154,7 @@ C
       !||--- calls      -----------------------------------------------------
       !||    spmd_dgather      ../engine/source/mpi/output/spmd_gather.F
       !||--- uses       -----------------------------------------------------
+      !||    intbufdef_mod     ../common_source/modules/interfaces/intbufdef_mod.F90
       !||    metric_mod        ../common_source/modules/interfaces/metric_mod.F
       !||====================================================================
       SUBROUTINE PRINTIME_INTERF(INTBUF_TAB,IPARI,INTLIST,NBINTC,TRESHOLD)

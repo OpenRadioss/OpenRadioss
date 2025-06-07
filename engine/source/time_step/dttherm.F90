@@ -49,6 +49,7 @@
       !||--- uses       -----------------------------------------------------
       !||    constant_mod     ../common_source/modules/constant_mod.F
       !||    glob_therm_mod   ../common_source/modules/mat_elem/glob_therm_mod.F90
+      !||    precision_mod    ../common_source/modules/precision_mod.F90
       !||====================================================================
       subroutine dttherm(nel     ,pm      ,npropm  ,glob_therm,            &
                          jtur    ,tempel  ,vol0    ,rho       ,            &

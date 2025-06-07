@@ -29,6 +29,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    i25free_bound        ../engine/source/interfaces/int25/i25free_bound.F
       !||    spmd_comm_split      ../engine/source/mpi/generic/spmd_comm_split.F
       !||--- uses       -----------------------------------------------------
+      !||    intbufdef_mod        ../common_source/modules/interfaces/intbufdef_mod.F90
       !||    message_mod          ../engine/share/message_module/message_mod.F
       !||    tri7box              ../engine/share/modules/tri7box.F
       !||====================================================================
@@ -303,6 +304,7 @@ c                WRITE(6,*) "found at ",K
       !||    inttri              ../engine/source/interfaces/intsort/inttri.F
       !||--- calls      -----------------------------------------------------
       !||--- uses       -----------------------------------------------------
+      !||    intbufdef_mod       ../common_source/modules/interfaces/intbufdef_mod.F90
       !||    message_mod         ../engine/share/message_module/message_mod.F
       !||    mpi_commod          ../engine/share/modules/mpi_comm_mod.F
       !||    tri25ebox           ../engine/share/modules/tri25ebox.F

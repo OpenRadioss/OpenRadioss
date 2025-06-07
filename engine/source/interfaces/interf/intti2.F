@@ -28,6 +28,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    intti12v        ../engine/source/interfaces/interf/intti12.F
       !||    intti2v         ../engine/source/interfaces/interf/intti2v.F
       !||--- uses       -----------------------------------------------------
+      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
       SUBROUTINE INTTI2(IPARI,X     ,V      ,
      .                  A    ,VR    ,AR    ,KHIE  ,MS     ,

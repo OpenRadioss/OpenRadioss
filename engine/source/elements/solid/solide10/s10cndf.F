@@ -506,6 +506,7 @@ C
       !||--- calls      -----------------------------------------------------
       !||    spmd_exch_tag_scnd   ../engine/source/mpi/elements/spmd_exch_tag_scnd.F
       !||--- uses       -----------------------------------------------------
+      !||    intbufdef_mod        ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
       SUBROUTINE S10CNDI2_INI(IPARI,INTBUF_TAB,ICNDS10,ITAGND,WEIGHT,
      1                        FR_CNDS,IAD_CNDS,itab  )
@@ -942,6 +943,7 @@ C----6---------------------------------------------------------------7---------8
       !||--- calls      -----------------------------------------------------
       !||    spmd_exch_tag_scnd   ../engine/source/mpi/elements/spmd_exch_tag_scnd.F
       !||--- uses       -----------------------------------------------------
+      !||    intbufdef_mod        ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
       SUBROUTINE CNDMASI2_DIM(IPARI,INTBUF_TAB,ICNDS10,ITAGND,WEIGHT,NKEND,
      1                        IAD_CNDS,FR_CNDS,S_FR ,NSPMD)
@@ -1040,6 +1042,7 @@ C
       !||--- called by ------------------------------------------------------
       !||    resol_init      ../engine/source/engine/resol_init.F
       !||--- uses       -----------------------------------------------------
+      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
       SUBROUTINE CNDMASI2_INI(IPARI,INTBUF_TAB,ICNDS10,ITAGND,
      .                        NKEND,IMAP2ND,MASI2ND0,MS ,WEIGHT,itab )

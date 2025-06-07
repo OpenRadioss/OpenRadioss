@@ -27,6 +27,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- calls      -----------------------------------------------------
       !||    i21buce_crit       ../engine/source/interfaces/intsort/i21buce_crit.F
       !||--- uses       -----------------------------------------------------
+      !||    intbufdef_mod      ../common_source/modules/interfaces/intbufdef_mod.F90
       !||    intstamp_mod       ../engine/share/modules/intstamp_mod.F
       !||====================================================================
       SUBROUTINE I21MAIN_CRIT_TRI(

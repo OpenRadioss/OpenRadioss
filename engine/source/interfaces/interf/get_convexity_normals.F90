@@ -39,6 +39,7 @@
       !||    get_neighbour_surface_from_remote_proc   ../engine/source/interfaces/interf/get_neighbour_surface_from_remote_proc.F90
       !||--- uses       -----------------------------------------------------
       !||    constant_mod                             ../common_source/modules/constant_mod.F
+      !||    precision_mod                            ../common_source/modules/precision_mod.F90
       !||====================================================================
         subroutine get_convexity_normals( node_id_1,node_id_2,normal,v_convexity,numnod,x )
 ! ----------------------------------------------------------------------------------------------------------------------

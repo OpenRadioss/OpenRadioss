@@ -33,6 +33,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- uses       -----------------------------------------------------
       !||    dsgraph_mod     ../engine/share/modules/dsgraph_mod.F
       !||    groupdef_mod    ../common_source/modules/groupdef_mod.F
+      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
       SUBROUTINE IMP_LANZP(IPREC ,
      1                    N     ,NNZ   ,IADK  ,JDIK  ,DIAG_K ,   

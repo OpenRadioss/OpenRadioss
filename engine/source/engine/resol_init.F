@@ -80,6 +80,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    h3d_inc_mod                ../engine/share/modules/h3d_inc_mod.F
       !||    h3d_mod                    ../engine/share/modules/h3d_mod.F
       !||    inivel_init_mod            ../engine/source/loads/general/inivel/inivel_init.F90
+      !||    intbufdef_mod              ../common_source/modules/interfaces/intbufdef_mod.F90
       !||    inter_sh_offset_ini_mod    ../engine/source/interfaces/shell_offset/inter_offset_ini.F90
       !||    inter_sh_offset_mod        ../engine/source/modules/interfaces/sh_offset_mod.F90
       !||    inter_sorting_mod          ../engine/share/modules/inter_sorting_mod.F
@@ -89,6 +90,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    output_mod                 ../common_source/modules/output/output_mod.F90
       !||    outputs_mod                ../common_source/modules/outputs_mod.F
       !||    parith_on_mod              ../common_source/modules/parith_on_mod.F90
+      !||    pblast_mod                 ../common_source/modules/loads/pblast_mod.F90
       !||    pinchtype_mod              ../common_source/modules/pinchtype_mod.F
       !||    plyxfem_mod                ../engine/share/modules/plyxfem_mod.F
       !||    rbe3_mod                   ../common_source/modules/constraints/rbe3_mod.F90

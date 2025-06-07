@@ -28,6 +28,8 @@
       !||    offset_nproj          ../engine/source/interfaces/shell_offset/offset_nproj.F90
       !||    resol                 ../engine/source/engine/resol.F
       !||    resol_init            ../engine/source/engine/resol_init.F
+      !||--- uses       -----------------------------------------------------
+      !||    precision_mod         ../common_source/modules/precision_mod.F90
       !||====================================================================
       module inter_sh_offset_mod
         use precision_mod, only : WP

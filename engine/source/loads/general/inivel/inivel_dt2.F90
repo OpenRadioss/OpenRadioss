@@ -30,15 +30,16 @@
        contains
   !! \brief time step change due to inivel w/ T_start
       !||====================================================================
-      !||    inivel_dt2     ../engine/source/loads/general/inivel/inivel_dt2.F90
+      !||    inivel_dt2      ../engine/source/loads/general/inivel/inivel_dt2.F90
       !||--- called by ------------------------------------------------------
-      !||    resol          ../engine/source/engine/resol.F
+      !||    resol           ../engine/source/engine/resol.F
       !||--- calls      -----------------------------------------------------
-      !||    spmd_max_i     ../engine/source/mpi/implicit/imp_spmd.F
+      !||    spmd_max_i      ../engine/source/mpi/implicit/imp_spmd.F
       !||--- uses       -----------------------------------------------------
-      !||    constant_mod   ../common_source/modules/constant_mod.F
-      !||    inivel_mod     ../common_source/modules/inivel_mod.F90
-      !||    sensor_mod     ../common_source/modules/sensor_mod.F90
+      !||    constant_mod    ../common_source/modules/constant_mod.F
+      !||    inivel_mod      ../common_source/modules/inivel_mod.F90
+      !||    precision_mod   ../common_source/modules/precision_mod.F90
+      !||    sensor_mod      ../common_source/modules/sensor_mod.F90
       !||====================================================================
         subroutine inivel_dt2(ninivelt,inivel_t,sensors,time , dt2 ,nspmd)
 ! ----------------------------------------------------------------------------------------------------------------------

@@ -21,6 +21,11 @@
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 ! ======================================================================================================================
+      !||====================================================================
+      !||    read_bcs_wall_mod   ../engine/source/output/restart/read_bcs_wall.F90
+      !||--- called by ------------------------------------------------------
+      !||    rdresb              ../engine/source/output/restart/rdresb.F
+      !||====================================================================
       module read_bcs_wall_mod
       contains
 ! ======================================================================================================================
@@ -29,16 +34,17 @@
 !! \brief Read buffer for restart file.
 !! \details  necessary buffer specific to option /BCS/WALL/...
 !
-        !||====================================================================
-        !||    read_bcs_wall   ../engine/source/output/restart/read_bcs_wall.F90
-        !||--- called by ------------------------------------------------------
-        !||    rdresb          ../engine/source/output/restart/rdresb.F
-        !||--- calls      -----------------------------------------------------
-        !||    read_db         ../common_source/tools/input_output/read_db.F
-        !||    read_i_c        ../common_source/tools/input_output/write_routtines.c
-        !||--- uses       -----------------------------------------------------
-        !||    bcs_mod         ../common_source/modules/boundary_conditions/bcs_mod.F90
-        !||====================================================================
+      !||====================================================================
+      !||    read_bcs_wall   ../engine/source/output/restart/read_bcs_wall.F90
+      !||--- called by ------------------------------------------------------
+      !||    rdresb          ../engine/source/output/restart/rdresb.F
+      !||--- calls      -----------------------------------------------------
+      !||    read_db         ../common_source/tools/input_output/read_db.F
+      !||    read_i_c        ../common_source/tools/input_output/write_routtines.c
+      !||--- uses       -----------------------------------------------------
+      !||    bcs_mod         ../common_source/modules/boundary_conditions/bcs_mod.F90
+      !||    precision_mod   ../common_source/modules/precision_mod.F90
+      !||====================================================================
         subroutine read_bcs_wall()
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules

@@ -39,6 +39,7 @@
       !||    my_orders                    ../common_source/tools/sort/my_orders.c
       !||--- uses       -----------------------------------------------------
       !||    constant_mod                 ../common_source/modules/constant_mod.F
+      !||    intbufdef_mod                ../common_source/modules/interfaces/intbufdef_mod.F90
       !||    spmd_arrays_mod              ../common_source/modules/interfaces/spmd_arrays_mod.F
       !||====================================================================
         subroutine spmd_update_frontier_int25( ispmd,nspmd,ninter25,npari,ninter,nbintc, &

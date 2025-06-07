@@ -505,6 +505,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    monvol_struct_mod                   ../starter/share/modules1/monvol_struct_mod.F
       !||    nod2el_mod                          ../starter/share/modules1/nod2el_mod.F
       !||    option_mod                          ../starter/share/modules1/options_mod.F
+      !||    python_duplicate_nodes_mod          ../starter/source/spmd/domain_decomposition/python_duplicate_nodes.F90
       !||    r2r_mod                             ../starter/share/modules1/r2r_mod.F
       !||    random_mod                          ../starter/share/modules1/random_mod.F
       !||    read_funct_python_mod               ../starter/source/tools/curve/hm_read_funct_python.F90

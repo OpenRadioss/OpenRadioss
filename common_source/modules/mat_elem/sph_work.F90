@@ -29,6 +29,8 @@
       !||    sphprep          ../engine/source/elements/sph/sphprep.F
       !||    splissv          ../engine/source/elements/sph/splissv.F
       !||    sponfv           ../engine/source/elements/sph/sponfv.F
+      !||--- uses       -----------------------------------------------------
+      !||    precision_mod    ../common_source/modules/precision_mod.F90
       !||====================================================================
       module sph_work_mod
         use precision_mod, only : WP

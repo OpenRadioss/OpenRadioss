@@ -46,6 +46,7 @@
       !||    finter              ../engine/source/tools/curve/finter.F
       !||--- uses       -----------------------------------------------------
       !||    constant_mod        ../common_source/modules/constant_mod.F
+      !||    precision_mod       ../common_source/modules/precision_mod.F90
       !||    sensor_mod          ../common_source/modules/sensor_mod.F90
       !||====================================================================
         subroutine get_preload_axial(                                         &
@@ -114,6 +115,7 @@
       !||    tforc3          ../engine/source/elements/truss/tforc3.F
       !||--- uses       -----------------------------------------------------
       !||    constant_mod    ../common_source/modules/constant_mod.F
+      !||    precision_mod   ../common_source/modules/precision_mod.F90
       !||    sensor_mod      ../common_source/modules/sensor_mod.F90
       !||====================================================================
         subroutine preload_axial(nel,preload1,bpreload,v12,stf_f,f1)

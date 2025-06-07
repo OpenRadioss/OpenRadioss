@@ -36,6 +36,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    upgrade_multimp              ../common_source/interf/upgrade_multimp.F
       !||--- uses       -----------------------------------------------------
       !||    check_sorting_criteria_mod   ../engine/source/interfaces/intsort/check_sorting_criteria.F90
+      !||    intbufdef_mod                ../common_source/modules/interfaces/intbufdef_mod.F90
       !||    intstamp_mod                 ../engine/share/modules/intstamp_mod.F
       !||    timer_mod                    ../engine/source/system/timer_mod.F90
       !||====================================================================

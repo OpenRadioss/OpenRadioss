@@ -36,6 +36,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    elbufdef_mod           ../common_source/modules/mat_elem/elbufdef_mod.F90
       !||    i22tri_mod             ../common_source/modules/interfaces/cut-cell-search_mod.F
       !||    initbuf_mod            ../engine/share/resol/initbuf.F
+      !||    intbufdef_mod          ../common_source/modules/interfaces/intbufdef_mod.F90
       !||    segvar_mod             ../engine/share/modules/segvar_mod.F
       !||====================================================================
       SUBROUTINE ALEFVM_MAIN(

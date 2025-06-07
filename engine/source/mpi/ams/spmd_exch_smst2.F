@@ -31,6 +31,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    arret             ../engine/source/system/arret.F
       !||    spmd_check_tag    ../engine/source/mpi/ams/spmd_check_tag.F
       !||--- uses       -----------------------------------------------------
+      !||    intbufdef_mod     ../common_source/modules/interfaces/intbufdef_mod.F90
       !||    message_mod       ../engine/share/message_module/message_mod.F
       !||    tri7box           ../engine/share/modules/tri7box.F
       !||====================================================================

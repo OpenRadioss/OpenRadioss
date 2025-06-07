@@ -32,6 +32,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    read_db            ../common_source/tools/input_output/read_db.F
       !||    read_i_c           ../common_source/tools/input_output/write_routtines.c
       !||--- uses       -----------------------------------------------------
+      !||    intbufdef_mod      ../common_source/modules/interfaces/intbufdef_mod.F90
       !||    message_mod        ../engine/share/message_module/message_mod.F
       !||====================================================================
       SUBROUTINE INTBUF_INI(INTBUF_TAB)  

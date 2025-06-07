@@ -439,6 +439,7 @@ C-------------produce {w}=[LT_K]{v}+[LT_I]{v} using only upper-triangle----
       !||    mv_matv         ../engine/source/airbag/monv_imp0.F
       !||--- uses       -----------------------------------------------------
       !||    groupdef_mod    ../common_source/modules/groupdef_mod.F
+      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
       SUBROUTINE MAV_LT2(
      1                    NDDL  ,NDDLI ,IADL  ,JDIL  ,DIAG_K,   
@@ -552,6 +553,7 @@ C------spmd----produce {w}=[LT_K]{v}+[LT_I]{v} using only upper-triangle----
       !||    spmd_sumf_v     ../engine/source/mpi/implicit/imp_spmd.F
       !||--- uses       -----------------------------------------------------
       !||    groupdef_mod    ../common_source/modules/groupdef_mod.F
+      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
       SUBROUTINE MAV_LTP(
      1                    NDDL  ,NDDLI ,IADL  ,JDIL  ,DIAG_K,   
@@ -1012,6 +1014,8 @@ C--------------------------------------------
       !||--- uses       -----------------------------------------------------
       !||    elbufdef_mod      ../common_source/modules/mat_elem/elbufdef_mod.F90
       !||    imp_i7cp          ../engine/share/modules/imp_intm.F
+      !||    imp_intbuf        ../engine/share/modules/imp_mod_def.F90
+      !||    intbufdef_mod     ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
       SUBROUTINE CP_IMPBUF(
      .           IFLAG   ,ELBUF   ,ELBUF_C ,BUFMAT   ,BUFMAT_C ,
@@ -1210,6 +1214,7 @@ C------Hybrid----produce {w}=[LT_K]{v}+[LT_I]{v} using only upper-triangle----
       !||    spmd_sumf_v     ../engine/source/mpi/implicit/imp_spmd.F
       !||--- uses       -----------------------------------------------------
       !||    groupdef_mod    ../common_source/modules/groupdef_mod.F
+      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
       SUBROUTINE MAV_LTH0(
      1                    NDDL  ,NDDLI ,IADL  ,JDIL  ,DIAG_K,   
@@ -1362,6 +1367,7 @@ C------Hybrid----produce {w}=[LT_K]{v}+[LT_I]{v} using only upper-triangle----
       !||    spmd_sumf_v     ../engine/source/mpi/implicit/imp_spmd.F
       !||--- uses       -----------------------------------------------------
       !||    groupdef_mod    ../common_source/modules/groupdef_mod.F
+      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
       SUBROUTINE MAV_LTH(
      1                    NDDL  ,NDDLI ,IADL  ,JDIL  ,DIAG_K,   
@@ -2940,6 +2946,7 @@ C--------------------------------------------
       !||--- uses       -----------------------------------------------------
       !||    groupdef_mod    ../common_source/modules/groupdef_mod.F
       !||    imp_workh       ../engine/share/modules/impbufdef_mod.F
+      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
       SUBROUTINE MMAV_LTH(
      1                    NDDL  ,NDDLI ,IADK  ,JDIK  ,DIAG_K,   

@@ -59,6 +59,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    i18dst3_mod                 ../engine/source/interfaces/int18/i18dst3.F
       !||    i18for3_mod                 ../engine/source/interfaces/int18/i18for3.F
       !||    intbuf_fric_mod             ../common_source/modules/interfaces/intbuf_fric_mod.F90
+      !||    intbufdef_mod               ../common_source/modules/interfaces/intbufdef_mod.F90
       !||    message_mod                 ../engine/share/message_module/message_mod.F
       !||    multi_fvm_mod               ../common_source/modules/ale/multi_fvm_mod.F90
       !||    outputs_mod                 ../common_source/modules/outputs_mod.F

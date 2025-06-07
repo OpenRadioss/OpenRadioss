@@ -100,6 +100,7 @@ C---
       !||--- calls      -----------------------------------------------------
       !||    ltag_i2         ../engine/source/tools/lagmul/lag_ntag.F
       !||--- uses       -----------------------------------------------------
+      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
       SUBROUTINE LTAG_I2MAIN(COMNTAG ,IPARI   ,INTBUF_TAB   )
 C-----------------------------------------------

@@ -37,6 +37,7 @@
       !||    write_viscparam        ../engine/source/output/restart/write_viscparam.F
       !||--- uses       -----------------------------------------------------
       !||    names_and_titles_mod   ../common_source/modules/names_and_titles_mod.F
+      !||    precision_mod          ../common_source/modules/precision_mod.F90
       !||    table4d_mod            ../common_source/modules/table4d_mod.F
       !||====================================================================
       module visc_param_mod

@@ -30,6 +30,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    intal4          ../engine/source/ale/inter/intal4.F
       !||--- uses       -----------------------------------------------------
       !||    elbufdef_mod    ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
       SUBROUTINE INTAL3(IPARI,X        ,V      ,
      2                  A    ,VG      ,ISKEW     ,SKEW     ,ICODE  ,

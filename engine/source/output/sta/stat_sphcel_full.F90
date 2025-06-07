@@ -40,6 +40,7 @@
       !||    spmd_stat_pgather   ../engine/source/mpi/output/spmd_stat.F
       !||--- uses       -----------------------------------------------------
       !||    elbufdef_mod        ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    precision_mod       ../common_source/modules/precision_mod.F90
       !||====================================================================
         subroutine stat_sphcel_full(numsph     ,nisp       ,ngroup         ,nparg         ,sizloc          ,  &
                                     npart      ,sizp0      ,nspmd          ,stat_numelsph ,stat_numelsph_g ,  &

@@ -30,6 +30,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- uses       -----------------------------------------------------
       !||    ale_connectivity_mod       ../common_source/modules/ale/ale_connectivity_mod.F
       !||    array_mod                  ../common_source/modules/array_mod.F
+      !||    intbufdef_mod              ../common_source/modules/interfaces/intbufdef_mod.F90
       !||    multi_fvm_mod              ../common_source/modules/ale/multi_fvm_mod.F90
       !||    tri7box                    ../engine/share/modules/tri7box.F
       !||====================================================================

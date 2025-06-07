@@ -32,6 +32,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- uses       -----------------------------------------------------
       !||    groupdef_mod    ../common_source/modules/groupdef_mod.F
       !||    h3d_mod         ../engine/share/modules/h3d_mod.F
+      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
       SUBROUTINE I14CMP(IPARI ,INTBUF_TAB ,IGRSURF ,BUFSF ,
      2            A ,X ,V ,WA ,FSAV ,

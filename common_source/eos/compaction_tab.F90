@@ -58,6 +58,7 @@
       !||--- uses       -----------------------------------------------------
       !||    constant_mod            ../common_source/modules/constant_mod.F
       !||    eos_param_mod           ../common_source/modules/mat_elem/eos_param_mod.F90
+      !||    precision_mod           ../common_source/modules/precision_mod.F90
       !||    table_mat_vinterp_mod   ../engine/source/materials/tools/table_mat_vinterp.F
       !||====================================================================
       subroutine compaction_tab(&
@@ -301,6 +302,7 @@
       !||--- uses       -----------------------------------------------------
       !||    constant_mod            ../common_source/modules/constant_mod.F
       !||    eos_param_mod           ../common_source/modules/mat_elem/eos_param_mod.F90
+      !||    precision_mod           ../common_source/modules/precision_mod.F90
       !||    table_mat_vinterp_mod   ../engine/source/materials/tools/table_mat_vinterp.F
       !||====================================================================
       subroutine compaction_tab_init(eos_param,nel,nvartmp,vartmp,nvareos,vareos,rho,rho_tmd)

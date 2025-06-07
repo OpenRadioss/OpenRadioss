@@ -26,6 +26,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    resol           ../engine/source/engine/resol.F
       !||--- uses       -----------------------------------------------------
       !||    groupdef_mod    ../common_source/modules/groupdef_mod.F
+      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
       !||    output_mod      ../common_source/modules/output/output_mod.F90
       !||====================================================================
       SUBROUTINE I14WFS(IPARI,INTBUF_TAB,IGRSURF,FSAV)

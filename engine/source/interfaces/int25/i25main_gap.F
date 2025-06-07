@@ -27,6 +27,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- calls      -----------------------------------------------------
       !||    i25gap3         ../engine/source/interfaces/int25/i25gap3.F
       !||--- uses       -----------------------------------------------------
+      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
       !||    intstamp_mod    ../engine/share/modules/intstamp_mod.F
       !||====================================================================
       SUBROUTINE I25MAIN_GAP(

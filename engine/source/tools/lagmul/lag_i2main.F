@@ -30,6 +30,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    arret           ../engine/source/system/arret.F
       !||    i2lagm          ../engine/source/tools/lagmul/lag_i2main.F
       !||--- uses       -----------------------------------------------------
+      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
       !||    message_mod     ../engine/share/message_module/message_mod.F
       !||====================================================================
       SUBROUTINE LAG_I2MAIN(

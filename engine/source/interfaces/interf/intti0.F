@@ -27,6 +27,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- calls      -----------------------------------------------------
       !||    intti12a        ../engine/source/interfaces/interf/intti12.F
       !||--- uses       -----------------------------------------------------
+      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
       !||    segvar_mod      ../engine/share/modules/segvar_mod.F
       !||====================================================================
       SUBROUTINE INTTI0(IPARI ,X      ,V    ,WA     ,ITAB ,

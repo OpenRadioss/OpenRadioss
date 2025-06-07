@@ -334,6 +334,7 @@
       !||    wrrestp                            ../engine/source/output/restart/wrrestp.F
       !||--- uses       -----------------------------------------------------
       !||    names_and_titles_mod               ../common_source/modules/names_and_titles_mod.F
+      !||    precision_mod                      ../common_source/modules/precision_mod.F90
       !||    python_funct_mod                   ../common_source/modules/python_mod.F90
       !||====================================================================
       module sensor_mod

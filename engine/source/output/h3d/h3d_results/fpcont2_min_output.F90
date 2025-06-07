@@ -41,6 +41,7 @@
       !||    sortie_main          ../engine/source/output/sortie_main.F
       !||--- uses       -----------------------------------------------------
       !||    constant_mod         ../common_source/modules/constant_mod.F
+      !||    precision_mod        ../common_source/modules/precision_mod.F90
       !||====================================================================
         subroutine fpcont2_min_output(fcont,fcont_min,sz_npcont2,npcont2,weight,      &
                                       npcont2_min,numnod)

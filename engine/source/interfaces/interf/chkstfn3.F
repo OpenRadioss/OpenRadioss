@@ -1263,6 +1263,7 @@ C
       !||    spmd_init_idel      ../engine/source/mpi/interfaces/spmd_init_idel.F
       !||--- uses       -----------------------------------------------------
       !||    elbufdef_mod        ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    intbufdef_mod       ../common_source/modules/interfaces/intbufdef_mod.F90
       !||    nodal_arrays_mod    ../engine/source/engine/node_spliting/nodal_arrays.F90
       !||====================================================================
       SUBROUTINE CHKSTFN3N(NODES,

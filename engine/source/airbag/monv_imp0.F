@@ -30,6 +30,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- uses       -----------------------------------------------------
       !||    groupdef_mod    ../common_source/modules/groupdef_mod.F
       !||    imp_monv        ../engine/share/modules/impbufdef_mod.F
+      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
       SUBROUTINE MONV_PREM(
      1    NMONV     ,IMONV     ,MONVOL    ,IGRSURF   ,
@@ -192,6 +193,7 @@ C
       !||--- called by ------------------------------------------------------
       !||    monv_prem       ../engine/source/airbag/monv_imp0.F
       !||--- uses       -----------------------------------------------------
+      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
       SUBROUTINE DIM_KINMV(
      1    NPBY      ,LPBY      ,NRBYAC    ,IRBYAC    ,NINT2     ,
@@ -298,6 +300,7 @@ C----6---------------------------------------------------------------7---------8
       !||--- called by ------------------------------------------------------
       !||    monv_prem       ../engine/source/airbag/monv_imp0.F
       !||--- uses       -----------------------------------------------------
+      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
       SUBROUTINE INI_KINMV(
      1    NPBY      ,LPBY      ,NRBYAC    ,IRBYAC    ,NINT2     ,
@@ -552,6 +555,7 @@ C
       !||    monv_m3         ../engine/source/airbag/monv_imp0.F
       !||--- uses       -----------------------------------------------------
       !||    groupdef_mod    ../common_source/modules/groupdef_mod.F
+      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
       SUBROUTINE MONV_IMP(MONVOL ,VOLMON  ,X      ,IGRSURF  ,
      1                    NMONV  ,IMONV   ,IPARI  ,INTBUF_TAB      ,
@@ -603,6 +607,7 @@ C
       !||--- uses       -----------------------------------------------------
       !||    groupdef_mod    ../common_source/modules/groupdef_mod.F
       !||    imp_monv        ../engine/share/modules/impbufdef_mod.F
+      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
       SUBROUTINE MONV_M3(MONVOL ,VOLMON  ,X      ,IGRSURF  ,
      1                   NMONV  ,IMONV   ,IPARI  ,INTBUF_TAB,
@@ -769,6 +774,7 @@ C
       !||    rbe3cl          ../engine/source/constraints/general/rbe3/rbe3f.F
       !||--- uses       -----------------------------------------------------
       !||    imp_monv        ../engine/share/modules/impbufdef_mod.F
+      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
       SUBROUTINE ID_MVINI(IPARI  ,INTBUF_TAB,NDOF   ,IDDL    ,IKC    ,
      1                    INLOC  ,X      ,SKEW   ,IRBE3   ,LRBE3  ,
@@ -1252,6 +1258,7 @@ C
       !||--- uses       -----------------------------------------------------
       !||    imp_aspc        ../engine/share/modules/impbufdef_mod.F
       !||    imp_rwl         ../engine/share/modules/impbufdef_mod.F
+      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
       SUBROUTINE UPDK_MV(NDOF    ,IPARI  ,INTBUF_TAB,NI2_MV ,
      .                   II2_MV  ,NRB_MV ,IRB_MV  ,NFX_MV,IFX_MV ,
@@ -1565,6 +1572,7 @@ C
       !||    lin_solvih2     ../engine/source/implicit/lin_solv.F
       !||--- uses       -----------------------------------------------------
       !||    imp_monv        ../engine/share/modules/impbufdef_mod.F
+      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
       SUBROUTINE MONV_DIAG(DIAG_K,NDOF,IPARI,INTBUF_TAB,IRBE3,LRBE3,
      .                     IRBE2  ,IFLAG )
@@ -1756,6 +1764,7 @@ C
       !||--- uses       -----------------------------------------------------
       !||    groupdef_mod    ../common_source/modules/groupdef_mod.F
       !||    imp_monv        ../engine/share/modules/impbufdef_mod.F
+      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
       SUBROUTINE MV_MATV(MONVOL ,VOLMON  ,X      ,IGRSURF,
      1                   FR_MV  ,NMONV  ,IMONV   ,U      ,F      ,
@@ -1917,6 +1926,7 @@ C-----------noeud independant -> W------
       !||--- uses       -----------------------------------------------------
       !||    imp_aspc        ../engine/share/modules/impbufdef_mod.F
       !||    imp_rwl         ../engine/share/modules/impbufdef_mod.F
+      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
       SUBROUTINE IMP3_U2X(X     ,IPARI  ,INTBUF_TAB,NDOF  ,
      .                   LX     ,A      ,AR     ,X_IMP ,NUMN  ,
@@ -2313,6 +2323,7 @@ C
       !||--- uses       -----------------------------------------------------
       !||    imp_aspc        ../engine/share/modules/impbufdef_mod.F
       !||    imp_rwl         ../engine/share/modules/impbufdef_mod.F
+      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
       SUBROUTINE IMP3_A2B(IPARI  ,INTBUF_TAB,NDOF  ,X_IMP  ,
      .                    A      ,AR     ,NUMN  ,INL   ,IDDL   ,

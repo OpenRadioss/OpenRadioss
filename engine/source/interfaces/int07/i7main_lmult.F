@@ -33,6 +33,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    i7lagm          ../engine/source/interfaces/int07/i7lagm.F
       !||    my_barrier      ../engine/source/system/machine.F
       !||--- uses       -----------------------------------------------------
+      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
       !||    message_mod     ../engine/share/message_module/message_mod.F
       !||====================================================================
       SUBROUTINE I7MAIN_LMULT(

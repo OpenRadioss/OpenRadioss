@@ -32,6 +32,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    startime              ../engine/source/system/timer_mod.F90
       !||    stoptime              ../engine/source/system/timer_mod.F90
       !||--- uses       -----------------------------------------------------
+      !||    intbufdef_mod         ../common_source/modules/interfaces/intbufdef_mod.F90
       !||    timer_mod             ../engine/source/system/timer_mod.F90
       !||    tri7box               ../engine/share/modules/tri7box.F
       !||====================================================================

@@ -26,6 +26,7 @@
       !||    init_inivol_2d_polygons   ../starter/source/initial_conditions/inivol/init_inivol_2D_polygons.F90
       !||--- uses       -----------------------------------------------------
       !||    polygon_mod               ../common_source/tools/clipping/polygon_mod.F90
+      !||    precision_mod             ../common_source/modules/precision_mod.F90
       !||====================================================================
       module polygon_clipping_mod
         use polygon_mod
@@ -244,7 +245,9 @@
       !||    polygon_create                   ../common_source/tools/clipping/polygon_mod.F90
       !||    real_insertion_sort_with_index   ../common_source/tools/sort/insertion_sort.F90
       !||--- uses       -----------------------------------------------------
+      !||    array_reindex_mod                ../common_source/tools/sort/array_reindex.F90
       !||    constant_mod                     ../common_source/modules/constant_mod.F
+      !||    insertion_sort_mod               ../common_source/tools/sort/insertion_sort.F90
       !||====================================================================
         subroutine Clipping_Weiler_Atherton(ClippedPolygon, ClippingPolygon, result_list, iStatus)
 ! ----------------------------------------------------------------------------------------------------------------------

@@ -30,6 +30,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    intal2          ../engine/source/ale/inter/intal2.F
       !||--- uses       -----------------------------------------------------
       !||    h3d_mod         ../engine/share/modules/h3d_mod.F
+      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
       SUBROUTINE INTAL1(IPARI,X      ,V       ,
      2                  A    ,ISKEW  ,SKEW    ,LCOD   ,WA      ,

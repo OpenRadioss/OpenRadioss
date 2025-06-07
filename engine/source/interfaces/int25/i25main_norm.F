@@ -30,6 +30,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    i25tagn         ../engine/source/interfaces/int25/i25norm.F
       !||    my_barrier      ../engine/source/system/machine.F
       !||--- uses       -----------------------------------------------------
+      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
       !||    mpi_commod      ../engine/share/modules/mpi_comm_mod.F
       !||    sensor_mod      ../common_source/modules/sensor_mod.F90
       !||====================================================================

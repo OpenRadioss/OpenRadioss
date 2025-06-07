@@ -96,6 +96,7 @@
       !||    write_sensors                  ../engine/source/output/restart/write_sensors.F
       !||    wrrestp                        ../engine/source/output/restart/wrrestp.F
       !||--- uses       -----------------------------------------------------
+      !||    precision_mod                  ../common_source/modules/precision_mod.F90
       !||    python_element_mod             ../common_source/modules/python_element_mod.F90
       !||====================================================================
       module python_funct_mod

@@ -28,6 +28,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    check_edge_state              ../engine/source/interfaces/interf/check_edge_state.F
       !||    get_local_node_id             ../engine/source/engine/node_spliting/nodal_arrays.F90
       !||--- uses       -----------------------------------------------------
+      !||    intbufdef_mod                 ../common_source/modules/interfaces/intbufdef_mod.F90
       !||    nodal_arrays_mod              ../engine/source/engine/node_spliting/nodal_arrays.F90
       !||    shooting_node_mod             ../engine/share/modules/shooting_node_mod.F
       !||====================================================================

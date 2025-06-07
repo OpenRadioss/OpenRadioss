@@ -60,6 +60,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    loadprest              ../engine/source/output/restart/rdresb.F
       !||    nfrrest                ../engine/source/output/restart/rdresb.F
       !||    nitscherrest           ../engine/source/output/restart/rdresb.F
+      !||    pblast_init_tables     ../common_source/modules/loads/pblast_mod.F90
+      !||    pblast_load            ../common_source/modules/loads/pblast_mod.F90
       !||    ply_info_rest          ../engine/source/output/restart/rdresb.F
       !||    plyxfem_ravuply        ../engine/source/output/restart/rdresb.F
       !||    plyxfem_rrest          ../engine/source/output/restart/rdresb.F
@@ -121,10 +123,13 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    outmax_mod             ../common_source/modules/outmax_mod.F
       !||    output_mod             ../common_source/modules/output/output_mod.F90
       !||    outputs_mod            ../common_source/modules/outputs_mod.F
+      !||    pblast_mod             ../common_source/modules/loads/pblast_mod.F90
       !||    pinchtype_mod          ../common_source/modules/pinchtype_mod.F
       !||    pload_cyl_mod          ../common_source/modules/loads/pload_cyl_mod.F
       !||    python_funct_mod       ../common_source/modules/python_mod.F90
       !||    rbe3_mod               ../common_source/modules/constraints/rbe3_mod.F90
+      !||    read_ale_grid_mod      ../engine/source/output/restart/read_ale_grid.F90
+      !||    read_bcs_wall_mod      ../engine/source/output/restart/read_bcs_wall.F90
       !||    read_inivel_mod        ../engine/source/output/restart/read_inivel.F90
       !||    restart_rbe3pen_mod    ../engine/source/output/restart/restart_rbe3pen.F90
       !||    restmod                ../engine/share/modules/restart_mod.F

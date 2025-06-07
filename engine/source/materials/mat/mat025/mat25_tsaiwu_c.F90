@@ -44,6 +44,7 @@
       !||    constant_mod       ../common_source/modules/constant_mod.F
       !||    matparam_def_mod   ../common_source/modules/mat_elem/matparam_def_mod.F90
       !||    message_mod        ../engine/share/message_module/message_mod.F
+      !||    precision_mod      ../common_source/modules/precision_mod.F90
       !||====================================================================
         subroutine mat25_tsaiwu_c(mat_param   ,                                    &
           nel     ,off     ,sig     ,                         &

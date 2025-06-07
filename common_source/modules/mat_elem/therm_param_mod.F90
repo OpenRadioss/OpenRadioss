@@ -27,6 +27,8 @@
       !||    matparam_def_mod   ../common_source/modules/mat_elem/matparam_def_mod.F90
       !||    read_thermparam    ../engine/source/output/restart/read_thermparam.F90
       !||    write_thermparam   ../engine/source/output/restart/write_thermparam.F90
+      !||--- uses       -----------------------------------------------------
+      !||    precision_mod      ../common_source/modules/precision_mod.F90
       !||====================================================================
       module therm_param_mod
 

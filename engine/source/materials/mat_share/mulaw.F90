@@ -163,6 +163,7 @@
       !||    message_mod            ../engine/share/message_module/message_mod.F
       !||    nlocal_reg_mod         ../common_source/modules/nlocal_reg_mod.F
       !||    output_mod             ../common_source/modules/output/output_mod.F90
+      !||    precision_mod          ../common_source/modules/precision_mod.F90
       !||    prop_param_mod         ../common_source/modules/mat_elem/prop_param_mod.F90
       !||    sigeps100_mod          ../engine/source/materials/mat/mat100/sigeps100.F90
       !||    sigeps125_mod          ../engine/source/materials/mat/mat125/sigeps125.F90

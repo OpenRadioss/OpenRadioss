@@ -27,6 +27,7 @@ C==========================================================================
       !||    resol                 ../engine/source/engine/resol.F
       !||--- calls      -----------------------------------------------------
       !||--- uses       -----------------------------------------------------
+      !||    intbufdef_mod         ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
       SUBROUTINE SPMD_GLOB_MIN5(DT2  ,ITYPTS,NELTS,ICODT,IMSCH,
      .                         TSTOP,IWIOUT,MSTOP,ISMSCH,

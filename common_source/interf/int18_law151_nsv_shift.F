@@ -42,6 +42,7 @@
       !||    inttri                   ../engine/source/interfaces/intsort/inttri.F
       !||--- uses       -----------------------------------------------------
       !||    groupdef_mod             ../common_source/modules/groupdef_mod.F
+      !||    intbufdef_mod            ../common_source/modules/interfaces/intbufdef_mod.F90
       !||    multi_fvm_mod            ../common_source/modules/ale/multi_fvm_mod.F90
       !||====================================================================
         subroutine int18_law151_nsv_shift(mode,itask,nthread,multi_fvm,ipari,intbuf_tab,npari,ninter,numnod,opt_int_id)

@@ -31,11 +31,12 @@
 ! \brief rbe3 penalty force, stiffness update
 ! ======================================================================================================================
       !||====================================================================
-      !||    rbe3f_pen      ../engine/source/constraints/general/rbe3/rbe3f_pen.F90
+      !||    rbe3f_pen       ../engine/source/constraints/general/rbe3/rbe3f_pen.F90
       !||--- called by ------------------------------------------------------
-      !||    rbe3f          ../engine/source/constraints/general/rbe3/rbe3f.F
+      !||    rbe3f           ../engine/source/constraints/general/rbe3/rbe3f.F
       !||--- uses       -----------------------------------------------------
-      !||    constant_mod   ../common_source/modules/constant_mod.F
+      !||    constant_mod    ../common_source/modules/constant_mod.F
+      !||    precision_mod   ../common_source/modules/precision_mod.F90
       !||====================================================================
         subroutine rbe3f_pen(                                           &
                 ns      ,nmt0        ,numnod     ,nmt         ,         &

@@ -43,6 +43,7 @@ C  |         I10XSAVE                        /intsort/i10xsave.F
       !||    upgrade_multimp              ../common_source/interf/upgrade_multimp.F
       !||--- uses       -----------------------------------------------------
       !||    check_sorting_criteria_mod   ../engine/source/interfaces/intsort/check_sorting_criteria.F90
+      !||    intbufdef_mod                ../common_source/modules/interfaces/intbufdef_mod.F90
       !||    message_mod                  ../engine/share/message_module/message_mod.F
       !||    timer_mod                    ../engine/source/system/timer_mod.F90
       !||    tri7box                      ../engine/share/modules/tri7box.F

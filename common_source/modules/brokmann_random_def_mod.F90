@@ -35,6 +35,8 @@
       !||    initia                    ../starter/source/elements/initia/initia.F
       !||    lectur                    ../engine/source/input/lectur.F
       !||    updfail                   ../starter/source/materials/updfail.F90
+      !||--- uses       -----------------------------------------------------
+      !||    precision_mod             ../common_source/modules/precision_mod.F90
       !||====================================================================
       module brokmann_random_def_mod
         use precision_mod, only: WP

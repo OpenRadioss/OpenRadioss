@@ -32,23 +32,23 @@
       contains
 
 
-        !||====================================================================
-        !||    hm_read_mat128           ../starter/source/materials/mat/mat128/hm_read_mat128.F90
-        !||--- called by ------------------------------------------------------
-        !||    hm_read_mat              ../starter/source/materials/mat/hm_read_mat.F90
-        !||--- calls      -----------------------------------------------------
-        !||    hm_get_floatv            ../starter/source/devtools/hm_reader/hm_get_floatv.F
-        !||    hm_get_floatv_dim        ../starter/source/devtools/hm_reader/hm_get_floatv_dim.F
-        !||    hm_get_intv              ../starter/source/devtools/hm_reader/hm_get_intv.F
-        !||    hm_option_is_encrypted   ../starter/source/devtools/hm_reader/hm_option_is_encrypted.F
-        !||    init_mat_keyword         ../starter/source/materials/mat/init_mat_keyword.F
-        !||    mat_table_copy           ../starter/source/materials/tools/mat_table_copy.F90
-        !||--- uses       -----------------------------------------------------
-        !||    elbuftag_mod             ../starter/share/modules1/elbuftag_mod.F
-        !||    mat_table_copy_mod       ../starter/source/materials/tools/mat_table_copy.F90
-        !||    submodel_mod             ../starter/share/modules1/submodel_mod.F
-        !||    table_mod                ../starter/share/modules1/table_mod.F
-        !||====================================================================
+      !||====================================================================
+      !||    hm_read_mat128           ../starter/source/materials/mat/mat128/hm_read_mat128.F90
+      !||--- called by ------------------------------------------------------
+      !||    hm_read_mat              ../starter/source/materials/mat/hm_read_mat.F90
+      !||--- calls      -----------------------------------------------------
+      !||    hm_get_floatv            ../starter/source/devtools/hm_reader/hm_get_floatv.F
+      !||    hm_get_floatv_dim        ../starter/source/devtools/hm_reader/hm_get_floatv_dim.F
+      !||    hm_get_intv              ../starter/source/devtools/hm_reader/hm_get_intv.F
+      !||    hm_option_is_encrypted   ../starter/source/devtools/hm_reader/hm_option_is_encrypted.F
+      !||    init_mat_keyword         ../starter/source/materials/mat/init_mat_keyword.F
+      !||    mat_table_copy           ../starter/source/materials/tools/mat_table_copy.F90
+      !||--- uses       -----------------------------------------------------
+      !||    elbuftag_mod             ../starter/share/modules1/elbuftag_mod.F
+      !||    mat_table_copy_mod       ../starter/source/materials/tools/mat_table_copy.F90
+      !||    submodel_mod             ../starter/share/modules1/submodel_mod.F
+      !||    table_mod                ../starter/share/modules1/table_mod.F
+      !||====================================================================
         subroutine hm_read_mat128(                                       &
           mat_param,mtag     ,parmat   ,nuvar    ,nvartmp  ,    &
           ntable   ,table    ,mat_id   ,titr     ,iout     ,    &

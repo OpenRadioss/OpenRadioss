@@ -25,6 +25,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- called by ------------------------------------------------------
       !||    inttri             ../engine/source/interfaces/intsort/inttri.F
       !||--- uses       -----------------------------------------------------
+      !||    intbufdef_mod      ../common_source/modules/interfaces/intbufdef_mod.F90
       !||    inter_struct_mod   ../engine/share/modules/inter_struct_mod.F
       !||    sensor_mod         ../common_source/modules/sensor_mod.F90
       !||====================================================================

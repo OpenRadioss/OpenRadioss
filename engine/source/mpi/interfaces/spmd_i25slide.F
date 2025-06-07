@@ -236,6 +236,7 @@ C
       !||--- uses       -----------------------------------------------------
       !||    h3d_mod              ../engine/share/modules/h3d_mod.F
       !||    ifront_mod           ../engine/share/modules/ifront_mod.F
+      !||    intbufdef_mod        ../common_source/modules/interfaces/intbufdef_mod.F90
       !||    message_mod          ../engine/share/message_module/message_mod.F
       !||    tri25tmp             ../engine/share/modules/tri25tmp_mod.F
       !||    tri7box              ../engine/share/modules/tri7box.F

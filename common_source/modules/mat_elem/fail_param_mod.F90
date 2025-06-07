@@ -78,6 +78,7 @@
       !||    write_failparam           ../engine/source/output/restart/write_failparam.F
       !||--- uses       -----------------------------------------------------
       !||    names_and_titles_mod      ../common_source/modules/names_and_titles_mod.F
+      !||    precision_mod             ../common_source/modules/precision_mod.F90
       !||    table4d_mod               ../common_source/modules/table4d_mod.F
       !||====================================================================
       module fail_param_mod

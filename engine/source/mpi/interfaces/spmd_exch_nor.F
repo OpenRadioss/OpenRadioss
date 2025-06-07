@@ -26,6 +26,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    i25normp        ../engine/source/interfaces/int25/i25norm.F
       !||--- calls      -----------------------------------------------------
       !||--- uses       -----------------------------------------------------
+      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
       SUBROUTINE SPMD_EXCH_NOR(
      1   NI25,IAD_FREDG,FR_EDG,NOD_NORMAL,WNOD_NORMAL,SIZE,NADMSR,

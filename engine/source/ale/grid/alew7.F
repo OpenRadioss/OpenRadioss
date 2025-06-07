@@ -34,6 +34,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    valpvec                             ../engine/source/materials/mat/mat033/sigeps33.F
       !||--- uses       -----------------------------------------------------
       !||    ale_mod                             ../common_source/modules/ale/ale_mod.F
+      !||    spmd_exch_flow_tracking_data2_mod   ../engine/source/ale/grid/spmd_exch_flow_tracking_data2.F90
+      !||    spmd_exch_flow_tracking_data3_mod   ../engine/source/ale/grid/spmd_exch_flow_tracking_data3.F90
+      !||    spmd_exch_flow_tracking_data4_mod   ../engine/source/ale/grid/spmd_exch_flow_tracking_data4.F90
+      !||    spmd_exch_flow_tracking_data_mod    ../engine/source/ale/grid/spmd_exch_flow_tracking_data.F90
       !||====================================================================
       SUBROUTINE ALEW7(
      1   X       ,V       ,W       ,MS      , NALE,

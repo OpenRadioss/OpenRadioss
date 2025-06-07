@@ -41,6 +41,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    upgrade_cand_opt         ../common_source/interf/upgrade_multimp.F
       !||--- uses       -----------------------------------------------------
       !||    h3d_mod                  ../engine/share/modules/h3d_mod.F
+      !||    intbufdef_mod            ../common_source/modules/interfaces/intbufdef_mod.F90
       !||    message_mod              ../engine/share/message_module/message_mod.F
       !||    mpi_commod               ../engine/share/modules/mpi_comm_mod.F
       !||    parameters_mod           ../common_source/modules/interfaces/parameters_mod.F

@@ -55,6 +55,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    i2therm         ../engine/source/interfaces/interf/i2therm.F
       !||--- uses       -----------------------------------------------------
       !||    h3d_mod         ../engine/share/modules/h3d_mod.F
+      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
       SUBROUTINE INTTI2F(
      1   IPARI  ,X      ,V      ,A      ,

@@ -57,6 +57,7 @@
       !||    i20xsinir                ../engine/source/interfaces/intsort/i20main_tri.F
       !||--- uses       -----------------------------------------------------
       !||    constant_mod             ../common_source/modules/constant_mod.F
+      !||    intbufdef_mod            ../common_source/modules/interfaces/intbufdef_mod.F90
       !||    precision_mod            ../common_source/modules/precision_mod.F90
       !||====================================================================
         subroutine check_sorting_criteria( need_computation,interface_id,nipari,nspmd,task_id,ipari,time,intbuf_tab )

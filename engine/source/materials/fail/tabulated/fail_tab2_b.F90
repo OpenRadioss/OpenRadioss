@@ -66,6 +66,7 @@
       !||    constant_mod          ../common_source/modules/constant_mod.F
       !||    elbufdef_mod          ../common_source/modules/mat_elem/elbufdef_mod.F90
       !||    interface_table_mod   ../engine/share/modules/table_mod.F
+      !||    precision_mod         ../common_source/modules/precision_mod.F90
       !||    table_mod             ../engine/share/modules/table_mod.F
       !||====================================================================
     subroutine fail_tab2_b(                                      &

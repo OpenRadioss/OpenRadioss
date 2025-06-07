@@ -1742,6 +1742,7 @@ C--------------------------------------------
       !||    spmd_sumf_a     ../engine/source/mpi/implicit/imp_spmd.F
       !||--- uses       -----------------------------------------------------
       !||    imp_dyna        ../engine/share/modules/impbufdef_mod.F
+      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
       SUBROUTINE IMP_DYKV(NODFT  ,NODLT   ,IDDL   ,NDOF   ,IKC    ,
      .                    DIAG_K ,IADK    ,JDIK   ,LT_K   ,WEIGHT ,
@@ -1946,6 +1947,7 @@ C--------------------------------------------
       !||    spmd_sumf_a     ../engine/source/mpi/implicit/imp_spmd.F
       !||--- uses       -----------------------------------------------------
       !||    imp_dyna        ../engine/share/modules/impbufdef_mod.F
+      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
       SUBROUTINE IMP_DYKV0(NODFT  ,NODLT   ,IDDL   ,NDOF   ,IKC    ,
      .                    DIAG_K ,IADK    ,JDIK   ,LT_K   ,WEIGHT ,

@@ -35,9 +35,10 @@
 !! \brief root finding algo based on Brent's algo
 !! \details
       !||====================================================================
-      !||    brent_algo     ../common_source/modules/root_finding_algo_mod.F90
+      !||    brent_algo      ../common_source/modules/root_finding_algo_mod.F90
       !||--- uses       -----------------------------------------------------
-      !||    constant_mod   ../common_source/modules/constant_mod.F
+      !||    constant_mod    ../common_source/modules/constant_mod.F
+      !||    precision_mod   ../common_source/modules/precision_mod.F90
       !||====================================================================
         function brent_algo( a,b,tolerance,funct,funct_parameter_size,funct_parameter)
 ! ----------------------------------------------------------------------------------------------------------------------

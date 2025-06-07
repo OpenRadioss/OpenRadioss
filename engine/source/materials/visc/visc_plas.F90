@@ -41,6 +41,7 @@
       !||    viscmain         ../engine/source/materials/visc/viscmain.F
       !||--- uses       -----------------------------------------------------
       !||    constant_mod     ../common_source/modules/constant_mod.F
+      !||    precision_mod    ../common_source/modules/precision_mod.F90
       !||    visc_param_mod   ../common_source/modules/mat_elem/visc_param_mod.F90
       !||====================================================================
         subroutine visc_plas(visc,nel     , rho, soundsp     , &

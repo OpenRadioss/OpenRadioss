@@ -31,6 +31,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    i11dstk3        ../engine/source/interfaces/int11/i11dstk3.F
       !||    i11keg3         ../engine/source/interfaces/int11/i11keg3.F
       !||--- uses       -----------------------------------------------------
+      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
       SUBROUTINE I11KE3(
      1      A         ,V        ,MS        ,IPARI   ,INTBUF_TAB,
@@ -192,6 +193,7 @@ C
       !||    i11corp3        ../engine/source/interfaces/int11/i11corp3.F
       !||    i11frf3         ../engine/source/interfaces/int11/i11keg3.F
       !||--- uses       -----------------------------------------------------
+      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
       SUBROUTINE I11FORCF3(  A     ,V      ,MS   ,X       ,D       ,
      1                    IPARI   ,INTBUF_TAB,NIN     ,
@@ -298,6 +300,7 @@ C
       !||    i11dstk3        ../engine/source/interfaces/int11/i11dstk3.F
       !||    i11dstr3        ../engine/source/interfaces/int11/i11dstk3.F
       !||--- uses       -----------------------------------------------------
+      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
       SUBROUTINE IMP_I11MAINF(
      1       IPARI  ,INTBUF_TAB,X         ,
@@ -457,6 +460,7 @@ C
       !||    i11dstk3        ../engine/source/interfaces/int11/i11dstk3.F
       !||    i11kfor3        ../engine/source/interfaces/int11/i11keg3.F
       !||--- uses       -----------------------------------------------------
+      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
       SUBROUTINE I11FKU3(
      1      A         ,V         ,MS        ,D        ,

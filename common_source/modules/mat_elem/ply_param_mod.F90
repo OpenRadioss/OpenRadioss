@@ -24,6 +24,8 @@
       !||    ply_param_mod    ../common_source/modules/mat_elem/ply_param_mod.F90
       !||--- called by ------------------------------------------------------
       !||    prop_param_mod   ../common_source/modules/mat_elem/prop_param_mod.F90
+      !||--- uses       -----------------------------------------------------
+      !||    precision_mod    ../common_source/modules/precision_mod.F90
       !||====================================================================
       module ply_param_mod
 

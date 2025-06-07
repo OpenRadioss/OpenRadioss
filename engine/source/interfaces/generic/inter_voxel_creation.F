@@ -25,6 +25,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- called by ------------------------------------------------------
       !||    inter_prepare_sort     ../engine/source/interfaces/generic/inter_prepare_sort.F
       !||--- uses       -----------------------------------------------------
+      !||    intbufdef_mod          ../common_source/modules/interfaces/intbufdef_mod.F90
       !||    inter_sorting_mod      ../engine/share/modules/inter_sorting_mod.F
       !||====================================================================
         SUBROUTINE INTER_VOXEL_CREATION(IPARI,INTBUF_TAB,X,NIN,SORT_COMM)

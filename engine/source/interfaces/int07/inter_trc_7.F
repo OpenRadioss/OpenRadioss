@@ -27,6 +27,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- calls      -----------------------------------------------------
       !||    i7trc              ../engine/source/interfaces/intsort/i7trc.F
       !||--- uses       -----------------------------------------------------
+      !||    intbufdef_mod      ../common_source/modules/interfaces/intbufdef_mod.F90
       !||    inter_struct_mod   ../engine/share/modules/inter_struct_mod.F
       !||====================================================================
         SUBROUTINE INTER_TRC_7( ITASK,NIN,IPARI,IND_IMP,

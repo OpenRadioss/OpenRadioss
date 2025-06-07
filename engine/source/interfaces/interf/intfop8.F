@@ -29,6 +29,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    spmd_i8_reduce   ../engine/source/mpi/interfaces/spmd_i8tool.F
       !||--- uses       -----------------------------------------------------
       !||    h3d_mod          ../engine/share/modules/h3d_mod.F
+      !||    intbufdef_mod    ../common_source/modules/interfaces/intbufdef_mod.F90
       !||    sensor_mod       ../common_source/modules/sensor_mod.F90
       !||====================================================================
       SUBROUTINE INTFOP8(

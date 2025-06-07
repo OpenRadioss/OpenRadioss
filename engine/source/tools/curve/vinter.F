@@ -123,6 +123,7 @@ C
       !||    mat121c_nice        ../engine/source/materials/mat/mat121/mat121c_nice.F
       !||    redef3              ../engine/source/elements/spring/redef3.F90
       !||    redef3_law113       ../engine/source/elements/spring/redef3_law113.F
+      !||    redef_seatbelt      ../engine/source/tools/seatbelts/redef_seatbelt.F90
       !||    rkenonl             ../engine/source/elements/spring/r4mat3.F
       !||    sigeps121           ../engine/source/materials/mat/mat121/sigeps121.F
       !||    sigeps121c          ../engine/source/materials/mat/mat121/sigeps121c.F

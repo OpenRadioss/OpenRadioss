@@ -27,6 +27,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- calls      -----------------------------------------------------
       !||    i2virot3        ../engine/source/interfaces/interf/i2vit3.F
       !||--- uses       -----------------------------------------------------
+      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
       SUBROUTINE I2VIT28(INTBUF_TAB,IPARI,WEIGHT,NSN ,
      .                   X    ,V   ,A    ,VR   ,AR   ,

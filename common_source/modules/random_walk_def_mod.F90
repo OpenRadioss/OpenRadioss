@@ -35,6 +35,8 @@
       !||    lectur                     ../engine/source/input/lectur.F
       !||    random_walk_dmg            ../starter/source/materials/fail/fractal/random_walk_dmg.F90
       !||    updfail                    ../starter/source/materials/updfail.F90
+      !||--- uses       -----------------------------------------------------
+      !||    precision_mod              ../common_source/modules/precision_mod.F90
       !||====================================================================
       module random_walk_def_mod
 

@@ -41,6 +41,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    arret             ../engine/source/system/arret.F
       !||    arret_message     ../engine/source/system/arret_message.F
       !||--- uses       -----------------------------------------------------
+      !||    intbufdef_mod     ../common_source/modules/interfaces/intbufdef_mod.F90
       !||    restmod           ../engine/share/modules/restart_mod.F
       !||====================================================================
       SUBROUTINE UPGRADE_MULTIMP(NI,MULTIMP_PARAMETER,INTBUF_TAB)
@@ -1116,6 +1117,7 @@ C=======================================================================
       !||    arret                ../engine/source/system/arret.F
       !||    arret_message_slid   ../engine/source/system/arret_message.F
       !||--- uses       -----------------------------------------------------
+      !||    intbufdef_mod        ../common_source/modules/interfaces/intbufdef_mod.F90
       !||    restmod              ../engine/share/modules/restart_mod.F
       !||====================================================================
       SUBROUTINE UPGRADE_CAND_OPT(NI,K_STOK,INTBUF_TAB)
@@ -1312,6 +1314,7 @@ C=======================================================================
       !||    arret               ../engine/source/system/arret.F
       !||    arret_message       ../engine/source/system/arret_message.F
       !||--- uses       -----------------------------------------------------
+      !||    intbufdef_mod       ../common_source/modules/interfaces/intbufdef_mod.F90
       !||    restmod             ../engine/share/modules/restart_mod.F
       !||====================================================================
       SUBROUTINE UPGRADE_LCAND_EDG(NI,MULTIMP_PARAMETER,INTBUF_TAB)
@@ -1513,6 +1516,7 @@ C=======================================================================
       !||    arret               ../engine/source/system/arret.F
       !||    arret_message       ../engine/source/system/arret_message.F
       !||--- uses       -----------------------------------------------------
+      !||    intbufdef_mod       ../common_source/modules/interfaces/intbufdef_mod.F90
       !||    restmod             ../engine/share/modules/restart_mod.F
       !||====================================================================
       SUBROUTINE UPGRADE_LCAND_E2S(NI,MULTIMP_PARAMETER,INTBUF_TAB)

@@ -28,6 +28,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    my_barrier              ../engine/source/system/machine.F
       !||--- uses       -----------------------------------------------------
       !||    h3d_mod                 ../engine/share/modules/h3d_mod.F
+      !||    intbufdef_mod           ../common_source/modules/interfaces/intbufdef_mod.F90
       !||    inter_sorting_mod       ../engine/share/modules/inter_sorting_mod.F
       !||    inter_struct_mod        ../engine/share/modules/inter_struct_mod.F
       !||    metric_mod              ../common_source/modules/interfaces/metric_mod.F

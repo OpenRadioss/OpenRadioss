@@ -1676,6 +1676,7 @@ C----6---------------------------------------------------------------7---------8
       !||--- called by ------------------------------------------------------
       !||    dim_kinmax      ../engine/source/implicit/ind_glob_k.F
       !||--- uses       -----------------------------------------------------
+      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
       SUBROUTINE DIM_KINE_P(
      1    IGEO      ,NPBY      ,LPBY      ,ITAB      ,NRBYAC    ,
@@ -1793,6 +1794,7 @@ C----6---------------------------------------------------------------7---------8
       !||    intab           ../engine/source/implicit/ind_glob_k.F
       !||    rbyac_imp       ../engine/source/constraints/general/rbody/rbyac_imp.F
       !||--- uses       -----------------------------------------------------
+      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
       SUBROUTINE DIM_NDOF_I(
      1    NPBY      ,LPBY      ,ITAB      ,NRBYAC    ,
@@ -1903,6 +1905,7 @@ C----6---------------------------------------------------------------7---------8
       !||--- called by ------------------------------------------------------
       !||    dim_glob_k      ../engine/source/implicit/ind_glob_k.F
       !||--- uses       -----------------------------------------------------
+      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
       SUBROUTINE DIM_NDOF_II(
      1    NINT2     ,IINT2     ,IPARI     ,NDOF      ,
@@ -2088,6 +2091,7 @@ C----6---------------------------------------------------------------7---------8
       !||--- calls      -----------------------------------------------------
       !||    intab           ../engine/source/implicit/ind_glob_k.F
       !||--- uses       -----------------------------------------------------
+      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
       SUBROUTINE DIM_KINE_S(
      1    NPBY      ,LPBY      ,ITAB      ,NRBYAC    ,IRBYAC    ,
@@ -2393,6 +2397,7 @@ C----6---------------------------------------------------------------7---------8
       !||    intab           ../engine/source/implicit/ind_glob_k.F
       !||    reorder_a       ../engine/source/implicit/ind_glob_k.F
       !||--- uses       -----------------------------------------------------
+      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
       SUBROUTINE DIM_KINE_T(
      1    NPBY      ,LPBY      ,ITAB      ,NRBYAC    ,IRBYAC    ,
@@ -2746,6 +2751,7 @@ C----6---------------------------------------------------------------7---------8
       !||    reorder_a       ../engine/source/implicit/ind_glob_k.F
       !||    rmind_imp       ../engine/source/model/remesh/rm_imp0.F
       !||--- uses       -----------------------------------------------------
+      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
       SUBROUTINE IND_KINE_K(NPBY,LPBY,
      1    ITAB      ,NRBYAC    ,IRBYAC    ,NSC       ,ISIJ      ,
@@ -3159,6 +3165,7 @@ C------computation for NNMAX,NKMAX------
       !||    spmd_max_i      ../engine/source/mpi/implicit/imp_spmd.F
       !||--- uses       -----------------------------------------------------
       !||    elbufdef_mod    ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
       SUBROUTINE DIM_KINMAX(
      1    IGEO      ,NPBY      ,LPBY      ,ITAB      ,NRBYAC    ,
@@ -3347,6 +3354,7 @@ C------estimation for NNMAX,NKMAX,NNZK, prepare data for IND_GLOB_K
       !||--- uses       -----------------------------------------------------
       !||    elbufdef_mod    ../common_source/modules/mat_elem/elbufdef_mod.F90
       !||    groupdef_mod    ../common_source/modules/groupdef_mod.F
+      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
       SUBROUTINE DIM_GLOB_K(
      1    GEO       ,NPBY      ,LPBY      ,ITAB      ,NRBYAC    ,
@@ -3707,6 +3715,7 @@ C   --------- stockage M.C.R.S + SYM- -----
       !||    zero_ikin2g     ../engine/source/mpi/implicit/imp_fri.F
       !||--- uses       -----------------------------------------------------
       !||    elbufdef_mod    ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
       SUBROUTINE IND_GLOB_K(NPBY,LPBY,
      1    ITAB      ,NRBYAC    ,IRBYAC    ,NSC       ,ISIJ      ,
@@ -4521,6 +4530,8 @@ C
       !||    imp_intbuf_ini     ../engine/source/implicit/imp_solv.F
       !||    intbuf_tab_c_ini   ../common_source/interf/copy_intbuf_tab.F
       !||--- uses       -----------------------------------------------------
+      !||    imp_intbuf         ../engine/share/modules/imp_mod_def.F90
+      !||    intbufdef_mod      ../common_source/modules/interfaces/intbufdef_mod.F90
       !||    message_mod        ../engine/share/message_module/message_mod.F
       !||====================================================================
       SUBROUTINE DIM_INT7(
@@ -4630,6 +4641,8 @@ C----6---------------------------------------------------------------7---------8
       !||    row_int24       ../engine/source/implicit/ind_glob_k.F
       !||    row_int5        ../engine/source/implicit/ind_glob_k.F
       !||--- uses       -----------------------------------------------------
+      !||    imp_intbuf      ../engine/share/modules/imp_mod_def.F90
+      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
       SUBROUTINE DIM_INT_K(
      1    IPARI     ,INTBUF_TAB,NUM_IMP   ,NS_IMP    ,NE_IMP    ,
@@ -4804,6 +4817,8 @@ C   --------- stockage M.C.R.S + SYM- -----
       !||    row_int52       ../engine/source/implicit/ind_glob_k.F
       !||    set_ind_k       ../engine/source/implicit/ind_glob_k.F
       !||--- uses       -----------------------------------------------------
+      !||    imp_intbuf      ../engine/share/modules/imp_mod_def.F90
+      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
       SUBROUTINE IND_INT_K(
      1    IPARI     ,INTBUF_TAB,NUM_IMP   ,NS_IMP    ,NE_IMP      ,
@@ -5677,6 +5692,8 @@ C----6---------------------------------------------------------------7---------8
       !||    row_int241      ../engine/source/implicit/ind_glob_k.F
       !||    row_int51       ../engine/source/implicit/ind_glob_k.F
       !||--- uses       -----------------------------------------------------
+      !||    imp_intbuf      ../engine/share/modules/imp_mod_def.F90
+      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
       SUBROUTINE DIM_KINE_I(
      1    NUM_IMP   ,NS_IMP    ,NE_IMP    ,NPBY      ,LPBY      ,
@@ -6128,6 +6145,7 @@ C----6---------------------------------------------------------------7---------8
       !||    intab           ../engine/source/implicit/ind_glob_k.F
       !||    reorder_a       ../engine/source/implicit/ind_glob_k.F
       !||--- uses       -----------------------------------------------------
+      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
       SUBROUTINE IND_KINE_I(
      1    NPBY      ,LPBY      ,ITAB      ,NRBYAC    ,IRBYAC    ,
@@ -6604,6 +6622,7 @@ C----6---------------------------------------------------------------7---------8
       !||    ndof_int11      ../engine/source/implicit/ind_glob_k.F
       !||    ndof_int5       ../engine/source/implicit/ind_glob_k.F
       !||--- uses       -----------------------------------------------------
+      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
       SUBROUTINE IDEL_INT(
      1    IPARI     ,INTBUF_TAB,NUM_IMP   ,NS_IMP    ,NE_IMP    ,

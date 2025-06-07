@@ -42,6 +42,7 @@
       !||--- uses       -----------------------------------------------------
       !||    constant_mod          ../common_source/modules/constant_mod.F
       !||    elbufdef_mod          ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    precision_mod         ../common_source/modules/precision_mod.F90
       !||====================================================================
         subroutine damping_range_solid(damp_buf,nel     ,nvarvis ,uvarvis ,nvar_damp,et     , &
                                        epspxx  ,epspyy  ,epspzz  ,epspxy  ,epspyz  ,epspzx  , &

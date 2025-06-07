@@ -27,6 +27,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- calls      -----------------------------------------------------
       !||    i2ipoff         ../engine/source/interfaces/interf/int2poff.F
       !||--- uses       -----------------------------------------------------
+      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
       SUBROUTINE INT2POFF(IPARI,X    ,V     ,
      .                   A     ,VR   ,AR   ,MS   ,IN    ,
@@ -98,6 +99,7 @@ C
       !||--- calls      -----------------------------------------------------
       !||    i2ipoffh        ../engine/source/interfaces/interf/int2poff.F
       !||--- uses       -----------------------------------------------------
+      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
       SUBROUTINE INT2POFFH(IPARI,X     ,V     ,
      .                   A     ,VR   ,AR    ,MS    ,IN    ,

@@ -45,6 +45,7 @@
       !||    cross_product     ../engine/source/constraints/general/rbody/velrot_explicit.F90
       !||--- uses       -----------------------------------------------------
       !||    constant_mod      ../common_source/modules/constant_mod.F
+      !||    precision_mod     ../common_source/modules/precision_mod.F90
       !||====================================================================
       subroutine velrot_explicit(vr,lsm,vs,dt)
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -107,6 +108,8 @@
       !||    cross_product     ../engine/source/constraints/general/rbody/velrot_explicit.F90
       !||--- called by ------------------------------------------------------
       !||    velrot_explicit   ../engine/source/constraints/general/rbody/velrot_explicit.F90
+      !||--- uses       -----------------------------------------------------
+      !||    precision_mod     ../common_source/modules/precision_mod.F90
       !||====================================================================
       subroutine cross_product(x,y,z)
           use precision_mod, only : WP

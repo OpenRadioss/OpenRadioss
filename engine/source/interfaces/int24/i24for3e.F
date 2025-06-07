@@ -417,6 +417,7 @@ C-----------
       !||--- calls      -----------------------------------------------------
       !||    i24xfic_ini                   ../engine/source/interfaces/int24/i24for3e.F
       !||--- uses       -----------------------------------------------------
+      !||    intbufdef_mod                 ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
       SUBROUTINE I24XVFIC_UPD(IPARI  ,INTBUF_TAB   ,X    ,V ,NPT ,ITAB )
 C-----------------------------------------------
@@ -700,6 +701,7 @@ C-----------
       !||    i24fics_ini                   ../engine/source/interfaces/int24/i24for3e.F
       !||    i24xvfic_upd                  ../engine/source/interfaces/int24/i24for3e.F
       !||--- uses       -----------------------------------------------------
+      !||    intbufdef_mod                 ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
       SUBROUTINE I24E2E_FICTIVE_NODES_UPDATE(INTLIST,NBINTC,IPARI,INTBUF_TAB,
      *            X,V,MS,ITAB,XYZ,NUMNOD,NSH_OFFSET)

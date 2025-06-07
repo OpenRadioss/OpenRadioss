@@ -28,6 +28,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    i24gap              ../engine/source/interfaces/int24/i24pxfem.F
       !||    spmd_exch_i24_gap   ../engine/source/mpi/interfaces/spmd_exch_i24_gap.F
       !||--- uses       -----------------------------------------------------
+      !||    intbufdef_mod       ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
       SUBROUTINE I24PXFEM(
      1   IPARI    ,INTBUF_TAB,WAGAP ,IAD_ELEM,FR_ELEM)

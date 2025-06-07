@@ -31,6 +31,7 @@ C-----------------------------------------------------------------------
       !||    init_interf_sorting_strategy   ../engine/source/interfaces/init_interf_sorting_strategy.F
       !||    int_startime                   ../engine/source/system/timer_interf.F
       !||    int_stoptime                   ../engine/source/system/timer_interf.F
+      !||    intbufdef_mod                  ../common_source/modules/interfaces/intbufdef_mod.F90
       !||    inter_deallocate_wait          ../engine/source/interfaces/generic/inter_deallocate_wait.F
       !||    inter_sort                     ../engine/source/interfaces/generic/inter_sort.F
       !||    intfop2                        ../engine/source/interfaces/interf/intfop2.F

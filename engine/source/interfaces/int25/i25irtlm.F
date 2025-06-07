@@ -25,6 +25,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- called by ------------------------------------------------------
       !||    i25main_opt_tri   ../engine/source/interfaces/intsort/i25main_opt_tri.F
       !||--- uses       -----------------------------------------------------
+      !||    intbufdef_mod     ../common_source/modules/interfaces/intbufdef_mod.F90
       !||    tri7box           ../engine/share/modules/tri7box.F
       !||====================================================================
       SUBROUTINE I25IRTLM(

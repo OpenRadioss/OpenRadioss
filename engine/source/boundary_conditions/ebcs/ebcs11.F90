@@ -35,6 +35,7 @@
       !||    ebcs_mod              ../common_source/modules/boundary_conditions/ebcs_mod.F90
       !||    elbufdef_mod          ../common_source/modules/mat_elem/elbufdef_mod.F90
       !||    multi_fvm_mod         ../common_source/modules/ale/multi_fvm_mod.F90
+      !||    precision_mod         ../common_source/modules/precision_mod.F90
       !||    python_funct_mod      ../common_source/modules/python_mod.F90
       !||    segvar_mod            ../engine/share/modules/segvar_mod.F
       !||    sensor_mod            ../common_source/modules/sensor_mod.F90

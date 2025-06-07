@@ -31,6 +31,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    i7cork3         ../engine/source/interfaces/int07/i7cork3.F
       !||    i7dstk3         ../engine/source/interfaces/int07/i7dstk3.F
       !||--- uses       -----------------------------------------------------
+      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
       SUBROUTINE I10KE3(  A     ,V      ,MS   ,
      1                   IPARI  ,INTBUF_TAB   ,X    ,NIN   ,
@@ -187,6 +188,7 @@ C
       !||    i10corp3        ../engine/source/interfaces/int10/i10corp3.F
       !||    i10frf3         ../engine/source/interfaces/int10/i10keg3.F
       !||--- uses       -----------------------------------------------------
+      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
       SUBROUTINE I10FORCF3( A     ,V      ,MS   ,X       ,D ,
      1                    IPARI   ,INTBUF_TAB   ,NIN     ,
@@ -285,6 +287,7 @@ C
       !||    i7corkp3        ../engine/source/interfaces/int07/i7cork3.F
       !||    i7dstk3         ../engine/source/interfaces/int07/i7dstk3.F
       !||--- uses       -----------------------------------------------------
+      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
       SUBROUTINE I10FKU3(A      ,V     ,MS     ,D     ,
      1                  IPARI ,INTBUF_TAB      ,X    ,NIN   ,
@@ -425,6 +428,7 @@ C
       !||    i7dstk3         ../engine/source/interfaces/int07/i7dstk3.F
       !||    i7dstr3         ../engine/source/interfaces/int07/i7dstk3.F
       !||--- uses       -----------------------------------------------------
+      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
       SUBROUTINE IMP_I10MAINF(
      1       IPARI  ,INTBUF_TAB,X        ,

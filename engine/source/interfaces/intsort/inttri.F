@@ -90,6 +90,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    i22bufbric_mod               ../common_source/modules/interfaces/cut-cell-search_mod.F
       !||    i22tri_mod                   ../common_source/modules/interfaces/cut-cell-search_mod.F
       !||    int18_law151_nsv_shift_mod   ../common_source/interf/int18_law151_nsv_shift.F
+      !||    intbufdef_mod                ../common_source/modules/interfaces/intbufdef_mod.F90
       !||    inter_sorting_mod            ../engine/share/modules/inter_sorting_mod.F
       !||    inter_struct_mod             ../engine/share/modules/inter_struct_mod.F
       !||    intstamp_mod                 ../engine/share/modules/intstamp_mod.F

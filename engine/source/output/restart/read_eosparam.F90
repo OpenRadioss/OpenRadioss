@@ -41,6 +41,7 @@
       !||    message_mod            ../engine/share/message_module/message_mod.F
       !||    my_alloc_mod           ../common_source/tools/memory/my_alloc.F90
       !||    names_and_titles_mod   ../common_source/modules/names_and_titles_mod.F
+      !||    precision_mod          ../common_source/modules/precision_mod.F90
       !||====================================================================
       SUBROUTINE READ_EOSPARAM(EOS)
 ! ----------------------------------------------------------------------------------------------------------------------

@@ -175,6 +175,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    multifluid_global_tdet                   ../starter/source/multifluid/multifluid_global_tdet.F
       !||    newman_raju                              ../common_source/fail/newman_raju.F90
       !||    offset_nproj                             ../engine/source/interfaces/shell_offset/offset_nproj.F90
+      !||    pblast_parameters__air_burst             ../common_source/modules/loads/pblast_mod.F90
+      !||    pblast_parameters__free_air              ../common_source/modules/loads/pblast_mod.F90
+      !||    pblast_parameters__surface_burst         ../common_source/modules/loads/pblast_mod.F90
       !||    polygon_addpoint                         ../common_source/tools/clipping/polygon_mod.F90
       !||    polygon_create                           ../common_source/tools/clipping/polygon_mod.F90
       !||    polygon_is_point_inside                  ../common_source/tools/clipping/polygon_clipping_mod.F90
@@ -194,6 +197,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    read_mat25_tsaiwu                        ../starter/source/materials/mat/mat025/read_mat25_tsaiwu.F90
       !||    read_sensor_python                       ../starter/source/tools/sensor/hm_read_sensor_python.F90
       !||    redef3                                   ../engine/source/elements/spring/redef3.F90
+      !||    redef_seatbelt                           ../engine/source/tools/seatbelts/redef_seatbelt.F90
       !||    retractor_table_inv                      ../engine/source/tools/seatbelts/retractor_table_inv.F90
       !||    retractor_table_inv2                     ../engine/source/tools/seatbelts/retractor_table_inv2.F90
       !||    s20temp                                  ../starter/source/elements/solid/solide20/s20temp.F90

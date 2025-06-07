@@ -48,6 +48,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    upd_aspc        ../engine/source/constraints/general/bcs/bc_imp0.F
       !||--- uses       -----------------------------------------------------
       !||    imp_fvbcl       ../engine/share/modules/impbufdef_mod.F
+      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
       SUBROUTINE UPD_GLOB_K(ICODT ,ICODR ,ISKEW ,IBFV    ,NPC    ,
      1                      TF    ,VEL   ,XFRAME ,
@@ -447,6 +448,7 @@ C
       !||    rbe3_impi       ../engine/source/constraints/general/rbe3/rbe3_imp0.F
       !||    rby_impi        ../engine/source/constraints/general/rbody/rby_imp0.F
       !||--- uses       -----------------------------------------------------
+      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
       SUBROUTINE UPD_INT_K(ICODT  ,ICODR ,ISKEW ,IBFV    ,NPC    ,
      1                      TF    ,VEL   ,XFRAME ,
@@ -648,6 +650,7 @@ C
       !||    rby_impr2       ../engine/source/constraints/general/rbody/rby_imp0.F
       !||    spmd_sumf_v     ../engine/source/mpi/implicit/imp_spmd.F
       !||--- uses       -----------------------------------------------------
+      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
       SUBROUTINE UPD_RHS(ICODT ,ICODR ,ISKEW ,IBFV    ,XFRAME ,
      1                   RBY   ,X     ,SKEW   ,LPBY   ,NPBY   ,
@@ -923,6 +926,7 @@ C
       !||    rer_int_v       ../engine/source/implicit/upd_glob_k.F
       !||    spmd_sumf_v     ../engine/source/mpi/implicit/imp_spmd.F
       !||--- uses       -----------------------------------------------------
+      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
       SUBROUTINE RER02(RBY   ,LPBY  ,NPBY  ,SKEW  ,ISKEW ,
      1                   ITAB  ,WEIGHT,MS    ,IN    ,
@@ -1064,6 +1068,7 @@ C
       !||    ud_int5         ../engine/source/implicit/upd_glob_k.F
       !||    ud_int7         ../engine/source/implicit/upd_glob_k.F
       !||--- uses       -----------------------------------------------------
+      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
       SUBROUTINE RER_INT_V(
      1    IPARI     ,INTBUF_TAB,NUM_IMP   ,NS_IMP    ,NE_IMP    ,
@@ -1531,6 +1536,7 @@ C   --------- ----
       !||    i5cork3         ../engine/source/interfaces/inter3d/i5cork3.F
       !||    ud_intg5        ../engine/source/implicit/upd_glob_k.F
       !||--- uses       -----------------------------------------------------
+      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
       SUBROUTINE UD_INT5(
      1                   IPARI ,INTBUF_TAB,X    ,NUM_IMP,
@@ -1708,6 +1714,7 @@ C----6---------------------------------------------------------------7---------8
       !||--- calls      -----------------------------------------------------
       !||    colinear3       ../engine/source/implicit/upd_glob_k.F
       !||--- uses       -----------------------------------------------------
+      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
       SUBROUTINE INI_DOFSPC(
      1    NPBY      ,LPBY      ,NRBYAC    ,IRBYAC    ,NINT2     ,

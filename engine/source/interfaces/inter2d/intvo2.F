@@ -29,6 +29,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    invoi2          ../engine/source/interfaces/inter2d/invoi2.F
       !||--- uses       -----------------------------------------------------
       !||    h3d_mod         ../engine/share/modules/h3d_mod.F
+      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
       SUBROUTINE INTVO2(IPARI,INTBUF_TAB ,X   ,A    ,
      .                  ICODT,FSAV       ,FSKYI,ISKY,

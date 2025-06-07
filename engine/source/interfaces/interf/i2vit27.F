@@ -28,6 +28,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    i2rot3_27       ../engine/source/interfaces/interf/i2vit3.F
       !||    i2vit3_27       ../engine/source/interfaces/interf/i2vit3.F
       !||--- uses       -----------------------------------------------------
+      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
       SUBROUTINE I2VIT27(INTBUF_TAB,IPARI,WEIGHT,NSN ,
      .                   X    ,V   ,A    ,VR   ,AR   ,

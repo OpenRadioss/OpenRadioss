@@ -51,6 +51,7 @@
       !||    i22bufbric_mod                   ../common_source/modules/interfaces/cut-cell-search_mod.F
       !||    i22tri_mod                       ../common_source/modules/interfaces/cut-cell-search_mod.F
       !||    multimat_param_mod               ../common_source/modules/multimat_param_mod.F90
+      !||    precision_mod                    ../common_source/modules/precision_mod.F90
       !||    prop_param_mod                   ../common_source/modules/mat_elem/prop_param_mod.F90
       !||    sigeps51_boundary_material_mod   ../engine/source/materials/mat/mat051/sigeps51_boundary_material.F90
       !||====================================================================

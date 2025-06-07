@@ -27,6 +27,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- calls      -----------------------------------------------------
       !||    i25comp_2       ../engine/source/interfaces/int25/i25comp_2.F
       !||--- uses       -----------------------------------------------------
+      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
       !||    message_mod     ../engine/share/message_module/message_mod.F
       !||    mpi_commod      ../engine/share/modules/mpi_comm_mod.F
       !||    sensor_mod      ../common_source/modules/sensor_mod.F90

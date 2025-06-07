@@ -26,6 +26,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    inter_prepare_sort   ../engine/source/interfaces/generic/inter_prepare_sort.F
       !||--- calls      -----------------------------------------------------
       !||--- uses       -----------------------------------------------------
+      !||    intbufdef_mod        ../common_source/modules/interfaces/intbufdef_mod.F90
       !||    inter_sorting_mod    ../engine/share/modules/inter_sorting_mod.F
       !||    message_mod          ../engine/share/message_module/message_mod.F
       !||    tri7box              ../engine/share/modules/tri7box.F

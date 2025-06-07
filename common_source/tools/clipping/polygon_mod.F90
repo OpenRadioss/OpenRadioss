@@ -24,6 +24,8 @@
       !||    polygon_mod            ../common_source/tools/clipping/polygon_mod.F90
       !||--- called by ------------------------------------------------------
       !||    polygon_clipping_mod   ../common_source/tools/clipping/polygon_clipping_mod.F90
+      !||--- uses       -----------------------------------------------------
+      !||    precision_mod          ../common_source/modules/precision_mod.F90
       !||====================================================================
       module polygon_mod
         use precision_mod, only : WP

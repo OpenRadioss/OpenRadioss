@@ -38,6 +38,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    varcondec       ../engine/source/interfaces/interf/varcondec.F
       !||--- uses       -----------------------------------------------------
       !||    ale_mod         ../common_source/modules/ale/ale_mod.F
+      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
       !||    segvar_mod      ../engine/share/modules/segvar_mod.F
       !||====================================================================
       SUBROUTINE INTTI12A(IPARI, X, WA, ITAB, SEGVAR, TEST, SKEW, ISKWN ,INTBUF_TAB )
@@ -235,6 +236,7 @@ C-----------------------------------------------
       !||    i12for3         ../engine/source/interfaces/interf/i12for3.F
       !||    in12r           ../engine/source/interfaces/interf/in12r.F
       !||--- uses       -----------------------------------------------------
+      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
       SUBROUTINE INTTI12F(IPARI,INTBUF_TAB ,X     ,V     ,
      .                    A    ,MS   ,ITAB ,WEIGHT,STIFN ,WA,SKEW  )
@@ -310,6 +312,7 @@ C-----------------------------------------------
       !||    i12vit3         ../engine/source/interfaces/interf/i12vit3.F
       !||    in12r           ../engine/source/interfaces/interf/in12r.F
       !||--- uses       -----------------------------------------------------
+      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
       SUBROUTINE INTTI12V(IPARI,INTBUF_TAB  ,X    ,V   ,
      .                    A    ,MS   ,WEIGHT,WA,SKEW )

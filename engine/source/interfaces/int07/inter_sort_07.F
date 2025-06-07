@@ -40,6 +40,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    check_sorting_criteria_mod       ../engine/source/interfaces/intsort/check_sorting_criteria.F90
       !||    command_line_args_mod            ../engine/share/modules/command_line_args.F
       !||    h3d_mod                          ../engine/share/modules/h3d_mod.F
+      !||    intbufdef_mod                    ../common_source/modules/interfaces/intbufdef_mod.F90
       !||    inter7_collision_detection_mod   ../engine/source/interfaces/intsort/inter7_collision_detection.F90
       !||    inter_sorting_mod                ../engine/share/modules/inter_sorting_mod.F
       !||    inter_struct_mod                 ../engine/share/modules/inter_struct_mod.F

@@ -39,6 +39,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    anim_mod                     ../common_source/modules/output/anim_mod.F
       !||    array_mod                    ../common_source/modules/array_mod.F
       !||    h3d_mod                      ../engine/share/modules/h3d_mod.F
+      !||    intbufdef_mod                ../common_source/modules/interfaces/intbufdef_mod.F90
       !||    multi_fvm_mod                ../common_source/modules/ale/multi_fvm_mod.F90
       !||    tri7box                      ../engine/share/modules/tri7box.F
       !||====================================================================
@@ -318,6 +319,7 @@ C
       !||    spmd_i18kine_pene_com_poff   ../engine/source/mpi/interfaces/spmd_i18kine_pene_com_poff.F
       !||--- uses       -----------------------------------------------------
       !||    h3d_mod                      ../engine/share/modules/h3d_mod.F
+      !||    intbufdef_mod                ../common_source/modules/interfaces/intbufdef_mod.F90
       !||    tri7box                      ../engine/share/modules/tri7box.F
       !||====================================================================
       SUBROUTINE I18MAIN_KINE_2(IPARI,INTBUF_TAB ,X   ,V       ,
@@ -509,6 +511,7 @@ C
       !||--- uses       -----------------------------------------------------
       !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
       !||    i18dst3_mod            ../engine/source/interfaces/int18/i18dst3.F
+      !||    intbufdef_mod          ../common_source/modules/interfaces/intbufdef_mod.F90
       !||    message_mod            ../engine/share/message_module/message_mod.F
       !||    multi_fvm_mod          ../common_source/modules/ale/multi_fvm_mod.F90
       !||====================================================================
@@ -742,6 +745,7 @@ C cand_n et cand_e replaced with cand_n_n et cand_e_n
       !||--- calls      -----------------------------------------------------
       !||    i18kine_f        ../engine/source/interfaces/int18/i18main_kine.F
       !||--- uses       -----------------------------------------------------
+      !||    intbufdef_mod    ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
       SUBROUTINE I18MAIN_KINE_F(NIN,
      1                          IPARI     ,INTBUF_TAB          ,X         ,STIFN     ,
@@ -977,6 +981,7 @@ c         a = [B] f
       !||    i18kine_v        ../engine/source/interfaces/int18/i18main_kine.F
       !||    my_barrier       ../engine/source/system/machine.F
       !||--- uses       -----------------------------------------------------
+      !||    intbufdef_mod    ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
       SUBROUTINE I18MAIN_KINE_V(NIN,
      1      IPARI     ,INTBUF_TAB         ,X       ,STIFN     ,
@@ -1127,6 +1132,7 @@ C
       !||    my_barrier       ../engine/source/system/machine.F
       !||--- uses       -----------------------------------------------------
       !||    h3d_mod          ../engine/share/modules/h3d_mod.F
+      !||    intbufdef_mod    ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
       SUBROUTINE I18MAIN_KINE_S(NIN,
      1      IPARI     ,INTBUF_TAB         ,X       ,STIFN    ,

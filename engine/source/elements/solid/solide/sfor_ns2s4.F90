@@ -31,11 +31,12 @@
 ! \brief self-contact for node to quad (optimized)
 ! ======================================================================================================================
       !||====================================================================
-      !||    sfor_ns2s4     ../engine/source/elements/solid/solide/sfor_ns2s4.F90
+      !||    sfor_ns2s4      ../engine/source/elements/solid/solide/sfor_ns2s4.F90
       !||--- called by ------------------------------------------------------
-      !||    sfor_4n2s4     ../engine/source/elements/solid/solide/sfor_4n2s4.F90
+      !||    sfor_4n2s4      ../engine/source/elements/solid/solide/sfor_4n2s4.F90
       !||--- uses       -----------------------------------------------------
-      !||    constant_mod   ../common_source/modules/constant_mod.F
+      !||    constant_mod    ../common_source/modules/constant_mod.F
+      !||    precision_mod   ../common_source/modules/precision_mod.F90
       !||====================================================================
          subroutine sfor_ns2s4(                                                 &
                               xi,      yi,     zi, itgsub,                      &

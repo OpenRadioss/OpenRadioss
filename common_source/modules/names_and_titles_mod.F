@@ -796,6 +796,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    pblast_1                          ../engine/source/loads/pblast/pblast_1.F
       !||    pblast_2                          ../engine/source/loads/pblast/pblast_2.F
       !||    pblast_3                          ../engine/source/loads/pblast/pblast_3.F
+      !||    pblast_parameters__air_burst      ../common_source/modules/loads/pblast_mod.F90
       !||    pgrtails                          ../starter/source/elements/beam/pgrtails.F
       !||    plot_curve                        ../common_source/sortie/plot_curve.F
       !||    pornod                            ../starter/source/ale/pornod.F

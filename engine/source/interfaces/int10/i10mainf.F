@@ -34,6 +34,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    sum_6_float_sens   ../engine/source/system/parit.F
       !||--- uses       -----------------------------------------------------
       !||    h3d_mod            ../engine/share/modules/h3d_mod.F
+      !||    intbufdef_mod      ../common_source/modules/interfaces/intbufdef_mod.F90
       !||    message_mod        ../engine/share/message_module/message_mod.F
       !||====================================================================
       SUBROUTINE I10MAINF(IPARI  ,X      ,A      ,

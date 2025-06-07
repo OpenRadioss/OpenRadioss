@@ -32,6 +32,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    i7dstk3         ../engine/source/interfaces/int07/i7dstk3.F
       !||    i7keg3          ../engine/source/interfaces/int07/i7keg3.F
       !||--- uses       -----------------------------------------------------
+      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
       SUBROUTINE I7KE3(  A     ,V      ,MS   ,
      1                   IPARI ,INTBUF_TAB,X    ,NIN   ,
@@ -202,6 +203,7 @@ C
       !||    i11forcf3       ../engine/source/interfaces/int11/i11ke3.F
       !||    i7forcf3        ../engine/source/interfaces/int07/i7ke3.F
       !||--- uses       -----------------------------------------------------
+      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
       SUBROUTINE I7MAINFR(  A     ,V     ,D      ,X     ,MS    ,
      1                     IPARI  ,INTBUF_TAB    ,NUM_IMP,NS_IMP,
@@ -263,6 +265,7 @@ C
       !||    i7corp3         ../engine/source/interfaces/int07/i7cork3.F
       !||    i7frf3          ../engine/source/interfaces/int07/i7keg3.F
       !||--- uses       -----------------------------------------------------
+      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
       SUBROUTINE I7FORCF3(  A     ,V      ,MS   ,X    ,D ,
      1                    IPARI   ,INTBUF_TAB,NIN     ,
@@ -392,6 +395,7 @@ C
       !||    i7dstk3         ../engine/source/interfaces/int07/i7dstk3.F
       !||    i7dstr3         ../engine/source/interfaces/int07/i7dstk3.F
       !||--- uses       -----------------------------------------------------
+      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
       SUBROUTINE IMP_I7MAINF(
      1       IPARI  ,INTBUF_TAB,X        ,
@@ -592,6 +596,7 @@ C
       !||    i7dstk3         ../engine/source/interfaces/int07/i7dstk3.F
       !||    i7kfor3         ../engine/source/interfaces/int07/i7keg3.F
       !||--- uses       -----------------------------------------------------
+      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
       SUBROUTINE I7FKU3(A      ,V     ,MS     ,D     ,
      1                  IPARI ,INTBUF_TAB,X    ,NIN   ,

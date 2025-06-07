@@ -29,6 +29,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    i2updk0         ../engine/source/interfaces/interf/i2_imp1.F
       !||    i2updk1         ../engine/source/interfaces/interf/i2_imp1.F
       !||--- uses       -----------------------------------------------------
+      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
       SUBROUTINE I2_IMP1(IPARI,INTBUF_TAB,ITAB  ,
      .                   NSC2 ,ISIJ2,NSS2,ISS2 ,
@@ -116,6 +117,7 @@ C
       !||    i2updkm0        ../engine/source/interfaces/interf/i2_imp1.F
       !||    i2updkm1        ../engine/source/interfaces/interf/i2_imp1.F
       !||--- uses       -----------------------------------------------------
+      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
       SUBROUTINE I2_IMPM(IPARI,INTBUF_TAB,NMC2 ,IMIJ2,
      .                   X    ,MS  ,IN   ,WEIGHT  ,
@@ -1897,6 +1899,7 @@ C
       !||    i2updb0         ../engine/source/interfaces/interf/i2_imp1.F
       !||    i2updb1         ../engine/source/interfaces/interf/i2_imp1.F
       !||--- uses       -----------------------------------------------------
+      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
       SUBROUTINE I2_IMPR1(IPARI,INTBUF_TAB,
      .                    X    ,NDOF ,IDDL    ,B     )
@@ -2178,6 +2181,7 @@ C
       !||    i2updb02        ../engine/source/interfaces/interf/i2_imp1.F
       !||    i2updb12        ../engine/source/interfaces/interf/i2_imp1.F
       !||--- uses       -----------------------------------------------------
+      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
       SUBROUTINE I2_IMPR2(IPARI,INTBUF_TAB,A    ,AR      ,
      .                    X    ,NDOF ,IDDL    ,B     )

@@ -32,6 +32,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- uses       -----------------------------------------------------
       !||    groupdef_mod              ../common_source/modules/groupdef_mod.F
       !||    h3d_mod                   ../engine/share/modules/h3d_mod.F
+      !||    pblast_mod                ../common_source/modules/loads/pblast_mod.F90
       !||    th_surf_mod               ../common_source/modules/interfaces/th_surf_mod.F
       !||====================================================================
       SUBROUTINE PBLAST_LOAD_COMPUTATION (PBLAST,ILOADP  ,FAC   ,A  , V   ,X ,

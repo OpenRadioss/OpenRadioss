@@ -38,6 +38,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    mat_elem_mod           ../common_source/modules/mat_elem/mat_elem_mod.F90
       !||    multi_fvm_mod          ../common_source/modules/ale/multi_fvm_mod.F90
       !||    names_and_titles_mod   ../common_source/modules/names_and_titles_mod.F
+      !||    pblast_mod             ../common_source/modules/loads/pblast_mod.F90
       !||    schlieren_mod          ../engine/share/modules/schlieren_mod.F
       !||    sensor_mod             ../common_source/modules/sensor_mod.F90
       !||    table_mod              ../engine/share/modules/table_mod.F
@@ -516,6 +517,7 @@ C-----------------------------------------------
       !||    h3d_inc_mod            ../engine/share/modules/h3d_inc_mod.F
       !||    h3d_mod                ../engine/share/modules/h3d_mod.F
       !||    names_and_titles_mod   ../common_source/modules/names_and_titles_mod.F
+      !||    pblast_mod             ../common_source/modules/loads/pblast_mod.F90
       !||    pinchtype_mod          ../common_source/modules/pinchtype_mod.F
       !||    sensor_mod             ../common_source/modules/sensor_mod.F90
       !||    table_mod              ../engine/share/modules/table_mod.F

@@ -38,6 +38,7 @@
       !||    constant_mod           ../common_source/modules/constant_mod.F
       !||    elbufdef_mod           ../common_source/modules/mat_elem/elbufdef_mod.F90
       !||    names_and_titles_mod   ../common_source/modules/names_and_titles_mod.F
+      !||    precision_mod          ../common_source/modules/precision_mod.F90
       !||====================================================================
         subroutine h3d_oned_scalar(  elbuf_tab      , iparg    , geo   , ixt     ,            &
         &  ixp            , ixr      , pm    , anim    ,            &

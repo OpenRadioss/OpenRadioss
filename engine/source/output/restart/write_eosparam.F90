@@ -37,6 +37,7 @@
       !||--- uses       -----------------------------------------------------
       !||    eos_param_mod          ../common_source/modules/mat_elem/eos_param_mod.F90
       !||    names_and_titles_mod   ../common_source/modules/names_and_titles_mod.F
+      !||    precision_mod          ../common_source/modules/precision_mod.F90
       !||====================================================================
       SUBROUTINE WRITE_EOSPARAM(EOS)
 ! ----------------------------------------------------------------------------------------------------------------------

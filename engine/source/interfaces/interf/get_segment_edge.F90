@@ -37,6 +37,7 @@
       !||--- called by ------------------------------------------------------
       !||    get_segment_interface_id   ../engine/source/interfaces/interf/get_segment_interface_id.F90
       !||--- uses       -----------------------------------------------------
+      !||    intbufdef_mod              ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
         subroutine get_segment_edge( my_segment_id,my_node_id_1,my_node_id_2,my_iedge,intbuf_tab )
 ! ----------------------------------------------------------------------------------------------------------------------

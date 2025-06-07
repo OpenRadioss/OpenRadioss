@@ -63,6 +63,7 @@
       !||--- uses       -----------------------------------------------------
       !||    array_mod                                    ../common_source/modules/array_mod.F
       !||    get_neighbour_surface_from_remote_proc_mod   ../engine/source/interfaces/interf/get_neighbour_surface_from_remote_proc.F90
+      !||    intbufdef_mod                                ../common_source/modules/interfaces/intbufdef_mod.F90
       !||    nodal_arrays_mod                             ../engine/source/engine/node_spliting/nodal_arrays.F90
       !||    shooting_node_mod                            ../engine/share/modules/shooting_node_mod.F
       !||    spmd_mod                                     ../engine/source/mpi/spmd_mod.F90

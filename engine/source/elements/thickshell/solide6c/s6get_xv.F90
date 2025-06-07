@@ -31,9 +31,11 @@
 ! \brief get x,v in global(basic) coordinate system for penta6 element
 ! ======================================================================================================================
       !||====================================================================
-      !||    s6get_xv   ../engine/source/elements/thickshell/solide6c/s6get_xv.F90
+      !||    s6get_xv        ../engine/source/elements/thickshell/solide6c/s6get_xv.F90
       !||--- called by ------------------------------------------------------
-      !||    s6cforc3   ../engine/source/elements/thickshell/solide6c/s6cforc3.F
+      !||    s6cforc3        ../engine/source/elements/thickshell/solide6c/s6cforc3.F
+      !||--- uses       -----------------------------------------------------
+      !||    precision_mod   ../common_source/modules/precision_mod.F90
       !||====================================================================
         subroutine s6get_xv(                                               &
                             nc1,      nc2,      nc3,                       &                       

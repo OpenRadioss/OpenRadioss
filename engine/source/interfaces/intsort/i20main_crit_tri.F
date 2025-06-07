@@ -28,6 +28,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    i20buce_crit       ../engine/source/interfaces/intsort/i20buce_crit.F
       !||--- uses       -----------------------------------------------------
       !||    h3d_mod            ../engine/share/modules/h3d_mod.F
+      !||    intbufdef_mod      ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
       SUBROUTINE I20MAIN_CRIT_TRI(
      1  IPARI  ,X      ,NIN    ,

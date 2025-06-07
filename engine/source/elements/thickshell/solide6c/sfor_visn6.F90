@@ -31,11 +31,12 @@
 ! \brief damping force calculation of distortion control for penta6 elements
 ! ======================================================================================================================
       !||====================================================================
-      !||    sfor_visn6     ../engine/source/elements/thickshell/solide6c/sfor_visn6.F90
+      !||    sfor_visn6      ../engine/source/elements/thickshell/solide6c/sfor_visn6.F90
       !||--- called by ------------------------------------------------------
-      !||    s6for_distor   ../engine/source/elements/thickshell/solide6c/s6for_distor.F90
+      !||    s6for_distor    ../engine/source/elements/thickshell/solide6c/s6for_distor.F90
       !||--- uses       -----------------------------------------------------
-      !||    constant_mod   ../common_source/modules/constant_mod.F
+      !||    constant_mod    ../common_source/modules/constant_mod.F
+      !||    precision_mod   ../common_source/modules/precision_mod.F90
       !||====================================================================
         subroutine sfor_visn6(                                                 &
                                  vc,      fld,    tol_v,                       &      

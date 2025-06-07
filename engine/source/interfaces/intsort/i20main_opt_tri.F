@@ -29,6 +29,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    i20optcd          ../engine/source/interfaces/intsort/i20optcd.F
       !||    i20optcde         ../engine/source/interfaces/intsort/i20optcd.F
       !||--- uses       -----------------------------------------------------
+      !||    intbufdef_mod     ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
       SUBROUTINE I20MAIN_OPT_TRI(
      1                  IPARI   ,X    ,V      ,

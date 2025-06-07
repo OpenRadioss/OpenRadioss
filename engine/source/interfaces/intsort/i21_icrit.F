@@ -28,6 +28,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    spmd_glob_isum9   ../engine/source/mpi/interfaces/spmd_th.F
       !||    spmd_i21crit      ../engine/source/mpi/interfaces/spmd_i21crit.F
       !||--- uses       -----------------------------------------------------
+      !||    intbufdef_mod     ../common_source/modules/interfaces/intbufdef_mod.F90
       !||    intstamp_mod      ../engine/share/modules/intstamp_mod.F
       !||    sensor_mod        ../common_source/modules/sensor_mod.F90
       !||====================================================================

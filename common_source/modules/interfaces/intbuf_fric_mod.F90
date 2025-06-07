@@ -62,6 +62,8 @@
       !||    st_qaprint_friction             ../starter/source/output/qaprint/st_qaprint_friction.F
       !||    triintfric                      ../starter/source/interfaces/interf1/trintfric.F
       !||    wrrestp                         ../engine/source/output/restart/wrrestp.F
+      !||--- uses       -----------------------------------------------------
+      !||    precision_mod                   ../common_source/modules/precision_mod.F90
       !||====================================================================
       module intbuf_fric_mod
 !-----------------------------------------------

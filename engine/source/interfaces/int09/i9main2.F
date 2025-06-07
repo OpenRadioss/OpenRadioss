@@ -30,6 +30,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    i9imp2          ../engine/source/interfaces/int09/i9imp2.F
       !||    invoi2          ../engine/source/interfaces/inter2d/invoi2.F
       !||--- uses       -----------------------------------------------------
+      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
       SUBROUTINE I9MAIN2(IPARI,INTBUF_TAB        ,X         ,V         ,
      1           A           ,ISKEW   ,SKEW      ,LCOD      ,FN        ,

@@ -25,6 +25,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- called by ------------------------------------------------------
       !||    cp_impbuf         ../engine/source/implicit/produt_v.F
       !||--- uses       -----------------------------------------------------
+      !||    intbufdef_mod     ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
       SUBROUTINE COPY_INTBUF_TAB(INTBUF_TAB, INTBUF_TAB_C)  
 C-----------------------------------------------
@@ -1064,6 +1065,7 @@ C-----
       !||--- called by ------------------------------------------------------
       !||    dim_int7           ../engine/source/implicit/ind_glob_k.F
       !||--- uses       -----------------------------------------------------
+      !||    intbufdef_mod      ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
       SUBROUTINE INTBUF_TAB_C_INI(INTBUF_TAB, INTBUF_TAB_C)  
 C-----------------------------------------------

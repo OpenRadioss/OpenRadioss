@@ -30,13 +30,14 @@
        contains
   !! \brief initialization ids of inivel data
       !||====================================================================
-      !||    inivel_init    ../engine/source/loads/general/inivel/inivel_init.F90
+      !||    inivel_init     ../engine/source/loads/general/inivel/inivel_init.F90
       !||--- called by ------------------------------------------------------
-      !||    resol_init     ../engine/source/engine/resol_init.F
+      !||    resol_init      ../engine/source/engine/resol_init.F
       !||--- uses       -----------------------------------------------------
-      !||    groupdef_mod   ../common_source/modules/groupdef_mod.F
-      !||    inivel_mod     ../common_source/modules/inivel_mod.F90
-      !||    sensor_mod     ../common_source/modules/sensor_mod.F90
+      !||    groupdef_mod    ../common_source/modules/groupdef_mod.F
+      !||    inivel_mod      ../common_source/modules/inivel_mod.F90
+      !||    precision_mod   ../common_source/modules/precision_mod.F90
+      !||    sensor_mod      ../common_source/modules/sensor_mod.F90
       !||====================================================================
         subroutine inivel_init(                                               &
                        ngrnod,  ngrbric,    ngrquad,       ngrsh3n,           &

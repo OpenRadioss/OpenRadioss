@@ -48,6 +48,7 @@ C  |---- version non //------------
       !||--- uses       -----------------------------------------------------
       !||    dsgraph_mod         ../engine/share/modules/dsgraph_mod.F
       !||    groupdef_mod        ../common_source/modules/groupdef_mod.F
+      !||    intbufdef_mod       ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
       SUBROUTINE NL_SOLV(NDDL  ,IDDL  ,NDOF  ,IKC   ,D     ,
      1                   DR    ,NNZ   ,IADK  ,JDIK  ,DIAG_K,

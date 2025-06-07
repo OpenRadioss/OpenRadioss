@@ -39,8 +39,8 @@
       !||    table_mat_vinterp       ../engine/source/materials/tools/table_mat_vinterp.F
       !||--- uses       -----------------------------------------------------
       !||    constant_mod            ../common_source/modules/constant_mod.F
-      !||    debug_mod               ../engine/share/modules/debug_mod.F
       !||    matparam_def_mod        ../common_source/modules/mat_elem/matparam_def_mod.F90
+      !||    precision_mod           ../common_source/modules/precision_mod.F90
       !||    table_mat_vinterp_mod   ../engine/source/materials/tools/table_mat_vinterp.F
       !||====================================================================
         subroutine sigeps133(                                          &

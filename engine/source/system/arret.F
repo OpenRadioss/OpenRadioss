@@ -269,6 +269,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    pblast_1                         ../engine/source/loads/pblast/pblast_1.F
       !||    pblast_2                         ../engine/source/loads/pblast/pblast_2.F
       !||    pblast_3                         ../engine/source/loads/pblast/pblast_3.F
+      !||    pblast_alloc_error               ../common_source/modules/loads/pblast_mod.F90
       !||    phelpinfo                        ../engine/source/engine/execargcheck.F
       !||    prec_solv                        ../engine/source/implicit/prec_solv.F
       !||    projecig3d                       ../engine/source/elements/ige3d/projecig3d.F

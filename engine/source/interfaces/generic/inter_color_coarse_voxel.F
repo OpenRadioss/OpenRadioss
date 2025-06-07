@@ -27,6 +27,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- calls      -----------------------------------------------------
       !||    my_barrier                 ../engine/source/system/machine.F
       !||--- uses       -----------------------------------------------------
+      !||    intbufdef_mod              ../common_source/modules/interfaces/intbufdef_mod.F90
       !||    inter_sorting_mod          ../engine/share/modules/inter_sorting_mod.F
       !||====================================================================
         SUBROUTINE INTER_COLOR_COARSE_VOXEL(ITASK,NB_INTER_SORTED,LIST_INTER_SORTED,IPARI,INTBUF_TAB,

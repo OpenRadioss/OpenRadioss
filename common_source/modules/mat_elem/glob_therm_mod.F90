@@ -161,6 +161,8 @@
       !||    wrcomip                  ../starter/source/restart/ddsplit/wrcommp.F
       !||    wrcomr                   ../engine/source/output/restart/wrcomm.F
       !||    wrrestp                  ../engine/source/output/restart/wrrestp.F
+      !||--- uses       -----------------------------------------------------
+      !||    precision_mod            ../common_source/modules/precision_mod.F90
       !||====================================================================
       module glob_therm_mod
 

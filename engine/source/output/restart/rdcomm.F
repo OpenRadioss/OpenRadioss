@@ -35,11 +35,13 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    drape_mod        ../engine/share/modules/drape_mod.F
       !||    glob_therm_mod   ../common_source/modules/mat_elem/glob_therm_mod.F90
       !||    h3d_mod          ../engine/share/modules/h3d_mod.F
+      !||    intbufdef_mod    ../common_source/modules/interfaces/intbufdef_mod.F90
       !||    mat_elem_mod     ../common_source/modules/mat_elem/mat_elem_mod.F90
       !||    multi_fvm_mod    ../common_source/modules/ale/multi_fvm_mod.F90
       !||    outmax_mod       ../common_source/modules/outmax_mod.F
       !||    outputs_mod      ../common_source/modules/outputs_mod.F
       !||    parameters_mod   ../common_source/modules/interfaces/parameters_mod.F
+      !||    pblast_mod       ../common_source/modules/loads/pblast_mod.F90
       !||    pinchtype_mod    ../common_source/modules/pinchtype_mod.F
       !||    pload_cyl_mod    ../common_source/modules/loads/pload_cyl_mod.F
       !||    rbe3_mod         ../common_source/modules/constraints/rbe3_mod.F90

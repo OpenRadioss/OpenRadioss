@@ -55,6 +55,7 @@ C  |---- version non //------------
       !||    dsgraph_mod          ../engine/share/modules/dsgraph_mod.F
       !||    groupdef_mod         ../common_source/modules/groupdef_mod.F
       !||    imp_workh            ../engine/share/modules/impbufdef_mod.F
+      !||    intbufdef_mod        ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
       SUBROUTINE LIN_SOLV(NDDL  ,IDDL  ,NDOF  ,IKC   ,D     ,
      1                    DR    ,TOL   ,NNZ   ,IADK  ,JDIK  ,
@@ -691,6 +692,7 @@ C
       !||    dsgraph_mod          ../engine/share/modules/dsgraph_mod.F
       !||    groupdef_mod         ../common_source/modules/groupdef_mod.F
       !||    imp_workh            ../engine/share/modules/impbufdef_mod.F
+      !||    intbufdef_mod        ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
       SUBROUTINE LIN_SOLVH0(TOL  ,
      1                    NDDL  ,NNZ     ,IADK   ,JDIK  ,DIAG_K ,
@@ -857,6 +859,7 @@ C  |---- version Hybrid------------
       !||    dsgraph_mod          ../engine/share/modules/dsgraph_mod.F
       !||    groupdef_mod         ../common_source/modules/groupdef_mod.F
       !||    imp_workh            ../engine/share/modules/impbufdef_mod.F
+      !||    intbufdef_mod        ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
       SUBROUTINE LIN_SOLVH1(TOL  ,MAX_L  ,
      1                    NDDL  ,NNZ   ,IADK  ,JDIK  ,DIAG_K ,   
@@ -1153,6 +1156,7 @@ C--------------------------------------------
       !||    dsgraph_mod          ../engine/share/modules/dsgraph_mod.F
       !||    groupdef_mod         ../common_source/modules/groupdef_mod.F
       !||    imp_workh            ../engine/share/modules/impbufdef_mod.F
+      !||    intbufdef_mod        ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
       SUBROUTINE LIN_SOLVIH2(TOL  ,N_PAT,MAXB1  ,
      1                    NDDL  ,NNZ   ,IADK  ,JDIK  ,DIAG_K ,   
@@ -1423,6 +1427,7 @@ C--------------------------------------------
       !||    dsgraph_mod          ../engine/share/modules/dsgraph_mod.F
       !||    groupdef_mod         ../common_source/modules/groupdef_mod.F
       !||    imp_workh            ../engine/share/modules/impbufdef_mod.F
+      !||    intbufdef_mod        ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
       SUBROUTINE LIN_SOLVHM(TOL  ,
      1                    NDDL  ,NNZ     ,IADK   ,JDIK  ,DIAG_K ,

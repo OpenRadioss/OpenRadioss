@@ -29,6 +29,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    arret             ../engine/source/system/arret.F
       !||--- uses       -----------------------------------------------------
       !||    h3d_mod           ../engine/share/modules/h3d_mod.F
+      !||    intbufdef_mod     ../common_source/modules/interfaces/intbufdef_mod.F90
       !||    message_mod       ../engine/share/message_module/message_mod.F
       !||    outputs_mod       ../common_source/modules/outputs_mod.F
       !||    tri25ebox         ../engine/share/modules/tri25ebox.F

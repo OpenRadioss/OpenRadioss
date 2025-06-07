@@ -21,6 +21,11 @@
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 ! ======================================================================================================================
+      !||====================================================================
+      !||    bcs_wall_trigger_mod   ../engine/source/boundary_conditions/bcs_wall_trigger.F90
+      !||--- called by ------------------------------------------------------
+      !||    alemain                ../engine/source/ale/alemain.F
+      !||====================================================================
       module bcs_wall_trigger_mod
       contains
 ! ======================================================================================================================
@@ -30,16 +35,17 @@
 !! \details  with law151 (collocated scheme) boundary faces have automatic wall BCs. This option manage
 !! \details  internal faces inside the mesh (not on element closure)
 !
-        !||====================================================================
-        !||    bcs_wall_trigger       ../engine/source/boundary_conditions/bcs_wall_trigger.F90
-        !||--- called by ------------------------------------------------------
-        !||    alemain                ../engine/source/ale/alemain.F
-        !||--- uses       -----------------------------------------------------
-        !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
-        !||    bcs_mod                ../common_source/modules/boundary_conditions/bcs_mod.F90
-        !||    constant_mod           ../common_source/modules/constant_mod.F
-        !||    sensor_mod             ../common_source/modules/sensor_mod.F90
-        !||====================================================================
+      !||====================================================================
+      !||    bcs_wall_trigger       ../engine/source/boundary_conditions/bcs_wall_trigger.F90
+      !||--- called by ------------------------------------------------------
+      !||    alemain                ../engine/source/ale/alemain.F
+      !||--- uses       -----------------------------------------------------
+      !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
+      !||    bcs_mod                ../common_source/modules/boundary_conditions/bcs_mod.F90
+      !||    constant_mod           ../common_source/modules/constant_mod.F
+      !||    precision_mod          ../common_source/modules/precision_mod.F90
+      !||    sensor_mod             ../common_source/modules/sensor_mod.F90
+      !||====================================================================
         subroutine bcs_wall_trigger(time, ale_connectivity, nsensor, sensor_tab)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules

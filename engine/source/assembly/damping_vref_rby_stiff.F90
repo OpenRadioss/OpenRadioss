@@ -41,6 +41,7 @@
       !||    rbyfor                   ../engine/source/constraints/general/rbody/rbyfor.F
       !||--- uses       -----------------------------------------------------
       !||    constant_mod             ../common_source/modules/constant_mod.F
+      !||    precision_mod            ../common_source/modules/precision_mod.F90
       !||====================================================================
         subroutine damping_vref_rby_stiff(numnod,nnpby,nrbykin,nrbykin_l,npby,                       &
           rby6_c,ms,in,stifn,stifr,size_rby6_c,irbkin_l)

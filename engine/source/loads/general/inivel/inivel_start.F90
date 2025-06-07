@@ -42,6 +42,7 @@
       !||    inivel_mod      ../common_source/modules/inivel_mod.F90
       !||    message_mod     ../engine/share/message_module/message_mod.F
       !||    multi_fvm_mod   ../common_source/modules/ale/multi_fvm_mod.F90
+      !||    precision_mod   ../common_source/modules/precision_mod.F90
       !||    sensor_mod      ../common_source/modules/sensor_mod.F90
       !||====================================================================
         subroutine inivel_start(                                              &

@@ -30,6 +30,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    spmd_cell_size_post_rcv        ../engine/source/mpi/interfaces/spmd_cell_size_post_rcv.F
       !||    spmd_ialltoallv_int            ../engine/source/mpi/generic/spmd_ialltoallv_int.F
       !||--- uses       -----------------------------------------------------
+      !||    intbufdef_mod                  ../common_source/modules/interfaces/intbufdef_mod.F90
       !||    inter_sorting_mod              ../engine/share/modules/inter_sorting_mod.F
       !||    inter_struct_mod               ../engine/share/modules/inter_struct_mod.F
       !||    tri7box                        ../engine/share/modules/tri7box.F

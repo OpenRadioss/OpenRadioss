@@ -34,13 +34,14 @@
 ! ======================================================================================================================
 ! ======================================================================================================================
       !||====================================================================
-      !||    shour_ctl      ../engine/source/elements/solid/solidez/shour_ctl.F90
+      !||    shour_ctl       ../engine/source/elements/solid/solidez/shour_ctl.F90
       !||--- called by ------------------------------------------------------
-      !||    s6chour_ctl    ../engine/source/elements/thickshell/solide6c/s6chour_ctl.F90
-      !||    scforc3        ../engine/source/elements/thickshell/solidec/scforc3.F
-      !||    szhour_ctl     ../engine/source/elements/solid/solidez/szhour_ctl.F
+      !||    s6chour_ctl     ../engine/source/elements/thickshell/solide6c/s6chour_ctl.F90
+      !||    scforc3         ../engine/source/elements/thickshell/solidec/scforc3.F
+      !||    szhour_ctl      ../engine/source/elements/solid/solidez/szhour_ctl.F
       !||--- uses       -----------------------------------------------------
-      !||    constant_mod   ../common_source/modules/constant_mod.F
+      !||    constant_mod    ../common_source/modules/constant_mod.F
+      !||    precision_mod   ../common_source/modules/precision_mod.F90
       !||====================================================================
         subroutine  shour_ctl(                                  &
                              pm,      rho,     off,     vx1,    &

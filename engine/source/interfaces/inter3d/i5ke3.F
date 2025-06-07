@@ -33,6 +33,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    i5frik3         ../engine/source/interfaces/inter3d/i5keg3.F
       !||    i5keg3          ../engine/source/interfaces/inter3d/i5keg3.F
       !||--- uses       -----------------------------------------------------
+      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
       SUBROUTINE I5KE3(  A     ,V      ,MS   ,
      1                   IPARI ,INTBUF_TAB,X    ,

@@ -221,6 +221,7 @@ C-----------------------------------------------
       !||    imp_frk               ../engine/share/modules/impbufdef_mod.F
       !||    imp_intm              ../engine/share/modules/imp_intm.F
       !||    imp_workh             ../engine/share/modules/impbufdef_mod.F
+      !||    intbufdef_mod         ../common_source/modules/interfaces/intbufdef_mod.F90
       !||    message_mod           ../engine/share/message_module/message_mod.F
       !||====================================================================
       SUBROUTINE IMP_PCGH( IPREC ,
@@ -2700,6 +2701,7 @@ C
       !||--- uses       -----------------------------------------------------
       !||    groupdef_mod    ../common_source/modules/groupdef_mod.F
       !||    imp_pcg_proj    ../engine/share/modules/impbufdef_mod.F
+      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
        SUBROUTINE IMP_UPDV2( 
      1                    NDDL  ,NDDLI ,IADK  ,JDIK  ,DIAG_K ,   
@@ -2900,6 +2902,7 @@ C
       !||    groupdef_mod    ../common_source/modules/groupdef_mod.F
       !||    imp_pcg_proj    ../engine/share/modules/impbufdef_mod.F
       !||    imp_workh       ../engine/share/modules/impbufdef_mod.F
+      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
       SUBROUTINE IMP_PPCGH( IPREC ,
      1                    NDDL  ,NNZ   ,IADK  ,JDIK  ,DIAG_K ,   
@@ -3609,6 +3612,7 @@ C--------------------------------------------
       !||--- uses       -----------------------------------------------------
       !||    groupdef_mod    ../common_source/modules/groupdef_mod.F
       !||    imp_pcg_proj    ../engine/share/modules/impbufdef_mod.F
+      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
        SUBROUTINE IMP_INIST( 
      1                    NDDL  ,NDDLI ,IADK  ,JDIK  ,DIAG_K ,   
@@ -3763,6 +3767,7 @@ C---------------------
       !||--- uses       -----------------------------------------------------
       !||    groupdef_mod    ../common_source/modules/groupdef_mod.F
       !||    imp_pcg_proj    ../engine/share/modules/impbufdef_mod.F
+      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
        SUBROUTINE IMP_UPDST( 
      1                    NDDL  ,NDDLI ,IADK  ,JDIK  ,DIAG_K ,   
@@ -3892,6 +3897,7 @@ C
       !||--- uses       -----------------------------------------------------
       !||    groupdef_mod    ../common_source/modules/groupdef_mod.F
       !||    imp_pcg_proj    ../engine/share/modules/impbufdef_mod.F
+      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
       SUBROUTINE IMP_INISI( 
      1                    NDDL  ,IADK  ,JDIK  ,DIAG_K ,LT_K  ,   

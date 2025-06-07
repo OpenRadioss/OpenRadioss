@@ -45,6 +45,7 @@
       !||    fail_brokmann         ../engine/source/materials/fail/alter/fail_brokmann.F
       !||--- uses       -----------------------------------------------------
       !||    constant_mod          ../common_source/modules/constant_mod.F
+      !||    precision_mod         ../common_source/modules/precision_mod.F90
       !||====================================================================
       subroutine newman_raju(c,a,t,b,fpi,y)
 

@@ -36,6 +36,8 @@
       !||    get_segment_criteria       ../engine/source/interfaces/interf/get_segment_criteria.F90
       !||--- called by ------------------------------------------------------
       !||    update_neighbour_segment   ../engine/source/interfaces/interf/update_neighbour_segment.F90
+      !||--- uses       -----------------------------------------------------
+      !||    precision_mod              ../common_source/modules/precision_mod.F90
       !||====================================================================
         subroutine get_segment_criteria( criteria,local_normal,remote_normal )
 ! ----------------------------------------------------------------------------------------------------------------------

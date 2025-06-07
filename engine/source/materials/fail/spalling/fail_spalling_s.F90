@@ -43,6 +43,7 @@
       !||    valpvecdp_v       ../engine/source/materials/mat/mat033/sigeps33.F
       !||--- uses       -----------------------------------------------------
       !||    constant_mod      ../common_source/modules/constant_mod.F
+      !||    precision_mod     ../common_source/modules/precision_mod.F90
       !||====================================================================
       subroutine fail_spalling_s(                                              &
         nel      ,nuparam  ,time     ,uparam   ,ngl      ,                     &

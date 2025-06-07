@@ -31,6 +31,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    iqela2          ../engine/source/ale/inter/iqela2.F
       !||--- uses       -----------------------------------------------------
       !||    h3d_mod         ../engine/share/modules/h3d_mod.F
+      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
       SUBROUTINE INTAL2(IPARI,INTBUF_TAB         , X        ,V         ,
      1           A           ,ISKEW   ,SKEW      ,LCOD      ,E         ,

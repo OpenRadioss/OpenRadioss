@@ -66,6 +66,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    glob_therm_mod         ../common_source/modules/mat_elem/glob_therm_mod.F90
       !||    groupdef_mod           ../common_source/modules/groupdef_mod.F
       !||    h3d_mod                ../engine/share/modules/h3d_mod.F
+      !||    intbufdef_mod          ../common_source/modules/interfaces/intbufdef_mod.F90
       !||    intstamp_glob_mod      ../engine/share/modules/intstamp_glob_mod.F
       !||    mat_elem_mod           ../common_source/modules/mat_elem/mat_elem_mod.F90
       !||    message_mod            ../engine/share/message_module/message_mod.F
@@ -74,6 +75,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    names_and_titles_mod   ../common_source/modules/names_and_titles_mod.F
       !||    output_mod             ../common_source/modules/output/output_mod.F90
       !||    outputs_mod            ../common_source/modules/outputs_mod.F
+      !||    pblast_mod             ../common_source/modules/loads/pblast_mod.F90
       !||    prelech3d_mod          ../engine/source/output/h3d/h3d_build_fortran/prelech3d.F90
       !||    sensor_mod             ../common_source/modules/sensor_mod.F90
       !||    stack_mod              ../engine/share/modules/stack_mod.F

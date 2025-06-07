@@ -44,6 +44,7 @@
       !||--- uses       -----------------------------------------------------
       !||    constant_mod          ../common_source/modules/constant_mod.F
       !||    elbufdef_mod          ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    precision_mod         ../common_source/modules/precision_mod.F90
       !||====================================================================
         subroutine damping_range_shell(damp_buf,nel     ,nuvarv  ,nvar_damp,timestep ,           &
                                        rho0    ,soundsp ,young   ,shear_mod,                     &

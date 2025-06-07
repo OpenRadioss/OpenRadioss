@@ -43,6 +43,8 @@
       !||    split_skew        ../starter/source/restart/ddsplit/split_skew.F
       !||    split_skew_save   ../starter/source/restart/ddsplit/split_skew.F
       !||    wrrestp           ../engine/source/output/restart/wrrestp.F
+      !||--- uses       -----------------------------------------------------
+      !||    precision_mod     ../common_source/modules/precision_mod.F90
       !||====================================================================
       module skew_mod
 

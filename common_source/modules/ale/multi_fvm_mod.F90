@@ -220,6 +220,7 @@
       !||    wrrestp                          ../engine/source/output/restart/wrrestp.F
       !||--- uses       -----------------------------------------------------
       !||    elbufdef_mod                     ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    precision_mod                    ../common_source/modules/precision_mod.F90
       !||====================================================================
       module multi_fvm_mod
         use elbufdef_mod ,only: l_bufel_,buf_eos_

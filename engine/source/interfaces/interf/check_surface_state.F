@@ -29,6 +29,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    check_active_elem_edge          ../engine/source/interfaces/interf/check_active_elem_edge.F
       !||    my_barrier                      ../engine/source/system/machine.F
       !||--- uses       -----------------------------------------------------
+      !||    intbufdef_mod                   ../common_source/modules/interfaces/intbufdef_mod.F90
       !||    shooting_node_mod               ../engine/share/modules/shooting_node_mod.F
       !||====================================================================
         SUBROUTINE CHECK_SURFACE_STATE( ITASK,SURFARCE_NB,SURFACE_ID,SHIFT_INTERFACE,INTBUF_TAB,

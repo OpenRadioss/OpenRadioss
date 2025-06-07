@@ -75,6 +75,8 @@
       !||    stat_inimap2d_spmd               ../engine/source/output/sta/stat_inimap2d_spmd.F
       !||    wrcomr                           ../engine/source/output/restart/wrcomm.F
       !||    write_buf_law51                  ../engine/source/materials/mat/mat051/write_buf_law51.F
+      !||--- uses       -----------------------------------------------------
+      !||    precision_mod                    ../common_source/modules/precision_mod.F90
       !||====================================================================
       MODULE MULTIMAT_PARAM_MOD
 ! ----------------------------------------------------------------------------------------------------------------------

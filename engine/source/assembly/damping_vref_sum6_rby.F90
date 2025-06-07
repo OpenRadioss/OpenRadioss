@@ -44,6 +44,7 @@
       !||--- uses       -----------------------------------------------------
       !||    constant_mod            ../common_source/modules/constant_mod.F
       !||    groupdef_mod            ../common_source/modules/groupdef_mod.F
+      !||    precision_mod           ../common_source/modules/precision_mod.F90
       !||====================================================================
         subroutine damping_vref_sum6_rby(nsn,igr,id_rby,isk,im,                  &
           igrnod,ngrnod,v,vr,a,                   &

@@ -32,6 +32,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    elbufdef_mod          ../common_source/modules/mat_elem/elbufdef_mod.F90
       !||    h3d_inc_mod           ../engine/share/modules/h3d_inc_mod.F
       !||    initbuf_mod           ../engine/share/resol/initbuf.F
+      !||    pblast_mod            ../common_source/modules/loads/pblast_mod.F90
       !||====================================================================
       SUBROUTINE H3D_SKIN_IXSKIN(ELBUF_TAB,IPARG,IPARTS,IXS,IXS10,
      .                           ITAB ,IXSKIN  ,TAG_SKINS6,IBCL  ,
@@ -265,6 +266,7 @@ C-----------
       !||    h3d_skin_tsh_dim     ../engine/source/output/h3d/h3d_results/h3d_skin_ixskin.F
       !||    spmd_allglob_isum9   ../engine/source/mpi/generic/spmd_allglob_isum9.F
       !||--- uses       -----------------------------------------------------
+      !||    pblast_mod           ../common_source/modules/loads/pblast_mod.F90
       !||====================================================================
       SUBROUTINE H3D_SKIN_DIM(IPARG ,NUMSKIN, NUMSKING,TAG_SKINS6,IBCL,
      .                       ILOADP,LLOADP ,LOADS,NUMSKINP0,NUMSKINP,IFLAG,PBLAST )
@@ -488,6 +490,7 @@ C-----------
       !||--- called by ------------------------------------------------------
       !||    h3d_skin_dim       ../engine/source/output/h3d/h3d_results/h3d_skin_ixskin.F
       !||--- uses       -----------------------------------------------------
+      !||    pblast_mod         ../common_source/modules/loads/pblast_mod.F90
       !||    pinchtype_mod      ../common_source/modules/pinchtype_mod.F
       !||====================================================================
       SUBROUTINE H3D_SKIN_PRE_DIM(IB ,ILOADP  ,LLOADP ,LOADS, NSKIN0,NSKIN,PBLAST)
@@ -736,6 +739,7 @@ C
       !||    h3d_skin_ixskin       ../engine/source/output/h3d/h3d_results/h3d_skin_ixskin.F
       !||--- uses       -----------------------------------------------------
       !||    h3d_inc_mod           ../engine/share/modules/h3d_inc_mod.F
+      !||    pblast_mod            ../common_source/modules/loads/pblast_mod.F90
       !||    pinchtype_mod         ../common_source/modules/pinchtype_mod.F
       !||====================================================================
       SUBROUTINE H3D_PRE_SKIN_IXSKIN(NODAL_IPART,IB ,ILOADP,LLOADP,

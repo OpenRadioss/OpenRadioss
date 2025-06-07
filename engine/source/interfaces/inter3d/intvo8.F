@@ -39,6 +39,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    spmd_i8_updbuf    ../engine/source/mpi/interfaces/spmd_i8tool.F
       !||--- uses       -----------------------------------------------------
       !||    h3d_mod           ../engine/share/modules/h3d_mod.F
+      !||    intbufdef_mod     ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
       SUBROUTINE INTVO8(IPARI,X ,A  ,
      2                  ICODT,FSAV ,V ,MS ,

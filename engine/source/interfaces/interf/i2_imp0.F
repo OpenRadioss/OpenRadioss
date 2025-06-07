@@ -28,6 +28,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    i2_imp1         ../engine/source/interfaces/interf/i2_imp1.F
       !||    i2_impm         ../engine/source/interfaces/interf/i2_imp1.F
       !||--- uses       -----------------------------------------------------
+      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
       SUBROUTINE I2_IMP0(NINT2 ,IINT2 ,IPARI ,
      .                   INTBUF_TAB,X   ,MS   ,IN   ,
@@ -98,6 +99,7 @@ C
       !||--- calls      -----------------------------------------------------
       !||    i2_imp1         ../engine/source/interfaces/interf/i2_imp1.F
       !||--- uses       -----------------------------------------------------
+      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
       SUBROUTINE I2_IMPI(NINT2 ,IINT2 ,IPARI ,
      .                   INTBUF_TAB,X   ,MS   ,IN   ,

@@ -30,6 +30,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    i20box          ../engine/source/interfaces/int16/i16crit.F
       !||    i8box           ../engine/source/interfaces/int16/i16crit.F
       !||--- uses       -----------------------------------------------------
+      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
        SUBROUTINE I16CRIT(
      1       X      ,NSV    ,NELEM ,NSN   ,EMINX  ,

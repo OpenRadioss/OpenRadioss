@@ -26,6 +26,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    inttri              ../engine/source/interfaces/intsort/inttri.F
       !||--- calls      -----------------------------------------------------
       !||--- uses       -----------------------------------------------------
+      !||    intbufdef_mod       ../common_source/modules/interfaces/intbufdef_mod.F90
       !||    message_mod         ../engine/share/message_module/message_mod.F
       !||    tri7box             ../engine/share/modules/tri7box.F
       !||====================================================================

@@ -87,6 +87,7 @@
       !||--- uses       -----------------------------------------------------
       !||    multi_fvm_mod              ../common_source/modules/ale/multi_fvm_mod.F90
       !||    names_and_titles_mod       ../common_source/modules/names_and_titles_mod.F
+      !||    precision_mod              ../common_source/modules/precision_mod.F90
       !||====================================================================
       MODULE EBCS_MOD
         USE MULTI_FVM_MOD

@@ -28,6 +28,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- calls      -----------------------------------------------------
       !||    i11buce_crit       ../engine/source/interfaces/intsort/i11buce_crit.F
       !||--- uses       -----------------------------------------------------
+      !||    intbufdef_mod      ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
       SUBROUTINE I11MAIN_CRIT_TRI(
      1   IPARI   ,X    ,NIN    ,

@@ -65,6 +65,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    ale_mod                      ../common_source/modules/ale/ale_mod.F
       !||    alefvm_mod                   ../common_source/modules/ale/alefvm_mod.F
       !||    bcs_mod                      ../common_source/modules/boundary_conditions/bcs_mod.F90
+      !||    bcs_wall_trigger_mod         ../engine/source/boundary_conditions/bcs_wall_trigger.F90
       !||    diffusion_mod                ../engine/share/modules/diffusion_mod.F
       !||    dt_mod                       ../engine/source/modules/dt_mod.F
       !||    ebcs_mod                     ../common_source/modules/boundary_conditions/ebcs_mod.F90
@@ -73,6 +74,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    groupdef_mod                 ../common_source/modules/groupdef_mod.F
       !||    h3d_mod                      ../engine/share/modules/h3d_mod.F
       !||    initbuf_mod                  ../engine/share/resol/initbuf.F
+      !||    intbufdef_mod                ../common_source/modules/interfaces/intbufdef_mod.F90
       !||    mat_elem_mod                 ../common_source/modules/mat_elem/mat_elem_mod.F90
       !||    matparam_def_mod             ../common_source/modules/mat_elem/matparam_def_mod.F90
       !||    multi_fvm_mod                ../common_source/modules/ale/multi_fvm_mod.F90

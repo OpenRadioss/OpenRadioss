@@ -30,6 +30,7 @@
       !||--- uses       -----------------------------------------------------
       !||    names_and_titles_mod         ../common_source/modules/names_and_titles_mod.F
       !||    ply_param_mod                ../common_source/modules/mat_elem/ply_param_mod.F90
+      !||    precision_mod                ../common_source/modules/precision_mod.F90
       !||====================================================================
       module prop_param_mod
 

@@ -39,6 +39,7 @@
       !||--- uses       -----------------------------------------------------
       !||    constant_mod            ../common_source/modules/constant_mod.F
       !||    matparam_def_mod        ../common_source/modules/mat_elem/matparam_def_mod.F90
+      !||    precision_mod           ../common_source/modules/precision_mod.F90
       !||    table4d_mod             ../common_source/modules/table4d_mod.F
       !||    table_mat_vinterp_mod   ../engine/source/materials/tools/table_mat_vinterp.F
       !||====================================================================

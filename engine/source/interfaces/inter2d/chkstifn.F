@@ -27,6 +27,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- calls      -----------------------------------------------------
       !||    chkslv          ../engine/source/interfaces/inter2d/chkstifn.F
       !||--- uses       -----------------------------------------------------
+      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
       SUBROUTINE CHKSTIFN(IPARI,MS,INTBUF_TAB)
 C-----------------------------------------------

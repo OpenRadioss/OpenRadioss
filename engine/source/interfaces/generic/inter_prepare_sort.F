@@ -41,6 +41,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- uses       -----------------------------------------------------
       !||    command_line_args_mod       ../engine/share/modules/command_line_args.F
       !||    fill_voxel_mod              ../engine/source/interfaces/intsort/fill_voxel.F90
+      !||    intbufdef_mod               ../common_source/modules/interfaces/intbufdef_mod.F90
       !||    inter_sorting_mod           ../engine/share/modules/inter_sorting_mod.F
       !||    inter_struct_mod            ../engine/share/modules/inter_struct_mod.F
       !||    tri7box                     ../engine/share/modules/tri7box.F

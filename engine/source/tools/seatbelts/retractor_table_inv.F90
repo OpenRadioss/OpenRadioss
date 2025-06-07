@@ -45,6 +45,7 @@
       !||--- uses       -----------------------------------------------------
       !||    constant_mod          ../common_source/modules/constant_mod.F
       !||    message_mod           ../engine/share/message_module/message_mod.F
+      !||    precision_mod         ../common_source/modules/precision_mod.F90
       !||    table_mod             ../engine/share/modules/table_mod.F
       !||====================================================================
         subroutine retractor_table_inv(table,xx,yy)

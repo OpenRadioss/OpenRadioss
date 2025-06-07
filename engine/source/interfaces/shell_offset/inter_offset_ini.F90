@@ -45,6 +45,7 @@
       !||    elbufdef_mod              ../common_source/modules/mat_elem/elbufdef_mod.F90
       !||    inter_sh_offset_dim_mod   ../engine/source/interfaces/shell_offset/inter_offset_dim.F90
       !||    inter_sh_offset_mod       ../engine/source/modules/interfaces/sh_offset_mod.F90
+      !||    precision_mod             ../common_source/modules/precision_mod.F90
       !||    spmd_exch_vnpon_mod       ../engine/source/mpi/nodes/spmd_exch_vnpon.F90
       !||====================================================================
         subroutine inter_sh_offset_ini(                                        &                                    

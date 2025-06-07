@@ -48,6 +48,7 @@
       !||    mat87c_tabulated_3dir_ortho_mod   ../engine/source/materials/mat/mat087/mat87c_tabulated_3dir_ortho.F90
       !||    mat87c_tabulated_mod              ../engine/source/materials/mat/mat087/mat87c_tabulated.F90
       !||    matparam_def_mod                  ../common_source/modules/mat_elem/matparam_def_mod.F90
+      !||    precision_mod                     ../common_source/modules/precision_mod.F90
       !||    table_mod                         ../engine/share/modules/table_mod.F
       !||====================================================================
       subroutine sigeps87c(                                                    &

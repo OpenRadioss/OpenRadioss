@@ -41,6 +41,7 @@
       !||    read_db           ../common_source/tools/input_output/read_db.F
       !||    read_i_c          ../common_source/tools/input_output/write_routtines.c
       !||--- uses       -----------------------------------------------------
+      !||    precision_mod     ../common_source/modules/precision_mod.F90
       !||    therm_param_mod   ../common_source/modules/mat_elem/therm_param_mod.F90
       !||====================================================================
       subroutine read_thermparam(therm)

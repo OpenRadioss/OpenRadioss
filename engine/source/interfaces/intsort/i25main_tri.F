@@ -50,6 +50,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- uses       -----------------------------------------------------
       !||    check_sorting_criteria_mod   ../engine/source/interfaces/intsort/check_sorting_criteria.F90
       !||    h3d_mod                      ../engine/share/modules/h3d_mod.F
+      !||    imp_intbuf                   ../engine/share/modules/imp_mod_def.F90
+      !||    intbufdef_mod                ../common_source/modules/interfaces/intbufdef_mod.F90
       !||    message_mod                  ../engine/share/message_module/message_mod.F
       !||    parameters_mod               ../common_source/modules/interfaces/parameters_mod.F
       !||    timer_mod                    ../engine/source/system/timer_mod.F90

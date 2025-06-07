@@ -20,6 +20,12 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+      !||====================================================================
+      !||    array_reindex_mod          ../common_source/tools/sort/array_reindex.F90
+      !||--- called by ------------------------------------------------------
+      !||    clipping_weiler_atherton   ../common_source/tools/clipping/polygon_clipping_mod.F90
+      !||    iniebcs_propergol_get_cv   ../starter/source/boundary_conditions/ebcs/iniebcs_propergol.F90
+      !||====================================================================
       module array_reindex_mod
       contains
 ! ======================================================================================================================
@@ -31,11 +37,11 @@
 !! \details      result will be  (/ 440 330 220 110/)
 
 
-        !||====================================================================
-        !||    integer_array_reindex      ../common_source/tools/sort/array_reindex.F90
-        !||--- called by ------------------------------------------------------
-        !||    clipping_weiler_atherton   ../common_source/tools/clipping/polygon_clipping_mod.F90
-        !||====================================================================
+      !||====================================================================
+      !||    integer_array_reindex      ../common_source/tools/sort/array_reindex.F90
+      !||--- called by ------------------------------------------------------
+      !||    clipping_weiler_atherton   ../common_source/tools/clipping/polygon_clipping_mod.F90
+      !||====================================================================
         subroutine integer_array_reindex(array, index, n)
           implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -65,11 +71,13 @@
 !! \details      Example array = (/ 110.1 220.1 330.1 440.1/)
 !! \details              index = (/4 3 2 1/)
 !! \details      result will be  (/ 440.1 330.1 220.1 110.1/)
-        !||====================================================================
-        !||    real_array_reindex         ../common_source/tools/sort/array_reindex.F90
-        !||--- called by ------------------------------------------------------
-        !||    iniebcs_propergol_get_cv   ../starter/source/boundary_conditions/ebcs/iniebcs_propergol.F90
-        !||====================================================================
+      !||====================================================================
+      !||    real_array_reindex         ../common_source/tools/sort/array_reindex.F90
+      !||--- called by ------------------------------------------------------
+      !||    iniebcs_propergol_get_cv   ../starter/source/boundary_conditions/ebcs/iniebcs_propergol.F90
+      !||--- uses       -----------------------------------------------------
+      !||    precision_mod              ../common_source/modules/precision_mod.F90
+      !||====================================================================
         subroutine real_array_reindex(array, index, n)
           use precision_mod, only: WP
           implicit none

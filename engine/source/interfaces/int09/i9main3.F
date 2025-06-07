@@ -35,6 +35,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    i9frms          ../engine/source/interfaces/int09/i9frms.F
       !||    i9imp3          ../engine/source/interfaces/int09/i9imp3.F
       !||--- uses       -----------------------------------------------------
+      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
       SUBROUTINE I9MAIN3(IPARI,INTBUF_TAB        ,X         ,V         ,
      1           A            ,ISKEW   ,SKEW     ,LCOD      ,FN        ,

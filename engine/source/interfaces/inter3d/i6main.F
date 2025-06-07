@@ -39,6 +39,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    i6ipmact        ../engine/source/interfaces/inter3d/i6impact.F
       !||--- uses       -----------------------------------------------------
       !||    h3d_mod         ../engine/share/modules/h3d_mod.F
+      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
       SUBROUTINE I6MAIN(IPARI,X     ,A   ,
      2                  ICODT,NPC   ,TF     ,V     ,FSAV,

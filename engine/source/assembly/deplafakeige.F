@@ -27,6 +27,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- calls      -----------------------------------------------------
       !||    ig3donebasis    ../engine/source/elements/ige3d/ig3donebasis.F
       !||--- uses       -----------------------------------------------------
+      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
       SUBROUTINE DEPLAFAKEIGE(X     ,V    ,INTBUF_TAB,KXIG3D, 
      .                        IXIG3D,IGEO ,KNOT      ,WIGE  ,

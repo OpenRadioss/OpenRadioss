@@ -48,6 +48,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    loadprest             ../engine/source/output/restart/rdresb.F
       !||    nfrrest               ../engine/source/output/restart/rdresb.F
       !||    nitscherrest          ../engine/source/output/restart/rdresb.F
+      !||    pblast_load           ../common_source/modules/loads/pblast_mod.F90
       !||    plyxfem_ravuply       ../engine/source/output/restart/rdresb.F
       !||    plyxfem_rrest         ../engine/source/output/restart/rdresb.F
       !||    r_bufbric_22          ../engine/source/interfaces/int22/r_bufbric_22.F

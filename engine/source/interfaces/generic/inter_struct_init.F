@@ -25,6 +25,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- called by ------------------------------------------------------
       !||    resol               ../engine/source/engine/resol.F
       !||--- uses       -----------------------------------------------------
+      !||    intbufdef_mod       ../common_source/modules/interfaces/intbufdef_mod.F90
       !||    inter_sorting_mod   ../engine/share/modules/inter_sorting_mod.F
       !||    inter_struct_mod    ../engine/share/modules/inter_struct_mod.F
       !||====================================================================

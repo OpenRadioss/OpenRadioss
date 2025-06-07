@@ -34,6 +34,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    write_i_c         ../common_source/tools/input_output/write_routtines.c
       !||    write_intbuf_t8   ../engine/source/output/restart/write_intbuf.F
       !||--- uses       -----------------------------------------------------
+      !||    intbufdef_mod     ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
       SUBROUTINE WRITE_INTBUF(INTBUF_TAB)  
 C-----------------------------------------------

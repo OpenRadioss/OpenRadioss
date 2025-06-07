@@ -28,6 +28,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    inter_cell_color     ../engine/source/interfaces/generic/inter_cell_color.F
       !||    my_barrier           ../engine/source/system/machine.F
       !||--- uses       -----------------------------------------------------
+      !||    intbufdef_mod        ../common_source/modules/interfaces/intbufdef_mod.F90
       !||    inter_sorting_mod    ../engine/share/modules/inter_sorting_mod.F
       !||    inter_struct_mod     ../engine/share/modules/inter_struct_mod.F
       !||    multi_fvm_mod        ../common_source/modules/ale/multi_fvm_mod.F90

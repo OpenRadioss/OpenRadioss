@@ -35,6 +35,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    i2vit3          ../engine/source/interfaces/interf/i2vit3.F
       !||    i2vit3n         ../engine/source/interfaces/interf/i2vit3.F
       !||--- uses       -----------------------------------------------------
+      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
       !||====================================================================
       SUBROUTINE INTTI2V(IPARI,X    ,V   ,
      .                   A    ,VR   ,AR   ,MS  ,IN   ,

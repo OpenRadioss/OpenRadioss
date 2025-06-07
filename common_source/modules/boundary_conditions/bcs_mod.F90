@@ -39,6 +39,8 @@
       !||    w_bcs_proc               ../starter/source/restart/ddsplit/w_bcs_proc.F90
       !||    write_bcs_wall           ../common_source/output/restart/write_bcs_wall.F90
       !||    wrrestp                  ../engine/source/output/restart/wrrestp.F
+      !||--- uses       -----------------------------------------------------
+      !||    precision_mod            ../common_source/modules/precision_mod.F90
       !||====================================================================
       module bcs_mod
         use precision_mod, only : WP
