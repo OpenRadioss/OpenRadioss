@@ -42,12 +42,14 @@
       !||====================================================================
         subroutine rbe3pen_init(                                        &
                 x       ,ms          ,in         ,stifn       ,         &
-                stifr   ,numnod      ,rbe3)
+                stifr   ,numnod      ,rbe3       ,time        ,         &
+                impl_s  )
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
           use rbe3_mod
           use precision_mod, only : WP
+          use constant_mod,          only : zero
 ! ----------------------------------------------------------------------------------------------------------------------
           implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -62,6 +64,8 @@
           real(kind=WP), dimension(numnod),  intent(in   )         :: stifn           !< nodal stifness
           real(kind=WP), dimension(numnod),  intent(in   )         :: stifr           !< nodal rotational stifness
           real(kind=WP), dimension(3,numnod),intent(in   )         :: x               !< coordinates
+          integer, intent(in)                                      :: impl_s          !< if implicit solution
+          real(kind=WP), intent(in)                                :: time            !< time
           type (rbe3_)                ,intent(inout)         :: rbe3            !< rbe3 data structure
 !
 !-----------------------------------------------
@@ -70,26 +74,39 @@
           integer :: i,j,n,m,iad,ipen,nml,ns,irot,n_p
 !=======================================================================
 !! 1.  rrbe3pen_d, rrbe3pen_stf, rrbe3pen_fac, rrbe3pen_vi, rrbe3pen_m, init only with TT=zero
-      n_p = 0
-      do n = 1,rbe3%nrbe3
-!
-        iad = rbe3%irbe3(1,n)
-        ns  = rbe3%irbe3(3,n)
-        nml = rbe3%irbe3(5,n)
-        irot =rbe3%irbe3(6,n)
-        ipen =rbe3%irbe3(9,n)
-        if (ns==0.or.ipen==0) cycle
-           n_p = n_p + 1
-!
-        call rbe3fpen_ininp(                                                       &
-                ns               ,irot          ,numnod       ,nml       ,         &
-                ms               ,in            ,stifn        ,stifr     ,         &
-                rbe3%lrbe3(iad+1)     ,rbe3%frbe3(6*iad+1)    ,x         ,         &
-            rbe3%pen%rrbe3pen_d(1,n_p), rbe3%pen%rrbe3pen_stf(1,n_p)     ,         &
-            rbe3%pen%rrbe3pen_fac(n_p), rbe3%pen%rrbe3pen_vi(n_p )       ,         &
-            rbe3%pen%rrbe3pen_m(1,n_p))
-!
-      enddo
+      if (time==zero) then
+        n_p = 0
+        do n = 1,rbe3%nrbe3
+!       
+          iad = rbe3%irbe3(1,n)
+          ns  = rbe3%irbe3(3,n)
+          nml = rbe3%irbe3(5,n)
+          irot =rbe3%irbe3(6,n)
+          ipen =rbe3%irbe3(9,n)
+          if (ns==0.or.ipen==0) cycle
+             n_p = n_p + 1
+!       
+          call rbe3fpen_ininp(                                                       &
+                  ns               ,irot          ,numnod       ,nml       ,         &
+                  ms               ,in            ,stifn        ,stifr     ,         &
+                  rbe3%lrbe3(iad+1)     ,rbe3%frbe3(6*iad+1)    ,x         ,         &
+              rbe3%pen%rrbe3pen_d(1,n_p), rbe3%pen%rrbe3pen_stf(1,n_p)     ,         &
+              rbe3%pen%rrbe3pen_fac(n_p), rbe3%pen%rrbe3pen_vi(n_p )       ,         &
+              rbe3%pen%rrbe3pen_m(1,n_p))
+!       
+        enddo
+      end if !(time==zero) then
+      if (impl_s>0) then ! not use penalty for implicit
+        do n = 1,rbe3%nrbe3
+          ipen =rbe3%irbe3(9,n)
+          if (ipen >0) rbe3%irbe3(9,n) =-ipen
+        enddo
+      else 
+        do n = 1,rbe3%nrbe3
+          ipen =rbe3%irbe3(9,n)
+          if (ipen <0) rbe3%irbe3(9,n) =-ipen
+        enddo
+      end if
 !         
         end subroutine rbe3pen_init
 !-------------------
@@ -112,8 +129,8 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
-          use constant_mod,          only : one,two,zero,zep05,em6,em20,third,fourth,four,ten
-          use precision_mod, only : WP
+      use constant_mod,          only : one,two,zero,zep05,em6,em20,third,fourth,four,ten
+      use precision_mod, only : WP
 ! ----------------------------------------------------------------------------------------------------------------------
           implicit none
 !-----------------------------------------------
@@ -170,6 +187,7 @@
         rR(1:3)   = disdp(1:3)
         rrbe3pen_d(1:3) = disdp(1:3)  
         rrbe3pen_m(1:3) = zero  
+        lsm2 = rR(1)*rR(1)+rR(2)*rR(2)+rR(3)*rR(3)
 !-------set up rrbe3pen_stf 
         if (stifn(ns)<=em20) then ! free node w/ spc
              rrbe3pen_stf(1) = two*stfnm
@@ -177,8 +195,7 @@
         else
             rrbe3pen_stf(1) = stfnm*stifn(ns)/(stfnm+stifn(ns))
 !         stfnr_p is fixed to rrbe3pen_stf(1,n_p)*rndotrn (Lsm2) excepting for spc case
-            rndotrn = rR(1)*rR(1)+rR(2)*rR(2)+rR(3)*rR(3)
-            rrbe3pen_stf(2) = rrbe3pen_stf(1)*rndotrn
+            rrbe3pen_stf(2) = rrbe3pen_stf(1)*lsm2
         end if
 !      print *,'pen_stf',rrbe3pen_stf(1:2)
 !
