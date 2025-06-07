@@ -51,13 +51,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J,NC1(MVSIZ),NC2(MVSIZ),NC3(MVSIZ)
-      my_real
-     .   X1(MVSIZ), X2(MVSIZ), X3(MVSIZ), 
-     .   Y1(MVSIZ), Y2(MVSIZ), Y3(MVSIZ), 
-     .   Z1(MVSIZ), Z2(MVSIZ), Z3(MVSIZ),NORM
+      INTEGER :: I, NC1(MVSIZ),NC2(MVSIZ),NC3(MVSIZ)
+      my_real :: X1(MVSIZ), X2(MVSIZ), X3(MVSIZ),
+     .           Y1(MVSIZ), Y2(MVSIZ), Y3(MVSIZ),
+     .           Z1(MVSIZ), Z2(MVSIZ), Z3(MVSIZ),NORM
 C-----------------------------------------------
-C
       DO I=JFT, JLT
        MAT(I)=NCC(1,I)
        PID(I)=NCC(5,I)

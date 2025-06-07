@@ -362,7 +362,7 @@
                      iptx,ilayer,irot,dmg_flag,lf_dammx,nipar,&
                      igmat,ipgmat,nptt,ipt_all,npttot,nuvarv,ilaw,&
                      ply_id,iseq,progressive_crack,&
-                     orth_damage,l_dmg,iprony,israte,nvartmp,inloc,idrape,vp,nvar_damp,flag_incr,jlag
+                     orth_damage,l_dmg,iprony,israte,nvartmp,inloc,idrape,vp,nvar_damp,flag_incr
           integer :: ij1,ij2,ij3,ij4,ij5
           integer :: ij(5),iflag(1)
           integer :: l_sigb
@@ -430,7 +430,8 @@
           igtyp = igeo(11,pid(1))
           igmat = igeo(98,pid(1))
           inloc = iparg(78)
- !         jlag = iparg(14)        ! not initialized for shells, but should be always = 1
+          !jlag = iparg(14) ! Not used for shell elements (always Lagrangian).
+                            ! Initialized to 0, but may be interpreted as 1 if needed.
           nsensor = sensors%nsensor
 !
           idrape = elbuf_str%idrape

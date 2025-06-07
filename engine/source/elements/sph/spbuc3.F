@@ -86,13 +86,8 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER L, N0, N1, N2, N3, N4, I, J, NBMX, N11, N12, N14, N,
-     .  INOD,JNOD,NVOIS,NVOIS1,NVOIS2,K,M,NN,NS,MS,JK,IERROR,JTASK,
-     .  MY_ADRV,NVOISS
-C     REAL
-      my_real
-     .        MARGE, AAA, 
-     .        AAA2, XI,YI,ZI,XJ,YJ,ZJ, D2,D1X,D1Y,D1Z,DK
+      INTEGER :: I, N, INOD,JNOD,NVOIS,NVOIS1,NVOIS2,K,M,NN,NS,MS,JK,IERROR,JTASK,MY_ADRV,NVOISS
+      my_real :: MARGE, AAA, AAA2, XI,YI,ZI,XJ,YJ,ZJ, D2,D1X,D1Y,D1Z,DK
       INTEGER NBX,NBY,NBZ
       INTEGER (KIND=8) :: NBX8,NBY8,NBZ8,RES8,LVOXEL8
 C-----------------------------------------------

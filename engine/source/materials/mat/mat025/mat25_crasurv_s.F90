@@ -105,7 +105,7 @@
 !-----------------------------------------------
 !   l o c a l   v a r i a b l e s
 !-----------------------------------------------
-          integer i,fail,ilayer,iflag,imodwp,ioff,icc,id
+          integer i,fail,iflag,imodwp,ioff,icc,id
           integer fail_old(mvsiz)
           integer nindx,index(mvsiz),j,icas(mvsiz)
           integer isoft(mvsiz)

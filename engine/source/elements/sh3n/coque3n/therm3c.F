@@ -47,7 +47,7 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) :: IXTG(NIXTG,*)
       my_real ,INTENT(IN) :: THEACCFACT
       my_real ,INTENT(IN) :: DT
-      my_real :: AREA(NEL), PX1(MVSIZ), PX2(MVSIZ),PY1(MVSIZ), PY2(MVSIZ),
+      my_real :: AREA(NEL), PX1(MVSIZ),PY1(MVSIZ), PY2(MVSIZ),
      .   TEMPNC(*), FPHI(MVSIZ,3), PM(*),DHEAT(NEL),
      .   THK(NEL),TEMPEL(NEL)
 C-----------------------------------------------

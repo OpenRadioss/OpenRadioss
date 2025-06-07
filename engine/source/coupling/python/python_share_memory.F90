@@ -90,16 +90,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-          character(len=max_line_length)             :: name
-          character(kind=c_char, len=:), allocatable :: code
-          integer                                    :: i,j,n,ierror
-          integer                                    :: nelem
-          integer, dimension(:), allocatable         :: user_id
-          integer, dimension(:), allocatable         :: local_id
-          integer, dimension(:), allocatable         :: group_id
-          integer :: ierr
-          character(kind=c_char), dimension(name_len+1)        :: temp_name
-          integer :: len
+
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                      Body
 ! ----------------------------------------------------------------------------------------------------------------------

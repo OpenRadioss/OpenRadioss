@@ -107,7 +107,7 @@
           real(kind=WP) :: bdxmin(nbk, nbk, nbk), bdxmax(nbk, nbk, nbk)
           real(kind=WP) :: bdymin(nbk, nbk, nbk), bdymax(nbk, nbk, nbk)
           real(kind=WP) :: bdzmin(nbk, nbk, nbk), bdzmax(nbk, nbk, nbk)
-          real(kind=WP) :: llx, lly, llz, zob(6)
+          real(kind=WP) :: llx, lly, llz
           real(kind=WP) :: send_buf(voxsiz), recv_buf(voxsiz)
           save    :: majord_vox_g
 ! ----------------------------------------------------------------------------------------------------------------------

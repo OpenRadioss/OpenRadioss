@@ -548,7 +548,7 @@
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
           double precision, dimension(:), allocatable :: detach_shell
-          integer :: ig,ng,numnod0,i,j,k,l,m,n,n1,n2,n3,n4,nel,nft
+          integer :: ig,ng,numnod0,i,j,k,l,n,n1,n2,n3,n4,nel,nft
           double precision :: discrepancy,max_discrepancy
           integer :: crack_root, next_root
           integer, dimension(20) :: crack !< id of the noodes that are part of the crack
@@ -559,10 +559,9 @@
           double precision :: normal(3),  vec(3), distance
           double precision, dimension(:), allocatable :: nodal_damage
           double precision, dimension(3) :: shell_centroid
-          double precision :: d1, d2, d3, d4, v(3)
+          double precision :: d1, d2, d4, v(3)
           double precision, parameter :: treshold = 1.04D0
           double precision :: ratio,dmax
-          logical :: skip
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------

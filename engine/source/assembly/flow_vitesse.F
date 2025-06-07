@@ -39,14 +39,12 @@ C-----------------------------------------------
 C-----------------------------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NODFT, NODLT, NDDIM, NALE(*),IFOAM(*)
-C     REAL
-      my_real
-     .   FZERO(3,*) ,A(3,*) ,V(3,*),W(3,*), VS(3,*)
+      INTEGER NODFT, NODLT, NALE(*),IFOAM(*)
+      my_real FZERO(3,*) ,A(3,*) ,V(3,*),W(3,*), VS(3,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER  I,J,K,N
+      INTEGER  N
 C
 #include "vectorize.inc"
       DO N=NODFT,NODLT

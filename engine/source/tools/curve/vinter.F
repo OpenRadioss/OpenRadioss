@@ -151,7 +151,7 @@ C
       my_real X(*),DYDX(*),Y(*),TF(2,*)
       INTEGER I,J1,J,ICONT,J2
 
-      my_real YDP, TF2J2,TF2J1,TF1J2,TF1J1,
+      my_real TF2J2,TF2J1,TF1J2,TF1J1,
      .  XDP,YYDP, DYDXDP
       LOGICAL COND1, COND2
 C
@@ -217,18 +217,15 @@ C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-C
+
       INTEGER ILEN(*),IPOS(*),IAD(*),NEL0
       my_real X(*),DYDX(*),Y(*),TF(2,*)
       INTEGER I,J1,J,ICONT,J2
-
-      DOUBLE PRECISION YDP, TF2J2,TF2J1,TF1J2,TF1J1,
-     .  XDP,YYDP, DYDXDP
-C
+      DOUBLE PRECISION TF2J2,TF2J1,TF1J2,TF1J1, XDP,YYDP, DYDXDP
       J = 0
       ICONT = 1
       DO WHILE(ICONT==1)
-C 
+
        J = J+1
        ICONT = 0
        DO I=1,NEL0
@@ -241,7 +238,7 @@ C
            ICONT = 1
          ENDIF
        ENDDO
-C
+
       ENDDO
 C
       DO I=1,NEL0
