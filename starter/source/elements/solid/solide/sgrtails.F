@@ -697,6 +697,14 @@ C foam + air
           ELSEIF(JALE == 3 .AND. MLN == 77) THEN
             JLAG=1          
           ENDIF
+C Multidomains - JALE of JEUL is set to 0 for dupplicated parts with void material
+          IF (NSUBDOM>0) THEN
+            IF (IPARTR2R == 0) THEN
+              IF (JALE > 0) JALE = 0
+              IF (JEUL > 0) JEUL = 0
+            ENDIF  
+          ENDIF     
+C
           IF(MLN/=50)JTUR=NINT(PM(70,MID)) 
           JTHE=NINT(PM(71,MID))
 C     Multifluid law
@@ -1477,7 +1485,7 @@ C         flag for vis stress
           IPARG(62,NGROUP)= PID  ! property number
           IPARG(69,NGROUP)= IPARTSPH
 C         flag for group of duplicated elements in multidomains
-          IF (NSUBDOM>0) IPARG(77,NGROUP)= IPARTR2R
+          IF (NSUBDOM>0) IPARG(77,NGROUP)= IPARTR2R 
 C         flag for bolt preloading
           IPARG(72,NGROUP)= IBOLTP
 C

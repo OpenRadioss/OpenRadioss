@@ -734,12 +734,15 @@ C-----------------------------------------------
         DO M=1,NUMELS
           ID_PART=IPARTS(M)
 C---------------id of the original material -----------C
-          IMAT0=IPART_R2R(1,ID_PART)
-          JALE=NINT(PM(72,IMAT0))
+          IMAT0=IPART_R2R(1,ID_PART) !original mat_id
+          IPROP0=IPART_R2R(4,ID_PART) !original prop_id
+          JALE_FROM_MAT = NINT(PM(72,IMAT0))
+          JALE_FROM_PROP = IGEO(62,IPROP0)
+          JALE= MAX(JALE_FROM_MAT, JALE_FROM_PROP)
 C
           ELEM_VOID = 0
           IF ((TAGNO(ID_PART)==0).AND.(TAG_ELS(M)>0)) ELEM_VOID=1
-          IF ((JALE > 0).AND.(TAGNO(ID_PART) > 0)) ALE_EULER = 1
+          IF ((JALE > 0).AND.(TAGNO(ID_PART) > 0)) ALE_EULER = 1      
           IF ((JALE == 0).OR.(ELEM_VOID == 0)) CYCLE
           FLG_FSI = 1
         END DO
