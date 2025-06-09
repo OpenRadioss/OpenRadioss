@@ -37,6 +37,7 @@
       !||--- calls      -----------------------------------------------------
       !||    rbe3fpen_ininp   ../engine/source/constraints/general/rbe3/rbe3pen_init.F90
       !||--- uses       -----------------------------------------------------
+      !||    constant_mod     ../common_source/modules/constant_mod.F
       !||    precision_mod    ../common_source/modules/precision_mod.F90
       !||    rbe3_mod         ../common_source/modules/constraints/rbe3_mod.F90
       !||====================================================================
