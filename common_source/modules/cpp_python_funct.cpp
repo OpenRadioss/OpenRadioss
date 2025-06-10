@@ -70,6 +70,7 @@ void *handle = nullptr;
 // global variables
 PyObject *pDict = nullptr;
 bool python_initialized = false;
+bool sync_enabled = false; // if true, the python function "sync" will be called at each time step
 // Persistent Python dictionary
 
 // user ids of the nodes that are used in the python functions
@@ -672,7 +673,7 @@ extern "C"
     void cpp_python_sync(void* pcontext)
     {
         //std::cout<<"[PYTHON] cpp_python_sync called"<<std::endl;
-        if (!python_initialized)
+        if (!python_initialized || !sync_enabled)
         {
             return;
         }
@@ -829,6 +830,7 @@ extern "C"
             if (current_line == 0)
             {
                 std::string function_name = extract_function_name(tmp_string);
+		if(function_name == "sync") sync_enabled = true;
                 if (function_name.empty())
                 {
                     std::cout << "ERROR: function name not found in function signature" << std::endl;
