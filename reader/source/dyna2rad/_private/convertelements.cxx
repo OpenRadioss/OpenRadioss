@@ -37,10 +37,10 @@ void sdiD2R::ConvertElem::ConvertElems()
     ConvertSeatbeltAccelerometer();
 
     p_CreateThAccel();
+    
+    ConvertSeatbeltSensor();
 
     ConvertSeatbeltSlipring();
-
-    ConvertSeatbeltSensor();
 
     ConvertSeatbeltRetractor();
 

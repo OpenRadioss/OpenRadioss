@@ -187,7 +187,7 @@ void DynaToRad::CallConvert()
     conversionLog.clear();
 
     /*build the conversion map */
-    //BuildConversionMap();
+    BuildConversionMap();
 
     /*get the LsDyna unit system*/
     sdiString currentUnits;

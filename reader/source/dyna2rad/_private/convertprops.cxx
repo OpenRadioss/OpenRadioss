@@ -838,6 +838,10 @@ void ConvertProp::p_ConvertSectionDiscrete(const EntityRead& matEntityRead, cons
     {
         EntityEdit radMatEdit(p_radiossModel, radmatHRead);
         radMatEdit.SetValue(sdiIdentifier("RHO_I"), sdiValue(1E-12));
+        EntityEdit radPropEdit(p_radiossModel, radProp);
+        radPropEdit.SetValue(sdiIdentifier("Imass"), sdiValue(1));
+        radPropEdit.SetValue(sdiIdentifier("AREA"), sdiValue(1.0));
+        radPropEdit.SetValue(sdiIdentifier("INERTIA"), sdiValue(1E-12));
         switch (matLawNum)
         {
         case 501:

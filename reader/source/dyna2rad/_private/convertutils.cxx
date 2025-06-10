@@ -951,7 +951,6 @@ void sdiD2R::ConvertUtils::Convert1To1(const sdi::EntityRead& optionEntity, sdiS
     }
 
     //sdiString keyWord = "/" + conversionMap.getMapValue(dynaOption,sdiString("OPTION"));
-
     if(conversionMap.hasRule(dynaOption))
     {
         convertRule myRuleKey = conversionMap.getRule(OptionKey);

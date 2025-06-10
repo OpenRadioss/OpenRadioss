@@ -208,6 +208,7 @@ void ConvertMat::p_ConvertMatBasedOnCard(const EntityRead& dynaMat, HandleEdit& 
         bool skipDuplicatingMat = false;
 
         int elform = GetValue<int>(propRead, "ELFORM");
+        unsigned int mat1to1 = 0;
 
         switch (matLawNum) 
         {
@@ -532,12 +533,12 @@ void ConvertMat::p_ConvertMatBasedOnCard(const EntityRead& dynaMat, HandleEdit& 
 
                 ConvertUtils cnvrtUtil(p_lsdynaModel, p_radiossModel);
 
-                
                 //printf("selCard __%s__ newKeyWord __%s__ \n",Keyword.c_str(),newKeyWord.c_str());
                 //cnvrtUtil.Convert1To1(dynaMat,newKeyWord,newOptionId);
                 
                 unsigned int matnum = matLawNum;
                 sdiString optionKey = sdiString("*MAT");
+                mat1to1 = 1;
 
                 cnvrtUtil.Convert1To1(dynaMat, optionKey,  matnum, newOptionId);
                 
@@ -592,8 +593,11 @@ void ConvertMat::p_ConvertMatBasedOnCard(const EntityRead& dynaMat, HandleEdit& 
 
         if (radMat.IsValid())
         {
-            SDIHandlReadList sourceMats = { {dynaMat.GetHandle()} };
-            sdiConvert::Convert::PushToConversionLog(std::make_pair(radMat, sourceMats));
+            if (mat1to1 == 0)
+            {
+                SDIHandlReadList sourceMats = { {dynaMat.GetHandle()} };
+                sdiConvert::Convert::PushToConversionLog(std::make_pair(radMat, sourceMats));
+            }
             if (!destCard.empty())
             {
                 EntityEdit radMatEdit(p_radiossModel, radMat);
@@ -6527,7 +6531,7 @@ void ConvertMat::p_ConvertMatL169(const EntityRead& dynaMat, sdiString& destCard
         p_radiossModel->CreateEntity(radMat, destCard, dynaMat.GetName(), dynaMat.GetId());
     EntityEdit radmatEntityEdit(p_radiossModel, radMat);
     attribMap = { {"E","E"}, {"RHO", "Rho_I"}, {"Nu", "PR"}, {"LSD_MAT169_TENMAX","TENMAX"}, {"LSD_MAT169_GCTEN", "GCTEN"}, {"LSD_MAT169_SHRMAX" , "SHRMAX"},
-                  {"LSD_MAT169_GCSHR", "GCSHR"}, {"LSD_MAT169_PWRT","PWRT"}, {"LSD_MAT169_PWRS", "PWRS"}, {"LSD_MAT169_SHRP" , "SHRP"}   };
+                  {"LSD_MAT169_GCSHR", "GCSHR"}, {"LSD_MAT169_PWRT","PWRT"}, {"LSD_MAT169_PWRS", "PWRS"}, {"LSD_MAT169_SHRP" , "SHRP"}, {"LSD_MAT169_SHT_SL" , "MAT169_SHT_SL"}   };
     
 }
 
@@ -10621,17 +10625,22 @@ void ConvertMat::p_ConvertMatL105(const EntityRead& dynaMat,sdiString& destCard,
     double lsdES6;
     double lsdES7;
     double lsdES8;
+    double LSD_EPSD;
+    double lsd_S;
+    double lsd_DC;
     sdiString dynaMatName = dynaMat.GetName();
 
     attribMap = { {"E","E"}, {"PR","Nu"}, {"RHO", "Init.dens."} };
 
     vector<reference_wrapper<double>> attrValList = {   lsdSIGY, lsdETAN, lsdC, lsdP, lsdEPS1, lsdEPS2,lsdEPS3,
                                                         lsdEPS4, lsdEPS5, lsdEPS6, lsdEPS7, lsdEPS8, lsdES1,lsdES2,
-                                                        lsdES3, lsdES4, lsdES5, lsdES6, lsdES7, lsdES8, lsdFAIL};
+                                                        lsdES3, lsdES4, lsdES5, lsdES6, lsdES7, lsdES8, lsdFAIL,
+                                                        LSD_EPSD, lsd_S, lsd_DC };
 
     vector<sdiString> attrNameList = {   "SIGY","ETAN","C","P","EPS1","EPS2","EPS3",
                                         "EPS4","EPS5","EPS6","EPS7","EPS8","ES1","ES2",
-                                        "ES3","ES4","ES5","ES6","ES7","ES8","FAIL"};
+                                        "ES3","ES4","ES5","ES6","ES7","ES8","FAIL",
+                                        "EPSD","S","DC" };
 
     p_ConvertUtils.GetAttribValues(dynaMat, attrNameList, attrValList);
 
@@ -10652,6 +10661,7 @@ void ConvertMat::p_ConvertMatL105(const EntityRead& dynaMat,sdiString& destCard,
     bool negstrains = false;
 
     HandleEdit failJohnsonHEdit; /* for /FAIL/JOHNSON */
+    HandleEdit failLemaitreHEdit; /* for /FAIL/LEMAITRE */
 
     destCard = "/MAT/LAW36";
 
@@ -10772,15 +10782,27 @@ void ConvertMat::p_ConvertMatL105(const EntityRead& dynaMat,sdiString& destCard,
                 radMat.SetValue(p_radiossModel, sdiIdentifier("ISMOOTH"), sdiValue(1));
             }
 
-            if (lsdFAIL > 0.0 && matLawNum == 105)
+            if (matLawNum == 105)
             {
-                p_radiossModel->CreateEntity(failJohnsonHEdit, "/FAIL/JOHNSON", dynaMatName);
-                //failJohnsonHEdit.SetValue(p_radiossModel, sdiIdentifier("ID_CARD_EXIST"), sdiValue(true));
-                EntityEdit failJohnsonEntEdit(p_radiossModel, failJohnsonHEdit);
-                failJohnsonEntEdit.SetEntityHandle(sdiIdentifier("mat_id"), radMat);
-                p_ConvertUtils.CopyValue(dynaMat, failJohnsonEntEdit, "FAIL", "D1");
-                failJohnsonEntEdit.SetValue(sdiIdentifier("IFAIL_SH"), sdiValue(2));
-                radMat.SetValue(p_radiossModel, sdiIdentifier("EPS_MAX"), sdiValue(0.0));
+                if (lsdFAIL > 0.0)
+                {
+                    p_radiossModel->CreateEntity(failJohnsonHEdit, "/FAIL/JOHNSON", dynaMatName);
+                    //failJohnsonHEdit.SetValue(p_radiossModel, sdiIdentifier("ID_CARD_EXIST"), sdiValue(true));
+                    EntityEdit failJohnsonEntEdit(p_radiossModel, failJohnsonHEdit);
+                    failJohnsonEntEdit.SetEntityHandle(sdiIdentifier("mat_id"), radMat);
+                    p_ConvertUtils.CopyValue(dynaMat, failJohnsonEntEdit, "FAIL", "D1");
+                    failJohnsonEntEdit.SetValue(sdiIdentifier("IFAIL_SH"), sdiValue(2));
+                    radMat.SetValue(p_radiossModel, sdiIdentifier("EPS_MAX"), sdiValue(0.0));
+                }
+                if(LSD_EPSD > 0.0)
+                {
+                    p_radiossModel->CreateEntity(failLemaitreHEdit, "/FAIL/LEMAITRE", dynaMatName);
+                    EntityEdit failLemaitreEdit(p_radiossModel, failLemaitreHEdit);
+                    failLemaitreEdit.SetEntityHandle(sdiIdentifier("mat_id"), radMat);
+                    p_ConvertUtils.CopyValue(dynaMat, failLemaitreEdit, "LSD_EPSD", "FAIL_EPSD");
+                    p_ConvertUtils.CopyValue(dynaMat, failLemaitreEdit, "LSDYNA_S", "FAIL_S");
+                    p_ConvertUtils.CopyValue(dynaMat, failLemaitreEdit, "LSDYNA_DC", "FAIL_DC");
+                }
             }
 //-------
             return;
@@ -10804,14 +10826,26 @@ void ConvertMat::p_ConvertMatL105(const EntityRead& dynaMat,sdiString& destCard,
             radMat.SetValue(p_radiossModel, sdiIdentifier("F_smooth"), sdiValue(1));
         }
 
-        if (lsdFAIL > 0.0 && matLawNum == 105)
+        if (matLawNum == 105)
         {
-            p_radiossModel->CreateEntity(failJohnsonHEdit, "/FAIL/JOHNSON", dynaMatName);
-            //failJohnsonHEdit.SetValue(p_radiossModel, sdiIdentifier("ID_CARD_EXIST"), sdiValue(true));
-            EntityEdit failJohnsonEntEdit(p_radiossModel, failJohnsonHEdit);
-            failJohnsonEntEdit.SetEntityHandle(sdiIdentifier("mat_id"), radMat);
-            p_ConvertUtils.CopyValue(dynaMat, failJohnsonEntEdit, "FAIL", "D1");
-            failJohnsonEntEdit.SetValue(sdiIdentifier("IFAIL_SH"), sdiValue(2));
+            if(lsdFAIL > 0.0)
+            {
+                p_radiossModel->CreateEntity(failJohnsonHEdit, "/FAIL/JOHNSON", dynaMatName);
+                //failJohnsonHEdit.SetValue(p_radiossModel, sdiIdentifier("ID_CARD_EXIST"), sdiValue(true));
+                EntityEdit failJohnsonEntEdit(p_radiossModel, failJohnsonHEdit);
+                failJohnsonEntEdit.SetEntityHandle(sdiIdentifier("mat_id"), radMat);
+                p_ConvertUtils.CopyValue(dynaMat, failJohnsonEntEdit, "FAIL", "D1");
+                failJohnsonEntEdit.SetValue(sdiIdentifier("IFAIL_SH"), sdiValue(2));
+            }
+            if(LSD_EPSD > 0.0)
+            {
+                p_radiossModel->CreateEntity(failLemaitreHEdit, "/FAIL/LEMAITRE", dynaMatName);
+                EntityEdit failLemaitreEdit(p_radiossModel, failLemaitreHEdit);
+                failLemaitreEdit.SetEntityHandle(sdiIdentifier("mat_id"), radMat);
+                p_ConvertUtils.CopyValue(dynaMat, failLemaitreEdit, "LSD_EPSD", "FAIL_EPSD");
+                p_ConvertUtils.CopyValue(dynaMat, failLemaitreEdit, "LSDYNA_S", "FAIL_S");
+                p_ConvertUtils.CopyValue(dynaMat, failLemaitreEdit, "LSDYNA_DC", "FAIL_DC");
+            }
         }
     }
     else
@@ -10870,15 +10904,27 @@ void ConvertMat::p_ConvertMatL105(const EntityRead& dynaMat,sdiString& destCard,
                         radMat.SetValue(p_radiossModel, sdiIdentifier("ISMOOTH"), sdiValue(1));
                     }
 
-                    if (lsdFAIL > 0.0 && matLawNum == 105)
+                    if (matLawNum == 105)
                     {
-                         p_radiossModel->CreateEntity(failJohnsonHEdit, "/FAIL/JOHNSON", dynaMatName);
-                         //failJohnsonHEdit.SetValue(p_radiossModel, sdiIdentifier("ID_CARD_EXIST"), sdiValue(true));
-                         EntityEdit failJohnsonEntEdit(p_radiossModel, failJohnsonHEdit);
-                         failJohnsonEntEdit.SetEntityHandle(sdiIdentifier("mat_id"), radMat);
-                         p_ConvertUtils.CopyValue(dynaMat, failJohnsonEntEdit, "FAIL", "D1");
-                         failJohnsonEntEdit.SetValue(sdiIdentifier("IFAIL_SH"), sdiValue(2));
-                         radMat.SetValue(p_radiossModel, sdiIdentifier("EPS_MAX"), sdiValue(0.0));
+                        if(lsdFAIL > 0.0)
+                        {
+                            p_radiossModel->CreateEntity(failJohnsonHEdit, "/FAIL/JOHNSON", dynaMatName);
+                            //failJohnsonHEdit.SetValue(p_radiossModel, sdiIdentifier("ID_CARD_EXIST"), sdiValue(true));
+                            EntityEdit failJohnsonEntEdit(p_radiossModel, failJohnsonHEdit);
+                            failJohnsonEntEdit.SetEntityHandle(sdiIdentifier("mat_id"), radMat);
+                            p_ConvertUtils.CopyValue(dynaMat, failJohnsonEntEdit, "FAIL", "D1");
+                            failJohnsonEntEdit.SetValue(sdiIdentifier("IFAIL_SH"), sdiValue(2));
+                            radMat.SetValue(p_radiossModel, sdiIdentifier("EPS_MAX"), sdiValue(0.0));
+                        }
+                        if(LSD_EPSD > 0.0)
+                        {
+                            p_radiossModel->CreateEntity(failLemaitreHEdit, "/FAIL/LEMAITRE", dynaMatName);
+                            EntityEdit failLemaitreEdit(p_radiossModel, failLemaitreHEdit);
+                            failLemaitreEdit.SetEntityHandle(sdiIdentifier("mat_id"), radMat);
+                            p_ConvertUtils.CopyValue(dynaMat, failLemaitreEdit, "LSD_EPSD", "FAIL_EPSD");
+                            p_ConvertUtils.CopyValue(dynaMat, failLemaitreEdit, "LSDYNA_S", "FAIL_S");
+                            p_ConvertUtils.CopyValue(dynaMat, failLemaitreEdit, "LSDYNA_DC", "FAIL_DC");
+                        }
                     }
 //-------
                     return;
@@ -10929,14 +10975,26 @@ void ConvertMat::p_ConvertMatL105(const EntityRead& dynaMat,sdiString& destCard,
                 radMat.SetValue(p_radiossModel, sdiIdentifier("F_smooth"), sdiValue(1));
             }
 
-            if (lsdFAIL > 0.0 && matLawNum == 105)
+            if(matLawNum == 105)
             {
-                p_radiossModel->CreateEntity(failJohnsonHEdit, "/FAIL/JOHNSON", dynaMatName);
-                //failJohnsonHEdit.SetValue(p_radiossModel, sdiIdentifier("ID_CARD_EXIST"), sdiValue(true));
-                EntityEdit failJohnsonEntEdit(p_radiossModel, failJohnsonHEdit);
-                failJohnsonEntEdit.SetEntityHandle(sdiIdentifier("mat_id"), radMat);
-                p_ConvertUtils.CopyValue(dynaMat, failJohnsonEntEdit, "FAIL", "D1");
-                failJohnsonEntEdit.SetValue(sdiIdentifier("IFAIL_SH"), sdiValue(2));
+                if(lsdFAIL > 0.0)               
+                {
+                     p_radiossModel->CreateEntity(failJohnsonHEdit, "/FAIL/JOHNSON", dynaMatName);
+                    //failJohnsonHEdit.SetValue(p_radiossModel, sdiIdentifier("ID_CARD_EXIST"), sdiValue(true));
+                    EntityEdit failJohnsonEntEdit(p_radiossModel, failJohnsonHEdit);
+                    failJohnsonEntEdit.SetEntityHandle(sdiIdentifier("mat_id"), radMat);
+                    p_ConvertUtils.CopyValue(dynaMat, failJohnsonEntEdit, "FAIL", "D1");
+                    failJohnsonEntEdit.SetValue(sdiIdentifier("IFAIL_SH"), sdiValue(2));
+                }
+                if(LSD_EPSD > 0.0)
+                {
+                    p_radiossModel->CreateEntity(failLemaitreHEdit, "/FAIL/LEMAITRE", dynaMatName);
+                    EntityEdit failLemaitreEdit(p_radiossModel, failLemaitreHEdit);
+                    failLemaitreEdit.SetEntityHandle(sdiIdentifier("mat_id"), radMat);
+                    p_ConvertUtils.CopyValue(dynaMat, failLemaitreEdit, "LSD_EPSD", "FAIL_EPSD");
+                    p_ConvertUtils.CopyValue(dynaMat, failLemaitreEdit, "LSDYNA_S", "FAIL_S");
+                    p_ConvertUtils.CopyValue(dynaMat, failLemaitreEdit, "LSDYNA_DC", "FAIL_DC");
+                }
             }
         }
         else
@@ -10949,15 +11007,27 @@ void ConvertMat::p_ConvertMatL105(const EntityRead& dynaMat,sdiString& destCard,
                 radMat.SetValue(p_radiossModel, sdiIdentifier("ISMOOTH"), sdiValue(1));
             }
 //-------
-            if (lsdFAIL > 0.0 && matLawNum == 105)
+            if (matLawNum == 105)
             {
-                p_radiossModel->CreateEntity(failJohnsonHEdit, "/FAIL/JOHNSON", dynaMatName);
-                //failJohnsonHEdit.SetValue(p_radiossModel, sdiIdentifier("ID_CARD_EXIST"), sdiValue(true));
-                EntityEdit failJohnsonEntEdit(p_radiossModel, failJohnsonHEdit);
-                failJohnsonEntEdit.SetEntityHandle(sdiIdentifier("mat_id"), radMat);
-                p_ConvertUtils.CopyValue(dynaMat, failJohnsonEntEdit, "FAIL", "D1");
-                failJohnsonEntEdit.SetValue(sdiIdentifier("IFAIL_SH"), sdiValue(2));
-                radMat.SetValue(p_radiossModel, sdiIdentifier("EPS_MAX"), sdiValue(0.0));
+                if (lsdFAIL > 0.0)
+                {
+                    p_radiossModel->CreateEntity(failJohnsonHEdit, "/FAIL/JOHNSON", dynaMatName);
+                    //failJohnsonHEdit.SetValue(p_radiossModel, sdiIdentifier("ID_CARD_EXIST"), sdiValue(true));
+                    EntityEdit failJohnsonEntEdit(p_radiossModel, failJohnsonHEdit);
+                    failJohnsonEntEdit.SetEntityHandle(sdiIdentifier("mat_id"), radMat);
+                    p_ConvertUtils.CopyValue(dynaMat, failJohnsonEntEdit, "FAIL", "D1");
+                    failJohnsonEntEdit.SetValue(sdiIdentifier("IFAIL_SH"), sdiValue(2));
+                    radMat.SetValue(p_radiossModel, sdiIdentifier("EPS_MAX"), sdiValue(0.0));
+                }
+                if(LSD_EPSD > 0.0)
+                {
+                    p_radiossModel->CreateEntity(failLemaitreHEdit, "/FAIL/LEMAITRE", dynaMatName);
+                    EntityEdit failLemaitreEdit(p_radiossModel, failLemaitreHEdit);
+                    failLemaitreEdit.SetEntityHandle(sdiIdentifier("mat_id"), radMat);
+                    p_ConvertUtils.CopyValue(dynaMat, failLemaitreEdit, "LSD_EPSD", "FAIL_EPSD");
+                    p_ConvertUtils.CopyValue(dynaMat, failLemaitreEdit, "LSDYNA_S", "FAIL_S");
+                    p_ConvertUtils.CopyValue(dynaMat, failLemaitreEdit, "LSDYNA_DC", "FAIL_DC");
+                }
             }
 //-------
             return;
@@ -10967,6 +11037,11 @@ void ConvertMat::p_ConvertMatL105(const EntityRead& dynaMat,sdiString& destCard,
     {
         sdiConvert::SDIHandlReadList sourcemat = { {dynaMat.GetHandle()} };
         sdiConvert::Convert::PushToConversionLog(std::make_pair(failJohnsonHEdit, sourcemat));
+    }
+    if (failLemaitreHEdit.IsValid())
+    {
+        sdiConvert::SDIHandlReadList sourcemat = { {dynaMat.GetHandle()} };
+        sdiConvert::Convert::PushToConversionLog(std::make_pair(failLemaitreHEdit, sourcemat));
     }
     EntityEdit radMatEdit(p_radiossModel, radMat);
     radMatEdit.SetValue(sdiIdentifier("N_funct"), sdiValue((int)nFunct));
