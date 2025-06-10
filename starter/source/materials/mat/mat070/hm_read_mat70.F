@@ -100,10 +100,10 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NRATEN,J,I,NRATEP,IUNLOAD,ITENS,IETANG,NL,ISORT
       integer :: i1,i2,sizeh,ierror,ifun
-      my_real E,NU,G,C1,VISC, VISCV,EXPO,HYS,YFAC_UNIT,
+      my_real E,NU,G,C1,VISC, VISCV,EXPO,HYS,
      .        RHO0,RHOR,E0,EMAX,EPSMAX,FCUT,A1,A2,AA
       INTEGER ,DIMENSION(MAXFUNC) :: FID,PERM
-      my_real ,DIMENSION(MAXFUNC) :: RATE,YFAC,SCALE,EPSP,RTMP,YTMP
+      my_real ,DIMENSION(MAXFUNC) :: RATE,YFAC,YFAC_UNIT,SCALE,EPSP,RTMP,YTMP
       double precision :: h1,h2
       double precision :: chksum
       double precision :: hasht(3)
@@ -150,14 +150,14 @@ C-----------------------------------------------
      .                I1=MAT_ID,
      .                C1=TITR)
       ENDIF 
-      CALL HM_GET_FLOATV('SCALE_LOAD'  ,YFAC_UNIT  ,IS_AVAILABLE, LSUBMODEL, UNITAB)         
       !--loading function
       DO I=1,NRATEP
         CALL HM_GET_INT_ARRAY_INDEX('FUN_LOAD'           ,FID(I)      ,I,IS_AVAILABLE, LSUBMODEL)
         CALL HM_GET_FLOAT_ARRAY_INDEX('STRAINRATE_LOAD'  ,EPSP(I)     ,I,IS_AVAILABLE, LSUBMODEL, UNITAB)
         CALL HM_GET_FLOAT_ARRAY_INDEX('SCALE_LOAD'       ,SCALE(I)    ,I,IS_AVAILABLE, LSUBMODEL, UNITAB)
+        CALL HM_GET_FLOAT_ARRAY_INDEX_DIM('SCALE_LOAD'   ,YFAC_UNIT(I),I,IS_AVAILABLE, LSUBMODEL, UNITAB)         
         !units
-        IF (SCALE(I) == ZERO) SCALE(I) = ONE * YFAC_UNIT
+        IF (SCALE(I) == ZERO) SCALE(I) = ONE * YFAC_UNIT(I)
       ENDDO  
 c---------------------------------------------------------------------------
 c     check if there are no input errors in function and strain rate definitions
@@ -238,18 +238,19 @@ c
 !-------------------------------------------------------------------------------
       IF (NRATEN > 0 ) THEN
         DO I=1,NRATEN
-          CALL HM_GET_INT_ARRAY_INDEX('FUN_UNLOAD'          ,FID(I)   ,I,IS_AVAILABLE, LSUBMODEL)
-          CALL HM_GET_FLOAT_ARRAY_INDEX('STRAINRATE_UNLOAD' ,EPSP(I)  ,I,IS_AVAILABLE, LSUBMODEL, UNITAB)
-          CALL HM_GET_FLOAT_ARRAY_INDEX('SCALE_UNLOAD'      ,SCALE(I) ,I,IS_AVAILABLE, LSUBMODEL, UNITAB)   
+          CALL HM_GET_INT_ARRAY_INDEX('FUN_UNLOAD'         ,FID(I)      ,I,IS_AVAILABLE, LSUBMODEL)
+          CALL HM_GET_FLOAT_ARRAY_INDEX('STRAINRATE_UNLOAD',EPSP(I)     ,I,IS_AVAILABLE, LSUBMODEL, UNITAB)
+          CALL HM_GET_FLOAT_ARRAY_INDEX('SCALE_UNLOAD'     ,SCALE(I)    ,I,IS_AVAILABLE, LSUBMODEL, UNITAB)   
+          CALL HM_GET_FLOAT_ARRAY_INDEX_DIM('SCALE_UNLOAD' ,YFAC_UNIT(I),I,IS_AVAILABLE, LSUBMODEL, UNITAB)         
           !units
-          IF (SCALE(I) == ZERO) SCALE(I) = ONE * YFAC_UNIT         
+          IF (SCALE(I) == ZERO) SCALE(I) = ONE * YFAC_UNIT(I)        
         ENDDO 
       ELSE 
         IF (NRATEN == 0 .AND. IUNLOAD <= 2) THEN
              NRATEN = 1
              IFUNC(NRATEP+1) = IFUNC(1)
-             RATE (NRATEP+1) = YFAC(1)
-             YFAC (NRATEP+1) = RATE(1)
+             RATE (NRATEP+1) = RATE(1)
+             YFAC (NRATEP+1) = YFAC(1)
              IUNLOAD = 0
 C             
              CALL ANCMSG(MSGID=1226, MSGTYPE=MSGWARNING, ANMODE=ANINFO_BLIND_1,
@@ -282,8 +283,14 @@ c
             J = PERM(I)
             IFUNC(I + NRATEP) = FID(J)
             RATE (I + NRATEP) = EPSP(I)
-            YFAC (I + NRATEP) = YTMP(J)
-          ENDDO  
+            YFAC (I + NRATEP) = SCALE(J)
+          ENDDO
+        ELSE 
+          DO I=1,NRATEN
+            IFUNC(I + NRATEP) = FID(I)
+            RATE (I + NRATEP) = EPSP(I)
+            YFAC (I + NRATEP) = SCALE(I)
+          ENDDO
         END IF
 c
         IF (RTMP(1) /=  ZERO) THEN   ! static strain rate must be equal to 0
