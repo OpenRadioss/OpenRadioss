@@ -102,11 +102,11 @@
           use vinter_mixed_mod
           use constant_mod
           use precision_mod, only : WP
+          use mvsiz_mod, only : mvsiz
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
           implicit none
-#include "mvsiz_p.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   arguments
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -169,72 +169,72 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-          integer jpos(mvsiz)
-          integer jlen(mvsiz)
-          integer jad(mvsiz)
-          integer jpos2(mvsiz)
-          integer jlen2(mvsiz)
-          integer jpos3(mvsiz)
-          integer jlen3(mvsiz)
-          integer jad2(mvsiz)
-          integer jfunc
-          integer jfunc2
-          integer jdmp
-          integer jecrou(-1:11)
-          integer j2dmp
-          integer k1
-          integer np2
-          integer i
-          integer ii
-          integer interp
-          integer k
+          integer :: jpos(mvsiz)
+          integer :: jlen(mvsiz)
+          integer :: jad(mvsiz)
+          integer :: jpos2(mvsiz)
+          integer :: jlen2(mvsiz)
+          integer :: jpos3(mvsiz)
+          integer :: jlen3(mvsiz)
+          integer :: jad2(mvsiz)
+          integer :: jfunc
+          integer :: jfunc2
+          integer :: jdmp
+          integer :: jecrou(-1:11)
+          integer :: j2dmp
+          integer :: k1
+          integer :: np2
+          integer :: i
+          integer :: ii
+          integer :: interp
+          integer :: k
 !     integer ic1(mvsiz)
-          integer ic2(mvsiz)
-          integer fund
-          integer ifunc3(mvsiz)
-          integer j2pos(mvsiz)
-          integer j2len(mvsiz)
-          integer j2ad(mvsiz)
-          integer j2func
+          integer :: ic2(mvsiz)
+          integer :: fund
+          integer :: ifunc3(mvsiz)
+          integer :: j2pos(mvsiz)
+          integer :: j2len(mvsiz)
+          integer :: j2ad(mvsiz)
+          integer :: j2func
 !     real ou real*8
-          real(kind=WP) b1
-          real(kind=WP) ddx(mvsiz)
-          real(kind=WP) fold(mvsiz)
-          real(kind=WP) gx(mvsiz)
-          real(kind=WP) dxela(mvsiz)
-          real(kind=WP) dydx(mvsiz)
-          real(kind=WP) xx(mvsiz)
-          real(kind=WP) xx2(mvsiz)
-          real(kind=WP) xx3(mvsiz)
-          real(kind=WP) yy(mvsiz)
-          real(kind=WP) yy2(mvsiz)
-          real(kind=WP) yy3(mvsiz)
-          real(kind=WP) dydx2(mvsiz)
-          real(kind=WP) dydx3(mvsiz)
-          real(kind=WP) dydxv(mvsiz)
-          real(kind=WP) dperm(mvsiz)
-          real(kind=WP) dvv
-          real(kind=WP) dfac
-          real(kind=WP) dt11
-          real(kind=WP) damp
-          real(kind=WP) damm
-          real(kind=WP) fmax(mvsiz)
-          real(kind=WP) dvxs(mvsiz)
-          real(kind=WP) gf3(mvsiz)
-          real(kind=WP) dydxv2(mvsiz)
-          real(kind=WP) fmin(mvsiz)
-          real(kind=WP) gx2(mvsiz)
-          real(kind=WP) xi1
-          real(kind=WP) xi2
-          real(kind=WP) yi1
-          real(kind=WP) yi2
-          real(kind=WP) x1
-          real(kind=WP) x2
-          real(kind=WP) y1
-          real(kind=WP) y2
-          real(kind=WP) an3y0(mvsiz)
-          real(kind=WP) ddxt
-          real(kind=WP) ddxc
+          real(kind=WP) :: b1
+          real(kind=WP) :: ddx(mvsiz)
+          real(kind=WP) :: fold(mvsiz)
+          real(kind=WP) :: gx(mvsiz)
+          real(kind=WP) :: dxela(mvsiz)
+          real(kind=WP) :: dydx(mvsiz)
+          real(kind=WP) :: xx(mvsiz)
+          real(kind=WP) :: xx2(mvsiz)
+          real(kind=WP) :: xx3(mvsiz)
+          real(kind=WP) :: yy(mvsiz)
+          real(kind=WP) :: yy2(mvsiz)
+          real(kind=WP) :: yy3(mvsiz)
+          real(kind=WP) :: dydx2(mvsiz)
+          real(kind=WP) :: dydx3(mvsiz)
+          real(kind=WP) :: dydxv(mvsiz)
+          real(kind=WP) :: dperm(mvsiz)
+          real(kind=WP) :: dvv
+          real(kind=WP) :: dfac
+          real(kind=WP) :: dt11
+          real(kind=WP) :: damp
+          real(kind=WP) :: damm
+          real(kind=WP) :: fmax(mvsiz)
+          real(kind=WP) :: dvxs(mvsiz)
+          real(kind=WP) :: gf3(mvsiz)
+          real(kind=WP) :: dydxv2(mvsiz)
+          real(kind=WP) :: fmin(mvsiz)
+          real(kind=WP) :: gx2(mvsiz)
+          real(kind=WP) :: xi1
+          real(kind=WP) :: xi2
+          real(kind=WP) :: yi1
+          real(kind=WP) :: yi2
+          real(kind=WP) :: x1
+          real(kind=WP) :: x2
+          real(kind=WP) :: y1
+          real(kind=WP) :: y2
+          real(kind=WP) :: an3y0(mvsiz)
+          real(kind=WP) :: ddxt
+          real(kind=WP) :: ddxc
 
           integer :: nfunct !< total number of functions
           integer :: pyid1, pyid2 !< python function id
@@ -1070,5 +1070,5 @@
 !
 !----
           return
-        end
-      end module
+        end subroutine redef3
+      end module redef3_mod

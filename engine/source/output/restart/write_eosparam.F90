@@ -130,4 +130,4 @@
       END IF
 !-----------
       RETURN
-      END
+      end subroutine WRITE_EOSPARAM

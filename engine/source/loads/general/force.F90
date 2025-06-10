@@ -88,11 +88,11 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   External functions
 ! ----------------------------------------------------------------------------------------------------------------------
-          integer get_u_numsens    !< External function / User subroutines
-          integer get_u_sens_fpar  !< External function / User subroutines
-          integer get_u_sens_ipar  !< External function / User subroutines
-          integer get_u_sens_value !< External function / User subroutines
-          integer set_u_sens_value !< External function / User subroutines
+          integer :: get_u_numsens    !< External function / User subroutines
+          integer :: get_u_sens_fpar  !< External function / User subroutines
+          integer :: get_u_sens_ipar  !< External function / User subroutines
+          integer :: get_u_sens_value !< External function / User subroutines
+          integer :: set_u_sens_value !< External function / User subroutines
           external get_u_numsens
           external get_u_sens_fpar
           external get_u_sens_ipar
@@ -149,15 +149,15 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-          integer nl, n1, isk, n2, n3, n4, n5, k1, k2, k3, isens,k,&
+          integer :: nl, n1, isk, n2, n3, n4, n5, k1, k2, k3, isens,k,&
           &iad,n_old,ianim,ifun,idir,&
           &ismooth,idel,ksurf,ns,nsegpl
           integer :: up_bound
           integer :: fid ! id of the python function
-          real(kind=WP) nx, ny, nz, axi, aa, a0, vv, fx, fy, fz, ax, dydx, ts,&
+          real(kind=WP) :: nx, ny, nz, axi, aa, a0, vv, fx, fy, fz, ax, dydx, ts,&
           &sixth,wfextt,x_old, f1, f2,xsens,fcx,fcy,area,&
           &disp,disp_old,vel,vel_old
-          real(kind=WP) finter, finter_smooth
+          real(kind=WP) :: finter, finter_smooth
           external finter,finter_smooth
 ! ----------------------------------------------------------------------------------------------------------------------
           nx = -huge(nx)

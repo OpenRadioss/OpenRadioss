@@ -711,138 +711,138 @@
 !=======================================================================      
 !
       Type g_bufel_          ! material and property variables (mean values for each element)
-        integer  nvar_glob   
-        integer  g_noff   
-        integer  g_ierr
-        integer  g_off    
-        integer  g_gama   
-        integer  g_smstr  
-        integer  g_hourg  
-        integer  g_bfrac  
-        integer  g_eint   
-        integer  g_eins   
-        integer  g_rho    
-        integer  g_qvis   
-        integer  g_deltax 
-        integer  g_vol    
-        integer  g_epsd   
-        integer  g_epsq
-        integer  g_pla    
-        integer  g_wpla
-        integer  g_temp   
-        integer  g_tb     
-        integer  g_rk     
-        integer  g_re     
-        integer  g_sig    
-        integer  g_for    
-        integer  g_mom    
-        integer  g_thk    
-        integer  g_tag22
-        integer  g_stra  
-        integer  g_sigi   
-        integer  g_dmg   
-        integer  g_forpg    
-        integer  g_mompg
-        integer  g_gama_r   
-        integer  g_for_g    ! used for resultant stress (global modeling)
-        integer  g_forpg_g    
+        integer  :: nvar_glob   
+        integer  :: g_noff   
+        integer  :: g_ierr
+        integer  :: g_off    
+        integer  :: g_gama   
+        integer  :: g_smstr  
+        integer  :: g_hourg  
+        integer  :: g_bfrac  
+        integer  :: g_eint   
+        integer  :: g_eins   
+        integer  :: g_rho    
+        integer  :: g_qvis   
+        integer  :: g_deltax 
+        integer  :: g_vol    
+        integer  :: g_epsd   
+        integer  :: g_epsq
+        integer  :: g_pla    
+        integer  :: g_wpla
+        integer  :: g_temp   
+        integer  :: g_tb     
+        integer  :: g_rk     
+        integer  :: g_re     
+        integer  :: g_sig    
+        integer  :: g_for    
+        integer  :: g_mom    
+        integer  :: g_thk    
+        integer  :: g_tag22
+        integer  :: g_stra  
+        integer  :: g_sigi   
+        integer  :: g_dmg   
+        integer  :: g_forpg    
+        integer  :: g_mompg
+        integer  :: g_gama_r   
+        integer  :: g_for_g    ! used for resultant stress (global modeling)
+        integer  :: g_forpg_g    
 !
-        integer  g_forpgpinch  
-        integer  g_mompgpinch 
-        integer  g_epgpinchxz
-        integer  g_epgpinchyz 
-        integer  g_epgpinchzz
+        integer  :: g_forpgpinch  
+        integer  :: g_mompgpinch 
+        integer  :: g_epgpinchxz
+        integer  :: g_epgpinchyz 
+        integer  :: g_epgpinchzz
 !    
-        integer  g_strpg
-        integer  g_uelr
-        integer  g_uelr1
-        integer  g_damdl
-        integer  g_forth    
-        integer  g_eintth    
-        integer  g_fill
-        integer  g_seq
-        integer  g_strw  
-        integer  g_strwpg  
-        integer  g_thk_i    
-        integer  g_jac_i   
-        integer  g_dt
-        integer  g_isms 
-        integer  g_strhg
-        integer  g_bpreld        ! bolt preloading
-        integer  g_aburn
-        integer  g_mu
-        integer  g_planl
-        integer  g_epsdnl
-        integer  g_tempg
-        integer  g_cor_nf        ! nodal forces for corotational formulation
-        integer  g_cor_fr        ! local frame for corotational formulation
-        integer  g_cor_xr        ! reference local coordinates for corotational formulation
-        integer  g_maxfrac 
-        integer  g_maxeps 
-        integer  g_betaorth
-        integer  g_amu
-        integer  g_tsaiwu
-        integer  g_dmgscl
-        integer  g_sh_ioffset
-        integer  g_eint_distor
+        integer  :: g_strpg
+        integer  :: g_uelr
+        integer  :: g_uelr1
+        integer  :: g_damdl
+        integer  :: g_forth    
+        integer  :: g_eintth    
+        integer  :: g_fill
+        integer  :: g_seq
+        integer  :: g_strw  
+        integer  :: g_strwpg  
+        integer  :: g_thk_i    
+        integer  :: g_jac_i   
+        integer  :: g_dt
+        integer  :: g_isms 
+        integer  :: g_strhg
+        integer  :: g_bpreld        ! bolt preloading
+        integer  :: g_aburn
+        integer  :: g_mu
+        integer  :: g_planl
+        integer  :: g_epsdnl
+        integer  :: g_tempg
+        integer  :: g_cor_nf        ! nodal forces for corotational formulation
+        integer  :: g_cor_fr        ! local frame for corotational formulation
+        integer  :: g_cor_xr        ! reference local coordinates for corotational formulation
+        integer  :: g_maxfrac 
+        integer  :: g_maxeps 
+        integer  :: g_betaorth
+        integer  :: g_amu
+        integer  :: g_tsaiwu
+        integer  :: g_dmgscl
+        integer  :: g_sh_ioffset
+        integer  :: g_eint_distor
 !---
 !    - 1d - elem (truss, beam, spring) 
-        integer  g_area
-        integer  g_skew
-        integer  g_length
-        integer  g_totdepl
-        integer  g_totrot
-        integer  g_forep
-        integer  g_momep
-        integer  g_dep_in_tens
-        integer  g_dep_in_comp
-        integer  g_rot_in_tens
-        integer  g_rot_in_comp
-        integer  g_posx
-        integer  g_posy
-        integer  g_posz
-        integer  g_posxx
-        integer  g_posyy
-        integer  g_poszz
-        integer  g_yield
-        integer  g_length_err
-        integer  g_dv
-        integer  g_dfs
-        integer  g_skew_err
-        integer  g_e6
-        integer  g_ruptcrit
-        integer  g_mass
-        integer  g_v_repcvt
-        integer  g_vr_repcvt
-        integer  g_nuvar
-        integer  g_nuvarn
-        integer  g_defini
-        integer  g_forini
-        integer  g_inifric
-        integer  g_etotsh
-        integer  g_skew_id
+        integer  :: g_area
+        integer  :: g_skew
+        integer  :: g_length
+        integer  :: g_totdepl
+        integer  :: g_totrot
+        integer  :: g_forep
+        integer  :: g_momep
+        integer  :: g_dep_in_tens
+        integer  :: g_dep_in_comp
+        integer  :: g_rot_in_tens
+        integer  :: g_rot_in_comp
+        integer  :: g_posx
+        integer  :: g_posy
+        integer  :: g_posz
+        integer  :: g_posxx
+        integer  :: g_posyy
+        integer  :: g_poszz
+        integer  :: g_yield
+        integer  :: g_length_err
+        integer  :: g_dv
+        integer  :: g_dfs
+        integer  :: g_skew_err
+        integer  :: g_e6
+        integer  :: g_ruptcrit
+        integer  :: g_mass
+        integer  :: g_v_repcvt
+        integer  :: g_vr_repcvt
+        integer  :: g_nuvar
+        integer  :: g_nuvarn
+        integer  :: g_defini
+        integer  :: g_forini
+        integer  :: g_inifric
+        integer  :: g_etotsh
+        integer  :: g_skew_id
 !
 !    -  for seatbelt elements
-        integer  g_slipring_id
-        integer  g_slipring_fram_id
-        integer  g_slipring_strand
-        integer  g_retractor_id
-        integer  g_ringslip
-        integer  g_add_node
-        integer  g_update
-        integer  g_fram_factor
-        integer  g_intvar
+        integer  :: g_slipring_id
+        integer  :: g_slipring_fram_id
+        integer  :: g_slipring_strand
+        integer  :: g_retractor_id
+        integer  :: g_ringslip
+        integer  :: g_add_node
+        integer  :: g_update
+        integer  :: g_fram_factor
+        integer  :: g_intvar
 !---
-        integer  g_dt_piter
+        integer  :: g_dt_piter
 !---
-        integer  g_idt_tsh
+        integer  :: g_idt_tsh
 !-------  max_historic variables     
-        integer  g_tm_yield
-        integer  g_tm_seq
-        integer  g_tm_eint
-        integer  g_tm_dmg
-        integer  g_tm_sig  ! max(p1)&min(p3) 3 for 2d, 6 for 3d
-        integer  g_tm_stra ! max(p1)&min(p3)
+        integer  :: g_tm_yield
+        integer  :: g_tm_seq
+        integer  :: g_tm_eint
+        integer  :: g_tm_dmg
+        integer  :: g_tm_sig  ! max(p1)&min(p3) 3 for 2d, 6 for 3d
+        integer  :: g_tm_stra ! max(p1)&min(p3)
 !---
         integer, dimension(:) , pointer ::   noff  
         integer, dimension(:) , pointer ::   ierr  
@@ -982,8 +982,8 @@
 
 
       Type l_bufel_      ! element variables per integration point
-        integer  mlaw    ! material law type          
-        integer  lawid   ! material law id    
+        integer  :: mlaw    ! material law type          
+        integer  :: lawid   ! material law id    
         real(kind=WP), dimension(:) , pointer ::   off    
         real(kind=WP), dimension(:) , pointer ::   gama   
         real(kind=WP), dimension(:) , pointer ::   stra   
@@ -1099,8 +1099,8 @@
 
       Type buf_xfem_       ! buffer des elements xfem crees par la fissuration
 !-------  layer variables     
-        integer  ly_smstr
-        integer  ly_hourg
+        integer  :: ly_smstr
+        integer  :: ly_hourg
         real(kind=WP), dimension(:) , pointer ::   dmg
         real(kind=WP), dimension(:) , pointer ::   gama
         real(kind=WP), dimension(:) , pointer ::   dira
@@ -1116,15 +1116,15 @@
       end type buf_xfem_
  
       Type fail_loc_
-        integer  ilawf    ! type de loi de rupture
-        integer  idfail
-        integer  nvar
-        integer  lf_dam
-        integer  lf_dammx
-        integer  lf_damini
-        integer  lf_tdel
-        integer  lf_indx
-        integer  lf_off
+        integer  :: ilawf    ! type de loi de rupture
+        integer  :: idfail
+        integer  :: nvar
+        integer  :: lf_dam
+        integer  :: lf_dammx
+        integer  :: lf_damini
+        integer  :: lf_tdel
+        integer  :: lf_indx
+        integer  :: lf_off
         integer, dimension(:)  , pointer ::  indx
         integer, dimension(:)  , pointer ::  off
         real(kind=WP), dimension(:)  , pointer ::  dam
@@ -1149,97 +1149,97 @@
       end type l_bufel_dir_                             
 
       Type buf_lay_
-        integer  ilaw     
-        integer  imat 
-        integer  ieos
-        integer  ivisc
-        integer  iporo
-        integer  nfail
-        integer  nvar_mat
-        integer  nvar_eos        
-        integer  nvartmp
-        integer  nvartmp_eos
-        integer  nvar_visc
-        integer  nvar_lay   ! max nb of layer variables = 9
-        integer  nvar_loc   ! max nb of local variables in lbuf = 51 (below)
-        integer  nptt       ! nb of integration points through layer (pid_51)
+        integer  :: ilaw     
+        integer  :: imat 
+        integer  :: ieos
+        integer  :: ivisc
+        integer  :: iporo
+        integer  :: nfail
+        integer  :: nvar_mat
+        integer  :: nvar_eos        
+        integer  :: nvartmp
+        integer  :: nvartmp_eos
+        integer  :: nvar_visc
+        integer  :: nvar_lay   ! max nb of layer variables = 9
+        integer  :: nvar_loc   ! max nb of local variables in lbuf = 51 (below)
+        integer  :: nptt       ! nb of integration points through layer (pid_51)
 !-------
-        integer  ly_dmg  
-        integer  ly_gama   
-        integer  ly_dira   
-        integer  ly_dirb   
-        integer  ly_crkdir   
-        integer  ly_plapt  ! mean plastic strain value between gauss points 
-        integer  ly_sigpt  ! mean stress value between gauss points
-        integer  ly_hourg
-        integer  ly_uelr
-        integer  ly_uelr1
-        integer  ly_offpg
-        integer  ly_off
+        integer  :: ly_dmg  
+        integer  :: ly_gama   
+        integer  :: ly_dira   
+        integer  :: ly_dirb   
+        integer  :: ly_crkdir   
+        integer  :: ly_plapt  ! mean plastic strain value between gauss points 
+        integer  :: ly_sigpt  ! mean stress value between gauss points
+        integer  :: ly_hourg
+        integer  :: ly_uelr
+        integer  :: ly_uelr1
+        integer  :: ly_offpg
+        integer  :: ly_off
 !-------
-        integer  l_off    
-        integer  l_gama   
-        integer  l_stra   
-        integer  l_frac   
-        integer  l_bfrac
-        integer  l_eint   
-        integer  l_eins   
-        integer  l_rho    
-        integer  l_dp_drho
-        integer  l_qvis   
-        integer  l_deltax 
-        integer  l_vol                        
-        integer  l_epsa   
-        integer  l_epsd                    
-        integer  l_epsq   
-        integer  l_epsf   
-        integer  l_pla           
-        integer  l_wpla  
-        integer  l_temp   
-        integer  l_tb     
-        integer  l_rk     
-        integer  l_re     
-        integer  l_vk     
-        integer  l_sf     
-        integer  l_rob    
-        integer  l_dam    
-        integer  l_dsum   
-        integer  l_dglo   
-        integer  l_crak   
-        integer  l_ang    
-        integer  l_epe    
-        integer  l_epc    
-        integer  l_xst         
-        integer  l_ssp    
-        integer  l_z          
-        integer  l_visc   
-        integer  l_sigl   
-        integer  l_sigv   
-        integer  l_siga   
-        integer  l_sigb   
-        integer  l_sigc   
-        integer  l_sigd   
-        integer  l_sigf   
-        integer  l_sig    
-        integer  l_sigply ! plyxfem
-        integer  l_for    
-        integer  l_mom
-        integer  l_thk 
-        integer  l_smstr      
-        integer  l_dmg  
-        integer  l_forth
-        integer  l_eintth  
-        integer  l_seq
-        integer  l_jac_i
-        integer  l_fac_yld
-        integer  l_aburn
-        integer  l_mu
-        integer  l_pij
-        integer  l_vol0dp
-        integer  l_planl
-        integer  l_epsdnl
-        integer  l_dmgscl
-        integer  l_tsaiwu
+        integer  :: l_off    
+        integer  :: l_gama   
+        integer  :: l_stra   
+        integer  :: l_frac   
+        integer  :: l_bfrac
+        integer  :: l_eint   
+        integer  :: l_eins   
+        integer  :: l_rho    
+        integer  :: l_dp_drho
+        integer  :: l_qvis   
+        integer  :: l_deltax 
+        integer  :: l_vol                        
+        integer  :: l_epsa   
+        integer  :: l_epsd                    
+        integer  :: l_epsq   
+        integer  :: l_epsf   
+        integer  :: l_pla           
+        integer  :: l_wpla  
+        integer  :: l_temp   
+        integer  :: l_tb     
+        integer  :: l_rk     
+        integer  :: l_re     
+        integer  :: l_vk     
+        integer  :: l_sf     
+        integer  :: l_rob    
+        integer  :: l_dam    
+        integer  :: l_dsum   
+        integer  :: l_dglo   
+        integer  :: l_crak   
+        integer  :: l_ang    
+        integer  :: l_epe    
+        integer  :: l_epc    
+        integer  :: l_xst         
+        integer  :: l_ssp    
+        integer  :: l_z          
+        integer  :: l_visc   
+        integer  :: l_sigl   
+        integer  :: l_sigv   
+        integer  :: l_siga   
+        integer  :: l_sigb   
+        integer  :: l_sigc   
+        integer  :: l_sigd   
+        integer  :: l_sigf   
+        integer  :: l_sig    
+        integer  :: l_sigply ! plyxfem
+        integer  :: l_for    
+        integer  :: l_mom
+        integer  :: l_thk 
+        integer  :: l_smstr      
+        integer  :: l_dmg  
+        integer  :: l_forth
+        integer  :: l_eintth  
+        integer  :: l_seq
+        integer  :: l_jac_i
+        integer  :: l_fac_yld
+        integer  :: l_aburn
+        integer  :: l_mu
+        integer  :: l_pij
+        integer  :: l_vol0dp
+        integer  :: l_planl
+        integer  :: l_epsdnl
+        integer  :: l_dmgscl
+        integer  :: l_tsaiwu
 !-------  layer variables     
         real(kind=WP), dimension(:) , pointer ::   dmg
         real(kind=WP), dimension(:) , pointer ::   gama
@@ -1273,11 +1273,11 @@
       end type buf_intloc_                             
 
       Type buf_intlay_
-        integer  ilaw       ! inter ply material law type     
-        integer  imat       ! inter ply material number
-        integer  nfail
-        integer  nvar_mat   ! number of user variables (uvar) in the material buffer
-        integer  nvartmp    ! number of temp storage variables (vartmp) in material laws
+        integer  :: ilaw       ! inter ply material law type     
+        integer  :: imat       ! inter ply material number
+        integer  :: nfail
+        integer  :: nvar_mat   ! number of user variables (uvar) in the material buffer
+        integer  :: nvartmp    ! number of temp storage variables (vartmp) in material laws
 !------ interlayer variables par couche   (length=1) 
         real(kind=WP), dimension(:) , pointer ::   eint         
         real(kind=WP), dimension(:) , pointer ::   count

@@ -85,9 +85,9 @@
  !-----------------------------------------------
 !   L o c a l   V a r i a b l e s
 !-----------------------------------------------
-      integer fs, i,damage,updat,updat1,updat2
+      integer :: fs, i,damage,updat,updat1,updat2
       real(kind=WP)                                                       &
-       e1,e2,nu12,nu21,em11t,xt,slimt1,em11c,xc,slimc1,             &
+       :: e1,e2,nu12,nu21,em11t,xt,slimt1,em11c,xc,slimc1,             &
        em22t,yt,slimt2,em22c,yc,slimc2,gamma,tau,ems,sc,            &
        slims,gammaf,gammar, tsdm, erods,tsize,ef11t,ef11c,          &
        m1t,m1c,al1t,al2t,al2c,als,mfs,ms,e1d,e2d,g12d,d,            &

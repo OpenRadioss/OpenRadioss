@@ -60,11 +60,11 @@
           use python_funct_mod
           use redef3_mod
           use precision_mod, only : WP
+          use mvsiz_mod, only : mvsiz
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
           implicit none
-#include      "mvsiz_p.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -116,7 +116,7 @@
 !-----------------------------------------------
 !   l o c a l   v a r i a b l e s
 !-----------------------------------------------
-          integer i,j, k, np2, fund, k1, ii, jecrou(4), interp, jfunc
+          integer :: i,j, k, np2, fund, k1, ii, jecrou(4), interp, jfunc
           integer,dimension(mvsiz) :: jpos
           integer,dimension(mvsiz) :: jlen
           integer,dimension(mvsiz) :: jad
@@ -556,5 +556,5 @@
 !
 !----
           return
-        end
-      end module
+        end subroutine redef_seatbelt
+      end module redef_seatbelt_mod

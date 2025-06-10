@@ -73,7 +73,6 @@
 !                                                   implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
           implicit none
-#include "mvsiz_p.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   arguments
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -135,20 +134,20 @@
           integer , intent(in) :: nfunc
           integer , intent(in) :: ifunc(nfunc)
           real(kind=WP) , intent(in) :: tf(stf)
-          real(kind=WP) fint2v
-          real(kind=WP) finter,fintte
+          real(kind=WP) :: fint2v
+          real(kind=WP) :: finter,fintte
           external finter,fintte
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                        local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-          integer    i,j,kk,ll,n,flagbb,direct,iter,niter,tab,tabn,shift,nindx
-          integer  n_network, flag_he, flag_mul, flag_t,nhyper,nplas,iform,&
+          integer    :: i,j,kk,ll,n,flagbb,direct,iter,niter,tab,tabn,shift,nindx
+          integer  :: n_network, flag_he, flag_mul, flag_t,nhyper,nplas,iform,&
           &flag_pl,net,exppl, nvisc(10),&
           &flag_visc(10),&
           &ipos1(nel),ilen1(nel),iad1(nel),&
           &ipos2(nel),ilen2(nel),iad2(nel)
 
-          real(kind=WP) et1,et2,et3,g,rbulk,aa,bb,cc,sb, factor,&
+          real(kind=WP) :: et1,et2,et3,g,rbulk,aa,bb,cc,sb, factor,&
           &maxl,stiff0,dsig,deps,coef1,coef2,coef3,coef4,coef5,coef6,&
           &c10,c01,c20,c11,c02,c30,c21,c12,c03,d1,d2,d3,tauy0,ff, epshat,&
           &temp1,facpl,hh,r3r3,&
@@ -170,11 +169,11 @@
           &fftn(nel,3,3),fpeq(nel,3,3),fpeqo(nel,3,3),s(nel,3,3),fedp(nel,3,3),&
           &dfp(nel,3,3),lb(nel,3,3),dfp2(nel,3,3),fpdot(nel,3,3),invfe(nel,3,3)
           !
-          real(kind=WP) a1(10),expc(10),expm(10),ksi(10),a10(10),stiffn(10),&
+          real(kind=WP) :: a1(10),expc(10),expm(10),ksi(10),a10(10),stiffn(10),&
           &b0(10),expn(10),tauref(10)
           !
-          real(kind=WP) c1,c2,c3,c4,c5,mu,lm,d,beta,scale1,scale2,cmax
-          real(kind=WP) coefr,betaf ,coefm
+          real(kind=WP) :: c1,c2,c3,c4,c5,mu,lm,d,beta,scale1,scale2,cmax
+          real(kind=WP) :: coefr,betaf ,coefm
 !----------------------------------------------------------------
 !     material model : prf : parallel rheological framework
 !=======================================================================
@@ -832,6 +831,6 @@
           endif
 !-----------
           return
-        end
+        end subroutine sigeps100
 !
-      end module
+      end module sigeps100_mod

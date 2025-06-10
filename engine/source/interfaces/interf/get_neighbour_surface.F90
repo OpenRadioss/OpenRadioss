@@ -96,14 +96,11 @@
           use update_neighbour_segment_mod , only : update_neighbour_segment
           use spmd_arrays_mod , only : spmd_arrays_
           use nodal_arrays_mod, only : nodal_arrays_
+          use precision_mod, only : WP 
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
           implicit none
-! ----------------------------------------------------------------------------------------------------------------------
-!                                                   included files
-! ----------------------------------------------------------------------------------------------------------------------
-#include "my_real.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   arguments
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -132,7 +129,7 @@
           integer, dimension(nixc,numelc), intent(in) :: ixc !< shell element data
           integer, dimension(nixtg,numeltrg), intent(in) :: ixtg !< shell3n element data
           integer, dimension(2,nspmd+1), intent(in) :: iad_elem !< frontier between processor
-          my_real, dimension(3,numnod), intent(in) :: x !< nodal position
+          real(kind=WP), dimension(3,numnod), intent(in) :: x !< nodal position
           type(intbuf_struct_), dimension(ninter), intent(inout) :: intbuf_tab    !< interface data 
           type(spmd_arrays_), intent(inout) :: spmd_arrays !< structure for interface spmd arrays
           type(shooting_node_type), intent(inout) :: shoot_struct !< structure for shooting node algo
@@ -167,17 +164,17 @@
 #else
           integer(kind=4) :: my_integer
 #endif
-          my_real :: my_real_variable
-          my_real, dimension(:,:), allocatable :: n_normal, n_vconvexity
-          my_real, dimension(3) :: segment_position
+          real(kind=WP) :: my_real_variable
+          real(kind=WP), dimension(:,:), allocatable :: n_normal, n_vconvexity
+          real(kind=WP), dimension(3) :: segment_position
           integer, dimension(:), allocatable :: result_intersect_0,result_intersect_1,result_intersect_2
           integer, dimension(:), allocatable :: intersect_1,intersect_2
           integer, dimension(:), allocatable :: intersect_4,intersect_3
           integer, dimension(:,:), allocatable :: index_neighbour
 !          integer, dimension(:,:,:), allocatable :: iedge_min,segment_id_min
-          my_real, dimension(:), allocatable :: my_real_tmp_array
-!          my_real, dimension(:,:), allocatable :: angle_min
-           my_real, dimension(3) :: normal , v_convexity 
+          real(kind=WP), dimension(:), allocatable :: my_real_tmp_array
+!          real(kind=WP), dimension(:,:), allocatable :: angle_min
+          real(kind=WP), dimension(3) :: normal , v_convexity 
           type(array_type), dimension(:), allocatable :: s_buffer,r_buffer ! mpi buffer 
           type(array_type), dimension(:), allocatable :: s_buffer_2,r_buffer_2 ! mpi buffer 
 

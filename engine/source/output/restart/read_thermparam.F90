@@ -106,6 +106,6 @@
       deallocate(rbuf)
 !-----------
       return
-      end
+      end subroutine read_thermparam
 
       end module read_therpmaram_mod

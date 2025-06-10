@@ -226,6 +226,7 @@
           use fail_spalling_s_mod
           use eosmain_mod , only : eosmain
           use precision_mod, only : WP
+          use mvsiz_mod, only : mvsiz
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -233,7 +234,6 @@
 !-----------------------------------------------
 !   g l o b a l   p a r a m e t e r s
 !-----------------------------------------------
-#include "mvsiz_p.inc"
 #include "elements.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
@@ -372,7 +372,7 @@
           real(kind=WP), dimension(mvsiz), intent(inout) :: fheat
           target :: varnl,defp,tempel
 
-          type(ttable) table(*)
+          type(ttable) :: table(*)
           type (elbuf_struct_), target, dimension(ngroup) :: elbuf_tab
           type (nlocal_str_) :: nloc_dmg
           type (t_ale_connectivity), intent(in) :: ale_connect
@@ -382,47 +382,47 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-          integer ibidon1,ibidon2,ibidon3,ibidon4                     ! Dummy arguments
-          integer i,ipg,nuvar,nparam,nfunc,ifunc_alpha,ilaw,imat,&
+          integer :: ibidon1,ibidon2,ibidon3,ibidon4                     ! Dummy arguments
+          integer :: i,ipg,nuvar,nparam,nfunc,ifunc_alpha,ilaw,imat,&
           &        nvarf,nfail,ntabl_fail,ir,irupt,ivisc,eostyp,npts,nptt,nptr,npg,  &
           &        isvis,nvartmp,nlay,inloc,iselect,ibpreld,nvareos,nvarvis,&   
           &        idamp_freq_range,visctype
-          integer ifunc(maxfunc)
-          integer nvartmp_eos
+          integer :: ifunc(maxfunc)
+          integer :: nvartmp_eos
 
           ! Float/Double
-          real(kind=WP) facq0,e1,e2,e3,e4,e5,e6,alpha,tref,tmelt
-          real(kind=WP) pnew(mvsiz)
-          real(kind=WP) psh(mvsiz)
-          real(kind=WP) p0(mvsiz)
-          real(kind=WP) off_old(mvsiz),amu(mvsiz), amu2(mvsiz), c1(mvsiz), c2(mvsiz), &
+          real(kind=WP) :: facq0,e1,e2,e3,e4,e5,e6,alpha,tref,tmelt
+          real(kind=WP) :: pnew(mvsiz)
+          real(kind=WP) :: psh(mvsiz)
+          real(kind=WP) :: p0(mvsiz)
+          real(kind=WP) :: off_old(mvsiz),amu(mvsiz), amu2(mvsiz), c1(mvsiz), c2(mvsiz), &
           &       c3(mvsiz), c4(mvsiz), c5(mvsiz),c6(mvsiz),                    &
           &       einc(mvsiz), rho0(mvsiz),vol_avg(mvsiz),                      &
           &       df(mvsiz), pc(mvsiz),espe(mvsiz),tmu(mvsiz),                  &
           &       tx(mvsiz)    ,ty(mvsiz)    ,tz(mvsiz) 
 
-          real(kind=WP) ss1(mvsiz),ss2(mvsiz), ss3(mvsiz),ss4(mvsiz),ss5(mvsiz),ss6(mvsiz)
-          real(kind=WP) r11(mvsiz),r12(mvsiz),r13(mvsiz),r21(mvsiz),r22(mvsiz),r23(mvsiz),r31(mvsiz),r32(mvsiz),r33(mvsiz)
-          real(kind=WP) dpla(mvsiz),tstar(mvsiz),epsp(mvsiz),xk(mvsiz),vm(nel),vm0(nel), &
+          real(kind=WP) :: ss1(mvsiz),ss2(mvsiz), ss3(mvsiz),ss4(mvsiz),ss5(mvsiz),ss6(mvsiz)
+          real(kind=WP) :: r11(mvsiz),r12(mvsiz),r13(mvsiz),r21(mvsiz),r22(mvsiz),r23(mvsiz),r31(mvsiz),r32(mvsiz),r33(mvsiz)
+          real(kind=WP) :: dpla(mvsiz),tstar(mvsiz),epsp(mvsiz),xk(mvsiz),vm(nel),vm0(nel), &
           &       tempel0(mvsiz), fscal_alpha , sigl(mvsiz,6)
-          real(kind=WP) es1(mvsiz), es2(mvsiz),  es3(mvsiz),  es4(mvsiz),  es5(mvsiz),   &
+          real(kind=WP) :: es1(mvsiz), es2(mvsiz),  es3(mvsiz),  es4(mvsiz),  es5(mvsiz),   &
           &       es6(mvsiz), eint(mvsiz), dpdm(mvsiz), dpde(mvsiz),ecold(mvsiz),  &
           &       vol(mvsiz),al_imp(mvsiz),signor(mvsiz,6)
 
-          real(kind=WP) ep1(mvsiz),ep2(mvsiz),ep3(mvsiz),ep4(mvsiz),ep5(mvsiz),ep6(mvsiz)
-          real(kind=WP) sv1(mvsiz),sv2(mvsiz),sv3(mvsiz),sv4(mvsiz),sv5(mvsiz),sv6(mvsiz)
-          real(kind=WP) svo1(mvsiz),svo2(mvsiz),svo3(mvsiz),svo4(mvsiz),svo5(mvsiz),svo6(mvsiz)
+          real(kind=WP) :: ep1(mvsiz),ep2(mvsiz),ep3(mvsiz),ep4(mvsiz),ep5(mvsiz),ep6(mvsiz)
+          real(kind=WP) :: sv1(mvsiz),sv2(mvsiz),sv3(mvsiz),sv4(mvsiz),sv5(mvsiz),sv6(mvsiz)
+          real(kind=WP) :: svo1(mvsiz),svo2(mvsiz),svo3(mvsiz),svo4(mvsiz),svo5(mvsiz),svo6(mvsiz)
 
-          real(kind=WP) bidon1,bidon5,bid1(mvsiz), bid2(mvsiz),eth(mvsiz),        &
+          real(kind=WP) :: bidon1,bidon5,bid1(mvsiz), bid2(mvsiz),eth(mvsiz),        &
           &       stor1, stor2, stor3, stor4, stor5, stor6,&
           &       sigkk(mvsiz), epsth(mvsiz), rhoref(mvsiz), rhosp(mvsiz),user_uelr(mvsiz)
-          real(kind=WP) alogey(mvsiz), pold(mvsiz),                                      &
+          real(kind=WP) :: alogey(mvsiz), pold(mvsiz),                                      &
           &       p01(mvsiz), p02(mvsiz), e01(mvsiz), e02(mvsiz),                  &
           &       er1v(mvsiz), er2v(mvsiz), wdr1v(mvsiz), wdr2v(mvsiz),w1(mvsiz),  &
           &       heat_meca_l,volg(mvsiz),de1(nel),de2(nel),de3(nel),de4(nel),     &
           &       de5(nel),de6(nel),vecnul(nel)
 
-          real(kind=WP) q1,q2,q3,str1,str2,str3,str4,str5,str6,wxxf,wyyf,wzzf
+          real(kind=WP) :: q1,q2,q3,str1,str2,str3,str4,str5,str6,wxxf,wyyf,wzzf
 
           real(kind=WP), dimension(nel), target :: le_max
           integer, dimension(:) ,pointer  :: itabl_fail
@@ -430,8 +430,8 @@
           real(kind=WP) :: Pturb(nel)
           logical :: logical_userl_avail, l_mulaw_called, l_eos_called
 !
-          character option*256
-          integer length
+          character :: option*256
+          integer :: length
           target :: deltax,vecnul
 !--------------------------------------------
           real(kind=WP), external :: finter
@@ -447,7 +447,7 @@
           &dimension(:), pointer  :: uvarf,uparamf,dfmax,tdel,damini
           real(kind=WP) ,dimension(:), pointer  :: el_temp
 !     bolt preloading
-          integer iboltp, nbpreld
+          integer :: iboltp, nbpreld
           real(kind=WP),&
           &dimension(:), pointer  :: bpreld
           integer                  :: dmg_flag
@@ -2865,7 +2865,7 @@
        endif
 !-----------------------------------------------------------------
       return
-      end
+      end subroutine mmain
 !-----
       end module mmain_mod
 

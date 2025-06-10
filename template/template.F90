@@ -37,6 +37,8 @@
           use intbuf_def_mod, only: intbuf_struct
           use constant_mod, only : PI
           use precision_mod, only : WP
+          use mvsiz_mod, only : MVSIZ
+          use names_and_titles_mod, only : ncharline100
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -46,10 +48,8 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 ! [ no comment on the same line as #include #define #ifdef, #endif ]
 ! [ generally spealing, #include is forbidden, there are only few exceptions: ]
-#include "nchar_c.inc"
 #include "task_c.inc"
 #include "units_c.inc"
-#include "mvsiz_p.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------

@@ -28,6 +28,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||====================================================================
       SUBROUTINE SPMD_FI_SMS(V     ,NODNX_SMS,SIZE,VFI,FR_RMS,
      .                       FR_SMS,LIST_RMS ,LIST_SMS)
+              USE SPMD_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

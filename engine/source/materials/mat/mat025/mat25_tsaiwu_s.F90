@@ -109,7 +109,7 @@
           real(kind=WP) :: scale, cnn, scale1, scale2, dam1, dam2,b1,b2
           real(kind=WP) :: strp12,coefa,coefb,delta,dwpla,e1,e2,e3,e4,e5,e6 
           real(kind=WP)                                                            &
-            dp1(mvsiz), dp2(mvsiz), dp3(mvsiz),cb(mvsiz),cn(mvsiz),          &
+            :: dp1(mvsiz), dp2(mvsiz), dp3(mvsiz),cb(mvsiz),cn(mvsiz),          &
             fmax(mvsiz),ds1(mvsiz), ds2(mvsiz), ds3(mvsiz),                  &
             de1(mvsiz), de2(mvsiz), wvec(mvsiz), t1(mvsiz),                  &
             t2(mvsiz), t3(mvsiz),lamda(mvsiz), coef(mvsiz),                  &

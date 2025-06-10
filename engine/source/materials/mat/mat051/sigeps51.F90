@@ -196,8 +196,8 @@
 ! ======================================================================================================================
 !                                                   External
 ! ======================================================================================================================
-      integer npf(*), nfunc, ifunc(nfunc)
-      real(kind=WP) finter ,tf(*)
+      integer :: npf(*), nfunc, ifunc(nfunc)
+      real(kind=WP) :: finter ,tf(*)
       external finter
 !        Y = FINTER(IFUNC(J),X,NPF,TF,DYDX)
 !        Y       : y = f(x)
@@ -211,9 +211,9 @@
 ! ======================================================================================================================
       INTEGER, PARAMETER :: IDBG = 0
 
-      INTEGER SUBMAT_CODE
-      INTEGER I,J,K,KK,ITER,NITER
-      real(kind=WP) P,PEXT,WFEXTT, &
+      INTEGER :: SUBMAT_CODE
+      INTEGER :: I,J,K,KK,ITER,NITER
+      real(kind=WP) :: P,PEXT,WFEXTT, &
               GG1,GG2,GG3, &
               C11,C12,C13,C21,C22,C23,C31,C32,C33,C41,C42,C43,C51,C52,C53, &
               AV1(nel),AV2(nel),AV3(nel),AV4(nel),RHO10,RHO20,RHO30,RHO40,RHO1,RHO2,RHO3,RHO4, &
@@ -237,7 +237,7 @@
               DE(NEL), &
               AAA, &
               ECOLD,T
-      real(kind=WP) DEPS(6,nel),EPD(nel), &
+      real(kind=WP) :: DEPS(6,nel),EPD(nel), &
               P1OLD(nel),P2OLD(nel),P3OLD(nel),P4OLD(nel), &
               SIGD(6,nel), EINT0(nel),PLAS1(nel),PLAS2(nel),PLAS3(nel), &
               VOL(nel), TEMP(nel), &
@@ -253,11 +253,11 @@
               RHOOLD, SSP1_INI, SSP2_INI, SSP3_INI, SSP4_INI, VFRAC(nel)
       real(kind=WP) :: VISC1, VISC2, VISC3,VISC4
       INTEGER :: CONT
-      INTEGER IFLG,IEXP, &
+      INTEGER :: IFLG,IEXP, &
               IOPT, IPLA, IPLA1, IPLA2, IPLA3,&
               K1,K2,K3,K4,ML,IFORM
       INTEGER :: IX1,IX2,IX3,IX4
-      INTEGER IBUG_ID(2)
+      INTEGER :: IBUG_ID(2)
       TYPE(G_BUFEL_)  ,POINTER :: GBUF
       TYPE(L_BUFEL_)  ,POINTER :: LBUF
       TYPE(BUF_LAY_)  ,POINTER :: BUFLY

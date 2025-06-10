@@ -103,7 +103,7 @@
 !     -----------------
         type ebcs_parith_on
           integer, dimension(:,:), allocatable :: elem_adress
-        end type
+        end type ebcs_parith_on
         type(ebcs_parith_on), dimension(:), allocatable :: ebcs_parithon
 !     Generic ebcs type
 !     -----------------

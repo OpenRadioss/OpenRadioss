@@ -121,7 +121,7 @@
 !-----------------------------------------------
 !   l o c a l   v a r i a b l e s
 !-----------------------------------------------
-          integer len, n, nset
+          integer :: len, n, nset
 !--------------------------------------
 !     ecriture des dimensions
 !--------------------------------------
@@ -189,8 +189,8 @@
 !-----------------------------------------------
 !   l o c a l   v a r i a b l e s
 !-----------------------------------------------
-          integer len, n, iorth ,mfrot ,lenc
-          integer nset
+          integer :: len, n, iorth ,mfrot ,lenc
+          integer :: nset
 !--------------------------------------
           do n=1,ninterfric
             len    =1
@@ -243,7 +243,7 @@
 !-----------------------------------------------
 !   l o c a l   v a r i a b l e s
 !-----------------------------------------------
-          integer len, n, leni
+          integer :: len, n, leni
 !--------------------------------------
 !     ecriture des dimensions
 !--------------------------------------
@@ -326,7 +326,7 @@
 !-----------------------------------------------
 !   l o c a l   v a r i a b l e s
 !-----------------------------------------------
-          integer len, n, nset ,iorth ,mfrot ,lenc
+          integer :: len, n, nset ,iorth ,mfrot ,lenc
 !--------------------------------------
           do n=1,ninterfric
             len    =1

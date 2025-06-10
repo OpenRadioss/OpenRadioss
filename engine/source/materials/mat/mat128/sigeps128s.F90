@@ -438,6 +438,6 @@
       enddo 
 !-----------
       return
-      end
+      end subroutine sigeps128s
 !-----------
       end module sigeps128s_mod

@@ -52,97 +52,92 @@
 !hd|        parameters_mod                modules/interfaces/parameters_mod.f
 !hd|        spmd_arrays_mod               modules/interfaces/spmd_arrays_mod.f
 !hd|====================================================================
-module interfaces_mod
+      module interfaces_mod
 !-----------------------------------------------
 !   m o d u l e s
 !-----------------------------------------------
-   use parameters_mod
-   use spmd_arrays_mod
-   use intbufdef_mod
-   use intbuf_fric_mod
-   use parith_on_mod
-   implicit none
-!-----------------------------------------------
-!   m y _ r e a l
-!-----------------------------------------------
-#include      "my_real.inc"
-
+        use parameters_mod
+        use spmd_arrays_mod
+        use intbufdef_mod
+        use intbuf_fric_mod
+        use parith_on_mod
+        implicit none
 
 ! IPARI indexes
-      integer, parameter :: INDEX_JINBUF     =                    1
-      integer, parameter :: INDEX_JBUFIN     =                    2
-      integer, parameter :: INDEX_NRTS       =                    3
-      integer, parameter :: INDEX_NRTM       =                    4
-      integer, parameter :: INDEX_NSN        =                    5
-      integer, parameter :: INDEX_NMN        =                    6
-      integer, parameter :: INDEX_NTY        =                    7
-      integer, parameter :: INDEX_ITYPE      =                    7
-      integer, parameter :: INDEX_NST        =                    8
-      integer, parameter :: INDEX_NMT        =                    9
-      integer, parameter :: INDEX_JINSCR     =                   10
-      integer, parameter :: INDEX_IBC        =                   11
-      integer, parameter :: INDEX_IBUC       =                   12
-      integer, parameter :: INDEX_IDEF       =                   13
-      integer, parameter :: INDEX_IVSIZ      =                   14
-      integer, parameter :: INDEX_NOINT      =                   15
-      integer, parameter :: INDEX_IDEL       =                   17
-      integer, parameter :: INDEX_NCONT      =                   18
-      integer, parameter :: INDEX_ISINT      =                   19
-      integer, parameter :: INDEX_ILEV       =                   20
-      integer, parameter :: INDEX_IGAP       =                   21
-      integer, parameter :: INDEX_INACTI     =                   22
-      integer, parameter :: INDEX_MULTIMP    =                   23
-      integer, parameter :: INDEX_NSNR       =                   24
-      integer, parameter :: INDEX_IRS        =                   25
-      integer, parameter :: INDEX_HIERA      =                   26
-      integer, parameter :: INDEX_IADFIN     =                   27
-      integer, parameter :: INDEX_INTSEC     =                   28
-      integer, parameter :: INDEX_ICONT      =                   29
-      integer, parameter :: INDEX_MFROT      =                   30
-      integer, parameter :: INDEX_IFQ        =                   31
-      integer, parameter :: INDEX_IBAG       =                   32
-      integer, parameter :: INDEX_ILAGM      =                   33
-      integer, parameter :: INDEX_IGSTI      =                   34
-      integer, parameter :: INDEX_USRPID     =                   35
-      integer, parameter :: INDEX_NISUB      =                   36
-      integer, parameter :: INDEX_NISUBS     =                   37
-      integer, parameter :: INDEX_NISUBM     =                   38
-      integer, parameter :: INDEX_ICURV      =                   39
-      integer, parameter :: INDEX_NA1        =                   40
-      integer, parameter :: INDEX_NA2        =                   41
-      integer, parameter :: INDEX_ISYM       =                   42
-      integer, parameter :: INDEX_IUBUF      =                   43                            
-      integer, parameter :: INDEX_IADM       =                   44                  
-      integer, parameter :: INDEX_ISU1       =                   45
-      integer, parameter :: INDEX_ISU2       =                   46
-      integer, parameter :: INDEX_INTTH      =                   47                      
-      integer, parameter :: INDEX_IFORM      =                   48                         
-      integer, parameter :: INDEX_NRADM      =                   49                         
-      integer, parameter :: INDEX_IFNOR      =                   50                      
-      integer, parameter :: INDEX_NLINS      =                   51
-      integer, parameter :: INDEX_NLINS1     =                   51
-      integer, parameter :: INDEX_MLINM      =                   52
-      integer, parameter :: INDEX_NLINS2     =                   52
-      integer, parameter :: INDEX_NLINSA     =                   53
-      integer, parameter :: INDEX_MLINMA     =                   54
-      integer, parameter :: INDEX_NSNE       =                   55
-      integer, parameter :: INDEX_NMNE       =                   56
-      integer, parameter :: INDEX_NSNER      =                   57
-      integer, parameter :: INDEX_IEDGE      =                   58
-      integer, parameter :: INDEX_LINE1      =                   59
-      integer, parameter :: INDEX_LINE2      =                   60
-      integer, parameter :: INDEX_IDELKEEP   =                   61
-      integer, parameter :: INDEX_NREMNODE   =                   62
-      integer, parameter :: INDEX_FLAGREMNODE=                   63
-      integer, parameter :: INDEX_IDSENS     =                   64
-      integer, parameter :: INDEX_INTKG      =                   65
-      integer, parameter :: INDEX_INTPLY     =                   66
-      integer, parameter :: INDEX_NADMSR     =                   67
-      integer, parameter :: INDEX_NEDGE      =                   68
-      integer, parameter :: INDEX_INTFRIC    =                   72
-      integer, parameter :: INDEX_NREMNOR    =                   81
-      integer, parameter :: INDEX_IREM25I2   =                   83
-      integer, parameter :: INDEX_ITIED      =                   85
+        integer, parameter :: INDEX_JINBUF     =                    1
+        integer, parameter :: INDEX_JBUFIN     =                    2
+        integer, parameter :: INDEX_NRTS       =                    3
+        integer, parameter :: INDEX_NRTM       =                    4
+        integer, parameter :: INDEX_NSN        =                    5
+        integer, parameter :: INDEX_NMN        =                    6
+        integer, parameter :: INDEX_NTY        =                    7
+        integer, parameter :: INDEX_ITYPE      =                    7
+        integer, parameter :: INDEX_NST        =                    8
+        integer, parameter :: INDEX_NMT        =                    9
+        integer, parameter :: INDEX_JINSCR     =                   10
+        integer, parameter :: INDEX_IBC        =                   11
+        integer, parameter :: INDEX_IBUC       =                   12
+        integer, parameter :: INDEX_IDEF       =                   13
+        integer, parameter :: INDEX_IVSIZ      =                   14
+        integer, parameter :: INDEX_NOINT      =                   15
+        integer, parameter :: INDEX_IDEL       =                   17
+        integer, parameter :: INDEX_NCONT      =                   18
+        integer, parameter :: INDEX_ISINT      =                   19
+        integer, parameter :: INDEX_ILEV       =                   20
+        integer, parameter :: INDEX_IGAP       =                   21
+        integer, parameter :: INDEX_INACTI     =                   22
+        integer, parameter :: INDEX_MULTIMP    =                   23
+        integer, parameter :: INDEX_NSNR       =                   24
+        integer, parameter :: INDEX_IRS        =                   25
+        integer, parameter :: INDEX_HIERA      =                   26
+        integer, parameter :: INDEX_IADFIN     =                   27
+        integer, parameter :: INDEX_INTSEC     =                   28
+        integer, parameter :: INDEX_ICONT      =                   29
+        integer, parameter :: INDEX_MFROT      =                   30
+        integer, parameter :: INDEX_IFQ        =                   31
+        integer, parameter :: INDEX_IBAG       =                   32
+        integer, parameter :: INDEX_ILAGM      =                   33
+        integer, parameter :: INDEX_IGSTI      =                   34
+        integer, parameter :: INDEX_USRPID     =                   35
+        integer, parameter :: INDEX_NISUB      =                   36
+        integer, parameter :: INDEX_NISUBS     =                   37
+        integer, parameter :: INDEX_NISUBM     =                   38
+        integer, parameter :: INDEX_ICURV      =                   39
+        integer, parameter :: INDEX_NA1        =                   40
+        integer, parameter :: INDEX_NA2        =                   41
+        integer, parameter :: INDEX_ISYM       =                   42
+        integer, parameter :: INDEX_IUBUF      =                   43
+        integer, parameter :: INDEX_IADM       =                   44
+        integer, parameter :: INDEX_ISU1       =                   45
+        integer, parameter :: INDEX_ISU2       =                   46
+        integer, parameter :: INDEX_INTTH      =                   47
+        integer, parameter :: INDEX_IFORM      =                   48
+        integer, parameter :: INDEX_NRADM      =                   49
+        integer, parameter :: INDEX_IFNOR      =                   50
+        integer, parameter :: INDEX_NLINS      =                   51
+        integer, parameter :: INDEX_NLINS1     =                   51
+        integer, parameter :: INDEX_MLINM      =                   52
+        integer, parameter :: INDEX_NLINS2     =                   52
+        integer, parameter :: INDEX_NLINSA     =                   53
+        integer, parameter :: INDEX_MLINMA     =                   54
+        integer, parameter :: INDEX_NSNE       =                   55
+        integer, parameter :: INDEX_NMNE       =                   56
+        integer, parameter :: INDEX_NSNER      =                   57
+        integer, parameter :: INDEX_IEDGE      =                   58
+        integer, parameter :: INDEX_LINE1      =                   59
+        integer, parameter :: INDEX_LINE2      =                   60
+        integer, parameter :: INDEX_IDELKEEP   =                   61
+        integer, parameter :: INDEX_NREMNODE   =                   62
+        integer, parameter :: INDEX_FLAGREMNODE=                   63
+        integer, parameter :: INDEX_IDSENS     =                   64
+        integer, parameter :: INDEX_INTKG      =                   65
+        integer, parameter :: INDEX_INTPLY     =                   66
+        integer, parameter :: INDEX_NADMSR     =                   67
+        integer, parameter :: INDEX_NEDGE      =                   68
+        integer, parameter :: INDEX_INTFRIC    =                   72
+        integer, parameter :: INDEX_NREMNOR    =                   81
+        integer, parameter :: INDEX_IREM25I2   =                   83
+        integer, parameter :: INDEX_ITIED      =                   85
 
 !   -----------------------------------------------
 !   d e r i v e d   t y p e   d e f i n i t i o n s
@@ -153,13 +148,13 @@ module interfaces_mod
 !----------------------------------------------
 !   global interfaces structure
 !---------------------------------------------
-   type interfaces_
-      type(intbuf_struct_),dimension(:),allocatable :: intbuf_tab
-      type(intbuf_fric_struct_),dimension(:),allocatable :: intbuf_fric_tab
-      type (parameters_) :: parameters
-      type (spmd_arrays_) :: spmd_arrays
-      integer :: ninter, npari
-      type(interface_pon_) :: pon
-   end type interfaces_
+        type interfaces_
+          type(intbuf_struct_),dimension(:),allocatable :: intbuf_tab
+          type(intbuf_fric_struct_),dimension(:),allocatable :: intbuf_fric_tab
+          type (parameters_) :: parameters
+          type (spmd_arrays_) :: spmd_arrays
+          integer :: ninter, npari
+          type(interface_pon_) :: pon
+        end type interfaces_
 !
-end module interfaces_mod
+      end module interfaces_mod

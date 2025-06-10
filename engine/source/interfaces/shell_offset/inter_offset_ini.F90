@@ -96,9 +96,9 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-        integer i,j,k,n,nel,nft,nn,ie,ii,igtyp,nf1,ity,nnode,pid,nshel,ng,stat,lenr,nsh_oset,nnoset
-        integer ibid(1),ndim1,ndim2,nsh_oset_g,nfr
-        real(kind=WP) shelloff
+        integer :: i,j,k,n,nel,nft,nn,ie,ii,igtyp,nf1,ity,nnode,pid,nshel,ng,stat,lenr,nsh_oset,nnoset
+        integer :: ibid(1),ndim1,ndim2,nsh_oset_g,nfr
+        real(kind=WP) :: shelloff
         real(kind=WP), dimension(:)  ,  allocatable :: thkoset,thkoset_n    
         double precision, dimension(:,:),  allocatable :: thkoset6,thkoset_n6    
         type(g_bufel_)     , pointer :: gbuf

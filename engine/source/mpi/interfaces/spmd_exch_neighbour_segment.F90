@@ -83,6 +83,7 @@
           use get_neighbour_surface_from_remote_proc_mod , only : get_neighbour_surface_from_remote_proc
           use array_mod , only : array_type,alloc_my_real_1d_array,dealloc_my_real_1d_array
           use nodal_arrays_mod, only : get_local_node_id, nodal_arrays_
+          use precision_mod, only : WP
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -90,7 +91,6 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   included files
 ! ----------------------------------------------------------------------------------------------------------------------
-#include "my_real.inc"
 #include "spmd.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   arguments
@@ -105,7 +105,7 @@
           integer, dimension(3,nspmd), intent(inout) :: r_buffer_2_size !< size of R buffer
           integer, dimension(2,nspmd+1), intent(in) :: iad_elem !< frontier between processor
           type(nodal_arrays_), intent(in) :: nodes !< nodal arrays
-          my_real, dimension(3,numnod), intent(in) :: x !< nodal position
+          real(kind=WP), dimension(3,numnod), intent(in) :: x !< nodal position
           type(array_type), dimension(nspmd), intent(inout) :: s_buffer !< mpi buffer (send)
           type(array_type), dimension(nspmd), intent(inout) :: r_buffer !< mpi buffer (rcv)
           type(array_type), dimension(nspmd), intent(inout) :: s_buffer_2 !< mpi buffer (send)

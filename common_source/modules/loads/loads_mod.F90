@@ -20,26 +20,25 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-#include "my_real.inc"
 !-----------------------------------------------------------------------
-module loads_mod
+      module loads_mod
 !-----------------------------------------------------------------------
-   use pload_cyl_mod
-   use domdec_load_mod
-   use inivel_mod
+        use pload_cyl_mod
+        use domdec_load_mod
+        use inivel_mod
 !-----------------------------------------------------------------------
-   type loads_
-      integer :: nload_cyl
-      integer :: nload_cload                                          !< nb of concentrated loads
-      integer :: nload_pload                                          !< nb of pressure loads
-      integer :: ninivelt                                             !< nb of inivel (/inivel) w/ t_start
-      integer :: ninivelt_g                                           !< max nb of inivel (each domain) w/ t_start
-      type (press_cyl_) ,dimension(:) ,allocatable   :: load_cyl
-      type (domdec_load_), dimension(:), allocatable :: cyl_restart
-      type (inivel_), dimension(:), allocatable      :: inivelt
-      integer :: s_global_segment_id
-      integer, dimension(:,:), allocatable :: global_segment_id
-      integer, dimension(:,:), allocatable :: index_load              !< index : global load id --> local load id
-   end type loads_
+        type loads_
+          integer :: nload_cyl
+          integer :: nload_cload                                          !< nb of concentrated loads
+          integer :: nload_pload                                          !< nb of pressure loads
+          integer :: ninivelt                                             !< nb of inivel (/inivel) w/ t_start
+          integer :: ninivelt_g                                           !< max nb of inivel (each domain) w/ t_start
+          type (press_cyl_) ,dimension(:) ,allocatable   :: load_cyl
+          type (domdec_load_), dimension(:), allocatable :: cyl_restart
+          type (inivel_), dimension(:), allocatable      :: inivelt
+          integer :: s_global_segment_id
+          integer, dimension(:,:), allocatable :: global_segment_id
+          integer, dimension(:,:), allocatable :: index_load              !< index : global load id --> local load id
+        end type loads_
 !-----------------------------------------------------------------------
-end module loads_mod
+      end module loads_mod

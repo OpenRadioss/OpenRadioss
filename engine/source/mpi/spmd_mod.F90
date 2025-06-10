@@ -110,6 +110,7 @@
       !||    thermbilan                      ../engine/source/constraints/thermic/thermbilan.F
       !||====================================================================
       module spmd_mod
+        use spmd_comm_world_mod, only: SPMD_COMM_WORLD
         implicit none
         ! Define the interface for spmd_send
 ! dummy tags for MPI calls that do not have a tag
@@ -206,6 +207,8 @@
         public :: spmd_waitany
         public :: spmd_probe
         public :: spmd_barrier
+
+        public :: SPMD_COMM_WORLD
 
 
       contains
@@ -880,7 +883,7 @@
           endif
           call spmd_out(tag,ierr)
 #endif
-        end subroutine
+        end subroutine spmd_isend_doubles
 ! ======================================================================================================================
       !||====================================================================
       !||    spmd_irecv_reals   ../engine/source/mpi/spmd_mod.F90
@@ -1181,7 +1184,7 @@
           recvbuf(1:buf_count) = sendbuf(1:buf_count)
 
 #endif
-        end subroutine
+        end subroutine spmd_allreduce_ints
 ! ======================================================================================================================
       !||====================================================================
       !||    spmd_allreduce_doubles   ../engine/source/mpi/spmd_mod.F90
@@ -1215,7 +1218,7 @@
           recvbuf(1:buf_count) = sendbuf(1:buf_count)
 
 #endif
-        end subroutine
+        end subroutine spmd_allreduce_doubles
 ! ======================================================================================================================
       !||====================================================================
       !||    spmd_allreduce_reals   ../engine/source/mpi/spmd_mod.F90
@@ -1248,7 +1251,7 @@
 #else
           recvbuf(1:buf_count) = sendbuf(1:buf_count)
 #endif
-        end subroutine
+        end subroutine spmd_allreduce_reals
 ! ======================================================================================================================
       !||====================================================================
       !||    spmd_send_int   ../engine/source/mpi/spmd_mod.F90
@@ -1272,7 +1275,7 @@
           end if
           call spmd_out(tag,ierr)
 #endif
-        end subroutine
+        end subroutine spmd_send_int
 ! ======================================================================================================================
       !||====================================================================
       !||    spmd_send_double   ../engine/source/mpi/spmd_mod.F90
@@ -1297,7 +1300,7 @@
           end if
           call spmd_out(tag,ierr)
 #endif
-        end subroutine
+        end subroutine spmd_send_double
 ! ======================================================================================================================
       !||====================================================================
       !||    spmd_send_real   ../engine/source/mpi/spmd_mod.F90
@@ -1321,7 +1324,7 @@
           end if
           call spmd_out(tag,ierr)
 #endif
-        end subroutine
+        end subroutine spmd_send_real
 
       !||====================================================================
       !||    spmd_recv_real   ../engine/source/mpi/spmd_mod.F90
@@ -1468,7 +1471,7 @@
           endif
           call spmd_out(tag,ierr)
 #endif
-        end subroutine
+        end subroutine spmd_isend_double
 ! ======================================================================================================================
       !||====================================================================
       !||    spmd_irecv_real   ../engine/source/mpi/spmd_mod.F90
@@ -1668,7 +1671,7 @@
           call MPI_Allreduce(sendbuf, recvbuf, buf_count, MPI_INTEGER, mpi_op, used_comm, ierr)
           call spmd_out(TAG_ALLREDUCE,ierr)
 #endif
-        end subroutine
+        end subroutine spmd_allreduce_int
 ! ======================================================================================================================
       !||====================================================================
       !||    spmd_allreduce_double   ../engine/source/mpi/spmd_mod.F90
@@ -1699,7 +1702,7 @@
           call MPI_Allreduce(sendbuf, recvbuf, buf_count, MPI_DOUBLE_PRECISION, mpi_op, used_comm, ierr)
           call spmd_out(TAG_ALLREDUCE,ierr)
 #endif
-        end subroutine
+        end subroutine spmd_allreduce_double
 ! ======================================================================================================================
       !||====================================================================
       !||    spmd_allreduce_real   ../engine/source/mpi/spmd_mod.F90
@@ -1730,5 +1733,5 @@
           call MPI_Allreduce(sendbuf, recvbuf, buf_count, MPI_DOUBLE_PRECISION, mpi_op, used_comm, ierr)
           call spmd_out(TAG_ALLREDUCE,ierr)
 #endif
-        end subroutine
+        end subroutine spmd_allreduce_real
       end module spmd_mod

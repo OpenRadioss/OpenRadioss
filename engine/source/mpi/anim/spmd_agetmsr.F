@@ -20,10 +20,6 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-
-
-C            DXYZSECT                /anim/dxyzsect.F
-C            DXWALL                  /anim/dxwall.F
       !||====================================================================
       !||    spmd_agetmsr   ../engine/source/mpi/anim/spmd_agetmsr.F
       !||--- called by ------------------------------------------------------
@@ -35,6 +31,7 @@ C            DXWALL                  /anim/dxwall.F
       !||--- calls      -----------------------------------------------------
       !||====================================================================
         SUBROUTINE SPMD_AGETMSR(FR_WALL,X,MSR,XWL,YWL,ZWL,RWL)
+                use spmd_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

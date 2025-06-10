@@ -87,7 +87,7 @@
           dpdT = r3*eta
           en = trans1/r1 + trans2/r2 + cv*tmp
           return
-        end
+        end subroutine jwl_eos_state
 
 
 
