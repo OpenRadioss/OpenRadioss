@@ -94,8 +94,8 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                      Body
 ! ----------------------------------------------------------------------------------------------------------------------
+          py%context = python_create_context()
           if (numnod > 0) then
-            py%context = python_create_context()
             if (allocated(nodes%ITAB))    call python_expose_ints(py, "ITAB", 4, c_loc(nodes%ITAB),     size(nodes%ITAB))
             if (allocated(nodes%ITABM1))  call python_expose_ints(py, "ITABM1", 6, c_loc(nodes%ITABM1),   size(nodes%ITABM1))
             if (allocated(nodes%IKINE))   call python_expose_ints(py, "IKINE", 5, c_loc(nodes%IKINE),    size(nodes%IKINE))

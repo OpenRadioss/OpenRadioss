@@ -776,14 +776,12 @@
         
           do while (iter < max_iter_val)
             iter = iter + 1
-!$OMP CRITICAL
             ! Evaluate the function value f(x)
              call python_call_funct1D_dp(py, funct_id, x, fx)
             ! Subtract the right-hand side to compute f(x) - rhs
             fx = fx - rhs
             ! Evaluate the derivative df(x)/dx
             call python_deriv_funct1D_dp(py, funct_id, x, dfx)
-!$OMP END CRITICAL
         
             ! Check if the function value is sufficiently close to the target
             if (abs(fx) < tol_f_val) then
