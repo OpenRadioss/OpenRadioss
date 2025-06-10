@@ -186,7 +186,7 @@ void sdiD2R::ConvertInclude::ConvertEntities()
             if (beginHandleEdit.IsValid())
             {
                 EntityEdit beginEdit(p_radiossModel, beginHandleEdit);   
-                beginEdit.SetValue(sdiIdentifier("Invers"), sdiValue(2025));
+                beginEdit.SetValue(sdiIdentifier("Invers"), sdiValue(2026));
  
                 beginEdit.SetValue(sdiIdentifier("Input_length_unit"), sdiValue(sdiString(sFctLen)));
                 beginEdit.SetValue(sdiIdentifier("Input_time_unit"), sdiValue(sdiString(sFctTim)));

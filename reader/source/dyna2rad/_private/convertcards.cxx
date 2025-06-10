@@ -301,7 +301,7 @@ void sdiD2R::ConvertCard::p_ConvertCtrlUnits()
 
         //beginEdit.SetValue(sdiIdentifier("Runname"), sdiValue(string("")));
         beginEdit.SetValue(sdiIdentifier("Irun"), sdiValue(0));
-        beginEdit.SetValue(sdiIdentifier("Invers"), sdiValue(2025));
+        beginEdit.SetValue(sdiIdentifier("Invers"), sdiValue(2026));
 
         bool foundInMainFile = false;
         SelectionRead selCtrlUnits(p_lsdynaModel, "*CONTROL_UNITS");
