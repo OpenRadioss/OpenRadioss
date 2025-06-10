@@ -57,6 +57,7 @@
           use array_mod , only : array_type, alloc_my_real_2D_array, dealloc_my_real_2D_array
           use spmd_mod
           use constant_mod , only : zero
+          use precision_mod, only : WP
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -64,7 +65,6 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Included files
 ! ----------------------------------------------------------------------------------------------------------------------
-#include "my_real.inc"
 #include "spmd.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
@@ -73,7 +73,7 @@
         integer, intent(in) :: ispmd
         integer,intent(in) :: numnod 
         integer,intent(in) :: SFR_ELEM      
-        my_real, dimension(3,numnod), intent(inout) :: a,v
+        real(kind=WP), dimension(3,numnod), intent(inout) :: a,v
         INTEGER, DIMENSION(SFR_ELEM), INTENT(in) :: FR_ELEM    !< frontier node id 
         INTEGER, DIMENSION(2,NSPMD+1), INTENT(in) :: IAD_ELEM  !< adress for frontier node
         INTEGER,INTENT(IN) :: NPARI, NINTER
@@ -90,9 +90,9 @@
         type(array_type) :: rcv_buff
         type(array_type), dimension(nspmd) :: send_buff
         
-        integer my_size, my_size_0(nspmd), array_size  !<
-        integer k,j !< loop
-        integer ityp !< interface type
+        integer :: my_size, my_size_0(nspmd), array_size  !<
+        integer :: k,j !< loop
+        integer :: ityp !< interface type
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Pre-Condition
 ! ----------------------------------------------------------------------------------------------------------------------

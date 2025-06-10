@@ -56,14 +56,11 @@
           use elbufdef_mod
           use names_and_titles_mod, only: ncharline100
           use precision_mod , only : WP
+          use mvsiz_mod, only : MVSIZ 
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                     implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
           implicit none
-! ----------------------------------------------------------------------------------------------------------------------
-!                                                     include
-! ----------------------------------------------------------------------------------------------------------------------
-#include "mvsiz_p.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                     Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -134,11 +131,11 @@
           real(kind=WP) :: RHO0, A0, XX1, YY1, ZZ1
           real(kind=WP) :: AL0,EFRAC
 
-          INTEGER I,  NG, NEL, NFT,  ITY,  NPT
-          INTEGER N,   MLW, IGTYP,IFAIL, IPID
-          INTEGER NN1,NN3,NN4,NN5,NN6,NN7,NN8,NN9,NN10
-          INTEGER OFFSET,K,KK,ILAYER,IR,IS,JJ(6),IOK_PART(MVSIZ)
-          INTEGER IS_WRITTEN_VALUE(MVSIZ),N1, N2
+          INTEGER :: I,  NG, NEL, NFT,  ITY,  NPT
+          INTEGER :: N,   MLW, IGTYP,IFAIL, IPID
+          INTEGER :: NN1,NN3,NN4,NN5,NN6,NN7,NN8,NN9,NN10
+          INTEGER :: OFFSET,K,KK,ILAYER,IR,IS,JJ(6),IOK_PART(MVSIZ)
+          INTEGER :: IS_WRITTEN_VALUE(MVSIZ),N1, N2
 !-----------------------------------------------
 !
           nn1 = 1
@@ -758,6 +755,6 @@
 
 
           return
-        end
+        end subroutine h3d_oned_scalar
 
       end module h3d_oned_scalar_mod

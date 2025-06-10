@@ -88,8 +88,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||====================================================================
         subroutine init_list_process_pid( radflex_process_pid,
      .               current_process_pid,nspmd,list_process )
-#include "implicit_f.inc"
 
+         use spmd_mod
+#include "implicit_f.inc"
 #ifdef MPI
 #include "spmd.inc"
 #endif

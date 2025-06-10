@@ -105,13 +105,13 @@
 !-----------------------------------------------
           integer :: i,j,nindx,indx(nel),idel,ifail,noff(nel)
           real(kind=WP)                                                              &
-            g,g2,aa,bb,nn,fc,t0,cc,eps0,sfmax,efmin,pc,muc,pl,mul,             &
+            :: g,g2,aa,bb,nn,fc,t0,cc,eps0,sfmax,efmin,pc,muc,pl,mul,             &
             k0,k1,k2,k3,d1,d2,emax,h
           real(kind=WP)                                                              &
-            pold(nel),vm(nel),mup(nel),pnew(nel),dpdmu(nel),dmup(nel),         &
+            :: pold(nel),vm(nel),mup(nel),pnew(nel),dpdmu(nel),dmup(nel),         &
             pstar(nel),phard(nel),scale(nel),dav(nel)                     
           real(kind=WP)                                                              &
-            j2,kav,pmin,mubar,sigstar,epfail,ratio
+            :: j2,kav,pmin,mubar,sigstar,epfail,ratio
 !
           !=======================================================================
           !< Initialisation of computation on time step

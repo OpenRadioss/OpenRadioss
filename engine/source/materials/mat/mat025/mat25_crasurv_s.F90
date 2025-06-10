@@ -105,10 +105,10 @@
 !-----------------------------------------------
 !   l o c a l   v a r i a b l e s
 !-----------------------------------------------
-          integer i,fail,iflag,imodwp,ioff,icc,id
-          integer fail_old(mvsiz)
-          integer nindx,index(mvsiz),j,icas(mvsiz)
-          integer isoft(mvsiz)
+          integer :: i,fail,iflag,imodwp,ioff,icc,id
+          integer :: fail_old(mvsiz)
+          integer :: nindx,index(mvsiz),j,icas(mvsiz)
+          integer :: isoft(mvsiz)
           real(kind=WP) :: e11,e22,e33,nu12,nu21,g12,g23,g31,wplaref,cc,epdr
           real(kind=WP) :: e1,e2,e3,e4,e5,e6,alpha,strp12,coefa,coefb,delta,dwpla
           real(kind=WP) :: log_wpla,b1,b2,wpla1,wpla2,wpla3

@@ -465,13 +465,13 @@
           real(kind=WP) , dimension(1) ,target :: vec0
           integer :: nuvarr
 
-          integer nv46, numel, inloc
-          integer i,npar,nuparam,niparam,nparf,iadbuf,nfunc,numtabl,israte,ipg,nptr,npts,&
+          integer :: nv46, numel, inloc
+          integer :: i,npar,nuparam,niparam,nparf,iadbuf,nfunc,numtabl,israte,ipg,nptr,npts,&
           &ibid,ibidon1,ibidon2,ibidon3,ibidon4 ,n48,nix,ilaw_user,igtyp,&
           &nvarf,ir,irupt,imat,isvis,nuvarv,iseq,idev,ntabl_fail,&
           &l_planl,l_epsdnl,l_dmg,l_sigb
 
-          real(kind=WP) e1,e2,e3,e4,e5,e6,bid1,bid3,q1,q2,q3,ss1,ss2,ss3,ss4,ss5,&
+          real(kind=WP) :: e1,e2,e3,e4,e5,e6,bid1,bid3,q1,q2,q3,ss1,ss2,ss3,ss4,ss5,&
           &ss6,wxxf,wyyf,wzzf,p2,epsp,dav,asrate,     &
           &  c1(mvsiz),ep1(mvsiz),ep2(mvsiz),ep3(mvsiz),e7(mvsiz),&
           &ep4(2*mvsiz),ep5(2*mvsiz),ep6(2*mvsiz),einc(mvsiz),&
@@ -488,14 +488,14 @@
           &r11(mvsiz),r12(mvsiz),r13(mvsiz),r21(mvsiz),r22(mvsiz),r23(mvsiz),&
           &r31(mvsiz),r32(mvsiz),r33(mvsiz),epsp1(mvsiz),dpla(mvsiz),vm(mvsiz),    &
           &pair(mvsiz),defp0(mvsiz),seq0(mvsiz),vm0(mvsiz)
-          real(kind=WP)  facq0
-          real(kind=WP) fpsxx(mvsiz),fpsyy(mvsiz),fpszz(mvsiz),fpsxy(mvsiz),&
+          real(kind=WP)  :: facq0
+          real(kind=WP) :: fpsxx(mvsiz),fpsyy(mvsiz),fpszz(mvsiz),fpsxy(mvsiz),&
           &fpsyz(mvsiz),fpszx(mvsiz),fpsyx(mvsiz),fpszy(mvsiz),&
           &fpsxz(mvsiz),&
           &upsxx(mvsiz),upsyy(mvsiz),upszz(mvsiz),upsxy(mvsiz),&
           &upsyz(mvsiz),upsxz(mvsiz),trepsth(mvsiz)
-          real(kind=WP) rho0(mvsiz),bidon1,bidon2,bidon3,bidon4,bidon5,pold,volg(mvsiz)
-          real(kind=WP) tt_local
+          real(kind=WP) :: rho0(mvsiz),bidon1,bidon2,bidon3,bidon4,bidon5,pold,volg(mvsiz)
+          real(kind=WP) :: tt_local
           real(kind=WP), dimension(nel), target  :: le_max
           real(kind=WP) :: wfextt !< external force work accumulation
 !----
@@ -514,8 +514,8 @@
           integer                          :: dmg_flag,lf_dammx,niparf
           integer :: nvartmp_eos
 !
-          character option*256
-          integer size,nvareos,nvarvis
+          character :: option*256
+          integer :: size,nvareos,nvarvis
           integer :: nrate,nodadt
           integer :: k1,k2,k3,k4,k5,k6
           real(kind=WP) :: fisokin
@@ -2922,6 +2922,6 @@
           if (allocated(bufzero)) deallocate (bufzero)
 !------------------------------------------
           return
-        end
+        end subroutine mulaw
 !-----
       end module mulaw_mod

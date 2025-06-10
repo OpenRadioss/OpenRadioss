@@ -20,19 +20,13 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-!chd|====================================================================
-!chd|  law19_upd                     source/materials/mat/mat019/law19_upd.F90
-!chd|-- called by -----------
-!chd|        updmat                        source/materials/updmat.F
-!chd|-- calls ---------------
-!chd|====================================================================
-
       !||====================================================================
       !||    law19_upd_mod   ../starter/source/materials/mat/mat019/law19_upd.F90
       !||--- called by ------------------------------------------------------
       !||    updmat          ../starter/source/materials/updmat.F
       !||====================================================================
       module law19_upd_mod
+      implicit none
       contains
 
 ! ======================================================================================================================
@@ -59,15 +53,7 @@
       use sensor_mod
       use message_mod   
 ! ----------------------------------------------------------------------------------------------------------------------
-
           implicit none
-
-! ----------------------------------------------------------------------------------------------------------------------
-!     included files
-! ----------------------------------------------------------------------------------------------------------------------
-
-#include "my_real.inc"
-
 !-----------------------------------------------
 !     D u m m y   A r g u m e n t s
 !-----------------------------------------------

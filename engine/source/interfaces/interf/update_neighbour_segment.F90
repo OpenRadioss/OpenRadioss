@@ -65,14 +65,11 @@
           use get_segment_criteria_mod , only : get_segment_criteria
           use constant_mod !, only : ep30,-ONEP01,zero
           use shooting_node_mod , only : shooting_node_type
+          use precision_mod, only : WP
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
           implicit none
-! ----------------------------------------------------------------------------------------------------------------------
-!                                                   included files
-! ----------------------------------------------------------------------------------------------------------------------
-#include "my_real.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   arguments
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -107,9 +104,9 @@
           integer :: seg_id,n_seg_id
           integer :: address,r_address
           integer :: already_a_neighbour
-          my_real :: my_criteria,convexity
+          real(kind=WP) :: my_criteria,convexity
 
-          my_real, dimension(3) :: normal,n_normal,v_convexity,n_vconvexity
+          real(kind=WP), dimension(3) :: normal,n_normal,v_convexity,n_vconvexity
 
 #ifdef MYREAL8
           integer(kind=8) :: my_integer
@@ -121,7 +118,7 @@
           integer, dimension(:), allocatable :: new_segment_id,permutation
           integer, dimension(:,:), allocatable :: list_new_segment
           integer, dimension(:,:,:), allocatable :: segment_pair
-          my_real, dimension(:,:), allocatable :: criteria
+          real(kind=WP), dimension(:,:), allocatable :: criteria
 
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   external functions

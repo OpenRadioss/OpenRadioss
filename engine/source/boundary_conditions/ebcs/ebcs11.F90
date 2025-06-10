@@ -101,17 +101,17 @@
 ! ----------------------------------------------------------------------------------------------------------------------
       type(g_bufel_), pointer :: gbuf
       type(l_bufel_)  ,pointer :: lbuf
-      integer ii,is,kk,kseg,nn(4),nng(4),num,kty,klt,mft,ngrp,iloc,ivoi,idx(6),ix(4)
-      integer icf_2d(2,4), icf_3d(4,6), jj, isubmat, ipos, mtn
-      integer isolnod
-      real(kind=WP) npt
-      real(kind=WP) orient,rho,vol,volg,mass,mass_face
-      real(kind=WP) x13,y13,z13,x24,y24,z24
-      real(kind=WP) v0(3,nod)
-      real(kind=WP) xn, yn, zn, vold, vnew, padj, eadj, tadj
-      real(kind=WP) pp,ee,tt,ssp,vel_front,fac1,fac2
-      real(kind=WP) param_a, param_n, param_q, surf,phase_alpha(21),phase_rho(21), phase_eint(21)
-      real(kind=WP) face_force
+      integer :: ii,is,kk,kseg,nn(4),nng(4),num,kty,klt,mft,ngrp,iloc,ivoi,idx(6),ix(4)
+      integer :: icf_2d(2,4), icf_3d(4,6), jj, isubmat, ipos, mtn
+      integer :: isolnod
+      real(kind=WP) :: npt
+      real(kind=WP) :: orient,rho,vol,volg,mass,mass_face
+      real(kind=WP) :: x13,y13,z13,x24,y24,z24
+      real(kind=WP) :: v0(3,nod)
+      real(kind=WP) :: xn, yn, zn, vold, vnew, padj, eadj, tadj
+      real(kind=WP) :: pp,ee,tt,ssp,vel_front,fac1,fac2
+      real(kind=WP) :: param_a, param_n, param_q, surf,phase_alpha(21),phase_rho(21), phase_eint(21)
+      real(kind=WP) :: face_force
       real(kind=WP) :: param_rho0s  !< initial propergol density
       real(kind=WP) :: dmass_g     !< mass increment (burnt propergol)
       real(kind=WP) :: dvol_s      !< burnt volume
@@ -121,7 +121,7 @@
       real(kind=WP) :: ff, gg, hh
       real(kind=WP) :: dydx
 
-      logical bfound
+      logical :: bfound
       type(buf_mat_)  ,pointer :: mbuf
       integer :: param_surf_id !< ebcs surface identifier
       integer :: nbsubmat
@@ -131,10 +131,10 @@
       data icf_2d  /1,2,2,3,3,4,4,1/
       data icf_3d  /1,4,3,2,3,4,8,7,5,6,7,8,1,2,6,5,2,3,7,6,1,5,8,4/
 
-      INTEGER N0PHAS
+      INTEGER :: N0PHAS
       PARAMETER (N0PHAS = 04)
 
-      INTEGER NVPHAS
+      INTEGER :: NVPHAS
       PARAMETER (NVPHAS = 23)
 
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -514,4 +514,4 @@
 
 
       return
-      end
+      end subroutine ebcs11

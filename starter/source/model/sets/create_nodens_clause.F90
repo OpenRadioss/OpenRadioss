@@ -26,6 +26,7 @@
       !||    hm_set                     ../starter/source/model/sets/hm_set.F
       !||====================================================================
       module create_nodens_clause_mod
+        implicit none
       contains
 ! ======================================================================================================================
 !                                                   PROCEDURES
@@ -34,21 +35,21 @@
 !=======================================================================================================================
 !\brief This subroutine creates a clause from nodens
 !=======================================================================================================================
-      !||====================================================================
-      !||    create_nodens_clause        ../starter/source/model/sets/create_nodens_clause.F90
-      !||--- called by ------------------------------------------------------
-      !||    hm_set                      ../starter/source/model/sets/hm_set.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg                      ../starter/source/output/message/message.F
-      !||    hm_get_int_array_2indexes   ../starter/source/devtools/hm_reader/hm_get_int_array_2indexes.F
-      !||    hm_get_int_array_index      ../starter/source/devtools/hm_reader/hm_get_int_array_index.F
-      !||    set_usrtos                  ../starter/source/model/sets/ipartm1.F
-      !||--- uses       -----------------------------------------------------
-      !||    hm_option_read_mod          ../starter/share/modules1/hm_option_read_mod.F
-      !||    message_mod                 ../starter/share/message_module/message_mod.F
-      !||    submodel_mod                ../starter/share/modules1/submodel_mod.F
-      !||====================================================================
-      subroutine create_nodens_clause(clause ,itabm1 ,jclause ,is_available ,lsubmodel ,numnod)
+        !||====================================================================
+        !||    create_nodens_clause        ../starter/source/model/sets/create_nodens_clause.F90
+        !||--- called by ------------------------------------------------------
+        !||    hm_set                      ../starter/source/model/sets/hm_set.F
+        !||--- calls      -----------------------------------------------------
+        !||    ancmsg                      ../starter/source/output/message/message.F
+        !||    hm_get_int_array_2indexes   ../starter/source/devtools/hm_reader/hm_get_int_array_2indexes.F
+        !||    hm_get_int_array_index      ../starter/source/devtools/hm_reader/hm_get_int_array_index.F
+        !||    set_usrtos                  ../starter/source/model/sets/ipartm1.F
+        !||--- uses       -----------------------------------------------------
+        !||    hm_option_read_mod          ../starter/share/modules1/hm_option_read_mod.F
+        !||    message_mod                 ../starter/share/message_module/message_mod.F
+        !||    submodel_mod                ../starter/share/modules1/submodel_mod.F
+        !||====================================================================
+        subroutine create_nodens_clause(clause ,itabm1 ,jclause ,is_available ,lsubmodel ,numnod)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -61,10 +62,6 @@
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
           implicit none
-! ----------------------------------------------------------------------------------------------------------------------
-!                                                   Included files
-! ----------------------------------------------------------------------------------------------------------------------
-#include "my_real.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -102,7 +99,7 @@
           do i=1,ids_max
             call hm_get_int_array_2indexes('ids',ids,jclause,i,is_available,lsubmodel)
             nodsys = set_usrtos(ids,itabm1,numnod)
-            if(nodsys == 0)then      
+            if(nodsys == 0)then
 !             Nodens was not found. Issue a Warning & Skip.
               call ancmsg(msgid=1902,anmode=aninfo,msgtype=msgwarning,i1= clause%set_id,i2=ids,c1=trim(clause%title),c2='NODENS')
             else
@@ -116,7 +113,7 @@
 
 !         Copy in final SET
 !         ------------------
-          clause%nb_nodens = list_size  
+          clause%nb_nodens = list_size
           allocate(clause%nodens(list_size))
 
           do i=1,list_size

@@ -183,6 +183,6 @@
       enddo  
 !-----------
       return
-      end
+      end subroutine sigeps134s
 !-----------
       end module sigeps134s_mod

@@ -114,7 +114,7 @@
       integer ::  i,ncyred, n,ndex,twoway,ndx_fail,ti
       integer , dimension(nel) :: index,iad,ipos,ilen,indx_fail
       real(kind=WP)                                                             &
-        e1, e2, nu12, nu21, xt0, slimt1, xc0, slimc1, yt0, slimt2,        &
+        :: e1, e2, nu12, nu21, xt0, slimt1, xc0, slimc1, yt0, slimt2,        &
         yc0, sc0, slims, slimc2, alpha, beta, dfailt, dfailc, g12,        & 
         limit_sig, a11, g13, g23, ycfac, dfailm, dfails,efs, epsf,        &
         epsr, fbrt, tsmd, yc_over_sc, yfac_xt, yfac_xc, yfac_yc, dam,     &

@@ -129,5 +129,5 @@
 
 !-----------
       return
-      end
+      end subroutine READ_EOSPARAM
       end module read_eosparam_mod

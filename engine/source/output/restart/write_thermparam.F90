@@ -109,6 +109,6 @@
       deallocate(rbuf)
 !-----------
       return
-      end
+      end subroutine write_thermparam
 
       end module write_therpmaram_mod

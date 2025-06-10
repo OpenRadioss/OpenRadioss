@@ -59,14 +59,14 @@
          ! ----------------------------------------------------------------------------------------------------------------------
          
                   type rbe3_mpi
-                     integer fr_rbe3_sz
+                     integer :: fr_rbe3_sz
                      integer, DIMENSION(:), ALLOCATABLE :: iad_rbe3  !< #entities to communicate / points to fr_rbe3
                      integer, DIMENSION(:), ALLOCATABLE :: fr_rbe3   !< entities to communicate
                      real(kind=WP) ,dimension(:), allocatable :: fr_rbe3mp !< entities to communicate
 
                   end type rbe3_mpi
                   type rbe3_pen
-                    integer nrbe3_lp                                        !< number of RBE3 of penalty formulation (local)                           
+                    integer :: nrbe3_lp                                        !< number of RBE3 of penalty formulation (local)                           
                     real(kind=WP) , dimension(:)   , allocatable ::  rrbe3pen_vi  !< damp(nrbe3_lp)
                     real(kind=WP) , dimension(:,:) , allocatable ::  rrbe3pen_d   !< disp(3*nrbe3_lp)
                     real(kind=WP) , dimension(:,:) , allocatable ::  rrbe3pen_m   !< mom(3*nrbe3_lp)
@@ -76,9 +76,9 @@
                   end type rbe3_pen
          
                   type rbe3_
-                    integer nrbe3                                  !< Number of RBE3
-                    integer lrbe3_sz                               !< size of lrbe3
-                    integer frbe3_sz                               !< size of frbe3
+                    integer :: nrbe3                                  !< Number of RBE3
+                    integer :: lrbe3_sz                               !< size of lrbe3
+                    integer :: frbe3_sz                               !< size of frbe3
 !                    integer nrbe3_gp                               !< number of RBE3 of penalty formulation (global)
                     integer,dimension(:,:),allocatable ::  irbe3   !< irbe3(irbe3_variables,nrbe3)  IRBE3 main array
                     integer,dimension(:),allocatable   ::  lrbe3   !< lrbe3 array IRBE3 main array
@@ -86,7 +86,7 @@
                     integer :: irotg                               !< Global Rotational flag, >0 if one RBE3 has rot option, 0 else.
                     integer :: irotg_sz                            !< Number of values to communicate : if irotg==0 -> 5,  else -> 10.
                     ! Buffers for RBE3
-                    integer nmt                                    !< Number of unique main nodes
+                    integer :: nmt                                    !< Number of unique main nodes
                     integer :: rrbe3_sz
                     real(kind=WP), dimension(:), allocatable :: rrbe3
                     integer :: rrbe3_pon_sz

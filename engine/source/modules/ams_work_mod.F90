@@ -48,9 +48,9 @@
                   real(kind=WP), dimension(:), allocatable :: lt_m
                   real(kind=WP), dimension(:), allocatable :: lt_m2
                   real(kind=WP), dimension(:), allocatable :: diag_inv
-                  integer nndft0
-                  integer nndft1
-                  integer nnzm
+                  integer :: nndft0
+                  integer :: nndft1
+                  integer :: nnzm
             end type ams_check_
 
             type ams_work_

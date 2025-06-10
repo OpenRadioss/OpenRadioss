@@ -36,8 +36,8 @@
 
           !pointer to a list of data structure below
           type pointer_to_point_
-            integer id_edge  ! 1 or 2
-            integer id_point ! from 1 to n where n= #endpoints + #intersection_points    
+            integer :: id_edge  ! 1 or 2
+            integer :: id_point ! from 1 to n where n= #endpoints + #intersection_points    
           end type pointer_to_point_
 
           !data structure for Weiler Atherton algorithm
@@ -103,10 +103,10 @@
     integer,intent(in) :: list_size
     integer,intent(in) :: point_id
     integer,intent(inout) :: out_point_pos
-    integer out_edge_pos
+    integer :: out_edge_pos
     type(points_on_edge_), dimension(list_size) :: List_Edge
-    integer ii, jj
-    logical is_found
+    integer :: ii, jj
+    logical :: is_found
     is_found = .false.
     out_edge_pos = -HUGE(out_edge_pos)
     do ii=1,list_size
@@ -141,9 +141,9 @@
       integer,intent(in) :: size2
       type(points_on_edge_), target, dimension(size1) :: list1
       type(points_on_edge_), target, dimension(size2) :: list2
-      integer ii , jj !< edge local id
-      integer kk !< point local id
-      integer iorient !< flag for entering (1) or leaving point (-1) or summit (0)
+      integer :: ii , jj !< edge local id
+      integer :: kk !< point local id
+      integer :: iorient !< flag for entering (1) or leaving point (-1) or summit (0)
       integer :: num_pt_on_edge
       integer :: size_ !size1 or size2 depending on icur_list=1|2
       !!!!type(points_on_edge_), dimension(:), pointer :: list
@@ -278,7 +278,7 @@
           integer :: icur_list !< current cursor position (list 1 or 2)
           integer,allocatable,dimension(:) :: icur_2  !< cursor position for loop on Clipping Polygon
           integer,allocatable,dimension(:) :: index   !< bijection array for sorting algorithm
-          integer ierr !< error code to check if something went wrong
+          integer :: ierr !< error code to check if something went wrong
           integer :: point_id !< to identify common intersection points on both Clipping and Clipped polygons
           integer :: ipoly !< current polygon (result is a list)
           integer :: starting_point_gid !< starting point must be saved to stop algorithm when polygon is closed
@@ -659,7 +659,7 @@
           deallocate(pointer_leaving_points_1)
           deallocate(pointer_leaving_points_2)
 
-        end subroutine
+        end subroutine Clipping_Weiler_Atherton
 
 
 
@@ -729,19 +729,19 @@
 ! ----------------------------------------------------------------------------------------------------------------------
           type(polygon_), intent(in) :: Polyg !< polygon
           type(polygon_point_), intent(in) :: pt !< point to test
-          logical is_inside !< output result true or false
+          logical :: is_inside !< output result true or false
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-          integer iedg
-          integer num_edges
-          integer npt !< number of polygon points
+          integer :: iedg
+          integer :: num_edges
+          integer :: npt !< number of polygon points
           type(polygon_point_) :: P1,P2
           integer :: num_inter_pt !depending if number is odd or even we can status about point location (inside/outside)
-          real(kind=WP) dy,dz
-          real(kind=WP) lambda
-          real(kind=WP) tol
-          logical cond1, cond2  !< conditional test to determine the final result
+          real(kind=WP) :: dy,dz
+          real(kind=WP) :: lambda
+          real(kind=WP) :: tol
+          logical :: cond1, cond2  !< conditional test to determine the final result
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------

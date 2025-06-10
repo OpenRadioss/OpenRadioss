@@ -32,6 +32,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use SPMD_COMM_WORLD_MOD, only: SPMD_COMM_WORLD
+       implicit none
 C#include      "implicit_f.inc"
 C-----------------------------------------------
 C   M e s s a g e   P a s s i n g

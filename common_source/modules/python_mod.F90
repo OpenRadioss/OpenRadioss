@@ -542,7 +542,7 @@
           funct%len_code = len_code
           funct%len_name=len_trim(name)
           funct%num_lines = num_lines
-        end subroutine
+        end subroutine python_funct_init
 
 
 !! \brief Evaluate the python function
@@ -574,7 +574,7 @@
           call python_call_function(py%functs(funct_id)%name, 1, argin, 1, argout)
 !$OMP END CRITICAL
           y = argout(1)
-        end subroutine
+        end subroutine python_call_funct1D_dp
 
 !! \brief Evaluate the python function
 !! \details the python function is called with one argument and one return value (single precision version)
@@ -604,7 +604,7 @@
           call python_call_function(py%functs(funct_id)%name, 1, argin, 1, argout)
 !$OMP END CRITICAL
           y = real(argout(1),kind(1.0))
-        end subroutine
+        end subroutine python_call_funct1D_sp
 
       !||====================================================================
       !||    python_set_active_node_values      ../common_source/modules/python_mod.F90
@@ -644,7 +644,7 @@
           temp_name(name_len+1:name_len+1) = c_null_char
           valdb(1:3) = val
           call python_update_active_node_values(name_len, temp_name, valdb)
-        end subroutine
+        end subroutine python_set_active_node_values
 
 
 
@@ -701,7 +701,7 @@
           end do
 
           y = derivative
-        end subroutine
+        end subroutine python_deriv_funct1D_dp
 
 !! \brief adaptive derivative of the python function (single precision version)
       !||====================================================================
@@ -729,7 +729,7 @@
           argin = dble(x)
           call python_deriv_funct1D_dp(py, funct_id, argin, argout)
           y = real(argout,kind(1.0))
-        end subroutine
+        end subroutine python_deriv_funct1D_sp
 
       !||====================================================================
       !||    python_solve              ../common_source/modules/python_mod.F90
@@ -853,7 +853,7 @@
           temp_name(1:name_len) = name
           temp_name(name_len+1:name_len+1) = c_null_char
           call python_set_node_values(numnod, name_len, temp_name, val)
-        end subroutine
+        end subroutine python_update_nodal_entity
 
 !! \brief update variables known by python functions
       !||====================================================================
@@ -902,7 +902,7 @@
           if(present(VR)) call python_update_nodal_entity(numnod,"VR",2, VR)
           if(present(AR)) call python_update_nodal_entity(numnod,"AR",2, AR)
 
-        end subroutine
+        end subroutine python_update_nodal_entities
 
         ! unit test
       !||====================================================================
@@ -992,7 +992,7 @@
           temp_name(1:name_len) = name
           temp_name(name_len+1:name_len+1) = c_null_char
           call python_add_ints_to_dict(py%context, temp_name, name_len, val, len_val)
-        end subroutine
+        end subroutine python_expose_ints
 
       !||====================================================================
       !||    python_expose_doubles        ../common_source/modules/python_mod.F90
@@ -1028,6 +1028,6 @@
           temp_name(1:name_len) = name
           temp_name(name_len+1:name_len+1) = c_null_char
           call python_add_doubles_to_dict(py%context, temp_name, name_len, val, len_val)
-        end subroutine
+        end subroutine python_expose_doubles
 
       end module python_funct_mod

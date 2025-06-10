@@ -487,7 +487,7 @@
 
         integer,dimension(:),allocatable :: ngr_sensor
         ! logical sensors
-        integer logical_sensor_count
+        integer :: logical_sensor_count
         integer, dimension(:),allocatable :: logical_sensors_list
   
         ! Engine MPI communication buffers

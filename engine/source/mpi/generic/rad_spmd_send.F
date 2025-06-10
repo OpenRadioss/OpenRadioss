@@ -33,7 +33,8 @@ C routine speciale smp
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-C#include      "implicit_f.inc"
+       use SPMD_COMM_WORLD_MOD, only: SPMD_COMM_WORLD
+       implicit none
 C-----------------------------------------------------------------
 C   M e s s a g e   P a s s i n g
 C-----------------------------------------------

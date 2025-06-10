@@ -116,6 +116,6 @@
       enddo
 !-----------
       return
-      end
+      end subroutine dttherm
 !-----------      
       end module dttherm_mod

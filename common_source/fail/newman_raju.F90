@@ -59,11 +59,11 @@
 !-----------------------------------------------
 !   d u m m y   a r g u m e n t s
 !-----------------------------------------------
-      real(kind=WP) c, a, t, b, fpi, y
+      real(kind=WP) :: c, a, t, b, fpi, y
 !-----------------------------------------------
 !   l o c a l   v a r i a b l e s
 !-----------------------------------------------
-      real(kind=WP) q,m1,m2,m3,g,fphi,fb,fw,f,at,ac,sinp,cosp
+      real(kind=WP) :: q,m1,m2,m3,g,fphi,fb,fw,f,at,ac,sinp,cosp
 !==========================================================================
       if (fpi == half) then
         sinp = one

@@ -130,6 +130,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+        USE SPMD_COMM_WORLD_MOD, ONLY : SPMD_COMM_WORLD
 #include      "implicit_f.inc"
       CLASS (T_LINEAR_SOLVER), INTENT(IN) :: this
       INTEGER :: GET_GLOBAL_DIM
@@ -145,6 +146,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+        USE SPMD_COMM_WORLD_MOD, ONLY : SPMD_COMM_WORLD
 #include      "implicit_f.inc"
       CLASS (T_LINEAR_SOLVER), INTENT(INOUT) :: this
       INTEGER, INTENT(IN) :: MAT_DIM
@@ -176,6 +178,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+        USE SPMD_COMM_WORLD_MOD, ONLY : SPMD_COMM_WORLD
 #include      "implicit_f.inc"
       CLASS (T_LINEAR_SOLVER), INTENT(INOUT) :: this
       TYPE(T_CFS_MATRIX), INTENT(INOUT) :: MAT
@@ -206,6 +209,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+        USE SPMD_COMM_WORLD_MOD, ONLY : SPMD_COMM_WORLD
 #include      "implicit_f.inc"
       CLASS (T_LINEAR_SOLVER), INTENT(INOUT) :: this
       INTEGER, INTENT(IN) :: NRHS
@@ -231,6 +235,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+        USE SPMD_COMM_WORLD_MOD, ONLY : SPMD_COMM_WORLD
 #include      "implicit_f.inc"
       CLASS (T_LINEAR_SOLVER), INTENT(INOUT) :: this
       INTEGER, INTENT(IN) :: DIM
@@ -256,6 +261,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+        USE SPMD_COMM_WORLD_MOD, ONLY : SPMD_COMM_WORLD
 #include      "implicit_f.inc"
       CLASS (T_LINEAR_SOLVER), INTENT(INOUT) :: this
       SELECT TYPE(this)
@@ -285,6 +291,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+        USE SPMD_COMM_WORLD_MOD, ONLY : SPMD_COMM_WORLD
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   M e s s a g e   P a s s i n g
@@ -341,6 +348,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+        USE SPMD_COMM_WORLD_MOD, ONLY : SPMD_COMM_WORLD
 #include      "implicit_f.inc"
       CLASS (T_MUMPS_SOLVER), INTENT(INOUT) :: this
       TYPE(T_CFS_MATRIX), INTENT(INOUT) :: MAT
@@ -363,6 +371,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+        USE SPMD_COMM_WORLD_MOD, ONLY : SPMD_COMM_WORLD
 #include      "implicit_f.inc"
       CLASS (T_MUMPS_SOLVER), INTENT(INOUT) :: this
       INTEGER, INTENT(IN) :: NRHS
@@ -389,6 +398,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+        USE SPMD_COMM_WORLD_MOD, ONLY : SPMD_COMM_WORLD
 #include      "implicit_f.inc"
 #include      "com01_c.inc"
 #include      "task_c.inc"
@@ -444,6 +454,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+        USE SPMD_COMM_WORLD_MOD, ONLY : SPMD_COMM_WORLD
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   M e s s a g e   P a s s i n g
@@ -471,6 +482,7 @@ C END OF MUMPS5 SPECIFIC CODE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+        USE SPMD_COMM_WORLD_MOD, ONLY : SPMD_COMM_WORLD
 #include      "implicit_f.inc"
       CLASS (T_CG_SOLVER), INTENT(INOUT) :: this
       INTEGER, INTENT(IN) :: MAT_DIM
@@ -499,6 +511,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+        USE SPMD_COMM_WORLD_MOD, ONLY : SPMD_COMM_WORLD
 #include      "implicit_f.inc"
       CLASS (T_CG_SOLVER), INTENT(INOUT) :: this
       TYPE(T_CFS_MATRIX), INTENT(INOUT), TARGET :: MAT
@@ -522,6 +535,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+        USE SPMD_COMM_WORLD_MOD, ONLY : SPMD_COMM_WORLD
 #include      "implicit_f.inc"
       CLASS (T_CG_SOLVER), INTENT(INOUT) :: this
       INTEGER, INTENT(IN) :: NRHS
@@ -547,6 +561,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+        USE SPMD_COMM_WORLD_MOD, ONLY : SPMD_COMM_WORLD
 #include      "implicit_f.inc"
 #include      "com01_c.inc"
 #include      "task_c.inc"
@@ -628,6 +643,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+        USE SPMD_COMM_WORLD_MOD, ONLY : SPMD_COMM_WORLD
 #include      "implicit_f.inc"
         CLASS (T_CG_SOLVER), INTENT(INOUT) :: this
         CALL this%SOL_VEC%DESTROY()
