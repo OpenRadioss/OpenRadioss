@@ -78,7 +78,7 @@ C-----------------------------------------------
        INTEGER J, IFUNC1, IFUNC2,IFUNC3, IECROU, IFUNC4, IG,
      .         IFAIL,IFAIL2,FLGCHK,ILAW,IEQUIL,
      .         I1,I2,I3,I4,I5,I6,I7,I8,I9,I10,I11,I12,I13,I14,
-     .         IF1,IF2,IF3,IF4
+     .         IF1,IF2,IF3,IF4,SIZ_ARRAY_COMP
 C     REAL
       my_real
      .   A, B, D, E, F, XK, XC, DN, DX, FWV, LSCALE,
@@ -93,6 +93,7 @@ C=======================================================================
       FWV = ZERO
       ISRATE = 0
       ASRATE = ZERO
+      SIZ_ARRAY_COMP = 0
 c------------------------------------------
       CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
 c------------------------------------------
@@ -178,7 +179,7 @@ c-------------------------------------------------------------------------------
      .               I1=IG,
      .               C1=TITR)
       ENDIF
-      IF (IECROU == 6 .AND. (IFUNC1 == 0 .OR. IFUNC3 == 0)) THEN
+      IF (((IECROU==6).OR.(IECROU==9)) .AND. (IFUNC1 == 0 .OR. IFUNC3 == 0)) THEN
          CALL ANCMSG(MSGID=1057,
      .               MSGTYPE=MSGERROR,
      .               ANMODE=ANINFO_BLIND_1,
@@ -275,9 +276,10 @@ C     for interface stifness
       PM(191) = XK       
       !!    
 C--   If H=6 - 
-      IF (IECROU == 6) THEN
+      IF ((IECROU==6).OR.(IECROU==9)) THEN
         UPARAM(4) = 6
       ENDIF
+      IF (IECROU==9) SIZ_ARRAY_COMP = 6
 C
       IF1 = 0
       IF2 = 6
@@ -345,7 +347,7 @@ C
      .               I1=IG,
      .               C1=TITR)
       ENDIF
-      IF (IECROU == 6 .AND. (IFUNC1 == 0 .OR. IFUNC3 == 0)) THEN
+      IF (((IECROU==6).OR.(IECROU==9)) .AND. (IFUNC1 == 0 .OR. IFUNC3 == 0)) THEN
          CALL ANCMSG(MSGID=1057,
      .               MSGTYPE=MSGERROR,
      .               ANMODE=ANINFO_BLIND_1,
@@ -424,9 +426,10 @@ C     for interface stifness
       PM(192) = XK       
       !!
 C--   If H=6 - additional internal variables must be stored in UVAR - 
-      IF (IECROU == 6) THEN
+      IF ((IECROU==6).OR.(IECROU==9)) THEN    
         UPARAM(4) = 6
       ENDIF
+      IF (IECROU==9) SIZ_ARRAY_COMP = 6
 C
       IFUNC(2) = IFUNC1
       IFUNC(IF2 + 2) = IFUNC2
@@ -489,7 +492,7 @@ C----
      .               I1=IG,
      .               C1=TITR)
       ENDIF
-      IF (IECROU == 6 .AND. (IFUNC1 == 0 .OR. IFUNC3 == 0)) THEN
+      IF (((IECROU==6).OR.(IECROU==9)) .AND. (IFUNC1 == 0 .OR. IFUNC3 == 0)) THEN
          CALL ANCMSG(MSGID=1057,
      .               MSGTYPE=MSGERROR,
      .               ANMODE=ANINFO_BLIND_1,
@@ -568,9 +571,10 @@ C     for interface stifness
       PM(193) = XK       
       !!
 C--   If H=6 - additional internal variables must be stored in UVAR 
-      IF (IECROU == 6) THEN
+      IF ((IECROU==6).OR.(IECROU==9)) THEN
        UPARAM(4) = 6
       ENDIF
+      IF (IECROU==9) SIZ_ARRAY_COMP = 6
 C
       IFUNC(3) = IFUNC1
       IFUNC(IF2 + 3) = IFUNC2
@@ -635,7 +639,7 @@ C----
      .               I1=IG,
      .               C1=TITR)
       ENDIF
-      IF (IECROU == 6 .AND. (IFUNC1 == 0 .OR. IFUNC3 == 0)) THEN
+      IF (((IECROU==6).OR.(IECROU==9)) .AND. (IFUNC1 == 0 .OR. IFUNC3 == 0)) THEN
          CALL ANCMSG(MSGID=1057,
      .               MSGTYPE=MSGERROR,
      .               ANMODE=ANINFO_BLIND_1,
@@ -712,9 +716,10 @@ C
       UPARAM(I12 + 4)  = XC
       UPARAM(I13 + 4)  = IECROU+PUN
 C--   If H=6 - additional internal variables must be stored in UVAR - 
-      IF (IECROU == 6) THEN
+      IF ((IECROU==6).OR.(IECROU==9)) THEN
         UPARAM(4) = 6
       ENDIF
+      IF (IECROU==9) SIZ_ARRAY_COMP = 6
 C
       IFUNC(4) = IFUNC1
       IFUNC(IF2 + 4) = IFUNC2
@@ -776,7 +781,7 @@ C----
      .               I1=IG,
      .               C1=TITR)
       ENDIF
-      IF (IECROU == 6 .AND. (IFUNC1 == 0 .OR. IFUNC3 == 0)) THEN
+      IF (((IECROU==6).OR.(IECROU==9)) .AND. (IFUNC1 == 0 .OR. IFUNC3 == 0)) THEN
          CALL ANCMSG(MSGID=1057,
      .               MSGTYPE=MSGERROR,
      .               ANMODE=ANINFO_BLIND_1,
@@ -852,9 +857,10 @@ C----
       UPARAM(I12 + 5)  = XC
       UPARAM(I13 + 5)  = IECROU+PUN  
 C--   If H=6 - additional internal variables must be stored in UVAR - 
-      IF (IECROU == 6) THEN
+      IF ((IECROU==6).OR.(IECROU==9)) THEN
          UPARAM(4) = 6
       ENDIF
+      IF (IECROU==9) SIZ_ARRAY_COMP = 6
 C
       IFUNC(5) = IFUNC1
       IFUNC(IF2 + 5) = IFUNC2
@@ -916,7 +922,7 @@ C----
      .               I1=IG,
      .               C1=TITR)
       ENDIF
-      IF (IECROU == 6 .AND. (IFUNC1 == 0 .OR. IFUNC3 == 0)) THEN
+      IF (((IECROU==6).OR.(IECROU==9)) .AND. (IFUNC1 == 0 .OR. IFUNC3 == 0)) THEN
          CALL ANCMSG(MSGID=1057,
      .               MSGTYPE=MSGERROR,
      .               ANMODE=ANINFO_BLIND_1,
@@ -994,9 +1000,10 @@ C---
 !!      
       NUPARAM = NUPARAM + 6*14
 C--   If H=6 - additional internal variables must be stored in UVAR - 
-      IF (IECROU == 6) THEN
+      IF ((IECROU==6).OR.(IECROU==9)) THEN
         UPARAM(4) = 6
       ENDIF
+      IF (IECROU==9) SIZ_ARRAY_COMP = 6
 C
       IFUNC(6) = IFUNC1
       IFUNC(IF2 + 6) = IFUNC2
@@ -1037,8 +1044,10 @@ C----! NUPARAM = 88 = 4 + 14*6
 !      
       UPARAM(NUPARAM + 1) = ISRATE
       UPARAM(NUPARAM + 2) = ASRATE
-C      
       NUPARAM = NUPARAM  + 2
+C      
+C----! Force offset for iecr=9  - (4 + 14*6) + 2 + 6   - NUPARAM = 96
+      NUPARAM = NUPARAM  + 6
 C 
 C------------------------
 C------------------------ 
@@ -1054,11 +1063,13 @@ C------------------------
       MTAG%G_POSXX = 5
       MTAG%G_POSYY = 5
       MTAG%G_POSZZ = 5
-      MTAG%G_YIELD = 6
+      MTAG%G_YIELD = 6                 
       MTAG%G_RUPTCRIT = 1
       MTAG%G_NUVAR = MAX(MTAG%G_NUVAR,NINT(UPARAM(4)))
       MTAG%G_MASS = 1
       MTAG%G_SKEW_ID = 1  
+      MTAG%G_YIELD_IN_COMP = SIZ_ARRAY_COMP   ! Yield in compression - H=9
+      MTAG%G_XXOLD_IN_COMP = SIZ_ARRAY_COMP   ! Previous displacement in compression
 C 
       ! Properties compatibility
       CALL INIT_MAT_KEYWORD(MATPARAM,"SPRING_MATERIAL")

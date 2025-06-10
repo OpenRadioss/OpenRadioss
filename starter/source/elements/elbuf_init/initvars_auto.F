@@ -328,6 +328,8 @@ C
         IF (GBUF%G_RUPTCRIT    == 0) GBUF%G_RUPTCRIT     = MTAG%G_RUPTCRIT
         IF (GBUF%G_MASS        == 0) GBUF%G_MASS         = MTAG%G_MASS
         IF (GBUF%G_SKEW_ID     == 0) GBUF%G_SKEW_ID      = MTAG%G_SKEW_ID
+        IF (GBUF%G_YIELD_IN_COMP == 0) GBUF%G_YIELD_IN_COMP = MTAG%G_YIELD_IN_COMP
+        IF (GBUF%G_XXOLD_IN_COMP == 0) GBUF%G_XXOLD_IN_COMP = MTAG%G_XXOLD_IN_COMP
       ENDIF
 C
       IF ((IGTYP == 23).AND.(GLAW == 114) .AND. GMAT  > 0) THEN   ! 1D seatbelt material
