@@ -301,7 +301,7 @@ void sdiD2R::ConvertCard::p_ConvertCtrlUnits()
 
         //beginEdit.SetValue(sdiIdentifier("Runname"), sdiValue(string("")));
         beginEdit.SetValue(sdiIdentifier("Irun"), sdiValue(0));
-        beginEdit.SetValue(sdiIdentifier("Invers"), sdiValue(2025));
+        beginEdit.SetValue(sdiIdentifier("Invers"), sdiValue(2026));
 
         bool foundInMainFile = false;
         SelectionRead selCtrlUnits(p_lsdynaModel, "*CONTROL_UNITS");
@@ -731,6 +731,7 @@ void sdiD2R::ConvertCard::p_ConvertDbBinaryD3Plot()
     HandleEdit animBrickTens;
     HandleEdit animElem;
     HandleEdit animShellEPSP;
+    HandleEdit animSpringFORC;
 
     SelectionRead selDbBinD3Plot(p_lsdynaModel, "*DATABASE_BINARY_D3PLOT");
     while (selDbBinD3Plot.Next())
@@ -797,6 +798,18 @@ void sdiD2R::ConvertCard::p_ConvertDbBinaryD3Plot()
             /* TODO GetHandle() on selection. Set the values on the HandleEdit */
             selAnimShell->SetValue(sdiIdentifier("ENG_ANIM_SHELL_EPSP_UPPER"), sdiValue(1));
             selAnimShell->SetValue(sdiIdentifier("ENG_ANIM_SHELL_EPSP_LOWER"), sdiValue(1));
+        }
+        
+        int nobeam = GetValue<int>(*selDbBinD3Plot, "LSD_NOBEAM");
+        SelectionEdit selAnimSpring(p_radiossModel, "/ANIM/SPRING/FORC");
+        if(nobeam > 0)
+        {
+            if (selAnimSpring.Count() == 0)
+            {
+                p_radiossModel->CreateEntity(animSpringFORC, "/ANIM/SPRING/FORC");
+                animSpringFORC.SetValue(p_radiossModel, sdiIdentifier("ANIM_SPRING_FORC"), sdiValue(1));
+                sdiConvert::Convert::PushToConversionLog(std::make_pair(animSpringFORC, sourceControlCards));
+            }
         }
     }
 }

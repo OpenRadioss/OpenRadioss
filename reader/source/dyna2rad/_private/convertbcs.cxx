@@ -460,6 +460,82 @@ void sdiD2R::ConvertBcs::ConvertBoundaryMotion()
             }
 
         }
+        else if (keyWord.find("BOX") != keyWord.npos)
+        {
+            //p_radiossModel->CreateEntity(setHEdit, "/SET/GENERAL", selBoundaryMotion->GetName());
+            //EntityEdit SetEntityEdit(p_radiossModel, setHEdit);
+
+            unsigned int nsid = lsdEntity.GetId();
+            sdiValueEntity boxIdEntity = GetValue<sdiValueEntity>(*selBoundaryMotion, "BOXID");
+            unsigned int boxId=boxIdEntity.GetId();
+
+            if (nsid && !boxId)
+            {
+                setId = DynaToRad::GetRadiossSetIdFromLsdSet(lsdEntity.GetId(), "*SET_NODE");
+            }
+            else if (nsid && boxId)
+            {
+                // intersect nsid /SET with set box
+
+                // create /SET clause BOX:
+                HandleEdit radSetBOXHEdit;
+                p_radiossModel->CreateEntity(radSetBOXHEdit, "/SET/GENERAL", "SET_GENERAL_BOX " + to_string(boxId));
+                EntityEdit radSetBOXEdit(p_radiossModel, radSetBOXHEdit);
+                radSetBOXEdit.SetValue(sdiIdentifier("clausesmax"), sdiValue(1));
+                radSetBOXEdit.SetValue(sdiIdentifier("KEY_type", 0, 0), sdiValue(sdiString("BOX")));
+                radSetBOXEdit.SetValue(sdiIdentifier("idsmax", 0, 0), sdiValue(1));
+                radSetBOXEdit.SetValue(sdiIdentifier("ids", 0, 0), sdiValue(sdiValueEntityList(p_radiossModel->GetEntityType("/BOX"), sdiUIntList(1, boxId))));
+                sdiConvert::SDIHandlReadList sourcehandleBoxList = { {selBoundaryMotion->GetHandle()} };
+                sdiConvert::Convert::PushToConversionLog(std::make_pair(radSetBOXHEdit, sourcehandleBoxList));
+
+                p_radiossModel->CreateEntity(setHEdit, "/SET/GENERAL", selBoundaryMotion->GetName());
+                EntityEdit SetEntityEdit(p_radiossModel, setHEdit);
+
+                sdiUIntList setlist;
+                unsigned int nsid_rad = 0;
+                nsid_rad = DynaToRad::GetRadiossSetIdFromLsdSet(lsdEntity.GetId(), "*SET_NODE");
+                setlist.push_back(nsid_rad);
+                setlist.push_back(radSetBOXEdit.GetId());
+                int clauseMax = -1;
+
+                SetEntityEdit.SetValue(sdiIdentifier("set_Type"), sdiValue(sdiString("GENERAL")));
+                SetEntityEdit.SetValue(sdiIdentifier("iset_Type"), sdiValue(0));
+                SetEntityEdit.SetValue(sdiIdentifier("clausesmax"), sdiValue(2));
+                //SetEntityEdit.SetValue(sdiIdentifier("KEY_type", 0, 0), sdiValue(sdiString("SET")));
+                //SetEntityEdit.SetValue(sdiIdentifier("opt_I", 0, 0), sdiValue(1));
+                //SetEntityEdit.SetValue(sdiIdentifier("idsmax", 0, 0), sdiValue(int(setlist.size())));
+                //SetEntityEdit.SetValue(sdiIdentifier("ids", 0, 0), sdiValue(sdiValueEntityList(p_radiossModel->GetEntityType("/SET"), sdiUIntList(setlist))));
+                ++clauseMax;
+                SetEntityEdit.SetValue(sdiIdentifier("KEY_type", 0, clauseMax), sdiValue(sdiString("SET")));
+                SetEntityEdit.SetValue(sdiIdentifier("idsmax", 0, clauseMax), sdiValue(int(1)));
+                SetEntityEdit.SetValue(sdiIdentifier("ids", 0, 0), sdiValue(sdiValueEntityList(p_radiossModel->GetEntityType("/SET"), sdiUIntList(1,nsid_rad))));
+                ++clauseMax;
+                SetEntityEdit.SetValue(sdiIdentifier("KEY_type", 0, clauseMax), sdiValue(sdiString("SET")));
+                SetEntityEdit.SetValue(sdiIdentifier("idsmax", 0, clauseMax), sdiValue(int(1)));
+                SetEntityEdit.SetValue(sdiIdentifier("opt_I", 0, clauseMax), sdiValue(1));
+                SetEntityEdit.SetValue(sdiIdentifier("ids", 0, clauseMax), sdiValue(sdiValueEntityList(p_radiossModel->GetEntityType("/SET"), sdiUIntList(1,radSetBOXEdit.GetId()))));
+
+                setId = setHEdit.GetId(p_radiossModel);
+            }
+            else if (!nsid && boxId)
+            {
+               HandleEdit radSetBOXHEdit;
+               p_radiossModel->CreateEntity(radSetBOXHEdit, "/SET/GENERAL", "SET_GENERAL_BOX of *BOUNDARY_PRESCRIBED_MOTION_SET_BOX_ID_" + to_string(impMotionId));
+               EntityEdit radSetBOXEdit(p_radiossModel, radSetBOXHEdit);
+               radSetBOXEdit.SetValue(sdiIdentifier("clausesmax"), sdiValue(1));
+               radSetBOXEdit.SetValue(sdiIdentifier("KEY_type", 0, 0), sdiValue(sdiString("BOX")));
+               radSetBOXEdit.SetValue(sdiIdentifier("idsmax", 0, 0), sdiValue(1));
+               radSetBOXEdit.SetValue(sdiIdentifier("ids", 0, 0), sdiValue(sdiValueEntityList(p_radiossModel->GetEntityType("/BOX"), sdiUIntList(1, boxId))));
+               sdiConvert::SDIHandlReadList sourcehandleBoxList = { {selBoundaryMotion->GetHandle()} };
+               sdiConvert::Convert::PushToConversionLog(std::make_pair(radSetBOXHEdit, sourcehandleBoxList));
+
+               setId = radSetBOXEdit.GetId();
+            }
+            else
+            {
+                // warning / error nsid and boxid not found
+            }
+        }
         else
         {
             SelectionEdit selectRgdBody(p_radiossModel, "/RBODY");
@@ -549,7 +625,7 @@ void sdiD2R::ConvertBcs::ConvertBoundaryMotion()
             }
             else
             {
-                setId = DynaToRad::GetRadiossSetIdFromLsdSet(lsdEntity.GetId(), "*SET_NODE");
+                setId = DynaToRad::GetRadiossSetIdFromLsdSet(lsdEntity.GetId(), "*SET_NODE"); 
             }
         }
 
