@@ -58,7 +58,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      O   MASS,    DX0,     DY0,     DZ0,
      P   RX0,     RY0,     RZ0,     IEQUIL,
      Q   SKEW_ID, NFT,     STF,     SANIN,
-     R   IRESP,   SNPC)
+     R   IRESP,   SNPC,    SZYIELD_COMP,SZXXOLD_COMP,
+     S   YIELDXC, YIELDYC, YIELDZC, YIELDRXC,
+     T   YIELDRYC,YIELDRZC,DXOLDC,  DYOLDC  ,
+     U   DZOLDC  ,DRXOLDC, DRYOLDC, DRZOLDC)
          USE REDEF3_MOD
          USE python_funct_mod
 C-----------------------------------------------
@@ -91,7 +94,8 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) :: SNPC   !< Size of NPF
       INTEGER, INTENT(IN) :: NFT
       INTEGER NPF(*), IGEO(NPROPGI,*),NEL,NGL(*),NC1(*),NC2(*),NUVAR,
-     .   IPM(NPROPMI,*),MID(*),PID(*),IEQUIL(*),SKEW_ID(*)     
+     .   IPM(NPROPMI,*),MID(*),PID(*),IEQUIL(*),SKEW_ID(*)    
+      INTEGER, INTENT(IN) :: SZYIELD_COMP,SZXXOLD_COMP 
 C     REAL
       my_real
      .   SKEW(LSKEW,*), GEO(NPROPG,*), FX(*), FY(*), FZ(*), E(*), DX(*),
@@ -111,6 +115,12 @@ C     REAL
      .   AK(MVSIZ),XM(MVSIZ),XKM(MVSIZ),XCM(MVSIZ),XKR(MVSIZ),
      .   UVAR(NUVAR,*),DX0(*),DY0(*),DZ0(*),RX0(*),RY0(*),RZ0(*),
      .   UPARAM(*),MASS(*)
+      my_real, INTENT(INOUT) :: YIELDXC(SZYIELD_COMP),YIELDYC(SZYIELD_COMP), 
+     .   YIELDZC(SZYIELD_COMP),YIELDRXC(SZYIELD_COMP),YIELDRYC(SZYIELD_COMP),
+     .   YIELDRZC(SZYIELD_COMP)
+      my_real, INTENT(INOUT) :: DXOLDC(SZXXOLD_COMP),DYOLDC(SZXXOLD_COMP),
+     .   DZOLDC(SZXXOLD_COMP),DRXOLDC(SZXXOLD_COMP),DRYOLDC(SZXXOLD_COMP),
+     .   DRZOLDC(SZXXOLD_COMP)
       TARGET :: UVAR
       DOUBLE PRECISION X1DP(3,*),X2DP(3,*)
 C-----------------------------------------------
@@ -120,7 +130,7 @@ C-----------------------------------------------
      .        IECROU(MVSIZ), IFUNC(MVSIZ), IFV(MVSIZ),
      .        INDX(MVSIZ),IFUNC3(MVSIZ),
      .        I,J,ISK, KK,NINDX,IFAIL(MVSIZ),IFAIL2(MVSIZ),ISRATE,
-     .        I1,I2,I3,I4,I5,I6,I7,I8,I9,I10,I11,I12,I13,I14,
+     .        I1,I2,I3,I4,I5,I6,I7,I8,I9,I10,I11,I12,I13,I14,I15,
      .        NUPAR,IADBUF,IF1,IF2,IF3,IF4
 C     REAL
       my_real
@@ -160,7 +170,8 @@ C
       I12 = I11 + 6 
       I13 = I12 + 6
       I14 = I13 + 6
-      NUPAR = NUPAR +  84   
+      I15 = I14 + 6 + 2 
+      NUPAR = NUPAR +  84
       DO I=1,NEL
         IADBUF= IPM(7,MID(I)) - 1
         EPLA(I)=ZERO
@@ -372,7 +383,8 @@ C-------------------------------
      9   IFV,        IFUNC2,     EPLA,       COORD_OLD,
      A   NEL,        NFT,        STF,        SANIN,
      B   DT1,        IRESP,      IMPL_S,     IDYNA,
-     C   SNPC,       MAX_SLOPE)
+     C   SNPC,       MAX_SLOPE,  YIELDC=YIELDXC, XX_OLDC=DXOLDC,
+     D   FX0=UPARAM(IADBUF+I15+1))
       DO I=1,NEL
         DLIM = ZERO
         IF (IFAIL2(I) == 0) THEN
@@ -437,7 +449,8 @@ C-------------------------------
      9   IFV,        IFUNC2,     EPLA,       COORD_OLD,
      A   NEL,        NFT,        STF,        SANIN,
      B   DT1,        IRESP,      IMPL_S,     IDYNA,
-     C   SNPC,       MAX_SLOPE)
+     C   SNPC,       MAX_SLOPE,  YIELDC=YIELDYC, XX_OLDC=DYOLDC,
+     D   FX0=UPARAM(IADBUF+I15+2))
       DO I=1,NEL
         DLIM = ZERO
         IF (IFAIL2(I) == 0 ) THEN
@@ -500,7 +513,8 @@ C-------------------------------
      9   IFV,        IFUNC2,     EPLA,       COORD_OLD,
      A   NEL,        NFT,        STF,        SANIN,
      B   DT1,        IRESP,      IMPL_S,     IDYNA,
-     C   SNPC,       MAX_SLOPE)
+     C   SNPC,       MAX_SLOPE,  YIELDC=YIELDZC, XX_OLDC=DZOLDC,
+     D   FX0=UPARAM(IADBUF+I15+3))
       DO I=1,NEL
         DLIM = ZERO
         IF (IFAIL2(I) == 0) THEN
@@ -608,7 +622,8 @@ C-------------------------------
      9   IFV,        IFUNC2,     EPLA,       COORD_OLD,
      A   NEL,        NFT,        STF,        SANIN,
      B   DT1,        IRESP,      IMPL_S,     IDYNA,
-     C   SNPC,       MAX_SLOPE)
+     C   SNPC,       MAX_SLOPE,  YIELDC=YIELDRXC, XX_OLDC=DRXOLDC,
+     D   FX0=UPARAM(IADBUF+I15+4))
       DO I=1,NEL
         DLIM = ZERO
         IF (IFAIL2(I) == 0) THEN
@@ -672,7 +687,8 @@ C-------------------------------------
      9   IFV,        IFUNC2,     EPLA,       COORD_OLD,
      A   NEL,        NFT,        STF,        SANIN,
      B   DT1,        IRESP,      IMPL_S,     IDYNA,
-     C   SNPC,       MAX_SLOPE)
+     C   SNPC,       MAX_SLOPE,  YIELDC=YIELDRYC, XX_OLDC=DRYOLDC,
+     D   FX0=UPARAM(IADBUF+I15+5))
       DO I=1,NEL
         DLIM = ZERO
         IF (IFAIL2(I) == 0) THEN
@@ -736,7 +752,8 @@ C-----------------------------------
      9   IFV,        IFUNC2,     EPLA,       COORD_OLD,
      A   NEL,        NFT,        STF,        SANIN,
      B   DT1,        IRESP,      IMPL_S,     IDYNA,
-     C   SNPC,       MAX_SLOPE)
+     C   SNPC,       MAX_SLOPE,  YIELDC=YIELDRZC, XX_OLDC=DRZOLDC,
+     D   FX0=UPARAM(IADBUF+I15+6))
       DO I=1,NEL
         DLIM = ZERO
         IF (IFAIL2(I) == 0) THEN

@@ -641,6 +641,10 @@ C --- needed for batoz shell and /heat/mat
 C
       ALLOCATE (GBUF%SKEW_ID(NEL*GBUF%G_SKEW_ID)                 ,STAT=Stat)
         GBUF%SKEW_ID = 0
+      ALLOCATE (GBUF%YIELD_IN_COMP(NEL*GBUF%G_YIELD_IN_COMP)     ,STAT=Stat)
+        GBUF%YIELD_IN_COMP = ZERO
+      ALLOCATE (GBUF%XXOLD_IN_COMP(NEL*GBUF%G_XXOLD_IN_COMP)     ,STAT=Stat)
+        GBUF%XXOLD_IN_COMP = ZERO
 c---
 c seatbelt elements
 c---

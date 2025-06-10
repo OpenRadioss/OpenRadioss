@@ -61,12 +61,12 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,K,FUNC,NUPAR,NPT, J,J1,NUPARAM,
      . IF1,IF2,IF3,IF4,IC1,IC2,II,JJ,LOAD,UNLOAD,
-     . NP1,NP2,ILENG2,I7,I11,I13,I5,I4,K1,
+     . NP1,NP2,ILENG2,I7,I11,I13,I15,I5,I4,K1,
      . K2,I14,IFUN
       my_real
      .   XK,  HARD,X1,X2,Y1,Y2,LSCALE,XK_INI,YFAC,
      .   X0,EMAX,DX,DY,Y0,DERI,H,XSCALE,ALPHA1,ALPHA2,
-     .   S1,S2,T1,T2,TY,SX,XX1,YY1,DYDX,DTDS
+     .   S1,S2,T1,T2,TY,SX,XX1,YY1,DYDX,DTDS,F_X0
       CHARACTER(LEN=NCHARTITLE)  :: TITR1
 C=======================================================================
 c     Transform FUNC_ID ->  Function number , leakmat only
@@ -78,6 +78,7 @@ c
       I7  = 40  ! 4 + 6*6
       I11 = 64  ! 4 + 10*6
       I13 = 76  ! 4 + 12*6
+      I15 = 90  ! 4 + 14*6 + 2
       FUNC = IFUNC(1)
       LSCALE = UPARAM(I7 + 1)
       XK   = UPARAM(I11 + 1) 
@@ -85,6 +86,7 @@ c
       XK_INI = XK
       IF (FUNC > 0 ) THEN     
         NPT=(NPC(FUNC+1)-NPC(FUNC))/2
+        F_X0 = ZERO
         DO  J=2,NPT
            J1 =2*(J-2)
            X1 = PLD(NPC(FUNC)  + J1)
@@ -92,6 +94,14 @@ c
            X2 = PLD(NPC(FUNC)  + J1 + 2)
            Y2 = PLD(NPC(FUNC)  + J1 + 3)
            XK = MAX(XK,LSCALE*(Y2 - Y1)/(X2 - X1))
+!          Determination of force offset for H=9 - F(0)              
+           IF (X1 == ZERO)  THEN
+             F_X0 = Y1    
+           ELSEIF (X2 == ZERO) THEN
+             F_X0 = Y2
+           ELSEIF ((X1 < ZERO).AND.(X2 > ZERO)) THEN
+             F_X0 = Y1 + LSCALE*(Y2 - Y1)*(ZERO - X1)/(X2 - X1)
+           ENDIF                    
         ENDDO
         IF(HARD/=0)THEN
             IF(XK_INI<XK)THEN
@@ -109,6 +119,7 @@ c
             ENDIF
          ENDIF
          UPARAM(I11 + 1)= XK   
+         UPARAM(I15 + 1)= F_X0          
       ENDIF
 !-----------------
       ! Traction Y
@@ -120,6 +131,7 @@ c
       XK_INI = XK
       IF (FUNC > 0 ) THEN     
         NPT=(NPC(FUNC+1)-NPC(FUNC))/2
+        F_X0 = ZERO
         DO  J=2,NPT
            J1 =2*(J-2)
            X1 = PLD(NPC(FUNC)  + J1)
@@ -127,6 +139,14 @@ c
            X2 = PLD(NPC(FUNC)  + J1 + 2)
            Y2 = PLD(NPC(FUNC)  + J1 + 3)
            XK = MAX(XK,LSCALE*(Y2 - Y1)/(X2 - X1))
+!          Determination of force offset for H=9 - F(0)              
+           IF (X1 == ZERO)  THEN
+             F_X0 = Y1    
+           ELSEIF (X2 == ZERO) THEN
+             F_X0 = Y2
+           ELSEIF ((X1 < ZERO).AND.(X2 > ZERO)) THEN
+             F_X0 = Y1 + LSCALE*(Y2 - Y1)*(ZERO - X1)/(X2 - X1)
+           ENDIF 
         ENDDO
         IF(HARD/=0)THEN
             IF(XK_INI<XK)THEN
@@ -144,6 +164,7 @@ c
             ENDIF
          ENDIF
          UPARAM(I11 + 2) = XK   
+         UPARAM(I15 + 2)= F_X0 
       ENDIF
 !-----------------
       ! Traction Z
@@ -155,6 +176,7 @@ c
       XK_INI = XK
       IF (FUNC > 0 ) THEN     
         NPT=(NPC(FUNC+1)-NPC(FUNC))/2
+        F_X0 = ZERO
         DO  J=2,NPT
            J1 =2*(J-2)
            X1 = PLD(NPC(FUNC)  + J1)
@@ -162,6 +184,14 @@ c
            X2 = PLD(NPC(FUNC)  + J1 + 2)
            Y2 = PLD(NPC(FUNC)  + J1 + 3)
            XK = MAX(XK,LSCALE*(Y2 - Y1)/(X2 - X1))
+!          Determination of force offset for H=9 - F(0)              
+           IF (X1 == ZERO)  THEN
+             F_X0 = Y1    
+           ELSEIF (X2 == ZERO) THEN
+             F_X0 = Y2
+           ELSEIF ((X1 < ZERO).AND.(X2 > ZERO)) THEN
+             F_X0 = Y1 + LSCALE*(Y2 - Y1)*(ZERO - X1)/(X2 - X1)
+           ENDIF 
         ENDDO
         IF(HARD/=0)THEN
             IF(XK_INI<XK)THEN
@@ -179,6 +209,7 @@ c
             ENDIF
          ENDIF
          UPARAM(I11 + 3)= XK   
+         UPARAM(I15 + 3)= F_X0 
       ENDIF
 !-----------------
       ! Torsion xx
@@ -190,6 +221,7 @@ c
       XK_INI = XK
       IF (FUNC > 0 ) THEN     
         NPT=(NPC(FUNC+1)-NPC(FUNC))/2
+        F_X0 = ZERO
         DO  J=2,NPT
            J1 =2*(J-2)
            X1 = PLD(NPC(FUNC)  + J1)
@@ -197,6 +229,14 @@ c
            X2 = PLD(NPC(FUNC)  + J1 + 2)
            Y2 = PLD(NPC(FUNC)  + J1 + 3)
            XK = MAX(XK,LSCALE*(Y2 - Y1)/(X2 - X1))
+!          Determination of force offset for H=9 - F(0)              
+           IF (X1 == ZERO)  THEN
+             F_X0 = Y1    
+           ELSEIF (X2 == ZERO) THEN
+             F_X0 = Y2
+           ELSEIF ((X1 < ZERO).AND.(X2 > ZERO)) THEN
+             F_X0 = Y1 + LSCALE*(Y2 - Y1)*(ZERO - X1)/(X2 - X1)
+           ENDIF 
         ENDDO
         IF(HARD/=0)THEN
             IF(XK_INI<XK)THEN
@@ -214,6 +254,7 @@ c
             ENDIF
          ENDIF
          UPARAM(I11 + 4)= XK   
+         UPARAM(I15 + 4)= F_X0 
       ENDIF
 !-----------------
       ! Rotation YY
@@ -225,6 +266,7 @@ c
       XK_INI = XK
       IF (FUNC > 0 ) THEN     
         NPT=(NPC(FUNC+1)-NPC(FUNC))/2
+        F_X0 = ZERO
         DO  J=2,NPT
            J1 =2*(J-2)
            X1 = PLD(NPC(FUNC)  + J1)
@@ -232,6 +274,14 @@ c
            X2 = PLD(NPC(FUNC)  + J1 + 2)
            Y2 = PLD(NPC(FUNC)  + J1 + 3)
            XK = MAX(XK,LSCALE*(Y2 - Y1)/(X2 - X1))
+!          Determination of force offset for H=9 - F(0)              
+           IF (X1 == ZERO)  THEN
+             F_X0 = Y1    
+           ELSEIF (X2 == ZERO) THEN
+             F_X0 = Y2
+           ELSEIF ((X1 < ZERO).AND.(X2 > ZERO)) THEN
+             F_X0 = Y1 + LSCALE*(Y2 - Y1)*(ZERO - X1)/(X2 - X1)
+           ENDIF            
         ENDDO
         IF(HARD/=0)THEN
             IF(XK_INI<XK)THEN
@@ -249,7 +299,8 @@ c
 
             ENDIF
          ENDIF
-         UPARAM(I11  + 5)= XK   
+         UPARAM(I11  + 5)= XK  
+         UPARAM(I15  + 5)= F_X0  
       ENDIF
 !-----------------
       ! Rotation ZZ
@@ -261,6 +312,7 @@ c
       XK_INI = XK
       IF (FUNC > 0 ) THEN     
         NPT=(NPC(FUNC+1)-NPC(FUNC))/2
+        F_X0 = ZERO
         DO  J=2,NPT
            J1 =2*(J-2)
            X1 = PLD(NPC(FUNC)  + J1)
@@ -268,6 +320,14 @@ c
            X2 = PLD(NPC(FUNC)  + J1 + 2)
            Y2 = PLD(NPC(FUNC)  + J1 + 3)
            XK = MAX(XK,LSCALE*(Y2 - Y1)/(X2 - X1))
+!          Determination of force offset for H=9 - F(0)              
+           IF (X1 == ZERO)  THEN
+             F_X0 = Y1    
+           ELSEIF (X2 == ZERO) THEN
+             F_X0 = Y2
+           ELSEIF ((X1 < ZERO).AND.(X2 > ZERO)) THEN
+             F_X0 = Y1 + LSCALE*(Y2 - Y1)*(ZERO - X1)/(X2 - X1)
+           ENDIF
         ENDDO
         IF(HARD/=0)THEN
             IF(XK_INI<XK)THEN
@@ -284,9 +344,10 @@ c
      .                  R3=XK)
             ENDIF
          ENDIF
-         UPARAM(I11 + 6)= XK   
+         UPARAM(I11 + 6)= XK  
+         UPARAM(I15 + 6)= F_X0  
       ENDIF
-C
+Cz
    ! update of max slope
 C   
 c -------- 

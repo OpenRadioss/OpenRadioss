@@ -260,6 +260,10 @@ C 1-D elements (TRUSS, BEAM, SPRING, NSTRAND)
       GBUF%G_SKEW_ID = 0
       IAD = IAD + 1
       GBUF%G_GAMA_R  = 0
+      IAD = IAD + 1
+      GBUF%G_YIELD_IN_COMP = 0
+      IAD = IAD + 1
+      GBUF%G_XXOLD_IN_COMP = 0
 C
 C seatbelts elements
       IAD = IAD + 1

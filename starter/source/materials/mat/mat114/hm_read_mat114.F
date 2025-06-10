@@ -280,7 +280,7 @@ C
       XC = ZERO
 C
       IF (YOUNG > ZERO) THEN
-        IECROU = 9
+        IECROU = 12
         XK = HALF*FIVE_OVER_6*YOUNG*SAREA
       ENDIF
 C----
@@ -320,7 +320,7 @@ C
       XC = ZERO
 C
       IF (YOUNG > ZERO) THEN
-        IECROU = 9
+        IECROU = 12
         XK = HALF*FIVE_OVER_6*YOUNG*SAREA
       ENDIF
 C----
@@ -362,7 +362,7 @@ C
       XC = ZERO
 C
       IF (YOUNG > ZERO) THEN
-        IECROU = 9
+        IECROU = 12
         XK = HALF*YOUNG*ITORS
       ENDIF
 C----
@@ -398,7 +398,7 @@ C
       XC = ZERO
 C
       IF (YOUNG > ZERO) THEN
-        IECROU = 9
+        IECROU = 12
         XK = YOUNG*IBEND
       ENDIF
 C----
@@ -434,7 +434,7 @@ C
       XC = ZERO
 C
       IF (YOUNG > ZERO) THEN
-        IECROU = 9
+        IECROU = 12
         XK = YOUNG*IBEND
       ENDIF
 C----

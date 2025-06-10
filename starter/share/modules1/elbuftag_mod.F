@@ -269,6 +269,8 @@ c for spring with mat
         INTEGER ::  G_NUVAR
         INTEGER ::  G_MASS
         INTEGER ::  G_SKEW_ID
+        INTEGER ::  G_YIELD_IN_COMP  ! Yield in compression
+        INTEGER ::  G_XXOLD_IN_COMP  ! Previous disp in compression
 c for seatbelt elements
         INTEGER ::  G_SLIPRING_ID
         INTEGER ::  G_SLIPRING_FRAM_ID
