@@ -1276,7 +1276,7 @@
 !
             call sigeps52(nel ,npar,nuvar,nfunc,ifunc,&
             &npf ,tf  ,tt,dt1,bufmat,&
-            &rho0,rho ,voln,eint,l_dmg ,lbuf%dmg,&
+            &rho0,rho ,voln,eint,&
             &ep1 ,ep2 ,ep3 ,ep4  ,ep5  ,ep6 ,&
             &de1 ,de2 ,de3 ,de4  ,de5  ,de6 ,&
             &es1 ,es2 ,es3 ,es4  ,es5  ,es6 ,&

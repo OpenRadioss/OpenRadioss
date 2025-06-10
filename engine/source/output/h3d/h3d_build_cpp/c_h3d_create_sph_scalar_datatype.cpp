@@ -132,7 +132,26 @@ void c_h3d_create_sph_scalar_datatype_(int *cpt_data, char *name1, int *size1, i
         RES_STRING = strcat(RES_STRING,NUVAR_STRING);
 #endif
     }
-    
+
+    if(*id > 0)
+    {
+        sprintf(ID_STRING, " ID %d",*id);
+#ifdef _WIN64
+        strcat_s(RES_STRING,100,ID_STRING);
+#else
+        RES_STRING = strcat(RES_STRING,ID_STRING);
+#endif
+    }
+
+    if (*mode > 0)
+    {
+        sprintf(MODE_STRING, " Mode %d", *mode);
+#ifdef _WIN64
+        strcat_s(RES_STRING, 100, MODE_STRING);
+#else
+        RES_STRING = strcat(RES_STRING, MODE_STRING);
+#endif
+    }        
 
     char edata_type[100];
 //

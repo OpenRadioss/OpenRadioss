@@ -208,31 +208,14 @@ C
       PARMAT(4) = ISRATE
       PARMAT(5) = FCUT
       NUPARAM = 23 
-      NFUNC = 0
-      NUVAR = 1
+       NFUNC = 0
+       NUVAR = 6
 C     Formulation for solid elements time step computation.
       PARMAT(16) = 2
       PARMAT(17) = (ONE - TWO*NU)/(ONE + NU)
-C      
+      
       MTAG%G_PLA  = 1
       MTAG%L_PLA  = 1
-      MTAG%G_EPSD = 1
-      MTAG%L_EPSD = 1
-C
-      ! Tag for damage output
-      ! -> Number of output modes (stored in DMG(NEL,I), I>1)
-      MATPARAM%NMOD = 4
-      ! Total number of damage outputs
-      ! -> DMG(NEL,1) = Global damage output 
-      ! -> DMG(NEL,2:NMOD+1) = Damage modes output
-      MTAG%G_DMG = 1 + MATPARAM%NMOD
-      MTAG%L_DMG = 1 + MATPARAM%NMOD
-      ! -> Modes allocation and definition
-      ALLOCATE(MATPARAM%MODE(MATPARAM%NMOD))
-      MATPARAM%MODE(1) = "Void growth volume fraction fg"
-      MATPARAM%MODE(2) = "Nucleation volume fraction fn"
-      MATPARAM%MODE(3) = "Total void volume fraction ft"
-      MATPARAM%MODE(4) = "Effective void volume fraction f*"
 C 
       ! MATPARAM keywords
       CALL INIT_MAT_KEYWORD(MATPARAM,"HOOK")
