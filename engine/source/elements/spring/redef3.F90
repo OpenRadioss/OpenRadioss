@@ -22,16 +22,15 @@
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !----s---1----+----2----+----3----+----4----+----5----+----6----+----7--
       !||====================================================================
-      !||    redef3_mod       ../engine/source/elements/spring/redef3.F90
+      !||    redef3_mod    ../engine/source/elements/spring/redef3.F90
       !||--- called by ------------------------------------------------------
-      !||    r1def3           ../engine/source/elements/spring/r1def3.F
-      !||    r23l108def3      ../engine/source/elements/spring/r23l108def3.F
-      !||    r23l114def3      ../engine/source/elements/spring/r23l114def3.F
-      !||    r2def3           ../engine/source/elements/spring/r2def3.F
-      !||    r3def3           ../engine/source/elements/spring/r3def3.F
-      !||    r4def3           ../engine/source/elements/spring/r4def3.F
-      !||    r6def3           ../engine/source/elements/spring/r6def3.F
-      !||    redef_seatbelt   ../engine/source/tools/seatbelts/redef_seatbelt.F90
+      !||    r1def3        ../engine/source/elements/spring/r1def3.F
+      !||    r23l108def3   ../engine/source/elements/spring/r23l108def3.F
+      !||    r23l114def3   ../engine/source/elements/spring/r23l114def3.F
+      !||    r2def3        ../engine/source/elements/spring/r2def3.F
+      !||    r3def3        ../engine/source/elements/spring/r3def3.F
+      !||    r4def3        ../engine/source/elements/spring/r4def3.F
+      !||    r6def3        ../engine/source/elements/spring/r6def3.F
       !||====================================================================
       module redef3_mod
       contains
@@ -78,7 +77,6 @@
       !||    vinter_mixed           ../engine/source/tools/curve/vinter_mixed.F90
       !||--- uses       -----------------------------------------------------
       !||    constant_mod           ../common_source/modules/constant_mod.F
-      !||    precision_mod          ../common_source/modules/precision_mod.F90
       !||    python_funct_mod       ../common_source/modules/python_mod.F90
       !||    vinter_mixed_mod       ../engine/source/tools/curve/vinter_mixed.F90
       !||====================================================================
@@ -94,7 +92,7 @@
         &ifv,     ifunc2,  epla,    xx_old,&
         &nel, nft, stf,    sanin,   dt1,&
         &iresp,   impl_s,  idyna,   snpc,&
-        &max_slope,fx_max,  xkc )
+        &max_slope,fx_max, yieldc,  xx_oldc)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -164,7 +162,8 @@
           real(kind=WP), dimension(mvsiz),intent(inout) :: epla                   !<
           real(kind=WP), dimension(mvsiz),intent(inout), optional :: max_slope    !<
           real(kind=WP), dimension(mvsiz),intent(inout), optional :: fx_max       !<
-          real(kind=WP), dimension(mvsiz),intent(inout), optional :: xkc          !<
+          real(kind=WP), dimension(nel)  ,intent(inout), optional :: yieldc       !<
+          real(kind=WP), dimension(nel)  ,intent(inout), optional :: xx_oldc      !<
           double precision, dimension(mvsiz),intent(inout) :: aldp          !<
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   local variables
@@ -180,7 +179,7 @@
           integer jfunc
           integer jfunc2
           integer jdmp
-          integer jecrou(-1:11)
+          integer jecrou(-1:12)
           integer j2dmp
           integer k1
           integer np2
@@ -233,9 +232,10 @@
           real(kind=WP) y1
           real(kind=WP) y2
           real(kind=WP) an3y0(mvsiz)
-          real(kind=WP) ddxt
-          real(kind=WP) ddxc
-
+          real(kind=WP) fxb
+          real(kind=WP) x1s,x2s,xxb
+          real(kind=WP) xk_tansav(mvsiz)
+          real(kind=WP) xn3fy0(mvsiz)
           integer :: nfunct !< total number of functions
           integer :: pyid1, pyid2 !< python function id
           logical :: any_python_func !< any python function?
@@ -285,15 +285,14 @@
           jecrou(9)  = 0
           jecrou(10) = 0
           jecrou(11) = 0
+          jecrou(12) = 0
           interp = 0
           jdmp = 0
           j2dmp = 0
 !
           do i=1,nel
-            if(iecrou(i) == 9)then
-              jecrou(9) = jecrou(9) + 1
-            elseif(iecrou(i) == 11)then
-              jecrou(11) = jecrou(11) + 1
+            if(iecrou(i) == 12)then
+              jecrou(12) = jecrou(12) + 1
             elseif(ifunc(i)==0)then  ! ifunc =igeo(101)-fct_id1
               jecrou(-1) = jecrou(-1) + 1
 !  vectorisation
@@ -324,8 +323,8 @@
             elseif(iecrou(i) == 8)then
               jecrou(8) = jecrou(8) + 1
               interp = 1
-            elseif(iecrou(i) == 10)then
-              jecrou(10) = jecrou(10) + 1
+            elseif(iecrou(i) == 9)then
+              jecrou(9) = jecrou(9) + 1
               interp = 1
             endif
             if(ifv(i)/=0) jdmp = jdmp + 1
@@ -514,11 +513,146 @@
             enddo
           endif
 !-------------------------------------
-!        elasto perfectly plastic (isotropic hardening) - input by values
+!        elasto plastic - isotropic uncoupled hardening in traction and compression
 !-------------------------------------
           if(jecrou(9)>0)then
+            if(any_python_func) then
+              do i=1,nel
+                if (ifunc2(i) /= 0 .and. iecrou(i) == 9 .and. jad2(i) < 0) then
+                  fund = -jad2(i) ! curve identifier
+                  an3y0(i) = zero
+                  xn3fy0(i) = zero
+                  dxela(i) = dx(i) - dpx(i)
+                  call python_deriv_funct1d(python, fund, fxep(i), an3y0(i))
+                  call python_solve(python, fund, xn3fy0(i), fxep(i))
+                  xxb = xn3fy0(i) + ddx(i)
+                  xk_tansav(i)=an3y0(i)
+                  if (fxep(i)==yield(i)) dpx(i) = xx_old(i)- abs(xn3fy0(i))
+                  if (fxep(i)==-yieldc(i)) dpx2(i) = xx_oldc(i)- abs(xn3fy0(i))
+                  fx(i)=fxep(i)+an3y0(i)*ddx(i)
+                  if ((fxep(i) < yield(i)).and.(fx(i) > yield(i))) then
+!----               crossing of the traction yield line
+                    xx(i)=dpx(i) + xn3fy0(i) + ddx(i)         
+                  elseif ((-fxep(i)< yieldc(i)).and.(-fx(i) > yieldc(i))) then
+!----               crossing of the compression yield line
+                    xx(i)=-dpx2(i) + xn3fy0(i) + ddx(i)                            
+                  else
+                    if (fx(i) >= zero) then  
+                      xx(i)= xx_old(i) + ddx(i)
+                    else
+                      xx(i)= -xx_oldc(i) + ddx(i)                      
+                    endif
+                  endif
+                endif
+              enddo
+            endif
             do i=1,nel
-              if(iecrou(i)== 9) then
+              if(ifunc2(i)/= 0.and.iecrou(i)== 9 .and. jad2(i) > 0)then
+                fund = ifunc2(i)     ! courbe n3 de unload
+                np2  = (npf(fund+1)-npf(fund))/2
+                an3y0(i)= zero
+                dxela(i)=dx(i)-dpx(i)
+                xxb = 0
+!---            tension - load curve is used
+                do  k=2,np2
+                  k1=2*(k-2)
+                  x1=tf(npf(fund)+k1)
+                  x2=tf(npf(fund)+k1+2)
+                  y1=tf(npf(fund)+k1+1)
+                  y2=tf(npf(fund)+k1+3)
+                  if((fxep(i)< y2.and.fxep(i)>=y1))then
+                    x1s = x1
+                    x2s = x2
+                    an3y0(i)=(y2-y1)/ (x2-x1)
+                    xn3fy0(i)=(fxep(i)-y1)/an3y0(i) + x1   !abs de n3
+                    exit
+                  endif
+                enddo
+   !---        extrapolation (outside of input curve points)
+                if (an3y0(i)== zero)then !
+                  x1=tf(npf(fund)+(np2-2)*2)
+                  x2=tf(npf(fund)+(np2-2)*2+2)
+                  y1=tf(npf(fund)+(np2-2)*2+1)
+                  y2=tf(npf(fund)+(np2-2)*2+3)
+                  xi1=tf(npf(fund))
+                  xi2=tf(npf(fund)+2)
+                  yi1=tf(npf(fund)+1)
+                  yi2=tf(npf(fund)+3)
+                  if(fxep(i)>y2) then
+                    an3y0(i)=(y2-y1)/ (x2-x1)
+                    xn3fy0(i)=(fxep(i)-y1)/an3y0(i) + x1
+                    x1s = x2
+                    x2s = ep20
+                  elseif(fxep(i)<yi1) then
+                    an3y0(i)=(yi2-yi1)/ (xi2-xi1)
+                    xn3fy0(i)=(fxep(i)-yi1)/an3y0(i) + xi1
+                    x1s = -ep20
+                    x2s = xi1
+                  endif
+                  xk_tansav(i)=an3y0(i)
+                endif
+                xxb =xn3fy0(i)+ddx(i)
+                xk_tansav(i)=an3y0(i)
+                if (fxep(i)==yield(i)) dpx(i) = xx_old(i)- abs(xn3fy0(i))
+                if (fxep(i)==-yieldc(i)) dpx2(i) = xx_oldc(i)- abs(xn3fy0(i))
+   !---         next point is in another part of the curve
+                if (xxb< x1s.or.xxb>x2s) then
+                  xk_tansav(i)=zero
+                  do  k=2,np2
+                    k1=2*(k-2)
+                    x1=tf(npf(fund)+k1)
+                    x2=tf(npf(fund)+k1+2)
+                    y1=tf(npf(fund)+k1+1)
+                    y2=tf(npf(fund)+k1+3)
+                    if((xxb < x2.and.xxb >=x1))then
+                       xk_tansav(i)=(y2-y1)/ (x2-x1)
+                      fxb = y1 + ((y2-y1)/(x2-x1))*(xxb-x1)
+                      an3y0(i)= (fxep(i)-fxb)/ (xn3fy0(i)-xxb)
+                      exit
+                    endif
+                  enddo
+                  if (xk_tansav(i)== zero)then ! extrapolation (outside of input curve points)
+                    x1=tf(npf(fund)+(np2-2)*2)
+                    x2=tf(npf(fund)+(np2-2)*2+2)
+                    y1=tf(npf(fund)+(np2-2)*2+1)
+                    y2=tf(npf(fund)+(np2-2)*2+3)
+                    xi1=tf(npf(fund))
+                    xi2=tf(npf(fund)+2)
+                    yi1=tf(npf(fund)+1)
+                    yi2=tf(npf(fund)+3)
+                    if(xxb>x2) then
+                      xk_tansav(i)=(y2-y1)/ (x2-x1)
+                      fxb = y2 + xk_tansav(i)*(xxb-x2)
+                    elseif(xxb<xi1) then
+                      xk_tansav(i)=(yi2-yi1)/ (xi2-xi1)
+                      fxb = yi1 + xk_tansav(i)*(xxb-xi1)
+                    endif
+                    an3y0(i)= (fxep(i)-fxb)/ (xn3fy0(i)-xxb)
+                  endif
+                endif
+                fx(i)=fxep(i)+an3y0(i)*ddx(i)
+                if ((fxep(i) < yield(i)).and.(fx(i) > yield(i))) then
+!----             crossing of the traction yield line
+                  xx(i)=dpx(i) + xn3fy0(i) + ddx(i)         
+                elseif ((-fxep(i)< yieldc(i)).and.(-fx(i) > yieldc(i))) then
+!----             crossing of the compression yield line
+                  xx(i)=-dpx2(i) + xn3fy0(i) + ddx(i)                            
+                else
+                  if (fx(i) >= zero) then  
+                    xx(i)= xx_old(i) + ddx(i)
+                  else
+                    xx(i)= -xx_oldc(i) + ddx(i)                      
+                  endif
+                endif
+              endif
+            enddo
+          endif
+!-------------------------------------
+!        elasto perfeclty plastic (isotropic hardening) - used only for seatbelts
+!-------------------------------------
+          if(jecrou(12)>0)then
+            do i=1,nel
+              if(iecrou(i)== 12) then
                 an3y0(i)= zero
                 if (abs(fxep(i)) > fx_max(i)) then
                   an3y0(i)= zero
@@ -529,114 +663,6 @@
                 fx(i)=fxep(i)+an3y0(i)*ddx(i)
                 xx(i)=sign(abs(xx_old(i)),fx(i))
                 xx(i)=xx(i)+ddx(i)
-              endif
-            enddo
-          endif
-!-------------------------------------
-!        elasto plastique (isotropic hardening) - perfectly plastic in compression
-!-------------------------------------
-
-
-          if(jecrou(10)>0)then
-
-            if(any_python_func) then
-              do i=1,nel
-                if(ifunc(i) /=0 .and.iecrou(i)== 10 .and. jad2(i) < 0)then
-                  fund = -jad2(i)           ! curve id
-                  an3y0(i) = zero
-                  dxela(i) = dx(i) - dpx(i)
-                  if (((dxela(i) >= zero) .or. (fxep(i) >= zero)) .and. (fund > 0)) then
-                    call python_call_funct1d(python, fund, fxep(i), y1)
-                    call python_deriv_funct1d(python, fund, fxep(i), an3y0(i))
-                    if (an3y0(i) == zero) then
-                      call python_call_funct1d(python, fund, fxep(i), y1)
-                      if (fxep(i) > y1) then
-                        call python_deriv_funct1d(python, fund, fxep(i) + ddx(i), an3y0(i))
-                      else
-                        call python_deriv_funct1d(python, fund, fxep(i) - ddx(i), an3y0(i))
-                      end if
-                    end if
-                    if ((dxela(i) < zero) .and. (abs(ddx(i)) > zero)) then
-                      ddxt = -fxep(i) / an3y0(i)
-                      ddxc = ddx(i) - ddxt
-                      an3y0(i) = (ddxt / ddx(i)) * an3y0(i) + (ddxc / ddx(i)) * xkc(i)
-                    end if
-                    if (dxela(i) >= zero) xx(i) = xx_old(i) + ddx(i)
-                  else
-                    an3y0(i) = xkc(i)
-                  end if
-                  fx(i) = fxep(i) + an3y0(i) * ddx(i)
-                endif
-              enddo
-            endif
-            do i=1,nel
-              if(ifunc(i) /=0 .and.iecrou(i)== 10 .and. jad2(i) > 0)then
-                fund = ifunc2(i)     ! unload curve n3
-                np2  = (npf(fund+1)-npf(fund))/2
-                an3y0(i)= zero
-                dxela(i)=dx(i)-dpx(i)
-                if (((dxela(i) >= zero).or.(fxep(i) >= zero)).and.(fund > 0)) then
-!--- tension - load curve is used
-                  do  k=2,np2
-                    k1=2*(k-2)
-                    x1=tf(npf(fund)+k1)
-                    x2=tf(npf(fund)+k1+2)
-                    y1=tf(npf(fund)+k1+1)
-                    y2=tf(npf(fund)+k1+3)
-                    if((fxep(i)< y2.and.fxep(i)>=y1))then
-                      an3y0(i)=(y2-y1)/ (x2-x1)
-                      exit
-                    endif
-                  enddo
-                  if (an3y0(i)== zero)then ! extrapolation
-                    x1=tf(npf(fund)+(np2-2)*2)
-                    x2=tf(npf(fund)+(np2-2)*2+2)
-                    y1=tf(npf(fund)+(np2-2)*2+1)
-                    y2=tf(npf(fund)+(np2-2)*2+3)
-!
-                    xi1=tf(npf(fund))
-                    xi2=tf(npf(fund)+2)
-                    yi1=tf(npf(fund)+1)
-                    yi2=tf(npf(fund)+3)
-                    if(fxep(i)>y2)an3y0(i)=(y2-y1)/ (x2-x1)
-                    if(fxep(i)<yi1)an3y0(i)=(yi2-yi1)/ (xi2-xi1)
-                  endif
-!----       crossing of compression/tension line - mix stiffness computed
-                  if ((dxela(i) < zero).and.(abs(ddx(i)) > zero)) then
-                    ddxt = -fxep(i)/an3y0(i)
-                    ddxc = ddx(i) - ddxt
-                    an3y0(i) = (ddxt/ddx(i))*an3y0(i) + (ddxc/ddx(i))*xkc(i)
-                  endif
-!
-                  if (dxela(i) >= zero) xx(i)=xx_old(i)+ddx(i)
-                else
-!--- compression - perfectly plastic behavior
-                  an3y0(i)= xkc(i)
-                endif
-                fx(i)=fxep(i)+an3y0(i)*ddx(i)
-              endif
-            enddo
-          endif
-!-------------------------------------
-!        linear elastic in tension - perfleclty plastic in compression (same as 10 without curve)
-!-------------------------------------
-          if(jecrou(11)>0)then
-            do i=1,nel
-              if(iecrou(i)== 11) then
-                an3y0(i)= zero
-                dxela(i)=dx(i)-dpx(i)
-                if ((dxela(i) >= zero).or.(fxep(i) >= zero)) then
-                  an3y0(i)= xk(i)
-!----       crossing of compression/tension line - mix stiffness computed
-                  if ((dxela(i) < zero).and.(abs(ddx(i)) > zero)) then
-                    ddxt = -fxep(i)/an3y0(i)
-                    ddxc = ddx(i) - ddxt
-                    an3y0(i) = (ddxt/ddx(i))*an3y0(i) + (ddxc/ddx(i))*xkc(i)
-                  endif
-                else
-                  an3y0(i)= xkc(i)
-                endif
-                fx(i)=fxep(i)+an3y0(i)*ddx(i)
               endif
             enddo
           endif
@@ -890,11 +916,41 @@
             enddo
           endif
 !-------------------------------------
-!     seatbelt - elasto perfectly plastic (isotropic hardening) - input by values
+!         elasto plastic - isotropic uncoupled hardening in traction and compression
 !-------------------------------------
           if(jecrou(9)>0)then
+            if(any_python_func) then
+              call vinter_mixed(python, tf,jad,jpos,jlen,nel,xx,dydx,yy)
+            else
+              call vinter2(tf,jad ,jpos ,jlen ,nel,xx ,dydx ,yy )
+            endif  
             do i=1,nel
-              if(iecrou(i)== 9)then
+              if(ifunc(i)/= 0.and.iecrou(i)== 9)then
+                if(fx(i)>= zero.and.fx(i)>yield(i))then
+                  pos(1,i) = jpos(i)
+!--               compute plastic and elastic deformation (total)
+                  fx(i)=yy(i)
+                  yield(i)=fx(i)
+!--               ecr variable for hardening/softening in traction - always incremented with positive value
+                  xx_old(i) = xx_old(i) + abs(ddx(i))
+                elseif(fx(i)< zero.and.fx(i)< -yieldc(i))then
+                  pos(1,i) = jpos(i)
+!--               compute plastic and elastic deformation (total)
+                  fx(i)=yy(i)
+                  yieldc(i)=-fx(i)
+!--               ecr variable for hardening/softening in compression - always incremented with positive value
+                  xx_oldc(i) = xx_oldc(i) + abs(ddx(i))
+                endif
+                fxep(i)=fx(i)
+               endif
+            enddo
+          endif
+!-------------------------------------
+!        elasto perfeclty plastic (isotropic hardening) - used only for seatbelts
+!-------------------------------------
+          if(jecrou(12)>0)then
+            do i=1,nel
+              if(iecrou(i)== 12)then
                 if (abs(xk(i)*xx(i)) > fx_max(i)) then
                   yy(i) =sign(fx_max(i),xx(i))
                   dydx = 0
@@ -921,51 +977,6 @@
                   yield(i)=-fx(i)
 !-- ecr variable for hardening/softening - always incremented with positive value
                   xx_old(i) = xx_old(i) + abs(ddx(i))
-                endif
-                fxep(i)=fx(i)
-              endif
-            enddo
-          endif
-!-------------------------------------
-!     seatbelt - elasto plastique (ecouissage isotrope) in tension - perfleclty plastic in compression
-!-------------------------------------
-          if(jecrou(10)>0)then
-            if(any_python_func) then
-              call vinter_mixed(python, tf,jad,jpos,jlen,nel,xx,dydx,yy)
-            else
-              call vinter2(tf,jad ,jpos ,jlen ,nel,xx ,dydx ,yy )
-            endif
-            do i=1,nel
-              if(ifunc(i) /=  0.and.iecrou(i)== 10)then
-                if(fx(i)> zero.and.fx(i)>yield(i))then
-                  pos(1,i) = jpos(i)
-!-- compute plastic and elastic deformation (total)
-                  dpx(i)=dpx(i)+(fx(i)-yy(i))/an3y0(i)
-                  fx(i)=yy(i)
-                  yield(i)=fx(i)
-!-- ecr variable for hardening/softening - always incremented with positive value
-                  xx_old(i) = xx_old(i) + abs(ddx(i))
-                elseif(fx(i)<= -fx_max(i))then
-                  yy(i) = -fx_max(i)
-!-- compute plastic deformation (total)
-                  dpx(i)=dpx(i)+(-yy(i)+fx(i))/an3y0(i)
-                  fx(i)=yy(i)
-                endif
-                fxep(i)=fx(i)
-              endif
-            enddo
-          endif
-!-------------------------------------
-!     seatbelt - linear elastic in tension - perfleclty plastic in compression
-!-------------------------------------
-          if(jecrou(11)>0)then
-            do i=1,nel
-              if(iecrou(i)== 11)then
-                if(fx(i)<= -fx_max(i))then
-                  yy(i) = -fx_max(i)
-!-- compute plastic deformation (total)
-                  dpx(i)=dpx(i)+(-yy(i)+fx(i))/an3y0(i)
-                  fx(i)=yy(i)
                 endif
                 fxep(i)=fx(i)
               endif

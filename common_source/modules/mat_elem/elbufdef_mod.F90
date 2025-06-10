@@ -821,6 +821,8 @@
         integer  g_inifric
         integer  g_etotsh
         integer  g_skew_id
+        integer  g_yield_in_comp
+        integer  g_xxold_in_comp
 !
 !    -  for seatbelt elements
         integer  g_slipring_id
@@ -950,6 +952,8 @@
         real(kind=WP), dimension(:) , pointer ::   strhg
         real(kind=WP), dimension(:) , pointer ::   etotsh
         integer, dimension(:) , pointer ::   skew_id
+        real(kind=WP), dimension(:) , pointer ::   yield_in_comp
+        real(kind=WP), dimension(:) , pointer ::   xxold_in_comp
         type (fail_loc_) , dimension(:) , pointer ::   fail
 !
 !    -  for seatbelt elements
