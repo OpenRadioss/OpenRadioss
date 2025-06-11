@@ -891,10 +891,11 @@ C     compactage de LSH4ACT
       END IF
 C
 C     Tag element that are inactifs and one of its sons is actif for Idel in interface
-       IF(NADMESH/=0.AND.IDEL7NG>=1)THEN
+       IF(NADMESH/=0.AND.IDEL7NG>=1.AND.(LSH4TRIM>0.OR.LSH3TRIM>0))THEN
          TAGTRIMC(1:NUMELC) = 0 
          TAGTRIMTG(1:NUMELTG) = 0 
-         DO N=1,NUMELC
+         IF(LSH4TRIM>0)THEN
+          DO N=1,NUMELC
 
            IF(IPART(10,IPARTC(N)) > 0)THEN
              LEVEL = SH4TREE(3,N)
@@ -938,8 +939,11 @@ c            ELSEIF (LEVEL==(-LEVELMAX-1)) THEN
             ENDIF
           ENDIF
 
-        ENDDO
-        DO N=1,NUMELTG
+         ENDDO
+        ENDIF
+
+        IF(LSH3TRIM>0)THEN
+         DO N=1,NUMELTG
 
           IF(IPART(10,IPARTTG(N)) > 0)THEN
             LEVEL = SH3TREE(3,N)
@@ -979,7 +983,8 @@ c            ELSEIF (LEVEL==(-LEVELMAX-1)) THEN
                 ELBUF_TAB(NG)%GBUF%OFF(I) = ZERO ! off
              ENDIF
           ENDIF
-        ENDDO
+         ENDDO
+       ENDIF 
       ENDIF
 C
 C     tableaux de travail.

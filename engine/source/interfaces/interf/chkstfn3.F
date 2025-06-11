@@ -857,7 +857,7 @@ C
             DO I = LFT,LLT 
               IE = NFT+I+OFC
               IF(NADMESH/=0) THEN
-                IF(ABS(GBUF%OFF(I))>=ONE.AND.TAGTRIMC(IE)==0)THEN  
+                IF(ABS(GBUF%OFF(I))>=ONE.AND.TAGTRIMC(NFT+I)==0)THEN  
                   TAGEL(IE)=1
                   DO K=2,5
                      N = IXC(K,NFT+I)
@@ -1001,7 +1001,7 @@ C
               IE = NFT+I+OFTG
 
               IF(NADMESH/=0) THEN
-                IF(ABS(GBUF%OFF(I))>=ONE.AND.TAGTRIMTG(IE)==0)THEN            
+                IF(ABS(GBUF%OFF(I))>=ONE.AND.TAGTRIMTG(NFT+I)==0)THEN            
                   TAGEL(IE)=1
                   DO K=2,4
                      N = IXTG(K,NFT+I)
