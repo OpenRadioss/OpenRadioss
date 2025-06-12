@@ -233,7 +233,7 @@ C-----------------------------------------------
      .   IDEL2,IS,
      .   STEXT1,MULTIREST1,NLPRI1,LOWMACH_OPT,IERROR,
      .   NINTERSKID,IVOLU,IFV,IFV_TYPE,ISTATG_P,
-     .   K3,K4,K5,K6,K7,K8,K9,NINEFRICG,NS,NI
+     .   K3,K4,K5,K6,K7,K8,K9,NINEFRICG,NS,NI,NPARTOF,IFT,ILT,K10,K11
 
       INTEGER :: NBPARTALEON, NBPARTALEOFF, PARTID, ISON, ION, IOFF, NBALEON_PART, NBALEOFF_PART
       INTEGER, DIMENSION(:), ALLOCATABLE :: ALEOFF_PARTIDS_TMP, ALEOFF_PARTIDS,
@@ -252,6 +252,7 @@ C-----------------------------------------------
       LOGICAL IS_ALREADY_PRINTED
       REAL(KIND=8) :: DTH
       REAL(KIND=8), DIMENSION(9) :: DTH1
+      INTEGER, DIMENSION(:), ALLOCATABLE :: IPARTOF
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
@@ -276,7 +277,7 @@ C-----------------------------------------------
       READ (IIN,'(I8)') LOWMACH_OPT
       READ (IIN,'(10I8)') NSLIOF,NELSOF,NELQOF,NELCOF,NELTOF,NELPOF,NELROF,NELTGOF,NSLIOFN,NSLIOFS
       READ (IIN,'(I8)') NSPHOF
-      READ (IIN,'(3I8)') NALEOF,NEULEROF,NTHERMOF
+      READ (IIN,'(4I8)') NALEOF,NEULEROF,NTHERMOF,NPARTOF
       READ (IIN,'(2I8)') NRLINK0,NALELK0
       READ (IIN,'(2I8)') NALELINK0
 C--------------
@@ -988,7 +989,7 @@ C-----------------------
          WRITE(IOUT,1182)IPARIT-1
        ENDIF
 C-----------------------
-       WRITE(IOUT,1300) NSLIOF,NELSOF,NELQOF,NELCOF,NELTOF,NELPOF,NELROF,NELTGOF,NSPHOF
+       WRITE(IOUT,1300) NSLIOF,NPARTOF,NELSOF,NELQOF,NELCOF,NELTOF,NELPOF,NELROF,NELTGOF,NSPHOF
        WRITE(IOUT,1400) NRLINK
        WRITE(IOUT,1500) NUBCSN
        IF(IALE /= 0.OR.IEULER /= 0)WRITE(IOUT,1450) NALELINK+NALELK !format v12 + format v5
@@ -1705,7 +1706,7 @@ C           number of the related group :
                             NFT=IPARG(3,NG)
                             IAD=IPARG(4,NG)
                             II=L-NFT
-                            ELBUF_STR(NG)%GBUF%OFF(II) = ZERO
+!                            ELBUF_STR(NG)%GBUF%OFF(II) = ZERO
                             KXSP(2,L) = 0
                             K=K+1
                             NLECSPH(K) = KXSP(NISP,L)
@@ -1734,6 +1735,115 @@ C           number of the related group :
          ENDIF
        ENDIF
 C
+      END IF
+!-----------------------
+!     9. /DEL/PART
+!-----------------------
+      IF(NPARTOF > 0)THEN
+        IF(ISPMD == 0.AND.MCHECK == 0)WRITE (IOUT,1890)
+         NN=(NPARTOF+4)/5
+         NBC=5
+         ALLOCATE(IPARTOF(NPART))
+         IPARTOF = 0
+         DO I=1,NN
+              READ (IIN,'(10I10)') (NLEC(II),II=1,10)
+              DO J=1,NBC
+                  KLG=NLEC(2*J-1)
+                  KUG=NLEC(2*J  )
+                  IF(KLG<=0) GO TO 832
+                  NBLK=(I-1)*NBC+J
+                 DO L = 1, NPART
+                    DO K=KLG,KUG
+                        IF(IPART(4 + (L - 1) * LIPART1) == K) THEN
+                           IPARTOF(L)=1
+                           CYCLE
+                        ENDIF
+                    ENDDO
+                 ENDDO
+              ENDDO
+         ENDDO
+  832  CONTINUE
+         K=0
+         DO L=1,NPART
+           IF(IPARTOF(L)== 1)THEN
+             K=K+1
+             NLEC(K) = IPART(4 + (L - 1) * LIPART1)
+             IF(K == 10)THEN
+               IF(MCHECK == 0)WRITE (IOUT,'(5I10)') (NLEC(II),II=1,K)
+               K=0
+             ENDIF
+           ENDIF
+         ENDDO
+         IF(K > 0) THEN
+           IF(MCHECK == 0) WRITE (IOUT,'(5I10)') (NLEC(II),II=1,K)
+         ENDIF
+         IF(NSPMD > 1) THEN
+            ! required treatments to retrieve deleted elems in correct order
+           IWIOUT = 0
+           IF (ISPMD /= 0) CALL SPMD_CHKW(IWIOUT,IOUT)
+           CALL SPMD_GLOB_ISUM9(IWIOUT,1)
+           CALL SPMD_IBCAST(IWIOUT,IWIOUT,1,1,0,2)
+           IF (IWIOUT > 0) THEN
+             CALL SPMD_WIOUT(IOUT,IWIOUT)
+             IWIOUT = 0
+           ENDIF
+         ENDIF
+!     OFF of each element in Part
+        K1=1+LIPART1*(NPART+NTHPART)+2*9*(NPART+NTHPART)
+        K2=K1+NUMELS
+        K3=K2+NUMELQ
+        K4=K3+NUMELC
+        K5=K4+NUMELT
+        K6=K5+NUMELP
+        K7=K6+NUMELR
+        K8=K7
+        K9=K8+NUMELTG
+        K10= K9 + NUMELX
+        K11= K10+ NUMSPH
+        DO NG = 1, NGROUP
+           ITY = IPARG(5, NG)
+           NEL = IPARG(2, NG)
+           NFT = IPARG(3, NG)
+           IFT = NFT + 1
+           ILT = NFT + NEL
+           IF (NEL == 0) CYCLE
+           SELECT CASE (ITY)
+             CASE(1)                                             
+!       1. SOLID ELEMS
+              PARTID = IPART(K1 + NFT)
+              IF (IPARTOF(PARTID)==1) IXS(1,IFT:ILT)=-IABS(IXS(1,IFT:ILT))
+             CASE(2)                                             
+!       2. 2D ELEMS
+              PARTID = IPART(K2 + NFT)
+              IF (IPARTOF(PARTID)==1) IXQ(1,IFT:ILT)=-IABS(IXQ(1,IFT:ILT))
+             CASE(3)                                             
+!       3. SHELL ELEMS
+              PARTID = IPART(K3 + NFT)
+              IF (IPARTOF(PARTID)==1) IXC(1,IFT:ILT)=-IABS(IXC(1,IFT:ILT))
+             CASE(4)                                             
+!       4. ROD ELEMS
+              PARTID = IPART(K4 + NFT)
+              IF (IPARTOF(PARTID)==1) IXT(1,IFT:ILT)=-IABS(IXT(1,IFT:ILT))
+             CASE(5)                                             
+!       5. BEAM ELEMS
+              PARTID = IPART(K5 + NFT)
+              IF (IPARTOF(PARTID)==1) IXP(1,IFT:ILT)=-IABS(IXP(1,IFT:ILT))
+             CASE(6)                                             
+!       6. ELEMENTS RESSORTS
+              PARTID = IPART(K6 + NFT)
+              IF (IPARTOF(PARTID)==1) IXR(1,IFT:ILT)=-IABS(IXR(1,IFT:ILT))
+             CASE(7)                                             
+!       7. 3N-SHELL-ELEMS
+              PARTID = IPART(K8 + NFT)
+              IF (IPARTOF(PARTID)==1) IXTG(1,IFT:ILT)=-IABS(IXTG(1,IFT:ILT))
+             CASE(51)                                             
+!       8. SPH PARTICLES
+              PARTID = IPART(K10 + NFT)
+              IF (IPARTOF(PARTID)==1) KXSP(2,IFT:ILT) = 0
+            END SELECT 
+        ENDDO
+        IF (ALLOCATED(IPARTOF)) DEALLOCATE(IPARTOF)
+!
       END IF
 
 C-------------------------------
@@ -1943,7 +2053,9 @@ C-----------------------
           IGOF=1
           DO I=1,NEL
             II=I+NFT
-            IF(KXSP(2,II) /= 0)THEN
+            IF(KXSP(2,II) == 0)THEN
+             OFFG(I) = ZERO
+            ELSE
              IGOF=0
             ENDIF
           ENDDO
@@ -2919,6 +3031,7 @@ C---------------------------------------------------------
      . 28X,' SCALE FACTOR FOR ROTATION  . . . . . . . . . . . ',G14.7//)
  1300 FORMAT(
      .  ' NUMBER OF INTERFACES TO BE ELIMINATED. . . . . . ',I8//
+     .  ' NUMBER OF PARTS TO BE ELIMINATED . . . . . . . . ',I8//
      .  ' NUMBER OF SOLID  ELEMENT BLOCKS TO BE ELIMINATED ',I8//
      .  ' NUMBER OF QUAD   ELEMENT BLOCKS TO BE ELIMINATED ',I8//
      .  ' NUMBER OF SHELL  ELEMENT BLOCKS TO BE ELIMINATED ',I8//
@@ -2943,6 +3056,7 @@ C---------------------------------------------------------
  1860 FORMAT(///' LIST OF ELIMINATED SPRING ELEMENTS ')
  1870 FORMAT(///' LIST OF ELIMINATED SH_3N  ELEMENTS ')
  1880 FORMAT(///' LIST OF ELIMINATED   SPH PARTICLES ')
+ 1890 FORMAT(///' LIST OF ELIMINATED PARTS           ')
  2000 FORMAT(/' INTERFACE NUMBER',I10,'    IS ELIMINATED')
  2100 FORMAT(/' RIGID LINK:',I5,
      .        ' TRANSLATION X,Y,Z',3(1X,I1),
