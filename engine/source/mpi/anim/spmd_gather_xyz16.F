@@ -23,11 +23,13 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 
 C            XYZ16                  /anim/genani.F
       !||====================================================================
-      !||    spmd_gather_xyz16   ../engine/source/mpi/anim/spmd_gather_xyz16.F
+      !||    spmd_gather_xyz16     ../engine/source/mpi/anim/spmd_gather_xyz16.F
       !||--- called by ------------------------------------------------------
-      !||    xyz16               ../engine/source/output/anim/generate/genani.F
+      !||    xyz16                 ../engine/source/output/anim/generate/genani.F
       !||--- calls      -----------------------------------------------------
-      !||    write_r_c           ../common_source/tools/input_output/write_routtines.c
+      !||    write_r_c             ../common_source/tools/input_output/write_routtines.c
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
       SUBROUTINE SPMD_GATHER_XYZ16(V,NUM)
 C-----------------------------------------------

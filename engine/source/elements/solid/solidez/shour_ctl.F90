@@ -42,6 +42,7 @@
       !||    szhour_ctl      ../engine/source/elements/solid/solidez/szhour_ctl.F
       !||--- uses       -----------------------------------------------------
       !||    constant_mod    ../common_source/modules/constant_mod.F
+      !||    mvsiz_mod       ../engine/share/spe_inc/mvsiz_mod.F90
       !||    precision_mod   ../common_source/modules/precision_mod.F90
       !||====================================================================
         subroutine  shour_ctl(                                  &

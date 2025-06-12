@@ -27,6 +27,8 @@ C
       !||    sms_rbe3_prec          ../engine/source/ams/sms_rbe3.F
       !||    sms_rbe3t1             ../engine/source/ams/sms_rbe3.F
       !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_comm_world_mod    ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
       SUBROUTINE SPMD_EXCH_RBE3_A_PON(
      1   A    ,FR_M   ,IAD_M ,LCOMM  ,ISIZE)

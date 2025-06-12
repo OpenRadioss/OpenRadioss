@@ -30,6 +30,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    h3d_sol_skin_tensor   ../engine/source/output/h3d/h3d_results/h3d_sol_skin_tensor.F
       !||    inter_sh_offset_ini   ../engine/source/interfaces/shell_offset/inter_offset_ini.F90
       !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
       SUBROUTINE SPMD_EXCH_NODAREAI(
      .           NODAREAI,IAD_ELEM,FR_ELEM,LENR,WEIGHT)

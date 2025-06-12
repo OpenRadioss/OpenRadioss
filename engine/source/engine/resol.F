@@ -469,7 +469,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    inter_sorting_mod                            ../engine/share/modules/inter_sorting_mod.F
       !||    inter_struct_mod                             ../engine/share/modules/inter_struct_mod.F
       !||    interface_table_mod                          ../engine/share/modules/table_mod.F
+      !||    interfaces_mod                               ../common_source/modules/interfaces/interfaces_mod.F90
       !||    intstamp_glob_mod                            ../engine/share/modules/intstamp_glob_mod.F
+      !||    loads_mod                                    ../common_source/modules/loads/loads_mod.F90
       !||    mat_elem_mod                                 ../common_source/modules/mat_elem/mat_elem_mod.F90
       !||    mds_restart_mod                              ../common_source/modules/mds_rest.mod.F
       !||    message_mod                                  ../engine/share/message_module/message_mod.F

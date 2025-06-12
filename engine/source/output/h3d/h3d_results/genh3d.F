@@ -149,6 +149,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    h3d_mod                              ../engine/share/modules/h3d_mod.F
       !||    h3d_oned_scalar_mod                  ../engine/source/output/h3d/h3d_results/h3d_oned_scalar.F90
       !||    inoutfile_mod                        ../common_source/modules/inoutfile_mod.F
+      !||    loads_mod                            ../common_source/modules/loads/loads_mod.F90
       !||    matparam_def_mod                     ../common_source/modules/mat_elem/matparam_def_mod.F90
       !||    message_mod                          ../engine/share/message_module/message_mod.F
       !||    multi_fvm_mod                        ../common_source/modules/ale/multi_fvm_mod.F90

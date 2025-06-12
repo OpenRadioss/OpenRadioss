@@ -22,17 +22,18 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
       !||====================================================================
-      !||    spmd_sd_xv    ../engine/source/mpi/nodes/spmd_sd_xv.F
+      !||    spmd_sd_xv            ../engine/source/mpi/nodes/spmd_sd_xv.F
       !||--- called by ------------------------------------------------------
-      !||    imp_tripi     ../engine/source/implicit/imp_int_k.F
-      !||    resol         ../engine/source/engine/resol.F
+      !||    imp_tripi             ../engine/source/implicit/imp_int_k.F
+      !||    resol                 ../engine/source/engine/resol.F
       !||--- calls      -----------------------------------------------------
-      !||    ancmsg        ../engine/source/output/message/message.F
-      !||    arret         ../engine/source/system/arret.F
+      !||    ancmsg                ../engine/source/output/message/message.F
+      !||    arret                 ../engine/source/system/arret.F
       !||--- uses       -----------------------------------------------------
-      !||    ale_mod       ../common_source/modules/ale/ale_mod.F
-      !||    anim_mod      ../common_source/modules/output/anim_mod.F
-      !||    message_mod   ../engine/share/message_module/message_mod.F
+      !||    ale_mod               ../common_source/modules/ale/ale_mod.F
+      !||    anim_mod              ../common_source/modules/output/anim_mod.F
+      !||    message_mod           ../engine/share/message_module/message_mod.F
+      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
       SUBROUTINE SPMD_SD_XV(
      1  X     ,D       ,V      ,VR    ,MS   ,

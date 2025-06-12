@@ -23,15 +23,17 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 
 
       !||====================================================================
-      !||    spmd_iglob_partn   ../engine/source/mpi/anim/spmd_iglob_partn.F
+      !||    spmd_iglob_partn      ../engine/source/mpi/anim/spmd_iglob_partn.F
       !||--- called by ------------------------------------------------------
-      !||    parsor0            ../engine/source/output/anim/generate/parsor0.F
-      !||    parsor_crk         ../engine/source/output/anim/generate/parsor_crk.F
-      !||    parsor_ply         ../engine/source/output/anim/generate/parsor_ply.F
-      !||    parsorc            ../engine/source/output/anim/generate/parsorc.F
-      !||    parsorf            ../engine/source/output/anim/generate/parsorf.F
-      !||    parsors            ../engine/source/output/anim/generate/parsors.F
+      !||    parsor0               ../engine/source/output/anim/generate/parsor0.F
+      !||    parsor_crk            ../engine/source/output/anim/generate/parsor_crk.F
+      !||    parsor_ply            ../engine/source/output/anim/generate/parsor_ply.F
+      !||    parsorc               ../engine/source/output/anim/generate/parsorc.F
+      !||    parsorf               ../engine/source/output/anim/generate/parsorf.F
+      !||    parsors               ../engine/source/output/anim/generate/parsors.F
       !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
       SUBROUTINE SPMD_IGLOB_PARTN(IAD,NBPART,IADG,SBUF)
 C iglob_part reconstruit sur p0 un tableau global de part 

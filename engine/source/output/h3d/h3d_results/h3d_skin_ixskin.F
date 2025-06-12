@@ -32,6 +32,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    elbufdef_mod          ../common_source/modules/mat_elem/elbufdef_mod.F90
       !||    h3d_inc_mod           ../engine/share/modules/h3d_inc_mod.F
       !||    initbuf_mod           ../engine/share/resol/initbuf.F
+      !||    loads_mod             ../common_source/modules/loads/loads_mod.F90
       !||    pblast_mod            ../common_source/modules/loads/pblast_mod.F90
       !||====================================================================
       SUBROUTINE H3D_SKIN_IXSKIN(ELBUF_TAB,IPARG,IPARTS,IXS,IXS10,
@@ -266,6 +267,7 @@ C-----------
       !||    h3d_skin_tsh_dim     ../engine/source/output/h3d/h3d_results/h3d_skin_ixskin.F
       !||    spmd_allglob_isum9   ../engine/source/mpi/generic/spmd_allglob_isum9.F
       !||--- uses       -----------------------------------------------------
+      !||    loads_mod            ../common_source/modules/loads/loads_mod.F90
       !||    pblast_mod           ../common_source/modules/loads/pblast_mod.F90
       !||====================================================================
       SUBROUTINE H3D_SKIN_DIM(IPARG ,NUMSKIN, NUMSKING,TAG_SKINS6,IBCL,
@@ -490,6 +492,7 @@ C-----------
       !||--- called by ------------------------------------------------------
       !||    h3d_skin_dim       ../engine/source/output/h3d/h3d_results/h3d_skin_ixskin.F
       !||--- uses       -----------------------------------------------------
+      !||    loads_mod          ../common_source/modules/loads/loads_mod.F90
       !||    pblast_mod         ../common_source/modules/loads/pblast_mod.F90
       !||    pinchtype_mod      ../common_source/modules/pinchtype_mod.F
       !||====================================================================
@@ -739,6 +742,7 @@ C
       !||    h3d_skin_ixskin       ../engine/source/output/h3d/h3d_results/h3d_skin_ixskin.F
       !||--- uses       -----------------------------------------------------
       !||    h3d_inc_mod           ../engine/share/modules/h3d_inc_mod.F
+      !||    loads_mod             ../common_source/modules/loads/loads_mod.F90
       !||    pblast_mod            ../common_source/modules/loads/pblast_mod.F90
       !||    pinchtype_mod         ../common_source/modules/pinchtype_mod.F
       !||====================================================================

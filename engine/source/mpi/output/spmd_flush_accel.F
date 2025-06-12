@@ -37,6 +37,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    double_array_checksum   ../engine/source/mpi/output/node_checksum.F
       !||--- uses       -----------------------------------------------------
       !||    checksum_mod            ../engine/source/mpi/output/node_checksum.F
+      !||    spmd_comm_world_mod     ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
       SUBROUTINE SPMD_FLUSH_ACCEL(NCYCLE,  ISPMD,   NSPMD, NUMNOD,
      .                          NUMNODG, NUMNODM, A,     ITAB,

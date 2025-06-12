@@ -26,6 +26,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    resol_init            ../engine/source/engine/resol_init.F
       !||--- uses       -----------------------------------------------------
       !||    nlocal_reg_mod        ../common_source/modules/nlocal_reg_mod.F
+      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
       SUBROUTINE SPMD_SUB_BOUNDARIES(NLOC_DMG,IAD_ELEM,FR_ELEM)
 C-----------------------------------------------
@@ -218,12 +219,13 @@ C     -----------------------------
 
 
       !||====================================================================
-      !||    spmd_exch_sub_poff   ../engine/source/mpi/spmd_exch_sub.F
+      !||    spmd_exch_sub_poff    ../engine/source/mpi/spmd_exch_sub.F
       !||--- called by ------------------------------------------------------
-      !||    resol                ../engine/source/engine/resol.F
+      !||    resol                 ../engine/source/engine/resol.F
       !||--- calls      -----------------------------------------------------
       !||--- uses       -----------------------------------------------------
-      !||    nlocal_reg_mod       ../common_source/modules/nlocal_reg_mod.F
+      !||    nlocal_reg_mod        ../common_source/modules/nlocal_reg_mod.F
+      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
       SUBROUTINE SPMD_EXCH_SUB_POFF(NLOC_DMG)
 C-----------------------------------------------
@@ -381,12 +383,13 @@ c-------------------------------------------------------------------
 
 
       !||====================================================================
-      !||    spmd_exch_sub_pon   ../engine/source/mpi/spmd_exch_sub.F
+      !||    spmd_exch_sub_pon     ../engine/source/mpi/spmd_exch_sub.F
       !||--- called by ------------------------------------------------------
-      !||    resol               ../engine/source/engine/resol.F
+      !||    resol                 ../engine/source/engine/resol.F
       !||--- calls      -----------------------------------------------------
       !||--- uses       -----------------------------------------------------
-      !||    nlocal_reg_mod      ../common_source/modules/nlocal_reg_mod.F
+      !||    nlocal_reg_mod        ../common_source/modules/nlocal_reg_mod.F
+      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
       SUBROUTINE SPMD_EXCH_SUB_PON(NLOC_DMG)
 !$COMMENT

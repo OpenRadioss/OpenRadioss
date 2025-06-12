@@ -22,12 +22,13 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
       !||====================================================================
-      !||    spmd_exchi_a_pon   ../engine/source/mpi/forces/spmd_exchi_a_pon.F
+      !||    spmd_exchi_a_pon      ../engine/source/mpi/forces/spmd_exchi_a_pon.F
       !||--- called by ------------------------------------------------------
-      !||    spmd_exch2_a_pon   ../engine/source/mpi/forces/spmd_exch2_a_pon.F
+      !||    spmd_exch2_a_pon      ../engine/source/mpi/forces/spmd_exch2_a_pon.F
       !||--- calls      -----------------------------------------------------
       !||--- uses       -----------------------------------------------------
-      !||    plyxfem_mod        ../engine/share/modules/plyxfem_mod.F
+      !||    plyxfem_mod           ../engine/share/modules/plyxfem_mod.F
+      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
       SUBROUTINE SPMD_EXCHI_A_PON(
      1   IAD_ELEM,FR_ELEM ,SIZI   ,ISKY   ,FSKYI ,

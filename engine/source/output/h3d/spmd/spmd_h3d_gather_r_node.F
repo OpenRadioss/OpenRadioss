@@ -25,6 +25,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- called by ------------------------------------------------------
       !||    genh3d                   ../engine/source/output/h3d/h3d_results/genh3d.F
       !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_comm_world_mod      ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
        SUBROUTINE SPMD_H3D_GATHER_R_NODE(WEIGHT,V,LEN,VP0,LENP0)
 C-----------------------------------------------
@@ -92,6 +94,8 @@ C
       !||--- called by ------------------------------------------------------
       !||    genh3d                 ../engine/source/output/h3d/h3d_results/genh3d.F
       !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_comm_world_mod    ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
        SUBROUTINE SPMD_H3D_SUM_R_NODAL(NODGLOB,V,LEN,VP0,LENP0)
 C-----------------------------------------------
@@ -160,6 +164,8 @@ C-----------------------------------------------
       !||    fcont_max_output          ../engine/source/output/h3d/h3d_results/fcont_max_output.F
       !||    genh3d                    ../engine/source/output/h3d/h3d_results/genh3d.F
       !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_comm_world_mod       ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
        SUBROUTINE SPMD_H3D_SUM_R_NODAL_21(NODGLOB,V,LEN,VP0,LENP0,VG21)
 C-----------------------------------------------

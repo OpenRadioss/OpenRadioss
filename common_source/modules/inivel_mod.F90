@@ -28,6 +28,7 @@
       !||    inivel_dt2       ../engine/source/loads/general/inivel/inivel_dt2.F90
       !||    inivel_init      ../engine/source/loads/general/inivel/inivel_init.F90
       !||    inivel_start     ../engine/source/loads/general/inivel/inivel_start.F90
+      !||    loads_mod        ../common_source/modules/loads/loads_mod.F90
       !||    read_inivel      ../engine/source/output/restart/read_inivel.F90
       !||    w_inivel_str     ../starter/source/restart/ddsplit/w_inivel_str.F90
       !||    write_inivel     ../engine/source/output/restart/write_inivel.F90

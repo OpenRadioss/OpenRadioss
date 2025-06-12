@@ -28,6 +28,7 @@ C
       !||    i25_remove_global_segment   ../engine/source/interfaces/interf/chkstfn3.F
       !||--- uses       -----------------------------------------------------
       !||    intbufdef_mod               ../common_source/modules/interfaces/intbufdef_mod.F90
+      !||    spmd_comm_world_mod         ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
         SUBROUTINE SPMD_EXCH_IDEL_SEGLO(IPARI,INTBUF_TAB,INDSEGLO,IBUFSEGLO)
 C-----------------------------------------------

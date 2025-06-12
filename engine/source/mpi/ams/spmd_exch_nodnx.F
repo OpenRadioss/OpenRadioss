@@ -26,6 +26,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    sms_build_diag    ../engine/source/ams/sms_build_diag.F
       !||    sms_ini_jad_3     ../engine/source/ams/sms_init.F
       !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_mod          ../engine/source/mpi/spmd_mod.F90
       !||====================================================================
       SUBROUTINE SPMD_EXCH_NODNX(NODNX_SMS,IAD_ELEM,FR_ELEM,LENR)
         USE SPMD_MOD

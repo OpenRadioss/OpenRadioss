@@ -101,8 +101,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    groupdef_mod                 ../common_source/modules/groupdef_mod.F
       !||    h3d_mod                      ../engine/share/modules/h3d_mod.F
       !||    inoutfile_mod                ../common_source/modules/inoutfile_mod.F
+      !||    interfaces_mod               ../common_source/modules/interfaces/interfaces_mod.F90
       !||    intstamp_glob_mod            ../engine/share/modules/intstamp_glob_mod.F
       !||    linear_solver_mod            ../engine/share/modules/linear_solver_mod.F
+      !||    loads_mod                    ../common_source/modules/loads/loads_mod.F90
       !||    mat_elem_mod                 ../common_source/modules/mat_elem/mat_elem_mod.F90
       !||    mds_restart_mod              ../common_source/modules/mds_rest.mod.F
       !||    message_mod                  ../engine/share/message_module/message_mod.F

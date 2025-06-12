@@ -48,6 +48,7 @@
       !||--- uses       -----------------------------------------------------
       !||    array_mod                  ../common_source/modules/array_mod.F
       !||    constant_mod               ../common_source/modules/constant_mod.F
+      !||    precision_mod              ../common_source/modules/precision_mod.F90
       !||    spmd_mod                   ../engine/source/mpi/spmd_mod.F90
       !||====================================================================
         subroutine spmd_xv_inter_type1(numnod,SFR_ELEM,ispmd,nspmd,iad_elem,fr_elem,a,v,ninter,ipari,npari)

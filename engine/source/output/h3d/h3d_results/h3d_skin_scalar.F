@@ -35,6 +35,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    h3d_inc_mod            ../engine/share/modules/h3d_inc_mod.F
       !||    h3d_mod                ../engine/share/modules/h3d_mod.F
       !||    initbuf_mod            ../engine/share/resol/initbuf.F
+      !||    loads_mod              ../common_source/modules/loads/loads_mod.F90
       !||    mat_elem_mod           ../common_source/modules/mat_elem/mat_elem_mod.F90
       !||    multi_fvm_mod          ../common_source/modules/ale/multi_fvm_mod.F90
       !||    names_and_titles_mod   ../common_source/modules/names_and_titles_mod.F
@@ -516,6 +517,7 @@ C-----------------------------------------------
       !||--- uses       -----------------------------------------------------
       !||    h3d_inc_mod            ../engine/share/modules/h3d_inc_mod.F
       !||    h3d_mod                ../engine/share/modules/h3d_mod.F
+      !||    loads_mod              ../common_source/modules/loads/loads_mod.F90
       !||    names_and_titles_mod   ../common_source/modules/names_and_titles_mod.F
       !||    pblast_mod             ../common_source/modules/loads/pblast_mod.F90
       !||    pinchtype_mod          ../common_source/modules/pinchtype_mod.F

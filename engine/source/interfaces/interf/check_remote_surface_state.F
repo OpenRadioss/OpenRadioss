@@ -32,6 +32,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    array_mod                    ../common_source/modules/array_mod.F
       !||    intbufdef_mod                ../common_source/modules/interfaces/intbufdef_mod.F90
       !||    shooting_node_mod            ../engine/share/modules/shooting_node_mod.F
+      !||    spmd_comm_world_mod          ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
         SUBROUTINE CHECK_REMOTE_SURFACE_STATE( SURFARCE_NB,SURFACE_ID,SHIFT_INTERFACE,INTBUF_TAB,
      .                                  IPARI,IAD_ELEM,SHOOT_STRUCT )

@@ -32,6 +32,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- uses       -----------------------------------------------------
       !||    message_mod           ../engine/share/message_module/message_mod.F
       !||    sphbox                ../engine/share/modules/sphbox.F
+      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
       SUBROUTINE SPMD_SPHGAT(KXSP ,IXSP, WSP2SORT, IREDUCE, LGAUGE)
 C-----------------------------------------------

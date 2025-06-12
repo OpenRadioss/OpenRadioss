@@ -26,6 +26,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    user_windows_routine   ../engine/source/user_interface/user_windows.F
       !||--- calls      -----------------------------------------------------
       !||--- uses       -----------------------------------------------------
+      !||    spmd_comm_world_mod    ../engine/source/mpi/spmd_comm_world.F90
       !||    user_windows_mod       ../common_source/modules/user_windows_mod.F
       !||====================================================================
       SUBROUTINE SPMD_EXCH_USERWI(A,AR,USER_WINDOWS)

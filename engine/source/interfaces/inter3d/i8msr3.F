@@ -28,6 +28,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    i8_nearest_seg   ../engine/source/interfaces/inter3d/i8_nearest_seg.F
       !||    is_sup_face_id   ../engine/source/interfaces/inter3d/is_sup_face_id.F
       !||--- uses       -----------------------------------------------------
+      !||    int8_mod         ../common_source/modules/interfaces/int8_mod.F90
       !||====================================================================
       SUBROUTINE I8MSR3(
      1   X,           IRECT,       LMSR,        MSR,

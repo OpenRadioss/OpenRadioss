@@ -799,6 +799,7 @@
       !||    inter_struct_init                        ../engine/source/interfaces/generic/inter_struct_init.F
       !||    inter_trc_7                              ../engine/source/interfaces/int07/inter_trc_7.F
       !||    inter_voxel_creation                     ../engine/source/interfaces/generic/inter_voxel_creation.F
+      !||    interfaces_mod                           ../common_source/modules/interfaces/interfaces_mod.F90
       !||    intfop1                                  ../engine/source/interfaces/interf/intfop1.F
       !||    intfop2                                  ../engine/source/interfaces/interf/intfop2.F
       !||    intfop8                                  ../engine/source/interfaces/interf/intfop8.F
@@ -1012,6 +1013,7 @@
       !||    write_intbuf                             ../engine/source/output/restart/write_intbuf.F
       !||    wrrestp                                  ../engine/source/output/restart/wrrestp.F
       !||--- uses       -----------------------------------------------------
+      !||    int8_mod                                 ../common_source/modules/interfaces/int8_mod.F90
       !||    metric_mod                               ../common_source/modules/interfaces/metric_mod.F
       !||    precision_mod                            ../common_source/modules/precision_mod.F90
       !||====================================================================

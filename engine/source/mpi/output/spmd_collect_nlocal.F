@@ -29,6 +29,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    debug_mod             ../engine/share/modules/debug_mod.F
       !||    inoutfile_mod         ../common_source/modules/inoutfile_mod.F
       !||    nlocal_reg_mod        ../common_source/modules/nlocal_reg_mod.F
+      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
       SUBROUTINE SPMD_COLLECT_NLOCAL(A      ,SIZEA   ,NUMNOD_LOCAL,
      .                               POSI   ,NLOC_DMG,SIZP0       ,

@@ -22,16 +22,17 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 
       !||====================================================================
-      !||    spmd_tri17box   ../engine/source/mpi/interfaces/spmd_tri17box.F
+      !||    spmd_tri17box         ../engine/source/mpi/interfaces/spmd_tri17box.F
       !||--- called by ------------------------------------------------------
-      !||    i17buce         ../engine/source/interfaces/int17/i17buce.F
-      !||    i17main_tri     ../engine/source/interfaces/int17/i17main_pena.F
+      !||    i17buce               ../engine/source/interfaces/int17/i17buce.F
+      !||    i17main_tri           ../engine/source/interfaces/int17/i17main_pena.F
       !||--- calls      -----------------------------------------------------
-      !||    ancmsg          ../engine/source/output/message/message.F
-      !||    arret           ../engine/source/system/arret.F
+      !||    ancmsg                ../engine/source/output/message/message.F
+      !||    arret                 ../engine/source/system/arret.F
       !||--- uses       -----------------------------------------------------
-      !||    message_mod     ../engine/share/message_module/message_mod.F
-      !||    tri7box         ../engine/share/modules/tri7box.F
+      !||    message_mod           ../engine/share/message_module/message_mod.F
+      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
+      !||    tri7box               ../engine/share/modules/tri7box.F
       !||====================================================================
       SUBROUTINE SPMD_TRI17BOX(NELEMS  ,NMES    ,X      ,V    ,FROTS  ,
      2                         KS      ,BMINMAL ,WEIGHT ,NIN  ,ISENDTO,

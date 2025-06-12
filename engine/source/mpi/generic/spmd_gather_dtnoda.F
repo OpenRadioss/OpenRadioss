@@ -25,6 +25,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- called by ------------------------------------------------------
       !||    find_dt_for_targeted_added_mass   ../engine/source/time_step/find_dt_for_targeted_added_mass.F
       !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_comm_world_mod               ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
        SUBROUTINE SPMD_GATHER_DTNODA(TAGN,STIFN,MS,WEIGHT,NUM,DT2_L,STF_L,MS_L)
 C-----------------------------------------------

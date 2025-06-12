@@ -28,6 +28,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    sms_mav_lt       ../engine/source/ams/sms_pcg.F
       !||    sms_mav_lt2      ../engine/source/ams/sms_pcg.F
       !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_mod         ../engine/source/mpi/spmd_mod.F90
       !||====================================================================
       SUBROUTINE SPMD_EXCH_SMS(V,NODNX_SMS,IAD_ELEM,FR_ELEM,
      .                           SIZE,LENR)

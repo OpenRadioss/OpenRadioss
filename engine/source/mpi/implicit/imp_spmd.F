@@ -27,8 +27,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 #define MPI_STATUS_SIZE 1
 #endif
       !||====================================================================
-      !||    spmd_mumps_front   ../engine/source/mpi/implicit/imp_spmd.F
+      !||    spmd_mumps_front      ../engine/source/mpi/implicit/imp_spmd.F
       !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
       SUBROUTINE SPMD_MUMPS_FRONT(ITK  , RTK,    NKFRONT, NKFLOC, NKLOC,
      .                            NDDLG, IPRINT  )
@@ -337,10 +339,12 @@ C
 #endif
       END
       !||====================================================================
-      !||    spmd_mumps_count   ../engine/source/mpi/implicit/imp_spmd.F
+      !||    spmd_mumps_count      ../engine/source/mpi/implicit/imp_spmd.F
       !||--- called by ------------------------------------------------------
-      !||    imp_mumps1         ../engine/source/implicit/imp_mumps.F
+      !||    imp_mumps1            ../engine/source/implicit/imp_mumps.F
       !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
       SUBROUTINE SPMD_MUMPS_COUNT(NZLOC, NZP, NNZ)
 C-----------------------------------------------
@@ -392,10 +396,12 @@ C
 #endif
       END
       !||====================================================================
-      !||    spmd_mumps_gath   ../engine/source/mpi/implicit/imp_spmd.F
+      !||    spmd_mumps_gath       ../engine/source/mpi/implicit/imp_spmd.F
       !||--- called by ------------------------------------------------------
-      !||    imp_mumps1        ../engine/source/implicit/imp_mumps.F
+      !||    imp_mumps1            ../engine/source/implicit/imp_mumps.F
       !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
       SUBROUTINE SPMD_MUMPS_GATH(ITK, RTK, NZLOC, A, IRN, 
      .                           JCN, NZP)
@@ -478,13 +484,15 @@ C
 #endif
       END
       !||====================================================================
-      !||    spmd_mumps_ini   ../engine/source/mpi/implicit/imp_spmd.F
+      !||    spmd_mumps_ini        ../engine/source/mpi/implicit/imp_spmd.F
       !||--- called by ------------------------------------------------------
-      !||    imp_buck         ../engine/source/implicit/imp_buck.F
-      !||    imp_mumps1       ../engine/source/implicit/imp_mumps.F
-      !||    lag_mult_sdp     ../engine/source/tools/lagmul/lag_mult_solv.F
-      !||    resol            ../engine/source/engine/resol.F
+      !||    imp_buck              ../engine/source/implicit/imp_buck.F
+      !||    imp_mumps1            ../engine/source/implicit/imp_mumps.F
+      !||    lag_mult_sdp          ../engine/source/tools/lagmul/lag_mult_solv.F
+      !||    resol                 ../engine/source/engine/resol.F
       !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
       SUBROUTINE SPMD_MUMPS_INI(MUMPS_PAR, SYM)
 C-----------------------------------------------
@@ -537,12 +545,14 @@ C
 #endif
       END
       !||====================================================================
-      !||    spmd_mumps_deal   ../engine/source/mpi/implicit/imp_spmd.F
+      !||    spmd_mumps_deal       ../engine/source/mpi/implicit/imp_spmd.F
       !||--- called by ------------------------------------------------------
-      !||    deallocm_imp      ../engine/source/implicit/imp_solv.F
-      !||    imp_mumps1        ../engine/source/implicit/imp_mumps.F
-      !||    lag_mult_sdp      ../engine/source/tools/lagmul/lag_mult_solv.F
+      !||    deallocm_imp          ../engine/source/implicit/imp_solv.F
+      !||    imp_mumps1            ../engine/source/implicit/imp_mumps.F
+      !||    lag_mult_sdp          ../engine/source/tools/lagmul/lag_mult_solv.F
       !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
       SUBROUTINE SPMD_MUMPS_DEAL(MUMPS_PAR)
 C-----------------------------------------------
@@ -589,10 +599,12 @@ C
 #endif
       END
       !||====================================================================
-      !||    spmd_mumps_rhs   ../engine/source/mpi/implicit/imp_spmd.F
+      !||    spmd_mumps_rhs        ../engine/source/mpi/implicit/imp_spmd.F
       !||--- called by ------------------------------------------------------
-      !||    imp_mumps2       ../engine/source/implicit/imp_mumps.F
+      !||    imp_mumps2            ../engine/source/implicit/imp_mumps.F
       !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
       SUBROUTINE SPMD_MUMPS_RHS(V    , CDDLP, RHS, NDDL, ISENS,
      .                          NDDLG)
@@ -698,13 +710,15 @@ C
 #endif
       END
       !||====================================================================
-      !||    spmd_mumps_exec   ../engine/source/mpi/implicit/imp_spmd.F
+      !||    spmd_mumps_exec       ../engine/source/mpi/implicit/imp_spmd.F
       !||--- called by ------------------------------------------------------
-      !||    imp_mumps2        ../engine/source/implicit/imp_mumps.F
-      !||    lag_mult_sdp      ../engine/source/tools/lagmul/lag_mult_solv.F
+      !||    imp_mumps2            ../engine/source/implicit/imp_mumps.F
+      !||    lag_mult_sdp          ../engine/source/tools/lagmul/lag_mult_solv.F
       !||--- calls      -----------------------------------------------------
-      !||    imp_errmumps      ../engine/source/implicit/imp_solv.F
-      !||    tmpenvf           ../engine/source/system/tmpenv_c.c
+      !||    imp_errmumps          ../engine/source/implicit/imp_solv.F
+      !||    tmpenvf               ../engine/source/system/tmpenv_c.c
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
       SUBROUTINE SPMD_MUMPS_EXEC(MUMPS_PAR, ITASK)
 C-----------------------------------------------
@@ -891,7 +905,9 @@ C
 #endif
       END
       !||====================================================================
-      !||    spmd_mumps_flush   ../engine/source/mpi/implicit/imp_spmd.F
+      !||    spmd_mumps_flush      ../engine/source/mpi/implicit/imp_spmd.F
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
       SUBROUTINE SPMD_MUMPS_FLUSH(MUMPS_PAR)
 C This routine write the centralized matrix and RHS into files
@@ -994,26 +1010,28 @@ C If centralized matrix on zero
 
 
       !||====================================================================
-      !||    spmd_sum_s     ../engine/source/mpi/implicit/imp_spmd.F
+      !||    spmd_sum_s            ../engine/source/mpi/implicit/imp_spmd.F
       !||--- called by ------------------------------------------------------
-      !||    dyna_ivfac     ../engine/source/implicit/imp_dyna.F
-      !||    imp_check0     ../engine/source/implicit/imp_solv.F
-      !||    imp_checm0     ../engine/source/implicit/imp_solv.F
-      !||    imp_compabp    ../engine/source/implicit/imp_solv.F
-      !||    imp_pcgh       ../engine/source/implicit/imp_pcg.F
-      !||    ind_fr_k0      ../engine/source/mpi/implicit/imp_fri.F
-      !||    lin_solvih2    ../engine/source/implicit/lin_solv.F
-      !||    nddli_frb      ../engine/source/mpi/implicit/imp_fri.F
-      !||    produt_h       ../engine/source/implicit/produt_v.F
-      !||    produt_hp      ../engine/source/implicit/produt_v.F
-      !||    produt_u0      ../engine/source/implicit/produt_v.F
-      !||    produt_uhp0    ../engine/source/implicit/produt_v.F
-      !||    produt_v       ../engine/source/implicit/produt_v.F
-      !||    produt_w       ../engine/source/implicit/produt_v.F
-      !||    sms_produt_h   ../engine/source/ams/sms_proj.F
-      !||    spbrm_pre      ../engine/source/implicit/imp_solv.F
-      !||    upd_fr_k       ../engine/source/mpi/implicit/imp_fri.F
+      !||    dyna_ivfac            ../engine/source/implicit/imp_dyna.F
+      !||    imp_check0            ../engine/source/implicit/imp_solv.F
+      !||    imp_checm0            ../engine/source/implicit/imp_solv.F
+      !||    imp_compabp           ../engine/source/implicit/imp_solv.F
+      !||    imp_pcgh              ../engine/source/implicit/imp_pcg.F
+      !||    ind_fr_k0             ../engine/source/mpi/implicit/imp_fri.F
+      !||    lin_solvih2           ../engine/source/implicit/lin_solv.F
+      !||    nddli_frb             ../engine/source/mpi/implicit/imp_fri.F
+      !||    produt_h              ../engine/source/implicit/produt_v.F
+      !||    produt_hp             ../engine/source/implicit/produt_v.F
+      !||    produt_u0             ../engine/source/implicit/produt_v.F
+      !||    produt_uhp0           ../engine/source/implicit/produt_v.F
+      !||    produt_v              ../engine/source/implicit/produt_v.F
+      !||    produt_w              ../engine/source/implicit/produt_v.F
+      !||    sms_produt_h          ../engine/source/ams/sms_proj.F
+      !||    spbrm_pre             ../engine/source/implicit/imp_solv.F
+      !||    upd_fr_k              ../engine/source/mpi/implicit/imp_fri.F
       !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
       SUBROUTINE SPMD_SUM_S(S)
 C-----------------------------------------------
@@ -1085,8 +1103,10 @@ C
 #endif
       END
       !||====================================================================
-      !||    spmd_sum_s2   ../engine/source/mpi/implicit/imp_spmd.F
+      !||    spmd_sum_s2           ../engine/source/mpi/implicit/imp_spmd.F
       !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
       SUBROUTINE SPMD_SUM_S2(S,LEN)
 C-----------------------------------------------
@@ -1162,12 +1182,14 @@ C
 #endif
       END
       !||====================================================================
-      !||    spmd_max_s    ../engine/source/mpi/implicit/imp_spmd.F
+      !||    spmd_max_s            ../engine/source/mpi/implicit/imp_spmd.F
       !||--- called by ------------------------------------------------------
-      !||    get_max       ../engine/source/implicit/nl_solv.F
-      !||    lecimpl       ../engine/source/input/lectur.F
-      !||    sms_check     ../engine/source/ams/sms_fsa_inv.F
+      !||    get_max               ../engine/source/implicit/nl_solv.F
+      !||    lecimpl               ../engine/source/input/lectur.F
+      !||    sms_check             ../engine/source/ams/sms_fsa_inv.F
       !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
       SUBROUTINE SPMD_MAX_S(S)
 C-----------------------------------------------
@@ -1235,15 +1257,17 @@ C
 #endif
       END
       !||====================================================================
-      !||    spmd_min_s     ../engine/source/mpi/implicit/imp_spmd.F
+      !||    spmd_min_s            ../engine/source/mpi/implicit/imp_spmd.F
       !||--- called by ------------------------------------------------------
-      !||    imp_chkm       ../engine/source/implicit/imp_solv.F
-      !||    imp_intdt      ../engine/source/implicit/imp_int_k.F
-      !||    imp_solv       ../engine/source/implicit/imp_solv.F
-      !||    spb_ieref3     ../engine/source/implicit/imp_solv.F
-      !||    spb_ieref_bc   ../engine/source/implicit/imp_solv.F
-      !||    spbrm_pre      ../engine/source/implicit/imp_solv.F
+      !||    imp_chkm              ../engine/source/implicit/imp_solv.F
+      !||    imp_intdt             ../engine/source/implicit/imp_int_k.F
+      !||    imp_solv              ../engine/source/implicit/imp_solv.F
+      !||    spb_ieref3            ../engine/source/implicit/imp_solv.F
+      !||    spb_ieref_bc          ../engine/source/implicit/imp_solv.F
+      !||    spbrm_pre             ../engine/source/implicit/imp_solv.F
       !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
       SUBROUTINE SPMD_MIN_S(S)
 C-----------------------------------------------
@@ -1311,26 +1335,28 @@ C
 #endif
       END
       !||====================================================================
-      !||    spmd_max_i      ../engine/source/mpi/implicit/imp_spmd.F
+      !||    spmd_max_i            ../engine/source/mpi/implicit/imp_spmd.F
       !||--- called by ------------------------------------------------------
-      !||    dim_kinmax      ../engine/source/implicit/ind_glob_k.F
-      !||    dyna_ina        ../engine/source/implicit/imp_dyna.F
-      !||    imp_check0      ../engine/source/implicit/imp_solv.F
-      !||    imp_checm0      ../engine/source/implicit/imp_solv.F
-      !||    imp_chkm        ../engine/source/implicit/imp_solv.F
-      !||    imp_compabp     ../engine/source/implicit/imp_solv.F
-      !||    imp_glob_khp    ../engine/source/implicit/imp_glob_k.F
-      !||    imp_solv        ../engine/source/implicit/imp_solv.F
-      !||    inivel_dt2      ../engine/source/loads/general/inivel/inivel_dt2.F90
-      !||    lin_solvh1      ../engine/source/implicit/lin_solv.F
-      !||    lin_solvih2     ../engine/source/implicit/lin_solv.F
-      !||    rbe2t1          ../engine/source/constraints/general/rbe2/rbe2f.F
-      !||    resol_init      ../engine/source/engine/resol_init.F
-      !||    sms_diag_rbe2   ../engine/source/ams/sms_rbe2.F
-      !||    sms_rbe_cnds    ../engine/source/ams/sms_rbe2.F
-      !||    sms_rbe_prec    ../engine/source/ams/sms_rbe2.F
-      !||    spbrm_pre       ../engine/source/implicit/imp_solv.F
+      !||    dim_kinmax            ../engine/source/implicit/ind_glob_k.F
+      !||    dyna_ina              ../engine/source/implicit/imp_dyna.F
+      !||    imp_check0            ../engine/source/implicit/imp_solv.F
+      !||    imp_checm0            ../engine/source/implicit/imp_solv.F
+      !||    imp_chkm              ../engine/source/implicit/imp_solv.F
+      !||    imp_compabp           ../engine/source/implicit/imp_solv.F
+      !||    imp_glob_khp          ../engine/source/implicit/imp_glob_k.F
+      !||    imp_solv              ../engine/source/implicit/imp_solv.F
+      !||    inivel_dt2            ../engine/source/loads/general/inivel/inivel_dt2.F90
+      !||    lin_solvh1            ../engine/source/implicit/lin_solv.F
+      !||    lin_solvih2           ../engine/source/implicit/lin_solv.F
+      !||    rbe2t1                ../engine/source/constraints/general/rbe2/rbe2f.F
+      !||    resol_init            ../engine/source/engine/resol_init.F
+      !||    sms_diag_rbe2         ../engine/source/ams/sms_rbe2.F
+      !||    sms_rbe_cnds          ../engine/source/ams/sms_rbe2.F
+      !||    sms_rbe_prec          ../engine/source/ams/sms_rbe2.F
+      !||    spbrm_pre             ../engine/source/implicit/imp_solv.F
       !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
       SUBROUTINE SPMD_MAX_I(N)
 C-----------------------------------------------
@@ -1399,10 +1425,12 @@ C
 #endif
       END
       !||====================================================================
-      !||    spmd_min_i    ../engine/source/mpi/implicit/imp_spmd.F
+      !||    spmd_min_i            ../engine/source/mpi/implicit/imp_spmd.F
       !||--- called by ------------------------------------------------------
-      !||    imp_solv      ../engine/source/implicit/imp_solv.F
+      !||    imp_solv              ../engine/source/implicit/imp_solv.F
       !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
       SUBROUTINE SPMD_MIN_I(N)
 C-----------------------------------------------
@@ -1470,14 +1498,15 @@ C
 #endif
       END
       !||====================================================================
-      !||    spmd_inf_g    ../engine/source/mpi/implicit/imp_spmd.F
+      !||    spmd_inf_g            ../engine/source/mpi/implicit/imp_spmd.F
       !||--- called by ------------------------------------------------------
-      !||    imp_buck      ../engine/source/implicit/imp_buck.F
-      !||    imp_mumps1    ../engine/source/implicit/imp_mumps.F
-      !||    pr_infok      ../engine/source/implicit/imp_solv.F
+      !||    imp_buck              ../engine/source/implicit/imp_buck.F
+      !||    imp_mumps1            ../engine/source/implicit/imp_mumps.F
+      !||    pr_infok              ../engine/source/implicit/imp_solv.F
       !||--- calls      -----------------------------------------------------
       !||--- uses       -----------------------------------------------------
-      !||    imp_frk       ../engine/share/modules/impbufdef_mod.F
+      !||    imp_frk               ../engine/share/modules/impbufdef_mod.F
+      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
       SUBROUTINE SPMD_INF_G(
      1   NDDL0    ,NZZK0   ,NDDL     ,NZZK     ,NNMAX    ,
@@ -1593,28 +1622,29 @@ C
 #endif
       END
       !||====================================================================
-      !||    spmd_sumf_v   ../engine/source/mpi/implicit/imp_spmd.F
+      !||    spmd_sumf_v           ../engine/source/mpi/implicit/imp_spmd.F
       !||--- called by ------------------------------------------------------
-      !||    ext_rhs       ../engine/source/implicit/upd_glob_k.F
-      !||    get_fext      ../engine/source/implicit/imp_solv.F
-      !||    imp_check0    ../engine/source/implicit/imp_solv.F
-      !||    imp_frfv      ../engine/source/mpi/implicit/imp_fri.F
-      !||    imp_fri       ../engine/source/mpi/implicit/imp_fri.F
-      !||    lin_solvh1    ../engine/source/implicit/lin_solv.F
-      !||    mav_ltgh      ../engine/source/implicit/produt_v.F
-      !||    mav_lth       ../engine/source/implicit/produt_v.F
-      !||    mav_lth0      ../engine/source/implicit/produt_v.F
-      !||    mav_ltp       ../engine/source/implicit/produt_v.F
-      !||    mmv_lh        ../engine/source/implicit/produt_v.F
-      !||    mmv_lth       ../engine/source/implicit/produt_v.F
-      !||    prec_solvgh   ../engine/source/implicit/prec_solv.F
-      !||    prec_solvh    ../engine/source/implicit/prec_solv.F
-      !||    prec_solvp    ../engine/source/implicit/prec_solv.F
-      !||    rer02         ../engine/source/implicit/upd_glob_k.F
-      !||    upd_rhs       ../engine/source/implicit/upd_glob_k.F
+      !||    ext_rhs               ../engine/source/implicit/upd_glob_k.F
+      !||    get_fext              ../engine/source/implicit/imp_solv.F
+      !||    imp_check0            ../engine/source/implicit/imp_solv.F
+      !||    imp_frfv              ../engine/source/mpi/implicit/imp_fri.F
+      !||    imp_fri               ../engine/source/mpi/implicit/imp_fri.F
+      !||    lin_solvh1            ../engine/source/implicit/lin_solv.F
+      !||    mav_ltgh              ../engine/source/implicit/produt_v.F
+      !||    mav_lth               ../engine/source/implicit/produt_v.F
+      !||    mav_lth0              ../engine/source/implicit/produt_v.F
+      !||    mav_ltp               ../engine/source/implicit/produt_v.F
+      !||    mmv_lh                ../engine/source/implicit/produt_v.F
+      !||    mmv_lth               ../engine/source/implicit/produt_v.F
+      !||    prec_solvgh           ../engine/source/implicit/prec_solv.F
+      !||    prec_solvh            ../engine/source/implicit/prec_solv.F
+      !||    prec_solvp            ../engine/source/implicit/prec_solv.F
+      !||    rer02                 ../engine/source/implicit/upd_glob_k.F
+      !||    upd_rhs               ../engine/source/implicit/upd_glob_k.F
       !||--- calls      -----------------------------------------------------
       !||--- uses       -----------------------------------------------------
-      !||    imp_frk       ../engine/share/modules/impbufdef_mod.F
+      !||    imp_frk               ../engine/share/modules/impbufdef_mod.F
+      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
       SUBROUTINE SPMD_SUMF_V(V   )
 C-----------------------------------------------
@@ -1725,12 +1755,13 @@ C
       END
 
       !||====================================================================
-      !||    spmd_sumfc_v   ../engine/source/mpi/implicit/imp_spmd.F
+      !||    spmd_sumfc_v          ../engine/source/mpi/implicit/imp_spmd.F
       !||--- called by ------------------------------------------------------
-      !||    imp_pcgh       ../engine/source/implicit/imp_pcg.F
+      !||    imp_pcgh              ../engine/source/implicit/imp_pcg.F
       !||--- calls      -----------------------------------------------------
       !||--- uses       -----------------------------------------------------
-      !||    imp_frk        ../engine/share/modules/impbufdef_mod.F
+      !||    imp_frk               ../engine/share/modules/impbufdef_mod.F
+      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
       SUBROUTINE SPMD_SUMFC_V(VGAT,VSCA,INDEX,LCOM)
 C specific communication with compacted V
@@ -1819,14 +1850,15 @@ C
       END
 
       !||====================================================================
-      !||    spmd_sumf_k   ../engine/source/mpi/implicit/imp_spmd.F
+      !||    spmd_sumf_k           ../engine/source/mpi/implicit/imp_spmd.F
       !||--- called by ------------------------------------------------------
-      !||    lin_solvh1    ../engine/source/implicit/lin_solv.F
-      !||    lin_solvih2   ../engine/source/implicit/lin_solv.F
-      !||    upd_aspc      ../engine/source/constraints/general/bcs/bc_imp0.F
+      !||    lin_solvh1            ../engine/source/implicit/lin_solv.F
+      !||    lin_solvih2           ../engine/source/implicit/lin_solv.F
+      !||    upd_aspc              ../engine/source/constraints/general/bcs/bc_imp0.F
       !||--- calls      -----------------------------------------------------
       !||--- uses       -----------------------------------------------------
-      !||    imp_frk       ../engine/share/modules/impbufdef_mod.F
+      !||    imp_frk               ../engine/share/modules/impbufdef_mod.F
+      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
       SUBROUTINE SPMD_SUMF_K(DIAG_K   ,L_K     )
 C-----------------------------------------------
@@ -1960,10 +1992,12 @@ C
 #endif
       END
       !||====================================================================
-      !||    spmd_inis   ../engine/source/mpi/implicit/imp_spmd.F
+      !||    spmd_inis             ../engine/source/mpi/implicit/imp_spmd.F
       !||--- called by ------------------------------------------------------
-      !||    imp_frsl    ../engine/source/mpi/implicit/imp_fri.F
+      !||    imp_frsl              ../engine/source/mpi/implicit/imp_fri.F
       !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
       SUBROUTINE SPMD_INIS(IAD_S,IAD_R)
 C-----------------------------------------------
@@ -2045,10 +2079,12 @@ C
 #endif
       END
       !||====================================================================
-      !||    spmd_inisl   ../engine/source/mpi/implicit/imp_spmd.F
+      !||    spmd_inisl            ../engine/source/mpi/implicit/imp_spmd.F
       !||--- called by ------------------------------------------------------
-      !||    imp_frsl     ../engine/source/mpi/implicit/imp_fri.F
+      !||    imp_frsl              ../engine/source/mpi/implicit/imp_fri.F
       !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
       SUBROUTINE SPMD_INISL(NBINTC,INBSL)
 C-----------------------------------------------
@@ -2141,13 +2177,14 @@ C
 #endif
       END
       !||====================================================================
-      !||    spmd_ifc1   ../engine/source/mpi/implicit/imp_spmd.F
+      !||    spmd_ifc1             ../engine/source/mpi/implicit/imp_spmd.F
       !||--- called by ------------------------------------------------------
-      !||    imp_frkd    ../engine/source/mpi/implicit/imp_fri.F
-      !||    imp_frki    ../engine/source/mpi/implicit/imp_fri.F
+      !||    imp_frkd              ../engine/source/mpi/implicit/imp_fri.F
+      !||    imp_frki              ../engine/source/mpi/implicit/imp_fri.F
       !||--- calls      -----------------------------------------------------
       !||--- uses       -----------------------------------------------------
-      !||    imp_intm    ../engine/share/modules/imp_intm.F
+      !||    imp_intm              ../engine/share/modules/imp_intm.F
+      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
       SUBROUTINE SPMD_IFC1(SSIZE ,RSIZE,KSS)
 C-----------------------------------------------
@@ -2276,13 +2313,14 @@ C
       END
 
       !||====================================================================
-      !||    spmd_ifcd   ../engine/source/mpi/implicit/imp_spmd.F
+      !||    spmd_ifcd             ../engine/source/mpi/implicit/imp_spmd.F
       !||--- called by ------------------------------------------------------
-      !||    fr_matv     ../engine/source/mpi/implicit/imp_fri.F
-      !||    int_matvp   ../engine/source/implicit/imp_int_k.F
+      !||    fr_matv               ../engine/source/mpi/implicit/imp_fri.F
+      !||    int_matvp             ../engine/source/implicit/imp_int_k.F
       !||--- calls      -----------------------------------------------------
       !||--- uses       -----------------------------------------------------
-      !||    imp_intm    ../engine/share/modules/imp_intm.F
+      !||    imp_intm              ../engine/share/modules/imp_intm.F
+      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
       SUBROUTINE SPMD_IFCD(D_IMP,SSIZE  ,RSIZE)
 C-----------------------------------------------
@@ -2399,13 +2437,14 @@ C
       END
 
       !||====================================================================
-      !||    spmd_ifcf   ../engine/source/mpi/implicit/imp_spmd.F
+      !||    spmd_ifcf             ../engine/source/mpi/implicit/imp_spmd.F
       !||--- called by ------------------------------------------------------
-      !||    fr_matv     ../engine/source/mpi/implicit/imp_fri.F
-      !||    int_matvp   ../engine/source/implicit/imp_int_k.F
+      !||    fr_matv               ../engine/source/mpi/implicit/imp_fri.F
+      !||    int_matvp             ../engine/source/implicit/imp_int_k.F
       !||--- calls      -----------------------------------------------------
       !||--- uses       -----------------------------------------------------
-      !||    imp_intm    ../engine/share/modules/imp_intm.F
+      !||    imp_intm              ../engine/share/modules/imp_intm.F
+      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
       SUBROUTINE SPMD_IFCF(F_IMP,SSIZE  ,RSIZE)
 C-----------------------------------------------
@@ -2525,12 +2564,14 @@ C
       END
 
       !||====================================================================
-      !||    spmd_nrow   ../engine/source/mpi/implicit/imp_spmd.F
+      !||    spmd_nrow             ../engine/source/mpi/implicit/imp_spmd.F
       !||--- called by ------------------------------------------------------
-      !||    dim_fr_k    ../engine/source/mpi/implicit/imp_fri.F
-      !||    ini_fr_k    ../engine/source/mpi/implicit/imp_fri.F
-      !||    nddli_frb   ../engine/source/mpi/implicit/imp_fri.F
+      !||    dim_fr_k              ../engine/source/mpi/implicit/imp_fri.F
+      !||    ini_fr_k              ../engine/source/mpi/implicit/imp_fri.F
+      !||    nddli_frb             ../engine/source/mpi/implicit/imp_fri.F
       !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
       SUBROUTINE SPMD_NROW(NROW,FR_NROW,IAD_ELEM,TSIZE)
 C-----------------------------------------------
@@ -2623,12 +2664,14 @@ C
       END
 
       !||====================================================================
-      !||    spmd_icol   ../engine/source/mpi/implicit/imp_spmd.F
+      !||    spmd_icol             ../engine/source/mpi/implicit/imp_spmd.F
       !||--- called by ------------------------------------------------------
-      !||    dim_fr_k    ../engine/source/mpi/implicit/imp_fri.F
-      !||    ini_fr_k    ../engine/source/mpi/implicit/imp_fri.F
+      !||    dim_fr_k              ../engine/source/mpi/implicit/imp_fri.F
+      !||    ini_fr_k              ../engine/source/mpi/implicit/imp_fri.F
       !||--- calls      -----------------------------------------------------
-      !||    reorder_a   ../engine/source/implicit/ind_glob_k.F
+      !||    reorder_a             ../engine/source/implicit/ind_glob_k.F
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
       SUBROUTINE SPMD_ICOL(
      1   IAD_S    ,IAD_R    ,NNMAX    ,ICOL     ,NROW     ,
@@ -2739,10 +2782,12 @@ C
 #endif
       END
       !||====================================================================
-      !||    spmd_i2d     ../engine/source/mpi/implicit/imp_spmd.F
+      !||    spmd_i2d              ../engine/source/mpi/implicit/imp_spmd.F
       !||--- called by ------------------------------------------------------
-      !||    dim_ndof_d   ../engine/source/implicit/ind_glob_k.F
+      !||    dim_ndof_d            ../engine/source/implicit/ind_glob_k.F
       !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
       SUBROUTINE SPMD_I2D(NDOF,FR_ELEM,IAD_ELEM,TSIZE)
 C-----------------------------------------------
@@ -2837,14 +2882,16 @@ C
       END
 
       !||====================================================================
-      !||    spmd_sumf_a   ../engine/source/mpi/implicit/imp_spmd.F
+      !||    spmd_sumf_a           ../engine/source/mpi/implicit/imp_spmd.F
       !||--- called by ------------------------------------------------------
-      !||    dyna_ina      ../engine/source/implicit/imp_dyna.F
-      !||    imp_chkm      ../engine/source/implicit/imp_solv.F
-      !||    imp_dykv      ../engine/source/implicit/imp_dyna.F
-      !||    imp_dykv0     ../engine/source/implicit/imp_dyna.F
-      !||    imp_solv      ../engine/source/implicit/imp_solv.F
+      !||    dyna_ina              ../engine/source/implicit/imp_dyna.F
+      !||    imp_chkm              ../engine/source/implicit/imp_solv.F
+      !||    imp_dykv              ../engine/source/implicit/imp_dyna.F
+      !||    imp_dykv0             ../engine/source/implicit/imp_dyna.F
+      !||    imp_solv              ../engine/source/implicit/imp_solv.F
       !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
       SUBROUTINE SPMD_SUMF_A(A ,AR,IAD_ELEM,FR_ELEM,SIZE,LR)
 C-----------------------------------------------
@@ -2986,10 +3033,12 @@ C
 #endif
       END
       !||====================================================================
-      !||    spmd_ndof    ../engine/source/mpi/implicit/imp_spmd.F
+      !||    spmd_ndof             ../engine/source/mpi/implicit/imp_spmd.F
       !||--- called by ------------------------------------------------------
-      !||    dim_glob_k   ../engine/source/implicit/ind_glob_k.F
+      !||    dim_glob_k            ../engine/source/implicit/ind_glob_k.F
       !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
       SUBROUTINE SPMD_NDOF(NDOF,FR_ELEM,IAD_ELEM,TSIZE)
 C-----------------------------------------------
@@ -3084,11 +3133,13 @@ C
       END
 C-----------------------------------------------
       !||====================================================================
-      !||    spmd_cddl     ../engine/source/mpi/implicit/imp_spmd.F
+      !||    spmd_cddl             ../engine/source/mpi/implicit/imp_spmd.F
       !||--- called by ------------------------------------------------------
-      !||    imp_buck      ../engine/source/implicit/imp_buck.F
-      !||    imp_mumps1    ../engine/source/implicit/imp_mumps.F
+      !||    imp_buck              ../engine/source/implicit/imp_buck.F
+      !||    imp_mumps1            ../engine/source/implicit/imp_mumps.F
       !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
       SUBROUTINE SPMD_CDDL(NDDL , NODGLOB, IDDL , NDOF , CDDLP,
      .                     INLOC, IKC    , NDDLG, NDDLP)
@@ -3218,8 +3269,10 @@ C
 #endif
       END
       !||====================================================================
-      !||    spmd_vchgrid   ../engine/source/mpi/implicit/imp_spmd.F
+      !||    spmd_vchgrid          ../engine/source/mpi/implicit/imp_spmd.F
       !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
       SUBROUTINE SPMD_VCHGRID(V    , IV  , NV, VG    , NVG ,
      .                        NBLOC, NDDL, IS, ISUM)
@@ -3375,12 +3428,14 @@ C
 #endif
       END
       !||====================================================================
-      !||    spmd_isr    ../engine/source/mpi/implicit/imp_spmd.F
+      !||    spmd_isr              ../engine/source/mpi/implicit/imp_spmd.F
       !||--- called by ------------------------------------------------------
-      !||    dim_frkm    ../engine/source/mpi/implicit/imp_fri.F
-      !||    dim_frkm1   ../engine/source/mpi/implicit/imp_fri.F
-      !||    ini_frkc    ../engine/source/mpi/implicit/imp_fri.F
+      !||    dim_frkm              ../engine/source/mpi/implicit/imp_fri.F
+      !||    dim_frkm1             ../engine/source/mpi/implicit/imp_fri.F
+      !||    ini_frkc              ../engine/source/mpi/implicit/imp_fri.F
       !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
       SUBROUTINE SPMD_ISR(IAD_S,IAD_R,ITS,ITR,SSIZE ,RSIZE)
 C-----------------------------------------------
@@ -3488,11 +3543,13 @@ C
       END
 
       !||====================================================================
-      !||    spmd_exci   ../engine/source/mpi/implicit/imp_spmd.F
+      !||    spmd_exci             ../engine/source/mpi/implicit/imp_spmd.F
       !||--- called by ------------------------------------------------------
-      !||    ini_frud    ../engine/source/mpi/implicit/imp_fri.F
-      !||    scom_frk1   ../engine/source/mpi/implicit/imp_fri.F
+      !||    ini_frud              ../engine/source/mpi/implicit/imp_fri.F
+      !||    scom_frk1             ../engine/source/mpi/implicit/imp_fri.F
       !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
       SUBROUTINE SPMD_EXCI(ITS,ITR,IAD_S,IAD_R,SIZE ,SSIZE ,RSIZE)
 C-----------------------------------------------
@@ -3605,12 +3662,14 @@ C
       END
 
       !||====================================================================
-      !||    spmd_exck   ../engine/source/mpi/implicit/imp_spmd.F
+      !||    spmd_exck             ../engine/source/mpi/implicit/imp_spmd.F
       !||--- called by ------------------------------------------------------
-      !||    scom_frk    ../engine/source/mpi/implicit/imp_fri.F
-      !||    scom_frk1   ../engine/source/mpi/implicit/imp_fri.F
-      !||    scom_frud   ../engine/source/mpi/implicit/imp_fri.F
+      !||    scom_frk              ../engine/source/mpi/implicit/imp_fri.F
+      !||    scom_frk1             ../engine/source/mpi/implicit/imp_fri.F
+      !||    scom_frud             ../engine/source/mpi/implicit/imp_fri.F
       !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
       SUBROUTINE SPMD_EXCK(KS11,KR11,IAD_S,IAD_R,SIZE ,SSIZE,RSIZE)
 C-----------------------------------------------
@@ -3719,12 +3778,13 @@ C
 #endif
       END
       !||====================================================================
-      !||    spmd_ifru   ../engine/source/mpi/implicit/imp_spmd.F
+      !||    spmd_ifru             ../engine/source/mpi/implicit/imp_spmd.F
       !||--- called by ------------------------------------------------------
-      !||    fr_matv     ../engine/source/mpi/implicit/imp_fri.F
+      !||    fr_matv               ../engine/source/mpi/implicit/imp_fri.F
       !||--- calls      -----------------------------------------------------
       !||--- uses       -----------------------------------------------------
-      !||    imp_intm    ../engine/share/modules/imp_intm.F
+      !||    imp_intm              ../engine/share/modules/imp_intm.F
+      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
       SUBROUTINE SPMD_IFRU(LX  )
 C-----------------------------------------------
@@ -3835,13 +3895,14 @@ C
       END
 
       !||====================================================================
-      !||    spmd_ifrf   ../engine/source/mpi/implicit/imp_spmd.F
+      !||    spmd_ifrf             ../engine/source/mpi/implicit/imp_spmd.F
       !||--- called by ------------------------------------------------------
-      !||    fr_matv     ../engine/source/mpi/implicit/imp_fri.F
-      !||    imp_frkd    ../engine/source/mpi/implicit/imp_fri.F
+      !||    fr_matv               ../engine/source/mpi/implicit/imp_fri.F
+      !||    imp_frkd              ../engine/source/mpi/implicit/imp_fri.F
       !||--- calls      -----------------------------------------------------
       !||--- uses       -----------------------------------------------------
-      !||    imp_intm    ../engine/share/modules/imp_intm.F
+      !||    imp_intm              ../engine/share/modules/imp_intm.F
+      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
       SUBROUTINE SPMD_IFRF(F_IMP )
 C-----------------------------------------------
@@ -3951,12 +4012,13 @@ C
 #endif
       END
       !||====================================================================
-      !||    spmd_ifru_gpu   ../engine/source/mpi/implicit/imp_spmd.F
+      !||    spmd_ifru_gpu         ../engine/source/mpi/implicit/imp_spmd.F
       !||--- called by ------------------------------------------------------
-      !||    fr_matv_gpu     ../engine/source/mpi/implicit/imp_fri.F
+      !||    fr_matv_gpu           ../engine/source/mpi/implicit/imp_fri.F
       !||--- calls      -----------------------------------------------------
       !||--- uses       -----------------------------------------------------
-      !||    imp_intm        ../engine/share/modules/imp_intm.F
+      !||    imp_intm              ../engine/share/modules/imp_intm.F
+      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
       SUBROUTINE SPMD_IFRU_GPU(LX,NINDEX)
 C-----------------------------------------------
@@ -4069,12 +4131,13 @@ C
       END
 
       !||====================================================================
-      !||    spmd_ifrf_gpu   ../engine/source/mpi/implicit/imp_spmd.F
+      !||    spmd_ifrf_gpu         ../engine/source/mpi/implicit/imp_spmd.F
       !||--- called by ------------------------------------------------------
-      !||    fr_matv_gpu     ../engine/source/mpi/implicit/imp_fri.F
+      !||    fr_matv_gpu           ../engine/source/mpi/implicit/imp_fri.F
       !||--- calls      -----------------------------------------------------
       !||--- uses       -----------------------------------------------------
-      !||    imp_intm        ../engine/share/modules/imp_intm.F
+      !||    imp_intm              ../engine/share/modules/imp_intm.F
+      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
       SUBROUTINE SPMD_IFRF_GPU(F_IMP,NINDEX)
 C-----------------------------------------------
@@ -4186,13 +4249,14 @@ C
 #endif
       END
       !||====================================================================
-      !||    spmd_ifri    ../engine/source/mpi/implicit/imp_spmd.F
+      !||    spmd_ifri             ../engine/source/mpi/implicit/imp_spmd.F
       !||--- called by ------------------------------------------------------
-      !||    mumps_set    ../engine/source/implicit/imp_mumps.F
-      !||    mumps_set2   ../engine/source/implicit/imp_mumps.F
+      !||    mumps_set             ../engine/source/implicit/imp_mumps.F
+      !||    mumps_set2            ../engine/source/implicit/imp_mumps.F
       !||--- calls      -----------------------------------------------------
       !||--- uses       -----------------------------------------------------
-      !||    imp_intm     ../engine/share/modules/imp_intm.F
+      !||    imp_intm              ../engine/share/modules/imp_intm.F
+      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
       SUBROUTINE SPMD_IFRI(IG, IL)
 C-----------------------------------------------
@@ -4300,10 +4364,12 @@ C
 #endif
       END
       !||====================================================================
-      !||    spmd_send_vi   ../engine/source/mpi/implicit/imp_spmd.F
+      !||    spmd_send_vi          ../engine/source/mpi/implicit/imp_spmd.F
       !||--- called by ------------------------------------------------------
-      !||    imp_compabp    ../engine/source/implicit/imp_solv.F
+      !||    imp_compabp           ../engine/source/implicit/imp_solv.F
       !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
       SUBROUTINE SPMD_SEND_VI(
      1   NV       ,NSIZ    ,VI       ,NVMAX     ,IOUT     )
@@ -4527,11 +4593,13 @@ C
 #endif
       END
       !||====================================================================
-      !||    spmd_send_vr   ../engine/source/mpi/implicit/imp_spmd.F
+      !||    spmd_send_vr          ../engine/source/mpi/implicit/imp_spmd.F
       !||--- called by ------------------------------------------------------
-      !||    imp_check0     ../engine/source/implicit/imp_solv.F
-      !||    imp_checm0     ../engine/source/implicit/imp_solv.F
+      !||    imp_check0            ../engine/source/implicit/imp_solv.F
+      !||    imp_checm0            ../engine/source/implicit/imp_solv.F
       !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
       SUBROUTINE SPMD_SEND_VR(
      1   NV       ,NSIZ    ,VR       ,NVMAX     ,IOUT     )
@@ -4655,10 +4723,12 @@ C
       END
 
       !||====================================================================
-      !||    spmd_nddlig   ../engine/source/mpi/implicit/imp_spmd.F
+      !||    spmd_nddlig           ../engine/source/mpi/implicit/imp_spmd.F
       !||--- called by ------------------------------------------------------
-      !||    getnddli_g    ../engine/source/mpi/implicit/imp_fri.F
+      !||    getnddli_g            ../engine/source/mpi/implicit/imp_fri.F
       !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
       SUBROUTINE SPMD_NDDLIG(NDDL    ,NDDLFR   ,NDDLG    )
 C-----------------------------------------------
@@ -4729,10 +4799,12 @@ C
       END
 
       !||====================================================================
-      !||    spmd_max_ii      ../engine/source/mpi/implicit/imp_spmd.F
+      !||    spmd_max_ii           ../engine/source/mpi/implicit/imp_spmd.F
       !||--- called by ------------------------------------------------------
-      !||    sms_rbe3_nodxi   ../engine/source/ams/sms_rbe3.F
+      !||    sms_rbe3_nodxi        ../engine/source/ams/sms_rbe3.F
       !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
       SUBROUTINE SPMD_MAX_II(NMAX,IAD_ELEM,TSIZE)
 C-----------------------------------------------
@@ -4824,10 +4896,12 @@ C
 #endif
       END
       !||====================================================================
-      !||    spmd_max_f    ../engine/source/mpi/implicit/imp_spmd.F
+      !||    spmd_max_f            ../engine/source/mpi/implicit/imp_spmd.F
       !||--- called by ------------------------------------------------------
-      !||    pr_solnfo     ../engine/source/implicit/imp_solv.F
+      !||    pr_solnfo             ../engine/source/implicit/imp_solv.F
       !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
       SUBROUTINE SPMD_MAX_F(F,ITAB,K)
 C-----------------------------------------------
@@ -4931,12 +5005,13 @@ C
       END
 
       !||====================================================================
-      !||    spmd_max_iv   ../engine/source/mpi/implicit/imp_spmd.F
+      !||    spmd_max_iv           ../engine/source/mpi/implicit/imp_spmd.F
       !||--- called by ------------------------------------------------------
-      !||    upd_fr_k      ../engine/source/mpi/implicit/imp_fri.F
+      !||    upd_fr_k              ../engine/source/mpi/implicit/imp_fri.F
       !||--- calls      -----------------------------------------------------
       !||--- uses       -----------------------------------------------------
-      !||    imp_frk       ../engine/share/modules/impbufdef_mod.F
+      !||    imp_frk               ../engine/share/modules/impbufdef_mod.F
+      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
       SUBROUTINE SPMD_MAX_IV(IV   )
 C-----------------------------------------------
@@ -5049,6 +5124,8 @@ C
       !||--- called by ------------------------------------------------------
       !||    print_stiff_mat          ../engine/source/implicit/imp_mumps.F
       !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_comm_world_mod      ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
       SUBROUTINE SPMD_INT_ALLREDUCE_MAX(SENDBUF,RECVBUF,COUNT)
 C-----------------------------------------------
@@ -5086,12 +5163,13 @@ C
 #endif
       END
       !||====================================================================
-      !||    spmd_e_ref    ../engine/source/mpi/implicit/imp_spmd.F
+      !||    spmd_e_ref            ../engine/source/mpi/implicit/imp_spmd.F
       !||--- called by ------------------------------------------------------
-      !||    spb_rm_rig    ../engine/source/implicit/imp_solv.F
+      !||    spb_rm_rig            ../engine/source/implicit/imp_solv.F
       !||--- calls      -----------------------------------------------------
       !||--- uses       -----------------------------------------------------
-      !||    imp_spbrm     ../engine/share/modules/impbufdef_mod.F
+      !||    imp_spbrm             ../engine/share/modules/impbufdef_mod.F
+      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
       SUBROUTINE SPMD_E_REF(DMIN)
 C-----------------------------------------------
@@ -5233,12 +5311,13 @@ C
 #endif
       END
       !||====================================================================
-      !||    spmd_n_ref    ../engine/source/mpi/implicit/imp_spmd.F
+      !||    spmd_n_ref            ../engine/source/mpi/implicit/imp_spmd.F
       !||--- called by ------------------------------------------------------
-      !||    spb_rm_rig    ../engine/source/implicit/imp_solv.F
+      !||    spb_rm_rig            ../engine/source/implicit/imp_solv.F
       !||--- calls      -----------------------------------------------------
       !||--- uses       -----------------------------------------------------
-      !||    imp_spbrm     ../engine/share/modules/impbufdef_mod.F
+      !||    imp_spbrm             ../engine/share/modules/impbufdef_mod.F
+      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
       SUBROUTINE SPMD_N_REF
 C-----------------------------------------------

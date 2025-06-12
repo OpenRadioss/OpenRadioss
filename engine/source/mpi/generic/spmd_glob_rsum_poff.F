@@ -27,6 +27,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    hist2                 ../engine/source/output/th/hist2.F
       !||    thermbilan            ../engine/source/constraints/thermic/thermbilan.F
       !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
       SUBROUTINE SPMD_GLOB_RSUM_POFF(ARRAY,LENGTH)
 C-----------------------------------------------

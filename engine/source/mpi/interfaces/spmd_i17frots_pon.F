@@ -22,17 +22,18 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
       !||====================================================================
-      !||    spmd_i17frots_pon   ../engine/source/mpi/interfaces/spmd_i17frots_pon.F
+      !||    spmd_i17frots_pon     ../engine/source/mpi/interfaces/spmd_i17frots_pon.F
       !||--- called by ------------------------------------------------------
-      !||    i17for3             ../engine/source/interfaces/int17/i17for3.F
+      !||    i17for3               ../engine/source/interfaces/int17/i17for3.F
       !||--- calls      -----------------------------------------------------
-      !||    ancmsg              ../engine/source/output/message/message.F
-      !||    arret               ../engine/source/system/arret.F
-      !||    intcontp            ../engine/source/mpi/interfaces/spmd_i7tool.F
-      !||    sorti20             ../engine/source/mpi/interfaces/spmd_i7tool.F
+      !||    ancmsg                ../engine/source/output/message/message.F
+      !||    arret                 ../engine/source/system/arret.F
+      !||    intcontp              ../engine/source/mpi/interfaces/spmd_i7tool.F
+      !||    sorti20               ../engine/source/mpi/interfaces/spmd_i7tool.F
       !||--- uses       -----------------------------------------------------
-      !||    message_mod         ../engine/share/message_module/message_mod.F
-      !||    tri7box             ../engine/share/modules/tri7box.F
+      !||    message_mod           ../engine/share/message_module/message_mod.F
+      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
+      !||    tri7box               ../engine/share/modules/tri7box.F
       !||====================================================================
       SUBROUTINE SPMD_I17FROTS_PON(
      1      NSKYI17 ,ISKYI17,FSKYI17,NRSKYI17,IRSKYI17,

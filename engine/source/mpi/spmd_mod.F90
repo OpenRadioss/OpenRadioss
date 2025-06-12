@@ -23,7 +23,10 @@
       !||====================================================================
       !||    spmd_mod                        ../engine/source/mpi/spmd_mod.F90
       !||--- called by ------------------------------------------------------
+      !||    check_ale_comm                  ../engine/source/ale/check_ale_comm.F
       !||    check_nan_acc                   ../engine/source/output/outfile/check_nan_acc.F
+      !||    init_global_frontier_monvol     ../engine/source/airbag/init_global_monvol_frontier.F90
+      !||    init_list_process_pid           ../common_source/qa/kill_zombi.F
       !||    inttri                          ../engine/source/interfaces/intsort/inttri.F
       !||    python_element_init             ../engine/source/mpi/python_spmd_mod.F90
       !||    python_element_sync             ../engine/source/mpi/python_spmd_mod.F90
@@ -35,7 +38,11 @@
       !||    sph_crit_voxel                  ../engine/source/elements/sph/sph_crit_voxel.F90
       !||    sphprep                         ../engine/source/elements/sph/sphprep.F
       !||    sphtri0                         ../engine/source/elements/sph/sphtri0.F
+      !||    spmd_aget_sect                  ../engine/source/mpi/anim/spmd_aget_sect.F
+      !||    spmd_agetmsr                    ../engine/source/mpi/anim/spmd_agetmsr.F
       !||    spmd_all_dmax                   ../engine/source/mpi/elements/spmd_sph.F
+      !||    spmd_anim_ply_init              ../engine/source/mpi/anim/spmd_anim_ply_init.F
+      !||    spmd_anim_ply_xyznod            ../engine/source/mpi/anim/spmd_anim_ply_xyznod.F
       !||    spmd_box_limit_reduction        ../engine/source/mpi/interfaces/spmd_box_limit_reduction.F
       !||    spmd_e1vois                     ../engine/source/mpi/fluid/spmd_cfd.F
       !||    spmd_e4vois                     ../engine/source/mpi/fluid/spmd_cfd.F
@@ -49,8 +56,14 @@
       !||    spmd_exch_flow_tracking_data2   ../engine/source/ale/grid/spmd_exch_flow_tracking_data2.F90
       !||    spmd_exch_flow_tracking_data3   ../engine/source/ale/grid/spmd_exch_flow_tracking_data3.F90
       !||    spmd_exch_flow_tracking_data4   ../engine/source/ale/grid/spmd_exch_flow_tracking_data4.F90
+      !||    spmd_exch_fvstats               ../engine/source/mpi/airbags/spmd_exch_fvstats.F
       !||    spmd_exch_neighbour_segment     ../engine/source/mpi/interfaces/spmd_exch_neighbour_segment.F90
+      !||    spmd_exch_nodnx                 ../engine/source/mpi/ams/spmd_exch_nodnx.F
+      !||    spmd_exch_sms                   ../engine/source/mpi/ams/spmd_exch_sms.F
+      !||    spmd_exch_sms6                  ../engine/source/mpi/ams/spmd_exch_sms6.F
       !||    spmd_extag                      ../engine/source/mpi/fluid/spmd_cfd.F
+      !||    spmd_fi_sms                     ../engine/source/mpi/ams/spmd_fi_sms.F
+      !||    spmd_fvb_switch                 ../engine/source/mpi/airbags/spmd_fvb_switch.F
       !||    spmd_get_inacti7                ../engine/source/mpi/interfaces/send_cand.F
       !||    spmd_get_penis                  ../engine/source/mpi/interfaces/send_cand.F
       !||    spmd_get_penis20                ../engine/source/mpi/interfaces/send_cand.F
@@ -68,6 +81,7 @@
       !||    spmd_init_ebcs                  ../engine/source/mpi/fluid/spmd_cfd.F
       !||    spmd_l11vois                    ../engine/source/mpi/fluid/spmd_cfd.F
       !||    spmd_l51vois                    ../engine/source/mpi/fluid/spmd_cfd.F
+      !||    spmd_mv_ca                      ../engine/source/mpi/airbags/spmd_mv_ca.F
       !||    spmd_sd_stfa20                  ../engine/source/mpi/interfaces/send_cand.F
       !||    spmd_sd_stfn                    ../engine/source/mpi/interfaces/send_cand.F
       !||    spmd_sd_stfn11                  ../engine/source/mpi/interfaces/send_cand.F
@@ -103,11 +117,14 @@
       !||    spmd_tri7gat                    ../engine/source/mpi/interfaces/spmd_int.F
       !||    spmd_tri7vox                    ../engine/source/mpi/interfaces/spmd_int.F
       !||    spmd_tri7vox0                   ../engine/source/mpi/interfaces/spmd_int.F
+      !||    spmd_vfi_sms                    ../engine/source/mpi/ams/spmd_vfi_sms.F
       !||    spmd_wvois                      ../engine/source/mpi/fluid/spmd_cfd.F
       !||    spmd_xv_inter_type1             ../engine/source/mpi/nodes/spmd_sd_xv_inter1.F90
       !||    spmd_xvois                      ../engine/source/mpi/fluid/spmd_cfd.F
       !||    telesc                          ../engine/source/constraints/general/cyl_joint/telesc.F
       !||    thermbilan                      ../engine/source/constraints/thermic/thermbilan.F
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_comm_world_mod             ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
       module spmd_mod
         use spmd_comm_world_mod, only: SPMD_COMM_WORLD

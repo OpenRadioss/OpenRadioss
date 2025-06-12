@@ -27,6 +27,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- calls      -----------------------------------------------------
       !||--- uses       -----------------------------------------------------
       !||    elbufdef_mod     ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    spmd_mod         ../engine/source/mpi/spmd_mod.F90
       !||====================================================================
         SUBROUTINE CHECK_ALE_COMM(IPARG_L,ELBUF_TAB,GLOBAL_ACTIVE_ALE_ELEMENT,ITHERM)
 !$COMMENT

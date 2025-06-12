@@ -22,11 +22,13 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
       !||====================================================================
-      !||    spmd_sd_cj_2     ../engine/source/mpi/kinematic_conditions/spmd_sd_cj_2.F
+      !||    spmd_sd_cj_2          ../engine/source/mpi/kinematic_conditions/spmd_sd_cj_2.F
       !||--- called by ------------------------------------------------------
-      !||    sms_build_diag   ../engine/source/ams/sms_build_diag.F
-      !||    sms_ini_kin_1    ../engine/source/ams/sms_init.F
+      !||    sms_build_diag        ../engine/source/ams/sms_build_diag.F
+      !||    sms_ini_kin_1         ../engine/source/ams/sms_init.F
       !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
       SUBROUTINE SPMD_SD_CJ_2(NOD2ADD,LJOINT,FR_CJ,IADCJ,ICSIZE,
      2                      TAG_LNK_SMS,NODNX_SMS,INDX1_SMS)

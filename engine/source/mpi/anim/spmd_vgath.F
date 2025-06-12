@@ -22,12 +22,14 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 
       !||====================================================================
-      !||    spmd_vgath      ../engine/source/mpi/anim/spmd_vgath.F
+      !||    spmd_vgath            ../engine/source/mpi/anim/spmd_vgath.F
       !||--- called by ------------------------------------------------------
-      !||    velvec          ../engine/source/output/anim/generate/velvec.F
-      !||    velvec3         ../engine/source/output/anim/generate/velvec.F
+      !||    velvec                ../engine/source/output/anim/generate/velvec.F
+      !||    velvec3               ../engine/source/output/anim/generate/velvec.F
       !||--- calls      -----------------------------------------------------
-      !||    write_r_c       ../common_source/tools/input_output/write_routtines.c
+      !||    write_r_c             ../common_source/tools/input_output/write_routtines.c
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
        SUBROUTINE SPMD_VGATH(X,NODGLOB,WEIGHT,NUM)
 C-----------------------------------------------

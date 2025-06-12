@@ -41,6 +41,7 @@
       !||    sfor_visn6         ../engine/source/elements/thickshell/solide6c/sfor_visn6.F90
       !||--- uses       -----------------------------------------------------
       !||    constant_mod       ../common_source/modules/constant_mod.F
+      !||    mvsiz_mod          ../engine/share/spe_inc/mvsiz_mod.F90
       !||    precision_mod      ../common_source/modules/precision_mod.F90
       !||    sfor_nsn2seg_mod   ../engine/source/elements/solid/solide/sfor_4n2s4.F90
       !||    sfor_visn6_mod     ../engine/source/elements/thickshell/solide6c/sfor_visn6.F90

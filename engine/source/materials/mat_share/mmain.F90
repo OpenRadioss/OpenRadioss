@@ -165,6 +165,7 @@
       !||    mat_elem_mod           ../common_source/modules/mat_elem/mat_elem_mod.F90
       !||    message_mod            ../engine/share/message_module/message_mod.F
       !||    mulaw_mod              ../engine/source/materials/mat_share/mulaw.F90
+      !||    mvsiz_mod              ../engine/share/spe_inc/mvsiz_mod.F90
       !||    nlocal_reg_mod         ../common_source/modules/nlocal_reg_mod.F
       !||    precision_mod          ../common_source/modules/precision_mod.F90
       !||    table_mod              ../engine/share/modules/table_mod.F

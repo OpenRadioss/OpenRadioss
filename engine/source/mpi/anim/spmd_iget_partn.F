@@ -22,27 +22,29 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 
       !||====================================================================
-      !||    spmd_iget_partn   ../engine/source/mpi/anim/spmd_iget_partn.F
+      !||    spmd_iget_partn       ../engine/source/mpi/anim/spmd_iget_partn.F
       !||--- called by ------------------------------------------------------
-      !||    anioff0           ../engine/source/output/anim/generate/anioff0.F
-      !||    anioffc           ../engine/source/output/anim/generate/anioffc.F
-      !||    anioffc_crk       ../engine/source/output/anim/generate/anioffc_crk.F
-      !||    anioffc_ply       ../engine/source/output/anim/generate/anioffc_ply.F
-      !||    aniofff           ../engine/source/output/anim/generate/aniofff.F
-      !||    anioffs           ../engine/source/output/anim/generate/anioff6.F
-      !||    delnumb0          ../engine/source/output/anim/generate/delnumb0.F
-      !||    delnumbc          ../engine/source/output/anim/generate/delnumbc.F
-      !||    delnumbc_crk      ../engine/source/output/anim/generate/delnumbc_crk.F
-      !||    delnumbf          ../engine/source/output/anim/generate/delnumbf.F
-      !||    delnumbs          ../engine/source/output/anim/generate/delnumb6.F
-      !||    parsor0           ../engine/source/output/anim/generate/parsor0.F
-      !||    parsor_crk        ../engine/source/output/anim/generate/parsor_crk.F
-      !||    parsorc           ../engine/source/output/anim/generate/parsorc.F
-      !||    parsorf           ../engine/source/output/anim/generate/parsorf.F
-      !||    parsors           ../engine/source/output/anim/generate/parsors.F
+      !||    anioff0               ../engine/source/output/anim/generate/anioff0.F
+      !||    anioffc               ../engine/source/output/anim/generate/anioffc.F
+      !||    anioffc_crk           ../engine/source/output/anim/generate/anioffc_crk.F
+      !||    anioffc_ply           ../engine/source/output/anim/generate/anioffc_ply.F
+      !||    aniofff               ../engine/source/output/anim/generate/aniofff.F
+      !||    anioffs               ../engine/source/output/anim/generate/anioff6.F
+      !||    delnumb0              ../engine/source/output/anim/generate/delnumb0.F
+      !||    delnumbc              ../engine/source/output/anim/generate/delnumbc.F
+      !||    delnumbc_crk          ../engine/source/output/anim/generate/delnumbc_crk.F
+      !||    delnumbf              ../engine/source/output/anim/generate/delnumbf.F
+      !||    delnumbs              ../engine/source/output/anim/generate/delnumb6.F
+      !||    parsor0               ../engine/source/output/anim/generate/parsor0.F
+      !||    parsor_crk            ../engine/source/output/anim/generate/parsor_crk.F
+      !||    parsorc               ../engine/source/output/anim/generate/parsorc.F
+      !||    parsorf               ../engine/source/output/anim/generate/parsorf.F
+      !||    parsors               ../engine/source/output/anim/generate/parsors.F
       !||--- calls      -----------------------------------------------------
-      !||    write_c_c         ../common_source/tools/input_output/write_routtines.c
-      !||    write_i_c         ../common_source/tools/input_output/write_routtines.c
+      !||    write_c_c             ../common_source/tools/input_output/write_routtines.c
+      !||    write_i_c             ../common_source/tools/input_output/write_routtines.c
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
       SUBROUTINE SPMD_IGET_PARTN(SIZE,NBF_L,NP,NBPART,IADG,SRBUF,IFLAG)
 C gather sur p0 du tableau wa en fonction des parts (IADG)

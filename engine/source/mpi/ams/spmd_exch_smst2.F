@@ -23,17 +23,18 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 
 
       !||====================================================================
-      !||    spmd_exch_smst2   ../engine/source/mpi/ams/spmd_exch_smst2.F
+      !||    spmd_exch_smst2       ../engine/source/mpi/ams/spmd_exch_smst2.F
       !||--- called by ------------------------------------------------------
-      !||    sms_ini_int       ../engine/source/ams/sms_init.F
+      !||    sms_ini_int           ../engine/source/ams/sms_init.F
       !||--- calls      -----------------------------------------------------
-      !||    ancmsg            ../engine/source/output/message/message.F
-      !||    arret             ../engine/source/system/arret.F
-      !||    spmd_check_tag    ../engine/source/mpi/ams/spmd_check_tag.F
+      !||    ancmsg                ../engine/source/output/message/message.F
+      !||    arret                 ../engine/source/system/arret.F
+      !||    spmd_check_tag        ../engine/source/mpi/ams/spmd_check_tag.F
       !||--- uses       -----------------------------------------------------
-      !||    intbufdef_mod     ../common_source/modules/interfaces/intbufdef_mod.F90
-      !||    message_mod       ../engine/share/message_module/message_mod.F
-      !||    tri7box           ../engine/share/modules/tri7box.F
+      !||    intbufdef_mod         ../common_source/modules/interfaces/intbufdef_mod.F90
+      !||    message_mod           ../engine/share/message_module/message_mod.F
+      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
+      !||    tri7box               ../engine/share/modules/tri7box.F
       !||====================================================================
       SUBROUTINE SPMD_EXCH_SMST2(IPARI,TAG,INTLIST,NBINTC,INTBUF_TAB)
 C-----------------------------------------------

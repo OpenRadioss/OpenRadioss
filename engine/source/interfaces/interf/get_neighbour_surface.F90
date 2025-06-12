@@ -64,6 +64,7 @@
       !||    get_segment_orientation_mod       ../engine/source/interfaces/interf/get_segment_orientation.F90
       !||    intbufdef_mod                     ../common_source/modules/interfaces/intbufdef_mod.F90
       !||    nodal_arrays_mod                  ../engine/source/engine/node_spliting/nodal_arrays.F90
+      !||    precision_mod                     ../common_source/modules/precision_mod.F90
       !||    shooting_node_mod                 ../engine/share/modules/shooting_node_mod.F
       !||    spmd_arrays_mod                   ../common_source/modules/interfaces/spmd_arrays_mod.F
       !||    spmd_exch_neighbour_segment_mod   ../engine/source/mpi/interfaces/spmd_exch_neighbour_segment.F90

@@ -29,6 +29,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    spmd_ialltoallv_int   ../engine/source/mpi/generic/spmd_ialltoallv_int.F
       !||--- uses       -----------------------------------------------------
       !||    sphbox                ../engine/share/modules/sphbox.F
+      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
       SUBROUTINE SPMD_SPHGETV(KXSP ,SPBUF, V, MS, ISORTSP, IPARTSP)
 C-----------------------------------------------

@@ -21,10 +21,12 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    spmd_h3d_getmsr   ../engine/source/output/h3d/spmd/spmd_h3d_getmsr.F
+      !||    spmd_h3d_getmsr       ../engine/source/output/h3d/spmd/spmd_h3d_getmsr.F
       !||--- called by ------------------------------------------------------
-      !||    h3d_dxyz_rwall    ../engine/source/output/h3d/h3d_build_fortran/h3d_dxyz_rwall.F
+      !||    h3d_dxyz_rwall        ../engine/source/output/h3d/h3d_build_fortran/h3d_dxyz_rwall.F
       !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
         SUBROUTINE SPMD_H3D_GETMSR(FR_WALL,X,MSR,XWL,YWL,ZWL,RWL)
 C-----------------------------------------------

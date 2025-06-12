@@ -28,6 +28,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    write_s_c             ../common_source/tools/input_output/write_routtines.c
       !||--- uses       -----------------------------------------------------
       !||    crackxfem_mod         ../engine/share/modules/crackxfem_mod.F
+      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
        SUBROUTINE SPMD_WRT_CRK_XYZNOR(ICRK,XNORM,NUM)
 C-----------------------------------------------

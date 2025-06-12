@@ -21,10 +21,12 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    spmd_reduce_db   ../engine/source/mpi/generic/spmd_reduce_db.F
+      !||    spmd_reduce_db        ../engine/source/mpi/generic/spmd_reduce_db.F
       !||--- called by ------------------------------------------------------
-      !||    radioss2         ../engine/source/engine/radioss2.F
+      !||    radioss2              ../engine/source/engine/radioss2.F
       !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
         SUBROUTINE SPMD_REDUCE_DB(VALUE,RES,MY_SIZE,MY_RANK,MY_OPERATION)
 C-----------------------------------------------

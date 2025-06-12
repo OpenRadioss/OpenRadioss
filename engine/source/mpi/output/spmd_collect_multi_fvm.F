@@ -32,6 +32,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    debug_mod                ../engine/share/modules/debug_mod.F
       !||    inoutfile_mod            ../common_source/modules/inoutfile_mod.F
       !||    multi_fvm_mod            ../common_source/modules/ale/multi_fvm_mod.F90
+      !||    spmd_comm_world_mod      ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
       SUBROUTINE SPMD_COLLECT_MULTI_FVM(IXS,MULTI_FVM,FLAG)
 !$COMMENT

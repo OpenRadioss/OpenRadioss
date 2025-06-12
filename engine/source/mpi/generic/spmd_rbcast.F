@@ -55,6 +55,8 @@ C
       !||    sms_produt_h                      ../engine/source/ams/sms_proj.F
       !||    spmd_i21crit                      ../engine/source/mpi/interfaces/spmd_i21crit.F
       !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_comm_world_mod               ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
       SUBROUTINE SPMD_RBCAST(TABI,TABR,N1,N2,FROM,ADD)
 C-----------------------------------------------

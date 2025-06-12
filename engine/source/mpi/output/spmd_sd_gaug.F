@@ -22,10 +22,12 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
       !||====================================================================
-      !||    spmd_sd_gaug   ../engine/source/mpi/output/spmd_sd_gaug.F
+      !||    spmd_sd_gaug          ../engine/source/mpi/output/spmd_sd_gaug.F
       !||--- called by ------------------------------------------------------
-      !||    agauge         ../engine/source/ale/agauge.F
+      !||    agauge                ../engine/source/ale/agauge.F
       !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
       SUBROUTINE SPMD_SD_GAUG(LGAUGE,GAUGE,IGAUP,NGAUP)
 C envoi vers p0 du tableau GAUGE calcule sur chaque proc

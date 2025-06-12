@@ -21,12 +21,13 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    spmd_exch_a_int2h   ../engine/source/mpi/forces/spmd_exch_a_int2h.F
+      !||    spmd_exch_a_int2h     ../engine/source/mpi/forces/spmd_exch_a_int2h.F
       !||--- called by ------------------------------------------------------
-      !||    intti1              ../engine/source/interfaces/interf/intti1.F
+      !||    intti1                ../engine/source/interfaces/interf/intti1.F
       !||--- calls      -----------------------------------------------------
       !||--- uses       -----------------------------------------------------
-      !||    h3d_mod             ../engine/share/modules/h3d_mod.F
+      !||    h3d_mod               ../engine/share/modules/h3d_mod.F
+      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
       SUBROUTINE SPMD_EXCH_A_INT2H(
      1   A    ,AR     ,MS    ,IN     ,STIFN,

@@ -27,6 +27,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    stat_inimap1d_spmd              ../engine/source/output/sta/stat_inimap1d_spmd.F
       !||--- calls      -----------------------------------------------------
       !||--- uses       -----------------------------------------------------
+      !||    spmd_comm_world_mod             ../engine/source/mpi/spmd_comm_world.F90
       !||    state_inimap_mod                ../engine/share/modules/state_inimap_mod.F
       !||====================================================================
        SUBROUTINE SPMD_STATE_INIMAP1D_EXCH_DATA()

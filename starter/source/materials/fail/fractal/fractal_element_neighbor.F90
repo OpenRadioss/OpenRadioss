@@ -34,15 +34,15 @@
 
 ! ========================================================================================
 
-        !||====================================================================
-        !||    fractal_element_neighbor   ../starter/source/materials/fail/fractal/fractal_element_neighbor.F90
-        !||--- called by ------------------------------------------------------
-        !||    random_walk_dmg            ../starter/source/materials/fail/fractal/random_walk_dmg.F90
-        !||--- calls      -----------------------------------------------------
-        !||--- uses       -----------------------------------------------------
-        !||    message_mod                ../starter/share/message_module/message_mod.F
-        !||    stack_mod                  ../starter/share/modules1/stack_mod.F
-        !||====================================================================
+      !||====================================================================
+      !||    fractal_element_neighbor   ../starter/source/materials/fail/fractal/fractal_element_neighbor.F90
+      !||--- called by ------------------------------------------------------
+      !||    random_walk_dmg            ../starter/source/materials/fail/fractal/random_walk_dmg.F90
+      !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod                ../starter/share/message_module/message_mod.F
+      !||    stack_mod                  ../starter/share/modules1/stack_mod.F
+      !||====================================================================
         subroutine fractal_element_neighbor(fractal,            &
           nixc ,ixc ,nixtg ,ixtg ,numelc  ,numeltg ,   &
           iworksh   ,stack ,igeo ,npropgi ,numgeo )

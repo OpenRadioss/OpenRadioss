@@ -22,12 +22,14 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 
       !||====================================================================
-      !||    spmd_dparrbe2     ../engine/source/mpi/anim/spmd_dparrbe2.F
+      !||    spmd_dparrbe2         ../engine/source/mpi/anim/spmd_dparrbe2.F
       !||--- called by ------------------------------------------------------
-      !||    genani            ../engine/source/output/anim/generate/genani.F
+      !||    genani                ../engine/source/output/anim/generate/genani.F
       !||--- calls      -----------------------------------------------------
-      !||    spmd_glob_isum9   ../engine/source/mpi/interfaces/spmd_th.F
-      !||    write_i_c         ../common_source/tools/input_output/write_routtines.c
+      !||    spmd_glob_isum9       ../engine/source/mpi/interfaces/spmd_th.F
+      !||    write_i_c             ../common_source/tools/input_output/write_routtines.c
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
       SUBROUTINE SPMD_DPARRBE2(LRBE2, IRBE2,NODGLOB,WEIGHT,NERBE2Y,
      *                         NERBE2T )

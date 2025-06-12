@@ -28,6 +28,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- calls      -----------------------------------------------------
       !||--- uses       -----------------------------------------------------
       !||    message_mod               ../engine/share/message_module/message_mod.F
+      !||    spmd_comm_world_mod       ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
       SUBROUTINE SPMD_LAGBOUNDS_EXCH_I22(
      1   BMINMAL_SPMD, BMINMAL   ,ISENDTO, IRCVFROM , NIN    )  

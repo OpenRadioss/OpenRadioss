@@ -25,6 +25,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- called by ------------------------------------------------------
       !||    intvo8     ../engine/source/interfaces/inter3d/intvo8.F
       !||--- uses       -----------------------------------------------------
+      !||    int8_mod   ../common_source/modules/interfaces/int8_mod.F90
       !||====================================================================
       SUBROUTINE I8LOC3(
      1   X,       IRECT,   LMSR,    MSR,

@@ -28,6 +28,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- uses       -----------------------------------------------------
       !||    glob_therm_mod         ../common_source/modules/mat_elem/glob_therm_mod.F90
       !||    h3d_mod                ../engine/share/modules/h3d_mod.F
+      !||    spmd_comm_world_mod    ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
       SUBROUTINE SPMD_EXCH_A_AMS_POFF(
      1   A        ,AR     ,STIFN,STIFR ,MS  ,

@@ -37,6 +37,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    command_line_args_mod   ../engine/share/modules/command_line_args.F
       !||    inoutfile_mod           ../common_source/modules/inoutfile_mod.F
       !||    message_mod             ../engine/share/message_module/message_mod.F
+      !||    spmd_comm_world_mod     ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
       SUBROUTINE EXECARGCHECK(GOT_INPUT,INPUT,LENI, 
      *                        GOT_PATH,  PATH,  LENP)
@@ -551,9 +552,11 @@ C------------------------------------------------
 
 
       !||====================================================================
-      !||    upcase         ../engine/source/engine/execargcheck.F
+      !||    upcase                ../engine/source/engine/execargcheck.F
       !||--- called by ------------------------------------------------------
-      !||    execargcheck   ../engine/source/engine/execargcheck.F
+      !||    execargcheck          ../engine/source/engine/execargcheck.F
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
       SUBROUTINE UPCASE (STRING) 
 C-----------------------------------------------
@@ -583,9 +586,11 @@ C
        RETURN
        END
       !||====================================================================
-      !||    isanargument   ../engine/source/engine/execargcheck.F
+      !||    isanargument          ../engine/source/engine/execargcheck.F
       !||--- called by ------------------------------------------------------
-      !||    execargcheck   ../engine/source/engine/execargcheck.F
+      !||    execargcheck          ../engine/source/engine/execargcheck.F
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
        SUBROUTINE ISANARGUMENT(ARGLIST,LENLIST,ARG,ISIN)
 C-----------------------------------------------
@@ -623,12 +628,14 @@ C-----------------------------------------------
 
 
       !||====================================================================
-      !||    pexecinfo           ../engine/source/engine/execargcheck.F
+      !||    pexecinfo             ../engine/source/engine/execargcheck.F
       !||--- called by ------------------------------------------------------
-      !||    execargcheck        ../engine/source/engine/execargcheck.F
+      !||    execargcheck          ../engine/source/engine/execargcheck.F
       !||--- calls      -----------------------------------------------------
-      !||    my_exit             ../engine/source/system/my_exit.c
-      !||    prexecinfo          ../engine/source/engine/execargcheck.F
+      !||    my_exit               ../engine/source/system/my_exit.c
+      !||    prexecinfo            ../engine/source/engine/execargcheck.F
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
           SUBROUTINE PEXECINFO(IDUM)
 C-----------------------------------------------
@@ -678,9 +685,11 @@ C-----------------------------------------------
         END
 
       !||====================================================================
-      !||    prexecinfo   ../engine/source/engine/execargcheck.F
+      !||    prexecinfo            ../engine/source/engine/execargcheck.F
       !||--- called by ------------------------------------------------------
-      !||    pexecinfo    ../engine/source/engine/execargcheck.F
+      !||    pexecinfo             ../engine/source/engine/execargcheck.F
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
           SUBROUTINE PREXECINFO(IDUM)
 C-----------------------------------------------
@@ -725,13 +734,15 @@ C-----------------------------------------------
         END
 
       !||====================================================================
-      !||    phelpinfo            ../engine/source/engine/execargcheck.F
+      !||    phelpinfo             ../engine/source/engine/execargcheck.F
       !||--- called by ------------------------------------------------------
-      !||    execargcheck         ../engine/source/engine/execargcheck.F
-      !||    get_file_name_info   ../engine/source/system/get_file_name_info.F
+      !||    execargcheck          ../engine/source/engine/execargcheck.F
+      !||    get_file_name_info    ../engine/source/system/get_file_name_info.F
       !||--- calls      -----------------------------------------------------
-      !||    arret                ../engine/source/system/arret.F
-      !||    prhelpinfo           ../engine/source/engine/execargcheck.F
+      !||    arret                 ../engine/source/system/arret.F
+      !||    prhelpinfo            ../engine/source/engine/execargcheck.F
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
           SUBROUTINE PHELPINFO(ERRN,EMSG,SMSG)
 C-----------------------------------------------
@@ -784,9 +795,11 @@ C-----------------------------------------------
         END
 
       !||====================================================================
-      !||    prhelpinfo   ../engine/source/engine/execargcheck.F
+      !||    prhelpinfo            ../engine/source/engine/execargcheck.F
       !||--- called by ------------------------------------------------------
-      !||    phelpinfo    ../engine/source/engine/execargcheck.F
+      !||    phelpinfo             ../engine/source/engine/execargcheck.F
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
        SUBROUTINE PRHELPINFO(ERRN,EMSG,SMSG)
 C-----------------------------------------------

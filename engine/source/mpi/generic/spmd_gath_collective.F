@@ -24,6 +24,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||====================================================================
       !||    spmd_gath_collective   ../engine/source/mpi/generic/spmd_gath_collective.F
       !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_comm_world_mod    ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
       SUBROUTINE SPMD_GATH_COLLECTIVE(SRBUF,LEN,LRECV)
 C Description: 

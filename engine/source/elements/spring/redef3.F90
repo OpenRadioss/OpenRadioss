@@ -78,6 +78,7 @@
       !||    vinter_mixed           ../engine/source/tools/curve/vinter_mixed.F90
       !||--- uses       -----------------------------------------------------
       !||    constant_mod           ../common_source/modules/constant_mod.F
+      !||    mvsiz_mod              ../engine/share/spe_inc/mvsiz_mod.F90
       !||    precision_mod          ../common_source/modules/precision_mod.F90
       !||    python_funct_mod       ../common_source/modules/python_mod.F90
       !||    vinter_mixed_mod       ../engine/source/tools/curve/vinter_mixed.F90

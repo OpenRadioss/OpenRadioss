@@ -21,17 +21,18 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    switch_to_dtnoda   ../engine/source/time_step/switch_to_dtnoda.F
+      !||    switch_to_dtnoda      ../engine/source/time_step/switch_to_dtnoda.F
       !||--- called by ------------------------------------------------------
-      !||    radioss2           ../engine/source/engine/radioss2.F
+      !||    radioss2              ../engine/source/engine/radioss2.F
       !||--- calls      -----------------------------------------------------
-      !||    ancmsg             ../engine/source/output/message/message.F
-      !||    arret              ../engine/source/system/arret.F
+      !||    ancmsg                ../engine/source/output/message/message.F
+      !||    arret                 ../engine/source/system/arret.F
       !||--- uses       -----------------------------------------------------
-      !||    elbufdef_mod       ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||    groupdef_mod       ../common_source/modules/groupdef_mod.F
-      !||    message_mod        ../engine/share/message_module/message_mod.F
-      !||    my_alloc_mod       ../common_source/tools/memory/my_alloc.F90
+      !||    elbufdef_mod          ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    groupdef_mod          ../common_source/modules/groupdef_mod.F
+      !||    message_mod           ../engine/share/message_module/message_mod.F
+      !||    my_alloc_mod          ../common_source/tools/memory/my_alloc.F90
+      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
       SUBROUTINE SWITCH_TO_DTNODA(
      .                  IXR      ,GEO      ,PM       ,IPARG    ,ELBUF_TAB,

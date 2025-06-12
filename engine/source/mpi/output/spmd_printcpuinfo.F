@@ -22,10 +22,12 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
       !||====================================================================
-      !||    spmd_printcpuinfo   ../engine/source/mpi/output/spmd_printcpuinfo.F
+      !||    spmd_printcpuinfo     ../engine/source/mpi/output/spmd_printcpuinfo.F
       !||--- called by ------------------------------------------------------
-      !||    printcpu            ../engine/source/system/timer.F
+      !||    printcpu              ../engine/source/system/timer.F
       !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
       SUBROUTINE SPMD_PRINTCPUINFO(HOSTNAME,LENH,CPUNAM,LENC,FREQUENCE,
      *                             MEM,SWAP)

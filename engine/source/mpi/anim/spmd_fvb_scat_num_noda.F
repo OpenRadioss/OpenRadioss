@@ -28,6 +28,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- calls      -----------------------------------------------------
       !||--- uses       -----------------------------------------------------
       !||    fvbag_mod                ../engine/share/modules/fvbag_mod.F
+      !||    spmd_comm_world_mod      ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
       SUBROUTINE SPMD_FVB_SCAT_NUM_NODA(IFV,VECTOR,LEN)
 C-----------------------------------------------

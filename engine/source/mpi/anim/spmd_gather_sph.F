@@ -23,11 +23,13 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 
 C            dxyzsph                  /anim/dxyzsph.F
       !||====================================================================
-      !||    spmd_gather_sph   ../engine/source/mpi/anim/spmd_gather_sph.F
+      !||    spmd_gather_sph       ../engine/source/mpi/anim/spmd_gather_sph.F
       !||--- called by ------------------------------------------------------
-      !||    dxyzsph           ../engine/source/output/anim/generate/dxyzsph.F
+      !||    dxyzsph               ../engine/source/output/anim/generate/dxyzsph.F
       !||--- calls      -----------------------------------------------------
-      !||    write_r_c         ../common_source/tools/input_output/write_routtines.c
+      !||    write_r_c             ../common_source/tools/input_output/write_routtines.c
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
       SUBROUTINE SPMD_GATHER_SPH(V,TV,NUM)
 C-----------------------------------------------

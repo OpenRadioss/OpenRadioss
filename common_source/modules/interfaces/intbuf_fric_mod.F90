@@ -53,6 +53,7 @@
       !||    intbuf_fric_ini_starter         ../starter/source/interfaces/intbuf/intbufFric_ini_starter.F
       !||    intbuf_ini_starter              ../starter/source/interfaces/intbuf/intbuf_ini_starter.F
       !||    inter_dcod_friction             ../starter/source/interfaces/reader/inter_dcod_friction.F
+      !||    interfaces_mod                  ../common_source/modules/interfaces/interfaces_mod.F90
       !||    intfop2                         ../engine/source/interfaces/interf/intfop2.F
       !||    lecint                          ../starter/source/interfaces/interf1/lecint.F
       !||    lectur                          ../engine/source/input/lectur.F

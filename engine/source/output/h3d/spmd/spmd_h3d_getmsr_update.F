@@ -25,6 +25,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- called by ------------------------------------------------------
       !||    h3d_dxyz_rwall_update    ../engine/source/output/h3d/h3d_build_fortran/h3d_dxyz_rwall_update.F
       !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_comm_world_mod      ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
         SUBROUTINE SPMD_H3D_GETMSR_UPDATE(FR_WALL,DISP,MSR,XWL,YWL,ZWL,RWL)
 C-----------------------------------------------

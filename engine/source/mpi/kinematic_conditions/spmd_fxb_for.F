@@ -22,10 +22,12 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 
       !||====================================================================
-      !||    spmd_fxb_for   ../engine/source/mpi/kinematic_conditions/spmd_fxb_for.F
+      !||    spmd_fxb_for          ../engine/source/mpi/kinematic_conditions/spmd_fxb_for.F
       !||--- called by ------------------------------------------------------
-      !||    fxbyfor        ../engine/source/constraints/fxbody/fxbyfor.F
+      !||    fxbyfor               ../engine/source/constraints/fxbody/fxbyfor.F
       !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
       SUBROUTINE SPMD_FXB_FOR(FXBIPM, MFEXTP)
 C-----------------------------------------------

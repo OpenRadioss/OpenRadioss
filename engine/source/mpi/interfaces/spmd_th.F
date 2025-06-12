@@ -21,8 +21,10 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    spmd_all_dmin   ../engine/source/mpi/interfaces/spmd_th.F
+      !||    spmd_all_dmin         ../engine/source/mpi/interfaces/spmd_th.F
       !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
       SUBROUTINE SPMD_ALL_DMIN(V,LEN)
 C min tableau V de taille LEN de type my_real
@@ -71,13 +73,15 @@ C
       END
 
       !||====================================================================
-      !||    spmd_glob_dsum   ../engine/source/mpi/interfaces/spmd_th.F
+      !||    spmd_glob_dsum        ../engine/source/mpi/interfaces/spmd_th.F
       !||--- called by ------------------------------------------------------
-      !||    get_u_nod_a      ../engine/source/user_interface/uaccess.F
-      !||    get_u_nod_d      ../engine/source/user_interface/uaccess.F
-      !||    get_u_nod_v      ../engine/source/user_interface/uaccess.F
-      !||    get_u_nod_x      ../engine/source/user_interface/uaccess.F
+      !||    get_u_nod_a           ../engine/source/user_interface/uaccess.F
+      !||    get_u_nod_d           ../engine/source/user_interface/uaccess.F
+      !||    get_u_nod_v           ../engine/source/user_interface/uaccess.F
+      !||    get_u_nod_x           ../engine/source/user_interface/uaccess.F
       !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
       SUBROUTINE SPMD_GLOB_DSUM(V,LEN,VTMP)
 C gather tableau V de taille LEN de type my_real
@@ -124,8 +128,10 @@ C
       END
 C
       !||====================================================================
-      !||    spmd_glob_dpsum   ../engine/source/mpi/interfaces/spmd_th.F
+      !||    spmd_glob_dpsum       ../engine/source/mpi/interfaces/spmd_th.F
       !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
       SUBROUTINE SPMD_GLOB_DPSUM(V,LEN,VTMP)
 C gather tableau V de taille LEN de type my_dp
@@ -173,8 +179,10 @@ C
       END
 C
       !||====================================================================
-      !||    spmd_glob_fsum   ../engine/source/mpi/interfaces/spmd_th.F
+      !||    spmd_glob_fsum        ../engine/source/mpi/interfaces/spmd_th.F
       !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
       SUBROUTINE SPMD_GLOB_FSUM(V,LEN,VTMP)
 C gather tableau V de taille LEN de type REAL*4
@@ -221,10 +229,12 @@ C
       END
 C
       !||====================================================================
-      !||    spmd_part_com   ../engine/source/mpi/interfaces/spmd_th.F
+      !||    spmd_part_com         ../engine/source/mpi/interfaces/spmd_th.F
       !||--- called by ------------------------------------------------------
-      !||    rbypid          ../engine/source/constraints/general/rbody/rbypid.F
+      !||    rbypid                ../engine/source/constraints/general/rbody/rbypid.F
       !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
       SUBROUTINE SPMD_PART_COM(TAG,MAIN,ICOMV)
 C rempli sur pmain le tableau ICOMV suivant la valeur de TAG locale
@@ -280,12 +290,13 @@ C
 C
 
       !||====================================================================
-      !||    spmd_glob_fsum9   ../engine/source/mpi/interfaces/spmd_th.F
+      !||    spmd_glob_fsum9       ../engine/source/mpi/interfaces/spmd_th.F
       !||--- called by ------------------------------------------------------
-      !||    velvecc           ../engine/source/output/anim/generate/velvec.F
+      !||    velvecc               ../engine/source/output/anim/generate/velvec.F
       !||--- calls      -----------------------------------------------------
       !||--- uses       -----------------------------------------------------
-      !||    my_alloc_mod      ../common_source/tools/memory/my_alloc.F90
+      !||    my_alloc_mod          ../common_source/tools/memory/my_alloc.F90
+      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
       SUBROUTINE SPMD_GLOB_FSUM9(V,LEN)
 C gather tableau V de taille LEN de type real
@@ -337,31 +348,33 @@ C
       END
 C
       !||====================================================================
-      !||    spmd_glob_dsum9   ../engine/source/mpi/interfaces/spmd_th.F
+      !||    spmd_glob_dsum9       ../engine/source/mpi/interfaces/spmd_th.F
       !||--- called by ------------------------------------------------------
-      !||    alelin            ../engine/source/ale/grid/alelin.F
-      !||    ani_pcont21       ../engine/source/output/anim/generate/ani_pcont.F
-      !||    ecrit             ../engine/source/output/ecrit.F
-      !||    hist2             ../engine/source/output/th/hist2.F
-      !||    i9wal2            ../engine/source/interfaces/int09/i9wal2.F
-      !||    i9wal3            ../engine/source/interfaces/int09/i9wal3.F
-      !||    intstamp_ass      ../engine/source/interfaces/int21/intstamp_ass.F
-      !||    noise             ../engine/source/general_controls/computation/noise.F
-      !||    outp_mt           ../engine/source/output/sty/outp_mt.F
-      !||    outp_n_v2         ../engine/source/output/sty/outp_n_v.F
-      !||    outp_n_vc         ../engine/source/output/sty/outp_n_v.F
-      !||    pnoise            ../engine/source/general_controls/computation/pnoise.F
-      !||    section_io        ../engine/source/tools/sect/section_io.F
-      !||    sensor_spmd       ../engine/source/tools/sensor/sensor_spmd.F
-      !||    sms_pcg           ../engine/source/ams/sms_pcg.F
-      !||    sms_produt3       ../engine/source/ams/sms_proj.F
-      !||    sortie_error      ../engine/source/output/sortie_error.F
-      !||    thcluster         ../engine/source/output/th/thcluster.F
-      !||    velvec2           ../engine/source/output/anim/generate/velvec.F
-      !||    velvecc21         ../engine/source/output/anim/generate/velvec.F
-      !||    wrrestp           ../engine/source/output/restart/wrrestp.F
-      !||    wrtdes0           ../engine/source/output/th/wrtdes0.F
+      !||    alelin                ../engine/source/ale/grid/alelin.F
+      !||    ani_pcont21           ../engine/source/output/anim/generate/ani_pcont.F
+      !||    ecrit                 ../engine/source/output/ecrit.F
+      !||    hist2                 ../engine/source/output/th/hist2.F
+      !||    i9wal2                ../engine/source/interfaces/int09/i9wal2.F
+      !||    i9wal3                ../engine/source/interfaces/int09/i9wal3.F
+      !||    intstamp_ass          ../engine/source/interfaces/int21/intstamp_ass.F
+      !||    noise                 ../engine/source/general_controls/computation/noise.F
+      !||    outp_mt               ../engine/source/output/sty/outp_mt.F
+      !||    outp_n_v2             ../engine/source/output/sty/outp_n_v.F
+      !||    outp_n_vc             ../engine/source/output/sty/outp_n_v.F
+      !||    pnoise                ../engine/source/general_controls/computation/pnoise.F
+      !||    section_io            ../engine/source/tools/sect/section_io.F
+      !||    sensor_spmd           ../engine/source/tools/sensor/sensor_spmd.F
+      !||    sms_pcg               ../engine/source/ams/sms_pcg.F
+      !||    sms_produt3           ../engine/source/ams/sms_proj.F
+      !||    sortie_error          ../engine/source/output/sortie_error.F
+      !||    thcluster             ../engine/source/output/th/thcluster.F
+      !||    velvec2               ../engine/source/output/anim/generate/velvec.F
+      !||    velvecc21             ../engine/source/output/anim/generate/velvec.F
+      !||    wrrestp               ../engine/source/output/restart/wrrestp.F
+      !||    wrtdes0               ../engine/source/output/th/wrtdes0.F
       !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
       SUBROUTINE SPMD_GLOB_DSUM9(V,LEN)
 C gather tableau V de taille LEN de type my_real
@@ -410,13 +423,15 @@ C
       RETURN
       END
       !||====================================================================
-      !||    spmd_glob_dpsum9   ../engine/source/mpi/interfaces/spmd_th.F
+      !||    spmd_glob_dpsum9      ../engine/source/mpi/interfaces/spmd_th.F
       !||--- called by ------------------------------------------------------
-      !||    intstamp_ass       ../engine/source/interfaces/int21/intstamp_ass.F
-      !||    sms_pcg            ../engine/source/ams/sms_pcg.F
-      !||    sms_produt3        ../engine/source/ams/sms_proj.F
-      !||    sms_produt_h       ../engine/source/ams/sms_proj.F
+      !||    intstamp_ass          ../engine/source/interfaces/int21/intstamp_ass.F
+      !||    sms_pcg               ../engine/source/ams/sms_pcg.F
+      !||    sms_produt3           ../engine/source/ams/sms_proj.F
+      !||    sms_produt_h          ../engine/source/ams/sms_proj.F
       !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
       SUBROUTINE SPMD_GLOB_DPSUM9(V,LEN)
 C gather tableau V de taille LEN de type double precision
@@ -501,6 +516,8 @@ C
       !||    stat_size_c                       ../engine/source/output/sta/stat_size.F
       !||    sz_print                          ../engine/source/output/restart/arralloc.F
       !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_comm_world_mod               ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
       SUBROUTINE SPMD_GLOB_ISUM9(V,LEN)
 C gather tableau V de taille LEN de type integer
@@ -546,8 +563,10 @@ C
       END
 C
       !||====================================================================
-      !||    spmd_glob_min   ../engine/source/mpi/interfaces/spmd_th.F
+      !||    spmd_glob_min         ../engine/source/mpi/interfaces/spmd_th.F
       !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
       SUBROUTINE SPMD_GLOB_MIN(V,LEN)
 C gather tableau V de taille LEN de type reel
@@ -594,8 +613,10 @@ C
       RETURN
       END
       !||====================================================================
-      !||    spmd_glob_max   ../engine/source/mpi/interfaces/spmd_th.F
+      !||    spmd_glob_max         ../engine/source/mpi/interfaces/spmd_th.F
       !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
       SUBROUTINE SPMD_GLOB_MAX(V,LEN)
 C gather tableau V de taille LEN de type reel

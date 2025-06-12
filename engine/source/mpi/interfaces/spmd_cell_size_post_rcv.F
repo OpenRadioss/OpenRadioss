@@ -27,6 +27,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- calls      -----------------------------------------------------
       !||--- uses       -----------------------------------------------------
       !||    inter_sorting_mod         ../engine/share/modules/inter_sorting_mod.F
+      !||    spmd_comm_world_mod       ../engine/source/mpi/spmd_comm_world.F90
       !||    tri7box                   ../engine/share/modules/tri7box.F
       !||====================================================================
         SUBROUTINE SPMD_CELL_SIZE_POST_RCV(IRCVFROM,ISENDTO,NIN,SORT_COMM,ITIED)

@@ -28,6 +28,7 @@ C
       !||--- calls      -----------------------------------------------------
       !||--- uses       -----------------------------------------------------
       !||    h3d_mod                ../engine/share/modules/h3d_mod.F
+      !||    spmd_comm_world_mod    ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
       SUBROUTINE SPMD_EXCH_A_INT2_PON(
      1   FR_I2M ,IAD_I2M,ADDCNI2 ,PROCNI2 ,FR_NBCCI2,

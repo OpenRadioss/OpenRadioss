@@ -32,6 +32,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    intbufdef_mod           ../common_source/modules/interfaces/intbufdef_mod.F90
       !||    message_mod             ../engine/share/message_module/message_mod.F
       !||    multi_fvm_mod           ../common_source/modules/ale/multi_fvm_mod.F90
+      !||    spmd_comm_world_mod     ../engine/source/mpi/spmd_comm_world.F90
       !||    tri7box                 ../engine/share/modules/tri7box.F
       !||====================================================================
         SUBROUTINE SPMD_INT18_LAW151_PON(     

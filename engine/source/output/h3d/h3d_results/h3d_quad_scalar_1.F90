@@ -47,6 +47,7 @@
       !||    initbuf_mod                    ../engine/share/resol/initbuf.F
       !||    matparam_def_mod               ../common_source/modules/mat_elem/matparam_def_mod.F90
       !||    multi_fvm_mod                  ../common_source/modules/ale/multi_fvm_mod.F90
+      !||    mvsiz_mod                      ../engine/share/spe_inc/mvsiz_mod.F90
       !||    names_and_titles_mod           ../common_source/modules/names_and_titles_mod.F
       !||    precision_mod                  ../common_source/modules/precision_mod.F90
       !||    schlieren_mod                  ../engine/share/modules/schlieren_mod.F

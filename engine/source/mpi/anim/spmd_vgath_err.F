@@ -21,11 +21,13 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    spmd_vgath_err   ../engine/source/mpi/anim/spmd_vgath_err.F
+      !||    spmd_vgath_err        ../engine/source/mpi/anim/spmd_vgath_err.F
       !||--- called by ------------------------------------------------------
-      !||    sortie_error     ../engine/source/output/sortie_error.F
+      !||    sortie_error          ../engine/source/output/sortie_error.F
       !||--- calls      -----------------------------------------------------
-      !||    spmd_outpitab    ../engine/source/mpi/interfaces/spmd_outp.F
+      !||    spmd_outpitab         ../engine/source/mpi/interfaces/spmd_outp.F
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
        SUBROUTINE SPMD_VGATH_ERR(X,MS,MSINI,NODGLOB,WEIGHT,NUM,IFLAG,
      .                           ITAB,LENG)

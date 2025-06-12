@@ -22,34 +22,36 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
       !||====================================================================
-      !||    spmd_ibcast         ../engine/source/mpi/generic/spmd_ibcast.F
+      !||    spmd_ibcast           ../engine/source/mpi/generic/spmd_ibcast.F
       !||--- called by ------------------------------------------------------
-      !||    drbe2cnt            ../engine/source/output/anim/generate/drbe2cnt.F
-      !||    drbe3cnt            ../engine/source/output/anim/generate/drbe3cnt.F
-      !||    drbycnt             ../engine/source/output/anim/generate/drbycnt.F
-      !||    fr_rlink1           ../engine/source/mpi/kinematic_conditions/fr_rlink1.F
-      !||    fxbypid             ../engine/source/constraints/fxbody/fxbypid.F
-      !||    genani              ../engine/source/output/anim/generate/genani.F
-      !||    get_mass_rby_spmd   ../engine/source/coupling/rad2rad/r2r_init.F
-      !||    i9wal2              ../engine/source/interfaces/int09/i9wal2.F
-      !||    i9wal3              ../engine/source/interfaces/int09/i9wal3.F
-      !||    lectur              ../engine/source/input/lectur.F
-      !||    manctr              ../engine/source/input/manctr.F
-      !||    mpp_init            ../engine/source/mpi/interfaces/spmd_i7tool.F
-      !||    r2r_exchange        ../engine/source/coupling/rad2rad/r2r_exchange.F
-      !||    r2r_init            ../engine/source/coupling/rad2rad/r2r_init.F
-      !||    r2r_input_init      ../engine/source/coupling/rad2rad/r2r_input_init.F
-      !||    rbyonf              ../engine/source/constraints/general/rbody/rbyonf.F
-      !||    rbypid              ../engine/source/constraints/general/rbody/rbypid.F
-      !||    resol               ../engine/source/engine/resol.F
-      !||    sensor_spmd         ../engine/source/tools/sensor/sensor_spmd.F
-      !||    sms_build_diag      ../engine/source/ams/sms_build_diag.F
-      !||    sms_ini_kin_1       ../engine/source/ams/sms_init.F
-      !||    sms_ini_kin_2       ../engine/source/ams/sms_init.F
-      !||    spmd_init_ebcs      ../engine/source/mpi/fluid/spmd_cfd.F
-      !||    sz_print            ../engine/source/output/restart/arralloc.F
-      !||    tagoff3n            ../engine/source/interfaces/interf/chkstfn3.F
+      !||    drbe2cnt              ../engine/source/output/anim/generate/drbe2cnt.F
+      !||    drbe3cnt              ../engine/source/output/anim/generate/drbe3cnt.F
+      !||    drbycnt               ../engine/source/output/anim/generate/drbycnt.F
+      !||    fr_rlink1             ../engine/source/mpi/kinematic_conditions/fr_rlink1.F
+      !||    fxbypid               ../engine/source/constraints/fxbody/fxbypid.F
+      !||    genani                ../engine/source/output/anim/generate/genani.F
+      !||    get_mass_rby_spmd     ../engine/source/coupling/rad2rad/r2r_init.F
+      !||    i9wal2                ../engine/source/interfaces/int09/i9wal2.F
+      !||    i9wal3                ../engine/source/interfaces/int09/i9wal3.F
+      !||    lectur                ../engine/source/input/lectur.F
+      !||    manctr                ../engine/source/input/manctr.F
+      !||    mpp_init              ../engine/source/mpi/interfaces/spmd_i7tool.F
+      !||    r2r_exchange          ../engine/source/coupling/rad2rad/r2r_exchange.F
+      !||    r2r_init              ../engine/source/coupling/rad2rad/r2r_init.F
+      !||    r2r_input_init        ../engine/source/coupling/rad2rad/r2r_input_init.F
+      !||    rbyonf                ../engine/source/constraints/general/rbody/rbyonf.F
+      !||    rbypid                ../engine/source/constraints/general/rbody/rbypid.F
+      !||    resol                 ../engine/source/engine/resol.F
+      !||    sensor_spmd           ../engine/source/tools/sensor/sensor_spmd.F
+      !||    sms_build_diag        ../engine/source/ams/sms_build_diag.F
+      !||    sms_ini_kin_1         ../engine/source/ams/sms_init.F
+      !||    sms_ini_kin_2         ../engine/source/ams/sms_init.F
+      !||    spmd_init_ebcs        ../engine/source/mpi/fluid/spmd_cfd.F
+      !||    sz_print              ../engine/source/output/restart/arralloc.F
+      !||    tagoff3n              ../engine/source/interfaces/interf/chkstfn3.F
       !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
       SUBROUTINE SPMD_IBCAST(TABI,TABR,N1,N2,FROM,ADD)
 C-----------------------------------------------

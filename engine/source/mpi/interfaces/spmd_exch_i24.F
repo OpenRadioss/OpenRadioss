@@ -22,16 +22,17 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 
       !||====================================================================
-      !||    spmd_exch_i24   ../engine/source/mpi/interfaces/spmd_exch_i24.F
+      !||    spmd_exch_i24         ../engine/source/mpi/interfaces/spmd_exch_i24.F
       !||--- called by ------------------------------------------------------
-      !||    resol           ../engine/source/engine/resol.F
+      !||    resol                 ../engine/source/engine/resol.F
       !||--- calls      -----------------------------------------------------
-      !||    ancmsg          ../engine/source/output/message/message.F
-      !||    arret           ../engine/source/system/arret.F
+      !||    ancmsg                ../engine/source/output/message/message.F
+      !||    arret                 ../engine/source/system/arret.F
       !||--- uses       -----------------------------------------------------
-      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
-      !||    message_mod     ../engine/share/message_module/message_mod.F
-      !||    tri7box         ../engine/share/modules/tri7box.F
+      !||    intbufdef_mod         ../common_source/modules/interfaces/intbufdef_mod.F90
+      !||    message_mod           ../engine/share/message_module/message_mod.F
+      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
+      !||    tri7box               ../engine/share/modules/tri7box.F
       !||====================================================================
       SUBROUTINE SPMD_EXCH_I24(IPARI    ,INTBUF_TAB     ,ITAB,
      *                         IAD_ELEM ,FR_ELEM,INTLIST,NBINTC,

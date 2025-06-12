@@ -23,24 +23,26 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 
 #define TO1D(i,j,k,s1,s2) i+(j-1)*s1+(k-1)*s1*s2
       !||====================================================================
-      !||    spmd_i7xvcom2    ../engine/source/mpi/interfaces/spmd_i7xvcom2.F
+      !||    spmd_i7xvcom2         ../engine/source/mpi/interfaces/spmd_i7xvcom2.F
       !||--- called by ------------------------------------------------------
-      !||    imp_tripi        ../engine/source/implicit/imp_int_k.F
-      !||    resol            ../engine/source/engine/resol.F
+      !||    imp_tripi             ../engine/source/implicit/imp_int_k.F
+      !||    resol                 ../engine/source/engine/resol.F
       !||--- calls      -----------------------------------------------------
-      !||    ancmsg           ../engine/source/output/message/message.F
-      !||    arret            ../engine/source/system/arret.F
-      !||    getdpdaanc       ../engine/source/mpi/interfaces/spmd_i7tool.F
-      !||    putdpdaanc       ../engine/source/mpi/interfaces/spmd_i7tool.F
-      !||    putdpzero        ../engine/source/mpi/interfaces/spmd_i7tool.F
+      !||    ancmsg                ../engine/source/output/message/message.F
+      !||    arret                 ../engine/source/system/arret.F
+      !||    getdpdaanc            ../engine/source/mpi/interfaces/spmd_i7tool.F
+      !||    putdpdaanc            ../engine/source/mpi/interfaces/spmd_i7tool.F
+      !||    putdpzero             ../engine/source/mpi/interfaces/spmd_i7tool.F
       !||--- uses       -----------------------------------------------------
-      !||    groupdef_mod     ../common_source/modules/groupdef_mod.F
-      !||    intbufdef_mod    ../common_source/modules/interfaces/intbufdef_mod.F90
-      !||    message_mod      ../engine/share/message_module/message_mod.F
-      !||    multi_fvm_mod    ../common_source/modules/ale/multi_fvm_mod.F90
-      !||    sensor_mod       ../common_source/modules/sensor_mod.F90
-      !||    tri25ebox        ../engine/share/modules/tri25ebox.F
-      !||    tri7box          ../engine/share/modules/tri7box.F
+      !||    groupdef_mod          ../common_source/modules/groupdef_mod.F
+      !||    intbufdef_mod         ../common_source/modules/interfaces/intbufdef_mod.F90
+      !||    interfaces_mod        ../common_source/modules/interfaces/interfaces_mod.F90
+      !||    message_mod           ../engine/share/message_module/message_mod.F
+      !||    multi_fvm_mod         ../common_source/modules/ale/multi_fvm_mod.F90
+      !||    sensor_mod            ../common_source/modules/sensor_mod.F90
+      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
+      !||    tri25ebox             ../engine/share/modules/tri25ebox.F
+      !||    tri7box               ../engine/share/modules/tri7box.F
       !||====================================================================
       SUBROUTINE SPMD_I7XVCOM2(
      1   IPARI   ,X       ,V       ,MS      ,

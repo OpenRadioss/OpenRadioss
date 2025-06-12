@@ -28,6 +28,7 @@ C
       !||--- calls      -----------------------------------------------------
       !||--- uses       -----------------------------------------------------
       !||    seatbelt_mod            ../common_source/modules/seatbelt_mod.F
+      !||    spmd_comm_world_mod     ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
       SUBROUTINE SPMD_COLLECT_SEATBELT()
 C-----------------------------------------------

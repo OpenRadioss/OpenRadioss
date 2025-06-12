@@ -30,6 +30,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    omp_get_max_threads   ../engine/source/engine/openmp_stub.F90
       !||    omp_set_num_threads   ../engine/source/engine/openmp_stub.F90
       !||--- uses       -----------------------------------------------------
+      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
       SUBROUTINE INIPAR(ITID,ICAS,NNODES,INPUT,GOT_INPUT,NBTASK)
 C-----------------------------------------------------------------
@@ -347,6 +348,7 @@ C
       !||    omp_get_max_threads   ../engine/source/engine/openmp_stub.F90
       !||    omp_set_num_threads   ../engine/source/engine/openmp_stub.F90
       !||--- uses       -----------------------------------------------------
+      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
       SUBROUTINE INIPAR(ITID,ICAS,NNODES,INPUT,GOT_INPUT,NBTASK)
 C-----------------------------------------------------------------

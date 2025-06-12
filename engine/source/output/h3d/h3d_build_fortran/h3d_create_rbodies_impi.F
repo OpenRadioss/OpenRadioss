@@ -27,6 +27,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- calls      -----------------------------------------------------
       !||    c_h3d_create_rbodies_impi   ../engine/source/output/h3d/h3d_build_cpp/c_h3d_create_rbodies.cpp
       !||    spmd_glob_isum9             ../engine/source/mpi/interfaces/spmd_th.F
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_comm_world_mod         ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
       SUBROUTINE H3D_CREATE_RBODIES_IMPI(NPBY,LPBY,FR_RBY2,IAD_RBY2,
      .                        SBUFSPM,SBUFRECVM,

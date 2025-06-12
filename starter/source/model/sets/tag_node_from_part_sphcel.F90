@@ -35,13 +35,13 @@
 !=======================================================================================================================
 !\brief This subroutine creates a clause of nodes from sphcels
 !=======================================================================================================================
-        !||====================================================================
-        !||    tag_node_from_part_sphcel   ../starter/source/model/sets/tag_node_from_part_sphcel.F90
-        !||--- called by ------------------------------------------------------
-        !||    create_node_from_element    ../starter/source/model/sets/create_node_from_element.F
-        !||--- uses       -----------------------------------------------------
-        !||    message_mod                 ../starter/share/message_module/message_mod.F
-        !||====================================================================
+      !||====================================================================
+      !||    tag_node_from_part_sphcel   ../starter/source/model/sets/tag_node_from_part_sphcel.F90
+      !||--- called by ------------------------------------------------------
+      !||    create_node_from_element    ../starter/source/model/sets/create_node_from_element.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod                 ../starter/share/message_module/message_mod.F
+      !||====================================================================
         subroutine tag_node_from_part_sphcel(nb_sphcel  ,sphcel  ,tagnod,clause_node,ind,numnod)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules

@@ -22,10 +22,12 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
       !||====================================================================
-      !||    spmd_exsum_fb6   ../engine/source/mpi/generic/spmd_exsum_fb6.F
+      !||    spmd_exsum_fb6        ../engine/source/mpi/generic/spmd_exsum_fb6.F
       !||--- called by ------------------------------------------------------
-      !||    resol            ../engine/source/engine/resol.F
+      !||    resol                 ../engine/source/engine/resol.F
       !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
       SUBROUTINE SPMD_EXSUM_FB6(DIM6,DIM_EXCH,FB6)
 C     sommation + distribution de fb6 via MPI_AllReduce

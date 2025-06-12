@@ -37,6 +37,7 @@
       !||--- uses       -----------------------------------------------------
       !||    constant_mod           ../common_source/modules/constant_mod.F
       !||    elbufdef_mod           ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    mvsiz_mod              ../engine/share/spe_inc/mvsiz_mod.F90
       !||    names_and_titles_mod   ../common_source/modules/names_and_titles_mod.F
       !||    precision_mod          ../common_source/modules/precision_mod.F90
       !||====================================================================

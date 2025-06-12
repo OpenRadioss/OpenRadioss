@@ -35,6 +35,7 @@
       !||--- called by ------------------------------------------------------
       !||    s6cforc3        ../engine/source/elements/thickshell/solide6c/s6cforc3.F
       !||--- uses       -----------------------------------------------------
+      !||    mvsiz_mod       ../engine/share/spe_inc/mvsiz_mod.F90
       !||    precision_mod   ../common_source/modules/precision_mod.F90
       !||====================================================================
         subroutine s6get_xv(                                               &

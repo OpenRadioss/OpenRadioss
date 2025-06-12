@@ -24,6 +24,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    spmd_arrays_mod              ../common_source/modules/interfaces/spmd_arrays_mod.F
       !||--- called by ------------------------------------------------------
       !||    get_neighbour_surface        ../engine/source/interfaces/interf/get_neighbour_surface.F90
+      !||    interfaces_mod               ../common_source/modules/interfaces/interfaces_mod.F90
       !||    spmd_update_frontier_int25   ../engine/source/mpi/interfaces/spmd_update_frontier_int25.F90
       !||====================================================================
         MODULE SPMD_ARRAYS_MOD

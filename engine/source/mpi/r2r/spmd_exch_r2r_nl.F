@@ -21,12 +21,13 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    spmd_exch_r2r_nl   ../engine/source/mpi/r2r/spmd_exch_r2r_nl.F
+      !||    spmd_exch_r2r_nl      ../engine/source/mpi/r2r/spmd_exch_r2r_nl.F
       !||--- called by ------------------------------------------------------
-      !||    r2r_getdata        ../engine/source/coupling/rad2rad/r2r_getdata.F
+      !||    r2r_getdata           ../engine/source/coupling/rad2rad/r2r_getdata.F
       !||--- calls      -----------------------------------------------------
       !||--- uses       -----------------------------------------------------
-      !||    nlocal_reg_mod     ../common_source/modules/nlocal_reg_mod.F
+      !||    nlocal_reg_mod        ../common_source/modules/nlocal_reg_mod.F
+      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
       SUBROUTINE SPMD_EXCH_R2R_NL(
      1    A ,AR, V, VR     ,MS  ,

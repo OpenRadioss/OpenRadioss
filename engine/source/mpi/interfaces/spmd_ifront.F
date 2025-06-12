@@ -21,20 +21,21 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    spmd_ifront     ../engine/source/mpi/interfaces/spmd_ifront.F
+      !||    spmd_ifront           ../engine/source/mpi/interfaces/spmd_ifront.F
       !||--- called by ------------------------------------------------------
-      !||    imp_tripi       ../engine/source/implicit/imp_int_k.F
-      !||    inttri          ../engine/source/interfaces/intsort/inttri.F
+      !||    imp_tripi             ../engine/source/implicit/imp_int_k.F
+      !||    inttri                ../engine/source/interfaces/intsort/inttri.F
       !||--- calls      -----------------------------------------------------
-      !||    ancmsg          ../engine/source/output/message/message.F
-      !||    arret           ../engine/source/system/arret.F
+      !||    ancmsg                ../engine/source/output/message/message.F
+      !||    arret                 ../engine/source/system/arret.F
       !||--- uses       -----------------------------------------------------
-      !||    ifront_mod      ../engine/share/modules/ifront_mod.F
-      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
-      !||    message_mod     ../engine/share/message_module/message_mod.F
-      !||    sensor_mod      ../common_source/modules/sensor_mod.F90
-      !||    tri25ebox       ../engine/share/modules/tri25ebox.F
-      !||    tri7box         ../engine/share/modules/tri7box.F
+      !||    ifront_mod            ../engine/share/modules/ifront_mod.F
+      !||    intbufdef_mod         ../common_source/modules/interfaces/intbufdef_mod.F90
+      !||    message_mod           ../engine/share/message_module/message_mod.F
+      !||    sensor_mod            ../common_source/modules/sensor_mod.F90
+      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
+      !||    tri25ebox             ../engine/share/modules/tri25ebox.F
+      !||    tri7box               ../engine/share/modules/tri7box.F
       !||====================================================================
       SUBROUTINE SPMD_IFRONT(
      1   IPARI   ,NEWFRONT,ISENDTO   ,IRCVFROM,

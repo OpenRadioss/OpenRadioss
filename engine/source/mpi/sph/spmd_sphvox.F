@@ -34,6 +34,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- uses       -----------------------------------------------------
       !||    message_mod           ../engine/share/message_module/message_mod.F
       !||    sphbox                ../engine/share/modules/sphbox.F
+      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
       !||    tri7box               ../engine/share/modules/tri7box.F
       !||====================================================================
       SUBROUTINE SPMD_SPHVOX(KXSP ,SPBUF,WSP2SORT,BMINMAL,X)

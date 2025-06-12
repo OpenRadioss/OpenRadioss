@@ -22,11 +22,13 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
       !||====================================================================
-      !||    spmd_exch_icont   ../engine/source/mpi/nodes/spmd_exch_icont.F
+      !||    spmd_exch_icont       ../engine/source/mpi/nodes/spmd_exch_icont.F
       !||--- called by ------------------------------------------------------
-      !||    resol             ../engine/source/engine/resol.F
-      !||    sms_ini_int       ../engine/source/ams/sms_init.F
+      !||    resol                 ../engine/source/engine/resol.F
+      !||    sms_ini_int           ../engine/source/ams/sms_init.F
       !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
       SUBROUTINE SPMD_EXCH_ICONT(ICONTACT,IAD_ELEM,FR_ELEM,SIZE,LENR)
 C-----------------------------------------------

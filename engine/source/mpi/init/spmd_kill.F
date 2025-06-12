@@ -23,11 +23,13 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 #ifdef MPI
 
       !||====================================================================
-      !||    spmd_kill   ../engine/source/mpi/init/spmd_kill.F
+      !||    spmd_kill             ../engine/source/mpi/init/spmd_kill.F
       !||--- called by ------------------------------------------------------
-      !||    arret       ../engine/source/system/arret.F
+      !||    arret                 ../engine/source/system/arret.F
       !||--- calls      -----------------------------------------------------
-      !||    my_exit     ../engine/source/system/my_exit.c
+      !||    my_exit               ../engine/source/system/my_exit.c
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
       SUBROUTINE SPMD_KILL(ICODE)
 C-----------------------------------------------
@@ -59,11 +61,13 @@ C-----------------------------------------------
 #elif 1 
 C
       !||====================================================================
-      !||    spmd_kill   ../engine/source/mpi/init/spmd_kill.F
+      !||    spmd_kill             ../engine/source/mpi/init/spmd_kill.F
       !||--- called by ------------------------------------------------------
-      !||    arret       ../engine/source/system/arret.F
+      !||    arret                 ../engine/source/system/arret.F
       !||--- calls      -----------------------------------------------------
-      !||    my_exit     ../engine/source/system/my_exit.c
+      !||    my_exit               ../engine/source/system/my_exit.c
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
       SUBROUTINE SPMD_KILL(ICODE)
 C-----------------------------------------------

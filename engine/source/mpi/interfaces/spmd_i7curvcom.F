@@ -22,14 +22,16 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
       !||====================================================================
-      !||    spmd_i7curvcom   ../engine/source/mpi/interfaces/spmd_i7curvcom.F
+      !||    spmd_i7curvcom        ../engine/source/mpi/interfaces/spmd_i7curvcom.F
       !||--- called by ------------------------------------------------------
-      !||    i20normnp        ../engine/source/interfaces/int20/i20rcurv.F
-      !||    i20normp         ../engine/source/interfaces/int20/i20curv.F
-      !||    i20normsp        ../engine/source/interfaces/int20/i20curv.F
-      !||    i7normnp         ../engine/source/interfaces/int07/i7rcurv.F
-      !||    i7normp          ../engine/source/interfaces/int07/i7curv.F
+      !||    i20normnp             ../engine/source/interfaces/int20/i20rcurv.F
+      !||    i20normp              ../engine/source/interfaces/int20/i20curv.F
+      !||    i20normsp             ../engine/source/interfaces/int20/i20curv.F
+      !||    i7normnp              ../engine/source/interfaces/int07/i7rcurv.F
+      !||    i7normp               ../engine/source/interfaces/int07/i7curv.F
       !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
       SUBROUTINE SPMD_I7CURVCOM(IAD_ELEM,FR_ELEM,ADSKYT,FSKYT,
      .                          ISDSIZ  ,IRCSIZ ,ITAG  ,LENR    ,LENS)

@@ -93,6 +93,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    intbufdef_mod                ../common_source/modules/interfaces/intbufdef_mod.F90
       !||    inter_sorting_mod            ../engine/share/modules/inter_sorting_mod.F
       !||    inter_struct_mod             ../engine/share/modules/inter_struct_mod.F
+      !||    interfaces_mod               ../common_source/modules/interfaces/interfaces_mod.F90
       !||    intstamp_mod                 ../engine/share/modules/intstamp_mod.F
       !||    metric_mod                   ../common_source/modules/interfaces/metric_mod.F
       !||    multi_fvm_mod                ../common_source/modules/ale/multi_fvm_mod.F90

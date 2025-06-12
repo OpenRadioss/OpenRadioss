@@ -47,6 +47,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    int18_law151_nsv_shift_mod   ../common_source/interf/int18_law151_nsv_shift.F
       !||    intbuf_fric_mod              ../common_source/modules/interfaces/intbuf_fric_mod.F90
       !||    intbufdef_mod                ../common_source/modules/interfaces/intbufdef_mod.F90
+      !||    interfaces_mod               ../common_source/modules/interfaces/interfaces_mod.F90
       !||    intstamp_mod                 ../engine/share/modules/intstamp_mod.F
       !||    metric_mod                   ../common_source/modules/interfaces/metric_mod.F
       !||    multi_fvm_mod                ../common_source/modules/ale/multi_fvm_mod.F90

@@ -38,6 +38,7 @@
       !||    vinter2                ../engine/source/tools/curve/vinter.F
       !||--- uses       -----------------------------------------------------
       !||    constant_mod           ../common_source/modules/constant_mod.F
+      !||    mvsiz_mod              ../engine/share/spe_inc/mvsiz_mod.F90
       !||    precision_mod          ../common_source/modules/precision_mod.F90
       !||    python_funct_mod       ../common_source/modules/python_mod.F90
       !||    redef3_mod             ../engine/source/elements/spring/redef3.F90

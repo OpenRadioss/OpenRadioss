@@ -48,6 +48,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    imp_intbuf                  ../engine/share/modules/imp_mod_def.F90
       !||    intbuf_fric_mod             ../common_source/modules/interfaces/intbuf_fric_mod.F90
       !||    intbufdef_mod               ../common_source/modules/interfaces/intbufdef_mod.F90
+      !||    interfaces_mod              ../common_source/modules/interfaces/interfaces_mod.F90
       !||    message_mod                 ../engine/share/message_module/message_mod.F
       !||    outputs_mod                 ../common_source/modules/outputs_mod.F
       !||    timer_mod                   ../engine/source/system/timer_mod.F90

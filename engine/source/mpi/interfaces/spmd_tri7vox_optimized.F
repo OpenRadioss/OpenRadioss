@@ -32,6 +32,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- uses       -----------------------------------------------------
       !||    comm_tri7vox_mod         ../engine/share/modules/comm_tri7vox_mod.F
       !||    message_mod              ../engine/share/message_module/message_mod.F
+      !||    spmd_comm_world_mod      ../engine/source/mpi/spmd_comm_world.F90
       !||    tri7box                  ../engine/share/modules/tri7box.F
       !||====================================================================
       SUBROUTINE SPMD_TRI7VOX_OPTIMIZED(

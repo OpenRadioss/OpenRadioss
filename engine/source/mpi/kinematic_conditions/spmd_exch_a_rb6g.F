@@ -22,12 +22,13 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 
       !||====================================================================
-      !||    spmd_exch_a_rb6g   ../engine/source/mpi/kinematic_conditions/spmd_exch_a_rb6g.F
+      !||    spmd_exch_a_rb6g      ../engine/source/mpi/kinematic_conditions/spmd_exch_a_rb6g.F
       !||--- called by ------------------------------------------------------
-      !||    rbyfor             ../engine/source/constraints/general/rbody/rbyfor.F
+      !||    rbyfor                ../engine/source/constraints/general/rbody/rbyfor.F
       !||--- calls      -----------------------------------------------------
       !||--- uses       -----------------------------------------------------
-      !||    message_mod        ../engine/share/message_module/message_mod.F
+      !||    message_mod           ../engine/share/message_module/message_mod.F
+      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
       SUBROUTINE SPMD_EXCH_A_RB6G(NPBY,RBF6)
 C realise le cumul des acc et stiffness des noeuds main de rigid bodies

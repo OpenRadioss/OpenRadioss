@@ -39,6 +39,7 @@
       !||    h3d_inc_mod              ../engine/share/modules/h3d_inc_mod.F
       !||    h3d_mod                  ../engine/share/modules/h3d_mod.F
       !||    initbuf_mod              ../engine/share/resol/initbuf.F
+      !||    loads_mod                ../common_source/modules/loads/loads_mod.F90
       !||    matparam_def_mod         ../common_source/modules/mat_elem/matparam_def_mod.F90
       !||    message_mod              ../engine/share/message_module/message_mod.F
       !||    multi_fvm_mod            ../common_source/modules/ale/multi_fvm_mod.F90

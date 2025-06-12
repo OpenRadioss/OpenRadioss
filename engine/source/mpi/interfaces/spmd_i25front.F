@@ -22,16 +22,17 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 #define TO1D(i,j,k,s1,s2) i+(j-1)*s1+(k-1)*s1*s2
       !||====================================================================
-      !||    spmd_i25front_init   ../engine/source/mpi/interfaces/spmd_i25front.F
+      !||    spmd_i25front_init    ../engine/source/mpi/interfaces/spmd_i25front.F
       !||--- called by ------------------------------------------------------
-      !||    resol                ../engine/source/engine/resol.F
+      !||    resol                 ../engine/source/engine/resol.F
       !||--- calls      -----------------------------------------------------
-      !||    i25free_bound        ../engine/source/interfaces/int25/i25free_bound.F
-      !||    spmd_comm_split      ../engine/source/mpi/generic/spmd_comm_split.F
+      !||    i25free_bound         ../engine/source/interfaces/int25/i25free_bound.F
+      !||    spmd_comm_split       ../engine/source/mpi/generic/spmd_comm_split.F
       !||--- uses       -----------------------------------------------------
-      !||    intbufdef_mod        ../common_source/modules/interfaces/intbufdef_mod.F90
-      !||    message_mod          ../engine/share/message_module/message_mod.F
-      !||    tri7box              ../engine/share/modules/tri7box.F
+      !||    intbufdef_mod         ../common_source/modules/interfaces/intbufdef_mod.F90
+      !||    message_mod           ../engine/share/message_module/message_mod.F
+      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
+      !||    tri7box               ../engine/share/modules/tri7box.F
       !||====================================================================
       SUBROUTINE SPMD_I25FRONT_INIT(ITAB,MAIN_PROC,INTBUF_TAB,IPARI)
 C============================================================================
@@ -300,16 +301,17 @@ c                WRITE(6,*) "found at ",K
       RETURN
       END
       !||====================================================================
-      !||    spmd_i25front_nor   ../engine/source/mpi/interfaces/spmd_i25front.F
+      !||    spmd_i25front_nor     ../engine/source/mpi/interfaces/spmd_i25front.F
       !||--- called by ------------------------------------------------------
-      !||    inttri              ../engine/source/interfaces/intsort/inttri.F
+      !||    inttri                ../engine/source/interfaces/intsort/inttri.F
       !||--- calls      -----------------------------------------------------
       !||--- uses       -----------------------------------------------------
-      !||    intbufdef_mod       ../common_source/modules/interfaces/intbufdef_mod.F90
-      !||    message_mod         ../engine/share/message_module/message_mod.F
-      !||    mpi_commod          ../engine/share/modules/mpi_comm_mod.F
-      !||    tri25ebox           ../engine/share/modules/tri25ebox.F
-      !||    tri7box             ../engine/share/modules/tri7box.F
+      !||    intbufdef_mod         ../common_source/modules/interfaces/intbufdef_mod.F90
+      !||    message_mod           ../engine/share/message_module/message_mod.F
+      !||    mpi_commod            ../engine/share/modules/mpi_comm_mod.F
+      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
+      !||    tri25ebox             ../engine/share/modules/tri25ebox.F
+      !||    tri7box               ../engine/share/modules/tri7box.F
       !||====================================================================
       SUBROUTINE SPMD_I25FRONT_NOR(IPARI,
      . INTBUF_TAB,

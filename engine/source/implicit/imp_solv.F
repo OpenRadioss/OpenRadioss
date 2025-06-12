@@ -131,6 +131,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    imp_worki        ../engine/share/modules/impbufdef_mod.F
       !||    impbufdef_mod    ../engine/share/modules/impbufdef_mod.F
       !||    intbufdef_mod    ../common_source/modules/interfaces/intbufdef_mod.F90
+      !||    interfaces_mod   ../common_source/modules/interfaces/interfaces_mod.F90
       !||    message_mod      ../engine/share/message_module/message_mod.F
       !||    multi_fvm_mod    ../common_source/modules/ale/multi_fvm_mod.F90
       !||    sensor_mod       ../common_source/modules/sensor_mod.F90

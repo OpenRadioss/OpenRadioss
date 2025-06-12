@@ -61,12 +61,13 @@ C  ! VAL2 is the min of VAL over the processors
 C  ! TAB2 is the TAB of the processor that has the minimum value of VAL
 
       !||====================================================================
-      !||    mpi_min_real_begin   ../engine/share/modules/mpi_tools_mod.F
+      !||    mpi_min_real_begin    ../engine/share/modules/mpi_tools_mod.F
       !||--- called by ------------------------------------------------------
-      !||    resol                ../engine/source/engine/resol.F
+      !||    resol                 ../engine/source/engine/resol.F
       !||--- calls      -----------------------------------------------------
       !||--- uses       -----------------------------------------------------
-      !||    message_mod          ../engine/share/message_module/message_mod.F
+      !||    message_mod           ../engine/share/message_module/message_mod.F
+      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
       SUBROUTINE MPI_MIN_REAL_BEGIN(VAL,TAB,STAB,MY_STRUCT) 
 C-----------------------------------------------
@@ -160,12 +161,13 @@ C-----------------------------------------------
       END SUBROUTINE MPI_MIN_REAL_BEGIN
 
       !||====================================================================
-      !||    mpi_min_real_end   ../engine/share/modules/mpi_tools_mod.F
+      !||    mpi_min_real_end      ../engine/share/modules/mpi_tools_mod.F
       !||--- called by ------------------------------------------------------
-      !||    resol              ../engine/source/engine/resol.F
+      !||    resol                 ../engine/source/engine/resol.F
       !||--- calls      -----------------------------------------------------
       !||--- uses       -----------------------------------------------------
-      !||    message_mod        ../engine/share/message_module/message_mod.F
+      !||    message_mod           ../engine/share/message_module/message_mod.F
+      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
       SUBROUTINE MPI_MIN_REAL_END(VAL,TAB,STAB,MY_STRUCT) 
 C-----------------------------------------------

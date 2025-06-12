@@ -21,10 +21,12 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    spmd_h3d_gather_r   ../engine/source/output/h3d/spmd/spmd_h3d_gather_r.F
+      !||    spmd_h3d_gather_r     ../engine/source/output/h3d/spmd/spmd_h3d_gather_r.F
       !||--- called by ------------------------------------------------------
-      !||    genh3d              ../engine/source/output/h3d/h3d_results/genh3d.F
+      !||    genh3d                ../engine/source/output/h3d/h3d_results/genh3d.F
       !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
        SUBROUTINE SPMD_H3D_GATHER_R(V,LEN,VP0,LENP0)
 C-----------------------------------------------

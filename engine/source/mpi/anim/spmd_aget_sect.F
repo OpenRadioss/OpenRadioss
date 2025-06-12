@@ -25,6 +25,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- called by ------------------------------------------------------
       !||    dxyzsect         ../engine/source/output/anim/generate/dxyzsect.F
       !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_mod         ../engine/source/mpi/spmd_mod.F90
       !||====================================================================
        SUBROUTINE SPMD_AGET_SECT(NSTRF,X,XSEC,WEIGHT,ITAB)
          USE SPMD_MOD

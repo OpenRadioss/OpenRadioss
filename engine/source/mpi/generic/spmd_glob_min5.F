@@ -28,6 +28,7 @@ C==========================================================================
       !||--- calls      -----------------------------------------------------
       !||--- uses       -----------------------------------------------------
       !||    intbufdef_mod         ../common_source/modules/interfaces/intbufdef_mod.F90
+      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
       SUBROUTINE SPMD_GLOB_MIN5(DT2  ,ITYPTS,NELTS,ICODT,IMSCH,
      .                         TSTOP,IWIOUT,MSTOP,ISMSCH,

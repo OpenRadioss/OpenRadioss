@@ -22,12 +22,13 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 c
       !||====================================================================
-      !||    spmd_exch_crkvel   ../engine/source/mpi/elements/spmd_xfem.F
+      !||    spmd_exch_crkvel      ../engine/source/mpi/elements/spmd_xfem.F
       !||--- called by ------------------------------------------------------
-      !||    resol              ../engine/source/engine/resol.F
+      !||    resol                 ../engine/source/engine/resol.F
       !||--- calls      -----------------------------------------------------
       !||--- uses       -----------------------------------------------------
-      !||    crackxfem_mod      ../engine/share/modules/crackxfem_mod.F
+      !||    crackxfem_mod         ../engine/share/modules/crackxfem_mod.F
+      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
       SUBROUTINE SPMD_EXCH_CRKVEL(IAD_ELEM  ,FR_ELEM  ,INOD_CRK ,ITAB   ,
      .                            X         ,V        ,VR       )
@@ -291,10 +292,11 @@ c-----------
 c-----------
 
       !||====================================================================
-      !||    spmd_exch_tagxp   ../engine/source/mpi/elements/spmd_xfem.F
+      !||    spmd_exch_tagxp       ../engine/source/mpi/elements/spmd_xfem.F
       !||--- calls      -----------------------------------------------------
       !||--- uses       -----------------------------------------------------
-      !||    crackxfem_mod     ../engine/share/modules/crackxfem_mod.F
+      !||    crackxfem_mod         ../engine/share/modules/crackxfem_mod.F
+      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
       SUBROUTINE SPMD_EXCH_TAGXP(IAD_ELEM ,FR_ELEM ,INOD_CRK ,ITAB    )
 C-----------------------------------------------
@@ -467,13 +469,14 @@ c-----------
       END
 c
       !||====================================================================
-      !||    spmd_exch_nodenr   ../engine/source/mpi/elements/spmd_xfem.F
+      !||    spmd_exch_nodenr      ../engine/source/mpi/elements/spmd_xfem.F
       !||--- called by ------------------------------------------------------
-      !||    spmd_crk_adv       ../engine/source/elements/xfem/xfemfsky.F
-      !||    upxfem2            ../engine/source/elements/xfem/upxfem2.F
+      !||    spmd_crk_adv          ../engine/source/elements/xfem/xfemfsky.F
+      !||    upxfem2               ../engine/source/elements/xfem/upxfem2.F
       !||--- calls      -----------------------------------------------------
       !||--- uses       -----------------------------------------------------
-      !||    crackxfem_mod      ../engine/share/modules/crackxfem_mod.F
+      !||    crackxfem_mod         ../engine/share/modules/crackxfem_mod.F
+      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
       SUBROUTINE SPMD_EXCH_NODENR(IAD_ELEM,FR_ELEM,SIZE,LENR,INOD_CRK,
      .                            ENRTAG,FLAG)
@@ -601,14 +604,15 @@ c-----------
 c-----------
 C
       !||====================================================================
-      !||    spmd_exch_iedge   ../engine/source/mpi/elements/spmd_xfem.F
+      !||    spmd_exch_iedge       ../engine/source/mpi/elements/spmd_xfem.F
       !||--- called by ------------------------------------------------------
-      !||    inixfem           ../engine/source/elements/xfem/inixfem.F
-      !||    upxfem2           ../engine/source/elements/xfem/upxfem2.F
-      !||    xfeoff            ../engine/source/elements/xfem/xfeoff.F
+      !||    inixfem               ../engine/source/elements/xfem/inixfem.F
+      !||    upxfem2               ../engine/source/elements/xfem/upxfem2.F
+      !||    xfeoff                ../engine/source/elements/xfem/xfeoff.F
       !||--- calls      -----------------------------------------------------
       !||--- uses       -----------------------------------------------------
-      !||    crackxfem_mod     ../engine/share/modules/crackxfem_mod.F
+      !||    crackxfem_mod         ../engine/share/modules/crackxfem_mod.F
+      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
       SUBROUTINE SPMD_EXCH_IEDGE(IAD_EDGE,FR_EDGE,SIZE  ,LSDRC,FR_NBEDGE,
      .                           FLAG    ,CRKEDGE)
@@ -856,12 +860,13 @@ c-----------
 c-----------
 c
       !||====================================================================
-      !||    spmd_exch_redge   ../engine/source/mpi/elements/spmd_xfem.F
+      !||    spmd_exch_redge       ../engine/source/mpi/elements/spmd_xfem.F
       !||--- called by ------------------------------------------------------
-      !||    upxfem2           ../engine/source/elements/xfem/upxfem2.F
+      !||    upxfem2               ../engine/source/elements/xfem/upxfem2.F
       !||--- calls      -----------------------------------------------------
       !||--- uses       -----------------------------------------------------
-      !||    crackxfem_mod     ../engine/share/modules/crackxfem_mod.F
+      !||    crackxfem_mod         ../engine/share/modules/crackxfem_mod.F
+      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
       SUBROUTINE SPMD_EXCH_REDGE(IAD_EDGE,FR_EDGE,SIZE ,LSDRC,FR_NBEDGE,CRKEDGE)
 C-----------------------------------------------
@@ -977,10 +982,11 @@ c-----------
 c-----------
 
       !||====================================================================
-      !||    spmd_exch_crkavx   ../engine/source/mpi/elements/spmd_xfem.F
+      !||    spmd_exch_crkavx      ../engine/source/mpi/elements/spmd_xfem.F
       !||--- calls      -----------------------------------------------------
       !||--- uses       -----------------------------------------------------
-      !||    crackxfem_mod      ../engine/share/modules/crackxfem_mod.F
+      !||    crackxfem_mod         ../engine/share/modules/crackxfem_mod.F
+      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
       SUBROUTINE SPMD_EXCH_CRKAVX(
      .   IAD_ELEM,FR_ELEM,FR_NBCC1,LENS1 ,LENR1  ,
@@ -1109,14 +1115,16 @@ c-----------
       END
 c
       !||====================================================================
-      !||    spmd_max_xfe_i   ../engine/source/mpi/elements/spmd_xfem.F
+      !||    spmd_max_xfe_i        ../engine/source/mpi/elements/spmd_xfem.F
       !||--- called by ------------------------------------------------------
-      !||    delnumbc_crk     ../engine/source/output/anim/generate/delnumbc_crk.F
-      !||    genani           ../engine/source/output/anim/generate/genani.F
-      !||    resol            ../engine/source/engine/resol.F
-      !||    upxfem2          ../engine/source/elements/xfem/upxfem2.F
-      !||    xfeoff           ../engine/source/elements/xfem/xfeoff.F
+      !||    delnumbc_crk          ../engine/source/output/anim/generate/delnumbc_crk.F
+      !||    genani                ../engine/source/output/anim/generate/genani.F
+      !||    resol                 ../engine/source/engine/resol.F
+      !||    upxfem2               ../engine/source/elements/xfem/upxfem2.F
+      !||    xfeoff                ../engine/source/elements/xfem/xfeoff.F
       !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
       SUBROUTINE SPMD_MAX_XFE_I(INT)
 C-----------------------------------------------

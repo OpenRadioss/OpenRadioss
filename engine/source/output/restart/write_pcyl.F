@@ -28,6 +28,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    write_db     ../common_source/tools/input_output/write_db.F
       !||    write_i_c    ../common_source/tools/input_output/write_routtines.c
       !||--- uses       -----------------------------------------------------
+      !||    loads_mod    ../common_source/modules/loads/loads_mod.F90
       !||====================================================================
       SUBROUTINE WRITE_PCYL(LOADS)
 C-----------------------------------------------

@@ -30,6 +30,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- uses       -----------------------------------------------------
       !||    intbufdef_mod          ../common_source/modules/interfaces/intbufdef_mod.F90
       !||    message_mod            ../engine/share/message_module/message_mod.F
+      !||    spmd_comm_world_mod    ../engine/source/mpi/spmd_comm_world.F90
       !||    tri7box                ../engine/share/modules/tri7box.F
       !||====================================================================
       SUBROUTINE SPMD_I18KINE_COM_ACC(IPARI,INTBUF_TAB,

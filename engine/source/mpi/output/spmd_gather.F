@@ -21,10 +21,12 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    spmd_dgather      ../engine/source/mpi/output/spmd_gather.F
+      !||    spmd_dgather          ../engine/source/mpi/output/spmd_gather.F
       !||--- called by ------------------------------------------------------
-      !||    printime_interf   ../engine/source/system/timer_interf.F
+      !||    printime_interf       ../engine/source/system/timer_interf.F
       !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
       SUBROUTINE SPMD_DGATHER(SENDBUF,LENGTH,RECVBUF,RANK)
 C-----------------------------------------------

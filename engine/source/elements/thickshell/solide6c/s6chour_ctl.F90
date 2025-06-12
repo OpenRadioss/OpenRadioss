@@ -38,6 +38,7 @@
       !||    shour_ctl       ../engine/source/elements/solid/solidez/shour_ctl.F90
       !||--- uses       -----------------------------------------------------
       !||    constant_mod    ../common_source/modules/constant_mod.F
+      !||    mvsiz_mod       ../engine/share/spe_inc/mvsiz_mod.F90
       !||    precision_mod   ../common_source/modules/precision_mod.F90
       !||    shour_ctl_mod   ../engine/source/elements/solid/solidez/shour_ctl.F90
       !||====================================================================

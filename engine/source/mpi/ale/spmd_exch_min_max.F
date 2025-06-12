@@ -30,6 +30,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    arret                            ../engine/source/system/arret.F
       !||--- uses       -----------------------------------------------------
       !||    message_mod                      ../engine/share/message_module/message_mod.F
+      !||    spmd_comm_world_mod              ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
       SUBROUTINE SPMD_EXCH_MIN_MAX(IAD_ELEM ,FR_ELEM ,MIN_ARRAY,MAX_ARRAY )
 C-----------------------------------------------

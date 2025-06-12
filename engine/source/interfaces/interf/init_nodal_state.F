@@ -33,6 +33,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    intbufdef_mod               ../common_source/modules/interfaces/intbufdef_mod.F90
       !||    nodal_arrays_mod            ../engine/source/engine/node_spliting/nodal_arrays.F90
       !||    shooting_node_mod           ../engine/share/modules/shooting_node_mod.F
+      !||    spmd_comm_world_mod         ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
         SUBROUTINE INIT_NODAL_STATE( IPARI,SHOOT_STRUCT,INTBUF_TAB,IAD_ELEM,FR_ELEM,
      .                               ITAB,NODES,GEO,ADDCNEL,CNEL,

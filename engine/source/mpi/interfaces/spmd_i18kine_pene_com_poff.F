@@ -34,6 +34,7 @@ C
       !||    h3d_mod                      ../engine/share/modules/h3d_mod.F
       !||    intbufdef_mod                ../common_source/modules/interfaces/intbufdef_mod.F90
       !||    message_mod                  ../engine/share/message_module/message_mod.F
+      !||    spmd_comm_world_mod          ../engine/source/mpi/spmd_comm_world.F90
       !||    tri7box                      ../engine/share/modules/tri7box.F
       !||====================================================================
       SUBROUTINE SPMD_I18KINE_PENE_COM_POFF(IPARI,INTBUF_TAB,FCONT,

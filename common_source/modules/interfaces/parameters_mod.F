@@ -35,6 +35,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    i25main_slid           ../engine/source/interfaces/int25/i25main_slid.F
       !||    i25main_tri            ../engine/source/interfaces/intsort/i25main_tri.F
       !||    i25surfi               ../starter/source/interfaces/inter3d1/i25surfi.F
+      !||    interfaces_mod         ../common_source/modules/interfaces/interfaces_mod.F90
       !||    rdcomi                 ../engine/source/output/restart/rdcomm.F
       !||    rdcomr                 ../engine/source/output/restart/rdcomm.F
       !||    spmd_fiadd_poff        ../engine/source/mpi/interfaces/spmd_i7tool.F

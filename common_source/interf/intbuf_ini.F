@@ -2133,6 +2133,7 @@ C-----
       !||--- calls      -----------------------------------------------------
       !||    read_i_c        ../common_source/tools/input_output/write_routtines.c
       !||--- uses       -----------------------------------------------------
+      !||    int8_mod        ../common_source/modules/interfaces/int8_mod.F90
       !||====================================================================
       SUBROUTINE INTBUF_INI_T8(T8)  
 C Reads the T8 structures

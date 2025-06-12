@@ -28,6 +28,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- uses       -----------------------------------------------------
       !||    elbufdef_mod      ../common_source/modules/mat_elem/elbufdef_mod.F90
       !||    fvbag_mod         ../engine/share/modules/fvbag_mod.F
+      !||    spmd_mod          ../engine/source/mpi/spmd_mod.F90
       !||====================================================================
       SUBROUTINE SPMD_FVB_SWITCH(MONVOL)
 C  Broadcast the information that a type 8 fvmbag has switched to type 7 UP monvol

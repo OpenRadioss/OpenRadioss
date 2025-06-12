@@ -23,6 +23,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||====================================================================
       !||    spmd_check_ale_neighbour   ../engine/source/mpi/fluid/spmd_check_ale_neighbour.F
       !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_comm_world_mod        ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
         SUBROUTINE SPMD_CHECK_ALE_NEIGHBOUR(ACTIVE_ELEMENT,NB_RCV_NEIGH,NB_SEND_NEIGH,
      .                                      INDEX_RCV_NEIGH,INDEX_SEND_NEIGH,LENCOM,

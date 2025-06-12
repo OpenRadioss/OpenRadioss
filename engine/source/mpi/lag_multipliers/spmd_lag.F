@@ -22,9 +22,11 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 #if defined(MPI)
       !||====================================================================
-      !||    spmd_get_mult   ../engine/source/mpi/lag_multipliers/spmd_lag.F
+      !||    spmd_get_mult         ../engine/source/mpi/lag_multipliers/spmd_lag.F
       !||--- called by ------------------------------------------------------
-      !||    lag_multp       ../engine/source/tools/lagmul/lag_mult.F
+      !||    lag_multp             ../engine/source/tools/lagmul/lag_mult.F
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
        SUBROUTINE SPMD_GET_MULT(
      1     LAGCOMC,LAGCOMK,N_MULT ,BLL ,IADLL,
@@ -138,9 +140,11 @@ C
        END
 C
       !||====================================================================
-      !||    spmd_gg_mult   ../engine/source/mpi/lag_multipliers/spmd_lag.F
+      !||    spmd_gg_mult          ../engine/source/mpi/lag_multipliers/spmd_lag.F
       !||--- called by ------------------------------------------------------
-      !||    lag_multp      ../engine/source/tools/lagmul/lag_mult.F
+      !||    lag_multp             ../engine/source/tools/lagmul/lag_mult.F
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
        SUBROUTINE SPMD_GG_MULT(
      1     A       ,AR      ,V      ,VR   ,MS    ,
@@ -306,9 +310,11 @@ C
        END
 C
       !||====================================================================
-      !||    spmd_sg_mult   ../engine/source/mpi/lag_multipliers/spmd_lag.F
+      !||    spmd_sg_mult          ../engine/source/mpi/lag_multipliers/spmd_lag.F
       !||--- called by ------------------------------------------------------
-      !||    lag_multp      ../engine/source/tools/lagmul/lag_mult.F
+      !||    lag_multp             ../engine/source/tools/lagmul/lag_mult.F
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
        SUBROUTINE SPMD_SG_MULT(
      1     A      ,AR     ,AG     ,ARG     ,FR_LAGF,
@@ -424,9 +430,11 @@ C
        END
 C
       !||====================================================================
-      !||    spmd_sg_fani   ../engine/source/mpi/lag_multipliers/spmd_lag.F
+      !||    spmd_sg_fani          ../engine/source/mpi/lag_multipliers/spmd_lag.F
       !||--- called by ------------------------------------------------------
-      !||    lag_anithp     ../engine/source/tools/lagmul/lag_anith.F
+      !||    lag_anithp            ../engine/source/tools/lagmul/lag_anith.F
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
        SUBROUTINE SPMD_SG_FANI(
      1     FANI,FANIG,FR_LAGF,NBNODL,LLAGF,NLAGF_L)
@@ -506,9 +514,11 @@ C
        END
 C
       !||====================================================================
-      !||    spmd_exch_mult   ../engine/source/mpi/lag_multipliers/spmd_lag.F
+      !||    spmd_exch_mult        ../engine/source/mpi/lag_multipliers/spmd_lag.F
       !||--- called by ------------------------------------------------------
-      !||    lag_multp        ../engine/source/tools/lagmul/lag_mult.F
+      !||    lag_multp             ../engine/source/tools/lagmul/lag_mult.F
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
       SUBROUTINE SPMD_EXCH_MULT(
      1    A       ,AR     ,LLAGF , NLAGF_L, FR_LAGF,
@@ -682,9 +692,11 @@ C
 
 
       !||====================================================================
-      !||    spmd_sg_fani   ../engine/source/mpi/lag_multipliers/spmd_lag.F
+      !||    spmd_sg_fani          ../engine/source/mpi/lag_multipliers/spmd_lag.F
       !||--- called by ------------------------------------------------------
-      !||    lag_anithp     ../engine/source/tools/lagmul/lag_anith.F
+      !||    lag_anithp            ../engine/source/tools/lagmul/lag_anith.F
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
       SUBROUTINE SPMD_SG_FANI(
      1     RDUM1, RDUM2,IDUM1,IDUM2,IDUM3, IDUM4)
@@ -700,9 +712,11 @@ C-----------------------------------------------
       END
 C routine simplifiee pour SMP
       !||====================================================================
-      !||    spmd_get_mult   ../engine/source/mpi/lag_multipliers/spmd_lag.F
+      !||    spmd_get_mult         ../engine/source/mpi/lag_multipliers/spmd_lag.F
       !||--- called by ------------------------------------------------------
-      !||    lag_multp       ../engine/source/tools/lagmul/lag_mult.F
+      !||    lag_multp             ../engine/source/tools/lagmul/lag_mult.F
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
        SUBROUTINE SPMD_GET_MULT(
      1     LAGCOMC,LAGCOMK,N_MULT ,BLL ,IADLL,
@@ -746,9 +760,11 @@ C
       END
 C
       !||====================================================================
-      !||    spmd_gg_mult   ../engine/source/mpi/lag_multipliers/spmd_lag.F
+      !||    spmd_gg_mult          ../engine/source/mpi/lag_multipliers/spmd_lag.F
       !||--- called by ------------------------------------------------------
-      !||    lag_multp      ../engine/source/tools/lagmul/lag_mult.F
+      !||    lag_multp             ../engine/source/tools/lagmul/lag_mult.F
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
       SUBROUTINE SPMD_GG_MULT(
      1     A       ,AR      ,V      ,VR   ,MS    ,
@@ -814,9 +830,11 @@ C
       END
 C
       !||====================================================================
-      !||    spmd_sg_mult   ../engine/source/mpi/lag_multipliers/spmd_lag.F
+      !||    spmd_sg_mult          ../engine/source/mpi/lag_multipliers/spmd_lag.F
       !||--- called by ------------------------------------------------------
-      !||    lag_multp      ../engine/source/tools/lagmul/lag_mult.F
+      !||    lag_multp             ../engine/source/tools/lagmul/lag_mult.F
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
       SUBROUTINE SPMD_SG_MULT(
      1     A      ,AR     ,AG     ,ARG     ,FR_LAGF,
@@ -865,9 +883,11 @@ C
       END
 C
       !||====================================================================
-      !||    spmd_exch_mult   ../engine/source/mpi/lag_multipliers/spmd_lag.F
+      !||    spmd_exch_mult        ../engine/source/mpi/lag_multipliers/spmd_lag.F
       !||--- called by ------------------------------------------------------
-      !||    lag_multp        ../engine/source/tools/lagmul/lag_mult.F
+      !||    lag_multp             ../engine/source/tools/lagmul/lag_mult.F
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
       SUBROUTINE SPMD_EXCH_MULT(
      1    A       ,AR     ,LLAGF , NLAGF_L, FR_LAGF,

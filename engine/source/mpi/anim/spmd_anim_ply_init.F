@@ -27,6 +27,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- calls      -----------------------------------------------------
       !||--- uses       -----------------------------------------------------
       !||    plyxfem_mod          ../engine/share/modules/plyxfem_mod.F
+      !||    spmd_mod             ../engine/source/mpi/spmd_mod.F90
       !||====================================================================
       SUBROUTINE SPMD_ANIM_PLY_INIT()
 C-----------------------------------------------

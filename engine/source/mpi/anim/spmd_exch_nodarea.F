@@ -32,6 +32,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    inter_nodal_areas     ../engine/source/output/inter_nodal_areas.F
       !||    inter_sh_offset_ini   ../engine/source/interfaces/shell_offset/inter_offset_ini.F90
       !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
       SUBROUTINE SPMD_EXCH_NODAREA(
      .           NODAREA,IAD_ELEM,FR_ELEM,LENR,WEIGHT)

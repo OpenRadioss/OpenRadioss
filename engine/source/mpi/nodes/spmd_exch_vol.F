@@ -22,11 +22,13 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
       !||====================================================================
-      !||    spmd_exch_vol   ../engine/source/mpi/nodes/spmd_exch_vol.F
+      !||    spmd_exch_vol         ../engine/source/mpi/nodes/spmd_exch_vol.F
       !||--- called by ------------------------------------------------------
-      !||    s4alesfem       ../engine/source/elements/solid/solide4_sfem/s4alesfem.F
-      !||    s4lagsfem       ../engine/source/elements/solid/solide4_sfem/s4lagsfem.F
+      !||    s4alesfem             ../engine/source/elements/solid/solide4_sfem/s4alesfem.F
+      !||    s4lagsfem             ../engine/source/elements/solid/solide4_sfem/s4lagsfem.F
       !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
       SUBROUTINE SPMD_EXCH_VOL(VOLNOD6,VARNOD6,IAD_ELEM, 
      .                         FR_ELEM,LENR )

@@ -25,6 +25,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- called by ------------------------------------------------------
       !||    sms_mav_lt2   ../engine/source/ams/sms_pcg.F
       !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_mod      ../engine/source/mpi/spmd_mod.F90
       !||====================================================================
       SUBROUTINE SPMD_FI_SMS(V     ,NODNX_SMS,SIZE,VFI,FR_RMS,
      .                       FR_SMS,LIST_RMS ,LIST_SMS)

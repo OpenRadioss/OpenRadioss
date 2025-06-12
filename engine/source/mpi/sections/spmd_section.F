@@ -21,8 +21,10 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    spmd_x_section   ../engine/source/mpi/sections/spmd_section.F
+      !||    spmd_x_section        ../engine/source/mpi/sections/spmd_section.F
       !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
       SUBROUTINE SPMD_X_SECTION(NSTRF,X,MS,WEIGHT,WA)
 C maj X (MS) N1, N2, N3 (+ NNODS) sur procs distants
@@ -400,10 +402,12 @@ C
       RETURN
       END
       !||====================================================================
-      !||    spmd_exch_sec   ../engine/source/mpi/sections/spmd_section.F
+      !||    spmd_exch_sec         ../engine/source/mpi/sections/spmd_section.F
       !||--- called by ------------------------------------------------------
-      !||    resol           ../engine/source/engine/resol.F
+      !||    resol                 ../engine/source/engine/resol.F
       !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
       SUBROUTINE SPMD_EXCH_SEC(NSTRF ,X      ,MS    ,WEIGHT,XSEC  ,
      2                         FR_SEC,IAD_SEC,LSEND1,LRECV1,LSEND2,
@@ -825,11 +829,13 @@ C
       END
 C
       !||====================================================================
-      !||    spmd_wrt_cutd   ../engine/source/mpi/sections/spmd_section.F
+      !||    spmd_wrt_cutd         ../engine/source/mpi/sections/spmd_section.F
       !||--- called by ------------------------------------------------------
-      !||    section_io      ../engine/source/tools/sect/section_io.F
+      !||    section_io            ../engine/source/tools/sect/section_io.F
       !||--- calls      -----------------------------------------------------
-      !||    write_r_c       ../common_source/tools/input_output/write_routtines.c
+      !||    write_r_c             ../common_source/tools/input_output/write_routtines.c
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
       SUBROUTINE SPMD_WRT_CUTD(NNOD   ,NSTRF ,D    ,DR    ,RG_CUT,
      2                         IAD_CUT,NSIZE ,NNODG,WEIGHT,IFLG  )
@@ -1011,11 +1017,13 @@ C
       END
 C
       !||====================================================================
-      !||    spmd_wrt_cutf   ../engine/source/mpi/sections/spmd_section.F
+      !||    spmd_wrt_cutf         ../engine/source/mpi/sections/spmd_section.F
       !||--- called by ------------------------------------------------------
-      !||    section_io      ../engine/source/tools/sect/section_io.F
+      !||    section_io            ../engine/source/tools/sect/section_io.F
       !||--- calls      -----------------------------------------------------
-      !||    write_r_c       ../common_source/tools/input_output/write_routtines.c
+      !||    write_r_c             ../common_source/tools/input_output/write_routtines.c
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
       SUBROUTINE SPMD_WRT_CUTF(NNOD  ,NSTRF,SECFCUM,RG_CUT,IAD_CUT,
      2                         NSIZE ,NNODG,WEIGHT ,IFLG )
@@ -1208,10 +1216,12 @@ C
       END
 C
       !||====================================================================
-      !||    spmd_exch_cut   ../engine/source/mpi/sections/spmd_section.F
+      !||    spmd_exch_cut         ../engine/source/mpi/sections/spmd_section.F
       !||--- called by ------------------------------------------------------
-      !||    section_io      ../engine/source/tools/sect/section_io.F
+      !||    section_io            ../engine/source/tools/sect/section_io.F
       !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
       SUBROUTINE SPMD_EXCH_CUT(NSTRF,SECFCUM,IAD_ELEM,FR_ELEM,SIZE,
      2                         LENR ,NNOD,WEIGHT)
@@ -1373,10 +1383,12 @@ C
       END
 C
       !||====================================================================
-      !||    spmd_sd_cut     ../engine/source/mpi/sections/spmd_section.F
+      !||    spmd_sd_cut           ../engine/source/mpi/sections/spmd_section.F
       !||--- called by ------------------------------------------------------
-      !||    section_readp   ../engine/source/tools/sect/section_readp.F
+      !||    section_readp         ../engine/source/tools/sect/section_readp.F
       !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
       SUBROUTINE SPMD_SD_CUT(SECBUFG,NNODG  ,SECBUF1,SECBUF2,NNOD,
      2                       FR_CUT ,IAD_CUT,IFLG   )

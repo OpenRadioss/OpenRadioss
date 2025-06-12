@@ -21,10 +21,12 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    spmd_sd_skw      ../engine/source/mpi/output/spmd_sd_skw.F
+      !||    spmd_sd_skw           ../engine/source/mpi/output/spmd_sd_skw.F
       !||--- called by ------------------------------------------------------
-      !||    newskw           ../engine/source/tools/skew/newskw.F
+      !||    newskw                ../engine/source/tools/skew/newskw.F
       !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
       SUBROUTINE SPMD_SD_SKW(SKEW,ISKWP_L_SEND,NUMSKW_L_SEND,RECVCOUNT)
 C-----------------------------------------------
@@ -151,10 +153,12 @@ C
       END SUBROUTINE SPMD_SD_SKW
 C
       !||====================================================================
-      !||    spmd_sd_skw_anim   ../engine/source/mpi/output/spmd_sd_skw.F
+      !||    spmd_sd_skw_anim      ../engine/source/mpi/output/spmd_sd_skw.F
       !||--- called by ------------------------------------------------------
-      !||    sortie_main        ../engine/source/output/sortie_main.F
+      !||    sortie_main           ../engine/source/output/sortie_main.F
       !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
       SUBROUTINE SPMD_SD_SKW_ANIM(SKEW,ISKWP)
 C-----------------------------------------------

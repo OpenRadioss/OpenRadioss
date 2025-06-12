@@ -29,6 +29,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    dxwals         ../engine/source/output/anim/generate/dxwals.F
       !||    dxyzsect       ../engine/source/output/anim/generate/dxyzsect.F
       !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_mod       ../engine/source/mpi/spmd_mod.F90
       !||====================================================================
         SUBROUTINE SPMD_AGETMSR(FR_WALL,X,MSR,XWL,YWL,ZWL,RWL)
                 use spmd_mod

@@ -23,13 +23,14 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 
 C
       !||====================================================================
-      !||    spmd_exchseg_idel   ../engine/source/mpi/kinematic_conditions/spmd_exchseg_idel.F
+      !||    spmd_exchseg_idel     ../engine/source/mpi/kinematic_conditions/spmd_exchseg_idel.F
       !||--- called by ------------------------------------------------------
-      !||    chkload             ../engine/source/interfaces/chkload.F
+      !||    chkload               ../engine/source/interfaces/chkload.F
       !||--- calls      -----------------------------------------------------
-      !||    get_local_node_id   ../engine/source/engine/node_spliting/nodal_arrays.F90
+      !||    get_local_node_id     ../engine/source/engine/node_spliting/nodal_arrays.F90
       !||--- uses       -----------------------------------------------------
-      !||    nodal_arrays_mod    ../engine/source/engine/node_spliting/nodal_arrays.F90
+      !||    nodal_arrays_mod      ../engine/source/engine/node_spliting/nodal_arrays.F90
+      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
       SUBROUTINE SPMD_EXCHSEG_IDEL(
      1    BUFS  ,LBUFS ,IXS    ,IXC    ,IXTG   ,

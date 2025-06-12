@@ -22,15 +22,16 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
       !||====================================================================
-      !||    spmd_exch_a_rb6    ../engine/source/mpi/kinematic_conditions/spmd_exch_a_rb6.F
+      !||    spmd_exch_a_rb6       ../engine/source/mpi/kinematic_conditions/spmd_exch_a_rb6.F
       !||--- called by ------------------------------------------------------
-      !||    rbyfor             ../engine/source/constraints/general/rbody/rbyfor.F
-      !||    sms_encin_2        ../engine/source/ams/sms_encin_2.F
-      !||    sms_mass_scale_2   ../engine/source/ams/sms_mass_scale_2.F
-      !||    sms_pcg            ../engine/source/ams/sms_pcg.F
+      !||    rbyfor                ../engine/source/constraints/general/rbody/rbyfor.F
+      !||    sms_encin_2           ../engine/source/ams/sms_encin_2.F
+      !||    sms_mass_scale_2      ../engine/source/ams/sms_mass_scale_2.F
+      !||    sms_pcg               ../engine/source/ams/sms_pcg.F
       !||--- calls      -----------------------------------------------------
       !||--- uses       -----------------------------------------------------
-      !||    message_mod        ../engine/share/message_module/message_mod.F
+      !||    message_mod           ../engine/share/message_module/message_mod.F
+      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
       SUBROUTINE SPMD_EXCH_A_RB6(NRBDIM,IAD_RBY,FR_RBY6,ICSIZE,RBF6)
 C     make summation of acc and stiffness for main nodes of rigid bodies
@@ -162,6 +163,7 @@ C
       !||--- calls      -----------------------------------------------------
       !||--- uses       -----------------------------------------------------
       !||    message_mod            ../engine/share/message_module/message_mod.F
+      !||    spmd_comm_world_mod    ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
       SUBROUTINE SPMD_EXCH_A_RB6_VREL(NRBDIM,IAD_RBY,FR_RBY6,ICSIZE,RBY6,
      .                                RBY6_C,SIZE_RBY6_C)

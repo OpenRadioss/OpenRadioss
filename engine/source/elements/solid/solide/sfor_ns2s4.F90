@@ -36,6 +36,7 @@
       !||    sfor_4n2s4      ../engine/source/elements/solid/solide/sfor_4n2s4.F90
       !||--- uses       -----------------------------------------------------
       !||    constant_mod    ../common_source/modules/constant_mod.F
+      !||    mvsiz_mod       ../engine/share/spe_inc/mvsiz_mod.F90
       !||    precision_mod   ../common_source/modules/precision_mod.F90
       !||====================================================================
          subroutine sfor_ns2s4(                                                 &

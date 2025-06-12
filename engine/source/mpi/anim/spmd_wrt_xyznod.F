@@ -22,11 +22,13 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 
       !||====================================================================
-      !||    spmd_wrt_xyznod   ../engine/source/mpi/anim/spmd_wrt_xyznod.F
+      !||    spmd_wrt_xyznod       ../engine/source/mpi/anim/spmd_wrt_xyznod.F
       !||--- called by ------------------------------------------------------
-      !||    xyznod            ../engine/source/output/anim/generate/xyznod.F
+      !||    xyznod                ../engine/source/output/anim/generate/xyznod.F
       !||--- calls      -----------------------------------------------------
-      !||    write_r_c         ../common_source/tools/input_output/write_routtines.c
+      !||    write_r_c             ../common_source/tools/input_output/write_routtines.c
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
        SUBROUTINE SPMD_WRT_XYZNOD(X,WEIGHT,NODGLOB,NUM)
 C-----------------------------------------------

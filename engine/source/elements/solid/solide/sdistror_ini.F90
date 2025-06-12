@@ -52,6 +52,7 @@
       !||    scre_sig3       ../engine/source/elements/solid/solide/scre_sig3.F
       !||--- uses       -----------------------------------------------------
       !||    constant_mod    ../common_source/modules/constant_mod.F
+      !||    mvsiz_mod       ../engine/share/spe_inc/mvsiz_mod.F90
       !||    precision_mod   ../common_source/modules/precision_mod.F90
       !||====================================================================
         subroutine sdistor_ini(                                 &

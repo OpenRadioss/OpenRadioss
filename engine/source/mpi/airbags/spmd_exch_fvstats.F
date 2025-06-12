@@ -27,6 +27,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- calls      -----------------------------------------------------
       !||--- uses       -----------------------------------------------------
       !||    fvbag_mod           ../engine/share/modules/fvbag_mod.F
+      !||    spmd_mod            ../engine/source/mpi/spmd_mod.F90
       !||====================================================================
       SUBROUTINE SPMD_EXCH_FVSTATS(MONVOL)                           
 C-----------------------------------------------

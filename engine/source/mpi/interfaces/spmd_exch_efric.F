@@ -21,19 +21,20 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    spmd_exch_efric   ../engine/source/mpi/interfaces/spmd_exch_efric.F
+      !||    spmd_exch_efric       ../engine/source/mpi/interfaces/spmd_exch_efric.F
       !||--- called by ------------------------------------------------------
-      !||    resol             ../engine/source/engine/resol.F
+      !||    resol                 ../engine/source/engine/resol.F
       !||--- calls      -----------------------------------------------------
-      !||    ancmsg            ../engine/source/output/message/message.F
-      !||    arret             ../engine/source/system/arret.F
+      !||    ancmsg                ../engine/source/output/message/message.F
+      !||    arret                 ../engine/source/system/arret.F
       !||--- uses       -----------------------------------------------------
-      !||    h3d_mod           ../engine/share/modules/h3d_mod.F
-      !||    intbufdef_mod     ../common_source/modules/interfaces/intbufdef_mod.F90
-      !||    message_mod       ../engine/share/message_module/message_mod.F
-      !||    outputs_mod       ../common_source/modules/outputs_mod.F
-      !||    tri25ebox         ../engine/share/modules/tri25ebox.F
-      !||    tri7box           ../engine/share/modules/tri7box.F
+      !||    h3d_mod               ../engine/share/modules/h3d_mod.F
+      !||    intbufdef_mod         ../common_source/modules/interfaces/intbufdef_mod.F90
+      !||    message_mod           ../engine/share/message_module/message_mod.F
+      !||    outputs_mod           ../common_source/modules/outputs_mod.F
+      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
+      !||    tri25ebox             ../engine/share/modules/tri25ebox.F
+      !||    tri7box               ../engine/share/modules/tri7box.F
       !||====================================================================
       SUBROUTINE SPMD_EXCH_EFRIC(
      1    IPARI   ,INTLIST ,NBINTC  ,ISLEN7 ,IRLEN7  ,
