@@ -187,10 +187,6 @@ C
       EC   = UPARAM(IADBUF + 15 + 2*MFUNC)
       RPCT = UPARAM(IADBUF + 16 + 2*MFUNC)
 C
-
-     
-
-
       IF (ISIGI==0) THEN
         IF(TIME==ZERO)THEN
           DO I=1,NEL
@@ -217,7 +213,9 @@ c------------------------------------------------
 c         P(I) = C1 * (RHO(I)/RHO0(I)- ONE)
           P(I) = C1T * AMU(I)
           C1T  = MAX(C1T,EC/THREE/(ONE - TWO*NU))
-          IF(P(I) <=  - RPCT * PT) THEN
+          IF(PC == ZERO .and. PT == ZERO .AND. ABS(P(I)) < EM10) THEN
+            E(I)   = EC
+          ELSEIF(P(I) <=  - RPCT * PT) THEN
             E(I)   = ET
           ELSEIF(P(I) >= RPCT *PC) THEN
             E(I)   = EC
@@ -493,7 +491,10 @@ C interpolation entre (tracation & compression
          DO I=1,NEL  
 c          P(I) = C1 * (RHO(I)/RHO0(I)- ONE)
           P(I) = C1(I) * AMU(I)
-          IF(P(I) <=  -PT) THEN
+          IF(PC == ZERO .AND. PT == ZERO .AND. ABS(P(I)) < EM10) THEN
+            YLD(I) = MAX(YC(I), EM20)
+            H(I)   = HC(I)
+          ELSEIF(P(I) <=  -PT) THEN
             YLD(I) = MAX(YT(I),EM20)
             H(I)   = HT(I)
           ELSEIF(P(I) >= PC) THEN
