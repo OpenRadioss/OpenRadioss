@@ -246,7 +246,9 @@ C------------------------------------------
       G(1:NEL) = G1T   
       IF(EC > ZERO)THEN
         DO I=1,NEL  
-          IF(P(I) <=  - RPCT * PT) THEN
+          IF(PC == ZERO .and. PT == ZERO .AND. ABS(P(I)) < EM10) THEN
+            E(I)   = EC
+          ELSEIF(P(I) <=  - RPCT * PT) THEN
             E(I)   = E1T
           ELSEIF(P(I) >= RPCT *PC) THEN
             E(I)   = EC
@@ -521,7 +523,10 @@ c traction
          ENDIF
 C interpolation entre (tracation & compression         
         DO I=1,NEL   
-          IF(P(I) <=  -PT) THEN
+         IF(PC == ZERO .AND. PT == ZERO .AND. ABS(P(I)) < EM10) THEN
+            YLD(I) = MAX(YC(I), EM20)
+            H(I)   = HC(I)
+          ELSEIF(P(I) <=  -PT) THEN
             YLD(I) = MAX(YT(I),EM20)
             H(I)   = HT(I)
           ELSEIF(P(I) >= PC) THEN
