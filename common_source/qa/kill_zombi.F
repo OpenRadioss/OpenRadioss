@@ -20,7 +20,9 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-        !   -----------------------------------
+
+! These subroutines are not called by radioss, but are used by the QA
+! team.  Do not modify them. 
       !||====================================================================
       !||    get_env_variable_zombi   ../common_source/qa/kill_zombi.F
       !||--- called by ------------------------------------------------------
@@ -86,15 +88,13 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    walking_dead_mode       ../common_source/qa/kill_zombi.F
       !||--- calls      -----------------------------------------------------
       !||--- uses       -----------------------------------------------------
-      !||    spmd_mod                ../engine/source/mpi/spmd_mod.F90
       !||====================================================================
         subroutine init_list_process_pid( radflex_process_pid,
      .               current_process_pid,nspmd,list_process )
 
-         use spmd_mod
 #include "implicit_f.inc"
 #ifdef MPI
-#include "spmd.inc"
+#include "mpif.h"
 #endif
         integer, intent(in) :: radflex_process_pid,nspmd
         integer, dimension(nspmd+1), intent(inout) :: list_process
@@ -106,7 +106,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
         list_process(1:nspmd+1 ) = 0
 #ifdef MPI
         call MPI_GATHER(current_process_pid,1,MPI_INTEGER,
-     .      list_process,1,MPI_INTEGER,0,SPMD_COMM_WORLD,ierror)
+     .      list_process,1,MPI_INTEGER,0,MPI_COMM_WORLD,ierror)
         list_process(nspmd+1) = radflex_process_pid
 #endif
         if(nspmd==1) then
@@ -128,7 +128,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
         subroutine walking_dead_mode(radflex_process_pid,ispmd,nspmd)
 #include "implicit_f.inc"
 #ifdef MPI
-#include "spmd.inc"
+#include "mpif.h"
 #endif
         integer, intent(in) :: radflex_process_pid,nspmd,ispmd
         logical :: zombi_activation
