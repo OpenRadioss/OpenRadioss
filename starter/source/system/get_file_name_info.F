@@ -70,7 +70,9 @@ C Rootname
          LENR=LEN_TRIM(ROOTNAME)
          IS_DYNA = 1 
          RUNN = 0  
-      ELSEIF ( INPUT(LENI-3:LENI) == '.key' ) THEN
+      ELSEIF ( INPUT(LENI-3:LENI) == '.key' .OR.  
+     .         INPUT(LENI-3:LENI) == '.dyn' .OR.  
+     .         INPUT(LENI-3:LENI) == '.DYN'  ) THEN
 C Rootname
          WRITE(ROOTNAME,FMT='(A)',ERR=1000) INPUT(1:LENI-4)
          LENR=LEN_TRIM(ROOTNAME)
