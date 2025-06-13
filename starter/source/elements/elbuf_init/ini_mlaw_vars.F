@@ -103,6 +103,8 @@ C
         MTAG%G_NUVAR    = 0                                                                      
         MTAG%G_MASS     = 0
         MTAG%G_SKEW_ID  = 0
+        MTAG%G_YIELD_IN_COMP  = 0
+        MTAG%G_XXOLD_IN_COMP  = 0
 c---
 c       for seatbelt elements
 c---

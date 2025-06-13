@@ -74,7 +74,7 @@ C-----------------------------------------------
      .   G_SKEW_ID,G_GAMA_R,G_SLIPRING_ID,G_SLIPRING_STRAND,G_RETRACTOR_ID,G_RINGSLIP,
      .   G_ADD_NODE,G_UPDATE,G_INTVAR,G_BETAORTH,G_AMU,G_SLIPRING_FRAM_ID,G_FRAM_FACTOR,
      .   G_TM_YIELD,G_TM_SEQ,G_TM_EINT,G_TM_DMG,G_TM_SIG,G_TM_STRA,G_TSAIWU,G_DMGSCL,
-     .   G_SH_IOFFSET,G_EINT_DISTOR,G_FOR_G,G_FORPG_G
+     .   G_SH_IOFFSET,G_EINT_DISTOR,G_FOR_G,G_FORPG_G,G_YIELD_IN_COMP,G_XXOLD_IN_COMP
       INTEGER  ! layer variables
      .   LY_DMG,LY_GAMA,LY_DIRA,LY_DIRB,LY_CRKDIR,LY_PLAPT,LY_SIGPT,
      .   LY_HOURG,LY_UELR,LY_UELR1,LY_OFFPG,LY_OFF,LEN_PLAPT,LEN_SIGPT
@@ -1074,6 +1074,8 @@ c---
           G_ETOTSH      = GBUF%G_ETOTSH
           G_DT_PITER    = GBUF%G_DT_PITER
           G_SKEW_ID     = GBUF%G_SKEW_ID
+          G_YIELD_IN_COMP = GBUF%G_YIELD_IN_COMP
+          G_XXOLD_IN_COMP = GBUF%G_XXOLD_IN_COMP
 c---
 c seatbelt elements
 c---
@@ -1318,6 +1320,10 @@ c---
            RBUF_L(L_REL+1) =  G_SKEW_ID
              L_REL = L_REL + 1
            RBUF_L(L_REL+1) =  G_GAMA_R      
+             L_REL = L_REL + 1
+           RBUF_L(L_REL+1) =  G_YIELD_IN_COMP
+             L_REL = L_REL + 1
+           RBUF_L(L_REL+1) =  G_XXOLD_IN_COMP
              L_REL = L_REL + 1
 c---
 c seatbelt elements
@@ -1588,6 +1594,10 @@ c---
             L_REL = L_REL +NEL*G_DT_PITER
           RBUF_L(L_REL+1:L_REL+NEL*G_SKEW_ID)     = GBUF%SKEW_ID(1:NEL*G_SKEW_ID)
             L_REL = L_REL +NEL*G_SKEW_ID
+          RBUF_L(L_REL+1:L_REL+NEL*G_YIELD_IN_COMP)= GBUF%YIELD_IN_COMP(1:NEL*G_YIELD_IN_COMP)
+            L_REL = L_REL +NEL*G_YIELD_IN_COMP
+          RBUF_L(L_REL+1:L_REL+NEL*G_XXOLD_IN_COMP)= GBUF%XXOLD_IN_COMP(1:NEL*G_XXOLD_IN_COMP)
+            L_REL = L_REL +NEL*G_XXOLD_IN_COMP
 c            
 c         failure model for beams type 3
           IF (IGTYP == 3 .and. G_NOFF == 1) THEN
