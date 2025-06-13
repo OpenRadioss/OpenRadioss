@@ -30,6 +30,10 @@ endif()
 set (zlib_inc "-I${source_directory}/../extlib/zlib/linux64/include")
 set (zlib_lib "${source_directory}/../extlib/zlib/linux64/lib/libz.a")
 
+# MD5
+set (md5_inc "-I${source_directory}/../extlib/md5/include")
+set (md5_lib "-L${source_directory}/../extlib/md5/linux64/ -lmd5")
+
 # MKL
 
 if(DEFINED ENV{MKLROOT})
@@ -128,7 +132,7 @@ set_source_files_properties(${cpp_source_files} PROPERTIES COMPILE_FLAGS "${cpp_
 set (CMAKE_EXE_LINKER_FLAGS " -O2 -qopenmp -static-intel -qopenmp-link=static" )
 
 #Libraries
-set (LINK "dl ${xml_lib} ${metis} ${reader_lib}  ${MKL_lib} ${Tet_mesher_lib} ${zlib_lib} ${asan_link} -ldl -rdynamic -lstdc++"  )
+set (LINK "dl ${xml_lib} ${metis} ${reader_lib}  ${MKL_lib} ${Tet_mesher_lib} ${zlib_lib} ${md5_lib} ${asan_link} -ldl -rdynamic -lstdc++"  )
 
 
 # -------------------------------------------------------------------------------------------------------------------------------------------

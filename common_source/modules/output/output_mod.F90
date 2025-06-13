@@ -79,15 +79,19 @@
       module output_mod
         use time_history_mod
         use state_file_mod
+        use checksum_output_option_mod
 
         type output_
            type (th_) :: th
            type (state_) :: state
-           double precision :: wfext          !< external force work (global value)
-           double precision :: wfext_md       !< specific to r2r method
+           type (checksum_option_) :: checksum !< checksum option from Starter
+           double precision :: wfext           !< external force work (global value)
+           double precision :: wfext_md        !< specific to r2r method
+           character(len=2048) :: out_filename !< output file name
         end type output_
 
         double precision, pointer :: wfext
         double precision, pointer :: wfext_md
 
+        type(output_),pointer :: output_ptr      ! pointer to output structure (need for arret)
       end module output_mod

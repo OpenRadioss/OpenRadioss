@@ -30,6 +30,10 @@ endif()
 set (zlib_inc "-I${source_directory}/../extlib/zlib/linux64/include")
 set (zlib_lib "${source_directory}/../extlib/zlib/linux64/lib/libz.a")
 
+# MD5
+set (md5_inc "-I${source_directory}/../extlib/md5/include")
+set (md5_lib "-L${source_directory}/../extlib/md5/linux64/ -lmd5")
+
 # MKL
 
 if(DEFINED ENV{MKLROOT})
@@ -123,7 +127,7 @@ endif()
 
 
 #Libraries
-set (LINK "dl ${xml_lib} ${flexpipe_lib} ${metis} ${reader_lib}  ${MKL_lib}  ${flexpipe} ${Tet_mesher_lib} ${zlib_lib} -ldl -rdynamic -lstdc++"  )
+set (LINK "dl ${xml_lib} ${flexpipe_lib} ${metis} ${reader_lib}  ${MKL_lib}  ${flexpipe} ${Tet_mesher_lib} ${zlib_lib} ${md5_lib} -ldl -rdynamic -lstdc++"  )
 
 
 # -------------------------------------------------------------------------------------------------------------------------------------------

@@ -70,7 +70,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      C      IPARTS        ,IPARTQ        ,IPARTC           ,IPARTT            ,IPARTP        ,IPARTR ,
      D      IPARTG        ,IPARTX        ,IPARTSP          ,IPARTIG3D         ,LITHBUFMX     ,
      E      MAP_TABLES    ,IFLAG         ,PTR_NOPT_SLIPRING,PTR_NOPT_RETRACTOR,SENSORS       ,
-     F      INTERFACES    ,IPARI         ,DUMP_THNMS1_FILE ,ITHERM_FE)
+     F      INTERFACES    ,IPARI         ,DUMP_THNMS1_FILE ,ITHERM_FE         ,CHECKSUM      ,
+     G      NSUBDOM       ,IPRI)
 C-----------------------------------------------
       USE MY_ALLOC_MOD
       USE MESSAGE_MOD
@@ -85,6 +86,9 @@ C-----------------------------------------------
       USE write_thnms1_mod
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARLINE
       USE USER_ID_MOD , ONLY : ID_LIMIT
+      USE checksum_output_option_mod
+      USE checksum_starter_option_mod
+      use hm_read_th_checksum_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -103,6 +107,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER,INTENT(IN) :: NSUBDOM
+      INTEGER,INTENT(IN) :: IPRI
       INTEGER,INTENT(IN) :: LITHBUFMX
       INTEGER,INTENT(IN) :: ITHERM_FE
       INTEGER ITAB(NUMNOD),ITABM1(*), IFLAG,
@@ -135,6 +141,7 @@ C-----------------------------------------------
       TYPE (SUBSET_) , DIMENSION(NSUBS) :: SUBSET
       TYPE (SURF_)   , DIMENSION(NSURF) :: IGRSURF
       INTEGER, INTENT(IN)::  DUMP_THNMS1_FILE
+      TYPE(checksum_option_) , INTENT(IN) :: checksum
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -150,6 +157,7 @@ C-----------------------------------------------
       INTEGER NVARNS,NVARSPH
       INTEGER NVARIN,NVARRW,NVARRB,NVARAC,NVARSE,NVARJO,NVARFX,NVARFXM
       INTEGER NVARAB,NVARMV4,NVARMV,NVARPA,NVARMVENT,NVARSENS,NVARSENSG
+      INTEGER NVARCHECKSUM,NVARCHECKSUMG
       INTEGER NVARF1,NVARFR,NVARGAU,NVARCLUS,NVARCLUSG,NVARFLOW,NVARSURF
       INTEGER NVARRIV,NVARRIVG,NVARSLIP,NVARRET,NSELRT,INOUT
       INTEGER HM_NTHGRP,NTHACCEL,NTHINTER,NTHRWALL,NTHSECTIO,NTHCLUS
@@ -157,7 +165,7 @@ C-----------------------------------------------
       INTEGER NTHMONVOL,HM_NTHPART ,NUMTHPART, HM_NTHSUBS, HM_NTHSURF
       INTEGER HM_NTHSPHCEL, HM_NTHQUAD, HM_NTHSPHFLOW
       INTEGER HM_NTHGAUGE, HM_NTHFXBODY, HM_NTHFRAME, HM_NTHCYLJO, HM_NTHNSTRAND   
-      INTEGER HM_NTHTRIA,HM_NTHSLIPRING,HM_NTHRETRACTOR,HM_NTHSENS
+      INTEGER HM_NTHTRIA,HM_NTHSLIPRING,HM_NTHRETRACTOR,HM_NTHSENS,HM_NTHCHECKSUM
       PARAMETER (NVARRIV = 10,NVARRIVG = 1)
       INTEGER IVARRIV(18,NVARRIVG)
       CHARACTER*10 VARRIV(NVARRIV),VARRIVG(NVARRIVG)
@@ -216,6 +224,7 @@ C-----------------------------------------------
       PARAMETER (NVARF1G = 3,NVARFRG = 4,NVARGAUG = 1,NVARCLUSG=2,NVARFLOWG=1,
      .           NVARSURFG = 1,NVARSLIPG=1,NVARRETG = 1)
       PARAMETER (NVARSENS = 1,NVARSENSG = 1)
+      PARAMETER (NVARCHECKSUM = 1,NVARCHECKSUMG = 1)
       CHARACTER*10 VARNG(NVARNG)
       CHARACTER*10 VARCG(NVARCG),VARTG(NVARTG)
       CHARACTER*10 VARPG(NVARPG),VARRG(NVARRG),VARURG(NVARURG)
@@ -223,7 +232,8 @@ C-----------------------------------------------
       CHARACTER*10 VARING(NVARING),VARRWG(NVARRWG),VARRBG(NVARRBG)
       CHARACTER*10 VARACG(NVARACG),VARSEG(NVARSEG),VARJOG(NVARJOG)
       CHARACTER*10 VARABG(NVARABG),VARMVG4(NVARMG4),VARMVG(NVARMVG),
-     .             VARMVENTG(NVARMVENTG),VARSENS(NVARSENS),VARSENSG(NVARSENSG)
+     .             VARMVENTG(NVARMVENTG),VARSENS(NVARSENS),VARSENSG(NVARSENSG),
+     .             VARCHECKSUM(NVARCHECKSUM),VARCHECKSUMG(NVARCHECKSUMG)
       CHARACTER*10 VARPAG(NVARPAG),VARFXG(NVARFXG),VARFXMG(NVARFXMG)
       CHARACTER*10 VARF1G(NVARF1G),VARFRG(NVARFRG),VARGAUG(NVARGAUG)
       CHARACTER*10 VARCLUSG(NVARCLUSG),VARFLOWG(NVARFLOWG)
@@ -245,7 +255,8 @@ C-----------------------------------------------
       INTEGER IVARF1G(18,NVARF1G),IVARFRG(18,NVARFRG),
      .        IVARGAUG(18,NVARGAUG),IVARCLUSG(18,NVARCLUSG),
      .        IVARFLOWG(18,NVARFLOWG),IVARSURFG(18,NVARSURFG),
-     .        IVARSLIPG(18,NVARSLIPG),IVARRETG(18,NVARRETG)
+     .        IVARSLIPG(18,NVARSLIPG),IVARRETG(18,NVARRETG),
+     .        IVARCHECKSUMG(18,NVARCHECKSUMG)
       INTEGER NSMA
       INTEGER IUN,INODACC,INODFRA
       INTEGER NNOD, NSHEL, NTRUS, NBEAM, NSPRG, NCHTG, NCHINT, NCHJNT,
@@ -279,6 +290,11 @@ C-----------------------------------------------
      .                              VARSLIP_TITLE,VARRET_TITLE,
      .                              VARCLUS_TITLE,VARFLOW_TITLE,
      .                              VARSURF_TITLE,VARSENS_TITLE
+     
+        INTEGER :: LEN_TITLE
+        INTEGER :: LEN_CHECKSUM
+        CHARACTER(LEN=NCHARLINE):: CHECKSUM_TITLE
+        CHARACTER(LEN=64):: DECK_CHECKSUM
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
@@ -1237,6 +1253,9 @@ C
 c
       DATA VARSENS/
      . 'STATUS   '/
+c
+      DATA VARCHECKSUM/
+     . 'CHECKSUM '/
 C-----------------------------------------------
 C   TH GENERIC VARIABLES
 C-----------------------------------------------
@@ -1750,6 +1769,10 @@ C   frames
       DATA VARSENSG/
      . 'DEF      '/
       DATA IVARSENSG
+     .         / 1, 0,  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0/
+      DATA VARCHECKSUMG/
+     . 'DEF      '/
+      DATA IVARCHECKSUMG
      .         / 1, 0,  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0/
 C=======================================================================
       TAGP=0
@@ -3097,6 +3120,31 @@ C             error message if type of inout is not correct
 c
           IF(IGS/=0) NTHWA=MAX(NTHWA,ITHGRP(4,IGS)*ITHGRP(6,IGS))    
         ENDDO
+      ENDIF
+      !-------------------------------------------
+      ! /TH/CHECKSUM ( activated automaticaly if /CHECKSUM is used )
+      !-------------------------------------------
+      HM_NTHCHECKSUM=CHECKSUM%checksum_count
+      IF (HM_NTHCHECKSUM > 0) THEN 
+        HM_NTHGRP = HM_NTHGRP + 1
+        IGS = IGS+1
+        CHECKSUM_TITLE = ''
+        DECK_CHECKSUM = ''
+          
+        TITR = 'CHECKSUM  '
+        CALL FRETITL(TITR,ITHGRP(NITHGR-LTITR+1,IGS),LTITR)
+
+
+        ITHGRP(1,IGS) = 100000
+        NVALL = 1
+        ITYP  = 121
+        KEY   = 'CHECKSUM  ' 
+        CALL HM_READ_THCHECKSUM(
+     1      121            ,KEY      ,IAD          ,IFI          ,NSNE ,
+     2      ITHGRP(1:,IGS) ,ITHBUF   ,NVARCHECKSUM ,VARCHECKSUM  ,LITHBUFMX,
+     3      CHECKSUM       ,NSUBDOM  ,NITHGR       ,LTITR        ,IPRI )
+c
+        NTHWA=MAX(NTHWA,ITHGRP(4,IGS)*ITHGRP(6,IGS))    
       ENDIF
 C
       DO N=1,NPART

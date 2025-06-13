@@ -33,7 +33,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    hm_option_read_mod     ../starter/share/modules1/hm_option_read_mod.F
       !||    submodel_mod           ../starter/share/modules1/submodel_mod.F
       !||====================================================================
-      SUBROUTINE HM_READ_PRETHGROU(IFI,NVARTOT,LSUBMODEL,IFLAG)
+      SUBROUTINE HM_READ_PRETHGROU(IFI,NVARTOT,LSUBMODEL,IFLAG,OUTPUT)
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -46,6 +46,8 @@ C-----------------------------------------------
        USE SUBMODEL_MOD
        USE GROUPDEF_MOD
        USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARLINE
+       USE output_mod
+       USE checksum_starter_option_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -60,6 +62,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IFI,NVARTOT,IFLAG
       TYPE(SUBMODEL_DATA) LSUBMODEL(*)
+      TYPE(output_) OUTPUT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -78,7 +81,7 @@ C-----------------------------------------------
       INTEGER NVARF1,NVARFR
       INTEGER NVARRIV,NVARRIVG,NSELRT
       INTEGER NVARNG,NVARSG,NVARCG,NVARTG,NVARPG,NVARRG,NVARURG
-      INTEGER NVARNSG,NVARSPG,NVARSENS
+      INTEGER NVARNSG,NVARSPG,NVARSENS,NVARCHECKSUM
       INTEGER NVARING,NVARRWG, NVARRBG,NVARACG,NVARSEG,NVARJOG
       INTEGER NVARABG,NVARMG4,NVARMVG,NVARPAG,NVARFXG,NVARFXMG
       INTEGER NVARF1G,NVARFRG,NVARGAUG,NVARCLUS,NVARCLUSG,NVARFLOW
@@ -87,7 +90,7 @@ C-----------------------------------------------
       INTEGER NTHBEAM,NTHTRUS,NTHBRIC,NTHNODE,NTHSHEL,NTHSH3N,NTHSPRING,NTHRBODY
       INTEGER NTHMONVOL,HM_NTHPART,HM_NTHSUBS,HM_NTHSPHCEL, HM_NTHQUAD, HM_NTHSPHFLOW
       INTEGER HM_NTHGAUGE, HM_NTHFXBODY, HM_NTHFRAME, HM_NTHCYLJO, HM_NTHNSTRAND,HM_NTHSURF
-      INTEGER HM_NTHTRIA,HM_NTHSLIPRING,HM_NTHRETRACTOR,HM_NTHSENS
+      INTEGER HM_NTHTRIA,HM_NTHSLIPRING,HM_NTHRETRACTOR,HM_NTHSENS,HM_NTHCHECKSUM
       LOGICAL IS_AVAILABLE
 C
       PARAMETER (NVARRIV = 10,NVARRIVG = 1)
@@ -113,6 +116,7 @@ C
       PARAMETER (NVARSURF = 6)
       PARAMETER (NVARSLIP = 6,NVARSLIPG = 6,NVARRET = 3,NVARRETG = 3)
       PARAMETER (NVARSENS = 1)
+      PARAMETER (NVARCHECKSUM = 1)
 C-----------------------------------------------
 C   E x t e r n a l
 C-----------------------------------------------
@@ -547,6 +551,16 @@ C
           NVARTOT   = NVARTOT + 180
           IFI       = IFI     + NVARSENS + 43*IDSMAX
         ENDDO
+      ENDIF
+      !-------------------------------------------
+      ! /TH/CHECKSUM ( activated automaticaly if /CHECKSUM is used )
+      !-------------------------------------------
+      
+      HM_NTHCHECKSUM = OUTPUT%CHECKSUM%checksum_count
+      IF (HM_NTHCHECKSUM > 0) THEN
+        HM_NTHGRP = HM_NTHGRP + 1
+        NVARTOT   = NVARTOT + 180
+        IFI       = IFI     + NVARCHECKSUM + 40 * HM_NTHCHECKSUM
       ENDIF
 c-----------
       RETURN
