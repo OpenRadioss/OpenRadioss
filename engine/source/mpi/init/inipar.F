@@ -68,6 +68,7 @@ C-----------------------------------------------
       INTEGER HOST_NUMBER
       INTEGER NSPMDx2
       INTEGER :: COLOUR
+      INTEGER (kind=MPI_ADDRESS_KIND) :: COLOUR_ADDR
       INTEGER :: VALID
 #if defined(_OPENMP)
       INTEGER OMP_GET_MAX_THREADS
@@ -82,11 +83,20 @@ C--------------------------------------------------
 C
         KEY = 0
         CALL MPI_INITIALIZED(KEY, IERR)
+        VALID = 0
+        COLOUR_ADDR = 0
 
         CALL MPI_INIT(IERROR)
 
         CALL MPI_COMM_GET_ATTR(MPI_COMM_WORLD, MPI_APPNUM,
-     *                            COLOUR, VALID, IERROR)
+     *                            COLOUR_ADDR, VALID, IERROR)
+
+        IF (IERROR == MPI_SUCCESS) THEN
+           COLOUR = INT(COLOUR_ADDR)
+        ELSE
+           COLOUR = 0  ! Default color if attribute not found
+        ENDIF
+      
         CALL MPI_COMM_SPLIT(MPI_COMM_WORLD,COLOUR,KEY,
      *                      SPMD_COMM_WORLD,IERROR)
 
