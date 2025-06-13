@@ -87,7 +87,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- called by ------------------------------------------------------
       !||    walking_dead_mode       ../common_source/qa/kill_zombi.F
       !||--- calls      -----------------------------------------------------
-      !||--- uses       -----------------------------------------------------
       !||====================================================================
         subroutine init_list_process_pid( radflex_process_pid,
      .               current_process_pid,nspmd,list_process )

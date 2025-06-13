@@ -26,7 +26,6 @@
       !||    check_ale_comm                  ../engine/source/ale/check_ale_comm.F
       !||    check_nan_acc                   ../engine/source/output/outfile/check_nan_acc.F
       !||    init_global_frontier_monvol     ../engine/source/airbag/init_global_monvol_frontier.F90
-      !||    init_list_process_pid           ../common_source/qa/kill_zombi.F
       !||    inttri                          ../engine/source/interfaces/intsort/inttri.F
       !||    python_element_init             ../engine/source/mpi/python_spmd_mod.F90
       !||    python_element_sync             ../engine/source/mpi/python_spmd_mod.F90
