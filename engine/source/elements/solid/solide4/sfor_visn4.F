@@ -79,10 +79,8 @@ C----------------------------
            VNJ(3) = VX3(I)*VX3(I) + VY3(I)*VY3(I) + VZ3(I)*VZ3(I)
            VNJ(4) = VX4(I)*VX4(I) + VY4(I)*VY4(I) + VZ4(I)*VZ4(I)
            V2MAX = MAX(VNJ(1),VNJ(2),VNJ(3),VNJ(4))
-           IF (V2MAX > VL) THEN
-              IFC1(I) = 1
-              IFCTL=1
-           END IF
+           IF (V2MAX > VL) IFC1(I) = 1
+           IF (IFC1(I) > 0)   IFCTL=1
          END DO
 C
        IF (IFCTL==1) THEN

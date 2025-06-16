@@ -95,7 +95,7 @@
 !
         tol_v2 = tol_v*tol_v
         ifctl = 0
-        ifcont = 0
+        ifcont = 1
          do i=1,nel
            vc2 = vc(i,1)*vc(i,1)+vc(i,2)*vc(i,2)+vc(i,3)*vc(i,3)
            if (vc2 <em20.or.sti(i)==zero) cycle
@@ -107,10 +107,8 @@
            vnj(5) = vx5(i)*vx5(i) + vy5(i)*vy5(i) + vz5(i)*vz5(i)
            vnj(6) = vx6(i)*vx6(i) + vy6(i)*vy6(i) + vz6(i)*vz6(i)
            v2max = max(vnj(1),vnj(2),vnj(3),vnj(4),vnj(5),vnj(6))
-           if (v2max > vl) then
-              ifc1(i) = 1
-              ifctl=1
-           end if
+           if (v2max > vl) ifc1(i) = 1
+           if (ifc1(i) > 0)   ifctl=1
            if (v2max > four*vc2) ifcont=1
          end do
 !
