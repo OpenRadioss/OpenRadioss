@@ -83,10 +83,8 @@ C----------------------------
            VC2 = VC(I,1)*VC(I,1)+VC(I,2)*VC(I,2)+VC(I,3)*VC(I,3)
            IF (STIF(I)==ZERO.OR.VC2 <EM20) CYCLE
            VL = TOL_V2*VC2
-           IF (V2MAX(I) > VL) THEN
-              IFC1(I) = 1
-              IFCTL=1
-           END IF
+           IF (V2MAX(I) > VL) IFC1(I) = 1
+           IF (IFC1(I) > 0)   IFCTL=1
          END DO
 C
        IF (IFCTL==1) THEN

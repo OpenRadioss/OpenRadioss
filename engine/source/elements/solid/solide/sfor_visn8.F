@@ -78,7 +78,7 @@ C                                                                     12
 C----------------------------
         TOL_V2 = TOL_V*TOL_V
         IFCTL = 0
-        IFCONT = 0
+        IFCONT = 1 ! no more for contact condition due to P/on issue
          DO I=1,NEL
            VC2 = VC(I,1)*VC(I,1)+VC(I,2)*VC(I,2)+VC(I,3)*VC(I,3)
            IF (VC2 <EM20.OR.STIF(I)==ZERO) CYCLE
@@ -93,11 +93,9 @@ C----------------------------
            VNJ(8) = VX8(I)*VX8(I) + VY8(I)*VY8(I) + VZ8(I)*VZ8(I)
            V2MAX = MAX(VNJ(1),VNJ(2),VNJ(3),VNJ(4))
            V2MAX = MAX(V2MAX,VNJ(5),VNJ(6),VNJ(7),VNJ(8))
-           IF (V2MAX > VL) THEN
-              IFC1(I) = 1
-              IFCTL=1
-           END IF
-           IF (V2MAX > FOUR*VC2) IFCONT=1
+           IF (V2MAX > VL) IFC1(I) = 1
+           IF (IFC1(I) > 0)   IFCTL=1
+!           IF (V2MAX > FOUR*VC2) IFCONT=1
          END DO
 C
        IF (IFCTL==1) THEN
