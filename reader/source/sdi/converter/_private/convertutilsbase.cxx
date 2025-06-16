@@ -28,6 +28,7 @@
 
 #include <convertutilsbase.h>
 #include <sstream>
+#include <mec_expression_evaluator.h>
 
 using namespace std;
 using namespace sdi;
@@ -218,8 +219,8 @@ bool ConvertUtilsBase::SetExpressionValue(
 
     if(p_expressionParameters.count(paramExpression) == 0)
     {
-        // Evaluate expression TBD
-        double expressionValue = 0;
+        ExpressionEvaluatorExprTk evaluator;
+        double expressionValue = evaluator.Evaluate(numExpression.c_str(), nullptr);
 
         // if no parameter needed, set value and return
         if( !isParameterized || // none of the values is parameterized
