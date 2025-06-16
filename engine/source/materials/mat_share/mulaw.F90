@@ -505,6 +505,7 @@
           real(kind=WP), dimension(:), pointer   :: uparam,uparam0,uparf,uvarf,dfmax,&
           &tdel,yldfac,dam,el_len,&
           &el_pla,damini
+          real(kind=WP), dimension(nel), target :: el_pla_dum
           real(kind=WP), dimension(:), allocatable ,target  :: bufzero
           type(l_bufel_)  ,pointer         :: lbuf
           type(g_bufel_)  ,pointer         :: gbuf
@@ -1280,7 +1281,7 @@
 !
             call sigeps52(nel ,npar,nuvar,nfunc,ifunc,&
             &npf ,tf  ,tt,dt1,bufmat,&
-            &rho0,rho ,voln,eint,&
+            &rho0,rho ,voln,eint,l_dmg ,lbuf%dmg,&
             &ep1 ,ep2 ,ep3 ,ep4  ,ep5  ,ep6 ,&
             &de1 ,de2 ,de3 ,de4  ,de5  ,de6 ,&
             &es1 ,es2 ,es3 ,es4  ,es5  ,es6 ,&
@@ -2170,6 +2171,8 @@
               do i=1,nel
                 dpla(i)  = zero
               enddo
+              el_pla_dum(1:nel) = zero
+              el_pla => el_pla_dum(1:nel)
             endif
 !
             do ir = 1,nfail
