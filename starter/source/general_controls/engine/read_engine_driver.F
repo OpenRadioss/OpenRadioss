@@ -59,7 +59,8 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
        CHARACTER FILNAM*512
-       INTEGER I,IOUT_1RAD,LEN_FILNAM,CPT,NRUN,NPARITH_ENG,NTH_TITLE_ENG
+       INTEGER I,IOUT_1RAD,LEN_FILNAM,CPT,NRUN,NPARITH_ENG,NTH_TITLE_ENG,
+     .         NSTATE_ENG,NDYNAIN_ENG
 C=======================================================================
 C WRITE /ANIM OPTIONS THAT ARE IN MEMORY(HM MODEL) IN 1.RAD FILE 
 C=======================================================================
@@ -166,6 +167,28 @@ C--------------------------------------------------
 C WRITE /TH/TITLE OPTIONS IN 1.RAD FILE
 C--------------------------------------------------
       DO CPT=1,NTH_TITLE_ENG
+        CALL CPP_GLOBAL_ENTITY_SDI_WRITE(IS_DYNA)
+      ENDDO
+C--------------------------------------------------
+C START BROWSING /STATE OPTIONS
+C--------------------------------------------------
+      CALL HM_OPTION_COUNT('/STATE',NSTATE_ENG)
+      CALL HM_OPTION_START('/STATE')
+C--------------------------------------------------
+C WRITE /STATE OPTIONS IN 1.RAD FILE
+C--------------------------------------------------
+      DO CPT=1,NSTATE_ENG
+        CALL CPP_GLOBAL_ENTITY_SDI_WRITE(IS_DYNA)
+      ENDDO
+C--------------------------------------------------
+C START BROWSING /DYNAIN OPTIONS
+C--------------------------------------------------
+      CALL HM_OPTION_COUNT('/DYNAIN',NDYNAIN_ENG)
+      CALL HM_OPTION_START('/DYNAIN')
+C--------------------------------------------------
+C WRITE /DYNAIN OPTIONS IN 1.RAD FILE
+C--------------------------------------------------
+      DO CPT=1,NDYNAIN_ENG
         CALL CPP_GLOBAL_ENTITY_SDI_WRITE(IS_DYNA)
       ENDDO
 C-----------------------------------------------
