@@ -36,7 +36,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      1     NEL0    ,NUPARAM,NUVAR   ,MFUNC   ,KFUNC  ,
      2     NPF    ,NPT0    ,IPT     ,IFLAG   ,
      2     TF     ,TIME   ,TIMESTEP,UPARAM  ,RHO0   ,
-     3     AREA   ,EINT   ,THKLY   ,
+     3     AREA   ,EINT   ,THKLY   ,L_DMG   ,DMG    ,
      4     EPSPXX ,EPSPYY ,EPSPXY  ,EPSPYZ  ,EPSPZX ,
      5     DEPSXX ,DEPSYY ,DEPSXY  ,DEPSYZ  ,DEPSZX ,
      6     EPSXX  ,EPSYY  ,EPSXY   ,EPSYZ   ,EPSZX  ,
@@ -45,7 +45,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      9     SIGVXX ,SIGVYY ,SIGVXY  ,SIGVYZ  ,SIGVZX ,
      A     SOUNDSP,VISCMAX,THK     ,PLA     ,UVAR   ,
      B     OFF    ,NGL    ,IPM     ,MAT     ,ETSE   ,
-     C     GS     ,YLD    ,EPSP    ,TABLE)
+     C     GS     ,YLD    ,EPSP    ,TABLE   ,EPSD   )
 C-----------------------------------------------
       USE TABLE_MOD
       USE INTERFACE_TABLE_MOD
@@ -74,7 +74,7 @@ C TF      |  *      | F | R | FUNCTION ARRAY
 C---------+---------+---+---+--------------------------------------------
 C TIME    |  1      | F | R | CURRENT TIME
 C TIMESTEP|  1      | F | R | CURRENT TIME STEP
-C UPARAM  | NUPARAM | F | R | USER MATERIAL PARAMETER ARRAY
+C UPARAM  | NUPARAM | F | R | USER MATERIAL PARAMETER ARRAYSIGY   
 C RHO0    | NEL0    | F | R | INITIAL DENSITY
 C AREA    | NEL0    | F | R | AREA
 C EINT    | 2*NEL0  | F | R | INTERNAL ENERGY(MEMBRANE,BENDING)
@@ -129,6 +129,7 @@ C
      .   SIGOXY(NEL0),SIGOYZ(NEL0),SIGOZX(NEL0),
      .   GS(*) 
       TYPE(TTABLE) TABLE(*)
+      INTEGER, INTENT(IN) :: L_DMG
 C-----------------------------------------------
 C   O U T P U T   A r g u m e n t s
 C-----------------------------------------------
@@ -143,6 +144,8 @@ C   I N P U T   O U T P U T   A r g u m e n t s
 C-----------------------------------------------
       my_real UVAR(NEL0,NUVAR), OFF(NEL0),THK(NEL0),YLD(NEL0),
      .        EPSP(NEL0)
+      my_real, DIMENSION(NEL0,L_DMG), INTENT(INOUT) :: DMG
+      my_real, DIMENSION(NEL0), INTENT(INOUT) :: EPSD
 C-----------------------------------------------
 C   VARIABLES FOR FUNCTION INTERPOLATION 
 C-----------------------------------------------
@@ -171,7 +174,7 @@ C-----------------------------------------------
      .        E,A1,A2,G,G3,
      .        NU
       my_real 
-     .        F(MVSIZ), SIGM(MVSIZ), EPSM(MVSIZ), EPSP1(MVSIZ),
+     .        F(MVSIZ), SIGM(MVSIZ), EPSP1(MVSIZ),
      .        LAMDA(MVSIZ), FSTAR(MVSIZ),P0(MVSIZ),PN(MVSIZ),
      .        ET,YEILD0,CSD, 
      .        VISP,  Q1, Q2, Q3, 
@@ -183,7 +186,7 @@ C-----------------------------------------------
      .        P,VM,R,FAC,
      .        DP11,DP22,DP33,DP12,DP13,DP23,A22,A11,
      .        D11,D22,D33,D12,D13,D23,DCRF,DCRM, DSEPP,DCD,LAM1,
-     .        C2,DF,COH,SIH,VA,CRIT,CONV,FG,FN1,YLDC,
+     .        C2,DF,COH,SIH,VA,CRIT,CONV,FG(MVSIZ),FN1(MVSIZ),YLDC,
      .        C11,P1, VAR,C1,NN1,DEZZ,
      .        DTINV,SQR22, VA1, VA2, VM1, SIGM1, SIGM2, A21,YP1,YP2,
      .        DF1,DF2, XFAC,YFAC,DX2,XX(2),DFT,YY
@@ -236,15 +239,11 @@ C
        IF(TIME==ZERO)THEN
             DO I=1,NEL0
                EPSP1(I) = ZERO
-               EPSM(I)  = ZERO
-               IF(EN<ONE)EPSM(I)=EM20
-               UVAR(I,1) = EPSM(I)
-               UVAR(I,2) = FI
-               UVAR(I,3) = YEILD0
-               UVAR(I,4) = FI
-               UVAR(I,5) = ZERO
+               PLA(I) = ZERO
+               IF (EN<ONE) PLA(I) = EM20
+               DMG(I,4) = FI
+               DMG(I,5) = FI
                YLD(I) = YEILD0
-               PLA (I) = EPSM(I)  
             ENDDO
              IF(IYEILD_TAB > 0) THEN
                DO I=1,NEL0
@@ -252,7 +251,6 @@ C
                  XX(2)=ZERO 
                  CALL TABLE_INTERP (TABLE(ITAB(1)),XX,YY) 
                  YLD(I)  = YY *YFAC
-                 UVAR(I,3) = YLD(I)
                ENDDO
              ENDIF
        ENDIF  
@@ -261,12 +259,12 @@ C-----------------------------------------------
 C
        DO I=1,NEL0
 C
-         EPSM(I) = UVAR( I , 1 )
-         FSTAR(I)= UVAR( I , 2 )
-         SIGM(I) = UVAR( I , 3 )
-         F(I)    = UVAR( I , 4 )
-         EPSP1(I)= ZERO
-         PLA(I) = EPSM(I)
+         FG(I)    = DMG(I,2)
+         FN1(I)   = DMG(I,3)
+         F(I)     = DMG(I,4)
+         FSTAR(I) = DMG(I,5)
+         SIGM(I)  = UVAR(I,1)
+         EPSP1(I) = ZERO
 C 
          SIGNXX(I) = SIGOXX(I)  + A1 * DEPSXX(I) + A2 * DEPSYY(I)
          SIGNYY(I) = SIGOYY(I)  + A2 * DEPSXX(I) + A1 * DEPSYY(I)
@@ -345,7 +343,7 @@ C.. stockage des contraintes ....
              ELSE             
                    A21 =  SIGM1 /(ONE - F(I))     
              ENDIF
-             A11 = FN*EXP(-HALF*((EPSM(I)-EPSN)/SN)**2)/SN
+             A11 = FN*EXP(-HALF*((PLA(I)-EPSN)/SN)**2)/SN
              A11 = A11*SQR22
             IF(EN/=1)THEN
               DO ITER=1,5                    
@@ -365,7 +363,7 @@ C
                 A22 = A22 * A21           
                 DCRF = - SIGM(I)*(Q3*FSTAR(I)*DF - Q1*COH*DF)*VA1
                 DCRM = - VA - THREE*VA2*PN(I)*SIGM1         
-                DSEPP = ET * EN * EPSM(I) ** (EN - ONE)*
+                DSEPP = ET * EN * PLA(I) ** (EN - ONE)*
      .           (ONE + ( EPSP(I)*CSD)**VISP)
                 DCD = C1*(D11**2 + D22**2 + D33**2) +
      .              TWO*C2*(D11*D22 + D11*D33 + D22*D33) +   
@@ -468,17 +466,16 @@ C
               ETSE( I) = DSEPP/(DSEPP+E) 
               DEZZ  =  NN1*(DP11 +DP22) + DP33
               THK(I) = THK(I) + DEZZ*THKLY(I)*OFF(I)             
-              FG  = (ONE - F(I)) * (DP11 + DP22 +DP33)
-              FN1 = A11 * EPSP1(I) 
-              EPSM(I) = EPSM(I) + EPSP1(I)
-              F(I) = F(I) + FG + FN1
+              FG(I)  = FG(I)  + (ONE - F(I)) * (DP11 + DP22 +DP33)
+              FN1(I) = FN1(I) + A11 * EPSP1(I) 
+              PLA(I) = PLA(I) + EPSP1(I)
+              F(I)   = FG(I) + FN1(I)
               IF(Q1==ZERO.AND.
      .           Q2==ZERO.AND.
      .           Q3==ZERO)F(I)=ZERO
               IF(F(I)<ZERO)F(I)=ZERO
-              SIGM(I)= (YEILD0 + ET*EPSM(I)**EN)* (1+
+              SIGM(I)= (YEILD0 + ET*PLA(I)**EN)* (1+
      .                (EPSP(I)*CSD)**VISP)           
-              PLA(I) = EPSM(I)     
 C....COMPUTE F*.....
              IF(F(I)<=FC)THEN
               FSTAR(I)=F(I)
@@ -489,11 +486,7 @@ C....COMPUTE F*.....
                FSTAR(I) =FC+(FU-FC)*(F(I)-FC)/(FF-FC)
               ENDIF
              ENDIF
-             UVAR(I,1)= EPSM(I)
-             UVAR(I,2)=FSTAR(I)
-             UVAR(I,3)=SIGM(I)
-             UVAR(I,4)=F(I)
-             UVAR(I,5)=EPSP(I)         
+             UVAR(I,1) = SIGM(I)
 c..... DEVIATORIC STRESS         
          ENDIF   
          IF(OFF(I)==ONE.AND.FSTAR(I)>=FF) OFF(I)=FOUR_OVER_5
@@ -555,7 +548,7 @@ C
           ELSE
            A21 =  SIGM1 /(ONE - F(I))
           ENDIF   
-          A11 = FN*EXP(-HALF*((EPSM(I)-EPSN)/SN)**2)/SN
+          A11 = FN*EXP(-HALF*((PLA(I)-EPSN)/SN)**2)/SN
           A11 = A11*SQR22 
 C
           IF(EN/=ONE) THEN
@@ -584,7 +577,7 @@ C
             A22 = D11*SIGNXX(I) + D22*SIGNYY(I) +
      .       THREE*(D12*SIGNXY(I)+ D13*SIGNZX(I)+ D23*SIGNYZ(I))            
             A22 = A22*A21     
-            DSEPP = ET * EN * EPSM(I) ** (EN - 1)*
+            DSEPP = ET * EN * PLA(I) ** (EN - 1)*
      .       (ONE + ( EPSP(I)*CSD)**VISP)            
             DCD = C1*(D11**2 + D22**2 + D33**2) + 
      .          TWO*C2*(D11*D22 + D11*D33 + D22*D33) +      
@@ -704,17 +697,16 @@ C
          ETSE( I) = DSEPP/(DSEPP+E) 
          DEZZ  =  NN1*(DP11 +DP22) + DP33
          THK(I) = THK(I) + DEZZ*THKLY(I)*OFF(I)                
-         FG     = (ONE - F(I))*(DP11 + DP22 + DP33)
-         FN1    = A11*EPSP1(I) 
-         EPSM(I)= EPSM(I) + EPSP1(I)
-         F(I)   = F(I) + FG + FN1
+         FG(I)  = FG(I)  + (ONE - F(I))*(DP11 + DP22 + DP33)
+         FN1(I) = FN1(I) + A11*EPSP1(I) 
+         PLA(I) = PLA(I) + EPSP1(I)
+         F(I)   = FG(I)  + FN1(I)
          IF(Q1==ZERO.and.
      .       Q2==ZERO.and.
      .       Q3==ZERO)F(I)=ZERO
          IF(F(I)<ZERO)F(I)=ZERO
-         SIGM(I)= (YEILD0 + ET*EPSM(I)**EN)*(1+
+         SIGM(I)= (YEILD0 + ET*PLA(I)**EN)*(1+
      .            (EPSP(I)*CSD)**VISP)           
-         PLA(I) = EPSM(I)
 C....COMPUTE F*.....
          IF(F(I)<=FC)THEN
           FSTAR(I) = F(I)
@@ -726,11 +718,12 @@ C....COMPUTE F*.....
           ENDIF
          ENDIF
 C
-         UVAR(I , 1) = EPSM(I)
-         UVAR(I , 2) = FSTAR(I)
-         UVAR(I , 3) = SIGM(I)
-         UVAR(I , 4) = F(I)
-         UVAR(I , 5) = EPSP(I)         
+         DMG(I,1)  = F(I)/FF
+         DMG(I,2)  = FG(I)
+         DMG(I,3)  = FN1(I)
+         DMG(I,4)  = F(I)
+         DMG(I,5)  = FSTAR(I)
+         UVAR(I,1) = SIGM(I)
 c..... DEVIATORIC STRESS         
          ENDIF
          IF(OFF(I)==ONE.AND.FSTAR(I)>=FF) OFF(I)=FOUR_OVER_5
@@ -797,7 +790,7 @@ C
           ELSE
            A21 =  SIGM1 /(ONE - F(I))
           ENDIF     
-          A11 = FN*EXP(-HALF*((EPSM(I)-EPSN)/SN)**2)/SN
+          A11 = FN*EXP(-HALF*((PLA(I)-EPSN)/SN)**2)/SN
           A11 = A11*SQR22   
           IF(EN/=ONE) THEN
            DO ITER=1,5
@@ -826,7 +819,7 @@ C
      .       THREE*(D12*SIGNXY(I)+ D13*SIGNZX(I)+ D23*SIGNYZ(I)) 
             A22 = A22*A21     
 C    
-            DSEPP = ET * EN * EPSM(I) ** (EN - ONE)*
+            DSEPP = ET * EN * PLA(I) ** (EN - ONE)*
      .       (ONE + ( EPSP(I)*CSD)**VISP)            
 C     
             DCD = C1*(D11**2 + D22**2 + D33**2) + 
@@ -948,19 +941,18 @@ C
           DEZZ  =  NN1*(DP11 +DP22) + DP33
           THK(I) = THK(I) + DEZZ*THKLY(I)*OFF(I)               
 C
-          FG     = (ONE - F(I))*(DP11 + DP22 + DP33)
-          FN1 =ZERO
-          PN(I) = (SIGNXX(I) + SIGNYY(I))*THIRD
-          IF(PN(I)>=ZERO)FN1 = A11*EPSP1(I) 
-          EPSM(I)= EPSM(I) + EPSP1(I)
-          F(I)   = F(I) + FG + FN1
+          FG(I)  = FG(I) + (ONE - F(I))*(DP11 + DP22 + DP33)
+          FN1(I) = ZERO
+          PN(I)  = (SIGNXX(I) + SIGNYY(I))*THIRD
+          IF (PN(I)>=ZERO) FN1(I) = FN1(I) + A11*EPSP1(I) 
+          PLA(I) = PLA(I) + EPSP1(I)
+          F(I)   = FG(I)  + FN1(I)
           IF(Q1==ZERO.and.
      .       Q2==ZERO.and.
      .       Q3==ZERO)F(I)=ZERO
           IF(F(I)<ZERO)F(I)=ZERO
-          SIGM(I)= (YEILD0 + ET*EPSM(I)**EN)*(ONE+
+          SIGM(I)= (YEILD0 + ET*PLA(I)**EN)*(ONE+
      .            (EPSP(I)*CSD)**VISP)           
-          PLA(I) = EPSM(I)
 C....COMPUTE F*.....
          IF(F(I)<=FC)THEN
           FSTAR(I) = F(I)
@@ -972,11 +964,12 @@ C....COMPUTE F*.....
           ENDIF
          ENDIF
 C
-         UVAR(I , 1) = EPSM(I)
-         UVAR(I , 2) = FSTAR(I)
-         UVAR(I , 3) = SIGM(I)
-         UVAR(I , 4) = F(I)
-         UVAR(I , 5) = EPSP(I)     
+         DMG(I,1)  = F(I)/FF
+         DMG(I,2)  = FG(I)
+         DMG(I,3)  = FN1(I)
+         DMG(I,4)  = F(I)
+         DMG(I,5)  = FSTAR(I)
+         UVAR(I,1) = SIGM(I)
 c..... DEVIATORIC STRESS         
          ENDIF
 C   
@@ -1040,7 +1033,7 @@ C
           ELSE             
            A21 =  SIGM1 /(ONE - F(I))     
           ENDIF
-          A11 = FN*EXP(-HALF*((EPSM(I)-EPSN)/SN)**2)/SN
+          A11 = FN*EXP(-HALF*((PLA(I)-EPSN)/SN)**2)/SN
           A11 = A11*SQR22 
 C    
           IF(EN/=1)THEN
@@ -1061,7 +1054,7 @@ C
             A22 = A22 * A21           
             DCRF = - SIGM(I)*(Q3*FSTAR(I)*DF - Q1*COH*DF)*VA1
             DCRM = - VA - THREE*VA2*PN(I)*SIGM1         
-            DSEPP = ET * EN * EPSM(I) ** (EN - 1)*
+            DSEPP = ET * EN * PLA(I) ** (EN - 1)*
      .       (ONE+ ( EPSP(I)*CSD)**VISP)            
               DCD = C1*(D11**2 + D22**2 + D33**2) +
      .            TWO*C2*(D11*D22 + D11*D33 + D22*D33) +   
@@ -1175,18 +1168,17 @@ C
           THK(I) = THK(I) + DEZZ*THKLY(I)*OFF(I)                       
 C   
           PN(I) = (SIGXX(I) + SIGYY(I))*THIRD
-          FG  = (ONE - F(I)) * (DP11 + DP22 +DP33)
-          FN1  = ZERO
-          IF(PN(I)>=ZERO)FN1 = A11*EPSP1(I) 
-          EPSM(I) = EPSM(I) + EPSP1(I)
-          F(I) = F(I) + FG + FN1
+          FG(I) = FG(I) + (ONE - F(I)) * (DP11 + DP22 +DP33)
+          FN1(I) = ZERO
+          IF (PN(I)>=ZERO) FN1(I) = FN1(I) + A11*EPSP1(I) 
+          PLA(I) = PLA(I) + EPSP1(I)
+          F(I) = FG(I) + FN1(I)
           IF(Q1==ZERO.and.
      .       Q2==ZERO.and.
      .       Q3==ZERO)F(I)=ZERO
           IF(F(I)<ZERO)F(I)=ZERO
-          SIGM(I)= (YEILD0 + ET*EPSM(I)**EN)* (ONE+
+          SIGM(I)= (YEILD0 + ET*PLA(I)**EN)* (ONE+
      .            (EPSP(I)*CSD)**VISP)                     
-          PLA(I) = EPSM(I)     
 C....COMPUTE F*.....
           IF(F(I)<=FC)THEN
            FSTAR(I)=F(I)
@@ -1197,11 +1189,12 @@ C....COMPUTE F*.....
             FSTAR(I) = FC+ (FU-FC)*(F(I)-FC)/(FF-FC)
            ENDIF
           ENDIF
-          UVAR(I,1)= EPSM(I)
-          UVAR(I,2)=FSTAR(I)
-          UVAR(I,3)=SIGM(I)
-          UVAR(I,4)=F(I)
-          UVAR(I,5)=EPSP(I)          
+          DMG(I,1)  = F(I)/FF
+          DMG(I,2)  = FG(I)
+          DMG(I,3)  = FN1(I)
+          DMG(I,4)  = F(I)
+          DMG(I,5)  = FSTAR(I)
+          UVAR(I,1) = SIGM(I)
 c..... DEVIATORIC STRESS         
          ENDIF   
          IF(OFF(I)==ONE.AND.FSTAR(I)>=FF) OFF(I)=FOUR_OVER_5
@@ -1233,13 +1226,17 @@ C tabulated law
                    R = ONE
             ENDIF ! NDIM
 C   interpolation on  the curve ---
-           XX(1) = EPSM(I)  
+           XX(1) = PLA(I)  
            XX(2) = EPSP(I)*XFAC
            CALL TABLE_INTERP_LAW76(TABLE(ITAB(1)),IPOS,XX,
      .                     R,DFT,YY) 
-            UVAR(I,3)= YFAC*YY
+           YLD(I) = YFAC*YY
+           UVAR(I,1) = YLD(I)
          ENDDO ! NEL0
        ENDIF ! IYEILD_TAB
+C
+      !< Save strain rate for output
+      EPSD(1:NEL0) = EPSP(1:NEL0)
 C          
       RETURN
       END

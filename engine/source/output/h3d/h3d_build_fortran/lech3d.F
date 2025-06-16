@@ -1930,10 +1930,10 @@ c
                       IF ((KEY3_GLOB(1:7) == 'FAILURE').AND.(CPT_IRUP > 0)) THEN
                         TEST_CHAIN = ''
                         IF (CPT_MOD > 0) THEN 
-                          WRITE(TEST_CHAIN,'(A,A,A,A)') "Failure:",TRIM(MODNAME(IRUP_H3D(K),MODES_INPUT(K))),
-     .                                                  "; FAIL ",TRIM(FAIL_NAME(IRUP_H3D(K)))
+                          WRITE(TEST_CHAIN,'(A,A,A,A)') "Failure:",TRIM(FAIL_NAME(IRUP_H3D(K))),"; ",
+     .                                                      TRIM(MODNAME(IRUP_H3D(K),MODES_INPUT(K)))
                         ELSE
-                          WRITE(TEST_CHAIN,'(A,A)') "Failure:Failure index; FAIL ",TRIM(FAIL_NAME(IRUP_H3D(K)))
+                          WRITE(TEST_CHAIN,'(A,A,A)') "Failure:",TRIM(FAIL_NAME(IRUP_H3D(K))),"; Failure index"
                         ENDIF
                         H3D_KEYWORD_SHELL_SCALAR(J)%TEXT1 = TEST_CHAIN
                       ENDIF
@@ -1943,11 +1943,11 @@ c
                       ! ---------------------------------------------------------------------------------------------
                       IF ((KEY3_GLOB(1:4) == 'DAMG').AND.(CPT_MOD > 0)) THEN
                         TEST_CHAIN = ''
-                        WRITE(TEST_CHAIN,'(A,A,A,I3)') "Damage:",TRIM(MODNAME(1,MODES_INPUT(K))),"; LAW",MLW
+                        WRITE(TEST_CHAIN,'(A,I3,A,A)') "Damage: LAW",MLW,"; ",TRIM(MODNAME(1,MODES_INPUT(K)))
                         H3D_KEYWORD_SHELL_SCALAR(J)%TEXT1 = TEST_CHAIN
                       ELSEIF ((KEY3_GLOB(1:4) == 'DAMG').AND.(CPT_LAWID > 0)) THEN
                         TEST_CHAIN = ''
-                        WRITE(TEST_CHAIN,'(A,I3)') "Damage:Damage index; LAW",MLW
+                        WRITE(TEST_CHAIN,'(A,I3,A)') "Damage: LAW",MLW,"; Damage index"
                         H3D_KEYWORD_SHELL_SCALAR(J)%TEXT1 = TEST_CHAIN
                       ELSEIF ((KEY3_GLOB(1:4) == 'DAMG').AND.(CPT_MOD == 0).AND.(CPT_LAWID == 0)) THEN 
                         H3D_KEYWORD_SHELL_SCALAR(J)%TEXT1 = "Damage:Damage index"
@@ -2211,10 +2211,10 @@ c
                       IF ((KEY3_GLOB(1:7) == 'FAILURE').AND.(CPT_IRUP > 0)) THEN
                         TEST_CHAIN = ''
                         IF (CPT_MOD > 0) THEN 
-                          WRITE(TEST_CHAIN,'(A,A,A,A)') "Failure:",TRIM(MODNAME(IRUP_H3D(K),MODES_INPUT(K))),
-     .                                                  "; FAIL ",TRIM(FAIL_NAME(IRUP_H3D(K)))
+                          WRITE(TEST_CHAIN,'(A,A,A,A)') "Failure:",TRIM(FAIL_NAME(IRUP_H3D(K))),"; ",
+     .                                                      TRIM(MODNAME(IRUP_H3D(K),MODES_INPUT(K)))
                         ELSE
-                          WRITE(TEST_CHAIN,'(A,A)') "Failure:Failure index; FAIL ",TRIM(FAIL_NAME(IRUP_H3D(K)))
+                          WRITE(TEST_CHAIN,'(A,A,A)') "Failure:",TRIM(FAIL_NAME(IRUP_H3D(K))),"; Failure index"
                         ENDIF
                         H3D_KEYWORD_SOLID_SCALAR(J)%TEXT1 = TEST_CHAIN
                       ENDIF
@@ -2224,13 +2224,13 @@ c
                       ! ---------------------------------------------------------------------------------------------
                       IF ((KEY3_GLOB(1:4) == 'DAMG').AND.(CPT_MOD > 0)) THEN
                         TEST_CHAIN = ''
-                        WRITE(TEST_CHAIN,'(A,A,A,I3)') "Damage:",TRIM(MODNAME(1,MODES_INPUT(K))),"; LAW",MLW
+                        WRITE(TEST_CHAIN,'(A,I3,A,A)') "Damage: LAW",MLW,"; ",TRIM(MODNAME(1,MODES_INPUT(K)))
                         H3D_KEYWORD_SOLID_SCALAR(J)%TEXT1 = TEST_CHAIN
                       ELSEIF ((KEY3_GLOB(1:4) == 'DAMG').AND.(CPT_LAWID > 0)) THEN
                         TEST_CHAIN = ''
-                        WRITE(TEST_CHAIN,'(A,I3)') "Damage:Damage index; LAW",MLW
+                        WRITE(TEST_CHAIN,'(A,I3,A)') "Damage: LAW",MLW,"; Damage index"
                         H3D_KEYWORD_SOLID_SCALAR(J)%TEXT1 = TEST_CHAIN
-                      ELSEIF ((KEY3_GLOB(1:4) == 'DAMG').AND.(CPT_MOD == 0).AND.(CPT_LAWID == 0)) THEN 
+                      ELSEIF ((KEY3_GLOB(1:4) == 'DAMG').AND.(CPT_MOD == 0).AND.(CPT_LAWID == 0)) THEN
                         H3D_KEYWORD_SOLID_SCALAR(J)%TEXT1 = "Damage:Damage index"
                       ENDIF     
 c
@@ -2348,10 +2348,10 @@ C--------------------------------------------------
                     DO K=1,CPT_H3D
                       TEST_CHAIN = ''
                       IF (CPT_MOD > 0) THEN 
-                        WRITE(TEST_CHAIN,'(A,A,A,A)') "Failure:",TRIM(MODNAME(IRUP_H3D(K),MODES_INPUT(K))),
-     .                                                "; FAIL ",TRIM(FAIL_NAME(IRUP_H3D(K)))
+                        WRITE(TEST_CHAIN,'(A,A,A,A)') "Failure:",TRIM(FAIL_NAME(IRUP_H3D(K))),"; ",
+     .                                                    TRIM(MODNAME(IRUP_H3D(K),MODES_INPUT(K)))
                       ELSE
-                        WRITE(TEST_CHAIN,'(A,A)') "Failure:Failure index; FAIL ",TRIM(FAIL_NAME(IRUP_H3D(K)))
+                        WRITE(TEST_CHAIN,'(A,A,A)') "Failure:",TRIM(FAIL_NAME(IRUP_H3D(K))),"; Failure index"
                       ENDIF
                       H3D_KEYWORD_SPH_SCALAR(J)%TEXT1 = TEST_CHAIN
                       CALL CREATE_H3D_SPH_SCALAR(H3D_DATA,H3D_KEYWORD_SPH_SCALAR(J)%ID,ID_INPUT,
@@ -2622,10 +2622,10 @@ c
                     IF ((KEY3_GLOB(1:7) == 'FAILURE').AND.(CPT_IRUP > 0)) THEN
                       TEST_CHAIN = ''
                       IF (CPT_MOD > 0) THEN 
-                        WRITE(TEST_CHAIN,'(A,A,A,A)') "Failure:",TRIM(MODNAME(IRUP_H3D(K),MODES_INPUT(K))),
-     .                                                "; FAIL ",TRIM(FAIL_NAME(IRUP_H3D(K)))
+                        WRITE(TEST_CHAIN,'(A,A,A,A)') "Failure:",TRIM(FAIL_NAME(IRUP_H3D(K))),"; ",
+     .                                                    TRIM(MODNAME(IRUP_H3D(K),MODES_INPUT(K)))
                       ELSE
-                        WRITE(TEST_CHAIN,'(A,A)') "Failure:Failure index; FAIL ",TRIM(FAIL_NAME(IRUP_H3D(K)))
+                        WRITE(TEST_CHAIN,'(A,A,A)') "Failure:",TRIM(FAIL_NAME(IRUP_H3D(K))),"; Failure index"
                       ENDIF
                       H3D_KEYWORD_QUAD_SCALAR(J)%TEXT1 = TEST_CHAIN
                     ENDIF
