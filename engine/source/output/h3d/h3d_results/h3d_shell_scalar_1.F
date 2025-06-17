@@ -43,8 +43,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    stack_mod                      ../engine/share/modules/stack_mod.F
       !||====================================================================
       SUBROUTINE H3D_SHELL_SCALAR_1( CALLED_FROM_PYTHON,
-     .                  ELBUF_TAB       ,SHELL_SCALAR,IPARG     ,GEO        ,
-     .                  IXC             ,IXTG        ,PM        ,BUFMAT     ,
+     .                  ELBUF_TAB       ,SHELL_SCALAR ,IPARG     ,GEO        ,
+     .                  IXC             ,IXTG           ,PM        ,BUFMAT     ,
      .                  EHOUR           ,
      .                  IPM             ,IGEO        ,THKE      ,ERR_THK_SH4 ,ERR_THK_SH3,
      .                  X               ,V           ,W         ,ALE_CONNECT,
@@ -53,7 +53,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .                  PLY_INPUT       ,IUVAR_INPUT ,H3D_PART  ,KEYWORD     ,
      .                  D               ,NG          ,MULTI_FVM ,IDMDS       ,IMDSVAR    ,
      .                  MDS_MATID       ,ID          ,MODE      ,MATPARAM    ,
-     .                  H3D_LIGHT       )
+     .                  H3D_LIGHT       ,SHELL_STACK ,MAX_SHELL_STACKSIZE    ,SHELL_STACKSIZE)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -95,6 +95,9 @@ C-----------------------------------------------
      .     IS_WRITTEN_SHELL(*),IPARTC(NUMELC),IPARTTG(NUMELTG),H3D_PART(*),
      .     LAYER_INPUT ,IPT_INPUT,PLY_INPUT,IUVAR_INPUT,NG,IDMDS,ID,
      .     MDS_MATID(*),IMDSVAR
+        INTEGER ,INTENT(INOUT):: SHELL_STACKSIZE
+        INTEGER, INTENT(IN) :: MAX_SHELL_STACKSIZE                                   ! Size of SHELL_STACK / Output for H3D 
+        REAL(KIND=4),DIMENSION(MAX_SHELL_STACKSIZE),INTENT(INOUT)  :: SHELL_STACK    ! SHELL_STACK for H3D / Output for H3D 
         TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_TAB
         TYPE (STACK_PLY) :: STACK
         CHARACTER(NCHARLINE100)::KEYWORD
@@ -265,7 +268,7 @@ C---------------------
             DO I=1,NEL
               VALUE(I) = ZERO
               IF(.NOT. CALLED_FROM_PYTHON) THEN 
-                SHELL_SCALAR(OFFSET+NFT+I) = ZERO   ! Default = zero in all cases !
+                SHELL_STACK(OFFSET+NFT+I) = ZERO   ! Default = zero in all cases !
               ELSE
                 SHELL_SCALAR(1:MVSIZ) = ZERO
               ENDIF
@@ -6495,7 +6498,8 @@ C--------------------------------------------------
                   ENDIF
                 ENDDO
               ENDIF
-              CALL H3D_WRITE_SCALAR(IOK_PART,IS_WRITTEN_SHELL,SHELL_SCALAR,NEL,OFFSET,NFT,VALUE,IS_WRITTEN_VALUE)
+              CALL H3D_WRITE_SCALAR_STACK(IOK_PART,IS_WRITTEN_SHELL,SHELL_STACK,NEL,OFFSET,NFT,VALUE,
+     *               IS_WRITTEN_VALUE,SHELL_STACKSIZE)
             ENDIF
           ENDIF  ! ITY
 c

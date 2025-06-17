@@ -51,7 +51,7 @@
       subroutine prelech3d(                                                    &
         numgeo   ,npropgi  ,npropmi  ,nummat   ,numply   ,igeo     ,           &
         ipm      ,h3d_data ,multi_fvm,mds_output_table   ,mds_nmat ,           &
-        max_depvar,      mds_ndepsvar,mat_param) 
+        max_depvar,      mds_ndepsvar,mat_param,numsphg) 
 !-----------------------------------------------
 !   M o d u l e s
 !-----------------------------------------------
@@ -80,6 +80,7 @@
         integer, intent(in) :: npropmi
         integer, intent(in) :: nummat
         integer, intent(in) :: numply
+        integer, intent(in) :: numsphg                      ! total number of sph elements
         integer, dimension(npropgi,numgeo)  :: igeo
         integer, dimension(npropmi,nummat)  :: ipm
         type (h3d_database), intent(inout)  :: h3d_data
@@ -110,7 +111,7 @@
         character(len=ncharkey) :: key2,key3,key4,key5,key6,key7,key8,         &
           key2_read
         character(len=ncharline100) :: key3_read,key3_glob
-        integer :: nunits,sizetot
+        integer :: nunits,sizetot,ndef
 !===============================================================================
 !
         !< Local variables initialization
@@ -631,12 +632,19 @@
         enddo  
 ! 
         !< Allocation of the output list
+
+        !< SPH has 2 default outputs
+        if (numsphg > 0) then
+            ndef=2
+        else
+            ndef=0
+        endif
         if (h3d_data%n_input_h3d > 0) then 
-          sizetot = max(sizetot,10000)
+          sizetot = max(sizetot+ndef,10000)
           allocate(h3d_data%output_list(sizetot))
           h3d_data%output_list(1:sizetot)%ok = 0
         else
-          allocate(h3d_data%output_list(1))
+          allocate(h3d_data%output_list(1+ndef))
         endif
 !
         end subroutine prelech3d
