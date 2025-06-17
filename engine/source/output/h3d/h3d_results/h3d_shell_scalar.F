@@ -38,17 +38,18 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    stack_mod                    ../engine/share/modules/stack_mod.F
       !||====================================================================
       SUBROUTINE H3D_SHELL_SCALAR(
-     .                  ELBUF_TAB   ,SHELL_SCALAR,IPARG       ,GEO        ,
-     .                  IXC         ,IXTG      ,PM          ,BUFMAT     ,
+     .                  ELBUF_TAB   ,SHELL_STACK   ,IPARG       ,GEO   ,
+     .                  IXC         ,IXTG          ,PM          ,BUFMAT, 
      .                  EHOUR       ,
      .                  IPM         ,IGEO      ,THKE      ,ERR_THK_SH4 ,ERR_THK_SH3,
      .                  X         ,V         ,W           ,ALE_CONNECT,
      .                  NERCVOIS  ,NESDVOIS  ,LERCVOIS    ,LESDVOIS,
-     .                  STACK       ,ID_ELEM   ,ITY_ELEM  ,
+     .                  STACK       ,ID_ELEM   ,ITY_ELEM  , 
      .                  IS_WRITTEN_SHELL,IPARTC,IPARTTG   ,LAYER_INPUT ,IPT_INPUT  ,
      .                  PLY_INPUT   ,IUVAR_INPUT,H3D_PART  ,KEYWORD    ,ITHERM     ,
      .                  D           , MULTI_FVM ,IDMDS    ,IMDSVAR     ,MDS_MATID  ,
-     .                  ID          ,MODE      ,MAT_PARAM ,H3D_LIGHT   )
+     .                  ID          ,MODE      ,MAT_PARAM ,H3D_LIGHT   ,MAX_SHELL_STACKSIZE,
+     .                  SHELL_STACKSIZE)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -78,8 +79,11 @@ C SNERCVOIS, SNESDVOIS, SLERCVOIS, SLESDVOIS
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+        INTEGER, INTENT(IN) :: MAX_SHELL_STACKSIZE
+        REAL(KIND=4),DIMENSION(MAX_SHELL_STACKSIZE) :: SHELL_STACK
+        INTEGER , INTENT(INOUT) :: SHELL_STACKSIZE
         my_real
-     .     SHELL_SCALAR(*),X(3,NUMNOD),V(3,NUMNOD),W(3,NUMNOD),D(3,NUMNOD),THKE(*),EHOUR(*),GEO(NPROPG,NUMGEO),
+     .     X(3,NUMNOD),V(3,NUMNOD),W(3,NUMNOD),D(3,NUMNOD),THKE(*),EHOUR(*),GEO(NPROPG,NUMGEO),
      .     PM(NPROPM,NUMMAT),ERR_THK_SH4(NUMELC), ERR_THK_SH3(NUMELTG)
         INTEGER, INTENT(IN) :: ITHERM
         INTEGER IPARG(NPARG,NGROUP),IXC(NIXC,NUMELC),IXTG(NIXTG,NUMELTG),
@@ -100,13 +104,14 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
+        my_real, DIMENSION(1) :: SCALAR_RESULTS
         INTEGER II,NG
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
-        DO II=1,NUMELC+NUMELTG
-          IS_WRITTEN_SHELL(II) = 0
-        ENDDO
+c        DO II=1,NUMELC+NUMELTG
+c          IS_WRITTEN_SHELL(II) = 0
+c        ENDDO
 C-----------------------------------------------
 
         !-------------------------------------------------------!
@@ -124,7 +129,7 @@ C-----------------------------------------------
         !-------------------------------------------------------!
         DO NG=1,NGROUP
           CALL H3D_SHELL_SCALAR_1(.FALSE.,
-     .                     ELBUF_TAB   ,SHELL_SCALAR,IPARG       ,GEO        ,
+     .                     ELBUF_TAB   ,SCALAR_RESULTS,IPARG       ,GEO        ,
      .                     IXC       ,IXTG      ,PM          ,BUFMAT     ,
      .                     EHOUR       ,
      .                     IPM         ,IGEO      ,THKE      ,ERR_THK_SH4 ,ERR_THK_SH3,
@@ -134,7 +139,7 @@ C-----------------------------------------------
      .                     PLY_INPUT   ,IUVAR_INPUT,H3D_PART  ,KEYWORD    ,
      .                     D           ,NG         ,MULTI_FVM,IDMDS       ,IMDSVAR    ,
      .                     MDS_MATID   ,ID         ,MODE     ,MAT_PARAM   ,
-     .                     H3D_LIGHT   )
+     .                     H3D_LIGHT   ,SHELL_STACK ,MAX_SHELL_STACKSIZE,SHELL_STACKSIZE)
 
         ENDDO
 C-----------------------------------------------

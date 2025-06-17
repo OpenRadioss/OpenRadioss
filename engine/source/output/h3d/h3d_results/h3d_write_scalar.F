@@ -59,6 +59,49 @@ C
       RETURN
       END
       !||====================================================================
+      !||    h3d_write_scalar     ../engine/source/output/h3d/h3d_results/h3d_write_scalar.F
+      !||--- called by ------------------------------------------------------
+      !||    h3d_nodal_scalar     ../engine/source/output/h3d/h3d_results/h3d_nodal_scalar.F
+      !||    h3d_oned_scalar      ../engine/source/output/h3d/h3d_results/h3d_oned_scalar.F90
+      !||    h3d_quad_scalar_1    ../engine/source/output/h3d/h3d_results/h3d_quad_scalar_1.F90
+      !||    h3d_shell_scalar_1   ../engine/source/output/h3d/h3d_results/h3d_shell_scalar_1.F
+      !||    h3d_solid_scalar_1   ../engine/source/output/h3d/h3d_results/h3d_solid_scalar_1.F
+      !||    h3d_sph_scalar       ../engine/source/output/h3d/h3d_results/h3d_sph_scalar.F
+      !||====================================================================
+      SUBROUTINE H3D_WRITE_SCALAR_STACK(
+     .                  IOK_PART  ,IS_WRITTEN ,SCALAR ,NEL ,OFFSET ,NFT,
+     .                  VALUE,IS_WRITTEN_VALUE,SHELL_SCALAR_STACK)
+C-----------------------------------------------
+C   I m p l i c i t   T y p e s
+C-----------------------------------------------
+#include      "implicit_f.inc"
+C-----------------------------------------------
+C   D u m m y   A r g u m e n t s
+C-----------------------------------------------
+      INTEGER,INTENT(INOUT):: SHELL_SCALAR_STACK
+      REAL(KIND=4) :: SCALAR(*)
+      my_real
+     .  VALUE(*)
+      INTEGER IOK_PART(*),IS_WRITTEN(*),IS_WRITTEN_VALUE(*)
+      INTEGER NEL,OFFSET,NFT
+C-----------------------------------------------
+C   L o c a l   V a r i a b l e s
+C-----------------------------------------------
+      INTEGER I
+C-----------------------------------------------
+C
+      DO I=1,NEL
+        IF(IOK_PART(I) == 1 .AND. IS_WRITTEN_VALUE(I) == 1) THEN
+           SHELL_SCALAR_STACK = SHELL_SCALAR_STACK + 1
+           SCALAR(SHELL_SCALAR_STACK) = VALUE(I)
+           IS_WRITTEN(SHELL_SCALAR_STACK)= OFFSET+NFT+I
+        ENDIF
+        VALUE(I) = ZERO
+      ENDDO
+ 
+      RETURN
+      END
+      !||====================================================================
       !||    h3d_write_scalar_real   ../engine/source/output/h3d/h3d_results/h3d_write_scalar.F
       !||====================================================================
       SUBROUTINE H3D_WRITE_SCALAR_REAL(

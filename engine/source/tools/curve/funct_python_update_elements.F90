@@ -174,9 +174,14 @@
           integer :: mode
           integer :: ity
           character(len=ncharline100) :: keyword
+          real(kind=4),dimension(1) :: shell_stack !< shell scalar stack // Need for H3D Only
+          integer :: max_shell_stacksize !< dimension of shell_stack     // Need for H3D Only
+          integer :: shell_stakcksize !< number of shell scalar to write // Need for H3D Only
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                      Body
 ! ----------------------------------------------------------------------------------------------------------------------
+          max_shell_stacksize = 1
+          shell_stakcksize = 0
           if(py%elements%global%n > 0) then
             !-----------------------------------------------------------!
             ! stubs for h3d keywords not available from Python functions
@@ -229,7 +234,8 @@
                 &       is_written,ipartc,iparttg   ,layer_input ,ipt_input  ,       &
                 &       ply_input   ,iuvar_input,h3d_part  ,keyword    ,                   &
                 &       nodes%d     ,ng         ,multi_fvm,idmds       ,imdsvar    ,       &
-                &       mds_matid   ,id         ,mode     ,mat_param   ,0          )
+                &       mds_matid   ,id         ,mode     ,mat_param   ,                   &
+                &       0           ,shell_stack, max_shell_stacksize, shell_stakcksize)
               elseif (ity == 1) then ! solid
                 call h3d_solid_scalar_1(.true.,                                              &
                 &         elbuf_tab       ,scalar_results ,iparg       ,                      &

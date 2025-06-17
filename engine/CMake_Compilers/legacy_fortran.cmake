@@ -423,6 +423,7 @@ set_source_files_properties( ${source_directory}/source/output/h3d/spmd/spmd_h3d
 set_source_files_properties( ${source_directory}/source/output/h3d/spmd/spmd_h3d_sum_r_nodal_value.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
 set_source_files_properties( ${source_directory}/source/output/h3d/spmd/spmd_h3d_gather_r_nodal_value.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
 set_source_files_properties( ${source_directory}/source/output/h3d/spmd/spmd_h3d_gather_i_node_part.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
+set_source_files_properties( ${source_directory}/source/output/h3d/spmd/h3d_gather_id_val.F90 PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
 set_source_files_properties( ${source_directory}/source/output/h3d/h3d_build_fortran/h3d_create_datatype.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
 set_source_files_properties( ${source_directory}/source/output/h3d/h3d_build_fortran/create_h3d_1d_scalar.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
 set_source_files_properties( ${source_directory}/source/output/h3d/h3d_build_fortran/create_h3d_shell_vector.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )

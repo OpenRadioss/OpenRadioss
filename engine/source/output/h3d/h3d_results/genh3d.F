@@ -235,7 +235,8 @@ C-----------------------------------------------
         USE OUTMAX_MOD
         USE DRAPE_MOD
         use glob_therm_mod
-        USE PBLAST_MOD
+        USE PBLAST_MOD 
+        USE h3d_gather_id_val_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -349,6 +350,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
+        INTEGER iterator
         my_real, DIMENSION(:), ALLOCATABLE :: WAFT  , MAS   
         INTEGER IAD(SIAD),INVERT(SINVERT),EL2FA(SEL2FA),IADG(NSPMD,SIADG),FIRST_NODE_IG3D
         my_real ,DIMENSION (:), ALLOCATABLE :: CBUF
@@ -427,6 +429,11 @@ c a mettre en allocatable
         INTEGER :: IAD_H3DPART,IAD_P,NUMNODG0,IP0 ,NIXSKIN
         INTEGER :: NUMNOD_P(NSPMD)
         INTEGER MAX_NOD_ID,MAX_NCORN
+        REAL(KIND=4), DIMENSION(:), ALLOCATABLE :: SHELL_STACK
+        REAL(KIND=4), DIMENSION(:), ALLOCATABLE :: SHELL_STACK_P
+        INTEGER,DIMENSION(NSPMD) ::  GATHER_SIZE
+        INTEGER,DIMENSION(NSPMD) ::  TMP_OFFSETS
+        INTEGER,DIMENSION(NSPMD+1) ::  SH_TRIA_SPMD_OFFSETS
         my_real, DIMENSION(:), ALLOCATABLE :: NODAL_SCALAR,NODAL_SCALAR_P,
      .                                        NODAL_VECTOR,NODAL_VECTOR_P,
      .                                        NODAL_TENSOR,NODAL_TENSOR_P,
@@ -434,7 +441,7 @@ c a mettre en allocatable
      .                                        ONED_VECTOR,ONED_VECTOR_P,
      .                                        ONED_TENSOR,ONED_TENSOR_P,
      .                                        ONED_TORSOR,ONED_TORSOR_P,
-     .                                        SHELL_SCALAR,SHELL_SCALAR_P,
+     .                                        SHELL_SCALAR_P,SHELL_SCALAR,
      .                                        SHELL_VECTOR,SHELL_VECTOR_P,
      .                                        SHELL_TENSOR,SHELL_TENSOR_P,
      .                                        SOLID_SCALAR,SOLID_SCALAR_P,
@@ -490,9 +497,14 @@ c a mettre en allocatable
 
         TYPE(USER_NOD_ID_) :: USER_NOD_ID
         INTEGER SZ_ANIN
+        INTEGER :: MAX_SHELL_STACKSIZE          ! Maximum number of shell scalar to write
+        INTEGER :: SHELL_STACKSIZE              ! Number of shell scalar to write
+        INTEGER :: SHELL_STACKSIZE_P0           ! total shell scalar to write after gather
+        integer elem
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
+        MAX_SHELL_STACKSIZE = NUMELC + NUMELTG
         CALL STARTIME(TIMERS,MACRO_TIMER_GENH3D)
 
         USER_NOD_ID%INPUT_MAX=0
@@ -1779,6 +1791,8 @@ c
 c
 c
         ALLOCATE(SHELL_SCALAR(NUMELC+NUMELTG))
+        ALLOCATE(SHELL_STACK(MAX_SHELL_STACKSIZE))
+        ALLOCATE(SHELL_STACK_P(NUMELCG+NUMELTGG))        
         ALLOCATE(SHELL_VECTOR(3*(NUMELC+NUMELTG)))
         ALLOCATE(SHELL_TENSOR(3*(NUMELC+NUMELTG)))
         ALLOCATE(SHELL_ID(NUMELC+NUMELTG))
@@ -1926,6 +1940,17 @@ c
           CALL SPMD_H3D_GATHER_I(SHELL_ID,NUMELC+NUMELTG,SHELL_ID_P,NUMELCG+NUMELTGG)
           CALL SPMD_H3D_GATHER_I(SHELL_ITY,NUMELC+NUMELTG,SHELL_ITY_P,NUMELCG+NUMELTGG)
           CALL SPMD_H3D_GATHER_R(SHELL_SCALAR,NUMELC+NUMELTG,SHELL_SCALAR_P,NUMELCG+NUMELTGG)
+
+          ! Gather number of Shell & Triangle elements per processor
+          ! Permits to compute an Offset for H3D Scalar values
+          CALL SPMD_GATHER_INT(NUMELC+NUMELTG,TMP_OFFSETS,IT_SPMD(1),1,NSPMD)
+          IF (ISPMD == 0) THEN
+             SH_TRIA_SPMD_OFFSETS(1) = 0
+             DO I=2,NSPMD+1
+                SH_TRIA_SPMD_OFFSETS(I) = SH_TRIA_SPMD_OFFSETS(I-1) + TMP_OFFSETS(I-1)
+             ENDDO
+          ENDIF
+          ! --------------------------------------------------------------------------
           CALL STOPTIME(TIMERS,MACRO_TIMER_SPMDH3D)
         ELSE
           SHELL_ID_P(1:NUMELC+NUMELTG) =  SHELL_ID(1:NUMELC+NUMELTG)
@@ -2544,9 +2569,10 @@ c         IF(ISPMD == 0)  print *,'shell scalar',N_OUTP_DATA,'IFUNC',IFUNC,'INFO
 
 c         IF(ISPMD == 0)  print *,'H3D_DATA%OUTPUT_LIST(I)%PART',H3D_DATA%OUTPUT_LIST(I)%PART(1:NPART)
 
+            SHELL_STACKSIZE = 0
             CALL H3D_SHELL_SCALAR(
-     .                       ELBUF_TAB ,SHELL_SCALAR ,IPARG        ,GEO        ,
-     .                       IXC       ,IXTG          ,PM           ,BUFMAT     ,
+     .                       ELBUF_TAB ,SHELL_STACK ,IPARG        ,GEO        ,
+     .                       IXC       ,IXTG          ,PM         ,BUFMAT     ,
      .                       EANI,
      .                       IPM       ,IGEO      ,THKE          ,ERR_THK_SH4  ,ERR_THK_SH3,
      .                       X         ,V             ,W            ,ALE_CONNECT,
@@ -2555,26 +2581,42 @@ c         IF(ISPMD == 0)  print *,'H3D_DATA%OUTPUT_LIST(I)%PART',H3D_DATA%OUTPUT
      .                       IS_WRITEN_SHELL,IPARTC ,IPARTTG     ,LAYER        ,IPT        ,
      .                       ID_PLY     ,IUVAR ,H3D_DATA%OUTPUT_LIST(I)%PART,KEYWORD,GLOB_THERM%ITHERM,
      .                       D          ,MULTI_FVM ,IDMDS        ,IMDSVAR      ,MDS_MATID  ,
-     .                       OBJECT_ID  ,MODE      ,MAT_PARAM    ,H3D_DATA%LIGHT)
+     .                       OBJECT_ID  ,MODE      ,MAT_PARAM    ,H3D_DATA%LIGHT,MAX_SHELL_STACKSIZE,
+     .                       SHELL_STACKSIZE)
 
 c
+           
+            if (ispmd==0) then
+                IS_WRITEN_SHELL_P(1:SHELL_STACKSIZE) =  IS_WRITEN_SHELL(1:SHELL_STACKSIZE)
+                SHELL_STACK_P(1:SHELL_STACKSIZE) =  SHELL_STACK(1:SHELL_STACKSIZE)
+                SHELL_STACKSIZE_P0 = SHELL_STACKSIZE
+            else
+                SHELL_STACKSIZE_P0 = 1
+            endif
             IF (NSPMD > 1 ) THEN
-              CALL STARTIME(TIMERS,MACRO_TIMER_SPMDH3D)
-              CALL SPMD_H3D_GATHER_I(IS_WRITEN_SHELL,NUMELC+NUMELTG,IS_WRITEN_SHELL_P,NUMELCG+NUMELTGG)
-              CALL SPMD_H3D_GATHER_R(SHELL_SCALAR,NUMELC+NUMELTG,SHELL_SCALAR_P,NUMELCG+NUMELTGG)
-              CALL STOPTIME(TIMERS,MACRO_TIMER_SPMDH3D)
-            ELSE
-              IS_WRITEN_SHELL_P(1:NUMELC+NUMELTG) =  IS_WRITEN_SHELL(1:NUMELC+NUMELTG)
-              SHELL_SCALAR_P(1:NUMELC+NUMELTG) =  SHELL_SCALAR(1:NUMELC+NUMELTG)
+               CALL STARTIME(TIMERS,MACRO_TIMER_SPMDH3D)
+
+               ! First Gather the size of the shell+triangle stack
+               CALL SPMD_GATHER_INT(SHELL_STACKSIZE,GATHER_SIZE,IT_SPMD(1),1,NSPMD)
+
+               ! Then gather the shell+triangle stack to P0 & apply elemen offset
+               ! to fit with P0 order
+               CALL H3D_GATHER_ID_VAL(IS_WRITEN_SHELL,SHELL_STACK,SHELL_STACKSIZE,
+     *           IS_WRITEN_SHELL_P,SHELL_STACK_P,NUMELCG+NUMELTGG,
+     *           SHELL_STACKSIZE_P0,GATHER_SIZE,SH_TRIA_SPMD_OFFSETS,NSPMD,ISPMD,IT_SPMD)      
+
+               CALL STOPTIME(TIMERS,MACRO_TIMER_SPMDH3D)
             ENDIF
 c
             IF(ISPMD == 0) THEN
+
               CALL STARTIME(TIMERS,MACRO_TIMER_LIBH3D)
               CALL C_H3D_UPDATE_SHELL_SCALAR(TT,H3D_DATA%IH3D,ITAB,NUMNOD,IXC_P,
      .                             NIXC,NUMELCG,IPARTC,IXTG,NIXTG,
-     .                             NUMELTGG,IPARTTG,SHELL_SCALAR_P,SHELL_ID_P,
+     .                             NUMELTGG,IPARTTG,SHELL_STACK_P,SHELL_ID_P,
      .                             N_OUTP_DATA,SHELL_ITY_P,NUMELS,
-     .                             NUMELQ,NUMELT,NUMELP,NUMELR,IS_WRITEN_SHELL_P)
+     .                             NUMELQ,NUMELT,NUMELP,NUMELR,IS_WRITEN_SHELL_P,
+     .                             SHELL_STACKSIZE_P0)
               CALL STOPTIME(TIMERS,MACRO_TIMER_LIBH3D)
 
             ENDIF
