@@ -129,11 +129,11 @@ C Type 25 E2E:
 C
       my_real
      .        VDT, X1, X2, X3, X4,X9, X10, X11, X12, XC, AN, AX,
-     .        D4, BN, BX, CN, CX, D8, DN, DX, STARTT, STOPT, TS
+     .        D4, BN, BX, CN, CX, D8, DN, DX, STARTT, STOPT, TS,INTAREA_FIC
       my_real       ,DIMENSION(:), ALLOCATABLE :: BBUFS, BBUFR
 C type 25
       INTEGER IEDGE,LEN25E
-      INTEGER I1,I2,IE,JE
+      INTEGER I1,I2,IE,JE,IG
       DOUBLE PRECISION
      *   ZERODP
       DATA MSGOFF/161/
@@ -183,8 +183,10 @@ C
          NIN = INTLIST(II)
          NTY = IPARI(7,NIN)
          NISUB = IPARI(36,NIN)
-         IF((NTY == 25.OR.NTY==24).AND.INTERFACES%PARAMETERS%INTCAREA > 0.AND.NISUB > 0) THEN
-              IFSUB_CAREA = .TRUE.
+         IF(NTY == 25.AND.INTERFACES%PARAMETERS%INTCAREA > 0.AND.NISUB > 0) THEN ! if Carea output for TH and subinterfaces
+            IFSUB_CAREA = .TRUE.
+        ELSEIF(NTY==24.AND.INTERFACES%PARAMETERS%INTCAREA > 0) THEN ! if Carea output for TH and subinterfaces
+            IFSUB_CAREA = .TRUE.
          ENDIF
       ENDDO
 C
@@ -286,7 +288,7 @@ c              IF(NTY == 24 .AND. INTNITSCHE > 0 ) LENI = LENI + 3
               IF(NB>0) THEN
                 L = L + NB*LENI
               ENDIF
-              IF((NTY == 25.OR.NTY==24).AND.INTERFACES%PARAMETERS%INTCAREA > 0.AND.NISUB > 0) THEN
+              IF(((NTY == 25.AND.NISUB > 0).OR.NTY==24).AND.INTERFACES%PARAMETERS%INTCAREA > 0) THEN
                   IFSUB_CAREA = .TRUE.
                   IF(NB>0) THEN
                      L = L + NB
@@ -359,7 +361,9 @@ C
                 INACTI = IPARI(22,NIN)           
                 INTNITSCHE = IPARI(86,NIN)
                 IFSUB_CAREA = .FALSE.
-                IF((NTY == 25.OR.NTY==24).AND.INTERFACES%PARAMETERS%INTCAREA > 0.AND.NISUB > 0) THEN ! if Carea output for TH and subinterfaces
+                IF(NTY == 25.AND.INTERFACES%PARAMETERS%INTCAREA > 0.AND.NISUB > 0) THEN ! if Carea output for TH and subinterfaces
+                    IFSUB_CAREA = .TRUE.
+                ELSEIF(NTY==24.AND.INTERFACES%PARAMETERS%INTCAREA > 0) THEN ! if Carea output for TH and subinterfaces
                     IFSUB_CAREA = .TRUE.
                 ENDIF
 
@@ -489,6 +493,18 @@ C T24 E2E fictive nodes have ID higher than Numnod. Position & Mass are stored i
                   ENDIF
                   ! ---------------------------------
                  ENDIF
+
+                 IF(IFSUB_CAREA) THEN
+                    DO I = 1, NB
+                      N=NSVSI(NIN)%P(IDEB+I)
+                      NOD = INTBUF_TAB(NIN)%NSV(N)
+                      IF(NOD <= NUMNOD)THEN
+                         BBUFS(L+1) = INTERFACES%PARAMETERS%INTAREAN(NOD) 
+                         L = L +1 
+                      ENDIF                      
+                    ENDDO
+
+                  ENDIF
 C
                 ELSEIF((NTY== 7.AND.INTTH>0).OR.
      .                 (NTY==25.AND.INTTH>0).OR.
@@ -599,6 +615,18 @@ C
                   ! ---------------------------------
                  ENDIF ! dst_cst /=0
                  ! ---------------------------------
+
+                 IF(IFSUB_CAREA) THEN
+                    DO I = 1, NB
+                      N=NSVSI(NIN)%P(IDEB+I)
+                      NOD = INTBUF_TAB(NIN)%NSV(N)
+                      IF(NOD <= NUMNOD)THEN
+                         BBUFS(L+1) = INTERFACES%PARAMETERS%INTAREAN(NOD) 
+                         L = L +1 
+                      ENDIF                      
+                    ENDDO
+
+                  ENDIF
 C--------Nitsche
                 ELSEIF(NTY==24 .AND. INTTH ==0.AND.INTNITSCHE > 0) THEN
                  IF(DT_CST/=0)THEN
@@ -693,6 +721,18 @@ C T24 E2E fictive nodes have ID higher than Numnod. Position & Mass are stored i
                       POINT = 6
                   ENDIF
                  ENDIF
+
+                 IF(IFSUB_CAREA) THEN
+                    DO I = 1, NB
+                      N=NSVSI(NIN)%P(IDEB+I)
+                      NOD = INTBUF_TAB(NIN)%NSV(N)
+                      IF(NOD <= NUMNOD)THEN
+                         BBUFS(L+1) = INTERFACES%PARAMETERS%INTAREAN(NOD) 
+                         L = L +1 
+                      ENDIF                      
+                    ENDDO
+
+                  ENDIF
 C
 
 C----Nitsche
@@ -791,8 +831,8 @@ C
                     DO I = 1, NB
                       N=NSVSI(NIN)%P(IDEB+I)
                       NOD = INTBUF_TAB(NIN)%NSV(N)
-                      IF(NOD > NUMNOD)THEN
-                         BBUFS(L+1) = INTERFACES%PARAMETERS%INTAREAN(NOD)     
+                      IF(NOD <= NUMNOD)THEN
+                         BBUFS(L+1) = INTERFACES%PARAMETERS%INTAREAN(NOD) 
                          L = L +1 
                       ENDIF                      
                     ENDDO
@@ -2073,7 +2113,9 @@ C            DO NIN = 1, NINTER
                 INTTH = IPARI(47,NIN)
                 INTNITSCHE = IPARI(86,NIN)
                 IFSUB_CAREA = .FALSE.
-                IF((NTY == 25.OR.NTY==24).AND.INTERFACES%PARAMETERS%INTCAREA > 0.AND.NISUB > 0) THEN ! if Carea output for TH and subinterfaces
+                IF(NTY == 25.AND.INTERFACES%PARAMETERS%INTCAREA > 0.AND.NISUB > 0) THEN ! if Carea output for TH and subinterfaces
+                    IFSUB_CAREA = .TRUE.
+                ELSEIF(NTY==24.AND.INTERFACES%PARAMETERS%INTCAREA > 0) THEN ! if Carea output for TH and subinterfaces
                     IFSUB_CAREA = .TRUE.
                 ENDIF
                 IF((NTY==7.AND.INTTH == 0).OR.NTY==10.OR.
@@ -2138,6 +2180,13 @@ C            DO NIN = 1, NINTER
                     POINT=3
                   ENDIF
                  ENDIF
+
+                  IF(IFSUB_CAREA) THEN
+                      DO I = 1, NB
+                        INTAREANFI(NIN)%P(I+IDEB) = BBUFR(L+1)
+                        L = L + 1
+                      ENDDO
+                  ENDIF
 C
                 ELSEIF((NTY ==7  .AND. INTTH > 0 ).OR.
      .                 (NTY ==25 .AND. INTTH > 0 ).OR.
@@ -2206,7 +2255,12 @@ C
                     ENDIF
                    ENDIF
 
-
+                  IF(IFSUB_CAREA) THEN
+                      DO I = 1, NB
+                        INTAREANFI(NIN)%P(I+IDEB) = BBUFR(L+1)
+                        L = L + 1
+                      ENDDO
+                  ENDIF
 
 C--- Nitsche
                 ELSEIF(NTY==24.AND.INTTH == 0.AND.INTNITSCHE > 0)THEN
@@ -2279,6 +2333,13 @@ C--- Nitsche
                     POINT=6
                   ENDIF
                  ENDIF
+
+                  IF(IFSUB_CAREA) THEN
+                      DO I = 1, NB
+                        INTAREANFI(NIN)%P(I+IDEB) = BBUFR(L+1)
+                        L = L + 1
+                      ENDDO
+                  ENDIF
 C
                 ELSEIF(NTY==24.AND.INTTH > 0.AND.INTNITSCHE > 0) THEN
                    IF(DT_CST/=0)THEN

@@ -34,7 +34,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       SUBROUTINE ININTSUB_25(ITAB      ,IGRNOD ,IGRSURF ,NOM_OPT ,INTBUF_TAB,
      .                       NRTM      ,NRTM0  ,NSN     ,NISUBS  ,NISUBM    ,
      .                       NOINT     ,NI     ,NOD2NSV ,NOD2RTM ,KAD       ,
-     .                       TAGNOD    ,TAGRTM ,IADD    )   
+     .                       TAGNOD    ,TAGRTM ,IADD    ,NSNE    ,NTY       ,
+     .                       NRTSE     )   
 
 C-----------------------------------------------
 C   M o d u l e s
@@ -43,6 +44,7 @@ C-----------------------------------------------
       USE INTBUFDEF_MOD
       USE GROUPDEF_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
+      USE GET_EDGE_FIC_NODE_MOD  , ONLY : GET_EDGE_FIC_NODE 
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -59,6 +61,7 @@ C-----------------------------------------------
      .        IADD(*) 
       INTEGER NRTM, NRTM0, NSN, NISUBS, NISUBM, NOINT, NI
       INTEGER NOM_OPT(LNOPT1,*)
+      INTEGER ,INTENT(IN) :: NSNE, NTY, NRTSE
 
       TYPE(INTBUF_STRUCT_) INTBUF_TAB(*)
 C-----------------------------------------------
@@ -66,7 +69,9 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,K,JGRN,ISU,ISU1,ISU2,
      .   JSUB, KSUB, NNE, IS, ISV, CUR, ID1,
-     .   NEXT, IM, KM, JAD, IN, II, N,STAT,K1,K2,NT19,INOD,IFNRT
+     .   NEXT, IM, KM, JAD, IN, II, N,STAT,K1,K2,NT19,INOD,IFNRT,
+     .   IS1,IS2,IS3,IS4,IE,IE1,IE2,NS,ISS1_1,ISS1_2,ISS2_1,ISS2_2,
+     .   IGRN_1,IGRN_2,NS1,NS2
       CHARACTER MESS*40
       CHARACTER(LEN=NCHARTITLE) :: TITR,TITR1
 C-----------------------------------------------
@@ -82,6 +87,9 @@ C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
       INTEGER BITSET
       EXTERNAL BITSET
+C
+      INTEGER BITGET
+      EXTERNAL BITGET
 C=======================================================================
 
 C
@@ -98,7 +106,7 @@ C---------------------------------------------
         NOD2NSV(1:NUMNOD) = 0
         DO IS=1,NSN
            ISV         = INTBUF_TAB(NI)%NSV(IS)
-           NOD2NSV(ISV)=IS
+           IF (ISV <= NUMNOD) NOD2NSV(ISV)=IS
         END DO
 C
         KSUB=0
@@ -239,6 +247,26 @@ C
 C
 C
            END IF
+
+C
+           IF (NTY==24.AND.NSNE > 0) THEN ! Case Inter 24 +E2E
+              DO IS=1,NSN
+                ISV         = INTBUF_TAB(NI)%NSV(IS)
+                NS = ISV - NUMNOD 
+                IF (ISV>NUMNOD) THEN
+                 CALL GET_EDGE_FIC_NODE(INTBUF_TAB(NI)%IRTSE , NSNE ,INTBUF_TAB(NI)%IS2SE,INTBUF_TAB(NI)%IS2PT, 
+     .                                  NS , NRTSE,IS1 , IS2 )
+
+                 IF(TAGNOD(IS1) == 1.AND.TAGNOD(IS2) == 1) THEN
+                      INTBUF_TAB(NI)%ADDSUBS(IS) = 
+     .                         INTBUF_TAB(NI)%ADDSUBS(IS)+1
+                 ENDIF
+                ENDIF
+              END DO ! I=1,NSNE  
+           ENDIF
+
+
+
         END DO
 C
 C  --------Skyline tabs ADDSUBS-----------
@@ -399,6 +427,41 @@ C
                ENDIF
 
             END IF
+
+           IF (NTY==24.AND.NSNE > 0) THEN
+              DO IS=1,NSN
+                ISV         = INTBUF_TAB(NI)%NSV(IS)
+                NS = ISV - NUMNOD 
+                IF (ISV>NUMNOD) THEN
+                 CALL GET_EDGE_FIC_NODE(INTBUF_TAB(NI)%IRTSE , NSNE ,INTBUF_TAB(NI)%IS2SE,INTBUF_TAB(NI)%IS2PT, 
+     .                                  NS , NRTSE,IS1 , IS2 )
+                 IF(TAGNOD(IS1) == 1.AND.TAGNOD(IS2)== 1) THEN
+
+                   NS1 = NOD2NSV(IS1)
+                   NS2 = NOD2NSV(IS2)
+
+                   ISS1_1 = BITGET(INTBUF_TAB(NI)%INFLG_SUBS(KAD(NS1)-1),0)
+                   ISS2_1 = BITGET(INTBUF_TAB(NI)%INFLG_SUBS(KAD(NS1)-1),1)
+                   IGRN_1 = BITGET(INTBUF_TAB(NI)%INFLG_SUBS(KAD(NS1)-1),2)
+
+                   ISS1_2 = BITGET(INTBUF_TAB(NI)%INFLG_SUBS(KAD(NS2)-1),0)
+                   ISS2_2 = BITGET(INTBUF_TAB(NI)%INFLG_SUBS(KAD(NS2)-1),1)
+                   IGRN_2 = BITGET(INTBUF_TAB(NI)%INFLG_SUBS(KAD(NS2)-1),2)
+
+
+                   IF(ISS1_1 == 1.AND.ISS1_2== 1) INTBUF_TAB(NI)%INFLG_SUBS(KAD(IS)) = BITSET(INTBUF_TAB(NI)%INFLG_SUBS(KAD(IS)),0)
+                   IF(ISS2_1 == 1.AND.ISS2_2== 1) INTBUF_TAB(NI)%INFLG_SUBS(KAD(IS)) = BITSET(INTBUF_TAB(NI)%INFLG_SUBS(KAD(IS)),1)
+                   IF(IGRN_1 == 1.AND.IGRN_2== 1) INTBUF_TAB(NI)%INFLG_SUBS(KAD(IS)) = BITSET(INTBUF_TAB(NI)%INFLG_SUBS(KAD(IS)),2)
+                   INTBUF_TAB(NI)%LISUBS(KAD(IS))=KSUB
+                   KAD(IS)=KAD(IS)+1
+
+                 ENDIF 
+                ENDIF
+            END DO
+           ENDIF
+
+
+
         END DO
 
 

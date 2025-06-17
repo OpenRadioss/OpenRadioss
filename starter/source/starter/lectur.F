@@ -7542,7 +7542,7 @@ c      CALL ANCHECK(IDS)
          CALL ININTSUB(
      .          ITAB      ,IGRNOD  ,IGRSURF   ,
      .          IPARI  ,MAXRTM,NOM_OPT(LNOPT1*INOM_OPT(3)+1),
-     .          INTBUF_TAB,MAXRTMS ,IGRSLIN   )
+     .          INTBUF_TAB,MAXRTMS ,IGRSLIN   ,MAXNSNE)
        ENDIF
 C----
        IF(IDDLEVEL == 0) THEN

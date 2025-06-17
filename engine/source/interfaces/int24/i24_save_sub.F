@@ -32,13 +32,15 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      *                         ADDSUBM,LISUBM,TYPSUB,
      *                         INTAREAN,INTCAREA,ISENSINT,
      *                         FXI,FYI,FZI,FNI,DT12,
-     *                         FSAVSUB1,FSAVPARIT )
+     *                         FSAVSUB1,FSAVPARIT ,NRTSE,
+     *                         IRTSE,NSNE,IS2SE   ,IS2PT,NSNR)
 !! \brief Routine to save values for type24 Sub interface for output
 !! \details moved from i24for3.F to secondary subroutine due to compiler issue.
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE TRI7BOX
+      USE I24INTAREA_FIC_MOD  , ONLY : I24INTAREA_FIC  
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -75,15 +77,19 @@ C-----------------------------------------------
       my_real FZI(MVSIZ)
       my_real FNI(MVSIZ)
       my_real DT12
-      INTEGER INTAREAN(NUMNOD)
+      my_real INTAREAN(NUMNOD)
       INTEGER INTCAREA
       my_real FSAVSUB1(25,NISUB)
       my_real FSAVPARIT(NISUB+1,11,I_STOK)
+      INTEGER, INTENT(IN) :: NSNE,NRTSE,NSNR
+      INTEGER, DIMENSION(5,NRTSE),INTENT(IN) :: IRTSE
+      INTEGER, DIMENSION(2,NSNE),INTENT(IN) :: IS2SE
+      INTEGER, DIMENSION(NSNE),INTENT(IN) :: IS2PT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER KK,ISUB
-      my_real IMPX,IMPY,IMPZ
+      INTEGER KK,ISUB,IG
+      my_real IMPX,IMPY,IMPZ,AREAN_FIC
 C-----------------------------------------------
       DO KK=ADDSUBM(IE),ADDSUBM(IE+1)-1
             ISUB=LISUBM(KK)
@@ -113,9 +119,22 @@ C-----------------------------------------------
 
               IF(INTCAREA > 0)  THEN
                  IF(NN > 0) THEN
-                     FSAVSUB1(25,ISUB) = FSAVSUB1(25,ISUB) + INTAREAN(NN) 
+                     IF(NN <=NUMNOD) THEN
+                        FSAVSUB1(25,ISUB) = FSAVSUB1(25,ISUB) + INTAREAN(NN) 
+                     ELSE
+                        IG = NN - NUMNOD
+                        CALL I24INTAREA_FIC(IRTSE   ,NSNE    ,IS2SE   ,IS2PT   ,IG      , 
+     +                                    NRTSE , NUMNOD     ,INTAREAN,  AREAN_FIC )
+                        FSAVSUB1(25,ISUB) = FSAVSUB1(25,ISUB) + AREAN_FIC
+                    ENDIF
                  ELSE
-                     FSAVSUB1(25,ISUB) = FSAVSUB1(25,ISUB) + INTAREANFI(NIN)%P(-NN)
+                    IF(ISEDGE_FI(NIN)%P(NN)==1)THEN
+                       CALL I24INTAREA_FIC(IRTSE_FI(NIN)%P    ,NSNR    ,IS2SE_FI(NIN)%P  ,IS2PT_FI(NIN)%P   ,NN      , 
+     +                                        NSNR , NSNR     , INTAREANFI(NIN)%P, AREAN_FIC)
+                          FSAVSUB1(25,ISUB) = FSAVSUB1(25,ISUB) + AREAN_FIC 
+                    ELSE ! cas noeud remote en SPMD non edge
+                          FSAVSUB1(25,ISUB) = FSAVSUB1(25,ISUB) + INTAREANFI(NIN)%P(NN)
+                    ENDIF
                  ENDIF
               ENDIF
 

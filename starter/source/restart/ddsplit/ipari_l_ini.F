@@ -530,11 +530,19 @@ C     Interface type 18 for law151
             ELSE
                DO K=1,NSN_FE
                   N = INTBUF_TAB(NI)%NSV(K)
-                  IF (N >NUMNOD) CYCLE                  
-                  IF( NODLOCAL(N)/=0.AND.NODLOCAL(N)<=NUMNOD_L ) THEN
-                     NISUBS_L = NISUBS_L + INTBUF_TAB(NI)%ADDSUBS(1+K) -
+                  IF(N<=NUMNOD)THEN
+                     IF( NODLOCAL(N)/=0.AND.NODLOCAL(N)<=NUMNOD_L ) THEN
+                       NISUBS_L = NISUBS_L + INTBUF_TAB(NI)%ADDSUBS(1+K) -
      .                    INTBUF_TAB(NI)%ADDSUBS(K)
-                  END IF
+                     END IF
+                  ELSE
+                     NN = N-NUMNOD
+                     SE1 = INTBUF_TAB(NI)%IS2SE(2*(NN-1)+1)
+                     IF(INTERCEP(2,NI)%P(SE1)==(PROC+1))THEN
+                       NISUBS_L = NISUBS_L + INTBUF_TAB(NI)%ADDSUBS(1+K) -
+     .                    INTBUF_TAB(NI)%ADDSUBS(K)
+                     ENDIF
+                  END IF  !(INTBUF_TAB(NI)%NSV(N)<=NUMNOD)THEN
                END DO
             ENDIF
 C
