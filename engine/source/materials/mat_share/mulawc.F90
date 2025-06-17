@@ -1866,8 +1866,7 @@
                   signxx   ,signyy   ,signxy   ,signyz   ,signzx   ,       &
                   ssp      ,thkn     ,lbuf%pla ,dpla     ,lbuf%epsd,       &
                   off      ,etse     ,thklyl   ,shf      ,sigy     ,       &
-                  hardm    ,lbuf%seq ,l_sigb   ,lbuf%sigb,nuvar    ,       &
-                  uvar     )
+                  hardm    ,lbuf%seq ,l_sigb   ,lbuf%sigb)
 !
               elseif (ilaw == 158) then
                 call sigeps158c(&
