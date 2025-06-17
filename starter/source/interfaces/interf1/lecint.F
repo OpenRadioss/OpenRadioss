@@ -523,10 +523,60 @@ C Subinter :  Case Inter 0
             END IF
           END DO
           IPARI(36,NI)=NISUB
+        ELSEIF(NTYP==24)THEN
+C--------------------------------------------
+          DO JSUB=1,NINTSUB
 
-C
+C Subinter : Case Inter corresponding to id inter
+
+            IF(NOM_OPT(2,NINTER+JSUB) == NOINT .AND. NOM_OPT(5,NINTER+JSUB) == 1)THEN
+              NISUB=NISUB+1
+              IGR  =NOM_OPT(4,NINTER+JSUB)
+              ISU1 =NOM_OPT(3,NINTER+JSUB)
+              ISU2 =NOM_OPT(6,NINTER+JSUB)
+              IF(IGR/=0)IPARI(37,NI)=IPARI(37,NI)+IGRNOD(IGR)%NENTITY
+              IF(ISU2/=0)THEN
+                IPARI(38,NI)=IPARI(38,NI)+IGRSURF(ISU2)%NSEG
+                IPARI(37,NI)=IPARI(37,NI)+4*IGRSURF(ISU2)%NSEG
+                IF(IPARI(55,NI)/=0)THEN
+                  IPARI(37,NI)=IPARI(37,NI)+4*3*IGRSURF(ISU2)%NSEG
+                END IF
+              END IF
+              IF(ISU1/=0)THEN
+                IPARI(38,NI)=IPARI(38,NI)+IGRSURF(ISU1)%NSEG
+                IPARI(37,NI)=IPARI(37,NI)+4*IGRSURF(ISU1)%NSEG
+                IF(IPARI(55,NI)/=0)THEN
+                  IPARI(37,NI)=IPARI(37,NI)+4*3*IGRSURF(ISU1)%NSEG
+                END IF
+              END IF
+            END IF
+
+C Subinter :  Case Inter 0
+
+            IF(NOM_OPT(2,NINTER+JSUB) == 0 .AND. NOM_OPT(5,NINTER+JSUB) == 1) THEN
+              NISUB=NISUB+1
+              ISU1 =NOM_OPT(3,NINTER+JSUB)
+              ISU2 =NOM_OPT(6,NINTER+JSUB)
+              IF(ISU2 /= 0 ) THEN 
+                 IPARI(37,NI) = IPARI(37,NI) + 4* IGRSURF(ISU2)%NSEG
+                 IPARI(38,NI)=IPARI(38,NI)+IGRSURF(ISU2)%NSEG
+                IF(IPARI(55,NI)/=0)THEN
+                   IPARI(37,NI)=IPARI(37,NI)+4*3*IGRSURF(ISU2)%NSEG
+                 END IF          
+              ENDIF
+              IF(ISU1 /=0 ) THEN
+                 IPARI(37,NI) = IPARI(37,NI) + 4* IGRSURF(ISU1)%NSEG
+                 IPARI(38,NI)=IPARI(38,NI)+IGRSURF(ISU1)%NSEG
+                IF(IPARI(55,NI)/=0)THEN
+                   IPARI(37,NI)=IPARI(37,NI)+4*3*IGRSURF(ISU1)%NSEG
+                 END IF 
+              ENDIF
+            END IF
+          END DO
+          IPARI(36,NI)=NISUB
+CSubiSubiSubi
         ELSEIF(NTYP==7.OR.NTYP==10.OR.NTYP==20
-     . .OR.NTYP==22.OR.NTYP==24)THEN
+     . .OR.NTYP==22)THEN
 C--------------------------------------------
 
 C Subinter : Case Inter corresponding to id inter
