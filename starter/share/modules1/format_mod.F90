@@ -48,6 +48,7 @@
       !||    hm_read_node                 ../starter/source/elements/reader/hm_read_node.F
       !||    hm_read_perturb_part_shell   ../starter/source/general_controls/computation/hm_read_perturb_part_shell.F
       !||    hm_read_skw                  ../starter/source/tools/skew/hm_read_skw.F
+      !||    hm_read_thchecksum           ../starter/source/output/th/hm_read_thchecksum.F90
       !||    hm_read_thgrki               ../starter/source/output/th/hm_read_thgrki.F
       !||    hm_read_thgrki_rbody         ../starter/source/output/th/hm_read_thgrki_rbody.F
       !||    hm_read_thgrsens             ../starter/source/output/th/hm_read_thgrsens.F

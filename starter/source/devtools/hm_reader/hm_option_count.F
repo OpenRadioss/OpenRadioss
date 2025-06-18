@@ -43,6 +43,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    hm_read_bem                       ../starter/source/loads/bem/hm_read_bem.F
       !||    hm_read_box                       ../starter/source/model/box/hm_read_box.F
       !||    hm_read_caa                       ../starter/source/general_controls/computation/hm_read_caa.F
+      !||    hm_read_checksum                  ../starter/source/output/checksum/checksum_option.F90
       !||    hm_read_defshell                  ../starter/source/general_controls/default_values/hm_read_defshell.F
       !||    hm_read_defsolid                  ../starter/source/general_controls/default_values/hm_read_defsolid.F
       !||    hm_read_eos                       ../starter/source/materials/eos/hm_read_eos.F

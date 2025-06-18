@@ -49,6 +49,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    thquad                  ../engine/source/output/th/thquad.F
       !||    thres                   ../engine/source/output/th/thres.F
       !||    thrnur                  ../engine/source/output/th/thrnur.F
+      !||    thsechecksum            ../engine/source/output/th/thchecksum.F90
       !||    thsens                  ../engine/source/output/th/thsens.F
       !||    thsol                   ../engine/source/output/th/thsol.F
       !||    thsph                   ../engine/source/output/th/thsph.F

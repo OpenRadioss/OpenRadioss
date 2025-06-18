@@ -70,6 +70,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    eos_table_copy                           ../starter/source/materials/tools/eos_table_copy.F90
       !||    eosexponential                           ../common_source/eos/eosexponential.F90
       !||    eospolyno                                ../common_source/eos/eospolyno.F
+      !||    fail_composite_c                         ../engine/source/materials/fail/composite/fail_composite_c.F90
+      !||    fail_composite_s                         ../engine/source/materials/fail/composite/fail_composite_s.F90
       !||    fail_gene1_b                             ../engine/source/materials/fail/gene1/fail_gene1_b.F90
       !||    fail_gene1_ib                            ../engine/source/materials/fail/gene1/fail_gene1_ib.F90
       !||    fail_inievo_b                            ../engine/source/materials/fail/inievo/fail_inievo_b.F90
@@ -112,6 +114,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    hm_read_eos_compaction_tab               ../starter/source/materials/eos/hm_read_eos_compaction_tab.F90
       !||    hm_read_eos_exponential                  ../starter/source/materials/eos/hm_read_eos_exponential.F90
       !||    hm_read_eos_powderburn                   ../starter/source/materials/eos/hm_read_eos_powderburn.F90
+      !||    hm_read_fail_composite                   ../starter/source/materials/fail/composite/hm_read_fail_composite.F90
       !||    hm_read_fail_lemaitre                    ../starter/source/materials/fail/lemaitre/hm_read_fail_lemaitre.F90
       !||    hm_read_fail_spalling                    ../starter/source/materials/fail/spalling/hm_read_fail_spalling.F90
       !||    hm_read_fractal_dmg                      ../starter/source/materials/fail/fractal/hm_read_fractal_dmg.F90

@@ -502,6 +502,7 @@ C-----------------------------------------------
       !||    write_dpdb        ../common_source/tools/input_output/write_db.F
       !||--- uses       -----------------------------------------------------
       !||    inoutfile_mod     ../common_source/modules/inoutfile_mod.F
+      !||    output_mod        ../common_source/modules/output/output_mod.F90
       !||    time_mod          ../engine/share/modules/time_mod.F
       !||    timer_mod         ../engine/source/system/timer_mod.F90
       !||====================================================================

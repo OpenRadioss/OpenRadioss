@@ -240,8 +240,10 @@
       !||    mat87c_tabulated_3dir_ortho         ../engine/source/materials/mat/mat087/mat87c_tabulated_3dir_ortho.F90
       !||    mat_elem_mod                        ../common_source/modules/mat_elem/mat_elem_mod.F90
       !||    mat_table_copy                      ../starter/source/materials/tools/mat_table_copy.F90
+      !||    mmain                               ../engine/source/materials/mat_share/mmain.F90
       !||    mmodul                              ../engine/source/elements/solid/solidez/mmodul.F
       !||    mulaw                               ../engine/source/materials/mat_share/mulaw.F90
+      !||    mulawc                              ../engine/source/materials/mat_share/mulawc.F90
       !||    multi_ebcs                          ../engine/source/multifluid/multi_ebcs.F
       !||    multi_inlet_ebcs                    ../engine/source/multifluid/multi_inlet_ebcs.F
       !||    multi_muscl_compute_pressure        ../engine/source/multifluid/multi_muscl_compute_pressure.F90
@@ -316,6 +318,7 @@
       !||    thcoq                               ../engine/source/output/th/thcoq.F
       !||    updfail                             ../starter/source/materials/updfail.F90
       !||    updmat                              ../starter/source/materials/updmat.F
+      !||    usermat_solid                       ../engine/source/materials/mat_share/usermat_solid.F
       !||--- uses       -----------------------------------------------------
       !||    eos_param_mod                       ../common_source/modules/mat_elem/eos_param_mod.F90
       !||    fail_param_mod                      ../common_source/modules/mat_elem/fail_param_mod.F90

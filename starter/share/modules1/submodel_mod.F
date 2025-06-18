@@ -211,6 +211,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    hm_read_fail_biquad               ../starter/source/materials/fail/biquad/hm_read_fail_biquad.F
       !||    hm_read_fail_chang                ../starter/source/materials/fail/changchang/hm_read_fail_chang.F
       !||    hm_read_fail_cockcroft            ../starter/source/materials/fail/cockroft_latham/hm_read_fail_cockcroft.F
+      !||    hm_read_fail_composite            ../starter/source/materials/fail/composite/hm_read_fail_composite.F90
       !||    hm_read_fail_connect              ../starter/source/materials/fail/connect/hm_read_fail_connect.F
       !||    hm_read_fail_emc                  ../starter/source/materials/fail/emc/hm_read_fail_emc.F
       !||    hm_read_fail_energy               ../starter/source/materials/fail/energy/hm_read_fail_energy.F
@@ -557,6 +558,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    hm_read_table2                    ../starter/source/tools/curve/hm_read_table.F
       !||    hm_read_table2_0                  ../starter/source/tools/curve/hm_read_table2_0.F
       !||    hm_read_table2_1                  ../starter/source/tools/curve/hm_read_table2_1.F
+      !||    hm_read_thchecksum                ../starter/source/output/th/hm_read_thchecksum.F90
       !||    hm_read_therm                     ../starter/source/materials/therm/hm_read_therm.F
       !||    hm_read_therm_stress              ../starter/source/materials/therm/hm_read_therm_stress.F90
       !||    hm_read_thgrki                    ../starter/source/output/th/hm_read_thgrki.F

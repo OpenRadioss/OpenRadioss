@@ -27,6 +27,8 @@
       !||    delm01law                 ../engine/source/properties/composite_options/stack/delm01law.F
       !||    delm02law                 ../engine/source/properties/composite_options/stack/delm02law.F
       !||    delm24law                 ../engine/source/properties/composite_options/stack/delm24law.F
+      !||    fail_composite_c          ../engine/source/materials/fail/composite/fail_composite_c.F90
+      !||    fail_composite_s          ../engine/source/materials/fail/composite/fail_composite_s.F90
       !||    fail_fun2sys              ../starter/source/materials/tools/fail_fun2sys.F
       !||    fail_tab2sys              ../starter/source/materials/tools/fail_tab2sys.F
       !||    h3d_fld_tsh               ../engine/source/output/h3d/h3d_results/h3d_fld_tsh.F
@@ -34,6 +36,7 @@
       !||    hm_read_fail_biquad       ../starter/source/materials/fail/biquad/hm_read_fail_biquad.F
       !||    hm_read_fail_chang        ../starter/source/materials/fail/changchang/hm_read_fail_chang.F
       !||    hm_read_fail_cockcroft    ../starter/source/materials/fail/cockroft_latham/hm_read_fail_cockcroft.F
+      !||    hm_read_fail_composite    ../starter/source/materials/fail/composite/hm_read_fail_composite.F90
       !||    hm_read_fail_connect      ../starter/source/materials/fail/connect/hm_read_fail_connect.F
       !||    hm_read_fail_emc          ../starter/source/materials/fail/emc/hm_read_fail_emc.F
       !||    hm_read_fail_energy       ../starter/source/materials/fail/energy/hm_read_fail_energy.F
@@ -73,8 +76,13 @@
       !||    hm_read_fractal_dmg       ../starter/source/materials/fail/fractal/hm_read_fractal_dmg.F90
       !||    hm_read_mullins_or        ../starter/source/materials/fail/mullins_or/hm_read_fail_mullins_or.F
       !||    matparam_def_mod          ../common_source/modules/mat_elem/matparam_def_mod.F90
+      !||    mmain                     ../engine/source/materials/mat_share/mmain.F90
+      !||    mulaw                     ../engine/source/materials/mat_share/mulaw.F90
+      !||    mulawc                    ../engine/source/materials/mat_share/mulawc.F90
       !||    random_walk_dmg           ../starter/source/materials/fail/fractal/random_walk_dmg.F90
       !||    read_failparam            ../engine/source/output/restart/read_failparam.F
+      !||    usermat_shell             ../engine/source/materials/mat_share/usermat_shell.F
+      !||    usermat_solid             ../engine/source/materials/mat_share/usermat_solid.F
       !||    write_failparam           ../engine/source/output/restart/write_failparam.F
       !||--- uses       -----------------------------------------------------
       !||    names_and_titles_mod      ../common_source/modules/names_and_titles_mod.F

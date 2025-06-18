@@ -48,6 +48,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    check_qeph_stra                   ../starter/source/starter/check_qeph_stra.F
       !||    checkmp                           ../starter/source/elements/initia/initia.F
       !||    checkrby                          ../starter/source/constraints/general/rbody/checkrby.F
+      !||    checksum_option_checksum_file     ../common_source/modules/output/checksum_mod.F90
+      !||    checksum_restart_read             ../common_source/modules/output/checksum_mod.F90
+      !||    checksum_restart_write            ../common_source/modules/output/checksum_mod.F90
       !||    chekmp2                           ../starter/source/elements/initia/initia.F
       !||    chkfunct                          ../starter/source/tools/curve/lecfun.F
       !||    chktyp2                           ../starter/source/interfaces/interf1/chktyp2.F
@@ -266,6 +269,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    hm_read_bcs_wall                  ../starter/source/boundary_conditions/hm_read_bcs_wall.F90
       !||    hm_read_bem                       ../starter/source/loads/bem/hm_read_bem.F
       !||    hm_read_box                       ../starter/source/model/box/hm_read_box.F
+      !||    hm_read_checksum                  ../starter/source/output/checksum/checksum_option.F90
       !||    hm_read_cload                     ../starter/source/loads/general/cload/hm_read_cload.F
       !||    hm_read_cluster                   ../starter/source/output/cluster/hm_read_cluster.F
       !||    hm_read_convec                    ../starter/source/loads/thermic/hm_read_convec.F
@@ -567,6 +571,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    hm_read_table2                    ../starter/source/tools/curve/hm_read_table.F
       !||    hm_read_table2_0                  ../starter/source/tools/curve/hm_read_table2_0.F
       !||    hm_read_table2_1                  ../starter/source/tools/curve/hm_read_table2_1.F
+      !||    hm_read_thchecksum                ../starter/source/output/th/hm_read_thchecksum.F90
       !||    hm_read_therm                     ../starter/source/materials/therm/hm_read_therm.F
       !||    hm_read_therm_stress              ../starter/source/materials/therm/hm_read_therm_stress.F90
       !||    hm_read_thgrki                    ../starter/source/output/th/hm_read_thgrki.F
@@ -916,6 +921,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    srefsta3                          ../starter/source/elements/solid/solide/srefsta3.F
       !||    ssurftag                          ../starter/source/groups/ssurftag.F
       !||    ssurftagigeo                      ../starter/source/groups/ssurftagigeo.F
+      !||    st_checksum_file_print            ../starter/source/output/checksum/checksum_option.F90
       !||    st_qaprint_admesh                 ../starter/source/output/qaprint/st_qaprint_admesh.F
       !||    st_qaprint_clusters               ../starter/source/output/qaprint/st_qaprint_clusters.F
       !||    st_qaprint_constraints            ../starter/source/output/qaprint/st_qaprint_constraints.F

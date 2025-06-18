@@ -25,11 +25,13 @@
  contains
 
 !! \brief /CHECKSUM/START Option : write deck checksum digests to TH++
-    !||====================================================================
-    !||    thsechecksum
-    !||--- called by ------------------------------------------------------
-    !||    hist2.F
-    !||====================================================================
+      !||====================================================================
+      !||    thsechecksum   ../engine/source/output/th/thchecksum.F90
+      !||--- called by ------------------------------------------------------
+      !||    hist2          ../engine/source/output/th/hist2.F
+      !||--- calls      -----------------------------------------------------
+      !||    wrtdes         ../engine/source/output/th/wrtdes.F
+      !||====================================================================
     subroutine thsechecksum(                                  &
    &                         j1 ,j2    ,l1      ,l2  ,ithbuf,  &
    &                         wa ,iform ,sithbuf ,swa ,ispmd)

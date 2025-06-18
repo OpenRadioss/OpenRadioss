@@ -31,6 +31,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    build_msg                    ../common_source/tools/memory/my_alloc.F90
       !||    cdk6bc3                      ../engine/source/elements/sh3n/coquedk6/cdk6bc3.F
       !||    check_message_definition     ../common_source/modules/check_mod.F
+      !||    checksum_option_outfile      ../common_source/modules/output/checksum_mod.F90
       !||    close_c                      ../common_source/tools/input_output/write_routtines.c
       !||    condrmat                     ../engine/source/materials/mat/mat013/condrmat.F
       !||    coqini                       ../engine/source/elements/shell/coqini.F
@@ -96,6 +97,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    dt_mod                       ../engine/source/modules/dt_mod.F
       !||    dynlib_mod                   ../engine/share/modules/dynlib_mod.F
       !||    ebcs_mod                     ../common_source/modules/boundary_conditions/ebcs_mod.F90
+      !||    file_descriptor_mod          ../engine/source/modules/file_descriptor_mod.F90
       !||    glob_therm_mod               ../common_source/modules/mat_elem/glob_therm_mod.F90
       !||    group_mod                    ../engine/share/modules/group_mod.F
       !||    groupdef_mod                 ../common_source/modules/groupdef_mod.F

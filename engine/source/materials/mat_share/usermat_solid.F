@@ -31,6 +31,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    fail_biquad_s               ../engine/source/materials/fail/biquad/fail_biquad_s.F
       !||    fail_changchang_s           ../engine/source/materials/fail/changchang/fail_changchang_s.F
       !||    fail_cockroft_s             ../engine/source/materials/fail/cockroft_latham/fail_cockroft_s.F
+      !||    fail_composite_s            ../engine/source/materials/fail/composite/fail_composite_s.F90
       !||    fail_emc                    ../engine/source/materials/fail/emc/fail_emc.F
       !||    fail_energy_s               ../engine/source/materials/fail/energy/fail_energy_s.F
       !||    fail_gene1_s                ../engine/source/materials/fail/gene1/fail_gene1_s.F
@@ -74,11 +75,14 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- uses       -----------------------------------------------------
       !||    dt_mod                      ../engine/source/modules/dt_mod.F
       !||    elbufdef_mod                ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    fail_composite_s_mod        ../engine/source/materials/fail/composite/fail_composite_s.F90
       !||    fail_lemaitre_s_mod         ../engine/source/materials/fail/lemaitre/fail_lemaitre_s.F90
+      !||    fail_param_mod              ../common_source/modules/mat_elem/fail_param_mod.F90
       !||    fail_spalling_s_mod         ../engine/source/materials/fail/spalling/fail_spalling_s.F90
       !||    glob_therm_mod              ../common_source/modules/mat_elem/glob_therm_mod.F90
       !||    law_userso                  ../engine/source/user_interface/law_userso.F
       !||    mat_elem_mod                ../common_source/modules/mat_elem/mat_elem_mod.F90
+      !||    matparam_def_mod            ../common_source/modules/mat_elem/matparam_def_mod.F90
       !||    message_mod                 ../engine/share/message_module/message_mod.F
       !||    names_and_titles_mod        ../common_source/modules/names_and_titles_mod.F
       !||    nlocal_reg_mod              ../common_source/modules/nlocal_reg_mod.F

@@ -20,8 +20,25 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+      !||====================================================================
+      !||    fail_composite_s_mod   ../engine/source/materials/fail/composite/fail_composite_s.F90
+      !||--- called by ------------------------------------------------------
+      !||    mmain                  ../engine/source/materials/mat_share/mmain.F90
+      !||    mulaw                  ../engine/source/materials/mat_share/mulaw.F90
+      !||    usermat_solid          ../engine/source/materials/mat_share/usermat_solid.F
+      !||====================================================================
       module fail_composite_s_mod
       contains
+      !||====================================================================
+      !||    fail_composite_s   ../engine/source/materials/fail/composite/fail_composite_s.F90
+      !||--- called by ------------------------------------------------------
+      !||    mmain              ../engine/source/materials/mat_share/mmain.F90
+      !||    mulaw              ../engine/source/materials/mat_share/mulaw.F90
+      !||    usermat_solid      ../engine/source/materials/mat_share/usermat_solid.F
+      !||--- uses       -----------------------------------------------------
+      !||    constant_mod       ../common_source/modules/constant_mod.F
+      !||    fail_param_mod     ../common_source/modules/mat_elem/fail_param_mod.F90
+      !||====================================================================
       subroutine fail_composite_s(                                             &
            nel       ,fail      ,nuvar     ,uvar      ,time      ,ngl       ,  & 
            ip        ,ilay      ,npg       ,tdele     ,off       ,loff      ,  &             

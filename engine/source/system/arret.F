@@ -415,6 +415,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    xforc28                          ../engine/source/elements/xelem/xforc28.F
       !||--- calls      -----------------------------------------------------
       !||    c_h3d_close_file                 ../engine/source/output/h3d/h3d_build_cpp/c_h3d_close_file.cpp
+      !||    checksum_option_checksum_file    ../common_source/modules/output/checksum_mod.F90
+      !||    close_c                          ../common_source/tools/input_output/write_routtines.c
+      !||    compute_binary_checksum          ../common_source/output/checksum/checksum.cpp
       !||    cur_fil_c                        ../common_source/tools/input_output/write_routtines.c
       !||    delete_tmpfile                   ../common_source/tools/input_output/write_routtines.c
       !||    my_exit                          ../engine/source/system/my_exit.c
@@ -426,8 +429,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    spmd_kill                        ../engine/source/mpi/init/spmd_kill.F
       !||--- uses       -----------------------------------------------------
       !||    dynlib_mod                       ../engine/share/modules/dynlib_mod.F
+      !||    file_descriptor_mod              ../engine/source/modules/file_descriptor_mod.F90
       !||    h3d_mod                          ../engine/share/modules/h3d_mod.F
       !||    inoutfile_mod                    ../common_source/modules/inoutfile_mod.F
+      !||    output_mod                       ../common_source/modules/output/output_mod.F90
       !||    qa_out_mod                       ../common_source/qa/qa_out_mod.F
       !||    scratchfile_mod                  ../engine/share/modules/scratchfiles_mod.F
       !||====================================================================

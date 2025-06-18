@@ -66,11 +66,16 @@ end interface
 
 contains
 !! \brief reads checksum from restart file
-    !||====================================================================
-    !||    checksum_option_read   
-    !||--- called by ------------------------------------------------------
-    !||    rdresb
-    !||====================================================================
+      !||====================================================================
+      !||    checksum_restart_read   ../common_source/modules/output/checksum_mod.F90
+      !||--- called by ------------------------------------------------------
+      !||    rdresb                  ../engine/source/output/restart/rdresb.F
+      !||--- calls      -----------------------------------------------------
+      !||    read_i_c                ../common_source/tools/input_output/write_routtines.c
+      !||--- uses       -----------------------------------------------------
+      !||    file_descriptor_mod     ../engine/source/modules/file_descriptor_mod.F90
+      !||    names_and_titles_mod    ../common_source/modules/names_and_titles_mod.F
+      !||====================================================================
     subroutine checksum_restart_read(checksum)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
@@ -120,11 +125,16 @@ contains
     end subroutine checksum_restart_read
 
     !! \brief reads checksum from result file
-    !||====================================================================
-    !||    checksum_option_write
-    !||--- called by ------------------------------------------------------
-    !||    rdresb
-    !||====================================================================
+      !||====================================================================
+      !||    checksum_restart_write   ../common_source/modules/output/checksum_mod.F90
+      !||--- called by ------------------------------------------------------
+      !||    wrrestp                  ../engine/source/output/restart/wrrestp.F
+      !||--- calls      -----------------------------------------------------
+      !||    write_i_c                ../common_source/tools/input_output/write_routtines.c
+      !||--- uses       -----------------------------------------------------
+      !||    file_descriptor_mod      ../engine/source/modules/file_descriptor_mod.F90
+      !||    names_and_titles_mod     ../common_source/modules/names_and_titles_mod.F
+      !||====================================================================
     subroutine checksum_restart_write(checksum)
         ! ----------------------------------------------------------------------------------------------------------------------
         !                                                   Modules
@@ -164,11 +174,13 @@ contains
     end subroutine checksum_restart_write
 
     !! \brief writes checksum in .out file
-    !||====================================================================
-    !||    checksum_option_write
-    !||--- called by ------------------------------------------------------
-    !||    rdresb
-    !||====================================================================
+      !||====================================================================
+      !||    checksum_option_outfile   ../common_source/modules/output/checksum_mod.F90
+      !||--- called by ------------------------------------------------------
+      !||    radioss2                  ../engine/source/engine/radioss2.F
+      !||--- uses       -----------------------------------------------------
+      !||    file_descriptor_mod       ../engine/source/modules/file_descriptor_mod.F90
+      !||====================================================================
             subroutine checksum_option_outfile(checksum)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
@@ -197,11 +209,16 @@ contains
             end subroutine checksum_option_outfile
 
     !! \brief writes checksum in .out file
-    !||====================================================================
-    !||    checksum_option_write
-    !||--- called by ------------------------------------------------------
-    !||    rdresb
-    !||====================================================================
+      !||====================================================================
+      !||    checksum_option_checksum_file   ../common_source/modules/output/checksum_mod.F90
+      !||--- called by ------------------------------------------------------
+      !||    arret                           ../engine/source/system/arret.F
+      !||--- calls      -----------------------------------------------------
+      !||    print_checksum_list             ../common_source/output/checksum/checksum.cpp
+      !||--- uses       -----------------------------------------------------
+      !||    file_descriptor_mod             ../engine/source/modules/file_descriptor_mod.F90
+      !||    names_and_titles_mod            ../common_source/modules/names_and_titles_mod.F
+      !||====================================================================
             subroutine checksum_option_checksum_file(checksum,rootname,rootlen,chrun)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules

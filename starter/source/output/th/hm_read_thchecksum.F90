@@ -26,25 +26,22 @@ contains
 !=======================================================================================================================
 !!\brief /CHECKSUM/START option : prepares structutures to write Checksum fingerprints in /TH
 !=======================================================================================================================
-     !||====================================================================
-     !||    hm_read_thchecksum           ../starter/source/output/th/hm_read_thchecksum.F
-     !||--- called by ------------------------------------------------------
-     !||    hm_read_thgrou           ../starter/source/output/th/hm_read_thgrou.F
-     !||--- calls      -----------------------------------------------------
-     !||    ancmsg                   ../starter/source/output/message/message.F
-     !||    fretitl2                 ../starter/source/starter/freform.F
-     !||    hm_get_int_array_index   ../starter/source/devtools/hm_reader/hm_get_int_array_index.F
-     !||    hm_get_intv              ../starter/source/devtools/hm_reader/hm_get_intv.F
-     !||    hm_thvarc                ../starter/source/output/th/hm_read_thvarc.F
-     !||    hord                     ../starter/source/output/th/hord.F
-     !||    r2r_exist                ../starter/source/coupling/rad2rad/routines_r2r.F
-     !||    zeroin                   ../starter/source/system/zeroin.F
-     !||--- uses       -----------------------------------------------------
-     !||    format_mod               ../starter/share/modules1/format_mod.F90
-     !||    hm_option_read_mod       ../starter/share/modules1/hm_option_read_mod.F
-     !||    message_mod              ../starter/share/message_module/message_mod.F
-     !||    submodel_mod             ../starter/share/modules1/submodel_mod.F
-     !||====================================================================
+      !||====================================================================
+      !||    hm_read_thchecksum            ../starter/source/output/th/hm_read_thchecksum.F90
+      !||--- called by ------------------------------------------------------
+      !||    hm_read_thgrou                ../starter/source/output/th/hm_read_thgrou.F
+      !||--- calls      -----------------------------------------------------
+      !||    deck_checksum_read            ../starter/source/output/checksum/checksum_model.cpp
+      !||    fretitl                       ../starter/source/starter/freform.F
+      !||    fretitl2                      ../starter/source/starter/freform.F
+      !||    r2r_exist                     ../starter/source/coupling/rad2rad/routines_r2r.F
+      !||--- uses       -----------------------------------------------------
+      !||    file_descriptor_mod           ../starter/source/modules/file_descriptor_mod.F90
+      !||    format_mod                    ../starter/share/modules1/format_mod.F90
+      !||    hm_option_read_mod            ../starter/share/modules1/hm_option_read_mod.F
+      !||    message_mod                   ../starter/share/message_module/message_mod.F
+      !||    submodel_mod                  ../starter/share/modules1/submodel_mod.F
+      !||====================================================================
      subroutine hm_read_thchecksum(                                                 &
     &                              ityp     ,key     ,iad    ,ifi    ,nsne,         &
     &                              ithgrp   ,ithbuf  ,nv     ,vare   ,lithbufmx,    &

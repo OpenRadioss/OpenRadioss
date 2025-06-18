@@ -29,8 +29,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    anend                             ../starter/source/output/analyse/analyse_arret.F
       !||    aninit                            ../starter/source/output/analyse/analyse.c
       !||    build_msg                         ../starter/source/output/message/build_msg.F
+      !||    checksum_check                    ../starter/source/output/checksum/checksum_check.F90
       !||    contrl                            ../starter/source/starter/contrl.F
       !||    execargcheck                      ../starter/source/starter/execargcheck.F
+      !||    f_anend                           ../starter/source/output/analyse/analyse_arret.F
       !||    get_file_name_info                ../starter/source/system/get_file_name_info.F
       !||    glob_therm_init                   ../starter/source/constraints/thermic/glob_therm_init.F90
       !||    hm_convert_2d_elements_seatbelt   ../starter/source/devtools/hm_reader/hm_convert_2d_elements_seatbelt.F
@@ -39,6 +41,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    hm_count_2d_element_seatbelt      ../starter/source/devtools/hm_reader/hm_count_2d_element_seatbelt.F
       !||    hm_get_max_id                     ../starter/source/devtools/hm_reader/hm_get_max_id.F
       !||    hm_messages                       ../starter/source/devtools/hm_reader/hm_messages.F
+      !||    hm_read_checksum                  ../starter/source/output/checksum/checksum_option.F90
       !||    hm_read_submodel                  ../starter/source/model/assembling/hm_read_submodel.F
       !||    ini_msg                           ../starter/source/output/message/inimsg.F
       !||    inicod                            ../starter/source/tools/univ/inicod.F

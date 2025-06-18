@@ -169,6 +169,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    elt_box                             ../starter/source/model/sets/fill_clause_elt_box.F
       !||    eosfun_usr2sys                      ../starter/source/materials/tools/eosfun_usr2sys.F90
       !||    error_alloc                         ../starter/source/system/error_alloc.F
+      !||    f_anend                             ../starter/source/output/analyse/analyse_arret.F
       !||    facebox                             ../starter/source/model/box/bigbox.F
       !||    fail_fun2sys                        ../starter/source/materials/tools/fail_fun2sys.F
       !||    fail_tab2sys                        ../starter/source/materials/tools/fail_tab2sys.F
@@ -361,6 +362,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    hm_read_eref                        ../starter/source/loads/reference_state/eref/hm_read_eref.F
       !||    hm_read_fail                        ../starter/source/materials/fail/hm_read_fail.F
       !||    hm_read_fail_biquad                 ../starter/source/materials/fail/biquad/hm_read_fail_biquad.F
+      !||    hm_read_fail_composite              ../starter/source/materials/fail/composite/hm_read_fail_composite.F90
       !||    hm_read_fail_energy                 ../starter/source/materials/fail/energy/hm_read_fail_energy.F
       !||    hm_read_fail_fabric                 ../starter/source/materials/fail/fabric/hm_read_fail_fabric.F
       !||    hm_read_fail_fld                    ../starter/source/materials/fail/fld/hm_read_fail_fld.F
@@ -684,6 +686,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    hm_read_table2_0                    ../starter/source/tools/curve/hm_read_table2_0.F
       !||    hm_read_table2_1                    ../starter/source/tools/curve/hm_read_table2_1.F
       !||    hm_read_th                          ../starter/source/output/th/hm_read_th.F
+      !||    hm_read_thchecksum                  ../starter/source/output/th/hm_read_thchecksum.F90
       !||    hm_read_therm                       ../starter/source/materials/therm/hm_read_therm.F
       !||    hm_read_therm_stress                ../starter/source/materials/therm/hm_read_therm_stress.F90
       !||    hm_read_thgrki                      ../starter/source/output/th/hm_read_thgrki.F

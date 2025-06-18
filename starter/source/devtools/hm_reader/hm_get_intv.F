@@ -120,6 +120,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    hm_read_fail_biquad               ../starter/source/materials/fail/biquad/hm_read_fail_biquad.F
       !||    hm_read_fail_chang                ../starter/source/materials/fail/changchang/hm_read_fail_chang.F
       !||    hm_read_fail_cockcroft            ../starter/source/materials/fail/cockroft_latham/hm_read_fail_cockcroft.F
+      !||    hm_read_fail_composite            ../starter/source/materials/fail/composite/hm_read_fail_composite.F90
       !||    hm_read_fail_connect              ../starter/source/materials/fail/connect/hm_read_fail_connect.F
       !||    hm_read_fail_energy               ../starter/source/materials/fail/energy/hm_read_fail_energy.F
       !||    hm_read_fail_fabric               ../starter/source/materials/fail/fabric/hm_read_fail_fabric.F

@@ -26,9 +26,14 @@ module checksum_check_mod
 !! \brief Grab all checksums from execution directory & write them in output file.
 !! \details All checksums from .out, Animation & TimeHistory are grabbed.
       !||====================================================================
-      !||    checksum_option   ../starter/source/output/checksum/checksum_option.F90
+      !||    checksum_check        ../starter/source/output/checksum/checksum_check.F90
       !||--- called by ------------------------------------------------------
-      !||    lectur                 ../starter/source/model/sets/fill_igr.F
+      !||    starter0              ../starter/source/starter/starter0.F
+      !||--- calls      -----------------------------------------------------
+      !||    grab_checksums        ../starter/source/output/checksum/checksum_list.cpp
+      !||    radioss_title         ../starter/source/starter/radioss_title.F
+      !||--- uses       -----------------------------------------------------
+      !||    file_descriptor_mod   ../starter/source/modules/file_descriptor_mod.F90
       !||====================================================================
        subroutine checksum_check(rootname,PATH,cpunam,archtitle,iresp)
 ! ----------------------------------------------------------------------------------------------------------------------

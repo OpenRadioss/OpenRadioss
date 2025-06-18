@@ -21,11 +21,12 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    radioss_title   ../starter/source/starter/radioss_title.F
+      !||    radioss_title    ../starter/source/starter/radioss_title.F
       !||--- called by ------------------------------------------------------
-      !||    starter0        ../starter/source/starter/starter0.F
+      !||    checksum_check   ../starter/source/output/checksum/checksum_check.F90
+      !||    starter0         ../starter/source/starter/starter0.F
       !||--- calls      -----------------------------------------------------
-      !||    printcenter     ../starter/source/starter/radioss_title.F
+      !||    printcenter      ../starter/source/starter/radioss_title.F
       !||====================================================================
       SUBROUTINE RADIOSS_TITLE(IOUT,CPUNAM,ARCHTITLE,
      *             FILNAM,ROOTLEN,CHRUN,IRESP,IFLAG)

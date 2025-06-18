@@ -324,6 +324,7 @@ C
       !||====================================================================
       !||    r2r_exist              ../starter/source/coupling/rad2rad/routines_r2r.F
       !||--- called by ------------------------------------------------------
+      !||    hm_read_thchecksum     ../starter/source/output/th/hm_read_thchecksum.F90
       !||    hm_read_thgrki         ../starter/source/output/th/hm_read_thgrki.F
       !||    hm_read_thgrki_rbody   ../starter/source/output/th/hm_read_thgrki_rbody.F
       !||    hm_read_thgrpa         ../starter/source/output/th/hm_read_thgrpa.F

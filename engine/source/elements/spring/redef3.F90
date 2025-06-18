@@ -73,6 +73,7 @@
       !||    r4def3                 ../engine/source/elements/spring/r4def3.F
       !||    r6def3                 ../engine/source/elements/spring/r6def3.F
       !||--- calls      -----------------------------------------------------
+      !||    python_solve           ../common_source/modules/python_mod.F90
       !||    vinter2                ../engine/source/tools/curve/vinter.F
       !||    vinter2dp              ../engine/source/tools/curve/vinter.F
       !||    vinter_mixed           ../engine/source/tools/curve/vinter_mixed.F90

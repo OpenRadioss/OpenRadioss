@@ -588,6 +588,7 @@ C=======================================================================
       !||    hm_read_skw                  ../starter/source/tools/skew/hm_read_skw.F
       !||    hm_read_slipring             ../starter/source/tools/seatbelts/hm_read_slipring.F
       !||    hm_read_spcnd                ../starter/source/constraints/sph/hm_read_spcnd.F
+      !||    hm_read_thchecksum           ../starter/source/output/th/hm_read_thchecksum.F90
       !||    hm_read_thgrne               ../starter/source/output/th/hm_read_thgrne.F
       !||    hm_read_thgrns               ../starter/source/output/th/hm_read_thgrns.F
       !||    hm_read_thgrou               ../starter/source/output/th/hm_read_thgrou.F
@@ -700,6 +701,7 @@ C-----------------------------------------------
       !||    hm_read_rbody                 ../starter/source/constraints/general/rbody/hm_read_rbody.F
       !||    hm_read_sphcel                ../starter/source/elements/reader/hm_read_sphcel.F
       !||    hm_read_subset                ../starter/source/model/assembling/hm_read_subset.F
+      !||    hm_read_thchecksum            ../starter/source/output/th/hm_read_thchecksum.F90
       !||    hm_read_thgrki                ../starter/source/output/th/hm_read_thgrki.F
       !||    hm_read_thgrki_rbody          ../starter/source/output/th/hm_read_thgrki_rbody.F
       !||    hm_read_thgrne                ../starter/source/output/th/hm_read_thgrne.F
