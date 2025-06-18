@@ -232,8 +232,7 @@ C-----------------------------------------------
         WRITE(VARNAME,'(A)') 'ALE%GLOBAL%SIELVS'
         TEMP_INT = ALE%GLOBAL%SIELVS
         IF(TEMP_INT/=0)CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),TEMP_INT,0.0_8)  
-          
-          
+                    
        !------------------------------------------------------------------------
        ! ---ALE GLOBAL
        !   INTEGER IALESUB
@@ -271,8 +270,20 @@ C-----------------------------------------------
         WRITE(VARNAME,'(A)') 'ALE%SUB%DTMSUB'
         TEMP_DOUBLE = ALE%SUB%DTMSUB
         IF(TEMP_DOUBLE/=ZERO)CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
-          
-                    
+        
+       !------------------------------------------------------------------------
+       ! ---ALE GLOBAL
+       !   INTEGER NUM_NUVAR_MAT
+       !   INTEGER NUM_NUVAR_EOS
+
+        WRITE(VARNAME,'(A)') 'ALE%REZON%NUM_NUVAR_MAT'
+        TEMP_INT = ALE%REZON%NUM_NUVAR_MAT
+        IF(TEMP_INT/=0)CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),TEMP_INT,0.0_8)  
+
+        WRITE(VARNAME,'(A)') 'ALE%REZON%NUM_NUVAR_EOS'
+        TEMP_INT = ALE%REZON%NUM_NUVAR_EOS
+        IF(TEMP_INT/=0)CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),TEMP_INT,0.0_8)  
+
       ENDIF        
             
 C-----------------------------------------------------------------------

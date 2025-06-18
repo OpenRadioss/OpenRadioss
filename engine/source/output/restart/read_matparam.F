@@ -49,6 +49,7 @@ C-----------------------------------------------
       USE NAMES_AND_TITLES_MOD
       USE read_eosparam_mod
       use read_therpmaram_mod
+      use read_ale_rezoning_param_mod , only : read_ale_rezoning_param
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -232,6 +233,11 @@ c
           CALL READ_EOSPARAM(MAT_ELEM%MAT_PARAM(IMAT)%EOS)
         END IF
       END DO
+      
+      ! read ALE rezoning parameters
+      DO IMAT = 1,NUMMAT
+        CALL READ_ALE_REZONING_PARAM(MAT_ELEM%MAT_PARAM(IMAT)%REZON)
+      END DO       
 
 c-----------
       RETURN

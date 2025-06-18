@@ -339,6 +339,7 @@
       use multimat_param_mod
       use eos_param_mod
       use precision_mod, only : WP
+      use ale_mod , only : ale_rezon_
       implicit none
 
       private :: WP
@@ -411,6 +412,7 @@
         type (therm_param_)                          :: therm    !< thermal model data structure (/heat/mat + /therm_stress)         
         type (eos_param_)                            :: eos      !< eos model data structure
         type (multimat_param_)                       :: multimat !< buffer scpecific to multimaterial laws (51,151) : vfrac and mat internal identifiers
+        type (ale_rezon_)                            :: rezon
 
 !        type (submat_)  ,dimension(:) ,allocatable :: submat    !< multi material data structure (to be defined) 
 
@@ -480,6 +482,10 @@
 
             !MULTIMAT
             this%multimat%nb = 0
+
+            !ALE ZERONING
+            this%rezon%num_nuvar_mat = 0
+            this%rezon%num_nuvar_eos = 0
 
         end subroutine zeroing_matparam
 

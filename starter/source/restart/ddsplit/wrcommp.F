@@ -1926,7 +1926,12 @@ C
       TABVINT(LVARINT) = INTER_PARAMETERS%INT25_EROSION_SOLID
 C-----/INIVEL w/ T_start
       LVARINT=LVARINT+1
-      TABVINT(LVARINT) = NINIVELT_L        
+      TABVINT(LVARINT) = NINIVELT_L  
+C-----ALE%REZON
+      LVARINT=LVARINT+1
+      TABVINT(LVARINT) = ALE%REZON%NUM_NUVAR_MAT
+      LVARINT=LVARINT+1
+      TABVINT(LVARINT) = ALE%REZON%NUM_NUVAR_EOS
 C----------------------------------------------------------------
 C    warning to radioss developers : Check LVARINT < LMXVINT
 C----------------------------------------------------------------

@@ -60,6 +60,7 @@ C-----------------------------------------------
       USE INIVOL_DEF_MOD , ONLY : INIVOL_STRUCT_, NUM_INIVOL
       USE MATPARAM_DEF_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
+      USE ALE_MOD , ONLY : ALE
 C-----------------------------------------------
 C            A R G U M E N T S
 C-----------------------------------------------
@@ -796,7 +797,21 @@ C     Multifluid law, setting NLAY
              IPARG(7, NGROUP) = JALE
              IPARG(11, NGROUP) = JEUL
              IPARG(13,NGROUP) = +ABS(JTHE) ! -1 nodal temperature    +1 centroid temperature 
-          ENDIF             
+          ENDIF
+
+          !ALE REZONING/REMAPING : number of MAT/EOS variables to treat (used by staggered scheme only : arezon.F)
+          !  With ALE framework, since the Mesh is arbitrary, the variable must be updated to map thei expected location and not follow the arbitrary mesh displacement
+          !  this numbering here will be used in arezon.F to loop over variables to rezon/remap
+          IF(JALE == 1)THEN
+            ALE%REZON%NUM_NUVAR_MAT = ALE%REZON%NUM_NUVAR_MAT + MAT_PARAM(MID)%REZON%NUM_NUVAR_MAT
+            ALE%REZON%NUM_NUVAR_EOS = ALE%REZON%NUM_NUVAR_EOS + MAT_PARAM(MID)%REZON%NUM_NUVAR_EOS
+          ENDIF
+
+          !ALE UVAR REZONING  (81:MAT,  82:EOS)
+          IF(JALE == 1)THEN
+            IPARG(81,NGROUP) = MAT_PARAM(MID)%REZON%NUM_NUVAR_MAT
+            IPARG(82,NGROUP) = MAT_PARAM(MID)%REZON%NUM_NUVAR_EOS
+          ENDIF
 
           IPARG(45,NGROUP)= ILEV
           IF(ILEV/=0 .AND. ISH3N > 2)THEN

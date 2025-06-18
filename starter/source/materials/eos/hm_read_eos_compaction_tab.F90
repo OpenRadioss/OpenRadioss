@@ -55,7 +55,7 @@
       !||    table_mod                    ../starter/share/modules1/table_mod.F
       !||====================================================================
       subroutine hm_read_eos_compaction_tab(iout,pm,unitab,lsubmodel,uid,eos_tag,ieos,npropm, &
-                                            maxeos,eos_param,ntable,table)
+                                            maxeos,eos_param,ntable,table, ale_rezon_param)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -70,6 +70,7 @@
       use table_mat_vinterp_mod , only : table_mat_vinterp
       use names_and_titles_mod , only : ncharline
       use precision_mod, only : WP
+      use ale_mod , only : ale_rezon_
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -91,6 +92,7 @@
       type(eos_param_), intent(inout) :: eos_param !< eos data structure (specific parameters)
       integer, intent(in) :: ntable
       type(ttable) ,dimension(ntable) ,intent(in) :: table
+      type(ale_rezon_), intent(inout) :: ale_rezon_param
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -341,6 +343,12 @@
       pm(31) = p0-psh
       pm(104)= p0-psh
 
+      !< ALE rezoning.
+      ! tell to rezoning how many user variables (uvar) must be rezoned.
+      ! Example :  nuvar = 5          ! material law has 5 user variables
+      !            %num_nuvar_mat = 2 ! uvar(I,1) and uvar(i,1) will be rezoned.
+      ale_rezon_param%num_nuvar_eos = 5
+
       write(iout,1000)
       if(is_encrypted)then
         WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
@@ -358,6 +366,7 @@
         endif
         write(iout,3000) rhomax_plastic
       endif
+
 
       return
 ! ----------------------------------------------------------------------------------------------------------------------

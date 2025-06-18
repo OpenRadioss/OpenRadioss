@@ -302,6 +302,13 @@ C ngroup global
             JALE=0
             JEUL=1
           ENDIF
+
+          !ALE UVAR REZONING  (81:MAT,  82:EOS)
+          ! n/a with SPH
+          IPARG(81,NGROUP) = 0
+          IPARG(82,NGROUP) = 0
+
+
           IF (JALE+JEUL/=0) THEN
 C           WRITE(ISTDO,*) ' ** ERROR : BAD ANALYSIS TYPE'
 C           WRITE(IOUT,*)  ' ** ERROR : BAD ANALYSIS TYPE'
