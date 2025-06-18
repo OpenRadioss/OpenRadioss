@@ -177,27 +177,27 @@ C=======================================================================
           EPLAS => EPL(1:NEL)
         ENDIF
       ENDIF
-c
+
       IF(JSPH==0)THEN
          FILL  => GBUF%FILL(1:NEL)
       ELSE
          FILLO(1:NEL)=ONE
          FILL => FILLO(1:NEL)
       END IF
-c
+
       CALL MATING(PM      ,VOL     ,OFF     ,EINT     ,RHO      ,
      .            SIG     ,IX      ,NIX     ,SIGI     ,EPLAS    ,
      .            NSIG    ,MAT     ,NUMS    ,PT       ,NEL      ,
      .            FILL    ,TEMP    ,TEMPEL  )
      
-C--------------------
+!--------------------
       IF(JMULT <= 1)THEN  !reset only once
         IPARG(15)=0   !  FLAG REZONE SIG
         IPARG(16)=0   !  FLAG REZONE EPS PLAST.
         IPARG(63)=0   !  FLAG FOR FLUID MATERIAL
         IPARG(64)=0   !  FLAG FOR NON REFLECTING BOUNDARY      
       ENDIF
-C---------------------------      
+!---------------------------
       IF (MTN == 1) THEN
         IPARG(15)=1
       ELSEIF (MTN == 2.OR.MTN == 3.OR.MTN == 4) THEN
@@ -267,12 +267,10 @@ C---------------------------
         ENDIF
       ELSEIF (MTN == 20) THEN
         IF(IPARG(5)/=2)THEN
-          CALL ANCMSG(MSGID=129,
-     .                MSGTYPE=MSGERROR,
-     .                ANMODE=ANINFO)
+          CALL ANCMSG(MSGID=129,MSGTYPE=MSGERROR,ANMODE=ANINFO)
           CALL ARRET(2)                 
-                 ENDIF
-      ELSEIF (MTN == 21.OR.MTN == 22.OR.MTN == 23) THEN
+        ENDIF
+      ELSEIF (MTN == 21 .OR. MTN == 22 .OR. MTN == 23) THEN
         IPARG(15)=1
         IPARG(16)=1
       ELSEIF (MTN == 24) THEN
@@ -301,27 +299,27 @@ C---------------------------
         IPARG(15)=1
         IPARG(16)=1
       ELSEIF (MTN >= 28) THEN
-C     User-type laws
+!     User-type laws
         IF(MTN /= 67)THEN
           IPARG(15)=1
           IPARG(16)=1
         END IF
-c
+
         NUVAR  = IPM(8,MAT(1))
         NPAR   = IPM(9,MAT(1))
         IADBUF = IPM(7,MAT(1))
         IADBUF = MAX(1,IADBUF)
         UPARAM => BUFMAT(IADBUF:IADBUF+NPAR)
-c        
+
         DO I=LFT,LLT
           RHO0(I)= PM( 1,MAT(I))
         END DO
-C       attention loi 36
+        ! law36
         NFUNC  = IPM(10,MAT(1))
         DO I=1,NFUNC
           IFUNC(I) = IPM(10+I,MAT(1))
         ENDDO
-c
+
         IF (MTN == 37) THEN
           IPARG(63) = 1 !Loi fluide
           CALL M37INIT(IPM     ,PM      ,
@@ -354,7 +352,7 @@ c
      1       NEL   ,NPAR    ,NUVAR   ,NFUNC  ,IFUNC  ,
      2       NPF   ,TF      ,UPARAM  ,RHO0   ,VOL    ,
      3       EINT  ,MBUF%VAR)
-c
+
         ELSEIF (MTN == 95) THEN
           CALL M95INIT(NEL   ,NUVAR   ,MBUF%VAR)
         ELSEIF (MTN == 97)THEN
@@ -378,18 +376,15 @@ c
      .                 BUFMAT  ,RHO0      ,TB)
 
         ENDIF
-
       ENDIF
 
-
-      
       !must be set, once m51init() was called
       IF(ELBUF_STR%BUFLY(1)%L_SSP /= 0)THEN
         DO I=1,NEL
           LBUF%SSP(I)=PM(27,MAT(I))
         ENDDO
       ENDIF
-      
+
 C------------
       RETURN
       END

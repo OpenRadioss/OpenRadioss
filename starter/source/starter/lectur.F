@@ -6578,7 +6578,7 @@ C
      2    DD_TMP    ,IDX       ,LB_MAX    ,INUM      ,INDEX1    ,
      3    CEP(OFF)  ,IPARTIG3D ,ITR1      ,IGRSURF   ,
      4    IXIG3D    ,IGEO      ,
-     5    PM        ,NIGE      ,KNOTLOCEL)
+     5    PM        ,NIGE      ,KNOTLOCEL, MAT_ELEM%MAT_PARAM)
         OFF = OFF + NUMELIG3D
       ENDIF
       DEALLOCATE(IWORK)

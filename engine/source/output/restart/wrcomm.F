@@ -1746,6 +1746,11 @@ C-----/DAMP/VREL
 C-----/INIVEL w/ T_start
       LVARINT=LVARINT+1
       TABVINT(LVARINT) = LOADS%NINIVELT       
+C-----ALE%REZON
+      LVARINT=LVARINT+1
+      TABVINT(LVARINT) = ALE%REZON%NUM_NUVAR_MAT
+      LVARINT=LVARINT+1
+      TABVINT(LVARINT) = ALE%REZON%NUM_NUVAR_EOS
 C----------------------------------------------------------------
 C    warning to radioss developers : Check LVARINT < LMXVINT
 C----------------------------------------------------------------

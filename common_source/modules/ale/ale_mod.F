@@ -220,12 +220,19 @@ C-----------------------------------------------
           my_real DTMSUB
         END TYPE ALE_SUB_
 
+        !ALE REZONING (variable to rezone)
+        TYPE ALE_REZON_
+          INTEGER :: NUM_NUVAR_MAT
+          INTEGER :: NUM_NUVAR_EOS
+        END TYPE ALE_REZON_
+
         ! GENERAL DATA STRUCTURE USED IN SOURCE CODE
         TYPE ALE_
           TYPE(ALE_GRID_)   :: GRID
           TYPE(ALE_UPWIND_) :: UPWIND
           TYPE(ALE_GLOBAL_) :: GLOBAL
           TYPE(ALE_SUB_)    :: SUB
+          TYPE(ALE_REZON_)  :: REZON
           contains
             procedure, pass :: init         
         END TYPE ALE_
@@ -293,7 +300,10 @@ C-----------------------------------------------
             this%SUB%NODSUBDT = 0
             this%SUB%DT1SAVE = ZERO
             this%SUB%DTFSUB = ZERO
-            this%SUB%DTMSUB = ZERO                                                              
+            this%SUB%DTMSUB = ZERO
+            !---ALE%REZON
+            this%REZON%NUM_NUVAR_MAT = 0
+            this%REZON%NUM_NUVAR_EOS = 0
           end subroutine    
                
       END MODULE ALE_MOD

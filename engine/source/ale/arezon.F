@@ -20,6 +20,8 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+      MODULE AREZON_MOD
+      CONTAINS
       !||====================================================================
       !||    arezon                 ../engine/source/ale/arezon.F
       !||--- called by ------------------------------------------------------
@@ -42,10 +44,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    multimat_param_mod     ../common_source/modules/multimat_param_mod.F90
       !||====================================================================
       SUBROUTINE AREZON(
-     1  IPARG   ,ELBUF_STR,FLUX    ,PHI   ,ALE_CONNECT   ,
-     2  NDIM    ,NVAR     ,NV      ,ITASK ,NERCVOIS,
+     1  IPARG   ,ELBUF_STR,FLUX    ,PHI     ,ALE_CONNECT   ,
+     2  NVAR    ,NV       ,ITASK   ,NERCVOIS,
      3  NESDVOIS,LERCVOIS ,LESDVOIS,LENCOM,BHOLE   ,
-     4  ITRIMAT )
+     4  ITRIMAT ,OPT_FLAG_MAT_EOS)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -53,6 +55,8 @@ C-----------------------------------------------
       USE ELBUFDEF_MOD            
       USE ALE_CONNECTIVITY_MOD
       USE MULTIMAT_PARAM_MOD , ONLY : M51_N0PHAS, M51_NVPHAS
+      USE AREZO3_MOD , ONLY : AREZO3
+      USE AREZO2_MOD , ONLY : AREZO2
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -69,24 +73,26 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       my_real FLUX(*), PHI(*)
-      INTEGER NDIM, NVAR, ITASK, LENCOM,ITRIMAT,NV,
+      INTEGER NVAR, ITASK, LENCOM,ITRIMAT,NV,
      .        IPARG(NPARG,NGROUP), 
      .        NERCVOIS(*),NESDVOIS(*),LERCVOIS(*),LESDVOIS(*),
      .        BHOLE(*)
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_STR
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
+      INTEGER,INTENT(IN),OPTIONAL :: OPT_FLAG_MAT_EOS
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: NG, IRS, IRE, I, J, K, NM, NMN, NFX, ADD, ADD0,IDX,INDX,NEL
+      INTEGER :: NUVAR_MAT !< number of user variable (MATERIAL) to rezon
+      INTEGER :: NUVAR_EOS !< number of user variable (EOS) to rezon
       my_real, DIMENSION(:), POINTER :: VAR,SIG,VOL, TAG22,TEMP
+      INTEGER :: FLAG_MAT_EOS
 C-----------------------------------------------
 C     S o u r c e   L i n e s
 C-----------------------------------------------
-
-C=======================================================================
-C PHI DEFINED DEPENDING ON NVAR VALUE
-C=======================================================================
+      FLAG_MAT_EOS = 0
+      IF(PRESENT(OPT_FLAG_MAT_EOS))FLAG_MAT_EOS = OPT_FLAG_MAT_EOS
       IDX=NV
       NMN=MAX(1,NMULT)
       DO NM=1,NMN
@@ -104,10 +110,19 @@ C     ALE ON / OFF
      6     IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,   
      7     ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS    )
         !-----------------------------!
-        ! UNPLUG CONDITIONS           !
+        ! PRECONDITIONS               !
         !-----------------------------!
+        NUVAR_MAT = IPARG(81,NG)
+        NUVAR_EOS = IPARG(82,NG)
+        IF (NVAR == 11)THEN
+          IF (FLAG_MAT_EOS == 0 .OR. IDX == 0) CYCLE ! %VAR (MAT and EOS)
+          IF(FLAG_MAT_EOS == 1)THEN
+            IF(IDX > NUVAR_MAT) CYCLE ! rezon uvar( I,  1:NUVAR_MAT) only
+          ELSEIF (FLAG_MAT_EOS == 2)THEN
+           IF(IDX > NUVAR_EOS) CYCLE ! rezon uvar( I,  1:NUVAR_MAT) only
+          ENDIF
+        ENDIF
         IF (ITRIMAT > 0 .AND. MTN /= 51) CYCLE
-        IF (NVAR == 11 .AND. MTN /= 81) CYCLE
         IF (JALE+JEUL == 0) CYCLE
         IF (IPARG(8,NG) == 1) CYCLE
         IF (MAX(1,JMULT) < NM) CYCLE
@@ -116,8 +131,8 @@ C     ALE ON / OFF
         IF (NVAR == 10 .AND.(MTN == 37)) CYCLE
         IF (NVAR == 12 .AND. ELBUF_STR(NG)%GBUF%G_TEMP == 0) CYCLE
         !-----------------------------!
-        IRS=IPARG(15,NG)
-        IRE=IPARG(16,NG)
+        IRS=IPARG(15,NG) !rezoning sigma enabled
+        IRE=IPARG(16,NG) !rezoning plasticity or burning time
         LFT=1
         NEL=LLT
 
@@ -136,7 +151,7 @@ C     ALE ON / OFF
           ELSE
             DO I=LFT,LLT !other material laws or mtn=51
               J = I+NFT
-              K = (IDX-1)*NEL + I
+              K = (IDX-1)*NEL + I !idx : 1:6
               PHI(J) = ELBUF_STR(NG)%BUFLY(NM)%LBUF(1,1,1)%SIG(K)
             ENDDO
           ENDIF
@@ -153,7 +168,7 @@ C     ALE ON / OFF
             ADD0= M51_N0PHAS + (ITRIMAT-1)*M51_NVPHAS
             ADD = ADD0 + 15  ! PLAS
             K   = LLT*(ADD-1)
-            VAR  => ELBUF_STR(NG)%BUFLY(1)%MAT(1,1,1)%VAR(K+1:K+LLT*NDIM)
+            VAR  => ELBUF_STR(NG)%BUFLY(1)%MAT(1,1,1)%VAR(K+1:K+LLT)
           ELSEIF (MTN == 5 .OR. MTN ==97 .OR. MTN==105 .OR. ITRIMAT == 4) THEN  ! DETONATION TIME
             VAR => ELBUF_STR(NG)%BUFLY(NM)%LBUF(1,1,1)%TB(1:LLT)
           ELSEIF (MTN == 6) THEN
@@ -169,14 +184,24 @@ C     ALE ON / OFF
           ENDDO
         !----------------------------!
         !        N V A R = 11        !
-        !             (EPS_P_VOL)    !
+        !          (MAT/EOS %VAR)    !
         !----------------------------!
-        ELSEIF (NVAR == 11 .AND. IRE == 1 .AND. MTN == 81) THEN
-          VAR => ELBUF_STR(NG)%BUFLY(NM)%MAT(1,1,1)%VAR(LLT+1:LLT*2)
-          DO I=LFT,LLT
-            J = I+NFT
-            PHI(J) = VAR(I)
-          ENDDO
+        ELSEIF (NVAR == 11) THEN
+          IF( FLAG_MAT_EOS == 1 ) THEN
+            ! MAT %VAR buffer
+            VAR => ELBUF_STR(NG)%BUFLY(NM)%MAT(1,1,1)%VAR(LLT*(IDX-1)+1:LLT*(IDX))
+            DO I=LFT,LLT
+              J = I+NFT
+              PHI(J) = VAR(I)
+            ENDDO
+          ELSEIF( FLAG_MAT_EOS == 2 )THEN
+            ! EOS %VAR buffer
+            VAR => ELBUF_STR(NG)%BUFLY(NM)%EOS(1,1,1)%VAR(LLT*(IDX-1)+1:LLT*(IDX))
+            DO I=LFT,LLT
+              J = I+NFT
+              PHI(J) = VAR(I)
+            ENDDO
+          ENDIF
         !----------------------------!
         !        N V A R = 12        !
         !             (TEMP)         !
@@ -227,7 +252,16 @@ C     ALE ON / OFF
         !-----------------------------!
         ! UNPLUG CONDITIONS           !
         !-----------------------------!
-        IF (NVAR == 11 .AND. MTN /= 81) CYCLE
+        NUVAR_MAT = IPARG(81,NG)
+        NUVAR_EOS = IPARG(82,NG)
+        IF (NVAR == 11)THEN
+          IF (FLAG_MAT_EOS == 0 .OR. IDX == 0) CYCLE ! %VAR (MAT and EOS)
+          IF(FLAG_MAT_EOS == 1)THEN
+            IF(IDX > NUVAR_MAT) CYCLE ! rezon uvar( I,  1:NUVAR_MAT) only
+          ELSEIF (FLAG_MAT_EOS == 2)THEN
+           IF(IDX > NUVAR_EOS) CYCLE ! rezon uvar( I,  1:NUVAR_MAT) only
+          ENDIF
+        ENDIF
         IF (MAX(1,JMULT) < NM)         CYCLE
         IF (JALE+JEUL == 0)             CYCLE
         IF (IPARG(8,NG) == 1)           CYCLE
@@ -246,28 +280,27 @@ C     ALE ON / OFF
         !----------------------------!
         IF (NVAR == 2 .AND. IRS == 1) THEN
           INDX = IDX
-          IF (ITRIMAT>0) THEN
+          IF (ITRIMAT > 0) THEN
             ADD    = M51_N0PHAS + (ITRIMAT-1)*M51_NVPHAS + IDX          ! ADD+1 => SIG[IDX](i=1)
             ADD    = ADD *LLT
-            SIG    => ELBUF_STR(NG)%BUFLY(1)%MAT(1,1,1)%VAR(ADD+1:ADD+LLT*NDIM)
+            SIG    => ELBUF_STR(NG)%BUFLY(1)%MAT(1,1,1)%VAR(ADD+1:ADD+LLT) ! S[INDX] , S1,S2,S3,...,or S6
             ADD    = M51_N0PHAS + (ITRIMAT-1)*M51_NVPHAS + 10          ! ADD+1 => VOL(1)
             ADD    = ADD *LLT
             VOL => ELBUF_STR(NG)%BUFLY(1)%MAT(1,1,1)%VAR(ADD+1:ADD+LLT)
             INDX   = 1
           ELSE
-            SIG => ELBUF_STR(NG)%BUFLY(NM)%LBUF(1,1,1)%SIG(1:LLT*NDIM)
+            SIG => ELBUF_STR(NG)%BUFLY(NM)%LBUF(1,1,1)%SIG(LLT*(INDX-1)+1:LLT*IDX)
             VOL => ELBUF_STR(NG)%BUFLY(NM)%LBUF(1,1,1)%VOL(1:LLT)
           ENDIF
           IF (N2D == 0) THEN
             TAG22  => ELBUF_STR(NG)%GBUF%TAG22(1:LLT)
-            CALL AREZO3_SIG(ALE_CONNECT,SIG,INDX,PHI,NDIM,FLUX(6*NFT+1),VOL,TAG22,NEL)
+            CALL AREZO3(ALE_CONNECT,SIG,PHI,FLUX(6*NFT+1),VOL,TAG22)
           ELSE
             NFX = NFT+(NM-1)*NUMELQ
             IF (NMULT == 0) THEN
-              CALL AREZO2_SIG(ALE_CONNECT,SIG,INDX,PHI,NDIM,
-     .                        FLUX(4*NFX+1),VOL,NEL)
+              CALL AREZO2(ALE_CONNECT,SIG,PHI,FLUX(4*NFX+1),VOL)
             ELSE
-              CALL BREZO2_SIG(ALE_CONNECT  ,SIG   ,IDX    ,PHI   ,NDIM  , FLUX(4*NFX+1) ,VOL,BHOLE,NM,NEL)
+              CALL BREZO2(ALE_CONNECT,SIG ,PHI,FLUX(4*NFX+1),VOL,BHOLE,NM)
             ENDIF
           ENDIF
         !----------------------------!
@@ -284,7 +317,7 @@ C     ALE ON / OFF
             ADD0= M51_N0PHAS + (ITRIMAT-1)*M51_NVPHAS
             ADD = ADD0 + 15                                ! UVAR(ADD+1) => PLAS
             K   = LLT*(ADD-1)                               
-            VAR =>ELBUF_STR(NG)%BUFLY(1)%MAT(1,1,1)%VAR(K+1:K+LLT*NDIM)
+            VAR =>ELBUF_STR(NG)%BUFLY(1)%MAT(1,1,1)%VAR(K+1:K+LLT)
             INDX=1
           ELSEIF (MTN == 5 .OR. MTN == 97 .OR. MTN==105 .OR. ITRIMAT == 4) THEN
             VAR => ELBUF_STR(NG)%BUFLY(NM)%LBUF(1,1,1)%TB(1:LLT)
@@ -308,11 +341,15 @@ C     ALE ON / OFF
           ENDIF                                                       
         !----------------------------!
         !        N V A R = 11        !
-        !             (EPS_P_VOL)    !
+        !          (MAT/EOS %VAR)    !
         !----------------------------!
-        ELSEIF (NVAR == 11 .AND. IRE == 1 .AND. MTN == 81) THEN
-          VOL => ELBUF_STR(NG)%BUFLY(NM)%LBUF(1,1,1)%VOL(1:LLT)        
-          VAR => ELBUF_STR(NG)%BUFLY(NM)%MAT(1,1,1)%VAR(LLT+1:LLT*2)
+        ELSEIF (NVAR == 11) THEN
+          VOL => ELBUF_STR(NG)%BUFLY(NM)%LBUF(1,1,1)%VOL(1:LLT)
+          IF(FLAG_MAT_EOS == 1)THEN
+            VAR => ELBUF_STR(NG)%BUFLY(NM)%MAT(1,1,1)%VAR(LLT*(IDX-1)+1:LLT*(IDX))
+          ELSEIF (FLAG_MAT_EOS == 2)THEN
+            VAR => ELBUF_STR(NG)%BUFLY(NM)%EOS(1,1,1)%VAR(LLT*(IDX-1)+1:LLT*(IDX))
+          ENDIF
           DO I=LFT,LLT                                           
             J = I+NFT                                            
             PHI(J) = VAR(I)
@@ -341,7 +378,7 @@ C     ALE ON / OFF
             ADD0= M51_N0PHAS + (ITRIMAT-1)*M51_NVPHAS
             ADD = ADD0 + 16                                ! UVAR(ADD+1) => TEMP
             K   = LLT*(ADD-1)
-            VAR =>ELBUF_STR(NG)%BUFLY(1)%MAT(1,1,1)%VAR(K+1:K+LLT*NDIM)
+            TEMP =>ELBUF_STR(NG)%BUFLY(1)%MAT(1,1,1)%VAR(K+1:K+LLT)
             INDX=1
           ELSE
             TEMP => ELBUF_STR(NG)%BUFLY(NM)%LBUF(1,1,1)%TEMP(1:LLT)
@@ -364,4 +401,5 @@ C     ALE ON / OFF
       END DO !next NM
 C-----------
       RETURN
-      END
+      END SUBROUTINE AREZON
+      END MODULE AREZON_MOD

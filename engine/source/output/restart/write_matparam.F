@@ -45,6 +45,7 @@ C-----------------------------------------------
       USE MAT_ELEM_MOD
       USE NAMES_AND_TITLES_MOD
       use write_therpmaram_mod
+      use write_ale_rezoning_param_mod , only : write_ale_rezoning_param
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -215,6 +216,11 @@ c
           CALL WRITE_EOSPARAM(MAT_ELEM%MAT_PARAM(IMAT)%EOS)
         END IF
       END DO
+      
+      ! write ALE rezoning parameters
+      DO IMAT = 1,NUMMAT
+        CALL WRITE_ALE_REZONING_PARAM(MAT_ELEM%MAT_PARAM(IMAT)%REZON)
+      END DO       
 !-----------
       RETURN
       END
