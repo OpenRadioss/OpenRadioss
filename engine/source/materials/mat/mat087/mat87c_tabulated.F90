@@ -405,7 +405,7 @@
             dxpp2dsigxy = dxpp2dxppxy*lpp66
 !
             !< Derivative of phiprime w.r.t xprime 1
-            dphipdxp1 = (abs(xp1(i)-xp2(i)))**(expa-1)*sign(one,xp1(i)-xp2(i))
+            dphipdxp1 = expa*(abs(xp1(i)-xp2(i)))**(expa-1)*sign(one,xp1(i)-xp2(i))
             !< Derivative of phiprime w.r.t xprime 2
             dphipdxp2 = -dphipdxp1
 !
