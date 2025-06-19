@@ -620,6 +620,8 @@ C Init NTHREAD(=NPROC) tasks
 C KMP_STACKSIZE/OMP_STACKSIZE Environment variable check
       CALL SOLVER_STACKSIZE()
 C--------------------------------------------------
+C some initializations to be done after INIPAR
+
       HELAS=HALF
       HVISC=HALF
       HVLIN=ZERO
@@ -1593,6 +1595,7 @@ C------------------------------------------------
          ENDIF
           IUNIT=IUHIS
           IFIL = fd_bin_th
+          OUTPUT%TH%TH_WRITE_TYPE = ITFORM
           IFILTITL = IUTITLHIS
           ITHFLAG = 10
           CALL HIST1( FILNAMTH ,IFIL              ,NTHGRP            ,LONG,
