@@ -454,7 +454,45 @@ public:
         return 0;
     }
 
-
+    // Get value of an attribute for this element (by attribute name)
+    virtual Status GetValue(const sdiIdentifier& identifier, sdiValue& value) const
+    {
+        if (!p_ptr) return false;
+        // Try to get the attribute as an array value at the element's index (p_index2)
+        int att_index = p_ptr->GetIndex(IMECPreObject::ATY_ARRAY, IMECPreObject::VTY_INT, identifier.GetNameKey());
+        if (att_index >= 0) {
+            value = sdiValue(p_ptr->GetIntValue(att_index, p_index2));
+            return true;
+        }
+        att_index = p_ptr->GetIndex(IMECPreObject::ATY_ARRAY, IMECPreObject::VTY_FLOAT, identifier.GetNameKey());
+        if (att_index >= 0) {
+            value = sdiValue(p_ptr->GetFloatValue(att_index, p_index2));
+            return true;
+        }
+        att_index = p_ptr->GetIndex(IMECPreObject::ATY_ARRAY, IMECPreObject::VTY_STRING, identifier.GetNameKey());
+        if (att_index >= 0) {
+            value = sdiValue(sdiString(p_ptr->GetStringValue(att_index, p_index2)));
+            return true;
+        }
+        // Try as single value (not array)
+        att_index = p_ptr->GetIndex(IMECPreObject::ATY_SINGLE, IMECPreObject::VTY_INT, identifier.GetNameKey());
+        if (att_index >= 0) {
+            value = sdiValue(p_ptr->GetIntValue(att_index));
+            return true;
+        }
+        att_index = p_ptr->GetIndex(IMECPreObject::ATY_SINGLE, IMECPreObject::VTY_FLOAT, identifier.GetNameKey());
+        if (att_index >= 0) {
+            value = sdiValue(p_ptr->GetFloatValue(att_index));
+            return true;
+        }
+        att_index = p_ptr->GetIndex(IMECPreObject::ATY_SINGLE, IMECPreObject::VTY_STRING, identifier.GetNameKey());
+        if (att_index >= 0) {
+            value = sdiValue(sdiString(p_ptr->GetStringValue(att_index)));
+            return true;
+        }
+        // Not found
+        return false;
+    }
     virtual unsigned int GetNodeCount() const
     {
         unsigned int node_count = 0;
