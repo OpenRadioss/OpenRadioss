@@ -42,11 +42,11 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      8     SIGNXX ,SIGNYY ,SIGNZZ  ,SIGNXY  ,SIGNYZ   ,SIGNZX ,
      9     SIGVXX ,SIGVYY ,SIGVZZ  ,SIGVXY  ,SIGVYZ   ,SIGVZX ,
      A     SOUNDSP,VISCMAX,UVAR    ,OFF     ,NFT      ,V      ,
-     B     W      ,X      ,IX      ,N48     ,NIX      ,JTHE   ,
+     B     W      ,X      ,IX      ,NIX      ,JTHE   ,
      C     GEO    ,PID    ,ILAY    ,NG      ,ELBUF_TAB,PM     , 
      D     IPARG  ,BUFVOIS ,IPM    ,BUFMAT  ,STIFN    ,
      E     VD2    ,VDX    ,VDY     ,VDZ     ,MAT      ,VOLN   ,
-     F     QNEW   ,DDVOL  ,QOLD    )  
+     F     QNEW   ,DDVOL  ,QOLD    ,PSH)
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -84,7 +84,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I N P U T   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NEL, NUPARAM, NUVAR,NFT,N48,NIX,JTHE,
+      INTEGER NEL, NUPARAM, NUVAR,NFT,NIX,JTHE,
      .        IX(NIX,*), PID(*), ILAY, NG,PM(NPROPM,*),IPARG(*),MAT(*),
      .        IPM(NPROPMI,*)
       my_real 
@@ -106,6 +106,7 @@ C-----------------------------------------------
      .   STIFN(MVSIZ) ,VD2(*)     ,VDX(*)     ,
      .   VDY(*)       ,VDZ(*)     ,SSP        ,
      .   VOLN(*)
+      my_real,intent(inout) :: PSH(NEL)
       TYPE (ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP) :: ELBUF_TAB
 C-----------------------------------------------
 C   O U T P U T   A r g u m e n t s
@@ -142,7 +143,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       my_real :: P,Qa,QB,QAL,QBL, POLD,VOLD,EINC,PNEW
       my_real :: BULK, D, EG, Gr, C, ALPHA,BETA, C1, C2,FSCALE_G,FSCALE_B,FSCALE_P,FSCALE_RHO
-      my_real :: P0,XL, DD, PSH, VOLO, ESPE, E0, TOTAL_BFRAC, DELTA_BF, BRATE
+      my_real :: P0,XL, DD, VOLO, ESPE, E0, TOTAL_BFRAC, DELTA_BF, BRATE
       my_real :: PG,PG_,PS, MU_G, MU_P, MU, RHO_G,RHO_G_, RHO_S, RHOG, RHO_Si
       INTEGER :: funcb, funcg
       INTEGER :: IBID, IBFRAC, I , K     
@@ -164,7 +165,7 @@ C   S t a n d a r d   J W L   E O S
 C-----------------------------------------------  
       BULK       = UPARAM(01)   
       P0         = UPARAM(02)          
-      PSH        = UPARAM(03)   
+      PSH(:)     = UPARAM(03)
       E0         = UPARAM(04)   
       D          = UPARAM(05)   
       EG         = UPARAM(06)   
@@ -178,24 +179,24 @@ C-----------------------------------------------
       FSCALE_P   = UPARAM(14)  
       FSCALE_RHO = UPARAM(15)  
       funcb      = IFUNC(1)  
-      funcg      = IFUNC(2) 
+      funcg      = IFUNC(2)
       
       compac=0.93
                  
-      IF(DT1==ZERO)THEN
+      IF(DT1 == ZERO)THEN
         DO I=1,NEL
           EINT(I) = EG*RHO0(I)*VOLUME(I)
-          UVAR(I,1) = P0                 !PS             
-          UVAR(I,2) = ZERO               !PG             
+          UVAR(I,1) = P0-PSH(I)          !PS
+          UVAR(I,2) = P0-PSH(I)          !PG
           UVAR(I,3) = RHO0(I)/compac     !RHO_S          
           UVAR(I,4) = ZERO               !RHO_G          
-          UVAR(I,5) = P0                 !POLD           
+          UVAR(I,5) = P0-PSH(I)          !POLD
           UVAR(I,6) = ZERO               !F(t_old)        
           UVAR(I,7) = RHO0(I)*VOLUME(I)  !Mass0             
         ENDDO
-        SIGNXX(1:NEL) = - P0 
-        SIGNYY(1:NEL) = - P0  
-        SIGNZZ(1:NEL) = - P0 
+        SIGNXX(1:NEL) = - (P0-PSH(I))
+        SIGNYY(1:NEL) = - (P0-PSH(I))
+        SIGNZZ(1:NEL) = - (P0-PSH(I))
         SIGNXY(1:NEL) = ZERO 
         SIGNYZ(1:NEL) = ZERO 
         SIGNZX(1:NEL) = ZERO 
@@ -243,10 +244,10 @@ C-----------------------------------------------
         !  BFRAC  : ignition fraction (flamme evolution) !
         !  UVAR(6): burn fraction (grain burn evolution) !
         !------------------------------------------------!
-        IF(BFRAC(I)<=ZERO)THEN
+        IF(BFRAC(I) <= ZERO)THEN
           TOTAL_BFRAC = ZERO
           UVAR(I,6) = ZERO
-        ELSEIF(UVAR(I,6)/=ONE)THEN  ! F<1
+        ELSEIF(UVAR(I,6) /= ONE)THEN  ! F<1
             PG_=PG 
             !PG_=PG*(ONE-MASS_S/VOLN(I)/RHO_S)  !effective gaz pressure Pg*(1-RHO_S_/rhop)
             BRATE       = FSCALE_B*FINTER(funcb,(PG_)/FSCALE_P,NPF,TF,DIFF)
@@ -269,15 +270,15 @@ C-----------------------------------------------
         RHO_G=ZERO
         
         !in case of compressible solid (linear EOS)
-        RHO_Si=RHO0(I)/compac*((UVAR(I,2)-P0)/BULK+ONE)
+        RHO_Si=RHO0(I)/compac*(UVAR(I,2)/BULK+ONE)
         !in case of constant solid density
         !rho_si=rho0(I)/compac
         
-        IF(MASS_G>ZERO)RHO_G=MASS_G/(VOLN(I)-MASS_S/ max(EM10,RHO_Si))
-        PG    = RHO_G*EG*EXP(RHO_G/D)
-        PS    = BULK*(RHO_Si/RHO0(I))
+        IF(MASS_G > ZERO)RHO_G=MASS_G/(VOLN(I)-MASS_S/ max(EM10,RHO_Si))
+        PG = P0+RHO_G*EG*EXP(RHO_G/D)
+        PS = P0+BULK*(RHO_Si/RHO0(I)-ONE)
         SSP_S = SQRT(BULK/RHO0(I))
-        IF(RHO_G>ZERO)THEN
+        IF(RHO_G > ZERO)THEN
           SSP_G = RHO0(I)/D*Pg + EXP(RHO_G/D)* Pg / (RHO_G/RHO0(I))**2
           SSP_G = SQRT(ONE/RHO_G * SSP_G)
         ELSE
@@ -289,7 +290,7 @@ C-----------------------------------------------
         !--------------------------------! 
         SSP   = TOTAL_BFRAC*SSP_G + (ONE-TOTAL_BFRAC)*SSP_S        
         PNEW  = TOTAL_BFRAC*PG    + (ONE-TOTAL_BFRAC)*PS
-        PNEW  = (PNEW-PSH)*OFF(I)
+        PNEW  = (PNEW-PSH(I))*OFF(I)
         !--------------------------------!
         ! Returning values               !
         !--------------------------------!     
@@ -316,16 +317,16 @@ C-----------------------------------------------
        !UVAR(I,7) -> Mass0  
        
         ! --- verification output
-        if(time==ZERO)then
-        OPEN(UNIT=1,FILE='F.txt'    )
-        OPEN(UNIT=2,FILE='Pg.txt'   )
-        OPEN(UNIT=3,FILE='rhoS.txt' )
-        OPEN(UNIT=4,FILE='Ifrac.txt' )
+        if(time == ZERO)then
+          open(UNIT=1,FILE='F.txt'    )
+          open(UNIT=2,FILE='Pg.txt'   )
+          open(UNIT=3,FILE='rhoS.txt' )
+          open(UNIT=4,FILE='Ifrac.txt' )
         else
-        OPEN(UNIT=1,FILE='F.txt'   , position="append")
-        OPEN(UNIT=2,FILE='Pg.txt'  , position="append")
-        OPEN(UNIT=3,FILE='rhoS.txt', position="append")
-        OPEN(UNIT=4,FILE='Ifrac.txt',position="append")
+          open(UNIT=1,FILE='F.txt'   , position="append")
+          open(UNIT=2,FILE='Pg.txt'  , position="append")
+          open(UNIT=3,FILE='rhoS.txt', position="append")
+          open(UNIT=4,FILE='Ifrac.txt',position="append")
         endif
 
         WRITE(1,*)TIME,UVAR(I,6)
