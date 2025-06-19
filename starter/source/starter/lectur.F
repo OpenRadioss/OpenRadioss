@@ -9336,7 +9336,7 @@ C----------------------------------
         NSTRF  = 0
         SECBUF = ZERO
         CALL LECSEC42(IXS    ,IXQ    ,IXC    ,IXT    ,IXP    ,IXR    ,
-     2                IXTG   ,X      ,NSTRF  ,ITAB   ,ITABM1 ,
+     2                IXTG   ,X      ,ITAB   ,ITABM1 ,
      3                IGRNOD   ,SECBUF ,
      4                IPARI  ,IXS10  ,IXS20  ,IXS16  ,UNITAB ,
      5                ISKWN  ,XFRAME ,ISOLNOD,NOM_SECT,RTRANS,
