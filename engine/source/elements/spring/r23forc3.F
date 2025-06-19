@@ -153,7 +153,8 @@ C=======================================================================
      D   MY1,       MY2,       MZ1,       MZ2,
      E   GRESAV,    GRTH,      IGRTH,     MSRT,
      F   DMELRT,    H3D_DATA,  JSMS,      IGRE,
-     G   NFT,       PRELD1,    STF_F,     STF )
+     G   NFT,       PRELD1,    STF_F,     STF,
+     H   SANIN,     IRESP,     SNPC)
 
        ELSEIF(MTN == 114) THEN
          ! seatbelt_element

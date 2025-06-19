@@ -119,7 +119,7 @@ c
             ENDIF
          ENDIF
          UPARAM(I11 + 1)= XK   
-         UPARAM(I15 + 1)= F_X0          
+         IF (NINT(HARD)==9) UPARAM(I15 + 1)= F_X0          
       ENDIF
 !-----------------
       ! Traction Y
@@ -164,7 +164,7 @@ c
             ENDIF
          ENDIF
          UPARAM(I11 + 2) = XK   
-         UPARAM(I15 + 2)= F_X0 
+         IF (NINT(HARD)==9) UPARAM(I15 + 2)= F_X0 
       ENDIF
 !-----------------
       ! Traction Z
@@ -209,7 +209,7 @@ c
             ENDIF
          ENDIF
          UPARAM(I11 + 3)= XK   
-         UPARAM(I15 + 3)= F_X0 
+         IF (NINT(HARD)==9) UPARAM(I15 + 3)= F_X0 
       ENDIF
 !-----------------
       ! Torsion xx
@@ -254,7 +254,7 @@ c
             ENDIF
          ENDIF
          UPARAM(I11 + 4)= XK   
-         UPARAM(I15 + 4)= F_X0 
+         IF (NINT(HARD)==9) UPARAM(I15 + 4)= F_X0 
       ENDIF
 !-----------------
       ! Rotation YY
@@ -300,7 +300,7 @@ c
             ENDIF
          ENDIF
          UPARAM(I11  + 5)= XK  
-         UPARAM(I15  + 5)= F_X0  
+         IF (NINT(HARD)==9) UPARAM(I15  + 5)= F_X0  
       ENDIF
 !-----------------
       ! Rotation ZZ
@@ -344,8 +344,8 @@ c
      .                  R3=XK)
             ENDIF
          ENDIF
-         UPARAM(I11 + 6)= XK  
-         UPARAM(I15 + 6)= F_X0  
+         UPARAM(I11 + 6)= XK
+         IF (NINT(HARD)==9) UPARAM(I15 + 6)= F_X0  
       ENDIF
 Cz
    ! update of max slope

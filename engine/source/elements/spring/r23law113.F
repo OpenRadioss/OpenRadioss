@@ -59,7 +59,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      D   MY1,       MY2,       MZ1,       MZ2,
      E   GRESAV,    GRTH,      IGRTH,     MSRT,
      F   DMELRT,    H3D_DATA,  JSMS,      IGRE,
-     G   NFT,       PRELD1,    STF_F,     STF)
+     G   NFT,       PRELD1,    STF_F,     STF,
+     S   SANIN,     IRESP,     SNPC)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -87,7 +88,10 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE(python_), intent(inout) :: PYTHON
-      INTEGER, INTENT(IN) :: STF  !< Size of TF
+      INTEGER, INTENT(IN) :: STF    !< Size of TF
+      INTEGER, INTENT(IN) :: SANIN  !< Size of ANIM
+      INTEGER, INTENT(IN) :: IRESP  !< Single precision flag
+      INTEGER, INTENT(IN) :: SNPC   !< Size of NPF
       INTEGER, INTENT(IN) :: IGRE,NSENSOR
       INTEGER, INTENT(IN) :: NFT
       INTEGER, INTENT(IN) :: JSMS
@@ -241,7 +245,12 @@ C
      P   VX1,                    VX2,                    VY1,                    VY2,
      Q   VZ1,                    VZ2,                    NUVAR,                  GBUF%VAR,
      R   GBUF%MASS,              GBUF%DEFINI(II(1)),     GBUF%DEFINI(II(2)),     GBUF%DEFINI(II(3)),
-     S   GBUF%DEFINI(II(4)),     GBUF%DEFINI(II(5)),     GBUF%DEFINI(II(6)),     NFT)
+     S   GBUF%DEFINI(II(4)),     GBUF%DEFINI(II(5)),     GBUF%DEFINI(II(6)),     NFT,
+     T   STF,                    SANIN,                  IRESP,                  SNPC,
+     U   GBUF%G_YIELD_IN_COMP   ,GBUF%G_XXOLD_IN_COMP,   GBUF%YIELD_IN_COMP(II(1)),GBUF%YIELD_IN_COMP(II(2)),
+     V   GBUF%YIELD_IN_COMP(II(3)),GBUF%YIELD_IN_COMP(II(4)),GBUF%YIELD_IN_COMP(II(5)),GBUF%YIELD_IN_COMP(II(6)),
+     W   GBUF%XXOLD_IN_COMP(II(1)),GBUF%XXOLD_IN_COMP(II(2)),GBUF%XXOLD_IN_COMP(II(3)),GBUF%XXOLD_IN_COMP(II(4)),
+     X   GBUF%XXOLD_IN_COMP(II(5)),GBUF%XXOLD_IN_COMP(II(6)))
 C
         DO I=JFT,JLT
           IF (GBUF%OFF(I) /= -TEN .AND. OFF(I) < ONE) GBUF%OFF(I) = OFF(I)
