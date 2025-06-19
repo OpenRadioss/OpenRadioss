@@ -244,6 +244,7 @@ C
                DMG(I,4) = FI
                DMG(I,5) = FI
                YLD(I) = YEILD0
+               UVAR(I,1) = YEILD0
             ENDDO
              IF(IYEILD_TAB > 0) THEN
                DO I=1,NEL0
@@ -251,6 +252,7 @@ C
                  XX(2)=ZERO 
                  CALL TABLE_INTERP (TABLE(ITAB(1)),XX,YY) 
                  YLD(I)  = YY *YFAC
+                 UVAR(I,1) = YLD(I)
                ENDDO
              ENDIF
        ENDIF  

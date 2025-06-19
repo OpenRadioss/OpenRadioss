@@ -604,10 +604,12 @@ C....COMPUTE F*.....
            ENDIF
           ENDIF
 C
-          UVAR(I , 2) = FSTAR(I)
-          UVAR(I , 3) = SIGM(I)
-          UVAR(I , 4) = F(I)
-          UVAR(I , 5) = EPSP(I)          
+          DMG(I,1)  = F(I)/FF
+          DMG(I,2)  = FG(I)
+          DMG(I,3)  = FN1(I)
+          DMG(I,4)  = F(I)
+          DMG(I,5)  = FSTAR(I)
+          UVAR(I,1) = SIGM(I)
 C
          ENDIF 
          IF(OFF(I)==ONE.AND.FSTAR(I)>=FF)THEN
@@ -786,10 +788,12 @@ C....COMPUTE F*.....
            ENDIF
           ENDIF
 C
-          UVAR(I , 2) = FSTAR(I)
-          UVAR(I , 3) = SIGM(I)
-          UVAR(I , 4) = F(I)
-          UVAR(I , 5) = EPSP(I)
+          DMG(I,1)  = F(I)/FF
+          DMG(I,2)  = FG(I)
+          DMG(I,3)  = FN1(I)
+          DMG(I,4)  = F(I)
+          DMG(I,5)  = FSTAR(I)
+          UVAR(I,1) = SIGM(I)
 C
          ENDIF 
 CCsm41w11 +++
