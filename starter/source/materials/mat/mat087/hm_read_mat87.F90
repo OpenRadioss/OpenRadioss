@@ -99,7 +99,7 @@
 !   L o c a l   V a r i a b l e s
 !-----------------------------------------------
         integer :: i,iflagsr,iflag,flag_fit,ilaw,nrate,offset,         &
-          ierr2,ifunc(maxfunc),itable(3),ikin
+          ierr2,ifunc(maxfunc),itable(3),ikin,info
         real(kind=WP) :: e,nu,g,bulk,fcut,al1,al2,al3,al4,al5,al6,al7,al8,           &
           fisokin,invp,invc,unspt,unsct,aswift,epso,qvoce,beta,           &
           ko,alpha,nexp,unsp,unsc,rho0,rhor,rate(maxfunc),yfac(maxfunc),       &
@@ -107,7 +107,9 @@
           tref,eta,cp,am,bm,cm,dm,ppm,qm,e0mart,vm0,ckh(4),akh(4),fscale0,     &
           fscale45,fscale90,epsd0,epsd45,epsd90,expa,x2vect(maxfunc),          &
           x3vect(maxfunc),x4vect(maxfunc),fscale(maxfunc),x1scale,x2scale,     &
-          x3scale,x4scale,yld0,lam_Lp,lam_Lpp
+          x3scale,x4scale,yld0
+        double precision :: lp(3,3),lpp(3,3),wr(3),wi(3),work(102),vl(3,3),    &
+          vr(3,3)
         logical :: is_available,is_encrypted
 !-----------------------------------------------
 !   S o u r c e   L i n e s
@@ -400,39 +402,35 @@
 !-------------------------------------------------------------
 !     Check yield surface convexity
 !-------------------------------------------------------------
-        !< Check first linear transformation matrix principal values 
-        ! (must be positive to ensure convexity)
         if (flag_fit == 0) then
-          lam_Lp  = (al1 + al3)/two - sqrt(((al1 - al3)/2)**2 + al2**2)
-          if (lam_Lp <= zero) then 
+          !< Check first linear transformation matrix principal values 
+          ! (must be positive to ensure convexity)
+          lp = zero
+          lp(1,1) = two*al1/three
+          lp(1,2) = -al1/three
+          lp(2,1) = -al2/three
+          lp(2,2) = two*al2/three
+          lp(3,3) = al7
+          call dgeev('N','N',3,lp,3,wr,wi,vl,3,vr,3,work,102,info)
+          if (minval(wr) <= zero) then 
             call ancmsg(msgid=3095,                                            &                  
                         msgtype=msgwarning,                                    &
-                        anmode=aninfo_blind_1,                                 &
-                        i1=mat_id,                                             &
-                        c1=titr)
-            al2 = em02 * floor(sqrt(al1*al3) / em02)
-          endif
-          if (al4 <= zero) then
-            call ancmsg(msgid=3096,                                            &                  
-                        msgtype=msgerror,                                      &
                         anmode=aninfo_blind_1,                                 &
                         i1=mat_id,                                             &
                         c1=titr)
           endif
           !< Check second linear transformation matrix principal values 
           ! (must be positive to ensure convexity)
-          lam_Lpp = (al5 + al7)/two - sqrt(((al5 - al7)/2)**2 + al6**2)
-          if (lam_Lpp <= zero) then 
-            call ancmsg(msgid=3097,                                            &                  
+          lpp = zero 
+          lpp(1,1) = (-two*al3 +   two*al4 + eight*al5 -  two*al6)/nine
+          lpp(1,2) = (     al3 -  four*al4 -  four*al5 + four*al6)/nine
+          lpp(2,1) = (four*al3 -  four*al4 -  four*al5 +      al6)/nine
+          lpp(2,2) = (-two*al3 + eight*al4 +   two*al5 -  two*al6)/nine
+          lpp(3,3) = al8
+          call dgeev('N','N',3,lpp,3,wr,wi,vl,3,vr,3,work,102,info)
+          if (minval(wr) <= zero) then 
+            call ancmsg(msgid=3102,                                            &                  
                         msgtype=msgwarning,                                    &
-                        anmode=aninfo_blind_1,                                 &
-                        i1=mat_id,                                             &
-                        c1=titr)
-            al6 = em02 * floor(sqrt(al5*al7) / em02)
-          endif
-          if (al8 <= zero) then
-            call ancmsg(msgid=3098,                                            &                  
-                        msgtype=msgerror,                                      &
                         anmode=aninfo_blind_1,                                 &
                         i1=mat_id,                                             &
                         c1=titr)
