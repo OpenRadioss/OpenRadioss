@@ -499,10 +499,13 @@ C -----------------------------------------------
 C TH FILES
 C -----------------------------------------------
        IF (ISPMD == 0) THEN
+
             ! Close the TH file
-            IFIL = FD_BIN_TH
-            CALL CUR_FIL_C(IFIL)
-            CALL CLOSE_C(IFIL)
+            IF (OUTPUT_PTR%TH%TH_WRITE_TYPE == 3)THEN
+              IFIL = FD_BIN_TH
+              CALL CUR_FIL_C(IFIL)
+              CALL CLOSE_C()
+            ENDIF
 
             ! Compute checksum if option is present
             IF (OUTPUT_PTR%CHECKSUM%CHECKSUM_COUNT >0)THEN

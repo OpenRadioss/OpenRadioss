@@ -69,6 +69,8 @@ C     => A modifier si cette option doit etre supportee en SPMD ../..
       CHARACTER KEYA*80
 C----------------------------------------------
 C Parametres argument de run
+      CALL FILE_INIT()       ! Initialize C FILE buffer for IEEE writing
+
 C 
       ALLOCATE( DLIB_STRUCT(NBR_DLIB) )
       DYN_LIB_MODE = 0

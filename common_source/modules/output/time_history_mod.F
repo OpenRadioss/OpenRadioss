@@ -44,6 +44,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
             INTEGER, DIMENSION(:), ALLOCATABLE :: ITHGRP
             INTEGER  SITHGRP
             character (len=2048) :: TH_FILENAME
+            INTEGER :: TH_WRITE_TYPE
             !
             INTEGER, DIMENSION(:), ALLOCATABLE :: ITHBUFA
             INTEGER  SITHBUFA

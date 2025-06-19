@@ -152,7 +152,7 @@ void file_init_(){
 //! --------------------------------------------------
 // 
   int i;
-  for (i=0;i<100;){
+  for (i=0;i<100;i++){
     outfile[i]=NULL;
     outfile_mod[i]=0;
   }
@@ -160,7 +160,7 @@ void file_init_(){
 
 void file_init(){
   int i;
-  for (i=0;i<100;){
+  for (i=0;i<100;i++){
     outfile[i]=NULL;
     outfile_mod[i]=0;
   }
@@ -169,7 +169,7 @@ void file_init(){
 void _FCALL FILE_INIT()
 {
   int i;
-  for (i=0;i<100;){
+  for (i=0;i<100;i++){
     outfile[i]=NULL;
     outfile_mod[i]=0;
   }
@@ -295,7 +295,6 @@ void open_c__(int *ifil,int *len,int *mod)
 { open_c(ifil,len,mod); }
 
 // -------------------------------------------------------------------------------------
-
 void close_c()
 //! Close the file
 //! ---------------
@@ -307,6 +306,7 @@ void close_c()
     gzclose((gzFile)curfile);
   }else{
     fclose(curfile);    // Close with No compression
+    outfile[cur_nf]=NULL;
   }
 }
 void _FCALL CLOSE_C()
