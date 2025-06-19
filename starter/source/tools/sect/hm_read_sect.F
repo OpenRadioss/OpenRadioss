@@ -55,7 +55,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    submodel_mod             ../starter/share/modules1/submodel_mod.F
       !||====================================================================
       SUBROUTINE LECSEC42(IXS   ,IXQ   ,IXC    ,IXT    ,IXP    ,IXR    ,
-     2                    IXTG  ,X0    ,NSTRF  ,ITAB   ,ITABM1 ,
+     2                    IXTG  ,X0    ,ITAB   ,ITABM1 ,
      3                    IGRNOD,SECBUF ,
      4                    IPARI ,IXS10 ,IXS20  ,IXS16  ,UNITAB ,
      5                    ISKN  ,XFRAME,ISOLNOD,NOM_SECT,RTRANS,
@@ -65,6 +65,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      use extend_array_mod
       USE MESSAGE_MOD
       USE R2R_MOD
       USE SUBMODEL_MOD
@@ -72,6 +73,7 @@ C-----------------------------------------------
       USE HM_OPTION_READ_MOD
       USE UNITAB_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARLINE, NCHARFIELD
+      USE RESTMOD, ONLY : NSTRF
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -93,7 +95,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
-      INTEGER IXC(NIXC,NUMELC), IXTG(NIXTG,NUMELTG), NSTRF(*), ITAB(NUMNOD),
+      INTEGER IXC(NIXC,NUMELC), IXTG(NIXTG,NUMELTG),  ITAB(NUMNOD),
      .        ITABM1(*),IXS(NIXS,NUMELS), IXQ(NIXQ,NUMELQ), IXT(NIXT,NUMELT),
      .        IXP(NIXP,NUMELP), IXR(NIXR,NUMELR), IPARI(NPARI,NINTER),
      .        IXS10(6,*),IXS20(12,*),IXS16(8,*),ISKN(LISKN,*),
@@ -140,11 +142,13 @@ C-----------------------------------------------
       my_real X3, Y3, Z3, N3, PNOR1, PNOR2, PNORM1, DET, DET1, DET2, DET3
       LOGICAL :: IS_AVAILABLE
       INTEGER :: NUMSECT,SNSTRF1
+      integer :: max_extension
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
-      INTEGER USR2SYS,NODGRNR5,ELEGROR,ELEGROR_SEATBELT,GRSIZE_ELE_TRANS
-      EXTERNAL USR2SYS,NODGRNR5,ELEGROR,ELEGROR_SEATBELT,GRSIZE_ELE_TRANS
+      INTEGER USR2SYS,NODGRNR5,ELEGROR,ELEGROR_SEATBELT,GRSIZE_ELE_TRANS,GRSIZE_ELE
+      EXTERNAL USR2SYS,NODGRNR5,ELEGROR,ELEGROR_SEATBELT,GRSIZE_ELE_TRANS,GRSIZE_ELE
+
 C
       DATA MESS/'SECTION DEFINITION                      '/
       DATA IUN/1/
@@ -220,6 +224,7 @@ C-----------------------------------------------------------------
 C
        LREC = LREC+3
        K1 = K0+30
+        call extend_array(NSTRF,SIZE(NSTRF),K0+30)
         CALL HM_OPTION_READ_KEY(LSUBMODEL, OPTION_ID=ID, OPTION_TITR=TITR, UNIT_ID=UID, SUBMODEL_ID=SUB_ID, KEYWORD2=KEY2)
 
         NOM_OPT(1,I)=ID
@@ -310,6 +315,7 @@ C
      .               C1=TITR)
        END IF
 
+      call extend_array(NSTRF,SIZE(NSTRF),K1-1+NBINTER)
        DO J=1,NBINTER
          CALL HM_GET_INT_ARRAY_INDEX('int_id' ,NSTRF(K1-1+J) ,J ,IS_AVAILABLE, LSUBMODEL)
        ENDDO
@@ -428,6 +434,8 @@ C
          KK=1+NGRNOD
          NNOD = 0
          CPT = 1
+         max_extension = 22 * GRSIZE_ELE(IGUS,IGRBRIC,NGRBRIC)     
+         call extend_array(NSTRF,size(nstrf),K0 + max_extension)
          CALL SEC_NODES_SOL(IGUS,ISTYP,NGRBRIC,IGRBRIC,X0,A,
      2                 B,C,D,E,F,ITAB,IXS,IXS10,IXS16,IXS20,
      3                 NIXS,KK,NNOD,NSTRF,NBINTER,N1 ,K1,
@@ -435,35 +443,53 @@ C
      5                 X1,Y1,Z1,X2,Y2,Z2,R)
 
          KK=KK+NGRBRIC
+         max_extension = 6 * GRSIZE_ELE(IGUQ,IGRQUAD,NGRQUAD)
+         call extend_array(NSTRF,size(nstrf),CPT + max_extension)
          CALL SEC_NODES(IGUQ,ISTYP,NGRQUAD,IGRQUAD,X0,A,
      2                 B,C,D,E,F,ITAB,IXQ,NIXQ,KK,NNOD,NSTRF,
      3                 NBINTER,N1,K1,4,CPT,NODTAG,TAGELEMS(1+NUMELS),
      4                 X1,Y1,Z1,X2,Y2,Z2,R)
+
          KK=KK+NGRQUAD
+         max_extension = 6 * GRSIZE_ELE(IGUC,IGRSH4N,NGRSHEL)
+         call extend_array(NSTRF,size(nstrf),CPT + max_extension)
          CALL SEC_NODES(IGUC,ISTYP,NGRSHEL,IGRSH4N,X0,A,
      2                 B,C,D,E,F,ITAB,IXC,NIXC,KK,NNOD,NSTRF,
      3                 NBINTER,N1,K1,4,CPT,NODTAG,TAGELEMS(1+NUMELS
      .               +NUMELQ),
      4               X1,Y1,Z1,X2,Y2,Z2,R)
          KK=KK+NGRSHEL
+
+         max_extension = 4 * GRSIZE_ELE(IGUT,IGRTRUSS,NGRTRUS)
+         call extend_array(NSTRF,size(nstrf),CPT + max_extension)
          CALL SEC_NODES(IGUT,ISTYP,NGRTRUS,IGRTRUSS,X0,A,
      2                 B,C,D,E,F,ITAB,IXT,NIXT,KK,NNOD,NSTRF,
      3                 NBINTER,N1,K1,2,CPT,NODTAG,TAGELEMS(1+NUMELS
      .              +NUMELQ+NUMELC),
      4               X1,Y1,Z1,X2,Y2,Z2,R)
          KK=KK+NGRTRUS
+
+
+         max_extension = 4 * GRSIZE_ELE(IGUP,IGRBEAM,NGRBEAM)
+         call extend_array(NSTRF,size(nstrf),CPT + max_extension)
          CALL SEC_NODES(IGUP,ISTYP,NGRBEAM,IGRBEAM,X0,A,
      2                 B,C,D,E,F,ITAB,IXP,NIXP,KK,NNOD,NSTRF,
      3                 NBINTER,N1,K1,2,CPT,NODTAG,TAGELEMS(1+NUMELS
      .              +NUMELQ+NUMELC+NUMELT),
      4               X1,Y1,Z1,X2,Y2,Z2,R)
          KK=KK+NGRBEAM
+
+         max_extension = 4 * GRSIZE_ELE(IGUR,IGRSPRING,NGRSPRI)     
+         call extend_array(NSTRF,size(nstrf),CPT + max_extension)
          CALL SEC_NODES(IGUR,ISTYP,NGRSPRI,IGRSPRING,X0,A,
      2                 B,C,D,E,F,ITAB,IXR,NIXR,KK,NNOD,NSTRF,
      3                 NBINTER,N1,K1,2,CPT,NODTAG,TAGELEMS(1+NUMELS
      .              +NUMELQ+NUMELC+NUMELT+NUMELP),
      4               X1,Y1,Z1,X2,Y2,Z2,R)
          KK=KK+NGRSPRI
+
+         max_extension = 6 * GRSIZE_ELE(IGUTG,IGRSH3N,NGRSH3N)
+         call extend_array(NSTRF,size(nstrf),CPT + max_extension)
          CALL SEC_NODES(IGUTG,ISTYP,NGRSH3N,IGRSH3N,X0,A,
      2                B,C,D,E,F,ITAB,IXTG,NIXTG,KK,NNOD,NSTRF,
      3                 NBINTER,N1,K1,3,CPT,NODTAG,TAGELEMS(1+NUMELS
@@ -472,7 +498,7 @@ C
        ENDIF
 
        K2=K1+NBINTER
-
+       call extend_array(NSTRF,size(NSTRF),K2+NUMNOD)
        IF (NFRAM == 0 .AND. ISTYP == 0) THEN
           NNOD=NODGRNR5(IGU,IGS,NSTRF(K2),IGRNOD,ITABM1,MESS)
        ENDIF
@@ -486,30 +512,37 @@ C
      .              I1=ID,
      .              C1=TITR)
 
+
        K3=K2+NNOD
+       call extend_array(NSTRF,SIZE(NSTRF),K3+2* GRSIZE_ELE(IGUS,IGRBRIC,NGRBRIC))
        NSEGS=ELEGROR(IGUS,IGRBRIC,NGRBRIC,'BRIC',
      .               NSTRF(K3),2,MESS,NFRAM,TAGELEMS,ISTYP,
      .               ID,TITR)
        K4=K3+2*NSEGS
+        call extend_array(NSTRF,SIZE(NSTRF),K4+2* GRSIZE_ELE(IGUQ,IGRQUAD,NGRQUAD))
        NSEGQ=ELEGROR(IGUQ,IGRQUAD,NGRQUAD,'QUAD',
      .               NSTRF(K4),2,MESS,NFRAM,TAGELEMS(1+NUMELS),ISTYP,
      .               ID,TITR)
        K5=K4+2*NSEGQ
+       call extend_array(NSTRF,SIZE(NSTRF),K5+2* GRSIZE_ELE(IGUC,IGRSH4N,NGRSHEL))
        NSEGC=ELEGROR(IGUC,IGRSH4N,NGRSHEL,'SHEL',
      .               NSTRF(K5),2,MESS,NFRAM,TAGELEMS(1+NUMELS
      .              +NUMELQ),ISTYP,
      .               ID,TITR)
        K6=K5+2*NSEGC
+       call extend_array(NSTRF,SIZE(NSTRF),K6+2* GRSIZE_ELE(IGUT,IGRTRUSS,NGRTRUS))
        NSEGT=ELEGROR(IGUT,IGRTRUSS,NGRTRUS,'TRUS',
      .               NSTRF(K6),2,MESS,NFRAM,TAGELEMS(1+NUMELS
      .              +NUMELQ+NUMELC),ISTYP,
      .               ID,TITR)
        K7=K6+2*NSEGT
+        call extend_array(NSTRF,SIZE(NSTRF),K7+2* GRSIZE_ELE(IGUP,IGRBEAM,NGRBEAM))
        NSEGP=ELEGROR(IGUP,IGRBEAM,NGRBEAM,'BEAM',
      .               NSTRF(K7),2,MESS,NFRAM,TAGELEMS(1+NUMELS
      .              +NUMELQ+NUMELC+NUMELT),ISTYP,
      .               ID,TITR)
        K8=K7+2*NSEGP
+        call extend_array(NSTRF,SIZE(NSTRF),K8+2* GRSIZE_ELE(IGUR,IGRSPRING,NGRSPRI))
        NSEGR=ELEGROR(IGUR,IGRSPRING,NGRSPRI,'SPRI',
      .               NSTRF(K8),2,MESS,NFRAM,TAGELEMS(1+NUMELS
      .              +NUMELQ+NUMELC+NUMELT+NUMELP),ISTYP,
@@ -517,6 +550,7 @@ C
 
        IF (NB_SEATBELT_SHELLS /=0) THEN
          SNSTRF1 = GRSIZE_ELE_TRANS(IGUC,IGRSH4N,NGRSHEL,SEATBELT_SHELL_TO_SPRING)
+         call extend_array(NSTRF,SIZE(NSTRF),K8+2*NSEGR+2*SNSTRF1)
          NSEGR=NSEGR+ELEGROR_SEATBELT(IGUC,IGRSH4N,NGRSHEL,
      .               NSTRF(K8),2,SNSTRF1,NFRAM,TAGELEMS(1+NUMELS
      .              +NUMELQ),ISTYP,
@@ -524,6 +558,7 @@ C
        ENDIF
 
        K9=K8+2*NSEGR
+       call extend_array(NSTRF,SIZE(NSTRF),K9+2* GRSIZE_ELE(IGUTG,IGRSH3N,NGRSH3N))
        NSEGTG=ELEGROR(IGUTG,IGRSH3N,NGRSH3N,'SH3N',
      .                NSTRF(K9),2,MESS,NFRAM,TAGELEMS(1+NUMELS
      .              +NUMELQ+NUMELC+NUMELT+NUMELP+NUMELR),ISTYP,
