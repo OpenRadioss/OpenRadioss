@@ -648,7 +648,7 @@ C
 c
           IF (NFAIL > 0)THEN
             IFAIL = 1
-            IF(MLN /= 24 .AND. MLN /= 25 .AND. MLN < 28) THEN
+            IF(MLN /= 25 .AND. MLN < 28) THEN
                DO J=1,NFAIL  
                   IFAILMODEL = IPM(111 + 15*(J - 1) ,MID)
                   IF  (IFAILMODEL == 10 .OR. IFAILMODEL == 4 
@@ -1463,7 +1463,7 @@ C reperage groupe/processeur
             IPARG(41,NGROUP)=ITET4
           ENDIF
           IF(MLN/=25.AND.MLN<28)THEN
-          IPARG(44,NGROUP)= ISTRAIN
+            IPARG(44,NGROUP)= ISTRAIN
           ELSEIF(MLN>=28)THEN
            ISTRAIN=2
            IPARG(44,NGROUP)=ISTRAIN
