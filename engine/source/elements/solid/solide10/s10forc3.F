@@ -122,6 +122,7 @@ C-----------------------------------------------
       USE ELBUFDEF_MOD
       USE SDISTOR_INI_MOD, ONLY : SDISTOR_INI
       use glob_therm_mod
+      USE S10GET_X0_MOD, ONLY : S10GET_X0
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -381,7 +382,7 @@ C
          END IF 
       END IF 
       ISCTL = IGEO(97,NGEO(1))
-      IF (ISMSTR < 10.OR. ISROT == 1) ISCTL = 0 ! only for T10
+      IF (ISROT == 1) ISCTL = 0 ! uncompatible with itetra4=1
 C     
       CALL S10NX3(
      1   NX,      NEL,     NPT)
@@ -829,6 +830,11 @@ C----------------------------
      1          X,     XDP,      DR,    NUMNOD,
      2         XX,      YY,      ZZ,        NC,
      3      ISROT,   IRESP,    NEL )
+         IF (ISMSTR<10)  ! remove limitation of Ismstr>=
+     *     CALL S10GET_X0(
+     1        NEL,  NUMNOD,       X,     XDP,         
+     2          D,     XX0,     YY0,     ZZ0,
+     3         NC)
          CALL S10FOR_DISTOR(
      .         STIG,   FLD  ,   STI_C,
      .          XX ,     YY ,     ZZ ,   
