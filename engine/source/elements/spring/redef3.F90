@@ -97,7 +97,7 @@
         &nel, nft, stf,    sanin,   dt1,&
         &iresp,   impl_s,  idyna,   snpc,&
         &max_slope,fx_max, yieldc,  xx_oldc,&
-        &fx0)
+        &fx0,     ifunc4,  pos6)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -136,6 +136,7 @@
           integer, dimension(mvsiz),intent(inout) ::  ifunc
           integer, dimension(mvsiz),intent(inout) ::  ifunc2
           integer, dimension(mvsiz),intent(in) ::  ifv
+          integer, dimension(mvsiz),intent(in), optional ::  ifunc4
 
           ! real(kind=WP) arrays
           real(kind=WP),intent(in) ::  dt1                                        !< time step
@@ -170,6 +171,7 @@
           real(kind=WP), dimension(nel)  ,intent(inout), optional :: yieldc       !<
           real(kind=WP), dimension(nel)  ,intent(inout), optional :: xx_oldc      !<
           real(kind=WP), intent(in), optional ::  fx0
+          real(kind=WP), dimension(nel),intent(inout), optional :: pos6           !< gbuf%posx(6)
           double precision, dimension(mvsiz),intent(inout) :: aldp          !<
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   local variables
@@ -201,6 +203,11 @@
           integer :: j2len(mvsiz)
           integer :: j2ad(mvsiz)
           integer :: j2func
+          integer :: j3pos(mvsiz)
+          integer :: j3len(mvsiz)
+          integer :: j3ad(mvsiz)
+          integer :: j3func
+          integer :: j2k
 !     real ou real*8
           real(kind=WP) :: b1
           real(kind=WP) :: ddx(mvsiz)
@@ -242,6 +249,8 @@
           real(kind=WP) :: x1s,x2s,xxb
           real(kind=WP) :: xk_tansav(mvsiz)
           real(kind=WP) :: xn3fy0(mvsiz)
+          real(kind=WP) :: kx2(mvsiz)
+          real(kind=WP) :: dkdx2(mvsiz)
 
           integer :: nfunct !< total number of functions
           integer :: pyid1, pyid2 !< python function id
@@ -296,6 +305,7 @@
           interp = 0
           jdmp = 0
           j2dmp = 0
+          j2k = 0
 !
           do i=1,nel
             if(iecrou(i) == 12)then
@@ -336,6 +346,9 @@
             endif
             if(ifv(i)/=0) jdmp = jdmp + 1
             if(ifunc3(i)/=0) j2dmp = j2dmp + 1
+            if(present(ifunc4)) then
+              if(ifunc4(i)/=0) j2k = j2k + 1
+            endif
           enddo
 !
           if(interp>0)then
@@ -506,6 +519,7 @@
                 xx(i)=xx(i)+ddx(i)
               endif
             enddo
+            interp = 0
           endif
 !-------------------------------------
 !      elasto plastic two curves for load and unload
@@ -1055,16 +1069,63 @@
                 pos(5,i) = j2pos(i)
               enddo
             endif
+!---------------------------k * funct_id_5   
+            if(j2k>0)then  
+              do i=1,nel              
+                j3pos(i) = nint(pos6(i))
+                j3func=max(ifunc4(i),1)
+                pyid2 = get_python_funct_id(nfunct,j3func,npf,snpc)      
+                if(pyid2>0)then
+                  !python function
+                  j3ad(i) = -pyid2
+                  j3len(i)= -pyid2
+                  any_python_func = .true.
+                else
+                  j3ad(i)  = npf(j3func) / 2 + 1
+                  j3len(i) = npf(j3func+1) / 2 - j3ad(i) - j3pos(i)
+                endif
+              enddo       
+              if(any_python_func) then
+                call vinter_mixed(python, tf,j3ad,j3pos,j3len,nel,xx,dkdx2,kx2)
+                if(present(max_slope)) then
+                  do i=1,nel
+                    j3pos(i) = nint(pos6(i))
+                    j3func=max(ifunc4(i),1)
+                    pyid2 = get_python_funct_id(nfunct,j3func,npf,snpc)
+                    if(pyid2>0) max_slope(i) = max(max_slope(i), two*abs(dkdx2(i)))
+                  enddo
+                endif
+              else
+                call vinter2(tf,j3ad,j3pos,j3len,nel,xx,dkdx2,kx2)
+              endif   
+              do i=1,nel
+                pos6(i) = j3pos(i)
+              enddo
+            endif  
 !-------------------------
+            if(j2k /= nel)then
+              if (present(ifunc4)) then
+                do i=1,nel         
+                  if(ifunc4(i) == 0) kx2(i) = one
+                enddo
+              else
+                kx2(1:nel) = one
+              endif  
+            endif
             if(jdmp/=nel)then
               do i=1,nel
                 if(ifv(i)==0) gx(i)=zero
               enddo
             endif
-            if(j2dmp/=nel)then
-              do i=1,nel
-                if(ifunc3(i)==0) gx2(i)=zero
+            if(j2dmp /= nel)then 
+              do i=1,nel            
+                if(ifunc3(i) == 0) gx2(i) = zero
+                gx2(i) = gx2(i) * kx2(i)
               enddo
+            else
+              do i=1,nel   
+                gx2(i) = gx2(i) * kx2(i)
+              enddo 
             endif
 
             do i=1,nel
