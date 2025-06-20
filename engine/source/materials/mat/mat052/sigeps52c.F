@@ -471,7 +471,7 @@ C
               FG(I)  = FG(I)  + (ONE - F(I)) * (DP11 + DP22 +DP33)
               FN1(I) = FN1(I) + A11 * EPSP1(I) 
               PLA(I) = PLA(I) + EPSP1(I)
-              F(I)   = FG(I) + FN1(I)
+              F(I)   = FI + FG(I) + FN1(I)
               IF(Q1==ZERO.AND.
      .           Q2==ZERO.AND.
      .           Q3==ZERO)F(I)=ZERO
@@ -702,7 +702,7 @@ C
          FG(I)  = FG(I)  + (ONE - F(I))*(DP11 + DP22 + DP33)
          FN1(I) = FN1(I) + A11*EPSP1(I) 
          PLA(I) = PLA(I) + EPSP1(I)
-         F(I)   = FG(I)  + FN1(I)
+         F(I)   = FI + FG(I) + FN1(I)
          IF(Q1==ZERO.and.
      .       Q2==ZERO.and.
      .       Q3==ZERO)F(I)=ZERO
@@ -948,7 +948,7 @@ C
           PN(I)  = (SIGNXX(I) + SIGNYY(I))*THIRD
           IF (PN(I)>=ZERO) FN1(I) = FN1(I) + A11*EPSP1(I) 
           PLA(I) = PLA(I) + EPSP1(I)
-          F(I)   = FG(I)  + FN1(I)
+          F(I)   = FI + FG(I) + FN1(I)
           IF(Q1==ZERO.and.
      .       Q2==ZERO.and.
      .       Q3==ZERO)F(I)=ZERO
@@ -1174,7 +1174,7 @@ C
           FN1(I) = ZERO
           IF (PN(I)>=ZERO) FN1(I) = FN1(I) + A11*EPSP1(I) 
           PLA(I) = PLA(I) + EPSP1(I)
-          F(I) = FG(I) + FN1(I)
+          F(I) = FI + FG(I) + FN1(I)
           IF(Q1==ZERO.and.
      .       Q2==ZERO.and.
      .       Q3==ZERO)F(I)=ZERO
