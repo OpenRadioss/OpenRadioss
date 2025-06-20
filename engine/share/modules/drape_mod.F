@@ -97,6 +97,7 @@ c-------
       TYPE DRAPE_
         INTEGER                                        ::  NPLY_DRAPE
         INTEGER                                        ::  NPLY
+        my_real                                        ::  THICK
         INTEGER,            DIMENSION(:)   , ALLOCATABLE   ::  INDX_PLY
         TYPE (DRAPE_PLY_) , DIMENSION(:)   , ALLOCATABLE   ::  DRAPE_PLY
       END TYPE DRAPE_  

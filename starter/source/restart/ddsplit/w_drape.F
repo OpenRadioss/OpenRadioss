@@ -54,6 +54,7 @@ C-----------------------------------------------
       INTEGER I, EL, J,NPT,NDIM,IDX,NUMELDRP_L,NDIM_SLICE,
      .        NDIM_INDX_PLY,K,II,IS,NEL,NSLICE,NELDRP_L,NPT_DRP
       my_real, DIMENSION(:,:), ALLOCATABLE :: RTMP
+      my_real, DIMENSION(:)  , ALLOCATABLE :: THK
       INTEGER, DIMENSION(:,:), ALLOCATABLE :: ITMP
       INTEGER, DIMENSION(:)  , ALLOCATABLE :: NPTDRP_ELT,ISLICE,INDX_PLY,
      .                                        NPT_ELT,INDEX
@@ -61,11 +62,12 @@ C-----------------------------------------------
 !     allocate 2d array
 ! --------------------------------------
 C
-      ALLOCATE(NPT_ELT(NUMEL_L),NPTDRP_ELT(NUMEL_L), INDEX(NUMEL_L)) 
+      ALLOCATE(NPT_ELT(NUMEL_L),NPTDRP_ELT(NUMEL_L), INDEX(NUMEL_L),THK(NUMEL_L)) 
 C    
       INDEX = 0
       NPTDRP_ELT =0
       NPT_ELT =0
+      THK  = ZERO
       !
       NDIM = 0
       NEL = 0
@@ -84,6 +86,7 @@ C
             NPT = DRAPE(II)%NPLY
             NPTDRP_ELT(NELDRP_L)   = NPT_DRP
             NPT_ELT(NELDRP_L ) = NPT
+            THK(NELDRP_L) = DRAPE(II)%THICK
             DO J = 1,NPT_DRP
               NSLICE = DRAPE(II)%DRAPE_PLY(J)%NSLICE
               NDIM = NDIM + NSLICE
@@ -140,10 +143,11 @@ C
           CALL WRITE_I_C(INDX_PLY,NDIM_INDX_PLY)
           CALL WRITE_I_C(ITMP,2*NDIM)     
           CALL WRITE_DB(RTMP,2*NDIM)
-          LEN_AM = LEN_AM + 2*NDIM            
+          CALL WRITE_DB(THK,NELDRP_L)
+          LEN_AM = LEN_AM + 2*NDIM   +   NELDRP_L      
           LEN_IA = LEN_IA + 2*NDIM +  NUMEL_L   + 2*NELDRP_L    
      .                    + NDIM_SLICE + NDIM_INDX_PLY  + 3   
-           DEALLOCATE(ITMP,RTMP,ISLICE,INDX_PLY,NPT_ELT,NPTDRP_ELT, INDEX) 
+           DEALLOCATE(ITMP,RTMP,ISLICE,INDX_PLY,NPT_ELT,NPTDRP_ELT, INDEX,THK) 
        ENDIF
 ! --------------------------------------
       RETURN

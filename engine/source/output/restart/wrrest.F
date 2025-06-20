@@ -1305,6 +1305,7 @@ C-----------------------------------------------
       INTEGER LEN,OFF,I,J,NPT,NDIM,N1,N2,N3,NDIM_INDX_PLY,
      .  NDIM_SLICE,IS,NSLICE,NPT_DRP
       my_real, DIMENSION(:,:), ALLOCATABLE :: RTMP
+      my_real, DIMENSION(:)  , ALLOCATABLE :: THK
       INTEGER, DIMENSION(:,:), ALLOCATABLE :: ITMP
       INTEGER, DIMENSION(:)  , ALLOCATABLE :: NPTDRP_ELT,ISLICE,INDX_PLY,
      .                                        NPT_ELT,INDEX
@@ -1322,15 +1323,17 @@ C--------------------------------------
           CALL WRITE_I_C(NDIM_SLICE,1)
           CAll WRITE_I_C(NDIM_INDX_PLY,1)
           CALL WRITE_I_C(INDXSH4N,NUMELC)  
-          ALLOCATE(NPT_ELT(NUMELC_DRAPE),NPTDRP_ELT(NUMELC_DRAPE))
+          ALLOCATE(NPT_ELT(NUMELC_DRAPE),NPTDRP_ELT(NUMELC_DRAPE),THK(NUMELC_DRAPE))
           ALLOCATE(ITMP(NDIM,2),RTMP(NDIM,2),ISLICE(NDIM_SLICE),INDX_PLY(NDIM_INDX_PLY))
              
           N1 = 0
           N2 = 0
-          N3 = 0    
+          N3 = 0 
+          THK = ZERO   
           DO I=1,NUMELC_DRAPE
             NPT_DRP =  DRAPE_SH4N(I)%NPLY_DRAPE 
-            NPT = DRAPE_SH4N(I)%NPLY                             
+            NPT = DRAPE_SH4N(I)%NPLY   
+            THK(I) = DRAPE_SH4N(I)%THICK                          
             NPTDRP_ELT(I)   = NPT_DRP             
             NPT_ELT(I) = NPT
             DO J = 1,NPT_DRP
@@ -1356,7 +1359,8 @@ C--------------------------------------
           CALL WRITE_I_C(INDX_PLY,NDIM_INDX_PLY)  
           CALL WRITE_I_C(ITMP,2*NDIM)            
           CALL WRITE_DB(RTMP,2*NDIM)  
-          DEALLOCATE(NPT_ELT,NPTDRP_ELT,ITMP,RTMP,ISLICE,INDX_PLY)
+          CALL WRITE_DB(THK,NUMELC_DRAPE )
+          DEALLOCATE(NPT_ELT,NPTDRP_ELT,ITMP,RTMP,ISLICE,INDX_PLY, THK)
           
       ENDIF
       
@@ -1370,14 +1374,16 @@ C--------------------------------------
           CALL WRITE_I_C(NDIM_SLICE,1)
           CAll WRITE_I_C(NDIM_INDX_PLY,1)
           CALL WRITE_I_C(INDXSH3N,NUMELTG)  
-          ALLOCATE(NPT_ELT(NUMELTG_DRAPE),NPTDRP_ELT(NUMELTG_DRAPE))
-          ALLOCATE(ITMP(NDIM,2),RTMP(NDIM,2),ISLICE(NDIM_SLICE),INDX_PLY(NDIM_INDX_PLY))
+          ALLOCATE(NPT_ELT(NUMELTG_DRAPE),NPTDRP_ELT(NUMELTG_DRAPE), THK(NUMELTG_DRAPE))
+          ALLOCATE(ITMP(NDIM,2),RTMP(NDIM,2),ISLICE(NDIM_SLICE),INDX_PLY(NDIM_INDX_PLY)) 
           N1 = 0
           N2 = 0
-          N3 = 0    
+          N3 = 0 
+          THK = ZERO   
           DO I=1,NUMELTG_DRAPE
             NPT_DRP =  DRAPE_SH3N(I)%NPLY_DRAPE 
-            NPT = DRAPE_SH3N(I)%NPLY                             
+            NPT = DRAPE_SH3N(I)%NPLY   
+            THK(I) = DRAPE_SH3N(I)%THICK                          
             NPTDRP_ELT(I)   = NPT_DRP             
             NPT_ELT(I) = NPT
             DO J = 1,NPT_DRP
@@ -1402,8 +1408,9 @@ C--------------------------------------
           CALL WRITE_I_C(ISLICE,NDIM_SLICE)
           CALL WRITE_I_C(INDX_PLY,NDIM_INDX_PLY)  
           CALL WRITE_I_C(ITMP,2*NDIM)            
-          CALL WRITE_DB(RTMP,2*NDIM)    
-          DEALLOCATE(NPT_ELT,NPTDRP_ELT,ITMP,RTMP,ISLICE,INDX_PLY)
+          CALL WRITE_DB(RTMP,2*NDIM)  
+          CALL WRITE_DB(THK, NUMELTG_DRAPE ) 
+          DEALLOCATE(NPT_ELT,NPTDRP_ELT,ITMP,RTMP,ISLICE,INDX_PLY, THK)
       ENDIF                    
       RETURN
       END
