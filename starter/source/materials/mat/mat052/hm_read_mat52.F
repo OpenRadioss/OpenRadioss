@@ -209,7 +209,7 @@ C
       PARMAT(5) = FCUT
       NUPARAM = 23 
       NFUNC = 0
-      NUVAR = 1
+      NUVAR = 2
 C     Formulation for solid elements time step computation.
       PARMAT(16) = 2
       PARMAT(17) = (ONE - TWO*NU)/(ONE + NU)
