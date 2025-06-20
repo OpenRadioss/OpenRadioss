@@ -662,7 +662,7 @@ C calcul du thk by shell
             IWORKS%GEO(1,IS) = THICKT
 C============================================================================
 C---
-C  update the shell thickness   NDRAPE =0         
+C  update the shell thickness  without drape  
 C---
               DO I= NFIRST(IS) , NLAST(IS)
                 ID = INDX(I)
@@ -1186,9 +1186,8 @@ C calcul du thk by shell
               STACK%GEO(1,IIS) = THICKT
 C============================================================================
 C---
-C  update the shell thickness if /DRAPE defined          
+C  update the shell thickness   without drape     
 C---
-!!  (NDRAPE == 0) 
               DO I= NFIRST(IS) , NLAST(IS)
                 ID = INDX(I)
                 II = INDX_SH(ID)

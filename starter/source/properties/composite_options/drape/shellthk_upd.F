@@ -205,6 +205,7 @@ C  re-set the thickness of shell according to /DRAPE layer thinning
                     THICKC = THICKC + THKLY
                   ENDDO
                  ENDIF ! igtyp
+                DRAPE(IE)%THICK = THICKC
                ENDIF ! IE
                IF (THK(II) == ZERO) THK(II) = THICKC  
             ENDDO ! numelc
@@ -283,6 +284,7 @@ C
                     THICKC = THICKC + THKLY
                   ENDDO ! IGTYP
                 ENDIF 
+                DRAPE(IE)%THICK = THICKC
               ENDIF ! IE 
                  IF (THK(ISH3N) == ZERO) THK(ISH3N) = THICKC
             ENDDO ! numelc           
