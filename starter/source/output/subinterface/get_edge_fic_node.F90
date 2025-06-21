@@ -20,12 +20,22 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/./
+      !||====================================================================
+      !||    get_edge_fic_node_mod   ../starter/source/output/subinterface/get_edge_fic_node.F90
+      !||--- called by ------------------------------------------------------
+      !||    inintsub_25             ../starter/source/output/subinterface/inintsub_25.F
+      !||====================================================================
       module get_edge_fic_node_mod
       contains
 ! ======================================================================================================================
 !                                                   procedures
 ! ======================================================================================================================
 !! \brief get the edge to which the ficitf node blongs
+      !||====================================================================
+      !||    get_edge_fic_node   ../starter/source/output/subinterface/get_edge_fic_node.F90
+      !||--- called by ------------------------------------------------------
+      !||    inintsub_25         ../starter/source/output/subinterface/inintsub_25.F
+      !||====================================================================
         subroutine get_edge_fic_node(irtse   ,nsne    ,is2se  ,is2pt   ,ns       , nrtse ,is1 , is2)
 
 ! ----------------------------------------------------------------------------------------------------------------------

@@ -772,6 +772,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    m20dcod                           ../starter/source/system/fsdcod.F
       !||    m75init                           ../starter/source/materials/mat/mat075/m75init.F
       !||    manctr                            ../engine/source/input/manctr.F
+      !||    mat_table_table_copy              ../starter/source/materials/tools/mat_table_table_copy.F90
       !||    matfun_usr2sys                    ../starter/source/materials/tools/matfun_usr2sys.F
       !||    matini                            ../starter/source/materials/mat_share/matini.F
       !||    matparam_def_mod                  ../common_source/modules/mat_elem/matparam_def_mod.F90

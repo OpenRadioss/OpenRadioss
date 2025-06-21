@@ -124,6 +124,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    hm_read_mat126                           ../starter/source/materials/mat/mat126/hm_read_mat126.F90
       !||    hm_read_mat127                           ../starter/source/materials/mat/mat127/hm_read_mat127.F90
       !||    hm_read_mat128                           ../starter/source/materials/mat/mat128/hm_read_mat128.F90
+      !||    hm_read_mat129                           ../starter/source/materials/mat/mat129/hm_read_mat129.F90
       !||    hm_read_mat133                           ../starter/source/materials/mat/mat133/hm_read_mat133.F90
       !||    hm_read_mat134                           ../starter/source/materials/mat/mat134/hm_read_mat134.F90
       !||    hm_read_mat163                           ../starter/source/materials/mat/mat163/hm_read_mat163.F90
@@ -134,6 +135,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    hm_read_mat87                            ../starter/source/materials/mat/mat087/hm_read_mat87.F90
       !||    hm_read_preload_axial                    ../starter/source/loads/general/preload/hm_read_preload_axial.F90
       !||    hm_read_therm_stress                     ../starter/source/materials/therm/hm_read_therm_stress.F90
+      !||    i24intarea_fic                           ../engine/source/interfaces/int24/i24intarea_fic.F90
       !||    i2_surfi                                 ../starter/source/interfaces/inter3d1/i2_surfi.F90
       !||    iniebcs_propergol_get_cv                 ../starter/source/boundary_conditions/ebcs/iniebcs_propergol.F90
       !||    iniphase                                 ../starter/source/initial_conditions/inivol/iniphase.F
@@ -167,6 +169,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    mat87c_swift_voce                        ../engine/source/materials/mat/mat087/mat87c_swift_voce.F90
       !||    mat87c_tabulated                         ../engine/source/materials/mat/mat087/mat87c_tabulated.F90
       !||    mat87c_tabulated_3dir_ortho              ../engine/source/materials/mat/mat087/mat87c_tabulated_3dir_ortho.F90
+      !||    mat_table_table_copy                     ../starter/source/materials/tools/mat_table_table_copy.F90
       !||    minter1d_rat                             ../common_source/eos/minter1d_rat.F
       !||    mmain                                    ../engine/source/materials/mat_share/mmain.F90
       !||    mulaw                                    ../engine/source/materials/mat_share/mulaw.F90
@@ -230,6 +233,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    sigeps127c                               ../engine/source/materials/mat/mat127/sigeps127c.F90
       !||    sigeps128c                               ../engine/source/materials/mat/mat128/sigeps128c.F90
       !||    sigeps128s                               ../engine/source/materials/mat/mat128/sigeps128s.F90
+      !||    sigeps129s                               ../engine/source/materials/mat/mat129/sigeps129s.F90
       !||    sigeps133                                ../engine/source/materials/mat/mat133/sigeps133.F90
       !||    sigeps134s                               ../engine/source/materials/mat/mat134/sigeps134s.F90
       !||    sigeps163                                ../engine/source/materials/mat/mat163/sigeps163.F90

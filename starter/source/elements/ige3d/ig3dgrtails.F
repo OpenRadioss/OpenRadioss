@@ -21,13 +21,13 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    ig3dgrtails    ../starter/source/elements/ige3d/ig3dgrtails.F
+      !||    ig3dgrtails        ../starter/source/elements/ige3d/ig3dgrtails.F
       !||--- called by ------------------------------------------------------
-      !||    lectur         ../starter/source/starter/lectur.F
+      !||    lectur             ../starter/source/starter/lectur.F
       !||--- calls      -----------------------------------------------------
-      !||    zeroin         ../starter/source/system/zeroin.F
+      !||    zeroin             ../starter/source/system/zeroin.F
       !||--- uses       -----------------------------------------------------
-      !||    message_mod    ../starter/share/message_module/message_mod.F
+      !||    message_mod        ../starter/share/message_module/message_mod.F
       !||====================================================================
       SUBROUTINE IG3DGRTAILS(
      1    KXIG3D    ,IPARG  ,GEO     ,EADD,

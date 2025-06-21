@@ -21,25 +21,27 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    i24for3          ../engine/source/interfaces/int24/i24for3.F
+      !||    i24for3              ../engine/source/interfaces/int24/i24for3.F
       !||--- called by ------------------------------------------------------
-      !||    i24mainf         ../engine/source/interfaces/int24/i24main.F
+      !||    i24mainf             ../engine/source/interfaces/int24/i24main.F
       !||--- calls      -----------------------------------------------------
-      !||    bitget           ../engine/source/interfaces/intsort/i20sto.F
-      !||    i24_save_sub     ../engine/source/interfaces/int24/i24_save_sub.F
-      !||    i24ass0          ../engine/source/interfaces/int24/i24for3.F
-      !||    i24ass2          ../engine/source/interfaces/int24/i24for3.F
-      !||    i24for1_fic      ../engine/source/interfaces/int24/i24for3e.F
-      !||    i24for1_ficr     ../engine/source/interfaces/int24/i24for3e.F
-      !||    i24sms2          ../engine/source/interfaces/int24/i24for3.F
-      !||    ibcoff           ../engine/source/interfaces/interf/ibcoff.F
+      !||    bitget               ../engine/source/interfaces/intsort/i20sto.F
+      !||    i24_save_sub         ../engine/source/interfaces/int24/i24_save_sub.F
+      !||    i24ass0              ../engine/source/interfaces/int24/i24for3.F
+      !||    i24ass2              ../engine/source/interfaces/int24/i24for3.F
+      !||    i24for1_fic          ../engine/source/interfaces/int24/i24for3e.F
+      !||    i24for1_ficr         ../engine/source/interfaces/int24/i24for3e.F
+      !||    i24intarea_fic       ../engine/source/interfaces/int24/i24intarea_fic.F90
+      !||    i24sms2              ../engine/source/interfaces/int24/i24for3.F
+      !||    ibcoff               ../engine/source/interfaces/interf/ibcoff.F
       !||--- uses       -----------------------------------------------------
-      !||    anim_mod         ../common_source/modules/output/anim_mod.F
-      !||    h3d_mod          ../engine/share/modules/h3d_mod.F
-      !||    outputs_mod      ../common_source/modules/outputs_mod.F
-      !||    parameters_mod   ../common_source/modules/interfaces/parameters_mod.F
-      !||    plyxfem_mod      ../engine/share/modules/plyxfem_mod.F
-      !||    tri7box          ../engine/share/modules/tri7box.F
+      !||    anim_mod             ../common_source/modules/output/anim_mod.F
+      !||    h3d_mod              ../engine/share/modules/h3d_mod.F
+      !||    i24intarea_fic_mod   ../engine/source/interfaces/int24/i24intarea_fic.F90
+      !||    outputs_mod          ../common_source/modules/outputs_mod.F
+      !||    parameters_mod       ../common_source/modules/interfaces/parameters_mod.F
+      !||    plyxfem_mod          ../engine/share/modules/plyxfem_mod.F
+      !||    tri7box              ../engine/share/modules/tri7box.F
       !||====================================================================
       SUBROUTINE I24FOR3(JLT ,A  ,V       ,IBCC        ,ICODT     ,
      2    FSAV        ,GAP       ,FRIC    ,MS          ,VISC      ,

@@ -31,6 +31,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    i25s1s2          ../starter/source/interfaces/inter3d1/i25sto.F
       !||    i25trivox_edg    ../starter/source/interfaces/inter3d1/i25trivox_edg.F
       !||    i7remnode_init   ../starter/source/interfaces/inter3d1/i7remnode.F
+      !||    inintsub_25      ../starter/source/output/subinterface/inintsub_25.F
       !||====================================================================
       INTEGER FUNCTION BITGET(I,N)
       INTEGER I,N

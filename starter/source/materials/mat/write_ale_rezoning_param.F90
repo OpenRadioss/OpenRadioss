@@ -26,23 +26,19 @@
 !! \brief write ale rezoning data structure in restart file
 !! \details
       !||====================================================================
-      !||    write_therpmaram_mod   ../engine/source/output/restart/write_thermparam.F90
+      !||    write_ale_rezoning_param_mod   ../starter/source/materials/mat/write_ale_rezoning_param.F90
       !||--- called by ------------------------------------------------------
-      !||    write_matparam         ../engine/source/output/restart/write_matparam.F
+      !||    write_matparam                 ../starter/source/materials/mat/write_matparam.F
       !||====================================================================
       module write_ale_rezoning_param_mod
       contains
 
       !||====================================================================
-      !||    write_thermparam   ../engine/source/output/restart/write_thermparam.F90
+      !||    write_ale_rezoning_param   ../starter/source/materials/mat/write_ale_rezoning_param.F90
       !||--- called by ------------------------------------------------------
-      !||    write_matparam     ../engine/source/output/restart/write_matparam.F
+      !||    write_matparam             ../starter/source/materials/mat/write_matparam.F
       !||--- calls      -----------------------------------------------------
-      !||    write_db           ../common_source/tools/input_output/write_db.F
-      !||    write_i_c          ../common_source/tools/input_output/write_routtines.c
       !||--- uses       -----------------------------------------------------
-      !||    precision_mod      ../common_source/modules/precision_mod.F90
-      !||    therm_param_mod    ../common_source/modules/mat_elem/therm_param_mod.F90
       !||====================================================================
       subroutine write_ale_rezoning_param(rezon)
 ! --------------------------------------------------------------------------------------------------

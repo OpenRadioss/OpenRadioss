@@ -26,23 +26,21 @@
 !! \brief read ale rezoning data structure from restart file
 !! \details
       !||====================================================================
-      !||    read_therpmaram_mod   ../engine/source/output/restart/read_thermparam.F90
+      !||    read_ale_rezoning_param_mod   ../engine/source/output/restart/read_ale_rezoning_param.F90
       !||--- called by ------------------------------------------------------
-      !||    read_matparam         ../engine/source/output/restart/read_matparam.F
+      !||    read_matparam                 ../engine/source/output/restart/read_matparam.F
       !||====================================================================
       module read_ale_rezoning_param_mod
       contains
 
       !||====================================================================
-      !||    read_thermparam   ../engine/source/output/restart/read_thermparam.F90
+      !||    read_ale_rezoning_param   ../engine/source/output/restart/read_ale_rezoning_param.F90
       !||--- called by ------------------------------------------------------
-      !||    read_matparam     ../engine/source/output/restart/read_matparam.F
+      !||    read_matparam             ../engine/source/output/restart/read_matparam.F
       !||--- calls      -----------------------------------------------------
-      !||    read_db           ../common_source/tools/input_output/read_db.F
-      !||    read_i_c          ../common_source/tools/input_output/write_routtines.c
+      !||    read_i_c                  ../common_source/tools/input_output/write_routtines.c
       !||--- uses       -----------------------------------------------------
-      !||    precision_mod     ../common_source/modules/precision_mod.F90
-      !||    therm_param_mod   ../common_source/modules/mat_elem/therm_param_mod.F90
+      !||    ale_mod                   ../common_source/modules/ale/ale_mod.F
       !||====================================================================
       subroutine read_ale_rezoning_param(rezon)
 ! --------------------------------------------------------------------------------------------------
