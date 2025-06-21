@@ -1865,13 +1865,6 @@
                            lbuf%seq,inloc ,jlag   ,fheat  ,voln )
 !
           elseif (mtn == 105) then
-            if (n2d == 0) then
-              n48 = 8
-              nix = nixs
-            else
-              n48 = 4
-              nix = nixq
-            endif
             call sigeps105(nel       ,npar   ,nuvar    ,nfunc      ,ifunc           ,lbuf%tb   ,&
             &npf       ,tf     ,tt       ,dt1        ,uparam0  ,lbuf%bfrac,&
             &rho0      ,rho    ,vol      ,eint       ,sigy            ,deltax    ,&
@@ -1882,11 +1875,11 @@
             &s1        ,s2     ,s3       ,s4         ,s5              ,s6        ,&
             &sv1       ,sv2    ,sv3      ,sv4        ,sv5             ,sv6       ,&
             &ssp       ,vis    ,uvar     ,off        ,nft             ,v         ,&
-            &w         ,x      ,ix       ,n48        ,nix             ,jthe      ,&
+            &w         ,x      ,ix       ,nix        ,jthe      ,&
             &geo       ,pid    ,ilay     ,ng         ,elbuf_tab       ,pm        ,&
             &iparg     ,bufvois  ,ipm        ,bufmat          ,stifn     ,&
             &vd2       ,vdx    ,vdy      ,vdz        ,mat             ,voln      ,&
-            &gbuf%qvis ,dvol   ,qold     )
+            &gbuf%qvis ,dvol   ,qold     ,psh)
 !
           elseif (mtn == 106) then
             idev = 1

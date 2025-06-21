@@ -211,6 +211,7 @@
       use hm_read_mat57_mod
       use hm_read_mat81_mod
       use hm_read_mat87_mod
+      use hm_read_mat105_mod , only : hm_read_mat105
       use hm_read_mat125_mod
       use hm_read_mat126_mod
       use hm_read_mat127_mod
@@ -1032,6 +1033,14 @@
             &uparam   ,maxuparam,nuparam  ,nuvar    ,nfunc    ,&
             &maxfunc  ,ifunc    ,parmat   ,unitab   ,mat_id   ,&
             &pm(1,i)  ,titr     ,mtag     ,lsubmodel,matparam )
+!-------
+          case ('LAW105','POWDER_BURN','POWDER-BURN')
+            ilaw  = 105
+            call hm_read_mat105(&
+            &uparam   ,maxuparam,nuparam  ,nuvar    ,nfunc    ,&
+            &maxfunc  ,ifunc    ,parmat   ,unitab   ,mat_id   ,&
+            &pm(1,i)  ,titr     ,mtag     ,lsubmodel,matparam ,&
+            &npropm   )
 !-------
           case ('LAW106','JCOOK_ALM')
             ilaw  = 106
