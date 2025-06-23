@@ -454,6 +454,7 @@ public:
         return 0;
     }
 
+
     // Get value of an attribute for this element (by attribute name)
     virtual Status GetValue(const sdiIdentifier& identifier, sdiValue& value) const
     {
@@ -474,6 +475,16 @@ public:
             value = sdiValue(sdiString(p_ptr->GetStringValue(att_index, p_index2)));
             return true;
         }
+        att_index = p_ptr->GetIndex(IMECPreObject::ATY_ARRAY, IMECPreObject::VTY_OBJECT, identifier.GetNameKey());
+        if (att_index >= 0) {
+            int objId = p_ptr->GetObjectId(att_index, p_index2);
+            if (objId > 0) {
+                value = sdiValue(sdiValueEntity(sdiValueEntityType(
+                    this->GetModelView()->GetEntityType(p_ptr->GetInputFullType())), objId));
+                return true;
+            }
+        }
+            
         // Try as single value (not array)
         att_index = p_ptr->GetIndex(IMECPreObject::ATY_SINGLE, IMECPreObject::VTY_INT, identifier.GetNameKey());
         if (att_index >= 0) {
@@ -489,6 +500,15 @@ public:
         if (att_index >= 0) {
             value = sdiValue(sdiString(p_ptr->GetStringValue(att_index)));
             return true;
+        }
+        att_index = p_ptr->GetIndex(IMECPreObject::ATY_SINGLE, IMECPreObject::VTY_OBJECT, identifier.GetNameKey());
+        if (att_index >= 0) {
+            int objId = p_ptr->GetObjectId(att_index);
+            if (objId > 0) {
+                value = sdiValue(sdiValueEntity(sdiValueEntityType(
+                    this->GetModelView()->GetEntityType(p_ptr->GetInputFullType())), objId));
+                return true;
+            }
         }
         // Not found
         return false;
