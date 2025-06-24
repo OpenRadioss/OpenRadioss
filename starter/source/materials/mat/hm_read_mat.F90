@@ -57,6 +57,7 @@
       !||    hm_read_mat102            ../starter/source/materials/mat/mat102/hm_read_mat102.F
       !||    hm_read_mat103            ../starter/source/materials/mat/mat103/hm_read_mat103.F
       !||    hm_read_mat104            ../starter/source/materials/mat/mat104/hm_read_mat104.F
+      !||    hm_read_mat105            ../starter/source/materials/mat/mat105/hm_read_mat105.F90
       !||    hm_read_mat106            ../starter/source/materials/mat/mat106/hm_read_mat106.F
       !||    hm_read_mat107            ../starter/source/materials/mat/mat107/hm_read_mat107.F
       !||    hm_read_mat108            ../starter/source/materials/mat/mat108/hm_read_mat108.F
@@ -167,6 +168,7 @@
       !||    elbuftag_mod              ../starter/share/modules1/elbuftag_mod.F
       !||    file_descriptor_mod       ../starter/source/modules/file_descriptor_mod.F90
       !||    hm_option_read_mod        ../starter/share/modules1/hm_option_read_mod.F
+      !||    hm_read_mat105_mod        ../starter/source/materials/mat/mat105/hm_read_mat105.F90
       !||    hm_read_mat125_mod        ../starter/source/materials/mat/mat125/hm_read_mat125.F90
       !||    hm_read_mat126_mod        ../starter/source/materials/mat/mat126/hm_read_mat126.F90
       !||    hm_read_mat127_mod        ../starter/source/materials/mat/mat127/hm_read_mat127.F90
