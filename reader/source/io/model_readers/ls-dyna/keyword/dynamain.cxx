@@ -67,7 +67,7 @@ sdi::ModelViewEdit* DynakeyReadModel(const char *filename)
     string rootDir;
 
     vector<string>  allowable_vec{ "HM_SUPPORTED" };
-    string str_version("Keyword971_R13.1");
+    string str_version("Keyword971_R14.1");
     MultiCFGKernelMgr::getInstance().InitCFGKernel(rootDir, "", str_version, filenameLoc, false, allowable_vec, str_error);
 
     // if(str_error.size() > 0) throw dynakeymessages.Add(9001, 3, "", 0, str_error.c_str());
