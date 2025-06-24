@@ -4774,6 +4774,7 @@ void ConvertMat::p_ConvertMatL83(const EntityRead& dynaMat, sdiString& destCard,
         double lsdTFLAG = 0;
         double lsdTC = 0.0, lsdE = 0.0;
         sdiValue tempValue;
+        double lsdFAIL = GetValue<double>(dynaMat, "FAIL");
 
         tempValue = sdiValue(lsdTFLAG);
         dynaMat.GetValue(sdiIdentifier("TFLAG"), tempValue);
@@ -4842,7 +4843,7 @@ void ConvertMat::p_ConvertMatL83(const EntityRead& dynaMat, sdiString& destCard,
                             tempValue.GetValue(crvPoints);
 
                             vector< reference_wrapper<double>> attribVals({ lsdSFA, lsdSFO, lsdOFFA, lsdOFFO });
-                            vector<sdiString> lsdQueryAttribs = { "SFA", "SFO", "OFFA", "OFFO" };
+                            vector<sdiString> lsdQueryAttribs = { "A_SCALE_X", "F_SCALE_Y", "A_SHIFT_X", "F_SHIFT_Y" };
                             p_ConvertUtils.GetAttribValues(radfuncEdit, lsdQueryAttribs, attribVals);
                             lsdSFA = (lsdSFA == 0.0) ? 1.0 : lsdSFA;
                             lsdSFO = (lsdSFO == 0.0) ? 1.0 : lsdSFO;
@@ -5007,6 +5008,26 @@ void ConvertMat::p_ConvertMatL83(const EntityRead& dynaMat, sdiString& destCard,
 
         //The rest of parameters are set to default 0 values in converson
         radMatEntityEdit.SetValue(sdiIdentifier("MAT_NU"), sdiValue(0.0));
+        // to be added ... once /MAT/LAW90 in radioss supports TFLAG
+        //if(lsdTFLAG == 0.0) lsdTFLAG = 2.0; // default value for TFLAG
+        //radMatEntityEdit.SetValue(sdiIdentifier("TFLAG"), sdiValue(lsdTFLAG));
+
+        
+        //---------------------
+        // -- /FAIL/GENE1/ -- //
+        //---------------------
+        HandleEdit failGene1HEdit;
+    
+        p_radiossModel->CreateEntity(failGene1HEdit, "/FAIL/GENE1", dynaMatName);
+        failGene1HEdit.SetValue(p_radiossModel, sdiIdentifier("ID_CARD_EXIST"), sdiValue(true));
+        if (failGene1HEdit.IsValid() && lsdFAIL == 2.0)
+        {
+            failGene1HEdit.SetEntityHandle(p_radiossModel, sdiIdentifier("mat_id"), radMat);
+            failGene1HEdit.SetValue(p_radiossModel, sdiIdentifier("SigP1_max"),sdiValue(abs(lsdTC)));
+
+            sdiConvert::SDIHandlReadList sourcemat = { {dynaMat.GetHandle()} };
+            sdiConvert::Convert::PushToConversionLog(std::make_pair(failGene1HEdit, sourcemat));
+        }
     }
 }
 

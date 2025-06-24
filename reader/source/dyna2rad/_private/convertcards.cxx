@@ -66,6 +66,10 @@ void sdiD2R::ConvertCard::ConvertEntities()
 
     /*convert *DATABASE_NODAL_FORCE_GROUP*/
     p_ConvertDbNodalForceGroup();
+
+    /*convert th_title*/
+    p_ConvertTH_TITLE();
+
 }
 
 
@@ -937,5 +941,19 @@ void sdiD2R::ConvertCard::p_ConvertDbNodalForceGroup()
                 sdiConvert::Convert::PushToConversionLog(std::make_pair(thHandleEdit, sourceHandles));
             }
         }
+    }
+}
+
+
+void sdiD2R::ConvertCard::p_ConvertTH_TITLE()
+{
+    HandleEdit ThTitleHandleEdit; 
+    SelectionEdit selthtitle(p_radiossModel, "/TH/TITLE");
+    sdiConvert::SDIHandlReadList sourceControlCards = { {selthtitle->GetHandle()} };
+
+    if (selthtitle.Count() == 0)
+    {
+        p_radiossModel->CreateEntity(ThTitleHandleEdit, "/TH/TITLE");
+        sdiConvert::Convert::PushToConversionLog(std::make_pair(ThTitleHandleEdit, sourceControlCards));
     }
 }

@@ -164,8 +164,8 @@ unsigned int sdiD2R::DynaToRad::GetRadiossSkewIdFromLsdVID(const unsigned int& L
 
 void DynaToRad::BuildConversionMap()
 {
-    sdiString D2R_CFG_DIR= getenv("RAD_CFG_PATH");
-    sdiString file_path = D2R_CFG_DIR + "/config/CFG/LsDynaToRad/LsDynaToRad.cfg";
+    sdiString D2R_CFG_DIR= getenv("HM_MV_CFG_DIR");
+    sdiString file_path = D2R_CFG_DIR + "/LsDynaToRad/LsDynaToRad.cfg";
 
     ConvertRuleParser ConversionRule(file_path);
 

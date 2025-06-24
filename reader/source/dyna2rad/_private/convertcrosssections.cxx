@@ -74,6 +74,13 @@ void sdiD2R::ConvertSection::p_ConvertSectionPlane()
             sectType = 2;
             destCard = "/SECT/PARAL";
         }
+        if(sectType == 3)
+        {
+            // coordinates of head of edge vector (L) will be ignored, therefore initialize to 0.0
+            lsdXHEV = 0.0;
+            lsdYHEV = 0.0;
+            lsdZHEV = 0.0;
+        }
         sdiConvert::SDIHandlReadList sourceList = { {selSectPlane->GetHandle()} };
         EntityType radSetType = p_radiossModel->GetEntityType("/SET/GENERAL");
         if (sectType)
