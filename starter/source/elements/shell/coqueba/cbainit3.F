@@ -470,7 +470,7 @@ c
           CALL CEPSCHK(LFT, LLT,NFT, PM, GEO,IXC(1,NFT+1),
      .                 GBUF%STRA,THKE,NEL     ,CPT_ELTENS)
           IF (ISMSTR == 1 .AND. MTN==19) IPARG(9)=11
-          IF (MTN==58) THEN
+          IF (MTN==58 .AND. NPT_ALL==1) THEN
 C-------IINT to say NXREF > 0      
               IPARG(36)=1
             DO I=LFT,LLT                          
