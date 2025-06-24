@@ -89,6 +89,7 @@
       !||    hm_read_mat102                      ../starter/source/materials/mat/mat102/hm_read_mat102.F
       !||    hm_read_mat103                      ../starter/source/materials/mat/mat103/hm_read_mat103.F
       !||    hm_read_mat104                      ../starter/source/materials/mat/mat104/hm_read_mat104.F
+      !||    hm_read_mat105                      ../starter/source/materials/mat/mat105/hm_read_mat105.F90
       !||    hm_read_mat106                      ../starter/source/materials/mat/mat106/hm_read_mat106.F
       !||    hm_read_mat107                      ../starter/source/materials/mat/mat107/hm_read_mat107.F
       !||    hm_read_mat108                      ../starter/source/materials/mat/mat108/hm_read_mat108.F
@@ -113,6 +114,7 @@
       !||    hm_read_mat126                      ../starter/source/materials/mat/mat126/hm_read_mat126.F90
       !||    hm_read_mat127                      ../starter/source/materials/mat/mat127/hm_read_mat127.F90
       !||    hm_read_mat128                      ../starter/source/materials/mat/mat128/hm_read_mat128.F90
+      !||    hm_read_mat129                      ../starter/source/materials/mat/mat129/hm_read_mat129.F90
       !||    hm_read_mat13                       ../starter/source/materials/mat/mat013/hm_read_mat13.F
       !||    hm_read_mat133                      ../starter/source/materials/mat/mat133/hm_read_mat133.F90
       !||    hm_read_mat134                      ../starter/source/materials/mat/mat134/hm_read_mat134.F90
@@ -195,6 +197,7 @@
       !||    hm_read_therm                       ../starter/source/materials/therm/hm_read_therm.F
       !||    hm_read_therm_stress                ../starter/source/materials/therm/hm_read_therm_stress.F90
       !||    hm_read_visc                        ../starter/source/materials/visc/hm_read_visc.F
+      !||    ig3dgrtails                         ../starter/source/elements/ige3d/ig3dgrtails.F
       !||    imp_buck                            ../engine/source/implicit/imp_buck.F
       !||    ini_inimap1d                        ../starter/source/initial_conditions/inimap/ini_inimap1d.F
       !||    iniebcs_nrf_tcar                    ../starter/source/boundary_conditions/ebcs/iniebcs_nrf_tcar.F
@@ -284,6 +287,7 @@
       !||    sigeps127c                          ../engine/source/materials/mat/mat127/sigeps127c.F90
       !||    sigeps128c                          ../engine/source/materials/mat/mat128/sigeps128c.F90
       !||    sigeps128s                          ../engine/source/materials/mat/mat128/sigeps128s.F90
+      !||    sigeps129s                          ../engine/source/materials/mat/mat129/sigeps129s.F90
       !||    sigeps133                           ../engine/source/materials/mat/mat133/sigeps133.F90
       !||    sigeps134s                          ../engine/source/materials/mat/mat134/sigeps134s.F90
       !||    sigeps163                           ../engine/source/materials/mat/mat163/sigeps163.F90
@@ -320,6 +324,7 @@
       !||    updmat                              ../starter/source/materials/updmat.F
       !||    usermat_solid                       ../engine/source/materials/mat_share/usermat_solid.F
       !||--- uses       -----------------------------------------------------
+      !||    ale_mod                             ../common_source/modules/ale/ale_mod.F
       !||    eos_param_mod                       ../common_source/modules/mat_elem/eos_param_mod.F90
       !||    fail_param_mod                      ../common_source/modules/mat_elem/fail_param_mod.F90
       !||    multimat_param_mod                  ../common_source/modules/multimat_param_mod.F90
@@ -339,6 +344,7 @@
       use multimat_param_mod
       use eos_param_mod
       use precision_mod, only : WP
+      use ale_mod , only : ale_rezon_
       implicit none
 
       private :: WP
@@ -411,6 +417,7 @@
         type (therm_param_)                          :: therm    !< thermal model data structure (/heat/mat + /therm_stress)         
         type (eos_param_)                            :: eos      !< eos model data structure
         type (multimat_param_)                       :: multimat !< buffer scpecific to multimaterial laws (51,151) : vfrac and mat internal identifiers
+        type (ale_rezon_)                            :: rezon
 
 !        type (submat_)  ,dimension(:) ,allocatable :: submat    !< multi material data structure (to be defined) 
 
@@ -480,6 +487,10 @@
 
             !MULTIMAT
             this%multimat%nb = 0
+
+            !ALE ZERONING
+            this%rezon%num_nuvar_mat = 0
+            this%rezon%num_nuvar_eos = 0
 
         end subroutine zeroing_matparam
 

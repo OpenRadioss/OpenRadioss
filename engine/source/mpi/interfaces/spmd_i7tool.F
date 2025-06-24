@@ -607,16 +607,6 @@ C------------For /LOAD/PRESSURE tag nodes in contact-------------
               ENDDO
             ENDDO
          ENDIF
-C------------For outputting total contact area------------
-         IF(INTCAREA > 0) THEN
-           FSAV29 = ZERO
-           DO I = 1, NB
-              N = NINT(BUFR(1,I))
-              NOD = NSV(N)
-              FSAV29 = FSAV29 + PARAMETERS%INTAREAN(NOD)
-            ENDDO
-            FSAV(29) = FSAV(29) + FSAV29
-         ENDIF
 C     
          IF(ISECIN>0)THEN
 C     Sections
@@ -1925,15 +1915,15 @@ C------------For /LOAD/PRESSURE tag nodes in contact-------------
          ENDDO
        ENDIF
 C------------For outputting total contact area------------
-         IF(INTCAREA > 0) THEN
-           FSAV29 = ZERO
-           DO I = 1, NB
-              N = NINT(BUFR(1,I))
-              NOD = NSV(N)
-              FSAV29 = FSAV29 + PARAMETERS%INTAREAN(NOD)
-            ENDDO
-            FSAV(29) = FSAV(29) + FSAV29
-         ENDIF
+c         IF(INTCAREA > 0) THEN
+c           FSAV29 = ZERO
+c           DO I = 1, NB
+c              N = NINT(BUFR(1,I))
+c              NOD = NSV(N)
+c              FSAV29 = FSAV29 + PARAMETERS%INTAREAN(NOD)
+c            ENDDO
+c            FSAV(29) = FSAV(29) + FSAV29
+c         ENDIF
 C 
 C
       IF(ISECIN>0)THEN
@@ -4321,7 +4311,12 @@ C
                     STIF_MSDT_FI(I)%P(1:LENR)=ZERO
                  ENDIF
 
-                 IF(PARAMETERS%INTCAREA > 0.AND.IPARI(36,I)>0) THEN
+                 IF(ITYP == 25.AND.PARAMETERS%INTCAREA > 0.AND.IPARI(36,I)>0) THEN
+                   ALLOCATE(INTAREANFI(I)%P(LENR),STAT=IERROR1)
+                   IERROR = IERROR + IERROR1
+                   INTAREANFI(I)%P(1:LENR) =ZERO
+                ENDIF
+                 IF(ITYP == 24.AND.PARAMETERS%INTCAREA > 0) THEN
                    ALLOCATE(INTAREANFI(I)%P(LENR),STAT=IERROR1)
                    IERROR = IERROR + IERROR1
                    INTAREANFI(I)%P(1:LENR) =ZERO
@@ -4999,7 +4994,10 @@ C rajout partie edge
               IF(IPARI(97,I) > 0) THEN
                  CALL READ_DB(STIF_MSDT_FI(I)%P(1),LENR) ! stif based on mass and dt
               ENDIF
-              IF(PARAMETERS%INTCAREA > 0.AND.IPARI(36,I)>0) THEN
+              IF(ITYP==25.AND.PARAMETERS%INTCAREA > 0.AND.IPARI(36,I)>0) THEN
+                 CALL READ_DB(INTAREANFI(I)%P(1),LENR) ! Area of secondary node
+              ENDIF
+              IF(ITYP==24.AND.PARAMETERS%INTCAREA > 0) THEN
                  CALL READ_DB(INTAREANFI(I)%P(1),LENR) ! Area of secondary node
               ENDIF
           ENDIF  ! fin partie type 24 & 25
@@ -5592,8 +5590,9 @@ C
                 CALL WRITE_DB(PENE_OLDFI(I)%P(1,1),5*LENR)
                 CALL WRITE_DB(STIF_OLDFI(I)%P(1,1),2*LENR)
                 IF(IPARI(97,I) > 0) CALL WRITE_DB(STIF_MSDT_FI(I)%P(1),LENR) ! stif based on mass and dt
-                IF(PARAMETERS%INTCAREA > 0.AND.IPARI(36,I)>0) CALL WRITE_DB(INTAREANFI(I)%P(1),LENR) ! output carea th (only case NISUB)
               ENDIF  ! fin partie type 24 & 25
+              IF(ITYP==25.AND.PARAMETERS%INTCAREA > 0.AND.IPARI(36,I)>0) CALL WRITE_DB(INTAREANFI(I)%P(1),LENR) ! output carea th (only case NISUB)
+              IF(ITYP==24.AND.PARAMETERS%INTCAREA > 0) CALL WRITE_DB(INTAREANFI(I)%P(1),LENR) ! output carea th 
 C             
               IF (ITYP==24) THEN
                 IF(IDTMINS==2)THEN

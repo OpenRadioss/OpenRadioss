@@ -1816,6 +1816,11 @@ C-----/DAMP/VREL
 C /INIVEL
       NEXT       = NEXT + 1
       LOADS%NINIVELT = TABVINT(NEXT)
+! ALE%REZON      
+      NEXT       = NEXT + 1
+      ALE%REZON%NUM_NUVAR_MAT = TABVINT(NEXT)
+      NEXT       = NEXT + 1
+      ALE%REZON%NUM_NUVAR_EOS = TABVINT(NEXT)
 C
       ! Initialize variables from Restart 
       ! ----------------------------------

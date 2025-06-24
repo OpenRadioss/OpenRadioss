@@ -21,25 +21,27 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    ig3dgrtails    ../starter/source/elements/ige3d/ig3dgrtails.F
+      !||    ig3dgrtails        ../starter/source/elements/ige3d/ig3dgrtails.F
       !||--- called by ------------------------------------------------------
-      !||    lectur         ../starter/source/starter/lectur.F
+      !||    lectur             ../starter/source/starter/lectur.F
       !||--- calls      -----------------------------------------------------
-      !||    zeroin         ../starter/source/system/zeroin.F
+      !||    zeroin             ../starter/source/system/zeroin.F
       !||--- uses       -----------------------------------------------------
-      !||    message_mod    ../starter/share/message_module/message_mod.F
+      !||    message_mod        ../starter/share/message_module/message_mod.F
       !||====================================================================
       SUBROUTINE IG3DGRTAILS(
      1    KXIG3D    ,IPARG  ,GEO     ,EADD,
      2    ND     ,DD_IAD ,IDX     ,LB_MAX, INUM,
      3    INDEX  ,CEP    ,IPARTIG3D  ,ITR1,   IGRSURF,
      4    IXIG3D ,
-     5    IGEO ,PM   ,NIGE,   KNOTLOCEL)
+     5    IGEO ,PM   ,NIGE,   KNOTLOCEL, MATPARAM_TAB)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
       USE GROUPDEF_MOD
+      USE MATPARAM_DEF_MOD
+      USE ALE_MOD , ONLY : ALE
 C-----------------------------------------------
 C            A R G U M E N T S
 C-----------------------------------------------
@@ -74,6 +76,7 @@ C-----------------------------------------------
      .        IPARTIG3D(*), ITR1(*),NIGE(*)
       my_real GEO(NPROPG,NUMGEO),PM(NPROPM,NUMMAT),KNOTLOCEL(*)
       TYPE (SURF_)   , DIMENSION(NSURF)   :: IGRSURF
+      TYPE(MATPARAM_STRUCT_) , TARGET, DIMENSION(NUMMAT),INTENT(IN) :: MATPARAM_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -83,12 +86,14 @@ C-----------------------------------------------
      .        MT,IXIG3D(*),NUVAR,NUVARN,NXVIE,NXVIN,INND,II,inno,
      .        NGP(NSPMD+1),JALE_FROM_MAT,JALE_FROM_PROP
       my_real KNOTLOCELINDX(SKNOTLOCEL)
+      TYPE(MATPARAM_STRUCT_) , POINTER :: MATPARAM
 C
       DATA NXVIE/3/, NXVIN/0/
 C----------------------------------------------------------
       NPT = 1
 C----------------------------------------------------------
       NGR1 = NGROUP + 1
+      nullify(MATPARAM)
 C
 C phase 1 : decompostition canonique
 C
@@ -184,6 +189,7 @@ C xgroup global
           MTNN= NINT(PM(19,ABS(KXIG3D(1,II))))
           IETYP = 101
           GEO(8,PID)=IETYP + EM01
+          MATPARAM => MATPARAM_TAB(MID)
           
           JALE_FROM_MAT = NINT(PM(72,MID))
           JALE_FROM_PROP = IGEO(62,PID)
@@ -199,6 +205,21 @@ C foam + air
           ELSEIF(JALE == 3 .AND. MTNN == 77) THEN
             JLAG=1          
           ENDIF
+
+          !ALE REZONING/REMAPING : number of MAT/EOS variables to treat (used by staggered scheme only : arezon.F)
+          !  With ALE framework, since the Mesh is arbitrary, the variable must be updated to map thei expected location and not follow the arbitrary mesh displacement
+          !  this numbering here will be used in arezon.F to loop over variables to rezon/remap
+          IF(JALE == 1)THEN
+            ALE%REZON%NUM_NUVAR_MAT = ALE%REZON%NUM_NUVAR_MAT + MATPARAM%REZON%NUM_NUVAR_MAT
+            ALE%REZON%NUM_NUVAR_EOS = ALE%REZON%NUM_NUVAR_EOS + MATPARAM%REZON%NUM_NUVAR_EOS
+          ENDIF
+
+          !ALE UVAR REZONING  (81:MAT,  82:EOS)
+          IF(JALE == 1)THEN
+            IPARG(81,NGROUP) = MATPARAM%REZON%NUM_NUVAR_MAT
+            IPARG(82,NGROUP) = MATPARAM%REZON%NUM_NUVAR_EOS
+          ENDIF
+
           IF(MTNN/=50)JTUR=NINT(PM(70,MID)) 
           JTHE = NINT(PM(71,MID))
 C

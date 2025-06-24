@@ -152,7 +152,7 @@
           viscfac   = matparam%uparam(15) !< Viscosity factor
 !
           !< Initialization of the volumetric plastic strain if needed
-          if ((uvar(1,2) == zero).and.(epspvol0 /= zero).and.(sat0 > 0)) then
+          if ((uvar(1,1) == zero).and.(epspvol0 /= zero).and.(sat0 > 0)) then
             defp(1:nel,2) = epspvol0
           endif
 !
@@ -780,8 +780,8 @@
           !< Update user variables and compute the sound speed
           do i = 1,nel
             !< User variables
-            uvar(i,1)  = epspd(i)        !< Deviatoric equivalent plastic strain
-            uvar(i,2)  = epspv(i)        !< Volumetric plastic strain
+            uvar(i,1)  = epspv(i)        !< Volumetric plastic strain
+            uvar(i,2)  = epspd(i)        !< Deviatoric equivalent plastic strain
             uvar(i,3)  = c(i)            !< Material cohesion
             uvar(i,4)  = pb(i)           !< Cap limit pressure
             uvar(i,5)  = pa(i)           !< Transition pressure yield surface to cap

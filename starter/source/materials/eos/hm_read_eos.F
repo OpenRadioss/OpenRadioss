@@ -285,7 +285,7 @@ c---
           CASE ('COMPACTION_TAB')
             IEOS = 21
             CALL HM_READ_EOS_COMPACTION_TAB(IOUT,PM(1,IMAT),UNITAB,LSUBMODEL,EOS_uid,EOS_TAG,IEOS,NPROPM,MAXEOS,
-     .                                   MAT_PARAM(IMAT)%EOS, NTABLE, TABLE)
+     .                                   MAT_PARAM(IMAT)%EOS, NTABLE, TABLE, MAT_PARAM(IMAT)%REZON)
 c---
           CASE DEFAULT
             IEOS = -1 

@@ -612,7 +612,8 @@ C-------------------------------------------------------------------------------
      .                                      NINLOADP,DGAPLOADINT,
      1  S_LOADPINTER, DIST       ,IXX         ,INTEREFRIC ,INTCAREA ,
      2  INTERFACES%PARAMETERS ,PENREF ,KMAX , INTBUF_TAB%S_ADDSUBM ,
-     3  INTBUF_TAB%S_LISUBM,INTBUF_TAB%S_TYPSUB,NISUBMAX,I_STOK)
+     3  INTBUF_TAB%S_LISUBM,INTBUF_TAB%S_TYPSUB,NISUBMAX,I_STOK,NRTM,
+     4  NRTSE      ,IPARI(24,NIN))
 C
           IF(IMPL_S > 0 ) 
      +     CALL IMPL_SAV1(

@@ -1888,11 +1888,9 @@ void GlobalEntitySDIConvert2dElementSeatbelt(int *PART_MAT119,int *PART_MAXID,in
 // create first spring
     *ELEM_MAXID = *ELEM_MAXID + 1;
     HandleElementEdit radElem0;
-    g_pModelViewSDI->CreateElement(radElem0, destElem, *ELEM_MAXID); 
     elemNodes[0] = first;
     elemNodes[1] = second;
-    radElem0.SetValue(g_pModelViewSDI, sdiIdentifier("node_ID"), sdiValue(sdiValueEntityList(radnodeType, elemNodes)));
-    radElem0.SetValue(g_pModelViewSDI, sdiIdentifier("part_ID"), sdiValue(sdiValueEntity(radPartType, newPartId)));
+    g_pModelViewSDI->CreateElement(radElem0,destElem,elemNodes,radpartHEdit,*ELEM_MAXID);
 
     for(int i = 1; i < nbElems ; i = i + 1)    
     { 
@@ -1901,11 +1899,9 @@ void GlobalEntitySDIConvert2dElementSeatbelt(int *PART_MAT119,int *PART_MAXID,in
 // create other spring elements
             *ELEM_MAXID = *ELEM_MAXID + 1;
             HandleElementEdit radElem;
-            g_pModelViewSDI->CreateElement(radElem, destElem, *ELEM_MAXID); 
             elemNodes[0] = tmpNodes[i].first;
-            elemNodes[1] = tmpNodes[i].second;
-            radElem.SetValue(g_pModelViewSDI, sdiIdentifier("node_ID"), sdiValue(sdiValueEntityList(radnodeType, elemNodes)));
-            radElem.SetValue(g_pModelViewSDI, sdiIdentifier("part_ID"), sdiValue(sdiValueEntity(radPartType, newPartId)));
+            elemNodes[1] = tmpNodes[i].second; 
+            g_pModelViewSDI->CreateElement(radElem0,destElem,elemNodes,radpartHEdit,*ELEM_MAXID);
         }
         first = tmpNodes[i].first;
         second = tmpNodes[i].second;
@@ -2138,7 +2134,7 @@ void GlobalEntitySDIConvert2dElementsSeatbelt(int *PART_MAT119,int *PART_MAXID,i
             SelectionElementRead elems2(*g_pEntity);
             while(elems2.Next())
             {  
-                elems2->GetNodeIds(aNodeId);   
+                elems2->GetNodeIds(aNodeId); 
                 n = nodeIndexes[aNodeId[k]];
                 knod2shell[n] = knod2shell[n] + 1;
                 aNodeId.resize(0);  
@@ -2408,7 +2404,7 @@ void GlobalEntitySDIConvert2dElementsSeatbelt(int *PART_MAT119,int *PART_MAXID,i
             tmpIdShells.push_back(elemId);
             tmpIdShells.push_back(elemId);
 // Get Elem Connectivity
-            elems->GetNodeIds(aNodeId); 
+            elems->GetNodeIds(aNodeId);
 // push Spring Elem Connectivity 
             tmpNodes.push_back (make_pair(std::minmax(aNodeId[0], aNodeId[1]).first, std::minmax(aNodeId[0], aNodeId[1]).second));
             tmpNodes.push_back (make_pair(std::minmax(aNodeId[3], aNodeId[2]).first, std::minmax(aNodeId[3], aNodeId[2]).second));
@@ -2432,11 +2428,10 @@ void GlobalEntitySDIConvert2dElementsSeatbelt(int *PART_MAT119,int *PART_MAXID,i
 // create first spring
     *ELEM_MAXID = *ELEM_MAXID + 1;
     HandleElementEdit radElem0;
-    g_pModelViewSDI->CreateElement(radElem0, destElem, *ELEM_MAXID); 
+    
     elemNodes[0] = first;
     elemNodes[1] = second;
-    radElem0.SetValue(g_pModelViewSDI, sdiIdentifier("node_ID"), sdiValue(sdiValueEntityList(radnodeType, elemNodes)));
-    radElem0.SetValue(g_pModelViewSDI, sdiIdentifier("part_ID"), sdiValue(sdiValueEntity(radPartType, newPartId)));
+    g_pModelViewSDI->CreateElement(radElem0,destElem,elemNodes,radpartHEdit,*ELEM_MAXID);
 //
     tmpShelltoSprings.push_back( make_pair(tmpIdShells[0] + *OFFSET,*ELEM_MAXID + *OFFSET) );
     int nbCreatedSprings = 1;
@@ -2451,11 +2446,11 @@ void GlobalEntitySDIConvert2dElementsSeatbelt(int *PART_MAT119,int *PART_MAXID,i
                 nbCreatedSprings = nbCreatedSprings + 1;
                 *ELEM_MAXID = *ELEM_MAXID + 1;
                 HandleElementEdit radElem;
-                g_pModelViewSDI->CreateElement(radElem, destElem, *ELEM_MAXID); 
+
                 elemNodes[0] = tmpNodes[index[i]].first;
                 elemNodes[1] = tmpNodes[index[i]].second;
-                radElem.SetValue(g_pModelViewSDI, sdiIdentifier("node_ID"), sdiValue(sdiValueEntityList(radnodeType, elemNodes)));
-                radElem.SetValue(g_pModelViewSDI, sdiIdentifier("part_ID"), sdiValue(sdiValueEntity(radPartType, newPartId)));
+                g_pModelViewSDI->CreateElement(radElem,destElem,elemNodes,radpartHEdit,*ELEM_MAXID);
+
                 //
                 tmpShelltoSprings.push_back( make_pair(tmpIdShells[index[i]] + *OFFSET,*ELEM_MAXID + *OFFSET) );
                 //

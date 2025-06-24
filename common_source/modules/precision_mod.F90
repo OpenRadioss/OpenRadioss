@@ -125,6 +125,7 @@
       !||    hm_read_funct_python                     ../starter/source/tools/curve/hm_read_funct_python.F90
       !||    hm_read_inivol                           ../starter/source/initial_conditions/inivol/hm_read_inivol.F90
       !||    hm_read_mat                              ../starter/source/materials/mat/hm_read_mat.F90
+      !||    hm_read_mat105                           ../starter/source/materials/mat/mat105/hm_read_mat105.F90
       !||    hm_read_mat125                           ../starter/source/materials/mat/mat125/hm_read_mat125.F90
       !||    hm_read_mat126                           ../starter/source/materials/mat/mat126/hm_read_mat126.F90
       !||    hm_read_mat127                           ../starter/source/materials/mat/mat127/hm_read_mat127.F90

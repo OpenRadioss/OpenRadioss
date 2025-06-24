@@ -36,6 +36,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    no_asso_qplas76c              ../engine/source/materials/mat/mat076/no_asso_qplas76c.F
       !||    sigeps128c                    ../engine/source/materials/mat/mat128/sigeps128c.F90
       !||    sigeps128s                    ../engine/source/materials/mat/mat128/sigeps128s.F90
+      !||    sigeps129s                    ../engine/source/materials/mat/mat129/sigeps129s.F90
       !||    sigeps133                     ../engine/source/materials/mat/mat133/sigeps133.F90
       !||    sigeps163                     ../engine/source/materials/mat/mat163/sigeps163.F90
       !||    sigeps50s                     ../engine/source/materials/mat/mat050/sigeps50s.F90
@@ -60,6 +61,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    no_asso_qplas76c              ../engine/source/materials/mat/mat076/no_asso_qplas76c.F
       !||    sigeps128c                    ../engine/source/materials/mat/mat128/sigeps128c.F90
       !||    sigeps128s                    ../engine/source/materials/mat/mat128/sigeps128s.F90
+      !||    sigeps129s                    ../engine/source/materials/mat/mat129/sigeps129s.F90
       !||    sigeps133                     ../engine/source/materials/mat/mat133/sigeps133.F90
       !||    sigeps163                     ../engine/source/materials/mat/mat163/sigeps163.F90
       !||    sigeps50s                     ../engine/source/materials/mat/mat050/sigeps50s.F90

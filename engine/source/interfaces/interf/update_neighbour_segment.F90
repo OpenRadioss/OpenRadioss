@@ -102,7 +102,7 @@
           integer :: segment_id,segment_id_2,local_segment_id,n_segment_id,local_n_segment_id
           integer :: my_iedge,my_iedge_2,n_iedge_id
           integer :: my_id
-          integer :: seg_id,n_seg_id
+          integer :: seg_id
           integer :: address,r_address
           integer :: already_a_neighbour
           real(kind=WP) :: my_criteria,convexity
@@ -288,7 +288,6 @@
 
                   segment_pair(new_segment_id(i),my_iedge,1) = n_segment_id
                   segment_pair(new_segment_id(i),my_iedge,2) = proc_id
-                  segment_pair(new_segment_id(i),my_iedge,3) = n_seg_id
                   segment_pair(new_segment_id(i),my_iedge,4) = n_iedge_id
                   segment_pair(new_segment_id(i),my_iedge,5) = local_n_segment_id
 
@@ -300,7 +299,6 @@
 
                     segment_pair(new_segment_id(i),my_iedge,1) = n_segment_id
                     segment_pair(new_segment_id(i),my_iedge,2) = proc_id
-                    segment_pair(new_segment_id(i),my_iedge,3) = n_seg_id
                     segment_pair(new_segment_id(i),my_iedge,4) = n_iedge_id
                     segment_pair(new_segment_id(i),my_iedge,5) = local_n_segment_id
 
@@ -372,7 +370,6 @@
 
                         segment_pair(new_segment_id(i),my_iedge,1) = n_segment_id
                         segment_pair(new_segment_id(i),my_iedge,2) = r_proc_id
-                        segment_pair(new_segment_id(i),my_iedge,3) = n_seg_id
                         segment_pair(new_segment_id(i),my_iedge,4) = n_iedge_id
                         segment_pair(new_segment_id(i),my_iedge,5) = local_n_segment_id
 
@@ -382,7 +379,6 @@
 
                           segment_pair(new_segment_id(i),my_iedge,1) = n_segment_id
                           segment_pair(new_segment_id(i),my_iedge,2) = r_proc_id
-                          segment_pair(new_segment_id(i),my_iedge,3) = n_seg_id
                           segment_pair(new_segment_id(i),my_iedge,4) = n_iedge_id
                           segment_pair(new_segment_id(i),my_iedge,5) = local_n_segment_id
 

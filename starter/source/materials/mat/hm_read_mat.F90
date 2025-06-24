@@ -57,6 +57,7 @@
       !||    hm_read_mat102            ../starter/source/materials/mat/mat102/hm_read_mat102.F
       !||    hm_read_mat103            ../starter/source/materials/mat/mat103/hm_read_mat103.F
       !||    hm_read_mat104            ../starter/source/materials/mat/mat104/hm_read_mat104.F
+      !||    hm_read_mat105            ../starter/source/materials/mat/mat105/hm_read_mat105.F90
       !||    hm_read_mat106            ../starter/source/materials/mat/mat106/hm_read_mat106.F
       !||    hm_read_mat107            ../starter/source/materials/mat/mat107/hm_read_mat107.F
       !||    hm_read_mat108            ../starter/source/materials/mat/mat108/hm_read_mat108.F
@@ -81,6 +82,7 @@
       !||    hm_read_mat126            ../starter/source/materials/mat/mat126/hm_read_mat126.F90
       !||    hm_read_mat127            ../starter/source/materials/mat/mat127/hm_read_mat127.F90
       !||    hm_read_mat128            ../starter/source/materials/mat/mat128/hm_read_mat128.F90
+      !||    hm_read_mat129            ../starter/source/materials/mat/mat129/hm_read_mat129.F90
       !||    hm_read_mat13             ../starter/source/materials/mat/mat013/hm_read_mat13.F
       !||    hm_read_mat133            ../starter/source/materials/mat/mat133/hm_read_mat133.F90
       !||    hm_read_mat134            ../starter/source/materials/mat/mat134/hm_read_mat134.F90
@@ -166,10 +168,12 @@
       !||    elbuftag_mod              ../starter/share/modules1/elbuftag_mod.F
       !||    file_descriptor_mod       ../starter/source/modules/file_descriptor_mod.F90
       !||    hm_option_read_mod        ../starter/share/modules1/hm_option_read_mod.F
+      !||    hm_read_mat105_mod        ../starter/source/materials/mat/mat105/hm_read_mat105.F90
       !||    hm_read_mat125_mod        ../starter/source/materials/mat/mat125/hm_read_mat125.F90
       !||    hm_read_mat126_mod        ../starter/source/materials/mat/mat126/hm_read_mat126.F90
       !||    hm_read_mat127_mod        ../starter/source/materials/mat/mat127/hm_read_mat127.F90
       !||    hm_read_mat128_mod        ../starter/source/materials/mat/mat128/hm_read_mat128.F90
+      !||    hm_read_mat129_mod        ../starter/source/materials/mat/mat129/hm_read_mat129.F90
       !||    hm_read_mat133_mod        ../starter/source/materials/mat/mat133/hm_read_mat133.F90
       !||    hm_read_mat134_mod        ../starter/source/materials/mat/mat134/hm_read_mat134.F90
       !||    hm_read_mat163_mod        ../starter/source/materials/mat/mat163/hm_read_mat163.F90
@@ -209,10 +213,12 @@
       use hm_read_mat57_mod
       use hm_read_mat81_mod
       use hm_read_mat87_mod
+      use hm_read_mat105_mod , only : hm_read_mat105
       use hm_read_mat125_mod
       use hm_read_mat126_mod
       use hm_read_mat127_mod
       use hm_read_mat128_mod
+      use hm_read_mat129_mod
       use hm_read_mat133_mod , only : hm_read_mat133
       use hm_read_mat134_mod
       use hm_read_mat163_mod
@@ -362,6 +368,7 @@
          matparam => mat_param(mat_number)
          matparam%title = ' '
          matparam%title = titr(1:len_trim(titr))
+         matparam%mat_id = mat_id
 !-----------------------------------------------------------------------
 !
          if (len_trim(key2) == 0) then
@@ -1029,6 +1036,14 @@
             &maxfunc  ,ifunc    ,parmat   ,unitab   ,mat_id   ,&
             &pm(1,i)  ,titr     ,mtag     ,lsubmodel,matparam )
 !-------
+          case ('LAW105','POWDER_BURN','POWDER-BURN')
+            ilaw  = 105
+            call hm_read_mat105(&
+            &uparam   ,maxuparam,nuparam  ,nuvar    ,nfunc    ,&
+            &maxfunc  ,ifunc    ,parmat   ,unitab   ,mat_id   ,&
+            &pm(1,i)  ,titr     ,mtag     ,lsubmodel,matparam ,&
+            &npropm   )
+!-------
           case ('LAW106','JCOOK_ALM')
             ilaw  = 106
             call hm_read_mat106(&
@@ -1190,6 +1205,12 @@
             matparam ,mtag     ,parmat   ,nuvar    ,nvartmp  ,  &
             ntable   ,table    ,mat_id   ,titr     ,iout     ,  &
             unitab   ,lsubmodel)
+!-------
+          case ('LAW129','THERMO_ELASTO_VISCOPLASTIC_CREEP')
+            ilaw = 129
+            call hm_read_mat129(mat_param(mat_number),          &
+            mtag     ,parmat   ,nuvar    ,nvartmp  ,            &
+            ntable   ,table    ,iout     ,unitab   ,lsubmodel)                      
 !-------
           case ('LAW133','GRANULAR')
             ilaw = 133
@@ -1359,7 +1380,6 @@
          end select
 !
          matparam%ilaw   = ilaw
-         matparam%mat_id = mat_id
 !-----------------------------------------------------------------------
          ! set pmin default value to -inf for eos compatible materials
 

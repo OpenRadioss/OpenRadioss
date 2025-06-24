@@ -26,6 +26,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    eos_table_copy         ../starter/source/materials/tools/eos_table_copy.F90
       !||    func_table_copy        ../starter/source/materials/tools/func_table_copy.F90
       !||    mat_table_copy         ../starter/source/materials/tools/mat_table_copy.F90
+      !||    mat_table_table_copy   ../starter/source/materials/tools/mat_table_table_copy.F90
       !||    updfail                ../starter/source/materials/updfail.F90
       !||    updmat                 ../starter/source/materials/updmat.F
       !||--- calls      -----------------------------------------------------
@@ -45,9 +46,6 @@ C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------

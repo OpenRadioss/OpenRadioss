@@ -94,14 +94,14 @@ C-----------------------------------------------
      .   SM, DSM, S1,S2,S3,S4,S5,S6,DE1,DE2, DE3, C44, C55, C66
       my_real, DIMENSION(NEL,3,3) :: CDAM
 C=======================================================================
-      DO I=1,NEL
-        STRAIN(I,1) = STRAIN(I,1) + D1(I)*DT1
-        STRAIN(I,2) = STRAIN(I,2) + D2(I)*DT1
-        STRAIN(I,3) = STRAIN(I,3) + D3(I)*DT1
-        STRAIN(I,4) = STRAIN(I,4) + D4(I)*DT1
-        STRAIN(I,5) = STRAIN(I,5) + D5(I)*DT1
-        STRAIN(I,6) = STRAIN(I,6) + D6(I)*DT1
-      ENDDO
+!      DO I=1,NEL
+!        STRAIN(I,1) = STRAIN(I,1) + D1(I)*DT1
+!        STRAIN(I,2) = STRAIN(I,2) + D2(I)*DT1
+!        STRAIN(I,3) = STRAIN(I,3) + D3(I)*DT1
+!        STRAIN(I,4) = STRAIN(I,4) + D4(I)*DT1
+!        STRAIN(I,5) = STRAIN(I,5) + D5(I)*DT1
+!        STRAIN(I,6) = STRAIN(I,6) + D6(I)*DT1
+!      ENDDO
 C . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
 C ARMATURES
 C . . . . . . . . . . .

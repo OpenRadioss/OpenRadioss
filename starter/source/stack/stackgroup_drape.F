@@ -530,14 +530,6 @@ C
 C calcul du thk by shell
             IWORKS%GEO(1,IS) = THICKT
 C============================================================================
-C---
-C  update the shell thickness   NDRAPE =0         
-C---
-              DO I= NFIRST(IS) , NLAST(IS)
-                ID = INDX_TOTAL(I)
-                II = INDX_SH(ID)
-                IF (THK(II) == ZERO) THK(II) = THICKT
-              ENDDO             
 C============================================================================
         ENDDO ! DO IS = 1,NS_TOTAL 
 C           
@@ -885,15 +877,6 @@ C
 C calcul du thk by shell
               STACK%GEO(1,IIS) = THICKT
 C============================================================================
-C---
-C  update the shell thickness if /DRAPE defined          
-C---
-!!  (NDRAPE == 0) 
-              DO I= NFIRST(IS) , NLAST(IS)
-                ID = INDX_TOTAL(I)
-                II = INDX_SH(ID)
-                IF (THK(II) == ZERO) THK(II) = THICKT
-              ENDDO
 C---
             IPPID = 2
             DO ILAY=1,NPT

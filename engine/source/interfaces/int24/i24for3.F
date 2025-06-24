@@ -21,25 +21,27 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    i24for3          ../engine/source/interfaces/int24/i24for3.F
+      !||    i24for3              ../engine/source/interfaces/int24/i24for3.F
       !||--- called by ------------------------------------------------------
-      !||    i24mainf         ../engine/source/interfaces/int24/i24main.F
+      !||    i24mainf             ../engine/source/interfaces/int24/i24main.F
       !||--- calls      -----------------------------------------------------
-      !||    bitget           ../engine/source/interfaces/intsort/i20sto.F
-      !||    i24_save_sub     ../engine/source/interfaces/int24/i24_save_sub.F
-      !||    i24ass0          ../engine/source/interfaces/int24/i24for3.F
-      !||    i24ass2          ../engine/source/interfaces/int24/i24for3.F
-      !||    i24for1_fic      ../engine/source/interfaces/int24/i24for3e.F
-      !||    i24for1_ficr     ../engine/source/interfaces/int24/i24for3e.F
-      !||    i24sms2          ../engine/source/interfaces/int24/i24for3.F
-      !||    ibcoff           ../engine/source/interfaces/interf/ibcoff.F
+      !||    bitget               ../engine/source/interfaces/intsort/i20sto.F
+      !||    i24_save_sub         ../engine/source/interfaces/int24/i24_save_sub.F
+      !||    i24ass0              ../engine/source/interfaces/int24/i24for3.F
+      !||    i24ass2              ../engine/source/interfaces/int24/i24for3.F
+      !||    i24for1_fic          ../engine/source/interfaces/int24/i24for3e.F
+      !||    i24for1_ficr         ../engine/source/interfaces/int24/i24for3e.F
+      !||    i24intarea_fic       ../engine/source/interfaces/int24/i24intarea_fic.F90
+      !||    i24sms2              ../engine/source/interfaces/int24/i24for3.F
+      !||    ibcoff               ../engine/source/interfaces/interf/ibcoff.F
       !||--- uses       -----------------------------------------------------
-      !||    anim_mod         ../common_source/modules/output/anim_mod.F
-      !||    h3d_mod          ../engine/share/modules/h3d_mod.F
-      !||    outputs_mod      ../common_source/modules/outputs_mod.F
-      !||    parameters_mod   ../common_source/modules/interfaces/parameters_mod.F
-      !||    plyxfem_mod      ../engine/share/modules/plyxfem_mod.F
-      !||    tri7box          ../engine/share/modules/tri7box.F
+      !||    anim_mod             ../common_source/modules/output/anim_mod.F
+      !||    h3d_mod              ../engine/share/modules/h3d_mod.F
+      !||    i24intarea_fic_mod   ../engine/source/interfaces/int24/i24intarea_fic.F90
+      !||    outputs_mod          ../common_source/modules/outputs_mod.F
+      !||    parameters_mod       ../common_source/modules/interfaces/parameters_mod.F
+      !||    plyxfem_mod          ../engine/share/modules/plyxfem_mod.F
+      !||    tri7box              ../engine/share/modules/tri7box.F
       !||====================================================================
       SUBROUTINE I24FOR3(JLT ,A  ,V       ,IBCC        ,ICODT     ,
      2    FSAV        ,GAP       ,FRIC    ,MS          ,VISC      ,
@@ -77,7 +79,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      Z    TYPSUB      ,INFLG_SUBS,INFLG_SUBM ,NINLOADP  ,DGAPLOADINT,
      1    S_LOADPINTER,DIST      ,IXX        ,INTEREFRIC,INTCAREA,
      2    PARAMETERS  ,PENREF    ,KMAX       ,S_ADDSUBM, S_LISUBM,S_TYPSUB,
-     3    NISUBMAX,I_STOK)
+     3    NISUBMAX,I_STOK,NRTM   ,NRTSE      ,NSNR)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -87,6 +89,7 @@ C-----------------------------------------------
       USE ANIM_MOD
       USE OUTPUTS_MOD
       USE PARAMETERS_MOD
+      USE I24INTAREA_FIC_MOD  , ONLY : I24INTAREA_FIC  
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -142,6 +145,7 @@ C-----------------------------------------------
      .        LOADP_HYD_INTER(NLOADP_HYD)
       INTEGER  , INTENT(IN) :: IXX(MVSIZ,13)
       INTEGER  , INTENT(IN) :: INTEREFRIC, INTCAREA
+      INTEGER  , INTENT(IN) :: NRTM, NRTSE, NSNR
       my_real
      .   STIGLO,FROT_P(*), X(3,*),
      .   A(3,*), MS(*), V(3,*), FSAV(*),FCONT(3,*),
@@ -187,7 +191,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J1, IG, J, JG , K0,NBINTER,K1S,K,IL,IE, NN, NI,
      .        NA1,NA2,N,IMS2,ITAG,NN1,NN2,NN3,
-     .        NN4,ii,IFIT,PP,PPL,ITYPSUB,ISS1,ISS2,IMS1,IX
+     .        NN4,ii,IFIT,PP,PPL,ITYPSUB,ISS1,ISS2,IMS1,IX,IGRN
       my_real
      .   FXR(MVSIZ), FYR(MVSIZ), FZR(MVSIZ)
       my_real
@@ -229,7 +233,7 @@ C-----------------------------------------------
      .   PHI1(MVSIZ), PHI2(MVSIZ), PHI3(MVSIZ), PHI4(MVSIZ),
      .   DTMINI,STIF0_IMP(MVSIZ),PENN,TINY,PENDR,
      .   FNNIT1,FNNIT2,FNNIT3,FNNITSCHE,T3,FNITXT(MVSIZ),FNITYT(MVSIZ),FNITZT(MVSIZ),
-     .   XMU2(MVSIZ),FACN,FNON,STIFKT(MVSIZ),FACKT
+     .   XMU2(MVSIZ),FACN,FNON,STIFKT(MVSIZ),FACKT,AREAN_FIC
       INTEGER JSUB,KSUB,JJ,KK,IN,NSUB,ibug,ip,NCFIT
       INTEGER  ISEGTYP(MVSIZ),IXSS(4),NOD1,NOD2,NS
       my_real
@@ -1097,6 +1101,7 @@ C---------------------------------
             ELSE
               IE = CE_LOC(I)
             ENDIF
+            IF(IE > NRTM) IE=IE-NRTM
             JJ  =ADDSUBS(IN)
             KK  =ADDSUBM(IE)
             DO WHILE(JJ<ADDSUBS(IN+1))
@@ -1105,22 +1110,47 @@ C---------------------------------
               ITYPSUB = TYPSUB(JSUB)
 
               IF(ITYPSUB == 1 ) THEN  ! Defining specific inter
+                ISS1 = BITGET(INFLG_SUBS(JJ),0)
+                ISS2 = BITGET(INFLG_SUBS(JJ),1)
+                IGRN = BITGET(INFLG_SUBS(JJ),2)
                 KSUB=LISUBM(KK)
                 DO WHILE((KSUB<=JSUB).AND.(KK<ADDSUBM(IE+1)))
-
+                  IMS1 = BITGET(INFLG_SUBM(KK),0)
+                  IMS2 = BITGET(INFLG_SUBM(KK),1)
                   IF(KSUB==JSUB)THEN
+                    IF(.NOT.(((IMS1 == 1 .OR.  IMS2 == 1) .AND. IGRN == 1).OR.
+     .                        (IMS1 == 1 .AND. ISS2 == 1).OR.
+     .                        (IMS2 == 1 .AND. ISS1 == 1)))  THEN
+                      KK=KK+1
+                      KSUB=LISUBM(KK)
+                      CYCLE
+                    END IF
+C                    
                     IMPX=FXI(I)*DT12
                     IMPY=FYI(I)*DT12
                     IMPZ=FZI(I)*DT12
-C                 main side :
-                    FSAVSUB1(1,JSUB)=FSAVSUB1(1,JSUB)+IMPX
-                    FSAVSUB1(2,JSUB)=FSAVSUB1(2,JSUB)+IMPY
-                    FSAVSUB1(3,JSUB)=FSAVSUB1(3,JSUB)+IMPZ
+                    IF(IMS2 > 0)THEN
+                      FSAVSUB1(1,JSUB)=FSAVSUB1(1,JSUB)-IMPX
+                      FSAVSUB1(2,JSUB)=FSAVSUB1(2,JSUB)-IMPY
+                      FSAVSUB1(3,JSUB)=FSAVSUB1(3,JSUB)-IMPZ
+                      FSAVSUB1(11,JSUB)=FSAVSUB1(11,JSUB)-FNI(I)*DT12
+                    ELSE
+                      FSAVSUB1(1,JSUB)=FSAVSUB1(1,JSUB)+IMPX
+                      FSAVSUB1(2,JSUB)=FSAVSUB1(2,JSUB)+IMPY
+                      FSAVSUB1(3,JSUB)=FSAVSUB1(3,JSUB)+IMPZ
+                      FSAVSUB1(11,JSUB)=FSAVSUB1(11,JSUB)+FNI(I)*DT12
+                    END IF
 C
                     IF(ISENSINT(JSUB+1)/=0) THEN
-                      FSAVPARIT(JSUB+1,1,I+NFT) =  FXI(I)
-                      FSAVPARIT(JSUB+1,2,I+NFT) =  FYI(I)
-                      FSAVPARIT(JSUB+1,3,I+NFT) =  FZI(I)
+                      IF(IMS2 > 0)THEN
+                        FSAVPARIT(JSUB+1,1,I) =  -FXI(I)
+                        FSAVPARIT(JSUB+1,2,I) =  -FYI(I)
+                        FSAVPARIT(JSUB+1,3,I) =  -FZI(I)
+                      ELSE
+                        FSAVPARIT(JSUB+1,1,I) =  FXI(I)
+                        FSAVPARIT(JSUB+1,2,I) =  FYI(I)
+                        FSAVPARIT(JSUB+1,3,I) =  FZI(I)
+                      END IF
                     ENDIF
 C
                     FSAVSUB1(8,JSUB) =FSAVSUB1(8,JSUB) +ABS(IMPX)
@@ -1129,7 +1159,16 @@ C
 C
                     FSAVSUB1(11,JSUB)=FSAVSUB1(11,JSUB)+FNI(I)*DT12
 
-                    IF(PARAMETERS%INTCAREA > 0)  FSAVSUB1(25,JSUB) = FSAVSUB1(25,JSUB) + PARAMETERS%INTAREAN(NN) 
+                    IF(PARAMETERS%INTCAREA > 0)  THEN
+                       IF(NN <=NUMNOD) THEN
+                           FSAVSUB1(25,JSUB) = FSAVSUB1(25,JSUB) + PARAMETERS%INTAREAN(NN) 
+                       ELSE
+                          IG = NN - NUMNOD
+                          CALL I24INTAREA_FIC(IRTSE   ,NSNE    ,IS2SE   ,IS2PT   ,IG      , 
+     +                                      NRTSE , NUMNOD     ,PARAMETERS%INTAREAN, AREAN_FIC)
+                           FSAVSUB1(25,JSUB) = FSAVSUB1(25,JSUB) + AREAN_FIC 
+                       ENDIF
+                    ENDIF
 C
                   END IF
 
@@ -1160,18 +1199,31 @@ C
                   FSAVPARIT(JSUB+1,3,I+NFT) =  FZI(I)
                 ENDIF
 
-                IF(PARAMETERS%INTCAREA > 0)  FSAVSUB1(25,JSUB) = FSAVSUB1(25,JSUB) + PARAMETERS%INTAREAN(NN) 
+                IF(PARAMETERS%INTCAREA > 0)  THEN
+                   IF(NN <=NUMNOD) THEN
+                     FSAVSUB1(25,JSUB) = FSAVSUB1(25,JSUB) + PARAMETERS%INTAREAN(NN) 
+                   ELSE
+                     IG = NN - NUMNOD
+                     CALL I24INTAREA_FIC(IRTSE   ,NSNE    ,IS2SE   ,IS2PT   ,IG      , 
+     +                                 NRTSE , NUMNOD     , PARAMETERS%INTAREAN, AREAN_FIC)
+                     FSAVSUB1(25,JSUB) = FSAVSUB1(25,JSUB) + AREAN_FIC 
+                   ENDIF
+                ENDIF
 
                 JJ=JJ+1
 
               ELSEIF(ITYPSUB == 3) THEN  !Inter =0 : collecting forces from all inter with 2 surfs
 
+
+
                 ISS2 = BITGET(INFLG_SUBS(JJ),0)
                 ISS1 = BITGET(INFLG_SUBS(JJ),1)
                 KSUB=LISUBM(KK)
+
                 DO WHILE((KSUB<=JSUB).AND.(KK<ADDSUBM(IE+1)))
                   IMS2 = BITGET(INFLG_SUBM(KK),0)
                   IMS1 = BITGET(INFLG_SUBM(KK),1)
+
                   IF(KSUB==JSUB)THEN
                     IF(.NOT.((IMS1 == 1 .AND. ISS2 == 1).OR.
      .                        (IMS2 == 1 .AND. ISS1 == 1)))  THEN
@@ -1212,7 +1264,16 @@ C
                     FSAVSUB1(9,JSUB) =FSAVSUB1(9,JSUB) +ABS(IMPY)
                     FSAVSUB1(10,JSUB)=FSAVSUB1(10,JSUB)+ABS(IMPZ)
 C
-                    IF(PARAMETERS%INTCAREA > 0)  FSAVSUB1(25,JSUB) = FSAVSUB1(25,JSUB) + PARAMETERS%INTAREAN(NN) 
+                    IF(PARAMETERS%INTCAREA > 0)  THEN
+                       IF(NN <=NUMNOD) THEN
+                           FSAVSUB1(25,JSUB) = FSAVSUB1(25,JSUB) + PARAMETERS%INTAREAN(NN) 
+                       ELSE
+                          IG = NN - NUMNOD
+                          CALL I24INTAREA_FIC(IRTSE   ,NSNE    ,IS2SE   ,IS2PT   ,IG      , 
+     +                                      NRTSE , NUMNOD     , PARAMETERS%INTAREAN, AREAN_FIC)
+                          FSAVSUB1(25,JSUB) = FSAVSUB1(25,JSUB) + AREAN_FIC 
+                       ENDIF
+                    ENDIF
                   END IF
 
                   KK=KK+1
@@ -1230,6 +1291,7 @@ C
           ELSE
             IE = CE_LOC(I)
           ENDIF
+          IF(IE > NRTM) IE=IE-NRTM
 
           ! Compiler issue workaround,
           ! Loop packed in subroutine to avoid optimization breaking the code.
@@ -1238,10 +1300,10 @@ C
      *                      ADDSUBM,LISUBM,TYPSUB,
      *                      PARAMETERS%INTAREAN,PARAMETERS%INTCAREA,ISENSINT,
      *                      FXI,FYI,FZI,FNI,DT12,
-     *                      FSAVSUB1,FSAVPARIT )
+     *                      FSAVSUB1,FSAVPARIT ,NRTSE,
+     *                      IRTSE,NSNE,IS2SE   ,IS2PT,NSNR)
 
         END DO
-
 
 
         IF(NSPMD>1) THEN
@@ -1263,21 +1325,47 @@ C
 
                 IF(ITYPSUB == 1 ) THEN  ! Defining specific inter
 
+                  ISS1 = BITGET(INFLG_SUBSFI(NIN)%P(JJ),0)
+                  ISS2 = BITGET(INFLG_SUBSFI(NIN)%P(JJ),1)
+                  IGRN = BITGET(INFLG_SUBSFI(NIN)%P(JJ),2)
                   KSUB=LISUBM(KK)
                   DO WHILE((KSUB<=JSUB).AND.(KK<ADDSUBM(IE+1)))
+                    IMS1 = BITGET(INFLG_SUBM(KK),0)
+                    IMS2 = BITGET(INFLG_SUBM(KK),1)
                     IF(KSUB==JSUB)THEN
+                      IF(.NOT.(((IMS1 == 1 .OR.  IMS2 == 1) .AND. IGRN == 1).OR.
+     .                         (IMS1 == 1 .AND. ISS2 == 1).OR.
+     .                         (IMS2 == 1 .AND. ISS1 == 1)))  THEN
+                        KK=KK+1
+                        KSUB=LISUBM(KK)
+                        CYCLE
+                      END IF
                       IMPX=FXI(I)*DT12
                       IMPY=FYI(I)*DT12
                       IMPZ=FZI(I)*DT12
-C                main side :
-                      FSAVSUB1(1,JSUB)=FSAVSUB1(1,JSUB)+IMPX
-                      FSAVSUB1(2,JSUB)=FSAVSUB1(2,JSUB)+IMPY
-                      FSAVSUB1(3,JSUB)=FSAVSUB1(3,JSUB)+IMPZ
+C
+                      IF(IMS2 > 0)THEN
+                        FSAVSUB1(1,JSUB)=FSAVSUB1(1,JSUB)-IMPX
+                        FSAVSUB1(2,JSUB)=FSAVSUB1(2,JSUB)-IMPY
+                        FSAVSUB1(3,JSUB)=FSAVSUB1(3,JSUB)-IMPZ
+                        FSAVSUB1(11,JSUB)=FSAVSUB1(11,JSUB)-FNI(I)*DT12
+                      ELSE
+                        FSAVSUB1(1,JSUB)=FSAVSUB1(1,JSUB)+IMPX
+                        FSAVSUB1(2,JSUB)=FSAVSUB1(2,JSUB)+IMPY
+                        FSAVSUB1(3,JSUB)=FSAVSUB1(3,JSUB)+IMPZ
+                        FSAVSUB1(11,JSUB)=FSAVSUB1(11,JSUB)+FNI(I)*DT12
+                      END IF
 C
                       IF(ISENSINT(JSUB+1)/=0) THEN
-                        FSAVPARIT(JSUB+1,1,I+NFT) =  FXI(I)
-                        FSAVPARIT(JSUB+1,2,I+NFT) =  FYI(I)
-                        FSAVPARIT(JSUB+1,3,I+NFT) =  FZI(I)
+                        IF(IMS2 > 0)THEN
+                          FSAVPARIT(JSUB+1,1,I) =  -FXI(I)
+                          FSAVPARIT(JSUB+1,2,I) =  -FYI(I)
+                          FSAVPARIT(JSUB+1,3,I) =  -FZI(I)
+                        ELSE
+                          FSAVPARIT(JSUB+1,1,I) =  FXI(I)
+                          FSAVPARIT(JSUB+1,2,I) =  FYI(I)
+                          FSAVPARIT(JSUB+1,3,I) =  FZI(I)
+                        END IF
                       ENDIF
 C
                       FSAVSUB1(8,JSUB) =FSAVSUB1(8,JSUB) +ABS(IMPX)
@@ -1286,8 +1374,15 @@ C
 C
                       FSAVSUB1(11,JSUB)=FSAVSUB1(11,JSUB)+FNI(I)*DT12
 C
-                      IF(PARAMETERS%INTCAREA > 0) FSAVSUB1(25,JSUB) = FSAVSUB1(25,JSUB) + INTAREANFI(NIN)%P(NN)
-
+                      IF(PARAMETERS%INTCAREA > 0) THEN
+                       IF(ISEDGE_FI(NIN)%P(NN)==1)THEN
+                          CALL I24INTAREA_FIC(IRTSE_FI(NIN)%P    ,NSNR    ,IS2SE_FI(NIN)%P  ,IS2PT_FI(NIN)%P   ,NN      , 
+     +                                        NSNR , NSNR     , INTAREANFI(NIN)%P, AREAN_FIC)
+                          FSAVSUB1(25,JSUB) = FSAVSUB1(25,JSUB) + AREAN_FIC 
+                       ELSE ! cas noeud remote en SPMD non edge
+                          FSAVSUB1(25,JSUB) = FSAVSUB1(25,JSUB) + INTAREANFI(NIN)%P(NN)
+                       ENDIF
+                      ENDIF
                     END IF
 
                     KK=KK+1
@@ -1317,7 +1412,15 @@ C
                     FSAVPARIT(JSUB+1,3,I+NFT) =  FZI(I)
                   ENDIF
 
-                  IF(PARAMETERS%INTCAREA > 0) FSAVSUB1(25,JSUB) = FSAVSUB1(25,JSUB) + INTAREANFI(NIN)%P(NN)
+                  IF(PARAMETERS%INTCAREA > 0) THEN
+                     IF(ISEDGE_FI(NIN)%P(NN)==1)THEN
+                        CALL I24INTAREA_FIC(IRTSE_FI(NIN)%P    ,NSNR    ,IS2SE_FI(NIN)%P  ,IS2PT_FI(NIN)%P   ,NN      , 
+     +                                       NSNR , NSNR     , INTAREANFI(NIN)%P, AREAN_FIC)
+                        FSAVSUB1(25,JSUB) = FSAVSUB1(25,JSUB) + AREAN_FIC 
+                     ELSE ! cas noeud remote en SPMD non edge
+                        FSAVSUB1(25,JSUB) = FSAVSUB1(25,JSUB) + INTAREANFI(NIN)%P(NN)
+                     ENDIF
+                   ENDIF
 
                   JJ=JJ+1
 
@@ -1369,7 +1472,15 @@ C
                       FSAVSUB1(9,JSUB) =FSAVSUB1(9,JSUB) +ABS(IMPY)
                       FSAVSUB1(10,JSUB)=FSAVSUB1(10,JSUB)+ABS(IMPZ)
 
-                      IF(PARAMETERS%INTCAREA > 0) FSAVSUB1(25,JSUB) = FSAVSUB1(25,JSUB) + INTAREANFI(NIN)%P(NN)
+                      IF(PARAMETERS%INTCAREA > 0) THEN
+                       IF(ISEDGE_FI(NIN)%P(NN)==1)THEN
+                          CALL I24INTAREA_FIC(IRTSE_FI(NIN)%P    ,NSNR    ,IS2SE_FI(NIN)%P  ,IS2PT_FI(NIN)%P  ,NN      , 
+     +                                        NSNR , NSNR     , INTAREANFI(NIN)%P, AREAN_FIC)
+                          FSAVSUB1(25,JSUB) = FSAVSUB1(25,JSUB) + AREAN_FIC 
+                       ELSE ! cas noeud remote en SPMD non edge
+                          FSAVSUB1(25,JSUB) = FSAVSUB1(25,JSUB) + INTAREANFI(NIN)%P(NN)
+                       ENDIF
+                      ENDIF
 
                     ENDIF
                     KK=KK+1
@@ -2582,12 +2693,29 @@ C---------------------------------
         FSAV23=FSAV23+ZP(I)*IMPX-XP(I)*IMPZ
         FSAV24=FSAV24+XP(I)*IMPY-YP(I)*IMPX
       ENDDO
+
       IF(INTCAREA > 0) THEN
         DO I=1,JLT
            IF(PENE(I) == ZERO)CYCLE
            JG = NSVG(I)
            IF(JG>0) THEN   ! Only local nodes in i25for3, remote nodes will be taken into account later
-              FSAV29=FSAV29+PARAMETERS%INTAREAN(JG) 
+             IF(JG <= NUMNOD) THEN
+                FSAV29=FSAV29+PARAMETERS%INTAREAN(JG) 
+             ELSE
+                IG = JG - NUMNOD
+                CALL I24INTAREA_FIC(IRTSE   ,NSNE    ,IS2SE   ,IS2PT   ,IG      , 
+     +                              NRTSE , NUMNOD     ,  PARAMETERS%INTAREAN, AREAN_FIC)
+             FSAV29=FSAV29 + AREAN_FIC
+             ENDIF
+           ELSE
+              JG=-JG
+              IF(ISEDGE_FI(NIN)%P(JG)==1)THEN
+                 CALL I24INTAREA_FIC(IRTSE_FI(NIN)%P    ,NSNR    ,IS2SE_FI(NIN)%P  ,IS2PT_FI(NIN)%P   ,JG      , 
+     +                               NSNR , NSNR     ,INTAREANFI(NIN)%P, AREAN_FIC)
+                 FSAV29=FSAV29 + AREAN_FIC 
+              ELSE ! cas noeud remote en SPMD non edge
+                FSAV29=FSAV29 + INTAREANFI(NIN)%P(JG)
+              ENDIF
            ENDIF    
         ENDDO
       ENDIF
@@ -2636,10 +2764,22 @@ C---------------------------------
               ITYPSUB = TYPSUB(JSUB)
 
               IF(ITYPSUB == 1 ) THEN
+                ISS1 = BITGET(INFLG_SUBS(JJ),0)
+                ISS2 = BITGET(INFLG_SUBS(JJ),1)
+                IGRN = BITGET(INFLG_SUBS(JJ),2)
                 KSUB=LISUBM(KK)
-                DO WHILE(KK<ADDSUBM(IE+1))
-
+                DO WHILE((KSUB<=JSUB).AND.(KK<ADDSUBM(IE+1)))
+                  IMS1 = BITGET(INFLG_SUBM(KK),0)
+                  IMS2 = BITGET(INFLG_SUBM(KK),1)
                   IF(KSUB==JSUB)THEN
+!                S and M candidates on the same sub_interface
+                    IF(.NOT.(((IMS1 == 1 .OR.  IMS2 == 1) .AND. IGRN == 1).OR.
+     .                      (IMS1 == 1 .AND. ISS2 == 1).OR.
+     .                        (IMS2 == 1 .AND. ISS1 == 1)))  THEN
+                      KK=KK+1
+                      KSUB=LISUBM(KK)
+                      CYCLE
+                    END IF
                     IMPX=FXT(I)*DT12
                     IMPY=FYT(I)*DT12
                     IMPZ=FZT(I)*DT12
@@ -2789,6 +2929,7 @@ C
           ELSE
             IE = CE_LOC(I)
           ENDIF
+          IF(IE > NRTM) IE=IE-NRTM
 
           KK  =ADDSUBM(IE) ! Addresse du M
           DO WHILE(KK<ADDSUBM(IE+1))
@@ -2853,10 +2994,21 @@ C loop split because of a PGI bug
                 ITYPSUB = TYPSUB(JSUB)
 
                 IF(ITYPSUB == 1 ) THEN
+                  ISS1 = BITGET(INFLG_SUBSFI(NIN)%P(JJ),0)
+                  ISS2 = BITGET(INFLG_SUBSFI(NIN)%P(JJ),1)
+                  IGRN = BITGET(INFLG_SUBSFI(NIN)%P(JJ),2)
                   KSUB=LISUBM(KK)
-                  DO WHILE(KK<ADDSUBM(IE+1))
-
+                  DO WHILE((KSUB<=JSUB).AND.(KK<ADDSUBM(IE+1)))
+                    IMS1 = BITGET(INFLG_SUBM(KK),0)
+                    IMS2 = BITGET(INFLG_SUBM(KK),1)
                     IF(KSUB==JSUB)THEN
+                      IF(.NOT.(((IMS1 == 1 .OR.  IMS2 == 1) .AND. IGRN == 1).OR.
+     .                         (IMS1 == 1 .AND. ISS2 == 1).OR.
+     .                         (IMS2 == 1 .AND. ISS1 == 1)))  THEN
+                        KK=KK+1
+                        KSUB=LISUBM(KK)
+                        CYCLE
+                      END IF
                       IMPX=FXT(I)*DT12
                       IMPY=FYT(I)*DT12
                       IMPZ=FZT(I)*DT12

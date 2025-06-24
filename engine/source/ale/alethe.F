@@ -45,6 +45,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    ale_connectivity_mod             ../common_source/modules/ale/ale_connectivity_mod.F
       !||    ale_mod                          ../common_source/modules/ale/ale_mod.F
       !||    alemuscl_mod                     ../common_source/modules/ale/alemuscl_mod.F
+      !||    arezon_mod                       ../engine/source/ale/arezon.F
       !||    elbufdef_mod                     ../common_source/modules/mat_elem/elbufdef_mod.F90
       !||    glob_therm_mod                   ../common_source/modules/mat_elem/glob_therm_mod.F90
       !||    i22tri_mod                       ../common_source/modules/interfaces/cut-cell-search_mod.F
@@ -73,7 +74,8 @@ C-----------------------------------------------
       USE SEGVAR_MOD        
       USE ALE_CONNECTIVITY_MOD
       USE ALEMUSCL_MOD , only:ALEMUSCL_Param
-      USE ALE_MOD
+      USE ALE_MOD , ONLY : ALE
+      USE AREZON_MOD , ONLY : AREZON
       use glob_therm_mod
       USE MATPARAM_DEF_MOD, ONLY : MATPARAM_STRUCT_
 C-----------------------------------------------
@@ -111,6 +113,8 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER ITRIMAT,NVAR,I, LENCOMN,LENCOM
+      INTEGER :: NVAR_MAT !< number of MAT variable(s) : %VAR(1:NEL, 1:NVAR_MAT)
+      INTEGER :: NVAR_EOS !< number of EoS variable(s) : %VAR(1:NEL, 1:NVAR_EOS)
       my_real,DIMENSION(:,:),ALLOCATABLE:: FLUX_SAV
 C-----------------------------------------------
 C   S o u r c e   L i n e s
@@ -217,47 +221,58 @@ C-----------------------
         !-----------------------------!
         !     REZONE DEVIATEUR        !
         !-----------------------------!
-        CALL AREZON(IPARG   ,ELBUF_TAB, FLUX   ,PHI   ,ALE_CONNECT ,  
-     2              6       ,2        ,1       ,ITASK ,NERCVOIS    ,  
-     3              NESDVOIS,LERCVOIS ,LESDVOIS,LENCOM,BHOLE       ,  
+        CALL AREZON(IPARG   ,ELBUF_TAB, FLUX   ,PHI     ,ALE_CONNECT ,
+     2              2       ,1         ,ITASK  ,NERCVOIS,
+     3              NESDVOIS,LERCVOIS ,LESDVOIS,LENCOM  ,BHOLE       ,
      4              ITRIMAT)
         CALL AREZON(IPARG   ,ELBUF_TAB,FLUX    ,PHI    ,ALE_CONNECT,  
-     2              6       ,2        ,2       ,ITASK  ,NERCVOIS   ,  
+     2              2        ,2       ,ITASK  ,NERCVOIS   ,
      3              NESDVOIS,LERCVOIS ,LESDVOIS,LENCOM ,BHOLE      ,  
      4              ITRIMAT)
         CALL AREZON(IPARG   ,ELBUF_TAB,FLUX    ,PHI    ,ALE_CONNECT,  
-     2              6       ,2        ,3       ,ITASK  ,NERCVOIS   ,  
+     2              2        ,3       ,ITASK  ,NERCVOIS   ,
      3              NESDVOIS,LERCVOIS ,LESDVOIS,LENCOM ,BHOLE      ,  
      4              ITRIMAT)
         CALL AREZON(IPARG   ,ELBUF_TAB,FLUX    ,PHI    ,ALE_CONNECT,  
-     2              6       ,2        ,4       ,ITASK  ,NERCVOIS   ,  
+     2              2        ,4       ,ITASK  ,NERCVOIS   ,
      3              NESDVOIS,LERCVOIS ,LESDVOIS,LENCOM ,BHOLE      ,  
      4              ITRIMAT)
         CALL AREZON(IPARG   ,ELBUF_TAB,FLUX    ,PHI    ,ALE_CONNECT,  
-     2              6       ,2        ,5       ,ITASK  ,NERCVOIS   ,  
+     2              2        ,5       ,ITASK  ,NERCVOIS   ,
      3              NESDVOIS,LERCVOIS ,LESDVOIS,LENCOM ,BHOLE      ,  
      4              ITRIMAT)
         CALL AREZON(IPARG   ,ELBUF_TAB,FLUX    ,PHI    ,ALE_CONNECT,  
-     2              6       ,2        ,6       ,ITASK  ,NERCVOIS   ,  
+     2              2        ,6       ,ITASK  ,NERCVOIS   ,
      3              NESDVOIS,LERCVOIS ,LESDVOIS,LENCOM ,BHOLE      ,  
      4              ITRIMAT)
         !------------------------------!
         !     REZONING : EPS_PLAS      !
         !------------------------------!
           CALL AREZON(IPARG   ,ELBUF_TAB,FLUX    ,PHI   ,ALE_CONNECT,
-     2                1       ,10       ,1       ,ITASK ,NERCVOIS   ,
+     2                10       ,1       ,ITASK ,NERCVOIS   ,
      3                NESDVOIS,LERCVOIS ,LESDVOIS,LENCOM,BHOLE      ,
      4                ITRIMAT)
-c---------specific to law81
-          CALL AREZON(IPARG   ,ELBUF_TAB,FLUX    ,PHI   ,ALE_CONNECT,
-     2                1       ,11       ,0       ,ITASK ,NERCVOIS   ,
-     3                NESDVOIS,LERCVOIS ,LESDVOIS,LENCOM,BHOLE      ,
-     4                ITRIMAT)
+        !-------------------------------!
+        !     REZONING : %VAR (MAT/EOS) !
+        !-------------------------------!
+        DO I = 1,ALE%REZON%NUM_NUVAR_MAT
+          CALL AREZON(IPARG   ,ELBUF_TAB,FLUX    ,PHI      ,ALE_CONNECT,
+     2                11      ,I        ,ITASK   ,NERCVOIS ,
+     3                NESDVOIS,LERCVOIS ,LESDVOIS,LENCOM   ,BHOLE      ,
+     4                ITRIMAT,1) ! OPT_FALG_MAT_EOS = 1 : rezoning for material laws
+        ENDDO
+        DO I = 1,ALE%REZON%NUM_NUVAR_EOS
+          CALL AREZON(IPARG   ,ELBUF_TAB,FLUX    ,PHI      ,ALE_CONNECT,
+     2                11      ,I        ,ITASK   ,NERCVOIS ,
+     3                NESDVOIS,LERCVOIS ,LESDVOIS,LENCOM   ,BHOLE      ,
+     4                ITRIMAT,2) ! OPT_FALG_MAT_EOS = 2 : rezoning for EoS
+        ENDDO
+
         !------------------------------!
         !     REZONING : TEMPERATURE   !
         !------------------------------!
           CALL AREZON(IPARG   ,ELBUF_TAB,FLUX    ,PHI   ,ALE_CONNECT,
-     2                1       ,12       ,1       ,ITASK ,NERCVOIS   ,
+     2                12       ,1       ,ITASK ,NERCVOIS   ,
      3                NESDVOIS,LERCVOIS ,LESDVOIS,LENCOM,BHOLE      ,
      4                ITRIMAT)
 C-----------------------------
@@ -309,27 +324,27 @@ C----------------------
         !-----------------------------!
             IF(ITRIMAT /= 4 ) THEN
                CALL AREZON(IPARG   ,ELBUF_TAB,FLUX    ,PHI   ,ALE_CONNECT,
-     2                     1       ,2        ,1       ,ITASK ,NERCVOIS   ,
+     2                     2        ,1       ,ITASK ,NERCVOIS   ,
      3                     NESDVOIS,LERCVOIS ,LESDVOIS,LENCOM,BHOLE      ,
      4                     ITRIMAT)
                CALL AREZON(IPARG   ,ELBUF_TAB,FLUX    ,PHI   ,ALE_CONNECT,
-     2                     1       ,2        ,2       ,ITASK ,NERCVOIS   ,
+     2                     2        ,2       ,ITASK ,NERCVOIS   ,
      3                     NESDVOIS,LERCVOIS ,LESDVOIS,LENCOM,BHOLE      ,
      4                     ITRIMAT)
                CALL AREZON(IPARG   ,ELBUF_TAB,FLUX    ,PHI   ,ALE_CONNECT,
-     2                     1       ,2        ,3       ,ITASK ,NERCVOIS   ,
+     2                     2        ,3       ,ITASK ,NERCVOIS   ,
      3                     NESDVOIS,LERCVOIS ,LESDVOIS,LENCOM,BHOLE      ,
      4                     ITRIMAT)
                CALL AREZON(IPARG   ,ELBUF_TAB,FLUX    ,PHI   ,ALE_CONNECT,
-     2                     1       ,2        ,4       ,ITASK ,NERCVOIS   ,
+     2                     2        ,4       ,ITASK ,NERCVOIS   ,
      3                     NESDVOIS,LERCVOIS ,LESDVOIS,LENCOM,BHOLE      ,
      4                     ITRIMAT)
                CALL AREZON(IPARG   ,ELBUF_TAB,FLUX    ,PHI   ,ALE_CONNECT,
-     2                     1       ,2        ,5       ,ITASK ,NERCVOIS   ,
+     2                     2        ,5       ,ITASK ,NERCVOIS   ,
      3                     NESDVOIS,LERCVOIS ,LESDVOIS,LENCOM,BHOLE      ,
      4                     ITRIMAT)
                CALL AREZON(IPARG   ,ELBUF_TAB,FLUX    ,PHI   ,ALE_CONNECT,
-     2                     1       ,2        ,6       ,ITASK ,NERCVOIS   ,
+     2                     2        ,6       ,ITASK ,NERCVOIS   ,
      3                     NESDVOIS,LERCVOIS ,LESDVOIS,LENCOM,BHOLE      ,
      4                     ITRIMAT)
             ENDIF
@@ -339,7 +354,7 @@ C----------------------
         !      or/and DETONATION TIMES!        
         !-----------------------------!
             CALL AREZON(IPARG   ,ELBUF_TAB,FLUX    ,PHI   ,ALE_CONNECT   ,
-     2                  1       ,10      ,1        ,ITASK ,NERCVOIS,
+     2                  10      ,1        ,ITASK ,NERCVOIS,
      3                  NESDVOIS,LERCVOIS,LESDVOIS,LENCOM ,BHOLE   ,
      4                  ITRIMAT)
         !-----------------------------!
@@ -347,7 +362,7 @@ C----------------------
         !      TEMPERATURE            !
         !-----------------------------!
             CALL AREZON(IPARG   ,ELBUF_TAB,FLUX    ,PHI   ,ALE_CONNECT,
-     2                  1       ,12      ,1        ,ITASK ,NERCVOIS,
+     2                  12      ,1        ,ITASK ,NERCVOIS,
      3                  NESDVOIS,LERCVOIS,LESDVOIS,LENCOM ,BHOLE   ,
      4                  ITRIMAT)
         !-----------------------------!

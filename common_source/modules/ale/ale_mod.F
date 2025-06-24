@@ -47,6 +47,7 @@ C-----------------------------------------------
       !||    amomtn3                         ../engine/source/elements/solid/solide/amomtn3.F
       !||    asspar2                         ../engine/source/assembly/asspar2.F
       !||    asspar4                         ../engine/source/assembly/asspar4.F
+      !||    c3grtails                       ../starter/source/elements/sh3n/coque3n/c3grtails.F
       !||    contrl                          ../starter/source/starter/contrl.F
       !||    ddsplit                         ../starter/source/restart/ddsplit/ddsplit.F
       !||    definter                        ../starter/source/interfaces/interf1/definter.F
@@ -68,6 +69,7 @@ C-----------------------------------------------
       !||    gravit_fvm_fem                  ../engine/source/loads/general/grav/gravit_fvm_fem.F
       !||    hm_read_ale_grid                ../starter/source/general_controls/ale_grid/hm_read_ale_grid.F
       !||    hm_read_caa                     ../starter/source/general_controls/computation/hm_read_caa.F
+      !||    hm_read_eos_compaction_tab      ../starter/source/materials/eos/hm_read_eos_compaction_tab.F90
       !||    hm_read_inter_type02            ../starter/source/interfaces/int02/hm_read_inter_type02.F
       !||    hm_read_mat11                   ../starter/source/materials/mat/mat011/hm_read_mat11.F
       !||    hm_read_mat11_k_eps             ../starter/source/materials/mat/mat011/hm_read_mat11_k_eps.F
@@ -80,6 +82,7 @@ C-----------------------------------------------
       !||    i12m2s                          ../engine/source/interfaces/interf/i12m2s.F
       !||    i12nod3                         ../engine/source/interfaces/interf/i12nod3.F
       !||    i12s2m                          ../engine/source/interfaces/interf/i12s2m.F
+      !||    ig3dgrtails                     ../starter/source/elements/ige3d/ig3dgrtails.F
       !||    ig3dmass3                       ../starter/source/elements/ige3d/ig3dmass3.F
       !||    ingrbric_nodes                  ../starter/source/interfaces/interf1/ingrbric_nodes.F
       !||    iniresa                         ../engine/source/output/restart/rdresa.F
@@ -88,11 +91,13 @@ C-----------------------------------------------
       !||    lectur                          ../engine/source/input/lectur.F
       !||    m46law                          ../engine/source/materials/mat/mat046/m46law.F
       !||    manctr                          ../engine/source/input/manctr.F
+      !||    matparam_def_mod                ../common_source/modules/mat_elem/matparam_def_mod.F90
       !||    meint                           ../engine/source/materials/mat_share/meint.F
       !||    mmain                           ../engine/source/materials/mat_share/mmain.F90
       !||    mqviscb                         ../engine/source/materials/mat_share/mqviscb.F
       !||    qdlen2                          ../engine/source/elements/solid_2d/quad/qdlen2.F
       !||    qforc2                          ../engine/source/elements/solid_2d/quad/qforc2.F
+      !||    qgrtails                        ../starter/source/elements/solid_2d/quad/qgrtails.F
       !||    qhvis2                          ../engine/source/elements/solid_2d/quad/qhvis2.F
       !||    qmasi2                          ../starter/source/elements/solid_2d/quad/qmasi2.F
       !||    qmasi2b                         ../starter/source/elements/solid_2d/quad/qmasi2b.F
@@ -103,6 +108,7 @@ C-----------------------------------------------
       !||    rdcomr                          ../engine/source/output/restart/rdcomm.F
       !||    rdresb                          ../engine/source/output/restart/rdresb.F
       !||    read_ale_grid                   ../engine/source/output/restart/read_ale_grid.F90
+      !||    read_ale_rezoning_param         ../engine/source/output/restart/read_ale_rezoning_param.F90
       !||    resol                           ../engine/source/engine/resol.F
       !||    restalloc                       ../engine/source/output/restart/arralloc.F
       !||    s4forc3                         ../engine/source/elements/solid/solide4/s4forc3.F
@@ -112,6 +118,7 @@ C-----------------------------------------------
       !||    segvar_create                   ../engine/share/modules/segvar_mod.F
       !||    sfint3                          ../engine/source/elements/solid/solide/sfint3.F
       !||    sforc3                          ../engine/source/elements/solid/solide/sforc3.F
+      !||    sgrtails                        ../starter/source/elements/solid/solide/sgrtails.F
       !||    shvis3                          ../engine/source/elements/solid/solide/shvis3.F
       !||    sigeps46                        ../engine/source/materials/mat/mat046/sigeps46.F
       !||    smass3                          ../starter/source/elements/solid/solide/smass3.F
@@ -128,6 +135,7 @@ C-----------------------------------------------
       !||    starter0                        ../starter/source/starter/starter0.F
       !||    sz_print                        ../engine/source/output/restart/arralloc.F
       !||    szforc3                         ../engine/source/elements/solid/solidez/szforc3.F
+      !||    t3grtails                       ../starter/source/elements/solid_2d/tria/t3grtails.F
       !||    upwind                          ../engine/source/elements/solid/solide/upwind.F
       !||    upwind4                         ../engine/source/elements/solid/solide4/upwind4.F
       !||    upwind_v                        ../engine/source/elements/solid/solide/upwind_v.F
@@ -136,6 +144,7 @@ C-----------------------------------------------
       !||    wrcomip                         ../starter/source/restart/ddsplit/wrcommp.F
       !||    wrcomr                          ../engine/source/output/restart/wrcomm.F
       !||    write_ale_grid                  ../common_source/output/restart/write_ale_grid.F90
+      !||    write_ale_rezoning_param        ../engine/source/output/restart/write_ale_rezoning_param.F90
       !||    wrrestp                         ../engine/source/output/restart/wrrestp.F
       !||====================================================================
       MODULE ALE_MOD
@@ -220,12 +229,19 @@ C-----------------------------------------------
           my_real DTMSUB
         END TYPE ALE_SUB_
 
+        !ALE REZONING (variable to rezone)
+        TYPE ALE_REZON_
+          INTEGER :: NUM_NUVAR_MAT
+          INTEGER :: NUM_NUVAR_EOS
+        END TYPE ALE_REZON_
+
         ! GENERAL DATA STRUCTURE USED IN SOURCE CODE
         TYPE ALE_
           TYPE(ALE_GRID_)   :: GRID
           TYPE(ALE_UPWIND_) :: UPWIND
           TYPE(ALE_GLOBAL_) :: GLOBAL
           TYPE(ALE_SUB_)    :: SUB
+          TYPE(ALE_REZON_)  :: REZON
           contains
             procedure, pass :: init         
         END TYPE ALE_
@@ -293,7 +309,10 @@ C-----------------------------------------------
             this%SUB%NODSUBDT = 0
             this%SUB%DT1SAVE = ZERO
             this%SUB%DTFSUB = ZERO
-            this%SUB%DTMSUB = ZERO                                                              
+            this%SUB%DTMSUB = ZERO
+            !---ALE%REZON
+            this%REZON%NUM_NUVAR_MAT = 0
+            this%REZON%NUM_NUVAR_EOS = 0
           end subroutine    
                
       END MODULE ALE_MOD

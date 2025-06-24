@@ -100,6 +100,7 @@
       !||    sigeps126              ../engine/source/materials/mat/mat126/sigeps126.F90
       !||    sigeps127              ../engine/source/materials/mat/mat127/sigeps127.F90
       !||    sigeps128s             ../engine/source/materials/mat/mat128/sigeps128s.F90
+      !||    sigeps129s             ../engine/source/materials/mat/mat129/sigeps129s.F90
       !||    sigeps133              ../engine/source/materials/mat/mat133/sigeps133.F90
       !||    sigeps134s             ../engine/source/materials/mat/mat134/sigeps134s.F90
       !||    sigeps163              ../engine/source/materials/mat/mat163/sigeps163.F90
@@ -174,6 +175,7 @@
       !||    sigeps126_mod          ../engine/source/materials/mat/mat126/sigeps126.F90
       !||    sigeps127_mod          ../engine/source/materials/mat/mat127/sigeps127.F90
       !||    sigeps128s_mod         ../engine/source/materials/mat/mat128/sigeps128s.F90
+      !||    sigeps129s_mod         ../engine/source/materials/mat/mat129/sigeps129s.F90
       !||    sigeps133_mod          ../engine/source/materials/mat/mat133/sigeps133.F90
       !||    sigeps134s_mod         ../engine/source/materials/mat/mat134/sigeps134s.F90
       !||    sigeps163_mod          ../engine/source/materials/mat/mat163/sigeps163.F90
@@ -247,6 +249,7 @@
       use sigeps126_mod
       use sigeps127_mod
       use sigeps128s_mod
+      use sigeps129s_mod
       use sigeps133_mod , only : sigeps133
       use sigeps134s_mod
       use sigeps163_mod
@@ -1862,13 +1865,6 @@
                            lbuf%seq,inloc ,jlag   ,fheat  ,voln )
 !
           elseif (mtn == 105) then
-            if (n2d == 0) then
-              n48 = 8
-              nix = nixs
-            else
-              n48 = 4
-              nix = nixq
-            endif
             call sigeps105(nel       ,npar   ,nuvar    ,nfunc      ,ifunc           ,lbuf%tb   ,&
             &npf       ,tf     ,tt       ,dt1        ,uparam0  ,lbuf%bfrac,&
             &rho0      ,rho    ,vol      ,eint       ,sigy            ,deltax    ,&
@@ -1879,11 +1875,11 @@
             &s1        ,s2     ,s3       ,s4         ,s5              ,s6        ,&
             &sv1       ,sv2    ,sv3      ,sv4        ,sv5             ,sv6       ,&
             &ssp       ,vis    ,uvar     ,off        ,nft             ,v         ,&
-            &w         ,x      ,ix       ,n48        ,nix             ,jthe      ,&
+            &w         ,x      ,ix       ,nix        ,jthe      ,&
             &geo       ,pid    ,ilay     ,ng         ,elbuf_tab       ,pm        ,&
             &iparg     ,bufvois  ,ipm        ,bufmat          ,stifn     ,&
             &vd2       ,vdx    ,vdy      ,vdz        ,mat             ,voln      ,&
-            &gbuf%qvis ,dvol   ,qold     )
+            &gbuf%qvis ,dvol   ,qold     ,psh)
 !
           elseif (mtn == 106) then
             idev = 1
@@ -2050,6 +2046,15 @@
                  s1       ,s2       ,s3       ,s4       ,s5       ,s6       ,  &
                  lbuf%seq ,sigy     ,et       ,defp     ,dpla     ,epsd     ,  &
                  ssp      ,off      ,l_sigb   ,lbuf%sigb)
+!            
+          elseif (mtn == 129) then
+            call sigeps129s(mat_elem%mat_param(imat)    ,                      &
+                 nel      ,nuvar    ,nvartmp  ,uvar     ,vartmp   ,dt1      ,  &
+                 de1      ,de2      ,de3      ,de4      ,de5      ,de6      ,  &
+                 so1      ,so2      ,so3      ,so4      ,so5      ,so6      ,  &
+                 s1       ,s2       ,s3       ,s4       ,s5       ,s6       ,  &
+                 sigy     ,et       ,defp     ,dpla     ,epsd     ,ssp      ,  &
+                 lbuf%temp,el_temp  ,off      ,tt       ,iexpan   ,amu      )
 !
           elseif (mtn == 133) then
             call sigeps133( &

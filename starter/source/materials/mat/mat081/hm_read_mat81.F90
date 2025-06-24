@@ -222,6 +222,11 @@
           nfunc = 4
           !< Number of temporary variables
           nvartmp = 4
+          !< ALE rezoning.
+          ! tell to rezoning how many user variables (uvar) must be rezoned.
+          ! Example :  nuvar = 5          ! material law has 5 user variables
+          !            %num_nuvar_mat = 2 ! uvar(I,1) and uvar(i,1) will be rezoned.
+          matparam%rezon%num_nuvar_mat = 1
 !
           !< Allocation of material parameters tables
           allocate (matparam%iparam(matparam%niparam))

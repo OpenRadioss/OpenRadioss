@@ -35,7 +35,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||====================================================================
       SUBROUTINE ININTSUB(ITAB      ,IGRNOD ,IGRSURF ,
      .                    IPARI     ,MAXRTM ,NOM_OPT ,
-     .                    INTBUF_TAB,MAXRTMS,IGRSLIN )
+     .                    INTBUF_TAB,MAXRTMS,IGRSLIN ,
+     .                    MAXNSNE)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -61,6 +62,7 @@ C-----------------------------------------------
       INTEGER ITAB(*),IPARI(NPARI,*)
       INTEGER MAXRTM,MAXRTMS
       INTEGER NOM_OPT(LNOPT1,*)
+      INTEGER ,INTENT(IN) :: MAXNSNE
 
       TYPE(INTBUF_STRUCT_) INTBUF_TAB(*)
 C-----------------------------------------------
@@ -74,7 +76,7 @@ C-----------------------------------------------
       INTEGER I,J,K,JGRN,ISU,ISU1,ISU2,
      .   NI,NOINT,NTY,NRTS,NRTM,NSN,NMN,MULTIMP,IFQ,NRTM_SH,NRTM0,
      .   NISUB, NISUBS, NISUBM, JSUB, KSUB, NNE, IS, ISV, CUR,
-     .   NEXT, IM, KM, JAD, IN, II, N,STAT,K1,K2,NT19,INOD
+     .   NEXT, IM, KM, JAD, IN, II, N,STAT,K1,K2,NT19,INOD,S_KAD,NSNE,NRTSE
       CHARACTER MESS*40
       INTEGER ID,ID1
       CHARACTER(LEN=NCHARTITLE) :: TITR,TITR1
@@ -96,7 +98,7 @@ C=======================================================================
       ALLOCATE (NOD2RTM(4*MAXRTM)      ,STAT=stat)
       ALLOCATE (NOD2RTMS(2*MAXRTMS)      ,STAT=stat)
       ALLOCATE (NOD2RTMM(2*MAXRTMS)      ,STAT=stat)  
-      ALLOCATE (KAD(MAX(NUMNOD,MAXRTM,MAXRTMS)),STAT=stat)
+      ALLOCATE (KAD(MAX(NUMNOD+MAXNSNE,MAXRTM,MAXRTMS)),STAT=stat)
       ALLOCATE (TAGNOD(NUMNOD)      ,STAT=stat)
       ALLOCATE (TAGRTM(MAXRTM)      ,STAT=stat)
       ALLOCATE (TAGLINS(MAXRTMS)      ,STAT=stat)
@@ -112,9 +114,9 @@ C
         CALL FRETITL2(TITR,NOM_OPT(LNOPT1-LTITR+1,NI),LTITR)
 C
 C------------------------------------------
-C         Interface type 25
+C         Interface type 25 + 24
 C------------------------------------------
-        IF (NTY==25)THEN
+        IF (NTY==25.OR.NTY==24)THEN
 C
             NRTS   =IPARI(3,NI)
             NRTM   =IPARI(4,NI)
@@ -127,21 +129,25 @@ C
             NISUBM =IPARI(38,NI)
             NRTM_SH=IPARI(42,NI)
             NRTM0  =NRTM-NRTM_SH
+            NSNE = 0
+            NRTSE = 0
+            IF(NTY==24) THEN
+               NSNE   = IPARI(55,NI)
+               NRTSE  = IPARI(55,NI)
+            ENDIF
 C
             IF(NISUB/=0)THEN    
                CALL ININTSUB_25(ITAB      ,IGRNOD ,IGRSURF ,NOM_OPT ,INTBUF_TAB,
      .                        NRTM      ,NRTM0  ,NSN     ,NISUBS  ,NISUBM    ,
      .                        NOINT     ,NI     ,NOD2NSV ,NOD2RTM ,KAD       ,
-     .                        TAGNOD    ,TAGRTM ,IADD    )   
+     .                        TAGNOD    ,TAGRTM ,IADD    ,NSNE    ,NTY       ,
+     .                        NRTSE     )   
             END IF
-C
-C--
-C
+
 C------------------------------------------
 C         Interface type 7, 24
 C------------------------------------------
-        ELSEIF (NTY==7.OR.NTY==10.OR.NTY==22.OR.
-     .          NTY==24)THEN
+        ELSEIF (NTY==7.OR.NTY==10.OR.NTY==22)THEN
 C
             NRTS   =IPARI(3,NI)
             NRTM   =IPARI(4,NI)
