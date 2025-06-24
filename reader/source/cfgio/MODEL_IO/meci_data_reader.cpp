@@ -3183,7 +3183,7 @@ bool MECIDataReader::readObjectList(const PseudoFileFormatCard_t *card_format_p,
   while(a_continue) {
     char *a_card=readBuffer(false);
     if (!a_card)
-        return a_ok;
+        break;
     bool is_free_size_format = isFreeSizeCard(a_card);
     int a_cell_length_local = a_cell_length;
 
