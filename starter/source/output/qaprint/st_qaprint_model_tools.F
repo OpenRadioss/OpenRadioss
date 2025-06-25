@@ -261,14 +261,14 @@ C-----------------------------------------------
 C     SECTIONS : /SECT, /SECT/CIRCLE, /SECT/PARAL
 C-----------------------------------------------
       IF ( MYQAKEY('SECTIONS') ) THEN
-        DO I=1,30                                                                          
+        DO I=1,MIN(30,SNSTRF)                                                                         
           IF(NSTRF(I) /= 0)THEN                                               
             WRITE(VARNAME,'(A,I0)') 'SECTIONS__NSTRF_',I                                 
             TEMP_INTEGER = NSTRF(I)                                 
             CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),TEMP_INTEGER,0.0_8)                  
           END IF                                                                           
         END DO                                                                             
-        DO I=1,10                                                                         
+        DO I=1,MIN(10,SSECBUF)                                                             
           IF(SECBUF(I) /= 0)THEN                                               
             WRITE(VARNAME,'(A,I0)') 'SECTIONS__SECBUF_',I                                 
             TEMP_DOUBLE = SECBUF(I)                                  
@@ -311,14 +311,14 @@ C-----------------------------------------------
           K7=K6+2*NSEGT
           K8=K7+2*NSEGP
           K9=K8+2*NSEGR          
-          DO I=K0,NSTRF(K0+24)-1
+          DO I=K0,MIN(NSTRF(K0+24)-1,SNSTRF)
             IF(NSTRF(I) /= 0)THEN
               WRITE(VARNAME,'(A,I0,A,I0)') 'SECTIONS__',OPT_ID,"_NSTRF_",I
               TEMP_INTEGER = NSTRF(I)
               CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),TEMP_INTEGER,0.0_8)
             END IF
           END DO              
-          DO I=KR0,NSTRF(K0+25)
+          DO I=KR0,MIN(SSECBUF,NSTRF(K0+25))
             IF(SECBUF(I) /= 0)THEN
           WRITE(VARNAME,'(A,I0,A,I0)') 'SECTIONS__',OPT_ID,"_SECBUF_",I
               TEMP_DOUBLE = SECBUF(I)
