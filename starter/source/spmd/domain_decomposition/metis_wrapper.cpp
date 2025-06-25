@@ -145,38 +145,84 @@ float compute_weight_balance_ratio(int nelem, int nparts, const std::vector<int>
     std::cout << "min_weight: " << min_weight << ", max_weight: " << max_weight << ", avg_weight: " << avg_weight << std::endl; 
     return static_cast<float>(min_weight) / static_cast<float>(max_weight);
 }
-
 int count_all_neighboring_partition_pairs(int nelem, const std::vector<int>& xadj, 
                                           const std::vector<int>& adjncy, 
                                           const std::vector<int>& partition) {
-    std::unordered_set<uint32_t> neighboring_pairs;
-    
-    // Process each edge only once
-    for (int vertex = 0; vertex < nelem; vertex++) {
-        int start = xadj[vertex] - 1;     
-        int end = xadj[vertex + 1] - 1;   
-        
-        for (int i = start; i < end; i++) {
-            int neighbor = adjncy[i] - 1;  
-            
-            // Process each edge only once
+    // Assuming max number of partitions is reasonably small (e.g. 65536)
+    const int max_partition = 1 << 16;
+    std::vector<bool> seen_pairs(max_partition * max_partition, false);
+    int count = 0;
+
+    const int* xadj_ptr = xadj.data();
+    const int* adjncy_ptr = adjncy.data();
+    const int* part_ptr = partition.data();
+
+    for (int vertex = 0; vertex < nelem; ++vertex) {
+        int start = xadj_ptr[vertex] - 1;
+        int end = xadj_ptr[vertex + 1] - 1;
+        //if part_prt[vertex] is larger than max_partition, skip this vertex
+        if(part_ptr[vertex] >= max_partition) {
+            continue;
+        }
+        unsigned short vp = static_cast<unsigned short>(part_ptr[vertex]);
+
+        for (int i = start; i < end; ++i) {
+            int neighbor = adjncy_ptr[i] - 1;
+
             if (vertex < neighbor) {
-                unsigned short vertex_partition = static_cast<unsigned short>(partition[vertex]);
-                unsigned short neighbor_partition = static_cast<unsigned short>(partition[neighbor]);
-                
-                if (neighbor_partition != vertex_partition) {
-                    // Pack pair into single 32-bit value (smaller partition first)
-                    unsigned short p1 = std::min(vertex_partition, neighbor_partition);
-                    unsigned short p2 = std::max(vertex_partition, neighbor_partition);
-                    uint32_t packed_pair = (static_cast<uint32_t>(p1) << 16) | p2;
-                    neighboring_pairs.insert(packed_pair);
+                if(part_ptr[neighbor] >= max_partition) {
+                    continue;  // Skip neighbors with invalid partition
+                }
+                unsigned short np = static_cast<unsigned short>(part_ptr[neighbor]);
+
+                if (vp != np) {
+                    unsigned short p1 = std::min(vp, np);
+                    unsigned short p2 = std::max(vp, np);
+
+                    int index = p1 * max_partition + p2;
+                    if (!seen_pairs[index]) {
+                        seen_pairs[index] = true;
+                        ++count;
+                    }
                 }
             }
         }
     }
-    
-    return neighboring_pairs.size();
+
+    return count;
 }
+
+//int count_all_neighboring_partition_pairs(int nelem, const std::vector<int>& xadj, 
+//                                          const std::vector<int>& adjncy, 
+//                                          const std::vector<int>& partition) {
+//    std::unordered_set<uint32_t> neighboring_pairs;
+//    
+//    // Process each edge only once
+//    for (int vertex = 0; vertex < nelem; vertex++) {
+//        int start = xadj[vertex] - 1;     
+//        int end = xadj[vertex + 1] - 1;   
+//        
+//        for (int i = start; i < end; i++) {
+//            int neighbor = adjncy[i] - 1;  
+//            
+//            // Process each edge only once
+//            if (vertex < neighbor) {
+//                unsigned short vertex_partition = static_cast<unsigned short>(partition[vertex]);
+//                unsigned short neighbor_partition = static_cast<unsigned short>(partition[neighbor]);
+//                
+//                if (neighbor_partition != vertex_partition) {
+//                    // Pack pair into single 32-bit value (smaller partition first)
+//                    unsigned short p1 = std::min(vertex_partition, neighbor_partition);
+//                    unsigned short p2 = std::max(vertex_partition, neighbor_partition);
+//                    uint32_t packed_pair = (static_cast<uint32_t>(p1) << 16) | p2;
+//                    neighboring_pairs.insert(packed_pair);
+//                }
+//            }
+//        }
+//    }
+//    
+//    return neighboring_pairs.size();
+//}
 
 // Count connected components in a specific partition using iterative DFS
 int count_components_in_partition(int nelem, const std::vector<int>& xadj, 
@@ -262,17 +308,14 @@ std::pair<float,float> evaluate_partition_quality(int *NELEM, const std::vector<
 //    }
      
     // start measuring time
-    auto start_time = std::chrono::high_resolution_clock::now();
     // Count all neighboring partition pairs
-    int rev_quality = 26 * 2 *count_all_neighboring_partition_pairs(nelem, xadj, adjncy, partition);
+    int rev_quality = count_all_neighboring_partition_pairs(nelem, xadj, adjncy, partition);
     // end measuring time
-    auto end_time = std::chrono::high_resolution_clock::now();
     // write time to console in seconds
-    std::chrono::duration<double> elapsed = end_time - start_time;
-    std::cout << "Time taken to count neighboring partition pairs: " << elapsed.count() << " seconds" << std::endl;
 
     // Compute connectivity quality (inverse of component count)
-    float connectivity_quality = (rev_quality == 0) ? 1.0f : (static_cast<float>(nparts) / static_cast<float>(rev_quality));
+    float connectivity_quality = (static_cast<float>(nparts*(nparts-1)) -rev_quality) / 
+                                 static_cast<float>(nparts*(nparts-1));  // Normalize to [0, 1]
     //cap connectivity quality to 1.0
     connectivity_quality = std::min(connectivity_quality, 1.0f);
 
@@ -377,12 +420,13 @@ extern "C"
                                    int *IWD, int *NNODE,
                                    float *UBVEC, int *OPTIONS, int *NEC, int *CEP, float *COORDS)
   {
+    //start chrono
+    auto start = std::chrono::high_resolution_clock::now();
     int *vsize = NULL;
     int *ADJWGT2 = NULL;
     float *tpwgts = NULL;
     int IERR1;
     int ncond = *NCOND;
-    
     // Number of trials with different random seeds
     const int num_trials = 5;  // Adjust as needed
     
@@ -450,18 +494,11 @@ extern "C"
         temp_options[8] = trial + 1;  // Different seed for each trial
         // alternate between METIS_PartGraphKway and METIS_PartGraphRecursive
 
-        if( trial % 3 == 0) {
-          IERR1 = METIS_PartGraphRecursive(
-            NELEM, NCOND, xadj.data(), adjncy.data(),
-            IWD, vsize, ADJWGT2, NNODE, tpwgts,
-            ubvec, temp_options, NEC, temp_cep);
-        } else { 
         // Run METIS with current seed using vector data
         IERR1 = METIS_PartGraphKway(
             NELEM, NCOND, xadj.data(), adjncy.data(),
             IWD, vsize, ADJWGT2, NNODE, tpwgts,
             ubvec, temp_options, NEC, temp_cep);
-        }
         
         if (IERR1 == 1) {  // METIS_OK
             // Evaluate partition quality with load balance check
@@ -498,6 +535,11 @@ extern "C"
     if (ubvec != NULL)
       free(ubvec);
     
+    // end chrono
+    auto end = std::chrono::high_resolution_clock::now();
+    //print the time taken in seconds
+    std::chrono::duration<double> elapsed = end - start;
+    std::cout << "Time taken for METIS_PartGraphKway: " << elapsed.count() << " seconds" << std::endl;
     return best_ierr;
   }
   
@@ -513,6 +555,7 @@ extern "C"
     int ncond = *NCOND;
     int npart = *NNODE;
     int nelem = *NELEM;
+    // start chrono
 //    std::cout<<"RSB"<<std::endl; 
     // Number of trials with different random seeds
     const int num_trials = 2;  // Adjust as needed
