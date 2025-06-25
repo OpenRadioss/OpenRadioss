@@ -20,11 +20,25 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+      !||====================================================================
+      !||    s10get_x0_mod   ../engine/source/elements/solid/solide10/s10get_x0.F90
+      !||--- called by ------------------------------------------------------
+      !||    s10forc3        ../engine/source/elements/solid/solide10/s10forc3.F
+      !||====================================================================
       module s10get_x0_mod
       contains
 ! ======================================================================================================================
 ! \brief get initial configuration by displacement
 ! ======================================================================================================================
+      !||====================================================================
+      !||    s10get_x0       ../engine/source/elements/solid/solide10/s10get_x0.F90
+      !||--- called by ------------------------------------------------------
+      !||    s10forc3        ../engine/source/elements/solid/solide10/s10forc3.F
+      !||--- uses       -----------------------------------------------------
+      !||    constant_mod    ../common_source/modules/constant_mod.F
+      !||    mvsiz_mod       ../engine/share/spe_inc/mvsiz_mod.F90
+      !||    precision_mod   ../common_source/modules/precision_mod.F90
+      !||====================================================================
         subroutine s10get_x0(                                   &
                 nel      ,numnod   ,x          ,xdp     ,       &
                 d        ,xx0      ,yy0        ,zz0     ,       &

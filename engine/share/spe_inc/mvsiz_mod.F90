@@ -31,6 +31,7 @@
       !||    mulaw8                         ../engine/source/materials/mat_share/mulaw8.F90
       !||    redef3                         ../engine/source/elements/spring/redef3.F90
       !||    redef_seatbelt                 ../engine/source/tools/seatbelts/redef_seatbelt.F90
+      !||    s10get_x0                      ../engine/source/elements/solid/solide10/s10get_x0.F90
       !||    s6chour_ctl                    ../engine/source/elements/thickshell/solide6c/s6chour_ctl.F90
       !||    s6for_distor                   ../engine/source/elements/thickshell/solide6c/s6for_distor.F90
       !||    s6get_xv                       ../engine/source/elements/thickshell/solide6c/s6get_xv.F90
