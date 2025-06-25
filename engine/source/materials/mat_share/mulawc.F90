@@ -2778,8 +2778,9 @@
 !-----------------------------------------------
 !         facteurs pour coques b.l. (zeng&combescure)
 !-----------------------------------------------
-              if (ilaw /= 2  .and. ilaw /= 15 .and. ilaw /= 22 .and.&
-              &             ilaw /= 25 .and. ilaw /= 27 .and. ilaw /= 32) then  ! for law25 it is done inside sigeps25c.f
+              if (ilaw /= 2  .and. ilaw /= 15 .and. ilaw /= 22 .and.    &
+                           ilaw /= 25 .and. ilaw /= 27 .and. ilaw /= 32 &
+                     .and. ilaw /= 19 .and. ilaw /= 119) then  ! for law25,27 it is done inside sigeps25c.f...
                 if(flag_zcfac) then
                   zcfac(jft:jlt,1) = zcfac(jft:jlt,1) + etse(jft:jlt) * thkly(jpos:jpos+jlt-1)
                   zcfac(jft:jlt,2) = min(etse(jft:jlt),zcfac(jft:jlt,2))
