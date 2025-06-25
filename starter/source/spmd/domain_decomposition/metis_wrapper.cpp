@@ -142,7 +142,7 @@ float compute_weight_balance_ratio(int nelem, int nparts, const std::vector<int>
         return 0.0f;  // Edge case: no valid partitions
     }
     std::cout << "min_weight: " << min_weight << ", max_weight: " << max_weight << ", avg_weight: " << avg_weight << std::endl; 
-    return static_cast<float>(avg_weight) / static_cast<float>(max_weight);
+    return static_cast<float>(min_weight) / static_cast<float>(max_weight);
 }
 
 int count_all_neighboring_partition_pairs(int nelem, const std::vector<int>& xadj, 
@@ -261,47 +261,49 @@ std::pair<float,float> evaluate_partition_quality(int *NELEM, const std::vector<
 //    }
      
     // Count all neighboring partition pairs
-    int rev_quality = 26 * count_all_neighboring_partition_pairs(nelem, xadj, adjncy, partition);
-    
+    int rev_quality = 26 * 2 *count_all_neighboring_partition_pairs(nelem, xadj, adjncy, partition);
+
     // Compute connectivity quality (inverse of component count)
     float connectivity_quality = (rev_quality == 0) ? 1.0f : (static_cast<float>(nparts) / static_cast<float>(rev_quality));
+    //cap connectivity quality to 1.0
+    connectivity_quality = std::min(connectivity_quality, 1.0f);
 
     // for each partition, compute the volume of the partition
-    std::vector<std::array<float, 3>> bounding_box_min ; // = {std::numeric_limits<float>::max(), std::numeric_limits<float>::max(), std::numeric_limits<float>::max()};
-    std::vector<std::array<float, 3>> bounding_box_max ;//= {std::numeric_limits<float>::lowest(), std::numeric_limits<float>::lowest(), std::numeric_limits<float>::lowest()};
+//    std::vector<std::array<float, 3>> bounding_box_min ; // = {std::numeric_limits<float>::max(), std::numeric_limits<float>::max(), std::numeric_limits<float>::max()};
+//    std::vector<std::array<float, 3>> bounding_box_max ;//= {std::numeric_limits<float>::lowest(), std::numeric_limits<float>::lowest(), std::numeric_limits<float>::lowest()};
     // Initialize bounding boxes for each partition
 //    bounding_box_min.resize(nparts + 1, {std::numeric_limits<float>::max(), std::numeric_limits<float>::max(), std::numeric_limits<float>::max()});
 //    bounding_box_max.resize(nparts + 1, {std::numeric_limits<float>::lowest(), std::numeric_limits<float>::lowest(), std::numeric_limits<float>::lowest()});
-    for (int p = 0; p <= max_partition; p++) {
-        bounding_box_min.push_back({std::numeric_limits<float>::max(), std::numeric_limits<float>::max(), std::numeric_limits<float>::max()});
-        bounding_box_max.push_back({std::numeric_limits<float>::lowest(), std::numeric_limits<float>::lowest(), std::numeric_limits<float>::lowest()});
-    }
-
-    for (int i = 0; i < nelem; i++) {
-        int part = partition[i] ; // Convert to 0-based index
-        if (part > 0 && part <= nparts) {  // Ensure part is valid
-            // check that coordinates are valid (bounded by -10e6 and 10e6)
-            if (! (coords[i * 3 + 0] < -1e6 || coords[i * 3 + 0] > 1e6 ||
-                coords[i * 3 + 1] < -1e6 || coords[i * 3 + 1] > 1e6 ||
-                coords[i * 3 + 2] < -1e6 || coords[i * 3 + 2] > 1e6)) {
-            // Update bounding box for this partition
-            bounding_box_min[part][0] = std::min(bounding_box_min[part][0], coords[i * 3 + 0]);
-            bounding_box_min[part][1] = std::min(bounding_box_min[part][1], coords[i * 3 + 1]);
-            bounding_box_min[part][2] = std::min(bounding_box_min[part][2], coords[i * 3 + 2]);
-            bounding_box_max[part][0] = std::max(bounding_box_max[part][0], coords[i * 3 + 0]);
-            bounding_box_max[part][1] = std::max(bounding_box_max[part][1], coords[i * 3 + 1]);
-            bounding_box_max[part][2] = std::max(bounding_box_max[part][2], coords[i * 3 + 2]);
-
-            // Update global bounding box
-            bounding_box_min[0][0] = std::min(bounding_box_min[0][0], coords[i * 3 + 0]);
-            bounding_box_min[0][1] = std::min(bounding_box_min[0][1], coords[i * 3 + 1]);
-            bounding_box_min[0][2] = std::min(bounding_box_min[0][2], coords[i * 3 + 2]);
-            bounding_box_max[0][0] = std::max(bounding_box_max[0][0], coords[i * 3 + 0]);
-            bounding_box_max[0][1] = std::max(bounding_box_max[0][1], coords[i * 3 + 1]);
-            bounding_box_max[0][2] = std::max(bounding_box_max[0][2], coords[i * 3 + 2]);
-            }
-        }
-    }
+//    for (int p = 0; p <= max_partition; p++) {
+//        bounding_box_min.push_back({std::numeric_limits<float>::max(), std::numeric_limits<float>::max(), std::numeric_limits<float>::max()});
+//        bounding_box_max.push_back({std::numeric_limits<float>::lowest(), std::numeric_limits<float>::lowest(), std::numeric_limits<float>::lowest()});
+//    }
+//
+//    for (int i = 0; i < nelem; i++) {
+//        int part = partition[i] ; // Convert to 0-based index
+//        if (part > 0 && part <= nparts) {  // Ensure part is valid
+//            // check that coordinates are valid (bounded by -10e6 and 10e6)
+//            if (! (coords[i * 3 + 0] < -1e6 || coords[i * 3 + 0] > 1e6 ||
+//                coords[i * 3 + 1] < -1e6 || coords[i * 3 + 1] > 1e6 ||
+//                coords[i * 3 + 2] < -1e6 || coords[i * 3 + 2] > 1e6)) {
+//            // Update bounding box for this partition
+//            bounding_box_min[part][0] = std::min(bounding_box_min[part][0], coords[i * 3 + 0]);
+//            bounding_box_min[part][1] = std::min(bounding_box_min[part][1], coords[i * 3 + 1]);
+//            bounding_box_min[part][2] = std::min(bounding_box_min[part][2], coords[i * 3 + 2]);
+//            bounding_box_max[part][0] = std::max(bounding_box_max[part][0], coords[i * 3 + 0]);
+//            bounding_box_max[part][1] = std::max(bounding_box_max[part][1], coords[i * 3 + 1]);
+//            bounding_box_max[part][2] = std::max(bounding_box_max[part][2], coords[i * 3 + 2]);
+//
+//            // Update global bounding box
+//            bounding_box_min[0][0] = std::min(bounding_box_min[0][0], coords[i * 3 + 0]);
+//            bounding_box_min[0][1] = std::min(bounding_box_min[0][1], coords[i * 3 + 1]);
+//            bounding_box_min[0][2] = std::min(bounding_box_min[0][2], coords[i * 3 + 2]);
+//            bounding_box_max[0][0] = std::max(bounding_box_max[0][0], coords[i * 3 + 0]);
+//            bounding_box_max[0][1] = std::max(bounding_box_max[0][1], coords[i * 3 + 1]);
+//            bounding_box_max[0][2] = std::max(bounding_box_max[0][2], coords[i * 3 + 2]);
+//            }
+//        }
+//    }
 
 //    double total_volume = static_cast<double>(bounding_box_max[0][0] - bounding_box_min[0][0]);
 //    total_volume *= static_cast<double>(bounding_box_max[0][1] - bounding_box_min[0][1]);
@@ -461,7 +463,7 @@ extern "C"
             
            // Keep this partition if it's the best so far
             float quality = (quality_pair.first + quality_pair.second) / 2.0f;  // Average of weight balance and volume ratio
-            if (quality > best_quality && (quality_pair.first > 0.85f||trial==0)) {
+            if (quality > best_quality && (quality_pair.first > 0.80f||trial==0)) {
                 best_quality = quality;
                 best_ierr = IERR1;
                 memcpy(best_cep, temp_cep, *NELEM * sizeof(int));
@@ -583,7 +585,7 @@ extern "C"
             float quality = (quality_pair.first + quality_pair.second) / 2.0f;  // Average of weight balance and volume ratio 
  
             // Keep this partition if it's the best so far
-            if (quality > best_quality && (quality_pair.first > 0.85f || trial == 0)) {
+            if (quality > best_quality && (quality_pair.first > 0.80f || trial == 0)) {
                 best_quality = quality;
                 best_ierr = IERR1;
                 memcpy(best_cep, temp_cep, *NELEM * sizeof(int));
