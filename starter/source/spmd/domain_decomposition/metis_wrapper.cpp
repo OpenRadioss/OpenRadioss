@@ -111,7 +111,7 @@ void relax_balance_constraints(float *UBVEC, int *NCOND, float relaxation_factor
 //    for (int c = 0; c < ncond; c++) {
 //        std::cout << UBVEC[c] << " ";
 //    }
-    std::cout << std::endl; 
+//    std::cout << std::endl; 
 }
 float compute_weight_balance_ratio(int nelem, int nparts, const std::vector<int>& partition, 
                                   const std::vector<int>& vertex_weights) {
@@ -261,7 +261,7 @@ std::pair<float,float> evaluate_partition_quality(int *NELEM, const std::vector<
 //    }
      
     // Count all neighboring partition pairs
-    int rev_quality = 4 * count_all_neighboring_partition_pairs(nelem, xadj, adjncy, partition);
+    int rev_quality = 26 * count_all_neighboring_partition_pairs(nelem, xadj, adjncy, partition);
     
     // Compute connectivity quality (inverse of component count)
     float connectivity_quality = (rev_quality == 0) ? 1.0f : (static_cast<float>(nparts) / static_cast<float>(rev_quality));
@@ -337,7 +337,7 @@ std::pair<float,float> evaluate_partition_quality(int *NELEM, const std::vector<
     
 //    float volume_ratio = static_cast<float>( total_volume / sum_partition_volume);     
     //std::cout<<"weight: "<<weight_ratio<<", connectivity: "<<connectivity_quality<<", volume: "<<volume_ratio<<", mixed: "<<mixed_quality<<std::endl;
-    std::cout<<"weight: "<<weight_ratio<<", connectivity: "<<connectivity_quality<<std::endl;
+    std::cout<<"weight: "<<weight_ratio<<", connectivity: "<<connectivity_quality<<"sum= "<<weight_ratio + connectivity_quality<<std::endl;
     return std::make_pair(weight_ratio, connectivity_quality);
 
 }
