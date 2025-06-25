@@ -536,7 +536,7 @@
           mom(jft:jlt,3)  = zero
           yld(jft:jlt)    = zero
           seq0(jft:jlt)   = zero
-          sigy(jft:jlt)   = zero
+          if (flag_law2 .or. flag_law25 .or. (.not.flag_zcfac)) sigy(jft:jlt)   = zero
           if(flag_zcfac .and. mtn /= 22) zcfac(jft:jlt,1)= zero
           zcfac(jft:jlt,2)= zero
           if(flag_zcfac) zcfac(jft:jlt,2)= one
