@@ -9343,6 +9343,7 @@ C----------------------------------
      6                LSUBMODEL,NOM_OPT(LNOPT1*INOM_OPT(8)+1),IGRBRIC,IGRQUAD,IGRSH4N,
      7                IGRTRUSS ,IGRBEAM,IGRSPRING,IGRSH3N,SEATBELT_SHELL_TO_SPRING,
      8                NB_SEATBELT_SHELLS)
+       SNSTRF = SIZE(NSTRF)
       ELSE
         SNSTRF  = 0
         SSECBUF = 0
