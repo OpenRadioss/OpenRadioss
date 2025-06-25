@@ -149,7 +149,8 @@ int count_all_neighboring_partition_pairs(int nelem, const std::vector<int>& xad
                                           const std::vector<int>& adjncy, 
                                           const std::vector<int>& partition) {
     // Assuming max number of partitions is reasonably small (e.g. 65536)
-    const int max_partition = 1 << 16;
+    int max_partition = *std::max_element(partition.begin(), partition.end());  
+    std::cout << "max_partition: " << max_partition << std::endl;
     std::vector<bool> seen_pairs(max_partition * max_partition, false);
     int count = 0;
 
@@ -161,7 +162,7 @@ int count_all_neighboring_partition_pairs(int nelem, const std::vector<int>& xad
         int start = xadj_ptr[vertex] - 1;
         int end = xadj_ptr[vertex + 1] - 1;
         //if part_prt[vertex] is larger than max_partition, skip this vertex
-        if(part_ptr[vertex] >= max_partition) {
+        if(part_ptr[vertex] > max_partition) {
             continue;
         }
         unsigned short vp = static_cast<unsigned short>(part_ptr[vertex]);
@@ -170,7 +171,7 @@ int count_all_neighboring_partition_pairs(int nelem, const std::vector<int>& xad
             int neighbor = adjncy_ptr[i] - 1;
 
             if (vertex < neighbor) {
-                if(part_ptr[neighbor] >= max_partition) {
+                if(part_ptr[neighbor] > max_partition) {
                     continue;  // Skip neighbors with invalid partition
                 }
                 unsigned short np = static_cast<unsigned short>(part_ptr[neighbor]);
