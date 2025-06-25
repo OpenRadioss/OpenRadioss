@@ -429,7 +429,10 @@ extern "C"
     int IERR1;
     int ncond = *NCOND;
     // Number of trials with different random seeds
-    const int num_trials = 5;  // Adjust as needed
+    int num_trials = 5;  // Adjust as needed
+    // cap num trials by ncond
+    num_trials = std::min(num_trials, ncond);
+
     
     // Create copies of XADJ and ADJNCY as vectors
     std::vector<int> xadj(XADJ, XADJ + *NELEM + 1);  // XADJ has nelem+1 elements
