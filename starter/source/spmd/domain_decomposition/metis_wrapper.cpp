@@ -141,7 +141,7 @@ float compute_weight_balance_ratio(int nelem, int nparts, const std::vector<int>
     if (max_weight == 0) {
         return 0.0f;  // Edge case: no valid partitions
     }
-    
+    std::cout << "min_weight: " << min_weight << ", max_weight: " << max_weight << ", avg_weight: " << avg_weight << std::endl; 
     return static_cast<float>(avg_weight) / static_cast<float>(max_weight);
 }
 
