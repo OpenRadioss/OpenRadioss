@@ -126,20 +126,23 @@ float compute_weight_balance_ratio(int nelem, int nparts, const std::vector<int>
     // Find min and max partition weights
     int min_weight = std::numeric_limits<int>::max();
     int max_weight = 0;
+    int avg_weight = 0;
     
     for (int p = 1; p <= nparts; p++) {
         if (partition_weights[p] > 0) {  // Only consider non-empty partitions
             min_weight = std::min(min_weight, partition_weights[p]);
             max_weight = std::max(max_weight, partition_weights[p]);
+            avg_weight += partition_weights[p];
         }
     }
+    avg_weight /= nparts;  // Average weight across all partitions
     
     // Return ratio w_min / w_max (closer to 1.0 is better balance)
     if (max_weight == 0) {
         return 0.0f;  // Edge case: no valid partitions
     }
     
-    return static_cast<float>(min_weight) / static_cast<float>(max_weight);
+    return static_cast<float>(avg_weight) / static_cast<float>(max_weight);
 }
 
 int count_all_neighboring_partition_pairs(int nelem, const std::vector<int>& xadj, 
