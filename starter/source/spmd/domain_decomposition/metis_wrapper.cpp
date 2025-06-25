@@ -462,6 +462,11 @@ extern "C"
     }
     }
 
+    // print time up to this point
+    std::cout << "Time taken for augmenting graph connectivity: "
+              << std::chrono::duration<double>(std::chrono::high_resolution_clock::now() - start).count()
+              << " seconds" << std::endl;
+
 
     
     // Allocate memory for temporary partition and best partition
