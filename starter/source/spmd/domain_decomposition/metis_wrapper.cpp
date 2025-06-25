@@ -30,6 +30,7 @@
 #include <iostream>
 #include <array>
 #include "augmentor.h"
+#include <chrono>
 
 // Add bidirectional edges to graph and create new XADJ/ADJNCY arrays
 void add_edges_to_graph(const std::vector<int>& original_xadj, 
@@ -260,8 +261,15 @@ std::pair<float,float> evaluate_partition_quality(int *NELEM, const std::vector<
 //        rev_quality += components;
 //    }
      
+    // start measuring time
+    auto start_time = std::chrono::high_resolution_clock::now();
     // Count all neighboring partition pairs
     int rev_quality = 26 * 2 *count_all_neighboring_partition_pairs(nelem, xadj, adjncy, partition);
+    // end measuring time
+    auto end_time = std::chrono::high_resolution_clock::now();
+    // write time to console in seconds
+    std::chrono::duration<double> elapsed = end_time - start_time;
+    std::cout << "Time taken to count neighboring partition pairs: " << elapsed.count() << " seconds" << std::endl;
 
     // Compute connectivity quality (inverse of component count)
     float connectivity_quality = (rev_quality == 0) ? 1.0f : (static_cast<float>(nparts) / static_cast<float>(rev_quality));
