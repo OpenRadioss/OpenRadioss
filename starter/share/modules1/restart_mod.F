@@ -25,6 +25,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- called by ------------------------------------------------------
       !||    contrl                      ../starter/source/starter/contrl.F
       !||    leclas                      ../starter/source/loads/laser/leclas.F
+      !||    lecsec42                    ../starter/source/tools/sect/hm_read_sect.F
       !||    lectur                      ../starter/source/starter/lectur.F
       !||    new_link                    ../starter/source/coupling/rad2rad/new_link.F
       !||    r2r_check                   ../starter/source/coupling/rad2rad/r2r_check.F

@@ -25,7 +25,7 @@
       !||--- called by ------------------------------------------------------
       !||    inint3                ../starter/source/interfaces/inter3d1/inint3.F
       !||--- calls      -----------------------------------------------------
-      !||    build_error_message   ../common_source/tools/memory/shrink_array.F90
+      !||    build_error_message   ../common_source/tools/memory/extend_array.F90
       !||====================================================================
       module shrink_array_mod
         implicit none
@@ -50,7 +50,7 @@
 !                                                     TOOLS
 ! ======================================================================================================================
       !||====================================================================
-      !||    build_error_message   ../common_source/tools/memory/shrink_array.F90
+      !||    build_error_message   ../common_source/tools/memory/extend_array.F90
       !||--- called by ------------------------------------------------------
       !||    extend_array_mod      ../common_source/tools/memory/extend_array.F90
       !||    shrink_array_mod      ../common_source/tools/memory/shrink_array.F90
@@ -72,7 +72,7 @@
         end function build_error_message
 
       !||====================================================================
-      !||    check_error_and_write         ../common_source/tools/memory/my_alloc.F90
+      !||    check_error_and_write         ../common_source/tools/memory/extend_array.F90
       !||--- called by ------------------------------------------------------
       !||    extend_array_double_1d        ../common_source/tools/memory/extend_array.F90
       !||    extend_array_double_2d        ../common_source/tools/memory/extend_array.F90
@@ -162,7 +162,7 @@
       !||====================================================================
       !||    shrink_array_integer_1d   ../common_source/tools/memory/shrink_array.F90
       !||--- calls      -----------------------------------------------------
-      !||    check_error_and_write     ../common_source/tools/memory/my_alloc.F90
+      !||    check_error_and_write     ../common_source/tools/memory/extend_array.F90
       !||====================================================================
         subroutine shrink_array_integer_1d(a,  newsize, msg, stat)
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -210,7 +210,7 @@
       !||====================================================================
       !||    shrink_array_real_1d    ../common_source/tools/memory/shrink_array.F90
       !||--- calls      -----------------------------------------------------
-      !||    check_error_and_write   ../common_source/tools/memory/my_alloc.F90
+      !||    check_error_and_write   ../common_source/tools/memory/extend_array.F90
       !||====================================================================
         subroutine shrink_array_real_1d(a,  newsize, msg, stat)
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -257,7 +257,7 @@
       !||====================================================================
       !||    shrink_array_double_1d   ../common_source/tools/memory/shrink_array.F90
       !||--- calls      -----------------------------------------------------
-      !||    check_error_and_write    ../common_source/tools/memory/my_alloc.F90
+      !||    check_error_and_write    ../common_source/tools/memory/extend_array.F90
       !||====================================================================
         subroutine shrink_array_double_1d(a, newsize, msg, stat)
 ! ----------------------------------------------------------------------------------------------------------------------

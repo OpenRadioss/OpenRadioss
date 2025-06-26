@@ -26,6 +26,7 @@
       !||--- called by ------------------------------------------------------
       !||    r1def3           ../engine/source/elements/spring/r1def3.F
       !||    r23l108def3      ../engine/source/elements/spring/r23l108def3.F
+      !||    r23l113def3      ../engine/source/elements/spring/r23l113def3.F
       !||    r23l114def3      ../engine/source/elements/spring/r23l114def3.F
       !||    r2def3           ../engine/source/elements/spring/r2def3.F
       !||    r3def3           ../engine/source/elements/spring/r3def3.F
@@ -67,6 +68,7 @@
       !||--- called by ------------------------------------------------------
       !||    r1def3                 ../engine/source/elements/spring/r1def3.F
       !||    r23l108def3            ../engine/source/elements/spring/r23l108def3.F
+      !||    r23l113def3            ../engine/source/elements/spring/r23l113def3.F
       !||    r23l114def3            ../engine/source/elements/spring/r23l114def3.F
       !||    r2def3                 ../engine/source/elements/spring/r2def3.F
       !||    r3def3                 ../engine/source/elements/spring/r3def3.F

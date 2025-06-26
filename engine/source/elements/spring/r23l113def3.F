@@ -25,10 +25,11 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- called by ------------------------------------------------------
       !||    r23law113          ../engine/source/elements/spring/r23law113.F
       !||--- calls      -----------------------------------------------------
-      !||    redef3_law113      ../engine/source/elements/spring/redef3_law113.F
+      !||    redef3             ../engine/source/elements/spring/redef3.F90
       !||    repla3             ../engine/source/elements/spring/repla3.F
       !||--- uses       -----------------------------------------------------
       !||    python_funct_mod   ../common_source/modules/python_mod.F90
+      !||    redef3_mod         ../engine/source/elements/spring/redef3.F90
       !||====================================================================
       SUBROUTINE R23L113DEF3(PYTHON,
      1   SKEW,    IPM,     IGEO,    MID,

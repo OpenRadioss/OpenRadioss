@@ -30,6 +30,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    elegror                  ../starter/source/groups/elegror.F
       !||    elegror_seatbelt         ../starter/source/groups/elegror_seatbelt.F
       !||    fretitl                  ../starter/source/starter/freform.F
+      !||    grsize_ele               ../starter/source/system/nintrr.F
       !||    grsize_ele_trans         ../starter/source/system/nintrr.F
       !||    hm_get_floatv            ../starter/source/devtools/hm_reader/hm_get_floatv.F
       !||    hm_get_int_array_index   ../starter/source/devtools/hm_reader/hm_get_int_array_index.F
@@ -52,6 +53,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    hm_option_read_mod       ../starter/share/modules1/hm_option_read_mod.F
       !||    message_mod              ../starter/share/message_module/message_mod.F
       !||    r2r_mod                  ../starter/share/modules1/r2r_mod.F
+      !||    restmod                  ../starter/share/modules1/restart_mod.F
       !||    submodel_mod             ../starter/share/modules1/submodel_mod.F
       !||====================================================================
       SUBROUTINE LECSEC42(IXS   ,IXQ   ,IXC    ,IXT    ,IXP    ,IXR    ,

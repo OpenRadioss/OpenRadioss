@@ -23,8 +23,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C----s---1----+----2----+----3----+----4----+----5----+----6----+----7--
       !||====================================================================
       !||    redef3_law113          ../engine/source/elements/spring/redef3_law113.F
-      !||--- called by ------------------------------------------------------
-      !||    r23l113def3            ../engine/source/elements/spring/r23l113def3.F
       !||--- calls      -----------------------------------------------------
       !||    vinter2                ../engine/source/tools/curve/vinter.F
       !||    vinter2dp              ../engine/source/tools/curve/vinter.F

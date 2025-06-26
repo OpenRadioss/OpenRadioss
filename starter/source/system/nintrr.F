@@ -529,6 +529,7 @@ C-----------
       !||====================================================================
       !||    grsize_ele       ../starter/source/system/nintrr.F
       !||--- called by ------------------------------------------------------
+      !||    lecsec42         ../starter/source/tools/sect/hm_read_sect.F
       !||    prelecsec        ../starter/source/tools/sect/prelecsec.F
       !||    prelecsec4bolt   ../starter/source/tools/sect/prelecsec4bolt.F
       !||--- uses       -----------------------------------------------------
