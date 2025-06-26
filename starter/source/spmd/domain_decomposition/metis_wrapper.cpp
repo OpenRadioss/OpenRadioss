@@ -384,8 +384,17 @@ extern "C"
             if (IERR1 == 1)
             { // METIS_OK
                 // Evaluate partition quality with load balance check
+
+                // start new chrono
+                auto start_eval = std::chrono::high_resolution_clock::now();
                 std::pair<float, float> quality_pair = evaluate_partition_quality(NELEM, xadj, adjncy, temp_cep,
                                                                                   IWD, NCOND, NNODE, ubvec, coords);
+                // end chrono
+                auto end_eval = std::chrono::high_resolution_clock::now();
+                // write time in seconds to console
+                std::cout << "quality evaluation took "
+                          << std::chrono::duration_cast<std::chrono::seconds>(end_eval - start_eval).count()
+                          << " seconds." << std::endl;
 
                 // Keep this partition if it's the best so far
                 float quality = (4.0f * quality_pair.first + quality_pair.second) / 5.0f; // Average of weight balance and volume ratio
@@ -511,11 +520,6 @@ extern "C"
 
         float best_quality = -1e30f; // Very low initial value
         int best_ierr = -1;
-        //    if(nelem / npart < 10000) {
-        //        relax_balance_constraints(ubvec, NCOND);
-        //    }
-
-
         {
             const int trial = 1; // For METIS_PartGraphRecursive, we only run one trial
             // Copy original options
@@ -529,33 +533,33 @@ extern "C"
             IERR1 = METIS_PartGraphRecursive(
                 NELEM, NCOND, xadj.data(), adjncy.data(),
                 IWD, vsize, ADJWGT2, NNODE, tpwgts,
-                ubvec, temp_options, NEC, temp_cep);
+                ubvec, temp_options, NEC, CEP);
 
-            if (IERR1 == 1)
-            { // METIS_OK
-                // Evaluate partition quality with load balance check
-                std::pair<float, float> quality_pair = evaluate_partition_quality(NELEM, xadj, adjncy, temp_cep,
-                                                                                  IWD, NCOND, NNODE, ubvec, coords);
-
-                float quality = (3.0f * quality_pair.first + quality_pair.second) / 5.0f; // Average of weight balance and volume ratio
-                 std::cout << "Trial " << trial << ": quality = " << quality
-                           << ", weight balance = " << quality_pair.first
-                           << ", connectivity = " << quality_pair.second << std::endl;
-                // Keep this partition if it's the best so far
-                if (quality > best_quality && (quality_pair.first > 0.80f || trial == 0))
-                {
-                    best_quality = quality;
-                    best_ierr = IERR1;
-                    memcpy(best_cep, temp_cep, *NELEM * sizeof(int));
-                }
-            }
+//            if (IERR1 == 1)
+//            { // METIS_OK
+//                // Evaluate partition quality with load balance check
+//                std::pair<float, float> quality_pair = evaluate_partition_quality(NELEM, xadj, adjncy, temp_cep,
+//                                                                                  IWD, NCOND, NNODE, ubvec, coords);
+//
+//                float quality = (3.0f * quality_pair.first + quality_pair.second) / 5.0f; // Average of weight balance and volume ratio
+//                 std::cout << "Trial " << trial << ": quality = " << quality
+//                           << ", weight balance = " << quality_pair.first
+//                           << ", connectivity = " << quality_pair.second << std::endl;
+//                // Keep this partition if it's the best so far
+//                if (quality > best_quality && (quality_pair.first > 0.80f || trial == 0))
+//                {
+//                    best_quality = quality;
+//                    best_ierr = IERR1;
+//                    memcpy(best_cep, temp_cep, *NELEM * sizeof(int));
+//                }
+//            }
         }
 
-        // Copy best partition to output
-        if (best_ierr == 1)
-        {
-            memcpy(CEP, best_cep, *NELEM * sizeof(int));
-        }
+ //       // Copy best partition to output
+ //       if (best_ierr == 1)
+ //       {
+ //           memcpy(CEP, best_cep, *NELEM * sizeof(int));
+ //       }
 
         // Clean up
         free(temp_cep);
