@@ -286,6 +286,7 @@ extern "C"
                                      float *UBVEC, int *OPTIONS, int *NEC, int *CEP, float *COORDS)
     {
         // start chrono
+        auto start = std::chrono::high_resolution_clock::now();
         int *vsize = NULL;
         int *ADJWGT2 = NULL;
         float *tpwgts = NULL;
@@ -383,6 +384,9 @@ extern "C"
 
                 // Keep this partition if it's the best so far
                 float quality = (4.0f * quality_pair.first + quality_pair.second) / 5.0f; // Average of weight balance and volume ratio
+                std::cout << "Trial " << trial << ": quality = " << quality
+                          << ", weight balance = " << quality_pair.first
+                          << ", connectivity = " << quality_pair.second << std::endl;
                 if (quality > best_quality && (quality_pair.first > 0.80f || trial == 0))
                 {
                     best_quality = quality;
@@ -411,7 +415,12 @@ extern "C"
             free(tpwgts);
         if (ubvec != NULL)
             free(ubvec);
-
+        // end chrono
+        auto end = std::chrono::high_resolution_clock::now();
+        // write time in seconds to console
+        std::cout << "METIS_PartGraphKway took "
+                  << std::chrono::duration_cast<std::chrono::seconds>(end - start).count()
+                  << " seconds." << std::endl;
         return best_ierr;
     }
 
@@ -419,6 +428,8 @@ extern "C"
                                           int *IWD, int *NNODE,
                                           float *UBVEC, int *OPTIONS, int *NEC, int *CEP, float *COORDS)
     {
+        //start chrono
+        auto start = std::chrono::high_resolution_clock::now();
         // vertex coordinates is made of [x1, y1, z1, x2, y2, z2, ...]
         int *vsize = NULL;
         int *ADJWGT2 = NULL;
@@ -513,7 +524,9 @@ extern "C"
                                                                                   IWD, NCOND, NNODE, ubvec, coords);
 
                 float quality = (3.0f * quality_pair.first + quality_pair.second) / 5.0f; // Average of weight balance and volume ratio
-
+                 std::cout << "Trial " << trial << ": quality = " << quality
+                           << ", weight balance = " << quality_pair.first
+                           << ", connectivity = " << quality_pair.second << std::endl;
                 // Keep this partition if it's the best so far
                 if (quality > best_quality && (quality_pair.first > 0.80f || trial == 0))
                 {
@@ -545,6 +558,12 @@ extern "C"
         if (ubvec != NULL)
             free(ubvec);
 
+        // end chrono
+        auto end = std::chrono::high_resolution_clock::now();
+        // write time in seconds to console
+        std::cout << "METIS_PartGraphRecursive took "
+                  << std::chrono::duration_cast<std::chrono::seconds>(end - start).count()
+                  << " seconds." << std::endl;
         return best_ierr;
     }
 }
