@@ -1197,6 +1197,10 @@ C-----------------------
      .                    NUMSKW,    LISKN,      ISKWN,       NUMFRAM,         
      .                    IFRAME, LOADS%NINIVELT,LOADS%INIVELT,SENSORS)
         END IF 
+
+        DO N = 1, NINTER
+          CALL INT_FLUSHTIME(INTBUF_TAB(N)%METRIC)
+        ENDDO
 !$OMP END SINGLE
 C-------------------------------------------
       RETURN
