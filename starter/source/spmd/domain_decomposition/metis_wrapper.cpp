@@ -334,6 +334,10 @@ extern "C"
                 adjncy[i]++; // Convert back to 1-based indexing
             }
         }
+        // check time
+        std::cout<<" augment time:"<<
+            std::chrono::duration_cast<std::chrono::seconds>(std::chrono::high_resolution_clock::now() - start).count()
+            << " seconds." << std::endl;
 
         // Allocate memory for temporary partition and best partition
         int *temp_cep = (int *)malloc(*NELEM * sizeof(int));
