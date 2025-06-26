@@ -193,85 +193,6 @@ int count_all_neighboring_partition_pairs(int nelem, const std::vector<int>& xad
     return count;
 }
 
-//int count_all_neighboring_partition_pairs(int nelem, const std::vector<int>& xadj, 
-//                                          const std::vector<int>& adjncy, 
-//                                          const std::vector<int>& partition) {
-//    std::unordered_set<uint32_t> neighboring_pairs;
-//    
-//    // Process each edge only once
-//    for (int vertex = 0; vertex < nelem; vertex++) {
-//        int start = xadj[vertex] - 1;     
-//        int end = xadj[vertex + 1] - 1;   
-//        
-//        for (int i = start; i < end; i++) {
-//            int neighbor = adjncy[i] - 1;  
-//            
-//            // Process each edge only once
-//            if (vertex < neighbor) {
-//                unsigned short vertex_partition = static_cast<unsigned short>(partition[vertex]);
-//                unsigned short neighbor_partition = static_cast<unsigned short>(partition[neighbor]);
-//                
-//                if (neighbor_partition != vertex_partition) {
-//                    // Pack pair into single 32-bit value (smaller partition first)
-//                    unsigned short p1 = std::min(vertex_partition, neighbor_partition);
-//                    unsigned short p2 = std::max(vertex_partition, neighbor_partition);
-//                    uint32_t packed_pair = (static_cast<uint32_t>(p1) << 16) | p2;
-//                    neighboring_pairs.insert(packed_pair);
-//                }
-//            }
-//        }
-//    }
-//    
-//    return neighboring_pairs.size();
-//}
-
-// Count connected components in a specific partition using iterative DFS
-int count_components_in_partition(int nelem, const std::vector<int>& xadj, 
-                                  const std::vector<int>& adjncy, 
-                                  const std::vector<int>& partition, int target_partition) {
-    std::vector<bool> visited(nelem, false);
-    int component_count = 0;
-    
-    // Check each vertex
-    for (int start_vertex = 0; start_vertex < nelem; start_vertex++) {
-        // If vertex belongs to target partition and hasn't been visited
-        if (partition[start_vertex] == target_partition && !visited[start_vertex]) {
-            // Start iterative DFS from this vertex
-            std::stack<int> dfs_stack;
-            dfs_stack.push(start_vertex);
-            
-            while (!dfs_stack.empty()) {
-                int vertex = dfs_stack.top();
-                dfs_stack.pop();
-                
-                // Skip if already visited
-                if (visited[vertex]) {
-                    continue;
-                }
-                
-                // Mark as visited
-                visited[vertex] = true;
-                
-                // Add all unvisited neighbors in same partition to stack
-                int start = xadj[vertex] - 1;     // Convert to 0-based indexing
-                int end = xadj[vertex + 1] - 1;   // Convert to 0-based indexing
-                
-                for (int i = start; i < end; i++) {
-                    int neighbor = adjncy[i] - 1;  // Convert to 0-based vertex index
-                    
-                    // Add to stack if unvisited and in same partition
-                    if (!visited[neighbor] && partition[neighbor] == target_partition) {
-                        dfs_stack.push(neighbor);
-                    }
-                }
-            }
-            
-            component_count++;
-        }
-    }
-    
-    return component_count;
-}
 
 // Updated evaluation function with mixed quality metric - takes vectors directly
 std::pair<float,float> evaluate_partition_quality(int *NELEM, const std::vector<int>& xadj, const std::vector<int>& adjncy, int *CEP, 
@@ -301,17 +222,8 @@ std::pair<float,float> evaluate_partition_quality(int *NELEM, const std::vector<
     // Compute weight balance ratio (w_min / w_max)
     float weight_ratio = compute_weight_balance_ratio(nelem, nparts, partition, vertex_weights);
     
-//  int rev_quality = 0;
-    // Count disconnected components for each partition
-//    for (int p = 1; p <= max_partition; p++) {  // Partitions are 1-based
-//        int components = count_components_in_partition(nelem, xadj, adjncy, partition, p);
-//        rev_quality += components;
-//    }
-     
-    // start measuring time
     // Count all neighboring partition pairs
     int rev_quality = count_all_neighboring_partition_pairs(nelem, xadj, adjncy, partition);
-    // end measuring time
     // write time to console in seconds
 
     // Compute connectivity quality (inverse of component count)
@@ -319,79 +231,8 @@ std::pair<float,float> evaluate_partition_quality(int *NELEM, const std::vector<
                                  static_cast<float>(nparts*(nparts-1));  // Normalize to [0, 1]
     //cap connectivity quality to 1.0
     connectivity_quality = std::min(connectivity_quality, 1.0f);
-
-    // for each partition, compute the volume of the partition
-//    std::vector<std::array<float, 3>> bounding_box_min ; // = {std::numeric_limits<float>::max(), std::numeric_limits<float>::max(), std::numeric_limits<float>::max()};
-//    std::vector<std::array<float, 3>> bounding_box_max ;//= {std::numeric_limits<float>::lowest(), std::numeric_limits<float>::lowest(), std::numeric_limits<float>::lowest()};
-    // Initialize bounding boxes for each partition
-//    bounding_box_min.resize(nparts + 1, {std::numeric_limits<float>::max(), std::numeric_limits<float>::max(), std::numeric_limits<float>::max()});
-//    bounding_box_max.resize(nparts + 1, {std::numeric_limits<float>::lowest(), std::numeric_limits<float>::lowest(), std::numeric_limits<float>::lowest()});
-//    for (int p = 0; p <= max_partition; p++) {
-//        bounding_box_min.push_back({std::numeric_limits<float>::max(), std::numeric_limits<float>::max(), std::numeric_limits<float>::max()});
-//        bounding_box_max.push_back({std::numeric_limits<float>::lowest(), std::numeric_limits<float>::lowest(), std::numeric_limits<float>::lowest()});
-//    }
-//
-//    for (int i = 0; i < nelem; i++) {
-//        int part = partition[i] ; // Convert to 0-based index
-//        if (part > 0 && part <= nparts) {  // Ensure part is valid
-//            // check that coordinates are valid (bounded by -10e6 and 10e6)
-//            if (! (coords[i * 3 + 0] < -1e6 || coords[i * 3 + 0] > 1e6 ||
-//                coords[i * 3 + 1] < -1e6 || coords[i * 3 + 1] > 1e6 ||
-//                coords[i * 3 + 2] < -1e6 || coords[i * 3 + 2] > 1e6)) {
-//            // Update bounding box for this partition
-//            bounding_box_min[part][0] = std::min(bounding_box_min[part][0], coords[i * 3 + 0]);
-//            bounding_box_min[part][1] = std::min(bounding_box_min[part][1], coords[i * 3 + 1]);
-//            bounding_box_min[part][2] = std::min(bounding_box_min[part][2], coords[i * 3 + 2]);
-//            bounding_box_max[part][0] = std::max(bounding_box_max[part][0], coords[i * 3 + 0]);
-//            bounding_box_max[part][1] = std::max(bounding_box_max[part][1], coords[i * 3 + 1]);
-//            bounding_box_max[part][2] = std::max(bounding_box_max[part][2], coords[i * 3 + 2]);
-//
-//            // Update global bounding box
-//            bounding_box_min[0][0] = std::min(bounding_box_min[0][0], coords[i * 3 + 0]);
-//            bounding_box_min[0][1] = std::min(bounding_box_min[0][1], coords[i * 3 + 1]);
-//            bounding_box_min[0][2] = std::min(bounding_box_min[0][2], coords[i * 3 + 2]);
-//            bounding_box_max[0][0] = std::max(bounding_box_max[0][0], coords[i * 3 + 0]);
-//            bounding_box_max[0][1] = std::max(bounding_box_max[0][1], coords[i * 3 + 1]);
-//            bounding_box_max[0][2] = std::max(bounding_box_max[0][2], coords[i * 3 + 2]);
-//            }
-//        }
-//    }
-
-//    double total_volume = static_cast<double>(bounding_box_max[0][0] - bounding_box_min[0][0]);
-//    total_volume *= static_cast<double>(bounding_box_max[0][1] - bounding_box_min[0][1]);
-//    total_volume *= static_cast<double>(bounding_box_max[0][2] - bounding_box_min[0][2]);
-    //std::cout<<"total volume = "<<total_volume<<std::endl;
-
-//    double sum_partition_volume = 0.0;
-//    for(int p = 1; p <= max_partition; p++) {  // Partitions are 1-based
-//        if (bounding_box_min[p][0] < bounding_box_max[p][0] &&
-//            bounding_box_min[p][1] < bounding_box_max[p][1] &&
-//            bounding_box_min[p][2] < bounding_box_max[p][2]) {
-//            double volume = static_cast<double>(bounding_box_max[p][0] - bounding_box_min[p][0]);
-//            volume *= static_cast<double>(bounding_box_max[p][1] - bounding_box_min[p][1]);
-//            volume *= static_cast<double>(bounding_box_max[p][2] - bounding_box_min[p][2]);
-//            //std::cout<<"partition "<<p<<": volume = "<<volume<<std::endl;
-//            sum_partition_volume += volume;
-//        }
-//    }
     
-
-    
-    // Mix weight balance ratio with connectivity quality
-    // You can adjust these weights based on importance of each factor
-    float weight_importance = 0.5f;  // Weight given to load balancing (0.0 to 1.0)
-    float connectivity_importance = 0.0f;  // Weight given to connectivity (0.0 to 1.0)
-    float volume_importance = 0.5f;  // Weight given to volume (not used here)
-
- //   if (sum_partition_volume < 1e-6 || total_volume < 1e-6) {
- //       // Avoid division by zero if no valid partitions
- //       sum_partition_volume = 1.0;
- //       total_volume = 1.0;  // Avoid zero volume
- //   }
-    
-//    float volume_ratio = static_cast<float>( total_volume / sum_partition_volume);     
-    //std::cout<<"weight: "<<weight_ratio<<", connectivity: "<<connectivity_quality<<", volume: "<<volume_ratio<<", mixed: "<<mixed_quality<<std::endl;
-    std::cout<<"weight: "<<weight_ratio<<", connectivity: "<<connectivity_quality<<"sum= "<<weight_ratio + connectivity_quality<<std::endl;
+//    std::cout<<"weight: "<<weight_ratio<<", connectivity: "<<connectivity_quality<<"sum= "<<weight_ratio + connectivity_quality<<std::endl;
     return std::make_pair(weight_ratio, connectivity_quality);
 
 }
@@ -422,14 +263,13 @@ extern "C"
                                    float *UBVEC, int *OPTIONS, int *NEC, int *CEP, float *COORDS)
   {
     //start chrono
-    auto start = std::chrono::high_resolution_clock::now();
     int *vsize = NULL;
     int *ADJWGT2 = NULL;
     float *tpwgts = NULL;
     int IERR1;
     int ncond = *NCOND;
     // Number of trials with different random seeds
-    int num_trials = 5;  // Adjust as needed
+    int num_trials = 2;  // Adjust as needed
     // cap num trials by ncond
     num_trials = std::min(num_trials, ncond);
 
@@ -465,11 +305,6 @@ extern "C"
         adjncy[i]++;  // Convert back to 1-based indexing
     }
     }
-
-    // print time up to this point
-    std::cout << "Time taken for augmenting graph connectivity: "
-              << std::chrono::duration<double>(std::chrono::high_resolution_clock::now() - start).count()
-              << " seconds" << std::endl;
 
 
     
@@ -516,7 +351,7 @@ extern "C"
            
             
            // Keep this partition if it's the best so far
-            float quality = (quality_pair.first + quality_pair.second) / 2.0f;  // Average of weight balance and volume ratio
+            float quality = (4.0f * quality_pair.first + quality_pair.second) / 5.0f;  // Average of weight balance and volume ratio
             if (quality > best_quality && (quality_pair.first > 0.80f||trial==0)) {
                 best_quality = quality;
                 best_ierr = IERR1;
@@ -544,11 +379,6 @@ extern "C"
     if (ubvec != NULL)
       free(ubvec);
     
-    // end chrono
-    auto end = std::chrono::high_resolution_clock::now();
-    //print the time taken in seconds
-    std::chrono::duration<double> elapsed = end - start;
-    std::cout << "Time taken for METIS_PartGraphKway: " << elapsed.count() << " seconds" << std::endl;
     return best_ierr;
   }
   
@@ -642,7 +472,7 @@ extern "C"
             std::pair<float,float> quality_pair = evaluate_partition_quality(NELEM, xadj, adjncy, temp_cep, 
                                                       IWD, NCOND, NNODE, ubvec, coords);
             
-            float quality = (quality_pair.first + quality_pair.second) / 2.0f;  // Average of weight balance and volume ratio 
+            float quality = (3.0f*quality_pair.first + quality_pair.second) / 5.0f;  // Average of weight balance and volume ratio 
  
             // Keep this partition if it's the best so far
             if (quality > best_quality && (quality_pair.first > 0.80f || trial == 0)) {
