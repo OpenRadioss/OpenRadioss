@@ -296,6 +296,7 @@ extern "C"
         int num_trials = 2; // Adjust as needed
         // cap num trials by ncond
         num_trials = std::min(num_trials, ncond);
+        std::cout<<"num_trials: "<<num_trials<<" ncond: "<<ncond<<std::endl;
 
         // Create copies of XADJ and ADJNCY as vectors
         std::vector<int> xadj(XADJ, XADJ + *NELEM + 1);             // XADJ has nelem+1 elements
