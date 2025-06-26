@@ -460,18 +460,28 @@ C-              1D material of 2D seatbelt - no need for inertia - mass and iner
 C-            inertia of element is automatically computed according to moment of inertia area if Young modulus > 0
               UINER(I) = MAX(EM20,RFAC*MAX((RHO*GEO(1,I0)*LENGTH*LENGTH*LENGTH)/TWELVE + RHO*IYY*LENGTH,RHO*IXX*LENGTH))     
             ENDIF
+C            
             IF(IMASS == 1) THEN
              GBUF%MASS(I) = GEO(1,I0)*LENGTH*RHO
-C
-             IF (LENGTH == ZERO .AND. RHO /= ZERO) THEN
+             IF ((LENGTH == ZERO).AND.(RHO /= ZERO)) THEN
                IPID = IXR(1,I)
                CALL FRETITL2(TITR,IGEO(NPROPGI-LTITR+1,I0),LTITR)
-               CALL ANCMSG(MSGID=1664,
-     .                     MSGTYPE=MSGERROR,
-     .                     ANMODE=ANINFO_BLIND_1,
-     .                     I1=ID,
-     .                     C1=TITR,
-     .                     I2=IXR(NIXR,I))
+               IF ((XMAS(I1) > ZERO).AND.(XMAS(I2) > ZERO).AND.(MTN == 108)) THEN
+C-               imass = 1 (mass per unit lenght) + null length accepted for law108 if there are masses on nodes - only a warning is printed                              
+                 CALL ANCMSG(MSGID=3103,
+     .                       MSGTYPE=MSGWARNING,
+     .                       ANMODE=ANINFO_BLIND_1,
+     .                       I1=ID,
+     .                       C1=TITR,
+     .                       I2=IXR(NIXR,I))
+               ELSE
+                 CALL ANCMSG(MSGID=1664,
+     .                       MSGTYPE=MSGERROR,
+     .                       ANMODE=ANINFO_BLIND_1,
+     .                       I1=ID,
+     .                       C1=TITR,
+     .                       I2=IXR(NIXR,I))     
+               ENDIF   
              ENDIF
             ELSEIF(IMASS == 2) THEN
               GBUF%MASS(I) = GEO(1,I0)*RHO
