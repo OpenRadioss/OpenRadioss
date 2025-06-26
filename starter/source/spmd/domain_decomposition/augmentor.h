@@ -1,3 +1,4 @@
+
 #include <vector>
 #include <queue>
 #include <unordered_set>
@@ -16,14 +17,6 @@ struct PairHash {
     }
 };
 
-// Helper function to compute 3D distance between two vertices
-double compute_distance(const std::vector<float>& coordinates, int vertex1, int vertex2) {
-    float dx = coordinates[3 * vertex1 + 0] - coordinates[3 * vertex2 + 0];
-    float dy = coordinates[3 * vertex1 + 1] - coordinates[3 * vertex2 + 1];
-    float dz = coordinates[3 * vertex1 + 2] - coordinates[3 * vertex2 + 2];
-    return std::sqrt(dx*dx + dy*dy + dz*dz);
-}
-
 // C++11 compatible sampling function
 template<typename T>
 std::vector<T> sample_vector(const std::vector<T>& input, size_t sample_size, std::mt19937& gen) {
@@ -37,12 +30,34 @@ std::vector<T> sample_vector(const std::vector<T>& input, size_t sample_size, st
     return result;
 }
 
-class OptimizedMeshConnector {
+class GraphConnectivityAugmentor {
 private:
-    const std::vector<int>& xadj;
-    const std::vector<int>& adjncy;
-    const std::vector<float>& coordinates;
+    int num_vertices;
+    std::vector<int> xadj;
+    std::vector<int> adjncy;
+    std::vector<float> coordinates;
     double max_edge_length_ratio;
+    
+    // ==================== UTILITY METHODS ====================
+    
+    // Helper function to compute 3D distance between two vertices
+    double compute_distance(int vertex1, int vertex2) const {
+        float dx = coordinates[3 * vertex1 + 0] - coordinates[3 * vertex2 + 0];
+        float dy = coordinates[3 * vertex1 + 1] - coordinates[3 * vertex2 + 1];
+        float dz = coordinates[3 * vertex1 + 2] - coordinates[3 * vertex2 + 2];
+        return std::sqrt(dx*dx + dy*dy + dz*dz);
+    }
+    
+    // Helper function to get neighbors of a vertex
+    std::vector<int> get_neighbors(int vertex) const {
+        std::vector<int> neighbors;
+        const int degree = xadj[vertex + 1] - xadj[vertex];
+        neighbors.reserve(degree);
+        for (int i = xadj[vertex]; i < xadj[vertex + 1]; ++i) {
+            neighbors.push_back(adjncy[i]);
+        }
+        return neighbors;
+    }
     
     // Get k-ring neighbors of a vertex (vertices within k hops)
     std::unordered_set<int> get_k_ring_neighbors(int vertex, int k) const {
@@ -71,15 +86,15 @@ private:
         return neighbors;
     }
     
+    // Compute average length of natural edges
     double compute_average_natural_edge_length() const {
         double total_length = 0.0;
         int edge_count = 0;
         
-        for (int u = 0; u < static_cast<int>(xadj.size()) - 1; ++u) {
-            for (int i = xadj[u]; i < xadj[u + 1]; ++i) {
-                int v = adjncy[i];
-                if (u < v) {
-                    total_length += compute_distance(coordinates, u, v);
+        for (int u = 0; u < num_vertices; ++u) {
+            for (int neighbor : get_neighbors(u)) {
+                if (u < neighbor) { // Count each edge only once
+                    total_length += compute_distance(u, neighbor);
                     edge_count++;
                 }
             }
@@ -87,224 +102,8 @@ private:
         
         return edge_count > 0 ? total_length / edge_count : 1.0;
     }
-
-public:
-    OptimizedMeshConnector(const std::vector<int>& xadj_input,
-                          const std::vector<int>& adjncy_input,
-                          const std::vector<float>& coords,
-                          double max_edge_ratio) 
-        : xadj(xadj_input), adjncy(adjncy_input), coordinates(coords),
-          max_edge_length_ratio(max_edge_ratio) {}
     
-    std::vector<std::pair<int,int> > find_shortest_spatial_edges_optimized(
-        const std::vector<int>& set_A, 
-        const std::vector<int>& set_B, 
-        int num_edges_needed) {
-        
-//        std::cout << "Finding " << num_edges_needed << " edges between sets of size " 
-//                  << set_A.size() << " and " << set_B.size() << std::endl;
-        
-        // Stage 1: Coarse sampling (200x200)
-        std::vector<std::pair<int,int> > candidates = find_initial_candidates(set_A, set_B, num_edges_needed);
-        
-        if (candidates.size() >= static_cast<size_t>(num_edges_needed)) {
-//            std::cout << "Stage 1 found sufficient candidates, refining..." << std::endl;
-            return refine_candidates(set_A, set_B, candidates, num_edges_needed);
-        }
-        
-//        std::cout << "Stage 1 found " << candidates.size() << " candidates, expanding..." << std::endl;
-        return find_with_expanded_search(set_A, set_B, num_edges_needed);
-    }
-
-private:
-    std::vector<std::pair<int,int> > find_initial_candidates(
-        const std::vector<int>& set_A, const std::vector<int>& set_B, int num_edges_needed) {
-        
-        size_t sample_size = std::min(static_cast<size_t>(200), std::min(set_A.size(), set_B.size()));
-        
-        std::mt19937 gen(42);
-        
-        std::vector<int> sample_A = sample_vector(set_A, sample_size, gen);
-        std::vector<int> sample_B = sample_vector(set_B, sample_size, gen);
-        
-        std::vector<std::tuple<double, int, int> > distances;
-        
-        // Compute ALL distances - no spatial constraint
-        for (size_t i = 0; i < sample_A.size(); ++i) {
-            for (size_t j = 0; j < sample_B.size(); ++j) {
-                int u = sample_A[i];
-                int v = sample_B[j];
-                double dist = compute_distance(coordinates, u, v);
-                distances.push_back(std::make_tuple(dist, u, v));
-            }
-        }
-        
-        std::sort(distances.begin(), distances.end());
-        
-        std::vector<std::pair<int,int> > candidates;
-        std::unordered_set<std::pair<int,int>, PairHash> added;
-        
-        size_t max_candidates = std::min(distances.size(), static_cast<size_t>(num_edges_needed * 3));
-        
-        for (size_t i = 0; i < max_candidates; ++i) {
-            int u = std::get<1>(distances[i]);
-            int v = std::get<2>(distances[i]);
-            std::pair<int,int> edge = std::make_pair(std::min(u,v), std::max(u,v));
-            
-            if (added.find(edge) == added.end()) {
-                candidates.push_back(std::make_pair(u, v));
-                added.insert(edge);
-            }
-        }
-        
-        return candidates;
-    }
-    
-    std::vector<std::pair<int,int> > refine_candidates(
-        const std::vector<int>& set_A, const std::vector<int>& set_B,
-        const std::vector<std::pair<int,int> >& initial_candidates, int num_edges_needed) {
-        
-        std::vector<std::tuple<double, int, int> > refined_distances;
-        std::unordered_set<std::pair<int,int>, PairHash> checked;
-        
-        std::unordered_set<int> set_A_lookup(set_A.begin(), set_A.end());
-        std::unordered_set<int> set_B_lookup(set_B.begin(), set_B.end());
-        
-        for (size_t i = 0; i < initial_candidates.size(); ++i) {
-            int u_center = initial_candidates[i].first;
-            int v_center = initial_candidates[i].second;
-            
-            std::unordered_set<int> u_neighbors = get_k_ring_neighbors(u_center, 2);
-            std::unordered_set<int> v_neighbors = get_k_ring_neighbors(v_center, 2);
-            
-            std::vector<int> valid_u, valid_v;
-            
-            for (std::unordered_set<int>::const_iterator it = u_neighbors.begin(); 
-                 it != u_neighbors.end(); ++it) {
-                if (set_A_lookup.count(*it)) valid_u.push_back(*it);
-            }
-            
-            for (std::unordered_set<int>::const_iterator it = v_neighbors.begin(); 
-                 it != v_neighbors.end(); ++it) {
-                if (set_B_lookup.count(*it)) valid_v.push_back(*it);
-            }
-            
-            valid_u.push_back(u_center);
-            valid_v.push_back(v_center);
-            
-            for (size_t ui = 0; ui < valid_u.size(); ++ui) {
-                for (size_t vi = 0; vi < valid_v.size(); ++vi) {
-                    int u = valid_u[ui];
-                    int v = valid_v[vi];
-                    std::pair<int,int> edge = std::make_pair(std::min(u,v), std::max(u,v));
-                    
-                    if (checked.find(edge) == checked.end()) {
-                        checked.insert(edge);
-                        double dist = compute_distance(coordinates, u, v);
-                        refined_distances.push_back(std::make_tuple(dist, u, v));
-                    }
-                }
-            }
-        }
-        
-        std::sort(refined_distances.begin(), refined_distances.end());
-        
-        std::vector<std::pair<int,int> > final_edges;
-        std::unordered_set<std::pair<int,int>, PairHash> added;
-        
-        for (size_t i = 0; i < refined_distances.size() && 
-             final_edges.size() < static_cast<size_t>(num_edges_needed); ++i) {
-            
-            int u = std::get<1>(refined_distances[i]);
-            int v = std::get<2>(refined_distances[i]);
-            std::pair<int,int> edge = std::make_pair(std::min(u,v), std::max(u,v));
-            
-            if (added.find(edge) == added.end()) {
-                final_edges.push_back(std::make_pair(u, v));
-                added.insert(edge);
-            }
-        }
-        
-//        std::cout << "Refinement found " << final_edges.size() << " edges" << std::endl;
-        return final_edges;
-    }
-    
-    std::vector<std::pair<int,int> > find_with_expanded_search(
-        const std::vector<int>& set_A, const std::vector<int>& set_B, int num_edges_needed) {
-        
-        size_t sample_size = std::min(static_cast<size_t>(1000), std::min(set_A.size(), set_B.size()));
-        
-        std::random_device rd;
-        std::mt19937 gen(42);
-        
-        std::vector<int> sample_A = sample_vector(set_A, sample_size, gen);
-        std::vector<int> sample_B = sample_vector(set_B, sample_size, gen);
-        
-        std::vector<std::tuple<double, int, int> > distances;
-        
-        // Compute ALL distances - no spatial constraint
-        for (size_t i = 0; i < sample_A.size(); ++i) {
-            for (size_t j = 0; j < sample_B.size(); ++j) {
-                int u = sample_A[i];
-                int v = sample_B[j];
-                double dist = compute_distance(coordinates, u, v);
-                distances.push_back(std::make_tuple(dist, u, v));
-            }
-        }
-        
-        size_t k = std::min(distances.size(), static_cast<size_t>(num_edges_needed * 2));
-        std::partial_sort(distances.begin(), distances.begin() + k, distances.end());
-        
-        std::vector<std::pair<int,int> > edges;
-        std::unordered_set<std::pair<int,int>, PairHash> added;
-        
-        for (size_t i = 0; i < k && edges.size() < static_cast<size_t>(num_edges_needed); ++i) {
-            int u = std::get<1>(distances[i]);
-            int v = std::get<2>(distances[i]);
-            std::pair<int,int> edge = std::make_pair(std::min(u,v), std::max(u,v));
-            
-            if (added.find(edge) == added.end()) {
-                edges.push_back(std::make_pair(u, v));
-                added.insert(edge);
-            }
-        }
-        
-        //std::cout << "Expanded search found " << edges.size() << " edges" << std::endl;
-        return edges;
-    }
-};
-
-// Integration function - replace your find_shortest_spatial_edges method with this:
-std::vector<std::pair<int,int> > find_shortest_spatial_edges_optimized(
-    const std::vector<int>& xadj,
-    const std::vector<int>& adjncy, 
-    const std::vector<float>& coordinates,
-    double max_edge_length_ratio,
-    const std::vector<int>& set_A, 
-    const std::vector<int>& set_B, 
-    int num_edges_needed) {
-    
-    OptimizedMeshConnector connector(xadj, adjncy, coordinates, max_edge_length_ratio);
-    return connector.find_shortest_spatial_edges_optimized(set_A, set_B, num_edges_needed);
-}
-
-
-class GraphConnectivityAugmentor {
-private:
-    int num_vertices;
-    std::vector<int> xadj;
-    std::vector<int> adjncy;
-    std::vector<float> coordinates;
-    double max_edge_length_ratio;
-    
-    // Helper function to get neighbors of a vertex
-    std::vector<int> get_neighbors(int vertex) const {
-        std::vector<int> neighbors;
-        for (int i = xadj[vertex]; i < xadj[vertex + 1]; ++i) {
-            neighbors.push_back(adjncy[i]);
-        }
-        return neighbors;
-    }
+    // ==================== GRAPH MODIFICATION METHODS ====================
     
     // Add edge to the graph structure
     void add_edge_to_graph(int u, int v) {
@@ -339,10 +138,13 @@ private:
         }
     }
     
+    // ==================== CONNECTIVITY ANALYSIS METHODS ====================
+    
     // BFS to find connected components
     std::vector<std::vector<int>> find_connected_components() const {
         std::vector<bool> visited(num_vertices, false);
         std::vector<std::vector<int>> components;
+        components.reserve(10); // Reserve space for up to 10 components
         
         for (int i = 0; i < num_vertices; ++i) {
             if (!visited[i]) {
@@ -414,7 +216,8 @@ private:
         return false;
     }
     
-    // Compute edge connectivity using proper max-flow for edge connectivity
+    // ==================== MAX FLOW FOR EDGE CONNECTIVITY ====================
+    
     struct FlowEdge {
         int to, rev;
         int cap;
@@ -424,7 +227,11 @@ private:
     int max_flow_edge_connectivity(int source, int sink, std::vector<std::pair<int,int>>& min_cut_edges) {
         // Create flow network - each original edge becomes two directed edges with capacity 1
         std::vector<std::vector<FlowEdge>> flow_graph(num_vertices);
-        
+        const int total_edges = adjncy.size(); 
+        const int avg_degree = total_edges / num_vertices;
+        for(int u = 0; u < num_vertices; ++u) {
+            flow_graph[u].reserve(avg_degree); // Reserve space for average degree
+        }
         // Build flow network from original graph
         for (int u = 0; u < num_vertices; ++u) {
             for (int neighbor : get_neighbors(u)) {
@@ -524,8 +331,6 @@ private:
         // Quick check: if there are any bridges, edge connectivity is 1
         std::pair<int,int> first_bridge;
         if (find_first_bridge(first_bridge)) {
-//            std::cout << "Found bridge edge (" << first_bridge.first << "," << first_bridge.second 
-//                     << "), edge connectivity = 1" << std::endl;
             return 1;
         }
         
@@ -540,20 +345,18 @@ private:
             std::vector<std::pair<int,int>> cut_edges;
             int connectivity = max_flow_edge_connectivity(source, sink, cut_edges);
             min_connectivity = std::min(min_connectivity, connectivity);
-            
-//            std::cout << "Trial " << trials << ": source=" << source << ", sink=" << sink 
-//                     << ", connectivity=" << connectivity << std::endl;
         }
         
         return min_connectivity;
     }
+    
+    // ==================== MINIMUM CUT METHODS ====================
     
     // Find minimum cut that separates the graph
     std::pair<std::vector<int>, std::vector<int>> find_minimum_cut() {
         // Quick check: if there are bridges, use the first bridge to create cut
         std::pair<int,int> first_bridge;
         if (find_first_bridge(first_bridge)) {
-//            std::cout << "Using bridge edge (" << first_bridge.first << "," << first_bridge.second << ") for cut" << std::endl;
             return find_cut_by_removing_edge(first_bridge.first, first_bridge.second);
         }
         
@@ -656,127 +459,192 @@ private:
         
         return std::make_pair(component1, component2);
     }
-
-
-    std::vector<std::pair<int,int> > find_shortest_spatial_edges(
-    const std::vector<int>& set_A, 
-    const std::vector<int>& set_B, 
-    int num_edges_needed) {
     
-    return find_shortest_spatial_edges_optimized(
-        xadj, adjncy, coordinates, max_edge_length_ratio,
-        set_A, set_B, num_edges_needed);
-  }
+    // ==================== SPATIAL EDGE FINDING METHODS ====================
     
-    // Compute average length of natural edges
-    double compute_average_natural_edge_length() const {
-        double total_length = 0.0;
-        int edge_count = 0;
+    std::vector<std::pair<int,int>> find_initial_candidates(
+        const std::vector<int>& set_A, const std::vector<int>& set_B, int num_edges_needed) {
         
-        for (int u = 0; u < num_vertices; ++u) {
-            for (int neighbor : get_neighbors(u)) {
-                if (u < neighbor) { // Count each edge only once
-                    total_length += compute_distance(coordinates, u, neighbor);
-                    edge_count++;
+        size_t sample_size = std::min(static_cast<size_t>(200), std::min(set_A.size(), set_B.size()));
+        
+        std::mt19937 gen(42);
+        
+        std::vector<int> sample_A = sample_vector(set_A, sample_size, gen);
+        std::vector<int> sample_B = sample_vector(set_B, sample_size, gen);
+        
+        std::vector<std::tuple<double, int, int>> distances;
+        distances.reserve(sample_A.size() * sample_B.size());
+        
+        // Compute ALL distances - no spatial constraint
+        for (size_t i = 0; i < sample_A.size(); ++i) {
+            for (size_t j = 0; j < sample_B.size(); ++j) {
+                int u = sample_A[i];
+                int v = sample_B[j];
+                double dist = compute_distance(u, v);
+                distances.push_back(std::make_tuple(dist, u, v));
+            }
+        }
+        
+        std::sort(distances.begin(), distances.end());
+        
+        std::vector<std::pair<int,int>> candidates;
+        std::unordered_set<std::pair<int,int>, PairHash> added;
+        
+        size_t max_candidates = std::min(distances.size(), static_cast<size_t>(num_edges_needed * 3));
+        candidates.reserve(max_candidates);
+        
+        for (size_t i = 0; i < max_candidates; ++i) {
+            int u = std::get<1>(distances[i]);
+            int v = std::get<2>(distances[i]);
+            std::pair<int,int> edge = std::make_pair(std::min(u,v), std::max(u,v));
+            
+            if (added.find(edge) == added.end()) {
+                candidates.push_back(std::make_pair(u, v));
+                added.insert(edge);
+            }
+        }
+        
+        return candidates;
+    }
+    
+    std::vector<std::pair<int,int>> refine_candidates(
+        const std::vector<int>& set_A, const std::vector<int>& set_B,
+        const std::vector<std::pair<int,int>>& initial_candidates, int num_edges_needed) {
+        
+        std::vector<std::tuple<double, int, int>> refined_distances;
+        std::unordered_set<std::pair<int,int>, PairHash> checked;
+        
+        std::unordered_set<int> set_A_lookup(set_A.begin(), set_A.end());
+        std::unordered_set<int> set_B_lookup(set_B.begin(), set_B.end());
+        
+        for (size_t i = 0; i < initial_candidates.size(); ++i) {
+            int u_center = initial_candidates[i].first;
+            int v_center = initial_candidates[i].second;
+            
+            std::unordered_set<int> u_neighbors = get_k_ring_neighbors(u_center, 2);
+            std::unordered_set<int> v_neighbors = get_k_ring_neighbors(v_center, 2);
+            
+            std::vector<int> valid_u, valid_v;
+            valid_u.reserve(u_neighbors.size() + 1);
+            valid_v.reserve(v_neighbors.size() + 1);
+            
+            for (std::unordered_set<int>::const_iterator it = u_neighbors.begin(); 
+                 it != u_neighbors.end(); ++it) {
+                if (set_A_lookup.count(*it)) valid_u.push_back(*it);
+            }
+            
+            for (std::unordered_set<int>::const_iterator it = v_neighbors.begin(); 
+                 it != v_neighbors.end(); ++it) {
+                if (set_B_lookup.count(*it)) valid_v.push_back(*it);
+            }
+            
+            valid_u.push_back(u_center);
+            valid_v.push_back(v_center);
+            
+            for (size_t ui = 0; ui < valid_u.size(); ++ui) {
+                for (size_t vi = 0; vi < valid_v.size(); ++vi) {
+                    int u = valid_u[ui];
+                    int v = valid_v[vi];
+                    std::pair<int,int> edge = std::make_pair(std::min(u,v), std::max(u,v));
+                    
+                    if (checked.find(edge) == checked.end()) {
+                        checked.insert(edge);
+                        double dist = compute_distance(u, v);
+                        refined_distances.push_back(std::make_tuple(dist, u, v));
+                    }
                 }
             }
         }
         
-        return edge_count > 0 ? total_length / edge_count : 1.0;
-    }
-
-public:
-    GraphConnectivityAugmentor(const std::vector<int>& xadj_input,
-                              const std::vector<int>& adjncy_input,
-                              const std::vector<float>& coords,
-                              double max_edge_ratio = 2.0) 
-        : num_vertices(xadj_input.size() - 1),
-          xadj(xadj_input),
-          adjncy(adjncy_input),
-          coordinates(coords),
-          max_edge_length_ratio(max_edge_ratio) {
+        std::sort(refined_distances.begin(), refined_distances.end());
         
-        assert(coordinates.size() == 3 * num_vertices);
-        assert(xadj.size() == num_vertices + 1);
-    }
-    
-    // Main function: augment graph to achieve k-edge connectivity 
-    std::vector<std::pair<int,int>> augment_to_k_edge_connectivity(int k) {
-        std::vector<std::pair<int,int>> augmentation_edges;
+        std::vector<std::pair<int,int>> final_edges;
+        std::unordered_set<std::pair<int,int>, PairHash> added;
         
-//        std::cout << "Target k-edge connectivity: " << k << std::endl;
-        
-        // Handle disconnected components first
-        auto components = find_connected_components();
-        if (components.size() > 1) {
- //           std::cout << "Found " << components.size() << " disconnected components" << std::endl;
-            auto component_edges = connect_components_spatially(components);
-            augmentation_edges.insert(augmentation_edges.end(), 
-                                    component_edges.begin(), component_edges.end());
-        }
-        
-        // MAJOR OPTIMIZATION: Compute connectivity only once!
-        int current_connectivity = compute_edge_connectivity();
-//        std::cout << "Current edge connectivity: " << current_connectivity << std::endl;
-        
-        if (current_connectivity >= k) {
-//            std::cout << "Graph already has sufficient connectivity!" << std::endl;
-            return augmentation_edges;
-        }
-        
-        // Find minimum cut
-        std::pair<std::vector<int>, std::vector<int>> cut_result = find_minimum_cut();
-        std::vector<int> set_A = cut_result.first;
-        std::vector<int> set_B = cut_result.second;
-        
-        if (set_A.empty() || set_B.empty()) {
- //           std::cerr << "Error: Could not find valid minimum cut" << std::endl;
-            return augmentation_edges;
-        }
-        
-        // Determine how many edges to add (key optimization: this achieves target connectivity in one step)
-        int edges_needed = k - current_connectivity;
-//        std::cout << "Adding " << edges_needed << " edges across cut of size " 
-//                 << set_A.size() << " and " << set_B.size() << std::endl;
-        
-        // Find shortest spatial edges across the cut
-        auto new_edges = find_shortest_spatial_edges(set_A, set_B, edges_needed);
-        
-        if (new_edges.empty()) {
- //           std::cerr << "Warning: Could not find valid spatial edges to add" << std::endl;
-            // Relax spatial constraints and try again
-            max_edge_length_ratio *= 2.0;
-  //          std::cout << "Relaxing spatial constraints to ratio " << max_edge_length_ratio << std::endl;
-            new_edges = find_shortest_spatial_edges(set_A, set_B, edges_needed);
+        for (size_t i = 0; i < refined_distances.size() && 
+             final_edges.size() < static_cast<size_t>(num_edges_needed); ++i) {
             
-            if (new_edges.empty()) {
-//                std::cerr << "Error: Still no valid edges found even with relaxed constraints" << std::endl;
-                return augmentation_edges;
+            int u = std::get<1>(refined_distances[i]);
+            int v = std::get<2>(refined_distances[i]);
+            std::pair<int,int> edge = std::make_pair(std::min(u,v), std::max(u,v));
+            
+            if (added.find(edge) == added.end()) {
+                final_edges.push_back(std::make_pair(u, v));
+                added.insert(edge);
             }
         }
         
-        // Add edges to graph and result
-        for (const auto& edge : new_edges) {
-            add_edge_to_graph(edge.first, edge.second);
-            augmentation_edges.push_back(edge);
-        }
-        
- //       std::cout << "Added " << augmentation_edges.size() << " artificial edges total" << std::endl;
- //       std::cout << "Target k-edge connectivity achieved in single iteration!" << std::endl;
-        
-        return augmentation_edges;
+        return final_edges;
     }
     
-private:
+    std::vector<std::pair<int,int>> find_with_expanded_search(
+        const std::vector<int>& set_A, const std::vector<int>& set_B, int num_edges_needed) {
+        
+        size_t sample_size = std::min(static_cast<size_t>(1000), std::min(set_A.size(), set_B.size()));
+        
+        std::mt19937 gen(42);
+        
+        std::vector<int> sample_A = sample_vector(set_A, sample_size, gen);
+        std::vector<int> sample_B = sample_vector(set_B, sample_size, gen);
+        
+        std::vector<std::tuple<double, int, int>> distances;
+        
+        // Compute ALL distances - no spatial constraint
+        for (size_t i = 0; i < sample_A.size(); ++i) {
+            for (size_t j = 0; j < sample_B.size(); ++j) {
+                int u = sample_A[i];
+                int v = sample_B[j];
+                double dist = compute_distance(u, v);
+                distances.push_back(std::make_tuple(dist, u, v));
+            }
+        }
+        
+        size_t k = std::min(distances.size(), static_cast<size_t>(num_edges_needed * 2));
+        std::partial_sort(distances.begin(), distances.begin() + k, distances.end());
+        
+        std::vector<std::pair<int,int>> edges;
+        edges.reserve(num_edges_needed*2);
+        std::unordered_set<std::pair<int,int>, PairHash> added;
+        
+        for (size_t i = 0; i < k && edges.size() < static_cast<size_t>(num_edges_needed); ++i) {
+            int u = std::get<1>(distances[i]);
+            int v = std::get<2>(distances[i]);
+            std::pair<int,int> edge = std::make_pair(std::min(u,v), std::max(u,v));
+            
+            if (added.find(edge) == added.end()) {
+                edges.push_back(std::make_pair(u, v));
+                added.insert(edge);
+            }
+        }
+        
+        return edges;
+    }
+    
+    std::vector<std::pair<int,int>> find_shortest_spatial_edges(
+        const std::vector<int>& set_A, 
+        const std::vector<int>& set_B, 
+        int num_edges_needed) {
+        
+        // Stage 1: Coarse sampling (200x200)
+        std::vector<std::pair<int,int>> candidates = find_initial_candidates(set_A, set_B, num_edges_needed);
+        
+        if (candidates.size() >= static_cast<size_t>(num_edges_needed)) {
+            return refine_candidates(set_A, set_B, candidates, num_edges_needed);
+        }
+        
+        return find_with_expanded_search(set_A, set_B, num_edges_needed);
+    }
+    
+    // ==================== COMPONENT CONNECTION METHODS ====================
+    
     // Connect disconnected components using shortest spatial distances
     std::vector<std::pair<int,int>> connect_components_spatially(
         const std::vector<std::vector<int>>& components) {
         
         std::vector<std::pair<int,int>> edges;
+        edges.reserve(components.size() - 1); 
         std::vector<std::vector<int>> remaining_components = components;
-        std::random_device rd;
         std::mt19937 gen(42);
- 
         
         // Connect components in minimum spanning tree fashion
         while (remaining_components.size() > 1) {
@@ -784,7 +652,7 @@ private:
             int best_comp1 = -1, best_comp2 = -1;
             int best_u = -1, best_v = -1;
             
-            // find the largest component to sample
+            // Find the largest component to sample
             size_t largest_component_size = 0;
             size_t largest_component_index = 0;
             for(size_t i = 0; i < remaining_components.size(); ++i) {
@@ -794,17 +662,15 @@ private:
                 }
             }
 
-
-            // Find closest pair of components
-            //for (size_t i = 0; i < remaining_components.size(); ++i) {
+            // Find closest pair of components using largest component for sampling 
             {
-                size_t i = largest_component_index; // Use largest component for sampling 
+                size_t i = largest_component_index;
                 std::vector<int> sample_i = sample_vector(remaining_components[i], 1000, gen);
                 for (size_t j = i + 1; j < remaining_components.size(); ++j) {
                     std::vector<int> sample_j = sample_vector(remaining_components[j], 100, gen);
                     for (int u : sample_i) {
                         for (int v : sample_j) {
-                            double dist = compute_distance(coordinates, u, v);
+                            double dist = compute_distance(u, v);
                             if (dist < min_distance) {
                                 min_distance = dist;
                                 best_comp1 = i; best_comp2 = j;
@@ -841,6 +707,76 @@ private:
         }
         
         return edges;
+    }
+
+public:
+    GraphConnectivityAugmentor(const std::vector<int>& xadj_input,
+                              const std::vector<int>& adjncy_input,
+                              const std::vector<float>& coords,
+                              double max_edge_ratio = 2.0) 
+        : num_vertices(xadj_input.size() - 1),
+          xadj(xadj_input),
+          adjncy(adjncy_input),
+          coordinates(coords),
+          max_edge_length_ratio(max_edge_ratio) {
+        
+        assert(coordinates.size() == 3 * num_vertices);
+        assert(xadj.size() == num_vertices + 1);
+    }
+    
+    // ==================== MAIN PUBLIC INTERFACE ====================
+    
+    // Main function: augment graph to achieve k-edge connectivity 
+    std::vector<std::pair<int,int>> augment_to_k_edge_connectivity(int k) {
+        std::vector<std::pair<int,int>> augmentation_edges;
+        
+        // Handle disconnected components first
+        auto components = find_connected_components();
+        if (components.size() > 1) {
+            auto component_edges = connect_components_spatially(components);
+            augmentation_edges.insert(augmentation_edges.end(), 
+                                    component_edges.begin(), component_edges.end());
+        }
+        
+        // Compute connectivity only once!
+        int current_connectivity = compute_edge_connectivity();
+        
+        if (current_connectivity >= k) {
+            return augmentation_edges;
+        }
+        
+        // Find minimum cut
+        std::pair<std::vector<int>, std::vector<int>> cut_result = find_minimum_cut();
+        std::vector<int> set_A = cut_result.first;
+        std::vector<int> set_B = cut_result.second;
+        
+        if (set_A.empty() || set_B.empty()) {
+            return augmentation_edges;
+        }
+        
+        // Determine how many edges to add
+        int edges_needed = k - current_connectivity;
+        
+        // Find shortest spatial edges across the cut
+        auto new_edges = find_shortest_spatial_edges(set_A, set_B, edges_needed);
+        
+        if (new_edges.empty()) {
+            // Relax spatial constraints and try again
+            max_edge_length_ratio *= 2.0;
+            new_edges = find_shortest_spatial_edges(set_A, set_B, edges_needed);
+            
+            if (new_edges.empty()) {
+                return augmentation_edges;
+            }
+        }
+        
+        // Add edges to graph and result
+        for (const auto& edge : new_edges) {
+            add_edge_to_graph(edge.first, edge.second);
+            augmentation_edges.push_back(edge);
+        }
+        
+        return augmentation_edges;
     }
 };
 
