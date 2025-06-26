@@ -257,7 +257,7 @@ C-----------------------------------------------
       INTEGER JLT, NEDGE,NISKYFIE,NIN,NOINT,
      +        CS_LOC(*),ISKY(*),
      +        N1(*),N2(*),M1(*),M2(*)
-      INTEGER , INTENT(IN) :: TAGIP(MVSIZ)
+      INTEGER , INTENT(IN) :: TAGIP(4*MVSIZ)
       my_real
      .        HS1(*),HS2(*),HM1(*),HM2(*),
      .        FX1(*),FY1(*),FZ1(*),
@@ -431,7 +431,7 @@ C-----------------------------------------------
      .        K1(*),K2(*),K3(*),K4(*),
      .        C1(*),C2(*),C3(*),C4(*),
      .        FSKYI(LSKYI,NFSKYI), PENE(*)
-      INTEGER , INTENT(IN) :: TAGIP(MVSIZ)
+      INTEGER , INTENT(IN) :: TAGIP(4*MVSIZ)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
