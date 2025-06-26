@@ -1658,9 +1658,11 @@
             &tf  ,tt,uparam0,rho0,&
             &ep1 ,ep2 ,ep3 ,ep4  ,ep5  ,ep6 ,&
             &es1 ,es2 ,es3 ,es4  ,es5  ,es6 ,&
+            &so1 ,so2 ,so3 ,so4  ,so5  ,so6 ,&
             &s1  ,s2  ,s3  ,s4   ,s5   ,s6  ,&
             &ssp ,vis ,uvar,nvartmp,vartmp ,ismstr,&
-            &israte,asrate, gbuf%off ,ihet ,et ,epsd  )
+            &israte,asrate, gbuf%off ,ihet ,et ,epsd ,&
+            &off ,ngl  )
 !
           elseif (mtn == 92) then
             call sigeps92(nel ,npar,nuvar,nfunc,ifunc,&
