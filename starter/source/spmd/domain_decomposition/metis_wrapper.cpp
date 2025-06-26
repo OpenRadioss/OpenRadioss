@@ -295,8 +295,8 @@ extern "C"
         // Number of trials with different random seeds
         int num_trials = 2; // Adjust as needed
         // cap num trials by ncond
-        num_trials = std::min(num_trials, ncond);
-        std::cout<<"num_trials: "<<num_trials<<" ncond: "<<ncond<<std::endl;
+        num_trials = std::min(num_trials, ncond-1);
+        num_trials = std::max(num_trials, 1);
 
         // Create copies of XADJ and ADJNCY as vectors
         std::vector<int> xadj(XADJ, XADJ + *NELEM + 1);             // XADJ has nelem+1 elements
@@ -398,6 +398,11 @@ extern "C"
                     best_ierr = IERR1;
                     memcpy(best_cep, temp_cep, *NELEM * sizeof(int));
                 }
+                // if weight balance is below 0.5, then we exit early, because KWAY will not work
+                if (quality_pair.first < 0.5f)
+                {
+                    break; // Exit early if quality is too low
+                }
             }
         }
 
@@ -444,7 +449,10 @@ extern "C"
         int npart = *NNODE;
         int nelem = *NELEM;
         // Number of trials with different random seeds
-        const int num_trials = 1; // Adjust as needed
+        int num_trials = 2; // Adjust as needed
+        num_trials = std::min(num_trials, ncond-1);
+        num_trials = std::max(num_trials, 1);
+
 
         // Create copies of XADJ and ADJNCY as vectors
         std::vector<int> xadj(XADJ, XADJ + *NELEM + 1);             // XADJ has nelem+1 elements
@@ -507,8 +515,9 @@ extern "C"
         //        relax_balance_constraints(ubvec, NCOND);
         //    }
 
-        for (int trial = 0; trial < num_trials; trial++)
+
         {
+            const int trial = 1; // For METIS_PartGraphRecursive, we only run one trial
             // Copy original options
             memcpy(temp_options, OPTIONS, 40 * sizeof(int));
 
