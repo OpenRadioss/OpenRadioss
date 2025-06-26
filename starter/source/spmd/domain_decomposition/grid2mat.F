@@ -87,6 +87,7 @@ C-----------------------------------------------
       USE INTER_CAND_MOD
       USE MATPARAM_DEF_MOD
       USE FORMAT_MOD , ONLY : FMW_A_I
+      USE METIS_WRAPPER_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -189,9 +190,9 @@ C-----------------------------------------------
       DOUBLE PRECISION :: WS, WD_MAX,WD_MAX0
 C metis5 null pointers
 
-      INTEGER METIS_PartGraphKway, METIS_PartGraphRecursive,
-     .        METIS_SetDefaultOptions,Wrap_METIS_PartGraphKway,
-     .        WRAP_METIS_PARTGRAPHRECURSIVE
+!     INTEGER METIS_PartGraphKway, METIS_PartGraphRecursive,
+!    .        METIS_SetDefaultOptions,Wrap_METIS_PartGraphKway,
+!    .        WRAP_METIS_PARTGRAPHRECURSIVE
       INTEGER NNO,NNS,NTG,NNI,NTGT,NTGI
       INTEGER NELMIN
       INTEGER NFVMBAG,NB_FVMBAG_TRIM,DD_FVMBAG_TRY
@@ -205,7 +206,7 @@ C metis5 null pointers
 
       INTEGER (kind=8) :: NEDGES_8
       INTEGER :: CLUSTER_TYP,OFFSET_CLUSTER
-      my_real, DIMENSION(:,:), ALLOCATABLE :: COORDS
+      REAL, DIMENSION(:,:), ALLOCATABLE :: COORDS
       my_real, DIMENSION(:), ALLOCATABLE :: MIN_DIST
       my_real :: DIST
       my_real :: XMIN(3),XMAX(3)
@@ -232,9 +233,9 @@ C ---- statistics for edges added for contact interface
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
-      EXTERNAL METIS_PartGraphKway, METIS_PartGraphRecursive,
-     .         METIS_SetDefaultOptions,Wrap_METIS_PartGraphKway,
-     .         WRAP_METIS_PARTGRAPHRECURSIVE
+!     EXTERNAL METIS_PartGraphKway, METIS_PartGraphRecursive,
+!    .         METIS_SetDefaultOptions,Wrap_METIS_PartGraphKway,
+!    .         WRAP_METIS_PARTGRAPHRECURSIVE
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
@@ -1782,6 +1783,7 @@ C distance between the current root, and its closest neighbor
         DEALLOCATE(MIN_DIST)
         DEALLOCATE(COORDS)
         DEALLOCATE(INDEX_SORT,ISORT)
+
 C ================================================================
 C       WRITE(6,*) "STATISTIC ON CONTACT INTERFACE"
 C       WRITE(6,"(6(A,X,I10))") " added:",number_of_added_edges,
@@ -1803,7 +1805,6 @@ C
         NEDGES_8 = NEDGES_8 / 2
       ENDIF
 
-      IF(ALLOCATED(TAGELEM)) DEALLOCATE(TAGELEM)
 
 
 !   ----------------------------------------------------------------
@@ -1917,8 +1918,8 @@ C Determine connectivity components
         IF(ALLOCATED(ROOTS)) DEALLOCATE(ROOTS)
         ALLOCATE(COLORS(NELEM+1),STAT=IERR1)
         ALLOCATE(ROOTS(NELEM),STAT=IERR1)
-        CALL DD_BFS(XADJ,ADJNCY,NELEM,NEDGES,NCONNX,COLORS,ROOTS)
-        IF(NCONNX > 1) THEN
+!       CALL DD_BFS(XADJ,ADJNCY,NELEM,NEDGES,NCONNX,COLORS,ROOTS)
+        IF(.FALSE.) THEN
           WRITE(IOUT,'(A,I8)')
      .  ' NUMBER OF DISCONNECTED COMPONENTS FIXED FOR DOMAIN DECOMP:'
      .  ,NCONNX
@@ -2017,13 +2018,14 @@ C 2) recompute connexity to verify it is ok now
 C old metis option kept for compatibility
         OPTIONS(1)=0
 C new Metis5 Definition
-        IERROR = METIS_SetDefaultOptions(options)
+        IERROR = wrap_METIS_SetDefaultOptions(options)
 c         DO I = 1, 40
 c           OPTIONS(I) = -1
 c         END DO
 C        OPTIONS(METIS_OPTION_NUMBERING) = 1 ! Fortran numbering -- position 17 en 5.0.2 et 18 en 5.1
 
          OPTIONS(18)=1
+!        OPTIONS(12)=1
 !         OPTIONS(8) = 3  ! METIS NCUTS options
 
 C        OPTIONS(METIS OPTION CONTIG) = 1 ! Option for contiguous sub domains
@@ -2144,6 +2146,26 @@ C
 c        i=0
 c        call METIS_EstimateMemory(NELEM,XADJ,ADJNCY,0,2,I)
 c        print *,'estimate memory=',i,nelem,XADJ(NELEM+1)
+        ALLOCATE(COORDS(3,NELEM),STAT=IERR1)
+        DO I = 1,NELEM
+
+          CALL FIND_NODES(I   ,ELEMNODES,TAGELEM,IXS,IXS10,
+     1                    IXQ   ,IXC      ,IXT    ,IXP,IXR,
+     2                    IXTG  ,KXX    ,IXX,KXIG3D,
+     3                    IXIG3D,GEO      ,OFFELEM,NELMIN)
+
+          IF(ELEMNODES(1) /= 0) THEN
+           COORDS(1:3,I) = X(1:3,ELEMNODES(1))
+          ELSE
+           COORDS(1:3,I) = -HUGE(COORDS(1,I))
+          ENDIF
+        ENDDO
+        IF(ALLOCATED(TAGELEM)) DEALLOCATE(TAGELEM)
+
+
+
+
+
  1999    CONTINUE
          IF(DECTYP==3.OR.DECTYP==5)THEN
 C KWAY METIS
@@ -2151,7 +2173,7 @@ C KWAY METIS
           IERR1 = Wrap_METIS_PartGraphKway(
      1      NELEM,NCOND,XADJ,ADJNCY,
      2      IWD,NNODE,
-     3      UBVEC,OPTIONS,NEC,CEP)
+     3      UBVEC,OPTIONS,NEC,CEP,COORDS)
           IDB_METIS = 0
 
           IF(IDB_METIS == 1) THEN
@@ -2174,7 +2196,7 @@ C RSB METIS
           IERR1 = Wrap_METIS_PartGraphRecursive(
      1      NELEM,NCOND,XADJ,ADJNCY,
      2      IWD,NNODE,
-     3      UBVEC,OPTIONS,NEC,CEP)
+     3      UBVEC,OPTIONS,NEC,CEP,COORDS)
         END IF
             CALL STAT_DOMDEC(
      1           WIS      ,WI2     ,WFSI      ,WDEL      ,WDDL     ,
@@ -2333,7 +2355,7 @@ C  KWAY METIS
             IERR1 = WRAP_METIS_PartGraphKway(
      1      NELEM,NCOND2,XADJ,ADJNCY,
      2      IWD2,NNODE,
-     3      UBVEC,OPTIONS,NEC,CEP)    
+     3      UBVEC,OPTIONS,NEC,CEP,COORDS)    
             CALL STAT_DOMDEC(
      1           WIS      ,WI2     ,WFSI      ,WDEL      ,WDDL     ,
      2           WCAND    ,WSOL    ,WR2R      ,WKIN      ,IWD      ,
@@ -2363,7 +2385,7 @@ C  RSB METIS
               IERR1 = WRAP_METIS_PartGraphRecursive(
      1        NELEM,NCOND2,XADJ,ADJNCY,
      2        IWD2,NNODE,
-     3        UBVEC,OPTIONS,NEC,CEP)
+     3        UBVEC,OPTIONS,NEC,CEP,COORDS)
               CALL STAT_DOMDEC(
      1             WIS      ,WI2     ,WFSI      ,WDEL      ,WDDL     ,
      2             WCAND    ,WSOL    ,WR2R      ,WKIN      ,IWD      ,
@@ -2620,6 +2642,7 @@ C
      .                     SPH2SOL, CEP)
 
         USE FORMAT_MOD , ONLY : FMW_A_I
+        USE METIS_WRAPPER_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -2652,15 +2675,16 @@ C-----------------------------------------------
 C metis5 null pointers
       INTEGER, POINTER :: adjwgt(:)=>null(),vsize(:)=>null()
       REAL, POINTER :: tpwgts(:)=>null()
-      INTEGER METIS_PartGraphKway, METIS_PartGraphRecursive,
-     .        METIS_SetDefaultOptions,Wrap_METIS_PartGraphKway,
-     .        Wrap_METIS_PartGraphRecursive
-C-----------------------------------------------
-C   E x t e r n a l   F u n c t i o n s
-C-----------------------------------------------
-      EXTERNAL METIS_PartGraphKway, METIS_PartGraphRecursive,
-     .         METIS_SetDefaultOptions,Wrap_METIS_PartGraphKway,
-     .         Wrap_METIS_PartGraphRecursive
+      REAL, DIMENSION(:,:), ALLOCATABLE :: COORDS
+!     INTEGER METIS_PartGraphKway, METIS_PartGraphRecursive,
+!    .        METIS_SetDefaultOptions,Wrap_METIS_PartGraphKway,
+!    .        Wrap_METIS_PartGraphRecursive
+!-----------------------------------------------
+!   E x t e r n a l   F u n c t i o n s
+!-----------------------------------------------
+!     EXTERNAL METIS_PartGraphKway, METIS_PartGraphRecursive,
+!    .         METIS_SetDefaultOptions,Wrap_METIS_PartGraphKway,
+!    .         Wrap_METIS_PartGraphRecursive
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
@@ -2798,9 +2822,11 @@ C old metis option kept for compatibility
       NNODE=NSPMD
       UBVEC(1)=1.01 ! tolerance on loadbalancing SPH cell
 C new Metis5 Definition
-      IERR1 = METIS_SetDefaultOptions(options)
+      IERR1 = wrap_METIS_SetDefaultOptions(options)
 C     OPTIONS(METIS_OPTION_NUMBERING) = 1 ! Fortran numbering -- position 17 en 5.0.2 et 18 en 5.1
       OPTIONS(18)=1
+      ALLOCATE(COORDS(NUMSPHA,3),STAT=IERR1)
+      COORDS = 0.0
 C
 C Proc attribution on NUMSPA cells
 C
@@ -2810,13 +2836,13 @@ C KWAY METIS
           IERR1 = Wrap_METIS_PartGraphKway(
      1      NUMSPHA,NCOND,XADJ,ADJNCY,
      2      IWD,NNODE,
-     3      UBVEC,OPTIONS,NEC,CEPSL)
+     3      UBVEC,OPTIONS,NEC,CEPSL,COORDS)
         ELSEIF(DECTYP==4.OR.DECTYP==6)THEN
 C RSB METIS
           IERR1 = Wrap_METIS_PartGraphRecursive(
      1      NUMSPHA,NCOND,XADJ,ADJNCY,
      2      IWD,NNODE,
-     3      UBVEC,OPTIONS,NEC,CEPSL)
+     3      UBVEC,OPTIONS,NEC,CEPSL,COORDS)
         END IF
 C
         DO N = 1, NUMSPHA
