@@ -92,7 +92,7 @@
         integer :: nsn,nmn,nty,nrtm
         integer :: nb_cell_x,nb_cell_y,nb_cell_z        
         integer :: type7_nb,inacti,my_size
-        integer :: itask
+        integer :: itask,local_comp_nb
         integer, dimension(ninter) :: type7_list
         my_real, dimension(6) :: box_limit
         integer, dimension(:), allocatable :: s_node_color,m_node_color
@@ -190,9 +190,12 @@
               component(i)%total_m_remote_comp_nb = component(i)%total_m_remote_comp_nb + my_size
               allocate(component(i)%proc_comp(k)%remote_m_comp(6,my_size))
 
+              local_comp_nb = component(i)%s_comp_nb + component(i)%m_comp_nb
               my_size = component(i)%proc_comp(k)%remote_s_comp_nb + component(i)%proc_comp(k)%remote_m_comp_nb
-              if(my_size>0) component(i)%proc_comp(k)%need_comm0 = .true.         
               allocate(component(i)%proc_comp(k)%remote_comp(6*my_size))
+              if(local_comp_nb>0) then
+                if(my_size>0) component(i)%proc_comp(k)%need_comm0 = .true.         
+              endif
             enddo
           endif
         enddo

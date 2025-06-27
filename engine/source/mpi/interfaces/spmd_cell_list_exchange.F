@@ -226,11 +226,6 @@ C-----------------------------------------------
               endif
             enddo
 
-            IF(.NOT.ALLOCATED(SORT_COMM(NIN)%RCV_SIZE_CELL)) THEN
-                SIZE_ = SORT_COMM(NIN)%PROC_NUMBER
-                ALLOCATE(SORT_COMM(NIN)%RCV_SIZE_CELL(SIZE_))
-            ENDIF
-
             IF(.NOT.ALLOCATED(SORT_COMM(NIN)%SEND_DISPLS_CELL)) THEN
                 SIZE_ = SORT_COMM(NIN)%PROC_NUMBER
                 ALLOCATE(SORT_COMM(NIN)%SEND_DISPLS_CELL(SIZE_))
@@ -253,12 +248,13 @@ C-----------------------------------------------
             !   wait the previous comm
             SORT_COMM(NIN)%NB_REQUEST_CELL_SEND = 0
             SORT_COMM(NIN)%NB_REQUEST_CELL_RCV = 0
+            IF(.NOT.ALLOCATED(SORT_COMM(NIN)%RCV_SIZE_CELL)) THEN
+              SIZE_ = SORT_COMM(NIN)%PROC_NUMBER
+              ALLOCATE(SORT_COMM(NIN)%RCV_SIZE_CELL(SIZE_))
+            ENDIF
             SORT_COMM(NIN)%RCV_SIZE_CELL(:) = 0
 
             IF(IRCVFROM(NIN,LOC_PROC)==0.AND.ISENDTO(NIN,LOC_PROC)==0) RETURN
-
-            IF(IRCVFROM(NIN,LOC_PROC)==0.AND.ISENDTO(NIN,LOC_PROC)==0) RETURN !CYCLE
-            SORT_COMM(NIN)%RCV_SIZE_CELL(:) = 0
 
             IF(.NOT.ALLOCATED(SORT_COMM(NIN)%REQUEST_CELL_SEND)) THEN
                 ALLOCATE(SORT_COMM(NIN)%REQUEST_CELL_SEND(SORT_COMM(NIN)%PROC_NUMBER))
