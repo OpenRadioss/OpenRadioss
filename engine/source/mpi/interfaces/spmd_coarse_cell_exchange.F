@@ -22,8 +22,6 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
       !||    spmd_coarse_cell_exchange   ../engine/source/mpi/interfaces/spmd_coarse_cell_exchange.F
-      !||--- called by ------------------------------------------------------
-      !||    inter_prepare_sort          ../engine/source/interfaces/generic/inter_prepare_sort.F
       !||--- calls      -----------------------------------------------------
       !||    check_coarse_grid           ../engine/source/interfaces/generic/check_coarse_grid.F
       !||    spmd_ialltoallv_int         ../engine/source/mpi/generic/spmd_ialltoallv_int.F

@@ -20,6 +20,11 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+      !||====================================================================
+      !||    inter_init_component_mod   ../engine/source/interfaces/generic/inter_init_component.F90
+      !||--- called by ------------------------------------------------------
+      !||    resol                      ../engine/source/engine/resol.F
+      !||====================================================================
       module inter_init_component_mod
       contains
 ! ======================================================================================================================
@@ -27,6 +32,25 @@
 ! ======================================================================================================================
 !! \brief Here is a small description of the routine, [after the header]
 !! \details if needed, more details can be added here
+      !||====================================================================
+      !||    inter_init_component            ../engine/source/interfaces/generic/inter_init_component.F90
+      !||--- called by ------------------------------------------------------
+      !||    resol                           ../engine/source/engine/resol.F
+      !||--- calls      -----------------------------------------------------
+      !||    inter_box_creation              ../engine/source/interfaces/generic/inter_box_creation.F
+      !||    inter_init_component_list       ../engine/source/interfaces/generic/inter_init_component_list.F90
+      !||    inter_init_node_color           ../engine/source/interfaces/generic/inter_init_node_color.F90
+      !||    inter_minmax_node               ../engine/source/interfaces/generic/inter_minmax_node.F
+      !||    omp_get_thread_num              ../engine/source/engine/openmp_stub.F90
+      !||    spmd_box_limit_reduction        ../engine/source/mpi/interfaces/spmd_box_limit_reduction.F
+      !||--- uses       -----------------------------------------------------
+      !||    constant_mod                    ../common_source/modules/constant_mod.F
+      !||    intbufdef_mod                   ../common_source/modules/interfaces/intbufdef_mod.F90
+      !||    inter_init_component_list_mod   ../engine/source/interfaces/generic/inter_init_component_list.F90
+      !||    inter_init_node_color_mod       ../engine/source/interfaces/generic/inter_init_node_color.F90
+      !||    inter_sorting_mod               ../engine/share/modules/inter_sorting_mod.F
+      !||    spmd_mod                        ../engine/source/mpi/spmd_mod.F90
+      !||====================================================================
         subroutine inter_init_component(ninter,npari,numnod,ispmd,nspmd, &
                                         ipari,x,intbuf_tab,component)
 ! ----------------------------------------------------------------------------------------------------------------------

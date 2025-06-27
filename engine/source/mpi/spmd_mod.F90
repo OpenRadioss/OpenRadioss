@@ -26,6 +26,7 @@
       !||    check_ale_comm                  ../engine/source/ale/check_ale_comm.F
       !||    check_nan_acc                   ../engine/source/output/outfile/check_nan_acc.F
       !||    init_global_frontier_monvol     ../engine/source/airbag/init_global_monvol_frontier.F90
+      !||    inter_init_component            ../engine/source/interfaces/generic/inter_init_component.F90
       !||    inttri                          ../engine/source/interfaces/intsort/inttri.F
       !||    python_element_init             ../engine/source/mpi/python_spmd_mod.F90
       !||    python_element_sync             ../engine/source/mpi/python_spmd_mod.F90
@@ -43,6 +44,7 @@
       !||    spmd_anim_ply_init              ../engine/source/mpi/anim/spmd_anim_ply_init.F
       !||    spmd_anim_ply_xyznod            ../engine/source/mpi/anim/spmd_anim_ply_xyznod.F
       !||    spmd_box_limit_reduction        ../engine/source/mpi/interfaces/spmd_box_limit_reduction.F
+      !||    spmd_cell_list_exchange         ../engine/source/mpi/interfaces/spmd_cell_list_exchange.F
       !||    spmd_e1vois                     ../engine/source/mpi/fluid/spmd_cfd.F
       !||    spmd_e4vois                     ../engine/source/mpi/fluid/spmd_cfd.F
       !||    spmd_e6vois                     ../engine/source/mpi/fluid/spmd_cfd.F
@@ -60,6 +62,7 @@
       !||    spmd_exch_nodnx                 ../engine/source/mpi/ams/spmd_exch_nodnx.F
       !||    spmd_exch_sms                   ../engine/source/mpi/ams/spmd_exch_sms.F
       !||    spmd_exch_sms6                  ../engine/source/mpi/ams/spmd_exch_sms6.F
+      !||    spmd_exchange_component         ../engine/source/mpi/interfaces/spmd_exch_component.F90
       !||    spmd_extag                      ../engine/source/mpi/fluid/spmd_cfd.F
       !||    spmd_fi_sms                     ../engine/source/mpi/ams/spmd_fi_sms.F
       !||    spmd_fvb_switch                 ../engine/source/mpi/airbags/spmd_fvb_switch.F
@@ -979,6 +982,7 @@
       !||====================================================================
       !||    spmd_waitany                  ../engine/source/mpi/spmd_mod.F90
       !||--- called by ------------------------------------------------------
+      !||    spmd_cell_list_exchange       ../engine/source/mpi/interfaces/spmd_cell_list_exchange.F
       !||    spmd_e1vois                   ../engine/source/mpi/fluid/spmd_cfd.F
       !||    spmd_e4vois                   ../engine/source/mpi/fluid/spmd_cfd.F
       !||    spmd_e6vois                   ../engine/source/mpi/fluid/spmd_cfd.F
@@ -986,6 +990,7 @@
       !||    spmd_evois                    ../engine/source/mpi/fluid/spmd_cfd.F
       !||    spmd_exalew_pon               ../engine/source/mpi/fluid/spmd_cfd.F
       !||    spmd_exch_neighbour_segment   ../engine/source/mpi/interfaces/spmd_exch_neighbour_segment.F90
+      !||    spmd_exchange_component       ../engine/source/mpi/interfaces/spmd_exch_component.F90
       !||    spmd_i4vois                   ../engine/source/mpi/fluid/spmd_cfd.F
       !||    spmd_i8vois                   ../engine/source/mpi/fluid/spmd_cfd.F
       !||    spmd_l11vois                  ../engine/source/mpi/fluid/spmd_cfd.F

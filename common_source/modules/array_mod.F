@@ -38,6 +38,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    init_nodal_state                         ../engine/source/interfaces/interf/init_nodal_state.F
       !||    initia                                   ../starter/source/elements/initia/initia.F
       !||    int18_alloc                              ../engine/source/interfaces/int18/int18_alloc.F
+      !||    inter_init_node_color                    ../engine/source/interfaces/generic/inter_init_node_color.F90
       !||    inter_save_candidate                     ../starter/source/interfaces/inter3d1/inter_save_candidate.F90
       !||    intfop2                                  ../engine/source/interfaces/interf/intfop2.F
       !||    resol                                    ../engine/source/engine/resol.F
@@ -117,7 +118,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
             END SUBROUTINE 
 
       !||====================================================================
-      !||    alloc_int_1d_array   ../common_source/modules/array_mod.F
+      !||    alloc_int_1d_array      ../common_source/modules/array_mod.F
+      !||--- called by ------------------------------------------------------
+      !||    inter_init_node_color   ../engine/source/interfaces/generic/inter_init_node_color.F90
       !||====================================================================
             SUBROUTINE ALLOC_INT_1D_ARRAY(THIS)
             IMPLICIT NONE

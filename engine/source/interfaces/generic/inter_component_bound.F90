@@ -20,6 +20,11 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+      !||====================================================================
+      !||    inter_component_bound_mod   ../engine/source/interfaces/generic/inter_component_bound.F90
+      !||--- called by ------------------------------------------------------
+      !||    inter_prepare_sort          ../engine/source/interfaces/generic/inter_prepare_sort.F
+      !||====================================================================
       module inter_component_bound_mod
       contains
 ! ======================================================================================================================
@@ -27,6 +32,14 @@
 ! ======================================================================================================================
 !! \brief Here is a small description of the routine, [after the header]
 !! \details if needed, more details can be added here
+      !||====================================================================
+      !||    inter_component_bound   ../engine/source/interfaces/generic/inter_component_bound.F90
+      !||--- called by ------------------------------------------------------
+      !||    inter_prepare_sort      ../engine/source/interfaces/generic/inter_prepare_sort.F
+      !||--- uses       -----------------------------------------------------
+      !||    constant_mod            ../common_source/modules/constant_mod.F
+      !||    inter_sorting_mod       ../engine/share/modules/inter_sorting_mod.F
+      !||====================================================================
         subroutine inter_component_bound(numnod,tzinf,curv,x,component)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules

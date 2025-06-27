@@ -24,10 +24,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||====================================================================
       !||    spmd_box_limit_reduction   ../engine/source/mpi/interfaces/spmd_box_limit_reduction.F
       !||--- called by ------------------------------------------------------
+      !||    inter_init_component       ../engine/source/interfaces/generic/inter_init_component.F90
       !||    inter_prepare_sort         ../engine/source/interfaces/generic/inter_prepare_sort.F
       !||--- calls      -----------------------------------------------------
       !||--- uses       -----------------------------------------------------
-      !||    inter_sorting_mod          ../engine/share/modules/inter_sorting_mod.F
       !||    inter_struct_mod           ../engine/share/modules/inter_struct_mod.F
       !||    spmd_mod                   ../engine/source/mpi/spmd_mod.F90
       !||====================================================================

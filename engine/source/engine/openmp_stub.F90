@@ -63,6 +63,7 @@
       !||    imp_glob_khp            ../engine/source/implicit/imp_glob_k.F
       !||    imp_smpini              ../engine/source/implicit/imp_solv.F
       !||    inixfem                 ../engine/source/elements/xfem/inixfem.F
+      !||    inter_init_component    ../engine/source/interfaces/generic/inter_init_component.F90
       !||    lin_solv                ../engine/source/implicit/lin_solv.F
       !||    lin_solvh0              ../engine/source/implicit/lin_solv.F
       !||    lin_solvh1              ../engine/source/implicit/lin_solv.F

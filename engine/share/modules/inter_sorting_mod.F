@@ -29,9 +29,11 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    inter_cell_color               ../engine/source/interfaces/generic/inter_cell_color.F
       !||    inter_color_coarse_voxel       ../engine/source/interfaces/generic/inter_color_coarse_voxel.F
       !||    inter_color_voxel              ../engine/source/interfaces/generic/inter_color_voxel.F
+      !||    inter_component_bound          ../engine/source/interfaces/generic/inter_component_bound.F90
       !||    inter_count_node_curv          ../engine/source/interfaces/generic/inter_count_node_curv.F
       !||    inter_deallocate_wait          ../engine/source/interfaces/generic/inter_deallocate_wait.F
-      !||    inter_minmax_node              ../engine/source/interfaces/generic/inter_minmax_node.F
+      !||    inter_init_component           ../engine/source/interfaces/generic/inter_init_component.F90
+      !||    inter_init_component_list      ../engine/source/interfaces/generic/inter_init_component_list.F90
       !||    inter_prepare_sort             ../engine/source/interfaces/generic/inter_prepare_sort.F
       !||    inter_sort                     ../engine/source/interfaces/generic/inter_sort.F
       !||    inter_sort_07                  ../engine/source/interfaces/int07/inter_sort_07.F
@@ -41,13 +43,13 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    mpp_init                       ../engine/source/mpi/interfaces/spmd_i7tool.F
       !||    resol                          ../engine/source/engine/resol.F
       !||    resol_init                     ../engine/source/engine/resol_init.F
-      !||    spmd_box_limit_reduction       ../engine/source/mpi/interfaces/spmd_box_limit_reduction.F
       !||    spmd_cell_exchange             ../engine/source/mpi/generic/spmd_cell_exchange.F
       !||    spmd_cell_list_exchange        ../engine/source/mpi/interfaces/spmd_cell_list_exchange.F
       !||    spmd_cell_size_exchange        ../engine/source/mpi/interfaces/spmd_cell_size_exchange.F
       !||    spmd_cell_size_exchange_init   ../engine/source/mpi/interfaces/spmd_cell_size_exchange_init.F
       !||    spmd_cell_size_post_rcv        ../engine/source/mpi/interfaces/spmd_cell_size_post_rcv.F
       !||    spmd_coarse_cell_exchange      ../engine/source/mpi/interfaces/spmd_coarse_cell_exchange.F
+      !||    spmd_exchange_component        ../engine/source/mpi/interfaces/spmd_exch_component.F90
       !||    spmd_get_inacti_global         ../engine/source/mpi/interfaces/spmd_get_inacti_global.F
       !||    spmd_split_comm_inter          ../engine/source/mpi/interfaces/spmd_split_comm_inter.F
       !||    spmd_wait_nb                   ../engine/source/mpi/interfaces/spmd_wait_nb.F

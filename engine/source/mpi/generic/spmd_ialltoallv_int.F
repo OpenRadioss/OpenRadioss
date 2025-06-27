@@ -24,7 +24,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||====================================================================
       !||    spmd_ialltoallv_int         ../engine/source/mpi/generic/spmd_ialltoallv_int.F
       !||--- called by ------------------------------------------------------
-      !||    spmd_cell_list_exchange     ../engine/source/mpi/interfaces/spmd_cell_list_exchange.F
       !||    spmd_coarse_cell_exchange   ../engine/source/mpi/interfaces/spmd_coarse_cell_exchange.F
       !||    spmd_sphgat                 ../engine/source/mpi/sph/spmd_sphgat.F
       !||    spmd_sphgetv                ../engine/source/mpi/sph/spmd_sphgetv.F

@@ -791,6 +791,7 @@
       !||    inter_color_voxel                        ../engine/source/interfaces/generic/inter_color_voxel.F
       !||    inter_count_node_curv                    ../engine/source/interfaces/generic/inter_count_node_curv.F
       !||    inter_deallocate_wait                    ../engine/source/interfaces/generic/inter_deallocate_wait.F
+      !||    inter_init_component                     ../engine/source/interfaces/generic/inter_init_component.F90
       !||    inter_minmax_node                        ../engine/source/interfaces/generic/inter_minmax_node.F
       !||    inter_offset_itag                        ../starter/source/elements/shell/shell_offset/inter_offset_itag.F90
       !||    inter_prepare_sort                       ../engine/source/interfaces/generic/inter_prepare_sort.F

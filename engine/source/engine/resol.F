@@ -193,6 +193,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    int18_law151_omp_accumulation                ../engine/source/interfaces/int18/int18_law151_omp_accumulation.F
       !||    int18_law151_update                          ../engine/source/interfaces/int18/int18_law151_update.F
       !||    intal1                                       ../engine/source/ale/inter/intal1.F
+      !||    inter_init_component                         ../engine/source/interfaces/generic/inter_init_component.F90
       !||    inter_nodal_areas                            ../engine/source/output/inter_nodal_areas.F
       !||    inter_struct_init                            ../engine/source/interfaces/generic/inter_struct_init.F
       !||    intfop1                                      ../engine/source/interfaces/interf/intfop1.F
@@ -465,6 +466,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    inivel_dt2_mod                               ../engine/source/loads/general/inivel/inivel_dt2.F90
       !||    inivel_start_mod                             ../engine/source/loads/general/inivel/inivel_start.F90
       !||    intbufdef_mod                                ../common_source/modules/interfaces/intbufdef_mod.F90
+      !||    inter_init_component_mod                     ../engine/source/interfaces/generic/inter_init_component.F90
       !||    inter_sh_offset_mod                          ../engine/source/modules/interfaces/sh_offset_mod.F90
       !||    inter_sorting_mod                            ../engine/share/modules/inter_sorting_mod.F
       !||    inter_struct_mod                             ../engine/share/modules/inter_struct_mod.F

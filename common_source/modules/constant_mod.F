@@ -150,6 +150,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    inter7_collision_detection               ../engine/source/interfaces/intsort/inter7_collision_detection.F90
       !||    inter7_filter_cand                       ../engine/source/interfaces/intsort/inter7_filter_cand.F90
       !||    inter7_penetration                       ../engine/source/interfaces/intsort/inter7_penetration.F90
+      !||    inter_component_bound                    ../engine/source/interfaces/generic/inter_component_bound.F90
+      !||    inter_init_component                     ../engine/source/interfaces/generic/inter_init_component.F90
+      !||    inter_init_node_color                    ../engine/source/interfaces/generic/inter_init_node_color.F90
       !||    inter_save_candidate                     ../starter/source/interfaces/inter3d1/inter_save_candidate.F90
       !||    inter_sh_offset_ini                      ../engine/source/interfaces/shell_offset/inter_offset_ini.F90
       !||    jwl_eos_delta                            ../engine/source/materials/mat/mat041/jwl_eos_mod.F90
@@ -251,6 +254,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    spmd_exch_flow_tracking_data2            ../engine/source/ale/grid/spmd_exch_flow_tracking_data2.F90
       !||    spmd_exch_flow_tracking_data3            ../engine/source/ale/grid/spmd_exch_flow_tracking_data3.F90
       !||    spmd_exch_flow_tracking_data4            ../engine/source/ale/grid/spmd_exch_flow_tracking_data4.F90
+      !||    spmd_exchange_component                  ../engine/source/mpi/interfaces/spmd_exch_component.F90
       !||    spmd_update_frontier_int25               ../engine/source/mpi/interfaces/spmd_update_frontier_int25.F90
       !||    spmd_xv_inter_type1                      ../engine/source/mpi/nodes/spmd_sd_xv_inter1.F90
       !||    stifint_icontrol                         ../starter/source/interfaces/interf1/stifint_icontrol.F90
