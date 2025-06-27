@@ -67,7 +67,7 @@ C-----------------------------------------------
       my_real :: FUNC(NEL), DFUNC(NEL), ERROR(NEL), RHOZERO(NEL), RHO(NEL), 
      .           MU(NEL), MU2(NEL), ESPE(NEL), DVOL(NEL), DF(NEL), VOL(NEL), PSH(NEL), 
      .           DPDRHO(NEL), DPDM(NEL), DPDE(NEL), THETA(NEL), ECOLD(NEL), P0(NEL), 
-     .           GRUN(NEL),PREF(NEL), OFF(NEL), EINT(NEL), SIG(NEL,6), POLD(NEL),RHO_OLD,V0(NEL)
+     .           GRUN(NEL),PREF(NEL), OFF(NEL), EINT(NEL), SIG(NEL,6),RHO_OLD,V0(NEL)
 
       LOGICAL :: CONT, CONVERGED(NEL)
       TYPE(G_BUFEL_), POINTER :: GBUF
@@ -144,8 +144,7 @@ C IMAT : relevant for multifluid eos. imat=0 => monomaterial law
       !EINT=Eint/V in this context with law 151
       !===================================================================!
       !                     ITERATIONS                                    !
-      !===================================================================!
-      POLD(1:NEL)=PRES(1:NEL)   
+      !===================================================================! 
       REMAINING_ELTS = NEL                      !Number of elements for which convergence is not achieved 
       DO WHILE(CONT .AND. ITER < MAX_ITER)   !Start nonlinear solver loop
          ITER = ITER + 1
@@ -157,8 +156,8 @@ C IMAT : relevant for multifluid eos. imat=0 => monomaterial law
          CALL EOSMAIN(2     , NEL        , EOSTYPE  , PM     , OFF  , EINT,
      .                RHO   , RHOZERO    , MU       , MU2    , ESPE ,
      .                DVOL  , DF         , VOL      , MAT    , PSH  ,
-     .                PRES  , DPDM       , DPDE     , THETA  , ECOLD,
-     .                BUFMAT, SIG        , MU       , MLW    , POLD ,
+     .                PRES  , DPDM       , DPDE     , THETA  , 
+     .                BUFMAT, SIG        , MU       , MLW    , 
      .                NPF   , TF         , EBUF%VAR , NVAREOS, MAT_PARAM(MATID),
      .                BID  , NVARTMP_EOS, EBUF%VARTMP)
           DO K=1,NEL

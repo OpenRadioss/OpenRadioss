@@ -70,7 +70,7 @@
            iparg  ,ale_connect ,bufvois ,ipm     ,bufmat   ,stifn  , &
            vd2    ,vdx         ,vdy     ,vdz     , &
            qvis   ,ddvol       ,qqold   ,nv46    ,numgeo   ,n2d    ,&
-           numnod ,ngroup      ,nummat)
+           numnod ,ngroup      ,nummat  ,matparam,nvartmp  ,vartmp)
 ! ======================================================================================================================
 !                                                   Modules
 ! ======================================================================================================================
@@ -84,6 +84,8 @@
       use prop_param_mod , only : n_var_ipm, n_var_pm, n_var_geo, n_var_iparg
       use i22bufbric_mod , only : ninter22
       use precision_mod , only : WP
+      use granular51_mod , only : granular51
+      use matparam_def_mod , only : matparam_struct_
 !---------+---------+---+---+--------------------------------------------
 ! VAR     | SIZE    |TYP| RW| DEFINITION
 !---------+---------+---+---+--------------------------------------------
@@ -193,6 +195,9 @@
       real(kind=WP),intent(inout) :: uvar(nel,nuvar),qvis(nel),stifn(nel),vdx(nel),vdy(nel),vdz(nel),v(3,numnod)
       real(kind=WP),intent(in) :: off(nel)
       real(kind=WP),intent(inout) :: tburn(nel)
+      type(matparam_struct_),intent(in),dimension(nummat) :: matparam
+      integer ,intent(in) :: nvartmp                       !< number of temporary internal variables
+      integer ,dimension(nel,nvartmp) ,intent(inout) :: vartmp    !< temporary internal variables
 ! ======================================================================================================================
 !                                                   External
 ! ======================================================================================================================
@@ -214,7 +219,7 @@
       INTEGER :: SUBMAT_CODE
       INTEGER :: I,J,K,KK,ITER,NITER
       real(kind=WP) :: P,PEXT,WFEXTT, &
-              GG1,GG2,GG3, &
+              GG1(NEL),GG2(NEL),GG3(NEL), &
               C11,C12,C13,C21,C22,C23,C31,C32,C33,C41,C42,C43,C51,C52,C53, &
               AV1(nel),AV2(nel),AV3(nel),AV4(nel),RHO10,RHO20,RHO30,RHO40,RHO1,RHO2,RHO3,RHO4, &
               RHO0E1,RHO0E2,RHO0E3,RHO1OLD,RHO2OLD,RHO3OLD,RHO4OLD, &
@@ -387,9 +392,9 @@
       C52    = UPARAM(26)
       C53    = UPARAM(27)
 
-      GG1    = UPARAM(28)
-      GG2    = UPARAM(29)
-      GG3    = UPARAM(30)
+      GG1(1:NEL) = UPARAM(28)
+      GG2(1:NEL) = UPARAM(29)
+      GG3(1:NEL) = UPARAM(30)
 
       IOPT   = NINT(UPARAM(61))
       IEXP   = NINT(UPARAM(55))
@@ -598,6 +603,14 @@
                    UVAR   ,NUVAR      ,KK         ,RHO10   , &
                    C01    ,C11        ,C21        ,C31     ,PM1   ,PP    , &
                    OFF    ,PEXT       ,TIMESTEP   ,DE)
+           CASE (3)
+              CALL GRANULAR51 &
+                  (NEL    ,SIGD       ,VOL        ,EPSEQ1  , &
+                   DEPS   ,UPARAM(101),VOLUME     ,EINT0   , PLAS1, &
+                   UVAR   ,NUVAR      ,KK         ,RHO10   , &
+                   PM1    ,PP         ,GG1        , &
+                   OFF    ,PEXT       ,TIMESTEP   ,DE      ,NUMMAT, MATPARAM, &
+                   NVARTMP,VARTMP(1,1),VFRAC ) !vartmp(:,1) & vartmp(:,2) are used for material 1
         END SELECT
         DO I=1,NEL
 
@@ -654,6 +667,14 @@
                    UVAR   ,NUVAR      ,KK         ,RHO20   , &
                    C02    ,C12        ,C22        ,C32     ,PM2     ,PP    , &
                    OFF    ,PEXT       ,TIMESTEP   ,DE)
+           CASE (3)
+              CALL GRANULAR51 &
+                  (NEL    ,SIGD       ,VOL        ,EPSEQ2  , &
+                   DEPS   ,UPARAM(151),VOLUME     ,EINT0   , PLAS2, &
+                   UVAR   ,NUVAR      ,KK         ,RHO20   , &
+                   PM2    ,PP         ,GG2        , &
+                   OFF    ,PEXT       ,TIMESTEP   ,DE      ,NUMMAT , MATPARAM , &
+                   NVARTMP,VARTMP(1,3),VFRAC )   !vartmp(:,3) & vartmp(:,4) are used for material 2
         END SELECT
         DO I=1,NEL
          !inter22
@@ -707,6 +728,14 @@
                    UVAR   ,NUVAR       ,KK         ,RHO30   , &
                    C03    ,C13         ,C23        ,C33     ,PM3   ,PP    , &
                    OFF    ,PEXT        ,TIMESTEP   ,DE)
+           CASE (3)
+              CALL GRANULAR51 &
+                  (NEL    ,SIGD       ,VOL        ,EPSEQ3  , &
+                   DEPS   ,UPARAM(201),VOLUME     ,EINT0   , PLAS3, &
+                   UVAR   ,NUVAR      ,KK         ,RHO30   , &
+                   PM3    ,PP         ,GG3        , &
+                   OFF    ,PEXT       ,TIMESTEP   ,DE      ,NUMMAT , MATPARAM, &
+                   NVARTMP,VARTMP(1,5),VFRAC ) !vartmp(:,5) & vartmp(:,6) are used for material 3
         END SELECT
         DO I=1,NEL
          !inter22
@@ -734,6 +763,8 @@
       !=======================================================================
       !     THERMODYNAMICAL STATE
       !=======================================================================
+      wfextt = zero
+
       DO I=1,NEL
 
           !inter22
@@ -1096,18 +1127,19 @@
          ! The only material is MAT1 (sol, liq, gas)
          !==========================================
           IF(SUBMAT_CODE == 1)THEN
-             EINT1 = EINT1  - (PEXT + POLD + QQOLD(I)) * DDVOL(I)
-             EINT(I) = EINT1
+            !EINT1 = EINT1  - HALF*(PEXT + POLD + QQOLD(I)) * DDVOL(I) !2nd order integration (semi-implicit)
+             EINT1 = EINT1  -      (PEXT + POLD + QQOLD(I)) * DDVOL(I) !first order integration (explicit)
              V1 = VOLUME(I)
              RHO1 = MASS / V1
+             RHO0E1 = EINT1/V10
              CALL POLYUN51 ( &
-                  C01,C11,C21,C31,C41,C51,GG1, &
-                  VOLUME(I),DVOL,V1OLD, &
-                  RHO(I),MAS1 ,RHO10,DD,MU1,MU1P1, &
-                  POLD,PEXT,P1,PM1,Q1, &
-                  RHO0E1,EINT1 ,VISCMAX(I),XL ,SSP1, &
-                  QA,QB,UPARAM(101))
-     
+                             C01,C11,C21,C31,C41,C51,GG1(I), &
+                             VOLUME(I),DVOL,V1OLD, &
+                             RHO(I),MAS1 ,RHO10,DD,MU1,MU1P1, &
+                             POLD,PEXT,P1,PM1,Q1, &
+                             RHO0E1,EINT1 ,VISCMAX(I),XL ,SSP1, &
+                             QA,QB)
+                  EINT(I) = EINT1
                   SOUNDSP(I) = SSP1
                   P = P1
                   Q = Q1
@@ -1119,18 +1151,20 @@
          ! The only material is MAT2 (sol, liq, gas)
          !==========================================
          ELSEIF(SUBMAT_CODE == 2)THEN
-            EINT2 = EINT2  - (PEXT + POLD + QQOLD(I)) * DDVOL(I)
-            EINT(I) = EINT2
+           !EINT2 = EINT2  - HALF*(PEXT + POLD + QQOLD(I)) * DDVOL(I) !2nd order integration (semi-implicit)
+            EINT2 = EINT2  -      (PEXT + POLD + QQOLD(I)) * DDVOL(I) !first order integration (explicit)
+            RHO0E2 = EINT2/V20
             V2 = VOLUME(I)
             RHO2 = MASS / V2
             CALL POLYUN51 ( &
-                 C02,C12,C22,C32,C42,C52,GG2, &
-                 VOLUME(I),DVOL,V2OLD, &
-                 RHO(I),MAS2 ,RHO20,DD,MU2,MU2P1, &
-                 POLD,PEXT,P2,PM2,Q2, &
-                 RHO0E2,EINT2 ,VISCMAX(I),XL ,SSP2, &
-                 QA,QB,UPARAM(151))
-     
+                            C02,C12,C22,C32,C42,C52,GG2(I), &
+                            VOLUME(I),DVOL,V2OLD, &
+                            RHO(I),MAS2 ,RHO20,DD,MU2,MU2P1, &
+                            POLD,PEXT,P2,PM2,Q2, &
+                            RHO0E2,EINT2 ,VISCMAX(I),XL ,SSP2, &
+                            QA,QB)
+
+                  EINT(I) = EINT2
                   SOUNDSP(I) = SSP2
                   P = P2
                   Q = Q2
@@ -1141,18 +1175,19 @@
          ! The only material is MAT3 (sol, liq, gas)
          !==========================================
          ELSEIF(SUBMAT_CODE == 4)THEN
-            EINT3 = EINT3  - (PEXT + POLD + QQOLD(I)) * DDVOL(I)
-            EINT(I) = EINT3
+           !EINT3 = EINT3  - HALF*(PEXT + POLD + QQOLD(I)) * DDVOL(I) !2nd order integration (semi-implicit)
+            EINT3 = EINT3  -      (PEXT + POLD + QQOLD(I)) * DDVOL(I) !first order integration (explicit)
+            RHO0E3 = EINT3/V30
             V3 = VOLUME(I)
             RHO3 = MASS / V3
             CALL POLYUN51 ( &
-                   C03,C13,C23,C33,C43,C53,GG3,&
-                   VOLUME(I),DVOL,V3OLD,&
-                   RHO(I),MAS3 ,RHO30,DD,MU3,MU3P1,&
-                   POLD,PEXT,P3,PM3,Q3,&
-                   RHO0E3,EINT3,VISCMAX(I),XL ,SSP3,&
-                   QA,QB,UPARAM(201))
-     
+                            C03,C13,C23,C33,C43,C53,GG3(I),&
+                            VOLUME(I),DVOL,V3OLD,&
+                            RHO(I),MAS3 ,RHO30,DD,MU3,MU3P1,&
+                            POLD,PEXT,P3,PM3,Q3,&
+                            RHO0E3,EINT3,VISCMAX(I),XL ,SSP3,&
+                            QA,QB)
+                 EINT(I) = EINT3
                  SOUNDSP(I) = SSP3
                  P = P3
                  Q = Q3
@@ -1252,29 +1287,26 @@
 
           ! MAT1
           IF (V1  >  ZERO) THEN
-             CALL POLY51 (C01,C11,C21,C31,C41,C51,GG1, &
+             CALL POLY51 (C01,C11,C21,C31,C41,C51,GG1(I), &
                   V10,V1,V1I,MU1,MU1P1,EINT1, &
                   PEXT,P1,PM1,P1I, &
-                  RHO1,RHO10,MAS1,SSP1,DVDP1,DPDV1, E1_INF, &
-                  UPARAM(101), 0)
+                  RHO1,RHO10,MAS1,SSP1,DVDP1,DPDV1, E1_INF, 0)
           ENDIF
 
           ! MAT2
           IF (V2  >  ZERO) THEN
-             CALL POLY51 (C02,C12,C22,C32,C42,C52,GG2, &
+             CALL POLY51 (C02,C12,C22,C32,C42,C52,GG2(I), &
                   V20,V2,V2I,MU2,MU2P1,EINT2, &
                   PEXT,P2,PM2,P2I, &
-                  RHO2,RHO20,MAS2,SSP2,DVDP2,DPDV2, E2_INF, &
-                  UPARAM(151), 0)
+                  RHO2,RHO20,MAS2,SSP2,DVDP2,DPDV2, E2_INF, 0)
           ENDIF
 
           ! MAT3
           IF (V3  >  ZERO) THEN
-             CALL POLY51 (C03,C13,C23,C33,C43,C53,GG3, &
+             CALL POLY51 (C03,C13,C23,C33,C43,C53,GG3(I), &
                   V30,V3,V3I,MU3,MU3P1,EINT3, &
                   PEXT,P3,PM3,P3I, &
-                  RHO3,RHO30,MAS3,SSP3,DVDP3,DPDV3, E3_INF, &
-                  UPARAM(201), 0)
+                  RHO3,RHO30,MAS3,SSP3,DVDP3,DPDV3, E3_INF, 0)
           ENDIF
 
           ! MAT4 : High Explosive
@@ -1422,31 +1454,28 @@
             !       material 1 - Polynomial EOS
             !===========================================
             IF (V1  >  ZERO) THEN
-                CALL POLY51 (C01,C11,C21,C31,C41,C51,GG1, &
+                CALL POLY51 (C01,C11,C21,C31,C41,C51,GG1(I), &
                               V10,V1,V1I,MU1,MU1P1,EINT1, &
                               PEXT,P1,PM5,P1I, &
-                              RHO1,RHO10,MAS1,SSP1,DVDP1,DPDV1, E1_INF, &
-                              UPARAM(101), 0)
+                              RHO1,RHO10,MAS1,SSP1,DVDP1,DPDV1, E1_INF, 0)
             ENDIF
             !===========================================
             !       material 2 - Polynomial EOS
             !===========================================
             IF (V2  >  ZERO) THEN
-                CALL POLY51 (C02,C12,C22,C32,C42,C52,GG2, &
+                CALL POLY51 (C02,C12,C22,C32,C42,C52,GG2(I), &
                               V20,V2,V2I,MU2,MU2P1,EINT2, &
                               PEXT,P2,PM5,P2I, &
-                              RHO2,RHO20,MAS2,SSP2,DVDP2,DPDV2, E2_INF, &
-                              UPARAM(151), 0)
+                              RHO2,RHO20,MAS2,SSP2,DVDP2,DPDV2, E2_INF, 0)
             ENDIF
             !===========================================
             !       material 3 - Polynomial EOS
             !===========================================
             IF (V3  >  ZERO) THEN
-                CALL POLY51 (C03,C13,C23,C33,C43,C53,GG3, &
+                CALL POLY51 (C03,C13,C23,C33,C43,C53,GG3(I), &
                               V30,V3,V3I,MU3,MU3P1,EINT3, &
                               PEXT,P3,PM5,P3I, &
-                              RHO3,RHO30,MAS3,SSP3,DVDP3,DPDV3, E3_INF, &
-                              UPARAM(201), 0)
+                              RHO3,RHO30,MAS3,SSP3,DVDP3,DPDV3, E3_INF, 0)
             ENDIF
             !===========================================
             !       material 4 - Polynomial EOS
@@ -1765,12 +1794,8 @@
         !===================================================
         !               UVAR(I,1) : PLAS
         !===================================================
-        IF(IPLA1 == 2)PLAS1(I)=EPSEQ1(I)
-        IF(IPLA2 == 2)PLAS2(I)=EPSEQ2(I)
-        IF(IPLA3 == 2)PLAS3(I)=EPSEQ3(I)
-        UVAR(I,1) = (PLAS1(I) * V1 + PLAS2(I) * V2 + PLAS3(I) * V3) / VOLUME(I)
-        IF(BUFLY%L_PLA>0)LBUF%PLA(I) = UVAR(I,1)
-
+        UVAR(I,1) = PLAS1(I)+PLAS2(I)+PLAS3(I)
+        IF(BUFLY%L_PLA > 0) LBUF%PLA(I) = UVAR(I,1)
         !===================================================
         !               UVAR(I,2)    : TEMP
         !===================================================
@@ -1794,11 +1819,7 @@
         !               EPSEQ (DPrag)
         !===================================================
         IF(BUFLY%L_EPSQ>0)THEN
-          LBUF%EPSQ(I) = ZERO
-          IF(IPLA1==2)LBUF%EPSQ(I) = LBUF%EPSQ(I) + V1*EPSEQ1(I)
-          IF(IPLA2==2)LBUF%EPSQ(I) = LBUF%EPSQ(I) + V2*EPSEQ2(I)
-          IF(IPLA3==2)LBUF%EPSQ(I) = LBUF%EPSQ(I) + V3*EPSEQ3(I)
-          LBUF%EPSQ(I) = LBUF%EPSQ(I) / VOLUME(I)
+          LBUF%EPSQ(I) = EPSEQ1(I) + EPSEQ2(I) + EPSEQ3(I)
         ENDIF
 
        IF(JTHE == 1 ) THEN
@@ -1821,7 +1842,12 @@
 !       .                         RHO40)
 !          ENDIF
 
+         wfextt = wfextt - DDVOL(I)*pext !group accumulation
+
       ENDDO  !DO I=1,NEL
+
+!$OMP ATOMIC
+      wfext = wfext + wfextt
 
       RETURN
 

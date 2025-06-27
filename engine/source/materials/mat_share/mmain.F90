@@ -414,7 +414,7 @@
           real(kind=WP) :: dpla(mvsiz),tstar(mvsiz),epsp(mvsiz),xk(mvsiz),vm(nel),vm0(nel), &
           &       tempel0(mvsiz), fscal_alpha , sigl(mvsiz,6)
           real(kind=WP) :: es1(mvsiz), es2(mvsiz),  es3(mvsiz),  es4(mvsiz),  es5(mvsiz),   &
-          &       es6(mvsiz), eint(mvsiz), dpdm(mvsiz), dpde(mvsiz),ecold(mvsiz),  &
+          &       es6(mvsiz), eint(mvsiz), dpdm(mvsiz), dpde(mvsiz),  &
           &       vol(mvsiz),al_imp(mvsiz),signor(mvsiz,6)
 
           real(kind=WP) :: ep1(mvsiz),ep2(mvsiz),ep3(mvsiz),ep4(mvsiz),ep5(mvsiz),ep6(mvsiz)
@@ -790,8 +790,8 @@
             call eosmain(0         ,nel      ,eostyp  ,pm        ,off      ,lbuf%eint,&
                          lbuf%rho  ,rho0     ,amu     ,amu2      ,espe     ,&
                          dvol      ,df       ,voln    ,mat       ,psh      ,&
-                         pnew      ,dpdm     ,dpde    ,el_temp   ,ecold    ,&
-                         bufmat    ,lbuf%sig ,lbuf%mu ,mtn       ,pold     ,&
+                         pnew      ,dpdm     ,dpde    ,el_temp   ,&
+                         bufmat    ,lbuf%sig ,lbuf%mu ,mtn       ,&
                          npf       ,tf       ,ebuf%var,nvareos   ,mat_elem%mat_param(imat),&
                          lbuf%bfrac,nvartmp_eos  ,ebuf%vartmp)
           endif
@@ -1380,7 +1380,7 @@
             &ngl,        lbuf%seq,    nel,        eostyp,&
             &rho0,       amu,         amu2,       espe,&
             &df,         psh,         pnew,       dpdm,&
-            &dpde,       lbuf%rho,    lbuf%temp,  ecold,&
+            &dpde,       lbuf%rho,    lbuf%temp,  &
             &bufmat,     npf,         tf,         lbuf%tsaiwu,&
             &ebuf%var,   nvareos,     jcvt,       jsph,&
             &mat_elem%mat_param(imat),nvartmp_eos,ebuf%vartmp )
@@ -1787,7 +1787,7 @@
             &            lbuf%temp,lbuf%epsd,cxx     ,df      ,dxx     , &
             &            dyy      ,dzz      ,d4      ,d5      ,d6      , &
             &            rho0     ,dpdm     ,sigy    ,defp    ,dpla    , &
-            &            espe     ,ecold    ,nel     ,jlag    ,jthe    , &
+            &            espe     ,nel      ,jlag    ,jthe    , &
             &            fheat   , lbuf%vol)
             if (jsph == 0) then
               call mqviscb(&
@@ -1886,7 +1886,7 @@
             &npf,         stifn,       mat,         ngl,&
             &nuvar,       dt2t,        neltst,      ityptst,&
             &lbuf%off,    geo,         pid,         lbuf%epsd,&
-            &wxx,         wyy,         wzz,&
+            &wxx,         wyy,         wzz,         espe,&
             &jsph,        mumax,       cxx,         aire,&
             &voln,        vd2,         deltax,      vis,&
             &dxx,         dyy,         dzz,         d4,&
@@ -1951,8 +1951,8 @@
             call eosmain(1         ,nel         ,eostyp     ,pm       ,off      ,lbuf%eint,&
                        & lbuf%rho  ,rho0        ,amu        ,amu2     ,espe     ,&
                        & dvol      ,df          ,voln       ,mat      ,psh      ,&
-                       & pnew      ,dpdm        ,dpde       ,el_temp  ,ecold    ,&
-                       & bufmat    ,lbuf%sig    ,lbuf%mu    ,mtn      ,pold     ,&
+                       & pnew      ,dpdm        ,dpde       ,el_temp  , &
+                       & bufmat    ,lbuf%sig    ,lbuf%mu    ,mtn      , &
                        & npf       ,tf          ,ebuf%var   ,nvareos , mat_elem%mat_param(imat),&
                        & lbuf%bfrac,nvartmp_eos ,ebuf%vartmp)
              if (jtur /= 0 .or. mtn == 17) pnew(1:nel) = pnew(1:nel) + pturb(1:nel)
