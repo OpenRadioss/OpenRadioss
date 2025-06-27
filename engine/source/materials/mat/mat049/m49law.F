@@ -29,7 +29,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      2                  THETA  ,EPD    ,CXX    ,DF     ,D1   ,
      3                  D2     ,D3     ,D4     ,D5     ,D6   ,
      4                  RHO0   ,DPDM   ,SIGY   ,DEFP   ,DPLA ,
-     5                  ESPE   ,ECOLD  ,NEL    ,JLAG   ,JTHE ,
+     5                  ESPE   ,NEL    ,JLAG   ,JTHE ,
      6                  FHEAT  ,VOL)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -54,7 +54,7 @@ C-----------------------------------------------
      .        THETA(MVSIZ),EPD(MVSIZ) ,CXX(MVSIZ)  ,DF(MVSIZ)  , D1(MVSIZ)  ,
      .        D2(MVSIZ)   ,D3(MVSIZ)  ,D4(MVSIZ)   ,D5(MVSIZ)  , D6(MVSIZ)  ,
      .        RHO0(MVSIZ) ,DPDM(MVSIZ),SIGY(MVSIZ) ,DEFP(MVSIZ), DPLA(MVSIZ),
-     .        ESPE(MVSIZ) ,ECOLD(MVSIZ)
+     .        ESPE(MVSIZ)
       my_real, DIMENSION(NEL) ,INTENT(INOUT) :: FHEAT ! Heat due to plastic work for Heat Equation with lagrangian framework
       my_real, DIMENSION(NEL) ,INTENT(IN) :: VOL ! Element Volume
 C-----------------------------------------------
@@ -89,7 +89,7 @@ C
       DO I=1,NEL
         P(I)  =-(SIG(I,1)+SIG(I,2)+SIG(I,3))*THIRD
         DAV(I)=-(D1(I)+D2(I)+D3(I))*THIRD
-        EMELT(I) = ECOLD(I) + SPH*TMELT
+        EMELT(I) = SPH*TMELT
       ENDDO
 C----------------------------
 C     SHEAR MODULUS & YIELD

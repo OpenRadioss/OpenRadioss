@@ -31,7 +31,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .    RHO     ,MASA   ,RHOA0   ,DD       ,MU     , MUP1 ,
      .    POLD    ,PEXT   ,P       ,PM       ,Q      ,
      .    RHO0E   ,EINTA  ,VISCMAX ,XL       ,SSP    ,
-     .    QA      ,QB     ,UPARAM  )
+     .    QA      ,QB    )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -40,19 +40,16 @@ C-----------------------------------------------
 C   I N P U T   O U T P U T   A r g u m e n t s
 C-----------------------------------------------
       my_real,INTENT(IN) :: C0,C1,C2,C3,C5,C4,GG,VOLUME,VOLD,MASA ,RHOA0,DD, POLD,PEXT,PM
-      my_real,INTENT(IN) :: RHO0E,EINTA ,XL, QA,QB,UPARAM(*)
+      my_real,INTENT(IN) :: RHO0E,XL, QA,QB
+      my_real,INTENT(INOUT) :: EINTA
       my_real,INTENT(INOUT) :: P, DVOL, RHO, MU, VISCMAX, Q, SSP
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      my_real :: AA,BB,DPDV,DPDMU,V0,QAL,QBL,MUP1,MUMX,BULK, BULK2
+      my_real :: AA,BB,DPDV,DPDMU,V0,QAL,QBL,MUP1
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      MUMX    = UPARAM(20)
-      BULK    = UPARAM(21)
-      BULK2   = UPARAM(21)
-C------------------------
       V0      = MASA / RHOA0
       DVOL    = VOLUME - VOLD
       RHO     = MASA/VOLUME
@@ -71,8 +68,17 @@ C------------------------
 
       AA      = (C4 + C5*MU)/V0
       BB      = HALF*(VOLUME-VOLD)
-      P       = ( C0 + C1*MU+ MAX(MU,ZERO)*(C2*MU + C3*MU*MU) + AA*EINTA )!  /  (ONE+AA*BB)
+
+      !first torder
+      P       = ( C0 + C1*MU+ MAX(MU,ZERO)*(C2*MU + C3*MU*MU) + AA*EINTA )
       P       = MAX(P,PM)
+      !second order
+      !P       = ( PEXT+C0 + C1*MU+ MAX(MU,ZERO)*(C2*MU + C3*MU*MU) + AA*EINTA )   /  (ONE+AA*BB)
+      !P       = MAX(P,PM)-PEXT
+      !EINTA = EINTA - BB*(P+PEXT+Q) !2nd order integration (semi-implicit)
+
+
+
 
       DPDV    = (-(C1 + (C2 + C2 + THREE*C3*MU)*MAX(ZERO,MU) + C5*RHO0E )*MUP1*MUP1 -(C4 + C5*MU)*(P+PEXT) )  /  V0
       DPDMU   = -DPDV*VOLUME/MUP1
@@ -91,7 +97,7 @@ C------------------------
      .          V10,V1,V1OLD,MU1,MUP1,EINT1,
      .          PEXT,P1,PM1,P1I,
      .          RHO1,RHO10,MAS1,SSP1,DVDP1,DPDV1, E_INF,
-     .          UPARAM ,FLAG)
+     .          FLAG)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -102,18 +108,13 @@ C-----------------------------------------------
       my_real,INTENT(IN) :: C01,C11,C21,C31,C41,C51,GG1,
      .                       V10,V1,V1OLD,
      .                       PEXT,PM1,P1I,
-     .                       RHO10,MAS1,E_INF,
-     .                       UPARAM(*)
+     .                       RHO10,MAS1,E_INF
       my_real,INTENT(INOUT) :: DVDP1,P1,SSP1,DPDV1,EINT1,MU1,MUP1,RHO1
       INTEGER FLAG
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      my_real  AA,BB,DVDP1I,BULK,BULK2,MUMX
-C------------------------
-      MUMX  = UPARAM(20)
-      BULK  = UPARAM(21)
-      BULK2 = UPARAM(21)
+      my_real  AA,BB,DVDP1I
 C------------------------
       DVDP1I = DVDP1
       IF (FLAG == 1) RHO1   = MAS1/V1

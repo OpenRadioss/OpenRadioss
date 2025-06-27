@@ -72,8 +72,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       SUBROUTINE EOSMAIN(IFLAG ,NEL    ,EOSTYP ,PM      ,OFF      ,EINT  ,
      2                   RHO   ,RHO0   ,MU     ,MU2     ,ESPE     ,
      3                   DVOL  ,DF     ,VNEW   ,MAT     ,PSH      ,
-     4                   PNEW  ,DPDM   ,DPDE   ,THETA   ,ECOLD    ,
-     5                   BUFMAT,SIG    ,MU_BAK ,MLW     ,POLD     ,
+     4                   PNEW  ,DPDM   ,DPDE   ,THETA   ,
+     5                   BUFMAT,SIG    ,MU_BAK ,MLW     ,
      6                   NPF   ,TF     ,VAREOS ,NVAREOS ,MAT_PARAM,
      7                   BFRAC ,NVARTMP,VARTMP)
 C-----------------------------------------------
@@ -138,7 +138,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER MAT(NEL),IFLAG, EOSTYP, NEL, MLW, NVAREOS
       my_real PM(NPROPM,NUMMAT),BUFMAT(SBUFMAT),OFF(NEL),EINT(NEL),RHO(NEL),RHO0(NEL),MU(NEL),MU2(NEL),ESPE(NEL),DVOL(NEL), 
-     .        DF(NEL),VNEW(NEL),PSH(NEL),PNEW(NEL),DPDM(NEL),DPDE(NEL),THETA(NEL),ECOLD(NEL),MU_BAK(NEL),POLD(NEL),
+     .        DF(NEL),VNEW(NEL),PSH(NEL),PNEW(NEL),DPDM(NEL),DPDE(NEL),THETA(NEL),MU_BAK(NEL),
      .        SIG(NEL,6),VAREOS(NVAREOS*NEL)
       my_real,INTENT(INOUT) :: BFRAC(NEL)
       INTEGER,INTENT(IN)::NPF(SNPC)
