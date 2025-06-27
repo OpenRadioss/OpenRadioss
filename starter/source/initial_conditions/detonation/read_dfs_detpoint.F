@@ -91,7 +91,7 @@ C-----------------------------------------------
       LOGICAL              :: IS_NODE_DEFINED,IS_GRNOD_DEFINED
       INTEGER              :: I_SHADOW
       INTEGER              :: MLW
-      INTEGER              :: IMAT, MLW_SUBMAT, SUBMAT_UID, NBMAT, KK
+      INTEGER              :: IMAT, MLW_SUBMAT, SUBMAT_UID, NBMAT, KK, MID
       CHARACTER(LEN=NCHARKEY) :: KEY, KEY2
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
@@ -171,7 +171,12 @@ C-----------------------------------------------
 
         IF(I_SHADOW == 1) THEN
           IF(MDET > 0)THEN
-            PM(96,MDET) = 1 !SHADOW FLAG SET ON
+            DO I=1,NUMMAT
+              MID = IPM(1,I)
+              IF(MID /= MDET) CYCLE
+              PM(96,I) = 1 !SHADOW FLAG SET ON
+              EXIT
+            ENDDO
           ELSE
             !enable flag for all compatible material laws
             DO I=1,NUMMAT
