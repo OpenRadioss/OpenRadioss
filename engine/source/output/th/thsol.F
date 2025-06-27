@@ -805,11 +805,8 @@ c                WWA(14)=MBUF%VAR(I+NEL*2)
                IF(GBUF%G_PLA>0)  WWA(12)=GBUF%PLA(I)
                                  WWA(13)=GBUF%TEMP(I)
                IF(GBUF%G_EPSD>0) WWA(14)=GBUF%EPSD(I)
-               IF(GBUF%G_BFRAC>0)WWA(31)=GBUF%BFRAC(I) !Means Explosive submaterial is used
-               IF(GBUF%G_EPSQ>0) THEN                  !Means Drucker-Prager criteria is used
-                                 WWA(12)=GBUF%EPSQ(I)
-                                 WWA(30)=GBUF%PLA(I)
-               ENDIF
+               IF(GBUF%G_BFRAC>0)WWA(31)=GBUF%BFRAC(I)
+               IF(GBUF%G_EPSQ>0) WWA(30)=GBUF%EPSQ(I)
               ELSEIF (MTE == 59) THEN
 C               Solid spotwelds : damage  DAMA1 ...DAMA4
                 NFAIL = ELBUF_TAB(NG)%BUFLY(1)%NFAIL

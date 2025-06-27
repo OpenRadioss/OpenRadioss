@@ -156,7 +156,7 @@
             vm(i)     = sqrt(three*j2)
           enddo
 
-           !========================================================================
+          !========================================================================
           !< Solid sound speed
           !========================================================================
           do i=1,nel
@@ -184,12 +184,18 @@
               dpla(i) = (one-ratio)*vm(i) / max(em20,three*shear(i))
               defp(i) = defp(i) + dpla(i)
             endif
-            signxx(i) = ratio*signxx(i) - pnew(i)
-            signyy(i) = ratio*signyy(i) - pnew(i)
-            signzz(i) = ratio*signzz(i) - pnew(i)
+            ! projection
+            signxx(i) = ratio*signxx(i)
+            signyy(i) = ratio*signyy(i)
+            signzz(i) = ratio*signzz(i)
             signxy(i) = ratio*signxy(i)
             signyz(i) = ratio*signyz(i)
             signzx(i) = ratio*signzx(i)
+
+            ! hydrostatic part
+            signxx(i) = signxx(i) - pnew(i)
+            signyy(i) = signyy(i) - pnew(i)
+            signzz(i) = signzz(i) - pnew(i)
           end do
 
           !========================================================================

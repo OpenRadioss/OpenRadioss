@@ -193,7 +193,7 @@
         &npf,         stifn,       mat,         ngl,&
         &nuvar,       dt2t,        neltst,      ityptst,&
         &offg,        geo,         pid,         epsd,&
-        &wxx,         wyy,         wzz,&
+        &wxx,         wyy,         wzz,         espe,&
         &jsph,        mumax,       ssp,         aire,&
         &voln,        vd2,         deltax,      vis,&
         &d1,          d2,          d3,          d4,&
@@ -464,6 +464,7 @@
           real(kind=WP), dimension(mvsiz), intent(inout) :: rhoref
           real(kind=WP), dimension(mvsiz), intent(inout) :: rhosp
           real(kind=WP), dimension(mvsiz), intent(inout) :: stifn
+          real(kind=WP), dimension(mvsiz), intent(inout) :: espe
           real(kind=WP), dimension(mvsiz,6), intent(inout) :: svis
 
           real(kind=WP),intent(inout) :: dpde(nel) !< partial derivative at constant volume
@@ -1280,7 +1281,7 @@
             &             iparg     ,ale_connect ,bufvois ,ipm   ,bufmat    ,stifn     ,&
             &             vd2       ,vdx         ,vdy     ,vdz   ,&
             &             gbuf%qvis ,dvol        ,qold    ,nv46  ,numgeo    ,n2d       , &
-            &             numnod    ,ngroup      ,nummat     )
+            &             numnod    ,ngroup      ,nummat  ,mat_elem%mat_param,nvartmp, vartmp   )
           elseif (mtn == 52) then
             idev = 1
             call mstrain_rate(nel    ,israte ,asrate ,epsd   ,idev   ,&
@@ -2892,20 +2893,13 @@
               eint(i)=eint(i)-(q(i)+qold(i)+p2)*dvol(i)+(e1+e2+e3+e4+e5+e6+e7(i))*vol_avg(i)*dt1
             end do
           elseif (mtn == 51 ) then
-            do i=1,nel
-              p2 = -(sold1(i)+sig(i,1)+sold2(i)+sig(i,2)+sold3(i)+sig(i,3))* third
-              e1 = d1(i)*(sold1(i)+sig(i,1)+p2 + two*svis(i,1))
-              e2 = d2(i)*(sold2(i)+sig(i,2)+p2 + two*svis(i,2))
-              e3 = d3(i)*(sold3(i)+sig(i,3)+p2 + two*svis(i,3))
-              e4 = d4(i)*(sold4(i)+sig(i,4)    + two*svis(i,4))
-              e5 = d5(i)*(sold5(i)+sig(i,5)    + two*svis(i,5))
-              e6 = d6(i)*(sold6(i)+sig(i,6)    + two*svis(i,6))
-              eint(i)=eint(i)+(e1+e2+e3+e4+e5+e6)*vol_avg(i)*dt1*half
-            end do
+            ! nothing to do.
+            ! einc added in sigeps51.F
+            ! -(Pold+Qold+Q).dV added in sigeps51.F
           elseif (mtn == 102 .or. mtn == 133) then
             !case of material law using /eos  (pressure for updated later in mmain > eosmain)
             do i=1,nel
-              p2  = -(sold1(i)+sig(i,1)+sold2(i)+sig(i,2)+sold3(i)+sig(i,3))* third
+              p2  = -(sold1(i)+sig(i,1)+sold2(i)+sig(i,2)+sold3(i)+sig(i,3))* third ! to be substracted from tensor below (2nd order integration)
               pold= -(sold1(i)+sold2(i)+sold3(i))* third
               e1  =  d1(i)*(sold1(i)+sig(i,1) + p2+two*svis(i,1))
               e2  =  d2(i)*(sold2(i)+sig(i,2) + p2+two*svis(i,2))
@@ -2913,9 +2907,11 @@
               e4  =  d4(i)*(sold4(i)+sig(i,4) + two*svis(i,4))
               e5  =  d5(i)*(sold5(i)+sig(i,5) + two*svis(i,5))
               e6  =  d6(i)*(sold6(i)+sig(i,6) + two*svis(i,6))
-              eint(i)=eint(i)-&
-              &(q(i)+qold(i)+pold+psh(i))*dvol(i)*half +&    !pold+psh is total pressure
-              &(e1+e2+e3+e4+e5+e6+e7(i))*vol_avg(i)*dt1*half
+
+              eint(i) = eint(i) + (e1+e2+e3+e4+e5+e6+e7(i))*vol_avg(i)*dt1*half !  energy dissipated through plastic deformation
+              eint(i)=eint(i)-(q(i)+qold(i)+pold+psh(i))*dvol(i)*half ! semi-implicit energy integration. last term added in eosmain (-pnew.dv)
+              espe(i)=eint(i)*rho0(i)/rho(i) / max(em15,voln(i))   !required for 2nd loop in eosmain
+
             end do
             ! external force work (psh)
             wfextt = zero

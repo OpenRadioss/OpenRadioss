@@ -63,7 +63,7 @@
       INTEGER, INTENT(IN) :: IPM(NPROPMI, *)
       real(kind=WP), INTENT(IN) :: SIG(6)
       real(kind=WP), INTENT(INOUT) :: SSP(1), PRES(1), EINT(1), RHO(1), BURNFRAC(1), BURNTIME(1), DELTAX(1), ABURN(1)
-      real(kind=WP), INTENT(OUT) :: OFF(1)
+      real(kind=WP), INTENT(INOUT) :: OFF(1)
       real(kind=WP), INTENT(INOUT) :: BUFMAT(*)
       INTEGER,INTENT(IN)::NPF(SNPC),NVAREOS
       real(kind=WP),INTENT(IN)::TF(STF),VAREOS(NVAREOS*1)

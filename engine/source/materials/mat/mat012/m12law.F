@@ -46,7 +46,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      A   NGL,       SEQ_OUTPUT, NEL,       EOSTYP,
      B   RHO0,      AMU,        AMU2,      ESPE,
      C   DF,        PSH,        PNEW,      DPDM,
-     D   DPDE,      RHO,        TEMP,      ECOLD,
+     D   DPDE,      RHO,        TEMP,
      E   BUFMAT,    NPC,        TF,        TSAIWU,
      F   VAREOS,    NVAREOS,    JCVT,      JSPH,
      G   MAT_PARAM, NVARTMP_EOS,VARTMP_EOS)
@@ -94,7 +94,7 @@ C-----------------------------------------------
       my_real
      .   RHO0(NEL), AMU(NEL)  , AMU2(NEL), ESPE(NEL), DF(NEL) ,
      .   PSH(NEL) , PNEW(NEL) , DPDM(NEL), DPDE(NEL), RHO(NEL),
-     .   TEMP(NEL), ECOLD(NEL), BUFMAT(*),MUOLD(NEL)
+     .   TEMP(NEL), BUFMAT(*),MUOLD(NEL)
       INTEGER,INTENT(IN)::NPC(SNPC)
       my_real,INTENT(IN)::TF(STF)
       INTEGER,INTENT(IN) :: NVARTMP_EOS
@@ -374,14 +374,14 @@ C
         CALL EOSMAIN(0       ,NEL     ,EOSTYP ,PM    ,OFF  , ENER ,
      2               RHO     ,RHO0    ,AMU    ,AMU2  ,ESPE ,
      3               DVOL    ,DF      ,VNEW   ,MAT   ,PSH  ,
-     4               PNEW    ,DPDM    ,DPDE   ,TEMP  ,ECOLD,
-     5               BUFMAT  ,SIG     ,MUOLD  ,12    ,POLD,
+     4               PNEW    ,DPDM    ,DPDE   ,TEMP  ,
+     5               BUFMAT  ,SIG     ,MUOLD  ,12    ,
      6               NPC     ,TF      ,VAREOS ,NVAREOS, MAT_PARAM, BID, NVARTMP_EOS,VARTMP_EOS)
         CALL EOSMAIN(1       ,NEL     ,EOSTYP ,PM    ,OFF  , ENER ,
      2               RHO     ,RHO0    ,AMU    ,AMU2  ,ESPE ,
      3               DVOL    ,DF      ,VNEW   ,MAT   ,PSH  ,
-     4               PNEW    ,DPDM    ,DPDE   ,TEMP  ,ECOLD,
-     5               BUFMAT  ,SIG     ,MUOLD  ,12    ,POLD,
+     4               PNEW    ,DPDM    ,DPDE   ,TEMP  ,
+     5               BUFMAT  ,SIG     ,MUOLD  ,12    ,
      6               NPC     ,TF      ,VAREOS ,NVAREOS, MAT_PARAM, BID, NVARTMP_EOS,VARTMP_EOS)
         DO  I=1,NEL
           T1(I)=T1(I)-PNEW(I)

@@ -158,7 +158,7 @@ C----------------------------------------------------------------
      .        IFLAG2, ITEMAX, IMAX, IPLAS, EOSTYP
       my_real :: BID(1) !bfrac not used in this context
       my_real
-     .   DFS(NEL), MUS(NEL), MU2S(NEL), DPDM(NEL), ECOLD(NEL),
+     .   DFS(NEL), MUS(NEL), MU2S(NEL), DPDM(NEL),
      .   THETA(NEL), DPDE(NEL)
       my_real
      .   MU(NEL)
@@ -268,15 +268,15 @@ C--------------
       CALL EOSMAIN(0      ,NEL    ,EOSTYP  ,PM     ,OFF    ,EINTN ,
      .             RHOS   ,RHOS0  ,MUS     ,MU2S   ,ESPES  ,
      .             DVOLS  ,DFS    ,VNEWS   ,MATS   ,PSH    ,
-     .             PNEW   ,DPDM   ,DPDE    ,THETA  ,ECOLD  ,
-     .             BUFMAT ,SIGOLD ,MUOLD   ,75     ,POLD   ,
+     .             PNEW   ,DPDM   ,DPDE    ,THETA  ,
+     .             BUFMAT ,SIGOLD ,MUOLD   ,75     ,
      .             NPF    ,TF     ,VAREOS  ,NVAREOS,MAT_PARAM(MXS),
      .             BID    ,NVARTMP_EOS, VARTMP_EOS)
       CALL EOSMAIN(1      ,NEL    ,EOSTYP  ,PM     ,OFF    ,EINTN ,
      .             RHOS   ,RHOS0  ,MUS     ,MU2S   ,ESPES  ,
      .             DVOLS  ,DFS    ,VNEWS   ,MATS   ,PSH    ,
-     .             PNEW   ,DPDM   ,DPDE    ,THETA  ,ECOLD  ,
-     .             BUFMAT ,SIGOLD ,MUOLD   ,75     ,POLD   ,
+     .             PNEW   ,DPDM   ,DPDE    ,THETA  ,
+     .             BUFMAT ,SIGOLD ,MUOLD   ,75     ,
      .             NPF    ,TF     ,VAREOS  ,NVAREOS,MAT_PARAM(MXS),
      .             BID   ,NVARTMP_EOS, VARTMP_EOS)
       IF(IFLAG1 == 2) THEN
@@ -373,15 +373,15 @@ C--------------
       CALL EOSMAIN(0     ,NEL   ,EOSTYP ,PM    ,OFF   ,EINTN ,
      .             RHOS  ,RHOS0 ,MUS    ,MU2S  ,ESPES ,
      .             DVOLS ,DFS   ,VNEWS  ,MATS  ,PSH   ,
-     .             PNEW  ,DPDM  ,DPDE   ,THETA ,ECOLD ,
-     .             BUFMAT,SIGOLD,MUOLD  ,75    ,POLD  ,
+     .             PNEW  ,DPDM  ,DPDE   ,THETA ,
+     .             BUFMAT,SIGOLD,MUOLD  ,75    ,
      .             NPF   ,TF    ,VAREOS ,NVAREOS,MAT_PARAM(MXS),
      .             BID,   NVARTMP_EOS, VARTMP_EOS)
       CALL EOSMAIN(1     ,NEL   ,EOSTYP ,PM    ,OFF   ,EINTN ,
      .             RHOS  ,RHOS0 ,MUS    ,MU2S  ,ESPES ,
      .             DVOLS ,DFS   ,VNEWS  ,MATS  ,PSH   ,
-     .             PNEW  ,DPDM  ,DPDE   ,THETA ,ECOLD ,
-     .             BUFMAT,SIGOLD,MUOLD  ,75    ,POLD  ,
+     .             PNEW  ,DPDM  ,DPDE   ,THETA ,
+     .             BUFMAT,SIGOLD,MUOLD  ,75    ,
      .             NPF   ,TF    ,VAREOS ,NVAREOS,MAT_PARAM(MXS),
      .             BID,   NVARTMP_EOS, VARTMP_EOS)
       IF(IFLAG1 == 2) THEN
