@@ -141,6 +141,7 @@ c
        PUSERLNAMI = 0
        MDS_PATHI = 0
        MDS_DIRI = 0
+       PCHECKSUMI = 0
 !       ------------------------
 !      domdec optimization
        DOMDEC_TUNING = 0
