@@ -116,6 +116,8 @@ c      CALL INT_FLUSHTIME(THIS)
 
       !||====================================================================
       !||    int_flushtime   ../common_source/modules/interfaces/metric_mod.F
+      !||--- called by ------------------------------------------------------
+      !||    resol_init      ../engine/source/engine/resol_init.F
       !||====================================================================
       SUBROUTINE INT_FLUSHTIME(THIS)
 C-----------------------------------------------
