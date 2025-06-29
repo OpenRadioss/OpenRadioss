@@ -316,8 +316,8 @@ C     -> FLAG = 2 : compute pressure as a function of rho and e, as well as dpdm
             CALL EOSMAIN(2       , NEL        , EOSTYPE   , PM     , OFF  , EINT,
      .                   RHO     , RHO0       , MU        , MU2    , ESPE ,
      .                   DVOL    , DF         , VOL       , MAT    , PSH  ,
-     .                   PRES    , SSP        , DPDE      , THETA  , ECOLD,
-     .                   BUFMAT  , SIGOLD     , MUOLD     , MATLAW , PRES ,
+     .                   PRES    , SSP        , DPDE      , THETA  , 
+     .                   BUFMAT  , SIGOLD     , MUOLD     , MATLAW ,
      .                   NPF     , TF         , VAREOS    , NVAREOS, MAT_PARAM,
      .                   BURNFRAC, NVARTMP_EOS, VARTMP_EOS)
 C     SQUARE sound speed : c^2 = 1/rho0 * dp/dmu

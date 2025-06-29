@@ -9,13 +9,13 @@
 **                                                                    **
 **                                                                    **
 **                    Linux 64 bits, GNU compiler                     **
+**                      Double Precision Version                      **
 **                                                                    **
 **                                                                    **
 **                                                                    **
-** CommitID: 440deeba848d606665f88afb8302e85b1ecf72bf                 **
 ************************************************************************
 ** OpenRadioss Software                                               **
-** COPYRIGHT (C) 1986-2022 Altair Engineering, Inc.                   **
+** COPYRIGHT (C) 1986-2025 Altair Engineering, Inc.                   **
 ** Licensed under GNU Affero General Public License.                  **
 ** See License file.                                                  **
 ************************************************************************
@@ -24,8 +24,11 @@
  COMPUTATION HARDWARE DESCRIPTION
   
  HOSTNAME     CPU TYPE, FREQUENCY AND MEMORY
- fr-shady.europe.altair.com   Intel(R) Xeon(R) CPU           X5680  @ 3.33GHz (x86_64), 1596 MHz,  20012 MB RAM,  49126 MB swap
+ fr-lap510-1.europe.altair.com   13th Gen Intel(R) Core(TM) i7-13850HX (x86_64), 2303 MHz,  32141 MB RAM,      0 MB swap
   
+ STACKSIZE  . . . . . . . . . . . . . . . . . . . . 16 MB
+ THREAD STACKSIZE . . . . . . . . . . . . . . . . . 400 mB
+ 
 ************************************************************************
 
 
@@ -38,7 +41,7 @@ WARNING ID : 100214
 DESCRIPTION :  
 -- BLOCK: /IOFLAG
 -- LINE: 5         0         0         0         0         0                                       0
-unsupported field exits
+unsupported field exists
 SOLUTION :     
     Please check input format and fields description defined in the Reference Guide.
 
@@ -47,7 +50,7 @@ WARNING ID : 100214
 DESCRIPTION :  
 -- BLOCK: /ANALY
 -- LINE: 0         0         0         0
-unsupported field exits
+unsupported field exists
 SOLUTION :     
     Please check input format and fields description defined in the Reference Guide.
 
@@ -66,9 +69,7 @@ SOLUTION :
                                                           MASS                LENGTH              TIME
     WORK UNIT SYSTEM . . . . . . ( g  , mm , ms  ) 1.0000000000000E-03 1.0000000000000E-03 1.0000000000000E-03
     INPUT UNIT SYSTEM  . . . . . ( g  , mm , ms  ) 1.0000000000000E-03 1.0000000000000E-03 1.0000000000000E-03
-
-
- JWL DEGENERATED INTO PERFECT GAS COUPLED WITH PURE PERFECT GAS (relative pressur
+JWL DEGENERATED INTO PERFECT GAS COUPLED WITH PURE PERFECT GAS (relative pressure to PEXT)
 
 
     CONTROL  PARAMETERS                                                                  
@@ -144,22 +145,19 @@ SOLUTION :
                                           FLAG ISIGI. . .         0
     ISFINT: ALE/EULER MOMENTUM INTEGRATION FORMULATION. .         3
 
-    NWALE : CHOICE OF ALE GRID VELOCITY FORMULATION . . .         0
+    NWALE : ALE GRID VELOCITY FORMULATION  . . . . . . . .         1
 
 
-    ALE GRID FORMULATION                           
-    --------------------                           
-     DONEA GRID VELOCITY COMPUTATION METHOD         
-     ALPHA   : DONEA COEFFICIENT. . . . . . . . . .   0.000000000000    
-     GAMMA   : GRID VELOCITY LIMITATION FACTOR. . .   100.0000000000    
-     FscaleX : X-GRID VELOCITY SCALE FACTOR . . . .   1.000000000000    
-     FscaleY : Y-GRID VELOCITY SCALE FACTOR . . . .   1.000000000000    
-     FscaleZ : Z-GRID VELOCITY SCALE FACTOR . . . .   1.000000000000    
-     VOLMIN  : MINIMUM VOLUME FOR ELEMENT DELETION. -1.0000000000000E+30
+    ALE GRID SMOOTHING FORMULATION
+    ------------------------------
+     ALTAIR AVERAGE DISPLACEMENT GRID FORMULATION   
+
+     UMAX  : MAXIMUM ABSOLUTE GRID VELOCITY . . . .  1.0000000200409E+20
+     VMIN  : MINIMUM VOLUME FOR ELEMENT DELETION. . -1.0000000000000E+20
 
 
-    ALEMUSCL                   
-    ---------------------                   
+    MUSCL (MONOTONIC UPSTREAM-CENTERED SCHEME FOR CONSERVATION LAWS)
+    ----------------------------------------------------------------
      COMPRESSION COEFFICIENT (BETA). . . . . . . . . . . :   2.000000000000    
      FORMULATION FLAG (IFLAG). . . . . . . . . . . . . . :          0
 
@@ -172,9 +170,6 @@ SOLUTION :
 
     INTEG8 : 8 GAUSS POINT CONDENSED INTEGRATION . . . . .         0
     IPARITH: PARALLEL ARITHMETIC FLAG (2 OFF, 1 0N). . . .         1
-    ISUB   : (OLD) SUBCYCLING (1:YES 0:NO) . . . . . . . .         0
-    MSHSUB : MEMORY ALLOCATION FOR (NEW) SHELLS SUBCYCLING
-                                         (1:YES 0:NO). . .         0
     IUSERW : GENERAL USER WINDOW FLAG. . . . . . . . . . .         0
     ISOLID : DEFAULT BRICK FORMULATION FLAG. . . . . . . .         1
     ITET4  : DEFAULT TETRA4 FORMULATION FLAG . . . . . . .      1000
@@ -190,8 +185,10 @@ SOLUTION :
     INSH   : SHELL INERTIA FLAG. . . . . . . . . . . . . .         0
     ISH3N  : DEFAULT 3 NODE SHELL FORMULATION FLAG . . . .         2
     NPTS   : SHELL PROPERTIES DEFAULT NUMBER OF           
-             INTEGRATION POINTS OR LAYERS. . . . . . . . .         0
+             INTEGRATION POINTS OR LAYERS. . . . . . . . .        -1
     IFRAME : DEFAULT SOLID FRAME FORMULATION FLAG . . . .          1
+    IOFFSET: DEFAULT SHELL OFFSET FLAG. . . . . . . . . .          0
+    ICONTROL:DEFAULT SOLID DISTORTION CONTROL FLAG. . . .          0
     ISHFRAM: LOCAL SHELL FRAME DEFINITION. . . . . . . . .         0
     ISFINT : INTERNAL FORCES FORMULATION . . . . . . . . .         3
 
@@ -207,14 +204,11 @@ SOLUTION :
     SPEED PARAMETERS  
     ----------------  
 
-    STARTER RUNNING ON. . . . . . . . . . . . . . . . . .         2 THREADS             
-    NUMBER OF SPMD DOMAINS. . . . . . . . . . . . . . . .         4
-    NUMBER OF THREADS PER DOMAIN. . . . . . . . . . . . .         2
+    STARTER RUNNING ON. . . . . . . . . . . . . . . . . .         1 THREAD              
+    NUMBER OF SPMD DOMAINS. . . . . . . . . . . . . . . .         1
+    NUMBER OF THREADS PER DOMAIN. . . . . . . . . . . . .         1
     ARCHITECTURE OPTIMIZATION . . . . . . . . . . . . . .        18, linux64             
     SIZE OF ELEMENT BUFFER. . . . . . . . . . . . . . . .       128
- 
-     INFO : OMP_NUM_THREADS SET, DEFAULT SETTING IGNORED
-  
 
 
     LOAD CURVES
@@ -363,7 +357,7 @@ SOLUTION :
 
 
 
-         PROPERTY SETS (HM_READER)
+         PROPERTY SETS
          -------------
 
 
@@ -372,6 +366,7 @@ prop_fluid
      PROPERTY SET NUMBER . . . . . . . . . .=         1
      SOLID FORMULATION FLAG. . . . . . . . .=         1
      SMALL STRAIN FLAG . . . . . . . . . . .=         4
+     IALE FLAG (0:LAGRANGE,1:ALE,2:EULER). .=         0
      SOLID STRESS PLASTICITY FLAG. . . . . .=         2
      COROTATIONAL SYSTEM FLAG. . . . . . . .=         1
      TETRA4 FORMULATION FLAG. . . . .  . . .=      1000
@@ -390,6 +385,7 @@ prop_fluid
      NUMERICAL NAVIER STOKES VISCOSITY MU. .=  0.000000000000    
      BRICK MINIMUM TIME STEP................=  0.000000000000    
      POST PROCESSING STRAIN FLAG . . . . . .=         1
+     SOLID DISTORTION CONTROL FLAG . . . . .=         0
 
      NUMBER OF INTEGRATION POINTS. .  . .  .=         1
 
@@ -402,10 +398,10 @@ prop_fluid
 
 PART:         1,BRICK
 ----
-     PROPERTY:         1,prop_fluid
-     MATERIAL:         1,explosive(Detonation products pressure in Pa)
-     SUBSET  :         0
- VIRT. THICKN:  0.000000000000    
+     PROPERTY    :         1 (TYPE 14),prop_fluid
+     MATERIAL    :         1 (LAW  51),explosive(Detonation products pressure in Pa)
+     SUBSET      :         0
+     FRAMEWORK   :         ALE
 
 
        HIERARCHICAL SUBSET ORGANIZATION
@@ -495,6 +491,26 @@ PART:         1,BRICK
 
 
 
+
+
+    DETONATORS
+    ----------
+
+
+
+
+     DETONATION POINT                    1
+     ----------------           
+     X-COORDINATE              =  5.000000000000    
+     Y-COORDINATE              =  5.000000000000    
+     Z-COORDINATE              =  5.000000000000    
+     DETONATION TIME           =-1.0000000200409E+20
+     EXPLOSIVE MATERIAL NUMBER =         0
+
+
+
+
+
        A.L.E.  NODAL CONNECTIVITIES  
        ----------------------------  
       NODE TRA ROT GRI LAG      NODE
@@ -541,26 +557,6 @@ PART:         1,BRICK
             4            0            0          Y            1            0   -1.000000000000        1.000000000000        0.000000000000       1.0000000200409E+20
             7            0            0          Y            1            0   -1.000000000000        1.000000000000        0.000000000000       1.0000000200409E+20
             8            0            0          Y            1            0   -1.000000000000        1.000000000000        0.000000000000       1.0000000200409E+20
-
-
-
-
-    DETONATORS
-    ----------
-
-
-
-
-DETONATION POINT                    1
-     ----------------           
-     X-COORDINATE              =  5.000000000000    
-     Y-COORDINATE              =  5.000000000000    
-     Z-COORDINATE              =  5.000000000000    
-     LIGHTING TIME             =-1.0000000000000E+30
-     EXPLOSIVE MATERIAL NUMBER =         0
-
-
-
   
  SPMD IS CHECKING FOR ELEMENT DELETION IN : 
  L51_JWL_PG_dP-E_0001.rad                                                                                     
@@ -568,33 +564,20 @@ DETONATION POINT                    1
  DOMAIN DECOMPOSITION USING MULTILEVEL KWAY
  ------------------------------------------
  DOMAIN DECOMPOSITION OPTIMIZED FOR PARALLEL ARITHMETIC ON
- DOMAIN DECOMPOSITION : OPTIMIZED FOR SANDY BRIDGE PROCESSOR
+ DOMAIN DECOMPOSITION : OPTIMIZED FOR BROADWELL PROCESSOR
 ** INFO: SIMPLIFIED DOMAIN DECOMPOSITION
 
 
-       8-NODE ELEMENT GROUPS
-       ---------------------
 
-     GROUP      MAT.     ELEM.     FIRST    BUFFER     GAUSS    A.L.E.     EULER    TURBU.    THERM.     HOUR-     INTEG       VAR    POROUS   PLASTI.     CLOS.      CODV  FAILURE     IEOS
-         #       LAW    NUMBER     ELEM.   ADDRESS    POINTS      FLAG      FLAG      FLAG      FLAG     GLASS      FLAG       MID    MEDIUM      FLAG      FLAG              FLAG      TYPE
-         1        51         1         1         1         1         1         0         0         0         1         0         1         0         2         0        11         0         0
-
-
-       RESTART SIZE OF SHELL AND SOLID ELEMENT GROUPS
-       ----------------------------------------------
-
-
-
-
-
-
-     DETONATION TIMES FOR JWL ELEMENTS       
-     ---------------------------------       
-
-     ELEMENT  DETONATION TIME                
-
-              2   -0.10000E+31
  BRICK GROUP         1 VECTORIZATION CODE =    0
+
+
+     DETONATION TIMES FOR JWL ELEMENTS
+     ---------------------------------
+
+     ELEMENT DETONATION TIME
+
+              1   -0.10000E+21
 
 
      NODAL MASSES
@@ -609,12 +592,11 @@ PART MASS & INERTIA
 -------------------
 
 
-PART :          1BRICK
-----
- Mass        Ixx         Iyy         Izz         Ixy        Iyz        Izx
-  1204.000000000      60200.00000000      60200.00000000      60200.00000000      0.000000000000      0.000000000000      0.000000000000    
- X           Y           Z           Kin. Energy Vx         Vy         Vz
-  5.000000000000      5.000000000000      5.000000000000      0.000000000000      0.000000000000      0.000000000000      0.000000000000    
+PART :          1, BRICK
+            Mass             Ixx             Iyy             Izz             Ixy             Iyz             Izx
+  1.20400000E+03  6.02000000E+04  6.02000000E+04  6.02000000E+04  0.00000000E+00  0.00000000E+00  0.00000000E+00
+               X               Y               Z     Kin. Energy              Vx              Vy              Vz
+  5.00000000E+00  5.00000000E+00  5.00000000E+00  0.00000000E+00  0.00000000E+00  0.00000000E+00  0.00000000E+00
 
 
 PART ELEMENT/MATERIAL PARAMETER REVIEW:
@@ -622,8 +604,8 @@ PART ELEMENT/MATERIAL PARAMETER REVIEW:
 
 Part id,name:         1 BRICK                  Mat type:  51 Elm type: SOLID-HEXA             
 ----
-  Isolid  Ismstr   Icpre  Iframe    IHKT Itetra4 Itetra10 IMATVIS
-       1       4       3       1       0       0       0       0
+  Isolid  Ismstr   Icpre  Iframe    IHKT Itetra4 Itetra10 IMATVIS ICONTROL
+       1       4       3       1       0       0       0       0       0
 --      qa        qb   lamda_v      mu_v         h        dn
     1.1000    0.0500    0.0000    0.0000    0.1000    0.0000
 
@@ -646,10 +628,7 @@ Part id,name:         1 BRICK                  Mat type:  51 Elm type: SOLID-HEX
       ADDED NODAL NON-STRUCTURAL MASSES 
      -----------------------------------
 
-
-
-
-  TOTAL ADDED MASS =   0.000000000000    
+      TOTAL ADDED MASS =   0.000000000000    
 
 
   
@@ -800,78 +779,10 @@ DX        DY        DZ        VX        VY        VZ        X         Y         
     STARTER STORAGE 
     --------------- 
  
-    STARTER MEMORY USAGE        122 MB
-
-
-
- STATISTICS ON DOMAIN DECOMPOSITION 
- ---------------------------------- 
-
-AVERAGE NB. OF BOUNDARY NODES :     0
-STANDARD DEVIATION            :     0
-
-AVERAGE NUMBER OF LOCAL NODES :       2
-STANDARD DEVIATION            :       3
-
- PROC    NB OF ELTS    NB OF BOUND. NODES    NB OF BOUND. PROCS
-    1             1                     0                     0
-    2             0                     0                     0
-    3             0                     0                     0
-    4             0                     0                     0
-
- DOMAIN DECOMPOSITION SUMMARY FOR SPMD PROCESSOR   1
- ----------------------------------------------------
- NUMBER OF NODES................. :           8
- NUMBER OF SOLID ELEMENTS........ :           1
- TOTAL NUMBER OF NODES FOR COMM.. :           0
+    STARTER MEMORY USAGE        153 MB
 
 
      LOCAL ENGINE STORAGE EVALUATION FOR SPMD PROCESSOR     1
-     --------------------------------------------------------
-        MEMORY USED FOR REALS            5 MB 
-        MEMORY USED FOR INTEGERS         5 MB 
-        TOTAL MEMORY EVALUATION         10 MB 
-                                            
-        RESTART FILE SIZE         0 MB
-
- DOMAIN DECOMPOSITION SUMMARY FOR SPMD PROCESSOR   2
- ----------------------------------------------------
- NUMBER OF NODES................. :           0
- NUMBER OF SOLID ELEMENTS........ :           0
- TOTAL NUMBER OF NODES FOR COMM.. :           0
-
-
-     LOCAL ENGINE STORAGE EVALUATION FOR SPMD PROCESSOR     2
-     --------------------------------------------------------
-        MEMORY USED FOR REALS            5 MB 
-        MEMORY USED FOR INTEGERS         5 MB 
-        TOTAL MEMORY EVALUATION         10 MB 
-                                            
-        RESTART FILE SIZE         0 MB
-
- DOMAIN DECOMPOSITION SUMMARY FOR SPMD PROCESSOR   3
- ----------------------------------------------------
- NUMBER OF NODES................. :           0
- NUMBER OF SOLID ELEMENTS........ :           0
- TOTAL NUMBER OF NODES FOR COMM.. :           0
-
-
-     LOCAL ENGINE STORAGE EVALUATION FOR SPMD PROCESSOR     3
-     --------------------------------------------------------
-        MEMORY USED FOR REALS            5 MB 
-        MEMORY USED FOR INTEGERS         5 MB 
-        TOTAL MEMORY EVALUATION         10 MB 
-                                            
-        RESTART FILE SIZE         0 MB
-
- DOMAIN DECOMPOSITION SUMMARY FOR SPMD PROCESSOR   4
- ----------------------------------------------------
- NUMBER OF NODES................. :           0
- NUMBER OF SOLID ELEMENTS........ :           0
- TOTAL NUMBER OF NODES FOR COMM.. :           0
-
-
-     LOCAL ENGINE STORAGE EVALUATION FOR SPMD PROCESSOR     4
      --------------------------------------------------------
         MEMORY USED FOR REALS            5 MB 
         MEMORY USED FOR INTEGERS         5 MB 
@@ -889,20 +800,20 @@ STANDARD DEVIATION            :       3
  CPU USER TIME
  -------------
  TRANSLATOR  FREEFORM    LECTURE     DDSPLIT     IPARI_L_INI INTBUF_INI  SPL_INTS    W_FI        
-.0000E+00   .3831E+00   .1461E+00   .3409E-01   .0000E+00   .0000E+00   .0000E+00   .3010E-04
+.0000E+00   .1529E+00   .7786E-01   .1368E-02   .0000E+00   .0000E+00   .0000E+00   .5007E-05
   
   
  ELAPSED TIME
  ------------
  TRANSLATOR  FREEFORM    LECTURE     DDSPLIT     IPARI_L_INI INTBUF_INI  SPL_INTS    W_FI        
-.0000E+00   .1144E+07   .1630E+00   .2128E-01   .0000E+00   .0000E+00   .0000E+00   .1009E-04
+.0000E+00   .1258E+06   .1107E+00   .2854E-02   .0000E+00   .0000E+00   .0000E+00   .1060E-04
   
                    ** COMPUTE TIME INFORMATION **
   
- EXECUTION STARTED      :      2022/11/23  16:24:54
- EXECUTION COMPLETED    :      2022/11/23  16:24:55
+ EXECUTION STARTED      :      2025/06/27  22:26:49
+ EXECUTION COMPLETED    :      2025/06/27  22:26:50
   
- ELAPSED TIME...........=          0.63 s
+ ELAPSED TIME...........=          0.70 s
                                00:00:00
   
 ------------------------------------------------------------------------

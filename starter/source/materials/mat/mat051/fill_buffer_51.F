@@ -31,13 +31,14 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- uses       -----------------------------------------------------
       !||    message_mod            ../starter/share/message_module/message_mod.F
       !||====================================================================
-      SUBROUTINE FILL_BUFFER_51( IPM, PM, UPARAM, BUFMAT, USER_ID, TITR, INTERNAL_ID, MAT_PARAM)
+      SUBROUTINE FILL_BUFFER_51( IPM, PM, UPARAM, BUFMAT, USER_ID, TITR, INTERNAL_ID, MAT_PARAM, MLAW_TAG)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
       USE MATPARAM_DEF_MOD, ONLY : MATPARAM_STRUCT_
+      USE ELBUFTAG_MOD , ONLY : MLAW_TAG_
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -70,6 +71,7 @@ C-----------------------------------------------
       my_real        :: UPARAM(*)
       CHARACTER(LEN=NCHARTITLE),INTENT(IN) ::  TITR
       TYPE(MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(INOUT) :: MAT_PARAM
+      TYPE(MLAW_TAG_) , DIMENSION(NUMMAT)  , INTENT(INOUT) :: MLAW_TAG
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -194,7 +196,7 @@ C-----------------------------------------------
                 !already checked in hm_read_mat51 (MID(I)=0 or MID(I) <0)
               ENDIF
           ELSE
-            IF(MLN == 2 .OR. MLN == 3 .OR. MLN == 4 .OR. MLN == 5 .OR. MLN == 6 .OR. MLN == 10 .OR. MLN == 102)THEN
+            IF(MLN == 2 .OR. MLN == 3 .OR. MLN == 4 .OR. MLN == 5 .OR. MLN == 6 .OR. MLN == 10 .OR. MLN == 102 .OR. MLN == 133)THEN
               IF(MLN /= 5)THEN
                 IF(EOS_TYPE == 18 .OR. EOS_TYPE == 1 .OR. EOS_TYPE == 7 .OR. EOS_TYPE == 10)THEN
                 ELSE
@@ -219,7 +221,7 @@ C-----------------------------------------------
                 ENDIF
               ENDIF
             ELSE
-              chain1='SUBMATERIAL CAN ONLY BE DEFINED FROM LAWS 2,3,4,5,6,10 OR 102 '
+              chain1='SUBMATERIAL CAN ONLY BE DEFINED FROM LAWS 2,3,4,5,6,10 102 OR 133 '
               CALL ANCMSG(MSGID=99,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=ID,C1=TITR,C2=chain1)
             ENDIF
            ENDIF
@@ -661,8 +663,42 @@ C-----------------------------------------------
              UPARAM(IDX_YIELD(J)+25) = ZERO
              UPARAM(IDX_YIELD(J)+26) = RHO*SSP*SSP
 
+             CASE(133) ! /MAT/GRANULAR
+
+             MLAW_TAG(imid)%NVARTMP = 6
+
+             !yield criteria
+             PMIN = MAT_PARAM(IMID)%uparam(1)
+             YOUNG = MAT_PARAM(IMID)%young
+             BULK = MAT_PARAM(IMID)%bulk
+             ANU = MAT_PARAM(IMID)%nu
+
+             G = YOUNG / TWO / (ONE+ANU)
+             GG = TWO*G
+             SSP    = SQRT( (DPDMU + TWO_THIRD*GG) / RHO )
+             !---WRITING LAW51 SUBMATERIAL BUFFER
+             J = UPARAM(276+I)
+             UPARAM(IDX_IPLA    +J)  = 3
+             IPLA                    = 1
+             UPARAM(IDX_G       +J)  = GG
+             UPARAM(IDX_YIELD(J)+01) = ZERO
+             UPARAM(IDX_YIELD(J)+02) = YOUNG
+             UPARAM(IDX_YIELD(J)+14) = REAL(IMID)
+             UPARAM(IDX_YIELD(J)+15) = ZERO
+             UPARAM(IDX_YIELD(J)+16) = ZERO
+             UPARAM(IDX_YIELD(J)+17) = ZERO
+             UPARAM(IDX_YIELD(J)+18) = ZERO
+             UPARAM(IDX_YIELD(J)+19) = ZERO
+             UPARAM(IDX_YIELD(J)+20) = ZERO
+             UPARAM(IDX_YIELD(J)+21) = ZERO
+             UPARAM(IDX_YIELD(J)+22) = ANU
+             UPARAM(IDX_YIELD(J)+23) = ZERO
+             UPARAM(IDX_YIELD(J)+24) = SSP
+             UPARAM(IDX_YIELD(J)+25) = ZERO
+             UPARAM(IDX_YIELD(J)+26) = RHO*SSP*SSP
+
            CASE DEFAULT
-             !not expected, pre-condition test done in lecm51, error message if MLN is not relevant
+             !not expected, pre-condition tested above, error message if MLN is not relevant
 
          END SELECT
 
