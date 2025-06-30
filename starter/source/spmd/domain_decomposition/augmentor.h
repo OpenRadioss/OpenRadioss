@@ -736,12 +736,6 @@ private:
         // Connect components in minimum spanning tree fashion
         while (remaining_components.size() > 1)
         {
-            double min_distance = std::numeric_limits<double>::max();
-            int best_comp1 = -1, best_comp2 = -1;
-            int best_u = -1, best_v = -1;
-            int second_best_comp1 = -1, second_best_comp2 = -1;
-            int second_best_u = -1, second_best_v = -1;
-
             //            // Find the largest component to sample
             //            size_t largest_component_size = 0;
             //            size_t largest_component_index = 0;
@@ -755,6 +749,13 @@ private:
             // Find closest pair of components using largest component for sampling
             for (size_t i = 0; i < remaining_components.size(); ++i)
             {
+               double min_distance = std::numeric_limits<double>::max();
+               int best_comp1 = -1, best_comp2 = -1;
+               int best_u = -1, best_v = -1;
+               int second_best_comp1 = -1, second_best_comp2 = -1;
+               int second_best_u = -1, second_best_v = -1;
+
+
                 //    size_t i = largest_component_index;
                 std::vector<int> sample_i = sample_vector(remaining_components[i], 100, gen);
                 for (size_t j = i + 1; j < remaining_components.size(); ++j)
