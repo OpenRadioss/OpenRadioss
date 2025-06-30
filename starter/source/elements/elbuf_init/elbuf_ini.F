@@ -105,7 +105,7 @@ C-----------------------------------------------
      .   IPMAT,IPMAT_IPLY,NPTTOT,NUVARN,NX,IBOLTP,CRKDIR,INLOC,LNLOC,
      .   NONL, DEBUG_PRINT,IPINCH,NVAR_EOS,IEOS_TYPE,IDRAPE,LLOC_SLICE,
      .   IPNPT_LAY,IDFAIL,LNLOCTS,ICONTROL,ISHOFFSET,IDAMP_FREQ_RANGE,
-     .   LDAMP_FREQ_RANGE,NVAR_DAMP_FREQ_RANGE,NPT0
+     .   LDAMP_FREQ_RANGE,NVAR_DAMP_FREQ_RANGE,NPT0,L_EPS  ,L_SIG ,LY_EINT, LY_COUNT 
       INTEGER, ALLOCATABLE, DIMENSION(:,:) :: TFAIL,FAILID
       INTEGER, ALLOCATABLE, DIMENSION(:)   :: IMAT,ILAW
       TYPE(BUF_LAY_)     , POINTER :: BUFLY
@@ -114,6 +114,7 @@ C-----------------------------------------------
       TYPE(FAIL_LOC_)    , POINTER :: FLOC
       TYPE(BUF_NLOC_)    , POINTER :: BUFNL
       TYPE(BUF_NLOCTS_)  , POINTER :: BUFNLTS
+      TYPE(BUF_INTLOC_)  , POINTER :: ILBUF
 C=======================================================================
 c      Element Buffer Routine (Solid) 
 c------
@@ -1441,6 +1442,11 @@ c
           ENDDO
           
           IPMAT_IPLY   = 2 + 2*NLAY
+          ! adding 
+          L_EPS  = 3  
+          L_SIG  = 3  
+          LY_EINT = 1  
+          LY_COUNT= 1  
           DO IL = 1,NINTLAY                                                   
             INTLAY  => ELBUF_TAB(NG)%INTLAY(IL)
 C old stack IGEO(500+IL,IPID)                                
@@ -1457,7 +1463,22 @@ C old stack IGEO(500+IL,IPID)
               IDFAIL = MAT_PARAM(IMAT(IL))%FAIL(J)%FAIL_ID
               TFAIL(IL,J)  = IRUPT 
               FAILID(IL,J) = IDFAIL                                            
-            ENDDO                                                               
+            ENDDO                   
+               LIMAT = LIMAT + 5  ! inter layer parameters: = 5             
+               LIMAT = LIMAT + NEL*LY_EINT               
+               LIMAT = LIMAT + NEL*LY_COUNT   
+            ! write local inter layer variables for each element
+             DO I = 1,NPTR                                          
+                DO J = 1,NPTS                                          
+                   ILBUF => ELBUF_TAB(NG)%INTLAY(IL)%ILBUF(I,J)  
+                   CALL MY_ALLOC(INTLAY%ILBUF(I,J)%EPS,L_EPS*NEL)
+                   CALL MY_ALLOC(INTLAY%ILBUF(I,J)%SIG,L_SIG*NEL)  
+                   INTLAY%ILBUF(I,J)%EPS = ZERO      
+                   INTLAY%ILBUF(I,J)%SIG = ZERO      
+                   LIMAT = LIMAT + NEL*L_EPS  
+                   LIMAT = LIMAT + NEL*L_SIG                                   
+                ENDDO                                                         
+              ENDDO                     
           ENDDO                                                               
 c
           DO IL = 1, NINTLAY                                                       
@@ -1465,17 +1486,16 @@ c
             NVARTMP = ELBUF_TAB(NG)%INTLAY(IL)%NVARTMP                            
             NFAIL = ELBUF_TAB(NG)%INTLAY(IL)%NFAIL                                
             DO IR = 1,NPTR                                                         
-              DO IS = 1,NPTS                                                         
-                CALL MY_ALLOC(ELBUF_TAB(NG)%INTLAY(IL)%MAT(IR,IS)%VARTMP,NVARTMP*NEL)
-                CALL MY_ALLOC(ELBUF_TAB(NG)%INTLAY(IL)%MAT(IR,IS)%VAR,NUVARM*NEL)
+              DO IS = 1,NPTS        
+                CALL MY_ALLOC(ELBUF_TAB(NG)%INTLAY(IL)%MAT(IR,IS)%VAR,NUVARM*NEL)                                                 
                 CALL MY_ALLOC(ELBUF_TAB(NG)%INTLAY(IL)%MAT(IR,IS)%VARTMP,NVARTMP*NEL)
                 ELBUF_TAB(NG)%INTLAY(IL)%MAT(IR,IS)%VAR = ZERO                 
-                ELBUF_TAB(NG)%INTLAY(IL)%MAT(IR,IS)%VARTMP = 0                 
+                ELBUF_TAB(NG)%INTLAY(IL)%MAT(IR,IS)%VARTMP = 0
+                 LIMAT  = LIMAT  + NUVARM*NEL    ! Not need in restart file +    NVARTMP*NEL       
 c                ALLOCATE(ELBUF_TAB(NG)%INTLAY(IL)%VISC(IR,IS)%                 
 c     .                   VAR(NUVARV*NEL) ,STAT=Stat)                               
 c
                 ALLOCATE(ELBUF_TAB(NG)%INTLAY(IL)%FAIL(IR,IS)%FLOC(NFAIL))
-                LIMAT  = LIMAT  + NUVARM*NEL                                         
 c                LVISC = LVISC + NUVARV*NEL                                         
                 DO J = 1,NFAIL                                                     
                   FLOC=>ELBUF_TAB(NG)%INTLAY(IL)%FAIL(IR,IS)%FLOC(J)           
@@ -1484,7 +1504,7 @@ c                LVISC = LVISC + NUVARV*NEL
                   FLOC%NVAR  = MAT_PARAM(IMAT(IL))%FAIL(J)%NUVAR                             
                   CALL MY_ALLOC(FLOC%VAR,FLOC%NVAR*NEL)
                   FLOC%VAR = ZERO                                                   
-                  LIFAIL = LIFAIL + FLOC%NVAR*NEL + 2                                
+                  LIFAIL = LIFAIL + FLOC%NVAR*NEL + 3                               
                 ENDDO                                                              
               ENDDO                                                                  
             ENDDO                                                                   
@@ -1926,22 +1946,6 @@ c
                print*,'     (LLOC*NEL+NPAR_LBUF)*NIP_LAY=',(LLOC*NEL+NPAR_LBUF)*NIP_LAY 
             ENDIF
 c          
-          ENDDO
-c---------          
-c         INTERLAYER
-c---------         
-          LINTLOC = 6  !  (eps=3,  sig=3)                                
-          LINTLAY = 2  !  (eint=1, count=1)
-          LINTPAR = 5  ! ILAW + IMAT + NFAIL + NVAR_MAT + NVARTMP
-          DO IL=1,NINTLAY
-            BUFLEN = BUFLEN + LINTPAR
-            BUFLEN = BUFLEN + (LINTLAY * NEL)
-            BUFLEN = BUFLEN + (LINTLOC * NEL) * NPTR*NPTS
-
-            IF (DEBUG_PRINT == 1) THEN
-               print*,'  **  INTERLAYER=',IL
-               print*,'    LEN=',(LINTLOC * NEL)*NPTR*NPTS +(LINTLAY * NEL)+lintpar  
-            ENDIF
           ENDDO
           IPARG(66,NG) = BUFLEN    !  size of restart transfer table 
  
