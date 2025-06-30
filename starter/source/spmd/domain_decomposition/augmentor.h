@@ -643,8 +643,9 @@ private:
 
                 size_t i = largest_component_index;
                 std::vector<int> sample_i = sample_vector(remaining_components[i], 1000, gen);
-                for (size_t j = i + 1; j < remaining_components.size(); ++j) {
-                    std::vector<int> sample_j = sample_vector(remaining_components[j], 100, gen);
+                for (size_t j = 1; j < remaining_components.size(); ++j) {
+                    if(j == i) continue; // Skip the largest component
+                   std::vector<int> sample_j = sample_vector(remaining_components[j], 100, gen);
                    double min_distance = std::numeric_limits<double>::max();
                    int best_comp1 = -1, best_comp2 = -1;
                    int best_u = -1, best_v = -1;
@@ -711,7 +712,7 @@ public:
         }
         components = find_connected_components(); // Recompute after connecting components
         if(components.size() > 1) {
-            std::cout<<"Warning: Graph still has multiple components after initial connection."<<std::endl;
+            std::cout<<"Warning: Graph still has "<< components.size() << " disconnected components after augmentation." << std::endl; 
         }
         
         // Compute connectivity only once!
