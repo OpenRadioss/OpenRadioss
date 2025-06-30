@@ -630,7 +630,6 @@ private:
         std::mt19937 gen(42);
         
         // Connect components in minimum spanning tree fashion
-        while (remaining_components.size() > 1) {
            
             // Find the largest component to sample
             size_t largest_component_size = 0;
@@ -672,33 +671,13 @@ private:
             if (best_comp1 != -1) {
                 // Add the connecting edge
                 edges.emplace_back(best_u, best_v);
-                add_edge_to_graph(best_u, best_v);
                 if(second_best_comp1 != -1) {
                     edges.emplace_back(second_best_u, second_best_v);
-                    add_edge_to_graph(second_best_u, second_best_v);
                 }
-                
-                // Merge the components
-                std::vector<int> merged_component = remaining_components[best_comp1];
-                merged_component.insert(merged_component.end(),
-                                      remaining_components[best_comp2].begin(),
-                                      remaining_components[best_comp2].end());
-                
-                // Remove old components and add merged one
-                std::vector<std::vector<int>> new_components;
-                for (size_t i = 0; i < remaining_components.size(); ++i) {
-                    if (i != best_comp1 && i != best_comp2) {
-                        new_components.push_back(remaining_components[i]);
-                    }
-                }
-                new_components.push_back(merged_component);
-                remaining_components = new_components;
             } else {
                 break; // Should not happen
             }
           }
-        }
-        
         return edges;
     }
 
@@ -729,6 +708,10 @@ public:
             auto component_edges = connect_components_spatially(components);
             augmentation_edges.insert(augmentation_edges.end(), 
                                     component_edges.begin(), component_edges.end());
+        }
+        components = find_connected_components(); // Recompute after connecting components
+        if(components.size() > 1) {
+            std::cout<<"Warning: Graph still has multiple components after initial connection."<<std::endl;
         }
         
         // Compute connectivity only once!
