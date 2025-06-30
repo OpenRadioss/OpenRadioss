@@ -643,7 +643,7 @@ private:
 
                 size_t i = largest_component_index;
                 std::vector<int> sample_i = sample_vector(remaining_components[i], 1000, gen);
-                for (size_t j = 1; j < remaining_components.size(); ++j) {
+                for (size_t j = 0; j < remaining_components.size(); ++j) {
                     if(j == i) continue; // Skip the largest component
                    std::vector<int> sample_j = sample_vector(remaining_components[j], 100, gen);
                    double min_distance = std::numeric_limits<double>::max();
