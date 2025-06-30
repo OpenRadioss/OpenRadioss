@@ -1919,8 +1919,9 @@ C Determine connectivity components
         ALLOCATE(COLORS(NELEM+1),STAT=IERR1)
         ALLOCATE(ROOTS(NELEM),STAT=IERR1)
 !       CALL DD_BFS(XADJ,ADJNCY,NELEM,NEDGES,NCONNX,COLORS,ROOTS)
+        write(6,*) "NEDGES = ",NEDGES,2* NEDGES
         IF(.FALSE.) THEN
-          WRITE(IOUT,'(A,I8)')
+          WRITE(IOUT,'(A,I8,I8)')
      .  ' NUMBER OF DISCONNECTED COMPONENTS FIXED FOR DOMAIN DECOMP:'
      .  ,NCONNX
 C Metis Workaround to create additional connectivities between non connected graphs
