@@ -490,6 +490,78 @@ void HWCFGReader::readHeaderPositions(MECIModelFactory* model_p) {
                         }
                         do_continue = false;
                     }
+                    //
+                    //
+                    int sub_count_id_or_title = 0;
+                    if (p_type_info)
+                    {
+                        ApplicationMode_e a_mode = (ApplicationMode_e)myInputInfosPtr->GetAppMode();
+                        if (a_mode == HCDI_SOLVER_LSDYNA)
+                        {
+                            if (p_type_info->myAllPossibleflags)
+                            {
+                                static string can_have_title_card_str = "CAN_HAVE_TITLE_CARD";
+                                static string can_have_id_card_str = "CAN_HAVE_ID_CARD";
+                                static string has_title_card_str = "HAS_TITLE_CARD";
+                                static string has_id_card_str = "HAS_ID_CARD";
+                                static string title_str = "_TITLE";
+                                static string id_str = "_ID";
+
+                                /*shoud be a part of member variable later*/
+                                int bit_can_have_title = HCDI_get_data_hierarchy_bitmask(can_have_title_card_str);
+                                int bit_hastitle = HCDI_get_data_hierarchy_bitmask(has_title_card_str);
+
+                                bool has_title = p_type_info->myAllPossibleflags & bit_hastitle;
+                                bool can_have_title = false;
+                                if (!has_title)
+                                    can_have_title = p_type_info->myAllPossibleflags & bit_can_have_title;
+
+                                if (has_title || can_have_title)
+                                {
+                                    bool title_flag = true;
+                                    if (!has_title)
+                                    {
+                                        size_t pos = a_header.find(title_str);
+                                        if (pos == string::npos)
+                                            title_flag = false;
+                                    }
+                                    if (title_flag)
+                                    {
+                                        sub_count_id_or_title = 1;
+                                    }
+                                }
+                                else
+                                {
+                                    int bit_has_idcard = HCDI_get_data_hierarchy_bitmask(has_id_card_str);
+                                    int bit_can_have_idcard = HCDI_get_data_hierarchy_bitmask(can_have_id_card_str);
+
+                                    bool has_idcard = p_type_info->myAllPossibleflags & bit_has_idcard;
+                                    bool can_have_idcard = false;
+                                    if (!has_idcard && bit_can_have_idcard)
+                                        can_have_idcard = p_type_info->myAllPossibleflags & bit_can_have_idcard;
+
+                                    if (has_idcard || can_have_idcard)
+                                    {
+                                        bool idcard_flag = true;
+                                        if (can_have_idcard)
+                                        {
+                                            size_t pos = a_header.find(id_str);
+                                            if (pos == string::npos)
+                                                idcard_flag = false;
+                                        }
+
+                                        if (idcard_flag)
+                                        {
+                                            sub_count_id_or_title = 1;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    a_line_counts -= sub_count_id_or_title;
+                    //
+                    //
                     a_cur_file_p->SetCurrentLocation(aloc);
                     a_cur_file_p->SetCurrentLine(acurline);
                     SetCurrentFileIndex(file_index);
