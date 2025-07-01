@@ -527,7 +527,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    user_windows_mod                             ../common_source/modules/user_windows_mod.F
       !||    xfem2vars_mod                                ../engine/share/modules/xfem2vars_mod.F
       !||====================================================================
-            SUBROUTINE RESOL(TIMERS, ELEMENT, NODES, AF,IAF,
+            SUBROUTINE RESOL(TIMERS, ELEMENT, NODES, coupling, AF,IAF,
      1        ISKWN   ,NETH   ,IPART  ,NOM_OPT,KXX    ,IXX    ,
      2        IXTG   ,IXS     ,IXQ    ,IXT    ,IXP    ,IXR    ,
      3        IFILL  ,MAT_ELEM,
@@ -722,6 +722,7 @@ C-----------------------------------------------
               use th_mod , only : th_has_noda_pext
               use output_mod , only : anim_has_noda_pext, h3d_has_noda_pext
               use damping_vref_compute_dampa_mod
+              use coupling_adapter_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -902,6 +903,7 @@ C-----------------------------------------------
               TYPE(UNIT_TYPE_) :: UNITAB !structure containing units conversion ratios
               INTEGER MIN_TAB(4)
               my_real :: DT2R
+              TYPE(coupling_type), intent(inout) :: coupling 
 C
 C     Mat + Prop timers
               INTEGER, DIMENSION(NUMMAT) :: POIN_UMP
@@ -1319,6 +1321,17 @@ C-------------------------------------------------------------------------------
               type (ams_work_) :: ams_work   !< Working areas for AMS
 
               type(component_), dimension(:), allocatable :: component
+C-----------------------------------------------------------------------------------
+C coupling coupling
+              logical :: ongoing
+              character(len=50) :: config_file
+              character(len=50) :: participant_name
+              character(len=50) :: data_name
+              character(len=50) :: mesh_name
+              character(len=50) :: data_name2
+              integer :: nb_coupling_nodes
+              integer, dimension(:), allocatable :: node_ids
+              double precision :: dt2max_coupling
 C-----------------------------------------------------------------------------------
               ELEMENT%SHELL%OFFSET = NUMELS + NUMELQ
               CALL PREPARE_DEBUG(NODES%ITAB,NUMNOD)
@@ -3190,6 +3203,15 @@ C First: try with reduced bounding box
               CALL PYTHON_UPDATE_TIME(TT,DT2)
               CALL PYTHON_UPDATE_NODAL_ENTITIES(NUMNOD, NODES, X=NODES%X,A=NODES%A,V=NODES%V,D=NODES%D,DR=NODES%DR,VR=NODES%VR)
               CALL PYTHON_SYNC(PYTHON%CONTEXT)
+              IF(coupling%active) THEN
+              ! ALLOCATION AND INITIALIZATION OF COUPLING COUPLING
+                ALLOCATE(NODES%FORCES(3,NUMNOD))
+                NODES%FORCES = ZERO
+                CALL COUPLING_SET_NODES(coupling, IGRNOD, NGRNOD)
+                CALL COUPLING_INITIALIZE(coupling,NODES%X,NUMNOD,ISPMD,NSPMD)
+                CALL COUPLING_ONGOING(coupling,ongoing)
+              ENDIF
+
 C===========================================================================
 C                 BEGINNING OF EXPLICIT ITERATION LOOP
 C===========================================================================                                        
@@ -3734,6 +3756,8 @@ C----------------------------------------
                 ELSE
                   NATIV_SMS_SIZ = 0
                 ENDIF
+
+                IF(coupling%active .AND. TT > ZERO) DT2T = MIN(DT2T,coupling%DT_LIMIT)
 
 C========================================================================================
 C                                     PARALLEL SECTION (SMP)
@@ -5001,7 +5025,9 @@ C
 C--- //------------------------------
 C       FORCE ASSEMBLY
 C-------------------------------------
-
+             IF(coupling%active) THEN
+               NODES%FORCES(1:3,1:NUMNOD) = nodes%A(1:3,1:NUMNOD)
+             ENDIF
 C========================================================================================
 C                                     PARALLEL SECTION (SMP)
 C========================================================================================
@@ -7137,6 +7163,14 @@ C===============================================================================
                 IF(IPARIT == 0.AND.NSPMD > 1.AND. NLOC_DMG%IMOD > 0)THEN
                   CALL SPMD_EXCH_SUB_POFF(NLOC_DMG)
                 ENDIF
+
+                IF(coupling%active) THEN
+                  ! FORCES WAS INITIALIZED TO THE ACCELERTION, BEFORE ASSEMBLY
+                  ! BEFORE THE CALL TO ACCELE, A CONTAINS THE FORCES
+                  ! AFTER THE CALL TO ACCELE, A CONTAINS THE ACCELERATION
+                  !NODES%FORCES(1:3,1:NUMNOD) = nodes%A(1:3,1:NUMNOD) - NODES%FORCES(1:3,1:NUMNOD) 
+                  CALL COUPLING_SYNC(coupling,DT2,nodes,COUPLING_FORCES)
+                ENDIF
 C========================================================================================
 C                                     PARALLEL SECTION (SMP)
 C========================================================================================
@@ -7151,7 +7185,7 @@ C       ACCELERATIONS (TRANSLATIONS)
 C-----------------------------------------------
 
                 !-----------------------------
-                !FINITE VOLUME METHOD FOR ALE
+                ! FINITE VOLUME METHOD FOR ALE
                 !-----------------------------
                 IF(ALEFVM_Param%IEnabled>0)THEN
                   CALL ALEFVM_ACCELE(NODES%A, NODES%AR, NODFTSK, NODLTSK, ALE_CONNECTIVITY%NALE)
@@ -7199,15 +7233,12 @@ C
      2                          PINCH_DATA%STIFPINCH, NODFTSK,            NODLTSK,
      3                                          DT2T,   DTFAC)
                 ENDIF
-C
-C---
 C--- //  ---------------------------------------
 C       TEMPERATURES COMPUTATION
 C-----------------------------------------------
                 IF (GLOB_THERM%ITHERM_FE > 0 )
      .             CALL TEMPUR(NODES%TEMP ,NODES%MCP,FTHE,NODFTSK,NODLTSK,NODES%WEIGHT,MCP_OFF,GLOB_THERM%HEAT_STORED)
 !$OMP END PARALLEL
-
 
 C------------------------------------------
 C       DT_DC for thick-shell
@@ -7228,7 +7259,6 @@ C===============================================================================
                   CALL ACCDTDC(GREFTSK,GRELTSK,IENUNL ,ALPHA_DC,NODES%A       ,NODES%MS   ,NODES%ITAB )
 !$OMP END PARALLEL
                 ENDIF
-
 
                 IF(NTSHEGG>0.AND.NSPMD > 1)
      .              CALL SPMD_EXCH_FA(IAD_STSH ,FR_STSH ,IAD_RTSH ,FR_RTSH ,NODES%A   )
@@ -8727,6 +8757,7 @@ C
                 CALL TRACE_OUT(5)
 C-------ADYREL----
                 IF (ISTAT==3) CALL ENER_W0
+                IF(coupling%active) CALL COUPLING_ADVANCE(coupling,DT2)
 C------------
 C       TEMPS
 C------------
@@ -9237,6 +9268,11 @@ C===============================================================================
               ENDIF
               CALL PYTHON_SYNC(PYTHON%CONTEXT)
               CALL PYTHON_UPDATE_NODAL_ENTITIES(NUMNOD,NODES,X=NODES%X, D=NODES%D, DR=NODES%DR)
+              IF(coupling%active) THEN
+                DT2MAX_COUPLING = DT2 
+                ! Read and write coupling positions
+                CALL COUPLING_SYNC(coupling,DT2,NODES,COUPLING_POSITIONS)
+              ENDIF
 C========================================================================================
 C                                   NON PARALLEL SECTION (SMP)
 C========================================================================================
@@ -9709,6 +9745,17 @@ C--- //0 ----------------
      7                ISLEN20E,NODES%IKINE   ,DIAG_SMS,SENSORS%SENSOR_TAB,INTERFACES%INTBUF_TAB ,INT24E2EUSE ,
      8                FORNEQS ,MULTI_FVM,INTERFACES)
                 END IF
+
+                IF(coupling%active) THEN
+                  CALL COUPLING_ONGOING(coupling, ONGOING)
+                    ! FAKE TIME STEPS TO FINALIZE COUPLING
+                    DO WHILE (ONGOING)
+                      DT2 = HUGE(DT2)
+                      CALL COUPLING_ADVANCE(coupling,DT2)
+                      CALL COUPLING_ONGOING(coupling, ONGOING)
+                    END DO
+                    CALL COUPLING_FINALIZE(coupling)
+                ENDIF
 
                 IF(ALLOCATED(ISENDTO))DEALLOCATE(ISENDTO)
                 IF(ALLOCATED(IRCVFROM))DEALLOCATE(IRCVFROM)

@@ -81,7 +81,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .           DIFFUSION   ,SEGVAR      ,DYNAIN_DATA    ,DRAPEG     ,USER_WINDOWS    ,
      .           OUTPUT      ,INTERFACES  ,DT             ,LOADS      ,MAT_ELEM        ,
      .           PYTHON      ,NAMES_AND_TITLES, UNITAB    ,SKEWS      ,LIFLOW          ,
-     .           LRFLOW      ,glob_therm ,PBLAST          ,RBE3 )
+     .           LRFLOW      ,glob_therm ,PBLAST          ,RBE3 ,coupling)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -124,6 +124,7 @@ C-----------------------------------------------
       use PBLAST_MOD
       use TIMER_MOD
       use rbe3_mod
+      use coupling_adapter_mod 
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -141,6 +142,7 @@ C-----------------------------------------------
       type(connectivity_), intent(inout) :: ELEMENT 
       type(nodal_arrays_), intent(inout) :: NODES
       type(timer_), intent(inout) :: TIMERS
+      type(coupling_type), intent(inout) :: coupling
       INTEGER, INTENT(IN) :: LIFLOW  !< Size of IFLOW
       INTEGER, INTENT(IN) :: LRFLOW  !< Size of RFLOW
 
@@ -212,7 +214,7 @@ C-----------------------------------------------
       ITRACE(2)=NTHREAD
       CALL TRACE_IN(2,ITRACE,ZERO)
 C
-      CALL RESOL(TIMERS, ELEMENT,NODES,
+      CALL RESOL(TIMERS, ELEMENT,NODES,coupling,
      .  AF              ,IAF            ,
      1  ISKWN          ,NETH           ,IPART          ,NOM_OPT     ,KXX              ,IXX       ,
      2  IXTG            ,IXS            ,IXQ            ,IXT            ,IXP         ,IXR       ,
