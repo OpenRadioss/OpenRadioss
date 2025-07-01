@@ -730,7 +730,6 @@ private:
 
         std::vector<std::pair<int, int>> edges;
         edges.reserve(components.size() - 1);
-        std::vector<std::vector<int>> remaining_components = components;
         std::mt19937 gen(42);
 
         // Connect components in minimum spanning tree fashion
@@ -738,21 +737,21 @@ private:
         // Find the largest component to sample
         size_t largest_component_size = 0;
         size_t largest_component_index = 0;
-        for (size_t i = 0; i < remaining_components.size(); ++i)
+        for (size_t i = 0; i < components.size(); ++i)
         {
-            if (remaining_components[i].size() > largest_component_size)
+            if (components[i].size() > largest_component_size)
             {
-                largest_component_size = remaining_components[i].size();
+                largest_component_size = components[i].size();
                 largest_component_index = i;
             }
         }
 
         size_t i = largest_component_index;
-        std::vector<int> sample_i = sample_vector(remaining_components[i], 1000, gen);
-        for (size_t j = 0; j < remaining_components.size(); ++j)
+        std::vector<int> sample_i = sample_vector(components[i], 1000, gen);
+        for (size_t j = 0; j < components.size(); ++j)
         {
             if (j == i) {continue;} // Skip the largest component 
-            std::vector<int> sample_j = sample_vector(remaining_components[j], 100, gen);
+            std::vector<int> sample_j = sample_vector(components[j], 100, gen);
             double min_distance = std::numeric_limits<double>::max();
             int best_comp1 = -1, best_comp2 = -1;
             int best_u = -1, best_v = -1;
@@ -786,6 +785,11 @@ private:
             {
                 // Add the connecting edge
                 edges.emplace_back(best_u, best_v);
+                if(components.size() == 1)
+                {
+                std::cout<<"best_comp1: "<<best_comp1<<" best_comp2: "<<best_comp2
+                         <<" best_u: "<<best_u<<" best_v: "<<best_v<<std::endl;
+                }
                 if (second_best_comp1 != -1)
                 {
                     edges.emplace_back(second_best_u, second_best_v);
@@ -831,13 +835,6 @@ public:
             augmentation_edges.insert(augmentation_edges.end(),
                                       component_edges.begin(), component_edges.end());
         }
-        components = find_connected_components(); // Recompute after connecting components
-        if (components.size() > 1)
-        {
-            std::cout << "Warning: Graph still has " << components.size() << " disconnected components after augmentation ";
-            std::cout <<" even if we added "<< augmentation_edges.size() << " edges." << std::endl;
-        }
-
         // Compute connectivity only once!
         int current_connectivity = compute_edge_connectivity();
 

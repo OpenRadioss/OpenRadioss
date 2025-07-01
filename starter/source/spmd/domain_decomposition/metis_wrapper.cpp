@@ -326,7 +326,7 @@ extern "C"
             }
 
             new_edge = augment_graph_connectivity(xadj, adjncy, coords, 4, 5.0); // Example augmentation with max edge ratio of 2.0
-            std::cout <<"Should be zero" << new_edge.size() << " new edges." << std::endl;
+            std::cout <<"Should be zero:" << new_edge.size() << " new edges." << std::endl;
 
             // convert back to 1-based indexing for METIS
             for (int i = 0; i < xadj.size(); i++)
@@ -380,10 +380,16 @@ extern "C"
             // alternate between METIS_PartGraphKway and METIS_PartGraphRecursive
 
             // Run METIS with current seed using vector data
+            auto start_metis = std::chrono::high_resolution_clock::now();
             IERR1 = METIS_PartGraphKway(
                 NELEM, NCOND, xadj.data(), adjncy.data(),
                 IWD, vsize, ADJWGT2, NNODE, tpwgts,
                 ubvec, temp_options, NEC, temp_cep);
+            // end chrono
+            auto end_metis = std::chrono::high_resolution_clock::now();
+            std::cout << "METIS_PartGraphKway took "
+                      << std::chrono::duration_cast<std::chrono::seconds>(end_metis - start_metis).count()
+                      << " seconds." << std::endl;
 
             if (IERR1 == 1)
             { // METIS_OK
@@ -441,7 +447,7 @@ extern "C"
         // end chrono
         auto end = std::chrono::high_resolution_clock::now();
         // write time in seconds to console
-        std::cout << "METIS_PartGraphKway took "
+        std::cout << "TOTAL TIME: "
                   << std::chrono::duration_cast<std::chrono::seconds>(end - start).count()
                   << " seconds." << std::endl;
         return best_ierr;
