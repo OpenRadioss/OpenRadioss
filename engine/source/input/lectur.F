@@ -3288,6 +3288,13 @@ C-----------------------------------------------
        IPRINT=0
 C       IMPMV>0 isolv/=1 --> IMPMV=0
        IF (ISPMD == 0) IPRINT=1
+       IF (IMP_CHK > 0) THEN
+          NTY = 5
+          IF (IPREC /= 5) IPREC=5
+          IF (ILINE /= 1) ILINE=1
+          IF (ISOLV /= 1) ISOLV=1
+          IF (D_TOL /= ZERO) D_TOL = ZERO
+       ENDIF
        IF(ISOLV >= 3 ) THEN
           CALL ANCMSG(MSGID=296,ANMODE=ANINFO,I1=ISOLV)
           ISOLV = 2
@@ -3372,13 +3379,6 @@ C------case /IMPL/PROJV/n w/o /SOLV/9
        ENDIF
 
        IF (IPREC == 0.OR.IPREC > 6)IPREC=5
-       IF (IMP_CHK > 0) THEN
-          NTY = 5
-          IF (IPREC /= 5) IPREC=5
-          IF (ILINE /= 1) ILINE=1
-          IF (ISOLV /= 1) ISOLV=1
-          IF (D_TOL /= ZERO) D_TOL = ZERO
-       ENDIF
 
        IF (ISOLV == 2) THEN
         IF (ITOL == 0.OR.ITOL > 1) ITOL=2

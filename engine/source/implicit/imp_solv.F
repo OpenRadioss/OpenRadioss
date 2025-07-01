@@ -3140,7 +3140,7 @@ C------------------------------------------
      N  FRWL6  ,IRBE2  ,LRBE2  ,ICFIELD,LCFIELD,CFIELD,ELBUF_TAB,WEIGHT_MD,
      O  STACK  ,DIMFB  ,FBSAV6 ,STABSEN,TABSENSOR,DRAPE_SH4N,DRAPE_SH3N,H3D_DATA,
      P  NDDL0  ,NNZK0  ,IMPBUF_TAB,CPTREAC,FTHREAC,NODREAC,DRAPEG,TH_SURF ,
-     Q  DPL0CLD,VEL0CLD,SNPC,STF, WFEXT_MD)
+     Q  DPL0CLD,VEL0CLD,SNPC,STF, WFEXT_MD,IGRSURF)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -3156,6 +3156,7 @@ C-----------------------------------------------
         USE DRAPE_MOD
         USE TH_SURF_MOD , ONLY : TH_SURF_
         USE SKEW_MOD , ONLY : SKEW_
+        USE GROUPDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -3163,9 +3164,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#if defined(MUMPS5)
-#include "dmumps_struc.h"
-#endif
 #include "timeri_c.inc"
 #include "impl1_c.inc"
 #include "impl2_c.inc"
@@ -3221,7 +3219,7 @@ C-----------------------------------------------
         TYPE (TH_SURF_) , INTENT(INOUT) :: TH_SURF
         TYPE(SKEW_),INTENT(INOUT) :: SKEWS
         DOUBLE PRECISION,INTENT(INOUT) :: WFEXT, WFEXT_MD
-#if defined(MUMPS5)
+        TYPE (GROUP_)  , DIMENSION(NSURF)   :: IGRSURF
 C----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -3315,6 +3313,7 @@ C-----------------------------------------------
         IMP_IW = 0
         IMP_IR = 0
         RBID=ZERO
+        IBID= 0
 C
         IF (IRREF>0.AND.IMCONV==1.AND.ILINE/=1) THEN
           IRFLAG=IRREF
@@ -3608,7 +3607,7 @@ C----------------------------------
      9    JDIK      ,IKC       ,DIAG_K     ,LT_K      ,IDDL      ,
      A    NUM_IMP   ,NS_IMP    ,NE_IMP     ,IND_IMP   ,NDOFI     ,
      B    ITOK      ,D_IMP     ,LB         ,GAP       ,DIRUL     ,
-     C    NT_RW     ,RBID      ,IRBE3      ,LRBE3     ,FRBE3     ,
+     C    NT_RW     ,IBID      ,IRBE3      ,LRBE3     ,FRBE3     ,
      D    NSS3      ,ISS3      ,IRBE2      ,LRBE2     ,NSB2      ,
      E    ISB2      )
 C
@@ -3707,7 +3706,7 @@ C    /---------------/
      7                MS    ,X     ,IPARI ,INTBUF_TAB   ,
      8                NUM_IMP,NS_IMP,NE_IMP,NSREM       ,NSL  ,
      9                NTMP  ,GRAPHE, ITAB  ,RBID        ,IBID ,
-     A                IBID  ,NTMP  ,IBID   ,IBID        ,IBID ,
+     A                IBID  ,NTMP  ,IBID   ,IBID        ,IGRSURF ,
      B                IBID  ,RBID   ,IBFV  ,SKEWS%SKEW  ,
      C                XFRAME,MUMPS_PAR,IBID,IBID  ,RBID ,
      D                IRBE3 ,LRBE3 ,IRBE2  ,LRBE2 )
@@ -3737,7 +3736,6 @@ C    /---------------/
      .         5X,'TERMINATION WITH '/,I8,' ERRORS '/,I8,' WARNINGS'/
      .         5X,'** DETAILS REPORTED IN LISTING FILE **'/)
         RETURN
-#endif
       END
       !||====================================================================
       !||    imp_compab      ../engine/source/implicit/imp_solv.F
