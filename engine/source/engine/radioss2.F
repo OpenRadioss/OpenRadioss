@@ -193,6 +193,7 @@ C-----------------------------------------------
       USE SPMD_MOD
       use checksum_output_option_mod
       use file_descriptor_mod,only : fd_bin_th,fd_bin_rd_rst,fd_bin_wr_rst           ! Contains the file descriptors for all files / same as unit_c.inc
+      use coupling_adapter_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -347,6 +348,7 @@ C-------------------------------------------------------------------------------
       TYPE(nodal_arrays_), target :: nodes 
       TYPE(timer_) :: TIMERS
       TYPE(rbe3_) :: rbe3
+      TYPE(coupling_type) :: coupling
 C------------------------------------------------------------------
 C to build a IBM PARALLEL version
 C In starter : define install parameter nspmd 
@@ -653,7 +655,13 @@ C     Standard input reading
 C------------------------------------------------
       CALL LECINP(IRUNN,IRFL,IRFE,H3D_DATA,FLAG_CST_AMS,DYNAIN_DATA,
      .            SENSORS,DT,OUTPUT,GLOB_THERM)
+
+#ifdef WITH_PRECICE
+       FILNAM=ROOTNAM(1:ROOTLEN)//'_'//CHRUN//'.cpl'
+       call coupling_configure(coupling, TRIM(FILNAM))  
+#endif
       NFSKYI=5
+
       IF(KDTINT==0 )NFSKYI=4
       
       IF (GOT_INPUT==0)THEN
@@ -2198,7 +2206,7 @@ C---------------------------------------------------------------------
      .                   DIFFUSION    ,SEGVAR          ,DYNAIN_DATA     ,DRAPEG     ,USER_WINDOWS    ,
      .                   OUTPUT       ,INTERFACES      ,DT              ,LOADS      ,MAT_ELEM  , PYTHON,
      .                   NAMES_AND_TITLES, UNITAB ,SKEWS,LIFLOW         ,LRFLOW     ,glob_therm,PBLAST,
-     .                   RBE3)
+     .                   RBE3, coupling)
 C---------------------------------------------------------------------
       CURRENT_RUN = GLOBAL_COMP_TIME%RUN_NBR
       CALL SPMD_REDUCE_DB(GLOBAL_COMP_TIME%ENGINE_TIME(CURRENT_RUN),RESULT,1,0,"MAX ")

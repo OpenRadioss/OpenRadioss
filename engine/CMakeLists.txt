@@ -221,6 +221,7 @@ message (STATUS "Flags release: ${CMAKE_Fortran_FLAGS_RELEASE} ")
 message (STATUS "Precision: ${precision} ")
 message (STATUS "Runtime Static link : ${static_link} ")
 message (STATUS "debug: ${debug} ")
+message (STATUS "PreCICE coupling: ${precice} ")
 if ( DEFINED ADF )
    message (STATUS "Addflag : ${ADF} ")
 endif()
@@ -302,7 +303,10 @@ if (NOT CMAKE_BUILD_TYPE)
       FORCE)
 endif (NOT CMAKE_BUILD_TYPE)
 
-
+if(precice STREQUAL "1")
+  message(STATUS "Coupling with preCICE")
+  find_package(precice REQUIRED CONFIG)
+endif()
 
 
 add_executable (${EXEC_NAME} ${source_files} ${source_files_common} ${c_source_files} ${cpp_source_files} ${Build_includes_directory}/engine_message_description.inc ${Build_includes_directory}/__foo.inc )
@@ -316,7 +320,14 @@ add_custom_command(TARGET ${EXEC_NAME}
                   )
 
 target_include_directories(${EXEC_NAME} PRIVATE ${include_dir_list}  )
-target_link_libraries(${EXEC_NAME} ${LINK} )
+
+if(precice STREQUAL "1")
+  message(STATUS "Linking with preCICE libraries")
+  target_link_libraries(${EXEC_NAME} PRIVATE precice::precice ${LINK} )
+else()
+  target_link_libraries(${EXEC_NAME} ${LINK} )
+endif()
+
 
 # Fortran to link
 set_property(TARGET ${EXEC_NAME} PROPERTY LINKER_LANGUAGE Fortran)

@@ -167,6 +167,13 @@ set( FSANITIZE "-fsanitize=address -fsanitize=undefined  -fsanitize=bounds-stric
 endif()
 
 set(opt_flag "${opt_flag} ${mumps_flag} ${mumps_inc}")
+
+if( precice STREQUAL "1")
+set(opt_flag "${opt_flag} -DWITH_PRECICE ")
+set(coupling " -DWITH_PRECICE -I/usr/include/precice/")
+else()
+endif()
+
 #set( strict "-fallow-argument-mismatch -Waliasing -Wunused-dummy-argument -Werror=unused-dummy-argument -Wdo-subscript -Warray-bounds -Wtabs -Werror=tabs -pedantic-errors -Wsurprising -Wuse-without-only -Werror=use-without-only") 
 set( strict " -Werror=aliasing  -Werror=unused-dummy-argument  -Werror=do-subscript -Werror=array-bounds -Werror=tabs -Werror=surprising ")
 set( strict_wo_mpi " -Werror=aliasing ${unused_dummy_arg} -Werror=do-subscript -Werror=array-bounds -Werror=tabs -Werror=surprising ") 
@@ -185,7 +192,7 @@ set_source_files_properties(${source_files}  PROPERTIES COMPILE_FLAGS "${FSANITI
 set_source_files_properties(${c_source_files} PROPERTIES COMPILE_FLAGS "${FSANITIZE} ${h3d_inc} ${zlib_inc} ${md5_inc} ${precision_flag}  ${cppmach} ${cpprel} -O0 -g  ${OPENMP} " )
 
 # CXX source files
-set_source_files_properties(${cpp_source_files} PROPERTIES COMPILE_FLAGS "${FSANITIZE} ${h3d_inc} ${zlib_inc} ${md5_inc} ${precision_flag} ${cppmach} ${cpprel}  -O0 -g ${OPENMP} -std=c++11  " )
+set_source_files_properties(${cpp_source_files} PROPERTIES COMPILE_FLAGS "${FSANITIZE} ${h3d_inc} ${zlib_inc} ${md5_inc} ${precision_flag} ${cppmach} ${cpprel}  -O0 -g ${OPENMP} -std=c++14 ${coupling} " )
 
 elseif ( debug STREQUAL "analysis" )
 # Fortran
@@ -200,7 +207,7 @@ set_source_files_properties(${source_files}  PROPERTIES COMPILE_FLAGS " -fplugin
 set_source_files_properties(${c_source_files} PROPERTIES COMPILE_FLAGS " ${FSANITIZE} ${h3d_inc} ${zlib_inc} ${md5_inc} ${precision_flag}  ${cppmach} ${cpprel} -O0 -g  ${OPENMP} " )
 
 # CXX source files
-set_source_files_properties(${cpp_source_files} PROPERTIES COMPILE_FLAGS "${FSANITIZE} ${h3d_inc} ${zlib_inc} ${md5_inc} ${precision_flag} ${cppmach} ${cpprel}  -O0 -g ${OPENMP} -std=c++11  " )
+set_source_files_properties(${cpp_source_files} PROPERTIES COMPILE_FLAGS "${FSANITIZE} ${h3d_inc} ${zlib_inc} ${md5_inc} ${precision_flag} ${cppmach} ${cpprel}  -O0 -g ${OPENMP} ${coupling} -std=c++14  " )
 
 
 elseif ( debug STREQUAL "asan" )
@@ -218,8 +225,7 @@ set_source_files_properties(${source_files}  PROPERTIES COMPILE_FLAGS "${FSANITI
 set_source_files_properties(${c_source_files} PROPERTIES COMPILE_FLAGS "${FSANITIZE} ${h3d_inc} ${precision_flag}  ${cppmach} ${cpprel} -O0 -g  ${OPENMP}  ${zlib_inc} ${md5_inc}" )
 
 # CXX source files
-set_source_files_properties(${cpp_source_files} PROPERTIES COMPILE_FLAGS "${FSANITIZE} ${h3d_inc} ${precision_flag} ${cppmach} ${cpprel}  -O0 -g ${OPENMP}  ${zlib_inc} ${md5_inc} -std=c++11" )
-
+set_source_files_properties(${cpp_source_files} PROPERTIES COMPILE_FLAGS "${FSANITIZE} ${h3d_inc} ${precision_flag} ${cppmach} ${cpprel}  -O0 -g ${OPENMP}  ${zlib_inc} ${md5_inc} ${coupling} -std=c++14" )
 
 else ()
 
@@ -235,7 +241,7 @@ set_source_files_properties( ${source_files}  PROPERTIES COMPILE_FLAGS " -nostdi
 set_source_files_properties(${c_source_files} PROPERTIES COMPILE_FLAGS " -w -O2 ${h3d_inc} ${zlib_inc} ${md5_inc} ${opt_flag} ${precision_flag} ${cppmach} ${cpprel} " )
 
 # CXX source files
-set_source_files_properties(${cpp_source_files} PROPERTIES COMPILE_FLAGS "-w -O2 ${h3d_inc} ${zlib_inc} ${md5_inc} ${opt_flag} ${precision_flag} ${cppmach} ${cpprel} -std=c++11  " )
+set_source_files_properties(${cpp_source_files} PROPERTIES COMPILE_FLAGS "-w -O2 ${h3d_inc} ${zlib_inc} ${md5_inc} ${opt_flag} ${precision_flag} ${cppmach} ${cpprel} ${coupling} -std=c++14 ${coupling}  " )
 
 endif()
 

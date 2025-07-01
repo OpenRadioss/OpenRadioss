@@ -58,6 +58,7 @@ function my_help()
   echo "    Linux64 Intel compilers"
   echo "      download MUMPS_5.5.1 at http://ftp.mcs.anl.gov/pub/petsc/externalpackages/MUMPS_5.5.1.tar.gz"
   echo "      and uncompress it in extlib directory such that engine/extlib/MUMPS_5.5.1 exists"
+  echo " -preCICE : enable preCICE coupling"
   echo " "
   echo " -no-python : do not link with python"
   echo " " 
@@ -98,6 +99,8 @@ eng_vers="engine"
 mumps_root=""
 scalapack_root=""
 lapack_root=""
+precice="0"
+precice_exe=""
 com=0
 release=0
 ad=none
@@ -191,6 +194,12 @@ else
         scalapack_root="-Dscalapack_root=${scalapack_root}"
        fi
 
+       if [ "$arg" == "-preCICE" ]
+       then
+        precice="1"
+        precice_exe="_precice"
+       fi
+
        if [ "$arg" == "-addflag" ]
        then
          ad=`echo $var|awk -F '-addflag=' '{ print $2}'`
@@ -277,7 +286,7 @@ else
      ddebug=""
    fi 
 
-engine_exec=${eng_vers}_${arch}${dmpi}${suffix}${ddebug}
+engine_exec=${eng_vers}_${arch}${dmpi}${suffix}${precice_exe}${ddebug}
 build_directory=cbuild_${engine_exec}${cf}
 
 
@@ -386,7 +395,7 @@ then
   CXX_path_w=`cygpath.exe -m "${CXX_path}"`
   cmake.exe .. -G "Unix Makefiles" -Darch=${arch} -Dprecision=${prec} ${MPI} -Ddebug=${debug} -DEXEC_NAME=${engine_exec} -Dstatic_link=$static_link -Dmpi_os=${mpi_os} ${mpi_root} ${mpi_libdir} ${mpi_incdir} ${dc} ${mumps_root} ${scalapack_root} ${lapack_root} -DCMAKE_BUILD_TYPE=Release -Dno_python=${no_python}  -Dstatic_link=$static_link -DCMAKE_BUILD_TYPE=Release -DCMAKE_Fortran_COMPILER="${Fortran_path_w}" -DCMAKE_C_COMPILER="${C_path_w}" -DCMAKE_CPP_COMPILER="${CPP_path_w}" -DCMAKE_CXX_COMPILER="${CXX_path_w}" ${la}
 else
-  cmake .. -Darch=${arch} -Dprecision=${prec} ${MPI} -Ddebug=${debug} -DEXEC_NAME=${engine_exec} -Dstatic_link=$static_link -Dmpi_os=${mpi_os} -Dsanitize=${sanitize} ${mpi_root} ${mpi_libdir} ${mpi_incdir} ${dc} ${mumps_root} ${scalapack_root} ${lapack_root} -Dno_python=${no_python} -Dstatic_link=$static_link -DCMAKE_BUILD_TYPE=Release -DCMAKE_Fortran_COMPILER=${Fortran_path} -DCMAKE_C_COMPILER=${C_path} -DCMAKE_CPP_COMPILER=${CPP_path} -DCMAKE_CXX_COMPILER=${CXX_path}  ${la}
+  cmake .. -Darch=${arch} -Dprecision=${prec} ${MPI} -Ddebug=${debug} -DEXEC_NAME=${engine_exec} -Dstatic_link=$static_link -Dmpi_os=${mpi_os} -Dsanitize=${sanitize} ${mpi_root} ${mpi_libdir} ${mpi_incdir} ${dc} ${mumps_root} ${scalapack_root} ${lapack_root} -Dno_python=${no_python} -Dstatic_link=$static_link -DCMAKE_BUILD_TYPE=Release -DCMAKE_Fortran_COMPILER=${Fortran_path} -DCMAKE_C_COMPILER=${C_path} -DCMAKE_CPP_COMPILER=${CPP_path} -DCMAKE_CXX_COMPILER=${CXX_path}  ${la} -Dprecice=${precice}
 
 fi
 
