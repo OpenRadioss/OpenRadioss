@@ -398,7 +398,7 @@ C---- force assemblage and STI update (dt)
              F28(I)=F28(I) + FOR_T8(I,2) + FCY
              F38(I)=F38(I) + FOR_T8(I,3) + FCZ
 C             
-             STI(I) = MAX(STI(I),STIF(I))  ! elem dt will be looked later
+             IF (STIF(I)>STI_C(I)) STI(I) = MAX(STI(I),STIF(I))  
           END DO 
         ENDIF !(IFCTL >0) THEN
       
