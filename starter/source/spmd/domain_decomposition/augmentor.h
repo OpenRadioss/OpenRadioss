@@ -785,11 +785,6 @@ private:
             {
                 // Add the connecting edge
                 edges.emplace_back(best_u, best_v);
-                if(components.size() == 1)
-                {
-                std::cout<<"best_comp1: "<<best_comp1<<" best_comp2: "<<best_comp2
-                         <<" best_u: "<<best_u<<" best_v: "<<best_v<<std::endl;
-                }
                 if (second_best_comp1 != -1)
                 {
                     edges.emplace_back(second_best_u, second_best_v);

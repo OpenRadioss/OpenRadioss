@@ -326,7 +326,16 @@ extern "C"
             }
 
             new_edge = augment_graph_connectivity(xadj, adjncy, coords, 4, 5.0); // Example augmentation with max edge ratio of 2.0
-            std::cout <<"Should be zero:" << new_edge.size() << " new edges." << std::endl;
+            if(new_edge.size() > 0) 
+            {
+                std::cout <<"Should be zero:" << new_edge.size() << " new edges." << std::endl;
+                for(auto & edge : new_edge)
+                {
+                    std::cout << "New edge: (" << edge.first << ", " << edge.second << ")" << std::endl;
+                }
+            }
+
+
 
             // convert back to 1-based indexing for METIS
             for (int i = 0; i < xadj.size(); i++)
