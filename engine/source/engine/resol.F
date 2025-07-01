@@ -8825,7 +8825,6 @@ C                                     PARALLEL SECTION (SMP)
 C========================================================================================
 
                 IF (IMP_CHK > 0) THEN
-#if defined(MUMPS5)
                   CALL IMP_CHKM(TIMERS,
      1     NODES%ICODE      ,NODES%ISKEW          ,ISKWN       ,IPART             ,IXTG       ,IXS              ,IXQ         ,
      2     ELEMENT%SHELL%IXC,IXT                  ,IXP         ,IXR               ,IXTG1      ,NODES%ITAB       ,NODES%ITABM1,
@@ -8846,13 +8845,8 @@ C===============================================================================
      O     FRWL6            ,IRBE2                ,LRBE2       ,ICFIELD           ,LCFIELD    ,CFIELD           ,ELBUF_TAB,
      P     NODES%WEIGHT_MD  ,STACK,SENSORS%SFSAV  ,SENSORS%FSAV,SENSORS%STABSEN   ,SENSORS%TABSENSOR            ,DRAPE_SH4N  ,
      Q     DRAPE_SH3N       ,H3D_DATA             ,NDDL0       ,NNZK0             ,IMPBUF_TAB ,CPTREAC,FTHREAC,NODREAC ,
-     R     DRAPEG           ,OUTPUT%TH%TH_SURF    ,DPL0CLD     ,VEL0CLD           ,SNPC       ,STF , OUTPUT%WFEXT_MD)
+     R     DRAPEG           ,OUTPUT%TH%TH_SURF    ,DPL0CLD     ,VEL0CLD           ,SNPC       ,STF , OUTPUT%WFEXT_MD,IGRSURF)
                   MSTOP=2
-#else
-                  WRITE(6,*) __LINE__,"Fatal error: MUMPS required"
-                  CALL FLUSH(6)
-                  CALL ARRET(5)
-#endif
                 ELSEIF ((TT<=TSTOP.OR.(TT-TSTOP)<EM10).AND.IBUCK==0) THEN
 C-----integer : 1:IKC,2:IKUD,3:W_DDL,4:IADM,5:JDIM,6:NDOFI,7:IDDLI
 C-----reel : 1,2,3,4:DIAG_K,LT_K,DIAG_M,LT_M,5,6:LB,DB,7:BKUD,8,9:D_IMP,DR_IMP
