@@ -324,6 +324,10 @@ extern "C"
                 xadj = new_xadj;     // Update xadj with new values
                 adjncy = new_adjncy; // Update adjncy with new values
             }
+
+            new_edge = augment_graph_connectivity(xadj, adjncy, coords, 4, 5.0); // Example augmentation with max edge ratio of 2.0
+            std::cout <<"Should be zero" << new_edge.size() << " new edges." << std::endl;
+
             // convert back to 1-based indexing for METIS
             for (int i = 0; i < xadj.size(); i++)
             {

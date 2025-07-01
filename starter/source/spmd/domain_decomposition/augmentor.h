@@ -751,8 +751,7 @@ private:
         std::vector<int> sample_i = sample_vector(remaining_components[i], 1000, gen);
         for (size_t j = 0; j < remaining_components.size(); ++j)
         {
-            if (j == i)
-                continue; // Skip the largest component
+            if (j == i) {continue;} // Skip the largest component 
             std::vector<int> sample_j = sample_vector(remaining_components[j], 100, gen);
             double min_distance = std::numeric_limits<double>::max();
             int best_comp1 = -1, best_comp2 = -1;
@@ -825,6 +824,7 @@ public:
 
         // Handle disconnected components first
         auto components = find_connected_components();
+        std::cout<<" Found "<<components.size()<<" disconnected components."<<std::endl;
         if (components.size() > 1)
         {
             auto component_edges = connect_components_spatially(components);
