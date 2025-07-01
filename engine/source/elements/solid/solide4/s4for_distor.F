@@ -182,7 +182,7 @@ C---- seg 4 : 1,3,4
      .                  E_DISTOR, DT1 )
         NCTL = NCTL + IFCTL
 C---- force assemblage and STI update (dt)
-        IF (NCTL >0) THEN
+!        IF (NCTL >0) THEN : potential P/ON issue
           DO I=1,NEL
              IF (STI_C(I)==ZERO) CYCLE
              FCX = FOURTH*FORC_N(I,1)
@@ -201,9 +201,9 @@ C---- force assemblage and STI update (dt)
              F24(I)=F24(I) + FOR_T4(I,2) + FCY
              F34(I)=F34(I) + FOR_T4(I,3) + FCZ
 C             
-             STI(I) = MAX(STI(I),STIF(I))  ! elem dt will be looked later
+             IF (STIF(I)>STI_C(I)) STI(I) = MAX(STI(I),STIF(I))  
           END DO 
-        END IF !(NCTL >0) THEN
+!        END IF !(NCTL >0) THEN
       
       
        

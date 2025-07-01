@@ -286,7 +286,7 @@
              f26(i)=f26(i) + for_t6(i,2) + fcy
              f36(i)=f36(i) + for_t6(i,3) + fcz
 !             
-             sti(i) = max(sti(i),stif(i))  ! elem dt will be looked later
+             if (stif(i)>sti_c(i)) sti(i) = max(sti(i),stif(i))  
           end do 
         endif !(ifctl >0) then
       

@@ -319,9 +319,12 @@ C---- seg 4 : 1,3,4 (7 10 8)
      .                   DT1 )
         NCTL = NCTL + IFCTL
 C---- force assemblage and STI update (dt)
-        IF (NCTL >0) THEN
+!        IF (NCTL >0) THEN : potential P/ON issue
           DO I=1,NEL
             IF (STI_C(I) ==ZERO) CYCLE
+            IF (STIF(I)>STI_C(I)) STI(I) = MAX(STI(I),STIF(I))
+            IF (FORC_N(I,1)==ZERO.AND.FORC_N(I,2)==ZERO
+     .            .AND.FORC_N(I,3)==ZERO) CYCLE
              FCX = EM01*FORC_N(I,1)
              FCY = EM01*FORC_N(I,2)
              FCZ = EM01*FORC_N(I,3)
@@ -356,7 +359,6 @@ C---- force assemblage and STI update (dt)
              FY(I,10)=FY(I,10) + FOR_T10(I,2) + FCY
              FZ(I,10)=FZ(I,10) + FOR_T10(I,3) + FCZ
 C             
-             STI(I) = MAX(STI(I),STIF(I))
           END DO 
           DO I=1,NEL  ! 1 5 7 8
             IF (FORC_N1(I,1)==ZERO.AND.FORC_N1(I,2)==ZERO
@@ -434,7 +436,7 @@ C
              FY(I,10)=FY(I,10) + FCY
              FZ(I,10)=FZ(I,10) + FCZ
           END DO 
-        ENDIF 
+!        ENDIF 
 C      
       RETURN
       END
