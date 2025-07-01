@@ -969,19 +969,17 @@ C
 C
               ! NPT=ALL
               ISH_NPT0 = 0
-              IF (IS_IPT_ALL ==1) THEN 
-                DO K=1,NUMGEO
-                  IF(IGEO(11,K) == 1 .OR. IGEO(11,K) == 9) THEN
-                    NIP_ELEM_MAX = MAX(NIP_ELEM_MAX,IGEO(4,K))
-                    IF (IGEO(4,K)==0) THEN
-                      ISH_NPT0=1
-                      NIP_ELEM_MAX = NIP_ELEM_MAX + 1
-                    ENDIF
-                  ELSEIF(IGEO(11,K) == 18)THEN
-                    NIP_ELEM_MAX = MAX(NIP_ELEM_MAX,IGEO(3,K))
+              DO K=1,NUMGEO
+                IF(IGEO(11,K) == 1 .OR. IGEO(11,K) == 9) THEN
+                  NIP_ELEM_MAX = MAX(NIP_ELEM_MAX,IGEO(4,K))
+                  IF (IGEO(4,K)==0) THEN
+                    ISH_NPT0=1
+                    NIP_ELEM_MAX = NIP_ELEM_MAX + 1
                   ENDIF
-                ENDDO
-              ENDIF
+                ELSEIF(IGEO(11,K) == 18)THEN
+                  NIP_ELEM_MAX = MAX(NIP_ELEM_MAX,IGEO(3,K))
+                ENDIF
+              ENDDO
               IF(IS_IPT_ALL == 1 .AND. NIP_ELEM_MAX == 0) ISHELL_NPT_CHECK = 1
 C
               ! PLY=ALL
