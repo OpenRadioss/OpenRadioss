@@ -151,7 +151,7 @@ C
           IF(IGAP0 == 0) THEN
             GAP = BGAPEMX+TWO*GAP_E(I)
           ELSE
-             GAP = TWO*(BGAPEMX+GAP_E(I))
+            GAP = TWO*(MIN(BGAPEMX,TWO*GAP_E(I))+GAP_E(I))
           ENDIF
           IF(IGAP==3) GAP = MIN(GAP,GAP_E_L(I)+BGAPEMX_L)
  
