@@ -3164,6 +3164,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
+#if defined(MUMPS5)
+#include "dmumps_struc.h"
+#endif
 #include "timeri_c.inc"
 #include "impl1_c.inc"
 #include "impl2_c.inc"
