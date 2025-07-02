@@ -261,9 +261,9 @@
               RHOOLD, SSP1_INI, SSP2_INI, SSP3_INI, SSP4_INI, VFRAC(nel)
       real(kind=WP) :: VISC1, VISC2, VISC3,VISC4
       INTEGER :: CONT
-      INTEGER :: IFLG,IEXP, &
-              IOPT, IPLA, IPLA1, IPLA2, IPLA3,&
-              K1,K2,K3,K4,ML,IFORM
+      INTEGER :: IFLG,IEXP, IOPT
+      INTEGER :: IPLA, IPLA1, IPLA2, IPLA3 !< plasticity flags
+      INTEGER ::  K1,K2,K3,K4,ML,IFORM
       INTEGER :: IX1,IX2,IX3,IX4
       INTEGER :: IBUG_ID(2)
       TYPE(G_BUFEL_)  ,POINTER :: GBUF
@@ -550,7 +550,7 @@
       !     T > 0
       !=======================================================================
       ! If at least, one material has plasticity data
-      IF(IPLA > ZERO)THEN
+      IF(IPLA > 0)THEN
         DO I=1,NEL
           !inter22
           IF(VOLUME(I) == ZERO)CYCLE
@@ -788,7 +788,7 @@
         TEMP1   = UVAR(I,16+KK)   ! temperature
         EDIF1   = UVAR(I,17+KK)   ! chaleur diffusee
         P1OLD(I)= UVAR(I,18+KK)   ! Pressure
-!        EPSEQ1(I)= UVAR(I,19+KK)   ! Dprag
+        EPSEQ1(I)= UVAR(I,19+KK)   ! Dprag
         ECOLD = -T10 * SPH1
         MU1 = (RHO1OLD/RHO10 - ONE)
         H1 = SPH1*V1OLD*(ONE+MU1)
@@ -812,7 +812,7 @@
         TEMP2   = UVAR(I,16+KK)   ! temperature
         EDIF2   = UVAR(I,17+KK)   ! chaleur diffusee
         P2OLD(I)= UVAR(I,18+KK)   ! Pressure
-!        EPSEQ2(I)= UVAR(I,19+KK)   ! Dprag
+        EPSEQ2(I)= UVAR(I,19+KK)   ! Dprag
         ECOLD = -T20 * SPH2
         MU2 = (RHO2OLD/RHO20 - ONE)
         H2 = SPH2*V2OLD*(ONE+MU2)
@@ -836,7 +836,7 @@
         TEMP3   = UVAR(I,16+KK)   ! temperature
         EDIF3   = UVAR(I,17+KK)   ! chaleur diffusee
         P3OLD(I)= UVAR(I,18+KK)   ! Pressure
-!        EPSEQ3(I)= UVAR(I,19+KK)   ! Dprag
+        EPSEQ3(I)= UVAR(I,19+KK)   ! Dprag
         ECOLD   = -T30 * SPH3
         MU3     = (RHO3OLD/RHO30 - ONE)
         H3      = SPH3*V3OLD*(ONE+MU3)
@@ -1821,8 +1821,10 @@
         !===================================================
         !               EPSEQ (DPrag)
         !===================================================
-        IF(BUFLY%L_EPSQ>0)THEN
+        IF(IPLA > 0 .AND. BUFLY%L_EPSQ > 0)THEN
           LBUF%EPSQ(I) = EPSEQ1(I) + EPSEQ2(I) + EPSEQ3(I)
+        ELSE
+          LBUF%EPSQ(I) = ZERO
         ENDIF
 
        IF(JTHE == 1 ) THEN
