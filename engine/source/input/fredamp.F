@@ -54,14 +54,15 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER K, NN, ID, IKEY, IDG, IGR, NBC, KORTH
       my_real DAMPA, DAMPB
-      character carte*100
+      
 C=======================================================================
       K=0
       IKEY = KDAMP
       IGR = 0
       IF (NDAMP == 1) THEN
-        READ(IUSC1,REC=IKAD(IKEY)+K,FMT='(7X,I5,37X,I10)',ERR=9990)
+        READ(IUSC1,REC=IKAD(IKEY)+K,FMT='(6X,I10,85X,I10)',ERR=9990)
      .                                                       ID,NBC
+
         IF (ID/=1.AND.NBC==1) THEN
           KORTH=0
           K=K+1
@@ -118,8 +119,9 @@ C           damparz, damprbz
         ENDIF
       ELSE
         DO NN=1,NDAMP
-          READ(IUSC1,REC=IKAD(IKEY)+K,FMT='(7X,I5,37X,I10)',ERR=9990)
-     .                                                         ID,NBC
+          READ(IUSC1,REC=IKAD(IKEY)+K,FMT='(6X,I10,85X,I10)',ERR=9990)
+     .                                                       ID,NBC
+     
           IF(NBC/=6)THEN
             KORTH=0
             K=K+1

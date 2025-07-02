@@ -86,7 +86,7 @@ C-----------------------------------------------
           ENDIF
           DAMPA0 = 0.
           DAMPB0 = 0.
-          READ (IIN,'(I8,2E16.9,I8)') IDNEW,DAMPA0,DAMPB0,NGR
+          READ (IIN,'(I10,2E16.9,I8)') IDNEW,DAMPA0,DAMPB0,NGR
           IF (MCHECK==0) THEN
             IDAMPG = NGR2USR(NGR,IGRNOD,NGRNOD)
             IF (IDAMPG==0) NGR = 0
