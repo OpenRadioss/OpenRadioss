@@ -148,25 +148,43 @@ C----------------------------------------------------------
         ID=NOM_OPT(1,PTR_NOPT_RBE3+I)
         CALL FRETITL2(TITR,
      .                NOM_OPT(LNOPT1-LTITR+1,PTR_NOPT_RBE3+I),LTITR)
-          IF (IKRBE2(IKINE(M))==1) THEN  !switch to penalty
-           CALL ANCMSG(MSGID=3100,
+          IF (IKRBE2(IKINE(M))==1) THEN  
+            IF (IPEN<0) THEN  !error out
+              CALL ANCMSG(MSGID=805,
+     .                 MSGTYPE=MSGERROR,
+     .                 ANMODE=ANINFO_BLIND_1,
+     .                 I1=ID,
+     .                 C1=TITR,
+     .                 I2=ITAB(M))
+              RETURN
+            ELSE !switch to penalty
+              CALL ANCMSG(MSGID=3100,
      .                 MSGTYPE=MSGWARNING,
      .                 ANMODE=ANINFO_BLIND_1,
      .                 I1=ID,
      .                 C1=TITR,
      .                 I2=ITAB(M))
-            IRBE3(9,I) = 1
-!           RETURN
+              IRBE3(9,I) = 1
+            END IF !(IPEN<0)
           ENDIF
           IF (ITF(IKINE(M))==1) THEN
-           CALL ANCMSG(MSGID=3096,
+            IF (IPEN<0) THEN  !error out
+              CALL ANCMSG(MSGID=1035,
+     .                 MSGTYPE=MSGERROR,
+     .                 ANMODE=ANINFO_BLIND_1,
+     .                 I1=ID,
+     .                 C1=TITR,
+     .                 I2=ITAB(M))
+              RETURN
+            ELSE !switch to penalty
+              CALL ANCMSG(MSGID=3096,
      .                 MSGTYPE=MSGWARNING,
      .                 ANMODE=ANINFO_BLIND_1,
      .                 I1=ID,
      .                 C1=TITR,
      .                 I2=ITAB(M))
-            IRBE3(9,I) = 1
-!           RETURN
+              IRBE3(9,I) = 1
+            END IF !(IPEN<0)
           ENDIF
         ENDDO
       ENDDO
@@ -211,20 +229,40 @@ C           NUN=NUN+1
 C----------------------------------------------------------
 C - no-autorised hierarchy :Check des noeuds mains des RBODY sont SECONDARY de RBE3
 C----------------------------------------------------------
-      DO I=1,NRBODY
+      DO I=1,NRBODY          
         M=NPBY(1,I)
-         IF (IKRBE3(IKINE(M))==1) THEN
-           ID=NOM_OPT(1,I)
-           CALL FRETITL2(TITR,
-     .                   NOM_OPT(LNOPT1-LTITR+1,I),LTITR)
-           CALL ANCMSG(MSGID=810,
-     .                 MSGTYPE=MSGERROR,
-     .                 ANMODE=ANINFO_BLIND_1,
-     .                 I1=ID,
-     .                 C1=TITR,
-     .                 I2=ITAB(M))
-           RETURN
-         ENDIF
+          IF (IKRBE3(IKINE(M))==1) THEN   ! add here the case of switching to penalty of RBE3
+            DO N=1,NRBE3
+              NSL= IRBE3(3,N)
+              IPEN= IRBE3(9,N)
+              IF (IPEN>0) CYCLE 
+              IF (NSL==M) THEN
+                IF (IPEN<0) THEN 
+                  ID=NOM_OPT(1,I)
+                  CALL FRETITL2(TITR,
+     .                          NOM_OPT(LNOPT1-LTITR+1,I),LTITR)
+                  CALL ANCMSG(MSGID=810,
+     .                        MSGTYPE=MSGERROR,
+     .                        ANMODE=ANINFO_BLIND_1,
+     .                        I1=ID,
+     .                        C1=TITR,
+     .                        I2=ITAB(M))
+                  RETURN
+                ELSE ! switch to penalty of RBE3
+                  ID = IRBE3(2,N)
+                  CALL FRETITL2(TITR,
+     .                NOM_OPT(LNOPT1-LTITR+1,PTR_NOPT_RBE3+N),LTITR)
+                  CALL ANCMSG(MSGID=3104,
+     .                     MSGTYPE=MSGWARNING,
+     .                     ANMODE=ANINFO_BLIND_1,
+     .                     I1=ID,
+     .                     C1=TITR,
+     .                     I2=ITAB(M))
+                  IRBE3(9,N) = 1
+                END IF ! (IPEN<0) THEN 
+              END IF
+            END DO
+          END IF 
       ENDDO
 C----------------------------------------------------------
 C - Check des noeuds mains des RBE2 sont mains de RBODY
@@ -1104,6 +1142,7 @@ C
       DO I=1,NRBE3
         IPEN = IRBE3(9,I)  ! add warning for added mass+pen
         IF (IPEN>0) NUN = NUN + 1
+        IF (IPEN <0) IRBE3(9,I) =0
       END DO
       IF (NUN>0) THEN
         WRITE(IOUT,'(/I8,X,A)')NUN,'OF RBE3 HAVE BEEN SWITCHED TO PENALTY METHOD'

@@ -94,7 +94,7 @@ C-----------------------------------------------
       INTEGER I, N, K, NSL, NSLT, ITYP, NUSER,  NM, NI, NI_OK,
      .        ISK, ISENS, INGU, IGM, J, P,IAD,NS,NN,J6(6),JJ,II,
      .        IC,IC1,IC2,IROT,ISKS,IADS,IERR1,IMODIF,
-     .        IDIR,NRB,ID,UID,SUB_INDEX
+     .        IDIR,NRB,ID,UID,SUB_INDEX,IFORM
       my_real W
       INTEGER, DIMENSION(:),ALLOCATABLE   :: IKINE1
       INTEGER, DIMENSION(:),ALLOCATABLE   :: ISKEW0
@@ -157,6 +157,7 @@ C----------Multidomaines --> on ignore les rbe3 non tages---------
         IF(NSUBDOM>0)THEN
           IF(TAGRB3(NRB)==0)CALL HM_SZ_R2R(TAGRB3,NRB,LSUBMODEL)
         END IF
+        IFORM = 0
 C--------------------------------------------------
 C EXTRACT DATAS OF /RBE3/... LINE
 C--------------------------------------------------
@@ -177,13 +178,23 @@ C
         CALL HM_GET_INTV('LRZ',J6(6),IS_AVAILABLE,LSUBMODEL)
         CALL HM_GET_INTV('nset',NN,IS_AVAILABLE,LSUBMODEL)
         CALL HM_GET_INTV('I_Modif',IMODIF,IS_AVAILABLE,LSUBMODEL)
+        CALL HM_GET_INTV('Iform',IFORM,IS_AVAILABLE,LSUBMODEL)
         IRBE3(2,I) = ID
         IRBE3(10,I)=I
         NUSER = ID
 C
         IF (IMODIF==0) IMODIF =1
-        IF (IMODIF==4) IRBE3(9,I) =1
+!        IF (IMODIF==4) IRBE3(9,I) =1
         IRBE3(8,I) = IMODIF
+        SELECT CASE (IFORM)
+          CASE(0,1)
+           IRBE3(9,I) =0
+           IF (IFORM==0) IFORM =1
+          CASE(2)
+           IRBE3(9,I) = -1
+          CASE(3)
+           IRBE3(9,I) = 1
+        END SELECT
         NS = USR2SYS(NSL,ITABM1,MESS,NUSER)
         IC1=J6(1)*4 +J6(2)*2 +J6(3)
         IC2=J6(4)*4 +J6(5)*2 +J6(6)
@@ -313,7 +324,7 @@ C
        IF (IMODIF/=2) IRBE3(8,I)=4
        CALL PRERBE3FR(IRBE3 ,I    ,J6  ,J6(4)   )
        IF (IPRI>=5) THEN
-        WRITE(IOUT,1100) NUSER,ITAB(NS),J6,NM,IMODIF
+        WRITE(IOUT,1100) NUSER,ITAB(NS),J6,NM,IMODIF,IFORM
         WRITE(IOUT,1101)
         DO J = 1, NM
          WRITE(IOUT,1102) ITAB(LRBE3(IAD+J)),ISKEW0(IAD+J),
@@ -322,7 +333,7 @@ C
         WRITE(IOUT,*) 
        ELSE
 c        WRITE(IOUT,1103) 
-        WRITE(IOUT,1104) NUSER,ITAB(NS),J6,NM,IMODIF
+        WRITE(IOUT,1104) NUSER,ITAB(NS),J6,NM,IMODIF,IFORM
        END IF
         LXINTD = LXINTD + NM/4 + 1
         IF (IDDLEVEL == 0) THEN
@@ -346,7 +357,8 @@ C
      .       /5X,'DEPENDENT NODE . . . . . . . . .',I10
      .       /5X,'REFERENCE DOF(Trarot). . . . . . . ',3I1,1X,3I1
      .       /5X,'NUMBER OF INDEPENDENT NODES. . .',I10
-     .       /5X,'FLAG OF WEIGHTING MODIFICATION .',I10)
+     .       /5X,'FLAG OF WEIGHTING MODIFICATION .',I10
+     .       /5X,'FLAG OF RBE3 FORMULATION. . . . ',I10)
  1101 FORMAT(//
      .'     WEIGHTING FACTORS OF INDEPENDENT NODES   '/
      .'     -------------------    '/
@@ -354,8 +366,8 @@ C
      .'            DIR_TRA_3         DIR_ROT_1         DIR_ROT_2',
      .'            DIR_ROT_3'/)
  1102 FORMAT(3X,2I10,3X,6G20.13)
- 1103 FORMAT('      RBE3_ID DEPENDENT_NODE REF_DOF    #IND.   IMODIF'/)
- 1104 FORMAT(3X,2I10,2X,3I1,1X,3I1,2I10)
+ 1103 FORMAT('      RBE3_ID DEPENDENT_NODE REF_DOF    #IND.   IMODIF   IFORM'/)
+ 1104 FORMAT(3X,2I10,2X,3I1,1X,3I1,3I10)
 C 
       END SUBROUTINE HM_READ_RBE3 
       !||====================================================================
@@ -1608,6 +1620,58 @@ C-----only one level of hierarchy is allowed
        INDEX(I) = I
       ENDDO
       NZ = 0
+! case Iform=2 :  error out if >1 level     
+      DO I=1,NRBE3
+        IAD = IRBE3(1,I)
+        NM = IRBE3(5,I)
+        IPEN= IRBE3(9,I)
+        IF (IPEN>=0) CYCLE
+        DO J =1,NM
+          M = LRBE3(IAD+J)
+          IF (ITAG(M)>0) THEN 
+              II = ITAG(M)
+              IF (IRBE3(9,II)<0) NZ = NZ +1 
+          END IF
+        ENDDO
+      ENDDO
+      IF (NZ >0 ) THEN
+C-----error out if >1 level      
+        DO I=1,NRBE3
+         IAD = IRBE3(1,I)
+         NM = IRBE3(5,I)
+         IPEN= IRBE3(9,I)
+         IF (IPEN>=0) CYCLE
+         DO J =1,NM
+          M = LRBE3(IAD+J)
+          IF (ITAG(M)>0) THEN
+            II = ITAG(M)
+            IF (IRBE3(9,II)<0) THEN 
+              NMT = IRBE3(5,II)
+              DO K =1,NMT
+                NFT = IRBE3(1,II)
+                M2 = LRBE3(NFT+K)
+                IF (ITAG(M2)>0) THEN
+                  III = ITAG(M2)
+                  IF (IRBE3(9,III)<0) THEN 
+                    ID=NOM_OPT(1,III)
+                    CALL FRETITL2(TITR,NOM_OPT(LNOPT1-LTITR+1,III),LTITR)
+                    CALL ANCMSG(MSGID=1887,
+     .                          MSGTYPE=MSGERROR,
+     .                          ANMODE=ANINFO,
+     .                          I1=ID,
+     .                          C1=TITR,
+     .                          I2=NOM_OPT(1,I),
+     .                          I3=NOM_OPT(1,II))
+                  END IF !(IRBE3(9,III)<0) THEN 
+                END IF
+              ENDDO
+            END IF !(IRBE3(9,II)<0) THEN 
+          ENDIF
+         ENDDO
+        ENDDO
+      END IF !(NZ >0 ) THEN
+! case Iform=1,3  
+      NZ = 0
       DO I=1,NRBE3
        IAD = IRBE3(1,I)
        IPEN= IRBE3(9,I)
@@ -1636,7 +1700,7 @@ C-----only one level of hierarchy is allowed
           M = LRBE3(IAD+J)
           IF (ITAG(M)>0) THEN
             IPEN= IRBE3(9,ITAG(M))
-            IF (IPEN>0) CYCLE 
+            IF (IPEN/=0) CYCLE 
             II = ITAG(M)
             NMT = IRBE3(5,II)
             NFT = IRBE3(1,II)
@@ -1679,7 +1743,7 @@ C----- re-ordering
         M = LRBE3(IAD+J)
         IF (ITAG(M)>0) THEN
          IPEN= IRBE3(9,ITAG(M))
-         IF (IPEN==0) THEN
+         IF (IPEN<=0) THEN
            NZ = NZ +1
 !----- exchange INDEX(I) , NZ        
            IF (INDEX(I) > NZ) THEN
