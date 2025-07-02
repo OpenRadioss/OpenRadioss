@@ -61,6 +61,7 @@
       !||    genani                              ../engine/source/output/anim/generate/genani.F
       !||    gendynain                           ../engine/source/output/dynain/gendynain.F
       !||    genh3d                              ../engine/source/output/h3d/h3d_results/genh3d.F
+      !||    granular51                          ../engine/source/materials/mat/mat051/granular51.F90
       !||    h3d_quad_scalar                     ../engine/source/output/h3d/h3d_results/h3d_quad_scalar.F
       !||    h3d_quad_scalar_1                   ../engine/source/output/h3d/h3d_results/h3d_quad_scalar_1.F90
       !||    h3d_shell_scalar                    ../engine/source/output/h3d/h3d_results/h3d_shell_scalar.F
@@ -296,6 +297,7 @@
       !||    sigeps25cp                          ../engine/source/materials/mat/mat025/sigeps25cp.F
       !||    sigeps42                            ../engine/source/materials/mat/mat042/sigeps42.F
       !||    sigeps50s                           ../engine/source/materials/mat/mat050/sigeps50s.F90
+      !||    sigeps51                            ../engine/source/materials/mat/mat051/sigeps51.F90
       !||    sigeps57c                           ../engine/source/materials/mat/mat057/sigeps57c.F90
       !||    sigeps66c                           ../engine/source/materials/mat/mat066/sigeps66c.F
       !||    sigeps70                            ../engine/source/materials/mat/mat070/sigeps70.F
