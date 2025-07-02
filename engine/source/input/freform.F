@@ -426,7 +426,8 @@ C---------------------------------------------------
         IF(KEYA(1:1)=='$')CYCLE
         IF(KEYA==' ')     CYCLE
         !---
-        IF(KEYA(1:4)=='/H3D' .OR. KEYA(1:6)=='/STATE'.OR. KEYA(1:7)=='/DYNAIN'.OR.KEYA(1:5)=='/ANIM')THEN
+        IF(KEYA(1:4)=='/H3D' .OR. KEYA(1:6)=='/STATE'.OR. KEYA(1:7)=='/DYNAIN'.OR.KEYA(1:5)=='/ANIM'.OR.
+     .        KEYA(1:5)=='/DAMP')THEN
           IS_KEYA_NCHARKEY = 1
         ELSE
           IS_KEYA_NCHARKEY = 0
@@ -2270,7 +2271,7 @@ C--------------------
       IKEY=KDAMP
       IF(IKAD(IKEY)/=IKAD(IKEY+1))THEN
         K=0
- 770    READ(IUSC1,REC=IKAD(IKEY)+K,FMT='(49X,I10)',ERR=9990) NBC
+ 770    READ(IUSC1,REC=IKAD(IKEY)+K,FMT='(101X,I10)',ERR=9990) NBC
         IF (NBC == 2) IDAMP0=1
         K=K+NBC+1
         N_DAMP=N_DAMP+1
