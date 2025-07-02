@@ -150,15 +150,15 @@
       ! Modes of failure
       fail_tag%lf_dammx = fail_tag%lf_dammx + fail%nmod
       allocate (fail%mode(fail%nmod))
-      fail%mode(1) = "Tensile failure index in dir. 1"
-      fail%mode(2) = "Compression failure index in dir. 1"
-      fail%mode(3) = "Tensile failure index in dir. 2"
-      fail%mode(4) = "Compression failure index in dir. 2"
-      fail%mode(5) = "Shear failure index in plane 1-2"
-      fail%mode(6) = "Tensile failure index in dir. 3"
-      fail%mode(7) = "Compression failure index in dir. 3"
-      fail%mode(8) = "Shear failure index in plane 2-3"
-      fail%mode(9) = "Shear failure index in plane 3-1"
+      fail%mode(1) = "Tensile index in dir. 1"
+      fail%mode(2) = "Compression index in dir. 1"
+      fail%mode(3) = "Tensile index in dir. 2"
+      fail%mode(4) = "Compression index in dir. 2"
+      fail%mode(5) = "Shear index in plane 1-2"
+      fail%mode(6) = "Tensile index in dir. 3"
+      fail%mode(7) = "Compression index in dir. 3"
+      fail%mode(8) = "Shear index in plane 2-3"
+      fail%mode(9) = "Shear index in plane 3-1"
 !
       !< Integer material parameters
       fail%iparam(1) = ifail_sh

@@ -103,7 +103,8 @@ C-----------------------------------------------
       INTEGER I, J, MT, MLAW, JTUR, I1, I2, INEW,I10,I20,I16
       INTEGER IC,IC1,IC2,IC3,IC4,IPID,ID,IDS,N,JC,NSPHDIR,STAT
       INTEGER FLAG_FMT,FLAG_FMT_TMP,IFIX_TMP,NUMELS_READ,
-     .        IOUTN, IERROR, INDEX_PART,IXS10_SAV(6)
+     .        IOUTN, IERROR, INDEX_PART,IXS10_SAV(6),IC5,IC6,
+     .        IC7,IC8
       my_real BID
       CHARACTER MESS*40, MESS2*40
       INTEGER, DIMENSION(:), ALLOCATABLE :: SUB_SOL
@@ -111,7 +112,7 @@ C-----------------------------------------------
 C   E x t e r n a l  F u n c t i o n s
 C-----------------------------------------------
       my_real
-     .   CHECKVOLUME_4N
+     .   CHECKVOLUME_4N,CHECKVOLUME_6N,CHECKVOLUME_8N
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
@@ -171,12 +172,46 @@ C--------------------------------------------------
           IXS(6,I)=IXS(5,I)
           IXS(5,I)=IXS(2,I)
           ISOLNOD(I)=6
+          IF (CHECKVOLUME_6N(X ,IXS(1,I)) < ZERO) THEN
+C           renumber connectivity
+            IC1 = IXS(6,I)
+            IC2 = IXS(7,I)
+            IC3 = IXS(8,I)
+            IC4 = IXS(2,I)
+            IC5 = IXS(3,I)
+            IC6 = IXS(4,I)
+            IXS(2,I) = IC1
+            IXS(3,I) = IC2
+            IXS(4,I) = IC3
+            IXS(6,I) = IC4
+            IXS(7,I) = IC5
+            IXS(8,I) = IC6
+          ENDIF 
         ELSE
           DO J=2,9  
             IXS(J,I)=USR2SYS(IXS(J,I),ITABM1,MESS,IXS(11,I))
             CALL ANODSET(IXS(J,I), CHECK_VOLU)
           ENDDO  
           ISOLNOD(I)=8
+          IF (CHECKVOLUME_8N(X ,IXS(1,I)) < ZERO) THEN
+C         renumber connectivity
+            IC1 = IXS(6,I)
+            IC2 = IXS(7,I)
+            IC3 = IXS(8,I)
+            IC4 = IXS(9,I)
+            IC5 = IXS(2,I)
+            IC6 = IXS(3,I)
+            IC7 = IXS(4,I)
+            IC8 = IXS(5,I)
+            IXS(2,I) = IC1
+            IXS(3,I) = IC2
+            IXS(4,I) = IC3
+            IXS(5,I) = IC4
+            IXS(6,I) = IC5
+            IXS(7,I) = IC6
+            IXS(8,I) = IC7
+            IXS(9,I) = IC8
+          ENDIF
         ENDIF
 C--------------------------------------------------
 C      INTERNAL PART ID
