@@ -1821,10 +1821,9 @@
         !===================================================
         !               EPSEQ (DPrag)
         !===================================================
-        IF(IPLA > 0 .AND. BUFLY%L_EPSQ > 0)THEN
-          LBUF%EPSQ(I) = EPSEQ1(I) + EPSEQ2(I) + EPSEQ3(I)
-        ELSE
+        IF(BUFLY%L_EPSQ > 0)THEN
           LBUF%EPSQ(I) = ZERO
+          IF(IPLA > 0) LBUF%EPSQ(I) = EPSEQ1(I) + EPSEQ2(I) + EPSEQ3(I)
         ENDIF
 
        IF(JTHE == 1 ) THEN
