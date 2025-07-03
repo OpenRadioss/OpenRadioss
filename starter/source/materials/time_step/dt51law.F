@@ -56,7 +56,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER                                :: I, MX, IADBUF,IFLG(MVSIZ)
+      INTEGER                                :: I, MX, IADBUF,IFLG(MVSIZ), BIJ(4)
       my_real,DIMENSION(:),POINTER           :: UPARAM
       
       my_real
@@ -77,8 +77,13 @@ C-----------------------------------------------
      .   PEXT        , PFAR        , VDET(MVSIZ) ,
      .   SSP1(MVSIZ) , SSP2(MVSIZ) , SSP3(MVSIZ) , SSP4(MVSIZ), 
      .   VIS(MVSIZ)  , RHO0_BAK(MVSIZ)
+
+      INTEGER :: IAV(4),IRHO(4)
+
      
 c-----------------------------------------------
+       IAV(1:4)  = (/ 4,5,6,46 /)
+       IRHO(1:4) = (/ 9,10,11,47 /)
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
@@ -86,16 +91,17 @@ C-----------------------------------------------
       DO I=1,LLT
         IADBUF   = IPM(7,MAT(I))
         UPARAM   =>BUFMAT(IADBUF:IADBUF+280)
-        AV1(I)   = UPARAM(04)  
-        AV2(I)   = UPARAM(05)  
-        AV3(I)   = UPARAM(06)  
-        AV4(I)   = UPARAM(46)
+        BIJ(1:4) = UPARAM(277:280)
+        AV1(I)   = UPARAM(IAV(BIJ(1)))
+        AV2(I)   = UPARAM(IAV(BIJ(2)))
+        AV3(I)   = UPARAM(IAV(BIJ(3)))
+        AV4(I)   = UPARAM(IAV(BIJ(4)))
         PFAR     = UPARAM(07)  
         PEXT     = UPARAM(08)  
-        RHO10(I) = UPARAM(09)  
-        RHO20(I) = UPARAM(10) 
-        RHO30(I) = UPARAM(11) 
-        RHO40(I) = UPARAM(47)
+        RHO10(I) = UPARAM(IRHO(BIJ(1)))
+        RHO20(I) = UPARAM(IRHO(BIJ(2)))
+        RHO30(I) = UPARAM(IRHO(BIJ(3)))
+        RHO40(I) = UPARAM(IRHO(BIJ(4)))
         C11(I)   = UPARAM(12) 
         C12(I)   = UPARAM(13) 
         C13(I)   = UPARAM(14) 
@@ -146,21 +152,21 @@ C-----------------------------------------------
 
       DO I=LFT,LLT
         !---submat-1---!
-        IF(AV1(I)>ZERO) THEN
+        IF(AV1(I)>ZERO .AND. RHO10(I) > ZERO) THEN
           DPDM1(I) = C11(I)+C51(I)*E01(I)+C41(I)*(C01(I)+C41(I)*E01(I))
           DPDM1(I) = G1(I) + MAX(DPDM1(I), C11(I))
         ELSE
           DPDM1(I) = ZERO
         ENDIF
         !---submat-2---!
-        IF(AV2(I)>ZERO) THEN
+        IF(AV2(I)>ZERO  .AND. RHO20(I) > ZERO) THEN
           DPDM2(I) = C12(I)+C52(I)*E02(I)+C42(I)*(C02(I)+C42(I)*E02(I))
           DPDM2(I) = G2(I) + MAX(DPDM2(I), C12(I))
         ELSE
           DPDM2(I) = ZERO
         ENDIF
         !---submat-3---!
-        IF(AV3(I)>ZERO) THEN
+        IF(AV3(I)>ZERO .AND. RHO30(I) > ZERO) THEN
           DPDM3(I) = C13(I)+C53(I)*E03(I)+C43(I)*(C03(I)+C43(I)*E03(I))
           DPDM3(I) = G3(I) + MAX(DPDM3(I), C13(I))
         ELSE
@@ -187,7 +193,7 @@ C-----------------------------------------------
         ELSE
           SSP3(I)=ZERO
         ENDIF        
-        !---submat-3---!  
+        !---submat-4---!
         IF(AV4(I)>ZERO) THEN        
           SSP4(I)=VDET(I)
         ELSE

@@ -167,13 +167,18 @@ C     ALE ON / OFF
         !----------------------------!
         ELSEIF (NVAR == 10 .AND. IRE == 1) THEN
            IF (MTN == 41) CYCLE
-          IF (MTN==51 .AND. ITRIMAT /=4) THEN  !submat 4 is JWL
-            IF(ITRIMAT==0)CYCLE
-            ADD0= M51_N0PHAS + (ITRIMAT-1)*M51_NVPHAS
-            ADD = ADD0 + 15  ! PLAS
-            K   = LLT*(ADD-1)
-            VAR  => ELBUF_STR(NG)%BUFLY(1)%MAT(1,1,1)%VAR(K+1:K+LLT)
-          ELSEIF (MTN == 5 .OR. MTN ==97 .OR. MTN==105 .OR. ITRIMAT == 4) THEN  ! DETONATION TIME
+          IF (MTN==51) THEN  !submat 4 is JWL
+            IF(ITRIMAT==0)THEN
+              CYCLE
+            ELSEIF(ITRIMAT <= 3)THEN
+              ADD0= M51_N0PHAS + (ITRIMAT-1)*M51_NVPHAS
+              ADD = ADD0 + 15  ! PLAS
+              K   = LLT*(ADD-1)
+              VAR  => ELBUF_STR(NG)%BUFLY(1)%MAT(1,1,1)%VAR(K+1:K+LLT)
+            ELSEIF(ITRIMAT == 4)THEN
+              VAR => ELBUF_STR(NG)%BUFLY(NM)%LBUF(1,1,1)%TB(1:LLT)
+            ENDIF
+          ELSEIF (MTN == 5 .OR. MTN ==97 .OR. MTN==105) THEN  ! DETONATION TIME
             VAR => ELBUF_STR(NG)%BUFLY(NM)%LBUF(1,1,1)%TB(1:LLT)
           ELSEIF (MTN == 6) THEN
             VAR => ELBUF_STR(NG)%BUFLY(NM)%LBUF(1,1,1)%RK(1:LLT)
@@ -317,12 +322,12 @@ C     ALE ON / OFF
            IF (MTN == 41) CYCLE
           INDX = IDX
           VOL => ELBUF_STR(NG)%BUFLY(NM)%LBUF(1,1,1)%VOL(1:LLT)
-          IF (ITRIMAT /= 0 .AND. ITRIMAT /=4) THEN
-            ADD0= M51_N0PHAS + (ITRIMAT-1)*M51_NVPHAS
-            ADD = ADD0 + 15                                ! UVAR(ADD+1) => PLAS
-            K   = LLT*(ADD-1)                               
-            VAR =>ELBUF_STR(NG)%BUFLY(1)%MAT(1,1,1)%VAR(K+1:K+LLT)
-            INDX=1
+          IF (ITRIMAT /= 0 .AND. ITRIMAT /= 4)THEN
+              ADD0= M51_N0PHAS + (ITRIMAT-1)*M51_NVPHAS
+              ADD = ADD0 + 15                                ! UVAR(ADD+1) => PLAS
+              K   = LLT*(ADD-1)
+              VAR =>ELBUF_STR(NG)%BUFLY(1)%MAT(1,1,1)%VAR(K+1:K+LLT)
+              INDX=1
           ELSEIF (MTN == 5 .OR. MTN == 97 .OR. MTN==105 .OR. ITRIMAT == 4) THEN
             VAR => ELBUF_STR(NG)%BUFLY(NM)%LBUF(1,1,1)%TB(1:LLT)
           ELSEIF (MTN == 6) THEN
