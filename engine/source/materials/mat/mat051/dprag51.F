@@ -26,11 +26,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    sigeps51   ../engine/source/materials/mat/mat051/sigeps51.F90
       !||====================================================================
       SUBROUTINE DPRAG51
-     .          (NEL    ,SIGD   ,VOL      ,EPSEQ  ,
-     .           DEPS   ,UPARAM ,VOLUME   ,EINT   , EPX    ,
-     .           UVAR   ,NUVAR  ,KK       ,RHO0   ,
-     .           C0     ,C1     ,C2       ,C3     , PFRAC  ,PP     ,
-     .           OFF    ,PEXT   ,TIMESTEP ,DE )
+     .          (NEL    ,SIGD   ,VOL      ,EPSEQ  , VFRAC ,
+     .           DEPS   ,UPARAM ,VOLUME   ,EINT   , PLAS  ,
+     .           PFRAC , POLD   ,
+     .           OFF    ,PEXT   ,DE )
 
 
 !common points with M10LAW()
@@ -50,29 +49,27 @@ C-----------------------------------------------
 C   I N P U T   O U T P U T   A r g u m e n t s
 C-----------------------------------------------
       INTEGER,INTENT(IN) :: NEL
-      my_real, INTENT(IN) :: RHO0,PFRAC,OFF(NEL), DEPS(6,NEL),
-     .   VOL(NEL),UPARAM(*) ,VOLUME(NEL),
-     .   EPX(NEL),TIMESTEP, PEXT , DE(NEL)
-      my_real,INTENT(INOUT) :: SIGD(6,NEL),PP(NEL),EINT(NEL)
+      my_real, INTENT(IN) :: PFRAC,OFF(NEL),DEPS(6,NEL),VOL(NEL),UPARAM(*),VOLUME(NEL),PEXT,DE(NEL)
+      my_real,INTENT(INOUT) :: SIGD(6,NEL),POLD(NEL),EINT(NEL),EPSEQ(NEL),PLAS(NEL)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,KK,NUVAR
-       my_real
-     .   GG,A0,A1,A2,AMAX,TMELT,THETL,AMUMX,SIGMX,
-     .   T0,FACT,FAC2,
-     .   UVAR(NEL,NUVAR),
-     .   C0, C1, C2, C3, MAS, PTOT
-      my_real
-     .   YOUNG, NU,
-     .   DF(NEL), AMU(NEL), POLD(NEL), AMU2(NEL),
-     .   T1(NEL), T2(NEL), T3(NEL), T4(NEL), T5(NEL), T6(NEL),
-     .   P(NEL), PNE1(NEL),  RATIO(NEL),
-     .   BULK(NEL), BULK2(NEL), G(NEL), G43(NEL), G0(NEL), G2(NEL),
-     .   AJ2(NEL),YIELD2(NEL), EPSEQ(NEL),
-     .   RHO_NEW(NEL), RHO_OLD(NEL),VNEW(NEL),PSTAR,SIGDO(6,NEL)
-
-C
+      INTEGER :: I,KK
+      my_real :: GG,A0,A1,A2,AMAX,TMELT,THETL,AMUMX,SIGMX
+      my_real :: T0,FACT
+      my_real :: PTOT
+      my_real, intent(in) :: vfrac(nel)
+      my_real :: YOUNG, NU
+      my_real :: T1(NEL), T2(NEL), T3(NEL), T4(NEL), T5(NEL), T6(NEL)
+      my_real :: RATIO(NEL)
+      my_real :: BULK(NEL), BULK2(NEL), G(NEL), G43(NEL), G0(NEL), G2(NEL)
+      my_real :: J2(NEL),YIELD2(NEL)
+      my_real :: PSTAR,SIGDO(6,NEL)
+      my_real :: einc, vm, vol_avg
+      my_real :: dpla
+C-----------------------------------------------
+C   S o u r c e   L i n e s
+C-----------------------------------------------
       A0           = UPARAM(16)
       A1           = UPARAM(17)
       A2           = UPARAM(18)
@@ -88,31 +85,11 @@ C
       GG           = UPARAM(01)
       BULK(1:NEL)  = UPARAM(21)
       BULK2(1:NEL) = UPARAM(21)
-C
-      if(timestep==zero)return
-      DO I=1,NEL
-        POLD(I)    = UVAR(I,18+KK)
-        RHO_OLD(I) = UVAR(I,12+KK)
-        VNEW(I)    = UVAR(I,1+KK)*VOLUME(I) -TIMESTEP*UVAR(I,13+KK)
-        VNEW(I)    = MIN(MAX(ZERO,VNEW(I)),VOLUME(I))
-        IF(VNEW(I)>EM15)THEN
-          RHO_NEW(I) = UVAR(I,9+KK) / VNEW(I)  !MASS/VOLUME
-        ELSE
-          RHO_NEW(I)=RHO_OLD(I)
-        ENDIF
 
+      DO I=1,NEL
         G(I)    = GG !* DT1
         G2(I)   = TWO * G(I)
         G43(I)  = ONEP333*GG
-        MAS     = UVAR(I,9+KK)
-        IF(MAS>=EM20)THEN
-          DF(I)   = RHO_NEW(I)/RHO0
-          AMU(I)  = DF(I)-ONE
-          AMU2(I) = AMU(I) * MAX(ZERO,AMU(I))
-        ELSE
-          AMU(I)  = ZERO
-          AMU2(I) = ZERO
-        ENDIF
 
         T1(I)=SIGD(1,I)
         T2(I)=SIGD(2,I)
@@ -121,26 +98,8 @@ C
         T5(I)=SIGD(5,I)
         T6(I)=SIGD(6,I)
 
-        IF(EPX(I)<0)BULK2(I)=C1   !nok passer epx en argument et initialiser
-        IF(AMU(I)<0)BULK(I) =C1
-
-        P(I)=C0+C1*AMU(I)+C2*AMU2(I)+C3*AMU2(I)*AMU(I)
-        PNE1(I)=POLD(I)+AMU(I)*BULK2(I)-EPX(I)*BULK(I)
-
-!UNLOAD BEHAVIOR
-!        IF(AMU(I)<AMUMX) P(I) = MIN(P(I),PNE1(I))
-        FAC2 = ONE
-        IF(P(I)<PFRAC)THEN
-!         !EPX(I) =EPX(I)+(PFRAC-POLD(I))/BULK2(I)
-          P(I)  = PFRAC
-          FAC2 = ZERO
-!        ELSE
-!          EPX(I) =AMU(I)
-        ENDIF
-        PP(I) = P(I)
-
-        SIGDO(1:6,I) = SIGD(1:6,I) * OFF(I)
-        FACT = VOL(I)/VOLUME(I)
+        SIGDO(1:6,I) = SIGD(1:6,I)
+        FACT = VFRAC(I)
         T1(I) = T1(I) + G2(I)* (DEPS(1,I)-DE(I))*FACT
         T2(I) = T2(I) + G2(I)* (DEPS(2,I)-DE(I))*FACT
         T3(I) = T3(I) + G2(I)* (DEPS(3,I)-DE(I))*FACT
@@ -148,41 +107,54 @@ C
         T5(I) = T5(I) + G(I) * DEPS(5,I)*FACT
         T6(I) = T6(I) + G(I) * DEPS(6,I)*FACT
 
-        AJ2(I)=HALF*(T1(I)**2+T2(I)**2+T3(I)**2)+T4(I)**2+T5(I)**2+T6(I)**2
-        PTOT = P(I)+PEXT
+        J2(I)=HALF*(T1(I)**2+T2(I)**2+T3(I)**2)+T4(I)**2+T5(I)**2+T6(I)**2
+        vm=sqrt(three*j2(i))
+        PTOT = POLD(I)+PEXT
         G0(I) =A0+A1*PTOT+A2*PTOT*PTOT
-        G0(I)= MIN(AMAX,FAC2*G0(I))    !FAC2=1 ou 0 si P<Pmin
+        G0(I)= MIN(AMAX,G0(I))
         G0(I)= MAX(ZERO,G0(I))
         IF(PTOT <= PSTAR)G0(I)=ZERO
-        YIELD2(I)=AJ2(I)-G0(I)
+        IF(POLD(I) < PFRAC)G0(I)=ZERO
+        YIELD2(I)=J2(I)-G0(I)
 
-        RATIO(I)=ZERO
-        IF(YIELD2(I)<=ZERO .AND. G0(I)>ZERO)THEN
-          RATIO(I)=ONE
-        ELSE
-          RATIO(I)=SQRT(G0(I)/(AJ2(I)+ EM14))
-        ENDIF
 
-        ! il s'agit ici du deviateur du sous materiau stocke dans UVAR
-        SIGD(1,I)=RATIO(I)*T1(I)*OFF(I)
-        SIGD(2,I)=RATIO(I)*T2(I)*OFF(I)
-        SIGD(3,I)=RATIO(I)*T3(I)*OFF(I)
-        SIGD(4,I)=RATIO(I)*T4(I)*OFF(I)
-        SIGD(5,I)=RATIO(I)*T5(I)*OFF(I)
-        SIGD(6,I)=RATIO(I)*T6(I)*OFF(I)
-
-        if(UVAR(I,1+KK)>EM02)then
-        EPSEQ(I)=EPSEQ(I)+(ONE -RATIO(I))*SQRT(ABS(AJ2(I)))*DT1
-     .           / MAX(EM20,THREE*TIMESTEP*G(I))
-        endif
-
-        EINT(I) = EINT(I) + HALF*(VOL(I))*
-     .                    ( (SIGD(1,I)+SIGDO(1,I)) * DEPS(1,I)
-     .                    + (SIGD(2,I)+SIGDO(2,I)) * DEPS(2,I)
-     .                    + (SIGD(3,I)+SIGDO(3,I)) * DEPS(3,I)
-     .                    + (SIGD(4,I)+SIGDO(4,I)) * DEPS(4,I)
-     .                    + (SIGD(5,I)+SIGDO(5,I)) * DEPS(5,I)
-     .                    + (SIGD(6,I)+SIGDO(6,I)) * DEPS(6,I))
+        if(vfrac(i) > two*em02) then
+        
+          RATIO(I)=ZERO
+          IF(G0(I) > ZERO)THEN
+            IF(YIELD2(I) > ZERO)THEN
+              RATIO(I)= sqrt(three*G0(I))/(vm+ EM14)
+              dpla = (one -ratio(i))*vm  /max(three*g(i),em15)
+              plas(i)  = plas(i) + dpla
+              epseq(i) = epseq(i)+ dpla
+            ELSE
+              RATIO(I)=ONE
+            ENDIF
+          ENDIF
+                
+          ! deviatoric stress
+          sigd(1,i)=ratio(i)*t1(i)*off(i)
+          sigd(2,i)=ratio(i)*t2(i)*off(i)
+          sigd(3,i)=ratio(i)*t3(i)*off(i)
+          sigd(4,i)=ratio(i)*t4(i)*off(i)
+          sigd(5,i)=ratio(i)*t5(i)*off(i)
+          sigd(6,i)=ratio(i)*t6(i)*off(i)
+          !plastic work
+          vol_avg = half*(vfrac(i)*volume(i)+vol(i))
+          einc    = half*vol_avg*
+     .                       ( (sigdo(1,i)+sigd(1,i)) * deps(1,i)
+     .                       + (sigdo(2,i)+sigd(2,i)) * deps(2,i)
+     .                       + (sigdo(3,i)+sigd(3,i)) * deps(3,i)
+     .                       + (sigdo(4,i)+sigd(4,i)) * deps(4,i)
+     .                       + (sigdo(5,i)+sigd(5,i)) * deps(5,i)
+     .                       + (sigdo(6,i)+sigd(6,i)) * deps(6,i))
+          eint(i) = eint(i) + einc
+        elseif(vfrac(i) < em02)then
+          plas(i) = zero
+        else
+          !smooth transition vfrac \in [0.01 0.02]
+          plas(i) = (vfrac(i)-em02)*hundred * plas(i)
+        end if
 
       ENDDO !next I
 

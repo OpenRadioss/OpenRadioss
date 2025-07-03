@@ -45,7 +45,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       SUBROUTINE HM_READ_MAT51(UPARAM ,MAXUPARAM,NUPARAM  ,ISRATE   , IMATVIS  ,
      .                         NUVAR  ,IFUNC    ,MAXFUNC  ,NFUNC    , PARMAT   ,
      .                         UNITAB ,MAT_ID   ,TITR     ,MTAG     , LSUBMODEL,
-     .                         PM     ,MATPARAM ,IPM)
+     .                         PM     ,MATPARAM ,IPM      ,NVARTMP)
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -101,6 +101,7 @@ C-----------------------------------------------
       CHARACTER(LEN=NCHARTITLE) ,INTENT(IN) :: TITR
       TYPE(SUBMODEL_DATA),INTENT(IN)  :: LSUBMODEL(NSUBMOD)
       TYPE(MATPARAM_STRUCT_) ,INTENT(INOUT) :: MATPARAM
+      INTEGER,INTENT(INOUT) :: NVARTMP
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -587,6 +588,7 @@ C-----------------------------------------------
         NBMAT = 0
         tAV(1:4) = ZERO
         tMID(1:4)= 0
+        NVARTMP = 6 ! granular plastic model 3*2
         CALL HM_GET_FLOATV('MAT_NU'     ,VIS          ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         CALL HM_GET_FLOATV('MAT_Lamda'  ,VISV         ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         CALL HM_GET_INTV  ('MIP'       ,MIP        ,IS_AVAILABLE, LSUBMODEL)
