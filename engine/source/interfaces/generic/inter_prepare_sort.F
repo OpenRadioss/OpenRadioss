@@ -163,11 +163,13 @@ C-----------------------------------------------
             ! FILLS INTER_STRUCT%BOX_LIMIT_MAIN
             CALL INTER_COUNT_NODE_CURV( N,ITASK,IPARI,INTBUF_TAB,
      1                                      X,INTER_STRUCT)
+            CALL MY_BARRIER()
             tzinf = intbuf_tab(n)%variables(tzinf_index)
             curv = inter_struct(n)%curv_max_max
             call inter_component_bound(numnod,tzinf,curv,x,component(n))
           ENDDO
           ! ---------------------
+          CALL MY_BARRIER()
         ENDIF
         ! -----------------------------
 
