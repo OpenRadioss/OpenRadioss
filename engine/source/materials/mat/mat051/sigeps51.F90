@@ -88,6 +88,7 @@
       use i22bufbric_mod , only : ninter22
       use precision_mod , only : WP
       use granular51_mod , only : granular51
+      use jcook51_mod , only : jcook51
       use matparam_def_mod , only : matparam_struct_
 !---------+---------+---+---+--------------------------------------------
 ! VAR     | SIZE    |TYP| RW| DEFINITION
@@ -322,7 +323,7 @@
 
       CASE DEFAULT
         ! normal material formulation
-        CONTINUE
+
       END SELECT
 
 
@@ -597,15 +598,14 @@
            CASE (1)
              CALL JCOOK51 (NEL  ,SIGD     ,PLAS1       ,TEMP   ,VOL  , &
                            DEPS ,EPD      ,UPARAM(101) ,VOLUME ,EINT0, &
-                           DE   ,TIMESTEP ,OFF         , &
+                           DE   ,OFF         , &
                            VFRAC)
            CASE (2)
               CALL DPRAG51 &
-                  (NEL    ,SIGD       ,VOL        ,EPSEQ1  , &
+                  (NEL    ,SIGD       ,VOL        ,EPSEQ1  , VFRAC,&
                    DEPS   ,UPARAM(101),VOLUME     ,EINT0   , PLAS1, &
-                   UVAR   ,NUVAR      ,KK         ,RHO10   , &
-                   C01    ,C11        ,C21        ,C31     ,PM1   ,PP    , &
-                   OFF    ,PEXT       ,TIMESTEP   ,DE)
+                   PM1    ,PP         , &
+                   OFF    ,PEXT       ,DE)
            CASE (3)
               CALL GRANULAR51 &
                   (NEL    ,SIGD       ,VOL        ,EPSEQ1  , &
@@ -661,15 +661,14 @@
            CASE (1)
              CALL JCOOK51 (NEL  ,SIGD     ,PLAS2       ,TEMP   ,VOL  , &
                            DEPS ,EPD      ,UPARAM(151) ,VOLUME ,EINT0, &
-                           DE   ,TIMESTEP ,OFF         , &
+                           DE   ,OFF         , &
                            VFRAC)
            CASE (2)
              CALL DPRAG51 &
-                  (NEL    ,SIGD       ,VOL        ,EPSEQ2  , &
+                  (NEL    ,SIGD       ,VOL        ,EPSEQ2  , VFRAC, &
                    DEPS   ,UPARAM(151),VOLUME     ,EINT0   , PLAS2, &
-                   UVAR   ,NUVAR      ,KK         ,RHO20   , &
-                   C02    ,C12        ,C22        ,C32     ,PM2     ,PP    , &
-                   OFF    ,PEXT       ,TIMESTEP   ,DE)
+                   PM2    ,PP         , &
+                   OFF    ,PEXT       ,DE)
            CASE (3)
               CALL GRANULAR51 &
                   (NEL    ,SIGD       ,VOL        ,EPSEQ2  , &
@@ -722,15 +721,14 @@
            CASE (1)
              CALL JCOOK51 (NEL  ,SIGD    ,PLAS3       ,TEMP   ,VOL  , &
                            DEPS ,EPD     ,UPARAM(201) ,VOLUME ,EINT0, &
-                           DE   ,TIMESTEP,OFF         , &
+                           DE   ,OFF         , &
                            VFRAC)
            CASE (2)
              CALL DPRAG51 &
-                  (NEL    ,SIGD        ,VOL        ,EPSEQ3  , &
+                  (NEL    ,SIGD        ,VOL        ,EPSEQ3  , VFRAC , &
                    DEPS   ,UPARAM(201) ,VOLUME     ,EINT0   , PLAS3 , &
-                   UVAR   ,NUVAR       ,KK         ,RHO30   , &
-                   C03    ,C13         ,C23        ,C33     ,PM3   ,PP    , &
-                   OFF    ,PEXT        ,TIMESTEP   ,DE)
+                   PM3    ,PP          , &
+                   OFF    ,PEXT        ,DE)
            CASE (3)
               CALL GRANULAR51 &
                   (NEL    ,SIGD       ,VOL        ,EPSEQ3  , &
@@ -1132,9 +1130,9 @@
           IF(SUBMAT_CODE == 1)THEN
             !EINT1 = EINT1  - HALF*(PEXT + POLD + QQOLD(I)) * DDVOL(I) !2nd order integration (semi-implicit)
              EINT1 = EINT1  -      (PEXT + POLD + QQOLD(I)) * DDVOL(I) !first order integration (explicit)
+             RHO0E1 = EINT1/V10
              V1 = VOLUME(I)
              RHO1 = MASS / V1
-             RHO0E1 = EINT1/V10
              CALL POLYUN51 ( &
                              C01,C11,C21,C31,C41,C51,GG1(I), &
                              VOLUME(I),DVOL,V1OLD, &
