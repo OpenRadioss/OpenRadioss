@@ -26,7 +26,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    h3d_nodal_scalar     ../engine/source/output/h3d/h3d_results/h3d_nodal_scalar.F
       !||    h3d_oned_scalar      ../engine/source/output/h3d/h3d_results/h3d_oned_scalar.F90
       !||    h3d_quad_scalar_1    ../engine/source/output/h3d/h3d_results/h3d_quad_scalar_1.F90
-      !||    h3d_shell_scalar_1   ../engine/source/output/h3d/h3d_results/h3d_shell_scalar_1.F
       !||    h3d_solid_scalar_1   ../engine/source/output/h3d/h3d_results/h3d_solid_scalar_1.F
       !||    h3d_sph_scalar       ../engine/source/output/h3d/h3d_results/h3d_sph_scalar.F
       !||====================================================================
@@ -59,14 +58,9 @@ C
       RETURN
       END
       !||====================================================================
-      !||    h3d_write_scalar     ../engine/source/output/h3d/h3d_results/h3d_write_scalar.F
+      !||    h3d_write_scalar_stack   ../engine/source/output/h3d/h3d_results/h3d_write_scalar.F
       !||--- called by ------------------------------------------------------
-      !||    h3d_nodal_scalar     ../engine/source/output/h3d/h3d_results/h3d_nodal_scalar.F
-      !||    h3d_oned_scalar      ../engine/source/output/h3d/h3d_results/h3d_oned_scalar.F90
-      !||    h3d_quad_scalar_1    ../engine/source/output/h3d/h3d_results/h3d_quad_scalar_1.F90
-      !||    h3d_shell_scalar_1   ../engine/source/output/h3d/h3d_results/h3d_shell_scalar_1.F
-      !||    h3d_solid_scalar_1   ../engine/source/output/h3d/h3d_results/h3d_solid_scalar_1.F
-      !||    h3d_sph_scalar       ../engine/source/output/h3d/h3d_results/h3d_sph_scalar.F
+      !||    h3d_shell_scalar_1       ../engine/source/output/h3d/h3d_results/h3d_shell_scalar_1.F
       !||====================================================================
       SUBROUTINE H3D_WRITE_SCALAR_STACK(
      .                  IOK_PART  ,IS_WRITTEN ,SCALAR ,NEL ,OFFSET ,NFT,

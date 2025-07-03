@@ -3111,6 +3111,7 @@ C------------------------------------------
       !||    drape_mod       ../engine/share/modules/drape_mod.F
       !||    dsgraph_mod     ../engine/share/modules/dsgraph_mod.F
       !||    elbufdef_mod    ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    groupdef_mod    ../common_source/modules/groupdef_mod.F
       !||    h3d_mod         ../engine/share/modules/h3d_mod.F
       !||    imp_worki       ../engine/share/modules/impbufdef_mod.F
       !||    impbufdef_mod   ../engine/share/modules/impbufdef_mod.F

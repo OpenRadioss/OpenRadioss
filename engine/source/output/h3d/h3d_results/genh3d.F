@@ -87,6 +87,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    h3d_create_rbodies_impi              ../engine/source/output/h3d/h3d_build_fortran/h3d_create_rbodies_impi.F
       !||    h3d_dxyz_rwall                       ../engine/source/output/h3d/h3d_build_fortran/h3d_dxyz_rwall.F
       !||    h3d_dxyz_rwall_update                ../engine/source/output/h3d/h3d_build_fortran/h3d_dxyz_rwall_update.F
+      !||    h3d_gather_id_val                    ../engine/source/output/h3d/spmd/h3d_gather_id_val.F90
       !||    h3d_nodal_scalar                     ../engine/source/output/h3d/h3d_results/h3d_nodal_scalar.F
       !||    h3d_nodal_tensor                     ../engine/source/output/h3d/h3d_results/h3d_nodal_tensor.F
       !||    h3d_nodal_vector                     ../engine/source/output/h3d/h3d_results/h3d_nodal_vector.F
@@ -119,6 +120,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    h3d_update_fvmbag_centroids          ../engine/source/output/h3d/h3d_build_fortran/h3d_update_fvmbag_centroids.F
       !||    h3dlib_load                          ../engine/source/output/h3d/h3d_build_cpp/h3d_dl.c
       !||    scanor                               ../engine/source/output/anim/generate/scanor.F
+      !||    spmd_gather_int                      ../engine/source/mpi/generic/spmd_gather_int.F
       !||    spmd_h3d_gather_i                    ../engine/source/output/h3d/spmd/spmd_h3d_gather_i.F
       !||    spmd_h3d_gather_i_node               ../engine/source/output/h3d/spmd/spmd_h3d_gather_i_node.F
       !||    spmd_h3d_gather_i_node_part          ../engine/source/output/h3d/spmd/spmd_h3d_gather_i_node_part.F
@@ -145,6 +147,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    fvbag_mod                            ../engine/share/modules/fvbag_mod.F
       !||    glob_therm_mod                       ../common_source/modules/mat_elem/glob_therm_mod.F90
       !||    groupdef_mod                         ../common_source/modules/groupdef_mod.F
+      !||    h3d_gather_id_val_mod                ../engine/source/output/h3d/spmd/h3d_gather_id_val.F90
       !||    h3d_inc_mod                          ../engine/share/modules/h3d_inc_mod.F
       !||    h3d_mod                              ../engine/share/modules/h3d_mod.F
       !||    h3d_oned_scalar_mod                  ../engine/source/output/h3d/h3d_results/h3d_oned_scalar.F90

@@ -351,6 +351,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    ig3dgrtails                       ../starter/source/elements/ige3d/ig3dgrtails.F
       !||    igrsurf_split                     ../starter/source/spmd/igrsurf_split.F
       !||    imp_buck                          ../engine/source/implicit/imp_buck.F
+      !||    imp_chkm                          ../engine/source/implicit/imp_solv.F
       !||    imp_inisi                         ../engine/source/implicit/imp_pcg.F
       !||    imp_inist                         ../engine/source/implicit/imp_pcg.F
       !||    imp_inttd0                        ../engine/source/implicit/imp_int_k.F

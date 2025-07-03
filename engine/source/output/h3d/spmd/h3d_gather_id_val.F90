@@ -20,14 +20,20 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+      !||====================================================================
+      !||    h3d_gather_id_val_mod   ../engine/source/output/h3d/spmd/h3d_gather_id_val.F90
+      !||--- called by ------------------------------------------------------
+      !||    genh3d                  ../engine/source/output/h3d/h3d_results/genh3d.F
+      !||====================================================================
     module h3d_gather_id_val_mod
         contains
       !||====================================================================
-      !||    spmd_exch_vnpon       ../engine/source/mpi/nodes/spmd_exch_vnpon.F90
+      !||    h3d_gather_id_val     ../engine/source/output/h3d/spmd/h3d_gather_id_val.F90
       !||--- called by ------------------------------------------------------
-      !||    inter_sh_offset_ini   ../engine/source/interfaces/shell_offset/inter_offset_ini.F90
-      !||    offset_nproj          ../engine/source/interfaces/shell_offset/offset_nproj.F90
+      !||    genh3d                ../engine/source/output/h3d/h3d_results/genh3d.F
       !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
       subroutine h3d_gather_id_val(isend_buffer,isend_buffer_real, send_size, &
                                    irecv_buffer, irec_buffer_real, recv_size, &

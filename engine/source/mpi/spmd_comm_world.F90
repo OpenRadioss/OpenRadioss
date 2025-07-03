@@ -33,6 +33,7 @@
       !||    h3d_create_rbe2_impi            ../engine/source/output/h3d/h3d_build_fortran/h3d_create_rbe2_impi.F
       !||    h3d_create_rbe3_impi            ../engine/source/output/h3d/h3d_build_fortran/h3d_create_rbe3_impi.F
       !||    h3d_create_rbodies_impi         ../engine/source/output/h3d/h3d_build_fortran/h3d_create_rbodies_impi.F
+      !||    h3d_gather_id_val               ../engine/source/output/h3d/spmd/h3d_gather_id_val.F90
       !||    imp_mumps1                      ../engine/source/implicit/imp_mumps.F
       !||    imp_mumps2                      ../engine/source/implicit/imp_mumps.F
       !||    inipar                          ../engine/source/mpi/init/inipar.F
