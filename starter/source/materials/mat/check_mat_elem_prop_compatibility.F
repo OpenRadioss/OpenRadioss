@@ -60,7 +60,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: NG,IGTYP,PID,PROP_ID,NLAY,IL,IMAT,ILAW,IEOS,MAT_ID,K,ITY,ISNOD,NFT,IVISC
+      INTEGER :: NG,IGTYP,PID,PROP_ID,NLAY,IL,IMAT,ILAW,IEOS,MAT_ID,K,ITY,ISNOD,NFT,IVISC,MLW
       LOGICAL :: COMPAT_ELEM,COMPAT_PROP,COMPAT_EOS,COMPAT_VISC
       CHARACTER (LEN = 10) :: ELTYP
       PID = -HUGE(PID)
@@ -75,16 +75,15 @@ c
         ! Group parameters
         ITY   = IPARG(5,NG)         ! -> Element type 
         IGTYP = ELBUF_STR(NG)%IGTYP ! -> Property type 
-        NLAY  = ELBUF_STR(NG)%NLAY  ! -> Number of layers 
+        NLAY  = ELBUF_STR(NG)%NLAY  ! -> Number of layers
+        MLW   = IPARG(1,NG)         ! -> Material law type
+        PID = IPARG(62,NG)    ! -> Property internal ID
+        PROP_ID = IGEO(1,PID) ! -> Property user ID
 c
         !-----------------------------------------------------------------
         ! Solid, Shell, Integrated Beam and SPH
         !-----------------------------------------------------------------
-        IF (NLAY > 0) THEN
-c
-          ! Property parameters
-          PID = IPARG(62,NG)    ! -> Property internal ID 
-          PROP_ID = IGEO(1,PID) ! -> Property user ID
+        IF (NLAY > 0 .AND. MLW /= 151) THEN    !MLW=151 is multimaterial law with NLAY > 0 (ALE, single integration point)
 c 
           ! Loop over layers 
           DO IL = 1,NLAY

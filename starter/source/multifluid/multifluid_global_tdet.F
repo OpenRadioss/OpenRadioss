@@ -103,7 +103,7 @@ C-----------------------------------------------
                        GBUF%TB(LFT:LLT) = -EP21
                        DO ILAY = 1, NLAY
                           !SUBMATLAW = IPM(2, IPM(20 + ILAY, MTN))
-                          SUBMATLAW = ELBUF_TAB(NG)%BUFLY(ILAY)%ILAW  
+                          SUBMATLAW = ELBUF_TAB(NG)%BUFLY(ILAY)%ILAW
                           IF (SUBMATLAW == 5) THEN
                              LBUF => ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF(1,1,1)
                              DO II = LFT, LLT
