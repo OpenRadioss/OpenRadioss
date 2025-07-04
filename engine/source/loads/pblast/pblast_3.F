@@ -93,7 +93,8 @@ C-----------------------------------------------
       INTEGER  ID, ITA_SHIFT,IMODEL
       INTEGER :: NS,KSURF
       INTEGER :: curve_id1, curve_id2, NN(4), NDT
-      LOGICAL :: BOOL_UNDERGROUND_CURRENT_SEG, IS_UPDATED, IS_DECAY_TO_BE_COMPUTED
+      LOGICAL :: BOOL_UNDERGROUND_CURRENT_SEG, IS_DECAY_TO_BE_COMPUTED
+      LOGICAL,SAVE :: IS_UPDATED
       INTEGER :: NWARN !< number of segment for which it is not possible to correlate the positive impulse. It may happen that for a given Pmax and dt0 value even building a triangle shape leads to a lower impulse that the targeted one.
 
       my_real :: Zx,Zy,Zz,NORM,Nx,Ny,Nz ! target face centroid and normal vector
@@ -191,6 +192,7 @@ C-----------------------------------------------
       FAC_I_bb = FAC_P_bb*FAC_T_bb !/FAC_M_bb**THIRD
 
       IS_UPDATED=.FALSE.
+      CALL MY_BARRIER
 
       !-----------------------------------------------,
       !    AIR BURST
@@ -509,6 +511,7 @@ C----- /TH/SURF -------
         write(ISTDO, FMT='(A,I10,/A,/A)') "Updated parameters for /LOAD/PBLAST id=", ID, MSGOUT1, MSGOUT2
       ENDIF
 
+      CALL MY_BARRIER
       IF(IS_UPDATED)THEN
 #include "lockon.inc"
         !---arrival time
@@ -521,7 +524,6 @@ C----- /TH/SURF -------
         IZ_UPDATE = 1 !update done
         ILOADP(06,NL) = IZ_UPDATE
 #include "lockoff.inc"
-        CALL MY_BARRIER()
 !$OMP SINGLE
         write(IOUT ,FMT='(A,I10,A,E16.8,A,E16.8)') "Updated parameters for /LOAD/PBLAST id=",
      .                                             ID,' previous first arrival time :',ZETA,
