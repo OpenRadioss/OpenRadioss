@@ -136,6 +136,7 @@ C-----------------------------------------------
       USE SDISTOR_INI_MOD, ONLY : SDISTOR_INI
       use glob_therm_mod
       USE SENSOR_MOD
+      USE sz_dt1_mod, only : sz_dt1
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -394,9 +395,11 @@ C
       ICP0=MAT_ELEM%MAT_PARAM(IMAT)%COMPRESSIBILITY
       FAC_NU = ONE
       NU0 = PM(21,IMAT)
+      NU_SP = ONE
       IF (IDT1SOL == 1.AND.(MTN==1.OR.ICP0 ==3)) THEN
         NU_SP=SQRT((ONE-NU0)/(ONE+NU0))
-        FAC_NU = NU_SP/ZEP9
+        NU_SP = MIN(ONE,NU_SP/ZEP9)
+        FAC_NU=(ONE-TWO*NU0)/(ONE-NU0)
       END IF
       ISCTL = IGEO(97,PID)
 C Total strain Pij are in global system for ISMSTR=10,12 and in local system for ISMSTR=11
@@ -580,6 +583,12 @@ C         Possible mix of elts computing DELTAX like in sdlen3 & sdlen8
      L   N5Z,     N6Z,     NEL,     NFT,
      M   JHBE)
       ENDIF
+! dt1/brick for elastoplastic laws (including law1)
+        CALL SZ_DT1(
+     1   PX1,     PX2,     PX3,     PX4,     
+     2   PY1,     PY2,     PY3,     PY4,     
+     3   PZ1,     PZ2,     PZ3,     PZ4,  
+     4   FAC_NU,DELTAXI,   NEL )
 c
       IF (JALE+JEUL > 0 .AND. MTN == 11) THEN
         CALL S11DEFO3(
@@ -663,7 +672,8 @@ C Element temperature
         ENDDO
       ENDIF
 C
-       DELTAXI(1:NEL) = FAC_NU*DELTAX(1:NEL)   
+      DELTAXI(1:NEL) = DELTAX(1:NEL)   
+      IF (FAC_NU<ONE) DELTAXI(1:NEL) = MAX(DELTAXI(1:NEL),NU_SP*DELTAX(1:NEL))   
 C-----------------------------------------------------------------------
       IF ((ITASK==0).AND.(IMON_MAT==1)) CALL STARTIME(TIMERS,35)
       ILAY = 1 
