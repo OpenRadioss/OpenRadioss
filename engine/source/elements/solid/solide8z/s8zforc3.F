@@ -131,6 +131,7 @@ C-----------------------------------------------
       USE DT_MOD
       USE ELBUFDEF_MOD
       use glob_therm_mod
+      USE sz_dt1_mod, only : sz_dt1
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -562,9 +563,11 @@ c
       ICP0=MAT_ELEM%MAT_PARAM(MX)%COMPRESSIBILITY
       FAC_NU = ONE
       NU0 = PM(21,MX)
+      NU_SP = ONE
       IF (IDT1SOL == 1.AND.(MTN==1.OR.ICP0 ==3)) THEN
         NU_SP=SQRT((ONE-NU0)/(ONE+NU0))
-        FAC_NU = NU_SP/ZEP9
+        NU_SP = MIN(ONE,NU_SP/ZEP9)
+        FAC_NU=(ONE-TWO*NU0)/(ONE-NU0)
       END IF
 c---------------------------      
       IF (ISMSTR >= 10.AND.ISMSTR <= 12) THEN
@@ -928,6 +931,12 @@ C-----don't do it w/ degenerated elm
           IF (IDEG(I)>0) IDEG(I) = IDEG(I) + 10
          ENDDO
        END IF !(ICP==1) THEN
+! dt1/brick for elastoplastic laws (including law1)
+       CALL SZ_DT1(
+     1   PXC1,     PXC2,     PXC3,     PXC4,     
+     2   PYC1,     PYC2,     PYC3,     PYC4,     
+     3   PZC1,     PZC2,     PZC3,     PZC4,  
+     4   FAC_NU, DELTAXI,    NEL )
 C---------------------------------------
 C INITIALIZATION---Before increment-----
 C---------------------------------------
@@ -1161,7 +1170,8 @@ C
      2               NC1,NC2,NC3,NC4,NC5,NC6,NC7,NC8,
      3               TEMP,TEMPEL)
       ENDIF    
-       DELTAXI(1:NEL) = FAC_NU*DELTAX(1:NEL)   
+      DELTAXI(1:NEL) = DELTAX(1:NEL)   
+      IF (FAC_NU<ONE) DELTAXI(1:NEL) = MAX(DELTAXI(1:NEL),NU_SP*DELTAX(1:NEL))   
 C------------------------------------------------------
 C     CALCUL DES CONTRAINTES SUIVANT LOIS CONSTITUTIVES
 C     TIME STEP EST CALCULE ICI DT2T
