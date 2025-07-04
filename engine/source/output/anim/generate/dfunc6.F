@@ -2377,7 +2377,7 @@ c
                 ENDDO  
 
               ELSEIF(IFUNC == 26) THEN
-                 IF (ISRAT > 0) THEN
+                IF (GBUF%G_EPSD > 0) THEN
                    DO I=LFT,LLT
                      EVAR(I) = GBUF%EPSD(I)
                    ENDDO

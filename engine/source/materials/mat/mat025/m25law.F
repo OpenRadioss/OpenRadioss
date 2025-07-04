@@ -42,7 +42,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      5   D6,        RX,        RY,        RZ,
      6   SX,        SY,        SZ,        TX,
      7   TY,        TZ,        GAMA,      VNEW,
-     8   SSP,       VOL,       EPSP,      WPLA,
+     8   SSP,       VOL,       EPSD,      WPLA,
      9   EPST,      SIGL,      TSAIWU,          
      A   FLAY,      NGL,       NEL,       NFT,             
      B   ILAY,      NPT,       IPG,
@@ -82,12 +82,10 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) :: L_DMG
       INTEGER NGL(MVSIZ),ILAY,NEL,IPG
       INTEGER, INTENT(INOUT) :: OUTV(NEL)
-C     REAL
+      my_real ,DIMENSION(NEL) ,INTENT(INOUT) :: EPSD ! local equivalent strain rate
       my_real
      .   PM(NPROPM),OFF(*), SIG(NEL,6), WPLA(*), GAMA(MVSIZ,6), 
-     .   EINT(*), EPSP(*),
-     .   RX(*) ,RY(*),RZ(*) ,SX(*),SY(*),SZ(*),
-     .   TX(*) ,TY(*) ,TZ(*)
+     .   EINT(*),RX(*) ,RY(*),RZ(*) ,SX(*),SY(*),SZ(*),TX(*) ,TY(*) ,TZ(*)
       my_real
      .   D1(*), D2(*), D3(*), D4(*),
      .   D5(*), D6(*),
@@ -139,16 +137,15 @@ C-----------------------------------------------------------
         DMAXT(I) = ZERO
       ENDDO  
 C-----------------------------------------------------------
-C     STRAIN RATE FILTERING (EQUIVALENT EPSP)
+C     STRAIN RATE FILTERING (EQUIVALENT EPSD)
 C-----------------------------------------------------------
       ASRATE = ASRATE / (ASRATE + ONE)   
       DO I=1,NEL                                                                                                    
         DAV = -THIRD*(D1(I)+D2(I)+D3(I))                         
-        EPD = HALF*((D1(I)+DAV )**2+(D2(I)+DAV)**2          
-     .                                +(D3(I)+DAV)**2)           
-     .         + FOURTH*(D4(I)**2+D5(I)**2+D6(I)**2)              
+        EPD = HALF*((D1(I)+DAV )**2 + (D2(I)+DAV)**2 + (D3(I)+DAV)**2)           
+     .      + FOURTH*(D4(I)**2 + D5(I)**2 + D6(I)**2)
         EPD = SQRT(THREE*EPD)/THREE_HALF                        
-        EPSP(I) = ASRATE*EPD + (ONE - ASRATE)*EPSP(I)     
+        EPSD(I) = ASRATE*EPD + (ONE - ASRATE)*EPSD(I)   
       ENDDO                                                        
 C--------------------------------------------
 C     STRESS TRANSFORMATION (GLOBAL -> FIBER)
@@ -204,7 +201,7 @@ C-----------------------------------------------------------
      2                    S1     ,S2   ,S3    ,S4   ,S5   ,S6   ,
      3                    EP1    ,EP2  ,EP3   ,EP4  , EP5 ,EP6  ,
      4                    EPST   ,NFIS1,NFIS2 ,NFIS3,
-     5                    WPLAR  ,EPSP ,WPLA  ,SIGL ,ILAY ,IPG  ,
+     5                    WPLAR  ,EPSD ,WPLA  ,SIGL ,ILAY ,IPG  ,
      6                    TSAIWU ,TT   ,IMCONV,MVSIZ,IOUT ,DMG  ,
      7                    L_DMG  ,OUTV)
       
@@ -215,7 +212,7 @@ C-----------------------------------------------------------
      2             S1   ,S2   ,S3  ,S4   ,S5   ,S6    ,
      3             EP1  ,EP2  ,EP3 ,EP4  , EP5 ,EP6,
      4             EPST ,NFIS1,NFIS2,NFIS3,
-     5             WPLAR,EPSP, WPLA, SIGL, ILAY,
+     5             WPLAR,EPSD, WPLA, SIGL, ILAY,
      6             IPG  ,TSAIWU,TT,IMCONV  ,MVSIZ   ,IOUT,
      7             DMG  ,L_DMG ,OUTV)
 
