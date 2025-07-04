@@ -51,7 +51,7 @@
           s1  ,s2  ,s3, s4  ,s5  ,s6  ,                     &
           d1  ,d2  ,d3, d4  ,d5  ,d6  ,                     &
           epst,nfis1,nfis2,nfis3,                           &
-          wplar,epsp , wpla, sigl, ilay,                    &
+          wplar,epsd , wpla, sigl, ilay,                    &
           ipg,tsaiwu,time,imconv  ,mvsiz   ,iout,           &
           dmg,l_dmg ,outv)
 !-----------------------------------------------
@@ -82,7 +82,7 @@
           real(kind=WP) ,intent(in)    :: time                   !< current time
           real(kind=WP) ,intent(inout) :: off(mvsiz)             !< element activation coefficient
           real(kind=WP) ,intent(inout) :: wpla(mvsiz)            !< plastic work
-          real(kind=WP) ,intent(inout) :: epsp(mvsiz)            !< equivalent strain rate
+          real(kind=WP) ,intent(in)    :: epsd(mvsiz)            !< equivalent strain rate
           real(kind=WP) ,intent(inout) :: epst(nel,6)            !< total strain tensor
           real(kind=WP) ,intent(inout) :: wplar(mvsiz)           !< reference plastic work
           real(kind=WP) ,intent(inout) :: s1(mvsiz)              !< stress component
@@ -136,6 +136,7 @@
             epsf1(mvsiz),epsf2(mvsiz),eps(mvsiz,6),soft(3),                    &
             wplamxt1(mvsiz),wplamxt2(mvsiz),wplamxc1(mvsiz),wplamxc2(mvsiz),   &
             wplamxt12(mvsiz),beta(mvsiz)
+          real(kind=WP) :: frate(mvsiz)
 !=======================================================================
           iflag  = mat_param%iparam(1)
           ioff   = mat_param%iparam(2)
@@ -385,10 +386,10 @@
 !     strain rate
 !-------------------------------------------------------------------
           do i=1,nel
-            if(epsp(i) > epdr) then
-              epsp(i)=log(epsp(i)/epdr)
+            if(epsd(i) > epdr) then
+              frate(i)=log(epsd(i)/epdr)
             else
-              epsp(i)= zero
+              frate(i)= zero
             endif
             coef(i)=zero
           enddo
@@ -416,17 +417,17 @@
               sigyc1 = min(sigyc1 ,sigmxc1)
               sigyc2 = min(sigyc2 ,sigmxc2)
               sigyt12= min(sigyt12,sigmxt12)
-              sigyt1 = sigyt1*(one  + cc_t1 *epsp(i))
-              sigyt2 = sigyt2*(one  + cc_t2 *epsp(i))
-              sigyc1 = sigyc1*(one  + cc_c1 *epsp(i))
-              sigyc2 = sigyc2*(one  + cc_c2 *epsp(i))
-              sigyt12= sigyt12*(one + cc_t12*epsp(i))
+              sigyt1 = sigyt1*(one  + cc_t1 *frate(i))
+              sigyt2 = sigyt2*(one  + cc_t2 *frate(i))
+              sigyc1 = sigyc1*(one  + cc_c1 *frate(i))
+              sigyc2 = sigyc2*(one  + cc_c2 *frate(i))
+              sigyt12= sigyt12*(one + cc_t12*frate(i))
             else
-              sigyt1 = sigyt1*(one  + cc_t1 *epsp(i))
-              sigyt2 = sigyt2*(one  + cc_t2 *epsp(i))
-              sigyc1 = sigyc1*(one  + cc_c1 *epsp(i))
-              sigyc2 = sigyc2*(one  + cc_c2 *epsp(i))
-              sigyt12= sigyt12*(one + cc_t12*epsp(i))
+              sigyt1 = sigyt1*(one  + cc_t1 *frate(i))
+              sigyt2 = sigyt2*(one  + cc_t2 *frate(i))
+              sigyc1 = sigyc1*(one  + cc_c1 *frate(i))
+              sigyc2 = sigyc2*(one  + cc_c2 *frate(i))
+              sigyt12= sigyt12*(one + cc_t12*frate(i))
               sigyt1 = min(sigyt1 ,sigmxt1 )
               sigyt2 = min(sigyt2 ,sigmxt2 )
               sigyc1 = min(sigyc1 ,sigmxc1 )
@@ -496,9 +497,9 @@
             alpha=f12(i)
             f12(i) = -alpha/(two*sqrt(sigyt1*sigyc1*sigyt2*sigyc2))
 !
-            epsp(i)=one + cc * epsp(i)
+            frate(i) = one + cc * frate(i)
             if(icc == 3.or.icc == 4)then
-              wplamx(i) = wplamx(i)*epsp(i)
+              wplamx(i) = wplamx(i)*frate(i)
             endif
           enddo
 !-------------------------------------------------------------------
