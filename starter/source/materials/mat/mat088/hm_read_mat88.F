@@ -275,7 +275,8 @@ c-----------------
       ELSE     
         WRITE(IOUT,1020)RHO0 
         WRITE(IOUT,1100)NU,BULK,ITENS,NL-IADD
-        WRITE(IOUT,1200)(IFUNC(I),YFAC(I),RATE(I),I=1+IADD,NL)     
+        WRITE(IOUT,1200)(IFUNC(I),YFAC(I),RATE(I),I=1+IADD,NL)   
+        WRITE(IOUT,1250) ISRATE,FCUT
         IF(IUNL_FOR == 1) THEN
          II = NL
          WRITE(IOUT,1300)IFUNC(NFUNC),YFAC_UNL 
@@ -304,7 +305,10 @@ C-----------------
  1200 FORMAT(
      & 5X,'LOADING STRESS-STRAIN FUNCTION NUMBER. . .=',I10/
      & 5X,'STRESS SCALE FACTOR. . . . . . . . . . . .=',1PG20.13/
-     & 5X,'STRAIN RATE . . . . . . . . . . . . . . . =',1PG20.13/)   
+     & 5X,'STRAIN RATE . . . . . . . . . . . . . . . =',1PG20.13)   
+ 1250 FORMAT(
+     & 5X,'STRAIN RATE FILTERING FLAG. . . . . . . . =',I10/  
+     & 5X,'STRAIN RATE FILTERING CUTOFF FREQUENCY. . =',1PG20.13/)   
  1300 FORMAT(
      & 5X,'UNLOADING STRESS-STRAIN FUNCTION NUMBER. .=',I10/
      & 5X,'STRESS SCALE FACTOR. . . . . . . . . . . .=',1PG20.13/)    
