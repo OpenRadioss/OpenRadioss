@@ -103,7 +103,8 @@ C-----------------------------------------------
       
       INTEGER, EXTERNAL :: OMP_GET_THREAD_NUM
 
-      LOGICAL IS_UPDATED,IS_DECAY_TO_BE_COMPUTED
+      LOGICAL,SAVE ::  IS_UPDATED
+      LOGICAL :: IS_DECAY_TO_BE_COMPUTED
 
       CHARACTER(LEN=NCHARLINE) ::  MSGOUT1,MSGOUT2
       
@@ -164,6 +165,7 @@ C-----------------------------------------------
       FAC_I_bb = FAC_M_bb/FAC_L_bb/FAC_T_bb
 
       IS_UPDATED=.FALSE.
+      CALL MY_BARRIER
 
       !-----------------------------------------------,                                                 
       !   FREE AIR BURST                                                                                
@@ -339,7 +341,6 @@ C-----------------------------------------------
           DTMIN_LOC = MIN(DTMIN_LOC,DT_0/NDT)
           IS_UPDATED = .TRUE.
 
-                                                                                                                                                                                                      
         ELSE! => IZ_UPDATE=1
                                                                                                                                                                                                       
           !use wave parameters from Starter
@@ -420,7 +421,8 @@ C----- /TH/SURF -------
         write(IOUT , FMT='(A,I10,/A,/A)') "Updated parameters for /LOAD/PBLAST id=", ID, MSGOUT1, MSGOUT2
         write(ISTDO, FMT='(A,I10,/A,/A)') "Updated parameters for /LOAD/PBLAST id=", ID, MSGOUT1, MSGOUT2
       ENDIF
-         
+
+      CALL MY_BARRIER
       IF(IS_UPDATED)THEN
 #include "lockon.inc"
         !---arrival time
@@ -433,7 +435,6 @@ C----- /TH/SURF -------
         IZ_UPDATE = 1 !update done
         ILOADP(06,NL) = IZ_UPDATE
 #include "lockoff.inc"
-        CALL MY_BARRIER()
 !$OMP SINGLE
         write(IOUT,FMT='(A,I10,A,E16.8,A,E16.8)') "Updated parameters for /LOAD/PBLAST id=",
      .                                         ID,' previous first arrival time :',ZETA,
