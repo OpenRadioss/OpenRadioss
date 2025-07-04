@@ -452,6 +452,10 @@ c-----------------------------------------------
       H3D_KEYWORD_SHELL_SCALAR(I)%TEXT1  = 'Detonation Time'
 c-----------------------------------------------
       I = I + 1
+      H3D_KEYWORD_SHELL_SCALAR(I)%KEY3  = 'BFRAC'
+      H3D_KEYWORD_SHELL_SCALAR(I)%TEXT1  = 'Burn Fraction'
+c-----------------------------------------------
+      I = I + 1
       H3D_KEYWORD_SHELL_SCALAR(I)%KEY3  = 'DT'
       H3D_KEYWORD_SHELL_SCALAR(I)%TEXT1  = 'Time Step'
 c-----------------------------------------------
