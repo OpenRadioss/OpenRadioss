@@ -58,7 +58,7 @@
         depsxx   ,depsyy   ,depsxy   ,depsyz   ,depszx   ,                     &
         sigoxx   ,sigoyy   ,sigoxy   ,sigoyz   ,sigozx   ,                     &
         signxx   ,signyy   ,signxy   ,signyz   ,signzx   ,                     &
-        soundsp  ,pla      ,dpla     ,epsp     ,yld      ,                     &
+        soundsp  ,pla      ,dpla     ,epsd_pg  ,yld      ,                     &
         etse     ,gs       ,israte   ,asrate   ,epsd     ,                     &
         temp     ,l_sigb   ,sigb     ,inloc    ,dplanl   ,                     &
         seq      ,jthe     ,off      ,loff     ,nvartmp  ,                     &
@@ -113,7 +113,7 @@
         real(kind=WP), dimension(nel), intent(inout)         :: soundsp  !< Sound speed
         real(kind=WP), dimension(nel), intent(inout)         :: pla      !< Equivalent plastic strain
         real(kind=WP), dimension(nel), intent(inout)         :: dpla     !< Increment of equivalent plastic strain
-        real(kind=WP), dimension(nel), intent(inout)         :: epsp     !< Total equivalent and filtered strain rate
+        real(kind=WP), dimension(nel), intent(in)            :: epsd_pg  !< Global equivalent strain rate
         real(kind=WP), dimension(nel), intent(inout)         :: yld      !< Yield stress
         real(kind=WP), dimension(nel), intent(inout)         :: etse     !< Hourglass control stiffness
         real(kind=WP), dimension(nel), intent(in)            :: gs       !< Transverse shear modulus 
@@ -130,7 +130,7 @@
         real(kind=WP), dimension(nel), intent(in)            :: loff     !< Flag for Gauss point deletion
         integer, intent(in)                            :: nvartmp  !< Number of temporary variables
         integer, dimension(nel,nvartmp), intent(inout) :: vartmp   !< Temporary variables
-        real(kind=WP), dimension(nel), intent(inout)         :: epsd     !< Output strain rate
+        real(kind=WP), dimension(nel), intent(inout)         :: epsd     !< local strain rate
 !-----------------------------------------------
 !  L o c a l   V a r i a b l e s
 !-----------------------------------------------
@@ -146,7 +146,7 @@
           case(0)
             call mat87c_tabulated(                                             &
               nel    ,matparam,nvartmp ,vartmp  ,timestep ,                    &
-              rho0   ,thkly   ,thk     ,epsp    ,                              &
+              rho0   ,thkly   ,thk     ,epsd_pg ,                              &
               epspxx ,epspyy  ,epspxy  ,                                       &
               depsxx ,depsyy  ,depsxy  ,depsyz  ,depszx   ,                    &
               sigoxx ,sigoyy  ,sigoxy  ,sigoyz  ,sigozx   ,                    &
@@ -159,7 +159,7 @@
           case(1)
             call mat87c_swift_voce(                                            &
               nel    ,matparam,timestep,                                       &
-              rho0   ,thkly   ,thk     ,epsp    ,                              &
+              rho0   ,thkly   ,thk     ,epsd_pg ,                              &
               epspxx ,epspyy  ,epspxy  ,                                       &
               depsxx ,depsyy  ,depsxy  ,depsyz  ,depszx   ,                    &
               sigoxx ,sigoyy  ,sigoxy  ,sigoyz  ,sigozx   ,                    &
@@ -172,7 +172,7 @@
           case(2)
             call mat87c_hansel(                                                &
               nel    ,matparam,nuvar   ,uvar    ,                              &
-              rho0   ,thkly   ,thk     ,epsp    ,time     ,                    &
+              rho0   ,thkly   ,thk     ,epsd_pg ,time     ,                    &
               temp   ,jthe    ,                                                &
               depsxx ,depsyy  ,depsxy  ,depsyz  ,depszx   ,                    &
               sigoxx ,sigoyy  ,sigoxy  ,sigoyz  ,sigozx   ,                    &
@@ -185,7 +185,7 @@
           case(3)
             call mat87c_tabulated_3dir_ortho(                                  &
               nel    ,matparam,nvartmp ,vartmp  ,timestep ,                    &
-              rho0   ,thkly   ,thk     ,epsp    ,                              &
+              rho0   ,thkly   ,thk     ,epsd_pg ,                              &
               epspxx ,epspyy  ,epspxy  ,                                       &
               depsxx ,depsyy  ,depsxy  ,depsyz  ,depszx   ,                    &
               sigoxx ,sigoyy  ,sigoxy  ,sigoyz  ,sigozx   ,                    &

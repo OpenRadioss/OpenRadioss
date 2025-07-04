@@ -52,7 +52,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      5           PID    ,TF     ,NPF    ,MTN   ,DT1C  ,A1    ,
      6           BUFMAT ,SSP    ,RHO    ,VISCMX,IOFC  ,A2    ,
      7           INDX   ,NGL    ,ZCFAC  ,GS    ,SIGY  ,G     ,
-     8           THK0   ,EPSP   ,IPLA   ,IGEO  ,IPM   ,TABLE ,
+     8           THK0   ,epsd_glob,IPLA ,IGEO  ,IPM   ,TABLE ,
      9           IR     ,IS     ,F_DEF  ,ISMSTR,NU    ,VOL0  ,
      A           KFTS   ,ZSHIFT ,idamp_freq_range,mat_elem,damp_buf,
      B           FOR_G  )
@@ -89,11 +89,12 @@ C-----------------------------------------------
       my_real FOR(NEL,5), MOM(NEL,3), THK(*), EINT(JLT,2),PM(NPROPM,*),
      .   OFF(*), GSTR(NEL,8), DIR(*),VISCMX(*),
      .   AREA(*),TF(*),DT1C(*),
-     .   EXX(*), EYY(*), EXY(*), EXZ(*), EYZ(*), EPSP(*),
+     .   EXX(*), EYY(*), EXY(*), EXZ(*), EYZ(*),
      .   KXX(*), KYY(*), KXY(*),BUFMAT(*),SSP(*),RHO(*),
      .   ZCFAC(MVSIZ,2),GS(*),SIGY(*),THK0(*),SHF(*),F_DEF(MVSIZ,8),
      .   A1(MVSIZ),A2(MVSIZ),G(MVSIZ),NU(MVSIZ),VOL0(*)
       my_real, INTENT(IN) :: ZSHIFT
+      my_real, intent(in),dimension(mvsiz) :: epsd_glob !< global strain rate by Gauss pt
       my_real, DIMENSION(NEL,5), INTENT(INOUT) :: FOR_G
       TYPE(TTABLE) TABLE(*)
       TYPE(ELBUF_STRUCT_), TARGET :: ELBUF_STR
@@ -115,7 +116,7 @@ C-----------------------------------------------
      .   SIGNXX(MVSIZ),SIGNYY(MVSIZ),SIGNXY(MVSIZ),SIGNYZ(MVSIZ),
      .   SIGNZX(MVSIZ),SIGVXX(MVSIZ),SIGVYY(MVSIZ),SIGVXY(MVSIZ),
      .   SIGVYZ(MVSIZ),SIGVZX(MVSIZ),TENS(5,MVSIZ), 
-     .   EPS_M2,EPS_K2,YOUNG, VISC, VOL2, ASRATE,SH_OFFSET
+     .   YOUNG, VISC, VOL2, DTINV,ASRATE,SH_OFFSET
       my_real
      .   DEPBXX(MVSIZ),DEPBYY(MVSIZ),DEPBXY(MVSIZ),
      .   MOMOXX(MVSIZ),MOMOYY(MVSIZ),MOMOXY(MVSIZ),
@@ -123,7 +124,6 @@ C-----------------------------------------------
      .   ETSE(MVSIZ)  ,EPSPL(MVSIZ),EPSP_LOC(MVSIZ)
       my_real, DIMENSION(:) ,POINTER :: UVAR
       my_real, DIMENSION(:) ,POINTER :: UVARV
-      my_real, DIMENSION(MVSIZ) :: DT_INV
       my_real, DIMENSION(NEL) :: OFF_OLD
 C-------------------------------------
       INTEGER, DIMENSION(:), POINTER :: VARTMP
@@ -135,6 +135,7 @@ C-----------------------------------------------
 C
       LBUF => ELBUF_STR%BUFLY(1)%LBUF(IR,IS,1)
 C
+      IMAT = ELBUF_STR%BUFLY(1)%IMAT
 C     for user material laws : pid(i)=pid(1)
       IGTYP  = IGEO(11,PID(1))
       IF(MTN==43.OR.MTN==56.OR.MTN==60.OR.MTN==86) THEN
@@ -157,48 +158,27 @@ C
       DO I=JFT,JLT
         THKN(I) = THK(I)
       ENDDO
-!       compute the inverse of dt and save the result 
-      DO I=JFT,JLT
-        DT_INV(I) = DT1C(I)/MAX(DT1C(I)**2,EM20)
-      ENDDO
-!
       ETSE(1:MVSIZ) = ZERO   
       OFF_OLD(1:NEL) = OFF(1:NEL)   
       FOR(JFT:JLT,1:5) = FOR_G(JFT:JLT,1:5)   
-C-----------------------------------------------------------
-C     EPS POINT EQUIVALENT (au sens energetique)
-C-----------------------------------------------------------
-C     e = 1/t integ[1/2 E (eps_m + k z)^2 dz ]
-C     e = 1/2 E eps_eq^2
-C     eps_eq = sqrt[ eps_m^2 + 1/12 k^2t^2 ]
-      MX = MAT(JFT)
+!       compute the inverse of dt and save the result
+      dtinv = dt1 / max(dt1**2,em20)  ! inverse of dt
+!----------------------------------------------------------------------
+      ! global strain rate for materials which still use it
+      ! it may be overloaded by local material law strain rate 
+      ! the same value should be used in material and failure models 
 !
-      ISRATE = IPM(3,MX)
-      IF (ISRATE == 1) THEN
-!#include "vectorize.inc" 
-        DO I=JFT,JLT
-          EPS_K2 = (KXX(I)*KXX(I)+KYY(I)*KYY(I)+KXX(I)*KYY(I)
-     .           + FOURTH*KXY(I)*KXY(I)) *THK(I)*THK(I)*ONE_OVER_9
-          EPS_M2 = FOUR_OVER_3*(EXX(I)*EXX(I)+EYY(I)*EYY(I)+EXX(I)*EYY(I)
-     .           + FOURTH*EXY(I)*EXY(I))
-          EPSP_LOC(I) = SQRT(EPS_K2 + EPS_M2)*DT_INV(I)
-        END DO
-      ELSE IF (ISRATE > 1) THEN
-!#include "vectorize.inc" 
-        DO I=JFT,JLT
-          EPS_M2  = FOUR_OVER_3*(EXX(I)*EXX(I)+EYY(I)*EYY(I)+EXX(I)*EYY(I)
-     .            + FOURTH*EXY(I)*EXY(I))
-          EPSP_LOC(I) = SQRT(EPS_M2)*DT_INV(I)
-        END DO
-      ENDIF
-!
-      IF (ISRATE > 0) THEN    ! strain rate filtering with exponential average
-        DO I=JFT,JLT
-          ASRATE = MIN(ONE,PM(9,MX)*DT1C(I))
-          EPSP(I) = ASRATE*EPSP_LOC(I) + (ONE-ASRATE)*EPSP(I)
-          EPSPL(I) = EPSP(I)
-        END DO
-      ENDIF
+      israte = ipm(3,imat)
+      if (israte > 0) then
+        asrate = min(one, pm(9,imat)*dt1)
+      else
+        asrate = one
+      end if
+      if (elbuf_str%bufly(1)%l_epsd > 0) then
+        epspl(1:nel)  = asrate*epsd_glob(1:nel) + (one-asrate)*lbuf%epsd(1:nel)
+      else
+        epspl(1:nel) = zero
+      end if       
 C-----------------------
 C     GLOBAL PLASTICITY
 C-----------------------
@@ -321,11 +301,11 @@ C
       ENDIF ! IF (IGTYP == 1)
 C
       DO I=JFT,JLT
-        EPSPXX(I) = DEPSXX(I)*DT_INV(I)
-        EPSPYY(I) = DEPSYY(I)*DT_INV(I)
-        EPSPXY(I) = DEPSXY(I)*DT_INV(I)
-        EPSPYZ(I) = DEPSYZ(I)*DT_INV(I)
-        EPSPZX(I) = DEPSZX(I)*DT_INV(I)
+        EPSPXX(I) = DEPSXX(I)*DTINV
+        EPSPYY(I) = DEPSYY(I)*DTINV
+        EPSPXY(I) = DEPSXY(I)*DTINV
+        EPSPYZ(I) = DEPSYZ(I)*DTINV
+        EPSPZX(I) = DEPSZX(I)*DTINV
       ENDDO
 C-------------------------------------------
 C      ELASTIC STRESS + 
@@ -346,7 +326,7 @@ C-------------------------------------------
      1                 JFT     ,JLT     ,PM      ,FOR     ,MOM     ,
      2                 THKN    ,EINT    ,OFF     ,DT1C    ,ISRATE  ,
      3                 G       ,A1      ,A2      ,VOL0    ,NU      ,
-     4                 THK0    ,GS      ,EPSP    ,IOFC    ,KFTS    ,
+     4                 THK0    ,GS      ,EPSPL   ,IOFC    ,KFTS    ,
      5                 NGL     ,INDX    ,IPLA    ,IR      ,IS      ,
      6                 DEGMB   ,DEGFX   ,DEPSXX  ,DEPSYY  ,MX      ,
      7                 DEPSXY  ,DEPSYZ  ,DEPSZX  ,DEPBXX  ,DEPBYY  ,
@@ -359,7 +339,7 @@ C-------------------------------------------
         CALL SIGEPS22G(ELBUF_STR,
      1            JFT     ,JLT     ,PM      ,FOR     ,MOM      ,
      2            THKN    ,OFF     ,DT1C    ,NU      ,THK0     ,
-     3            GS      ,EPSP    ,IOFC    ,INDX    ,NEL      ,
+     3            GS      ,EPSPL   ,IOFC    ,INDX    ,NEL      ,
      4            NGL     ,EXZ     ,EYZ     ,MX      ,IOFF_DUCT,
      5            DEGMB   ,DEGFX   ,DEPSXX  ,DEPSYY  ,DEPSXY   ,
      6            DEPSYZ  ,DEPSZX  ,DEPBXX  ,DEPBYY  ,DEPBXY   ,
@@ -401,7 +381,7 @@ C-------------------------------------------
      9     SIGVXX ,SIGVYY ,SIGVXY  ,SIGVYZ  ,SIGVZX ,
      A     SSP    ,VISCMX ,THKN    ,LBUF%PLA,UVAR   ,
      B     OFF    ,NGL    ,IPM     ,MAT     ,ETSE   ,
-     C     GS     ,SIGY   ,SHF     ,LBUF%SEQ,EPSP   )
+     C     GS     ,SIGY   ,SHF     ,LBUF%SEQ,EPSPL  )
       ELSEIF (MTN == 56) THEN
         CALL SIGEPS56G(
      1     JLT    ,NUVAR  ,NPF     ,
@@ -461,7 +441,6 @@ C-----------------------
       if (idamp_freq_range > 0) then 
         NUVARV = ELBUF_STR%BUFLY(1)%NVAR_VISC
         UVARV  => ELBUF_STR%BUFLY(1)%VISC(IR,IS,1)%VAR
-        IMAT = ELBUF_STR%BUFLY(1)%IMAT
         nvar_damp = 28 + 16     
         flag_incr = 1
         call damping_range_shell(damp_buf,nel     ,nuvarv  ,nvar_damp,dt1      ,
@@ -470,7 +449,7 @@ C-----------------------
      .                           sigvxx  ,sigvyy ,sigvxy  ,sigvyz   ,sigvzx   ,
      .                           uvarv   ,off    ,etse    ,flag_incr)
      
-        call damping_range_shell_mom(damp_buf,nel     ,nuvarv  ,dt1     ,dt_inv  ,
+        call damping_range_shell_mom(damp_buf,nel     ,nuvarv  ,dt1     ,dtinv  ,
      .                               mat_elem%mat_param(imat)%young,mat_elem%mat_param(imat)%shear,depbxx  ,depbyy  ,depbxy  ,                           
      .                               momnxx  ,momnyy  ,momnxy  ,thk0    ,uvarv   ,
      .                               off     ,etse)
@@ -565,7 +544,7 @@ C---------------------------
       IF (DM > ZERO) THEN
         DO I=JFT,JLT                                                   
           VISCMX(I) = MAX(VISCMX(I),DM)
-          VISC = ONEP414*DM*RHO(I)*SSP(I)*SQRT(AREA(I))*DT_INV(I)        
+          VISC = ONEP414*DM*RHO(I)*SSP(I)*SQRT(AREA(I))*dtinv      
           FOR(I,1) = FOR(I,1) + VISC*(EXX(I)+HALF*EYY(I))      
           FOR(I,2) = FOR(I,2) + VISC*(EYY(I)+HALF*EXX(I))      
           FOR(I,3) = FOR(I,3) + VISC* EXY(I)*THIRD           

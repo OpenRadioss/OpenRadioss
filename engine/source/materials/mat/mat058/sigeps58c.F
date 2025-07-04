@@ -36,16 +36,15 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      2     NPF    ,NPT0   ,IPT     ,NSENSOR,
      2     TF     ,TIME   ,TIMESTEP,UPARAM  ,RHO0   ,
      3     AREA   ,EINT   ,THKLY   ,NIPARAM ,IPARAM ,
-     4     EPSPXX ,EPSPYY ,EPSPXY  ,EPSPYZ  ,EPSPZX ,
-     5     DEPSXX ,DEPSYY ,DEPSXY  ,DEPSYZ  ,DEPSZX ,
-     6     EPSXX  ,EPSYY  ,EPSXY   ,EPSYZ   ,EPSZX  ,
-     7     SIGOXX ,SIGOYY ,SIGOXY  ,SIGOYZ  ,SIGOZX ,
-     8     SIGNXX ,SIGNYY ,SIGNXY  ,SIGNYZ  ,SIGNZX ,
-     9     SIGVXX ,SIGVYY ,SIGVXY  ,SIGVYZ  ,SIGVZX ,
-     A     SOUNDSP,VISCMAX,THK     ,PLA     ,UVAR   ,
-     B     OFF    ,NGL    ,PM      ,MAT     ,ETSE   ,
-     C     SHF    ,YLD    ,EPSP    ,TAN_PHI ,
-     D     ALDT   ,SENSOR_TAB,ISMSTR,TABLE  ,OFFGG   )
+     4     DEPSXX ,DEPSYY ,DEPSXY  ,DEPSYZ  ,DEPSZX ,
+     5     EPSXX  ,EPSYY  ,EPSXY   ,EPSYZ   ,EPSZX  ,
+     6     SIGOXX ,SIGOYY ,SIGOXY  ,SIGOYZ  ,SIGOZX ,
+     7     SIGNXX ,SIGNYY ,SIGNXY  ,SIGNYZ  ,SIGNZX ,
+     8     SIGVXX ,SIGVYY ,SIGVXY  ,SIGVYZ  ,SIGVZX ,
+     9     SOUNDSP,VISCMAX,THK     ,PLA     ,UVAR   ,
+     A     OFF    ,NGL    ,PM      ,MAT     ,ETSE   ,
+     B     SHF    ,YLD    ,TAN_PHI ,ALDT    ,
+     C     SENSOR_TAB,ISMSTR,TABLE ,OFFGG   )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -81,9 +80,6 @@ C RHO0    | NEL0    | F | R | INITIAL DENSITY
 C AREA    | NEL0    | F | R | AREA
 C EINT    | 2*NEL0  | F | R | INTERNAL ENERGY(MEMBRANE,BENDING)
 C THKLY   | NEL0    | F | R | LAYER THICKNESS
-C EPSPXX  | NEL0    | F | R | STRAIN RATE XX
-C EPSPYY  | NEL0    | F | R | STRAIN RATE YY
-C ...     |         |   |   |
 C DEPSXX  | NEL0    | F | R | STRAIN INCREMENT XX
 C DEPSYY  | NEL0    | F | R | STRAIN INCREMENT YY
 C ...     |         |   |   |
@@ -127,15 +123,13 @@ C-----------------------------------------------
       my_real TIME,TIMESTEP(NEL0),
      .   AREA(NEL0),RHO0(NEL0),EINT(NEL0,2),
      .   THKLY(NEL0),PLA(NEL0),OFFGG(NEL0),TAN_PHI(NEL0),
-     .   EPSPXX(NEL0),EPSPYY(NEL0),
-     .   EPSPXY(NEL0),EPSPYZ(NEL0),EPSPZX(NEL0),
      .   DEPSXX(NEL0),DEPSYY(NEL0),
      .   DEPSXY(NEL0),DEPSYZ(NEL0),DEPSZX(NEL0),
      .   EPSXX(NEL0) ,EPSYY(NEL0) ,
      .   EPSXY(NEL0) ,EPSYZ(NEL0) ,EPSZX(NEL0) ,
      .   SIGOXX(NEL0),SIGOYY(NEL0),
      .   SIGOXY(NEL0),SIGOYZ(NEL0),SIGOZX(NEL0),
-     .   PM(NPROPM,*),SHF(*),EPSP(NEL0),ALDT(NEL0)
+     .   PM(NPROPM,*),SHF(*),ALDT(NEL0)
 C-----------------------------------------------
 C   O U T P U T   A r g u m e n t s
 C-----------------------------------------------

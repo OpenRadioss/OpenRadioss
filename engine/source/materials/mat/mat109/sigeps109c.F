@@ -35,11 +35,11 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      1     NEL     ,NGL     ,NUPARAM ,NUVAR   ,NVARTMP ,NUMTABL ,
      2     UPARAM  ,UVAR    ,VARTMP  ,ITABLE  ,TABLE   ,JTHE    ,
      3     TIME    ,TIMESTEP,OFF     ,RHO     ,PLA     ,DPLA    ,
-     4     SOUNDSP ,SIGY    ,ET      ,TEMP    ,EPSP    ,GS      ,
+     4     SOUNDSP ,SIGY    ,ET      ,TEMP    ,EPSD    ,GS      ,
      5     DEPSXX  ,DEPSYY  ,DEPSXY  ,DEPSYZ  ,DEPSZX  ,
      6     SIGOXX  ,SIGOYY  ,SIGOXY  ,SIGOYZ  ,SIGOZX  ,
      7     SIGNXX  ,SIGNYY  ,SIGNXY  ,SIGNYZ  ,SIGNZX  ,
-     8     THK     ,THKLY   ,INLOC   ,DPLANL  ,EPSPL   ,LOFF    )
+     8     THK     ,THKLY   ,INLOC   ,DPLANL  ,LOFF    )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -67,7 +67,7 @@ c
      .   SIGOXX,SIGOYY,SIGOXY,SIGOYZ,SIGOZX,DPLANL
       my_real ,DIMENSION(NEL)    ,INTENT(OUT) :: SOUNDSP,SIGY,ET,
      .   SIGNXX,SIGNYY,SIGNXY,SIGNYZ,SIGNZX
-      my_real ,DIMENSION(NEL) ,INTENT(INOUT) :: PLA,DPLA,EPSP,TEMP,THK,EPSPL
+      my_real ,DIMENSION(NEL) ,INTENT(INOUT) :: PLA,DPLA,EPSD,TEMP,THK
       my_real ,DIMENSION(NEL,NUVAR)   ,INTENT(INOUT) :: UVAR
       INTEGER ,DIMENSION(NEL,NVARTMP) ,INTENT(INOUT) :: VARTMP
 c
@@ -163,7 +163,7 @@ c---  self heating factor and temperatiure initialization
         IF (BETA > ZERO) THEN
           IF (FUNC_ETA > 0) THEN    ! scale factor function for Taylor-Quinney coefficient
             IF (INLOC == 0) THEN 
-              XVEC_ETA(1:NEL,1) = EPSP(1:NEL) * XRATE 
+              XVEC_ETA(1:NEL,1) = EPSD(1:NEL) * XRATE 
             ELSE
               XVEC_ETA(1:NEL,1) = DPDT_NL(1:NEL) * XRATE 
             ENDIF
@@ -216,7 +216,7 @@ c----------------------------------------------------
 c     Computation of the initial yield stress
 c----------------------------------------------------      
       XVEC(1:NEL,1) = PLA(1:NEL)
-      XVEC(1:NEL,2) = EPSP(1:NEL) * XSCALE
+      XVEC(1:NEL,2) = EPSD(1:NEL) * XSCALE
       IPOS(1:NEL,1) = VARTMP(1:NEL,1)
       IPOS(1:NEL,2) = 1
 c
@@ -296,7 +296,7 @@ c
           DO II = 1, NINDX 
             I = INDEX(II)
             XVEC(II,1) = PLA(I) + DPLA(I)
-            XVEC(II,2) = EPSP(I)
+            XVEC(II,2) = EPSD(I)
             IPOS(II,1) = VARTMP(I,1)
             IPOS(II,2) = 1
           ENDDO
@@ -360,8 +360,7 @@ c
 c
       SOUNDSP(1:NEL)= SQRT(A11 / RHO(1:NEL))
       SIGY(1:NEL)   = YLD(1:NEL)
-      EPSP(1:NEL)   = ALPHA*DPLA(1:NEL)*DTINV + ALPHI*EPSP(1:NEL)
-      EPSPL(1:NEL)  = EPSP(1:NEL)
+      EPSD(1:NEL)   = ALPHA*DPLA(1:NEL)*DTINV + ALPHI*EPSD(1:NEL)
       IF (INLOC > 0) THEN 
         DO I = 1,NEL   
           IF (LOFF(I) == ONE) THEN   

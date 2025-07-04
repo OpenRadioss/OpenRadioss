@@ -40,7 +40,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      9     SIGVXX ,SIGVYY ,SIGVXY  ,SIGVYZ  ,SIGVZX ,
      A     SOUNDSP,VISCMAX,THK     ,UVAR    ,OFF    ,
      B     NGL    ,SHF    ,ETSE    ,ISRATE  ,ASRATE ,
-     C     EDOT   )
+     C     EPSD   )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -65,7 +65,7 @@ C----------------------------------------------------------------
      .      EPSXY (NEL), EPSYZ (NEL), EPSZX (NEL),
      .      SIGOXX(NEL), SIGOYY(NEL),
      .      SIGOXY(NEL), SIGOYZ(NEL), SIGOZX(NEL),
-     .      THKLY(NEL) ,THK(NEL),AREA(NEL),EDOT(NEL),
+     .      THKLY(NEL) ,THK(NEL),AREA(NEL),
      .      ASRATE
 C----------------------------------------------------------------
 C  O U T P U T   A R G U M E N T S
@@ -80,6 +80,7 @@ C----------------------------------------------------------------
 C  I N P U T  O U T P U T   A R G U M E N T S
 C----------------------------------------------------------------
       my_real UVAR(NEL,NUVAR), OFF(NEL)
+      my_real ,INTENT(INOUT) :: EPSD(NEL)
 C----------------------------------------------------------------
 C  VARIABLES FOR FUNCTION INTERPOLATION
 C----------------------------------------------------------------
@@ -97,7 +98,7 @@ C----------------------------------------------------------------
      .        GT2,BULKT,LAMDA,LAMDAT,RELVEXP,
      .        VMU2,VLAMDA,VBULK,FAC,
      .        C1,C2,C3,PMIN,DPDMU,EPSPC,
-     .        P0,PHI,GAMA0, VAR,
+     .        P0,PHI,GAMA0, VAR,EPSP,
      .        DPDGAMA(MVSIZ),GAMA(MVSIZ),AMU(MVSIZ),
      .        SM(MVSIZ),EM(MVSIZ),DEDTM(MVSIZ),
      .        G2(MVSIZ),BULK(MVSIZ),
@@ -109,7 +110,7 @@ C----------------------------------------------------------------
      .        DPDRO(MVSIZ),P(MVSIZ),PDOT(MVSIZ),
      .        MG2(MVSIZ),PG2(MVSIZ),MK(MVSIZ),PK(MVSIZ),
      .        SIGAIR(MVSIZ),RELVOL(MVSIZ),ENEW(MVSIZ),
-     .        RHO   (MVSIZ),EPSP
+     .        RHO(MVSIZ)
 
       my_real
      .       SSM,EPSM,EPSPM,EPIN,SMALL,CSHEAR,MIDSTEP,DT05
@@ -167,22 +168,20 @@ C
 C
       DO 200 I=1,NEL
 c-------calcul E_eq-----
-        EPSPM =EPSPXX(I)+EPSPYY(I)
-        EPSPC =EPSPXX(I)-EPSPYY(I)
-        EPSP  = SQRT(HALF*(EPSPC*EPSPC+EPSPXX(I)*EPSPXX(I)+
-     1          EPSPYY(I)*EPSPYY(I)) +THREE_HALF* (EPSPXY(I)*EPSPXY(I)
+        EPSPM = EPSPXX(I)+EPSPYY(I)
+        EPSPC = EPSPXX(I)-EPSPYY(I)
+        EPSP  = SQRT(HALF*(EPSPC*EPSPC+EPSPXX(I)*EPSPXX(I)
+     1          + EPSPYY(I)*EPSPYY(I)) +THREE_HALF* (EPSPXY(I)*EPSPXY(I)
      2          + EPSPYZ(I)*EPSPYZ(I)+EPSPZX(I)*EPSPZX(I)))
-        IF (ISRATE == 0) THEN
-          EDOT(I) = EPSP
-        ELSE
-          EDOT(I) = ASRATE*EPSP + (ONE - ASRATE)*UVAR(I,4)
-          UVAR(I,4) = EDOT(I)
+        IF (ISRATE > 0) THEN
+          EPSP = ASRATE*EPSP + (ONE - ASRATE)*EPSD(I)
         ENDIF
+        EPSD(I) = EPSP
 c
 c------UPDATE ELASTIC MODULUS
         RHO(I)=UVAR(I,3)*RHO0(I)/AREA(I)/THK(I)
         RELVOL(I)=RHO0(I)/RHO(I)
-        ENEW(I)=(MAX(E,E1*EDOT(I)+E2))/(EXP(RELVEXP*LOG(RELVOL(I))))
+        ENEW(I)=(MAX(E,E1*EPSP+E2))/(EXP(RELVEXP*LOG(RELVOL(I))))
         G2(I)=ENEW(I)/(ONE+POISSON)
         BULK(I)=ENEW(I)/(ONE-TWO*POISSON)
         MK(I) = (BULK(I)+BULKT)/VBULK

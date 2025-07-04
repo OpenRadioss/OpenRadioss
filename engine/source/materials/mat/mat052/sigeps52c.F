@@ -33,8 +33,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    table_mod             ../engine/share/modules/table_mod.F
       !||====================================================================
       SUBROUTINE SIGEPS52C(
-     1     NEL0    ,NUPARAM,NUVAR   ,MFUNC   ,KFUNC  ,
-     2     NPF    ,NPT0    ,IPT     ,IFLAG   ,
+     1     NEL0    ,NUPARAM,NUVAR  ,MFUNC   ,KFUNC  ,
+     2     NPF    ,NPT0   ,IPT     ,IFLAG   ,ASRATE ,
      2     TF     ,TIME   ,TIMESTEP,UPARAM  ,RHO0   ,
      3     AREA   ,EINT   ,THKLY   ,L_DMG   ,DMG    ,
      4     EPSPXX ,EPSPYY ,EPSPXY  ,EPSPYZ  ,EPSPZX ,
@@ -45,7 +45,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      9     SIGVXX ,SIGVYY ,SIGVXY  ,SIGVYZ  ,SIGVZX ,
      A     SOUNDSP,VISCMAX,THK     ,PLA     ,UVAR   ,
      B     OFF    ,NGL    ,IPM     ,MAT     ,ETSE   ,
-     C     GS     ,YLD    ,EPSP    ,TABLE   ,EPSD   )
+     C     GS     ,YLD    ,EPSD_PG ,TABLE   ,EPSD   )
 C-----------------------------------------------
       USE TABLE_MOD
       USE INTERFACE_TABLE_MOD
@@ -142,10 +142,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I N P U T   O U T P U T   A r g u m e n t s 
 C-----------------------------------------------
-      my_real UVAR(NEL0,NUVAR), OFF(NEL0),THK(NEL0),YLD(NEL0),
-     .        EPSP(NEL0)
+      my_real UVAR(NEL0,NUVAR), OFF(NEL0),THK(NEL0),YLD(NEL0)
       my_real, DIMENSION(NEL0,L_DMG), INTENT(INOUT) :: DMG
-      my_real, DIMENSION(NEL0), INTENT(INOUT) :: EPSD
+      my_real ,INTENT(IN) :: ASRATE
+      my_real ,DIMENSION(NEL0) ,INTENT(IN)    :: EPSD_PG
+      my_real ,DIMENSION(NEL0) ,INTENT(INOUT) :: EPSD
 C-----------------------------------------------
 C   VARIABLES FOR FUNCTION INTERPOLATION 
 C-----------------------------------------------
@@ -280,10 +281,14 @@ C
 C-------------------
 C     STRAIN RATE
 C-------------------
-         IF(ISRATE==0)EPSP(I) = 
-     .     0.5*( ABS(EPSPXX(I)+EPSPYY(I))
-     .   + SQRT( (EPSPXX(I)-EPSPYY(I))*(EPSPXX(I)-EPSPYY(I))
-     .                 + EPSPXY(I)*EPSPXY(I) ) )
+         IF (ISRATE == 0) THEN
+           EPSD(I) = HALF*( ABS(EPSPXX(I)+EPSPYY(I))
+     .             + SQRT( (EPSPXX(I)-EPSPYY(I))*(EPSPXX(I)-EPSPYY(I))
+     .             + EPSPXY(I)*EPSPXY(I) ) )
+         ELSE
+           EPSD(I) = ASRATE*EPSD_PG(I) + (ONE-ASRATE)*EPSD(I)
+         END IF
+     
           DEZZ = -NN1*(DEPSXX(I) + DEPSYY(I))
           THK(I) = THK(I) + DEZZ*THKLY(I)*OFF(I) 
       ENDDO
@@ -366,7 +371,7 @@ C
                 DCRF = - SIGM(I)*(Q3*FSTAR(I)*DF - Q1*COH*DF)*VA1
                 DCRM = - VA - THREE*VA2*PN(I)*SIGM1         
                 DSEPP = ET * EN * PLA(I) ** (EN - ONE)*
-     .           (ONE + ( EPSP(I)*CSD)**VISP)
+     .           (ONE + ( EPSD(I)*CSD)**VISP)
                 DCD = C1*(D11**2 + D22**2 + D33**2) +
      .              TWO*C2*(D11*D22 + D11*D33 + D22*D33) +   
      .              TWO*G  *  D12**2 + 2*GS(I) * ( D13**2 + D23**2 )      
@@ -423,7 +428,7 @@ C
                 A22 = A22 * A21
                 DCRF = - SIGM(I)*(Q3*FSTAR(I)*DF - Q1*COH*DF)*VA1
                 DCRM = - VA - THREE*VA2*PN(I)*SIGM1  
-                DSEPP = ET*(ONE+ ( EPSP(I)*CSD)**VISP)
+                DSEPP = ET*(ONE+ ( EPSD(I)*CSD)**VISP)
                 DCD = C1*(D11**2 + D22**2 + D33**2) + 
      .               TWO*C2*(D11*D22 + D11*D33 + D22*D33) +            
      .               TWO*G*D12**2 + TWO*GS(I)*( D13**2 + D23**2)
@@ -476,8 +481,7 @@ C
      .           Q2==ZERO.AND.
      .           Q3==ZERO)F(I)=ZERO
               IF(F(I)<ZERO)F(I)=ZERO
-              SIGM(I)= (YEILD0 + ET*PLA(I)**EN)* (1+
-     .                (EPSP(I)*CSD)**VISP)           
+              SIGM(I)= (YEILD0 + ET*PLA(I)**EN)* (ONE+(EPSD(I)*CSD)**VISP)           
 C....COMPUTE F*.....
              IF(F(I)<=FC)THEN
               FSTAR(I)=F(I)
@@ -580,7 +584,7 @@ C
      .       THREE*(D12*SIGNXY(I)+ D13*SIGNZX(I)+ D23*SIGNYZ(I))            
             A22 = A22*A21     
             DSEPP = ET * EN * PLA(I) ** (EN - 1)*
-     .       (ONE + ( EPSP(I)*CSD)**VISP)            
+     .       (ONE + ( EPSD(I)*CSD)**VISP)            
             DCD = C1*(D11**2 + D22**2 + D33**2) + 
      .          TWO*C2*(D11*D22 + D11*D33 + D22*D33) +      
      .          TWO*G*D12**2 + TWO*GS(I)*( D13**2 + D23**2)              
@@ -650,7 +654,7 @@ C
            A22 = D11*SIGNXX(I) + D22*SIGNYY(I) +
      .      THREE*(D12*SIGNXY(I)+ D13*SIGNZX(I)+ D23*SIGNYZ(I)) 
            A22 = A22*A21
-           DSEPP = ET*(ONE+ ( EPSP(I)*CSD)**VISP)
+           DSEPP = ET*(ONE+ ( EPSD(I)*CSD)**VISP)
            DCD = C1*(D11**2 + D22**2 + D33**2) + 
      .            TWO*C2*(D11*D22 + D11*D33 + D22*D33) +
      .         TWO*G*D12**2 + 2*GS(I)*( D13**2 + D23**2)              
@@ -707,8 +711,7 @@ C
      .       Q2==ZERO.and.
      .       Q3==ZERO)F(I)=ZERO
          IF(F(I)<ZERO)F(I)=ZERO
-         SIGM(I)= (YEILD0 + ET*PLA(I)**EN)*(1+
-     .            (EPSP(I)*CSD)**VISP)           
+         SIGM(I)= (YEILD0 + ET*PLA(I)**EN)*(ONE+(EPSD(I)*CSD)**VISP)           
 C....COMPUTE F*.....
          IF(F(I)<=FC)THEN
           FSTAR(I) = F(I)
@@ -822,7 +825,7 @@ C
             A22 = A22*A21     
 C    
             DSEPP = ET * EN * PLA(I) ** (EN - ONE)*
-     .       (ONE + ( EPSP(I)*CSD)**VISP)            
+     .       (ONE + ( EPSD(I)*CSD)**VISP)            
 C     
             DCD = C1*(D11**2 + D22**2 + D33**2) + 
      .          TWO*C2*(D11*D22 + D11*D33 + D22*D33) +      
@@ -894,7 +897,7 @@ C
      .       THREE*(D12*SIGNXY(I)+ D13*SIGNZX(I)+ D23*SIGNYZ(I)) 
             A22 = A22*A21
 C    
-            DSEPP = ET*(1+ ( EPSP(I)*CSD)**VISP)
+            DSEPP = ET*(1+ ( EPSD(I)*CSD)**VISP)
             DCD = C1*(D11**2 + D22**2 + D33**2) + 
      .         TWO*C2*(D11*D22 + D11*D33 + D22*D33) +      
      .         TWO*G*D12**2 + TWO*GS(I)*( D13**2 + D23**2)
@@ -953,8 +956,7 @@ C
      .       Q2==ZERO.and.
      .       Q3==ZERO)F(I)=ZERO
           IF(F(I)<ZERO)F(I)=ZERO
-          SIGM(I)= (YEILD0 + ET*PLA(I)**EN)*(ONE+
-     .            (EPSP(I)*CSD)**VISP)           
+          SIGM(I)= (YEILD0 + ET*PLA(I)**EN)*(ONE+(EPSD(I)*CSD)**VISP)           
 C....COMPUTE F*.....
          IF(F(I)<=FC)THEN
           FSTAR(I) = F(I)
@@ -1057,7 +1059,7 @@ C
             DCRF = - SIGM(I)*(Q3*FSTAR(I)*DF - Q1*COH*DF)*VA1
             DCRM = - VA - THREE*VA2*PN(I)*SIGM1         
             DSEPP = ET * EN * PLA(I) ** (EN - 1)*
-     .       (ONE+ ( EPSP(I)*CSD)**VISP)            
+     .       (ONE+ ( EPSD(I)*CSD)**VISP)            
               DCD = C1*(D11**2 + D22**2 + D33**2) +
      .            TWO*C2*(D11*D22 + D11*D33 + D22*D33) +   
      .           TWO*G  *  D12**2 + TWO*GS(I) * ( D13**2 + D23**2 )
@@ -1119,7 +1121,7 @@ C
             A22 = A22 * A21
             DCRF = - SIGM(I)*(Q3*FSTAR(I)*DF - Q1*COH*DF)*VA1
             DCRM = - VA - THREE*VA2*PN(I)*SIGM1  
-            DSEPP = ET*(ONE + ( EPSP(I)*CSD)**VISP)
+            DSEPP = ET*(ONE + ( EPSD(I)*CSD)**VISP)
               DCD = C1*(D11**2 + D22**2 + D33**2) + 
      .           TWO*C2*(D11*D22 + D11*D33 + D22*D33) +            
      .           TWO*G  *  D12**2 + TWO *GS(I) * ( D13**2 + D23**2)
@@ -1179,8 +1181,7 @@ C
      .       Q2==ZERO.and.
      .       Q3==ZERO)F(I)=ZERO
           IF(F(I)<ZERO)F(I)=ZERO
-          SIGM(I)= (YEILD0 + ET*PLA(I)**EN)* (ONE+
-     .            (EPSP(I)*CSD)**VISP)                     
+          SIGM(I)= (YEILD0 + ET*PLA(I)**EN)* (ONE+(EPSD(I)*CSD)**VISP)                     
 C....COMPUTE F*.....
           IF(F(I)<=FC)THEN
            FSTAR(I)=F(I)
@@ -1215,10 +1216,10 @@ C tabulated law
             IF(NDIM==2)THEN
               NXK=SIZE(TABLE(ITAB(1))%X(2)%VALUES)         
               DO J=2,NXK
-                 DX2 = TABLE(ITAB(1))%X(2)%VALUES(J)*XFAC- EPSP(I) 
+                 DX2 = TABLE(ITAB(1))%X(2)%VALUES(J)*XFAC- EPSD(I) 
                  IF(DX2 >= ZERO .OR. J == NXK)THEN
                   IPOS=J-1
-                  R=(TABLE(ITAB(1))%X(2)%VALUES(J)*XFAC-EPSP(I))/
+                  R=(TABLE(ITAB(1))%X(2)%VALUES(J)*XFAC-EPSD(I))/
      .                 (TABLE(ITAB(1))%X(2)%VALUES(J)*XFAC
      .                 -TABLE(ITAB(1))%X(2)%VALUES(J-1)*XFAC)
                   EXIT
@@ -1229,16 +1230,13 @@ C tabulated law
             ENDIF ! NDIM
 C   interpolation on  the curve ---
            XX(1) = PLA(I)  
-           XX(2) = EPSP(I)*XFAC
+           XX(2) = EPSD(I)*XFAC
            CALL TABLE_INTERP_LAW76(TABLE(ITAB(1)),IPOS,XX,
      .                     R,DFT,YY) 
            YLD(I) = YFAC*YY
            UVAR(I,1) = YLD(I)
          ENDDO ! NEL0
        ENDIF ! IYEILD_TAB
-C
-      !< Save strain rate for output
-      EPSD(1:NEL0) = EPSP(1:NEL0)
-C          
+C-----------          
       RETURN
       END

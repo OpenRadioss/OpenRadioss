@@ -32,7 +32,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      1           NEL      ,NUVAR    ,
      2           TIME     ,UPARAM   ,NGL      ,IPT      ,NPTOT    ,
      3           SIGNXX   ,SIGNYY   ,SIGNXY   ,SIGNYZ   ,SIGNZX   ,
-     4           DPLA     ,EPSP     ,UVAR     ,UEL1     ,
+     4           DPLA     ,UVAR     ,UEL1     ,
      5           OFF      ,OFFL     ,DFMAX    ,TDEL     ,NFUNC    ,
      6           IFUNC    ,NPF      ,TF       ,ALDT     ,FOFF     ,
      7           IPG      ,DMG_FLAG ,DMGSCL   )
@@ -83,8 +83,7 @@ C   I N P U T   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NEL,NUVAR,IPT,NPTOT,NFUNC,IPG
       INTEGER NGL(NEL),IFUNC(NFUNC)
-      my_real TIME,UPARAM(*),DPLA(NEL),EPSP(NEL),
-     .   UEL1(NEL),ALDT(NEL)
+      my_real TIME,UPARAM(*),DPLA(NEL),UEL1(NEL),ALDT(NEL)
       INTEGER, INTENT(INOUT) :: DMG_FLAG
 C-----------------------------------------------
 C   I N P U T   O U T P U T   A r g u m e n t s 

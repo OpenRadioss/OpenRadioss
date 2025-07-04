@@ -102,12 +102,13 @@ C-----------------------------------------------
      .   SIGOXX,SIGOYY,SIGOXY,SIGOYZ,SIGOZX
       INTEGER ,INTENT(IN) :: NPF(*),MFUNC,KFUNC(MFUNC)
       my_real ,INTENT(IN) :: TF(*)
-      my_real ,DIMENSION(NEL), INTENT(IN) :: LOFF
+      my_real ,DIMENSION(NEL), INTENT(IN)    :: LOFF
+      my_real ,DIMENSION(NEL), INTENT(INOUT) :: EPSP
 C-----------------------------------------------
 C   O U T P U T   A r g u m e n t s
 C-----------------------------------------------
       my_real ,DIMENSION(NEL) ,INTENT(OUT) :: SOUNDSP,VISCMAX,ETSE,
-     .    SIGNXX,SIGNYY,SIGNXY,SIGNYZ,SIGNZX,EPSP,DPLA_I
+     .    SIGNXX,SIGNYY,SIGNXY,SIGNYZ,SIGNZX,DPLA_I
 C-----------------------------------------------
 C   I N P U T   O U T P U T   A r g u m e n t s 
 C-----------------------------------------------
@@ -196,41 +197,41 @@ C-----------------------------------------------
 C     TOTAL OR DEVIATORIC STRAIN-RATE COMPUTATION
 C-----------------------------------------------
        IF (VFLAG == 1) THEN 
-           EPSP(1:NEL) = UVAR(1:NEL,1)
+         EPSP(1:NEL) = UVAR(1:NEL,1)
        ENDIF
        IF (ISRATE > 0) THEN 
-           IF (VFLAG == 3) THEN
-             DO I=1,NEL
-                DAV = (EPSPXX(I)+EPSPYY(I))*THIRD
-                DEVE1  = EPSPXX(I) - DAV
-                DEVE2  = EPSPYY(I) - DAV
-                DEVE3  = - DAV
-                DEVE4  = HALF*EPSPXY(I)
-                EPSP(I)   = HALF*(DEVE1**2 + DEVE2**2 + DEVE3**2) + DEVE4**2
-                EPSP(I)   = SQRT(THREE*EPSP(I))/THREE_HALF             
-                EPSP(I)   = ASRATE*EPSP(I) + (ONE - ASRATE)*UVAR(I,1)
-                UVAR(I,1) = EPSP(I)
-              ENDDO
-           ENDIF
+         IF (VFLAG == 3) THEN
+           DO I=1,NEL
+              DAV = (EPSPXX(I)+EPSPYY(I))*THIRD
+              DEVE1  = EPSPXX(I) - DAV
+              DEVE2  = EPSPYY(I) - DAV
+              DEVE3  = - DAV
+              DEVE4  = HALF*EPSPXY(I)
+              EPSP(I)   = HALF*(DEVE1**2 + DEVE2**2 + DEVE3**2) + DEVE4**2
+              EPSP(I)   = SQRT(THREE*EPSP(I))/THREE_HALF             
+              EPSP(I)   = ASRATE*EPSP(I) + (ONE - ASRATE)*UVAR(I,1)
+              UVAR(I,1) = EPSP(I)
+            ENDDO
+         ENDIF
        ELSEIF (ISRATE == 0) THEN
-           IF (VFLAG == 3) THEN
-             DO I=1,NEL
-                 DAV = (EPSPXX(I)+EPSPYY(I))*THIRD
-                 DEVE1  = EPSPXX(I) - DAV
-                 DEVE2  = EPSPYY(I) - DAV
-                 DEVE3  = - DAV
-                 DEVE4  = HALF*EPSPXY(I)
-                 EPSP(I)   = HALF*(DEVE1**2 + DEVE2**2 + DEVE3**2) + DEVE4**2
-                 EPSP(I)   = SQRT(THREE*EPSP(I))/THREE_HALF             
-                 UVAR(I,1) = EPSP(I)
-             ENDDO
-       ELSEIF (VFLAG == 2) THEN
-             DO I=1,NEL
-                  EPSP(I) = HALF*( ABS(EPSPXX(I)+EPSPYY(I))
-     .               + SQRT( (EPSPXX(I)-EPSPYY(I))*(EPSPXX(I)-EPSPYY(I))
-     .               + EPSPXY(I)*EPSPXY(I) ) )
-             ENDDO
-           ENDIF
+         IF (VFLAG == 3) THEN
+           DO I=1,NEL
+               DAV = (EPSPXX(I)+EPSPYY(I))*THIRD
+               DEVE1  = EPSPXX(I) - DAV
+               DEVE2  = EPSPYY(I) - DAV
+               DEVE3  = - DAV
+               DEVE4  = HALF*EPSPXY(I)
+               EPSP(I)   = HALF*(DEVE1**2 + DEVE2**2 + DEVE3**2) + DEVE4**2
+               EPSP(I)   = SQRT(THREE*EPSP(I))/THREE_HALF             
+               UVAR(I,1) = EPSP(I)
+           ENDDO
+         ELSEIF (VFLAG == 2) THEN
+           DO I=1,NEL
+             EPSP(I) = HALF*( ABS(EPSPXX(I)+EPSPYY(I))
+     .             + SQRT( (EPSPXX(I)-EPSPYY(I))*(EPSPXX(I)-EPSPYY(I))
+     .             + EPSPXY(I)*EPSPXY(I) ) )
+           ENDDO
+         ENDIF
        ENDIF
 C-------------------
 C     STRAIN & TENSION FAILURE
@@ -238,11 +239,10 @@ C-------------------
 C
        DO I=1,NEL
          EPST = HALF*( EPSXX(I)+EPSYY(I)
-     .   + SQRT( (EPSXX(I)-EPSYY(I))*(EPSXX(I)-EPSYY(I))
-     .                 + EPSXY(I)*EPSXY(I) ) )
+     .        + SQRT( (EPSXX(I)-EPSYY(I))*(EPSXX(I)-EPSYY(I))
+     .        + EPSXY(I)*EPSXY(I) ) )
          FAIL(I) = MAX(ZERO,MIN(ONE,(EPSR21-EPST)/(EPSR21-EPSR11)))
          DPLA_I(I) = ZERO
-C
        ENDDO
 C-------------------
 C      CURRENT YIELD AND HARDENING

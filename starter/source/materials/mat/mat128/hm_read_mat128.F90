@@ -279,7 +279,6 @@
           mtag%l_pla  = 1
           mtag%g_seq  = 1
           mtag%l_seq  = 1
-          mtag%g_epsd = 1
           mtag%l_epsd = 1
           !< allocate backstresses in case of kinematic hardening
           if (fisokin > zero) then

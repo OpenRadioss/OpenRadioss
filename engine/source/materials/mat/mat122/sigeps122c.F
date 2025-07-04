@@ -38,7 +38,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      5     SIGNXX  ,SIGNYY  ,SIGNXY  ,SIGNYZ  ,SIGNZX  ,
      6     THK     ,THKLY   ,OFF     ,SIGY    ,ETSE    ,
      7     DMG     ,SEQ     ,SHF     ,SOUNDSP ,
-     8     EPSPL   ,NFUNC   ,IFUNC   ,NPF     ,TF      ,
+     8     EPSD_PG ,NFUNC   ,IFUNC   ,NPF     ,TF      ,
      9     NVARTMP ,VARTMP  ,IOFF_DUCT)
 C-----------------------------------------------
 C   M o d u l e s
@@ -67,8 +67,8 @@ C-----------------------------------------------
       my_real ,DIMENSION(NEL), INTENT(OUT)   :: 
      .   SOUNDSP,SIGNXX,SIGNYY,SIGNXY,SIGNYZ,SIGNZX,
      .   SIGY,ETSE
-      my_real ,DIMENSION(NEL), INTENT(INOUT) :: 
-     .   PLA,THK,OFF,SEQ,DPLA,EPSPL
+      my_real ,DIMENSION(NEL), INTENT(IN)    :: EPSD_PG
+      my_real ,DIMENSION(NEL), INTENT(INOUT) :: PLA,THK,OFF,SEQ,DPLA
       my_real ,DIMENSION(NEL,6), INTENT(INOUT) :: DMG
       my_real ,DIMENSION(NEL,NUVAR), INTENT(INOUT) :: 
      .   UVAR
@@ -95,7 +95,7 @@ c
      4         SIGOXX  ,SIGOYY  ,SIGOXY  ,SIGOYZ  ,SIGOZX  ,
      5         SIGNXX  ,SIGNYY  ,SIGNXY  ,SIGNYZ  ,SIGNZX  ,
      6         THK     ,THKLY   ,OFF     ,SIGY    ,ETSE    ,
-     7         DMG     ,SEQ     ,EPSPL   ,SHF     ,SOUNDSP ,
+     7         DMG     ,SEQ     ,EPSD_PG ,SHF     ,SOUNDSP ,
      8         NFUNC   ,IFUNC   ,NPF     ,TF      ,NVARTMP ,
      9         VARTMP  )
 c      
@@ -108,7 +108,7 @@ c
      4         SIGOXX  ,SIGOYY  ,SIGOXY  ,SIGOYZ  ,SIGOZX  ,
      5         SIGNXX  ,SIGNYY  ,SIGNXY  ,SIGNYZ  ,SIGNZX  ,
      6         THK     ,THKLY   ,OFF     ,SIGY    ,ETSE    ,
-     7         DMG     ,SEQ     ,EPSPL   ,SHF     ,SOUNDSP ,
+     7         DMG     ,SEQ     ,EPSD_PG ,SHF     ,SOUNDSP ,
      8         NFUNC   ,IFUNC   ,NPF     ,TF      ,NVARTMP ,
      9         VARTMP  )
     

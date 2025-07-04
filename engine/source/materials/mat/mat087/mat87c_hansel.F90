@@ -67,7 +67,7 @@
       real(kind=WP), dimension(nel), intent(in)            :: rho0     !< Density
       real(kind=WP), dimension(nel), intent(in)            :: thkly    !< Layer thickness
       real(kind=WP), dimension(nel), intent(inout)         :: thk      !< Thickness
-      real(kind=WP), dimension(nel), intent(inout)         :: epsp     !< Equivalent and filtered total strain rate
+      real(kind=WP), dimension(nel), intent(in)            :: epsp     !< Equivalent and filtered total strain rate
       real(kind=WP), intent(in)                            :: time     !< Current time
       real(kind=WP), dimension(nel), intent(inout)         :: temp     !< Element or Gauss point Temperature
       integer, intent(in)                            :: jthe     !< Flag for thermal computation

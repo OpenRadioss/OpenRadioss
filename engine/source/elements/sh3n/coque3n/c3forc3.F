@@ -204,6 +204,7 @@ C-----------------------------------------------
       my_real :: DTIME
       INTEGER SDIR_A    ! Size of DIR_A
       INTEGER SDIR_B    ! Size of DIR_B
+      my_real :: dt1,dtinv,asrate,eps_m2,eps_k2
       my_real 
      .   STI(MVSIZ),STIR(MVSIZ),RHO(MVSIZ),BID,
      .   VISCMX(MVSIZ),AREA(MVSIZ),
@@ -241,6 +242,7 @@ C-----------------------------------------------
         REAL(kind=8), DIMENSION(MVSIZ) ::X1G,X2G,X3G
         REAL(kind=8), DIMENSION(MVSIZ) ::Y1G,Y2G,Y3G
         REAL(kind=8), DIMENSION(MVSIZ) ::Z1G,Z2G,Z3G
+      my_real, dimension(nel)   :: epsd_pg
 !     variables for heat transfer
       my_real, dimension(mvsiz) :: fheat
 !
@@ -522,7 +524,25 @@ c-------------------------------------------
           ENDDO
         ENDDO
       ENDIF           
-C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
+!-------------------------------------------------------------------------------
+!       global element strain rate (shell energy equivalent)
+!-----------------------------------------------------------
+!       e = 1/t integ[1/2 e (eps_m + k z)^2 dz ]
+!       e = 1/2 e eps_eq^2
+!       eps_eq = sqrt[ eps_m^2 + 1/12 k^2t^2 ]
+!-------------------------------------------------------------------------------
+      dt1   = dt1c(1) 
+      dtinv = dt1 / max(dt1**2,em20)  ! inverse of dt
+      asrate = one   ! to be changed for default value
+#include "vectorize.inc"
+      do i = 1,nel
+        eps_k2 = (kxx(i)*kxx(i)+kyy(i)*kyy(i)+kxx(i)*kyy(i)              
+     &         + fourth*one_over_9*kxy(i)*kxy(i))*gbuf%thk(i)**2
+        eps_m2 = four_over_3*(exx(i)*exx(i)+eyy(i)*eyy(i)+exx(i)*eyy(i)  
+     &         + fourth*exy(i)*exy(i))
+        epsd_pg(i) = sqrt(eps_k2 + eps_m2)*dtinv
+      end do
+!-------------------------------------------------------------------------------
       IF (JTHE /= 0 ) CALL TEMP3CG(JFT   ,JLT   ,PM     ,MAT   ,IXTG,   
      .                             TEMP ,TEMPEL )
 C--------------------------
@@ -539,7 +559,7 @@ C--------------------------
      8   GBUF%FOR  ,GBUF%MOM  ,GBUF%STRA ,FAILWAVE  ,FWAVE_EL  ,
      9   GBUF%THK  ,GBUF%EINT ,IOFC      ,
      A   G         ,A11       ,A12       ,VOL0      ,INDX      ,
-     B   NGL       ,ZCFAC     ,SHF       ,GS        ,GBUF%EPSD ,
+     B   NGL       ,ZCFAC     ,SHF       ,GS        ,EPSD_PG   ,
      C   KFTS      ,ISH3N     ,ALPE      ,
      D   DIR_A     ,DIR_B     ,IGEO      ,
      E   IPM       ,IFAILURE  ,NPG       ,FHEAT     ,
@@ -683,7 +703,7 @@ C
      C             CONDE  ,GLOB_THERM%NODADT_THERM)
       ENDIF
 C
-      IF (ICSEN > 0) CALL CSENS3(JFT  ,JLT  ,PID  ,IGEO  ,GBUF%EPSD)
+      IF (ICSEN > 0) CALL CSENS3(JFT  ,JLT  ,PID  ,IGEO  ,EPSD_PG)
 C-------------------------
 c     SHELL CRACKS 
 C--------------------------

@@ -41,7 +41,7 @@
       !||====================================================================
       subroutine mat87c_tabulated(                                             &
         nel    ,matparam,nvartmp ,vartmp  ,timestep ,                          &
-        rho0   ,thkly   ,thk     ,epsp    ,                                    &
+        rho0   ,thkly   ,thk     ,epsd_pg ,                                    &
         epspxx ,epspyy  ,epspxy  ,                                             &
         depsxx ,depsyy  ,depsxy  ,depsyz  ,depszx   ,                          &
         sigoxx ,sigoyy  ,sigoxy  ,sigoyz  ,sigozx   ,                          &
@@ -72,7 +72,7 @@
       real(kind=WP), dimension(nel), intent(in)            :: rho0     !< Density
       real(kind=WP), dimension(nel), intent(in)            :: thkly    !< Layer thickness
       real(kind=WP), dimension(nel), intent(inout)         :: thk      !< Thickness
-      real(kind=WP), dimension(nel), intent(inout)         :: epsp     !< Equivalent and filtered total strain rate
+      real(kind=WP), dimension(nel), intent(in)            :: epsd_pg  !< global strain rate
       real(kind=WP), dimension(nel), intent(in)            :: epspxx   !< Strain rate component xx
       real(kind=WP), dimension(nel), intent(in)            :: epspyy   !< Strain rate component yy
       real(kind=WP), dimension(nel), intent(in)            :: epspxy   !< Strain rate component xy
@@ -94,11 +94,11 @@
       real(kind=WP), dimension(nel), intent(inout)         :: soundsp  !< Sound speed
       real(kind=WP), dimension(nel), intent(inout)         :: pla      !< Plastic strain
       real(kind=WP), dimension(nel), intent(inout)         :: dpla     !< Plastic strain increment
-      real(kind=WP), dimension(nel), intent(inout)         :: epsd     !< Output strain rate
+      real(kind=WP), dimension(nel), intent(inout)         :: epsd     !< local strain rate
       real(kind=WP), dimension(nel), intent(inout)         :: yld      !< Yield stress
       real(kind=WP), dimension(nel), intent(inout)         :: etse     !< Coefficient for hourglass control
       real(kind=WP), dimension(nel), intent(in)            :: gs       !< Transverse shear modulus
-      integer, intent(in)                            :: israte   !< Flag for strain rate filtering
+      integer, intent(in)                                  :: israte   !< Flag for strain rate filtering
       real(kind=WP), intent(in)                            :: asrate   !< Coefficient for strain rate filtering
       real(kind=WP), dimension(nel), intent(in)            :: off      !< Flag for element deletion status
       integer, intent(in)                            :: l_sigb   !< Size of the backstress tensor
@@ -178,10 +178,9 @@
             epsd(i) = half*(abs(epspxx(i)+epspyy(i))                           &
                         + sqrt((epspxx(i)-epspyy(i))*(epspxx(i)-epspyy(i))     &
                               + epspxy(i)*epspxy(i)))
-            epsp(i) = epsd(i)
           enddo
         else
-          epsd(1:nel) = epsp(1:nel)
+          epsd(1:nel) = asrate*epsd_pg(1:nel) + (one-asrate)*epsd(1:nel)
         endif
       endif
 !
@@ -668,7 +667,6 @@
         do i = 1,nel
           dpdt    = dpla(i)/max(timestep,em20)
           epsd(i) = asrate*dpdt + (one - asrate)*epsd(i)
-          epsp(i) = epsd(i)
         enddo
       endif
 !

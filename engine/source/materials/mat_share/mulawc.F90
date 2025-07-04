@@ -174,7 +174,7 @@
         & pid      ,tf       ,npf      ,mtn       ,dt1c     ,dm       , &
         & bufmat   ,ssp      ,rho      ,viscmx    ,ipla     ,iofc     , &
         & indx     ,ngl      ,thkly    ,matly     ,zcfac    ,mat_elem , &
-        & shf      ,gs       ,sigy     ,thk0      ,epsp     ,           &
+        & shf      ,gs       ,sigy     ,thk0      ,epsd_pg,           &
         & posly    ,igeo     ,ipm      ,failwave  ,fwave_el ,           &
         & ifailure ,aldt     ,tempel   ,die       ,fheat    ,           &
         & table     ,ixfem   ,elcrkini ,                                &
@@ -278,9 +278,10 @@
           integer, intent(in),dimension(npropmi,nummat) :: ipm
           integer, intent(in),dimension(nparg) :: iparg
           integer, intent(in),dimension(snpc)  :: npf
-          integer, intent(in) :: idamp_freq_range      ! flag for damping frequency range
-          !
-          integer, intent(inout) :: idel7nok           ! element deletion flag for idel flag in contact interfaces
+          my_real, intent(in),dimension(mvsiz) :: epsd_pg !< global element strain rate in Gauss pt
+          integer, intent(in) :: idamp_freq_range         ! flag for damping frequency range
+          !  
+          integer, intent(inout) :: idel7nok    ! element deletion flag in contact interfaces
           integer, intent(inout) :: iofc
           integer, intent(inout),dimension(mvsiz*nlay_max) :: matly
           integer, intent(inout),dimension(mvsiz*nlay_max) :: indx
@@ -290,10 +291,10 @@
           my_real, intent(in) :: dt1
           my_real, intent(in) :: tt
           my_real, intent(in) :: theaccfact
-          my_real, intent(in),dimension(npropm,nummat) :: pm
-          my_real, intent(in),dimension(npropg,numgeo) :: geo
-          my_real, intent(in),dimension(sbufmat)       :: bufmat
-          my_real, intent(in),dimension(stf)           ::  tf
+          my_real, intent(in) ,dimension(npropm,nummat) :: pm
+          my_real, intent(in) ,dimension(npropg,numgeo) :: geo
+          my_real, intent(in) ,dimension(sbufmat)       :: bufmat
+          my_real, intent(in) ,dimension(stf)           ::  tf
           !
           my_real, intent(inout) :: dm
           my_real, intent(inout), dimension(nel,5) :: for
@@ -301,7 +302,6 @@
           my_real, intent(inout), dimension(nel,8) :: gstr
           my_real, intent(inout), dimension(nel)   :: thk
           my_real, intent(inout), dimension(nel,2) :: eint
-          my_real, intent(inout), dimension(nel)   :: epsp
           my_real, intent(inout), dimension(nel,5) :: tensx
           !
           my_real, intent(inout), dimension(mvsiz) :: kxx
@@ -377,18 +377,18 @@
           integer ,dimension(mvsiz)   :: ioff_duct,nfis1,nfis2,nfis3
 !
           my_real sigdmg(mvsiz,5),sigksi(mvsiz,5),tens(mvsiz,5)
-          my_real ,dimension(mvsiz) :: epchk,epspdt,dt_inv,copy_pla,pla0,&
+          my_real ,dimension(mvsiz) :: epchk,dt_inv,copy_pla,pla0,&
                                        degmb ,degfx ,sigoff,thklyl,thkn  ,etse,off_old,&
                                        depsxx,depsyy,depsxy,depsyz,depszx,epsxx ,epsyy ,epsxy,&
                                        epsyz ,epszx ,epspxx,epspyy,epspxy,epspyz,epspzx,sigoxx,&
                                        sigoyy,sigoxy,sigoyz,sigozx,signxx,signyy,signxy,signyz,&
                                        signzx,sigvxx,sigvyy,sigvxy,sigvyz,sigvzx,&
-                                       wmc, epspl, yld,dpla,vol0, coef,hardm,g_imp,visc,wplar,&
-                                       epsp_loc,tstar,  vm, vm0, seq0, &
+                                       wmc, epsd, yld,dpla,vol0, coef,hardm,g_imp,visc,wplar,&
+                                       tstar,  vm, vm0, seq0, &
                                        areamin,dareamin,dmg_glob_scale,dmg_loc_scale,et_imp, epsthtot
           my_real, dimension(nel,5) :: dmg_orth_scale
 !
-          my_real :: zt,dtinv, vol2,asrate,eps_m2,eps_k2,&
+          my_real :: zt,dtinv, vol2,asrate, &
                      r1,r2,s1,s2,r12a,r22a,s12b,s22b,rs1,rs2,rs3,&
                      t1,t2,t3,fact,r3r3,s3s3,&
                      bidon1,bidon2,bidon3,bidon4,bidon5,vv,aa,trelax,t0,tm
@@ -415,7 +415,7 @@
           type(fail_param_) , pointer :: fail_param
 !----
           logical :: logical_userl_avail
-          logical :: flag_eps,flag_epsp,flag_zcfac,flag_etimp
+          logical :: flag_eps,flag_zcfac,flag_etimp
           logical :: flag_law1,flag_law2,flag_law25,flag_law22
           logical, dimension(nel) :: print_fail
 !
@@ -502,16 +502,16 @@
           trelax   = zero
 !
           degmb(jft:jlt) = for(jft:jlt,1)*exx(jft:jlt)+for(jft:jlt,2)*eyy(jft:jlt)  &
-          &            + for(jft:jlt,3)*exy(jft:jlt)+for(jft:jlt,4)*eyz(jft:jlt)    &
-          &            + for(jft:jlt,5)*exz(jft:jlt)
+          &              + for(jft:jlt,3)*exy(jft:jlt)+for(jft:jlt,4)*eyz(jft:jlt)  &
+          &              + for(jft:jlt,5)*exz(jft:jlt)
           degfx(jft:jlt) = mom(jft:jlt,1)*kxx(jft:jlt)+mom(jft:jlt,2)*kyy(jft:jlt)  &
-          &            + mom(jft:jlt,3)*kxy(jft:jlt)
+          &              + mom(jft:jlt,3)*kxy(jft:jlt)
 !
           if (flag_law1 .or. flag_law25) then
             if (npt == 1) then
-              degmb(jft:jlt) = for(jft:jlt,1)*exx(jft:jlt)+for(jft:jlt,2)*eyy(jft:jlt)+   &
-              &                      for(jft:jlt,3)*exy(jft:jlt)+for(jft:jlt,4)*eyz(jft:jlt)+   &
-              &                      for(jft:jlt,5)*exz(jft:jlt)
+              degmb(jft:jlt) = for(jft:jlt,1)*exx(jft:jlt) + for(jft:jlt,2)*eyy(jft:jlt)  &
+              &              + for(jft:jlt,3)*exy(jft:jlt) + for(jft:jlt,4)*eyz(jft:jlt)  &
+              &              + for(jft:jlt,5)*exz(jft:jlt)
               degfx(jft:jlt) = zero
             endif
           endif
@@ -564,56 +564,7 @@
             enddo
           endif ! if ( flag_law22 )
 !       compute the inverse of dt and save the result
-          do i=jft,jlt
-            dt_inv(i) = dt1c(i)/max(dt1c(i)**2,em20)
-          enddo
-!-----------------------------------------------------------
-!     equivalent strain rate (au sens energetique)
-!-----------------------------------------------------------
-!     e = 1/t integ[1/2 e (eps_m + k z)^2 dz ]
-!     e = 1/2 e eps_eq^2
-!     eps_eq = sqrt[ eps_m^2 + 1/12 k^2t^2 ]
-!
-          if (ixlay > 0) then
-            mx = elbuf_str%bufly(ixlay)%imat
-          else
-            mx = mat(jft)
-          endif
-          israte = ipm(3,mx)
-!
-          if (israte == 1) then
-#include "vectorize.inc"
-            do i=jft,jlt
-              eps_k2 = (kxx(i)*kxx(i)+kyy(i)*kyy(i)+kxx(i)*kyy(i)              &
-              &               + fourth*kxy(i)*kxy(i)) *thk(i)*thk(i)*one_over_9
-              eps_m2 = four_over_3*(exx(i)*exx(i)+eyy(i)*eyy(i)+exx(i)*eyy(i)  &
-              &               + fourth*exy(i)*exy(i))
-              epsp_loc(i) = sqrt(eps_k2 + eps_m2)*dt_inv(i)
-            end do
-          else if (israte > 1) then
-#include "vectorize.inc"
-            do i=jft,jlt
-              eps_m2  = four_over_3*(exx(i)*exx(i)+eyy(i)*eyy(i)+exx(i)*eyy(i)&
-              &                + fourth*exy(i)*exy(i))
-              epsp_loc(i) = sqrt(eps_m2)*dt_inv(i)
-            end do
-          else
-              epsp_loc(1:nel) = zero
-          endif
-!
-          if (israte > 0) then    ! strain rate filtering with exponential average
-            asrate = min(one, pm(9,mx)*dt1)
-          else 
-            asrate = zero 
-          endif
-
-          if (gbuf%g_epsd > 0)then
-            do i=jft,jlt
-              epsp(i)   = asrate*epsp_loc(i) + (one-asrate)*epsp(i)
-              epspl(i)  = epsp(i)
-              epspdt(i) = epsp(i)*dt1
-            end do
-          endif
+      dtinv = dt1 / max(dt1**2,em20)  ! inverse of dt
 !-----------------------------------------------------------
 !     loop over thickness integration points (layers)
 !-----------------------------------------------------------
@@ -666,14 +617,6 @@
               ifunc(i)=ipm(10+i,imat)
             enddo
 !
-!       check if epsp arrays are used or not
-!       epsp is not used for law : 2/25/32/42/58/63/63/64/69/71/72/76/78/80/82/85/96 --> flag_epsp=.false.
-!       epsp is used for the other laws
-!       epsp is also used for the rupture : 4/5/6/14/24
-            flag_epsp=.true.
-            if(ilaw==1.or.ilaw==25.or.ilaw==32.or.ilaw==42.or.ilaw==58.or.ilaw==62.or.&
-            &ilaw==63.or.ilaw==64.or.ilaw==69.or.ilaw==71.or.ilaw==72.or.&
-            &ilaw==76.or.ilaw==78.or.ilaw==80.or.ilaw==82.or.ilaw==85.or.ilaw == 88 .or. ilaw==96) flag_epsp=.false.
 !       check if eps arrays are used or not
 !       eps is not used for law : 2/25/63/64/65/66/72/76/78/93 --> flag_eps=.false.
 !       eps is used for the other laws
@@ -682,7 +625,6 @@
             if(ilaw==1.or.ilaw== 2.or.ilaw==25.or.ilaw==32.or.ilaw==63.or.ilaw==64.or.ilaw==65.or.&
             &ilaw==66.or.ilaw==72.or.ilaw==76.or.ilaw==78.or.ilaw==85.or.ilaw==93) flag_eps=.false.
 
-            if ((matparam%ivisc == 1 ).or.(idamp_freq_range > 0)) flag_epsp=.true.
             if (ifailure == 1) then
               do it=1,nptt
                 fbuf => bufly%fail(ir,is,it)
@@ -691,15 +633,12 @@
                   if(irupt== 4.or.irupt== 5.or.irupt== 6.or.irupt==7.or.   &
                   &                 irupt==10.or.irupt==24.or.irupt==34.or.irupt==39.or.  &
                   &                 irupt==43.or.irupt==47 ) flag_eps=.true.
-
-                  if(irupt== 4.or.irupt== 5.or.irupt== 6.or.               &
-                  &                 irupt==14.or.irupt==24) flag_epsp=.true.
                 enddo
               enddo
             endif
 
-!       depsyz/zx and epsyz/zx are it independent
-!       epsxy is it independent for igtyp/=1
+!           depsyz/zx and epsyz/zx are it independent
+!           epsxy is it independent for igtyp/=1
             depsyz(jft:jlt)=eyz(jft:jlt)
             depszx(jft:jlt)=exz(jft:jlt)
             if (flag_eps) then
@@ -712,6 +651,14 @@
                 epszx(jft:jlt)  = zero
               endif
             endif
+!----------------------------------------------------------------------
+            ! strain rate filtering coefficient for current layer material
+            israte = ipm(3,imat)
+            if (israte > 0) then
+              asrate = min(one, pm(9,imat)*dt1)
+            else
+              asrate = one
+            end if
 !----------------------------------------------------------------------
 !---
             l_dmg = bufly%l_dmg
@@ -735,6 +682,9 @@
                   lbuf%epsdnl(i) = varnl(i,it)/max(dt1,em20)
                 enddo
               endif
+!----------------------------------------------------------------------
+              epsd(1:nel) = zero  !< local integration pt strain rate initialization
+                                  !< calculated by material and used in failure models
 !---------------------------------------------------
               if (jthe /= 0) then
                 el_temp => tempel(1:nel)    ! calculated from nodal temp with /heat/mat
@@ -1072,16 +1022,13 @@
 !       end of igtyp condition
 !       -------------------------------
 !---
-              if (flag_epsp) then
-                do i=jft,jlt
-                  dtinv   =dt_inv(i)!dt1c(i)/max(dt1c(i)**2,em20)
-                  epspxx(i)=depsxx(i)*dtinv
-                  epspyy(i)=depsyy(i)*dtinv
-                  epspxy(i)=depsxy(i)*dtinv
-                  epspyz(i)=depsyz(i)*dtinv
-                  epspzx(i)=depszx(i)*dtinv
-                enddo
-              endif
+              do i=jft,jlt
+                epspxx(i)=depsxx(i)*dtinv
+                epspyy(i)=depsyy(i)*dtinv
+                epspxy(i)=depsxy(i)*dtinv
+                epspyz(i)=depsyz(i)*dtinv
+                epspzx(i)=depszx(i)*dtinv
+              enddo
               dpla(1:mvsiz) = zero
               if (elbuf_str%bufly(ilayer)%l_pla > 0) then
                 pla0(1:jlt) = lbuf%pla(1:jlt)
@@ -1120,9 +1067,9 @@
                 vp =  ipm(255,imat)
                 call sigeps02c(&
                 &jft        ,jlt       ,pm       ,eint     ,thkn     ,&
-                &off        ,sigy      ,dt1c     ,ipla     ,nel      ,&
+                &off        ,sigy      ,dt1      ,ipla     ,nel      ,&
                 &vol0       ,gs        ,israte   ,thklyl   ,etse     ,&
-                &ngl        ,epspdt    ,g_imp    ,sigksi   ,ioff_duct,&
+                &ngl        ,epsd_pg   ,g_imp    ,sigksi   ,ioff_duct,&
                 &dpla       ,tstar     ,jthe     ,hardm    ,epchk    ,&
                 &imat       ,ipt       ,npttot   ,lbuf%pla ,off_old  ,&
                 &sigoxx,sigoyy,sigoxy,sigoyz,sigozx,&
@@ -1135,13 +1082,14 @@
 !
               elseif (ilaw == 15) then
                 call sigeps15c(&
-                &jft      ,jlt     ,pm       ,lbuf%dam   ,&
-                &imat     ,shf     ,ngl      ,epspl      ,dmg_flag   ,&
-                &ilayer   ,nel     ,israte   ,lbuf%pla   ,sigdmg     ,&
-                &depsxx   ,depsyy  ,depsxy   ,depsyz     ,depszx     ,&
-                &sigoxx,sigoyy,sigoxy,sigoyz,sigozx,&
-                &signxx   ,signyy  ,signxy   ,signyz     ,signzx     ,&
-                &lbuf%dsum,lbuf%tsaiwu)
+                 jft      ,jlt     ,pm       ,lbuf%dam   ,&
+                 imat     ,shf     ,ngl      ,dmg_flag   ,&
+                 ilayer   ,nel     ,lbuf%pla ,sigdmg     ,&
+                 israte   ,asrate  ,epsd_pg  ,lbuf%epsd  ,&
+                 depsxx   ,depsyy  ,depsxy   ,depsyz     ,depszx   ,&
+                 sigoxx   ,sigoyy  ,sigoxy   ,sigoyz     ,sigozx   ,&
+                 signxx   ,signyy  ,signxy   ,signyz     ,signzx   ,&
+                 lbuf%dsum,lbuf%tsaiwu)
               elseif (ilaw == 19) then
 
                 call sigeps19c(&
@@ -1162,63 +1110,65 @@
                 &sigoxx,sigoyy,sigoxy,sigoyz,sigozx,&
                 &signxx   ,signyy ,signxy   ,signyz ,signzx  ,&
                 &inloc    ,varnl(1,it),lbuf%off)
+!
               elseif (ilaw == 27) then
                 call sigeps27c(&
-                &jft      ,jlt     ,pm       ,thkn    ,off   ,&
-                &gstr     ,imat    ,dt1c     ,ipla    ,shf   ,&
-                &ngl      ,thk0    ,thklyl   ,lbuf%crak,lbuf%dam,&
-                &sigy     ,zcfac   ,dpla     ,ilayer  ,ipt   ,&
-                &israte   ,nel     ,posly(1,ipt),npttot  ,epspdt,&
-                &depsxx   ,depsyy  ,depsxy   ,depsyz  ,depszx,&
-                &sigoxx,sigoyy ,sigoxy,sigoyz,sigozx,&
-                &signxx   ,signyy  ,signxy   ,signyz  ,signzx,&
-                &dirdmg   ,lbuf%pla,inloc    ,varnl(1,it),lbuf%off)
+                 jft      ,jlt     ,pm       ,thkn    ,off   ,&
+                 gstr     ,imat    ,dt1      ,ipla    ,shf   ,&
+                 ngl      ,thk0    ,thklyl   ,lbuf%crak,lbuf%dam,&
+                 sigy     ,zcfac   ,dpla     ,ilayer  ,ipt   ,&
+                 israte   ,nel     ,posly(1,ipt),npttot  ,epsd_pg,&
+                 depsxx   ,depsyy  ,depsxy   ,depsyz  ,depszx,&
+                 sigoxx,sigoyy ,sigoxy,sigoyz,sigozx,&
+                 signxx   ,signyy  ,signxy   ,signyz  ,signzx,&
+                 dirdmg   ,lbuf%pla,inloc    ,varnl(1,it),lbuf%off, &
+                 lbuf%epsd,asrate  )
 !
-                epspl(jft:jlt) = epspdt(jft:jlt)
               elseif (ilaw == 32) then
                 call sigeps32c(&
                 &jft        ,jlt    ,pm      ,thkn   ,off    ,&
                 &dir_a(jdir),ipt    ,imat    ,nel    ,dt1c   ,&
-                &gs         ,epsp   ,thklyl  ,ipla   ,dpla   ,&
+                &gs         ,lbuf%epsd,thklyl,ipla   ,dpla   ,&
                 &depsxx     ,depsyy ,depsxy  ,depsyz ,depszx ,&
                 &sigoxx,sigoyy,sigoxy,sigoyz,sigozx,&
                 &signxx     ,signyy ,signxy  ,signyz ,signzx ,&
                 &lbuf%pla   ,ngl    ,hardm   ,inloc  ,varnl(1,it),&
                 &lbuf%seq   ,lbuf%off,etse   )
-                epspl(jft:jlt) = epsp(jft:jlt)
+
               elseif (ilaw == 25) then
                 if (igtyp /= 1 .and. igtyp /= 9) then
                   if (ixfem == 1 .and. ixlay > 0) npttot = elbuf_str%bufly(ixlay)%nptt
 !         integration by layers
                   call sigeps25c(matparam ,&
-                  &nel         ,pm(1,imat)  ,off      ,gstr      ,&
-                  &dir_a(jdir) ,thkly(jpos),tt        ,dt1      ,shf       ,&
-                  &ngl         ,thk0        ,exx      ,off_old   ,&
-                  &eyy         ,exy      ,exz         ,eyz      ,kxx       ,&
-                  &kyy         ,kxy      ,posly(1,ipt),epspl    ,rho       ,&
-                  &ssp         ,bufmat   ,lbuf%off    ,&
-                  &sigy        ,zcfac    ,nptt        ,ilayer   ,&
-                  &nfis1       ,nfis2    ,nfis3       ,wplar    ,&
-                  &npttot      ,igtyp    ,lbuf%visc,lbuf%sigply,&
-                  &sigoxx,sigoyy,sigoxy,sigoyz,sigozx,&
-                  &signxx      ,signyy   ,signxy      ,signyz   ,signzx    ,&
-                  &sigvxx      ,sigvyy   ,sigvxy      ,sigvyz   ,sigvzx    ,&
-                  &israte      ,uvarv    ,ishplyxfem  ,ipt      ,lbuf%seq  ,&
-                  &ply_exx     ,ply_eyy  ,ply_exy     ,ply_exz  ,ply_eyz   ,&
-                  &ply_f       ,lbuf%pla ,lbuf%crak   ,gbuf%ierr,&
-                  &ioff_duct   ,ifailure ,ply_id      ,ipg      ,lbuf%tsaiwu,&
-                  &imconv      ,iout     ,lbuf%dmg    ,bufly%l_dmg)
+                   nel         ,pm(1,imat)  ,off      ,gstr     ,&   
+                   dir_a(jdir) ,thkly(jpos),tt        ,dt1      ,shf       ,&
+                   ngl         ,thk0        ,exx      ,off_old  ,& 
+                   eyy         ,exy      ,exz         ,eyz      ,kxx       ,&
+                   kyy         ,kxy      ,posly(1,ipt),epsd_pg  ,rho       ,&
+                   ssp         ,bufmat   ,lbuf%off    ,lbuf%epsd,asrate    ,&
+                   sigy        ,zcfac    ,nptt        ,ilayer   ,&
+                   nfis1       ,nfis2    ,nfis3       ,wplar    ,&
+                   npttot      ,igtyp    ,lbuf%visc   ,lbuf%sigply,&
+                   sigoxx,sigoyy,sigoxy,sigoyz,sigozx,&
+                   signxx      ,signyy   ,signxy      ,signyz   ,signzx    ,&
+                   sigvxx      ,sigvyy   ,sigvxy      ,sigvyz   ,sigvzx    ,&
+                   israte      ,uvarv    ,ishplyxfem  ,ipt      ,lbuf%seq  ,&
+                   ply_exx     ,ply_eyy  ,ply_exy     ,ply_exz  ,ply_eyz   ,&
+                   ply_f       ,lbuf%pla ,lbuf%crak   ,gbuf%ierr,&
+                   ioff_duct   ,ifailure ,ply_id      ,ipg      ,lbuf%tsaiwu,&
+                   imconv      ,iout     ,lbuf%dmg    ,bufly%l_dmg)
 
                 elseif (igtyp == 9) then
 !           integration by points (through thickness)
                   call sigeps25cp(matparam ,&
-                  &jft     ,jlt    ,off      ,dir_a(jdir) ,&
-                  &shf     ,npt    ,ngl      ,ipt     ,off_old     ,&
-                  &thk0    ,epspl  ,sigy     ,zcfac   ,nel    ,&
-                  &depsxx  ,depsyy ,depsxy   ,depsyz  ,depszx ,&
-                  &sigoxx,sigoyy,sigoxy,sigoyz,sigozx,&
-                  &signxx  ,signyy ,signxy   ,signyz  ,signzx ,&
-                  &wplar  ,ioff_duct,lbuf%pla,israte ,lbuf%tsaiwu)
+                   jft     ,jlt    ,off      ,dir_a(jdir) ,&
+                   shf     ,npt    ,ngl      ,ipt     ,off_old     ,&
+                   thk0    ,lbuf%epsd,sigy     ,zcfac   ,nel    ,&
+                   depsxx  ,depsyy ,depsxy   ,depsyz  ,depszx ,&
+                   sigoxx,sigoyy,sigoxy,sigoyz,sigozx,&
+                   signxx  ,signyy ,signxy   ,signyz  ,signzx ,&
+                   wplar  ,ioff_duct,lbuf%pla,israte  ,asrate ,&
+                   epsd_pg,lbuf%tsaiwu)
                 endif ! if (igtyp)
 !
               elseif (ilaw == 34) then
@@ -1232,6 +1182,7 @@
                 &sigoxx,sigoyy,sigoxy,sigoyz,sigozx,&
                 &signxx ,signyy ,signxy  ,signyz   ,signzx ,&
                 &ssp    ,thkn    ,uvar     ,off    )
+!
               elseif (ilaw == 35) then
                 call sigeps35c(&
                 &jlt    ,nuparam0,nuvar   ,nfunc    ,ifunc   ,&
@@ -1246,7 +1197,8 @@
                 &sigvxx ,sigvyy ,sigvxy  ,sigvyz   ,sigvzx ,&
                 &ssp    ,viscmx ,thkn    ,uvar     ,off    ,&
                 &ngl    ,shf    ,etse    ,israte   ,asrate ,&
-                &epsp   )
+                &lbuf%epsd)
+!
               elseif (ilaw == 36) then
                 nrate = nint(uparam0(1))
                 fisokin = uparam0(2*nrate + 14)
@@ -1261,21 +1213,22 @@
                 endif
 
                 call sigeps36c(&
-                &jlt    ,nuvar   ,nvartmp  ,nfunc   ,&
-                &ifunc  ,npf    ,iflag   ,&
-                &tf     ,dt1c    ,uparam0   ,rho     ,&
-                &thklyl  ,asrate   ,&
-                &epspxx ,epspyy ,epspxy  ,&
-                &depsxx ,depsyy ,depsxy  ,depsyz   ,depszx ,&
-                &epsxx  ,epsyy  ,epsxy   ,&
-                &sigoxx,sigoyy,sigoxy,sigoyz,sigozx,&
-                &signxx ,signyy ,signxy  ,signyz   ,signzx ,&
-                &ssp    ,viscmx ,thkn    ,lbuf%pla ,uvar   ,&
-                &vartmp ,off    ,ipm     ,imat     ,&
-                &etse   ,gs     ,sigy   ,epspl   ,israte   ,&
-                &dpla   ,g_imp  ,sigksi  ,shf      ,hardm  ,&
-                &yldfac ,inloc ,varnl(1,it),lbuf%dmg,lbuf%planl,&
-                &bufly%l_planl,sigbxx,sigbyy,sigbxy,lbuf%off)
+                     jlt    ,nuvar  ,nvartmp  ,nfunc   ,&
+                     ifunc  ,npf    ,iflag   ,&
+                     tf     ,dt1c   ,uparam0   ,rho     ,&
+                     thklyl ,israte ,asrate  ,epsd_pg  ,lbuf%epsd  ,&
+                     epspxx ,epspyy ,epspxy  ,&
+                     depsxx ,depsyy ,depsxy  ,depsyz   ,depszx ,&
+                     epsxx  ,epsyy  ,epsxy   ,&
+                     sigoxx,sigoyy,sigoxy,sigoyz,sigozx,&
+                     signxx ,signyy ,signxy  ,signyz   ,signzx ,&
+                     ssp    ,viscmx ,thkn    ,lbuf%pla ,uvar   ,&
+                     vartmp ,off    ,ipm     ,imat     ,&
+                     etse   ,gs     ,sigy    ,&
+                     dpla   ,g_imp  ,sigksi  ,shf      ,hardm      ,&
+                     yldfac ,inloc ,varnl(1,it),lbuf%dmg,lbuf%planl,&
+                     bufly%l_planl,sigbxx,sigbyy,sigbxy,lbuf%off)
+!
               elseif (ilaw == 42) then
                 call sigeps42c(&
                 &nel    , nuparam, niparam , nuvar   , ismstr  ,&
@@ -1298,9 +1251,8 @@
                 &signxx ,signyy ,signxy  ,signyz   ,signzx ,&
                 &ssp    ,thkn   ,lbuf%pla ,uvar    ,off    ,&
                 &ngl    ,etse   ,hardm    ,sigy    ,gs     ,&
-                &dpla   ,epsp   ,shf      ,inloc   ,varnl(1,it),&
-                &lbuf%seq,lbuf%off)
-                epspl(jft:jlt) = epsp(jft:jlt)
+                &dpla   ,lbuf%epsd,shf    ,inloc   ,varnl(1,it),&
+                &lbuf%seq,lbuf%off,asrate ,epsd_pg )
 
               elseif (ilaw == 44) then
                 call sigeps44c(&
@@ -1313,7 +1265,7 @@
                 &sigoxx,sigoyy,sigoxy,sigoyz,sigozx,&
                 &signxx ,signyy ,signxy  ,signyz   ,signzx ,&
                 &ssp    ,viscmx ,thkn    ,lbuf%pla ,uvar   ,&
-                &gs     ,sigy   ,epsp    ,dpla     ,asrate ,&
+                &gs     ,sigy   ,lbuf%epsd,dpla    ,asrate ,&
                 &nvartmp,vartmp ,lbuf%sigb,inloc   ,varnl(1,it),&
                 &lbuf%off)
 
@@ -1345,12 +1297,13 @@
                 &sigvxx ,sigvyy ,sigvxy  ,sigvyz   ,sigvzx ,&
                 &ssp    ,viscmx ,thkn    ,lbuf%pla ,uvar   ,&
                 &off    ,ngl    ,ipm     ,matly(jmly),etse ,&
-                &gs     ,sigy   ,epspl   ,dpla     ,israte ,&
-                &inloc  ,varnl(1,it),lbuf%off)
+                &gs     ,sigy   ,lbuf%epsd,dpla    ,israte ,&
+                &asrate ,epsd_pg,inloc  ,varnl(1,it),lbuf%off)
+!
               elseif (ilaw == 52) then
                 call sigeps52c(&
                 &jlt    ,nuparam0,nuvar  ,nfunc    ,ifunc   ,&
-                &npf    ,npt    ,ipt     ,iflag    ,&
+                &npf    ,npt    ,ipt     ,iflag    ,asrate  ,&
                 &tf     ,tt     ,dt1c    ,bufmat   ,rho,&
                 &area   ,eint   ,thklyl  ,l_dmg    ,lbuf%dmg,&
                 &epspxx ,epspyy ,epspxy  ,epspyz   ,epspzx  ,&
@@ -1361,12 +1314,13 @@
                 &sigvxx ,sigvyy ,sigvxy  ,sigvyz   ,sigvzx  ,&
                 &ssp    ,viscmx ,thkn    ,lbuf%pla ,uvar    ,&
                 &off    ,ngl    ,ipm     ,matly(jmly),etse  ,&
-                &gs     ,sigy   ,epspl   ,table    ,lbuf%epsd)
+                &gs     ,sigy   ,epsd_pg ,table    ,lbuf%epsd)
+!
               elseif (ilaw == 55) then
                 call sigeps55c(&
                 &jlt    ,nuparam0,nuvar   ,nfunc   ,ifunc   ,&
-                &npf    ,npt    ,ipt  ,iflag   ,&
-                &tf     ,tt     ,dt1c    ,bufmat  ,rho     ,&
+                &npf    ,npt    ,ipt     ,iflag    ,asrate  ,&
+                &tf     ,tt     ,dt1c    ,bufmat   ,rho     ,&
                 &area   ,eint   ,thklyl  ,&
                 &epspxx ,epspyy ,epspxy  ,epspyz   ,epspzx ,&
                 &depsxx ,depsyy ,depsxy  ,depsyz   ,depszx ,&
@@ -1376,13 +1330,14 @@
                 &sigvxx ,sigvyy ,sigvxy  ,sigvyz   ,sigvzx ,&
                 &ssp    ,viscmx ,thkn    ,lbuf%pla ,uvar   ,&
                 &off    ,ngl    ,ipm     ,matly(jmly),etse ,&
-                &gs     ,sigy   ,epspl   ,israte    )
+                &gs     ,sigy   ,epsd_pg ,lbuf%epsd,israte  )
+!
               elseif (ilaw == 56) then
                 call sigeps56c(&
-                &jlt    ,nuparam0,nuvar   ,nfunc   ,ifunc   ,&
-                &npf    ,npt    ,ipt  ,iflag   ,&
+                &jlt    ,nuparam0,nuvar  ,nfunc   ,ifunc   ,&
+                &npf    ,npt    ,ipt     ,iflag   ,&
                 &tf     ,tt     ,dt1c    ,bufmat  ,rho,&
-                &area   ,eint   ,thklyl  ,&
+                &area   ,eint   ,thklyl  ,israte  ,asrate  ,&
                 &epspxx ,epspyy ,epspxy  ,epspyz   ,epspzx ,&
                 &depsxx ,depsyy ,depsxy  ,depsyz   ,depszx ,&
                 &epsxx  ,epsyy  ,epsxy   ,epsyz    ,epszx  ,&
@@ -1391,7 +1346,8 @@
                 &sigvxx ,sigvyy ,sigvxy  ,sigvyz   ,sigvzx ,&
                 &ssp    ,viscmx ,thkn    ,lbuf%pla ,uvar   ,&
                 &off    ,ngl    ,ipm     ,matly(jmly),etse ,&
-                &gs     ,sigy   ,epspl   ,dpla     ,israte )
+                &gs     ,sigy   ,epsd_pg ,lbuf%epsd,dpla   )
+!
               elseif (ilaw == 57) then
                 call sigeps57c(&
                 &jlt    ,matparam,rho    ,tt       ,dt1    ,&
@@ -1402,32 +1358,33 @@
                 &sigoxx ,sigoyy ,sigoxy  ,sigoyz  ,sigozx  ,&
                 &signxx ,signyy ,signxy  ,signyz  ,signzx  ,&
                 &off    ,etse   ,sigy    ,lbuf%seq,israte  ,&
-                &asrate ,epsp   ,lbuf%epsd,inloc  ,varnl(1,it),&
+                &asrate ,epsd_pg,lbuf%epsd,inloc  ,varnl(1,it),&
                 &lbuf%off,nvartmp,vartmp ,shf     ,lbuf%sigb,&
                 &bufly%l_dmg,lbuf%dmg,bufly%l_planl,lbuf%planl)
+!
               elseif (ilaw == 58) then
                 call sigeps58c(&
-                &jlt     ,nuparam ,nuvar   ,nfunc    ,ifunc  ,&
-                &npf     ,npt     ,ipt     ,nsensor  ,&
-                &tf      ,tt      ,dt1c    ,uparam   ,rho    ,&
-                &area    ,eint    ,thklyl  ,niparam  ,iparam  ,&
-                &epspxx  ,epspyy  ,epspxy  ,epspyz   ,epspzx  ,&
-                &depsxx  ,depsyy  ,depsxy  ,depsyz   ,depszx  ,&
-                &epsxx   ,epsyy   ,epsxy   ,epsyz    ,epszx   ,&
-                &sigoxx,sigoyy,sigoxy,sigoyz,sigozx,&
-                &signxx  ,signyy  ,signxy  ,signyz   ,signzx  ,&
-                &sigvxx  ,sigvyy  ,sigvxy  ,sigvyz   ,sigvzx  ,&
-                &ssp     ,viscmx  ,thkn    ,lbuf%pla ,uvar    ,&
-                &off     ,ngl     ,pm      ,matly(jmly),etse  ,&
-                &shf     ,sigy    ,epspl   ,lbuf%ang ,&
-                &aldt    ,sensors%sensor_tab,ismstr,table    ,gbuf%off)
+                     jlt     ,nuparam ,nuvar   ,nfunc    ,ifunc   ,    &
+                     npf     ,npt     ,ipt     ,nsensor  ,             &
+                     tf      ,tt      ,dt1c    ,uparam   ,rho     ,    &
+                     area    ,eint    ,thklyl  ,niparam  ,iparam  ,    &
+                     depsxx  ,depsyy  ,depsxy  ,depsyz   ,depszx  ,    &
+                     epsxx   ,epsyy   ,epsxy   ,epsyz    ,epszx   ,    &
+                     sigoxx  ,sigoyy  ,sigoxy  ,sigoyz   ,sigozx  ,    &
+                     signxx  ,signyy  ,signxy  ,signyz   ,signzx  ,    &
+                     sigvxx  ,sigvyy  ,sigvxy  ,sigvyz   ,sigvzx  ,    &
+                     ssp     ,viscmx  ,thkn    ,lbuf%pla ,uvar    ,    &
+                     off     ,ngl     ,pm      ,matly(jmly),etse  ,    &
+                     shf     ,sigy    ,lbuf%ang,aldt    ,              &
+                     sensors%sensor_tab,ismstr,table    ,gbuf%off)
+!
               elseif (ilaw == 60) then
                 if (igtyp /= 10.and.igtyp /= 11 .and.igtyp /= 17) then
                   call sigeps60c(&
                   &jlt    ,nuparam0,nuvar   ,nfunc   ,ifunc   ,&
                   &npf    ,npt    ,ipt     ,iflag   ,&
                   &tf     ,tt     ,dt1c    ,bufmat  ,rho,&
-                  &area   ,eint   ,thklyl   ,&
+                  &area   ,eint   ,thklyl  ,israte   ,asrate ,&
                   &epspxx ,epspyy ,epspxy  ,epspyz   ,epspzx ,&
                   &depsxx ,depsyy ,depsxy  ,depsyz   ,depszx ,&
                   &epsxx  ,epsyy  ,epsxy   ,epsyz    ,epszx  ,&
@@ -1436,14 +1393,14 @@
                   &sigvxx ,sigvyy ,sigvxy  ,sigvyz   ,sigvzx ,&
                   &ssp    ,viscmx ,thkn    ,lbuf%pla ,uvar   ,&
                   &off    ,ngl    ,ipm     ,matly(jmly),etse ,&
-                  &gs     ,sigy   ,epspl   ,israte   ,dpla,shf,&
+                  &gs     ,sigy   ,epsd_pg ,lbuf%epsd,dpla,shf,&
                   &inloc  ,varnl(1,it),lbuf%off)
                 else
                   call sigeps60c(&
                   &jlt    ,nuparam0,nuvar   ,nfunc   ,ifunc   ,&
                   &npf    ,npt    ,ipt  ,iflag   ,&
                   &tf     ,tt     ,dt1c    ,bufmat  ,rho,&
-                  &area   ,eint   ,thklyl   ,&
+                  &area   ,eint   ,thklyl  ,israte   ,asrate ,&
                   &epspxx ,epspyy ,epspxy  ,epspyz   ,epspzx ,&
                   &depsxx ,depsyy ,depsxy  ,depsyz   ,depszx ,&
                   &epsxx  ,epsyy  ,epsxy   ,epsyz    ,epszx  ,&
@@ -1452,7 +1409,7 @@
                   &sigvxx ,sigvyy ,sigvxy  ,sigvyz   ,sigvzx ,&
                   &ssp    ,viscmx ,thkn    ,lbuf%pla ,uvar   ,&
                   &off    ,ngl    ,ipm     ,matly(jmly),etse ,&
-                  &gs     ,sigy   ,epspl   ,israte   ,dpla,shf,&
+                  &gs     ,sigy   ,epsd_pg ,lbuf%epsd,dpla,shf,&
                   &inloc  ,varnl(1,it),lbuf%off)
                 end if
               elseif (ilaw == 62) then
@@ -1507,6 +1464,7 @@
                 &etse,         gs,           vol0,         sigy,&
                 &el_temp,       die,          coef,         inloc,&
                 &varnl(1,it),  jthe,         lbuf%off)
+!
               elseif (ilaw == 65) then
                 call sigeps65c(&
                 &jlt    ,nuparam0,nuvar   ,nfunc   ,ifunc   ,&
@@ -1521,13 +1479,14 @@
                 &sigvxx ,sigvyy ,sigvxy  ,sigvyz   ,sigvzx ,&
                 &ssp    ,viscmx ,thkn    ,lbuf%pla ,uvar   ,&
                 &off    ,ngl    ,ipm     ,matly(jmly),etse ,&
-                &gs     ,sigy   ,epspl   ,israte   ,dpla   )
+                &gs     ,sigy   ,lbuf%epsd,dpla   )
+!
               elseif (ilaw == 66) then
                 call sigeps66c(&
                 &jlt    ,nuparam0,nuvar   ,nfunc   ,ifunc   ,&
                 &npf    ,npt    ,ipt     ,iflag   ,&
                 &tf     ,tt     ,dt1c    ,bufmat  ,rho     ,&
-                &area   ,eint   ,thklyl  ,&
+                &area   ,eint   ,thklyl  ,israte   ,asrate ,&
                 &epspxx ,epspyy ,epspxy  ,epspyz   ,epspzx ,&
                 &depsxx ,depsyy ,depsxy  ,depsyz   ,depszx ,&
                 &epsxx  ,epsyy  ,epsxy   ,epsyz    ,epszx  ,&
@@ -1536,9 +1495,10 @@
                 &sigvxx ,sigvyy ,sigvxy  ,sigvyz   ,sigvzx ,&
                 &ssp    ,viscmx ,thkn    ,lbuf%pla ,uvar   ,&
                 &off    ,ngl    ,ipm     ,matly(jmly),etse ,&
-                &gs     ,sigy   ,epspl   ,israte   ,inloc  ,&
+                &gs     ,sigy   ,epsd_pg ,lbuf%epsd,inloc  ,&
                 &varnl(1,it),matparam    ,nuvarv  ,uvarv   ,&
                 &lbuf%off)
+!
               elseif (ilaw == 69) then
                 call sigeps69c(&
                 &jlt    , nuparam0, nuvar  ,npt    , ipt   ,&
@@ -1596,7 +1556,7 @@
                 &ssp,          viscmx,       thkn,         lbuf%pla,&
                 &uvar,         off,          ngl,          itable,&
                 &etse,         gs,           sigy,         dpla,&
-                &epspl,        table,        vol0,         el_temp,&
+                &lbuf%epsd,    table,        vol0,         el_temp,&
                 &die,          coef,         npf,          nfunc,&
                 &ifunc,        tf,           shf,          hardm,&
                 &lbuf%seq,     inloc,        varnl(1,it),  jthe,&
@@ -1610,13 +1570,11 @@
                 &uparam0  ,uvar      ,rho      ,off      ,ngl      ,&
                 &depsxx   ,depsyy    ,depsxy   ,depsyz   ,depszx   ,&
                 &sigoxx,sigoyy,sigoxy,sigoyz,sigozx,&
-                &signxx   ,signyy   ,signxy   ,signyz   ,signzx   ,&
-                &ssp      ,thkn     ,thklyl   ,lbuf%pla ,epsp     ,&
+                &signxx   ,signyy   ,signxy   ,signyz   ,signzx    ,&
+                &ssp      ,thkn     ,thklyl   ,lbuf%pla ,lbuf%epsd ,&
                 &etse     ,gs       ,sigy     ,inloc    ,bufly%l_planl,&
                 &lbuf%planl,varnl(1,it),lbuf%dmg,&
                 &nvartmp  ,vartmp   ,lbuf%off)
-!
-                epspl(1:nel) = epsp(1:nel)
 !
               elseif (ilaw == 78) then
                 call sigeps78c(&
@@ -1629,18 +1587,8 @@
                 &ssp      ,uvar     ,lbuf%siga,lbuf%sigb,lbuf%sigc,&
                 &rho      ,off      ,lbuf%pla ,dpla     ,vartmp   ,&
                 &inloc    ,varnl(1,it),et_imp ,lbuf%seq ,lbuf%off)
+!
               elseif (ilaw == 80) then
-                if (israte == 0) then
-                  do i=jft,jlt
-                    eps_k2 = (kxx(i)*kxx(i)+kyy(i)*kyy(i)+kxx(i)*kyy(i)             &
-                    &                         + fourth*kxy(i)*kxy(i)) *thk(i)*thk(i)*one_over_9
-                    eps_m2 = four_over_3*(exx(i)*exx(i)+eyy(i)*eyy(i)+exx(i)*eyy(i) &
-                    &                         + fourth*exy(i)*exy(i))
-                    dtinv  = dt_inv(i)                   !dt1c(i)/max(dt1c(i)**2,em20)
-                    epsp(i) = sqrt(eps_m2+eps_k2)*dtinv
-                    epspl(i) = epsp(i)
-                  enddo
-                endif
                 call sigeps80c(&
                 &jlt,          nuparam0,      nuvar,        nfunc,&
                 &ifunc,        npf,          npt,          ipt,&
@@ -1657,10 +1605,11 @@
                 &viscmx,       thkn,         lbuf%pla,     uvar,&
                 &off,          ngl,          pm,           ipm,&
                 &matly(jmly),  etse,         gs,           vol0,&
-                &sigy,         el_temp,       die,          coef,&
-                &shf,          epspl,        table,        ithk,&
+                &sigy,         el_temp,      die,          coef,&
+                &shf,          epsd_pg,      table,        ithk,&
                 &nvartmp,      vartmp,       epsthtot,     jthe,&
                 &idt_therm,    theaccfact)
+!
               elseif (ilaw == 82) then
                 call sigeps82c(&
                 &jlt    ,nuparam0,nuvar   ,nfunc  ,ifunc  ,&
@@ -1694,7 +1643,7 @@
                 &jlt    ,nuparam0,nuvar   ,nfunc   ,ifunc   ,&
                 &npf    ,npt    ,ipt     ,iflag   ,&
                 &tf     ,tt     ,dt1c    ,uparam0  ,rho,&
-                &area   ,eint   ,thklyl  ,&
+                &area   ,eint   ,thklyl  ,israte   ,asrate ,&
                 &epspxx ,epspyy ,epspxy  ,epspyz   ,epspzx ,&
                 &depsxx ,depsyy ,depsxy  ,depsyz   ,depszx ,&
                 &epsxx  ,epsyy  ,epsxy   ,epsyz    ,epszx  ,&
@@ -1703,7 +1652,7 @@
                 &sigvxx ,sigvyy ,sigvxy  ,sigvyz   ,sigvzx ,&
                 &ssp    ,viscmx ,thkn    ,lbuf%pla ,uvar   ,&
                 &off    ,ngl    ,ipm     ,matly(jmly),etse ,&
-                &gs     ,sigy   ,epspl   ,israte   ,dpla)
+                &gs     ,sigy   ,epsd_pg ,lbuf%epsd  ,dpla)
               elseif (ilaw == 87) then
                 call sigeps87c(&
                 &nel      ,matparam ,nuvar    ,uvar     ,             &
@@ -1712,7 +1661,7 @@
                 &depsxx   ,depsyy   ,depsxy   ,depsyz   ,depszx   ,   &
                 &sigoxx   ,sigoyy   ,sigoxy   ,sigoyz   ,sigozx   ,   &
                 &signxx   ,signyy   ,signxy   ,signyz   ,signzx   ,   &
-                &ssp      ,lbuf%pla ,dpla     ,epspl    ,sigy     ,   &
+                &ssp      ,lbuf%pla ,dpla     ,epsd_pg  ,sigy     ,   &
                 &etse     ,gs       ,israte   ,asrate   ,lbuf%epsd,   &
                 &el_temp  ,bufly%l_sigb,lbuf%sigb,inloc ,varnl(1,it), &
                 &lbuf%seq ,jthe     ,off      ,lbuf%off ,nvartmp  ,   &
@@ -1723,7 +1672,6 @@
                 &npt    , ipt     ,ngl     , off    , ismstr   , gs ,&
                 &tf     , tt     , dt1c    , bufmat(iadbuf), rho   ,&
                 &area   , eint   , thklyl  ,&
-                &epspxx , epspyy , epspxy  , epspyz, epspzx,&
                 &depsxx , depsyy , depsxy  , depsyz, depszx,&
                 &epsxx  , epsyy  , epsxy   , epsyz , epszx ,&
                 &sigoxx,sigoyy,sigoxy,sigoyz,sigozx,&
@@ -1739,25 +1687,15 @@
                 &signxx   ,signyy   ,signxy   ,signyz   ,signzx   ,&
                 &ssp      ,thkn     ,lbuf%pla ,uvar     ,rho      ,&
                 &off      ,etse     ,thklyl   ,shf      ,sigy     ,&
-                &hardm    ,lbuf%seq ,epsp     ,asrate   ,nvartmp  ,&
+                &hardm    ,lbuf%seq ,lbuf%epsd,asrate   ,nvartmp  ,&
                 &vartmp   ,dpla     ,inloc    ,varnl(1,it),lbuf%off)
-!
-              elseif (ilaw == 96)then
-                call sigeps96c(&
-                &jlt     ,ngl     ,nuparam0 ,nuvar   ,nfunc   ,ifunc   ,&
-                &npf     ,tf      ,uparam0  ,uvar    ,jthe    ,gs      ,&
-                &rho     ,el_temp  ,lbuf%pla,ssp     ,off     ,epspl   ,&
-                &epspxx  ,epspyy  ,epspxy  ,epspyz  ,epspzx  ,thklyl  ,&
-                &depsxx  ,depsyy  ,depsxy  ,depsyz  ,depszx  ,thkn    ,&
-                &sigoxx,sigoyy,sigoxy,sigoyz,sigozx,&
-                &signxx  ,signyy  ,signxy  ,signyz  ,signzx  )
 !
               elseif (ilaw == 104 )then
 !
                 call sigeps104c(&
                 &jlt     ,ngl     ,ipg     ,ilayer  ,it      ,nuparam0 ,nuvar    ,&
                 &dt1c    ,tt      ,uparam0 ,uvar    ,jthe    ,rho      ,el_temp   ,&
-                &lbuf%pla,dpla    ,ssp     ,lbuf%off,lbuf%epsd,epspl   ,gs       ,&
+                &lbuf%pla,dpla    ,ssp     ,lbuf%off,lbuf%epsd,gs      ,&
                 &depsxx  ,depsyy  ,depsxy  ,depsyz  ,depszx  ,thklyl   ,off      ,&
                 &sigoxx,sigoyy,sigoxy,sigoyz,sigozx,&
                 &signxx  ,signyy  ,signxy  ,signyz  ,signzx  ,thkn     ,sigy     ,&
@@ -1780,24 +1718,24 @@
                 &jlt     ,ngl     ,nuparam0,nuvar   ,nvartmp  ,numtabl  ,&
                 &uparam0 ,uvar    ,vartmp  ,itable  ,table    ,jthe     ,&
                 &tt      ,dt1c    ,off     ,rho     ,lbuf%pla ,dpla     ,&
-                &ssp     ,sigy    ,etse    ,el_temp ,epsp     ,gs       ,&
+                &ssp     ,sigy    ,etse    ,el_temp ,lbuf%epsd,gs       ,&
                 &depsxx  ,depsyy  ,depsxy  ,depsyz  ,depszx   ,&
-                &sigoxx,sigoyy,sigoxy,sigoyz,sigozx,&
+                &sigoxx  ,sigoyy  ,sigoxy  ,sigoyz  ,sigozx   ,&
                 &signxx  ,signyy  ,signxy  ,signyz  ,signzx   ,&
-                &thkn    ,thklyl  ,inloc   ,varnl(1,it),epspl ,lbuf%off)
+                &thkn    ,thklyl  ,inloc   ,varnl(1,it),lbuf%off)
 !
               elseif (ilaw == 110 )then
                 call sigeps110c(&
                 &jlt     ,ngl     ,nuparam0 ,nuvar   ,npf      ,&
                 &tt      ,dt1c    ,uparam0  ,uvar    ,jthe     ,off     ,&
-                &gs      ,rho     ,lbuf%pla,dpla    ,epsp     ,ssp     ,&
+                &gs      ,rho     ,lbuf%pla,dpla    ,lbuf%epsd ,ssp     ,&
                 &depsxx  ,depsyy  ,depsxy  ,depsyz  ,depszx   ,asrate  ,&
                 &epspxx  ,epspyy  ,epspxy  ,epspyz  ,epspzx   ,&
                 &sigoxx,sigoyy,sigoxy,sigoyz,sigozx,&
                 &signxx  ,signyy  ,signxy  ,signyz  ,signzx   ,thklyl  ,&
                 &thkn    ,sigy    ,etse    ,el_temp  ,lbuf%temp,lbuf%seq,&
                 &tf      ,numtabl ,itable  ,table   ,nvartmp  ,vartmp  ,&
-                &lbuf%siga,inloc  ,varnl(1,it),epspl,lbuf%off ,ioff_duct)
+                &lbuf%siga,inloc  ,varnl(1,it),lbuf%off ,ioff_duct)
 !
               elseif (ilaw == 112 )then
                 call sigeps112c(&
@@ -1827,7 +1765,7 @@
                 &tf      ,dt1c    ,tt      ,uparam0  ,uvar    ,rho     ,lbuf%pla,&
                 &dpla    ,ssp     ,lbuf%epsd,gs     ,thkn    ,thklyl  ,off     ,&
                 &depsxx  ,depsyy  ,depsxy  ,depsyz  ,depszx  ,&
-                &epspxx  ,epspyy  ,epspxy  ,epspyz  ,epspzx  ,epsp    ,epspl   ,&
+                &epspxx  ,epspyy  ,epspxy  ,epspyz  ,epspzx  ,&
                 &sigoxx,sigoyy,sigoxy,sigoyz,sigozx,&
                 &signxx  ,signyy  ,signxy  ,signyz  ,signzx  ,&
                 &sigy    ,etse    ,varnl(1,it),inloc,gbuf%dt ,&
@@ -1843,7 +1781,7 @@
                 &signxx   ,signyy   ,signxy   ,signyz   ,signzx   ,&
                 &thkn     ,thklyl   ,off      ,sigy     ,etse     ,&
                 &lbuf%dmg ,lbuf%seq ,shf      ,ssp      ,&
-                &epsp     ,nfunc    ,ifunc    ,npf      ,tf       ,&
+                &epsd_pg  ,nfunc    ,ifunc    ,npf      ,tf       ,&
                 &nvartmp  ,vartmp   ,ioff_duct)
 !
               elseif (ilaw == 125) then
@@ -1851,13 +1789,13 @@
                &jlt      ,matparam   ,nuvar    ,uvar      ,&
                &rho      ,thkn       ,thklyl   , shf      ,&
                &nfunc    ,ifunc      ,npf      ,tf        ,snpc    ,&
-               &stf      ,epsp                                     ,&
+               &stf      ,epsd_pg                                  ,&
                &depsxx   ,depsyy     ,depsxy                       ,&
                &epsxx    ,epsyy      ,epsxy    ,epsyz    ,epszx    ,&
                &sigoxx   ,sigoyy     ,sigoxy                       ,&
                &signxx   ,signyy     ,signxy   ,signzx   ,signyz   ,&
-               &off      ,sigy       ,etse     ,ssp ,lbuf%dmg ,&
-                &gbuf%dmg  ,lbuf%off  )
+               &off      ,sigy       ,etse     ,ssp      ,lbuf%dmg ,&
+               &gbuf%dmg ,lbuf%off  )
 !
               elseif (ilaw == 127) then
                 ! ---
@@ -1874,7 +1812,7 @@
                 &jlt      ,matparam   ,nuvar    ,uvar      ,         &
                 &rho      ,thkn       ,thklyl   ,shf       ,ncycle  ,&
                 &nfunc    ,ifunc      ,npf      ,tf        ,snpc    ,&
-                &stf      ,epsp       ,npttot                       ,&
+                &stf      ,epsd_pg    ,npttot                       ,&
                 &depsxx   ,depsyy     ,depsxy   ,depsyz   ,depszx   ,&
                 &epsxx    ,epsyy      ,epsxy    ,epsyz    ,epszx    ,&
                 &sigoxx   ,sigoyy     ,sigoxy   ,sigozx   ,sigoyz   ,&
@@ -1889,12 +1827,12 @@
                 sigoyz(1:nel) = lbuf%sig(nel*3+1:nel*4)
                 sigozx(1:nel) = lbuf%sig(nel*4+1:nel*5)
 !
-                call sigeps128c(mat_elem%mat_param(imat),                     &
-                  nel      ,nuvar    ,nvartmp  ,uvar     ,vartmp   ,dt1 ,  &
+                call sigeps128c(mat_elem%mat_param(imat),                  &
+                  nel      ,nvartmp  ,vartmp   ,dt1      ,                 &
                   depsxx   ,depsyy   ,depsxy   ,depsyz   ,depszx   ,       &
                   sigoxx   ,sigoyy   ,sigoxy   ,sigoyz   ,sigozx   ,       &
                   signxx   ,signyy   ,signxy   ,signyz   ,signzx   ,       &
-                  ssp      ,thkn     ,lbuf%pla ,dpla     ,epsp     ,       &
+                  ssp      ,thkn     ,lbuf%pla ,dpla     ,lbuf%epsd,       &
                   off      ,etse     ,thklyl   ,shf      ,sigy     ,       &
                   hardm    ,lbuf%seq ,l_sigb   ,lbuf%sigb)
 !
@@ -2017,13 +1955,14 @@
                   if (inloc > 0) then
                     do i=jft,jlt
                       dpla(i)  = max(varnl(i,it),zero)
-                      epspl(i) = lbuf%epsdnl(i)
+                      epsd(i) = lbuf%epsdnl(i)
                     enddo
                     el_pla => lbuf%planl(1:nel)
                     ! classical local material
                   else
                     do i=jft,jlt
-                      dpla(i) = lbuf%pla(i) - pla0(i)
+                      dpla(i)  = lbuf%pla(i) - pla0(i)
+                      epsd(i) = lbuf%epsd(i)
                     enddo
                     el_pla => lbuf%pla(1:nel)
                   endif
@@ -2078,12 +2017,12 @@
                       &nel       ,nupar     ,nvarf     ,uparamf   ,uvarf     ,&
                       &tt        ,ngl       ,ipg       ,ilayer    ,it        ,&
                       &signxx    ,signyy    ,signxy    ,signyz    ,signzx    ,&
-                      &dpla      ,epspl     ,tstar     ,off       ,foff      ,&
+                      &dpla      ,epsd      ,tstar     ,off       ,foff      ,&
                       &dfmax     ,tdel      )
                     else if (matparam%ixfem > 0) then
                       call fail_johnson_xfem(&
                       &nel      ,nupar    ,uparamf  ,nvarf    ,uvarf    ,&
-                      &tt       ,tensx    ,dpla     ,epspl    ,tstar    ,&
+                      &tt       ,tensx    ,dpla     ,epsd     ,tstar    ,&
                       &ngl      ,ipt      ,mpt      ,nptt     ,uelr1    ,&
                       &signxx   ,signyy   ,signxy   ,signyz   ,signzx   ,&
                       &off      ,offl     ,gbuf%noff,dfmax    ,tdel     ,&
@@ -2126,7 +2065,7 @@
                       &signxx   ,signyy ,signxy ,signyz ,signzx  ,&
                       &epspxx   ,epspyy ,epspxy ,epspyz ,epspzx  ,&
                       &epsxx    ,epsyy  ,epsxy  ,epsyz  ,epszx   ,&
-                      &copy_pla ,dpla   ,epspl  ,uvarf  ,uelr    ,&
+                      &copy_pla ,dpla   ,epsd   ,uvarf  ,uelr    ,&
                       &off      ,aldt   ,area   ,dfmax,bidon4,bidon5 )
                     else
                       ! ----------------
@@ -2155,7 +2094,7 @@
                       &signxx   ,signyy ,signxy ,signyz ,signzx  ,&
                       &epspxx   ,epspyy ,epspxy ,epspyz ,epspzx  ,&
                       &epsxx    ,epsyy  ,epsxy  ,epsyz  ,epszx   ,&
-                      &copy_pla ,dpla   ,epspl  ,uvarf  ,uelr    ,&
+                      &copy_pla ,dpla   ,epsd   ,uvarf  ,uelr    ,&
                       &off      ,aldt   ,area   ,dfmax,bidon4,bidon5 )
                     else
                       ! ----------------
@@ -2184,7 +2123,7 @@
                       &signxx   ,signyy ,signxy ,signyz ,signzx  ,&
                       &epspxx   ,epspyy ,epspxy ,epspyz ,epspzx  ,&
                       &epsxx    ,epsyy  ,epsxy  ,epsyz  ,epszx   ,&
-                      &copy_pla ,dpla   ,epspl  ,uvarf  ,uelr    ,&
+                      &copy_pla ,dpla   ,epsd   ,uvarf  ,uelr    ,&
                       &off      ,aldt   ,area   ,dfmax,bidon4,bidon5 )
                     else
                       ! ----------------
@@ -2245,7 +2184,7 @@
                     call fail_tensstrain_c(&
                     &nel       ,nfunc_fail    ,nupar     ,nvarf     ,ifunc_fail    ,&
                     &uparamf   ,uvarf     ,npf       ,tf        ,tt        ,&
-                    &ngl       ,ipg       ,ilayer    ,it        ,epspl     ,&
+                    &ngl       ,ipg       ,ilayer    ,it        ,epsd      ,&
                     &epsxx     ,epsyy     ,epsxy     ,epsyz     ,epszx     ,&
                     &off       ,foff      ,dfmax     ,tdel      ,&
                     &dmg_flag  ,dmg_loc_scale ,aldt  ,tstar     ,ismstr    )
@@ -2254,7 +2193,7 @@
                     call fail_energy_c(&
                     &nel       ,nupar     ,nvarf     ,nfunc_fail   ,ifunc_fail     ,&
                     &uparamf   ,uvarf     ,npf       ,tf       ,tt         ,&
-                    &ngl       ,ipg       ,ilayer    ,it       ,epspl      ,&
+                    &ngl       ,ipg       ,ilayer    ,it       ,epsd       ,&
                     &area      ,thkn      ,dmg_flag  ,&
                     &dmg_loc_scale ,off   ,foff      ,dfmax    ,tdel       ,&
                     &signxx    ,signyy    ,signxy    ,signyz   ,signzx     ,&
@@ -2269,17 +2208,17 @@
                     &off       ,foff      ,lf_dammx  )
 !
                    case (14)     !    hashin failure model
-                    do i=jft,jlt
-                      epsp(i) = max(abs(epspxx(i)),abs(epspyy(i)),&
-                      &                                   abs(epspxy(i)),em20)
-                    enddo
+!                    do i=jft,jlt
+!                      epsp(i) = max(abs(epspxx(i)),abs(epspyy(i)),&
+!                      &                                   abs(epspxy(i)),em20)
+!                    enddo
                     call fail_hashin_c(&
                     &nel       ,nupar     ,nvarf     ,uparamf   ,uvarf      ,&
                     &tt        ,dt1c      ,ipg       ,ilayer    ,it         ,&
                     &ngl       ,dmg_flag  ,dmg_loc_scale,dfmax  ,tdel       ,&
                     &signxx    ,signyy    ,signxy    ,signyz    ,signzx     ,&
                     &off       ,foff      ,ply_id    ,&
-                    &epsp      ,fwave_el  ,gbuf%dmg  ,lf_dammx  )
+                    &epsd      ,fwave_el  ,gbuf%dmg  ,lf_dammx  )
 !
                    case (16)     !    modified puck failure model
                     call fail_puck_c(&
@@ -2296,7 +2235,7 @@
                       &nfunc_fail,ifunc_fail,table     ,npf       ,tf        ,&
                       &tt        ,ngl       ,ipg       ,ilayer    ,it        ,&
                       &signxx    ,signyy    ,signxy    ,ntabl_fail,itabl_fail,&
-                      &dpla      ,epspl     ,thkn      ,el_len    ,tstar     ,&
+                      &dpla      ,epsd      ,thkn      ,el_len    ,tstar     ,&
                       &dmg_flag  ,dmg_loc_scale ,off   ,foff      ,&
                       &dfmax     ,tdel      ,inloc     )
                     else if (matparam%ixfem > 0) then
@@ -2305,7 +2244,7 @@
                       &tt       ,dt1c     ,uparamf  ,ngl      ,ipt      ,&
                       &mpt      ,nfunc_fail,ifunc_fail   ,table    ,&
                       &signxx   ,signyy   ,signxy   ,signyz   ,signzx   ,&
-                      &dpla     ,epspl    ,tstar    ,tensx    ,uvarf    ,&
+                      &dpla     ,epsd     ,tstar    ,tensx    ,uvarf    ,&
                       &gbuf%noff,aldt     ,off      ,offl     ,elcrkini ,&
                       &ixfem    ,ixel     ,ilayer   ,dfmax    ,tdel     ,&
                       &dmg_flag ,ntabl_fail,itabl_fail)
@@ -2366,9 +2305,9 @@
                     &jlt      ,nvarf   ,&
                     &tt       ,uparamf ,ngl      ,ipt      ,mpt      ,&
                     &signxx   ,signyy  ,signxy   ,signyz   ,signzx   ,&
-                    &dpla     ,epspl   ,uvarf    ,uelr1    ,&
+                    &dpla     ,uvarf   ,uelr1    ,&
                     &off      ,offl    ,dfmax    ,tdel     ,nfunc_fail   ,&
-                    &ifunc_fail,npf     ,tf       ,el_len   ,foff     ,ipg      ,&
+                    &ifunc_fail,npf     ,tf      ,el_len   ,foff     ,ipg      ,&
                     &dmg_flag,dmg_loc_scale)
 !
                    case (31)     !    anisotropic fabric failure model
@@ -2429,7 +2368,7 @@
                       &nfunc_fail    ,ifunc_fail    ,npf       ,tf        ,&
                       &tt        ,ngl       ,ipg       ,ilayer    ,it        ,&
                       &signxx    ,signyy    ,signxy    ,signyz    ,signzx    ,&
-                      &dpla      ,epspl     ,thkn      ,el_len    ,tstar     ,&
+                      &dpla      ,epsd      ,thkn      ,el_len    ,tstar     ,&
                       &off       ,foff      ,dfmax     ,tdel      )
                     else if (matparam%ixfem > 0) then
                       call fail_tab_old_xfem(&
@@ -2437,7 +2376,7 @@
                       &tt       ,dt1c     ,uparamf  ,ngl      ,ipt      ,&
                       &mpt      ,nfunc_fail   ,ifunc_fail   ,dmg_flag ,&
                       &signxx   ,signyy   ,signxy   ,signyz   ,signzx   ,&
-                      &dpla     ,epspl    ,tstar    ,tensx    ,uvarf    ,&
+                      &dpla     ,epsd     ,tstar    ,tensx    ,uvarf    ,&
                       &gbuf%noff,aldt     ,off      ,offl     ,elcrkini ,&
                       &ixfem    ,ixel     ,ilayer   ,dfmax    ,tdel     )
                     endif
@@ -2448,7 +2387,7 @@
                     &jlt      ,nvarf   ,&
                     &tt       ,uparamf ,ngl      ,ipt      ,mpt      ,&
                     &signxx   ,signyy  ,signxy   ,signyz   ,signzx   ,&
-                    &dpla     ,epspl   ,uvarf    ,uelr1    ,&
+                    &dpla     ,epsd    ,uvarf    ,uelr1    ,&
                     &off      ,offl    ,dfmax    ,tdel     ,nfunc_fail   ,&
                     &ifunc_fail,npf    ,tf       ,el_len   ,foff     ,ipg    )
 !
@@ -2457,7 +2396,7 @@
                     call fail_gene1_c(&
                     &jlt      ,nupar    ,nvarf    ,nfunc_fail,ifunc_fail,&
                     &npf      ,tf       ,tt       ,dt1c     ,uparamf  ,ipg      ,&
-                    &ngl      ,gbuf%dt  ,epspl    ,uvarf    ,off      ,&
+                    &ngl      ,gbuf%dt  ,epsd     ,uvarf    ,off      ,&
                     &epsxx    ,epsyy    ,epsxy    ,area     ,thkn     ,&
                     &signxx   ,signyy   ,signxy   ,signyz   ,signzx   ,&
                     &el_temp  ,dfmax    ,aldt     ,table    ,tdel     ,&
@@ -2477,7 +2416,7 @@
                     call fail_tab2_c(&
                     &jlt      ,nupar    ,nvarf    ,nfunc_fail   ,ifunc_fail   ,&
                     &npf      ,table    ,tf       ,tt       ,uparamf  ,&
-                    &ngl      ,el_len   ,dpla     ,epspl    ,uvarf    ,&
+                    &ngl      ,el_len   ,dpla     ,epsd     ,uvarf    ,&
                     &signxx   ,signyy   ,signxy   ,signyz   ,signzx   ,&
                     &el_temp  ,foff     ,dfmax    ,tdel     ,ipt      ,&
                     &ipg      ,dmg_flag ,dmg_loc_scale,ntabl_fail,itabl_fail)
@@ -2487,7 +2426,7 @@
                     call fail_inievo_c(&
                     &jlt      ,nupar    ,nvarf    ,&
                     &table    ,ntabl_fail,itabl_fail   ,tt       ,uparamf  ,&
-                    &ngl      ,el_len   ,dpla     ,epspl    ,uvarf    ,&
+                    &ngl      ,el_len   ,dpla     ,epsd     ,uvarf    ,&
                     &signxx   ,signyy   ,signxy   ,signyz   ,signzx   ,&
                     &el_pla   ,el_temp  ,sigy     ,foff     ,dfmax    ,&
                     &tdel     ,ipt      ,ipg      ,dmg_flag ,dmg_loc_scale,&
@@ -2968,7 +2907,7 @@
           thk(jft:jlt) = max(thkn(jft:jlt),em30)
 !
           fact = onep414*dm
-          visc(jft:jlt) = fact*ssp(jft:jlt)*sqrt(area(jft:jlt))*dt_inv(jft:jlt)*rho(jft:jlt)
+          visc(jft:jlt) = fact*ssp(jft:jlt)*sqrt(area(jft:jlt))*dtinv*rho(jft:jlt)
 !
           for(jft:jlt,1)=for(jft:jlt,1)+visc(jft:jlt)*(exx(jft:jlt)+half*eyy(jft:jlt))
           for(jft:jlt,2)=for(jft:jlt,2)+visc(jft:jlt)*(eyy(jft:jlt)+half*exx(jft:jlt))

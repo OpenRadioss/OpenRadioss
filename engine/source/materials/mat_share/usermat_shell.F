@@ -103,7 +103,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      5       PID      ,TF       ,NPF      ,MTN       ,DT1C     ,DM       ,           
      6       BUFMAT   ,SSP      ,RHO      ,VISCMX    ,IPLA     ,IOFC     ,    
      7       INDX     ,NGL      ,THKLY    ,MATLY     ,ZCFAC    ,NG       ,               
-     8       SHF      ,GS       ,SIGY     ,THK0      ,EPSP     ,              
+     8       SHF      ,GS       ,SIGY     ,THK0      ,epsd_pg  ,              
      9       POSLY    ,IGEO     ,IPM      ,FAILWAVE  ,FWAVE_EL ,                                   
      A       IFAILURE ,ALDT     ,TEMPEL   ,DIE       ,                        
      B       R11      ,R12      ,R13      ,R21       ,R22      ,R23      ,    
@@ -164,10 +164,11 @@ C-----------------------------------------------
      .   IPARG(*),FWAVE_EL(NEL)
       INTEGER, INTENT(IN) :: NLAY_MAX, LAYNPT_MAX
       my_real DM
+      my_real, intent(in),dimension(mvsiz) :: epsd_pg !< global strain rate by Gauss pt
       my_real FOR(NEL,5),MOM(NEL,3),GSTR(NEL,8),THK(*),EINT(JLT,2),OFF(*),
      .   DIR_A(*),DIR_B(*),VISCMX(*),PM(NPROPM,*),THK_LY(NEL,*),
      .   AREA(*),GEO(NPROPG,*),TF(*),DT1C(*),THKLY(*),ALDT(*),
-     .   EXX(*), EYY(*), EXY(*), EXZ(*), EYZ(*), EPSP(*),
+     .   EXX(*), EYY(*), EXY(*), EXZ(*), EYZ(*), 
      .   KXX(*), KYY(*), KXY(*),BUFMAT(*),SSP(*),RHO(*),
      .   ZCFAC(MVSIZ,2),SHF(*),GS(*),SIGY(*),THK0(*),
      .   POSLY(MVSIZ,*),TEMPEL(MVSIZ),DIE(*),VARNL(NEL,*),
@@ -228,7 +229,6 @@ c
      .   T1,T2,T3,FACT,R3R3,S3S3,TRELAX, 
      .   BIDON1,BIDON2,BIDON3,BIDON4,BIDON5,VV,AA
       my_real COPY_PLA(MVSIZ)
-      my_real, DIMENSION(MVSIZ) :: DT_INV
       my_real, DIMENSION(NEL,5) :: DMG_ORTH_SCALE
       my_real  SCALE1(NEL)
       my_real ,DIMENSION(NEL), TARGET :: LE_MAX
@@ -255,7 +255,7 @@ c----
      .   DIRDMG,DIR_ORTH,ZZ,THLY,DAMINI
 c----
       LOGICAL :: LOGICAL_USERL_AVAIL
-      LOGICAL :: FLAG_EPS,FLAG_EPSP,FLAG_ZCFAC
+      LOGICAL :: FLAG_EPS,FLAG_ZCFAC
       LOGICAL, DIMENSION(NEL) :: PRINT_FAIL
       CHARACTER*256 MDS_LIBNAME
       INTEGER LENGTH
@@ -362,49 +362,7 @@ c
       VISCMX(1:MVSIZ) = ZERO
 !
 !       compute the inverse of dt and save the result 
-      DO I=JFT,JLT
-        DT_INV(I) = DT1C(I)/MAX(DT1C(I)**2,EM20)
-      ENDDO
-c-----------------------------------------------------------
-c     EQUIVALENT STRAIN RATE (au sens energetique)
-c-----------------------------------------------------------
-C     e = 1/t integ[1/2 E (eps_m + k z)^2 dz ]
-C     e = 1/2 E eps_eq^2
-C     eps_eq = sqrt[ eps_m^2 + 1/12 k^2t^2 ]
-c
-      IF (IXLAY > 0) THEN
-        MX = ELBUF_STR%BUFLY(IXLAY)%IMAT
-      ELSE
-        MX = MAT(JFT)
-      ENDIF
-      ISRATE = IPM(3,MX)
-c
-      IF (ISRATE == 1) THEN
-#include "vectorize.inc" 
-        DO I=JFT,JLT
-          EPS_K2 = (KXX(I)*KXX(I)+KYY(I)*KYY(I)+KXX(I)*KYY(I)
-     .           + FOURTH*KXY(I)*KXY(I)) *THK(I)*THK(I)*ONE_OVER_9
-          EPS_M2 = FOUR_OVER_3*(EXX(I)*EXX(I)+EYY(I)*EYY(I)+EXX(I)*EYY(I)
-     .           + FOURTH*EXY(I)*EXY(I))
-          EPSP_LOC(I) = SQRT(EPS_K2 + EPS_M2)*DT_INV(I)
-        END DO
-      ELSE IF (ISRATE > 1) THEN
-#include "vectorize.inc" 
-        DO I=JFT,JLT
-          EPS_M2  = FOUR_OVER_3*(EXX(I)*EXX(I)+EYY(I)*EYY(I)+EXX(I)*EYY(I)
-     .            + FOURTH*EXY(I)*EXY(I))
-          EPSP_LOC(I) = SQRT(EPS_M2)*DT_INV(I)
-        END DO
-      ENDIF
-c
-      IF (ISRATE > 0) THEN    ! strain rate filtering with exponential average
-        DO I=JFT,JLT
-          ASRATE = MIN(ONE, PM(9,MX)*DT1C(I))
-          EPSP(I) = ASRATE*EPSP_LOC(I) + (ONE-ASRATE)*EPSP(I)
-          EPSPL(I) = EPSP(I)
-          EPSPDT(I) = EPSP(I)*DT1C(I)
-        END DO
-      ENDIF
+      dtinv = dt1 / max(dt1**2,em20)  ! inverse of dt
 c-----------------------------------------------------------
 c---- intermediate buffer for GET_U_VAR function
       IF (TT == ZERO) THEN
@@ -476,23 +434,7 @@ c
           IFUNC(I)=IPM(10+I,IMAT)
         ENDDO  
 
-        FLAG_EPSP = .TRUE.
         FLAG_EPS  = .TRUE.
-
-        IF (IFAILURE == 1) THEN   
-          DO IT=1,NPTT                                                         
-            FBUF => BUFLY%FAIL(IR,IS,IT)                   
-            DO IFL = 1, NFAIL      ! loop over fail models in current layer
-              IRUPT  =  FBUF%FLOC(IFL)%ILAWF
-              IF(IRUPT== 4.OR.IRUPT== 5.OR.IRUPT== 6.OR.IRUPT==7.OR.
-     .           IRUPT==10.OR.IRUPT==24.OR.IRUPT==34.OR.IRUPT==39.OR.
-     .           IRUPT==43.OR.IRUPT==47) FLAG_EPS=.TRUE.
-
-              IF(IRUPT== 4.OR.IRUPT== 5.OR.IRUPT== 6.OR.
-     .           IRUPT==14.OR.IRUPT==24) FLAG_EPSP=.TRUE.
-            ENDDO
-          ENDDO
-        ENDIF
 
 !       DEPSYZ/ZX and EPSYZ/ZX are IT independent
 !       EPSXY is IT independent for IGTYP/=1
@@ -508,6 +450,13 @@ c
             EPSZX(JFT:JLT)  = ZERO
           ENDIF 
         ENDIF
+!
+      israte = ipm(3,imat)
+      if (israte > 0) then
+        asrate = min(one, pm(9,imat)*dt1)
+      else
+        asrate = one
+      end if
 c----------------------------------------------------------------------
 !---
         L_DMG = BUFLY%L_DMG
@@ -537,6 +486,18 @@ c
           ELSE
              EL_TEMP => TEMPEL(1:NEL)
           ENDIF
+!----------------------------------------------------------------------
+          ! global strain rate for materials which still use it
+          ! it may be overloaded by local material law strain rate 
+          ! the same value should be used in material and failure models 
+          if (bufly%l_epsd > 0) then
+            do i=1,nel
+              epspl(i)  = asrate*epsd_pg(i) + (one-asrate)*lbuf%epsd(i)
+              epspdt(i) = epspl(i)*dt1
+            end do
+          else
+            epspl(1:nel) = zero
+          end if       
 C-----------------------------------------
 c         COORDONNEES DU POINT D'INTEGRATION IPT
 C-----------------------------------------
@@ -682,16 +643,13 @@ C
 !       end of IGTYP
 !       -------------------------------
 C---
-          IF (FLAG_EPSP) THEN
-            DO I=JFT,JLT
-              DTINV   =DT_INV(I)!DT1C(I)/MAX(DT1C(I)**2,EM20)
-              EPSPXX(I)=DEPSXX(I)*DTINV
-              EPSPYY(I)=DEPSYY(I)*DTINV
-              EPSPXY(I)=DEPSXY(I)*DTINV
-              EPSPYZ(I)=DEPSYZ(I)*DTINV
-              EPSPZX(I)=DEPSZX(I)*DTINV
-            ENDDO
-          ENDIF  
+          DO I=JFT,JLT
+            EPSPXX(I)=DEPSXX(I)*DTINV
+            EPSPYY(I)=DEPSYY(I)*DTINV
+            EPSPXY(I)=DEPSXY(I)*DTINV
+            EPSPYZ(I)=DEPSYZ(I)*DTINV
+            EPSPZX(I)=DEPSZX(I)*DTINV
+          ENDDO
           DPLA(1:MVSIZ) = ZERO
           IF (IFAILURE == 1) THEN  
            IF (ELBUF_STR%BUFLY(ILAYER)%L_PLA > 0) THEN
@@ -1537,17 +1495,17 @@ c
      5               OFF       ,FOFF      ,LF_DAMMX  )
 c
               CASE (14)     !    Hashin failure model  
-                DO I=JFT,JLT        
-                  EPSP(I) = MAX(ABS(EPSPXX(I)),ABS(EPSPYY(I)),
-     .                          ABS(EPSPXY(I)),EM20)
-                ENDDO            
+!                DO I=JFT,JLT        
+!                  EPSP(I) = MAX(ABS(EPSPXX(I)),ABS(EPSPYY(I)),
+!     .                          ABS(EPSPXY(I)),EM20)
+!                ENDDO            
                 CALL FAIL_HASHIN_C(
      1               NEL       ,NUPAR     ,NVARF     ,UPARAMF   ,UVARF      ,
      2               TT        ,DT1C      ,IPG       ,ILAYER    ,IT         ,
      3               NGL       ,DMG_FLAG  ,DMG_LOC_SCALE ,DFMAX     ,TDEL       ,
      4               SIGNXX    ,SIGNYY    ,SIGNXY    ,SIGNYZ    ,SIGNZX     ,        
      5               OFF       ,FOFF      ,PLY_ID    ,
-     6               EPSP      ,FWAVE_EL  ,DADV      ,LF_DAMMX  ) 
+     6               EPSPL     ,FWAVE_EL  ,DADV      ,LF_DAMMX  ) 
 c
               CASE (16)     !    Modified Puck failure model
                 CALL FAIL_PUCK_C(
@@ -1634,7 +1592,7 @@ c
      1          JLT      ,NVARF   ,
      2          TT       ,UPARAMF ,NGL      ,IPT      ,MPT      ,
      3          SIGNXX   ,SIGNYY  ,SIGNXY   ,SIGNYZ   ,SIGNZX   ,
-     4          DPLA     ,EPSPL   ,UVARF    ,UELR1    ,
+     4          DPLA     ,UVARF   ,UELR1    ,
      5          OFF      ,OFFL    ,DFMAX    ,TDEL     ,NFUNC_FAIL,
      6          IFUNC_FAIL,NPF    ,TF       ,EL_LEN   ,FOFF     ,IPG      ,
      7          DMG_FLAG ,DMG_LOC_SCALE)
@@ -2132,7 +2090,7 @@ c
       THK(JFT:JLT) = MAX(THKN(JFT:JLT),EM30)
 c
       FACT = ONEP414*DM
-      VISC(JFT:JLT) = FACT*SSP(JFT:JLT)*SQRT(AREA(JFT:JLT))*DT_INV(JFT:JLT)*RHO(JFT:JLT)
+      VISC(JFT:JLT) = FACT*SSP(JFT:JLT)*SQRT(AREA(JFT:JLT))*DTINV*RHO(JFT:JLT)
 c
         FOR(JFT:JLT,1)=FOR(JFT:JLT,1)+VISC(JFT:JLT)*(EXX(JFT:JLT)+HALF*EYY(JFT:JLT))
         FOR(JFT:JLT,2)=FOR(JFT:JLT,2)+VISC(JFT:JLT)*(EYY(JFT:JLT)+HALF*EXX(JFT:JLT))

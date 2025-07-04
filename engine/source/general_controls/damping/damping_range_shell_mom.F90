@@ -44,7 +44,7 @@
       !||    elbufdef_mod              ../common_source/modules/mat_elem/elbufdef_mod.F90
       !||    precision_mod             ../common_source/modules/precision_mod.F90
       !||====================================================================
-        subroutine damping_range_shell_mom(damp_buf,nel      ,nuvarv  ,timestep ,dt_inv   ,       &
+        subroutine damping_range_shell_mom(damp_buf,nel      ,nuvarv  ,timestep ,dtinv   ,       &
                                            young   ,shear_mod,depbxx  ,depbyy   ,depbxy   ,       &
                                            momnxx  ,momnyy   ,momnxy  ,thk0     ,uvarv    ,       &
                                            off     ,etse)
@@ -64,13 +64,13 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
-          integer,                                   intent(in)    :: nel                      !< number of elements
-          integer,                                   intent(in)    :: nuvarv                   !< number of variables in buf_visc
+          integer,                                   intent(in)    :: nel     !< number of elements
+          integer,                                   intent(in)    :: nuvarv  !< number of variables in buf_visc
+          real(kind=WP),                             intent(in)    :: dtinv       
           real(kind=WP), dimension(nel,nuvarv) ,           intent(inout) :: uvarv                    !< buffer for viscous variables
           real(kind=WP),                                   intent(in)    :: timestep                 !< time step
           real(kind=WP),                                   intent(in)    :: young                    !< young modulus
           real(kind=WP),                                   intent(in)    :: shear_mod                !< shear modulus
-          real(kind=WP), dimension(nel) ,                  intent(in)    :: dt_inv                   !< strain xx          
           real(kind=WP), dimension(nel) ,                  intent(in)    :: depbxx                   !< strain xx
           real(kind=WP), dimension(nel) ,                  intent(in)    :: depbyy                   !< strain yy
           real(kind=WP), dimension(nel) ,                  intent(in)    :: depbxy                   !< strain xy          
@@ -123,12 +123,12 @@
           enddo
 !                
           do i=1,nel 
-            epspbxx = depbxx(i)*dt_inv(i)
-            epspbyy = depbyy(i)*dt_inv(i)      
+            epspbxx = depbxx(i)*dtinv
+            epspbyy = depbyy(i)*dtinv      
             dav =  ((one+fac_nu(i))/three)*(epspbxx + epspbyy)
             epbxx = ((two-fac_nu(i))/three)*epspbxx - ((one+fac_nu(i))/three)*epspbyy
             epbyy = ((two-fac_nu(i))/three)*epspbyy - ((one+fac_nu(i))/three)*epspbxx
-            epbxy = depbxy(i)*dt_inv(i)   
+            epbxy = depbxy(i)*dtinv   
 !  
             do j= 1,3    
               ii = offset + 4*(j-1)     

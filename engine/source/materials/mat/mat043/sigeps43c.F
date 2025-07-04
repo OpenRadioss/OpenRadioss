@@ -40,7 +40,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      9     SOUNDSP  ,THK      ,PLA      ,UVAR     ,OFF      ,
      A     NGL      ,ETSE     ,HARDM    ,SIGY     ,GS       , 
      B     DPLA1    ,EPSP     ,SHF      ,INLOC    ,DPLANL   ,
-     C     SEQ      ,LOFF     )
+     C     SEQ      ,LOFF     ,ASRATE   ,EPSD_PG  )
 C=======================================================================
 C   Tabulated Hill material model
 C=======================================================================
@@ -56,6 +56,9 @@ C   I N P U T   A R G U M E N T S
 C-----------------------------------------------
       INTEGER NEL, NUPARAM, NUVAR, NFUNC ,ISRATE,INLOC
       INTEGER NGL(NEL),IFUNC(NFUNC)
+      my_real ,INTENT(IN) :: ASRATE
+      my_real ,DIMENSION(NEL) ,INTENT(IN)    :: EPSD_PG
+      my_real ,DIMENSION(NEL) ,INTENT(INOUT) :: EPSP
       my_real 
      .   TIME,TIMESTEP,UPARAM(NUPARAM),AREA(NEL),RHO0(NEL),EINT(NEL,2),
      .   THKLY(NEL),PLA(NEL),EPSPXX(NEL),EPSPYY(NEL),GS(NEL),SHF(NEL),
@@ -77,8 +80,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I N P U T   O U T P U T   A R G U M E N T S 
 C-----------------------------------------------
-      my_real UVAR(NEL,NUVAR), OFF(NEL),THK(NEL),
-     .        DPLA1(NEL),EPSP(NEL)
+      my_real UVAR(NEL,NUVAR), OFF(NEL),THK(NEL),DPLA1(NEL)
 C-----------------------------------------------
 C   VARIABLES FOR FUNCTION INTERPOLATION 
 C-----------------------------------------------
@@ -164,22 +166,8 @@ c------------------------------------------------------
            ENDIF                                                                    
         ENDDO
       ENDIF
-
 c--------------------------------------------------------------
-c      IF (TIME == ZERO) THEN  
-c        DO I=1,NEL            
-c          DO J=1,NRATE(I)     
-c            UVAR(I,J+4) = ONE
-c          ENDDO               
-c        ENDDO                 
-c      ENDIF                   
-C
-      DO I=1,NEL
-!        SIGOXX(I) = SIGOXX(I) - UVAR(I,2)
-!        SIGOYY(I) = SIGOYY(I) - UVAR(I,3)
-!        SIGOXY(I) = SIGOXY(I) - UVAR(I,4)
-        DPLA1(I) = ZERO           
-      ENDDO
+      DPLA1(1:NEL) = ZERO           
       DO I=1,NEL
         SIGNXX(I)=SIGOXX(I) - UVAR(I,2) +A1(I)*DEPSXX(I)+A2(I)*DEPSYY(I)
         SIGNYY(I)=SIGOYY(I) - UVAR(I,3) +A2(I)*DEPSXX(I)+A1(I)*DEPSYY(I)
@@ -190,12 +178,14 @@ C
         SOUNDSP(I) = SQRT(A1(I)/RHO0(I))
         ETSE(I) = ONE
 C-------------------
-C     STRAIN RATE
+C       STRAIN RATE
 C-------------------
         IF (ISRATE == 0) THEN
           EPSP(I) = HALF*( ABS(EPSPXX(I)+EPSPYY(I))
      .            + SQRT( (EPSPXX(I)-EPSPYY(I))*(EPSPXX(I)-EPSPYY(I))
      .            + EPSPXY(I)*EPSPXY(I) ) )
+        ELSE
+          EPSP(I) = ASRATE*EPSD_PG(I) + (ONE-ASRATE)*EPSP(I)
         ENDIF
 C-------------------
 C     STRAIN 

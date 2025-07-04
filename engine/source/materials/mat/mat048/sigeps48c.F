@@ -39,7 +39,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      A     SOUNDSP,VISCMAX,THK     ,PLA     ,UVAR   ,
      B     OFF    ,NGL    ,IPM     ,MAT     ,ETSE   ,
      C     GS     ,YLD    ,EPSP    ,DPLA_I  ,ISRATE ,
-     D     INLOC  ,DPLANL ,LOFF    )
+     D     ASRATE ,EPSD_PG,INLOC   ,DPLANL  ,LOFF   )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -106,6 +106,9 @@ C-----------------------------------------------
 C
       INTEGER NEL0, NUPARAM, NUVAR, NPT0,ISRATE, IPT,IFLAG(*),
      .   NGL(NEL0),MAT(NEL0),IPM(NPROPMI,*),INLOC
+      my_real ,INTENT(IN) :: ASRATE
+      my_real ,DIMENSION(NEL0) ,INTENT(IN)    :: EPSD_PG
+      my_real ,DIMENSION(NEL0) ,INTENT(INOUT) :: EPSP
       my_real
      . TIME,TIMESTEP,UPARAM(*),
      .   AREA(NEL0),RHO0(NEL0),EINT(NEL0,2),
@@ -118,7 +121,7 @@ C
      .   EPSXY(NEL0) ,EPSYZ(NEL0) ,EPSZX(NEL0) ,
      .   SIGOXX(NEL0),SIGOYY(NEL0),
      .   SIGOXY(NEL0),SIGOYZ(NEL0),SIGOZX(NEL0),
-     .   GS(*),EPSP(NEL0),DPLANL(NEL0)
+     .   GS(*),DPLANL(NEL0)
       my_real, DIMENSION(NEL0), INTENT(IN) :: LOFF
 C-----------------------------------------------
 C   O U T P U T   A r g u m e n t s
@@ -229,11 +232,13 @@ C
 C-------------------
 C     STRAIN RATE
 C-------------------
-C
-         IF (ISRATE == 0) EPSP(I) = 
-     .     HALF*( ABS(EPSPXX(I)+EPSPYY(I))
-     .   + SQRT( (EPSPXX(I)-EPSPYY(I))*(EPSPXX(I)-EPSPYY(I))
-     .                 + EPSPXY(I)*EPSPXY(I) ) )
+         IF (ISRATE == 0) THEN
+           EPSP(I) = HALF*( ABS(EPSPXX(I)+EPSPYY(I))
+     .             + SQRT( (EPSPXX(I)-EPSPYY(I))*(EPSPXX(I)-EPSPYY(I))
+     .             + EPSPXY(I)*EPSPXY(I) ) )
+         ELSE
+           EPSP(I) = ASRATE*EPSD_PG(I) + (ONE-ASRATE)*EPSP(I)
+         END IF
 C-------------------
 C     STRAIN 
 C-------------------

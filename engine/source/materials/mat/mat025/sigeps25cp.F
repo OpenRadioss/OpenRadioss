@@ -32,11 +32,12 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       SUBROUTINE SIGEPS25CP(MAT_PARAM,
      1                      JFT    ,JLT    ,OFF    ,DIR    ,
      2                      SHF    ,NPT    ,NGL    ,IPT    ,OFF_OLD,
-     3                      THK0   ,EPSPL  ,SIGY   ,ZCFAC  ,NEL    ,
+     3                      THK0   ,EPSD   ,SIGY   ,ZCFAC  ,NEL    ,
      4                      DEPSXX ,DEPSYY ,DEPSXY ,DEPSYZ ,DEPSZX ,
      5                      SIGOXX ,SIGOYY ,SIGOXY ,SIGOYZ ,SIGOZX ,
      6                      SIGNXX ,SIGNYY ,SIGNXY ,SIGNYZ ,SIGNZX ,
-     7                      WPLAR  ,IOFF_DUCT,PLA  ,ISRATE ,TSAIWU )
+     7                      WPLAR  ,IOFF_DUCT,PLA  ,ISRATE ,ASRATE ,
+     8                      EPSD_PG,TSAIWU )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -59,9 +60,12 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JFT,JLT,NPT,NEL,IPT
       INTEGER NGL(MVSIZ),IOFF_DUCT(MVSIZ),ISRATE
+      my_real ,INTENT(IN) :: ASRATE
+      my_real ,DIMENSION(NEL) ,INTENT(IN)    :: EPSD_PG
+      my_real ,DIMENSION(NEL) ,INTENT(INOUT) :: EPSD
       my_real
      .   THK0(MVSIZ),
-     .   OFF(*),DIR(*),SHF(*),EPSPL(*),SIGY(*),ZCFAC(MVSIZ,2),
+     .   OFF(*),DIR(*),SHF(*),SIGY(*),ZCFAC(MVSIZ,2),
      .   DEPSXX(MVSIZ),DEPSYY(MVSIZ),DEPSXY(MVSIZ),DEPSYZ(MVSIZ),
      .   DEPSZX(MVSIZ),SIGOXX(NEL),SIGOYY(NEL),SIGOXY(NEL),
      .   SIGOYZ(NEL),SIGOZX(NEL),SIGNXX(NEL),SIGNYY(NEL),SIGNXY(NEL),
@@ -144,10 +148,10 @@ C=======================================================================
      3                 WWPLA  ,SHF    ,FMAX   ,CB     ,CN     ,NEL    ,
      4                 DEGMB  ,F1     ,F2     ,F12    ,F11    ,F22    ,
      5                 F33    ,E11    ,E22    ,NU12   ,NU21   ,G12    ,
-     6                 G23    ,G31    ,DE     ,EPSPL  ,ISRATE ,YLD    ,
+     6                 G23    ,G31    ,DE     ,EPSD   ,ISRATE ,YLD    ,
      7                 DEPSXX ,DEPSYY ,DEPSXY ,DEPSYZ ,DEPSZX ,SIGOXX ,
      8                 SIGOYY ,SIGOXY ,SIGOYZ ,SIGOZX ,SIGNXX ,SIGNYY ,
-     9                 SIGNXY ,SIGNYZ ,SIGNZX ,TSAIWU )
+     9                 SIGNXY ,SIGNYZ ,SIGNZX ,TSAIWU ,ASRATE ,EPSD_PG)
 !
         DO I=JFT,JLT
           WPLAR(I) = MAX(WPLAR(I),WWPLA(I))

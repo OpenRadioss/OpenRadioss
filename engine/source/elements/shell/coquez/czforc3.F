@@ -253,8 +253,9 @@ C--------------------------------
      .  A_IT(MVSIZ),F_DEF(MVSIZ,8), U13(MVSIZ,2),U24(MVSIZ,2),
      .  AXYZ(MVSIZ,4),WXY(MVSIZ),FAC58(MVSIZ,2) 
        my_real , DIMENSION (NEL) :: ZOFFSET
-!     variables for heat transfer
-      my_real, dimension(mvsiz) :: fheat
+      my_real :: dtinv,asrate,eps_m2,eps_k2
+      my_real, dimension(nel)   :: epsd_pg
+      my_real, dimension(mvsiz) :: fheat    !  variable for heat transfer
 !
 C--- Variables pour le non-local
       INTEGER :: NDDL, K, INOD(4),NC1(MVSIZ), NC2(MVSIZ), NC3(MVSIZ), NC4(MVSIZ),
@@ -559,7 +560,24 @@ c-------------------------------------------
           ENDDO
         ENDDO
       ENDIF     
-C-----------------
+!-------------------------------------------------------------------------------
+!       global element strain rate (shell energy equivalent)
+!-----------------------------------------------------------
+!       e = 1/t integ[1/2 e (eps_m + k z)^2 dz ]
+!       e = 1/2 e eps_eq^2
+!       eps_eq = sqrt[ eps_m^2 + 1/12 k^2t^2 ]
+!-------------------------------------------------------------------------------
+      dtinv = dt1 / max(dt1**2,em20)  ! inverse of dt
+      asrate = one   ! to be changed for default value
+#include "vectorize.inc"
+      do i = 1,nel
+        eps_k2 = (kxx(i)*kxx(i)+kyy(i)*kyy(i)+kxx(i)*kyy(i)              
+     &         + fourth*one_over_9*kxy(i)*kxy(i)) * gbuf%thk(i)**2
+        eps_m2 = four_over_3*(exx(i)*exx(i)+eyy(i)*eyy(i)+exx(i)*eyy(i)  
+     &         + fourth*exy(i)*exy(i))
+        epsd_pg(i) = sqrt(eps_k2 + eps_m2)*dtinv
+      end do
+!-------------------------------------------------------------------------------
       ! transfer nodal temperature to gauss points (/heat/mat)
       IF (JTHE /= 0) THEN      
         CALL TEMPCG(NUMNOD,NEL   ,IXC  ,TEMP ,TEMPEL )
@@ -578,7 +596,7 @@ C-----------------------------------------------
      8      GBUF%FOR  ,GBUF%MOM  ,GBUF%STRA ,FAILWAVE  ,FWAVE_EL   ,
      9      GBUF%THK  ,GBUF%EINT ,IOFC      ,
      A      G         ,A11       ,A12       ,VOL0      ,INDXOF     ,
-     B      NGL       ,ZCFAC     ,SHF       ,GS        ,GBUF%EPSD  ,
+     B      NGL       ,ZCFAC     ,SHF       ,GS        ,epsd_pg    ,
      C      KFTS      ,IHBE      ,ALPE      ,
      D      DIR_A     ,DIR_B     ,IGEO      ,
      E      IPM       ,IFAILURE  ,NPG       ,FHEAT     ,
@@ -597,6 +615,7 @@ C-----------------------------------------------
      Q      NCYCLE    ,SNPC      ,STF         ,NXLAYMAX  ,IDEL7NOK  ,
      S      USERL_AVAIL ,MAXFUNC ,NPTTOT      ,SBUFMAT   ,SDIR_A    ,
      T      SDIR_B   ,GBUF%FOR_G )
+
 C-----------------------------------------------
 c        
       IF ((ITASK==0).AND.(IMON_MAT==1)) CALL STOPTIME(TIMERS,35)

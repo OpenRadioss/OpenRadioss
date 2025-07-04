@@ -48,14 +48,14 @@
       !||    message_mod        ../engine/share/message_module/message_mod.F
       !||    precision_mod      ../common_source/modules/precision_mod.F90
       !||====================================================================
-        subroutine mat25_crasurv_c(mat_param   ,                                &
+        subroutine mat25_crasurv_c(mat_param   ,                       &
           nel     ,off     ,sig     ,                                  &
           wpla    ,dir     ,crak    ,                                  &
           nfis1   ,nfis2   ,nfis3   ,ilayer  ,shf   ,                  &
           ngl     ,eps     ,wplar   ,strn1 ,                           &
           strn2   ,strn3   ,strp1   ,strp2   ,sige  ,                  &
-          epsp    ,israte  ,offply  ,sigy    ,etse  ,                  &
-          outv    ,ishplyxfem,ly_exx,ly_eyy,                           &
+          epsd_pg ,epsd    ,israte  ,asrate  ,offply,                  &
+          sigy    ,etse    ,outv    ,ishplyxfem,ly_exx,ly_eyy,         &
           ly_exy  ,sigply  ,sigpe   ,ply_id  ,                         &
           signxx  ,signyy  ,signxy  ,signyz  ,signzx,                  &
           ipg     ,tsaiwu  ,iplyxfem,time    ,timestep,                &
@@ -84,8 +84,9 @@
           integer ,intent(in) :: ishplyxfem                !< ply Xfem flag
           integer ,intent(in) :: iplyxfem                  !< ply Xfem flag
           integer ,intent(in) :: ngl(mvsiz)                !< element ID table
-          real(kind=WP) ,intent(in) :: time                      !< current time
-          real(kind=WP) ,intent(in) :: timestep                  !< current time step
+          real(kind=WP) ,intent(in) :: time                !< current time
+          real(kind=WP) ,intent(in) :: timestep            !< current time step
+          real(kind=WP) ,intent(in) :: asrate              !< strain rate filtering coefficient
           integer ,intent(in) :: l_dmg                     !< second dimension of damage table
           integer ,dimension(nel) ,intent(inout) :: outv   !< failure flag
           integer ,dimension(nel) ,intent(inout) :: nfis1  !< failure counter in 1st direction
@@ -97,7 +98,8 @@
           real(kind=WP) :: dir(nel,2)                            !< orthotropy directions
           real(kind=WP) :: crak(nel,2)                           !< ply Xfem failure criterion
           real(kind=WP) :: shf(nel)                              !< transverse shear factor
-          real(kind=WP) :: epsp(nel)                             !< equivalent strain rate
+          real(kind=WP) :: epsd_pg(nel)                          !< global strain rate in Gauss point
+          real(kind=WP) :: epsd(nel)                             !< local strain rate (lbuf%epsd)
           real(kind=WP) :: eps(mvsiz,5)                          !< total strain tensor
           real(kind=WP) :: wplar(mvsiz)                          !< reference plastic work
           real(kind=WP) :: strp1(mvsiz)                          !< strain in 1st orthotropic direction
@@ -151,6 +153,7 @@
           real(kind=WP) ,dimension(nel) :: so1,so2,so3,s1,s2,s3,s4,s5
           real(kind=WP) ,dimension(nel) :: wplamx,wplamxt1,wplamxt2
           real(kind=WP) ,dimension(nel) :: wplamxc1,wplamxc2,wplamxt12
+          real(kind=WP) ,dimension(nel) :: epspfac
           real(kind=WP) ,dimension(mvsiz,5) :: epsply
           real(kind=WP) ,dimension(mvsiz,3) :: eply
 !=======================================================================
@@ -513,16 +516,20 @@
 !-------------------------------------------------------------------
           if (israte == 0) then
             do i=1,nel
-              epsp(i) = max(                                       &
+              epsd(i) = max(                                       &
                 abs(eps(i,1)),abs(eps(i,2)),abs(eps(i,3)),           &
                 abs(eps(i,4)),abs(eps(i,5))) / max(timestep,em20)
             enddo
+          else
+            do i=1,nel
+              epsd(i) = asrate*epsd_pg(i) + (one-asrate)*epsd(i)
+            enddo
           endif
           do i=1,nel
-            if (epsp(i) > epdr) then
-              epsp(i) = log(epsp(i)/epdr)
+            if (epsd(i) > epdr) then
+              epspfac(i) = log(epsd(i)/epdr)
             else
-              epsp(i) = zero
+              epspfac(i) = zero
             endif
             coef(i)   = zero
           enddo
@@ -548,17 +555,17 @@
               sigyc1 = min(sigyc1 ,sigmxc1)
               sigyc2 = min(sigyc2 ,sigmxc2)
               sigyt12= min(sigyt12,sigmxt12)
-              sigyt1 = sigyt1*(one  + cc_t1 *epsp(i))
-              sigyt2 = sigyt2*(one  + cc_t2 *epsp(i))
-              sigyc1 = sigyc1*(one  + cc_c1 *epsp(i))
-              sigyc2 = sigyc2*(one  + cc_c2 *epsp(i))
-              sigyt12= sigyt12*(one + cc_t12*epsp(i))
+              sigyt1 = sigyt1*(one  + cc_t1 *epspfac(i))
+              sigyt2 = sigyt2*(one  + cc_t2 *epspfac(i))
+              sigyc1 = sigyc1*(one  + cc_c1 *epspfac(i))
+              sigyc2 = sigyc2*(one  + cc_c2 *epspfac(i))
+              sigyt12= sigyt12*(one + cc_t12*epspfac(i))
             else
-              sigyt1 = sigyt1*(one  + cc_t1 *epsp(i))
-              sigyt2 = sigyt2*(one  + cc_t2 *epsp(i))
-              sigyc1 = sigyc1*(one  + cc_c1 *epsp(i))
-              sigyc2 = sigyc2*(one  + cc_c2 *epsp(i))
-              sigyt12= sigyt12*(one + cc_t12*epsp(i))
+              sigyt1 = sigyt1*(one  + cc_t1 *epspfac(i))
+              sigyt2 = sigyt2*(one  + cc_t2 *epspfac(i))
+              sigyc1 = sigyc1*(one  + cc_c1 *epspfac(i))
+              sigyc2 = sigyc2*(one  + cc_c2 *epspfac(i))
+              sigyt12= sigyt12*(one + cc_t12*epspfac(i))
               sigyt1 = min(sigyt1 ,sigmxt1 )
               sigyt2 = min(sigyt2 ,sigmxt2 )
               sigyc1 = min(sigyc1 ,sigmxc1 )
@@ -629,14 +636,14 @@
             f12(i) = -alpha/(two*sqrt(sigyt1*sigyc1*sigyt2*sigyc2))
             sigy(i)= min(sigyt1,sigyc1,sigyt2,sigyc2,sigyt12)
 !
-            epsp(i) = one + cc * epsp(i)
+            epspfac(i) = one + cc * epspfac(i)
             if (icc==3 .or. icc==4) then
-              wplamx(i)    = wplamx(i)   * epsp(i)
-              wplamxt1(i)  = wplamxt1(i) * epsp(i)
-              wplamxt2(i)  = wplamxt2(i) * epsp(i)
-              wplamxc1(i)  = wplamxc1(i) * epsp(i)
-              wplamxc2(i)  = wplamxc2(i) * epsp(i)
-              wplamxt12(i) = wplamxt12(i)* epsp(i)
+              wplamx(i)    = wplamx(i)   * epspfac(i)
+              wplamxt1(i)  = wplamxt1(i) * epspfac(i)
+              wplamxt2(i)  = wplamxt2(i) * epspfac(i)
+              wplamxc1(i)  = wplamxc1(i) * epspfac(i)
+              wplamxc2(i)  = wplamxc2(i) * epspfac(i)
+              wplamxt12(i) = wplamxt12(i)* epspfac(i)
             endif
           enddo
 !-------------------------------------------------------------------

@@ -36,7 +36,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      2     TF      ,TIMESTEP,TIME    ,UPARAM  ,UVAR    ,RHO     ,PLA     ,
      3     DPLA    ,SOUNDSP ,EPSD    ,GS      ,THK     ,THKLY   ,OFF     ,
      4     DEPSXX  ,DEPSYY  ,DEPSXY  ,DEPSYZ  ,DEPSZX  ,
-     5     EPSPXX  ,EPSPYY  ,EPSPXY  ,EPSPYZ  ,EPSPZX  ,EPSP    ,EPSPL   ,
+     5     EPSPXX  ,EPSPYY  ,EPSPXY  ,EPSPYZ  ,EPSPZX  ,
      6     SIGOXX  ,SIGOYY  ,SIGOXY  ,SIGOYZ  ,SIGOZX  ,
      7     SIGNXX  ,SIGNYY  ,SIGNXY  ,SIGNYZ  ,SIGNZX  ,
      8     SIGY    ,ET      ,VARNL   ,INLOC   ,DT      ,
@@ -70,8 +70,7 @@ C-----------------------------------------------
      .   SIGOXX,SIGOYY,SIGOXY,SIGOYZ,SIGOZX
       my_real,DIMENSION(NEL), INTENT(OUT)   :: 
      .   SOUNDSP,SIGNXX,SIGNYY,SIGNXY,SIGNYZ,SIGNZX
-      my_real,DIMENSION(NEL) :: 
-     .   SIGY,ET,EPSP,EPSPL
+      my_real,DIMENSION(NEL) :: SIGY,ET
       my_real,DIMENSION(NEL), INTENT(INOUT) :: 
      .   PLA,EPSD,THK,OFF,VARNL,DPLA,OFFL
       my_real,DIMENSION(NEL,NUVAR), INTENT(INOUT) :: 
@@ -128,10 +127,6 @@ c
 c      
       END SELECT    
 c
-      ! Store strain-rate for output
-      EPSP(1:NEL)  = EPSD(1:NEL)    
-      ! Store strain-rate for failure criteria
-      EPSPL(1:NEL) = EPSD(1:NEL)
       ! Ductile failure activation
       IOFF_DUCT(1:NEL) = 1
 c

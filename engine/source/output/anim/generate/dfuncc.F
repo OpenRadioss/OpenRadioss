@@ -1452,29 +1452,8 @@ c---
                 EVAR(I) = GBUF%FOR(JJ(IUS)+I)  
               ENDDO                           
 c---
-            ELSEIF (IFUNC == 26 .and. GBUF%G_EPSD > 0) THEN
-              IF (MLW == 104) THEN 
-                DO I = LFT, LLT
-                  EVAR(I) = ZERO
-                ENDDO
-                NPGT = NPG*NPTT
-                DO IL=1,NLAY                                              
-                  DO IS=1,NPTS                                            
-                    DO IT=1,NPTT                                          
-                      DO IR=1,NPTR    
-                        LBUF => ELBUF_TAB(NG)%BUFLY(IL)%LBUF(IR,IS,IT)
-                        DO I=LFT,LLT
-                          EVAR(I) = EVAR(I) + LBUF%EPSD(I)/NPGT
-                        ENDDO
-                      ENDDO
-                    ENDDO
-                  ENDDO
-                ENDDO              
-              ELSE 
-                DO I=LFT,LLT
-                  EVAR(I) = GBUF%EPSD(I)
-                ENDDO
-              ENDIF
+            ELSEIF (IFUNC == 26) THEN
+              EVAR(LFT:LLT) = GBUF%EPSD(LFT:LLT)
 c---
             ELSEIF(IFUNC == 2155)THEN
               DO I=LFT,LLT

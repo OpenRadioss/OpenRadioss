@@ -66,7 +66,7 @@
       real(kind=WP), dimension(nel), intent(in)            :: rho0     !< Density
       real(kind=WP), dimension(nel), intent(in)            :: thkly    !< Layer thickness
       real(kind=WP), dimension(nel), intent(inout)         :: thk      !< Thickness
-      real(kind=WP), dimension(nel), intent(inout)         :: epsp     !< Equivalent and filtered total strain rate
+      real(kind=WP), dimension(nel), intent(in)            :: epsp     !< Global strain rate
       real(kind=WP), dimension(nel), intent(in)            :: epspxx   !< Strain rate component xx
       real(kind=WP), dimension(nel), intent(in)            :: epspyy   !< Strain rate component yy
       real(kind=WP), dimension(nel), intent(in)            :: epspxy   !< Strain rate component xy
@@ -88,7 +88,7 @@
       real(kind=WP), dimension(nel), intent(inout)         :: soundsp  !< Sound speed
       real(kind=WP), dimension(nel), intent(inout)         :: pla      !< Plastic strain
       real(kind=WP), dimension(nel), intent(inout)         :: dpla     !< Plastic strain increment
-      real(kind=WP), dimension(nel), intent(inout)         :: epsd     !< Output strain rate
+      real(kind=WP), dimension(nel), intent(inout)         :: epsd     !< local strain rate
       real(kind=WP), dimension(nel), intent(inout)         :: yld      !< Yield stress
       real(kind=WP), dimension(nel), intent(inout)         :: etse     !< Coefficient for hourglass control
       real(kind=WP), dimension(nel), intent(in)            :: gs       !< Transverse shear modulus
@@ -183,10 +183,9 @@
             epsd(i) = half*(abs(epspxx(i)+epspyy(i))                           &
                         + sqrt((epspxx(i)-epspyy(i))*(epspxx(i)-epspyy(i))     &
                               + epspxy(i)*epspxy(i)))
-            epsp(i) = epsd(i)
           enddo
         else
-          epsd(1:nel) = epsp(1:nel)
+          epsd(1:nel) = asrate*epsp(1:nel) + (one-asrate)*epsd(1:nel)
         endif
       endif
 !
@@ -678,7 +677,6 @@
         do i = 1,nel
           dpdt    = dpla(i)/max(timestep,em20)
           epsd(i) = asrate*dpdt + (one - asrate)*epsd(i)
-          epsp(i) = epsd(i)
         enddo
       endif
 !

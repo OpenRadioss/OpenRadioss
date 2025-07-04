@@ -1050,31 +1050,8 @@ C--------------------------------------------------
 C--------------------------------------------------
             ELSEIF (KEYWORD == 'EPSD')THEN   ! EPSD
 C--------------------------------------------------
-              IF( GBUF%G_EPSD > 0) THEN
-                IF (MLW == 104) THEN
-                  NPTT = ELBUF_TAB(NG)%BUFLY(1)%NPTT
-                  NPTG = NPTR*NPTS*NPTT
-                  DO I = 1,NEL
-                    VALUE(I) = ZERO
-                  ENDDO
-                  DO I=1,NEL
-                    DO IT=1,NPTT
-                      DO IS=1,NPTS
-                        DO IR=1,NPTR
-                          LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(IR,IS,IT)
-                          VALUE(I) = VALUE(I) + LBUF%EPSD(I)/NPTG
-                        ENDDO
-                      ENDDO
-                    ENDDO
-                    IS_WRITTEN_VALUE(I) = 1
-                  ENDDO
-                ELSE
-                  DO I=1,NEL
-                    VALUE(I) = GBUF%EPSD(I)
-                    IS_WRITTEN_VALUE(I) = 1
-                  ENDDO
-                ENDIF
-              ENDIF
+              VALUE(1:NEL) = GBUF%EPSD(1:NEL)
+              IS_WRITTEN_VALUE(1:NEL) = 1
 C--------------------------------------------------
             ELSEIF(KEYWORD(1:9) == 'M151VFRAC') THEN
 C--------------------------------------------------

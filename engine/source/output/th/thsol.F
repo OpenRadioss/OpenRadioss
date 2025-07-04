@@ -712,6 +712,7 @@ C-----------------------------------------------------
                 ENDDO
               ENDIF
 !--------------------------------------
+              WWA(14)=GBUF%EPSD(I)
               IF (MTE == 2) THEN
                 WWA(12) = GBUF%PLA(I)
 !                WWA(13) = GBUF%TEMP(I)
@@ -721,7 +722,6 @@ C-----------------------------------------------------
               ELSEIF (MTE == 4) THEN
                 WWA(12)=GBUF%PLA(I)
 !                WWA(13)=GBUF%TEMP(I)
-                WWA(14)=GBUF%EPSD(I)
               ELSEIF (MTE == 5 .OR. MTE == 41 .OR. MTE == 97) THEN
 !                WWA(13)=GBUF%TEMP(I)
                 WWA(31)=GBUF%BFRAC(I)
@@ -732,7 +732,6 @@ C-----------------------------------------------------
               ELSEIF (MTE == 7.OR.MTE == 8.OR.MTE == 9) THEN
                 WWA(12)=ZERO
                 WWA(13)=ZERO
-                WWA(14)=ZERO
               ELSEIF (MTE == 10) THEN
                 WWA(12)=GBUF%PLA(I)        !/TH (EPSP)
                 WWA(30)=GBUF%EPSQ(I)      !/TH (VPLA)
@@ -752,7 +751,6 @@ C-----------------------------------------------------
              ELSEIF (MTE == 16) THEN
                 WWA(12)=LBUF%PLA(I)   !N1
 !                WWA(13)=LBUF%TEMP(I)  !N2
-                WWA(14)=LBUF%EPSD(I)
               ELSEIF (MTE == 17) THEN
 !                IF (ITHERM > 0) WWA(13)=LBUF%TEMP(I)
                 WWA(26)=LBUF%RK(I)
@@ -790,11 +788,8 @@ C-----------------------------------------------------
               ELSEIF (MTE == 32.OR.MTE == 43) THEN   ! not solid compatible !!
                 WWA(12)=ZERO
                 WWA(13)=ZERO
-                WWA(14)=ZERO
               ELSEIF (MTE == 46.OR.MTE == 47) THEN
                 WWA(12)=MBUF%VAR(I)
-!                WWA(13)=MBUF%VAR(I+NEL)
-c                WWA(14)=MBUF%VAR(I+NEL*2)
               ELSEIF (MTE == 49) THEN
                 WWA(12)=LBUF%PLA(I)
 !                WWA(13)=LBUF%TEMP(I)
@@ -824,11 +819,9 @@ C               Solid spotwelds : damage  DAMA1 ...DAMA4
                 VAR = MAX(WWA(17),VAR)
                 VAR = MAX(WWA(18),VAR)
                 WWA(19) = VAR    ! DAMA = max(dama1,dama2,dama3,dama4)
-                WWA(14) = GBUF%EPSD(I)
 
               ELSEIF (MTE == 83) THEN
                 WWA(12)=GBUF%PLA(I)
-                WWA(14)=GBUF%EPSD(I)
                 NUVAR = ELBUF_TAB(NG)%BUFLY(1)%NVAR_MAT
                 DO J=1,NPTR
                   MBUF  => ELBUF_TAB(NG)%BUFLY(1)%MAT(J,1,1)
@@ -851,7 +844,6 @@ C               Solid spotwelds : damage  DAMA1 ...DAMA4
 C               Temperature
                 WWA(12)=ZERO
 !                WWA(13)=MBUF%VAR(I)
-                WWA(14)=ZERO
               ELSEIF (MTE == 103) THEN
 C             Hensel Spittel
                 WWA(12)=LBUF%PLA(I)
@@ -868,15 +860,10 @@ C             Hensel Spittel
 !                ELSE
 !                  WWA(13)=ZERO
 !                ENDIF
-                IF (ELBUF_TAB(NG)%BUFLY(1)%L_EPSD > 0)THEN
-                  WWA(14)=LBUF%EPSD(I)
-                ELSE
-                  WWA(14)=ZERO
-                ENDIF
+!                IF (ELBUF_TAB(NG)%BUFLY(1)%L_EPSD > 0)THEN
+!                  WWA(14)=LBUF%EPSD(I)
+!                ENDIF
 C               User laws for solids
-c                WWA(12)=BUFEL(N1)
-c                WWA(13)=BUFEL(N2)
-c                WWA(14)=BUFEL(N3)
 C               User laws for solids - max 60 user variables.
                 NUVARTH = MIN(60,NUVAR)
                 DO J=1,NUVARTH
