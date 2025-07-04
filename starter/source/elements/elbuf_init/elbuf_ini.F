@@ -1286,6 +1286,11 @@ c
               IMAT(IL)  = STACK%IGEO(IPMAT + IL ,ISUBSTACK)
               ILAW(IL) = IPM(2,IMAT(IL)) 
             ENDDO
+          ELSEIF(IPM(2,IMID) == 151)THEN
+            DO IL = 1,NLAY
+              IMAT(IL) = IPM(20+IL,IMID)
+              ILAW(IL) = IPM(2,IPM(20+IL,IMID))
+            ENDDO
           ELSE   ! IGTYP = 1,9,10
             DO IL = 1,NLAY
               IMAT(IL) = IMID                                       
@@ -1296,8 +1301,6 @@ c
 c-----------------------------------------------          
           IF (MLW == 151) THEN  ! Multifluid law
             DO IL = 1,NLAY
-              ILAW(IL) = MLW
-              IMAT(IL) = MAT_PARAM(IMID)%MULTIMAT%MID(IL)                                    
               IEOS_TYPE = MAT_PARAM(IMAT(IL))%IEOS
               ELBUF_TAB(NG)%BUFLY(IL)%ILAW = ILAW(IL)
               ELBUF_TAB(NG)%BUFLY(IL)%IMAT = IMAT(IL)
