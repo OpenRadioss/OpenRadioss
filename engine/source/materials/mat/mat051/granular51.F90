@@ -54,7 +54,7 @@
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
         use precision_mod, only : WP
-        use constant_mod , only : zero, em20, em15, em14, em02, half, one, onep333, two, three
+        use constant_mod , only : zero, em20, em15, em14, em02, half, one, onep333, two, three, hundred
         use matparam_def_mod , only : matparam_struct_
         use table_mat_vinterp_mod , only : table_mat_vinterp
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -105,22 +105,22 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
-      YOUNG = UPARAM(02)
-      MID   = INT(UPARAM(14))
-      NU    = UPARAM(22)
+      young = uparam(02)
+      mid   = int(uparam(14))
+      nu    = uparam(22)
 
       ! if(timestep==zero)return  !law3 is treeting this also on NC=0   (Einc must be added )
-      DO I=1,NEL
-        POLD(I)    = UVAR(I,18+KK)
-        RHO_OLD(I) = UVAR(I,12+KK)
-        VNEW(I)    = UVAR(I,1+KK)*VOLUME(I) -TIMESTEP*UVAR(I,13+KK)
-        VNEW(I)    = MIN(MAX(ZERO,VNEW(I)),VOLUME(I))
-        IF(VNEW(I)>EM15)THEN
-          RHO_NEW(I) = UVAR(I,9+KK) / VNEW(I)  !MASS/VOLUME
-        ELSE
-          RHO_NEW(I)=RHO_OLD(I)
-        ENDIF
-      ENDDO
+      do i=1,nel
+        pold(i)    = uvar(i,18+kk)
+        rho_old(i) = uvar(i,12+kk)
+        vnew(i)    = uvar(i,1+kk)*volume(i) -timestep*uvar(i,13+kk)
+        vnew(i)    = min(max(zero,vnew(i)),volume(i))
+        if(vnew(i) > em15)then
+          rho_new(i) = uvar(i,9+kk) / vnew(i)  !mass/volume
+        else
+          rho_new(i)=rho_old(i)
+        endif
+      enddo
 
       !========================================================================
       !< Recovering Yield surface value Y = Y(P)
@@ -150,76 +150,87 @@
       g43(1:nel)  = onep333*g(1:nel)
       gg1(1:nel) = g2(1:nel)
 
-      DO I=1,NEL
-        MAS     = UVAR(I,9+KK)
-        IF(MAS < EM20)THEN
-          RHO_NEW(I) = RHO0
-        ENDIF
+      do i=1,nel
+        mas = uvar(i,9+kk)
+        if(mas < em20)then
+          rho_new(i) = rho0
+        endif
 
-        T1(I)=SIGD(1,I)
-        T2(I)=SIGD(2,I)
-        T3(I)=SIGD(3,I)
-        T4(I)=SIGD(4,I)
-        T5(I)=SIGD(5,I)
-        T6(I)=SIGD(6,I)
+        t1(i)=sigd(1,i)
+        t2(i)=sigd(2,i)
+        t3(i)=sigd(3,i)
+        t4(i)=sigd(4,i)
+        t5(i)=sigd(5,i)
+        t6(i)=sigd(6,i)
 
-        FAC2 = ONE
-        IF(POLD(I) < PFRAC)THEN
-          P(I)  = PFRAC
-          FAC2 = ZERO
-        ENDIF
-        PP(I) = P(I)
+        fac2 = one
+        if(pold(i) < pfrac)then
+          p(i)  = pfrac
+          fac2 = zero
+        endif
+        pp(i) = p(i)
 
-        SIGDO(1:6,I) = SIGD(1:6,I) * OFF(I)
-        FACT = VFRAC(I)
-        T1(I) = T1(I) + G2(I)* (DEPS(1,I)-DE(I))*FACT
-        T2(I) = T2(I) + G2(I)* (DEPS(2,I)-DE(I))*FACT
-        T3(I) = T3(I) + G2(I)* (DEPS(3,I)-DE(I))*FACT
-        T4(I) = T4(I) + G(I) * DEPS(4,I)*FACT
-        T5(I) = T5(I) + G(I) * DEPS(5,I)*FACT
-        T6(I) = T6(I) + G(I) * DEPS(6,I)*FACT
+        sigdo(1:6,i) = sigd(1:6,i) * off(i)
+        fact = vfrac(i)
+        t1(i) = t1(i) + g2(i)* (deps(1,i)-de(i))*fact
+        t2(i) = t2(i) + g2(i)* (deps(2,i)-de(i))*fact
+        t3(i) = t3(i) + g2(i)* (deps(3,i)-de(i))*fact
+        t4(i) = t4(i) + g(i) * deps(4,i)*fact
+        t5(i) = t5(i) + g(i) * deps(5,i)*fact
+        t6(i) = t6(i) + g(i) * deps(6,i)*fact
 
-        J2(I)=HALF*(T1(I)**2+T2(I)**2+T3(I)**2)+T4(I)**2+T5(I)**2+T6(I)**2
-        VM=SQRT(THREE*J2(I))
-        PTOT = POLD(I)+PEXT
-        G0(I)= MAX(ZERO,G0(I))
-        IF(POLD(I) < PFRAC) G0(I) = ZERO
-        YIELD2(I)=VM-G0(I)
+        j2(i)=half*(t1(i)**2+t2(i)**2+t3(i)**2)+t4(i)**2+t5(i)**2+t6(i)**2
+        vm=sqrt(three*j2(i))
+        ptot = pold(i)+pext
+        g0(i)= max(zero,g0(i))
+        if(pold(i) <= pfrac) g0(i) = zero
 
-        RATIO(I)=ZERO
-        IF(YIELD2(I) <= ZERO .AND. G0(I) > ZERO)THEN
-          RATIO(I)=ONE
-        ELSE
-          RATIO(I)=SQRT(G0(I)/(vm+EM14))
-        ENDIF
+         !verifier et comparer en debug cycle 1,on n'y rentre pas :
+         yield2(i)=vm-g0(i)
 
-        ! deviatoric stress
-        SIGD(1,I)=RATIO(I)*T1(I)*OFF(I)
-        SIGD(2,I)=RATIO(I)*T2(I)*OFF(I)
-        SIGD(3,I)=RATIO(I)*T3(I)*OFF(I)
-        SIGD(4,I)=RATIO(I)*T4(I)*OFF(I)
-        SIGD(5,I)=RATIO(I)*T5(I)*OFF(I)
-        SIGD(6,I)=RATIO(I)*T6(I)*OFF(I)
+        if(vfrac(i) > two*em02) then
 
-        !if(UVAR(I,1+KK)>EM02)then
-          plas(I)  = plas(I) +(ONE -RATIO(I))*VM  /MAX(THREE*G(I),EM15)
-          epseq(i) = epseq(I)+(ONE -RATIO(I))*VM  /MAX(THREE*G(I),EM15)
-        !endif
+          if (g0(i) > zero)then
+            ratio(i) = one
+            if(yield2(i) >= zero)then
+              ratio(i)=g0(i)/(vm+em14)
+              plas(i)  = plas(i) +(one -ratio(i))*vm  /max(three*g(i),em15)
+              epseq(i) = epseq(i)+(one -ratio(i))*vm  /max(three*g(i),em15)
+            endif
+          elseif(g0(i) <= zero)then
+            ratio(i)=zero
+          end if
 
-         VOL_AVG = HALF*(VFRAC(I)*VOLUME(I)+VOL(I))
-         EINC    = HALF*VOL_AVG* &
-                             ( (SIGDO(1,I)+SIGD(1,I)) * DEPS(1,I) &
-                             + (SIGDO(2,I)+SIGD(2,I)) * DEPS(2,I) &
-                             + (SIGDO(3,I)+SIGD(3,I)) * DEPS(3,I) &
-                             + (SIGDO(4,I)+SIGD(4,I)) * DEPS(4,I) &
-                             + (SIGDO(5,I)+SIGD(5,I)) * DEPS(5,I) &
-                             + (SIGDO(6,I)+SIGD(6,I)) * DEPS(6,I))
-          EINT(I) = EINT(I) + EINC
+          ! deviatoric stress
+          sigd(1,i)=ratio(i)*t1(i)*off(i)
+          sigd(2,i)=ratio(i)*t2(i)*off(i)
+          sigd(3,i)=ratio(i)*t3(i)*off(i)
+          sigd(4,i)=ratio(i)*t4(i)*off(i)
+          sigd(5,i)=ratio(i)*t5(i)*off(i)
+          sigd(6,i)=ratio(i)*t6(i)*off(i)
 
-      ENDDO !next I
+          !plastic work
+           vol_avg = half*(vfrac(i)*volume(i)+vol(i))
+           einc    = half*vol_avg* &
+                               ( (sigdo(1,i)+sigd(1,i)) * deps(1,i) &
+                               + (sigdo(2,i)+sigd(2,i)) * deps(2,i) &
+                               + (sigdo(3,i)+sigd(3,i)) * deps(3,i) &
+                               + (sigdo(4,i)+sigd(4,i)) * deps(4,i) &
+                               + (sigdo(5,i)+sigd(5,i)) * deps(5,i) &
+                               + (sigdo(6,i)+sigd(6,i)) * deps(6,i))
+            eint(i) = eint(i) + einc
 
-      RETURN
-      END subroutine granular51
-      END module granular51_mod
+        elseif(vfrac(i) < em02)then
+          plas(i) = zero
+        else
+          !smooth transition vfrac \in [0.01 0.02]
+          plas(i) = (vfrac(i)-em02)*hundred * plas(i)
+        end if
+
+      enddo !next i
+
+      return
+      end subroutine granular51
+      end module granular51_mod
 
 
