@@ -252,9 +252,9 @@ c
           R   = (TWO*I1*I1*I1-NINE*I1*I2+TWENTY7*I3)/CINQUANTE4     ! (2*I3^3-9*I1*I2+27*I3)/54  
           R_INTER = MIN(R/SQRT(MAX(EM20,(-Q**3))),ONE)
           PHI = ACOS(MAX(R_INTER,-ONE))
-          E11(I) = TWO*SQRT(-Q)*COS(PHI/THREE)+THIRD*I1
-          E22(I) = TWO*SQRT(-Q)*COS((PHI+TWO*PI)/THREE)+THIRD*I1
-          E33(I) = TWO*SQRT(-Q)*COS((PHI+FOUR*PI)/THREE)+THIRD*I1
+          E11(I) = TWO*SQRT(MAX(ZERO,-Q))*COS(PHI/THREE)+THIRD*I1
+          E22(I) = TWO*SQRT(MAX(ZERO,-Q))*COS((PHI+TWO*PI)/THREE)+THIRD*I1
+          E33(I) = TWO*SQRT(MAX(ZERO,-Q))*COS((PHI+FOUR*PI)/THREE)+THIRD*I1
           IF (E11(I) < E22(I)) THEN 
             R_INTER = E11(I)
             E11(I)  = E22(I)
@@ -308,9 +308,9 @@ c
           R  = (TWO*I1*I1*I1-NINE*I1*I2+TWENTY7*I3)/CINQUANTE4     ! (2*I3^3-9*I1*I2+27*I3)/54
           R_INTER = MIN(R/SQRT(MAX(EM20,(-Q**3))),ONE)
           PSI = ACOS(MAX(R_INTER,-ONE))
-          S11(I) = TWO*SQRT(-Q)*COS(PSI/THREE)+THIRD*I1
-          S22(I) = TWO*SQRT(-Q)*COS((PSI+TWO*PI)/THREE)+THIRD*I1
-          S33(I) = TWO*SQRT(-Q)*COS((PSI+FOUR*PI)/THREE)+THIRD*I1
+          S11(I) = TWO*SQRT(MAX(ZERO,-Q))*COS(PSI/THREE)+THIRD*I1
+          S22(I) = TWO*SQRT(MAX(ZERO,-Q))*COS((PSI+TWO*PI)/THREE)+THIRD*I1
+          S33(I) = TWO*SQRT(MAX(ZERO,-Q))*COS((PSI+FOUR*PI)/THREE)+THIRD*I1
           IF (S11(I) < S22(I)) THEN 
             R_INTER = S11(I)
             S11(I)  = S22(I)
