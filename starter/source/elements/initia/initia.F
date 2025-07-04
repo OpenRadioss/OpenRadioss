@@ -1547,7 +1547,11 @@ C-----------
      .                    nod2els  , knod2els ,
      .                    iparg    , ale_connectivity, npropm, nummat, pm, n2d, detonators,
      .                    npropmi  , ipm     )
+C---------------------------------------------------
+C Initialization of global detonation times (Law151)
+      CALL MULTIFLUID_GLOBAL_TDET(IPARG,ELBUF_TAB,MULTI_FVM,IPM)
 ! DETONATION TIMES PRINTOUT
+C---------------------------------------------------
 ! + DEFAULT INITIALIZATION TO 0.0 IN CASE OF NO DETONATOR
       CALL DETONATION_TIMES_PRINTOUT(NPARG,NGROUP,IPARG,N2D,IPRI,ELBUF_TAB,
      .                               NIXS,NIXQ,NIXTG,NUMELS,NUMELQ,NUMELTG,IXS,IXQ,IXTG)
@@ -1716,10 +1720,6 @@ C---------------------------------
      4                    ALE_CONNECTIVITY, NV46       , IGRSURF   ,   ITAB   ,   EBCS_TAB   ,
      5                    NPC             , PLD        , MAT_PARAM)
       ENDIF
-C---------------------------------------------------
-C Initialization of global detonation times (Law151)
-C---------------------------------------------------
-      CALL MULTIFLUID_GLOBAL_TDET(IPARG,ELBUF_TAB,MULTI_FVM,IPM)
 C---------------------------------
 C Initialization on 1D curves
 C---------------------------------
