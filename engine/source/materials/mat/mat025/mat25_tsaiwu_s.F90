@@ -49,7 +49,7 @@
           s1    ,s2    ,s3    ,s4    ,s5    ,s6    ,         &
           d1    ,d2    ,d3    ,d4    ,d5    ,d6    ,         &
           epst  ,nfis1 ,nfis2 ,nfis3 ,                       &
-          wplar ,epsp  ,wpla  ,sigl  ,ilay  ,ipg   ,         &
+          wplar ,epsd  ,wpla  ,sigl  ,ilay  ,ipg   ,         &
           tsaiwu,time  ,imconv,mvsiz ,iout  ,dmg   ,         &
           l_dmg ,outv)
 !-----------------------------------------------
@@ -80,7 +80,7 @@
           real(kind=WP) ,intent(in)    :: time                   !< current time
           real(kind=WP) ,intent(inout) :: off(mvsiz)             !< element activation coefficient
           real(kind=WP) ,intent(inout) :: wpla(mvsiz)            !< plastic work
-          real(kind=WP) ,intent(inout) :: epsp(mvsiz)            !< equivalent strain rate
+          real(kind=WP) ,intent(in )   :: epsd(nel)              !< equivalent strain rate
           real(kind=WP) ,intent(inout) :: epst(nel,6)            !< total strain tensor
           real(kind=WP) ,intent(inout) :: wplar(mvsiz)           !< reference plastic work
           real(kind=WP) ,intent(inout) :: s1(mvsiz)              !< stress component
@@ -125,6 +125,7 @@
             f1(mvsiz), f2(mvsiz), f12(mvsiz), f11(mvsiz), f22(mvsiz),        &
             f33(mvsiz),epsf1(mvsiz),epsf2(mvsiz),eps(mvsiz,6)
           real(kind=WP) :: soft(3),beta(mvsiz)
+          real(kind=WP) :: frate(mvsiz)
 !=======================================================================
           ioff   = mat_param%iparam(2)
           icc    = mat_param%iparam(3)
@@ -307,29 +308,26 @@
 !     strain rate
 !-------------------------------------------------------------------
           do i=1,nel
-!      if (israte(i) == 0)epsp(i) = max(
-!     .                   abs(eps(1,i)),abs(eps(2,i)),abs(eps(3,i)),
-!     .                   abs(eps(4,i)),abs(eps(5,i))) / max(dt1,em20)
-            if(epsp(i) > epdr) then
-              epsp(i)=log(epsp(i)/epdr)
+            if (epsd(i) > epdr) then
+              frate(i) = log(epsd(i)/epdr)
             else
-              epsp(i)= zero
+              frate(i)= zero
             endif
             coef(i)=zero
           enddo
 !
           do i=1,nel
-            epsp(i)=one + cc * epsp(i)
+            frate(i) = one + cc * frate(i)
             if (wpla(i) /= zero) then
-              fyld(i)=(one+cb(i)*exp(cn(i)*log(wpla(i))))*epsp(i)
+              fyld(i)=(one+cb(i)*exp(cn(i)*log(wpla(i))))*frate(i)
             else
-              fyld(i)=epsp(i)
+              fyld(i) = frate(i)
             endif
             if(icc == 1.or.icc == 3)then
-              fmax(i) = fmax(i)*epsp(i)
+              fmax(i) = fmax(i)*frate(i)
             endif
             if(icc == 3.or.icc == 4)then
-              wplamx(i) = wplamx(i)*epsp(i)
+              wplamx(i) = wplamx(i)*frate(i)
             endif
             fyld(i)= min(fmax(i),fyld(i))
 !
