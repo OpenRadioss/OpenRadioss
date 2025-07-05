@@ -28,6 +28,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    ancmsg             ../starter/source/output/message/message.F
       !||    anodset            ../starter/source/output/analyse/analyse_node.c
       !||    checkvolume_4n     ../starter/source/elements/solid/solide/checksvolume.F
+      !||    checkvolume_6n     ../starter/source/elements/solid/solide/checksvolume.F
+      !||    checkvolume_8n     ../starter/source/elements/solid/solide/checksvolume.F
       !||    udouble            ../starter/source/system/sysfus.F
       !||    usr2sys            ../starter/source/system/sysfus.F
       !||--- uses       -----------------------------------------------------

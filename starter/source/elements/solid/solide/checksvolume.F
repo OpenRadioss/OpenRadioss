@@ -26,6 +26,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||====================================================================
       !||    checkvolume_8n   ../starter/source/elements/solid/solide/checksvolume.F
       !||--- called by ------------------------------------------------------
+      !||    hm_read_solid    ../starter/source/elements/reader/hm_read_solid.F
       !||    s16coor3         ../starter/source/elements/thickshell/solide16/s16coor3.F
       !||    s20coor3         ../starter/source/elements/solid/solide20/s20coor3.F
       !||    sccoor3          ../starter/source/elements/thickshell/solidec/sccoor3.F
@@ -121,6 +122,7 @@ C
       !||====================================================================
       !||    checkvolume_6n   ../starter/source/elements/solid/solide/checksvolume.F
       !||--- called by ------------------------------------------------------
+      !||    hm_read_solid    ../starter/source/elements/reader/hm_read_solid.F
       !||    s6ccoor3         ../starter/source/elements/thickshell/solide6c/s6ccoor3.F
       !||====================================================================
       FUNCTION CHECKVOLUME_6N(X,IXS)
