@@ -242,7 +242,8 @@ C
            XNUM_DRAPE(I)%NPLY = NPT                                       
            XNUM_DRAPE(I)%INDX_PLY(1:NPT) = DRAPE(IE)%INDX_PLY(1:NPT)            
            NPT = DRAPE(IE)%NPLY_DRAPE                                           
-           XNUM_DRAPE(I)%NPLY_DRAPE = NPT                                       
+           XNUM_DRAPE(I)%NPLY_DRAPE = NPT                                           
+           XNUM_DRAPE(I)%THICK =  DRAPE(IE)%THICK                                  
            DO JJ = 1, NPT                                                       
              DRAPE_PLY => DRAPE(IE)%DRAPE_PLY(JJ)                               
              NSLICE =  DRAPE_PLY%NSLICE                                         
@@ -577,7 +578,8 @@ C
          DRAPE(IE)%INDX_PLY(1:NPT) =  XNUM_DRAPE(INDEX(I))%INDX_PLY(1:NPT)                                  
          NPT = XNUM_DRAPE(INDEX(I))%NPLY_DRAPE
          ALLOCATE(DRAPE(IE)%DRAPE_PLY(NPT))                                      
-         DRAPE(IE)%NPLY_DRAPE= NPT             
+         DRAPE(IE)%NPLY_DRAPE= NPT                
+         DRAPE(IE)%THICK =  XNUM_DRAPE(INDEX(I))%THICK               
          DO JJ = 1, NPT         
            DRAPE_PLY => DRAPE(IE)%DRAPE_PLY(JJ)                                  
            NSLICE = XNUM_DRAPE(INDEX(I))%DRAPE_PLY(JJ)%NSLICE                            
