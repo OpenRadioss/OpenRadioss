@@ -244,7 +244,8 @@ C
              XNUM_DRAPE(I)%NPLY = NPT                                    
              XNUM_DRAPE(I)%INDX_PLY(1:NPT) = DRAPE(IEL)%INDX_PLY(1:NPT)          
              NPT = DRAPE(IEL)%NPLY_DRAPE 
-             XNUM_DRAPE(I)%NPLY_DRAPE = NPT                                     
+             XNUM_DRAPE(I)%NPLY_DRAPE = NPT 
+             XNUM_DRAPE(I)%THICK =  DRAPE(IEL)%THICK                                     
              DO JJ = 1, NPT                                                     
                DRAPE_PLY => DRAPE(IEL)%DRAPE_PLY(JJ)
                NSLICE =  DRAPE_PLY%NSLICE                                       
@@ -530,7 +531,7 @@ C
       ENDDO
 C
 C 
-      IF(NDRAPE == 0 .AND. NUMELTG_DRAPE > 0) THEN
+      IF(NDRAPE > 0 .AND. NUMELTG_DRAPE > 0) THEN
          IEL = DRAPEG%NUMSH4
          DO I=1,NUMELTG
           IWORKSH(1,NUMELC + I)= INUM_WORKC(1,INDEX(I))
@@ -554,6 +555,7 @@ C
           DRAPE(IEL)%INDX_PLY(1:NPT) =  XNUM_DRAPE(INDEX(I))%INDX_PLY(1:NPT)                                 
           NPT = XNUM_DRAPE(INDEX(I))%NPLY_DRAPE       ! NPT_DRP                                     
           DRAPE(IEL)%NPLY_DRAPE= NPT 
+          DRAPE(IEL)%THICK = XNUM_DRAPE(INDEX(I))%THICK
           ALLOCATE(DRAPE(IEL)%DRAPE_PLY(NPT))                                                      
           DO JJ = 1, NPT                                                                  
             DRAPE_PLY => DRAPE(IEL)%DRAPE_PLY(JJ)                                          
