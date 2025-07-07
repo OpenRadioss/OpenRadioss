@@ -112,7 +112,6 @@ C-----------------------------------------------
      .               C2='INITIAL PRESSURE PROVIDED. E0 IS CONSEQUENTLY REDEFINED SUCH AS P(RHO0,E0)=P0')
       ENDIF
 
-
       RHOR = PM(1)
       RHOI = PM(89)
 
@@ -136,7 +135,9 @@ C-----------------------------------------------
       ENDIF
       ! Internal Energy (if P0 is provided, calculate E0 consequently)
       IF(P0 > ZERO)THEN
-        E0 = (P0-RHO0*C*C*MU0)/(GAMA0+a*MU0)
+        if(gama0 /= zero)then
+          E0 = (P0-RHO0*C*C*MU0)/(GAMA0+a*MU0)
+        endif
       ENDIF
       !Relative volume
       IF(RHOI /= ZERO)THEN
