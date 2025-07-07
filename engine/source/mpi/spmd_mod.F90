@@ -130,6 +130,8 @@
       !||====================================================================
       module spmd_mod
         use spmd_comm_world_mod, only: SPMD_COMM_WORLD
+        use spmd_allgather_mod , only : spmd_allgather
+
         implicit none
         ! Define the interface for spmd_send
 ! dummy tags for MPI calls that do not have a tag
@@ -226,6 +228,7 @@
         public :: spmd_waitany
         public :: spmd_probe
         public :: spmd_barrier
+        public :: spmd_allgather
 
         public :: SPMD_COMM_WORLD
 

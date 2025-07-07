@@ -170,12 +170,7 @@
         enddo
 
         my_size = ninter*2
-        do i=1,nspmd
-          if(i-1/=ispmd) then
-            call spmd_send(s_buffer, my_size, i-1, my_tag, SPMD_COMM_WORLD)
-            call spmd_recv(r_buffer((i-1)*2*ninter+1), my_size, i-1, my_tag, SPMD_COMM_WORLD)   
-          endif
-        enddo
+        call spmd_allgather(s_buffer, r_buffer, my_size, SPMD_COMM_WORLD)
 
         do k=1,nspmd
           if(k-1/=ispmd) then
