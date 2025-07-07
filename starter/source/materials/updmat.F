@@ -82,9 +82,10 @@ C-----------------------------------------------
       USE MESSAGE_MOD   
       USE MATPARAM_DEF_MOD
       USE SENSOR_MOD
-      USE LAW19_UPD_MOD , ONLY : LAW19_UPD
-      USE LAW81_UPD_MOD , ONLY : LAW81_UPD
-      USE LAW87_UPD_MOD , ONLY : LAW87_UPD
+      USE LAW19_UPD_MOD  , ONLY : LAW19_UPD
+      USE LAW81_UPD_MOD  , ONLY : LAW81_UPD
+      USE LAW87_UPD_MOD  , ONLY : LAW87_UPD
+      USE LAW129_UPD_MOD , ONLY : LAW129_UPD
       USE LAW133_UPD_MOD , ONLY : LAW133_UPD
       USE LAW163_UPD_MOD , ONLY : LAW163_UPD
       USE LAW190_UPD_MOD , ONLY : LAW190_UPD
@@ -392,6 +393,9 @@ c------------------
 c------------------
           CASE (120)    ! TAPO material for adhesives
             CALL LAW120_UPD(NPARAM ,NUMTABL ,ITABLE ,TABLE ,UPARAM)          
+c------------------
+          CASE (129)    
+            CALL LAW129_UPD(MAT_PARAM(IMAT),SENSORS)          
 c------------------
           CASE (133)
             CALL LAW133_UPD(MAT_PARAM(IMAT),PM(1,IMAT),NPROPM)

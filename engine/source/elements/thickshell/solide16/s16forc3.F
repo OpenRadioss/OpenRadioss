@@ -643,7 +643,7 @@ C
      .   numgeo,      numnod,      numels,
      .   IDEL7NOK,    IDTMIN,      MAXFUNC,
      .   IMON_MAT,    USERL_AVAIL, impl_s,
-     .   idyna,       DT,         fheat   , OPT_MTN=MTN, OPT_JCVT=JCVT,
+     .   idyna,       DT,         fheat   , sensors, OPT_MTN=MTN, OPT_JCVT=JCVT,
      .   OPT_ISORTH=ISORTH,OPT_ISORTHG=ISORTHG)
 c
       IF (ISTRAIN == 1)THEN 

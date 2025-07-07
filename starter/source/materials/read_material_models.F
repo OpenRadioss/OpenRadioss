@@ -112,9 +112,9 @@ C-----------------------------------------------
       TYPE(MULTI_FVM_STRUCT) :: MULTI_FVM
       TYPE(FAILWAVE_STR_) :: FAILWAVE 
       TYPE(NLOCAL_STR_) :: NLOC_DMG 
-      TYPE(SUBMODEL_DATA) ,INTENT(IN)   :: LSUBMODEL(NSUBMOD)
-      TYPE(TTABLE)  ,DIMENSION(NTABLE)  :: TABLE 
-      TYPE(MAT_ELEM_) ,INTENT(INOUT)    :: MAT_ELEM
+      TYPE(SUBMODEL_DATA) ,INTENT(IN)  :: LSUBMODEL(NSUBMOD)
+      TYPE(TTABLE)  ,DIMENSION(NTABLE) :: TABLE 
+      TYPE(MAT_ELEM_) ,INTENT(INOUT)   :: MAT_ELEM
       INTEGER,INTENT(IN) :: SNPC, NPTS
       INTEGER,INTENT(IN) :: NPC(SNPC)
       my_real,INTENT(IN) :: TF(NPTS)
@@ -165,7 +165,7 @@ c-------------------------------------------------------------------
      .     MULTI_FVM   ,UNITAB      ,LSUBMODEL   ,TABLE       ,
      .     SBUFMAT     ,NPROPMI     ,NPROPM      ,TRIMAT      ,
      .     IALELAG     ,NTABLE      ,NUMMAT      ,HM_NUMMAT   ,
-     .     LTITR       ,USERL_AVAIL,MAT_NUMBER)
+     .     LTITR       ,USERL_AVAIL,MAT_NUMBER   )
 
 c-------------------------------------------------------------------
 c     /EOS : Equations of State P=P(µ,E)

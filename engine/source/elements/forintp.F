@@ -82,7 +82,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      F    MAT_ELEM  ,OUTPUT    ,SPH_IORD1 ,SNPC      ,STF,
      G    SBUFMAT   ,IDTMINS   ,NSVOIS    ,IRESP     ,MAXFUNC   ,
      .    IMON_MAT  ,USERL_AVAIL,impl_s  ,idyna     ,
-     .    DT        ,GLOB_THERM,SPH_WORK ,WFEXT)
+     .    DT        ,GLOB_THERM,SPH_WORK ,WFEXT     ,sensors    )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -96,6 +96,7 @@ C-----------------------------------------------
       USE OUTPUT_MOD , ONLY : OUTPUT_
       USE DT_MOD
       use glob_therm_mod
+      use sensor_mod
       USE SPH_WORK_MOD
 C----6---------------------------------------------------------------7---------8
 C   I m p l i c i t   T y p e s
@@ -165,6 +166,7 @@ C-----------------------------------------------
       TYPE (DT_), INTENT(IN) :: DT
       type(glob_therm_)  ,intent(inout)    :: glob_therm
       TYPE (SPH_WORK_),INTENT(INOUT) :: SPH_WORK
+      type (sensors_)    ,intent(in)    :: sensors     !< sensor structure
       DOUBLE PRECISION,INTENT(INOUT) :: WFEXT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -663,7 +665,7 @@ C-----------------------------------------------
      A            SBUFMAT,   SVIS      ,NSVOIS    ,IDTMINS   ,IRESP,      
      .            IDEL7NG,   IDEL7NOK  ,IDTMIN    ,MAXFUNC   ,LIPART1,
      .            IMON_MAT,  USERL_AVAIL,impl_s,
-     V            idyna,     DT        ,GLOB_THERM)
+     V            idyna,     DT        ,GLOB_THERM,sensors)
             ENDIF
             IF (IDDW>0) CALL STOPTIMEG(NG)
           END DO

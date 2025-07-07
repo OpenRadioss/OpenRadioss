@@ -1570,7 +1570,7 @@ c
      .   numgeo,      numnod,      numels, 
      .   IDEL7NOK,    IDTMIN,      MAXFUNC,
      .   IMON_MAT,    USERL_AVAIL, impl_s,
-     .   idyna,       DT,    fheat      )
+     .   idyna,       DT,    fheat      ,sensors)
 C
        IF (ISMSTR == 12.AND.IDTMIN(1)==3) THEN
         IF (ISM12_11==0.AND.JCVT==0) THEN

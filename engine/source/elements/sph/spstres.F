@@ -62,7 +62,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      A    SBUFMAT   ,SVIS,NSVOIS,IDTMINS, IRESP,      
      .    IDEL7NG,   IDEL7NOK,    IDTMIN,     MAXFUNC,LIPART1,
      .    IMON_MAT,  USERL_AVAIL, impl_s,
-     V    idyna,     DT         , GLOB_THERM)
+     V    idyna,     DT         , GLOB_THERM,sensors)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -76,6 +76,7 @@ C-----------------------------------------------
       USE ELBUFDEF_MOD
       USE DT_MOD
       use glob_therm_mod
+      use sensor_mod
 C----6---------------------------------------------------------------7---------8
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -131,6 +132,7 @@ C-----------------------------------------------
       TYPE (MAT_ELEM_) ,INTENT(INOUT) :: MAT_ELEM
       TYPE (DT_) ,INTENT(IN) :: DT
       type (glob_therm_) ,intent(inout)   :: glob_therm
+      type (sensors_)    ,intent(in)    :: sensors     !< sensor structure
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -279,7 +281,7 @@ C     LAW 11 uses IELVS=IBIDON and IXS=IBIDON should not be used.
      .   numgeo,      numnod,      numels,
      .   IDEL7NOK,    IDTMIN,      MAXFUNC,
      .   IMON_MAT,    USERL_AVAIL, impl_s,
-     .   idyna,       DT         , BID   )
+     .   idyna,       DT         , BID   ,sensors)
 C-----------------------------
       IF(ISTRAIN==1)THEN 
         CALL SSTRA3(DXX,DYY      ,DZZ ,D4  ,D5  ,
