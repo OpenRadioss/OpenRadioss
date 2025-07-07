@@ -47,6 +47,7 @@ set_source_files_properties( ${source_directory}/source/system/timer.F PROPERTIE
 set_source_files_properties( ${source_directory}/source/general_controls/damping/static.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
 set_source_files_properties( ${source_directory}/source/general_controls/computation/initnoise.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
 set_source_files_properties( ${source_directory}/source/mpi/spmd_mod.F90 PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
+set_source_files_properties( ${source_directory}/source/mpi/generic/spmd_allgather.F90 PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
 set_source_files_properties( ${source_directory}/source/mpi/airbags/spmd_exch_fvstats.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
 set_source_files_properties( ${source_directory}/source/mpi/airbags/spmd_fvb_igath.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
 set_source_files_properties( ${source_directory}/source/mpi/airbags/spmd_fvb.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
