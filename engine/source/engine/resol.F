@@ -3167,7 +3167,7 @@ C First: try with reduced bounding box
               ENDIF
               ! ----------------------
               CALL PYTHON_UPDATE_TIME(TT,DT2)
-              CALL PYTHON_UPDATE_NODAL_ENTITIES(NUMNOD, X=NODES%X,A=NODES%A,V=NODES%V,D=NODES%D,DR=NODES%DR,VR=NODES%VR)
+              CALL PYTHON_UPDATE_NODAL_ENTITIES(NUMNOD, NODES, X=NODES%X,A=NODES%A,V=NODES%V,D=NODES%D,DR=NODES%DR,VR=NODES%VR)
               CALL PYTHON_SYNC(PYTHON%CONTEXT)
 C===========================================================================
 C                 BEGINNING OF EXPLICIT ITERATION LOOP
@@ -7318,7 +7318,7 @@ C-----------------------------------------------
                 END IF
 
                 IF (IMON>0) CALL STOPTIME(TIMERS,TIMER_IO)
-                CALL PYTHON_UPDATE_NODAL_ENTITIES(NUMNOD,A=NODES%A,V=NODES%V,AR=NODES%AR,VR=NODES%VR)
+                CALL PYTHON_UPDATE_NODAL_ENTITIES(NUMNOD,NODES,A=NODES%A,V=NODES%V,AR=NODES%AR,VR=NODES%VR)
 
 C------------------------------
 C         GRAVITE / ACCEL. BASE
@@ -9208,7 +9208,7 @@ C===============================================================================
                 ENDIF
               ENDIF
               CALL PYTHON_SYNC(PYTHON%CONTEXT)
-              CALL PYTHON_UPDATE_NODAL_ENTITIES(NUMNOD,X=NODES%X, D=NODES%D, DR=NODES%DR)
+              CALL PYTHON_UPDATE_NODAL_ENTITIES(NUMNOD,NODES,X=NODES%X, D=NODES%D, DR=NODES%DR)
 C========================================================================================
 C                                   NON PARALLEL SECTION (SMP)
 C========================================================================================
