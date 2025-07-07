@@ -361,8 +361,8 @@ C=======================================================================
             JALE_FROM_MAT = INT(PM(72,IMID))
             JALE_FROM_PROP = IGEO(62,IPID)
             IS_ALE_EULER = JALE_FROM_MAT + JALE_FROM_PROP
-            IF(IS_ALE_EULER == 0)THEN
-              !error message
+            IF(IS_ALE_EULER == 0 .AND. IFLAG == 0)THEN
+              !error message (printed one time only : iflag == 0)
               CALL ANCMSG(MSGID=1602,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1 = EBCS%ebcs_id,C1 = TRIM(ebcs%title),
      .                    C2 = "EBCS ARE ONLY COMPATIBLE WITH ALE OR EULER FRAMEWORK")
               exit
