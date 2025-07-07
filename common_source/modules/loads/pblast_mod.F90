@@ -76,7 +76,7 @@
           real(kind=WP), allocatable,dimension(:)    :: pres                                      !< pressure output(workarray)
           real(kind=WP), allocatable,dimension(:)    :: cos_theta                                 !< angle on structural face
           real(kind=WP), allocatable,dimension(:)    :: p_inci,p_refl,ta,t0,decay_inci,decay_refl !< friedlander parameters
-          real(kind=WP), dimension(:)  , allocatable :: fx,fy,fz,npt                              !< working arrays (forces)
+          real(kind=WP), dimension(:)  , allocatable :: fx,fy,fz,npt,surf_patch                         !< working arrays (forces)
           integer, dimension(:,:), allocatable :: n                                         !< working array (normal vectors)
           integer, allocatable,dimension(:)    :: tagmsg
         end type pblast_struct_
@@ -164,6 +164,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
           use message_mod
           use precision_mod, only : WP
+          use constant_mod , only : zero
           implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
@@ -216,9 +217,12 @@
             allocate ( pblast%pblast_tab(i)%fx(siz),stat=ierr1); if (ierr1/=0) call pblast_alloc_error()
             allocate ( pblast%pblast_tab(i)%fy(siz),stat=ierr1); if (ierr1/=0) call pblast_alloc_error()
             allocate ( pblast%pblast_tab(i)%fz(siz),stat=ierr1); if (ierr1/=0) call pblast_alloc_error()
+            allocate ( pblast%pblast_tab(i)%pres(siz),stat=ierr1); if (ierr1/=0) call pblast_alloc_error()
+            allocate ( pblast%pblast_tab(i)%surf_patch(siz),stat=ierr1); if (ierr1/=0) call pblast_alloc_error()
             allocate ( pblast%pblast_tab(i)%n(4,siz),stat=ierr1); if (ierr1/=0) call pblast_alloc_error()
             allocate ( pblast%pblast_tab(i)%npt(siz),stat=ierr1); if (ierr1/=0) call pblast_alloc_error()
             allocate ( pblast%pblast_tab(i)%tagmsg(siz),stat=ierr1); if (ierr1/=0) call pblast_alloc_error()
+            pblast%pblast_tab(i)%pres(1:siz) = zero
             allocate(rtmp(8*siz))
             call read_db(rtmp,8*siz)
             iad = 0
@@ -317,6 +321,7 @@
             if(allocated( pblast%pblast_tab(ii)%fx ))         deallocate ( pblast%pblast_tab(ii)%fx )
             if(allocated( pblast%pblast_tab(ii)%fy ))         deallocate ( pblast%pblast_tab(ii)%fy )
             if(allocated( pblast%pblast_tab(ii)%fz ))         deallocate ( pblast%pblast_tab(ii)%fz )
+            if(allocated( pblast%pblast_tab(ii)%surf_patch )) deallocate ( pblast%pblast_tab(ii)%surf_patch )
             if(allocated( pblast%pblast_tab(ii)%n ))          deallocate ( pblast%pblast_tab(ii)%n )
             if(allocated( pblast%pblast_tab(ii)%npt ))        deallocate ( pblast%pblast_tab(ii)%npt )
           enddo

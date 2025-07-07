@@ -165,7 +165,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE STATE_MOD
       USE USER_WINDOWS_MOD
-      USE OUTPUT_MOD , ONLY : OUTPUT_
+      USE OUTPUT_MOD , ONLY : OUTPUT_, NODA_SURF, NODA_PEXT
       USE DT_MOD
       USE TABLE_MOD
       USE LOADS_MOD
@@ -176,6 +176,7 @@ C-----------------------------------------------
       use FPCONT2_MIN_OUTPUT_MOD
       use glob_therm_mod
       use PBLAST_MOD
+      use th_mod , only : TH_HAS_NODA_PEXT
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1702,9 +1703,7 @@ C
      N                ITHFLAG,PINCH_DATA,MULTI_FVM,W,OUTPUT%TH%ITHBUFH,
      Q                FSAVSURF,NEED_TO_REINIT_FSAV,GLOB_THERM,OUTPUT)
 
-        IF(SIZE_MES==1 .AND.
-     *     AFORM(8)==3   .AND.
-     *     ISPMD==0 ) CALL file_size(MULTITHFILESIZE(8))
+        IF(SIZE_MES==1 .AND. AFORM(8)==3 .AND.ISPMD==0 ) CALL file_size(MULTITHFILESIZE(8))
 
        IF(ABFILE(9) /= 0) THEN
 #ifdef DNC
@@ -1748,9 +1747,7 @@ C
               DO I=1,LEN_TMP_NAME!ROOTLEN+LONG_TMP
                 IFILNAM_TMP(I)=ICHAR(TMP_NAME(I:I))!(FILNAMABF_TMP(I:I))
               ENDDO
-               CALL ABFFILE_UPDATE(ABINP,ABOUT,NABFWR(9),IFILNAM,
-     .                      LEN_TMP_NAME2,IFILNAM_TMP,LEN_TMP_NAME,
-     .                      CPTFILE)
+               CALL ABFFILE_UPDATE(ABINP,ABOUT,NABFWR(9),IFILNAM,LEN_TMP_NAME2,IFILNAM_TMP,LEN_TMP_NAME, CPTFILE)
                NABFWR(9) = 0
              ENDIF
 #endif
@@ -1793,9 +1790,7 @@ C
      N                ITHFLAG,PINCH_DATA,MULTI_FVM,W,OUTPUT%TH%ITHBUFI,
      Q                FSAVSURF,NEED_TO_REINIT_FSAV,GLOB_THERM,OUTPUT)
 
-        IF(SIZE_MES==1 .AND.
-     *     AFORM(9)==3   .AND.
-     *     ISPMD==0 ) CALL file_size(MULTITHFILESIZE(9))
+        IF(SIZE_MES==1 .AND. AFORM(9)==3 .AND. ISPMD==0 ) CALL file_size(MULTITHFILESIZE(9))
             IF(ABFILE(10) /= 0) THEN
 #ifdef DNC
             IFILABF = 20
@@ -1882,9 +1877,7 @@ C
      N                ITHFLAG,PINCH_DATA,MULTI_FVM,W,OUTPUT%TH%SITHBUF,
      Q                FSAVSURF,NEED_TO_REINIT_FSAV,GLOB_THERM,OUTPUT)
 
-        IF(SIZE_MES==1 .AND.
-     *     ITFORM==3   .AND.
-     *     ISPMD==0 )CALL file_size(THFILESIZE)
+        IF(SIZE_MES==1 .AND. ITFORM==3 .AND. ISPMD==0 )CALL file_size(THFILESIZE)
 
         IF(ABFILE(1) /= 0) THEN
 #ifdef DNC
@@ -1928,8 +1921,7 @@ C
             IFILNAM_TMP(I)=ICHAR(TMP_NAME(I:I))!(FILNAMABF_TMP(I:I))
           ENDDO
 
-         CALL ABFFILE_UPDATE(ABINP,ABOUT,NABFWR(1),IFILNAM,LEN_TMP_NAME2,
-     .                      IFILNAM_TMP,LEN_TMP_NAME,0)
+         CALL ABFFILE_UPDATE(ABINP,ABOUT,NABFWR(1),IFILNAM,LEN_TMP_NAME2,IFILNAM_TMP,LEN_TMP_NAME,0)
 
            NABFWR(1) = 0
          ENDIF
@@ -1948,7 +1940,7 @@ C----------------------------------------------
 C-------------------------------------------------------
 C     TRAITEMENT SUR FSAV NON CUMULE
 C-------------------------------------------------------
-      IF(ISPMD==0.AND.THUPDT==1) THEN
+      IF(ISPMD == 0 .AND. THUPDT == 1) THEN
 C en SPMD il faut remettre FSAV a 0 sur P0, la ou FSAV n est pas cumule
         IF(NVOLU>0)THEN
          IAD = NINTER+NRWALL+NRBODY+NSECT+NJOINT
@@ -1961,7 +1953,7 @@ C en SPMD il faut remettre FSAV a 0 sur P0, la ou FSAV n est pas cumule
       ENDIF
 
 C  FSAV(26) : contact elastic energy is not cumulated : only for int10 and int18 for the moment
-      IF(NINTER>0)THEN
+      IF(NINTER > 0)THEN
           DO I=1,NINTER
             ITY = IPARI(7,I)
             IF(ITY /= 10.AND.(ITY /= 7.OR.IPARI(22,I) /= 7)) THEN 
@@ -1989,10 +1981,10 @@ C /TH/SURF quantities reset to 0 expect for massflow (airbags)
       
       ! -----------------------
       ! need to re-initialize PARTSAV array after any th/abf file writing
-      IF(ISPMD==0) THEN
+      IF(ISPMD == 0) THEN
         ! ---------
         ! check if an abf file was written
-        IF(NABFILE/=0) THEN
+        IF(NABFILE /= 0) THEN
             DO I=1,10
                 IF(TT>TABFWR0(I)) NEED_TO_REINIT_FSAV = .TRUE.
             ENDDO
@@ -2014,7 +2006,14 @@ C /TH/SURF quantities reset to 0 expect for massflow (airbags)
       ENDIF
       ! -----------------------
 
-      IF (ISPMD==0.AND.IFLAG==1) WFEXT  = WFEXT- WFEXTH
+      IF (ISPMD == 0 .AND. IFLAG == 1) WFEXT  = WFEXT- WFEXTH
+
+      ! /TH/NODE (PEXT) or /H3D/NODA/PEXT or /ANIM/NODA/PEXT
+      ! reset for next cycle
+      IF(TH_HAS_NODA_PEXT == 1)THEN
+        NODA_SURF(1:NUMNOD) = ZERO
+        NODA_PEXT(1:NUMNOD) = ZERO
+      ENDIF
 C-----------
       RETURN
       END

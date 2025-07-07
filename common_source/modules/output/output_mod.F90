@@ -88,6 +88,7 @@
         use time_history_mod
         use state_file_mod
         use checksum_output_option_mod
+        use precision_mod, only : WP
 
         type output_
            type (th_) :: th
@@ -100,6 +101,8 @@
 
         double precision, pointer :: wfext
         double precision, pointer :: wfext_md
+
+        real(kind=WP), dimension(:), allocatable :: NODA_SURF, NODA_PEXT
 
         type(output_),pointer :: output_ptr      ! pointer to output structure (need for arret)
       end module output_mod

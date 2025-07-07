@@ -225,13 +225,7 @@ C
                IF (ITHBUF(I) == 627)DIRMSG='DRY'               
                IF (ITHBUF(I) == 628)DIRMSG='DRZ'            
                CALL FRETITL2(TITR,ITHGRP(NITHGR-LTITR+1),LTITR)
-               CALL ANCMSG(MSGID=774,
-     .                     MSGTYPE=MSGWARNING,
-     .                     ANMODE=ANINFO_BLIND_1,
-     .                     I1=ITHGRP(1),
-     .                     C1=TITR,
-     .                     I2=ITHGRP(1),
-     .                     C2=DIRMSG)
+               CALL ANCMSG(MSGID=774, MSGTYPE=MSGWARNING, ANMODE=ANINFO_BLIND_1, I1=ITHGRP(1), C1=TITR, I2=ITHGRP(1), C2=DIRMSG)
          ENDIF   
          IF(ITHBUF(I) == 19 .AND. ITHERM_FE == 0 ) THEN
                CALL FRETITL2(TITR,ITHGRP(NITHGR-LTITR+1),LTITR)

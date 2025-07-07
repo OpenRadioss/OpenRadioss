@@ -49,6 +49,7 @@ C-----------------------------------------------
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
+      USE TH_MOD , ONLY : TH_HAS_NODA_PEXT
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -116,7 +117,10 @@ c
 c                                                     
           IF(OK==0)THEN                                       
             DO I=1,NV                                                             
-              IF(VAR == VARE(I))THEN                                          
+              IF(VAR == VARE(I))THEN
+                IF(VAR(1:4) == 'PEXT ')THEN
+                  TH_HAS_NODA_PEXT = 1
+                ENDIF
                 TAG(I)=1                             
                 OK=1                                 
 C---------Multidomaines : pour les subsets, on stocke des infos en plus dans le th pour merge---------                      

@@ -37,9 +37,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    pblast_mod                    ../common_source/modules/loads/pblast_mod.F90
       !||    th_surf_mod                   ../common_source/modules/interfaces/th_surf_mod.F
       !||====================================================================
-      SUBROUTINE PBLAST_1(PBLAST,ILOADP  ,FAC      ,A       ,V         ,X       ,
-     1                    IADC    ,FSKY     ,LLOADP  ,FEXT      ,
-     2                    ITAB    ,H3D_DATA ,NL      ,DTMIN_LOC ,WFEXT_LOC,
+      SUBROUTINE PBLAST_1(PBLAST  ,ILOADP   ,FAC     ,A         ,V         ,X        ,
+     1                    IADC    ,FSKY     ,LLOADP  ,FEXT      ,NODA_SURF ,NODA_PEXT,
+     2                    ITAB    ,H3D_DATA ,NL      ,DTMIN_LOC ,WFEXT_LOC ,
      3                    TH_SURF ,NSEGPL)
 C-----------------------------------------------
 C   M o d u l e s
@@ -50,6 +50,7 @@ C-----------------------------------------------
       USE H3D_INC_MOD 
       USE TH_SURF_MOD , ONLY : TH_SURF_
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARLINE
+      USE TH_MOD ,ONLY : TH_HAS_NODA_PEXT
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -79,7 +80,10 @@ C-----------------------------------------------
       DOUBLE PRECISION,INTENT(INOUT) :: WFEXT_LOC
       my_real,INTENT(IN) :: V(3,NUMNOD),X(3,NUMNOD)
       my_real,INTENT(INOUT) :: FAC(LFACLOAD,NLOADP)
-      my_real,INTENT(INOUT) :: A(3,NUMNOD),FSKY(8,SFSKY/8),FEXT(3,NUMNOD)
+      my_real,INTENT(INOUT) :: A(3,NUMNOD),FSKY(8,SFSKY/8)
+      my_real,INTENT(INOUT) :: FEXT(3,NUMNOD)
+      my_real,INTENT(INOUT) :: NODA_SURF(NUMNOD)
+      my_real,INTENT(INOUT) :: NODA_PEXT(NUMNOD)
       TYPE(H3D_DATABASE),INTENT(IN) :: H3D_DATA
       TYPE (TH_SURF_) , INTENT(INOUT) :: TH_SURF
       INTEGER, INTENT(INOUT) :: NSEGPL
@@ -99,7 +103,8 @@ C-----------------------------------------------
      .           DNORM, Xdet,Ydet,Zdet,Tdet,Wtnt,PMIN,T_STOP,Dx,Dy,Dz,P,
      .           FAC_M_bb, FAC_L_bb, FAC_T_bb, FAC_P_bb, FAC_I_bb, TA_FIRST, TT_STAR, Z1_,
      .           DECAY_inci,DECAY_refl,ZETA,
-     .           cst_255_div_ln_Z1_on_ZN,  log10_, NPT, FF(3), TA_INF_LOC
+     .           cst_255_div_ln_Z1_on_ZN,  log10_, NPT, FF(3), TA_INF_LOC,
+     .           SURF_PATCH
       
       INTEGER, EXTERNAL :: OMP_GET_THREAD_NUM
 
@@ -379,12 +384,13 @@ C-----------------------------------------------
         ENDIF                                                                                                                                                                                         
         P = alpha_refl * WAVE_REFL + alpha_inci * WAVE_INCI
         P = MAX(P,PMIN)                                                                                                                                                                               
-        IF (NUMSKINP > 0) PBLAST%PBLAST_TAB(IL)%PRES(I) = P                                                                                                                                                  
+        PBLAST%PBLAST_TAB(IL)%PRES(I) = P
 
         !!Expand Pressure load to nodes
         ! FF is nodal force which applied on each node N1,N2,N3, and also N4 if relevant
         ! FF = FF_elem / NPT = Pload.S.n / NPT  where n is the unitary normal vector
         ! NX,NY,NZ = 2S.n (in all cases:quadrangles & triangles)
+        SURF_PATCH = HALF*SQRT(NX*NX+NY*NY+NZ*NZ) / NPT
         FF(1) = -P * HALF*NX / NPT       !  -P*S/NPT . nx
         FF(2) = -P * HALF*NY / NPT       !  -P*S/NPT . ny
         FF(3) = -P * HALF*NZ / NPT       !  -P*S/NPT . nz
@@ -392,6 +398,7 @@ C-----------------------------------------------
         PBLAST%PBLAST_TAB(IL)%FX(I) = FF(1)
         PBLAST%PBLAST_TAB(IL)%FY(I) = FF(2)
         PBLAST%PBLAST_TAB(IL)%FZ(I) = FF(3)
+        PBLAST%PBLAST_TAB(IL)%SURF_PATCH(I) = SURF_PATCH
 
         !External Force work
         ! on a given node : DW = <F,V>*dt
@@ -401,7 +408,7 @@ C-----------------------------------------------
 C----- /TH/SURF -------
         IF(TH_SURF%LOADP_FLAG > 0 ) THEN
           NSEGPL = NSEGPL + 1
-          AREA = HALF*SQRT(NX*NX+NY*NY+NZ*NZ)
+          AREA = SURF_PATCH * NPT
           DO NS=TH_SURF%LOADP_KSEGS(NSEGPL) +1,TH_SURF%LOADP_KSEGS(NSEGPL+1)
              KSURF = TH_SURF%LOADP_SEGS(NS)
              th_surf%channels(4,KSURF)= th_surf%channels(4,KSURF) + AREA*P ! mean pressure
@@ -505,28 +512,48 @@ C----- /TH/SURF -------
       !   H3D FILE         /H3D/NODA/FEXT         !
       !-------------------------------------------!                                                                                                                       
 !$OMP SINGLE
-      IF(IANIM_OR_H3D>0) THEN
+      IF(IANIM_OR_H3D > 0) THEN
         DO I = 1,ISIZ_SEG                                                                        
-          N1=PBLAST%PBLAST_TAB(IL)%N(1,I)                                                                              
-          N2=PBLAST%PBLAST_TAB(IL)%N(2,I)                                                                              
-          N3=PBLAST%PBLAST_TAB(IL)%N(3,I)                                                                              
-          N4=PBLAST%PBLAST_TAB(IL)%N(4,I)                                                                              
-          FEXT(1,N1) = FEXT(1,N1)+PBLAST%PBLAST_TAB(IL)%FX(I)                                                          
-          FEXT(2,N1) = FEXT(2,N1)+PBLAST%PBLAST_TAB(IL)%FY(I)                                                          
-          FEXT(3,N1) = FEXT(3,N1)+PBLAST%PBLAST_TAB(IL)%FZ(I)                                                          
-          FEXT(1,N2) = FEXT(1,N2)+PBLAST%PBLAST_TAB(IL)%FX(I)                                                          
-          FEXT(2,N2) = FEXT(2,N2)+PBLAST%PBLAST_TAB(IL)%FY(I)                                                          
-          FEXT(3,N2) = FEXT(3,N2)+PBLAST%PBLAST_TAB(IL)%FZ(I)                                                          
-          FEXT(1,N3) = FEXT(1,N3)+PBLAST%PBLAST_TAB(IL)%FX(I)                                                          
-          FEXT(2,N3) = FEXT(2,N3)+PBLAST%PBLAST_TAB(IL)%FY(I)                                                          
-          FEXT(3,N3) = FEXT(3,N3)+PBLAST%PBLAST_TAB(IL)%FZ(I)                                                          
-          IF(PBLAST%PBLAST_TAB(IL)%NPt(I)==FOUR)THEN                                                                   
-            FEXT(1,N4) = FEXT(1,N4)+PBLAST%PBLAST_TAB(IL)%FX(I)                                                        
-            FEXT(2,N4) = FEXT(2,N4)+PBLAST%PBLAST_TAB(IL)%FY(I)                                                        
-            FEXT(3,N4) = FEXT(3,N4)+PBLAST%PBLAST_TAB(IL)%FZ(I)                                                        
+          N1 = PBLAST%PBLAST_TAB(IL)%N(1,I)
+          N2 = PBLAST%PBLAST_TAB(IL)%N(2,I)
+          N3 = PBLAST%PBLAST_TAB(IL)%N(3,I)
+          N4 = PBLAST%PBLAST_TAB(IL)%N(4,I)
+          FEXT(1,N1) = FEXT(1,N1) + PBLAST%PBLAST_TAB(IL)%FX(I)
+          FEXT(2,N1) = FEXT(2,N1) + PBLAST%PBLAST_TAB(IL)%FY(I)
+          FEXT(3,N1) = FEXT(3,N1) + PBLAST%PBLAST_TAB(IL)%FZ(I)
+          FEXT(1,N2) = FEXT(1,N2) + PBLAST%PBLAST_TAB(IL)%FX(I)
+          FEXT(2,N2) = FEXT(2,N2) + PBLAST%PBLAST_TAB(IL)%FY(I)
+          FEXT(3,N2) = FEXT(3,N2) + PBLAST%PBLAST_TAB(IL)%FZ(I)
+          FEXT(1,N3) = FEXT(1,N3) + PBLAST%PBLAST_TAB(IL)%FX(I)
+          FEXT(2,N3) = FEXT(2,N3) + PBLAST%PBLAST_TAB(IL)%FY(I)
+          FEXT(3,N3) = FEXT(3,N3) + PBLAST%PBLAST_TAB(IL)%FZ(I)
+          IF(PBLAST%PBLAST_TAB(IL)%NPt(I) == FOUR)THEN
+            FEXT(1,N4) = FEXT(1,N4) + PBLAST%PBLAST_TAB(IL)%FX(I)
+            FEXT(2,N4) = FEXT(2,N4) + PBLAST%PBLAST_TAB(IL)%FY(I)
+            FEXT(3,N4) = FEXT(3,N4) + PBLAST%PBLAST_TAB(IL)%FZ(I)
           ENDIF                                                                                  
         ENDDO                                                                                           
-      ENDIF  
+      ENDIF
+      IF(TH_HAS_NODA_PEXT > 0) THEN
+        DO I = 1,ISIZ_SEG
+          N1 = PBLAST%PBLAST_TAB(IL)%N(1,I)
+          N2 = PBLAST%PBLAST_TAB(IL)%N(2,I)
+          N3 = PBLAST%PBLAST_TAB(IL)%N(3,I)
+          N4 = PBLAST%PBLAST_TAB(IL)%N(4,I)
+          SURF_PATCH = PBLAST%PBLAST_TAB(IL)%SURF_PATCH(I)
+          NODA_SURF(N1) = NODA_SURF(N1) + SURF_PATCH
+          NODA_SURF(N2) = NODA_SURF(N2) + SURF_PATCH
+          NODA_SURF(N3) = NODA_SURF(N3) + SURF_PATCH
+          P = PBLAST%PBLAST_TAB(IL)%PRES(I) * SURF_PATCH
+          NODA_PEXT(N1) = NODA_PEXT(N1) + P
+          NODA_PEXT(N2) = NODA_PEXT(N2) + P
+          NODA_PEXT(N3) = NODA_PEXT(N3) + P
+          IF(PBLAST%PBLAST_TAB(IL)%NPT(I) == FOUR)THEN
+            NODA_SURF(N4) = NODA_SURF(N4) + SURF_PATCH
+            NODA_PEXT(N4) = NODA_PEXT(N4) + P
+          ENDIF
+        ENDDO
+      ENDIF
 !$OMP END SINGLE    
 
       RETURN
@@ -538,5 +565,4 @@ C-----------------------------------------------
          CALL ARRET(2)
        END IF
 C-----------------------------------------------
-       
-      END SUBROUTINE
+      END SUBROUTINE PBLAST_1

@@ -1128,11 +1128,11 @@ C-----------------------
        IF (ITASK == 0) 
      .   CALL TMAX_IPART(IPARG   ,IPART   ,IPART(I15A),IPART(I15C),
      .                 IPART(I15I),H3D_DATA)
-       CALL INI_TMAX(ELBUF_TAB,IPARG   ,GEO     ,PM   ,
-     .           IXS  ,IXS10   ,IXS16   ,IXS20   ,IXQ     ,
-     .           IXC  ,IXTG   ,IXT    ,IXP     ,IXR     ,
-     .           X  ,D       ,V       ,IAD_ELEM,FR_ELEM ,
-     .             WEIGHT ,IPM   ,IGEO    ,STACK   ,ITASK   )
+       CALL INI_TMAX(ELBUF_TAB ,IPARG   ,GEO     ,PM       ,
+     .                IXS      ,IXS10   ,IXS16   ,IXS20    ,IXQ     ,
+     .                IXC      ,IXTG    ,IXT     ,IXP      ,IXR     ,
+     .                X        ,D       ,V       ,IAD_ELEM ,FR_ELEM ,
+     .                WEIGHT   ,IPM     ,IGEO    ,STACK    ,ITASK   )
 !$OMP SINGLE
        IF (FAILWAVE%WAVE_MOD > 0) THEN
          CALL SPMD_FAILWAVE_BOUNDARIES(FAILWAVE,IAD_ELEM,FR_ELEM)
@@ -1140,15 +1140,8 @@ C-----------------------
        ! Non-local regularization is activated
        IF (NLOC_DMG%IMOD > 0) THEN
          CALL SPMD_SUB_BOUNDARIES(NLOC_DMG,IAD_ELEM,FR_ELEM)
-         CALL NLOC_COUNT_SOLNOD(NGROUP   ,NPARG    ,IPARG    ,
-     .                ELBUF_TAB,IXS      ,NIXS     ,NUMELS   )
+         CALL NLOC_COUNT_SOLNOD(NGROUP, NPARG, IPARG, ELBUF_TAB, IXS, NIXS, NUMELS)
        ENDIF
-C       
-       DO I=1,PBLAST%NLOADP_B
-         NBS = PBLAST%PBLAST_TAB(I)%SIZ
-         ALLOCATE (PBLAST%PBLAST_TAB(I)%PRES(NBS))
-         PBLAST%PBLAST_TAB(I)%PRES(1:NBS)=ZERO
-       ENDDO
 C-----------------------
 C DT_DC OF TSH
 C-----------------------

@@ -38,7 +38,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||====================================================================
       SUBROUTINE PBLAST_3(PBLAST,
      *                    ILOADP  ,FAC      ,A       ,V         ,X       ,
-     1                    IADC    ,FSKY     ,LLOADP  ,FEXT      ,
+     1                    IADC    ,FSKY     ,LLOADP  ,FEXT      ,NODA_SURF,NODA_PEXT,
      2                    ITAB    ,H3D_DATA ,NL      ,DTMIN_LOC ,WFEXT_LOC,
      4                    TH_SURF ,NSEGPL)
 C-----------------------------------------------
@@ -50,6 +50,7 @@ C-----------------------------------------------
       USE H3D_INC_MOD
       USE TH_SURF_MOD , ONLY : TH_SURF_
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARLINE
+      USE TH_MOD ,ONLY : TH_HAS_NODA_PEXT
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -79,7 +80,10 @@ C-----------------------------------------------
       DOUBLE PRECISION,INTENT(INOUT) :: WFEXT_LOC
       my_real,INTENT(IN) :: V(3,NUMNOD),X(3,NUMNOD)
       my_real,INTENT(INOUT) :: FAC(LFACLOAD,NLOADP)
-      my_real,INTENT(INOUT) :: A(3,NUMNOD),FSKY(8,SFSKY/8), FEXT(3,NUMNOD)
+      my_real,INTENT(INOUT) :: A(3,NUMNOD),FSKY(8,SFSKY/8)
+      my_real,INTENT(INOUT) :: FEXT(3,NUMNOD)
+      my_real,INTENT(INOUT) :: NODA_SURF(NUMNOD)
+      my_real,INTENT(INOUT) :: NODA_PEXT(NUMNOD)
       TYPE(H3D_DATABASE),INTENT(IN) :: H3D_DATA
       TYPE (TH_SURF_) , INTENT(INOUT) :: TH_SURF
       INTEGER, INTENT(INOUT) :: NSEGPL
@@ -116,6 +120,7 @@ C-----------------------------------------------
       my_real DECAY_inci,DECAY_refl,AREA
       my_real NPT
       my_real :: TA_INF_LOC, ZETA
+      my_real :: SURF_PATCH
 
       my_real PI_
       DATA PI_/3.141592653589793238462643D0/
@@ -471,12 +476,14 @@ C-----------------------------------------------
         ENDIF
         P = alpha_refl * WAVE_REFL + alpha_inci * WAVE_INCI
         P = MAX(P,PMIN)
-        IF (NUMSKINP > 0) PBLAST%PBLAST_TAB(IL)%PRES(I) = P
+        PBLAST%PBLAST_TAB(IL)%PRES(I) = P
 
         !Expand Pressure load to nodes
+        SURF_PATCH = HALF*SQRT(NX*NX+NY*NY+NZ*NZ) / NPT
         PBLAST%PBLAST_TAB(IL)%FX(I)= -P * HALF*NX / NPT
         PBLAST%PBLAST_TAB(IL)%FY(I)= -P * HALF*NY / NPT
         PBLAST%PBLAST_TAB(IL)%FZ(I)= -P * HALF*NZ / NPT
+        PBLAST%PBLAST_TAB(IL)%SURF_PATCH(I) = SURF_PATCH
 
         !External Force work
         ! on a given node : DW = <F,V>*dt
@@ -489,7 +496,7 @@ C-----------------------------------------------
 C----- /TH/SURF -------
         IF(TH_SURF%LOADP_FLAG > 0 ) THEN
           NSEGPL = NSEGPL + 1
-          AREA = HALF*SQRT(NX*NX+NY*NY+NZ*NZ)
+          AREA = SURF_PATCH*NPT
           DO NS=TH_SURF%LOADP_KSEGS(NSEGPL) +1,TH_SURF%LOADP_KSEGS(NSEGPL+1)
              KSURF = TH_SURF%LOADP_SEGS(NS)
              th_surf%channels(4,KSURF)= th_surf%channels(4,KSURF) + AREA*P ! mean pressure
@@ -595,7 +602,7 @@ C----- /TH/SURF -------
       !-------------------------------------------!
 
 !$OMP SINGLE
-      IF(IANIM_OR_H3D>0) THEN
+      IF(IANIM_OR_H3D > 0) THEN
         DO I = 1,ISIZ_SEG
           N1=PBLAST%PBLAST_TAB(IL)%N(1,I)
           N2=PBLAST%PBLAST_TAB(IL)%N(2,I)
@@ -617,6 +624,26 @@ C----- /TH/SURF -------
           ENDIF
         ENDDO
        ENDIF
+      IF(TH_HAS_NODA_PEXT > 0) THEN
+        DO I = 1,ISIZ_SEG
+          N1 = PBLAST%PBLAST_TAB(IL)%N(1,I)
+          N2 = PBLAST%PBLAST_TAB(IL)%N(2,I)
+          N3 = PBLAST%PBLAST_TAB(IL)%N(3,I)
+          N4 = PBLAST%PBLAST_TAB(IL)%N(4,I)
+          SURF_PATCH = PBLAST%PBLAST_TAB(IL)%SURF_PATCH(I)
+          NODA_SURF(N1) = NODA_SURF(N1) + SURF_PATCH
+          NODA_SURF(N2) = NODA_SURF(N2) + SURF_PATCH
+          NODA_SURF(N3) = NODA_SURF(N3) + SURF_PATCH
+          P = PBLAST%PBLAST_TAB(IL)%PRES(I) * SURF_PATCH
+          NODA_PEXT(N1) = NODA_PEXT(N1) + P
+          NODA_PEXT(N2) = NODA_PEXT(N2) + P
+          NODA_PEXT(N3) = NODA_PEXT(N3) + P
+          IF(PBLAST%PBLAST_TAB(IL)%NPT(I) == FOUR)THEN
+            NODA_SURF(N4) = NODA_SURF(N4) + SURF_PATCH
+            NODA_PEXT(N4) = NODA_PEXT(N4) + P
+          ENDIF
+        ENDDO
+      ENDIF
 !$OMP END SINGLE
 
       RETURN

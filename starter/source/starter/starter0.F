@@ -98,6 +98,7 @@ C-----------------------------------------------
       USE PBLAST_MOD
       use checksum_starter_option_mod
       use checksum_check_mod
+      use th_mod , only : TH_HAS_NODA_PEXT
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -196,8 +197,7 @@ c      TYPE(SENSORS_) :: SENSORS    ! declared as global in USER_SENSOR_MOD
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
-      INTEGER  ANEND
-      EXTERNAL ANEND
+      INTEGER,EXTERNAL ::  ANEND
 C--------------------------------------------------------
 C     LAM MAX LENGTH REAL ARRAY
 C     LMA MAX LENGTH INTEGER ARRAY
@@ -336,6 +336,8 @@ C MUSCL compression coefficient, default value set to 1.
       RADIOSSV = 100090402
       IFLEXPIPE = 1
       LEN = ncharfield*2
+C
+      TH_HAS_NODA_PEXT = 0
 C
 C No Decay for Starter
       TAGLEN      = 0
