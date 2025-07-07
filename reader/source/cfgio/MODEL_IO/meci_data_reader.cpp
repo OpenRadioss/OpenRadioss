@@ -99,6 +99,22 @@ static void DescTypeToPreobjType(attribute_type_e desc_a_type, value_type_e desc
     return;
 }
 
+
+static bool hasWhitespaceAndLength(const char* input, unsigned int& length) {
+    length = 0;
+    if (!input) return false;
+
+    bool hasWhitespace = false;
+    while (input[length]) {
+        if (std::isspace(static_cast<unsigned char>(input[length]))) {
+            hasWhitespace = true;
+        }
+        ++length;
+    }
+    return hasWhitespace;
+}
+
+
 class DataReaderUpdateManager_t
 {
 public:
@@ -1307,6 +1323,8 @@ void MECIDataReader::assign(const PseudoFileFormatCard_t       *card_format_p,
                     else if (atype == ASSIGN_STOF)
                         value = std::stof(a_value_str.c_str());
                     HCDI_UpdatePreObjectValue(*object_p, descr_p, assign_card_attrib_ikey, value, a_value_str, i);
+                    if (atype == ASSIGN_STOI || atype == ASSIGN_STOF)
+                        break; // copy only start_ind_value
                 }
             }
             return;
@@ -6575,8 +6593,11 @@ const char *MECIDataReader::readCell_COMMENT(const char                   *cell,
       {
           /*a_cell_string will have the whitespaces as per card format length
           However we want it same as cell*/
+          if (hasWhitespaceAndLength(a_cell_string, a_cell_size))/*incase there are no whiltespace*/
+          {
           a_cell_string = cell;
           a_cell_size = GetCellFreeSize(cell);
+          }
       }
       else
       {

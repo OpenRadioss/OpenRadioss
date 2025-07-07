@@ -642,22 +642,35 @@ void TransformWithOffset(int submodelindex, IMECPreObject* preObj, bool doUnOffs
                     obj_type_e a_hm_type = HCDI_get_entitytype(a_otype);
 
                     int offsetval = 0;
-                    if (hm_type == HCDI_OBJ_TYPE_MULTIOBJECT)
+                    if (a_hm_type == HCDI_OBJ_TYPE_MULTIOBJECT)
                     {
                         const char* kwd = preObj->GetKeyword(a_atype, IMECPreObject::VTY_OBJECT, k);
                         if (kwd)
                         {
                             string typekwd = string(kwd) + "_type";
                             const char* a_otype = preObj->GetStringValue(typekwd.c_str());
-                            if (a_otype && strlen(a_otype) >= 1)
+                            size_t len = a_otype ? strlen(a_otype) : 0;
+                            if (len > 1)
+                            {
+                                const char* pslash = std::find (a_otype + 1, a_otype + len, '/');
+                                if(a_otype + len == pslash)
                             {
                                 a_hm_type = HCDI_get_entitytype(a_otype + 1);
+                                }
+                                else
+                                {
+                                    char buffer[100];
+                                    len = pslash - a_otype - 1;
+                                    strncpy(buffer, a_otype + 1, len);
+                                    buffer[len] = '\0';
+                                    a_hm_type = HCDI_get_entitytype(buffer);
+                                }
                                 offsetval = cumulobjinfo[a_hm_type];
                             }
                         }
                     }
                     else
-                        offsetval = cumulobjinfo[hm_type];
+                        offsetval = cumulobjinfo[a_hm_type];
 
                     if (doUnOffset) a_id -= offsetval;
                     else            a_id += offsetval;
@@ -678,22 +691,35 @@ void TransformWithOffset(int submodelindex, IMECPreObject* preObj, bool doUnOffs
                         int         a_index = preObj->GetObjectIndex(k, l);
                         obj_type_e a_hm_type = HCDI_get_entitytype(a_otype);
                         int offsetval = 0;
-                        if (hm_type == HCDI_OBJ_TYPE_MULTIOBJECT)
+                        if (a_hm_type == HCDI_OBJ_TYPE_MULTIOBJECT)
                         {
                             const char* kwd = preObj->GetKeyword(a_atype, IMECPreObject::VTY_OBJECT, k);
                             if (kwd)
                             {
                                 string typekwd = string(kwd) + "_type";
                                 const char* a_otype = preObj->GetStringValue(typekwd.c_str());
-                                if (a_otype && strlen(a_otype) >= 1)
+                                size_t len = a_otype ? strlen(a_otype) : 0;
+                                if (len > 1)
+                                {
+                                    const char* pslash = std::find (a_otype + 1, a_otype + len, '/');
+                                    if(a_otype + len == pslash)
                                 {
                                     a_hm_type = HCDI_get_entitytype(a_otype + 1);
+                                    }
+                                    else
+                                    {
+                                        char buffer[100];
+                                        len = pslash - a_otype - 1;
+                                        strncpy(buffer, a_otype + 1, len);
+                                        buffer[len] = '\0';
+                                        a_hm_type = HCDI_get_entitytype(buffer);
+                                    }
                                     offsetval = cumulobjinfo[a_hm_type];
                                 }
                             }
                         }
                         else
-                            offsetval = cumulobjinfo[hm_type];
+                            offsetval = cumulobjinfo[a_hm_type];
 
                         if (doUnOffset) a_id -= offsetval;
                         else           a_id += offsetval;

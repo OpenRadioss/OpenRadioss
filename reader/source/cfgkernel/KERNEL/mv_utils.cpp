@@ -682,7 +682,7 @@ double loc_convert_memory_info(const string &info) {
 
 int  MV_comp_radioss_version(string vers1, string vers2)
 {
-   static std::vector<std::string> versions = { "radioss2025", "radioss2024", "radioss2023", "radioss2022", "radioss2021","radioss2020","radioss2019","radioss2018", "radioss2017","radioss2016","radioss2015","radioss140","radioss130", "radioss120", "radioss110", "radioss100", "radioss90", "radioss52","radioss51", "radioss50","radioss48", "radioss44", "radioss43", "radioss42", "radioss41" };
+   static std::vector<std::string> versions = { "radioss2026", "radioss2025", "radioss2024", "radioss2023", "radioss2022", "radioss2021","radioss2020","radioss2019","radioss2018", "radioss2017","radioss2016","radioss2015","radioss140","radioss130", "radioss120", "radioss110", "radioss100", "radioss90", "radioss52","radioss51", "radioss50","radioss48", "radioss44", "radioss43", "radioss42", "radioss41" };
 
    static int    nb_vers = static_cast<int> (versions.size());
    int    i, i1=-1, i2=-1 ;

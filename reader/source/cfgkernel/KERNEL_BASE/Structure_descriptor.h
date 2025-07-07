@@ -118,6 +118,9 @@ typedef struct array_descriptor_s {
   int                    size;
   int                    dimension;     /*dimension*/
   dimension_size_t    *size_array; /*size to each dimension*/
+  int                  nb_row_defaults;
+  int                  nb_col_defaults;
+  double             **default_values;
 } array_descriptor_t;
 
 typedef struct object_array_descriptor_s {

@@ -59,17 +59,14 @@ public:
     };
 
 public:
-    static MultiCFGKernelMgr& getInstance()
-    {
-        static MultiCFGKernelMgr    instance;
-        return instance;
-    }
+    static MultiCFGKernelMgr& getInstance();
+    ~MultiCFGKernelMgr();
+
 private:
     MultiCFGKernelMgr(MvFileFormat_e userprofile = FF_UNKNOWN) : p_pcfgkernel(FF_LAST, nullptr)
     {
         p_current_solver = userprofile;
     }
-    ~MultiCFGKernelMgr();
 
     MultiCFGKernelMgr(MultiCFGKernelMgr const&);
     void operator=(MultiCFGKernelMgr const&);
