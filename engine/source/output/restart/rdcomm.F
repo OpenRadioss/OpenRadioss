@@ -78,6 +78,7 @@ C-----------------------------------------------
       USE glob_therm_mod
       USE PBLAST_MOD
       USE RBE3_MOD
+      USE TH_MOD , ONLY : TH_HAS_NODA_PEXT
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -175,7 +176,7 @@ C-----------------------------------------------
       NSPMD   =TABVINT(23)
       LENWA   =TABVINT(24)
       ISGIFL  =TABVINT(25)
-      !       =TABVINT(26)
+      TH_HAS_NODA_PEXT = TABVINT(26)
       NNODS   =TABVINT(27)
       NCNOIS  =TABVINT(28)
       LCNE0   =TABVINT(29)

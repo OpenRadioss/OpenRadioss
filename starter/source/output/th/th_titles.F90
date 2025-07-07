@@ -208,7 +208,8 @@
             'ZZ REACTION IMPULSE ON NODE',&
             'X-ROT DISPLACEMENT',&
             'Y-ROT DISPLACEMENT',&
-            'Z-ROT DISPLACEMENT'/)
+            'Z-ROT DISPLACEMENT',&
+            'EXTERNAL PRESSURE (MEAN)'/)
 
           varnpinch_title = (/&
             character(len=100) ::&

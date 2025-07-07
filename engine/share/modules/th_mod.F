@@ -108,5 +108,7 @@ C-----------------------------------------------
         TYPE(TH_PROC_TYPE), DIMENSION(10), TARGET :: NST_STRUCT       
         TYPE(TH_COMM), DIMENSION(10), TARGET :: WA_NST_COMM
         TYPE(TH_WA_REAL), DIMENSION(10), TARGET :: WA_NST_P0,WA_NST
+
+        INTEGER :: TH_HAS_NODA_PEXT
 C
         END MODULE TH_MOD

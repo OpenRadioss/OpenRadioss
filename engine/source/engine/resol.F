@@ -681,7 +681,7 @@ C-----------------------------------------------
               USE STATE_MOD
               USE USER_WINDOWS_MOD
               USE ALE_MOD
-              USE OUTPUT_MOD , ONLY : OUTPUT_, WFEXT, WFEXT_MD
+              USE OUTPUT_MOD , ONLY : OUTPUT_, WFEXT, WFEXT_MD, NODA_SURF, NODA_PEXT
               USE INTERFACES_MOD
               USE DEBUG_CHKSM_MOD ,  ONLY : SPMD_FLUSH_ACCEL
               USE DT_MOD
@@ -718,6 +718,8 @@ C-----------------------------------------------
               USE UPDATE_PON_MOD
               USE DEBUG_MOD
               use inter_init_component_mod , only : inter_init_component
+              use th_mod , only : th_has_noda_pext
+              use output_mod
               use damping_vref_compute_dampa_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -1100,7 +1102,8 @@ C End Parith/ON specific
               INTEGER, POINTER, DIMENSION(:) :: PTR_SMS
               INTEGER NMT0
               INTEGER, DIMENSION(:), ALLOCATABLE :: IKINE
-              my_real, DIMENSION(:), ALLOCATABLE :: STK_SN,STK_SR,FEXT,FCLUSTER,MCLUSTER
+              my_real, DIMENSION(:), ALLOCATABLE :: STK_SN,STK_SR,FCLUSTER,MCLUSTER
+              my_real, DIMENSION(:), ALLOCATABLE :: NODA_FEXT
               INTEGER LNZM
               INTEGER, DIMENSION(:),ALLOCATABLE :: INT18ADD,TAGPENE
               INTEGER, DIMENSION(:),ALLOCATABLE :: IDAMP_RDOF_TAB
@@ -2365,13 +2368,26 @@ C ---------------------
 C ---------------------
 C Allocating FEXT Array
 C ---------------------
-              IF(ANIM_V(5)+OUTP_V(5)+H3D_DATA%N_VECT_FINT+
-     .           ANIM_V(6)+OUTP_V(6)+H3D_DATA%N_VECT_FEXT >0) THEN
-                ALLOCATE(FEXT(3*NUMNOD))
-                FEXT(1:3*NUMNOD)=ZERO
+              IF(ANIM_V(5)+OUTP_V(5)+H3D_DATA%N_VECT_FINT+ANIM_V(6)+OUTP_V(6)+H3D_DATA%N_VECT_FEXT > 0 .OR. TH_HAS_NODA_PEXT> 0) THEN
+                ALLOCATE(NODA_FEXT(3*NUMNOD))
+                NODA_FEXT(1:3*NUMNOD)=ZERO
               ELSE
-                ALLOCATE(FEXT(3))
-                FEXT(1:3)=ZERO
+                ALLOCATE(NODA_FEXT(3))
+                NODA_FEXT(1:3)=ZERO
+              ENDIF
+C ---------------------
+C Allocating PEXT Array
+C ---------------------
+              IF(TH_HAS_NODA_PEXT > 0) THEN
+                ALLOCATE(NODA_SURF(NUMNOD))
+                ALLOCATE(NODA_PEXT(NUMNOD))
+                NODA_SURF(1:NUMNOD)=ZERO
+                NODA_PEXT(1:NUMNOD)=ZERO
+              ELSE
+                ALLOCATE(NODA_SURF(3))
+                ALLOCATE(NODA_PEXT(3))
+                NODA_SURF(1:3)=ZERO
+                NODA_PEXT(1:3)=ZERO
               ENDIF
 C ---------------------
               IF (ANIM_V(19) + H3D_DATA%N_VECT_CLUST_FORCE > 0) THEN
@@ -3447,7 +3463,7 @@ C-------------------------------------------------------------------
      2                     NPC     ,STF      ,TF       ,NODES%A        ,NODES%V                         ,
      3                     NODES%X       ,SKEWS    ,NODES%AR                        ,
      4                     NODES%VR      ,NSENSOR  ,SENSORS%SENSOR_TAB ,WFEXC          ,ELEMENT%PON%IAD_CONLD ,
-     5                     LSKY    ,ELEMENT%PON%FSKY     ,FEXT     ,H3D_DATA ,CPTREAC                   ,
+     5                     LSKY    ,ELEMENT%PON%FSKY     ,NODA_FEXT     ,H3D_DATA ,CPTREAC                   ,
      6                     FTHREAC ,NODREAC  ,OUTPUT%TH%TH_SURF  ,
      7                     DPL0CLD ,VEL0CLD  ,NODES%D        ,NODES%DR       ,NCONLD                    ,
      8                     NUMNOD  ,NFUNCT   ,ANIM_V   ,OUTP_V                    ,
@@ -3458,7 +3474,7 @@ C
                   CALL FORCEPINCH(IBCL   ,FORC    ,NPC    ,TF      ,NODES%A         ,
      2                            NODES%V      ,NODES%X       ,SKEWS%SKEW   ,NODES%AR      ,NODES%VR        ,
      3                            NSENSOR,SENSORS%SENSOR_TAB ,NODES%WEIGHT ,WFEXC   ,ELEMENT%PON%IAD_CONLD,
-     4                            ELEMENT%PON%FSKY   , ELEMENT%PON%FSKY   ,FEXT   ,H3D_DATA,
+     4                            ELEMENT%PON%FSKY   , ELEMENT%PON%FSKY   ,NODA_FEXT   ,H3D_DATA,
      5                            PINCH_DATA%APINCH, PINCH_DATA%VPINCH, PYTHON, OUTPUT%WFEXT)
                 ENDIF
 C
@@ -3474,7 +3490,7 @@ C
                   IF(IMONM > 0) CALL STARTIME(TIMERS,44)
                 ENDIF
                 CALL FORCEFINGEO(IBFV ,NPC    ,TF      ,NODES%A    ,NODES%V    ,NODES%X     ,
-     2                           VEL  ,SENSORS%SENSOR_TAB ,ELEMENT%PON%FSKY ,FEXT ,NODES%ITABM1,
+     2                           VEL  ,SENSORS%SENSOR_TAB ,ELEMENT%PON%FSKY ,NODA_FEXT ,NODES%ITABM1,
      3                           H3D_DATA,NSENSOR,PYTHON,WFEXT)
                 IF(IMON>0) THEN
                   IF(IMONM > 0) CALL STOPTIME(TIMERS,44)
@@ -3493,7 +3509,7 @@ C-------------------------------------------------------------------
                 CALL PFLUID(ILOADP  ,LOADP             ,NPC        ,TF          ,NODES%A               ,
      2                      NODES%V       ,NODES%X                 ,XFRAME      ,NODES%MS              ,
      3                      NSENSOR ,SENSORS%SENSOR_TAB,WFEXC      ,OUTPUT%WFEXT,ELEMENT%PON%IAD_LOADP ,
-     4                      ELEMENT%PON%FSKY , ELEMENT%PON%FSKY                 ,LLOADP                ,FEXT       ,H3D_DATA  ,
+     4                      ELEMENT%PON%FSKY , ELEMENT%PON%FSKY                 ,LLOADP                ,NODA_FEXT   ,H3D_DATA  ,
      5                      OUTPUT%TH%TH_SURF, PYTHON)
 !$OMP END PARALLEL
                 IF (IMONM > 0) CALL STOPTIME(TIMERS,41)
@@ -3510,7 +3526,7 @@ C----------------------------------
                 IF (IMONM > 0) CALL STARTIME(TIMERS,41)
                 CALL PBLAST_LOAD_COMPUTATION(
      1                      PBLAST                ,ILOADP           ,LOADP             ,NODES%A      ,NODES%V   ,NODES%X,
-     2                      ELEMENT%PON%IAD_LOADP ,ELEMENT%PON%FSKY ,LLOADP            ,FEXT         ,
+     2                      ELEMENT%PON%IAD_LOADP ,ELEMENT%PON%FSKY ,LLOADP            ,NODA_FEXT    ,NODA_SURF ,NODA_PEXT,
      3                      NODES%ITAB            ,H3D_DATA         ,OUTPUT%TH%TH_SURF ,OUTPUT%WFEXT)
                 IF (IMONM > 0) CALL STOPTIME(TIMERS,41)
                 IF (IMON>0) CALL STOPTIME(TIMERS,TIMER_KIN)
@@ -3528,8 +3544,8 @@ C       LOAD PCYL
 C----------------------------------
               IF (LOADS%NLOAD_CYL > 0) THEN
                 CALL PRESSURE_CYL(
-     .               LOADS     ,TABLE     ,SENSORS%NSENSOR,SENSORS%SENSOR_TAB,IFRAME    ,
-     .               DT1       ,NODES%X         ,NODES%V         ,NODES%A         ,FEXT      ,
+     .               LOADS     ,TABLE     ,SENSORS%NSENSOR,SENSORS%SENSOR_TAB,IFRAME         ,
+     .               DT1       ,NODES%X         ,NODES%V         ,NODES%A         ,NODA_FEXT ,
      .               H3D_DATA  ,CPTREAC   ,FTHREAC   ,NODREAC   ,ELEMENT%PON%FSKY ,OUTPUT%WFEXT     )
               ENDIF
 !-------------------------------------------------------------------
@@ -3619,7 +3635,7 @@ C
      5            ELEMENT%PON%FSKY,ICONTACT           ,WA(N0)             ,IPARG     ,
      6            ELBUF_TAB       ,GEO                ,IGEO               ,
      7            PM              ,IPM                ,IPART              ,IPART(K3) ,
-     8            IPART(K8)       ,IGROUPC            ,IGROUPTG           ,FEXT      ,
+     8            IPART(K8)       ,IGROUPC            ,IGROUPTG           ,NODA_FEXT ,
      9            1               ,H3D_DATA           ,T_MONVOL           ,frontier_global_mv,
      A            OUTPUT )
                 CALL TRACE_OUT(11)
@@ -3950,7 +3966,7 @@ C-----------------------------------------------
                 ITSK = OMP_GET_THREAD_NUM()
                 NODFTSK   = 1+ITSK*NUMNOD/ NTHREAD
                 NODLTSK   = (ITSK+1)*NUMNOD/NTHREAD
-                CALL FORANI1(FANI,NODES%A ,NFIA,NFEA,NFOA,NODFTSK,NODLTSK,FEXT,H3D_DATA)
+                CALL FORANI1(FANI,NODES%A ,NFIA,NFEA,NFOA,NODFTSK,NODLTSK,NODA_FEXT,H3D_DATA)
 !$OMP END PARALLEL
 C
               ENDIF
@@ -4521,7 +4537,7 @@ C
      .                      NODES%A        , NPC,      TF,           NSENSOR           ,
      .                      FSAV(1,N), IFVMESH,  ICONTACT_OLD, LGAUGE            ,
      .                      GAUGE    , IGEO,     GEO,          PM                , IPM ,
-     .                      IPARG    , IGROUPTG, IGROUPC,      ELBUF_TAB         , FEXT,
+     .                      IPARG    , IGROUPTG, IGROUPC,      ELBUF_TAB         , NODA_FEXT,
      .                      1        , H3D_DATA, NODES%ITAB,   NODES%WEIGHT      , OUTPUT%WFEXT)
 C
                 CALL TRACE_OUT(11)
@@ -4860,7 +4876,7 @@ C
      .                      NODES%A,      NPC,     TF,     NSENSOR           ,
      .                      FSAV(1,N), IFVMESH, ICONTACT_OLD,LGAUGE,
      .                      GAUGE    , IGEO,    GEO,         PM,                  IPM,
-     .                      IPARG    , IGROUPTG,IGROUPC,     ELBUF_TAB,           FEXT,
+     .                      IPARG    , IGROUPTG,IGROUPC,     ELBUF_TAB,           NODA_FEXT,
      .                      2        , H3D_DATA,NODES%ITAB, NODES%WEIGHT, OUTPUT%WFEXT)
                 IF (IMPL_S > 0 .AND. ISMDISP >0) THEN
                   CALL ASSIGN_PTRX(ptrx,IMPBUF_TAB%X_A,NUMNOD)
@@ -4875,7 +4891,7 @@ C
      5            ELEMENT%PON%FSKY  ,ICONTACT           ,WA(N0)             ,IPARG     ,
      6            ELBUF_TAB         ,GEO                ,IGEO               ,
      7            PM                ,IPM                ,IPART              ,IPART(K3) ,
-     8            IPART(K8)         ,IGROUPC            ,IGROUPTG           ,FEXT      ,
+     8            IPART(K8)         ,IGROUPC            ,IGROUPTG           ,NODA_FEXT      ,
      9            2                 ,H3D_DATA           ,T_MONVOL           ,frontier_global_mv,
      A            OUTPUT)
 
@@ -4966,7 +4982,7 @@ C
 !   ----------------------------------
 
               IF(NLOADP_HYD/=0.AND.IMPL_S/=1) THEN
-                FEXT = ZERO
+                NODA_FEXT = ZERO
                 CALL TRACE_IN(10,0,ZERO)
                 IF (IMON>0) CALL STARTIME(TIMERS,TIMER_KIN)
                 IF (IMONM > 0) CALL STARTIME(TIMERS,41)
@@ -6530,7 +6546,7 @@ C--                   /DAMP/VREL - recompute damping parameters at current time
                         call damping_vref_compute_dampa(i,ndamp,nrdamp,dampr,dt1,tt,damp_a)
                         DAMPA = MAX(DAMP_A(1),DAMP_A(2),DAMP_A(3))
                         DAMPB = ZERO
-                      ENDIF 
+                      ENDIF
                       FACTB = DAMPR(16,I)
                       D_TSTART = DAMPR(17,I)
                       D_TSTOP  = DAMPR(18,I)
@@ -9957,7 +9973,9 @@ C
                 ENDIF
                 IF(INTPLYXFEM > 0)DEALLOCATE(PLYSKYI%FSKYI)
                 DEALLOCATE(PLY, PLYSKY)
-                DEALLOCATE(FEXT)
+                IF(ALLOCATED(NODA_FEXT))DEALLOCATE(NODA_FEXT)
+                IF(ALLOCATED(NODA_SURF))DEALLOCATE(NODA_SURF)
+                IF(ALLOCATED(NODA_PEXT))DEALLOCATE(NODA_PEXT)
                 DEALLOCATE(NPCONT2)
 C
 C Deallocte AMS / POFF

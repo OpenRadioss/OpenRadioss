@@ -69,6 +69,7 @@ C-----------------------------------------------
       USE DAMP_MOD
       USE glob_therm_mod
       USE PBLAST_MOD
+      USE TH_MOD , ONLY : TH_HAS_NODA_PEXT
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -167,7 +168,7 @@ C-----
       TABVINT(23) =NSPMD
       TABVINT(24) =LENWA
       TABVINT(25) =ISGIFL
-      TABVINT(26) =0 !no longer used
+      TABVINT(26) = TH_HAS_NODA_PEXT
       TABVINT(27) =NNODS
       TABVINT(28) =NCNOIS
       TABVINT(29) =LCNE0

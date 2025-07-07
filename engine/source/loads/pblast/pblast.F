@@ -35,8 +35,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    pblast_mod                ../common_source/modules/loads/pblast_mod.F90
       !||    th_surf_mod               ../common_source/modules/interfaces/th_surf_mod.F
       !||====================================================================
-      SUBROUTINE PBLAST_LOAD_COMPUTATION (PBLAST,ILOADP  ,FAC   ,A  , V   ,X ,
-     1                        IADC    ,FSKY    ,LLOADP   ,FEXT    ,
+      SUBROUTINE PBLAST_LOAD_COMPUTATION (PBLAST,ILOADP  ,FAC   ,A  , V   , X        ,
+     1                        IADC    ,FSKY    ,LLOADP   ,FEXT  ,NODA_SURF, NODA_PEXT,
      2                        ITAB    ,H3D_DATA,TH_SURF  ,WFEXT)
 C-----------------------------------------------
 C   M o d u l e s
@@ -70,6 +70,8 @@ C-----------------------------------------------
       my_real,INTENT(INOUT) :: FAC(LFACLOAD,NLOADP)
       my_real,INTENT(IN) :: V(3,NUMNOD),X(3,NUMNOD)
       my_real,INTENT(INOUT) :: A(3,NUMNOD),FSKY(8,SFSKY/8), FEXT(3,NUMNOD)
+      my_real,INTENT(INOUT) :: NODA_SURF(NUMNOD)
+      my_real,INTENT(INOUT) :: NODA_PEXT(NUMNOD)
       TYPE(H3D_DATABASE),INTENT(IN) :: H3D_DATA
       TYPE (TH_SURF_) , INTENT(INOUT) :: TH_SURF
       DOUBLE PRECISION,INTENT(INOUT) :: WFEXT
@@ -129,7 +131,7 @@ C-----------------------------------------------
                !--- LOADING MODEL : FREE AIR, SPHERICAL CHARGE
                CALL PBLAST_1(PBLAST,
      1                       ILOADP  ,FAC      ,A        ,V         ,X        ,
-     2                       IADC    ,FSKY     ,LLOADP   ,FEXT      ,
+     2                       IADC    ,FSKY     ,LLOADP   ,FEXT      ,NODA_SURF, NODA_PEXT,
      3                       ITAB    ,H3D_DATA ,NL       ,DTMIN_LOC ,WFEXT_LOC,
      4                       TH_SURF ,NSEGPL   )
      
@@ -137,14 +139,14 @@ C-----------------------------------------------
                !--- LOADING MODEL : GROUND REFLECTION, HEMISPHERICAL CHARGE
                CALL PBLAST_2(PBLAST,
      1                       ILOADP  ,FAC      ,A        ,V         ,X        ,
-     2                       IADC    ,FSKY     ,LLOADP   ,FEXT      ,
+     2                       IADC    ,FSKY     ,LLOADP   ,FEXT      ,NODA_SURF, NODA_PEXT,
      3                       ITAB    ,H3D_DATA ,NL       ,DTMIN_LOC ,WFEXT_LOC,
      4                       TH_SURF ,NSEGPL   )
              CASE(3)
                !--- LOADING MODEL : SURFACE BURST, SPHERICAL CHARGE
                CALL PBLAST_3(PBLAST,
      1                       ILOADP  ,FAC      ,A        ,V         ,X        ,
-     2                       IADC    ,FSKY     ,LLOADP   ,FEXT      ,
+     2                       IADC    ,FSKY     ,LLOADP   ,FEXT      ,NODA_SURF, NODA_PEXT,
      3                       ITAB    ,H3D_DATA ,NL       ,DTMIN_LOC ,WFEXT_LOC,
      4                       TH_SURF ,NSEGPL   )
      

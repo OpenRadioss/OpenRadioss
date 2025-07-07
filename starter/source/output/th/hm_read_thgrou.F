@@ -171,7 +171,7 @@ C-----------------------------------------------
       INTEGER IVARRIV(18,NVARRIVG)
       CHARACTER*10 VARRIV(NVARRIV),VARRIVG(NVARRIVG)
 C-----------------------------------------------
-      PARAMETER (NVARN = 637,NVARN1 = 19,NVARN1A = 600,NVARN2 = 9 ,NVARNPINCH = 9)
+      PARAMETER (NVARN1 = 19,NVARN1A = 600,NVARN2 = 10 ,NVARNPINCH = 9)
       PARAMETER (NVARS1 = 196,NVARS2 = 567,NVARS3 = 369,NVARS4 = 492,NVARS5 = 22)
       PARAMETER (NVARS6 = 97200,NVARS7 = 97200,NVARS8 = 516,NVARS9 = 6,NVARS10 = 1,NVARSNLOC = 2)
       PARAMETER (NVARS =239555 ,NVARC = 37856,NVART = 6)
@@ -182,9 +182,9 @@ C-----------------------------------------------
       PARAMETER (NVARAC = 6,NVARSE =39,NVARJO = 6)
       PARAMETER (NVARAB = 7,NVARMV4= 9,NVARMV = 19,NVARMVENT = 150)
       PARAMETER (NVARPA = 32)
-      PARAMETER (NVARF1 = 18,NVARFR = 24,NVARGAU = 8,NVARCLUS=11,NVARFLOW=1,
-     .           NVARSURF = 6,NVARSLIP=6,NVARRET=3)
-      CHARACTER*10 VARN(NVARN),VART(NVART)
+      PARAMETER (NVARF1 = 18,NVARFR = 24,NVARGAU = 8,NVARCLUS=11,NVARFLOW=1,NVARSURF = 6,NVARSLIP=6,NVARRET=3)
+      CHARACTER*10, DIMENSION(:), ALLOCATABLE :: VARN
+      CHARACTER*10 :: VART(NVART)
       CHARACTER*10 VARP(NVARP),VARR(NVARR),VARUR(NVARUR)
       CHARACTER(LEN=10),DIMENSION(:),ALLOCATABLE::VARS
       CHARACTER(LEN=10),DIMENSION(:),ALLOCATABLE::VARC
@@ -310,6 +310,11 @@ C-----------------------------------------------
 C   TH TITLES
 C   DON T MISS TO ADD TH TITLES FOR NEW TH OPTIONS 
 C-----------------------------------------------
+
+      NVARN = NVARN1 + NVARN1A + NVARN2 + NVARNPINCH
+      ALLOCATE(VARN(NVARN))
+
+
       ALLOCATE(VARN1_TITLE(NVARN1),VARN1A_TITLE(NVARN1A),VARN2_TITLE(NVARN2),VARNPINCH_TITLE(NVARNPINCH),
      .         VARP_TITLE(NVARP),VARR_TITLE(NVARR),VART_TITLE(NVART),
      .         VARS1_TITLE(NVARS1),VARS2_TITLE(NVARS2),VARS3_TITLE(NVARS3),VARS4_TITLE(NVARS4),
@@ -378,7 +383,8 @@ C   nodes
      .           'TEMP    '/
       DATA VARN2/'REACX   ','REACY   ','REACZ   ',
      .           'REACXX  ','REACYY  ','REACZZ  ',
-     .           'DRX     ','DRY     ','DRZ     '/
+     .           'DRX     ','DRY     ','DRZ     ',
+     .           'PEXT    '/
       DATA VARNPINCH/
      .          'APINCHX ','APINCHY ','APINCHZ ',
      .          'VPINCHX ','VPINCHY ','VPINCHZ ',
@@ -2206,10 +2212,10 @@ C  ---- node + displacement by ply for shell
           VARN1A((J-1)*3  + 3 )= VAR
        ENDDO
       DO I=1,NVARN2
-       VARN(619+I) = VARN2(I)
+       VARN(NVARN1+NVARN1A+I) = VARN2(I)
       ENDDO
-      DO I=1,NVARNPINCH 
-       VARN(628+I) = VARNPINCH(I)
+      DO I=1,NVARNPINCH
+       VARN(NVARN1+NVARN1A+NVARN2+I) = VARNPINCH(I)
       ENDDO
       NNOD = 0
       CHNOD = 78
@@ -3301,6 +3307,8 @@ C-------------------------------------
      .           VARSLIP_TITLE,VARRET_TITLE,
      .           VARCLUS_TITLE,VARFLOW_TITLE,
      .           VARSURF_TITLE,VARSENS_TITLE)
+
+      DEALLOCATE(VARN)
       
 
       RETURN
