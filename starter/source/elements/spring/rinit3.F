@@ -1514,6 +1514,48 @@ C
            STIFR(I1)=STIFR(I1)+STI
            STIFR(I2)=STIFR(I2)+STI
            STRR(J)=XKR
+        ELSEIF (IGTYP == 25) THEN
+          EX=X(1,I2)-X(1,I1)
+          EY=X(2,I2)-X(2,I1)
+          EZ=X(3,I2)-X(3,I1)
+          AL2= EX*EX+EY*EY+EZ*EZ
+          XKM= MAX(GEO(3,I0)*GEO(41,I0),
+     .             GEO(10,I0)*GEO(45,I0))/XL(I)
+          XCM= (MAX(GEO(4,I0),GEO(11,I0))
+     .          + MAX(GEO(141,I0),GEO(142,I0)))/XL(I)
+          XKR= GEO(10,I0)*GEO(45,I0)*AL2  
+          XKR= (XKR
+     .          +MAX(GEO(19,I0)*GEO(53,I0),GEO(23,I0)*GEO(57,I0)))/XL(I)
+          XCR= (GEO(11,I0)+GEO(142,I0))*AL2 
+          XCR= (XCR+
+     .          MAX(GEO(141,I0),GEO(142,I0))+MAX(GEO(20,I0),GEO(24,I0))
+     .         +MAX(GEO(143,I0),GEO(144,I0)) )/XL(I)
+          XM=GEO(1,I0)*XL(I)
+          XINE=GEO(9,I0)*XL(I)
+          IF (XCM+XKM<EM15) XM =ONE
+          IF (XCR+XKR<EM15) XINE=ONE
+          XKM= MAX(EM15,XKM)
+          XKR= MAX(EM15,XKR)
+          DT=XM/MAX(EM15,SQRT(XCM*XCM+XKM*XM)+XCM)
+          DTC=XINE/MAX(EM15,SQRT(XCR*XCR+XINE*XKR)+XCR)
+          DTELEM(NDEPAR+I)=MIN(DT,DTC)
+          MAS2 = TWO*MSR(1,J)
+          IF (MAS2>ZERO) THEN
+           STI = (SQRT(XCM**2+XKM*MAS2)+XCM)**2/MAS2
+          ELSE
+           STI = XKM
+          END IF
+          STIFN(I1)=STIFN(I1)+STI
+          STIFN(I2)=STIFN(I2)+STI
+          MAS2 = INR(1,J)
+          IF (MAS2>ZERO) THEN
+            STI = (SQRT(XCR**2+XKR*MAS2)+XCR)**2/MAS2
+          ELSE
+            STI = XKR
+          END IF
+          STIFR(I1)=STIFR(I1)+STI
+          STIFR(I2)=STIFR(I2)+STI
+          STRR(J)=XKR
         ELSEIF (IGTYP == 27) THEN
           XM = GEO(1,I0)*XL(I)
           XKM= GEO(2,I0)*GEO(10,I0)/XL(I)
