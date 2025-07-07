@@ -202,6 +202,31 @@ void exit_with_message(const char *message)
     exit(1);
 }
 
+void check_error(int line_number)
+{
+            if (MyErr_Occurred())
+            {
+                //std::cout<<"Error at line: "<<line_number<<std::endl;
+                // Fetch the error
+                PyObject *pType = nullptr, *pValue = nullptr, *pTraceback = nullptr;
+                MyErr_Fetch(&pType, &pValue, &pTraceback);
+                if (pType)
+                    std::cout<<"[PYTHON]"<< MyUnicode_AsUTF8(MyObject_Str(pType)) << std::endl;
+                if (pValue)
+                    std::cout<<"[PYTHON]"<< MyUnicode_AsUTF8(MyObject_Str(pValue)) << std::endl;
+                if (pTraceback)
+                    std::cout<<"[PYTHON]"<< MyUnicode_AsUTF8(MyObject_Str(pTraceback)) << std::endl;
+
+                // Print the error
+                //MyErr_Display(pType, pValue, pTraceback);
+                // Decrement reference counts for the error objects
+                My_DecRef(pType);
+                My_DecRef(pValue);
+                My_DecRef(pTraceback);
+                exit_with_message("ERROR: Python function failed");
+            }
+}
+
 void python_signal_handler(int signum) {
     std::cout << "[PYTHON] Caught signal " << signum << std::endl;
     std::cerr << "[PYTHON] Caught signal " << signum << std::endl;
@@ -292,18 +317,21 @@ PyObject *call_python_function_with_state(const char *func_name)
 // call a python function with a list of arguments
 PyObject *call_python_function(const char *func_name, double *args, int num_args)
 {
+    check_error(__LINE__);
     PyObject *pFunc, *pArgs, *pValue;
     pFunc = static_cast<PyObject *>(MyDict_GetItemString(pDict, func_name));
     if (MyCallable_Check(pFunc))
     {
+        check_error(__LINE__);
         pArgs = static_cast<PyObject *>(MyTuple_New(num_args));
         for (size_t i = 0; i < num_args; i++)
         {
             MyTuple_SetItem(pArgs, i, static_cast<PyObject *>(MyFloat_FromDouble(args[i])));
         }
+        check_error(__LINE__);
         pValue = static_cast<PyObject *>(MyObject_CallObject(pFunc, pArgs));
+        check_error(__LINE__);
         My_DecRef(pArgs);
-
         if (pValue != nullptr)
         {
             // Function executed successfully
@@ -375,6 +403,7 @@ void call_python_function1D_vectors(const char *func_name, std::vector<double> &
 void python_execute_code(const std::string &code)
 {
     MyRun_SimpleString(code.c_str());
+    check_error(__LINE__);
 }
 
 // returns the function name from the function signature, or an empty string if the function name is not found
@@ -654,29 +683,33 @@ extern "C"
            {
               *ierror = 0;
            }
-
+           check_error(__LINE__);
         }
     }
     void cpp_python_load_environment()
     {
-        // std::cout<<"Loading Python environment: "<<std::endl;
         if (!python_initialized)
         {
             return;
         }
+        check_error(__LINE__);
         const char *code =
             "if 'initialize_environment' in globals():\n"
             "    initialize_environment()\n";
         int result = MyRun_SimpleString(code);
+        check_error(__LINE__);
     }
 
     void cpp_python_sync(void* pcontext)
     {
+
         //std::cout<<"[PYTHON] cpp_python_sync called"<<std::endl;
         if (!python_initialized || !sync_enabled)
         {
             return;
         }
+        check_error(__LINE__);
+
         // cast the context to a double pointer as a PyObject
         char func_name[100];
         // func_name = "sync" 
@@ -728,6 +761,8 @@ extern "C"
          }
  
         My_DecRef(args);
+        check_error(__LINE__);
+
     }
 
 
@@ -738,6 +773,8 @@ extern "C"
     void cpp_python_execute_code(const char *code)
     {
         MyRun_SimpleString(code);
+        check_error(__LINE__);
+
     }
 
     void cpp_python_initiazlize_global_variables()
@@ -747,6 +784,8 @@ extern "C"
             return;
         }
         // initialize TIME and DT to 0
+        check_error(__LINE__);
+
 
         PyObject *py_TIME = static_cast<PyObject *>(MyFloat_FromDouble(0.0));
         PyObject *py_DT = static_cast<PyObject *>(MyFloat_FromDouble(0.0));
@@ -802,6 +841,8 @@ extern "C"
             if (py_value != nullptr)
                 My_DecRef(py_value);
         }
+        check_error(__LINE__);
+
     }
 
     // register a function in the python dictionary
@@ -874,6 +915,9 @@ extern "C"
         {
             return;
         }
+        check_error(__LINE__);
+        // skip if name is initialize_environment
+        if (strcmp(name, "initialize_environment") == 0) return;
         PyObject *result = call_python_function(name, args, num_args);
         if (result)
         {
@@ -883,6 +927,7 @@ extern "C"
         {
             exit_with_message("ERROR: Python function failed");
         }
+        check_error(__LINE__);
     }
 
     void cpp_python_call_function_with_state(char *name, double *return_values)
@@ -891,6 +936,7 @@ extern "C"
         {
             return;
         }
+        check_error(__LINE__);
         PyObject *result = call_python_function_with_state(name);
         if (result)
         {
@@ -899,6 +945,7 @@ extern "C"
         } else {
             exit_with_message("ERROR: Python function failed");
         }
+        check_error(__LINE__);
     }
     // this function checks if a function exists in the python dictionary
     void cpp_python_check_function(char *name, int *error)
@@ -933,6 +980,7 @@ extern "C"
             return;
         }
 
+        check_error(__LINE__);
         if (!pDict)
         {
             std::cerr << "ERROR: Python main module dictionary not initialized." << std::endl;
@@ -960,6 +1008,8 @@ extern "C"
             My_DecRef(py_TIME);
         if (py_DT != nullptr)
             My_DecRef(py_DT);
+        check_error(__LINE__);
+
     }
     // return the number of nodes that are used in the python functions
     void cpp_python_get_number_of_nodes(int *num_nodes)
@@ -972,6 +1022,7 @@ extern "C"
         {
             *num_nodes = nodes_uid.size();
         }
+
     }
 
     // return the list of nodes (user ids) that are used in the python functions
@@ -1015,6 +1066,7 @@ extern "C"
                     std::cout << "Node uid: " << node_uid << " not found in itab" << std::endl;
                 }
             }
+            check_error(__LINE__);
         }
     }
     // update the global variable sensors from the input arrays
@@ -1066,6 +1118,7 @@ extern "C"
         {
             return;
         }
+        check_error(__LINE__);
         std::ostringstream oss;
         oss << std::setprecision(std::numeric_limits<double>::max_digits10) << std::hexfloat;
         oss << "sensors = { \n";
@@ -1106,6 +1159,9 @@ extern "C"
         std::string code = oss.str();
         // std::cout<< "Generated code: "<<code<<std::endl;
         python_execute_code(code);
+        // check for errors
+        check_error(__LINE__);
+
     }
 
     // values is an array of size (3*numnod) containing the values of the nodal entities
@@ -1117,6 +1173,7 @@ extern "C"
         {
             return;
         }
+        check_error(__LINE__);
         double x_values, y_values, z_values;
         // loop over the map nodes_uid_to_local_id
         {
@@ -1146,6 +1203,8 @@ extern "C"
                 My_DecRef(py_y_values);
             if (py_z_values != nullptr)
                 My_DecRef(py_z_values);
+            check_error(__LINE__);
+
         }
     }
     void cpp_python_update_active_node_ids(int id, int uid)
@@ -1154,11 +1213,14 @@ extern "C"
         {
             return;
         }
+        check_error(__LINE__);
         // Set the Python global variables in the main module's dictionary
         std::string id_name = "ACTIVE_NODE";
         std::string uid_name = "ACTIVE_NODE_UID";
         MyDict_SetItemString(pDict, id_name.c_str(), static_cast<PyObject *>(MyLong_FromLong(static_cast<long>(id))));
         MyDict_SetItemString(pDict, uid_name.c_str(), static_cast<PyObject *>(MyLong_FromLong(static_cast<long>(uid))));
+        check_error(__LINE__);
+
     }
 
 
@@ -1169,12 +1231,19 @@ extern "C"
         {
             return;
         }
+
+        check_error(__LINE__);
         double x_values, y_values, z_values;
         // loop over the map nodes_uid_to_local_id
         for (auto it = nodes_uid_to_local_id.begin(); it != nodes_uid_to_local_id.end(); ++it)
         {
             int node_uid = it->first;
             int local_id = it->second;
+            if(local_id > numnod-1)
+            {
+                std::cout << "ERROR: local_id " << local_id << " is greater than numnod " << numnod << std::endl;
+                return;
+            }
             x_values = static_cast<double>(values[3 * local_id]);
             y_values = static_cast<double>(values[3 * local_id + 1]);
             z_values = static_cast<double>(values[3 * local_id + 2]);
@@ -1201,6 +1270,8 @@ extern "C"
                 My_DecRef(py_y_values);
             if (py_z_values != nullptr)
                 My_DecRef(py_z_values);
+
+            check_error(__LINE__);
         }
     }
 
@@ -1208,6 +1279,7 @@ extern "C"
     void cpp_python_update_elemental_entity(char *name, double value, int uid)
     {
         double v = static_cast<double>(value);
+        check_error(__LINE__);
         PyObject *py_value = static_cast<PyObject *>(MyFloat_FromDouble(v));
         if (!py_value)
         {
@@ -1218,6 +1290,7 @@ extern "C"
         MyDict_SetItemString(pDict, sname.c_str(), py_value);
         if (py_value != nullptr)
             My_DecRef(py_value);
+        check_error(__LINE__);
     }
 
     // return the size of the KeywordPairs element_variables
@@ -1297,6 +1370,7 @@ void cpp_python_add_ints_to_dict(void* context_ptr, const char* name, int len_na
     {
         return;
     }
+    check_error(__LINE__);
     PyObject * context = static_cast<PyObject*>(context_ptr); 
     char ptr_key[100],size_key[100],type_key[100];
     snprintf(ptr_key, sizeof(ptr_key), "%s_ptr", name);
@@ -1315,6 +1389,7 @@ void cpp_python_add_ints_to_dict(void* context_ptr, const char* name, int len_na
     My_DecRef(ptr_value);
     My_DecRef(size_value);
     My_DecRef(type_value);
+    check_error(__LINE__);
 
 }
 
@@ -1324,6 +1399,7 @@ void cpp_python_add_doubles_to_dict(void* context_ptr, const char* name, int len
     {
         return;
     }
+    check_error(__LINE__);
     PyObject * context = static_cast<PyObject*>(context_ptr); 
     char ptr_key[100],size_key[100],type_key[100];
     snprintf(ptr_key, sizeof(ptr_key), "%s_ptr", name);
@@ -1340,16 +1416,19 @@ void cpp_python_add_doubles_to_dict(void* context_ptr, const char* name, int len
     My_DecRef(ptr_value);
     My_DecRef(size_value);
     My_DecRef(type_value);
+    check_error(__LINE__);
 }
     // set the values in the context dictionary
 
 
 void* cpp_python_create_context() {
+    check_error(__LINE__);
     PyObject* context = MyDict_New();
     if (!context) {
         return NULL;
     }
     return context;
+    check_error(__LINE__);
 }
 
 void cpp_python_free_context(void* context) {

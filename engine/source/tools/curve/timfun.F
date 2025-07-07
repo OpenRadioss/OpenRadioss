@@ -63,7 +63,7 @@ C-----------------------------------------------
         IF(ISMOOTH >= 0) THEN
           NPOINT=(NP(N+1)-NP(N))/2
           CALL INTERP(TF(NP(N)),TT,NPOINT,FV(N),TG)
-        ELSE 
+        ELSE IF(ISMOOTH < 0) THEN
           ISMOOTH = -ISMOOTH
           CALL PYTHON_CALL_FUNCT1D(PYTHON, ISMOOTH,TT, FV(N))
         ENDIF

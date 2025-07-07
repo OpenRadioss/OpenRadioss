@@ -865,22 +865,21 @@
       !||    python_update_nodal_entity     ../common_source/modules/python_mod.F90
       !||--- uses       -----------------------------------------------------
       !||====================================================================
-        subroutine python_update_nodal_entities(numnod,X, A, D, DR, V, VR, AR)
+        subroutine python_update_nodal_entities(numnod,NODES,X, A, D, DR, V, VR, AR)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                     Module
 ! ----------------------------------------------------------------------------------------------------------------------
           use iso_c_binding, only : c_double
+          use nodal_arrays_mod, only : nodal_arrays_
 ! --------------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
           implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
-!                                                   Included files
-! ----------------------------------------------------------------------------------------------------------------------
-! ----------------------------------------------------------------------------------------------------------------------
 !                                                     Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
           integer,                                 intent(in) :: numnod !< the number of nodes
+          type(nodal_arrays_), intent(in) :: NODES !< the nodal arrays structure
           real(kind=WP), optional,  dimension(3,numnod), intent(in) :: X !< the coordinates
           real(kind=WP), optional,  dimension(3,numnod), intent(in) :: A !< the acceleration
           real(kind=WP), optional,  dimension(3,numnod), intent(in) :: D !< the displacement
@@ -895,13 +894,13 @@
 !                                                      Body
 ! ----------------------------------------------------------------------------------------------------------------------
 
-          if(present(X))  call python_update_nodal_entity(numnod,"C",1, X)
-          if(present(A))  call python_update_nodal_entity(numnod,"A",1, A)
-          if(present(D))  call python_update_nodal_entity(numnod,"D",1, D)
-          if(present(DR)) call python_update_nodal_entity(numnod,"DR",2, DR)
-          if(present(V))  call python_update_nodal_entity(numnod,"V",1, V)
-          if(present(VR)) call python_update_nodal_entity(numnod,"VR",2, VR)
-          if(present(AR)) call python_update_nodal_entity(numnod,"AR",2, AR)
+          if(present(X).and. size(nodes%x,2)>0)  call python_update_nodal_entity(numnod,"C",1, X)
+          if(present(A).and. size(nodes%A,2)>0)  call python_update_nodal_entity(numnod,"A",1, A)
+          if(present(D).and. size(nodes%D,2)>0)  call python_update_nodal_entity(numnod,"D",1, D)
+          if(present(DR).and. size(nodes%dr,2)>0) call python_update_nodal_entity(numnod,"DR",2, DR)
+          if(present(V).and. size(nodes%v,2) >0)  call python_update_nodal_entity(numnod,"V",1, V)
+          if(present(VR).and. size(nodes%vr,2)>2) call python_update_nodal_entity(numnod,"VR",2, VR)
+          if(present(AR).and. size(nodes%ar,2)>2) call python_update_nodal_entity(numnod,"AR",2, AR)
 
         end subroutine python_update_nodal_entities
 

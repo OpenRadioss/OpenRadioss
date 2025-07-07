@@ -170,7 +170,9 @@
           enddo
 
           call python_element_init(py%elements, n, group_id, local_id, user_id)
-          if(py%nb_functs >0 ) call python_load_environment()
+          if(py%nb_functs >0 ) then
+            call python_load_environment()
+          endif
           deallocate(code)
           deallocate(user_id)
           deallocate(local_id)
