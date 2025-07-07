@@ -210,8 +210,8 @@
         &numgeo,      numnod,      numels,            &
         &idel7nok,    idtmin,      maxfunc    ,        &
         &imon_mat,    userl_avail, impl_s,&
-        &idyna,       dt,          fheat    ,   opt_mtn,     opt_jcvt,&
-        &opt_isorth,  opt_isorthg  )
+        &idyna,       dt,          fheat      ,sensors ,   &
+        &opt_mtn,     opt_jcvt,opt_isorth,  opt_isorthg  )
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -235,6 +235,7 @@
           use eosmain_mod , only : eosmain
           use precision_mod, only : WP
           use mvsiz_mod, only : mvsiz
+          use sensor_mod
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -387,6 +388,7 @@
           type (dt_), intent(in) :: dt
           type (mat_elem_)   ,intent(inout) :: mat_elem
           type (glob_therm_) ,intent(inout) :: glob_therm
+          type (sensors_)    ,intent(in)    :: sensors     !< sensor structure
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -1922,7 +1924,7 @@
             &imon_mat,    numnod,      numels,      ntable,&
             &numgeo,      nummat,      numelq,      idtmin,&
             &dt1,         tt,          glob_therm,  dpde  ,&
-            &impl_s,      jlag,        fheat   ,            &
+            &impl_s,      jlag,        fheat     ,  sensors , &
             &idyna,       userl_avail, nixs,        nixq,&
             &dt,          damp_buf,    idamp_freq_range,iresp)
 

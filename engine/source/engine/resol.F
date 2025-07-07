@@ -4801,7 +4801,7 @@ C----------------------------------
      F            MAt_ELEM      ,OUTPUT         ,SPH_IORD1  ,SNPC            ,STF           ,
      G            SBUFMAT       ,NSVOIS         ,IDTMINS    ,IRESP           ,MAXFUNC       ,
      .            IMON_MAT      ,USERL_AVAIL    ,IMPL_S     ,IDYNA         ,
-     .            DT            ,GLOB_THERM     ,SPH_WORK   ,WFEXT)
+     .            DT            ,GLOB_THERM     ,SPH_WORK   ,WFEXT         ,SENSORS        )
 #include "lockon.inc"
                 IF(DT2TT<DT2T)THEN
                   DT2T = DT2TT

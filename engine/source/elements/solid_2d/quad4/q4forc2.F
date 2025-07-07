@@ -586,7 +586,7 @@ C       UPDATE STRESS
      .   numgeo,      numnod,      numels,
      .   IDEL7NOK,    IDTMIN,      MAXFUNC,
      .   IMON_MAT,    USERL_AVAIL, impl_s,
-     .   idyna,       DT         ,  BID   )
+     .   idyna,       DT         ,  BID   ,SENSORS)
 C
 C       COMPUTE NODAL INTERNAL FORCE
         CALL Q4FINT2(

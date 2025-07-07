@@ -561,7 +561,7 @@ C------------------------------------------------------
      .   numgeo,      numnod,      numels,
      .   IDEL7NOK,    IDTMIN,      MAXFUNC,
      .   IMON_MAT,    USERL_AVAIL,  impl_s,
-     .   idyna,       DT         ,BID   )
+     .   idyna,       DT         ,BID   ,SENSORS)
 
        CALL SSTRA3(
      1   DXX,      DYY,      DZZ,      D4,

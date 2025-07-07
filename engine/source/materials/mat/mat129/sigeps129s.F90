@@ -49,7 +49,8 @@
            sigoxx   ,sigoyy   ,sigozz   ,sigoxy   ,sigoyz   ,sigozx   ,         &
            signxx   ,signyy   ,signzz   ,signxy   ,signyz   ,signzx   ,         &
            yld      ,et       ,pla      ,dpla     ,epsp     ,soundsp  ,         &
-           temp0    ,temp     ,off      ,time     ,iexpan   ,amu      )
+           temp0    ,temp     ,off      ,time     ,iexpan   ,amu      ,         &
+           sensors  )
 !
 ! =================================================================================
 ! \brief thermo-elasto-viscoplastic material with creep, for solid elements
@@ -60,7 +61,8 @@
       use matparam_def_mod
       use constant_mod ,only : pi,zero,one,half,third,three_half,two,three,four
       use constant_mod ,only : two_third,four_over_3,four_over_5
-      use constant_mod ,only : em01,em10,em15,em20,ep20
+      use constant_mod ,only : em01,em20,infinity
+      use sensor_mod
       use table4d_mod
       use table_mat_vinterp_mod
 ! ---------------------------------------------------------------------------------
@@ -111,16 +113,17 @@
       my_real ,dimension(nel,nuvar)   ,intent(inout) :: uvar      !< state variables
       integer ,dimension(nel,nvartmp) ,intent(inout) :: vartmp    !< temporary internal variables
       type (matparam_struct_)         ,intent(in)    :: mat_param !< material parameter structure
+      type (sensors_)                 ,intent(in)    :: sensors   !< sensor structure
       target :: mat_param,temp,pla
 !-----------------------------------------------
 !   l o c a l   v a r i a b l e s
 !-----------------------------------------------
-      integer :: i,ii,iter,niter,nindx,crp_law,ndim
+      integer :: i,ii,iter,niter,nindx,crp_law,isens,ndim
       integer ,dimension(nel) :: indx
       my_real :: dlam,dphi_dlam,dpla_dlam,dpdt 
       my_real :: epsp0,depsv,lame,ldav,epsc,deps,p
       my_real :: facp,rc                           
-      my_real :: asrate,dtime       
+      my_real :: asrate,dtime,tstart       
       my_real :: cr1,cr2,cx1,cx2
       my_real :: j2,g2,g3,rho0
       my_real :: sig_crp,time_crp,tref
@@ -160,6 +163,7 @@
       nu(1:nel)    = mat_param%nu
 !
       crp_law      = mat_param%iparam(1)  
+      isens        = mat_param%iparam(2)  
 !
       sigy(1:nel)  = mat_param%uparam(1)  
       qr1(1:nel)   = mat_param%uparam(2)  
@@ -346,8 +350,13 @@
       end if
 !--------------------------------------------------------------------------------------    
       ! calculation of creep strain increment and total creep strain
-!--------------------------------------------------------------------------------------    
-      if (time > zero) then
+      ! stop creep evolution if sensor is activated
+!--------------------------------------------------------------------------------------
+      tstart = infinity   
+      if (isens > zero) then
+        tstart = sensors%sensor_tab(isens)%tstart
+      end if
+      if (time > zero .and. time < tstart) then
         if (crp_law == 1) then           ! use transient Norton power law
           do i=1,nel        
             ca = crpa(i)
@@ -440,6 +449,8 @@
         enddo
       end if
       soundsp(1:nel) = sqrt((bulk(1:nel) + four_over_3*shear(1:nel)) / rho0)
+!-----------------------------------------------------------------
+    1000 format(1x,'CREEP DEACTIVATED IN MATERIAL ID ',i10,1x,'AT TIME :',g11.4)     
 !-----------
       return
       end

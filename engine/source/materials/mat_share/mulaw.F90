@@ -229,7 +229,7 @@
         &imon_mat,    numnod,      numels,      ntable,&
         &numgeo,      nummat,      numelq,      idtmin,&
         &dt1,         tt,          glob_therm,  dpde  ,&
-        &impl_s,      jlag,        fheat ,             &
+        &impl_s,      jlag,        fheat     ,  sensors, &
         &idyna,       userl_avail, nixs,        nixq,&
         &dt   ,       damp_buf,    idamp_freq_range,iresp)
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -264,6 +264,7 @@
       use matparam_def_mod
       use fail_param_mod
       use precision_mod, only : WP
+      use sensor_mod
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -283,6 +284,7 @@
           type (dt_), intent(in)                                        :: dt
           type (glob_therm_) ,intent(inout)                             :: glob_therm
           type (buf_damp_range_) ,intent(in)                            :: damp_buf
+          type (sensors_) ,intent(in) :: sensors !< sensor structure
 
           integer,intent(in) :: nixs
           integer,intent(in) :: nixq
@@ -2055,7 +2057,8 @@
                  so1      ,so2      ,so3      ,so4      ,so5      ,so6      ,  &
                  s1       ,s2       ,s3       ,s4       ,s5       ,s6       ,  &
                  sigy     ,et       ,defp     ,dpla     ,epsd     ,ssp      ,  &
-                 lbuf%temp,el_temp  ,off      ,tt       ,iexpan   ,amu      )
+                 lbuf%temp,el_temp  ,off      ,tt       ,iexpan   ,amu      ,  &
+                 sensors  )
 !
           elseif (mtn == 133) then
             call sigeps133( &

@@ -59,6 +59,7 @@
   ! ---------------------------------------------------------------------------------
   !                modules
   ! ---------------------------------------------------------------------------------
+      use message_mod
       use elbuftag_mod
       use matparam_def_mod
       use table_mod
@@ -93,12 +94,12 @@
 !   L o c a l   V a r i a b l e s
 !-----------------------------------------------
       logical :: is_available,is_encrypted
-      integer :: i,j,ilaw,ndim,npt,nfunc,nepsd,ierr
+      integer :: i,j,ilaw,ndim,npt,nfunc,nepsd,ierror
       integer :: func_sig,func_young,func_nu,func_yld
       integer :: func_qr,func_qx
       integer :: func_cc,func_cp
       integer :: func_a,func_n,func_q,func_m,func_alpha
-      integer :: crp_law
+      integer :: crp_law,sens_id
       my_real :: rho0,young,shear,bulk,nu,sigy
       my_real :: qr1,qr2,qx1,qx2,cr1,cr2,cx1,cx2
       my_real :: crpa,crpn,crpm,crpq,sig_crp,time_crp    
@@ -165,6 +166,7 @@
       call hm_get_floatv('MAT_CRT'     ,time_crp ,is_available, lsubmodel, unitab)
       call hm_get_floatv('MAT_CRPQ'    ,crpq     ,is_available, lsubmodel, unitab)
       call hm_get_intv  ('MAT_fq'      ,func_q   ,is_available, lsubmodel)     
+      call hm_get_intv  ('ISENSOR'     ,sens_id  ,is_available, lsubmodel)     
 !---------------------------------------------------------------------------------------
       ! stress and strain rate units
       call hm_get_floatv_dim('MAT_CC'   ,epsp_unit  ,is_available, lsubmodel, unitab)
@@ -189,7 +191,9 @@
 !
       fcut   = 1.044*unitab%fac_t_work
       asrate = two*pi*fcut
-!
+!-------------------------------------
+!     sensors are not yet read in lectur() 
+!     => conversion of sensor_id to internal numbet is done in updmat()
 !-------------------------------------
       nuvar   = 2
       nvartmp = 14
@@ -224,7 +228,7 @@
         call mat_table_table_copy(                                           &
              mat_param%table(1),func_sig ,mat_param%title,mat_param%mat_id , &
              x1scale  ,x2scale   ,x3scale  ,x4scale  ,                       &
-             yfac     ,ntable    ,table    ,ierr     )
+             yfac     ,ntable    ,table    ,ierror     )
       end if
 !--------------------------------------------------------------------------
       ! create local function tables for parameter temperature dependencies
@@ -239,14 +243,14 @@
         yscale(1) = young
         call func_table_copy(mat_param%table(2),mat_param%title ,mat_param%mat_id  ,     &
                              nfunc   ,ifunc   ,x2vect  ,x1scale ,x2scale  ,yscale  ,     &
-                             ntable  ,table   ,ierr    )
+                             ntable  ,table   ,ierror    )
       end if
       if (func_nu > 0) then
         ifunc(1)  = func_nu
         yscale(1) = nu
         call func_table_copy(mat_param%table(3),mat_param%title ,mat_param%mat_id  ,     &
                              nfunc   ,ifunc   ,x2vect  ,x1scale ,x2scale  ,yscale  ,     &
-                             ntable  ,table   ,ierr    )
+                             ntable  ,table   ,ierror    )
         mat_param%table(3)%notable = func_nu
       end if
       if (func_yld > 0) then
@@ -254,7 +258,7 @@
         yscale(:) = nu
         call func_table_copy(mat_param%table(4),mat_param%title ,mat_param%mat_id  ,     &
                              nfunc   ,ifunc   ,x2vect  ,x1scale ,x2scale  ,yscale  ,     &
-                             ntable  ,table   ,ierr    )
+                             ntable  ,table   ,ierror    )
         mat_param%table(4)%notable = func_yld
       end if
       if (func_qr > 0) then
@@ -262,7 +266,7 @@
         yscale(1) = one
         call func_table_copy(mat_param%table(5),mat_param%title ,mat_param%mat_id  ,     &
                              nfunc   ,ifunc   ,x2vect  ,x1scale ,x2scale  ,yscale  ,     &
-                             ntable  ,table   ,ierr    )
+                             ntable  ,table   ,ierror    )
         mat_param%table(5)%notable = func_qr
       end if
       if (func_qx > 0) then
@@ -270,7 +274,7 @@
         yscale(1) = one
         call func_table_copy(mat_param%table(6),mat_param%title ,mat_param%mat_id  ,     &
                              nfunc   ,ifunc   ,x2vect  ,x1scale ,x2scale  ,yscale  ,     &
-                             ntable  ,table   ,ierr    )
+                             ntable  ,table   ,ierror    )
         mat_param%table(6)%notable = func_qx
       end if
       if (func_cc > 0) then
@@ -278,7 +282,7 @@
         yscale(1) = cc
         call func_table_copy(mat_param%table(7),mat_param%title ,mat_param%mat_id  ,     &
                              nfunc   ,ifunc   ,x2vect  ,x1scale ,x2scale  ,yscale  ,     &
-                             ntable  ,table   ,ierr    )
+                             ntable  ,table   ,ierror    )
         mat_param%table(7)%notable = func_cc
       end if
       if (func_cp > 0) then
@@ -286,7 +290,7 @@
         yscale(1) = cp
         call func_table_copy(mat_param%table(8),mat_param%title ,mat_param%mat_id  ,     &
                              nfunc   ,ifunc   ,x2vect  ,x1scale ,x2scale  ,yscale  ,     &
-                             ntable  ,table   ,ierr    )
+                             ntable  ,table   ,ierror    )
         mat_param%table(8)%notable = func_cp
       end if
       if (func_a > 0) then
@@ -294,7 +298,7 @@
         yscale(1) = one
         call func_table_copy(mat_param%table(9),mat_param%title ,mat_param%mat_id  ,     &
                              nfunc   ,ifunc   ,x2vect  ,x1scale ,x2scale  ,yscale  ,     &
-                             ntable  ,table   ,ierr    )
+                             ntable  ,table   ,ierror    )
         mat_param%table(9)%notable = func_a
       end if
       if (func_n > 0) then
@@ -302,7 +306,7 @@
         yscale(1) = one
         call func_table_copy(mat_param%table(10),mat_param%title ,mat_param%mat_id  ,     &
                              nfunc   ,ifunc   ,x2vect  ,x1scale ,x2scale  ,yscale  ,     &
-                             ntable  ,table   ,ierr    )
+                             ntable  ,table   ,ierror    )
         mat_param%table(10)%notable = func_n
       end if
       if (func_m > 0) then
@@ -310,7 +314,7 @@
         yscale(1) = one
         call func_table_copy(mat_param%table(11),mat_param%title,mat_param%mat_id  ,     &
                              nfunc   ,ifunc   ,x2vect  ,x1scale ,x2scale  ,yscale  ,     &
-                             ntable  ,table   ,ierr    )
+                             ntable  ,table   ,ierror    )
         mat_param%table(11)%notable = func_m
       end if
       if (func_q > 0) then
@@ -318,7 +322,7 @@
         yscale(1) = one
         call func_table_copy(mat_param%table(12),mat_param%title,mat_param%mat_id  ,     &
                              nfunc   ,ifunc   ,x2vect  ,x1scale ,x2scale  ,yscale  ,     &
-                             ntable  ,table   ,ierr    )
+                             ntable  ,table   ,ierror    )
         mat_param%table(12)%notable = func_q
       end if
       if (func_alpha > 0) then
@@ -326,16 +330,17 @@
         yscale(1) = alpha
         call func_table_copy(mat_param%table(13),mat_param%title,mat_param%mat_id  ,     &
                              nfunc   ,ifunc   ,x2vect  ,x1scale ,x2scale  ,yscale  ,     &
-                             ntable  ,table   ,ierr    )
+                             ntable  ,table   ,ierror    )
         mat_param%table(13)%notable = func_alpha
       end if
 !-------------------------------------
-      mat_param%niparam = 1
+      mat_param%niparam = 2
       mat_param%nuparam = 20
       allocate (mat_param%iparam(mat_param%niparam))
       allocate (mat_param%uparam(mat_param%nuparam))
 !-------------------------------------
       mat_param%iparam(1)  = crp_law 
+      mat_param%iparam(2)  = sens_id
 !
       mat_param%uparam(1)  = sigy 
       mat_param%uparam(2)  = qr1  
@@ -412,7 +417,7 @@
         endif       
         write(iout,1400) cc,cp,crp_law,crpa,crpn,crpm,crpq,sig_crp,time_crp
         write(iout,1500) func_young,func_nu,func_yld,func_alpha,             &  
-                         func_cc,func_cp,func_a,func_n,func_m,func_q    
+                         func_cc,func_cp,func_a,func_n,func_m,func_q,sens_id    
       endif       
 !-------------------------------------------------------------------------------
       return
@@ -466,7 +471,8 @@
       5x,'FUNCTION OF CREEP RATE VS TEMPERATURE. . . . . . . .=',i10     /   &
       5x,'FUNCTION OF CREEP EXPONENT N VS TEMPERATURE. . . . .=',i10     /   &
       5x,'FUNCTION OF CREEP EXPONENT M VS TEMPERATURE. . . . .=',i10     /   &
-      5x,'FUNCTION OF CREEP ENERGY Q VS TEMPERATURE. . . . . .=',i10     /)
+      5x,'FUNCTION OF CREEP ENERGY Q VS TEMPERATURE. . . . . .=',i10     /   &
+      5x,'SENSOR ID TO DEACTIVATE CREEP EVOLUTION. . . . . . .=',i10     /)
 !----------------------------------
       end subroutine hm_read_mat129
 !    

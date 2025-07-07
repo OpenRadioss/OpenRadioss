@@ -869,7 +869,7 @@ c
      .   numgeo,      numnod,      numels,
      .   IDEL7NOK,    IDTMIN,      MAXFUNC,
      .   IMON_MAT,    USERL_AVAIL, impl_s,
-     .   idyna,       DT,    BID )
+     .   idyna,       DT,    BID   ,sensors)
 C
        IF (ISTRAIN == 1)THEN 
         CALL SSTRA3(
