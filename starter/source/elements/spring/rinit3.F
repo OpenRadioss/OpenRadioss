@@ -1609,8 +1609,8 @@ C
             IF (MTN==113) THEN  
               J=1+NFT
               I0=IXR(1,J)
-              IFUNC = IGEO(101,I0)
               IMAT   = IXR(5,J)
+              IFUNC = IPM(10 + 1,IMAT)
               IADBUF = IPM(7,IMAT) - 1
               IH= NINT(UPARAM(IADBUF + 4 + 12*6 + 1))
               IF (IFUNC==0) IH =0
