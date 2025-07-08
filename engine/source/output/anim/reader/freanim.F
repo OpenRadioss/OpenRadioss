@@ -89,7 +89,7 @@ C-----------------------------------------------
 
       my_real X0,Y0,Z0,VNX,VNY,VNZ,V0
 C-----------------------------------------------
-      IKEY              = KANIM
+      IKEY = KANIM
       ANIMCONT = 0
 C-----------------------------------------------
 C     Set all indexes and some other variables for ANIM to zero
@@ -139,8 +139,7 @@ C----------------------------
           DO I=1,NBC
              READ(IUSC1,REC=IKAD(IKEY)+K+I-1,FMT='(A)',ERR=9990)CARTE
              CALL WRIUSC2(IKAD(IKEY)+K+I-1,1,KEY0(IKEY))
-             READ(IUSC2,*,ERR=9990,END=9990)
-     .           (SENSORS%ANIM_TMP(J+SENSORS%NANIM),J=1,NVAR(CARTE))
+             READ(IUSC2,*,ERR=9990,END=9990) (SENSORS%ANIM_TMP(J+SENSORS%NANIM),J=1,NVAR(CARTE))
              DO J=1,NVAR(CARTE)
                SENSORS%NANIM = SENSORS%NANIM + 1
              ENDDO
@@ -231,7 +230,6 @@ C     Anim Cut non portees en SPMD
       RETURN
 C-----------------------------------------------
  9990 CONTINUE
-      CALL ANCMSG(MSGID=73,ANMODE=ANINFO,
-     .            C1=KEY0(IKEY),C2=LINE(1:35))
+      CALL ANCMSG(MSGID=73,ANMODE=ANINFO,C1=KEY0(IKEY),C2=LINE(1:35))
       CALL ARRET(0)
       END

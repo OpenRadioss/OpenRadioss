@@ -177,6 +177,7 @@ C-----------------------------------------------
       use glob_therm_mod
       use PBLAST_MOD
       use th_mod , only : TH_HAS_NODA_PEXT
+      USE OUTPUT_MOD , ONLY : ANIM_HAS_NODA_PEXT, H3D_HAS_NODA_PEXT
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -2010,7 +2011,7 @@ C /TH/SURF quantities reset to 0 expect for massflow (airbags)
 
       ! /TH/NODE (PEXT) or /H3D/NODA/PEXT or /ANIM/NODA/PEXT
       ! reset for next cycle
-      IF(TH_HAS_NODA_PEXT == 1)THEN
+      IF(TH_HAS_NODA_PEXT > 0 .OR. ANIM_HAS_NODA_PEXT > 0 .OR. H3D_HAS_NODA_PEXT > 0)THEN
         NODA_SURF(1:NUMNOD) = ZERO
         NODA_PEXT(1:NUMNOD) = ZERO
       ENDIF

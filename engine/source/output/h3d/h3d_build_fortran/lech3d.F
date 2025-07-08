@@ -34,7 +34,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    create_h3d_arg_keyword    ../engine/source/output/h3d/h3d_build_fortran/create_h3d_arg_keyword.F
       !||    create_h3d_input          ../engine/source/output/h3d/h3d_build_fortran/create_h3d_input.F
       !||    create_h3d_nodal_scalar   ../engine/source/output/h3d/h3d_build_fortran/create_h3d_nodal_scalar.F
-      !||    create_h3d_nodal_tensor   ../engine/source/output/h3d/h3d_build_fortran/create_h3d_nodal_tensor.F
+      !||    create_h3d_nodal_tensor   ../engine/source/output/h3d/h3d_build_fortran/create_h3d_nodal_tensor.Fs
       !||    create_h3d_nodal_vector   ../engine/source/output/h3d/h3d_build_fortran/create_h3d_nodal_vector.F
       !||    create_h3d_parts          ../engine/source/output/h3d/h3d_build_fortran/create_h3d_parts.F
       !||    create_h3d_parts_all      ../engine/source/output/h3d/h3d_build_fortran/create_h3d_parts_all.F
@@ -105,6 +105,7 @@ C-----------------------------------------------
         USE MATPARAM_DEF_MOD
         USE TRI7BOX
         USE PBLAST_MOD
+        USE OUTPUT_MOD , ONLY : H3D_HAS_NODA_PEXT
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -233,6 +234,7 @@ C=========================================================================
         IF (H3D_DATA%TH3D < TT-DT2 .AND. H3D_DATA%DTH3D > ZERO) H3D_DATA%TH3D = H3D_DATA%TH3D
      .                         + INT((TT-DT2-H3D_DATA%TH3D)/H3D_DATA%DTH3D)*H3D_DATA%DTH3D
         IF (H3D_DATA%TH3D < TT-DT2)H3D_DATA%TH3D = H3D_DATA%TH3D+H3D_DATA%DTH3D
+        H3D_HAS_NODA_PEXT = 0
 C=========================================================================
         IBID1 = 0
         IBID2 = 0
@@ -897,6 +899,9 @@ c
                     INTER_INPUT(CPT_H3D) = 0
 
                     IS_AVAILABLE_KEY(CPT_H3D) = 1
+                  ENDIF
+                  IF(KEY3_GLOB(1:4) == 'PEXT')THEN
+                    H3D_HAS_NODA_PEXT = 1
                   ENDIF
                 ENDIF
                 IF ( IS_SCALAR == 1 ) THEN

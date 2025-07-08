@@ -75,6 +75,7 @@ C-----------------------------------------------
       USE FVBAG_MOD , only : FVBAG_DATA
       USE NAMES_AND_TITLES_MOD, ONLY: NCHARLINE100
       USE MULTI_FVM_MOD , ONLY : MULTI_FVM_STRUCT
+      USE OUTPUT_MOD , ONLY : NODA_SURF, NODA_PEXT, H3D_HAS_NODA_PEXT
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -244,10 +245,11 @@ C--------------------------------------------------
           ENDIF
         ENDDO
 C--------------------------------------------------
-      ELSEIF( KEYWORD == 'P'     .OR. KEYWORD == 'DENS'  .OR. KEYWORD == 'ENER'  .OR.
+      ELSEIF( KEYWORD == 'P '    .OR. KEYWORD == 'DENS'  .OR. KEYWORD == 'ENER'  .OR.
      .        KEYWORD == 'TEMP'  .OR. KEYWORD == 'SSP'   .OR. KEYWORD == 'DT'    .OR.
      .        KEYWORD == 'NVAR1' .OR. KEYWORD == 'NVAR2' .OR. KEYWORD == 'NVAR3' .OR. 
-     .        KEYWORD == 'NVAR4' .OR. KEYWORD == 'NVAR5' .OR. KEYWORD == 'VOL') THEN  
+     .        KEYWORD == 'NVAR4' .OR. KEYWORD == 'NVAR5' .OR. KEYWORD == 'VOL'   .OR.
+     .        KEYWORD == 'PEXT') THEN  
 C--------------------------------------------------
        IF(KEYWORD == 'TEMP' .AND. (ITHERM_FE  > 0  )) THEN
          DO I=1,NUMNOD
@@ -256,17 +258,17 @@ C--------------------------------------------------
          ENDDO
        ELSE
 c
-         IF(KEYWORD == 'P') IFUNC = 3
-         IF(KEYWORD == 'DENS') IFUNC = 4
-         IF(KEYWORD == 'ENER') IFUNC = 5
-         IF(KEYWORD == 'TEMP') IFUNC = 6
+         IF(KEYWORD == 'P')     IFUNC = 3
+         IF(KEYWORD == 'DENS')  IFUNC = 4
+         IF(KEYWORD == 'ENER')  IFUNC = 5
+         IF(KEYWORD == 'TEMP')  IFUNC = 6
          IF(KEYWORD == 'NVAR1') IFUNC = 7
          IF(KEYWORD == 'NVAR2') IFUNC = 8
          IF(KEYWORD == 'NVAR3') IFUNC = 9
          IF(KEYWORD == 'NVAR4') IFUNC = 10
          IF(KEYWORD == 'NVAR5') IFUNC = 11
-         IF(KEYWORD == 'SSP') IFUNC = 30
-         IF(KEYWORD == 'VOL') IFUNC = 0 !useless         
+         IF(KEYWORD == 'SSP')   IFUNC = 30
+         IF(KEYWORD == 'VOL')   IFUNC = 0 !useless         
          IF(KEYWORD == 'DT') THEN
            IFUNC = 0 !not 
            K = 0    
@@ -352,9 +354,22 @@ c
      .                            ITAB ,NV46             ,MONVOL               ,VOLMON ,AIRBAGS_TOTAL_FVM_IN_H3D,
      .                            IS_WRITTEN_NODE        ,IS_WRITTEN_NODE_FVM  ,ISPMD, FVDATA_P,
      .                           NUMNOD                 ,AIRBAGS_NODE_ID_SHIFT) 
-         ENDIF                        
+         ENDIF
+         ! Nodal External Pressure (Elements to Nodes -> Averaged)
+         IF (KEYWORD == 'PEXT')THEN
+           IF(H3D_HAS_NODA_PEXT == 1) THEN
+             VALUE(1:NUMNOD) = ZERO
+             DO I=1,NUMNOD
+               IF(NODA_SURF(I) > ZERO)THEN
+                 VALUE_NUMNOD_REAL(I)=NODA_PEXT(I)/NODA_SURF(I)
+               ENDIF
+               IS_WRITTEN_NODE(I) = 1
+             ENDDO
+           ENDIF
+         ENDIF
+C--------------------------------------------------
          !Then Monitored Volumes (Pressure,Density,Temperature,Sound Speed)
-         CALL ANIMBALE(IFUNC, VALUE_NUMNOD_REAL, IS_WRITTEN_NODE , MONVOL, VOLMON, 1)
+         IF(NVOLU > 0)CALL ANIMBALE(IFUNC, VALUE_NUMNOD_REAL, IS_WRITTEN_NODE , MONVOL, VOLMON, 1)
          DO I=1,NUMNOD
            IF(IS_WRITTEN_NODE(I) == 1) THEN
              VALUE(I) = VALUE_NUMNOD_REAL(I)
@@ -364,7 +379,7 @@ c
 c
        ENDIF
 C--------------------------------------------------
-      ELSEIF (KEYWORD == 'FPOT') THEN
+      ELSEIF (KEYWORD == 'FOPT') THEN
 C--------------------------------------------------
         CALL NODALP(13                 , NODAL_SCALAR         , VALUE_NUMNOD_REAL_FVM, IFLOW    , RFLOW,
      .              IPARG              , ELBUF_TAB            , IXS                  , NIXS     , NUMELS,

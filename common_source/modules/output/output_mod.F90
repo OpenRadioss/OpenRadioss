@@ -102,7 +102,10 @@
         double precision, pointer :: wfext
         double precision, pointer :: wfext_md
 
+        ! /H3D/NODA/PEXT and /ANIM/NODA/PEXT and /TH/NODE(PEXT)
         real(kind=WP), dimension(:), allocatable :: NODA_SURF, NODA_PEXT
+        integer :: H3D_HAS_NODA_PEXT
+        integer :: ANIM_HAS_NODA_PEXT
 
         type(output_),pointer :: output_ptr      ! pointer to output structure (need for arret)
       end module output_mod

@@ -51,6 +51,7 @@ C-----------------------------------------------
       USE TH_SURF_MOD , ONLY : TH_SURF_
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARLINE
       USE TH_MOD ,ONLY : TH_HAS_NODA_PEXT
+      USE OUTPUT_MOD , ONLY : H3D_HAS_NODA_PEXT, ANIM_HAS_NODA_PEXT
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -581,7 +582,7 @@ C----- /TH/SURF -------
           ENDIF
         ENDDO
       ENDIF
-      IF(TH_HAS_NODA_PEXT > 0) THEN
+      IF(TH_HAS_NODA_PEXT > 0 .OR. ANIM_HAS_NODA_PEXT > 0 .OR. H3D_HAS_NODA_PEXT > 0) THEN
         DO I = 1,ISIZ_SEG
           N1 = PBLAST%PBLAST_TAB(IL)%N(1,I)
           N2 = PBLAST%PBLAST_TAB(IL)%N(2,I)
