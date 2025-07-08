@@ -259,6 +259,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    spmd_update_frontier_int25               ../engine/source/mpi/interfaces/spmd_update_frontier_int25.F90
       !||    spmd_xv_inter_type1                      ../engine/source/mpi/nodes/spmd_sd_xv_inter1.F90
       !||    stifint_icontrol                         ../starter/source/interfaces/interf1/stifint_icontrol.F90
+      !||    sz_dt1                                   ../engine/source/elements/solid/solidez/sz_dt1.F90
       !||    test_jc_shell_detach                     ../engine/source/engine/node_spliting/detach_node.F90
       !||    update_neighbour_segment                 ../engine/source/interfaces/interf/update_neighbour_segment.F90
       !||    updfail                                  ../starter/source/materials/updfail.F90

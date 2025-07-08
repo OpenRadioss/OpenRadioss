@@ -20,11 +20,29 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+      !||====================================================================
+      !||    sz_dt1_mod   ../engine/source/elements/solid/solidez/sz_dt1.F90
+      !||--- called by ------------------------------------------------------
+      !||    s8eforc3     ../engine/source/elements/solid/solide8e/s8eforc3.F
+      !||    s8zforc3     ../engine/source/elements/solid/solide8z/s8zforc3.F
+      !||    szforc3      ../engine/source/elements/solid/solidez/szforc3.F
+      !||====================================================================
       module sz_dt1_mod
       contains
 ! ======================================================================================================================
 ! \brief new hexa hourglass formulation for distordtion control
 ! ======================================================================================================================
+      !||====================================================================
+      !||    sz_dt1          ../engine/source/elements/solid/solidez/sz_dt1.F90
+      !||--- called by ------------------------------------------------------
+      !||    s8eforc3        ../engine/source/elements/solid/solide8e/s8eforc3.F
+      !||    s8zforc3        ../engine/source/elements/solid/solide8z/s8zforc3.F
+      !||    szforc3         ../engine/source/elements/solid/solidez/szforc3.F
+      !||--- uses       -----------------------------------------------------
+      !||    constant_mod    ../common_source/modules/constant_mod.F
+      !||    mvsiz_mod       ../engine/share/spe_inc/mvsiz_mod.F90
+      !||    precision_mod   ../common_source/modules/precision_mod.F90
+      !||====================================================================
         subroutine  sz_dt1(                                     &
                              px1,     px2,     px3,     px4,    &
                              py1,     py2,     py3,     py4,    &

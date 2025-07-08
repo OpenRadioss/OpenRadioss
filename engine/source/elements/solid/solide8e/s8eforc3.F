@@ -103,6 +103,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    sstra3                 ../engine/source/elements/solid/solide/sstra3.F
       !||    startime               ../engine/source/system/timer_mod.F90
       !||    stoptime               ../engine/source/system/timer_mod.F90
+      !||    sz_dt1                 ../engine/source/elements/solid/solidez/sz_dt1.F90
       !||--- uses       -----------------------------------------------------
       !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
       !||    dt_mod                 ../engine/source/modules/dt_mod.F
@@ -114,6 +115,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    nlocal_reg_mod         ../common_source/modules/nlocal_reg_mod.F
       !||    sdistor_ini_mod        ../engine/source/elements/solid/solide/sdistror_ini.F90
       !||    sensor_mod             ../common_source/modules/sensor_mod.F90
+      !||    sz_dt1_mod             ../engine/source/elements/solid/solidez/sz_dt1.F90
       !||    table_mod              ../engine/share/modules/table_mod.F
       !||    timer_mod              ../engine/source/system/timer_mod.F90
       !||====================================================================

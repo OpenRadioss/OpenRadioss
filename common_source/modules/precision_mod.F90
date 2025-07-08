@@ -277,6 +277,7 @@
       !||    spring_functions_mod                     ../common_source/modules/spring_functions_mod.F90
       !||    stat_sphcel_full                         ../engine/source/output/sta/stat_sphcel_full.F90
       !||    stifint_icontrol                         ../starter/source/interfaces/interf1/stifint_icontrol.F90
+      !||    sz_dt1                                   ../engine/source/elements/solid/solidez/sz_dt1.F90
       !||    therm_param_mod                          ../common_source/modules/mat_elem/therm_param_mod.F90
       !||    update_neighbour_segment                 ../engine/source/interfaces/interf/update_neighbour_segment.F90
       !||    velrot_explicit                          ../engine/source/constraints/general/rbody/velrot_explicit.F90

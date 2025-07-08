@@ -126,6 +126,7 @@
       !||    telesc                          ../engine/source/constraints/general/cyl_joint/telesc.F
       !||    thermbilan                      ../engine/source/constraints/thermic/thermbilan.F
       !||--- uses       -----------------------------------------------------
+      !||    spmd_allgather_mod              ../engine/source/mpi/generic/spmd_allgather.F90
       !||    spmd_comm_world_mod             ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
       module spmd_mod

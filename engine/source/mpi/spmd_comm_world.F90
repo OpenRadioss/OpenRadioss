@@ -76,6 +76,7 @@
       !||    solve_diffusion                 ../engine/share/modules/diffusion_mod.F
       !||    solve_mumps                     ../engine/share/modules/linear_solver_mod.F
       !||    spmd_all_dmin                   ../engine/source/mpi/interfaces/spmd_th.F
+      !||    spmd_allgather_mod              ../engine/source/mpi/generic/spmd_allgather.F90
       !||    spmd_allglob_isum9              ../engine/source/mpi/generic/spmd_allglob_isum9.F
       !||    spmd_anim_ply_velvec            ../engine/source/mpi/anim/spmd_anim_ply_velvec.F
       !||    spmd_anim_ply_xyznor            ../engine/source/mpi/anim/spmd_anim_ply_xyznor.F

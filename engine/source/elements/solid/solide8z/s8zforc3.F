@@ -79,6 +79,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    startime               ../engine/source/system/timer_mod.F90
       !||    stoptime               ../engine/source/system/timer_mod.F90
       !||    storth3                ../engine/source/elements/solid/solidez/storth3.F
+      !||    sz_dt1                 ../engine/source/elements/solid/solidez/sz_dt1.F90
       !||    szordef3               ../engine/source/elements/solid/solidez/szordef3.F
       !||    sztorth3               ../engine/source/elements/solid/solidez/sztorth3.F
       !||--- uses       -----------------------------------------------------
@@ -91,6 +92,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    mmain_mod              ../engine/source/materials/mat_share/mmain.F90
       !||    nlocal_reg_mod         ../common_source/modules/nlocal_reg_mod.F
       !||    sensor_mod             ../common_source/modules/sensor_mod.F90
+      !||    sz_dt1_mod             ../engine/source/elements/solid/solidez/sz_dt1.F90
       !||    table_mod              ../engine/share/modules/table_mod.F
       !||    timer_mod              ../engine/source/system/timer_mod.F90
       !||====================================================================

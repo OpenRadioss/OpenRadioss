@@ -41,6 +41,7 @@
       !||    sfor_ns2s4                     ../engine/source/elements/solid/solide/sfor_ns2s4.F90
       !||    sfor_visn6                     ../engine/source/elements/thickshell/solide6c/sfor_visn6.F90
       !||    shour_ctl                      ../engine/source/elements/solid/solidez/shour_ctl.F90
+      !||    sz_dt1                         ../engine/source/elements/solid/solidez/sz_dt1.F90
       !||====================================================================
        module mvsiz_mod
 #include "mvsiz_p.inc"
