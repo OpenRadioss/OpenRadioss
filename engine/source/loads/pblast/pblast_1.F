@@ -50,7 +50,8 @@ C-----------------------------------------------
       USE H3D_INC_MOD 
       USE TH_SURF_MOD , ONLY : TH_SURF_
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARLINE
-      USE TH_MOD ,ONLY : TH_HAS_NODA_PEXT
+      USE TH_MOD , ONLY : TH_HAS_NODA_PEXT
+      USE OUTPUT_MOD , ONLY : H3D_HAS_NODA_PEXT, ANIM_HAS_NODA_PEXT
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -514,27 +515,27 @@ C----- /TH/SURF -------
 !$OMP SINGLE
       IF(IANIM_OR_H3D > 0) THEN
         DO I = 1,ISIZ_SEG                                                                        
-          N1 = PBLAST%PBLAST_TAB(IL)%N(1,I)
-          N2 = PBLAST%PBLAST_TAB(IL)%N(2,I)
-          N3 = PBLAST%PBLAST_TAB(IL)%N(3,I)
-          N4 = PBLAST%PBLAST_TAB(IL)%N(4,I)
-          FEXT(1,N1) = FEXT(1,N1) + PBLAST%PBLAST_TAB(IL)%FX(I)
-          FEXT(2,N1) = FEXT(2,N1) + PBLAST%PBLAST_TAB(IL)%FY(I)
-          FEXT(3,N1) = FEXT(3,N1) + PBLAST%PBLAST_TAB(IL)%FZ(I)
-          FEXT(1,N2) = FEXT(1,N2) + PBLAST%PBLAST_TAB(IL)%FX(I)
-          FEXT(2,N2) = FEXT(2,N2) + PBLAST%PBLAST_TAB(IL)%FY(I)
-          FEXT(3,N2) = FEXT(3,N2) + PBLAST%PBLAST_TAB(IL)%FZ(I)
-          FEXT(1,N3) = FEXT(1,N3) + PBLAST%PBLAST_TAB(IL)%FX(I)
-          FEXT(2,N3) = FEXT(2,N3) + PBLAST%PBLAST_TAB(IL)%FY(I)
-          FEXT(3,N3) = FEXT(3,N3) + PBLAST%PBLAST_TAB(IL)%FZ(I)
-          IF(PBLAST%PBLAST_TAB(IL)%NPt(I) == FOUR)THEN
-            FEXT(1,N4) = FEXT(1,N4) + PBLAST%PBLAST_TAB(IL)%FX(I)
-            FEXT(2,N4) = FEXT(2,N4) + PBLAST%PBLAST_TAB(IL)%FY(I)
-            FEXT(3,N4) = FEXT(3,N4) + PBLAST%PBLAST_TAB(IL)%FZ(I)
+          N1=PBLAST%PBLAST_TAB(IL)%N(1,I)
+          N2=PBLAST%PBLAST_TAB(IL)%N(2,I)
+          N3=PBLAST%PBLAST_TAB(IL)%N(3,I)
+          N4=PBLAST%PBLAST_TAB(IL)%N(4,I)
+          FEXT(1,N1) = FEXT(1,N1)+PBLAST%PBLAST_TAB(IL)%FX(I)
+          FEXT(2,N1) = FEXT(2,N1)+PBLAST%PBLAST_TAB(IL)%FY(I)
+          FEXT(3,N1) = FEXT(3,N1)+PBLAST%PBLAST_TAB(IL)%FZ(I)
+          FEXT(1,N2) = FEXT(1,N2)+PBLAST%PBLAST_TAB(IL)%FX(I)
+          FEXT(2,N2) = FEXT(2,N2)+PBLAST%PBLAST_TAB(IL)%FY(I)
+          FEXT(3,N2) = FEXT(3,N2)+PBLAST%PBLAST_TAB(IL)%FZ(I)
+          FEXT(1,N3) = FEXT(1,N3)+PBLAST%PBLAST_TAB(IL)%FX(I)
+          FEXT(2,N3) = FEXT(2,N3)+PBLAST%PBLAST_TAB(IL)%FY(I)
+          FEXT(3,N3) = FEXT(3,N3)+PBLAST%PBLAST_TAB(IL)%FZ(I)
+          IF(PBLAST%PBLAST_TAB(IL)%NPt(I)==FOUR)THEN
+            FEXT(1,N4) = FEXT(1,N4)+PBLAST%PBLAST_TAB(IL)%FX(I)
+            FEXT(2,N4) = FEXT(2,N4)+PBLAST%PBLAST_TAB(IL)%FY(I)
+            FEXT(3,N4) = FEXT(3,N4)+PBLAST%PBLAST_TAB(IL)%FZ(I)
           ENDIF                                                                                  
         ENDDO                                                                                           
       ENDIF
-      IF(TH_HAS_NODA_PEXT > 0) THEN
+      IF(TH_HAS_NODA_PEXT > 0 .OR. ANIM_HAS_NODA_PEXT > 0 .OR. H3D_HAS_NODA_PEXT > 0) THEN
         DO I = 1,ISIZ_SEG
           N1 = PBLAST%PBLAST_TAB(IL)%N(1,I)
           N2 = PBLAST%PBLAST_TAB(IL)%N(2,I)

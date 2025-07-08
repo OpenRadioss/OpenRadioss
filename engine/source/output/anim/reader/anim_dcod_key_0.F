@@ -38,6 +38,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE STACK_MOD
       USE NAMES_AND_TITLES_MOD, ONLY: NCHARKEY
+      USE OUTPUT_MOD , ONLY : ANIM_HAS_NODA_PEXT
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -2924,7 +2925,7 @@ C-----------------------------
          ANIM_N(1) = 1
        ELSEIF(KEY3(1:4)=='DMAS')THEN
          ANIM_N(2) = 1
-       ELSEIF(KEY3(1:1)=='P')THEN
+       ELSEIF(KEY3(1:2)=='P ')THEN
          ANIM_N(3) = 1
        ELSEIF(KEY3(1:4)=='DENS')THEN
          ANIM_N(4) = 1
@@ -2944,7 +2945,7 @@ C-----------------------------
          ANIM_N(11) = 1
        ELSEIF(KEY3(1:5)=='DINER')THEN
          ANIM_N(12) = 1
-       ELSEIF(KEY3(1:4)=='FPOT')THEN
+       ELSEIF(KEY3(1:4)=='FOPT')THEN
          ANIM_N(13) = 1
        ELSEIF(KEY3(1:5)=='NDMAS')THEN
          ANIM_N(14) = 1
@@ -2971,7 +2972,10 @@ C-----------------------------
          ANIM_N(28) = 1     
          ANIM_N(29) = 1  
        ELSEIF(KEY3(1:3)=='SSP')THEN
-         ANIM_N(30) = 1                                                                            
+         ANIM_N(30) = 1
+       ELSEIF(KEY3(1:4)=='PEXT ')THEN
+         ANIM_N(31) = 1
+         ANIM_HAS_NODA_PEXT = 1
        ELSE
          IXITKEY=IXITKEY+1
        ENDIF

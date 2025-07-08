@@ -255,8 +255,7 @@ C-----------------------------------------------
       use glob_therm_mod
       use my_alloc_mod
       use drape_mod
-      USE OUTPUT_MOD , ONLY : OUTPUT_
-
+      USE OUTPUT_MOD , ONLY : OUTPUT_, NODA_SURF, NODA_PEXT, ANIM_HAS_NODA_PEXT
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1927,6 +1926,7 @@ C-----------------------------------------------
        IF(ANIM_N(28)==1) CALL ANI_TXT('Centroid New Volume',19)                !inter22                                             
        IF(ANIM_N(29)==1) CALL ANI_TXT('Centroid Old Volume',19)                !inter22          
        IF(ANIM_N(30)==1) CALL ANI_TXT('Nodal Sound Speed',17)                  !FVMBAG
+       IF(ANIM_N(31)==1) CALL ANI_TXT('Nodal External Pressure',23)            !Pressure applied by load case (/LOAD/PFLUID, /LOAD/PBLAST , etc...)
 C----------------------------
 C    GPS TEXT
 C----------------------------
@@ -2722,7 +2722,18 @@ C
              !IF(N2D==0)CALL NODALZVFRAC(I, WA4, IFLOW, RFLOW,IPARG,ELBUF_TAB,IXS,NIXS,ITAB,NV46) 
           ELSEIF(I==28.OR.I==29)THEN            
              !inter22 polyhedra volumes (new & old)
-             IF(N2D==0)CALL NODALZVOL(I, WA4, IFLOW, RFLOW,IPARG,ELBUF_TAB,IXS,NIXS,ITAB,NV46)                                         
+             IF(N2D==0)CALL NODALZVOL(I, WA4, IFLOW, RFLOW,IPARG,ELBUF_TAB,IXS,NIXS,ITAB,NV46)
+          ELSEIF(I==31)THEN
+             !Averaged external pressure (PEXT)
+             IF(N2D == 0)THEN
+               IF(ANIM_HAS_NODA_PEXT == 1)THEN
+                 DO N=1,NUMNOD
+                   IF(NODA_SURF(N) > ZERO)THEN
+                     WA4(N) = NODA_PEXT(N) / NODA_SURF(N)
+                   ENDIF
+                 ENDDO
+               ENDIF
+             ENDIF
 C------------gps1 part
           ELSEIF (I>IAD_GPS.AND.I<(IAD_GPS+3)) THEN
             DO N=1,NUMNOD
@@ -6996,22 +7007,16 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER
-     .     I,ITYP,K1,K2,K3,KK1,KK2,N,NG,N1,N2
-      INTEGER
-     . NNOD_ALE,NTETRA_MX,KR1,KR2,KR3,KR9,KRA1,KRA2,KRA3,KRA8
-      INTEGER KIBJET,KRBJET,KIBHOL,KRBHOL,
-     .        NJET,IADJET,RADJET,NVENT,IADHOL,RADHOL
-      my_real
-     .   CV
+      INTEGER :: I,ITYP,K1,K2,K3,KK1,KK2,N,NG,N1,N2
+      INTEGER :: NNOD_ALE,NTETRA_MX,KR1,KR2,KR3,KR9,KRA1,KRA2,KRA3,KRA8
+      INTEGER KIBJET,KRBJET,KIBHOL,KRBHOL,NJET,IADJET,RADJET,NVENT,IADHOL,RADHOL
+      my_real :: CV
       INTEGER NNBEM, NTG, KIBALE, KRBALE
-      my_real
-     .        GAMAI, CPAI, CPBI, CPCI, PINI, TI, CPI, CVI, RHOEI, RHOI,
-     .        COEFA, RHO, PRES
+      my_real :: GAMAI, CPAI, CPBI, CPCI, PINI, TI, CPI, CVI, RHOEI, RHOI, COEFA, RHO, PRES
       INTEGER NNS, NBA, NNA, NNI, NTGI,NNT
       INTEGER IFV
 C
-      IS_WRITTEN_NODE(1:NUMNOD) = 0
+      ! IS_WRITTEN_NODE(1:NUMNOD) = 0   !if uncommented all other nodal values which were previously defined will be not displayed
       K1 = 1
       KK1 = 1
       KIBHOL =1 + NIMV*NVOLU  + LICBAG + LIBAGJET

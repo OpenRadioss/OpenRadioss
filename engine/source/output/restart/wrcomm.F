@@ -70,6 +70,7 @@ C-----------------------------------------------
       USE glob_therm_mod
       USE PBLAST_MOD
       USE TH_MOD , ONLY : TH_HAS_NODA_PEXT
+      USE OUTPUT_MOD , ONLY : ANIM_HAS_NODA_PEXT, H3D_HAS_NODA_PEXT
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -441,7 +442,7 @@ C-----1
       TABVINT(292)=NANIM1D
       TABVINT(293)=NR2RLNK
 C-----
-      TABVINT(294)=0 !no longer used
+      TABVINT(294)=ANIM_HAS_NODA_PEXT*10 + H3D_HAS_NODA_PEXT
       TABVINT(295)=IANIM
       TABVINT(296)=IOUTP
       TABVINT(297)=NHIN2

@@ -79,6 +79,7 @@ C-----------------------------------------------
       USE PBLAST_MOD
       USE RBE3_MOD
       USE TH_MOD , ONLY : TH_HAS_NODA_PEXT
+      USE OUTPUT_MOD , ONLY : ANIM_HAS_NODA_PEXT, H3D_HAS_NODA_PEXT
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -464,7 +465,8 @@ C-----1
       NANIM1D=TABVINT(292)
       NR2RLNK=TABVINT(293)
 C-----
-      !TABVINT(294) no longer used
+      ANIM_HAS_NODA_PEXT = MAX(TABVINT(294)/10     , ANIM_HAS_NODA_PEXT)   !last digit, unless /ANIM/NODA/PEXT is present
+      H3D_HAS_NODA_PEXT =  MAX(MOD(TABVINT(294),10),  H3D_HAS_NODA_PEXT)   !2nd digit, unless /H3D/NODA/PEXT is present
       IANIM =TABVINT(295)
       IOUTP =TABVINT(296)
       NHIN2 =TABVINT(297)

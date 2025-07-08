@@ -34,6 +34,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
       USE H3D_MOD
+      USE OUTPUT_MOD , ONLY : NODA_SURF, NODA_PEXT
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -114,7 +115,7 @@ c-----------------------------------------------
       H3D_KEYWORD_NODAL_SCALAR(I)%COMMENT  = 'Output of added inertia per nodes'
 c-----------------------------------------------
       I = I + 1
-      H3D_KEYWORD_NODAL_SCALAR(I)%KEY3  = 'FPOT'
+      H3D_KEYWORD_NODAL_SCALAR(I)%KEY3  = 'FOPT'
       H3D_KEYWORD_NODAL_SCALAR(I)%TEXT1  = 'Nodal Potential'
 c-----------------------------------------------
       I = I + 1
@@ -143,39 +144,39 @@ c-----------------------------------------------
       H3D_KEYWORD_NODAL_SCALAR(I)%TEXT1  = 'Nodal Stiffness'
 c-----------------------------------------------
       I = I + 1
-      H3D_KEYWORD_NODAL_SCALAR(I)%KEY3  = 'VFRAC'
+      H3D_KEYWORD_NODAL_SCALAR(I)%KEY3  = 'VFRAC/1'
       H3D_KEYWORD_NODAL_SCALAR(I)%TEXT1  = 'Nodal Volumetric Fraction - 1'
       H3D_KEYWORD_NODAL_SCALAR(I)%COMMENT  = 'Element volumetric fraction reported to node, used with LAW37 and LAW51'
 c-----------------------------------------------
       I = I + 1
-      H3D_KEYWORD_NODAL_SCALAR(I)%KEY3  = 'VFRAC'
+      H3D_KEYWORD_NODAL_SCALAR(I)%KEY3  = 'VFRAC/2'
       H3D_KEYWORD_NODAL_SCALAR(I)%TEXT1  = 'Nodal Volumetric Fraction - 2'
       H3D_KEYWORD_NODAL_SCALAR(I)%COMMENT  = 'Element volumetric fraction reported to node, used with LAW37 and LAW51'
 c-----------------------------------------------
       I = I + 1
-      H3D_KEYWORD_NODAL_SCALAR(I)%KEY3  = 'VFRAC'
+      H3D_KEYWORD_NODAL_SCALAR(I)%KEY3  = 'VFRAC/3'
       H3D_KEYWORD_NODAL_SCALAR(I)%TEXT1  = 'Nodal Volumetric Fraction - 3'
       H3D_KEYWORD_NODAL_SCALAR(I)%COMMENT  = 'Element volumetric fraction reported to node, used with LAW37 and LAW51'
 c-----------------------------------------------
       I = I + 1
-      H3D_KEYWORD_NODAL_SCALAR(I)%KEY3  = 'VFRAC'
+      H3D_KEYWORD_NODAL_SCALAR(I)%KEY3  = 'VFRAC/4'
       H3D_KEYWORD_NODAL_SCALAR(I)%TEXT1  = 'Nodal Volumetric Fraction - 4'
       H3D_KEYWORD_NODAL_SCALAR(I)%COMMENT  = 'Element volumetric fraction reported to node, used with LAW37 and LAW51'
 c-----------------------------------------------
       I = I + 1
-      H3D_KEYWORD_NODAL_SCALAR(I)%KEY3  = 'ZVFRAC'
+      H3D_KEYWORD_NODAL_SCALAR(I)%KEY3  = 'ZVFRAC/1'
       H3D_KEYWORD_NODAL_SCALAR(I)%TEXT1  = 'Nodal Volumetric Fraction - 1'
 c-----------------------------------------------
       I = I + 1
-      H3D_KEYWORD_NODAL_SCALAR(I)%KEY3  = 'ZVFRAC'
+      H3D_KEYWORD_NODAL_SCALAR(I)%KEY3  = 'ZVFRAC/2'
       H3D_KEYWORD_NODAL_SCALAR(I)%TEXT1  = 'Nodal Volumetric Fraction - 2'
 c-----------------------------------------------
       I = I + 1
-      H3D_KEYWORD_NODAL_SCALAR(I)%KEY3  = 'ZVFRAC'
+      H3D_KEYWORD_NODAL_SCALAR(I)%KEY3  = 'ZVFRAC/3'
       H3D_KEYWORD_NODAL_SCALAR(I)%TEXT1  = 'Nodal Volumetric Fraction - 3'
 c-----------------------------------------------
       I = I + 1
-      H3D_KEYWORD_NODAL_SCALAR(I)%KEY3  = 'ZVFRAC'
+      H3D_KEYWORD_NODAL_SCALAR(I)%KEY3  = 'ZVFRAC/4'
       H3D_KEYWORD_NODAL_SCALAR(I)%TEXT1  = 'Nodal Volumetric Fraction - 4'
 c-----------------------------------------------
       I = I + 1
@@ -183,7 +184,7 @@ c-----------------------------------------------
       H3D_KEYWORD_NODAL_SCALAR(I)%TEXT1  = 'Centroid New Volume'
 c-----------------------------------------------
       I = I + 1
-      H3D_KEYWORD_NODAL_SCALAR(I)%KEY3  = 'ZVOL'
+      H3D_KEYWORD_NODAL_SCALAR(I)%KEY3  = 'ZVOLD'
       H3D_KEYWORD_NODAL_SCALAR(I)%TEXT1  = 'Centroid Old Volume'
 c-----------------------------------------------
       I = I + 1
@@ -227,6 +228,11 @@ c-----------------------------------------------
       H3D_KEYWORD_NODAL_SCALAR(I)%KEY3  = 'VOL'
       H3D_KEYWORD_NODAL_SCALAR(I)%TEXT1  = 'Nodal Volumes'
       H3D_KEYWORD_NODAL_SCALAR(I)%COMMENT  = 'Volume at element centroid (FVMBAG)'
+c-----------------------------------------------
+      I = I + 1
+      H3D_KEYWORD_NODAL_SCALAR(I)%KEY3  = 'PEXT'
+      H3D_KEYWORD_NODAL_SCALAR(I)%TEXT1  = 'Nodal External Pressure'
+      H3D_KEYWORD_NODAL_SCALAR(I)%COMMENT  = 'Pressure Applied by load case'
 c-----------------------------------------------
 
       NKEY=I

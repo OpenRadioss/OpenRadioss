@@ -126,10 +126,10 @@ c     known a priori
             ENDDO
           ELSE
             NB_KEY = 4
-            IF (CPT_KEY == 1) KEY3_GLOB = 'VFRAC1'
-            IF (CPT_KEY == 2) KEY3_GLOB = 'VFRAC2'
-            IF (CPT_KEY == 3) KEY3_GLOB = 'VFRAC3'
-            IF (CPT_KEY == 4) KEY3_GLOB = 'VFRAC4'
+            IF (CPT_KEY == 1) KEY3_GLOB = 'VFRAC/1'
+            IF (CPT_KEY == 2) KEY3_GLOB = 'VFRAC/2'
+            IF (CPT_KEY == 3) KEY3_GLOB = 'VFRAC/3'
+            IF (CPT_KEY == 4) KEY3_GLOB = 'VFRAC/4'
           ENDIF
         ELSE
           NB_KEY = 1

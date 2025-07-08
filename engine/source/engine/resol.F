@@ -719,7 +719,7 @@ C-----------------------------------------------
               USE DEBUG_MOD
               use inter_init_component_mod , only : inter_init_component
               use th_mod , only : th_has_noda_pext
-              use output_mod
+              use output_mod , only : anim_has_noda_pext, h3d_has_noda_pext
               use damping_vref_compute_dampa_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -2368,8 +2368,7 @@ C ---------------------
 C ---------------------
 C Allocating FEXT Array
 C ---------------------
-              IF(ANIM_V(5)+OUTP_V(5)+H3D_DATA%N_VECT_FINT+ANIM_V(6)+OUTP_V(6)+H3D_DATA%N_VECT_FEXT > 0
-     .            .OR. TH_HAS_NODA_PEXT> 0) THEN
+              IF(ANIM_V(5)+OUTP_V(5)+H3D_DATA%N_VECT_FINT+ANIM_V(6)+OUTP_V(6)+H3D_DATA%N_VECT_FEXT > 0) THEN
                 ALLOCATE(NODA_FEXT(3*NUMNOD))
                 NODA_FEXT(1:3*NUMNOD)=ZERO
               ELSE
@@ -2379,7 +2378,7 @@ C ---------------------
 C ---------------------
 C Allocating PEXT Array
 C ---------------------
-              IF(TH_HAS_NODA_PEXT > 0) THEN
+              IF(TH_HAS_NODA_PEXT > 0 .OR. ANIM_HAS_NODA_PEXT > 0 .OR. H3D_HAS_NODA_PEXT > 0) THEN
                 ALLOCATE(NODA_SURF(NUMNOD))
                 ALLOCATE(NODA_PEXT(NUMNOD))
                 NODA_SURF(1:NUMNOD)=ZERO
