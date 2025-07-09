@@ -26,10 +26,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    spmd_exch_deleted_surf_edge   ../engine/source/mpi/interfaces/spmd_exch_deleted_surf_edge.F
       !||--- calls      -----------------------------------------------------
       !||    check_edge_state              ../engine/source/interfaces/interf/check_edge_state.F
-      !||    get_local_node_id             ../engine/source/engine/node_spliting/nodal_arrays.F90
       !||--- uses       -----------------------------------------------------
       !||    intbufdef_mod                 ../common_source/modules/interfaces/intbufdef_mod.F90
-      !||    nodal_arrays_mod              ../engine/source/engine/node_spliting/nodal_arrays.F90
+      !||    nodal_arrays_mod              ../common_source/modules/nodal_arrays.F90
       !||    shooting_node_mod             ../engine/share/modules/shooting_node_mod.F
       !||====================================================================
         SUBROUTINE FIND_EDGE_FROM_REMOTE_PROC(SHOOT_STRUCT,NB_EDGE,LIST_NODE,INTBUF_TAB,NODES,

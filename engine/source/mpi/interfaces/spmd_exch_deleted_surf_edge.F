@@ -30,7 +30,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- uses       -----------------------------------------------------
       !||    array_mod                       ../common_source/modules/array_mod.F
       !||    intbufdef_mod                   ../common_source/modules/interfaces/intbufdef_mod.F90
-      !||    nodal_arrays_mod                ../engine/source/engine/node_spliting/nodal_arrays.F90
+      !||    nodal_arrays_mod                ../common_source/modules/nodal_arrays.F90
       !||    shooting_node_mod               ../engine/share/modules/shooting_node_mod.F
       !||    spmd_comm_world_mod             ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================

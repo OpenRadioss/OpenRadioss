@@ -28,7 +28,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    vinter_smooth                 ../engine/source/tools/curve/vinter_smooth.F
       !||    vinterdp                      ../engine/source/tools/curve/vinterdp.F
       !||--- uses       -----------------------------------------------------
-      !||    nodal_arrays_mod              ../engine/source/engine/node_spliting/nodal_arrays.F90
+      !||    nodal_arrays_mod              ../common_source/modules/nodal_arrays.F90
       !||    python_call_funct_cload_mod   ../engine/source/loads/general/python_call_funct_cload.F90
       !||    python_funct_mod              ../common_source/modules/python_mod.F90
       !||    sensor_mod                    ../common_source/modules/sensor_mod.F90

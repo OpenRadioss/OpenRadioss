@@ -35,7 +35,7 @@
       !||    python_expose_doubles   ../common_source/modules/python_mod.F90
       !||    python_expose_ints      ../common_source/modules/python_mod.F90
       !||--- uses       -----------------------------------------------------
-      !||    nodal_arrays_mod        ../engine/source/engine/node_spliting/nodal_arrays.F90
+      !||    nodal_arrays_mod        ../common_source/modules/nodal_arrays.F90
       !||    python_funct_mod        ../common_source/modules/python_mod.F90
       !||====================================================================
         subroutine python_share_memory(py, nodes, numnod,&

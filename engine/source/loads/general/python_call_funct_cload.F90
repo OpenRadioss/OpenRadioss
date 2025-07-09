@@ -41,7 +41,7 @@
       !||--- calls      -----------------------------------------------------
       !||    python_set_active_node_values   ../common_source/modules/python_mod.F90
       !||--- uses       -----------------------------------------------------
-      !||    nodal_arrays_mod                ../engine/source/engine/node_spliting/nodal_arrays.F90
+      !||    nodal_arrays_mod                ../common_source/modules/nodal_arrays.F90
       !||    python_funct_mod                ../common_source/modules/python_mod.F90
       !||====================================================================
         subroutine python_call_funct_cload_sp(py, funct_id, x, y,n,nodes)
@@ -129,7 +129,7 @@
       !||--- calls      -----------------------------------------------------
       !||    python_set_active_node_values   ../common_source/modules/python_mod.F90
       !||--- uses       -----------------------------------------------------
-      !||    nodal_arrays_mod                ../engine/source/engine/node_spliting/nodal_arrays.F90
+      !||    nodal_arrays_mod                ../common_source/modules/nodal_arrays.F90
       !||    python_funct_mod                ../common_source/modules/python_mod.F90
       !||====================================================================
         subroutine python_call_funct_cload_dp(py, funct_id, x, y,n,nodes)

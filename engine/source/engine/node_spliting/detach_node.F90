@@ -88,7 +88,7 @@
       !||    constant_mod                  ../common_source/modules/constant_mod.F
       !||    extend_array_mod              ../common_source/tools/memory/extend_array.F90
       !||    interfaces_mod                ../common_source/modules/interfaces/interfaces_mod.F90
-      !||    nodal_arrays_mod              ../engine/source/engine/node_spliting/nodal_arrays.F90
+      !||    nodal_arrays_mod              ../common_source/modules/nodal_arrays.F90
       !||====================================================================
         subroutine detach_node_from_interfaces(nodes, node_id,npari,ninter, ipari, interf, elements, shell_list, list_size)
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -247,7 +247,7 @@
       !||--- uses       -----------------------------------------------------
       !||    connectivity_mod      ../common_source/modules/connectivity.F90
       !||    constant_mod          ../common_source/modules/constant_mod.F
-      !||    nodal_arrays_mod      ../engine/source/engine/node_spliting/nodal_arrays.F90
+      !||    nodal_arrays_mod      ../common_source/modules/nodal_arrays.F90
       !||====================================================================
         subroutine set_new_node_values(nodes,i)
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -361,7 +361,7 @@
       !||--- uses       -----------------------------------------------------
       !||    connectivity_mod          ../common_source/modules/connectivity.F90
       !||    constant_mod              ../common_source/modules/constant_mod.F
-      !||    nodal_arrays_mod          ../engine/source/engine/node_spliting/nodal_arrays.F90
+      !||    nodal_arrays_mod          ../common_source/modules/nodal_arrays.F90
       !||    update_pon_mod            ../engine/source/engine/node_spliting/update_pon.F90
       !||====================================================================
         subroutine detach_node_from_shells(nodes, node_id ,elements,shell_list,list_size)
@@ -423,13 +423,13 @@
       !||--- calls      -----------------------------------------------------
       !||    detach_node_from_interfaces   ../engine/source/engine/node_spliting/detach_node.F90
       !||    detach_node_from_shells       ../engine/source/engine/node_spliting/detach_node.F90
-      !||    extend_nodal_arrays           ../engine/source/engine/node_spliting/nodal_arrays.F90
+      !||    extend_nodal_arrays           ../common_source/modules/nodal_arrays.F90
       !||    set_new_node_values           ../engine/source/engine/node_spliting/detach_node.F90
       !||--- uses       -----------------------------------------------------
       !||    connectivity_mod              ../common_source/modules/connectivity.F90
       !||    constant_mod                  ../common_source/modules/constant_mod.F
       !||    interfaces_mod                ../common_source/modules/interfaces/interfaces_mod.F90
-      !||    nodal_arrays_mod              ../engine/source/engine/node_spliting/nodal_arrays.F90
+      !||    nodal_arrays_mod              ../common_source/modules/nodal_arrays.F90
       !||====================================================================
         subroutine detach_node(nodes, node_id ,elements,shell_list,list_size,npari,ninter, ipari, interf)
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -507,7 +507,7 @@
       !||    constant_mod           ../common_source/modules/constant_mod.F
       !||    elbufdef_mod           ../common_source/modules/mat_elem/elbufdef_mod.F90
       !||    interfaces_mod         ../common_source/modules/interfaces/interfaces_mod.F90
-      !||    nodal_arrays_mod       ../engine/source/engine/node_spliting/nodal_arrays.F90
+      !||    nodal_arrays_mod       ../common_source/modules/nodal_arrays.F90
       !||====================================================================
         subroutine test_jc_shell_detach(nodes, element, interf, npari, ninter, ipari, numnod, &
           numnodg, elbuf, ngroup, ngrouc, nparg, iparg, igrouc, numelc, ispmd, &

@@ -47,7 +47,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    get_nrbe3pen_l               ../engine/source/output/restart/restart_rbe3pen.F90
       !||    group_ini                    ../engine/source/groups/group_ini.F
       !||    imprrest                     ../engine/source/output/restart/rdresb.F
-      !||    init_global_node_id          ../engine/source/engine/node_spliting/nodal_arrays.F90
+      !||    init_global_node_id          ../common_source/modules/nodal_arrays.F90
       !||    init_global_shell_id         ../common_source/modules/connectivity.F90
       !||    intbuf_ini                   ../common_source/interf/intbuf_ini.F
       !||    intfric_rresti               ../common_source/modules/interfaces/intbuf_fric_mod.F90
@@ -122,7 +122,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    monvol_struct_mod            ../engine/share/modules/monvol_struct_mod.F
       !||    multi_fvm_mod                ../common_source/modules/ale/multi_fvm_mod.F90
       !||    nlocal_reg_mod               ../common_source/modules/nlocal_reg_mod.F
-      !||    nodal_arrays_mod             ../engine/source/engine/node_spliting/nodal_arrays.F90
+      !||    nodal_arrays_mod             ../common_source/modules/nodal_arrays.F90
       !||    outmax_mod                   ../common_source/modules/outmax_mod.F
       !||    output_mod                   ../common_source/modules/output/output_mod.F90
       !||    outputs_mod                  ../common_source/modules/outputs_mod.F

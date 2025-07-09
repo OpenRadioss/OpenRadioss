@@ -28,7 +28,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    prerbe3            ../engine/source/constraints/general/rbe3/rbe3f.F
       !||    rbe3cl             ../engine/source/constraints/general/rbe3/rbe3f.F
       !||--- uses       -----------------------------------------------------
-      !||    nodal_arrays_mod   ../engine/source/engine/node_spliting/nodal_arrays.F90
+      !||    nodal_arrays_mod   ../common_source/modules/nodal_arrays.F90
       !||    rbe3_mod           ../common_source/modules/constraints/rbe3_mod.F90
       !||====================================================================
       SUBROUTINE RBE3V(RBE3 ,NODES, SKEW  )

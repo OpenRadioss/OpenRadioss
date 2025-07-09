@@ -48,7 +48,7 @@
       !||--- uses       -----------------------------------------------------
       !||    constant_mod                  ../common_source/modules/constant_mod.F
       !||    h3d_mod                       ../engine/share/modules/h3d_mod.F
-      !||    nodal_arrays_mod              ../engine/source/engine/node_spliting/nodal_arrays.F90
+      !||    nodal_arrays_mod              ../common_source/modules/nodal_arrays.F90
       !||    pinchtype_mod                 ../common_source/modules/pinchtype_mod.F
       !||    precision_mod                 ../common_source/modules/precision_mod.F90
       !||    python_call_funct_cload_mod   ../engine/source/loads/general/python_call_funct_cload.F90

@@ -113,7 +113,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    monvol_struct_mod            ../engine/share/modules/monvol_struct_mod.F
       !||    multi_fvm_mod                ../common_source/modules/ale/multi_fvm_mod.F90
       !||    names_and_titles_mod         ../common_source/modules/names_and_titles_mod.F
-      !||    nodal_arrays_mod             ../engine/source/engine/node_spliting/nodal_arrays.F90
+      !||    nodal_arrays_mod             ../common_source/modules/nodal_arrays.F90
       !||    output_mod                   ../common_source/modules/output/output_mod.F90
       !||    pblast_mod                   ../common_source/modules/loads/pblast_mod.F90
       !||    pinchtype_mod                ../common_source/modules/pinchtype_mod.F

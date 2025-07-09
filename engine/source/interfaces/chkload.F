@@ -30,7 +30,7 @@ C
       !||    spmd_exchseg_idel   ../engine/source/mpi/kinematic_conditions/spmd_exchseg_idel.F
       !||    spmd_init_idel      ../engine/source/mpi/interfaces/spmd_init_idel.F
       !||--- uses       -----------------------------------------------------
-      !||    nodal_arrays_mod    ../engine/source/engine/node_spliting/nodal_arrays.F90
+      !||    nodal_arrays_mod    ../common_source/modules/nodal_arrays.F90
       !||====================================================================
       SUBROUTINE CHKLOAD(
      1    IB     ,IXS     ,IXQ     ,IXC    ,IXT     ,IXP     ,

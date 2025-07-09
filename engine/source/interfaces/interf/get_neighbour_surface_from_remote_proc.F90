@@ -43,7 +43,6 @@
       !||    alloc_my_real_1d_array                   ../common_source/modules/array_mod.F
       !||    dealloc_my_real_1d_array                 ../common_source/modules/array_mod.F
       !||    get_convexity_normals                    ../engine/source/interfaces/interf/get_convexity_normals.F90
-      !||    get_local_node_id                        ../engine/source/engine/node_spliting/nodal_arrays.F90
       !||    get_segment_interface_id                 ../engine/source/interfaces/interf/get_segment_interface_id.F90
       !||    get_segment_normal                       ../engine/source/interfaces/interf/get_segment_normal.F90
       !||--- uses       -----------------------------------------------------
@@ -54,7 +53,7 @@
       !||    get_segment_interface_id_mod             ../engine/source/interfaces/interf/get_segment_interface_id.F90
       !||    get_segment_normal_mod                   ../engine/source/interfaces/interf/get_segment_normal.F90
       !||    intbufdef_mod                            ../common_source/modules/interfaces/intbufdef_mod.F90
-      !||    nodal_arrays_mod                         ../engine/source/engine/node_spliting/nodal_arrays.F90
+      !||    nodal_arrays_mod                         ../common_source/modules/nodal_arrays.F90
       !||    precision_mod                            ../common_source/modules/precision_mod.F90
       !||    shooting_node_mod                        ../engine/share/modules/shooting_node_mod.F
       !||====================================================================

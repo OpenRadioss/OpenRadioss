@@ -45,7 +45,7 @@
       !||    userwindow_get_a        ../engine/source/user_interface/userwindow_interface_routines.F
       !||    userwindow_get_ar       ../engine/source/user_interface/userwindow_interface_routines.F
       !||--- uses       -----------------------------------------------------
-      !||    nodal_arrays_mod        ../engine/source/engine/node_spliting/nodal_arrays.F90
+      !||    nodal_arrays_mod        ../common_source/modules/nodal_arrays.F90
       !||    sensor_mod              ../common_source/modules/sensor_mod.F90
       !||    user_windows_mod        ../common_source/modules/user_windows_mod.F
       !||====================================================================

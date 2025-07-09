@@ -39,7 +39,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    zero1                ../engine/source/system/zero.F
       !||--- uses       -----------------------------------------------------
       !||    h3d_mod              ../engine/share/modules/h3d_mod.F
-      !||    nodal_arrays_mod     ../engine/source/engine/node_spliting/nodal_arrays.F90
+      !||    nodal_arrays_mod     ../common_source/modules/nodal_arrays.F90
       !||    rbe3_mod             ../common_source/modules/constraints/rbe3_mod.F90
       !||    rbe3pen_init_mod     ../engine/source/constraints/general/rbe3/rbe3pen_init.F90
       !||====================================================================

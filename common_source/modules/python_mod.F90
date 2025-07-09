@@ -864,6 +864,7 @@
       !||--- calls      -----------------------------------------------------
       !||    python_update_nodal_entity     ../common_source/modules/python_mod.F90
       !||--- uses       -----------------------------------------------------
+      !||    nodal_arrays_mod               ../common_source/modules/nodal_arrays.F90
       !||====================================================================
         subroutine python_update_nodal_entities(numnod,NODES,X, A, D, DR, V, VR, AR)
 ! ----------------------------------------------------------------------------------------------------------------------

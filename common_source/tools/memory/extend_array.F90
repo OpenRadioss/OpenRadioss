@@ -24,7 +24,7 @@
       !||    extend_array_mod              ../common_source/tools/memory/extend_array.F90
       !||--- called by ------------------------------------------------------
       !||    detach_node_from_interfaces   ../engine/source/engine/node_spliting/detach_node.F90
-      !||    extend_nodal_arrays           ../engine/source/engine/node_spliting/nodal_arrays.F90
+      !||    extend_nodal_arrays           ../common_source/modules/nodal_arrays.F90
       !||    fill_voxel_local              ../engine/source/interfaces/intsort/fill_voxel.F90
       !||    fill_voxel_local_partial      ../engine/source/interfaces/intsort/fill_voxel.F90
       !||    fill_voxel_remote             ../engine/source/interfaces/intsort/fill_voxel.F90

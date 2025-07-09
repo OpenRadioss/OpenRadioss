@@ -47,6 +47,7 @@
       !||    elbuftag_mod               ../starter/share/modules1/elbuftag_mod.F
       !||    func_table_copy_mod        ../starter/source/materials/tools/func_table_copy.F90
       !||    mat_table_table_copy_mod   ../starter/source/materials/tools/mat_table_table_copy.F90
+      !||    message_mod                ../starter/share/message_module/message_mod.F
       !||    submodel_mod               ../starter/share/modules1/submodel_mod.F
       !||    table_mod                  ../starter/share/modules1/table_mod.F
       !||====================================================================

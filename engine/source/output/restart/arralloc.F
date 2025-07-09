@@ -26,7 +26,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    radioss2                ../engine/source/engine/radioss2.F
       !||--- calls      -----------------------------------------------------
       !||    alefvm_init             ../engine/source/ale/alefvm/alefvm_init.F
-      !||    allocate_nodal_arrays   ../engine/source/engine/node_spliting/nodal_arrays.F90
+      !||    allocate_nodal_arrays   ../common_source/modules/nodal_arrays.F90
       !||    allocate_rbe3           ../common_source/modules/constraints/rbe3_mod.F90
       !||    ancmsg                  ../engine/source/output/message/message.F
       !||    arret                   ../engine/source/system/arret.F
@@ -53,7 +53,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    message_mod             ../engine/share/message_module/message_mod.F
       !||    multi_fvm_mod           ../common_source/modules/ale/multi_fvm_mod.F90
       !||    my_alloc_mod            ../common_source/tools/memory/my_alloc.F90
-      !||    nodal_arrays_mod        ../engine/source/engine/node_spliting/nodal_arrays.F90
+      !||    nodal_arrays_mod        ../common_source/modules/nodal_arrays.F90
       !||    outmax_mod              ../common_source/modules/outmax_mod.F
       !||    outputs_mod             ../common_source/modules/outputs_mod.F
       !||    pinchtype_mod           ../common_source/modules/pinchtype_mod.F

@@ -48,7 +48,7 @@
       !||    multi_fvm_mod                  ../common_source/modules/ale/multi_fvm_mod.F90
       !||    mvsiz_mod                      ../engine/share/spe_inc/mvsiz_mod.F90
       !||    names_and_titles_mod           ../common_source/modules/names_and_titles_mod.F
-      !||    nodal_arrays_mod               ../engine/source/engine/node_spliting/nodal_arrays.F90
+      !||    nodal_arrays_mod               ../common_source/modules/nodal_arrays.F90
       !||    precision_mod                  ../common_source/modules/precision_mod.F90
       !||    python_funct_mod               ../common_source/modules/python_mod.F90
       !||    python_spmd_mod                ../engine/source/mpi/python_spmd_mod.F90

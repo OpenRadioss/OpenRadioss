@@ -49,7 +49,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    ams_prepare_poff_assembly                    ../engine/source/mpi/ams/spmd_sms.F
       !||    ancmsg                                       ../engine/source/output/message/message.F
       !||    arret                                        ../engine/source/system/arret.F
-      !||    assign_ptrx                                  ../engine/source/engine/node_spliting/nodal_arrays.F90
+      !||    assign_ptrx                                  ../common_source/modules/nodal_arrays.F90
       !||    assinit                                      ../engine/source/assembly/assadd2.F
       !||    assinit_crkxfem                              ../engine/source/assembly/assadd2.F
       !||    assinit_pxfem                                ../engine/source/assembly/assadd2.F
@@ -484,7 +484,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    my_alloc_mod                                 ../common_source/tools/memory/my_alloc.F90
       !||    names_and_titles_mod                         ../common_source/modules/names_and_titles_mod.F
       !||    nlocal_reg_mod                               ../common_source/modules/nlocal_reg_mod.F
-      !||    nodal_arrays_mod                             ../engine/source/engine/node_spliting/nodal_arrays.F90
+      !||    nodal_arrays_mod                             ../common_source/modules/nodal_arrays.F90
       !||    offset_nproj_mod                             ../engine/source/interfaces/shell_offset/offset_nproj.F90
       !||    outmax_mod                                   ../common_source/modules/outmax_mod.F
       !||    output_mod                                   ../common_source/modules/output/output_mod.F90

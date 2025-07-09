@@ -21,7 +21,7 @@
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    nodal_arrays_mod                         ../engine/source/engine/node_spliting/nodal_arrays.F90
+      !||    nodal_arrays_mod                         ../common_source/modules/nodal_arrays.F90
       !||--- called by ------------------------------------------------------
       !||    asspar4                                  ../engine/source/assembly/asspar4.F
       !||    check_nan_acc                            ../engine/source/output/outfile/check_nan_acc.F
@@ -43,6 +43,7 @@
       !||    python_call_funct_cload_sp               ../engine/source/loads/general/python_call_funct_cload.F90
       !||    python_register                          ../engine/source/tools/curve/python_register.F90
       !||    python_share_memory                      ../engine/source/coupling/python/python_share_memory.F90
+      !||    python_update_nodal_entities             ../common_source/modules/python_mod.F90
       !||    radioss2                                 ../engine/source/engine/radioss2.F
       !||    rbe3t1                                   ../engine/source/constraints/general/rbe3/rbe3f.F
       !||    rbe3v                                    ../engine/source/constraints/general/rbe3/rbe3v.F
@@ -136,7 +137,7 @@
 ! ======================================================================================================================
        !\details Assign the pointer to the coordinates
       !||====================================================================
-      !||    assign_ptrx   ../engine/source/engine/node_spliting/nodal_arrays.F90
+      !||    assign_ptrx   ../common_source/modules/nodal_arrays.F90
       !||--- called by ------------------------------------------------------
       !||    resol         ../engine/source/engine/resol.F
       !||====================================================================
@@ -164,7 +165,7 @@
 
 !! \brief Allocate nodal arrays                                                              
       !||====================================================================
-      !||    allocate_nodal_arrays   ../engine/source/engine/node_spliting/nodal_arrays.F90
+      !||    allocate_nodal_arrays   ../common_source/modules/nodal_arrays.F90
       !||--- called by ------------------------------------------------------
       !||    restalloc               ../engine/source/output/restart/arralloc.F
       !||--- calls      -----------------------------------------------------
@@ -323,7 +324,7 @@
         end subroutine allocate_nodal_arrays
 !! \brief extend nodal arrays                                                              
       !||====================================================================
-      !||    extend_nodal_arrays   ../engine/source/engine/node_spliting/nodal_arrays.F90
+      !||    extend_nodal_arrays   ../common_source/modules/nodal_arrays.F90
       !||--- called by ------------------------------------------------------
       !||    detach_node           ../engine/source/engine/node_spliting/detach_node.F90
       !||--- calls      -----------------------------------------------------
@@ -441,7 +442,7 @@
 
 !! \brief extend nodal arrays                                                              
       !||====================================================================
-      !||    init_global_node_id   ../engine/source/engine/node_spliting/nodal_arrays.F90
+      !||    init_global_node_id   ../common_source/modules/nodal_arrays.F90
       !||--- called by ------------------------------------------------------
       !||    rdresb                ../engine/source/output/restart/rdresb.F
       !||--- calls      -----------------------------------------------------
@@ -486,18 +487,9 @@
 
 
       !||====================================================================
-      !||    get_local_node_id                        ../engine/source/engine/node_spliting/nodal_arrays.F90
-      !||--- called by ------------------------------------------------------
-      !||    count_remote_nb_elem_edge                ../engine/source/interfaces/interf/count_remote_nb_elem_edge.F
-      !||    find_edge_from_remote_proc               ../engine/source/interfaces/interf/find_edge_from_remote_proc.F
-      !||    find_surface_from_remote_proc            ../engine/source/interfaces/interf/find_surface_from_remote_proc.F
-      !||    get_neighbour_surface_from_remote_proc   ../engine/source/interfaces/interf/get_neighbour_surface_from_remote_proc.F90
-      !||    spmd_exch_neighbour_segment              ../engine/source/mpi/interfaces/spmd_exch_neighbour_segment.F90
-      !||    spmd_exchmsr_idel                        ../engine/source/mpi/interfaces/spmd_exchmsr_idel.F
-      !||    spmd_exchseg_idel                        ../engine/source/mpi/kinematic_conditions/spmd_exchseg_idel.F
-      !||    tagoff3n                                 ../engine/source/interfaces/interf/chkstfn3.F
+      !||    get_local_node_id   ../common_source/modules/nodal_arrays.F90
       !||--- uses       -----------------------------------------------------
-      !||    umap_mod                                 ../common_source/tools/container/umap_mod.F90
+      !||    umap_mod            ../common_source/tools/container/umap_mod.F90
       !||====================================================================
         function get_local_node_id(arrays, global_id) result(local_id)
 ! ----------------------------------------------------------------------------------------------------------------------

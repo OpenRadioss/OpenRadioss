@@ -23,9 +23,9 @@
       !||====================================================================
       !||    umap_mod               ../common_source/tools/container/umap_mod.F90
       !||--- called by ------------------------------------------------------
-      !||    get_local_node_id      ../engine/source/engine/node_spliting/nodal_arrays.F90
+      !||    get_local_node_id      ../common_source/modules/nodal_arrays.F90
       !||    get_local_shell_id     ../common_source/modules/connectivity.F90
-      !||    init_global_node_id    ../engine/source/engine/node_spliting/nodal_arrays.F90
+      !||    init_global_node_id    ../common_source/modules/nodal_arrays.F90
       !||    init_global_shell_id   ../common_source/modules/connectivity.F90
       !||--- uses       -----------------------------------------------------
       !||====================================================================
@@ -94,7 +94,7 @@
       !||====================================================================
       !||    reserve_capacity       ../common_source/tools/container/umap_mod.F90
       !||--- called by ------------------------------------------------------
-      !||    init_global_node_id    ../engine/source/engine/node_spliting/nodal_arrays.F90
+      !||    init_global_node_id    ../common_source/modules/nodal_arrays.F90
       !||    init_global_shell_id   ../common_source/modules/connectivity.F90
       !||--- calls      -----------------------------------------------------
       !||====================================================================

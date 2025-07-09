@@ -72,6 +72,7 @@
       !||    forcepinch                         ../engine/source/loads/general/forcepinch.F
       !||    forint                             ../engine/source/elements/forint.F
       !||    forintc                            ../engine/source/elements/forintc.F
+      !||    forintp                            ../engine/source/elements/forintp.F
       !||    freanim                            ../engine/source/output/anim/reader/freanim.F
       !||    freform                            ../engine/source/input/freform.F
       !||    freoutp                            ../engine/source/input/freoutp.F
@@ -171,6 +172,7 @@
       !||    intfop8                            ../engine/source/interfaces/interf/intfop8.F
       !||    inttri                             ../engine/source/interfaces/intsort/inttri.F
       !||    lag_mult                           ../engine/source/tools/lagmul/lag_mult.F
+      !||    law129_upd                         ../starter/source/materials/mat/mat129/law129_upd.F90
       !||    law158_upd                         ../starter/source/materials/mat/mat158/law158_upd.F
       !||    law19_upd                          ../starter/source/materials/mat/mat019/law19_upd.F90
       !||    law58_upd                          ../starter/source/materials/mat/mat058/law58_upd.F
@@ -179,8 +181,10 @@
       !||    load_pressure                      ../engine/source/loads/general/load_pressure/load_pressure.F
       !||    manctr                             ../engine/source/input/manctr.F
       !||    material_flow                      ../engine/source/tools/seatbelts/material_flow.F
+      !||    mmain                              ../engine/source/materials/mat_share/mmain.F90
       !||    monvol0                            ../engine/source/airbag/monvol0.F
       !||    mpp_init                           ../engine/source/mpi/interfaces/spmd_i7tool.F
+      !||    mulaw                              ../engine/source/materials/mat_share/mulaw.F90
       !||    mulawc                             ../engine/source/materials/mat_share/mulawc.F90
       !||    pbilan                             ../engine/source/elements/beam/pbilan.F
       !||    pfluid                             ../engine/source/loads/general/pfluid/pfluid.F
@@ -296,6 +300,7 @@
       !||    set_u_sens_maxvalue                ../engine/source/user_interface/usensor.F
       !||    set_u_sens_value                   ../engine/source/user_interface/usensor.F
       !||    sforc3                             ../engine/source/elements/solid/solide/sforc3.F
+      !||    sigeps129s                         ../engine/source/materials/mat/mat129/sigeps129s.F90
       !||    sigeps158c                         ../engine/source/materials/mat/mat158/sigeps158c.F
       !||    sigeps19c                          ../engine/source/materials/mat/mat019/sigeps19c.F
       !||    sigeps58c                          ../engine/source/materials/mat/mat058/sigeps58c.F
@@ -312,6 +317,7 @@
       !||    spmd_ifront                        ../engine/source/mpi/interfaces/spmd_ifront.F
       !||    spmd_ifront_stamp                  ../engine/source/mpi/interfaces/send_cand.F
       !||    spmd_savefi                        ../engine/source/mpi/interfaces/spmd_i7tool.F
+      !||    spstres                            ../engine/source/elements/sph/spstres.F
       !||    sr8bilan                           ../engine/source/elements/solid/solide8/sr8bilan.F
       !||    srbilan                            ../engine/source/elements/solid/solide/srbilan.F
       !||    st_qaprint_driver                  ../starter/source/output/qaprint/st_qaprint_driver.F

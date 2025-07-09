@@ -39,7 +39,7 @@
       !||    dprag51                          ../engine/source/materials/mat/mat051/dprag51.F
       !||    finter                           ../engine/source/tools/curve/finter.F
       !||    granular51                       ../engine/source/materials/mat/mat051/granular51.F90
-      !||    jcook51                          ../engine/source/materials/mat/mat051/jcook51.F
+      !||    jcook51                          ../engine/source/materials/mat/mat051/jcook51.F90
       !||    jwl51                            ../engine/source/materials/mat/mat051/jwl51.F
       !||    jwlun51                          ../engine/source/materials/mat/mat051/jwl51.F
       !||    poly51                           ../engine/source/materials/mat/mat051/polynomial51.F
@@ -52,6 +52,7 @@
       !||    granular51_mod                   ../engine/source/materials/mat/mat051/granular51.F90
       !||    i22bufbric_mod                   ../common_source/modules/interfaces/cut-cell-search_mod.F
       !||    i22tri_mod                       ../common_source/modules/interfaces/cut-cell-search_mod.F
+      !||    jcook51_mod                      ../engine/source/materials/mat/mat051/jcook51.F90
       !||    matparam_def_mod                 ../common_source/modules/mat_elem/matparam_def_mod.F90
       !||    multimat_param_mod               ../common_source/modules/multimat_param_mod.F90
       !||    precision_mod                    ../common_source/modules/precision_mod.F90

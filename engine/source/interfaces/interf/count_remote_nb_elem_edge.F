@@ -24,10 +24,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    count_remote_nb_elem_edge   ../engine/source/interfaces/interf/count_remote_nb_elem_edge.F
       !||--- called by ------------------------------------------------------
       !||    init_nodal_state            ../engine/source/interfaces/interf/init_nodal_state.F
-      !||--- calls      -----------------------------------------------------
-      !||    get_local_node_id           ../engine/source/engine/node_spliting/nodal_arrays.F90
       !||--- uses       -----------------------------------------------------
-      !||    nodal_arrays_mod            ../engine/source/engine/node_spliting/nodal_arrays.F90
+      !||    nodal_arrays_mod            ../common_source/modules/nodal_arrays.F90
       !||====================================================================
         SUBROUTINE COUNT_REMOTE_NB_ELEM_EDGE( SIZE_BUFFER,BUFFER,GEO,IXS,IXC,
      .                                 IXT,IXP,IXR,IXTG,ADDCNEL,NODES,CNEL,CHUNK,

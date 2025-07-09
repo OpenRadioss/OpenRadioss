@@ -33,7 +33,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    ale_mod            ../common_source/modules/ale/ale_mod.F
       !||    connectivity_mod   ../common_source/modules/connectivity.F90
       !||    glob_therm_mod     ../common_source/modules/mat_elem/glob_therm_mod.F90
-      !||    nodal_arrays_mod   ../engine/source/engine/node_spliting/nodal_arrays.F90
+      !||    nodal_arrays_mod   ../common_source/modules/nodal_arrays.F90
       !||    plyxfem_mod        ../engine/share/modules/plyxfem_mod.F
       !||====================================================================
       SUBROUTINE ASSPAR4(NODES,

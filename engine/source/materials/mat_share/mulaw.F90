@@ -170,6 +170,7 @@
       !||    output_mod             ../common_source/modules/output/output_mod.F90
       !||    precision_mod          ../common_source/modules/precision_mod.F90
       !||    prop_param_mod         ../common_source/modules/mat_elem/prop_param_mod.F90
+      !||    sensor_mod             ../common_source/modules/sensor_mod.F90
       !||    sigeps100_mod          ../engine/source/materials/mat/mat100/sigeps100.F90
       !||    sigeps125_mod          ../engine/source/materials/mat/mat125/sigeps125.F90
       !||    sigeps126_mod          ../engine/source/materials/mat/mat126/sigeps126.F90

@@ -28,7 +28,7 @@
       !||    admfor0                            ../engine/source/model/remesh/admfor0.F
       !||    admordr                            ../engine/source/model/remesh/admordr.F
       !||    admregul                           ../engine/source/model/remesh/admregul.F
-      !||    allocate_nodal_arrays              ../engine/source/engine/node_spliting/nodal_arrays.F90
+      !||    allocate_nodal_arrays              ../common_source/modules/nodal_arrays.F90
       !||    allocate_rbe3                      ../common_source/modules/constraints/rbe3_mod.F90
       !||    allocate_rbe3pen                   ../common_source/modules/constraints/rbe3_mod.F90
       !||    allocate_sph_work                  ../common_source/modules/mat_elem/sph_work.F90
