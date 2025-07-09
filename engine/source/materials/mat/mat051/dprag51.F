@@ -29,7 +29,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .          (NEL    ,SIGD   ,VOL      ,EPSEQ  , VFRAC ,
      .           DEPS   ,UPARAM ,VOLUME   ,EINT   , PLAS  ,
      .           PFRAC , POLD   ,
-     .           OFF    ,PEXT   ,DE )
+     .           PEXT   ,DE )
 
 
 !common points with M10LAW()
@@ -49,7 +49,7 @@ C-----------------------------------------------
 C   I N P U T   O U T P U T   A r g u m e n t s
 C-----------------------------------------------
       INTEGER,INTENT(IN) :: NEL
-      my_real, INTENT(IN) :: PFRAC,OFF(NEL),DEPS(6,NEL),VOL(NEL),UPARAM(*),VOLUME(NEL),PEXT,DE(NEL)
+      my_real, INTENT(IN) :: PFRAC,DEPS(6,NEL),VOL(NEL),UPARAM(*),VOLUME(NEL),PEXT,DE(NEL)
       my_real,INTENT(INOUT) :: SIGD(6,NEL),POLD(NEL),EINT(NEL),EPSEQ(NEL),PLAS(NEL)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -61,7 +61,7 @@ C-----------------------------------------------
       my_real, intent(in) :: vfrac(nel)
       my_real :: YOUNG, NU
       my_real :: T1(NEL), T2(NEL), T3(NEL), T4(NEL), T5(NEL), T6(NEL)
-      my_real :: RATIO(NEL)
+      my_real :: r
       my_real :: BULK(NEL), BULK2(NEL), G(NEL), G43(NEL), G0(NEL), G2(NEL)
       my_real :: J2(NEL),YIELD2(NEL)
       my_real :: PSTAR,SIGDO(6,NEL)
@@ -100,12 +100,14 @@ C-----------------------------------------------
 
         SIGDO(1:6,I) = SIGD(1:6,I)
         FACT = VFRAC(I)
-        T1(I) = T1(I) + G2(I)* (DEPS(1,I)-DE(I))*FACT
-        T2(I) = T2(I) + G2(I)* (DEPS(2,I)-DE(I))*FACT
-        T3(I) = T3(I) + G2(I)* (DEPS(3,I)-DE(I))*FACT
-        T4(I) = T4(I) + G(I) * DEPS(4,I)*FACT
-        T5(I) = T5(I) + G(I) * DEPS(5,I)*FACT
-        T6(I) = T6(I) + G(I) * DEPS(6,I)*FACT
+        IF(VFRAC(I) > two*em02)THEN
+          T1(I) = T1(I) + G2(I)* (DEPS(1,I)-DE(I))*FACT
+          T2(I) = T2(I) + G2(I)* (DEPS(2,I)-DE(I))*FACT
+          T3(I) = T3(I) + G2(I)* (DEPS(3,I)-DE(I))*FACT
+          T4(I) = T4(I) + G(I) * DEPS(4,I)*FACT
+          T5(I) = T5(I) + G(I) * DEPS(5,I)*FACT
+          T6(I) = T6(I) + G(I) * DEPS(6,I)*FACT
+        ENDIF
 
         J2(I)=HALF*(T1(I)**2+T2(I)**2+T3(I)**2)+T4(I)**2+T5(I)**2+T6(I)**2
         vm=sqrt(three*j2(i))
@@ -120,25 +122,25 @@ C-----------------------------------------------
 
         if(vfrac(i) > two*em02) then
         
-          RATIO(I)=ZERO
+          r = ZERO
           IF(G0(I) > ZERO)THEN
             IF(YIELD2(I) > ZERO)THEN
-              RATIO(I)= sqrt(three*G0(I))/(vm+ EM14)
-              dpla = (one -ratio(i))*vm  /max(three*g(i),em15)
+              r = sqrt(three*G0(I))/(vm+ EM14)
+              dpla = (one - r)*vm  /max(three*g(i),em15)
               plas(i)  = plas(i) + dpla
               epseq(i) = epseq(i)+ dpla
             ELSE
-              RATIO(I)=ONE
+              r = one-em02 ! 1-epsilon
             ENDIF
           ENDIF
                 
           ! deviatoric stress
-          sigd(1,i)=ratio(i)*t1(i)*off(i)
-          sigd(2,i)=ratio(i)*t2(i)*off(i)
-          sigd(3,i)=ratio(i)*t3(i)*off(i)
-          sigd(4,i)=ratio(i)*t4(i)*off(i)
-          sigd(5,i)=ratio(i)*t5(i)*off(i)
-          sigd(6,i)=ratio(i)*t6(i)*off(i)
+          sigd(1,i) = t1(i) * r
+          sigd(2,i) = t2(i) * r
+          sigd(3,i) = t3(i) * r
+          sigd(4,i) = t4(i) * r
+          sigd(5,i) = t5(i) * r
+          sigd(6,i) = t6(i) * r
           !plastic work
           vol_avg = half*(vfrac(i)*volume(i)+vol(i))
           einc    = half*vol_avg*
@@ -151,9 +153,29 @@ C-----------------------------------------------
           eint(i) = eint(i) + einc
         elseif(vfrac(i) < em02)then
           plas(i) = zero
+          sigd(1,i) = zero
+          sigd(2,i) = zero
+          sigd(3,i) = zero
+          sigd(4,i) = zero
+          sigd(5,i) = zero
+          sigd(6,i) = zero
         else
-          !smooth transition vfrac \in [0.01 0.02]
-          plas(i) = (vfrac(i)-em02)*hundred * plas(i)
+         !smooth transition vfrac \in [0.01 0.02]
+          r = (vfrac(i)-em02)*hundred
+          plas(i) = r * plas(i)
+          if(YIELD2(I) > ZERO)then
+            R = r * sqrt(three*G0(I))/(vm+ EM14)
+          end if
+          if(g0(i)  == zero) r = zero
+          !--------------
+          ! projection
+          !--------------
+          sigd(1,i) = sigd(1,i) * r
+          sigd(2,i) = sigd(2,i) * r
+          sigd(3,i) = sigd(3,i) * r
+          sigd(4,i) = sigd(4,i) * r
+          sigd(5,i) = sigd(5,i) * r
+          sigd(6,i) = sigd(6,i) * r
         end if
 
       ENDDO !next I
