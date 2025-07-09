@@ -716,6 +716,7 @@ C-----------------------------------------------
               USE UPDATE_PON_MOD
               USE DEBUG_MOD
               use inter_init_component_mod , only : inter_init_component
+              use damping_vref_compute_dampa_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1206,7 +1207,8 @@ C IMPVEL/FGEO
               INTEGER FXVEL_FGEO
 C----------------------------------------------------------------------------------
 C /DAMP/VREL
-              INTEGER SIZE_RBY6_C
+              INTEGER SIZE_RBY6_C,FL_VREL
+              my_real DAMP_A(3)
 C----------------------------------------------------------------------------------
 C Type2 output - PCONT2
               INTEGER :: SZ_NPCONT2
@@ -6520,6 +6522,13 @@ C--           IF no node/elemt on proc - dt2=10E6 -> dt2 can be equal to zero
                       DAMPA = MAX(DAMPA,DAMPR(9,I),DAMPR(11,I),DAMPR(13,I))
                       DAMPB = MAX(DAMPR(4,I),DAMPR(6,I),DAMPR(8,I))
                       DAMPB = MAX(DAMPB,DAMPR(10,I),DAMPR(12,I),DAMPR(14,I))
+C--                   /DAMP/VREL - recompute damping parameters at current time
+                      FL_VREL = NINT(DAMPR(21,I))
+                      IF (FL_VREL==1) THEN
+                        call damping_vref_compute_dampa(i,ndamp,nrdamp,dampr,dt1,tt,damp_a)
+                        DAMPA = MAX(DAMP_A(1),DAMP_A(2),DAMP_A(3))
+                        DAMPB = ZERO
+                      ENDIF 
                       FACTB = DAMPR(16,I)
                       D_TSTART = DAMPR(17,I)
                       D_TSTOP  = DAMPR(18,I)

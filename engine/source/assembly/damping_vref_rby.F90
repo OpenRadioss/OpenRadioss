@@ -60,6 +60,7 @@
           use GROUPDEF_MOD , only: GROUP_
           use constant_mod , only: pi,one,zero,two,half,em20
           use damping_vref_sum6_rby_mod
+          use damping_vref_compute_dampa_mod
           use precision_mod , only: WP
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
@@ -102,7 +103,7 @@
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
           integer :: nd,id,igr,isk,id_rby,id_func,im,nsn
-          real(kind=WP) :: freq,damp_a(3),damp_a2(3),fact,get_u_func,dxdy,dtini,t_start,t_stop
+          real(kind=WP) :: damp_a(3),damp_a2(3),get_u_func,t_start,t_stop
           double precision :: dw
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   External functions
@@ -126,43 +127,15 @@
               igr   = nint(dampr(2,id))
               isk   = nint(dampr(15,id))
               id_func = nint(dampr(26,id))
-              freq = dampr(28,id)
-              dtini = dampr(29,id)
               im = npby(1,id_rby)
               nsn = igrnod(igr)%nentity
 !
-              if (id_func > 0) THEN
-                fact = get_u_func(id_func,tt,dxdy)
-              else
-                fact = one
-              endif
-!
-              if (dt1 > zero) then
-                if (freq > zero) then
-                  damp_a(1)  = fact*dampr(3,id)*4*pi*freq
-                  damp_a(2)  = fact*dampr(5,id)*4*pi*freq
-                  damp_a(3)  = fact*dampr(7,id)*4*pi*freq
-                else
-                  if (dtini == zero) then
-!                   Initial time step is saved
-                    dtini = dt1
-                    dampr(29,id) = dt1
-                  endif
-                  damp_a(1)  = fact*dampr(3,id)*(one/dtini)
-                  damp_a(2)  = fact*dampr(5,id)*(one/dtini)
-                  damp_a(3)  = fact*dampr(7,id)*(one/dtini)
-                endif
-              else
-                damp_a(1)  = zero
-                damp_a(2)  = zero
-                damp_a(3)  = zero
-              endif
+!             computation of damping parameters - function of time
+              call damping_vref_compute_dampa(id,ndamp,nrdamp,dampr,dt1,tt,damp_a)
+!              
               damp_a2(1)  = dampr(22,id)
               damp_a2(2)  = dampr(23,id)
               damp_a2(3)  = dampr(24,id)
-!
-!             damping coefficient is saved for timestep computation in dtnodarayl.F
-              dampr(30,id) = max(damp_a(1),damp_a(1),damp_a(3))
 !
               call damping_vref_sum6_rby(nsn,igr,id_rby,isk,im,                  &
                 igrnod,ngrnod,v,vr,a,                   &
