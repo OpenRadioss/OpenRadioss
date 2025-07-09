@@ -104,11 +104,11 @@
           call hm_option_is_encrypted(is_encrypted)
 !-------------------------------------------------------------------------------
           !< Density
-          call hm_get_floatv('Rho'         ,rho0   ,is_available, lsubmodel, unitab)
+          call hm_get_floatv('MAT_RHO'      ,rho0   ,is_available, lsubmodel, unitab)
 !-------------------------------------------------------------------------------
           !< 1st line of material card
-          call hm_get_floatv('E'           ,young  ,is_available, lsubmodel, unitab)
-          call hm_get_floatv('Nu'          ,nu     ,is_available, lsubmodel, unitab)
+          call hm_get_floatv('MAT_E'       ,young  ,is_available, lsubmodel, unitab)
+          call hm_get_floatv('MAT_NU'      ,nu     ,is_available, lsubmodel, unitab)
           call hm_get_floatv('LSDYNA_TSC'  ,tsc    ,is_available, lsubmodel, unitab)
           call hm_get_floatv('LSD_MAT_DAMP',damp   ,is_available, lsubmodel, unitab)
           call hm_get_intv  ('LSD_NCYCLE'  ,ncycle ,is_available, lsubmodel)
