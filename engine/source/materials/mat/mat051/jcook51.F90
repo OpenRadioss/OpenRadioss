@@ -41,7 +41,7 @@
       !||====================================================================
       subroutine jcook51(nel   ,sigd     ,plas   ,temp   ,vol  , &
                          deps  ,epd      ,uparam ,volume ,eint , &
-                         de    ,off    , &
+                         de    , &
                          vfrac )
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
@@ -72,7 +72,7 @@
       real(kind=wp) :: G2,G3,VM,DPLA,R,DY,CMX,TSTAR
       real(kind=wp) :: G,Y0,B,N,CC,EPDR,CM,TMELT,THETL,PLAMX,SIGMX
       real(kind=wp) :: VM2X,T0,EPS0,BEPS0PNM1,CTE,FACT,EINC,BETA
-      real(kind=wp) :: Y(NEL),H(NEL),VM2(NEL),DE(NEL),SIGDO(6,NEL),OFF(NEL),VFRAC(NEL),VOL_AVG
+      real(kind=wp) :: Y(NEL),H(NEL),VM2(NEL),DE(NEL),SIGDO(6,NEL),VFRAC(NEL),VOL_AVG
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Source Lines
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -145,12 +145,14 @@
           !--------------
           ! elastic increment
           !--------------
-          sigd(1,i)    = sigd(1,i) + g2 * (deps(1,i)-de(i))*fact
-          sigd(2,i)    = sigd(2,i) + g2 * (deps(2,i)-de(i))*fact
-          sigd(3,i)    = sigd(3,i) + g2 * (deps(3,i)-de(i))*fact
-          sigd(4,i)    = sigd(4,i) + g  * deps(4,i)*fact
-          sigd(5,i)    = sigd(5,i) + g  * deps(5,i)*fact
-          sigd(6,i)    = sigd(6,i) + g  * deps(6,i)*fact
+          if(vfrac(i) > two*em02)then
+            sigd(1,i)    = sigd(1,i) + g2 * (deps(1,i)-de(i))*fact
+            sigd(2,i)    = sigd(2,i) + g2 * (deps(2,i)-de(i))*fact
+            sigd(3,i)    = sigd(3,i) + g2 * (deps(3,i)-de(i))*fact
+            sigd(4,i)    = sigd(4,i) + g  * deps(4,i)*fact
+            sigd(5,i)    = sigd(5,i) + g  * deps(5,i)*fact
+            sigd(6,i)    = sigd(6,i) + g  * deps(6,i)*fact
+          end if
           !--------------
           ! von mises
           !--------------
@@ -167,44 +169,67 @@
               sigd(4,i) = zero
               sigd(5,i) = zero
               sigd(6,i) = zero
-              plas(i) = zero      
+              plas(i) = zero
            elseif(VFRAC(I) > two*em02) then
              !--------------
              ! critere
              !--------------
-             r= one
+             r = one-em02 ! 1-epsilon
              if(vm2(i) > y(i)*y(i) .and. y(i) /= zero)then
                 VM      = SQRT(VM2(I))
                 DPLA    = (VM-Y(I)) / (G3+H(I))
                 PLAS(I) = PLAS(I) + DPLA
                 R       = (Y(I) + H(I) * DPLA) / MAX(VM,EM15)
-                !--------------
-                ! projection
-                !--------------
-                sigd(1,i) = sigd(1,i) * r  * off(i)
-                sigd(2,i) = sigd(2,i) * r  * off(i)
-                sigd(3,i) = sigd(3,i) * r  * off(i)
-                sigd(4,i) = sigd(4,i) * r  * off(i)
-                sigd(5,i) = sigd(5,i) * r  * off(i)
-                sigd(6,i) = sigd(6,i) * r  * off(i)
-              endif
-              !--------------
-              ! plastic energy
-              !--------------
-              vol_avg = half*(vfrac(i)*volume(i)+vol(i))
-              einc    = half*vol_avg* &
-                        ( (sigdo(1,i)+sigd(1,i)) * deps(1,i) &
-                        + (sigdo(2,i)+sigd(2,i)) * deps(2,i) &
-                        + (sigdo(3,i)+sigd(3,i)) * deps(3,i) &
-                        + (sigdo(4,i)+sigd(4,i)) * deps(4,i) &
-                        + (sigdo(5,i)+sigd(5,i)) * deps(5,i) &
-                        + (sigdo(6,i)+sigd(6,i)) * deps(6,i) )
-               eint(i) = eint(i) + einc
+             endif
+             if(y(i) == zero) r = zero
+             !--------------
+             ! projection
+             !--------------
+             sigd(1,i) = sigd(1,i) * r
+             sigd(2,i) = sigd(2,i) * r
+             sigd(3,i) = sigd(3,i) * r
+             sigd(4,i) = sigd(4,i) * r
+             sigd(5,i) = sigd(5,i) * r
+             sigd(6,i) = sigd(6,i) * r
+             !--------------
+             ! plastic energy
+             !--------------
+             vol_avg = half*(vfrac(i)*volume(i)+vol(i))
+             einc    = half*vol_avg* &
+                       ( (sigdo(1,i)+sigd(1,i)) * deps(1,i) &
+                       + (sigdo(2,i)+sigd(2,i)) * deps(2,i) &
+                       + (sigdo(3,i)+sigd(3,i)) * deps(3,i) &
+                       + (sigdo(4,i)+sigd(4,i)) * deps(4,i) &
+                       + (sigdo(5,i)+sigd(5,i)) * deps(5,i) &
+                       + (sigdo(6,i)+sigd(6,i)) * deps(6,i) )
+              eint(i) = eint(i) + einc
            elseif(vfrac(i) < em02)then
               plas(i) = zero
+              sigd(1,i) = zero
+              sigd(2,i) = zero
+              sigd(3,i) = zero
+              sigd(4,i) = zero
+              sigd(5,i) = zero
+              sigd(6,i) = zero
            else
-              !smooth transition vfrac \in [0.01 0.02]
-              plas(i) = (vfrac(i)-em02)*hundred * plas(i)
+             r = (vfrac(i)-em02)*hundred
+             plas(i) = r * plas(i)
+             if(vm2(i) > y(i)*y(i))then
+               !smooth transition vfrac \in [0.01 0.02]
+                VM      = SQRT(VM2(I))
+                DPLA    = (VM-Y(I)) / (G3+H(I))
+                R       = r*(Y(I) + H(I) * DPLA) / MAX(VM,EM15)
+             end if
+             if(y(i) ==zero)r = zero
+             !--------------
+             ! projection
+             !--------------
+             sigd(1,i) = sigd(1,i) * r
+             sigd(2,i) = sigd(2,i) * r
+             sigd(3,i) = sigd(3,i) * r
+             sigd(4,i) = sigd(4,i) * r
+             sigd(5,i) = sigd(5,i) * r
+             sigd(6,i) = sigd(6,i) * r
            end if
         enddo
 

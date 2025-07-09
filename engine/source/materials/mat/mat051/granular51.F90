@@ -44,17 +44,17 @@
       !||    table_mat_vinterp_mod   ../engine/source/materials/tools/table_mat_vinterp.F
       !||====================================================================
       subroutine granular51 &
-                (nel    ,sigd   ,vol      ,epseq  , &
-                 deps   ,uparam ,volume   ,eint   , plas    , &
-                 uvar   ,nuvar  ,kk       ,rho0   , &
-                 pfrac  ,pp     ,gg1      , &
-                 off    ,pext   ,timestep ,de     , nummat , matparam , &
-                 nvartmp  ,vartmp,vfrac)
+                (nel     ,sigd     ,vol      ,epseq  , &
+                 deps    ,uparam   ,volume   ,eint   , plas    , &
+                 uvar    ,nuvar    ,kk       ,rho0   , &
+                 pfrac   ,pp       ,gg1      , &
+                 pext    ,timestep ,de       , nummat , matparam , &
+                 nvartmp ,vartmp   ,vfrac)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
         use precision_mod, only : WP
-        use constant_mod , only : zero, em20, em15, em14, em02, half, one, onep333, two, three, hundred
+        use constant_mod , only : zero, em20, em15, em14, em02, third, half, one, onep333, two, three, hundred
         use matparam_def_mod , only : matparam_struct_
         use table_mat_vinterp_mod , only : table_mat_vinterp
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -72,7 +72,6 @@
       real(kind=wp), intent(in) :: rho0
       real(kind=wp), intent(in) :: pfrac !< fracture pressure (pfrac <= 0)
       real(kind=wp), intent(in) :: vfrac(nel) !< volume fractions
-      real(kind=wp), intent(in) :: off(nel)
       real(kind=wp), intent(in) :: deps(6,nel)
       real(kind=wp), intent(in) :: vol(nel),uparam(*) ,volume(nel)
       real(kind=wp), intent(in) :: timestep, pext , de(nel)
@@ -92,12 +91,11 @@
       real(kind=wp) :: young, nu
       real(kind=wp) :: pold(nel)
       real(kind=wp) :: t1(nel), t2(nel), t3(nel), t4(nel), t5(nel), t6(nel)
-      real(kind=wp) :: p(nel), ratio(nel)
+      real(kind=wp) :: p(nel), r
       real(kind=wp) :: g(nel), g43(nel), g0(nel), g2(nel)
       real(kind=wp) :: j2(nel),yield2(nel), epseq(nel)
       real(kind=wp) :: rho_new(nel), rho_old(nel),vnew(nel),sigdo(6,nel)
-      real(kind=wp) :: einc,vol_avg,vm
-
+      real(kind=wp) :: einc,vol_avg,vm,sig_y,dpla
       real(kind=WP), dimension(nel,1) :: xvec1 !<temporary array for table interpolation
       real(kind=WP) :: slope(nel,1) !<required for table interpolation
       integer :: mid
@@ -164,50 +162,53 @@
         t6(i)=sigd(6,i)
 
         fac2 = one
-        if(pold(i) < pfrac)then
+        if(pold(i) <= pfrac)then
           p(i)  = pfrac
           fac2 = zero
         endif
         pp(i) = p(i)
 
-        sigdo(1:6,i) = sigd(1:6,i) * off(i)
+        sigdo(1:6,i) = sigd(1:6,i)
         fact = vfrac(i)
-        t1(i) = t1(i) + g2(i)* (deps(1,i)-de(i))*fact
-        t2(i) = t2(i) + g2(i)* (deps(2,i)-de(i))*fact
-        t3(i) = t3(i) + g2(i)* (deps(3,i)-de(i))*fact
-        t4(i) = t4(i) + g(i) * deps(4,i)*fact
-        t5(i) = t5(i) + g(i) * deps(5,i)*fact
-        t6(i) = t6(i) + g(i) * deps(6,i)*fact
 
+        if(vfrac(i) > two*em02)then
+          t1(i) = t1(i) + g2(i)* (deps(1,i)-de(i))*fact
+          t2(i) = t2(i) + g2(i)* (deps(2,i)-de(i))*fact
+          t3(i) = t3(i) + g2(i)* (deps(3,i)-de(i))*fact
+          t4(i) = t4(i) + g(i) * deps(4,i)*fact
+          t5(i) = t5(i) + g(i) * deps(5,i)*fact
+          t6(i) = t6(i) + g(i) * deps(6,i)*fact
+        end if
         j2(i)=half*(t1(i)**2+t2(i)**2+t3(i)**2)+t4(i)**2+t5(i)**2+t6(i)**2
         vm=sqrt(three*j2(i))
         ptot = pold(i)+pext
-        g0(i)= max(zero,g0(i))
+        g0(i)= max(zero,g0(i))        
+        sig_y=g0(i)
+        g0(i)=third*g0(i)*g0(i)
         if(pold(i) <= pfrac) g0(i) = zero
-
-         !verifier et comparer en debug cycle 1,on n'y rentre pas :
-         yield2(i)=vm-g0(i)
+        yield2(i)=j2(i)-g0(i)
 
         if(vfrac(i) > two*em02) then
 
-          if (g0(i) > zero)then
-            ratio(i) = one
+          r = zero
+          if (yield2(i) > zero)then
             if(yield2(i) >= zero)then
-              ratio(i)=g0(i)/(vm+em14)
-              plas(i)  = plas(i) +(one -ratio(i))*vm  /max(three*g(i),em15)
-              epseq(i) = epseq(i)+(one -ratio(i))*vm  /max(three*g(i),em15)
+              r = sig_y/(vm+ EM14)
+              dpla = (one - r)*vm  /max(three*g(i),em15)
+              plas(i)  = plas(i)  + dpla
+              epseq(i) = epseq(i) + dpla
             endif
-          elseif(g0(i) <= zero)then
-            ratio(i)=zero
-          end if
+           else
+             r = one-em02 ! 1-epsilon
+           end if
 
-          ! deviatoric stress
-          sigd(1,i)=ratio(i)*t1(i)*off(i)
-          sigd(2,i)=ratio(i)*t2(i)*off(i)
-          sigd(3,i)=ratio(i)*t3(i)*off(i)
-          sigd(4,i)=ratio(i)*t4(i)*off(i)
-          sigd(5,i)=ratio(i)*t5(i)*off(i)
-          sigd(6,i)=ratio(i)*t6(i)*off(i)
+          ! deviatoric stress (projection)
+          sigd(1,i) = t1(i) * r
+          sigd(2,i) = t2(i) * r
+          sigd(3,i) = t3(i) * r
+          sigd(4,i) = t4(i) * r
+          sigd(5,i) = t5(i) * r
+          sigd(6,i) = t6(i) * r
 
           !plastic work
            vol_avg = half*(vfrac(i)*volume(i)+vol(i))
@@ -222,9 +223,29 @@
 
         elseif(vfrac(i) < em02)then
           plas(i) = zero
+          sigd(1,i) = zero
+          sigd(2,i) = zero
+          sigd(3,i) = zero
+          sigd(4,i) = zero
+          sigd(5,i) = zero
+          sigd(6,i) = zero
         else
           !smooth transition vfrac \in [0.01 0.02]
-          plas(i) = (vfrac(i)-em02)*hundred * plas(i)
+          r = (vfrac(i)-em02)*hundred
+          plas(i) = r * plas(i)
+          if(yield2(i) >= zero)then
+            r = r * sig_y/(vm+em14)
+          end if
+          if(g0(i)  ==zero) r = zero
+          !--------------
+          ! projection
+          !--------------
+          sigd(1,i) = sigd(1,i) * r
+          sigd(2,i) = sigd(2,i) * r
+          sigd(3,i) = sigd(3,i) * r
+          sigd(4,i) = sigd(4,i) * r
+          sigd(5,i) = sigd(5,i) * r
+          sigd(6,i) = sigd(6,i) * r
         end if
 
       enddo !next i

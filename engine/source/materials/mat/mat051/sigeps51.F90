@@ -599,21 +599,21 @@
            CASE (1)
              CALL JCOOK51 (NEL  ,SIGD     ,PLAS1       ,TEMP   ,VOL  , &
                            DEPS ,EPD      ,UPARAM(101) ,VOLUME ,EINT0, &
-                           DE   ,OFF         , &
+                           DE   , &
                            VFRAC)
            CASE (2)
               CALL DPRAG51 &
                   (NEL    ,SIGD       ,VOL        ,EPSEQ1  , VFRAC,&
                    DEPS   ,UPARAM(101),VOLUME     ,EINT0   , PLAS1, &
                    PM1    ,PP         , &
-                   OFF    ,PEXT       ,DE)
+                   PEXT   ,DE)
            CASE (3)
               CALL GRANULAR51 &
                   (NEL    ,SIGD       ,VOL        ,EPSEQ1  , &
                    DEPS   ,UPARAM(101),VOLUME     ,EINT0   , PLAS1, &
                    UVAR   ,NUVAR      ,KK         ,RHO10   , &
                    PM1    ,PP         ,GG1        , &
-                   OFF    ,PEXT       ,TIMESTEP   ,DE      ,NUMMAT, MATPARAM, &
+                   PEXT   ,TIMESTEP   ,DE      ,NUMMAT, MATPARAM, &
                    NVARTMP,VARTMP(1,1),VFRAC ) !vartmp(:,1) & vartmp(:,2) are used for material 1
         END SELECT
         DO I=1,NEL
@@ -662,21 +662,21 @@
            CASE (1)
              CALL JCOOK51 (NEL  ,SIGD     ,PLAS2       ,TEMP   ,VOL  , &
                            DEPS ,EPD      ,UPARAM(151) ,VOLUME ,EINT0, &
-                           DE   ,OFF         , &
+                           DE   , &
                            VFRAC)
            CASE (2)
              CALL DPRAG51 &
                   (NEL    ,SIGD       ,VOL        ,EPSEQ2  , VFRAC, &
                    DEPS   ,UPARAM(151),VOLUME     ,EINT0   , PLAS2, &
                    PM2    ,PP         , &
-                   OFF    ,PEXT       ,DE)
+                   PEXT   ,DE)
            CASE (3)
               CALL GRANULAR51 &
                   (NEL    ,SIGD       ,VOL        ,EPSEQ2  , &
                    DEPS   ,UPARAM(151),VOLUME     ,EINT0   , PLAS2, &
                    UVAR   ,NUVAR      ,KK         ,RHO20   , &
                    PM2    ,PP         ,GG2        , &
-                   OFF    ,PEXT       ,TIMESTEP   ,DE      ,NUMMAT , MATPARAM , &
+                   PEXT   ,TIMESTEP   ,DE      ,NUMMAT , MATPARAM , &
                    NVARTMP,VARTMP(1,3),VFRAC )   !vartmp(:,3) & vartmp(:,4) are used for material 2
         END SELECT
         DO I=1,NEL
@@ -722,21 +722,21 @@
            CASE (1)
              CALL JCOOK51 (NEL  ,SIGD    ,PLAS3       ,TEMP   ,VOL  , &
                            DEPS ,EPD     ,UPARAM(201) ,VOLUME ,EINT0, &
-                           DE   ,OFF         , &
+                           DE   , &
                            VFRAC)
            CASE (2)
              CALL DPRAG51 &
                   (NEL    ,SIGD        ,VOL        ,EPSEQ3  , VFRAC , &
                    DEPS   ,UPARAM(201) ,VOLUME     ,EINT0   , PLAS3 , &
                    PM3    ,PP          , &
-                   OFF    ,PEXT        ,DE)
+                   PEXT   ,DE)
            CASE (3)
               CALL GRANULAR51 &
                   (NEL    ,SIGD       ,VOL        ,EPSEQ3  , &
                    DEPS   ,UPARAM(201),VOLUME     ,EINT0   , PLAS3, &
                    UVAR   ,NUVAR      ,KK         ,RHO30   , &
                    PM3    ,PP         ,GG3        , &
-                   OFF    ,PEXT       ,TIMESTEP   ,DE      ,NUMMAT , MATPARAM, &
+                   PEXT   ,TIMESTEP   ,DE         ,NUMMAT  , MATPARAM, &
                    NVARTMP,VARTMP(1,5),VFRAC ) !vartmp(:,5) & vartmp(:,6) are used for material 3
         END SELECT
         DO I=1,NEL
