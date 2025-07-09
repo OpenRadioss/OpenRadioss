@@ -77,8 +77,6 @@ c
         IGTYP = ELBUF_STR(NG)%IGTYP ! -> Property type 
         NLAY  = ELBUF_STR(NG)%NLAY  ! -> Number of layers
         MLW   = IPARG(1,NG)         ! -> Material law type
-        PID = IPARG(62,NG)    ! -> Property internal ID
-        PROP_ID = IGEO(1,PID) ! -> Property user ID
 c
         !-----------------------------------------------------------------
         ! Solid, Shell, Integrated Beam and SPH
@@ -87,7 +85,11 @@ c
 c 
           ! Loop over layers 
           DO IL = 1,NLAY
-c              
+
+            ! Property parameters
+            PID = IPARG(62,NG)    ! -> Property internal ID
+            PROP_ID = IGEO(1,PID) ! -> Property user ID
+c
             ! Layer parameters                                         
             IMAT   = ELBUF_STR(NG)%BUFLY(IL)%IMAT  ! -> Material internal ID 
             ILAW   = ELBUF_STR(NG)%BUFLY(IL)%ILAW  ! -> Material law type
