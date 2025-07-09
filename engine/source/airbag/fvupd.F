@@ -122,6 +122,10 @@ C
                ALLOCATE(FVSPMD(IFV)%VVV(3,MAX(1,NNT))) 
                ALLOCATE(FVSPMD(IFV)%WAV(3,MAX(1,NNA))) 
                ALLOCATE(FVSPMD(IFV)%WAX(3,MAX(1,NNA))) 
+               FVSPMD(IFV)%XXX(1:3,1:MAX(1,NNT)) = ZERO
+               FVSPMD(IFV)%VVV(1:3,1:MAX(1,NNT)) = ZERO
+               FVSPMD(IFV)%WAV(1:3,1:MAX(1,NNA)) = ZERO
+               FVSPMD(IFV)%WAX(1:3,1:MAX(1,NNA)) = ZERO
                IF( NSPMD > 1 ) THEN 
                  CALL SPMD_FVB_GATH_BEGIN(IFV,X,FVSPMD(IFV)%XXX,FVSPMD(IFV)%WAX,
      .                                 V,FVSPMD(IFV)%VVV,FVSPMD(IFV)%WAV )
@@ -404,6 +408,11 @@ C WA utilise temporairement pour stocker VVVA
          ENDDO
 C
       ELSE
+
+
+
+
+
 C
          NNSA=FVSPMD(IFV)%NNSA
 C Cacher XXX, VVV WAX WA dans FVSPMD 
