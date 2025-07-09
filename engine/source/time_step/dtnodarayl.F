@@ -33,6 +33,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE GROUPDEF_MOD
+      use damping_vref_compute_dampa_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -57,17 +58,18 @@ C     REAL
       my_real , DIMENSION(NUMNOD*IRODDL), INTENT(IN) ::IN 
       my_real , DIMENSION(NUMNOD), INTENT(INOUT) ::STIFN 
       my_real , DIMENSION(NUMNOD*IRODDL), INTENT(INOUT) ::STIFR 
-      my_real , DIMENSION(NRDAMP,NDAMP), INTENT(IN) ::DAMPR
+      my_real , DIMENSION(NRDAMP,NDAMP), INTENT(INOUT) ::DAMPR
 C-----------------------------------------------
       TYPE (GROUP_)  , DIMENSION(NGRNOD), INTENT(IN) :: IGRNOD
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER N,I,J,ISK,IGR,ND,K,L,LL
+      INTEGER FL_VREL,FL_FREQ_RANGE  
       my_real FACTB,DAMPBR,DAMPAR,D_TSTART,D_TSTOP,DAMPT,
      .   DT2N(NUMNOD),BB,COEFF,DTN,DTN2,DAMPAI,DAMPBI,DT0,DAMPA3,
-     .   ALPHA05,BETA1,DTMAX,FAC,DTMI1,DTMI2,BBI,FACI,FL_VREL,ID_RBY,
-     .   FL_FREQ_RANGE   
+     .   ALPHA05,BETA1,DTMAX,FAC,DTMI1,DTMI2,BBI,FACI,DAMP_A(3)
+ 
 C----------------------------------------------------------
         DTMI1 = DTMIN1(11)
         DTMAX = EP04
@@ -106,10 +108,11 @@ C--
           DAMPT = DT0*DAMPR(16,I)
           DAMPBI = MIN(DAMPBI,DAMPT)
 C--          
-C--       /DAMP/VREL with RBDOY - max damping coefficient computed in rbyfor.F or damping.F
+C--       /DAMP/VREL - recompute damping parameters at current time
           FL_VREL = NINT(DAMPR(21,I))
           IF (FL_VREL==1) THEN
-            DAMPAI = DAMPR(30,I)
+            call damping_vref_compute_dampa(i,ndamp,nrdamp,dampr,dt1,tt,damp_a)
+            DAMPAI = MAX(DAMP_A(1),DAMP_A(2),DAMP_A(3))
             DAMPBI = ZERO
           ENDIF  
 C--

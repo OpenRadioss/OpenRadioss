@@ -40,6 +40,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE GROUPDEF_MOD
+      use damping_vref_compute_dampa_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -69,12 +70,12 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       LOGICAL :: NEED_COMPUTE
-      INTEGER I,J,N,ND,IGR,ISK,FL_VREL,ID_RBY,ID_FUNC,FL_FREQ_RANGE
+      INTEGER I,J,N,ND,IGR,ISK,FL_VREL,ID_RBY,FL_FREQ_RANGE
       my_real, DIMENSION(3) :: DAMP_A,DAMP_B
       my_real, DIMENSION(3) :: DA_,DW_LOCAL,OMEGA_,BETASDT_
       my_real :: AA,DW,DA,BETASDT,OMEGA,FACTB,DAMPT,D_TSTART,D_TSTOP,
      .           V_REF(3,NDAMP),A_REF(3,NDAMP),V_REFSKW(3),A_REFSKW(3),
-     .           FREQ,FACT,DAM(3),DARM(3),DFM,GET_U_FUNC,DXDY,DTINI
+     .           DAM(3),DARM(3),DFM,GET_U_FUNC
       EXTERNAL GET_U_FUNC      
 C-----------------------------------------------
 C     C = a M + b K
@@ -221,36 +222,7 @@ C
 C-------------Damping using average relative velocity - trans dof only ----
 C
 C---------------alpha = Cdamp_M / dt--------------
-                FREQ = DAMPR(28,ND)
-                ID_FUNC = NINT(DAMPR(26,ND))
-                DTINI = DAMPR(29,ND)
-                IF (ID_FUNC > 0) THEN
-                  FACT = GET_U_FUNC(ID_FUNC,TT,DXDY)
-                ELSE
-                  FACT = ONE
-                ENDIF
-                IF (DT1 > ZERO) THEN
-                  IF (FREQ > ZERO) THEN
-                    DAMP_A(1)  = FACT*DAMPR(3,ND)*4*PI*FREQ
-                    DAMP_A(2)  = FACT*DAMPR(3,ND)*4*PI*FREQ
-                    DAMP_A(3)  = FACT*DAMPR(3,ND)*4*PI*FREQ                
-                  ELSE
-                    IF (DTINI == ZERO) THEN
-  !                   Initial time step is saved                    
-                      DTINI = DT1
-                      DAMPR(29,ND) = DT1
-                    endif  
-                    DAMP_A(1)  = FACT*DAMPR(3,ND)*(ONE/DTINI)
-                    DAMP_A(2)  = FACT*DAMPR(5,ND)*(ONE/DTINI)
-                    DAMP_A(3)  = FACT*DAMPR(7,ND)*(ONE/DTINI)
-                  ENDIF
-                ELSE      
-                  DAMP_A(1) = ZERO
-                  DAMP_A(2) = ZERO
-                  DAMP_A(3) = ZERO            
-                ENDIF
-!               damping coefficient is saved for timestep computation in dtnodarayl.F
-                DAMPR(30,ND) = MAX(DAMP_A(1),DAMP_A(2),DAMP_A(3))
+                call damping_vref_compute_dampa(nd,ndamp,nrdamp,dampr,dt1,tt,damp_a)
 !                
                 OMEGA_(1)  = ONE/ (ONE + HALF * DAMP_A(1) * DT1)
                 OMEGA_(2)  = ONE/ (ONE + HALF * DAMP_A(2) * DT1)
@@ -521,36 +493,7 @@ C
      .                      +SKEW(9,ISK)*A_REF(3,ND)
 C
 C---------------alpha = Cdamp_M / dt--------------
-                FREQ = DAMPR(28,ND)
-                ID_FUNC = NINT(DAMPR(26,ND))
-                DTINI = DAMPR(29,ND)
-                IF (ID_FUNC > 0) THEN
-                  FACT = GET_U_FUNC(ID_FUNC,TT,DXDY)
-                ELSE
-                  FACT = ONE
-                ENDIF
-                IF (DT1 > ZERO) THEN
-                  IF (FREQ > ZERO) THEN
-                    DAMP_A(1)  = FACT*DAMPR(3,ND)*4*PI*FREQ
-                    DAMP_A(2)  = FACT*DAMPR(5,ND)*4*PI*FREQ
-                    DAMP_A(3)  = FACT*DAMPR(7,ND)*4*PI*FREQ                
-                  ELSE
-                    IF (DTINI == ZERO) THEN
-  !                   Initial time step is saved                    
-                      DTINI = DT1
-                      DAMPR(29,ND) = DT1
-                    endif  
-                    DAMP_A(1)  = FACT*DAMPR(3,ND)*(ONE/DTINI)
-                    DAMP_A(2)  = FACT*DAMPR(5,ND)*(ONE/DTINI)
-                    DAMP_A(3)  = FACT*DAMPR(7,ND)*(ONE/DTINI)
-                  ENDIF
-                ELSE      
-                  DAMP_A(1) = ZERO
-                  DAMP_A(2) = ZERO
-                  DAMP_A(3) = ZERO            
-                ENDIF
-!               damping coefficient is saved for timestep computation in dtnodarayl.F
-                DAMPR(30,ND) = MAX(DAMP_A(1),DAMP_A(2),DAMP_A(3))
+                call damping_vref_compute_dampa(nd,ndamp,nrdamp,dampr,dt1,tt,damp_a)
 !                     
                 OMEGA_(1)  = ONE/ (ONE + HALF * DAMP_A(1) * DT1)
                 OMEGA_(2)  = ONE/ (ONE + HALF * DAMP_A(2) * DT1)
