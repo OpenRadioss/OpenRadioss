@@ -104,13 +104,20 @@ C-----------------------------------------------
      .    '-HSTP_READ' , '-HSTP_WRITE', '-RXALEA', '-RSEED',
      .    '-PREVIEW',
      .    '-GRP_SIZE' , '-PYTHON' , '-THNMS1','-CHECKSUM_READ'/
-
+       INTEGER :: RUNQA
+       CHARACTER (LEN=255) :: STR
 C-----------------------------------------------
        IDUM=-1
        ITRACE=1
        IERRMSG=0
        GLOBAL_ERROR = 0
        PYTHON_ERROR = 1
+       STR = ' '
+      
+       CALL  GETENV('RUN_QA',STR)
+       RUNQA = 0
+       READ(STR,'(I10)')RUNQA
+       IF(RUNQA == 1) PYTHON_ERROR = 0
 
        GOT_INPUT = 0
        GOT_NCPU = 0
