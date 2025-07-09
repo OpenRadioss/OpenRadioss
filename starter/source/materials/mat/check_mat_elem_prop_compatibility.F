@@ -81,7 +81,7 @@ c
         !-----------------------------------------------------------------
         ! Solid, Shell, Integrated Beam and SPH
         !-----------------------------------------------------------------
-        IF (NLAY > 0 .AND. MLW /= 151) THEN    !MLW=151 is multimaterial law with NLAY > 0 (ALE, single integration point)
+        IF (NLAY > 0) THEN
 c 
           ! Loop over layers 
           DO IL = 1,NLAY
@@ -92,7 +92,7 @@ c
 c
             ! Layer parameters                                         
             IMAT   = ELBUF_STR(NG)%BUFLY(IL)%IMAT  ! -> Material internal ID 
-            ILAW   = ELBUF_STR(NG)%BUFLY(IL)%ILAW  ! -> Material law type
+            ILAW   = ELBUF_STR(NG)%BUFLY(IL)%ILAW  ! -> Material law type    (or submaterial law type for MULTIMAT-ALE)
             IEOS   = MAT_PARAM(IMAT)%IEOS
             IVISC  = MAT_PARAM(IMAT)%IVISC         ! -> for viscosity 
             MAT_ID = IPM(1,IMAT) ! -> Material user ID
@@ -140,7 +140,7 @@ c
               ! 3 nodes shell elements or triangles
               CASE (7,8)
                 IF (N2D > 0) THEN 
-                  IF (ILAW /= 151) COMPAT_ELEM = .FALSE.
+                  IF (MLW /= 151) COMPAT_ELEM = .FALSE.
                   ELTYP = 'TRIA'
                 ELSE 
                   IF (MAT_PARAM(IMAT)%PROP_SHELL == 0) COMPAT_ELEM = .FALSE.
