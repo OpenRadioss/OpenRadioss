@@ -56,11 +56,8 @@ module checksum_check_mod
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
         ! Variables for get_file_name_info
-        integer :: leni    ! input file length
         integer :: lenp    ! path length
         integer :: lenr    ! length deck rootname
-         integer :: fvers   ! old D0x or _0000.rad
-        integer :: is_dyna ! 1 if dyna model, 0 if radioss model
         ! Checksum output file
         character(len=2048) :: checksum_file
         character(len=2028) :: titl_filename

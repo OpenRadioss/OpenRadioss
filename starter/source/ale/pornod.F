@@ -31,8 +31,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- uses       -----------------------------------------------------
       !||    message_mod            ../starter/share/message_module/message_mod.F
       !||====================================================================
-      SUBROUTINE PORNOD(GEO  ,IXS   ,IXQ   ,NODPOR ,ICODE  ,
-     .                  ITAB ,NPBY  ,LPBY  ,IGEO)
+      SUBROUTINE PORNOD(GEO  ,IXS   ,IXQ   ,NODPOR ,ICODE  ,ITAB ,NPBY  ,LPBY  ,IGEO)
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -52,7 +51,6 @@ C-----------------------------------------------
 #include      "param_c.inc"
 #include      "com01_c.inc"
 #include      "com04_c.inc"
-#include      "scr05_c.inc"
 #include      "scr17_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -67,7 +65,7 @@ C-----------------------------------------------
       INTEGER, DIMENSION(NUMNOD) :: ITAG
       INTEGER IG,N,I,J,K,IC,IC1,IC2,IC3,IC4,JWARN,IRB,KRB,P
       INTEGER, DIMENSION(:,:),ALLOCATABLE :: INDEX
-      INTEGER SORT,IWORK(70000),IT
+      INTEGER IWORK(70000),IT
       CHARACTER(len=nchartitle) :: TITR
 C-----------------------------------------------
 C   S o u r c e   L i n e s
@@ -163,11 +161,9 @@ C-----------------------------------------------
           CALL ANCMSG(MSGID=360,MSGTYPE=MSGWARNING,ANMODE=ANINFO_BLIND_1,I1=IGEO(1,IG),C1=TITR,I2=IRB)
         ELSE
         ! main node RB replicate on all procs for SPMD calculation of porosity
-          IF(IMACH == 3) THEN
-            DO P = 1, NSPMD
-                CALL IFRONTPLUS(IRB,P) 
-            ENDDO
-          ENDIF
+          DO P = 1, NSPMD
+           CALL IFRONTPLUS(IRB,P) 
+          ENDDO
         ENDIF !IF (GEO(33,IG) == ZERO)
       ENDIF !IF(IRB /= 0)
       END DO !IG=1,NUMGEO

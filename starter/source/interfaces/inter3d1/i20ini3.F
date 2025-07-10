@@ -83,7 +83,6 @@ C-----------------------------------------------
 #include      "com04_c.inc"
 #include      "param_c.inc"
 #include      "scr03_c.inc"
-#include      "scr05_c.inc"
 #include      "scr12_c.inc"
 #include      "units_c.inc"
 #include      "vect07_c.inc"
@@ -257,12 +256,10 @@ C
 
       INTBUF_TAB%VARIABLES(9) = MAXBOX
       INTBUF_TAB%VARIABLES(12) = MINBOX
-      IF (IMACH==3) THEN
-       ! -----------------
-       ! update the weight of candidate's pair for the domain decomposition
-       IF (IDDLEVEL==0.AND.NSPMD>1)THEN
-         IF ( ((NELEMINT+I_STOK)) > INTER_CAND%S_IXINT_2) CALL UPGRADE_IXINT(INTER_CAND,NELEMINT,I_STOK)
-
+      ! -----------------
+      ! update the weight of candidate's pair for the domain decomposition
+      IF (IDDLEVEL==0.AND.NSPMD>1)THEN
+        IF ( ((NELEMINT+I_STOK)) > INTER_CAND%S_IXINT_2) CALL UPGRADE_IXINT(INTER_CAND,NELEMINT,I_STOK)
         GAP = INTBUF_TAB%VARIABLES(2)
         GAPMIN = INTBUF_TAB%VARIABLES(13)
         GAPMAX = INTBUF_TAB%VARIABLES(16)
@@ -272,22 +269,13 @@ C
      .                                 IGAP,GAP,GAPMAX,GAPMIN,DGAPLOAD,
      .                                 DRAD,INTBUF_TAB%GAP_S,INTBUF_TAB%GAP_SL,INTBUF_TAB%GAP_M,INTBUF_TAB%GAP_ML,
      .                                 NUMNOD,X,INTER_CAND)
-       ENDIF
+      ENDIF
        ! -----------------
 
-        IF((IDDLEVEL==0).AND.
-     .     (DECTYP>=3.AND.DECTYP<=6))THEN
+        IF((IDDLEVEL==0).AND. (DECTYP>=3.AND.DECTYP<=6))THEN
 C Appe routine poids noeuds interfaces
-          CALL I20WCONTDD(INTBUF_TAB%NSV,INTBUF_TAB%MSR,NSN,NMN,IWCONT,
-     .                  NSNT,NMNT)
+          CALL I20WCONTDD(INTBUF_TAB%NSV,INTBUF_TAB%MSR,NSN,NMN,IWCONT,NSNT,NMNT)
         END IF
-      ELSE
-        IF(DECTYP>=3.AND.DECTYP<=6)THEN
-C Appe routine poids noeuds interfaces
-          CALL I20WCONTDD(INTBUF_TAB%NSV,INTBUF_TAB%MSR,NSN,NMN,IWCONT,
-     .                  NSNT,NMNT)
-        END IF
-      END IF
 
 c----------------------------------------------------
 c   Calcul des normales nodales
@@ -392,8 +380,7 @@ C
      5 IGAP      ,X         ,FPENMAX )
          IF(IWPENEDGE/=0.AND.INACTI==3.OR.INACTI==4) IWRN = 1
         ENDDO
-        IF(((IMACH==3.AND.IDDLEVEL==0)).AND.
-     +  (DECTYP>=3.AND.DECTYP<=6))THEN
+        IF(((IDDLEVEL==0)).AND.(DECTYP>=3.AND.DECTYP<=6))THEN
 C Appel routine poids noeuds interfaces
           CALL I20WCONTDD(INTBUF_TAB%NSVL,INTBUF_TAB%MSRL,NSNE,NMNE,IWCONT,
      .                NSNET,NMNET)
@@ -543,8 +530,7 @@ C
      5 INTBUF_TAB%PENISE,INTBUF_TAB%PENIME,IGAP   )
          IF(IWPENEDGE/=0.AND.INACTI==3.OR.INACTI==4) IWRN = 1
         ENDDO
-        IF(((IMACH==3.AND.IDDLEVEL==0)).AND.
-     +  (DECTYP>=3.AND.DECTYP<=6))THEN
+        IF(((IDDLEVEL==0)).AND.(DECTYP>=3.AND.DECTYP<=6))THEN
 C Appel routine poids noeuds interfaces
           CALL I20WCONTDD(INTBUF_TAB%NSVL,INTBUF_TAB%MSRL,NSNE,NMNE,IWCONT,
      .                NSNET,NMNET)

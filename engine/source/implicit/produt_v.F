@@ -38,7 +38,6 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
-#include      "scr05_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -54,7 +53,7 @@ C-----------------------------
       DO I=1,NDDL
        R = R + X(I)*Y(I)
       ENDDO
-      IF (IMACH==3.AND.NSPMD>1) CALL SPMD_SUM_S(R)
+      IF (NSPMD>1) CALL SPMD_SUM_S(R)
 C--------------------------------------------
       RETURN
       END
@@ -112,7 +111,6 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
-#include      "scr05_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -126,7 +124,7 @@ C-----------------------------------------------
       INTEGER I
 C-----------------------------
       R = ZERO
-      IF (IMACH==3.AND.NSPMD>1) THEN
+      IF (NSPMD>1) THEN
        DO I=1,NDDL
         IF (W(I)/=0) R = R + X(I)*Y(I)
        ENDDO
@@ -579,7 +577,6 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
-#include      "scr05_c.inc"
 #include       "impl1_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -658,7 +655,7 @@ C  ------LT_I
      4               IRBE3  ,LRBE3  ,IRBE2   ,LRBE2  )
        ENDIF
 C    
-      IF (IMACH==3.AND.NSPMD>1) THEN
+      IF (NSPMD>1) THEN
        IF ((NSREM+NSL)>0.AND.INTP_C>=0) 
      .   CALL FR_MATV(  A     ,VE    ,D      ,MS     ,X      ,
      1                  DR    ,AR    ,IPARI  ,INTBUF_TAB     ,

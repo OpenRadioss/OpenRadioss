@@ -61,10 +61,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER N,ID,KRESERV
-      CHARACTER MESS*40,TITR*40
-      CHARACTER(LEN=NCHARKEY)KEY
-      LOGICAL IS_AVAILABLE
+      INTEGER :: N,ID,KRESERV
+      CHARACTER :: MESS*40
+      LOGICAL :: IS_AVAILABLE
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------

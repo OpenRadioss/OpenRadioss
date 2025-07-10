@@ -73,12 +73,10 @@ C-------------------------
 
                 II=0
                 IH=IAD
-                IF (IMACH == 3) THEN
-                    DO WHILE (ITHBUF(IH+NN) /= ISPMD .AND. IH < IAD+NN)
-                        IH = IH + 1
-                    ENDDO
-                    IF (IH >= IAD+NN) GOTO 666
-                ENDIF
+                DO WHILE (ITHBUF(IH+NN) /= ISPMD .AND. IH < IAD+NN)
+                    IH = IH + 1
+                ENDDO
+                IF (IH >= IAD+NN) GOTO 666
 C
                 DO NG=1,NGROUP
                     ITY=IPARG(5,NG)
@@ -91,12 +89,10 @@ C
                             K=ITHBUF(IH)
                             IF (K == N) THEN
                                 IH=IH+1
-                                IF (IMACH == 3) THEN
-                                    II = ((IH-1) - IAD)*NVAR
-                                    DO WHILE (ITHBUF(IH+NN) /= ISPMD .AND. IH < IAD+NN)
-                                        IH = IH + 1
-                                    ENDDO
-                                ENDIF
+                                II = ((IH-1) - IAD)*NVAR
+                                DO WHILE (ITHBUF(IH+NN) /= ISPMD .AND. IH < IAD+NN)
+                                  IH = IH + 1
+                                ENDDO
                                 IF (IH > IAD+NN) GOTO 666
                                 WA_SIZE = WA_SIZE + NVAR + 1
                             ENDIF ! IF (K == N)

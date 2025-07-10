@@ -46,7 +46,6 @@ C-----------------------------------------------
 #include      "com04_c.inc"
 #include      "param_c.inc"
 #include      "units_c.inc"
-#include      "scr05_c.inc"
 #include      "task_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -148,12 +147,15 @@ C
                   NN=MONVOL(K1-1+32)
                   KI1=KIBALE+MONVOL(K1-1+31)
 C
-                  IF (IMACH/=3) THEN
+                  IFV=MONVOL(K1-1+45)
+                  ALLOCATE(XXX(3,NN))
+                  CALL SPMD_FVB_GATH(IFV, X, XXX, RBID, RBID,
+     .                               1  )
+                  IF (ISPMD==FVSPMD(IFV)%PMAIN-1) THEN
                      DO J=1,NN
-                        JJ=MONVOL(KI1-1+J)
-                        XX=X(1,JJ)
-                        YY=X(2,JJ)
-                        ZZ=X(3,JJ)
+                        XX=XXX(1,J)
+                        YY=XXX(2,J)
+                        ZZ=XXX(3,J)
                         XL=(XX-X0)*VVX1+(YY-Y0)*VVY1+(ZZ-Z0)*VVZ1
                         YL=(XX-X0)*VVX2+(YY-Y0)*VVY2+(ZZ-Z0)*VVZ2
                         ZL=(XX-X0)*VVX3+(YY-Y0)*VVY3+(ZZ-Z0)*VVZ3
@@ -161,27 +163,8 @@ C
                         LYMAX=MAX(LYMAX,ABS(YL))
                         LZMAX=MAX(LZMAX,ABS(ZL))
                      ENDDO
-C
-                  ELSE
-                     IFV=MONVOL(K1-1+45)
-                     ALLOCATE(XXX(3,NN))
-                     CALL SPMD_FVB_GATH(IFV, X, XXX, RBID, RBID,
-     .                                  1  )
-                     IF (ISPMD==FVSPMD(IFV)%PMAIN-1) THEN
-                        DO J=1,NN
-                           XX=XXX(1,J)
-                           YY=XXX(2,J)
-                           ZZ=XXX(3,J)
-                           XL=(XX-X0)*VVX1+(YY-Y0)*VVY1+(ZZ-Z0)*VVZ1
-                           YL=(XX-X0)*VVX2+(YY-Y0)*VVY2+(ZZ-Z0)*VVZ2
-                           ZL=(XX-X0)*VVX3+(YY-Y0)*VVY3+(ZZ-Z0)*VVZ3
-                           LXMAX=MAX(LXMAX,ABS(XL))
-                           LYMAX=MAX(LYMAX,ABS(YL))
-                           LZMAX=MAX(LZMAX,ABS(ZL))
-                        ENDDO
-                     ENDIF
-                     DEALLOCATE(XXX)
                   ENDIF
+                  DEALLOCATE(XXX)
 C
                   IF (LXMAX>LX) THEN
                      WRITE(IOUT,'(A14,I8,A9)') 

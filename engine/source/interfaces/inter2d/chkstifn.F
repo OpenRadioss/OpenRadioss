@@ -42,7 +42,6 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com04_c.inc"
-#include      "scr05_c.inc"
 #include      "task_c.inc"
 #include      "param_c.inc"
 C-----------------------------------------------
@@ -65,7 +64,7 @@ C
        NTY   =IPARI(7,N)
        IF(NTY==5) THEN
 C interface type 5 non // en spmd
-         IF(IMACH/=3.OR.ISPMD==0) THEN
+         IF(ISPMD==0) THEN
            NRTS   = IPARI(3,N)
            NRTM   = IPARI(4,N)
            NSN    = IPARI(5,N)

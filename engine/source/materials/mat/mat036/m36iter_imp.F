@@ -177,7 +177,7 @@ c
           PFAC(I)  =  ONE
         ENDDO
 c
-        IF (IPFLAG == NEL.AND.(IMACH/=3.OR.IPARIT == 0)) THEN
+        IF (IPFLAG == NEL.AND.(IPARIT == 0)) THEN
           DO I=1,NEL
             IPOSP(I) = VARTMP(I,2)
             IADP(I)  = NPF(IPFUN) / 2 + 1

@@ -79,7 +79,6 @@ C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
 #include      "units_c.inc"
-#include      "scr05_c.inc"
 #include      "scr17_c.inc"
 #include      "r2r_c.inc"
 #include      "inter22.inc"
@@ -236,20 +235,16 @@ C--------------------------------------------------
 
         IF(IPARI(39,NI) == 1)THEN
           IPARI(40,NI)=USR2SYS(IPARI(40,NI),ITABM1,MESS,IPARI(15,NI))
-          IF(IMACH == 3)THEN
-            DO P = 1, NSPMD
-                CALL IFRONTPLUS(IPARI(40,NI),P)
-            END DO
-          END IF
+          DO P = 1, NSPMD
+            CALL IFRONTPLUS(IPARI(40,NI),P)
+          END DO
         ELSEIF(IPARI(39,NI) == 2)THEN
           IPARI(40,NI)=USR2SYS(IPARI(40,NI),ITABM1,MESS,IPARI(15,NI))
           IPARI(41,NI)=USR2SYS(IPARI(41,NI),ITABM1,MESS,IPARI(15,NI))
-          IF(IMACH == 3)THEN
-             DO P = 1, NSPMD
-               CALL IFRONTPLUS(IPARI(40,NI),P)
-               CALL IFRONTPLUS(IPARI(41,NI),P)
-             END DO
-           END IF
+          DO P = 1, NSPMD
+            CALL IFRONTPLUS(IPARI(40,NI),P)
+            CALL IFRONTPLUS(IPARI(41,NI),P)
+          END DO
         ENDIF
 
         IF(NINTLOADP > 0)IPARI(95,NI) = KLOADPINTER(NI+1)  - KLOADPINTER(NI)

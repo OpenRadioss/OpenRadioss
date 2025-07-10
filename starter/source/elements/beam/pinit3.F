@@ -39,10 +39,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||====================================================================
       SUBROUTINE PINIT3(ELBUF_STR,
      1                  STP      ,IC      ,PM      ,X       ,GEO   ,
-     2                  XMAS     ,TINER   ,DTELEM  ,NFT     ,NEL   ,
+     2                  DTELEM   ,NFT     ,NEL     ,
      3                  STIFN    ,STIFR   ,PARTSAV ,V       ,IPART ,
-     4                  MSP      ,INP     ,IGEO    ,STIFINT ,STRP  ,
-     5                  NSIGBEAM ,SIGBEAM ,PTBEAM  ,IUSER   ,MCP   ,
+     4                  MSP      ,INP     ,IGEO    ,STRP  ,
+     5                  NSIGBEAM ,SIGBEAM ,PTBEAM  ,IUSER   ,
      6                  MCPP     ,TEMP    ,PRELOAD_A,IPRELD,NPRELOAD_A,
      7                  GLOB_THERM,IBEAM_VECTOR,RBEAM_VECTOR)
 C-----------------------------------------------
@@ -74,9 +74,9 @@ C-----------------------------------------------
       INTEGER , INTENT (IN   )  :: IPRELD,NPRELOAD_A
       INTEGER , INTENT (IN   )  :: IBEAM_VECTOR(NUMELP)
       my_real
-     .   PM(*),X(*),GEO(NPROPG,*),XMAS(*),TINER(*),
+     .   PM(*),X(*),GEO(NPROPG,*),
      .   DTELEM(*),STIFN(*),STIFR(*),PARTSAV(20,*),V(*),MSP(*),INP(*),
-     .   STIFINT(*),STP(*),STRP(*),SIGBEAM(NSIGBEAM,*),MCPP(*),MCP(*),
+     .   STP(*),STRP(*),SIGBEAM(NSIGBEAM,*),MCPP(*),
      .   TEMP(*)
       my_real , INTENT (IN   )  :: RBEAM_VECTOR(3,NUMELP)     
 C
@@ -135,11 +135,11 @@ C
         END IF
       END IF                                               
 !
-      CALL PMASS(GEO,PM,XMAS,TINER,
+      CALL PMASS(GEO,PM,
      .           STIFN,STIFR,PARTSAV,V,IPART(NFT+1),
-     .           MSP(NFT+1),INP(NFT+1),IGEO , STIFINT, STP(NFT+1),
+     .           MSP(NFT+1),INP(NFT+1),IGEO , STP(NFT+1),
      .           X1,X2, Y1,Y2, Z1,Z2,
-     .           NC1,NC2,IMAT,MXG,AREA,DELTAX,STRP(NFT+1),MCP   ,
+     .           NC1,NC2,IMAT,MXG,AREA,DELTAX,STRP(NFT+1),
      .           MCPP(NFT+1) , TEMP ,GLOB_THERM%NINTEMP)
       CALL PIBUF3(GEO,GBUF%OFF,GBUF%LENGTH,DELTAX,MXG,IREL)
 C------------------------------------------

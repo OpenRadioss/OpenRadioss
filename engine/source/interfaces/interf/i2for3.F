@@ -330,7 +330,6 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
-#include      "scr05_c.inc"
 #include      "impl1_c.inc"
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -346,14 +345,11 @@ C=======================================================================
       IF(N2D==0)NIR=4
 C
 C   spmd pre-traitement sur noeuds main + sauvegarde de la masse
-      IF (IMACH==3) THEN
-      ELSE
 C   sauvegarde de la masse initiale
-        DO II=1,NMN
-          J=MSR(II)
-          MMASS(II)=MS(J)
-        ENDDO
-      ENDIF
+      DO II=1,NMN
+        J=MSR(II)
+        MMASS(II)=MS(J)
+      ENDDO
       IF(IMPL_S>0) THEN
         DO II=1,NSN
           I=NSV(II)
@@ -539,7 +535,6 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
-#include      "scr05_c.inc"
 #include      "impl1_c.inc"
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -554,14 +549,6 @@ C-----------------------------------------------
       IF(N2D==0)NIR=4
 C
 C   spmd pre-traitement sur noeuds main + sauvegarde de la masse
-      IF (IMACH==3) THEN
-      ELSE
-C   sauvegarde de la masse initiale
-        DO II=1,NMN
-          J=MSR(II)
-          MMASS(II)=MS(J)
-        ENDDO
-      ENDIF
 C
       IF(IMPL_S>0) THEN
         DO II=1,NSN

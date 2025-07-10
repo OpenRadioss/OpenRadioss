@@ -57,7 +57,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s 
 C-----------------------------------------------
-#include      "scr05_c.inc"
 #include      "com08_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -65,12 +64,10 @@ C-----------------------------------------------
       INTEGER IRECT(4,*), NSV(*), CAND_E(*), CAND_N(*),
      .    JLT,IDT, NOINT, NSN ,ITYP, NIN,IEDGE
       INTEGER IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ)
-C     REAL
       my_real , INTENT(IN) :: DGAPLOAD
       my_real
      .   X(3,*), V(3,*), GAPV(*), GAP_S(*), GAP_M(*),CURV_MAX(*),
      .   PENE_OLD(5,NSN), GAPVE(*),EDGE_L2(*)
-C     REAL
       my_real
      .   X1(MVSIZ), X2(MVSIZ), X3(MVSIZ), X4(MVSIZ),
      .   Y1(MVSIZ), Y2(MVSIZ), Y3(MVSIZ), Y4(MVSIZ),
@@ -90,131 +87,77 @@ C
       VDT = ZERO
       GAPVE(1:JLT) = ZERO
 
-      IF(IMACH/=3) THEN
-       DO I=1,JLT
-         GAPV(I)=GAP_S(CAND_N(I)) + GAP_M(CAND_E(I))
-         GAPV(I) =GAPV(I) + DGAPLOAD
-       END DO
-       DO I=1,JLT
-         IG = NSV(CAND_N(I))
-         XI(I) = X(1,IG)
-         YI(I) = X(2,IG)
-         ZI(I) = X(3,IG)
-         L  = CAND_E(I)
+      DO I=1,JLT
+          J = CAND_N(I)
+          IF(J<=NSN) THEN
+            GAPV(I)=GAP_S(J) + GAP_M(CAND_E(I))
+          ELSE
+            IG = J-NSN
+            GAPV(I)=XREM(9,IG) + GAP_M(CAND_E(I))
+          END IF
+          GAPV(I) =GAPV(I) + DGAPLOAD
+      END DO
+      DO I=1,JLT
+        J = CAND_N(I)
+        IF(J<=NSN) THEN
+          IG = NSV(J)
+          XI(I) = X(1,IG)
+          YI(I) = X(2,IG)
+          ZI(I) = X(3,IG)
+          VXI   = V(1,IG)
+          VYI   = V(2,IG)
+          VZI   = V(3,IG)
+          PENE_L(I) = PENE_OLD(3,J)
+        ELSE
+          IG = J-NSN
+          XI(I) = XREM(1,IG)
+          YI(I) = XREM(2,IG)
+          ZI(I) = XREM(3,IG)
+          VXI   = XREM(4,IG)
+          VYI   = XREM(5,IG)
+          VZI   = XREM(6,IG)
+          PENE_L(I) = XREM(I24XREMP+6,IG)
+        ENDIF
 C
-         IX1(I)=IRECT(1,L)
-         X1(I)=X(1,IX1(I))
-         Y1(I)=X(2,IX1(I))
-         Z1(I)=X(3,IX1(I))
+        L  = CAND_E(I)
 C
-         IX2(I)=IRECT(2,L)
-         X2(I)=X(1,IX2(I))
-         Y2(I)=X(2,IX2(I))
-         Z2(I)=X(3,IX2(I))
+        IX1(I)=IRECT(1,L)
+        X1(I)=X(1,IX1(I))
+        Y1(I)=X(2,IX1(I))
+        Z1(I)=X(3,IX1(I))
 C
-         IX3(I)=IRECT(3,L)
-         X3(I)=X(1,IX3(I))
-         Y3(I)=X(2,IX3(I))
-         Z3(I)=X(3,IX3(I))
+        IX2(I)=IRECT(2,L)
+        X2(I)=X(1,IX2(I))
+        Y2(I)=X(2,IX2(I))
+        Z2(I)=X(3,IX2(I))
 C
-         IX4(I)=IRECT(4,L)
-         X4(I)=X(1,IX4(I))
-         Y4(I)=X(2,IX4(I))
-         Z4(I)=X(3,IX4(I))
+        IX3(I)=IRECT(3,L)
+        X3(I)=X(1,IX3(I))
+        Y3(I)=X(2,IX3(I))
+        Z3(I)=X(3,IX3(I))
 C
-         VXI = V(1,IG)
-         VX1 = V(1,IX1(I))
-         VX2 = V(1,IX2(I))
-         VX3 = V(1,IX3(I))
-         VX4 = V(1,IX4(I))
-         VX=MAX(MAX(VX1,VX2,VX3,VX4)-VXI,VXI-MIN(VX1,VX2,VX3,VX4))
-         VYI = V(2,IG)
-         VY1 = V(2,IX1(I))
-         VY2 = V(2,IX2(I))
-         VY3 = V(2,IX3(I))
-         VY4 = V(2,IX4(I))
-         VY=MAX(MAX(VY1,VY2,VY3,VY4)-VYI,VYI-MIN(VY1,VY2,VY3,VY4))
-         VZI = V(3,IG)
-         VZ1 = V(3,IX1(I))
-         VZ2 = V(3,IX2(I))
-         VZ3 = V(3,IX3(I))
-         VZ4 = V(3,IX4(I))
-         VZ=MAX(MAX(VZ1,VZ2,VZ3,VZ4)-VZI,VZI-MIN(VZ1,VZ2,VZ3,VZ4))
-         VDT(I) = (VX+VY+VZ)*DT1/TWO
-       END DO
-      ELSE
-       DO I=1,JLT
-           J = CAND_N(I)
-           IF(J<=NSN) THEN
-             GAPV(I)=GAP_S(J) + GAP_M(CAND_E(I))
-           ELSE
-             IG = J-NSN
-             GAPV(I)=XREM(9,IG) + GAP_M(CAND_E(I))
-           END IF
-           GAPV(I) =GAPV(I) + DGAPLOAD
-       END DO
-       DO I=1,JLT
-         J = CAND_N(I)
-         IF(J<=NSN) THEN
-           IG = NSV(J)
-           XI(I) = X(1,IG)
-           YI(I) = X(2,IG)
-           ZI(I) = X(3,IG)
-           VXI   = V(1,IG)
-           VYI   = V(2,IG)
-           VZI   = V(3,IG)
-           PENE_L(I) = PENE_OLD(3,J)
-         ELSE
-           IG = J-NSN
-           XI(I) = XREM(1,IG)
-           YI(I) = XREM(2,IG)
-           ZI(I) = XREM(3,IG)
-           VXI   = XREM(4,IG)
-           VYI   = XREM(5,IG)
-           VZI   = XREM(6,IG)
-           PENE_L(I) = XREM(I24XREMP+6,IG)
-         ENDIF
+        IX4(I)=IRECT(4,L)
+        X4(I)=X(1,IX4(I))
+        Y4(I)=X(2,IX4(I))
+        Z4(I)=X(3,IX4(I))
 C
-         L  = CAND_E(I)
-C
-         IX1(I)=IRECT(1,L)
-         X1(I)=X(1,IX1(I))
-         Y1(I)=X(2,IX1(I))
-         Z1(I)=X(3,IX1(I))
-C
-         IX2(I)=IRECT(2,L)
-         X2(I)=X(1,IX2(I))
-         Y2(I)=X(2,IX2(I))
-         Z2(I)=X(3,IX2(I))
-C
-         IX3(I)=IRECT(3,L)
-         X3(I)=X(1,IX3(I))
-         Y3(I)=X(2,IX3(I))
-         Z3(I)=X(3,IX3(I))
-C
-         IX4(I)=IRECT(4,L)
-         X4(I)=X(1,IX4(I))
-         Y4(I)=X(2,IX4(I))
-         Z4(I)=X(3,IX4(I))
-C
-         VX1 = V(1,IX1(I))
-         VX2 = V(1,IX2(I))
-         VX3 = V(1,IX3(I))
-         VX4 = V(1,IX4(I))
-         VX=MAX(MAX(VX1,VX2,VX3,VX4)-VXI,VXI-MIN(VX1,VX2,VX3,VX4))
-         VY1 = V(2,IX1(I))
-         VY2 = V(2,IX2(I))
-         VY3 = V(2,IX3(I))
-         VY4 = V(2,IX4(I))
-         VY=MAX(MAX(VY1,VY2,VY3,VY4)-VYI,VYI-MIN(VY1,VY2,VY3,VY4))
-         VZ1 = V(3,IX1(I))
-         VZ2 = V(3,IX2(I))
-         VZ3 = V(3,IX3(I))
-         VZ4 = V(3,IX4(I))
-         VZ=MAX(MAX(VZ1,VZ2,VZ3,VZ4)-VZI,VZI-MIN(VZ1,VZ2,VZ3,VZ4))
-         VDT(I) = (VX+VY+VZ)*DT1
-       ENDDO
-      ENDIF
+        VX1 = V(1,IX1(I))
+        VX2 = V(1,IX2(I))
+        VX3 = V(1,IX3(I))
+        VX4 = V(1,IX4(I))
+        VX=MAX(MAX(VX1,VX2,VX3,VX4)-VXI,VXI-MIN(VX1,VX2,VX3,VX4))
+        VY1 = V(2,IX1(I))
+        VY2 = V(2,IX2(I))
+        VY3 = V(2,IX3(I))
+        VY4 = V(2,IX4(I))
+        VY=MAX(MAX(VY1,VY2,VY3,VY4)-VYI,VYI-MIN(VY1,VY2,VY3,VY4))
+        VZ1 = V(3,IX1(I))
+        VZ2 = V(3,IX2(I))
+        VZ3 = V(3,IX3(I))
+        VZ4 = V(3,IX4(I))
+        VZ=MAX(MAX(VZ1,VZ2,VZ3,VZ4)-VZI,VZI-MIN(VZ1,VZ2,VZ3,VZ4))
+        VDT(I) = (VX+VY+VZ)*DT1
+      ENDDO
 
       IF(IEDGE/=0)THEN
         DO I=1,JLT

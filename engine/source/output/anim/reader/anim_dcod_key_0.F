@@ -2946,7 +2946,7 @@ C-----------------------------
          ANIM_N(11) = 1
        ELSEIF(KEY3(1:5)=='DINER')THEN
          ANIM_N(12) = 1
-       ELSEIF(KEY3(1:4)=='FOPT')THEN
+       ELSEIF(KEY3(1:4)=='FPOT')THEN !potential
          ANIM_N(13) = 1
        ELSEIF(KEY3(1:5)=='NDMAS')THEN
          ANIM_N(14) = 1

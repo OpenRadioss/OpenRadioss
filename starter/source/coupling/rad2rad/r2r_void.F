@@ -66,18 +66,15 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-        INTEGER STAT,I,J,LEN1,LEN2,NUM,LL,P,N,ANA,
-     .          MAT_ID,K,ADD,COMPT,NB_PART,F2,IGTYP,L,PID,COMPT_STACK_TOT,COMPT_STACK,
-     .          COMPT_STACK_REMOV,COMPT_PCOMP_TOT,COMPT_PCOMP,COMPT_PCOMP_REMOV
+        INTEGER :: STAT,I,J,LEN1,LEN2,NUM,P,N
+        INTEGER :: K,ADD,COMPT,NB_PART,F2,IGTYP,L,PID,COMPT_STACK_TOT,COMPT_STACK
+        INTEGER :: COMPT_STACK_REMOV,COMPT_PCOMP_TOT,COMPT_PCOMP,COMPT_PCOMP_REMOV
         INTEGER, DIMENSION(:), ALLOCATABLE :: NUMGEOSTACK1_TEMP,NUMGEOSTACK2_TEMP
         INTEGER, DIMENSION(:,:), ALLOCATABLE :: IPM_TEMP,IGEO_TEMP
         CHARACTER(LEN=NCHARTITLE) TITR
-        my_real
-     .      ALPHAI
-        my_real
-     .         , DIMENSION(:,:), ALLOCATABLE :: PM_TEMP,GEO_TEMP
-        my_real
-     .         , DIMENSION(:,:,:), ALLOCATABLE :: DDW_TEMP
+        my_real :: ALPHAI
+        my_real, DIMENSION(:,:), ALLOCATABLE :: PM_TEMP,GEO_TEMP
+        my_real, DIMENSION(:,:,:), ALLOCATABLE :: DDW_TEMP
 C-----------------------------------------------
 
         NUMMAT0 = NUMMAT
@@ -85,9 +82,7 @@ C-----------------------------------------------
 
 C---------filling of array PM_R2R--------------------------------C
         ALLOCATE (PM_R2R(NUMMAT+NPART+1),STAT=stat)
-        IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
-     .                             MSGTYPE=MSGERROR,
-     .                           C1='PM_R2R')
+        IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,MSGTYPE=MSGERROR,C1='PM_R2R')
         DO I=1,NUMMAT
           PM_R2R(I) = PM(NPROPM*(I-1)+20)
         END DO
@@ -167,17 +162,11 @@ C---------Allocation of temporary arrays ----------------------C
         NB_PART = COMPT
 
         ALLOCATE (IPM_TEMP(NPROPMI,NUMMAT+NB_PART),STAT=stat)
-        IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
-     .                             MSGTYPE=MSGERROR,
-     .                           C1='IPM_TEMP')
+        IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,MSGTYPE=MSGERROR,C1='IPM_TEMP')
         ALLOCATE (PM_TEMP(NPROPM,NUMMAT+NB_PART),STAT=stat)
-        IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
-     .                             MSGTYPE=MSGERROR,
-     .                           C1='PM_TEMP')
+        IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,MSGTYPE=MSGERROR,C1='PM_TEMP')
         ALLOCATE (DDW_TEMP(2,2,NUMMAT+NB_PART+1),STAT=stat)
-        IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
-     .                             MSGTYPE=MSGERROR,
-     .                           C1='DDW_TEMP')
+        IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,MSGTYPE=MSGERROR,C1='DDW_TEMP')
 
         IPM_TEMP(:,:)=0
         PM_TEMP(:,:)=0
@@ -287,13 +276,9 @@ C----------------Reallocation and filling of IPM and PM-----------C
 
         DEALLOCATE(IPM,PM,DDWEIGHTS)
         ALLOCATE (IPM(LEN1),STAT=stat)
-        IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
-     .                             MSGTYPE=MSGERROR,
-     .                           C1='IPM')
+        IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO, MSGTYPE=MSGERROR, C1='IPM')
         ALLOCATE (PM(LEN2),STAT=stat)
-        IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
-     .                             MSGTYPE=MSGERROR,
-     .                           C1='PM')
+        IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO, MSGTYPE=MSGERROR, C1='PM')
         CALL INIT_MAT_WEIGHT(NUMMAT)
 
         DO I=1,NUMMAT

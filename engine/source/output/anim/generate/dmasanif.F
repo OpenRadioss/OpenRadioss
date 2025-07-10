@@ -43,24 +43,18 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
-#include      "scr05_c.inc"
 #include      "param_c.inc"
 #include      "task_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C     REAL
-      my_real
-     .   MAS(*) ,PM(NPROPM,*),GEO(NPROPG,*),X(3,*),
-     .   D(3,*)
-      INTEGER IPARG(NPARG,*),
-     .        IXT(NIXT,*),IXP(NIXP,*),IXR(NIXR,*),EL2FA(*),NBF
+      my_real :: MAS(*) ,PM(NPROPM,*),GEO(NPROPG,*),X(3,*), D(3,*)
+      INTEGER IPARG(NPARG,*),IXT(NIXT,*),IXP(NIXP,*),IXR(NIXR,*),EL2FA(*),NBF
 C
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-C     REAL
       my_real
      .   OFF, P, VONM2, VONM, S1, S2, S12, S3, VALUE,THK0,A0,AL0,
      .   RHO0,XX1,XX2,XX3,YY1,YY2,YY3,ZZ1,ZZ2,ZZ3
@@ -94,7 +88,7 @@ C-----------------------------------------------
         NEL   =IPARG(2,NG)
         ITY   =IPARG(5,NG)
         GBUF => ELBUF_TAB(NG)%GBUF
-        IF (IMACH == 3 .AND. ISPMD == 0) THEN
+        IF (ISPMD == 0) THEN
           IF (ITY /= ITY_OLD) THEN
             NEL_OLD = 0
             ITY_OLD= ITY
@@ -106,7 +100,7 @@ C-----------------------------------------------
         IAD   =IPARG(4,NG)
         LFT=1
         LLT=NEL
-        IF (IMACH == 3 .AND. ISPMD == 0) THEN
+        IF (ISPMD == 0) THEN
           NFT_FA = NEL_OLD - NEL 
         ELSE
           NFT_FA = NFT

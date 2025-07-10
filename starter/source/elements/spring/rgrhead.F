@@ -64,7 +64,6 @@ C-----------------------------------------------
 #include      "vect01_c.inc"
 #include      "com04_c.inc"
 #include      "param_c.inc"
-#include      "scr05_c.inc"
 #include      "sms_c.inc"
 C-----------------------------------------------
 C   D U M M Y   A R G U M E N T S
@@ -73,9 +72,7 @@ C-----------------------------------------------
      .        EADD(*),ITR1(*),INDEX(*),ITRI(5,*),
      .        ND, CEP(*), XEP(*),IRESOFF(*),R_SKEW(*),
      .        TAGPRT_SMS(*), IGEO(NPROPGI,*),IPM(NPROPMI,*)
-C     REAL OU REAL*8
-      my_real
-     .    GEO(NPROPG,*)
+      my_real :: GEO(NPROPG,*)
       INTEGER ,INTENT(INOUT), DIMENSION(NUMELR) ::ITAGPRLD_SPRING
 C-----------------------------------------------
       TYPE (GROUP_)  , DIMENSION(NGRSPRI)  :: IGRSPRING
@@ -120,13 +117,9 @@ C
         INUM(9,I)=R_SKEW(I)
       ENDDO
 
-      IF (IMACH==3) THEN
-        DO I=1,NUMELR
-          XEP(I)=CEP(I)
-        ENDDO
-      ENDIF
-C
-C
+      DO I=1,NUMELR
+        XEP(I)=CEP(I)
+      ENDDO
       
       DO I = 1, NUMELR
         II = I
@@ -176,12 +169,11 @@ C
         IRESOFF(I)=INUM(8,INDEX(I))
         R_SKEW(I)=INUM(9,INDEX(I))
       ENDDO
-C
-      IF (IMACH==3) THEN
-        DO I=1,NUMELR
-          CEP(I)=XEP(INDEX(I))
-        ENDDO
-      ENDIF
+
+      DO I=1,NUMELR
+        CEP(I)=XEP(INDEX(I))
+      ENDDO
+
       DO  K=1,6
         DO  I=1,NUMELR
           IXR(K,I)=INUM(K+1,INDEX(I))

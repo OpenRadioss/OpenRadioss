@@ -815,8 +815,6 @@ C
         CALL READ_I_C(IAD_CNDM,SIAD_CNDM)
         CALL READ_I_C(FR_CNDM,SFR_CNDM)
 C
-c        IF (IMACH==3) THEN
-C
 C Partie Parith/ON lue en SPM dans tous les cas
 C
 C lecture directe de ADDCNE
@@ -1907,7 +1905,6 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "scr05_c.inc"
-*
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -2182,7 +2179,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "scr05_c.inc"
 #include      "com01_c.inc"
 #include      "com04_c.inc"
 #include      "task_c.inc"
@@ -2251,17 +2247,15 @@ C--------------------------------------
         FVDATA_OLD(I)%PDISP = ZERO
       ENDDO
 
-      IF (IMACH==3) THEN
-         ALLOCATE(FVSPMD(NFVBAG))
-         DO I=1,NFVBAG
-           NULLIFY(FVSPMD(I)%IBUF_L)
-           NULLIFY(FVSPMD(I)%IBUFA_L)
-           NULLIFY(FVSPMD(I)%IBUFSA_L)
-           NULLIFY(FVSPMD(I)%IXSA)
-           NULLIFY(FVSPMD(I)%ELEMSA)
-           NULLIFY(FVSPMD(I)%ITAB)
-         ENDDO
-      ENDIF
+      ALLOCATE(FVSPMD(NFVBAG))
+      DO I=1,NFVBAG
+        NULLIFY(FVSPMD(I)%IBUF_L)
+        NULLIFY(FVSPMD(I)%IBUFA_L)
+        NULLIFY(FVSPMD(I)%IBUFSA_L)
+        NULLIFY(FVSPMD(I)%IXSA)
+        NULLIFY(FVSPMD(I)%ELEMSA)
+        NULLIFY(FVSPMD(I)%ITAB)
+      ENDDO
 C
       
       ALLOCATE(KMESH(NFVBAG))
@@ -2274,78 +2268,76 @@ C
          CALL READ_DB(FVDATA_OLD(I)%CFL_COEF,1)
          CALL READ_DB(FVDATA_OLD(I)%DTMIN,1)      
       
-         IF (IMACH==3) THEN
-            LEN=8
-            CALL READ_I_C(TABI,LEN)
-            NN_L=TABI(1)
-            NNI_L=TABI(8)
-            NNA_L=TABI(2)
-            NNSA_L=TABI(3)
-            NSA=TABI(4)
-            NELSA=TABI(6)
-            FVSPMD(I)%NN_L=NN_L
-            FVSPMD(I)%NNI_L=NNI_L
-            FVSPMD(I)%NNA_L=NNA_L
-            FVSPMD(I)%NNSA_L=NNSA_L
-            FVSPMD(I)%NSA=NSA
-            FVSPMD(I)%NNSA=TABI(5)
-            FVSPMD(I)%NELSA=NELSA
-            FVSPMD(I)%PMAIN=TABI(7)
-            FVSPMD(I)%NNA_L_GLOB = NNA_L
+         LEN=8
+         CALL READ_I_C(TABI,LEN)
+         NN_L=TABI(1)
+         NNI_L=TABI(8)
+         NNA_L=TABI(2)
+         NNSA_L=TABI(3)
+         NSA=TABI(4)
+         NELSA=TABI(6)
+         FVSPMD(I)%NN_L=NN_L
+         FVSPMD(I)%NNI_L=NNI_L
+         FVSPMD(I)%NNA_L=NNA_L
+         FVSPMD(I)%NNSA_L=NNSA_L
+         FVSPMD(I)%NSA=NSA
+         FVSPMD(I)%NNSA=TABI(5)
+         FVSPMD(I)%NELSA=NELSA
+         FVSPMD(I)%PMAIN=TABI(7)
+         FVSPMD(I)%NNA_L_GLOB = NNA_L
 
-            COLOR = MIN(1,NN_L+NNI_L+NNA_L+NNSA_L) 
-            IF(ISPMD == FVSPMD(I)%PMAIN - 1) THEN
-            ! PMAIN will be zero in the subcommunicator
-              KEY = 0 
-              COLOR = 1
-            ELSE
-              KEY = 1
-            ENDIF
-
-
-            ! COLOR == 0 => ISPMD does not belong to the fvm
-            ! COLOR == 1 => ISPMD belongs to the fvm
-            FVSPMD(I)%MPI_COMM = 0
-            FVSPMD(I)%RANK = 0
-            FVSPMD(I)%NSPMD = 1
-            CALL SPMD_COMM_SPLIT(COLOR,KEY,FVSPMD(I)%MPI_COMM,
-     .                          FVSPMD(I)%RANK, FVSPMD(I)%NSPMD)
+         COLOR = MIN(1,NN_L+NNI_L+NNA_L+NNSA_L) 
+         IF(ISPMD == FVSPMD(I)%PMAIN - 1) THEN
+         ! PMAIN will be zero in the subcommunicator
+           KEY = 0 
+           COLOR = 1
+         ELSE
+           KEY = 1
+         ENDIF
 
 
-            ALLOCATE(FVSPMD(I)%ITAB(4,NSPMD-1))
+         ! COLOR == 0 => ISPMD does not belong to the fvm
+         ! COLOR == 1 => ISPMD belongs to the fvm
+         FVSPMD(I)%MPI_COMM = 0
+         FVSPMD(I)%RANK = 0
+         FVSPMD(I)%NSPMD = 1
+         CALL SPMD_COMM_SPLIT(COLOR,KEY,FVSPMD(I)%MPI_COMM,
+     .                       FVSPMD(I)%RANK, FVSPMD(I)%NSPMD)
 
-            ! Compute the size of the comm. involved in SPMD_FVB_GATHER
-            CALL SPMD_FVB_COMM_PATTERN(I)
 
-            ALLOCATE(FVSPMD(I)%IBUF_L(2,NN_L+NNI_L))
-            LEN=2*(NN_L+NNI_L)
-            IF (LEN>0) THEN
-              CALL READ_I_C(FVSPMD(I)%IBUF_L,LEN)
-            ENDIF
-            ALLOCATE(FVSPMD(I)%IBUFA_L(2,NNA_L))
-            LEN=2*NNA_L
-            IF (LEN>0) THEN
-              CALL READ_I_C(FVSPMD(I)%IBUFA_L,LEN)
-            ENDIF
-            ALLOCATE(FVSPMD(I)%IBUFSA_L(2,NNSA_L))
-            LEN=2*NNSA_L
-            IF (LEN>0) THEN
-              CALL READ_I_C(FVSPMD(I)%IBUFSA_L,LEN)
-            ENDIF
-            LEN = 1
-            CALL READ_I_C(KMESH(I), LEN)
-            IF (ISPMD/=FVSPMD(I)%PMAIN-1) CYCLE
+         ALLOCATE(FVSPMD(I)%ITAB(4,NSPMD-1))
+
+         ! Compute the size of the comm. involved in SPMD_FVB_GATHER
+         CALL SPMD_FVB_COMM_PATTERN(I)
+
+         ALLOCATE(FVSPMD(I)%IBUF_L(2,NN_L+NNI_L))
+         LEN=2*(NN_L+NNI_L)
+         IF (LEN>0) THEN
+           CALL READ_I_C(FVSPMD(I)%IBUF_L,LEN)
+         ENDIF
+         ALLOCATE(FVSPMD(I)%IBUFA_L(2,NNA_L))
+         LEN=2*NNA_L
+         IF (LEN>0) THEN
+           CALL READ_I_C(FVSPMD(I)%IBUFA_L,LEN)
+         ENDIF
+         ALLOCATE(FVSPMD(I)%IBUFSA_L(2,NNSA_L))
+         LEN=2*NNSA_L
+         IF (LEN>0) THEN
+           CALL READ_I_C(FVSPMD(I)%IBUFSA_L,LEN)
+         ENDIF
+         LEN = 1
+         CALL READ_I_C(KMESH(I), LEN)
+         IF (ISPMD/=FVSPMD(I)%PMAIN-1) CYCLE
 C
-            ALLOCATE(FVSPMD(I)%IXSA(8,NSA))
-            LEN=8*NSA
-            IF (LEN>0) THEN
-              CALL READ_I_C(FVSPMD(I)%IXSA,LEN)
-            ENDIF
-            ALLOCATE(FVSPMD(I)%ELEMSA(3,NELSA))
-            LEN=3*NELSA
-            IF (LEN>0) THEN
-              CALL READ_I_C(FVSPMD(I)%ELEMSA,LEN)
-            ENDIF
+         ALLOCATE(FVSPMD(I)%IXSA(8,NSA))
+         LEN=8*NSA
+         IF (LEN>0) THEN
+           CALL READ_I_C(FVSPMD(I)%IXSA,LEN)
+         ENDIF
+         ALLOCATE(FVSPMD(I)%ELEMSA(3,NELSA))
+         LEN=3*NELSA
+         IF (LEN>0) THEN
+           CALL READ_I_C(FVSPMD(I)%ELEMSA,LEN)
          ENDIF
          LEN=11
          CALL READ_I_C(TABI,LEN)

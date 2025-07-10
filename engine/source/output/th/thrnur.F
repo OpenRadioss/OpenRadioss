@@ -37,7 +37,6 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
-#include      "scr05_c.inc"
 #include      "task_c.inc"
 #include      "param_c.inc"
 C-----------------------------------------------
@@ -61,21 +60,17 @@ C-----------------------------------------------
       II=0
       IH=IAD
 C   specifique spmd
-      IF (IMACH==3) THEN
-        LWA = NN*NVAR
-        DO I = 1, LWA
-          WA(I) = ZERO
-        ENDDO
+      LWA = NN*NVAR
+      DO I = 1, LWA
+        WA(I) = ZERO
+      ENDDO
 C decalage IH
-        DO WHILE((ITHBUF(IH+NN)/=ISPMD).AND.
-     .           (IH<IAD+NN))
-          IH = IH + 1
-        ENDDO
-        IF (IH>=IAD+NN) RETURN 
-      ENDIF
+      DO WHILE((ITHBUF(IH+NN)/=ISPMD).AND.(IH<IAD+NN))
+        IH = IH + 1
+      ENDDO
+      IF (IH>=IAD+NN) RETURN 
 C
       DO NG=1,NGROUP
-C          IF(IMACH==3) IWA(NG) = II+1
         ITY=IPARG(5,NG)
         IF(ITY==50) THEN
           MTE=IPARG(1,NG)
@@ -96,15 +91,12 @@ C
             IF (K==N)THEN
               IH=IH+1
 C   traitement specifique spmd
-              IF (IMACH==3) THEN
+
 C recherche du ii correct
-                II = ((IH-1) - IAD)*NVAR
-                DO WHILE((ITHBUF(IH+NN)/=ISPMD).AND.
-C    .                   (IH<=IAD+NN))
-     .                   (IH<IAD+NN))
-                  IH = IH + 1
-                ENDDO
-              ENDIF
+              II = ((IH-1) - IAD)*NVAR
+              DO WHILE((ITHBUF(IH+NN)/=ISPMD).AND.(IH<IAD+NN))
+                IH = IH + 1
+              ENDDO
 C
               IF(IH>IAD+NN) RETURN
 C             IF (IP==ISPMD)THEN

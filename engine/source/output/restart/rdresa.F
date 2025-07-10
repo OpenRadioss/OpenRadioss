@@ -237,7 +237,6 @@ C-----------------------------------------------
 #include      "param_c.inc"
 #include      "units_c.inc"
 #include      "scr03_c.inc"
-#include      "scr05_c.inc"
 #include      "scr06_c.inc"
 #include      "scr07_c.inc"
 #include      "scr14_c.inc"
@@ -274,7 +273,7 @@ C
         IF(IPARIT /= 1) IPARIT = IPARI0
       ENDIF
 C
-      IF(IMACH==3.AND.IPARI0==0.AND.IPARIT==1) THEN
+      IF(IPARI0==0.AND.IPARIT==1) THEN
         IF(ISPMD==0)THEN
           WRITE(ISTDO,*)' **WARNING PARALLEL ARITHMETIC DISABLED'
           WRITE(IOUT,*)' **WARNING PREVIOUS RUN WITHOUT PARITH/ON'
@@ -287,20 +286,15 @@ C
      .         2*NUMELP   + 3*NUMELR    + 3*NUMELTG  + 
      .         6*NUMELS10 + 12*NUMELS20 + 8*NUMELS16 + 3*NUMELTG6
       LCNEL = NISKY0
-      IF(IMACH==3) THEN
 C adding surfaces for MV as elems for parith/on SPMD
-          NISKY0 = NISKY0 + 4*NSKYMV0
+      NISKY0 = NISKY0 + 4*NSKYMV0
 C pressure loads 
-          NISKY0 = NISKY0 + 4*NCONLD
+      NISKY0 = NISKY0 + 4*NCONLD
 C thermal fluxes
-          NISKY0 = NISKY0 + 4*GLOB_THERM%NUMCONV + 4*GLOB_THERM%NUMRADIA + 4*GLOB_THERM%NFXFLUX
-          NISKY0 = NISKY0 + SLLOADP
-      END IF
+      NISKY0 = NISKY0 + 4*GLOB_THERM%NUMCONV + 4*GLOB_THERM%NUMRADIA + 4*GLOB_THERM%NFXFLUX
+      NISKY0 = NISKY0 + SLLOADP
 C
-C Parith/ON + SPMD
-      IF(NUMSPH/=0.AND.IMACH/=3) IPARIT=0
-C
-      IF(IMACH==3.AND.IPARIT>=1) IPARIT=1
+      IF(IPARIT>=1) IPARIT=1
       IF( LWAMP /= 0  .AND. LWANMP/=0)THEN
         LWAMP    = MAX(LWAMP,2*MVSIZ*100)
         LENWA    = MAX( NTHREAD * LWAMP,LWANMP)
@@ -503,18 +497,11 @@ C-------------------------------------------
 C     LINK
 C-------------------------------------------
       SILINK=4*NRLINK
-      IF(IMACH==3) THEN
-         SFR_RL = (NSPMD+2)*NRLINK
-      ELSE
-         SFR_RL = 0
-      ENDIF
+      SFR_RL = (NSPMD+2)*NRLINK
+
 
       SLLINK=LLLINK
-      IF(IMACH==3.AND.IPARIT/=0) THEN
-         SIADRL = LLLINK
-      ELSE
-         SIADRL = 0
-      ENDIF
+      SIADRL = LLLINK
 
 C---------------------------------------------------------
 C     /FLSEC (FLOW SECTION, obsolete option)
@@ -586,11 +573,7 @@ C---------------------------------------------------------
 C---------------------------------------------------------
 C     tableaux spmd additionnels alloues dans am en v40
 C---------------------------------------------------------
-      IF(IMACH==3) THEN
-        SDRETRIO = 5*NINTER
-      ELSE
-        SDRETRIO = 0
-      ENDIF
+      SDRETRIO = 5*NINTER
       SLBVRS = 21*NIBVEL
 C---------------------------------------------------------
 C Stockages facultatifs

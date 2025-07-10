@@ -40,7 +40,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    surf_mass_monv          ../engine/source/output/th/surf_mass.F
       !||    thcluster               ../engine/source/output/th/thcluster.F
       !||    thcoq                   ../engine/source/output/th/thcoq.F
-      !||    thfxmod                 ../engine/source/output/th/thfxmod.F
       !||    thkin                   ../engine/source/output/th/thkin.F
       !||    thmonv                  ../engine/source/output/th/thmonv.F
       !||    thnod                   ../engine/source/output/th/thnod.F
@@ -74,6 +73,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    th_mod                  ../engine/share/modules/th_mod.F
       !||    th_surf_mod             ../common_source/modules/interfaces/th_surf_mod.F
       !||====================================================================
+      MODULE HIST2_MOD
+      CONTAINS
       SUBROUTINE HIST2(PM      ,D         ,X        ,V           ,A         ,
      2                 IXS     ,BUFEL     ,WA       ,IPARG       ,SENSOR_TAB,
      4                 FSAV    ,FLSW      ,SKEW     ,ELBUF_TAB   ,CLUSTER   ,
@@ -86,8 +87,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      D                 LRIVET  ,RIVET     ,IXP      ,
      E                 ISKWN   ,IFRAME    ,XFRAME   ,IXC         ,IXQ       ,
      F                 DTHIS0  ,THIS0     ,IFIL     ,NTHGRP2     ,IXTG      ,
-     G                 IGEO    ,IPM       ,FXBIPM   ,FXBDEP      ,FXBVIT    ,
-     H                 FXBACC  ,IPARTL    ,NPARTL   ,IACCP       ,NACCP     ,
+     G                 IGEO    ,IPM       ,
+     H                 IPARTL  ,NPARTL    ,IACCP    ,NACCP       ,
      I                 IPARTH  ,NPARTH    ,NVPARTH  ,
      J                 MONVOL  ,VOLMON    ,FR_MV    ,TEMP,INOD   ,
      K                 FTHREAC ,NODREAC   ,GRESAV   ,GAUGE       ,
@@ -151,7 +152,7 @@ C-----------------------------------------------
      .   ITHGRP(NITHGR,*),ITHBUF(*),
      .   IXR(NIXR,*),KXSP(NISP,*),NOD2SP(*),LRIVET(4,*),IPM(NPROPMI,NUMMAT),
      .   ISKWN(LISKN,*),IFRAME(LISKN,*),IXC(NIXC,NUMELC),IXQ(NIXQ,NUMELQ),
-     .   IXTG(NIXTG,*),IFIL,NTHGRP2,FXBIPM(*),IPARTL(*),IACCP(*),
+     .   IXTG(NIXTG,*),IFIL,NTHGRP2,IPARTL(*),IACCP(*),
      .   NACCP(*),NPARTH,IPARTH(NPARTH,*),NVPARTH,
      .   MONVOL(*), FR_MV(*),INOD(*),
      .   NODREAC(*),KXX(NIXX,*),IGAUP(*),NGAUP(*),ITTYP,
@@ -162,7 +163,7 @@ C-----------------------------------------------
      .   ACCELM(LLACCELM,*), GEO(NPROPG,*),SPBUF(*),XFRAME(NXFRAME,*),
      .   AR(3,NUMNOD),VR(3,NUMNOD),DR(3,NUMNOD),
      .   RIVET(NRIVF,*), THKE(*),
-     .   RIVOFF(NRIVET), FXBDEP(*), FXBVIT(*), FXBACC(*), VOLMON(*),
+     .   RIVOFF(NRIVET), VOLMON(*),
      .   TEMP(*),FTHREAC(*),GRESAV(NPSAV,*), GAUGE(LLGAUGE,NBGAUGE),RTHBUF(*),
      .   VSPHIO(*), W(3,NUMNOD)
       REAL(KIND=8), INTENT(INOUT) :: THIS0, DTHIS0
@@ -1251,11 +1252,7 @@ C-----------------------------
      .   FSAV(1,1+NINTER+NRWALL+NRBODY+NSECT+NJOINT+NRBAG+NVOLU),
      .   ITTYP)
           ELSEIF (ITYP==112) THEN
-C-----------------------------
-C           MODE
-C-----------------------------
-            CALL THFXMOD(IAD,    NN,     ITHBUF, IADV,   NVAR,
-     .                   FXBIPM, FXBDEP, FXBVIT, FXBACC,ITTYP)
+
           ELSEIF (ITYP==113) THEN
 C-----------------------------
 C           GAUGE
@@ -1468,7 +1465,8 @@ C reset GRESAV array
       ENDIF
 C-----------   
       RETURN
-      END
+      END SUBROUTINE HIST2
+      END MODULE HIST2_MOD
 C
       !||====================================================================
       !||    bufmonv   ../engine/source/output/th/hist2.F
@@ -1518,5 +1516,5 @@ C             Aout, Aout1, Uout, Mout, Hout
         END IF
       END DO
       RETURN
-      END
+      END SUBROUTINE BUFMONV
 

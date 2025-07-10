@@ -718,7 +718,6 @@ C-----------------------------------------------
 #include      "com04_c.inc"
 #include      "units_c.inc"
 #include      "param_c.inc"
-#include      "scr05_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -896,9 +895,7 @@ C
 C------------------------------------
 C  SPMD TREATMENT ONLY FOR XTRA_NODES
 C------------------------------------
-        IF (IMACH == 3) THEN
-          CALL SPMDSET(N,NPBY,NNPBY,LPBY,NSL_XTRA,K)
-        ENDIF
+        CALL SPMDSET(N,NPBY,NNPBY,LPBY,NSL_XTRA,K)
       ENDDO
 C------------------------------------
 C     tag des xtra noeuds SECONDARYs rby avec gravite

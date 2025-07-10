@@ -44,13 +44,6 @@ C     NCINP nombre de cycles entre la lecture du fichier de commande rootCnn
 #else
       IVECTOR = 0
 #endif
-C#if defined(PVM) || defined(MPI)
-      IMACH=3
-C#else
-C      IMACH=0
-c#endif
-C     IMACH=0,1 ou 2  non spmd
-C     IMACH=3  spmd
       NTHREAD=1
 C     NTHREAD=1 un seul processeur
 C     NTHREAD=n n processeurs

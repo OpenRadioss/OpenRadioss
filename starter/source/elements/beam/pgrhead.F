@@ -60,7 +60,6 @@ C-----------------------------------------------
 #include      "vect01_c.inc"
 #include      "com04_c.inc"
 #include      "param_c.inc"
-#include      "scr05_c.inc"
 #include      "sms_c.inc"
 C-----------------------------------------------
 C   D U M M Y   A R G U M E N T S
@@ -80,10 +79,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
-      INTEGER 
-     .        I, K,  MLN, NG, ISSN, NN, N, MID, PID,IGTYP,
-     .        II, J, II2,JJ2,JJ,L,II3,JJ3,II4,JJ4,II5,JJ5,NPG,MODE,
-     .        WORK(70000)
+      INTEGER :: I, K,  MLN, ISSN, NN, MID, PID,IGTYP
+      INTEGER :: II, J, II2,JJ2,JJ,II3,JJ3,II4,JJ4,II5,JJ5,NPG,MODE
+      INTEGER ::  WORK(70000)
       INTEGER MY_SHIFTL,MY_SHIFTR,MY_AND,IPRLD
       EXTERNAL MY_SHIFTL,MY_SHIFTR,MY_AND
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
@@ -104,17 +102,16 @@ C
         INUM(9,I)=IBEAM_VECTOR(I)  
         XNUM(1:3,I)=RBEAM_VECTOR(1:3,I)             
       ENDDO
-      IF (IMACH==3) THEN
-        DO I=1,NUMELP
-          XEP(I)=CEP(I)
-        ENDDO
-      ENDIF
+
+      DO I=1,NUMELP
+        XEP(I)=CEP(I)
+      ENDDO
 C
 C
       DO I = 1, NUMELP
         II = I
         MID= IXP(1,II)
-        MLN= PM(19,MID)
+        MLN= INT(PM(19,MID))
         PID= IXP(5,II)
         ISSN = 0
         IF(GEO(5,PID)/=ZERO) ISSN=1
@@ -164,11 +161,9 @@ C
         IBEAM_VECTOR(I)= INUM(9,INDEX(I))
         RBEAM_VECTOR(1:3,I)= XNUM(1:3,INDEX(I))
       ENDDO
-      IF (IMACH==3) THEN
-        DO I=1,NUMELP
-          CEP(I)=XEP(INDEX(I))
-        ENDDO
-      ENDIF
+      DO I=1,NUMELP
+        CEP(I)=XEP(INDEX(I))
+      ENDDO
       DO  K=1,6
         DO  I=1,NUMELP
           IXP(K,I)=INUM(K+1,INDEX(I))

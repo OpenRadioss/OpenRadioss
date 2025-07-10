@@ -41,7 +41,6 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "vect01_c.inc"
 #include      "com01_c.inc"
-#include      "scr05_c.inc"
 #include      "task_c.inc"
 #include      "param_c.inc"
 C-----------------------------------------------
@@ -100,18 +99,15 @@ c
                             IP=ITHBUF(IH+NN)
 C      
                             IF (K==N)THEN
-                                IH=IH+1
-                                !---spmd specific treatment---!
-                                IF (IMACH==3) THEN
-                                    !---search for ii---!
-                                    II = ((IH-1) - IADR)*NVAR
-                                    DO WHILE((ITHBUF(IH+NN)/=ISPMD).AND.(IH<IADR+NN))
-                                        IH = IH + 1
-                                    ENDDO
-                                ENDIF
-C
-                                IF(IH>IADR+NN) GOTO 666
-                                WA_SIZE = WA_SIZE + NVAR + 1
+                              IH=IH+1
+                              !---spmd specific treatment---!
+                              !---search for ii---!
+                              II = ((IH-1) - IADR)*NVAR
+                              DO WHILE((ITHBUF(IH+NN)/=ISPMD).AND.(IH<IADR+NN))
+                                  IH = IH + 1
+                              ENDDO
+                              IF(IH>IADR+NN) GOTO 666
+                              WA_SIZE = WA_SIZE + NVAR + 1
                             ENDIF
                         ENDDO
                     ENDIF

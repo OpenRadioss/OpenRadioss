@@ -56,7 +56,6 @@ C     REAL
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "scr05_c.inc"
 #include      "scr14_c.inc"
 #include      "scr16_c.inc"
 #include      "impl1_c.inc"
@@ -78,14 +77,6 @@ C     MINER(II) initialise a MS(J) dans resol_init
           ADI(J) = ADI(J)*NMAS(II)
         ENDDO
       ENDIF
-      IF (IMACH/=3) THEN
-#include "vectorize.inc"
-        DO II=1,NMN
-          J=MSR(II)
-          IN(J)=MAX(EM20,IN(J))
-        ENDDO
-      ENDIF
-C
       IF(IMPL_S>0) THEN
       DO II=1,NSN
        K = INDXC(II)

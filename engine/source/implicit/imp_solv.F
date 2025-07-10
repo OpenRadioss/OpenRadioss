@@ -209,7 +209,6 @@ C-----------------------------------------------
 #include      "impl1_c.inc"
 #include      "impl2_c.inc"
 #include      "scr03_c.inc"
-#include      "scr05_c.inc"
 #include      "scr06_c.inc"
 #include      "scr16_c.inc"
 #include      "timeri_c.inc"
@@ -547,7 +546,7 @@ C         --spmd : force treated like elements ---
      6                      DPL0CLD ,VEL0CLD    ,D          ,DR         ,NCONLD     ,
      7                      NUMNOD  ,NFUNCT     ,STF        ,WFEXT)
 C
-            IF (IMACH==3.AND.NSPMD>1) THEN
+            IF (NSPMD>1) THEN
               DO I=IAD_ELEM(1,1),IAD_ELEM(1,NSPMD+1)-1
                 J = FR_ELEM(I)
                 N1 = 3*(J-1)+1
@@ -562,7 +561,7 @@ C
             IF (IMON>0) CALL STOPTIME(TIMERS,4)
           ENDIF
 C
-          IF (IMACH==3.AND.NSPMD>1) THEN
+          IF (NSPMD>1) THEN
             CALL SPMD_MAX_I(NCL_MAX)
             IF (NCL_MAX>0) THEN
               LBAND = IAD_ELEM(1,NSPMD+1)-IAD_ELEM(1,1)
@@ -662,7 +661,7 @@ C
         IF (NSPMD>1) CALL SPMD_MAX_I(IRWALL)
 C-------!!!should stop line-search if Rwall activates!!!
         IF(IRWALL>0.AND.IMCONV>=0) THEN
-          IF(IMACH/=3.OR.ISPMD==0) THEN
+          IF(ISPMD==0) THEN
             WRITE(IOUT,*)'  *--------- RIGID WALL IMPACT---------*'
             WRITE(ISTDO,*)'  *--------- RIGID WALL IMPACT---------*'
           ENDIF
@@ -829,7 +828,7 @@ C
 C
           anew_stif = 'Y'
 c
-          IF (IMACH==3.AND.NSPMD>1) THEN
+          IF (NSPMD>1) THEN
             CALL UPD_FR_K(
      1      IADK     ,JDIK     ,NDOF      ,IKC      ,IDDL     ,
      2      INLOC    ,FR_ELEM  ,IAD_ELEM  ,NDDL     )
@@ -895,19 +894,6 @@ C
      .                    IKC   ,INLOC ,NDDL0 )
 C
           IF (IMON>0) CALL STOPTIME(TIMERS,31)
-!         IF(IMACH/=3.OR.ISPMD==0) THEN
-c          IF (NCYCLE==1.AND.IMCONV==1)THEN
-c           IF (ILINE/=1)THEN
-c            WRITE(IOUT,1005)N_LIM
-c            WRITE(ISTDO,1005)N_LIM
-c            WRITE(IOUT,*)
-c            WRITE(ISTDO,*)
-c           ENDIF
-c          ELSEIF(INPRINT/=0) THEN
-c           WRITE(IOUT,1003)
-c           IF (INPRINT<0)WRITE(ISTDO,1003)
-c          ENDIF
-!         END IF
 C
           IF (ISOLV==4.OR.ISOLV==6) THEN
             CALL ARRET(5)
@@ -1151,7 +1137,7 @@ C-------------LB,A,AR devient Fext-Fint---------------------
      7              V     ,VR    ,MS     ,IN     ,IRBE3  ,
      8              LRBE3 ,FRBE3 ,WEIGHT ,IRBE2  ,LRBE2  )
 C
-        IF (IMACH==3.AND.NSPMD>1) THEN
+        IF (NSPMD>1) THEN
           ICONTA = NDDLI + NSREM
           CALL SPMD_MAX_I(ICONTA)
           IF (NBINTC>0.) THEN
@@ -1244,7 +1230,7 @@ C
 C
         IF (GAP<ZERO) THEN
           IMCONV = -2
-          IF (IMACH/=3.OR.ISPMD==0) THEN
+          IF (ISPMD==0) THEN
             WRITE(IOUT,1009)INT(-GAP)
             WRITE(ISTDO,1009)INT(-GAP)
           ENDIF
@@ -2158,7 +2144,6 @@ C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "units_c.inc"
 #include      "task_c.inc"
-#include      "scr05_c.inc"
 #include      "impl1_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -2172,7 +2157,7 @@ C-----------------------------------------------
         INTEGER NDDL0P(NSPMD),NNZK0P(NSPMD),NDDLP(NSPMD) ,
      .          NNZKP(NSPMD),NNMAXP(NSPMD),I
 C------------------------------------------
-        IF (IMACH==3.AND.NSPMD>1) THEN
+        IF (NSPMD>1) THEN
           NDDLG0 = NDDL0
           NNZKG0 = NNZK0
           NDDLG = NDDL
@@ -2780,7 +2765,6 @@ C-----------------------------------------------
 #include      "com04_c.inc"
 #include      "units_c.inc"
 #include      "task_c.inc"
-#include      "scr05_c.inc"
 #include      "com01_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -2802,7 +2786,7 @@ C-----------------------------------------------
         my_real,
      .           DIMENSION(:,:),ALLOCATABLE :: SR
 C------------------------------------------
-        IF (IMACH/=3.OR.ISPMD==0) THEN
+        IF (ISPMD==0) THEN
           WRITE(IOUT,*)
           WRITE(IOUT,*)' ** ZERO STIFFNESS CHECKING **'
           WRITE(IOUT,*)
@@ -2817,7 +2801,7 @@ C------------------------------------------
           J=ITOK(I)
           DIAG_M(J)=DIAG_M(J)+DIAG_I(I)
         ENDDO
-        IF (IMACH==3.AND.NSPMD>1)CALL SPMD_SUMF_V(DIAG_M)
+        IF (NSPMD>1)CALL SPMD_SUMF_V(DIAG_M)
         DO I=1,NDDL
           IF (DIAG_M(I)<EM10) THEN
             IF (DIAG_M(I)<=EM20) NIR =NIR +1
@@ -2825,7 +2809,7 @@ C------------------------------------------
           ENDIF
         ENDDO
 C
-        IF (IMACH==3.AND.NSPMD>1) THEN
+        IF (NSPMD>1) THEN
           S = NID
           CALL SPMD_SUM_S(S)
           NN = INT(S)
@@ -2840,7 +2824,7 @@ C
 C
         IERR = IERR + NIR
         IWAR = IWAR + NN-NIR
-        IF (IMACH/=3.OR.ISPMD==0) WRITE(IOUT,1000)NN
+        IF (ISPMD==0) WRITE(IOUT,1000)NN
         IF (NID>0) THEN
           NKC=0
           DO N = 1,NUMNOD
@@ -2852,7 +2836,7 @@ C
             ENDDO
           ENDDO
         ENDIF
-        IF (IMACH==3.AND.NSPMD>1) THEN
+        IF (NSPMD>1) THEN
           NDMAX = NID
           CALL SPMD_MAX_I(NDMAX)
           IF (NID>0) THEN
@@ -2932,7 +2916,6 @@ C-----------------------------------------------
 #include      "com04_c.inc"
 #include      "units_c.inc"
 #include      "task_c.inc"
-#include      "scr05_c.inc"
 #include      "com01_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -2954,7 +2937,7 @@ C-----------------------------------------------
         my_real,
      .           DIMENSION(:,:),ALLOCATABLE :: SR
 C------------------------------------------
-        IF (IMACH/=3.OR.ISPMD==0) THEN
+        IF (ISPMD==0) THEN
           WRITE(IOUT,*)
           WRITE(IOUT,*)' ** POSITIVE DEFINITE MATRIX CHECKING **'
           WRITE(IOUT,*)
@@ -2963,7 +2946,7 @@ C------------------------------------------
         NID=0
         IDLFT0=0
         IR=0
-        IF (IMACH==3.AND.NSPMD>1)
+        IF (NSPMD>1)
      .    CALL FR_DLFT(NDDL,IDLFT0,IDLFT1)
         DO I=1+IDLFT0,NDDL
           IF (DIAG_M(I)<EM12.OR.DIAG_M(I)>EP10) THEN
@@ -2972,7 +2955,7 @@ C------------------------------------------
           ENDIF
         ENDDO
 C
-        IF (IMACH==3.AND.NSPMD>1) THEN
+        IF (NSPMD>1) THEN
           S = NID
           CALL SPMD_SUM_S(S)
           NN = INT(S)
@@ -2986,7 +2969,7 @@ C
         ENDIF
         IERR = IERR + IR
         IWAR = IWAR + NN-IR
-        IF (IMACH/=3.OR.ISPMD==0) WRITE(IOUT,1000)NN
+        IF (ISPMD==0) WRITE(IOUT,1000)NN
         IF (NID>0) THEN
           NKC=0
           DO N = 1,NUMNOD
@@ -2999,7 +2982,7 @@ C
           ENDDO
         ENDIF
 C
-        IF (IMACH==3.AND.NSPMD>1) THEN
+        IF (NSPMD>1) THEN
           NDMAX = NID
           CALL SPMD_MAX_I(NDMAX)
           ALLOCATE(SR(3,NID))
@@ -3174,7 +3157,6 @@ C-----------------------------------------------
 #include "param_c.inc"
 #include "com01_c.inc"
 #include "com04_c.inc"
-#include "scr05_c.inc"
 #include "units_c.inc"
 #include "task_c.inc"
 C-----------------------------------------------
@@ -3342,7 +3324,7 @@ C----------------------------------
      5                   FTHREAC ,NODREAC ,TH_SURF    ,
      6                   DPL0CLD ,VEL0CLD ,D          ,DR         ,NCONLD     ,
      7                   NUMNOD  ,NFUNCT  ,STF        ,WFEXT)
-          IF (IMACH==3.AND.NSPMD>1) THEN
+          IF (NSPMD>1) THEN
             DO I=IAD_ELEM(1,1),IAD_ELEM(1,NSPMD+1)-1
               J = FR_ELEM(I)
               N1 = 3*(J-1)+1
@@ -3354,7 +3336,7 @@ C----------------------------------
             ENDDO
           ENDIF
         ENDIF
-        IF (IMACH==3.AND.NSPMD>1) THEN
+        IF (NSPMD>1) THEN
           CALL SPMD_MAX_I(NCL_MAX)
           IF (NCL_MAX>0) THEN
             LBAND = IAD_ELEM(1,NSPMD+1)-IAD_ELEM(1,1)
@@ -3410,9 +3392,9 @@ C-------------U_d--> rigid wall-------------------------------
           ENDIF
         ENDIF
         NTMP = NT_RW
-        IF (IMACH==3.AND.NSPMD>1) CALL SPMD_MAX_I(NTMP)
+        IF (NSPMD>1) CALL SPMD_MAX_I(NTMP)
         IF(NTMP>0) THEN
-          IF(IMACH/=3.OR.ISPMD==0) THEN
+          IF(ISPMD==0) THEN
             WRITE(IOUT,*)'  *--------- RIGID WALL IMPACT---------*'
           ENDIF
         ENDIF
@@ -3453,7 +3435,7 @@ C----------------------------------
 C       MATRICE DE RIGIDITE
 C----------------------------------
         IF (ISETK==1) THEN
-          IF (IMACH/=3.OR.ISPMD==0) THEN
+          IF (ISPMD==0) THEN
             WRITE(ISTDO,*)' * FINIT ELEMENT CHECKING '
             WRITE(IOUT,*)' ** FINIT ELEMENT CHECKING **'
             WRITE(IOUT,*)
@@ -3530,7 +3512,7 @@ C------ 1er VP: for dt check
      C    IRBE3     ,LRBE3     ,FRBE3      ,IKINW(LI13),IRBE2    ,
      D    LRBE2     ,IKINW(LI14),IKINW(LI15))
 
-          IF (IMACH==3.AND.NSPMD>1) THEN
+          IF (NSPMD>1) THEN
             CALL UPD_FR_K(
      1      IADK     ,JDIK     ,NDOF      ,IKC      ,IDDL     ,
      2      INLOC    ,FR_ELEM  ,IAD_ELEM  ,NDDL     )
@@ -3641,7 +3623,7 @@ C-------------LB,A,AR becomes Fext-Fint---------------------
      7               V     ,VR    ,MS         ,IN     ,IRBE3  ,
      8               LRBE3 ,FRBE3 ,WEIGHT     ,IRBE2  ,LRBE2  )
 
-        IF (IMACH==3.AND.NSPMD>1) THEN
+        IF (NSPMD>1) THEN
           IF (NBINTC>0.) THEN
             ICONTA = NDDLI + NSREM
             CALL SPMD_MAX_I(ICONTA)
@@ -3671,7 +3653,7 @@ C-------------LB,A,AR becomes Fext-Fint---------------------
         ENDIF
         IF (GAP<ZERO) THEN
           IMCONV = -2
-          IF (IMACH/=3.OR.ISPMD==0) THEN
+          IF (ISPMD==0) THEN
             WRITE(IOUT,1009)INT(-GAP)
             WRITE(ISTDO,1009)INT(-GAP)
           ENDIF

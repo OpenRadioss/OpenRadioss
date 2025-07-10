@@ -128,7 +128,7 @@ C-----------------------------------------------
       LOGICAL lFOUND
       INTEGER KFRAME, IMESH_ALL, ISWITCH, NBX, NBY, NBZ, IBRIC
       INTEGER IREF, IGMERG, ILVOUT, NLAYER, NFACMAX, NPPMAX, IFVANI
-      INTEGER I1,I2,I3, I4, IGBRIC, NBRIC, NN, ISH34
+      INTEGER I1,I2,I3, I4, NBRIC, NN, ISH34
       my_real TSWITCH, PSWITCH, LX, LY, LZ, CNMERG, QA, QB, PTOLE,HMIN, CFL_COEF, DTMIN, SJET, CGMERG
       my_real NX, NY, NZ, XX, YY, ZZ, X13, Y13, Z13, X24, Y24, Z24
       my_real ORIGX, ORIGY, ORIGZ, DIR2X, DIR2Y, DIR2Z, DIR, DS, DIRX, DIRY, DIRZ
@@ -1245,9 +1245,6 @@ C-----------------------------------------------
  1401 FORMAT(
      .     5X,'INITIAL THERMODYNAMIC EQUILIBRIUM IS SET AT TIME 0'
      .     /5X,'--------------------------------------------------'/)
- 1402 FORMAT(
-     .     5X,'INITIAL THERMODYNAMIC EQUILIBRIUM IS SET AT INJECTION TIME'
-     .     /5X,'----------------------------------------------------------'/)
  1404 FORMAT(
      .     5X,'THERMODYNAMIC EQUILIBRIUM IS SET EVERY CYCLE UP TO INJECTION TIME'/)
  1405 FORMAT(
@@ -1290,44 +1287,11 @@ C-----------------------------------------------
  1445 FORMAT(
      .     15X,'INFLATOR SURFACE ID . . . . . . . . . .=',I10,
      .     /15X,'INITIAL SURFACE OF INFLATOR . . . . . .=',1PG20.13)
- 1455 FORMAT(
-     .     /10X,'JETTING OPTION. . . . . . . . . . . . .=',I10,
-     .     /10X,'----------------------------------------')
- 1460 FORMAT(
-     .     15X,'CONICAL JET . . . . . . . . . . . . . .',
-     .     /15X,'NODE NUMBER DEFINING INJECTION CENTER .=',I10,
-     .     /15X,'NODE NUMBER DEFINING INJECTION AXIS . .=',I10,
-     .     /15X,'JETTING PRESSURE TIME CURVE NUMBER. . .=',I10,
-     .     /15X,'JETTING PRESSURE THETA CURVE NUMBER . .=',I10,
-     .     /15X,'JETTING PRESSURE DIST. CURVE NUMBER . .=',I10,
-     .     /15X,'TIME FUNCTION SCALE FACTOR          . .=',1PG20.13,
-     .     /15X,'THETA FUNCTION SCALE FACTOR         . .=',1PG20.13,
-     .     /15X,'DIST FUNCTION SCALE FACTOR          . .=',1PG20.13/)
- 1461 FORMAT(
-     .     15X,'DIHEDRAL JET. . . . . . . . . . . . . .',
-     .     /15X,'NODE NUMBER DEFINING INJECTION CENTER .=',I10,
-     .     /15X,'NODE NUMBER DEFINING INJECTION AXIS . .=',I10,
-     .     /15X,'NODE NUMBER DEFINING BASE LINE. . . . .=',I10,
-     .     /15X,'JETTING PRESSURE TIME CURVE NUMBER. . .=',I10,
-     .     /15X,'JETTING PRESSURE THETA CURVE NUMBER . .=',I10,
-     .     /15X,'JETTING PRESSURE DIST. CURVE NUMBER . .=',I10,
-     .     /15X,'TIME FUNCTION SCALE FACTOR          . .=',1PG20.13 
-     .     /15X,'THETA FUNCTION SCALE FACTOR         . .=',1PG20.13,
-     .     /15X,'DIST FUNCTION SCALE FACTOR          . .=',1PG20.13)
  1470 FORMAT(
      .     /5X,'VENT HOLES AND POROUS FABRIC SURFACES   ',
      .     /5X,'-------------------------------------   ',
      .     /5X,'NUMBER OF VENT HOLES AND POROUS SURFACES . .=',I10,
      .     /5X,'INJECTION TIME TINJ. . . . . . . . . . . . .=',1PG20.13)
- 1471 FORMAT(
-     .     5X,'VENTING START TIME SHIFT . . . . . . . . . .=',I10,
-     .     /5X,'  0 : NO SHIFT',
-     .     /5X,'  1 : JETTING FUNCTIONS ARE SHIFTED BY INJECTION TIME',
-     .     /5X,'  2 : JETTING AND VENTING FUNCTIONS ARE SHIFTED BY',
-     .     /5X,'      INJECTION TIME TINJ',
-     .     /5X,'  3 : JETTING AND VENTING FUNCTIONS ARE SHIFTED',
-     .     /5X,'      BY TINJ FOR JETTING FUNCTIONS',
-     .     /5X,'      BY TINJ+TSTART FOR VENTING FUNCTIONS')
  1472 FORMAT(
      .     / 5X,'VENT HOLE NUMBER. . . . . . . . . . . .=',I10,
      .     /15X,'VENT HOLE SURFACE ID. . . . . . . . . .=',I10)

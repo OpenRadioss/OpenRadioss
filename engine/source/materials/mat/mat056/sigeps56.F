@@ -100,7 +100,6 @@ C---------+---------+---+---+--------------------------------------------
 #include      "param_c.inc"
 #include      "parit_c.inc"
 #include      "scr17_c.inc"
-#include      "scr05_c.inc"
 #include      "com01_c.inc"
 #include      "com08_c.inc"
 #include      "units_c.inc"
@@ -375,7 +374,7 @@ C
       CALL VINTER(TF,IAD2,IPOS2,ILEN2,NEL,PLA,DYDX2,Y2)
 C
 C---  PRESSURE DEPENDENT YIELD FUNCTION FACTOR
-      IF (IPFLAG==NEL.AND.(IMACH/=3.OR.IPARIT==0)) THEN
+      IF (IPFLAG==NEL.AND.(IPARIT==0)) THEN
 C------- to optimize in SPMD & PARIT/ON case add a global flag 
 C        in a case of homogeneous element groups (to do if needed)
         DO I=1,NEL

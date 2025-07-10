@@ -55,7 +55,6 @@ C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
 #include      "com08_c.inc"
-#include      "scr05_c.inc"
 #include      "task_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -186,7 +185,7 @@ C
         ENDIF
         IF(IDEF==1 .AND. TT>=TSTOPE+TTF) THEN
          IDEF=0
-         IF(IMACH/=3.OR.ISPMD+1==PMAIN) THEN
+         IF(ISPMD+1==PMAIN) THEN
           WRITE(IOUT,*) ' *** AIRBAG VENTING STOPS ***'
           WRITE(IOUT,*) ' *** MONITORED VOLUME ',IVOLU(1),
      .                ' VENT HOLES MEMBRANE NUMBER ',IV,' ***'
@@ -228,7 +227,7 @@ C
         ENDIF
         IF(IDEF==1 .AND. TT>=TSTOPE) THEN
          IDEF=0
-         IF(IMACH/=3.OR.ISPMD+1==PMAIN) THEN
+         IF(ISPMD+1==PMAIN) THEN
           WRITE(IOUT,*) ' *** AIRBAG VENTING STOPS ***'
           WRITE(IOUT,*) ' *** MONITORED VOLUME ',IVOLU(1),
      .                ' VENT HOLES MEMBRANE NUMBER ',IV,' ***'
@@ -337,8 +336,7 @@ C
           FVDP=RBAGHOL(13,IV)
           U=FVDP*GET_U_FUNC(IVDP,(P-PEXT)*SCALP,DERI)
           FCHEMK= FCHEMK+(AOUT+AOUT1)*U
-          IF(IMACH/=3.OR.ISPMD+1==PMAIN)
-     .      RBAGHOL(18,IV)=U
+          IF(ISPMD+1==PMAIN) RBAGHOL(18,IV)=U
          ENDIF
         ENDIF
         IBAGHOL(1,IV)=IDEF

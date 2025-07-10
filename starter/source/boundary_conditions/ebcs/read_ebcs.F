@@ -76,7 +76,6 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "units_c.inc"
 #include      "com04_c.inc"
-#include      "scr05_c.inc"
 #include      "titr_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -253,24 +252,22 @@ C-----------------------------------------------
          ENDIF
          IF (EBCS_TAB%tab(II)%poly%surf_id > 0) THEN
             CALL EBCS_TAB%tab(II)%poly%set_nodes_elems(IGRSURF(JJ)%NSEG, NUMNOD, IGRSURF(JJ)%NODES)         
-            IF (IMACH == 3) THEN
 
-              IS_EBCS_PARALLEL = .FALSE.
-              IF(EBCS_TAB%tab(II)%poly%type == 10 .OR. EBCS_TAB%tab(II)%poly%type == 11)THEN
-                IS_EBCS_PARALLEL = .TRUE.
-              ENDIF
-
-              IF(.NOT. IS_EBCS_PARALLEL) THEN
-                DO JJ = 1, EBCS_TAB%tab(II)%poly%nb_node
-                  CALL IFRONTPLUS(EBCS_TAB%tab(II)%poly%node_list(jj), 1)
-                ENDDO
-              ENDIF
-
-              DO JJ = 1, EBCS_TAB%tab(II)%poly%nb_node
-                FLAGKIN(EBCS_TAB%tab(II)%poly%node_list(jj)) = 1
-              ENDDO
-
+            IS_EBCS_PARALLEL = .FALSE.
+            IF(EBCS_TAB%tab(II)%poly%type == 10 .OR. EBCS_TAB%tab(II)%poly%type == 11)THEN
+              IS_EBCS_PARALLEL = .TRUE.
             ENDIF
+
+            IF(.NOT. IS_EBCS_PARALLEL) THEN
+              DO JJ = 1, EBCS_TAB%tab(II)%poly%nb_node
+                CALL IFRONTPLUS(EBCS_TAB%tab(II)%poly%node_list(jj), 1)
+              ENDDO
+            ENDIF
+
+            DO JJ = 1, EBCS_TAB%tab(II)%poly%nb_node
+              FLAGKIN(EBCS_TAB%tab(II)%poly%node_list(jj)) = 1
+            ENDDO
+
          ELSE
            !     error
          ENDIF

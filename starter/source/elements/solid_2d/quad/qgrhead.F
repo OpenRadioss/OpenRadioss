@@ -68,7 +68,6 @@ C-----------------------------------------------
 #include      "vect01_c.inc"
 #include      "com04_c.inc"
 #include      "param_c.inc"
-#include      "scr05_c.inc"
 #include      "scr17_c.inc"
 C-----------------------------------------------
 C   D U M M Y   A R G U M E N T S
@@ -203,7 +202,7 @@ C IRB = 2 : elem inactif mais optimise pour etre actif en SPMD
         IRB = IQUAOFF(I)       
 C
 C NPT = 1 ; JHBE = 0 ; JIVF = 0 et JLAG non utilise
-Clef 1---------------------------------
+C Key 1---------------------------------
         JPOR=MY_SHIFTL(JPOR,0)
         JTHE=MY_SHIFTL(JTHE,3)
         JTUR=MY_SHIFTL(JTUR,6)
@@ -212,7 +211,7 @@ Clef 1---------------------------------
         MLN=MY_SHIFTL(MLN,21)
 c        IRB=MY_SHIFTL(IRB,0)
         ITRI(1,I)=MLN+JALE+JEUL+JTUR+JTHE+JPOR+IRB 
-Clef 2---------------------------------
+C Key 2---------------------------------
         IPLAST=MY_SHIFTL(IPLAST,0)
         IFAIL = MY_SHIFTL(IFAIL,3)
         ML1=MY_SHIFTL(ML1,5)
@@ -220,11 +219,11 @@ Clef 2---------------------------------
         IGT=MY_SHIFTL(IGT,21)
         JCVT=MY_SHIFTL(JCVT,28)
         ITRI(2,I)=IPLAST+ML1+ML2+IGT+JCVT + IFAIL
-Clef 3---------------------------------
+C Key 3---------------------------------
         ITRI(3,I)=MID
-Clef 4---------------------------------
+C Key 4---------------------------------
         ITRI(4,I)=PID
-Clef 5---------------------------------
+C Key 5---------------------------------
         IEOS = MY_SHIFTL(IEOS,0) 
 C       next = MY_SHIFTL(next,4) 
         ITRI(5,I)=IEOS
@@ -238,11 +237,9 @@ C
         IPARTQ(I) =INUM(1,INDEX(I))
         IQUAOFF(I) = INUM(9,INDEX(I))
       ENDDO
-      IF (IMACH==3) THEN
-        DO I=1,NUMELQ
-          CEP(I)=XEP(INDEX(I))
-        ENDDO
-      ENDIF
+      DO I=1,NUMELQ
+        CEP(I)=XEP(INDEX(I))
+      ENDDO
       DO  K=1,7
         DO  I=1,NUMELQ
           IXQ(K,I)=INUM(K+1,INDEX(I))
@@ -250,7 +247,7 @@ C
       ENDDO
 
 C
-C INVERSION DE INDEX (DANS ITR1)
+C INVERSE OF INDEX (ITR1)
 C
       DO I=1,NUMELQ
         ITR1(INDEX(I))=I
@@ -258,17 +255,16 @@ C
 
 
 C
-C RENUMEROTATION POUR SURFACES
+C SURFACE RENUMBERING
 C
       DO I=1,NSURF
         NN=IGRSURF(I)%NSEG
         DO J=1,NN
-          IF(IGRSURF(I)%ELTYP(J) == 2)
-     .       IGRSURF(I)%ELEM(J) = ITR1(IGRSURF(I)%ELEM(J))
+          IF(IGRSURF(I)%ELTYP(J) == 2) IGRSURF(I)%ELEM(J) = ITR1(IGRSURF(I)%ELEM(J))
         ENDDO
       ENDDO
 C
-C RENUMEROTATION POUR GROUPES DE SOLIDES
+C RSOLID GROUPS RENUMBERING
 C
       DO I=1,NGRQUAD
         NN=IGRQUAD(I)%NENTITY
@@ -278,7 +274,7 @@ C
       ENDDO
 C
 C--------------------------------------------------------------
-C         DETERMINATION DES SUPER_GROUPES
+C         BUILDING SUPER GROUPS
 C--------------------------------------------------------------
       ND=1
       DO I=2,NUMELQ

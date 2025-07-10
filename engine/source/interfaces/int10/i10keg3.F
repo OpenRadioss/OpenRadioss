@@ -56,7 +56,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "scr05_c.inc"
 #include      "com01_c.inc"
 #include      "com08_c.inc"
 #include      "impl1_c.inc"
@@ -403,7 +402,7 @@ C
        DO I=1,JLT
         OFF(I)=ONE
        ENDDO
-       IF (IMACH==3.AND.NSPMD>1) THEN
+       IF (NSPMD>1) THEN
        IF ((INTP_D)>0) THEN
         DO I=1,JLT
          IF(NSVG(I)<0) THEN
@@ -634,7 +633,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "scr05_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -881,30 +879,21 @@ C--------main part-------
         A(3,IX4(I))=A(3,IX4(I))+FZ*H4(I)
        ENDDO
 C--------secnd part-------
-      IF(IMACH/=3) THEN
-        DO I=1,JLT
-          IG=NSVG(I)
+       DO I=1,JLT
+         IG=NSVG(I)
+         IF(IG>0)THEN
           A(1,IG)=A(1,IG)-FXI(I)
           A(2,IG)=A(2,IG)-FYI(I)
           A(3,IG)=A(3,IG)-FZI(I)
-        ENDDO
-       ELSE 
-        DO I=1,JLT
-          IG=NSVG(I)
-          IF(IG>0)THEN
-           A(1,IG)=A(1,IG)-FXI(I)
-           A(2,IG)=A(2,IG)-FYI(I)
-           A(3,IG)=A(3,IG)-FZI(I)
-            ELSE
-             NN=-IG
-             NS=IND_INT(NIN)%P(NN)
-C---------
-             FFI(1,NS)=FFI(1,NS)-FXI(I)
-             FFI(2,NS)=FFI(2,NS)-FYI(I)
-             FFI(3,NS)=FFI(3,NS)-FZI(I)
-          ENDIF
-        ENDDO
-       END IF
+           ELSE
+            NN=-IG
+            NS=IND_INT(NIN)%P(NN)
+            FFI(1,NS)=FFI(1,NS)-FXI(I)
+            FFI(2,NS)=FFI(2,NS)-FYI(I)
+            FFI(3,NS)=FFI(3,NS)-FZI(I)
+         ENDIF
+       ENDDO
+
 C
       RETURN
       END

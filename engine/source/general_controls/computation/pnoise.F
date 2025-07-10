@@ -44,7 +44,6 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "scrnoi_c.inc"
 #include      "com01_c.inc"
-#include      "scr05_c.inc"
 #include      "task_c.inc"
 #include      "param_c.inc"
 C-----------------------------------------------
@@ -73,7 +72,7 @@ C
         WA(I)=WA(I)+ GBUF%SIG(IEL) + GBUF%SIG(IEL+NEL) + GBUF%SIG(IEL+2*NEL)
        ENDDO       
       ENDDO
-      IF(IMACH/=3.OR.NSPMD==1) THEN
+      IF(NSPMD==1) THEN
         DO I=1,NNOISE
           K=NOIADD(I+1)-NOIADD(I)
           IF(K>0)WA(I)=WA(I)/THREE/FLOAT(K)

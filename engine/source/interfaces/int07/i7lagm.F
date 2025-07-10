@@ -58,7 +58,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "scr05_c.inc"
 #include      "units_c.inc"
 #include      "com08_c.inc"
       COMMON /LAGGLOB/N_MULT
@@ -227,10 +226,9 @@ C
 C---------------------
 C
       DO I=1,JLT
-       IF( (GAPV(I)-PENE(I))/GAPV(I) <EM10 .AND. 
-     .     STIF(I)>ZERO) THEN
+       IF( (GAPV(I)-PENE(I))/GAPV(I) <EM10 .AND.  STIF(I)>ZERO) THEN
          STIF(I) = ZERO
-         IF (IMACH==3) NEWFRONT = -1
+         NEWFRONT = -1
 #include "lockon.inc"
             STFN(CN_LOC(I)) = -ABS(STFN(CN_LOC(I)))
 

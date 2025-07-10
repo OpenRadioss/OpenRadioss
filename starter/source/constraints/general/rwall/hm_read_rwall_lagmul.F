@@ -97,14 +97,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER N, ITYP, ITIED, NSL, NUSER, MSR, J, I,
-     .   L, IGU,IGU2, IGRS, NOSYS, IFQ, JC, UID,
-     .   IFLAGUNIT,SUB_ID, SUB_INDEX
-      my_real
-     .   DIST, FRIC, DIAM, XMAS, VX, VY, VZ, XM1, YM1, ZM1,
-     .   XN, X1, Y1, Z1, DISN, X2, Y2, Z2, X3, FREQ, ALPHA, FAC_M_R2R
+      INTEGER N, ITYP, ITIED, NSL, NUSER, MSR, J, I,L, IGU,IGU2, IGRS, NOSYS, IFQ, JC, UID,IFLAGUNIT,SUB_ID, SUB_INDEX
+      my_real :: DIST, FRIC, DIAM, XMAS, VX, VY, VZ, XM1, YM1, ZM1
+      my_real :: XN, X1, Y1, Z1, DISN, X2, X3, FREQ, ALPHA, FAC_M_R2R
       CHARACTER MESS*40
-      CHARACTER(LEN=NCHARKEY) :: OPT
       CHARACTER(LEN=NCHARTITLE) :: TITR
       LOGICAL :: IS_AVAILABLE
 C-----------------------------------------------

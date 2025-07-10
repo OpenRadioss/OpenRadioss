@@ -53,7 +53,6 @@ C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
 #include      "param_c.inc"
-#include      "scr05_c.inc"
 #include      "task_c.inc"
 #include      "units_c.inc"
 #include      "impl1_c.inc"
@@ -87,7 +86,7 @@ C-------IMONV(NMONV)--nb de noeuds dans chaque mv.----------------------
         NTYP=MONVOL(K1+1)
         IMONV(I)=0
         IF(NTYP==3) THEN
-         IF(IMACH==3.AND.FR_MV(ISPMD+1,I)==0) GO TO 100
+         IF(FR_MV(ISPMD+1,I)==0) GO TO 100
          IS   = MONVOL(K1+3)
          NN = IGRSURF(IS)%NSEG
          NUMN = NUMN_MV
@@ -106,7 +105,7 @@ C-------IMONV(NMONV)--nb de noeuds dans chaque mv.----------------------
          IMONV(I)=NUMN_MV - NUMN
          IF (IMONV(I)>0) NMONV = NMONV+1
         ELSEIF (NEIG==ZERO) THEN
-         IF(IMACH/=3.OR.ISPMD==0) THEN
+         IF(ISPMD==0) THEN
           WRITE(IOUT,1001)NTYP
           WRITE(ISTDO,1001)NTYP
          ENDIF
@@ -1787,7 +1786,6 @@ C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
 #include      "param_c.inc"
-#include      "scr05_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -1848,15 +1846,11 @@ C-----------calcul VOL,PRESS------
           NOR(3,J)=HALF*(X13*Y24-X24*Y13)
           VOL= VOL+THIRD*(NOR(1,J)*XX+NOR(2,J)*YY+NOR(3,J)*ZZ)
          ENDDO
-          IF(IMACH==3) THEN
-cow51g8+1
-           IF (NSPMD > 1) THEN
-            TEMP = VOL
-            CALL SPMD_FR_POFF(FR_MV(1,I),TEMP,1)
-            VOL = TEMP
-cow51g8+1
-           ENDIF
-          ENDIF
+         IF (NSPMD > 1) THEN
+          TEMP = VOL
+          CALL SPMD_FR_POFF(FR_MV(1,I),TEMP,1)
+          VOL = TEMP
+         ENDIF
          CALL IMP_PVGA(MONVOL(K1),VOLMON(KK1),VOL ,DPRES)
 C-----------noeud independant -> W------
         IF (DPRES/=ZERO) THEN

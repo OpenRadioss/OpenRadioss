@@ -62,7 +62,6 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com04_c.inc"
 #include      "param_c.inc"
-#include      "scr05_c.inc"
 #include      "scr17_c.inc"
 #include      "remesh_c.inc"
 C-----------------------------------------------
@@ -158,41 +157,22 @@ C---------------------
       ENDIF
 C
       IF(NELS+NELC+NELTG==0)THEN
-       IF (IMACH/=3) THEN
-         IF(NINT>0) THEN
-            CALL ANCMSG(MSGID=92,
-     .                  MSGTYPE=MSGWARNING,
-     .                  ANMODE=ANINFO_BLIND_2,
-     .                  I1=ID,
-     .                  C1=TITR,
-     .                  I2=I)
-         ENDIF
-         IF(NINT<0) THEN
-            CALL ANCMSG(MSGID=93,
-     .                  MSGTYPE=MSGWARNING,
-     .                  ANMODE=ANINFO_BLIND_2,
-     .                  I1=ID,
-     .                  C1=TITR,
-     .                  I2=I)
-         ENDIF
-       ELSE
-         IF(NINT>0) THEN
-            CALL ANCMSG(MSGID=481,
-     .                  MSGTYPE=MSGERROR,
-     .                  ANMODE=ANINFO_BLIND_2,
-     .                  I1=ID,
-     .                  C1=TITR,
-     .                  I2=I)
-         ENDIF
-         IF(NINT<0) THEN
-            CALL ANCMSG(MSGID=482,
-     .                  MSGTYPE=MSGERROR,
-     .                  ANMODE=ANINFO_BLIND_2,
-     .                  I1=ID,
-     .                  C1=TITR,
-     .                  I2=I)
-         ENDIF
-       ENDIF
+        IF(NINT>0) THEN
+           CALL ANCMSG(MSGID=481,
+     .                 MSGTYPE=MSGERROR,
+     .                 ANMODE=ANINFO_BLIND_2,
+     .                 I1=ID,
+     .                 C1=TITR,
+     .                 I2=I)
+        ENDIF
+        IF(NINT<0) THEN
+           CALL ANCMSG(MSGID=482,
+     .                 MSGTYPE=MSGERROR,
+     .                 ANMODE=ANINFO_BLIND_2,
+     .                 I1=ID,
+     .                 C1=TITR,
+     .                 I2=I)
+        ENDIF
       ENDIF
   250 CONTINUE
       DO 500 I=1,NRTM
@@ -263,24 +243,7 @@ C---------------------
      .            PM_STACK , IWORKSH )
 C
       IF(NELS+NELC+NELTG==0)THEN
-       IF (IMACH/=3) THEN
-         IF(NINT>0) THEN
-            CALL ANCMSG(MSGID=92,
-     .                  MSGTYPE=MSGWARNING,
-     .                  ANMODE=ANINFO_BLIND_2,
-     .                  I1=ID,
-     .                  C1=TITR,
-     .                  I2=I)
-         ENDIF
-         IF(NINT<0) THEN
-            CALL ANCMSG(MSGID=93,
-     .                  MSGTYPE=MSGWARNING,
-     .                  ANMODE=ANINFO_BLIND_2,
-     .                  I1=ID,
-     .                  C1=TITR,
-     .                  I2=I)
-         ENDIF
-       ELSE
+
          IF(NINT>0) THEN
             CALL ANCMSG(MSGID=481,
      .                  MSGTYPE=MSGERROR,
@@ -297,7 +260,7 @@ C
      .                  C1=TITR,
      .                  I2=I)
          ENDIF
-       ENDIF
+
       ELSE
         IF(NELS/=0)  THEN
           IELEM21(NELS)=1

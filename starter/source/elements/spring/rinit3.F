@@ -651,14 +651,13 @@ C----
 C=======================================================================
       ELSEIF (IGTYP == 12) THEN
 C=======================================================================
-         CALL RMAS12 (IXR         ,GEO,XMAS        ,XIN,PARTSAV     ,
+         CALL RMAS12 (IXR         ,GEO,PARTSAV     ,
      2                X           ,V  ,IPART(NFT+1),XL ,MSR(1,NFT+1),
      3                INR(1,NFT+1),MSRT)
         IDS = 457
         CNT1 = 0
         CNT2 = 0
-        CALL R3BUF3(GBUF%OFF,GEO  ,X ,GBUF%LENGTH(II(1)) ,IXR ,GBUF%POSX,
-     .              IGEO    ,ITAB )
+        CALL R3BUF3(GBUF%OFF,GEO  ,X ,GBUF%LENGTH(II(1)) ,IXR ,GBUF%POSX,IGEO    ,ITAB )
         NSPRG = NSPRG + CNT2
         IF (INISPRI /= 0) 
      .    CALL R4INI(SIGRS        ,IXR        ,NSIGRS          ,GBUF%EINT       ,GBUF%FOR   ,
@@ -1866,24 +1865,19 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
-#include      "scr05_c.inc"
 #include      "vect01_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IXR(NIXR,*),IPART(*)
-      my_real
-     .   UMASS(*),UINER(*), MS(*), XIN(*),X(3,*),V(3,*),
-     .   PARTSAV(20,*), MSR(3,*), INR(3,*), MSRT(*),EMS(*)
+      my_real :: UMASS(*),UINER(*), MS(*), XIN(*),X(3,*),V(3,*)
+      my_real :: PARTSAV(20,*), MSR(3,*), INR(3,*), MSRT(*),EMS(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, IP,I1,I2
-C     REAL
-      my_real
-     .   XX,YY,ZZ,XY,YZ,ZX
-      my_real
-     .   XI
+      my_real :: XX,YY,ZZ,XY,YZ,ZX
+      my_real :: XI
 C---------------------------------------------------------------------
 C----------------------------------------------
 C     MASSE ELEMENT /2
@@ -1895,81 +1889,43 @@ C----------------------------------------------
 C     INITIALISATION DES MASSES NODALES
 C----------------------------------------------
 C     traitement specifique spmd pour mass et iner parith/on
-      IF (IMACH /= 3) THEN
-        DO I=LFT,LLT
-          I1 = IXR(2,I+NFT)
-          I2 = IXR(3,I+NFT)
+      DO I=LFT,LLT
+        I1 = IXR(2,I+NFT)
+        I2 = IXR(3,I+NFT)
 C
-          XI=HALF*UINER(I)
-          MS(I1)=MS(I1)+EMS(I)
-          MS(I2)=MS(I2)+EMS(I)
-          XIN(I1)=XIN(I1)+XI
-          XIN(I2)=XIN(I2)+XI
+        XI=HALF*UINER(I)
+        MSR(1,I)=EMS(I)
+        MSR(2,I)=EMS(I)
+        MSR(3,I)=EMS(I)
+        INR(1,I)=XI
+        INR(2,I)=XI
+        INR(3,I)=XI
 C
-          IP=IPART(I)
-          PARTSAV(1,IP)=PARTSAV(1,IP) + TWO*EMS(I)
-          PARTSAV(2,IP)=PARTSAV(2,IP) + EMS(I)*(X(1,I1)+X(1,I2))
-          PARTSAV(3,IP)=PARTSAV(3,IP) + EMS(I)*(X(2,I1)+X(2,I2))
-          PARTSAV(4,IP)=PARTSAV(4,IP) + EMS(I)*(X(3,I1)+X(3,I2))
-          XX = (X(1,I1)*X(1,I1)+X(1,I2)*X(1,I2))
-          XY = (X(1,I1)*X(2,I1)+X(1,I2)*X(2,I2))
-          YY = (X(2,I1)*X(2,I1)+X(2,I2)*X(2,I2))
-          YZ = (X(2,I1)*X(3,I1)+X(2,I2)*X(3,I2))
-          ZZ = (X(3,I1)*X(3,I1)+X(3,I2)*X(3,I2))
-          ZX = (X(3,I1)*X(1,I1)+X(3,I2)*X(1,I2))
-          PARTSAV(5,IP) =PARTSAV(5,IP) + TWO*XI + EMS(I) * (YY+ZZ)
-          PARTSAV(6,IP) =PARTSAV(6,IP) + TWO*XI + EMS(I) * (ZZ+XX)
-          PARTSAV(7,IP) =PARTSAV(7,IP) + TWO*XI + EMS(I) * (XX+YY)
-          PARTSAV(8,IP) =PARTSAV(8,IP)  - EMS(I) * XY
-          PARTSAV(9,IP) =PARTSAV(9,IP)  - EMS(I) * YZ
-          PARTSAV(10,IP)=PARTSAV(10,IP) - EMS(I) * ZX
+        IP=IPART(I)
+        PARTSAV(1,IP)=PARTSAV(1,IP) + TWO*EMS(I)
+        PARTSAV(2,IP)=PARTSAV(2,IP) + EMS(I)*(X(1,I1)+X(1,I2))
+        PARTSAV(3,IP)=PARTSAV(3,IP) + EMS(I)*(X(2,I1)+X(2,I2))
+        PARTSAV(4,IP)=PARTSAV(4,IP) + EMS(I)*(X(3,I1)+X(3,I2))
+        XX = (X(1,I1)*X(1,I1)+X(1,I2)*X(1,I2))
+        XY = (X(1,I1)*X(2,I1)+X(1,I2)*X(2,I2))
+        YY = (X(2,I1)*X(2,I1)+X(2,I2)*X(2,I2))
+        YZ = (X(2,I1)*X(3,I1)+X(2,I2)*X(3,I2))
+        ZZ = (X(3,I1)*X(3,I1)+X(3,I2)*X(3,I2))
+        ZX = (X(3,I1)*X(1,I1)+X(3,I2)*X(1,I2))
+        PARTSAV(5,IP) =PARTSAV(5,IP) + TWO*XI + EMS(I) * (YY+ZZ)
+        PARTSAV(6,IP) =PARTSAV(6,IP) + TWO*XI + EMS(I) * (ZZ+XX)
+        PARTSAV(7,IP) =PARTSAV(7,IP) + TWO*XI + EMS(I) * (XX+YY)
+        PARTSAV(8,IP) =PARTSAV(8,IP)  - EMS(I) * XY
+        PARTSAV(9,IP) =PARTSAV(9,IP)  - EMS(I) * YZ
+        PARTSAV(10,IP)=PARTSAV(10,IP) - EMS(I) * ZX
 C
-          PARTSAV(11,IP)=PARTSAV(11,IP) + EMS(I)*(V(1,I1)+V(1,I2))
-          PARTSAV(12,IP)=PARTSAV(12,IP) + EMS(I)*(V(2,I1)+V(2,I2))
-          PARTSAV(13,IP)=PARTSAV(13,IP) + EMS(I)*(V(3,I1)+V(3,I2))
-          PARTSAV(14,IP)=PARTSAV(14,IP) + HALF * EMS(I) *
-     .       (V(1,I1)*V(1,I1)+V(2,I1)*V(2,I1)+V(3,I1)*V(3,I1)
-     .       +V(1,I2)*V(1,I2)+V(2,I2)*V(2,I2)+V(3,I2)*V(3,I2))
-        ENDDO
-      ELSE
-        DO I=LFT,LLT
-          I1 = IXR(2,I+NFT)
-          I2 = IXR(3,I+NFT)
-C
-          XI=HALF*UINER(I)
-          MSR(1,I)=EMS(I)
-          MSR(2,I)=EMS(I)
-          MSR(3,I)=EMS(I)
-          INR(1,I)=XI
-          INR(2,I)=XI
-          INR(3,I)=XI
-C
-          IP=IPART(I)
-          PARTSAV(1,IP)=PARTSAV(1,IP) + TWO*EMS(I)
-          PARTSAV(2,IP)=PARTSAV(2,IP) + EMS(I)*(X(1,I1)+X(1,I2))
-          PARTSAV(3,IP)=PARTSAV(3,IP) + EMS(I)*(X(2,I1)+X(2,I2))
-          PARTSAV(4,IP)=PARTSAV(4,IP) + EMS(I)*(X(3,I1)+X(3,I2))
-          XX = (X(1,I1)*X(1,I1)+X(1,I2)*X(1,I2))
-          XY = (X(1,I1)*X(2,I1)+X(1,I2)*X(2,I2))
-          YY = (X(2,I1)*X(2,I1)+X(2,I2)*X(2,I2))
-          YZ = (X(2,I1)*X(3,I1)+X(2,I2)*X(3,I2))
-          ZZ = (X(3,I1)*X(3,I1)+X(3,I2)*X(3,I2))
-          ZX = (X(3,I1)*X(1,I1)+X(3,I2)*X(1,I2))
-          PARTSAV(5,IP) =PARTSAV(5,IP) + TWO*XI + EMS(I) * (YY+ZZ)
-          PARTSAV(6,IP) =PARTSAV(6,IP) + TWO*XI + EMS(I) * (ZZ+XX)
-          PARTSAV(7,IP) =PARTSAV(7,IP) + TWO*XI + EMS(I) * (XX+YY)
-          PARTSAV(8,IP) =PARTSAV(8,IP)  - EMS(I) * XY
-          PARTSAV(9,IP) =PARTSAV(9,IP)  - EMS(I) * YZ
-          PARTSAV(10,IP)=PARTSAV(10,IP) - EMS(I) * ZX
-C
-          PARTSAV(11,IP)=PARTSAV(11,IP) + EMS(I)*(V(1,I1)+V(1,I2))
-          PARTSAV(12,IP)=PARTSAV(12,IP) + EMS(I)*(V(2,I1)+V(2,I2))
-          PARTSAV(13,IP)=PARTSAV(13,IP) + EMS(I)*(V(3,I1)+V(3,I2))
-          PARTSAV(14,IP)=PARTSAV(14,IP) + HALF * EMS(I) *
-     .       (V(1,I1)*V(1,I1)+V(2,I1)*V(2,I1)+V(3,I1)*V(3,I1)
-     .       +V(1,I2)*V(1,I2)+V(2,I2)*V(2,I2)+V(3,I2)*V(3,I2))
-        ENDDO
-      ENDIF
+        PARTSAV(11,IP)=PARTSAV(11,IP) + EMS(I)*(V(1,I1)+V(1,I2))
+        PARTSAV(12,IP)=PARTSAV(12,IP) + EMS(I)*(V(2,I1)+V(2,I2))
+        PARTSAV(13,IP)=PARTSAV(13,IP) + EMS(I)*(V(3,I1)+V(3,I2))
+        PARTSAV(14,IP)=PARTSAV(14,IP) + HALF * EMS(I) *
+     .     (V(1,I1)*V(1,I1)+V(2,I1)*V(2,I1)+V(3,I1)*V(3,I1)
+     .     +V(1,I2)*V(1,I2)+V(2,I2)*V(2,I2)+V(3,I2)*V(3,I2))
+      ENDDO
 C
       IF (IREST_MSELT /= 0)THEN
         DO I=LFT,LLT

@@ -26,7 +26,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    lectur                   ../starter/source/starter/lectur.F
       !||--- calls      -----------------------------------------------------
       !||    ancmsg                   ../starter/source/output/message/message.F
-      !||    grfind                   ../starter/source/starter/freform.F
       !||    hm_get_int_array_index   ../starter/source/devtools/hm_reader/hm_get_int_array_index.F
       !||    hm_get_intv              ../starter/source/devtools/hm_reader/hm_get_intv.F
       !||    hm_option_read_key       ../starter/source/devtools/hm_reader/hm_option_read_key.F
@@ -70,19 +69,14 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-        INTEGER N, NUSER, IGR, IGRS, STAT,I,COMPT,SET
+        INTEGER NUSER, IGR, STAT,I,COMPT,SET
         CHARACTER MESS*40
         CHARACTER(LEN=NCHARKEY)::KEY
         CHARACTER(LEN=NCHARTITLE)::TITR
         INTEGER J,ADD,K
-        INTEGER FLAG_OK,NUM_LINK,FOUND,NEL,ID,NELN
+        INTEGER FLAG_OK,FOUND,NEL,ID,NELN
         INTEGER, DIMENSION(:), ALLOCATABLE :: ID_SUB_TEMP
         LOGICAL IS_AVAILABLE
-C-----------------------------------------------
-C   E x t e r n a l   F u n c t i o n s
-C-----------------------------------------------
-        INTEGER GRFIND
-C
         DATA MESS/' ** ERROR EXTERNAL COUPLING DEFINITION '/
         WRITE(IOUT,1000)
         IF (NR2RLNK>0) WRITE(IOUT,1200)

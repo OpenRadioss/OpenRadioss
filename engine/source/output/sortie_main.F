@@ -179,6 +179,7 @@ C-----------------------------------------------
       use PBLAST_MOD
       use th_mod , only : TH_HAS_NODA_PEXT
       USE OUTPUT_MOD , ONLY : ANIM_HAS_NODA_PEXT, H3D_HAS_NODA_PEXT
+      USE HIST2_MOD , ONLY : HIST2
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -385,7 +386,7 @@ C---------------------------------------
 C-----------------------------------------------
 C     CUMUL MASS SPMD
 C-----------------------------------------------
-      IF(IMACH==3.AND.NSPMD>1.AND.(ANIM_N(2)+OUTP_N(2)>0).AND.
+      IF(NSPMD>1.AND.(ANIM_N(2)+OUTP_N(2)>0).AND.
      .  ((TT>=TANIM .AND. TT<=TANIM_STOP).OR.TT>=TOUTP.OR.
      .   MANIM==4 .OR.MANIM==5 .OR.MANIM==6 .OR.MANIM==7.OR.
      .   MANIM==8 .OR.MANIM==9 .OR.MANIM==10.OR.MANIM==11.OR.
@@ -393,7 +394,7 @@ C-----------------------------------------------
         LENR = IAD_ELEM(1,NSPMD+1)-IAD_ELEM(1,1)
         CALL SPMD_EXCH_ADM(ANIN(NDMA+1),IAD_ELEM,FR_ELEM,LENR,WEIGHT_MD)
       ENDIF
-      IF(IMACH==3.AND.NSPMD>1.AND.
+      IF(NSPMD>1.AND.
      .  (ANIM_N(12)+OUTP_N(3)>0).AND.
      .  ((TT>=TANIM .AND. TT<=TANIM_STOP).OR.TT>=TOUTP.OR.
      .   MANIM==4 .OR.MANIM==5 .OR.MANIM==6 .OR.MANIM==7.OR.
@@ -538,11 +539,7 @@ C
          SN4 = NPART + 1
          SN5 = NEL2D
          SN6 = NPART
-         IF (IMACH==3) THEN
-           SN7 = NELG + 1
-         ELSE
-           SN7 = NEL+1
-         ENDIF
+         SN7 = NELG + 1
          N1 = 1
          N2 = N1 + MAX(3*NUMNOD,6*NEL3D,3*NEL2D,9*NEL1D)
          N3 = N2 + NEL
@@ -551,8 +548,7 @@ C
          N6 = N5 + NEL2D
          N7 = N6 + NPART
          N8 = N7 + NEL + 1
-          IF  (     (IMACH/=3.AND.NUMELX>0)
-     .          .OR.(IMACH==3.AND.NUMELXG>0)) THEN
+          IF  ((NUMELX>0) .OR. (NUMELXG>0)) THEN
 
             SKUIX = 2*MAXNX
             SKXUSR = 3*MAXNX
@@ -595,11 +591,7 @@ C
 c a modifier
          SIG3DSOLID = 8*27*NUMELIG3D
 c
-         IF (IMACH==3) THEN
-          SN9 =  NPART
-         ELSE
-          SN9 = 1
-         ENDIF
+         SN9 =  NPART
 C
          K1=1+LIPART1*(NPART+NTHPART)+2*9*(NPART+NTHPART)
          K2=K1+NUMELS
@@ -685,11 +677,7 @@ C
          SN4 = NPART + 1
          SN5 = NEL2D
          SN6 = NPART
-         IF (IMACH==3) THEN
-           SN7 = NELG + 1
-         ELSE
-           SN7 = NEL+1
-         ENDIF
+         SN7 = NELG + 1
          N1 = 1
          N2 = N1 + MAX(3*NUMNOD,6*NEL3D,3*NEL2D,9*NEL1D)
          N3 = N2 + NEL
@@ -698,8 +686,7 @@ C
          N6 = N5 + NEL2D
          N7 = N6 + NPART
          N8 = N7 + NEL + 1
-          IF  (     (IMACH/=3.AND.NUMELX>0)
-     .          .OR.(IMACH==3.AND.NUMELXG>0)) THEN
+          IF  ( (NUMELX>0) .OR.(NUMELXG>0) ) THEN
 
             SKUIX = 2*MAXNX
             SKXUSR = 3*MAXNX
@@ -742,11 +729,7 @@ C
 c a modifier
          SIG3DSOLID = 8*27*NUMELIG3D
 c
-         IF (IMACH==3) THEN
-          SN9 =  NPART
-         ELSE
-          SN9 = 1
-         ENDIF
+         SN9 =  NPART
 C
          K1=1+LIPART1*(NPART+NTHPART)+2*9*(NPART+NTHPART)
          K2=K1+NUMELS
@@ -815,7 +798,7 @@ c
          H3D_DATA%TH3D = TSTOP
       END IF
 
-      IF (IMACH==3.AND.ISPMD==0) THEN
+      IF (ISPMD==0) THEN
           LENG = NUMNODG
       ELSE
           LENG = 0
@@ -862,16 +845,7 @@ C .sta files
        K10=K9+NUMELX
        K11=K10+NUMSPH
 C
-       IF(IMACH/=3)THEN
-         LENGC = NUMELC
-         LENGTG= NUMELTG
-         LENGS = NUMELS
-         LENGR = NUMELR
-         LENGP = NUMELP
-         LENGT = NUMELT
-         LENGQ = NUMELQ
-         LENGSPH = NUMSPH
-       ELSEIF (ISPMD==0) THEN
+       IF (ISPMD==0) THEN
          LENGC = NUMELCG
          LENGTG= NUMELTGG
          LENGS = NUMELSG
@@ -929,10 +903,7 @@ C----------------------
        K10=K9+NUMELX
        K11=K10+NUMSPH
 C
-       IF(IMACH/=3)THEN
-         LENGC = NUMELC
-         LENGTG= NUMELTG
-       ELSEIF (ISPMD==0) THEN
+       IF (ISPMD==0) THEN
          LENGC = NUMELCG
          LENGTG= NUMELTGG
        ELSE
@@ -1047,8 +1018,8 @@ C         to avoid double points
      D                 IXRI   ,RIVET  ,IXP      ,
      E                 ISKWN ,IFRAME ,XFRAME ,IXC      ,IXQ ,
      F                 OUTPUT%TH%DTHIS1(1),OUTPUT%TH%THIS1(1), IFIL, NTHGRP1(1),IXTG ,
-     G                 IGEO   ,IPM   ,FXBIPM, FXBDEP, FXBVIT,
-     H                 FXBACC ,IPARTL,NPARTL, IACCP , NACCP ,
+     G                 IGEO   ,IPM   ,
+     H                 IPARTL,NPARTL, IACCP , NACCP ,
      I                 IPARTH ,2     ,1     ,
      J                 MONVOL,VOLMON,FR_MV  ,TEMP,INOD_PXFEM,
      K                 FTHREAC,NODREAC,GRESAV  ,GAUGE  ,
@@ -1142,8 +1113,8 @@ C
      D                 IXRI   ,RIVET  ,IXP ,
      E                 ISKWN ,IFRAME ,XFRAME,IXC    ,IXQ ,
      F                 OUTPUT%TH%DTHIS1(2),OUTPUT%TH%THIS1(2), IFIL, NTHGRP1(2),IXTG ,
-     G                 IGEO   ,IPM   ,FXBIPM, FXBDEP, FXBVIT,
-     H                 FXBACC ,IPARTL,NPARTL, IACCP , NACCP ,
+     G                 IGEO   ,IPM   ,
+     H                 IPARTL,NPARTL, IACCP , NACCP ,
      I                 IPARTH(1,(NPART+NTHPART)+1),2,1,
      J                 MONVOL ,VOLMON,FR_MV  ,TEMP,INOD_PXFEM,
      K                 FTHREAC,NODREAC,GRESAV  ,GAUGE  ,
@@ -1237,8 +1208,8 @@ C
      D                 IXRI   ,RIVET  , IXP ,
      E                 ISKWN ,IFRAME ,XFRAME,IXC    ,IXQ ,
      F                 OUTPUT%TH%DTHIS1(3),OUTPUT%TH%THIS1(3), IFIL, NTHGRP1(3),IXTG ,
-     G                 IGEO   ,IPM   ,FXBIPM, FXBDEP, FXBVIT,
-     H                 FXBACC ,IPARTL,NPARTL, IACCP , NACCP ,
+     G                 IGEO   ,IPM   ,
+     H                 IPARTL,NPARTL, IACCP , NACCP ,
      I                 IPARTH(1,2*(NPART+NTHPART)+1),2,1,
      J                 MONVOL ,VOLMON,FR_MV  ,TEMP,INOD_PXFEM,
      K                 FTHREAC,NODREAC,GRESAV  ,GAUGE  ,
@@ -1328,8 +1299,8 @@ C
      D                 IXRI   ,RIVET  , IXP,
      E                 ISKWN ,IFRAME ,XFRAME,IXC    ,IXQ ,
      F                 OUTPUT%TH%DTHIS1(4),OUTPUT%TH%THIS1(4), IFIL, NTHGRP1(4),IXTG ,
-     G                 IGEO   ,IPM   ,FXBIPM, FXBDEP, FXBVIT,
-     H                 FXBACC ,IPARTL,NPARTL, IACCP , NACCP ,
+     G                 IGEO   ,IPM   ,
+     H                 IPARTL,NPARTL, IACCP , NACCP ,
      I                 IPARTH(1,3*(NPART+NTHPART)+1),2,1,
      J                 MONVOL ,VOLMON,FR_MV ,TEMP,INOD_PXFEM,
      K                 FTHREAC,NODREAC,GRESAV  ,GAUGE  ,
@@ -1420,8 +1391,8 @@ C
      D                IXRI   ,RIVET  , IXP ,
      E                ISKWN ,IFRAME ,XFRAME,IXC    ,IXQ ,
      F                OUTPUT%TH%DTHIS1(5),OUTPUT%TH%THIS1(5), IFIL, NTHGRP1(5),IXTG ,
-     G                IGEO   ,IPM   ,FXBIPM, FXBDEP, FXBVIT,
-     H                FXBACC ,IPARTL,NPARTL, IACCP , NACCP ,
+     G                IGEO   ,IPM   ,
+     H                IPARTL,NPARTL, IACCP , NACCP ,
      I                IPARTH(1,4*(NPART+NTHPART)+1),2,1,
      J                MONVOL ,VOLMON,FR_MV ,TEMP,INOD_PXFEM,
      K                FTHREAC,NODREAC,GRESAV  ,GAUGE  ,
@@ -1511,8 +1482,8 @@ C
      D                IXRI   ,RIVET  , IXP ,
      E                ISKWN ,IFRAME ,XFRAME,IXC    ,IXQ ,
      F                OUTPUT%TH%DTHIS1(6),OUTPUT%TH%THIS1(6), IFIL, NTHGRP1(6),IXTG ,
-     G                IGEO   ,IPM   ,FXBIPM, FXBDEP, FXBVIT,
-     H                FXBACC ,IPARTL,NPARTL, IACCP , NACCP ,
+     G                IGEO   ,IPM   ,
+     H                IPARTL,NPARTL, IACCP , NACCP ,
      I                IPARTH(1,5*(NPART+NTHPART)+1),2,1,
      J                MONVOL,VOLMON,FR_MV  ,TEMP,INOD_PXFEM,
      K                FTHREAC,NODREAC,GRESAV  ,GAUGE  ,
@@ -1603,8 +1574,8 @@ C
      D                IXRI   ,RIVET  ,IXP ,
      E                ISKWN ,IFRAME ,XFRAME,IXC    ,IXQ ,
      F                OUTPUT%TH%DTHIS1(7),OUTPUT%TH%THIS1(7), IFIL, NTHGRP1(7),IXTG ,
-     G                IGEO   ,IPM   ,FXBIPM, FXBDEP, FXBVIT,
-     H                FXBACC ,IPARTL,NPARTL, IACCP , NACCP ,
+     G                IGEO   ,IPM   ,
+     H                IPARTL,NPARTL, IACCP , NACCP ,
      I                IPARTH(1,6*(NPART+NTHPART)+1),2,1,
      J                MONVOL ,VOLMON,FR_MV  ,TEMP,INOD_PXFEM,
      K                FTHREAC,NODREAC,GRESAV ,GAUGE  ,
@@ -1695,14 +1666,14 @@ C
      D                IXRI   ,RIVET  , IXP ,
      E                ISKWN ,IFRAME ,XFRAME,IXC    ,IXQ ,
      F                OUTPUT%TH%DTHIS1(8),OUTPUT%TH%THIS1(8), IFIL, NTHGRP1(8),IXTG ,
-     G                IGEO   ,IPM   ,FXBIPM, FXBDEP, FXBVIT,
-     H                FXBACC ,IPARTL,NPARTL, IACCP , NACCP ,
+     G                IGEO   ,IPM   ,
+     H                IPARTL,NPARTL, IACCP , NACCP ,
      I                IPARTH(1,7*(NPART+NTHPART)+1),2,1,
      J                MONVOL ,VOLMON,FR_MV  ,TEMP,INOD_PXFEM,
      K                FTHREAC,NODREAC,GRESAV  ,GAUGE  ,
      L                IGAUP  ,NGAUP ,AFORM(8),SIZE_MES,
      M                RTHBUF ,THKE ,STACK ,ISPHIO  ,VSPHIO,
-     N                ITHFLAG,PINCH_DATA,MULTI_FVM,W,OUTPUT%TH%ITHBUFH,
+     N                ITHFLAG,PINCH_DATA,MULTI_FVM,W,OUTPUT%TH%SITHBUFH,
      Q                FSAVSURF,NEED_TO_REINIT_FSAV,GLOB_THERM,OUTPUT)
 
         IF(SIZE_MES==1 .AND. AFORM(8)==3 .AND.ISPMD==0 ) CALL file_size(MULTITHFILESIZE(8))
@@ -1782,14 +1753,14 @@ C
      D                IXRI   ,RIVET  ,IXP ,
      E                ISKWN ,IFRAME ,XFRAME,IXC    ,IXQ ,
      F                OUTPUT%TH%DTHIS1(9),OUTPUT%TH%THIS1(9), IFIL, NTHGRP1(9),IXTG   ,
-     G                IGEO   ,IPM   ,FXBIPM, FXBDEP, FXBVIT,
-     H                FXBACC ,IPARTL,NPARTL, IACCP , NACCP ,
+     G                IGEO   ,IPM   ,
+     H                IPARTL,NPARTL, IACCP , NACCP ,
      I                IPARTH(1,8*(NPART+NTHPART)+1),2,1,
      J                MONVOL ,VOLMON,FR_MV  ,TEMP,INOD_PXFEM,
      K                FTHREAC,NODREAC,GRESAV  ,GAUGE  ,
      L                IGAUP,NGAUP ,AFORM(9),SIZE_MES,
      M                RTHBUF ,THKE ,STACK ,ISPHIO  ,VSPHIO,
-     N                ITHFLAG,PINCH_DATA,MULTI_FVM,W,OUTPUT%TH%ITHBUFI,
+     N                ITHFLAG,PINCH_DATA,MULTI_FVM,W,OUTPUT%TH%SITHBUFI,
      Q                FSAVSURF,NEED_TO_REINIT_FSAV,GLOB_THERM,OUTPUT)
 
         IF(SIZE_MES==1 .AND. AFORM(9)==3 .AND. ISPMD==0 ) CALL file_size(MULTITHFILESIZE(9))
@@ -1869,8 +1840,8 @@ C
      D                IXRI   ,RIVET  , IXP ,
      E                ISKWN ,IFRAME ,XFRAME,IXC    ,IXQ,
      F                OUTPUT%TH%DTHIS ,OUTPUT%TH%THIS,IFIL  , NTHGRP,IXTG   ,
-     G                IGEO   ,IPM   ,FXBIPM, FXBDEP, FXBVIT,
-     H                FXBACC ,IPARTL,NPARTL, IACCP , NACCP ,
+     G                IGEO   ,IPM   ,
+     H                IPARTL,NPARTL, IACCP , NACCP ,
      I                IPART ,LIPART1    ,8      ,
      J                MONVOL ,VOLMON,FR_MV  ,TEMP,INOD_PXFEM,
      K                FTHREAC,NODREAC,GRESAV  ,GAUGE  ,

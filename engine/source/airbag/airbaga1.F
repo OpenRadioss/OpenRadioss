@@ -50,7 +50,6 @@ C-----------------------------------------------
 #include      "com08_c.inc"
 #include      "units_c.inc"
 #include      "scr02_c.inc"
-#include      "scr05_c.inc"
 #include      "scr07_c.inc"
 #include      "scr18_c.inc"
 #include      "task_c.inc"
@@ -129,7 +128,7 @@ C
         IBAGHOL(12,IV) = IDPDEF 
         RBAGHOL(5,IV)  = DTPDEFC
       ENDDO
-      IF(IMACH/=3.OR.ISPMD+1==PMAIN) THEN
+      IF(ISPMD+1==PMAIN) THEN
 C Mass loss & Enthalpy Loss
         DO IV=1,NVENT
           RBAGHOL(19,IV)= RBAGHOL(19,IV) + RBAGHOL(21,IV)*DT1
@@ -208,7 +207,7 @@ C
             RVOLU(11)= GMI
             RVOLU(14)= RMWI*GMI
             RVOLU(20)= GMI
-            IF(IMACH/=3.OR.ISPMD+1==PMAIN) THEN
+            IF(ISPMD+1==PMAIN) THEN
               WRITE(IOUT,*)
      .        ' *** MONITORED VOLUME : INITIAL EQUILIBRIUM IS SET ***'
               WRITE(IOUT,'(A,I10,A,G20.13,A)') 
@@ -558,7 +557,7 @@ C------
        ELSE
         Q=-AMU*SQRT(P*AREA*ROT/VOL)*DV/AREA/DT1
        ENDIF
-       IF (IMACH/=3.OR.ISPMD+1==PMAIN) THEN
+       IF (ISPMD+1==PMAIN) THEN
         WFEXT=WFEXT+(HALF*(P+POLD+Q+QOLD)-PEXT)*DV
         RVOLU(32)=RVOLU(32) + (HALF*(P+POLD)-PEXT)*DV
        ENDIF
@@ -594,13 +593,13 @@ C      DP/DRO GAZ PARFAIT+ADIABATIQUE=GAMA*R/MW*TBAG
        ENDIF
        IF(IDTMIN(9)==1.AND.DT<DTMIN1(9)) THEN
          TSTOP = TT
-         IF (IMACH/=3.OR.ISPMD+1==PMAIN) THEN
+         IF (ISPMD+1==PMAIN) THEN
            WRITE(IOUT,*)  '-- MINIMUM MONITORED VOLUME TIME STEP '
            WRITE(ISTDO,*) '-- MINIMUM MONITORED VOLUME TIME STEP '
          ENDIF
        ELSEIF(IDTMIN(9)==5.AND.DT<DTMIN1(9)) THEN
          MSTOP = 2
-         IF (IMACH/=3.OR.ISPMD+1==PMAIN) THEN
+         IF (ISPMD+1==PMAIN) THEN
            WRITE(IOUT,*)  '-- MINIMUM MONITORED VOLUME TIME STEP '
            WRITE(ISTDO,*) '-- MINIMUM MONITORED VOLUME TIME STEP '
          ENDIF

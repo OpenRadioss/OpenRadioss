@@ -91,9 +91,7 @@ C=======================================================================
       TS_OLD = ZERO
       NCUR_OLD = 0
 C----------------------------------
-C     FORCE CONCENTREE
-C     IF(IMACH/=3.OR.IPARIT==0)
-C     Code PARITH/OFF
+C     CONCENTRATED FORCE
 C----------------------------------
       DO N=1,NFXVEL
         IF (IBFV(13,N) /= 2) CYCLE

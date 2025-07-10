@@ -71,7 +71,6 @@ C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
 #include      "com09_c.inc"
-#include      "scr05_c.inc"
 #include      "param_c.inc"
 #include      "task_c.inc"
 #include      "parit_c.inc"
@@ -175,7 +174,7 @@ C      Calcul flag de rupture pour interface type 2 user
        ENDDO                                            
 C
 C   correction pb poff si main dans plusieurs interfaces type2
-      IF (IMACH == 3 .AND. IPARIT == 0) THEN                     
+      IF (IPARIT == 0) THEN                     
         IF (NHIN2 == 0) THEN                                  
           DO N=1,NINTER                                       
             NTY   =IPARI(7,N)                                 
@@ -213,8 +212,7 @@ C   correction pb poff si main dans plusieurs interfaces type2
             ENDIF                                             
           ENDDO                                               
         ENDIF                                                 
-       ELSEIF (IMACH == 3 .AND. IPARIT /= 0) THEN               
-c       ELSEIF(IMACH == 3.AND.IPARIT /= 0.AND.NHIN2 /= 0)THEN 
+       ELSEIF (IPARIT /= 0) THEN               
         DO I=1,LCNI2                                          
           DO J=1,I2SIZE                                       
             FSKYI2(J,I)=ZERO                                  
@@ -284,13 +282,13 @@ C---
           ENDIF
             IF (ILEV==25 .or. ILEV==26 .or. ILEV==27 .or. ILEV==28) KSN=KSN+4*NSN
           ELSEIF(NTY == 12)THEN                                           
-            IF(IMACH /= 3.OR.ISPMD == 0)THEN                         
+            IF(ISPMD == 0)THEN                         
              CALL INTTI12F(                                          
      .        IPARI(1,N),INTBUF_TAB(N)      ,X      ,V     ,         
      .        A         ,MS       ,ITAB     ,WEIGHT ,STIFN,WA,SKEW ) 
             ENDIF                                                    
           ENDIF                                                      
-        ELSEIF(IMACH == 3.AND.IPARIT > 0)THEN                       
+        ELSEIF(IPARIT > 0)THEN                       
           ILAGM = IPARI(33,N)                                        
           IF(IPARI(26,N) /= KHIE.AND.NTY == 2.AND.ILAGM == 0)THEN    
             K10=IPARI(1,N)                                           
@@ -310,7 +308,7 @@ C---
           I2SIZETH = I2SIZE  
       ENDIF                                                           
 C------------------------------------------------------------
-      IF (IMACH == 3 .AND. I2OK == 1) THEN
+      IF (I2OK == 1) THEN
 C version spmd avec plus d'1 proc : sommer A et AR sur les noeuds main
         IF (IPARIT == 0.AND.NSPMD > 1) THEN
           IF(NHIN2 == 0) THEN

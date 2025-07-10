@@ -95,7 +95,7 @@
       exp_m    = one / (one + exp_n)
 !
       do i =1,nel
-        iedge = uvar(i,10)
+        iedge = INT(uvar(i,10))
         if (iedge == 1) then   ! edge element
           ai    = cr_edge
           formf = 1.12

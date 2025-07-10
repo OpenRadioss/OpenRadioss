@@ -40,14 +40,9 @@ C-----------------------------------------------
 #include      "com01_c.inc"
 C-----------------------------------------------
       INTEGER NG,II,IFORM
-      my_real
-     .    WA(*)
+      my_real :: WA(*)
 C-----------------------------------------------
-c      IF (IMACH/=3) THEN
-c        CALL WRTDES(WA,WA,II,ITFORM,1)
-c      ELSE
-       IF(NSPMD > 1) CALL SPMD_GLOB_DSUM9(WA,II)
-       IF (ISPMD==0) CALL WRTDES(WA,WA,II,IFORM,1)
-c      ENDIF
+        IF(NSPMD > 1) CALL SPMD_GLOB_DSUM9(WA,II)
+        IF (ISPMD==0) CALL WRTDES(WA,WA,II,IFORM,1)
       RETURN
       END

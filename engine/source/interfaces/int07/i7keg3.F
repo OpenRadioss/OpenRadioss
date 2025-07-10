@@ -1262,30 +1262,21 @@ c
         A(3,IX4(I))=A(3,IX4(I))+FZ*H4(I)
        ENDDO
 C--------secnd part-------
-      IF(IMACH/=3) THEN
-        DO I=1,JLT
-          IG=NSVG(I)
+
+       DO I=1,JLT
+         IG=NSVG(I)
+         IF(IG>0)THEN
           A(1,IG)=A(1,IG)-FXI(I)
           A(2,IG)=A(2,IG)-FYI(I)
           A(3,IG)=A(3,IG)-FZI(I)
-        ENDDO
-       ELSE 
-        DO I=1,JLT
-          IG=NSVG(I)
-          IF(IG>0)THEN
-           A(1,IG)=A(1,IG)-FXI(I)
-           A(2,IG)=A(2,IG)-FYI(I)
-           A(3,IG)=A(3,IG)-FZI(I)
-            ELSE
-             NN=-IG
-             NS=IND_INT(NIN)%P(NN)
-C---------
-             FFI(1,NS)=FFI(1,NS)-FXI(I)
-             FFI(2,NS)=FFI(2,NS)-FYI(I)
-             FFI(3,NS)=FFI(3,NS)-FZI(I)
-          ENDIF
-        ENDDO
-       END IF
+           ELSE
+            NN=-IG
+            NS=IND_INT(NIN)%P(NN)
+            FFI(1,NS)=FFI(1,NS)-FXI(I)
+            FFI(2,NS)=FFI(2,NS)-FYI(I)
+            FFI(3,NS)=FFI(3,NS)-FZI(I)
+         ENDIF
+       ENDDO
 C
       RETURN
       END

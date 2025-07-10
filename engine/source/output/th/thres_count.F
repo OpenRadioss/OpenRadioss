@@ -43,7 +43,6 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
-#include      "scr05_c.inc"
 #include      "task_c.inc"
 #include      "param_c.inc"
 C-----------------------------------------------
@@ -110,13 +109,11 @@ C-----------------------------------------------
           IH=IAD
           IF(ITYP==6) THEN
 C   specifique spmd
-            IF (IMACH == 3) THEN
 C decalage IH
-                DO WHILE (ITHBUF(IH+NN) /= ISPMD .AND. IH < IAD+NN)
-                    IH = IH + 1
-                ENDDO
-                IF (IH >= IAD+NN) GOTO 666
-            ENDIF
+            DO WHILE (ITHBUF(IH+NN) /= ISPMD .AND. IH < IAD+NN)
+              IH = IH + 1
+            ENDDO
+            IF (IH >= IAD+NN) GOTO 666
 C
             DO NG=1,NGROUP
                 ITY=IPARG(5,NG)
@@ -142,13 +139,11 @@ C
                             IF (K == N) THEN
                                 IH=IH+1
 C   traitement specifique spmd
-                                IF (IMACH == 3) THEN
 C recherche du ii correct
-                                    II = ((IH-1) - IAD)*NVAR
-                                    DO WHILE (ITHBUF(IH+NN) /= ISPMD .AND. IH < IAD+NN)
-                                        IH = IH + 1
-                                    ENDDO
-                                ENDIF
+                                II = ((IH-1) - IAD)*NVAR
+                                DO WHILE (ITHBUF(IH+NN) /= ISPMD .AND. IH < IAD+NN)
+                                    IH = IH + 1
+                                ENDDO
 C
                                 IF (IH > IAD+NN) GOTO 666
                                 WA_SIZE = WA_SIZE + NVAR + 1 
@@ -162,13 +157,11 @@ C
 C
                             IF (K == N) THEN
                                 IH=IH+1
-                                IF (IMACH == 3) THEN
 C recherche du ii correct
-                                    II = ((IH-1) - IAD)*NVAR
-                                    DO WHILE (ITHBUF(IH+NN) /= ISPMD .AND. IH < IAD+NN)
-                                        IH = IH + 1
-                                    ENDDO
-                                ENDIF
+                                II = ((IH-1) - IAD)*NVAR
+                                DO WHILE (ITHBUF(IH+NN) /= ISPMD .AND. IH < IAD+NN)
+                                    IH = IH + 1
+                                ENDDO
 C
                                 IF (IH > IAD+NN) GOTO 666
                                 WA_SIZE = WA_SIZE + NVAR + 1
@@ -182,13 +175,11 @@ C
 C
                             IF (K == N) THEN
                                 IH=IH+1
-                                IF (IMACH == 3) THEN
 C recherche du ii correct
-                                    II = ((IH-1) - IAD)*NVAR
-                                    DO WHILE (ITHBUF(IH+NN) /= ISPMD .AND. IH < IAD+NN)
-                                        IH = IH + 1
-                                    ENDDO
-                                ENDIF
+                                II = ((IH-1) - IAD)*NVAR
+                                DO WHILE (ITHBUF(IH+NN) /= ISPMD .AND. IH < IAD+NN)
+                                    IH = IH + 1
+                                ENDDO
 C
                                 IF (IH > IAD+NN) GOTO 666
                                 WA_SIZE = WA_SIZE + NVAR + 1
@@ -202,12 +193,12 @@ C
 C
                             IF (K == N) THEN
                                 IH=IH+1
-                                IF (IMACH == 3) THEN
-                                    II = ((IH-1) - IAD)*NVAR
-                                    DO WHILE (ITHBUF(IH+NN) /= ISPMD .AND. IH < IAD+NN)
-                                        IH = IH + 1
-                                    ENDDO
-                                ENDIF
+
+                                II = ((IH-1) - IAD)*NVAR
+                                DO WHILE (ITHBUF(IH+NN) /= ISPMD .AND. IH < IAD+NN)
+                                    IH = IH + 1
+                                ENDDO
+
 C
                                 IF (IH > IAD+NN) GOTO 666
                                 WA_SIZE = WA_SIZE + NVAR + 1 
@@ -223,13 +214,11 @@ C
                             IF (K == N) THEN
                                 IH=IH+1
 C   traitement specifique spmd
-                                IF (IMACH == 3) THEN
 C recherche du ii correct
-                                    II = ((IH-1) - IAD)*NVAR
-                                    DO WHILE (ITHBUF(IH+NN) /= ISPMD .AND. IH < IAD+NN)
-                                        IH = IH + 1
-                                    ENDDO
-                                ENDIF
+                                II = ((IH-1) - IAD)*NVAR
+                                DO WHILE (ITHBUF(IH+NN) /= ISPMD .AND. IH < IAD+NN)
+                                    IH = IH + 1
+                                ENDDO
 C
                                 IF (IH > IAD+NN) GOTO 666
                                 WA_SIZE = WA_SIZE + NVAR + 1
@@ -246,14 +235,11 @@ C
                                     IF (K == N) THEN
                                         IH=IH+1
 C   traitement specifique spmd
-                                        IF (IMACH == 3) THEN
 C recherche du ii correct
-                                            II = ((IH-1) - IAD)*NVAR
-                                            DO WHILE (ITHBUF(IH+NN) /= ISPMD .AND. IH<IAD+NN)
-                                                IH = IH + 1
-                                            ENDDO
-                                        ENDIF
-C
+                                        II = ((IH-1) - IAD)*NVAR
+                                        DO WHILE (ITHBUF(IH+NN) /= ISPMD .AND. IH<IAD+NN)
+                                            IH = IH + 1
+                                        ENDDO
                                         IF (IH > IAD+NN) GOTO 666
                                         WA_SIZE = WA_SIZE + NVAR + 1
                                     ENDIF
@@ -267,13 +253,11 @@ C
                                     IF (K == N) THEN
                                         IH=IH+1
 C   traitement specifique spmd
-                                        IF (IMACH == 3) THEN
 C recherche du ii correct
-                                            II = ((IH-1) - IAD)*NVAR
-                                            DO WHILE (ITHBUF(IH+NN) /= ISPMD .AND. IH < IAD+NN)
-                                                IH = IH + 1
-                                            ENDDO
-                                        ENDIF
+                                        II = ((IH-1) - IAD)*NVAR
+                                        DO WHILE (ITHBUF(IH+NN) /= ISPMD .AND. IH < IAD+NN)
+                                            IH = IH + 1
+                                        ENDDO
 C
                                         IF (IH > IAD+NN) GOTO 666
                                         WA_SIZE = WA_SIZE + NVAR + 1
@@ -288,13 +272,11 @@ C
                                     IF (K == N) THEN
                                         IH=IH+1
 C   traitement specifique spmd
-                                        IF (IMACH == 3) THEN
 C recherche du ii correct
-                                            II = ((IH-1) - IAD)*NVAR
-                                            DO WHILE (ITHBUF(IH+NN) /= ISPMD .AND. IH < IAD+NN)
-                                                IH = IH + 1
-                                            ENDDO
-                                        ENDIF
+                                        II = ((IH-1) - IAD)*NVAR
+                                        DO WHILE (ITHBUF(IH+NN) /= ISPMD .AND. IH < IAD+NN)
+                                            IH = IH + 1
+                                        ENDDO
 C
                                         IF (IH > IAD+NN) GOTO 666
                                         WA_SIZE = WA_SIZE + NVAR + 1

@@ -48,45 +48,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER IADI, IADR, I, ITYP, NINOUT, NNO, NEL, II1, II2,
      .        IR1, IR2, J, JJ, NNO_L, NNI_L, II3, II4, JJJ, NNI
-C
-c      IF (IMACH/=3) THEN
-c         IADI=0
-c         IADR=0
-c         DO I=1,NFLOW
-c            ITYP=IFLOW(IADI+2)
-c            IF (ITYP==1) THEN
-c               NINOUT=IFLOW(IADI+4)
-c               NNO=IFLOW(IADI+5)
-c               NEL=IFLOW(IADI+6)
-c               NNI=IFLOW(IADI+7)
-c               II1=IADI+NIFLOW
-c               II2=II1+NNO+3*NEL+NINOUT*NIIOFLOW
-c               IR1=IADR+NRFLOW
-c               IR2=IR1+NNO+NNI
-c               IF (IFUNC==3) THEN
-c                  DO J=1,NNO
-c                     JJ=IFLOW(II1+J)
-c                     WA4(JJ)=RFLOW(IR2+J)
-c                  ENDDO
-c                  DO J=1,NNI
-c                     JJ=IFLOW(II2+J)
-c                     WA4(JJ)=RFLOW(IR2+NNO+J)
-c                  ENDDO
-c               ELSEIF (IFUNC==13) THEN
-c                  DO J=1,NNO
-c                     JJ=IFLOW(II1+J)
-c                     WA4(JJ)=RFLOW(IR1+J)
-c                  ENDDO
-c                  DO J=1,NNI
-c                     JJ=IFLOW(II2+J)
-c                     WA4(JJ)=RFLOW(IR1+NNO+J)
-c                  ENDDO
-c               ENDIF
-c            ENDIF
-c            IADR=IADR+IFLOW(IADI+15)
-c            IADI=IADI+IFLOW(IADI+14)
-c         ENDDO
-c      ELSE
+
          IADI=0
          IADR=0
          DO I=1,NFLOW
@@ -136,7 +98,6 @@ c      ELSE
             IADR=IADR+IFLOW(IADI+15)
             IADI=IADI+IFLOW(IADI+14)
          ENDDO
-c      ENDIF
-C
+
       RETURN
       END

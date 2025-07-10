@@ -88,7 +88,6 @@ C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
 #include      "param_c.inc"
-#include      "scr05_c.inc"
 #include      "scr12_c.inc"
 #include      "scr15_c.inc"
 #include      "units_c.inc"
@@ -181,7 +180,7 @@ C
         IKINE1(I) = 0
       ENDDO
 C-----------------------------------------------
-      IF(((IMACH == 3 .AND. IDDLEVEL == 0)) .AND. (DECTYP >= 3 .AND. DECTYP <= 6) .AND. N2D == 0)THEN
+      IF(((IDDLEVEL == 0)) .AND. (DECTYP >= 3 .AND. DECTYP <= 6) .AND. N2D == 0)THEN
         NSNT = 0
         NMNT = 0
         NSN2T = 0

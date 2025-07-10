@@ -29,8 +29,8 @@ module simple_checksum_mod
    interface
       subroutine simple_checksum(vector,length,hash) bind(C)
         import :: c_int, c_double
-        real(c_double), intent(in) ,dimension(length) :: vector
         integer(c_int), intent(in)  :: length
+        real(c_double), intent(in) ,dimension(length) :: vector
         real(c_double), intent(out) :: hash
       end subroutine simple_checksum
    end interface

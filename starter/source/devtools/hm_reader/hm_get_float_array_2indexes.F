@@ -82,10 +82,9 @@ C OUTPUT ARGUMENTS
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,VALUE_TYPE,SUB_ID,IFLAGUNIT,UID
-      my_real
-     .   FAC_L,FAC_M,FAC_T,FAC
-      REAL*8 DVAL,LENGTH_DIM,MASS_DIM,TIME_DIM
+      INTEGER :: J,SUB_ID,IFLAGUNIT,UID
+      my_real :: FAC_L,FAC_M,FAC_T,FAC
+      REAL*8 :: DVAL,LENGTH_DIM,MASS_DIM,TIME_DIM
       LOGICAL(KIND=C_BOOL) C_IS_AVAILABLE
 C-----------------------------------------------
         C_IS_AVAILABLE = .FALSE.

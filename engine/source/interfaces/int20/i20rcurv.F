@@ -34,7 +34,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "scr05_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -50,22 +49,12 @@ C-----------------------------------------------
      .   SURFX,SURFY,SURFZ,X13,Y13,Z13,X24,Y24,Z24,AAA
 C-----------------------------------------------
 
-      IF(IMACH/=3)THEN
-        DO I=1,NMN
-          N1 = MSR(I)
-          IF(NLN/=0)N1 = NLG(N1)
-          NOD_NORMAL(1,N1) = ZERO
-          NOD_NORMAL(2,N1) = ZERO
-          NOD_NORMAL(3,N1) = ZERO
-        END DO
-      ELSE
 C optimisable en spmd si ajout flag pour routine de comm, spmd_exchange_n
-        DO N1=1,NUMNOD
-          NOD_NORMAL(1,N1) = ZERO
-          NOD_NORMAL(2,N1) = ZERO
-          NOD_NORMAL(3,N1) = ZERO
-        END DO
-      END IF
+      DO N1=1,NUMNOD
+        NOD_NORMAL(1,N1) = ZERO
+        NOD_NORMAL(2,N1) = ZERO
+        NOD_NORMAL(3,N1) = ZERO
+      END DO
 
       DO I=1,NRTM
         N1 = IRECT(1,I)

@@ -77,13 +77,10 @@ C INPUT ARGUMENTS
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,ID,SUBMODEL_INDEX,OFFSET,NB_PART,
-     .        NB_MAT,NB_MAT_119,MAT_ID,ELEM_INDEX,CPT,NB_THSHELL,PART_ID
+      INTEGER :: I,J,ID,SUBMODEL_INDEX,OFFSET,NB_PART,NB_MAT,NB_MAT_119,MAT_ID,ELEM_INDEX,NB_THSHELL,PART_ID
       INTEGER, DIMENSION(:), ALLOCATABLE :: PART_SUB,PART_MAT119,MAT119_IDS
       CHARACTER(LEN=NCHARLINE) :: KEY
-      LOGICAL IS_AVAILABLE
-      INTEGER :: WORK(70000)
-      INTEGER :: INDEX(2*NB_SEATBELT_SHELLS)
+      LOGICAL :: IS_AVAILABLE
 C-----------------------------------------------
       NB_MAT_119 = 0
 C-----------------------------------------------

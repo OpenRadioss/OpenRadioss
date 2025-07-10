@@ -997,7 +997,7 @@ C
         ALLOCATE(TABLE(0))
       END IF
 
-      IF (IMACH==3) NSPROC=1
+      NSPROC=1
       ALLOCATE(GRAPHE(0))
 
       !NFLOW
@@ -1060,7 +1060,7 @@ C
        ! --------------------------------------------------------------------------------------------
       IF (NSPMD > 1)  CALL SPMD_RST_CHECK()
 c----------
-      IF (IMACH==3) NSPROC=1
+      NSPROC=1
 C----------
       ALLOCATE(DMSPH(SDMSPH),STAT=IERR)
       IF (IERR/=0)THEN
@@ -1558,7 +1558,7 @@ C
         IABFPIPE=1
         ABFCOMP=180182702
         
-        IF((IMACH/=3).OR.(IMACH==3.AND.ISPMD==0)) THEN
+        IF(ISPMD==0) THEN
         
           CALL OPEN_ABFPIPE(ABINP,ABOUT,IABFPIPE,1,ABFV,NB_OF_FILES)
           

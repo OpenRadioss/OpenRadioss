@@ -43,12 +43,8 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER WEIGHT(*)
-C     REAL
-      my_real
-     .   X(3,*),D(3,*),CDG(*),XMIN,YMIN,ZMIN,XMAX,YMAX,ZMAX, SCALE
-C     REAL
-      my_real
-     .   DX,DY,DZ
+      my_real :: X(3,*),D(3,*),CDG(*),XMIN,YMIN,ZMIN,XMAX,YMAX,ZMAX, SCALE
+      my_real :: DX,DY,DZ
       INTEGER  N
 C-----------------------------------------------
       XMIN = EP30
@@ -57,19 +53,6 @@ C-----------------------------------------------
       XMAX = -EP30
       YMAX = -EP30
       ZMAX = -EP30      
-C
-c      IF (IMACH/=3) THEN
-
-c       DO N=1,NUMNOD
-c          XMIN = MIN(XMIN,(X(1,N)-D(1,N)))
-c          YMIN = MIN(YMIN,(X(2,N)-D(2,N)))
-c          ZMIN = MIN(ZMIN,(X(3,N)-D(3,N)))
-c          XMAX = MAX(XMAX,(X(1,N)-D(1,N)))
-c          YMAX = MAX(YMAX,(X(2,N)-D(2,N)))
-c          ZMAX = MAX(ZMAX,(X(3,N)-D(3,N)))
-c       END DO
-
-c      ELSE
 
        DO N=1,NUMNOD
          IF (WEIGHT(N)==1) THEN
@@ -81,19 +64,16 @@ c      ELSE
           ZMAX = MAX(ZMAX,(X(3,N)-D(3,N)))
          END IF
        END DO
-       IF(NSPMD > 1)
-     .   CALL SPMD_MIN_MAX(XMIN,YMIN,ZMIN,XMAX,YMAX,ZMAX)
-c      END IF
+       IF(NSPMD > 1) CALL SPMD_MIN_MAX(XMIN,YMIN,ZMIN,XMAX,YMAX,ZMAX)
 
       CDG(1) = HALF * (XMAX + XMIN)
       CDG(2) = HALF * (YMAX + YMIN)
       CDG(3) = HALF * (ZMAX + ZMIN)      
-C
-C  
+
       DX = XMAX - XMIN      
       DY = YMAX - YMIN      
       DZ = ZMAX - ZMIN
-C
+
       SCALE = MAX(DX,DY,DZ)
 
       SCALE = ONE/SCALE

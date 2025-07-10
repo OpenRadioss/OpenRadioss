@@ -438,7 +438,6 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
-#include      "scr05_c.inc"
 #include      "parit_c.inc"
 #include      "task_c.inc"
 C-----------------------------------------------------------------
@@ -453,7 +452,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C Calcul des tailles des comms optimis\E9es parith/on
 C-----------------------------------------------
-      IF(IMACH==3.AND.NSPMD>0.AND.IPARIT>0)THEN
+      IF(NSPMD>0.AND.IPARIT>0)THEN
         LOC_PROC = ISPMD+1
 C
         LSD = 0
@@ -496,7 +495,6 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
-#include      "scr05_c.inc"
 #include      "parit_c.inc"
 #include      "task_c.inc"
 C-----------------------------------------------------------------
@@ -511,7 +509,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C Calcul des tailles des comms optimis\E9es parith/on
 C-----------------------------------------------
-      IF(IMACH==3.AND.NSPMD>0.AND.IPARIT>0)THEN
+      IF(NSPMD>0.AND.IPARIT>0)THEN
         LOC_PROC = ISPMD+1
 C
         LSD = 0
@@ -557,7 +555,6 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
-#include      "scr05_c.inc"
 #include      "parit_c.inc"
 #include      "task_c.inc"
 C-----------------------------------------------------------------
@@ -573,7 +570,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C Calcul des tailles des comms optimis\E9es parith/on
 C-----------------------------------------------
-      IF(IMACH==3.AND.NSPMD>0.AND.IPARIT>0)THEN
+      IF(NSPMD>0.AND.IPARIT>0)THEN
         LOC_PROC = ISPMD+1
 C
         LSD = 0

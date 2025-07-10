@@ -46,7 +46,6 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com04_c.inc"
-#include      "scr05_c.inc"
 #include      "param_c.inc"
 #include      "task_c.inc"
 C-----------------------------------------------
@@ -102,7 +101,7 @@ C=======================================================================
                 ENDIF
           ENDIF
         ELSEIF (NTY == 12) THEN                                       
-          IF(IMACH/=3 .OR. ISPMD==0)THEN                            
+          IF(ISPMD==0)THEN                            
             CALL INTTI12V(                                            
      .           IPARI(1,N),INTBUF_TAB(N)      ,X         ,V        , 
      .            A        ,MS       ,WEIGHT   ,WA        ,SKEW     ) 

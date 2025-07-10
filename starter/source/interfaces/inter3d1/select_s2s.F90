@@ -69,7 +69,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-          integer :: i,j,k,m,nj(4),ii,ifound,iwork(4),nj1(4),ier,jmin,i_old,n_buck,ihuge
+          integer :: i,j,k,nj(4),ii,ifound,iwork(4),nj1(4),ier,jmin,i_old,n_buck,ihuge
           integer :: n_dir(3),ix,iy,iz,nsu_1,nsu_2,jj,ndiv_min,nb_seg1(3),nb_seg2(3)
           real(kind=WP) :: area1(nsu1),area2(nsu2),xs1(3,nsu1),xs2(3,nsu2),n1(3,nsu1),n2(3,nsu2)
           real(kind=WP) :: ds,dsn,dmin,xj(3,4),marge1(nsu1),marge2(nsu2),angle,angle_min

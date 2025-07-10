@@ -242,30 +242,6 @@ C---------------------------------
 C       PONT THERMIQUE
 C---------------------------------
         IF(INTTH/=ZERO)THEN
-c         IF(IMACH/=3) THEN
-c          CALL I9GRD2(
-c     1       IERR  ,AREAM   ,TSTIFM,TM             ,VOLM      ,
-c     2       NB3M  ,IELEM(L),X     ,IXQ(1,IELEM(L)),IX        ,
-c     3       IPARG ,PM      ,ELBUF )
-c          IF(IERR==0) THEN
-c            EFRIC = HALF * EE(II) / (LL2-LL1 + 1)
-c            DO 80 LL=LL1,LL2
-c             LG  = LMSR(LL)
-c             IXX(1)=NSV(IRECTS(1,LG))
-c             IXX(2)=NSV(IRECTS(2,LG))
-c             CALL I9GRD2(
-c     1        IERR  ,AREAS    ,TSTIFS,TS              ,VOLS    ,
-c     2        NB3S  ,IELES(LG),X     ,IXQ(1,IELES(LG)),IXX     ,
-c     3        IPARG ,PM       ,ELBUF )
-c             IF(IERR==0) THEN
-c               TSTIFT = TSTIFM + TSTIFS + TSTIF
-c               PHI = AREAS * DT1 * (TM-TS) / TSTIFT
-c               ELBUF(NB3S) = ELBUF(NB3S) + (EFRIC+PHI)/VOLS
-c               ELBUF(NB3M) = ELBUF(NB3M) + (EFRIC-PHI)/VOLM
-c             ENDIF
-c 80         CONTINUE
-c          ENDIF
-c         ELSEIF(ISPMD==0)THEN
            KK = TAGM(L)
            EFRIC = HALF * EE(II) / (LL2-LL1+1)
              IERR = ICOMERR(KK)

@@ -91,12 +91,12 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local Variables
 ! ----------------------------------------------------------------------------------------------------------------------
-      real(kind=WP) :: P0,T0, E0, PSH ,PSTAR,RHOI
-      real(kind=WP) :: C1,C2,BULK,Gr,DD,EG,c,alpha,SVM,MU0,FSCALE_g, FSCALE_rho, FSCALE_b, FSCALE_P
+      real(kind=WP) :: P0, E0, PSH
+      real(kind=WP) :: C1,C2,BULK,Gr,DD,EG,c,alpha,MU0,FSCALE_g, FSCALE_rho, FSCALE_b, FSCALE_P
       real(kind=WP) :: fscale_b_unit, fscale_g_unit, fscale_p_unit, fscale_rho_unit
       real(kind=WP) :: rho0, rhor
       integer :: funcb, funcg
-      character(len=32) :: mtl_msg
+      character(len=36) :: mtl_msg
       logical :: is_available,is_encrypted
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
@@ -161,7 +161,7 @@
 !      ENDIF
 
       if(bulk <= zero)then
-        mtl_msg = "BULK MODULUS MUST BE DEFINED"
+        mtl_msg = "BULK MODULUS MUST BE DEFINED        "
         CALL ANCMSG(MSGID=856, MSGTYPE=MSGERROR, ANMODE=ANINFO, I1=133, I2=MAT_ID, C1='ERROR', C2=TITR, C3=mtl_msg)
       end if
 

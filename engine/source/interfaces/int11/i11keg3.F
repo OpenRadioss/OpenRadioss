@@ -109,20 +109,6 @@ C
       ENDDO
 C
       IF(INACTI==5)THEN
-       IF(IMACH/=3) THEN
-#include "lockon.inc"
-        DO I=1,JLT
-        PENIS(2,CS_LOC(I)) = MAX(PENIS(2,CS_LOC(I)),HALF*PENE(I))
-        PENIM(2,CM_LOC(I)) = MAX(PENIM(2,CM_LOC(I)),HALF*PENE(I))
-        ENDDO
-#include "lockoff.inc"
-        DO I=1,JLT
-         PENE(I) = PENE(I) - PENIS(1,CS_LOC(I)) - PENIM(1,CM_LOC(I))
-         PENE(I) = MAX(PENE(I),ZERO)
-         IF(PENE(I)==ZERO)STIF(I)=ZERO
-         GAPV(I) = GAPV(I) - PENIS(1,CS_LOC(I)) - PENIM(1,CM_LOC(I))
-        ENDDO
-       ELSE
         DO I=1,JLT
          IF(CS_LOC(I)<=NRTS) THEN
            PENIS(2,CS_LOC(I)) = MAX(PENIS(2,CS_LOC(I)),HALF*PENE(I))
@@ -146,23 +132,7 @@ C
            GAPV(I) = GAPV(I) - PENFI(NIN)%P(1,NI) - PENIM(1,CM_LOC(I))
          END IF
         END DO
-       END IF
       ELSE IF(INACTI==6)THEN
-       IF(IMACH/=3) THEN
-#include "lockon.inc"
-        DO I=1,JLT
-        PPLUS=HALF*(PENE(I)+FIVEEM2*(GAPV(I)-PENE(I)))
-        PENIS(2,CS_LOC(I)) = MAX(PENIS(2,CS_LOC(I)),PPLUS)
-        PENIM(2,CM_LOC(I)) = MAX(PENIM(2,CM_LOC(I)),PPLUS)
-        ENDDO
-#include "lockoff.inc"
-        DO I=1,JLT
-         PENE(I) = PENE(I) - PENIS(1,CS_LOC(I)) - PENIM(1,CM_LOC(I))
-         PENE(I) = MAX(PENE(I),ZERO)
-         IF(PENE(I)==ZERO)STIF(I)=ZERO
-         GAPV(I) = GAPV(I) - PENIS(1,CS_LOC(I)) - PENIM(1,CM_LOC(I))
-        ENDDO
-       ELSE
         DO I=1,JLT
          PPLUS=HALF*(PENE(I)+FIVEEM2*(GAPV(I)-PENE(I)))
          IF(CS_LOC(I)<=NRTS) THEN
@@ -187,7 +157,6 @@ C
            GAPV(I) = GAPV(I) - PENFI(NIN)%P(1,NI) - PENIM(1,CM_LOC(I))
          END IF
         END DO
-       END IF
       ENDIF
 C
       DO I=1,JLT
@@ -377,7 +346,7 @@ C
         OFF(I)=ONE
        ENDDO
 C
-       IF (IMACH==3.AND.NSPMD>1) THEN
+       IF (NSPMD>1) THEN
        IF ((INTP_D)>0) THEN
         DO I=1,JLT
          IF(CS_LOC(I)>NRTS) THEN
@@ -731,19 +700,6 @@ C
       ENDDO
 C
       IF(INACTI==5)THEN
-       IF(IMACH/=3) THEN
-#include "lockon.inc"
-        DO I=1,JLT
-        PENIS(2,CS_LOC(I)) = MAX(PENIS(2,CS_LOC(I)),HALF*PENE(I))
-        PENIM(2,CM_LOC(I)) = MAX(PENIM(2,CM_LOC(I)),HALF*PENE(I))
-        ENDDO
-#include "lockoff.inc"
-        DO I=1,JLT
-         PENE(I) = PENE(I) - PENIS(1,CS_LOC(I)) - PENIM(1,CM_LOC(I))
-         PENE(I) = MAX(PENE(I),ZERO)
-         GAPV(I) = GAPV(I) - PENIS(1,CS_LOC(I)) - PENIM(1,CM_LOC(I))
-        ENDDO
-       ELSE
         DO I=1,JLT
          IF(CS_LOC(I)<=NRTS) THEN
            PENIS(2,CS_LOC(I)) = MAX(PENIS(2,CS_LOC(I)),HALF*PENE(I))
@@ -765,22 +721,7 @@ C
            GAPV(I) = GAPV(I) - PENFI(NIN)%P(1,NI) - PENIM(1,CM_LOC(I))
          END IF
         END DO
-       END IF
       ELSE IF(INACTI==6)THEN
-       IF(IMACH/=3) THEN
-#include "lockon.inc"
-        DO I=1,JLT
-        PPLUS=HALF*(PENE(I)+FIVEEM2*(GAPV(I)-PENE(I)))
-        PENIS(2,CS_LOC(I)) = MAX(PENIS(2,CS_LOC(I)),PPLUS)
-        PENIM(2,CM_LOC(I)) = MAX(PENIM(2,CM_LOC(I)),PPLUS)
-        ENDDO
-#include "lockoff.inc"
-        DO I=1,JLT
-         PENE(I) = PENE(I) - PENIS(1,CS_LOC(I)) - PENIM(1,CM_LOC(I))
-         PENE(I) = MAX(PENE(I),ZERO)
-         GAPV(I) = GAPV(I) - PENIS(1,CS_LOC(I)) - PENIM(1,CM_LOC(I))
-        ENDDO
-       ELSE
         DO I=1,JLT
          PPLUS=HALF*(PENE(I)+FIVEEM2*(GAPV(I)-PENE(I)))
          IF(CS_LOC(I)<=NRTS) THEN
@@ -803,7 +744,6 @@ C
            GAPV(I) = GAPV(I) - PENFI(NIN)%P(1,NI) - PENIM(1,CM_LOC(I))
          END IF
         END DO
-       END IF
       ENDIF
 C
       DO I=1,JLT

@@ -700,24 +700,7 @@ C
       ENDIF
 C
       IF(NELS+NELC+NELTG==0)THEN
-       IF (IMACH/=3) THEN
-         IF(NINT>0) THEN
-            CALL ANCMSG(MSGID=92,
-     .                  MSGTYPE=MSGWARNING,
-     .                  ANMODE=ANINFO_BLIND_2,
-     .                  I1=ID,
-     .                  C1=TITR,
-     .                  I2=I)
-         ENDIF
-         IF(NINT<0) THEN
-            CALL ANCMSG(MSGID=93,
-     .                  MSGTYPE=MSGWARNING,
-     .                  ANMODE=ANINFO_BLIND_2,
-     .                  I1=ID,
-     .                  C1=TITR,
-     .                  I2=I)
-         ENDIF
-       ELSE
+
 C      en SPMD il faut un element associe a l'arrete sinon erreur
          IF(NINT>0) THEN
             CALL ANCMSG(MSGID=481,
@@ -735,7 +718,7 @@ C      en SPMD il faut un element associe a l'arrete sinon erreur
      .                  C1=TITR,
      .                  I2=I)
          ENDIF
-       ENDIF
+
       ENDIF
   500 CONTINUE
 C---------------------------
@@ -886,7 +869,6 @@ C-----------------------------------------------
 #include      "units_c.inc"
 #include      "param_c.inc"
 #include      "com04_c.inc"
-#include      "scr05_c.inc"
 #include      "scr08_c.inc"
 #include      "scr23_c.inc"
 C-----------------------------------------------
@@ -1259,30 +1241,7 @@ C
         ENDIF
       ENDIF
 C---------------------------
-      IF (IMACH/=3) THEN
-       IF(NELS+NELC+NELTG+NELT+NELP+NELR+NUMELX==0
-     .                       .AND.SLSFAC>0.)THEN
-C       IF(NINTR>0) WRITE (IOUT,1100) I, NOINT
-         IF(NINTR>0) THEN
-            CALL ANCMSG(MSGID=92,
-     .                  MSGTYPE=MSGWARNING,
-     .                  ANMODE=ANINFO_BLIND_2,
-     .                  I1=ID,
-     .                  C1=TITR,
-     .                  I2=I)
-         ENDIF
-C       IF(NINTR<0) WRITE (IOUT,1200) I, NOINT
-C       IWARN=IWARN+1
-         IF(NINTR<0) THEN
-            CALL ANCMSG(MSGID=93,
-     .                  MSGTYPE=MSGWARNING,
-     .                  ANMODE=ANINFO_BLIND_2,
-     .                  I1=ID,
-     .                  C1=TITR,
-     .                  I2=I)
-         ENDIF
-       ENDIF
-      ELSEIF(NELS+NELC+NELTG+NELT+NELP+NELR+NUMELX==0.)THEN
+      IF(NELS+NELC+NELTG+NELT+NELP+NELR+NUMELX==0.)THEN
 C en SPMD il faut un element associe a l'arrete sinon erreur
         IF(NINTR>0) THEN
           CALL ANCMSG(MSGID=481,
@@ -1301,6 +1260,7 @@ C en SPMD il faut un element associe a l'arrete sinon erreur
      .                I2=I)
         ENDIF
       ENDIF
+
   500 CONTINUE
 C---------------------------
 C     GAP 

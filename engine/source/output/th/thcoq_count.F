@@ -40,7 +40,6 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
-#include      "scr05_c.inc"
 #include      "task_c.inc"
 #include      "param_c.inc"
 #include      "tabsiz_c.inc"
@@ -77,12 +76,10 @@ C=======================================================================
 !   ------------------------------- 
                 II=0
                 IH=IAD
-                IF (IMACH == 3) THEN
-                    DO WHILE((ITHBUF(IH+NN)/=ISPMD).AND.(IH<IAD+NN))
-                        IH = IH + 1
-                    ENDDO
-                    IF (IH>=IAD+NN) GOTO 666 
-                ENDIF
+                DO WHILE((ITHBUF(IH+NN)/=ISPMD).AND.(IH<IAD+NN))
+                    IH = IH + 1
+                ENDDO
+                IF (IH>=IAD+NN) GOTO 666 
 C-------------------
                 DO NG=1,NGROUP
                     ITY=IPARG(5,NG)
@@ -109,13 +106,10 @@ c---------
 C
                                 IF (K == N) THEN
                                     IH=IH+1
-                                    IF (IMACH == 3) THEN
-                                        II = ((IH-1) - IAD)*NVAR
-                                        DO WHILE((ITHBUF(IH+NN) /= ISPMD) .AND. (IH < IAD+NN))
-                                            IH = IH + 1
-                                        ENDDO
-                                    ENDIF ! IMACH == 3
-
+                                    II = ((IH-1) - IAD)*NVAR
+                                    DO WHILE((ITHBUF(IH+NN) /= ISPMD) .AND. (IH < IAD+NN))
+                                        IH = IH + 1
+                                    ENDDO
                                     IF (IH > IAD+NN) GOTO 666
                                     WA_SIZE = WA_SIZE + NVAR + 1
                                 ENDIF ! K==N

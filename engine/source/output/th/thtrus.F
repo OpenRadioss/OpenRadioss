@@ -43,7 +43,6 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
-#include      "scr05_c.inc"
 #include      "task_c.inc"
 #include      "param_c.inc"
 C-----------------------------------------------
@@ -79,13 +78,10 @@ C-------------------------
 !   -------------------------------
                 II=0
                 IH=IAD
-                IF (IMACH == 3) THEN
-                    DO WHILE (ITHBUF(IH+NN) /= ISPMD .AND. IH < IAD+NN)
-                        IH = IH + 1
-                    ENDDO
-                    IF (IH >= IAD+NN) GOTO 666 
-                ENDIF
-C
+                DO WHILE (ITHBUF(IH+NN) /= ISPMD .AND. IH < IAD+NN)
+                    IH = IH + 1
+                ENDDO
+                IF (IH >= IAD+NN) GOTO 666 
                 DO NG=1,NGROUP
                     ITY=IPARG(5,NG)
                     GBUF => ELBUF_TAB(NG)%GBUF
@@ -99,12 +95,10 @@ C
                             IP=ITHBUF(IH+NN)
                             IF (K == N) THEN
                                 IH=IH+1
-                                IF (IMACH == 3) THEN
-                                    II = ((IH-1) - IAD)*NVAR
-                                    DO WHILE (ITHBUF(IH+NN) /= ISPMD .AND. IH < IAD+NN)
-                                        IH = IH + 1
-                                    ENDDO
-                                ENDIF
+                                II = ((IH-1) - IAD)*NVAR
+                                DO WHILE (ITHBUF(IH+NN) /= ISPMD .AND. IH < IAD+NN)
+                                  IH = IH + 1
+                                ENDDO
                                 IF (IH > IAD+NN) GOTO 666
                                 DO L=IADV,IADV+NVAR-1
                                     K=ITHBUF(L)

@@ -74,7 +74,6 @@ C-----------------------------------------------
 #include      "units_c.inc"
 #include      "com04_c.inc"
 #include      "vect07_c.inc"
-#include      "scr05_c.inc"
 #include      "scr06_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -174,8 +173,8 @@ C calcul de TZINF en fct de la marge et non le contraire
       TZINF = MARGE + GAP
 C MARGE_ST : marge independante du BUMULT en input pour trouver les memes pene initiales (cas delete ou chgt coord.)
       MARGE_ST = BMUL0*DD
-C Si IMACH = 3 et IDDLEVEL = 0, alors 1er passage ici, avec la MARGE de l'ENGINE pour trouver les memes candidats
-      IF(IMACH==3.AND.IDDLEVEL==0) MARGE_ST = MARGE
+C Si IDDLEVEL = 0, alors 1er passage ici, avec la MARGE de l'ENGINE pour trouver les memes candidats
+      IF(IDDLEVEL==0) MARGE_ST = MARGE
       TZINF_ST = MARGE_ST + GAP
 C      MAXBOX= ZEP9*(DD - TZINF)
 C DD + 2*TZINF : taille element augmentee de zone influence

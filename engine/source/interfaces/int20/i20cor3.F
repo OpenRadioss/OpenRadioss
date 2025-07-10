@@ -372,7 +372,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "scr05_c.inc"
 #include      "sms_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -399,60 +398,6 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I ,NN
 C-----------------------------------------------
-      IF(IMACH/=3) THEN
-        IF(IGAP==0)THEN
-          DO I=1,JLT
-            GAPV(I)=GAPMIN
-          ENDDO
-        ELSE
-          DO I=1,JLT
-            GAPV(I)=GAP_S(CAND_S(I))+GAP_M(CAND_M(I))
-            GAPV(I)=MAX(GAPMIN,GAPV(I))
-          ENDDO
-        ENDIF
-C
-        DO I=1,JLT
-          NL1(I)=IXLINS(1,CAND_S(I))
-          NL2(I)=IXLINS(2,CAND_S(I))
-          ML1(I)=IXLINM(1,CAND_M(I))
-          ML2(I)=IXLINM(2,CAND_M(I))
-          N1(I)=NLG(NL1(I))
-          N2(I)=NLG(NL2(I))
-          M1(I)=NLG(ML1(I))
-          M2(I)=NLG(ML2(I))
-          STIF(I)=ABS(STFS(CAND_S(I)))*STFM(CAND_M(I))
-     .          / MAX(EM20,ABS(STFS(CAND_S(I)))+STFM(CAND_M(I)))
-          XXS1(I) = XA(1,NL1(I))
-          XYS1(I) = XA(2,NL1(I))
-          XZS1(I) = XA(3,NL1(I))
-          XXS2(I) = XA(1,NL2(I))
-          XYS2(I) = XA(2,NL2(I))
-          XZS2(I) = XA(3,NL2(I))
-          XXM1(I) = XA(1,ML1(I))
-          XYM1(I) = XA(2,ML1(I))
-          XZM1(I) = XA(3,ML1(I))
-          XXM2(I) = XA(1,ML2(I))
-          XYM2(I) = XA(2,ML2(I))
-          XZM2(I) = XA(3,ML2(I))
-          VXS1(I) = VA(1,NL1(I))
-          VYS1(I) = VA(2,NL1(I))
-          VZS1(I) = VA(3,NL1(I))
-          VXS2(I) = VA(1,NL2(I))
-          VYS2(I) = VA(2,NL2(I))
-          VZS2(I) = VA(3,NL2(I))
-          VXM1(I) = VA(1,ML1(I))
-          VYM1(I) = VA(2,ML1(I))
-          VZM1(I) = VA(3,ML1(I))
-          VXM2(I) = VA(1,ML2(I))
-          VYM2(I) = VA(2,ML2(I))
-          VZM2(I) = VA(3,ML2(I))
-          MS1(I) = MS(N1(I))
-          MS2(I) = MS(N2(I))
-          MM1(I) = MS(M1(I))
-          MM2(I) = MS(M2(I))
-        ENDDO
-C
-      ELSE
         IF(IGAP==0)THEN
           DO I=1,JLT
             GAPV(I)=GAPMIN
@@ -548,7 +493,6 @@ C
             MM2(I) = MS(M2(I))
           END IF
         END DO
-      END IF
 
       DO I=1,JLT
         STIF(I)=MAX(STFAC,ONE)*STIF(I)

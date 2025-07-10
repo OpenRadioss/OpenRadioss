@@ -539,7 +539,7 @@ C
 C
       CALL SPMD_MUMPS_RHS(X,     CDDLP, MUMPS_PAR%RHS, NDDL, 2,
      .                    NDDLG)
-C----FLAG for MUMPS: IF (IMPL_S>0.AND.ISOLV==3.AND.IMACH==3)
+C----FLAG for MUMPS: IF (IMPL_S>0.AND.ISOLV==3)
           LENT = 1024*MUMPS_PAR%INFO(16)                   
         MUMPSFILESIZE = MAX(MUMPSFILESIZE,LENT)       
 C

@@ -51,11 +51,7 @@ C-----------------------------------------------
 C seul le proc 0 effectue le traitement
       IF (ISPMD/=0) GOTO 100
 C-----------------------------------------------
-c      IF (IMACH/=3) THEN
-c        N1 = NUMNOD + NODCUT + NSECT + NRWALL + NNWL
-c      ELSE
-        N1 = NUMNODG + NODCUT + NSECT + NRWALL + NNWL
-c      ENDIF
+      N1 = NUMNODG + NODCUT + NSECT + NRWALL + NNWL
       DO ISRG=1,NSURG
           DO I = 1,6
            DO J = 1,7
@@ -72,7 +68,7 @@ c      ENDIF
            N1 = N1 + 8
           ENDDO
       END DO
-C
+
  100  CONTINUE
       RETURN
       END

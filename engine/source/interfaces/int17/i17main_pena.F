@@ -403,7 +403,6 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com04_c.inc"
 #include      "com08_c.inc"
-#include      "scr05_c.inc"
 #include      "param_c.inc"
 #include      "parit_c.inc"
 C-----------------------------------------------
@@ -438,12 +437,7 @@ C-----------------------------------------------
       IGE         = IPARI(34,NIN)
       NMES  =IGRBRIC(IGN)%NENTITY
       NME   =IGRBRIC(IGE)%NENTITY
-C
-      IF(IMACH==3)THEN
-        MX_CAND=MULTIMP*IPARI(18,NIN)
-      ELSE
-        MX_CAND=MULTIMP*NMES
-      END IF
+      MX_CAND=MULTIMP*IPARI(18,NIN)
       IF(IPARIT/=0)THEN
 C        LSKYI17=MX_CAND
 C LSKYI17 fonction de IMAXIMP : nombre d'impacts max defini dans starter/lecint

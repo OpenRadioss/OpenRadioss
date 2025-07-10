@@ -61,7 +61,6 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "units_c.inc"
-#include      "scr05_c.inc"
 #include      "impl1_c.inc"
 #include      "impl2_c.inc"
 #include      "parit_c.inc"
@@ -268,7 +267,7 @@ C----------------------------
         READ(KEY3,'(I2)')ISOLV
         CALL WRIUSC2(IKAD(IKEY)+K,1,KEY0(IKEY))
         READ(IUSC2,*)IPREC,L_LIM,ITOL,L_TOL
-        IF (IMACH==3.AND.ISOLV==3) IMUMPSD=L_LIM
+        IF (ISOLV==3) IMUMPSD=L_LIM
 C----------------------------
 C      BCS parameters
 C----------------------------

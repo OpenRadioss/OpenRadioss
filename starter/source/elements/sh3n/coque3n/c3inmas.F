@@ -68,7 +68,6 @@ C-----------------------------------------------
 #include      "param_c.inc"
 #include      "remesh_c.inc"
 #include      "scr03_c.inc"
-#include      "scr05_c.inc"
 #include      "scr12_c.inc"
 #include      "scr17_c.inc"
 #include      "vect01_c.inc"
@@ -1416,20 +1415,8 @@ C-----
 C----------------------------------------------
 C     INITIALISATION DES RIGIDITES NODALES POUR INTERFACES
 C----------------------------------------------
-      IF (IGTYP == 52 .OR. 
-     .      ((IGTYP == 17 .OR. IGTYP == 51) .AND. IGMAT > 0))THEN     
+      IF (IGTYP == 52 .OR. ((IGTYP == 17 .OR. IGTYP == 51) .AND. IGMAT > 0))THEN     
            IF(I7STIFS/=0)THEN
-            IF (IMACH/=3) THEN
-             DO I=LFT,LLT
-               ET=STACK%PM(2,ISUBSTACK)*THK(I)
-               ETNOD(IX1(I))=ETNOD(IX1(I))+ET
-               ETNOD(IX2(I))=ETNOD(IX2(I))+ET
-               ETNOD(IX3(I))=ETNOD(IX3(I))+ET
-               NSHNOD(IX1(I))=NSHNOD(IX1(I))+1
-               NSHNOD(IX2(I))=NSHNOD(IX2(I))+1
-               NSHNOD(IX3(I))=NSHNOD(IX3(I))+1
-             ENDDO
-            ELSE
              DO I=LFT,LLT
                ET=STACK%PM(2,ISUBSTACK)*THK(I)
                STTG(I)=ET
@@ -1437,22 +1424,10 @@ C----------------------------------------------
                NSHNOD(IX2(I))=NSHNOD(IX2(I))+1
                NSHNOD(IX3(I))=NSHNOD(IX3(I))+1
              ENDDO
-            ENDIF
            ENDIF
        ELSEIF(IGTYP == 11 .AND. IGMAT >  0) THEN
            IPGMAT = 700
            IF(I7STIFS/=0)THEN
-            IF (IMACH/=3) THEN
-             DO I=LFT,LLT
-               ET=GEO(IPGMAT +2 ,IPROP)*THK(I)
-               ETNOD(IX1(I))=ETNOD(IX1(I))+ET
-               ETNOD(IX2(I))=ETNOD(IX2(I))+ET
-               ETNOD(IX3(I))=ETNOD(IX3(I))+ET
-               NSHNOD(IX1(I))=NSHNOD(IX1(I))+1
-               NSHNOD(IX2(I))=NSHNOD(IX2(I))+1
-               NSHNOD(IX3(I))=NSHNOD(IX3(I))+1
-             ENDDO
-            ELSE
              DO I=LFT,LLT
                ET=GEO(IPGMAT +2 ,IPROP)*THK(I)
                STTG(I)=ET
@@ -1460,21 +1435,9 @@ C----------------------------------------------
                NSHNOD(IX2(I))=NSHNOD(IX2(I))+1
                NSHNOD(IX3(I))=NSHNOD(IX3(I))+1
              ENDDO
-            ENDIF
            ENDIF
         ElSE
           IF(I7STIFS/=0)THEN
-            IF (IMACH/=3) THEN
-             DO I=LFT,LLT
-               ET=PM(20,IMAT)*THK(I)
-               ETNOD(IX1(I))=ETNOD(IX1(I))+ET
-               ETNOD(IX2(I))=ETNOD(IX2(I))+ET
-               ETNOD(IX3(I))=ETNOD(IX3(I))+ET
-               NSHNOD(IX1(I))=NSHNOD(IX1(I))+1
-               NSHNOD(IX2(I))=NSHNOD(IX2(I))+1
-               NSHNOD(IX3(I))=NSHNOD(IX3(I))+1
-             ENDDO
-            ELSE
              DO I=LFT,LLT
                ET=PM(20,IMAT)*THK(I)
                STTG(I)=ET
@@ -1482,7 +1445,6 @@ C----------------------------------------------
                NSHNOD(IX2(I))=NSHNOD(IX2(I))+1
                NSHNOD(IX3(I))=NSHNOD(IX3(I))+1
              ENDDO
-            ENDIF
            ENDIF
        ENDIF ! IGMAT      
        DEALLOCATE(THK_IT,POS_IT,   LAYPOS,RATIO_THKLY )             

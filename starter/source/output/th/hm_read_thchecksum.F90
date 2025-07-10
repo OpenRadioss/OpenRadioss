@@ -87,42 +87,21 @@ contains
       !                                                   local variables
       ! ----------------------------------------------------------------------------------------------------------------------
       integer :: j
-      integer :: jj
       integer :: i
-      integer :: isu
       integer :: id
       integer :: nne
-      integer :: nosys
-      integer,dimension(10) :: j10
-      integer :: ntot
-      integer :: kk
-      integer :: ier
-      integer :: ok
-      integer :: igrs
-      integer :: nsu
       integer :: k
-      integer :: l
-      integer :: jrec
-      integer :: cont
       integer :: iad0
-      integer :: iadv
-      integer :: ntri
       integer :: ifitmp
-      integer :: iadfin
       integer :: nvar
-      integer :: m
       integer :: n
       integer :: iad1
       integer :: iad2
-      integer :: isk
-      integer :: iproc
       integer :: idsmax
       integer :: ids
       integer :: ids_obj1
       integer :: hm_nthchecksum
       character(len=nchartitle)::titr
-      character, dimension(10) :: var
-      logical, dimension(:), allocatable :: found
       logical :: is_available
       integer,target :: len_title
       integer,target :: len_checksum

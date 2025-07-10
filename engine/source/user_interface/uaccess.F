@@ -559,7 +559,7 @@ C   weight : pointeur 18 (cf resol.F)
 C
 C SPMD communication du resultat a ts les procs
 C
-       IF(IMACH==3.AND.NSPMD>1.AND.GETUNOD_NOCOM==0) THEN
+       IF(NSPMD>1.AND.GETUNOD_NOCOM==0) THEN
          IF(P==1) THEN
            BUFS(1) = AX
            BUFS(2) = AY

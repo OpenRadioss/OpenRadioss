@@ -53,7 +53,6 @@ C-----------------------------------------------
 #include      "com04_c.inc"
 #include      "vect01_c.inc"
 #include      "scr03_c.inc"
-#include      "scr05_c.inc"
 #include      "scr12_c.inc"
 #include      "param_c.inc"
 #include      "scr23_c.inc"
@@ -69,8 +68,7 @@ C-----------------------------------------------
      .        DD_IAD_PREV(NSPMD+1,*),
      .        IXS10(6,*),IXS20(12,*),IXS16(8,*), IXTG6(4,*),
      .        KXX(NIXX,*), IXX(*), KXSP(NISP,*), IXSP(*), CEPSP(*)
-      my_real
-     .        X(3,NUMNOD)
+      my_real :: X(3,NUMNOD)
 C-----------------------------------------------
 C   F u n c t i o n
 C-----------------------------------------------
@@ -92,7 +90,7 @@ C
         ENDDO
       ENDDO
 C                
-C phase 2 : frontiere 
+C phase 2 : boundary
 C
       DO NG=1,NGROUP
         ITY = IPARG(5,NG)
@@ -156,7 +154,7 @@ C
           ICON = 3
           DIM = 4
           IF(ICNOD==6)THEN
-C shift de 1 sur ixtg6
+C shift of 1 on ixtg6
             CALL DD_FR(
      .          IXTG6(4,1+NFT-NUMELTG+NUMELTG6),P,NEL,
      .          ICON,DIM)
@@ -164,36 +162,16 @@ C shift de 1 sur ixtg6
         ELSE IF(ITY==51) THEN
           ICON = 1
           DIM  = NISP
-C kxsp decale pour retrouver KXSP(3) = no noeud
+C kxsp shifted to retrieve KXSP(3) = noeud id
           CALL DD_FR(KXSP(2,NFT+1),P,NEL,ICON,DIM)
         ELSE IF(ITY==100) THEN
           DIM = NIXX 
           CALL DD_FRX(KXX(1,NFT+1),IXX,P,NEL,DIM)
         ENDIF        
       END DO
-c      IF(NUMSPH>0)THEN
-c        DO PP = 1, NSPMD
-c          DO P = 1, NSPMD
-c            DOMAINE(PP,P) = 0
-c          END DO
-c        END DO
-c        DO I = 1, NUMSPH
-c          N = KXSP(3,I)
-c          PP = CEPSP(I)+1
-c          DO P = 1, NSPMD
-c            IF(MOD(FRONT(N,P),10)==1) THEN
-c              DOMAINE(PP,P) = DOMAINE(PP,P) + 1
-c            END IF
-c          END DO
-c       END DO
-c       DO P = 1, NSPMD
-c         print *,P,'value :',(DOMAINE(P,PP),PP=1,NSPMD)
-c       END DO
-c      END IF
 
-C              3) Ecrire le fichier Anim de la DD
-C  a condition que imach==3 !
-      IF (IMACH==3.AND.DECANI==1.AND.ANIM_VERS<40) THEN
+C              3) ANIM file for domain decomposition
+      IF (DECANI==1.AND.ANIM_VERS<40) THEN
         CALL DD_ANI(X     ,IXS   ,IXQ  ,IXC  ,
      .              IXT   ,IXP   ,IXR  ,IXTG ,
      .              IPARG ,KXSP  ,IXSP )

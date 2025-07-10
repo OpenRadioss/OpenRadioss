@@ -46,7 +46,6 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "param_c.inc"
 #include      "vect01_c.inc"
-#include      "scr05_c.inc"
 #include      "scr12_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -84,16 +83,9 @@ C----------------------------------------------
 C     INITIALISATION DES MASSES NODALES
 C----------------------------------------------
 C     mass init parith/on spmd
-      IF (IMACH /= 3) THEN
-        DO I=LFT,LLT
-          MS(NC1(I))=MS(NC1(I))+EMS(I)
-          MS(NC2(I))=MS(NC2(I))+EMS(I)
-        ENDDO
-      ELSE
-        DO I=LFT,LLT
-          MST(I)=EMS(I)
-        ENDDO
-      ENDIF
+      DO I=LFT,LLT
+        MST(I)=EMS(I)
+      ENDDO
 C----------------------------------------------
 C     INITIALISATION DES RIGIDITES NODALES
 C     et RIGIDITES NODALES POUR INTERFACES
@@ -104,16 +96,9 @@ C----------------------------------------------
        STIFN(NC2(I))=STIFN(NC2(I))+STI(I)
       ENDDO
       IF (I7STIFS /= 0) THEN
-        IF (IMACH /= 3) THEN
-          DO I=LFT,LLT
-           STIFINT(NC1(I))=STIFINT(NC1(I))+STI(I)
-           STIFINT(NC2(I))=STIFINT(NC2(I))+STI(I)
-          ENDDO
-        ELSE
-          DO I=LFT,LLT
-           STT(I)=STI(I)
-          ENDDO
-        ENDIF
+        DO I=LFT,LLT
+         STT(I)=STI(I)
+        ENDDO
       ENDIF
 C
       DO I=LFT,LLT

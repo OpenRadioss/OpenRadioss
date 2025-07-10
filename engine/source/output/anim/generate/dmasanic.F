@@ -45,7 +45,6 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
-#include      "scr05_c.inc"
 #include      "param_c.inc"
 #include      "task_c.inc"
 C-----------------------------------------------
@@ -95,7 +94,7 @@ C
         NEL   =IPARG(2,NG)
         ITY   =IPARG(5,NG)
         NPT   =IABS(IPARG(6,NG))
-        IF (IMACH==3.AND.ISPMD==0) THEN
+        IF (ISPMD==0) THEN
           IF (ITY/=ITY_OLD) THEN
             NEL_OLD = 0
             ITY_OLD= ITY
@@ -107,7 +106,7 @@ C
         IAD   =IPARG(4,NG)
         LFT=1
         LLT=NEL
-        IF (IMACH==3.AND.ISPMD==0) THEN
+        IF (ISPMD==0) THEN
             NFT_FA = NEL_OLD - NEL 
         ELSE
             NFT_FA = NFT

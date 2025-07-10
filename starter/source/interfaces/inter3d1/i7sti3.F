@@ -76,7 +76,6 @@ C-----------------------------------------------
 #include      "com04_c.inc"
 #include      "param_c.inc"
 #include      "remesh_c.inc"
-#include      "scr05_c.inc"
 #include      "scr08_c.inc"
 #include      "scr17_c.inc"
 #include      "units_c.inc"
@@ -912,24 +911,7 @@ C----------------------------------
         !  NELS+NELC+NELTG = 0      !
         !---------------------------!
         IF(NELS+NELC+NELTG == 0)THEN
-         IF (IMACH /= 3) THEN
-           IF(NINT > 0) THEN
-              CALL ANCMSG(MSGID=92,
-     .                    MSGTYPE=MSGWARNING,
-     .                    ANMODE=ANINFO_BLIND_2,
-     .                    I1=ID,
-     .                    C1=TITR,
-     .                    I2=I)
-           ENDIF
-           IF(NINT < 0) THEN
-              CALL ANCMSG(MSGID=93,
-     .                    MSGTYPE=MSGWARNING,
-     .                    ANMODE=ANINFO_BLIND_2,
-     .                    I1=ID,
-     .                    C1=TITR,
-     .                    I2=I)
-           ENDIF
-         ELSE
+
 C        SPMD EXCHANGE : if no element associated to the edge => error
            IF(NINT > 0) THEN
              CALL ANCMSG(MSGID=481,             
@@ -947,7 +929,7 @@ C        SPMD EXCHANGE : if no element associated to the edge => error
      .                   C1=TITR,               
      .                   I2=I)                  
            ENDIF
-         ENDIF
+
         ENDIF
 C----------------------------------        
       ENDDO!next I=1,NRT
@@ -1043,24 +1025,7 @@ C------------------------------------
            ENDIF
           ENDIF  
         ELSEIF(NELIG3D == 0)THEN
-         IF (IMACH /= 3) THEN
-           IF(NINT > 0) THEN
-              CALL ANCMSG(MSGID=92,
-     .                    MSGTYPE=MSGWARNING,
-     .                    ANMODE=ANINFO_BLIND_2,
-     .                    I1=ID,
-     .                    C1=TITR,
-     .                    I2=I)
-           ENDIF
-           IF(NINT < 0) THEN
-              CALL ANCMSG(MSGID=93,
-     .                    MSGTYPE=MSGWARNING,
-     .                    ANMODE=ANINFO_BLIND_2,
-     .                    I1=ID,
-     .                    C1=TITR,
-     .                    I2=I)
-           ENDIF
-         ELSE
+
 C        SPMD : one element must be associated to the edge
            IF(NINT > 0) THEN
               CALL ANCMSG(MSGID=481,
@@ -1078,7 +1043,7 @@ C        SPMD : one element must be associated to the edge
      .                    C1=TITR,
      .                    I2=I)
            ENDIF
-         ENDIF
+
         ENDIF
       ENDDO!next I
       

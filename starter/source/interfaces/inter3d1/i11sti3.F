@@ -81,7 +81,6 @@ C-----------------------------------------------
 #include      "param_c.inc"
 #include      "com01_c.inc"
 #include      "com04_c.inc"
-#include      "scr05_c.inc"
 #include      "scr08_c.inc"
 #include      "scr23_c.inc"
 #include      "r2r_c.inc"
@@ -520,22 +519,7 @@ C -----Friction model ------
 C------------------------------------
         ENDIF
 
-        IF (IMACH /= 3) THEN
-          IF(NELS+NELC+NELTG+NELT+NELP+NELR+NUMELX==0.AND.SLSFAC>0.) THEN
-            IF(NINTR>0) THEN
-              CALL ANCMSG(MSGID=92,MSGTYPE=MSGWARNING,ANMODE=ANINFO_BLIND_2,
-     .                    I1=ID,
-     .                    C1=TITR,
-     .                    I2=I)
-            ENDIF
-            IF(NINTR < 0) THEN
-              CALL ANCMSG(MSGID=93,MSGTYPE=MSGWARNING,ANMODE=ANINFO_BLIND_2,
-     .                    I1=ID,
-     .                    C1=TITR,
-     .                    I2=I)
-            ENDIF
-          ENDIF
-        ELSEIF(NELS+NELC+NELTG+NELT+NELP+NELR+NUMELX==0.)THEN
+        IF(NELS+NELC+NELTG+NELT+NELP+NELR+NUMELX==0.)THEN
           IF(NINTR > 0) THEN
             CALL ANCMSG(MSGID=481,MSGTYPE=MSGERROR,ANMODE=ANINFO_BLIND_2,
      .                  I1=ID,

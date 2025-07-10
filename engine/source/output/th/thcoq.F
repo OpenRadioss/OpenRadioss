@@ -53,7 +53,6 @@ C-----------------------------------------------
 #include      "mvsiz_p.inc"
 #include      "com01_c.inc"
 #include      "com04_c.inc"
-#include      "scr05_c.inc"
 #include      "task_c.inc"
 #include      "param_c.inc"
 C-----------------------------------------------
@@ -106,13 +105,11 @@ C=======================================================================
       II=0
       IH=IAD
 C   specifique spmd
-      IF (IMACH == 3) THEN
 C decalage IH
-        DO WHILE((ITHBUF(IH+NN)/=ISPMD).AND.(IH<IAD+NN))
-          IH = IH + 1
-        ENDDO
-        IF (IH>=IAD+NN) GOTO 666 
-      ENDIF
+      DO WHILE((ITHBUF(IH+NN)/=ISPMD).AND.(IH<IAD+NN))
+        IH = IH + 1
+      ENDDO
+      IF (IH>=IAD+NN) GOTO 666 
 C-------------------
       DO NG=1,NGROUP
         ITY=IPARG(5,NG)
@@ -243,13 +240,11 @@ C
               IF (K == N) THEN
                 IH=IH+1
 C             traitement specifique spmd
-                IF (IMACH == 3) THEN
 C               recherche du ii correct
-                  II = ((IH-1) - IAD)*NVAR
-                  DO WHILE((ITHBUF(IH+NN) /= ISPMD) .AND. (IH < IAD+NN))
-                    IH = IH + 1
-                  ENDDO
-                ENDIF ! IMACH == 3
+                II = ((IH-1) - IAD)*NVAR
+                DO WHILE((ITHBUF(IH+NN) /= ISPMD) .AND. (IH < IAD+NN))
+                  IH = IH + 1
+                ENDDO
 C
                 IF (IH > IAD+NN) GOTO 666
 C

@@ -57,7 +57,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "scr05_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -65,11 +64,9 @@ C-----------------------------------------------
      .    JLT,IDT, NOINT,IGAP , IGSTI,NIN,ITY,NSN
       INTEGER IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ),
      .        NSVG(MVSIZ)
-C     REAL
       my_real
      .   GAP, X(3,*), STF(*), STFN(*),GAP_S(*),GAP_M(*),
      .   MS(*), V(3,*)
-C     REAL
       my_real
      .   X1(MVSIZ), X2(MVSIZ), X3(MVSIZ), X4(MVSIZ),
      .   Y1(MVSIZ), Y2(MVSIZ), Y3(MVSIZ), Y4(MVSIZ),
@@ -84,86 +81,6 @@ C-----------------------------------------------
       INTEGER I ,J  ,IL, L, NN, IG,JFT,NI,IX
 C-----------------------------------------------
 C
-      IF(IMACH/=3) THEN
-       IF(IGAP==0)THEN
-        DO I=1,JLT
-          GAPV(I)=GAP
-        ENDDO
-      ELSE
-          DO I=1,JLT
-            GAPV(I)=GAP_S(CAND_N(I))+GAP_M(CAND_E(I))
-            GAPV(I)=MIN(GAPV(I),GAPMAX)
-            GAPV(I)=MAX(GAPMIN,GAPV(I))
-          END DO
-      ENDIF
-C
-      DO I=1,JLT
-        IG = NSV(CAND_N(I))
-        NSVG(I) = IG
-        XI(I) = X(1,IG)
-        YI(I) = X(2,IG)
-        ZI(I) = X(3,IG)
-        VXI(I) = V(1,IG)
-        VYI(I) = V(2,IG)
-        VZI(I) = V(3,IG)
-        MSI(I)= MS(IG)
-C
-        L  = CAND_E(I)
-C
-        IX1(I)=IRECT(1,L)
-        X1(I)=X(1,IX1(I))
-        Y1(I)=X(2,IX1(I))
-        Z1(I)=X(3,IX1(I))
-C
-        IX2(I)=IRECT(2,L)
-        X2(I)=X(1,IX2(I))
-        Y2(I)=X(2,IX2(I))
-        Z2(I)=X(3,IX2(I))
-C
-        IX3(I)=IRECT(3,L)
-        X3(I)=X(1,IX3(I))
-        Y3(I)=X(2,IX3(I))
-        Z3(I)=X(3,IX3(I))
-C
-        IX4(I)=IRECT(4,L)
-        X4(I)=X(1,IX4(I))
-        Y4(I)=X(2,IX4(I))
-        Z4(I)=X(3,IX4(I))
-C
-      ENDDO
-       IF(IGSTI<=1)THEN
-        DO I=1,JLT
-         L  = CAND_E(I)
-         STIF(I)=STF(L)*ABS(STFN(CAND_N(I)))
-        ENDDO
-       ELSEIF(IGSTI==2)THEN
-        DO I=1,JLT
-         L  = CAND_E(I)
-         STIF(I)=HALF*(STF(L)+ABS(STFN(CAND_N(I))))
-         STIF(I)=MAX(KMIN,MIN(STIF(I),KMAX))
-        ENDDO
-       ELSEIF(IGSTI==3)THEN
-        DO I=1,JLT
-         L  = CAND_E(I)
-         STIF(I)=MAX(STF(L),ABS(STFN(CAND_N(I))))
-         STIF(I)=MAX(KMIN,MIN(STIF(I),KMAX))
-        ENDDO
-       ELSEIF(IGSTI==4)THEN
-        DO I=1,JLT
-         L  = CAND_E(I)
-         STIF(I)=MIN(STF(L),ABS(STFN(CAND_N(I))))
-         STIF(I)=MAX(KMIN,MIN(STIF(I),KMAX))
-        ENDDO
-       ELSEIF(IGSTI==5)THEN
-        DO I=1,JLT
-         L  = CAND_E(I)
-         J  = CAND_N(I)
-         STIF(I)=STF(L)*ABS(STFN(J))/
-     .           MAX(EM30,(STF(L)+ABS(STFN(J))))
-         STIF(I)=MAX(KMIN,MIN(STIF(I),KMAX))
-        ENDDO
-       ENDIF
-      ELSE
         IF(IGAP==0)THEN
           DO I=1,JLT
             GAPV(I)=GAP
@@ -357,7 +274,6 @@ C
 C
         END DO
        END IF
-      ENDIF
 C
       RETURN
       END

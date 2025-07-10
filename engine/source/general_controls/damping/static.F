@@ -43,9 +43,7 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
-!#include      "com06_c.inc"
 #include      "com08_c.inc"
-#include      "scr05_c.inc"
 #include      "scr11_c.inc"
 #include      "statr_c.inc"
 #include      "stati_c.inc"
@@ -115,8 +113,7 @@ C
        LAST = LAST+1
        ENCINT = ENCIN+ENROT
        IF(ENCINT<ENCINO)THEN
-        IF (IMACH/=3.OR.(IMACH==3.AND.ISPMD==0))
-     .   WFEXT = WFEXT - ENCINT
+        IF (ISPMD==0)WFEXT = WFEXT - ENCINT
         ENCINO=ZERO
         LAST=0
 C
@@ -172,16 +169,14 @@ C
        ENCGRPR = HALF*ENCGRPR
        ENCGRPN = ENCGRP * OMEGA2
        ENCGRPRN = ENCGRPR * OMEGA2
-       IF (IMACH/=3.OR.(IMACH==3.AND.ISPMD==0))
-     .  WFEXT = WFEXT + ENCGRPN - ENCGRP + ENCGRPRN - ENCGRPR
+       IF (ISPMD==0)WFEXT = WFEXT + ENCGRPN - ENCGRP + ENCGRPRN - ENCGRPR
 C
       ELSEIF(ISTAT2==1.AND.ISTATG/=0)THEN
 C
        LAST = LAST+1
        ENCINT = ENCIN+ENROT
        IF(ENCINT<ENCINO)THEN
-        IF (IMACH/=3.OR.(IMACH==3.AND.ISPMD==0))
-     .   WFEXT = WFEXT - ENCINT
+        IF (ISPMD==0)WFEXT = WFEXT - ENCINT
         ENCINO=ZERO
         LAST=0
 C

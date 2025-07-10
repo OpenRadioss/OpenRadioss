@@ -117,7 +117,6 @@ C-----------------------------------------------
 #include      "sphcom.inc"
 #include      "param_c.inc"
 #include      "units_c.inc"
-#include      "scr05_c.inc"
 #include      "scr14_c.inc"
 #include      "scr15_c.inc"
 #include      "scr16_c.inc"
@@ -231,11 +230,7 @@ C
 C-----------------------------------------------
 C      ANIM MULTI-LEVEL DOMDEC
 C-----------------------------------------------
-      IF (IMACH==3) THEN
-         WRITE(CTITR(1),'(A25)') 'SPMD Domain Decomposition'
-      ELSEIF (DSANIM==1) THEN
-         WRITE(CTITR(1),'(A30,I3)') 'Impl. graph - Dom. Dec. Level ',1
-      ENDIF
+      WRITE(CTITR(1),'(A25)') 'SPMD Domain Decomposition'
       DO I=2,NLEVEL
          WRITE(CTITR(I),'(A30,I3)') 'Impl. graph - Dom. Dec. Level ',I
       ENDDO

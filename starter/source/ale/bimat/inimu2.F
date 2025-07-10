@@ -46,14 +46,13 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, MAT, LAW, M, J, N
-      my_real
-     .   ALPH
+      INTEGER :: I, MAT, LAW, M, J, N
+      my_real :: ALPH
 C-----------------------------------------------
 
       DO I=1,NUMELQ
         MAT=IABS(IX(1,I))
-        LAW=PM(19,MAT)
+        LAW=INT(PM(19,MAT))
         IF(LAW/=20)CYCLE !I
         DO M=1,NMULT
           ALPH=PM(30+M,MAT)
