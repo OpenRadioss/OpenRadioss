@@ -90,5 +90,22 @@ extern "C" {
     void STLSORT_INT_INT_(int *len, int* keys,  int *values) {
          stlsort_generic_generic<int,int>(len, keys, values); 
     }
+
+ // sort array with real and key
+    void stlsort_real_int(int *len, my_real* keys,  int *values) {
+         stlsort_generic_generic<my_real,int>(len, keys, values); 
+    }
+    void stlsort_real_int__(int *len, my_real* keys,  int *values) {
+         stlsort_generic_generic<my_real,int>(len, keys, values); 
+    }
+    void _FCALL stlsort_real_int_(int *len, my_real* keys,  int *values) {
+         stlsort_generic_generic<my_real,int>(len, keys, values); 
+    }
+    void _FCALL STLSORT_REAL_INT(int *len, my_real* keys,  int *values) {
+         stlsort_generic_generic<my_real,int>(len, keys, values); 
+    }
+    void STLSORT_REAL_INT_(int *len, my_real* keys,  int *values) {
+         stlsort_generic_generic<my_real,int>(len, keys, values); 
+    } 
 }
 
