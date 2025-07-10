@@ -411,55 +411,64 @@ C workaround for possible PGI bug
 C start of pinching information
                   ELSEIF(K == 630) THEN
                     IF (NPINCH > 0 )THEN
-                      WA(IJK) = PINCH_DATA%APINCH(1,I)*SKEW(1,ISK) +PINCH_DATA%APINCH(2,I)*SKEW(2,ISK) +PINCH_DATA%APINCH(3,I)*SKEW(3,ISK)
+                      WA(IJK) = PINCH_DATA%APINCH(1,I)*SKEW(1,ISK) +PINCH_DATA%APINCH(2,I)*SKEW(2,ISK)
+     .                                                             +PINCH_DATA%APINCH(3,I)*SKEW(3,ISK)
                     ELSE
                       WA(IJK) = ZERO
                     ENDIF
                   ELSEIF(K == 631) THEN
                     IF (NPINCH > 0 )THEN
-                      WA(IJK) = PINCH_DATA%APINCH(1,I)*SKEW(4,ISK) +PINCH_DATA%APINCH(2,I)*SKEW(5,ISK) +PINCH_DATA%APINCH(3,I)*SKEW(6,ISK)
+                      WA(IJK) = PINCH_DATA%APINCH(1,I)*SKEW(4,ISK) +PINCH_DATA%APINCH(2,I)*SKEW(5,ISK)
+     .                                                             +PINCH_DATA%APINCH(3,I)*SKEW(6,ISK)
                     ELSE
                       WA(IJK) = ZERO
                     ENDIF
                   ELSEIF(K == 632) THEN
                     IF (NPINCH > 0 )THEN
-                      WA(IJK) = PINCH_DATA%APINCH(1,I)*SKEW(7,ISK) +PINCH_DATA%APINCH(2,I)*SKEW(8,ISK) +PINCH_DATA%APINCH(3,I)*SKEW(9,ISK)
+                      WA(IJK) = PINCH_DATA%APINCH(1,I)*SKEW(7,ISK) +PINCH_DATA%APINCH(2,I)*SKEW(8,ISK)
+     .                                                             +PINCH_DATA%APINCH(3,I)*SKEW(9,ISK)
                     ELSE
                       WA(IJK) = ZERO
                     ENDIF
                   ELSEIF(K == 633) THEN
                     IF (NPINCH > 0 )THEN
-                      WA(IJK) = PINCH_DATA%VPINCH(1,I)*SKEW(1,ISK) +PINCH_DATA%VPINCH(2,I)*SKEW(2,ISK) +PINCH_DATA%VPINCH(3,I)*SKEW(3,ISK)
+                      WA(IJK) = PINCH_DATA%VPINCH(1,I)*SKEW(1,ISK) +PINCH_DATA%VPINCH(2,I)*SKEW(2,ISK)
+     .                                                             +PINCH_DATA%VPINCH(3,I)*SKEW(3,ISK)
                     ELSE
                       WA(IJK) = ZERO
                     ENDIF
                   ELSEIF(K == 634) THEN
                     IF (NPINCH > 0 )THEN
-                      WA(IJK) = PINCH_DATA%VPINCH(1,I)*SKEW(4,ISK) +PINCH_DATA%VPINCH(2,I)*SKEW(5,ISK) +PINCH_DATA%VPINCH(3,I)*SKEW(6,ISK)
+                      WA(IJK) = PINCH_DATA%VPINCH(1,I)*SKEW(4,ISK) +PINCH_DATA%VPINCH(2,I)*SKEW(5,ISK)
+     .                                                             +PINCH_DATA%VPINCH(3,I)*SKEW(6,ISK)
                     ELSE
                       WA(IJK) = ZERO
                     ENDIF
                   ELSEIF(K == 635) THEN
                     IF (NPINCH > 0 )THEN
-                      WA(IJK) = PINCH_DATA%VPINCH(1,I)*SKEW(7,ISK) +PINCH_DATA%VPINCH(2,I)*SKEW(8,ISK) +PINCH_DATA%VPINCH(3,I)*SKEW(9,ISK)
+                      WA(IJK) = PINCH_DATA%VPINCH(1,I)*SKEW(7,ISK) +PINCH_DATA%VPINCH(2,I)*SKEW(8,ISK)
+     .                                                             +PINCH_DATA%VPINCH(3,I)*SKEW(9,ISK)
                     ELSE
                       WA(IJK) = ZERO
                     ENDIF
                   ELSEIF(K == 636) THEN
                     IF (NPINCH > 0 )THEN
-                      WA(IJK) = PINCH_DATA%DPINCH(1,I)*SKEW(1,ISK) +PINCH_DATA%DPINCH(2,I)*SKEW(2,ISK) +PINCH_DATA%DPINCH(3,I)*SKEW(3,ISK)
+                      WA(IJK) = PINCH_DATA%DPINCH(1,I)*SKEW(1,ISK) +PINCH_DATA%DPINCH(2,I)*SKEW(2,ISK)
+     .                                                             +PINCH_DATA%DPINCH(3,I)*SKEW(3,ISK)
                     ELSE
                       WA(IJK) = ZERO
                     ENDIF
                   ELSEIF(K == 637) THEN
                     IF (NPINCH > 0 )THEN
-                      WA(IJK) = PINCH_DATA%DPINCH(1,I)*SKEW(4,ISK) +PINCH_DATA%DPINCH(2,I)*SKEW(5,ISK) +PINCH_DATA%DPINCH(3,I)*SKEW(6,ISK)
+                      WA(IJK) = PINCH_DATA%DPINCH(1,I)*SKEW(4,ISK) +PINCH_DATA%DPINCH(2,I)*SKEW(5,ISK)
+     .                                                             +PINCH_DATA%DPINCH(3,I)*SKEW(6,ISK)
                     ELSE
                       WA(IJK) = ZERO
                     ENDIF
                   ELSEIF(K == 638) THEN
                     IF (NPINCH > 0 )THEN
-                      WA(IJK) = PINCH_DATA%DPINCH(1,I)*SKEW(7,ISK) +PINCH_DATA%DPINCH(2,I)*SKEW(8,ISK) +PINCH_DATA%DPINCH(3,I)*SKEW(9,ISK)
+                      WA(IJK) = PINCH_DATA%DPINCH(1,I)*SKEW(7,ISK) +PINCH_DATA%DPINCH(2,I)*SKEW(8,ISK)
+     .                                                             +PINCH_DATA%DPINCH(3,I)*SKEW(9,ISK)
                     ELSE
                       WA(IJK) = ZERO
                     ENDIF
@@ -698,37 +707,43 @@ C workaround for possible PGI bug
                     ENDIF
                   ELSEIF(K == 620) THEN
                     IF (NODREAC(I) /= 0) THEN
-                      WA(IJK) = FTHREAC(1,NODREAC(I))*SKEW(1,ISK) + FTHREAC(2,NODREAC(I))*SKEW(2,ISK) + FTHREAC(3,NODREAC(I))*SKEW(3,ISK)
+                      WA(IJK) = FTHREAC(1,NODREAC(I))*SKEW(1,ISK) + FTHREAC(2,NODREAC(I))*SKEW(2,ISK)
+     .                                                            + FTHREAC(3,NODREAC(I))*SKEW(3,ISK)
                     ELSE
                       WA(IJK) = ZERO
                     ENDIF
                   ELSEIF(K == 621) THEN
                     IF (NODREAC(I) /= 0) THEN
-                      WA(IJK) = FTHREAC(1,NODREAC(I))*SKEW(4,ISK) + FTHREAC(2,NODREAC(I))*SKEW(5,ISK) + FTHREAC(3,NODREAC(I))*SKEW(6,ISK)
+                      WA(IJK) = FTHREAC(1,NODREAC(I))*SKEW(4,ISK) + FTHREAC(2,NODREAC(I))*SKEW(5,ISK)
+     .                                                            + FTHREAC(3,NODREAC(I))*SKEW(6,ISK)
                     ELSE
                       WA(IJK) = ZERO
                     ENDIF
                   ELSEIF(K == 622) THEN
                     IF (NODREAC(I) /= 0) THEN
-                      WA(IJK) = FTHREAC(1,NODREAC(I))*SKEW(7,ISK) + FTHREAC(2,NODREAC(I))*SKEW(8,ISK) + FTHREAC(3,NODREAC(I))*SKEW(9,ISK)
+                      WA(IJK) = FTHREAC(1,NODREAC(I))*SKEW(7,ISK) + FTHREAC(2,NODREAC(I))*SKEW(8,ISK)
+     .                                                            + FTHREAC(3,NODREAC(I))*SKEW(9,ISK)
                     ELSE
                       WA(IJK) = ZERO
                     ENDIF
                   ELSEIF(K == 623) THEN
                     IF (NODREAC(I) /= 0) THEN
-                      WA(IJK) = FTHREAC(4,NODREAC(I))*SKEW(1,ISK) + FTHREAC(5,NODREAC(I))*SKEW(2,ISK) + FTHREAC(6,NODREAC(I))*SKEW(3,ISK)
+                      WA(IJK) = FTHREAC(4,NODREAC(I))*SKEW(1,ISK) + FTHREAC(5,NODREAC(I))*SKEW(2,ISK)
+     .                                                            + FTHREAC(6,NODREAC(I))*SKEW(3,ISK)
                     ELSE
                       WA(IJK) = ZERO
                     ENDIF
                   ELSEIF(K == 624) THEN
                     IF (NODREAC(I) /= 0) THEN
-                      WA(IJK) = FTHREAC(4,NODREAC(I))*SKEW(4,ISK) + FTHREAC(5,NODREAC(I))*SKEW(5,ISK) + FTHREAC(6,NODREAC(I))*SKEW(6,ISK)
+                      WA(IJK) = FTHREAC(4,NODREAC(I))*SKEW(4,ISK) + FTHREAC(5,NODREAC(I))*SKEW(5,ISK)
+     .                                                            + FTHREAC(6,NODREAC(I))*SKEW(6,ISK)
                     ELSE
                       WA(IJK) = ZERO
                     ENDIF
                   ELSEIF(K == 625) THEN
                     IF (NODREAC(I) /= 0) THEN
-                      WA(IJK) = FTHREAC(4,NODREAC(I))*SKEW(7,ISK) + FTHREAC(5,NODREAC(I))*SKEW(8,ISK) + FTHREAC(6,NODREAC(I))*SKEW(9,ISK)
+                      WA(IJK) = FTHREAC(4,NODREAC(I))*SKEW(7,ISK) + FTHREAC(5,NODREAC(I))*SKEW(8,ISK)
+     .                                                            + FTHREAC(6,NODREAC(I))*SKEW(9,ISK)
                     ELSE
                       WA(IJK) = ZERO
                     ENDIF

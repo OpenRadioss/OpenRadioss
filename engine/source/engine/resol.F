@@ -2368,7 +2368,8 @@ C ---------------------
 C ---------------------
 C Allocating FEXT Array
 C ---------------------
-              IF(ANIM_V(5)+OUTP_V(5)+H3D_DATA%N_VECT_FINT+ANIM_V(6)+OUTP_V(6)+H3D_DATA%N_VECT_FEXT > 0 .OR. TH_HAS_NODA_PEXT> 0) THEN
+              IF(ANIM_V(5)+OUTP_V(5)+H3D_DATA%N_VECT_FINT+ANIM_V(6)+OUTP_V(6)+H3D_DATA%N_VECT_FEXT > 0
+     .            .OR. TH_HAS_NODA_PEXT> 0) THEN
                 ALLOCATE(NODA_FEXT(3*NUMNOD))
                 NODA_FEXT(1:3*NUMNOD)=ZERO
               ELSE
