@@ -1,28 +1,28 @@
-Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
-Copyright>
-Copyright>        This program is free software: you can redistribute it and/or modify
-Copyright>        it under the terms of the GNU Affero General Public License as published by
-Copyright>        the Free Software Foundation, either version 3 of the License, or
-Copyright>        (at your option) any later version.
-Copyright>
-Copyright>        This program is distributed in the hope that it will be useful,
-Copyright>        but WITHOUT ANY WARRANTY; without even the implied warranty of
-Copyright>        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-Copyright>        GNU Affero General Public License for more details.
-Copyright>
-Copyright>        You should have received a copy of the GNU Affero General Public License
-Copyright>        along with this program.  If not, see <https://www.gnu.org/licenses/>.
-Copyright>
-Copyright>
-Copyright>        Commercial Alternative: Altair Radioss Software
-Copyright>
-Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
-Copyright>        software under a commercial license.  Contact Altair to discuss further if the
-Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-C IDEBUG=1 -> output debug information into .out file
+!Copyright>        OpenRadioss
+!Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+!Copyright>
+!Copyright>        This program is free software: you can redistribute it and/or modify
+!Copyright>        it under the terms of the GNU Affero General Public License as published by
+!Copyright>        the Free Software Foundation, either version 3 of the License, or
+!Copyright>        (at your option) any later version.
+!Copyright>
+!Copyright>        This program is distributed in the hope that it will be useful,
+!Copyright>        but WITHOUT ANY WARRANTY; without even the implied warranty of
+!Copyright>        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+!Copyright>        GNU Affero General Public License for more details.
+!Copyright>
+!Copyright>        You should have received a copy of the GNU Affero General Public License
+!Copyright>        along with this program.  If not, see <https://www.gnu.org/licenses/>.
+!Copyright>
+!Copyright>
+!Copyright>        Commercial Alternative: Altair Radioss Software
+!Copyright>
+!Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
+!Copyright>        software under a commercial license.  Contact Altair to discuss further if the
+!Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+! IDEBUG=1 -> output debug information into .out file
 #define IDEBUG 0
-C IOCSV=1 -> output fitting to curv.csv
+! IOCSV=1 -> output fitting to curv.csv
 #define IOCSV 0
 !>    @param[in]   ERRTOL      If ERRAVE < ERRTOL, data fitting converges.
 !>                                 ERRAVE = ( SUM [ ABS ( ( Y_inp-Y_fit)  )  ) / NPT
@@ -41,30 +41,35 @@ C IOCSV=1 -> output fitting to curv.csv
       !||--- uses       -----------------------------------------------------
       !||    message_mod            ../starter/share/message_module/message_mod.F
       !||====================================================================
-      SUBROUTINE LAW92_NLSQF(STRETCH,Y,NMULA,NPT,AMULA,
-     $                       NSTART, ERRTOL,ID,TITR,ITEST)
-      USE MESSAGE_MOD
-      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
-C-----------------------------------------------
-C   I m p l i c i t   T y p e s
-C-----------------------------------------------
-#include      "implicit_f.inc"
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
+      SUBROUTINE LAW92_NLSQF(STRETCH,Y,NMULA,NPT,AMULA,NSTART, ERRTOL,ID,TITR,ITEST)
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   Modules
+! ----------------------------------------------------------------------------------------------------------------------
+        use constant_mod
+        use precision_mod, only : WP
+        USE MESSAGE_MOD
+        USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   Implicit None
+! ----------------------------------------------------------------------------------------------------------------------
+        implicit none
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   Include Files
+! ----------------------------------------------------------------------------------------------------------------------
 #include      "units_c.inc"
-C-----------------------------------------------
-      INTEGER MAXA 
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   Local Variables
+! ----------------------------------------------------------------------------------------------------------------------
+      INTEGER :: MAXA
       PARAMETER (MAXA=2)
 
-      INTEGER LAWID, NPT, NMULA,  NSTART,ITEST
-      my_real ERRTOL
-      INTEGER I,NONZERO(MAXA),IDUM,ITER,ICOUNT,J,K  
-      my_real GAMMA,ERRNOW,GASDEV,ERRPRE,
-     .        STRETCH(NPT),AMULA(*)
-      my_real A(MAXA),COVAR(MAXA,MAXA),ALPHA(MAXA,MAXA),Y(NPT)
-      my_real MCOF_MIN(MAXA), MCOF_MAX(MAXA)
-      my_real YOGD,XOGD
+      INTEGER :: LAWID, NPT, NMULA,  NSTART,ITEST
+      real(kind=WP) :: ERRTOL
+      INTEGER :: I,NONZERO(MAXA),IDUM,ITER,ICOUNT,J,K
+      real(kind=WP) :: GAMMA,ERRNOW,GASDEV,ERRPRE,STRETCH(NPT),AMULA(*)
+      real(kind=WP) :: A(MAXA),COVAR(MAXA,MAXA),ALPHA(MAXA,MAXA),Y(NPT)
+      real(kind=WP) :: MCOF_MIN(MAXA), MCOF_MAX(MAXA)
+      real(kind=WP) :: YOGD,XOGD
 
       INTEGER ID
       CHARACTER(LEN=NCHARTITLE) :: TITR
@@ -75,9 +80,7 @@ C-----------------------------------------------
       DATA MAXITER_LM /20/
       SAVE MAXITER_LM
 
-      ! if ( (ERRNOW-ERRPRE) / ERRPRE ) < EPS_LM, CNT_HIT_EPS_LM = CNT_HIT_EPS_LM + 1,
-      ! if CNT_HIT_EPS_LM == LMT_HIT_EPS_LM, it converges
-      my_real EPS_LM 
+      real(kind=WP) EPS_LM 
       DATA EPS_LM /1E-3/
       SAVE EPS_LM
 
@@ -91,49 +94,55 @@ C-----------------------------------------------
       INTEGER IFUNCS
 
       INTEGER NGUESS
-      my_real A0(MAXA),Y0(NPT)
-      my_real ERRMIN, ERRMAX, ERRAVE, ERRAVE_MIN, ERR,ERR2
+      real(kind=WP) A0(MAXA),Y0(NPT)
+      real(kind=WP) ERRMIN, ERRMAX, ERRAVE, ERRAVE_MIN, ERR,ERR2
 
       INTEGER ISTART, NPSAVED, IVALID
 
       INTEGER ICURV
       LOGICAL lopened
 
-c     during LM optimization, if the objective is not improved, 
-c     GAMMA will be increased. We should terminate the iteration once
-c     GAMMA becomes very huge.
-      my_real GAMMA_STOP
+!     during LM optimization, if the objective is not improved, 
+!     GAMMA will be increased. We should terminate the iteration once
+!     GAMMA becomes very huge.
+      real(kind=WP) GAMMA_STOP
       data GAMMA_STOP /1E10/
       save GAMMA_STOP
 
-c     if check the validity of initial guess (0=no, 1=yes)
-c     we don't want to check, because invalid initial point could converge to valid point.
+!     if check the validity of initial guess (0=no, 1=yes)
+!     we don't want to check, because invalid initial point could converge to valid point.
       INTEGER ICHECK_GUESS
       data ICHECK_GUESS /0/
       save ICHECK_GUESS
 
       INTEGER JCHECK, IFIT_SUCCESS
 
-c     if enforce mu(i) < mu(i+1) in generating initial guess
-c     we don't need this anymore since we are using random numbers instead of loop through all
-c     the combinations
+!     if enforce mu(i) < mu(i+1) in generating initial guess
+!     we don't need this anymore since we are using random numbers instead of loop through all
+!     the combinations
       INTEGER MU_INCR_GUESS
       data MU_INCR_GUESS /0/
       save MU_INCR_GUESS
 
-      my_real MAX_ABS_YI,MIN_ABS_YI
-      my_real SMALL_FAC_ABS_YI, SMALL_ABS_YI
+      real(kind=WP) MAX_ABS_YI,MIN_ABS_YI
+      real(kind=WP) SMALL_FAC_ABS_YI, SMALL_ABS_YI
 
-      my_real, DIMENSION(:), ALLOCATABLE :: SIG
-      my_real  SPREADY
+      real(kind=WP), DIMENSION(:), ALLOCATABLE :: SIG
+      real(kind=WP)  SPREADY
       INTEGER IRET
       INTEGER IRND1
-C
+      
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   Body
+! ----------------------------------------------------------------------------------------------------------------------
+
       ALLOCATE (SIG(1:NPT))
 
       IF ( MAXA < NMULA ) THEN
         WRITE(*,*) 'ERROR, MAXA < MA'
-        WRITE(*,*) __FILE__,__LINE__
+        WRITE(*,*)&
+      __FILE__,&
+      __LINE__
         CALL MY_EXIT(2)
       ENDIF
       ! IF ABS(Y(I)) <  SMALL_ABS_YI, use SMALL_ABS_YI to avoid
@@ -152,11 +161,11 @@ C
       SMALL_ABS_YI = MAX_ABS_YI * SMALL_FAC_ABS_YI
 
       IF (IDEBUG > 0) THEN
-        WRITE(IOUT, *) ' MAX_ABS_YI, SMALL_FAC_ABS_YI, SMALL_ABS_YI = ',
-     $                   MAX_ABS_YI, SMALL_FAC_ABS_YI, SMALL_ABS_YI
+        WRITE(IOUT, *) ' MAX_ABS_YI, SMALL_FAC_ABS_YI, SMALL_ABS_YI = ',&
+                         MAX_ABS_YI, SMALL_FAC_ABS_YI, SMALL_ABS_YI
       ENDIF
 
-      SPREADY=0.01
+      SPREADY=EM02
       DO J=1,NPT
         SIG(J)=MAX(SMALL_ABS_YI, ABS(Y(J)) )
         IF(Y(J) == ZERO) Y(J) = SMALL_ABS_YI
@@ -164,43 +173,39 @@ C
           WRITE(IOUT, *) 'J, SIG(J) = ', J,  SIG(J)
         ENDIF
       ENDDO  
-C     
-      IF (MAXA < NMULA) THEN
-!       TBD_KANG      
+     
+      IF (MAXA < NMULA) THEN   
         WRITE(*,*) 'ERROR: MAXA < MA'
         WRITE(*,*) ' MAXA = ', MAXA
         WRITE(*,*) ' MA = ', MAXA
-        WRITE(*,*) ' FILE = ', __FILE__
-        WRITE(*,*) ' LINE = ', __LINE__
+        WRITE(*,*) ' FILE = ',&
+      __FILE__
+        WRITE(*,*) ' LINE = ',&
+      __LINE__
         CALL MY_EXIT(2)
       ENDIF
 
-C=======================================================================        
-C     
+!=======================================================================        
+     
       A0(1) = AMULA(1)
       A0(2) = AMULA(2)
-C            
+           
       DO I=1,NMULA 
         NONZERO(I)=1  
       ENDDO
-
-99    CONTINUE      !
 
       IFIT_SUCCESS = 0 
 
       ISTART = 0
       NPSAVED = 0
-C
+
       NSTART = 5
       DO 111 WHILE ( ISTART < NSTART )
-c       get one guess point A0(1:MA)        
-         CALL LAW92_GUESS(STRETCH,Y,A0,NPT)  
-!        IF (NGUESS == 0) THEN
-!          GOTO 112
-!        ENDIF
+!       get one guess point A0(1:MA)        
+         CALL LAW92_GUESS(STRETCH,Y,A0,NPT)
 
-C       calculate averaged ERROR before LM         
-        ERRAVE = 0.0
+!       calculate averaged ERROR before LM         
+        ERRAVE = ZERO
         DO I=1,NPT
           CALL ARRUDA_BOYCE(STRETCH(I), A0, YOGD,ITEST )
 !absolute error           ERR = ABS(Y(I) - YOGD)
@@ -208,7 +213,7 @@ C       calculate averaged ERROR before LM
            ERRAVE = ERRAVE + ERR
         ENDDO 
         ERRAVE = ERRAVE / (1.0 * NPT)
-C        
+        
         ISTART = ISTART + 1
 
         IF (IDEBUG > 0) THEN
@@ -226,14 +231,14 @@ C
 
         ITER = ITER + 1
         GAMMA=-1.
-C        
-        CALL MRQMIN_LAW92(STRETCH,Y,SIG,NPT,A0,
-     $       COVAR,ALPHA,NMULA,ERRNOW, 
-     $       GAMMA,IRET,ITEST) 
+        
+        CALL MRQMIN_LAW92(STRETCH,Y,SIG,NPT,A0, &
+             COVAR,ALPHA,NMULA,ERRNOW, &
+             GAMMA,IRET,ITEST) 
      
         IF (IRET > 0) GOTO 111
         IF (IDEBUG > 0) THEN
-          ERRAVE = 0.0
+          ERRAVE = ZERO
           DO I=1,NPT
             CALL ARRUDA_BOYCE(STRETCH(I), A0, YOGD,ITEST)
              ERR = ABS(Y(I) - YOGD) / ABS(SIG(I))
@@ -241,9 +246,9 @@ C
             ERRAVE = ERRAVE + ERR
           ENDDO    
           ERRAVE = ERRAVE / (1.0 * NPT)
-          WRITE(IOUT, '(A,I4, 3E16.8)') 
-     $            'ITER, ERRNOW, GAMMA, ERRAVE = ', 
-     $            ITER, ERRNOW, GAMMA, ERRAVE
+          WRITE(IOUT, '(A,I4, 3E16.8)') &
+                  'ITER, ERRNOW, GAMMA, ERRAVE = ', & 
+                  ITER, ERRNOW, GAMMA, ERRAVE
           DO I = 1, NMULA
             WRITE(IOUT, *) '   - I, A0(I) = ', I, A0(I)
           ENDDO
@@ -252,9 +257,9 @@ C
 21      CONTINUE        
         ERRPRE=ERRNOW  
         ITER = ITER + 1
-        CALL MRQMIN_LAW92(STRETCH,Y,SIG,NPT,A0,
-     $       COVAR,ALPHA, NMULA, ERRNOW, 
-     $       GAMMA,IRET,ITEST) 
+        CALL MRQMIN_LAW92(STRETCH,Y,SIG,NPT,A0, &
+             COVAR,ALPHA, NMULA, ERRNOW, &
+             GAMMA,IRET,ITEST) 
         IF (IRET > 0) GOTO 111
 
        IF (IDEBUG == 1) THEN
@@ -267,27 +272,24 @@ C
           ENDDO      
           ERRAVE = ERRAVE / (1.0 * NPT)
 
-          WRITE(IOUT, '(A,I4, 5E16.8)') 
-     $     'ITER, ERRNOW, GAMMA, ERRAVE, ERRNOW-ERRPRE,'//
-     $     '(ERRNOW-ERRPRE)/ERRPRE = ', 
-     $      ITER, ERRNOW, GAMMA, ERRAVE, ERRNOW-ERRPRE, 
-     $      (ERRNOW-ERRPRE)/ERRPRE
+          WRITE(IOUT, '(A,I4, 5E16.8)') & 
+           'ITER, ERRNOW, GAMMA, ERRAVE, ERRNOW-ERRPRE,'// &
+           '(ERRNOW-ERRPRE)/ERRPRE = ', &
+            ITER, ERRNOW, GAMMA, ERRAVE, ERRNOW-ERRPRE, &
+            (ERRNOW-ERRPRE)/ERRPRE
           DO I = 1, NMULA
             WRITE(IOUT, *) '   - I, A0(I) = ', I, A0(I)
           ENDDO
         ENDIF
 
-c       IF A0(J) is too small, restart from next initial guess        
+!       IF A0(J) is too small, restart from next initial guess        
         DO J = 1, NMULA
           IF ( ABS( A0(J) ) < EM20 ) THEN
              goto 111  ! restart from next initial guess
-c            WRITE(IOUT, *) ' A is too small, and could result in error'
-c            WRITE(IOUT,*) 'J, A0(J) = ', J, A0(J)
-c            STOP
           ENDIF
         ENDDO
 
-c       check convergence of LM optimization        
+!       check convergence of LM optimization        
         LMSTOP = 0
         IF (IDEBUG > 0) THEN
           WRITE(IOUT, *) ' ERRNOW/(1.0*NPT) = ', ERRNOW/(1.0*NPT)
@@ -301,14 +303,14 @@ c       check convergence of LM optimization
                 CNT_HIT_EPS_LM = CNT_HIT_EPS_LM + 1
 
                 IF (IDEBUG > 0) THEN
-                  WRITE(IOUT,*) 
-     $            ' CNT_HIT_EPS_LM, ABS((ERRNOW-ERRPRE)/ERRPRE)  = ', 
-     $            CNT_HIT_EPS_LM, ABS( (ERRNOW-ERRPRE)/ ERRPRE )
+                  WRITE(IOUT,*) &
+                  ' CNT_HIT_EPS_LM, ABS((ERRNOW-ERRPRE)/ERRPRE)  = ', &
+                  CNT_HIT_EPS_LM, ABS( (ERRNOW-ERRPRE)/ ERRPRE )
                 ENDIF
 
                 IF ( CNT_HIT_EPS_LM >= LMT_HIT_EPS_LM ) THEN
                   IF (IDEBUG > 0) THEN
-                    WRITE(IOUT,*) 'STOP AT ', __LINE__
+                    !WRITE(IOUT,*) 'STOP AT ', __LINE__
                   ENDIF
                   LMSTOP = 1
                 ENDIF
@@ -316,7 +318,7 @@ c       check convergence of LM optimization
             ENDIF
           ELSEIF (ITER >= MAXITER_LM .OR. GAMMA >= GAMMA_STOP) THEN
             IF (IDEBUG > 0) THEN
-              WRITE(IOUT,*) 'STOP AT ', __LINE__
+              !WRITE(IOUT,*) 'STOP AT ', __LINE__
             ENDIF
             LMSTOP = 1
           ENDIF  
@@ -327,7 +329,7 @@ c       check convergence of LM optimization
         ENDIF
 !       end loop of LM optimization        
 
-        ERRAVE = 0.0
+        ERRAVE = ZERO
         DO I=1,NPT
           CALL ARRUDA_BOYCE(STRETCH(I), A0, YOGD,ITEST)
            ERR = ABS(Y(I) - YOGD) / ABS(SIG(I))
@@ -343,11 +345,10 @@ c       check convergence of LM optimization
            ENDDO
            WRITE(IOUT,*) ' LM1, ERRAVE = ', ERRAVE
         ENDIF
-C
+
         IF(A0(1) > ZERO .AND. A0(2) > ZERO) IVALID = 1
         IF (IVALID > 0) THEN
-          IF (   NPSAVED==0 .OR. 
-     $         ( NPSAVED>0 .AND. ERRAVE<ERRAVE_MIN) ) THEN
+          IF (   NPSAVED==0 .OR.( NPSAVED>0 .AND. ERRAVE<ERRAVE_MIN) ) THEN
             NPSAVED = NPSAVED + 1
             ERRAVE_MIN = ERRAVE
             DO I = 1, NMULA
@@ -356,17 +357,17 @@ C
           ENDIF
         ELSE
           IF (IDEBUG > 0) THEN
-            WRITE(IOUT,*) __FILE__,__LINE__
+            WRITE(IOUT,*) &
+        __FILE__,&
+        __LINE__
             WRITE(IOUT,*) ' LM converges to invalid point'
           ENDIF
         ENDIF
 
         IF (NPSAVED > 0) THEN
           IF (IDEBUG > 0) THEN
-            WRITE(*, *) ' ISTART, NPSAVED, ERRAVE_MIN = ', 
-     $                    ISTART, NPSAVED, ERRAVE_MIN
-            WRITE(IOUT, *) ' ISTART, NPSAVED, ERRAVE_MIN = ', 
-     $                    ISTART, NPSAVED, ERRAVE_MIN
+            WRITE(*, *) ' ISTART, NPSAVED, ERRAVE_MIN = ', ISTART, NPSAVED, ERRAVE_MIN
+            WRITE(IOUT, *) ' ISTART, NPSAVED, ERRAVE_MIN = ', ISTART, NPSAVED, ERRAVE_MIN
           ENDIF
 
           IF ( ERRAVE_MIN < ERRTOL ) THEN
@@ -375,10 +376,8 @@ C
           ENDIF
         ELSE
           IF (IDEBUG > 0) THEN
-            WRITE(*, *) ' ISTART, NPSAVED ', 
-     $                    ISTART, NPSAVED
-            WRITE(IOUT, *) ' ISTART, NPSAVED ', 
-     $                    ISTART, NPSAVED
+            WRITE(*, *) ' ISTART, NPSAVED ', ISTART, NPSAVED
+            WRITE(IOUT, *) ' ISTART, NPSAVED ', ISTART, NPSAVED
           ENDIF
         ENDIF
 111   CONTINUE  ! WHILE ( ISTART < NSTART )
@@ -389,14 +388,10 @@ C
 
       IF (IFIT_SUCCESS == 0) THEN
         IF (NPSAVED == 0) THEN
-          CALL ANCMSG(MSGID=901,
-     .                MSGTYPE=MSGERROR,
-     .                ANMODE=ANINFO,
-     .                I1=ID,
-     .                C1=TITR)
+          CALL ANCMSG(MSGID=901,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=ID,C1=TITR)
         ENDIF
       ENDIF
-C
+
       DO I=1,NMULA
         AMULA(I)=A(I)
       ENDDO
@@ -409,10 +404,9 @@ C
       ELSEIF(ITEST == 3) THEN
          WRITE(IOUT,'(6X,A,/)')'PLANAR TEST DATA'
       ENDIF   
-      WRITE(IOUT,'(A20,5X,A20,A30)') 'NOMINAL STRAIN',
-     *      'NOMINAL STRESS(TEST)', 'NOMINAL STRESS(RADIOSS)'
+      WRITE(IOUT,'(A20,5X,A20,A30)') 'NOMINAL STRAIN','NOMINAL STRESS(TEST)', 'NOMINAL STRESS(RADIOSS)'
     
-c     output curcves to .csv format to simplify visualization    
+!     output curcves to .csv format to simplify visualization    
       ICURV = 0
       IF (IOCSV> 0) THEN
         DO ICURV = 25, 99
@@ -421,34 +415,30 @@ c     output curcves to .csv format to simplify visualization
         ENDDO
 77      CONTINUE
         OPEN(UNIT=ICURV, FILE='curv.csv')
-        WRITE(ICURV,'(A)') 'NOMINAL STRAIN, NOMINAL STRESS(TEST), '//
-     $                     'NOMINAL STRESS(RADIOSS)'
+        WRITE(ICURV,'(A)') 'NOMINAL STRAIN, NOMINAL STRESS(TEST), '//'NOMINAL STRESS(RADIOSS)'
       ENDIF
 
       DO I=1,NPT
         CALL ARRUDA_BOYCE(STRETCH(I), A, YOGD,ITEST)
-        WRITE(IOUT,'(F18.4,F20.4,F28.4)') 
-     *   STRETCH(I)-ONE,Y0(I),YOGD
+        WRITE(IOUT,'(F18.4,F20.4,F28.4)') STRETCH(I)-ONE,Y0(I),YOGD
         IF (ICURV > 0) THEN
-           WRITE(ICURV, '(F18.4, A, F18.4, A, F18.4)') 
-     $            STRETCH(I)-ONE,',',Y0(I),',',YOGD
+           WRITE(ICURV, '(F18.4, A, F18.4, A, F18.4)') STRETCH(I)-ONE,',',Y0(I),',',YOGD
         ENDIF
       ENDDO      
 
-      WRITE(IOUT, *) ''
+      WRITE(IOUT, *) ' '
       WRITE(IOUT, '(A)') '-------------------------------------------'
-      WRITE(IOUT, '(A,F10.2,A)') 'AVERAGED ERROR OF FITTING : ', 
-     $                            ERRAVE_MIN*100.0, '%'
+      WRITE(IOUT, '(A,F10.2,A)') 'AVERAGED ERROR OF FITTING : ', ERRAVE_MIN*100.0, '%'
 
-c     output curcves to .csv format to simplify visualization    
+!     output curcves to .csv format to simplify visualization    
       IF ( ICURV > 0) THEN
         CLOSE(ICURV)
       ENDIF
-C-----------
+!-----------
       RETURN
       END 
 
-C Compute normal stress sig=dw/dlam_1 
+! Compute normal stress sig=dw/dlam_1 
       !||====================================================================
       !||    arruda_boyce   ../starter/source/materials/mat/mat092/law92_nlsqf.F
       !||--- called by ------------------------------------------------------
@@ -456,23 +446,26 @@ C Compute normal stress sig=dw/dlam_1
       !||    mrqcof_law92   ../starter/source/materials/mat/mat092/law92_nlsqf.F
       !||====================================================================
       SUBROUTINE ARRUDA_BOYCE(STRETCH,A, SIG,ITEST ) 
-C-----------------------------------------------
-C   I m p l i c i t   T y p e s
-C-----------------------------------------------
-#include      "implicit_f.inc"
-C-----------------------------------------------
-C   D u m m y   A r g u m e n t s
-C-----------------------------------------------
-      INTEGER NDATA,ITEST
-      my_real 
-     .     STRETCH, A(*),SIG 
-C----------------------------------------------------------------
-C  L O C A L  V A R I B L E S
-C----------------------------------------------------------------
-      INTEGER K,J
-      my_real 
-     .  C(5),MU,LAM,EV2,TRACE,FAC,AA,BB,CC,A1,A2,A3,A4,FLAM,EV
-C======================================================================= 
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   Modules
+! ----------------------------------------------------------------------------------------------------------------------
+      use constant_mod
+      use precision_mod, only : WP
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   Implicit None
+! ----------------------------------------------------------------------------------------------------------------------
+      implicit none
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   Arguments
+! ----------------------------------------------------------------------------------------------------------------------
+      INTEGER :: NDATA,ITEST
+      real(kind=WP) :: STRETCH, A(*),SIG 
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   Local Variables
+! ----------------------------------------------------------------------------------------------------------------------
+      INTEGER :: K,J
+      real(kind=WP) :: C(5),MU,LAM,EV2,TRACE,FAC,AA,BB,CC,A1,A2,A3,A4,FLAM,EV
+! ----------------------------------------------------------------------------------------------------------------------
        MU   = A(1)
        LAM  = A(2)
        C(1) = HALF
@@ -481,18 +474,11 @@ C=======================================================================
        C(4) = 19.D00/7000.D00
        C(5) = 519.D00/673750.D00
        SIG =ZERO
-C       
+     
        IF(ITEST == 1) THEN
           EV2 = ONE/STRETCH
           TRACE = STRETCH **2 + TWO*EV2
           FAC = TWO*MU*(STRETCH - EV2**2)
-! tester          
-!!           A1 = ONE/LAM**2
-!!           A2 = A1**2
-!!           A3 = A1*A2
-!!           A4 = A2**2
-!!           FLAM= (ONE +  THREE*A1/FIVE + EIGHTY19*A2/175.D00 
-!!     .                  + 513.D00*A3/875.D00 + 42039.D00*A4/67375.D00)  
            DO J=1,5
               BB = ONE/LAM**(2*J - 2)
               AA = J*C(J)
@@ -500,7 +486,6 @@ C
               SIG = SIG + CC
            ENDDO
            SIG= SIG*FAC
-!!           SIG= SIG*FAC/FLAM
          ELSEIF(ITEST == 2) THEN
            EV =  ONE/STRETCH/STRETCH
            TRACE = TWO*STRETCH**2 + EV**2 
@@ -524,33 +509,36 @@ C
            ENDDO
            SIG= SIG*FAC
          ENDIF 
-C         
+         
       RETURN  
       END SUBROUTINE ARRUDA_BOYCE
-C Compute normal stress DMu=dN/dmu, dlam = dN/dlam 
+! Compute normal stress DMu=dN/dmu, dlam = dN/dlam 
       !||====================================================================
       !||    arruda_boyce_dyda   ../starter/source/materials/mat/mat092/law92_nlsqf.F
       !||--- called by ------------------------------------------------------
       !||    mrqcof_law92        ../starter/source/materials/mat/mat092/law92_nlsqf.F
       !||====================================================================
       SUBROUTINE ARRUDA_BOYCE_DYDA(STRETCH,A,DYDA, ITEST) 
-C-----------------------------------------------
-C   I m p l i c i t   T y p e s
-C-----------------------------------------------
-#include      "implicit_f.inc"
-C-----------------------------------------------
-C   D u m m y   A r g u m e n t s
-C-----------------------------------------------
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   Modules
+! ----------------------------------------------------------------------------------------------------------------------
+      use constant_mod
+      use precision_mod, only : WP
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   Implicit None
+! ----------------------------------------------------------------------------------------------------------------------
+      implicit none
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   Arguments
+! ----------------------------------------------------------------------------------------------------------------------
       INTEGER NDATA,ITEST
-      my_real 
-     .     STRETCH, A(*),DYDA(*)
-C----------------------------------------------------------------
-C  L O C A L  V A R I B L E S
-C----------------------------------------------------------------
-      INTEGER K,J
-      my_real 
-     .  C(5),MU,LAM,EV2,TRACE,FAC,AA,BB,CC,DD,SIG,EV
-C======================================================================= 
+      real(kind=WP) :: STRETCH, A(*),DYDA(*)
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   Local Variables
+! ----------------------------------------------------------------------------------------------------------------------
+      INTEGER :: K,J
+      real(kind=WP) :: C(5),MU,LAM,EV2,TRACE,FAC,AA,BB,CC,DD,SIG,EV
+! ----------------------------------------------------------------------------------------------------------------------
       MU = A(1)
       LAM = A(2)
       C(1) = HALF
@@ -558,7 +546,7 @@ C=======================================================================
       C(3) = ELEVEN/1050.D00
       C(4) = 19.D00/7000.D00
       C(5) = 519.D00/673750.D00
-C      
+     
        DYDA(1) = ZERO
        DYDA(2) = ZERO
       IF(ITEST == 1) THEN
@@ -604,7 +592,7 @@ C
          DYDA(1) = DYDA(1)*FAC
          DYDA(2) = DYDA(2)*FAC*MU  
        ENDIF  
-C         
+        
       RETURN  
       END SUBROUTINE ARRUDA_BOYCE_DYDA
       !||====================================================================
@@ -615,35 +603,33 @@ C
       !||    inversion      ../starter/source/materials/tools/nlsqf.F
       !||    mrqcof_law92   ../starter/source/materials/mat/mat092/law92_nlsqf.F
       !||====================================================================
-      SUBROUTINE MRQMIN_LAW92(X,Y,SIG,NDATA,A,
-     .                 COVAR,ALPHA,NCA, ERRNOW, 
-     .                 GAMMA,IRET,ITEST)  
-C-----------------------------------------------
-C   I m p l i c i t   T y p e s
-C-----------------------------------------------
-#include      "implicit_f.inc"
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
+      SUBROUTINE MRQMIN_LAW92(X,Y,SIG,NDATA,A,COVAR,ALPHA,NCA, ERRNOW, GAMMA,IRET,ITEST)  
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   Modules
+! ----------------------------------------------------------------------------------------------------------------------
+      use constant_mod
+      use precision_mod, only : WP
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   Implicit None
+! ----------------------------------------------------------------------------------------------------------------------
+      implicit none
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   Include Files
+! ----------------------------------------------------------------------------------------------------------------------
 #include      "units_c.inc"
-C-----------------------------------------------
-C   D u m m y   A r g u m e n t s
-C-----------------------------------------------
-C----------------------------------------------------------------
-C  L O C A L  V A R I B L E S
-C----------------------------------------------------------------
-      INTEGER NCA,NDATA,MMAX,ITEST  
-      my_real 
-     .        GAMMA,ERRNOW,A(*),ALPHA(NCA,NCA),
-     .        COVAR(NCA,NCA),X(NDATA),Y(NDATA),SIG(NDATA),
-     .        INVJTJ(2,2),DMU,DLAM,DET
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   Local Variables
+! ----------------------------------------------------------------------------------------------------------------------
+      INTEGER NCA,NDATA,MMAX,ITEST
+      real(kind=WP) GAMMA,ERRNOW,A(*),ALPHA(NCA,NCA),COVAR(NCA,NCA),X(NDATA),Y(NDATA),SIG(NDATA),INVJTJ(2,2),DMU,DLAM,DET
       PARAMETER (MMAX=2)  
       INTEGER J,K,L,MFIT  
-      my_real ERRPRE,ATRY(MMAX),BETA(MMAX),DA(MMAX),EV  
+      real(kind=WP) ERRPRE,ATRY(MMAX),BETA(MMAX),DA(MMAX),EV  
       SAVE ERRPRE,ATRY,BETA,DA,MFIT  
-      INTEGER IFUNCS, IRET,IFLAG
-C=======================================================================
-
+      INTEGER IFUNCS, IRET,IFLAG 
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   Body
+! ----------------------------------------------------------------------------------------------------------------------
       IRET = 0
       IFLAG = 0
       MFIT = NCA
@@ -652,17 +638,15 @@ C=======================================================================
         MFIT = NCA
 !       in Numerical Recript, 0.001 is used, however from my tests, the
 !       difference is small (0.01 vs 0.001)
-        GAMMA=0.01
-C       
-        CALL MRQCOF_LAW92(X,Y,SIG,NDATA,
-     .              A,ALPHA,BETA,NCA,ERRNOW,ITEST)  
+        GAMMA=EM02    
+        CALL MRQCOF_LAW92(X,Y,SIG,NDATA,A,ALPHA,BETA,NCA,ERRNOW,ITEST)  
 
         ERRPRE=ERRNOW  
         DO J=1,NCA 
           ATRY(J)=A(J)  
         ENDDO  
       ENDIF  
-C
+
       DO J=1,NCA  
         DO K=1,NCA   
           COVAR(J,K)=ALPHA(J,K)  
@@ -671,9 +655,9 @@ C
          COVAR(J,J)=ALPHA(J,J) + GAMMA  
          DA(J)=BETA(J)  
       ENDDO 
-C    
+  
       CALL INVERSION(COVAR,MFIT,NCA,DA,1,1,IRET)     
-C      
+      
       IF (IRET /= 0) THEN
         IF (IDEBUG > 0) THEN
           WRITE(*,*) ' IRET = ', IRET
@@ -683,7 +667,7 @@ C
         ENDIF
         RETURN
       ENDIF
-C
+
       J=0  
       DO L=1,NCA 
         ATRY(L)=A(L) + DA(L)
@@ -692,25 +676,20 @@ C
          ATRY(1)= A(1)
          ATRY(2)= A(2)
       ENDIF 
-!ok        IF(ATRY(1) <= ZERO) THEN
-!ok          ATRY(1)= A(1)
-!ok       ENDIF 
-!ok      IF(ATRY(2) <= ZERO ) THEN
-!ok        ATRY(2)= A(2)
-!ok      ENDIF  
+
       IF (IDEBUG > 0) THEN
-        WRITE(IOUT,*) __FILE__,__LINE__
+        WRITE(IOUT,*)&
+      __FILE__,&
+      __LINE__
         DO J=1, NCA
           write(IOUT,*) 'J,ATRY(J) = ', J, ATRY(J)
         ENDDO
       ENDIF
-C
-      CALL MRQCOF_LAW92(X,Y,SIG,NDATA,
-     .                 ATRY,COVAR,DA,NCA,ERRNOW,ITEST)
-C
+
+      CALL MRQCOF_LAW92(X,Y,SIG,NDATA,ATRY,COVAR,DA,NCA,ERRNOW,ITEST)
+
       IF (ERRNOW < ERRPRE) THEN 
-!!        GAMMA=GAMMA/NINE 
-        GAMMA=GAMMA/10. 
+        GAMMA=GAMMA/TEN 
         ERRPRE=ERRNOW  
         DO J=1,MFIT  
           DO K=1,MFIT  
@@ -722,15 +701,14 @@ C
           A(L)=ATRY(L)  
         ENDDO  
       ELSE          
-!!        GAMMA=ELEVEN*GAMMA 
         GAMMA=10*GAMMA
         GAMMA = MIN(GAMMA, EP10)
         ERRNOW=ERRPRE  
       ENDIF  
-C-----------
+!-----------
       RETURN  
       END SUBROUTINE MRQMIN_LAW92
-C-----------
+!-----------
       !||====================================================================
       !||    mrqcof_law92        ../starter/source/materials/mat/mat092/law92_nlsqf.F
       !||--- called by ------------------------------------------------------
@@ -739,40 +717,39 @@ C-----------
       !||    arruda_boyce        ../starter/source/materials/mat/mat092/law92_nlsqf.F
       !||    arruda_boyce_dyda   ../starter/source/materials/mat/mat092/law92_nlsqf.F
       !||====================================================================
-      SUBROUTINE MRQCOF_LAW92(X,Y,SIG, NDATA,
-     *                        A,ALPHA,BETA,NALP,ERRNOW,ITEST)  
-C-----------------------------------------------
-C   I m p l i c i t   T y p e s
-C-----------------------------------------------
-#include      "implicit_f.inc"
-C-----------------------------------------------
-C   D u m m y   A r g u m e n t s
-C-----------------------------------------------
+      SUBROUTINE MRQCOF_LAW92(X,Y,SIG, NDATA,A,ALPHA,BETA,NALP,ERRNOW,ITEST)  
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   Modules
+! ----------------------------------------------------------------------------------------------------------------------
+      use constant_mod
+      use precision_mod, only : WP
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   Implicit None
+! ----------------------------------------------------------------------------------------------------------------------
+      implicit none
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   Arguments
+! ----------------------------------------------------------------------------------------------------------------------
       INTEGER NALP,NDATA,ITEST
-      my_real 
-     .    ERRNOW,A(*),ALPHA(NALP,NALP),BETA(*),
-     .    X(NDATA),Y(NDATA),SIG(NDATA)
-C----------------------------------------------------------------
-C  L O C A L  V A R I B L E S
-C----------------------------------------------------------------
+      real(kind=WP) :: ERRNOW,A(*),ALPHA(NALP,NALP),BETA(*),X(NDATA),Y(NDATA),SIG(NDATA)
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   Local Variables
+! ----------------------------------------------------------------------------------------------------------------------
       INTEGER MFIT,I,J,K,L,M,MMAX   
       PARAMETER (MMAX=20)  
-      my_real 
-     .   DY,WT,YMOD,DYDA(MMAX),WT1,
-     .   JTJ11,JTJ12,JTJ22,JTJ21
-
-      my_real
-     . Y_MIN
+      real(kind=WP)  :: DY,WT,YMOD,DYDA(MMAX),WT1,JTJ11,JTJ12,JTJ22,JTJ21
+      real(kind=WP) :: Y_MIN
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   Body
+! ----------------------------------------------------------------------------------------------------------------------
 
        Y_MIN = EM3
-
-C=======================================================================  
       MFIT=NALP 
       DO 13 J=1,MFIT  
         DO 12 K=1,J  
-          ALPHA(J,K)=0.  
+          ALPHA(J,K)=ZERO 
 12      CONTINUE  
-        BETA(J)=0.  
+        BETA(J)=ZERO 
 13    CONTINUE  
       ERRNOW=ZERO
       DO 16 I=1,NDATA  
@@ -780,13 +757,11 @@ C=======================================================================
         CALL ARRUDA_BOYCE_DYDA(X(I),A,DYDA,ITEST)
         DY=Y(I)-YMOD
         ERRNOW=ERRNOW+DY*DY/(SIG(I)*SIG(I))
-!ok         ERRNOW=ERRNOW+DY*DY     
-C
+
         J=0  
         DO 15 L=1,MFIT  
             J=J+1  
             WT=DYDA(L)/(SIG(I)*SIG(I)) 
-!ok             WT=DYDA(L)
             K=0  
             DO 14 M=1,L
                 K=K+1  
@@ -803,30 +778,33 @@ C
 18    CONTINUE 
       RETURN  
       END SUBROUTINE MRQCOF_LAW92
-C Compute normal stress DMu=dN/dmu, dlam = dN/dlam 
+! Compute normal stress DMu=dN/dmu, dlam = dN/dlam 
       !||====================================================================
       !||    law92_guess   ../starter/source/materials/mat/mat092/law92_nlsqf.F
       !||--- called by ------------------------------------------------------
       !||    law92_nlsqf   ../starter/source/materials/mat/mat092/law92_nlsqf.F
       !||====================================================================
-      SUBROUTINE LAW92_GUESS(STRETCH,SIG,A,NDATA ) 
-C-----------------------------------------------
-C   I m p l i c i t   T y p e s
-C-----------------------------------------------
-#include      "implicit_f.inc"
-C-----------------------------------------------
-C   D u m m y   A r g u m e n t s
-C-----------------------------------------------
+      SUBROUTINE LAW92_GUESS(STRETCH,SIG,A,NDATA )
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   Modules
+! ----------------------------------------------------------------------------------------------------------------------
+      use constant_mod
+      use precision_mod, only : WP
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   Implicit None
+! ----------------------------------------------------------------------------------------------------------------------
+      implicit none
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   Arguments
+! ----------------------------------------------------------------------------------------------------------------------
       INTEGER NDATA
-      my_real 
-     .     STRETCH(*), A(*),SIG(*)
-C----------------------------------------------------------------
-C  L O C A L  V A R I B L E S
-C----------------------------------------------------------------
+      real(kind=WP) :: STRETCH(*), A(*),SIG(*)
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   Local Variables
+! ----------------------------------------------------------------------------------------------------------------------
       INTEGER K,J
-      my_real 
-     .  C(5),MU,LAM,EV2,TRACE,FAC,AA,BB,CC,DD,DYDA(NDATA)
-C======================================================================= 
+      real(kind=WP) :: C(5),MU,LAM,EV2,TRACE,FAC,AA,BB,CC,DD,DYDA(NDATA)
+!======================================================================= 
       MU = A(1)
       LAM = A(2)
       C(1) = HALF
@@ -838,7 +816,7 @@ C=======================================================================
        DYDA(K) = ZERO
        EV2 = ONE/STRETCH(K)
        TRACE = STRETCH(K)**2 + TWO*EV2
-Ccauchy stress       FAC = TWO*STRETCH(K)*(STRETCH(K) - EV2**2)
+!cauchy stress       FAC = TWO*STRETCH(K)*(STRETCH(K) - EV2**2)
          FAC = TWO*(STRETCH(K) - EV2**2)
        DO J=1,5
               BB = ONE/LAM**(2*J - 2)
@@ -848,7 +826,7 @@ Ccauchy stress       FAC = TWO*STRETCH(K)*(STRETCH(K) - EV2**2)
        ENDDO
             DYDA(K) = DYDA(K)*FAC
        ENDDO
-C
+
       AA = ZERO
       BB = ZERO
       DO K=1,NDATA
@@ -857,6 +835,6 @@ C
         AA = AA +  CC**2
        ENDDO
        A(1) = BB/AA                     
-C         
+         
       RETURN  
       END SUBROUTINE LAW92_GUESS
