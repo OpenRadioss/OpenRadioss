@@ -36,17 +36,19 @@
 !=======================================================================================================================
 !
       !||====================================================================
-      !||    damping_vref_rby            ../engine/source/assembly/damping_vref_rby.F90
+      !||    damping_vref_rby                 ../engine/source/assembly/damping_vref_rby.F90
       !||--- called by ------------------------------------------------------
-      !||    rbyfor                      ../engine/source/constraints/general/rbody/rbyfor.F
+      !||    rbyfor                           ../engine/source/constraints/general/rbody/rbyfor.F
       !||--- calls      -----------------------------------------------------
-      !||    damping_vref_sum6_rby       ../engine/source/assembly/damping_vref_sum6_rby.F90
-      !||    get_u_func                  ../engine/source/user_interface/ufunc.F
+      !||    damping_vref_compute_dampa       ../engine/source/assembly/damping_vref_compute_dampa.F90
+      !||    damping_vref_sum6_rby            ../engine/source/assembly/damping_vref_sum6_rby.F90
+      !||    get_u_func                       ../engine/source/user_interface/ufunc.F
       !||--- uses       -----------------------------------------------------
-      !||    constant_mod                ../common_source/modules/constant_mod.F
-      !||    damping_vref_sum6_rby_mod   ../engine/source/assembly/damping_vref_sum6_rby.F90
-      !||    groupdef_mod                ../common_source/modules/groupdef_mod.F
-      !||    precision_mod               ../common_source/modules/precision_mod.F90
+      !||    constant_mod                     ../common_source/modules/constant_mod.F
+      !||    damping_vref_compute_dampa_mod   ../engine/source/assembly/damping_vref_compute_dampa.F90
+      !||    damping_vref_sum6_rby_mod        ../engine/source/assembly/damping_vref_sum6_rby.F90
+      !||    groupdef_mod                     ../common_source/modules/groupdef_mod.F
+      !||    precision_mod                    ../common_source/modules/precision_mod.F90
       !||====================================================================
         subroutine damping_vref_rby(igrnod,ngrnod,v,vr,a,                             &
           x,ms,dampr,nrdamp,ndamp,                          &

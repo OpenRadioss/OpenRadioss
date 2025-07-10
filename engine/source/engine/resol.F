@@ -99,6 +99,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    damping                                      ../engine/source/assembly/damping.F
       !||    damping44                                    ../engine/source/assembly/damping.F
       !||    damping51                                    ../engine/source/assembly/damping.F
+      !||    damping_vref_compute_dampa                   ../engine/source/assembly/damping_vref_compute_dampa.F90
       !||    dealloc_impbuf                               ../engine/source/implicit/imp_solv.F
       !||    dealloc_shoot_inter                          ../engine/source/interfaces/interf/dealloc_shoot_inter.F
       !||    deallocate_joint                             ../engine/source/constraints/general/cyl_joint/deallocate_joint.F
@@ -433,6 +434,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    cluster_mod                                  ../engine/share/modules/cluster_mod.F
       !||    connectivity_mod                             ../common_source/modules/connectivity.F90
       !||    crackxfem_mod                                ../engine/share/modules/crackxfem_mod.F
+      !||    damping_vref_compute_dampa_mod               ../engine/source/assembly/damping_vref_compute_dampa.F90
       !||    debug_chksm_mod                              ../engine/source/mpi/output/spmd_flush_accel.F
       !||    debug_mod                                    ../engine/share/modules/debug_mod.F
       !||    detach_node_mod                              ../engine/source/engine/node_spliting/detach_node.F90

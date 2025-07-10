@@ -51,6 +51,7 @@
       !||    damping_range_shell_mom                  ../engine/source/general_controls/damping/damping_range_shell_mom.F90
       !||    damping_range_solid                      ../engine/source/general_controls/damping/damping_range_solid.F90
       !||    damping_rby_spmdset                      ../starter/source/general_controls/damping/damping_rby_spmdset.F90
+      !||    damping_vref_compute_dampa               ../engine/source/assembly/damping_vref_compute_dampa.F90
       !||    damping_vref_rby                         ../engine/source/assembly/damping_vref_rby.F90
       !||    damping_vref_rby_stiff                   ../engine/source/assembly/damping_vref_rby_stiff.F90
       !||    damping_vref_sum6_rby                    ../engine/source/assembly/damping_vref_sum6_rby.F90

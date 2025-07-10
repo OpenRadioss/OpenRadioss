@@ -138,36 +138,37 @@ C-----------------------------------------------
       RETURN
       END
       !||====================================================================
-      !||    get_u_func          ../engine/source/user_interface/ufunc.F
+      !||    get_u_func                   ../engine/source/user_interface/ufunc.F
       !||--- called by ------------------------------------------------------
-      !||    airbagb             ../engine/source/airbag/airbag2.F
-      !||    airbagb1            ../engine/source/airbag/airbagb1.F
-      !||    damping51           ../engine/source/assembly/damping.F
-      !||    damping_vref_rby    ../engine/source/assembly/damping_vref_rby.F90
-      !||    fv_up_switch        ../engine/source/airbag/fv_up_switch.F
-      !||    fvbag1              ../engine/source/airbag/fvbag1.F
-      !||    fvvent0             ../engine/source/airbag/fvvent0.F
-      !||    material_flow       ../engine/source/tools/seatbelts/material_flow.F
-      !||    porfor4             ../engine/source/airbag/porfor4.F
-      !||    porform4            ../engine/source/airbag/porfor4.F
-      !||    ruser32             ../engine/source/elements/spring/ruser32.F
-      !||    ruser33             ../engine/source/elements/joint/ruser33.F
-      !||    ruser35             ../engine/source/elements/spring/ruser35.F
-      !||    ruser36             ../engine/source/elements/spring/ruser36.F
-      !||    ruser44             ../engine/source/elements/spring/ruser44.F
-      !||    ruser46             ../engine/source/elements/spring/ruser46.F
-      !||    stdpl               ../engine/source/elements/joint/ruser33.F
-      !||    volpvgb             ../engine/source/airbag/volpvg.F
-      !||    xddl33              ../engine/source/elements/joint/ruser33.F
-      !||    xddl33i             ../engine/source/elements/joint/ruser33.F
-      !||    xforc28             ../engine/source/elements/xelem/xforc28.F
-      !||    xforc29             ../engine/source/elements/xelem/xforc29.F
-      !||    xforc30             ../engine/source/elements/xelem/xforc30.F
-      !||    xforc31             ../engine/source/elements/xelem/xforc31.F
+      !||    airbagb                      ../engine/source/airbag/airbag2.F
+      !||    airbagb1                     ../engine/source/airbag/airbagb1.F
+      !||    damping51                    ../engine/source/assembly/damping.F
+      !||    damping_vref_compute_dampa   ../engine/source/assembly/damping_vref_compute_dampa.F90
+      !||    damping_vref_rby             ../engine/source/assembly/damping_vref_rby.F90
+      !||    fv_up_switch                 ../engine/source/airbag/fv_up_switch.F
+      !||    fvbag1                       ../engine/source/airbag/fvbag1.F
+      !||    fvvent0                      ../engine/source/airbag/fvvent0.F
+      !||    material_flow                ../engine/source/tools/seatbelts/material_flow.F
+      !||    porfor4                      ../engine/source/airbag/porfor4.F
+      !||    porform4                     ../engine/source/airbag/porfor4.F
+      !||    ruser32                      ../engine/source/elements/spring/ruser32.F
+      !||    ruser33                      ../engine/source/elements/joint/ruser33.F
+      !||    ruser35                      ../engine/source/elements/spring/ruser35.F
+      !||    ruser36                      ../engine/source/elements/spring/ruser36.F
+      !||    ruser44                      ../engine/source/elements/spring/ruser44.F
+      !||    ruser46                      ../engine/source/elements/spring/ruser46.F
+      !||    stdpl                        ../engine/source/elements/joint/ruser33.F
+      !||    volpvgb                      ../engine/source/airbag/volpvg.F
+      !||    xddl33                       ../engine/source/elements/joint/ruser33.F
+      !||    xddl33i                      ../engine/source/elements/joint/ruser33.F
+      !||    xforc28                      ../engine/source/elements/xelem/xforc28.F
+      !||    xforc29                      ../engine/source/elements/xelem/xforc29.F
+      !||    xforc30                      ../engine/source/elements/xelem/xforc30.F
+      !||    xforc31                      ../engine/source/elements/xelem/xforc31.F
       !||--- calls      -----------------------------------------------------
-      !||    get_var_user_f      ../engine/source/user_interface/eng_callback_c.c
-      !||    get_var_user_f_sp   ../engine/source/user_interface/eng_callback_c.c
-      !||    get_var_user_i      ../engine/source/user_interface/eng_callback_c.c
+      !||    get_var_user_f               ../engine/source/user_interface/eng_callback_c.c
+      !||    get_var_user_f_sp            ../engine/source/user_interface/eng_callback_c.c
+      !||    get_var_user_i               ../engine/source/user_interface/eng_callback_c.c
       !||====================================================================
       my_real FUNCTION GET_U_FUNC(IFUNC,XX,DERI)
 C-----------------------------------------------

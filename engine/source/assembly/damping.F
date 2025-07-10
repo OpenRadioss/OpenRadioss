@@ -21,14 +21,16 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    damping51      ../engine/source/assembly/damping.F
+      !||    damping51                        ../engine/source/assembly/damping.F
       !||--- called by ------------------------------------------------------
-      !||    resol          ../engine/source/engine/resol.F
+      !||    resol                            ../engine/source/engine/resol.F
       !||--- calls      -----------------------------------------------------
-      !||    damping_vref   ../engine/source/assembly/damping_vref.F
-      !||    get_u_func     ../engine/source/user_interface/ufunc.F
+      !||    damping_vref                     ../engine/source/assembly/damping_vref.F
+      !||    damping_vref_compute_dampa       ../engine/source/assembly/damping_vref_compute_dampa.F90
+      !||    get_u_func                       ../engine/source/user_interface/ufunc.F
       !||--- uses       -----------------------------------------------------
-      !||    groupdef_mod   ../common_source/modules/groupdef_mod.F
+      !||    damping_vref_compute_dampa_mod   ../engine/source/assembly/damping_vref_compute_dampa.F90
+      !||    groupdef_mod                     ../common_source/modules/groupdef_mod.F
       !||====================================================================
       SUBROUTINE DAMPING51(
      1  DIM    ,V      ,
