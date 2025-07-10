@@ -478,9 +478,9 @@
 !-----------------------------------------------
 !   L o c a l   V a r i a b l e s
 !-----------------------------------------------
-        integer :: aa
+        real(kind=WP) :: aa
 !=======================================================================
-       aa = a - 2 
+       aa = a - two
        dx = al(1)*(gamma*al(1)-delta*al(2))    *(abs(gamma*al(1)    - delta*al(2)     ))**aa  &
       +     al(3)*(gamma*al(3)+delta*two*al(4))*(abs(gamma*al(3)    + delta*two*al(4)))**aa   &
       + two*al(5)*(gamma*two*al(5)+delta*al(6))*(abs(gamma*two*al(5)+delta*al(6)))**aa    
