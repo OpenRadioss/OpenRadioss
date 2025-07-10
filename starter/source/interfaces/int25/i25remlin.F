@@ -32,7 +32,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      1         X    ,NEDGE ,LEDGE ,NUMNOD ,GAP_E    ,GAP_E_L,
      2         IGAP0,IGAP  ,DRAD  ,BGAPEMX,BGAPEMX_L,KREMNODE, 
      3         REMNODE,NREMNODE,I_START,I_MEM_REM,INOD2LIN,
-     4         TAGSECND,NOD2LIN,DGAPLOAD)
+     4         TAGSECND,NOD2LIN,DGAPLOAD,PERM,PERM_INV,
+     5         GAP_MAXNEIGH)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -47,28 +48,32 @@ C-----------------------------------------------
       INTEGER NEDGE, NUMNOD,IGAP0,IGAP, NREMNODE
       INTEGER LEDGE(NLEDGE,*),KREMNODE(*),REMNODE(*),I_START,I_MEM_REM
       INTEGER INOD2LIN(NUMNOD+1),TAGSECND(NUMNOD),NOD2LIN(2*NEDGE)
+      INTEGER , INTENT(INOUT) :: PERM(NEDGE),PERM_INV(NEDGE)
       my_real
      .        X(3,*),GAP_E(*),GAP_E_L(*),DRAD,BGAPEMX,BGAPEMX_L
       my_real , INTENT(IN) :: DGAPLOAD
+      my_real , INTENT(INOUT) :: GAP_MAXNEIGH(NEDGE)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,LIN,ILIN,LEVEL,CPT,NBLIN,LIN1,L,CPT1,N,NBLIN_MAX,CPT_TOTAL
-      INTEGER ::   IM1,IM2
+      INTEGER I,II,J,JJ,K,LIN,ILIN,LEVEL,CPT,NBLIN,LIN1,L,CPT1,CPT2,N,NBLIN_MAX,CPT_TOTAL
+      INTEGER ::   IM1,IM2,FOUND,LL,TOT_SYM
       INTEGER, DIMENSION(:),ALLOCATABLE ::
-     .        KNOD2LIN,TAGNOD,ORIGIN,ITAG,LISTLIN,LISTLINTMP,LISTLINTOTAL
+     .        KNOD2LIN,TAGNOD,ORIGIN,ITAG,LISTLIN,LISTLINTMP,LISTLINTOTAL,
+     .        REM_TMP,KREM_TMP
+      INTEGER, DIMENSION(:,:),ALLOCATABLE :: TAG_SYM     
       my_real
      .        DMAX,NEW_DIST,PENE,I11PENE_LIN,XL,GAPV,GAP,DRAD2
       my_real, DIMENSION(:),ALLOCATABLE ::
-     .        DIST1
+     .        DIST1,GAP_E_SORT
 C-----------------------------------------------
 c Build inverse connectivity for segments - only at first pass (I_START=1)
 C-----------------------------------------------
 C
-       DRAD2 = ZERO !no thermal exchange for E2E 
+      DRAD2 = ZERO !no thermal exchange for E2E 
       IF (I_START ==1) THEN
 C
-        ALLOCATE(KNOD2LIN(NUMNOD+1))
+        ALLOCATE(KNOD2LIN(NUMNOD+1),GAP_E_SORT(NEDGE))
 C
         KREMNODE(1) = 1
         NOD2LIN(1:2*NEDGE)    = 0
@@ -81,7 +86,19 @@ C
           TAGSECND(LEDGE(5,I)) = 1
           TAGSECND(LEDGE(6,I)) = 1
         ENDDO
-
+        GAP_MAXNEIGH(1:NEDGE) = GAP_E(1:NEDGE)
+C        
+C       edges are sorted by increasing gap
+        DO I=1,NEDGE
+           PERM(I) =I
+           GAP_E_SORT(I) = GAP_E(I)
+        ENDDO  
+        CALL STLSORT_REAL_INT(NEDGE,GAP_E_SORT,PERM)
+        IF(ALLOCATED(GAP_E_SORT)) DEALLOCATE(GAP_E_SORT) 
+        DO II=1,NEDGE
+          I=PERM(NEDGE - II + 1)
+          PERM_INV(I) =II
+        ENDDO 
 
 C-----------------------------------------------
 C  Definition of node to segment connections
@@ -131,10 +148,11 @@ C
         LISTLINTMP(1:NEDGE)=0
         LISTLINTOTAL(1:NEDGE) = 0
         CPT_TOTAL = 0
+C        
+C       loop on edges with decreasing gap
+        DO II=I_START,NEDGE
 
-C
-        DO I=I_START,NEDGE
-
+          I=PERM(NEDGE - II + 1)
           LEVEL = 1
           LIN = I
 
@@ -147,11 +165,10 @@ C
           XL = (X(1,LEDGE(5,I))-X(1,LEDGE(6,I)))**2+(X(2,LEDGE(5,I))-X(2,LEDGE(6,I)))**2+(X(3,LEDGE(5,I))-X(3,LEDGE(6,I)))**2
           XL = SQRT(XL)
 C
-
           IF(IGAP0 == 0) THEN
-            GAP = BGAPEMX+TWO*GAP_E(I)
+            GAP = GAP_MAXNEIGH(I)+TWO*GAP_E(I)
           ELSE
-             GAP = TWO*(BGAPEMX+GAP_E(I))
+            GAP = TWO*(GAP_MAXNEIGH(I)+GAP_E(I))
           ENDIF
           IF(IGAP==3) GAP = MIN(GAP,GAP_E_L(I)+BGAPEMX_L)
  
@@ -175,7 +192,7 @@ C
 C
               PENE = ZERO
               IF ((DIST1(LEDGE(5,LIN)) > DMAX).AND.(DIST1(LEDGE(6,LIN)) > DMAX).AND.(LEVEL>2)) THEN
-                PENE = I11PENE_LIN(X,LEDGE(5,LIN),LEDGE(5,LIN),LEDGE(5,I),LEDGE(6,I),DMAX)
+                PENE = I11PENE_LIN(X,LEDGE(5,LIN),LEDGE(6,LIN),LEDGE(5,I),LEDGE(6,I),DMAX)
               ENDIF
 C
               IF ((LEVEL <= 2).OR.(DIST1(LEDGE(5,LIN)) <= DMAX).OR.(DIST1(LEDGE(6,LIN)) <= DMAX).OR.(PENE > ZERO)) THEN
@@ -234,8 +251,8 @@ CC END DO WHILE
 C
 C-- Check memory for data storage
 C
-          I_START = I
-          IF (KREMNODE(I)+CPT_TOTAL > NREMNODE) THEN
+          I_START = II
+          IF (KREMNODE(II)+CPT_TOTAL > NREMNODE) THEN
 C--         Not enough memory - upgrade_remnode
             I_MEM_REM = 1
             EXIT
@@ -245,7 +262,6 @@ C
           IM1 = LEDGE(5,I)
           IM2 = LEDGE(6,I)
 C
-
             DO L=1,CPT_TOTAL
               LIN = LISTLINTOTAL(L)
               IF ((IM1 /= LEDGE(5,LIN)).AND.(IM1 /= LEDGE(6,LIN))
@@ -259,20 +275,21 @@ C--- lines with common nodes with main lines are already removed - no need to st
                 IF(IGAP==3) GAPV = MIN(GAPV,GAP_E_L(LIN)+GAP_E_L(I))
 
                 GAPV = SQRT(TWO)*MAX(DRAD2,GAPV+DGAPLOAD)
-
                 IF ((DIST1(LEDGE(5,LIN)) <= GAPV).OR.(DIST1(LEDGE(6,LIN)) <= GAPV)) THEN
-                  REMNODE(KREMNODE(I)+CPT1) = LIN
+                  REMNODE(KREMNODE(II)+CPT1) = LIN
                   CPT1 = CPT1 + 1
+                  GAP_MAXNEIGH(LIN) = MAX(GAP_MAXNEIGH(LIN),GAP_E(I))
                 ELSE
                   PENE = I11PENE_LIN(X,LEDGE(5,LIN),LEDGE(6,LIN),LEDGE(5,I),LEDGE(6,I),GAPV)
                   IF (PENE > 0) THEN
-                    REMNODE(KREMNODE(I)+CPT1) = LIN
+                    REMNODE(KREMNODE(II)+CPT1) = LIN
                     CPT1 = CPT1 + 1
+                    GAP_MAXNEIGH(LIN) = MAX(GAP_MAXNEIGH(LIN),GAP_E(I))
                   ENDIF
                 ENDIF
               ENDIF
             ENDDO            
-            KREMNODE(I+1) = KREMNODE(I) + CPT1
+            KREMNODE(II+1) = KREMNODE(II) + CPT1
 
 C
 C-----------------------------------------------
@@ -304,6 +321,90 @@ C
         ENDDO
 CC END DO NEDGE
 C
+        IF (I_MEM_REM == 0) THEN
+C         Symmetry check                    
+          ALLOCATE(TAG_SYM(2,NEDGE))
+          TAG_SYM(1:2,1:NEDGE) = 0
+          TOT_SYM = 0
+          DO I=1,NEDGE
+            II = PERM_INV(I)
+            CPT1 = KREMNODE(II+1) - KREMNODE(II)
+            DO L=1,CPT1
+              JJ = REMNODE(KREMNODE(II)+L-1)
+              LIN = PERM_INV(REMNODE(KREMNODE(II)+L-1))
+              CPT2 = KREMNODE(LIN+1) - KREMNODE(LIN)
+              FOUND = 0
+              DO  LL=1,CPT2
+                J = REMNODE(KREMNODE(LIN)+LL-1)
+                IF (I==J) FOUND = 1 
+              ENDDO   
+              IF (FOUND == 0) THEN 
+                TOT_SYM = TOT_SYM + 1
+                TAG_SYM(2,JJ) = TAG_SYM(2,JJ) + 1
+                TAG_SYM(1,I) = 1
+              ENDIF  
+            ENDDO
+          ENDDO
+c
+          IF (KREMNODE(NEDGE+1)+TOT_SYM > NREMNODE) THEN
+C--         Not enough memory to store missing symetrised connections - upgrade_remnode
+            I_MEM_REM = 1
+            I_START = NEDGE
+            I_MEM_REM = 1
+          ENDIF       
+        ENDIF  
+c
+        IF (I_MEM_REM == 0) THEN           
+C
+          ALLOCATE(REM_TMP(NREMNODE),KREM_TMP(NEDGE+1))
+          REM_TMP(1:NREMNODE) = REMNODE(1:NREMNODE)
+          KREM_TMP(1:NEDGE+1) = KREMNODE(1:NEDGE+1)
+          KREMNODE(1) = 1
+C
+          DO I=1,NEDGE
+            II = PERM_INV(I)
+            CPT1 = KREM_TMP(II+1) - KREM_TMP(II)
+            KREMNODE(I+1) = KREMNODE(I) + CPT1 + TAG_SYM(2,I)
+          ENDDO
+C          
+C         REMNODE is reorganized in edge order
+          DO I=1,NEDGE
+            II = PERM_INV(I)
+            CPT1 = KREM_TMP(II+1) - KREM_TMP(II)       
+            DO L=1,CPT1
+              LIN = REM_TMP(KREM_TMP(II)+L-1)
+              REMNODE(KREMNODE(I)+L-1) = LIN
+            ENDDO
+          ENDDO
+C
+          IF (TOT_SYM > 0) THEN
+            TAG_SYM(2,1:NEDGE) = 0
+C           Missing connections are added for symetrization         
+            DO I=1,NEDGE
+              IF (TAG_SYM(1,I) > 0) THEN
+                II = PERM_INV(I)
+                CPT1 = KREM_TMP(II+1) - KREM_TMP(II)  
+                DO L=1, CPT1
+                  LIN = REMNODE(KREMNODE(I)+L-1)
+                  JJ = PERM_INV(LIN)
+                  CPT2 = KREM_TMP(JJ+1) - KREM_TMP(JJ)
+                  FOUND = 0
+                  DO  LL=1,CPT2
+                    IF (I==REMNODE(KREMNODE(LIN)+LL-1)) FOUND = 1 
+                  ENDDO 
+                  IF (FOUND == 0) THEN
+                    TAG_SYM(2,LIN) = TAG_SYM(2,LIN) + 1
+                    REMNODE(KREMNODE(LIN)+CPT2 + TAG_SYM(2,LIN)-1) = I
+                  ENDIF  
+                ENDDO   
+              ENDIF
+            ENDDO  
+          ENDIF  
+C            
+          DEALLOCATE(REM_TMP,KREM_TMP,TAG_SYM) 
+
+        ENDIF
+C
       ENDIF
 C
       DEALLOCATE(DIST1,TAGNOD,ORIGIN)
@@ -311,8 +412,6 @@ C
       IF(ALLOCATED(LISTLINTOTAL)) DEALLOCATE(LISTLINTOTAL)
       IF(ALLOCATED(LISTLIN)) DEALLOCATE(LISTLIN)
       IF(ALLOCATED(LISTLINTMP)) DEALLOCATE(LISTLINTMP)
-
-
 C
       RETURN
       END
