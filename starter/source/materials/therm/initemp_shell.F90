@@ -74,7 +74,7 @@
 !   L o c a l   V a r i a b l e s
 !-----------------------------------------------
       integer :: i,j,ilay,ir,is,it
-      integer ,dimension(nel) :: tempel
+      real(kind=WP) ,dimension(nel) :: tempel
 !=========================================================================================
       ! calculate mean element temperature from nodal temperature   
       tempel(1:nel) = zero
