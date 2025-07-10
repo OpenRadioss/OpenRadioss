@@ -199,15 +199,18 @@ C
 C
       IF (ANIM_FT(1) /= 0 .OR. H3D_DATA%UND_FORC /= 0) THEN
         DO I=1,NEL
+          ! Beam force
           TANI(1,I)= FOR(I,1)
           TANI(2,I)= FOR(I,2)
           TANI(3,I)= FOR(I,3)
-          TANI(4,I)= MOM(I,1)
+          ! Beam Node_1 moment
+          TANI(4,I)= -MOM(I,1)
+          TANI(5,I)= -MOM(I,2) + HALF*AL(I)*FOR(I,3)
+          TANI(6,I)= -MOM(I,3) - HALF*AL(I)*FOR(I,2)
+          ! Beam Node_2 moment
+          TANI(7,I)= MOM(I,1)
           TANI(5,I)= MOM(I,2) + HALF*AL(I)*FOR(I,3)
-          TANI(6,I)= MOM(I,3) - HALF*AL(I)*FOR(I,2)
-          TANI(7,I)= -MOM(I,1)
-          TANI(8,I)= -MOM(I,2) + HALF*AL(I)*FOR(I,3)
-          TANI(9,I)= -MOM(I,3) - HALF*AL(I)*FOR(I,2)
+          TANI(9,I)= MOM(I,3) - HALF*AL(I)*FOR(I,2)
 C          TANI(10,I)= E1X(I)
 C          TANI(11,I)= E1Y(I)
 C          TANI(12,I)= E1Z(I)
