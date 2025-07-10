@@ -87,10 +87,7 @@ C-----------------------------------------------
 C      SKEW ELEMENT 1D
 C-----------------------------------------------
 C   il faut recuperer les donnees sur les procs
-c      IF (IMACH==3) THEN
-        II = 0
-c      ENDIF
-C
+      II = 0
       DO NG=1,NGROUP
         MLW   =IPARG(1,NG)
         NEL   =IPARG(2,NG)
@@ -126,15 +123,6 @@ C-----------------------------------------------
                 Z2 =    -X1*Z1
               ENDIF
               S=S3000/SQRT(X2*X2+Y2*Y2+Z2*Z2)
-c              IF (IMACH/=3) THEN
-c                ISK(1)=NINT(X1*S3000)
-c                ISK(2)=NINT(Y1*S3000)
-c                ISK(3)=NINT(Z1*S3000)
-c                ISK(4)=NINT(X2*S)
-c                ISK(5)=NINT(Y2*S)
-c                ISK(6)=NINT(Z2*S)
-c                CALL WRITE_S_C(ISK,6)
-c              ELSE
                 WA(II+1) = NINT(X1*S3000)
                 WA(II+2) = NINT(Y1*S3000)
                 WA(II+3) = NINT(Z1*S3000)
@@ -158,18 +146,6 @@ C-----------------------------------------------
              X2 = GBUF%SKEW(JJ + 1)
              Y2 = GBUF%SKEW(JJ + 2)
              Z2 = GBUF%SKEW(JJ + 3)
-cc             X2=  BUFEL(NB6+3*I-3)
-cc             Y2=  BUFEL(NB6+3*I-2)
-cc             Z2=  BUFEL(NB6+3*I-1)
-c             IF (IMACH/=3) THEN
-c               ISK(1)=NINT(X1*S)
-c               ISK(2)=NINT(Y1*S)
-c               ISK(3)=NINT(Z1*S)
-c               ISK(4)=NINT(X2*S3000)
-c               ISK(5)=NINT(Y2*S3000)
-c               ISK(6)=NINT(Z2*S3000)
-c               CALL WRITE_S_C(ISK,6)
-c             ELSE
                WA(II+1) = NINT(X1*S)
                WA(II+2) = NINT(Y1*S)
                WA(II+3) = NINT(Z1*S)
@@ -177,7 +153,6 @@ c             ELSE
                WA(II+5) = NINT(Y2*S3000)
                WA(II+6) = NINT(Z2*S3000)
                II = II + 6
-c             ENDIF
           ENDDO
 C-----------------------------------------------
 C       RESSORTS
@@ -213,15 +188,6 @@ C-----------------------------------------------
               ENDIF
               S=X2*X2+Y2*Y2+Z2*Z2
               S=S3000/MAX(EM20,SQRT(S))
-c              IF (IMACH/=3) THEN
-c                ISK(1)=NINT(X1*S3000)
-c                ISK(2)=NINT(Y1*S3000)
-c                ISK(3)=NINT(Z1*S3000)
-c                ISK(4)=NINT(X2*S)
-c                ISK(5)=NINT(Y2*S)
-c                ISK(6)=NINT(Z2*S)
-c                CALL WRITE_S_C(ISK,6)
-c              ELSE
                 WA(II+1) = NINT(X1*S3000)
                 WA(II+2) = NINT(Y1*S3000)
                 WA(II+3) = NINT(Z1*S3000)
@@ -229,7 +195,6 @@ c              ELSE
                 WA(II+5) = NINT(Y2*S)
                 WA(II+6) = NINT(Z2*S)
                 II = II + 6
-c              ENDIF
             ENDDO
 
           ELSEIF(IGTYP==12)THEN
@@ -252,15 +217,6 @@ c              ENDIF
                 Z2 =    -X1*Z1
               ENDIF
               S=S3000/MAX(EM20,SQRT(X2*X2+Y2*Y2+Z2*Z2))
-c              IF (IMACH/=3) THEN
-c                ISK(1)=NINT(X1*S3000)
-c                ISK(2)=NINT(Y1*S3000)
-c                ISK(3)=NINT(Z1*S3000)
-c                ISK(4)=NINT(X2*S)
-c                ISK(5)=NINT(Y2*S)
-c                ISK(6)=NINT(Z2*S)
-c                CALL WRITE_S_C(ISK,6)
-c              ELSE
                 WA(II+1) = NINT(X1*S3000)
                 WA(II+2) = NINT(Y1*S3000)
                 WA(II+3) = NINT(Z1*S3000)
@@ -268,7 +224,6 @@ c              ELSE
                 WA(II+5) = NINT(Y2*S)
                 WA(II+6) = NINT(Z2*S)
                 II = II + 6
-c              ENDIF
               X1=X(1,IXR(4,N))-X(1,IXR(3,N))
               Y1=X(2,IXR(4,N))-X(2,IXR(3,N))
               Z1=X(3,IXR(4,N))-X(3,IXR(3,N))
@@ -286,15 +241,6 @@ c              ENDIF
                 Z2 =    -X1*Z1
               ENDIF
               S=S3000/MAX(EM20,SQRT(X2*X2+Y2*Y2+Z2*Z2))
-c              IF (IMACH/=3) THEN
-c                ISK(1)=NINT(X1*S3000)
-c                ISK(2)=NINT(Y1*S3000)
-c                ISK(3)=NINT(Z1*S3000)
-c                ISK(4)=NINT(X2*S)
-c                ISK(5)=NINT(Y2*S)
-c                ISK(6)=NINT(Z2*S)
-c                CALL WRITE_S_C(ISK,6)
-c              ELSE
                 WA(II+1) = NINT(X1*S3000)
                 WA(II+2) = NINT(Y1*S3000)
                 WA(II+3) = NINT(Z1*S3000)
@@ -316,18 +262,6 @@ c              ENDIF
              X2 = GBUF%SKEW(JJ + 1)
              Y2 = GBUF%SKEW(JJ + 2)
              Z2 = GBUF%SKEW(JJ + 3)
-cc             X2=  BUFEL(NB14+3*I-3)
-cc             Y2=  BUFEL(NB14+3*I-2)
-cc             Z2=  BUFEL(NB14+3*I-1)
-c             IF (IMACH/=3) THEN
-c               ISK(1)=NINT(X1*S)
-c               ISK(2)=NINT(Y1*S)
-c               ISK(3)=NINT(Z1*S)
-c               ISK(4)=NINT(X2*S3000)
-c               ISK(5)=NINT(Y2*S3000)
-c               ISK(6)=NINT(Z2*S3000)
-c               CALL WRITE_S_C(ISK,6)
-c             ELSE
                WA(II+1) = NINT(X1*S)
                WA(II+2) = NINT(Y1*S)
                WA(II+3) = NINT(Z1*S)
@@ -348,18 +282,6 @@ c             ENDIF
              X2 = GBUF%SKEW(JJ + 1)
              Y2 = GBUF%SKEW(JJ + 2)
              Z2 = GBUF%SKEW(JJ + 3)
-cc             X2=  BUFEL(NB14+3*I-3)
-cc             Y2=  BUFEL(NB14+3*I-2)
-cc             Z2=  BUFEL(NB14+3*I-1)
-c             IF (IMACH/=3) THEN
-c               ISK(1)=NINT(X1*S)
-c               ISK(2)=NINT(Y1*S)
-c               ISK(3)=NINT(Z1*S)
-c               ISK(4)=NINT(X2*S3000)
-c               ISK(5)=NINT(Y2*S3000)
-c               ISK(6)=NINT(Z2*S3000)
-c               CALL WRITE_S_C(ISK,6)
-c             ELSE
                WA(II+1) = NINT(X1*S)
                WA(II+2) = NINT(Y1*S)
                WA(II+3) = NINT(Z1*S)
@@ -380,18 +302,6 @@ c             ENDIF
              X2 = GBUF%SKEW(JJ + 1)
              Y2 = GBUF%SKEW(JJ + 2)
              Z2 = GBUF%SKEW(JJ + 3)
-cc             X2=  BUFEL(NB14+3*I-3)
-cc             Y2=  BUFEL(NB14+3*I-2)
-cc             Z2=  BUFEL(NB14+3*I-1)
-c             IF (IMACH/=3) THEN
-c               ISK(1)=NINT(X1*S)
-c               ISK(2)=NINT(Y1*S)
-c               ISK(3)=NINT(Z1*S)
-c               ISK(4)=NINT(X2*S3000)
-c               ISK(5)=NINT(Y2*S3000)
-c               ISK(6)=NINT(Z2*S3000)
-c               CALL WRITE_S_C(ISK,6)
-c             ELSE
                WA(II+1) = NINT(X1*S)
                WA(II+2) = NINT(Y1*S)
                WA(II+3) = NINT(Z1*S)
@@ -413,21 +323,6 @@ c             ENDIF
               EX(4) = GBUF%VAR(JJ + 4)  ! UVAR(25,I)= EX(1)
               EX(5) = GBUF%VAR(JJ + 5)  ! UVAR(26,I)= EX(1)
               EX(6) = GBUF%VAR(JJ + 6)  ! UVAR(27,I)= EX(1)
-cc              EX(1) = BUFEL(NB15+22)
-cc              EX(2) = BUFEL(NB15+23)
-cc              EX(3) = BUFEL(NB15+24)
-cc              EX(4) = BUFEL(NB15+25)
-cc              EX(5) = BUFEL(NB15+26)
-cc              EX(6) = BUFEL(NB15+27)
-c              IF (IMACH/=3) THEN
-c                ISK(1)=NINT(EX(1)*S3000)
-c                ISK(2)=NINT(EX(2)*S3000)
-c                ISK(3)=NINT(EX(3)*S3000)
-c                ISK(4)=NINT(EX(4)*S3000)
-c                ISK(5)=NINT(EX(5)*S3000)
-c                ISK(6)=NINT(EX(6)*S3000)
-c                CALL WRITE_S_C(ISK,6)
-c              ELSE
                 WA(II+1) = NINT(EX(1)*S3000)
                 WA(II+2) = NINT(EX(2)*S3000)
                 WA(II+3) = NINT(EX(3)*S3000)
@@ -435,11 +330,10 @@ c              ELSE
                 WA(II+5) = NINT(EX(5)*S3000)
                 WA(II+6) = NINT(EX(6)*S3000)
                 II = II + 6
-c              ENDIF
             ENDDO
 
           ENDIF
-C
+
         ELSE
         ENDIF
 C-----------------------------------------------

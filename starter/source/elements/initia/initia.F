@@ -1382,10 +1382,10 @@ C 2D multifluid law
         ELSEIF (ITY == 5) THEN
           CALL PINIT3(ELBUF_TAB(NG),
      1                STP        ,IXP      ,PM      ,X       ,GEO   ,
-     2                MS         ,IN       ,DTELEM  ,NFT     ,NEL  ,
+     2                DTELEM     ,NFT     ,NEL     ,
      3                STIFN      ,STIFR    ,PARTSAV ,V       ,IPART(I15E),
-     4                MSP        ,INP      ,IGEO    ,STIFINT ,STRP       ,
-     5                NSIGBEAM   ,SIGBEAM  ,PTBEAM  ,IUSER   ,MCP        ,
+     4                MSP        ,INP      ,IGEO    ,STRP    ,
+     5                NSIGBEAM   ,SIGBEAM  ,PTBEAM  ,IUSER   ,
      6                MCPP       ,TEMP     ,PRELOAD_A,IBOLTP ,NPRELOAD_A ,
      7                GLOB_THERM ,IBEAM_VECTOR,RBEAM_VECTOR)
         !----------------------------------------!

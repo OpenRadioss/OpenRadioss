@@ -55,7 +55,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
-      USE SUBMODEL_MOD
+      USE SUBMODEL_MOD , ONLY : NSUBMOD, SUBMODEL_DATA
       USE MESSAGE_MOD
       USE R2R_MOD
       USE GROUPDEF_MOD
@@ -82,28 +82,21 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
-      INTEGER IFI,MFI,IDDLEVEL,NCHPARAL,K,OFFS
-      INTEGER NPRW(*), LPRW(*), ITAB(*), ITABM1(*),
-     .        IKINE(*), IMERGE(*),ITAGND(*),IKINE1(3*NUMNOD)
-      TYPE(SUBMODEL_DATA) LSUBMODEL(*)
-      my_real
-     .   RWL(NRWLP,*), MS(*), V(3,*), X(3,*),
-     .   RTRANS(NTRANSF,*)
+      TYPE (UNIT_TYPE_),INTENT(IN) :: UNITAB
+      INTEGER :: IFI,MFI,IDDLEVEL,NCHPARAL,K,OFFS
+      INTEGER :: NPRW(*), LPRW(*), ITAB(*), ITABM1(*),IKINE(*), IMERGE(*),ITAGND(*),IKINE1(3*NUMNOD)
+      TYPE(SUBMODEL_DATA) :: LSUBMODEL(NSUBMOD)
+      my_real :: RWL(NRWLP,*), MS(*), V(3,*), X(3,*),RTRANS(NTRANSF,*)
       INTEGER NOM_OPT(LNOPT1,*)
 C-----------------------------------------------
       TYPE (GROUP_)  ,TARGET, DIMENSION(NGRNOD)  :: IGRNOD
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER N, ITYP, ITIED, NSL, NUSER, MSR, J, I,
-     .   L, IGU,IGU2, IGRS, NOSYS, IFQ, JC,UID,
-     .   IFLAGUNIT,SUB_ID, SUB_INDEX
-      my_real
-     .   DIST, FRIC, DIAM, XMAS, VX, VY, VZ, XM1, YM1, ZM1, XM2, YM2, VN,
-     .   ZM2, XN, X1, Y1, Z1, DISN, X2, Y2, Z2, X3, FREQ, ALPHA, FAC_M_R2R
+      INTEGER N, ITYP, ITIED, NSL, NUSER, MSR, J, I,L, IGU,IGU2, IGRS, NOSYS, IFQ, JC,UID,IFLAGUNIT,SUB_ID, SUB_INDEX
+      my_real :: DIST, FRIC, DIAM, XMAS, VX, VY, VZ, XM1, YM1, ZM1, XM2, YM2, VN
+      my_real :: ZM2, XN, X1, Y1, Z1, DISN, X2, X3, FREQ, ALPHA, FAC_M_R2R
       CHARACTER MESS*40
-      CHARACTER(LEN=NCHARKEY) :: OPT
       CHARACTER(LEN=NCHARTITLE) :: TITR
       LOGICAL :: IS_AVAILABLE
 C-----------------------------------------------

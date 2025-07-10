@@ -163,7 +163,7 @@ contains
 ! ----------------------------------------------------------------------------------------------------------------------     
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-              integer :: i,j
+              integer :: i
               integer :: checksum_digest_count      
               integer,target :: len_title
               integer,target :: len_checksum
@@ -261,8 +261,6 @@ contains
               character(len=ncharline),target:: checksum_title
               character(len=64),target:: checksum
 
-              integer,dimension(ncharline):: i_checksum_title
-              integer,dimension(64):: i_checksum
               character(len=ncharline):: assembled_checksum
               integer,dimension(ncharline):: i_assembled_checksum
               integer :: assembled_checksum_length

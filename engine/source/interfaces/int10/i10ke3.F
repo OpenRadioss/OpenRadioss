@@ -57,14 +57,12 @@ C-----------------------------------------------
 #include      "com08_c.inc"
 #include      "param_c.inc"
 #include      "impl2_c.inc"
-#include      "scr05_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IPARI(*), INDEX2(*)
       INTEGER NUM_IMP,CAND_N(*),CAND_E(*),NIN,IDDL(*),
      .         IADK(*)     ,JDIK(*),LREM
-C     REAL
       my_real 
      .  A(3,*), MS(*), V(3,*),X(*),K_DIAG(*),K_LT(*), 
      . GAP_IMP
@@ -162,7 +160,7 @@ C
      B                  Z3     ,Z4     ,KI11   ,KI12   ,KJ11  ,
      C                  KJ12   ,KK11   ,KK12   ,KL11   ,KL12  ,
      D                  OFF    ,SK_INT ,LREM   )
-           IF (IMACH==3.AND.NSPMD>1) THEN
+           IF (NSPMD>1) THEN
             LREM = LREM + JLT
             CALL ASS_SPMD(3        ,NSVG     ,IX1    ,IX2    ,IX3    ,       
      1         IX4      ,JLT       ,IDDL     ,K_DIAG    ,K_LT     ,

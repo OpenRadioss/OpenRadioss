@@ -43,12 +43,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-c      IF (IMACH/=3) THEN
-c        NERBY = NERBY + NPBY(2,IRBY)
-c      ELSE
         IF (ISPMD==0) THEN
             NERBY = NERBY + NERBT(IRBY)
         ENDIF
-c      ENDIF
       RETURN
       END

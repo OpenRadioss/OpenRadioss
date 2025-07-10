@@ -164,7 +164,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "scr05_c.inc"
 #include      "param_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -187,7 +186,7 @@ C     REAL
 C-----------------------------------------------
       M    =NBY(1)
 C -------main utilise place de premier secnd node (just like change node number)
-      IF (IMACH==3.AND.M<0) RETURN
+      IF (M<0) RETURN
        NSN  =NBY(2)
        IMD = IDDL(M)+1
         ND = 6
@@ -712,7 +711,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "scr05_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -732,7 +730,7 @@ C     REAL
 C-----------------------------------------------
       M    =NBY(1)
 C -------main utilise place de premier secnd node (just like change node number)
-      IF ((IMACH==3.AND.M<0).OR.NDOF(M)==0) RETURN
+      IF ((M<0).OR.NDOF(M)==0) RETURN
        NSN  =NBY(2)
         ND = 6
 C--------boucle secnd nodes--
@@ -826,7 +824,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "scr05_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -846,7 +843,7 @@ C     REAL
 C-----------------------------------------------
       M    =NBY(1)
 C -------main utilise place de premier secnd node (just like change node number)
-      IF (IMACH==3.AND.M<0) RETURN
+      IF (M<0) RETURN
        NSN  =NBY(2)
         ND = 6
 C--------boucle secnd nodes--

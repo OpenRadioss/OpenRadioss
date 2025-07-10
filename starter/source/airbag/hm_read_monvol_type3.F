@@ -86,14 +86,13 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: II, I, J
+      INTEGER :: II, J
       INTEGER :: SURFID
       my_real :: FAC_M, FAC_L, FAC_T, FAC_C, FAC_GEN
       my_real :: SCAL_T, SCAL_P, SCAL_S, SCAL_A, SCAL_D
       LOGICAL :: FOUND
       my_real :: SA, ROT, VOL, VMIN, VEPS, AMU, SV, RHOI
-      my_real :: GAMMA, T_RELAX, PEXT, PINI, PMAX, VINC, MI, EI, AVENT, BVENT, 
-     .     TVENT, DPDEF, DTPDEF, FPORT, FPORP, FPORA, DUMMY, TI
+      my_real :: GAMMA, T_RELAX, PEXT, PINI, PMAX, VINC, MI, EI, AVENT, BVENT, TVENT, DPDEF, DTPDEF, FPORT, FPORP, FPORA, TI
       INTEGER :: NVENT, IPVENT, IDEF, IPORT, IPORP, IPORA, IEQUI
       LOGICAL :: IS_AVAILABLE
 C-----------------------------------------------
@@ -260,8 +259,7 @@ C     Reverse all normals to ensure positive volume
 
 C     Parameter checks
       IF (GAMMA == ONE) THEN
-         CALL ANCMSG(MSGID = 641, MSGTYPE = MSGERROR, ANMODE = ANINFO_BLIND_1,
-     .              I1 = T_MONVOLN%ID, C1 = T_MONVOLN%TITLE)
+         CALL ANCMSG(MSGID = 641, MSGTYPE = MSGERROR, ANMODE = ANINFO_BLIND_1, I1 = T_MONVOLN%ID, C1 = T_MONVOLN%TITLE)
       ENDIF
       IF (AMU == ZERO) THEN
          AMU = EM02
@@ -390,11 +388,9 @@ C     =========
          TVENT = T_MONVOLN%RBAGHOL(3, II)
          DPDEF = T_MONVOLN%RBAGHOL(1, II)
          IF(ABS(IDEF) == 1)THEN
-            WRITE(IOUT,1380) II, IPVENT, AVENT, IPORT, IPORP, IPORA,
-     .           TVENT, DPDEF, DTPDEF, FPORT, FPORP, FPORA
+            WRITE(IOUT,1380) II, IPVENT, AVENT, IPORT, IPORP, IPORA,TVENT, DPDEF, DTPDEF, FPORT, FPORP, FPORA
          ELSE
-            WRITE(IOUT,1381) II, IPVENT, AVENT, IPORT, IPORP, IPORA,
-     .           TVENT, DPDEF, DTPDEF, FPORT, FPORP, FPORA
+            WRITE(IOUT,1381) II, IPVENT, AVENT, IPORT, IPORP, IPORA,TVENT, DPDEF, DTPDEF, FPORT, FPORP, FPORA
          ENDIF
       ENDDO
 C-----------------------------------------------
@@ -413,10 +409,6 @@ C-----------------------------------------------
      .     /5X,'UNIT SCALE FOR ANGLE FUNCTIONS         =',1PG20.13,
      .     /5X,'UNIT SCALE FOR DISTANCE FUNCTIONS      =',1PG20.13)
  1005 FORMAT( 5X,'EXTERNAL SURFACE ID . . . . . . . . . .=',I10)
- 1200 FORMAT( 5X,'LOAD CURVE NUMBER . . . . . . . . . . .=',I10,
-     .     /5X,'CURVE TYPE  . . . . . . . . . . . . . .=',I10,
-     .     /5X,'  0 : P=F(V)',
-     .     /5X,'  1 : P=F(T)'/)
  1300 FORMAT(
      .     5X,'GAMMA . . . . . . . . . . . . . . . . .=',1PG20.13,
      .     /5X,'VOLUMIC VISCOSITY . . . . . . . . . . .=',1PG20.13,

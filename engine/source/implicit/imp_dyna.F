@@ -1215,12 +1215,10 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com08_c.inc"
-#include      "scr05_c.inc"
 #include      "param_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C     REAL
       INTEGER NBY(*), WEIGHT(*),ICODR(*),ISKEW(*)
       my_real
      . AM(3,*),IN(*),VR(3,*),RBY0(*),SKEW(LSKEW,*)
@@ -1234,10 +1232,10 @@ C-----------------------------------------------
      .        RBY(25)
 C-----------------
       M=NBY(1)
-      IF(IMACH==3.AND.M<0) RETURN
+      IF(M<0) RETURN
       NSN=NBY(2)
 C petit traitement pour le spmd ou M est replique sur les processeurs
-      IF (IMACH==3.AND.NSPMD>1) THEN
+      IF (NSPMD>1) THEN
         AM(1,M)  = AM(1,M)  * WEIGHT(M)
         AM(2,M)  = AM(2,M)  * WEIGHT(M)
         AM(3,M)  = AM(3,M)  * WEIGHT(M)

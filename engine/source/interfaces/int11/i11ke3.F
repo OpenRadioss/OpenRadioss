@@ -57,7 +57,6 @@ C-----------------------------------------------
 #include      "com08_c.inc"
 #include      "param_c.inc"
 #include      "impl2_c.inc"
-#include      "scr05_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -165,7 +164,7 @@ C
      A  K2J12        ,N1           ,N2       ,NIN     ,LREM         ,
      B  OFF          ,SK_INT       ,IDESAC   )
 C
-           IF (IMACH==3.AND.NSPMD>1) THEN
+           IF (NSPMD>1) THEN
             LREM = LREM + JLT
             CALL ASS_SPMD11(3      ,N1       ,N2        ,M1       ,         
      1         M2       ,JLT       ,IDDL     ,K_DIAG    ,K_LT     ,

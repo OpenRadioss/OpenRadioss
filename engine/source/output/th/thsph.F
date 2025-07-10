@@ -48,7 +48,6 @@ C-----------------------------------------------
 #include      "vect01_c.inc"
 #include      "com01_c.inc"
 #include      "sphcom.inc"
-#include      "scr05_c.inc"
 #include      "task_c.inc"
 #include      "param_c.inc"
 C-----------------------------------------------
@@ -171,14 +170,11 @@ C======================================================================|
                             IF (K==N)THEN
                                 IH=IH+1
                                 !---spmd specific treatment---!
-                                IF (IMACH==3) THEN
-                                    !---search for ii---!
-                                    II = ((IH-1) - IADR)*NVAR
-                                    DO WHILE((ITHBUF(IH+NN)/=ISPMD).AND.(IH<IADR+NN))
-                                        IH = IH + 1
-                                    ENDDO
-                                ENDIF
-
+                                !---search for ii---!
+                                II = ((IH-1) - IADR)*NVAR
+                                DO WHILE((ITHBUF(IH+NN)/=ISPMD).AND.(IH<IADR+NN))
+                                    IH = IH + 1
+                                ENDDO
                                 IF(IH>IADR+NN) GOTO 666
                                 !---PROP type VOID ---!
                                 DO L=1,100

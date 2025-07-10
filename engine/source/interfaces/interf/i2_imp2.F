@@ -64,11 +64,6 @@ C-----------------------------------------------
       ILEV  =IPARI(20)
 C
 C  version spmd avec plus d'un proc nsn = nsn_loc & nmn = nmn_loc
-c      IF (IMACH==3.AND.NSPMD>1) THEN
-c        NSN = IPARI(16)
-c        NMN = IPARI(18)
-c      ENDIF
-C
       IF(ILEV==1)THEN
         if( IMP_LR > 0)THEN
           CALL I2RECU2(NSN       ,NMN       ,INTBUF_TAB%IRECTM,

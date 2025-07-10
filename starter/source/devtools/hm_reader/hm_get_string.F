@@ -101,16 +101,15 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
 C INPUT ARGUMENTS
-      CHARACTER*(*),INTENT(IN)::NAME
+      CHARACTER*(*),INTENT(IN) :: NAME
 C OUTPUT ARGUMENTS
-      CHARACTER*(*),INTENT(OUT)::SVAL
-      INTEGER,INTENT(IN)::SIZE
-      LOGICAL,INTENT(OUT)::IS_AVAILABLE
+      CHARACTER*(*),INTENT(OUT) :: SVAL
+      INTEGER,INTENT(IN) :: SIZE
+      LOGICAL,INTENT(OUT) :: IS_AVAILABLE
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,VALUE_TYPE,SUB_ID
-      LOGICAL(KIND=C_BOOL) C_IS_AVAILABLE
+      LOGICAL(KIND=C_BOOL) :: C_IS_AVAILABLE
 C-----------------------------------------------
       SVAL = ''
 C--------------------------------------------------

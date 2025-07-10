@@ -62,14 +62,10 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
         INTEGER :: I,II,NS,LJ,K
         INTEGER :: J,N,NN,IJK
-        INTEGER :: WEIGHT,M1,M2
+        INTEGER :: WEIGHT,M1
         INTEGER :: P,PROC_NUMBER,NB_NODE
         INTEGER, DIMENSION(NSPMD) :: PROC_LIST
-
-        INTEGER :: PROC,PROC_NUMBER_1,PROC_NUMBER_2
-        INTEGER, DIMENSION(NSPMD) :: PROC_LIST_1,PROC_LIST_2
-        INTEGER, EXTERNAL :: NLOCAL  
-
+        INTEGER, EXTERNAL :: NLOCAL
         LOGICAL, DIMENSION(:), ALLOCATABLE :: CHECK_MAIN
         TYPE(joint_main_node), DIMENSION(:), ALLOCATABLE :: MAIN_AND_SECONDARY
 C-----------------------------------------------
@@ -271,8 +267,8 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
         character(len=*) :: a
-        INTEGER :: I,II,NS,LJ,K
-        INTEGER :: WEIGHT,M1,M2
+        INTEGER :: I,NS,K
+        INTEGER :: M1,M2
         INTEGER :: P,PROC_NUMBER,NB_NODE
         INTEGER, DIMENSION(NSPMD) :: PROC_LIST
       INTEGER, EXTERNAL :: NLOCAL  

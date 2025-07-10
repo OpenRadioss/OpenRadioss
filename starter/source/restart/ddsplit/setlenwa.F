@@ -42,7 +42,6 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com09_c.inc"
-#include      "scr05_c.inc"
 #include      "sphcom.inc"
 #include      "param_c.inc"
 C-----------------------------------------------
@@ -81,17 +80,9 @@ C AirBag
 C Interface
       NINTWA  = NMNT0+L_MUL_LAG1                                    ! en toute rigueur NMNT local
 C
-C Assemblage
-      IF(IMACH/=3) THEN
-C SMP : allocation memoire partagee dans le WA (appel asspar2)
-        NASSNMP = 4*NUMNOD0+2
-C valeur precedente divisee par 2 car au moins 2 taches
-        NASSMP  = 2*NUMNOD0+1
-      ELSE
-C SPMD : tout en dynamique
-        NASSNMP = 0
-        NASSMP  = 0
-      END IF
+C Assemblage SPMD : tout en dynamique
+      NASSNMP = 0
+      NASSMP  = 0
 C shooting nodes
       NIDELWA = 3*NUMNOD0
 C lenwa non parallele
@@ -124,7 +115,6 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com04_c.inc"
-#include      "scr05_c.inc"
 #include      "spmd_c.inc"
 #include      "param_c.inc"
 #include      "sphcom.inc"
@@ -142,24 +132,22 @@ C MULTIMAX : parametre servant a allouer les buffer de comm interface engine (SP
 C
       MULTIMAX = 0
       ICONT = 0
-      IF(IMACH==3) THEN
-        DO I = 1, NINTER
-          MULTIMP = IPARI(23,I)
-            IF(MULTIMP<=4) THEN
-              MULTIMAX = MAX(MULTIMAX,4*MULTIMP)
-            ELSEIF(MULTIMP<=12)THEN
-              MULTIMAX= MAX(MULTIMAX,3*MULTIMP)
-            ELSEIF(MULTIMP>12)THEN
-              MULTIMAX= MAX(MULTIMAX,2*MULTIMP)
-            END IF
-          ITY = IPARI(7,I)
-          IF(ITY==7.OR.ITY==10.OR.ITY==11.OR.
-     .       ITY==22)ICONT=1
-        END DO
-        IF(NUMSPH/=0.AND.MULTIMAX==0)MULTIMAX=1
-        IF(NUMELX/=0.AND.MULTIMAX==0)MULTIMAX=4
-        IF(NINTER>0.AND.ICONT==0)MULTIMAX=100
-      END IF
+      DO I = 1, NINTER
+        MULTIMP = IPARI(23,I)
+          IF(MULTIMP<=4) THEN
+            MULTIMAX = MAX(MULTIMAX,4*MULTIMP)
+          ELSEIF(MULTIMP<=12)THEN
+            MULTIMAX= MAX(MULTIMAX,3*MULTIMP)
+          ELSEIF(MULTIMP>12)THEN
+            MULTIMAX= MAX(MULTIMAX,2*MULTIMP)
+          END IF
+        ITY = IPARI(7,I)
+        IF(ITY==7.OR.ITY==10.OR.ITY==11.OR. ITY==22)ICONT=1
+      END DO
+      IF(NUMSPH/=0.AND.MULTIMAX==0)MULTIMAX=1
+      IF(NUMELX/=0.AND.MULTIMAX==0)MULTIMAX=4
+      IF(NINTER>0.AND.ICONT==0)MULTIMAX=100
+
 C
       RETURN
       END

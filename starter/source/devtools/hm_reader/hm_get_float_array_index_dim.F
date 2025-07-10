@@ -69,7 +69,7 @@ C-----------------------------------------------
       USE, INTRINSIC :: ISO_C_BINDING, ONLY: C_BOOL 
       USE UNITAB_MOD
       USE MESSAGE_MOD       
-      USE SUBMODEL_MOD
+      USE SUBMODEL_MOD , ONLY : SUBMODEL_DATA, NSUBMOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -84,19 +84,17 @@ C INPUT ARGUMENTS
       TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
       INTEGER,INTENT(IN)::INDEX
       CHARACTER*(*),INTENT(IN)::NAME
-      TYPE(SUBMODEL_DATA),INTENT(IN)::LSUBMODEL(*)
+      TYPE(SUBMODEL_DATA),INTENT(IN) :: LSUBMODEL(NSUBMOD)
 C OUTPUT ARGUMENTS
-      my_real,
-     .  INTENT(OUT)::DIM_FAC
-      LOGICAL,INTENT(OUT)::IS_AVAILABLE
+      my_real,INTENT(OUT) :: DIM_FAC
+      LOGICAL,INTENT(OUT) :: IS_AVAILABLE
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,VALUE_TYPE,SUB_ID,IFLAGUNIT,UID
-      my_real
-     .   FAC_L,FAC_M,FAC_T,FAC
-      REAL*8 DVAL,LENGTH_DIM,MASS_DIM,TIME_DIM
-      LOGICAL(KIND=C_BOOL) C_IS_AVAILABLE
+      INTEGER :: J,SUB_ID,IFLAGUNIT,UID
+      my_real :: FAC_L,FAC_M,FAC_T,FAC
+      REAL*8 :: DVAL,LENGTH_DIM,MASS_DIM,TIME_DIM
+      LOGICAL(KIND=C_BOOL) :: C_IS_AVAILABLE
 C-----------------------------------------------
         C_IS_AVAILABLE = .FALSE.
         LENGTH_DIM = ZERO

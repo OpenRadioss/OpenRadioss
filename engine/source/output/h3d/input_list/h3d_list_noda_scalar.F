@@ -116,7 +116,7 @@ c-----------------------------------------------
       H3D_KEYWORD_NODAL_SCALAR(I)%COMMENT  = 'Output of added inertia per nodes'
 c-----------------------------------------------
       I = I + 1
-      H3D_KEYWORD_NODAL_SCALAR(I)%KEY3  = 'FOPT'
+      H3D_KEYWORD_NODAL_SCALAR(I)%KEY3  = 'FPOT'
       H3D_KEYWORD_NODAL_SCALAR(I)%TEXT1  = 'Nodal Potential'
 c-----------------------------------------------
       I = I + 1

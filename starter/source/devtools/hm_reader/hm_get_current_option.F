@@ -70,8 +70,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,CPT,CPT1,CPT2,IOK,S_KEYWORD,S_TITR_TMP,
-     .        TMP_OPTION_ID,TMP_UNIT_ID,TMP_SUBMODEL_INDEX,MY_POSITION
+      INTEGER :: CPT, CPT1,CPT2,IOK,S_KEYWORD,S_TITR_TMP,TMP_OPTION_ID,TMP_UNIT_ID,TMP_SUBMODEL_INDEX,MY_POSITION
       CHARACTER(LEN=NCHARLINE) :: KEYWORD,TITR_TMP
 C-----------------------------------------------
       KEYWORD=''

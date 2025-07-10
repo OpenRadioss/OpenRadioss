@@ -50,7 +50,7 @@ C============================================================================
 C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD       
-      USE SUBMODEL_MOD
+      USE SUBMODEL_MOD , ONLY : NSUBMOD, SUBMODEL_DATA
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARLINE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -60,16 +60,16 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
 C INPUT ARGUMENTS
-      TYPE(SUBMODEL_DATA),INTENT(IN)::LSUBMODEL(*)
+      TYPE(SUBMODEL_DATA),INTENT(IN) :: LSUBMODEL(NSUBMOD)
 C OUTPUT ARGUMENTS
-      INTEGER,INTENT(OUT)::ID
-      INTEGER,INTENT(OUT)::UID
-      INTEGER,INTENT(OUT)::SUB_INDEX
-      CHARACTER*(*),INTENT(OUT)::TITR
+      INTEGER,INTENT(OUT) :: ID
+      INTEGER,INTENT(OUT) :: UID
+      INTEGER,INTENT(OUT) :: SUB_INDEX
+      CHARACTER*(*),INTENT(OUT) :: TITR
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,OFFSET_CATEGORY,S_KEYWORD,S_TITR_TMP,POS
+      INTEGER OFFSET_CATEGORY,S_KEYWORD,S_TITR_TMP,POS
       CHARACTER(LEN=NCHARLINE) :: KEYWORD,TITR_TMP
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s

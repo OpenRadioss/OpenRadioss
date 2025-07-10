@@ -66,9 +66,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-        INTEGER I,J,L,IAD,IP,CUR_ID,CUR_TYP,TAG1,TAG2,COMPT,CCPL
-        INTEGER ID_ELC,ID_ELTG,ID_ELS,IRECT(4,1),COMPT2,COMPT3
-        INTEGER CCPL_T4_EXPO,CCPL_T4_IMPO,OFF,TAG10,TAG20
+        INTEGER I,J,L,IP,CUR_ID,CUR_TYP,TAG1,TAG2,COMPT,CCPL
+        INTEGER ID_ELC,ID_ELTG,ID_ELS,IRECT(4,1)
+        INTEGER CCPL_T4_EXPO,CCPL_T4_IMPO,OFF
         my_real AREA
 C=======================================================================
 C---Precounting of nodes/elements/surfaces/lines kept after split-------

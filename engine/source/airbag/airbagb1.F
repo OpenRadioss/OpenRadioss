@@ -62,7 +62,6 @@ C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
 #include      "com08_c.inc"
-#include      "scr05_c.inc"
 #include      "scr17_c.inc"
 #include      "task_c.inc"
 C-----------------------------------------------
@@ -253,7 +252,7 @@ C
         ENDIF
         IF(IDEF==1 .AND. TT>=TSTOPE+TTF) THEN
          IDEF=0
-         IF(IMACH/=3.OR.ISPMD+1==PMAIN) THEN
+         IF(ISPMD+1==PMAIN) THEN
             WRITE(IOUT,'(A)') ' ** AIRBAG VENTING STOPS **'
             WRITE(IOUT,'(3X,2(A,I10),2A)')' MONITORED VOLUME ',IVOLU(1),
      .                  ' VENT HOLE NUMBER',IV   ,' ',VENTTITLE
@@ -300,7 +299,7 @@ C
         ENDIF
         IF(IDEF==1 .AND. TT>=TSTOPE) THEN
          IDEF=0
-         IF(IMACH/=3.OR.ISPMD+1==PMAIN) THEN
+         IF(ISPMD+1==PMAIN) THEN
             WRITE(IOUT,'(A)') ' ** AIRBAG VENTING STOPS **'
             WRITE(IOUT,'(3X,2(A,I10),2A)')' MONITORED VOLUME ',IVOLU(1),
      .                  ' VENT HOLE NUMBER',IV   ,' ',VENTTITLE

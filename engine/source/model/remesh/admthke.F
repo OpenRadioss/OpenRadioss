@@ -53,7 +53,6 @@ C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "param_c.inc"
 #include      "remesh_c.inc"
-#include      "scr05_c.inc"
 #include      "vect01_c.inc"
 #include      "scr17_c.inc"
 C-----------------------------------------------
@@ -554,13 +553,10 @@ C
         END DO
 
       END DO
-C
-      IF(IMACH==3)THEN
-        LENR = IAD_ELEM(1,NSPMD+1)-IAD_ELEM(1,1)
-        CALL SPMD_EXCH_NODAREA(AREA_NOD,IAD_ELEM,FR_ELEM,LENR,WEIGHT)
-c        LENR = IAD_ELEM(1,NSPMD+1)-IAD_ELEM(1,1)
-        CALL SPMD_EXCH_NODAREA(THICK_NOD,IAD_ELEM,FR_ELEM,LENR,WEIGHT)
-      END IF
+      
+      LENR = IAD_ELEM(1,NSPMD+1)-IAD_ELEM(1,1)
+      CALL SPMD_EXCH_NODAREA(AREA_NOD,IAD_ELEM,FR_ELEM,LENR,WEIGHT)
+      CALL SPMD_EXCH_NODAREA(THICK_NOD,IAD_ELEM,FR_ELEM,LENR,WEIGHT)
 
       RETURN
       END

@@ -111,12 +111,7 @@ C
               ENDIF
               K=K+NPBY(2,N)
            ENDDO
-C
-c           IF(IMACH/=3) THEN
-c             GOTO 120
-c           ELSE
-             N = 0
-c           END IF
+           N = 0
  110       CONTINUE
 C En SPMD, il faut communiquer le RB concerne si N<>0 sur un proc
 C si rigid body present sur le proc N = rb trouve

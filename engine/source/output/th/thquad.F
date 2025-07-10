@@ -109,7 +109,6 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "vect01_c.inc"
 #include      "com01_c.inc"
-#include      "scr05_c.inc"
 #include      "task_c.inc"
 #include      "param_c.inc"
 C-----------------------------------------------
@@ -209,13 +208,11 @@ C
             IF (K==N)THEN
               IH=IH+1
               !spmd treatment
-              IF (IMACH==3) THEN
-                ! find related 'ii'
-                II = ((IH-1) - IADB)*NVAR
-                DO WHILE((ITHBUF(IH+NN)/=ISPMD).AND.(IH<IADB+NN))
-                  IH = IH + 1
-                ENDDO
-              ENDIF
+              ! find related 'ii'
+              II = ((IH-1) - IADB)*NVAR
+              DO WHILE((ITHBUF(IH+NN)/=ISPMD).AND.(IH<IADB+NN))
+                IH = IH + 1
+              ENDDO
 c-------------------------------------
               IF (IH > IADB+NN) GOTO 666
 c-------------------------------------

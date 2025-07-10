@@ -72,7 +72,7 @@
       real(kind=WP) :: BID(NEL) ! bfrac not used in this context
       real(kind=WP) :: VOL(NEL), ERROR(NEL), TOL, OFF(NEL), RHOZERO(NEL), RHO0
       real(kind=WP) :: MU(NEL), DF(NEL), MU2(NEL), ESPE(NEL), DVOL(NEL), PSH(NEL)
-      real(kind=WP) :: SSP(NEL), DPDE(NEL), ECOLD(NEL), PRES(NEL), POLD(NEL)
+      real(kind=WP) :: SSP(NEL), DPDE(NEL), PRES(NEL), POLD(NEL)
       real(kind=WP) :: FUNC, DFUNC, INCR,SIG(NEL,6),MUOLD(NEL)
       LOGICAL :: CONVERGED(NEL)
 ! ----------------------------------------------------------------------------------------------------------------------

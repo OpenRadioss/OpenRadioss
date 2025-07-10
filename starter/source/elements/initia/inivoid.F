@@ -382,11 +382,11 @@ C Beam element
      .              X1,X2,X3, Y1,Y2,Y3, Z1,Z2,Z3,
      .              IBEAM_VECTOR(NFT+1),RBEAM_VECTOR(1,NFT+1),IVECT,VECT)
 c
-        CALL PMASS(GEO,PM,MS,IN,
+        CALL PMASS(GEO,PM,
      .             STIFNTMP,STIFNTMP,PARTSAV,V,IPARTP(NFT+1),
-     .             MSP(NFT+1),INP(NFT+1),IGEO , STIFINT, STP(NFT+1),
+     .             MSP(NFT+1),INP(NFT+1),IGEO , STP(NFT+1),
      .             X1,X2, Y1,Y2, Z1,Z2,
-     .             IX1,IX2,MXT,PID,AREA,DELTAX,STRP(NFT+1),MCP,
+     .             IX1,IX2,MXT,PID,AREA,DELTAX,STRP(NFT+1),
      .             MCPP,TEMP,GLOB_THERM%NINTEMP)
           NDEPAR=NUMELS+NUMELC+NUMELT+NFT
           DO I=1,NEL

@@ -81,10 +81,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER K, I, NS, J, LJ, NU, IDIR,ID,N1,N2,IGU,IKINE1(3*NUMNOD),
-     .        IFLAGUNIT,FLAG_FMT_TMP,IFIX_TMP,UID,NY,SUB_ID,
-     .        IGS
-      my_real BID
+      INTEGER :: K, I, NS, J, LJ, NU, IDIR,ID,N1,N2,IGU,IKINE1(3*NUMNOD),UID,NY,SUB_ID,IGS
+      my_real :: BID
       CHARACTER MESS*40
       CHARACTER(LEN=NCHARTITLE) :: TITR
       LOGICAL :: IS_AVAILABLE

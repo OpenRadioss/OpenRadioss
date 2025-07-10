@@ -131,15 +131,11 @@ C-----------------------------------------------
       NTY    =IPARI(7)
       NOINT  =IPARI(15)
       MULTIMP=IPARI(23)
-c      IF(IMACH==3)THEN
       NCONT  =IPARI(18)
       ITIED = IPARI(85)
-c      ELSE
-c        NCONT  = NSN
-c      ENDIF
       NCONTACT=MULTIMP*NCONT
       NSNROLD = IPARI(24)
-C
+
       GAP   =INTBUF_TAB%VARIABLES(2)
       GAPMIN=INTBUF_TAB%VARIABLES(13)
       GAPMAX=INTBUF_TAB%VARIABLES(16)

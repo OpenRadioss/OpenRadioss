@@ -1128,7 +1128,6 @@ C-----------------------------------------------
 #include      "com04_c.inc"
 #include      "com08_c.inc"
 #include      "param_c.inc"
-#include      "scr05_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -1265,7 +1264,7 @@ C
      5 IBID    ,INTBUF_TAB   ,H3D_DATA     ,GLOB_THERM)
         ENDIF
 C
-        IF (IMACH==3.AND.NSPMD>1.AND.RETRI==1) THEN
+        IF (NSPMD>1.AND.RETRI==1) THEN
 C--------- a modifier par interface---
          CALL SPMD_IFRONT(
      1    IPARI  ,NEWFRONT,ISENDTO ,IRECVFROM,
@@ -1321,13 +1320,8 @@ C
      2       N         ,ITASK ,COUNT_REMSLV ,COUNT_REMSLVE  )
         ENDIF
 C-------------dans intfop2------
-        IF(IMACH==3) THEN
-C LINDMAX = NCONT*MULTIMP
-          LINDMAX  = IPARI(18,N)*IPARI(23,N)
-        ELSE
-C LINDMAX = NSN*MULTIMP
-          LINDMAX  = IPARI(5,N)*IPARI(23,N)
-        ENDIF
+        LINDMAX  = IPARI(18,N)*IPARI(23,N)
+
 C
         IF(NTY==7)THEN
 C

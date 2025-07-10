@@ -82,7 +82,6 @@ C-----------------------------------------------
 #include      "units_c.inc"
 #include      "com04_c.inc"
 #include      "vect07_c.inc"
-#include      "scr05_c.inc"
 #include      "scr06_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -259,8 +258,7 @@ C-----il faut pas eliminer tiny penetration----
        PENMAX = MAX(PENSOL,GAP)
       END IF
 C 1er passage avec marge x2 pour trouver plus de candidats
-C      IF(IMACH==3.AND.IDDLEVEL==0) MARGE_ST = 2*MARGE_ST
-      IF(IMACH==3.AND.IDDLEVEL==0) MARGE_ST = MARGE
+      IF(IDDLEVEL==0) MARGE_ST = MARGE
       TZINF_ST = MARGE_ST + GAP + DGAPLOAD
       BID = FOUR_OVER_5*DD
       IF (INACTI/=7.AND.TZINF>BID) THEN

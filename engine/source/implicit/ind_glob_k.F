@@ -2038,7 +2038,6 @@ C-----------------------------------------------
 #include      "param_c.inc"
 #include      "com01_c.inc"
 #include      "com04_c.inc"
-#include      "scr05_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -2065,7 +2064,7 @@ C-----------------------------------------------
         NDOF(M) = 0
        ENDIF 
       ENDDO
-      IF (IMACH==3.AND.NSPMD>1) THEN
+      IF (NSPMD>1) THEN
        NN=IAD_RBY(NSPMD+1)-IAD_RBY(1)
        IF (NN>0) CALL SPMD_I2D(NDOF,FR_RBY,IAD_RBY,NN)
       ENDIF 
@@ -3193,7 +3192,6 @@ C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
 #include      "param_c.inc"
-#include      "scr05_c.inc"
 #include      "impl1_c.inc"
 #include      "remesh_c.inc"
 C-----------------------------------------------
@@ -3244,7 +3242,7 @@ C----- pass for IND_GLOB_K, including RBE2 main
      2    IXT       ,IXP       ,IXR       ,IXTG      ,IXTG1     ,
      3    IXS10     ,IXS20     ,IXS16     ,NROWI     ,
      4    INLOC     ,NNMAX     ,ICOK      ,IGEO      ,ELBUF_TAB )
-      IF (IMACH==3.AND.NSPMD>1) THEN
+      IF (NSPMD>1) THEN
          CALL KIN_NRMAX(
      1    NNMAX     ,NNMAX     ,NROWI     ,ICOK      ,ICOK      ,
      2    INLOC     ,NUMNOD    ,FR_ELEM   ,IAD_ELEM  )
@@ -3297,7 +3295,7 @@ C
      4    INLOC     ,NNMAX     ,ICOK(L2)  ,NKMAX     ,ICOK(L1)  ,
      5    LNK       ,IGEO      ,ELBUF_TAB )
 c
-      IF (IMACH==3.AND.NSPMD>1) THEN
+      IF (NSPMD>1) THEN
          CALL KIN_NRMAX0(
      1    NNMAX     ,NKMAX     ,NROWI     ,ICOK(L2)  ,ICOK(L1)  ,
      2    INLOC     ,LNK       ,FR_ELEM   ,IAD_ELEM  )
@@ -3385,7 +3383,6 @@ C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
 #include      "param_c.inc"
-#include      "scr05_c.inc"
 #include      "impl1_c.inc"
 #include      "task_c.inc" 
 C-----------------------------------------------
@@ -3452,7 +3449,7 @@ C+++ not allowing imposed rotations on solid element..---
       IF (IMP_RBY==1) CALL DIM_NDOF_D(
      1    NPBY      ,LPBY      ,NRBYAC    ,IRBYAC    ,NDOF      ,
      2    IAD_RBY   ,FR_RBY    )
-      IF (IMACH==3.AND.NSPMD>1) THEN
+      IF (NSPMD>1) THEN
        NNMAX=IAD_ELEM(1,NSPMD+1)-IAD_ELEM(1,1)
        IF (NNMAX>0) CALL SPMD_NDOF(NDOF,FR_ELEM,IAD_ELEM,NNMAX)
       ENDIF 
@@ -3467,7 +3464,7 @@ C+++ not allowing imposed rotations on solid element..---
       ENDDO
 c-----raffine NNMAX;
       NKINE0=2*NNMAX
-      IF (IMACH==3.AND.NSPMD>1) THEN
+      IF (NSPMD>1) THEN
         NPP=IAD_ELEM(1,NSPMD+1)-IAD_ELEM(1,1)
         M = IAD_I2M(NSPMD+1)-IAD_I2M(1)+
      .      IAD_RBE3M(NSPMD+1)-IAD_RBE3M(1)
@@ -3492,7 +3489,7 @@ C
      3    IXS16     ,IPARG     ,ELBUF     ,NDOF      ,
      4    IDDL      ,INLOC     ,NNMAX     ,NKINE0    ,NNSIZ     ,
      5    IGEO      ,ELBUF_TAB )
-      IF (IMACH==3.AND.NSPMD>1) THEN 
+      IF (NSPMD>1) THEN 
          CALL DIM_NRMAX(IDDL    ,FR_ELEM   ,IAD_ELEM ,NNMAX  )
       ENDIF 
 C
@@ -3534,7 +3531,7 @@ c           NNZK = NNZK+NDOFJ*IDDL(N)
       NNZK = NNZK/2+1
        NPN=0
        NPP=0
-      IF (IMACH==3.AND.NSPMD>1) THEN
+      IF (NSPMD>1) THEN
        CALL SET_IKIN2G(NKINE,INLOC)
        J=0
        L=0
@@ -6641,7 +6638,6 @@ C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
 #include      "param_c.inc"
-#include      "scr05_c.inc" 
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -6654,10 +6650,9 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NIN,NTY,NSN
-      INTEGER I,J,K,L,NDOFI,N,IAD,N_IMP,
-     .        NRTS,IDEL(NT_IMP),NEW_IAD
+      INTEGER I,J,K,L,NDOFI,N,IAD,N_IMP,NRTS,IDEL(NT_IMP),NEW_IAD
 C--------ramener NDOF des secnds remotes-----------------------------------
-      IF (IMACH==3.AND.NSPMD>1) THEN
+      IF (NSPMD>1) THEN
       ENDIF 
 C
       IAD=1

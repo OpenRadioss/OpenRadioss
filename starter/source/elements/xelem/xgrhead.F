@@ -62,7 +62,6 @@ C-----------------------------------------------
 #include      "vect01_c.inc"
 #include      "com04_c.inc"
 #include      "param_c.inc"
-#include      "scr05_c.inc"
 C-----------------------------------------------
 C   D U M M Y   A R G U M E N T S
 C-----------------------------------------------
@@ -70,9 +69,7 @@ C-----------------------------------------------
      .        EADD(*),ITR1(*),INDEX(*),ITRI(4,*),
      .        ND, CEP(*), XEP(*),
      .        IPM(NPROPMI,*)
-C     REAL OU REAL*8
-      my_real
-     .    GEO(NPROPG,*)
+      my_real :: GEO(NPROPG,*)
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
@@ -105,12 +102,10 @@ C
         INUM(6,I)=KXX(5,I)
       ENDDO
 
-      IF (IMACH==3) THEN
-        DO I=1,NUMELX
-          XEP(I)=CEP(I)
-        ENDDO
-      ENDIF
-C
+      DO I=1,NUMELX
+        XEP(I)=CEP(I)
+      ENDDO
+
       DO I = 1, NUMELX
         MID= KXX(1,I)
         PID= KXX(2,I)
@@ -144,11 +139,9 @@ C
       DO I=1,NUMELX
         IPARTX(I) =INUM(1,INDEX(I))
       ENDDO
-      IF (IMACH==3) THEN
-        DO I=1,NUMELX
-          CEP(I)=XEP(INDEX(I))
-        ENDDO
-      ENDIF
+      DO I=1,NUMELX
+        CEP(I)=XEP(INDEX(I))
+      ENDDO
       DO  K=1,5
         DO  I=1,NUMELX
           KXX(K,I)=INUM(K+1,INDEX(I))

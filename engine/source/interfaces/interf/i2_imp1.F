@@ -85,11 +85,6 @@ C
       J22=J21+7*NSN
       JFI=J22+NMN
 C  version spmd avec plus d'un proc nsn = nsn_loc & nmn = nmn_loc
-c      IF (IMACH==3.AND.NSPMD>1) THEN
-c        NSN = IPARI(16)
-c        NMN = IPARI(18)
-c      ENDIF
-C
       IF(ILEV==1)THEN
         CALL I2UPDK1(NSN       ,NMN       ,INTBUF_TAB%IRECTM,
      1    INTBUF_TAB%DPARA,INTBUF_TAB%MSR,INTBUF_TAB%NSV,INTBUF_TAB%IRTLM,

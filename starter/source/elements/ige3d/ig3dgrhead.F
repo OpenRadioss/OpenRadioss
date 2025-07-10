@@ -103,12 +103,6 @@ C
         ENDDO
       ENDDO
 
-c      IF (IMACH==3) THEN
-c        DO I=1,NUMELIG3D
-c          XEP(I)=CEP(I)
-c        ENDDO
-c      ENDIF
-C
       DO I = 1, NUMELIG3D
         MID= KXIG3D(1,I)
         MLN = NINT(PM(19,ABS(MID)))
@@ -147,11 +141,7 @@ C
           KNOTLOCEL((I-1)*6+J)=KNOTLOCELINDX((INDEX(I)-1)*6+J)
         ENDDO    
       ENDDO
-c      IF (IMACH==3) THEN
-c        DO I=1,NUMELIG3D
-c          CEP(I)=XEP(INDEX(I))
-c        ENDDO
-c      ENDIF
+
       DO  K=1,NIXIG3D     
         DO  I=1,NUMELIG3D
           KXIG3D(K,I)=INUM(K+1,INDEX(I))

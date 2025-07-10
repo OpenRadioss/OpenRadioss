@@ -51,7 +51,6 @@ C-----------------------------------------------
 #include      "com04_c.inc"
 #include      "units_c.inc"
 #include      "com01_c.inc"
-#include      "scr05_c.inc"
 #include      "task_c.inc"
 #include      "param_c.inc"
 #include      "fxbcom.inc"
@@ -79,9 +78,8 @@ C     REAL
       EXTERNAL NGR2USR
 C-----------------------------------------------
 C
-      IF(IMACH/=3.OR.ISPMD==0) THEN
+      IF(ISPMD==0) THEN
         WRITE(IOUT,'(//,A,/)')' VELOCITY REINITIALISATION'
-C
       ENDIF
 C
       CPT0=0
@@ -106,7 +104,7 @@ C-----
        ENDIF
 C
        IF (IDIR < 0) THEN
-         IF(IMACH/=3.OR.ISPMD==0) THEN
+         IF(ISPMD==0) THEN
            IF (N1 < 0) THEN
              IF (CPT20==0) WRITE(IOUT,3000)
              WRITE(IOUT,3100) -N1,VV,VTX,VTY,VTZ,IFRA
@@ -259,7 +257,7 @@ C
            ENDDO
          ENDIF
         ELSE
-         IF(IMACH/=3.OR.ISPMD==0) THEN
+         IF(ISPMD==0) THEN
            IF (CPT1==0) WRITE(IOUT,2000)
            WRITE(IOUT,2100)N1,N2,IDIR,VV
            CPT1=CPT1+1

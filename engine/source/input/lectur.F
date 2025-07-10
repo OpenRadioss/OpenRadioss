@@ -481,7 +481,7 @@ C When Dynamical user libraries are used, add a print in 0001.out file
 C --------------------------------------------------------------------
 
       IF (IRAD2R==1) THEN
-        IF(IMACH/=3.OR.ISPMD==0) WRITE(IOUT,1099)
+        IF(ISPMD==0) WRITE(IOUT,1099)
         IF (ITFOR0==1 ) THEN
            CALL ANCMSG(MSGID=242,ANMODE=ANINFO_BLIND)
            CALL ARRET(2)
@@ -538,14 +538,14 @@ C
            IF(ISPMD == 0.AND.MCHECK == 0)WRITE(IOUT,1107)DTFAC1(11),DTMIN1(11),IDTMIN(11)
         ENDIF
         IF(IDTMINS_INT/=0)THEN
-         IF((IMACH /= 3.OR.ISPMD == 0).AND.MCHECK == 0)THEN
+         IF((ISPMD == 0).AND.MCHECK == 0)THEN
           WRITE(IOUT,1209) DTFACS_INT,DTMINS_INT
          END IF
         END IF
         IF(IDTMINS/=0)THEN
-         IF((IMACH /= 3.OR.ISPMD == 0).AND.MCHECK == 0.AND.IDTGRS<=0)THEN
+         IF((ISPMD == 0).AND.MCHECK == 0.AND.IDTGRS<=0)THEN
           WRITE(IOUT,1109) DTFACS,DTMINS,TOL_SMS,NSMSPCG,M_VS_SMS,NCPRISMS,-IDTGRS
-         ELSEIF((IMACH /= 3.OR.ISPMD == 0).AND.MCHECK == 0)THEN
+         ELSEIF((ISPMD == 0).AND.MCHECK == 0)THEN
           WRITE(IOUT,1109) DTFACS,DTMINS,TOL_SMS,NSMSPCG,M_VS_SMS,NCPRISMS,IGRPART(IDTGRS)%ID
          END IF
         END IF
@@ -599,7 +599,7 @@ C
            ENDIF
         END IF
         IF(IDTMINS_INT/=0)THEN
-         IF((IMACH /= 3.OR.ISPMD == 0).AND.MCHECK == 0)THEN
+         IF((ISPMD == 0).AND.MCHECK == 0)THEN
           WRITE(IOUT,1209) DTFACS_INT,DTMINS_INT
          END IF
         END IF
@@ -607,18 +607,18 @@ C
         IF(IDTMINS/=0)THEN
 C
           IF (ISMS_SELEC < 3) THEN
-          IF((IMACH /= 3.OR.ISPMD == 0).AND.MCHECK == 0.AND.IDTGRS<=0) THEN
+          IF((ISPMD == 0).AND.MCHECK == 0.AND.IDTGRS<=0) THEN
            WRITE(IOUT,1108) DTFACS,DTMINS,TOL_SMS,NSMSPCG,NCPRISMS,-IDTGRS
-          ELSEIF((IMACH /= 3.OR.ISPMD == 0).AND.MCHECK == 0)THEN
+          ELSEIF((ISPMD == 0).AND.MCHECK == 0)THEN
            WRITE(IOUT,1108) DTFACS,DTMINS,TOL_SMS,NSMSPCG,NCPRISMS,IGRPART(IDTGRS)%ID
             END IF
 C
           ELSE
 C--        /DT/CST_AMS >- automatic element selection
             DT_CRIT = DTMINS / MAX(EM20,DTFAC1(11))
-            IF((IMACH /= 3.OR.ISPMD == 0).AND.MCHECK == 0.AND.IDTGRS<=0)THEN
+            IF((ISPMD == 0).AND.MCHECK == 0.AND.IDTGRS<=0)THEN
               WRITE(IOUT,2109) DTFACS,DTMINS,TOL_SMS,NSMSPCG,M_VS_SMS,NCPRISMS,DT_CRIT,-IDTGRS
-            ELSEIF((IMACH /= 3.OR.ISPMD == 0).AND.MCHECK == 0)THEN
+            ELSEIF((ISPMD == 0).AND.MCHECK == 0)THEN
               WRITE(IOUT,2109) DTFACS,DTMINS,TOL_SMS, NSMSPCG,M_VS_SMS,NCPRISMS,DT_CRIT,IGRPART(IDTGRS)%ID
          END IF
 C
@@ -2711,7 +2711,7 @@ C---------------------------------------------------------
       ISTATCND_SAV= ISTATCND
       IF(IMPL_S/=0) THEN
         IF(ISPRB==0.AND.NADMESH/=0)THEN
-          IF (IMACH /= 3.OR.ISPMD == 0) THEN
+          IF (ISPMD == 0) THEN
             CALL ANCMSG(MSGID=131,ANMODE=ANINFO)
           ENDIF
           CALL ARRET(2)
@@ -3234,7 +3234,6 @@ C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
 #include      "com06_c.inc"
-#include      "scr05_c.inc"
 #include      "units_c.inc"
 #include      "task_c.inc"
 #include      "impl1_c.inc"
@@ -3676,7 +3675,7 @@ C-----------attention initialization should not be inside below--
        IF(IPRINT==1) THEN
         IF (NSPMD == 1.AND.ISOLV == 3) THEN
            MSG_ISOL(ISOLV)='DIRECT (BCS)'
-        ELSEIF (IMACH == 3.AND.ISOLV == 3) THEN
+        ELSEIF (ISOLV == 3) THEN
            MSG_ISOL(ISOLV)='DIRECT (MUMPS)'
         ENDIF
         IF (NEIG == 0) THEN

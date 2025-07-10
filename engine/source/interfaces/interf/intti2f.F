@@ -99,7 +99,6 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
-#include      "scr05_c.inc"
 #include      "parit_c.inc"
 #include      "param_c.inc"
 C-----------------------------------------------
@@ -121,7 +120,7 @@ C=======================================================================
 C
           I0BASE = I0
 C
-      IF (IMACH /= 3.OR.(IMACH == 3.AND.IPARIT == 0)) THEN
+      IF (IPARIT == 0) THEN
        IF((ILEV == 1.OR.ILEV == 3).AND.IRODDL /= 0)THEN
 C       FORMULATION SANS MOMENT SUR MAIN
         CALL I2FOMO3(

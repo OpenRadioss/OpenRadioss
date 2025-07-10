@@ -86,7 +86,6 @@ C-----------------------------------------------
 #include      "units_c.inc"
 #include      "impl1_c.inc"
 #include      "impl2_c.inc"
-#include      "scr05_c.inc" 
 #include      "task_c.inc" 
 #include      "com08_c.inc"
 C-----------------------------------------------
@@ -231,7 +230,7 @@ C----------reput old dt du to fix_p ------
       ELSE     
        CALL IMP_DTF(FAC)
       ENDIF
-      IF (IMACH/=3.OR.ISPMD==0) THEN
+      IF (ISPMD==0) THEN
       IF (NPRINT/=0) THEN
        WRITE(IOUT,*)
        IF(NPRINT<0)WRITE(ISTDO,*)

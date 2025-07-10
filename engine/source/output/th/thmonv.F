@@ -39,7 +39,6 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "task_c.inc"
 #include      "param_c.inc"
-#include      "scr05_c.inc"
 C-----------------------------------------------
       INTEGER ITHBUF(*),IVOLU(NIMV,*),IFORM
       INTEGER J1,J2,L1,L2,K,IAD2
@@ -50,7 +49,7 @@ C
       CHARACTER TITR1*40,ID_TITR1*2
 C
 C   gather deja effectue, seul p0 ecrit 
-      IF (IMACH/=3.OR.ISPMD==0) THEN
+      IF (ISPMD==0) THEN
         II = 0
         DO J=J1,J2
           DO L=L1,L2

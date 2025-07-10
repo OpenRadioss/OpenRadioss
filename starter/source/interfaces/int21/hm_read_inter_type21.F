@@ -82,7 +82,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "scr05_c.inc"
 #include      "scr06_c.inc"
 #include      "com01_c.inc"
 #include      "com04_c.inc"
@@ -322,13 +321,7 @@ C.......* Storage IPARI FRIGAP *........
        IPARI(44)=IADM
 
         IF(MULTIMP==0)THEN
-          IF(IMACH/=3)THEN
-C set MULTIMP default value = 4 for SMP
-            MULTIMP=4
-          ELSE
-C set MULTIMP default value = 12 for SPMD
-            MULTIMP=12
-          END IF
+          MULTIMP=12
         END IF
         IPARI(23)=MULTIMP
 

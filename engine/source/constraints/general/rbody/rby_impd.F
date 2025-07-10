@@ -113,25 +113,20 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NOD(*), NBY(*), ISKEW(*),ITAB(*), WEIGHT(*)
       INTEGER NDOF(*)
-C     REAL
-      my_real
-     .   X(3,*), RBY(*),SKEW(LSKEW,*),IN(*),MS(*),D(3,*),DR(3,*)
+      my_real X(3,*), RBY(*),SKEW(LSKEW,*),IN(*),MS(*),D(3,*),DR(3,*)
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "scr05_c.inc"
 #include      "param_c.inc"
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER M, NSN,  I, N
-C     REAL
-      my_real
-     .   XS,YS,ZS
+      my_real XS,YS,ZS
 C-----------------------------------------------
       M    =NBY(1)
 C optimisation spmd
-      IF (IMACH==3.AND.M<0) RETURN
+      IF (M<0) RETURN
       NSN  =NBY(2)
 C       IF (NDOF(M)<6) WRITE(*,*)'WARNING'
        DO I=1,NSN
@@ -355,27 +350,21 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NOD(*), NBY(*), ISKEW(*),ITAB(*), WEIGHT(*)
       INTEGER NDOF(*),ITRMAX
-C     REAL
-      my_real
-     .   X(3,*), RBY(*),SKEW(LSKEW,*),IN(*),MS(*),D(3,*),DR(3,*)
+      my_real X(3,*), RBY(*),SKEW(LSKEW,*),IN(*),MS(*),D(3,*),DR(3,*)
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "scr05_c.inc"
 #include      "param_c.inc"
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER M, NSN,  I, N,NP,J
-C     REAL
-      my_real
-     .   XS,YS,ZS,LMAX,RMAX,LSM1,DRX,DRY,DRZ,A,B
-      my_real,
-     .         DIMENSION(:),ALLOCATABLE :: LSM
+      my_real XS,YS,ZS,LMAX,RMAX,LSM1,DRX,DRY,DRZ,A,B
+      my_real,DIMENSION(:),ALLOCATABLE :: LSM
 C-----------------------------------------------
       M    =NBY(1)
 C optimisation spmd
-      IF (IMACH==3.AND.M<0) RETURN
+      IF (M<0) RETURN
       NSN  =NBY(2)
 C---determine iteration num.
       LMAX = ZERO
@@ -486,7 +475,6 @@ C     REAL
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "scr05_c.inc"
 #include      "param_c.inc"
 C-----------------------------------------------
 C PURPOSE: calculate displacement increment of secnd node by displacement increment of main node.
@@ -502,7 +490,7 @@ C-----------------------------------------------
 
       M = NBY(1)
 C optimisation spmd
-      IF (IMACH==3.AND.M<0) RETURN
+      IF (M<0) RETURN
 
       DO I = 1, 3
         VRM(I) = DR(I,M)

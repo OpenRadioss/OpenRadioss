@@ -63,7 +63,6 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
-#include      "scr05_c.inc"
 #include      "param_c.inc"
 #include      "tabsiz_c.inc"
 #include      "parit_c.inc"
@@ -125,7 +124,7 @@ C
             CALL RBE3POFF(RBE3%IRBE3 ,RBE3%LRBE3 ,NODES%A ,NODES%MS ,NODES%WEIGHT,
      1                    NODES%AR    ,NODES%IN    ,NODES%STIFN,NODES%STIFR )
        END IF
-       IF (IPARIT>0.AND.IMACH==3) THEN
+       IF (IPARIT>0) THEN
         NMP = 6*NMT
         IPA=1
         IPMS=IPA+3*NMP
@@ -1026,7 +1025,6 @@ C======================================================================|
            JR(3,N)=1
        END SELECT
       ENDDO
-C      IF (IMACH==3.AND.MAXPROC>1) CALL SPMD_MAX_I(IROTG)
 C---
       RETURN
       END

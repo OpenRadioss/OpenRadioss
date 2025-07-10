@@ -71,7 +71,6 @@ C-----------------------------------------------
 #include      "param_c.inc"
 #include      "units_c.inc"
 #include      "impl1_c.inc"
-#include      "scr05_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -178,7 +177,7 @@ C    /---------------/
      B   NMC2      ,IKINW(LI12),NT_RW    ,RBID      ,IBID3     ,
      C   IRBE3     ,LRBE3     ,FRBE3     ,IKINW(LI13),IRBE2    ,
      D   LRBE2     ,IKINW(LI14),IKINW(LI15))
-      IF (IMACH==3.AND.NSPMD>1) THEN
+      IF (NSPMD>1) THEN
           CALL UPD_FR_K(
      1    IADK     ,JDIK     ,NDOF      ,IKC      ,IDDL     ,
      2    INLOC    ,FR_ELEM  ,IAD_ELEM  ,NDDL     )

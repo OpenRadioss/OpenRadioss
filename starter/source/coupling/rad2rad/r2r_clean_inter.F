@@ -56,14 +56,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-        INTEGER NI,I,J,K,L,NTYP,CUR_ID,IAD,NSN,NRTM,NRTS
+        INTEGER NI,J,NTYP,CUR_ID,NSN,NRTM,NRTS
         INTEGER ELTAG,FACE(4)
-C-----------------------------------------------
-
-C   E x t e r n a l   F u n c t i o n s
-C-----------------------------------------------
-        INTEGER USR2SYS
-        INTEGER NLOCAL
 C-----------------------------------------------
 
         DO NI=1,NINTER

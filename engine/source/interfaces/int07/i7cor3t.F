@@ -58,14 +58,12 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "scr05_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IRECT(4,*), NSV(*), CAND_E(*), CAND_N(*),
      .    JLT,IDT, NOINT, NSN, IGAP ,ITYP, NIN, INTTH
       INTEGER IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ)
-C     REAL
       my_real
      .   X(3,*), GAPV(*), GAP_S(*), GAP_M(*),CURV_MAX(*),
      .   GAP, GAPMAX, GAPMIN
@@ -82,58 +80,6 @@ C-----------------------------------------------
       INTEGER I ,J  ,IL, L, NN, IG,JFT,IADD
 C-----------------------------------------------
 C
-      IF(IMACH/=3) THEN
-       IF(IGAP==3) THEN
-        IADD = 9
-       ENDIF
-       IF(IGAP==0)THEN
-         DO I=1,JLT
-           GAPV(I)=MAX(GAP+DGAPLOAD,DRAD)
-         END DO
-       ELSEIF(IGAP == 3)THEN
-         DO I=1,JLT
-           GAPV(I)=MIN(GAP_S_L(CAND_N(I))+GAP_M_L(CAND_E(I)),GAPV(I))
-           GAPV(I)=MIN(GAPV(I),GAPMAX)
-           GAPV(I)=MAX(GAPMIN,GAPV(I))
-           GAPV(I)=MAX(DRAD,GAPV(I)+DGAPLOAD)
-         END DO
-       ELSE
-         DO I=1,JLT
-           GAPV(I)=GAP_S(CAND_N(I))+GAP_M(CAND_E(I))
-           GAPV(I)=MIN(GAPV(I),GAPMAX)
-           GAPV(I)=MAX(GAPMIN,GAPV(I))
-           GAPV(I)=MAX(DRAD,GAPV(I)+DGAPLOAD)
-         END DO
-       END IF
-       DO 100 I=1,JLT
-       IG = NSV(CAND_N(I))
-       XI(I) = X(1,IG)
-       YI(I) = X(2,IG)
-       ZI(I) = X(3,IG)
-       L  = CAND_E(I)
-C
-       IX1(I)=IRECT(1,L)
-       X1(I)=X(1,IX1(I))
-       Y1(I)=X(2,IX1(I))
-       Z1(I)=X(3,IX1(I))
-C
-       IX2(I)=IRECT(2,L)
-       X2(I)=X(1,IX2(I))
-       Y2(I)=X(2,IX2(I))
-       Z2(I)=X(3,IX2(I))
-C
-       IX3(I)=IRECT(3,L)
-       X3(I)=X(1,IX3(I))
-       Y3(I)=X(2,IX3(I))
-       Z3(I)=X(3,IX3(I))
-C
-       IX4(I)=IRECT(4,L)
-       X4(I)=X(1,IX4(I))
-       Y4(I)=X(2,IX4(I))
-       Z4(I)=X(3,IX4(I))
-C
- 100   CONTINUE
-      ELSE
        IF(IGAP==0)THEN
          DO I=1,JLT
            GAPV(I)=MAX(GAP+DGAPLOAD,DRAD)
@@ -204,7 +150,7 @@ C
          Y4(I)=X(2,IX4(I))
          Z4(I)=X(3,IX4(I))
        ENDDO
-      ENDIF
+
       IF(ITYP == 7)THEN
         DO I=1,JLT
           GAPV(I) = GAPV(I) + CURV_MAX(CAND_E(I))

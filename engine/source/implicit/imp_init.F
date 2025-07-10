@@ -54,7 +54,6 @@ C-----------------------------------------------
 #include      "com08_c.inc"
 #include      "impl1_c.inc"
 #include      "impl2_c.inc"
-#include      "scr05_c.inc" 
 #include      "param_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -107,7 +106,7 @@ C--------non-linear-----
        ENDIF
        IF (NEXP==0.OR.IDYNA==1) NEXP=1
        IF (INTP_C>=0)THEN
-        IF (IMACH==3.AND.NSPMD>1)THEN
+        IF (NSPMD>1)THEN
          IF (ISOLV>=2) INTP_C = 1
         ELSE
          INTP_C = 0
@@ -118,8 +117,8 @@ C--------non-linear-----
          IF (IDEFKZ==1) KZ_TOL=TEN
 C         IKG=0
          IKPAT=0
-        IF (IMACH==3) IKPAT=1
-                 IF (IAUTSPC==1) IAUTSPC=0
+         IKPAT=1
+         IF (IAUTSPC==1) IAUTSPC=0
       ENDIF
 
       IF (IDYNA>0)CALL DYNA_INI(1 ,NUMNOD ,HHT_A ,NEWM_A,NEWM_B,V,VR)

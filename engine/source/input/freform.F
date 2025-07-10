@@ -2459,7 +2459,7 @@ C--------------------
       NTFLSW=0
       IF(NSFLSW/=0)CALL FREFLW(IKAD(0),KEY0,KFLSEC,NSFLSW,NTFLSW)
       !not compatible SPMD
-      IF (NSFLSW>0.AND.IMACH==3) THEN
+      IF (NSFLSW>0) THEN
        CALL ANCMSG(MSGID=201,ANMODE=ANINFO)
        IERR=IERR+1
       ENDIF

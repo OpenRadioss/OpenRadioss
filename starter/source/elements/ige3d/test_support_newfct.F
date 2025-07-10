@@ -53,10 +53,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,DIRTANG1,DIRTANG2,
-     .        IEL,INTERSEC,IDFCT,IOUT,ADD
-      my_real DET, T1, T2, XA(5),YA(5),COIN(2,2),
-     .        XB, YB, XC, YC, XD, YD, TOL
+      INTEGER :: I,J,K,DIRTANG1,DIRTANG2,INTERSEC,IDFCT,IOUT
+      my_real :: DET, T1, T2, XA(5),YA(5),COIN(2,2),XB, YB, XC, YC, XD, YD, TOL
 C-----------------------------------------------
 C
       L_TAB_NEWFCTCUT = 0

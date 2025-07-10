@@ -144,8 +144,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER EIGIPM(*), EIGIBUF(*)
-      my_real
-     .        EIGRPM(*)
+      my_real EIGRPM(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -223,9 +222,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, TN(7), N, NDDL, DSNDDL, DSLEN, K, NSDEC
-      my_real
-     .        CUTFREQ
-C
+      my_real CUTFREQ
       DO I=1,NSPROC
 C--------------------------------------
 C Ecriture des parametres entiers
@@ -326,7 +323,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "scr05_c.inc"
 #include      "flowcom.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -489,7 +485,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "scr05_c.inc"
 #include      "task_c.inc"
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -511,42 +506,40 @@ C
          CALL WRITE_DB(FVDATA(I)%CFL_COEF,1)
          CALL WRITE_DB(FVDATA(I)%DTMIN,1)
       
-         IF (IMACH==3) THEN
-            TABI(1)=FVSPMD(I)%NN_L
-            TABI(2)=FVSPMD(I)%NNA_L
-            TABI(3)=FVSPMD(I)%NNSA_L
-            TABI(4)=FVSPMD(I)%NSA
-            TABI(5)=FVSPMD(I)%NNSA
-            TABI(6)=FVSPMD(I)%NELSA
-            TABI(7)=FVSPMD(I)%PMAIN
-            TABI(8)=FVSPMD(I)%NNI_L
-            LEN=8
-            CALL WRITE_I_C(TABI,LEN)
-            LEN=2*(FVSPMD(I)%NN_L+FVSPMD(I)%NNI_L)
-            IF (LEN>0) THEN
-              CALL WRITE_I_C(FVSPMD(I)%IBUF_L,LEN)
-            ENDIF
-            LEN=2*FVSPMD(I)%NNA_L
-            IF (LEN>0) THEN
-              CALL WRITE_I_C(FVSPMD(I)%IBUFA_L,LEN)
-            ENDIF
-            LEN=2*FVSPMD(I)%NNSA_L
-            IF (LEN>0) THEN
-              CALL WRITE_I_C(FVSPMD(I)%IBUFSA_L,LEN)
-            ENDIF
-            LEN = 1
-            CALL WRITE_I_C(KMESH(I), LEN)
-            IF (ISPMD/=FVSPMD(I)%PMAIN-1) CYCLE
-C
-            LEN=8*FVSPMD(I)%NSA
-            IF (LEN>0) THEN
-              CALL WRITE_I_C(FVSPMD(I)%IXSA,LEN)
-            ENDIF
-            LEN=3*FVSPMD(I)%NELSA
-            IF (LEN>0) THEN
-              CALL WRITE_I_C(FVSPMD(I)%ELEMSA,LEN)
-            ENDIF
+         TABI(1)=FVSPMD(I)%NN_L
+         TABI(2)=FVSPMD(I)%NNA_L
+         TABI(3)=FVSPMD(I)%NNSA_L
+         TABI(4)=FVSPMD(I)%NSA
+         TABI(5)=FVSPMD(I)%NNSA
+         TABI(6)=FVSPMD(I)%NELSA
+         TABI(7)=FVSPMD(I)%PMAIN
+         TABI(8)=FVSPMD(I)%NNI_L
+         LEN=8
+         CALL WRITE_I_C(TABI,LEN)
+         LEN=2*(FVSPMD(I)%NN_L+FVSPMD(I)%NNI_L)
+         IF (LEN>0) THEN
+           CALL WRITE_I_C(FVSPMD(I)%IBUF_L,LEN)
          ENDIF
+         LEN=2*FVSPMD(I)%NNA_L
+         IF (LEN>0) THEN
+           CALL WRITE_I_C(FVSPMD(I)%IBUFA_L,LEN)
+         ENDIF
+         LEN=2*FVSPMD(I)%NNSA_L
+         IF (LEN>0) THEN
+           CALL WRITE_I_C(FVSPMD(I)%IBUFSA_L,LEN)
+         ENDIF
+         LEN = 1
+         CALL WRITE_I_C(KMESH(I), LEN)
+         IF (ISPMD/=FVSPMD(I)%PMAIN-1) CYCLE
+         LEN=8*FVSPMD(I)%NSA
+         IF (LEN>0) THEN
+           CALL WRITE_I_C(FVSPMD(I)%IXSA,LEN)
+         ENDIF
+         LEN=3*FVSPMD(I)%NELSA
+         IF (LEN>0) THEN
+           CALL WRITE_I_C(FVSPMD(I)%ELEMSA,LEN)
+         ENDIF
+         
          NNS=FVDATA(I)%NNS
          NNTR=FVDATA(I)%NNTR
          LENP=FVDATA(I)%LENP
@@ -872,7 +865,6 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com04_c.inc"
-#include      "scr05_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------

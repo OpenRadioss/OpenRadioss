@@ -121,7 +121,6 @@ C-----------------------------------------------
 #include      "remesh_c.inc"
 #include      "param_c.inc"
 #include      "scr03_c.inc"
-#include      "scr05_c.inc"
 #include      "scr12_c.inc"
 #include      "scr17_c.inc"
 #include      "scr22_c.inc"
@@ -1321,78 +1320,6 @@ C---  check stability condition
         ENDIF
       ENDIF
 C----------------------------------------------
-C     initialisation inertie parith/on spmd
-      IF (IMACH/=3) THEN
-       IF(NADMESH == 0)THEN
-        IF(IPARI0 == 3)THEN
-          CALL DOUBLE_FLOT_IEEE(LFT,LLT,XI,XI,I8EMS)
-          DO I=LFT,LLT
-            I8MI(4,IX1(I))=I8MI(4,IX1(I)) + I8EMS(1,I)
-            I8MI(5,IX1(I))=I8MI(5,IX1(I)) + I8EMS(2,I)
-            I8MI(6,IX1(I))=I8MI(6,IX1(I)) + I8EMS(3,I)
-            I8MI(4,IX2(I))=I8MI(4,IX2(I)) + I8EMS(1,I)
-            I8MI(5,IX2(I))=I8MI(5,IX2(I)) + I8EMS(2,I)
-            I8MI(6,IX2(I))=I8MI(6,IX2(I)) + I8EMS(3,I)
-            I8MI(4,IX3(I))=I8MI(4,IX3(I)) + I8EMS(1,I)
-            I8MI(5,IX3(I))=I8MI(5,IX3(I)) + I8EMS(2,I)
-            I8MI(6,IX3(I))=I8MI(6,IX3(I)) + I8EMS(3,I)
-            I8MI(4,IX4(I))=I8MI(4,IX4(I)) + I8EMS(1,I)
-            I8MI(5,IX4(I))=I8MI(5,IX4(I)) + I8EMS(2,I)
-            I8MI(6,IX4(I))=I8MI(6,IX4(I)) + I8EMS(3,I)
-          ENDDO
-        ELSE
-         DO I=LFT,LLT
-           TINER(IX1(I))=TINER(IX1(I))+XI(I)
-           TINER(IX2(I))=TINER(IX2(I))+XI(I)
-           TINER(IX3(I))=TINER(IX3(I))+XI(I)
-           TINER(IX4(I))=TINER(IX4(I))+XI(I)
-         ENDDO
-        ENDIF
-       ELSE
-        IF(IPARI0 == 3)THEN
-          CALL DOUBLE_FLOT_IEEE(LFT,LLT,XI,XI,I8EMS)
-          DO I=LFT,LLT
-           N=NFT+I
-           IF(SH4TREE(3,N) >= 0)THEN
-            I8MI(4,IX1(I))=I8MI(4,IX1(I)) + I8EMS(1,I)
-            I8MI(5,IX1(I))=I8MI(5,IX1(I)) + I8EMS(2,I)
-            I8MI(6,IX1(I))=I8MI(6,IX1(I)) + I8EMS(3,I)
-            I8MI(4,IX2(I))=I8MI(4,IX2(I)) + I8EMS(1,I)
-            I8MI(5,IX2(I))=I8MI(5,IX2(I)) + I8EMS(2,I)
-            I8MI(6,IX2(I))=I8MI(6,IX2(I)) + I8EMS(3,I)
-            I8MI(4,IX3(I))=I8MI(4,IX3(I)) + I8EMS(1,I)
-            I8MI(5,IX3(I))=I8MI(5,IX3(I)) + I8EMS(2,I)
-            I8MI(6,IX3(I))=I8MI(6,IX3(I)) + I8EMS(3,I)
-            I8MI(4,IX4(I))=I8MI(4,IX4(I)) + I8EMS(1,I)
-            I8MI(5,IX4(I))=I8MI(5,IX4(I)) + I8EMS(2,I)
-            I8MI(6,IX4(I))=I8MI(6,IX4(I)) + I8EMS(3,I)
-           END IF
-          ENDDO
-        ELSE
-         IF(ISTATCND==0)THEN
-           DO I=LFT,LLT
-            N=NFT+I
-            IF(SH4TREE(3,N) >= 0)THEN
-             TINER(IX1(I))=TINER(IX1(I))+XI(I)
-             TINER(IX2(I))=TINER(IX2(I))+XI(I)
-             TINER(IX3(I))=TINER(IX3(I))+XI(I)
-             TINER(IX4(I))=TINER(IX4(I))+XI(I)
-            END IF
-           ENDDO
-         ELSE
-           DO I=LFT,LLT
-            N=NFT+I
-            IF(SH4TREE(3,N) == 0 .OR. SH4TREE(3,N) == -1)THEN
-             TINER(IX1(I))=TINER(IX1(I))+XI(I)
-             TINER(IX2(I))=TINER(IX2(I))+XI(I)
-             TINER(IX3(I))=TINER(IX3(I))+XI(I)
-             TINER(IX4(I))=TINER(IX4(I))+XI(I)
-            END IF
-           ENDDO
-         END IF
-        ENDIF
-       ENDIF
-      ENDIF
 C-----------------------
       DO I=LFT,LLT
         INC(I)=XI(I)
@@ -1710,22 +1637,8 @@ C
 C----------------------------------------------
 C     INITIALISATION DES RIGIDITES NODALES POUR INTERFACES
 C----------------------------------------------
-      IF (IGTYP == 52 .OR. 
-     .  ((IGTYP == 17 .OR. IGTYP == 51) .AND. IGMAT > 0)) THEN
+      IF (IGTYP == 52 .OR. ((IGTYP == 17 .OR. IGTYP == 51) .AND. IGMAT > 0)) THEN
            IF(I7STIFS/=0)THEN
-            IF (IMACH/=3) THEN
-             DO I=LFT,LLT
-               ET= STACK%PM(2,ISUBSTACK)*THK(I)
-               ETNOD(IX1(I))=ETNOD(IX1(I))+ET
-               ETNOD(IX2(I))=ETNOD(IX2(I))+ET
-               ETNOD(IX3(I))=ETNOD(IX3(I))+ET
-               ETNOD(IX4(I))=ETNOD(IX4(I))+ET
-               NSHNOD(IX1(I))=NSHNOD(IX1(I))+1
-               NSHNOD(IX2(I))=NSHNOD(IX2(I))+1
-               NSHNOD(IX3(I))=NSHNOD(IX3(I))+1
-               NSHNOD(IX4(I))=NSHNOD(IX4(I))+1
-             ENDDO
-            ELSE
              DO I=LFT,LLT
                ET= STACK%PM(2,ISUBSTACK)*THK(I)
                STC(I)=ET
@@ -1734,24 +1647,10 @@ C----------------------------------------------
                NSHNOD(IX3(I))=NSHNOD(IX3(I))+1
                NSHNOD(IX4(I))=NSHNOD(IX4(I))+1
              ENDDO
-            ENDIF
            ENDIF
       ELSEIF(IGTYP == 11 .AND. IGMAT >  0) THEN
           IPGMAT = 700
           IF(I7STIFS/=0)THEN
-            IF (IMACH/=3) THEN
-             DO I=LFT,LLT
-              ET=GEO(IPGMAT +2 ,IPROP)*THK(I)
-              ETNOD(IX1(I))=ETNOD(IX1(I))+ET
-              ETNOD(IX2(I))=ETNOD(IX2(I))+ET
-              ETNOD(IX3(I))=ETNOD(IX3(I))+ET
-              ETNOD(IX4(I))=ETNOD(IX4(I))+ET
-              NSHNOD(IX1(I))=NSHNOD(IX1(I))+1
-              NSHNOD(IX2(I))=NSHNOD(IX2(I))+1
-              NSHNOD(IX3(I))=NSHNOD(IX3(I))+1
-              NSHNOD(IX4(I))=NSHNOD(IX4(I))+1
-            ENDDO
-           ELSE
             DO I=LFT,LLT
               ET=GEO(IPGMAT +2 ,IPROP)*THK(I)
               STC(I)=ET
@@ -1760,23 +1659,9 @@ C----------------------------------------------
               NSHNOD(IX3(I))=NSHNOD(IX3(I))+1
               NSHNOD(IX4(I))=NSHNOD(IX4(I))+1
             ENDDO
-           ENDIF
           ENDIF
       ELSE ! igmat  = 0
          IF(I7STIFS/=0)THEN
-          IF (IMACH/=3) THEN
-           DO I=LFT,LLT
-             ET=PM(20,IMID)*THK(I)
-             ETNOD(IX1(I))=ETNOD(IX1(I))+ET
-             ETNOD(IX2(I))=ETNOD(IX2(I))+ET
-             ETNOD(IX3(I))=ETNOD(IX3(I))+ET
-             ETNOD(IX4(I))=ETNOD(IX4(I))+ET
-             NSHNOD(IX1(I))=NSHNOD(IX1(I))+1
-             NSHNOD(IX2(I))=NSHNOD(IX2(I))+1
-             NSHNOD(IX3(I))=NSHNOD(IX3(I))+1
-             NSHNOD(IX4(I))=NSHNOD(IX4(I))+1
-           ENDDO
-          ELSE
            DO I=LFT,LLT
              ET=PM(20,IMID)*THK(I)
              STC(I)=ET
@@ -1785,7 +1670,6 @@ C----------------------------------------------
              NSHNOD(IX3(I))=NSHNOD(IX3(I))+1
              NSHNOD(IX4(I))=NSHNOD(IX4(I))+1
            ENDDO
-          ENDIF
          ENDIF
       ENDIF ! igmat      
       DEALLOCATE(POSLY,RATIO_THKLY,THK_IT,POS_IT ) 

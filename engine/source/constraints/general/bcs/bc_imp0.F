@@ -2117,7 +2117,6 @@ C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
 #include      "impl1_c.inc"
-#include      "scr05_c.inc"
 #include      "task_c.inc"
 #include      "units_c.inc"
 C-----------------------------------------------
@@ -2235,7 +2234,7 @@ C-----------------------------------------------
 C
       NSPCNT = NSPCN
       IF (NSPCN>0.AND.ILINE/=0) THEN
-           IF(IMACH/=3.OR.ISPMD==0)THEN
+           IF(ISPMD==0)THEN
              WRITE(ISTDO,'(I10,A)')NSPCN,
      .        ' NODES TREATED BY AUTOSPC FOR :'
              WRITE(ISTDO,'(I10,A)')NSPCT,
@@ -2303,7 +2302,7 @@ C
        IF (IRODDL/=0) DEALLOCATE(ILR,SKEWR)
       ENDIF
       IF (IERR>0) THEN
-           IF(IMACH/=3.OR.ISPMD==0)THEN
+           IF(ISPMD==0)THEN
              CALL ANCMSG(MSGID=102,ANMODE=ANINFO,
      .            I1=ITAB(IERR))
            ENDIF
@@ -2330,7 +2329,6 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
-#include      "scr05_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -2345,7 +2343,7 @@ C-----------------------------------------------
       my_real,
      .         DIMENSION(:),ALLOCATABLE :: DIAG_KP,LT_KP
 C-----------------------------------------------
-       IF (IMACH==3.AND.NSPMD>1) THEN
+       IF (NSPMD>1) THEN
          NZ = IADK(NDDL+1)-IADK(1)
          ALLOCATE(DIAG_KP(NDDL),LT_KP(NZ),STAT=IERR)
          CALL CP_REAL(NDDL,DIAG_K,DIAG_KP)

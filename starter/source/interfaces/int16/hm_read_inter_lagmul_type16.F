@@ -59,7 +59,6 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
-#include      "scr05_c.inc"
 #include      "scr06_c.inc"
 #include      "units_c.inc"
 C-----------------------------------------------
@@ -101,15 +100,10 @@ c------------------------------------------------------------
       ISU2 = NGR2USR(ISU20,INGR2USR,NGRBRIC)
 c
       BUMULT = BMUL0
-      IF (IMACH /= 3) THEN  ! SMP
-        MULTIMP=4
-      ELSE                 ! SPMD
-        MULTIMP=12
-      END IF
+      MULTIMP=12
 c
       IF (NSPMD > 1) THEN
-          CALL ANCMSG(MSGID=755,MSGTYPE=MSGERROR,ANMODE=ANINFO,
-     .                C1='TYPE 16 LAGRANGE INTERFACE')
+          CALL ANCMSG(MSGID=755,MSGTYPE=MSGERROR,ANMODE=ANINFO,C1='TYPE 16 LAGRANGE INTERFACE')
       END IF
 c------------------------------------------------------------
 c     STORAGE

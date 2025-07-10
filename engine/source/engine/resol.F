@@ -3086,7 +3086,7 @@ C------------------------------------------------------
               IAD1 = 0
               IAD2 = 0
               IAD1B= 0
-              IF (IMACH==3.AND.IPARIT>0) THEN
+              IF (IPARIT>0) THEN
                 IAD1 = 1
                 IF(IVECTOR==1)THEN
                   IAD1B = IAD1+NUMNOD+1

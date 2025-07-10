@@ -325,7 +325,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "scr05_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -376,74 +375,6 @@ C       B*(XM2*XS2 - XSM*XSM) = -XB*XS2+XA*XSM
 C       B = (XA*XSM-XB*XS2) / (XM2*XS2 - XSM*XSM)
 C       A = (XB*XSM-XA*XM2) / (XM2*XS2 - XSM*XSM)
 C--------------------------------------------------------
-      IF(IMACH /= 3)THEN
-        DO I=1,JLT
-          N1=IXLINS(1,CAND_N(I))
-          N2=IXLINS(2,CAND_N(I))
-          M1=IXLINM(1,CAND_E(I))
-          M2=IXLINM(2,CAND_E(I))
-
-c         calcul d'un minorant de la distance
-
-          XMAX1 = MAX(XA(1,N1),XA(1,N2))
-          YMAX1 = MAX(XA(2,N1),XA(2,N2))
-          ZMAX1 = MAX(XA(3,N1),XA(3,N2))
-          XMAX2 = MAX(XA(1,M1),XA(1,M2))
-          YMAX2 = MAX(XA(2,M1),XA(2,M2))
-          ZMAX2 = MAX(XA(3,M1),XA(3,M2))
-          XMIN1 = MIN(XA(1,N1),XA(1,N2))
-          YMIN1 = MIN(XA(2,N1),XA(2,N2))
-          ZMIN1 = MIN(XA(3,N1),XA(3,N2))
-          XMIN2 = MIN(XA(1,M1),XA(1,M2))
-          YMIN2 = MIN(XA(2,M1),XA(2,M2))
-          ZMIN2 = MIN(XA(3,M1),XA(3,M2))
-          DD = MAX(XMIN1-XMAX2,YMIN1-YMAX2,ZMIN1-ZMAX2,
-     .             XMIN2-XMAX1,YMIN2-YMAX1,ZMIN2-ZMAX1)
-          IF(DD > GAP)THEN
-            PENE(I) = ZERO
-            CYCLE
-          ENDIF
-
-c         calcul de la distance^2
-
-          XS12 = XA(1,N2)-XA(1,N1)
-          YS12 = XA(2,N2)-XA(2,N1)
-          ZS12 = XA(3,N2)-XA(3,N1)
-          XS2 = XS12*XS12 + YS12*YS12 + ZS12*ZS12
-          XM12 = XA(1,M2)-XA(1,M1)
-          YM12 = XA(2,M2)-XA(2,M1)
-          ZM12 = XA(3,M2)-XA(3,M1)
-          XM2 = XM12*XM12 + YM12*YM12 + ZM12*ZM12
-          XSM = - (XS12*XM12 + YS12*YM12 + ZS12*ZM12)
-          XS2M2 = XA(1,M2)-XA(1,N2)
-          YS2M2 = XA(2,M2)-XA(2,N2)
-          ZS2M2 = XA(3,M2)-XA(3,N2)
-          XXA =  XS12*XS2M2 + YS12*YS2M2 + ZS12*ZS2M2
-          XXB = -XM12*XS2M2 - YM12*YS2M2 - ZM12*ZS2M2 
-          DET = XM2*XS2 - XSM*XSM
-          DET = MAX(EM20,DET)
-
-          ALM = (XXA*XSM-XXB*XS2) / DET
-          XS2 = MAX(XS2,EM20)
-          XM2 = MAX(XM2,EM20)
-          ALM=MIN(ONE,MAX(ZERO,ALM))
-          ALS = -(XXA + ALM*XSM) / XS2
-          ALS=MIN(ONE,MAX(ZERO,ALS))
-          ALM = -(XXB + ALS*XSM) / XM2
-          ALM=MIN(ONE,MAX(ZERO,ALM))
-
-C         PENE = GAP^2 - DIST^2 UTILISE POUR TESTER SI NON NUL
-
-          XX =  ALS*XA(1,N1) + (ONE-ALS)*XA(1,N2)
-     .        - ALM*XA(1,M1) - (ONE-ALM)*XA(1,M2)
-          YY =  ALS*XA(2,N1) + (ONE-ALS)*XA(2,N2)
-     .        - ALM*XA(2,M1) - (ONE-ALM)*XA(2,M2)
-          ZZ =  ALS*XA(3,N1) + (ONE-ALS)*XA(3,N2)
-     .        - ALM*XA(3,M1) - (ONE-ALM)*XA(3,M2)
-          PENE(I) = GAP2 - XX*XX - YY*YY - ZZ*ZZ
-C
-        ENDDO
-      ELSE
 C
         DO I=1,JLT
           L = CAND_N(I)
@@ -542,7 +473,6 @@ C  PENE = GAP^2 - DIST^2 UTILISE POUR TESTER SI NON NUL
           PENE(I) = GAP2- XX*XX - YY*YY - ZZ*ZZ
 C
         END DO
-      END IF
 C
       RETURN
       END

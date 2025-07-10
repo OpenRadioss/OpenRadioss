@@ -59,7 +59,6 @@ C-----------------------------------------------
 #include      "com08_c.inc"
 #include      "param_c.inc"
 #include      "impl2_c.inc"
-#include      "scr05_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -174,7 +173,7 @@ C
      2                  X1     ,X2     ,X3     ,X4     ,Y1     ,
      3                  Y2     ,Y3     ,Y4     ,Z1     ,Z2     ,
      4                  Z3     ,Z4     ,XI     ,YI     ,ZI     )
-           IF (IMACH==3.AND.NSPMD>1) THEN
+           IF (NSPMD>1) THEN
             LREM = LREM + JLT
             CALL ASS_SPMD(3        ,NSVG     ,IX1    ,IX2    ,IX3    ,       
      1         IX4      ,JLT       ,IDDL     ,K_DIAG    ,K_LT     ,
@@ -419,7 +418,6 @@ C-----------------------------------------------
 #include      "com08_c.inc"
 #include      "param_c.inc"
 #include      "task_c.inc"
-#include      "scr05_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -489,7 +487,7 @@ C
 C
         I_STOK = INTBUF_TAB%I_STOK(1)
 C decoupage statique
-        IF(INACTI/=7.OR.IMACH==3)THEN
+        IF(INACTI/=7)THEN
           NB_LOC = I_STOK / NTHREAD
           IF (JTASK==NTHREAD) THEN
             I_STOK_LOC = I_STOK-NB_LOC*(NTHREAD-1)
@@ -497,7 +495,7 @@ C decoupage statique
             I_STOK_LOC = NB_LOC
           ENDIF
           DEBUT = (JTASK-1)*NB_LOC
-        ELSE ! INACTI = 7 et IMACH NE 3
+        ELSE ! INACTI = 7
           IF(JTASK==1)THEN
             I_STOK_LOC = I_STOK
             DEBUT = 0

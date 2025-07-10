@@ -324,7 +324,7 @@ C     ----- ---------
          IF (NINTER/=0.AND.NEIG==0) THEN
           CALL DIM_INT7(NINTER,IPARI ,INTBUF_TAB ,NINT7)
           IF (NINT7>0) THEN
-           IF (ISOLV==4.AND.IMACH==3) THEN
+           IF (ISOLV==4) THEN
               CALL ANCMSG(MSGID=214,ANMODE=ANINFO)
               CALL ARRET(2)
            ENDIF
@@ -332,8 +332,6 @@ C     ----- ---------
            S_CAND_E = S_CAND_N      !NE_IMP
            S_INDSUBT= S_CAND_N      !IND_IMP  
                  S_IDDLI=NUMNOD
-          ELSE
-           IF (ILINTF>0.AND.IMACH/=3) ILINTF=0
           ENDIF
          ENDIF
          ALLOCATE(IMPBUF_TAB%CAND_N(S_CAND_N))

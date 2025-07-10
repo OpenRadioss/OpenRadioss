@@ -47,7 +47,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "scr05_c.inc"
 #include      "com01_c.inc"
 #include      "com08_c.inc"
 #include      "param_c.inc"
@@ -94,7 +93,7 @@ C----------------------
 C
 C Comm SPMD NTAG : cumul aux points frontiere + prise en compte tag initial
 C
-      IF(IMACH==3.AND.NSPMD>1)THEN
+      IF(NSPMD>1)THEN
         LENR = IAD_ELEM(1,NSPMD+1)-IAD_ELEM(1,1)
         CALL SPMD_EXTAG(NTAG,IAD_ELEM,FR_ELEM,LENR)
       END IF

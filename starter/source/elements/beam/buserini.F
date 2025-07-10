@@ -61,17 +61,11 @@ C-----------------------------------------------
 C------------------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,II,JJ,NPTI,NU,NUVAR,NVARS,IPT,
-     .        ILAY,IR,IS,PID,IPID,IGTYP
-      INTEGER KN,PT,J1,JJ1,K
-!
+      INTEGER :: I,II,JJ,NPTI,NU,NUVAR,NVARS,IPT,ILAY,IR,IS,PID,IPID,IGTYP
       CHARACTER(LEN=NCHARTITLE)::TITR1
-!
       my_real, DIMENSION(:), POINTER :: UVAR
 C=======================================================================
-!---
 !     INITIAL USER VARIABLES
-!---
       DO I=LFT,LLT
         II = NFT+I
         JJ = PTBEAM(II)
@@ -80,19 +74,14 @@ C=======================================================================
           IGTYP = NINT(SIGBEAM(NVBEAM + 3,JJ))
           NVARS = NINT(SIGBEAM(NVBEAM + 4,JJ))
 !---
-!
 ! check NPT /= NPTI
-!
           IF (NPT /= NPTI  .AND . NPTI /= 0) THEN
             IPID=IXP(5,I)
             PID=IGEO(1,IXP(5,I))
             CALL FRETITL2(TITR1,IGEO(NPROPGI-LTITR+1,IPID),LTITR)
-            CALL ANCMSG(MSGID=1237,ANMODE=ANINFO,MSGTYPE=MSGERROR,
-     .                  I1=PID,
-     .                  I2=IXP(NIXP,I),
-     .                  C1=TITR1)
+            CALL ANCMSG(MSGID=1237,ANMODE=ANINFO,MSGTYPE=MSGERROR,I1=PID,I2=IXP(NIXP,I),C1=TITR1)
           ENDIF
-!
+
           DO IPT=1,NPT
             ILAY=1
             IR = 1
@@ -100,28 +89,9 @@ C=======================================================================
             NUVAR = ELBUF_STR%BUFLY(ILAY)%NVAR_MAT
             UVAR => ELBUF_STR%BUFLY(ILAY)%MAT(IR,IS,IPT)%VAR
             DO NU = 1,MIN(NVARS,NUVAR)
-              UVAR((NU-1)*NEL + I) = 
-     .              SIGBEAM(NVBEAM + 4  + NU + (IPT -1)*NVARS,JJ)
+              UVAR((NU-1)*NEL + I) =  SIGBEAM(NVBEAM + 4  + NU + (IPT -1)*NVARS,JJ)
             ENDDO
           ENDDO  !  DO ILAY=1,NPT
-!---!
-! only test print
-!           NU = MAX(1,(NVARS - MOD(NVARS,5))/5)
-!           KN = MIN(5,NVARS)
-!           PT = 0
-!           DO IPT = 1,NPT
-!             DO J1 = 1,NU
-!               JJ1 = (J1 -1)*5
-!               WRITE(IOUT,FMT=FMT_5F)(SIGBEAM(NVBEAM+4+PT+K+JJ1,JJ),K=1,KN)
-!             ENDDO
-!             IF (NUVAR > 5*NU)THEN
-!               WRITE(IOUT,FMT=FMT_5F)
-!     .             (SIGBEAM(NVBEAM+4+PT+NU*5+K,JJ),K=1,NVARS-5*NU)
-!             ENDIF
-!             PT = PT + NVARS
-!           ENDDO ! DO IP = 1,NIP
-!---!
-!---
         ENDIF ! IF (JJ > 0)
       ENDDO ! DO I=JFT,JLT
 C-----------

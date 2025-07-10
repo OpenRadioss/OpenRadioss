@@ -368,14 +368,12 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
-#include      "scr05_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NOIN
-      INTEGER IPARI(*)
-      my_real
-     .   MS(*)
+      INTEGER :: NOIN
+      INTEGER :: IPARI(*)
+      my_real :: MS(*)
 
       TYPE(INTBUF_STRUCT_) INTBUF_TAB
 C-----------------------------------------------
@@ -386,8 +384,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NRTS, NRTM, NSN, NMN, NTY, NOINT,
-     .   I, INCREM, P, II,JJ,NIR,K,N,L
+      INTEGER NRTS, NRTM, NSN, NMN, NTY, NOINT, I, INCREM, P, II,JJ,NIR,K,N,L
 C=======================================================================
       NRTS  =IPARI(3)
       NRTM  =IPARI(4)
@@ -396,7 +393,7 @@ C=======================================================================
       NTY   =IPARI(7)
       NOINT =IPARI(15)
 C
-      IF(IMACH==3.AND.NSPMD>1) THEN
+      IF(NSPMD>1) THEN
 C      les interfaces type 7 sont distribuees, les autres centralisees sur P0
        INCREM = 1
        IF(NTY==7.OR.NTY==10.OR.NTY==11.OR.NTY==22) INCREM = 100

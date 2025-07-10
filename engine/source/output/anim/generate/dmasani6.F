@@ -50,7 +50,6 @@ C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
 #include      "sphcom.inc"
-#include      "scr05_c.inc"
 #include      "scr17_c.inc"
 #include      "param_c.inc"
 #include      "task_c.inc"
@@ -98,7 +97,7 @@ C-----------------------------------------------
      6          IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,  
      7          ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS    )
         ISOLNOD = IPARG(28,NG)
-        IF (IMACH == 3.AND.ISPMD == 0) THEN
+        IF (ISPMD == 0) THEN
           IF (ITY/=ITY_OLD) THEN
             NEL_OLD = 0
             ITY_OLD= ITY
@@ -111,7 +110,7 @@ C-----------------------------------------------
           IAD   =IPARG(4,NG)
           LFT=1
           LLT=MIN(NVSIZ,NEL-OFFSET)
-          IF (IMACH == 3.AND.ISPMD == 0) THEN
+          IF (ISPMD == 0) THEN
             NFT_FA = NEL_OLD - NEL + OFFSET
           ELSE
             NFT_FA = NFT

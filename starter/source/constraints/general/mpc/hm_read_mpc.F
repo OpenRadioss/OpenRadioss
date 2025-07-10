@@ -60,7 +60,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "scr05_c.inc"
 #include      "scr17_c.inc"
 #include      "com04_c.inc"
 #include      "sphcom.inc"
@@ -73,8 +72,7 @@ C-----------------------------------------------
       INTEGER LAG_NCF, LAG_NKF, LAG_NHF, ITAB(*), ITABM(*),
      .        ISKN(LISKN,*),IBUFNC(*),IBUFNN(*),IBUFDL(*),IBUFSK(*),
      .        IKINE(*),IKINE1LAG(*),ITAGND(*)
-      my_real
-     .        RBUF(*)
+      my_real :: RBUF(*)
       INTEGER NOM_OPT(LNOPT1,*)
       TYPE(UNIT_TYPE_),INTENT(IN) ::UNITAB 
       TYPE(SUBMODEL_DATA), DIMENSION(*),INTENT(IN) :: LSUBMODEL
@@ -140,7 +138,7 @@ C------- error out
           END IF
           CALL KINSET(512,ITAB(NOSYS),IKINE(NOSYS),7,0,IKINE1LAG(NOSYS))
           IBUFNN(KF) = NOSYS
-            IF(IMACH==3) CALL IFRONTPLUS(NOSYS,1)
+          CALL IFRONTPLUS(NOSYS,1)
           IBUFDL(KF) = IDDL
           IBUFSK(KF) = 0
           DO J=0,NUMSKW+MIN(1,NSPCOND)*NUMSPH+NSUBMOD

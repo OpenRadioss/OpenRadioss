@@ -52,7 +52,6 @@ C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
 #include      "com08_c.inc"
-#include      "scr05_c.inc"
 #include      "task_c.inc"
 #include      "param_c.inc"
 C-----------------------------------------------
@@ -108,125 +107,68 @@ C-------only for Itask=0 first-----
             IF(TS<0.0)CYCLE
         ENDIF
 
-          IF (IFUNC > 0) THEN
-            IF (ISMOOTH == 0) THEN
-              A0   = AGRV(1,NL)*FINTER(IFUNC,(TS-DT1)*AGRV(2,NL),NPC,TF,DYDX)
-              GAMA = AGRV(1,NL)*FINTER(IFUNC,TS*AGRV(2,NL),NPC,TF,DYDX)
-            ELSE
-              A0   = AGRV(1,NL)*FINTER_SMOOTH(IFUNC,(TS-DT1)*AGRV(2,NL),NPC,TF,DYDX)
-              GAMA = AGRV(1,NL)*FINTER_SMOOTH(IFUNC,TS*AGRV(2,NL),NPC,TF,DYDX)
-            ENDIF
+        IF (IFUNC > 0) THEN
+          IF (ISMOOTH == 0) THEN
+            A0   = AGRV(1,NL)*FINTER(IFUNC,(TS-DT1)*AGRV(2,NL),NPC,TF,DYDX)
+            GAMA = AGRV(1,NL)*FINTER(IFUNC,TS*AGRV(2,NL),NPC,TF,DYDX)
           ELSE
-            A0   = AGRV(1,NL)
-            GAMA = AGRV(1,NL)
+            A0   = AGRV(1,NL)*FINTER_SMOOTH(IFUNC,(TS-DT1)*AGRV(2,NL),NPC,TF,DYDX)
+            GAMA = AGRV(1,NL)*FINTER_SMOOTH(IFUNC,TS*AGRV(2,NL),NPC,TF,DYDX)
           ENDIF
+        ELSE
+          A0   = AGRV(1,NL)
+          GAMA = AGRV(1,NL)
+        ENDIF
 C
-        IF(IMACH==3) THEN
-         PROC = ISPMD + 1
-         AA = GAMA
-         IF(N2D==1.AND.ISK<=1)THEN
-#include "vectorize.inc"
-           DO J=IAD,IAD+NN-1
-             N1=IABS(IB(J))
-             AXI=X(2,N1)
-             MA=AA*MS0(N1)
-             A(N2,N1)=A(N2,N1)+MA
-             IF(IB(J)>0) WFEXTT=WFEXTT+HALF*(A0+AA)*MS(N1)*V(N2,N1)*AXI*WEIGHT(N1)
-           ENDDO
-         ELSEIF(N2D==1.AND.ISK>1)THEN
-           K1=3*N2-2
-           K2=3*N2-1
-           K3=3*N2
-#include "vectorize.inc"
-           DO J=IAD,IAD+NN-1
-             N1=IABS(IB(J))
-             AXI=X(2,N1)
-             VV = SKEW(K1,ISK)*V(1,N1)+SKEW(K2,ISK)*V(2,N1)+SKEW(K3,ISK)*V(3,N1)
-             MA=AA*MS0(N1)
-             A(1,N1)=A(1,N1)+SKEW(K1,ISK)*MA
-             A(2,N1)=A(2,N1)+SKEW(K2,ISK)*MA
-             A(3,N1)=A(3,N1)+SKEW(K3,ISK)*MA
-             IF(IB(J)>0) WFEXTT=WFEXTT+HALF*(A0+AA)*MS(N1)*VV*AXI*WEIGHT(N1)
-           ENDDO
-         ELSEIF(ISK<=1)THEN
-#include "vectorize.inc"
-           DO J=IAD,IAD+NN-1
-             N1=IABS(IB(J))
-             MA=AA*MS0(N1)
-             A(N2,N1)=A(N2,N1)+MA
-             IF(IB(J)>0) WFEXTT=WFEXTT+HALF*(A0+AA)*MS(N1)*V(N2,N1)*WEIGHT(N1)
-           ENDDO
-         ELSE
-           K1=3*N2-2
-           K2=3*N2-1
-           K3=3*N2
-#include "vectorize.inc"
-           DO J=IAD,IAD+NN-1
-             N1=IABS(IB(J))
-             MA=AA*MS0(N1)
-             VV = SKEW(K1,ISK)*V(1,N1)+SKEW(K2,ISK)*V(2,N1)+SKEW(K3,ISK)*V(3,N1)
-             A(1,N1)=A(1,N1)+SKEW(K1,ISK)*MA
-             A(2,N1)=A(2,N1)+SKEW(K2,ISK)*MA
-             A(3,N1)=A(3,N1)+SKEW(K3,ISK)*MA
-             IF(IB(J)>0) WFEXTT=WFEXTT+HALF*(A0+AA)*MS(N1)*VV*WEIGHT(N1)
-           ENDDO
-         ENDIF
-        ELSEIF(N2D==1.AND.ISK<=1)THEN
-            AA = GAMA
-#include "vectorize.inc"
-            DO J=IADF,IADL
+        PROC = ISPMD + 1
+        AA = GAMA
+        IF(N2D==1.AND.ISK<=1)THEN
+!#include "vectorize.inc"
+          DO J=IAD,IAD+NN-1
             N1=IABS(IB(J))
             AXI=X(2,N1)
             MA=AA*MS0(N1)
             A(N2,N1)=A(N2,N1)+MA
-            IF(IB(J)>0) WFEXTT=WFEXTT+HALF*(A0+AA)*MS(N1)*V(N2,N1)*AXI
+            IF(IB(J)>0) WFEXTT=WFEXTT+HALF*(A0+AA)*MS(N1)*V(N2,N1)*AXI*WEIGHT(N1)
           ENDDO
-C
         ELSEIF(N2D==1.AND.ISK>1)THEN
-            AA = GAMA
-            K1=3*N2-2
-            K2=3*N2-1
-            K3=3*N2
-#include "vectorize.inc"
-            DO J=IADF,IADL
+          K1=3*N2-2
+          K2=3*N2-1
+          K3=3*N2
+!#include "vectorize.inc"
+          DO J=IAD,IAD+NN-1
             N1=IABS(IB(J))
             AXI=X(2,N1)
-            MA=AA*MS0(N1)
             VV = SKEW(K1,ISK)*V(1,N1)+SKEW(K2,ISK)*V(2,N1)+SKEW(K3,ISK)*V(3,N1)
+            MA=AA*MS0(N1)
             A(1,N1)=A(1,N1)+SKEW(K1,ISK)*MA
             A(2,N1)=A(2,N1)+SKEW(K2,ISK)*MA
             A(3,N1)=A(3,N1)+SKEW(K3,ISK)*MA
-            IF(IB(J)>0) WFEXTT=WFEXTT+HALF*(A0+AA)*MS(N1)*VV*AXI
+            IF(IB(J)>0) WFEXTT=WFEXTT+HALF*(A0+AA)*MS(N1)*VV*AXI*WEIGHT(N1)
           ENDDO
-C
         ELSEIF(ISK<=1)THEN
-            AA = GAMA
-#include "vectorize.inc"
-            DO J=IADF,IADL
+!#include "vectorize.inc"
+          DO J=IAD,IAD+NN-1
             N1=IABS(IB(J))
             MA=AA*MS0(N1)
             A(N2,N1)=A(N2,N1)+MA
-            IF(IB(J)>0) WFEXTT=WFEXTT+HALF*(A0+AA)*MS(N1)*V(N2,N1)
+            IF(IB(J)>0) WFEXTT=WFEXTT+HALF*(A0+AA)*MS(N1)*V(N2,N1)*WEIGHT(N1)
           ENDDO
-C
         ELSE
           K1=3*N2-2
           K2=3*N2-1
           K3=3*N2
-          AA = GAMA
 #include "vectorize.inc"
-          DO J=IADF,IADL
+          DO J=IAD,IAD+NN-1
             N1=IABS(IB(J))
             MA=AA*MS0(N1)
             VV = SKEW(K1,ISK)*V(1,N1)+SKEW(K2,ISK)*V(2,N1)+SKEW(K3,ISK)*V(3,N1)
             A(1,N1)=A(1,N1)+SKEW(K1,ISK)*MA
             A(2,N1)=A(2,N1)+SKEW(K2,ISK)*MA
             A(3,N1)=A(3,N1)+SKEW(K3,ISK)*MA
-            IF(IB(J)>0) WFEXTT=WFEXTT+HALF*(A0+AA)*MS(N1)*VV
+            IF(IB(J)>0) WFEXTT=WFEXTT+HALF*(A0+AA)*MS(N1)*VV*WEIGHT(N1)
           ENDDO
-C
         ENDIF
-
        ENDDO !next NL
 
       RETURN

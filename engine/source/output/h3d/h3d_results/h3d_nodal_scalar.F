@@ -380,7 +380,7 @@ C--------------------------------------------------
 c
        ENDIF
 C--------------------------------------------------
-      ELSEIF (KEYWORD == 'FOPT') THEN
+      ELSEIF (KEYWORD == 'FPOT') THEN !potential
 C--------------------------------------------------
         CALL NODALP(13                 , NODAL_SCALAR         , VALUE_NUMNOD_REAL_FVM, IFLOW    , RFLOW,
      .              IPARG              , ELBUF_TAB            , IXS                  , NIXS     , NUMELS,

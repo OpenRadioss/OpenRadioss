@@ -134,7 +134,6 @@ C-----------------------------------------------
 #include      "param_c.inc"
 #include      "units_c.inc"
 #include      "scr03_c.inc"
-#include      "scr05_c.inc"
 #include      "scr14_c.inc"
 #include      "scr16_c.inc"
 #include      "scr17_c.inc"
@@ -226,7 +225,7 @@ C-----------------------------------------------
       LEN_TMP_NAME = OUTFILE_NAME_LEN + FILEN
       TMP_NAME=OUTFILE_NAME(1:OUTFILE_NAME_LEN)//FILNAM(1:FILEN)
 
-      IF(IMACH/=3.OR.IS_FILE_TO_BE_WRITTEN) THEN
+      IF(IS_FILE_TO_BE_WRITTEN) THEN
         OPEN(UNIT=IUGEO,FILE=TMP_NAME(1:LEN_TMP_NAME),ACCESS='SEQUENTIAL',FORM='FORMATTED',STATUS='UNKNOWN')
         WRITE(IUGEO,'(2A)')'#RADIOSS STATE FILE ',FILNAM(1:FILEN)
         !   OPEN STRS FILE
@@ -248,7 +247,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   /BEGIN + UNITS
 C-----------------------------------------------
-      IF(IMACH/=3.OR.IS_FILE_TO_BE_WRITTEN) THEN
+      IF(IS_FILE_TO_BE_WRITTEN) THEN
           WRITE(IUGEO,'(A)')'/BEGIN'
           WRITE(IUGEO,'(A)') ROOTNAM(1:ROOTLEN)
           WRITE(IUGEO,'(I10,I10)') ST_INVERS, 0
@@ -540,23 +539,6 @@ C
      .   IXTG ,WA,WAP0 ,IPARTC,IPARTTG,
      .   IPART_STATE,STAT_INDXC,STAT_INDXTG,SIZP0,
      .   NUMMAT,MAT_PARAM)
-C-----------------------------------------------
-C   SHELL TENSOR(2D)
-C-----------------------------------------------
-c      IF (IMACH==3) THEN
-c        CALL OUTP_ARSZ_CT(IPARG,DD_IAD,SIZLOC,SIZP0)
-c      ELSE
-c        SIZLOC=0
-c        SIZP0=0
-c      ENDIF
-
-c      IF(OUTP_CT(95)==1) CALL OUTP_C_TF(95,'STRESS_FUL',
-c     .   ' Full stress tensor + plastic strain    ',
-c     .   BUFEL,IPARG,TANI,DD_IAD,SIZLOC,SIZP0)
-
-c      IF(OUTP_CT(96)==1) CALL OUTP_C_TF(96,'STRAIN_FUL',
-c     .   ' Full strain tensor + plastic strain    ',
-c     .   BUFEL,IPARG,TANI,DD_IAD,SIZLOC,SIZP0 )
 C-----------------------------------------------
 C   BRICK TENSOR
 C-----------------------------------------------

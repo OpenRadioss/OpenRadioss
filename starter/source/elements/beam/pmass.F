@@ -26,11 +26,11 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    inivoid   ../starter/source/elements/initia/inivoid.F
       !||    pinit3    ../starter/source/elements/beam/pinit3.F
       !||====================================================================
-      SUBROUTINE PMASS(GEO    ,PM      ,MS     ,TINER   ,
+      SUBROUTINE PMASS(GEO    ,PM       ,
      .                 STIFN ,STIFR  ,PARTSAV ,V      ,IPART   ,
-     .                 MSP   ,INP    ,IGEO    ,STIFINT,STP     ,
+     .                 MSP   ,INP    ,IGEO    ,STP     ,
      .                 X1,X2,Y1,Y2,Z1,Z2,
-     .                 NC1,NC2,IMAT,MXG,AREA,AL,STRP , MCP     ,
+     .                 NC1,NC2,IMAT,MXG,AREA,AL,STRP ,
      .                 MCPP ,TEMP ,NINTEMP)
 C----------------------------------------------
 C     INITIALISATION DES MASSES NODALES
@@ -47,7 +47,6 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "param_c.inc"
 #include      "vect01_c.inc"
-#include      "scr05_c.inc"
 #include      "scr12_c.inc"
 #include      "com04_c.inc"
 C-----------------------------------------------
@@ -57,13 +56,13 @@ C-----------------------------------------------
      .   NC1(MVSIZ), NC2(MVSIZ), IMAT, MXG(MVSIZ)
       INTEGER, INTENT(IN) ::  NINTEMP
       my_real
-     .   GEO(NPROPG,*), PM(NPROPM,*), MS(*), TINER(*),
+     .   GEO(NPROPG,*), PM(NPROPM,*),
      .   STIFN(*),STIFR(*),V(3,*),PARTSAV(20,*),MSP(*),INP(*),
-     .   STIFINT(*), STP(*),
+     .   STP(*),
      .   X1(MVSIZ), X2(MVSIZ),  
      .   Y1(MVSIZ), Y2(MVSIZ), 
      .   Z1(MVSIZ), Z2(MVSIZ), AREA(MVSIZ), AL(MVSIZ), STRP(*),
-     .   MCPP(*),MCP(*),TEMP(*)
+     .   MCPP(*),TEMP(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -158,53 +157,24 @@ C----------------------------------------------
 C----------------------------------------------
 C     INITIALISATION DES MASSES NODALES + RHOCP 
 C----------------------------------------------
-      IF (IMACH/=3) THEN
-        DO I=LFT,LLT
-          MS(NC1(I))=MS(NC1(I))+EMS(I)
-          MS(NC2(I))=MS(NC2(I))+EMS(I)
-        ENDDO
-        IF( JTHE > 0 ) THEN
-           DO I=LFT,LLT
-              MCP(NC1(I))  = MCPP(I)
-              MCP(NC2(I))  = MCPP(I)
-           ENDDO
-       ENDIF
-      ELSE
-        DO I=LFT,LLT
-          MSP(I) = EMS(I)
-        ENDDO
-      ENDIF
+      DO I=LFT,LLT
+        MSP(I) = EMS(I)
+      ENDDO
 C----------------------------------------------
 C     INERTIES SPHERIQUES
 C----------------------------------------------
-      IF (IMACH/=3) THEN
-        DO I=LFT,LLT
-         TINER(NC1(I))=TINER(NC1(I))+TIN(I)
-         TINER(NC2(I))=TINER(NC2(I))+TIN(I)
-        ENDDO
-      ELSE
-        DO I=LFT,LLT
-          INP(I) = TIN(I)
-        ENDDO
-      ENDIF
+      DO I=LFT,LLT
+        INP(I) = TIN(I)
+      ENDDO
 C----------------------------------------------
 C     INITIALISATION DES RIGIDITES NODALES POUR INTERFACES
 C----------------------------------------------
       IF(I7STIFS/=0)THEN
-       IF (IMACH/=3) THEN
-        DO I=LFT,LLT
-          E = PM (20,IMAT)
-          STI = E * AREA(I) / AL(I)
-          STIFINT(NC1(I))=STIFINT(NC1(I))+STI
-          STIFINT(NC2(I))=STIFINT(NC2(I))+STI
-        ENDDO
-       ELSE
         DO I=LFT,LLT
           E = PM (20,IMAT)
           STI = E * AREA(I) / AL(I)
           STP(I) = STI
         ENDDO
-       ENDIF
       ENDIF
 C----------------------------------------------
 C     INITIALISATION DES RIGIDITES NODALES

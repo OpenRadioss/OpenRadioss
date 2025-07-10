@@ -274,7 +274,7 @@ C============================================================================
 C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD       
-      USE SUBMODEL_MOD
+      USE SUBMODEL_MOD , ONLY : NSUBMOD, SUBMODEL_DATA
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARLINE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -283,17 +283,15 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER OPTION_ID,UNIT_ID,SUBMODEL_INDEX,SUBMODEL_ID,OPT_POS
-      CHARACTER*(*) KEYWORD1,KEYWORD2,KEYWORD3,KEYWORD4
-      CHARACTER*(*) OPTION_TITR
-      TYPE(SUBMODEL_DATA) LSUBMODEL(*)
-      OPTIONAL ::
-     .   OPTION_ID,UNIT_ID,SUBMODEL_INDEX,SUBMODEL_ID,KEYWORD1,KEYWORD2,KEYWORD3,KEYWORD4,OPTION_TITR,OPT_POS
+      INTEGER :: OPTION_ID,UNIT_ID,SUBMODEL_INDEX,SUBMODEL_ID,OPT_POS
+      CHARACTER*(*) :: KEYWORD1,KEYWORD2,KEYWORD3,KEYWORD4
+      CHARACTER*(*) :: OPTION_TITR
+      TYPE(SUBMODEL_DATA) :: LSUBMODEL(NSUBMOD)
+      OPTIONAL :: OPTION_ID,UNIT_ID,SUBMODEL_INDEX,SUBMODEL_ID,KEYWORD1,KEYWORD2,KEYWORD3,KEYWORD4,OPTION_TITR,OPT_POS
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,OFFSET_CATEGORY,CPT,CPT1,CPT2,IOK,S_KEYWORD,S_TITR_TMP,
-     .        TMP_OPTION_ID,TMP_UNIT_ID,TMP_SUBMODEL_INDEX,MY_POSITION
+      INTEGER OFFSET_CATEGORY,CPT,CPT1,CPT2,IOK,S_KEYWORD,S_TITR_TMP,TMP_OPTION_ID,TMP_UNIT_ID,TMP_SUBMODEL_INDEX,MY_POSITION
       CHARACTER(LEN=NCHARLINE) :: KEYWORD,TITR_TMP
       LOGICAL SET_COLLECT_OFFSET
 C-----------------------------------------------

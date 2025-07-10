@@ -95,7 +95,7 @@
 !   L o c a l   V a r i a b l e s
 !-----------------------------------------------
       logical :: is_available,is_encrypted
-      integer :: i,j,ilaw,ndim,npt,nfunc,nepsd,ierror
+      integer :: ilaw,nfunc,ierror
       integer :: func_sig,func_young,func_nu,func_yld
       integer :: func_qr,func_qx
       integer :: func_cc,func_cp
@@ -109,7 +109,7 @@
       my_real :: kboltz      
       my_real :: epsp_unit,pres_unit,time_unit,energy_unit
       my_real :: x1scale,x2scale,x3scale,x4scale,xfac,yfac
-      my_real, dimension(1) :: x1vect,x2vect,x3vect,x4vect,fscale,yscale
+      my_real, dimension(1) :: x2vect,yscale
       integer, dimension(1) :: ifunc        
 !-----------------------------------------------
 !   S o u r c e   L i n e s 

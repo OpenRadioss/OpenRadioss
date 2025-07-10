@@ -61,7 +61,6 @@ C-----------------------------------------------
 #include      "vect01_c.inc"
 #include      "com04_c.inc"
 #include      "param_c.inc"
-#include      "scr05_c.inc"
 #include      "sms_c.inc"
 C-----------------------------------------------
 C   D U M M Y   A R G U M E N T S
@@ -71,23 +70,20 @@ C-----------------------------------------------
      .        ND, CEP(*), XEP(*),
      .        ITRUOFF(*), TAGPRT_SMS(*)
       INTEGER ,INTENT(INOUT), DIMENSION(NUMELT) ::ITAGPRLD_TRUSS
-C     REAL OU REAL*8
-      my_real
-     .    PM(NPROPM,*), GEO(NPROPG,*)
+      my_real :: PM(NPROPM,*), GEO(NPROPG,*)
 C-----------------------------------------------
       TYPE (GROUP_)  , DIMENSION(NGRTRUS)  :: IGRTRUSS
       TYPE (SURF_)   , DIMENSION(NSURF)    :: IGRSURF
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
-      INTEGER 
-     .        I,J,K,L,NG, ISSN, NN,N,MLN,MID,PID ,NGROU,
-     .        II,JJ,II2,JJ2,II3,JJ3,II4,JJ4,II5,JJ5,
-     .        MSKMLN,MSKISN,MSKPID, MSKMID, MODE,
-     .        WORK(70000),IPRLD
+      INTEGER :: I,J,K,L,NG, ISSN, NN,N,MLN,MID,PID ,NGROU
+      INTEGER :: II,JJ,II2,JJ2,II3,JJ3,II4,JJ4,II5,JJ5
+      INTEGER :: MSKMLN,MSKISN,MSKPID, MSKMID, MODE
+      INTEGER :: WORK(70000),IPRLD
       EXTERNAL MY_SHIFTL,MY_SHIFTR,MY_AND
       INTEGER MY_SHIFTL,MY_SHIFTR,MY_AND
-C
+
       DATA MSKMLN /O'07770000000'/
       DATA MSKISN /O'00000000700'/
       DATA MSKMID /O'07777777777'/
@@ -110,11 +106,9 @@ C
         INUM(7,I)=IXT(5,I)
       ENDDO
 
-      IF (IMACH==3) THEN
-        DO I=1,NUMELT
-          XEP(I)=CEP(I)
-        ENDDO
-      ENDIF
+      DO I=1,NUMELT
+        XEP(I)=CEP(I)
+      ENDDO
 C
 C
       DO I = 1, NUMELT
@@ -165,11 +159,9 @@ C
         ENDDO
       ENDDO
 
-      IF (IMACH==3) THEN
-        DO I=1,NUMELT
-          CEP(I)=XEP(INDEX(I))
-        ENDDO
-      ENDIF
+      DO I=1,NUMELT
+        CEP(I)=XEP(INDEX(I))
+      ENDDO
 C
 C INVERSION DE INDEX (DANS ITR1)
 C

@@ -58,7 +58,6 @@ C-----------------------------------------------
 #include      "units_c.inc"
 #include      "warn_c.inc"
 #include      "com01_c.inc"
-#include      "scr05_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -134,9 +133,7 @@ C
       I_MEM = 0
 C
 
-      IF(IMACH==3.AND.
-     +  (INACTI==5.OR.INACTI==6.OR.INACTI==7.OR.IFQ>0
-     +        .OR.NUM_IMP>0))THEN
+      IF((INACTI==5.OR.INACTI==6.OR.INACTI==7.OR.IFQ>0 .OR.NUM_IMP>0))THEN
         ISZNSNR = NSNR
       ELSE
         ISZNSNR = 0

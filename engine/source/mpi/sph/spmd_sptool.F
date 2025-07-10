@@ -47,7 +47,6 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
-#include      "scr05_c.inc"
 #include      "sphcom.inc"
 #include      "spmd_c.inc"
 C-----------------------------------------------
@@ -62,7 +61,7 @@ C-----------------------------------------------
       IF(IFLG==1)THEN
        NSPHR = 0
        NSPHS = 0
-       IF(NUMSPHG>0.AND.IMACH==3.AND.NSPMD>1)THEN
+       IF(NUMSPHG>0.AND.NSPMD>1)THEN
         ALLOCATE(PSPHR(NSPMD),STAT=IERROR)
         ALLOCATE(PSPHS(NSPMD),STAT=IERROR1)
         IERROR = IERROR + IERROR1
@@ -102,7 +101,7 @@ C-----------------------------------------------
         END IF
        END IF
 C
-      ELSEIF(IFLG==2.AND.IMACH==3.AND.NSPMD>1)THEN
+      ELSEIF(IFLG==2.AND.NSPMD>1)THEN
         IF(NSPHR/=0)THEN
           ALLOCATE(XSPHR(SIZSPC,NSPHR),STAT=IERROR)
           ALLOCATE(WACOMPR(SIZSPW,NSPHR),STAT=IERROR1)
@@ -141,7 +140,6 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
-#include      "scr05_c.inc"
 #include      "sphcom.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -150,7 +148,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      IF(NUMSPH>0.AND.IMACH==3.AND.NSPMD>1)THEN
+      IF(NUMSPH>0.AND.NSPMD>1)THEN
         IF(IFLG==1)THEN
           CALL WRITE_I_C(PSPHR,NSPMD)
           CALL WRITE_I_C(PSPHS,NSPMD)

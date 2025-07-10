@@ -51,11 +51,6 @@ C-----------------------------------------------
       INTEGER I,N,MSN
 C-----------------------------------------------
 C seul le proc 0 effectue le traitement
-c      IF (IMACH/=3) THEN
-c        DO I=1,NRBE3
-c          NERBE3 = NERBE3 + IRBE3(5,I)
-c        ENDDO
-c      ELSE
         DO I=1,NRBE3
           MSN = IRBE3(5,I)
           DO N=1,MSN
@@ -65,7 +60,6 @@ c      ELSE
         ENDDO
         IF(NSPMD > 1) CALL SPMD_GLOB_ISUM9(NERBE3,1)
         IF(NSPMD > 1) CALL SPMD_IBCAST(NERBE3,NERBE3,1,1,0,2)
-c      ENDIF
 
       RETURN
       END

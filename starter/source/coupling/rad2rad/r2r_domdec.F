@@ -65,9 +65,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-        INTEGER REF,I,J,K,L,IDG,NJ,IAD,NJS,FRONTS,ERR,DOMLEN,
-     .          FL_EXIT,FLPR,SPLIST
-        CHARACTER NAM*150,LINKZ*80,CHRUN*4,MESS*40
+        INTEGER REF,I,J,K,L,IDG,NJ,NJS,ERR,DOMLEN,FL_EXIT,SPLIST
+        CHARACTER NAM*150,CHRUN*4,MESS*40
         INTEGER, DIMENSION(:), ALLOCATABLE :: PLIST
 C-----------------------------------------------
 

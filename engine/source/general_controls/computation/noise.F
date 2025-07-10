@@ -81,7 +81,7 @@ C INITIALIALISATION DES COEFFICIENTS DU FILTRE
 C-----------------------------------------------
       NE = 0 
       TOL=EM01
-      IF(IMACH/=3.OR.ISPMD==0) THEN
+      IF(ISPMD==0) THEN
         IUNIT=IUNOI
         IF(ITFORM==3) CALL CUR_FIL_C(IUNIT)
       ENDIF
@@ -134,7 +134,7 @@ C
           TRANS=TRANS+C(I)
         ENDDO
 C
-        IF(IMACH/=3.OR.ISPMD==0) THEN
+        IF(ISPMD==0) THEN
           WRITE(IOUT,1000)ONE/DTNOISE,ONE/TC,NC,TRANS
           WRITE(IOUT,'(1P8E10.3)')(C(I),I=1,NC)
           WRITE(IOUT,'(//)')
@@ -151,7 +151,7 @@ C
          ENDDO
         ENDIF  
       ENDIF
-      IF(IMACH/=3.OR.ISPMD==0) THEN
+      IF(ISPMD==0) THEN
         IF(ABS(1.-DT2/TE)>TOL)THEN
           WRITE(IOUT,1100)
           WRITE(ISTDO,1100)
@@ -168,7 +168,7 @@ C-----------------------------------------------
 C
 C Anullation buffer noise sur pi, i<>0 en SPMD
 C
-      IF(IMACH==3.AND.ISPMD/=0) THEN
+      IF(ISPMD/=0) THEN
         DO I=1,6*NNOISE
           DO L=1,NCNOIS
             BUF(L,I)=ZERO   
@@ -208,7 +208,7 @@ C
 C
 C GATHER SPMD BUF
 C
-      IF(IMACH==3.AND.NSPMD>1) THEN
+      IF(NSPMD>1) THEN
         LEN = 6*NNOISE*NCNOIS
         CALL SPMD_GLOB_DSUM9(BUF,LEN)
       ENDIF
@@ -220,7 +220,7 @@ C-----------------------------------------------------
          J(K)=0
          KK=(K-1)*NNOISE+1
          TTN=TT-TO
-         IF(IMACH/=3.OR.ISPMD==0) THEN
+         IF(ISPMD==0) THEN
            CALL WRTDES(TTN,TTN,1,ITFORM,1)
            CALL WRTDES(TTN,TTN,1,ITFORM,1)
            CALL WRTDES(BUF(1,KK),BUF(1,KK),NCNOIS*NNOISE,ITFORM,1)

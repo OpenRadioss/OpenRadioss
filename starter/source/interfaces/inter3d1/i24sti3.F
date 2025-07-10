@@ -1120,7 +1120,6 @@ C-----------------------------------------------
 #include      "param_c.inc"
 #include      "scr17_c.inc"
 #include      "scr08_c.inc"
-#include      "scr05_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -1734,24 +1733,7 @@ C------------------------------------
        ENDIF
 C
        IF(NELS+NELC+NELTG==0)THEN
-        IF (IMACH/=3) THEN
-         IF(NINT>0) THEN
-            CALL ANCMSG(MSGID=92,
-     .                  MSGTYPE=MSGWARNING,
-     .                  ANMODE=ANINFO_BLIND_2,
-     .                  I1=ID,
-     .                  C1=TITR,
-     .                  I2=I)
-         ENDIF
-         IF(NINT<0) THEN
-            CALL ANCMSG(MSGID=93,
-     .                  MSGTYPE=MSGWARNING,
-     .                  ANMODE=ANINFO_BLIND_2,
-     .                  I1=ID,
-     .                  C1=TITR,
-     .                  I2=I)
-         ENDIF
-        ELSE
+
 C      en SPMD il faut un element associe a l'arrete sinon erreur
          IF(NINT>0) THEN
             CALL ANCMSG(MSGID=481,
@@ -1769,7 +1751,7 @@ C      en SPMD il faut un element associe a l'arrete sinon erreur
      .                  C1=TITR,
      .                  I2=I)
          ENDIF
-        ENDIF
+
        ENDIF
       END DO
 C

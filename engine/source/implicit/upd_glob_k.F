@@ -675,7 +675,6 @@ C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
 #include      "param_c.inc"
-#include      "scr05_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -823,7 +822,7 @@ C
 C
        IF(NT_RW>0) CALL FV_RWLR0(IDDL   ,B     )
 C
-       IF (IMACH==3.AND.NSPMD>1) THEN
+       IF (NSPMD>1) THEN
 C ----------B->dB---------------------
         IFLAG = 0
         CALL IMP_SETBA(A     ,AR      ,IDDL   ,NDOF  ,B     ,
@@ -870,7 +869,6 @@ C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
 #include      "param_c.inc"
-#include      "scr05_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -897,7 +895,7 @@ C------------------------------------------
         ENDIF
         IF(NT_RW>0) CALL FV_RWLR0(IDDL   ,LB    )
 C
-       IF (IMACH==3.AND.NSPMD>1) THEN
+       IF (NSPMD>1) THEN
 C ----------LB->dB---------------------
         IFLAG = 0
         CALL IMP_SETBA(AC     ,ACR      ,IDDL   ,NDOF  ,LB    ,
@@ -956,7 +954,6 @@ C-----------------------------------------------
 #include      "units_c.inc"
 #include      "impl1_c.inc"
 #include      "task_c.inc"
-#include      "scr05_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -1046,7 +1043,7 @@ c     2               LT_K  ,U     ,F     )
         CALL PRODUT_W( NDDL  ,F   ,F  ,W_DDL  , R2)
         IF (R2>R02.AND.IMCONV>=0.AND.
      .         (LPRINT/=0.OR.NPRINT/=0)) THEN
-         IF(IMACH/=3.OR.ISPMD==0) THEN
+         IF(ISPMD==0) THEN
             WRITE(IOUT,1006)SQRT(R2)
            IF(NPRINT<0) THEN
             WRITE(ISTDO,1006)SQRT(R2)

@@ -36,7 +36,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    r2r_mod                  ../starter/share/modules1/r2r_mod.F
       !||    submodel_mod             ../starter/share/modules1/submodel_mod.F
       !||====================================================================
-      SUBROUTINE HM_PREREAD_RBE3(LNUM    ,LREAL,  IGRNOD, GRNOD_UID,LSUBMODEL)
+      SUBROUTINE HM_PREREAD_RBE3(LNUM ,LREAL,  IGRNOD, GRNOD_UID,LSUBMODEL)
 C-------------------------------------
 C     LECTURE STRUCTURE RIGIDES 
 C-----------------------------------------------
@@ -62,45 +62,33 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER LNUM    ,LREAL
-C-----------------------------------------------
+      INTEGER :: LNUM,LREAL
       TYPE (GROUP_)  , DIMENSION(NGRNOD)  :: IGRNOD
       INTEGER :: GRNOD_UID
       TYPE(SUBMODEL_DATA),INTENT(IN)::LSUBMODEL(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, N, K, NSL, NSLT, ITYP, NUSER,  NM, NI, NI_OK,
-     .        INGU, IGS, J, P,IAD,NS,NN,NRB,UID,ID
-      LOGICAL IS_AVAILABLE
+      INTEGER :: I, NSLT,NM,INGU,IGS,J,NN,NRB,UID,ID
+      LOGICAL :: IS_AVAILABLE
       CHARACTER(LEN=NCHARTITLE) :: TITR
-      CHARACTER(LEN=NCHARKEY) ::  KEY
-C-----------------------------------------------
-C   E x t e r n a l   F u n c t i o n s
-C-----------------------------------------------
 C=======================================================================
-CC
       IS_AVAILABLE = .FALSE.
       CALL HM_OPTION_START('/RBE3')
       LNUM  = 0
       LREAL  = 0
       NRB = 0
-      IF (NRBE3==0) RETURN
-C
+      IF (NRBE3 == 0) RETURN
       DO I=1,NRBE3
         NRB=NRB+1
 C----------Multidomaines --> on ignore les rbe3 non tages---------
-        IF(NSUBDOM>0)THEN
-          IF(TAGRB3(NRB)==0)CALL HM_SZ_R2R(TAGRB3,NRB,LSUBMODEL)
+        IF(NSUBDOM > 0)THEN
+          IF(TAGRB3(NRB) == 0)CALL HM_SZ_R2R(TAGRB3,NRB,LSUBMODEL)
         END IF
 C--------------------------------------------------
 C EXTRACT DATAS OF /RBE3/... LINE
 C--------------------------------------------------
-        CALL HM_OPTION_READ_KEY(LSUBMODEL,
-     .                       OPTION_ID = ID,
-     .                       UNIT_ID = UID,
-     .                       OPTION_TITR = TITR)
-C
+        CALL HM_OPTION_READ_KEY(LSUBMODEL,OPTION_ID = ID,UNIT_ID = UID,OPTION_TITR = TITR)
         CALL HM_GET_INTV('nset',NSLT,IS_AVAILABLE,LSUBMODEL)
         NM = 0
         DO J=1,NSLT
@@ -121,6 +109,5 @@ C
        LREAL  = LREAL + NM
        LNUM  = LNUM +NRBE3L
       ENDDO
-C
       RETURN
       END SUBROUTINE HM_PREREAD_RBE3

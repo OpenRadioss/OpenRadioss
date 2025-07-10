@@ -50,7 +50,6 @@ C-----------------------------------------------
 #include      "com04_c.inc"
 #include      "sphcom.inc"
 #include      "param_c.inc"
-#include      "scr05_c.inc"
 #include      "scr17_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -81,31 +80,11 @@ C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
       INTEGER  MY_SHIFTL,MY_SHIFTR,MY_AND
       EXTERNAL MY_SHIFTL,MY_SHIFTR,MY_AND
-      my_real
-     .         GET_U_GEO
-      EXTERNAL GET_U_GEO
+      my_real, EXTERNAL :: GET_U_GEO
 C-----------------------------------------------
-Clef 1---------------------------------
-c      DATA MSKMLN /O'07770000000'/
-c      DATA MSKTYP /O'00007770000'/
-c      DATA MSKIHB /O'00000007000'/
-c      DATA MSKJEU /O'00000000700'/
-c      DATA MSKJTU /O'00000000070'/
-c      DATA MSKJTH /O'00000000007'/
-Clef 2---------------------------------
-c      DATA MSKITH /O'10000000000'/
-c      DATA MSKIRP /O'07000000000'/
-c      DATA MSKNPN /O'00777000000'/
-Clef 3---------------------------------
-c      DATA MSKMID /O'07777777777'/
-Clef 4---------------------------------
-c      DATA MSKIORD /O'100000000007'/
-c      DATA MSKSOR  /O'000000000070'/
-c      DATA MSKRAT  /O'000000000700'/
-Clef 5---------------------------------
-c      DATA MSKSLEEP /O'17777000000'/
+
 C======================================================================|
-C   TRI GLOBAL SUR TOUS LES CRITERES POUR TOUS LES ELEMENTS
+C  GENERAL SORTING : ALL CRITERIA, ALL ELEMENTS
 C----------------------------------------------------------
       CALL MY_ALLOC(ITRI,7,NUMSPH)
       CALL MY_ALLOC(INDEX,2*NUMSPH)
@@ -113,7 +92,6 @@ C----------------------------------------------------------
       CALL MY_ALLOC(XEP,NUMSPH)
       CALL MY_ALLOC(RNUM,NSPBUF,NUMSPH)
       
-C
       DO I=1,NUMSPH
         IF(NSPHSOL==0)THEN
           ITRI(1,I)=0
@@ -137,24 +115,15 @@ C tri spbuf
         END DO
        ENDDO
 
+      DO I=1,NUMSPH
+        XEP(I)=CEPSP(I)
+      END DO
 
-      IF (IMACH==3) THEN
-        DO I=1,NUMSPH
-          XEP(I)=CEPSP(I)
-        END DO
-      END IF
       DO I = 1, NUMSPH
         DO J = 1, KVOISPH
           IXSPS(J,I) = IXSP(J,I)
         END DO
       END DO
-C
-C      JIVF=0
-C      JPOR=0
-C      ISSN=0
-C      IKSNOD=1
-C      JHBE  =0
-C      NPT=1
 C
       DO I = 1, NUMSPH
         IPRT  =IPARTSP(I)
@@ -168,14 +137,6 @@ C
 C   warning : -1<=IORDER<=1
         IORDER=GET_U_GEO(5,NG)
         ISLEEP=KXSP(2,I)
-C
-C       IKIND=0
-C       IF(N >= FIRST_SPHSOL .AND. N < FIRST_SPHSOL+NSPHSOL)THEN
-C         IKIND=1
-C       ELSEIF(N >= FIRST_SPHRES .AND. N < FIRST_SPHRES+NSPHRES)THEN
-C         IKIND=2
-C       END IF
-C       ITRI(1,I)=IKIND
         IF(NSPHSOL==0)THEN
           ITRI(1,I)=0
         ELSE
@@ -197,7 +158,7 @@ C
         JTHE=NINT(PM(71,MT))
         IFAIL = 0
         IF (MAT_PARAM(MT)%NFAIL > 0) IFAIL = 1
-Clef 1
+C Key 1
         JTHE=MY_SHIFTL(JTHE,1)
         JTUR=MY_SHIFTL(JTUR,2)
         JEUL=MY_SHIFTL(JEUL,3)
@@ -206,7 +167,7 @@ Clef 1
 C        ISSN=MY_SHIFTL(ISSN,6)
 C        JHBE=MY_SHIFTL(JHBE,9)
 C        JPOR=MY_SHIFTL(JPOR,12)
-C ne pas trier sur la loi dans ce cas
+! do not sort in the following cases
         IF(MLN<28.OR.MLN==36.OR.MLN==46.OR.MLN==47)MLN=0
         MLN   = MY_SHIFTL(MLN,21)
         IFAIL = MY_SHIFTL(IFAIL,31)
@@ -215,14 +176,14 @@ C
         ITRI(3,I)=NG
 C
         ITRI(4,I)=MT
-Clef 4
+C Key 4
         IORDER= MY_SHIFTL(IORDER,0)
         ISORTH= MY_SHIFTL(ISORTH,2)
         ISRAT = MY_SHIFTL(ISRAT,3)
         IEOS  = MY_SHIFTL(IEOS,5) 
 C       next  = MY_SHIFTL(next,9) 
         ITRI(5,I)=IORDER+ISRAT+ISORTH+IEOS
-Clef 5
+C Key5 5
         ITRI(6,I)=ISLEEP
       END DO
 C
@@ -240,7 +201,7 @@ C
         KXSP(7,I) = INUM(8,INDEX(I))
         KXSP(8,I) = INUM(9,INDEX(I))
 
-c      tri spbuf
+c      sorting spbuf
        DO J=1,NSPBUF
          SPBUF(J,I) = RNUM(J,INDEX(I))
        ENDDO 
@@ -296,7 +257,7 @@ C Rebuild SOL2SPH, SOL2SPH(1,N)+1<=I<=SOLSPH(2,N) <=> N==SPH2SOL(I)
         END DO          
 C
       END IF
-C ne pas oublier de renumeroter groupe de th et buffer de surface
+C reneumbering th groups and surface buffer
 C--------------------------------------------------------------
 C         DETERMINATION DES SUPER_GROUPES
 C--------------------------------------------------------------
@@ -315,9 +276,7 @@ C--------------------------------------------------------------
         JJ3=ITRI(5,INDEX(I-1))
         II4=ITRI(6,INDEX(I))
         JJ4=ITRI(6,INDEX(I-1))
-        IF((II0==0.AND.II0/=JJ0).OR.II/=JJ.OR.
-     +      II1/=JJ1.OR.II2/=JJ2.OR.
-     +      II3/=JJ3.OR.II4/=JJ4) THEN
+        IF((II0==0.AND.II0/=JJ0) .OR. II/=JJ .OR. II1/=JJ1.OR.II2/=JJ2 .OR. II3/=JJ3.OR.II4/=JJ4) THEN
           ND=ND+1
           EADD(ND)=I
         END IF

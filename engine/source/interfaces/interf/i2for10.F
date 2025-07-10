@@ -160,7 +160,6 @@ C     REAL
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "scr05_c.inc"
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -172,16 +171,6 @@ C     REAL
      .   XC0,YC0,ZC0,SP,SM,TP,TM,XC,YC,ZC,
      .   STF,H2(4)
 C=======================================================================
-      IF (IMACH == 3) THEN
-        CONTINUE
-      ELSE
-#include "vectorize.inc"
-        DO II=1,NMN
-          I=MSR(II)
-          IN(I)=MAX(EM20,IN(I))
-        ENDDO
-      ENDIF
-C
       DO II=1,NSN
         IF (IRUPT(II) == 0) THEN
           I = NSV(II)

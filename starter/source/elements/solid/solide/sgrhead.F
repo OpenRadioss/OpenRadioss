@@ -81,7 +81,6 @@ C-----------------------------------------------
 #include      "vect01_c.inc"
 #include      "com04_c.inc"
 #include      "param_c.inc"
-#include      "scr05_c.inc"
 #include      "sms_c.inc"
 #include      "r2r_c.inc"
 #include      "sphcom.inc"
@@ -175,11 +174,9 @@ Clef 5---------------------------------
         ENDDO
       END IF
 C
-      IF (IMACH==3) THEN
-        DO I=1,NUMELS
-          XEP(I)=CEP(I)
-        ENDDO
-      ENDIF
+      DO I=1,NUMELS
+        XEP(I)=CEP(I)
+      ENDDO
 C
       DO I = 1, NUMELS
         II = I
@@ -363,12 +360,12 @@ C
           ENDDO
         ENDIF
       ENDDO
-c     IF (IMACH==3) THEN
-        DO I=1,NUMELS
-          CEP(I)=XEP(INDEX(I))
-          PERMUTATION%SOLID(I)=INDEX2(INDEX(I))
-        ENDDO
-c     ENDIF
+
+      DO I=1,NUMELS
+        CEP(I)=XEP(INDEX(I))
+        PERMUTATION%SOLID(I)=INDEX2(INDEX(I))
+      ENDDO
+      
       DO  K=1,11
         DO  I=1,NUMELS
           IXS(K,I)=INUM(K+1,INDEX(I))

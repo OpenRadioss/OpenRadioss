@@ -74,12 +74,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, L, NOD, NCUR, SENS_ID, ID, UID
-      INTEGER K, IGU, IGRS, NN, J, NUM0,
-     .        IFLAGUNIT
-      INTEGER FLAG_FMT,FLAG_FMT_TMP,IFIX_TMP
-      my_real
-     .   FAC1,FAC2,FACX,FACY,FAC2_DIM,FACX_DIM,FACY_DIM
+      INTEGER :: I, NOD, NCUR, SENS_ID, ID, UID
+      INTEGER :: K, IGU, IGRS, NN, J, NUM0, IFLAGUNIT
+      my_real :: FAC1,FAC2,FACX,FACY,FAC2_DIM,FACX_DIM,FACY_DIM
       CHARACTER MESS*40
       CHARACTER(LEN=NCHARTITLE) :: TITR
       LOGICAL IS_AVAILABLE
@@ -87,7 +84,6 @@ C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
       INTEGER NODGRNR5
-C
       DATA MESS/'IMPOSED TEMPERATURE DEFINITION  '/
 C======================================================================|
       IS_AVAILABLE = .FALSE. 
