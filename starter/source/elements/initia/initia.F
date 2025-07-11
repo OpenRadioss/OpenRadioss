@@ -184,7 +184,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      L                  KNOD2ELC   ,NOD2ELC       ,DR               ,SLRBODY        ,DRAPEG    ,
      M                  IPARI      ,INTBUF_TAB    ,INTERFACES       ,MAT_PARAM      ,NPRELOAD_A,
      N                  PRELOAD_A  ,FAIL_FRACTAL  ,FAIL_BROKMANN    ,DEFAULTS       ,NDAMP_FREQ_RANGE,
-     L                  DAMPR      ,IBEAM_VECTOR  ,RBEAM_VECTOR)
+     L                  DAMPR      ,IBEAM_VECTOR  ,RBEAM_VECTOR     ,IKINE)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------                     
@@ -325,7 +325,7 @@ C
       my_real,INTENT(IN) :: DAMPR(NRDAMP,NDAMP)
       INTEGER,INTENT(IN) :: IBEAM_VECTOR(NUMELP)
       my_real,INTENT(IN) :: RBEAM_VECTOR(3,NUMELP)
-
+      INTEGER,INTENT(IN) :: IKINE(3*NUMNOD)
 C
       TYPE (ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP) :: ELBUF_TAB
       TYPE (ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP,NXEL) :: XFEM_TAB
@@ -1401,7 +1401,8 @@ C 2D multifluid law
      5                INR       ,STIFINT     ,STR(NFT+1),IGEO     ,SIGRS      ,
      6                NSIGRS    ,IMERGE2     ,IADMERGE2 ,MSRT(NFT+1),IXR_KJ   ,
      7                NOM_OPT(1,IOPT),STRR   ,PTSPRI    ,IPM       , PM     ,
-     8                BUFMAT    ,R_SKEW      ,PRELOAD_A ,IBOLTP    ,NPRELOAD_A)          
+     8                BUFMAT    ,R_SKEW      ,PRELOAD_A ,IBOLTP    ,NPRELOAD_A,
+     9                IKINE)          
         !----------------------------------------!
         !   ITY == 7                SH3N or TRIA !
         !----------------------------------------!

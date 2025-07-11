@@ -62,7 +62,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .                  INR      ,STIFINT  ,STR      ,IGEO   ,SIGRS ,
      .                  NSIGRS   ,IMERGE2  ,IADMERGE2,MSRT   ,IXR_KJ,
      .                  NOM_OPT  ,STRR     ,PTSPRI   ,IPM    ,PM   ,
-     .                  UPARAM   ,R_SKEW   ,PRELOAD_A,IPRELD ,NPRELOAD_A)
+     .                  UPARAM   ,R_SKEW   ,PRELOAD_A,IPRELD ,NPRELOAD_A,
+     .                  IKINE)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -93,6 +94,7 @@ C-----------------------------------------------
 #include      "scr17_c.inc"
 #include      "userlib.inc"
 #include      "scr15_c.inc"
+#include      "kincod_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -101,7 +103,8 @@ C-----------------------------------------------
      .        IADMERGE2(NUMNOD+1),IXR_KJ(5,*),PTSPRI(*),
      .        IPM(NPROPMI,*),R_SKEW(*)
       INTEGER NOM_OPT(LNOPT1,*)
-      INTEGER , INTENT (IN   )  :: IPRELD,NPRELOAD_A
+      INTEGER , INTENT (IN)  :: IPRELD,NPRELOAD_A
+      INTEGER , INTENT (IN)  :: IKINE(3*NUMNOD)
 C     REAL
       my_real
      .   X(3,*), GEO(NPROPG,*), XMAS(*), PLD(*), XIN(*),
@@ -124,7 +127,8 @@ C-----------------------------------------------
      3   UIX(4,MVSIZ),
      .   NB2A ,NB2B ,NB4A ,NB4B ,NB6A ,NB6B,NB7A,NB7B,NB8A ,NB8B,NB9A, 
      .    NB9B ,NB10A,NB10B,NB11A,NB11B,NB12A,NB12B,NB13A,NB13B,NB18,
-     .    IMAT,K1,K11,K14,K12,K13,IADBUF,IMASS,SLIP,FRA,IH
+     .    IMAT,K1,K11,K14,K12,K13,IADBUF,IMASS,SLIP,FRA,IH,NKIN,
+     .    KCOND1,KCOND2
 C     REAL
       my_real
      .   DT, DTC, XKM, XCM, XKR, XCR, XM, XINE,  EX, EY, EZ,
@@ -465,9 +469,14 @@ C
              GBUF%MASS(I) = GEO(1,I0)*LENGTH*RHO
              IF ((LENGTH == ZERO).AND.(RHO /= ZERO)) THEN
                IPID = IXR(1,I)
+               NKIN  = IKINE(I1)
+               KCOND1 = IRB(NKIN)+IRB2(NKIN)
+               NKIN  = IKINE(I2)
+               KCOND2 = IRB(NKIN)+IRB2(NKIN)          
                CALL FRETITL2(TITR,IGEO(NPROPGI-LTITR+1,I0),LTITR)
-               IF ((XMAS(I1) > ZERO).AND.(XMAS(I2) > ZERO).AND.(MTN == 108)) THEN
-C-               imass = 1 (mass per unit lenght) + null length accepted for law108 if there are masses on nodes - only a warning is printed                              
+               IF (((XMAS(I1) > ZERO).OR.(KCOND1 > 0)).AND.((XMAS(I2) > ZERO).OR.(KCOND1 > 0)).AND.(MTN == 108)) THEN
+C-               imass = 1 (mass per unit lenght) + null length accepted for law108
+C-               if nodes have masses are or connected to rbodies - only a warning is printed                              
                  CALL ANCMSG(MSGID=3103,
      .                       MSGTYPE=MSGWARNING,
      .                       ANMODE=ANINFO_BLIND_1,
@@ -480,7 +489,7 @@ C-               imass = 1 (mass per unit lenght) + null length accepted for law
      .                       ANMODE=ANINFO_BLIND_1,
      .                       I1=ID,
      .                       C1=TITR,
-     .                       I2=IXR(NIXR,I))     
+     .                       I2=IXR(NIXR,I))   
                ENDIF   
              ENDIF
             ELSEIF(IMASS == 2) THEN
