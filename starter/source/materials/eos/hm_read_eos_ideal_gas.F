@@ -63,8 +63,8 @@ C-----------------------------------------------
       INTEGER IIN,IOUT,IUNIT
       my_real PM(NPROPM)
       TYPE(SUBMODEL_DATA), DIMENSION(NSUBMOD), INTENT(IN) :: LSUBMODEL
-      INTEGER,INTENT(IN) :: IMIDEOS
       TYPE(MATPARAM_STRUCT_),INTENT(INOUT) :: MAT_PARAM
+      INTEGER,INTENT(IN) :: IMIDEOS
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -95,6 +95,7 @@ C-----------------------------------------------
       IF(RHO0 > ZERO) THEN
         RHOR = RHO0
         PM(1)= RHO0 
+        MAT_PARAM%RHO = RHO0
       ELSE
         RHO0=RHOR                   
       ENDIF
@@ -138,7 +139,10 @@ C-----------------------------------------------
      .               C2='SPECIFIC HEAT RATIO (GAMMA) MUST BE GREATER THAN 1.0')
       ENDIF
 
-      IF(T0 == ZERO)T0=THREE100
+      IF (T0 == ZERO) T0 = THREE100
+      MAT_PARAM%THERM%TINI =THREE100
+      PM(79) = THREE100
+
       Cv = ZERO
       IF(RHO0*T0 /= ZERO) THEN
         ! this situation is not expected unless in case of input inconsistency (eos_uid does not match mat_uid)
@@ -151,7 +155,6 @@ C-----------------------------------------------
       PM(35) = T0
       PM(36) = Cv
       PM(31) = P0-PSH
-      PM(79) = T0
       PM(104)=P0-PSH
 
       MAT_PARAM%EOS%Cv = Cv
