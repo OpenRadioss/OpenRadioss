@@ -45,6 +45,7 @@ C-----------------------------------------------
       USE PLYXFEM_MOD
       USE PINCHTYPE_MOD
       USE OUTPUT_MOD , ONLY : NODA_SURF, NODA_PEXT
+      USE TH_MOD , ONLY : TH_HAS_NODA_PEXT
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -226,10 +227,11 @@ C workaround for possible PGI bug
                       WA(IJK) = ZERO
                     ENDIF
                   ELSEIF(K == 629) THEN
-                    IF(NODA_SURF(I) > ZERO)THEN
-                      WA(IJK) = NODA_PEXT(I) / NODA_SURF(I)
-                    ELSE
-                      WA(IJK) = ZERO
+                    WA(IJK) = ZERO
+                    IF(TH_HAS_NODA_PEXT == 1)THEN
+                      IF(NODA_SURF(I) > ZERO)THEN
+                        WA(IJK) = NODA_PEXT(I) / NODA_SURF(I)
+                      ENDIF
                     ENDIF
 C start of pinching information
                   ELSEIF(K == 630) THEN
@@ -404,10 +406,11 @@ C workaround for possible PGI bug
                       WA(IJK) = ZERO
                     ENDIF
                   ELSEIF(K == 629) THEN
-                    IF(NODA_SURF(I) > ZERO)THEN
-                      WA(IJK) = NODA_PEXT(I) / NODA_SURF(I)
-                    ELSE
-                      WA(IJK) = ZERO
+                    WA(IJK) = ZERO
+                    IF(TH_HAS_NODA_PEXT == 1)THEN
+                      IF(NODA_SURF(I) > ZERO)THEN
+                        WA(IJK) = NODA_PEXT(I) / NODA_SURF(I)
+                      ENDIF
                     ENDIF
 C start of pinching information
                   ELSEIF(K == 630) THEN
@@ -655,10 +658,11 @@ C workaround for possible PGI bug
                       WA(IJK) = ZERO
                     ENDIF
                   ELSEIF(K == 629) THEN
-                    IF(NODA_SURF(I) > ZERO)THEN
-                      WA(IJK) = NODA_PEXT(I) / NODA_SURF(I)
-                    ELSE
-                      WA(IJK) = ZERO
+                    WA(IJK) = ZERO
+                    IF(TH_HAS_NODA_PEXT == 1)THEN
+                      IF(NODA_SURF(I) > ZERO)THEN
+                        WA(IJK) = NODA_PEXT(I) / NODA_SURF(I)
+                      ENDIF
                     ENDIF
                   ELSE
                     WA(IJK)=ZERO
@@ -767,10 +771,11 @@ C workaround for possible PGI bug
                       WA(IJK) = ZERO
                     ENDIF
                   ELSEIF(K == 629) THEN
-                    IF(NODA_SURF(I) > ZERO)THEN
-                      WA(IJK) = NODA_PEXT(I) / NODA_SURF(I)
-                    ELSE
-                      WA(IJK) = ZERO
+                    WA(IJK) = ZERO
+                    IF(TH_HAS_NODA_PEXT == 1)THEN
+                      IF(NODA_SURF(I) > ZERO)THEN
+                        WA(IJK) = NODA_PEXT(I) / NODA_SURF(I)
+                      ENDIF
                     ENDIF
                   ELSE
                     WA(IJK)=ZERO
