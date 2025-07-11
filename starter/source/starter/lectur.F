@@ -8714,7 +8714,7 @@ C
      &            KNOD2ELC   , NOD2ELC        , DR               , SLRBODY            , DRAPEG   ,
      &            IPARI      , INTBUF_TAB     , INTERFACES       , MAT_ELEM%MAT_PARAM ,
      &            NPRELOAD_A , PRELOAD_A      , FAIL_FRACTAL     ,FAIL_BROKMANN       ,DEFAULTS  ,
-     &            NDAMP_FREQ_RANGE,DAMPR      , IBEAM_VECTOR     , RBEAM_VECTOR)
+     &            NDAMP_FREQ_RANGE,DAMPR      , IBEAM_VECTOR     , RBEAM_VECTOR       ,D)
 
 
       IF(NINTER>0.AND.NUMELIG3D>0) THEN
