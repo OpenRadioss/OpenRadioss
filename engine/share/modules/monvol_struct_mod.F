@@ -61,6 +61,7 @@ C-----------------------------------------------
       INTEGER, DIMENSION(:), ALLOCATABLE :: FILL_TRI
       real(kind=WP), DIMENSION(:,:), ALLOCATABLE  :: NORMAL !< normal
       real(kind=WP) :: volume, pressure, temperature, area 
+      INTEGER :: uid !< unique id of the monitored volume
       TYPE(MONVOL_OMP_) :: OMP_OUTPUT
       END TYPE MONVOL_STRUCT_
 

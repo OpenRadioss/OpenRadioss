@@ -45,7 +45,7 @@
       !||    spmd_mod                      ../engine/source/mpi/spmd_mod.F90
       !||====================================================================
         subroutine init_global_frontier_monvol(ispmd,nspmd,nvolu,nsurf,monvol, &
-                       nimv,    & 
+                       nimv,volmon,  nrvolu , & 
                        fr_mv,frontier_global_mv, t_monvoln,igrsurf )
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   modules
@@ -53,6 +53,7 @@
           use monvol_struct_mod , only : monvol_struct_
           use groupdef_mod , only : surf_
           use spmd_mod
+          use precision_mod, only : WP
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -69,10 +70,12 @@
           integer, intent(in) :: nvolu !< number of monitored volume
           integer, intent(in) :: nsurf !< number of surface    
           integer, intent(in) :: nimv !< first dim of monvol
+          integer, intent(in) :: nrvolu !< second dim of volmon
           integer, dimension(nspmd+2,nvolu), intent(in) :: fr_mv !< mpi frontier per monitored volume
           integer, dimension(nspmd+2), intent(inout) :: frontier_global_mv !< global mpi frontier 
           integer, dimension(nimv*nvolu), intent(in) :: monvol !< monitored volume data
-          type(monvol_struct_), dimension(nvolu), intent(in) :: t_monvoln
+          real(kind=WP), dimension(nrvolu*nvolu) :: volmon !< monitored volume data
+          type(monvol_struct_), dimension(nvolu), intent(inout) :: t_monvoln
           type(surf_), dimension(nsurf), intent(in) :: igrsurf
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   local variables
@@ -84,6 +87,7 @@
           integer :: ijk
           integer, dimension(2) :: s_buffer
           integer, dimension(2,nspmd) :: r_buffer
+          integer :: kk1
 #ifdef MPI
           integer :: ierror
 #endif
@@ -96,6 +100,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
           s_buffer(1:2) = 0
           monvol_address = 1
+          kk1 = 1
           do ijk=1,nvolu
             ityp = monvol(monvol_address+1) ! get the type of the airbag
             surf_id = monvol(monvol_address+3) ! get the id of the surface
@@ -111,7 +116,13 @@
                 s_buffer(2) = s_buffer(2) + t_monvoln(ijk)%nb_fill_tri               
               endif
             endif
+            t_monvoln(ijk)%uid = monvol(monvol_address) ! store the uid of the monitored volume
+            t_monvoln(ijk)%volume = 0 
+            t_monvoln(ijk)%pressure = volmon(kk1+12-1)
+            t_monvoln(ijk)%temperature = volmon(kk1+13-1)
+            t_monvoln(ijk)%area = volmon(kk1+18-1)
             monvol_address = monvol_address + nimv
+            kk1 = kk1 + nrvolu
           enddo
  
           if(nspmd>1) then

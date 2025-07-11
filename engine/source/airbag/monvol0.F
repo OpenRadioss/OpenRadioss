@@ -227,6 +227,7 @@ C=======================================================================
 !       write(6,*) "Temperature in volume ", UID, " is ",VOLMON(KK1+13-1),LOC(VOLMON(KK1+13-1))
 !       write(6,*) "Volume in volume ", UID, " is ",VOL(I)
 !       write(6,*) "Area in volume ", UID, " is ",VOLMON(KK1+18-1),LOC(VOLMON(KK1+18-1))
+        T_MONVOL(I)%UID = UID ! store the uid of the monitored volume
         T_MONVOL(I)%volume = VOL(I)
         T_MONVOL(I)%pressure = VOLMON(KK1+12-1)
         T_MONVOL(I)%temperature = VOLMON(KK1+13-1)
