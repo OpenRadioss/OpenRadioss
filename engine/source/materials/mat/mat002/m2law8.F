@@ -29,7 +29,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
 !||====================================================================
-      SUBROUTINE M2LAW8(
+      SUBROUTINE M2LAW8(mat_param ,
      1   PM,      OFF,     SIG,     EINT,
      2   RHO,     QOLD,    VOL,     STIFN,
      3   NEL,     D1,      D2,      D3,
@@ -46,6 +46,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE ELBUFDEF_MOD         
+      use matparam_def_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -81,11 +82,12 @@ C     REAL
      .  VD2(MVSIZ) ,  VIS(MVSIZ),GEO(NPROPG,*), DT2T, OFFG(*),
      .  DPLA(*),EPSP(*),TSTAR(*),ETSE(*), MSSA(*), DMELS(*), SSP(MVSIZ)   
       TYPE (BUF_LAY_), TARGET :: BUFLY
+      type (matparam_struct_)  ,intent(in)    :: mat_param
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER  I,J,II,IPT,JPT,NPIF,MX,JJ(6)
-      INTEGER  ICC,IRTY
+      INTEGER  I,J,II,IPT,JPT,MX,JJ(6)
+      INTEGER  ICC,IFORM
 C     REAL
       my_real
      .   SOLD1(MVSIZ), SOLD2(MVSIZ), SOLD3(MVSIZ),
@@ -94,46 +96,41 @@ C     REAL
      .   G1(MVSIZ)  , G2(MVSIZ), AJ2(MVSIZ), QH(MVSIZ),
      .   DF(MVSIZ)  , AMU(MVSIZ)   , EINC(MVSIZ), EPD(MVSIZ) ,
      .   DPDM(MVSIZ), PNEW(MVSIZ) , AK(MVSIZ),
-     .   CA(MVSIZ),CC, CN, EPXO(MVSIZ),
-     .   EPMX, THETL(MVSIZ), EPDR, T(MVSIZ),
+     .   CA(MVSIZ),CC, CN, EPMX, EPDR, T(MVSIZ),
      .   SIGMX(MVSIZ),
-     .   EPIF,TM,MT, SCALE, DTA, DAV,RHOCPI,
-     .   CA_1,CB_1,SIGMX_1,CMX_1,Z3_1,Z4_1,CP_1,T_1
+     .   TM,MT, SCALE, DTA, DAV,RHOCPI,
+     .   CA_1,CB_1,SIGMX_1,Z3_1,Z4_1,T_1
       my_real,
      .  DIMENSION(:), POINTER :: SIGP, EPLA
       TYPE(L_BUFEL_) ,POINTER :: LBUF
 C=======================================================================
-      EPIF = ZERO
-      NPIF = 0
-C
       DTA =HALF*DT1
       MX=MAT(1)
-      ICC  =NINT(PM(49,MX))
-      C1   =PM(32,MX)
-      CN   =PM(40,MX)
-      EPMX =PM(41,MX)
-      EPDR =PM(44,MX)
-      CC   =PM(43,MX)
-      EPIF = MAX(EPIF,CC)
-      IRTY = NINT(PM(50,MX))   ! flag : J-C = 0, Zerilli = 1
+
+      iform = mat_param%iparam(1)
+      icc   = mat_param%iparam(2)
+
+      C1   = mat_param%bulk
+
+      CA_1 = mat_param%uparam(1)
+      CB_1 = mat_param%uparam(2)
+      CN   = mat_param%uparam(3)
+      EPMX = mat_param%uparam(4)
+      SIGMX_1=mat_param%uparam(5)
+      CC   = mat_param%uparam(6)
+      EPDR = mat_param%uparam(7)
 C
-      CA_1   =PM(38,MX)
-      CB_1   =PM(39,MX)
-      SIGMX_1=PM(42,MX)
-      CMX_1  =PM(45,MX)
-      Z3_1   =PM(51,MX)
-      Z4_1   =PM(52,MX)
-      CP_1   = PM(53,MX)
-      RHOCPI = PM(69,MX)
+      Z3_1   = mat_param%uparam(10)
+      Z4_1   = mat_param%uparam(11)
+      RHOCPI = mat_param%therm%rhocp
       IF (RHOCPI > ZERO) RHOCPI = ONE / RHOCPI
-      T_1    = PM(79,MX)
-      TM     = PM(80,MX)
+      T_1    = mat_param%therm%tref
+      TM     = mat_param%therm%tmelt
 C
       DO I=1,NEL
-       G(I)    =PM(22,MX)*OFF(I)
+       G(I)    = mat_param%shear * OFF(I)
        CA(I)   =CA_1
        SIGMX(I)=SIGMX_1
-       NPIF    = NPIF+IRTY
        T(I)    = T_1
        ETSE(I) = ONE
       ENDDO
@@ -228,7 +225,7 @@ C
 C-------------
 C     STRAIN RATE (JOHNSON-COOK, ZERILLI-ARMSTRONG)
 C-------------
-      IF(EPIF/=ZERO)THEN
+      IF (CC/=ZERO)THEN
         DO I=1,NEL
           II=I+JPT
           EPD(I)=OFF(I)* 
@@ -238,7 +235,15 @@ C-------------
            EPSP(II) = EPD(I)           
            EPD(I)= LOG(EPD(I)/EPDR)
         ENDDO
-        IF (NPIF==ZERO)THEN   ! J-C
+        IF (IFORM == 1) THEN  ! zerilli
+          DO I=1,NEL
+             EPD(I)= CC*EXP((-Z3_1+Z4_1 * EPD(I))*T(I))
+             IF(ICC==1)SIGMX(I)= SIGMX(I) + EPD(I)
+             CA(I) = CA(I) + EPD(I)
+             T(I) = T(I) + RHOCPI*EINT(I)/MAX(EM15,VOL(I))
+             EPD(I)=ONE
+          ENDDO
+        ELSE                       ! J-C
           MT=MAX(EM15,Z3_1)
           DO I=1,NEL
              TSTAR(I)=MIN(ONE,MAX(ZERO,(T(I)-T_1)/(TM-T_1)))
@@ -246,14 +251,6 @@ C-------------
              EPD(I)= (ONE + CC * EPD(I))*(ONE - TSTAR(I)**MT)
              IF(ICC==1)SIGMX(I)= SIGMX(I)*EPD(I)
              T(I) = T(I) + EINT(I)/MAX(EM15,VOL(I))*RHOCPI
-          ENDDO
-        ELSEIF(NPIF==NEL)THEN  ! zerilli
-          DO I=1,NEL
-             EPD(I)= CC*EXP((-Z3_1+Z4_1 * EPD(I))*T(I))
-             IF(ICC==1)SIGMX(I)= SIGMX(I) + EPD(I)
-             CA(I) = CA(I) + EPD(I)
-             T(I) = T(I) + CP_1*EINT(I)/MAX(EM15,VOL(I))
-             EPD(I)=ONE
           ENDDO
         ENDIF
       ELSE

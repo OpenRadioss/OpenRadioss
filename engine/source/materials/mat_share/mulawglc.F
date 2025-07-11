@@ -103,7 +103,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER IGTYP, I, NUVAR ,VP,NINDX,IGEO(NPROPGI,*),NVARTMP,
+      INTEGER IGTYP, I, NUVAR,NINDX,IGEO(NPROPGI,*),NVARTMP,
      .        MX,IOFF_DUCT(MVSIZ),ISRATE,NUVARV,NVAR_DAMP,IMAT,
      .        FLAG_INCR
       my_real 
@@ -137,8 +137,9 @@ C
 C
       IMAT = ELBUF_STR%BUFLY(1)%IMAT
 C     for user material laws : pid(i)=pid(1)
-      IGTYP  = IGEO(11,PID(1))
-      IF(MTN==43.OR.MTN==56.OR.MTN==60.OR.MTN==86) THEN
+      IGTYP = IGEO(11,PID(1))
+      IMAT  = ELBUF_STR%BUFLY(1)%IMAT
+      IF (MTN==43.OR.MTN==56.OR.MTN==60.OR.MTN==86) THEN
         NUVAR  = ELBUF_STR%BUFLY(1)%NVAR_MAT
         UVAR  =>ELBUF_STR%BUFLY(1)%MAT(IR,IS,1)%VAR
       ENDIF
@@ -321,9 +322,8 @@ C-------------------------------------------
      6                 SIGNYY  ,SIGNXY  ,SIGNYZ  ,SIGNZX  ,MOMNXX  ,
      7                 MOMNYY  ,MOMNXY  ,ZSHIFT  )
       ELSEIF (MTN == 2) THEN
-        VP = IPM(255,MX)
-        CALL SIGEPS02G(ELBUF_STR,
-     1                 JFT     ,JLT     ,PM      ,FOR     ,MOM     ,
+        CALL SIGEPS02G(ELBUF_STR,mat_elem%mat_param(imat),
+     1                 JFT     ,JLT     ,FOR     ,MOM     ,
      2                 THKN    ,EINT    ,OFF     ,DT1C    ,ISRATE  ,
      3                 G       ,A1      ,A2      ,VOL0    ,NU      ,
      4                 THK0    ,GS      ,EPSPL   ,IOFC    ,KFTS    ,
@@ -334,7 +334,7 @@ C-------------------------------------------
      9                 SIGOZX  ,MOMOXX  ,MOMOYY  ,MOMOXY  ,SIGNXX  ,
      A                 SIGNYY  ,SIGNXY  ,SIGNYZ  ,SIGNZX  ,MOMNXX  ,
      B                 MOMNYY  ,MOMNXY  ,ETSE    ,EXZ     ,EYZ     ,
-     C                 NEL    ,IOFF_DUCT,VP      , NUVAR  ,UVAR )
+     C                 NEL    ,IOFF_DUCT,NUVAR  ,UVAR )
       ELSEIF (MTN == 22) THEN
         CALL SIGEPS22G(ELBUF_STR,
      1            JFT     ,JLT     ,PM      ,FOR     ,MOM      ,

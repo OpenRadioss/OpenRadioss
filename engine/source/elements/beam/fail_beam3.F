@@ -41,10 +41,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    fail_visual_b_mod   ../engine/source/materials/fail/visual/fail_visual_b.F90
 !||    mat_elem_mod        ../common_source/modules/mat_elem/mat_elem_mod.F90
 !||====================================================================
-      SUBROUTINE FAIL_BEAM3(ELBUF_STR    ,FAIL    ,NUMMAT  ,
-     .                  NPROPM  ,SNPC    ,STF     ,
-     .                  NEL     ,IMAT    ,JTHE    ,DPLA    ,
-     .                  TEMPEL  ,NGL     ,PM      ,
+      SUBROUTINE FAIL_BEAM3(ELBUF_STR    ,MAT_PARAM,FAIL    ,
+     .                  SNPC    ,STF     ,NEL     ,JTHE    ,DPLA    ,
+     .                  TEMPEL  ,NGL     ,
      .                  OFF     ,EPSD    ,NPF     ,TF      ,
      .                  TIME    ,IOUT    ,ISTDO   ,
      .                  SVM     ,PRESSURE,AREA    ,AL      ,
@@ -73,10 +72,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ,INTENT(IN) :: NEL        ! size of element group
-      INTEGER ,INTENT(IN) :: IMAT       ! material law number
       INTEGER ,INTENT(IN) :: JTHE       ! thermal dependency flag
-      INTEGER ,INTENT(IN) :: NUMMAT     ! number of defined materials
-      INTEGER ,INTENT(IN) :: NPROPM     ! size of real material parameter table
       INTEGER ,INTENT(IN) :: SNPC   
       INTEGER ,INTENT(IN) :: STF   
       INTEGER ,INTENT(IN) :: IOUT       ! output file unit
@@ -86,7 +82,6 @@ C-----------------------------------------------
       INTEGER ,DIMENSION(NEL)  ,INTENT(IN) :: NGL   ! table of element identifiers
       my_real                            ,INTENT(IN)    :: TIME
       my_real                            ,INTENT(IN)    :: AREA
-      my_real ,DIMENSION(NPROPM ,NUMMAT) ,INTENT(IN)    :: PM
       my_real ,DIMENSION(NEL)            ,INTENT(IN)    :: DPLA
       my_real ,DIMENSION(NEL)            ,INTENT(IN)    :: AL
       my_real ,DIMENSION(NEL)            ,INTENT(IN)    :: SVM
@@ -106,8 +101,9 @@ C-----------------------------------------------
       TYPE(TTABLE), DIMENSION(NTABLE), INTENT(INOUT)    :: TABLE      ! TABLE DATA        
       my_real ,DIMENSION(NEL)            ,INTENT(IN)    :: SIGY                                                
 C                                                         
-      TYPE (ELBUF_STRUCT_), INTENT(INOUT) :: ELBUF_STR
-      TYPE (FAIL_PARAM_)   ,INTENT(IN)    :: FAIL
+      TYPE (ELBUF_STRUCT_)    ,INTENT(INOUT) :: ELBUF_STR
+      TYPE (MATPARAM_STRUCT_) ,INTENT(IN)    :: MAT_PARAM
+      TYPE (FAIL_PARAM_)      ,INTENT(IN)    :: FAIL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -142,27 +138,24 @@ c-----------------------------------------
 c------------------------------------   
         CASE (1)     !    Johnson-Cook                                                   
           !  Tstar computation for Jhonson-Cook failure : T* = (T-T0)/(TM-T0)
-          IF (JTHE > 0) THEN
-            T0 = PM(79, IMAT) 
-            TM = PM(80, IMAT) 
-            DO I=1,NEL  
-              TSTAR(I) = MAX(ZERO,(TEMPEL(I)-T0)/(TM-T0))
-            ENDDO
+          IF (jthe > 0 .or. elbuf_str%bufly(1)%l_temp > 0) THEN
+            T0 = MAT_PARAM%THERM%TREF
+            TM = MAT_PARAM%THERM%TMELT
+            TSTAR(1:NEL) = MAX(ZERO,(TEMPEL(1:NEL)-T0)) / MAX((TM-T0),EM20)
           ELSE
             TSTAR(1:NEL) = ZERO
           ENDIF
+
           CALL FAIL_JOHNSON_B(NEL      ,NGL      ,NPARAM   ,FAIL%UPARAM,
-     .                        TIME     ,TSTAR    ,SVM      ,PRESSURE ,
-     .                        DPLA     ,EPSD     ,OFF      ,ELBUF_STR%GBUF%FAIL(1)%DAMMX,
-     .                        ELBUF_STR%GBUF%FAIL(1)%TDEL  ,IOUT    ,ISTDO    )
+     .         TIME     ,TSTAR    ,SVM      ,PRESSURE ,
+     .         DPLA     ,EPSD     ,OFF      ,ELBUF_STR%GBUF%FAIL(1)%DAMMX,
+     .         ELBUF_STR%GBUF%FAIL(1)%TDEL  ,IOUT    ,ISTDO    )
 c---------------      
         CASE (10)     !    Tension Strain failure model
-          IF (JTHE > 0) THEN
-            T0 = PM(79, IMAT) 
-            TM = PM(80, IMAT) 
-            DO I=1,NEL  
-              TSTAR(I) = MAX(ZERO,(TEMPEL(I)-T0)/(TM-T0))
-            ENDDO
+          IF (jthe > 0 .or. elbuf_str%bufly(1)%l_temp > 0) THEN
+            T0 = MAT_PARAM%THERM%TREF
+            TM = MAT_PARAM%THERM%TMELT
+            TSTAR(1:NEL) = MAX(ZERO,(TEMPEL(1:NEL)-T0)) / MAX((TM-T0),EM20)
           ELSE
             TSTAR(1:NEL) = ZERO
           ENDIF
@@ -179,13 +172,13 @@ c---------------
 c--------------- 
         CASE (11)     ! Energy failure model                                        
           CALL FAIL_ENERGY_B(NEL      ,NGL      ,NPARAM   ,FAIL%UPARAM,
-     .                       TIME     ,EPSD     ,OFF      ,ELBUF_STR%GBUF%FAIL(1)%DAMMX,                        
-     .                       ELBUF_STR%GBUF%FAIL(1)%TDEL  ,IOUT     ,ISTDO    ,FAIL%IFUNC   ,
-     .                       AREA     ,F1       ,F2       ,F3       ,
-     .                       M1       ,M2       ,M3       ,SNPC     ,NPF    ,STF     ,
-     .                       TF       ,EPSXX    ,EPSXY    ,EPSXZ    ,KXX    ,KYY     ,
-     .                       KZZ      ,ELBUF_STR%GBUF%FAIL(1)%NVAR,ELBUF_STR%GBUF%FAIL(1)%VAR,
-     .                       ELBUF_STR%GBUF%DMGSCL)
+     .         TIME     ,EPSD     ,OFF      ,ELBUF_STR%GBUF%FAIL(1)%DAMMX,                        
+     .         ELBUF_STR%GBUF%FAIL(1)%TDEL  ,IOUT     ,ISTDO    ,FAIL%IFUNC   ,
+     .         AREA     ,F1       ,F2       ,F3       ,
+     .         M1       ,M2       ,M3       ,SNPC     ,NPF    ,STF     ,
+     .         TF       ,EPSXX    ,EPSXY    ,EPSXZ    ,KXX    ,KYY     ,
+     .         KZZ      ,ELBUF_STR%GBUF%FAIL(1)%NVAR,ELBUF_STR%GBUF%FAIL(1)%VAR,
+     .         ELBUF_STR%GBUF%DMGSCL)
 c--------------- 
 
         CASE (30)     !    BIQUAD                                                  

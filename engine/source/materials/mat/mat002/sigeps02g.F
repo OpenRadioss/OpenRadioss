@@ -27,8 +27,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
 !||====================================================================
-      SUBROUTINE SIGEPS02G(ELBUF_STR,
-     1                     JFT      ,JLT     ,PM      ,FOR     ,MOM      ,
+      SUBROUTINE SIGEPS02G(ELBUF_STR,mat_param,
+     1                     JFT      ,JLT     ,FOR     ,MOM      ,
      2                     THK      ,EINT    ,OFF     ,DT1C    ,ISRATE   ,
      3                     G        ,A1      ,A2      ,VOL0    ,NU       ,
      4                     THK0     ,GS      ,EPSP    ,IOFC    ,KFTS     ,
@@ -39,11 +39,12 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      9                     SIGOZX   ,MOMOXX  ,MOMOYY  ,MOMOXY  ,SIGNXX   ,
      A                     SIGNYY   ,SIGNXY  ,SIGNYZ  ,SIGNZX  ,MOMNXX   ,
      B                     MOMNYY   ,MOMNXY  ,ETSE    ,EXZ     ,EYZ      ,
-     C                     NEL     ,IOFF_DUCT,VP      , NUVAR  ,UVAR)
+     C                     NEL     ,IOFF_DUCT,NUVAR   ,UVAR    )
 !-----------------------------------------------
 !   M o d u l e s
 !-----------------------------------------------
       USE ELBUFDEF_MOD
+      use matparam_def_mod
 !-----------------------------------------------
 !   I m p l i c i t   T y p e s
 !-----------------------------------------------
@@ -69,11 +70,11 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       INTEGER JFT,JLT,IOFC,KFTS,NLAY,IR,IS,NEL
       INTEGER NGL(MVSIZ),INDX(MVSIZ), 
      .        IOFF_DUCT(*),MX
-      INTEGER, INTENT(IN) :: NUVAR ,VP
+      INTEGER, INTENT(IN) :: NUVAR
       my_real ,DIMENSION(NEL,NUVAR)   ,INTENT(INOUT) :: UVAR
 
       my_real
-     .   PM(NPROPM,*),FOR(NEL,5),MOM(NEL,3),EINT(JLT,2),
+     .   FOR(NEL,5),MOM(NEL,3),EINT(JLT,2),
      .   OFF(*),DT1C(*),NU(*),G(*),A1(*),A2(*),
      .   VOL0(*),THK0(*),GS(*),EPSP(*)
       my_real
@@ -91,17 +92,18 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .    SIGNYZ(NEL),SIGNZX(NEL),
      .    SIGVXX(NEL),SIGVYY(NEL),ETSE(NEL)
       TYPE(ELBUF_STRUCT_), TARGET :: ELBUF_STR
+      type (matparam_struct_) ,intent(in) :: mat_param
 !-----------------------------------------------
 !   L o c a l   V a r i a b l e s
 !-----------------------------------------------
-      INTEGER ICC,IPLA,IRTY,ISRATE,NINDX,INDEX(MVSIZ)
-      INTEGER I,J,N,NMAX
+      INTEGER ICC,IPLA,IFORM,ISRATE,NINDX,INDEX(MVSIZ)
+      INTEGER I,J,N,VP,NMAX
       my_real
      .   F1(MVSIZ),F2(MVSIZ),F3(MVSIZ),F4(MVSIZ),F5(MVSIZ),Z3,Z4,
      .   M1(MVSIZ),M2(MVSIZ),M3(MVSIZ),T(MVSIZ),EPMX,
      .   DWELM(MVSIZ),DWELF(MVSIZ),CA(MVSIZ),CB(MVSIZ),CN,
      .   YMAX(MVSIZ),UNSYEQ(MVSIZ),DWPLA(MVSIZ),
-     .   HH(MVSIZ),RR(MVSIZ),C1,C2,C3,CC,EPDR(MVSIZ),CP,  
+     .   HH(MVSIZ),RR(MVSIZ),C1,C2,C3,CC,CP,  
      .   YM,EPSPDT(MVSIZ),
      .   S1(MVSIZ),S2(MVSIZ),SVM(MVSIZ),NNU1(MVSIZ),NU1(MVSIZ),
      .   NU2(MVSIZ),NU3(MVSIZ),DPLA_J(MVSIZ),SM1(MVSIZ),SM2(MVSIZ),
@@ -114,7 +116,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .   DA,DB,A_I,B_I,PN,QN,SN1,SN2,S,MM1,MM2,
      .   DFNP,DFNQ,DFMP,DFMQ,DFNMP,DFNMQ,XP,XQ,XPG,XQG,
      .   QNM1,QNM2,FNP,FNQ,FMP,FMQ,FNMP,FNMQ,S3,AA,BB,PLAP1,
-     .   THK12,EZZ,AAA,BBB,CCC,FACT,AUX,EPIF,ASRATE,
+     .   THK12,EZZ,AAA,BBB,CCC,FACT,ASRATE,EPDR,
      .   MS,FS,D1,D2,MT,TMELT,TREF,TSTAR,CA_1,CB_1,YMAX_1
       my_real :: DPLA(MVSIZ)
       TYPE(L_BUFEL_) ,POINTER :: LBUF
@@ -123,50 +125,44 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !-----------------------------------------------
       LBUF => ELBUF_STR%BUFLY(1)%LBUF(IR,IS,1)
 !
-      EPIF   = ZERO
-      EPIF   = MAX(EPIF,PM(43,MX))
-      YM     = PM(20,MX)
-      C1     = PM(28,MX)
-      C2     = PM(29,MX)
-      C3     = PM(30,MX)
-      CA_1   = PM(38,MX)
-      CB_1   = PM(39,MX)
-      YMAX_1 = PM(42,MX)
-      CN     = PM(40,MX)
-      EPMX   = PM(41,MX)
-      CC     = PM(43,MX)
-      ICC    = NINT(PM(49,MX))
-      IRTY   = NINT(PM(50,MX))
-      Z3     = PM(51,MX)
-      IF (IRTY == 0) THEN
-        TREF  = PM(79,MX)                    
-        TMELT = PM(80,MX)                    
-        CP    = PM(69,MX)                    
-        IF (CP > ZERO) CP = ONE / CP
-      ELSE
-        Z4    = PM(52,MX)                    
-        CP    = PM(53,MX)                    
-        TREF  = PM(54,MX)                    
-      END IF             
+      IFORM  = mat_param%iparam(1)
+      ICC    = mat_param%iparam(2)
+      VP     = mat_param%iparam(3)
+      ISRATE = mat_param%iparam(4)
+
+      YM     = mat_param%young
+      C1     = one/ym
+      C2     =-C1*mat_param%nu
+      C3     = one/mat_param%shear
+
+      CA_1   = mat_param%uparam(1)
+      CB_1   = mat_param%uparam(2)
+      CN     = mat_param%uparam(3)
+      EPMX   = mat_param%uparam(4)
+      YMAX_1 = mat_param%uparam(5)
+      CC     = mat_param%uparam(6)
+      epdr   = mat_param%uparam(7)
+      Z3     = mat_param%uparam(10)
+      Z4     = mat_param%uparam(11)                 
+      ASRATE = mat_param%uparam(9)
+      ASRATE = MIN(ONE,ASRATE*DT1C(I))
+
+      TREF  = mat_param%therm%tref                  
+      TMELT = mat_param%therm%tmelt                 
+      CP    = mat_param%therm%rhocp                
+      IF (CP > ZERO) CP = ONE / CP
 !
       DO I=JFT,JLT
-        ASRATE = MIN(ONE,PM(9,MX)*DT1C(I))
         CA(I)  = CA_1
         CB(I)  = CB_1
         YMAX(I)= YMAX_1
         ETSE(I) = ONE
         EPSPDT(I) = ONE
       ENDDO
-      IF(VP == 1)THEN
-        DO I=JFT,JLT
-          AUX    = PM(44,MX)
-          EPDR(I)= MAX(EM20,AUX)
-        ENDDO
+      IF (VP == 1)THEN
+        epdr = max(epdr, em20)   
       ELSE               
-        DO I=JFT,JLT
-          AUX    = PM(44,MX)*DT1C(I)
-          EPDR(I)= MAX(EM20,AUX)
-        ENDDO
+        epdr = max(epdr*dt1, em20)   
       ENDIF
 
 !---------------------------
@@ -197,28 +193,28 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !-------------
 !     STRAIN RATE (JOHNSON-COOK, ZERILLI-ARMSTRONG)
 !-------------
-      IF (EPIF /= ZERO) THEN
+      IF (CC /= ZERO) THEN
 !       e = 1/t integ[1/2 E (eps_m + k z)^2 dz ]
 !       e = 1/2 E eps_eq^2
 !       eps_eq = sqrt[ eps_m^2 + 1/12 k^2t^2 ]
         IF(VP==1)THEN
           DO I=JFT,JLT
             PLAP(I)  = UVAR(I,I)
-            PLAP(I)  = MAX(PLAP(I),EPDR(I))
-            LOGEP(I) = LOG(PLAP(I)/EPDR(I))
+            PLAP(I)  = MAX(PLAP(I),EPDR)
+            LOGEP(I) = LOG(PLAP(I)/EPDR)
           ENDDO           
         ELSE
           IF (ISRATE >= 1) THEN
             DO I=JFT,JLT
               EPSPDT(I) = EPSP(I)*DT1C(I)
               EPSPDT(I) = MAX(EPSPDT(I),EM20)
-              LOGEP(I)  = LOG(EPSPDT(I)/EPDR(I))
+              LOGEP(I)  = LOG(EPSPDT(I)/EPDR)
             ENDDO
           ELSE
             DO I=JFT,JLT
               EPSPDT(I) = ABS(DEGMB_LOC(I)+DEGFX_LOC(I)*THK0(I))*UNSYEQ(I)
               EPSPDT(I) = MAX(EPSPDT(I),EM20)
-              LOGEP(I)  = LOG(EPSPDT(I)/EPDR(I))
+              LOGEP(I)  = LOG(EPSPDT(I)/EPDR)
             ENDDO
           ENDIF ! IF (ISRATE >= 1)
         ENDIF
@@ -227,7 +223,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
           T(I) = TREF + CP*(EINT(I,1)+EINT(I,2))/VOL0(I)
         ENDDO
 !
-        IF (IRTY == ZERO) THEN
+        IF (IFORM == ZERO) THEN
           DO I=JFT,JLT
             MT = MAX(EM20,Z3)
             EPSPDT(I) = MAX(ZERO,EPSPDT(I))
@@ -240,15 +236,15 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
             EPSPDT(I) = MAX(EM20,EPSPDT(I))
             IF (ICC == 1) YMAX(I) = YMAX(I)*EPSPDT(I)
           ENDDO
-        ELSEIF (IRTY == 1) THEN
+        ELSEIF (IFORM == 1) THEN
           DO I=JFT,JLT
             EPSPDT(I) = CC*EXP((-Z3+Z4 * EPSPDT(I))*T(I))
             IF (ICC == 1) YMAX(I) = YMAX(I) + EPSPDT(I)
             CA(I) = CA(I) + EPSPDT(I)
             EPSPDT(I) = ONE
           ENDDO
-        ENDIF ! IRTY
-      ENDIF ! IF (EPIF /= ZERO)
+        ENDIF ! IFORM
+      ENDIF ! IF (CC /= ZERO)
 !---------------------------
       IF (IPLA == 0) THEN
 !---------------------------

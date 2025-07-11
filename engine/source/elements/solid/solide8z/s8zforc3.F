@@ -219,7 +219,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------      
       INTEGER  I,J,N,NF1,IFLAG,ILAY,NLAY,
      .   IP,IR,IS,IT,NPTR,NPTS,NPTT,ICR,ICS,ICT,PID,
-     .   IPMAT,NLYMAX,MID,IPANG,IBID,MX
+     .   IPMAT,NLYMAX,MID,IPANG,IBID
 
       DOUBLE PRECISION 
      .   X0(MVSIZ,8),Y0(MVSIZ,8),Z0(MVSIZ,8),
@@ -515,8 +515,11 @@ C GATHER NODAL VARIABLES AND COMPUTE INTRINSIC ROTATION.
      .   XGXA2,XGYA2,XGZA2,XGXYA,XGYZA,XGZXA,IPARG(1,NG),
      .   GBUF%GAMA_R) 
       ENDIF
+!
       NN_DEL = 0
-      PID = NGEO(1)
+      PID  = NGEO(1)
+      IMAT = MXT(LFT)
+!
       IF (GEO(190,PID)+GEO(191,PID)+GEO(192,PID)+GEO(192,PID)>ZERO)
      .        NN_DEL=8
       IF (NN_DEL ==0 .AND. DT%IDEL_BRICK>0) NN_DEL=8
@@ -555,19 +558,18 @@ C-----------Pij is in global system w/ Ismstr10 and local system w/ 11
        END IF !(ISMSTR == 11) THEN
       ENDIF    ! ISMSTR == 10.OR.ISMSTR == 11
 c
-      MX = MXT(LFT)
       DO I=LFT,LLT
-        NU(I)=MIN(HALF,PM(21,MX))
+        NU(I)=MIN(HALF,PM(21,IMAT))
         DELTAX(I)=EP30
-        C1 =PM(32,MX)
+        C1 =PM(32,IMAT)
         E0(I) =THREE*(ONE-TWO*NU(I))*C1
         USB(I)=EM01/C1
         IDEG(I)=0
       ENDDO
 !  for sound speed takeing into account nu
-      ICP0=MAT_ELEM%MAT_PARAM(MX)%COMPRESSIBILITY
+      ICP0=MAT_ELEM%MAT_PARAM(IMAT)%COMPRESSIBILITY
       FAC_NU = ONE
-      NU0 = PM(21,MX)
+      NU0 = PM(21,IMAT)
       NU_SP = ONE
       IF (IDT1SOL == 1.AND.(MTN==1.OR.ICP0 ==3)) THEN
         NU_SP=SQRT((ONE-NU0)/(ONE+NU0))
@@ -1133,10 +1135,8 @@ C
      C   NGL,        IDEG,       LBUF%VOL0DP,NEL,
      D   ISMSTR,     JCVT)
 C
-        MX = MXT(LFT)
         DO I=LFT,LLT
-          RHOO(I) = LBUF%RHO(I)
-          TEMPEL(I) = PM(79,MX)
+          RHOO(I)   = LBUF%RHO(I)
         ENDDO
 C
         IF (JCVT == 2) THEN
@@ -1341,7 +1341,6 @@ c-------------------------
 c     Virtual internal forces of regularized non local ddl 
 c--------------------------
       IF (INLOC > 0) THEN  
-        IMAT = MXT(LFT)  
         CALL BASIS8 (ZR,ZS,ZT,H,PR,PS,PT)
         CALL S8ZFINT_REG(
      1   NLOC_DMG,     VAR_REG(1,IP),NEL,          GBUF%OFF,
@@ -1369,10 +1368,9 @@ c-------------------------
 c    finite element heat transfert  
 c-------------------------
          IF (JTHE < 0) THEN
-           IMAT = MXT(1)
            IF (MAT_ELEM%MAT_PARAM(IMAT)%HEAT_FLAG == 1) THEN
-             CALL S8ETHERM(
-     1            PM,     IMAT,     VOLN,    NI,
+             CALL S8ETHERM(MAT_ELEM%MAT_PARAM(IMAT),
+     1            VOLN,    NI,
      2            NC1,     NC2,     NC3,     NC4,
      3            NC5,     NC6,     NC7,     NC8,
      4            PX1,     PX2,     PX3,     PX4,
@@ -1385,8 +1383,8 @@ c-------------------------
      B            THEM,    GBUF%OFF,LBUF%OFF,PARTSAV,
      C            IPARTS,  LBUF%VOL,NEL,GLOB_THERM%THEACCFACT)
            ELSE
-             CALL S8ETHERM(
-     1            PM,     IMAT,     VOLN,    NI,
+             CALL S8ETHERM(MAT_ELEM%MAT_PARAM(IMAT),
+     1            VOLN,    NI,
      2            NC1,     NC2,     NC3,     NC4,
      3            NC5,     NC6,     NC7,     NC8,
      4            PX1,     PX2,     PX3,     PX4,

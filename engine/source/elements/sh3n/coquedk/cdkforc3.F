@@ -161,7 +161,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 c  Indx uses locally unlike 4N shells 
       INTEGER MAT(MVSIZ),PID(MVSIZ),NGL(MVSIZ),INDX(MVSIZ),FWAVE_EL(NEL),
-     .   IFLAG,LENF,LENM,LENS,IR,IS,IT,IPT,NPTT,N1,N2,N3,
+     .   IFLAG,LENF,LENM,LENS,IR,IS,IT,IPT,NPTT,N1,N2,N3,IMAT,
      .   I,II,J,JJ,NG,NPG,NNOD,NPTR,NPTS,NLAY,L_DIRA,L_DIRB,IFAILWAVE,
      .   PT0,PT1,PT2,PT3,PTF,PTM,PTE,PTEP,PTS,IGTYP,IBID,J1,J2,
      .   IGMAT,ILAY,NPTTOT,IREP,KK(5),K,IDRAPE,ACTIFXFEM,SEDRAPE,NUMEL_DRAPE
@@ -550,8 +550,9 @@ C--------------------------
 C--------------------------
 C     THERMAL TIME STEP
 C--------------------------
+        imat = mat(1)
         IF (JTHE /= 0 .AND. GLOB_THERM%IDT_THERM == 1) THEN
-           call dttherm(nel     ,pm(1,mat(1))  ,npropm  ,glob_therm   ,
+           call dttherm(nel     ,pm(1,imat),npropm,glob_therm,mat_elem%mat_param(imat),
      .                  jtur    ,tempel  ,vol0    ,rho       ,
      .                  aldt    ,off     ,conde   ,gbuf%re   ,gbuf%rk )
          ENDIF

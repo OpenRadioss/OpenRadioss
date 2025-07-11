@@ -767,7 +767,7 @@ c--------------------------
 c     THERMAL TIME STEP
 c--------------------------
         IF (JTHE /= 0 .AND. GLOB_THERM%IDT_THERM == 1) THEN
-           call dttherm(nel     ,pm(1,mat(1))  ,npropm  ,glob_therm   ,
+           call dttherm(nel     ,pm(1,imat),npropm,glob_therm,mat_elem%mat_param(imat),
      .                  jtur    ,tempel  ,vol0    ,rho       ,
      .                  ll      ,off     ,conde   ,gbuf%re   ,gbuf%rk )
         ENDIF

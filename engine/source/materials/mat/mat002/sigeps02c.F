@@ -27,20 +27,22 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- calls      -----------------------------------------------------
 !||    m2cplr      ../engine/source/materials/mat/mat002/m2cplr.F
 !||====================================================================
-      SUBROUTINE SIGEPS02C(
-     1                  JFT      ,JLT      ,PM       ,EINT     ,THK      ,
-     2                  OFF      ,SIGY     ,DT1      ,IPLA     ,NEL      ,
-     3                  VOL      ,GS       ,ISRATE   ,THKLYL   ,ETSE     ,
-     4                  NGL      ,EPSD_PG  ,G_IMP    ,SIGKSI   ,IOFF_DUCT,
-     5                  DPLA     ,TSTAR    ,JTHE     ,HARDM    ,EPCHK    ,
-     6                  IMAT     ,IPT      ,NPTT     ,PLA      ,OFF_OLD  ,
-     7                  SIGOXX   ,SIGOYY   ,SIGOXY   ,SIGOYZ   ,SIGOZX   ,
-     8                  SIGNXX   ,SIGNYY   ,SIGNXY   ,SIGNYZ   ,SIGNZX   ,
-     9                  DEPSXX   ,DEPSYY   ,DEPSXY   ,DEPSYZ   ,DEPSZX   ,
-     A                  EPSPXX   ,EPSPYY   ,EPSPXY   ,EPSPYZ   ,EPSPZX   ,
-     B                  SIGBAKXX ,SIGBAKYY ,SIGBAKXY ,INLOC    ,DPLANL   ,
-     C                  VP       ,ASRATE   ,LOFF     ,EPSD     ,
-     D                  TEMPEL   ,FHEAT    )
+      SUBROUTINE SIGEPS02C(mat_param ,
+     .            NEL      ,EINT     ,THK      ,TEMPEL   ,FHEAT    ,            
+     .            OFF      ,SIGY     ,DT1      ,IPLA     ,SIGKSI   ,        
+     .            VOL      ,GS       ,THKLYL   ,ETSE     ,G_IMP    ,                    
+     .            DPLA     ,TSTAR    ,JTHE     ,HARDM    ,EPCHK    ,          
+     .            NPTT     ,PLA      ,OFF_OLD  ,LOFF     ,IOFF_DUCT,          
+     .            SIGOXX   ,SIGOYY   ,SIGOXY   ,SIGOYZ   ,SIGOZX   ,          
+     .            SIGNXX   ,SIGNYY   ,SIGNXY   ,SIGNYZ   ,SIGNZX   ,          
+     .            DEPSXX   ,DEPSYY   ,DEPSXY   ,DEPSYZ   ,DEPSZX   ,          
+     .            EPSPXX   ,EPSPYY   ,EPSPXY   ,EPSD_PG  ,EPSD     ,          
+     .            ASRATE   ,SIGBAKXX ,SIGBAKYY ,SIGBAKXY ,
+     .            INLOC    ,DPLANL   )        
+!-----------------------------------------------
+!   m o d u l e s
+!-----------------------------------------------
+      use matparam_def_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -50,87 +52,73 @@ C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
 #include      "mvsiz_p.inc"
 C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-#include      "param_c.inc"
-C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-
-      INTEGER JFT,JLT,IPLA,NEL,IOFC,JTHE,IPT,NPTT,IMAT,ISRATE
-      INTEGER NGL(MVSIZ),IOFF_DUCT(*),INLOC
-      INTEGER, INTENT(IN) :: VP
-      my_real ,DIMENSION(NEL),INTENT(IN) :: EPSPXX,EPSPYY,EPSPXY,EPSPYZ,EPSPZX
-      my_real ,DIMENSION(NEL),INTENT(IN) :: EPSD_PG
+      INTEGER ,INTENT(IN) :: NEL,IPLA,JTHE,NPTT,INLOC
+      INTEGER IOFF_DUCT(*)
       my_real ,INTENT(IN) :: ASRATE
       my_real ,INTENT(IN) :: DT1
-      my_real, DIMENSION(NEL), INTENT(IN) :: LOFF
-      my_real PM(NPROPM,*),EINT(NEL,2),
-     .        OFF(*),SIGY(*),VOL(*),GS(*),THK(*),
-     .        TSTAR(*),DPLA(*),SIGKSI(MVSIZ,5),ETSE(MVSIZ),
-     .        DEPSXX(MVSIZ),DEPSYY(MVSIZ),DEPSXY(MVSIZ),DEPSYZ(MVSIZ),
-     .        DEPSZX(MVSIZ),PLA(NEL),
-     .        SIGBAKXX(NEL),SIGBAKYY(NEL),SIGBAKXY(NEL),
-     .        SIGOXX(NEL),SIGOYY(NEL),SIGOXY(NEL),SIGOYZ(NEL),SIGOZX(NEL),
-     .        OFF_OLD(MVSIZ),THKLYL(NEL),DPLANL(NEL)
-!
-      my_real SIGNXX(NEL),SIGNYY(NEL),SIGNXY(NEL),
-     .        SIGNYZ(NEL),SIGNZX(NEL),EPCHK(MVSIZ),G_IMP(MVSIZ)
-!
-      my_real HARDM(MVSIZ),EZZ(MVSIZ)
-      my_real, DIMENSION(NEL)  , INTENT(INOUT) :: TEMPEL
-      my_real, DIMENSION(NEL)  , INTENT(INOUT) :: FHEAT
-      my_real, DIMENSION(NEL)  , INTENT(INOUT) :: EPSD
+      my_real ,DIMENSION(NEL) ,INTENT(IN) :: LOFF
+      my_real ,DIMENSION(NEL) ,INTENT(IN) :: EPSD_PG
+      my_real ,DIMENSION(NEL) ,INTENT(IN) :: EPSPXX,EPSPYY,EPSPXY
+      my_real ,DIMENSION(NEL) :: OFF,SIGY,VOL,GS,THK,TSTAR,DPLA,PLA,THKLYL,DPLANL
+      my_real :: EINT(NEL,2),SIGKSI(MVSIZ,5)
+      my_real, DIMENSION(MVSIZ) ,INTENT(IN)    :: DEPSXX,DEPSYY,DEPSXY,DEPSYZ,DEPSZX
+      my_real, DIMENSION(MVSIZ) ,INTENT(INOUT) :: HARDM,G_IMP,EPCHK,OFF_OLD,ETSE
+      my_real, DIMENSION(NEL)   ,INTENT(IN)    :: SIGOXX,SIGOYY,SIGOXY,SIGOYZ,SIGOZX
+      my_real, DIMENSION(NEL)   ,INTENT(INOUT) :: SIGBAKXX,SIGBAKYY,SIGBAKXY
+      my_real, DIMENSION(NEL)   ,INTENT(INOUT) :: SIGNXX,SIGNYY,SIGNXY,SIGNYZ,SIGNZX
+      my_real, DIMENSION(NEL)   ,INTENT(INOUT) :: TEMPEL
+      my_real, DIMENSION(NEL)   ,INTENT(INOUT) :: FHEAT
+      my_real, DIMENSION(NEL)   ,INTENT(INOUT) :: EPSD
+      type (matparam_struct_)   ,intent(in)    :: mat_param
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER ICC,IRTY,I,J,NPIF
-      my_real EPMX,CA,CB,CN,CP,CC,
-     .        DAV,DEVE1,DEVE2,DEVE3,DEVE4,Z3,Z4,FISOKIN,
-     .        EPIF,YOUNG,TI,TM,G,A11,A12,NU,
-     .        YMAX(MVSIZ),PLAP(MVSIZ),
-     .        EPDR(MVSIZ),YLD(MVSIZ),EPSDOT(MVSIZ),
-     .        T(MVSIZ),RHOCP,TREF,TMELT
+      INTEGER :: I,ICC,IFORM,ISRATE,VP
+      my_real :: EPMX,CA,CB,CN,CC,M_EXP,YOUNG,G,A11,A12,NU,RHOCP,TREF,TMELT
+      my_real :: DAV,DEVE1,DEVE2,DEVE3,DEVE4,Z3,Z4,FISOKIN,EPDR,YMAX
+      my_real :: YLD(MVSIZ),EPSDOT(MVSIZ),EZZ(MVSIZ)
 !=======================================================================
       ! Variable initialization
       EZZ(1:MVSIZ) = ZERO
 !---
       ! Recover material law parameters
-      YOUNG  = PM(20,IMAT)
-      NU     = PM(21,IMAT)
-      G      = PM(22,IMAT)
-      A11    = PM(24,IMAT)
-      A12    = PM(25,IMAT)
-      CA     = PM(38,IMAT)
-      CB     = PM(39,IMAT)
-      CN     = PM(40,IMAT)
-      EPMX   = PM(41,IMAT)
-      YMAX   = PM(42,IMAT)
-      CC     = PM(43,IMAT)
-      ICC    = NINT(PM(49,IMAT))
-      IRTY   = NINT(PM(50,IMAT))
-      Z3     = PM(51,IMAT)
-      FISOKIN= PM(55,IMAT)
+!---
+      iform  = mat_param%iparam(1)
+      icc    = mat_param%iparam(2)
+      vp     = mat_param%iparam(3)
+      israte = mat_param%iparam(4)
 !
-      ! Recover internal variables
-      DO I=JFT,JLT              
-        EPDR(I) = MAX(EM20,PM(44,IMAT)*DT1)            
-      ENDDO
+      young  = mat_param%young
+      g      = mat_param%shear
+      nu     = mat_param%nu   
+      a11    = young / (one - nu**2) 
+      a12    = a11 *nu
 !
-      IF (IRTY == 1) THEN       ! Zerilli
-        RHOCP = PM(53,IMAT)     ! = 1 /rhocp             
-        Z4    = PM(52,IMAT)                    
-        TREF  = PM(54,IMAT)                    
-        IF (JTHE /= 0) THEN      
-          DO I=JFT,JLT
-            TEMPEL(I) = TREF + RHOCP*(EINT(I,1)+EINT(I,2))/VOL(I)
-          ENDDO
-        ENDIF
+      ca     = mat_param%uparam(1)          ! pm(38)
+      cb     = mat_param%uparam(2)          ! pm(39)
+      cn     = mat_param%uparam(3)          ! pm(40)
+      epmx   = mat_param%uparam(4)          ! pm(41)
+      ymax   = mat_param%uparam(5)          ! pm(41)
+      cc     = mat_param%uparam(6)          ! pm(43)
+      epdr   = mat_param%uparam(7)          ! pm(44)
+      epdr   = max(epdr*dt1, em20)   
+      fisokin= mat_param%uparam(8)          ! pm(55)
+
+      tref   = mat_param%therm%tref 
+      tmelt  = mat_param%therm%tmelt
+      rhocp  = mat_param%therm%rhocp
+!
+      IF (IFORM == 1) THEN       ! Zerilli
+        Z3    = mat_param%uparam(10)
+        Z4    = mat_param%uparam(11)                    
+        m_exp = one
       ELSE                       ! Johnson-Cook
-        RHOCP = PM(69,IMAT)                  
-        TREF  = PM(79,IMAT)                    
-        TMELT = PM(80,IMAT)                    
-        DO I=JFT,JLT
+        z3 = zero
+        z4 = zero                 
+        m_exp = mat_param%uparam(10)
+        DO I=1,NEL
           TSTAR(I) = MAX( ZERO, (TEMPEL(I)-TREF)/(TMELT-TREF) )
         ENDDO
       END IF             
@@ -140,18 +128,20 @@ C-----------------------------------------------
       ! Old filtered value already stored in EPSD
 !
       IF (VP == 1) THEN 
-        DO I=JFT,JLT
+        DO I=1,NEL
           EPSDOT(I) = EPSD(I)*DT1 
         ENDDO
       ! -> Total strain rate
       ELSEIF (VP == 2) THEN
-        DO I=JFT,JLT
+        DO I=1,NEL  
           EPSD(I)   = ASRATE*EPSD_PG(I) + (ONE-ASRATE)*EPSD(I)
           EPSDOT(I) = EPSD(I) * DT1
+!          EPSDOT(I) = EPSPDT(I) 
+!          EPSD(I) = EPSPDT(I)/MAX(DT1,EM20)
         ENDDO   
       ! -> Deviatoric strain rate    
       ELSEIF (VP == 3) THEN
-        DO I=JFT,JLT
+        DO I=1,NEL
           DAV   = (EPSPXX(I)+EPSPYY(I))*THIRD
           DEVE1 = EPSPXX(I) - DAV
           DEVE2 = EPSPYY(I) - DAV
@@ -162,43 +152,42 @@ C-----------------------------------------------
           IF (ISRATE > 0) THEN 
             EPSDOT(I) = ASRATE*EPSDOT(I) + (ONE - ASRATE)*EPSD(I)
           ENDIF
-          EPSD(I)   = EPSDOT(I)
+          EPSD(I) = EPSDOT(I)
           EPSDOT(I) = EPSDOT(I)*DT1
         ENDDO 
       ENDIF
 !----------------------------
 !         CONTRAINTES PLASTIQUEMENT ADMISSIBLES
 !----------------------------
-      CALL M2CPLR(JFT     ,JLT     ,EZZ      ,OFF_OLD  ,PLA     ,
-     2            IPLA    ,TEMPEL  ,Z3       ,Z4       ,
-     3            IRTY    ,ETSE    ,GS       ,EPSDOT   ,
-     4            ISRATE  ,YLD     ,G        ,A11      ,A12     ,
-     5            NU      ,CA      ,CB       ,CN       ,YMAX    ,
-     6            EPCHK   ,YOUNG   ,CC       ,EPDR     ,ICC     ,
-     7            DPLA    ,TSTAR   ,FISOKIN  ,G_IMP    ,SIGKSI  ,
-     8            HARDM   ,NEL     ,DEPSXX   ,DEPSYY   ,DEPSXY  ,
-     9            DEPSYZ  ,DEPSZX  ,SIGNXX   ,SIGNYY   ,SIGNXY  ,
-     A            SIGNYZ  ,SIGNZX  ,SIGBAKXX ,SIGBAKYY ,SIGBAKXY,
-     B            SIGOXX  ,SIGOYY  ,SIGOXY   ,SIGOYZ   ,SIGOZX  ,
-     C            VP      )
+      CALL M2CPLR(NEL     ,EZZ     ,OFF_OLD ,PLA     ,
+     2            IPLA    ,TEMPEL  ,Z3      ,Z4      ,M_EXP   ,
+     3            IFORM   ,ETSE    ,GS      ,EPSDOT  ,VP      ,
+     4            ISRATE  ,YLD     ,G       ,A11     ,A12     ,
+     5            NU      ,CA      ,CB      ,CN      ,YMAX    ,
+     6            EPCHK   ,YOUNG   ,CC      ,EPDR    ,ICC     ,
+     7            DPLA    ,TSTAR   ,FISOKIN ,G_IMP   ,SIGKSI  ,
+     8            HARDM   ,DEPSXX  ,DEPSYY  ,DEPSXY  ,
+     9            DEPSYZ  ,DEPSZX  ,SIGNXX  ,SIGNYY  ,SIGNXY  ,
+     A            SIGNYZ  ,SIGNZX  ,SIGBAKXX,SIGBAKYY,SIGBAKXY,
+     B            SIGOXX  ,SIGOYY  ,SIGOXY  ,SIGOYZ  ,SIGOZX  )
 !
 !--------------------------------------------
 !     UPDATE AND FILTER PLASTIC STRAIN RATE
 !--------------------------------------------
       IF (VP == 1) THEN
-        DO I=JFT,JLT
+        DO I=1,NEL
           EPSDOT(I) = DPLA(I)/MAX(EM20,DT1)
           EPSD(I)   = ASRATE*EPSDOT(I) + (ONE - ASRATE)*EPSD(I)
         ENDDO
       ENDIF
 !--------------------------------------------
-      DO I=JFT,JLT
+      DO I=1,NEL
         SIGY(I) = SIGY(I) + YLD(I)/NPTT
       ENDDO
 !----------------------------
 ! Ductile rupture test
 !----------------------------
-        DO I=JFT,JLT
+        DO I=1,NEL
           IF (OFF(I) == OFF_OLD(I) .and. OFF(I) > ZERO) THEN
             IF (OFF(I) == ONE .and. EPCHK(I) >= EPMX) THEN
               OFF(I)= FOUR_OVER_5
@@ -211,7 +200,7 @@ C-----------------------------------------------
 c------------------------------------            
 !     thickness update:
 c------------------------------------            
-      DO I=JFT,JLT
+      DO I=1,NEL
         IF (INLOC > 0) THEN
           IF (LOFF(I) == ONE) THEN 
             EZZ(I) = -NU*(SIGNXX(I)-SIGOXX(I)+SIGNYY(I)-SIGOYY(I))/YOUNG
@@ -231,14 +220,12 @@ C-----------------
         DO I=1,NEL
           FHEAT(I) = FHEAT(I) + SIGY(I)*DPLA(I)*VOL(I)
         ENDDO
-      ELSEIF(RHOCP > ZERO)THEN
-        IF(IRTY /= 1)THEN ! Johnson-Cook only
-          DO I=1,NEL
-            TEMPEL(I) = TEMPEL(I) + SIGY(I)*DPLA(I) / RHOCP
-            ! internal energy incremented later in parent subroutine (mmain)
-            !  with total energy deformation which already includes plastic work
-          ENDDO
-        ENDIF
+      ELSEIF (RHOCP > ZERO) THEN   ! adiabatic conditions => temp is updated locally
+        DO I=1,NEL
+          TEMPEL(I) = TEMPEL(I) + SIGY(I)*DPLA(I) / RHOCP
+          ! internal energy incremented later in parent subroutine (mmain)
+          ! with total energy deformation which already includes plastic work
+        ENDDO
       END IF
 c-----------
       RETURN

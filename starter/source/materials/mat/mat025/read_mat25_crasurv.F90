@@ -83,15 +83,15 @@
           character(len=nchartitle)              ,intent(in)    :: titr      !< material law title
 !
           integer                                ,intent(inout) :: israte    !< strain rate flag
-          real(kind=WP), dimension(100)                ,intent(inout) :: parmat    !< temporary material parameter table
-          real(kind=WP), dimension(npropm)             ,intent(inout) :: pm        !< material parameter table
+          real(kind=WP), dimension(128)          ,intent(inout) :: parmat    !< temporary material parameter table
+          real(kind=WP), dimension(npropm)       ,intent(inout) :: pm        !< material parameter table
           type(matparam_struct_)                 ,intent(inout) :: mat_param !< material parameter structure
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   local variables
 ! ----------------------------------------------------------------------------------------------------------------------
           logical :: is_available,is_encrypted
           integer :: ioff,icc,iflag,imodwp
-          real(kind=WP) :: rho0,rhor,e11,e22,e33,g12,g23,g31,n12,n21,           &
+          real(kind=WP) :: rho0,rhor,e11,e22,e33,g12,g23,g31,n12,n21,     &
             epst1,epst2,asrate,nu,young,gmax,                             &
             sigyt1,sigyt2,sigyc1,sigyc2,sigyt12,sigyc12,                  &
             c1,ssp,f1,f2,f11,f22,f33,f12,ft1,wplamx,                      &
@@ -500,6 +500,9 @@
           mat_param%uparam(69) = wplamxc1      !  pm(177)
           mat_param%uparam(70) = wplamxc2      !  pm(181)
           mat_param%uparam(71) = wplamxt12     !  pm(185)
+! ----------------------------------------------------------------------------------------------------------------------
+          mat_param%rho  = rhor
+          mat_param%rho0 = rho0
 ! ----------------------------------------------------------------------------------------------------------------------
           ! for ply xfem
 

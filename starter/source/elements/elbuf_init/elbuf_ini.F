@@ -37,7 +37,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||====================================================================
       SUBROUTINE ELBUF_INI(ELBUF_TAB ,MAT_PARAM,
      .           MLAW_TAG  ,PROP_TAG ,FAIL_TAG ,
-     .           IGEO      ,IPM      ,PM       ,IPARG    ,IPART     ,
+     .           IGEO      ,IPM      ,IPARG    ,IPART     ,
      .           IPARTSP   ,IXS      ,IXQ      ,IXC      ,IXTG      ,
      .           FLAG_XFEM ,IPARTIG3D,STACK    ,IGEO_STACK,
      .           IXT       ,IXP      ,IXR      ,KXX      ,GEO       ,
@@ -78,7 +78,7 @@ C-----------------------------------------------
      .        IXS(NIXS,NUMELS),IXQ(NIXQ,NUMELQ),IXC(NIXC,NUMELC),IXTG(NIXTG,NUMELTG),
      .        FLAG_XFEM,IPARTIG3D(*),IGEO_STACK(NPROPGI,*),
      .        IXT(NIXT,NUMELT),IXP(NIXP,NUMELP),IXR(NIXR,NUMELR),KXX(NIXX,*)
-      my_real :: PM(NPROPM,NUMMAT),GEO(NPROPG,NUMGEO)
+      my_real :: GEO(NPROPG,NUMGEO)
       INTEGER, INTENT(IN) :: PRINT_FLAG !< flag to print the element group data
       TYPE(ELBUF_STRUCT_),TARGET ,DIMENSION(NGROUP)     :: ELBUF_TAB
       TYPE(MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(IN) :: MAT_PARAM
@@ -1069,7 +1069,7 @@ c          print*,'   nlay,nptr,npts,nptt=',nlay,nptr,npts,nptt
 c-------------------------------------------------
           CALL ALLOCBUF_AUTO(ELBUF_TAB,NLAY,NPTR,NPTS,NPTT,
      .                   NINTLAY,NEL,NPT,NG,NGROUP,ITY,
-     .                   IGTYP,NPROPM,NUMMAT,PM )
+     .                   IGTYP,NUMMAT,MAT_PARAM)
 c-------------------------------------------------
           DEALLOCATE(TFAIL)
           DEALLOCATE(FAILID)
@@ -1959,7 +1959,7 @@ c          print*,' elbuf_ini : NG, buflen=',NG,buflen,ITY,IGTYP
 c-------------------------------------------------
           CALL ALLOCBUF_AUTO(ELBUF_TAB,NLAY,NPTR,NPTS,NPTT,
      .                       NINTLAY,NEL,NPT,NG,NGROUP,ITY,
-     .                       IGTYP,NPROPM,NUMMAT,PM )
+     .                       IGTYP,NUMMAT,MAT_PARAM)
 c-------------------------------------------------
           DEALLOCATE(TFAIL)
           DEALLOCATE(FAILID)
@@ -2452,7 +2452,7 @@ c
 c-------------------------------------------------
           CALL ALLOCBUF_AUTO(ELBUF_TAB,NLAY,NPTR,NPTS,NPTT,
      .                       NINTLAY,NEL,NPT,NG,NGROUP,ITY,
-     .                       IGTYP,NPROPM,NUMMAT,PM )
+     .                       IGTYP,NUMMAT,MAT_PARAM)
 C
           IF (ALLOCATED(IMAT)) DEALLOCATE(IMAT)
           IF (ALLOCATED(ILAW)) DEALLOCATE(ILAW)

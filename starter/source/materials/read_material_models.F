@@ -217,7 +217,8 @@ c-------------------------------------------------------------------
 c     /THERM/STRESS : thermal expansion
 c-------------------------------------------------------------------
       CALL HM_READ_THERM_STRESS(NUMMAT   ,MAT_ELEM%MAT_PARAM,MLAW_TAG, UNITAB, LSUBMODEL, 
-     .                          IOUT     ,NPROPM   ,NPROPMI   ,IPM      ,PM     )
+     .                          IOUT     ,NPROPM   ,NPROPMI   ,IPM      ,PM     ,
+     .                          nfunct   ,snpc     ,npc       )
 
 c-------------------------------------------------------------------
 c     /NONLOCAL : Non-local regularization

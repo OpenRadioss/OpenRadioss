@@ -5505,9 +5505,10 @@ C-----------------------------------------------------
 C-----------------
 C  Global Mat for PID 11 and PID51 (for shell)
 C-------------------------
-!!      IF(IGLOBMAT > 0) THEN ! global flag can be added
-      CALL GLOBMAT(IGEO  , GEO   ,PM ,STACK%PM, STACK%GEO,STACK%IGEO)
-!!      ENDIF
+
+      CALL GLOBMAT(IGEO  , GEO   ,PM ,STACK%PM, STACK%GEO,STACK%IGEO,
+     .             MAT_ELEM%MAT_PARAM)
+
 C-------------------------
 C Fill index to renumber Solid elements after Domain Decomposition
 C Array has 2 parts :
@@ -8337,7 +8338,7 @@ c
 C
       CALL ELBUF_INI(ELBUF_TAB,MAT_ELEM%MAT_PARAM,
      .               MLAW_TAG ,PROP_TAG ,FAIL_TAG ,
-     .               IGEO     ,IPM      ,PM       ,IPARG      ,IPART     ,
+     .               IGEO     ,IPM      ,IPARG      ,IPART     ,
      .               IPARTSP  ,IXS      ,IXQ      ,IXC        ,IXTG      ,
      .               FLAG_XFEM,IPARTIG3D,STACK    ,IGEO_STACK ,
      .               IXT      ,IXP      ,IXR      ,KXX        ,GEO       ,
@@ -8353,7 +8354,7 @@ c
         DO IXEL=1,NXEL
           CALL ELBUF_INI(XFEM_TAB(1:NGROUP,IXEL),MAT_ELEM%MAT_PARAM,
      .         MLAW_TAG ,PROP_TAG ,FAIL_TAG ,
-     .         IGEO                   ,IPM      ,PM       ,IPARG    ,IPART     ,
+     .         IGEO                   ,IPM      ,IPARG    ,IPART     ,
      .         IPARTSP                ,IXS      ,IXQ      ,IXC      ,IXTG      ,
      .         FLAG_XFEM              ,IPARTIG3D,STACK    ,IGEO_STACK,
      .         IXT                    ,IXP      ,IXR      ,KXX      ,GEO       ,

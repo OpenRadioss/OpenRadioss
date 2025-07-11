@@ -137,7 +137,7 @@ C
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,IFLAG,IGTYP,NUPARAM,NUVAR,NFUNC,IFUNC_ALPHA,IMAT
+      INTEGER I,IFLAG,IGTYP,NUVAR,NFUNC,IFUNC_ALPHA,IMAT
       INTEGER MAT(MVSIZ),PID(MVSIZ),NGL(MVSIZ),IFUNC(100),
      .   NC1(MVSIZ),NC2(MVSIZ),NC3(MVSIZ),IPT
       my_real 
@@ -176,6 +176,9 @@ C-----------------------------------------------
      3   X1,      X2,      X3,      Y1,
      4   Y2,      Y3,      Z1,      Z2,
      5   Z3,      NEL)
+      IGTYP = IGEO(11,PID(1))
+      IMAT  = MAT(1)
+
       CALL PEVEC3(
      1   GBUF%SKEW,R,        AL,       NC1,
      2   NC2,      NC3,      X1,       X2,
@@ -185,9 +188,7 @@ C-----------------------------------------------
      6   RZ2G,     E1X,      E1Y,      E1Z,
      7   E2X,      E2Y,      E2Z,      E3X,
      8   E3Y,      E3Z,      NEL)
-      IF (ISMSTR /= 0) CALL PPXPY3(
-     1   GBUF%LENGTH,AL,         NEL)
-      IGTYP = IGEO(11,PID(1))
+      IF (ISMSTR /= 0) CALL PPXPY3(GBUF%LENGTH,AL,NEL)
       CALL PDLEN3(
      1   JFT,      JLT,      PM,       GEO,
      2   GBUF%OFF, DT2T,     NELTST,   ITYPTST,
@@ -212,9 +213,6 @@ C-----------------------------------------------
      7   E2Y,     E2Z,     E3X,     E3Y,
      8   E3Z,     PID,     NEL)
 C---
-      IMAT = MAT(1)
-      NUPARAM = IPM(9,MAT(1))
-C---
       DIE(1:NEL)   = ZERO
       IF (JTHE > 0) THEN 
          DO I=1,NEL 
@@ -228,10 +226,10 @@ C---
         DTEMP(1:NEL) = TEMPEL(1:NEL) - GBUF%TEMP(1:NEL)
         GBUF%TEMP(1:NEL) = TEMPEL(1:NEL)
 c      
+        IFUNC_ALPHA = MAT_PARAM(IMAT)%THERM%FUNC_THEXP
+        FSCAL_ALPHA = MAT_PARAM(IMAT)%THERM%SCALE_THEXP
         DO I=1,NEL 
-          IFUNC_ALPHA = IPM(219, MAT(I))
-          FSCAL_ALPHA = PM(191, MAT(I))
-          ALPHA = FSCAL_ALPHA*FINTER(IFUNC_ALPHA,TEMPEL(I),NPF,TF,DF)
+          ALPHA  = FSCAL_ALPHA * FINTER(IFUNC_ALPHA,TEMPEL(I),NPF,TF,DF)
           ETH(I) = ALPHA*DTEMP(I)
           DEINTTH = - HALF*GBUF%FOR(I)*ETH(I)*AL(I)*OFF(I) 
           GBUF%EINTTH(I) = GBUF%EINTTH(I)  + DEINTTH
@@ -318,7 +316,7 @@ C
           ENDDO
         ENDIF
         DO I=1,NEL 
-          DIE(I) = (GBUF%EINT(I) + GBUF%EINT(NEL + I) - DIE(I))*PM(90,MAT(I))
+          DIE(I) = (GBUF%EINT(I)+GBUF%EINT(NEL+I)-DIE(I)) * MAT_PARAM(IMAT)%THERM%EFRAC
         ENDDO
       ENDIF            
 C--------------------------
@@ -374,19 +372,19 @@ C-------------------------
 c     Thermal flux 
 C--------------------------
 C
-       IF (JTHE > 0) THEN
+      IF (JTHE > 0) THEN
         DO I=1,NEL
-          CA = PM(75,MAT(I))
-          CB = PM(76,MAT(I))
-          AREA =GEO(1,PID(I)) 
+          CA = MAT_PARAM(IMAT)%THERM%AS
+          CB = MAT_PARAM(IMAT)%THERM%BS
+          AREA = GEO(1,PID(I)) 
           KC = (CA + CB*TEMPEL(I))*DT2T *AREA/AL(I)   
           PHIX = KC*(TEMP(NC2(I)) - TEMP(NC1(I)))
 C
-C nodal thermal force
+C         nodal thermal force
 C
           FPHI(I,1) = HALF * DIE(I) + PHIX ! 
           FPHI(I,2) = HALF * DIE(I) - PHIX
-         ENDDO
+        ENDDO
       ENDIF     
 C-------------------------
 C     ASSEMBLAGE

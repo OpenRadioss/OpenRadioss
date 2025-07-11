@@ -32,14 +32,14 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    message_mod              ../starter/share/message_module/message_mod.F
 !||    submodel_mod             ../starter/share/modules1/submodel_mod.F
 !||====================================================================
-      SUBROUTINE HM_READ_EOS_NASG(IOUT,PM,UNITAB,IUNIT,LSUBMODEL,IMIDEOS,EOS_STRUCT)
+      SUBROUTINE HM_READ_EOS_NASG(IOUT,PM,UNITAB,IUNIT,LSUBMODEL,IMIDEOS,MAT_PARAM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
       USE SUBMODEL_MOD
       USE MESSAGE_MOD
-      USE EOS_PARAM_MOD , ONLY : EOS_PARAM_
+      USE MATPARAM_DEF_MOD, ONLY : MATPARAM_STRUCT_
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -63,8 +63,8 @@ C-----------------------------------------------
       INTEGER IIN,IOUT,IUNIT
       my_real PM(NPROPM)
       TYPE(SUBMODEL_DATA), DIMENSION(NSUBMOD), INTENT(IN) :: LSUBMODEL
+      TYPE(MATPARAM_STRUCT_),INTENT(INOUT) :: MAT_PARAM
       INTEGER,INTENT(IN) :: IMIDEOS
-      TYPE(EOS_PARAM_),INTENT(INOUT) :: EOS_STRUCT
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -101,6 +101,7 @@ C-----------------------------------------------
       IF(RHO0 > ZERO) THEN
         RHOR = RHO0
         PM(1)= RHO0 
+        MAT_PARAM%RHO = RHO0
       ELSE
         RHO0=RHOR                   
       ENDIF
@@ -130,25 +131,26 @@ C-----------------------------------------------
       PM(088)=PSH
       PM(023)=E0
       PM(031)=P0
-      PM(079)=T0
-      IF(PM(79)==ZERO)PM(79)=THREE100
 
-      EOS_STRUCT%NUPARAM = 7
-      EOS_STRUCT%NIPARAM = 0
-      EOS_STRUCT%NFUNC = 0
-      EOS_STRUCT%NTABLE = 0
-      CALL EOS_STRUCT%CONSTRUCT() !allocations
+      MAT_PARAM%EOS%NUPARAM = 7
+      MAT_PARAM%EOS%NIPARAM = 0
+      MAT_PARAM%EOS%NFUNC = 0
+      MAT_PARAM%EOS%NTABLE = 0
+      CALL MAT_PARAM%EOS%CONSTRUCT() !allocations
 
-      EOS_STRUCT%UPARAM(1) = GAMMA
-      EOS_STRUCT%UPARAM(2) = P0
-      EOS_STRUCT%UPARAM(3) = PSTAR
-      EOS_STRUCT%UPARAM(4) = Q
-      EOS_STRUCT%UPARAM(5) = Q_
-      EOS_STRUCT%UPARAM(6) = B
-      EOS_STRUCT%UPARAM(7) = RHO0
+      MAT_PARAM%EOS%UPARAM(1) = GAMMA
+      MAT_PARAM%EOS%UPARAM(2) = P0
+      MAT_PARAM%EOS%UPARAM(3) = PSTAR
+      MAT_PARAM%EOS%UPARAM(4) = Q
+      MAT_PARAM%EOS%UPARAM(5) = Q_
+      MAT_PARAM%EOS%UPARAM(6) = B
+      MAT_PARAM%EOS%UPARAM(7) = RHO0
 
-      EOS_STRUCT%PSH = PSH
-      EOS_STRUCT%CV = Cv
+      MAT_PARAM%EOS%PSH = PSH
+      MAT_PARAM%EOS%CV = Cv
+      IF (T0 == ZERO) T0 = THREE100
+      MAT_PARAM%THERM%TINI =T0
+      PM(79) = T0
       
       !P0
       IF(RHOI == ZERO)THEN

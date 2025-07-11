@@ -43,7 +43,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    preload_axial_mod   ../engine/source/elements/spring/preload_axial.F90
 !||    sensor_mod          ../common_source/modules/sensor_mod.F90
 !||====================================================================
-      SUBROUTINE TFORC3(
+      SUBROUTINE TFORC3(mat_param ,NUMMAT,
      1   ELBUF_STR,JFT,      JLT,      PM,
      2   GEO,      NCT,      X,        F,
      3   V,        PARTSAV,  BUFMAT,   DT2T,
@@ -64,6 +64,7 @@ C-----------------------------------------------
       USE PRELOAD_AXIAL_MOD
       USE DT_MOD
       USE SENSOR_MOD
+      use matparam_def_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -84,6 +85,7 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) :: IGRE
       INTEGER, INTENT(IN) :: NFT
       INTEGER, INTENT(IN) :: MTN
+      INTEGER, INTENT(IN) :: NUMMAT
       INTEGER, INTENT(IN) :: JSMS
       INTEGER NCT(*),IADT(2,*),IPARTT(*),OFFSET,
      .        JFT,JLT,NELTST,ITYPTST,NEL,GRTH(*),IPM(NPROPMI,*),
@@ -98,11 +100,12 @@ C
       TYPE(H3D_DATABASE) :: H3D_DATA
       TYPE (DT_), INTENT(IN) :: DT
       type (sensors_),INTENT(INOUT) :: SENSORS
-
+      TYPE (MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(IN) :: MAT_PARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER  LCO,NUVAR,NFUNC,IFUNC(100),I
+      INTEGER  I,IMAT,LCO,NUVAR,NFUNC
+      INTEGER  IFUNC(100)
       INTEGER  MAT(MVSIZ),PID(MVSIZ),NGL(MVSIZ),NC1(MVSIZ),NC2(MVSIZ)
       my_real 
      .   STI(MVSIZ),OFF(MVSIZ),
@@ -131,6 +134,7 @@ C
      5   X1,      X2,      Y1,      Y2,
      6   Z1,      Z2,      NEL)
 C-------     activation only in compression in laws
+      IMAT = MAT(1)
       DO I=1,NEL
        IF (GEO(2,PID(I))>ZERO .AND. GBUF%OFF(I)>ZERO) OFF(I)=ZERO
       ENDDO
@@ -149,10 +153,10 @@ C-------     activation only in compression in laws
      4   NEL)
 c
       ELSEIF (MTN == 2) THEN
-        CALL M2LAWT(
-     1   PM,         GEO,        OFF,        GBUF%FOR,
+        CALL M2LAWT(mat_param(imat) ,
+     1   GEO,        OFF,        GBUF%FOR,
      2   GBUF%EINT,  GBUF%AREA,  GBUF%LENGTH,GBUF%PLA,
-     3   STI,        MAT,        PID,        NGL,
+     3   STI,        PID,        NGL,
      4   EPS,        AL,         NEL)
 c
       ELSEIF (MTN == 34) THEN

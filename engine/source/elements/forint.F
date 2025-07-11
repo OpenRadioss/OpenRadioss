@@ -966,7 +966,7 @@ c            IF (NPTR==0) NPTR=IINT
      J         FTHESKY    ,IEXPAN    ,IGEO     ,NPT0       ,GRESAV     ,
      K         GRTH       ,IGRTH(NF1),MSSA(NF1),DMELS(NF1) ,TABLE      ,
      L         XDP        ,VOLN      ,CONDN    ,CONDNSKY   ,JFAC,
-     M         D          ,SENSORS   ,IPRI     ,MAt_ELEM   ,IBID,DT ,SNPC,
+     M         D          ,SENSORS   ,IPRI     ,MAT_ELEM   ,IBID,DT ,SNPC,
      N         STF        ,SBUFMAT   ,SVIS     ,NSVOIS     ,IDTMINS  ,
      O         IRESP      ,MAXFUNC   ,USERL_AVAIL, GLOB_THERM, 
      P         impl_s     ,idyna)
@@ -1082,7 +1082,7 @@ C-------------------------
      P   VOLN,       CONDN,      CONDNSKY,   AGRAV,
      Q   IGRV,       LGRAV,      SENSORS,    SKEW,
      R   NALE,       D,          IPRI,       NLOC_DMG,
-     S   MAt_ELEM,   IBID,       DT,         IDEL7NOK,NSVOIS,
+     S   MAT_ELEM,   IBID,       DT,         IDEL7NOK,NSVOIS,
      T   IBID,       SNPC,       STF,        SBUFMAT,SVIS,IDTMINS,
      U   IRESP,      IDEL7NG,    MAXFUNC,    USERL_AVAIL, GLOB_THERM, 
      V   impl_s,     idyna,      OUTPUT%TH%WFEXT)
@@ -1219,7 +1219,7 @@ C
           IF (ISENS_ENERGY == 1 .AND. IPRI == 0)
      .     CALL SENSOR_ENERGY_PART(IPARTT(NF1) ,SUBSET ,IPRI,SENSORS,ITASK)
 c
-          CALL TFORC3(
+          CALL TFORC3(MAT_ELEM%MAT_PARAM,NUMMAT,
      1   ELBUF_TAB(NG),       JFT,                 JLT,                 PM,
      2   GEO,                 IXT,                 X,                   A,
      3   V,                   PARTSAV,             BUFMAT,              DT2T,
