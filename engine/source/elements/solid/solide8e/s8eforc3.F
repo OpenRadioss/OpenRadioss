@@ -1726,8 +1726,8 @@ C
          IF (JTHE < 0) THEN
            IMAT = MXT(1)
            IF (MAT_ELEM%MAT_PARAM(IMAT)%HEAT_FLAG == 1) THEN
-             CALL S8ETHERM(
-     1            PM,       IMAT,     VOLN,     NI,
+             CALL S8ETHERM(MAT_ELEM%MAT_PARAM(IMAT),
+     1            VOLN,     NI,
      2            NC1,      NC2,      NC3,      NC4,
      3            NC5,      NC6,      NC7,      NC8,
      4            PX1(1,IP),PX2(1,IP),PX3(1,IP),PX4(1,IP),
@@ -1740,8 +1740,8 @@ C
      B            THEM,     GBUF%OFF, LBUF%OFF, PARTSAV,
      C            IPARTS,   LBUF%VOL, NEL,GLOB_THERM%THEACCFACT)
            ELSE
-             CALL S8ETHERM(
-     1            PM,       IMAT,     VOLN,     NI,
+             CALL S8ETHERM(MAT_ELEM%MAT_PARAM(IMAT),
+     1            VOLN,     NI,
      2            NC1,      NC2,      NC3,      NC4,
      3            NC5,      NC6,      NC7,      NC8,
      4            PX1(1,IP),PX2(1,IP),PX3(1,IP),PX4(1,IP),

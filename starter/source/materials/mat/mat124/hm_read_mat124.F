@@ -38,7 +38,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       SUBROUTINE HM_READ_MAT124(
      .           UPARAM   ,MAXUPARAM,NUPARAM  ,NUVAR    ,MTAG     ,
      .           PARMAT   ,UNITAB   ,PM       ,LSUBMODEL,ISRATE   ,
-     .           ASRATE   ,MAT_ID   ,TITR     ,MATPARAM )
+     .           MAT_ID   ,TITR     ,MATPARAM )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -71,7 +71,6 @@ C-----------------------------------------------
       TYPE(SUBMODEL_DATA), DIMENSION(*),INTENT(IN) :: LSUBMODEL
       TYPE(MLAW_TAG_), INTENT(OUT)                 :: MTAG
       TYPE(MATPARAM_STRUCT_) ,INTENT(INOUT)        :: MATPARAM 
-      my_real, INTENT(INOUT)                       :: ASRATE  
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -100,7 +99,7 @@ card2 - Elasticity, flags, strain-rate effect and filtering
       CALL HM_GET_FLOATV('MAT_NU'     ,NU         ,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_INTV  ('IDEL'       ,IDEL       ,IS_AVAILABLE,LSUBMODEL)
       CALL HM_GET_INTV  ('IRATE'      ,IRATE      ,IS_AVAILABLE,LSUBMODEL)
-      CALL HM_GET_FLOATV('FCUT'       ,ASRATE     ,IS_AVAILABLE,LSUBMODEL,UNITAB)
+      CALL HM_GET_FLOATV('FCUT'       ,FCUT       ,IS_AVAILABLE,LSUBMODEL,UNITAB)
 card3 - Eccentricity, strength limits and hardening
       CALL HM_GET_FLOATV('MAT_ECC'    ,ECC        ,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV('MAT_QH0'    ,QH0        ,IS_AVAILABLE,LSUBMODEL,UNITAB)  
@@ -222,12 +221,12 @@ c-----------------------------
       IF (IRATE > 1) THEN
         ISRATE  = 1
         ! Strain rate filtering frequency
-        IF (ASRATE == ZERO) THEN 
-          ASRATE = 10000.0D0*UNITAB%FAC_T_WORK  
+        IF (FCUT == ZERO) THEN 
+          FCUT = 10000.0D0*UNITAB%FAC_T_WORK  
         ENDIF
       ELSE 
         ISRATE  = 0
-        ASRATE  = ZERO
+        FCUT  = ZERO
       ENDIF
 c
 c--------------------------
@@ -286,7 +285,7 @@ c
       PARMAT(2) = YOUNG
       PARMAT(3) = NU
       PARMAT(4) = ISRATE
-      PARMAT(5) = ASRATE
+      PARMAT(5) = FCUT
 c
       ! PM table
       PM(1)  = RHO0
@@ -332,7 +331,7 @@ c--------------------------
         WRITE(IOUT,1200) RHO0
         WRITE(IOUT,1300) YOUNG,NU
         WRITE(IOUT,1400) IRATE
-        IF (IRATE > 0) WRITE(IOUT,1500) ASRATE
+        IF (IRATE > 0) WRITE(IOUT,1500) FCUT
         WRITE(IOUT,1600) ECC,QH0,FT,FC,HP
         WRITE(IOUT,1700) AH,BH,CH,DH
         WRITE(IOUT,1800) AS,DF,BS

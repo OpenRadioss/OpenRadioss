@@ -187,13 +187,13 @@ c
      .         MAT    ,PID       )
 c
         CASE (2)  ! Johnson-Cook
-          CALL M2LAWP(
-     .         PM     ,FOR        ,MOM      ,EINT      ,GEO      ,        
-     .         OFF    ,ELBUF_STR%GBUF%PLA   ,EXX       ,EXY      ,EXZ      ,
-     .         KXX    ,KYY        ,KZZ      ,AL        ,F1       ,
-     .         F2     ,F3         ,M1       ,M2        ,M3       ,
-     .         NEL    ,MAT        ,PID      ,NGL       ,IPM      ,
-     .         NUMMAT ,NUVAR      ,UVAR     ,SIGY     )
+          CALL M2LAWP (MAT_PARAM  ,
+     .         FOR    ,MOM      ,EINT      ,GEO      ,        
+     .         OFF    ,ELBUF_STR%GBUF%PLA  ,EXX      ,EXY      ,EXZ      ,
+     .         KXX    ,KYY      ,KZZ      ,AL        ,F1       ,
+     .         F2     ,F3       ,M1       ,M2        ,M3       ,
+     .         NEL    ,PID      ,NGL       ,
+     .         NUVAR  ,UVAR     ,SIGY     )
 c
         CASE (44)  ! Cowper-Symonds
           IADBUF  = IPM(7 ,IMAT)
@@ -243,12 +243,10 @@ c     failure models
 c---------------------------
       IF (IFAIL > 0) THEN
 c
-        CALL FAIL_BEAM3(ELBUF_STR    ,MAT_PARAM%FAIL(1),NUMMAT  ,
-     .              NPROPM  ,SNPC    ,STF     ,
-     .              NEL     ,IMAT    ,JTHE    ,DPLA    ,
-     .              TEMPEL  ,NGL     ,PM      ,
-     .              OFF     ,EPSD    ,NPF     ,TF      ,
-     .              TIME    ,IOUT    ,ISTDO   ,
+        CALL FAIL_BEAM3(ELBUF_STR    ,MAT_PARAM,MAT_PARAM%FAIL(1),
+     .              SNPC    ,STF     ,NEL     ,JTHE    ,DPLA    ,
+     .              TEMPEL  ,NGL     ,OFF     ,EPSD    ,NPF     ,
+     .              TF      ,TIME    ,IOUT    ,ISTDO   ,
      .              SVM     ,PRESSURE,AREA    ,AL      ,
      .              F1      ,F2      ,F3      ,M1      ,M2      ,
      .              M3      ,ISMSTR  ,EXX     ,EXY     ,EXZ     ,

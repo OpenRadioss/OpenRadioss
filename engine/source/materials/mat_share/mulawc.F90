@@ -366,13 +366,13 @@
           integer :: numtabl
           integer :: ipt
           integer :: i,k,ii,jj,jmly,ipg,it,ifl,ilay,npg,mpt,mx,imat, &
-            irupt,nfail,iadbuf,igtyp,nuvar,nvarf,jdir,&
-            nfunc, jpos, nindx,nupar,niparam,nuparam,nuparam0,nfunc_fail,ntabl_fail,&
-            ifailwv,nsensor,iun,ibidon1,ibidon2,ibidon3,&
-            iptx,ilayer,irot,dmg_flag,lf_dammx,nipar,&
-            igmat,ipgmat,nptt,ipt_all,npttot,nuvarv,ilaw,&
-            ply_id,iseq,progressive_crack,&
-            orth_damage,l_dmg,iprony,israte,nvartmp,inloc,idrape,vp,nvar_damp,flag_incr
+                     irupt,nfail,iadbuf,igtyp,nuvar,nvarf,jdir,&
+                     nfunc, jpos, nindx,nupar,niparam,nuparam,nuparam0,nfunc_fail,ntabl_fail,&
+                     ifailwv,nsensor,iun,ibidon1,ibidon2,ibidon3,&
+                     iptx,ilayer,irot,dmg_flag,lf_dammx,nipar,&
+                     igmat,ipgmat,nptt,ipt_all,npttot,nuvarv,ilaw,&
+                     ply_id,iseq,progressive_crack,&
+                     orth_damage,l_dmg,iprony,israte,nvartmp,inloc,idrape,nvar_damp,flag_incr
           integer :: ij1,ij2,ij3,ij4,ij5
           integer :: ij(5),iflag(1)
           integer :: l_sigb
@@ -425,7 +425,7 @@
           character :: option*256
           integer :: size
           integer :: nrate,nprony
-          real(kind=WP) :: fisokin,kv,zshift,wm_zshift
+          real(kind=WP) :: fisokin,kv,zshift,wm_zshift,tref,tmelt
           real(kind=WP), dimension(nel) :: eps1,eps2
           real(kind=WP), dimension(nel), target :: vecnul
           real(kind=WP), dimension(:), pointer  :: sigbxx,sigbyy,sigbxy
@@ -1047,12 +1047,11 @@
               sigozx(1:nel) = lbuf%sig(ij5:ij5+nel-1)
               !< Old equivalent stress
               if (bufly%l_seq > 0) seq0(1:nel) = lbuf%seq(1:nel)
-!
-              if (jthe /= 0 .or. elbuf_str%bufly(ilayer)%l_temp > 0) then
-                ! case of temp calculated locally in material
-                t0 = pm(79, imat)
-                tm = pm(80, imat)
-                tstar(1:nel) = max(zero, (el_temp(1:nel) - t0) / max(tm - t0, em20))
+!  
+              if (jthe /= 0 .or. elbuf_str%bufly(ilayer)%l_temp > 0) then 
+                tref  = mat_elem%mat_param(imat)%therm%tref
+                tmelt = mat_elem%mat_param(imat)%therm%tmelt
+                tstar(1:nel) = max(zero, (el_temp(1:nel) - tref) / max(tmelt-tref, em20))
               else
                 tstar(1:nel) = zero
               end if
@@ -1061,41 +1060,40 @@
 !         plasticly admissible stress
 !------------------------------------------
               if (ilaw == 1) then
-                call sigeps01c(jft       ,jlt      ,nel      ,imat     ,gs       ,&
-                &sigoxx,sigoyy,sigoxy,sigoyz,sigozx,&
-                &signxx    ,signyy   ,signxy   ,signyz   ,signzx   ,&
-                &depsxx    ,depsyy   ,depsxy   ,depsyz   ,depszx   ,&
-                &thkn      ,thklyl   ,off      ,pm       ,ismstr   ,&
-                &epsxx     ,epsyy    ,epsxy    )
+                call sigeps01c(                                         &
+                     jft       ,jlt      ,nel      ,imat     ,gs       ,&
+                     sigoxx    ,sigoyy   ,sigoxy   ,sigoyz   ,sigozx   ,&
+                     signxx    ,signyy   ,signxy   ,signyz   ,signzx   ,&
+                     depsxx    ,depsyy   ,depsxy   ,depsyz   ,depszx   ,&
+                     thkn      ,thklyl   ,off      ,pm       ,ismstr   ,&
+                     epsxx     ,epsyy    ,epsxy    )
+!
               elseif (ilaw == 2) then
-                vp =  ipm(255,imat)
-                call sigeps02c(&
-                &jft        ,jlt       ,pm       ,eint     ,thkn     ,&
-                &off        ,sigy      ,dt1      ,ipla     ,nel      ,&
-                &vol0       ,gs        ,israte   ,thklyl   ,etse     ,&
-                &ngl        ,epsd_pg   ,g_imp    ,sigksi   ,ioff_duct,&
-                &dpla       ,tstar     ,jthe     ,hardm    ,epchk    ,&
-                &imat       ,ipt       ,npttot   ,lbuf%pla ,off_old  ,&
-                &sigoxx,sigoyy,sigoxy,sigoyz,sigozx,&
-                &signxx     ,signyy    ,signxy   ,signyz   ,signzx   ,&
-                &depsxx     ,depsyy    ,depsxy   ,depsyz   ,depszx   ,&
-                &epspxx     ,epspyy    ,epspxy   ,epspyz   ,epspzx ,&
-                &lbuf%sigb(ij1),lbuf%sigb(ij2),lbuf%sigb(ij3),inloc  ,varnl(1,it),&
-                &vp         ,asrate    ,lbuf%off ,lbuf%epsd  ,&
-                &el_temp   ,fheat      )
+                call sigeps02c(mat_elem%mat_param(imat),                       &
+                     nel        ,eint      ,thkn     ,el_temp  ,fheat    ,     &
+                     off        ,sigy      ,dt1      ,ipla     ,sigksi   ,     &
+                     vol0       ,gs        ,thklyl   ,etse     ,g_imp    ,     &
+                     dpla       ,tstar     ,jthe     ,hardm    ,epchk    ,     &
+                     npttot     ,lbuf%pla  ,off_old  ,lbuf%off ,ioff_duct,     &
+                     sigoxx     ,sigoyy    ,sigoxy   ,sigoyz   ,sigozx   ,     &
+                     signxx     ,signyy    ,signxy   ,signyz   ,signzx   ,     &
+                     depsxx     ,depsyy    ,depsxy   ,depsyz   ,depszx   ,     &
+                     epspxx     ,epspyy    ,epspxy   ,epsd_pg  ,lbuf%epsd,     &
+                     asrate ,lbuf%sigb(ij1),lbuf%sigb(ij2),lbuf%sigb(ij3),     &
+                     inloc      ,varnl(1,it))
 !
               elseif (ilaw == 15) then
-                call sigeps15c(&
-                  jft      ,jlt     ,pm       ,lbuf%dam   ,&
-                  imat     ,shf     ,ngl      ,dmg_flag   ,&
-                  ilayer   ,nel     ,lbuf%pla ,sigdmg     ,&
-                  israte   ,asrate  ,epsd_pg  ,lbuf%epsd  ,&
-                  depsxx   ,depsyy  ,depsxy   ,depsyz     ,depszx   ,&
-                  sigoxx   ,sigoyy  ,sigoxy   ,sigoyz     ,sigozx   ,&
-                  signxx   ,signyy  ,signxy   ,signyz     ,signzx   ,&
-                  lbuf%dsum,lbuf%tsaiwu)
+                call sigeps15c(                                           &
+                     jft      ,jlt     ,pm       ,lbuf%dam   ,            &
+                     imat     ,shf     ,ngl      ,dmg_flag   ,            &
+                     ilayer   ,nel     ,lbuf%pla ,sigdmg     ,            &
+                     israte   ,asrate  ,epsd_pg  ,lbuf%epsd  ,            &
+                     depsxx   ,depsyy  ,depsxy   ,depsyz     ,depszx     ,&
+                     sigoxx   ,sigoyy  ,sigoxy   ,sigoyz     ,sigozx     ,&
+                     signxx   ,signyy  ,signxy   ,signyz     ,signzx     ,&
+                     lbuf%dsum,lbuf%tsaiwu)
+!
               elseif (ilaw == 19) then
-
                 call sigeps19c(&
                 &nel       ,nuparam   ,niparam  ,flag_zcfac,zcfac     ,shf       ,&
                 &uparam    ,iparam    ,npttot   ,ssp       ,nsensor   ,&

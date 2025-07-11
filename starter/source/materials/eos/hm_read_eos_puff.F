@@ -31,14 +31,14 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    message_mod              ../starter/share/message_module/message_mod.F
 !||    submodel_mod             ../starter/share/modules1/submodel_mod.F
 !||====================================================================
-      SUBROUTINE HM_READ_EOS_PUFF(IOUT,PM,UNITAB,IUNIT,LSUBMODEL,IMIDEOS,EOS_STRUCT)
+      SUBROUTINE HM_READ_EOS_PUFF(IOUT,PM,UNITAB,IUNIT,LSUBMODEL,IMIDEOS,MAT_PARAM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
       USE SUBMODEL_MOD
-      USE MESSAGE_MOD
-      USE EOS_PARAM_MOD , ONLY : EOS_PARAM_
+      USE MESSAGE_MOD      
+      USE MATPARAM_DEF_MOD      
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -63,7 +63,7 @@ C-----------------------------------------------
       my_real PM(NPROPM)
       TYPE(SUBMODEL_DATA), DIMENSION(NSUBMOD), INTENT(IN) :: LSUBMODEL
       INTEGER,INTENT(IN) :: IMIDEOS
-      TYPE(EOS_PARAM_),INTENT(INOUT) :: EOS_STRUCT
+      TYPE(MATPARAM_STRUCT_) ,INTENT(INOUT) :: MAT_PARAM
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -105,7 +105,8 @@ C-----------------------------------------------
 
       IF(RHO0 > ZERO) THEN
         RHOR = RHO0
-        PM(1)= RHO0 
+        PM(1)= RHO0
+        MAT_PARAM%RHO = RHO0
       ELSE
         RHO0=RHOR                   
       ENDIF
@@ -115,23 +116,26 @@ C-----------------------------------------------
       PM(23) = E0
       PM(32) = C1 + G0*E0  !BULK = (1+µ)*dP/dmu (partial derivative at constant E)
       PM(88) = PSH
-      IF(PM(79)==ZERO)PM(79)=THREE100
+!-------------------------------------
+      MAT_PARAM%EOS%NUPARAM = 8
+      MAT_PARAM%EOS%NIPARAM = 0
+      MAT_PARAM%EOS%NFUNC = 0
+      MAT_PARAM%EOS%NTABLE = 0
+      CALL MAT_PARAM%EOS%CONSTRUCT() !allocations
 
-      EOS_STRUCT%NUPARAM = 8
-      EOS_STRUCT%NIPARAM = 0
-      EOS_STRUCT%NFUNC = 0
-      EOS_STRUCT%NTABLE = 0
-      CALL EOS_STRUCT%CONSTRUCT() !allocations
-
-      EOS_STRUCT%UPARAM(1) = C1
-      EOS_STRUCT%UPARAM(2) = C2
-      EOS_STRUCT%UPARAM(3) = C3
-      EOS_STRUCT%UPARAM(4) = T1
-      EOS_STRUCT%UPARAM(5) = T2
-      EOS_STRUCT%UPARAM(6) = ES
-      EOS_STRUCT%UPARAM(7) = G0
-      EOS_STRUCT%UPARAM(8) = HH
-      EOS_STRUCT%PSH = PSH
+      MAT_PARAM%EOS%UPARAM(1) = C1
+      MAT_PARAM%EOS%UPARAM(2) = C2
+      MAT_PARAM%EOS%UPARAM(3) = C3
+      MAT_PARAM%EOS%UPARAM(4) = T1
+      MAT_PARAM%EOS%UPARAM(5) = T2
+      MAT_PARAM%EOS%UPARAM(6) = ES
+      MAT_PARAM%EOS%UPARAM(7) = G0
+      MAT_PARAM%EOS%UPARAM(8) = HH
+      MAT_PARAM%EOS%PSH = PSH
+      IF (MAT_PARAM%THERM%TINI == ZERO) THEN
+        MAT_PARAM%THERM%TINI =THREE100
+        PM(79) = THREE100
+      END IF
 
 
       !COMPUTING INITIAL PRESSURE

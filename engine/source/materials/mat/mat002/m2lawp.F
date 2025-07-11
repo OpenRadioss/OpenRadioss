@@ -25,13 +25,17 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- called by ------------------------------------------------------
 !||    main_beam3   ../engine/source/elements/beam/main_beam3.F
 !||====================================================================
-      SUBROUTINE M2LAWP(
-     .    PM      ,FOR     ,MOM     ,EINT    ,GEO     ,
+      SUBROUTINE M2LAWP(mat_param ,
+     .    FOR     ,MOM     ,EINT    ,GEO     ,
      .    OFF     ,PLA     ,EXX     ,EXY     ,EXZ     ,
      .    KXX     ,KYY     ,KZZ     ,AL      ,FA1     ,
      .    FA2     ,FA3     ,MA1     ,MA2     ,MA3     ,
-     .    NEL     ,MAT     ,PID     ,NGL     ,IPM     ,
-     .    NUMMAT  ,NUVAR   ,UVAR    ,SIGY)
+     .    NEL     ,PID     ,NGL     ,
+     .    NUVAR   ,UVAR    ,SIGY)
+!-----------------------------------------------
+!   m o d u l e s
+!-----------------------------------------------
+      use matparam_def_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -48,42 +52,34 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER ,INTENT(IN) :: NEL,NUMMAT,NUVAR
-      INTEGER ,INTENT(IN) :: MAT(NEL),PID(NEL),NGL(NEL)
-      INTEGER ,DIMENSION(NPROPMI,NUMMAT) ,INTENT(IN) :: IPM
-      my_real
-     .   PM(NPROPM,*), FOR(NEL,3), MOM(NEL,3), EINT(NEL,2), GEO(NPROPG,*),
-     .   OFF(*), PLA(*),
-     .   AL(NEL),
+      INTEGER ,INTENT(IN) :: NEL,NUVAR
+      INTEGER ,INTENT(IN) :: PID(NEL),NGL(NEL)
+      my_real :: OFF(*), PLA(*),AL(NEL),
+     .   FOR(NEL,3), MOM(NEL,3), EINT(NEL,2), GEO(NPROPG,*),
      .   EXX(NEL),EXY(NEL),EXZ(NEL),KXX(NEL),KYY(NEL),
      .   KZZ(NEL),FA1(NEL),FA2(NEL),FA3(NEL),
      .   MA1(NEL),MA2(NEL),MA3(NEL),A1(NEL)
       my_real ,DIMENSION(NEL,NUVAR), INTENT(INOUT) :: UVAR
       my_real ,DIMENSION(NEL)       ,INTENT(INOUT) :: SIGY
+      type (matparam_struct_)  ,intent(in)    :: mat_param
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER INDX(NEL),ICC(NEL),IRTY(NEL)
-      INTEGER  I,NPIF, J, NINDX
-      my_real
-     .   YLDTMP(NEL),YM(NEL), 
-     .   B1(NEL), B2(NEL), B3(NEL), DEGMB(NEL),
-     .   DEGFX(NEL),ESP(NEL),RHO(NEL),G(NEL),
+      INTEGER :: I,J,NINDX,IFORM,ICC,VP
+      INTEGER :: INDX(NEL)
+      my_real :: EPDR,CC,PLAP1,ASRATE
+      my_real :: DEGFX(NEL),ESP(NEL),G(NEL),
+     .   YLDTMP(NEL),YM(NEL),B1(NEL), B2(NEL), B3(NEL), DEGMB(NEL),  
      .   DMPM(NEL), DMPF(NEL), SHF(NEL),
      .   F1(NEL), M1(NEL), M2(NEL), M3(NEL),
      .   DEGSH(NEL), YEQ(NEL), YLD(NEL), DWPLA(NEL),
      .   EPMX(NEL), DWELM(NEL), DWELF(NEL),Z3(NEL),Z4(NEL),
      .   CA(NEL), CB(NEL), CN(NEL), YMAX(NEL),
-     .   RR(NEL), CC(NEL), EPDR(NEL), EPSP(NEL),
+     .   RR(NEL), EPSP(NEL),
      .   SH(NEL), YMA2(NEL), SH10(NEL), SH20(NEL), SH0(NEL),
-     .   SH1(NEL), SH2(NEL), FACT, EPIF,PLAP(NEL),DPLA(NEL),
-     .   TMP1(NEL), TMP2(NEL), TMP3(NEL), ETMP,PLAP1,VP,ASRATE,
-     .   FACTPHI,YMA2PHI, SH10P, SH20P, SH1P, SH2P,SHP, SH0P,
-     .   YS,YSP,GS,GSP,TRM1,TRM1P,TRM2,TRM2P,TRM3,TRM3P,YEQ0,YEQ1
+     .   SH1(NEL), SH2(NEL),PLAP(NEL),DPLA(NEL),
+     .   TMP1(NEL), TMP2(NEL), TMP3(NEL)
 C-----------------------------------------------
-      EPIF = ZERO
-      NPIF = 0
-C
       IF (IMPL_S == 0 .OR. IDYNA > 0) THEN
         DO I=1,NEL                    
           DMPM(I)=GEO(16,PID(I))*AL(I)  
@@ -96,38 +92,35 @@ C
         ENDDO 
       ENDIF                                 
 C
-
+      iform = mat_param%iparam(1)
+      icc   = mat_param%iparam(2)
+      vp    = mat_param%iparam(3)
+      cc    = mat_param%uparam(6)
+      epdr  = mat_param%uparam(7)
+      if (vp == 1) then
+        epdr = max(epdr, em20)   
+      else             
+        epdr = max(epdr*dt1, em20)   
+      endif
+      asrate = mat_param%uparam(9)
+      asrate = MIN(ONE, asrate*dt1)
       DO I=1,NEL
-        VP     = IPM(255,MAT(I)) 
-        RHO(I) = PM( 1,MAT(I))
-        ASRATE = MIN(ONE, PM(9,MAT(I))*DT1)
-        G(I)   =PM(22,MAT(I))
-        YM(I)  =PM(20,MAT(I))
+        G(I)   = mat_param%shear
+        YM(I)  = mat_param%young
 C--------------------------
-        CA(I)  =PM(38,MAT(I))
-        CB(I)  =PM(39,MAT(I))
-        CN(I)  =PM(40,MAT(I))
-        EPMX(I)=PM(41,MAT(I))
-        YMAX(I)=PM(42,MAT(I))
-        CC(I)  =PM(43,MAT(I))
-        IF(VP == 1)THEN
-          EPDR(I) =   MAX(EM20,PM(44,MAT(I)))
-        ELSE               
-          EPDR(I) = MAX(EM20,PM(44,MAT(I))*DT1)  
-        ENDIF
-        ICC(I) =NINT(PM(49,MAT(I)))
+        CA(I)  = mat_param%uparam(1)
+        CB(I)  = mat_param%uparam(2)
+        CN(I)  = mat_param%uparam(3)
+        EPMX(I)= mat_param%uparam(4)
+        YMAX(I)= mat_param%uparam(5)
 C-----------------------------
         A1(I)  =GEO(1,PID(I))
         B1(I)  =GEO(2,PID(I))
         B2(I)  =GEO(18,PID(I))
         B3(I)  =GEO(4,PID(I))
-C        SHF(I) =GEO(13,PID(I))
         SHF(I) =GEO(37,PID(I))
-        EPIF    = MAX(EPIF,CC(I))
-        IRTY(I) = NINT(PM(50,MAT(I)))
-        NPIF    = NPIF+IRTY(I)
-        Z3(I)   =PM(51,MAT(I))
-        Z4(I)   =PM(52,MAT(I))
+        Z3(I)  = mat_param%uparam(10)
+        Z4(I)  = mat_param%uparam(11)
       ENDDO
 C-----------------------------
 C     DAMPING terms removed to pforce3
@@ -173,48 +166,33 @@ C-------------
 C-------------
 C     STRAIN RATE (JOHNSON-COOK, ZERILLI-ARMSTRONG)
 C-------------
-      IF (EPIF /= ZERO) THEN
+      IF (cc /= ZERO) THEN
         DO I=1,NEL
           IF(VP == 1)THEN
             PLAP(I) = UVAR(I,1)
-            PLAP(I) = MAX(PLAP(I),EPDR(I))
-            EPSP(I) = LOG(PLAP(I)/EPDR(I))
+            PLAP(I) = MAX(PLAP(I),EPDR)
+            EPSP(I) = LOG(PLAP(I)/EPDR)
           ELSE
             EPSP(I)=ABS(DEGMB(I)+DEGFX(I))/(YEQ(I)+ EM20)/A1(I)
             TMP2(I)=ABS(DEGMB(I)+DEGFX(I))
             TMP3(I)=EPSP(I)
-            EPSP(I)= MAX(EPSP(I),EPDR(I))
-            EPSP(I)= LOG(EPSP(I)/EPDR(I))
+            EPSP(I)= MAX(EPSP(I),EPDR)
+            EPSP(I)= LOG(EPSP(I)/EPDR)
           ENDIF
         ENDDO
-        IF (NPIF == ZERO) THEN
+        IF (IFORM == 1) THEN  ! zerilli
           DO I=1,NEL
-            EPSP(I)=(ONE + CC(I) * EPSP(I))
-            IF (ICC(I) == 1) YMAX(I) = YMAX(I) * EPSP(I)
-          ENDDO
-        ELSEIF (NPIF == NEL) THEN
-          DO I=1,NEL
-            EPSP(I)=(ONE + CC(I) * EPSP(I))
+            EPSP(I)=(ONE + CC * EPSP(I))
             TMP1(I)=EPSP(I)
-            EPSP(I)= CC(I)*EXP((-Z3(I)+Z4(I) * EPSP(I))*ESP(I))
-            IF(ICC(I)==1)YMAX(I)= YMAX(I) + EPSP(I)
+            EPSP(I)= CC*EXP((-Z3(I)+Z4(I) * EPSP(I))*ESP(I))
+            IF(ICC==1)YMAX(I)= YMAX(I) + EPSP(I)
             CA(I) = CA(I) + EPSP(I)
             EPSP(I)=ONE
           ENDDO
-        ELSE
+        ELSE      ! j-c
           DO I=1,NEL
-            IF (IRTY(I) == 0)THEN
-              EPSP(I)=(ONE + CC(I) * EPSP(I))
-              TMP1(I)=YMAX(I)
-              IF(ICC(I)==1) YMAX(I) = YMAX(I) * EPSP(I)
-            ELSE
-              EPSP(I)=(ONE  + CC(I) * EPSP(I))
-              TMP1(I)=EPSP(I)
-              EPSP(I)= CC(I)*EXP((-Z3(I)+Z4(I) * EPSP(I))*ESP(I))
-              IF(ICC(I)==1)YMAX(I)= YMAX(I) + EPSP(I)
-              CA(I) = CA(I) + EPSP(I)
-              EPSP(I)=ONE
-            ENDIF
+            EPSP(I)=(ONE + CC * EPSP(I))
+            IF (ICC == 1) YMAX(I) = YMAX(I) * EPSP(I)
           ENDDO
         ENDIF
       ELSE

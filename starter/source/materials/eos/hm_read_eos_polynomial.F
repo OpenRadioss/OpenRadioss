@@ -31,14 +31,14 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    message_mod              ../starter/share/message_module/message_mod.F
 !||    submodel_mod             ../starter/share/modules1/submodel_mod.F
 !||====================================================================
-      SUBROUTINE HM_READ_EOS_POLYNOMIAL(IOUT,PM,UNITAB,IUNIT,LSUBMODEL,IMIDEOS,ISFLUID,EOS_STRUCT)
+      SUBROUTINE HM_READ_EOS_POLYNOMIAL(IOUT,PM,UNITAB,IUNIT,LSUBMODEL,IMIDEOS,ISFLUID,MAT_PARAM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-       USE EOS_PARAM_MOD , ONLY : EOS_PARAM_
-       USE UNITAB_MOD
-       USE SUBMODEL_MOD
-       USE MESSAGE_MOD
+      USE UNITAB_MOD
+      USE SUBMODEL_MOD
+      USE MESSAGE_MOD      
+      USE MATPARAM_DEF_MOD, ONLY : MATPARAM_STRUCT_
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -62,9 +62,9 @@ C-----------------------------------------------
       INTEGER IIN,IOUT,IUNIT
       my_real PM(NPROPM)
       TYPE(SUBMODEL_DATA), DIMENSION(NSUBMOD), INTENT(IN) :: LSUBMODEL
+      TYPE(MATPARAM_STRUCT_),INTENT(INOUT) :: MAT_PARAM
       INTEGER,INTENT(IN) :: IMIDEOS
       INTEGER,INTENT(INOUT) :: ISFLUID
-      TYPE(EOS_PARAM_),INTENT(INOUT) :: EOS_STRUCT
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -94,13 +94,14 @@ C-----------------------------------------------
       CALL HM_GET_FLOATV('MAT_EA', E0, IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV('MAT_PSH', PSH, IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV('Refer_Rho', RHO0, IS_AVAILABLE_RHO0,LSUBMODEL,UNITAB)
-
+!-------------------------------------------------------------------------------
       RHOR = PM(1)
       RHOI = PM(89)
 
       IF(RHO0 > ZERO) THEN
         RHOR = RHO0
         PM(1)= RHO0 
+        MAT_PARAM%RHO = RHO0
       ELSE
         RHO0=RHOR                   
       ENDIF
@@ -109,22 +110,25 @@ C-----------------------------------------------
       !PM(32) = C1 !legacy value
       PM(32)=C1+C4*E0    !BULK MODULUS = (1+µ)*dP/dmu (partial derivative at constant E)
       PM(88)=PSH
-      IF(PM(79)==ZERO)PM(79)=THREE100
 
-      EOS_STRUCT%NUPARAM = 6
-      EOS_STRUCT%NIPARAM = 0
-      EOS_STRUCT%NFUNC = 0
-      EOS_STRUCT%NTABLE = 0
-      CALL EOS_STRUCT%CONSTRUCT() !allocations
+      MAT_PARAM%EOS%NUPARAM = 6
+      MAT_PARAM%EOS%NIPARAM = 0
+      MAT_PARAM%EOS%NFUNC = 0
+      MAT_PARAM%EOS%NTABLE = 0
+      CALL MAT_PARAM%EOS%CONSTRUCT() !allocations
 
-      EOS_STRUCT%UPARAM(1) = C0-PSH
-      EOS_STRUCT%UPARAM(2) = C1
-      EOS_STRUCT%UPARAM(3) = C2
-      EOS_STRUCT%UPARAM(4) = C3
-      EOS_STRUCT%UPARAM(5) = C4
-      EOS_STRUCT%UPARAM(6) = C5
-      EOS_STRUCT%PSH = PSH
-
+      MAT_PARAM%EOS%UPARAM(1) = C0-PSH
+      MAT_PARAM%EOS%UPARAM(2) = C1
+      MAT_PARAM%EOS%UPARAM(3) = C2
+      MAT_PARAM%EOS%UPARAM(4) = C3
+      MAT_PARAM%EOS%UPARAM(5) = C4
+      MAT_PARAM%EOS%UPARAM(6) = C5
+      MAT_PARAM%EOS%PSH = PSH
+      IF (MAT_PARAM%THERM%TINI == ZERO) THEN
+        MAT_PARAM%THERM%TINI =THREE100
+        PM(79) = THREE100
+      END IF
+  
       !initial pressure for stress tensor
       IF(RHOI == ZERO)THEN
         MU0 = ZERO ! error 683 already displayed

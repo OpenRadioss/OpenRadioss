@@ -223,7 +223,7 @@ c
      .   FPSXX(MVSIZ),FPSYY(MVSIZ),FPSZZ(MVSIZ),FPSXY(MVSIZ),FPSYX(MVSIZ),
      .   EPCHK(MVSIZ),EPSPDT(MVSIZ)
       my_real 
-     .   ZT,DTINV, VOL2,FCUT,ASRATE,EPS_M2,EPS_K2,T0,TM,
+     .   ZT,DTINV,VOL2,FCUT,ASRATE,EPS_M2,EPS_K2,TREF,TMELT,
      .   R1,R2,S1,S2,R12A,R22A,S12B,S22B,RS1,RS2,RS3,
      .   T1,T2,T3,FACT,R3R3,S3S3,TRELAX, 
      .   BIDON1,BIDON2,BIDON3,BIDON4,BIDON5,VV,AA
@@ -286,17 +286,6 @@ C-----------------------------------------------
 C      
       IPT_ALL = 0
       NPTTOT  = 0
-c
-c----- Tstar  : T* = (T-T0)/(TM-T0)----
-      IF (JTHE > 0) THEN
-        T0 = PM(79, MX) 
-        TM = PM(80, MX) 
-        DO I=JFT,JLT   
-           TSTAR(I)=MAX(ZERO,(TEMPEL(I)-T0)/(TM-T0))
-        ENDDO
-      ELSE
-        TSTAR(JFT:JLT) = ZERO
-      ENDIF  
 !
 !  Check visco elastic model 
 !             
@@ -360,8 +349,8 @@ c
       EPCHK(1:MVSIZ)  = ZERO
       VISCMX(1:MVSIZ) = ZERO
 !
-!       compute the inverse of dt and save the result 
       dtinv = dt1 / max(dt1**2,em20)  ! inverse of dt
+
 c-----------------------------------------------------------
 c---- intermediate buffer for GET_U_VAR function
       IF (TT == ZERO) THEN
@@ -450,12 +439,21 @@ c
           ENDIF 
         ENDIF
 !
-      israte = ipm(3,imat)
-      if (israte > 0) then
-        asrate = min(one, pm(9,imat)*dt1)
-      else
-        asrate = one
-      end if
+        israte = ipm(3,imat)
+        if (israte > 0) then
+          asrate = min(one, pm(9,imat)*dt1)
+        else
+          asrate = one
+        end if
+!
+c-----  Tstar  : T* = (T-T0)/(TM-T0)----
+        IF (jthe > 0 .or. elbuf_str%bufly(ilayer)%l_temp > 0) THEN
+          tref  = mat_elem%mat_param(imat)%therm%tref
+          tmelt = mat_elem%mat_param(imat)%therm%tmelt
+          tstar(1:nel) = max(zero, (tempel(1:nel) - tref) / max(tmelt-tref, em20))
+        ELSE
+          tstar(1:nel) = zero
+        ENDIF  
 c----------------------------------------------------------------------
 !---
         L_DMG = BUFLY%L_DMG
