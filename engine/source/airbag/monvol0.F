@@ -105,7 +105,8 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER  I,ITYP,NCA,NN,IS,K1,K2,K6,KK1,KK2,PMAIN,KIBJET,KRBJET,KIBHOL,KRBHOL,NJET,IADJET,RADJET,NVENT,IADHOL,RADHOL
       my_real, dimension(nvolu) :: vol
-C---------------------------------------------------------
+      integer :: uid
+      
 C
       K1 = 1
       KK1= 1
@@ -140,6 +141,7 @@ C
       KRBHOL = KRBJET + LRBAGJET
 
       DO I=1,NVOLU
+        UID = MONVOL(K1)
         ITYP = MONVOL(K1+1)
         NCA  = MONVOL(K1+2) 
         IS   = MONVOL(K1+3)
@@ -221,6 +223,16 @@ C=======================================================================
      7                 T_MONVOL(I)%OMP_OUTPUT%NODE_ID,T_MONVOL(I)%OMP_OUTPUT%CONTRIBUTION,OUTPUT%WFEXT)
          ENDIF
         ENDIF
+!       write(6,*) "Pressure in volume ", UID, " is ", VOLMON(KK1+12-1),LOC(VOLMON(KK1+12-1))
+!       write(6,*) "Temperature in volume ", UID, " is ",VOLMON(KK1+13-1),LOC(VOLMON(KK1+13-1))
+!       write(6,*) "Volume in volume ", UID, " is ",VOL(I)
+!       write(6,*) "Area in volume ", UID, " is ",VOLMON(KK1+18-1),LOC(VOLMON(KK1+18-1))
+        T_MONVOL(I)%UID = UID ! store the uid of the monitored volume
+        T_MONVOL(I)%volume = VOL(I)
+        T_MONVOL(I)%pressure = VOLMON(KK1+12-1)
+        T_MONVOL(I)%temperature = VOLMON(KK1+13-1)
+        T_MONVOL(I)%area = VOLMON(KK1+18-1)
+
  100    CONTINUE
 c        CALL SPMD_BARRIER()
         K1 = K1 + NIMV
@@ -228,6 +240,7 @@ c        CALL SPMD_BARRIER()
         K2 = K2  + NICBAG*NCA
         KK2= KK2 + NRCBAG*NCA
         K6 = K6 + NN
+
       ENDDO
 C
 C=======================================================================
