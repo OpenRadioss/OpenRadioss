@@ -209,6 +209,9 @@
           use matparam_def_mod
           use hm_option_read_mod
           use table_mod
+          use hm_read_mat02_jc_mod
+          use hm_read_mat02_zerilli_mod
+          use hm_read_mat02_predef_mod
           use hm_read_mat50_mod
           use hm_read_mat57_mod
           use hm_read_mat81_mod
@@ -229,7 +232,6 @@
           use precision_mod, only : WP
 ! -------------------------------------------------------------------------------------------------------
           implicit none
-
 ! -------------------------------------------------------------------------------------------------------
 !      Arguments
 ! -------------------------------------------------------------------------------------------------------
@@ -390,28 +392,22 @@
               &matparam)
 !-------
              case ('LAW2','LAW02','PLAS_JOHNS','JOHNS')
-              ilaw  = 2
-              call hm_read_mat02(&
-              &uparam ,maxuparam ,nuparam  ,nuvar     ,&
-              &parmat ,0         ,&
-              &unitab ,mat_id    ,titr     ,lsubmodel ,mtag    ,&
-              &pm(1,i),ipm(1,i)  ,israte   ,matparam  )
+               ilaw  = 2
+               call hm_read_mat02_jc(matparam,mtag     ,parmat   ,           &
+                 nuvar    ,unitab  ,mat_id   ,titr     ,lsubmodel,           &
+                 npropm   ,pm(1,i) ,npropmi  ,ipm(1,i) )                 
 !-------
              case ('ZERIL','PLAS_ZERIL')
-              ilaw  = 2
-              call hm_read_mat02(&
-              &uparam ,maxuparam ,nuparam  ,nuvar     ,&
-              &parmat ,1         ,&
-              &unitab ,mat_id    ,titr     ,lsubmodel ,mtag    ,&
-              &pm(1,i),ipm(1,i)  ,israte   ,matparam  )
+               ilaw  = 2
+               call hm_read_mat02_zerilli(matparam,mtag,parmat   ,           &
+                 nuvar    ,unitab  ,mat_id   ,titr     ,lsubmodel,           &
+                 npropm   ,pm(1,i) ,npropmi  ,ipm(1,i) )                 
 !-------
              case ('PLAS_PREDEF')
-              ilaw  = 2
-              call hm_read_mat02(&
-              &uparam ,maxuparam ,nuparam  ,nuvar     ,&
-              &parmat   ,2       ,&
-              &unitab ,mat_id    ,titr     ,lsubmodel ,mtag    ,&
-              &pm(1,i),ipm(1,i)  ,israte   ,matparam  )
+               ilaw  = 2
+               call hm_read_mat02_predef(matparam,mtag     ,parmat   ,       &
+                        nuvar    ,unitab  ,mat_id   ,titr     ,              &
+                        npropm   ,pm(1,i) ,npropmi  ,ipm(1,i) ) 
 !-------
              case ('LAW3','LAW03', 'HYDPLA')
               ilaw=3
@@ -1144,7 +1140,6 @@
               &matparam ,parmat   ,nuvar    ,mat_id   ,titr     ,&
               &maxtabl  ,numtabl  ,itable   ,unitab   ,lsubmodel,&
               &israte   )
-
 !-------
              case ('LAW120','TAPO')
               ilaw  = 120
@@ -1173,9 +1168,9 @@
              case ('LAW124','CDPM2')
               ilaw  = 124
               call hm_read_mat124(&
-              &uparam   ,maxuparam,nuparam  ,nuvar    ,mtag     ,&
-              &parmat   ,unitab   ,pm(1,i)  ,lsubmodel,israte   ,&
-              &asrate   ,mat_id   ,titr     ,matparam )
+               uparam   ,maxuparam,nuparam  ,nuvar    ,mtag     ,&
+               parmat   ,unitab   ,pm(1,i)  ,lsubmodel,israte   ,&
+               mat_id   ,titr     ,matparam )
 !-------
              case ('LAW125','LAMINATED_COMPOSITE')
               ilaw = 125
@@ -1376,13 +1371,9 @@
             if (matparam%compatibility_eos == 1 .and. pm(37,i) == zero) pm(37,i) = -ep20
 
 !-----------------------------------------------------------------------
-
-            if (ilaw == 99) then
-              write(iout,2000) titr,mat_id,iuser_law
+            if (ilaw == 99) then  ! write header info for user laws
+               write(iout,2000) titr,mat_id,iuser_law
             endif
-!--------------------------------------------
-            israte = max(israte, nint(parmat(4)))  ! just in case ...
-            asrate = two*pi*parmat(5)              ! asrate = 2*pi*fcut
 !--------------------------------------------
             matparam%ilaw   = ilaw
             matparam%mat_id = mat_id
@@ -1390,7 +1381,7 @@
             mtag%nuvar   = nuvar
             mtag%nvartmp = nvartmp
 !--------------------------------------------
-!       for user type laws (lecmuser)
+!           for user type laws (lecmuser)
 !---------------------------------------------------------
 
             if (ilaw > 27 .and. ilaw /= 32 .and. ilaw /= 49&
@@ -1413,11 +1404,6 @@
               pm(32,i) = bulk
               if (ilaw==71 ) pm(27,i)=sqrt(young/max(pm(1,i),em20))  ! sound speed
 !---------
-!         for solid elements time step computation :
-              ipm(252,i)= nint(parmat(16))   ! iformdt = 0,1,2
-              pm(105,i) = parmat(17)         ! gfac factor
-!---------
-!-------
               ipm(7,i)   = iadbuf
               ipm(8,i)   = nuvar
               ipm(9,i)   = nuparam
@@ -1456,22 +1442,31 @@
               buflen = buflen + nuparam
 !
             endif ! ilaw>=28
-!------- high stiffness for contact
+!-------    high stiffness for contact
             pm(107,i) = two*max(pm(32,i),pm(100,i))
-            if (ilaw==1) pm(107,i) = thirty*pm(107,i)
+            if (ilaw==1)  pm(107,i) = thirty*pm(107,i)
             if (ilaw==62) pm(107,i) = hundred*pm(107,i)
 !
+!---------------------------------------------------------
+            israte = max(israte, nint(parmat(4)))    ! just in case ...
+            asrate = two*pi * parmat(5)              ! asrate = 2*pi*fcut
+            ipm(3,i) = israte
+            if (asrate  == zero) asrate = ep20
+            if (pm(9,i) == zero) pm(9,i) = asrate    ! old mat laws fill it directly
+!---------------------------------------------------------
             ipm(1,i)   = mat_id
             ipm(2,i)   = ilaw
-            ipm(3,i)   = israte
 !
-            if (pm(9,i) == zero) pm(9,i) = asrate    ! old mat laws fill it directly
             pm(19,i)   = ilaw + em01     ! double stockage - a nettoyer
             pm(70,i)   = jtur + em01
             pm(71,i)   = jthe + em01
             pm(72,i)   = jale + em01
             !
             ipm(217,i) = iuser_law
+            ! for solid elements time step computation.
+            ! some laws fill directly ipm, pm, others use parmat  :
+            if (ipm(252,i) == 0)  ipm(252,i) = nint(parmat(16))   ! iformdt = 0,1,2
+            if (pm(105,i) == zero) pm(105,i) = parmat(17)         ! gfac factor
 !---------------------------------------------------------
 !
             if (matparam%rho   > zero) pm(1 ,i) = matparam%rho

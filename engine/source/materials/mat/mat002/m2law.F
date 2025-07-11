@@ -32,7 +32,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- uses       -----------------------------------------------------
 !||    glob_therm_mod   ../common_source/modules/mat_elem/glob_therm_mod.F90
 !||====================================================================
-      SUBROUTINE M2LAW(
+      SUBROUTINE M2LAW(mat_param ,
      1   PM,      OFF,        SIG,     EINT,
      2   RHO,     QOLD,       EPXE,    EPSD,
      3   VOL,     STIFN,      DT2T,    NELTST,
@@ -51,12 +51,13 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      G   NEL,     IPM,        RHOREF,  RHOSP,
      H   IPG,     DMG,        ITY,     JTUR,
      I   JTHE,    JSPH,       ISMSTR,  JSMS,
-     J   PLAP,    NPG ,       IEOS  ,  DPDM ,
+     J   PLAP,    NPG ,       DPDM ,
      K   FHEAT,   glob_therm, JLAG)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       use glob_therm_mod
+      use matparam_def_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -83,7 +84,6 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) :: JTUR
       INTEGER, INTENT(IN) :: JTHE
       INTEGER, INTENT(IN) :: JSPH
-      INTEGER, INTENT(IN) :: IEOS
       INTEGER, INTENT(IN) :: JLAG
 C
       INTEGER NELTST,ITYPTST,PID(NEL),G_DT,NEL,IPG
@@ -104,13 +104,14 @@ C
       my_real SIGY(NEL) ,DEFP(NEL),ETSE(NEL), MSSA(NEL), DMELS(NEL), TEMPEL(NEL),
      .        SIGBAK(NEL,6),AL_IMP(NEL),SIGNOR(MVSIZ,6),CONDE(NEL),DTEL(NEL),
      .        RHOREF(NEL)  ,RHOSP(NEL)
-      type (glob_therm_) ,intent(inout) :: glob_therm
+      type (glob_therm_)      ,intent(inout) :: glob_therm
+      type (matparam_struct_) ,intent(in)    :: mat_param
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: I, J, ICC,IRTY,ISRATE,VP,IDEV,MX,IBID,NINDX
+      INTEGER :: I, J, ICC,IFORM,ISRATE,VP,IDEV,IBID,NINDX
       INTEGER :: INDX(NEL)
-      my_real RHO0, PLAP1,POLD,PSHIFT,BULK,P, EPMX,CC,CN,EPDR, CMX,
+      my_real RHO0, PLAP1,POLD,PSHIFT,BULK,P, EPMX,CC,CN,EPDR,
      .        Z3,Z4,RHOCP,RHOCPI,T_REF,T_MELT,ASRATE,
      .        E1, E2, E3, E4, E5,E6, EINC, G0,G1,G2,G3,G3H,
      .        SCALE, BID1, BID2, BID3, DTA,MT,
@@ -126,36 +127,37 @@ C   B o d y
 C-----------------------------------------------
       FACQ0   = ONE
 C
-      MX      = MAT(1)
-      RHO0    = PM( 1,MX)
-      BULK    = PM(32,MX)
-      CN      = PM(40,MX)
-      CC      = PM(43,MX)
-      ICC     = NINT(PM(49,MX))
-      EPMX    = PM(41,MX)
-      EPDR    = PM(44,MX)
-      IRTY    = NINT(PM(50,MX))
-      Z3      = PM(51,MX)
-      CMX     = PM(45,MX)
-      ISRATE  = IPM(3,MX)
-      ASRATE  = MIN(ONE,PM(9,MX)*DT1)
-      FISOKIN = PM(55,MX)
-      G0      = PM(22,MX)
-      CA0     = PM(38,MX)
-      CB      = PM(39,MX)
-      SIGM0   = PM(42,MX)
-      VP      = IPM(255,MX)
-      PSHIFT  = PM(88,MX)
+      IFORM   = mat_param%iparam(1)
+      ICC     = mat_param%iparam(2)
+      VP      = mat_param%iparam(4)
+      ISRATE  = mat_param%iparam(4)
+
+      RHO0    = mat_param%rho
+      BULK    = mat_param%bulk
+      G0      = mat_param%shear
+       
+
+      CA0     = mat_param%uparam(1)
+      CB      = mat_param%uparam(2)
+      CN      = mat_param%uparam(3)
+      EPMX    = mat_param%uparam(4)
+      SIGM0   = mat_param%uparam(5)
+      CC      = mat_param%uparam(6)
+      EPDR    = mat_param%uparam(7)
+      fisokin = mat_param%uparam(8)
+      asrate  = mat_param%uparam(9)
+      Z3      = mat_param%uparam(10)
+      asrate  = MIN(one, asrate*dt1)
+
+      T_REF   = mat_param%therm%tref
+      T_MELT  = mat_param%therm%tmelt
+      RHOCPI  = mat_param%therm%rhocp       
+      IF (RHOCP > ZERO) RHOCPI = ONE / RHOCP
+
+      PSHIFT  = PM(88,MAT(1))     ! from EOS
 !
-      IF (IRTY == 1) THEN        ! Zerilli
-        RHOCPI  = PM(53,MX)       
-        T_REF   = PM(54,MX)
-        Z4      = PM(52,MX)
-      ELSE                       ! Johnson-Cook
-        RHOCP = PM(69,MX)
-        IF (RHOCP > ZERO) RHOCPI = ONE / RHOCP
-        T_REF  = PM(79,MX)
-        T_MELT = PM(80,MX)
+      IF (IFORM == 1) THEN        ! Zerilli
+        Z4 = mat_param%uparam(11)
       END IF
 !
       DO I=1,NEL
@@ -233,14 +235,14 @@ c
           ENDDO
         ENDIF ! VP
 !  
-        IF (IRTY == 0) THEN   ! J-C
+        IF (IFORM == 0) THEN   ! J-C
           DO I=1,NEL
              MT=MAX(EM15,Z3)
              EPD(I)= MAX(ZERO,EPD(I))
              EPD(I)= (ONE +CC * EPD(I))*(ONE -TSTAR(I)**MT)
              IF(ICC==1) SIGMX(I)= SIGM0*EPD(I)
           ENDDO
-        ELSEIF (IRTY==1) THEN
+        ELSEIF (IFORM==1) THEN
           DO I=1,NEL
              EPD(I)= CC*EXP((-Z3+Z4 * EPD(I))*TEMPEL(I))
              IF (ICC==1) SIGMX(I) = SIGM0 + EPD(I)
@@ -248,7 +250,7 @@ c
              EPD(I)=ONE
           ENDDO
         END IF
-      ELSEIF (IRTY == 0) THEN  
+      ELSEIF (IFORM == 0) THEN  
         MT = MAX(EM15,Z3)
         EPD(1:NEL) = ONE - TSTAR(1:NEL)**MT
       ENDIF
@@ -419,7 +421,7 @@ C
         ENDIF
       ENDDO
  
-      IF (IEOS == 0) THEN !  add pressure to the deviatoric stress
+      IF (MAT_PARAM%IEOS == 0) THEN !  add pressure to the deviatoric stress
         DO I=1,NEL
           PNEW(I)  = BULK*AMU(I)
           SIG(I,1) =(SIG(I,1) - PNEW(I))*OFF(I)

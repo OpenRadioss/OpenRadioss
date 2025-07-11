@@ -885,7 +885,7 @@
 !
           elseif (mtn == 2) then
 !
-            call m2law(&
+            call m2law(mat_elem%mat_param(imat),&
                  pm,       off,      lbuf%sig, lbuf%eint,&
                  lbuf%rho, lbuf%qvis,lbuf%pla, lbuf%epsd,&
                  lbuf%vol, stifn,    dt2t,     neltst,&
@@ -904,7 +904,7 @@
                  nel,      ipm,      rhoref,   rhosp,&
                  ipg,      lbuf%dmg, ity,      jtur,&
                  jthe,     jsph,     ismstr,   jsms,&
-                 lbuf%epsd,npg ,mat_elem%mat_param(imat)%ieos ,dpdm  ,  &
+                 lbuf%epsd,npg ,dpdm  ,  &
                  fheat ,glob_therm,   jlag    )
 !----------------
             if (istrain > 0 .and.&

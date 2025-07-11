@@ -186,12 +186,11 @@ c---------------------------
 c     material models
 c---------------------------
       IF (MTN == 2) THEN
-        CALL M2LAWPI(ELBUF_STR,
-     1               1      ,NEL    ,NPT    ,PM     ,GEO     ,
-     2               EINT   ,OFF    ,IMAT    ,
-     3               PID    ,EPSD   ,EXX    ,EXY    ,EXZ     ,
-     4               KXX    ,KYY    ,KZZ    ,AL     ,NEL     ,
-     5               IPM    ,ASRATE ,DTIME  ,NUMMAT ,SIGY)
+        CALL M2LAWPI(ELBUF_STR,MAT_PARAM,
+     1               NEL    ,NPT    ,GEO    ,EINT   ,OFF    ,
+     3               PID    ,EPSD   ,EXX    ,EXY    ,EXZ    ,
+     4               KXX    ,KYY    ,KZZ    ,AL     ,ASRATE ,
+     5               DTIME  ,SIGY   )
 c
       ELSE
 c     
