@@ -26,16 +26,19 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    sforc3    ../engine/source/elements/solid/solide/sforc3.F
 !||    szforc3   ../engine/source/elements/solid/solidez/szforc3.F
 !||====================================================================
-      SUBROUTINE STHERM(
-     1   PM,      IMAT,     VOL,     NC1,
-     2   NC2,     NC3,     NC4,     NC5,
-     3   NC6,     NC7,     NC8,     PX1,
-     4   PX2,     PX3,     PX4,     PY1,
-     5   PY2,     PY3,     PY4,     PZ1,
-     6   PZ2,     PZ3,     PZ4,     DT1,
-     7   TEMPNC,  TEMPEL,  HEAT,    FPHI,
-     8   OFFG,    OFF,     PARTSAV, IPARTS,
-     9   VOL0,    NEL,     NUMNOD ,THEACCFACT)
+      SUBROUTINE STHERM(MAT_PARAM,
+     1   VOL,     NC1,     NC2,     NC3,     NC4,     
+     2   NC5,     NC6,     NC7,     NC8,     PX1,
+     3   PX2,     PX3,     PX4,     PY1,
+     4   PY2,     PY3,     PY4,     PZ1,
+     5   PZ2,     PZ3,     PZ4,     DT1,
+     6   TEMPNC,  TEMPEL,  HEAT,    FPHI,
+     7   OFFG,    OFF,     PARTSAV, IPARTS,
+     8   VOL0,    NEL,     NUMNOD ,THEACCFACT)
+!-----------------------------------------------
+!   m o d u l e s
+!-----------------------------------------------
+      use matparam_def_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -50,7 +53,6 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER, INTENT(IN) :: NEL
       INTEGER, INTENT(IN) :: NUMNOD
-      INTEGER, INTENT(IN) :: IMAT
       INTEGER NC1(MVSIZ),NC2(MVSIZ),NC3(MVSIZ),NC4(MVSIZ),
      .        NC5(MVSIZ),NC6(MVSIZ),NC7(MVSIZ),NC8(MVSIZ)
       INTEGER IPARTS(*)
@@ -67,18 +69,18 @@ C-----------------------------------------------
      .           PY1(*), PY2(*), PY3(*), PY4(*),
      .           PZ1(*), PZ2(*), PZ3(*), PZ4(*)
       my_real :: FPHI(MVSIZ,8)
-      my_real :: PM(NPROPM,*)
       my_real :: PARTSAV(NPSAV,*)
+      type (matparam_struct_)   ,intent(in) :: mat_param
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,M
       my_real AS, BS, KC, PHIX, PHIY, PHIZ, A, B, RHOCP, T0
 !==============================================================================
-      AS    = PM(75,IMAT)    !< thermal conductivity coefficient A for solid phase
-      BS    = PM(76,IMAT)    !< thermal conductivity coefficient B for solid phase
-      RHOCP = PM(69,IMAT)
-      T0    = PM(79,IMAT)
+      AS    = MAT_PARAM%THERM%AS    !< thermal conductivity coefficient A for solid phase
+      BS    = MAT_PARAM%THERM%BS    !< thermal conductivity coefficient B for solid phase
+      RHOCP = MAT_PARAM%THERM%RHOCP
+      T0    = MAT_PARAM%THERM%TINI
 C 
 C     calculate thermal flux  
 C      

@@ -655,7 +655,7 @@
           if((impl_s > 0 .and. idyna == 0).or. mtn == 24) isvis = 0
 !
           imat = mat(1)
-          rho0(1:nel)  = pm(1,imat)
+          rho0(1:nel)  = mat_elem%mat_param(imat)%rho
           svis(1:nel,1)= zero
           svis(1:nel,2)= zero
           svis(1:nel,3)= zero
@@ -756,10 +756,10 @@
                 end if
               end do
             end if
-
+!
             do i=1,nel
-              ifunc_alpha = ipm(219,imat)
-              fscal_alpha = pm(191,imat)
+              ifunc_alpha = mat_elem%mat_param(imat)%therm%func_thexp
+              fscal_alpha = mat_elem%mat_param(imat)%therm%scale_thexp
               tempel0(i)  = lbuf%temp(i)
               alpha = finter(ifunc_alpha,tempel(i),npf,tf,bidon1)
               alpha = alpha * fscal_alpha
@@ -779,8 +779,8 @@
           end if
 !
 !-----tstar computation for jonhson cook failure : t* = (t-tref)/(tmelt-tref) => move to JC routine
-          tref  = pm(79, imat)
-          tmelt = pm(80, imat)
+          tref  = mat_elem%mat_param(imat)%therm%tref 
+          tmelt = mat_elem%mat_param(imat)%therm%tmelt 
           if (jthe /= 0 .or. elbuf_tab(ng)%bufly(ilay)%l_temp > 0) then
             tstar(1:nel) = max(zero,(el_temp(1:nel)-tref) / max((tmelt-tref),em20) )
           else
@@ -887,29 +887,27 @@
               &jsms,     npg ,     glob_therm)
             end if
 !
-          else if (mtn == 2) then
-!
-            call m2law(&
-              pm,       off,      lbuf%sig, lbuf%eint,&
-              lbuf%rho, lbuf%qvis,lbuf%pla, lbuf%epsd,&
-              lbuf%vol, stifn,    dt2t,     neltst,&
-              ityptst,  lbuf%off, geo,      pid,&
-              amu,      vol_avg,  mumax,    mat,&
-              ngl,      cxx,      dvol,     aire,&
-              voln,     vd2,      deltax,   vis,&
-              dxx,      dyy,      dzz,      d4,&
-              d5,       d6,       pnew,     psh,&
-              qvis,     ssp_eq,   s1,       s2,&
-              s3,       s4,       s5,       s6,&
-              sigy,     defp,     dpla,&
-              epsp,     tstar,    et,       mssa,&
-              dmels,    el_temp,  lbuf%sigb,al_imp,&
-              signor,   conde,    gbuf%dt,  gbuf%g_dt,&
-              nel,      ipm,      rhoref,   rhosp,&
-              ipg,      lbuf%dmg, ity,      jtur,&
-              jthe,     jsph,     ismstr,   jsms,&
-              lbuf%epsd,npg ,mat_elem%mat_param(imat)%ieos ,dpdm  ,  &
-              fheat ,glob_therm,   jlag    )
+          elseif (mtn == 2) then
+            call m2law(mat_elem%mat_param(imat),&
+                 pm,       off,      lbuf%sig, lbuf%eint,  &
+                 lbuf%rho, lbuf%qvis,lbuf%pla, lbuf%epsd,  &
+                 lbuf%vol, stifn,    dt2t,     neltst,     &
+                 ityptst,  lbuf%off, geo,      pid,        &
+                 amu,      vol_avg,  mumax,    mat,        &
+                 ngl,      cxx,      dvol,     aire,       &
+                 voln,     vd2,      deltax,   vis,        &
+                 dxx,      dyy,      dzz,      d4,         &
+                 d5,       d6,       pnew,     psh,        &
+                 qvis,     ssp_eq,   s1,       s2,         &
+                 s3,       s4,       s5,       s6,         &
+                 sigy,     defp,     dpla,     jlag    ,   &
+                 epsp,     tstar,    et,       mssa,       &
+                 dmels,    el_temp,  lbuf%sigb,al_imp,     &
+                 signor,   conde,    gbuf%dt,  gbuf%g_dt,  &
+                 nel,      ipm,      rhoref,   rhosp,      &
+                 ipg,      lbuf%dmg, ity,      jtur,       &
+                 jthe,     jsph,     ismstr,   jsms,       &
+                 npg ,     dpdm  ,   fheat ,   glob_therm)
 !----------------
             if (istrain > 0 .and.&
             &(h3d_strain == 1 .or. th_strain == 1 )) then
@@ -1990,7 +1988,7 @@
           if(elbuf_tab(ng)%bufly(ilay)%l_temp > 0)then
             cv = mat_elem%mat_param(imat)%eos%cv
             if(cv == zero)then
-              cp = pm(69,mat(1))/pm(89,mat(1))
+              cp = mat_elem%mat_param(imat)%therm%rhocp / mat_elem%mat_param(imat)%rho0
               cv = cp !hypothesis if eos did not provide cv
             end if
             ! temperature dT = Q/mcv
@@ -2018,7 +2016,7 @@
               ! total internal energy is used as heat source by default
               do i=1,nel
                 die(i) = lbuf%eint(i)*lbuf%vol(i) - die(i)
-                die(i) = die(i) * pm(90,imat)  ! mat_elem%mat_param(imat)%therm%efrac
+                die(i) = die(i) * mat_elem%mat_param(imat)%therm%efrac
                 heat_meca_l = heat_meca_l + die(i)
               end do
             else
@@ -2027,8 +2025,8 @@
               do i=1,nel
                 qheat = -half*(qold(i)+lbuf%qvis(i))*dvol(i)      ! 2nd order integration
                 fheat(i) = fheat(i) + qheat
-                heat_meca_l = heat_meca_l + fheat(i)*pm(90,imat)  ! mat_elem%mat_param(imat)%therm%efrac
-              end do
+                heat_meca_l = heat_meca_l + fheat(i) * mat_elem%mat_param(imat)%therm%efrac
+              enddo
             end if
 !$omp critical
             glob_therm%heat_meca = glob_therm%heat_meca + heat_meca_l

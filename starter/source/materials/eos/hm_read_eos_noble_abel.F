@@ -31,15 +31,14 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    message_mod              ../starter/share/message_module/message_mod.F
 !||    submodel_mod             ../starter/share/modules1/submodel_mod.F
 !||====================================================================
-      SUBROUTINE HM_READ_EOS_NOBLE_ABEL(IOUT,PM,UNITAB,IUNIT,LSUBMODEL,IMIDEOS,EOS_STRUCT)
+      SUBROUTINE HM_READ_EOS_NOBLE_ABEL(IOUT,PM,UNITAB,IUNIT,LSUBMODEL,IMIDEOS,MAT_PARAM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
       USE SUBMODEL_MOD
-      USE MESSAGE_MOD
-      USE EOS_PARAM_MOD , ONLY : EOS_PARAM_
-      !USE CONSTANT_MOD , ONLY : EM15,HALF,ONe,ZERO
+      USE MESSAGE_MOD      
+      USE MATPARAM_DEF_MOD, ONLY : MATPARAM_STRUCT_
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -63,8 +62,8 @@ C-----------------------------------------------
       INTEGER,INTENT(IN) :: IOUT,IUNIT
       my_real,INTENT(INOUT) :: PM(NPROPM)
       TYPE(SUBMODEL_DATA), DIMENSION(NSUBMOD), INTENT(IN) :: LSUBMODEL
+      TYPE(MATPARAM_STRUCT_),INTENT(INOUT) :: MAT_PARAM
       INTEGER,INTENT(IN) :: IMIDEOS
-      TYPE(EOS_PARAM_),INTENT(INOUT) :: EOS_STRUCT
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -89,13 +88,14 @@ C-----------------------------------------------
       CALL HM_GET_FLOATV('E0', E0, IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV('LAW5_PSH', PSH ,IS_AVAILABLE,LSUBMODEL,UNITAB)      
       CALL HM_GET_FLOATV('Refer_Rho', RHO0 ,IS_AVAILABLE_RHO0,LSUBMODEL,UNITAB)
-
+!-------------------------------------------------------------------------------
       RHOR = PM(1)
       RHOI = PM(89)
 
       IF(RHO0 > ZERO) THEN
         RHOR = RHO0
         PM(1)= RHO0 
+        MAT_PARAM%RHO = RHO0
       ELSE
         RHO0=RHOR                   
       ENDIF
@@ -103,18 +103,21 @@ C-----------------------------------------------
       PM(23) =  E0
       PM(32) = (GAMMA-ONE)*E0 / (ONE-BB*RHO0)**2   !BULK = (1+µ)*dP/dmu (partial derivative at constant E)
       PM(88) = PSH
-      IF(PM(79)==ZERO)PM(79)=THREE100
 
-      EOS_STRUCT%NUPARAM = 3
-      EOS_STRUCT%NIPARAM = 0
-      EOS_STRUCT%NFUNC = 0
-      EOS_STRUCT%NTABLE = 0
-      CALL EOS_STRUCT%CONSTRUCT() !allocations
+      MAT_PARAM%EOS%NUPARAM = 3
+      MAT_PARAM%EOS%NIPARAM = 0
+      MAT_PARAM%EOS%NFUNC = 0
+      MAT_PARAM%EOS%NTABLE = 0
+      CALL MAT_PARAM%EOS%CONSTRUCT() !allocations
 
-      EOS_STRUCT%UPARAM(1) = BB
-      EOS_STRUCT%UPARAM(2) = GAMMA-ONE
-      EOS_STRUCT%UPARAM(3) = RHO0
-      EOS_STRUCT%PSH = PSH
+      MAT_PARAM%EOS%UPARAM(1) = BB
+      MAT_PARAM%EOS%UPARAM(2) = GAMMA-ONE
+      MAT_PARAM%EOS%UPARAM(3) = RHO0
+      MAT_PARAM%EOS%PSH = PSH
+      IF (MAT_PARAM%THERM%TINI == ZERO) THEN
+        MAT_PARAM%THERM%TINI =THREE100
+        PM(79) = THREE100
+      END IF
 
       !COMPUTING INITIAL PRESSURE : PM(31) -> SIG(1:3,*)
       MU=RHOI/RHOR-ONE

@@ -165,7 +165,7 @@ c  Indx uses locally unlike 4N shells
      .   FWAVE_EL(NEL)
       INTEGER 
      .   I, J, NG,NPG,NNOD,PT0,PT1,PT2,NVS,IFLAG,IBID,NFAIL,
-     .   IR,IS,ILAY,NLAY,L_DIRA,L_DIRB,J1,J2,N1,N2,N3,
+     .   IR,IS,ILAY,NLAY,IMAT,L_DIRA,L_DIRB,J1,J2,N1,N2,N3,
      .   IGTYP,IGMAT,NPTTOT,IREP,IFAILWAVE,IDRAPE,IT,NPTT,
      .   ACTIFXFEM,SEDRAPE,NUMEL_DRAPE
       INTEGER ,DIMENSION(:) ,POINTER     :: FWAVE_NOD
@@ -471,11 +471,12 @@ C--------------------------
 C--------------------------
 C     THERMAL TIME STEP
 C--------------------------
-         IF (JTHE /= 0 .AND. GLOB_THERM%IDT_THERM == 1)THEN
-           call dttherm(nel     ,pm(1,mat(1))  ,npropm  ,glob_therm   ,
-     .                  jtur    ,tempel  ,vol0    ,rho       ,
-     .                  aldt    ,off     ,conde   ,gbuf%re   ,gbuf%rk )
-         ENDIF
+      IMAT = MAT(1)
+      IF (JTHE /= 0 .AND. GLOB_THERM%IDT_THERM == 1)THEN
+        call dttherm(nel     ,pm(1,imat),npropm,glob_therm,mat_elem%mat_param(imat),
+     .               jtur    ,tempel  ,vol0    ,rho       ,
+     .               aldt    ,off     ,conde   ,gbuf%re   ,gbuf%rk )
+      ENDIF
 c-------------------------
 c     Virtual internal forces of regularized non local ddl 
 c--------------------------

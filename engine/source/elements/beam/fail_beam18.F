@@ -42,10 +42,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    fail_visual_ib_mod   ../engine/source/materials/fail/visual/fail_visual_ib.F90
 !||    mat_elem_mod         ../common_source/modules/mat_elem/mat_elem_mod.F90
 !||====================================================================
-      SUBROUTINE FAIL_BEAM18(ELBUF_STR,FAIL     ,NUMMAT   ,NUMGEO   ,
-     .                       NPROPM   ,NPROPG   ,SNPC     ,STF      ,
-     .                       NEL      ,NPT      ,IMAT     ,IPROP    ,JTHE    ,
-     .                       TEMPEL   ,NGL      ,PM       ,GEO      ,
+      SUBROUTINE FAIL_BEAM18(ELBUF_STR,FAIL     ,MAT_PARAM,NUMGEO   ,
+     .                       NPROPG   ,SNPC     ,STF      ,
+     .                       NEL      ,NPT      ,IPROP    ,JTHE    ,
+     .                       TEMPEL   ,NGL      ,GEO      ,
      .                       OFF      ,EPSD     ,NPF      ,TF       ,
      .                       DPLA     ,EINT     ,TIME     ,IOUT     ,ISTDO   ,
      .                       AL       ,ISMSTR   ,EXX      ,EXY      ,EXZ     ,
@@ -72,13 +72,10 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ,INTENT(IN) :: NEL        ! size of element group
-      INTEGER ,INTENT(IN) :: IMAT       ! material law number
       INTEGER ,INTENT(IN) :: IPROP      ! beam property number
       INTEGER ,INTENT(IN) :: NPT        ! number of integration points in beam section
       INTEGER ,INTENT(IN) :: JTHE       ! thermal dependency flag
-      INTEGER ,INTENT(IN) :: NUMMAT     ! number of defined materials
       INTEGER ,INTENT(IN) :: NUMGEO     ! number of defined properties   
-      INTEGER ,INTENT(IN) :: NPROPM     ! size of real material parameter table
       INTEGER ,INTENT(IN) :: NPROPG     ! size of real property parameter table   
       INTEGER ,INTENT(IN) :: SNPC   
       INTEGER ,INTENT(IN) :: STF   
@@ -90,7 +87,6 @@ C-----------------------------------------------
       INTEGER ,DIMENSION(SNPC) ,INTENT(IN) :: NPF
       INTEGER ,DIMENSION(NEL)  ,INTENT(IN) :: NGL   ! table of element identifiers
       my_real                            ,INTENT(IN)    :: TIME
-      my_real ,DIMENSION(NPROPM ,NUMMAT) ,INTENT(IN)    :: PM
       my_real ,DIMENSION(NPROPG ,NUMGEO) ,INTENT(IN)    :: GEO
       my_real ,DIMENSION(NEL)            ,INTENT(IN)    :: EPSD
       my_real ,DIMENSION(NEL)            ,INTENT(IN)    :: AL
@@ -103,8 +99,9 @@ C-----------------------------------------------
       my_real                            ,INTENT(IN)    :: DTIME  
       my_real ,DIMENSION(NEL,NPT)        ,INTENT(IN)    :: SIGY    
 C
-      TYPE (ELBUF_STRUCT_) ,INTENT(INOUT) :: ELBUF_STR
-      TYPE (FAIL_PARAM_)   ,INTENT(IN)    :: FAIL
+      TYPE (ELBUF_STRUCT_)    ,INTENT(INOUT) :: ELBUF_STR
+      TYPE (FAIL_PARAM_)      ,INTENT(IN)    :: FAIL
+      TYPE (MATPARAM_STRUCT_) ,INTENT(IN)    :: MAT_PARAM
       TARGET :: ELBUF_STR
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -190,12 +187,10 @@ c
 c--------------- 
         CASE (1)     !    Johnson-Cook                                                   
           !  Tstar computation for Jhonson-Cook failure : T* = (T-T0)/(TM-T0)
-          IF (JTHE > 0) THEN
-            T0 = PM(79, IMAT) 
-            TM = PM(80, IMAT) 
-            DO I=1,NEL  
-              TSTAR(I) = MAX(ZERO,(TEMPEL(I)-T0)/(TM-T0))
-            ENDDO
+          IF (jthe > 0 .or. elbuf_str%bufly(1)%l_temp > 0) THEN
+            T0 = MAT_PARAM%THERM%TREF
+            TM = MAT_PARAM%THERM%TMELT
+            TSTAR(1:NEL) = MAX(ZERO,(TEMPEL(1:NEL)-T0)) / MAX((TM-T0),EM20)
           ELSE
             TSTAR(1:NEL) = ZERO
           ENDIF
@@ -206,12 +201,10 @@ c---------------
      .         TDEL      ,IOUT      ,ISTDO     ,ELBUF_STR%GBUF%UELR   ,NPT)
 c---------------          
         CASE (10)     !    Tension Strain failure model
-          IF (JTHE > 0) THEN
-            T0 = PM(79, IMAT) 
-            TM = PM(80, IMAT) 
-            DO I=1,NEL  
-              TSTAR(I) = MAX(ZERO,(TEMPEL(I)-T0)/(TM-T0))
-            ENDDO
+          IF (jthe > 0 .or. elbuf_str%bufly(1)%l_temp > 0) THEN
+            T0 = MAT_PARAM%THERM%TREF
+            TM = MAT_PARAM%THERM%TMELT
+            TSTAR(1:NEL) = MAX(ZERO,(TEMPEL(1:NEL)-T0)) / MAX((TM-T0),EM20)
           ELSE
             TSTAR(1:NEL) = ZERO
           ENDIF

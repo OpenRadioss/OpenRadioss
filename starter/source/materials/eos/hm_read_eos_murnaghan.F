@@ -32,14 +32,14 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    message_mod              ../starter/share/message_module/message_mod.F
 !||    submodel_mod             ../starter/share/modules1/submodel_mod.F
 !||====================================================================
-      SUBROUTINE HM_READ_EOS_MURNAGHAN(NPROPM, NUMMAT, IOUT,PM,UNITAB,IUNIT,LSUBMODEL,IMIDEOS,EOS_STRUCT)
+      SUBROUTINE HM_READ_EOS_MURNAGHAN(NPROPM, IOUT,PM,UNITAB,IUNIT,LSUBMODEL,IMIDEOS,MAT_PARAM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
       USE SUBMODEL_MOD
       USE MESSAGE_MOD
-      USE EOS_PARAM_MOD , ONLY : EOS_PARAM_
+      USE MATPARAM_DEF_MOD, ONLY : MATPARAM_STRUCT_
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -60,11 +60,11 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
-      INTEGER IIN,IOUT,IUNIT,NPROPM,NUMMAT
+      INTEGER IIN,IOUT,IUNIT,NPROPM
       my_real PM(NPROPM)
       TYPE(SUBMODEL_DATA), DIMENSION(NSUBMOD), INTENT(IN) :: LSUBMODEL
+      TYPE(MATPARAM_STRUCT_),INTENT(INOUT) :: MAT_PARAM
       INTEGER,INTENT(IN) :: IMIDEOS
-      TYPE(EOS_PARAM_),INTENT(INOUT) :: EOS_STRUCT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -91,6 +91,7 @@ C-----------------------------------------------
       IF(RHO0 > ZERO) THEN
         RHOR = RHO0
         PM(1)= RHO0 
+        MAT_PARAM%RHO = RHO0
       ELSE
         RHO0=RHOR                   
       ENDIF
@@ -104,18 +105,21 @@ C-----------------------------------------------
       PM(32)=K0 !BULK = (1+µ)*dP/dmu (partial derivative at constant E)
       PM(88)=PSH
       PM(23)=E0
-      IF(PM(79)==ZERO)PM(79)=THREE100
 
-      EOS_STRUCT%NUPARAM = 3
-      EOS_STRUCT%NIPARAM = 0
-      EOS_STRUCT%NFUNC = 0
-      EOS_STRUCT%NTABLE = 0
-      CALL EOS_STRUCT%CONSTRUCT() !allocations
+      MAT_PARAM%EOS%NUPARAM = 3
+      MAT_PARAM%EOS%NIPARAM = 0
+      MAT_PARAM%EOS%NFUNC   = 0
+      MAT_PARAM%EOS%NTABLE  = 0
+      CALL MAT_PARAM%EOS%CONSTRUCT() !allocations
 
-      EOS_STRUCT%UPARAM(1) = K0
-      EOS_STRUCT%UPARAM(2) = P0
-      EOS_STRUCT%UPARAM(3) = K1
-      EOS_STRUCT%PSH = PSH
+      MAT_PARAM%EOS%UPARAM(1) = K0
+      MAT_PARAM%EOS%UPARAM(2) = P0
+      MAT_PARAM%EOS%UPARAM(3) = K1
+      MAT_PARAM%EOS%PSH = PSH
+      IF (MAT_PARAM%THERM%TINI == ZERO) THEN
+        MAT_PARAM%THERM%TINI =THREE100
+        PM(79) = THREE100
+      END IF
 
       IF(RHOI == ZERO)THEN
         MU0 = ZERO ! error 683 already displayed

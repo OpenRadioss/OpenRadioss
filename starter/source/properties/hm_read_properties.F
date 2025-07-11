@@ -741,14 +741,14 @@ C
 C  error message for no mixed law with TYPE_17
 C
              J=STACK_INFO(NUMS)%MID(1)
-             MLAWLY = NINT(PM(19,J))
+             MLAWLY  = IPM(2,J)
              PROP_ID = IGEO(1,CPT)
 C-----OTHER ply
              DO 350 N=2,N1
                J = STACK_INFO(NUMS)%MID(N)
                MID = IPM(1,J)
                IF (IGTYP == 51) GOTO 350
-               IF (NINT(PM(19,J)) == MLAWLY) GOTO 350
+               IF (IPM(2,J) == MLAWLY) GOTO 350
                WRITE(LAW_ID,'(I2)')MLAWLY
                IF (MLAWLY==99) LAW_ID='USER'
                CALL ANCMSG(MSGID=899,
@@ -767,7 +767,7 @@ C
                 J = STACK_INFO(NUMS)%MID(N)
                 MID = IPM(1,J)
                 JPID = STACK_INFO(NUMS)%PID(N)
-                MLAWLY = NINT(PM(19,J))
+                MLAWLY = IPM(2,J)
                 IF (MLAWLY == 15 .OR. MLAWLY == 25 .OR. MLAWLY == 27 .OR.
      .             (MLAWLY >= 29 .AND.MLAWLY <= 31).OR. MLAWLY == 36 .OR.
      .              MLAWLY == 72 .OR. MLAWLY == 99) GOTO 450

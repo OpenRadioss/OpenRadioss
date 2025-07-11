@@ -31,12 +31,12 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||====================================================================
       SUBROUTINE ALLOCBUF_AUTO(ELBUF_TAB,NLAY,NPTR,NPTS,NPTT,
      .                         NINTLAY,NEL,NPT,NG,NGROUP,ITY,
-     .                         IGTYP,NPROPM,NUMMAT,PM )
+     .                         IGTYP,NUMMAT,MAT_PARAM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE MY_ALLOC_MOD
-      USE ELBUFDEF_MOD            
+      USE MAT_ELEM_MOD            
       USE MESSAGE_MOD
       USE CONSTANT_MOD , ONLY : EP21
 C-----------------------------------------------
@@ -46,11 +46,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER ,INTENT(IN) :: NPROPM
       INTEGER ,INTENT(IN) :: NUMMAT
       INTEGER NLAY,NINTLAY,NPTR,NPTS,NPTT,NEL,NPT,NG,NGROUP,ITY,IGTYP
       TYPE(ELBUF_STRUCT_),TARGET ,DIMENSION(NGROUP)     :: ELBUF_TAB
-      my_real :: PM(NPROPM,NUMMAT)
+      TYPE(MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(IN) :: MAT_PARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -191,7 +190,7 @@ c
              CALL MY_ALLOC(LBUF%WPLA,NEL*BUFLY%L_WPLA)              
                   LBUF%WPLA = ZERO                  
               CALL MY_ALLOC(LBUF%TEMP,NEL*BUFLY%L_TEMP)
-                  LBUF%TEMP = MIN(BUFLY%L_TEMP,1) * PM(79,IMAT) ! reference (initial) temperature
+                  LBUF%TEMP = MIN(BUFLY%L_TEMP,1)*MAT_PARAM(IMAT)%THERM%TINI
               CALL MY_ALLOC(LBUF%TB,NEL*BUFLY%L_TB)                
                   LBUF%TB = -EP21
               CALL MY_ALLOC(LBUF%RK,NEL*BUFLY%L_RK)                

@@ -25,11 +25,14 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- called by ------------------------------------------------------
 !||    tforc3   ../engine/source/elements/truss/tforc3.F
 !||====================================================================
-      SUBROUTINE M2LAWT(
-     1   PM,      GEO,     OFF,     FOR,
-     2   EINT,    AREA,    AL0,     PLA,
-     3   STI,     MAT,     MGM,     NGL,
-     4   EPS,     AL,      NEL)
+      SUBROUTINE M2LAWT(mat_param ,
+     1   GEO,     OFF,     FOR,     EINT,    AREA,    
+     2   AL0,     PLA,     STI,     MGM,     NGL,
+     3   EPS,     AL,      NEL)
+!-----------------------------------------------
+!   m o d u l e s
+!-----------------------------------------------
+      use matparam_def_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -50,36 +53,36 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER, INTENT(IN) :: NEL
-      INTEGER MAT(MVSIZ),MGM(MVSIZ),NGL(MVSIZ)
+      INTEGER MGM(MVSIZ),NGL(MVSIZ)
       my_real
-     .   PM(NPROPM,*),GEO(NPROPG,*),OFF(*),FOR(*),EINT(*),
+     .   GEO(NPROPG,*),OFF(*),FOR(*),EINT(*),
      .   AREA(*),AL0(*),PLA(*),STI(*),EPS(MVSIZ),AL(MVSIZ)
+      type (matparam_struct_)  ,intent(in)    :: mat_param
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER ICC(MVSIZ)
       INTEGER I,J
-      my_real
-     .   YM(MVSIZ),GAP(MVSIZ),
-     .   CA(MVSIZ),CB(MVSIZ),CN(MVSIZ),YMAX(MVSIZ),
-     .   EPMX(MVSIZ),YLD(MVSIZ),FF(MVSIZ),HH(MVSIZ),
-     .   AA(MVSIZ),PR(MVSIZ),YMA
+      INTEGER ICC(MVSIZ)
+      my_real YMA
+      my_real YM(MVSIZ),GAP(MVSIZ),CA(MVSIZ),CB(MVSIZ),CN(MVSIZ),YMAX(MVSIZ),
+     .        EPMX(MVSIZ),YLD(MVSIZ),FF(MVSIZ),HH(MVSIZ),AA(MVSIZ),PR(MVSIZ)
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
-      my_real
-     .   CVMGT
+      my_real :: CVMGT
 C-----------------------------------------------      
+      !J-C formulation only
+      
       DO I=1,NEL
-        YM(I)  =PM(20,MAT(I))
-        PR(I)  =PM(21,MAT(I))
-        CA(I)  =PM(38,MAT(I))
-        CB(I)  =PM(39,MAT(I))
-        CN(I)  =PM(40,MAT(I))
-        EPMX(I)=PM(41,MAT(I))
-        YMAX(I)=PM(42,MAT(I))
-        ICC(I) =NINT(PM(49,MAT(I)))
-        GAP(I) =GEO(2,MGM(I))
+        YM(I)  = mat_param%young
+        PR(I)  = mat_param%nu
+        ICC(I) = mat_param%iparam(2)
+        CA(I)  = mat_param%uparam(1)
+        CB(I)  = mat_param%uparam(2)
+        CN(I)  = mat_param%uparam(3)
+        EPMX(I)= mat_param%uparam(4)
+        YMAX(I)= mat_param%uparam(5)
+        GAP(I) = GEO(2,MGM(I))
       ENDDO
 c
       DO I=1,NEL
