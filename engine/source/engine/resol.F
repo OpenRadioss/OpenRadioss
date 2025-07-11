@@ -6520,7 +6520,7 @@ C       - a M + b K DAMPING
 C----------------------------------
               IF(NVOLU > 0)THEN
                 IF (IMONM > 0) CALL STARTIME(TIMERS,50)
-                IF(NSPMD>1)CALL SPMD_GLOB_MINV(DT2,ITYPTS,NELTS,VOLMON, FR_MV)
+                IF(NSPMD>1)CALL SPMD_GLOB_MINV(T_MONVOL,DT2,ITYPTS,NELTS,VOLMON, FR_MV)
 C========================================================================================
 C                                   DOMAIN 0
 C========================================================================================
