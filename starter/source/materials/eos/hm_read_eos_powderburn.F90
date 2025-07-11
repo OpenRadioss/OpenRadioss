@@ -29,32 +29,32 @@
 !! \details MU0 = RHOI/RHOR-1
 !! \details PM(31) = P(MU0,E0) = P0 -> will be used to initialize diagonal of stress tensor SIG(1:3,*) (initial state)
 !!
-!||====================================================================
-!||    hm_read_eos_powderburn   ../starter/source/materials/eos/hm_read_eos_powderburn.F90
-!||--- called by ------------------------------------------------------
-!||    hm_read_eos              ../starter/source/materials/eos/hm_read_eos.F
-!||--- calls      -----------------------------------------------------
-!||    ancmsg                   ../starter/source/output/message/message.F
-!||    hm_get_floatv            ../starter/source/devtools/hm_reader/hm_get_floatv.F
-!||    hm_get_intv              ../starter/source/devtools/hm_reader/hm_get_intv.F
-!||    hm_option_is_encrypted   ../starter/source/devtools/hm_reader/hm_option_is_encrypted.F
-!||--- uses       -----------------------------------------------------
-!||    elbuftag_mod             ../starter/share/modules1/elbuftag_mod.F
-!||    message_mod              ../starter/share/message_module/message_mod.F
-!||    submodel_mod             ../starter/share/modules1/submodel_mod.F
-!||====================================================================
-      subroutine hm_read_eos_powderburn(iout, pm, ipm, unitab, lsubmodel, imideos, mat_param, npropm, npropmi,mtag,&
-        eos_tag ,ieos)
+      !||====================================================================
+      !||    hm_read_eos_powderburn   ../starter/source/materials/eos/hm_read_eos_powderburn.F90
+      !||--- called by ------------------------------------------------------
+      !||    hm_read_eos              ../starter/source/materials/eos/hm_read_eos.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg                   ../starter/source/output/message/message.F
+      !||    hm_get_floatv            ../starter/source/devtools/hm_reader/hm_get_floatv.F
+      !||    hm_get_intv              ../starter/source/devtools/hm_reader/hm_get_intv.F
+      !||    hm_option_is_encrypted   ../starter/source/devtools/hm_reader/hm_option_is_encrypted.F
+      !||--- uses       -----------------------------------------------------
+      !||    elbuftag_mod             ../starter/share/modules1/elbuftag_mod.F
+      !||    message_mod              ../starter/share/message_module/message_mod.F
+      !||    submodel_mod             ../starter/share/modules1/submodel_mod.F
+      !||====================================================================
+      subroutine hm_read_eos_powderburn(iout, pm, ipm, unitab, lsubmodel, imideos, eos_struct, npropm, npropmi,mtag,&
+                                        eos_tag ,ieos)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
-        use unitab_mod
-        use submodel_mod
-        use message_mod
-        use matparam_def_mod , only : matparam_struct_
-        use constant_mod , only : zero, one, three100
-        use elbuftag_mod , only : mlaw_tag_, eos_tag_, maxeos
-        use precision_mod, only : WP
+      use unitab_mod
+      use submodel_mod
+      use message_mod
+      use constant_mod , only : zero, one, three100
+      use elbuftag_mod , only : mlaw_tag_, eos_tag_, maxeos
+      use precision_mod, only : WP
+      use eos_param_mod , only : eos_param_
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -65,17 +65,17 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
-        integer,intent(in) :: ieos !< EoS internal identifier
-        integer,intent(in) :: npropm, npropmi !< array sizes
-        type (unit_type_),intent(in) ::unitab !< units data structure
-        real(kind=WP),intent(inout) :: pm(npropm)   !< material (old) buffer (real)
-        integer,intent(inout) :: ipm(npropmi) !< material (old) buffer (int)
-        type(submodel_data), dimension(nsubmod), intent(in) :: lsubmodel !< submodeling data structure
-        integer,intent(in) :: imideos !< eos/mat identifier
-        type(matparam_struct_), intent(inout) :: mat_param !material data structure
-        integer,intent(in) :: iout !< output unit
-        type(mlaw_tag_),intent(inout) :: mtag
-        type(eos_tag_),dimension(0:maxeos) ,intent(inout) :: eos_tag
+      integer,intent(in) :: ieos !< EoS internal identifier
+      integer,intent(in) :: npropm, npropmi !< array sizes
+      type (unit_type_),intent(in) ::unitab !< units data structure
+      real(kind=WP),intent(inout) :: pm(npropm)   !< material (old) buffer (real)
+      integer,intent(inout) :: ipm(npropmi) !< material (old) buffer (int)
+      type(submodel_data), dimension(nsubmod), intent(in) :: lsubmodel !< submodeling data structure
+      integer,intent(in) :: imideos !< eos/mat identifier
+      integer,intent(in) :: iout !< output unit
+      type(mlaw_tag_),intent(inout) :: mtag
+      type(eos_tag_),dimension(0:maxeos) ,intent(inout) :: eos_tag
+      type(eos_param_),intent(inout) :: eos_struct
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local Variables
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -151,35 +151,37 @@
         pm(104)= p0-psh
         pm(27)=sqrt(bulk/rhoi) !ssp0
 
-        e0 = eg*rhoi
+      e0 = eg*rhoi
+      
+      ! MAT_PARAM
+      eos_struct%nuparam = 15
+      EOS_STRUCT%NIPARAM = 0
+      EOS_STRUCT%NFUNC = 0
+      EOS_STRUCT%NTABLE = 0
+      CALL EOS_STRUCT%CONSTRUCT() !allocationsct()
 
-        ! MAT_PARAM
-        mat_param%eos%title = 'powder-burn'
-        mat_param%eos%nuparam = 15
-        call mat_param%eos%construct()
+      eos_struct%uparam(1)  = bulk
+      eos_struct%uparam(2)  = p0
+      eos_struct%uparam(3)  = psh
+      eos_struct%uparam(4)  = dd
+      eos_struct%uparam(5)  = eg
+      eos_struct%uparam(6)  = gr
+      eos_struct%uparam(7)  = cc
+      eos_struct%uparam(8)  = alpha
+      eos_struct%uparam(9)  = scale_b
+      eos_struct%uparam(10) = scale_p
+      eos_struct%uparam(11) = scale_gam
+      eos_struct%uparam(12) = scale_rho
+      eos_struct%uparam(13) = c1
+      eos_struct%uparam(14) = c2
+      eos_struct%uparam(15) = e0
 
-        mat_param%eos%uparam(1)  = bulk
-        mat_param%eos%uparam(1)  = p0
-        mat_param%eos%uparam(3)  = psh
-        mat_param%eos%uparam(4)  = dd
-        mat_param%eos%uparam(5)  = eg
-        mat_param%eos%uparam(6)  = gr
-        mat_param%eos%uparam(7)  = cc
-        mat_param%eos%uparam(8)  = alpha
-        mat_param%eos%uparam(9)  = scale_b
-        mat_param%eos%uparam(10) = scale_p
-        mat_param%eos%uparam(11) = scale_gam
-        mat_param%eos%uparam(12) = scale_rho
-        mat_param%eos%uparam(13) = c1
-        mat_param%eos%uparam(14) = c2
-        mat_param%eos%uparam(15) = e0
-
-        mat_param%eos%nfunc = 2
-        mat_param%eos%func(1) = func_b
-        mat_param%eos%func(2) = func_gam
-        ipm(10)= 2
-        ipm(10+1) = func_b     !set internal id
-        ipm(10+2) = func_gam   ! internal id
+      eos_struct%nfunc = 2
+      eos_struct%func(1) = func_b
+      eos_struct%func(2) = func_gam
+      ipm(10)= 2
+      ipm(10+1) = func_b     !set internal id
+      ipm(10+2) = func_gam   ! internal id
 
         ! engine parameters (element buffer)
         EOS_TAG(IEOS)%NVAR = 7

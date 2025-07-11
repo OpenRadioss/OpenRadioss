@@ -52,20 +52,20 @@
 !! \details  COLLOCATED SCHEME
 !! \details     EOSMAIN / IFLG = 2 : SINGLE PASS FOR P[n+1] AND DERIVATIVES
 !----------------------------------------------------------------------------
-!||====================================================================
-!||    compaction      ../common_source/eos/compaction.F90
-!||--- called by ------------------------------------------------------
-!||    eosmain         ../common_source/eos/eosmain.F
-!||--- uses       -----------------------------------------------------
-!||    constant_mod    ../common_source/modules/constant_mod.F
-!||    eos_param_mod   ../common_source/modules/mat_elem/eos_param_mod.F90
-!||    precision_mod   ../common_source/modules/precision_mod.F90
-!||====================================================================
-        subroutine compaction(&
-          iflag , nel   , pm    , off  , eint , mu   , mu2 , &
-          dvol  , mat   , psh   , &
-          pnew  , dpdm  , dpde  , mu_bak,&
-          npropm, nummat, eos_param)
+      !||====================================================================
+      !||    compaction      ../common_source/eos/compaction.F90
+      !||--- called by ------------------------------------------------------
+      !||    eosmain         ../common_source/eos/eosmain.F
+      !||--- uses       -----------------------------------------------------
+      !||    constant_mod    ../common_source/modules/constant_mod.F
+      !||    eos_param_mod   ../common_source/modules/mat_elem/eos_param_mod.F90
+      !||    precision_mod   ../common_source/modules/precision_mod.F90
+      !||====================================================================
+      subroutine compaction(npropm, nummat,&
+                            iflag , nel   , pm    , off  , eint , mu   , mu2 , &
+                            dvol  , mat   , psh   , &
+                            pnew  , dpdm  , dpde  , mu_bak,&
+                            eos_struct)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -82,41 +82,39 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
-          integer,intent(in) :: nel !< number of element in the currenbt group
-          integer,intent(in) :: npropm, nummat !< array sizes
-          integer,intent(in) :: mat(nel), iflag
-          real(kind=WP),intent(inout) :: pm(npropm,nummat),off(nel),eint(nel),mu(nel),mu2(nel),dvol(nel)
-          real(kind=WP),intent(inout) :: pnew(nel),dpdm(nel),dpde(nel),mu_bak(nel)
-          type(eos_param_),intent(in) :: eos_param !< data structure for EoS parameters
+      integer,intent(in) :: nel !< number of element in the currenbt group
+      integer,intent(in) :: npropm, nummat !< array sizes
+      integer,intent(in) :: mat(nel), iflag
+      real(kind=WP),intent(inout) :: pm(npropm,nummat),off(nel),eint(nel),mu(nel),mu2(nel),dvol(nel)
+      real(kind=WP),intent(inout) :: pnew(nel),dpdm(nel),dpde(nel),mu_bak(nel)
+      type(eos_param_),intent(in) :: eos_struct !< data structure for EoS parameters
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local Variables
 ! ----------------------------------------------------------------------------------------------------------------------
-          integer :: i, mx, iform
-          real(kind=WP) :: p0,psh(nel),e0,sph, b(nel),pne1,pfrac
-          real(kind=WP) :: c0,c1,c2,c3,bunl,p(nel),p_
-          real(kind=WP) :: alpha,mu_min,mu_max
+      integer :: i, iform
+      real(kind=WP) :: psh(nel),e0,b(nel),pne1,pfrac
+      real(kind=WP) :: c0,c1,c2,c3,bunl,p(nel),p_
+      real(kind=WP) :: alpha,mu_min,mu_max
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
-          mu_max = eos_param%uparam(1)
-          mu_min = eos_param%uparam(2)
-          bunl = eos_param%uparam(3)
-          iform = eos_param%iparam(1)
+       mu_max = eos_struct%uparam(1)
+       mu_min = eos_struct%uparam(2)
+       bunl = eos_struct%uparam(3)
 
-          mx         = mat(1)
-          e0         = pm(23,mx)
-          c0         = pm(49,mx)
-          c1         = pm(32,mx)
-          c2         = pm(33,mx)
-          c3         = pm(34,mx)
-          psh(1:nel) = pm(88,mx)
-          bunl       = pm(45,mx)
-          mu_max     = pm(46,mx)
-          sph        = pm(69,mx)
-          p0         = pm(31,mx)
-          pfrac      = pm(37,mx)
-          mu_min     = pm(47,mx)
-          iform      = nint(pm(48,mx))
+       c0 = eos_struct%uparam(4) ! pm(49,mx)
+       c1 = eos_struct%uparam(5) ! pm(32,mx)
+       c2 = eos_struct%uparam(6) ! pm(33,mx)
+       c3 = eos_struct%uparam(7) ! pm(34,mx)
+       e0 = pm(23,mat(1))
+
+       !new format
+       psh(1:nel) = eos_struct%psh
+       pfrac = pm(37,mat(1))
+       mu_max = eos_struct%uparam(1)
+       mu_min = eos_struct%uparam(2)
+       bunl = eos_struct%uparam(3)
+       iform = eos_struct%iparam(1)
 
           !----------------------------------------------------------------!
           !  COMPACTION EOS                                                !

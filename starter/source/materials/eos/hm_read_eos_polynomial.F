@@ -20,24 +20,25 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-!||====================================================================
-!||    hm_read_eos_polynomial   ../starter/source/materials/eos/hm_read_eos_polynomial.F
-!||--- called by ------------------------------------------------------
-!||    hm_read_eos              ../starter/source/materials/eos/hm_read_eos.F
-!||--- calls      -----------------------------------------------------
-!||    hm_get_floatv            ../starter/source/devtools/hm_reader/hm_get_floatv.F
-!||    hm_option_is_encrypted   ../starter/source/devtools/hm_reader/hm_option_is_encrypted.F
-!||--- uses       -----------------------------------------------------
-!||    message_mod              ../starter/share/message_module/message_mod.F
-!||    submodel_mod             ../starter/share/modules1/submodel_mod.F
-!||====================================================================
-      SUBROUTINE HM_READ_EOS_POLYNOMIAL(IOUT,PM,UNITAB,IUNIT,LSUBMODEL,IMIDEOS,ISFLUID)
+      !||====================================================================
+      !||    hm_read_eos_polynomial   ../starter/source/materials/eos/hm_read_eos_polynomial.F
+      !||--- called by ------------------------------------------------------
+      !||    hm_read_eos              ../starter/source/materials/eos/hm_read_eos.F
+      !||--- calls      -----------------------------------------------------
+      !||    hm_get_floatv            ../starter/source/devtools/hm_reader/hm_get_floatv.F
+      !||    hm_option_is_encrypted   ../starter/source/devtools/hm_reader/hm_option_is_encrypted.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod              ../starter/share/message_module/message_mod.F
+      !||    submodel_mod             ../starter/share/modules1/submodel_mod.F
+      !||====================================================================
+      SUBROUTINE HM_READ_EOS_POLYNOMIAL(IOUT,PM,UNITAB,IUNIT,LSUBMODEL,IMIDEOS,ISFLUID,EOS_STRUCT)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE UNITAB_MOD
-      USE SUBMODEL_MOD
-      USE MESSAGE_MOD      
+       USE EOS_PARAM_MOD , ONLY : EOS_PARAM_
+       USE UNITAB_MOD
+       USE SUBMODEL_MOD
+       USE MESSAGE_MOD
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -63,6 +64,7 @@ C-----------------------------------------------
       TYPE(SUBMODEL_DATA), DIMENSION(NSUBMOD), INTENT(IN) :: LSUBMODEL
       INTEGER,INTENT(IN) :: IMIDEOS
       INTEGER,INTENT(INOUT) :: ISFLUID
+      TYPE(EOS_PARAM_),INTENT(INOUT) :: EOS_STRUCT
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -103,16 +105,25 @@ C-----------------------------------------------
         RHO0=RHOR                   
       ENDIF
 
-      PM( 23)=E0
-      PM(104)=C0-PSH
-      PM( 32)=C1
-      PM( 33)=C2
-      PM( 34)=C3
-      PM( 35)=C4
-      PM( 36)=C5
-      PM( 88)=PSH
+      PM(23)=E0
+      PM(32)=C1+C5*E0    !BULK = (1+µ)*dP/dmu (partial derivative at constant E)
+      PM(88)=PSH
       IF(PM(79)==ZERO)PM(79)=THREE100
-  
+
+      EOS_STRUCT%NUPARAM = 6
+      EOS_STRUCT%NIPARAM = 0
+      EOS_STRUCT%NFUNC = 0
+      EOS_STRUCT%NTABLE = 0
+      CALL EOS_STRUCT%CONSTRUCT() !allocations
+
+      EOS_STRUCT%UPARAM(1) = C0-PSH
+      EOS_STRUCT%UPARAM(2) = C1
+      EOS_STRUCT%UPARAM(3) = C2
+      EOS_STRUCT%UPARAM(4) = C3
+      EOS_STRUCT%UPARAM(5) = C4
+      EOS_STRUCT%UPARAM(6) = C5
+      EOS_STRUCT%PSH = PSH
+
       !initial pressure for stress tensor
       IF(RHOI == ZERO)THEN
         MU0 = ZERO ! error 683 already displayed
@@ -131,10 +142,13 @@ C-----------------------------------------------
       ENDIF
       
       IF(MU0 >= ZERO)THEN
-        PM(31)=C0-PSH+C1*MU0+C2*MU0**2+C3*MU0**3+(C4+C5*MU0)*E0
+        PM(31) = C0-PSH+C1*MU0+C2*MU0**2+C3*MU0**3+(C4+C5*MU0)*E0
+        !PM(104) = PM(31)
       ELSE
-        PM(31)=C0-PSH+C1*MU0          +C3*MU0**3+(C4+C5*MU0)*E0
+        PM(31) = C0-PSH+C1*MU0          +C3*MU0**3+(C4+C5*MU0)*E0
+        !PM(104) = PM(31)
       ENDIF
+      PM(104) = C0-PSH
       
       !SSP0
       SSP0 = ZERO 
@@ -175,5 +189,5 @@ C-----------------------------------------------
      & 5X,'EOS REFERENCE DENSITY . . . . . . . . . .=',1PG20.13)      
 
       RETURN
-      END
+      END SUBROUTINE HM_READ_EOS_POLYNOMIAL
 

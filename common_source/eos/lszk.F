@@ -20,18 +20,20 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-!||====================================================================
-!||    lszk      ../common_source/eos/lszk.F
-!||--- called by ------------------------------------------------------
-!||    eosmain   ../common_source/eos/eosmain.F
-!||====================================================================
-      SUBROUTINE LSZK    ( IFLAG,NEL  ,PM   ,OFF  ,EINT ,MU  ,
+      !||====================================================================
+      !||    lszk      ../common_source/eos/lszk.F
+      !||--- called by ------------------------------------------------------
+      !||    eosmain   ../common_source/eos/eosmain.F
+      !||====================================================================
+      SUBROUTINE LSZK    ( NPROPM, NUMMAT,
+     1                     IFLAG,NEL  ,PM   ,OFF  ,EINT ,MU  ,
      2                     ESPE ,DVOL ,DF   ,VNEW ,MAT  ,PSH ,
-     3                     PNEW ,DPDM ,DPDE )
+     3                     PNEW ,DPDM ,DPDE ,EOS_STRUCT)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-C
+        USE EOS_PARAM_MOD , ONLY : EOS_PARAM_
+        USE CONSTANT_MOD , ONLY : ZERO, EM15, HALF, ONE, THREE_HALF, TWO, THREE, THREE100
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -55,87 +57,62 @@ C Landau Stanyukovich Zeldovich Kompaneet
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-#include      "implicit_f.inc"
-#include      "comlock.inc"
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-#include      "param_c.inc"
-#include      "com04_c.inc"
-#include      "com06_c.inc"
-#include      "com08_c.inc"
-#include      "vect01_c.inc"
-#include      "scr06_c.inc"
+      IMPLICIT NONE
+#include      "my_real.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-        INTEGER MAT(NEL), IFLAG, NEL
-        my_real PM(NPROPM,NUMMAT),
-     .          OFF(NEL)  ,EINT(NEL) ,MU(NEL)   ,
-     .          ESPE(NEL) ,DVOL(NEL) ,DF(NEL)  ,
-     .          VNEW(NEL) ,PNEW(NEL) ,DPDM(NEL),
-     .          DPDE(NEL)
+      INTEGER,INTENT(IN) :: MAT(NEL), IFLAG, NEL, NPROPM, NUMMAT
+      my_real,INTENT(IN) ::  PM(NPROPM,NUMMAT),OFF(NEL),MU(NEL),ESPE(NEL),DVOL(NEL),DF(NEL),VNEW(NEL)
+      my_real,INTENT(INOUT) :: PNEW(NEL) ,DPDM(NEL),DPDE(NEL),EINT(NEL),PSH(NEL)
+      TYPE(EOS_PARAM_),INTENT(IN) :: EOS_STRUCT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-        INTEGER I, MX
-        my_real :: P0,PSH(NEL),GAMMA,E0,AA,BB,DVV,PP,AR0B,B,PC
+      INTEGER I, MX
+      my_real :: P0,GAMMA,E0,AA,BB,DVV,PP,AR0B,B,PC
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
-        IF(IFLAG == 0) THEN
-          MX         = MAT(1)
-          E0         = PM(23,MX)
-          GAMMA      = PM(34,MX)
-          P0         = PM(32,MX)
-          PSH(1:NEL) = PM(88,MX)
-          AR0B       = PM(35,MX)
-          B          = PM(36,MX)
-          PC         = PM(37,MX)
-          DO I=1,NEL
-            PP      = (GAMMA-ONE)*(ONE+MU(I))*ESPE(I) + AR0B*EXP(B*LOG(ONE+MU(I)))
-            DPDM(I) = (GAMMA-ONE)*ESPE(I)+AR0B*B/(ONE+MU(I))*EXP((B-ONE)*LOG(ONE+MU(I)))+(GAMMA-ONE)*DF(I)*PP   !total derivative
-            DPDE(I) = (GAMMA-ONE)*(ONE+MU(I))                                                                   !partial derivative
-            PNEW(I) = MAX(PP,PC)*OFF(I)  ! P(mu[n+1],E[n])
-            PNEW(I) = PNEW(I) - PSH(I)
-          ENDDO
+      E0         = PM(23,MAT(1))
+      PC         = PM(37,MAT(1))
+      PSH(1:NEL) = EOS_STRUCT%PSH
 
-        ELSEIF(IFLAG == 1) THEN
-          MX         = MAT(1)
-          E0         = PM(23,MX)
-          GAMMA      = PM(34,MX)
-          P0         = PM(32,MX)
-          PSH(1:NEL) = PM(88,MX)
-          AR0B       = PM(35,MX)
-          B          = PM(36,MX)
-          PC         = PM(37,MX)
-          DO I=1,NEL
-            BB         = (GAMMA-ONE)*(ONE+MU(I))
-            DPDE(I)    = BB
-            AA         = AR0B*EXP(B*LOG(ONE+MU(I)))
-            DVV        = HALF*DVOL(I)*DF(I) / MAX(EM15,VNEW(I))
-            PNEW(I)    = (AA + BB*ESPE(I) ) / (ONE+BB*DVV)
-            PNEW(I)    = MAX(PNEW(I),PC)*OFF(I)   ! P(mu[n+1],E[n+1])
-            EINT(I)    = EINT(I) - HALF*DVOL(I)*(PNEW(I))
-            PNEW(I)    = PNEW(I) - PSH(I)
-          ENDDO
+      GAMMA      = EOS_STRUCT%UPARAM(1)
+      P0         = EOS_STRUCT%UPARAM(2)
+      AR0B       = EOS_STRUCT%UPARAM(3)
+      B          = EOS_STRUCT%UPARAM(4)
 
-        ELSEIF (IFLAG == 2) THEN
-          MX           = MAT(1)
-          E0           = PM(23,MX)
-          GAMMA        = PM(34,MX)
-          P0           = PM(32,MX)
-          PSH(1:NEL) = PM(88,MX)
-          AR0B         = PM(35,MX)
-          B            = PM(36,MX)
-          DO I=1, NEL
-            IF (VNEW(I) > ZERO) THEN
-              PNEW(I) = (GAMMA-ONE)*(ONE+MU(I))*ESPE(I) + AR0B*EXP(B*LOG(ONE+MU(I)))
-              DPDM(I) = (GAMMA-ONE)*ESPE(I)+AR0B*B/(ONE+MU(I))*EXP((B-ONE)*LOG(ONE+MU(I)))+(GAMMA-ONE)*DF(I)*PNEW(I)   !total derivative
-              DPDE(I) = (GAMMA-ONE)*(ONE+MU(I))                                                               !partial derivative
-              PNEW(I) = PNEW(I)-PSH(I)
-            ENDIF
-          ENDDO
+      IF(IFLAG == 0) THEN
+        DO I=1,NEL
+          PP      = (GAMMA-ONE)*(ONE+MU(I))*ESPE(I) + AR0B*EXP(B*LOG(ONE+MU(I)))
+          DPDM(I) = (GAMMA-ONE)*ESPE(I)+AR0B*B/(ONE+MU(I))*EXP((B-ONE)*LOG(ONE+MU(I)))+(GAMMA-ONE)*DF(I)*PP   !total derivative
+          DPDE(I) = (GAMMA-ONE)*(ONE+MU(I))                                                                   !partial derivative
+          PNEW(I) = MAX(PP,PC)*OFF(I)  ! P(mu[n+1],E[n])
+          PNEW(I) = PNEW(I) - PSH(I)
+        ENDDO
+
+      ELSEIF(IFLAG == 1) THEN
+        DO I=1,NEL
+          BB         = (GAMMA-ONE)*(ONE+MU(I))
+          DPDE(I)    = BB
+          AA         = AR0B*EXP(B*LOG(ONE+MU(I)))
+          DVV        = HALF*DVOL(I)*DF(I) / MAX(EM15,VNEW(I))
+          PNEW(I)    = (AA + BB*ESPE(I) ) / (ONE+BB*DVV)
+          PNEW(I)    = MAX(PNEW(I),PC)*OFF(I)   ! P(mu[n+1],E[n+1])
+          EINT(I)    = EINT(I) - HALF*DVOL(I)*(PNEW(I))
+          PNEW(I)    = PNEW(I) - PSH(I)
+        ENDDO
+
+      ELSEIF (IFLAG == 2) THEN
+        DO I=1, NEL
+          IF (VNEW(I) > ZERO) THEN
+            PNEW(I) = (GAMMA-ONE)*(ONE+MU(I))*ESPE(I) + AR0B*EXP(B*LOG(ONE+MU(I)))
+            DPDM(I) = (GAMMA-ONE)*ESPE(I)+AR0B*B/(ONE+MU(I))*EXP((B-ONE)*LOG(ONE+MU(I)))+(GAMMA-ONE)*DF(I)*PNEW(I)   !total derivative
+            DPDE(I) = (GAMMA-ONE)*(ONE+MU(I))                                                               !partial derivative
+            PNEW(I) = PNEW(I)-PSH(I)
+          ENDIF
+        ENDDO
 
         ENDIF
 

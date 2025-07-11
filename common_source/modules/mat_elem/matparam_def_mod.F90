@@ -423,8 +423,6 @@
           type (multimat_param_)                       :: multimat !< buffer scpecific to multimaterial laws (51,151) : vfrac and mat internal identifiers
           type (ale_rezon_)                            :: rezon
 
-!        type (submat_)  ,dimension(:) ,allocatable :: submat    !< multi material data structure (to be defined)
-
         contains
           procedure :: destruct => destruct_matparam
           procedure :: zeroing => zeroing_matparam
@@ -532,7 +530,6 @@
           end if
 
         end subroutine destruct_matparam
-
 !
 !---------------
       end module matparam_def_mod

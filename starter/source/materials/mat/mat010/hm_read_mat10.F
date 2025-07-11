@@ -87,8 +87,8 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       LOGICAL :: IS_AVAILABLE,IS_ENCRYPTED
-      INTEGER :: I,IFUNC,COUNT,ID,IFORM,IEOS
-      my_real :: RHO0,RHOR,E,NU,A0,A1,A2,AMX,C0,C1,C2,C3,FAC_Y
+      INTEGER :: COUNT,IFORM,IEOS
+      my_real :: RHO0,RHOR,A0,A1,A2,AMX,C0,C1,C2,C3
       my_real :: PMIN,PEXT,XMUMX,BUNL,E0,G,PSTAR,PSH,DELTA,DET,YOUNG,ANU
       CHARACTER*64 :: chain,chain2  
 C-----------------------------------------------
@@ -142,6 +142,21 @@ C-----------------------------------------------
         IEOS = 13
         EOS_TAG(IEOS)%L_MU = 1
         MATPARAM%IEOS = IEOS
+        ! allocate EoS data structure
+        MATPARAM%EOS%NUPARAM = 7
+        MATPARAM%EOS%NIPARAM = 1
+        MATPARAM%EOS%NFUNC = 0
+        MATPARAM%EOS%NTABLE = 0
+        CALL MATPARAM%EOS%CONSTRUCT() !allocations
+        MATPARAM%EOS%uparam(1) = XMUMX
+        MATPARAM%EOS%uparam(2) = zero
+        MATPARAM%EOS%uparam(3) = BUNL
+        MATPARAM%EOS%uparam(4) = c0
+        MATPARAM%EOS%uparam(5) = c1
+        MATPARAM%EOS%uparam(6) = c2
+        MATPARAM%EOS%uparam(7) = c3
+        MATPARAM%EOS%iparam(1) = 1 !linear evolution of the unloading slope
+        MATPARAM%EOS%psh = psh
       ELSE
         IFORM=2 !new format (Eos defined from /EOS option)
         IEOS = 18   ! linear EOS is used by default 
@@ -287,19 +302,6 @@ C---- Buffer Size for specific element buffer allocations
       MTAG%L_EPSQ  = 1 ! /TH(EPSP)
       MTAG%L_MU    = 1 ! unloading history (volumetric plastic strain)
 
-      IF(COUNT == 5) THEN
-        !embedded compaction eos (old format)
-        MATPARAM%eos%nuparam = 3
-        MATPARAM%eos%niparam = 1
-        MATPARAM%eos%nfunc = 0
-        MATPARAM%eos%ntable = 0
-        call MATPARAM%eos%construct() !allocations
-        MATPARAM%eos%uparam(1) = XMUMX
-        MATPARAM%eos%uparam(2) = zero
-        MATPARAM%eos%uparam(3) = bunl
-        MATPARAM%eos%iparam(1) = iform
-      ENDIF
-      
       ! Material compatibility with /EOS option
       CALL INIT_MAT_KEYWORD(MATPARAM,"EOS")
 

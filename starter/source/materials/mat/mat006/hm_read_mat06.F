@@ -114,7 +114,7 @@ C-----------------------------------------------
       IF(INVERS_INIT<2018)IS_EOS=.TRUE.  !no embedded EoS before up to format 2017
       
       IF (IS_EOS) THEN
-         IEOS = 1   ! polynomial EOS
+         IEOS = 1   ! polynomial embedded EOS
          CALL HM_GET_FLOATV('MAT_C0'      ,C0     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
          CALL HM_GET_FLOATV('MAT_C1'      ,C1     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
          CALL HM_GET_FLOATV('MAT_C2'      ,C2     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
@@ -122,7 +122,22 @@ C-----------------------------------------------
          CALL HM_GET_FLOATV('MAT_C4'      ,C4     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
          CALL HM_GET_FLOATV('MAT_C5'      ,C5     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
          CALL HM_GET_FLOATV('MAT_EA'      ,E0     ,IS_AVAILABLE, LSUBMODEL, UNITAB)  
-         CALL HM_GET_FLOATV('MAT_PSH'     ,PSH    ,IS_AVAILABLE, LSUBMODEL, UNITAB)                                             
+         CALL HM_GET_FLOATV('MAT_PSH'     ,PSH    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+         ! allocate EoS data structure
+         MATPARAM%IEOS = 1
+         MATPARAM%EOS%NUPARAM = 6
+         MATPARAM%EOS%NIPARAM = 0
+         MATPARAM%EOS%NFUNC = 0
+         MATPARAM%EOS%NTABLE = 0
+         CALL MATPARAM%EOS%CONSTRUCT() !allocations
+         MATPARAM%EOS%UPARAM(1) = C0-PSH
+         MATPARAM%EOS%UPARAM(2) = C1
+         MATPARAM%EOS%UPARAM(3) = C2
+         MATPARAM%EOS%UPARAM(4) = C3
+         MATPARAM%EOS%UPARAM(5) = C4
+         MATPARAM%EOS%UPARAM(6) = C5
+         MATPARAM%EOS%PSH = PSH
+         MATPARAM%EOS%E0 = E0
       ELSE
          E0 = ZERO
          C0 = ZERO

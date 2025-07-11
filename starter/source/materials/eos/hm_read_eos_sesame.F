@@ -71,10 +71,7 @@ C-----------------------------------------------
       INTEGER,INTENT(IN) :: IMID      
       my_real PM(NPROPM),BUFMAT(*)
       TYPE(SUBMODEL_DATA), DIMENSION(NSUBMOD), INTENT(IN) :: LSUBMODEL
-      INTEGER,INTENT(IN) :: IMIDEOS    
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
+      INTEGER,INTENT(IN) :: IMIDEOS
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

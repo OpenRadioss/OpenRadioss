@@ -35,23 +35,23 @@
 !! \details  RHOR = PM(01)   -> provided by /MAT (can be erased by EOS if present : obsolete)
 !! \details  => MU0 = RHO/RHOR-1.
 !! \details  PM(31) = P(MU0,E0) -> will be used to initialize diagonal of stress tensor SIG(1:3,*)
-!||====================================================================
-!||    hm_read_eos_compaction2   ../starter/source/materials/eos/hm_read_eos_compaction2.F90
-!||--- called by ------------------------------------------------------
-!||    hm_read_eos               ../starter/source/materials/eos/hm_read_eos.F
-!||--- calls      -----------------------------------------------------
-!||    ancmsg                    ../starter/source/output/message/message.F
-!||    finter                    ../starter/source/tools/curve/finter.F
-!||    hm_get_floatv             ../starter/source/devtools/hm_reader/hm_get_floatv.F
-!||    hm_get_intv               ../starter/source/devtools/hm_reader/hm_get_intv.F
-!||    hm_option_is_encrypted    ../starter/source/devtools/hm_reader/hm_option_is_encrypted.F
-!||--- uses       -----------------------------------------------------
-!||    elbuftag_mod              ../starter/share/modules1/elbuftag_mod.F
-!||    message_mod               ../starter/share/message_module/message_mod.F
-!||    submodel_mod              ../starter/share/modules1/submodel_mod.F
-!||====================================================================
-        subroutine hm_read_eos_compaction2(iout,pm,unitab,lsubmodel,imideos,eos_tag,ieos,npropm,maxeos,&
-          eos_param, iunit, nfunc, npc, tf ,snpc ,npts )
+      !||====================================================================
+      !||    hm_read_eos_compaction2   ../starter/source/materials/eos/hm_read_eos_compaction2.F90
+      !||--- called by ------------------------------------------------------
+      !||    hm_read_eos               ../starter/source/materials/eos/hm_read_eos.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg                    ../starter/source/output/message/message.F
+      !||    finter                    ../starter/source/tools/curve/finter.F
+      !||    hm_get_floatv             ../starter/source/devtools/hm_reader/hm_get_floatv.F
+      !||    hm_get_intv               ../starter/source/devtools/hm_reader/hm_get_intv.F
+      !||    hm_option_is_encrypted    ../starter/source/devtools/hm_reader/hm_option_is_encrypted.F
+      !||--- uses       -----------------------------------------------------
+      !||    elbuftag_mod              ../starter/share/modules1/elbuftag_mod.F
+      !||    message_mod               ../starter/share/message_module/message_mod.F
+      !||    submodel_mod              ../starter/share/modules1/submodel_mod.F
+      !||====================================================================
+      subroutine hm_read_eos_compaction2(iout,pm,unitab,lsubmodel,imideos,eos_tag,ieos,npropm,maxeos,&
+                                          eos_struct, nfunc, npc, tf ,snpc ,npts )
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -65,26 +65,22 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
-          implicit none
-! ----------------------------------------------------------------------------------------------------------------------
-!                                                   Included files
-! ----------------------------------------------------------------------------------------------------------------------
+      implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
-          integer,intent(in) :: npropm, maxeos  !< array sizes
-          type (unit_type_),intent(in) ::unitab !< data structure for units (/UNIT)
-          integer, intent(in) :: iout !< file units
-          real(kind=WP), intent(inout) :: pm(npropm)  !< data structure for material laws
-          type(submodel_data), dimension(nsubmod), intent(in) :: lsubmodel !< data structure for sumobeling method (//SUBMODEL)
-          integer,intent(in) :: imideos
-          type(eos_tag_),dimension(0:maxeos) ,intent(inout) :: eos_tag !< data structure for EoS
-          integer,intent(in) :: ieos !< EoS (internal) identifier
-          type(eos_param_), intent(inout) :: eos_param !< eos data structure (specific parameters)
-          integer,intent(in) :: iunit !< unit identifier
-          integer,intent(in) :: snpc, npts, nfunc
-          integer,intent(in) :: npc(snpc)
-          real(kind=WP),intent(in) :: tf(npts)
+      integer,intent(in) :: npropm, maxeos  !< array sizes
+      type (unit_type_),intent(in) ::unitab !< data structure for units (/UNIT)
+      integer, intent(in) :: iout !< file units
+      real(kind=WP), intent(inout) :: pm(npropm)  !< data structure for material laws
+      type(submodel_data), dimension(nsubmod), intent(in) :: lsubmodel !< data structure for sumobeling method (//SUBMODEL)
+      integer,intent(in) :: imideos
+      type(eos_tag_),dimension(0:maxeos) ,intent(inout) :: eos_tag !< data structure for EoS
+      integer,intent(in) :: ieos !< EoS (internal) identifier
+      type(eos_param_), intent(inout) :: eos_struct !< eos data structure (specific parameters)
+      integer,intent(in) :: snpc, npts, nfunc
+      integer,intent(in) :: npc(snpc)
+      real(kind=WP),intent(in) :: tf(npts)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -100,7 +96,7 @@
           real(kind=WP) :: bmin, bmax !< unload modulus
           real(kind=WP) :: tmp, dpdmu_mumax, dpdmu_mumin
 
-          real(kind=WP) :: FAC_M,FAC_L,FAC_T,FAC_PRES !< factors for unit translation (case iunit > 0)
+      real(kind=WP) :: fac_pres !< factor for unit translation
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   External
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -138,6 +134,9 @@
           call hm_get_floatv('LAW5_PSH', psh, is_available,lsubmodel,unitab)
           call hm_get_floatv('Refer_Rho', rho0, is_available_rho0,lsubmodel,unitab)
 
+          !get dimension factor FSCALE_P for pressure (if any unit conversion to do)
+          call hm_get_floatv_dim('FSCALE_P', fac_pres, is_available, lsubmodel, unitab)
+
           rhor = pm(1)
           rhoi = pm(89)
 
@@ -167,39 +166,32 @@
 
           if(Xscale == zero) Xscale = one
 
-          if(iunit > 0)then
-            fac_m = unitab%fac_m(iunit)
-            fac_l = unitab%fac_l(iunit)
-            fac_t = unitab%fac_t(iunit)
-            fac_pres = fac_m / (fac_l*fac_t*fac_t)
-          else
-            fac_pres = one
-          endif
-          if(Fscale == zero) Fscale = one * fac_pres
+      if(Fscale == zero) Fscale = one * fac_pres
 
           if(pm(79)==zero)pm(79)=three100
 
-          !integer parameters
-          eos_param%nuparam = 7
-          eos_param%niparam = 1
-          eos_param%nfunc = 1
-          eos_param%ntable = 0
-          call eos_param%construct() !allocations
+      !integer parameters
+      eos_struct%nuparam = 6
+      eos_struct%niparam = 1
+      eos_struct%nfunc = 1
+      eos_struct%ntable = 0
+      call eos_struct%construct() !allocations
 
-          !real parameters
-          eos_param%uparam(1) = bmin
-          eos_param%uparam(2) = bmax
-          eos_param%uparam(3) = mumin
-          eos_param%uparam(4) = mumax
-          eos_param%uparam(5) = Fscale
-          eos_param%uparam(6) = Xscale
-          eos_param%uparam(7) = psh
+      !real parameters
+      eos_struct%uparam(1) = bmin
+      eos_struct%uparam(2) = bmax
+      eos_struct%uparam(3) = mumin
+      eos_struct%uparam(4) = mumax
+      eos_struct%uparam(5) = Fscale
+      eos_struct%uparam(6) = Xscale
 
-          !integer parameters
-          eos_param%iparam(1) = iform
+      eos_struct%psh = psh
 
-          !functions
-          eos_param%func(1) = P_FUNC_ID ! user function id
+      !integer parameters
+      eos_struct%iparam(1) = iform
+
+      !functions
+      eos_struct%func(1) = P_FUNC_ID ! user function id
 
           !initial sound speed
           if(rhoi == zero)then

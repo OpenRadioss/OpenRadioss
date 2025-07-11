@@ -44,8 +44,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||====================================================================
       SUBROUTINE HM_READ_MAT51(UPARAM ,MAXUPARAM,NUPARAM  ,ISRATE   , IMATVIS  ,
      .                         NUVAR  ,IFUNC    ,MAXFUNC  ,NFUNC    , PARMAT   ,
-     .                         UNITAB ,MAT_ID   ,TITR     ,MTAG     , LSUBMODEL,
-     .                         PM     ,MATPARAM ,IPM      ,NVARTMP)
+     .                         UNITAB ,MAT_UID   ,TITR    ,MTAG     , LSUBMODEL,
+     .                         PM     ,MAT_PARAM ,MAT_IID ,IPM      , NVARTMP  ,
+     .                         NUMMAT)
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -60,7 +61,7 @@ C     PM              MATERIAL ARRAY(REAL)
 C     ISRATE          FLAG FOR STRAIN RATE FILTERING
 C     IMATVIS         FLAG FOR VISCOSITY
 C     UNITAB          UNITS ARRAY
-C     MAT_ID          MATERIAL ID(INTEGER)
+C     MAT_UID          MATERIAL ID(INTEGER)
 C     TITR            MATERIAL TITLE
 C     LSUBMODEL       SUBMODEL STRUCTURE
 C     UPARAM          MATERIAL BUFFER
@@ -78,6 +79,7 @@ C-----------------------------------------------
       USE ALE_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
       USE MULTIMAT_PARAM_MOD , ONLY : M51_N0PHAS, M51_NVPHAS
+      USE MAT51_ASSOCIATE_EOS_MOD , ONLY : MAT51_ASSOCIATE_EOS
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -92,15 +94,17 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
+      TYPE (UNIT_TYPE_),INTENT(IN)    :: UNITAB
       my_real, INTENT(INOUT)          :: PM(NPROPM),PARMAT(100),UPARAM(MAXUPARAM)
       INTEGER,INTENT(INOUT)           :: IPM(NPROPMI)
       INTEGER, INTENT(INOUT)          :: ISRATE,IFUNC(MAXFUNC),NFUNC,MAXFUNC,MAXUPARAM,NUPARAM, NUVAR,IMATVIS
       TYPE(MLAW_TAG_),INTENT(INOUT)   :: MTAG
-      INTEGER,INTENT(IN)              :: MAT_ID
+      INTEGER,INTENT(IN)              :: MAT_UID !user id
+      INTEGER,INTENT(IN)              :: MAT_IID !internal id
+      INTEGER,INTENT(IN)              :: NUMMAT  !total number of material laws in input fiile
       CHARACTER(LEN=NCHARTITLE) ,INTENT(IN) :: TITR
       TYPE(SUBMODEL_DATA),INTENT(IN)  :: LSUBMODEL(NSUBMOD)
-      TYPE(MATPARAM_STRUCT_) ,INTENT(INOUT) :: MATPARAM
+      TYPE(MATPARAM_STRUCT_), TARGET ,INTENT(INOUT), DIMENSION(NUMMAT) :: MAT_PARAM
       INTEGER,INTENT(INOUT) :: NVARTMP
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -138,6 +142,8 @@ C-----------------------------------------------
       CHARACTER*32 :: CPEXT,CTCARP,CTCAR
       !---booleans
       LOGICAL      :: IS_AVAILABLE,IS_ENCRYPTED, IFLG6_SUBMAT_DEFINED(4)
+      !
+      type(matparam_struct_) , pointer :: matparam
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
@@ -145,6 +151,7 @@ C-----------------------------------------------
       IS_AVAILABLE = .FALSE.
       ISRATE=0
       IMATVIS=0
+      matparam => mat_param(mat_iid)
       !----------------!
       MTAG%L_SSP  = 1
       MTAG%L_SIGV = 1
@@ -267,6 +274,7 @@ C-----------------------------------------------
       DO I=1,3
         IF(IPLA(I) < 0 .OR. IPLA(I) > 2)IPLA(I)=0
       ENDDO
+      CALL HM_GET_INTV('NIP',NBMAT,IS_AVAILABLE,LSUBMODEL)
       !----------------!
       tAV(1:4) = ZERO
       tMID(1:4)= 0
@@ -275,6 +283,10 @@ C-----------------------------------------------
       ! IFLG == 0                  !
       !============================!
       CASE(0)
+        MATPARAM%multimat%old_data_format = 1
+        !ALLOCATE(MATPARAM%multimat%EOS(4))
+        CALL MATPARAM%multimat%EOS_CONSTRUCT
+        CALL mat51_associate_eos(MAT_PARAM,NUMMAT,MAT_IID)
         !necessarily INVERS_SRC < 2023 : otherwise default leads to IFLG=12
         !line-3
         CALL HM_GET_FLOATV('PEXT'     , PEXT , IS_AVAILABLE, LSUBMODEL, UNITAB)
@@ -293,6 +305,17 @@ C-----------------------------------------------
           CALL HM_GET_FLOAT_ARRAY_INDEX('MAT_C5_Iflg0_phas'    , C5(I)    ,I ,IS_AVAILABLE, LSUBMODEL, UNITAB)
           CALL HM_GET_FLOAT_ARRAY_INDEX('MAT_G_Iflg0_phas'     , GG(I)    ,I ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         ENDDO
+        DO I=1,3
+          MATPARAM%multimat%eos(I)%PSH = PEXT
+          MATPARAM%multimat%eos(I)%E0 = E0(I)
+          MATPARAM%multimat%eos(I)%PMIN = PMIN_(I)
+          MATPARAM%multimat%eos(I)%UPARAM(1) = C0(I)-PEXT
+          MATPARAM%multimat%eos(I)%UPARAM(2) = C1(I)
+          MATPARAM%multimat%eos(I)%UPARAM(3) = C2(I)
+          MATPARAM%multimat%eos(I)%UPARAM(4) = C3(I)
+          MATPARAM%multimat%eos(I)%UPARAM(5) = C4(I)
+          MATPARAM%multimat%eos(I)%UPARAM(6) = C5(I)
+        ENDDO
         CALL HM_GET_FLOAT_ARRAY_INDEX_DIM('MAT_P_Iflg0_phas' ,FAC_UNIT_SPH   ,1 ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         IF(GG(1)+GG(2)+GG(3)==ZERO)THEN
           IPLA_=0
@@ -310,7 +333,7 @@ C-----------------------------------------------
         !obsolete law51-formulation
         IF(INVERS_SRC>=2023)THEN
           chain1='INPUT TYPE IFORM=1 IS OBSOLETE SINCE 2023 VERSION : IFORM=12 MUST BE USED'
-          CALL ANCMSG(MSGID=75, MSGTYPE=MSGERROR, ANMODE=ANINFO, I1=MAT_ID,C1=TITR,C2=chain1)
+          CALL ANCMSG(MSGID=75, MSGTYPE=MSGERROR, ANMODE=ANINFO, I1=MAT_UID,C1=TITR,C2=chain1)
           RETURN
         ENDIF
         !line-3
@@ -387,7 +410,7 @@ C-----------------------------------------------
         ALE%GLOBAL%IS_BOUNDARY_MATERIAL=.TRUE.
         IF(INVERS_SRC>=2023)THEN
           chain1='INPUT TYPE IFORM=3 IS OBSOLETE SINCE 2023 VERSION : IFORM=6 MUST BE USED'
-          CALL ANCMSG(MSGID=75, MSGTYPE=MSGERROR, ANMODE=ANINFO, I1=MAT_ID,C1=TITR,C2=chain1)
+          CALL ANCMSG(MSGID=75, MSGTYPE=MSGERROR, ANMODE=ANINFO, I1=MAT_UID,C1=TITR,C2=chain1)
           RETURN
         ENDIF
         DO I=1,3
@@ -486,7 +509,7 @@ C-----------------------------------------------
         !obsolete law51-formulation
         IF(INVERS_SRC>=2023)THEN
           chain1='INPUT TYPE IFORM=10 IS OBSOLETE SINCE 2023 VERSION : IFORM=12 MUST BE USED'        
-          CALL ANCMSG(MSGID=75, MSGTYPE=MSGERROR, ANMODE=ANINFO, I1=MAT_ID,C1=TITR,C2=chain1)
+          CALL ANCMSG(MSGID=75, MSGTYPE=MSGERROR, ANMODE=ANINFO, I1=MAT_UID,C1=TITR,C2=chain1)
           RETURN
         ENDIF               
         CALL HM_GET_FLOATV('PEXT'       ,PEXT         ,IS_AVAILABLE, LSUBMODEL, UNITAB)
@@ -552,7 +575,7 @@ C-----------------------------------------------
         !obsolete law51-formulation
         IF(INVERS_SRC>=2023)THEN
           chain1='INPUT TYPE IFORM=11 IS OBSOLETE SINCE 2023 VERSION : IFORM=12 MUST BE USED'        
-          CALL ANCMSG(MSGID=75, MSGTYPE=MSGERROR, ANMODE=ANINFO, I1=MAT_ID,C1=TITR,C2=chain1)   
+          CALL ANCMSG(MSGID=75, MSGTYPE=MSGERROR, ANMODE=ANINFO, I1=MAT_UID,C1=TITR,C2=chain1)
           RETURN
         ENDIF        
         CALL HM_READ_MAT51_IFORM11(
@@ -603,7 +626,7 @@ C-----------------------------------------------
         AV(1:4) = tAV(1:4)
         IF(MIP==0)THEN
               chain1='SUBMATERIAL DATA NOT FOUND '
-              CALL ANCMSG(MSGID=99,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=MAT_ID,C1=TITR,C2=chain1)
+              CALL ANCMSG(MSGID=99,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=MAT_UID,C1=TITR,C2=chain1)
               RETURN
         ENDIF
         DO I=1,MIP
@@ -611,7 +634,7 @@ C-----------------------------------------------
               chain(1:10)='          '
               write(chain(1:10),'(i10)')tMID(I)
               chain1='INCORRECT MATERIAL IDENTIFIER '//chain(1:10)
-              CALL ANCMSG(MSGID=99,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=MAT_ID,C1=TITR,C2=chain1)
+              CALL ANCMSG(MSGID=99,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=MAT_UID,C1=TITR,C2=chain1)
               tMID(I)=0
               RETURN
           ENDIF
@@ -621,7 +644,7 @@ C-----------------------------------------------
               chain(1:20)='                    '
               write(chain(1:20),'(e20.14)')tAV(I)
               chain1='VOLUME FRACTION MUST BE BETWEEN 0.0 AND 1.0 , READ VALUE IS '// chain(1:20)
-              CALL ANCMSG(MSGID=99,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=MAT_ID,C1=TITR,C2=chain1)
+              CALL ANCMSG(MSGID=99,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=MAT_UID,C1=TITR,C2=chain1)
               RETURN
           ENDIF
         ENDDO
@@ -630,7 +653,7 @@ C-----------------------------------------------
             chain(1:20)='                    '
             write(chain(1:20),'(F20.8)')SUMVF
             chain1='SUM OF VOLUME FRACTION MUST BE EQUAL TO 1.0, CURRENT SUM IS '// chain(1:20)
-            CALL ANCMSG(MSGID=99,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=MAT_ID,C1=TITR,C2=chain1)
+            CALL ANCMSG(MSGID=99,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=MAT_UID,C1=TITR,C2=chain1)
             RETURN
         ENDIF
       !============================!
@@ -639,7 +662,7 @@ C-----------------------------------------------
       CASE DEFAULT
        !not correct iform value
            chain1='INCORRECT IFORM VALUE '
-           CALL ANCMSG(MSGID=99,MSGTYPE=MSGERROR,ANMODE=ANINFO_BLIND_1,I1=MAT_ID,C1=TITR,C2=chain1)
+           CALL ANCMSG(MSGID=99,MSGTYPE=MSGERROR,ANMODE=ANINFO_BLIND_1,I1=MAT_UID,C1=TITR,C2=chain1)
            RETURN
       END SELECT
       !============================!
@@ -688,7 +711,7 @@ C-----------------------------------------------
               PSTAR(I) = -INFINITY
               chain='SUBMAT-0 : YIELD SURFACE HAS NO ROOT.                          '
               write(chain(8:8),'(i1.1)')I
-              CALL ANCMSG(MSGID=829,MSGTYPE=MSGWARNING,ANMODE=ANINFO,I1=51,I2=MAT_ID,C1='WARNING',C2=TITR,C3=chain)
+              CALL ANCMSG(MSGID=829,MSGTYPE=MSGWARNING,ANMODE=ANINFO,I1=51,I2=MAT_UID,C1='WARNING',C2=TITR,C3=chain)
             ENDIF
           ELSE
             !do nothing let user do what he wants
@@ -771,12 +794,12 @@ C     !============================!
       IF(RHO0_(4) > ZERO)THEN
         IF(C1(4)  <= ZERO)THEN
            chain1='BULK MODULUS C14 MUST BE PROVIDED FOR UNREACTED EXPLOSIVE'
-           CALL ANCMSG(MSGID=99,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=MAT_ID,C1=TITR,C2=chain1)
+           CALL ANCMSG(MSGID=99,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=MAT_UID,C1=TITR,C2=chain1)
            RETURN
         ENDIF
         IF(VDET  <= ZERO)THEN
           chain1='DETONATION VELOCITY MUST BE INPUT FOR EXPLOSIVE SUBMATERIAL'
-          CALL ANCMSG(MSGID=99,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=MAT_ID,C1=TITR,C2=chain1)
+          CALL ANCMSG(MSGID=99,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=MAT_UID,C1=TITR,C2=chain1)
           RETURN
         ENDIF
       ENDIF
@@ -792,7 +815,7 @@ C     !============================!
      .   AV, RHO0_,  C0,  C1,  C2, C3, C4,  C5,
      .   E0, PM, RHO0, RHOR, IEXP, PEXT, IFLG,
      .   A1, A2, IPLA,
-     .   MAT_ID ,TITR,
+     .   MAT_UID ,TITR,
      .   SSP(1),SSP(2),SSP(3),SSP(4),
      .   LC(1), LC(2), LC(3), LC(4),
      .   Pini)
@@ -980,7 +1003,7 @@ C     !============================!
       !============================!
       ! Starter Listing File       !
       !============================!
-      WRITE(IOUT,997) TRIM(TITR),MAT_ID,51
+      WRITE(IOUT,997) TRIM(TITR),MAT_UID,51
       WRITE(IOUT,998)
       IF(IS_ENCRYPTED)THEN
         WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'

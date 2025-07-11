@@ -84,27 +84,31 @@
           iad = iad+1 ; eos%isfluid = ibuf(iad)
           deallocate( ibuf )
 
-          ! read eos model parameters (real)
-          call read_i_c(ilen, 1)
-          len = ilen(1)
-          allocate (rbuf(len))
-          call read_db(rbuf, len)
-          iad = 0
-          iad = iad+1 ; eos%cv = rbuf(iad)
-          iad = iad+1 ; eos%cp = rbuf(iad)
-          deallocate( rbuf )
-
-          ! read material title
-          call read_c_c(name,nchartitle)
-          do i=1,nchartitle
-            eos%title(i:i) = char(name(i))
-          end do
-
-          ! read eos parameter arrays
-          nuparam = eos%nuparam
-          niparam = eos%niparam
-          call my_alloc(eos%uparam ,nuparam)
-          call my_alloc(eos%iparam ,niparam)
+      ! read eos model parameters (real)
+      call read_i_c(ilen, 1)
+      len = ilen(1)
+      allocate (rbuf(len))
+      call read_db(rbuf, len)
+      iad = 0
+      iad = iad+1 ; eos%cv  = rbuf(iad)
+      iad = iad+1 ; eos%cp  = rbuf(iad)
+      iad = iad+1 ; eos%psh = rbuf(iad)
+      iad = iad+1 ; eos%e0 = rbuf(iad)
+      iad = iad+1 ; eos%p0 = rbuf(iad)
+      iad = iad+1 ; eos%pmin = rbuf(iad)
+      deallocate( rbuf )
+      
+      ! read material title                      
+      call read_c_c(name,nchartitle)             
+      do i=1,nchartitle                          
+        eos%title(i:i) = char(name(i))           
+      end do                                     
+      
+      ! read eos parameter arrays          
+      nuparam = eos%nuparam                      
+      niparam = eos%niparam                      
+      call my_alloc(eos%uparam ,nuparam)         
+      call my_alloc(eos%iparam ,niparam)         
 
           if (nuparam > 0) then
             call read_db(eos%uparam  ,nuparam)

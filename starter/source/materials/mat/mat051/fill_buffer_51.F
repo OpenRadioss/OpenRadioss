@@ -40,6 +40,7 @@ C-----------------------------------------------
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
       USE MATPARAM_DEF_MOD, ONLY : MATPARAM_STRUCT_
       USE ELBUFTAG_MOD , ONLY : MLAW_TAG_
+      use mat51_associate_eos_mod , only : mat51_associate_eos
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -99,6 +100,7 @@ C-----------------------------------------------
      .           TMELT4,THETL4,SPH4,T40,XKA4,XKB4,SSP4,
      .           EADD,TBEGIN,TEND,REACTION_RATE,A_MIL,M_MIL,N_MIL,REACTION_RATE2,ALPHA_UNIT
       INTEGER :: IBFRAC,QOPT,NEXPLO,IMIN
+      my_real :: GAMMA
 
       !====================================LAW03 - PARAMETERS
       my_real :: YOUNG,ANU,G,BULK,PMIN,CA,CB,CN,EPSM,SIGM,GG
@@ -142,6 +144,8 @@ C-----------------------------------------------
       !filled in lecm51
       MID(1:4) = NINT(UPARAM(9:12))
       AV(1:4)  = UPARAM(13:16)
+      UPARAM(4:6) = ZERO !av1-3
+      UPARAM(46) = ZERO !av4
       UPARAM(9:280)=ZERO
       UPARAM(31) = 12
       MID_VALID(1:4)=0
@@ -261,11 +265,23 @@ C-----------------------------------------------
        IPM(5,INTERNAL_ID)=COUNT_VALID_MAT  !storing NUMBER OF SUBMATERIALS
        PM(27,INTERNAL_ID) = ZERO
 
+       DO I=1,NBMAT
+         IMID     = NINTRI(MID(I),IPM,NPROPMI,NUMMAT,1)
+         MAT_PARAM(INTERNAL_ID)%MULTIMAT%MID(I) = IMID !user ID -> internal ID
+         EOS_TYPE = IPM(4,IMID)
+         IF(EOS_TYPE == 0)THEN
+            chain1='MISSING SUBMATERIAL EOS'
+            CALL ANCMSG(MSGID=99,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=USER_ID,C1=TITR,C2=chain1)
+         ENDIF
+       ENDDO
+
+       CALL mat51_associate_eos(mat_param,nummat,INTERNAL_ID)
+
        RHO_MAX=ZERO
        DO I=1,COUNT_VALID_MAT
          IMID     = NINTRI(MID(I),IPM,NPROPMI,NUMMAT,1)
          MAT_PARAM(INTERNAL_ID)%MULTIMAT%MID(I) = IMID !user ID -> internal ID
-         IPM(50+I,INTERNAL_ID)=UPARAM(276+I)           !storing bijective order of submaterial
+         IPM(50+I,INTERNAL_ID) = NINT(UPARAM(276+I))           !storing bijective order of submaterial
          MLN      = IPM(2,IMID)
          EOS_TYPE = IPM(4,IMID)
          PM_      => PM(1:,IMID)
@@ -282,39 +298,54 @@ C-----------------------------------------------
          IF(MLN /= 5)THEN
            SELECT CASE(EOS_TYPE)
                !EOS PARAMETERS DEPENDS ON 'EOS_TYPE'
-               CASE(1,18)                  !18:/EOS/LINEAR
-                 RHO    = PM_(1)           !1 :/EOS/POLYNOMIAL
+               CASE(1) !1: /EOS/POLYNOMIAL
+                 RHO    = PM_(1)
                  E0     = PM_(23)
-                 C0     = PM_(104)   !C0-PSH
-                 C1     = PM_(32)
-                 C2     = PM_(33)
-                 C3     = PM_(34)
-                 C4     = PM_(35)
-                 C5     = PM_(36)
+                 C0     = MAT_PARAM(INTERNAL_ID)%MULTIMAT%pEOS(I)%EOS%UPARAM(1)
+                 C1     = MAT_PARAM(INTERNAL_ID)%MULTIMAT%pEOS(I)%EOS%UPARAM(2)
+                 C2     = MAT_PARAM(INTERNAL_ID)%MULTIMAT%pEOS(I)%EOS%UPARAM(3)
+                 C3     = MAT_PARAM(INTERNAL_ID)%MULTIMAT%pEOS(I)%EOS%UPARAM(4)
+                 C4     = MAT_PARAM(INTERNAL_ID)%MULTIMAT%pEOS(I)%EOS%UPARAM(5)
+                 C5     = MAT_PARAM(INTERNAL_ID)%MULTIMAT%pEOS(I)%EOS%UPARAM(6)
                  PSH    = PM_(88)
-                 T0     = PM_(35)
-               CASE(7)                     !07:/EOS/IDEAL-GAS
+                 T0     = PM_(79)
+               CASE(18) !18: /EOS/LINEAR
+                 RHO    = PM_(1)
+                 E0     = ZERO
+                 C0     = MAT_PARAM(INTERNAL_ID)%MULTIMAT%pEOS(I)%EOS%UPARAM(1)
+                 C1     = MAT_PARAM(INTERNAL_ID)%MULTIMAT%pEOS(I)%EOS%UPARAM(2)
+                 C2     = ZERO
+                 C3     = ZERO
+                 C4     = ZERO
+                 C5     = ZERO
+                 PSH    = PM_(88)
+                 T0     = PM_(79)
+               CASE(7) !07: /EOS/IDEAL-GAS
+                 GAMMA  = MAT_PARAM(INTERNAL_ID)%MULTIMAT%pEOS(I)%EOS%UPARAM(1)
+                 T0     = MAT_PARAM(INTERNAL_ID)%MULTIMAT%pEOS(I)%EOS%UPARAM(3)
                  RHO    = PM_(1)
                  E0     = PM_(23)
                  C0     = -PM_(88)
                  C1     = ZERO
                  C2     = ZERO
                  C3     = ZERO
-                 C4     = PM_(32)-ONE
-                 C5     = PM_(32)-ONE
+                 C4     = GAMMA-ONE
+                 C5     = GAMMA-ONE
                  PSH    = PM_(88)
-                 T0     = PM_(35)
-               CASE(10)                    !10:/EOS/STIFF-GAS
+               CASE(10) !10: /EOS/STIFF-GAS
+                 GAMMA = MAT_PARAM(INTERNAL_ID)%MULTIMAT%pEOS(I)%EOS%UPARAM(1)
+                 P0 = MAT_PARAM(INTERNAL_ID)%MULTIMAT%pEOS(I)%EOS%UPARAM(2)
+                 PSTAR = MAT_PARAM(INTERNAL_ID)%MULTIMAT%pEOS(I)%EOS%UPARAM(3)
                  RHO    = PM_(1)
                  E0     = PM_(23)
-                 C0     = -PM_(34)*PM_(35)-PM_(88)  !-gamma*P_star  - PSH
+                 C0     = -GAMMA*PSTAR-PM_(88)  !-gamma*P_star  - PSH
                  C1     = ZERO
                  C2     = ZERO
                  C3     = ZERO
-                 C4     = PM_(34)-ONE
-                 C5     = PM_(34)-ONE
+                 C4     = gamma-ONE
+                 C5     = gamma-ONE
                  PSH    = PM_(88)
-                 T0     = PM_(35)
+                 T0     = PM_(79)
                CASE DEFAULT
                  RHO    = -HUGE(RHO)
                  E0     = -HUGE(E0)
@@ -344,7 +375,7 @@ C-----------------------------------------------
             SSP    = SQRT( (DPDMU + TWO_THIRD*G) / RHO )
             PM(27,INTERNAL_ID) = MAX( PM(27,INTERNAL_ID), SSP  )
             !---WRITING LAW51 SUBMATERIAL BUFFER FOR EOS
-            J = UPARAM(276+I)
+            J = NINT(UPARAM(276+I))
             UPARAM(IDX_AV      +J) = AV(I)
             UPARAM(IDX_RHO     +J) = RHO
             UPARAM(IDX_C0      +J) = C0
@@ -466,7 +497,7 @@ C-----------------------------------------------
              GG     =  TWO*G
              SSP    = SQRT( (DPDMU + TWO_THIRD*G) / RHO )
              !---WRITING LAW51 SUBMATERIAL BUFFER
-             J = UPARAM(276+I)
+             J = NINT(UPARAM(276+I))
              UPARAM(IDX_IPLA    +J)  = 1
              IPLA                    = 1
              UPARAM(IDX_G       +J)  = GG
@@ -524,7 +555,7 @@ C-----------------------------------------------
              GG     =  TWO*G
              SSP    = SQRT( (DPDMU + TWO_THIRD*G) / RHO )
              !---WRITING LAW51 SUBMATERIAL BUFFER
-             J = UPARAM(276+I)
+             J = NINT(UPARAM(276+I))
              UPARAM(IDX_IPLA    +J)  = 1
              IPLA                    = 1
              UPARAM(IDX_G       +J)  = GG
@@ -585,7 +616,7 @@ C-----------------------------------------------
              AMX   = ZERO
              SSP   = SQRT( (DPDMU + ZERO) / RHO )
              !---WRITING LAW51 SUBMATERIAL BUFFER
-             J = UPARAM(276+I)
+             J = NINT(UPARAM(276+I))
              UPARAM(IDX_IPLA    +J)  = 0
              UPARAM(IDX_G       +J)  = GG
              UPARAM(IDX_YIELD(J)+01) = G
@@ -644,7 +675,7 @@ C-----------------------------------------------
              GG     =  TWO*G
              SSP    = SQRT( (DPDMU + TWO_THIRD*G) / RHO )
              !---WRITING LAW51 SUBMATERIAL BUFFER
-             J = UPARAM(276+I)
+             J = NINT(UPARAM(276+I))
              UPARAM(IDX_IPLA    +J)  = 2
              IPLA                    = 1
              UPARAM(IDX_G       +J)  = GG
@@ -678,7 +709,7 @@ C-----------------------------------------------
              GG = TWO*G
              SSP    = SQRT( (DPDMU + TWO_THIRD*GG) / RHO )
              !---WRITING LAW51 SUBMATERIAL BUFFER
-             J = UPARAM(276+I)
+             J = NINT(UPARAM(276+I))
              UPARAM(IDX_IPLA    +J)  = 3
              IPLA                    = 1
              UPARAM(IDX_G       +J)  = GG
@@ -814,10 +845,10 @@ C-----------------------------------------------
          UPARAM(74)=RATIO
        ENDIF
 
-       NITER=UPARAM(73)
+       NITER = NINT(UPARAM(73))
        IF(NITER == 0)THEN
          NITER=10
-         UPARAM(73)=NITER
+         UPARAM(73)=REAL(NITER)
        ENDIF
 C-----------------------------------------------
 

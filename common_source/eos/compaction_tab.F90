@@ -48,25 +48,25 @@
 !  COLLOCATED SCHEME
 !     EOSMAIN / IFLG = 2 : SINGLE PASS FOR P[n+1] AND DERIVATIVES
 !----------------------------------------------------------------------------
-!||====================================================================
-!||    compaction_tab          ../common_source/eos/compaction_tab.F90
-!||--- called by ------------------------------------------------------
-!||    eosmain                 ../common_source/eos/eosmain.F
-!||--- calls      -----------------------------------------------------
-!||    compaction_tab_init     ../common_source/eos/compaction_tab.F90
-!||    table_mat_vinterp       ../engine/source/materials/tools/table_mat_vinterp.F
-!||--- uses       -----------------------------------------------------
-!||    constant_mod            ../common_source/modules/constant_mod.F
-!||    eos_param_mod           ../common_source/modules/mat_elem/eos_param_mod.F90
-!||    precision_mod           ../common_source/modules/precision_mod.F90
-!||    table_mat_vinterp_mod   ../engine/source/materials/tools/table_mat_vinterp.F
-!||====================================================================
-        subroutine compaction_tab(&
-          iflag , nel   , pm     , off    , eint   , &
-          dvol  , mat   , psh    , dt1    , rho    , rho0  , &
-          pnew  , dpdm  , dpde   , rho_bak, &
-          npropm, nummat, nvareos, vareos , nvartmp, vartmp, &
-          eos_param)
+      !||====================================================================
+      !||    compaction_tab          ../common_source/eos/compaction_tab.F90
+      !||--- called by ------------------------------------------------------
+      !||    eosmain                 ../common_source/eos/eosmain.F
+      !||--- calls      -----------------------------------------------------
+      !||    compaction_tab_init     ../common_source/eos/compaction_tab.F90
+      !||    table_mat_vinterp       ../engine/source/materials/tools/table_mat_vinterp.F
+      !||--- uses       -----------------------------------------------------
+      !||    constant_mod            ../common_source/modules/constant_mod.F
+      !||    eos_param_mod           ../common_source/modules/mat_elem/eos_param_mod.F90
+      !||    precision_mod           ../common_source/modules/precision_mod.F90
+      !||    table_mat_vinterp_mod   ../engine/source/materials/tools/table_mat_vinterp.F
+      !||====================================================================
+      subroutine compaction_tab(npropm , nummat , &
+                                iflag  , nel    , pm     , off    , eint   , &
+                                dvol   , mat    , psh    , dt1    , rho    , rho0  , &
+                                pnew   , dpdm   , dpde   , rho_bak, &
+                                nvareos, vareos , nvartmp, vartmp, &
+                                eos_struct)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   C o m m e n t s
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -95,26 +95,23 @@
 ! ----------------------------------------------------------------------------------------------------------------------
           implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
-!                                                   Included files
-! ----------------------------------------------------------------------------------------------------------------------
-! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
-          integer,intent(in) :: nvareos
-          real(kind=WP),intent(inout) :: vareos(nel,nvareos)
-          integer,intent(in) :: nel !< number of element in the currenbt group
-          integer,intent(in) :: npropm, nummat !< array sizes
-          integer,intent(in) :: mat(nel), iflag
-          real(kind=WP),intent(inout) :: pm(npropm,nummat) !< material data (real parameters)
-          real(kind=WP),intent(inout) :: off(nel),eint(nel),dvol(nel)
-          real(kind=WP),intent(inout) :: pnew(nel),dpdm(nel),dpde(nel)
-          type(eos_param_),intent(in) :: eos_param !< data structure for EoS parameters
-          real(kind=WP),intent(inout) :: rho_bak(nel) !< backup of mu for unloading
-          real(kind=WP),intent(in) :: dt1 !< time step
-          real(kind=WP),intent(in) :: rho(nel)  !< current density
-          real(kind=WP),intent(in) :: rho0(nel) !< initial density
-          integer ,intent(in) :: nvartmp                       !< size for vartmp
-          integer ,dimension(nel,nvartmp) ,intent(inout) :: vartmp    !< vartmp is the history of index position on the user curve (optimization in order not to loop from first point at each cycle)
+      integer,intent(in) :: nvareos
+      real(kind=WP),intent(inout) :: vareos(nel,nvareos)
+      integer,intent(in) :: nel !< number of element in the currenbt group
+      integer,intent(in) :: npropm, nummat !< array sizes
+      integer,intent(in) :: mat(nel), iflag
+      real(kind=WP),intent(inout) :: pm(npropm,nummat) !< material data (real parameters)
+      real(kind=WP),intent(inout) :: off(nel),eint(nel),dvol(nel)
+      real(kind=WP),intent(inout) :: pnew(nel),dpdm(nel),dpde(nel)
+      type(eos_param_),intent(in) :: eos_struct !< data structure for EoS parameters
+      real(kind=WP),intent(inout) :: rho_bak(nel) !< backup of mu for unloading
+      real(kind=WP),intent(in) :: dt1 !< time step
+      real(kind=WP),intent(in) :: rho(nel)  !< current density
+      real(kind=WP),intent(in) :: rho0(nel) !< initial density
+      integer ,intent(in) :: nvartmp                       !< size for vartmp
+      integer ,dimension(nel,nvartmp) ,intent(inout) :: vartmp    !< vartmp is the history of index position on the user curve (optimization in order not to loop from first point at each cycle)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local Variables
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -141,21 +138,22 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
-          mx             = mat(1)
-          psh(1:nel)     = pm(88,mx)
-          p0             = pm(31,mx)
-          pmin           = pm(37,mx)
-          rho_tmd        = eos_param%uparam(1)
-          c_solid        = eos_param%uparam(2)
-          psh            = eos_param%uparam(3)
-          rhomax_plastic = eos_param%uparam(4)
-          gamma_tmd      = eos_param%uparam(5)
-          iform          = eos_param%iparam(1)
-          plasexp        = eos_param%iparam(2)
+       mx             = mat(1)
+       psh(1:nel)     = eos_struct%psh
+       p0             = pm(31,mx)
+       pmin           = pm(37,mx)
 
-          niter = 20
-          tol = em06
-          IF(DT1 == zero) call compaction_tab_init(eos_param,nel,nvartmp,vartmp,nvareos,vareos,rho,rho_tmd) ! initial condition : set vereos(1:nel,:)
+       rho_tmd        = eos_struct%uparam(1)
+       c_solid        = eos_struct%uparam(2)
+       rhomax_plastic = eos_struct%uparam(3)
+       gamma_tmd      = eos_struct%uparam(4)
+
+       iform          = eos_struct%iparam(1)
+       plasexp        = eos_struct%iparam(2)
+
+       niter = 20
+       tol = em06
+       IF(DT1 == zero) call compaction_tab_init(eos_struct,nel,nvartmp,vartmp,nvareos,vareos,rho,rho_tmd) ! initial condition : set vereos(1:nel,:)
 
           if(iflag /= 1)then
 
@@ -164,34 +162,34 @@
               if(rho(i) > rho_bak(i) .and. rho(i) < rhomax_plastic)then
                 ! --- path along compaction curve ---------------------------------------------------------------------------
 
-                ! Read pressure on compaction Curve
-                xvec1(1:1,1) = rho(i)
-                call table_mat_vinterp(eos_param%table(1),1,1,vartmp(1,1),xvec1,Pc,dPdr)  ! get Pc(xvec1) for current elem
-                P(i) = Pc(1)
-                P(i) = max(P(i), Pmin)
-                vareos(I,5) = Pc(1)  ! Pc
+               ! Read pressure on compaction Curve
+               xvec1(1:1,1) = rho(i)
+               call table_mat_vinterp(eos_struct%table(1),1,1,vartmp(1,1),xvec1,Pc,dPdr)  ! get Pc(xvec1) for current elem
+               P(i) = Pc(1)
+               P(i) = max(P(i), Pmin)
+               vareos(I,5) = Pc(1)  ! Pc
 
-                ! Update lambda  (find lambda such as unloading path interesct compaction curve)
-                !   and c_unl(lambda)
-                iter = 0
-                residu = ep20
-                lambda=vareos(i,1)
-                do while(iter <= niter .and. residu > tol)
-                  xvec1(1:1,1) = lambda
-                  call table_mat_vinterp(eos_param%table(2),1,1,vartmp(1,2),xvec1,cunl,c_prime) ! get C_unload(labmda)
-                  FF = P(i) - cunl(1)*cunl(1) * (rho(i)-lambda)
-                  DF = two * cunl(1) * c_prime(1) * (lambda-rho(i)) + cunl(1)*cunl(1)
-                  LAMBDA = LAMBDA - FF / DF
-                  residu = abs(FF)/RHO_TMD
-                  iter = iter + 1
-                enddo
-                vareos(I,1) = min(lambda, rho_tmd)       ! lambda
-                vareos(I,2) = cunl(1)*cunl(1)            ! c(lambda)**2
+               ! Update lambda  (find lambda such as unloading path interesct compaction curve)
+               !   and c_unl(lambda)
+               iter = 0
+               residu = ep20
+               lambda=vareos(i,1)
+               do while(iter <= niter .and. residu > tol)
+                 xvec1(1:1,1) = lambda
+                 call table_mat_vinterp(eos_struct%table(2),1,1,vartmp(1,2),xvec1,cunl,c_prime) ! get C_unload(labmda)
+                 FF = P(i) - cunl(1)*cunl(1) * (rho(i)-lambda)
+                 DF = two * cunl(1) * c_prime(1) * (lambda-rho(i)) + cunl(1)*cunl(1)
+                 LAMBDA = LAMBDA - FF / DF
+                 residu = abs(FF)/RHO_TMD
+                 iter = iter + 1
+               enddo
+               vareos(I,1) = min(lambda, rho_tmd)       ! lambda
+               vareos(I,2) = cunl(1)*cunl(1)            ! c(lambda)**2
 
                 !non linear formulation only : upodate gamma value
                 if(iform == 2)then
                   xvec1(1:1,1) = lambda
-                  call table_mat_vinterp(eos_param%table(3),1,1,vartmp(1,3),xvec1,gamma,dPdr)  !slope not used
+                  call table_mat_vinterp(eos_struct%table(3),1,1,vartmp(1,3),xvec1,gamma,dPdr)  !slope not used
                   gamma(1) = min(max(em10,gamma(1)), ep03)
                   vareos(I,4) =  gamma(1)! gamma
                 end if
@@ -234,36 +232,36 @@
                   dpdm(i) = rho0(i)*b(i)
                 endif
 
-                ! --- OPTIONNAL : PLASEXP == 1 update re-loading path for next cycle (if needed) ---!
-                ! Sand will be considered as virgin sand
-                if (plasexp == 1 .and. p(i) == pmin)then
-                  vareos(i,1)=min(rho(i),rho_tmd)
-                  lambda = vareos(i,1)
-                  xvec1(1:1,1) = lambda
-                  call table_mat_vinterp(eos_param%table(2),1,1,vartmp(1,2),xvec1,cunl,c_prime) ! C_unload(lambda)
-                  vareos(i,2)=cunl(1)*cunl(1)
-                  xvec1(1:1,1) = lambda
-                  call table_mat_vinterp(eos_param%table(3),1,1,vartmp(1,3),xvec1,gamma,c_prime) ! gamma(lambda)
-                  vareos(i,4) = gamma(1)
-                  ! update pc value
-                  !intersection line to find new Pc value
-                  !  Pc is used to determine variable rhol which is required to build the unloading path
-                  !  (This may be optimized by building a function Pc(lambda) during starter with the union on sets x->Pc(x) and x->c_unl(x)
-                  iter = 0
-                  residu = ep20
-                  xx=lambda
-                  do while(iter <= niter .and. residu > tol)
-                    xvec1(1:1,1) = xx
-                    call table_mat_vinterp(eos_param%table(1),1,1,vartmp(1,1),xvec1,Pc,dPdr) ! provides cunl=c(x) and c_prime=c'(x)
-                    FF = Pc(1) - cunl(1)*cunl(1)*(xx-lambda)
-                    DF = dPdr(1) - cunl(1)*cunl(1)
-                    xx = xx - FF / DF
-                    residu = abs(FF)/RHO_TMD
-                    iter = iter + 1
-                  enddo
-                  vareos(i,5) = Pc(1)
-                  rho_bak(i) = xx
-                end if
+               ! --- OPTIONNAL : PLASEXP == 1 update re-loading path for next cycle (if needed) ---!
+               ! Sand will be considered as virgin sand
+               if (plasexp == 1 .and. p(i) == pmin)then
+                 vareos(i,1)=min(rho(i),rho_tmd)
+                 lambda = vareos(i,1)
+                 xvec1(1:1,1) = lambda
+                 call table_mat_vinterp(eos_struct%table(2),1,1,vartmp(1,2),xvec1,cunl,c_prime) ! C_unload(lambda)
+                 vareos(i,2)=cunl(1)*cunl(1)
+                 xvec1(1:1,1) = lambda
+                 call table_mat_vinterp(eos_struct%table(3),1,1,vartmp(1,3),xvec1,gamma,c_prime) ! gamma(lambda)
+                 vareos(i,4) = gamma(1)
+                 ! update pc value
+                 !intersection line to find new Pc value
+                 !  Pc is used to determine variable rhol which is required to build the unloading path
+                 !  (This may be optimized by building a function Pc(lambda) during starter with the union on sets x->Pc(x) and x->c_unl(x)
+                 iter = 0
+                 residu = ep20
+                 xx=lambda
+                 do while(iter <= niter .and. residu > tol)
+                   xvec1(1:1,1) = xx
+                   call table_mat_vinterp(eos_struct%table(1),1,1,vartmp(1,1),xvec1,Pc,dPdr) ! provides cunl=c(x) and c_prime=c'(x)
+                   FF = Pc(1) - cunl(1)*cunl(1)*(xx-lambda)
+                   DF = dPdr(1) - cunl(1)*cunl(1)
+                   xx = xx - FF / DF
+                   residu = abs(FF)/RHO_TMD
+                   iter = iter + 1
+                 enddo
+                 vareos(i,5) = Pc(1)
+                 rho_bak(i) = xx
+               end if
 
               endif
             enddo !next i (1:nel)
@@ -291,19 +289,19 @@
 
 
 
-!||====================================================================
-!||    compaction_tab_init     ../common_source/eos/compaction_tab.F90
-!||--- called by ------------------------------------------------------
-!||    compaction_tab          ../common_source/eos/compaction_tab.F90
-!||--- calls      -----------------------------------------------------
-!||    table_mat_vinterp       ../engine/source/materials/tools/table_mat_vinterp.F
-!||--- uses       -----------------------------------------------------
-!||    constant_mod            ../common_source/modules/constant_mod.F
-!||    eos_param_mod           ../common_source/modules/mat_elem/eos_param_mod.F90
-!||    precision_mod           ../common_source/modules/precision_mod.F90
-!||    table_mat_vinterp_mod   ../engine/source/materials/tools/table_mat_vinterp.F
-!||====================================================================
-        subroutine compaction_tab_init(eos_param,nel,nvartmp,vartmp,nvareos,vareos,rho,rho_tmd)
+      !||====================================================================
+      !||    compaction_tab_init     ../common_source/eos/compaction_tab.F90
+      !||--- called by ------------------------------------------------------
+      !||    compaction_tab          ../common_source/eos/compaction_tab.F90
+      !||--- calls      -----------------------------------------------------
+      !||    table_mat_vinterp       ../engine/source/materials/tools/table_mat_vinterp.F
+      !||--- uses       -----------------------------------------------------
+      !||    constant_mod            ../common_source/modules/constant_mod.F
+      !||    eos_param_mod           ../common_source/modules/mat_elem/eos_param_mod.F90
+      !||    precision_mod           ../common_source/modules/precision_mod.F90
+      !||    table_mat_vinterp_mod   ../engine/source/materials/tools/table_mat_vinterp.F
+      !||====================================================================
+      subroutine compaction_tab_init(eos_struct,nel,nvartmp,vartmp,nvareos,vareos,rho,rho_tmd)
 !! \brief  This subroutine initialize VAREOS aray for initial time 0.0
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
@@ -322,13 +320,13 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
-          integer,intent(in) :: nvareos
-          real(kind=WP),intent(inout) :: vareos(nel,nvareos)
-          integer,intent(in) :: nel !< number of element in the currenbt group
-          integer ,intent(in) :: nvartmp                       !< size for vartmp
-          integer ,dimension(nel,nvartmp) ,intent(inout) :: vartmp    !< vartmp is the history of index position on the user curve (optimization in order not to loop from first point at each cycle)
-          type(eos_param_),intent(in) :: eos_param !< data structure for EoS parameters
-          real(kind=WP),intent(in) :: rho(nel),rho_tmd
+      integer,intent(in) :: nvareos
+      real(kind=WP),intent(inout) :: vareos(nel,nvareos)
+      integer,intent(in) :: nel !< number of element in the currenbt group
+      integer ,intent(in) :: nvartmp                       !< size for vartmp
+      integer ,dimension(nel,nvartmp) ,intent(inout) :: vartmp    !< vartmp is the history of index position on the user curve (optimization in order not to loop from first point at each cycle)
+      type(eos_param_),intent(in) :: eos_struct !< data structure for EoS parameters
+      real(kind=WP),intent(in) :: rho(nel),rho_tmd
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local Variable
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -342,13 +340,13 @@
           niter = 10
           tol = em10
 
-          !The current unloading speed-of-sound velocity
-          xvec1(1:nel,1) = rho(1:nel)
-          call table_mat_vinterp(eos_param%table(2),nel,nel,vartmp(1,2),xvec1,cunl,slope)
-          VAREOS(1:nel,2) = Cunl(1:nel)*Cunl(1:nel)
+         !The current unloading speed-of-sound velocity
+         xvec1(1:nel,1) = rho(1:nel)
+         call table_mat_vinterp(eos_struct%table(2),nel,nel,vartmp(1,2),xvec1,cunl,slope)
+         VAREOS(1:nel,2) = Cunl(1:nel)*Cunl(1:nel)
 
-          !solve the zero-crossing of the current unloading
-          call table_mat_vinterp(eos_param%table(1),nel,nel,vartmp(1,1),xvec1,Pc,dPdr) !The current compaction pressure
+         !solve the zero-crossing of the current unloading
+         call table_mat_vinterp(eos_struct%table(1),nel,nel,vartmp(1,1),xvec1,Pc,dPdr) !The current compaction pressure
           DO I=1,NEL
             IF(Pc(i) == zero)THEN
               VAREOS(I,1) = min(RHO(I),rho_tmd) ! LAMBDA
@@ -358,7 +356,7 @@
               lambda = rho(i)
               do while(iter <= niter .and. residu > tol)
                 xvec1(1:1,1) = lambda
-                call table_mat_vinterp(eos_param%table(1),1,1,vartmp(1,1),xvec1,Pc,dPdr) ! provides cunl=c(x) and c_prime=c'(x)
+                call table_mat_vinterp(eos_struct%table(1),1,1,vartmp(1,1),xvec1,Pc,dPdr) ! provides cunl=c(x) and c_prime=c'(x)
                 FF = Pc(1)
                 DF = dPdr(1)
                 LAMBDA = LAMBDA - FF / DF

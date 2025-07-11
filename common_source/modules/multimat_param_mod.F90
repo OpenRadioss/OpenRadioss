@@ -82,7 +82,8 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
-        use precision_mod , only : WP
+          use precision_mod , only : WP
+          use eos_param_mod , only : eos_param_, ptr_eos_param_
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -97,14 +98,18 @@
         INTEGER, PARAMETER :: M51_IFLG6_SIZE = 37
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
-! ----------------------------------------------------------------------------------------------------------------------
-        TYPE MULTIMAT_PARAM_                                 !< data structure for MAT_PARAM buffer
-          integer :: nb = 0                                  !< number of submaterial
-          integer,allocatable,dimension(:) :: mid            !< material internal identifier for each submaterial
-          real(kind=WP),allocatable,dimension(:) :: vfrac          !< volume fraction for each submaterial
+! ---------------------------------------------------------------------------------------------------------------------- 
+        TYPE MULTIMAT_PARAM_                                     !< data structure for MAT_PARAM buffer
+          integer :: nb = 0                                      !< number of submaterial
+          integer :: old_data_format = 0
+          integer,allocatable,dimension(:) :: mid                !< material internal identifier for each submaterial
+          real(kind=WP),allocatable,dimension(:) :: vfrac        !< volume fraction for each submaterial
+          type(eos_param_), dimension(:), allocatable :: EOS     !< old format : Embedded Eos parameters
+          type(ptr_eos_param_), DIMENSION(:), POINTER :: pEOS    !< pointers (new/old format)
 
         contains
           procedure :: destruct => destruct_multimat_param
+          procedure :: eos_construct => construct_multimat_eos
 
         END TYPE MULTIMAT_PARAM_
 
@@ -125,6 +130,27 @@
           if (allocated(this%mid))   deallocate(this%mid)
           if (allocated(this%vfrac)) deallocate(this%vfrac)
         end subroutine destruct_multimat_param
+
+!||====================================================================
+!||    construct_multimat_param   ../common_source/modules/multimat_param_mod.F90
+!||====================================================================
+        subroutine construct_multimat_eos(this)
+          use constant_mod , only : zero
+          implicit none
+          class(MULTIMAT_PARAM_) :: this
+          integer :: i
+          this%nb = 4
+          allocate(this%eos(4))
+          do i=1,4
+             this%eos(i)%nuparam = 7
+             this%eos(i)%niparam = 0
+             this%eos(i)%nfunc = 0
+             this%eos(i)%ntable = 0
+             call this%eos(i)%construct()
+          end do
+
+
+        end subroutine construct_multimat_eos
 
       END MODULE MULTIMAT_PARAM_MOD
 
