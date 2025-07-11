@@ -297,7 +297,7 @@ C   -------- Tailles des tableaux entiers --------
       TABVINT(144) = SFR_I18
       TABVINT(145) = SWEIGHT
       TABVINT(146) = SNEWFRONT
-      TABVINT(147) = SNODGLOB
+      TABVINT(147) = NUMNOD 
       TABVINT(148) = SNBRCVOIS
       TABVINT(149) = SNBSDVOIS
       TABVINT(150) = SLNRCVOIS

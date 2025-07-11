@@ -26,16 +26,16 @@
       !||    resol             ../engine/source/engine/resol.F
       !||====================================================================
       module detach_node_mod
-#include "my_real.inc"
+        implicit none
       contains
-      !||====================================================================
-      !||    find_segment_in_list          ../engine/source/engine/node_spliting/detach_node.F90
-      !||--- called by ------------------------------------------------------
-      !||    detach_node_from_interfaces   ../engine/source/engine/node_spliting/detach_node.F90
-      !||--- uses       -----------------------------------------------------
-      !||    connectivity_mod              ../common_source/modules/connectivity.F90
-      !||    constant_mod                  ../common_source/modules/constant_mod.F
-      !||====================================================================
+        !||====================================================================
+        !||    find_segment_in_list          ../engine/source/engine/node_spliting/detach_node.F90
+        !||--- called by ------------------------------------------------------
+        !||    detach_node_from_interfaces   ../engine/source/engine/node_spliting/detach_node.F90
+        !||--- uses       -----------------------------------------------------
+        !||    connectivity_mod              ../common_source/modules/connectivity.F90
+        !||    constant_mod                  ../common_source/modules/constant_mod.F
+        !||====================================================================
         function find_segment_in_list(segment,list,size,elements) result(is_found)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
@@ -258,10 +258,6 @@
           USE nodal_arrays_mod
           implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
-!                                                   Included files
-! ----------------------------------------------------------------------------------------------------------------------
-#include "my_real.inc"
-! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
           type(nodal_arrays_), intent(inout) :: nodes !< nodal arrays
@@ -274,9 +270,8 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
-!           write(6,*) "set_new_node_values",nodes%numnod
           numnod = nodes%numnod
-          nodes%itab(numnod+1) = nodes%max_uid
+          nodes%itab(numnod+1) = nodes%max_uid ! -nodes%itab(i) !temporary id of the new node 
           nodes%IKINE(numnod+1) = nodes%IKINE(i)
           nodes%V(1:3,numnod+1) = nodes%V(1:3,i)
           nodes%X(1:3,numnod+1) = nodes%X(1:3,i)
@@ -300,10 +295,11 @@
           if(nodes%used_dr) then
             nodes%DR(1:3,numnod+1) = nodes%DR(1:3,i)
           endif
-          nodes%MS(numnod+1) = nodes%MS(i) / TWO
-          nodes%MS(i) = nodes%MS(i) / TWO
-          nodes%MS0(numnod+1) = nodes%MS0(i) /TWO
-          nodes%MS0(i) = nodes%MS0(i) /TWO
+          nodes%MS(numnod+1) = nodes%MS(i)  / TWO
+!         nodes%MS(i) = nodes%MS(i)  / TWO
+          nodes%MS0(numnod+1) = nodes%MS0(i)   /TWO
+!         nodes%MS0(i) = nodes%MS0(i)  /TWO
+
 #ifdef MYREAL4
           nodes%DDP(1:3,numnod+1) = nodes%DDP(1:3,i)
           nodes%XDP(1:3,numnod+1) = nodes%XDP(1:3,i)
@@ -312,7 +308,7 @@
           endif
 
 #endif
-          nodes%WEIGHT(numnod+1) = nodes%WEIGHT(i)
+          nodes%WEIGHT(numnod+1) = 1 ! nodes%WEIGHT(i)
           nodes%WEIGHT_MD(numnod+1) = nodes%WEIGHT_MD(i)
           nodes%MAIN_PROC(numnod+1) = nodes%MAIN_PROC(i)
 
@@ -335,14 +331,9 @@
             p = nodes%parent_node(p)
           enddo
           nodes%parent_node(numnod+1) = p
-          nodes%nchilds(p) = nodes%nchilds(p) + 1
-!         write(6,*) "node",p,"has",nodes%nchilds(p),"childs"
-!           if(nodes%itab(numnod+1) == 922550) write(6,*) 'stifn(',nodes%itab(i),') = ', nodes%stifn(i)
-!           if(nodes%itab(i) == 907888) write(6,*) 'stifn(',nodes%itab(i),') = ', nodes%stifn(i)
-!           write(6,*) "stifn numnod+1",nodes%stifn(numnod+1)  ,"            ",nodes%itab(numnod+1),nodes%itab(i)
-!           write(6,*) "stifn        i",nodes%stifn(i)  ,"            ",nodes%itab(numnod+1),nodes%itab(i)
+!         nodes%nchilds(p) = nodes%nchilds(p) + 1
 
-          nodes%ITABM1(numnod+1) = nodes%max_uid
+          nodes%ITABM1(numnod+1) = nodes%max_uid !-nodes%itab(numnod+1)
           nodes%ITABM1(2*(numnod+1)) = numnod + 1
 
 
@@ -374,10 +365,6 @@
           use update_pon_mod
           implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
-!                                                   Included files
-! ----------------------------------------------------------------------------------------------------------------------
-#include "my_real.inc"
-! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
           type(nodal_arrays_), intent(inout) :: nodes !< nodal arrays
@@ -398,19 +385,17 @@
           new_uid = nodes%max_uid
           old_uid = nodes%itab(node_id)
           new_local_id = nodes%numnod +1
-!           write(6,*) 'detach_from_shells old_uid = ', old_uid, ' new_uid = ', new_uid
-!           write(6,*) 'new_local_id = ', new_local_id
           do i = 1, list_size
             do j = 1,4
               if(elements%shell%nodes(j,shell_list(i)) == node_id) then
                 elements%shell%nodes(j,shell_list(i)) = new_local_id
                 elements%shell%ixc(j+1,shell_list(i)) = new_local_id
-             !  write(6,*) '---- Detached node ', old_uid, ' from shell ',shell_list(i),elements%shell%user_id(shell_list(i))
               end if
             enddo
           end do
+
           if(nodes%iparith > 0) then! /PARITH/ON
-            call update_pon_shells(elements,list_size,shell_list,new_local_id,node_id)
+            call update_pon_shells(elements,list_size,shell_list,new_local_id)
           endif
 
 
@@ -441,10 +426,6 @@
           USE interfaces_mod
           implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
-!                                                   Included files
-! ----------------------------------------------------------------------------------------------------------------------
-#include "my_real.inc"
-! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
           type(nodal_arrays_), intent(inout) :: nodes !< nodal arrays
@@ -467,17 +448,10 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
-          write(6,*) "node_id",node_id, nodes%numnod
-          call flush(6)
-          if(node_id > nodes%numnod .or. node_id < 1) then
-            write(6,*) "node_id",node_id, "is not in the list of nodes"
-            call flush(6)
-            return
-          endif
-          write(6,*) "detach_node",node_id,nodes%itab(node_id),"from:",shell_list(1:list_size)
-          call flush(6) 
-          new_uid = nodes%max_uid + 1
-          nodes%max_uid = new_uid
+          !write(6,*) "detach_node",node_id,nodes%itab(node_id),"from:",shell_list(1:list_size)
+          !call flush(6)
+!         new_uid = nodes%max_uid + 1
+!         nodes%max_uid = new_uid
           old_uid = nodes%itab(node_id)
           numnod = nodes%numnod
           new_local_id = nodes%numnod + 1
@@ -510,21 +484,21 @@
       !||    nodal_arrays_mod       ../common_source/modules/nodal_arrays.F90
       !||====================================================================
         subroutine test_jc_shell_detach(nodes, element, interf, npari, ninter, ipari, numnod, &
-          numnodg, elbuf, ngroup, ngrouc, nparg, iparg, igrouc, numelc, ispmd, &
-          lcnel, cnel, addcnel)
+          numnodg, elbuf, ngroup, ngrouc, nparg, iparg, igrouc, numelc, ispmd, nspmd, &
+          new_crack)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
+          use spmd_mod
+          use ghost_shells_mod
+          use precision_mod, only : wp
           USE constant_mod, only : TWO
           USE connectivity_mod
           USE nodal_arrays_mod
           USE interfaces_mod
           USE elbufdef_mod
+          use extend_array_mod
           implicit none
-! ----------------------------------------------------------------------------------------------------------------------
-!                                                   Included files
-! ----------------------------------------------------------------------------------------------------------------------
-#include "my_real.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -543,15 +517,13 @@
           integer, intent(inout) :: ipari(npari,ninter)    !< parameters of the interf
           integer, intent(inout) :: numnod, numnodg
           integer, intent(in) :: ispmd !< rank of the processor (MPI)
-          integer, intent(in) ::lcnel
-          integer, dimension(0:numnod+1), intent(in) :: addcnel ! address for the cnel array
-          integer, dimension(0:lcnel), intent(in) :: cnel ! connectivity node-->element
-
+          integer, intent(in) :: nspmd !< number of processors (MPI)
+          integer, intent(out) :: new_crack !< flag to indicate if a new crack is created
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-          double precision, dimension(:), allocatable :: detach_shell
-          integer :: ig,ng,numnod0,i,j,k,l,n,n1,n2,n3,n4,nel,nft
+          real(kind=wp), dimension(:), allocatable :: detach_shell
+          integer :: ig,ng,numnod0,i,j,k,l,m,n,n1,n2,n3,n4,nel,nft,p
           double precision :: discrepancy,max_discrepancy
           integer :: crack_root, next_root
           integer, dimension(20) :: crack !< id of the noodes that are part of the crack
@@ -565,15 +537,36 @@
           double precision :: d1, d2, d4, v(3)
           double precision, parameter :: treshold = 1.04D0
           double precision :: ratio,dmax
+          logical :: skip
+          integer :: nGhostShells
+          real(kind=wp), dimension(:), allocatable :: ghostShellDamage
+          real(kind=wp), dimension(:), allocatable :: ghostShellCoordinates,shellCoordinates
+          logical :: is_new_crack
+          integer :: c
+          integer, dimension(:), allocatable :: detached_nodes, detached_nodes_local
+          integer, dimension(:), allocatable :: nb_detached_nodes_global
+          integer, dimension(:), allocatable :: nb_detached_nodes
+          integer :: nb_detached_nodes_local
+          logical, dimension(:), allocatable :: is_unique 
+          integer :: total_new_nodes, total_new_unique_nodes
+          logical :: is_new, boundary_node_detached
+          integer :: displ(nspmd)
+          integer :: ierr
+          integer :: old_max_uid
+          integer :: numnodg0
+          integer, dimension(:), allocatable :: permutation, processor, local_pos
+          integer :: ii
 ! ----------------------------------------------------------------------------------------------------------------------
-!                                                   Body
+!                                                   body
 ! ----------------------------------------------------------------------------------------------------------------------
-
+          new_crack = 0        
+          
+          numnodg0 = numnodg
           allocate(detach_shell(0:numelc))
-          detach_shell = 0.0D0
+          detach_shell = 0.0d0
           if(.not. allocated(element%shell%damage)) then
             allocate(element%shell%damage(1:numelc))
-            element%shell%damage = 0.0D0
+            element%shell%damage = 0.0d0
             allocate(element%shell%dist_to_center(1:numelc))
             do i = 1, numelc
               n1 = element%shell%ixc(2,i)
@@ -581,31 +574,34 @@
               n3 = element%shell%ixc(4,i)
               n4 = element%shell%ixc(5,i)
               !barycenter
-              v(1) = (nodes%X(1,n1) + nodes%X(1,n2) + nodes%X(1,n3) + nodes%X(1,n4))/4.0D0
-              v(2) = (nodes%X(2,n1) + nodes%X(2,n2) + nodes%X(2,n3) + nodes%X(2,n4))/4.0D0
-              v(3) = (nodes%X(3,n1) + nodes%X(3,n2) + nodes%X(3,n3) + nodes%X(3,n4))/4.0D0
-              distance = 0.0D0
+              v(1) = (nodes%x(1,n1) + nodes%x(1,n2) + nodes%x(1,n3) + nodes%x(1,n4))/4.0d0
+              v(2) = (nodes%x(2,n1) + nodes%x(2,n2) + nodes%x(2,n3) + nodes%x(2,n4))/4.0d0
+              v(3) = (nodes%x(3,n1) + nodes%x(3,n2) + nodes%x(3,n3) + nodes%x(3,n4))/4.0d0
+              distance = 0.0d0
               do j = 1,4
-                distance = max(distance, sqrt((v(1) - nodes%X(1,element%shell%ixc(j+1,i)))**2 + &
-                  (v(2) - nodes%X(2,element%shell%ixc(j+1,i)))**2 + &
-                  (v(3) - nodes%X(3,element%shell%ixc(j+1,i)))**2))
+                distance = max(distance, sqrt((v(1) - nodes%x(1,element%shell%ixc(j+1,i)))**2 + &
+                  (v(2) - nodes%x(2,element%shell%ixc(j+1,i)))**2 + &
+                  (v(3) - nodes%x(3,element%shell%ixc(j+1,i)))**2))
               enddo
               element%shell%dist_to_center(i) = distance
             enddo
           endif
+
+
+          !! gather the damage of the shells in the detach_shell array
           do ig = 1, ngrouc
             ng = igrouc(ig)
             nel     = iparg(2,ng)
             nft     = iparg(3,ng)
             ! gather jc dfmax values
-           !detach_shell(nft+1: nft+nel) =  elbuf(ng)%bufly(1)%fail(1,1,1)%floc(1)%dammx(1:nel)
+            !detach_shell(nft+1: nft+nel) =  elbuf(ng)%bufly(1)%fail(1,1,1)%floc(1)%dammx(1:nel)
             do k = 1, size(elbuf(ng)%bufly,1)
               do n1 = 1,size(elbuf(ng)%bufly(k)%fail,1)
                 do n2 = 1,size(elbuf(ng)%bufly(k)%fail,2)
                   do n3 = 1,size(elbuf(ng)%bufly(k)%fail,3)
                     do l = 1,size(elbuf(ng)%bufly(k)%fail(n1,n2,n3)%floc,1)
                       do n = 1, size(elbuf(ng)%bufly(k)%fail(n1,n2,n3)%floc(l)%dammx,1)
-                        detach_shell(nft+n) = max(detach_shell(nft+n), elbuf(ng)%bufly(k)%fail(n1,n2,n3)%floc(l)%dammx(n))                                                     
+                        detach_shell(nft+n) = max(detach_shell(nft+n), elbuf(ng)%bufly(k)%fail(n1,n2,n3)%floc(l)%dammx(n))
                       enddo
                     enddo
                   enddo
@@ -615,12 +611,19 @@
             ! detach_shell(nft+1: nft+nel) = detach_shell(nft+1: nft+nel) - element%shell%damage(nft+1: nft+nel)
           enddo
 
+
+          ! Exchange the detach_shell values on ghost shells
+          nghostshells = size(element%ghost_shell%nodes,2)
+          allocate(ghostshelldamage(nghostshells))
+          ghostshelldamage = 0.0d0
+          call spmd_exchange_ghost_shells(element,ispmd,nspmd,1,detach_shell,ghostshelldamage)
+
           numnod0 = numnod
           allocate(nodal_damage(numnod))
 
           ! cumulate the damage of the shells on the nodes
-          nodal_damage = 0.0D0
-          do i = 1, size( element%shell%user_id,1)
+          nodal_damage = 0.0d0
+          do i = 1, numelc
             n1 = element%shell%ixc(2,i)
             n2 = element%shell%ixc(3,i)
             n3 = element%shell%ixc(4,i)
@@ -632,189 +635,182 @@
             nodal_damage(n3) =max(nodal_damage(n3),element%shell%damage(i))
             nodal_damage(n4) =max(nodal_damage(n4),element%shell%damage(i))
           enddo
- 
+
+          ! add the damage of the ghost shells
+          do i = 1, nghostshells
+            element%ghost_shell%damage(i) = ghostshelldamage(i)
+            if(ghostshelldamage(i) > 0.9999d0) cycle ! already broken
+            do j = 1, 4
+              n1 = element%ghost_shell%nodes(j,i)
+              if(n1 <= 0) cycle
+              nodal_damage(n1) =max(nodal_damage(n1),element%ghost_shell%damage(i))
+            enddo
+          enddo
+
+          deallocate(ghostshelldamage)
+
+          allocate(detached_nodes_local(numnod))
+          nb_detached_nodes_local = 0
 
           allocate(shell_list(numelc))
           shell_list = 0
           shells_to_detach = 0
-          max_discrepancy = -1.0D0
+          max_discrepancy = -1.0d0
           crack_root = 0
 
-          ! the starting point of the crack is the node with the highest damage
-          do i = 1, numnod
-            if(nodal_damage(i) == 0.0D0) cycle
-!           if(nodes%nchilds(nodes%parent_node(i)) > 0) cycle 
-            discrepancy = nodal_damage(i)
-            if (discrepancy > max_discrepancy.and. discrepancy > 0.75D0) then
-              max_discrepancy = discrepancy
-              crack_root = i
-            end if
-          enddo
-
-!         if(crack_root >0) write(6,*)  "crack_root",crack_root,max_discrepancy
-
-          ! crack propagation : list nodes
-          ncrack = 0
-          do while (crack_root >0 .AND. ncrack < 20)
-            ncrack = ncrack + 1
-            crack(ncrack) = crack_root
-            ! loop over elements connected to the nodes
-            max_discrepancy = -1.0D0
-            next_root = 0
-            do i = addcnel(crack_root), addcnel(crack_root+1)-1
-              shell_id = cnel(i) - element%shell%offset
-              if(detach_shell(shell_id) > 0.999d0) cycle
-              if(detach_shell(shell_id) < 0.2D0) cycle
-!             if(element%shell%damage(shell_id) > 0.0D0) cycle
-              do j = 1, 4
-                n1 = element%shell%ixc(j+1,shell_id)
-                if(nodes%nchilds(nodes%parent_node(n1)) > 0) cycle 
-                if(any(crack(1:ncrack) == n1)) cycle
-                if(n1 == crack_root) cycle
-                  discrepancy = 1.0D0
-                  ratio = 1.0D0
-                  if(ncrack >= 2) then
-                     d1 = dot_product(nodes%X(1:3,crack(ncrack)) - nodes%X(1:3,crack(ncrack-1)),&
-                                     nodes%X(1:3,n1) - nodes%X(1:3,crack(ncrack)))
-                     d2 = sqrt(dot_product(nodes%X(1:3,crack(ncrack)) - nodes%X(1:3,crack(ncrack-1)),&
-                                           nodes%X(1:3,crack(ncrack)) - nodes%X(1:3,crack(ncrack-1))))
-                     d4 = sqrt(dot_product(nodes%X(1:3,n1) - nodes%X(1:3,crack(ncrack)),&
-                                           nodes%X(1:3,n1) - nodes%X(1:3,crack(ncrack))))
-                     if(d2 > 1.0D-6 .and. d4 > 1.0D-6) then
-                       ratio = (d1 / (d2 * d4)) 
-                     else
-                       ratio = 1.0D0 
-                     end if
-                  end if
-                  ! search if the node is not already in the crack list
-                  ! if the node is already in the crack list, then skip it
-                  if( ANY(crack(1:ncrack) == n1) ) cycle
-                  if (discrepancy*ratio > max_discrepancy) then
-                    max_discrepancy = discrepancy*ratio
-                    next_root = n1
-                   !write(6,*) "next_root?",next_root,max_discrepancy
-                  end if
-              ! endif
-              enddo
-            enddo
-            if(next_root > 0 .and. max_discrepancy > 0.2D0) then
-           !  write(6,*) "next_root",next_root,max_discrepancy
-              crack_root = next_root
-            else
-              crack_root = 0
-            endif
-          enddo
-
-!         if(ncrack>0) write(6,*) "ncrack=",ncrack
-
-          ! select the shells to be detached, looking at the side of the crack
-          if(ncrack > 3) then
-          do i = 1, numelc
-!           shell_centroid = 0.0
-            normal = 0.0
-            vec = 0.0
-            ! Identify the first crack node in this shell
-             if(detach_shell(i) > 0.999d0) cycle
-            ! if the element has already a crack passing through one of its nodes
-            ! then it cannot be detached again
-!           if(element%shell%damage(i)  > 0.0D0) cycle 
-!           do l = 2, 5
-!             shell_centroid(1:3) = shell_centroid(1:3) + nodes%X(1:3,element%shell%IXC(l, i))
-!           end do
-!           shell_centroid(1:3) = shell_centroid(1:3) / 4.0  ! Average over 4 nodes
-            do j = 2, 5
-              do k = 1, ncrack-1
-                if (element%shell%IXC(j, i) == crack(k)) then
-
-                  ! Compute local normal using the next crack node
-                  normal(1:3) = nodes%X(1:3,crack(k+1)) - nodes%X(1:3,crack(k))
-
-                  ! Normalize the local normal
-                  distance = sqrt(sum(normal**2))
-                  if (distance > 0) normal = normal / distance
-
-                  ! Compute vector from crack node to shell centroid
-                  vec(1:3) = shell_centroid(1:3) - nodes%X(1:3,crack(k))
-
-                  ! Compute signed distance using dot product
-                  distance = sum(vec(1:3) * normal(1:3))
-
-                  if (distance > 0) then
-                    shells_to_detach = shells_to_detach + 1
-                    shell_list(shells_to_detach) = i
-                    element%shell%damage(i) = 1.0D0! detach_shell(i)
-
-!                   element%shell%damage(i) = 1.0D0
-                  end if
-                  exit  ! Only process the first crack node found in this shell
-                end if
-              end do
-            end do
-          enddo
-
-          ! detach nodes from the shells
-          if(shells_to_detach > 0) then
-            write(6,*) "shells to be detached:",shells_to_detach
-            do i =1, shells_to_detach
-              write(6,*) "   shell",shell_list(i),element%shell%user_id(shell_list(i)),detach_shell(shell_list(i))
-            enddo
-            do i = 1, ncrack
-!             write(6,*) "crack node",i,crack(i)
-              call detach_node(nodes,crack(i),element,shell_list,shells_to_detach,npari,ninter, ipari, interf)
-              numnod = numnod + 1
-              if(ispmd == 0) numnodg = numnodg + 1
-            enddo
-          endif
-          endif
-
-
-          ! detach nodes from ill-shaped shells
+          ! detach nodes based on simple 
           dmax = 0.0
-          do i = 1, numelc
+          do ii = 1, numelc
+            i =  element%shell%permutation(ii) ! the shells are treated in the order of their user_id, for reproducibility
             n1 = element%shell%ixc(2,i)
             n2 = element%shell%ixc(3,i)
             n3 = element%shell%ixc(4,i)
             n4 = element%shell%ixc(5,i)
-            ! if the element has already a crack passing through one of its nodes at this timestep: skip
-            !barycenter
             v(1) = (nodes%X(1,n1) + nodes%X(1,n2) + nodes%X(1,n3) + nodes%X(1,n4))/4.0D0
             v(2) = (nodes%X(2,n1) + nodes%X(2,n2) + nodes%X(2,n3) + nodes%X(2,n4))/4.0D0
             v(3) = (nodes%X(3,n1) + nodes%X(3,n2) + nodes%X(3,n3) + nodes%X(3,n4))/4.0D0
             distance = 0.0D0
-            if(detach_shell(i) >= 0.99999d0) cycle
+            if(detach_shell(i) >= 0.99999d0) cycle ! deleted shell
             do j = 1,4
               distance = sqrt((v(1) - nodes%X(1,element%shell%ixc(j+1,i)))**2 + &
                 (v(2) - nodes%X(2,element%shell%ixc(j+1,i)))**2 + &
                 (v(3) - nodes%X(3,element%shell%ixc(j+1,i)))**2)
-                if(nodes%nchilds(nodes%parent_node(element%shell%ixc(j+1,i))) < 1) then
-                  dmax = max(dmax,distance / element%shell%dist_to_center(i)) 
-                endif
-!               if(element%shell%user_id(i) == 989) then 
-!                 write(6,*) j,nodes%nchilds(nodes%parent_node(element%shell%ixc(j+1,i))),distance/element%shell%dist_to_center(i)
-!               endif
-
-
+              if(nodes%nchilds(nodes%parent_node(element%shell%ixc(j+1,i))) < 1) then
+                dmax = max(dmax,distance / element%shell%dist_to_center(i))
+              endif
               if(distance > treshold * element%shell%dist_to_center(i)) then
-                if(nodes%nchilds(nodes%parent_node(element%shell%ixc(j+1,i))) > 3) cycle
-
+                if(nodes%nchilds(nodes%parent_node(element%shell%ixc(j+1,i))) > 3) cycle ! this node has not been splitted more than 3 times
+                if(nodal_damage(element%shell%ixc(j+1,i)) < .001 ) cycle
                 crack(1) = element%shell%ixc(j+1,i)
                 shell_list(1) = i
                 shells_to_detach = 1
-                element%shell%damage(i) = 1.0D0 
-              ! write(6,*) "detach ill-formed shell",element%shell%user_id(i),nodes%itab(crack(1)),distance/element%shell%dist_to_center(i)
+                element%shell%damage(i) = 1.0D0 ! 
+                nb_detached_nodes_local = nb_detached_nodes_local + 1
+                detached_nodes_local(nb_detached_nodes_local) = nodes%itab(crack(1))
                 call detach_node(nodes,crack(1),element,shell_list,shells_to_detach,npari,ninter, ipari, interf)
                 numnod = numnod + 1
                 if(ispmd == 0) numnodg = numnodg + 1
               endif
             enddo
           enddo
-!         if(dmax > 0.0D0) write(6,*) "dmax=",dmax
 
+          ! list nodes that are detached from the shells at this timestep
+          allocate(nb_detached_nodes(nspmd))
+          allocate(nb_detached_nodes_global(nspmd))
+          nb_detached_nodes_global = 0
+          nb_detached_nodes(1:nspmd) = 0
+          nb_detached_nodes(ispmd+1) = numnod - numnod0
+          ! call mpi_allreduce
+          if(nspmd > 1) then
+            call spmd_allreduce(nb_detached_nodes,nb_detached_nodes_global,nspmd,SPMD_SUM)
+          else
+            nb_detached_nodes_global = nb_detached_nodes
+          endif
 
+          total_new_nodes = sum(nb_detached_nodes_global(1:nspmd))
+          if(total_new_nodes > 0) new_crack = total_new_nodes
+          !allocate(detached_nodes_local(nb_detached_nodes_global(ispmd+1)))
+          allocate(detached_nodes(total_new_nodes))
+          if(nb_detached_nodes_global(ispmd+1) /= nb_detached_nodes_local) then
+          endif
 
-          deallocate(detach_shell)
-          deallocate(shell_list)
-          deallocate(nodal_damage)
+          ! reuse displ as displ
+          displ(1:nspmd) = 0
+          do i = 2, nspmd
+            displ(i) = displ(i-1) + nb_detached_nodes_global(i-1)                             
+          enddo
+
+          if(nspmd > 1) then 
+          call spmd_allgatherv(detached_nodes_local,nb_detached_nodes_global(ispmd+1), &
+            detached_nodes,nb_detached_nodes_global,displ)
+          else
+            detached_nodes = detached_nodes_local
+          endif
+
+          !allreduce numnodg0
+          if(nspmd > 1) then 
+          call spmd_allreduce(numnodg0,p,1,SPMD_MAX)
+            numnodg0 = p
+          endif
+!          old_max_uid = nodes%max_uid
+          if(nspmd > 1) then
+            call spmd_allreduce(nodes%max_uid,old_max_uid,1,SPMD_MAX)
+          else
+            old_max_uid = nodes%max_uid
+          endif
+        
+          !write(6,*) "numnodg0",numnodg0
+!         if(total_new_nodes >0) write(6,*) "MASS nb_detached_nodes_global",nb_detached_nodes_global(1:nspmd)
+!         if(total_new_nodes >0) write(6,*) "MASS detached_nodes",detached_nodes(1:total_new_nodes)
+          !Not finalized: new nodes may be boundary nodes (i.e. new node attached to two shells from different processors)
+
+          k = sum(nb_detached_nodes_global(1:nspmd)) 
+          allocate(processor(k))
+          allocate(local_pos(k))
+          k = 0
+          do P = 1, nspmd
+            do i = 1, nb_detached_nodes_global(P)
+              k = k + 1
+              processor(k) = P
+              if(ispmd+1 == P) then
+                 local_pos(k) = i                                                           
+              else
+                 local_pos(k) = 0
+              endif
+            enddo 
+          enddo
+ 
+          k = sum(nb_detached_nodes_global(1:nspmd)) 
+          allocate(permutation(k))
+          do i = 1,k 
+            permutation(i) = i
+          enddo
+          ! sort the detached nodes in ascending order of the user id of the parent node
+          CALL STLSORT_INT_INT(k,detached_nodes,permutation)
+
+          !Loop over the detached nodes of all domains
+          !the new nodes are created in the same order what the number of mpi domains is
+          do ii = 1, k
+            i = permutation(ii)
+            P = processor(i)
+            old_max_uid = old_max_uid + 1
+            numnodg0 = numnodg0 + 1
+            if( P == ispmd+1) then
+              j = local_pos(i)
+              nodes%itab(numnod0 + j) = old_max_uid
+              nodes%itabm1(numnod0 + j) = old_max_uid                                
+              nodes%itabm1(2*(numnod0 + j)) = numnod0 + j
+              nodes%nodglob(numnod0 + j) = numnodg0
+              !write(6,*) old_max_uid,"detached node ",nodes%itab(numnod0 + j),"form",nodes%itab(nodes%parent_node(numnod0+j))
+            endif
+            j = get_local_node_id(nodes,detached_nodes(i))
+            if(j > 0) then
+            ! the node is known by the current processor, so we need to update its mass
+             nodes%MS(j) = nodes%MS(j) / TWO ! arbitrary division by 2
+             nodes%MS0(j) = nodes%MS0(j) /TWO
+             nodes%nchilds(nodes%parent_node(j)) = nodes%nchilds(nodes%parent_node(j)) + 1 
+            endif
+          enddo
+
+!         if(old_max_uid /= nodes%max_uid) then
+!           write(6,*) "old_max_uid",old_max_uid,"nodes%max_uid",nodes%max_uid
+!         endif
+          nodes%max_uid = old_max_uid
+          deallocate(permutation)
+          deallocate(processor)
+          deallocate(local_pos)
+
+          numnodg = numnodg0
+
+          if (allocated(is_unique)) deallocate(is_unique)
+          if (allocated(nb_detached_nodes)) deallocate(nb_detached_nodes)
+          if (allocated(detached_nodes_local)) deallocate(detached_nodes_local)
+          if (allocated(nb_detached_nodes_global)) deallocate(nb_detached_nodes_global)
+          if (allocated(detach_shell)) deallocate(detach_shell)
+          if (allocated(shell_list)) deallocate(shell_list)
+          if (allocated(nodal_damage)) deallocate(nodal_damage)
+        ! if (allocated(ghostShellCoordinates)) deallocate(ghostShellCoordinates)
+        ! if (allocated(shellCoordinates)) deallocate(shellCoordinates)
 
         end subroutine test_jc_shell_detach
 
