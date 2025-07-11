@@ -86,20 +86,28 @@
         CALL WRITE_I_C(IBUF,NFIX+1)
         DEALLOCATE(IBUF)
 
-        !REAL parameter
-        NFIX = 2
-        ALLOCATE(IBUF(1))
-        IBUF(1) = NFIX !size
-        ALLOCATE (RBUF(NFIX))
-        IAD = 1
+      !REAL parameter
+      NFIX = 6
+      ALLOCATE(IBUF(1))
+      IBUF(1) = NFIX !size
+      ALLOCATE (RBUF(NFIX))
+      IAD = 1
         RBUF(IAD) = EOS%CV
         IAD = IAD+1
         RBUF(IAD) = EOS%CP
-        IAD = IAD+1
-        CALL WRITE_I_C(IBUF,1)
-        CALL WRITE_DB(RBUF,NFIX)
-        DEALLOCATE(RBUF)
-        DEALLOCATE(IBUF)
+      IAD = IAD+1
+        RBUF(IAD) = EOS%PSH
+      IAD = IAD+1
+        RBUF(IAD) = EOS%E0
+      IAD = IAD+1
+        RBUF(IAD) = EOS%P0
+      IAD = IAD+1
+        RBUF(IAD) = EOS%PMIN
+      IAD = IAD+1
+      CALL WRITE_I_C(IBUF,1)
+      CALL WRITE_DB(RBUF,NFIX)
+      DEALLOCATE(RBUF)
+      DEALLOCATE(IBUF)
 
         ! write eos model title
         DO I=1,NCHARTITLE

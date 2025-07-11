@@ -49,7 +49,7 @@
 !||    message_mod              ../starter/share/message_module/message_mod.F
 !||    submodel_mod             ../starter/share/modules1/submodel_mod.F
 !||====================================================================
-        subroutine hm_read_eos_compaction(iout,pm,unitab,lsubmodel,imideos,eos_tag,ieos,npropm,maxeos,eos_param)
+        subroutine hm_read_eos_compaction(iout,pm,unitab,lsubmodel,imideos,eos_tag,ieos,npropm,maxeos,eos_struct)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -70,15 +70,15 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
-          integer,intent(in) :: npropm, maxeos  !< array sizes
-          type (unit_type_),intent(in) ::unitab !< data structure for units (/UNIT)
-          integer, intent(in) :: iout !< file units
-          real(kind=WP), intent(inout) :: pm(npropm)  !< data structure for material laws
-          type(submodel_data), dimension(nsubmod), intent(in) :: lsubmodel !< data structure for sumobeling method (//SUBMODEL)
-          integer,intent(in) :: imideos
-          type(eos_tag_),dimension(0:maxeos) ,intent(inout) :: eos_tag !< data structure for EoS
-          integer,intent(in) :: ieos !< EoS (internal) identifier
-          type(eos_param_), intent(inout) :: eos_param !< eos data structure (specific parameters)
+      integer,intent(in) :: npropm, maxeos  !< array sizes
+      type (unit_type_),intent(in) ::unitab !< data structure for units (/UNIT)
+      integer, intent(in) :: iout !< file units
+      real(kind=WP), intent(inout) :: pm(npropm)  !< data structure for material laws
+      type(submodel_data), dimension(nsubmod), intent(in) :: lsubmodel !< data structure for sumobeling method (//SUBMODEL)
+      integer,intent(in) :: imideos
+      type(eos_tag_),dimension(0:maxeos) ,intent(inout) :: eos_tag !< data structure for EoS
+      integer,intent(in) :: ieos !< EoS (internal) identifier
+      type(eos_param_), intent(inout) :: eos_struct !< eos data structure (specific parameters)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -155,28 +155,28 @@
             end if
           end if
 
-          eos_param%nuparam = 3
-          eos_param%niparam = 1
-          eos_param%nfunc = 0
-          eos_param%ntable = 0
-          call eos_param%construct() !allocations
+      eos_struct%nuparam = 7
+      eos_struct%niparam = 1
+      eos_struct%nfunc = 0
+      eos_struct%ntable = 0
+      call eos_struct%construct() !allocations
 
-          eos_param%uparam(1) = mumax
-          eos_param%uparam(2) = mumin
-          eos_param%uparam(3) = bunl
+      eos_struct%uparam(1) = mumax
+      eos_struct%uparam(2) = mumin
+      eos_struct%uparam(3) = bunl
+      eos_struct%uparam(4) = c0
+      eos_struct%uparam(5) = c1
+      eos_struct%uparam(6) = c2
+      eos_struct%uparam(7) = c3
 
-          eos_param%iparam(1) = iform
+      eos_struct%iparam(1) = iform
 
-          pm(49) = c0
-          pm(32) = c1
-          pm(33) = c2
-          pm(34) = c3
-          pm(88) = psh
-          pm(45) = bunl
-          pm(46) = mumax
-          pm(47) = mumin
-          pm(48) = iform
-          if(pm(79)==zero)pm(79)=three100
+      eos_struct%psh = psh
+
+      pm(32) = c1 !bulk modulus (
+
+      pm(88) = psh
+      if(pm(79)==zero)pm(79)=three100
 
           pm(23) = e0
           pm(31) = p0-psh

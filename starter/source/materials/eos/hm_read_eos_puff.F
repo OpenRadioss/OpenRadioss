@@ -20,24 +20,25 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-!||====================================================================
-!||    hm_read_eos_puff         ../starter/source/materials/eos/hm_read_eos_puff.F
-!||--- called by ------------------------------------------------------
-!||    hm_read_eos              ../starter/source/materials/eos/hm_read_eos.F
-!||--- calls      -----------------------------------------------------
-!||    hm_get_floatv            ../starter/source/devtools/hm_reader/hm_get_floatv.F
-!||    hm_option_is_encrypted   ../starter/source/devtools/hm_reader/hm_option_is_encrypted.F
-!||--- uses       -----------------------------------------------------
-!||    message_mod              ../starter/share/message_module/message_mod.F
-!||    submodel_mod             ../starter/share/modules1/submodel_mod.F
-!||====================================================================
-      SUBROUTINE HM_READ_EOS_PUFF(IOUT,PM,UNITAB,IUNIT,LSUBMODEL,IMIDEOS)
+      !||====================================================================
+      !||    hm_read_eos_puff         ../starter/source/materials/eos/hm_read_eos_puff.F
+      !||--- called by ------------------------------------------------------
+      !||    hm_read_eos              ../starter/source/materials/eos/hm_read_eos.F
+      !||--- calls      -----------------------------------------------------
+      !||    hm_get_floatv            ../starter/source/devtools/hm_reader/hm_get_floatv.F
+      !||    hm_option_is_encrypted   ../starter/source/devtools/hm_reader/hm_option_is_encrypted.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod              ../starter/share/message_module/message_mod.F
+      !||    submodel_mod             ../starter/share/modules1/submodel_mod.F
+      !||====================================================================
+      SUBROUTINE HM_READ_EOS_PUFF(IOUT,PM,UNITAB,IUNIT,LSUBMODEL,IMIDEOS,EOS_STRUCT)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
       USE SUBMODEL_MOD
-      USE MESSAGE_MOD      
+      USE MESSAGE_MOD
+      USE EOS_PARAM_MOD , ONLY : EOS_PARAM_
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -62,6 +63,7 @@ C-----------------------------------------------
       my_real PM(NPROPM)
       TYPE(SUBMODEL_DATA), DIMENSION(NSUBMOD), INTENT(IN) :: LSUBMODEL
       INTEGER,INTENT(IN) :: IMIDEOS
+      TYPE(EOS_PARAM_),INTENT(INOUT) :: EOS_STRUCT
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -72,7 +74,7 @@ C-----------------------------------------------
       my_real
      .   C1, C2, C3, G0, T1, T2, ES, HH, E0, RHO0,
      .   FAC_L,FAC_T,FAC_M,FAC_C,RHOR,RHOI,MU2,
-     .   XX,AA,BB,GX,PRES,EXPA,ETA,EE,CC, MU0, DF, PP ,SSP0, DPDMU, PC
+     .   XX,AA,BB,GX,PRES,EXPA,ETA,EE,CC, MU0, DF, PP ,SSP0, DPDMU, PC, PSH
       LOGICAL :: IS_ENCRYPTED, IS_AVAILABLE, IS_AVAILABLE_RHO0     
 C-----------------------------------------------
 C   S o u r c e   L i n e s
@@ -108,16 +110,29 @@ C-----------------------------------------------
         RHO0=RHOR                   
       ENDIF
 
-      PM( 23) = E0
-      PM( 32) = C1
-      PM( 33) = C2
-      PM( 34) = C3
-      PM( 35) = T1
-      PM( 36) = T2
-      PM(160) = ES
-      PM(161) = G0
-      PM(162) = HH
+      PSH = ZERO
+
+      PM(23) = E0
+      PM(32) = C1 + G0*E0  !BULK = (1+µ)*dP/dmu (partial derivative at constant E)
+      PM(88) = PSH
       IF(PM(79)==ZERO)PM(79)=THREE100
+
+      EOS_STRUCT%NUPARAM = 8
+      EOS_STRUCT%NIPARAM = 0
+      EOS_STRUCT%NFUNC = 0
+      EOS_STRUCT%NTABLE = 0
+      CALL EOS_STRUCT%CONSTRUCT() !allocations
+
+      EOS_STRUCT%UPARAM(1) = C1
+      EOS_STRUCT%UPARAM(2) = C2
+      EOS_STRUCT%UPARAM(3) = C3
+      EOS_STRUCT%UPARAM(4) = T1
+      EOS_STRUCT%UPARAM(5) = T2
+      EOS_STRUCT%UPARAM(6) = ES
+      EOS_STRUCT%UPARAM(7) = G0
+      EOS_STRUCT%UPARAM(8) = HH
+      EOS_STRUCT%PSH = PSH
+
 
       !COMPUTING INITIAL PRESSURE
       IF(RHOI == ZERO)THEN

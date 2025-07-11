@@ -20,111 +20,54 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+      module mat51_associate_eos_mod
+        implicit none
+      contains
 ! ======================================================================================================================
 !                                                   procedures
 ! ======================================================================================================================
-!! \brief Write parameters of EOS data structure
+!! \brief
 !! \details
-!||====================================================================
-!||    write_eosparam         ../starter/source/materials/mat/write_eosparam.F90
-!||--- called by ------------------------------------------------------
-!||    write_matparam         ../starter/source/materials/mat/write_matparam.F
-!||--- calls      -----------------------------------------------------
-!||    write_mat_table        ../starter/source/materials/tools/write_mat_table.F
-!||--- uses       -----------------------------------------------------
-!||====================================================================
-      SUBROUTINE WRITE_EOSPARAM(EOS)
+        subroutine mat51_associate_eos(mat_param,nummat,parent_mid)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
-        USE EOS_PARAM_MOD
-        USE NAMES_AND_TITLES_MOD
-        USE PRECISION_MOD, ONLY : WP
+              use mat_elem_mod , only : matparam_struct_
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
-        implicit none
+          implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
-        TYPE(EOS_PARAM_) ,INTENT(IN) :: EOS
+          integer,intent(in) :: nummat
+          integer,intent(in) :: parent_mid
+          type (matparam_struct_) ,dimension(nummat) ,intent(inout), target :: mat_param
 ! ----------------------------------------------------------------------------------------------------------------------
-!                                                   Local Variables
+!                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-        INTEGER :: I,IAD,NFIX
-        INTEGER ,DIMENSION(NCHARTITLE) :: NAME
-        INTEGER ,DIMENSION(:) ,ALLOCATABLE :: IBUF
-        real(kind=WP) ,DIMENSION(:), ALLOCATABLE :: RBUF
-        INTEGER :: LENI, LENR
+          integer :: nb,i,submat_mid
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
-        !INTEGER parameter
-        NFIX = 6
-        ALLOCATE (IBUF(NFIX + 1))
-        IAD = 1
-        IBUF(IAD) = NFIX
-        IAD = IAD+1
-        IBUF(IAD) = EOS%NUPARAM
-        IAD = IAD+1
-        IBUF(IAD) = EOS%NIPARAM
-        IAD = IAD+1
-        IBUF(IAD) = EOS%NFUNC
-        IAD = IAD+1
-        IBUF(IAD) = EOS%NTABLE
-        IAD = IAD+1
-        IBUF(IAD) = EOS%ISFLUID
-        IAD = IAD+1
-        CALL WRITE_I_C(IBUF,NFIX+1)
-        DEALLOCATE(IBUF)
-
-        !REAL parameter
-        NFIX = 6
-        ALLOCATE (RBUF(NFIX))
-        ALLOCATE(IBUF(1))
-        IBUF(1)=NFIX
-        IAD = 1
-        RBUF(IAD) = EOS%CV
-        IAD = IAD+1
-        RBUF(IAD) = EOS%CP
-        IAD = IAD+1
-        RBUF(IAD) = EOS%PSH
-        IAD = IAD+1
-        RBUF(IAD) = EOS%E0
-        IAD = IAD+1
-        RBUF(IAD) = EOS%P0
-        IAD = IAD+1
-        RBUF(IAD) = EOS%PMIN
-        IAD = IAD+1                        
-        CALL WRITE_I_C(IBUF,1)
-        CALL WRITE_DB(RBUF,NFIX)
-        DEALLOCATE(RBUF)
-
-        ! write eos model title
-        DO I=1,NCHARTITLE
-          NAME(I) = ICHAR(EOS%TITLE(I:I))
-        END DO
-        CALL WRITE_C_C(NAME,NCHARTITLE)
-
-        ! write eos parameter array
-        IF (EOS%NUPARAM > 0) THEN
-          CALL WRITE_DB(EOS%UPARAM ,EOS%NUPARAM)
-        END IF
-        IF (EOS%NIPARAM > 0) THEN
-          CALL WRITE_I_C(EOS%IPARAM ,EOS%NIPARAM)
-        END IF
-
-        ! write eos law function
-        IF (EOS%NFUNC > 0) THEN
-          CALL WRITE_I_C(EOS%FUNC, EOS%NFUNC)
-        END IF
-
-        ! write eos law tables
-        IF (EOS%NTABLE > 0) THEN
-          LENI=0
-          LENR=0
-          CALL WRITE_MAT_TABLE(EOS%TABLE, EOS%NTABLE)
-        END IF
-!-----------
-        RETURN
-      end subroutine WRITE_EOSPARAM
+          nb = mat_param(parent_mid)%multimat%nb
+          ! MODERN FORMAT
+          if(mat_param(parent_mid)%multimat%old_data_format == 0) then
+            if (nb > 0) then
+              allocate(mat_param(parent_mid)%multimat%pEOS(nb))
+              do i=1,nb
+                submat_mid = mat_param(parent_mid)%multimat%mid(i)
+                if(submat_mid > 0) then
+                  mat_param(parent_mid)%multimat%pEOS(i)%eos => mat_param(submat_mid)%eos
+                end if
+              end do
+            end if
+          ! OLD FORMAT (EMBEDDED EOS PARAMETERS)
+          else
+              allocate(mat_param(parent_mid)%multimat%pEOS(4))
+              do i=1,4
+                mat_param(parent_mid)%multimat%pEOS(i)%eos => mat_param(parent_mid)%multimat%EOS(i)
+              end do
+          end if
+        end subroutine mat51_associate_eos
+      end module mat51_associate_eos_mod

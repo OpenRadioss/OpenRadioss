@@ -25,17 +25,20 @@
 ! ======================================================================================================================
 !! \brief Reader for option /EOS/EXPONENTIAL
 !! \details  PM(31) = P(MU0,E0) -> will be used to initialize pressure from stress tensor SIG(1:3,*)
-!||====================================================================
-!||    hm_read_eos_exponential   ../starter/source/materials/eos/hm_read_eos_exponential.F90
-!||--- called by ------------------------------------------------------
-!||    hm_read_eos               ../starter/source/materials/eos/hm_read_eos.F
-!||--- calls      -----------------------------------------------------
-!||    hm_get_floatv             ../starter/source/devtools/hm_reader/hm_get_floatv.F
-!||    hm_option_is_encrypted    ../starter/source/devtools/hm_reader/hm_option_is_encrypted.F
-!||--- uses       -----------------------------------------------------
-!||    submodel_mod              ../starter/share/modules1/submodel_mod.F
-!||====================================================================
-      subroutine hm_read_eos_exponential(iout,pm,unitab,lsubmodel,npropm)
+      !||====================================================================
+      !||    hm_read_eos_exponential   ../starter/source/materials/eos/hm_read_eos_exponential.F90
+      !||--- called by ------------------------------------------------------
+      !||    hm_read_eos               ../starter/source/materials/eos/hm_read_eos.F
+      !||--- calls      -----------------------------------------------------
+      !||    hm_get_floatv             ../starter/source/devtools/hm_reader/hm_get_floatv.F
+      !||    hm_option_is_encrypted    ../starter/source/devtools/hm_reader/hm_option_is_encrypted.F
+      !||--- uses       -----------------------------------------------------
+      !||    submodel_mod              ../starter/share/modules1/submodel_mod.F
+      !||====================================================================
+      module hm_read_eos_exponential_mod
+          contains
+
+      subroutine hm_read_eos_exponential(iout,pm,unitab,lsubmodel,npropm,eos_struct)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -43,6 +46,7 @@
         use submodel_mod
         use constant_mod , only : three100, em20, zero
         use precision_mod, only : WP
+        use eos_param_mod , only : eos_param_
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -53,11 +57,12 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
-        integer,intent(in) :: npropm                                     !< size for pm array
-        integer,intent(in) :: iout                                       !< file unit of starter listing
-        type (unit_type_),intent(in) :: unitab                           !< data structure for unit systems required by reader subroutines
-        real(kind=WP), intent(inout) :: pm(npropm)                             !< material parameters
-        type(submodel_data), dimension(nsubmod), intent(in) :: lsubmodel !< submodel data structure required for reader subroutines
+      integer,intent(in) :: npropm                                     !< size for pm array
+      integer,intent(in) :: iout                                       !< file unit of starter listing
+      type (unit_type_),intent(in) :: unitab                           !< data structure for unit systems required by reader subroutines
+      real(kind=WP), intent(inout) :: pm(npropm)                             !< material parameters
+      type(submodel_data), dimension(nsubmod), intent(in) :: lsubmodel !< submodel data structure required for reader subroutines
+      type(eos_param_),intent(inout) :: eos_struct
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -75,20 +80,29 @@
         call hm_get_floatv('Alpha', alpha, is_available,lsubmodel,unitab)
         call hm_get_floatv('MAT_PSH', psh, is_available,lsubmodel,unitab)
 
-        pm(104)=p0-psh
-        pm( 31)=p0-psh
-        pm( 32)=alpha
-        pm( 88)=psh
-        if(pm(79)==zero)pm(79)=three100
-        ssp0 = em20
-        pm(27)=ssp0
+      pm(104)=p0-psh
+      pm( 31)=p0-psh
+      pm( 32)=zero !bulk
+      pm( 88)=psh
+      if(pm(79)==zero)pm(79)=three100
+      ssp0 = em20
+      pm(27)=ssp0
 
-        write(iout,1000)
-        if(is_encrypted)then
-          write(iout,'(5X,A,//)')'CONFIDENTIAL DATA'
-        else
-          write(iout,1500)p0,alpha,psh
-        endif
+      !real EoS parameters
+      eos_struct%nuparam = 1
+      eos_struct%niparam = 0
+      eos_struct%nfunc = 0
+      eos_struct%ntable = 0
+      call eos_struct%construct() !allocations
+      eos_struct%psh = psh
+      eos_struct%uparam(1) = alpha
+
+      write(iout,1000)
+      if(is_encrypted)then
+        write(iout,'(5X,A,//)')'CONFIDENTIAL DATA'
+      else
+        write(iout,1500)p0,alpha,psh
+      endif
 
         return
 1000    format(&
@@ -101,4 +115,5 @@
 
         return
       end subroutine hm_read_eos_exponential
+      end module hm_read_eos_exponential_mod
 

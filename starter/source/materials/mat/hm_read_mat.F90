@@ -698,13 +698,14 @@
                 ntable   ,table    ,mat_id   ,iout     ,titr     ,  &
                 unitab   ,lsubmodel)
 !-------
-             case ('LAW51','MULTIMAT','TRIMAT')
-              ilaw = 51
-              call hm_read_mat51(&
-              &uparam   ,maxuparam ,nuparam  ,israte  ,imatvis  ,&
-              &nuvar    ,ifunc     ,maxfunc  ,nfunc   ,parmat   ,&
-              &unitab   ,mat_id    ,titr     ,mtag    ,lsubmodel,&
-              &pm(1,i)  ,matparam ,ipm(1,i)  ,nvartmp)
+          case ('LAW51','MULTIMAT')
+            ilaw = 51
+            call hm_read_mat51(&
+            &uparam   ,maxuparam ,nuparam  ,israte  ,imatvis  ,&
+            &nuvar    ,ifunc     ,maxfunc  ,nfunc   ,parmat   ,&
+            &unitab   ,mat_id    ,titr     ,mtag    ,lsubmodel,&
+            &pm(1,i)  ,mat_param, mat_number ,ipm(1,i)  ,nvartmp ,&
+            &nummat)
 !-------
              case ('LAW52','GURSON')
               ilaw  = 52

@@ -20,24 +20,26 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-!||====================================================================
-!||    hm_read_eos_noble_abel   ../starter/source/materials/eos/hm_read_eos_noble_abel.F
-!||--- called by ------------------------------------------------------
-!||    hm_read_eos              ../starter/source/materials/eos/hm_read_eos.F
-!||--- calls      -----------------------------------------------------
-!||    hm_get_floatv            ../starter/source/devtools/hm_reader/hm_get_floatv.F
-!||    hm_option_is_encrypted   ../starter/source/devtools/hm_reader/hm_option_is_encrypted.F
-!||--- uses       -----------------------------------------------------
-!||    message_mod              ../starter/share/message_module/message_mod.F
-!||    submodel_mod             ../starter/share/modules1/submodel_mod.F
-!||====================================================================
-      SUBROUTINE HM_READ_EOS_NOBLE_ABEL(IOUT,PM,UNITAB,IUNIT,LSUBMODEL,IMIDEOS)
+      !||====================================================================
+      !||    hm_read_eos_noble_abel   ../starter/source/materials/eos/hm_read_eos_noble_abel.F
+      !||--- called by ------------------------------------------------------
+      !||    hm_read_eos              ../starter/source/materials/eos/hm_read_eos.F
+      !||--- calls      -----------------------------------------------------
+      !||    hm_get_floatv            ../starter/source/devtools/hm_reader/hm_get_floatv.F
+      !||    hm_option_is_encrypted   ../starter/source/devtools/hm_reader/hm_option_is_encrypted.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod              ../starter/share/message_module/message_mod.F
+      !||    submodel_mod             ../starter/share/modules1/submodel_mod.F
+      !||====================================================================
+      SUBROUTINE HM_READ_EOS_NOBLE_ABEL(IOUT,PM,UNITAB,IUNIT,LSUBMODEL,IMIDEOS,EOS_STRUCT)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
       USE SUBMODEL_MOD
-      USE MESSAGE_MOD      
+      USE MESSAGE_MOD
+      USE EOS_PARAM_MOD , ONLY : EOS_PARAM_
+      !USE CONSTANT_MOD , ONLY : EM15,HALF,ONe,ZERO
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -58,10 +60,11 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
-      INTEGER IIN,IOUT,IUNIT
-      my_real PM(NPROPM)
+      INTEGER,INTENT(IN) :: IOUT,IUNIT
+      my_real,INTENT(INOUT) :: PM(NPROPM)
       TYPE(SUBMODEL_DATA), DIMENSION(NSUBMOD), INTENT(IN) :: LSUBMODEL
       INTEGER,INTENT(IN) :: IMIDEOS
+      TYPE(EOS_PARAM_),INTENT(INOUT) :: EOS_STRUCT
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -69,10 +72,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      my_real
-     .   C0, C1, C2, C3, C4, C5, E0, PSH, RHO0,
-     .   FAC_L,FAC_T,FAC_M,FAC_C,BB,GAMMA,AA,PP,DENOM,MU,RHOI,RHOR,DPDMU,DPDE
-      my_real MU0,MU2,DF,SSP0,G0
+      my_real :: C0, C1, C2, C3, C4, C5, E0, PSH, RHO0
+      my_real :: BB,GAMMA,AA,PP,DENOM,MU,RHOI,RHOR,DPDMU,DPDE
+      my_real :: MU0,MU2,DF,SSP0,G0
       LOGICAL :: IS_ENCRYPTED, IS_AVAILABLE, IS_AVAILABLE_RHO0
 C-----------------------------------------------
 C   S o u r c e   L i n e s
@@ -98,12 +100,21 @@ C-----------------------------------------------
         RHO0=RHOR                   
       ENDIF
 
-      PM( 23) =  E0
-      PM( 32) =  BB
-      PM( 33) =  GAMMA-ONE     
-      PM( 34) =  RHO0         
-      PM( 88) =  PSH
+      PM(23) =  E0
+      PM(32) = (GAMMA-ONE)*E0 / (ONE-BB*RHO0)**2   !BULK = (1+µ)*dP/dmu (partial derivative at constant E)
+      PM(88) = PSH
       IF(PM(79)==ZERO)PM(79)=THREE100
+
+      EOS_STRUCT%NUPARAM = 3
+      EOS_STRUCT%NIPARAM = 0
+      EOS_STRUCT%NFUNC = 0
+      EOS_STRUCT%NTABLE = 0
+      CALL EOS_STRUCT%CONSTRUCT() !allocations
+
+      EOS_STRUCT%UPARAM(1) = BB
+      EOS_STRUCT%UPARAM(2) = GAMMA-ONE
+      EOS_STRUCT%UPARAM(3) = RHO0
+      EOS_STRUCT%PSH = PSH
 
       !COMPUTING INITIAL PRESSURE : PM(31) -> SIG(1:3,*)
       MU=RHOI/RHOR-ONE
@@ -137,8 +148,8 @@ C-----------------------------------------------
       RHOI = PM(89)
       DPDE = (GAMMA-ONE)*(ONE+MU0)/DENOM                                               
       DPDMU = (GAMMA-ONE)*E0/DENOM + PP/DENOM*BB*RHOI + PP*DF*DF*DPDE
-        
-      DPDMU=MAX(ZERO,DPDMU)
+      DPDMU = MAX(ZERO,DPDMU)
+
       IF(RHOR > ZERO) SSP0 = SQRT((DPDMU + TWO_THIRD*G0)/RHOR) 
       PM(27)=SSP0       
 

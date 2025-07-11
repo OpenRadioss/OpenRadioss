@@ -46,47 +46,47 @@
 !! \details  COLLOCATED SCHEME
 !! \details     EOSMAIN / IFLG = 2 : SINGLE PASS FOR P[n+1] AND DERIVATIVES
 !----------------------------------------------------------------------------
-!||====================================================================
-!||    eosexponential   ../common_source/eos/eosexponential.F90
-!||--- called by ------------------------------------------------------
-!||    eosmain          ../common_source/eos/eosmain.F
-!||--- uses       -----------------------------------------------------
-!||    constant_mod     ../common_source/modules/constant_mod.F
-!||    precision_mod    ../common_source/modules/precision_mod.F90
-!||====================================================================
-        subroutine eosexponential(iflag ,nel   ,pm   ,off  ,eint ,&
-          dvol  ,vnew  ,mat  ,psh  ,      &
-          pnew  ,dpdm  ,dpdE ,time ,&
-          npropm,nummat)
+      !||====================================================================
+      !||    eosexponential   ../common_source/eos/eosexponential.F90
+      !||--- called by ------------------------------------------------------
+      !||    eosmain          ../common_source/eos/eosmain.F
+      !||--- uses       -----------------------------------------------------
+      !||    constant_mod     ../common_source/modules/constant_mod.F
+      !||    precision_mod    ../common_source/modules/precision_mod.F90
+      !||====================================================================
+      subroutine eosexponential(npropm,nummat,&
+                                iflag ,nel   ,pm   ,off  ,eint ,&
+                                dvol  ,vnew  ,mat  ,psh  ,      &
+                                pnew  ,dpdm  ,dpdE ,time ,&
+                                eos_struct)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
-          use constant_mod , only : three100, half, zero
-          use precision_mod , only : WP
+      use constant_mod , only : three100, half, zero
+      use precision_mod , only : WP
+      use eos_param_mod , only : eos_param_
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
           implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
-!                                                   Included files
-! ----------------------------------------------------------------------------------------------------------------------
-! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
-          integer,intent(in) :: npropm , nummat          !< size for pm array
-          integer,intent(in) :: mat(nel)                 !< material identifiers for elems 1 to nel
-          integer,intent(in) :: IFLAG                    !< flag mentioning what needs to be computed
-          integer,intent(in) :: NEL                      !< number of elems in group (current group size)
-          real(kind=WP), intent(in) :: time                    !< simulation current time
-          real(kind=WP), intent(in) :: pm(npropm,nummat)       !< parameters of all materials
-          real(kind=WP), intent(in) :: vnew(nel)               !< current volume of elems
-          real(kind=WP), intent(in) :: off(nel)                !< state of elems (0.0 if deleted)
-          real(kind=WP), intent(in) :: dvol(nel)               !< volume change of elems
-          real(kind=WP), intent(inout) :: pnew(nel)            !< pressure
-          real(kind=WP), intent(inout) :: dpdm(nel)            !< total derivative : mu = rho/rho0-1
-          real(kind=WP), intent(inout) :: dpdE(nel)            !< partial derivative : E=rho0.e
-          real(kind=WP), intent(inout) :: psh(nel)             !< pressure shift
-          real(kind=WP), intent(inout) :: eint(nel)            !< internal energy
+      integer,intent(in) :: npropm , nummat            !< size for pm array
+      integer,intent(in) :: mat(nel)                   !< material identifiers for elems 1 to nel
+      integer,intent(in) :: IFLAG                      !< flag mentioning what needs to be computed
+      integer,intent(in) :: NEL                        !< number of elems in group (current group size)
+      real(kind=WP), intent(in) :: time                !< simulation current time
+      real(kind=WP), intent(in) :: pm(npropm,nummat)   !< parameters of all materials
+      real(kind=WP), intent(in) :: vnew(nel)           !< current volume of elems
+      real(kind=WP), intent(in) :: off(nel)            !< state of elems (0.0 if deleted)
+      real(kind=WP), intent(in) :: dvol(nel)           !< volume change of elems
+      real(kind=WP), intent(inout) :: pnew(nel)        !< pressure
+      real(kind=WP), intent(inout) :: dpdm(nel)        !< total derivative : mu = rho/rho0-1
+      real(kind=WP), intent(inout) :: dpdE(nel)        !< partial derivative : E=rho0.e
+      real(kind=WP), intent(inout) :: psh(nel)         !< pressure shift
+      real(kind=WP), intent(inout) :: eint(nel)        !< internal energy
+      type(eos_param_),intent(in) :: eos_struct        !< eos parameters for each submaterials
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -95,44 +95,36 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
+      mx = mat(1)
+      p0 = pm(104,mx) !starter:p0-psh
+      alpha = eos_struct%uparam(1)
+      psh(1:nel) = eos_struct%psh
 
-          if(iflag == 0) then
-            mx = mat(1)
-            p0 = pm(104,mx) !starter:p0-psh
-            alpha = pm( 32,mx)
-            psh(1:nel) = pm( 88,mx)
-            dpdm(1:nel) = zero
-            dpdE(1:nel) = zero
-            pnew(1:nel) = p0*exp(alpha*time)
-            pnew(1:nel) = pnew(1:nel)*off(1:nel)
+      if(iflag == 0) then
+        dpdm(1:nel) = zero
+        dpdE(1:nel) = zero
+        pnew(1:nel) = p0*exp(alpha*time)
+        pnew(1:nel) = pnew(1:nel)*off(1:nel)
 
-          elseif(iflag == 1) then
-            mx = mat(1)
-            p0 = pm(104,mx) !starter:p0-psh
-            alpha = pm( 32,mx)
-            psh(1:nel) = pm( 88,mx)
-            pnew(1:nel) = p0*exp(alpha*time)
-            pnew(1:nel) = pnew(1:nel)*off(1:nel)
-            do i=1,nel
-              eint(i) = eint(i) - half*dvol(i)*(pnew(i)+psh(i))
-              dpdE(i) = zero
-            enddo
+      elseif(iflag == 1) then
+        pnew(1:nel) = p0*exp(alpha*time)
+        pnew(1:nel) = pnew(1:nel)*off(1:nel)
+        do i=1,nel
+          eint(i) = eint(i) - half*dvol(i)*(pnew(i)+psh(i))
+          dpdE(i) = zero
+        enddo
 
-          elseif(iflag == 2) then
-            mx  = mat(1)
-            mx = mat(1)
-            p0 = pm(104,mx) !starter:p0-psh
-            alpha = pm( 32,mx)
-            psh(1:nel) = pm( 88,mx)
-            do i=1,nel
-              if (vnew(i) > zero) then
-                pnew(i) =  p0*exp(alpha*time)
-                pnew(i) = pnew(i)*off(i)
-                dpdm(i) = zero
-                dpdE(i) = zero
-              endif
-            enddo
+      elseif(iflag == 2) then
+        do i=1,nel
+          if (vnew(i) > zero) then
+            pnew(i) =  p0*exp(alpha*time)
+            pnew(i) = pnew(i)*off(i)
+            dpdm(i) = zero
+            dpdE(i) = zero
           endif
+        enddo
+
+      endif
 
 !------------------------
           return

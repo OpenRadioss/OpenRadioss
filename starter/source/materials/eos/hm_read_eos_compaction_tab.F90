@@ -55,7 +55,7 @@
 !||    table_mod                    ../starter/share/modules1/table_mod.F
 !||====================================================================
         subroutine hm_read_eos_compaction_tab(iout,pm,unitab,lsubmodel,uid,eos_tag,ieos,npropm, &
-          maxeos,eos_param,ntable,table, ale_rezon_param)
+          maxeos,eos_struct,ntable,table, ale_rezon_param)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -81,18 +81,18 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
-          integer,intent(in) :: npropm, maxeos  !< array sizes
-          type (unit_type_),intent(in) ::unitab !< data structure for units (/UNIT)
-          integer, intent(in) :: iout !< file units
-          real(kind=WP), intent(inout) :: pm(npropm)  !< data structure for material laws
-          type(submodel_data), dimension(nsubmod), intent(in) :: lsubmodel !< data structure for sumobeling method (//SUBMODEL)
-          integer,intent(in) :: uid
-          type(eos_tag_),dimension(0:maxeos) ,intent(inout) :: eos_tag !< data structure for EoS
-          integer,intent(in) :: ieos !< EoS (internal) identifier
-          type(eos_param_), intent(inout) :: eos_param !< eos data structure (specific parameters)
-          integer, intent(in) :: ntable
-          type(ttable) ,dimension(ntable) ,intent(in) :: table
-          type(ale_rezon_), intent(inout) :: ale_rezon_param
+      integer,intent(in) :: npropm, maxeos  !< array sizes
+      type (unit_type_),intent(in) ::unitab !< data structure for units (/UNIT)
+      integer, intent(in) :: iout !< file units
+      real(kind=WP), intent(inout) :: pm(npropm)  !< data structure for material laws
+      type(submodel_data), dimension(nsubmod), intent(in) :: lsubmodel !< data structure for sumobeling method (//SUBMODEL)
+      integer,intent(in) :: uid
+      type(eos_tag_),dimension(0:maxeos) ,intent(inout) :: eos_tag !< data structure for EoS
+      integer,intent(in) :: ieos !< EoS (internal) identifier
+      type(eos_param_), intent(inout) :: eos_struct !< eos data structure (specific parameters)
+      integer, intent(in) :: ntable
+      type(ttable) ,dimension(ntable) ,intent(in) :: table
+      type(ale_rezon_), intent(inout) :: ale_rezon_param
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -191,85 +191,91 @@
             iform=1
           endif
 
-          !generate user function in data structure
-          eos_param%ntable = 3
-          allocate (eos_param%table(eos_param%ntable))
-          eos_param%table(1)%notable = P_FUNC_ID
-          eos_param%table(2)%notable = C_FUNC_ID
-          eos_param%table(3)%notable = G_FUNC_ID
-          x1scale   = one * density_unit
-          x2scale   = one * density_unit
-          x3scale   = one
-          x4scale   = one
-          x3vect(1) = zero
-          x4vect(1) = zero
-          fscale(1) = PSCALE
-          fscale(2) = CSCALE
-          fscale(3) = GSCALE
-          call eos_table_copy(eos_param ,x2vect   ,x3vect   ,x4vect   ,         &
-            x1scale  ,x2scale  ,x3scale  ,x4scale  ,fscale   ,         &
-            ntable   ,table    ,ierror   ,uid)
+      !eos_struct parameters
+      eos_struct%nuparam = 4
+      eos_struct%niparam = 2
+      eos_struct%nfunc = 0
+      eos_struct%ntable = 3
+      call eos_struct%construct() !allocations
 
-          ! check mathematical meaning of gamma function (gamma=gscale*g(rho) must be positive)
-          if(G_FUNC_ID > 0 .and. gscale /= zero)then
-            NPT = size(eos_param%table(3)%X(1)%VALUES)
-            ierror = 0
-            do ipt =1,npt
-              YY(1) = gscale * eos_param%table(3)%Y1D(ipt)
-              IF (YY(1) < zero) then
-                ierror = 1
-                exit
-              endif
-            end do
-            if(ierror == 1)then
-              call ancmsg(MSGID=67,MSGTYPE=msgerror,ANMODE=aninfo,I1=uid,C1='/EOS/COMPACTION_TAB', &
-                C2='GAMMA(RHO) MUST BE POSITIVE')
-            end if
-          end if
+      !generate user function in data structure
+      allocate (eos_struct%table(eos_struct%ntable))
+      eos_struct%table(1)%notable = P_FUNC_ID
+      eos_struct%table(2)%notable = C_FUNC_ID
+      eos_struct%table(3)%notable = G_FUNC_ID
+      x1scale   = one * density_unit
+      x2scale   = one * density_unit
+      x3scale   = one
+      x4scale   = one
+      x3vect(1) = zero
+      x4vect(1) = zero
+      fscale(1) = PSCALE
+      fscale(2) = CSCALE
+      fscale(3) = GSCALE
+      call eos_table_copy(eos_struct ,x2vect   ,x3vect   ,x4vect   ,         &
+                x1scale  ,x2scale  ,x3scale  ,x4scale  ,fscale   ,         &
+                ntable   ,table    ,ierror   ,uid)
 
-          ! GAMMA(RHO_TMD) -> 0 ?
-          gamma_tmd = zero
-          if(G_FUNC_ID > 0 .and. gscale /= zero)then
-            xvec1(1:1,1) = (one+em03)*rho_tmd
-            call table_mat_vinterp(eos_param%table(3),1,1,vartmp(1,3),xvec1,yy,slope)
-            gamma_tmd = yy(1)
-            if(gamma_tmd > em10)then
-              call ancmsg(MSGID=67,MSGTYPE=msgwarning,ANMODE=aninfo,I1=uid,C1='/EOS/COMPACTION_TAB', &
-                C2='FUNCTION GAMMA(RHO) SHOULD DECAY TO 0.0 WHEN DENSITY APPROACHES RHO_TMD')
-            end if
+      ! check mathematical meaning of gamma function (gamma=gscale*g(rho) must be positive)
+      if(G_FUNC_ID > 0 .and. gscale /= zero)then
+        NPT = size(eos_struct%table(3)%X(1)%VALUES)
+        ierror = 0
+        do ipt =1,npt
+          YY(1) = gscale * eos_struct%table(3)%Y1D(ipt)
+          IF (YY(1) < zero) then
+            ierror = 1
+            exit
           endif
+        end do
+        if(ierror == 1)then
+          call ancmsg(MSGID=67,MSGTYPE=msgerror,ANMODE=aninfo,I1=uid,C1='/EOS/COMPACTION_TAB', &
+                      C2='GAMMA(RHO) MUST BE POSITIVE')
+        end if
+      end if
 
-          !automatic c_solid value and check if it is positive
-          c_solid = zero
-          if(C_FUNC_ID > 0 )then
-            xvec1(1:1,1) = rho_tmd
-            call table_mat_vinterp(eos_param%table(2),1,1,vartmp(1,2),xvec1,yy,slope)
-            c_solid = yy(1)
-          elseif( cscale > zero )then
-            c_solid = cscale
-          endif
-          if(c_solid <= zero)then
-            call ancmsg(MSGID=67,MSGTYPE=msgerror,ANMODE=aninfo,I1=uid, &
-              C1='/EOS/COMPACTION_TAB',C2='Cunload(RHO_TMD) MUST BE POSITIVE')
-          endif
+      ! GAMMA(RHO_TMD) -> 0 ?
+      gamma_tmd = zero
+      if(G_FUNC_ID > 0 .and. gscale /= zero)then
+         xvec1(1:1,1) = (one+em03)*rho_tmd
+         call table_mat_vinterp(eos_struct%table(3),1,1,vartmp(1,3),xvec1,yy,slope)
+         gamma_tmd = yy(1)
+         if(gamma_tmd > em10)then
+          call ancmsg(MSGID=67,MSGTYPE=msgwarning,ANMODE=aninfo,I1=uid,C1='/EOS/COMPACTION_TAB', &
+                      C2='FUNCTION GAMMA(RHO) SHOULD DECAY TO 0.0 WHEN DENSITY APPROACHES RHO_TMD')
+         end if
+      endif
 
-          ! c(rho) function must be monotonic
-          if(C_FUNC_ID > 0 )then
-            NPT = size(eos_param%table(2)%X(1)%VALUES)
-            ierror = 0
-            do ipt =2,npt
-              YY(1) = gscale * eos_param%table(2)%Y1D(ipt-1)
-              YY(2) = gscale * eos_param%table(2)%Y1D(ipt)
-              IF (YY(2) < YY(1)) then
-                ierror = 1
-                exit
-              endif
-            end do
-            if(ierror == 1)then
-              call ancmsg(MSGID=67,MSGTYPE=msgwarning,ANMODE=aninfo,I1=uid, &
-                C1='/EOS/COMPACTION_TAB',C2='Cunload FUNCTION SHOULD BE MONOTONIC')
-            endif
+      !automatic c_solid value and check if it is positive
+      c_solid = zero
+      if(C_FUNC_ID > 0 )then
+         xvec1(1:1,1) = rho_tmd
+         call table_mat_vinterp(eos_struct%table(2),1,1,vartmp(1,2),xvec1,yy,slope)
+         c_solid = yy(1)
+      elseif( cscale > zero )then
+        c_solid = cscale
+      endif
+      if(c_solid <= zero)then
+         call ancmsg(MSGID=67,MSGTYPE=msgerror,ANMODE=aninfo,I1=uid, &
+                     C1='/EOS/COMPACTION_TAB',C2='Cunload(RHO_TMD) MUST BE POSITIVE')
+      endif
+
+      ! c(rho) function must be monotonic
+      if(C_FUNC_ID > 0 )then
+        NPT = size(eos_struct%table(2)%X(1)%VALUES)
+        ierror = 0
+        do ipt =2,npt
+          YY(1) = gscale * eos_struct%table(2)%Y1D(ipt-1)
+          YY(2) = gscale * eos_struct%table(2)%Y1D(ipt)
+          IF (YY(2) < YY(1)) then
+            ierror = 1
+            exit
           endif
+        end do
+        if(ierror == 1)then
+          call ancmsg(MSGID=67,MSGTYPE=msgwarning,ANMODE=aninfo,I1=uid, &
+                      C1='/EOS/COMPACTION_TAB',C2='Cunload FUNCTION SHOULD BE MONOTONIC')
+        endif
+      endif
 
           !Iplas check and default (plastic expansion flag)
           if(IPLAS /= 0 .and. IPLAS /= 1)then
@@ -279,35 +285,35 @@
           !default initial temperature
           if(pm(79)==zero)pm(79)=three100
 
-          ! P0=P(rho0)
-          xvec1(1:1,1) = rhoi
-          call table_mat_vinterp(eos_param%table(1),1,1,vartmp(1,1),xvec1,yy,slope)
-          P0 = yy(1)
-          ! SSP0 = Cunload(rho_0)
-          call table_mat_vinterp(eos_param%table(2),1,1,vartmp(1,2),xvec1,yy,slope)
-          SSP0 = yy(1)
+      ! P0=P(rho0)
+      xvec1(1:1,1) = rhoi
+      call table_mat_vinterp(eos_struct%table(1),1,1,vartmp(1,1),xvec1,yy,slope)
+      P0 = yy(1)
+      ! SSP0 = Cunload(rho_0)
+      call table_mat_vinterp(eos_struct%table(2),1,1,vartmp(1,2),xvec1,yy,slope)
+      SSP0 = yy(1)
 
-          ! RHOMAX_PLASTIC
-          ! intersection between
-          !  1) the unloading curve (slope c_solid² crossing (rho_tmd,0)) :  eqn : yy1 = Puser(xx) -> automaticaly extrapolated if needed
-          !  2) and the compaction curve : yy(rho)                           eqn : yy2 = c_solid**2*xx - c_solid**2*rho_tmd
-          ! newton iteration :  solving f(xx) := Pc(xx) - c_solid**2*(xx-rho_tmd) = 0
-          NITER = size(eos_param%table(1)%x(1)%values) + 100 ! large value but not inside a loop
-          ITER = 0
-          TOL = em12
-          rho_ = rho_tmd
-          residu = ep20
-          DO WHILE (ITER <= NITER .AND. RESIDU > TOL)
-            xvec1(1:1,1) = rho_
-            call table_mat_vinterp(eos_param%table(1),1,1,vartmp(1,1),xvec1,yy,slope)
-            Puser = yy(1)
-            ff = Puser - c_solid**2 * (rho_-rho_tmd)
-            df = slope(1) - c_solid**2
-            rho_ = rho_ - ff/df
-            residu = abs(ff/df)
-            iter = iter + 1
-          END DO
-          rhomax_plastic = rho_ ! intersection point
+      ! RHOMAX_PLASTIC
+      ! intersection between
+      !  1) the unloading curve (slope c_solid² crossing (rho_tmd,0)) :  eqn : yy1 = Puser(xx) -> automaticaly extrapolated if needed
+      !  2) and the compaction curve : yy(rho)                           eqn : yy2 = c_solid**2*xx - c_solid**2*rho_tmd
+      ! newton iteration :  solving f(xx) := Pc(xx) - c_solid**2*(xx-rho_tmd) = 0
+      NITER = size(eos_struct%table(1)%x(1)%values) + 100 ! large value but not inside a loop
+      ITER = 0
+      TOL = em12
+      rho_ = rho_tmd
+      residu = ep20
+      DO WHILE (ITER <= NITER .AND. RESIDU > TOL)
+        xvec1(1:1,1) = rho_
+        call table_mat_vinterp(eos_struct%table(1),1,1,vartmp(1,1),xvec1,yy,slope)
+        Puser = yy(1)
+        ff = Puser - c_solid**2 * (rho_-rho_tmd)
+        df = slope(1) - c_solid**2
+        rho_ = rho_ - ff/df
+        residu = abs(ff/df)
+        iter = iter + 1
+      END DO
+      rhomax_plastic = rho_ ! intersection point
 
           ! check pysical meaning : intersection point between compaction curve vs TMD line, dp/dr < c_solid**2
           slope_end = slope(1)
@@ -318,31 +324,25 @@
             call ancmsg(MSGID=67,MSGTYPE=msgerror,ANMODE=aninfo,I1=uid,C1='/EOS/COMPACTION_TAB',C2=mesg2)
           end if
 
+      !real parameters
+      eos_struct%uparam(1) = rho_tmd
+      eos_struct%uparam(2) = c_solid
+      eos_struct%uparam(3) = RHOMAX_PLASTIC
+      eos_struct%uparam(4) = gamma_tmd !user may want to have a non zero value even if 0 is recommended
+                                      !used when rho>rhomax_plastic to avoid any useless interpolation of gamma function
 
-          !integer parameters
-          eos_param%nuparam = 5
-          eos_param%niparam = 2
-          eos_param%nfunc = 0
-          !eos_param%ntable = 3
-          call eos_param%construct() !allocations
+      !integer parameters
+      eos_struct%iparam(1) = iform
+      eos_struct%iparam(2) = IPLAS
 
-          !real parameters
-          eos_param%uparam(1) = rho_tmd
-          eos_param%uparam(2) = c_solid
-          eos_param%uparam(3) = PSH
-          eos_param%uparam(4) = RHOMAX_PLASTIC
-          eos_param%uparam(5) = gamma_tmd !user may want to have a non zero value even if 0 is recommended
-          !used when rho>rhomax_plastic to avoid any useless interpolation of gamma function
+      !pressure shift
+      eos_struct%psh = PSH
 
-          !integer parameters
-          eos_param%iparam(1) = iform
-          eos_param%iparam(2) = IPLAS
-
-          !ssp0
-          pm(27) = max(ssp0, pm(27))
-          pm(23) = zero ! e0
-          pm(31) = p0-psh
-          pm(104)= p0-psh
+      !ssp0
+      pm(27) = max(ssp0, pm(27))
+      pm(23) = zero ! e0
+      pm(31) = p0-psh
+      pm(104)= p0-psh
 
           !< ALE rezoning.
           ! tell to rezoning how many user variables (uvar) must be rezoned.

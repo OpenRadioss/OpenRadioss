@@ -20,25 +20,27 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-!||====================================================================
-!||    hm_read_eos_osborne      ../starter/source/materials/eos/hm_read_eos_osborne.F
-!||--- called by ------------------------------------------------------
-!||    hm_read_eos              ../starter/source/materials/eos/hm_read_eos.F
-!||--- calls      -----------------------------------------------------
-!||    ancmsg                   ../starter/source/output/message/message.F
-!||    hm_get_floatv            ../starter/source/devtools/hm_reader/hm_get_floatv.F
-!||    hm_option_is_encrypted   ../starter/source/devtools/hm_reader/hm_option_is_encrypted.F
-!||--- uses       -----------------------------------------------------
-!||    message_mod              ../starter/share/message_module/message_mod.F
-!||    submodel_mod             ../starter/share/modules1/submodel_mod.F
-!||====================================================================
-      SUBROUTINE HM_READ_EOS_OSBORNE(IOUT,PM,UNITAB,IUNIT,LSUBMODEL,IMIDEOS)
+      !||====================================================================
+      !||    hm_read_eos_osborne      ../starter/source/materials/eos/hm_read_eos_osborne.F
+      !||--- called by ------------------------------------------------------
+      !||    hm_read_eos              ../starter/source/materials/eos/hm_read_eos.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg                   ../starter/source/output/message/message.F
+      !||    hm_get_floatv            ../starter/source/devtools/hm_reader/hm_get_floatv.F
+      !||    hm_option_is_encrypted   ../starter/source/devtools/hm_reader/hm_option_is_encrypted.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod              ../starter/share/message_module/message_mod.F
+      !||    submodel_mod             ../starter/share/modules1/submodel_mod.F
+      !||====================================================================
+      SUBROUTINE HM_READ_EOS_OSBORNE(IOUT,PM,UNITAB,IUNIT,LSUBMODEL,IMIDEOS,EOS_STRUCT)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
       USE SUBMODEL_MOD
-      USE MESSAGE_MOD      
+      USE MESSAGE_MOD
+      USE EOS_PARAM_MOD , ONLY : EOS_PARAM_
+      USE CONSTANT_MOD, ONLY : ZERO, ONE, TWO, THREE100, FOUR, HALF, FOUR, TWO_THIRD
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -54,7 +56,8 @@ C  PM(31) = P(MU0,E0) -> will be used to initialize diagonal of stress tensor SI
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-#include      "implicit_f.inc"
+      IMPLICIT NONE
+#include "my_real.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -63,6 +66,7 @@ C-----------------------------------------------
       my_real PM(NPROPM)
       TYPE(SUBMODEL_DATA), DIMENSION(NSUBMOD), INTENT(IN) :: LSUBMODEL
       INTEGER,INTENT(IN) :: IMIDEOS
+      TYPE(EOS_PARAM_),INTENT(INOUT) :: EOS_STRUCT
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -128,19 +132,29 @@ C-----------------------------------------------
       
       
       PM(23) = E0
-      PM(164) = A1
-      PM(32) = A2
-      PM(33) = B0
-      PM(35) = B1
-      PM(36) = B2
-      PM(160) = C0
-      PM(161) = C1
-      PM(162) = D0
-      PM(163) = P0
+      PM(32) = (A1+B1+C1*E0*E0) / (E0+D0) !BULK = (1+µ)*dP/dmu (partial derivative at constant E)
       PSH = ZERO
       PM(88) = PSH
       PM(31)  = P0
-      IF(PM(79)==ZERO)PM(79)=THREE100     
+      IF(PM(79)==ZERO)PM(79)=THREE100
+
+      EOS_STRUCT%NUPARAM = 9
+      EOS_STRUCT%NIPARAM = 0
+      EOS_STRUCT%NFUNC = 0
+      EOS_STRUCT%NTABLE = 0
+      CALL EOS_STRUCT%CONSTRUCT() !allocations
+
+      EOS_STRUCT%UPARAM(1) = A1
+      EOS_STRUCT%UPARAM(2) = A2
+      EOS_STRUCT%UPARAM(3) = B0
+      EOS_STRUCT%UPARAM(4) = B1
+      EOS_STRUCT%UPARAM(5) = B2
+      EOS_STRUCT%UPARAM(6) = C0
+      EOS_STRUCT%UPARAM(7) = C1
+      EOS_STRUCT%UPARAM(8) = D0
+      EOS_STRUCT%UPARAM(9) = P0
+
+      EOS_STRUCT%PSH = PSH
       
       !P0
       IF(RHOI == ZERO)THEN

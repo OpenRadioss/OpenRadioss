@@ -20,24 +20,25 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-!||====================================================================
-!||    hm_read_eos_linear       ../starter/source/materials/eos/hm_read_eos_linear.F
-!||--- called by ------------------------------------------------------
-!||    hm_read_eos              ../starter/source/materials/eos/hm_read_eos.F
-!||--- calls      -----------------------------------------------------
-!||    hm_get_floatv            ../starter/source/devtools/hm_reader/hm_get_floatv.F
-!||    hm_option_is_encrypted   ../starter/source/devtools/hm_reader/hm_option_is_encrypted.F
-!||--- uses       -----------------------------------------------------
-!||    message_mod              ../starter/share/message_module/message_mod.F
-!||    submodel_mod             ../starter/share/modules1/submodel_mod.F
-!||====================================================================
-      SUBROUTINE HM_READ_EOS_LINEAR(IOUT,PM,UNITAB,IUNIT,LSUBMODEL,IMIDEOS)
+      !||====================================================================
+      !||    hm_read_eos_linear       ../starter/source/materials/eos/hm_read_eos_linear.F
+      !||--- called by ------------------------------------------------------
+      !||    hm_read_eos              ../starter/source/materials/eos/hm_read_eos.F
+      !||--- calls      -----------------------------------------------------
+      !||    hm_get_floatv            ../starter/source/devtools/hm_reader/hm_get_floatv.F
+      !||    hm_option_is_encrypted   ../starter/source/devtools/hm_reader/hm_option_is_encrypted.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod              ../starter/share/message_module/message_mod.F
+      !||    submodel_mod             ../starter/share/modules1/submodel_mod.F
+      !||====================================================================
+      SUBROUTINE HM_READ_EOS_LINEAR(IOUT,PM,UNITAB,IUNIT,LSUBMODEL,IMIDEOS,EOS_STRUCT)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
       USE SUBMODEL_MOD
-      USE MESSAGE_MOD      
+      USE MESSAGE_MOD
+      USE EOS_PARAM_MOD , ONLY : EOS_PARAM_
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -62,6 +63,7 @@ C-----------------------------------------------
       my_real PM(NPROPM)
       TYPE(SUBMODEL_DATA), DIMENSION(NSUBMOD), INTENT(IN) :: LSUBMODEL
       INTEGER,INTENT(IN) :: IMIDEOS
+      TYPE(EOS_PARAM_),INTENT(INOUT) :: EOS_STRUCT
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -98,13 +100,19 @@ C-----------------------------------------------
       PM( 23)=ZERO
       PM(104)=C0-PSH
       PM( 32)=C1
-      PM( 33)=ZERO
-      PM( 34)=ZERO
-      PM( 35)=ZERO
-      PM( 36)=ZERO
       PM( 88)=PSH
       IF(PM(79)==ZERO)PM(79)=THREE100
-  
+
+      EOS_STRUCT%NUPARAM = 2
+      EOS_STRUCT%NIPARAM = 0
+      EOS_STRUCT%NFUNC = 0
+      EOS_STRUCT%NTABLE = 0
+      CALL EOS_STRUCT%CONSTRUCT() !allocations
+
+      EOS_STRUCT%UPARAM(1) = C0-PSH
+      EOS_STRUCT%UPARAM(2) = C1
+      EOS_STRUCT%PSH = PSH
+
       !initial pressure for stress tensor
       IF(RHOI == ZERO)THEN
         MU0 = ZERO ! error 683 already displayed

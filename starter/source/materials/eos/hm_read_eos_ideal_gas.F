@@ -20,26 +20,26 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-!||====================================================================
-!||    hm_read_eos_ideal_gas    ../starter/source/materials/eos/hm_read_eos_ideal_gas.F
-!||--- called by ------------------------------------------------------
-!||    hm_read_eos              ../starter/source/materials/eos/hm_read_eos.F
-!||--- calls      -----------------------------------------------------
-!||    ancmsg                   ../starter/source/output/message/message.F
-!||    hm_get_floatv            ../starter/source/devtools/hm_reader/hm_get_floatv.F
-!||    hm_option_is_encrypted   ../starter/source/devtools/hm_reader/hm_option_is_encrypted.F
-!||--- uses       -----------------------------------------------------
-!||    message_mod              ../starter/share/message_module/message_mod.F
-!||    submodel_mod             ../starter/share/modules1/submodel_mod.F
-!||====================================================================
-      SUBROUTINE HM_READ_EOS_IDEAL_GAS(IOUT,PM,UNITAB,IUNIT,LSUBMODEL,IMIDEOS,MAT_PARAM)
+      !||====================================================================
+      !||    hm_read_eos_ideal_gas    ../starter/source/materials/eos/hm_read_eos_ideal_gas.F
+      !||--- called by ------------------------------------------------------
+      !||    hm_read_eos              ../starter/source/materials/eos/hm_read_eos.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg                   ../starter/source/output/message/message.F
+      !||    hm_get_floatv            ../starter/source/devtools/hm_reader/hm_get_floatv.F
+      !||    hm_option_is_encrypted   ../starter/source/devtools/hm_reader/hm_option_is_encrypted.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod              ../starter/share/message_module/message_mod.F
+      !||    submodel_mod             ../starter/share/modules1/submodel_mod.F
+      !||====================================================================
+      SUBROUTINE HM_READ_EOS_IDEAL_GAS(IOUT,PM,UNITAB,IUNIT,LSUBMODEL,IMIDEOS,EOS_STRUCT)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
       USE SUBMODEL_MOD
       USE MESSAGE_MOD
-      USE MATPARAM_DEF_MOD, ONLY : MATPARAM_STRUCT_
+      USE EOS_PARAM_MOD , ONLY : EOS_PARAM_
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -64,7 +64,7 @@ C-----------------------------------------------
       my_real PM(NPROPM)
       TYPE(SUBMODEL_DATA), DIMENSION(NSUBMOD), INTENT(IN) :: LSUBMODEL
       INTEGER,INTENT(IN) :: IMIDEOS
-      TYPE(MATPARAM_STRUCT_),INTENT(INOUT) :: MAT_PARAM
+      TYPE(EOS_PARAM_),INTENT(INOUT) :: EOS_STRUCT
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -125,15 +125,13 @@ C-----------------------------------------------
       ! P0 <=0
       ! GAMMA <=ONE
       IF(P0 <= ZERO)THEN
-         CALL ANCMSG(MSGID=67,MSGTYPE=MSGERROR,ANMODE=ANINFO,
-     .               I1=IMIDEOS,
+         CALL ANCMSG(MSGID=67,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=IMIDEOS,
      .               C1='/EOS/IDEAL-GAS',
      .               C2='INITIAL PRESSURE MUST BE POSITIVE')
       ENDIF
       
       IF(GAMMA <= ONE)THEN
-         CALL ANCMSG(MSGID=67,MSGTYPE=MSGERROR,ANMODE=ANINFO,
-     .               I1=IMIDEOS,
+         CALL ANCMSG(MSGID=67,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=IMIDEOS,
      .               C1='/EOS/IDEAL-GAS',
      .               C2='SPECIFIC HEAT RATIO (GAMMA) MUST BE GREATER THAN 1.0')
       ENDIF
@@ -144,18 +142,26 @@ C-----------------------------------------------
         ! this situation is not expected unless in case of input inconsistency (eos_uid does not match mat_uid)
         Cv = E0/RHO0/T0
       ENDIF
-      
-      PM(32) = GAMMA
-      PM(88) = PSH
-      PM(23) = E0
-      PM(35) = T0
-      PM(36) = Cv
-      PM(31) = P0-PSH
-      PM(79) = T0
-      PM(104)=P0-PSH
 
-      MAT_PARAM%EOS%Cv = Cv
-      MAT_PARAM%EOS%Cp = GAMMA * Cv
+      PM(23) = E0
+      PM(31) = P0-PSH
+      PM(32) = (GAMMA-ONE)*E0 !BULK = (1+µ)*dP/dmu (partial derivative at constant E)
+      PM(79) = T0
+      PM(88) = PSH
+      PM(104)= P0-PSH
+
+      EOS_STRUCT%NUPARAM = 3
+      EOS_STRUCT%NIPARAM = 0
+      EOS_STRUCT%NFUNC = 0
+      EOS_STRUCT%NTABLE = 0
+      CALL EOS_STRUCT%CONSTRUCT() !allocations
+
+      EOS_STRUCT%UPARAM(1) = GAMMA
+      EOS_STRUCT%UPARAM(2) = P0
+      EOS_STRUCT%UPARAM(3) = T0
+      EOS_STRUCT%PSH = PSH
+      EOS_STRUCT%Cv = Cv
+      EOS_STRUCT%Cp = GAMMA * Cv
       
       !SSP0
       SSP0 = ZERO 

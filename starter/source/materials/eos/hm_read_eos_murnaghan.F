@@ -20,25 +20,26 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-!||====================================================================
-!||    hm_read_eos_murnaghan    ../starter/source/materials/eos/hm_read_eos_murnaghan.F
-!||--- called by ------------------------------------------------------
-!||    hm_read_eos              ../starter/source/materials/eos/hm_read_eos.F
-!||--- calls      -----------------------------------------------------
-!||    ancmsg                   ../starter/source/output/message/message.F
-!||    hm_get_floatv            ../starter/source/devtools/hm_reader/hm_get_floatv.F
-!||    hm_option_is_encrypted   ../starter/source/devtools/hm_reader/hm_option_is_encrypted.F
-!||--- uses       -----------------------------------------------------
-!||    message_mod              ../starter/share/message_module/message_mod.F
-!||    submodel_mod             ../starter/share/modules1/submodel_mod.F
-!||====================================================================
-      SUBROUTINE HM_READ_EOS_MURNAGHAN(IOUT,PM,UNITAB,IUNIT,LSUBMODEL,IMIDEOS)
+      !||====================================================================
+      !||    hm_read_eos_murnaghan    ../starter/source/materials/eos/hm_read_eos_murnaghan.F
+      !||--- called by ------------------------------------------------------
+      !||    hm_read_eos              ../starter/source/materials/eos/hm_read_eos.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg                   ../starter/source/output/message/message.F
+      !||    hm_get_floatv            ../starter/source/devtools/hm_reader/hm_get_floatv.F
+      !||    hm_option_is_encrypted   ../starter/source/devtools/hm_reader/hm_option_is_encrypted.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod              ../starter/share/message_module/message_mod.F
+      !||    submodel_mod             ../starter/share/modules1/submodel_mod.F
+      !||====================================================================
+      SUBROUTINE HM_READ_EOS_MURNAGHAN(NPROPM, NUMMAT, IOUT,PM,UNITAB,IUNIT,LSUBMODEL,IMIDEOS,EOS_STRUCT)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
       USE SUBMODEL_MOD
       USE MESSAGE_MOD
+      USE EOS_PARAM_MOD , ONLY : EOS_PARAM_
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -59,14 +60,11 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
-      INTEGER IIN,IOUT,IUNIT
+      INTEGER IIN,IOUT,IUNIT,NPROPM,NUMMAT
       my_real PM(NPROPM)
       TYPE(SUBMODEL_DATA), DIMENSION(NSUBMOD), INTENT(IN) :: LSUBMODEL
       INTEGER,INTENT(IN) :: IMIDEOS
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-#include      "param_c.inc"
+      TYPE(EOS_PARAM_),INTENT(INOUT) :: EOS_STRUCT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -100,17 +98,24 @@ C-----------------------------------------------
       E0=ZERO
       
       IF(K0 <= ZERO)THEN
-         CALL ANCMSG(MSGID=67,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=IMIDEOS,
-     .               C1='/EOS/MURNAGHAN',
-     .               C2='K0 MUST BE POSITIVE')
+         CALL ANCMSG(MSGID=67,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=IMIDEOS, C1='/EOS/MURNAGHAN', C2='K0 MUST BE POSITIVE')
       ENDIF
       
-      PM(32)=P0
-      PM(36)=K0
+      PM(32)=K0 !BULK = (1+µ)*dP/dmu (partial derivative at constant E)
       PM(88)=PSH
       PM(23)=E0
-      PM(35)=K1
       IF(PM(79)==ZERO)PM(79)=THREE100
+
+      EOS_STRUCT%NUPARAM = 3
+      EOS_STRUCT%NIPARAM = 0
+      EOS_STRUCT%NFUNC = 0
+      EOS_STRUCT%NTABLE = 0
+      CALL EOS_STRUCT%CONSTRUCT() !allocations
+
+      EOS_STRUCT%UPARAM(1) = K0
+      EOS_STRUCT%UPARAM(2) = P0
+      EOS_STRUCT%UPARAM(3) = K1
+      EOS_STRUCT%PSH = PSH
 
       IF(RHOI == ZERO)THEN
         MU0 = ZERO ! error 683 already displayed

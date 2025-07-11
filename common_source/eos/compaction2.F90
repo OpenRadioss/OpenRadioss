@@ -45,21 +45,21 @@
 !! \details  COLLOCATED SCHEME
 !! \details     EOSMAIN / IFLG = 2 : SINGLE PASS FOR P[n+1] AND DERIVATIVES
 !----------------------------------------------------------------------------
-!||====================================================================
-!||    compaction2     ../common_source/eos/compaction2.F90
-!||--- called by ------------------------------------------------------
-!||    eosmain         ../common_source/eos/eosmain.F
-!||--- uses       -----------------------------------------------------
-!||    constant_mod    ../common_source/modules/constant_mod.F
-!||    eos_param_mod   ../common_source/modules/mat_elem/eos_param_mod.F90
-!||    precision_mod   ../common_source/modules/precision_mod.F90
-!||====================================================================
-        subroutine compaction2(&
-          iflag, nel  , pm   , off   , eint  , mu    , &
-          dvol , mat  , psh  , &
-          pnew , dpdm , dpde , mu_bak,&
-          npf  , tf   , snpc , stf   , npropm, nummat,&
-          eos_param)
+      !||====================================================================
+      !||    compaction2     ../common_source/eos/compaction2.F90
+      !||--- called by ------------------------------------------------------
+      !||    eosmain         ../common_source/eos/eosmain.F
+      !||--- uses       -----------------------------------------------------
+      !||    constant_mod    ../common_source/modules/constant_mod.F
+      !||    eos_param_mod   ../common_source/modules/mat_elem/eos_param_mod.F90
+      !||    precision_mod   ../common_source/modules/precision_mod.F90
+      !||====================================================================
+      subroutine compaction2(npropm, nummat,&
+                             iflag  , nel   , pm   , off   , eint  , mu    , &
+                             dvol   , mat   , psh  , &
+                             pnew   , dpdm  , dpde , mu_bak,&
+                             npf    , tf    , snpc , stf   , &
+                             eos_struct)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -71,22 +71,19 @@
 ! ----------------------------------------------------------------------------------------------------------------------
           implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
-!                                                   Included files
-! ----------------------------------------------------------------------------------------------------------------------
-! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
-          integer,intent(in) :: nel !< number of element in the currenbt group
-          integer,intent(in) :: npropm, nummat !< array sizes
-          integer,intent(in) :: mat(nel), iflag
-          real(kind=WP),intent(inout) :: pm(npropm,nummat) !< material data (real parameters)
-          real(kind=WP),intent(inout) :: off(nel),eint(nel),mu(nel),dvol(nel)
-          real(kind=WP),intent(inout) :: pnew(nel),dpdm(nel),dpde(nel)
-          integer,intent(in) :: snpc, stf !< array sizes
-          integer,intent(in)::npf(snpc) !< data structure for /FUNCT
-          real(kind=WP),intent(in)::tf(stf) !< data structure for /FUNCT
-          type(eos_param_),intent(in) :: eos_param !< data structure for EoS parameters
-          real(kind=WP),intent(inout) :: mu_bak(nel) !< backup of mu for unloading
+      integer,intent(in) :: nel !< number of element in the currenbt group
+      integer,intent(in) :: npropm, nummat !< array sizes
+      integer,intent(in) :: mat(nel), iflag
+      real(kind=WP),intent(inout) :: pm(npropm,nummat) !< material data (real parameters)
+      real(kind=WP),intent(inout) :: off(nel),eint(nel),mu(nel),dvol(nel)
+      real(kind=WP),intent(inout) :: pnew(nel),dpdm(nel),dpde(nel)
+      integer,intent(in) :: snpc, stf !< array sizes
+      integer,intent(in)::npf(snpc) !< data structure for /FUNCT
+      real(kind=WP),intent(in)::tf(stf) !< data structure for /FUNCT
+      type(eos_param_),intent(in) :: eos_struct !< data structure for EoS parameters
+      real(kind=WP),intent(inout) :: mu_bak(nel) !< backup of mu for unloading
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local Variables
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -109,22 +106,23 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
-          mx         = mat(1)
-          e0         = pm(23,mx)
-          psh(1:nel) = pm(88,mx)
-          sph        = pm(69,mx)
-          p0         = pm(31,mx)
-          pfrac      = pm(37,mx)
+       mx         = mat(1)
+       e0         = pm(23,mx)
+       psh(1:nel) = eos_struct%psh
+       sph        = pm(69,mx)
+       p0         = pm(31,mx)
+       pfrac      = pm(37,mx)
 
-          bmin  = eos_param%uparam(1)
-          bmax  = eos_param%uparam(2)
-          mumin = eos_param%uparam(3)
-          mumax = eos_param%uparam(4)
-          Fscale= eos_param%uparam(5)
-          Xscale= eos_param%uparam(6)
-          psh   = eos_param%uparam(7)
-          iform = eos_param%iparam(1)
-          p_func_id = eos_param%func(1)
+       bmin  = eos_struct%uparam(1)
+       bmax  = eos_struct%uparam(2)
+       mumin = eos_struct%uparam(3)
+       mumax = eos_struct%uparam(4)
+       Fscale= eos_struct%uparam(5)
+       Xscale= eos_struct%uparam(6)
+
+       iform = eos_struct%iparam(1)
+
+       p_func_id = eos_struct%func(1)
 
           !----------------------------------------------------------------!
           !  COMPACTION EOS                                                !

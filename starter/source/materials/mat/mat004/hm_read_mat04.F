@@ -160,7 +160,22 @@ C-----------------------------------------------
         CALL HM_GET_FLOATV('MAT_C4'       ,C4       ,IS_AVAILABLE, LSUBMODEL, UNITAB)               
         CALL HM_GET_FLOATV('MAT_C5'       ,C5       ,IS_AVAILABLE, LSUBMODEL, UNITAB)               
         CALL HM_GET_FLOATV('MAT_E0'       ,E0       ,IS_AVAILABLE, LSUBMODEL, UNITAB)               
-        CALL HM_GET_FLOATV('MAT_PSH'      ,PSH      ,IS_AVAILABLE, LSUBMODEL, UNITAB)               
+        CALL HM_GET_FLOATV('MAT_PSH'      ,PSH      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+        ! allocate EoS data structure
+        MAT_PARAM%IEOS = 1
+        MAT_PARAM%EOS%NUPARAM = 6
+        MAT_PARAM%EOS%NIPARAM = 0
+        MAT_PARAM%EOS%NFUNC = 0
+        MAT_PARAM%EOS%NTABLE = 0
+        CALL MAT_PARAM%EOS%CONSTRUCT() !allocations
+        MAT_PARAM%EOS%UPARAM(1) = C0-PSH
+        MAT_PARAM%EOS%UPARAM(2) = C1
+        MAT_PARAM%EOS%UPARAM(3) = C2
+        MAT_PARAM%EOS%UPARAM(4) = C3
+        MAT_PARAM%EOS%UPARAM(5) = C4
+        MAT_PARAM%EOS%UPARAM(6) = C5
+        MAT_PARAM%EOS%PSH = PSH
+        MAT_PARAM%EOS%E0 = E0
         BULK  = C1                                                                                  
         PM(23)= E0                                                                                  
         PM(31)= C0-PSH                                                                              

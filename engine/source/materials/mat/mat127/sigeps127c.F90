@@ -114,11 +114,10 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-          integer ::  i,updat2,                  &
-            ncyred, n,ndex,ndel_ply,ndex0
+          integer ::  i, ncyred, n,ndex,ndel_ply,ndex0
           integer , dimension(nel) :: index,iad,ipos,ilen,index0
           real(kind=WP) :: e1, e2, nu12, nu21, xt0, slimt1, xc0, slimc1,        &
-            yt0, slimt2, yc0, sc0, d,                    &
+            yt0, slimt2, yc0, sc0, d,                                           &
             slims, invd, slimc2, alpha, beta, dfailt, dfailc,                   &
             g12, limit_sig, eint, deint, a11, g13, g23, ycfac, dfailm,          &
             dfails, efs, epsf, epsr, fbrt, tsmd, yc_over_sc,                    &

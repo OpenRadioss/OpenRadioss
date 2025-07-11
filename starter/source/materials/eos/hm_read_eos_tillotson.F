@@ -20,26 +20,27 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-!||====================================================================
-!||    hm_read_eos_tillotson    ../starter/source/materials/eos/hm_read_eos_tillotson.F
-!||--- called by ------------------------------------------------------
-!||    hm_read_eos              ../starter/source/materials/eos/hm_read_eos.F
-!||--- calls      -----------------------------------------------------
-!||    hm_get_floatv            ../starter/source/devtools/hm_reader/hm_get_floatv.F
-!||    hm_option_is_encrypted   ../starter/source/devtools/hm_reader/hm_option_is_encrypted.F
-!||--- uses       -----------------------------------------------------
-!||    elbuftag_mod             ../starter/share/modules1/elbuftag_mod.F
-!||    message_mod              ../starter/share/message_module/message_mod.F
-!||    submodel_mod             ../starter/share/modules1/submodel_mod.F
-!||====================================================================
-      SUBROUTINE HM_READ_EOS_TILLOTSON(IOUT,PM,UNITAB,IUNIT,LSUBMODEL,IMIDEOS,EOS_TAG,IEOS)
+      !||====================================================================
+      !||    hm_read_eos_tillotson    ../starter/source/materials/eos/hm_read_eos_tillotson.F
+      !||--- called by ------------------------------------------------------
+      !||    hm_read_eos              ../starter/source/materials/eos/hm_read_eos.F
+      !||--- calls      -----------------------------------------------------
+      !||    hm_get_floatv            ../starter/source/devtools/hm_reader/hm_get_floatv.F
+      !||    hm_option_is_encrypted   ../starter/source/devtools/hm_reader/hm_option_is_encrypted.F
+      !||--- uses       -----------------------------------------------------
+      !||    elbuftag_mod             ../starter/share/modules1/elbuftag_mod.F
+      !||    message_mod              ../starter/share/message_module/message_mod.F
+      !||    submodel_mod             ../starter/share/modules1/submodel_mod.F
+      !||====================================================================
+      SUBROUTINE HM_READ_EOS_TILLOTSON(IOUT,PM,UNITAB,IUNIT,LSUBMODEL,IMIDEOS,EOS_TAG,IEOS,EOS_STRUCT)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
       USE SUBMODEL_MOD
       USE MESSAGE_MOD      
-      USE ELBUFTAG_MOD       
+      USE ELBUFTAG_MOD
+      USE EOS_PARAM_MOD , ONLY : EOS_PARAM_
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -66,6 +67,7 @@ C-----------------------------------------------
       TYPE(SUBMODEL_DATA), DIMENSION(NSUBMOD), INTENT(IN) :: LSUBMODEL
       INTEGER,INTENT(IN) :: IMIDEOS
       TYPE(EOS_TAG_),DIMENSION(0:MAXEOS) ,INTENT(INOUT) :: EOS_TAG
+      TYPE(EOS_PARAM_),INTENT(INOUT) :: EOS_STRUCT
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -75,7 +77,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       my_real :: C1, C2, A, B, ER, ES, VS, E0, RHO0,RHOI,RHOR, ALPHA, BETA,
      .           FAC_L,FAC_T,FAC_M,FAC_C,FACC1,FACC2,FACPB,MU0,MU2,DF,ETA,
-     .           OMEGA,AA,BB,PP,XX,EXPA,EXPB,DPDMU, SSP0, G0
+     .           OMEGA,AA,BB,PP,XX,EXPA,EXPB,DPDMU, SSP0, G0, PSH
       LOGICAL :: IS_ENCRYPTED,IS_AVAILABLE,IS_AVAILABLE_RHO0
 C-----------------------------------------------
 C   S o u r c e   L i n e s
@@ -83,6 +85,7 @@ C-----------------------------------------------
       IS_ENCRYPTED = .FALSE.
       IS_AVAILABLE = .FALSE.
       IS_AVAILABLE_RHO0 = .FALSE.
+      PSH = ZERO
 
       EOS_TAG(IEOS)%NVAR = 1  !saving Region id for H2D and ANIM output                         
 
@@ -112,17 +115,29 @@ C-----------------------------------------------
         RHO0=RHOR                   
       ENDIF
 
-      PM(23)  = E0
-      PM(32)  = C1
-      PM(33)  = C2
-      PM(34)  = A
-      PM(35)  = B
-      PM(36)  = ER
+      PM(23) = E0
+      PM(32) = C1+B*E0   !BULK = (1+µ)*dP/dmu (partial derivative at constant E)
+      PM(88) = PSH
       IF(PM(79)==ZERO)PM(79)=THREE100
-      PM(160) = ES
-      PM(161) = VS
-      PM(162) = ALPHA
-      PM(163) = BETA
+
+      EOS_STRUCT%NUPARAM = 9
+      EOS_STRUCT%NIPARAM = 0
+      EOS_STRUCT%NFUNC = 0
+      EOS_STRUCT%NTABLE = 0
+      CALL EOS_STRUCT%CONSTRUCT() !allocations
+
+      EOS_STRUCT%UPARAM(1) = C1
+      EOS_STRUCT%UPARAM(2) = C2
+      EOS_STRUCT%UPARAM(3) = A
+      EOS_STRUCT%UPARAM(4) = B
+      EOS_STRUCT%UPARAM(5) = ER
+      EOS_STRUCT%UPARAM(6) = ES
+      EOS_STRUCT%UPARAM(7) = VS
+      EOS_STRUCT%UPARAM(8) = ALPHA
+      EOS_STRUCT%UPARAM(9) = BETA
+
+      PSH = ZERO
+      EOS_STRUCT%PSH = PSH
 
       !COMPUTING INITIAL PRESSURE FOR PM(31) -> SIG(1:3,*)
       
@@ -168,9 +183,7 @@ C-----------------------------------------------
       G0 = PM(22)
       RHOI = PM(89)
       
-      DPDMU=FACC1*C1+TWO*FACC2*C2*MU0+BB*ETA*PP*DF*DF
-     .         +E0*( BB+(TWO*E0/ETA-PP*DF*DF)
-     .         *B*FACPB/(ER*ETA*OMEGA**2) )
+      DPDMU=FACC1*C1+TWO*FACC2*C2*MU0+BB*ETA*PP*DF*DF + E0*( BB+(TWO*E0/ETA-PP*DF*DF)*B*FACPB/(ER*ETA*OMEGA**2) )
       DPDMU=MAX(ZERO,DPDMU)
       IF(RHOR > ZERO) SSP0 = SQRT((DPDMU + TWO_THIRD*G0)/RHOR) 
       PM(27)=SSP0      
