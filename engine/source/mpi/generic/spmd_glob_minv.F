@@ -30,11 +30,12 @@ C==========================================================================
       !||--- uses       -----------------------------------------------------
       !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
-      SUBROUTINE SPMD_GLOB_MINV(DT2,ITYPTS,NELTS,VOLMON, FR_MV)
+      SUBROUTINE SPMD_GLOB_MINV(T_MONVOL, DT2,ITYPTS,NELTS,VOLMON, FR_MV)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
         USE SPMD_COMM_WORLD_MOD, ONLY : SPMD_COMM_WORLD
+        USE MONVOL_STRUCT_MOD
 #include      "implicit_f.inc"
 C-----------------------------------------------------------------
 C   M e s s a g e   P a s s i n g
@@ -50,6 +51,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      TYPE(MONVOL_STRUCT_) :: T_MONVOL(NVOLU)
       INTEGER ITYPTS, NELTS, FR_MV(NSPMD+2,NVOLU)
       my_real
      .        DT2, VOLMON(*)
@@ -115,10 +117,17 @@ C
         VOLMON(KK1+1) =RBUF(3+(I-1)*7+1)
         VOLMON(KK1+2) =RBUF(3+(I-1)*7+2)
         VOLMON(KK1+5) =RBUF(3+(I-1)*7+3)
-        VOLMON(KK1+12)=RBUF(3+(I-1)*7+4)
-        VOLMON(KK1+16)=RBUF(3+(I-1)*7+5)
-        VOLMON(KK1+18)=RBUF(3+(I-1)*7+6)
+        VOLMON(KK1+12)=RBUF(3+(I-1)*7+4) ! pressure
+        VOLMON(KK1+16)=RBUF(3+(I-1)*7+5) !Volume ?
+        VOLMON(KK1+18)=RBUF(3+(I-1)*7+6) ! area
         VOLMON(KK1+21)=RBUF(3+(I-1)*7+7)
+        T_MONVOL(I)%pressure = VOLMON(KK1+12)
+        T_MONVOL(I)%temperature = VOLMON(KK1+13)
+        T_MONVOL(I)%area = VOLMON(KK1+18)
+!       write(6,*) "Pressure ", I, " is ", T_MONVOL(I)%pressure
+!       write(6,*) "Temperature ", I, " is ", T_MONVOL(I)%temperature
+!       write(6,*) "Area ", I, " is ", T_MONVOL(I)%area
+!       write(6,*) "Volume ", I, " is ", VOLMON(KK1+16),T_MONVOL(I)%volume
         K1  = K1  + NIMV
         KK1 = KK1 + NRVOLU
       END DO

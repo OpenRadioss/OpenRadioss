@@ -96,7 +96,7 @@ std::string element_parenthesis_to_underscore(const std::string &input, const st
 
 std::string node_parenthesis_to_underscore(const std::string &input)
 {
-    std::regex pattern(R"(\b(DX|DY|DZ|AX|AY|AZ|CX|CY|CZ|VX|VY|VZ|ARX|ARY|ARZ|VRX|VRY|VRZ|DRX|DRY|DRZ)\b\s*\(\s*(\d+|ACTIVE_NODE)\s*\))");
+    std::regex pattern(R"(\b(DX|DY|DZ|AX|AY|AZ|CX|CY|CZ|VX|VY|VZ|ARX|ARY|ARZ|VRX|VRY|VRZ|DRX|DRY|DRZ|MONVOL_VOLUME|MONVOL_TEMPERATURE|MONVOL_AREA|MONVOL_PRESSURE)\b\s*\(\s*(\d+|ACTIVE_NODE)\s*\))");
     std::string result = std::regex_replace(input, pattern, "$1_$2");
     return result;
 }
@@ -970,6 +970,35 @@ extern "C"
         }
 
         //        std::cout << "Function exists? " << *error << std::endl;
+    }
+
+    void cpp_python_update_reals(char * basename, int * uid, my_real *reals, int num_reals)
+    {
+        // add BASENAME_$UID = reals[i] to the python dictionary
+        if (!python_initialized)
+        {
+            return;
+        }
+        check_error(__LINE__);
+        // Convert C++ doubles to Python objects
+        for (int i = 0; i < num_reals; i++)
+        {
+            double value = static_cast<double>(reals[i]);
+            PyObject *py_value = static_cast<PyObject *>(MyFloat_FromDouble(value));
+            if (!py_value)
+            {
+                std::cerr << "ERROR: Failed to create Python object from C++ double." << std::endl;
+                return;
+            }
+            // Create the key in the format BASENAME_$UID
+            std::string key = std::string(basename) + "_" + std::to_string(uid[i]);
+            // Set the item in the Python dictionary
+            MyDict_SetItemString(pDict, key.c_str(), py_value);
+            // Release the Python object
+            My_DecRef(py_value);
+        }
+        // Release the Python object
+        check_error(__LINE__);
     }
 
     void cpp_python_update_time(my_real TIME, my_real DT)

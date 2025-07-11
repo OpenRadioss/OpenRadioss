@@ -700,6 +700,7 @@ C-----------------------------------------------
               USE PYTHON_SHARE_MEMORY_MOD
               USE PYTHON_REGISTER_MOD, ONLY : PYTHON_REGISTER
               USE FUNCT_PYTHON_UPDATE_ELEMENTS_MOD, ONLY : FUNCT_PYTHON_UPDATE_ELEMENTS
+              USE python_monvol_mod , ONLY : python_monvol
               USE OUTMAX_MOD
               USE FORCE_MOD , ONLY : FORCE
               USE ARRAY_MOD , ONLY : array_type
@@ -2329,7 +2330,7 @@ c      we constraint all DDLs
               ! Monitored volume : initialization of global frontier array for mpi comm
               if(nvolu/=0) then
                 call init_global_frontier_monvol(ispmd,nspmd,nvolu,nsurf,monvol,
-     .                               nimv,
+     .                               nimv,volmon,nrvolu,
      .                          fr_mv,frontier_global_mv, t_monvol,igrsurf )
               else
                 frontier_global_mv(1:nspmd+2) = 0
@@ -6550,7 +6551,8 @@ C       - a M + b K DAMPING
 C----------------------------------
               IF(NVOLU > 0)THEN
                 IF (IMONM > 0) CALL STARTIME(TIMERS,50)
-                IF(NSPMD>1)CALL SPMD_GLOB_MINV(DT2,ITYPTS,NELTS,VOLMON, FR_MV)
+                IF(NSPMD>1)CALL SPMD_GLOB_MINV(T_MONVOL,DT2,ITYPTS,NELTS,VOLMON, FR_MV)
+                IF(PYTHON%NB_FUNCTS > 0) CALL PYTHON_MONVOL(T_MONVOL)
 C========================================================================================
 C                                   DOMAIN 0
 C========================================================================================

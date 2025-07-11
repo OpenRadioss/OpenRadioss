@@ -38,7 +38,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-#include "my_real.inc"
+       USE precision_mod, only : WP
 C-----------------------------------------------
 C     C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -51,7 +51,7 @@ C-----------------------------------------------
 
         INTEGER, DIMENSION(:), ALLOCATABLE  :: CONTRIBUTION_NUMBER !< number of contribution per node
         INTEGER, DIMENSION(:,:), ALLOCATABLE  :: CONTRIBUTION_INDEX !< index to the array CONTRIBUTION
-        my_real, DIMENSION(:,:), ALLOCATABLE  :: CONTRIBUTION !< contribution array, the force are saved here
+        real(kind=WP), DIMENSION(:,:), ALLOCATABLE  :: CONTRIBUTION !< contribution array, the force are saved here
       END TYPE MONVOL_OMP_
       ! ---------
 
@@ -59,7 +59,9 @@ C-----------------------------------------------
 !     Automatic surface hole filling
       INTEGER :: NB_FILL_TRI
       INTEGER, DIMENSION(:), ALLOCATABLE :: FILL_TRI
-      my_real, DIMENSION(:,:), ALLOCATABLE  :: NORMAL !< normal
+      real(kind=WP), DIMENSION(:,:), ALLOCATABLE  :: NORMAL !< normal
+      real(kind=WP) :: volume, pressure, temperature, area 
+      INTEGER :: uid !< unique id of the monitored volume
       TYPE(MONVOL_OMP_) :: OMP_OUTPUT
       END TYPE MONVOL_STRUCT_
 
