@@ -155,7 +155,7 @@ C
 C
         ID=IPM(1,I)
         CALL FRETITL2(TITR,IPM(NPROPMI-LTITR+1,I),LTITR)
-        ILAW=NINT(PM(19,I))
+        ILAW=IPM(2,I)
 C
         IF(ILAW == 11) THEN
 C
@@ -602,7 +602,7 @@ C     fin boucle sur mats :
 
           ID=IPM(1,IMAT)
           CALL FRETITL2(TITR,IPM(NPROPMI-LTITR+1,IMAT),LTITR)
-          ILAW=NINT(PM(19,I))
+          ILAW=IPM(2,I)
 
           A_FUNC = PM(35,IMAT) 
           IF(A_FUNC /= 0)THEN                                                                                                
@@ -1866,7 +1866,7 @@ C         1) LOIS 73
 C
       DO I=1,NUMMAT
 C
-        ILAW=NINT(PM(19,I))
+        ILAW=IPM(2,I)
 C
         ID=IPM(1,I)
         CALL FRETITL2(TITR,IPM(NPROPMI-LTITR+1,I),LTITR)
@@ -2084,7 +2084,7 @@ C     SUBMAT FOR MULTIUMAT LAW20
 C-----------------------------------------------
 C
       DO I=1,NUMMAT
-        ILAW=NINT(PM(19,I))
+        ILAW=IPM(2,I)
         IF(ILAW == 20) THEN
           ID=IPM(1,I)
           CALL FRETITL2(TITR,IPM(NPROPMI-LTITR+1,I),LTITR)

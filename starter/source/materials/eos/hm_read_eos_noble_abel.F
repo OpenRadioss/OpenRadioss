@@ -31,13 +31,14 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    message_mod              ../starter/share/message_module/message_mod.F
 !||    submodel_mod             ../starter/share/modules1/submodel_mod.F
 !||====================================================================
-      SUBROUTINE HM_READ_EOS_NOBLE_ABEL(IOUT,PM,UNITAB,IUNIT,LSUBMODEL,IMIDEOS)
+      SUBROUTINE HM_READ_EOS_NOBLE_ABEL(IOUT,PM,UNITAB,IUNIT,LSUBMODEL,IMIDEOS,MAT_PARAM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
       USE SUBMODEL_MOD
       USE MESSAGE_MOD      
+      USE MATPARAM_DEF_MOD, ONLY : MATPARAM_STRUCT_
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -61,6 +62,7 @@ C-----------------------------------------------
       INTEGER IIN,IOUT,IUNIT
       my_real PM(NPROPM)
       TYPE(SUBMODEL_DATA), DIMENSION(NSUBMOD), INTENT(IN) :: LSUBMODEL
+      TYPE(MATPARAM_STRUCT_),INTENT(INOUT) :: MAT_PARAM
       INTEGER,INTENT(IN) :: IMIDEOS
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -94,6 +96,7 @@ C-----------------------------------------------
       IF(RHO0 > ZERO) THEN
         RHOR = RHO0
         PM(1)= RHO0 
+        MAT_PARAM%RHO = RHO0
       ELSE
         RHO0=RHOR                   
       ENDIF
@@ -103,7 +106,10 @@ C-----------------------------------------------
       PM( 33) =  GAMMA-ONE     
       PM( 34) =  RHO0         
       PM( 88) =  PSH
-      IF(PM(79)==ZERO)PM(79)=THREE100
+      IF (MAT_PARAM%THERM%TINI == ZERO) THEN
+        MAT_PARAM%THERM%TINI =THREE100
+        PM(79) = THREE100
+      END IF
 
       !COMPUTING INITIAL PRESSURE : PM(31) -> SIG(1:3,*)
       MU=RHOI/RHOR-ONE
