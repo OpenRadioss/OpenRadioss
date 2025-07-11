@@ -29,6 +29,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- uses       -----------------------------------------------------
       !||    message_mod            ../engine/share/message_module/message_mod.F
       !||    names_and_titles_mod   ../common_source/modules/names_and_titles_mod.F
+      !||    output_mod             ../common_source/modules/output/output_mod.F90
       !||    stack_mod              ../engine/share/modules/stack_mod.F
       !||====================================================================
       SUBROUTINE ANIM_DCOD_KEY_0(KEY2,KEY3,KEY4,KEY5,KEY6,JERR,IXITKEY)

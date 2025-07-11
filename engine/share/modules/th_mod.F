@@ -21,14 +21,21 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    th_mod     ../engine/share/modules/th_mod.F
+      !||    th_mod        ../engine/share/modules/th_mod.F
       !||--- called by ------------------------------------------------------
-      !||    freform    ../engine/source/input/freform.F
-      !||    hist1      ../engine/source/output/th/hist1.F
-      !||    hist2      ../engine/source/output/th/hist2.F
-      !||    init_th    ../engine/source/output/th/init_th.F
-      !||    init_th0   ../engine/source/output/th/init_th0.F
-      !||    write_th   ../engine/source/output/th/write_th.F
+      !||    freform       ../engine/source/input/freform.F
+      !||    hist1         ../engine/source/output/th/hist1.F
+      !||    hist2         ../engine/source/output/th/hist2.F
+      !||    init_th       ../engine/source/output/th/init_th.F
+      !||    init_th0      ../engine/source/output/th/init_th0.F
+      !||    pblast_1      ../engine/source/loads/pblast/pblast_1.F
+      !||    pblast_2      ../engine/source/loads/pblast/pblast_2.F
+      !||    pblast_3      ../engine/source/loads/pblast/pblast_3.F
+      !||    rdcomi        ../engine/source/output/restart/rdcomm.F
+      !||    resol         ../engine/source/engine/resol.F
+      !||    sortie_main   ../engine/source/output/sortie_main.F
+      !||    wrcomi        ../engine/source/output/restart/wrcomm.F
+      !||    write_th      ../engine/source/output/th/write_th.F
       !||====================================================================
         MODULE TH_MOD
 C-----------------------------------------------

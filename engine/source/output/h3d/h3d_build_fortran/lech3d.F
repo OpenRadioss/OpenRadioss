@@ -34,7 +34,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    create_h3d_arg_keyword    ../engine/source/output/h3d/h3d_build_fortran/create_h3d_arg_keyword.F
       !||    create_h3d_input          ../engine/source/output/h3d/h3d_build_fortran/create_h3d_input.F
       !||    create_h3d_nodal_scalar   ../engine/source/output/h3d/h3d_build_fortran/create_h3d_nodal_scalar.F
-      !||    create_h3d_nodal_tensor   ../engine/source/output/h3d/h3d_build_fortran/create_h3d_nodal_tensor.Fs
+      !||    create_h3d_nodal_tensor   ../engine/source/output/h3d/h3d_build_fortran/create_h3d_nodal_tensor.F
       !||    create_h3d_nodal_vector   ../engine/source/output/h3d/h3d_build_fortran/create_h3d_nodal_vector.F
       !||    create_h3d_parts          ../engine/source/output/h3d/h3d_build_fortran/create_h3d_parts.F
       !||    create_h3d_parts_all      ../engine/source/output/h3d/h3d_build_fortran/create_h3d_parts_all.F
@@ -83,6 +83,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    message_mod               ../engine/share/message_module/message_mod.F
       !||    multi_fvm_mod             ../common_source/modules/ale/multi_fvm_mod.F90
       !||    names_and_titles_mod      ../common_source/modules/names_and_titles_mod.F
+      !||    output_mod                ../common_source/modules/output/output_mod.F90
       !||    pblast_mod                ../common_source/modules/loads/pblast_mod.F90
       !||    stack_mod                 ../engine/share/modules/stack_mod.F
       !||    tri7box                   ../engine/share/modules/tri7box.F

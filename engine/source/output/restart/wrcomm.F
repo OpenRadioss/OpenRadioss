@@ -39,12 +39,14 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    loads_mod        ../common_source/modules/loads/loads_mod.F90
       !||    multi_fvm_mod    ../common_source/modules/ale/multi_fvm_mod.F90
       !||    outmax_mod       ../common_source/modules/outmax_mod.F
+      !||    output_mod       ../common_source/modules/output/output_mod.F90
       !||    outputs_mod      ../common_source/modules/outputs_mod.F
       !||    parameters_mod   ../common_source/modules/interfaces/parameters_mod.F
       !||    pblast_mod       ../common_source/modules/loads/pblast_mod.F90
       !||    pinchtype_mod    ../common_source/modules/pinchtype_mod.F
       !||    sensor_mod       ../common_source/modules/sensor_mod.F90
       !||    state_mod        ../common_source/modules/state_mod.F
+      !||    th_mod           ../engine/share/modules/th_mod.F
       !||====================================================================
       SUBROUTINE WRCOMI(LMXVINT,LVARINT,TABVINT,ISP,MULTI_FVM,H3D_DATA,DYNAIN_DATA,
      .           INTER_PARAMETERS,SENSORS,LOADS,GLOB_THERM,PBLAST)

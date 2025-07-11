@@ -195,6 +195,7 @@
       !||    multimat_param_mod                       ../common_source/modules/multimat_param_mod.F90
       !||    newman_raju                              ../common_source/fail/newman_raju.F90
       !||    offset_nproj                             ../engine/source/interfaces/shell_offset/offset_nproj.F90
+      !||    output_mod                               ../common_source/modules/output/output_mod.F90
       !||    pblast_deallocate                        ../common_source/modules/loads/pblast_mod.F90
       !||    pblast_load                              ../common_source/modules/loads/pblast_mod.F90
       !||    pblast_mod                               ../common_source/modules/loads/pblast_mod.F90

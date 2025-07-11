@@ -26,6 +26,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    ddsplit                ../starter/source/restart/ddsplit/ddsplit.F
       !||--- uses       -----------------------------------------------------
       !||    submodel_mod           ../starter/share/modules1/submodel_mod.F
+      !||    th_mod                 ../starter/share/modules1/th_mod.F90
       !||====================================================================
       SUBROUTINE WRCOMIP(
      1   LMXVINT   ,LVARINT   ,TABVINT   ,NGROUP_L  ,LBUFEL_L ,

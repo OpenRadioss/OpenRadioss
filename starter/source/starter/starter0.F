@@ -69,6 +69,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    glob_therm_init_mod               ../starter/source/constraints/thermic/glob_therm_init.F90
       !||    message_mod                       ../starter/share/message_module/message_mod.F
       !||    submodel_mod                      ../starter/share/modules1/submodel_mod.F
+      !||    th_mod                            ../starter/share/modules1/th_mod.F90
       !||    user_interface_mod                ../starter/source/modules/user_interface_mod.F90
       !||    user_sensor_mod                   ../starter/source/modules/user_interface_mod.F90
       !||====================================================================

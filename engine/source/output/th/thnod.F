@@ -29,6 +29,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    relfram         ../engine/source/tools/skew/relfram.F
       !||    sync_data       ../engine/source/system/machine.F
       !||--- uses       -----------------------------------------------------
+      !||    output_mod      ../common_source/modules/output/output_mod.F90
       !||    pinchtype_mod   ../common_source/modules/pinchtype_mod.F
       !||    plyxfem_mod     ../engine/share/modules/plyxfem_mod.F
       !||====================================================================

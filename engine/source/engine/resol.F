@@ -515,6 +515,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    stack_mod                                    ../engine/share/modules/stack_mod.F
       !||    state_mod                                    ../common_source/modules/state_mod.F
       !||    table_mod                                    ../engine/share/modules/table_mod.F
+      !||    th_mod                                       ../engine/share/modules/th_mod.F
       !||    th_surf_mod                                  ../common_source/modules/interfaces/th_surf_mod.F
       !||    thgrelem_mod                                 ../engine/share/modules/thgrelem_mod.F
       !||    thk_mod                                      ../engine/share/modules/thk_mod.F

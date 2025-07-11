@@ -42,6 +42,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    h3d_mod                ../engine/share/modules/h3d_mod.F
       !||    multi_fvm_mod          ../common_source/modules/ale/multi_fvm_mod.F90
       !||    names_and_titles_mod   ../common_source/modules/names_and_titles_mod.F
+      !||    output_mod             ../common_source/modules/output/output_mod.F90
       !||    outputs_mod            ../common_source/modules/outputs_mod.F
       !||====================================================================
       SUBROUTINE H3D_NODAL_SCALAR(

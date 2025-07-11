@@ -40,6 +40,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    mat_elem_mod     ../common_source/modules/mat_elem/mat_elem_mod.F90
       !||    multi_fvm_mod    ../common_source/modules/ale/multi_fvm_mod.F90
       !||    outmax_mod       ../common_source/modules/outmax_mod.F
+      !||    output_mod       ../common_source/modules/output/output_mod.F90
       !||    outputs_mod      ../common_source/modules/outputs_mod.F
       !||    parameters_mod   ../common_source/modules/interfaces/parameters_mod.F
       !||    pblast_mod       ../common_source/modules/loads/pblast_mod.F90
@@ -49,6 +50,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    sensor_mod       ../common_source/modules/sensor_mod.F90
       !||    skew_mod         ../common_source/modules/skew_mod.F90
       !||    state_mod        ../common_source/modules/state_mod.F
+      !||    th_mod           ../engine/share/modules/th_mod.F
       !||====================================================================
       SUBROUTINE RDCOMI(TABVINT,MULTI_FVM,H3D_DATA,DYNAIN_DATA,
      .                  INTER_PARAMETERS,SENSORS,LOADS ,MAT_ELEM,SKEWS,

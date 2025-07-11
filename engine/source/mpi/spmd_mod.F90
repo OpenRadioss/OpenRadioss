@@ -25,6 +25,7 @@
       !||--- called by ------------------------------------------------------
       !||    check_ale_comm                  ../engine/source/ale/check_ale_comm.F
       !||    check_nan_acc                   ../engine/source/output/outfile/check_nan_acc.F
+      !||    genh3d                          ../engine/source/output/h3d/h3d_results/genh3d.F
       !||    init_global_frontier_monvol     ../engine/source/airbag/init_global_monvol_frontier.F90
       !||    inter_init_component            ../engine/source/interfaces/generic/inter_init_component.F90
       !||    inttri                          ../engine/source/interfaces/intsort/inttri.F

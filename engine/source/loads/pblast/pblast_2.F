@@ -33,7 +33,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    h3d_inc_mod                        ../engine/share/modules/h3d_inc_mod.F
       !||    h3d_mod                            ../engine/share/modules/h3d_mod.F
       !||    names_and_titles_mod               ../common_source/modules/names_and_titles_mod.F
+      !||    output_mod                         ../common_source/modules/output/output_mod.F90
       !||    pblast_mod                         ../common_source/modules/loads/pblast_mod.F90
+      !||    th_mod                             ../engine/share/modules/th_mod.F
       !||    th_surf_mod                        ../common_source/modules/interfaces/th_surf_mod.F
       !||====================================================================
       SUBROUTINE PBLAST_2(PBLAST,

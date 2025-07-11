@@ -188,6 +188,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    multifluid_global_tdet                   ../starter/source/multifluid/multifluid_global_tdet.F
       !||    newman_raju                              ../common_source/fail/newman_raju.F90
       !||    offset_nproj                             ../engine/source/interfaces/shell_offset/offset_nproj.F90
+      !||    pblast_load                              ../common_source/modules/loads/pblast_mod.F90
       !||    pblast_parameters__air_burst             ../common_source/modules/loads/pblast_mod.F90
       !||    pblast_parameters__free_air              ../common_source/modules/loads/pblast_mod.F90
       !||    pblast_parameters__surface_burst         ../common_source/modules/loads/pblast_mod.F90

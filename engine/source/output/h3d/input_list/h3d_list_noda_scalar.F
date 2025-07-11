@@ -27,6 +27,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- uses       -----------------------------------------------------
       !||    h3d_mod                 ../engine/share/modules/h3d_mod.F
       !||    message_mod             ../engine/share/message_module/message_mod.F
+      !||    output_mod              ../common_source/modules/output/output_mod.F90
       !||====================================================================
       SUBROUTINE H3D_LIST_NODAL_SCALAR(H3D_KEYWORD_NODAL_SCALAR,GEO,NKEY)
 C-----------------------------------------------
