@@ -20,10 +20,9 @@
 //Copyright>    As an alternative to this open-source version, Altair also offers Altair Radioss
 //Copyright>    software under a commercial license.  Contact Altair to discuss further if the
 //Copyright>    commercial version may interest you: https://www.altair.com/radioss/.*/
-#include <iostream>
+
 #include <UTILS/mv_cmath.h>
 #include <string.h>
-#include <array>
 #include <UTILS/mv_string.h>
 #include <stdio.h>
 #ifndef WIN32
