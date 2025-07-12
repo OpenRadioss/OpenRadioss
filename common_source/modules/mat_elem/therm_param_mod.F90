@@ -42,18 +42,19 @@
 !=======================================================================      
       
       type therm_param_
-        integer     :: iform       !< heat transfer formulation flag 
-                                   !<    iform = 0 => finite volume method
-        integer     :: func_thexp  !< thermal expansion coefficient function
-        real(kind=WP)     :: tref        !< reference temperature
-        real(kind=WP)     :: tmelt       !< melting   temperature
-        real(kind=WP)     :: rhocp       !< specific heat per volume unit
-        real(kind=WP)     :: as          !< thermal conductivity coefficient A for solid phase
-        real(kind=WP)     :: bs          !< thermal conductivity coefficient B for solid phase 
-        real(kind=WP)     :: al          !< thermal conductivity coefficient A for liquid phase
-        real(kind=WP)     :: bl          !< thermal conductivity coefficient B for liquid phase
-        real(kind=WP)     :: efrac       !< energy fraction used as a heat source
-        real(kind=WP)     :: scale_thexp !< scale factor for thermal expansion function
+        integer       :: iform       !< heat transfer formulation flag 
+                                     !<    iform = 0 => finite volume method
+        integer       :: func_thexp  !< thermal expansion coefficient function
+        real(kind=WP) :: tini        !< initial temperature
+        real(kind=WP) :: tref        !< reference temperature
+        real(kind=WP) :: tmelt       !< melting   temperature
+        real(kind=WP) :: rhocp       !< specific heat per volume unit
+        real(kind=WP) :: as          !< thermal conductivity coefficient A for solid phase
+        real(kind=WP) :: bs          !< thermal conductivity coefficient B for solid phase 
+        real(kind=WP) :: al          !< thermal conductivity coefficient A for liquid phase
+        real(kind=WP) :: bl          !< thermal conductivity coefficient B for liquid phase
+        real(kind=WP) :: efrac       !< energy fraction used as a heat source
+        real(kind=WP) :: scale_thexp !< scale factor for thermal expansion function
       
       end type therm_param_   
 !

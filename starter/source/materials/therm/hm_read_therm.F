@@ -95,7 +95,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: I,ITH,FLAGMAT,FLAGUNIT,IUNIT,UID,MAT_ID,IMAT,ILAW,ALE,
      .           LAG,EUL,JALE,JTUR,IAD_THERM,NTHERM,IFORM,LAW2_FORM
-      my_real :: TREF,TMELT,RHO_CP,AS,BS,AL,BL,RHO_CPM1,EFRAC
+      my_real :: TINI,TMELT,RHO_CP,AS,BS,AL,BL,RHO_CPM1,EFRAC
       CHARACTER(LEN=NCHARTITLE) :: TITR
       CHARACTER :: KEY*80
       LOGICAL IS_AVAILABLE,IS_AVAILABLE_IFORM
@@ -154,7 +154,7 @@ c--------------------------------------------------
 c--------------------------------------------------
 c       Reading user parameters
 c--------------------------------------------------
-        CALL HM_GET_FLOATV('HEAT_T0'      ,TREF     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+        CALL HM_GET_FLOATV('HEAT_T0'      ,TINI     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         CALL HM_GET_FLOATV('HEAT_RHocp'   ,RHO_CP   ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         CALL HM_GET_FLOATV('HEAT_AS'      ,AS       ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         CALL HM_GET_FLOATV('HEAT_BS'      ,BS       ,IS_AVAILABLE, LSUBMODEL, UNITAB)
@@ -233,8 +233,8 @@ c
 c--------------------------------------------------
 c       Default Values
 c--------------------------------------------------
-        IF (TREF  == ZERO) TREF  = PM(23,IMAT) / MAX(EM20,RHO_CP)     ! E0 / rho_cp        
-        IF (TREF  == ZERO) TREF  = THREE100 
+        IF (TINI  == ZERO) TINI  = PM(23,IMAT) / MAX(EM20,RHO_CP)     ! E0 / rho_cp        
+        IF (TINI  == ZERO) TINI  = THREE100 
         IF (TMELT == ZERO) TMELT = EP20                              
         IF (EFRAC < ZERO)  EFRAC = ZERO        
         IF (EFRAC > ONE )  EFRAC = ONE
@@ -246,13 +246,13 @@ c--------------------------------------------------
         PM(76,IMAT) = BS                                             
         PM(77,IMAT) = AL                                             
         PM(78,IMAT) = BL                                             
-        PM(79,IMAT) = TREF                                             
+        PM(79,IMAT) = TINI                                             
         PM(80,IMAT) = TMELT
         PM(90,IMAT) = EFRAC
         
         MAT_PARAM(IMAT)%ITHERM      = 1         ! setting jthe=1
         MAT_PARAM(IMAT)%THERM%RHOCP = RHO_CP
-        MAT_PARAM(IMAT)%THERM%TREF  = TREF
+        MAT_PARAM(IMAT)%THERM%TINI  = TINI
         MAT_PARAM(IMAT)%THERM%TMELT = TMELT
         MAT_PARAM(IMAT)%THERM%AS    = AS
         MAT_PARAM(IMAT)%THERM%BS    = BS
@@ -262,7 +262,7 @@ c--------------------------------------------------
 c--------------------------------------------------
 c       Output
 c--------------------------------------------------
-        WRITE(IOUT,2000) MAT_ID,TREF,TMELT,RHO_CP,AS,BS,AL,BL,EFRAC
+        WRITE(IOUT,2000) MAT_ID,TINI,TMELT,RHO_CP,AS,BS,AL,BL,EFRAC
 C        
       ENDDO   ! I = 1,NTHERM     
 
@@ -271,7 +271,7 @@ c-----------------------------------------
      & 5X,'    THERMAL PARAMETERS  ',/,
      & 5X,'    ------------------  ',/,
      & 5X,'MATERIAL NUMBER . . . . . . . . . . . . . . . =',I10/,
-     & 5X,'T0 (REFERENCE TEMPERATURE). . . . . . . . . . =',1PG20.13/,
+     & 5X,'T0 (INITIAL TEMPERATURE). . . . . . . . . . . =',1PG20.13/,
      & 5X,'TMELT (MELTING TEMPERATURE) . . . . . . . . . =',1PG20.13/,
      & 5X,'SPECIFIC HEAT . . . . . . . . . . . . . . . . =',1PG20.13/,
      & 5X,'AS (SOLID PHASE). . . . . . . . . . . . . . . =',1PG20.13/,
