@@ -90,7 +90,8 @@ C-----------------------------------------------
       INTEGER LIXINT, NBRIC
       INTEGER,INTENT(IN) :: IPM(NPROPMI,NUMMAT), IGEO(NPROPGI,NUMGEO)
       my_real,INTENT(IN) :: BUFMAT(SBUFMAT)
-      my_real :: XFILTR(*),STFAC(*),FRIC_P(10,NINTER),FRIGAP(NPARIR,NINTER),I2RUPT(6,NINTER),AREASL(*),RIGE(*),XIGE(*),VIGE(*)
+      my_real :: XFILTR(*),STFAC(*),FRIC_P(10,NINTER),FRIGAP(NPARIR,NINTER)
+      my_real :: I2RUPT(6,NINTER),AREASL(*),RIGE(*),XIGE(*),VIGE(*)
       my_real,INTENT(IN) :: X(3,NUMNOD)
       my_real, INTENT(IN) :: PM(*)
       INTEGER NOM_OPT(LNOPT1,*)
