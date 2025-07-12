@@ -25,9 +25,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- called by ------------------------------------------------------
       !||    lectur            ../starter/source/starter/lectur.F
       !||--- calls      -----------------------------------------------------
-      !||    nlocal            ../starter/source/spmd/node/ddtools.F
       !||    r2r_check_seg     ../starter/source/coupling/rad2rad/routines_r2r.F
-      !||    usr2sys           ../starter/source/system/sysfus.F
       !||--- uses       -----------------------------------------------------
       !||    r2r_mod           ../starter/share/modules1/r2r_mod.F
       !||    restmod           ../starter/share/modules1/restart_mod.F

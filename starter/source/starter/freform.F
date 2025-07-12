@@ -427,7 +427,6 @@ C---
       !||====================================================================
       !||    grfind         ../starter/source/starter/freform.F
       !||--- called by ------------------------------------------------------
-      !||    lecextlnk      ../starter/source/coupling/rad2rad/lecextlnk.F
       !||    r2r_check      ../starter/source/coupling/rad2rad/r2r_check.F
       !||--- calls      -----------------------------------------------------
       !||    ancmsg         ../starter/source/output/message/message.F

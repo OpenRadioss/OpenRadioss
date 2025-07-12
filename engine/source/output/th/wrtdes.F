@@ -29,7 +29,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    lecnoise       ../engine/source/general_controls/computation/lecnoise.F
       !||    noise          ../engine/source/general_controls/computation/noise.F
       !||    thcluster      ../engine/source/output/th/thcluster.F
-      !||    thfxmod        ../engine/source/output/th/thfxmod.F
       !||    thkin          ../engine/source/output/th/thkin.F
       !||    thmonv         ../engine/source/output/th/thmonv.F
       !||    thsechecksum   ../engine/source/output/th/thchecksum.F90

@@ -41,6 +41,11 @@
       !||    compaction_tab                           ../common_source/eos/compaction_tab.F90
       !||    compaction_tab_init                      ../common_source/eos/compaction_tab.F90
       !||    compute_voxel_dimensions                 ../engine/source/interfaces/intsort/voxel_dimensions.F90
+      !||    coupling_advance                         ../engine/source/coupling/coupling_adapter.F90
+      !||    coupling_initialize                      ../engine/source/coupling/coupling_adapter.F90
+      !||    coupling_read                            ../engine/source/coupling/coupling_adapter.F90
+      !||    coupling_sync                            ../engine/source/coupling/coupling_adapter.F90
+      !||    coupling_write                           ../engine/source/coupling/coupling_adapter.F90
       !||    crack_depth_init                         ../starter/source/materials/fail/windshield_alter/crack_depth_init.F90
       !||    create_plane_clause                      ../starter/source/model/sets/create_plane_clause.F90
       !||    crityld2000                              ../starter/source/materials/mat/mat087/law87_upd.F90

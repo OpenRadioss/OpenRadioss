@@ -88,6 +88,12 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    collectm                                     ../engine/source/output/outfile/collect.F
       !||    collectt                                     ../engine/source/output/outfile/collect.F
       !||    convec                                       ../engine/source/constraints/thermic/convec.F
+      !||    coupling_advance                             ../engine/source/coupling/coupling_adapter.F90
+      !||    coupling_finalize                            ../engine/source/coupling/coupling_adapter.F90
+      !||    coupling_initialize                          ../engine/source/coupling/coupling_adapter.F90
+      !||    coupling_ongoing                             ../engine/source/coupling/coupling_adapter.F90
+      !||    coupling_set_nodes                           ../engine/source/coupling/coupling_adapter.F90
+      !||    coupling_sync                                ../engine/source/coupling/coupling_adapter.F90
       !||    cp_dm                                        ../engine/source/implicit/produt_v.F
       !||    crk_accele                                   ../engine/source/elements/xfem/accele_crk.F
       !||    crk_coord_ini                                ../engine/source/elements/xfem/crk_coord_ini.F
@@ -433,6 +439,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    check_mod                                    ../common_source/modules/check_mod.F
       !||    cluster_mod                                  ../engine/share/modules/cluster_mod.F
       !||    connectivity_mod                             ../common_source/modules/connectivity.F90
+      !||    coupling_adapter_mod                         ../engine/source/coupling/coupling_adapter.F90
       !||    crackxfem_mod                                ../engine/share/modules/crackxfem_mod.F
       !||    damping_vref_compute_dampa_mod               ../engine/source/assembly/damping_vref_compute_dampa.F90
       !||    debug_chksm_mod                              ../engine/source/mpi/output/spmd_flush_accel.F

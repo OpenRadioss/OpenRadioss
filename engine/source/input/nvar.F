@@ -104,7 +104,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    thcluster                 ../engine/source/output/th/thcluster.F
       !||    thcoq                     ../engine/source/output/th/thcoq.F
       !||    thcoq_count               ../engine/source/output/th/thcoq_count.F
-      !||    thfxmod                   ../engine/source/output/th/thfxmod.F
       !||    thnod                     ../engine/source/output/th/thnod.F
       !||    thnod_count               ../engine/source/output/th/thnod_count.F
       !||    thnst                     ../engine/source/output/th/thnst.F

@@ -122,7 +122,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    prelecsec4bolt                 ../starter/source/tools/sect/prelecsec4bolt.F
       !||    preread_rbody_set              ../starter/source/model/sets/preread_rbody_set.F
       !||    printbcs                       ../starter/source/constraints/general/bcs/printbcs.F
-      !||    r2r_clean_inter                ../starter/source/coupling/rad2rad/r2r_clean_inter.F
       !||    r2r_domdec                     ../starter/source/coupling/rad2rad/r2r_domdec.F
       !||    r2r_monvol                     ../starter/source/coupling/rad2rad/r2r_prelec.F
       !||    r2r_prelec                     ../starter/source/coupling/rad2rad/r2r_prelec.F

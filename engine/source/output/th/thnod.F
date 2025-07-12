@@ -32,6 +32,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    output_mod      ../common_source/modules/output/output_mod.F90
       !||    pinchtype_mod   ../common_source/modules/pinchtype_mod.F
       !||    plyxfem_mod     ../engine/share/modules/plyxfem_mod.F
+      !||    th_mod          ../engine/share/modules/th_mod.F
       !||====================================================================
       SUBROUTINE THNOD(ITHBUF ,
      2             WA      ,X       ,D       ,V       ,A      ,

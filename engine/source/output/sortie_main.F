@@ -68,6 +68,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    glob_therm_mod           ../common_source/modules/mat_elem/glob_therm_mod.F90
       !||    groupdef_mod             ../common_source/modules/groupdef_mod.F
       !||    h3d_mod                  ../engine/share/modules/h3d_mod.F
+      !||    hist2_mod                ../engine/source/output/th/hist2.F
       !||    inoutfile_mod            ../common_source/modules/inoutfile_mod.F
       !||    intbufdef_mod            ../common_source/modules/interfaces/intbufdef_mod.F90
       !||    loads_mod                ../common_source/modules/loads/loads_mod.F90

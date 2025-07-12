@@ -54,18 +54,17 @@ C-----------------------------------------------
       RETURN
       END     
       !||====================================================================
-      !||    origin                  ../starter/source/model/remesh/build_admesh.F
+      !||    origin                 ../starter/source/model/remesh/build_admesh.F
       !||--- called by ------------------------------------------------------
-      !||    hm_read_frm             ../starter/source/tools/skew/hm_read_frm.F
-      !||    hm_read_monvol_type11   ../starter/source/airbag/hm_read_monvol_type11.F
-      !||    hm_read_monvol_type6    ../starter/source/airbag/hm_read_monvol_type6.F
-      !||    hm_read_monvol_type8    ../starter/source/airbag/hm_read_monvol_type8.F
-      !||    hm_read_skw             ../starter/source/tools/skew/hm_read_skw.F
-      !||    i11remline              ../starter/source/interfaces/inter3d1/i11remlin.F
-      !||    i25remline              ../starter/source/interfaces/int25/i25remlin.F
-      !||    th_titles               ../starter/source/output/th/th_titles.F90
+      !||    hm_read_frm            ../starter/source/tools/skew/hm_read_frm.F
+      !||    hm_read_monvol_type6   ../starter/source/airbag/hm_read_monvol_type6.F
+      !||    hm_read_monvol_type8   ../starter/source/airbag/hm_read_monvol_type8.F
+      !||    hm_read_skw            ../starter/source/tools/skew/hm_read_skw.F
+      !||    i11remline             ../starter/source/interfaces/inter3d1/i11remlin.F
+      !||    i25remline             ../starter/source/interfaces/int25/i25remlin.F
+      !||    th_titles              ../starter/source/output/th/th_titles.F90
       !||--- calls      -----------------------------------------------------
-      !||    father                  ../starter/source/model/remesh/build_admesh.F
+      !||    father                 ../starter/source/model/remesh/build_admesh.F
       !||====================================================================
       INTEGER FUNCTION ORIGIN(NN,IXC,IPARTC,IPART)
 C-----------------------------------------------

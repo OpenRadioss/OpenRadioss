@@ -298,7 +298,6 @@ c list of procs for node N
       !||    prepare_split_i8         ../starter/source/restart/ddsplit/inter_tools.F
       !||    prepare_split_i9         ../starter/source/restart/ddsplit/inter_tools.F
       !||    print_joint              ../starter/source/constraints/general/cyl_joint/split_joint.F
-      !||    r2r_clean_inter          ../starter/source/coupling/rad2rad/r2r_clean_inter.F
       !||    r2r_domdec               ../starter/source/coupling/rad2rad/r2r_domdec.F
       !||    r2r_split                ../starter/source/coupling/rad2rad/r2r_split.F
       !||    split_cand_i11           ../starter/source/restart/ddsplit/inter_tools.F

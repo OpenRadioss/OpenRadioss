@@ -32,6 +32,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
       !||    cluster_mod            ../engine/share/modules/cluster_mod.F
       !||    connectivity_mod       ../common_source/modules/connectivity.F90
+      !||    coupling_adapter_mod   ../engine/source/coupling/coupling_adapter.F90
       !||    damp_mod               ../engine/share/modules/damp_mod.F
       !||    diffusion_mod          ../engine/share/modules/diffusion_mod.F
       !||    drape_mod              ../engine/share/modules/drape_mod.F

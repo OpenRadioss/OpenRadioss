@@ -35,6 +35,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    close_c                      ../common_source/tools/input_output/write_routtines.c
       !||    condrmat                     ../engine/source/materials/mat/mat013/condrmat.F
       !||    coqini                       ../engine/source/elements/shell/coqini.F
+      !||    coupling_configure           ../engine/source/coupling/coupling_adapter.F90
       !||    cur_fil_c                    ../common_source/tools/input_output/write_routtines.c
       !||    fvdeal                       ../engine/source/airbag/fvdeal.F
       !||    get_file_name_info           ../engine/source/system/get_file_name_info.F
@@ -91,6 +92,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    alemuscl_mod                 ../common_source/modules/ale/alemuscl_mod.F
       !||    check_mod                    ../common_source/modules/check_mod.F
       !||    connectivity_mod             ../common_source/modules/connectivity.F90
+      !||    coupling_adapter_mod         ../engine/source/coupling/coupling_adapter.F90
       !||    diffusion_mod                ../engine/share/modules/diffusion_mod.F
       !||    drape_mod                    ../engine/share/modules/drape_mod.F
       !||    dsgraph_mod                  ../engine/share/modules/dsgraph_mod.F

@@ -22,8 +22,6 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
       !||    double_flot_ieee   ../starter/source/elements/shell/coque/cinmas.F
-      !||--- called by ------------------------------------------------------
-      !||    cinmas             ../starter/source/elements/shell/coque/cinmas.F
       !||====================================================================
       SUBROUTINE DOUBLE_FLOT_IEEE(JFT  ,JLT  ,I8 ,R8, I8F)
 C-----------------------------------------------
@@ -77,7 +75,6 @@ C
       !||    inivoid                ../starter/source/elements/initia/inivoid.F
       !||--- calls      -----------------------------------------------------
       !||    ancmsg                 ../starter/source/output/message/message.F
-      !||    double_flot_ieee       ../starter/source/elements/shell/coque/cinmas.F
       !||    fretitl2               ../starter/source/starter/freform.F
       !||--- uses       -----------------------------------------------------
       !||    drape_mod              ../starter/share/modules1/drape_mod.F

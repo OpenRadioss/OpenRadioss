@@ -34,6 +34,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    rdcomi        ../engine/source/output/restart/rdcomm.F
       !||    resol         ../engine/source/engine/resol.F
       !||    sortie_main   ../engine/source/output/sortie_main.F
+      !||    thnod         ../engine/source/output/th/thnod.F
       !||    wrcomi        ../engine/source/output/restart/wrcomm.F
       !||    write_th      ../engine/source/output/th/write_th.F
       !||====================================================================

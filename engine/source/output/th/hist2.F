@@ -21,6 +21,13 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
+      !||    hist2_mod     ../engine/source/output/th/hist2.F
+      !||--- called by ------------------------------------------------------
+      !||    sortie_main   ../engine/source/output/sortie_main.F
+      !||====================================================================
+      MODULE HIST2_MOD
+      CONTAINS
+      !||====================================================================
       !||    hist2                   ../engine/source/output/th/hist2.F
       !||--- called by ------------------------------------------------------
       !||    sortie_main             ../engine/source/output/sortie_main.F
@@ -73,8 +80,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    th_mod                  ../engine/share/modules/th_mod.F
       !||    th_surf_mod             ../common_source/modules/interfaces/th_surf_mod.F
       !||====================================================================
-      MODULE HIST2_MOD
-      CONTAINS
       SUBROUTINE HIST2(PM      ,D         ,X        ,V           ,A         ,
      2                 IXS     ,BUFEL     ,WA       ,IPARG       ,SENSOR_TAB,
      4                 FSAV    ,FLSW      ,SKEW     ,ELBUF_TAB   ,CLUSTER   ,

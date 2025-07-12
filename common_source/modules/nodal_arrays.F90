@@ -28,6 +28,7 @@
       !||    chkload                                  ../engine/source/interfaces/chkload.F
       !||    chkstfn3n                                ../engine/source/interfaces/interf/chkstfn3.F
       !||    count_remote_nb_elem_edge                ../engine/source/interfaces/interf/count_remote_nb_elem_edge.F
+      !||    coupling_sync                            ../engine/source/coupling/coupling_adapter.F90
       !||    detach_node                              ../engine/source/engine/node_spliting/detach_node.F90
       !||    detach_node_from_interfaces              ../engine/source/engine/node_spliting/detach_node.F90
       !||    detach_node_from_shells                  ../engine/source/engine/node_spliting/detach_node.F90

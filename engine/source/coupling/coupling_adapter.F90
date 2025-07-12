@@ -20,6 +20,14 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+      !||====================================================================
+      !||    coupling_adapter_mod   ../engine/source/coupling/coupling_adapter.F90
+      !||--- called by ------------------------------------------------------
+      !||    radioss2               ../engine/source/engine/radioss2.F
+      !||    resol                  ../engine/source/engine/resol.F
+      !||    resol_head             ../engine/source/engine/resol_head.F
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       module coupling_adapter_mod
         use iso_c_binding
         implicit none
@@ -150,6 +158,11 @@
       contains
 
         ! Initialize coupling adapter
+      !||====================================================================
+      !||    coupling_create      ../engine/source/coupling/coupling_adapter.F90
+      !||--- called by ------------------------------------------------------
+      !||    coupling_configure   ../engine/source/coupling/coupling_adapter.F90
+      !||====================================================================
         subroutine coupling_create(coupling)
           implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -168,6 +181,13 @@
         end subroutine coupling_create
 
         ! Read configuration file *.cpl
+      !||====================================================================
+      !||    coupling_configure   ../engine/source/coupling/coupling_adapter.F90
+      !||--- called by ------------------------------------------------------
+      !||    radioss2             ../engine/source/engine/radioss2.F
+      !||--- calls      -----------------------------------------------------
+      !||    coupling_create      ../engine/source/coupling/coupling_adapter.F90
+      !||====================================================================
         subroutine coupling_configure(coupling, input_filename)
           implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -194,6 +214,15 @@
         end subroutine coupling_configure
 
         ! Set coupling nodes
+      !||====================================================================
+      !||    coupling_set_nodes           ../engine/source/coupling/coupling_adapter.F90
+      !||--- called by ------------------------------------------------------
+      !||    resol                        ../engine/source/engine/resol.F
+      !||--- calls      -----------------------------------------------------
+      !||    coupling_adapter_set_nodes   ../engine/source/coupling/coupling.cpp
+      !||--- uses       -----------------------------------------------------
+      !||    groupdef_mod                 ../common_source/modules/groupdef_mod.F
+      !||====================================================================
         subroutine coupling_set_nodes(coupling, igrnod, ngrnod)
           use GROUPDEF_MOD
           implicit none
@@ -232,6 +261,13 @@
         end subroutine coupling_set_nodes
 
         ! Initialize coupling
+      !||====================================================================
+      !||    coupling_initialize   ../engine/source/coupling/coupling_adapter.F90
+      !||--- called by ------------------------------------------------------
+      !||    resol                 ../engine/source/engine/resol.F
+      !||--- uses       -----------------------------------------------------
+      !||    precision_mod         ../common_source/modules/precision_mod.F90
+      !||====================================================================
         subroutine coupling_initialize(coupling, X, nb_nodes, mpi_rank, mpi_commsize)
           use precision_mod, only: WP
           implicit none
@@ -272,6 +308,13 @@
         end subroutine coupling_initialize
 
         ! Write data to coupling library
+      !||====================================================================
+      !||    coupling_write                ../engine/source/coupling/coupling_adapter.F90
+      !||--- calls      -----------------------------------------------------
+      !||    coupling_adapter_write_data   ../engine/source/coupling/coupling.cpp
+      !||--- uses       -----------------------------------------------------
+      !||    precision_mod                 ../common_source/modules/precision_mod.F90
+      !||====================================================================
         subroutine coupling_write(coupling, dt, global_values, nb_nodes, name_id)
           use precision_mod, only: WP
           implicit none
@@ -303,6 +346,13 @@
         end subroutine coupling_write
 
         ! Read data from coupling library
+      !||====================================================================
+      !||    coupling_read                ../engine/source/coupling/coupling_adapter.F90
+      !||--- calls      -----------------------------------------------------
+      !||    coupling_adapter_read_data   ../engine/source/coupling/coupling.cpp
+      !||--- uses       -----------------------------------------------------
+      !||    precision_mod                ../common_source/modules/precision_mod.F90
+      !||====================================================================
         subroutine coupling_read(coupling, dt, global_values, nb_nodes, mode, name_id)
           use precision_mod, only: WP
           implicit none
@@ -339,6 +389,17 @@
 
 
 !! \brief main subroutine to create syncrhonization points from resol.F. It does both reading and writing
+      !||====================================================================
+      !||    coupling_sync                 ../engine/source/coupling/coupling_adapter.F90
+      !||--- called by ------------------------------------------------------
+      !||    resol                         ../engine/source/engine/resol.F
+      !||--- calls      -----------------------------------------------------
+      !||    coupling_adapter_read_data    ../engine/source/coupling/coupling.cpp
+      !||    coupling_adapter_write_data   ../engine/source/coupling/coupling.cpp
+      !||--- uses       -----------------------------------------------------
+      !||    nodal_arrays_mod              ../common_source/modules/nodal_arrays.F90
+      !||    precision_mod                 ../common_source/modules/precision_mod.F90
+      !||====================================================================
         subroutine coupling_sync(coupling, dt, nodes, name_id)
           use precision_mod, only: WP
           use nodal_arrays_mod, only : nodal_arrays_
@@ -418,6 +479,15 @@
         end subroutine coupling_sync
 
         ! Advance coupling
+      !||====================================================================
+      !||    coupling_advance           ../engine/source/coupling/coupling_adapter.F90
+      !||--- called by ------------------------------------------------------
+      !||    resol                      ../engine/source/engine/resol.F
+      !||--- calls      -----------------------------------------------------
+      !||    coupling_adapter_advance   ../engine/source/coupling/coupling.cpp
+      !||--- uses       -----------------------------------------------------
+      !||    precision_mod              ../common_source/modules/precision_mod.F90
+      !||====================================================================
         subroutine coupling_advance(coupling, dt)
           use precision_mod, only: WP
           implicit none
@@ -444,6 +514,11 @@
         end subroutine coupling_advance
 
         ! Check if coupling is ongoing
+      !||====================================================================
+      !||    coupling_ongoing   ../engine/source/coupling/coupling_adapter.F90
+      !||--- called by ------------------------------------------------------
+      !||    resol              ../engine/source/engine/resol.F
+      !||====================================================================
         subroutine coupling_ongoing(coupling, ongoing)
           implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -467,6 +542,9 @@
           coupling%active = ongoing
         end subroutine coupling_ongoing
 
+      !||====================================================================
+      !||    coupling_requires_writing_checkpoint   ../engine/source/coupling/coupling_adapter.F90
+      !||====================================================================
         subroutine coupling_requires_writing_checkpoint(coupling, required)
           implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -493,6 +571,9 @@
           end if
         end subroutine coupling_requires_writing_checkpoint
 
+      !||====================================================================
+      !||    coupling_requires_reading_checkpoint   ../engine/source/coupling/coupling_adapter.F90
+      !||====================================================================
         subroutine coupling_requires_reading_checkpoint(coupling, required)
           implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -520,6 +601,14 @@
         end subroutine coupling_requires_reading_checkpoint
 
         ! Finalize coupling
+      !||====================================================================
+      !||    coupling_finalize           ../engine/source/coupling/coupling_adapter.F90
+      !||--- called by ------------------------------------------------------
+      !||    resol                       ../engine/source/engine/resol.F
+      !||--- calls      -----------------------------------------------------
+      !||    coupling_adapter_destroy    ../engine/source/coupling/coupling.cpp
+      !||    coupling_adapter_finalize   ../engine/source/coupling/coupling.cpp
+      !||====================================================================
         subroutine coupling_finalize(coupling)
           implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
