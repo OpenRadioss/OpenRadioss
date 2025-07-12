@@ -228,28 +228,29 @@ c----------------------------------------------
      .        DELTA* (GAMMA*(BETA * (ALPHA  * TABLE%Y4D(I1,J1,K1,L1)                    
      .                            +  ALPHAI * TABLE%Y4D(I2,J1,K1,L1))                   
      .                     + BETAI* (ALPHA  * TABLE%Y4D(I1,J2,K1,L1)                    
-     .                            +  ALPHAI * TABLE%Y4D(I2,J2,K1,L1)) )                  
-                                                                        
+     .                            +  ALPHAI * TABLE%Y4D(I2,J2,K1,L1)) )                                                                                          
      .              +GAMMAI*( BETA* (ALPHA  * TABLE%Y4D(I1,J1,K2,L1)                    
      .                            +  ALPHAI * TABLE%Y4D(I2,J1,K2,L1))                   
      .                     + BETAI* (ALPHA  * TABLE%Y4D(I1,J2,K2,L1)                    
-     .                            +  ALPHAI * TABLE%Y4D(I2,J2,K2,L1))))                 
-     .      +DELTAI*(GAMMA *( BETA* (ALPHA  * TABLE%Y4D(I1,J1,K1,L1)                    
-     .                              +ALPHAI * TABLE%Y4D(I2,J1,K1,L1))                   
-     .                     + BETAI* (ALPHA  * TABLE%Y4D(I1,J2,K1,L1)                    
-     .                            +  ALPHAI * TABLE%Y4D(I2,J2,K1,L1)))                  
-     .              +GAMMAI*(BETA * (ALPHA  * TABLE%Y4D(I1,J1,K2,L1)                    
-     .                            +  ALPHAI * TABLE%Y4D(I2,J1,K2,L1))                   
-     .                     + BETAI* (ALPHA  * TABLE%Y4D(I1,J2,K2,L1)                    
      .                            +  ALPHAI * TABLE%Y4D(I2,J2,K2,L1))))
+                      
+     .      + DELTAI*(GAMMA *(BETA * (ALPHA  * TABLE%Y4D(I1,J1,K1,L2)                    
+     .                              + ALPHAI * TABLE%Y4D(I2,J1,K1,L2))                   
+     .                      + BETAI* (ALPHA  * TABLE%Y4D(I1,J2,K1,L2)                    
+     .                            +  ALPHAI * TABLE%Y4D(I2,J2,K1,L2)))                  
+     .              +GAMMAI* (BETA* (ALPHA  * TABLE%Y4D(I1,J1,K2,L2)                    
+     .                            +  ALPHAI * TABLE%Y4D(I2,J1,K2,L2))                   
+     .                     + BETAI* (ALPHA  * TABLE%Y4D(I1,J2,K2,L2)                    
+     .                            +  ALPHAI * TABLE%Y4D(I2,J2,K2,L2))))
+!
           DY =  DELTA * (GAMMA *(BETA *(TABLE%Y4D(I2,J1,K1,L1)-TABLE%Y4D(I1,J1,K1,L1))                                                                                 
      .                         + BETAI*(TABLE%Y4D(I2,J2,K1,L1)-TABLE%Y4D(I1,J2,K1,L1)))   
      .                + GAMMAI *(BETA *(TABLE%Y4D(I2,J1,K2,L1)-TABLE%Y4D(I1,J1,K2,L1))    
      .                         + BETAI*(TABLE%Y4D(I2,J2,K2,L1)-TABLE%Y4D(I1,J2,K2,L1))))  
-     .       + DELTAI * (GAMMA *(BETA *(TABLE%Y4D(I2,J1,K1,L1)-TABLE%Y4D(I1,J1,K1,L1))    
-     .                         + BETAI*(TABLE%Y4D(I2,J2,K1,L1)-TABLE%Y4D(I1,J2,K1,L1)))   
-     .                + GAMMAI *(BETA *(TABLE%Y4D(I2,J1,K2,L1)-TABLE%Y4D(I1,J1,K2,L1))    
-     .                         + BETAI*(TABLE%Y4D(I2,J2,K2,L1)-TABLE%Y4D(I1,J2,K2,L1))))
+     .       + DELTAI * (GAMMA *(BETA *(TABLE%Y4D(I2,J1,K1,L2)-TABLE%Y4D(I1,J1,K1,L2))    
+     .                         + BETAI*(TABLE%Y4D(I2,J2,K1,L2)-TABLE%Y4D(I1,J2,K1,L2)))   
+     .                + GAMMAI *(BETA *(TABLE%Y4D(I2,J1,K2,L2)-TABLE%Y4D(I1,J1,K2,L2))    
+     .                         + BETAI*(TABLE%Y4D(I2,J2,K2,L2)-TABLE%Y4D(I1,J2,K2,L2))))
           DX = TABLE%X(1)%VALUES(I2) - TABLE%X(1)%VALUES(I1)
           DYDX(I) = DY / DX                                                                
         END DO                                                                             
@@ -269,14 +270,14 @@ C-----
           ALPHAI = ONE - ALPHA                                                                 
           BETAI  = ONE - BETA                                                                 
           GAMMAI = ONE - GAMMA
-          YY(I)=(GAMMA * (BETA* (ALPHA*TABLE%Y3D(I1,J1,K1) + ALPHAI*TABLE%Y3D(I2,J1,K1))
+          YY(I)=(GAMMA * (BETA * (ALPHA*TABLE%Y3D(I1,J1,K1) + ALPHAI*TABLE%Y3D(I2,J1,K1))
      .                  + BETAI* (ALPHA*TABLE%Y3D(I1,J2,K1) + ALPHAI*TABLE%Y3D(I2,J2,K1)) )
-     .       + GAMMAI *  (BETA* (ALPHA*TABLE%Y3D(I1,J1,K2) + ALPHAI*TABLE%Y3D(I2,J1,K2))
+     .       + GAMMAI *  (BETA * (ALPHA*TABLE%Y3D(I1,J1,K2) + ALPHAI*TABLE%Y3D(I2,J1,K2))
      .                  + BETAI* (ALPHA*TABLE%Y3D(I1,J2,K2) + ALPHAI*TABLE%Y3D(I2,J2,K2))))
 
-          DY =  GAMMA * ( BETA*(TABLE%Y3D(I2,J1,K1) - TABLE%Y3D(I1,J1,K1))
+          DY =  GAMMA * ( BETA*(TABLE%Y3D(I2,J1,K1)  - TABLE%Y3D(I1,J1,K1))
      .                  + BETAI*(TABLE%Y3D(I2,J2,K1) - TABLE%Y3D(I1,J2,K1)))
-     .       + GAMMAI * ( BETA*(TABLE%Y3D(I2,J1,K2) - TABLE%Y3D(I1,J1,K2))
+     .       + GAMMAI * ( BETA*(TABLE%Y3D(I2,J1,K2)  - TABLE%Y3D(I1,J1,K2))
      .                  + BETAI*(TABLE%Y3D(I2,J2,K2) - TABLE%Y3D(I1,J2,K2)))
           DX = TABLE%X(1)%VALUES(I2) - TABLE%X(1)%VALUES(I1)
      .                           
