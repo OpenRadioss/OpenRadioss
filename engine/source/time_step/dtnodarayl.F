@@ -67,12 +67,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER N,I,J,ISK,IGR,ND,K,L,LL
-      INTEGER FL_VREL,FL_FREQ_RANGE  
+      INTEGER N,I,J,ISK,IGR,ND,K,L,LL,ITYPE,FL_VREL,ID_RBY,FL_FREQ_RANGE
       my_real FACTB,DAMPBR,DAMPAR,D_TSTART,D_TSTOP,DAMPT,
      .   DT2N(NUMNOD),BB,COEFF,DTN,DTN2,DAMPAI,DAMPBI,DT0,DAMPA3,
-     .   ALPHA05,BETA1,DTMAX,FAC,DTMI1,DTMI2,BBI,FACI,DAMP_A(3)
- 
+     .   ALPHA05,BETA1,DTMAX,FAC,DTMI1,DTMI2,BBI,FACI,DAMP_A(3)     
 C----------------------------------------------------------
         DTMI1 = DTMIN1(11)
         DTMAX = EP04
@@ -88,7 +86,16 @@ C----------------------------------------------------------
 c--    
         DO I=1,NDAMP
 C--       
-          FL_FREQ_RANGE = NINT(DAMPR(31,I))
+          FL_VREL = 0
+          FL_FREQ_RANGE = 0
+          ITYPE = NINT(DAMPR(21,I))
+          SELECT CASE (ITYPE)
+             CASE(2) 
+               FL_VREL = 1
+             CASE(3) 
+               FL_FREQ_RANGE = 1
+          END SELECT
+!          FL_FREQ_RANGE = NINT(DAMPR(31,I))
           IF ((DAMPR(19,I)/=0).OR.(FL_FREQ_RANGE > 0)) CYCLE                                               
           D_TSTART = DAMPR(17,I)
           D_TSTOP  = DAMPR(18,I)         
@@ -104,15 +111,16 @@ C--
               DTN = MIN(DT2N(ND),DTN)
             END IF                               
           END DO      
+          FACTB = ONE
           DAMPAI = MAX(DAMPR(3,I),DAMPR(5,I),DAMPR(7,I))
           DAMPAI = MAX(DAMPAI,DAMPR(9,I),DAMPR(11,I),DAMPR(13,I))
           DAMPBI = MAX(DAMPR(4,I),DAMPR(6,I),DAMPR(8,I))
           DAMPBI = MAX(DAMPBI,DAMPR(10,I),DAMPR(12,I),DAMPR(14,I))
-          DAMPT = DT0*DAMPR(16,I)
+          DAMPT = DT0*FACTB
           DAMPBI = MIN(DAMPBI,DAMPT)
 C--          
 C--       /DAMP/VREL - recompute damping parameters at current time
-          FL_VREL = NINT(DAMPR(21,I))
+!          FL_VREL = NINT(DAMPR(21,I))
           IF (FL_VREL==1) THEN
             call damping_vref_compute_dampa(i,ndamp,nrdamp,dampr,dt1,tt,damp_a)
             DAMPAI = MAX(DAMP_A(1),DAMP_A(2),DAMP_A(3))

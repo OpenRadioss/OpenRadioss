@@ -733,6 +733,7 @@ C-----------------------------------------------
               use output_mod , only : anim_has_noda_pext, h3d_has_noda_pext
               use damping_vref_compute_dampa_mod
               use coupling_adapter_mod
+              use damping_funct_ini_mod    , only : damping_funct_ini
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1121,7 +1122,7 @@ C End Parith/ON specific
               INTEGER, DIMENSION(:),ALLOCATABLE :: INT18ADD,TAGPENE
               INTEGER, DIMENSION(:),ALLOCATABLE :: IDAMP_RDOF_TAB
               my_real, DIMENSION(:,:),ALLOCATABLE :: MTF, CAND_SAV
-              INTEGER FLG_DTNODAMP
+              INTEGER FLG_DTNODAMP,FLG_DAMP_FUNCT
               my_real DT3
               INTEGER  IGROUPFLG(2)
               INTEGER, DIMENSION(:),ALLOCATABLE :: IGROUPC,IGROUPTG,IGROUPS
@@ -1374,6 +1375,12 @@ c
      .               (IDAMP_RDOF==NDAMP .OR. NDAMP>0 .OR. ISTAT==3)) THEN
                 FLG_DTNODAMP = 1
               ENDIF
+              FLG_DAMP_FUNCT = 0
+              IF (NDAMP>0) THEN
+                DO I=1,NDAMP
+                  IF(NINT(DAMPR(21,I))==4) FLG_DAMP_FUNCT=1
+                END DO 
+              END IF
               FLG_KJ2 = 0
               I_EXCH_FLG_RAZ = 0
               NELTST  = 0
@@ -6270,7 +6277,10 @@ C----------------------------------------------------------
               END IF
 
               IMSCH=0
-
+!              
+              IF (FLG_DAMP_FUNCT==1) THEN
+                CALL DAMPING_FUNCT_INI(DAMPR, NRDAMP, NDAMP,   TT,IRODDL)
+              ENDIF
               IF (FLG_DTNODAMP==1) THEN
 C---------------NODAL TIME STEP FOR DAMPING-----------------
                 IF (IDAMP_RDOF==NDAMP)

@@ -103,7 +103,7 @@ C-------->
 C-------->    
           IGR   = NINT(DAMPR(2,ND))
           ISK   = NINT(DAMPR(15,ND))
-          FACTB = DAMPR(16,ND)
+          FACTB = ONE
           D_TSTART = DAMPR(17,ND)
           D_TSTOP  = DAMPR(18,ND)
           IF (TT>=D_TSTART .AND. TT<=D_TSTOP) THEN

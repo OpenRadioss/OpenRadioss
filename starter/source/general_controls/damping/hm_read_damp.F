@@ -84,21 +84,56 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,ID,JGRN,ISK,FL_VREL,FL_FREQ_RANGE
+      INTEGER I,J,ID,JGRN,ISK,FL_VREL,FL_FREQ_RANGE,ITYPE
       INTEGER NB_PAS,RANGE,FLINT,FLG_PRI,SUB_INDEX
       INTEGER FUNC_ID,RBODY_ID,IFUN,IGR,GRPART,USR_GRPART
       my_real
      .   FACTB,TSTART,TSTOP,
      .   ALPHA,BETA,ALPHA_Y,BETA_Y,ALPHA_Z,BETA_Z,ALPHA_XX,BETA_XX,ALPHA_YY,
      .   BETA_YY,ALPHA_ZZ,BETA_ZZ,CDAMP_MX,CDAMP_MY,CDAMP_MZ,
-     .   DV2_MX,DV2_MY,DV2_MZ,FREQ,XSCALE,
+     .   DV2_MX,DV2_MY,DV2_MZ,FREQ,XSCALE,ALPHA_X,
      .   CDAMP,FREQ_LOW,FREQ_HIGH,MAXWELL_ALPHA(3),MAXWELL_TAU(3)
       CHARACTER(LEN=NCHARTITLE) :: TITR,KEY
 !
       INTEGER, DIMENSION(:), POINTER :: INGR2USR
       LOGICAL IS_AVAILABLE
       LOGICAL FULL_FORMAT
-C======================================================================|
+!-----------------------------------------------
+!     DAMPR(1,I)  : user_id
+!     DAMPR(2,I)  : IGRNOD ID
+!     DAMPR(3,I)  : alpha_x
+!     DAMPR(4,I)  : beta_x
+!     DAMPR(5,I)  : alpha_y
+!     DAMPR(6,I)  : beta_y
+!     DAMPR(7,I)  : alpha_z
+!     DAMPR(8,I)  : beta_z
+!     DAMPR(9,I)  : alpha_xx
+!     DAMPR(10,I) : beta_xx
+!     DAMPR(11,I) : alpha_yy
+!     DAMPR(12,I) : beta_yy
+!     DAMPR(13,I) : alpha_zz
+!     DAMPR(14,I) : beta_zz
+!     DAMPR(15,I) : ISK
+!     DAMPR(16,I) : alpha of FUNC, FACTB now is fixed to 1 
+!     DAMPR(17,I) : TSTART   ! to be initialized
+!     DAMPR(18,I) : TSTOP    ! to be initialized
+!     DAMPR(19,I) : NB_PAS (0 if not INTER, 0 : using velocity in global system) ?
+!     DAMPR(20,I) : RANGE (0 if not INTER)
+!     DAMPR(21,I) : (0 INTER; 1 VREL; 0 FREQ) 2 for FUNC ?
+!                   Itype now -> 0:/DAMP; 1:/DAMP/INTER 2:/DAMP/VREL 3:/DAMP/FREQ 4:/DAMP/FUNCT  
+!     DAMPR(22,I) = Alpha2_x (only for VREL ) 
+!     DAMPR(23,I) = Alpha2_y (only for VREL ) 
+!     DAMPR(24,I) = Alpha2_z (only for VREL ) 
+!     DAMPR(25,I) = RBODY_ID (only for VREL )
+!     DAMPR(26,I) = IFUN     (for VREL&FUNCT )
+!     DAMPR(27,I) = XSCALE   (only for VREL )
+!     DAMPR(28,I) = FREQ                  (only for FREQ )
+!     DAMPR(29,I) = ZERO                  (only for FREQ )
+!     DAMPR(30,I) = ZERO                  (only for FREQ )
+!     DAMPR(31,I)    = (0 INTER; 0 VREL; 1 FREQ)   
+!     DAMPR(32:34,I) = MAXWELL_ALPHA(1:3) (only for FREQ ) alpha_x,alpha_y,alpha_z of FUNCT
+!     DAMPR(35:37,I) = MAXWELL_TAU(1:3)   (only for FREQ ) alpha_xx,alpha_yy,alpha_zz of FUNCT
+!======================================================================|
       IS_AVAILABLE = .FALSE.
       WRITE(IOUT,1000)
 C--------------------------------------------------
@@ -130,9 +165,12 @@ C--------------------------------------------------
         FLINT = 0
         FL_VREL = 0
         FL_FREQ_RANGE = 0
+        ITYPE = 0
+        FACTB = ONE
 C        
         IF(KEY(1:5)=='INTER')THEN
           FLINT = 1
+          ITYPE = 1
           CALL HM_GET_INTV('Nb_time_step',NB_PAS,IS_AVAILABLE,LSUBMODEL)
           CALL HM_GET_INTV('Range',RANGE,IS_AVAILABLE,LSUBMODEL)
           CALL HM_GET_INTV('grnod_id',JGRN,IS_AVAILABLE,LSUBMODEL)
@@ -162,6 +200,7 @@ C--------------------------------------------------
           DAMPR(21,I) = 0
         ELSEIF(KEY(1:4).EQ.'VREL')THEN
           FL_VREL = 1
+          ITYPE = 2
 C--------------------------------------------------
 C EXTRACT DATAS (INTEGER VALUES)
 C--------------------------------------------------
@@ -231,6 +270,7 @@ C--------------------------------------------------
 C--------------------------------------------------
 C         Dapming in frequency range
 C--------------------------------------------------
+          ITYPE = 3
           FL_FREQ_RANGE = 1
 C--------------------------------------------------
 C EXTRACT DATAS (INTEGER VALUES)
@@ -268,7 +308,6 @@ C---------Tag of all parts-----------------------------
           FULL_FORMAT = .TRUE.  
           ALPHA = ZERO
           BETA = ZERO
-          FACTB = ONE
 C--------------------------------------------------
 C EXTRACT DATAS (REAL VALUES)
 C--------------------------------------------------
@@ -277,6 +316,50 @@ C--------------------------------------------------
           CALL HM_GET_FLOATV('Tstop',TSTOP,IS_AVAILABLE,LSUBMODEL,UNITAB)
           CALL HM_GET_FLOATV('Freq_low',FREQ_LOW,IS_AVAILABLE,LSUBMODEL,UNITAB)
           CALL HM_GET_FLOATV('Freq_high',FREQ_HIGH,IS_AVAILABLE,LSUBMODEL,UNITAB)       
+C--------------------------------------------------                       
+        ELSEIF(KEY(1:5).EQ.'FUNCT')THEN
+C--------------------------------------------------
+          ITYPE = 4
+C--------------------------------------------------
+C EXTRACT DATAS (INTEGER VALUES)
+C--------------------------------------------------
+          CALL HM_GET_INTV('grnod_id',JGRN,IS_AVAILABLE,LSUBMODEL)
+          CALL HM_GET_INTV('FuncID',FUNC_ID,IS_AVAILABLE,LSUBMODEL)
+C--------------------------------------------------
+C EXTRACT DATAS (REAL VALUES)
+C--------------------------------------------------
+          CALL HM_GET_FLOATV('Alpha',ALPHA,IS_AVAILABLE,LSUBMODEL,UNITAB)
+          CALL HM_GET_FLOATV('Alpha_x',ALPHA_X,IS_AVAILABLE,LSUBMODEL,UNITAB)
+          CALL HM_GET_FLOATV('Alpha_y',ALPHA_Y,IS_AVAILABLE,LSUBMODEL,UNITAB)
+          CALL HM_GET_FLOATV('Alpha_z',ALPHA_Z,IS_AVAILABLE,LSUBMODEL,UNITAB)
+          CALL HM_GET_FLOATV('Alpha_xx',ALPHA_XX,IS_AVAILABLE,LSUBMODEL,UNITAB)
+          CALL HM_GET_FLOATV('Alpha_yy',ALPHA_YY,IS_AVAILABLE,LSUBMODEL,UNITAB)
+          CALL HM_GET_FLOATV('Alpha_zz',ALPHA_ZZ,IS_AVAILABLE,LSUBMODEL,UNITAB)
+          ISK = 0
+          TSTART = ZERO
+          FULL_FORMAT = .TRUE. 
+          IF (ALPHA==ZERO) ALPHA = ONE ! default =1 to add in manual
+          FACTB = ALPHA
+          ALPHA = ALPHA_X
+!---------FUNC ID user-----------------------------
+          IFUN=0    
+          IF (FUNC_ID /= 0) THEN  
+            DO J=1,NFUNCT
+              IF (FUNC_ID == NPC1(J)) THEN
+                IFUN=J                  
+                EXIT
+              ENDIF 
+            ENDDO
+            IF (IFUN == 0)THEN  !  Function not found    
+              CALL ANCMSG(MSGID=3049,
+     .                  MSGTYPE=MSGERROR,
+     .                  ANMODE=ANINFO,
+     .                  I1=ID,
+     .                  C1=TITR,
+     .                  I2=FUNC_ID)                           
+            ENDIF
+          ENDIF
+          WRITE(IOUT,2100)
         ELSE
 C--------------------------------------------------
 C EXTRACT DATAS (INTEGER VALUES)
@@ -345,11 +428,11 @@ C
         DAMPR(15,I) = ISK
         DAMPR(17,I) = TSTART
         DAMPR(18,I) = TSTOP
-C
+!        
+        DAMPR(21,I) = ITYPE
 C
         IF (.NOT. FULL_FORMAT) THEN
 C--       reduced format only for /DAMP and /DAMP/INTER
-          FACTB = ONE
           DAMPR(5,I)  = ALPHA
           DAMPR(6,I)  = BETA
           DAMPR(7,I)  = ALPHA
@@ -360,7 +443,6 @@ C--       reduced format only for /DAMP and /DAMP/INTER
           DAMPR(12,I) = BETA
           DAMPR(13,I) = ALPHA
           DAMPR(14,I) = BETA
-          DAMPR(16,I) = FACTB
           IF (FLINT==1) THEN
             DAMPR(3,I)  = ZERO
             DAMPR(4,I)  = ZERO    
@@ -371,80 +453,91 @@ C--       reduced format only for /DAMP and /DAMP/INTER
           ENDIF
           WRITE (IOUT,1100) JGRN,ALPHA,BETA,FACTB,TSTART,TSTOP
         ELSE
-          IF ((FLINT==0).AND.(FL_VREL==0).AND.(FL_FREQ_RANGE==0)) THEN
-C--         /DAMP
-            FACTB = ONE
-            FLG_PRI = 1 
-            DAMPR(3,I) = ALPHA
-            DAMPR(4,I) = BETA
-            DAMPR(5,I) = ALPHA_Y
-            DAMPR(6,I) = BETA_Y
-            DAMPR(7,I) = ALPHA_Z
-            DAMPR(8,I) = BETA_Z
-            DAMPR(9,I)  = ALPHA_XX
-            DAMPR(10,I) = BETA_XX
-            DAMPR(11,I) = ALPHA_YY
-            DAMPR(12,I) = BETA_YY
-            DAMPR(13,I) = ALPHA_ZZ
-            DAMPR(14,I) = BETA_ZZ
-            WRITE (IOUT,1200) JGRN,ISKN(4,ISK),
+          SELECT CASE (ITYPE)
+            CASE(0) !/DAMP
+              FLG_PRI = 1 
+              DAMPR(3,I) = ALPHA
+              DAMPR(4,I) = BETA
+              DAMPR(5,I) = ALPHA_Y
+              DAMPR(6,I) = BETA_Y
+              DAMPR(7,I) = ALPHA_Z
+              DAMPR(8,I) = BETA_Z
+              DAMPR(9,I)  = ALPHA_XX
+              DAMPR(10,I) = BETA_XX
+              DAMPR(11,I) = ALPHA_YY
+              DAMPR(12,I) = BETA_YY
+              DAMPR(13,I) = ALPHA_ZZ
+              DAMPR(14,I) = BETA_ZZ
+              WRITE (IOUT,1200) JGRN,ISKN(4,ISK),
      .                    ALPHA,BETA,ALPHA_Y,BETA_Y,ALPHA_Z,BETA_Z,
      .              ALPHA_XX,BETA_XX,ALPHA_YY,BETA_YY,ALPHA_ZZ,BETA_ZZ,
      .              TSTART,TSTOP
-
-          ELSEIF (FLINT==1) THEN
-C--         /DAMP/INTER         
-            FACTB = ONE
-            DAMPR(3,I)  = ZERO
-            DAMPR(4,I)  = ZERO      
-            DAMPR(5,I)  = ZERO
-            DAMPR(6,I)  = ZERO
-            DAMPR(7,I)  = ZERO
-            DAMPR(8,I)  = ZERO
-            DAMPR(9,I)  = ALPHA
-            DAMPR(10,I) = BETA
-            DAMPR(11,I) = ALPHA_YY
-            DAMPR(12,I) = BETA_YY
-            DAMPR(13,I) = ALPHA_ZZ
-            DAMPR(14,I) = BETA_ZZ
-            DAMPR(16,I) = FACTB
-            WRITE (IOUT,1500) JGRN,ISKN(4,ISK),
+            CASE(1) !/DAMP/INTER
+              DAMPR(3,I)  = ZERO
+              DAMPR(4,I)  = ZERO      
+              DAMPR(5,I)  = ZERO
+              DAMPR(6,I)  = ZERO
+              DAMPR(7,I)  = ZERO
+              DAMPR(8,I)  = ZERO
+              DAMPR(9,I)  = ALPHA
+              DAMPR(10,I) = BETA
+              DAMPR(11,I) = ALPHA_YY
+              DAMPR(12,I) = BETA_YY
+              DAMPR(13,I) = ALPHA_ZZ
+              DAMPR(14,I) = BETA_ZZ
+              WRITE (IOUT,1500) JGRN,ISKN(4,ISK),
      .                      ALPHA,BETA,ALPHA_YY,BETA_YY,
      .                      ALPHA_ZZ,BETA_ZZ,TSTART,TSTOP
-
-          ELSEIF (FL_VREL == 1) THEN
-C--       /DAMP/VREL
-            FACTB = ONE
-            DAMPR(3,I) = CDAMP_MX
-            DAMPR(4,I) = ZERO
-            DAMPR(5,I) = CDAMP_MY
-            DAMPR(6,I) = ZERO
-            DAMPR(7,I) = CDAMP_MZ
-            DAMPR(8,I) = ZERO
-            DAMPR(9,I)  = ZERO
-            DAMPR(10,I) = ZERO
-            DAMPR(11,I) = ZERO
-            DAMPR(12,I) = ZERO
-            DAMPR(13,I) = ZERO
-            DAMPR(14,I) = ZERO
-            WRITE (IOUT,1800) JGRN,ISKN(4,ISK),RBODY_ID,FUNC_ID,
+            CASE(2) !/DAMP/VREL
+              DAMPR(3,I) = CDAMP_MX
+              DAMPR(4,I) = ZERO
+              DAMPR(5,I) = CDAMP_MY
+              DAMPR(6,I) = ZERO
+              DAMPR(7,I) = CDAMP_MZ
+              DAMPR(8,I) = ZERO
+              DAMPR(9,I)  = ZERO
+              DAMPR(10,I) = ZERO
+              DAMPR(11,I) = ZERO
+              DAMPR(12,I) = ZERO
+              DAMPR(13,I) = ZERO
+              DAMPR(14,I) = ZERO
+              WRITE (IOUT,1800) JGRN,ISKN(4,ISK),RBODY_ID,FUNC_ID,
      .                        CDAMP_MX,CDAMP_MY,CDAMP_MZ,
      .                        DV2_MX,DV2_MY,DV2_MZ,
      .                        FREQ,TSTART,TSTOP
-            DAMPR(28,I) = FREQ
-            DAMPR(29,I) = ZERO
-            DAMPR(30,I) = ZERO        
-          ELSEIF (FL_FREQ_RANGE == 1) THEN
-C--         /DAMP/FREQUENCY_RANGE
-            WRITE (IOUT,2000) GRPART,CDAMP,FREQ_LOW,FREQ_HIGH,TSTART,TSTOP
-C           Automatic computation of parameters of the 3 maxwell components 
-            CALL damping_range_compute_param(CDAMP,FREQ_LOW,FREQ_HIGH,MAXWELL_ALPHA,MAXWELL_TAU)
-C       
-            DAMPR(31,I)    = ONE 
-            DAMPR(32:34,I) = MAXWELL_ALPHA(1:3)
-            DAMPR(35:37,I) = MAXWELL_TAU(1:3)
-          ENDIF
-        ENDIF
+              DAMPR(28,I) = FREQ
+              DAMPR(29,I) = ZERO
+              DAMPR(30,I) = ZERO        
+            CASE(3) !/DAMP/FREQUENCY_RANGE
+              WRITE (IOUT,2000) GRPART,CDAMP,FREQ_LOW,FREQ_HIGH,TSTART,TSTOP
+C             Automatic computation of parameters of the 3 maxwell components 
+              CALL damping_range_compute_param(CDAMP,FREQ_LOW,FREQ_HIGH,MAXWELL_ALPHA,MAXWELL_TAU)
+C             
+              DAMPR(31,I)    = ONE 
+              DAMPR(32:34,I) = MAXWELL_ALPHA(1:3)
+              DAMPR(35:37,I) = MAXWELL_TAU(1:3)
+            CASE(4) !/DAMP/FUNCT
+              ALPHA_X = ALPHA
+              DAMPR(3,I) = ALPHA_X
+              ALPHA = FACTB
+              DAMPR(4:NRDAMP,I) = ZERO
+              DAMPR(5,I) = ALPHA_Y
+              DAMPR(7,I) = ALPHA_Z
+              DAMPR(9,I)  = ALPHA_XX
+              DAMPR(11,I) = ALPHA_YY
+              DAMPR(13,I) = ALPHA_ZZ
+              DAMPR(26,I) = IFUN      ! take care of IFUN in split
+              DAMPR(32,I) = ALPHA_X
+              DAMPR(33,I) = ALPHA_Y
+              DAMPR(34,I) = ALPHA_Z
+              DAMPR(35,I) = ALPHA_XX
+              DAMPR(36,I) = ALPHA_YY
+              DAMPR(37,I) = ALPHA_ZZ
+              WRITE (IOUT,2200) JGRN,IFUN,ALPHA,
+     .                    ALPHA_X,ALPHA_Y,ALPHA_Z,
+     .                    ALPHA_XX,ALPHA_YY,ALPHA_ZZ
+          END SELECT
+        END IF !(.NOT. FULL_FORMAT) THEN
         DAMPR(16,I) = FACTB
       END DO ! NDAMP
 C---
@@ -509,6 +602,16 @@ C---
      .       /10X,'HIGHEST FREQUENCY. . . . . . . . . . . . . . . . .',1PG20.13          
      .       /10X,'START TIME . . . . . . . . . . . . . . . . . . . .',1PG20.13
      .       /10X,'STOP TIME  . . . . . . . . . . . . . . . . . . . .',1PG20.13)     
+ 2100 FORMAT(/,10X,'MASS DAMPING WITH INPUT FUNCTION')             
+ 2200 FORMAT( 10X,'NODE GROUP ID . . . . . . . . . . . . . . . . . .',I10
+     .       /10X,'ALPHA FUNCTION ID . . . . . . . . . . . . . . . .',I10
+     .       /10X,'ALPHA FUNCTION ORDINATE SCALE FACTOR . . . . . . ',1PG20.13
+     .       /10X,'MASS DAMPING COEFFICIENT IN X-DIRECTION. . . . . ',1PG20.13
+     .       /10X,'MASS DAMPING COEFFICIENT IN Y-DIRECTION. . . . . ',1PG20.13
+     .       /10X,'MASS DAMPING COEFFICIENT IN Z-DIRECTION. . . . . ',1PG20.13
+     .       /10X,'MASS DAMPING COEFFICIENT IN RX-DIRECTION. . . . .',1PG20.13
+     .       /10X,'MASS DAMPING COEFFICIENT IN RY-DIRECTION. . . . .',1PG20.13
+     .       /10X,'MASS DAMPING COEFFICIENT IN RZ-DIRECTION. . . . .',1PG20.13)
 C---
       RETURN
       END

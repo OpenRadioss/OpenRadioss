@@ -72,7 +72,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       LOGICAL :: NEED_COMPUTE
-      INTEGER I,J,N,ND,IGR,ISK,FL_VREL,ID_RBY,FL_FREQ_RANGE
+      INTEGER I,J,N,ND,IGR,ISK,FL_VREL,ID_RBY,FL_FREQ_RANGE,ITYPE
       my_real, DIMENSION(3) :: DAMP_A,DAMP_B
       my_real, DIMENSION(3) :: DA_,DW_LOCAL,OMEGA_,BETASDT_
       my_real :: AA,DW,DA,BETASDT,OMEGA,FACTB,DAMPT,D_TSTART,D_TSTOP,
@@ -101,12 +101,20 @@ C-----------------------------------------------
       DO ND=1,NDAMP
         IGR   = NINT(DAMPR(2,ND))
         ISK   = NINT(DAMPR(15,ND))
-        FACTB = DAMPR(16,ND)
+        FACTB = ONE
+!        FACTB = DAMPR(16,ND) ! used for alpha of func
         DAMPT  = MIN(DT1,DT2)*FACTB
         D_TSTART = DAMPR(17,ND)
         D_TSTOP  = DAMPR(18,ND)
-        FL_VREL = NINT(DAMPR(21,ND))
-        FL_FREQ_RANGE = NINT(DAMPR(31,ND))
+        ITYPE = NINT(DAMPR(21,ND))
+        FL_VREL = 0
+        FL_FREQ_RANGE = 0
+        SELECT CASE (ITYPE)
+           CASE(2) 
+             FL_VREL = 1
+           CASE(3) 
+             FL_FREQ_RANGE = 1
+        END SELECT
         ID_RBY = NINT(DAMPR(25,ND))        
 C
         IF (TT>=D_TSTART .AND. TT<=D_TSTOP) THEN
