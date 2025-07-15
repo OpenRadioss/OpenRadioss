@@ -57,7 +57,7 @@ C-----------------------------------------------
 C----------------------------------------------- 
 C
       DO I=1,NDAMP
-        IF (NINT(DAMPR(21,I)) > 0) THEN
+        IF (NINT(DAMPR(21,I)) == 2) THEN
           IGR   = NINT(DAMPR(2,I))
           CPT = 0
           DO J = 1,IGRNOD(IGR)%NENTITY
