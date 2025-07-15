@@ -2584,7 +2584,8 @@ C Init var parallel SMP
                 ! exchange of surfaces (ie. 4 nodes) to deactivate and deactivation
                 ! ONLY FOR LOCAL SURFACE / REMOTE ELEMENT
                 IF(NSPMD>1) THEN
-                  IF(ITSK==0) CALL SPMD_EXCH_DELETED_SURF_EDGE( NODES%BOUNDARY_ADD,NODES,SHOOT_STRUCT,INTERFACES%INTBUF_TAB,NEWFRONT,
+                  IF(ITSK==0) CALL SPMD_EXCH_DELETED_SURF_EDGE( NODES%BOUNDARY_ADD,NODES,SHOOT_STRUCT,
+     .                                 INTERFACES%INTBUF_TAB,NEWFRONT,
      .                                 IPARI,GEO,
      .                                 IXS,ELEMENT%SHELL%IXC,IXT,IXP,IXR,IXTG,IXS(L1),
      .                                 ADDCNEL,CNEL,nodes%work_array_node(omp_address),TAGEL )
@@ -4053,14 +4054,14 @@ C
      8               NELTSTT               ,ITYPTSTT ,IPART(K1)     ,IPART(K2)        ,ITSK                  ,
      A               NODFTSK               ,NODLTSK  ,NBRCVOIS      ,NODES%TEMP              ,OUTPUT%TH%TH_SURF%CHANNELS,
      B               NBSDVOIS              ,LNRCVOIS ,LNSDVOIS      ,NERCVOIS          ,NESDVOIS           ,LERCVOIS  ,
-     C               LESDVOIS              ,ISIZXV   ,NODES%BOUNDARY_ADD      ,NODES%BOUNDARY           ,ELEMENT%PON%FSKYM,MSNF      ,
+     C               LESDVOIS              ,ISIZXV   ,NODES%BOUNDARY_ADD   ,NODES%BOUNDARY,ELEMENT%PON%FSKYM,MSNF      ,
      D               IPARI                 ,SEGVAR   ,NODES%ITAB    ,ISKWN             ,DIFFUSION          ,IRESP,
      E               VOLMON                ,FSAV     ,IGRSURF       ,NELTSA            ,
      F               ITYPTSA               ,NODES%WEIGHT ,NPSEGCOM  ,LSEGCOM           ,IPM                ,IGEO,
      G               NODES%ITABM1          ,LENQMV   ,NV46          ,NODES%A           ,GRESAV             ,
      H               GRTH                  ,IGRTH    ,LGAUGE        ,GAUGE             ,MSSA               ,
      I               DMELS                 ,IGAUP    ,NGAUP         ,TABLE             ,NODES%MS0          ,
-     J               NODES%XDP             ,IGRNOD   ,SFEM_NODVAR_ALE ,INTERFACES%PON%FSKYI,INTERFACES%PON%ISKY, S_SFEM_NODVAR,
+     J               NODES%XDP        ,IGRNOD   ,SFEM_NODVAR_ALE ,INTERFACES%PON%FSKYI,INTERFACES%PON%ISKY, S_SFEM_NODVAR,
      K               INTERFACES%INTBUF_TAB ,IXT      ,IGRV          ,AGRV              ,SENSORS            ,
      L               LGRAV                 ,CONDNSKY ,CONDN         ,MS_2D             ,MULTI_FVM          ,IGRTRUSS        ,
      M               IGRBRIC               ,NLOC_DMG ,ID_GLOBAL_VOIS,FACE_VOIS         ,EBCS_TAB           ,ALE_CONNECTIVITY,
@@ -5656,7 +5657,8 @@ C Init var parallel SMP
                     ! exchange of surfaces (ie. 4 nodes) to deactivate and deactivation
                     ! ONLY FOR LOCAL SURFACE / REMOTE ELEMENT
                     IF(NSPMD>1) THEN
-                      IF(ITSK==0) CALL SPMD_EXCH_DELETED_SURF_EDGE( NODES%BOUNDARY_ADD,NODES,SHOOT_STRUCT,INTERFACES%INTBUF_TAB,NEWFRONT,
+                      IF(ITSK==0) CALL SPMD_EXCH_DELETED_SURF_EDGE( NODES%BOUNDARY_ADD,NODES,SHOOT_STRUCT,
+     .                                     INTERFACES%INTBUF_TAB,NEWFRONT,
      .                                     IPARI,GEO,
      .                                     IXS,ELEMENT%SHELL%IXC,IXT,IXP,IXR,IXTG,IXS(L1),
      .                                     ADDCNEL,CNEL,nodes%work_array_node(omp_address),TAGEL )
