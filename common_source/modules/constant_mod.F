@@ -26,6 +26,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    alew8                                    ../engine/source/ale/grid/alew8.F90
       !||    allocbuf_auto                            ../engine/source/elements/elbuf/allocbuf_auto.F
       !||    anim_nodal_ssp_elems                     ../engine/source/output/anim/generate/anim_nodal_ssp_elems.F90
+      !||    arruda_boyce                             ../starter/source/materials/mat/mat092/law92_nlsqf.F90
+      !||    arruda_boyce_dyda                        ../starter/source/materials/mat/mat092/law92_nlsqf.F90
       !||    bcs_wall_trigger                         ../engine/source/boundary_conditions/bcs_wall_trigger.F90
       !||    brent_algo                               ../common_source/modules/root_finding_algo_mod.F90
       !||    brokmann_crack_init                      ../starter/source/materials/fail/windshield_alter/brokmann_crack_init.F90
@@ -164,6 +166,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    law190_upd                               ../starter/source/materials/mat/mat190/law190_upd.F90
       !||    law81_upd                                ../starter/source/materials/mat/mat081/law81_upd.F90
       !||    law87_upd                                ../starter/source/materials/mat/mat087/law87_upd.F90
+      !||    law92_guess                              ../starter/source/materials/mat/mat092/law92_nlsqf.F90
+      !||    law92_nlsqf                              ../starter/source/materials/mat/mat092/law92_nlsqf.F90
       !||    m21law                                   ../engine/source/materials/mat/mat021/m21law.F
       !||    m5in2                                    ../starter/source/initial_conditions/detonation/m5in2.F
       !||    m5in2t                                   ../starter/source/initial_conditions/detonation/m5in2t.F
@@ -179,6 +183,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    mat_table_table_copy                     ../starter/source/materials/tools/mat_table_table_copy.F90
       !||    minter1d_rat                             ../common_source/eos/minter1d_rat.F
       !||    mmain                                    ../engine/source/materials/mat_share/mmain.F90
+      !||    mrqcof_law92                             ../starter/source/materials/mat/mat092/law92_nlsqf.F90
+      !||    mrqmin_law92                             ../starter/source/materials/mat/mat092/law92_nlsqf.F90
       !||    mulaw                                    ../engine/source/materials/mat_share/mulaw.F90
       !||    mulaw8                                   ../engine/source/materials/mat_share/mulaw8.F90
       !||    mulawc                                   ../engine/source/materials/mat_share/mulawc.F90

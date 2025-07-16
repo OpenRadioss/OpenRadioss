@@ -200,8 +200,8 @@ C This routine cannot be used for type25 anymore
       !||--- calls      -----------------------------------------------------
       !||    ancmsg         ../engine/source/output/message/message.F
       !||    arret          ../engine/source/system/arret.F
-      !||    spmd_wait      ../engine/source/mpi/spmd_mod.F90
-      !||    spmd_waitany   ../engine/source/mpi/spmd_mod.F90
+      !||    spmd_wait      ../engine/source/mpi/spmd_wait.F90
+      !||    spmd_waitany   ../engine/source/mpi/spmd_wait.F90
       !||--- uses       -----------------------------------------------------
       !||    message_mod    ../engine/share/message_module/message_mod.F
       !||    spmd_mod       ../engine/source/mpi/spmd_mod.F90
@@ -872,8 +872,8 @@ c END TRI7VOX
       !||--- calls      -----------------------------------------------------
       !||    ancmsg              ../engine/source/output/message/message.F
       !||    arret               ../engine/source/system/arret.F
-      !||    spmd_wait           ../engine/source/mpi/spmd_mod.F90
-      !||    spmd_waitany        ../engine/source/mpi/spmd_mod.F90
+      !||    spmd_wait           ../engine/source/mpi/spmd_wait.F90
+      !||    spmd_waitany        ../engine/source/mpi/spmd_wait.F90
       !||--- uses       -----------------------------------------------------
       !||    message_mod         ../engine/share/message_module/message_mod.F
       !||    multi_fvm_mod       ../common_source/modules/ale/multi_fvm_mod.F90
@@ -1371,8 +1371,8 @@ C
       !||--- calls      -----------------------------------------------------
       !||    ancmsg          ../engine/source/output/message/message.F
       !||    arret           ../engine/source/system/arret.F
-      !||    spmd_wait       ../engine/source/mpi/spmd_mod.F90
-      !||    spmd_waitany    ../engine/source/mpi/spmd_mod.F90
+      !||    spmd_wait       ../engine/source/mpi/spmd_wait.F90
+      !||    spmd_waitany    ../engine/source/mpi/spmd_wait.F90
       !||--- uses       -----------------------------------------------------
       !||    message_mod     ../engine/share/message_module/message_mod.F
       !||    spmd_mod        ../engine/source/mpi/spmd_mod.F90
@@ -3537,8 +3537,8 @@ C END TRI7GAT
       !||--- calls      -----------------------------------------------------
       !||    ancmsg          ../engine/source/output/message/message.F
       !||    arret           ../engine/source/system/arret.F
-      !||    spmd_wait       ../engine/source/mpi/spmd_mod.F90
-      !||    spmd_waitany    ../engine/source/mpi/spmd_mod.F90
+      !||    spmd_wait       ../engine/source/mpi/spmd_wait.F90
+      !||    spmd_waitany    ../engine/source/mpi/spmd_wait.F90
       !||--- uses       -----------------------------------------------------
       !||    message_mod     ../engine/share/message_module/message_mod.F
       !||    outputs_mod     ../common_source/modules/outputs_mod.F
@@ -4382,8 +4382,8 @@ C END TRI11VOX0
       !||--- calls      -----------------------------------------------------
       !||    ancmsg          ../engine/source/output/message/message.F
       !||    arret           ../engine/source/system/arret.F
-      !||    spmd_wait       ../engine/source/mpi/spmd_mod.F90
-      !||    spmd_waitany    ../engine/source/mpi/spmd_mod.F90
+      !||    spmd_wait       ../engine/source/mpi/spmd_wait.F90
+      !||    spmd_waitany    ../engine/source/mpi/spmd_wait.F90
       !||--- uses       -----------------------------------------------------
       !||    message_mod     ../engine/share/message_module/message_mod.F
       !||    spmd_mod        ../engine/source/mpi/spmd_mod.F90

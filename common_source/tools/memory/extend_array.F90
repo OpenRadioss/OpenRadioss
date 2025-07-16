@@ -29,6 +29,8 @@
       !||    fill_voxel_local_partial      ../engine/source/interfaces/intsort/fill_voxel.F90
       !||    fill_voxel_remote             ../engine/source/interfaces/intsort/fill_voxel.F90
       !||    lecsec42                      ../starter/source/tools/sect/hm_read_sect.F
+      !||    test_jc_shell_detach          ../engine/source/engine/node_spliting/detach_node.F90
+      !||    update_pon_shells             ../engine/source/engine/node_spliting/update_pon.F90
       !||--- calls      -----------------------------------------------------
       !||    build_error_message           ../common_source/tools/memory/extend_array.F90
       !||====================================================================

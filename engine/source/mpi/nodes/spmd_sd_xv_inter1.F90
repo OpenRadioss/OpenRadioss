@@ -44,7 +44,7 @@
       !||--- calls      -----------------------------------------------------
       !||    alloc_my_real_2d_array     ../common_source/modules/array_mod.F
       !||    dealloc_my_real_2d_array   ../common_source/modules/array_mod.F
-      !||    spmd_wait                  ../engine/source/mpi/spmd_mod.F90
+      !||    spmd_wait                  ../engine/source/mpi/spmd_wait.F90
       !||--- uses       -----------------------------------------------------
       !||    array_mod                  ../common_source/modules/array_mod.F
       !||    constant_mod               ../common_source/modules/constant_mod.F

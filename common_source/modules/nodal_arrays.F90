@@ -39,6 +39,7 @@
       !||    funct_python_update_elements             ../engine/source/tools/curve/funct_python_update_elements.F90
       !||    get_neighbour_surface                    ../engine/source/interfaces/interf/get_neighbour_surface.F90
       !||    get_neighbour_surface_from_remote_proc   ../engine/source/interfaces/interf/get_neighbour_surface_from_remote_proc.F90
+      !||    init_ghost_shells                        ../engine/source/engine/node_spliting/ghost_shells.F90
       !||    init_nodal_state                         ../engine/source/interfaces/interf/init_nodal_state.F
       !||    python_call_funct_cload_dp               ../engine/source/loads/general/python_call_funct_cload.F90
       !||    python_call_funct_cload_sp               ../engine/source/loads/general/python_call_funct_cload.F90
@@ -55,6 +56,7 @@
       !||    set_new_node_values                      ../engine/source/engine/node_spliting/detach_node.F90
       !||    spmd_exch_deleted_surf_edge              ../engine/source/mpi/interfaces/spmd_exch_deleted_surf_edge.F
       !||    spmd_exch_neighbour_segment              ../engine/source/mpi/interfaces/spmd_exch_neighbour_segment.F90
+      !||    spmd_exchange_ghost_shells               ../engine/source/engine/node_spliting/ghost_shells.F90
       !||    spmd_exchmsr_idel                        ../engine/source/mpi/interfaces/spmd_exchmsr_idel.F
       !||    spmd_exchseg_idel                        ../engine/source/mpi/kinematic_conditions/spmd_exchseg_idel.F
       !||    tagoff3n                                 ../engine/source/interfaces/interf/chkstfn3.F
@@ -62,6 +64,7 @@
       !||    user_interface_mod                       ../engine/source/modules/user_interface_mod.F90
       !||    wrrestp                                  ../engine/source/output/restart/wrrestp.F
       !||--- uses       -----------------------------------------------------
+      !||    precision_mod                            ../common_source/modules/precision_mod.F90
       !||====================================================================
       module nodal_arrays_mod
         use precision_mod, only : wp
@@ -449,6 +452,7 @@
       !||--- calls      -----------------------------------------------------
       !||    reserve_capacity      ../common_source/tools/container/umap_mod.F90
       !||--- uses       -----------------------------------------------------
+      !||    spmd_mod              ../engine/source/mpi/spmd_mod.F90
       !||    umap_mod              ../common_source/tools/container/umap_mod.F90
       !||====================================================================
         subroutine init_global_node_id(arrays, numnod)

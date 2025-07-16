@@ -77,7 +77,19 @@
       !||    solve_mumps                     ../engine/share/modules/linear_solver_mod.F
       !||    spmd_all_dmin                   ../engine/source/mpi/interfaces/spmd_th.F
       !||    spmd_allgather_mod              ../engine/source/mpi/generic/spmd_allgather.F90
+      !||    spmd_allgatherv_double          ../engine/source/mpi/spmd_allgatherv.F90
+      !||    spmd_allgatherv_doubles         ../engine/source/mpi/spmd_allgatherv.F90
+      !||    spmd_allgatherv_int             ../engine/source/mpi/spmd_allgatherv.F90
+      !||    spmd_allgatherv_ints            ../engine/source/mpi/spmd_allgatherv.F90
+      !||    spmd_allgatherv_real            ../engine/source/mpi/spmd_allgatherv.F90
+      !||    spmd_allgatherv_reals           ../engine/source/mpi/spmd_allgatherv.F90
       !||    spmd_allglob_isum9              ../engine/source/mpi/generic/spmd_allglob_isum9.F
+      !||    spmd_alltoall_double            ../engine/source/mpi/generic/spmd_alltoall.F90
+      !||    spmd_alltoall_doubles           ../engine/source/mpi/generic/spmd_alltoall.F90
+      !||    spmd_alltoall_int               ../engine/source/mpi/generic/spmd_alltoall.F90
+      !||    spmd_alltoall_ints              ../engine/source/mpi/generic/spmd_alltoall.F90
+      !||    spmd_alltoall_real              ../engine/source/mpi/generic/spmd_alltoall.F90
+      !||    spmd_alltoall_reals             ../engine/source/mpi/generic/spmd_alltoall.F90
       !||    spmd_anim_ply_velvec            ../engine/source/mpi/anim/spmd_anim_ply_velvec.F
       !||    spmd_anim_ply_xyznor            ../engine/source/mpi/anim/spmd_anim_ply_xyznor.F
       !||    spmd_cddl                       ../engine/source/mpi/implicit/imp_spmd.F
@@ -311,6 +323,18 @@
       !||    spmd_init_idel                  ../engine/source/mpi/interfaces/spmd_init_idel.F
       !||    spmd_int18_law151_pon           ../engine/source/mpi/forces/spmd_int18_law151_pon.F
       !||    spmd_int_allreduce_max          ../engine/source/mpi/implicit/imp_spmd.F
+      !||    spmd_irecv_double               ../engine/source/mpi/spmd_irecv.F90
+      !||    spmd_irecv_doubles              ../engine/source/mpi/spmd_irecv.F90
+      !||    spmd_irecv_int                  ../engine/source/mpi/spmd_irecv.F90
+      !||    spmd_irecv_ints                 ../engine/source/mpi/spmd_irecv.F90
+      !||    spmd_irecv_real                 ../engine/source/mpi/spmd_irecv.F90
+      !||    spmd_irecv_reals                ../engine/source/mpi/spmd_irecv.F90
+      !||    spmd_isend_double               ../engine/source/mpi/spmd_isend.F90
+      !||    spmd_isend_doubles              ../engine/source/mpi/spmd_isend.F90
+      !||    spmd_isend_int                  ../engine/source/mpi/spmd_isend.F90
+      !||    spmd_isend_ints                 ../engine/source/mpi/spmd_isend.F90
+      !||    spmd_isend_real                 ../engine/source/mpi/spmd_isend.F90
+      !||    spmd_isend_reals                ../engine/source/mpi/spmd_isend.F90
       !||    spmd_isr                        ../engine/source/mpi/implicit/imp_spmd.F
       !||    spmd_istat_gath                 ../engine/source/mpi/output/spmd_stat.F
       !||    spmd_iwlg                       ../engine/source/mpi/implicit/spmd_dsreso.F
@@ -344,6 +368,7 @@
       !||    spmd_nndft_sms                  ../engine/source/mpi/ams/spmd_sms.F
       !||    spmd_nnz_sms                    ../engine/source/mpi/ams/spmd_sms.F
       !||    spmd_nrow                       ../engine/source/mpi/implicit/imp_spmd.F
+      !||    spmd_out                        ../engine/source/mpi/spmd_error.F90
       !||    spmd_outpitab                   ../engine/source/mpi/interfaces/spmd_outp.F
       !||    spmd_part_com                   ../engine/source/mpi/interfaces/spmd_th.F
       !||    spmd_printcpuinfo               ../engine/source/mpi/output/spmd_printcpuinfo.F
@@ -363,6 +388,14 @@
       !||    spmd_r2r_tagel                  ../engine/source/mpi/r2r/spmd_r2r.F
       !||    spmd_r4get_partn                ../engine/source/mpi/anim/spmd_r4get_partn.F
       !||    spmd_rbcast                     ../engine/source/mpi/generic/spmd_rbcast.F
+      !||    spmd_recv_double                ../engine/source/mpi/spmd_recv.F90
+      !||    spmd_recv_doubles               ../engine/source/mpi/spmd_recv.F90
+      !||    spmd_recv_doubles2d             ../engine/source/mpi/spmd_recv.F90
+      !||    spmd_recv_int                   ../engine/source/mpi/spmd_recv.F90
+      !||    spmd_recv_ints                  ../engine/source/mpi/spmd_recv.F90
+      !||    spmd_recv_real                  ../engine/source/mpi/spmd_recv.F90
+      !||    spmd_recv_reals                 ../engine/source/mpi/spmd_recv.F90
+      !||    spmd_recv_reals2d               ../engine/source/mpi/spmd_recv.F90
       !||    spmd_reduce_db                  ../engine/source/mpi/generic/spmd_reduce_db.F
       !||    spmd_rgather9                   ../engine/source/mpi/interfaces/spmd_outp.F
       !||    spmd_rgather9_1comm             ../engine/source/mpi/interfaces/spmd_outp.F
@@ -379,6 +412,12 @@
       !||    spmd_sd_skw                     ../engine/source/mpi/output/spmd_sd_skw.F
       !||    spmd_sd_skw_anim                ../engine/source/mpi/output/spmd_sd_skw.F
       !||    spmd_sd_xv                      ../engine/source/mpi/nodes/spmd_sd_xv.F
+      !||    spmd_send_double                ../engine/source/mpi/spmd_send.F90
+      !||    spmd_send_doubles               ../engine/source/mpi/spmd_send.F90
+      !||    spmd_send_int                   ../engine/source/mpi/spmd_send.F90
+      !||    spmd_send_ints                  ../engine/source/mpi/spmd_send.F90
+      !||    spmd_send_real                  ../engine/source/mpi/spmd_send.F90
+      !||    spmd_send_reals                 ../engine/source/mpi/spmd_send.F90
       !||    spmd_send_vi                    ../engine/source/mpi/implicit/imp_spmd.F
       !||    spmd_send_vr                    ../engine/source/mpi/implicit/imp_spmd.F
       !||    spmd_sg_fani                    ../engine/source/mpi/lag_multipliers/spmd_lag.F

@@ -20,6 +20,11 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+      !||====================================================================
+      !||    spmd_wait_mod   ../engine/source/mpi/spmd_wait.F90
+      !||--- called by ------------------------------------------------------
+      !||    spmd_mod        ../engine/source/mpi/spmd_mod.F90
+      !||====================================================================
       module spmd_wait_mod
         implicit none
         integer, parameter, public :: TAG_WAIT = -2
@@ -32,59 +37,63 @@
 
 
       contains
-        !||====================================================================
-        !||    spmd_wait                       ../engine/source/mpi/spmd_mod.F90
-        !||--- called by ------------------------------------------------------
-        !||    spmd_e1vois                     ../engine/source/mpi/fluid/spmd_cfd.F
-        !||    spmd_e4vois                     ../engine/source/mpi/fluid/spmd_cfd.F
-        !||    spmd_e6vois                     ../engine/source/mpi/fluid/spmd_cfd.F
-        !||    spmd_envois                     ../engine/source/mpi/fluid/spmd_cfd.F
-        !||    spmd_evois                      ../engine/source/mpi/fluid/spmd_cfd.F
-        !||    spmd_exalew                     ../engine/source/mpi/fluid/spmd_cfd.F
-        !||    spmd_exalew_pon                 ../engine/source/mpi/fluid/spmd_cfd.F
-        !||    spmd_exch_a_sol2sph             ../engine/source/mpi/elements/spmd_sph.F
-        !||    spmd_exch_flow_tracking_data    ../engine/source/ale/grid/spmd_exch_flow_tracking_data.F90
-        !||    spmd_exch_flow_tracking_data2   ../engine/source/ale/grid/spmd_exch_flow_tracking_data2.F90
-        !||    spmd_exch_flow_tracking_data3   ../engine/source/ale/grid/spmd_exch_flow_tracking_data3.F90
-        !||    spmd_exch_flow_tracking_data4   ../engine/source/ale/grid/spmd_exch_flow_tracking_data4.F90
-        !||    spmd_exch_neighbour_segment     ../engine/source/mpi/interfaces/spmd_exch_neighbour_segment.F90
-        !||    spmd_extag                      ../engine/source/mpi/fluid/spmd_cfd.F
-        !||    spmd_get_penis                  ../engine/source/mpi/interfaces/send_cand.F
-        !||    spmd_get_penis20                ../engine/source/mpi/interfaces/send_cand.F
-        !||    spmd_i21fthecom                 ../engine/source/mpi/interfaces/send_cand.F
-        !||    spmd_i21tempcom                 ../engine/source/mpi/interfaces/send_cand.F
-        !||    spmd_i4vois                     ../engine/source/mpi/fluid/spmd_cfd.F
-        !||    spmd_i8vois                     ../engine/source/mpi/fluid/spmd_cfd.F
-        !||    spmd_ifront_stamp               ../engine/source/mpi/interfaces/send_cand.F
-        !||    spmd_l11vois                    ../engine/source/mpi/fluid/spmd_cfd.F
-        !||    spmd_l51vois                    ../engine/source/mpi/fluid/spmd_cfd.F
-        !||    spmd_sphgeta                    ../engine/source/mpi/elements/spmd_sph.F
-        !||    spmd_sphgetd                    ../engine/source/mpi/elements/spmd_sph.F
-        !||    spmd_sphgetdk                   ../engine/source/mpi/elements/spmd_sph.F
-        !||    spmd_sphgetf                    ../engine/source/mpi/elements/spmd_sph.F
-        !||    spmd_sphgetg                    ../engine/source/mpi/elements/spmd_sph.F
-        !||    spmd_sphgeth                    ../engine/source/mpi/elements/spmd_sph.F
-        !||    spmd_sphgetimp                  ../engine/source/mpi/elements/spmd_sph.F
-        !||    spmd_sphgetisph                 ../engine/source/mpi/elements/spmd_sph.F
-        !||    spmd_sphgetstb                  ../engine/source/mpi/elements/spmd_sph.F
-        !||    spmd_sphgett                    ../engine/source/mpi/elements/spmd_sph.F
-        !||    spmd_sphgetvois_off             ../engine/source/mpi/elements/spmd_sph.F
-        !||    spmd_sphgetw                    ../engine/source/mpi/elements/spmd_sph.F
-        !||    spmd_sphgetwa                   ../engine/source/mpi/elements/spmd_sph.F
-        !||    spmd_sphgetx                    ../engine/source/mpi/elements/spmd_sph.F
-        !||    spmd_tri10box                   ../engine/source/mpi/interfaces/spmd_int.F
-        !||    spmd_tri11vox                   ../engine/source/mpi/interfaces/spmd_int.F
-        !||    spmd_tri18_151vox               ../engine/source/mpi/interfaces/spmd_int.F
-        !||    spmd_tri24vox                   ../engine/source/mpi/interfaces/spmd_int.F
-        !||    spmd_tri25vox                   ../engine/source/mpi/interfaces/spmd_tri25vox.F
-        !||    spmd_tri7vox                    ../engine/source/mpi/interfaces/spmd_int.F
-        !||    spmd_wvois                      ../engine/source/mpi/fluid/spmd_cfd.F
-        !||    spmd_xv_inter_type1             ../engine/source/mpi/nodes/spmd_sd_xv_inter1.F90
-        !||    spmd_xvois                      ../engine/source/mpi/fluid/spmd_cfd.F
-        !||--- calls      -----------------------------------------------------
-        !||    spmd_in                         ../engine/source/mpi/spmd_mod.F90
-        !||    spmd_out                        ../engine/source/mpi/spmd_mod.F90
-        !||====================================================================
+      !||====================================================================
+      !||    spmd_wait                       ../engine/source/mpi/spmd_wait.F90
+      !||--- called by ------------------------------------------------------
+      !||    init_ghost_shells               ../engine/source/engine/node_spliting/ghost_shells.F90
+      !||    spmd_e1vois                     ../engine/source/mpi/fluid/spmd_cfd.F
+      !||    spmd_e4vois                     ../engine/source/mpi/fluid/spmd_cfd.F
+      !||    spmd_e6vois                     ../engine/source/mpi/fluid/spmd_cfd.F
+      !||    spmd_envois                     ../engine/source/mpi/fluid/spmd_cfd.F
+      !||    spmd_evois                      ../engine/source/mpi/fluid/spmd_cfd.F
+      !||    spmd_exalew                     ../engine/source/mpi/fluid/spmd_cfd.F
+      !||    spmd_exalew_pon                 ../engine/source/mpi/fluid/spmd_cfd.F
+      !||    spmd_exch_a_sol2sph             ../engine/source/mpi/elements/spmd_sph.F
+      !||    spmd_exch_flow_tracking_data    ../engine/source/ale/grid/spmd_exch_flow_tracking_data.F90
+      !||    spmd_exch_flow_tracking_data2   ../engine/source/ale/grid/spmd_exch_flow_tracking_data2.F90
+      !||    spmd_exch_flow_tracking_data3   ../engine/source/ale/grid/spmd_exch_flow_tracking_data3.F90
+      !||    spmd_exch_flow_tracking_data4   ../engine/source/ale/grid/spmd_exch_flow_tracking_data4.F90
+      !||    spmd_exch_neighbour_segment     ../engine/source/mpi/interfaces/spmd_exch_neighbour_segment.F90
+      !||    spmd_exchange_ghost_shells      ../engine/source/engine/node_spliting/ghost_shells.F90
+      !||    spmd_extag                      ../engine/source/mpi/fluid/spmd_cfd.F
+      !||    spmd_get_penis                  ../engine/source/mpi/interfaces/send_cand.F
+      !||    spmd_get_penis20                ../engine/source/mpi/interfaces/send_cand.F
+      !||    spmd_i21fthecom                 ../engine/source/mpi/interfaces/send_cand.F
+      !||    spmd_i21tempcom                 ../engine/source/mpi/interfaces/send_cand.F
+      !||    spmd_i4vois                     ../engine/source/mpi/fluid/spmd_cfd.F
+      !||    spmd_i8vois                     ../engine/source/mpi/fluid/spmd_cfd.F
+      !||    spmd_ifront_stamp               ../engine/source/mpi/interfaces/send_cand.F
+      !||    spmd_l11vois                    ../engine/source/mpi/fluid/spmd_cfd.F
+      !||    spmd_l51vois                    ../engine/source/mpi/fluid/spmd_cfd.F
+      !||    spmd_sphgeta                    ../engine/source/mpi/elements/spmd_sph.F
+      !||    spmd_sphgetd                    ../engine/source/mpi/elements/spmd_sph.F
+      !||    spmd_sphgetdk                   ../engine/source/mpi/elements/spmd_sph.F
+      !||    spmd_sphgetf                    ../engine/source/mpi/elements/spmd_sph.F
+      !||    spmd_sphgetg                    ../engine/source/mpi/elements/spmd_sph.F
+      !||    spmd_sphgeth                    ../engine/source/mpi/elements/spmd_sph.F
+      !||    spmd_sphgetimp                  ../engine/source/mpi/elements/spmd_sph.F
+      !||    spmd_sphgetisph                 ../engine/source/mpi/elements/spmd_sph.F
+      !||    spmd_sphgetstb                  ../engine/source/mpi/elements/spmd_sph.F
+      !||    spmd_sphgett                    ../engine/source/mpi/elements/spmd_sph.F
+      !||    spmd_sphgetvois_off             ../engine/source/mpi/elements/spmd_sph.F
+      !||    spmd_sphgetw                    ../engine/source/mpi/elements/spmd_sph.F
+      !||    spmd_sphgetwa                   ../engine/source/mpi/elements/spmd_sph.F
+      !||    spmd_sphgetx                    ../engine/source/mpi/elements/spmd_sph.F
+      !||    spmd_tri10box                   ../engine/source/mpi/interfaces/spmd_int.F
+      !||    spmd_tri11vox                   ../engine/source/mpi/interfaces/spmd_int.F
+      !||    spmd_tri18_151vox               ../engine/source/mpi/interfaces/spmd_int.F
+      !||    spmd_tri24vox                   ../engine/source/mpi/interfaces/spmd_int.F
+      !||    spmd_tri25vox                   ../engine/source/mpi/interfaces/spmd_tri25vox.F
+      !||    spmd_tri7vox                    ../engine/source/mpi/interfaces/spmd_int.F
+      !||    spmd_wvois                      ../engine/source/mpi/fluid/spmd_cfd.F
+      !||    spmd_xv_inter_type1             ../engine/source/mpi/nodes/spmd_sd_xv_inter1.F90
+      !||    spmd_xvois                      ../engine/source/mpi/fluid/spmd_cfd.F
+      !||--- calls      -----------------------------------------------------
+      !||    spmd_in                         ../engine/source/mpi/spmd_error.F90
+      !||    spmd_out                        ../engine/source/mpi/spmd_error.F90
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_error_mod                  ../engine/source/mpi/spmd_error.F90
+      !||====================================================================
         subroutine spmd_wait(request, status)
           use spmd_error_mod, only: spmd_in, spmd_out
           implicit none
@@ -106,33 +115,37 @@
 
 ! ======================================================================================================================
 ! ======================================================================================================================
-        !||====================================================================
-        !||    spmd_waitany                  ../engine/source/mpi/spmd_mod.F90
-        !||--- called by ------------------------------------------------------
-        !||    spmd_e1vois                   ../engine/source/mpi/fluid/spmd_cfd.F
-        !||    spmd_e4vois                   ../engine/source/mpi/fluid/spmd_cfd.F
-        !||    spmd_e6vois                   ../engine/source/mpi/fluid/spmd_cfd.F
-        !||    spmd_envois                   ../engine/source/mpi/fluid/spmd_cfd.F
-        !||    spmd_evois                    ../engine/source/mpi/fluid/spmd_cfd.F
-        !||    spmd_exalew_pon               ../engine/source/mpi/fluid/spmd_cfd.F
-        !||    spmd_exch_neighbour_segment   ../engine/source/mpi/interfaces/spmd_exch_neighbour_segment.F90
-        !||    spmd_i4vois                   ../engine/source/mpi/fluid/spmd_cfd.F
-        !||    spmd_i8vois                   ../engine/source/mpi/fluid/spmd_cfd.F
-        !||    spmd_l11vois                  ../engine/source/mpi/fluid/spmd_cfd.F
-        !||    spmd_l51vois                  ../engine/source/mpi/fluid/spmd_cfd.F
-        !||    spmd_segcom                   ../engine/source/mpi/fluid/spmd_cfd.F
-        !||    spmd_tri10box                 ../engine/source/mpi/interfaces/spmd_int.F
-        !||    spmd_tri11vox                 ../engine/source/mpi/interfaces/spmd_int.F
-        !||    spmd_tri18_151vox             ../engine/source/mpi/interfaces/spmd_int.F
-        !||    spmd_tri24vox                 ../engine/source/mpi/interfaces/spmd_int.F
-        !||    spmd_tri25vox                 ../engine/source/mpi/interfaces/spmd_tri25vox.F
-        !||    spmd_tri7vox                  ../engine/source/mpi/interfaces/spmd_int.F
-        !||    spmd_wvois                    ../engine/source/mpi/fluid/spmd_cfd.F
-        !||    spmd_xvois                    ../engine/source/mpi/fluid/spmd_cfd.F
-        !||--- calls      -----------------------------------------------------
-        !||    spmd_in                       ../engine/source/mpi/spmd_mod.F90
-        !||    spmd_out                      ../engine/source/mpi/spmd_mod.F90
-        !||====================================================================
+      !||====================================================================
+      !||    spmd_waitany                  ../engine/source/mpi/spmd_wait.F90
+      !||--- called by ------------------------------------------------------
+      !||    spmd_cell_list_exchange       ../engine/source/mpi/interfaces/spmd_cell_list_exchange.F
+      !||    spmd_e1vois                   ../engine/source/mpi/fluid/spmd_cfd.F
+      !||    spmd_e4vois                   ../engine/source/mpi/fluid/spmd_cfd.F
+      !||    spmd_e6vois                   ../engine/source/mpi/fluid/spmd_cfd.F
+      !||    spmd_envois                   ../engine/source/mpi/fluid/spmd_cfd.F
+      !||    spmd_evois                    ../engine/source/mpi/fluid/spmd_cfd.F
+      !||    spmd_exalew_pon               ../engine/source/mpi/fluid/spmd_cfd.F
+      !||    spmd_exch_neighbour_segment   ../engine/source/mpi/interfaces/spmd_exch_neighbour_segment.F90
+      !||    spmd_exchange_component       ../engine/source/mpi/interfaces/spmd_exch_component.F90
+      !||    spmd_i4vois                   ../engine/source/mpi/fluid/spmd_cfd.F
+      !||    spmd_i8vois                   ../engine/source/mpi/fluid/spmd_cfd.F
+      !||    spmd_l11vois                  ../engine/source/mpi/fluid/spmd_cfd.F
+      !||    spmd_l51vois                  ../engine/source/mpi/fluid/spmd_cfd.F
+      !||    spmd_segcom                   ../engine/source/mpi/fluid/spmd_cfd.F
+      !||    spmd_tri10box                 ../engine/source/mpi/interfaces/spmd_int.F
+      !||    spmd_tri11vox                 ../engine/source/mpi/interfaces/spmd_int.F
+      !||    spmd_tri18_151vox             ../engine/source/mpi/interfaces/spmd_int.F
+      !||    spmd_tri24vox                 ../engine/source/mpi/interfaces/spmd_int.F
+      !||    spmd_tri25vox                 ../engine/source/mpi/interfaces/spmd_tri25vox.F
+      !||    spmd_tri7vox                  ../engine/source/mpi/interfaces/spmd_int.F
+      !||    spmd_wvois                    ../engine/source/mpi/fluid/spmd_cfd.F
+      !||    spmd_xvois                    ../engine/source/mpi/fluid/spmd_cfd.F
+      !||--- calls      -----------------------------------------------------
+      !||    spmd_in                       ../engine/source/mpi/spmd_error.F90
+      !||    spmd_out                      ../engine/source/mpi/spmd_error.F90
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_error_mod                ../engine/source/mpi/spmd_error.F90
+      !||====================================================================
         subroutine spmd_waitany(buf_count, array_of_requests, index_of_completed, status)
           use spmd_error_mod, only: spmd_in, spmd_out
           implicit none
@@ -153,14 +166,16 @@
 #endif
         end subroutine spmd_waitany
 ! ======================================================================================================================
-        !||====================================================================
-        !||    spmd_waitall    ../engine/source/mpi/spmd_mod.F90
-        !||--- called by ------------------------------------------------------
-        !||    spmd_tri25vox   ../engine/source/mpi/interfaces/spmd_tri25vox.F
-        !||--- calls      -----------------------------------------------------
-        !||    spmd_in         ../engine/source/mpi/spmd_mod.F90
-        !||    spmd_out        ../engine/source/mpi/spmd_mod.F90
-        !||====================================================================
+      !||====================================================================
+      !||    spmd_waitall     ../engine/source/mpi/spmd_wait.F90
+      !||--- called by ------------------------------------------------------
+      !||    spmd_tri25vox    ../engine/source/mpi/interfaces/spmd_tri25vox.F
+      !||--- calls      -----------------------------------------------------
+      !||    spmd_in          ../engine/source/mpi/spmd_error.F90
+      !||    spmd_out         ../engine/source/mpi/spmd_error.F90
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_error_mod   ../engine/source/mpi/spmd_error.F90
+      !||====================================================================
         subroutine spmd_waitall(buf_count, array_of_requests, array_of_statuses)
           use spmd_error_mod, only: spmd_in, spmd_out
           implicit none

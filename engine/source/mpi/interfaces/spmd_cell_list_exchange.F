@@ -28,7 +28,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    spmd_cell_size_exchange        ../engine/source/mpi/interfaces/spmd_cell_size_exchange.F
       !||    spmd_cell_size_exchange_init   ../engine/source/mpi/interfaces/spmd_cell_size_exchange_init.F
       !||    spmd_cell_size_post_rcv        ../engine/source/mpi/interfaces/spmd_cell_size_post_rcv.F
-      !||    spmd_waitany                   ../engine/source/mpi/spmd_mod.F90
+      !||    spmd_waitany                   ../engine/source/mpi/spmd_wait.F90
       !||--- uses       -----------------------------------------------------
       !||    intbufdef_mod                  ../common_source/modules/interfaces/intbufdef_mod.F90
       !||    inter_sorting_mod              ../engine/share/modules/inter_sorting_mod.F

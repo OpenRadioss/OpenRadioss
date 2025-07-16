@@ -28,14 +28,14 @@
       module detach_node_mod
         implicit none
       contains
-        !||====================================================================
-        !||    find_segment_in_list          ../engine/source/engine/node_spliting/detach_node.F90
-        !||--- called by ------------------------------------------------------
-        !||    detach_node_from_interfaces   ../engine/source/engine/node_spliting/detach_node.F90
-        !||--- uses       -----------------------------------------------------
-        !||    connectivity_mod              ../common_source/modules/connectivity.F90
-        !||    constant_mod                  ../common_source/modules/constant_mod.F
-        !||====================================================================
+      !||====================================================================
+      !||    find_segment_in_list          ../engine/source/engine/node_spliting/detach_node.F90
+      !||--- called by ------------------------------------------------------
+      !||    detach_node_from_interfaces   ../engine/source/engine/node_spliting/detach_node.F90
+      !||--- uses       -----------------------------------------------------
+      !||    connectivity_mod              ../common_source/modules/connectivity.F90
+      !||    constant_mod                  ../common_source/modules/constant_mod.F
+      !||====================================================================
         function find_segment_in_list(segment,list,size,elements) result(is_found)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
@@ -473,15 +473,21 @@
         ! it is just a proof of concept to demonstrate how to detach a node from a list of shells
         ! the crack propagation is non phsyical (based on Jonhson-Cook damage)
       !||====================================================================
-      !||    test_jc_shell_detach   ../engine/source/engine/node_spliting/detach_node.F90
+      !||    test_jc_shell_detach         ../engine/source/engine/node_spliting/detach_node.F90
       !||--- calls      -----------------------------------------------------
-      !||    detach_node            ../engine/source/engine/node_spliting/detach_node.F90
+      !||    detach_node                  ../engine/source/engine/node_spliting/detach_node.F90
+      !||    spmd_exchange_ghost_shells   ../engine/source/engine/node_spliting/ghost_shells.F90
+      !||    stlsort_int_int              ../common_source/tools/sort/cppsort.cpp
       !||--- uses       -----------------------------------------------------
-      !||    connectivity_mod       ../common_source/modules/connectivity.F90
-      !||    constant_mod           ../common_source/modules/constant_mod.F
-      !||    elbufdef_mod           ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||    interfaces_mod         ../common_source/modules/interfaces/interfaces_mod.F90
-      !||    nodal_arrays_mod       ../common_source/modules/nodal_arrays.F90
+      !||    connectivity_mod             ../common_source/modules/connectivity.F90
+      !||    constant_mod                 ../common_source/modules/constant_mod.F
+      !||    elbufdef_mod                 ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    extend_array_mod             ../common_source/tools/memory/extend_array.F90
+      !||    ghost_shells_mod             ../engine/source/engine/node_spliting/ghost_shells.F90
+      !||    interfaces_mod               ../common_source/modules/interfaces/interfaces_mod.F90
+      !||    nodal_arrays_mod             ../common_source/modules/nodal_arrays.F90
+      !||    precision_mod                ../common_source/modules/precision_mod.F90
+      !||    spmd_mod                     ../engine/source/mpi/spmd_mod.F90
       !||====================================================================
         subroutine test_jc_shell_detach(nodes, element, interf, npari, ninter, ipari, numnod, &
           numnodg, elbuf, ngroup, ngrouc, nparg, iparg, igrouc, numelc, ispmd, nspmd, &

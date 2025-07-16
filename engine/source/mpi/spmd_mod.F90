@@ -26,7 +26,9 @@
       !||    check_ale_comm                  ../engine/source/ale/check_ale_comm.F
       !||    check_nan_acc                   ../engine/source/output/outfile/check_nan_acc.F
       !||    genh3d                          ../engine/source/output/h3d/h3d_results/genh3d.F
+      !||    init_ghost_shells               ../engine/source/engine/node_spliting/ghost_shells.F90
       !||    init_global_frontier_monvol     ../engine/source/airbag/init_global_monvol_frontier.F90
+      !||    init_global_node_id             ../common_source/modules/nodal_arrays.F90
       !||    inter_init_component            ../engine/source/interfaces/generic/inter_init_component.F90
       !||    inttri                          ../engine/source/interfaces/intsort/inttri.F
       !||    python_element_init             ../engine/source/mpi/python_spmd_mod.F90
@@ -64,6 +66,7 @@
       !||    spmd_exch_sms                   ../engine/source/mpi/ams/spmd_exch_sms.F
       !||    spmd_exch_sms6                  ../engine/source/mpi/ams/spmd_exch_sms6.F
       !||    spmd_exchange_component         ../engine/source/mpi/interfaces/spmd_exch_component.F90
+      !||    spmd_exchange_ghost_shells      ../engine/source/engine/node_spliting/ghost_shells.F90
       !||    spmd_extag                      ../engine/source/mpi/fluid/spmd_cfd.F
       !||    spmd_fi_sms                     ../engine/source/mpi/ams/spmd_fi_sms.F
       !||    spmd_fvb_switch                 ../engine/source/mpi/airbags/spmd_fvb_switch.F
@@ -125,10 +128,18 @@
       !||    spmd_xv_inter_type1             ../engine/source/mpi/nodes/spmd_sd_xv_inter1.F90
       !||    spmd_xvois                      ../engine/source/mpi/fluid/spmd_cfd.F
       !||    telesc                          ../engine/source/constraints/general/cyl_joint/telesc.F
+      !||    test_jc_shell_detach            ../engine/source/engine/node_spliting/detach_node.F90
       !||    thermbilan                      ../engine/source/constraints/thermic/thermbilan.F
       !||--- uses       -----------------------------------------------------
       !||    spmd_allgather_mod              ../engine/source/mpi/generic/spmd_allgather.F90
+      !||    spmd_allgatherv_mod             ../engine/source/mpi/spmd_allgatherv.F90
+      !||    spmd_alltoall_mod               ../engine/source/mpi/generic/spmd_alltoall.F90
       !||    spmd_comm_world_mod             ../engine/source/mpi/spmd_comm_world.F90
+      !||    spmd_irecv_mod                  ../engine/source/mpi/spmd_irecv.F90
+      !||    spmd_isend_mod                  ../engine/source/mpi/spmd_isend.F90
+      !||    spmd_recv_mod                   ../engine/source/mpi/spmd_recv.F90
+      !||    spmd_send_mod                   ../engine/source/mpi/spmd_send.F90
+      !||    spmd_wait_mod                   ../engine/source/mpi/spmd_wait.F90
       !||====================================================================
       module spmd_mod
         use spmd_comm_world_mod, only: SPMD_COMM_WORLD
@@ -207,14 +218,16 @@
 ! ======================================================================================================================
 !                                                   PROCEDURES
 ! ======================================================================================================================
-        !||====================================================================
-        !||    spmd_comm_rank        ../engine/source/mpi/spmd_mod.F90
-        !||--- called by ------------------------------------------------------
-        !||    python_element_init   ../engine/source/mpi/python_spmd_mod.F90
-        !||--- calls      -----------------------------------------------------
-        !||    spmd_in               ../engine/source/mpi/spmd_mod.F90
-        !||    spmd_out              ../engine/source/mpi/spmd_mod.F90
-        !||====================================================================
+      !||====================================================================
+      !||    spmd_comm_rank        ../engine/source/mpi/spmd_mod.F90
+      !||--- called by ------------------------------------------------------
+      !||    python_element_init   ../engine/source/mpi/python_spmd_mod.F90
+      !||--- calls      -----------------------------------------------------
+      !||    spmd_in               ../engine/source/mpi/spmd_error.F90
+      !||    spmd_out              ../engine/source/mpi/spmd_error.F90
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_error_mod        ../engine/source/mpi/spmd_error.F90
+      !||====================================================================
         subroutine spmd_comm_rank(rank, comm)
           use spmd_error_mod, only: spmd_in, spmd_out
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -251,14 +264,16 @@
         end subroutine spmd_comm_rank
 
 !!\brief get MPI size
-        !||====================================================================
-        !||    spmd_comm_size        ../engine/source/mpi/spmd_mod.F90
-        !||--- called by ------------------------------------------------------
-        !||    python_element_init   ../engine/source/mpi/python_spmd_mod.F90
-        !||--- calls      -----------------------------------------------------
-        !||    spmd_in               ../engine/source/mpi/spmd_mod.F90
-        !||    spmd_out              ../engine/source/mpi/spmd_mod.F90
-        !||====================================================================
+      !||====================================================================
+      !||    spmd_comm_size        ../engine/source/mpi/spmd_mod.F90
+      !||--- called by ------------------------------------------------------
+      !||    python_element_init   ../engine/source/mpi/python_spmd_mod.F90
+      !||--- calls      -----------------------------------------------------
+      !||    spmd_in               ../engine/source/mpi/spmd_error.F90
+      !||    spmd_out              ../engine/source/mpi/spmd_error.F90
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_error_mod        ../engine/source/mpi/spmd_error.F90
+      !||====================================================================
         subroutine spmd_comm_size(rank, comm)
           use spmd_error_mod, only: spmd_in, spmd_out
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -296,22 +311,22 @@
 
 
 !! \brief Get the MPI operator for a given SPMD operator
-        !||====================================================================
-        !||    get_mpi_operator         ../engine/source/mpi/spmd_mod.F90
-        !||--- called by ------------------------------------------------------
-        !||    spmd_allreduce_double    ../engine/source/mpi/spmd_mod.F90
-        !||    spmd_allreduce_doubles   ../engine/source/mpi/spmd_mod.F90
-        !||    spmd_allreduce_int       ../engine/source/mpi/generic/spmd_allreduce_db.F
-        !||    spmd_allreduce_ints      ../engine/source/mpi/spmd_mod.F90
-        !||    spmd_allreduce_real      ../engine/source/mpi/spmd_mod.F90
-        !||    spmd_allreduce_reals     ../engine/source/mpi/spmd_mod.F90
-        !||    spmd_reduce_double       ../engine/source/mpi/spmd_mod.F90
-        !||    spmd_reduce_doubles      ../engine/source/mpi/spmd_mod.F90
-        !||    spmd_reduce_int          ../engine/source/mpi/spmd_mod.F90
-        !||    spmd_reduce_ints         ../engine/source/mpi/spmd_mod.F90
-        !||    spmd_reduce_real         ../engine/source/mpi/spmd_mod.F90
-        !||    spmd_reduce_reals        ../engine/source/mpi/spmd_mod.F90
-        !||====================================================================
+      !||====================================================================
+      !||    get_mpi_operator         ../engine/source/mpi/spmd_mod.F90
+      !||--- called by ------------------------------------------------------
+      !||    spmd_allreduce_double    ../engine/source/mpi/spmd_mod.F90
+      !||    spmd_allreduce_doubles   ../engine/source/mpi/spmd_mod.F90
+      !||    spmd_allreduce_int       ../engine/source/mpi/spmd_mod.F90
+      !||    spmd_allreduce_ints      ../engine/source/mpi/spmd_mod.F90
+      !||    spmd_allreduce_real      ../engine/source/mpi/spmd_mod.F90
+      !||    spmd_allreduce_reals     ../engine/source/mpi/spmd_mod.F90
+      !||    spmd_reduce_double       ../engine/source/mpi/spmd_mod.F90
+      !||    spmd_reduce_doubles      ../engine/source/mpi/spmd_mod.F90
+      !||    spmd_reduce_int          ../engine/source/mpi/spmd_mod.F90
+      !||    spmd_reduce_ints         ../engine/source/mpi/spmd_mod.F90
+      !||    spmd_reduce_real         ../engine/source/mpi/spmd_mod.F90
+      !||    spmd_reduce_reals        ../engine/source/mpi/spmd_mod.F90
+      !||====================================================================
         function get_mpi_operator(spmd_op) result(mpi_operator)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
@@ -354,19 +369,21 @@
 !   They are not meant to be called directly, but through the interfaces defined above.
 !   See MPI documentation for the meaning of the arguments.
 ! ======================================================================================================================
-        !||====================================================================
-        !||    spmd_barrier    ../engine/source/mpi/spmd_mod.F90
-        !||--- called by ------------------------------------------------------
-        !||    check_nan_acc   ../engine/source/output/outfile/check_nan_acc.F
-        !||    inttri          ../engine/source/interfaces/intsort/inttri.F
-        !||    resol           ../engine/source/engine/resol.F
-        !||    sphprep         ../engine/source/elements/sph/sphprep.F
-        !||    sphtri0         ../engine/source/elements/sph/sphtri0.F
-        !||    thermbilan      ../engine/source/constraints/thermic/thermbilan.F
-        !||--- calls      -----------------------------------------------------
-        !||    spmd_in         ../engine/source/mpi/spmd_mod.F90
-        !||    spmd_out        ../engine/source/mpi/spmd_mod.F90
-        !||====================================================================
+      !||====================================================================
+      !||    spmd_barrier     ../engine/source/mpi/spmd_mod.F90
+      !||--- called by ------------------------------------------------------
+      !||    check_nan_acc    ../engine/source/output/outfile/check_nan_acc.F
+      !||    inttri           ../engine/source/interfaces/intsort/inttri.F
+      !||    resol            ../engine/source/engine/resol.F
+      !||    sphprep          ../engine/source/elements/sph/sphprep.F
+      !||    sphtri0          ../engine/source/elements/sph/sphtri0.F
+      !||    thermbilan       ../engine/source/constraints/thermic/thermbilan.F
+      !||--- calls      -----------------------------------------------------
+      !||    spmd_in          ../engine/source/mpi/spmd_error.F90
+      !||    spmd_out         ../engine/source/mpi/spmd_error.F90
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_error_mod   ../engine/source/mpi/spmd_error.F90
+      !||====================================================================
         subroutine spmd_barrier(comm)
           use spmd_error_mod, only: spmd_in, spmd_out
           implicit none
@@ -384,6 +401,14 @@
 #endif
         end subroutine spmd_barrier
 ! ======================================================================================================================
+      !||====================================================================
+      !||    spmd_probe       ../engine/source/mpi/spmd_mod.F90
+      !||--- calls      -----------------------------------------------------
+      !||    spmd_in          ../engine/source/mpi/spmd_error.F90
+      !||    spmd_out         ../engine/source/mpi/spmd_error.F90
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_error_mod   ../engine/source/mpi/spmd_error.F90
+      !||====================================================================
         subroutine spmd_probe(source, tag, comm, status)
           use spmd_error_mod, only: spmd_in, spmd_out
           implicit none
@@ -403,13 +428,15 @@
 #endif
         end subroutine spmd_probe
 ! ======================================================================================================================
-        !||====================================================================
-        !||    spmd_reduce_reals   ../engine/source/mpi/spmd_mod.F90
-        !||--- calls      -----------------------------------------------------
-        !||    get_mpi_operator    ../engine/source/mpi/spmd_mod.F90
-        !||    spmd_in             ../engine/source/mpi/spmd_mod.F90
-        !||    spmd_out            ../engine/source/mpi/spmd_mod.F90
-        !||====================================================================
+      !||====================================================================
+      !||    spmd_reduce_reals   ../engine/source/mpi/spmd_mod.F90
+      !||--- calls      -----------------------------------------------------
+      !||    get_mpi_operator    ../engine/source/mpi/spmd_mod.F90
+      !||    spmd_in             ../engine/source/mpi/spmd_error.F90
+      !||    spmd_out            ../engine/source/mpi/spmd_error.F90
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_error_mod      ../engine/source/mpi/spmd_error.F90
+      !||====================================================================
         subroutine spmd_reduce_reals(sendbuf, recvbuf, buf_count, operation, root, comm)
           use spmd_error_mod, only: spmd_in, spmd_out
           implicit none
@@ -435,13 +462,15 @@
 #endif
         end subroutine spmd_reduce_reals
 ! ======================================================================================================================
-        !||====================================================================
-        !||    spmd_reduce_ints   ../engine/source/mpi/spmd_mod.F90
-        !||--- calls      -----------------------------------------------------
-        !||    get_mpi_operator   ../engine/source/mpi/spmd_mod.F90
-        !||    spmd_in            ../engine/source/mpi/spmd_mod.F90
-        !||    spmd_out           ../engine/source/mpi/spmd_mod.F90
-        !||====================================================================
+      !||====================================================================
+      !||    spmd_reduce_ints   ../engine/source/mpi/spmd_mod.F90
+      !||--- calls      -----------------------------------------------------
+      !||    get_mpi_operator   ../engine/source/mpi/spmd_mod.F90
+      !||    spmd_in            ../engine/source/mpi/spmd_error.F90
+      !||    spmd_out           ../engine/source/mpi/spmd_error.F90
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_error_mod     ../engine/source/mpi/spmd_error.F90
+      !||====================================================================
         subroutine spmd_reduce_ints(sendbuf, recvbuf, buf_count, operation, root, comm)
           use spmd_error_mod, only: spmd_in, spmd_out
           implicit none
@@ -469,13 +498,15 @@
 #endif
         end subroutine spmd_reduce_ints
 ! ======================================================================================================================
-        !||====================================================================
-        !||    spmd_reduce_doubles   ../engine/source/mpi/spmd_mod.F90
-        !||--- calls      -----------------------------------------------------
-        !||    get_mpi_operator      ../engine/source/mpi/spmd_mod.F90
-        !||    spmd_in               ../engine/source/mpi/spmd_mod.F90
-        !||    spmd_out              ../engine/source/mpi/spmd_mod.F90
-        !||====================================================================
+      !||====================================================================
+      !||    spmd_reduce_doubles   ../engine/source/mpi/spmd_mod.F90
+      !||--- calls      -----------------------------------------------------
+      !||    get_mpi_operator      ../engine/source/mpi/spmd_mod.F90
+      !||    spmd_in               ../engine/source/mpi/spmd_error.F90
+      !||    spmd_out              ../engine/source/mpi/spmd_error.F90
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_error_mod        ../engine/source/mpi/spmd_error.F90
+      !||====================================================================
         subroutine spmd_reduce_doubles(sendbuf, recvbuf, buf_count, operation, root, comm)
           use spmd_error_mod, only: spmd_in, spmd_out
           implicit none
@@ -503,13 +534,15 @@
 #endif
         end subroutine spmd_reduce_doubles
 ! ======================================================================================================================
-        !||====================================================================
-        !||    spmd_allreduce_ints   ../engine/source/mpi/spmd_mod.F90
-        !||--- calls      -----------------------------------------------------
-        !||    get_mpi_operator      ../engine/source/mpi/spmd_mod.F90
-        !||    spmd_in               ../engine/source/mpi/spmd_mod.F90
-        !||    spmd_out              ../engine/source/mpi/spmd_mod.F90
-        !||====================================================================
+      !||====================================================================
+      !||    spmd_allreduce_ints   ../engine/source/mpi/spmd_mod.F90
+      !||--- calls      -----------------------------------------------------
+      !||    get_mpi_operator      ../engine/source/mpi/spmd_mod.F90
+      !||    spmd_in               ../engine/source/mpi/spmd_error.F90
+      !||    spmd_out              ../engine/source/mpi/spmd_error.F90
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_error_mod        ../engine/source/mpi/spmd_error.F90
+      !||====================================================================
         subroutine spmd_allreduce_ints(sendbuf, recvbuf, buf_count, operation, comm)
           use spmd_error_mod, only: spmd_in, spmd_out
           implicit none
@@ -537,13 +570,15 @@
 #endif
         end subroutine spmd_allreduce_ints
 ! ======================================================================================================================
-        !||====================================================================
-        !||    spmd_allreduce_doubles   ../engine/source/mpi/spmd_mod.F90
-        !||--- calls      -----------------------------------------------------
-        !||    get_mpi_operator         ../engine/source/mpi/spmd_mod.F90
-        !||    spmd_in                  ../engine/source/mpi/spmd_mod.F90
-        !||    spmd_out                 ../engine/source/mpi/spmd_mod.F90
-        !||====================================================================
+      !||====================================================================
+      !||    spmd_allreduce_doubles   ../engine/source/mpi/spmd_mod.F90
+      !||--- calls      -----------------------------------------------------
+      !||    get_mpi_operator         ../engine/source/mpi/spmd_mod.F90
+      !||    spmd_in                  ../engine/source/mpi/spmd_error.F90
+      !||    spmd_out                 ../engine/source/mpi/spmd_error.F90
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_error_mod           ../engine/source/mpi/spmd_error.F90
+      !||====================================================================
         subroutine spmd_allreduce_doubles(sendbuf, recvbuf, buf_count, operation, comm)
           use spmd_error_mod, only: spmd_in, spmd_out
           implicit none
@@ -571,13 +606,15 @@
 #endif
         end subroutine spmd_allreduce_doubles
 ! ======================================================================================================================
-        !||====================================================================
-        !||    spmd_allreduce_reals   ../engine/source/mpi/spmd_mod.F90
-        !||--- calls      -----------------------------------------------------
-        !||    get_mpi_operator       ../engine/source/mpi/spmd_mod.F90
-        !||    spmd_in                ../engine/source/mpi/spmd_mod.F90
-        !||    spmd_out               ../engine/source/mpi/spmd_mod.F90
-        !||====================================================================
+      !||====================================================================
+      !||    spmd_allreduce_reals   ../engine/source/mpi/spmd_mod.F90
+      !||--- calls      -----------------------------------------------------
+      !||    get_mpi_operator       ../engine/source/mpi/spmd_mod.F90
+      !||    spmd_in                ../engine/source/mpi/spmd_error.F90
+      !||    spmd_out               ../engine/source/mpi/spmd_error.F90
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_error_mod         ../engine/source/mpi/spmd_error.F90
+      !||====================================================================
         subroutine spmd_allreduce_reals(sendbuf, recvbuf, buf_count, operation, comm)
           use spmd_error_mod, only: spmd_in, spmd_out
           implicit none
@@ -605,13 +642,15 @@
 #endif
         end subroutine spmd_allreduce_reals
 ! ======================================================================================================================
-        !||====================================================================
-        !||    spmd_reduce_real   ../engine/source/mpi/spmd_mod.F90
-        !||--- calls      -----------------------------------------------------
-        !||    get_mpi_operator   ../engine/source/mpi/spmd_mod.F90
-        !||    spmd_in            ../engine/source/mpi/spmd_mod.F90
-        !||    spmd_out           ../engine/source/mpi/spmd_mod.F90
-        !||====================================================================
+      !||====================================================================
+      !||    spmd_reduce_real   ../engine/source/mpi/spmd_mod.F90
+      !||--- calls      -----------------------------------------------------
+      !||    get_mpi_operator   ../engine/source/mpi/spmd_mod.F90
+      !||    spmd_in            ../engine/source/mpi/spmd_error.F90
+      !||    spmd_out           ../engine/source/mpi/spmd_error.F90
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_error_mod     ../engine/source/mpi/spmd_error.F90
+      !||====================================================================
         subroutine spmd_reduce_real(sendbuf, recvbuf, buf_count, operation, root, comm)
           use spmd_error_mod, only: spmd_in, spmd_out
           implicit none
@@ -638,13 +677,15 @@
 #endif
         end subroutine spmd_reduce_real
 ! ======================================================================================================================
-        !||====================================================================
-        !||    spmd_reduce_int    ../engine/source/mpi/spmd_mod.F90
-        !||--- calls      -----------------------------------------------------
-        !||    get_mpi_operator   ../engine/source/mpi/spmd_mod.F90
-        !||    spmd_in            ../engine/source/mpi/spmd_mod.F90
-        !||    spmd_out           ../engine/source/mpi/spmd_mod.F90
-        !||====================================================================
+      !||====================================================================
+      !||    spmd_reduce_int    ../engine/source/mpi/spmd_mod.F90
+      !||--- calls      -----------------------------------------------------
+      !||    get_mpi_operator   ../engine/source/mpi/spmd_mod.F90
+      !||    spmd_in            ../engine/source/mpi/spmd_error.F90
+      !||    spmd_out           ../engine/source/mpi/spmd_error.F90
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_error_mod     ../engine/source/mpi/spmd_error.F90
+      !||====================================================================
         subroutine spmd_reduce_int(sendbuf, recvbuf, buf_count, operation, root, comm)
           use spmd_error_mod, only: spmd_in, spmd_out
           implicit none
@@ -672,13 +713,15 @@
 #endif
         end subroutine spmd_reduce_int
 ! ======================================================================================================================
-        !||====================================================================
-        !||    spmd_reduce_double   ../engine/source/mpi/spmd_mod.F90
-        !||--- calls      -----------------------------------------------------
-        !||    get_mpi_operator     ../engine/source/mpi/spmd_mod.F90
-        !||    spmd_in              ../engine/source/mpi/spmd_mod.F90
-        !||    spmd_out             ../engine/source/mpi/spmd_mod.F90
-        !||====================================================================
+      !||====================================================================
+      !||    spmd_reduce_double   ../engine/source/mpi/spmd_mod.F90
+      !||--- calls      -----------------------------------------------------
+      !||    get_mpi_operator     ../engine/source/mpi/spmd_mod.F90
+      !||    spmd_in              ../engine/source/mpi/spmd_error.F90
+      !||    spmd_out             ../engine/source/mpi/spmd_error.F90
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_error_mod       ../engine/source/mpi/spmd_error.F90
+      !||====================================================================
         subroutine spmd_reduce_double(sendbuf, recvbuf, buf_count, operation, root, comm)
           use spmd_error_mod, only: spmd_in, spmd_out
           implicit none
@@ -706,13 +749,15 @@
 #endif
         end subroutine spmd_reduce_double
 ! ======================================================================================================================
-        !||====================================================================
-        !||    spmd_allreduce_int   ../engine/source/mpi/generic/spmd_allreduce_db.F
-        !||--- called by ------------------------------------------------------
-        !||    radioss2             ../engine/source/engine/radioss2.F
-        !||--- calls      -----------------------------------------------------
-        !||    get_mpi_operator     ../engine/source/mpi/spmd_mod.F90
-        !||====================================================================
+      !||====================================================================
+      !||    spmd_allreduce_int   ../engine/source/mpi/spmd_mod.F90
+      !||--- calls      -----------------------------------------------------
+      !||    get_mpi_operator     ../engine/source/mpi/spmd_mod.F90
+      !||    spmd_in              ../engine/source/mpi/spmd_error.F90
+      !||    spmd_out             ../engine/source/mpi/spmd_error.F90
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_error_mod       ../engine/source/mpi/spmd_error.F90
+      !||====================================================================
         subroutine spmd_allreduce_int(sendbuf, recvbuf, buf_count, operation, comm)
           use spmd_error_mod, only: spmd_in, spmd_out
           implicit none
@@ -740,13 +785,15 @@
 #endif
         end subroutine spmd_allreduce_int
 ! ======================================================================================================================
-        !||====================================================================
-        !||    spmd_allreduce_double   ../engine/source/mpi/spmd_mod.F90
-        !||--- calls      -----------------------------------------------------
-        !||    get_mpi_operator        ../engine/source/mpi/spmd_mod.F90
-        !||    spmd_in                 ../engine/source/mpi/spmd_mod.F90
-        !||    spmd_out                ../engine/source/mpi/spmd_mod.F90
-        !||====================================================================
+      !||====================================================================
+      !||    spmd_allreduce_double   ../engine/source/mpi/spmd_mod.F90
+      !||--- calls      -----------------------------------------------------
+      !||    get_mpi_operator        ../engine/source/mpi/spmd_mod.F90
+      !||    spmd_in                 ../engine/source/mpi/spmd_error.F90
+      !||    spmd_out                ../engine/source/mpi/spmd_error.F90
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_error_mod          ../engine/source/mpi/spmd_error.F90
+      !||====================================================================
         subroutine spmd_allreduce_double(sendbuf, recvbuf, buf_count, operation, comm)
           use spmd_error_mod, only: spmd_in, spmd_out
           implicit none
@@ -774,13 +821,15 @@
 #endif
         end subroutine spmd_allreduce_double
 ! ======================================================================================================================
-        !||====================================================================
-        !||    spmd_allreduce_real   ../engine/source/mpi/spmd_mod.F90
-        !||--- calls      -----------------------------------------------------
-        !||    get_mpi_operator      ../engine/source/mpi/spmd_mod.F90
-        !||    spmd_in               ../engine/source/mpi/spmd_mod.F90
-        !||    spmd_out              ../engine/source/mpi/spmd_mod.F90
-        !||====================================================================
+      !||====================================================================
+      !||    spmd_allreduce_real   ../engine/source/mpi/spmd_mod.F90
+      !||--- calls      -----------------------------------------------------
+      !||    get_mpi_operator      ../engine/source/mpi/spmd_mod.F90
+      !||    spmd_in               ../engine/source/mpi/spmd_error.F90
+      !||    spmd_out              ../engine/source/mpi/spmd_error.F90
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_error_mod        ../engine/source/mpi/spmd_error.F90
+      !||====================================================================
         subroutine spmd_allreduce_real(sendbuf, recvbuf, buf_count, operation, comm)
           use spmd_error_mod, only: spmd_in, spmd_out
           implicit none

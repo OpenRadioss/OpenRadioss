@@ -95,7 +95,7 @@ c
       !||    updmat                   ../starter/source/materials/updmat.F
       !||--- calls      -----------------------------------------------------
       !||    hm_option_is_encrypted   ../starter/source/devtools/hm_reader/hm_option_is_encrypted.F
-      !||    law92_nlsqf              ../starter/source/materials/mat/mat092/law92_nlsqf.F
+      !||    law92_nlsqf              ../starter/source/materials/mat/mat092/law92_nlsqf.F90
       !||--- uses       -----------------------------------------------------
       !||    message_mod              ../starter/share/message_module/message_mod.F
       !||    table_mod                ../starter/share/modules1/table_mod.F

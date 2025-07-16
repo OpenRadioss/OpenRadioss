@@ -904,7 +904,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    law87_upd                           ../starter/source/materials/mat/mat087/law87_upd.F90
       !||    law88_upd                           ../starter/source/materials/mat/mat088/law88_upd.F
       !||    law90_upd                           ../starter/source/materials/mat/mat090/law90_upd.F
-      !||    law92_nlsqf                         ../starter/source/materials/mat/mat092/law92_nlsqf.F
+      !||    law92_nlsqf                         ../starter/source/materials/mat/mat092/law92_nlsqf.F90
       !||    law92_upd                           ../starter/source/materials/mat/mat092/law92_upd.F
       !||    lcgeo19                             ../starter/source/elements/shell/coque/lcgeo19.F
       !||    lec_dof_jnt                         ../starter/source/properties/spring/hm_read_prop45.F

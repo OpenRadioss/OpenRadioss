@@ -298,7 +298,7 @@ C
       !||    inversion      ../starter/source/materials/tools/nlsqf.F
       !||--- called by ------------------------------------------------------
       !||    mrqmin         ../starter/source/materials/tools/nlsqf.F
-      !||    mrqmin_law92   ../starter/source/materials/mat/mat092/law92_nlsqf.F
+      !||    mrqmin_law92   ../starter/source/materials/mat/mat092/law92_nlsqf.F90
       !||====================================================================
       SUBROUTINE INVERSION(A,N,NP,B,M,MP,IRET)  
 C-----------------------------------------------

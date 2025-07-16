@@ -20,6 +20,11 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+      !||====================================================================
+      !||    spmd_alltoall_mod   ../engine/source/mpi/generic/spmd_alltoall.F90
+      !||--- called by ------------------------------------------------------
+      !||    spmd_mod            ../engine/source/mpi/spmd_mod.F90
+      !||====================================================================
       module spmd_alltoall_mod
         implicit none
 
@@ -35,12 +40,15 @@
 
       contains
 ! ======================================================================================================================
-        !||====================================================================
-        !||    spmd_alltoall_reals   ../engine/source/mpi/spmd_mod.F90
-        !||--- calls      -----------------------------------------------------
-        !||    spmd_in                ../engine/source/mpi/spmd_mod.F90
-        !||    spmd_out               ../engine/source/mpi/spmd_mod.F90
-        !||====================================================================
+      !||====================================================================
+      !||    spmd_alltoall_reals   ../engine/source/mpi/generic/spmd_alltoall.F90
+      !||--- calls      -----------------------------------------------------
+      !||    spmd_in               ../engine/source/mpi/spmd_error.F90
+      !||    spmd_out              ../engine/source/mpi/spmd_error.F90
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
+      !||    spmd_error_mod        ../engine/source/mpi/spmd_error.F90
+      !||====================================================================
         subroutine spmd_alltoall_reals(sendbuf, sendcount, recvbuf, recvcount, comm)
           use spmd_comm_world_mod, only: SPMD_COMM_WORLD
           use spmd_error_mod, only: spmd_in, spmd_out
@@ -65,12 +73,15 @@
 #endif
         end subroutine spmd_alltoall_reals
 ! ======================================================================================================================
-        !||====================================================================
-        !||    spmd_alltoall_ints   ../engine/source/mpi/spmd_mod.F90
-        !||--- calls      -----------------------------------------------------
-        !||    spmd_in               ../engine/source/mpi/spmd_mod.F90
-        !||    spmd_out              ../engine/source/mpi/spmd_mod.F90
-        !||====================================================================
+      !||====================================================================
+      !||    spmd_alltoall_ints    ../engine/source/mpi/generic/spmd_alltoall.F90
+      !||--- calls      -----------------------------------------------------
+      !||    spmd_in               ../engine/source/mpi/spmd_error.F90
+      !||    spmd_out              ../engine/source/mpi/spmd_error.F90
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
+      !||    spmd_error_mod        ../engine/source/mpi/spmd_error.F90
+      !||====================================================================
         subroutine spmd_alltoall_ints(sendbuf, sendcount, recvbuf, recvcount, comm)
           use spmd_error_mod, only: spmd_in, spmd_out
           use spmd_comm_world_mod, only: SPMD_COMM_WORLD
@@ -95,12 +106,15 @@
 #endif
         end subroutine spmd_alltoall_ints
 ! ======================================================================================================================
-        !||====================================================================
-        !||    spmd_alltoall_doubles   ../engine/source/mpi/spmd_mod.F90
-        !||--- calls      -----------------------------------------------------
-        !||    spmd_in                  ../engine/source/mpi/spmd_mod.F90
-        !||    spmd_out                 ../engine/source/mpi/spmd_mod.F90
-        !||====================================================================
+      !||====================================================================
+      !||    spmd_alltoall_doubles   ../engine/source/mpi/generic/spmd_alltoall.F90
+      !||--- calls      -----------------------------------------------------
+      !||    spmd_in                 ../engine/source/mpi/spmd_error.F90
+      !||    spmd_out                ../engine/source/mpi/spmd_error.F90
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_comm_world_mod     ../engine/source/mpi/spmd_comm_world.F90
+      !||    spmd_error_mod          ../engine/source/mpi/spmd_error.F90
+      !||====================================================================
         subroutine spmd_alltoall_doubles(sendbuf, sendcount, recvbuf, recvcount, comm)
           use spmd_error_mod, only: spmd_in, spmd_out
           use spmd_comm_world_mod, only: SPMD_COMM_WORLD
@@ -126,12 +140,15 @@
           recvbuf(1:sendcount) = sendbuf(1:sendcount)
 #endif
         end subroutine spmd_alltoall_doubles
-        !||====================================================================
-        !||    spmd_alltoall_double   ../engine/source/mpi/spmd_mod.F90
-        !||--- calls      -----------------------------------------------------
-        !||    spmd_in                 ../engine/source/mpi/spmd_mod.F90
-        !||    spmd_out                ../engine/source/mpi/spmd_mod.F90
-        !||====================================================================
+      !||====================================================================
+      !||    spmd_alltoall_double   ../engine/source/mpi/generic/spmd_alltoall.F90
+      !||--- calls      -----------------------------------------------------
+      !||    spmd_in                ../engine/source/mpi/spmd_error.F90
+      !||    spmd_out               ../engine/source/mpi/spmd_error.F90
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_comm_world_mod    ../engine/source/mpi/spmd_comm_world.F90
+      !||    spmd_error_mod         ../engine/source/mpi/spmd_error.F90
+      !||====================================================================
         subroutine spmd_alltoall_double(sendbuf, sendcount, recvbuf, recvcount, comm)
           use spmd_error_mod, only: spmd_in, spmd_out
           use spmd_comm_world_mod, only: SPMD_COMM_WORLD
@@ -155,12 +172,15 @@
           call spmd_out(tag,ierr)
 #endif
         end subroutine spmd_alltoall_double
-        !||====================================================================
-        !||    spmd_alltoall_int   ../engine/source/mpi/spmd_mod.F90
-        !||--- calls      -----------------------------------------------------
-        !||    spmd_in             ../engine/source/mpi/spmd_mod.F90
-        !||    spmd_out            ../engine/source/mpi/spmd_mod.F90
-        !||====================================================================
+      !||====================================================================
+      !||    spmd_alltoall_int     ../engine/source/mpi/generic/spmd_alltoall.F90
+      !||--- calls      -----------------------------------------------------
+      !||    spmd_in               ../engine/source/mpi/spmd_error.F90
+      !||    spmd_out              ../engine/source/mpi/spmd_error.F90
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
+      !||    spmd_error_mod        ../engine/source/mpi/spmd_error.F90
+      !||====================================================================
         subroutine spmd_alltoall_int(sendbuf, sendcount, recvbuf, recvcount, comm)
           use spmd_error_mod, only: spmd_in, spmd_out
           use spmd_comm_world_mod, only: SPMD_COMM_WORLD
@@ -183,12 +203,15 @@
           call spmd_out(tag,ierr)
 #endif
         end subroutine spmd_alltoall_int
-        !||====================================================================
-        !||    spmd_alltoall_real   ../engine/source/mpi/spmd_mod.F90
-        !||--- calls      -----------------------------------------------------
-        !||    spmd_in              ../engine/source/mpi/spmd_mod.F90
-        !||    spmd_out             ../engine/source/mpi/spmd_mod.F90
-        !||====================================================================
+      !||====================================================================
+      !||    spmd_alltoall_real    ../engine/source/mpi/generic/spmd_alltoall.F90
+      !||--- calls      -----------------------------------------------------
+      !||    spmd_in               ../engine/source/mpi/spmd_error.F90
+      !||    spmd_out              ../engine/source/mpi/spmd_error.F90
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
+      !||    spmd_error_mod        ../engine/source/mpi/spmd_error.F90
+      !||====================================================================
         subroutine spmd_alltoall_real(sendbuf, sendcount, recvbuf, recvcount, comm)
           use spmd_comm_world_mod, only: SPMD_COMM_WORLD
           use spmd_error_mod, only: spmd_in, spmd_out

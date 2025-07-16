@@ -20,6 +20,11 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+      !||====================================================================
+      !||    spmd_isend_mod   ../engine/source/mpi/spmd_isend.F90
+      !||--- called by ------------------------------------------------------
+      !||    spmd_mod         ../engine/source/mpi/spmd_mod.F90
+      !||====================================================================
       module spmd_isend_mod
         implicit none
 
@@ -34,12 +39,15 @@
         end interface spmd_isend
 
       contains
-        !||====================================================================
-        !||    spmd_isend_reals   ../engine/source/mpi/spmd_mod.F90
-        !||--- calls      -----------------------------------------------------
-        !||    spmd_in            ../engine/source/mpi/spmd_mod.F90
-        !||    spmd_out           ../engine/source/mpi/spmd_mod.F90
-        !||====================================================================
+      !||====================================================================
+      !||    spmd_isend_reals      ../engine/source/mpi/spmd_isend.F90
+      !||--- calls      -----------------------------------------------------
+      !||    spmd_in               ../engine/source/mpi/spmd_error.F90
+      !||    spmd_out              ../engine/source/mpi/spmd_error.F90
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
+      !||    spmd_error_mod        ../engine/source/mpi/spmd_error.F90
+      !||====================================================================
         subroutine spmd_isend_reals(buf, buf_count, dest, tag, request, comm)
           use spmd_error_mod, only: spmd_in, spmd_out
           use spmd_comm_world_mod, only: SPMD_COMM_WORLD
@@ -61,12 +69,15 @@
 #endif
         end subroutine spmd_isend_reals
 ! ======================================================================================================================
-        !||====================================================================
-        !||    spmd_isend_ints   ../engine/source/mpi/spmd_mod.F90
-        !||--- calls      -----------------------------------------------------
-        !||    spmd_in           ../engine/source/mpi/spmd_mod.F90
-        !||    spmd_out          ../engine/source/mpi/spmd_mod.F90
-        !||====================================================================
+      !||====================================================================
+      !||    spmd_isend_ints       ../engine/source/mpi/spmd_isend.F90
+      !||--- calls      -----------------------------------------------------
+      !||    spmd_in               ../engine/source/mpi/spmd_error.F90
+      !||    spmd_out              ../engine/source/mpi/spmd_error.F90
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
+      !||    spmd_error_mod        ../engine/source/mpi/spmd_error.F90
+      !||====================================================================
         subroutine spmd_isend_ints(buf, buf_count, dest, tag, request, comm)
           use spmd_error_mod, only: spmd_in, spmd_out
           use spmd_comm_world_mod, only: SPMD_COMM_WORLD
@@ -88,12 +99,15 @@
 #endif
         end subroutine spmd_isend_ints
 ! ======================================================================================================================
-        !||====================================================================
-        !||    spmd_isend_doubles   ../engine/source/mpi/spmd_mod.F90
-        !||--- calls      -----------------------------------------------------
-        !||    spmd_in              ../engine/source/mpi/spmd_mod.F90
-        !||    spmd_out             ../engine/source/mpi/spmd_mod.F90
-        !||====================================================================
+      !||====================================================================
+      !||    spmd_isend_doubles    ../engine/source/mpi/spmd_isend.F90
+      !||--- calls      -----------------------------------------------------
+      !||    spmd_in               ../engine/source/mpi/spmd_error.F90
+      !||    spmd_out              ../engine/source/mpi/spmd_error.F90
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
+      !||    spmd_error_mod        ../engine/source/mpi/spmd_error.F90
+      !||====================================================================
         subroutine spmd_isend_doubles(buf, buf_count, dest, tag, request, comm)
           use spmd_error_mod, only: spmd_in, spmd_out
           use spmd_comm_world_mod, only: SPMD_COMM_WORLD
@@ -115,6 +129,15 @@
 #endif
         end subroutine
 
+      !||====================================================================
+      !||    spmd_isend_double     ../engine/source/mpi/spmd_isend.F90
+      !||--- calls      -----------------------------------------------------
+      !||    spmd_in               ../engine/source/mpi/spmd_error.F90
+      !||    spmd_out              ../engine/source/mpi/spmd_error.F90
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
+      !||    spmd_error_mod        ../engine/source/mpi/spmd_error.F90
+      !||====================================================================
         subroutine spmd_isend_double(buf, buf_count, dest, tag, request, comm)
           use spmd_error_mod, only: spmd_in, spmd_out
           use spmd_comm_world_mod, only: SPMD_COMM_WORLD
@@ -136,6 +159,15 @@
 #endif
         end subroutine
 
+      !||====================================================================
+      !||    spmd_isend_int        ../engine/source/mpi/spmd_isend.F90
+      !||--- calls      -----------------------------------------------------
+      !||    spmd_in               ../engine/source/mpi/spmd_error.F90
+      !||    spmd_out              ../engine/source/mpi/spmd_error.F90
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
+      !||    spmd_error_mod        ../engine/source/mpi/spmd_error.F90
+      !||====================================================================
         subroutine spmd_isend_int(buf, buf_count, dest, tag, request, comm)
           use spmd_error_mod, only: spmd_in, spmd_out
           use spmd_comm_world_mod, only: SPMD_COMM_WORLD
@@ -157,6 +189,15 @@
 #endif
         end subroutine
 
+      !||====================================================================
+      !||    spmd_isend_real       ../engine/source/mpi/spmd_isend.F90
+      !||--- calls      -----------------------------------------------------
+      !||    spmd_in               ../engine/source/mpi/spmd_error.F90
+      !||    spmd_out              ../engine/source/mpi/spmd_error.F90
+      !||--- uses       -----------------------------------------------------
+      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
+      !||    spmd_error_mod        ../engine/source/mpi/spmd_error.F90
+      !||====================================================================
         subroutine spmd_isend_real(buf, buf_count, dest, tag, request, comm)
           use spmd_error_mod, only: spmd_in, spmd_out
           use spmd_comm_world_mod, only: SPMD_COMM_WORLD

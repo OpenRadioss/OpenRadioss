@@ -21,6 +21,14 @@
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 
+      !||====================================================================
+      !||    ghost_shells_mod       ../engine/source/engine/node_spliting/ghost_shells.F90
+      !||--- called by ------------------------------------------------------
+      !||    resol                  ../engine/source/engine/resol.F
+      !||    test_jc_shell_detach   ../engine/source/engine/node_spliting/detach_node.F90
+      !||--- uses       -----------------------------------------------------
+      !||    precision_mod          ../common_source/modules/precision_mod.F90
+      !||====================================================================
       module ghost_shells_mod
         use precision_mod, only: wp
         implicit none
@@ -92,6 +100,18 @@
 
       contains
         ! \brief initializes the ghost shells
+      !||====================================================================
+      !||    init_ghost_shells   ../engine/source/engine/node_spliting/ghost_shells.F90
+      !||--- called by ------------------------------------------------------
+      !||    resol               ../engine/source/engine/resol.F
+      !||--- calls      -----------------------------------------------------
+      !||    spmd_wait           ../engine/source/mpi/spmd_wait.F90
+      !||--- uses       -----------------------------------------------------
+      !||    connectivity_mod    ../common_source/modules/connectivity.F90
+      !||    nodal_arrays_mod    ../common_source/modules/nodal_arrays.F90
+      !||    spmd_mod            ../engine/source/mpi/spmd_mod.F90
+      !||    umap_mod            ../common_source/tools/container/umap_mod.F90
+      !||====================================================================
         subroutine init_ghost_shells(nodes, element,ispmd,nspmd,iad_node,sfr_node,fr_node)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
@@ -309,6 +329,19 @@
         end subroutine init_ghost_shells
 
 
+      !||====================================================================
+      !||    spmd_exchange_ghost_shells   ../engine/source/engine/node_spliting/ghost_shells.F90
+      !||--- called by ------------------------------------------------------
+      !||    test_jc_shell_detach         ../engine/source/engine/node_spliting/detach_node.F90
+      !||--- calls      -----------------------------------------------------
+      !||    spmd_wait                    ../engine/source/mpi/spmd_wait.F90
+      !||--- uses       -----------------------------------------------------
+      !||    connectivity_mod             ../common_source/modules/connectivity.F90
+      !||    nodal_arrays_mod             ../common_source/modules/nodal_arrays.F90
+      !||    precision_mod                ../common_source/modules/precision_mod.F90
+      !||    spmd_mod                     ../engine/source/mpi/spmd_mod.F90
+      !||    umap_mod                     ../common_source/tools/container/umap_mod.F90
+      !||====================================================================
         subroutine spmd_exchange_ghost_shells(element,ispmd,nspmd,chunkSize,sendbuf,recvbuf)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules

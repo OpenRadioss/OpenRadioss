@@ -37,7 +37,7 @@
       !||--- called by ------------------------------------------------------
       !||    inter_prepare_sort        ../engine/source/interfaces/generic/inter_prepare_sort.F
       !||--- calls      -----------------------------------------------------
-      !||    spmd_waitany              ../engine/source/mpi/spmd_mod.F90
+      !||    spmd_waitany              ../engine/source/mpi/spmd_wait.F90
       !||--- uses       -----------------------------------------------------
       !||    constant_mod              ../common_source/modules/constant_mod.F
       !||    inter_sorting_mod         ../engine/share/modules/inter_sorting_mod.F

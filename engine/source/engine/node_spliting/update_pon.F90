@@ -30,16 +30,17 @@
         implicit none
       contains
         !\brief replace old_ids with new_ids in the shell data structure
-        !||====================================================================
-        !||    update_pon_shells         ../engine/source/engine/node_spliting/update_pon.F90
-        !||--- called by ------------------------------------------------------
-        !||    detach_node_from_shells   ../engine/source/engine/node_spliting/detach_node.F90
-        !||--- calls      -----------------------------------------------------
-        !||--- uses       -----------------------------------------------------
-        !||    connectivity_mod          ../common_source/modules/connectivity.F90
-        !||    my_alloc_mod              ../common_source/tools/memory/my_alloc.F90
-        !||    parith_on_mod             ../common_source/modules/parith_on_mod.F90
-        !||====================================================================
+      !||====================================================================
+      !||    update_pon_shells         ../engine/source/engine/node_spliting/update_pon.F90
+      !||--- called by ------------------------------------------------------
+      !||    detach_node_from_shells   ../engine/source/engine/node_spliting/detach_node.F90
+      !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    connectivity_mod          ../common_source/modules/connectivity.F90
+      !||    extend_array_mod          ../common_source/tools/memory/extend_array.F90
+      !||    my_alloc_mod              ../common_source/tools/memory/my_alloc.F90
+      !||    parith_on_mod             ../common_source/modules/parith_on_mod.F90
+      !||====================================================================
         subroutine update_pon_shells(elements, n, shell_list, new_numnod)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules

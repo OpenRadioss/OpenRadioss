@@ -27,9 +27,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- calls      -----------------------------------------------------
       !||    ancmsg          ../engine/source/output/message/message.F
       !||    arret           ../engine/source/system/arret.F
-      !||    spmd_wait       ../engine/source/mpi/spmd_mod.F90
-      !||    spmd_waitall    ../engine/source/mpi/spmd_mod.F90
-      !||    spmd_waitany    ../engine/source/mpi/spmd_mod.F90
+      !||    spmd_wait       ../engine/source/mpi/spmd_wait.F90
+      !||    spmd_waitall    ../engine/source/mpi/spmd_wait.F90
+      !||    spmd_waitany    ../engine/source/mpi/spmd_wait.F90
       !||--- uses       -----------------------------------------------------
       !||    message_mod     ../engine/share/message_module/message_mod.F
       !||    spmd_mod        ../engine/source/mpi/spmd_mod.F90

@@ -21,12 +21,12 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    i25remline    ../starter/source/interfaces/int25/i25remlin.F
+      !||    i25remline         ../starter/source/interfaces/int25/i25remlin.F
       !||--- called by ------------------------------------------------------
-      !||    inint3        ../starter/source/interfaces/inter3d1/inint3.F
+      !||    inint3             ../starter/source/interfaces/inter3d1/inint3.F
       !||--- calls      -----------------------------------------------------
-      !||    i11pene_lin   ../starter/source/interfaces/inter3d1/i11remlin.F
-      !||    origin        ../starter/source/model/remesh/build_admesh.F
+      !||    i11pene_lin        ../starter/source/interfaces/inter3d1/i11remlin.F
+      !||    origin             ../starter/source/model/remesh/build_admesh.F
       !||====================================================================
       SUBROUTINE I25REMLINE(
      1         X    ,NEDGE ,LEDGE ,NUMNOD ,GAP_E    ,GAP_E_L,

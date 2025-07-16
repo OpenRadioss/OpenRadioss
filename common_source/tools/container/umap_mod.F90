@@ -21,12 +21,14 @@
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    umap_mod               ../common_source/tools/container/umap_mod.F90
+      !||    umap_mod                     ../common_source/tools/container/umap_mod.F90
       !||--- called by ------------------------------------------------------
-      !||    get_local_node_id      ../common_source/modules/nodal_arrays.F90
-      !||    get_local_shell_id     ../common_source/modules/connectivity.F90
-      !||    init_global_node_id    ../common_source/modules/nodal_arrays.F90
-      !||    init_global_shell_id   ../common_source/modules/connectivity.F90
+      !||    get_local_node_id            ../common_source/modules/nodal_arrays.F90
+      !||    get_local_shell_id           ../common_source/modules/connectivity.F90
+      !||    init_ghost_shells            ../engine/source/engine/node_spliting/ghost_shells.F90
+      !||    init_global_node_id          ../common_source/modules/nodal_arrays.F90
+      !||    init_global_shell_id         ../common_source/modules/connectivity.F90
+      !||    spmd_exchange_ghost_shells   ../engine/source/engine/node_spliting/ghost_shells.F90
       !||--- uses       -----------------------------------------------------
       !||====================================================================
       module umap_mod

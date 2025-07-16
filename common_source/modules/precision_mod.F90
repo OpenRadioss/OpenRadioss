@@ -26,6 +26,8 @@
       !||    alew8                                    ../engine/source/ale/grid/alew8.F90
       !||    ams_work_mod                             ../engine/source/modules/ams_work_mod.F90
       !||    anim_nodal_ssp_elems                     ../engine/source/output/anim/generate/anim_nodal_ssp_elems.F90
+      !||    arruda_boyce                             ../starter/source/materials/mat/mat092/law92_nlsqf.F90
+      !||    arruda_boyce_dyda                        ../starter/source/materials/mat/mat092/law92_nlsqf.F90
       !||    bcs_mod                                  ../common_source/modules/boundary_conditions/bcs_mod.F90
       !||    bcs_wall_trigger                         ../engine/source/boundary_conditions/bcs_wall_trigger.F90
       !||    brent_algo                               ../common_source/modules/root_finding_algo_mod.F90
@@ -41,6 +43,7 @@
       !||    compaction_tab                           ../common_source/eos/compaction_tab.F90
       !||    compaction_tab_init                      ../common_source/eos/compaction_tab.F90
       !||    compute_voxel_dimensions                 ../engine/source/interfaces/intsort/voxel_dimensions.F90
+      !||    connectivity_mod                         ../common_source/modules/connectivity.F90
       !||    coupling_advance                         ../engine/source/coupling/coupling_adapter.F90
       !||    coupling_initialize                      ../engine/source/coupling/coupling_adapter.F90
       !||    coupling_read                            ../engine/source/coupling/coupling_adapter.F90
@@ -112,6 +115,7 @@
       !||    get_segment_normal                       ../engine/source/interfaces/interf/get_segment_normal.F90
       !||    get_segment_orientation                  ../engine/source/interfaces/interf/get_segment_orientation.F90
       !||    get_volume_area                          ../engine/source/airbag/get_volume_area.F90
+      !||    ghost_shells_mod                         ../engine/source/engine/node_spliting/ghost_shells.F90
       !||    glob_therm_mod                           ../common_source/modules/mat_elem/glob_therm_mod.F90
       !||    granular51                               ../engine/source/materials/mat/mat051/granular51.F90
       !||    group_param_mod                          ../common_source/modules/mat_elem/group_param_mod.F90
@@ -180,6 +184,8 @@
       !||    law190_upd                               ../starter/source/materials/mat/mat190/law190_upd.F90
       !||    law81_upd                                ../starter/source/materials/mat/mat081/law81_upd.F90
       !||    law87_upd                                ../starter/source/materials/mat/mat087/law87_upd.F90
+      !||    law92_guess                              ../starter/source/materials/mat/mat092/law92_nlsqf.F90
+      !||    law92_nlsqf                              ../starter/source/materials/mat/mat092/law92_nlsqf.F90
       !||    mat25_crasurv_c                          ../engine/source/materials/mat/mat025/mat25_crasurv_c.F90
       !||    mat25_crasurv_s                          ../engine/source/materials/mat/mat025/mat25_crasurv_s.F90
       !||    mat25_tsaiwu_c                           ../engine/source/materials/mat/mat025/mat25_tsaiwu_c.F90
@@ -191,6 +197,8 @@
       !||    mat_table_copy                           ../starter/source/materials/tools/mat_table_copy.F90
       !||    matparam_def_mod                         ../common_source/modules/mat_elem/matparam_def_mod.F90
       !||    mmain                                    ../engine/source/materials/mat_share/mmain.F90
+      !||    mrqcof_law92                             ../starter/source/materials/mat/mat092/law92_nlsqf.F90
+      !||    mrqmin_law92                             ../starter/source/materials/mat/mat092/law92_nlsqf.F90
       !||    mulaw                                    ../engine/source/materials/mat_share/mulaw.F90
       !||    mulaw8                                   ../engine/source/materials/mat_share/mulaw8.F90
       !||    multi_fvm_mod                            ../common_source/modules/ale/multi_fvm_mod.F90
@@ -199,6 +207,7 @@
       !||    multi_solve_eint                         ../engine/source/multifluid/multi_solve_eint.F90
       !||    multimat_param_mod                       ../common_source/modules/multimat_param_mod.F90
       !||    newman_raju                              ../common_source/fail/newman_raju.F90
+      !||    nodal_arrays_mod                         ../common_source/modules/nodal_arrays.F90
       !||    offset_nproj                             ../engine/source/interfaces/shell_offset/offset_nproj.F90
       !||    output_mod                               ../common_source/modules/output/output_mod.F90
       !||    pblast_deallocate                        ../common_source/modules/loads/pblast_mod.F90
@@ -281,11 +290,13 @@
       !||    spmd_exch_flow_tracking_data3            ../engine/source/ale/grid/spmd_exch_flow_tracking_data3.F90
       !||    spmd_exch_flow_tracking_data4            ../engine/source/ale/grid/spmd_exch_flow_tracking_data4.F90
       !||    spmd_exch_neighbour_segment              ../engine/source/mpi/interfaces/spmd_exch_neighbour_segment.F90
+      !||    spmd_exchange_ghost_shells               ../engine/source/engine/node_spliting/ghost_shells.F90
       !||    spmd_xv_inter_type1                      ../engine/source/mpi/nodes/spmd_sd_xv_inter1.F90
       !||    spring_functions_mod                     ../common_source/modules/spring_functions_mod.F90
       !||    stat_sphcel_full                         ../engine/source/output/sta/stat_sphcel_full.F90
       !||    stifint_icontrol                         ../starter/source/interfaces/interf1/stifint_icontrol.F90
       !||    sz_dt1                                   ../engine/source/elements/solid/solidez/sz_dt1.F90
+      !||    test_jc_shell_detach                     ../engine/source/engine/node_spliting/detach_node.F90
       !||    therm_param_mod                          ../common_source/modules/mat_elem/therm_param_mod.F90
       !||    update_neighbour_segment                 ../engine/source/interfaces/interf/update_neighbour_segment.F90
       !||    velrot_explicit                          ../engine/source/constraints/general/rbody/velrot_explicit.F90

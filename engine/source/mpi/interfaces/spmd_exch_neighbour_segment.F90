@@ -57,8 +57,8 @@
       !||--- calls      -----------------------------------------------------
       !||    alloc_my_real_1d_array                       ../common_source/modules/array_mod.F
       !||    get_neighbour_surface_from_remote_proc       ../engine/source/interfaces/interf/get_neighbour_surface_from_remote_proc.F90
-      !||    spmd_wait                                    ../engine/source/mpi/spmd_mod.F90
-      !||    spmd_waitany                                 ../engine/source/mpi/spmd_mod.F90
+      !||    spmd_wait                                    ../engine/source/mpi/spmd_wait.F90
+      !||    spmd_waitany                                 ../engine/source/mpi/spmd_wait.F90
       !||--- uses       -----------------------------------------------------
       !||    array_mod                                    ../common_source/modules/array_mod.F
       !||    get_neighbour_surface_from_remote_proc_mod   ../engine/source/interfaces/interf/get_neighbour_surface_from_remote_proc.F90
