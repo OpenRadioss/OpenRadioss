@@ -169,7 +169,7 @@
             call python_get_elemental_entity(i,py%elements%global%keyword(i)%h3d,py%elements%global%user_ids(i)) !bind(c,name="cpp_python_get_elemental_entity")
           enddo
 
-          call python_element_init(py%elements, n, group_id, local_id, user_id)
+          call python_element_init(py%elements, nelem, group_id, local_id, user_id)
           if(py%nb_functs >0 ) then
             call python_load_environment()
           endif
