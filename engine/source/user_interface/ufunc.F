@@ -143,6 +143,7 @@ C-----------------------------------------------
       !||    airbagb                      ../engine/source/airbag/airbag2.F
       !||    airbagb1                     ../engine/source/airbag/airbagb1.F
       !||    damping51                    ../engine/source/assembly/damping.F
+      !||    damping_funct_ini            ../engine/source/assembly/damping_funct_ini.F90
       !||    damping_vref_compute_dampa   ../engine/source/assembly/damping_vref_compute_dampa.F90
       !||    damping_vref_rby             ../engine/source/assembly/damping_vref_rby.F90
       !||    fv_up_switch                 ../engine/source/airbag/fv_up_switch.F

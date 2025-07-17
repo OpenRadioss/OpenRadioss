@@ -20,6 +20,11 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+      !||====================================================================
+      !||    damping_funct_ini_mod   ../engine/source/assembly/damping_funct_ini.F90
+      !||--- called by ------------------------------------------------------
+      !||    resol                   ../engine/source/engine/resol.F
+      !||====================================================================
       module damping_funct_ini_mod
       contains
 ! ======================================================================================================================
@@ -29,6 +34,16 @@
 !=======================================================================================================================
 !!\brief This subroutine initializes damping alpha values for /DAMP/FUNCT 
 !=======================================================================================================================
+      !||====================================================================
+      !||    damping_funct_ini   ../engine/source/assembly/damping_funct_ini.F90
+      !||--- called by ------------------------------------------------------
+      !||    resol               ../engine/source/engine/resol.F
+      !||--- calls      -----------------------------------------------------
+      !||    get_u_func          ../engine/source/user_interface/ufunc.F
+      !||--- uses       -----------------------------------------------------
+      !||    constant_mod        ../common_source/modules/constant_mod.F
+      !||    precision_mod       ../common_source/modules/precision_mod.F90
+      !||====================================================================
         subroutine damping_funct_ini(dampr, nrdamp, ndamp,   tt,  iroddl)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules

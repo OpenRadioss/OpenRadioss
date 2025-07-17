@@ -34,6 +34,7 @@
       !||    pblast_alloc_error              ../common_source/modules/loads/pblast_mod.F90
       !||    pblast_parameters__air_burst    ../common_source/modules/loads/pblast_mod.F90
       !||    radioss2                        ../engine/source/engine/radioss2.F
+      !||    sigeps90                        ../engine/source/materials/mat/mat090/sigeps90.F
       !||====================================================================
         module file_descriptor_mod
     

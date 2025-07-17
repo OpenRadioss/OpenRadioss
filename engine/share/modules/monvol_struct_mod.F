@@ -27,12 +27,16 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    init_global_frontier_monvol   ../engine/source/airbag/init_global_monvol_frontier.F90
       !||    init_monvol_omp_structure     ../engine/source/airbag/init_monvol_omp_structure.F90
       !||    monvol0                       ../engine/source/airbag/monvol0.F
+      !||    python_monvol                 ../engine/source/coupling/python/python_monvol.F90
       !||    radioss2                      ../engine/source/engine/radioss2.F
       !||    rdresb                        ../engine/source/output/restart/rdresb.F
       !||    resol                         ../engine/source/engine/resol.F
       !||    resol_head                    ../engine/source/engine/resol_head.F
+      !||    spmd_glob_minv                ../engine/source/mpi/generic/spmd_glob_minv.F
       !||    volum0                        ../engine/source/airbag/volum0.F
       !||    wrrestp                       ../engine/source/output/restart/wrrestp.F
+      !||--- uses       -----------------------------------------------------
+      !||    precision_mod                 ../common_source/modules/precision_mod.F90
       !||====================================================================
       MODULE MONVOL_STRUCT_MOD
 C-----------------------------------------------

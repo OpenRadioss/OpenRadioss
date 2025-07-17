@@ -28,6 +28,7 @@ C==========================================================================
       !||    resol                 ../engine/source/engine/resol.F
       !||--- calls      -----------------------------------------------------
       !||--- uses       -----------------------------------------------------
+      !||    monvol_struct_mod     ../engine/share/modules/monvol_struct_mod.F
       !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
       SUBROUTINE SPMD_GLOB_MINV(T_MONVOL, DT2,ITYPTS,NELTS,VOLMON, FR_MV)

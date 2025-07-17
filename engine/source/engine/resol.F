@@ -105,6 +105,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    damping                                      ../engine/source/assembly/damping.F
       !||    damping44                                    ../engine/source/assembly/damping.F
       !||    damping51                                    ../engine/source/assembly/damping.F
+      !||    damping_funct_ini                            ../engine/source/assembly/damping_funct_ini.F90
       !||    damping_vref_compute_dampa                   ../engine/source/assembly/damping_vref_compute_dampa.F90
       !||    dealloc_impbuf                               ../engine/source/implicit/imp_solv.F
       !||    dealloc_shoot_inter                          ../engine/source/interfaces/interf/dealloc_shoot_inter.F
@@ -255,6 +256,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    printime                                     ../engine/source/system/timer.F
       !||    printime_interf                              ../engine/source/system/timer_interf.F
       !||    printimeg                                    ../engine/source/system/timer.F
+      !||    python_monvol                                ../engine/source/coupling/python/python_monvol.F90
       !||    python_register                              ../engine/source/tools/curve/python_register.F90
       !||    python_share_memory                          ../engine/source/coupling/python/python_share_memory.F90
       !||    python_update_nodal_entities                 ../common_source/modules/python_mod.F90
@@ -442,6 +444,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    connectivity_mod                             ../common_source/modules/connectivity.F90
       !||    coupling_adapter_mod                         ../engine/source/coupling/coupling_adapter.F90
       !||    crackxfem_mod                                ../engine/share/modules/crackxfem_mod.F
+      !||    damping_funct_ini_mod                        ../engine/source/assembly/damping_funct_ini.F90
       !||    damping_vref_compute_dampa_mod               ../engine/source/assembly/damping_vref_compute_dampa.F90
       !||    debug_chksm_mod                              ../engine/source/mpi/output/spmd_flush_accel.F
       !||    debug_mod                                    ../engine/share/modules/debug_mod.F
@@ -504,6 +507,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    pinchtype_mod                                ../common_source/modules/pinchtype_mod.F
       !||    plyxfem_mod                                  ../engine/share/modules/plyxfem_mod.F
       !||    python_funct_mod                             ../common_source/modules/python_mod.F90
+      !||    python_monvol_mod                            ../engine/source/coupling/python/python_monvol.F90
       !||    python_register_mod                          ../engine/source/tools/curve/python_register.F90
       !||    python_share_memory_mod                      ../engine/source/coupling/python/python_share_memory.F90
       !||    rad2r_mod                                    ../engine/share/modules/rad2r.F

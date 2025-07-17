@@ -21,9 +21,11 @@
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    python_share_memory_mod   ../engine/source/coupling/python/python_share_memory.F90
+      !||    python_monvol_mod   ../engine/source/coupling/python/python_monvol.F90
       !||--- called by ------------------------------------------------------
-      !||    resol                     ../engine/source/engine/resol.F
+      !||    resol               ../engine/source/engine/resol.F
+      !||--- uses       -----------------------------------------------------
+      !||    precision_mod       ../common_source/modules/precision_mod.F90
       !||====================================================================
       module python_monvol_mod
         interface
@@ -41,15 +43,13 @@
         end interface
       contains
       !||====================================================================
-      !||    python_share_memory     ../engine/source/coupling/python/python_share_memory.F90
+      !||    python_monvol         ../engine/source/coupling/python/python_monvol.F90
       !||--- called by ------------------------------------------------------
-      !||    resol                   ../engine/source/engine/resol.F
+      !||    resol                 ../engine/source/engine/resol.F
       !||--- calls      -----------------------------------------------------
-      !||    python_expose_doubles   ../common_source/modules/python_mod.F90
-      !||    python_expose_ints      ../common_source/modules/python_mod.F90
       !||--- uses       -----------------------------------------------------
-      !||    nodal_arrays_mod        ../common_source/modules/nodal_arrays.F90
-      !||    python_funct_mod        ../common_source/modules/python_mod.F90
+      !||    monvol_struct_mod     ../engine/share/modules/monvol_struct_mod.F
+      !||    precision_mod         ../common_source/modules/precision_mod.F90
       !||====================================================================
         subroutine python_monvol(t_monvol)
 ! ----------------------------------------------------------------------------------------------------------------------

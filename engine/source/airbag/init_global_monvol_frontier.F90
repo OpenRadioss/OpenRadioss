@@ -42,6 +42,7 @@
       !||--- uses       -----------------------------------------------------
       !||    groupdef_mod                  ../common_source/modules/groupdef_mod.F
       !||    monvol_struct_mod             ../engine/share/modules/monvol_struct_mod.F
+      !||    precision_mod                 ../common_source/modules/precision_mod.F90
       !||    spmd_mod                      ../engine/source/mpi/spmd_mod.F90
       !||====================================================================
         subroutine init_global_frontier_monvol(ispmd,nspmd,nvolu,nsurf,monvol, &

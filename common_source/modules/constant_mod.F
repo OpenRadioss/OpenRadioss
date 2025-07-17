@@ -45,6 +45,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    crack_depth_init                         ../starter/source/materials/fail/windshield_alter/crack_depth_init.F90
       !||    create_plane_clause                      ../starter/source/model/sets/create_plane_clause.F90
       !||    crityld2000                              ../starter/source/materials/mat/mat087/law87_upd.F90
+      !||    damping_funct_ini                        ../engine/source/assembly/damping_funct_ini.F90
       !||    damping_range_compute_param              ../starter/source/general_controls/damping/damping_range_compute_param.F90
       !||    damping_range_init                       ../starter/source/general_controls/damping/damping_range_init.F90
       !||    damping_range_shell                      ../engine/source/general_controls/damping/damping_range_shell.F90

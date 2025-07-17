@@ -53,6 +53,7 @@
       !||    create_plane_clause                      ../starter/source/model/sets/create_plane_clause.F90
       !||    crityld2000                              ../starter/source/materials/mat/mat087/law87_upd.F90
       !||    cross_product                            ../engine/source/constraints/general/rbody/velrot_explicit.F90
+      !||    damping_funct_ini                        ../engine/source/assembly/damping_funct_ini.F90
       !||    damping_range_compute_param              ../starter/source/general_controls/damping/damping_range_compute_param.F90
       !||    damping_range_init                       ../starter/source/general_controls/damping/damping_range_init.F90
       !||    damping_range_shell                      ../engine/source/general_controls/damping/damping_range_shell.F90
@@ -157,6 +158,7 @@
       !||    imp_intbufdef                            ../engine/share/modules/imp_mod_def.F90
       !||    iniebcs_propergol                        ../starter/source/boundary_conditions/ebcs/iniebcs_propergol.F90
       !||    iniebcs_propergol_get_cv                 ../starter/source/boundary_conditions/ebcs/iniebcs_propergol.F90
+      !||    init_global_frontier_monvol              ../engine/source/airbag/init_global_monvol_frontier.F90
       !||    init_inivol                              ../starter/source/initial_conditions/inivol/init_inivol.F90
       !||    init_inivol_2d_polygons                  ../starter/source/initial_conditions/inivol/init_inivol_2D_polygons.F90
       !||    initemp_shell                            ../starter/source/materials/therm/initemp_shell.F90
@@ -197,6 +199,7 @@
       !||    mat_table_copy                           ../starter/source/materials/tools/mat_table_copy.F90
       !||    matparam_def_mod                         ../common_source/modules/mat_elem/matparam_def_mod.F90
       !||    mmain                                    ../engine/source/materials/mat_share/mmain.F90
+      !||    monvol_struct_mod                        ../engine/share/modules/monvol_struct_mod.F
       !||    mrqcof_law92                             ../starter/source/materials/mat/mat092/law92_nlsqf.F90
       !||    mrqmin_law92                             ../starter/source/materials/mat/mat092/law92_nlsqf.F90
       !||    mulaw                                    ../engine/source/materials/mat_share/mulaw.F90
@@ -226,6 +229,8 @@
       !||    prodmatvect                              ../starter/source/materials/mat/mat087/law87_upd.F90
       !||    prop_param_mod                           ../common_source/modules/mat_elem/prop_param_mod.F90
       !||    python_funct_mod                         ../common_source/modules/python_mod.F90
+      !||    python_monvol                            ../engine/source/coupling/python/python_monvol.F90
+      !||    python_monvol_mod                        ../engine/source/coupling/python/python_monvol.F90
       !||    r_yld2000                                ../starter/source/materials/mat/mat087/law87_upd.F90
       !||    random_walk_def_mod                      ../common_source/modules/random_walk_def_mod.F90
       !||    random_walk_dmg                          ../starter/source/materials/fail/fractal/random_walk_dmg.F90

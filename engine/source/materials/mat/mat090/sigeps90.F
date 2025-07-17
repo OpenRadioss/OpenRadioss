@@ -21,13 +21,15 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    sigeps90      ../engine/source/materials/mat/mat090/sigeps90.F
+      !||    sigeps90              ../engine/source/materials/mat/mat090/sigeps90.F
       !||--- called by ------------------------------------------------------
-      !||    mulaw         ../engine/source/materials/mat_share/mulaw.F90
+      !||    mulaw                 ../engine/source/materials/mat_share/mulaw.F90
       !||--- calls      -----------------------------------------------------
-      !||    valpvec_v     ../engine/source/materials/mat/mat033/sigeps33.F
-      !||    valpvecdp_v   ../engine/source/materials/mat/mat033/sigeps33.F
-      !||    vinter2       ../engine/source/tools/curve/vinter.F
+      !||    valpvec_v             ../engine/source/materials/mat/mat033/sigeps33.F
+      !||    valpvecdp_v           ../engine/source/materials/mat/mat033/sigeps33.F
+      !||    vinter2               ../engine/source/tools/curve/vinter.F
+      !||--- uses       -----------------------------------------------------
+      !||    file_descriptor_mod   ../engine/source/modules/file_descriptor_mod.F90
       !||====================================================================
       SUBROUTINE SIGEPS90(
      1     NEL    ,NUVAR   ,NFUNC   ,IFUNC   ,NPF    ,
