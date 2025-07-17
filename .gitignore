@@ -35,3 +35,4 @@ extlib.zip
 *.F90.json
 *.cpp.json
 *.c.json
+.devcontainer/**

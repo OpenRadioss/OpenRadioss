@@ -2,6 +2,8 @@
 #  qafile (group miniqa) : QA.files_miniqa
 #
 unsetenv DO_QA
+# Used by 1.89 (FUNCT_PYTHON) only for the moment
+setenv RUN_QA 1
 
 ##TOLERANCES :
 ##----------
@@ -1058,4 +1060,14 @@ if precision == sp local TIME Diff_Tolerance 0.021
 if precision == sp local IENERGY Diff_Tolerance 0.03
 if precision == sp local KENERGYT Diff_Tolerance 0.06
 if precision == sp local EXTWORK Diff_Tolerance 0.03
+go -engine
+#--------------------------------------------------------------------------------
+#1.89
+test aa
+## path=miniqa/PYTHON/FUNCT_PYTHON/data
+keywords funct_python
+input ../miniqa/PYTHON/FUNCT_PYTHON/data/test_torsion_orthstrain_shell_0000.rad
+execute -starter
+input ../miniqa/PYTHON/FUNCT_PYTHON/data/test_torsion_orthstrain_shell_0001.rad
+extract ../miniqa/PYTHON/FUNCT_PYTHON/data/ref.extract
 go -engine
