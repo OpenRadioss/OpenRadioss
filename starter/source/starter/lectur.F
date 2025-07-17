@@ -4570,7 +4570,7 @@ c         VSPHIO2(1:SVSPHIO2)=ZERO
          CALL HM_READ_SPHIO(ISPHIO   ,VSPHIO   ,IPART    ,IGRSURF  ,
      .                      NOD2SP   ,IPARTSP  ,ITAB     ,X        ,
      .                      LVSPHIO  ,LWASPIO  ,ITABM1   ,UNITAB   ,
-     .                      LSUBMODEL)
+     .                      LSUBMODEL,RTRANS   ,NRTRANS )
 C---- -----------------------------------------
 C        PREPARATION de la LISTE TRIEE des PARTICULES ON/OFF par PART.
 C---------------------------------------------
