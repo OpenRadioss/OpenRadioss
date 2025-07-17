@@ -6605,7 +6605,7 @@ C--           IF no node/elemt on proc - dt2=10E6 -> dt2 can be equal to zero
                       DAMPB = MAX(DAMPB,DAMPR(10,I),DAMPR(12,I),DAMPR(14,I))
 C--                   /DAMP/VREL - recompute damping parameters at current time
                       FL_VREL = NINT(DAMPR(21,I))
-                      IF (FL_VREL==1) THEN
+                      IF (FL_VREL==2) THEN
                         call damping_vref_compute_dampa(i,ndamp,nrdamp,dampr,dt1,tt,damp_a)
                         DAMPA = MAX(DAMP_A(1),DAMP_A(2),DAMP_A(3))
                         DAMPB = ZERO
