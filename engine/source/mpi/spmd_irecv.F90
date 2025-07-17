@@ -92,9 +92,9 @@
           integer :: ierr
           call spmd_in(tag)
           if (present(comm)) then
-            call MPI_Irecv(buf, buf_count, MPI_INT, source, tag, comm, request, ierr)
+            call MPI_Irecv(buf, buf_count, MPI_INTEGER, source, tag, comm, request, ierr)
           else
-            call MPI_Irecv(buf, buf_count, MPI_INT, source, tag, SPMD_COMM_WORLD, request, ierr)
+            call MPI_Irecv(buf, buf_count, MPI_INTEGER, source, tag, SPMD_COMM_WORLD, request, ierr)
           endif
           call spmd_out(tag,ierr)
 #endif
@@ -180,9 +180,9 @@
 #ifdef MPI
           call spmd_in(tag)
           if (present(comm)) then
-            call MPI_Irecv(buf, buf_count, MPI_INT, source, tag, comm, request, ierr)
+            call MPI_Irecv(buf, buf_count, MPI_INTEGER, source, tag, comm, request, ierr)
           else
-            call MPI_Irecv(buf, buf_count, MPI_INT, source, tag, SPMD_COMM_WORLD, request, ierr)
+            call MPI_Irecv(buf, buf_count, MPI_INTEGER, source, tag, SPMD_COMM_WORLD, request, ierr)
           endif
           call spmd_out(tag,ierr)
 #endif
