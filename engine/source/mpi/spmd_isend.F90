@@ -91,9 +91,9 @@
 #ifdef MPI
           call spmd_in(tag)
           if (present(comm)) then
-            call MPI_Isend(buf, buf_count, MPI_INT, dest, tag, comm, request, ierr)
+            call MPI_Isend(buf, buf_count, MPI_INTEGER, dest, tag, comm, request, ierr)
           else
-            call MPI_Isend(buf, buf_count, MPI_INT, dest, tag, SPMD_COMM_WORLD, request, ierr)
+            call MPI_Isend(buf, buf_count, MPI_INTEGER, dest, tag, SPMD_COMM_WORLD, request, ierr)
           endif
           call spmd_out(tag,ierr)
 #endif

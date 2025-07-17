@@ -122,12 +122,12 @@
 #ifdef MPI
           call spmd_in(tag)
           if (present(comm)) then
-            call MPI_Recv(buf, buf_count, MPI_INT, source, tag, comm, MPI_STATUS_IGNORE, ierr)
+            call MPI_Recv(buf, buf_count, MPI_INTEGER, source, tag, comm, MPI_STATUS_IGNORE, ierr)
           else
-            call MPI_Recv(buf, buf_count, MPI_INT, source, tag, SPMD_COMM_WORLD, MPI_STATUS_IGNORE, ierr)
+            call MPI_Recv(buf, buf_count, MPI_INTEGER, source, tag, SPMD_COMM_WORLD, MPI_STATUS_IGNORE, ierr)
           endif
-#endif
           call spmd_out(tag,ierr)
+#endif
         end subroutine spmd_recv_ints
 ! ======================================================================================================================
       !||====================================================================
@@ -238,9 +238,9 @@
           integer :: ierr
           call spmd_in(tag)
           if (present(comm)) then
-            call MPI_Recv(buf, buf_count, MPI_REAL, source, tag, comm, MPI_STATUS_IGNORE, ierr)
+            call MPI_Recv(buf, buf_count, MPI_INTEGER, source, tag, comm, MPI_STATUS_IGNORE, ierr)
           else
-            call MPI_Recv(buf, buf_count, MPI_REAL, source, tag, SPMD_COMM_WORLD, MPI_STATUS_IGNORE, ierr)
+            call MPI_Recv(buf, buf_count, MPI_INTEGER, source, tag, SPMD_COMM_WORLD, MPI_STATUS_IGNORE, ierr)
           endif
           call spmd_out(tag,ierr)
 #endif
@@ -266,9 +266,9 @@
           integer :: ierr
           call spmd_in(tag)
           if (present(comm)) then
-            call MPI_Recv(buf, buf_count, MPI_REAL, source, tag, comm, MPI_STATUS_IGNORE, ierr)
+            call MPI_Recv(buf, buf_count, MPI_DOUBLE_PRECISION, source, tag, comm, MPI_STATUS_IGNORE, ierr)
           else
-            call MPI_Recv(buf, buf_count, MPI_REAL, source, tag, SPMD_COMM_WORLD, MPI_STATUS_IGNORE, ierr)
+            call MPI_Recv(buf, buf_count, MPI_DOUBLE_PRECISION, source, tag, SPMD_COMM_WORLD, MPI_STATUS_IGNORE, ierr)
           endif
           call spmd_out(tag,ierr)
 #endif
