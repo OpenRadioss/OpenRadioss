@@ -43,7 +43,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       SUBROUTINE HM_READ_SPHIO(ISPHIO   ,VSPHIO   ,IPART    ,IGRSURF  ,
      .                         NOD2SP   ,IPARTSP  ,ITAB     ,X        ,
      .                         MFI      ,LWASPIO  ,ITABM1   ,UNITAB   ,
-     .                         LSUBMODEL)
+     .                         LSUBMODEL,RTRANS   ,NRTRANS )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -72,11 +72,13 @@ C-----------------------------------------------
       INTEGER ISPHIO(NISPHIO,*), IPART(LIPART1,*),
      .        NOD2SP(*),IPARTSP(*),
      .        ITAB(*),MFI,LWASPIO,ITABM1(*)
+      INTEGER, INTENT(IN) :: NRTRANS
       my_real
      .   VSPHIO(*),X(3,*)
       TYPE (SURF_)   , DIMENSION(NSURF)   :: IGRSURF
       TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
       TYPE(SUBMODEL_DATA) LSUBMODEL(*)
+      my_real, DIMENSION(NTRANSF,NRTRANS),INTENT(IN) ::  RTRANS
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -84,7 +86,7 @@ C-----------------------------------------------
      .  IPROP, ISU, NSEG,
      .  MFITMP, IVAD, LVAD, ITYPE, IDSURF, IFTEMP,
      .  IFVITS,IFDENS, IFPRES, IFENER,SKIP,
-     .  IAD,IN1,IN2,IN3,IN4, IUN,NBOX,NBOY,NBOZ,NBAND
+     .  IAD,IN1,IN2,IN3,IN4, IUN,NBOX,NBOY,NBOZ,NBAND,SUB_ID
       CHARACTER MESS*40
       CHARACTER(LEN=NCHARTITLE) :: TITR
       CHARACTER(LEN=NCHARKEY) :: KEY
@@ -94,7 +96,7 @@ C-----------------------------------------------
      .   X12,Y12,Z12,X13,Y13,Z13,NN,NX,NY,NZ,
      .   DBUCS,XBMIN,YBMIN,ZBMIN,XBMAX,YBMAX,ZBMAX,
      .   PINFINI,CARL,XX(9),FCUT,
-     .   RHOIN_UNIT,PIN_UNIT,EIN_UNIT
+     .   RHOIN_UNIT,PIN_UNIT,EIN_UNIT,XL(3)
       LOGICAL IS_AVAILABLE,FOUND
 C-----------------------------------------------
       DATA MESS/'SPH INLET/OUTLET DEFINITION             '/
@@ -172,7 +174,8 @@ C
           TITR = ''   
           CALL HM_OPTION_READ_KEY(LSUBMODEL, 
      .                            OPTION_ID   = ID, 
-     .                            OPTION_TITR = TITR) 
+     .                            OPTION_TITR = TITR, 
+     .                          SUBMODEL_ID   = SUB_ID)
 C        
           I = I+1
           ISPHIO(NISPHIO,I)=ID
@@ -241,6 +244,17 @@ C         input by coordinates ->  ISPHIO(12,I) = 1
             CALL HM_GET_FLOATV('XM2' ,XX(7)   ,IS_AVAILABLE,LSUBMODEL, UNITAB)   
             CALL HM_GET_FLOATV('YM2' ,XX(8)   ,IS_AVAILABLE,LSUBMODEL, UNITAB)  
             CALL HM_GET_FLOATV('ZM2' ,XX(9)   ,IS_AVAILABLE,LSUBMODEL, UNITAB)              
+            IF(SUB_ID /= 0) THEN
+              XL(1:3) = XX(1:3)
+              CALL SUBROTPOINT(XL(1),XL(2),XL(3),RTRANS,SUB_ID,LSUBMODEL)
+              XX(1:3) = XL(1:3) 
+              XL(1:3) = XX(4:6)
+              CALL SUBROTPOINT(XL(1),XL(2),XL(3),RTRANS,SUB_ID,LSUBMODEL)
+              XX(4:6) = XL(1:3) 
+              XL(1:3) = XX(7:9)
+              CALL SUBROTPOINT(XL(1),XL(2),XL(3),RTRANS,SUB_ID,LSUBMODEL)
+              XX(7:9) = XL(1:3) 
+            END IF
             DO J = 1,9
               VSPHIO(IVAD+3+J) = XX(J)
             ENDDO 
