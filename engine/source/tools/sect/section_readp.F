@@ -103,8 +103,16 @@ C
         IF(ISPMD==0) THEN
           CALL CUR_FIL_C(4)
         END IF
-        L = 0
-        DO WHILE(TT2<=TTT)
+           DO WHILE(TT2<=TTT)   ! Loop until Next timestep in SC01 file is reached / Keep only last state
+          L = 0
+          DO I = 1, NSECT                   ! In case of restart : looping over sections Times to reach good state 
+            BUFCOM(I) = ZERO                ! reset BUFCOM and ADDSEC, otherwise values from previous step are kept
+            BUFCOM(I+NSECT) = ZERO
+            BUFCOM(I+2*NSECT) = ZERO
+            ADDSEC(I) = ZERO
+            ADDSEC(I+NSECT) = ZERO
+          END DO
+
           IFRL1=IFRL2
           IFRL2=MOD(IFRL1+1,2)
           CALL READ_R_C(R4,1)
