@@ -308,8 +308,12 @@
             sigvyz(i) = a*epspyz(i)/(two*(one + nu))
             sigvzx(i) = a*epspzx(i)/(two*(one + nu))
             !< Update the soundspeed to include the viscous damping stiffness
-            ssp(i) = sqrt((max(bulk + four_over_3*g,abs(dsdgam(i))) +          &
-                           a/max(timestep,em20))/rho(i))
+            if (timestep > zero) then 
+              ssp(i) = sqrt((max(bulk + four_over_3*g,abs(dsdgam(i))) +        &
+                             a/max(timestep,em20))/rho(i))
+            else
+              ssp(i) = sqrt((max(bulk + four_over_3*g,abs(dsdgam(i))))/rho(i))          
+            endif
           enddo
 !
         end subroutine sigeps163
