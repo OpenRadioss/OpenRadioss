@@ -32,6 +32,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    hm_get_intv            ../starter/source/devtools/hm_reader/hm_get_intv.F
       !||    hm_option_read_key     ../starter/source/devtools/hm_reader/hm_option_read_key.F
       !||    hm_option_start        ../starter/source/devtools/hm_reader/hm_option_start.F
+      !||    subrotpoint            ../starter/source/model/submodel/subrot.F
       !||    udouble                ../starter/source/system/sysfus.F
       !||    usr2sys                ../starter/source/system/sysfus.F
       !||--- uses       -----------------------------------------------------

@@ -128,6 +128,7 @@ C---
       !||    hm_read_rwall_spher     ../starter/source/constraints/general/rwall/hm_read_rwall_spher.F
       !||    hm_read_rwall_therm     ../starter/source/constraints/general/rwall/hm_read_rwall_therm.F
       !||    hm_read_skw             ../starter/source/tools/skew/hm_read_skw.F
+      !||    hm_read_sphio           ../starter/source/loads/sph/hm_read_sphio.F
       !||    hm_read_surf            ../starter/source/groups/hm_read_surf.F
       !||    hm_read_xref            ../starter/source/loads/reference_state/xref/hm_read_xref.F
       !||    lecsec42                ../starter/source/tools/sect/hm_read_sect.F
