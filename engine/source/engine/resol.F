@@ -1341,13 +1341,6 @@ C-------------------------------------------------------------------------------
 C-----------------------------------------------------------------------------------
 C coupling coupling
               logical :: ongoing
-              character(len=50) :: config_file
-              character(len=50) :: participant_name
-              character(len=50) :: data_name
-              character(len=50) :: mesh_name
-              character(len=50) :: data_name2
-              integer :: nb_coupling_nodes
-              integer, dimension(:), allocatable :: node_ids
               double precision :: dt2max_coupling
 C-----------------------------------------------------------------------------------
               ELEMENT%SHELL%OFFSET = NUMELS + NUMELQ
@@ -3231,7 +3224,7 @@ C First: try with reduced bounding box
               ! ALLOCATION AND INITIALIZATION OF COUPLING COUPLING
                 ALLOCATE(NODES%FORCES(3,NUMNOD))
                 NODES%FORCES = ZERO
-                CALL COUPLING_SET_NODES(coupling, IGRNOD, NGRNOD)
+                call coupling_set_interface(coupling, igrnod, ngrnod, igrsurf, nsurf,  nodes)   
                 CALL COUPLING_INITIALIZE(coupling,NODES%X,NUMNOD,ISPMD,NSPMD)
                 CALL COUPLING_ONGOING(coupling,ongoing)
               ENDIF

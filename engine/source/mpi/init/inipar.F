@@ -32,8 +32,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- uses       -----------------------------------------------------
       !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
-      SUBROUTINE INIPAR(ITID,ICAS,NNODES,INPUT,GOT_INPUT,NBTASK)
+      SUBROUTINE INIPAR(coupling,ITID,ICAS,NNODES,INPUT,GOT_INPUT,NBTASK)
 C-----------------------------------------------------------------
+        USE COUPLING_ADAPTER_MOD
         USE SPMD_COMM_WORLD_MOD, ONLY : SPMD_COMM_WORLD
 #include      "implicit_f.inc"
 #include      "comlock.inc"
@@ -47,6 +48,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ITID(*),ICAS, NNODES,GOT_INPUT,NBTASK(*)
       CHARACTER*100 INPUT
+      type(coupling_type), intent(inout) :: coupling
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -70,6 +72,7 @@ C-----------------------------------------------
       INTEGER :: COLOUR
       INTEGER (kind=MPI_ADDRESS_KIND) :: COLOUR_ADDR
       INTEGER :: VALID
+      CHARACTER FILNAM*100
 #if defined(_OPENMP)
       INTEGER OMP_GET_MAX_THREADS
 #endif
@@ -96,10 +99,14 @@ C
         ELSE
            COLOUR = 0  ! Default color if attribute not found
         ENDIF
-      
+        call coupling_configure(coupling, TRIM(coupling%FILNAM))  
+
+#ifndef WITH_CWIPI 
         CALL MPI_COMM_SPLIT(MPI_COMM_WORLD,COLOUR,KEY,
      *                      SPMD_COMM_WORLD,IERROR)
-
+#else
+        SPMD_COMM_WORLD = coupling_get_communicator(coupling%adapter_ptr)
+#endif
         CALL MPI_COMM_SIZE(SPMD_COMM_WORLD, NNODES, IERROR)
         CALL MPI_COMM_RANK(SPMD_COMM_WORLD, MYRANK, IERROR)
 C
@@ -186,7 +193,6 @@ C nthread1 : nombre de threads fixe par la variable environnement sur le MIC
      .        NTHREAD,' FOR MPI PROCESS',ISPMD+1 
           ENDIF
 #endif
-cccc               
 C control of nthread per MPI process
           CALL MPI_GATHER(NTHREAD,1,MPI_INTEGER,NBTASK,1,MPI_INTEGER,
      .                    IT_SPMD(1),SPMD_COMM_WORLD,IERROR)            
@@ -363,6 +369,7 @@ C
       SUBROUTINE INIPAR(ITID,ICAS,NNODES,INPUT,GOT_INPUT,NBTASK)
 C-----------------------------------------------------------------
         USE SPMD_COMM_WORLD_MOD, ONLY : SPMD_COMM_WORLD
+        USE COUPLING_ADAPTER_MOD
 #include      "implicit_f.inc"
 #include      "comlock.inc"
 #include      "r4r8_p.inc"
@@ -374,6 +381,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
+#include "spmd.inc"
 #include  "com01_c.inc"
 #include  "task_c.inc"
 #include  "scr05_c.inc"

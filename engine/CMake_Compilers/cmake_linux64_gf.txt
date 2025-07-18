@@ -167,10 +167,12 @@ set( FSANITIZE "-fsanitize=address -fsanitize=undefined  -fsanitize=bounds-stric
 endif()
 
 set(opt_flag "${opt_flag} ${mumps_flag} ${mumps_inc}")
-
 if( precice STREQUAL "1")
 set(opt_flag "${opt_flag} -DWITH_PRECICE ")
 set(coupling " -DWITH_PRECICE -I/usr/include/precice/")
+elseif(cwipi STREQUAL "1")
+set(coupling " -DWITH_CWIPI -I${cwipi_path}/include/" ) 
+set (CWIPI_FLAG "-Wl,-rpath,${cwipi_path}: -lm ${cwipi_path}/lib/libcwp.so.1.3.0 -lm -lstdc++ ")
 else()
 endif()
 
@@ -182,79 +184,79 @@ set( strict_wo_mpi " -Werror=aliasing ${unused_dummy_arg} -Werror=do-subscript -
 if ( debug STREQUAL "1" )
 # Fortran
 
-set( legacy_flags "${FSANITIZE} -Wall -O0 -g -fdec-math -fbacktrace ${opt_flag} ${precision_flag} ${cppmach} ${cpprel} -DCPP_comp=f90 -ffixed-line-length-none  ${portability} ${mpi_flag} ${ADF}  ")
+set( legacy_flags "${FSANITIZE} -Wall -O0 -g -fdec-math -fbacktrace ${opt_flag} ${precision_flag} ${cppmach} ${cpprel} -DCPP_comp=f90 -ffixed-line-length-none  ${portability} ${mpi_flag} ${ADF} ${coupling} ")
 
-set( unused_dummy_arg_strict_flags "${FSANITIZE} -Wall -Warray-temporaries -O0 -g -fdec-math -fbacktrace ${strict_wo_mpi} ${opt_flag} ${precision_flag} ${cppmach} ${cpprel} -DCPP_comp=f90 -ffixed-line-length-none  ${mpi_flag} ${ADF}  ")
+set( unused_dummy_arg_strict_flags "${FSANITIZE} -Wall -Warray-temporaries -O0 -g -fdec-math -fbacktrace ${strict_wo_mpi} ${opt_flag} ${precision_flag} ${cppmach} ${cpprel} -DCPP_comp=f90 -ffixed-line-length-none  ${mpi_flag} ${ADF}  ${coupling}")
 
-set_source_files_properties(${source_files}  PROPERTIES COMPILE_FLAGS "${FSANITIZE} -Wall -Warray-temporaries -O0 -g -fdec-math -fbacktrace ${strict} ${opt_flag} ${precision_flag} ${cppmach} ${cpprel} -DCPP_comp=f90 -ffixed-line-length-none  ${mpi_flag} ${ADF}  " )
+set_source_files_properties(${source_files}  PROPERTIES COMPILE_FLAGS "${FSANITIZE} -Wall -Warray-temporaries -O0 -g -fdec-math -fbacktrace ${strict} ${opt_flag} ${precision_flag} ${cppmach} ${cpprel} -DCPP_comp=f90 -ffixed-line-length-none  ${mpi_flag} ${ADF}  ${coupling}" )
 
 # C source files
-set_source_files_properties(${c_source_files} PROPERTIES COMPILE_FLAGS "${FSANITIZE} ${h3d_inc} ${zlib_inc} ${md5_inc} ${precision_flag}  ${cppmach} ${cpprel} -O0 -g  ${OPENMP} " )
+set_source_files_properties(${c_source_files} PROPERTIES COMPILE_FLAGS "${FSANITIZE} ${h3d_inc} ${zlib_inc} ${md5_inc} ${precision_flag}  ${cppmach} ${cpprel} -O0 -g  ${OPENMP} ${coupling}" )
 
 # CXX source files
-set_source_files_properties(${cpp_source_files} PROPERTIES COMPILE_FLAGS "${FSANITIZE} ${h3d_inc} ${zlib_inc} ${md5_inc} ${precision_flag} ${cppmach} ${cpprel}  -O0 -g ${OPENMP} -std=c++14 ${coupling} " )
+set_source_files_properties(${cpp_source_files} PROPERTIES COMPILE_FLAGS "${FSANITIZE} ${h3d_inc} ${zlib_inc} ${md5_inc} ${precision_flag} ${cppmach} ${cpprel}  -O0 -g ${OPENMP} -std=c++14 ${coupling} ${mpi_flag}" )
 
 elseif ( debug STREQUAL "analysis" )
 # Fortran
 
-set( legacy_flags " -fplugin=../../scripts/gcc_plugin/fortran_signatures.so ${FSANITIZE} -Wall -O0 -g -fdec-math -fbacktrace ${opt_flag} ${precision_flag} ${cppmach} ${cpprel} -DCPP_comp=f90 -ffixed-line-length-none  ${portability} ${mpi_flag} ${ADF}  ")
+set( legacy_flags " -fplugin=../../scripts/gcc_plugin/fortran_signatures.so ${FSANITIZE} -Wall -O0 -g -fdec-math -fbacktrace ${opt_flag} ${precision_flag} ${cppmach} ${cpprel} -DCPP_comp=f90 -ffixed-line-length-none  ${portability} ${mpi_flag} ${ADF}  ${coupling}")
 
-set( unused_dummy_arg_strict_flags "  -fplugin=../../scripts/gcc_plugin/fortran_signatures.so ${FSANITIZE} -Wall -Warray-temporaries -O0 -g -fdec-math -fbacktrace ${strict_wo_mpi} ${opt_flag} ${precision_flag} ${cppmach} ${cpprel} -DCPP_comp=f90 -ffixed-line-length-none  ${mpi_flag} ${ADF}  ")
+set( unused_dummy_arg_strict_flags "  -fplugin=../../scripts/gcc_plugin/fortran_signatures.so ${FSANITIZE} -Wall -Warray-temporaries -O0 -g -fdec-math -fbacktrace ${strict_wo_mpi} ${opt_flag} ${precision_flag} ${cppmach} ${cpprel} -DCPP_comp=f90 -ffixed-line-length-none  ${mpi_flag} ${ADF} ${coupling} ")
 
-set_source_files_properties(${source_files}  PROPERTIES COMPILE_FLAGS " -fplugin=../../scripts/gcc_plugin/fortran_signatures.so  ${FSANITIZE} -Wall -Warray-temporaries -O0 -g -fdec-math -fbacktrace ${strict} ${opt_flag} ${precision_flag} ${cppmach} ${cpprel} -DCPP_comp=f90 -ffixed-line-length-none  ${mpi_flag} ${ADF}  " )
+set_source_files_properties(${source_files}  PROPERTIES COMPILE_FLAGS " -fplugin=../../scripts/gcc_plugin/fortran_signatures.so  ${FSANITIZE} -Wall -Warray-temporaries -O0 -g -fdec-math -fbacktrace ${strict} ${opt_flag} ${precision_flag} ${cppmach} ${cpprel} -DCPP_comp=f90 -ffixed-line-length-none  ${mpi_flag} ${ADF} ${coupling} " )
 
 # C source files
-set_source_files_properties(${c_source_files} PROPERTIES COMPILE_FLAGS " ${FSANITIZE} ${h3d_inc} ${zlib_inc} ${md5_inc} ${precision_flag}  ${cppmach} ${cpprel} -O0 -g  ${OPENMP} " )
+set_source_files_properties(${c_source_files} PROPERTIES COMPILE_FLAGS " ${FSANITIZE} ${h3d_inc} ${zlib_inc} ${md5_inc} ${precision_flag}  ${cppmach} ${cpprel} -O0 -g  ${OPENMP} ${coupling}" )
 
 # CXX source files
-set_source_files_properties(${cpp_source_files} PROPERTIES COMPILE_FLAGS "${FSANITIZE} ${h3d_inc} ${zlib_inc} ${md5_inc} ${precision_flag} ${cppmach} ${cpprel}  -O0 -g ${OPENMP} ${coupling} -std=c++14  " )
+set_source_files_properties(${cpp_source_files} PROPERTIES COMPILE_FLAGS "${FSANITIZE} ${h3d_inc} ${zlib_inc} ${md5_inc} ${precision_flag} ${cppmach} ${cpprel}  -O0 -g ${OPENMP} ${coupling} ${mpi_flag} -std=c++14  " )
 
 
 elseif ( debug STREQUAL "asan" )
 
-set( FSANITIZE "-fsanitize=address -fsanitize=undefined  -fsanitize=bounds-strict -fsanitize=integer-divide-by-zero -fsanitize=object-size  -fsanitize=float-divide-by-zero -DSANITIZE") 
+set( FSANITIZE "-fsanitize=address -fsanitize=undefined  -fsanitize=bounds-strict -fsanitize=integer-divide-by-zero -fsanitize=object-size  -fsanitize=float-divide-by-zero -DSANITIZE ${coupling}") 
 
-set( legacy_flags "${FSANITIZE} -Wall -O0 -g -fdec-math -fbacktrace ${opt_flag} ${precision_flag} ${cppmach} ${cpprel} -DCPP_comp=f90 -ffixed-line-length-none  ${portability} ${mpi_flag} ${ADF}  ")
+set( legacy_flags "${FSANITIZE} -Wall -O0 -g -fdec-math -fbacktrace ${opt_flag} ${precision_flag} ${cppmach} ${cpprel} -DCPP_comp=f90 -ffixed-line-length-none  ${portability} ${mpi_flag} ${ADF}  ${coupling}")
 
-set( unused_dummy_arg_strict_flags "${FSANITIZE} -Wall -Warray-temporaries -O0 -g -fdec-math -fbacktrace  ${strict_wo_mpi} ${opt_flag} ${precision_flag} ${cppmach} ${cpprel} -DCPP_comp=f90 -ffixed-line-length-none  ${mpi_flag} ${ADF}  ")
+set( unused_dummy_arg_strict_flags "${FSANITIZE} -Wall -Warray-temporaries -O0 -g -fdec-math -fbacktrace  ${strict_wo_mpi} ${opt_flag} ${precision_flag} ${cppmach} ${cpprel} -DCPP_comp=f90 -ffixed-line-length-none  ${mpi_flag} ${ADF} ${coupling} ")
 
-set_source_files_properties(${source_files}  PROPERTIES COMPILE_FLAGS "${FSANITIZE} -Wall -Warray-temporaries -O0 -g -fdec-math -fbacktrace ${strict} ${opt_flag} ${precision_flag} ${cppmach} ${cpprel} -DCPP_comp=f90 -ffixed-line-length-none  ${mpi_flag} ${ADF}  " )
+set_source_files_properties(${source_files}  PROPERTIES COMPILE_FLAGS "${FSANITIZE} -Wall -Warray-temporaries -O0 -g -fdec-math -fbacktrace ${strict} ${opt_flag} ${precision_flag} ${cppmach} ${cpprel} -DCPP_comp=f90 -ffixed-line-length-none  ${mpi_flag} ${ADF} ${coupling}  " )
 
 
 # C source files
-set_source_files_properties(${c_source_files} PROPERTIES COMPILE_FLAGS "${FSANITIZE} ${h3d_inc} ${precision_flag}  ${cppmach} ${cpprel} -O0 -g  ${OPENMP}  ${zlib_inc} ${md5_inc}" )
+set_source_files_properties(${c_source_files} PROPERTIES COMPILE_FLAGS "${FSANITIZE} ${h3d_inc} ${precision_flag}  ${cppmach} ${cpprel} -O0 -g  ${OPENMP}  ${zlib_inc} ${md5_inc}  ${coupling} ")
 
 # CXX source files
-set_source_files_properties(${cpp_source_files} PROPERTIES COMPILE_FLAGS "${FSANITIZE} ${h3d_inc} ${precision_flag} ${cppmach} ${cpprel}  -O0 -g ${OPENMP}  ${zlib_inc} ${md5_inc} ${coupling} -std=c++14" )
+set_source_files_properties(${cpp_source_files} PROPERTIES COMPILE_FLAGS "${FSANITIZE} ${h3d_inc} ${precision_flag} ${cppmach} ${cpprel}  -O0 -g ${OPENMP}  ${zlib_inc} ${md5_inc} ${coupling} ${mpi_flag} -std=c++14" )
 
 else ()
 
 # Fortran
 
-set( legacy_flags " -nostdinc -w -O3 -fdec-math ${opt_flag} ${precision_flag} ${cppmach} ${cpprel} -DCPP_comp=f90 -ffixed-line-length-none  ${portability} ${mpi_flag} ${ADF} " )
+set( legacy_flags " -nostdinc -w -O3 -fdec-math ${opt_flag} ${precision_flag} ${cppmach} ${cpprel} -DCPP_comp=f90 -ffixed-line-length-none  ${portability} ${mpi_flag} ${ADF} ${coupling}" )
 
-set( unused_dummy_arg_strict_flags " -nostdinc -O3 -fdec-math ${strict_wo_mpi} ${opt_flag} ${precision_flag} ${cppmach} ${cpprel} -DCPP_comp=f90 -ffixed-line-length-none ${mpi_flag} ${ADF} ")
+set( unused_dummy_arg_strict_flags " -nostdinc -O3 -fdec-math ${strict_wo_mpi} ${opt_flag} ${precision_flag} ${cppmach} ${cpprel} -DCPP_comp=f90 -ffixed-line-length-none ${mpi_flag} ${ADF} ${coupling}")
 
-set_source_files_properties( ${source_files}  PROPERTIES COMPILE_FLAGS " -nostdinc -O3 -fdec-math ${strict}  ${opt_flag} ${precision_flag} ${cppmach} ${cpprel} -DCPP_comp=f90 -ffixed-line-length-none ${mpi_flag} ${ADF} " )
+set_source_files_properties( ${source_files}  PROPERTIES COMPILE_FLAGS " -nostdinc -O3 -fdec-math ${strict}  ${opt_flag} ${precision_flag} ${cppmach} ${cpprel} -DCPP_comp=f90 -ffixed-line-length-none ${mpi_flag} ${ADF} ${coupling}" )
 
 # C source files
-set_source_files_properties(${c_source_files} PROPERTIES COMPILE_FLAGS " -w -O2 ${h3d_inc} ${zlib_inc} ${md5_inc} ${opt_flag} ${precision_flag} ${cppmach} ${cpprel} " )
+set_source_files_properties(${c_source_files} PROPERTIES COMPILE_FLAGS " -w -O2 ${h3d_inc} ${zlib_inc} ${md5_inc} ${opt_flag} ${precision_flag} ${cppmach} ${cpprel} ${coupling}" )
 
 # CXX source files
-set_source_files_properties(${cpp_source_files} PROPERTIES COMPILE_FLAGS "-w -O2 ${h3d_inc} ${zlib_inc} ${md5_inc} ${opt_flag} ${precision_flag} ${cppmach} ${cpprel} ${coupling} -std=c++14 ${coupling}  " )
+set_source_files_properties(${cpp_source_files} PROPERTIES COMPILE_FLAGS "-w -O2 ${h3d_inc} ${zlib_inc} ${md5_inc} ${opt_flag} ${precision_flag} ${cppmach} ${cpprel} ${coupling} -std=c++14 ${coupling} ${mpi_flag} " )
 
 endif()
 
 
 # Linking flags
-set (CMAKE_EXE_LINKER_FLAGS "-rdynamic ${OPENMP}  -ldl -lrt -lstdc++ ${FSANITIZE}  " )
+set (CMAKE_EXE_LINKER_FLAGS "-rdynamic ${OPENMP}  -ldl -lrt -lstdc++ ${FSANITIZE} ${CWIPI_FLAG} " )
 
 #Libraries
 
 if ( static_link STREQUAL "1" )
-  set (LINK "rt  ${mumps_libs} ${zlib_lib} ${md5_lib} -ldl -static-libgfortran -static-libstdc++ -static-libgcc ${mpi_lib} -Wunused-function")
+  set (LINK "rt  ${mumps_libs} ${zlib_lib} ${md5_lib} -ldl -static-libgfortran -static-libstdc++ -static-libgcc ${mpi_lib} -Wunused-function ${CWIPI_FLAG} ")
 else()
-  set (LINK "rt  ${mumps_libs} ${zlib_lib} ${md5_lib} ${mpi_lib} -ldl -Wunused-function")
+  set (LINK "rt  ${mumps_libs} ${zlib_lib} ${md5_lib} ${mpi_lib} -ldl -Wunused-function ${CWIPI_FLAG} ")
 endif()
 string(STRIP ${LINK} LINK)
 
