@@ -29,6 +29,24 @@
       !||--- uses       -----------------------------------------------------
       !||====================================================================
       module coupling_adapter_mod
+        ! This file contain the generic coupling adapter interface used by CWIPI and preCICE
+        ! The workflow is as follows:
+        ! 1. coupling_configure: called in inipar.F
+        !    a) This creates the adapter pointer 
+        !    b) Reads the configuration file (e.g., modelName.cpl if the engine filename is modelName_0001.rad) see the configure method implementations for the format of the file
+        ! 2. coupling_set_interface is called from resol.F to set the coupling nodes/mesh 
+        ! 3. coupling_initialize is called from resol.F to initialize the coupling adapter
+        ! 4. coupling_sync is called from resol.F to synchronize the data
+        !    a) this contains the calls to coupling_adapter_write_data and coupling_adapter_read_data that exchange data with the coupling library
+        !    b) update the nodal arrays (nodes/acceleration) with the data read from the coupling library
+        ! 5. advance called from resol.F is called to advance the coupling adapter
+        !
+        ! Implementation details:             
+        ! The implementation is done in the C++ layer for both preCICE and CWIPI.
+        ! When compiling with -preCICE or -cwipi=/path/to/cwipi, the cwipi or the preCICE coupling adapter is built. 
+        ! Both adapters implement the virtual class in coupling.h
+        ! - For preCICE see precice_coupling_adapter.cpp 
+        ! - For CWIPI see cwipi_coupling_adapter.cpp
         use iso_c_binding
         implicit none
 
@@ -36,6 +54,8 @@
         integer, parameter :: coupling_displacements = 1
         integer, parameter :: coupling_forces = 2
         integer, parameter :: coupling_positions = 3
+        ! In order to add a new data type, add a new integer here and in the C++ adapter
+        ! see enum class DataType in coupling.h and the implementation of the configure method in both cwipi and preCICE adapters
 
         ! Operation modes
         integer, parameter :: coupling_replace = 1
@@ -46,15 +66,17 @@
 
         ! Generic coupling adapter type
         type :: coupling_type
-          type(c_ptr) :: adapter_ptr = c_null_ptr
+          type(c_ptr) :: adapter_ptr = c_null_ptr ! Pointer to the C coupling adapter
           logical :: active = .false.
           integer :: nb_coupling_nodes = 0
           double precision :: dt_limit = 0.0d0
           integer :: grnod_id = 0
+          integer :: surface_id = 0
           integer :: coupler
+          character :: filnam*100
         end type coupling_type
 
-        ! C interface declarations
+        ! C interface declarations cooresponding to the file coupling_c_interface./cpp
         interface
           function coupling_adapter_create() bind(c, name='coupling_adapter_create')
             use iso_c_binding
@@ -153,9 +175,65 @@
             integer(c_int) :: coupling_adapter_get_group_node_id
           end function coupling_adapter_get_group_node_id
 
+          !int coupling_adapter_get_surface_id(void* adapter) {
+          function coupling_adapter_get_surface_id(adapter) &
+            bind(c, name='coupling_adapter_get_surface_id')
+            use iso_c_binding
+            type(c_ptr), value :: adapter
+            integer(c_int) :: coupling_adapter_get_surface_id
+          end function coupling_adapter_get_surface_id
+
+          function coupling_get_communicator(adapter) &
+            bind(c, name='coupling_adapter_get_communicator')
+            use iso_c_binding
+            type(c_ptr), value :: adapter
+            integer(c_int) :: coupling_get_communicator
+          end function coupling_get_communicator
+
+          ! Not available in preCICE yet, only cwipi:
+          subroutine coupling_adapter_set_mesh(adapter, elem_node_offsets, elem_node_indices, num_elements) &
+            bind(c, name='coupling_adapter_set_mesh')
+            use iso_c_binding
+            type(c_ptr), value :: adapter
+            integer(c_int), intent(in) :: elem_node_offsets(*), elem_node_indices(*)
+            integer(c_int), value :: num_elements
+          end subroutine coupling_adapter_set_mesh
+
         end interface
 
       contains
+      !!utility function to make unique values in an array of size 4
+      function make_unique(arr) result(n_unique)
+         implicit none
+         integer, intent(inout) :: arr(4)
+         integer :: n_unique
+         integer :: temp(4)
+         integer :: i, j
+         logical :: is_new
+         n_unique = 0
+         ! Identify unique values and store them in temp
+         do i = 1, 4
+           if (arr(i) < 0) cycle
+           is_new = .true.
+           do j = 1, n_unique
+             if (arr(i) == temp(j)) then
+               is_new = .false.
+               exit
+             end if
+           end do
+           if (is_new) then
+             n_unique = n_unique + 1
+             temp(n_unique) = arr(i)
+           end if
+         end do
+         ! Fill arr with the compacted unique values and -1
+         do i = 1, n_unique
+           arr(i) = temp(i)
+         end do
+         do i = n_unique + 1, 4
+           arr(i) = -1
+         end do
+       end function make_unique
 
         ! Initialize coupling adapter
       !||====================================================================
@@ -180,7 +258,7 @@
           end if
         end subroutine coupling_create
 
-        ! Read configuration file *.cpl
+      ! Read configuration file *.cpl
       !||====================================================================
       !||    coupling_configure   ../engine/source/coupling/coupling_adapter.F90
       !||--- called by ------------------------------------------------------
@@ -200,7 +278,9 @@
 !-----------------------------------------------------------------------------------------------------------------------
           character(kind=c_char) :: c_filename(len_trim(input_filename) + 1)
           integer :: i, result
-          call coupling_create(coupling)
+          if(.not.coupling%active) then
+            call coupling_create(coupling)
+          endif
           if (.not. c_associated(coupling%adapter_ptr)) return
 
           ! Convert Fortran string to C string
@@ -208,7 +288,6 @@
             c_filename(i) = input_filename(i:i)
           end do
           c_filename(len_trim(input_filename) + 1) = c_null_char
-
           result = coupling_adapter_configure(coupling%adapter_ptr, c_filename)
           coupling%active = (result == 1)
         end subroutine coupling_configure
@@ -241,6 +320,9 @@
 !------------------------------------------------------------------------------------------------------------------------
           if (.not. c_associated(coupling%adapter_ptr)) return
           coupling%grnod_id = coupling_adapter_get_group_node_id(coupling%adapter_ptr)
+          if(coupling%grnod_id == 0) then
+            return
+          end if
           ! Find the group with matching ID
           j = 0
           do i = 1, ngrnod
@@ -259,6 +341,117 @@
 
           call coupling_adapter_set_nodes(coupling%adapter_ptr, igrnod(j)%entity, coupling%nb_coupling_nodes)
         end subroutine coupling_set_nodes
+
+!       Only for cwipi, not for precice yet
+        subroutine coupling_set_mesh(coupling, surf,  nodes)
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                     Module
+!----------------------------------------------------------------------------------------------------------------------
+          use GROUPDEF_MOD, only: surf_
+          use nodal_arrays_mod
+          implicit none
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                     Arguments
+! ----------------------------------------------------------------------------------------------------------------------
+          type(coupling_type), intent(inout) :: coupling !< Coupling adapter
+          type(surf_), intent(in) :: surf !< Array of surfaces
+          type(nodal_arrays_), intent(in) :: nodes !< Nodal arrays
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   Local variables
+! ----------------------------------------------------------------------------------------------------------------------
+          integer :: i,j,n,counter
+          integer, dimension(:), allocatable :: index
+          integer :: nb_unique_nodes
+          integer :: next_node
+          integer :: tmp(4)
+          integer, dimension(:), allocatable :: connectIndex, connec, node_id
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                      Body
+! ----------------------------------------------------------------------------------------------------------------------
+          allocate(index(nodes%numnod))
+          allocate(connectIndex(surf%NSEG+1))
+          connectIndex = 0
+          connectIndex(1) = 0
+          allocate(connec(surf%NSEG*4))
+          connec = 0
+          allocate(node_id(surf%NSEG*4))
+          node_id = 0
+          write(6,*) "surf%nodes size:", size(surf%nodes)
+          write(6,*) "surf%NSEG size:", surf%NSEG
+          write(6,*) "surf%elem size", size(surf%elem)
+          write(6,*) "surf%eltyp size:", size(surf%eltyp)
+          write(6,*) "surf%type",surf%type
+          call flush(6)
+          index = 0
+          counter = 0
+          next_node = 0
+          do i = 1, surf%nseg
+            connectIndex(i+1) = connectIndex(i) 
+            ! check if it's a triangle = two surf%nodes(:,i) are the same
+            tmp(1) = surf%nodes(i,1)
+            tmp(2) = surf%nodes(i,2)
+            tmp(3) = surf%nodes(i,3)
+            tmp(4) = surf%nodes(i,4)
+            !write(6,*) "surf%nodes", tmp(1), tmp(2), tmp(3), tmp(4)
+            nb_unique_nodes = make_unique(tmp)
+            connectIndex(i+1) = connectIndex(i+1) + nb_unique_nodes 
+            do j = 1, nb_unique_nodes
+                if(tmp(j) < 0) then
+                    write(6,*) 'Error in surf%nodes', tmp(j)
+                    cycle
+                endif
+                if(tmp(j) > nodes%numnod) then
+                  write(6,*) 'Error in surf%nodes', tmp(j), nodes%numnod
+                  cycle
+                end if
+                n = tmp(j)
+                if(index(n) == 0) then
+                  counter = counter + 1
+                  index(n) = counter
+                  node_id(counter) = n
+                end if
+                next_node = next_node + 1
+                if(next_node .ne. connectIndex(i) + j ) then
+                  write(6,*) 'Error in connectIndex?', connectIndex(i)+j, next_node
+                end if
+                connec(next_node) = index(n)
+            enddo
+          enddo
+          call coupling_adapter_set_mesh(coupling%adapter_ptr, connectIndex, connec, surf%NSEG)
+        end subroutine 
+
+        subroutine coupling_set_interface(coupling, igrnod, ngrnod, surf, nsurf,  nodes)                  
+          use GROUPDEF_MOD
+          use nodal_arrays_mod
+          implicit none
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   Arguments
+! ----------------------------------------------------------------------------------------------------------------------
+          type(coupling_type), intent(inout) :: coupling !< Coupling adapter
+          integer, intent(in) :: ngrnod !< Number of groups
+          integer, intent(in) :: nsurf !< Number of surfaces
+          type(GROUP_), intent(in) :: igrnod(ngrnod) !< Array of groups
+          type(surf_), intent(in) :: surf(nsurf) !< Array of surfaces
+          type(nodal_arrays_), intent(in) :: nodes !< Nodal arrays
+!-----------------------------------------------------------------------------------------------------------------------
+!                                                   Local variables
+!-----------------------------------------------------------------------------------------------------------------------
+          integer :: i, j, k, n
+          integer :: surface_id
+!------------------------------------------------------------------------------------------------------------------------
+!                                                   Body
+!------------------------------------------------------------------------------------------------------------------------
+          surface_id = coupling_adapter_get_surface_id(coupling%adapter_ptr)
+          ! convert global user surface ID to local surface ID
+          do i = 1,nsurf
+            if(surface_id == surf(i)%id) then
+              coupling%surface_id= i 
+              call coupling_set_mesh(coupling, surf(i), nodes)
+            end if
+          enddo
+          call coupling_set_nodes(coupling, igrnod, ngrnod)
+        end subroutine coupling_set_interface
+      
 
         ! Initialize coupling
       !||====================================================================
@@ -434,7 +627,7 @@
             NODES%FORCES(1:3,1:NUMNOD) = nodes%A(1:3,1:NUMNOD) - NODES%FORCES(1:3,1:NUMNOD)
             call coupling_adapter_write_data(coupling%adapter_ptr, nodes%FORCES, numnod, &
               real(dt, c_double), coupling_forces)
-            ! Read forces
+            ! Read forces into nodes%A
             call coupling_adapter_read_data(coupling%adapter_ptr, nodes%A, numnod, &
               real(dt, c_double), coupling_forces, coupling_add)
           else if(name_id == coupling_positions) then

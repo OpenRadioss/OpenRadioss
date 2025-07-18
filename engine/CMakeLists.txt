@@ -306,6 +306,12 @@ endif (NOT CMAKE_BUILD_TYPE)
 if(precice STREQUAL "1")
   message(STATUS "Coupling with preCICE")
   find_package(precice REQUIRED CONFIG)
+#else if cwipi == 1
+elseif(cwipi STREQUAL "1")
+  message(STATUS "Coupling with cwipi")
+# find_package(cwipi REQUIRED CONFIG)
+else()
+  message(STATUS "No coupling library selected")
 endif()
 
 
