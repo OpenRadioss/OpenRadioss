@@ -40,8 +40,8 @@ if __name__ == "__main__":
   line_len='       DATA LENBNAM/'+str(arch_len)+'/\n'
   msg_line='       DATA  MSGO/\''+msg+'\'/\n'
 
-  #grep GITHUB_SHA variable
-  git_sha=os.getenv('GITHUB_SHA','')
+  #grep RADIOSS_SHA_HEADER variable
+  git_sha=os.getenv('RADIOSS_SHA_HEADER','')
   if ( len(git_sha) > 0): 
       btag='       DATA BTAG/\'CommitID: '+git_sha+'\'/\n'
   else:

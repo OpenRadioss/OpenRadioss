@@ -14,6 +14,8 @@ env:
   MAIL_RELAY: ${{ secrets.MAIL_RELAY }}
   QA_TIMEOUT_PER_TEST_LINUX: 150
   QA_TIMEOUT_PER_TEST_WIN: 500
+  # The current commit to embed it in the build tag
+  RADIOSS_SHA_HEADER: ${{ github.sha }}
 
 jobs:
 
