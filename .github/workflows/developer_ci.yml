@@ -12,9 +12,10 @@ on:
 
 env:
   QA_TIMEOUT_PER_TEST: 150
+  # The commit of the PR to embed it in the build tag
+  RADIOSS_SHA_HEADER: ${{ github.event.pull_request.head.sha }}
 
 jobs:
-
 
   build:
     if: ${{ github.repository_owner == 'OpenRadioss' }}
