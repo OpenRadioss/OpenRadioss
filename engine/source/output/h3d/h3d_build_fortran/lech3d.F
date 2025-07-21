@@ -90,7 +90,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||====================================================================
       SUBROUTINE LECH3D(GEO,IGEO,IPM,IPART,H3D_DATA,MULTI_FVM,IPARI,IPARG,TAG_SKINS6,
      .                  MDS_LABEL,MDS_OUTPUT_TABLE,MDS_NMAT,MAX_DEPVAR,MDS_NDEPSVAR,
-     .                  ELBUF_STR,STACK,IBCL,ILOADP,LLOADP,LOADS,MAT_PARAM,PBLAST)
+     .                  ELBUF_STR,STACK,IBCL,ILOADP,LLOADP,LOADS,MAT_PARAM,PBLAST,
+     .                  IGRPART)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -106,6 +107,7 @@ C-----------------------------------------------
         USE MATPARAM_DEF_MOD
         USE TRI7BOX
         USE PBLAST_MOD
+        USE GROUPDEF_MOD
         USE OUTPUT_MOD , ONLY : H3D_HAS_NODA_PEXT
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -122,6 +124,7 @@ C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "spmd_c.inc"
 #include      "vect01_c.inc"
+
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -137,6 +140,7 @@ C-----------------------------------------------
         TYPE (LOADS_), INTENT(IN)    :: LOADS
         TYPE (MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(INOUT) :: MAT_PARAM
         TYPE (PBLAST_) :: PBLAST
+        TYPE(GROUP_)  ,DIMENSION(NGRPART) ,INTENT(IN) :: IGRPART
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -806,7 +810,7 @@ C--------------------------------------------------
 C--------------------------------------------------
             IF(KEY2 == 'PART') THEN
 C--------------------------------------------------
-              CALL CREATE_H3D_PARTS(H3D_DATA,ID_INPUT,IPART)
+              CALL CREATE_H3D_PARTS(H3D_DATA,ID_INPUT,IPART,IGRPART)
               H3D_DATA%IPART_SELECT = 1
               IOK_H3DKEY = 1
             ENDIF
@@ -911,7 +915,7 @@ c
                       CALL CREATE_H3D_NODAL_SCALAR(H3D_DATA,H3D_KEYWORD_NODAL_SCALAR(J)%ID,ID_INPUT,
      .                          TRIM(H3D_KEYWORD_NODAL_SCALAR(J)%TEXT1),LEN_TRIM(H3D_KEYWORD_NODAL_SCALAR(J)%TEXT1),
      .                                            H3D_KEYWORD_NODAL_SCALAR(J)%COMMENT,80,IPART,KEY3_GLOB,
-     .                                            INTER_INPUT(K))
+     .                                            INTER_INPUT(K),IGRPART)
                       IOK_H3DKEY = 1
                     ENDIF
                   ENDDO
@@ -920,14 +924,16 @@ c
                     CALL CREATE_H3D_NODAL_VECTOR(H3D_DATA,H3D_KEYWORD_NODAL_VECTOR(J)%ID,ID_INPUT,
      .                                      TRIM(H3D_KEYWORD_NODAL_VECTOR(J)%TEXT1),
      .                                      LEN_TRIM(H3D_KEYWORD_NODAL_VECTOR(J)%TEXT1),
-     .                                      H3D_KEYWORD_NODAL_VECTOR(J)%COMMENT,80,IPART,KEY3_GLOB)
+     .                                      H3D_KEYWORD_NODAL_VECTOR(J)%COMMENT,80,IPART,KEY3_GLOB,
+     .                                      IGRPART)
                     IOK_H3DKEY = 1
                   ENDIF
                   IF ( KEY3_GLOB == H3D_KEYWORD_NODAL_TENSOR(J)%KEY3 ) THEN
                     CALL CREATE_H3D_NODAL_TENSOR(H3D_DATA,H3D_KEYWORD_NODAL_TENSOR(J)%ID,ID_INPUT,
      .                                      TRIM(H3D_KEYWORD_NODAL_TENSOR(J)%TEXT1),
      .                                      LEN_TRIM(H3D_KEYWORD_NODAL_TENSOR(J)%TEXT1),
-     .                                      H3D_KEYWORD_NODAL_TENSOR(J)%COMMENT,80,IPART,KEY3_GLOB)
+     .                                      H3D_KEYWORD_NODAL_TENSOR(J)%COMMENT,80,IPART,KEY3_GLOB,
+     .                                      IGRPART)
                     IOK_H3DKEY = 1
                   ENDIF
                 ENDIF
@@ -1924,7 +1930,7 @@ c
      .                            TRIM(H3D_KEYWORD_SHELL_SCALAR(J)%TEXT1),LEN_TRIM(H3D_KEYWORD_SHELL_SCALAR(J)%TEXT1),
      .                                 H3D_KEYWORD_SHELL_SCALAR(J)%COMMENT,80,IPART,KEY3_GLOB,
      .                            LAYER_INPUT(K),IR_INPUT(K),IS_INPUT(K),IT_INPUT(K),
-     .                            UVAR_INPUT(K))
+     .                            UVAR_INPUT(K),IGRPART)
                       IS_SKING = 1
                     ELSE
 c
@@ -1962,7 +1968,7 @@ c
      .                                                      H3D_KEYWORD_SHELL_SCALAR(J)%COMMENT,80,IPART,KEY3_GLOB,
      .                           LAYER_INPUT(K),IPT_INPUT(K),PLY_INPUT(K),GAUSS_INPUT(K),UVAR_INPUT(K),
      .                                                      MDSVAR_INPUT(K),MDSVAR_INPUT1(K),MDSVAR_INPUT2(K),
-     .                                                      MDS_LABEL_TMP,30,IDS_INPUT(K),MODES_INPUT(K))
+     .                                                      MDS_LABEL_TMP,30,IDS_INPUT(K),MODES_INPUT(K),IGRPART)
                     END IF
                     IOK_H3DKEY = 1
                   ELSEIF (IS_AVAILABLE_KEY(K) == 1 .AND. IS_VECTOR == 1) THEN
@@ -1972,13 +1978,13 @@ c
      .                                          LEN_TRIM(H3D_KEYWORD_SHELL_VECTOR(J)%TEXT1),
      .                                          H3D_KEYWORD_SHELL_VECTOR(J)%COMMENT,80,IPART,KEY3_GLOB,
      .                                          LAYER_INPUT(K),IR_INPUT(K),IS_INPUT(K),IT_INPUT(K),
-     .                                     UVAR_INPUT(K) )
+     .                                          UVAR_INPUT(K),IGRPART )
                       IS_SKING = 1
                     ELSE
                       CALL CREATE_H3D_SHELL_VECTOR(H3D_DATA,H3D_KEYWORD_SHELL_VECTOR(J)%ID,N1,N2,ID_INPUT,
      .                          TRIM(H3D_KEYWORD_SHELL_VECTOR(J)%TEXT1),LEN_TRIM(H3D_KEYWORD_SHELL_VECTOR(J)%TEXT1),
      .                                                     H3D_KEYWORD_SHELL_VECTOR(J)%COMMENT,80,IPART,KEY3_GLOB,
-     .                          LAYER_INPUT(K),IPT_INPUT(K),PLY_INPUT(K),GAUSS_INPUT(K),UVAR_INPUT(K))
+     .                          LAYER_INPUT(K),IPT_INPUT(K),PLY_INPUT(K),GAUSS_INPUT(K),UVAR_INPUT(K),IGRPART)
                     END IF
                     IOK_H3DKEY = 1
 
@@ -1987,7 +1993,7 @@ c
      .                                                 LEN_TRIM(H3D_KEYWORD_SHELL_TENSOR(J)%TEXT1),
      .                                                 H3D_KEYWORD_SHELL_TENSOR(J)%COMMENT,80,IPART,KEY3_GLOB,
      .                                                 LAYER_INPUT(K),IPT_INPUT(K),PLY_INPUT(K),GAUSS_INPUT(K),
-     .                                                 UVAR_INPUT(K),IDS_INPUT(K))
+     .                                                 UVAR_INPUT(K),IDS_INPUT(K),IGRPART)
                     IOK_H3DKEY = 1
                   ENDIF
                 ENDDO
@@ -2204,7 +2210,7 @@ c
      .                            TRIM(H3D_KEYWORD_SOLID_SCALAR(J)%TEXT1),LEN_TRIM(H3D_KEYWORD_SOLID_SCALAR(J)%TEXT1),
      .                                                 H3D_KEYWORD_SOLID_SCALAR(J)%COMMENT,80,IPART,KEY3_GLOB,
      .                            LAYER_INPUT(K),IR_INPUT(K),IS_INPUT(K),IT_INPUT(K),
-     .                            UVAR_INPUT(K))
+     .                            UVAR_INPUT(K),IGRPART)
                       IS_SKING = 1
                     ELSE
                       IF (IS_MDSVAR ==1) MDS_LABEL_TMP = MDS_LABEL(MDSVAR_INPUT1(K), MDSVAR_INPUT(K))
@@ -2243,7 +2249,7 @@ c
      .                                                 H3D_KEYWORD_SOLID_SCALAR(J)%COMMENT,80,IPART,KEY3_GLOB,
      .                            LAYER_INPUT(K),IR_INPUT(K),IS_INPUT(K),IT_INPUT(K),
      .                            UVAR_INPUT(K),MDSVAR_INPUT(K),MDSVAR_INPUT1(K),
-     .                                                 MDSVAR_INPUT2(K),MDS_LABEL_TMP,30,IDS_INPUT(K),MODES_INPUT(K))
+     .                            MDSVAR_INPUT2(K),MDS_LABEL_TMP,30,IDS_INPUT(K),MODES_INPUT(K),IGRPART)
                     END IF
                     IOK_H3DKEY = 1
                   ELSEIF (IS_AVAILABLE_KEY(K) == 1 .AND. IS_VECTOR == 1) THEN
@@ -2253,14 +2259,14 @@ c
      .                                          LEN_TRIM(H3D_KEYWORD_SOLID_VECTOR(J)%TEXT1),
      .                                          H3D_KEYWORD_SOLID_VECTOR(J)%COMMENT,80,IPART,KEY3_GLOB,
      .                                          LAYER_INPUT(K),IR_INPUT(K),IS_INPUT(K),IT_INPUT(K),
-     .                                     UVAR_INPUT(K) )
+     .                                          UVAR_INPUT(K) ,IGRPART)
                       IS_SKING = 1
                     ELSE
                       CALL CREATE_H3D_SOLID_VECTOR(H3D_DATA,H3D_KEYWORD_SOLID_VECTOR(J)%ID,ID_INPUT,
      .                            TRIM(H3D_KEYWORD_SOLID_VECTOR(J)%TEXT1),LEN_TRIM(H3D_KEYWORD_SOLID_VECTOR(J)%TEXT1),
      .                                                 H3D_KEYWORD_SOLID_VECTOR(J)%COMMENT,80,IPART,KEY3_GLOB,
      .                            LAYER_INPUT(K),IR_INPUT(K),IS_INPUT(K),IT_INPUT(K),
-     .                            UVAR_INPUT(K))
+     .                            UVAR_INPUT(K),IGRPART)
                     END IF
                     IOK_H3DKEY = 1
                   ELSEIF (IS_AVAILABLE_KEY(K) == 1 .AND. IS_TENSOR == 1) THEN
@@ -2270,14 +2276,14 @@ c
      .                                            LEN_TRIM(H3D_KEYWORD_SOLID_TENSOR(J)%TEXT1),
      .                                               H3D_KEYWORD_SOLID_TENSOR(J)%COMMENT,80,IPART,KEY3_GLOB,
      .                                            LAYER_INPUT(K),IR_INPUT(K),IS_INPUT(K),IT_INPUT(K),
-     .                                            UVAR_INPUT(K))
+     .                                            UVAR_INPUT(K),IGRPART)
                       IS_SKING = 1
                     ELSE
                       CALL CREATE_H3D_SOLID_TENSOR(H3D_DATA,H3D_KEYWORD_SOLID_TENSOR(J)%ID,ID_INPUT,
      .                            TRIM(H3D_KEYWORD_SOLID_TENSOR(J)%TEXT1),LEN_TRIM(H3D_KEYWORD_SOLID_TENSOR(J)%TEXT1),
      .                                                 H3D_KEYWORD_SOLID_TENSOR(J)%COMMENT,80,IPART,KEY3_GLOB,
      .                            LAYER_INPUT(K),IR_INPUT(K),IS_INPUT(K),IT_INPUT(K),
-     .                            UVAR_INPUT(K) ,IS_CORNER_DATA,IDS_INPUT(K))
+     .                            UVAR_INPUT(K) ,IS_CORNER_DATA,IDS_INPUT(K),IGRPART)
                     END IF
                     IOK_H3DKEY = 1
 C-----------------
@@ -2361,13 +2367,13 @@ C--------------------------------------------------
                       CALL CREATE_H3D_SPH_SCALAR(H3D_DATA,H3D_KEYWORD_SPH_SCALAR(J)%ID,ID_INPUT,
      .                        TRIM(H3D_KEYWORD_SPH_SCALAR(J)%TEXT1),LEN_TRIM(H3D_KEYWORD_SPH_SCALAR(J)%TEXT1),
      .                                             H3D_KEYWORD_SPH_SCALAR(J)%COMMENT,80,IPART,KEY3_GLOB,
-     .                                             IUVAR,IDS_INPUT(K),MODES_INPUT(K))
+     .                                             IUVAR,IDS_INPUT(K),MODES_INPUT(K),IGRPART)
                     ENDDO
                   ELSE
                     CALL CREATE_H3D_SPH_SCALAR(H3D_DATA,H3D_KEYWORD_SPH_SCALAR(J)%ID,ID_INPUT,
      .                          TRIM(H3D_KEYWORD_SPH_SCALAR(J)%TEXT1),LEN_TRIM(H3D_KEYWORD_SPH_SCALAR(J)%TEXT1),
      .                                               H3D_KEYWORD_SPH_SCALAR(J)%COMMENT,80,IPART,KEY3_GLOB,
-     .                                               IUVAR,IDS_INPUT(1),MODES_INPUT(1))
+     .                                               IUVAR,IDS_INPUT(1),MODES_INPUT(1),IGRPART)
                   ENDIF
                   IOK_H3DKEY = 1
                 ENDIF
@@ -2376,7 +2382,7 @@ c
 
                   CALL CREATE_H3D_SPH_TENSOR(H3D_DATA,H3D_KEYWORD_SPH_TENSOR(J)%ID,ID_INPUT,
      .                       TRIM(H3D_KEYWORD_SPH_TENSOR(J)%TEXT1),LEN_TRIM(H3D_KEYWORD_SPH_TENSOR(J)%TEXT1),
-     .                                            H3D_KEYWORD_SPH_TENSOR(J)%COMMENT,80,IPART,KEY3_GLOB)
+     .                                            H3D_KEYWORD_SPH_TENSOR(J)%COMMENT,80,IPART,KEY3_GLOB,IGRPART)
                   IOK_H3DKEY = 1
                 ENDIF
               ENDDO
@@ -2437,24 +2443,24 @@ c
                     CALL CREATE_H3D_1D_SCALAR(H3D_DATA,H3D_KEYWORD_ONED_SCALAR(J)%ID,ID_INPUT,
      .                                        TRIM(H3D_KEYWORD_ONED_SCALAR(J)%TEXT1),
      .                                        LEN_TRIM(H3D_KEYWORD_ONED_SCALAR(J)%TEXT1),
-     .                                        H3D_KEYWORD_ONED_SCALAR(J)%COMMENT,80,IPART,KEY3_GLOB,IPT_INPUT(K))
+     .                                        H3D_KEYWORD_ONED_SCALAR(J)%COMMENT,80,IPART,KEY3_GLOB,IPT_INPUT(K),IGRPART)
                     IOK_H3DKEY = 1
                   ELSEIF (IS_AVAILABLE_KEY(K) == 1 .AND. IS_VECTOR == 1) THEN
                     CALL CREATE_H3D_1D_VECTOR(H3D_DATA,H3D_KEYWORD_ONED_VECTOR(J)%ID,ID_INPUT,
      .                                        TRIM(H3D_KEYWORD_ONED_VECTOR(J)%TEXT1),
      .                                        LEN_TRIM(H3D_KEYWORD_ONED_VECTOR(J)%TEXT1),
-     .                                        H3D_KEYWORD_ONED_VECTOR(J)%COMMENT,80,IPART,KEY3_GLOB)
+     .                                        H3D_KEYWORD_ONED_VECTOR(J)%COMMENT,80,IPART,KEY3_GLOB,IGRPART)
                     IOK_H3DKEY = 1
                   ELSEIF (IS_AVAILABLE_KEY(K) == 1 .AND. IS_TENSOR == 1) THEN
                     CALL CREATE_H3D_1D_TENSOR(H3D_DATA,H3D_KEYWORD_ONED_TENSOR(J)%ID,ID_INPUT,
      .                                        TRIM(H3D_KEYWORD_ONED_TENSOR(J)%TEXT1),
      .                                        LEN_TRIM(H3D_KEYWORD_ONED_TENSOR(J)%TEXT1),
-     .                                        H3D_KEYWORD_ONED_TENSOR(J)%COMMENT,80,IPART,KEY3_GLOB,IPT_INPUT(K))
+     .                                        H3D_KEYWORD_ONED_TENSOR(J)%COMMENT,80,IPART,KEY3_GLOB,IPT_INPUT(K),IGRPART)
                     IOK_H3DKEY = 1
                   ELSEIF (IS_AVAILABLE_KEY(K) == 1 .AND. IS_TORSOR == 1) THEN
                     CALL CREATE_H3D_1D_TORSOR(H3D_DATA,H3D_KEYWORD_ONED_TORSOR(J)%ID,ID_INPUT,
      .                        TRIM(H3D_KEYWORD_ONED_TORSOR(J)%TEXT1),LEN_TRIM(H3D_KEYWORD_ONED_TORSOR(J)%TEXT1),
-     .                                              H3D_KEYWORD_ONED_TORSOR(J)%COMMENT,80,IPART,KEY3_GLOB)
+     .                                              H3D_KEYWORD_ONED_TORSOR(J)%COMMENT,80,IPART,KEY3_GLOB,IGRPART)
                     IOK_H3DKEY = 1
                   ENDIF
                 ENDDO ! DO K=1,CPT_H3D
@@ -2639,7 +2645,7 @@ c
      .                                        LEN_TRIM(H3D_KEYWORD_QUAD_SCALAR(J)%TEXT1),
      .                                        H3D_KEYWORD_QUAD_SCALAR(J)%COMMENT,80,IPART,KEY3_GLOB,
      .                                        LAYER_INPUT(K),IR_INPUT(K),IS_INPUT(K),IT_INPUT(K),
-     .                                         UVAR_INPUT(K),IDS_INPUT(K),MODES_INPUT(K))
+     .                                         UVAR_INPUT(K),IDS_INPUT(K),MODES_INPUT(K),IGRPART)
                     IOK_H3DKEY = 1
                   ENDIF
 
@@ -2650,7 +2656,7 @@ c
      .                                        LEN_TRIM(H3D_KEYWORD_QUAD_VECTOR(J)%TEXT1),
      .                                        H3D_KEYWORD_QUAD_VECTOR(J)%COMMENT,80,IPART,KEY3_GLOB,
      .                                        LAYER_INPUT(K),IR_INPUT(K),IS_INPUT(K),IT_INPUT(K),
-     .                   UVAR_INPUT(K) )
+     .                                        UVAR_INPUT(K),IGRPART )
                     IOK_H3DKEY = 1
                   ENDIF
 
@@ -2661,7 +2667,7 @@ c
      .                                     LEN_TRIM(H3D_KEYWORD_QUAD_TENSOR(J)%TEXT1),
      .                                     H3D_KEYWORD_QUAD_TENSOR(J)%COMMENT,80,IPART,KEY3_GLOB,
      .                                     LAYER_INPUT(K),IR_INPUT(K),IS_INPUT(K),IT_INPUT(K),
-     .                UVAR_INPUT(K) )
+     .                                     UVAR_INPUT(K),IGRPART )
                     IOK_H3DKEY = 1
                   ENDIF
                 ENDDO

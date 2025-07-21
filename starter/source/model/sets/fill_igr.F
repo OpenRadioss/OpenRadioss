@@ -92,20 +92,25 @@ C-----------------------------------------------
       CHARACTER(LEN=ROOTLEN), INTENT(IN) ::  ROOTNAM
       CHARACTER(LEN=INFILE_NAME_LEN), INTENT(IN) ::  INFILE_NAME
 C-----------------------------------------------
+C   E x t e r n a l   F u n c t i o n s
+C-----------------------------------------------
+      INTEGER NVAR
+C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,IGS,GRTYPE,IO_ERR1,IO_ERR2,NB_GRNODE
+      INTEGER I,J,IGS,GRTYPE,IO_ERR1,IO_ERR2,NB_GRNODE,NB_GRPART
       LOGICAL IS_USED
       CHARACTER FILNAM*109, KEYA*80
       CHARACTER(LEN=NCHARLINE) ::CARTE
       INTEGER :: LEN_TMP_NAME
       CHARACTER(len=4096) :: TMP_NAME
-      INTEGER , DIMENSION(:), ALLOCATABLE :: GRNODE
+      INTEGER , DIMENSION(:), ALLOCATABLE :: GRNODE,GRPART,GRPART_TMP
 C-----------------------------------------------
 C     READING ENGINE FILE
 C-----------------------------------------------   
       IO_ERR1 = 0
       NB_GRNODE = 0
+      NB_GRPART = 0
       DO I = 1, 10000
         WRITE(FILNAM, '(A, A, I4.4, A)') ROOTNAM(1:ROOTLEN), '_', I-1, '.rad'
         TMP_NAME = INFILE_NAME(1:INFILE_NAME_LEN)//FILNAM(1:LEN_TRIM(FILNAM))    
@@ -124,6 +129,20 @@ C
      .           KEYA(1:14) == '/INIV/AXIS/X/2' .OR. KEYA(1:14) == '/INIV/AXIS/Y/2' .OR.
      .           KEYA(1:14) == '/INIV/AXIS/Z/2')  THEN
                 NB_GRNODE = NB_GRNODE + 1
+              ELSEIF(KEYA(1:4) == '/H3D' .AND. KEYA(1:7) /= '/H3D/DT'  .AND.
+     .               KEYA(1:10) /= '/H3D/TITLE'   .AND. KEYA(1:13) /= '/H3D/COMPRESS'   .AND.
+     .               KEYA(1:12) /= '/H3D/LSENSOR' .AND. KEYA(1:7) /= '/H3D/RB'     ) THEN
+                READ(UNIT=tmp_engine, FMT='(A)', IOSTAT=IO_ERR2) CARTE
+                IF(CARTE(1:1) == '/') THEN 
+                  BACKSPACE(tmp_engine)
+                ELSE
+                  ALLOCATE(GRPART_TMP(NVAR(CARTE)))
+                  READ(CARTE, FMT=*) GRPART_TMP
+                  DO J=1,NVAR(CARTE)
+                    IF(GRPART_TMP(J) < 0)  NB_GRPART = NB_GRPART + 1
+                  END DO
+                  IF(ALLOCATED(GRPART_TMP))  DEALLOCATE(GRPART_TMP)
+                ENDIF
               ELSE IF(KEYA(1:6) == '/BEGIN') THEN
                 IO_ERR2 = 1
               ENDIF
@@ -136,6 +155,9 @@ C
 
       IF (NB_GRNODE > 0) ALLOCATE(GRNODE(NB_GRNODE))
       NB_GRNODE = 0
+      
+      IF (NB_GRPART > 0) ALLOCATE(GRPART(NB_GRPART))
+      NB_GRPART = 0
 
       DO I = 1, 10000
         WRITE(FILNAM, '(A, A, I4.4, A)') ROOTNAM(1:ROOTLEN), '_', I-1, '.rad'
@@ -210,6 +232,23 @@ C
                 READ(CARTE, FMT=*) GRNODE(NB_GRNODE)
               ELSE IF(KEYA(1:6) == '/BEGIN') THEN
                 IO_ERR2 = 1
+              ELSE IF(KEYA(1:4) == '/H3D' .AND. KEYA(1:7) /= '/H3D/DT'  .AND.
+     .                KEYA(1:10) /= '/H3D/TITLE'   .AND. KEYA(1:13) /= '/H3D/COMPRESS'   .AND.
+     .                KEYA(1:12) /= '/H3D/LSENSOR' .AND. KEYA(1:7) /= '/H3D/RB'     ) THEN
+                READ(UNIT=tmp_engine, FMT='(A)', IOSTAT=IO_ERR2) CARTE
+                IF(CARTE(1:1) == '/') THEN 
+                  BACKSPACE(tmp_engine)
+                ELSE
+                  ALLOCATE(GRPART_TMP(NVAR(CARTE)))
+                  READ(CARTE, FMT=*) GRPART_TMP
+                  DO J=1,NVAR(CARTE)
+                    IF(GRPART_TMP(J) < 0)  THEN 
+                      NB_GRPART = NB_GRPART + 1
+                      GRPART(NB_GRPART) = GRPART_TMP(J)
+                    ENDIF
+                  END DO
+                  IF(ALLOCATED(GRPART_TMP))  DEALLOCATE(GRPART_TMP)
+                ENDIF
               ENDIF
             END IF
           END DO
@@ -227,6 +266,15 @@ C
                                                               !  groups only on one SET which has all included.
          ! PART
          CALL HM_GROUP_IS_USED('/GRPART',7,SET(IGS)%SET_ID,IS_USED)
+         
+         IF(.NOT. IS_USED .AND. NB_GRPART > 0) THEN
+            DO I=1,NB_GRPART
+              IF(SET(IGS)%SET_ID == -GRPART(I)) THEN
+                IS_USED = .TRUE.
+              ENDIF
+            ENDDO
+         ENDIF
+
          IF(IS_USED .OR. DOQA == 1)THEN
            GRTYPE = 0
            CALL FILL_GR( IGRPART ,NGRPART,GRTYPE,
@@ -431,6 +479,7 @@ C
        ENDDO
 
        IF(ALLOCATED(GRNODE))  DEALLOCATE(GRNODE)
+       IF(ALLOCATED(GRPART))  DEALLOCATE(GRPART)
 
       END 
 
