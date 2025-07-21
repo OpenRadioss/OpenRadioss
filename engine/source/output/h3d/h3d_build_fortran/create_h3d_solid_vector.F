@@ -33,12 +33,14 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||====================================================================
       SUBROUTINE CREATE_H3D_SOLID_VECTOR(H3D_DATA,ID_SOLID_VECTOR,ID_INPUT,TEXT1,STEXT1,
      .                                   COMMENT, SCOMMENT, IPART,KEY3_GLOB,
-     .                                   LAYER,IR,IS,IT,IUVAR)
+     .                                   LAYER,IR,IS,IT,IUVAR,IGRPART)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE H3D_MOD
       USE NAMES_AND_TITLES_MOD, ONLY: NCHARLINE100
+      USE GROUPDEF_MOD
+      USE CREATE_H3D_OUTPUT_PER_PART_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -56,6 +58,7 @@ C-----------------------------------------------
       CHARACTER(LEN=STEXT1) :: TEXT1
       CHARACTER(LEN=SCOMMENT) :: COMMENT
       CHARACTER(LEN=NCHARLINE100) :: KEY3_GLOB
+      TYPE(GROUP_)  ,DIMENSION(NGRPART) ,INTENT(IN) :: IGRPART
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -115,13 +118,7 @@ c      DO J=1,N_H3D_PART
 c        print *,'ds la construct_lect',H3D_DATA%INPUT_LIST(ID_INPUT)%PART_LIST(J)
 c      ENDDO
  
-      DO J=1,N_H3D_PART
-        DO I=1,NPART
-          IF(H3D_DATA%INPUT_LIST(ID_INPUT)%PART_LIST(J) == IPART(4,I)) THEN
-              H3D_DATA%OUTPUT_LIST(H3D_DATA%N_OUTP_H3D)%PART(I) = 1
-          ENDIF
-        ENDDO
-      ENDDO
+      CALL CREATE_H3D_OUTPUT_PER_PART(N_H3D_PART,H3D_DATA,ID_INPUT,LIPART1,NPART,IPART,NGRPART,IGRPART)
 
 c      DO J=1,NPART
 c        print *,'ds la construct',H3D_DATA%OUTPUT_LIST(H3D_DATA%N_OUTP_H3D)%PART(J)

@@ -35,12 +35,14 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .                                       STEXT1       ,COMMENT    ,SCOMMENT  ,IPART    ,KEY3_GLOB ,
      .                                       LAYER    ,IPT    ,PLY             ,GAUSS    ,IUVAR       ,
      .                                       IDMDS    ,IVARMDS,ID_MAT_MDS,MDS_LABEL, SMDS_LABEL       ,
-     .                                       ID       ,MODE)
+     .                                       ID       ,MODE   ,IGRPART)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
         USE H3D_MOD
         USE NAMES_AND_TITLES_MOD, ONLY: NCHARLINE100
+        USE GROUPDEF_MOD
+        USE CREATE_H3D_OUTPUT_PER_PART_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -58,15 +60,12 @@ C-----------------------------------------------
         CHARACTER(LEN=SCOMMENT) :: COMMENT
         CHARACTER(LEN=64) :: MDS_LABEL
         INTEGER ,INTENT(IN) :: MODE
+        TYPE(GROUP_)  ,DIMENSION(NGRPART) ,INTENT(IN) :: IGRPART
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com04_c.inc"
 #include      "scr17_c.inc"
-C-----------------------------------------------
-C   E x t e r n a l   F u n c t i o n s
-C-----------------------------------------------
-        INTEGER NVAR
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -100,17 +99,13 @@ C=========================================================================
         H3D_DATA%OUTPUT_LIST(H3D_DATA%N_OUTP_H3D)%MODE = MODE
 
         N_H3D_PART = H3D_DATA%INPUT_LIST(ID_INPUT)%NB_PART
+
         H3D_DATA%OUTPUT_LIST(H3D_DATA%N_OUTP_H3D)%N_H3D_PART_LIST = N_H3D_PART
 
         IF (N_H3D_PART /= 0 )
      .         ALLOCATE(H3D_DATA%OUTPUT_LIST(H3D_DATA%N_OUTP_H3D)%PART_LIST(N_H3D_PART))
         ALLOCATE(H3D_DATA%OUTPUT_LIST(H3D_DATA%N_OUTP_H3D)%PART(NPART))
 c
-c      DO I=1,N_H3D_PART
-c        H3D_DATA%OUTPUT_LIST(H3D_DATA%N_OUTP_H3D)%PART_LIST(I) =
-c     .        H3D_DATA%INPUT_LIST(ID_INPUT)%PART_LIST(I)
-c
-c      ENDDO
         IF (N_H3D_PART /= 0 ) THEN
           DO I=1,NPART
             H3D_DATA%OUTPUT_LIST(H3D_DATA%N_OUTP_H3D)%PART(I) = 0
@@ -120,18 +115,8 @@ c      ENDDO
             H3D_DATA%OUTPUT_LIST(H3D_DATA%N_OUTP_H3D)%PART(I) = 1
           ENDDO
         ENDIF
-
-c      DO J=1,N_H3D_PART
-c        print *,'ds la construct_lect',H3D_DATA%INPUT_LIST(ID_INPUT)%PART_LIST(J)
-c      ENDDO
-
-        DO J=1,N_H3D_PART
-          DO I=1,NPART
-            IF(H3D_DATA%INPUT_LIST(ID_INPUT)%PART_LIST(J) == IPART(4,I)) THEN
-              H3D_DATA%OUTPUT_LIST(H3D_DATA%N_OUTP_H3D)%PART(I) = 1
-            ENDIF
-          ENDDO
-        ENDDO
+c 
+       CALL CREATE_H3D_OUTPUT_PER_PART(N_H3D_PART,H3D_DATA,ID_INPUT,LIPART1,NPART,IPART,NGRPART,IGRPART)
 
 c      DO J=1,NPART
 c        print *,'ds la construct',H3D_DATA%OUTPUT_LIST(H3D_DATA%N_OUTP_H3D)%PART(J)
