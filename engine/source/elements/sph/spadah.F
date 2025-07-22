@@ -53,16 +53,17 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER KXSP(NISP,*),IXSP(KVOISPH,*),NOD2SP(*),ITAB(*),
-     .        WASPACT(*),ITASK,IPARTSP(*),IPART(LIPART1,*)
+     .        WASPACT(*),ITASK,IPARTSP(*),IPART(LIPART1,*)      
 C     REAL
       my_real
      .   X(3,*) ,V(3,*) ,MS(*) ,SPBUF(NSPBUF,*) ,WA(KWASPH,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER N,INOD,NVOIS,NS,IPRT,IPROP
+      INTEGER N,INOD,NVOIS,NS,IPRT,IPROP,H_FLAG
       my_real
-     .       XI,YI,ZI,DI,DIVV,COEFF,GET_U_GEO
+     .       XI,YI,ZI,DI,DIVV,COEFF,GET_U_GEO,
+     .       HMIN,HMAX,H_NEW,DI0
 C-----------------------------------------------
       EXTERNAL GET_U_GEO      
 C-----------------------------------------------
@@ -74,14 +75,24 @@ C-----------------------------------------------
         YI=X(2,INOD)
         ZI=X(3,INOD)
         DI   =SPBUF(1,N)
+        DI0 = SPBUF(14,N)
         DIVV =WA(13,N)
         IPRT =IPARTSP(N)
         IPROP=IPART(2,IPRT)
         COEFF = GET_U_GEO(8,IPROP)
-C--     3D dilatation of H : GET_U_GEO(8,IPROP) = 1/3
-C--     1D dilatation of H : GET_U_GEO(8,IPROP) = 1
-C--     Constant H : GET_U_GEO(8,IPROP) = 0        
-        SPBUF(1,N)=DI*(ONE+DIVV*DT1*COEFF)
+        H_FLAG=NINT(GET_U_GEO(9,IPROP))
+        HMIN = GET_U_GEO(10,IPROP)
+        HMAX = GET_U_GEO(11,IPROP)
+C--     H_FLAG = 0 -> 3D dilatation of H : GET_U_GEO(8,IPROP) = 1/3 - HMIN=0 HMAX=EP20
+C--     H_FLAG = 1 -> 1D dilatation of H : GET_U_GEO(8,IPROP) = 1   - HMIN=0 HMAX=EP20
+C--     H_FLAG = 2 -> Constant H : GET_U_GEO(8,IPROP) = 0           - HMIN=0 HMAX=EP20      
+C--     H_FLAG = 3 -> 3D dilatation of H with bounds hmin*h0 < H < hmax*h0     
+        H_NEW=DI*(ONE+DIVV*DT1*COEFF)
+        IF (H_FLAG==3) THEN
+          H_NEW=MAX(HMIN*DI0,H_NEW)
+          H_NEW=MIN(HMAX*DI0,H_NEW)
+        ENDIF
+        SPBUF(1,N)= H_NEW
         IF(SPBUF(1,N)<EM20)THEN
           CALL ANCMSG(MSGID=174,ANMODE=ANINFO,
      .            I1=KXSP(NISP,N))

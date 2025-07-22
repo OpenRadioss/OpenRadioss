@@ -98,8 +98,8 @@ C
 C
 C--- Closest neighbor is stored for tensile instability treatment --
 C
-         IF (NSPBUF==14) THEN
-           SPBUF(14,N)=TWO*SQRT(DVOIS(1))
+         IF (NSPBUF==15) THEN
+           SPBUF(15,N)=TWO*SQRT(DVOIS(1))
          ENDIF
 C
         END DO

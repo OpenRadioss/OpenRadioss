@@ -115,10 +115,11 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER IERROR,IORDER,ISK,K
       my_real
-     .        XK,MP,QA,QB,ALPCS,XORDER,DIST,PUN,ZSTAB
-      INTEGER IFLG_H_1D
+     .        XK,MP,QA,QB,ALPCS,XORDER,DIST,PUN,ZSTAB,
+     .        HMIN,HMAX,H_SCAL
+      INTEGER IFLG_H
       my_real
-     .   RFLG_H_1D
+     .   H_DILAT_COEFF,RFLG_H
       LOGICAL IS_AVAILABLE, IS_ENCRYPTED
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
@@ -134,7 +135,7 @@ C     front wave=1
       PARGEO(3) =1
 C-------
       ISK=0
-      IFLG_H_1D=0
+      IFLG_H=0
       IORDER=-1
       DIST  =ZERO
       ZSTAB =ZERO
@@ -147,7 +148,7 @@ C--------------------------------------------------
 C EXTRACT DATAS (INTEGER VALUES)
 C--------------------------------------------------
       CALL HM_GET_INTV('SKEW_CSID',ISK,IS_AVAILABLE,LSUBMODEL)
-      CALL HM_GET_INTV('h_1D',IFLG_H_1D,IS_AVAILABLE,LSUBMODEL)
+      CALL HM_GET_INTV('h_1D',IFLG_H,IS_AVAILABLE,LSUBMODEL)
       CALL HM_GET_INTV('ORDER',IORDER,IS_AVAILABLE,LSUBMODEL)
 C--------------------------------------------------
 C EXTRACT DATAS (REAL VALUES)
@@ -158,13 +159,22 @@ C--------------------------------------------------
       CALL HM_GET_FLOATV('ALPHA1',ALPCS,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV('h',DIST,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV('Xi_Stab',ZSTAB,IS_AVAILABLE,LSUBMODEL,UNITAB)
+      CALL HM_GET_FLOATV('hmin',HMIN,IS_AVAILABLE,LSUBMODEL,UNITAB)
+      CALL HM_GET_FLOATV('hmax',HMAX,IS_AVAILABLE,LSUBMODEL,UNITAB)
+      CALL HM_GET_FLOATV('h_scal',H_SCAL,IS_AVAILABLE,LSUBMODEL,UNITAB)
 C----------------------
 C
       WRITE(IOUT,1100) IG
 
       IF(QA==ZERO)QA=TWO
       IF(QB==ZERO)QB=ONE
-      IF (ZSTAB>0) NSPBUF=14
+      IF (ZSTAB>0) NSPBUF=15
+C      
+      IF (IFLG_H == 3) THEN
+        IF(HMIN==ZERO) HMIN = ZEP2
+        IF(HMAX==ZERO) HMAX = TWO
+        IF(H_SCAL==ZERO) H_SCAL = ONEP2
+      ENDIF  
 C
       IF(ISK /= 0)THEN
         DO K=1,NUMSKW
@@ -190,26 +200,35 @@ C     .              ANMODE=ANINFO,
 C     .              C1='SPH CORRECTION ORDER 1')
 C      END IF
 C
-      IF (IFLG_H_1D==0) THEN
-        RFLG_H_1D = THIRD
-      ELSEIF (IFLG_H_1D==1) THEN
-        RFLG_H_1D = ONE
+      RFLG_H = IFLG_H
+C
+      IF (IFLG_H==1) THEN
+        H_DILAT_COEFF = ONE
+      ELSEIF (IFLG_H==2) THEN
+        H_DILAT_COEFF = ZERO
       ELSE
-        RFLG_H_1D = ZERO
-      ENDIF
+        H_DILAT_COEFF = THIRD
+      ENDIF      
 C
       IF(IS_ENCRYPTED)THEN
         WRITE(IOUT,'(5X,A,//)')'  CONFIDENTIAL DATA'
       ELSE
         IF(DIST==ZERO)THEN
-         WRITE(IOUT,1000)MP,QA,QB,ALPCS,ZSTAB,ISK,IORDER
+          WRITE(IOUT,1000)MP,QA,QB,ALPCS,ZSTAB,ISK,IORDER
+          IF (IFLG_H==3) THEN
+            WRITE(IOUT,1005)
+          ELSE   
+            WRITE(IOUT,1004)
+          ENDIF   
         ELSE
          WRITE(IOUT,1001)MP,QA,QB,ALPCS,ZSTAB,ISK,IORDER,DIST
         ENDIF
-        IF (IFLG_H_1D==1) THEN
+        IF (IFLG_H==1) THEN
           WRITE(IOUT,1002)
-        ELSEIF (IFLG_H_1D==2) THEN
+        ELSEIF (IFLG_H==2) THEN
           WRITE(IOUT,1003)
+        ELSEIF (IFLG_H==3) THEN
+          WRITE(IOUT,1006) HMIN,HMAX,H_SCAL
         END IF
       ENDIF
         
@@ -218,7 +237,7 @@ C
      .              C1=TITR,I1=IG)
         MP=ONE
       ENDIF                      
-        
+C        
       IERROR = SET_U_GEO(1,MP)
       IERROR = SET_U_GEO(2,QA)
       IERROR = SET_U_GEO(3,QB)
@@ -227,7 +246,11 @@ C
       IERROR = SET_U_GEO(5,XORDER)
       IERROR = SET_U_GEO(6,DIST)
       IERROR = SET_U_GEO(7,ZSTAB)
-      IERROR = SET_U_GEO(8,RFLG_H_1D)
+      IERROR = SET_U_GEO(8,H_DILAT_COEFF)
+      IERROR = SET_U_GEO(9,RFLG_H)     
+      IERROR = SET_U_GEO(10,HMIN)
+      IERROR = SET_U_GEO(11,HMAX)
+      IERROR = SET_U_GEO(12,H_SCAL)
 C
       GEO(14)=QA
       GEO(15)=QB
@@ -266,7 +289,7 @@ C------
      & 5X,'COEFFICIENT WRT TENSILE INSTABILITY . .=',1PG20.13/,
      & 5X,'ORTHOTROPIC INITIAL SKEW SYSTEM . . . .=',I10/,
      & 5X,'FORMULATION CORRECTION ORDER. . . . . .=',I10/,
-     & 5X,'DEFAULT SMOOTHING LENGTH WILL BE USED.')
+     & 5X,'SMOOTHING LENGTH AUTOMATICALLY COMPUTED')
  1001 FORMAT(
      & 5X,'PARTICLES MASS. . . . . . . . . . . . .=',1PG20.13/,
      & 5X,'QA. . . . . . . . . . . . . . . . . . .=',1PG20.13/,
@@ -280,6 +303,15 @@ C------
      & 5X,'UNIAXIAL DILATATION OF SMOOTHING LENGTH')
  1003 FORMAT(
      & 5X,'CONSTANT SMOOTHING LENGTH')
+ 1004 FORMAT(
+     & 5X,'SMOOTHING LENGTH COMPUTED FROM PARTICLE MASS')
+ 1005 FORMAT(
+     & 5X,'SMOOTHING LENGTH COMPUTED FROM INTERPARTICLE DISTANCE')    
+ 1006 FORMAT(
+     & 5X,'BOUNDED DILATATION OF SMOOTHING LENGTH'/,
+     & 5X,'MINIMUM DILATATION RATIO . . . . . . . =',1PG20.13/,
+     & 5X,'MAXIMUM DILATATION RATIO . . . . . . . =',1PG20.13/,  
+     & 5X,'SMOOTHING LENGTH SCALING FACTOR. . . . =',1PG20.13)        
  1100 FORMAT(
      & 5X,'SPH PROPERTY SET'/,
      & 5X,'PROPERTY SET NUMBER . . . . . . . . . .=',I10)
