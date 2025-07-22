@@ -301,6 +301,7 @@
       !||    stat_sphcel_full                         ../engine/source/output/sta/stat_sphcel_full.F90
       !||    stifint_icontrol                         ../starter/source/interfaces/interf1/stifint_icontrol.F90
       !||    sz_dt1                                   ../engine/source/elements/solid/solidez/sz_dt1.F90
+      !||    table_mat_vinterp_c1                     ../engine/source/materials/tools/table_mat_vinterp_c1.F90
       !||    test_jc_shell_detach                     ../engine/source/engine/node_spliting/detach_node.F90
       !||    therm_param_mod                          ../common_source/modules/mat_elem/therm_param_mod.F90
       !||    update_neighbour_segment                 ../engine/source/interfaces/interf/update_neighbour_segment.F90

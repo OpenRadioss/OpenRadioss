@@ -343,6 +343,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    table_interp_dydx            ../engine/source/tools/curve/table_tools.F
       !||    table_interp_law76           ../engine/source/tools/curve/table_tools.F
       !||    table_mat_vinterp            ../engine/source/materials/tools/table_mat_vinterp.F
+      !||    table_mat_vinterp_c1         ../engine/source/materials/tools/table_mat_vinterp_c1.F90
       !||    table_rresti                 ../engine/source/tools/curve/table_tools.F
       !||    table_vinterp                ../engine/source/tools/curve/table_tools.F
       !||    trace_print                  ../engine/source/system/trace_back.F

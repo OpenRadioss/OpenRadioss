@@ -41,6 +41,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    sigeps128s             ../engine/source/materials/mat/mat128/sigeps128s.F90
       !||    sigeps129s             ../engine/source/materials/mat/mat129/sigeps129s.F90
       !||    table_mat_vinterp      ../engine/source/materials/tools/table_mat_vinterp.F
+      !||    table_mat_vinterp_c1   ../engine/source/materials/tools/table_mat_vinterp_c1.F90
       !||    table_rresti_mat       ../engine/source/materials/tools/table_rresti_mat.F
       !||    table_slope            ../starter/source/materials/tools/table_slope.F
       !||    visc_param_mod         ../common_source/modules/mat_elem/visc_param_mod.F90

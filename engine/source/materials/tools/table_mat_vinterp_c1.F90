@@ -21,8 +21,7 @@
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    vinter_mixed_mod   ../engine/source/tools/curve/vinter_mixed.F90
-      !||--- called by ------------------------------------------------------
+      !||    table_mat_vinterp_c1_mod   ../engine/source/materials/tools/table_mat_vinterp_c1.F90
       !||====================================================================
       module table_mat_vinterp_c1_mod
       contains
@@ -37,11 +36,18 @@
 !! \details     XX(nel) are abscissa on which the interpolation is required (input)
 !! \details     YY(nel) are the interpolated value (output)
 !! \details     DYDX(nel) is the slope (output)
-      !||====================================================================
-      !||    table_mat_vinterp_c1         ../engine/source/materials/tools/table_mat_vinterp_c1.F90
-      !||--- called by ------------------------------------------------------
-      !||====================================================================
 
+      !||====================================================================
+      !||    table_mat_vinterp_c1   ../engine/source/materials/tools/table_mat_vinterp_c1.F90
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg                 ../engine/source/output/message/message.F
+      !||    arret                  ../engine/source/system/arret.F
+      !||--- uses       -----------------------------------------------------
+      !||    constant_mod           ../common_source/modules/constant_mod.F
+      !||    message_mod            ../engine/share/message_module/message_mod.F
+      !||    precision_mod          ../common_source/modules/precision_mod.F90
+      !||    table4d_mod            ../common_source/modules/table4d_mod.F
+      !||====================================================================
       subroutine table_mat_vinterp_c1(table,dimx,nel,ipos,xx,yy,dydx, opt_extrapolate)
 
 !-----------------------------------------------
