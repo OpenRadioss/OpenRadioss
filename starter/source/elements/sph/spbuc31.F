@@ -31,7 +31,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||====================================================================
       SUBROUTINE SPBUC31(X      ,KXSP  ,IXSP  ,NOD2SP,
      2                   SPBUF  ,MA    ,JVOIS ,JSTOR ,JPERM ,
-     3                   DVOIS  ,IREDUCE,KREDUCE,BMINMA)
+     3                   DVOIS  ,IREDUCE,KREDUCE,BMINMA,IPARTSP ,
+     .                   SZ_INTP_DIST,MAX_INTP_DIST_PART,PRE_SEARCH)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -45,15 +46,20 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "sphcom.inc"
 C-----------------------------------------------
+C     PRE_SEARCH = 0 -> full search of neigbours 
+C     PRE_SEARCH = 1 -> pre-search of neigbours for computation of max interparticle dist 
+C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
 C     REAL
       INTEGER KXSP(NISP,*), IXSP(KVOISPH,*), NOD2SP(*),
      .        JVOIS(*), JSTOR(*), JPERM(*), IREDUCE, MA(NSPHACT),
      .        KREDUCE(*)
+      INTEGER ,INTENT(IN) :: IPARTSP(NUMSPH),PRE_SEARCH,SZ_INTP_DIST
 C     REAL
       my_real
      .        X(3,*),SPBUF(NSPBUF,*),DVOIS(*), BMINMA(6)
+      my_real ,INTENT(INOUT) :: MAX_INTP_DIST_PART(SZ_INTP_DIST)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -122,7 +128,8 @@ C--------------------------------------------------
      2      NBX     ,NBY    ,NBZ     ,
      3      MA      ,SPBUF  ,JVOIS   ,JSTOR   ,JPERM  ,
      4      DVOIS   ,IREDUCE,NSPHACTF,NSPHACTL,VOXEL1 ,
-     5      KXSP    ,IXSP   ,KREDUCE )
+     5      KXSP    ,IXSP   ,KREDUCE ,IPARTSP ,SZ_INTP_DIST,
+     6      MAX_INTP_DIST_PART,PRE_SEARCH)
 C
       RETURN
       END

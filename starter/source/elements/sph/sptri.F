@@ -45,7 +45,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    mod_sptri     ../starter/source/elements/sph/sptri.F
       !||====================================================================
       SUBROUTINE SPTRI(KXSP,IXSP,NOD2SP,X,SPBUF,
-     .                 LPRTSPH,LONFSPH)
+     .                 LPRTSPH,LONFSPH,IPARTSP,SZ_INTP_DIST,MAX_INTP_DIST_PART,
+     .                 PRE_SEARCH)
 C-----------------------------------------------
       USE MESSAGE_MOD
       USE MOD_SPTRI
@@ -60,12 +61,17 @@ C-----------------------------------------------
 #include      "sphcom.inc"
 #include      "buckr_c.inc"
 C-----------------------------------------------
+C     PRE_SEARCH = 0 -> full search of neigbours 
+C     PRE_SEARCH = 1 -> pre-search of neigbours for computation of max interparticle dist 
+C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER KXSP(NISP,*), IXSP(KVOISPH,*), NOD2SP(*),
      .        LPRTSPH(2,0:NPART) ,LONFSPH(*)
+      INTEGER ,INTENT(IN) :: IPARTSP(NUMSPH),PRE_SEARCH,SZ_INTP_DIST
       my_real
      .        SPBUF(NSPBUF,*), X(3,*)
+      my_real ,INTENT(INOUT) :: MAX_INTP_DIST_PART(SZ_INTP_DIST)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -154,9 +160,12 @@ C
 C-----------------------------------------------
       CALL SPBUC31(X      ,KXSP  ,IXSP  ,NOD2SP,
      .             SPBUF  ,WASPACT,JVOIS,JSTOR ,JPERM  ,
-     .             DVOIS ,IREDUCE,WREDUCE,BMINMA )
+     .             DVOIS  ,IREDUCE,WREDUCE,BMINMA,IPARTSP ,
+     .             SZ_INTP_DIST,MAX_INTP_DIST_PART,PRE_SEARCH)
 C-----------------------------------------------
 C     re-tri voisins (voisins vrais, voisins dans la zone de securite).
+C
+      IF (PRE_SEARCH==0) THEN
       MYSPATRUE=SPATRUE
 C     /---------------/
 C      CALL MY_BARRIER
@@ -167,6 +176,9 @@ C     /---------------/
 C      CALL MY_BARRIER
 C     /---------------/
       IF(MYSPATRUE<SPATRUE)SPATRUE=MYSPATRUE
+      ELSE     
+        DEALLOCATE(WREDUCE)       
+      ENDIF
 
       RETURN
       END

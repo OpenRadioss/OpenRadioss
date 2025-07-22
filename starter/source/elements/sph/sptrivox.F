@@ -35,7 +35,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      2      NBX    ,NBY     ,NBZ     ,
      3      NLIST  ,SPBUF   ,JVOIS   ,JSTOR   ,JPERM   ,
      4      DVOIS  ,IREDUCE ,NSPHACTF,NSPHACTL,VOXEL   ,
-     5      KXSP   ,IXSP    ,KREDUCE )
+     5      KXSP   ,IXSP    ,KREDUCE ,IPARTSP ,SZ_INTP_DIST,
+     6      MAX_INTP_DIST_PART,PRE_SEARCH)
 C============================================================================
 C   M o d u l e s
 C-----------------------------------------------
@@ -52,6 +53,9 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "sphcom.inc"
+C-----------------------------------------------
+C   PRE_SEARCH = 0 -> full search of neigbours 
+C   PRE_SEARCH = 1 -> pre-search of neigbours for computation of max interparticle dist 
 C-----------------------------------------------
 C   ROLE DE LA ROUTINE:
 C   ===================
@@ -80,16 +84,18 @@ C-----------------------------------------------
      .        NLIST(*),NOD2SP(*) ,
      .        VOXEL(NBX+2,NBY+2,NBZ+2),JVOIS(*)  ,JSTOR(*), JPERM(*) ,
      .        IREDUCE,KXSP(NISP,*), IXSP(KVOISPH,*), KREDUCE(*)
+      INTEGER ,INTENT(IN) :: IPARTSP(NUMSPH),PRE_SEARCH,SZ_INTP_DIST
 C     REAL
       my_real
      .   X(3,*),BMINMA(6),
      .   SPBUF(NSPBUF,*),DVOIS(*)
+      my_real ,INTENT(INOUT) :: MAX_INTP_DIST_PART(SZ_INTP_DIST)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NB_NCN,NB_NCN1,NB_ECN,I,J,DIR,NB_NC,NB_EC,
      .        N1,N2,N3,N4,NN,NE,K,L,II,JJ,JS,NS,N,
-     .        NSNF, NSNL,NVOIS, IG, IL
+     .        NSNF, NSNL,NVOIS, IG, IL,NVOIMAX
 C     REAL
       my_real
      .   DX,DY,DZ,XS,YS,ZS,XX,SX,SY,SZ,S2,XN,YN,ZN,
@@ -103,8 +109,9 @@ c provisoire
       my_real
      .   XMINB,YMINB,ZMINB,XMAXB,YMAXB,ZMAXB,
      .   XMINE,YMINE,ZMINE,XMAXE,YMAXE,ZMAXE,AAA,BBB,
-     .   AAA2
+     .   AAA2,MIN_DIST
       INTEGER FIRST,NEW,LAST
+      INTEGER IPART_I,IPART_JS
       SAVE IIX,IIY,IIZ,DISTMAX
 C-----------------------------------------------
 C      IF(ITASK == 0)THEN
@@ -195,12 +202,16 @@ C=======================================================================
 C 3   recherche des boites concernant chaque facette
 C     et creation des candidats
 C=======================================================================
+      NVOIMAX = 0
       DO NE = NSPHACTF,NSPHACTL
 C on ne retient pas les facettes detruites
 c        IF(STF(NE) == ZERO)CYCLE
 
         J=NLIST(NE)
         NN = KXSP(3,J)
+c        
+        MIN_DIST = EP30
+        IPART_I=IPARTSP(J)
 
 c a revoir !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         AAA = (SPBUF(1,J)+DISTMAX)* ALPHA_MARGE
@@ -242,6 +253,7 @@ cc             nnpelem = nnpelem + 1
 
                 JS=NLIST(JJ)
                 NS=KXSP(3,JS)
+                IPART_JS=IPARTSP(JS)
                 IF(JJ == NE)GOTO 200
                 XS = X(1,NS)
                 YS = X(2,NS)
@@ -273,6 +285,9 @@ cc             nnrpelem = nnrpelem + 1
                 JVOIS(NVOIS)=JS
                 DVOIS(NVOIS)=D2/AAA2
 
+cc              Distance to closest neigbhour of the same part 
+                IF (IPART_I==IPART_JS) MIN_DIST = MIN(MIN_DIST,SQRT(D2))
+
                 KXSP(5,J)  =NVOIS
 
   200           CONTINUE
@@ -285,12 +300,18 @@ cc             nnrpelem = nnrpelem + 1
           ENDDO
         ENDDO
 
-cc       nbpelg = nbpelg + nbpelem
-cc       nnpelg = nnpelg + nnpelem
-cc       nnrpelg = nnrpelg + nnrpelem
-cc       nnr0pelg = nnr0pelg + nnr0pelem
-        CALL SPPRO31(J    ,KXSP  ,IXSP ,NOD2SP,JVOIS,
+        IF (PRE_SEARCH==0) THEN 
+cc        nbpelg = nbpelg + nbpelem
+cc        nnpelg = nnpelg + nnpelem
+cc        nnrpelg = nnrpelg + nnrpelem
+cc        nnr0pelg = nnr0pelg + nnr0pelem
+          CALL SPPRO31(J    ,KXSP  ,IXSP ,NOD2SP,JVOIS,
      .               JSTOR,JPERM ,DVOIS,IREDUCE,KREDUCE)
+        ELSE
+cc        Pre-search - computation of max interpaticle distance per part (maximum of dist to closest neigbhour)
+          MAX_INTP_DIST_PART(IPART_I) = MAX(MAX_INTP_DIST_PART(IPART_I),MIN_DIST)
+          NVOIMAX = MAX(NVOIMAX,NVOIS)
+        ENDIF
 
       ENDDO
 
