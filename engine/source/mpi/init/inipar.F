@@ -366,7 +366,7 @@ C
       !||--- uses       -----------------------------------------------------
       !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
-      SUBROUTINE INIPAR(ITID,ICAS,NNODES,INPUT,GOT_INPUT,NBTASK)
+      SUBROUTINE INIPAR(coupling, ITID,ICAS,NNODES,INPUT,GOT_INPUT,NBTASK)
 C-----------------------------------------------------------------
         USE SPMD_COMM_WORLD_MOD, ONLY : SPMD_COMM_WORLD
         USE COUPLING_ADAPTER_MOD
@@ -390,6 +390,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
+      type(coupling_type), intent(inout) :: coupling
       INTEGER ICODE, I, NTHREAD1
 #if defined(_OPENMP)
       INTEGER OMP_GET_MAX_THREADS
