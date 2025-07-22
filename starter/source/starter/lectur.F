@@ -1196,6 +1196,9 @@ C DAMPING
       INTEGER :: NDAMP_VREL_RBY
       INTEGER :: NDAMP_FREQ_RANGE
       INTEGER , DIMENSION(:), ALLOCATABLE :: DAMP_RANGE_PART  
+C SPH
+      INTEGER :: PRE_SEARCH,SZ_INTP_DIST 
+      my_real :: MAX_INTP_DIST_PART
 
       TYPE(INTER_CAND_) :: INTER_CAND
       TYPE (FAIL_FRACTAL_)  :: FAIL_FRACTAL
@@ -4605,14 +4608,19 @@ c         ALLOCATE(VSPHIO2(SVSPHIO2)      ,STAT=stat)
       ENDIF
       IF(NUMSPH > 0)THEN
 C---------------------------------------------
-C        REMPLISSAGE de SPBUF(2) = H
+C       REMPLISSAGE de SPBUF(2) = H
 C---------------------------------------------
-        CALL SPINIH(KXSP    ,IPART  ,IPARTSP ,SPBUF  ,PM     )
+        CALL SPINIH(KXSP    ,IPART  ,IPARTSP ,SPBUF  ,PM,
+     .              IXSP    ,NOD2SP ,X       ,LPRTSPH,LONFSPH,
+     .              SNOD2SP ,SLONFSPH,NUMNOD,NPART,ITAB)
 C---------------------------------------------
 C        TRI STARTER : Remplissage de IXSP
 C---------------------------------------------
+        PRE_SEARCH = 0
+        SZ_INTP_DIST = 1     ! Array MAX_INTP_DIST_PART not used for full search siz=1
         CALL SPTRI(KXSP    ,IXSP    ,NOD2SP  ,X      ,SPBUF  ,
-     .             LPRTSPH ,LONFSPH )
+     .             LPRTSPH ,LONFSPH ,IPARTSP ,SZ_INTP_DIST,MAX_INTP_DIST_PART,
+     .             PRE_SEARCH)
       END IF
       CALL TRACE_OUT1()
 C---------------------------------------------
