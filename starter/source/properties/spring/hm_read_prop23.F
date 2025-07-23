@@ -35,7 +35,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    submodel_mod             ../starter/share/modules1/submodel_mod.F
       !||====================================================================
       SUBROUTINE HM_READ_PROP23(GEO,IGEO,IG,IGTYP,UNITAB,
-     .                          ISKN,TITR,LSUBMODEL,PROP_TAG)
+     .                          ISKN,TITR,LSUBMODEL,PROP_TAG,SUB_ID)
 C-----------------------------------------------
       USE UNITAB_MOD
       USE MESSAGE_MOD
@@ -59,6 +59,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
       INTEGER IGEO(NPROPGI),ISKN(LISKN,*),IG,IGTYP
+      INTEGER, INTENT(IN) :: SUB_ID
       TYPE(PROP_TAG_) , DIMENSION(0:MAXPROP) :: PROP_TAG
 C     REAL
       my_real
@@ -95,6 +96,7 @@ C EXTRACT DATAS (INTEGER VALUES)
 C--------------------------------------------------
       CALL HM_GET_INTV('Imass',ITYPE,IS_AVAILABLE,LSUBMODEL)
       CALL HM_GET_INTV('SKEW_CSID',ID_SKEW,IS_AVAILABLE,LSUBMODEL)
+      IF(ID_SKEW == 0 .AND. SUB_ID /= 0 ) ID_SKEW = LSUBMODEL(SUB_ID)%SKEW
       CALL HM_GET_INTV('ISENSOR',ID_SENS,IS_AVAILABLE,LSUBMODEL)
       CALL HM_GET_INTV('ISFLAG',ISFLAG,IS_AVAILABLE,LSUBMODEL)
 C--------------------------------------------------
@@ -108,7 +110,7 @@ C
         CALL HM_GET_FLOATV('AREA',VOL_AIR,IS_AVAILABLE,LSUBMODEL,UNITAB)
       ELSE
         CALL HM_GET_FLOATV('Volume',VOL_AIR,IS_AVAILABLE,LSUBMODEL,UNITAB)
-      ENDIF
+      ENDIF  
 C
 !----------------
 !  verification

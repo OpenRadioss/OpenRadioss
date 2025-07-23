@@ -36,7 +36,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    submodel_mod             ../starter/share/modules1/submodel_mod.F
       !||====================================================================
       SUBROUTINE HM_READ_PROP13(GEO, IGEO, IG, UNITAB,ISKN,
-     .                          IDTITL, IGTYP, PROP_TAG,LSUBMODEL)
+     .                          IDTITL, IGTYP, PROP_TAG,LSUBMODEL,SUB_ID)
 C============================================================================
 C   M o d u l e s
 C-----------------------------------------------
@@ -62,6 +62,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
       INTEGER IGEO(NPROPGI),ISKN(LISKN,*),IGTYP,IG
+      INTEGER, INTENT(IN) :: SUB_ID
 C     REAL
       my_real GEO(NPROPG)
       my_real FAC_M, FAC_L, FAC_T
@@ -106,6 +107,7 @@ C--------------------------------------------------
 C EXTRACT DATAS (INTEGER VALUES)
 C--------------------------------------------------
       CALL HM_GET_INTV('SKEW_CSID',ISK,IS_AVAILABLE,LSUBMODEL)
+      IF(ISK == 0 .AND. SUB_ID /= 0 ) ISK = LSUBMODEL(SUB_ID)%SKEW
       CALL HM_GET_INTV('ISENSOR',ISENS,IS_AVAILABLE,LSUBMODEL)
       CALL HM_GET_INTV('ISFLAG',IFL,IS_AVAILABLE,LSUBMODEL)
       CALL HM_GET_INTV('Ifail',IFAIL,IS_AVAILABLE,LSUBMODEL)
