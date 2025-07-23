@@ -47,7 +47,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER K
       my_real
-     .   XP, YP, ZP, ROT(9), XCOLD(3), XCNEW(3)
+     .   XP, YP, ZP, ROT(9), XCOLD(3), XCNEW(3), SCA(3)
 C-----------------------------------------------
       DO K=1,3
         XCOLD(K)=RTRANS(MYTRANS,K+11)
@@ -58,13 +58,16 @@ C-----------------------------------------------
       DO K=1,9
         ROT(K)=RTRANS(MYTRANS,K+2)
       ENDDO
+      DO K=1,3
+        SCA(K)=RTRANS(MYTRANS,K+19)
+      ENDDO
 
       XP = POINT(1) - XCOLD(1)
       YP = POINT(2) - XCOLD(2)
       ZP = POINT(3) - XCOLD(3)
-      POINT(1) = XCNEW(1) + ROT(1)*XP + ROT(4)*YP + ROT(7)*ZP                        
-      POINT(2) = XCNEW(2) + ROT(2)*XP + ROT(5)*YP + ROT(8)*ZP                         
-      POINT(3) = XCNEW(3) + ROT(3)*XP + ROT(6)*YP + ROT(9)*ZP                         
+      POINT(1) = XCNEW(1) + ROT(1)*XP + ROT(4)*YP + ROT(7)*ZP + ( XP - XCNEW(1)) * SCA(1)
+      POINT(2) = XCNEW(2) + ROT(2)*XP + ROT(5)*YP + ROT(8)*ZP + ( YP - XCNEW(2)) * SCA(2)
+      POINT(3) = XCNEW(3) + ROT(3)*XP + ROT(6)*YP + ROT(9)*ZP + ( ZP - XCNEW(3)) * SCA(3)
 C-----------------------------------------------
       RETURN
       END 

@@ -621,6 +621,126 @@ c
      .         RTRANS(I,3),RTRANS(I,6), RTRANS(I,9),
      .         RTRANS(I,4),RTRANS(I,7),RTRANS(I,10),
      .         RTRANS(I,5),RTRANS(I,8),RTRANS(I,11)
+     
+        ELSE IF (KEY(1:3) == 'SYM') THEN
+C
+          RTRANS(I,2) = 5
+
+          CALL HM_GET_INTV('GR_NODE',IGU,IS_AVAILABLE,LSUBMODEL)
+          CALL HM_GET_INTV('node1',N0,IS_AVAILABLE,LSUBMODEL)
+          CALL HM_GET_INTV('node2',N1,IS_AVAILABLE,LSUBMODEL)
+          CALL HM_GET_INTV('SUBMODEL',ITRANSSUB,IS_AVAILABLE,LSUBMODEL)
+C
+          CALL HM_GET_FLOATV('reflect_point1_x',X0(1),IS_AVAILABLE,LSUBMODEL,UNITAB)
+          CALL HM_GET_FLOATV('reflect_point1_y',X0(2),IS_AVAILABLE,LSUBMODEL,UNITAB)
+          CALL HM_GET_FLOATV('reflect_point1_z',X0(3),IS_AVAILABLE,LSUBMODEL,UNITAB)
+          CALL HM_GET_FLOATV('reflect_point2_x',X1(1),IS_AVAILABLE,LSUBMODEL,UNITAB)
+          CALL HM_GET_FLOATV('reflect_point2_y',X1(2),IS_AVAILABLE,LSUBMODEL,UNITAB)
+          CALL HM_GET_FLOATV('reflect_point2_z',X1(3),IS_AVAILABLE,LSUBMODEL,UNITAB)
+C--------------------------------------------------
+          INGR2USR => IGRNOD(1:NGRNOD)%ID
+          IGS = NGR2USR(IGU,INGR2USR,NGRNOD)
+          
+          IF (N0 > 0 .OR. N1 > 0) THEN
+            I0 = USRTOS(N0,ITABM1)
+            I1 = USRTOS(N1,ITABM1)
+            IF (I0 == 0) THEN
+              CALL ANCMSG(MSGID=694,
+     .                    MSGTYPE=MSGERROR,
+     .                    ANMODE=ANINFO,
+     .                    I1=ID,
+     .                    C1=TITR,
+     .                    I2=N0)
+            END IF
+            IF (I1 == 0) THEN
+              CALL ANCMSG(MSGID=694,
+     .                    MSGTYPE=MSGERROR,
+     .                    ANMODE=ANINFO,
+     .                    I1=ID,
+     .                    C1=TITR,
+     .                    I2=N1)
+            END IF
+            X0(1) = X(1,I0)
+            X0(2) = X(2,I0) 
+            X0(3) = X(3,I0)
+            X1(1) = X(1,I1)
+            X1(2) = X(2,I1) 
+            X1(3) = X(3,I1)
+          ELSE
+            X0(1) = X0(1) * FAC_L 
+            X0(2) = X0(2) * FAC_L  
+            X0(3) = X0(3) * FAC_L 
+            X1(1) = X1(1) * FAC_L 
+            X1(2) = X1(2) * FAC_L  
+            X1(3) = X1(3) * FAC_L 
+          ENDIF
+C
+          IF(TAGNODSUB(I0) == ITRANSSUB) THEN
+            DO J=1,I-1
+              IF(RTRANS(J,1) == ITRANSSUB) CALL RTRANSPOS(X0,J,RTRANS)
+            END DO
+          END IF
+C
+          IF(TAGNODSUB(I1) == ITRANSSUB) THEN
+            DO J=1,I-1
+              IF(RTRANS(J,1) == ITRANSSUB) CALL RTRANSPOS(X1,J,RTRANS)
+            END DO
+          END IF
+C
+          DO J=1,3
+            RTRANS(I,J+11) = X0(J)
+          ENDDO
+C
+          DO J=1,3
+            RTRANS(I,J+14) = X1(J)
+          ENDDO
+C
+          WRITE(IOUT,900) ID,IGU
+          IF (N0 > 0 .AND. N1 > 0) WRITE(IOUT,200) N0,N1
+          WRITE(IOUT,910) X0(1),X0(2),X0(3),TX,TY,TZ
+          
+        ELSE IF (KEY(1:3) == 'SCA') THEN
+C
+          RTRANS(I,2) = 6
+C
+          CALL HM_GET_INTV('node1',N0,IS_AVAILABLE,LSUBMODEL)
+C
+          CALL HM_GET_FLOATV('scalefactor_x',RTRANS(I,20),IS_AVAILABLE,LSUBMODEL,UNITAB)
+          CALL HM_GET_FLOATV('scalefactor_y',RTRANS(I,21),IS_AVAILABLE,LSUBMODEL,UNITAB)
+          CALL HM_GET_FLOATV('scalefactor_z',RTRANS(I,22),IS_AVAILABLE,LSUBMODEL,UNITAB)
+c          
+          IF (N0 > 0) THEN
+            I0 = USRTOS(N0,ITABM1)
+            IF (I0 == 0) THEN
+              CALL ANCMSG(MSGID=694,
+     .                    MSGTYPE=MSGERROR,
+     .                    ANMODE=ANINFO,
+     .                    I1=ID,
+     .                    C1=TITR,
+     .                    I2=N1)
+              X0(1) = ZERO
+              X0(2) = ZERO
+              X0(3) = ZERO
+            ELSE
+              X0(1) = X(1,I0)
+              X0(2) = X(2,I0) 
+              X0(3) = X(3,I0)
+            ENDIF
+          ENDIF
+C
+          DO J=1,3
+            RTRANS(I,J+11) = X0(J)
+          ENDDO
+C
+          IF(TAGNODSUB(I0) == ITRANSSUB) THEN
+            DO J=1,I-1
+              IF(RTRANS(J,1) == ITRANSSUB) CALL RTRANSPOS(X0,J,RTRANS)
+            END DO
+          END IF
+C
+          WRITE(IOUT,1000) ID,ID_TRANSSUB   
+          WRITE(IOUT,1010) RTRANS(I,12),RTRANS(I,13),RTRANS(I,14),RTRANS(I,20),RTRANS(I,21),RTRANS(I,22)
+C----
         ENDIF
       ENDDO
 C-------------------------
@@ -688,6 +808,28 @@ C-----------------------
      .         3E20.13/,
      . ' . . . . . . . . M31 . . . . . . . . M32 . . . . . . . . M33',/,
      .         3E20.13/)
+ 900  FORMAT(/
+     . '   SUBMODEL TRANSFORMATION PLANE SYMMETRY',/, 
+     . '       TRANSFORMATION ID. . . . . . . . . . . = ',I10/,                        
+     . '       SUBMODEL ID. . . . . . . . . . . . . . = ',I10/)
+ 910  FORMAT(10X,'   CENTER          X. . . . . . .= ',E20.13/,
+     . '                             Y. . . . . . .= ',E20.13/,
+     . '                             Z. . . . . . .= ',E20.13/,
+     . '             DIRECTION       X. . . . . . .= ',E20.13/,
+     . '                             Y. . . . . . .= ',E20.13/,
+     . '                             Z. . . . . . .= ',E20.13)
+
+ 1000 FORMAT(/
+     . '   SUBMODEL SCALE',/, 
+     . '       TRANSFORMATION ID. . . . . . . . . . . = ',I10/,                       
+     . '       SUBMODEL ID. . . . . . . . . . . . . . = ',I10/)
+ 1010 FORMAT(10X,'   CENTER          X. . . . . . .= ',E20.13/,
+     . '                             Y. . . . . . .= ',E20.13/,
+     . '                             Z. . . . . . .= ',E20.13/,
+     . '             SCALE           X  . . . . . .= ',E20.13/,
+     . '                             Y  . . . . . .= ',E20.13/,
+     . '                             Z  . . . . . .= ',E20.13)
+
  3000 FORMAT(/10X,'NEW NODE COORDINATES',14X,'X',24X,'Y',24X,'Z')
  3500 FORMAT( 17X,I10,3(5X,E20.13))
 C-----------------------
