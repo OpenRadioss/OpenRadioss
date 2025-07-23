@@ -92,7 +92,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    coupling_finalize                            ../engine/source/coupling/coupling_adapter.F90
       !||    coupling_initialize                          ../engine/source/coupling/coupling_adapter.F90
       !||    coupling_ongoing                             ../engine/source/coupling/coupling_adapter.F90
-      !||    coupling_set_nodes                           ../engine/source/coupling/coupling_adapter.F90
+      !||    coupling_set_interface                       ../engine/source/coupling/coupling_adapter.F90
       !||    coupling_sync                                ../engine/source/coupling/coupling_adapter.F90
       !||    cp_dm                                        ../engine/source/implicit/produt_v.F
       !||    crk_accele                                   ../engine/source/elements/xfem/accele_crk.F

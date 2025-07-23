@@ -20,6 +20,10 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+      !||====================================================================
+      !||    precice_mod     ../engine/source/coupling/precice/precice_mod.F90
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
        module precice_mod
         use, intrinsic :: iso_c_binding
         implicit none

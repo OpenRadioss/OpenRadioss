@@ -23,6 +23,7 @@
       !||====================================================================
       !||    coupling_adapter_mod   ../engine/source/coupling/coupling_adapter.F90
       !||--- called by ------------------------------------------------------
+      !||    inipar                 ../engine/source/mpi/init/inipar.F
       !||    radioss2               ../engine/source/engine/radioss2.F
       !||    resol                  ../engine/source/engine/resol.F
       !||    resol_head             ../engine/source/engine/resol_head.F
@@ -203,6 +204,11 @@
 
       contains
       !!utility function to make unique values in an array of size 4
+      !||====================================================================
+      !||    make_unique         ../engine/source/coupling/coupling_adapter.F90
+      !||--- called by ------------------------------------------------------
+      !||    coupling_set_mesh   ../engine/source/coupling/coupling_adapter.F90
+      !||====================================================================
       function make_unique(arr) result(n_unique)
          implicit none
          integer, intent(inout) :: arr(4)
@@ -261,8 +267,6 @@
       ! Read configuration file *.cpl
       !||====================================================================
       !||    coupling_configure   ../engine/source/coupling/coupling_adapter.F90
-      !||--- called by ------------------------------------------------------
-      !||    radioss2             ../engine/source/engine/radioss2.F
       !||--- calls      -----------------------------------------------------
       !||    coupling_create      ../engine/source/coupling/coupling_adapter.F90
       !||====================================================================
@@ -296,9 +300,9 @@
       !||====================================================================
       !||    coupling_set_nodes           ../engine/source/coupling/coupling_adapter.F90
       !||--- called by ------------------------------------------------------
-      !||    resol                        ../engine/source/engine/resol.F
+      !||    coupling_set_interface       ../engine/source/coupling/coupling_adapter.F90
       !||--- calls      -----------------------------------------------------
-      !||    coupling_adapter_set_nodes   ../engine/source/coupling/coupling.cpp
+      !||    coupling_adapter_set_nodes   ../engine/source/coupling/coupling_c_interface.cpp
       !||--- uses       -----------------------------------------------------
       !||    groupdef_mod                 ../common_source/modules/groupdef_mod.F
       !||====================================================================
@@ -343,6 +347,17 @@
         end subroutine coupling_set_nodes
 
 !       Only for cwipi, not for precice yet
+      !||====================================================================
+      !||    coupling_set_mesh           ../engine/source/coupling/coupling_adapter.F90
+      !||--- called by ------------------------------------------------------
+      !||    coupling_set_interface      ../engine/source/coupling/coupling_adapter.F90
+      !||--- calls      -----------------------------------------------------
+      !||    coupling_adapter_set_mesh   ../engine/source/coupling/coupling_c_interface.cpp
+      !||    make_unique                 ../engine/source/coupling/coupling_adapter.F90
+      !||--- uses       -----------------------------------------------------
+      !||    groupdef_mod                ../common_source/modules/groupdef_mod.F
+      !||    nodal_arrays_mod            ../common_source/modules/nodal_arrays.F90
+      !||====================================================================
         subroutine coupling_set_mesh(coupling, surf,  nodes)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                     Module
@@ -420,6 +435,17 @@
           call coupling_adapter_set_mesh(coupling%adapter_ptr, connectIndex, connec, surf%NSEG)
         end subroutine 
 
+      !||====================================================================
+      !||    coupling_set_interface   ../engine/source/coupling/coupling_adapter.F90
+      !||--- called by ------------------------------------------------------
+      !||    resol                    ../engine/source/engine/resol.F
+      !||--- calls      -----------------------------------------------------
+      !||    coupling_set_mesh        ../engine/source/coupling/coupling_adapter.F90
+      !||    coupling_set_nodes       ../engine/source/coupling/coupling_adapter.F90
+      !||--- uses       -----------------------------------------------------
+      !||    groupdef_mod             ../common_source/modules/groupdef_mod.F
+      !||    nodal_arrays_mod         ../common_source/modules/nodal_arrays.F90
+      !||====================================================================
         subroutine coupling_set_interface(coupling, igrnod, ngrnod, surf, nsurf,  nodes)                  
           use GROUPDEF_MOD
           use nodal_arrays_mod
@@ -504,7 +530,7 @@
       !||====================================================================
       !||    coupling_write                ../engine/source/coupling/coupling_adapter.F90
       !||--- calls      -----------------------------------------------------
-      !||    coupling_adapter_write_data   ../engine/source/coupling/coupling.cpp
+      !||    coupling_adapter_write_data   ../engine/source/coupling/coupling_c_interface.cpp
       !||--- uses       -----------------------------------------------------
       !||    precision_mod                 ../common_source/modules/precision_mod.F90
       !||====================================================================
@@ -542,7 +568,7 @@
       !||====================================================================
       !||    coupling_read                ../engine/source/coupling/coupling_adapter.F90
       !||--- calls      -----------------------------------------------------
-      !||    coupling_adapter_read_data   ../engine/source/coupling/coupling.cpp
+      !||    coupling_adapter_read_data   ../engine/source/coupling/coupling_c_interface.cpp
       !||--- uses       -----------------------------------------------------
       !||    precision_mod                ../common_source/modules/precision_mod.F90
       !||====================================================================
@@ -587,8 +613,8 @@
       !||--- called by ------------------------------------------------------
       !||    resol                         ../engine/source/engine/resol.F
       !||--- calls      -----------------------------------------------------
-      !||    coupling_adapter_read_data    ../engine/source/coupling/coupling.cpp
-      !||    coupling_adapter_write_data   ../engine/source/coupling/coupling.cpp
+      !||    coupling_adapter_read_data    ../engine/source/coupling/coupling_c_interface.cpp
+      !||    coupling_adapter_write_data   ../engine/source/coupling/coupling_c_interface.cpp
       !||--- uses       -----------------------------------------------------
       !||    nodal_arrays_mod              ../common_source/modules/nodal_arrays.F90
       !||    precision_mod                 ../common_source/modules/precision_mod.F90
@@ -677,7 +703,7 @@
       !||--- called by ------------------------------------------------------
       !||    resol                      ../engine/source/engine/resol.F
       !||--- calls      -----------------------------------------------------
-      !||    coupling_adapter_advance   ../engine/source/coupling/coupling.cpp
+      !||    coupling_adapter_advance   ../engine/source/coupling/coupling_c_interface.cpp
       !||--- uses       -----------------------------------------------------
       !||    precision_mod              ../common_source/modules/precision_mod.F90
       !||====================================================================
@@ -799,8 +825,8 @@
       !||--- called by ------------------------------------------------------
       !||    resol                       ../engine/source/engine/resol.F
       !||--- calls      -----------------------------------------------------
-      !||    coupling_adapter_destroy    ../engine/source/coupling/coupling.cpp
-      !||    coupling_adapter_finalize   ../engine/source/coupling/coupling.cpp
+      !||    coupling_adapter_destroy    ../engine/source/coupling/coupling_c_interface.cpp
+      !||    coupling_adapter_finalize   ../engine/source/coupling/coupling_c_interface.cpp
       !||====================================================================
         subroutine coupling_finalize(coupling)
           implicit none

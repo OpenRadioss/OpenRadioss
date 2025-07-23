@@ -35,7 +35,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    close_c                      ../common_source/tools/input_output/write_routtines.c
       !||    condrmat                     ../engine/source/materials/mat/mat013/condrmat.F
       !||    coqini                       ../engine/source/elements/shell/coqini.F
-      !||    coupling_configure           ../engine/source/coupling/coupling_adapter.F90
       !||    cur_fil_c                    ../common_source/tools/input_output/write_routtines.c
       !||    fvdeal                       ../engine/source/airbag/fvdeal.F
       !||    get_file_name_info           ../engine/source/system/get_file_name_info.F

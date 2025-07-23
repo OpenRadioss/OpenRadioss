@@ -56,6 +56,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    cgrtails                          ../starter/source/elements/shell/coque/cgrtails.F
       !||    check_surf                        ../starter/source/groups/check_surf.F
       !||    cinit3                            ../starter/source/elements/shell/coque/cinit3.F
+      !||    coupling_set_interface            ../engine/source/coupling/coupling_adapter.F90
+      !||    coupling_set_mesh                 ../engine/source/coupling/coupling_adapter.F90
       !||    coupling_set_nodes                ../engine/source/coupling/coupling_adapter.F90
       !||    create_map_tables                 ../starter/source/model/sets/map_tables.F
       !||    create_subs_clause                ../starter/source/model/sets/create_subs_clause.F
