@@ -31,13 +31,16 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    glob_therm_mod   ../common_source/modules/mat_elem/glob_therm_mod.F90
       !||    sensor_mod       ../common_source/modules/sensor_mod.F90
       !||====================================================================
-      SUBROUTINE FIXTEMP(IBFT   ,VAL    , TEMP  ,NPC    ,TF   ,
-     .                   NSENSOR,SENSOR_TAB,GLOB_THERM)
+      SUBROUTINE FIXTEMP(PYTHON,IBFT   ,VAL    , TEMP  ,NPC    ,TF   ,
+     .                   NSENSOR,SENSOR_TAB,GLOB_THERM,snpc)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------  
+      USE redef3_mod, only: get_python_funct_id
       USE SENSOR_MOD
       use glob_therm_mod
+      USE PYTHON_FUNCT_MOD
+      USE vinter_mixed_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -57,12 +60,14 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      type(python_) :: PYTHON
       type (glob_therm_) ,intent(inout)   :: glob_therm
       INTEGER ,INTENT(IN) :: NSENSOR
       INTEGER NPC(*)
       INTEGER IBFT(GLOB_THERM%NIFT,*)
       my_real :: TEMP(*),TF(*)
       my_real :: VAL(GLOB_THERM%LFACTHER,*)
+      integer, intent(in) :: SNPC
       TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) ,INTENT(IN) :: SENSOR_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -72,6 +77,8 @@ C-----------------------------------------------
       INTEGER INDEX(MVSIZ)
       my_real FAC, FACX, STARTT, STOPT, TS
       my_real YC(MVSIZ), TSC(MVSIZ), DYDXC(MVSIZ)
+      integer :: pyid
+      logical :: any_python_func
 C-----------------------------------------------
       IDEB = 0
       ISMOOTH = 0
@@ -121,15 +128,22 @@ C       sans aucun sensor
 C
         IDEB = IDEB + MIN(GLOB_THERM%NFXTEMP-IDEB,NVSIZ)
 C
-
+        any_python_func = .FALSE.
         IF(NCYCLE == 0)THEN
          DO II=1,IC
           N = INDEX(II)
           L = IBFT(2,N)
           IF (L > 0) ISMOOTH = NPC(2*NFUNCT+L+1)
           IPOSC(II) = 0
-          IADC(II)  = NPC(L) / 2 + 1
-          ILENC(II) = NPC(L+1) / 2 - IADC(II) - IPOSC(II)
+          pyid = get_python_funct_id(nfunct,l,npc,snpc)
+          if(pyid > 0) then
+            IADC(II)  =-pyid
+            ILENC(II) =-pyid 
+            any_python_func = .TRUE.
+          else
+            IADC(II)  = NPC(L) / 2 + 1
+            ILENC(II) = NPC(L+1) / 2 - IADC(II) - IPOSC(II)
+          endif
          ENDDO
         ELSE
          DO II=1,IC
@@ -137,16 +151,27 @@ C
           L = IBFT(2,N)
           IF (L > 0) ISMOOTH = NPC(2*NFUNCT+L+1)
           IPOSC(II) = IBFT(4,N)
-          IADC(II)  = NPC(L) / 2 + 1
-          ILENC(II) = NPC(L+1) / 2 - IADC(II) - IPOSC(II)
+          pyid = get_python_funct_id(nfunct,l,npc,snpc)
+          if(pyid > 0) then
+            IADC(II)  =-pyid
+            ILENC(II) =-pyid 
+            any_python_func = .TRUE.
+          else  
+            IADC(II)  = NPC(L) / 2 + 1
+            ILENC(II) = NPC(L+1) / 2 - IADC(II) - IPOSC(II)
+          endif
          ENDDO
         ENDIF
-!!        CALL VINTER(TF,IADC,IPOSC,ILENC,IC,TSC,DYDXC,YC)
-        IF (ISMOOTH == 0) THEN
-          CALL VINTER(TF,IADC,IPOSC,ILENC,IC,TSC,DYDXC,YC)
-        ELSE
-          CALL VINTER_SMOOTH(TF,IADC,IPOSC,ILENC,IC,TSC,DYDXC,YC)
-        ENDIF ! IF (ISMOOTH == 0)
+
+        if(any_python_func) then
+          call vinter_mixed(PYTHON,TF,IADC,IPOSC,ILENC,IC,TSC,DYDXC,YC)
+        else
+          IF (ISMOOTH == 0) THEN
+            CALL VINTER(TF,IADC,IPOSC,ILENC,IC,TSC,DYDXC,YC)
+          ELSE
+            CALL VINTER_SMOOTH(TF,IADC,IPOSC,ILENC,IC,TSC,DYDXC,YC)
+          ENDIF ! IF (ISMOOTH == 0)
+        ENDIF ! if(any_python_func)
 C
         IF(IVECTOR == 0) THEN
          DO II=1,IC

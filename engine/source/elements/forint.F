@@ -1196,7 +1196,7 @@ C
           IF (IPREID>0) THEN
              FUN_ID = IPARG(73,NG)
              SENS_ID= IPARG(74,NG) 
-             CALL GET_PRELOAD_AXIAL(
+             CALL GET_PRELOAD_AXIAL(PYTHON, NFUNCT,
      1           FUN_ID        ,SENS_ID       ,NPC          ,SNPC          ,
      2           TF            ,STF           ,SENSORS      ,TT            ,
      3           PRELOAD1      ,STF_F         )
@@ -1256,7 +1256,7 @@ C
           IF (IPREID>0) THEN
              FUN_ID = IPARG(73,NG)
              SENS_ID= IPARG(74,NG) 
-             CALL GET_PRELOAD_AXIAL(
+             CALL GET_PRELOAD_AXIAL(PYTHON, NFUNCT,
      1           FUN_ID        ,SENS_ID       ,NPC          ,SNPC          ,
      2           TF            ,STF           ,SENSORS      ,TT            ,
      3           PRELOAD1      ,STF_F         )
@@ -1325,7 +1325,7 @@ c
           IF (IPREID>0) THEN
              FUN_ID = IPARG(73,NG)
              SENS_ID= IPARG(74,NG) 
-             CALL GET_PRELOAD_AXIAL(
+             CALL GET_PRELOAD_AXIAL(PYTHON, NFUNCT, 
      1           FUN_ID        ,SENS_ID       ,NPC          ,SNPC          ,
      2           TF            ,STF           ,SENSORS      ,TT            ,
      3           PRELOAD1      ,STF_F         )

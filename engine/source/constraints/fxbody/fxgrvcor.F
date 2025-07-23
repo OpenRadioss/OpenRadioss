@@ -29,7 +29,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||====================================================================
       SUBROUTINE FXGRVCOR(FXBIPM, FXBGRVI , A      , IGRV, AGRV,
      .                    NPC   , TF      , MS     , V   , SKEW,
-     .                    FXBGRW, IAD_ELEM, FR_ELEM, WFEXT)
+     .                    FXBGRW, IAD_ELEM, FR_ELEM, WFEXT,python)
+        use python_funct_mod, only : python_
+        use finter_mixed_mod, only : finter_mixed
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -49,6 +51,7 @@ C-----------------------------------------------
       INTEGER FXBIPM(NBIPM,*), FXBGRVI(*), IGRV(NIGRV,*), NPC(*), IAD_ELEM(2,*), FR_ELEM(*)
       my_real  A(3,*), AGRV(LFACGRV,*), TF(*), MS(*), V(3,*), SKEW(LSKEW,*), FXBGRW(*)
       DOUBLE PRECISION, INTENT(INOUT) :: WFEXT
+      TYPE(python_), intent(inout) :: python
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -83,8 +86,8 @@ C
             N2=IGRV(2,NL)-10*ISK
             IFUNC=IGRV(3,NL)
             IF (IFUNC > 0) THEN
-              FI0=AGRV(1,NL)*FINTER(IFUNC,(TT-DT1)*AGRV(2,NL),NPC,TF,DYDX)
-              FI =AGRV(1,NL)*FINTER(IFUNC,TT*AGRV(2,NL),NPC,TF,DYDX)
+              FI0=AGRV(1,NL)*FINTER_MIXED(python,nfunct,IFUNC,(TT-DT1)*AGRV(2,NL),NPC,TF)
+              FI =AGRV(1,NL)*FINTER_MIXED(python,nfunct,IFUNC,TT*AGRV(2,NL),NPC,TF)
             ELSE
               FI0= AGRV(1,NL)
               FI = AGRV(1,NL)

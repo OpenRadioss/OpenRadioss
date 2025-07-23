@@ -65,6 +65,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                      Body
 ! ----------------------------------------------------------------------------------------------------------------------
+!$OMP CRITICAL
           argin(1) = dble(x)
           ! the double precision function is called, then the result is converted to single
 !      subroutine python_set_active_node_values(name_len, name, val) bind(c, name="cpp_python_update_active_node")
@@ -118,10 +119,9 @@
             tmp = 0.0d0
             call python_set_active_node_values(2,"AR",tmp)
           endif
-!$OMP CRITICAL
           call python_call_function(py%functs(funct_id)%name, 1, argin, 1, argout)
-!$OMP END CRITICAL
           y = real(argout(1),kind(1.0))
+!$OMP END CRITICAL
         end subroutine python_call_funct_cload_sp
 
       !||====================================================================

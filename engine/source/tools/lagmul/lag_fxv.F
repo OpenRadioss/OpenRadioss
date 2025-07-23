@@ -34,9 +34,11 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      2                   BLL    ,IADLL  ,LLL    ,JLL    ,SLL    ,
      3                   XLL    ,COMNTAG,ICFTAG ,JCFTAG ,MS     ,
      4                   IN     ,V      ,VR     ,A      ,AR     ,
-     5                   ISKIP  ,NCF_S  ,NC     ,PYTHON)
+     5                   ISKIP  ,NCF_S  ,NC     ,PYTHON, nodes)
 
       USE PYTHON_FUNCT_MOD
+      USE python_call_funct_cload_mod
+      USE nodal_arrays_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -57,6 +59,7 @@ C-----------------------------------------------
      .  XLL(*),BLL(*),SKEW(LSKEW,*),VEL(LFXVELR,*),TF(*),MS(*),IN(*),
      .  V(3,*),VR(3,*),A(3,*),AR(3,*)
       TYPE(PYTHON_), INTENT(INOUT) :: PYTHON
+      TYPE(nodal_arrays_), intent(in) :: NODES
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -93,7 +96,7 @@ C======================================================================|
           ELSE IF (ISMOOTH > 0) THEN
             VF = FINTER_SMOOTH(IFUN, TS, NPF, TF, DERI)
           ELSE
-            CALL PYTHON_CALL_FUNCT1D(PYTHON, -ISMOOTH, TS, VF) 
+            CALL PYTHON_CALL_FUNCT_CLOAD(PYTHON, -ISMOOTH,TS, VF,NNO,NODES)
           ENDIF ! IF (ISMOOTH == 0)
           NC = NC + 1
           BLL(NC) = -VF*FAC / DT12
@@ -168,8 +171,10 @@ C
       !||====================================================================
       SUBROUTINE LAG_FXVP(IBFV   ,VEL    ,SKEW   ,NPF    ,TF     ,
      2                    LAGCOMC,LAGCOMK,NC     ,NODGLOB,WEIGHT ,
-     3                    IK     ,PYTHON)
+     3                    IK     ,PYTHON,NODES)
       USE PYTHON_FUNCT_MOD
+      USE nodal_arrays_mod
+      use python_call_funct_cload_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -189,6 +194,7 @@ C-----------------------------------------------
      .        LAGCOMK(4,*),LAGCOMC(2,*),SKEW(LSKEW,*),VEL(LFXVELR,*),
      .        TF(*)
       TYPE(PYTHON_), INTENT(INOUT) :: PYTHON
+      TYPE(nodal_arrays_), intent(in) :: NODES
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -196,6 +202,7 @@ C-----------------------------------------------
       my_real
      .        TS, DERI, VF, FAC, FACX, FINTER, FINTER_SMOOTH
       EXTERNAL FINTER, FINTER_SMOOTH
+      INTEGER :: node_id
 C-----------------------------------------------
 C        NC : nombre de condition cinematique
 C        IC : numero de la condition cinematique (1,NC)
@@ -213,6 +220,7 @@ C======================================================================|
       DO N=1,NFXVEL
         IF (IBFV(8,N)/=0) THEN
          NNO = IABS(IBFV(1,N))
+         node_id = NNO
          IF(WEIGHT(NNO)==1) THEN  ! une seule fois en SPMD
 C   numerotation globale
           FACX   = VEL(5,N)
@@ -230,7 +238,7 @@ C   numerotation globale
           ELSE IF(ISMOOTH > 0) THEN
             VF = FINTER_SMOOTH(IFUN, TS, NPF, TF, DERI)
           ELSE
-            CALL PYTHON_CALL_FUNCT1D(PYTHON, -ISMOOTH, TS, VF) 
+            CALL PYTHON_CALL_FUNCT_CLOAD(PYTHON, -ISMOOTH,TS, VF,node_id,NODES)
           ENDIF
           NC = NC + 1
           LAGCOMC(2,NC) = -VF*FAC / DT12

@@ -33,12 +33,14 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       SUBROUTINE VOLPRE(IVOLU ,RVOLU   ,NJET    ,IBAGJET ,RBAGJET  ,
      2                NSENSOR ,SENSOR_TAB,X       ,V       ,A        ,
      3                NORMAL  ,NPC     ,TF      ,NN      ,SURF_NODES,
-     4                FEXT    ,H3D_DATA,SURF_ELTYP,SURF_ELEM,WFEXT)
+     4                FEXT    ,H3D_DATA,SURF_ELTYP,SURF_ELEM,WFEXT,PYTHON)
 C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
       USE H3D_MOD
       USE SENSOR_MOD
+      USE python_funct_mod
+      USE finter_mixed_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -61,6 +63,7 @@ C-----------------------------------------------
       TYPE(H3D_DATABASE) :: H3D_DATA
       TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) ,INTENT(IN) :: SENSOR_TAB
       DOUBLE PRECISION, INTENT(INOUT) :: WFEXT
+      TYPE(PYTHON_), intent(inout) :: PYTHON
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -72,7 +75,6 @@ C-----------------------------------------------
      .   XM,YM,ZM,NX3,NY3,NZ3,
      .   PS1,PS2,PS3,AN2,AN3,DET,MU,FACR,
      .   API,DIST,TSTART,TS,TMPO,FPT,FPA,FPZ,SCALT,SCALA,SCALD
-      my_real FINTER
 C===============================================
       API=HUNDRED80/PI
 C-----------------------------------------------
@@ -231,7 +233,7 @@ C
 C
        IF(NJ1 /= 0 .AND. TT >= TSTART)THEN
         TS=TT-TSTART
-        PJ0=FPT*FINTER(IPT,TS*SCALT,NPC,TF,DYDX)
+        PJ0=FPT*FINTER_MIXED(PYTHON,NFUNCT,IPT,TS*SCALT,NPC,TF)
         DO I=1,NN
         IF(SURF_ELTYP(I)==3)THEN
           PJ=FOURTH*PJ0
@@ -286,9 +288,9 @@ C
           TMPO = (NX1*NX2+NY1*NY2+NZ1*NZ2)/AN
           TMPO = SIGN(MIN(ONE,ABS(TMPO)),TMPO)
           THETA=API*ACOS(TMPO)
-          PJ=PJ*FPA*FINTER(IPA,THETA*SCALA,NPC,TF,DYDX)
+          PJ=PJ*FPA*FINTER_MIXED(PYTHON,NFUNCT,IPA,THETA*SCALA,NPC,TF)
           DIST = SQRT(AN1)
-          IF(IPZ/=0)PJ=PJ*FPZ*FINTER(IPZ,DIST*SCALD,NPC,TF,DYDX)
+          IF(IPZ/=0)PJ=PJ*FPZ*FINTER_MIXED(PYTHON,NFUNCT,IPZ,DIST*SCALD,NPC,TF)
 C
           FX=PJ*NORMAL(1,I)
           FY=PJ*NORMAL(2,I)
@@ -379,9 +381,9 @@ C
           TMPO = (NX1*NX2+NY1*NY2+NZ1*NZ2)/AN
           TMPO = SIGN(MIN(ONE,ABS(TMPO)),TMPO)
           THETA=API*ACOS(TMPO)
-          PJ=PJ*FPA*FINTER(IPA,THETA*SCALA,NPC,TF,DYDX)
+          PJ=PJ*FPA*FINTER_MIXED(PYTHON,NFUNCT,IPA,THETA*SCALA,NPC,TF)
           DIST = SQRT(AN1)
-          IF(IPZ/=0)PJ=PJ*FPZ*FINTER(IPZ,DIST*SCALD,NPC,TF,DYDX)
+          IF(IPZ/=0)PJ=PJ*FPZ*FINTER_MIXED(PYTHON,NFUNCT,IPZ,DIST*SCALD,NPC,TF)
 C
           FX=PJ*NORMAL(1,I)
           FY=PJ*NORMAL(2,I)
@@ -471,9 +473,9 @@ C
           TMPO = (NX1*NX2+NY1*NY2+NZ1*NZ2)/AN
           TMPO = SIGN(MIN(ONE,ABS(TMPO)),TMPO)
           THETA=API*ACOS(TMPO)
-          PJ=PJ*FPA*FINTER(IPA,THETA*SCALA,NPC,TF,DYDX)
+          PJ=PJ*FPA*FINTER_MIXED(PYTHON,NFUNCT,IPA,THETA*SCALA,NPC,TF)
           DIST = SQRT(AN1)
-          IF(IPZ/=0)PJ=PJ*FPZ*FINTER(IPZ,DIST*SCALD,NPC,TF,DYDX)
+          IF(IPZ/=0)PJ=PJ*FPZ*FINTER_MIXED(PYTHON,NFUNCT,IPZ,DIST*SCALD,NPC,TF)
 C
           FX=PJ*NORMAL(1,I)
           FY=PJ*NORMAL(2,I)

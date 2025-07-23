@@ -2381,8 +2381,8 @@ C     Multidomains + SPH
 
 C     THERMAL EXPANSION and IMPTEMP : Initialisation of nodal temperatures
               IF (GLOB_THERM%NFXTEMP  > 0 .AND. GLOB_THERM%ITHERM_FE > 0.AND.TT==ZERO) THEN
-                CALL FIXTEMP(IBFTEMP  ,FBFTEMP    ,NODES%TEMP    ,NPC    ,TF  ,
-     .               NSENSOR  ,SENSORS%SENSOR_TAB,GLOB_THERM )
+                CALL FIXTEMP(python,IBFTEMP  ,FBFTEMP    ,NODES%TEMP    ,NPC    ,TF  ,
+     .               NSENSOR  ,SENSORS%SENSOR_TAB,GLOB_THERM,SNPC )
               ENDIF
 C ---------------------
 C Allocating Array for PCONT2 - average normal
@@ -3533,7 +3533,7 @@ C
                 ENDIF
                 CALL FORCEFINGEO(IBFV ,NPC    ,TF      ,NODES%A    ,NODES%V    ,NODES%X     ,
      2                           VEL  ,SENSORS%SENSOR_TAB ,ELEMENT%PON%FSKY ,NODA_FEXT ,NODES%ITABM1,
-     3                           H3D_DATA,NSENSOR,PYTHON,WFEXT)
+     3                           H3D_DATA,NSENSOR,PYTHON,WFEXT,NODES)
                 IF(IMON>0) THEN
                   IF(IMONM > 0) CALL STOPTIME(TIMERS,44)
                   CALL STOPTIME(TIMERS,TIMER_KIN)
@@ -3679,7 +3679,7 @@ C
      7            PM              ,IPM                ,IPART              ,IPART(K3) ,
      8            IPART(K8)       ,IGROUPC            ,IGROUPTG           ,NODA_FEXT ,
      9            1               ,H3D_DATA           ,T_MONVOL           ,frontier_global_mv,
-     A            OUTPUT )
+     A            OUTPUT, PYTHON )
                 CALL TRACE_OUT(11)
                 IF (IMONM > 0) CALL STOPTIME(TIMERS,50)
               ENDIF
@@ -4582,7 +4582,7 @@ C
      .                      FSAV(1,N), IFVMESH,  ICONTACT_OLD, LGAUGE            ,
      .                      GAUGE    , IGEO,     GEO,          PM                , IPM ,
      .                      IPARG    , IGROUPTG, IGROUPC,      ELBUF_TAB         , NODA_FEXT,
-     .                      1        , H3D_DATA, NODES%ITAB,   NODES%WEIGHT      , OUTPUT%WFEXT)
+     .                      1        , H3D_DATA, NODES%ITAB,   NODES%WEIGHT      , OUTPUT%WFEXT, PYTHON)
 C
                 CALL TRACE_OUT(11)
                 IF (IMONM > 0) CALL STOPTIME(TIMERS,50)
@@ -4921,7 +4921,7 @@ C
      .                      FSAV(1,N), IFVMESH, ICONTACT_OLD,LGAUGE,
      .                      GAUGE    , IGEO,    GEO,         PM,                  IPM,
      .                      IPARG    , IGROUPTG,IGROUPC,     ELBUF_TAB,           NODA_FEXT,
-     .                      2        , H3D_DATA,NODES%ITAB, NODES%WEIGHT, OUTPUT%WFEXT)
+     .                      2        , H3D_DATA,NODES%ITAB, NODES%WEIGHT, OUTPUT%WFEXT, PYTHON)
                 IF (IMPL_S > 0 .AND. ISMDISP >0) THEN
                   CALL ASSIGN_PTRX(ptrx,IMPBUF_TAB%X_A,NUMNOD)
                 ELSE
@@ -4937,7 +4937,7 @@ C
      7            PM                ,IPM                ,IPART              ,IPART(K3) ,
      8            IPART(K8)         ,IGROUPC            ,IGROUPTG           ,NODA_FEXT      ,
      9            2                 ,H3D_DATA           ,T_MONVOL           ,frontier_global_mv,
-     A            OUTPUT)
+     A            OUTPUT, PYTHON)
 
                 CALL TRACE_OUT(11)
                 IF (IMONM > 0) CALL STOPTIME(TIMERS,50)
@@ -6108,7 +6108,7 @@ C-----------------------------------------------------
      .                       DT2T,   ITYPTST, NELTST,  FXBGRVI, FXBGRVR,
      .                       IGRV,   NPC,     TF    ,  FXBGRP,  FXBGRW ,
      .                       IPARG , NSENSOR,SENSORS%SENSOR_TAB,NODES%BOUNDARY_ADD, NODES%BOUNDARY,
-     .                       AGRV  )
+     .                       AGRV  ,PYTHON)
               END IF
 
 C----------------------------------------------------------
@@ -6874,7 +6874,7 @@ C===============================================================================
                 ITSK = OMP_GET_THREAD_NUM()
                 NODFTSK   = 1+ITSK*NUMNOD/ NTHREAD
                 NODLTSK   = (ITSK+1)*NUMNOD/NTHREAD
-                CALL SMS_MASS_SCALE_2(TIMERS,
+                CALL SMS_MASS_SCALE_2(TIMERS,PYTHON,
      1                ITSK     ,NODFTSK   ,NODLTSK  ,NODII_SMS ,INDX2_SMS ,
      2                NODXI_SMS,NODES%MS        ,NODES%MS0      ,NODES%A         ,NODES%ICODT     ,
      3                NODES%ICODR    ,NODES%ISKEW     ,SKEWS%SKEW,JAD_SMS   ,JDI_SMS   ,
@@ -7445,7 +7445,7 @@ C----------------------
                   IF (NFXBODY>0) THEN
                     CALL FXGRVCOR(FXBIPM, FXBGRVI, NODES%A,  IGRV, AGRV,
      .                            NPC,    TF,      NODES%MS, NODES%V   , SKEWS%SKEW,
-     .                            FXBGRW, NODES%BOUNDARY_ADD, NODES%BOUNDARY, OUTPUT%WFEXT)
+     .                            FXBGRW, NODES%BOUNDARY_ADD, NODES%BOUNDARY, OUTPUT%WFEXT, PYTHON)
                   END IF
                   IF (IMON>0) CALL STOPTIME(TIMERS,46)
                   IF (IMONM > 0) CALL STOPTIME(TIMERS,TIMER_KIN)
@@ -7862,7 +7862,7 @@ C--------------------------
               ENCIN2 = ZERO
               ENROT2 = ZERO
 C--------------------------
-C          IMPOSED VELOCITY
+C          IMPOSED VELOCITIES & DISPLACEMENTS 
 C--------------------------
               IF(NFXVEL/=0) THEN
                 IF(IMON>0) THEN
@@ -7878,10 +7878,10 @@ C--------------------------
      6                      TT_DOUBLE,NODES%DDP,PYTHON ,WFEXT)
 
                 IF (FXVEL_FGEO ==1) THEN
-                  CALL FIXFINGEO(IBFV   ,NODES%A     ,NODES%V      ,NPC    ,TF     ,
-     2                         VEL    ,NODES%MS    ,NODES%X      ,NODES%D      ,SENSORS%SENSOR_TAB ,
-     3                         NODES%WEIGHT,CPTREAC,NODREAC,PTR_SMS,NSENSOR    ,
-     4                         FTHREAC,NODES%ITABM1,NODES%ITAB, OUTPUT%WFEXT   )
+                  CALL FIXFINGEO(PYTHON, NODES, IBFV   ,NPC    ,TF     ,
+     2                         VEL    ,SENSORS%SENSOR_TAB ,
+     3                         CPTREAC,NODREAC,PTR_SMS,NSENSOR    ,
+     4                         FTHREAC, OUTPUT%WFEXT   )
                 ENDIF
 C
                 IF(IMON>0) THEN
@@ -7967,8 +7967,8 @@ C--------------------------
                   CALL STARTIME(TIMERS,TIMER_KIN)
                   IF(IMONM > 0) CALL STARTIME(TIMERS,44)
                 ENDIF
-                CALL FIXTEMP(IBFTEMP  ,FBFTEMP    ,NODES%TEMP    ,NPC    ,TF  ,
-     1                       NSENSOR  ,SENSORS%SENSOR_TAB,GLOB_THERM)
+                CALL FIXTEMP(PYTHON,IBFTEMP  ,FBFTEMP    ,NODES%TEMP    ,NPC    ,TF  ,
+     1                       NSENSOR  ,SENSORS%SENSOR_TAB,GLOB_THERM,SNPC)
                 IF (IMON>0) THEN
                   IF(IMONM > 0) CALL STOPTIME(TIMERS,44)
                   CALL STOPTIME(TIMERS,TIMER_KIN)
@@ -8411,7 +8411,7 @@ C Init var parallel SMP
      8               TF         ,NEWFRONT ,ICONTACT ,RWBUF    ,LPRW     ,
      9               NPRW     ,RBYL     ,NODES%D        ,NODES%DR       ,KINET    ,
      A               NSENSOR  ,SENSORS%SENSOR_TAB,INTERFACES%INTBUF_TAB, H3D_DATA ,IGRBRIC,
-     B               PYTHON)
+     B               PYTHON,NODES)
 
 !$OMP END PARALLEL
 
@@ -8443,7 +8443,7 @@ C===============================================================================
      9               NPRW     ,RBYL     ,NODES%D        ,NODES%DR       ,KINET    ,
      A               NODES%NODGLOB  ,NODES%WEIGHT   ,NBNCL    ,NBIKL    ,NBNODL   ,
      B               NBNODLR  ,FR_LAGF  ,LLAGF    ,NODES%BOUNDARY_ADD ,NODES%BOUNDARY  ,
-     C               INTERFACES%INTBUF_TAB ,H3D_DATA, PYTHON)
+     C               INTERFACES%INTBUF_TAB ,H3D_DATA, PYTHON, NODES)
                 END IF
               ENDIF
 c--------------
@@ -8914,7 +8914,7 @@ C                                     PARALLEL SECTION (SMP)
 C========================================================================================
 
                 IF (IMP_CHK > 0) THEN
-                  CALL IMP_CHKM(TIMERS,
+                  CALL IMP_CHKM(TIMERS, PYTHON,
      1     NODES%ICODE      ,NODES%ISKEW          ,ISKWN       ,IPART             ,IXTG       ,IXS              ,IXQ         ,
      2     ELEMENT%SHELL%IXC,IXT                  ,IXP         ,IXR               ,IXTG1      ,NODES%ITAB       ,NODES%ITABM1,
      3     NPC              ,IBCL                 ,IBFV        ,SENSORS%SENSOR_TAB,NNLINK     ,LNLINK      ,IPARG       ,IGRV,
@@ -8941,7 +8941,7 @@ C-----integer : 1:IKC,2:IKUD,3:W_DDL,4:IADM,5:JDIM,6:NDOFI,7:IDDLI
 C-----reel : 1,2,3,4:DIAG_K,LT_K,DIAG_M,LT_M,5,6:LB,DB,7:BKUD,8,9:D_IMP,DR_IMP
 C----       10,11,12:ELBUF_C,BUFMAT_C,X_C,13,14:DD,DDR,15,16:X_ac,V_zero,23,24:AC,ACR
 #if defined(MUMPS5)
-                  CALL IMP_SOLV(TIMERS,
+                  CALL IMP_SOLV(TIMERS, PYTHON,
      1            NODES%ICODE  ,NODES%ISKEW  ,ISKWN  ,IPART  ,IXTG   ,IXS    ,IXQ    ,
      2            ELEMENT%SHELL%IXC    ,IXT    ,IXP    ,IXR    ,IXTG1          ,NODES%ITAB   ,NODES%ITABM1 ,
      3            NPC    ,IBCL   ,IBFV   ,SENSORS%SENSOR_TAB,NNLINK ,LNLINK ,IPARG  ,IGRV   ,

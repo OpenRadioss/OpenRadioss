@@ -56,10 +56,11 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      7                   PM       ,IPM     ,IPART   ,IPARTC ,
      8                   IPARTTG  ,IGROUPC ,IGROUPTG,FEXT   ,
      9                   FLAG     ,H3D_DATA ,T_MONVOL,frontier_global_mv,
-     A                   OUTPUT)
+     A                   OUTPUT, PYTHON)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE PYTHON_FUNCT_MOD, only : PYTHON_
       USE ELBUFDEF_MOD
       USE H3D_MOD
       USE GROUPDEF_MOD
@@ -97,6 +98,7 @@ C-----------------------------------------------
       TYPE(MONVOL_STRUCT_), DIMENSION(NVOLU), INTENT(INOUT) :: T_MONVOL
       TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR), INTENT(IN) :: SENSOR_TAB
       TYPE(OUTPUT_),INTENT(INOUT) :: OUTPUT
+      TYPE(PYTHON_), INTENT(IN) :: PYTHON     
 C-----------------------------------------------
 C     N(3,*)  NORMALE STOCKEE DANS WA
 C     PORO(*) STOCKE DANS WA
@@ -175,7 +177,7 @@ C=======================================================================
 C         VOLUME P=F(V)
 C=======================================================================
           CALL VOLPFV(MONVOL(K1),VOLMON(KK1),VOL(I),FSAV(1,I),NPC,
-     2                TF        ,PMAIN   , OUTPUT%WFEXT )
+     2                TF        ,PMAIN   , OUTPUT%WFEXT, PYTHON, NFUNCT) 
         ELSEIF(ITYP==3)THEN
 C=======================================================================
 C         GAS PARFAIT
@@ -189,7 +191,7 @@ C=======================================================================
            CALL AIRBAGA(MONVOL(K1),NJET ,MONVOL(IADJET),NVENT ,MONVOL(IADHOL),
      2 MONVOL(K2),VOLMON(KK1),VOLMON(RADJET),VOLMON(RADHOL),VOLMON(KK2),
      3 VOLMON  ,NPC     ,TF      ,NSENSOR ,SENSOR_TAB ,
-     4 VOL(I)    ,PMAIN ,OUTPUT%WFEXT)
+     4 VOL(I)    ,PMAIN ,OUTPUT%WFEXT, PYTHON)
         ELSEIF(ITYP==7.OR.ITYP==9)THEN
 C=======================================================================
 C         AIRBAGS1 (NOUVEAUX INJECTEURS)
@@ -197,13 +199,13 @@ C=======================================================================
            CALL AIRBAGA1(MONVOL(K1),NJET ,MONVOL(IADJET),NVENT ,MONVOL(IADHOL),
      2 MONVOL(K2),VOLMON(KK1),VOLMON(RADJET),VOLMON(RADHOL),VOLMON(KK2),
      3 VOLMON  ,NPC     ,TF      ,NSENSOR ,SENSOR_TAB ,
-     4 VOL(I)     ,PMAIN ,GEO     ,IGEO    ,PM, OUTPUT%WFEXT)
+     4 VOL(I)     ,PMAIN ,GEO     ,IGEO    ,PM, OUTPUT%WFEXT,PYTHON)
         ELSEIF(ITYP==10)THEN
 C=======================================================================
 C         LINEAIRE FLUIDE
 C=======================================================================
           CALL VOLP_LFLUID(MONVOL(K1),VOLMON(KK1),VOL(I),FSAV(1,I),NPC,
-     2                    TF        ,PMAIN, OUTPUT )
+     2                    TF        ,PMAIN, OUTPUT ,PYTHON,NFUNCT)
         ENDIF
 C=======================================================================
         IF(ITYP/=1)THEN
@@ -211,7 +213,7 @@ C=======================================================================
             CALL VOLPRE(MONVOL(K1),VOLMON(KK1),NJET ,MONVOL(IADJET),VOLMON(RADJET),
      2                 NSENSOR ,SENSOR_TAB ,X       ,V       ,A       ,
      3                 t_monvol(i)%normal  ,NPC     ,TF      ,NN  ,IGRSURF(IS)%NODES,
-     4                 FEXT    ,H3D_DATA,IGRSURF(IS)%ELTYP,IGRSURF(IS)%ELEM, OUTPUT%WFEXT)
+     4                 FEXT    ,H3D_DATA,IGRSURF(IS)%ELTYP,IGRSURF(IS)%ELEM, OUTPUT%WFEXT,PYTHON)
          ELSE
             CALL VOLPREP(MONVOL(K1),VOLMON(KK1),NJET ,MONVOL(IADJET),VOLMON(RADJET),
      2                 NSENSOR ,SENSOR_TAB  ,X       ,V       ,A       ,
@@ -220,13 +222,9 @@ C=======================================================================
      5                 IGRSURF(IS)%ELTYP,IGRSURF(IS)%ELEM,
      5                 T_MONVOL(I)%OMP_OUTPUT%NODE_NUMBER,T_MONVOL(I)%OMP_OUTPUT%TOTAL_CONTRIBUTION_NUMBER, 
      6                 T_MONVOL(I)%OMP_OUTPUT%CONTRIBUTION_INDEX,T_MONVOL(I)%OMP_OUTPUT%CONTRIBUTION_NUMBER,
-     7                 T_MONVOL(I)%OMP_OUTPUT%NODE_ID,T_MONVOL(I)%OMP_OUTPUT%CONTRIBUTION,OUTPUT%WFEXT)
+     7                 T_MONVOL(I)%OMP_OUTPUT%NODE_ID,T_MONVOL(I)%OMP_OUTPUT%CONTRIBUTION,OUTPUT%WFEXT,PYTHON)
          ENDIF
         ENDIF
-!       write(6,*) "Pressure in volume ", UID, " is ", VOLMON(KK1+12-1),LOC(VOLMON(KK1+12-1))
-!       write(6,*) "Temperature in volume ", UID, " is ",VOLMON(KK1+13-1),LOC(VOLMON(KK1+13-1))
-!       write(6,*) "Volume in volume ", UID, " is ",VOL(I)
-!       write(6,*) "Area in volume ", UID, " is ",VOLMON(KK1+18-1),LOC(VOLMON(KK1+18-1))
         T_MONVOL(I)%UID = UID ! store the uid of the monitored volume
         T_MONVOL(I)%volume = VOL(I)
         T_MONVOL(I)%pressure = VOLMON(KK1+12-1)

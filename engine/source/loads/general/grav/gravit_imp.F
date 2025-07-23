@@ -36,11 +36,13 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       SUBROUTINE GRAVIT_IMP(IGRV  ,AGRV  ,NPC   ,TF    ,A ,
      2                  V     ,X     ,SKEW  ,MS,WFEXTT,
      3                  NSENSOR,SENSOR_TAB,WEIGHT,IB,ITASK,
-     4                  NRBYAC,IRBYAC,NPBY  ,RBY   )
+     4                  NRBYAC,IRBYAC,NPBY  ,RBY   , PYTHON)
 C-----------------------------------------------  
 C   M o d u l e s
 C-----------------------------------------------  
       USE SENSOR_MOD
+      USE PYTHON_FUNCT_MOD
+      USE FINTER_MIXED_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -66,6 +68,7 @@ C     REAL
      .   AGRV(LFACGRV,*), TF(*), A(3,*), V(3,*), MS(*),
      .   X(3,*), SKEW(LSKEW,*), WFEXTT, RBY(NRBY,*)
       TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) ,INTENT(IN) :: SENSOR_TAB
+      TYPE(PYTHON_), INTENT(INOUT) :: PYTHON
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -108,9 +111,9 @@ C-------only for Itask=0 first-----
         ENDIF
 
         IF (IFUNC > 0) THEN
-          IF (ISMOOTH == 0) THEN
-            A0   = AGRV(1,NL)*FINTER(IFUNC,(TS-DT1)*AGRV(2,NL),NPC,TF,DYDX)
-            GAMA = AGRV(1,NL)*FINTER(IFUNC,TS*AGRV(2,NL),NPC,TF,DYDX)
+          IF (ISMOOTH <= 0) THEN
+            A0   = AGRV(1,NL)*FINTER_MIXED(python,nfunct,IFUNC,(TS-DT1)*AGRV(2,NL),NPC,TF)
+            GAMA = AGRV(1,NL)*FINTER_MIXED(python,nfunct,IFUNC,TS*AGRV(2,NL),NPC,TF)
           ELSE
             A0   = AGRV(1,NL)*FINTER_SMOOTH(IFUNC,(TS-DT1)*AGRV(2,NL),NPC,TF,DYDX)
             GAMA = AGRV(1,NL)*FINTER_SMOOTH(IFUNC,TS*AGRV(2,NL),NPC,TF,DYDX)

@@ -235,10 +235,12 @@ C
      .                    SV     , FSAV   , FXBFP , WFEXT , FXBFC  ,
      .                    FXBGRVI, FXBGRVR, NLGRAV, IGRV  , NPC    ,
      .                    TF     , FXBGRP , TFGRAV, SENSOR_TAB, NSENSOR,
-     .                    MFEXT  , AGRV   )
+     .                    MFEXT  , AGRV  ,PYTHON )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------  
+      USE python_funct_mod, ONLY : python_
+      use finter_mixed_mod, ONLY : finter_mixed
       USE SENSOR_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -263,6 +265,7 @@ C-----------------------------------------------
      .        FXBFC(*), FXBGRVR(*), TF(*), FXBGRP(*), TFGRAV,
      .        MFEXT(*), AGRV(LFACGRV,*)
       TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
+      TYPE(python_), intent(inout) :: python
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -270,10 +273,8 @@ C-----------------------------------------------
      .        IAD, II, III, IIAD
       my_real
      .        MC(NME*NMOD), RC(NME*NMOD), TS, FI, ALPHA, BETA,
-     .        MFINT(NME+NMOD), FDALPHA(NMOD), ENINT, DYDX,
+     .        MFINT(NME+NMOD), FDALPHA(NMOD), ENINT,
      .        MFGRAV(NMOD+NME) 
-      my_real FINTER 
-      EXTERNAL FINTER
 C
       IBLO=FXBIPM(28)
       IF (NMOD>0) CALL FXBMAJP2(MC,  RC,     MVN,    NME,   NMOD,
@@ -302,7 +303,7 @@ C
                IF (TS<ZERO) CYCLE
             ENDIF
             IF (IFUNC > 0) THEN
-              FI=AGRV(1,NL)*FINTER(IFUNC,TS,NPC,TF,DYDX)
+              FI=AGRV(1,NL)*FINTER_MIXED(python,nfunct,IFUNC,TS,NPC,TF)
             ELSE
               FI=AGRV(1,NL)
             ENDIF

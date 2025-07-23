@@ -28,7 +28,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    finter    ../engine/source/tools/curve/finter.F
       !||====================================================================
       SUBROUTINE VOLPFV(IVOLU,RVOLU  ,VOL,FSAV,NPC,
-     2                  TF   ,PMAIN, WFEXT)
+     2                  TF   ,PMAIN, WFEXT,PYTHON,NFUNCT)
+         USE python_funct_mod
+         USE finter_mixed_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -45,13 +47,13 @@ C-----------------------------------------------
       INTEGER NPC(*),IVOLU(*), PMAIN
       my_real TF(*),RVOLU(*),FSAV(*)
       DOUBLE PRECISION,INTENT(INOUT) :: WFEXT
+      TYPE(PYTHON_), intent(inout) :: PYTHON
+      INTEGER, intent(in) :: NFUNCT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER ITFUN,ITYPFUN
-      my_real VOL,V0,DYDX,AREA,VEPS,VINC,POLD,PEXT,VOLD,PRES,Q,QOLD,DV,SCALE,XFUN
-      my_real FINTER 
-      EXTERNAL FINTER
+      my_real VOL,V0,AREA,VEPS,VINC,POLD,PEXT,VOLD,PRES,Q,QOLD,DV,SCALE,XFUN
 C-----------------------------------------------
 C
 C CALCUL DE LA PRESSION
@@ -79,7 +81,7 @@ C
       CASE DEFAULT
          
       END SELECT
-      PRES = SCALE * FINTER(ITFUN,XFUN,NPC,TF,DYDX)
+      PRES = SCALE * FINTER_MIXED(PYTHON,NFUNCT,ITFUN,XFUN,NPC,TF)
       IF (ITYPFUN == 3) THEN
          PRES = PRES * (V0-VINC) / (VOL-VINC)
       ENDIF

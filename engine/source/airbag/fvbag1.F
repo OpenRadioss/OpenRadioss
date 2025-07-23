@@ -69,7 +69,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      K                  CPDPOLH  , CPEPOLH, CPFPOLH  ,
      L                  ELTG     , IPARG  , MATTG    ,
      M                  IGROUPTG , IGROUPC, ELBUF_TAB, FEXT          , CFL_COEF ,
-     N                  PDISP_OLD, PDISP  , H3D_DATA , ITAB          , WFEXT)
+     N                  PDISP_OLD, PDISP  , H3D_DATA , ITAB          , WFEXT, PYTHON)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -82,6 +82,8 @@ C-----------------------------------------------
       USE ANIM_MOD
       USE H3D_MOD , only:H3D_DATABASE
       USE CAST_MOD, only: double_to_my_real
+      USE PYTHON_FUNCT_MOD, only : python_
+      USE FINTER_MIXED_MOD, only: finter_mixed
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -135,6 +137,7 @@ C-----------------------------------------------
       INTEGER,INTENT(IN)::ITAB(NUMNOD)
       my_real, INTENT(INOUT) :: CENTROID_POLH(3,NPOLH)
       DOUBLE PRECISION,INTENT(INOUT) :: WFEXT
+      type(python_) :: PYTHON
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -197,7 +200,7 @@ C-----------------------------------------------
      .        CPDI, CPEI, CPFI,
      .        RHOI, DATAINJ(6,NJET), SCALT, FMASS, GMASS_OLD,
      .        GMTOT_OLD, FVEL, TSTART, TSG, GMASS, DGMASS, INJVEL,
-     .        DYDX, GMTOT, RMWG, CPA, CPB, CPC, FTEMP, EFAC, CPG,
+     .         GMTOT, RMWG, CPA, CPB, CPC, FTEMP, EFAC, CPG,
      .        CVG, WSURF(3), GAMA, FEL(NELT), 
      .        DQ(3,NPOLH), DE(NPOLH), DMI, DQI(3), DEI, RHO1, RE1, UX1,
      .        UY1, UZ1, RHO2, RE2, UX2, UY2, UZ2, VFX, VFY, VFZ, SS,
@@ -224,8 +227,8 @@ C-----------------------------------------------
       LOGICAL :: boolTAGEL,EXIT_NEG_VOL,INJECTION_STARTED
       LOGICAL :: UP_SWITCH
 C
-      my_real FINTER, GET_U_FUNC
-      EXTERNAL FINTER, GET_U_FUNC
+      my_real  GET_U_FUNC
+      EXTERNAL  GET_U_FUNC
       CHARACTER*20 VENTTITLE
       MY_REAL :: DTOLD, PARAM_LAMBDA
       INTEGER :: PARAM_L_TYPE, NNODES,nodeID
@@ -696,10 +699,10 @@ C
       SCALT =RVOLU(26)
       IF(ITYP == 6) THEN
         CALL FVINJT6(NJET, IBAGJET, RBAGJET, NPC, TF, NSENSOR,
-     .               SENSOR_TAB,SCALT, DATAINJ )
+     .               SENSOR_TAB,SCALT, DATAINJ, PYTHON )
       ELSEIF(ITYP == 8) THEN
         CALL FVINJT8(NJET, IBAGJET, RBAGJET, NPC, TF, NSENSOR,
-     .               SENSOR_TAB,SCALT, IGEO, GEO, PM, IVOLU, DATAINJ )
+     .               SENSOR_TAB,SCALT, IGEO, GEO, PM, IVOLU, DATAINJ,PYTHON)
       ENDIF
 C
       DO IINJ=1,NJET
@@ -723,7 +726,7 @@ C        ITTF : 1 or 2 +10 1 flag has been activated and RVOLU(60) is filled
         IF (TT >= TSTART.AND.DT1 > ZERO)THEN
           TSG=(TT-TSTART)*SCALT
           IF (IVEL > 0) THEN
-            INJVEL=FVEL*FINTER(IVEL,TSG,NPC,TF,DYDX)
+            INJVEL=FVEL*FINTER_MIXED(python,nfunct,IVEL,TSG,NPC,TF)
           ELSE
             INJVEL = FVEL
           ENDIF

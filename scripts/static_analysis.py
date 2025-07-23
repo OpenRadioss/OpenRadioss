@@ -419,13 +419,23 @@ if __name__ == "__main__":
     #compare the two lists
     for hash in list_of_hashes:
         if hash not in list_of_old_hashes:
-            print("New issue found: ", hash)
-            print(new_errors[hash])
             #if new_errors[hash] contains "WARNING", then it is a warning
             if "WARNING" in new_errors[hash]:
                 count_new_warnings += 1
+                if "ARRAY VS SCALAR" not in new_errors[hash]:
+                    print("New warning found: ", hash)
+                    print(new_errors[hash])
             else:
                 count_new_errors += 1
+
+    
+    for hash in list_of_hashes:
+        if hash not in list_of_old_hashes:
+            #if new_errors[hash] contains "WARNING", then it is a warning
+            if "WARNING" not in new_errors[hash]:
+                print("New error found: ", hash)
+                print(new_errors[hash])
+
 #       else:
 #           print("Issue already known: ")
 #           print(new_errors[hash])

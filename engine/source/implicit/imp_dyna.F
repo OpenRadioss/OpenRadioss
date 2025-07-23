@@ -739,11 +739,12 @@ C--------------------------------------------
      8                    NSENSOR   ,TH_SURF ,DPL0CLD,
      9                    VEL0CLD   ,D       ,DR      ,NUMNOD ,NSURF  ,
      A                    NFUNCT    ,NCONLD  ,NGRAV   ,NINVEL ,STF    ,NUMSKW ,
-     B                    WFEXT)
+     B                    WFEXT, PYTHON)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE IMP_DYNA
+      use python_funct_mod, only: python_
       USE MESSAGE_MOD
       USE H3D_MOD
       USE SENSOR_MOD
@@ -765,6 +766,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      type(python_), intent(inout) :: python
       INTEGER ,INTENT(IN) :: NSENSOR,NUMNOD,NSURF,NFUNCT,NCONLD,NGRAV,NINVEL
       INTEGER, INTENT(IN) :: STF
       INTEGER, INTENT(IN) :: SNPC
@@ -884,7 +886,7 @@ C---estimation a(t=0)----
           CALL GRAVIT_IMP(IGRV  ,AGRV  ,NPC   ,TF    ,DY_A,
      2                    V     ,X     ,SKEWS%SKEW  ,MS,WFEXC,
      3                    NSENSOR,SENSOR_TAB,WEIGHT,LGRAV,ITASK,
-     4                    NRBYAC,IRBYAC,NPBY  ,RBY    )
+     4                    NRBYAC,IRBYAC,NPBY  ,RBY, PYTHON)
 !         IF (IMON>0 .AND. ITASK == 0) CALL STOPTIME(TIMERS,4)
         ENDIF
          DO N=NODFT,NODLT
@@ -993,7 +995,7 @@ C
      8                    H3D_DATA,CPTREAC,FTHREAC,NODREAC,NSENSOR,
      9                    TH_SURF ,DPL0CLD,
      A                    VEL0CLD, NUMNOD,NSURF,NFUNCT,NCONLD,
-     B                    NGRAV,NFXVEL,STF,NUMSKW)
+     B                    NGRAV,NFXVEL,STF,NUMSKW,python)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -1002,6 +1004,7 @@ C-----------------------------------------------
       USE SENSOR_MOD
       USE TH_SURF_MOD , ONLY : TH_SURF_, TH_SURF_NUM_CHANNEL
       USE SKEW_MOD
+      use python_funct_mod, only: python_
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1017,6 +1020,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      type(python_), intent(inout) :: python
       INTEGER ,INTENT(IN) :: NSENSOR,NUMNOD,NSURF,NFUNCT,NCONLD,NGRAV,NFXVEL
       INTEGER ,INTENT(IN) :: STF
       INTEGER ,INTENT(IN) :: SNPC
@@ -1061,7 +1065,7 @@ C--------------------------------
           CALL GRAVIT_IMP(IGRV  ,AGRV  ,NPC   ,TF    ,A    ,
      2                    V     ,X     ,SKEWS%SKEW  ,MS,WFEXC,
      3                    NSENSOR,SENSOR_TAB,WEIGHT,LGRAV,ITASK,
-     5                    NRBYAC,IRBYAC,NPBY  ,RBY    )
+     5                    NRBYAC,IRBYAC,NPBY  ,RBY , PYTHON)
           WFEXT = WFEXT + WFEXC*DT2
         ENDIF
         IF(NFXVEL/=0) THEN

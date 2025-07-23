@@ -66,7 +66,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      K     CPDPOLH, CPEPOLH, CPFPOLH  ,
      L     ELTG   , IPARG  , MATTG    ,
      M     IGROUPTG,IGROUPC, ELBUF_TAB, CFL_COEF,
-     N     PDISP_OLD, PDISP, WFEXT)
+     N     PDISP_OLD, PDISP, WFEXT, PYTHON )
 C-----------------------------------------------
 C   M O D U L E S
 C-----------------------------------------------
@@ -77,6 +77,8 @@ C-----------------------------------------------
 !     USE OMP_LIB
       USE SENSOR_MOD
       USE ANIM_MOD
+      USE python_funct_mod
+      use finter_mixed_mod
 C-----------------------------------------------
 C   I M P L I C I T   T Y P E S
 C-----------------------------------------------
@@ -126,6 +128,7 @@ C-----------------------------------------------
       TYPE(ELBUF_STRUCT_), DIMENSION(NGROUP), INTENT(IN) :: ELBUF_TAB
       TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) ,INTENT(IN) :: SENSOR_TAB
       DOUBLE PRECISION,INTENT(INOUT) :: WFEXT
+      TYPE(PYTHON_),INTENT(IN) :: PYTHON
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
@@ -147,7 +150,7 @@ C-----------------------------------------------
      .        CPDI, CPEI, CPFI,
      .        RHOI, DATAINJ(6,NJET), SCALT,
      .        FVEL, TSTART, TSG, INJVEL,
-     .        DYDX, CPA, CPB, CPC, EFAC,
+     .        CPA, CPB, CPC, EFAC,
      .        PU(3,NPOLH), GAMA, FEL(NELT), DM(NPOLH),
      .        DQ(3,NPOLH), DE(NPOLH), DMI, RHO1, RE1, UX1,
      .        UY1, UZ1, RHO2, RE2, UX2, UY2, UZ2, VFX, VFY, VFZ, VREL(NELT), SS(NELT), SS_,
@@ -178,8 +181,8 @@ C-----------------------------------------------
       LOGICAL :: UP_SWITCH
 C
       MY_REAL
-     .         FINTER, GET_U_FUNC
-      EXTERNAL FINTER, GET_U_FUNC
+     .          GET_U_FUNC
+      EXTERNAL GET_U_FUNC
       CHARACTER*20 VENTTITLE
       INTEGER :: NODE_ID(5), INODE
       MY_REAL :: TAB_PVOL(NELT), DOT_PROD
@@ -587,10 +590,10 @@ C
       SCALT =RVOLU(26)
       IF(ITYP==6) THEN
         CALL FVINJT6(NJET, IBAGJET, RBAGJET, NPC, TF,NSENSOR, 
-     .               SENSOR_TAB,SCALT, DATAINJ )
+     .               SENSOR_TAB,SCALT, DATAINJ, PYTHON )
       ELSEIF(ITYP==8) THEN
         CALL FVINJT8(NJET, IBAGJET, RBAGJET, NPC, TF,NSENSOR,  
-     .               SENSOR_TAB,SCALT, IGEO, GEO, PM, IVOLU, DATAINJ )
+     .               SENSOR_TAB,SCALT, IGEO, GEO, PM, IVOLU, DATAINJ,PYTHON)
       ENDIF
 C
       DO IINJ=1,NJET
@@ -614,7 +617,7 @@ C        ITTF : 1 OR 2 +10 1 FLAG HAS BEEN ACTIVATED AND RVOLU(60) IS FILLED
          IF (TT>=TSTART.AND.DT1>ZERO)THEN
            TSG=(TT-TSTART)*SCALT
            IF (IVEL>0) THEN
-              INJVEL=FVEL*FINTER(IVEL,TSG,NPC,TF,DYDX)
+              INJVEL=FVEL*FINTER_MIXED(PYTHON,nfunct,IVEL,TSG,NPC,TF)
            ELSE
               INJVEL = FVEL
            ENDIF

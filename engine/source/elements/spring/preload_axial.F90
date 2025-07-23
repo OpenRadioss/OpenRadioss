@@ -49,7 +49,7 @@
       !||    precision_mod       ../common_source/modules/precision_mod.F90
       !||    sensor_mod          ../common_source/modules/sensor_mod.F90
       !||====================================================================
-        subroutine get_preload_axial(                                         &
+        subroutine get_preload_axial(python, nfunct,                 &
           fun_id    ,    sens_id,          npc,            snpc,     &
           tf        ,        stf,      sensors,            time,     &
           preload1  ,      stf_f)
@@ -58,12 +58,16 @@
 ! ----------------------------------------------------------------------------------------------------------------------
           use constant_mod, only : zero,two_third
           use sensor_mod
+          use python_funct_mod, only : python_
+          use finter_mixed_mod, only : finter_mixed
           use precision_mod, only : WP
 ! ----------------------------------------------------------------------------------------------------------------------
           implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
+          integer, intent (in   )                         :: nfunct       !< number of functions
+          type(python_) ,intent(inout)                     :: python       !< python module
           integer, intent (in   )                         :: fun_id       !< function id
           integer, intent (in   )                         :: sens_id      !< sensor id
           integer, intent (in   )                         :: snpc,stf     !< array dimension
@@ -77,12 +81,10 @@
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
           integer :: i,j,nld,isens
-          real(kind=WP) :: t_start,t_stop,t_shift,deri,tt,t_stif
+          real(kind=WP) :: t_start,t_stop,t_shift,tt,t_stif
 ! ----------------------------------------------------------------------------------------------------------------------
 !           e x t e r n a l   f u n c t i o n s
 ! ----------------------------------------------------------------------------------------------------------------------
-          real(kind=WP) :: finter
-          external finter
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -97,7 +99,7 @@
           end if
           tt = time-t_shift
           if (tt>=t_start.and.tt<t_stop) then
-            preload1= finter(fun_id,tt,npc,tf,deri)
+            preload1= finter_mixed(python,nfunct,fun_id,tt,npc,tf)
             t_stif = t_start + (t_stop-t_start)*two_third
             stf_f = zero
           end if
