@@ -22,15 +22,16 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 #ifdef MPI
       !||====================================================================
-      !||    inipar                ../engine/source/mpi/init/inipar.F
+      !||    inipar                 ../engine/source/mpi/init/inipar.F
       !||--- called by ------------------------------------------------------
-      !||    radioss2              ../engine/source/engine/radioss2.F
+      !||    radioss2               ../engine/source/engine/radioss2.F
       !||--- calls      -----------------------------------------------------
-      !||    arret                 ../engine/source/system/arret.F
-      !||    omp_get_max_threads   ../engine/source/engine/openmp_stub.F90
-      !||    omp_set_num_threads   ../engine/source/engine/openmp_stub.F90
+      !||    arret                  ../engine/source/system/arret.F
+      !||    omp_get_max_threads    ../engine/source/engine/openmp_stub.F90
+      !||    omp_set_num_threads    ../engine/source/engine/openmp_stub.F90
       !||--- uses       -----------------------------------------------------
-      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
+      !||    coupling_adapter_mod   ../engine/source/coupling/coupling_adapter.F90
+      !||    spmd_comm_world_mod    ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
       SUBROUTINE INIPAR(coupling,ITID,ICAS,NNODES,INPUT,GOT_INPUT,NBTASK)
 C-----------------------------------------------------------------
@@ -356,15 +357,16 @@ C
 C routines simplifiees non mpi
 C
       !||====================================================================
-      !||    inipar                ../engine/source/mpi/init/inipar.F
+      !||    inipar                 ../engine/source/mpi/init/inipar.F
       !||--- called by ------------------------------------------------------
-      !||    radioss2              ../engine/source/engine/radioss2.F
+      !||    radioss2               ../engine/source/engine/radioss2.F
       !||--- calls      -----------------------------------------------------
-      !||    arret                 ../engine/source/system/arret.F
-      !||    omp_get_max_threads   ../engine/source/engine/openmp_stub.F90
-      !||    omp_set_num_threads   ../engine/source/engine/openmp_stub.F90
+      !||    arret                  ../engine/source/system/arret.F
+      !||    omp_get_max_threads    ../engine/source/engine/openmp_stub.F90
+      !||    omp_set_num_threads    ../engine/source/engine/openmp_stub.F90
       !||--- uses       -----------------------------------------------------
-      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
+      !||    coupling_adapter_mod   ../engine/source/coupling/coupling_adapter.F90
+      !||    spmd_comm_world_mod    ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
       SUBROUTINE INIPAR(coupling, ITID,ICAS,NNODES,INPUT,GOT_INPUT,NBTASK)
 C-----------------------------------------------------------------
