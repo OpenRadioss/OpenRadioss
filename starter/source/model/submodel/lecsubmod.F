@@ -82,7 +82,7 @@ C-----------------------------------------------
      .        BID
       my_real
      .   TX,TY,TZ,ANGLE,FAC_L,X0(3),X1(3),ROT(9),S,XP,YP,ZP,
-     .   XCOLD(3), XCNEW(3)
+     .   XCOLD(3), XCNEW(3), SX, SY, SZ
       DATA MESS/'SUBMODEL DEFINITION                   '/
       LOGICAL IS_AVAILABLE
 C-----------------------------------------------
@@ -285,6 +285,45 @@ C-------------------------
                 X(2,K) = XCNEW(2) + ROT(2)*XP + ROT(5)*YP + ROT(8)*ZP                         
                 X(3,K) = XCNEW(3) + ROT(3)*XP + ROT(6)*YP + ROT(9)*ZP      
               END IF                   
+            ENDDO
+          ELSEIF(ITY == 5)THEN 
+            DO K=1,3
+              X0(K)=RTRANS(LSUBMODEL(CUR_SUBMOD)%IDTRANS(J),K+11)
+            ENDDO
+            DO K=1,3
+              X1(K)=RTRANS(LSUBMODEL(CUR_SUBMOD)%IDTRANS(J),K+14)
+            ENDDO
+            TX = X1(1) - X0(1)
+            TY = X1(2) - X0(2)
+            TZ = X1(3) - X0(3)
+            S = ONE/MAX(SQRT(TX*TX + TY*TY + TZ*TZ),EM20)
+            TX = TX*S
+            TY = TY*S
+            TZ = TZ*S
+            DO K=1,NUMNOD
+              IF(TAGNODSUB(K) == I) THEN
+                SX = X(1,K) - X0(1)
+                SY = X(2,K) - X0(2)
+                SZ = X(3,K) - X0(3)
+                S = SX*TX + SY*TY + SZ*TZ
+                X(1,K) = X(1,K) - TWO*TX*S
+                X(2,K) = X(2,K) - TWO*TY*S
+                X(3,K) = X(3,K) - TWO*TZ*S
+              ENDIF
+            ENDDO
+          ELSEIF(ITY == 6)THEN 
+            SX = RTRANS(LSUBMODEL(CUR_SUBMOD)%IDTRANS(J),20)
+            SY = RTRANS(LSUBMODEL(CUR_SUBMOD)%IDTRANS(J),21)
+            SZ = RTRANS(LSUBMODEL(CUR_SUBMOD)%IDTRANS(J),22)
+            DO K=1,3
+              X0(K)=RTRANS(LSUBMODEL(CUR_SUBMOD)%IDTRANS(J),K+11)
+            ENDDO
+            DO K=1,NUMNOD
+              IF(TAGNODSUB(K) == I) THEN
+                X(1,K) = X0(1) + X(1,K) * SX
+                X(2,K) = X0(2) + X(2,K) * SY
+                X(3,K) = X0(3) + X(3,K) * SZ
+              ENDIF
             ENDDO
           ENDIF
          ENDDO

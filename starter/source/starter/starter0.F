@@ -599,7 +599,7 @@ c 2 new values for ISPHIO, NSEG and IAS for inlet outlet in spmd
       NIFV = 16
       ALE%GLOBAL%NALENOVS = 6
       NLEDGE  = 15
-      NRTRANS = 19
+      NRTRANS = 22
 C
       NEXMAD=0
       NMADPRT=0

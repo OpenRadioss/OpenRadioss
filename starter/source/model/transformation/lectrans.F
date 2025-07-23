@@ -319,7 +319,7 @@ C--------------------------------------------------
           CALL HM_GET_INTV('GR_NODE',IGU,IS_AVAILABLE,LSUBMODEL)
           CALL HM_GET_INTV('node1',N0,IS_AVAILABLE,LSUBMODEL)
           CALL HM_GET_INTV('node2',N1,IS_AVAILABLE,LSUBMODEL)
-c          CALL HM_GET_INTV('SUBMODEL',ITRANSSUB,IS_AVAILABLE,LSUBMODEL)
+          CALL HM_GET_INTV('SUBMODEL',ITRANSSUB,IS_AVAILABLE,LSUBMODEL)
 C--------------------------------------------------
 C EXTRACT DATAS (REAL VALUES)
 C--------------------------------------------------
@@ -329,6 +329,10 @@ C--------------------------------------------------
           CALL HM_GET_FLOATV('reflect_point2_x',X1(1),IS_AVAILABLE,LSUBMODEL,UNITAB)
           CALL HM_GET_FLOATV('reflect_point2_y',X1(2),IS_AVAILABLE,LSUBMODEL,UNITAB)
           CALL HM_GET_FLOATV('reflect_point2_z',X1(3),IS_AVAILABLE,LSUBMODEL,UNITAB)
+c---------------------
+          IF (ITRANSSUB /= 0) CYCLE
+c---------------------
+          RTRANS(I,2) = 5
 C--------------------------------------------------
           IF(SUB_ID /= 0)
      .      CALL SUBROTPOINT(X0(1),X0(2),X0(3),RTRANS,SUB_ID,LSUBMODEL)
@@ -414,13 +418,17 @@ C EXTRACT DATAS (INTEGER VALUES)
 C--------------------------------------------------
           CALL HM_GET_INTV('GR_NODE',IGU,IS_AVAILABLE,LSUBMODEL)
           CALL HM_GET_INTV('node1',N0,IS_AVAILABLE,LSUBMODEL)
-c          CALL HM_GET_INTV('SUBMODEL',ITRANSSUB,IS_AVAILABLE,LSUBMODEL)
+          CALL HM_GET_INTV('SUBMODEL',ITRANSSUB,IS_AVAILABLE,LSUBMODEL)
 C--------------------------------------------------
 C EXTRACT DATAS (REAL VALUES)
 C--------------------------------------------------
           CALL HM_GET_FLOATV('scalefactor_x',TX,IS_AVAILABLE,LSUBMODEL,UNITAB)
           CALL HM_GET_FLOATV('scalefactor_y',TY,IS_AVAILABLE,LSUBMODEL,UNITAB)
           CALL HM_GET_FLOATV('scalefactor_z',TZ,IS_AVAILABLE,LSUBMODEL,UNITAB)
+c---------------------
+          IF (ITRANSSUB /= 0) CYCLE
+c---------------------
+          RTRANS(I,2) = 6
 C--------------------------------------------------
           IF (TX == ZERO) TX = ONE
           IF (TY == ZERO) TY = ONE
