@@ -25,17 +25,18 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- called by ------------------------------------------------------
       !||    monvol0      ../engine/source/airbag/monvol0.F
       !||--- calls      -----------------------------------------------------
-      !||    finter       ../engine/source/tools/curve/finter.F
       !||--- uses       -----------------------------------------------------
       !||    sensor_mod   ../common_source/modules/sensor_mod.F90
       !||====================================================================
       SUBROUTINE AIRBAGA(IVOLU ,NJET   ,IBAGJET ,NVENT   ,IBAGHOL,
      2                 ICBAG   ,RVOLU   ,RBAGJET ,RBAGHOL,RCBAG   ,
      3                 RVOLUV  ,NPC     ,TF      ,NSENSOR ,SENSOR_TAB ,
-     4                 VOL     ,PMAIN   ,WFEXT )
+     4                 VOL     ,PMAIN   ,WFEXT ,PYTHON)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------  
+      USE python_funct_mod
+      USE finter_mixed_mod
       USE SENSOR_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -64,6 +65,7 @@ C-----------------------------------------------
      .   RBAGHOL(NRBHOL,*),RCBAG(NRCBAG,*),RVOLUV(NRVOLU,*),VOL
       TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) ,INTENT(IN) :: SENSOR_TAB
       DOUBLE PRECISION, INTENT(INOUT) :: WFEXT
+      TYPE(PYTHON_), intent(inout) :: PYTHON
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -74,7 +76,7 @@ C-----------------------------------------------
      .   PDEF, PEXT, PVOIS, DTPDEFC,
      .   GAMA, AMU, TSTART, TSG,
      .   AMTOT, P, POLD, DV,
-     .   ROT, DYDX, FTEMP, FMASS, DT, AREA,
+     .   ROT,  FTEMP, FMASS, DT, AREA,
      .   CV, CP, CVG, CPG, CPA, CPB, CPC, CVI, CPI, CPAI, CPBI, CPCI,
      .   RMWI, RMWG,
      .   RNM_OLD, RNM, RNMG,
@@ -83,8 +85,6 @@ C-----------------------------------------------
      .   EFAC, DGEOUT, RIGHT, LEFT, 
      .   VOLD, VEPS, VMIN, AMTOT_OLD, TBAG_OLD, TBAG,SCALT,
      .   QOLD,Q,CX,QX,TEMP
-      my_real FINTER 
-      EXTERNAL FINTER
 C-----------------------------------------------
       PEXT     =RVOLU(3)
       POLD     =RVOLU(12)
@@ -238,7 +238,7 @@ C---------------------
         IF(TT >= TSTART)THEN
          TSG = (TT-TSTART)*RVOLU(26)
          IF(ITEMP > 0) THEN
-           TEMP=FTEMP*FINTER(ITEMP,TSG,NPC,TF,DYDX)
+           TEMP=FTEMP*FINTER_MIXED(PYTHON,NFUNCT,ITEMP,TSG,NPC,TF)
          ELSE
            TEMP=FTEMP
          ENDIF
@@ -250,7 +250,7 @@ C
         GMASS_OLD=RBAGJET(7,IJ)
         IF(TT >= TSTART)THEN
          IF(IMASS > 0) THEN
-           GMASS=FMASS*FINTER(IMASS,TSG,NPC,TF,DYDX)
+           GMASS=FMASS*FINTER_MIXED(PYTHON,NFUNCT,IMASS,TSG,NPC,TF)
            IF(IFLU == 1)GMASS = GMASS*RVOLU(26)*DT1 + GMASS_OLD
          ELSE
            GMASS=FMASS

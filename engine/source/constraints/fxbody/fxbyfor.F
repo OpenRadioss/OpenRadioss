@@ -43,10 +43,11 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .                   DT2T  , ITYPTST, NELTST , FXBGRVI , FXBGRVR,
      .                   IGRV  , NPC    , TF     , FXBGRP  , FXBGRW ,
      .                   IPARG , NSENSOR,SENSOR_TAB, IAD_ELEM, FR_ELEM,
-     .                   AGRV  )
+     .                   AGRV  , PYTHON)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE python_funct_mod, ONLY : python_
       USE ELBUFDEF_MOD            
       USE SENSOR_MOD
       USE ANIM_MOD
@@ -84,6 +85,7 @@ C-----------------------------------------------
      .   FXBGRW(*), AGRV(LFACGRV,*)
       TYPE (ELBUF_STRUCT_), DIMENSION (NGROUP) :: ELBUF_TAB
       TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
+      TYPE(python_) :: python
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -180,7 +182,7 @@ C
      .FXBSV(ALM)   ,FSAV(1,NN2) ,FXBFP(AVAR) ,FXBEFW(NFX) ,FXBFC(ALM)  ,
      .FXBGRVI(AGRVI),FXBGRVR(AGRVR),NLGRAV   ,IGRV        ,NPC         ,
      .TF           ,FXBGRP(AVAR),FXBGRW(NFX) ,SENSOR_TAB  ,NSENSOR     ,  
-     .MFEXTP(AVAR) ,AGRV        )
+     .MFEXTP(AVAR) ,AGRV    ,PYTHON    )
          ENDIF
       ENDDO
 C

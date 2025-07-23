@@ -35,11 +35,13 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||====================================================================
       SUBROUTINE FORCEFINGEO(IBFV  ,NPC    ,TF     ,A     ,V    ,X     ,
      2                       VEL   ,SENSOR_TAB,FSKY  ,FEXT ,ITABM1,
-     3                       H3D_DATA,NSENSOR, PYTHON,WFEXT)
+     3                       H3D_DATA,NSENSOR, PYTHON,WFEXT,NODES)
 C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
+      USE nodal_arrays_mod
       USE PYTHON_FUNCT_MOD
+      use python_call_funct_cload_mod
       USE H3D_MOD 
       USE SENSOR_MOD
 C-----------------------------------------------
@@ -67,6 +69,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      TYPE(NODAL_ARRAYS_) :: NODES
       TYPE(PYTHON_), INTENT(inout) :: PYTHON
       INTEGER ,INTENT(IN) :: NSENSOR
       INTEGER IBFV(NIFV,*), NPC(*)
@@ -130,8 +133,8 @@ C
             F1 = FINTER_SMOOTH(NCUR,(TS-DT1)*FACX,NPC,TF,DYDX)
             F2 = FINTER_SMOOTH(NCUR,TS*FACX,NPC,TF,DYDX)
           ELSE IF(ISMOOTH < 0) THEN
-            CALL PYTHON_CALL_FUNCT1D(PYTHON, -ISMOOTH,TS-DT1, F1)
-            CALL PYTHON_CALL_FUNCT1D(PYTHON, -ISMOOTH,TS, F2)
+            CALL PYTHON_CALL_FUNCT_CLOAD(PYTHON, -ISMOOTH,TS-DT1, F1,N1,NODES)
+            CALL PYTHON_CALL_FUNCT_CLOAD(PYTHON, -ISMOOTH,TS, F2,N2,NODES)
           ENDIF ! IF (ISMOOTH == 0)
           NCUR_OLD = NCUR
           TS_OLD = TS

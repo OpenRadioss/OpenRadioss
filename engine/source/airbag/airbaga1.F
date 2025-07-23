@@ -33,11 +33,13 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      2                    ICBAG  ,RVOLU   ,RBAGJET ,RBAGHOL ,RCBAG      ,
      3                    RVOLUV ,NPC     ,TF      ,NSENSOR ,SENSOR_TAB ,
      4                    VOL    ,PMAIN   ,GEO     ,IGEO    ,PM         ,
-     5                    WFEXT )
+     5                    WFEXT, PYTHON )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------  
+      USE python_funct_mod
       USE SENSOR_MOD
+      USE finter_mixed_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -67,6 +69,7 @@ C-----------------------------------------------
      .   GEO(NPROPG,*),PM(NPROPM,*)
       TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) ,INTENT(IN) :: SENSOR_TAB
       DOUBLE PRECISION,INTENT(INOUT) :: WFEXT
+      TYPE(PYTHON_), intent(inout) :: PYTHON
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -78,7 +81,7 @@ C-----------------------------------------------
      .   PDEF, PEXT, PVOIS, DTPDEFC,
      .   GAMA, AMU, TSTART, TSG,TSG2,
      .   AMTOT, P, POLD, DV,
-     .   ROT, DYDX, FTEMP, FMASS, DT, AREA,
+     .   ROT,  FTEMP, FMASS, DT, AREA,
      .   CV, CP, CVG, CPG, CPA, CPB, CPC, CVI, CPI, CPAI, CPBI, CPCI,
      .   RMWI, RMWG,
      .   RNM_OLD, RNM, RNMG,
@@ -90,8 +93,6 @@ C-----------------------------------------------
       my_real
      .   MW, CPD, CPE, CPF, CPDI, CPEI, CPFI, R_IGC1, DGMIN, ASTIME,
      .   DGEIN, HCONV, TEXT, MOLFR, MW_MIX
-      my_real FINTER 
-      EXTERNAL FINTER
 C-----------------------------------------------
       FTEMP = ZERO
       PEXT     =RVOLU(3)
@@ -264,7 +265,7 @@ C
             IF(IMOL == 0) THEN
                MW_MIX = MW_MIX + MW*MOLFR
             ELSE
-               MW_MIX = MW_MIX + MW*FINTER(IMOL,TSG,NPC,TF,DYDX)
+               MW_MIX = MW_MIX + MW*FINTER_MIXED(PYTHON,NFUNCT,IMOL,TSG,NPC,TF)
             ENDIF
          ENDDO
          RBAGJET(19,IJ) = MW_MIX
@@ -330,7 +331,7 @@ C
           IF (TSG2 <= ZERO) TSG2 = TSG
 C
           IF(ITEMP>0) THEN
-            TEMP=FTEMP*FINTER(ITEMP,TSG,NPC,TF,DYDX)
+            TEMP=FTEMP*FINTER_MIXED(PYTHON,NFUNCT,ITEMP,TSG,NPC,TF)
           ELSE
             TEMP=FTEMP
           ENDIF
@@ -347,14 +348,14 @@ C
          GMASS_OLD=RBAGJET(KK+2,IJ)
          IF(TT>=TSTART)THEN
           IF(IMASS>0) THEN
-            GMASS=HALF * FMASS * (FINTER(IMASS,TSG,NPC,TF,DYDX) + 
-     .            FINTER(IMASS,TSG2,NPC,TF,DYDX))
+            GMASS=HALF * FMASS * (FINTER_MIXED(PYTHON,NFUNCT,IMASS,TSG,NPC,TF) + 
+     .            FINTER_MIXED(PYTHON,NFUNCT,IMASS,TSG2,NPC,TF))
             IF(I_TYPINJ == 2) THEN
                MW_MIX = RBAGJET(19,IJ)
                IF(IMOL == 0) THEN
                  GMASS=GMASS*MW*MOLFR/MW_MIX
                ELSE
-                 GMASS=GMASS*MW*FINTER(IMOL,TSG,NPC,TF,DYDX)/MW_MIX
+                 GMASS=GMASS*MW*FINTER_MIXED(PYTHON,NFUNCT,IMOL,TSG,NPC,TF)/MW_MIX
                ENDIF
             ENDIF
             IF(IFLU==1)GMASS = GMASS*DT1 + GMASS_OLD

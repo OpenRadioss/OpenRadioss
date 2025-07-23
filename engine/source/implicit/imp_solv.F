@@ -140,7 +140,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    th_surf_mod      ../common_source/modules/interfaces/th_surf_mod.F
       !||    timer_mod        ../engine/source/system/timer_mod.F90
       !||====================================================================
-      SUBROUTINE IMP_SOLV(TIMERS,
+      SUBROUTINE IMP_SOLV(TIMERS,PYTHON,
      1  ICODE  ,ISKEW  ,ISKWN  ,IPART  ,IXTG   ,IXS    ,IXQ    ,
      2  IXC    ,IXT    ,IXP    ,IXR    ,IXTG1          ,ITAB   ,ITABM1 ,
      3  NPC    ,IBCL   ,IBFV   ,SENSOR_TAB,NNLINK ,LNLINK ,IPARG  ,IGRV   ,
@@ -191,6 +191,7 @@ C-----------------------------------------------
         USE TH_SURF_MOD , ONLY : TH_SURF_
         USE SKEW_MOD
         use glob_therm_mod
+        use python_funct_mod, only: python_
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -218,6 +219,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
         TYPE(TIMER_) :: TIMERS
+        TYPE(PYTHON_) :: PYTHON
         INTEGER ,INTENT(IN) :: NSENSOR
         INTEGER ,INTENT(IN) :: SNPC
         INTEGER ,INTENT(IN) :: STF
@@ -528,7 +530,7 @@ C
      8                     NSENSOR    ,TH_SURF  ,DPL0CLD ,
      9                     VEL0CLD    ,D        ,DR              ,NUMNOD  ,NSURF  ,
      A                     NFUNCT     ,NCONLD   ,NGRAV           ,NINVEL  ,STF    ,NUMSKW,
-     B                     WFEXT)
+     B                     WFEXT,python)
 C
 C----------------------------------
 C       EXTERNAL FORCES A=Fext-Fint
@@ -580,7 +582,7 @@ C---------no //SMP for the moment, add it after----
      2                      V     ,X     ,SKEWS%SKEW  ,MS,TFEXC,
      3                      NSENSOR,SENSOR_TAB,WEIGHT,
      4                      LGRAV ,ITASK,
-     5                      NRBYAC,IRBYAC,NPBY  ,RBY    )
+     5                      NRBYAC,IRBYAC,NPBY  ,RBY, PYTHON)
             IF (IMON>0) CALL STOPTIME(TIMERS,4)
           ENDIF
 C---------no //SMP for the moment, add it after----
@@ -590,7 +592,7 @@ C---------no //SMP for the moment, add it after----
      2                      V     ,X     ,XFRAME  ,MS,TFEXC,
      3                      NSENSOR,SENSOR_TAB,WEIGHT,IFRAME,
      4                      LCFIELD ,ITASK,
-     5                      NRBYAC,IRBYAC,NPBY  ,RBY,ISKEW    )
+     5                      NRBYAC,IRBYAC,NPBY  ,RBY,ISKEW,PYTHON   )
             IF (IMON>0) CALL STOPTIME(TIMERS,4)
           ENDIF
 
@@ -1910,7 +1912,7 @@ C
      8                    NDOF  ,H3D_DATA,CPTREAC,FTHREAC,NODREAC,NSENSOR,
      9                    TH_SURF ,DPL0CLD,
      A                    VEL0CLD, NUMNOD,NSURF,NFUNCT,NCONLD,
-     B                    NGRAV,NFXVEL,STF,NUMSKW)
+     B                    NGRAV,NFXVEL,STF,NUMSKW,PYTHON)
             CALL DYNA_CPR0(NDDL0  )
           END IF
 C----------D_imp taking D_n-1 :exception for case with Gravity-----
@@ -3105,7 +3107,7 @@ C------------------------------------------
       !||    th_surf_mod     ../common_source/modules/interfaces/th_surf_mod.F
       !||    timer_mod       ../engine/source/system/timer_mod.F90
       !||====================================================================
-      SUBROUTINE IMP_CHKM(TIMERS,
+      SUBROUTINE IMP_CHKM(TIMERS,PYTHON,
      1  ICODE  ,ISKEW  ,ISKWN  ,IPART  ,IXTG   ,IXS    ,IXQ    ,
      2  IXC    ,IXT    ,IXP    ,IXR    ,IXTG1          ,ITAB   ,ITABM1 ,
      3  NPC    ,IBCL   ,IBFV   ,SENSOR_TAB,NNLINK ,LNLINK ,IPARG  ,IGRV   ,
@@ -3129,6 +3131,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
         USE TIMER_MOD
+        USE python_funct_mod, only: PYTHON_
         USE DSGRAPH_MOD
         USE IMP_WORKI
         USE ELBUFDEF_MOD
@@ -3163,6 +3166,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
         TYPE(TIMER_), INTENT(INOUT) :: TIMERS
+        TYPE(PYTHON_), INTENT(INOUT) :: PYTHON
         INTEGER ,INTENT(IN) :: SNPC    !< size of NPC
         INTEGER ,INTENT(IN) :: STF     !< size of TF / Tabulated function array
         INTEGER ,INTENT(IN) :: NSENSOR
@@ -3353,14 +3357,14 @@ C----------------------------------
      2                    V      ,X         ,SKEWS%SKEW ,MS,TFEXC,
      3                    NSENSOR,SENSOR_TAB            ,WEIGHT,
      4                    LGRAV  ,ITASK     ,
-     5                    NRBYAC ,IRBYAC    ,NPBY       ,RBY    )
+     5                    NRBYAC ,IRBYAC    ,NPBY       ,RBY , PYTHON)
         ENDIF
         IF(NLOADC/=0) THEN
           CALL CFIELD_IMP(ICFIELD  ,CFIELD,NPC   ,TF    ,AC,
      2                    V     ,X     ,XFRAME  ,MS,TFEXC,
      3                    NSENSOR,SENSOR_TAB,WEIGHT,IFRAME,
      4                    LCFIELD ,ITASK,
-     5                    NRBYAC,IRBYAC,NPBY  ,RBY,ISKWN    )
+     5                    NRBYAC,IRBYAC,NPBY  ,RBY,ISKWN, PYTHON    )
         ENDIF
 C-------------dU_d---------------------------------
         IF(NFXVEL/=0.AND.IMCONV==1) THEN

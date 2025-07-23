@@ -35,11 +35,13 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      2                  V     ,X     ,XFRAME  ,MS,WFEXTT,
      3                  NSENSOR,SENSOR_TAB,WEIGHT,IFRAME,
      4                  IB,ITASK,
-     5                  NRBYAC,IRBYAC,NPBY  ,RBY,ISKN   )
+     5                  NRBYAC,IRBYAC,NPBY  ,RBY,ISKN, PYTHON  )
 C-----------------------------------------------  
 C   M o d u l e s
 C-----------------------------------------------  
       USE SENSOR_MOD
+      USE PYTHON_FUNCT_MOD
+      USE FINTER_MIXED_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -55,6 +57,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER,INTENT(IN) :: NSENSOR
+      TYPE(PYTHON_), INTENT(INOUT) :: PYTHON
       INTEGER NPC(*)
       INTEGER ICFIELD(SIZFIELD,*),IB(*)
       INTEGER WEIGHT(*),ITASK,NRBYAC,IRBYAC(*),NPBY(NNPBY,*),IFRAME(LISKN,*),ISKN(LISKN,*)
@@ -64,7 +67,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NL, N1, IFRA, N2, IFUNC, K1, K2, K3, ISENS,K,NN, IAD,J, PROC, IADF, IADL,IDIR,IFLAG,N1FRAM,IUN,JJ,IMOVFRAM
-      my_real NX, NY, NZ, AXI, A0, AA, VV, FX, FY, FZ, AX, DYDX, TS,
+      my_real NX, NY, NZ, AXI, A0, AA, VV, FX, FY, FZ, AX,  TS,
      .        GAMA, MA, VROT, X0, Y0, Z0, X1, Y1, Z1, X2, Y2, Z2, VROTM1
       my_real DIST(3),AREL(3),VN1FRAM(3),AN1FRAM(3),DW(3)
       my_real FINTER 
@@ -121,9 +124,9 @@ C
           IF(TS<0.0)RETURN
       ENDIF
 C
-      VROT = FAC(1,NL)*FINTER(IFUNC,TS*FAC(2,NL),NPC,TF,DYDX)
+      VROT = FAC(1,NL)*FINTER_MIXED(python,nfunct,IFUNC,TS*FAC(2,NL),NPC,TF)
       VROTM1=VROT
-      IF (DT2 > ZERO .AND. IFLAG == 2) VROTM1 = FAC(1,NL)*FINTER(IFUNC,(TS-DT2)*FAC(2,NL),NPC,TF,DYDX)
+      IF (DT2 > ZERO .AND. IFLAG == 2) VROTM1 = FAC(1,NL)*FINTER_MIXED(python,nfunct,IFUNC,(TS-DT2)*FAC(2,NL),NPC,TF)
       X0 = XFRAME(10,IFRA+1)
       Y0 = XFRAME(11,IFRA+1)
       Z0 = XFRAME(12,IFRA+1)

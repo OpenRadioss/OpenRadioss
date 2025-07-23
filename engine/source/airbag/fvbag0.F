@@ -40,7 +40,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .                  FSAV  ,  IFVMESH , ICONTACT , LGAUGE    ,
      .                  GAUGE ,  IGEO    , GEO      , PM        , IPM,
      .                  IPARG ,  IGROUPTG, IGROUPC  , ELBUF_TAB , FEXT,
-     .                  FLAG  ,  H3D_DATA, ITAB     ,WEIGHT     ,WFEXT)
+     .                  FLAG  ,  H3D_DATA, ITAB     ,WEIGHT     ,WFEXT, PYTHON)
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -57,6 +57,7 @@ C-----------------------------------------------
       USE FVMBAG_MESHCONTROL_MOD
       USE H3D_MOD
       USE SENSOR_MOD
+      USE python_funct_mod, only : python_
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -87,6 +88,7 @@ C-----------------------------------------------
       TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) ,INTENT(IN) :: SENSOR_TAB 
       INTEGER,INTENT(IN) :: ITAB(NUMNOD), WEIGHT(NUMNOD)
       DOUBLE PRECISION,INTENT(INOUT) :: WFEXT
+      TYPE(PYTHON_) :: PYTHON
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -266,7 +268,7 @@ C
      K            FVDATA(IFV)%CPDPOLH   ,FVDATA(IFV)%CPEPOLH,FVDATA(IFV)%CPFPOLH ,
      L            MONVOL(KI4)           ,IPARG              ,MONVOL(KI5)         ,
      M            IGROUPTG              ,IGROUPC            ,ELBUF_TAB           , FEXT                     , CFL_COEF             ,
-     N            FVDATA(IFV)%PDISP_OLD ,FVDATA(IFV)%PDISP  ,H3D_DATA            , ITAB                     , WFEXT)
+     N            FVDATA(IFV)%PDISP_OLD ,FVDATA(IFV)%PDISP  ,H3D_DATA            , ITAB                     , WFEXT, PYTHON)
               ELSE
                 CALL FV_UP_SWITCH(
      1            NNS                   ,NTG, MONVOL(KI2)   ,NJET                , FVDATA(IFV)%NPOLY        , FVDATA(IFV)%LENH ,NBA,
@@ -291,7 +293,7 @@ C
      K            FVDATA(IFV)%CPDPOLH   ,FVDATA(IFV)%CPEPOLH,FVDATA(IFV)%CPFPOLH ,
      L            MONVOL(KI4)           ,IPARG              ,MONVOL(KI5)         ,
      M            IGROUPTG              ,IGROUPC            ,ELBUF_TAB, CFL_COEF ,
-     N            FVDATA(IFV)%PDISP_OLD ,FVDATA(IFV)%PDISP  ,WFEXT)
+     N            FVDATA(IFV)%PDISP_OLD ,FVDATA(IFV)%PDISP  ,WFEXT, PYTHON)
               ENDIF
             ELSEIF (FLAG == 2) THEN
               CALL FVBAG2(IFV       , ITYP          , NNA           , NVENT       , NJET          , 

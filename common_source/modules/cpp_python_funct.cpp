@@ -96,7 +96,7 @@ std::string element_parenthesis_to_underscore(const std::string &input, const st
 
 std::string node_parenthesis_to_underscore(const std::string &input)
 {
-    std::regex pattern(R"(\b(DX|DY|DZ|AX|AY|AZ|CX|CY|CZ|VX|VY|VZ|ARX|ARY|ARZ|VRX|VRY|VRZ|DRX|DRY|DRZ|MONVOL_VOLUME|MONVOL_TEMPERATURE|MONVOL_AREA|MONVOL_PRESSURE)\b\s*\(\s*(\d+|ACTIVE_NODE)\s*\))");
+    std::regex pattern(R"(\b(DX|DY|DZ|AX|AY|AZ|CX|CY|CZ|VX|VY|VZ|ARX|ARY|ARZ|VRX|VRY|VRZ|DRX|DRY|DRZ|MONVOL_VOL|MONVOL_T|MONVOL_A|MONVOL_P)\b\s*\(\s*(\d+|ACTIVE_NODE)\s*\))");
     std::string result = std::regex_replace(input, pattern, "$1_$2");
     return result;
 }
@@ -777,7 +777,7 @@ extern "C"
 
     }
 
-    void cpp_python_initiazlize_global_variables()
+    void cpp_python_initialize_global_variables()
     {
         if (!python_initialized)
         {
@@ -898,7 +898,7 @@ extern "C"
         if (python_initialized)
         {
             // initialize the global variables found in the python function
-            cpp_python_initiazlize_global_variables();
+            cpp_python_initialize_global_variables();
             python_execute_code(function_code.str());
         }
         else

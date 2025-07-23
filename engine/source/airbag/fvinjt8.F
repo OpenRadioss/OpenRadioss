@@ -32,10 +32,12 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||====================================================================
       SUBROUTINE FVINJT8(NJET   , IBAGJET , RBAGJET , NPC    , TF,
      2                   NSENSOR,SENSOR_TAB, SCALT,    IGEO,     GEO,     
-     3                   PM     , IVOLU,   DATAINJ )
+     3                   PM     , IVOLU,   DATAINJ ,PYTHON)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------  
+      USE python_funct_mod, ONLY : python_
+      use finter_mixed_mod, ONLY : finter_mixed
       USE SENSOR_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -57,6 +59,7 @@ C     REAL
      .   RBAGJET(NRBJET,*), TF(*),SCALT, 
      .   GEO(NPROPG,*), PM(NPROPM,*), DATAINJ(6,NJET)
       TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) ,INTENT(IN) :: SENSOR_TAB
+      type(python_) :: python
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -65,15 +68,11 @@ C-----------------------------------------------
       my_real
      .   TSTART, ASTIME, DGMASSI, GMTOT_OLD, GMASS_OLD, GMOL_OLD, FMASS, 
      .   FTEMP,  MOLFR,  GMASS,   GMASS_DT,  GMTOT,     DGMASS,   EFAC , 
-     .   TSG,    DYDX,  RMWG,  TEMP,  
+     .   TSG,    RMWG,  TEMP,  
      .   CPA, CPB, CPC, CPD, CPE, CPF, MW, 
      .   CPA_NEW, CPB_NEW, CPC_NEW, CPD_NEW, CPE_NEW, CPF_NEW,MWMIX_NEW,
      .   DMASS_MIX, DMOL_MIX, DMASSG_MIX, DTEPS, MASS_MIX, MASS_MIX_DT, 
      .   MWMIX, FMASS1, MW1, MOLFR1, R_IGC1, DGMOUT
-C
-      my_real
-     .         FINTER
-      EXTERNAL FINTER
 C-----------------------------------------------
       R_IGC1   =PM(27,IVOLU(66))
 C---------------------
@@ -136,7 +135,7 @@ C
           TSG = (TT-TSTART)/ASTIME
 C
           IF(ITEMP>0) THEN
-            TEMP=FTEMP*FINTER(ITEMP,TSG,NPC,TF,DYDX)
+            TEMP=FTEMP*FINTER_MIXED(python,nfunct,ITEMP,TSG,NPC,TF)
           ELSE
             TEMP=FTEMP
           ENDIF
@@ -167,7 +166,7 @@ C
                MW1=PM(20,I_GAS1)
 C
                IF(IMASS1>0) THEN
-                 GMASS=FMASS1*FINTER(IMASS1,TSG,NPC,TF,DYDX)
+                 GMASS=FMASS1*FINTER_MIXED(python,nfunct,IMASS1,TSG,NPC,TF)
                ELSE
                  GMASS=FMASS1
                END IF
@@ -177,7 +176,7 @@ C
                 DMOL_MIX=DMOL_MIX+GMASS/MW1
                ELSEIF (IFLU==0) THEN
                 IF(IMASS1>0) THEN
-                  GMASS_DT=FMASS1*FINTER(IMASS1,TSG+DTEPS,NPC,TF,DYDX)
+                  GMASS_DT=FMASS1*FINTER_MIXED(python,nfunct,IMASS1,TSG+DTEPS,NPC,TF)
                 ELSE
                   GMASS_DT=FMASS1
                 END IF
@@ -187,14 +186,14 @@ C
               END DO ! end boucle sur IL
 C
               IF(IMASS>0) THEN
-                GMASS=FMASS*FINTER(IMASS,TSG,NPC,TF,DYDX)
+                GMASS=FMASS*FINTER_MIXED(python,nfunct,IMASS,TSG,NPC,TF)
               ELSE
                 GMASS=FMASS
               END IF
               DMASSG_MIX=GMASS
               IF (IFLU==0) THEN
                 IF(IMASS>0) THEN
-                  GMASS_DT=FMASS*FINTER(IMASS,TSG+DTEPS,NPC,TF,DYDX)
+                  GMASS_DT=FMASS*FINTER_MIXED(python,nfunct,IMASS,TSG+DTEPS,NPC,TF)
                 ELSE
                   GMASS_DT=FMASS
                 END IF
@@ -226,7 +225,7 @@ C
      .                *MW1
                ELSE
                 GMASS=MOLFR1
-     .                *FINTER(IMOL1,TSG,NPC,TF,DYDX)
+     .                *FINTER_MIXED(python,nfunct,IMOL1,TSG,NPC,TF)
      .                *MW1
                END IF
                IF (IFLU==1) THEN
@@ -241,7 +240,7 @@ C
      .                     *MW1
                  ELSE
                   GMASS_DT=MOLFR1
-     .                     *FINTER(IMOL1,TSG+DTEPS,NPC,TF,DYDX)
+     .                     *FINTER_MIXED(python,nfunct,IMOL1,TSG+DTEPS,NPC,TF)
      .                     *MW1
                  END IF
 C --- la fraction molaire n est pas un debit
@@ -259,15 +258,15 @@ C --- Somme de masse (masse x masse_molaire)/masse_mixture
      .                     *MW
               ELSE
                 GMASS=FMASS*MOLFR
-     .                     *FINTER(IMOL,TSG,NPC,TF,DYDX)
+     .                     *FINTER_MIXED(python,nfunct,IMOL,TSG,NPC,TF)
      .                     *MW
               END IF
               GMASS=GMASS
-     .              *FINTER(IMASS,TSG,NPC,TF,DYDX)/MASS_MIX
+     .              *FINTER_MIXED(python,nfunct,IMASS,TSG,NPC,TF)/MASS_MIX
               DMASS_MIX=FMASS*DMASS_MIX
-     .              *FINTER(IMASS,TSG,NPC,TF,DYDX)/MASS_MIX
+     .              *FINTER_MIXED(python,nfunct,IMASS,TSG,NPC,TF)/MASS_MIX
               DMOL_MIX =FMASS*DMOL_MIX
-     .              *FINTER(IMASS,TSG,NPC,TF,DYDX)/MASS_MIX
+     .              *FINTER_MIXED(python,nfunct,IMASS,TSG,NPC,TF)/MASS_MIX
               DMASSG_MIX=GMASS
               IF (IFLU==0) THEN
                IF (IMOL==0) THEN
@@ -275,12 +274,12 @@ C --- Somme de masse (masse x masse_molaire)/masse_mixture
      .                         *MW
                ELSE
                  GMASS_DT=FMASS*MOLFR
-     .                         *FINTER(IMOL,TSG+DTEPS,NPC,TF,DYDX)
+     .                         *FINTER_MIXED(python,nfunct,IMOL,TSG+DTEPS,NPC,TF)
      .                         *MW
                END IF
 C --- la fraction molaire n est pas un debit
 C --- pas de recalcul de DMASSG_MIX avec DTEPS
-               GMASS_DT=GMASS_DT*FINTER(IMASS,TSG+DTEPS,NPC,TF,DYDX)/MASS_MIX_DT
+               GMASS_DT=GMASS_DT*FINTER_MIXED(python,nfunct,IMASS,TSG+DTEPS,NPC,TF)/MASS_MIX_DT
               END IF
             END IF
 C

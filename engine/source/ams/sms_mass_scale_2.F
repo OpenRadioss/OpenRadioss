@@ -56,7 +56,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    sensor_mod         ../common_source/modules/sensor_mod.F90
       !||    timer_mod          ../engine/source/system/timer_mod.F90
       !||====================================================================
-      SUBROUTINE SMS_MASS_SCALE_2(TIMERS,
+      SUBROUTINE SMS_MASS_SCALE_2(TIMERS,PYTHON,
      1        ITASK    ,NODFT    ,NODLT    ,NODII_SMS ,INDX2_SMS ,
      2        NODXI_SMS,MS       ,MS0      ,A         ,ICODT     ,
      3        ICODR    ,ISKEW    ,SKEW     ,JAD_SMS   ,JDI_SMS   ,
@@ -94,6 +94,7 @@ C-----------------------------------------------
       USE SENSOR_MOD
       USE ams_work_mod
       USE MY_ALLOC_MOD
+      use python_funct_mod, only : python_
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -121,6 +122,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE(TIMER_), INTENT(INOUT) :: TIMERS
+      TYPE(python_), INTENT(INOUT) :: PYTHON
       INTEGER  ITASK, NODFT,NSENSOR,NODLT, NODII_SMS(*), INDX2_SMS(*),
      .         NODXI_SMS(*), ICODT(*), ICODR(*),
      .         ISKEW(*), JAD_SMS(*), JDI_SMS(*), INDX1_SMS(*),
@@ -251,7 +253,7 @@ C----
 C
       CALL SMS_GRAVIT(IGRV  ,AGRV   ,NPC   ,TF   ,A     ,
      2                V     ,X      ,SKEW  ,MS   ,SENSOR_TAB,
-     3                WEIGHT,LGRAV ,ITASK,TAGSLV_RBY_SMS,NSENSOR,WFEXT)
+     3                WEIGHT,LGRAV ,ITASK,TAGSLV_RBY_SMS,NSENSOR,WFEXT, python)
 C
       CALL MY_BARRIER
 C

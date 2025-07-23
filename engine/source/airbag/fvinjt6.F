@@ -31,11 +31,13 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    sensor_mod     ../common_source/modules/sensor_mod.F90
       !||====================================================================
       SUBROUTINE FVINJT6(NJET   , IBAGJET , RBAGJET , NPC    , TF      ,
-     2                   NSENSOR,SENSOR_TAB, SCALT,    DATAINJ )
+     2                   NSENSOR,SENSOR_TAB, SCALT,    DATAINJ ,PYTHON)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------  
       USE SENSOR_MOD
+      USE PYTHON_FUNCT_MOD
+      USE FINTER_MIXED_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -55,6 +57,7 @@ C     REAL
       my_real
      .   RBAGJET(NRBJET,*), TF(*),SCALT,DATAINJ(6,NJET)
       TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) ,INTENT(IN) :: SENSOR_TAB
+      type(python_) :: PYTHON
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -63,10 +66,6 @@ C-----------------------------------------------
      .   TSTART, FMASS, GMASS, GMASS_OLD, GMTOT, GMTOT_OLD, DGMASS,
      .   TSG,    DYDX,  RMWG,  FTEMP,  TEMP,  EFAC , 
      .   CPA,    CPB,   CPC,   CPG,    CVG
-C
-      my_real
-     .         FINTER
-      EXTERNAL FINTER
 C-----------------------------------------------
       DO IINJ=1,NJET
          FMASS=RBAGJET(5,IINJ)
@@ -83,7 +82,7 @@ C-----------------------------------------------
          IF (TT>=TSTART.AND.DT1>ZERO)THEN
             TSG=(TT-TSTART)*SCALT
             IF (IMASS>0) THEN
-               GMASS=FMASS*FINTER(IMASS,TSG,NPC,TF,DYDX)
+               GMASS=FMASS*FINTER_MIXED(python,nfunct,IMASS,TSG,NPC,TF)
                IF(IFLU==1)GMASS = GMASS*SCALT*DT1 + GMASS_OLD
             ELSE
                GMASS=FMASS
@@ -113,7 +112,7 @@ C------------
          IF(TT>=TSTART)THEN
             TSG = (TT-TSTART)*SCALT
             IF(ITEMP>0) THEN
-              TEMP=FTEMP*FINTER(ITEMP,TSG,NPC,TF,DYDX)
+              TEMP=FTEMP*FINTER_MIXED(python,nfunct,ITEMP,TSG,NPC,TF)
             ELSE
               TEMP=FTEMP
             ENDIF
