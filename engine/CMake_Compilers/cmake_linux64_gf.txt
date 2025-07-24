@@ -130,9 +130,9 @@ set (CMAKE_Fortran_FLAGS_RELEASE " " )
 # -------------------------
 if (precision STREQUAL "sp")
   set (precision_flag "-DMYREAL4")
-else (precision STREQUAL "sp")
+else ()
   set (precision_flag "-DMYREAL8")
-endif (precision STREQUAL "sp")
+endif ()
 
 # Modules directory
 set(CMAKE_Fortran_MODULE_DIRECTORY ${CMAKE_BINARY_DIR}/CMakeFiles/modules )
@@ -143,10 +143,15 @@ message (STATUS "modules: ${CMAKE_Fortran_MODULE_DIRECTORY}")
 #Generic Compilation flags
 ###########################
 
-if ( NOT DEFINED WITH_LINEAR_ALGEBRA) 
-set ( wo_linalg "-DWITHOUT_LINALG" )
+# Initialize common flag variables
+set(FSANITIZE "")
+if ( sanitize STREQUAL "1" )
+    set( FSANITIZE "-fsanitize=address -fsanitize=undefined -fsanitize=bounds-strict -DSANITIZE") 
 endif()
 
+if ( NOT DEFINED WITH_LINEAR_ALGEBRA) 
+    set ( wo_linalg "-DWITHOUT_LINALG" )
+endif()
 
 #add openmp parallelization if lto is not used
 set( OPENMP "-fopenmp" )
@@ -155,96 +160,72 @@ set( OPENMP "-fopenmp" )
 #uncommnent the next line to use LTO
 #set( OPENMP "-fopenmp-simd -fmax-stack-var-size=1280000  -flto  -ffat-lto-objects -Wno-surprising" )
 
-
+set(portability "")
 if ( CMAKE_C_COMPILER_VERSION VERSION_GREATER 10) 
-set( portability "-fallow-argument-mismatch -fallow-invalid-boz -std=legacy")
+    set( portability "-fallow-argument-mismatch -fallow-invalid-boz -std=legacy")
 endif()
 
 set ( opt_flag " ${wo_linalg} -DCOMP_GFORTRAN=1 -ffp-contract=off -frounding-math ${OPENMP} " )
-
-if ( sanitize STREQUAL "1" )
-set( FSANITIZE "-fsanitize=address -fsanitize=undefined  -fsanitize=bounds-strict -DSANITIZE") 
-endif()
-
 set(opt_flag "${opt_flag} ${mumps_flag} ${mumps_inc}")
+
+# Coupling configuration
+set(coupling "")
 if( precice STREQUAL "1")
-set(opt_flag "${opt_flag} -DWITH_PRECICE ")
-set(coupling " -DWITH_PRECICE -I/usr/include/precice/")
+    set(opt_flag "${opt_flag} -DWITH_PRECICE ")
+    set(coupling " -DWITH_PRECICE -I/usr/include/precice/")
 elseif(cwipi STREQUAL "1")
-set(coupling " -DWITH_CWIPI -I${cwipi_path}/include/" ) 
-set (CWIPI_FLAG "-Wl,-rpath,${cwipi_path}: -lm ${cwipi_path}/lib/libcwp.so.1.3.0 -lm -lstdc++ ")
-else()
+    set(coupling " -DWITH_CWIPI -I${cwipi_path}/include/" ) 
+    set (CWIPI_FLAG "-Wl,-rpath,${cwipi_path}: -lm ${cwipi_path}/lib/libcwp.so.1.3.0 -lm -lstdc++ ")
 endif()
 
 #set( strict "-fallow-argument-mismatch -Waliasing -Wunused-dummy-argument -Werror=unused-dummy-argument -Wdo-subscript -Warray-bounds -Wtabs -Werror=tabs -pedantic-errors -Wsurprising -Wuse-without-only -Werror=use-without-only") 
 set( strict " -Werror=aliasing  -Werror=unused-dummy-argument  -Werror=do-subscript -Werror=array-bounds -Werror=tabs -Werror=surprising ")
 set( strict_wo_mpi " -Werror=aliasing ${unused_dummy_arg} -Werror=do-subscript -Werror=array-bounds -Werror=tabs -Werror=surprising ") 
 
+# Common base flags for all configurations
+set( BASE_FORTRAN_FLAGS "-fdec-math ${opt_flag} ${precision_flag} ${cppmach} ${cpprel} -DCPP_comp=f90 -ffixed-line-length-none ${mpi_flag} ${ADF} ${coupling}")
+set( BASE_C_FLAGS "${h3d_inc} ${zlib_inc} ${md5_inc} ${precision_flag} ${cppmach} ${cpprel} ${OPENMP} ${coupling}")
+set( BASE_CXX_FLAGS "${h3d_inc} ${zlib_inc} ${md5_inc} ${precision_flag} ${cppmach} ${cpprel} ${OPENMP} -std=c++14 ${coupling} ${mpi_flag}") 
 
+
+# Set compilation flags based on debug mode
 if ( debug STREQUAL "1" )
-# Fortran
-
-set( legacy_flags "${FSANITIZE} -Wall -O0 -g -fdec-math -fbacktrace ${opt_flag} ${precision_flag} ${cppmach} ${cpprel} -DCPP_comp=f90 -ffixed-line-length-none  ${portability} ${mpi_flag} ${ADF} ${coupling} ")
-
-set( unused_dummy_arg_strict_flags "${FSANITIZE} -Wall -Warray-temporaries -O0 -g -fdec-math -fbacktrace ${strict_wo_mpi} ${opt_flag} ${precision_flag} ${cppmach} ${cpprel} -DCPP_comp=f90 -ffixed-line-length-none  ${mpi_flag} ${ADF}  ${coupling}")
-
-set_source_files_properties(${source_files}  PROPERTIES COMPILE_FLAGS "${FSANITIZE} -Wall -Warray-temporaries -O0 -g -fdec-math -fbacktrace ${strict} ${opt_flag} ${precision_flag} ${cppmach} ${cpprel} -DCPP_comp=f90 -ffixed-line-length-none  ${mpi_flag} ${ADF}  ${coupling}" )
-
-# C source files
-set_source_files_properties(${c_source_files} PROPERTIES COMPILE_FLAGS "${FSANITIZE} ${h3d_inc} ${zlib_inc} ${md5_inc} ${precision_flag}  ${cppmach} ${cpprel} -O0 -g  ${OPENMP} ${coupling}" )
-
-# CXX source files
-set_source_files_properties(${cpp_source_files} PROPERTIES COMPILE_FLAGS "${FSANITIZE} ${h3d_inc} ${zlib_inc} ${md5_inc} ${precision_flag} ${cppmach} ${cpprel}  -O0 -g ${OPENMP} -std=c++14 ${coupling} ${mpi_flag}" )
+    # Debug mode flags
+    set( DEBUG_FLAGS "${FSANITIZE} -Wall -Warray-temporaries -O0 -g -fbacktrace")
+    set( legacy_flags "${DEBUG_FLAGS} ${BASE_FORTRAN_FLAGS} ${portability}")
+    set( unused_dummy_arg_strict_flags "${DEBUG_FLAGS} ${strict_wo_mpi} ${BASE_FORTRAN_FLAGS}")
+    set_source_files_properties(${source_files} PROPERTIES COMPILE_FLAGS "${DEBUG_FLAGS} ${strict} ${BASE_FORTRAN_FLAGS}")
+    set_source_files_properties(${c_source_files} PROPERTIES COMPILE_FLAGS "${DEBUG_FLAGS} ${BASE_C_FLAGS}")
+    set_source_files_properties(${cpp_source_files} PROPERTIES COMPILE_FLAGS "${DEBUG_FLAGS} ${BASE_CXX_FLAGS}")
 
 elseif ( debug STREQUAL "analysis" )
-# Fortran
-
-set( legacy_flags " -fplugin=../../scripts/gcc_plugin/fortran_signatures.so ${FSANITIZE} -Wall -O0 -g -fdec-math -fbacktrace ${opt_flag} ${precision_flag} ${cppmach} ${cpprel} -DCPP_comp=f90 -ffixed-line-length-none  ${portability} ${mpi_flag} ${ADF}  ${coupling}")
-
-set( unused_dummy_arg_strict_flags "  -fplugin=../../scripts/gcc_plugin/fortran_signatures.so ${FSANITIZE} -Wall -Warray-temporaries -O0 -g -fdec-math -fbacktrace ${strict_wo_mpi} ${opt_flag} ${precision_flag} ${cppmach} ${cpprel} -DCPP_comp=f90 -ffixed-line-length-none  ${mpi_flag} ${ADF} ${coupling} ")
-
-set_source_files_properties(${source_files}  PROPERTIES COMPILE_FLAGS " -fplugin=../../scripts/gcc_plugin/fortran_signatures.so  ${FSANITIZE} -Wall -Warray-temporaries -O0 -g -fdec-math -fbacktrace ${strict} ${opt_flag} ${precision_flag} ${cppmach} ${cpprel} -DCPP_comp=f90 -ffixed-line-length-none  ${mpi_flag} ${ADF} ${coupling} " )
-
-# C source files
-set_source_files_properties(${c_source_files} PROPERTIES COMPILE_FLAGS " ${FSANITIZE} ${h3d_inc} ${zlib_inc} ${md5_inc} ${precision_flag}  ${cppmach} ${cpprel} -O0 -g  ${OPENMP} ${coupling}" )
-
-# CXX source files
-set_source_files_properties(${cpp_source_files} PROPERTIES COMPILE_FLAGS "${FSANITIZE} ${h3d_inc} ${zlib_inc} ${md5_inc} ${precision_flag} ${cppmach} ${cpprel}  -O0 -g ${OPENMP} ${coupling} ${mpi_flag} -std=c++14  " )
-
+    # Analysis mode flags (with GCC plugin)
+    set( PLUGIN_FLAG "-fplugin=../../scripts/gcc_plugin/fortran_signatures.so")
+    set( DEBUG_FLAGS "${PLUGIN_FLAG} ${FSANITIZE} -Wall -Warray-temporaries -O0 -g -fbacktrace")
+    set( legacy_flags "${DEBUG_FLAGS} ${BASE_FORTRAN_FLAGS} ${portability}")
+    set( unused_dummy_arg_strict_flags "${DEBUG_FLAGS} ${strict_wo_mpi} ${BASE_FORTRAN_FLAGS}")
+    set_source_files_properties(${source_files} PROPERTIES COMPILE_FLAGS "${DEBUG_FLAGS} ${strict} ${BASE_FORTRAN_FLAGS}")
+    set_source_files_properties(${c_source_files} PROPERTIES COMPILE_FLAGS "${FSANITIZE} ${BASE_C_FLAGS} -O0 -g")
+    set_source_files_properties(${cpp_source_files} PROPERTIES COMPILE_FLAGS "${FSANITIZE} ${BASE_CXX_FLAGS} -O0 -g")
 
 elseif ( debug STREQUAL "asan" )
-
-set( FSANITIZE "-fsanitize=address -fsanitize=undefined  -fsanitize=bounds-strict -fsanitize=integer-divide-by-zero -fsanitize=object-size  -fsanitize=float-divide-by-zero -DSANITIZE ${coupling}") 
-
-set( legacy_flags "${FSANITIZE} -Wall -O0 -g -fdec-math -fbacktrace ${opt_flag} ${precision_flag} ${cppmach} ${cpprel} -DCPP_comp=f90 -ffixed-line-length-none  ${portability} ${mpi_flag} ${ADF}  ${coupling}")
-
-set( unused_dummy_arg_strict_flags "${FSANITIZE} -Wall -Warray-temporaries -O0 -g -fdec-math -fbacktrace  ${strict_wo_mpi} ${opt_flag} ${precision_flag} ${cppmach} ${cpprel} -DCPP_comp=f90 -ffixed-line-length-none  ${mpi_flag} ${ADF} ${coupling} ")
-
-set_source_files_properties(${source_files}  PROPERTIES COMPILE_FLAGS "${FSANITIZE} -Wall -Warray-temporaries -O0 -g -fdec-math -fbacktrace ${strict} ${opt_flag} ${precision_flag} ${cppmach} ${cpprel} -DCPP_comp=f90 -ffixed-line-length-none  ${mpi_flag} ${ADF} ${coupling}  " )
-
-
-# C source files
-set_source_files_properties(${c_source_files} PROPERTIES COMPILE_FLAGS "${FSANITIZE} ${h3d_inc} ${precision_flag}  ${cppmach} ${cpprel} -O0 -g  ${OPENMP}  ${zlib_inc} ${md5_inc}  ${coupling} ")
-
-# CXX source files
-set_source_files_properties(${cpp_source_files} PROPERTIES COMPILE_FLAGS "${FSANITIZE} ${h3d_inc} ${precision_flag} ${cppmach} ${cpprel}  -O0 -g ${OPENMP}  ${zlib_inc} ${md5_inc} ${coupling} ${mpi_flag} -std=c++14" )
+    # AddressSanitizer mode flags (force extended sanitizer on)
+    set( FSANITIZE "-fsanitize=address -fsanitize=undefined -fsanitize=bounds-strict -fsanitize=integer-divide-by-zero -fsanitize=object-size -fsanitize=float-divide-by-zero -DSANITIZE")
+    set( DEBUG_FLAGS "${FSANITIZE} -Wall -Warray-temporaries -O0 -g -fbacktrace")
+    set( legacy_flags "${DEBUG_FLAGS} ${BASE_FORTRAN_FLAGS} ${portability}")
+    set( unused_dummy_arg_strict_flags "${DEBUG_FLAGS} ${strict_wo_mpi} ${BASE_FORTRAN_FLAGS}")
+    set_source_files_properties(${source_files} PROPERTIES COMPILE_FLAGS "${DEBUG_FLAGS} ${strict} ${BASE_FORTRAN_FLAGS}")
+    set_source_files_properties(${c_source_files} PROPERTIES COMPILE_FLAGS "${DEBUG_FLAGS} ${BASE_C_FLAGS}")
+    set_source_files_properties(${cpp_source_files} PROPERTIES COMPILE_FLAGS "${DEBUG_FLAGS} ${BASE_CXX_FLAGS}")
 
 else ()
-
-# Fortran
-
-set( legacy_flags " -nostdinc -w -O3 -fdec-math ${opt_flag} ${precision_flag} ${cppmach} ${cpprel} -DCPP_comp=f90 -ffixed-line-length-none  ${portability} ${mpi_flag} ${ADF} ${coupling}" )
-
-set( unused_dummy_arg_strict_flags " -nostdinc -O3 -fdec-math ${strict_wo_mpi} ${opt_flag} ${precision_flag} ${cppmach} ${cpprel} -DCPP_comp=f90 -ffixed-line-length-none ${mpi_flag} ${ADF} ${coupling}")
-
-set_source_files_properties( ${source_files}  PROPERTIES COMPILE_FLAGS " -nostdinc -O3 -fdec-math ${strict}  ${opt_flag} ${precision_flag} ${cppmach} ${cpprel} -DCPP_comp=f90 -ffixed-line-length-none ${mpi_flag} ${ADF} ${coupling}" )
-
-# C source files
-set_source_files_properties(${c_source_files} PROPERTIES COMPILE_FLAGS " -w -O2 ${h3d_inc} ${zlib_inc} ${md5_inc} ${opt_flag} ${precision_flag} ${cppmach} ${cpprel} ${coupling}" )
-
-# CXX source files
-set_source_files_properties(${cpp_source_files} PROPERTIES COMPILE_FLAGS "-w -O2 ${h3d_inc} ${zlib_inc} ${md5_inc} ${opt_flag} ${precision_flag} ${cppmach} ${cpprel} ${coupling} -std=c++14 ${coupling} ${mpi_flag} " )
-
+    # Release mode flags
+    set( RELEASE_FLAGS "-nostdinc -w -O3")
+    set( legacy_flags "${RELEASE_FLAGS} ${BASE_FORTRAN_FLAGS} ${portability}")
+    set( unused_dummy_arg_strict_flags "${RELEASE_FLAGS} ${strict_wo_mpi} ${BASE_FORTRAN_FLAGS}")
+    set_source_files_properties(${source_files} PROPERTIES COMPILE_FLAGS "${RELEASE_FLAGS} ${strict} ${BASE_FORTRAN_FLAGS}")
+    set_source_files_properties(${c_source_files} PROPERTIES COMPILE_FLAGS "-w -O2 ${BASE_C_FLAGS}")
+    set_source_files_properties(${cpp_source_files} PROPERTIES COMPILE_FLAGS "-w -O2 ${BASE_CXX_FLAGS}")
 endif()
 
 
@@ -268,79 +249,57 @@ include (CMake_Compilers/legacy_fortran.cmake)
 
 if( no_python STREQUAL "1" )
 get_source_file_property( existing_flags ${source_directory}/../common_source/modules/cpp_python_funct.cpp COMPILE_FLAGS)
-set_source_files_properties( ${source_directory}/../common_source/modules/cpp_python_funct.cpp PROPERTIES COMPILE_FLAGS  "${exsisting_flags} -DPYTHON_DISABLED" )
+set_source_files_properties( ${source_directory}/../common_source/modules/cpp_python_funct.cpp PROPERTIES COMPILE_FLAGS  "${existing_flags} -DPYTHON_DISABLED" )
 endif()
 
 
 if ( debug STREQUAL "0" )
 
+# Define common base flag patterns for optimization overrides
 set (F_O0_compiler_flags " -nostdinc -O0 ${opt_flag} -w ${portability} ${precision_flag} ${cppmach} ${cpprel} -DCPP_comp=f90 -ffixed-line-length-none  ${mpi_flag} ${ADF} ")
 set (F_O1_compiler_flags " -nostdinc -O1 ${opt_flag} -w ${portability} ${precision_flag} ${cppmach} ${cpprel} -DCPP_comp=f90 -ffixed-line-length-none  ${mpi_flag} ${ADF} ")
 set (F_O2_compiler_flags " -nostdinc -O2 ${opt_flag} -w ${portability} ${precision_flag} ${cppmach} ${cpprel} -DCPP_comp=f90 -ffixed-line-length-none  ${mpi_flag} ${ADF} ")
 set (C_O1_compiler_flags " -O1 ${opt_flag} -w ${precision_flag} ${cppmach} ${cpprel}  ${mpi_flag} ${ADF} ")
 
+# Files requiring O1 optimization 
+set(F_O1_FILES
+    ${source_directory}/source/engine/resol_init.F
+    ${source_directory}/source/interfaces/int22/i22clip_tools.F
+    ${source_directory}/source/materials/mat/mat001/m1lawp.F
+    ${source_directory}/source/input/redkey0.F
+    ${source_directory}/source/interfaces/inter3d/i3fri3.F
+)
 
-# resol_init.F
-set_source_files_properties( ${source_directory}/source/engine/resol_init.F PROPERTIES COMPILE_FLAGS ${F_O1_compiler_flags} )
+# Files requiring O2 optimization
+set(F_O2_FILES
+    ${source_directory}/source/engine/resol.F
+    ${source_directory}/source/output/restart/arralloc.F
+    ${source_directory}/source/elements/shell/coqueba/cbasumg3.F
+    ${source_directory}/source/implicit/dsolve/dsgri7.F
+    ${source_directory}/source/interfaces/int11/i11cor3.F
+    ${source_directory}/source/interfaces/int11/i11pen3.F
+    ${source_directory}/source/interfaces/int07/i7cor3t.F
+    ${source_directory}/source/interfaces/int20/i20cor3.F
+    ${source_directory}/source/interfaces/intsort/i20sto.F
+    ${source_directory}/source/interfaces/int23/i23cort3.F
+    ${source_directory}/source/interfaces/int24/i24cort3.F
+    ${source_directory}/source/interfaces/int25/i25cort3.F
+    ${source_directory}/source/elements/sph/spbuc3.F
+    ${source_directory}/source/elements/sph/spclasv.F
+)
 
-# resol.F
-set_source_files_properties( ${source_directory}/source/engine/resol.F PROPERTIES COMPILE_FLAGS ${F_O2_compiler_flags} )
+# Apply O1 optimization to specified files
+foreach(file ${F_O1_FILES})
+    set_source_files_properties(${file} PROPERTIES COMPILE_FLAGS ${F_O1_compiler_flags})
+endforeach()
 
-set_source_files_properties( ${source_directory}/source/interfaces/int22/i22clip_tools.F PROPERTIES COMPILE_FLAGS ${F_O1_compiler_flags} )
+# Apply O2 optimization to specified files
+foreach(file ${F_O2_FILES})
+    set_source_files_properties(${file} PROPERTIES COMPILE_FLAGS ${F_O2_compiler_flags})
+endforeach()
 
-
-
-# arralloc.F
-set_source_files_properties( ${source_directory}/source/output/restart/arralloc.F PROPERTIES COMPILE_FLAGS ${F_O2_compiler_flags} )
-
-# m1lawp.F
-set_source_files_properties( ${source_directory}/source/materials/mat/mat001/m1lawp.F PROPERTIES COMPILE_FLAGS ${F_O1_compiler_flags} )
-
-# cbasumg3.F
-set_source_files_properties( ${source_directory}/source/elements/shell/coqueba/cbasumg3.F PROPERTIES COMPILE_FLAGS ${F_O2_compiler_flags} )
-
-# redkey0.F
-set_source_files_properties( ${source_directory}/source/input/redkey0.F PROPERTIES COMPILE_FLAGS ${F_O1_compiler_flags} )
-
-# i3fri3.F
-set_source_files_properties( ${source_directory}/source/interfaces/inter3d/i3fri3.F PROPERTIES COMPILE_FLAGS ${F_O1_compiler_flags} )
-
-# dsgri7.F
-set_source_files_properties( ${source_directory}/source/implicit/dsolve/dsgri7.F PROPERTIES COMPILE_FLAGS ${F_O2_compiler_flags} )
-
-# i11cor3.F
-set_source_files_properties( ${source_directory}/source/interfaces/int11/i11cor3.F PROPERTIES COMPILE_FLAGS ${F_O2_compiler_flags} )
-
-# i11pen3.F
-set_source_files_properties( ${source_directory}/source/interfaces/int11/i11pen3.F PROPERTIES COMPILE_FLAGS ${F_O2_compiler_flags} )
-
-# i7cor3t.F
-set_source_files_properties( ${source_directory}/source/interfaces/int07/i7cor3t.F PROPERTIES COMPILE_FLAGS ${F_O2_compiler_flags} )
-
-# i20cor3t.F
-set_source_files_properties( ${source_directory}/source/interfaces/int20/i20cor3.F PROPERTIES COMPILE_FLAGS ${F_O2_compiler_flags} )
-
-# i20sto.F
-set_source_files_properties( ${source_directory}/source/interfaces/intsort/i20sto.F PROPERTIES COMPILE_FLAGS ${F_O2_compiler_flags} )
-
-# i23cor3t.F
-set_source_files_properties( ${source_directory}/source/interfaces/int23/i23cort3.F PROPERTIES COMPILE_FLAGS ${F_O2_compiler_flags} )
-
-# i24cor3t.F
-set_source_files_properties( ${source_directory}/source/interfaces/int24/i24cort3.F PROPERTIES COMPILE_FLAGS ${F_O2_compiler_flags} )
-
-# i25cor3t.F
-set_source_files_properties( ${source_directory}/source/interfaces/int25/i25cort3.F PROPERTIES COMPILE_FLAGS ${F_O2_compiler_flags} )
-
-# spbuc3.F
-set_source_files_properties( ${source_directory}/source/elements/sph/spbuc3.F PROPERTIES COMPILE_FLAGS ${F_O2_compiler_flags} )
-
-# spclasv.F
-set_source_files_properties( ${source_directory}/source/elements/sph/spclasv.F PROPERTIES COMPILE_FLAGS ${F_O2_compiler_flags} )
-
-# rad2rad
-set_source_files_properties( ${source_directory}/source/coupling/rad2rad/rad2rad_c.c PROPERTIES COMPILE_FLAGS ${C_O1_compiler_flags} )
-
+# C files requiring O1 optimization
+set_source_files_properties(${source_directory}/source/coupling/rad2rad/rad2rad_c.c PROPERTIES COMPILE_FLAGS ${C_O1_compiler_flags})
 
 endif()
 
