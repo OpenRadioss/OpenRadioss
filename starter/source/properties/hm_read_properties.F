@@ -421,7 +421,7 @@ C            HM READING PROPERTY TYPE13 (SPR_BEAM)
 C--------------------------------------------------
              IGTYP=13
              CALL HM_READ_PROP13(GEO(1,I),IGEO(1,I),PROP_ID, UNITAB, ISKN,
-     .                           IDTITL  ,IGTYP    ,PROP_TAG, LSUBMODEL,SUB_ID)
+     .                           IDTITL  ,IGTYP    ,PROP_TAG, LSUBMODEL,SUB_INDEX)
 
           CASE ('TYPE16','SH_FABR')
 C--------------------------------------------------
@@ -518,7 +518,7 @@ C            New spring defined as PID+MID
 C--------------------------------------------------
              IGTYP=23
            CALL HM_READ_PROP23(GEO(1,I),IGEO(1,I),PROP_ID    ,IGTYP    ,UNITAB,
-     .                         ISKN    ,IDTITL   ,LSUBMODEL  , PROP_TAG,SUB_ID)       
+     .                         ISKN    ,IDTITL   ,LSUBMODEL  , PROP_TAG,SUB_INDEX)       
 c
           CASE ('TYPE25','SPR_AXI')
 C--------------------------------------------------
