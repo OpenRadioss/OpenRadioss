@@ -35,6 +35,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    sptri         ../starter/source/elements/sph/sptri.F
       !||--- called by ------------------------------------------------------
       !||    lectur        ../starter/source/starter/lectur.F
+      !||    spinih        ../starter/source/elements/sph/spinih.F
       !||--- calls      -----------------------------------------------------
       !||    ancmsg        ../starter/source/output/message/message.F
       !||    arret         ../starter/source/system/arret.F

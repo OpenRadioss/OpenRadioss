@@ -386,6 +386,7 @@ C
       !||--- called by ------------------------------------------------------
       !||    rini33_rb           ../starter/source/elements/joint/rjoint/rini33_rb.F
       !||    rini45_rb           ../starter/source/elements/joint/rjoint/rini45_rb.F
+      !||    spinih              ../starter/source/elements/sph/spinih.F
       !||--- calls      -----------------------------------------------------
       !||    ancmsg              ../starter/source/output/message/message.F
       !||--- uses       -----------------------------------------------------

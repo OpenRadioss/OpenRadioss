@@ -190,6 +190,7 @@
       !||    sort_mid_pid                       ../engine/source/system/sort_mid_pid.F
       !||    spgrhead                           ../starter/source/elements/sph/spgrhead.F
       !||    spgrtails                          ../starter/source/elements/sph/spgrtails.F
+      !||    spinih                             ../starter/source/elements/sph/spinih.F
       !||    splissv                            ../engine/source/elements/sph/splissv.F
       !||    spmd_glob_fsum9                    ../engine/source/mpi/interfaces/spmd_th.F
       !||    spmd_sort_sms                      ../engine/source/mpi/ams/spmd_sms.F
