@@ -56,9 +56,9 @@ set (CMAKE_CPP_FLAGS_RELEASE " " )
 # -------------------------
 if (precision STREQUAL "sp")
   set (precision_flag "-DMYREAL4")
-else (precision STREQUAL "sp")
+else ()
   set (precision_flag "-DMYREAL8")
-endif (precision STREQUAL "sp")
+endif ()
 
 # Modules directory
 set(CMAKE_Fortran_MODULE_DIRECTORY ${CMAKE_BINARY_DIR}/CMakeFiles/modules )
@@ -69,11 +69,15 @@ message (STATUS "modules: ${CMAKE_Fortran_MODULE_DIRECTORY}")
 #Generic Compilation flags
 ###########################
 
+# Initialize common flag variables
+set(FSANITIZE "")
 if ( sanitize STREQUAL "1" )
-set( FSANITIZE "-fsanitize=address -fsanitize=undefined -fsanitize=bounds-strict -DSANITIZE ") 
+    set( FSANITIZE "-fsanitize=address -fsanitize=undefined -fsanitize=bounds-strict -DSANITIZE ") 
 endif()
+
+set(portability "")
 if ( CMAKE_C_COMPILER_VERSION VERSION_GREATER 10) 
-set( portability "-fallow-argument-mismatch -fallow-invalid-boz -std=legacy")
+    set( portability "-fallow-argument-mismatch -fallow-invalid-boz -std=legacy")
 endif()
 
 #set( strict "-Waliasing -Wunused-dummy-argument -Werror=unused-dummy-argument -Wdo-subscript -Warray-bounds -Wtabs -Werror=tabs -pedantic-errors -Wsurprising -Wuse-without-only -Werror=use-without-only ") 
@@ -82,75 +86,49 @@ set( strict "-Werror=aliasing -Werror=unused-dummy-argument -Werror=do-subscript
 #no lto, OpenMP can be used
 set( OPENMP "-fopenmp" )
 
+# Common base flags for all configurations
+set( BASE_FORTRAN_FLAGS "${precision_flag} -DMETIS5 ${cppmach} ${cpprel} -DCPP_comp=f90 -DCOMP_GFORTRAN=1 -fdec-math -ffp-contract=off -frounding-math ${OPENMP} -ffixed-line-length-none ${ADF}")
+set( BASE_C_FLAGS "${precision_flag} -DMETIS5 ${cppmach} ${cpprel} ${zlib_inc} ${md5_inc} ${OPENMP}")
+set( BASE_CXX_FLAGS "${precision_flag} -DMETIS5 ${cppmach} ${cpprel} ${zlib_inc} ${md5_inc} ${OPENMP} -std=c++14")
+
 #uncomment the next line for LTO
 #In current GCC version, LTO does not work with Openmp. 
 #set( OPENMP "-fopenmp-simd -fmax-stack-var-size=1280000  -flto  -ffat-lto-objects -Wno-surprising" )
 
+# Set compilation flags based on debug mode
 if ( debug STREQUAL "1" )
-
-# Fortran
-#set_source_files_properties( ${source_files}  PROPERTIES COMPILE_FLAGS " -Wall ${FSANITIZE} ${precision_flag} -DMETIS5 ${cppmach} ${cpprel} -DCPP_comp=f90 -DCOMP_GFORTRAN=1 -fdec-math -g -O0 -ffp-contract=off -frounding-math ${OPENMP} -fbacktrace -ffixed-line-length-none -Wdo-subscript ${ADF} ${portability}" )
-
-set( legacy_flags " -Wall ${FSANITIZE} ${precision_flag} -DMETIS5 ${cppmach} ${cpprel} -DCPP_comp=f90 -DCOMP_GFORTRAN=1 -fdec-math -g -O0 -ffp-contract=off -frounding-math ${OPENMP} -fbacktrace -ffixed-line-length-none -Wdo-subscript ${ADF} ${portability}") 
-
-set_source_files_properties( ${source_files}  PROPERTIES COMPILE_FLAGS "${FSANITIZE} -Wall ${strict} ${precision_flag} -DMETIS5 ${cppmach} ${cpprel} -DCPP_comp=f90 -DCOMP_GFORTRAN=1 -fdec-math -g -O0 -ffp-contract=off -frounding-math ${OPENMP} -fbacktrace -ffixed-line-length-none ${ADF} " )
-
-
-# C source files
-set_source_files_properties(${c_source_files} PROPERTIES COMPILE_FLAGS "${FSANITIZE} ${precision_flag} -DMETIS5 ${cppmach} ${cpprel} ${zlib_inc} -O0 -g ${OPENMP}  ${md5_inc} " )
-
-# CXX source files
-set_source_files_properties(${cpp_source_files} PROPERTIES COMPILE_FLAGS "${FSANITIZE} ${precision_flag} -DMETIS5 ${cppmach} ${cpprel} ${zlib_inc}  -O0 -g  ${OPENMP}  ${md5_inc} -std=c++14  " )
+    # Debug mode flags
+    set( DEBUG_FLAGS "-Wall ${FSANITIZE} -g -O0 -fbacktrace")
+    set( legacy_flags "${DEBUG_FLAGS} ${BASE_FORTRAN_FLAGS} -Wdo-subscript ${portability}")
+    set_source_files_properties( ${source_files} PROPERTIES COMPILE_FLAGS "${DEBUG_FLAGS} ${strict} ${BASE_FORTRAN_FLAGS}")
+    set_source_files_properties( ${c_source_files} PROPERTIES COMPILE_FLAGS "${DEBUG_FLAGS} ${BASE_C_FLAGS}")
+    set_source_files_properties( ${cpp_source_files} PROPERTIES COMPILE_FLAGS "${DEBUG_FLAGS} ${BASE_CXX_FLAGS}")
 
 elseif ( debug STREQUAL "analysis" )
-
-# Fortran
-
-set( legacy_flags "  -fplugin=../../scripts/gcc_plugin/fortran_signatures.so  -Wall ${FSANITIZE} ${precision_flag} -DMETIS5 ${cppmach} ${cpprel} -DCPP_comp=f90 -DCOMP_GFORTRAN=1 -fdec-math -g -O0 -ffp-contract=off -frounding-math ${OPENMP} -fbacktrace -ffixed-line-length-none -Wdo-subscript ${ADF} ${portability}") 
-
-set_source_files_properties( ${source_files}  PROPERTIES COMPILE_FLAGS " -fplugin=../../scripts/gcc_plugin/fortran_signatures.so  ${FSANITIZE} -Wall ${strict} ${precision_flag} -DMETIS5 ${cppmach} ${cpprel} -DCPP_comp=f90 -DCOMP_GFORTRAN=1 -fdec-math -g -O0 -ffp-contract=off -frounding-math ${OPENMP} -fbacktrace -ffixed-line-length-none ${ADF} " )
-
-
-# C source files
-set_source_files_properties(${c_source_files} PROPERTIES COMPILE_FLAGS "${FSANITIZE} ${precision_flag} -DMETIS5 ${cppmach} ${cpprel} ${zlib_inc} ${md5_inc} -O0 -g ${OPENMP} " )
-
-# CXX source files
-set_source_files_properties(${cpp_source_files} PROPERTIES COMPILE_FLAGS "${FSANITIZE} ${precision_flag} -DMETIS5 ${cppmach} ${cpprel} ${zlib_inc}  ${md5_inc} -O0 -g  ${OPENMP} -std=c++14  " )
-
+    # Analysis mode flags (with GCC plugin)
+    set( PLUGIN_FLAG "-fplugin=../../scripts/gcc_plugin/fortran_signatures.so")
+    set( DEBUG_FLAGS "-Wall ${FSANITIZE} -g -O0 -fbacktrace")
+    set( legacy_flags "${PLUGIN_FLAG} ${DEBUG_FLAGS} ${BASE_FORTRAN_FLAGS} -Wdo-subscript ${portability}")
+    set_source_files_properties( ${source_files} PROPERTIES COMPILE_FLAGS "${PLUGIN_FLAG} ${DEBUG_FLAGS} ${strict} ${BASE_FORTRAN_FLAGS}")
+    set_source_files_properties( ${c_source_files} PROPERTIES COMPILE_FLAGS "${DEBUG_FLAGS} ${BASE_C_FLAGS}")
+    set_source_files_properties( ${cpp_source_files} PROPERTIES COMPILE_FLAGS "${DEBUG_FLAGS} ${BASE_CXX_FLAGS}")
 
 elseif ( debug STREQUAL "asan" )
-
-set( FSANITIZE "-fsanitize=address -fsanitize=undefined -fsanitize=bounds-strict -DSANITIZE") 
-
-# Fortran
-#set_source_files_properties( ${source_files}  PROPERTIES COMPILE_FLAGS " -Wall ${FSANITIZE} ${precision_flag} -DMETIS5 ${cppmach} ${cpprel} -DCPP_comp=f90 -DCOMP_GFORTRAN=1 -fdec-math -g -O0 -ffp-contract=off -frounding-math ${OPENMP} -fbacktrace -ffixed-line-length-none -Wdo-subscript ${ADF} ${portability}" )
-
-set( legacy_flags " -Wall ${FSANITIZE} ${precision_flag} -DMETIS5 ${cppmach} ${cpprel} -DCPP_comp=f90 -DCOMP_GFORTRAN=1 -fdec-math -g -O0 -ffp-contract=off -frounding-math ${OPENMP} -fbacktrace -ffixed-line-length-none -Wdo-subscript ${ADF} ${portability}") 
-
-set_source_files_properties( ${source_files}  PROPERTIES COMPILE_FLAGS "${FSANITIZE} -Wall ${strict} ${precision_flag} -DMETIS5 ${cppmach} ${cpprel} -DCPP_comp=f90 -DCOMP_GFORTRAN=1 -fdec-math -g -O0 -ffp-contract=off -frounding-math ${OPENMP} -fbacktrace -ffixed-line-length-none ${ADF} " )
-
-
-# C source files
-set_source_files_properties(${c_source_files} PROPERTIES COMPILE_FLAGS "${FSANITIZE} ${precision_flag} -DMETIS5 ${cppmach} ${cpprel} -O0 -g ${OPENMP} ${zlib_inc} ${md5_inc}" )
-
-# CXX source files
-set_source_files_properties(${cpp_source_files} PROPERTIES COMPILE_FLAGS "${FSANITIZE} ${precision_flag} -DMETIS5 ${cppmach} ${cpprel}  -O0 -g  ${OPENMP} ${zlib_inc}  ${md5_inc} -std=c++14 ")
+    # AddressSanitizer mode flags (force sanitizer on)
+    set( FSANITIZE "-fsanitize=address -fsanitize=undefined -fsanitize=bounds-strict -DSANITIZE")
+    set( DEBUG_FLAGS "-Wall ${FSANITIZE} -g -O0 -fbacktrace")
+    set( legacy_flags "${DEBUG_FLAGS} ${BASE_FORTRAN_FLAGS} -Wdo-subscript ${portability}")
+    set_source_files_properties( ${source_files} PROPERTIES COMPILE_FLAGS "${DEBUG_FLAGS} ${strict} ${BASE_FORTRAN_FLAGS}")
+    set_source_files_properties( ${c_source_files} PROPERTIES COMPILE_FLAGS "${DEBUG_FLAGS} ${BASE_C_FLAGS}")
+    set_source_files_properties( ${cpp_source_files} PROPERTIES COMPILE_FLAGS "${DEBUG_FLAGS} ${BASE_CXX_FLAGS}")
 
 else ()
-
-# Fortran
-#set_source_files_properties( ${legacy_source_files}  PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
-set( legacy_flags "-w ${precision_flag} -DMETIS5 ${cppmach} ${cpprel} -DCPP_comp=f90 -DCOMP_GFORTRAN=1 -fdec-math -O2 -ffp-contract=off -frounding-math ${OPENMP} -ffixed-line-length-none  ${ADF} ${portability} ") 
-
-set_source_files_properties( ${source_files}  PROPERTIES COMPILE_FLAGS " ${precision_flag}  ${strict} -DMETIS5 ${cppmach} ${cpprel} -DCPP_comp=f90 -DCOMP_GFORTRAN=1 -fdec-math -O2 -ffp-contract=off -frounding-math ${OPENMP} -ffixed-line-length-none  ${ADF}" )
-
-
-# C source files
-set_source_files_properties(${c_source_files} PROPERTIES COMPILE_FLAGS "-w ${precision_flag} -DMETIS5 ${cppmach} ${cpprel} ${zlib_inc} ${md5_inc} -O2 ${OPENMP} " )
-
-# CXX source files
-set_source_files_properties(${cpp_source_files} PROPERTIES COMPILE_FLAGS "-w ${precision_flag} -DMETIS5 ${cppmach} ${cpprel} ${zlib_inc} ${md5_inc} -O2 ${OPENMP} -std=c++14 " )
-
+    # Release mode flags
+    set( RELEASE_FLAGS "-w -O2")
+    set( legacy_flags "${RELEASE_FLAGS} ${BASE_FORTRAN_FLAGS} ${portability}")
+    set_source_files_properties( ${source_files} PROPERTIES COMPILE_FLAGS "${RELEASE_FLAGS} ${strict} ${BASE_FORTRAN_FLAGS}")
+    set_source_files_properties( ${c_source_files} PROPERTIES COMPILE_FLAGS "${RELEASE_FLAGS} ${BASE_C_FLAGS}")
+    set_source_files_properties( ${cpp_source_files} PROPERTIES COMPILE_FLAGS "${RELEASE_FLAGS} ${BASE_CXX_FLAGS}")
 endif()
 
 # Linking flags
