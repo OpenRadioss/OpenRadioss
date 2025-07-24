@@ -164,6 +164,8 @@
             enddo
           endif
           le(1:nel) = uvar(1:nel,2) 
+          !< Coefficient for hourglass control
+          et(1:nel) = zero
 ! 
           !=====================================================================
           !< - Computation of trial stress tensor and principal stresses
@@ -249,11 +251,14 @@
             do j = 1,3
               if (sigp(i,j) < sigy(i)) then
                 sigp(i,j) = sigy(i)
+                et(i) = max(dsdgam(i)/(dsdgam(i) + bulk),et(i))
               elseif (sigp(i,j) > tsc) then
                 sigp(i,j) = tsc
                 dsdgam(i) = zero
+                et(i) = one
               else
                 dsdgam(i) = zero
+                et(i) = one
               endif
             enddo
             !< equivalent stress for hourglass control
@@ -286,9 +291,7 @@
           !=====================================================================
           do i=1,nel
             !< Sound speed
-            ssp(i) = sqrt(max(bulk + four_over_3*g,abs(dsdgam(i)))/rho(i))
-            !< Coefficient for hourglass control
-            et(i) = max(seq(i)/max(epst(i),em20),one)
+            ssp(i) = sqrt((bulk + four_over_3*g)/min(rho(i),rho0(i)))
             !< User variables
             uvar(i,1) = gama(i) !< Volumetric strain
           enddo     
@@ -309,10 +312,9 @@
             sigvzx(i) = a*epspzx(i)/(two*(one + nu))
             !< Update the soundspeed to include the viscous damping stiffness
             if (timestep > zero) then 
-              ssp(i) = sqrt((max(bulk + four_over_3*g,abs(dsdgam(i))) +        &
-                             a/max(timestep,em20))/rho(i))
+              ssp(i) = sqrt((bulk + four_over_3*g + a/timestep)/min(rho(i),rho0(i)))
             else
-              ssp(i) = sqrt((max(bulk + four_over_3*g,abs(dsdgam(i))))/rho(i))          
+              ssp(i) = sqrt((bulk + four_over_3*g)/min(rho(i),rho0(i)))          
             endif
           enddo
 !
