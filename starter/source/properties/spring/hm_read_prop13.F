@@ -164,7 +164,7 @@ C----
      &    5X,'PROPERTY SET NUMBER . . . . . . . . . .=',I10/,
      &    5X,'CONFIDENTIAL DATA'//)
       ELSE
-        WRITE(IOUT,1801)IG,XM,XIN,ISKN(4,ISK),ISENS,IFL,IFAIL,IFAIL2,
+        WRITE(IOUT,1801)IG,XM,XIN,ISKN(4,ISK),ABS(ISENS),IFL,IFAIL,IFAIL2,
      .                  ILENG
       ENDIF
 !-------------------------------------------------------
