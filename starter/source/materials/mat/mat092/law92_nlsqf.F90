@@ -138,13 +138,6 @@
 
       ALLOCATE (SIG(1:NPT))
 
-      IF ( MAXA < NMULA ) THEN
-        WRITE(*,*) 'ERROR, MAXA < MA'
-        WRITE(*,*)&
-      __FILE__,&
-      __LINE__
-        CALL MY_EXIT(2)
-      ENDIF
       ! IF ABS(Y(I)) <  SMALL_ABS_YI, use SMALL_ABS_YI to avoid
       ! unnecessary numerical issues when avoid divided by small value
 
@@ -174,16 +167,6 @@
         ENDIF
       ENDDO  
      
-      IF (MAXA < NMULA) THEN   
-        WRITE(*,*) 'ERROR: MAXA < MA'
-        WRITE(*,*) ' MAXA = ', MAXA
-        WRITE(*,*) ' MA = ', MAXA
-        WRITE(*,*) ' FILE = ',&
-      __FILE__
-        WRITE(*,*) ' LINE = ',&
-      __LINE__
-        CALL MY_EXIT(2)
-      ENDIF
 
 !=======================================================================        
      
@@ -356,12 +339,7 @@
             ENDDO
           ENDIF
         ELSE
-          IF (IDEBUG > 0) THEN
-            WRITE(IOUT,*) &
-        __FILE__,&
-        __LINE__
-            WRITE(IOUT,*) ' LM converges to invalid point'
-          ENDIF
+  
         ENDIF
 
         IF (NPSAVED > 0) THEN
@@ -680,14 +658,7 @@
          ATRY(2)= A(2)
       ENDIF 
 
-      IF (IDEBUG > 0) THEN
-        WRITE(IOUT,*)&
-      __FILE__,&
-      __LINE__
-        DO J=1, NCA
-          write(IOUT,*) 'J,ATRY(J) = ', J, ATRY(J)
-        ENDDO
-      ENDIF
+
 
       CALL MRQCOF_LAW92(X,Y,SIG,NDATA,ATRY,COVAR,DA,NCA,ERRNOW,ITEST)
 
