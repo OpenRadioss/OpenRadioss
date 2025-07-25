@@ -73,9 +73,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER  I,L,K,CPTZERO,IDSUBMODEL,SUB_LEVEL,CUR_SUBMOD
+      INTEGER  I,L,K,CPTZERO,IDSUBMODEL,SUB_LEVEL,CUR_SUBMOD,ITY
       my_real
-     .   ROT(9),P(3),X0(3)
+     .   ROT(9),P(3),X0(3),X1(3),SX,SY,SZ,S,TX,TY,TZ
 C======================================================================   
       X0 = ZERO
       IDSUBMODEL = 0
@@ -92,19 +92,53 @@ C======================================================================
       DO WHILE (SUB_LEVEL /= 0)
         DO I=1,LSUBMODEL(CUR_SUBMOD)%NBTRANS
           IF (LSUBMODEL(CUR_SUBMOD)%IDTRANS(I) /= 0) THEN
-            CPTZERO = 0
-            DO L=1,9
-              ROT(L) = RTRANS(LSUBMODEL(CUR_SUBMOD)%IDTRANS(I),L+2)
-              IF (ROT(L) == ZERO ) CPTZERO = CPTZERO + 1
-            ENDDO
-            IF(CPTZERO == 9) CYCLE
-            P(1) = X
-            P(2) = Y
-            P(3) = Z
-            CALL EULER_VROT (X0,P,ROT)
-            X = P(1)
-            Y = P(2)
-            Z = P(3)
+            ITY = RTRANS(LSUBMODEL(CUR_SUBMOD)%IDTRANS(I),2)
+            IF ( ITY == 5 )THEN
+              DO K=1,3
+                X0(K)=RTRANS(LSUBMODEL(CUR_SUBMOD)%IDTRANS(I),K+11)
+              ENDDO
+              DO K=1,3
+                X1(K)=RTRANS(LSUBMODEL(CUR_SUBMOD)%IDTRANS(I),K+14)
+              ENDDO
+              TX = X1(1) - X0(1)
+              TY = X1(2) - X0(2)
+              TZ = X1(3) - X0(3)
+              S = ONE/MAX(SQRT(TX*TX + TY*TY + TZ*TZ),EM20)
+              TX = TX*S
+              TY = TY*S
+              TZ = TZ*S
+              SX = X - X0(1)
+              SY = Y - X0(2)
+              SZ = Z - X0(3)
+              S = SX*TX + SY*TY + SZ*TZ
+              X = X - TWO*TX*S
+              Y = Y - TWO*TY*S
+              Z = Z - TWO*TZ*S
+            ELSE IF ( ITY == 6 )THEN
+              DO L=1,3
+                X0(L) = RTRANS(LSUBMODEL(CUR_SUBMOD)%IDTRANS(I),L+11)
+              ENDDO
+              SX = RTRANS(LSUBMODEL(CUR_SUBMOD)%IDTRANS(I),20)
+              SY = RTRANS(LSUBMODEL(CUR_SUBMOD)%IDTRANS(I),21)
+              SZ = RTRANS(LSUBMODEL(CUR_SUBMOD)%IDTRANS(I),22)
+              X = X * SX
+              Y = Y * SY
+              Z = Z * SZ    
+            ELSE
+              CPTZERO = 0
+              DO L=1,9
+                ROT(L) = RTRANS(LSUBMODEL(CUR_SUBMOD)%IDTRANS(I),L+2)
+                IF (ROT(L) == ZERO ) CPTZERO = CPTZERO + 1
+              ENDDO
+              IF(CPTZERO == 9) CYCLE
+              P(1) = X
+              P(2) = Y
+              P(3) = Z
+              CALL EULER_VROT (X0,P,ROT)
+              X = P(1)
+              Y = P(2)
+              Z = P(3)
+            ENDIF
           ENDIF
         ENDDO
         SUB_LEVEL = SUB_LEVEL - 1
@@ -167,7 +201,8 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,L,K,IDSUBMODEL,ITY,SUB_LEVEL,CUR_SUBMOD
       my_real
-     .   ROT(9),P(3),X0(3),TX,TY,TZ,XP,YP,ZP,XCOLD(3),XCNEW(3)
+     .   ROT(9),P(3),X0(3),X1(3),TX,TY,TZ,XP,YP,ZP,XCOLD(3),XCNEW(3),
+     .   SX,SY,SZ,S
 C====================================================================== 
       IDSUBMODEL = 0
       IF(SUB_ID /= 0) THEN
@@ -233,7 +268,38 @@ C======================================================================
               ZP = Z - XCOLD(3)
               X  = XCNEW(1) + ROT(1)*XP + ROT(4)*YP + ROT(7)*ZP                        
               Y  = XCNEW(2) + ROT(2)*XP + ROT(5)*YP + ROT(8)*ZP                         
-              Z  = XCNEW(3) + ROT(3)*XP + ROT(6)*YP + ROT(9)*ZP                         
+              Z  = XCNEW(3) + ROT(3)*XP + ROT(6)*YP + ROT(9)*ZP  
+            ELSEIF (ITY == 5)THEN
+              DO K=1,3
+                X0(K)=RTRANS(LSUBMODEL(CUR_SUBMOD)%IDTRANS(I),K+11)
+              ENDDO
+              DO K=1,3
+                X1(K)=RTRANS(LSUBMODEL(CUR_SUBMOD)%IDTRANS(I),K+14)
+              ENDDO
+              TX = X1(1) - X0(1)
+              TY = X1(2) - X0(2)
+              TZ = X1(3) - X0(3)
+              S = ONE/MAX(SQRT(TX*TX + TY*TY + TZ*TZ),EM20)
+              TX = TX*S
+              TY = TY*S
+              TZ = TZ*S
+              SX = X - X0(1)
+              SY = Y - X0(2)
+              SZ = Z - X0(3)
+              S = SX*TX + SY*TY + SZ*TZ
+              X = X - TWO*TX*S
+              Y = Y - TWO*TY*S
+              Z = Z - TWO*TZ*S
+            ELSEIF (ITY == 6)THEN
+              DO L=1,3
+                X0(L) = RTRANS(LSUBMODEL(CUR_SUBMOD)%IDTRANS(I),L+11)
+              ENDDO
+              SX = RTRANS(LSUBMODEL(CUR_SUBMOD)%IDTRANS(I),20)
+              SY = RTRANS(LSUBMODEL(CUR_SUBMOD)%IDTRANS(I),21)
+              SZ = RTRANS(LSUBMODEL(CUR_SUBMOD)%IDTRANS(I),22)
+              X = X0(1) + X * SX
+              Y = X0(2) + Y * SY
+              Z = X0(3) + Z * SZ                     
             ENDIF
           ENDIF
         ENDDO
