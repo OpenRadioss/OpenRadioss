@@ -26,7 +26,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    wrrestp                ../engine/source/output/restart/wrrestp.F
       !||--- calls      -----------------------------------------------------
       !||    fretitl                ../engine/source/input/freform.F
-      !||    nvar                   ../engine/source/input/nvar.F
       !||    write_db               ../common_source/tools/input_output/write_db.F
       !||    write_dpdb             ../common_source/tools/input_output/write_db.F
       !||    write_i_c              ../common_source/tools/input_output/write_routtines.c

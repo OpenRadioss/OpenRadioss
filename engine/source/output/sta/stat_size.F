@@ -25,7 +25,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- called by ------------------------------------------------------
       !||    genstat           ../engine/source/output/sta/genstat.F
       !||--- calls      -----------------------------------------------------
-      !||    nvar              ../engine/source/input/nvar.F
       !||    spmd_glob_isum9   ../engine/source/mpi/interfaces/spmd_th.F
       !||--- uses       -----------------------------------------------------
       !||    elbufdef_mod      ../common_source/modules/mat_elem/elbufdef_mod.F90

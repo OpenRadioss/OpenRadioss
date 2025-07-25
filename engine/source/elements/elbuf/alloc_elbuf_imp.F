@@ -24,8 +24,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    alloc_elbuf_imp   ../engine/source/elements/elbuf/alloc_elbuf_imp.F
       !||--- called by ------------------------------------------------------
       !||    resol             ../engine/source/engine/resol.F
-      !||--- calls      -----------------------------------------------------
-      !||    nvar              ../engine/source/input/nvar.F
       !||--- uses       -----------------------------------------------------
       !||    elbufdef_mod      ../common_source/modules/mat_elem/elbufdef_mod.F90
       !||====================================================================

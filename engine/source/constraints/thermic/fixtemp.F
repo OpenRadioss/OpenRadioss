@@ -21,15 +21,19 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    fixtemp          ../engine/source/constraints/thermic/fixtemp.F
+      !||    fixtemp            ../engine/source/constraints/thermic/fixtemp.F
       !||--- called by ------------------------------------------------------
-      !||    resol            ../engine/source/engine/resol.F
+      !||    resol              ../engine/source/engine/resol.F
       !||--- calls      -----------------------------------------------------
-      !||    vinter           ../engine/source/tools/curve/vinter.F
-      !||    vinter_smooth    ../engine/source/tools/curve/vinter_smooth.F
+      !||    vinter             ../engine/source/tools/curve/vinter.F
+      !||    vinter_mixed       ../engine/source/tools/curve/vinter_mixed.F90
+      !||    vinter_smooth      ../engine/source/tools/curve/vinter_smooth.F
       !||--- uses       -----------------------------------------------------
-      !||    glob_therm_mod   ../common_source/modules/mat_elem/glob_therm_mod.F90
-      !||    sensor_mod       ../common_source/modules/sensor_mod.F90
+      !||    glob_therm_mod     ../common_source/modules/mat_elem/glob_therm_mod.F90
+      !||    python_funct_mod   ../common_source/modules/python_mod.F90
+      !||    redef3_mod         ../engine/source/elements/spring/redef3.F90
+      !||    sensor_mod         ../common_source/modules/sensor_mod.F90
+      !||    vinter_mixed_mod   ../engine/source/tools/curve/vinter_mixed.F90
       !||====================================================================
       SUBROUTINE FIXTEMP(PYTHON,IBFT   ,VAL    , TEMP  ,NPC    ,TF   ,
      .                   NSENSOR,SENSOR_TAB,GLOB_THERM,snpc)

@@ -39,7 +39,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    atherm                           ../engine/source/ale/atherm.F
       !||    bhol2                            ../engine/source/ale/ale2d/bhol2.F
       !||    my_barrier                       ../engine/source/system/machine.F
-      !||    nvar                             ../engine/source/input/nvar.F
       !||    spmd_xvois                       ../engine/source/mpi/fluid/spmd_cfd.F
       !||--- uses       -----------------------------------------------------
       !||    ale_connectivity_mod             ../common_source/modules/ale/ale_connectivity_mod.F

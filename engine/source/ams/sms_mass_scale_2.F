@@ -53,6 +53,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    intstamp_mod       ../engine/share/modules/intstamp_mod.F
       !||    message_mod        ../engine/share/message_module/message_mod.F
       !||    my_alloc_mod       ../common_source/tools/memory/my_alloc.F90
+      !||    python_funct_mod   ../common_source/modules/python_mod.F90
       !||    sensor_mod         ../common_source/modules/sensor_mod.F90
       !||    timer_mod          ../engine/source/system/timer_mod.F90
       !||====================================================================

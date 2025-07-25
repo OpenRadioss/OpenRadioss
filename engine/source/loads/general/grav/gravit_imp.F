@@ -21,17 +21,19 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    gravit_imp      ../engine/source/loads/general/grav/gravit_imp.F
+      !||    gravit_imp         ../engine/source/loads/general/grav/gravit_imp.F
       !||--- called by ------------------------------------------------------
-      !||    dyna_ina        ../engine/source/implicit/imp_dyna.F
-      !||    dyna_wex        ../engine/source/implicit/imp_dyna.F
-      !||    imp_chkm        ../engine/source/implicit/imp_solv.F
-      !||    imp_solv        ../engine/source/implicit/imp_solv.F
+      !||    dyna_ina           ../engine/source/implicit/imp_dyna.F
+      !||    dyna_wex           ../engine/source/implicit/imp_dyna.F
+      !||    imp_chkm           ../engine/source/implicit/imp_solv.F
+      !||    imp_solv           ../engine/source/implicit/imp_solv.F
       !||--- calls      -----------------------------------------------------
-      !||    finter          ../engine/source/tools/curve/finter.F
-      !||    finter_smooth   ../engine/source/tools/curve/finter_smooth.F
+      !||    finter             ../engine/source/tools/curve/finter.F
+      !||    finter_smooth      ../engine/source/tools/curve/finter_smooth.F
       !||--- uses       -----------------------------------------------------
-      !||    sensor_mod      ../common_source/modules/sensor_mod.F90
+      !||    finter_mixed_mod   ../engine/source/tools/finter_mixed.F90
+      !||    python_funct_mod   ../common_source/modules/python_mod.F90
+      !||    sensor_mod         ../common_source/modules/sensor_mod.F90
       !||====================================================================
       SUBROUTINE GRAVIT_IMP(IGRV  ,AGRV  ,NPC   ,TF    ,A ,
      2                  V     ,X     ,SKEW  ,MS,WFEXTT,

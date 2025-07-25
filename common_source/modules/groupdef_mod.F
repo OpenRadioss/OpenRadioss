@@ -59,6 +59,29 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    coupling_set_interface            ../engine/source/coupling/coupling_adapter.F90
       !||    coupling_set_mesh                 ../engine/source/coupling/coupling_adapter.F90
       !||    coupling_set_nodes                ../engine/source/coupling/coupling_adapter.F90
+      !||    create_h3d_1d_scalar              ../engine/source/output/h3d/h3d_build_fortran/create_h3d_1d_scalar.F
+      !||    create_h3d_1d_tensor              ../engine/source/output/h3d/h3d_build_fortran/create_h3d_1d_tensor.F
+      !||    create_h3d_1d_torsor              ../engine/source/output/h3d/h3d_build_fortran/create_h3d_1d_torsor.F
+      !||    create_h3d_1d_vector              ../engine/source/output/h3d/h3d_build_fortran/create_h3d_1d_vector.F
+      !||    create_h3d_nodal_scalar           ../engine/source/output/h3d/h3d_build_fortran/create_h3d_nodal_scalar.F
+      !||    create_h3d_nodal_tensor           ../engine/source/output/h3d/h3d_build_fortran/create_h3d_nodal_tensor.F
+      !||    create_h3d_nodal_vector           ../engine/source/output/h3d/h3d_build_fortran/create_h3d_nodal_vector.F
+      !||    create_h3d_output_per_part        ../engine/source/output/h3d/h3d_build_fortran/create_h3d_output_per_part.F90
+      !||    create_h3d_parts                  ../engine/source/output/h3d/h3d_build_fortran/create_h3d_parts.F
+      !||    create_h3d_quad_scalar            ../engine/source/output/h3d/h3d_build_fortran/create_h3d_quad_scalar.F
+      !||    create_h3d_quad_tensor            ../engine/source/output/h3d/h3d_build_fortran/create_h3d_quad_tensor.F
+      !||    create_h3d_quad_vector            ../engine/source/output/h3d/h3d_build_fortran/create_h3d_quad_vector.F
+      !||    create_h3d_shell_scalar           ../engine/source/output/h3d/h3d_build_fortran/create_h3d_shell_scalar.F
+      !||    create_h3d_shell_tensor           ../engine/source/output/h3d/h3d_build_fortran/create_h3d_shell_tensor.F
+      !||    create_h3d_shell_vector           ../engine/source/output/h3d/h3d_build_fortran/create_h3d_shell_vector.F
+      !||    create_h3d_skin_scalar            ../engine/source/output/h3d/h3d_build_fortran/create_h3d_skin_scalar.F
+      !||    create_h3d_skin_tensor            ../engine/source/output/h3d/h3d_build_fortran/create_h3d_skin_tensor.F
+      !||    create_h3d_skin_vector            ../engine/source/output/h3d/h3d_build_fortran/create_h3d_skin_vector.F
+      !||    create_h3d_solid_scalar           ../engine/source/output/h3d/h3d_build_fortran/create_h3d_solid_scalar.F
+      !||    create_h3d_solid_tensor           ../engine/source/output/h3d/h3d_build_fortran/create_h3d_solid_tensor.F
+      !||    create_h3d_solid_vector           ../engine/source/output/h3d/h3d_build_fortran/create_h3d_solid_vector.F
+      !||    create_h3d_sph_scalar             ../engine/source/output/h3d/h3d_build_fortran/create_h3d_sph_scalar.F
+      !||    create_h3d_sph_tensor             ../engine/source/output/h3d/h3d_build_fortran/create_h3d_sph_tensor.F
       !||    create_map_tables                 ../starter/source/model/sets/map_tables.F
       !||    create_subs_clause                ../starter/source/model/sets/create_subs_clause.F
       !||    create_subs_list                  ../starter/source/model/sets/create_subs_clause.F
@@ -418,6 +441,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    lecdamp                           ../engine/source/input/lecdamp.F
       !||    lecggroup                         ../starter/source/groups/lecggroup.F
       !||    lecgroup                          ../starter/source/groups/lecgroup.F
+      !||    lech3d                            ../engine/source/output/h3d/h3d_build_fortran/lech3d.F
       !||    lecins                            ../starter/source/interfaces/interf1/lecins.F
       !||    lecint                            ../starter/source/interfaces/interf1/lecint.F
       !||    lecinv                            ../engine/source/input/lecinv.F

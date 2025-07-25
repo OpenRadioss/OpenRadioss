@@ -31,7 +31,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    anim_set2zero_struct   ../engine/source/output/anim/reader/anim_set2zero_struct.F
       !||    arret                  ../engine/source/system/arret.F
       !||    fredec_8key_i          ../engine/source/input/fredec_8key_i.F
-      !||    nvar                   ../engine/source/input/nvar.F
       !||    wriusc2                ../engine/source/input/wriusc2.F
       !||--- uses       -----------------------------------------------------
       !||    anim_mod               ../common_source/modules/output/anim_mod.F

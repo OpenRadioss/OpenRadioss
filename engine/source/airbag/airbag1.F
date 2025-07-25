@@ -21,12 +21,13 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    airbaga      ../engine/source/airbag/airbag1.F
+      !||    airbaga            ../engine/source/airbag/airbag1.F
       !||--- called by ------------------------------------------------------
-      !||    monvol0      ../engine/source/airbag/monvol0.F
-      !||--- calls      -----------------------------------------------------
+      !||    monvol0            ../engine/source/airbag/monvol0.F
       !||--- uses       -----------------------------------------------------
-      !||    sensor_mod   ../common_source/modules/sensor_mod.F90
+      !||    finter_mixed_mod   ../engine/source/tools/finter_mixed.F90
+      !||    python_funct_mod   ../common_source/modules/python_mod.F90
+      !||    sensor_mod         ../common_source/modules/sensor_mod.F90
       !||====================================================================
       SUBROUTINE AIRBAGA(IVOLU ,NJET   ,IBAGJET ,NVENT   ,IBAGHOL,
      2                 ICBAG   ,RVOLU   ,RBAGJET ,RBAGHOL,RCBAG   ,

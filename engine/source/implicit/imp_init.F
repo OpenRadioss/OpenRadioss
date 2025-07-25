@@ -163,7 +163,6 @@ C-----------------------------------------------
       !||    ancmsg         ../engine/source/output/message/message.F
       !||    arret          ../engine/source/system/arret.F
       !||    grpreorder     ../engine/source/implicit/imp_glob_k.F
-      !||    nvar           ../engine/source/input/nvar.F
       !||--- uses       -----------------------------------------------------
       !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
       !||    imp_ktan       ../engine/share/modules/impbufdef_mod.F

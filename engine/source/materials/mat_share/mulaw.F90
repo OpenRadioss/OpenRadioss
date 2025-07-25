@@ -79,7 +79,6 @@
       !||    mrotensns              ../engine/source/materials/mat_share/mrotens.F
       !||    mstrain_rate           ../engine/source/materials/mat_share/mstrain_rate.F
       !||    nsvisul                ../engine/source/materials/mat_share/nsvisul.F
-      !||    nvar                   ../engine/source/input/nvar.F
       !||    sigeps100              ../engine/source/materials/mat/mat100/sigeps100.F90
       !||    sigeps101              ../engine/source/materials/mat/mat101/sigeps101.F
       !||    sigeps102              ../engine/source/materials/mat/mat102/sigeps102.F

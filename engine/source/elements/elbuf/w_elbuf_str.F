@@ -25,7 +25,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- called by ------------------------------------------------------
       !||    wrrestp        ../engine/source/output/restart/wrrestp.F
       !||--- calls      -----------------------------------------------------
-      !||    nvar           ../engine/source/input/nvar.F
       !||    write_db       ../common_source/tools/input_output/write_db.F
       !||    write_dpdb     ../common_source/tools/input_output/write_db.F
       !||--- uses       -----------------------------------------------------

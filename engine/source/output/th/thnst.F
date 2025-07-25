@@ -25,7 +25,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- called by ------------------------------------------------------
       !||    hist2          ../engine/source/output/th/hist2.F
       !||--- calls      -----------------------------------------------------
-      !||    nvar           ../engine/source/input/nvar.F
       !||    xth            ../engine/source/output/th/thnst.F
       !||--- uses       -----------------------------------------------------
       !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90

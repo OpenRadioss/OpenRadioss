@@ -51,6 +51,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    groupdef_mod       ../common_source/modules/groupdef_mod.F
       !||    h3d_mod            ../engine/share/modules/h3d_mod.F
       !||    intbufdef_mod      ../common_source/modules/interfaces/intbufdef_mod.F90
+      !||    nodal_arrays_mod   ../common_source/modules/nodal_arrays.F90
       !||    python_funct_mod   ../common_source/modules/python_mod.F90
       !||    sensor_mod         ../common_source/modules/sensor_mod.F90
       !||====================================================================
@@ -424,6 +425,7 @@ C
       !||    h3d_mod            ../engine/share/modules/h3d_mod.F
       !||    intbufdef_mod      ../common_source/modules/interfaces/intbufdef_mod.F90
       !||    message_mod        ../engine/share/message_module/message_mod.F
+      !||    nodal_arrays_mod   ../common_source/modules/nodal_arrays.F90
       !||    python_funct_mod   ../common_source/modules/python_mod.F90
       !||====================================================================
       SUBROUTINE LAG_MULTP(

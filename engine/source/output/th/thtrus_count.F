@@ -24,8 +24,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    thtrus_count   ../engine/source/output/th/thtrus_count.F
       !||--- called by ------------------------------------------------------
       !||    init_th        ../engine/source/output/th/init_th.F
-      !||--- calls      -----------------------------------------------------
-      !||    nvar           ../engine/source/input/nvar.F
       !||====================================================================
       SUBROUTINE THTRUS_COUNT(NTHGRP2, ITHGRP ,WA_SIZE, INDEX_WA_TRUS ,
      .                        IPARG ,ITHBUF,SITHBUF    )

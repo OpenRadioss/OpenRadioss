@@ -27,7 +27,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- calls      -----------------------------------------------------
       !||    ancmsg                   ../engine/source/output/message/message.F
       !||    arret                    ../engine/source/system/arret.F
-      !||    finter                   ../engine/source/tools/curve/finter.F
       !||    fvinjt6                  ../engine/source/airbag/fvinjt6.F
       !||    fvinjt8                  ../engine/source/airbag/fvinjt8.F
       !||    fvinjt8_1                ../engine/source/airbag/fvinjt8_1.F
@@ -39,9 +38,11 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- uses       -----------------------------------------------------
       !||    anim_mod                 ../common_source/modules/output/anim_mod.F
       !||    elbufdef_mod             ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    finter_mixed_mod         ../engine/source/tools/finter_mixed.F90
       !||    fvbag_mod                ../engine/share/modules/fvbag_mod.F
       !||    fvmbag_meshcontrol_mod   ../common_source/modules/airbag/fvmbag_meshcontrol_mod.F
       !||    message_mod              ../engine/share/message_module/message_mod.F
+      !||    python_funct_mod         ../common_source/modules/python_mod.F90
       !||    sensor_mod               ../common_source/modules/sensor_mod.F90
       !||====================================================================
       SUBROUTINE FV_UP_SWITCH(NN, NEL, ELEM, NJET, NPOLY,LENH,NBA,

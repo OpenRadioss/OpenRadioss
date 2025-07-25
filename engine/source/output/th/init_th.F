@@ -25,7 +25,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- called by ------------------------------------------------------
       !||    init_th0           ../engine/source/output/th/init_th0.F
       !||--- calls      -----------------------------------------------------
-      !||    nvar               ../engine/source/input/nvar.F
       !||    spmd_gather_int    ../engine/source/mpi/generic/spmd_gather_int.F
       !||    spmd_gatherv_int   ../engine/source/mpi/generic/spmd_gatherv_int.F
       !||    thcoq_count        ../engine/source/output/th/thcoq_count.F

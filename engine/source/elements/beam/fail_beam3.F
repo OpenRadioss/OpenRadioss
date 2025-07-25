@@ -33,7 +33,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    fail_tab2_b         ../engine/source/materials/fail/tabulated/fail_tab2_b.F90
       !||    fail_tensstrain_b   ../engine/source/materials/fail/tensstrain/fail_tensstrain_b.F
       !||    fail_visual_b       ../engine/source/materials/fail/visual/fail_visual_b.F90
-      !||    nvar                ../engine/source/input/nvar.F
       !||--- uses       -----------------------------------------------------
       !||    elbufdef_mod        ../common_source/modules/mat_elem/elbufdef_mod.F90
       !||    fail_gene1_b_mod    ../engine/source/materials/fail/gene1/fail_gene1_b.F90

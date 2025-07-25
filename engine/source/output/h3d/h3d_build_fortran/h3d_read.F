@@ -29,7 +29,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    arret                  ../engine/source/system/arret.F
       !||    create_h3d_input       ../engine/source/output/h3d/h3d_build_fortran/create_h3d_input.F
       !||    fredec_8key_i          ../engine/source/input/fredec_8key_i.F
-      !||    nvar                   ../engine/source/input/nvar.F
       !||    wriusc2                ../engine/source/input/wriusc2.F
       !||--- uses       -----------------------------------------------------
       !||    anim_mod               ../common_source/modules/output/anim_mod.F

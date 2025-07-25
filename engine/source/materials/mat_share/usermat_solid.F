@@ -67,7 +67,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    mrotensns                   ../engine/source/materials/mat_share/mrotens.F
       !||    nolib_usermat99             ../engine/source/user_interface/nolib_usermat99.F
       !||    nsvisul                     ../engine/source/materials/mat_share/nsvisul.F
-      !||    nvar                        ../engine/source/input/nvar.F
       !||    sreploc3                    ../engine/source/elements/solid/solide/sreploc3.F
       !||    startime                    ../engine/source/system/timer_mod.F90
       !||    stoptime                    ../engine/source/system/timer_mod.F90

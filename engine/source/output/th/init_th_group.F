@@ -24,8 +24,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    init_th_group   ../engine/source/output/th/init_th_group.F
       !||--- called by ------------------------------------------------------
       !||    resol_init      ../engine/source/engine/resol_init.F
-      !||--- calls      -----------------------------------------------------
-      !||    nvar            ../engine/source/input/nvar.F
       !||--- uses       -----------------------------------------------------
       !||    groupdef_mod    ../common_source/modules/groupdef_mod.F
       !||====================================================================

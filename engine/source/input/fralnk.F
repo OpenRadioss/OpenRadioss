@@ -28,7 +28,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    ancmsg                 ../engine/source/output/message/message.F
       !||    arret                  ../engine/source/system/arret.F
       !||    ixyz                   ../engine/source/input/ixyz.F
-      !||    nvar                   ../engine/source/input/nvar.F
       !||    read10                 ../engine/source/input/read10.F
       !||    wriusc2                ../engine/source/input/wriusc2.F
       !||--- uses       -----------------------------------------------------
@@ -169,7 +168,6 @@ C format v12
       !||    ancmsg                 ../engine/source/output/message/message.F
       !||    arret                  ../engine/source/system/arret.F
       !||    ixyz                   ../engine/source/input/ixyz.F
-      !||    nvar                   ../engine/source/input/nvar.F
       !||    read10                 ../engine/source/input/read10.F
       !||    wriusc2                ../engine/source/input/wriusc2.F
       !||--- uses       -----------------------------------------------------

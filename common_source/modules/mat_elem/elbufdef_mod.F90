@@ -694,6 +694,8 @@
       !||    xforc3                              ../engine/source/elements/xelem/xforc3.F
       !||    xinit3                              ../starter/source/elements/xelem/xinit3.F
       !||    zerovars_auto                       ../starter/source/elements/elbuf_init/zerovars_auto.F
+      !||--- calls      -----------------------------------------------------
+      !||    nvar                                ../common_source/input/nvar.F
       !||--- uses       -----------------------------------------------------
       !||    precision_mod                       ../common_source/modules/precision_mod.F90
       !||====================================================================

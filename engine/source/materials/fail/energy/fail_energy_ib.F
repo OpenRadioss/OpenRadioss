@@ -26,7 +26,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    fail_beam18      ../engine/source/elements/beam/fail_beam18.F
       !||--- calls      -----------------------------------------------------
       !||    finter           ../engine/source/tools/curve/finter.F
-      !||    nvar             ../engine/source/input/nvar.F
       !||====================================================================
       SUBROUTINE FAIL_ENERGY_IB(
      .           NEL      ,NGL      ,NUPARAM  ,UPARAM   ,

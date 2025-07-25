@@ -21,10 +21,29 @@
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    finter_mixed_mod   ../engine/source/tools/curve/vinter_mixed.F90
+      !||    finter_mixed_mod       ../engine/source/tools/finter_mixed.F90
       !||--- called by ------------------------------------------------------
-      !||    redef3             ../engine/source/elements/spring/redef3.F90
-      !||    redef3_law113      ../engine/source/elements/spring/redef3_law113.F
+      !||    airbaga                ../engine/source/airbag/airbag1.F
+      !||    airbaga1               ../engine/source/airbag/airbaga1.F
+      !||    cfield_imp             ../engine/source/loads/general/load_centri/cfield_imp.F
+      !||    fv_up_switch           ../engine/source/airbag/fv_up_switch.F
+      !||    fvbag1                 ../engine/source/airbag/fvbag1.F
+      !||    fvinjt6                ../engine/source/airbag/fvinjt6.F
+      !||    fvinjt8                ../engine/source/airbag/fvinjt8.F
+      !||    fxbodfp2               ../engine/source/constraints/fxbody/fxbodfp.F
+      !||    fxgrvcor               ../engine/source/constraints/fxbody/fxgrvcor.F
+      !||    get_preload_axial      ../engine/source/elements/spring/preload_axial.F90
+      !||    gravit_imp             ../engine/source/loads/general/grav/gravit_imp.F
+      !||    sms_gravit             ../engine/source/ams/sms_gravit.F
+      !||    volp_lfluid            ../engine/source/airbag/volp_lfluid.F
+      !||    volpfv                 ../engine/source/airbag/volpfv.F
+      !||    volpre                 ../engine/source/airbag/volpres.F
+      !||    volprep                ../engine/source/airbag/volpresp.F
+      !||--- calls      -----------------------------------------------------
+      !||    finter                 ../engine/source/tools/curve/finter.F
+      !||--- uses       -----------------------------------------------------
+      !||    precision_mod          ../common_source/modules/precision_mod.F90
+      !||    python_funct_mod       ../common_source/modules/python_mod.F90
       !||====================================================================
       module finter_mixed_mod
       use precision_mod, only : WP
@@ -33,16 +52,6 @@
 !                                                   procedures
 ! ======================================================================================================================
 !! \brief  interpolate a table of values, or evaluate a python function
-      !||====================================================================
-      !||    finter_mixed           ../engine/source/tools/curve/vinter_mixed.F90
-      !||--- called by ------------------------------------------------------
-      !||    redef3                 ../engine/source/elements/spring/redef3.F90
-      !||    redef3_law113          ../engine/source/elements/spring/redef3_law113.F
-      !||--- calls      -----------------------------------------------------
-      !||--- uses       -----------------------------------------------------
-      !||    precision_mod          ../common_source/modules/precision_mod.F90
-      !||    python_funct_mod       ../common_source/modules/python_mod.F90
-      !||====================================================================
         real(kind=WP) function finter_mixed(python,nfunct,ifunc,x,npc,tf,dydx) result(y)
 !                                  FINTER(IPT,TS*SCALT,NPC,TF,DYDX)
 

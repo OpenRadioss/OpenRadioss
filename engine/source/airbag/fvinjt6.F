@@ -21,14 +21,14 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    fvinjt6        ../engine/source/airbag/fvinjt6.F
+      !||    fvinjt6            ../engine/source/airbag/fvinjt6.F
       !||--- called by ------------------------------------------------------
-      !||    fv_up_switch   ../engine/source/airbag/fv_up_switch.F
-      !||    fvbag1         ../engine/source/airbag/fvbag1.F
-      !||--- calls      -----------------------------------------------------
-      !||    finter         ../engine/source/tools/curve/finter.F
+      !||    fv_up_switch       ../engine/source/airbag/fv_up_switch.F
+      !||    fvbag1             ../engine/source/airbag/fvbag1.F
       !||--- uses       -----------------------------------------------------
-      !||    sensor_mod     ../common_source/modules/sensor_mod.F90
+      !||    finter_mixed_mod   ../engine/source/tools/finter_mixed.F90
+      !||    python_funct_mod   ../common_source/modules/python_mod.F90
+      !||    sensor_mod         ../common_source/modules/sensor_mod.F90
       !||====================================================================
       SUBROUTINE FVINJT6(NJET   , IBAGJET , RBAGJET , NPC    , TF      ,
      2                   NSENSOR,SENSOR_TAB, SCALT,    DATAINJ ,PYTHON)

@@ -26,7 +26,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    aconve                 ../engine/source/ale/aconve.F
       !||--- calls      -----------------------------------------------------
       !||    my_barrier             ../engine/source/system/machine.F
-      !||    nvar                   ../engine/source/input/nvar.F
       !||--- uses       -----------------------------------------------------
       !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
       !||    alefvm_mod             ../common_source/modules/ale/alefvm_mod.F

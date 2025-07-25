@@ -39,7 +39,6 @@
       !||    fail_beam3      ../engine/source/elements/beam/fail_beam3.F
       !||--- calls      -----------------------------------------------------
       !||    finter          ../engine/source/tools/curve/finter.F
-      !||    nvar            ../engine/source/input/nvar.F
       !||--- uses       -----------------------------------------------------
       !||    constant_mod    ../common_source/modules/constant_mod.F
       !||    precision_mod   ../common_source/modules/precision_mod.F90

@@ -24,8 +24,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    thrnur   ../engine/source/output/th/thrnur.F
       !||--- called by ------------------------------------------------------
       !||    hist2    ../engine/source/output/th/hist2.F
-      !||--- calls      -----------------------------------------------------
-      !||    nvar     ../engine/source/input/nvar.F
       !||====================================================================
       SUBROUTINE THRNUR(IAD,NN,IADV,NVAR,IPARG,
      .                 ITHBUF,BUFEL,    WA )

@@ -24,8 +24,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    init_reac_nod   ../engine/source/output/th/init_reac_nod.F
       !||--- called by ------------------------------------------------------
       !||    resol_init      ../engine/source/engine/resol_init.F
-      !||--- calls      -----------------------------------------------------
-      !||    nvar            ../engine/source/input/nvar.F
       !||====================================================================
       SUBROUTINE INIT_REAC_NOD(CPTREAC,NODREAC,NTHGRP,ITHGRP,ITHBUF)
 C-----------------------------------------------

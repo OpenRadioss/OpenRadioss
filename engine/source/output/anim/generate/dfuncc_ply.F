@@ -26,7 +26,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    genani             ../engine/source/output/anim/generate/genani.F
       !||--- calls      -----------------------------------------------------
       !||    initbuf            ../engine/share/resol/initbuf.F
-      !||    nvar               ../engine/source/input/nvar.F
       !||    sigrota            ../engine/source/output/anim/generate/sigrota.F
       !||    spmd_r4get_partn   ../engine/source/mpi/anim/spmd_r4get_partn.F
       !||    write_r_c          ../common_source/tools/input_output/write_routtines.c

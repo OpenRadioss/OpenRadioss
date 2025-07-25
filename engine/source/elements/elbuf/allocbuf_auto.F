@@ -25,7 +25,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- called by ------------------------------------------------------
       !||    elbuf_ini       ../engine/source/elements/elbuf/elbuf_ini.F
       !||--- calls      -----------------------------------------------------
-      !||    nvar            ../engine/source/input/nvar.F
       !||    read_db         ../common_source/tools/input_output/read_db.F
       !||    read_dpdb       ../common_source/tools/input_output/read_db.F
       !||--- uses       -----------------------------------------------------

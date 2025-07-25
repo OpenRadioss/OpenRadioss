@@ -54,7 +54,6 @@
       !||    mqvisc8               ../engine/source/materials/mat_share/mqvisc8.F
       !||    mreploc               ../engine/source/materials/mat_share/mreploc.F
       !||    mrotens               ../engine/source/materials/mat_share/mrotens.F
-      !||    nvar                  ../engine/source/input/nvar.F
       !||    sigeps28              ../engine/source/materials/mat/mat028/sigeps28.F
       !||    sigeps33              ../engine/source/materials/mat/mat033/sigeps33.F
       !||    sigeps34              ../engine/source/materials/mat/mat034/sigeps34.F

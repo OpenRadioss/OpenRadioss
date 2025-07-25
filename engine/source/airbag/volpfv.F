@@ -21,11 +21,12 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    volpfv    ../engine/source/airbag/volpfv.F
+      !||    volpfv             ../engine/source/airbag/volpfv.F
       !||--- called by ------------------------------------------------------
-      !||    monvol0   ../engine/source/airbag/monvol0.F
-      !||--- calls      -----------------------------------------------------
-      !||    finter    ../engine/source/tools/curve/finter.F
+      !||    monvol0            ../engine/source/airbag/monvol0.F
+      !||--- uses       -----------------------------------------------------
+      !||    finter_mixed_mod   ../engine/source/tools/finter_mixed.F90
+      !||    python_funct_mod   ../common_source/modules/python_mod.F90
       !||====================================================================
       SUBROUTINE VOLPFV(IVOLU,RVOLU  ,VOL,FSAV,NPC,
      2                  TF   ,PMAIN, WFEXT,PYTHON,NFUNCT)

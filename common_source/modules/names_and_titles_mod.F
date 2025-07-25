@@ -76,6 +76,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    create_h3d_nodal_scalar           ../engine/source/output/h3d/h3d_build_fortran/create_h3d_nodal_scalar.F
       !||    create_h3d_nodal_tensor           ../engine/source/output/h3d/h3d_build_fortran/create_h3d_nodal_tensor.F
       !||    create_h3d_nodal_vector           ../engine/source/output/h3d/h3d_build_fortran/create_h3d_nodal_vector.F
+      !||    create_h3d_output_per_part        ../engine/source/output/h3d/h3d_build_fortran/create_h3d_output_per_part.F90
       !||    create_h3d_parts                  ../engine/source/output/h3d/h3d_build_fortran/create_h3d_parts.F
       !||    create_h3d_parts_all              ../engine/source/output/h3d/h3d_build_fortran/create_h3d_parts_all.F
       !||    create_h3d_quad_scalar            ../engine/source/output/h3d/h3d_build_fortran/create_h3d_quad_scalar.F
@@ -796,7 +797,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    nintrn                            ../engine/source/fluid/nintrn.F
       !||    node_box                          ../starter/source/model/sets/fill_clause_node_box.F
       !||    nolib_usermat99                   ../engine/source/user_interface/nolib_usermat99.F
-      !||    nvar                              ../engine/source/input/nvar.F
+      !||    nvar                              ../common_source/input/nvar.F
       !||    optiondef_mod                     ../common_source/modules/optiondef_mod.F
       !||    outpart                           ../starter/source/elements/initia/initia.F
       !||    outpart5                          ../starter/source/elements/initia/initia.F

@@ -37,7 +37,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    brezo2                 ../engine/source/ale/ale2d/brezo2.F
       !||    initbuf                ../engine/share/resol/initbuf.F
       !||    my_barrier             ../engine/source/system/machine.F
-      !||    nvar                   ../engine/source/input/nvar.F
       !||    spmd_e1vois            ../engine/source/mpi/fluid/spmd_cfd.F
       !||--- uses       -----------------------------------------------------
       !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F

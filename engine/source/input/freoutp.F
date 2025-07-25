@@ -28,7 +28,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    ancmsg                 ../engine/source/output/message/message.F
       !||    arret                  ../engine/source/system/arret.F
       !||    get_keys_id            ../engine/source/input/freoutp.F
-      !||    nvar                   ../engine/source/input/nvar.F
       !||    wriusc2                ../engine/source/input/wriusc2.F
       !||--- uses       -----------------------------------------------------
       !||    message_mod            ../engine/share/message_module/message_mod.F

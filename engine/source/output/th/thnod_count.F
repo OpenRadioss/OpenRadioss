@@ -24,8 +24,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    thnod_count   ../engine/source/output/th/thnod_count.F
       !||--- called by ------------------------------------------------------
       !||    init_th       ../engine/source/output/th/init_th.F
-      !||--- calls      -----------------------------------------------------
-      !||    nvar          ../engine/source/input/nvar.F
       !||--- uses       -----------------------------------------------------
       !||    plyxfem_mod   ../engine/share/modules/plyxfem_mod.F
       !||====================================================================

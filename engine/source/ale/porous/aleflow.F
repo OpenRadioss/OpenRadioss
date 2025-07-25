@@ -27,7 +27,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- calls      -----------------------------------------------------
       !||    aleconve               ../engine/source/ale/porous/aleconv.F
       !||    aleflux                ../engine/source/ale/porous/aleflux.F
-      !||    nvar                   ../engine/source/input/nvar.F
       !||--- uses       -----------------------------------------------------
       !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
       !||    elbufdef_mod           ../common_source/modules/mat_elem/elbufdef_mod.F90

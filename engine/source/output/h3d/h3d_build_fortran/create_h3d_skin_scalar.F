@@ -21,15 +21,17 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    create_h3d_skin_scalar   ../engine/source/output/h3d/h3d_build_fortran/create_h3d_skin_scalar.F
+      !||    create_h3d_skin_scalar           ../engine/source/output/h3d/h3d_build_fortran/create_h3d_skin_scalar.F
       !||--- called by ------------------------------------------------------
-      !||    lech3d                   ../engine/source/output/h3d/h3d_build_fortran/lech3d.F
+      !||    lech3d                           ../engine/source/output/h3d/h3d_build_fortran/lech3d.F
       !||--- calls      -----------------------------------------------------
-      !||    arret                    ../engine/source/system/arret.F
-      !||    nvar                     ../engine/source/input/nvar.F
+      !||    arret                            ../engine/source/system/arret.F
+      !||    create_h3d_output_per_part       ../engine/source/output/h3d/h3d_build_fortran/create_h3d_output_per_part.F90
       !||--- uses       -----------------------------------------------------
-      !||    h3d_mod                  ../engine/share/modules/h3d_mod.F
-      !||    names_and_titles_mod     ../common_source/modules/names_and_titles_mod.F
+      !||    create_h3d_output_per_part_mod   ../engine/source/output/h3d/h3d_build_fortran/create_h3d_output_per_part.F90
+      !||    groupdef_mod                     ../common_source/modules/groupdef_mod.F
+      !||    h3d_mod                          ../engine/share/modules/h3d_mod.F
+      !||    names_and_titles_mod             ../common_source/modules/names_and_titles_mod.F
       !||====================================================================
       SUBROUTINE CREATE_H3D_SKIN_SCALAR(H3D_DATA,ID_SOLID_SCALAR,ID_INPUT,TEXT1,STEXT1,
      .                                   COMMENT, SCOMMENT, IPART,KEY3_GLOB,

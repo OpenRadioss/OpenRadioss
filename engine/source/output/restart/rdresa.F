@@ -200,8 +200,6 @@ C
       !||    iniresa          ../engine/source/output/restart/rdresa.F
       !||--- called by ------------------------------------------------------
       !||    radioss2         ../engine/source/engine/radioss2.F
-      !||--- calls      -----------------------------------------------------
-      !||    nvar             ../engine/source/input/nvar.F
       !||--- uses       -----------------------------------------------------
       !||    ale_mod          ../common_source/modules/ale/ale_mod.F
       !||    aleanim_mod      ../engine/share/modules/aleanim_mod.F

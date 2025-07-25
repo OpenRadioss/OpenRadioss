@@ -24,8 +24,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    alefvm_init   ../engine/source/ale/alefvm/alefvm_init.F
       !||--- called by ------------------------------------------------------
       !||    restalloc     ../engine/source/output/restart/arralloc.F
-      !||--- calls      -----------------------------------------------------
-      !||    nvar          ../engine/source/input/nvar.F
       !||--- uses       -----------------------------------------------------
       !||    alefvm_mod    ../common_source/modules/ale/alefvm_mod.F
       !||====================================================================

@@ -29,7 +29,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    arret                  ../engine/source/system/arret.F
       !||    errmsg                 ../engine/source/input/errmsg.F
       !||    ixyz                   ../engine/source/input/ixyz.F
-      !||    nvar                   ../engine/source/input/nvar.F
       !||    read10                 ../engine/source/input/read10.F
       !||--- uses       -----------------------------------------------------
       !||    message_mod            ../engine/share/message_module/message_mod.F

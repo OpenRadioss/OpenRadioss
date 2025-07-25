@@ -36,13 +36,19 @@
       !||    detach_node_from_shells                  ../engine/source/engine/node_spliting/detach_node.F90
       !||    find_edge_from_remote_proc               ../engine/source/interfaces/interf/find_edge_from_remote_proc.F
       !||    find_surface_from_remote_proc            ../engine/source/interfaces/interf/find_surface_from_remote_proc.F
+      !||    fixfingeo                                ../engine/source/constraints/general/impvel/fixfingeo.F
       !||    fixvel                                   ../engine/source/constraints/general/impvel/fixvel.F
       !||    force                                    ../engine/source/loads/general/force.F90
+      !||    forcefingeo                              ../engine/source/loads/general/forcefingeo.F
       !||    funct_python_update_elements             ../engine/source/tools/curve/funct_python_update_elements.F90
       !||    get_neighbour_surface                    ../engine/source/interfaces/interf/get_neighbour_surface.F90
       !||    get_neighbour_surface_from_remote_proc   ../engine/source/interfaces/interf/get_neighbour_surface_from_remote_proc.F90
       !||    init_ghost_shells                        ../engine/source/engine/node_spliting/ghost_shells.F90
       !||    init_nodal_state                         ../engine/source/interfaces/interf/init_nodal_state.F
+      !||    lag_fxv                                  ../engine/source/tools/lagmul/lag_fxv.F
+      !||    lag_fxvp                                 ../engine/source/tools/lagmul/lag_fxv.F
+      !||    lag_mult                                 ../engine/source/tools/lagmul/lag_mult.F
+      !||    lag_multp                                ../engine/source/tools/lagmul/lag_mult.F
       !||    python_call_funct_cload_dp               ../engine/source/loads/general/python_call_funct_cload.F90
       !||    python_call_funct_cload_sp               ../engine/source/loads/general/python_call_funct_cload.F90
       !||    python_register                          ../engine/source/tools/curve/python_register.F90

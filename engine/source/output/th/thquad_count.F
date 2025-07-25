@@ -24,8 +24,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    thquad_count   ../engine/source/output/th/thquad_count.F
       !||--- called by ------------------------------------------------------
       !||    init_th        ../engine/source/output/th/init_th.F
-      !||--- calls      -----------------------------------------------------
-      !||    nvar           ../engine/source/input/nvar.F
       !||====================================================================
       SUBROUTINE THQUAD_COUNT(NTHGRP2 ,ITHGRP,WA_SIZE,INDEX_WA_QUAD,
      1                        IPARG,ITHBUF,SITHBUF  )

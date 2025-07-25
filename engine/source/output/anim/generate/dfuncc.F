@@ -27,7 +27,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- calls      -----------------------------------------------------
       !||    clsconv3                     ../engine/source/output/anim/generate/dfuncc.F
       !||    initbuf                      ../engine/share/resol/initbuf.F
-      !||    nvar                         ../engine/source/input/nvar.F
       !||    output_schlieren             ../engine/source/output/anim/generate/output_schlieren.F
       !||    schlieren_buffer_gathering   ../engine/source/output/anim/generate/schlieren_buffer_gathering.F
       !||    spmd_r4get_partn             ../engine/source/mpi/anim/spmd_r4get_partn.F

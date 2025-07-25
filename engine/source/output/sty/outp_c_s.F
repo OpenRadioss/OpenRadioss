@@ -25,7 +25,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- called by ------------------------------------------------------
       !||    genoutp               ../engine/source/output/sty/genoutp.F
       !||--- calls      -----------------------------------------------------
-      !||    nvar                  ../engine/source/input/nvar.F
       !||    s_user                ../engine/source/output/sty/s_user.F
       !||    spmd_rgather9_1comm   ../engine/source/mpi/interfaces/spmd_outp.F
       !||--- uses       -----------------------------------------------------

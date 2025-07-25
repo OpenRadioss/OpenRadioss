@@ -26,7 +26,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    hist2           ../engine/source/output/th/hist2.F
       !||--- calls      -----------------------------------------------------
       !||    initbuf         ../engine/share/resol/initbuf.F
-      !||    nvar            ../engine/source/input/nvar.F
       !||    scoor431        ../engine/source/elements/solid/sconnect/scoor431.F
       !||    scortho31       ../engine/source/elements/thickshell/solidec/scortho31.F
       !||    sortho31        ../engine/source/elements/solid/solide/sortho31.F

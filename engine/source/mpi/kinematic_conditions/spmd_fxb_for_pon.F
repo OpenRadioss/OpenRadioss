@@ -25,8 +25,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    spmd_fxb_for_pon      ../engine/source/mpi/kinematic_conditions/spmd_fxb_for_pon.F
       !||--- called by ------------------------------------------------------
       !||    fxbyfor               ../engine/source/constraints/fxbody/fxbyfor.F
-      !||--- calls      -----------------------------------------------------
-      !||    nvar                  ../engine/source/input/nvar.F
       !||--- uses       -----------------------------------------------------
       !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================
@@ -163,8 +161,6 @@ C version simplifiee pour mono non SPMD
       !||    spmd_fxb_for_pon      ../engine/source/mpi/kinematic_conditions/spmd_fxb_for_pon.F
       !||--- called by ------------------------------------------------------
       !||    fxbyfor               ../engine/source/constraints/fxbody/fxbyfor.F
-      !||--- calls      -----------------------------------------------------
-      !||    nvar                  ../engine/source/input/nvar.F
       !||--- uses       -----------------------------------------------------
       !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
       !||====================================================================

@@ -29,7 +29,6 @@ C - rajouter CLUSTER(ILOC)%ID_GLOB dans le cluster (*)
       !||--- called by ------------------------------------------------------
       !||    hist2             ../engine/source/output/th/hist2.F
       !||--- calls      -----------------------------------------------------
-      !||    nvar              ../engine/source/input/nvar.F
       !||    spmd_glob_dsum9   ../engine/source/mpi/interfaces/spmd_th.F
       !||    wrtdes            ../engine/source/output/th/wrtdes.F
       !||--- uses       -----------------------------------------------------

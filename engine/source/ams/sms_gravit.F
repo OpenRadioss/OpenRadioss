@@ -27,6 +27,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- calls      -----------------------------------------------------
       !||    finter             ../engine/source/tools/curve/finter.F
       !||--- uses       -----------------------------------------------------
+      !||    finter_mixed_mod   ../engine/source/tools/finter_mixed.F90
+      !||    python_funct_mod   ../common_source/modules/python_mod.F90
       !||    sensor_mod         ../common_source/modules/sensor_mod.F90
       !||====================================================================
       SUBROUTINE SMS_GRAVIT(IGRV  ,AGRV   ,NPC   ,TF   ,A     ,

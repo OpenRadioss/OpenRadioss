@@ -220,14 +220,15 @@ C
       RETURN
       END SUBROUTINE FXBODFP1
       !||====================================================================
-      !||    fxbodfp2     ../engine/source/constraints/fxbody/fxbodfp.F
+      !||    fxbodfp2           ../engine/source/constraints/fxbody/fxbodfp.F
       !||--- called by ------------------------------------------------------
-      !||    fxbyfor      ../engine/source/constraints/fxbody/fxbyfor.F
+      !||    fxbyfor            ../engine/source/constraints/fxbody/fxbyfor.F
       !||--- calls      -----------------------------------------------------
-      !||    finter       ../engine/source/tools/curve/finter.F
-      !||    fxbmajp2     ../engine/source/constraints/fxbody/fxbodfp.F
+      !||    fxbmajp2           ../engine/source/constraints/fxbody/fxbodfp.F
       !||--- uses       -----------------------------------------------------
-      !||    sensor_mod   ../common_source/modules/sensor_mod.F90
+      !||    finter_mixed_mod   ../engine/source/tools/finter_mixed.F90
+      !||    python_funct_mod   ../common_source/modules/python_mod.F90
+      !||    sensor_mod         ../common_source/modules/sensor_mod.F90
       !||====================================================================
       SUBROUTINE FXBODFP2(FXBIPM , FXBRPM , FXBGLM, FXBCPM, FXBCPS ,
      .                    FXBLM  , FXBFLS , FXBDLS, FXBDEP, FXBVIT ,

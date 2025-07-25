@@ -28,7 +28,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    get_var_user_f      ../engine/source/user_interface/eng_callback_c.c
       !||    get_var_user_f_sp   ../engine/source/user_interface/eng_callback_c.c
       !||    get_var_user_i      ../engine/source/user_interface/eng_callback_c.c
-      !||    nvar                ../engine/source/input/nvar.F
       !||====================================================================
       SUBROUTINE UPIDMID_DUM(IERR)
 C-----------------------------------------------
@@ -173,7 +172,6 @@ C
       !||--- calls      -----------------------------------------------------
       !||    get_var_user_f      ../engine/source/user_interface/eng_callback_c.c
       !||    get_var_user_f_sp   ../engine/source/user_interface/eng_callback_c.c
-      !||    nvar                ../engine/source/input/nvar.F
       !||====================================================================
       INTEGER FUNCTION GET_U_PNU(IVAR,IP,K)
 C-----------------------------------------------

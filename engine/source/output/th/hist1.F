@@ -30,7 +30,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    flu_fil_c              ../common_source/tools/input_output/write_routtines.c
       !||    fretitl2               ../engine/source/input/freform.F
       !||    my_ctime               ../engine/source/system/timer_c.c
-      !||    nvar                   ../engine/source/input/nvar.F
       !||    open_c                 ../common_source/tools/input_output/write_routtines.c
       !||    write_c_c              ../common_source/tools/input_output/write_routtines.c
       !||    write_i_c              ../common_source/tools/input_output/write_routtines.c

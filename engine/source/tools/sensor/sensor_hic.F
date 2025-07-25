@@ -25,8 +25,6 @@ C=======================================================================
       !||    sensor_hic     ../engine/source/tools/sensor/sensor_hic.F
       !||--- called by ------------------------------------------------------
       !||    sensor_base    ../engine/source/tools/sensor/sensor_base.F
-      !||--- calls      -----------------------------------------------------
-      !||    nvar           ../engine/source/input/nvar.F
       !||--- uses       -----------------------------------------------------
       !||    groupdef_mod   ../common_source/modules/groupdef_mod.F
       !||    sensor_mod     ../common_source/modules/sensor_mod.F90

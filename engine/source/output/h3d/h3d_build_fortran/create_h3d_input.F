@@ -27,7 +27,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    lech3d                 ../engine/source/output/h3d/h3d_build_fortran/lech3d.F
       !||--- calls      -----------------------------------------------------
       !||    arret                  ../engine/source/system/arret.F
-      !||    nvar                   ../engine/source/input/nvar.F
       !||    wriusc2                ../engine/source/input/wriusc2.F
       !||--- uses       -----------------------------------------------------
       !||    h3d_mod                ../engine/share/modules/h3d_mod.F

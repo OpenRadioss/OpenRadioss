@@ -32,7 +32,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    bconv2                 ../engine/source/ale/ale2d/bconv2.F
       !||    initbuf                ../engine/share/resol/initbuf.F
       !||    my_barrier             ../engine/source/system/machine.F
-      !||    nvar                   ../engine/source/input/nvar.F
       !||    spmd_e1vois            ../engine/source/mpi/fluid/spmd_cfd.F
       !||    varcondec              ../engine/source/interfaces/interf/varcondec.F
       !||--- uses       -----------------------------------------------------

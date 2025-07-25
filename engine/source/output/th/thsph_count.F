@@ -24,8 +24,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    thsph_count   ../engine/source/output/th/thsph_count.F
       !||--- called by ------------------------------------------------------
       !||    init_th       ../engine/source/output/th/init_th.F
-      !||--- calls      -----------------------------------------------------
-      !||    nvar          ../engine/source/input/nvar.F
       !||====================================================================
       SUBROUTINE THSPH_COUNT(NTHGRP2, ITHGRP, WA_SIZE, INDEX_WA_SPH, 
      .                       IPARG  , ITHBUF ,SITHBUF)

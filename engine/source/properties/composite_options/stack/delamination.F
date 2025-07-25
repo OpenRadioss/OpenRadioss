@@ -28,7 +28,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    delm01law      ../engine/source/properties/composite_options/stack/delm01law.F
       !||    delm02law      ../engine/source/properties/composite_options/stack/delm02law.F
       !||    delm24law      ../engine/source/properties/composite_options/stack/delm24law.F
-      !||    nvar           ../engine/source/input/nvar.F
       !||--- uses       -----------------------------------------------------
       !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
       !||    mat_elem_mod   ../common_source/modules/mat_elem/mat_elem_mod.F90

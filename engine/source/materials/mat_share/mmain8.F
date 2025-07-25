@@ -41,7 +41,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    m3law8                ../engine/source/materials/mat/mat003/m3law8.F
       !||    meos8                 ../engine/source/materials/mat_share/meos8.F
       !||    mulaw8                ../engine/source/materials/mat_share/mulaw8.F90
-      !||    nvar                  ../engine/source/input/nvar.F
       !||    put_etfac             ../engine/source/elements/solid/solide8z/put_etfac.F
       !||    startime              ../engine/source/system/timer_mod.F90
       !||    stoptime              ../engine/source/system/timer_mod.F90

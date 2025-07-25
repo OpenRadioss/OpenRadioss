@@ -28,7 +28,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    ancmsg                 ../engine/source/output/message/message.F
       !||    arret                  ../engine/source/system/arret.F
       !||    fredec_8key_i          ../engine/source/input/fredec_8key_i.F
-      !||    nvar                   ../engine/source/input/nvar.F
       !||    state_init             ../common_source/modules/output/state_file_mod.F90
       !||    wriusc2                ../engine/source/input/wriusc2.F
       !||--- uses       -----------------------------------------------------

@@ -100,6 +100,7 @@
       !||    fill_voxel_local                         ../engine/source/interfaces/intsort/fill_voxel.F90
       !||    fill_voxel_local_partial                 ../engine/source/interfaces/intsort/fill_voxel.F90
       !||    fill_voxel_remote                        ../engine/source/interfaces/intsort/fill_voxel.F90
+      !||    finter_mixed_mod                         ../engine/source/tools/finter_mixed.F90
       !||    force                                    ../engine/source/loads/general/force.F90
       !||    fpcont2_max_output                       ../engine/source/output/h3d/h3d_results/fpcont2_max_output.F90
       !||    fpcont2_min_output                       ../engine/source/output/h3d/h3d_results/fpcont2_min_output.F90

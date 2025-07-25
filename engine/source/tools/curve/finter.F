@@ -24,8 +24,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||====================================================================
       !||    finter                       ../engine/source/tools/curve/finter.F
       !||--- called by ------------------------------------------------------
-      !||    airbaga                      ../engine/source/airbag/airbag1.F
-      !||    airbaga1                     ../engine/source/airbag/airbaga1.F
       !||    alefvm_grav_init             ../engine/source/ale/alefvm/alefvm_grav_init.F
       !||    cfield_1                     ../engine/source/loads/general/load_centri/cfield.F
       !||    cfield_imp                   ../engine/source/loads/general/load_centri/cfield_imp.F
@@ -78,18 +76,13 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    fail_tensstrain_s            ../engine/source/materials/fail/tensstrain/fail_tensstrain_s.F
       !||    fail_visual_b                ../engine/source/materials/fail/visual/fail_visual_b.F90
       !||    fail_visual_ib               ../engine/source/materials/fail/visual/fail_visual_ib.F90
+      !||    finter_mixed_mod             ../engine/source/tools/finter_mixed.F90
       !||    fixflux                      ../engine/source/constraints/thermic/fixflux.F
       !||    force                        ../engine/source/loads/general/force.F90
       !||    forcefingeo                  ../engine/source/loads/general/forcefingeo.F
       !||    forcepinch                   ../engine/source/loads/general/forcepinch.F
       !||    frictionparts_model_isot     ../engine/source/interfaces/int07/frictionparts_model.F
-      !||    fv_up_switch                 ../engine/source/airbag/fv_up_switch.F
-      !||    fvbag1                       ../engine/source/airbag/fvbag1.F
-      !||    fvinjt6                      ../engine/source/airbag/fvinjt6.F
-      !||    fvinjt8                      ../engine/source/airbag/fvinjt8.F
-      !||    fxbodfp2                     ../engine/source/constraints/fxbody/fxbodfp.F
       !||    fxgrvcor                     ../engine/source/constraints/fxbody/fxgrvcor.F
-      !||    get_preload_axial            ../engine/source/elements/spring/preload_axial.F90
       !||    gravit                       ../engine/source/loads/general/grav/gravit.F
       !||    gravit_fvm_fem               ../engine/source/loads/general/grav/gravit_fvm_fem.F
       !||    gravit_imp                   ../engine/source/loads/general/grav/gravit_imp.F
@@ -184,10 +177,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    sigeps95                     ../engine/source/materials/mat/mat095/sigeps95.F
       !||    sms_gravit                   ../engine/source/ams/sms_gravit.F
       !||    thermexpc                    ../engine/source/materials/mat_share/thermexpc.F
-      !||    volp_lfluid                  ../engine/source/airbag/volp_lfluid.F
-      !||    volpfv                       ../engine/source/airbag/volpfv.F
-      !||    volpre                       ../engine/source/airbag/volpres.F
-      !||    volprep                      ../engine/source/airbag/volpresp.F
       !||====================================================================
         my_real FUNCTION FINTER(IFUNC,XX,NPF,TF,DERI)
 !$COMMENT

@@ -338,6 +338,8 @@
       !||    wrcomip                            ../starter/source/restart/ddsplit/wrcommp.F
       !||    write_sensors                      ../engine/source/output/restart/write_sensors.F
       !||    wrrestp                            ../engine/source/output/restart/wrrestp.F
+      !||--- calls      -----------------------------------------------------
+      !||    nvar                               ../common_source/input/nvar.F
       !||--- uses       -----------------------------------------------------
       !||    names_and_titles_mod               ../common_source/modules/names_and_titles_mod.F
       !||    precision_mod                      ../common_source/modules/precision_mod.F90

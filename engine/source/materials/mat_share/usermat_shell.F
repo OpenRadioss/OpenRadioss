@@ -71,7 +71,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    fail_wind_xfem               ../engine/source/materials/fail/alter/fail_wind_xfem.F
       !||    m25delam                     ../engine/source/materials/mat/mat025/m25delam.F
       !||    nolib_usermat99              ../engine/source/user_interface/nolib_usermat99.F
-      !||    nvar                         ../engine/source/input/nvar.F
       !||    putsignorc3                  ../engine/source/elements/shell/coqueba/cmatc3.F
       !||    rotos4                       ../engine/source/materials/mat_share/rotos4.F
       !||    rotov                        ../engine/source/airbag/roto.F

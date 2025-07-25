@@ -27,7 +27,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- calls      -----------------------------------------------------
       !||    copy_python_function   ../common_source/modules/python_mod.F90
       !||    fretitl2               ../engine/source/input/freform.F
-      !||    nvar                   ../engine/source/input/nvar.F
       !||    read_db                ../common_source/tools/input_output/read_db.F
       !||    read_dpdb              ../common_source/tools/input_output/read_db.F
       !||    read_i_c               ../common_source/tools/input_output/write_routtines.c

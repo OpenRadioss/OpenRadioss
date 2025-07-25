@@ -142,7 +142,6 @@
       !||    mrotens                ../engine/source/materials/mat_share/mrotens.F
       !||    mtheta                 ../engine/source/materials/mat_share/mtheta.F
       !||    mulaw                  ../engine/source/materials/mat_share/mulaw.F90
-      !||    nvar                   ../engine/source/input/nvar.F
       !||    put_etfac              ../engine/source/elements/solid/solide8z/put_etfac.F
       !||    putsignor3             ../engine/source/elements/solid/solide8z/putsignor3.F
       !||    sboltlaw               ../engine/source/elements/solid/solide/sboltlaw.F

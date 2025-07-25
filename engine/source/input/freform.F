@@ -60,7 +60,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    h3d_ini                  ../engine/source/output/h3d/h3d_build_fortran/h3d_ini.F
       !||    h3d_read                 ../engine/source/output/h3d/h3d_build_fortran/h3d_read.F
       !||    init_idel_brick          ../engine/source/modules/dt_mod.F
-      !||    nvar                     ../engine/source/input/nvar.F
       !||    open_f_scratch_file      ../engine/source/system/open_tempfile.F
       !||    rdele                    ../engine/source/input/rdele.F
       !||    redkey0                  ../engine/source/input/redkey0.F
