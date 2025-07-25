@@ -241,11 +241,11 @@ C------------------------
       ELSE                                                     
        IF (IECROU/=5) THEN                                   
         WRITE(IOUT,1400)IG,(GEO(J),J=1,3),IFUNC,LSCALE,IFUNC2,F,IECROU, 
-     .                A,B,D,E,IFV,GF3,IFUNC3,DN,DX,ISENS,IFL,ILENG,FRIC,   
+     .                A,B,D,E,IFV,GF3,IFUNC3,DN,DX,ABS(ISENS),IFL,ILENG,FRIC,   
      .                FTAB_ID,IFRIC,YSCALEF,XSCALEF,FMIN,FMAX
        ELSE                                                    
         WRITE(IOUT,1500)IG,(GEO(J),J=1,3),IFUNC,LSCALE,IFUNC2,F,IECROU, 
-     .                A,B,D,E,IFV,GF3,IFUNC3,DN,DX,ISENS,IFL,ILENG,FRIC,
+     .                A,B,D,E,IFV,GF3,IFUNC3,DN,DX,ABS(ISENS),IFL,ILENG,FRIC,
      .                FTAB_ID,IFRIC,YSCALEF,XSCALEF,FMIN,FMAX
        ENDIF                                                   
       ENDIF                                               
