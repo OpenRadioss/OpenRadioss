@@ -92,7 +92,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       SUBROUTINE LECH3D(GEO,IGEO,IPM,IPART,H3D_DATA,MULTI_FVM,IPARI,IPARG,TAG_SKINS6,
      .                  MDS_LABEL,MDS_OUTPUT_TABLE,MDS_NMAT,MAX_DEPVAR,MDS_NDEPSVAR,
      .                  ELBUF_STR,STACK,IBCL,ILOADP,LLOADP,LOADS,MAT_PARAM,PBLAST,
-     .                  IGRPART)
+     .                  IGRPART,NPC,TF,SNPC,STF)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -142,6 +142,9 @@ C-----------------------------------------------
         TYPE (MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(INOUT) :: MAT_PARAM
         TYPE (PBLAST_) :: PBLAST
         TYPE(GROUP_)  ,DIMENSION(NGRPART) ,INTENT(IN) :: IGRPART
+        INTEGER ,INTENT(IN) :: SNPC,STF
+        INTEGER ,INTENT(IN) :: NPC(SNPC)
+        my_real ,INTENT(IN) :: TF(STF)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -169,7 +172,7 @@ C-----------------------------------------------
      .          IS_MODEL_NPT,IS_MODEL_PLY,IS_MODEL_LAYER,ISKIND,IOUTER,IPEXT,
      .          IS_ID,ID,ID_MAX,IS_ID_ALL,NINEFRIC,N19,IFAIL,CPT_IRUP,CPT_IRUP2,
      .          IS_MODE,MODE,MODE_MAX,IS_MODE_ALL,NFAIL,NIP_PLY_MAX,NIP_ELEM_MAX,
-     .          ITYP,ID_DEF,NBC,DUM,NDEF,IS_MEMB
+     .          ITYP,ID_DEF,NBC,DUM,NDEF,IS_MEMB,OK,DTFCT,JJ
         INTEGER MLW,NEL,NG,JTURB,NLAY,NUVAR,IPLY,IMAT,ISUBSTACK,ID_PLY_TMP
         INTEGER CPT_MOD,NMOD,CPT_LAWID,SIZE_INPUT
         INTEGER IERROR  ! Error value from Allocate
@@ -229,9 +232,57 @@ c
         CHARACTER*64 TEST_CHAIN
         CHARACTER(LEN=NCHARTITLE), DIMENSION(:),   ALLOCATABLE :: FAIL_NAME
         CHARACTER(LEN=NCHARTITLE), DIMENSION(:,:), ALLOCATABLE :: MODNAME
+        my_real DYDX
+        my_real,EXTERNAL  :: FINTER
 C=========================================================================
+        IF(H3D_DATA%NB_H3D_FRAME >0.AND.H3D_DATA%DTH3D_FCT_ID==0) THEN 
+          IF(H3D_DATA%TH3D_STOP0 >ZERO.AND.H3D_DATA%TH3D_STOP0 /= EP20.AND.H3D_DATA%TH3D0 > ZERO) THEN
+             H3D_DATA%DTH3D0  = (H3D_DATA%TH3D_STOP0 - H3D_DATA%TH3D0) / H3D_DATA%NB_H3D_FRAME
+          ELSEIF(H3D_DATA%TH3D_STOP0 >ZERO.AND. H3D_DATA%TH3D_STOP0 /= EP20) THEN
+             H3D_DATA%DTH3D0  = (H3D_DATA%TH3D_STOP0-TT) / H3D_DATA%NB_H3D_FRAME
+          ELSEIF(H3D_DATA%TH3D0 >ZERO) THEN
+             H3D_DATA%DTH3D0  = (TSTOP-H3D_DATA%TH3D0) / H3D_DATA%NB_H3D_FRAME
+          ELSE
+             H3D_DATA%DTH3D0  = (TSTOP-TT) / H3D_DATA%NB_H3D_FRAME
+          ENDIF
+
+            IF (H3D_DATA%DTH3D0 <= ZERO) THEN
+               CALL ANCMSG(MSGID=293,ANMODE=ANINFO,c1='H3D',c2='H3D')
+               CALL ARRET(0)
+            ENDIF
+        ENDIF
+
+        OK = 0
+        DTFCT = 0
+        IF (H3D_DATA%DTH3D_FCT_ID > 0) THEN    
+           DO JJ=1,NFUNCT                     
+              IF(H3D_DATA%DTH3D_FCT_ID == NPC(NFUNCT+2+JJ-1)) THEN  
+                 DTFCT=JJ                
+                 OK = 1               
+                 EXIT                    
+              ENDIF                           
+           ENDDO   
+           IF (OK == 0) THEN                                                   
+                CALL ANCMSG(MSGID=315,            
+     .                  MSGTYPE=MSGERROR,        
+     .                  ANMODE=ANINFO_BLIND_1,   
+     .                  C1='H3D',                 
+     .                  I2=H3D_DATA%DTH3D_FCT_ID)          
+            ENDIF
+            IF (OK >0) H3D_DATA%DTH3D_FCT_ID = DTFCT
+
+            IF(H3D_DATA%DTH3D_FCT_ID > 0) THEN
+              H3D_DATA%DTH3D0  =  FINTER(H3D_DATA%DTH3D_FCT_ID,ZERO,NPC,TF,DYDX)   
+            ENDIF
+
+            IF (H3D_DATA%DTH3D0 <= ZERO) THEN
+               CALL ANCMSG(MSGID=293,ANMODE=ANINFO,c1='H3D',c2='H3D')
+               CALL ARRET(0)
+            ENDIF
+        ENDIF
+
         IF(H3D_DATA%TH3D0 /= ZERO)  H3D_DATA%TH3D = H3D_DATA%TH3D0
-        IF(H3D_DATA%TH3D_STOP0 /= EP20)  H3D_DATA%TH3D_STOP = H3D_DATA%TH3D_STOP0
+        IF(H3D_DATA%TH3D_STOP0/=ZERO .AND. H3D_DATA%TH3D_STOP0 /= EP20)  H3D_DATA%TH3D_STOP = H3D_DATA%TH3D_STOP0
         IF(H3D_DATA%DTH3D0 > ZERO) H3D_DATA%DTH3D= H3D_DATA%DTH3D0
         IF(H3D_DATA%DTH3D <= ZERO)  THEN
           H3D_DATA%TH3D = EP30
