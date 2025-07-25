@@ -55,7 +55,6 @@ bool CwipiCouplingAdapter::configure(const std::string& configFile) {
      //  /CWIPI/COUPLED_APP_NAME/SolverTwo
      //  /CWIPI/READ/FORCES
      //  /CWIPI/WRITE/POSITIONS
-     //  /CWIPI/GRNOD/6
      //  /CWIPI/SURF/8
     std::cout << "Configuring CwipiCouplingAdapter with file: " << configFile << std::endl;
     std::ifstream file(configFile);
@@ -137,6 +136,7 @@ bool CwipiCouplingAdapter::configure(const std::string& configFile) {
  //               std::cout << "Setting writeData_[" << static_cast<size_t>(dataType) 
  //                         << "].isActive to true for data type " << value << std::endl;
             } else if (key == "GRNOD") {
+                // should not be used, interface should be defined by /CWIPI/SURF instead of a grnod with cwipi
                 setGroupNodeId(std::stoi(value));
                 std::cout << "Setting group_node_id_ to " << value << std::endl;
             }
@@ -223,6 +223,9 @@ bool CwipiCouplingAdapter::initialize(const double* coordinates, int totalNodes,
         // 4. Define mesh
         if (order_ == 1) {
             std::cout << "Defining CWIPI mesh with linear elements." << std::endl;
+            // couplingNodeIds_.size() should be equal to meshVertices.size() / 3
+            //std::cout << "Number of coupling nodes: " << couplingNodeIds_.size() 
+            //          << ", Number of mesh vertices: " << meshVertices.size() / 3 << std::endl;
             cwipi_define_mesh(couplingName_.c_str(),
                              couplingNodeIds_.size(),
                              numElements_,

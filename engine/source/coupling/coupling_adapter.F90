@@ -433,6 +433,9 @@
             enddo
           enddo
           call coupling_adapter_set_mesh(coupling%adapter_ptr, connectIndex, connec, surf%NSEG)
+          coupling%nb_coupling_nodes = counter
+          call coupling_adapter_set_nodes(coupling%adapter_ptr, node_id, counter)
+          
         end subroutine 
 
       !||====================================================================
@@ -469,13 +472,14 @@
 !------------------------------------------------------------------------------------------------------------------------
           surface_id = coupling_adapter_get_surface_id(coupling%adapter_ptr)
           ! convert global user surface ID to local surface ID
+          coupling%surface_id = 0
           do i = 1,nsurf
             if(surface_id == surf(i)%id) then
               coupling%surface_id= i 
               call coupling_set_mesh(coupling, surf(i), nodes)
             end if
           enddo
-          call coupling_set_nodes(coupling, igrnod, ngrnod)
+          if(coupling%surface_id == 0) call coupling_set_nodes(coupling, igrnod, ngrnod)
         end subroutine coupling_set_interface
       
 
