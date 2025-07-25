@@ -135,7 +135,7 @@ C
                 READ(UNIT=tmp_engine, FMT='(A)', IOSTAT=IO_ERR2) CARTE
                 IF(CARTE(1:1) == '/') THEN 
                   BACKSPACE(tmp_engine)
-                ELSE
+                ELSE IF(CARTE(1:1) /= '#') THEN
                   ALLOCATE(GRPART_TMP(NVAR(CARTE)))
                   READ(CARTE, FMT=*) GRPART_TMP
                   DO J=1,NVAR(CARTE)
@@ -238,7 +238,7 @@ C
                 READ(UNIT=tmp_engine, FMT='(A)', IOSTAT=IO_ERR2) CARTE
                 IF(CARTE(1:1) == '/') THEN 
                   BACKSPACE(tmp_engine)
-                ELSE
+                ELSE IF(CARTE(1:1) /= '#') THEN
                   ALLOCATE(GRPART_TMP(NVAR(CARTE)))
                   READ(CARTE, FMT=*) GRPART_TMP
                   DO J=1,NVAR(CARTE)
