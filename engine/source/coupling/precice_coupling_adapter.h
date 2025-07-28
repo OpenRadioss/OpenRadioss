@@ -75,6 +75,15 @@ private:
     // Helper functions
     void extractNodeData(const double* globalValues, int totalNodes, int dataType);
     void injectNodeData(double* globalValues, int totalNodes, int dataType);
+    
+    // Static helper for bounds checking
+    static constexpr int getDimensions() noexcept { return 3; }
+    
+private:
+    static bool isNodeIdValid(int nodeId, int totalNodes) noexcept {
+        const auto idx = nodeId - 1; // Convert to 0-based indexing
+        return idx >= 0 && idx < totalNodes;
+    }
 };
 
 #endif
