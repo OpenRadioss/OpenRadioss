@@ -23,12 +23,9 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
-#include <set>
 
-// define the type ghosts as a vector<vector<int>>
-typedef std::vector<std::vector<int>> ghosts;
-
-// Fortran callable functions
+// Type alias for ghost shells data structure
+using Ghosts = std::vector<std::vector<int>>;
 
 bool is_shell_ghost_on_proc(
     int shell_index, // Index of the shell
@@ -39,14 +36,16 @@ bool is_shell_ghost_on_proc(
     int max_node_id) // Maximum node ID
 {
     // A shell should be included if at least one of its nodes has mask == 1
-    for (int j = 0; j < 4; j++)
+    constexpr int nodes_per_shell = 4;
+
+    for (int j = 0; j < nodes_per_shell; ++j)
     {
-        const int node_id = shells[shell_index * 4 + j];
+        const int node_id = shells[shell_index * nodes_per_shell + j];
         if (node_id > 0 && node_id <= max_node_id)
         {
             // For a Fortran array mask(nspmd,numnodes)
             // Access mask(p,node_id) as mask[(node_id-1)*nspmd + (p)]
-            int mask_index = (node_id - 1) * nspmd + process_id;
+            const int mask_index = (node_id - 1) * nspmd + process_id;
             if (mask[mask_index] == 1)
             {
                 return true; // Found at least one node with mask == 1
@@ -58,121 +57,121 @@ bool is_shell_ghost_on_proc(
 
 extern "C"
 {
-    // function build_ghosts(shells,nb_shells,mask,nspmd) result(c) bind(C,name="cpp_build_ghosts")
-
-    ghosts *cpp_build_ghosts(
+    Ghosts *cpp_build_ghosts(
         int *shells, // 4 x nb_shells array : node id of the shells
         int nb_shells,
-        int *mask, // nspmd x nb_shells array: 1 => shell is to be considered
+        int *mask, // nspmd x numnod array: 1 => node belongs to process
         int nspmd,
         int numnod)
     {
-        ghosts *c = new ghosts(nspmd);
-        // find the maximum node id in the array shells of size 4 x nb_shells
-        int max_node_id = numnod;
-        // find the maximum value in the shell array of size 4 x nb_shells
-        for (int i = 0; i < nb_shells; i++)
+        if (!shells || !mask || nb_shells < 0 || nspmd <= 0 || numnod <= 0)
         {
-            for (int p = 0; p < nspmd; p++)
+            return nullptr;
+        }
+
+        auto *ghost_data = new Ghosts(nspmd);
+        const int max_node_id = numnod;
+
+        // Build ghost shell lists for each process
+        for (int shell_idx = 0; shell_idx < nb_shells; ++shell_idx)
+        {
+            for (int process_idx = 0; process_idx < nspmd; ++process_idx)
             {
-                if (is_shell_ghost_on_proc(i, p, shells, mask, nspmd, max_node_id))
+                if (is_shell_ghost_on_proc(shell_idx, process_idx, shells, mask, nspmd, max_node_id))
                 {
-                    (*c)[p].push_back(i+1);
+                    (*ghost_data)[process_idx].push_back(shell_idx + 1); // Convert to 1-based for Fortran
                 }
             }
         }
+
+        // Remove duplicates from each process's shell list
         if (nb_shells > 0)
         {
-            // remove duplicates from the vector
-            for (int p = 0; p < nspmd; p++)
+            for (int process_idx = 0; process_idx < nspmd; ++process_idx)
             {
-                std::sort((*c)[p].begin(), (*c)[p].end());
-                auto new_end = std::unique((*c)[p].begin(), (*c)[p].end());
-                (*c)[p].erase(new_end, (*c)[p].end());
+                auto &shell_list = (*ghost_data)[process_idx];
+                std::sort(shell_list.begin(), shell_list.end());
+                auto new_end = std::unique(shell_list.begin(), shell_list.end());
+                shell_list.erase(new_end, shell_list.end());
             }
         }
 
-        return c;
+        return ghost_data;
     }
 
     int *cpp_get_shells_list(void *c, int pc, int *n)
     {
-        // p is the process id
-        // n is the size of the shell list [out]
-        ghosts *rc = static_cast<ghosts *>(c);
+        if (!c || !n)
+        {
+            if (n)
+                *n = 0;
+            return nullptr;
+        }
 
+        auto *ghost_data = static_cast<Ghosts *>(c);
+        const int process_idx = pc - 1; // Fortran to C index conversion
 
-        const int p = pc - 1; // Fortran to C index conversion
-        if (c == nullptr)
+        // Check bounds
+        if (process_idx < 0 || process_idx >= static_cast<int>(ghost_data->size()))
         {
             *n = 0;
             return nullptr;
         }
-        // Check if p is within bounds
-        if (p < 0 || p >= rc->size())
-        {
-            // Out of bounds, return empty result
-            *n = 0;
-            return nullptr;
-        }
 
-        *n = (*rc)[p].size();
-        if (*n == 0)
-        {
-            return nullptr;
-        }
-        else
-        {
-            // return the pointer to data
-            return (*rc)[p].data();
-        }
+        auto &shell_list = (*ghost_data)[process_idx];
+        *n = static_cast<int>(shell_list.size());
+
+        return *n == 0 ? nullptr : shell_list.data();
     }
 
     int cpp_get_shells_list_size(void *c, int pc)
     {
-        // p is the process id
-        ghosts *rc = static_cast<ghosts *>(c);
-        const int p = pc - 1; // Fortran to C index conversion
-        if (c == nullptr)
+        if (!c)
         {
             return 0;
         }
-        // Check if p is within bounds
-        if (p < 0 || p >= rc->size())
+
+        auto *ghost_data = static_cast<Ghosts *>(c);
+        const int process_idx = pc - 1; // Fortran to C index conversion
+
+        // Check bounds
+        if (process_idx < 0 || process_idx >= static_cast<int>(ghost_data->size()))
         {
             return 0;
         }
-        return (*rc)[p].size();
+
+        return static_cast<int>((*ghost_data)[process_idx].size());
     }
 
-    void cpp_copy_shells_list(void *c, int pc, int *shells,int n)
+    void cpp_copy_shells_list(void *c, int pc, int *shells, int n)
     {
-        // p is the process id
-        ghosts *rc = static_cast<ghosts *>(c);
-        const int p = pc - 1; // Fortran to C index conversion
-        if (c == nullptr)
+        if (!c || !shells)
         {
             return;
         }
-        // Check if p is within bounds
-        if (p < 0 || p >= rc->size())
+
+        auto *ghost_data = static_cast<Ghosts *>(c);
+        const int process_idx = pc - 1; // Fortran to C index conversion
+
+        // Check bounds
+        if (process_idx < 0 || process_idx >= static_cast<int>(ghost_data->size()))
         {
             return;
         }
-        // copy the shells list to the array shells
-        std::copy((*rc)[p].begin(), (*rc)[p].end(), shells);
+
+        // Copy the shells list to the output array
+        const auto &shell_list = (*ghost_data)[process_idx];
+        std::copy(shell_list.begin(), shell_list.end(), shells);
     }
 
     void cpp_destroy_ghosts(void *c)
     {
-        // destroy the ghosts object
-        ghosts *rc = static_cast<ghosts *>(c);
-        // free each vector in the ghosts
-        for (auto &vec : *rc)
+        if (!c)
         {
-            vec.clear();
+            return;
         }
-        // free the ghosts object
-        delete rc;
+
+        auto *ghost_data = static_cast<Ghosts *>(c);
+        delete ghost_data;
     }
 }
