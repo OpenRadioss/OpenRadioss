@@ -59,13 +59,13 @@ C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
 C
-C ancienne numerotation des nouveaux candidats
+C old numbering of new candidates
 C
       DO I = 1, NSNR 
         OLDNUM(I) = 0
       END DO
       DO I = 1, NSNROLD
-        IF(RENUM(I)>0)        ! cas elt non penetre et non retenu
+        IF(RENUM(I)>0)        ! case non-penetrated and non-retained element
      +    OLDNUM(RENUM(I)) = I
       END DO
 C
@@ -126,7 +126,7 @@ C-----------------------------------------------
             J = J + 1
           ELSEIF(NINT(XREM(4,J+JDEB))>
      +           NSVFI(NIN)%P(I+IDEB)) THEN
-Cas candidat non penetre et non retenu
+Case non-penetrated and non-retained candidate
             I = I + 1
           END IF
         END DO
@@ -134,7 +134,7 @@ Cas candidat non penetre et non retenu
         IDEB = IDEB + NSNFIOLD(P)
       END DO
 C
-C renumerotation des anciens candidats suivant les nouveaux no
+C renumbering of old candidates according to new numbers
 C
       DO I = 1, I_STOK
         NI = CAND_N(I)
@@ -203,7 +203,7 @@ C-----------------------------------------------
             J = J + 1
           ELSEIF(IREM(1,J+JDEB)>
      +           NSVFI(NIN)%P(I+IDEB)) THEN
-Cas candidat non penetre et non retenu
+Case non-penetrated and non-retained candidate
             I = I + 1
           END IF
         END DO
@@ -211,7 +211,7 @@ Cas candidat non penetre et non retenu
         IDEB = IDEB + NSNFIOLD(P)
       END DO
 C
-C renumerotation des anciens candidats suivant les nouveaux no
+C renumbering of old candidates according to new numbers
 C
       DO I = 1, I_STOK
         NI = CAND_N(I)
@@ -283,7 +283,7 @@ C-----------------------------------------------
             J = J + 1
           ELSEIF(IREM(1,J+JDEB)>
      +           NSVFI(NIN)%P(I+IDEB)) THEN
-Cas candidat non penetre et non retenu
+Case non-penetrated and non-retained candidate
             I = I + 1
           END IF
         END DO
@@ -292,7 +292,7 @@ Cas candidat non penetre et non retenu
         IDEB = IDEB + NSNFIOLD(P)
       END DO
 C
-C renumerotation des anciens candidats suivant les nouveaux no
+C renumbering of old candidates according to new numbers
 C
       DO I = 1, I_STOK
         NI = CAND_N(I)
@@ -363,7 +363,7 @@ C-----------------------------------------------
             J = J + 1
           ELSEIF(IREM(1,J+JDEB)>
      +           NSVFI(NIN)%P(I+IDEB)) THEN
-Cas candidat non penetre et non retenu
+Case non-penetrated and non-retained candidate
             I = I + 1
           END IF
         END DO
@@ -429,7 +429,7 @@ C-----------------------------------------------
             J = J + 1
           ELSEIF(IREM(1,J+JDEB)>
      +           NSVFI(NIN)%P(I+IDEB)) THEN
-Cas candidat non penetre et non retenu
+Case non-penetrated and non-retained candidate
             I = I + 1
           END IF
         END DO
@@ -437,7 +437,7 @@ Cas candidat non penetre et non retenu
         IDEB = IDEB + NSNFIOLD(P)
       END DO
 C
-C renumerotation des anciens candidats suivant les nouveaux no
+C renumbering of old candidates according to new numbers
 C
       DO I = 1, I_STOK
         NI = CAND_N(I)
@@ -637,7 +637,7 @@ C     Sections
          ENDIF
 C     
          IF((IBAG/=0.AND.INACTI/=7).OR.
-     .        (IADM/=0).OR.(IDAMP_RDOF/=0)) THEN ! attention conflit inacti=7 et ibag=3
+     .        (IADM/=0).OR.(IDAMP_RDOF/=0)) THEN ! warning conflict inacti=7 and ibag=3
 C     Airbags IBAG
             DO I = 1, NB
                IF(BUFR(2,I)/=ZERO.OR.BUFR(3,I)/=ZERO.OR.
@@ -833,7 +833,7 @@ C-----------------------------------------------
        ENDIF
       ENDIF
 C
-C suite traitement i11for3 sur noeud secnd
+C continue i11for3 processing on secondary node
 C
       IF(INCONV == 1) THEN
        IF((ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT >0.AND.
@@ -1108,7 +1108,7 @@ C
           FROTS(4,NN) = FROTS(4,NN) + BUFR(69,I)                       
         ENDDO
 C
-C suite traitement i11for3 sur noeud secnd
+C continue i11for3 processing on secondary node
 C
       IF((ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT >0.AND.
      .   ((TT>=TANIM .AND. TT<=TANIM_STOP).OR.TT>=TOUTP.OR.(TT>=H3D_DATA%TH3D.AND.TT<=H3D_DATA%TH3D_STOP).OR.
@@ -1432,7 +1432,7 @@ C Sections
       ENDIF
 C
       IF((IBAG/=0.AND.INACTI/=7).OR.
-     .   IADM/=0)THEN ! attention conflit inacti=7 et ibag=3
+     .   IADM/=0)THEN ! warning conflict inacti=7 and ibag=3
 C Airbags IBAG
         DO I = 1, NB
           IF(BUFR(2,I)/=ZERO.OR.BUFR(3,I)/=ZERO.OR.
@@ -1646,7 +1646,7 @@ C Traitement interface type20
        ENDIF
 C
 C
-C suite traitement i7for3 et i10for3 sur noeud secnd
+C continue i7for3 and i10for3 processing on secondary node
 C
       IF((ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT >0.AND.
      .   ((TT>=TANIM .AND. TT<=TANIM_STOP).OR.TT>=TOUTP.OR.(TT>=H3D_DATA%TH3D.AND.TT<=H3D_DATA%TH3D_STOP).OR.
@@ -1886,7 +1886,7 @@ C
 
 
 C
-C suite traitement i7for3 et i10for3 sur noeud secnd
+C continue i7for3 and i10for3 processing on secondary node
 C
       IF((ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT >0.AND.
      .   ((TT>=TANIM .AND. TT<=TANIM_STOP).OR.TT>=TOUTP.OR.(TT>=H3D_DATA%TH3D.AND.TT<=H3D_DATA%TH3D_STOP).OR.
@@ -1955,7 +1955,7 @@ C Sections
       ENDIF
 C
       IF((IBAG/=0.AND.INACTI/=7).OR.
-     .   (IADM/=0).OR.(IDAMP_RDOF/=0))THEN ! attention conflit inacti=7 et ibag=3
+     .   (IADM/=0).OR.(IDAMP_RDOF/=0))THEN ! warning conflict inacti=7 and ibag=3
 C Airbags IBAG   
         DO I = 1, NB
           IF(BUFR(2,I)/=ZERO.OR.BUFR(3,I)/=ZERO.OR.
@@ -2072,7 +2072,7 @@ C
          ENDDO
        ENDIF
 C
-C --- interface type 7 + la thermique
+C --- interface type 7 + thermal
 C
       ELSE
        IF(KDTINT==0)THEN
@@ -2103,7 +2103,7 @@ C
         ENDIF
        ENDIF       
 C
-C suite traitement i7for3 et i10for3 sur noeud secnd
+C continue i7for3 and i10for3 processing on secondary node
 C
       IF((ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT >0.AND.
      .   ((TT>=TANIM .AND. TT<=TANIM_STOP).OR.TT>=TOUTP.OR.(TT>=H3D_DATA%TH3D.AND.TT<=H3D_DATA%TH3D_STOP).OR.
@@ -2148,7 +2148,7 @@ C Sections
       ENDIF
 C
       IF((IBAG/=0.AND.INACTI/=7).OR.
-     .   IADM/=0)THEN ! attention conflit inacti=7 et ibag=3
+     .   IADM/=0)THEN ! warning conflict inacti=7 and ibag=3
 C Airbags IBAG
         DO I = 1, NB
           IF(BUFR(2,I)/=ZERO.OR.BUFR(3,I)/=ZERO.OR.
@@ -2379,7 +2379,7 @@ C-----------------------------------------------
        ENDIF
       ENDIF
 C
-C suite traitement i11for3 sur noeud secnd
+C continue i11for3 processing on secondary node
 C
       IF((ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT >0.AND.
      .   ((TT>=TANIM .AND. TT<=TANIM_STOP).OR.TT>=TOUTP.OR.(TT>=H3D_DATA%TH3D.AND.TT<=H3D_DATA%TH3D_STOP).OR.
@@ -2618,7 +2618,7 @@ C-----------------------------------------------
         ENDDO
       ENDIF
 C
-C suite traitement i11for3 sur noeud secnd
+C continue i11for3 processing on secondary node
 C
       IF((ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT >0.AND.
      .   ((TT>=TANIM .AND. TT<=TANIM_STOP).OR.TT>=TOUTP.OR.(TT>=H3D_DATA%TH3D.AND.TT<=H3D_DATA%TH3D_STOP).OR.
@@ -2893,7 +2893,7 @@ C-----------------------------------------------
 #include      "units_c.inc"
 #include      "warn_c.inc"
 #include      "tabsiz_c.inc"
-C commun local a spmd_init et spmd_ring_mmx
+C common local to spmd_init and spmd_ring_mmx
        COMMON /RING/IRECVF,ISENDT,IRING
        INTEGER IRECVF,ISENDT,IRING
 C-----------------------------------------------
@@ -2945,7 +2945,7 @@ C-----------------------------------------------
       CALL MY_ALLOC(NNSN,NRBYKIN)
 C-----------------------------------------------
 C
-C iexicodt : flag pour envoi icodt en cours de run
+C iexicodt : flag for sending icodt during run
         IEXICODT = 0
 C
         LINDIDEL = 0
@@ -2962,7 +2962,7 @@ C
 C
         !-----------------------------------------------        
         IF(NINTER/=0) THEN
-C Cas INACTI = 5, 6 ou 7 + TSTART
+C Case INACTI = 5, 6 or 7 + TSTART
          ALLOCATE(NSNFI_FLAG(NINTER))
          NSNFI_FLAG(1:NINTER)=0 
 
@@ -3175,7 +3175,7 @@ C
           ENDDO
         ENDIF
 C
-C preparation pour comm dans spmd_icrit
+C preparation for communication in spmd_icrit
 C
         DO K=1,NSPMD
           NNP(K) = IRCVFROM(NINTER+1,K) + ISENDTO(NINTER+1,K)
@@ -7136,7 +7136,7 @@ C-----------------------------------------------
       DO I = 1,LEN
         DATMP(I) = DAANC6(I) + DAANC6L(I)
       END DO
-C 2 boucles pour eviter pb alignement entier dp sur pgi
+C 2 loops to avoid integer dp alignment problem on pgi
       DO I = 1,LEN
         DAANC6(I) = DATMP(I)
       END DO

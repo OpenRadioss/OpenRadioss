@@ -257,12 +257,12 @@ C-----------------------------------------------
       NNODE = NSPMD
 
 C----------------------------------
-C comptage NEDGE global
+C global NEDGE counting
 C----------------------------------
       DO I=1,NUMNOD+1
         ADSKY(I) = 0
       END DO
-C.....memoire necessaire
+C.....necessary memory
       DO 110 K=2,9
         DO 110 I=1,NUMELS
           N = IXS(K,I) + 1
@@ -303,7 +303,7 @@ C
           ADSKY(N) = ADSKY(N) + 1
  150  CONTINUE
 C
-C   traitement a part du 3eme noeud optionnel sauf type 12
+C   separate treatment of optional 3rd node except type 12
       DO K=2,3
         DO I=1,NUMELR
           N = IXR(K,I) + 1
@@ -358,9 +358,9 @@ C
       END IF
 C
 C-----------------------------------------------
-C Optimisation sur elements deletes du _0001.rad
+C Optimization on deleted elements from _0001.rad
 C-----------------------------------------------
-C poids sous forme reel pour compatibilite RSB ancienne
+C weights in real format for old RSB compatibility
       DO I = 1, NELEM
         WD(I) = 0.
       ENDDO
@@ -457,7 +457,7 @@ C   ko sur cray               READ(KEYA,*,END=20)ISH1,ISH2
  20      CONTINUE
          CLOSE(71)
          CLOSE(72)
-C msg sur D01 lu (delete optimise)
+C message on D01 read (delete optimized)
          IF(IDDLEVEL==0) THEN
             WRITE(IOUT,*)' '
             WRITE(IOUT,'(A)')
@@ -465,7 +465,7 @@ C msg sur D01 lu (delete optimise)
          ENDIF
 C
       ELSE
-C msg sur D01 non lu (delete non optimise)
+C message on D01 not read (delete not optimized)
          IF(IDDLEVEL==0) THEN
             WRITE(IOUT,*)' '
             WRITE(IOUT,'(A)')
@@ -475,7 +475,7 @@ C msg sur D01 non lu (delete non optimise)
       ENDIF
 
 C-----------------------------------------------
-C Optimisation sur RBYON du _0000.rad
+C Optimization on RBYON from _0000.rad
 C-----------------------------------------------
       ELEMD_OLD = ELEMD
       ISOLBAR=0
@@ -546,7 +546,7 @@ C
         END IF
       END DO
 C
-C   test pour by-passer la creation du niveau "elem deletes" et eviter cas de plantage si elemd=1
+C   test to bypass creation of "deleted elem" level and avoid crash cases if elemd=1
 C
       IF (NELEM > 0) THEN
        IF(FLOAT(NELEM-ELEMD)/FLOAT(NELEM)>ZEP95) ELEMD = 0
@@ -598,7 +598,7 @@ C-----------------------------------------------
      .  ' ADDITIONAL OPTIMIZATION OF DOMAIN DECOMPOSITION FOR AMS (DOMDEC=7)'
       END IF
 C-----------------------------------------------
-C   CALCUL DE CNE
+C   CNE CALCULATION
 C-----------------------------------------------
 C We have to tag elements for know theirs number of nodes
       ALLOCATE(TAGELEM(NELEM))
@@ -743,13 +743,13 @@ C
       OFFELEM(10)=NUMELIG3D
       OFF = OFF + NUMELIG3D
 C
-C     remise au debut des adresses
+C     reset addresses to beginning
       DO I=NUMNOD+1,2,-1
         ADSKY(I) = ADSKY(I-1)
       END DO
 
       ADSKY(1) = 1
-Calcul des poids en prennant en compte le ratio connectivite
+C Weight calculation taking into account connectivity ratio
 
       ICELEM=1
       ICINTS=0
@@ -854,7 +854,7 @@ c        print *,'n cond=',NK,FLOAT(NUMNOD-NK)/FLOAT(NUMNOD)
       END IF
 C      
       IF(DECTYP==5.OR.DECTYP==6)THEN
-C permutation poids element <=> ddl
+C weight permutation element <=> dof
         NCOND = NCOND+1
         ICDDL=1
         ICELEM=NCOND
@@ -950,11 +950,11 @@ C          ENDIF
       END IF     
 C
       ALLOCATE(RWD(NELEM*NCOND),STAT=IERR1)
-C poids Metis suivant 
+C Metis weights following 
       DO I = 1, NCOND*NELEM
         RWD(I) = 0
       ENDDO
-C   optimisation des poids par defaut
+C   default weight optimization
       CALL INITWG(WD,PM,GEO,IXS,IXQ,
      .            IXC,IXT,IXP,IXR,IXTG,
      .            KXX,IGEO,ISOLNOD,IARCH,
@@ -1041,9 +1041,9 @@ C take care of non connected node
      +                                                     +MIN(DSDOF(N),1)*FAC
              ENDIF
            ENDDO
-cc           IF(ICNOD /= 0) RWD(NCOND*(I-1)+ICNOD) = ONE ! a definir si besoin
+cc           IF(ICNOD /= 0) RWD(NCOND*(I-1)+ICNOD) = ONE ! to define if needed
          ELSE
-cc           IF(ICNOD /= 0) RWD(NCOND*(I-1)+ICNOD) = ONE/FIVE ! a definir si besoin
+cc           IF(ICNOD /= 0) RWD(NCOND*(I-1)+ICNOD) = ONE/FIVE ! to define if needed
          ENDIF
        ELSE
         DO K=1,8
@@ -1076,7 +1076,7 @@ C
 C-----------------------------------------------
 C
       OFF = NUMELS
-C   poids interface = 0 en 2D
+C   interface weight = 0 in 2D
 C
       OFF = OFF + NUMELQ
 C
@@ -1279,12 +1279,12 @@ C
      +                                                      +MIN(DSDOF(N),1)*FAC
           END IF
         ENDDO
-cc        IF(ICNOD /= 0) RWD(NCOND*(I+OFF-1)+ICNOD) = ONE   ! a definir si besoin
+cc        IF(ICNOD /= 0) RWD(NCOND*(I+OFF-1)+ICNOD) = ONE   ! to be defined if needed
       ENDDO
 C
       OFF = OFF + NUMELX
       
-C normalisation des poids interface & dof
+C interface & dof weight normalization
 
       ALLOCATE(IWD(NELEM*NCOND),STAT=IERR1)
 
@@ -1292,7 +1292,7 @@ C normalisation des poids interface & dof
         IWD(I) = 0
       ENDDO
       DO I = 1, NELEM
-C plus besoin de normalisation a 1
+C no longer need normalization to 1
         IF(ICINTS/=0)
      .    IWD(NCOND*(I-1)+ICINTS) = NINT(RWD(NCOND*(I-1)+ICINTS))
         IF(ICINTM/=0)
@@ -1317,7 +1317,7 @@ c     .    IWD(NCOND*(I-1)+ICNOD)= NINT(RWD(NCOND*(I-1)+ICNOD)*10)
 
       DEALLOCATE(RWD)
 
-C.....construction des couples Ei Ej connectes par un point
+C.....construction of Ei Ej pairs connected by a point
 
       NEDGES = 0
       DO N = 1, NUMNOD
@@ -1567,7 +1567,7 @@ C   hierarchy : type 2 before, contact now
         DO II = 1, NELEMINT
           I = INDEX_SORT(II)
           N=INTER_CAND%IXINT(5,I)
-          IF (N<=NUMNOD) THEN  !  POUR LES ELEMENTS ISOGEOMETRIQUES (PARTIE FICTIVE A NE PAS CONSIDERER)
+          IF (N<=NUMNOD) THEN  !  FOR ISOGEOMETRIC ELEMENTS (FICTITIOUS PART NOT TO BE CONSIDERED)
             NUMG1=-1
 C searching for the first connected element not seen
             CEP_MIN = HUGE(CEP_MIN)
@@ -1579,7 +1579,7 @@ C searching for the first connected element not seen
               ENDIF
               IF(CEP_MIN == 0) EXIT
             END DO
-C   initialisation numg2 pour cas ou facette non trouvee (erreur)
+C   initialization numg2 for case where facet not found (error)
             NUMG2=-1
             ITYPINT=ABS(INTER_CAND%IXINT(6,I))
             IF(ITYPINT==7) THEN
@@ -1587,7 +1587,7 @@ C   initialisation numg2 pour cas ou facette non trouvee (erreur)
               N=INTER_CAND%IXINT(1,I)
               N1=INTER_CAND%IXINT(2,I)
               N2=INTER_CAND%IXINT(3,I)
-              IF (N<=NUMNOD) THEN !  POUR LES ELEMENTS ISOGEOMETRIQUES (PARTIE FICTIVE A NE PAS CONSIDERER)
+              IF (N<=NUMNOD) THEN !  FOR ISOGEOMETRIC ELEMENTS (FICTITIOUS PART NOT TO BE CONSIDERED)
                DO I1 = ADSKY(N), ADSKY(N+1)-1
                  NUMG2=ABS(CNE(I1))
                  IF(NUMG2 == NUMG1) THEN
@@ -1727,7 +1727,7 @@ C load-balancing contact force -- incremental needed for multiple interface
 
              ENDIF            
             ENDIF
-          ENDIF ! si element isogeometrique
+          ENDIF ! if isogeometric element
         ENDDO
 
 C ================================================================
@@ -2050,9 +2050,9 @@ C        OPTIONS(8)=1
 C Domain decomposition CRASH ou FSI
         IF(ICFSI==0)THEN
           DO I = 1, NELEM
-C normalisation des poids (elem delete a 0)
+C weight normalization (deleted elem to 0)
             IWD(NCOND*(I-1)+ICELEM) = NINT(WD(I)*100)
-C poids interface deja calcul
+C interface weight already calculated
           END DO
         ELSE
           DO I = 1, NELEM
@@ -2071,10 +2071,10 @@ C poids interface deja calcul
                 IWD(NCOND*(I-1)+ICFSI) = NINT(WD(I)*100)
               END IF
             ELSE
-C normalisation des poids (elem delete a 0)
+C weight normalization (deleted elem to 0)
               IWD(NCOND*(I-1)+ICELEM) = NINT(WD(I)*100)
             END IF
-C poids interface deja calcul
+C interface weight already calculated
           END DO 
         END IF
         IF(ICDEL>0)THEN
@@ -2085,7 +2085,7 @@ C  em delete
             ELSE
               IWD(NCOND*(I-1)+ICDEL) = 0
             END IF
-C poids interface deja calcul
+C interface weight already calculated
           END DO
         END IF
 
@@ -2109,7 +2109,7 @@ C In case of cluster, transfer the weight to the first cluster element
 
 
 C
-C Traitement specifique debordement poids entier
+C Specific treatment for integer weight overflow
 C 
         DO I = 1, NCOND
  1024     CONTINUE
@@ -2139,7 +2139,7 @@ C
         IF(ICDEL/=0)  UBVEC(ICDEL)  = 1.10
         IF(ICCAND/=0) UBVEC(ICCAND) = 1.10
         IF(ICKIN/=0)  UBVEC(ICKIN)  = 1.10
-        IF(ICR2R/=0)  UBVEC(ICR2R) = 1.30  ! weird !!!
+        IF(ICR2R/=0)  UBVEC(ICR2R) = 1.30  
         IF(ICNOD_SMS/=0) UBVEC(ICNOD_SMS) = 1.05
 c        i=0
 c        call METIS_EstimateMemory(NELEM,XADJ,ADJNCY,0,2,I)
@@ -2783,7 +2783,7 @@ C reset XADJ
       ENDIF
 C----------------------    
 C
-C Init poids uniformes
+C Initialize uniform weights
 c init for every SPH cells
 C
       DO N = 1, NUMSPHA
@@ -3232,7 +3232,7 @@ C        Nombre de lignes
          MARQUEUR2 = MARQUEUR2 - 3
 
          MARQUEUR = 0       
-C        Prelecture des poids couple Mat/Prop
+C        Pre-reading of Mat/Prop coupled weights
          OPEN(UNIT=30,FILE=FILNAM(1:LEN_FILNAM),FORM='FORMATTED',
      .     POSITION='REWIND')
          LINE = ' '
@@ -3284,7 +3284,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER J
 C-----------------------------------------------       
-C     Lecture des poids couple Mat/Prop
+C     Reading of Mat/Prop coupled weights
       OPEN(UNIT=30,FILE=FILNAM(1:LEN_FILNAM),FORM='FORMATTED')
         LINE = ' '
        DO WHILE(LINE(1:12) /= '    LAW_NUMB')

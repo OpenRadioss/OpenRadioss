@@ -50,7 +50,7 @@ C     IPM(NPROPMI,NUMMAT)  ARRAY: MATERIAL PARAMETERS (integer)      E
 C     GEO(NPROPG,NUMGEO)   ARRAY: PROPERTY PARAMETERS (real)         E
 C     IGEO(NPROPGI,NUMGEO) ARRAY: PROPERTY PARAMETERS (integer)      E
 C     INUM(13,NUMELS)      ARRAY: WORKING                            E/S
-C     ISEL(NSELS)          ARRAY: DES SOLIDES CHOISIS POUR TH        E/S
+C     ISEL(NSELS)          ARRAY: SELECTED SOLIDS FOR TH            E/S
 C     ITR1(NSELS)          ARRAY: WORKING                            E/S
 C     EADD(NUMELS)         ARRAY: IDAM INDEXES / checkboard            S
 C     INDEX(NUMELS)        ARRAY: WORKING                            E/S
@@ -129,7 +129,7 @@ C-----------------------------------------------
 C   S O U R C E   L I N E S
 C-----------------------------------------------
 
-C   TRI GLOBAL SUR TOUS LES CRITERES POUR TOUS LES ELEMENTS
+C   GLOBAL SORTING ON ALL CRITERIA FOR ALL ELEMENTS
   
       CALL MY_ALLOC(INDEX2,NUMELS) 
 C
@@ -143,7 +143,6 @@ C
       DO I=1,NUMELS
         INDEX2(I)=PERMUTATION%SOLID(I)
         EADD(I)=1
-Clef 5---------------------------------
         ITRI(5,I)=I
         INDEX(I)=I
         INUM(1,I)=IPARTS(I)
@@ -262,10 +261,10 @@ c
         IF(MLN/=50)JTUR=NINT(PM(70,MID))
         JTHE=NINT(PM(71,MID))
         IF (JLAG==0 .AND. PID/=0) ISSN=4
-C tri sur elem delete des rigidbody
-C IRB = 0 : elem actif
-C IRB = 1 : elem inactif et optimise pour en SPMD
-C IRB = 2 : elem inactif mais optimise pour etre actif en SPMD
+C sorting on elem delete for rigidbody
+C IRB = 0 : active elem
+C IRB = 1 : inactive elem and optimized for SPMD
+C IRB = 2 : inactive elem but optimized to be active in SPMD
         IRB = ISOLOFF(I)
 C
         JSMS=0
@@ -288,19 +287,19 @@ C Bolt preloading flag
         ENDIF
         
 C
-Clef 1---------------------------------
+C    1---------------------------------
 C
-C     classer les shell16 apres les brick20
+C     classify shell16 after brick20
         IF(ISO==16)ISO=21
 C       IGT =MY_SHIFTL(IGT,0)
         JSMS=MY_SHIFTL(JSMS,26)
         ISO =MY_SHIFTL(ISO,27)
 C       attention ISO doit rester en poids le plus fort
         ITRI(1,I)=ISO+JSMS+IGT
-Clef 2---------------------------------
+C    2---------------------------------
 C       IPARTSPH=MY_SHIFTL(IPARTSPH,0)
         ITRI(2,I)=IPARTSPH ! must remain alone for this key (part index)
-Clef 3---------------------------------
+C    3---------------------------------
 C       JTHE=MY_SHIFTL(JTHE,0)
         JTUR=MY_SHIFTL(JTUR,1)
         JEUL=MY_SHIFTL(JEUL,2)
@@ -313,8 +312,7 @@ C       JTHE=MY_SHIFTL(JTHE,0)
         MLN =MY_SHIFTL(MLN,22)
         ITRI(3,I)=MLN+JHBE+ISSN+JALE+JLAG+JEUL+JTUR+JTHE+JPOR+IRB
 C
-Clef 4---------------------------------
-C       JCLOS=MY_SHIFTL(JCLOS,0)
+C    4---------------------------------
         NPN   =MY_SHIFTL(NPN,3)
         IPLAST=MY_SHIFTL(IPLAST,13)
         ICPRE =MY_SHIFTL(ICPRE,16)
@@ -326,14 +324,13 @@ C       JCLOS=MY_SHIFTL(JCLOS,0)
         ISTRAIN=MY_SHIFTL(ISTRAIN,26)
         ITET4=MY_SHIFTL(ITET4,27)
         NFAIL  =  MY_SHIFTL(NFAIL0,29) 
-C       next=MY_SHIFTL(next,32) ---> pas de place disp
         ITRI(4,I)=JCLOS+NPN+IPLAST+ICPRE+ICSTR+IREP+IINT+JCVT+ISTRAIN
      .           +ITET4+NFAIL
-Clef 5---------------------------------
+C    5---------------------------------
         ITRI(5,I)=MID
-Clef 6---------------------------------
+C    6---------------------------------
         ITRI(6,I)=PID
-Clef 7---------------------------------
+C    7---------------------------------
         IEOS      = MY_SHIFTL(IEOS,0) 
         IVISC     = MY_SHIFTL(IVISC0,4)
         NUVAR     = MY_SHIFTL(NUVAR,5) 
@@ -343,7 +340,7 @@ Clef 7---------------------------------
         NLOC_FAIL = MY_SHIFTL(NLOC_FAIL,19)
 C       next  = MY_SHIFTL(next,21)
         ITRI(7,I)=IEOS+IVISC+NUVAR+ISVIS+IBOLTP+ITET10+NLOC_FAIL
-Clef 8---------------------------------        
+C    8---------------------------------        
         ITRI(8,I )= DAMP_RANGE_PART(IPARTS(II))        
       ENDDO
 C
@@ -474,13 +471,13 @@ C
 C      
       ENDIF
 C
-C INVERSION DE INDEX (DANS ITR1)
+C INDEX INVERSION (IN ITR1)
 C
       DO I=1,NUMELS
         ITR1(INDEX(I))=I
       ENDDO
 C
-C RENUMEROTATION POUR SURFACES
+C RENUMBERING FOR SURFACES
 C
       DO I=1,NSURF
         NN=IGRSURF(I)%NSEG
@@ -490,7 +487,7 @@ C
         ENDDO
       ENDDO
 C
-C RENUMEROTATION POUR GROUPES DE SOLIDES
+C RENUMBERING FOR SOLID GROUPS
 C
       DO I=1,NGRBRIC
         NN=IGRBRIC(I)%NENTITY
@@ -499,7 +496,7 @@ C
         ENDDO
       ENDDO
 C
-C RENUMEROTATION POUR SPH CONVERSION
+C RENUMBERING FOR SPH CONVERSION
 C
       IF(NSPHSOL /= 0)THEN
         DO I=1,NUMSPH
@@ -514,7 +511,7 @@ C rebuild SOL2SPH
         END DO
       END IF
 C
-C renumerotation CONNECTIVITE INVERSE
+C renumbering INVERSE CONNECTIVITY
 C
       DO I=1,8*NUMELS+6*NUMELS10+12*NUMELS20+8*NUMELS16
         IF(NOD2ELS(I) /= 0)NOD2ELS(I)=ITR1(NOD2ELS(I))
@@ -537,7 +534,7 @@ C
 !   -----------------------
 C
 C--------------------------------------------------------------
-C         DETERMINATION DES SUPER_GROUPES
+C         SUPER_GROUPS DETERMINATION
 C--------------------------------------------------------------
       ND=1
       DO I=2,NUMELS

@@ -2625,7 +2625,7 @@ c       stop CPU timer for W_FI
          CALL W_FSPH()
       ENDIF
 C--------------------------------------
-C structure int21 (partie entiere)
+C structure int21 (integer part)
 C--------------------------------------
       IF(NINTSTAMP /= 0)THEN
         CALL INTSTAMP_WRESTI(INTSTAMP, LINTSTAMP, NODLOCAL)
@@ -2638,7 +2638,7 @@ C--------------------------------------
           CALL INTFRIC_WRESTI(INTBUF_FRIC_TAB,NINTERFRIC)
        ENDIF
 C--------------------------------------
-C structure tables (partie entiere)
+C structure tables (integer part)
 C--------------------------------------
       IF(NTABLE /= 0)THEN
         CALL TABLE_WRESTI(TABLE, LTABLE)
@@ -2915,13 +2915,13 @@ C
         CALL W_R3NLOC(ASAV,NODGLOB,NUMNOD_L,LEN_AM)
       ENDIF
 C--------------------------------------
-C SPH Cells partie reelle
+C SPH Cells real part
 C--------------------------------------
       IF (NUMSPH>0)THEN
         CALL W_RSPH(SPBUF ,NUMSPH_L,CEPSP,P-1,VSPHIO,LEN_AM, SSPHVELN_L  )
       ENDIF
 C--------------------------------------
-C Masses nodales fluides
+C Nodal fluid masses
 C--------------------------------------
       IF(IALE == 1 .OR. IEULER == 1 .OR. IALELAG == 1) THEN
         CALL W_RNLOC(MSNF,NODGLOB,NUMNOD_L,LEN_AM)

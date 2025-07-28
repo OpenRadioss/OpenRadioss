@@ -63,20 +63,20 @@ C-----------------------------------------------
 C-----------------------------------------------
 C            A R G U M E N T S
 C-----------------------------------------------
-C     IXC(NIXC,NUMELC)   TABLEAU MID(1)+CONECS(2-5)+PID(6)+         E
+C     IXC(NIXC,NUMELC)   ARRAY MID(1)+CONECS(2-5)+PID(6)+           E
 C                        N GLOBAL(7)                               E
-C     PM(NPROPM,NUMMAT)  TABLEAU DES CARACS DES MATERIAUX           E
-C     IPARG(NPARG,NGROUP)TABLEAU DES CARACTERISTIQUES DES GROUPES   E/S
-C     GEO(NPROPG,NUMGEO) TABLEAU DES CARACS DES PID                 E
-C     EADD(NUMELC)       TABLEAU DES ADRESEES DANS IDAM CHGT DAMIER E 
-C     DD_IAD             TABLEAU DE LA DD EN SUPER GROUPES          S
+C     PM(NPROPM,NUMMAT)  ARRAY MATERIAL CHARACTERISTICS             E
+C     IPARG(NPARG,NGROUP)ARRAY GROUP CHARACTERISTICS                E/S
+C     GEO(NPROPG,NUMGEO) ARRAY PID CHARACTERISTICS                  E
+C     EADD(NUMELC)       ARRAY ADDRESSES IN IDAM CHECKBOARD        E 
+C     DD_IAD             ARRAY FROM DD IN SUPER GROUPS              S
 C     IPARTC                                                        E/S
-C     INUM(9,NUMELC)     TABLEAU DE TRAVAIL                         E/S
-C     ITR1(NSELC)        TABLEAU DE TRAVAIL                         E/S
-C     INDEX(NUMELC)      TABLEAU DE TRAVAIL                         E/S
-C     THK(NUMELC)        TABLEAU EPAISSEUR                          E/S
-C     XNUM(NUMELC)       TABLEAU DE TRAVAIL                         E/S
-C     CEP(NUMELC)        TABLEAU DE TRAVAIL                         E/S
+C     INUM(9,NUMELC)     WORKING ARRAY                              E/S
+C     ITR1(NSELC)        WORKING ARRAY                              E/S
+C     INDEX(NUMELC)      WORKING ARRAY                              E/S
+C     THK(NUMELC)        THICKNESS ARRAY                            E/S
+C     XNUM(NUMELC)       WORKING ARRAY                              E/S
+C     CEP(NUMELC)        WORKING ARRAY                              E/S
 C     ISHEOFF(NUMELC)   FLAG ELEM RBY ON/OFF                        E/S
 C-----------------------------------------------
 C   I M P L I C I T   T Y P E S
@@ -174,7 +174,7 @@ C
       IPTUN = 1
       IXFEM_ERR = 0
 C--------------------------------------------------------------
-C         BORNAGE DES GROUPES DE MVSIZ
+C         GROUPING BY MVSIZ GROUPS
 C--------------------------------------------------------------
       NGR1 = NGROUP + 1
 C
@@ -182,9 +182,8 @@ C phase 1 : domain decomposition
 C
       IDX=IDX+ND*(NSPMD+1)
       CALL ZEROIN(1,ND*(NSPMD+1),DD_IAD(1,NSPGROUP+1))
-C     NSPGROUP = NSPGROUP + ND
       NFT = 0
-C initialisation dd_iad
+C initialization dd_iad
       DO N=1,ND
        DO P=1,NSPMD+1
          DD_IAD(P,NSPGROUP+N) = 0
@@ -397,14 +396,11 @@ C
               IWORKSH(1, NFT + I)=INUM_WORKSH(1,INDEX(I))
               IWORKSH(2, NFT + I)=INUM_WORKSH(2,INDEX(I))
               IWORKSH(3, NFT + I)=INUM_WORKSH(3,INDEX(I))
-C             
-!!              IWORKSH(1,NFT+I) = NPTEL(INDEX(I))
               IF (NPERTURB > 0) THEN
                 DO IPERT = 1, NPERTURB
                   RNOISE(IPERT,I+NFT) = XNUM_RNOISE(IPERT,INDEX(I)) 
                 ENDDO
               ENDIF
-              !!
                SH4ANG(NFT+I) = ANGLE(INDEX(I))
             ENDDO
         ENDIF   ! NDRAPE  
@@ -450,7 +446,7 @@ C dd-iad
         ENDDO
         DD_IAD(1,NSPGROUP+N) = 1
 C          
-C maj CEP
+C update CEP
 C
         DO I = 1, NEL
           INDEX(I) = CEP(NFT+INDEX(I))          
@@ -479,7 +475,7 @@ C
         DEALLOCATE(INUM_WORKSH)
       ENDDO   ! ND       
 C
-C RENUMEROTATION DE L ARBRE
+C TREE RENUMBERING
 C
       IF(NADMESH/=0)THEN
         DO  I=1,NUMELC
@@ -490,7 +486,7 @@ C
         ENDDO
       END IF
 C
-C RENUMEROTATION POUR SURFACES
+C RENUMBERING FOR SURFACES
 C
       DO I=1,NSURF
         NN=IGRSURF(I)%NSEG
@@ -500,7 +496,7 @@ C
         ENDDO
       ENDDO
 C
-C RENUMEROTATION POUR shell in Accel (gauge)
+C RENUMBERING FOR shell in Accel (gauge)
 C
       DO I=1,NBGAUGE
          N1 = LGAUGE(1,I)
@@ -510,7 +506,7 @@ C
          ENDIF
       ENDDO
 C
-C RENUMEROTATION POUR GROUPES DE SHELL
+C RENUMBERING FOR SHELL GROUPS
 C
       DO I=1,NGRSHEL
         NN=IGRSH4N(I)%NENTITY
@@ -519,15 +515,15 @@ C
         ENDDO
       ENDDO
 C
-C renumerotation CONNECTIVITE INVERSE
+C renumbering INVERSE CONNECTIVITY
 C
       DO I=1,4*NUMELC
         IF(NOD2ELC(I) /= 0)NOD2ELC(I)=ITR1(NOD2ELC(I))
       END DO
 C              
 C-------------------------------------------------------------------------
-C phase 2 : bornage en groupe de mvsiz
-C ngroup est global, iparg est global mais organise en fonction de dd
+C phase 2 : grouping by MVSIZ groups
+C ngroup is global, iparg is global but organized according to dd
 C
       DO 300 N=1,ND
        NFT = 0
@@ -546,13 +542,11 @@ C ngroup global
           PID = IXC(6,II)
           IPARTR2R = 0
           IF (NSUBDOM>0) IPARTR2R = TAG_MAT(MID)
-c          NPN = NINT(GEO(6,PID))
           NPN   = IGEO(4,PID)
           ISMST = IGEO(5,PID)
           IGTYP = IGEO(11,PID)
           ISROT = IGEO(20,PID)
           IPINCH= IGEO(51,PID)
-C          IGTYP=NINT(GEO(12,PID))
           ISHXFEM_PLY = IGEO(19,PID)
           IREP = IGEO(6,PID)
           IHBE = NINT(GEO(171,PID))
@@ -661,7 +655,7 @@ C--------message out
      .                      I2=ISM0,
      .                      PRMOD=MSG_CUMU)
            END IF
-C----- fixed to iterative, but can be changed in fonction of law           
+C----- fixed to iterative, but can be changed according to law           
            IF (IPLA<0) THEN
              IPLA = 1
 C--------message out       
@@ -732,15 +726,6 @@ C-----
      .                   C1=TITR,
      .                   I2=MLN)
           ENDIF
-c          IF (MLN == 71 .and. ISMST /= 10 ) THEN
-           ! ISMST = 10
-c                CALL ANCMSG(MSGID=1200,
-c     .                      MSGTYPE=MSGWARNING,
-c     .                      ANMODE=ANINFO_BLIND_2,
-c     .                      I1=ID,
-c     .                      C1=TITR,
-c     .                      I2=MLN)
-c          ENDIF
           IF (IGTYP == 1 .and. ISMST == 11 ) THEN
            ! ISMST = 11 compatibility
             ISMST = 2
@@ -1029,8 +1014,7 @@ C
             NPG=1
           END IF
           IPARG(48,NGROUP)=NPG
-C          IPARG(49,NGROUP) = ICXFEM
-C reperage groupe/processeur
+C group/processor identification
           IPARG(32,NGROUP) = P-1
           IPARG(50,NGROUP) = ISHXFEM_PLY  
 C for stack         
@@ -1047,7 +1031,7 @@ C
          NGP(P)=NGROUP-NGP(P)
         ENDIF
        ENDDO
-C DD_IAD => nb groupes par sous domaine
+C DD_IAD => nb groups per sub domain
        NGP(NSPMD+1)=0
        DO P = 1, NSPMD
          NGP(NSPMD+1)=NGP(NSPMD+1)+NGP(P)

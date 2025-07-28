@@ -303,7 +303,7 @@ c           /---------------/
         ENDIF
 C        
 C-------------------------------
-C Boucle parallele dynamique SMP
+C Dynamic parallel loop SMP
 C
 !$OMP DO SCHEDULE(DYNAMIC,1)
 c------------------------

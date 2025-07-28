@@ -204,7 +204,6 @@ C---------IHBE,ISH3N-------------
 C    Double stockage temporaire - 
          IGEO(10)=IHBE
          GEO(171)=IHBE
-C------don't know if still useful         
          IF(IHBE==2)THEN
            GEO(171)=0
          ELSEIF(IHBE>=3.AND.IHBE<100.AND.IHBE/=4)THEN

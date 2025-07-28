@@ -72,7 +72,7 @@ C     GEO(NPROPG,NUMGEO)   ARRAY: PROPERTY PARAMETERS (real)         E
 C     IGEO(NPROPGI,NUMGEO) ARRAY: PROPERTY PARAMETERS (integer)      E
 C     IPARG(NPARG,NGROUP)  ARRAY: GROUP PARAMETERS (itneger)         E/S
 C     EADD(NUMELS)         ARRAY: IDAM indexes / checkboard            S
-C     DD_IAD               ARRAY: DE LA DD EN SUPER GROUPES            S
+C     DD_IAD               ARRAY: FROM DD IN SUPER GROUPS              S
 C     IPARTS                                                         E/S
 C     INUM(13,NUMELS)      ARRAY:WORKING                             E/S
 C     INDEX(NUMELS)        ARRAY:WORKING                             E/S
@@ -140,7 +140,7 @@ C-----------------------------------------------
       LOGICAL lFOUND
       INTEGER :: NB_NODES, LDIM, OFFSET
 C--------------------------------------------------------------
-C         BORNAGE DES GROUPES DE MVSIZ
+C         GROUPING BY MVSIZ GROUPS
 C--------------------------------------------------------------
       CALL MY_ALLOC(INDEXS2,NUMELS)
       nullify(MATPARAM)
@@ -162,7 +162,7 @@ C
       CALL ZEROIN(1,ND*(NSPMD+1),DD_IAD(1,NSPGROUP+1))
 C     NSPGROUP = NSPGROUP + ND
       NFT = 0  
-C initialisation dd_iad
+C initialization dd_iad
       DO N=1,ND
        DO P=1,NSPMD+1
          DD_IAD(P,NSPGROUP+N) = 0
@@ -339,7 +339,7 @@ C
          ENDDO
         ENDIF
 C
-C RENUMEROTATION POUR SPH CONVERSION
+C RENUMBERING FOR SPH CONVERSION
 C
         IF(NSPHSOL /= 0 .AND. NFT < NUMELS8)THEN
 C
@@ -372,7 +372,7 @@ C
         ENDDO
         DD_IAD(1,NSPGROUP+N) = 1
 C          
-C maj CEP
+C update CEP
 C
         DO I = 1, NEL
           INDEX(I) = CEP(NFT+INDEX(I))          
@@ -384,7 +384,7 @@ C
       ENDDO
        
 C
-C RENUMEROTATION POUR SURFACES
+C RENUMBERING FOR SURFACES
 C
       DO I=1,NSURF
         NN=IGRSURF(I)%NSEG
@@ -394,7 +394,7 @@ C
         ENDDO
       ENDDO
 C
-C RENUMEROTATION POUR GROUPES DE SOLIDES
+C RENUMBERING FOR SOLID GROUPS
 C
       DO I=1,NGRBRIC
         NN=IGRBRIC(I)%NENTITY
@@ -403,7 +403,7 @@ C
         ENDDO
       ENDDO
 C
-C RENUMEROTATION POUR SPH CONVERSION
+C RENUMBERING FOR SPH CONVERSION
 C
       IF(NSPHSOL /= 0)THEN
         DO I=1,NUMSPH
@@ -411,7 +411,7 @@ C
         ENDDO
       END IF
 C
-C renumerotation CONNECTIVITE INVERSE
+C renumbering INVERSE CONNECTIVITY
 C
       DO I=1,8*NUMELS+6*NUMELS10+12*NUMELS20+8*NUMELS16
         IF(NOD2ELS(I) /= 0)NOD2ELS(I)=ITR1(NOD2ELS(I))
@@ -435,8 +435,8 @@ C
 !   -----------------------
 
 C
-C phase 2 : bornage en groupe de mvsiz
-C ngroup est global, iparg est global mais organise en fonction de dd
+C phase 2 : grouping by MVSIZ groups
+C ngroup is global, iparg is global but organized according to dd
 C
 
       INEG =  0
@@ -469,8 +469,8 @@ C Bolt preloading
           ID = IGEO(1,PID)
           CALL FRETITL2(TITR,IGEO(NPROPGI-LTITR+1,PID),LTITR)
           IKSNOD0=ISOLNOD(II)          
-C on peut avoir besoin de isolnod en cas de retour a la d.d.
-C de plus ISOLNOD remis a 0 real dans lectur
+C we may need isolnod in case of return to the d.d.
+C moreover ISOLNOD reset to 0 real in lectur
           NPT=1
           JIVF=0
           NUVARP=0
@@ -493,7 +493,7 @@ C de plus ISOLNOD remis a 0 real dans lectur
           ITET4 = 0
           ITET10 = 0
 C-------------------------
-C         PARAMETRE GROUPE
+C         GROUP PARAMETER
           IF (PID/=0) THEN
             IREP   = IGEO(6,PID)
             JHBE   = IGEO(10,PID)
@@ -892,7 +892,7 @@ c
      .                      I2=MLN,
      .                      PRMOD=MSG_CUMU)
 C--------------------
-C TEST COMPATIBILITE
+C COMPATIBILITY TEST
 C--------------------
 
           !---------------------------------!
@@ -1419,7 +1419,7 @@ C-------
      .                      C1=TITR)
         ENDIF
 C-------------------------------------------------
-C STOCKAGE IPARG
+C IPARG STORAGE
 C-------------------------------------------------
           IPARG(1,NGROUP) = MLN
           IPARG(2,NGROUP) = NE1
@@ -1447,7 +1447,7 @@ C-------------------------------------------------
           IPARG(28,NGROUP)= IKSNOD0
           IPARG(29,NGROUP)= IPLAST
           IPARG(34,NGROUP)= NINT(PM(10,MID))
-C reperage groupe/processeur
+C group/processor identification
           IPARG(32,NGROUP)= P-1
           IPARG(33,NGROUP)= JCLOS
           IPARG(35,NGROUP)= IREP
@@ -1513,7 +1513,7 @@ c         non-local variable regularization flag for failure models
 c         id of damping frequency range apply to group
           IPARG(93,NGROUP) = IDAMP_FREQ_RANGE
 C------------------------------------------------------
-C LONGUEUR BUFFER
+C BUFFER LENGTH
 C------------------------------------------------------
           IF (NPG > 1) NPG = NPG + 1
           IF (NPG == 1 .AND. JHBE == 15) NPG = NPG + 1
@@ -1523,7 +1523,7 @@ C
          NGP(P)=NGROUP-NGP(P)
         ENDIF
        ENDDO
-C DD_IAD => nb groupes par sous domaine
+C DD_IAD => nb groups per sub domain
        NGP(NSPMD+1)=0
        DO P = 1, NSPMD
          NGP(NSPMD+1)=NGP(NSPMD+1)+NGP(P)
@@ -1535,7 +1535,7 @@ C
 
       NSPGROUP = NSPGROUP + ND
 C
-C Traitement CFD sur MID negatif sur tous les solides si ineg=1
+C CFD treatment on negative MID on all solids if ineg=1
 C
       IF (INEG == 1) THEN
         DO I = 1, NUMELS

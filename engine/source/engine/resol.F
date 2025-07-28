@@ -3413,7 +3413,7 @@ C--------------------------------------------------------
               K11=K10+NUMSPH
               K12=K11+NUMELIG3D
 C-----------------------------------------------
-C      gauges de pression, calcul de la position
+C      pressure gauges, position calculation
 C-----------------------------------------------
               IF (IALE+IEULER+GLOB_THERM%ITHERM+NUMSPH/=0) THEN
                 IF(NBGAUGE/=0)CALL AGAUGE0(LGAUGE,GAUGE,NODES%X,ELEMENT%SHELL%IXC,IGAUP,NGAUP)
@@ -3730,7 +3730,7 @@ C--------------------------------------------------------
               ENDIF
 
 C
-C Traitement des Section en SPMD comm avant FORINT
+C Section processing in SPMD comm before FORINT
 C
               IF(NSECT>0.AND.NSPMD>1) THEN
                 LSEND1 = IAD_SEC(1,NSPMD+1)
@@ -3760,7 +3760,7 @@ C---------------------------------------------
               ENDIF
 
 C----------------------------------------
-C      COLLISION DETECTION FOR INTERFACES 7 (CALL BARRIER DANS I7BUCE_CRIT)
+C      COLLISION DETECTION FOR INTERFACES 7 (CALL BARRIER IN I7BUCE_CRIT)
 C----------------------------------------
               IF(NINTER/=0) THEN
                 CALL TRACE_IN(8,2,ZERO)
@@ -4022,7 +4022,7 @@ C--------------------------------------------------------
               IF (IALE+IEULER+GLOB_THERM%ITHERM/=0.AND.GLOBAL_ACTIVE_ALE_ELEMENT) THEN
                 CALL STARTIME(TIMERS,MACRO_TIMER_ALEMAIN)
 C-----------------------------
-C        SPMD : MS=0 boundary nodes if  weight/=1  (pour amas03)
+C        SPMD : MS=0 boundary nodes if  weight/=1  (for amas03)
 C        only for PARITH/OFF
 C-----------------------------
                 LENQMV = 1
@@ -4210,7 +4210,7 @@ C===============================================================================
 
               ENDIF
 C--- // 3N ------------------------------
-C       INTERFACES AVEC OUVERTURE DE VIDE
+C       INTERFACES WITH VOID OPENING
 C----------------------------------------
               IF(NINTER/=0) THEN
 
@@ -4624,7 +4624,7 @@ C-----------------------------------------------------
      .                                                            FLAG_RETRACTOR_UPDATE,NODES%X,NPBY)
 C
 C---- // GROUPS ----------------
-C     FORCES INTERNES DES COQUES, COQUES 3 NOEUDS
+C     INTERNAL FORCES OF SHELLS, 3-NODE SHELLS
 C-------------------------------
               CALL TRACE_IN(14,0,ZERO)
               IF (IMON>0) CALL STARTIME(TIMERS,TIMER_ELEMENT)
@@ -5065,7 +5065,7 @@ C===============================================================================
                 GREFTSK  = 1+ITSK*NPSAV*NGPE/NTHREAD
                 GRELTSK  = (ITSK+1)*NPSAV*NGPE/NTHREAD
 
-C assemblage Parith/OFF necessaire avant communication frontiere si multi-thread
+C Parith/OFF assembly necessary before boundary communication if multi-thread
 
                 CALL ASSPAR(
      1            NTHREAD    ,NUMNOD,NODFTSK,NODLTSK,IRODDL,
@@ -5583,7 +5583,7 @@ C----------------------------------
 C
 C IDEL7NG : global flag deleted segments/nodes int. type7, type2
 C IDEL7NG = 0 => nothing
-C IDEL7NG = 1 | 2 => deleted segments/nodes (pour au moins 1 interface)
+C IDEL7NG = 1 | 2 => deleted segments/nodes (for at least 1 interface)
 C IDEL7NOK = 1 : need all interface such as IPARI(17)= 1 | 2
               ELSEIF(IDEL7NG>=1.OR.PDEL>0) THEN
 C        IF (NCYCLE==97) IDEL7NOK = 1
@@ -5601,7 +5601,7 @@ C recuperation IDEL7NOK global
                   IDEL7NOK = IDEL7NOK+IDEL7NOK_R2R
                   IDEL7NOK = MIN(1,IDEL7NOK)
                 ENDIF
-C Attention WA utilise sur 2*NUMNOD (NUMNOD + NUMNOD SPECIFIQUE SPMD)
+C Warning WA used on 2*NUMNOD (NUMNOD + NUMNOD SPECIFIC SPMD)
                 IF ((IDEL7NG>=1.AND.IDEL7NOK==1).OR.(PDEL>0.AND.IDEL7NOK==1)) THEN
                   L1 = 1+NIXS*NUMELS + NSVOIS*NIXS
                   L2 = L1+6*NUMELS10
@@ -5871,7 +5871,7 @@ C                                     NON PARALLEL SECTION (SMP)
 C========================================================================================
 
 C----------------------------------
-C       FORCES EXTERNES de SECTIONS
+C       EXTERNAL FORCES FROM SECTIONS
 C----------------------------------
               IF(ISECUT/=0)CALL SECTION_FIO (
      1                NSTRF ,NODES%V,NODES%VR,
@@ -6003,7 +6003,7 @@ C----------------------------------------------------------
                 END IF
               ENDIF
 C----------------------------------------------------------
-C         RBE3 - FORCES ET MOMENTS
+C         RBE3 - FORCES AND MOMENTS
 C----------------------------------------------------------
               IF (NRBE3>0) THEN
                 IF (IMON>0) CALL STARTIME(TIMERS,TIMER_KIN)
@@ -6931,7 +6931,7 @@ C
               K11=K10+NUMSPH
 
 C-----------------------------------------------------------------
-C     IMPLICIT  SYNCHRONISATION (FORCES), FV(FUNC) ET SKEW(MOVING)
+C     IMPLICIT  SYNCHRONIZATION (FORCES), FV(FUNC) AND SKEW(MOVING)
 C-----------------------------------------------------------------
 
               IF (IMPL_S == 1) THEN
@@ -7373,7 +7373,7 @@ C--- //0 ----------------
                 ENDIF
 
 C-----------------------------------------------
-C Multidomains : resynchro des accelerations en SPH
+C Multidomains : resynchronization of accelerations in SPH
 C----------------------------------------------
                 IF (NSPMD>1) THEN
                   IF ((SDD_R2R_ELEM>0).AND.(NUMSPH_GLO_R2R>0)) THEN
@@ -7627,7 +7627,7 @@ C===============================================================================
 C                                     PARALLEL SECTION (SMP)
 C========================================================================================
 C-------------------
-C      [RLINK1][RLINK2]...   (SUR TASK LIBRE)
+C      [RLINK1][RLINK2]...   (ON FREE TASK)
 C      [RIVETS]                     -
 C      [JOINT1][JOINT2]...          -
 
@@ -7635,7 +7635,7 @@ C      [JOINT1][JOINT2]...          -
                 ITSK = OMP_GET_THREAD_NUM()
 
 C-----------------------------------
-C         LIENS RIGIDES ENTRE NOEUDS
+C         RIGID LINKS BETWEEN NODES
 C---- // ----------------------------
                 IF(NRLINK>0)CALL RLINK10(
      1             NODES%MS   ,NODES%IN    ,NODES%A    ,NODES%AR  ,NODES%V    ,
@@ -8073,7 +8073,7 @@ C===============================================================================
 
 C----------------------------
 C  CALCUL //
-C      [NRBODY1][NRBODY2]...   (SUR TASK LIBRE)
+C      [NRBODY1][NRBODY2]...   (ON FREE TASK)
 C // --------------------------
 
 !$OMP PARALLEL
@@ -8324,7 +8324,7 @@ C                                     NON PARALLEL SECTION (SMP)
 C========================================================================================
 
 C------------------------------------------
-C       SYNCHRONISATION:  A  V  (POUR SORTIES)
+C       SYNCHRONIZATION:  A  V  (FOR OUTPUTS)
 C------------------------------------------
 C       SENSORS
 C-- // --------------
@@ -8377,14 +8377,14 @@ C===============================================================================
               IF (IMONM > 0) CALL STOPTIME(TIMERS,40)
               IF (IMON>0) CALL STOPTIME(TIMERS,TIMER_KIN)
 C-------------------------------------------------------
-C     Conditions cinematiques par Multiplicateurs de Lagrange
+C     Kinematic conditions by Lagrange Multipliers
 C-------------------------------------------------------
 
               IF(LAG_NCF+LAG_NCL>0)THEN
                 L1 = 1+NIXS*NUMELS + NSVOIS*NIXS
                 L2 = L1+6*NUMELS10
                 L3 = L2+12*NUMELS20
-C cas NSPMD == 1 et options supportees uniquement en SMP
+C case NSPMD == 1 and options supported only in SMP
                 IF(LAG_SEC == 1 .AND. NSPMD == 1)THEN
 
 C========================================================================================
@@ -9104,7 +9104,7 @@ C----------------------------------------------------------------
                   ENDIF
                 ENDIF
 C------------------------------------------
-C         SYNCHRONISATION SUR V TT ET NCYCLE (implicite)
+C         SYNCHRONIZATION ON V TT AND NCYCLE (implicit)
 C----------------------------
 
                 IF(IMON>0) CALL STARTIME(TIMERS,TIMER_INTEG)
