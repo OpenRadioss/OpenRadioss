@@ -79,18 +79,18 @@
           numelc = size(elements%shell%nodes, 2)
 
           !=================== debug ===================
-          imin_fsky = elements%pon%iadc(1,1)
-          imax_fsky = elements%pon%iadc(1,1)
-          do i = 1, numelc
-            do j = 1, 4
-              if(elements%pon%iadc(j,i) < imin_fsky) then
-                imin_fsky = elements%pon%iadc(j,i)
-              endif
-              if(elements%pon%iadc(j,i) > imax_fsky) then
-                imax_fsky = elements%pon%iadc(j,i)
-              endif
-            enddo
-          enddo
+          ! imin_fsky = elements%pon%iadc(1,1)
+          ! imax_fsky = elements%pon%iadc(1,1)
+          ! do i = 1, numelc
+          !   do j = 1, 4
+          !     if(elements%pon%iadc(j,i) < imin_fsky) then
+          !       imin_fsky = elements%pon%iadc(j,i)
+          !     endif
+          !     if(elements%pon%iadc(j,i) > imax_fsky) then
+          !       imax_fsky = elements%pon%iadc(j,i)
+          !     endif
+          !   enddo
+          ! enddo
           !=================== End debug ===================
 
           contributions_count = 0 ! number of contributions to the new node
