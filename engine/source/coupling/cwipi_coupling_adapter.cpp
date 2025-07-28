@@ -400,6 +400,7 @@ void CwipiCouplingAdapter::finalize() {
     }
     
     active_ = false;
+    return;
 }
 
 bool CwipiCouplingAdapter::isActive() const {

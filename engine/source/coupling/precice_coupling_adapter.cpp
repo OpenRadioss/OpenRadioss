@@ -21,10 +21,14 @@
 //Copyright>    software under a commercial license.  Contact Altair to discuss further if the
 //Copyright>    commercial version may interest you: https://www.altair.com/radioss/.
 #include "precice_coupling_adapter.h"
-#include <iostream>
-#include <fstream>
-#include <sstream>
 #include <algorithm>
+#include <fstream>
+#include <iostream>
+#include <memory>
+#include <sstream>
+#include <stdexcept>
+#include <string>
+#include <vector>
 
 #ifdef WITH_PRECICE
 
@@ -48,6 +52,7 @@ bool PreciceCouplingAdapter::configure(const std::string& configFile) {
      // /PRECICE/MESH_NAME/MeshOne
      // /PRECICE/READ/DISPLACEMENTS
      // /PRECICE/WRITE/FORCES
+     // /PRECICE/GRNOD/grnodID
     std::ifstream file(configFile);
     if (!file.is_open()) {
         std::cout << "No " << configFile << " file found in the current directory" << std::endl;
@@ -77,8 +82,8 @@ bool PreciceCouplingAdapter::configure(const std::string& configFile) {
         
         // Expected format: parts[0] = "PRECICE", parts[1] = "KEY", parts[2] = "VALUE"
         if (parts.size() >= 3 && parts[0] == "PRECICE") {
-            std::string key = parts[1];
-            std::string value = parts[2];
+            const auto& key = parts[1];
+            auto value = parts[2];
             
             // Handle cases where VALUE might contain additional path segments
             if (parts.size() > 3) {
@@ -94,26 +99,32 @@ bool PreciceCouplingAdapter::configure(const std::string& configFile) {
             } else if (key == "MESH_NAME") {
                 meshName_ = value;
             } else if (key == "READ") {
-                DataType dataType = stringToDataType(value);
-                if(dataType == DataType::NOTHING) {
+                const auto dataType = stringToDataType(value);
+                if (dataType == DataType::NOTHING) {
                     std::cout << "Warning: Unknown data type '" << value << "' in read configuration." << std::endl;
                     continue;
                 }
                 readData_[static_cast<size_t>(dataType)].isActive = true;
-                if(DataType::POSITIONS == dataType) {
+                if (DataType::POSITIONS == dataType) {
                     readData_[static_cast<size_t>(dataType)].mode = Mode::REPLACE;
                 } else if (DataType::FORCES == dataType) {
                     readData_[static_cast<size_t>(dataType)].mode = Mode::ADD;
+                } else if (DataType::DISPLACEMENTS == dataType) {
+                    readData_[static_cast<size_t>(dataType)].mode = Mode::REPLACE;
                 }
             } else if (key == "WRITE") {
-                DataType dataType = stringToDataType(value);
-                if(dataType == DataType::NOTHING) {
+                const auto dataType = stringToDataType(value);
+                if (dataType == DataType::NOTHING) {
                     std::cout << "Warning: Unknown data type '" << value << "' in write configuration." << std::endl;
                     continue;
                 }
                 writeData_[static_cast<size_t>(dataType)].isActive = true;
-            } else if (key == "INTERFACE") {
-                setGroupNodeId(std::stoi(value));
+            } else if (key == "GRNOD") {
+                try {
+                    setGroupNodeId(std::stoi(value));
+                } catch (const std::exception& e) {
+                    std::cout << "Warning: Invalid GRNOD value '" << value << "': " << e.what() << std::endl;
+                }
             }
         } else {
             std::cout << "Warning: Ignoring malformed line: " << line << std::endl;
@@ -128,26 +139,35 @@ void PreciceCouplingAdapter::setNodes(const std::vector<int>& nodeIds) {
     couplingNodeIds_ = nodeIds;
     
     // Allocate buffers for 3D data
-    int bufferSize = couplingNodeIds_.size() * 3;
+    constexpr auto dimensions = getDimensions();
+    const auto bufferSize = couplingNodeIds_.size() * dimensions;
     vertexIds_.resize(couplingNodeIds_.size());
     
     // Loop over readData_
-    for(size_t i = 0; i < readData_.size(); ++i) {
-        if (readData_[i].isActive) {
-            readData_[i].buffer.resize(bufferSize);
+    for (auto& data : readData_) {
+        if (data.isActive) {
+            data.buffer.resize(bufferSize);
         }
     }
     
     // Loop over writeData_
-    for(size_t i = 0; i < writeData_.size(); ++i) {
-        if (writeData_[i].isActive) {
-            writeData_[i].buffer.resize(bufferSize);
+    for (auto& data : writeData_) {
+        if (data.isActive) {
+            data.buffer.resize(bufferSize);
         }
     }
 }
 
 bool PreciceCouplingAdapter::initialize(const double* coordinates, int totalNodes, int mpiRank, int mpiSize) {
     if (!active_) return false;
+    if (!coordinates) {
+        std::cerr << "Error: coordinates pointer is null" << std::endl;
+        return false;
+    }
+    if (totalNodes <= 0) {
+        std::cerr << "Error: totalNodes must be positive, got " << totalNodes << std::endl;
+        return false;
+    }
     
     try {
         // Create preCICE participant
@@ -157,12 +177,17 @@ bool PreciceCouplingAdapter::initialize(const double* coordinates, int totalNode
         std::vector<double> meshVertices;
         meshVertices.reserve(couplingNodeIds_.size() * 3);
         
-        for (int nodeId : couplingNodeIds_) {
+        for (const auto nodeId : couplingNodeIds_) {
+            if (!isNodeIdValid(nodeId, totalNodes)) {
+                std::cerr << "Error: Node ID " << nodeId << " out of bounds [1, " << totalNodes << "]" << std::endl;
+                return false;
+            }
             // Convert from 1-based Fortran indexing to 0-based C++ indexing
-            int idx = nodeId - 1;
-            meshVertices.push_back(coordinates[idx * 3]);
-            meshVertices.push_back(coordinates[idx * 3 + 1]);
-            meshVertices.push_back(coordinates[idx * 3 + 2]);
+            const auto idx = nodeId - 1;
+            constexpr auto dimensions = getDimensions();
+            meshVertices.push_back(coordinates[idx * dimensions]);
+            meshVertices.push_back(coordinates[idx * dimensions + 1]);
+            meshVertices.push_back(coordinates[idx * dimensions + 2]);
         }
         
         // Set mesh vertices
@@ -170,9 +195,9 @@ bool PreciceCouplingAdapter::initialize(const double* coordinates, int totalNode
         
         // Check if initial data is required
         if (precice_->requiresInitialData()) {
-            for(size_t i = 0; i < writeData_.size(); ++i) {
+            for (size_t i = 0; i < writeData_.size(); ++i) {
                 if (writeData_[i].isActive) {
-                    const std::string& dataName = dataTypeToString(static_cast<DataType>(i));
+                    const auto& dataName = dataTypeToString(static_cast<DataType>(i));
                     precice_->writeData(meshName_, dataName, vertexIds_, writeData_[i].buffer);
                 }
             }
@@ -194,8 +219,12 @@ void PreciceCouplingAdapter::writeData(const double* values, int totalNodes, dou
     if (!active_) return;
     if (!precice_) return;
     if (!precice_->isCouplingOngoing()) return;
+    if (!values) {
+        std::cerr << "Error: values pointer is null in writeData" << std::endl;
+        return;
+    }
 
-    const std::string& writeDataName = dataTypeToString(static_cast<DataType>(dataType));
+    const auto& writeDataName = dataTypeToString(static_cast<DataType>(dataType));
     if (!writeData_[static_cast<size_t>(dataType)].isActive) {
         return;
     }
@@ -209,14 +238,18 @@ void PreciceCouplingAdapter::readData(double* values, int totalNodes, double dt,
     if (!active_) return;
     if (!precice_) return;
     if (!precice_->isCouplingOngoing()) return;
+    if (!values) {
+        std::cerr << "Error: values pointer is null in readData" << std::endl;
+        return;
+    }
     
-    const std::string& readDataName = dataTypeToString(static_cast<DataType>(dataType));
+    const auto& readDataName = dataTypeToString(static_cast<DataType>(dataType));
     if (!readData_[static_cast<size_t>(dataType)].isActive) {
         return;
     }
     
-    double maxTimeStepSize = precice_->getMaxTimeStepSize();
-    double cdt = std::min(dt, maxTimeStepSize);
+    const auto maxTimeStepSize = precice_->getMaxTimeStepSize();
+    const auto cdt = std::min(dt, maxTimeStepSize);
 
     // Read data from preCICE
     precice_->readData(meshName_, readDataName, vertexIds_, cdt, readData_[dataType].buffer);
@@ -230,7 +263,7 @@ void PreciceCouplingAdapter::advance(double& dt) {
     if (!precice_) return;
     if (!precice_->isCouplingOngoing()) return;
     
-    double dtToUse = std::min(dt, maxTimeStepSize_);
+    const auto dtToUse = std::min(dt, maxTimeStepSize_);
     
     // Advance preCICE
     precice_->advance(dtToUse);
@@ -290,7 +323,7 @@ double PreciceCouplingAdapter::getMaxTimeStepSize() const {
 }
 
 int PreciceCouplingAdapter::getNumberOfCouplingNodes() const {
-    return couplingNodeIds_.size();
+    return static_cast<int>(couplingNodeIds_.size());
 }
 
 void PreciceCouplingAdapter::extractNodeData(const double* globalValues, int totalNodes, int dataType) {
@@ -298,11 +331,17 @@ void PreciceCouplingAdapter::extractNodeData(const double* globalValues, int tot
         return;
     }
     
+    constexpr auto dimensions = getDimensions();
     for (size_t i = 0; i < couplingNodeIds_.size(); ++i) {
-        int nodeId = couplingNodeIds_[i] - 1; // Convert to 0-based indexing
-        writeData_[dataType].buffer[i * 3] = globalValues[nodeId * 3];
-        writeData_[dataType].buffer[i * 3 + 1] = globalValues[nodeId * 3 + 1];
-        writeData_[dataType].buffer[i * 3 + 2] = globalValues[nodeId * 3 + 2];
+        const auto nodeId = couplingNodeIds_[i];
+        if (!isNodeIdValid(nodeId, totalNodes)) {
+            std::cerr << "Error: Node ID " << nodeId << " out of bounds in extractNodeData" << std::endl;
+            continue;
+        }
+        const auto idx = nodeId - 1; // Convert to 0-based indexing
+        writeData_[dataType].buffer[i * dimensions] = globalValues[idx * dimensions];
+        writeData_[dataType].buffer[i * dimensions + 1] = globalValues[idx * dimensions + 1];
+        writeData_[dataType].buffer[i * dimensions + 2] = globalValues[idx * dimensions + 2];
     }
 }
 
@@ -310,7 +349,6 @@ void PreciceCouplingAdapter::injectNodeData(double* globalValues, int totalNodes
     if (!readData_[dataType].isActive) {
         return;
     }
-    
     if (readData_[dataType].mode == Mode::ADD) {
         for (size_t i = 0; i < couplingNodeIds_.size(); ++i) {
             int nodeId = couplingNodeIds_[i] - 1; // Convert to 0-based indexing
