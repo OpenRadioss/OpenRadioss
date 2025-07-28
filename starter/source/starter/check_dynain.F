@@ -141,8 +141,7 @@ C--     Check dynain file is requested --
 C
 C--     Counting and storing parts id --
          IF(CARTE(1:1)/='#'.OR.CARTE(1:1)/='$') THEN
-
-           DO WHILE(CARTE(1:1) /= '/'.OR.LEN_TRIM(CARTE)/=0) 
+           DO WHILE(CARTE(1:1) /= '/'.AND.LEN_TRIM(CARTE)/=0)
             DO WHILE (J<=LEN_TRIM(CARTE))
                IF(CARTE(J:J)/=' ') THEN
                  K=J
@@ -156,7 +155,7 @@ C--     Counting and storing parts id --
                ENDIF
                J = J +1
              ENDDO
-             READ(71,*,END=20) CARTE
+             READ(71,'(A)',END=20) CARTE
            ENDDO
          ENDIF
          IS_READ = 1
