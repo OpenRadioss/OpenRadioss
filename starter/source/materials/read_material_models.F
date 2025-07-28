@@ -132,7 +132,7 @@ C=======================================================================
       CALL INI_MAT_ELEM (MAT_ELEM)
     
       !Set default parameters used in material laws
-      CALL INI_MLAW_VARS(MLAW_TAG ,NUMMAT)  ! attention ca ne marchera pas
+      CALL INI_MLAW_VARS(MLAW_TAG ,NUMMAT)   
       CALL INI_EOS_VARS (EOS_TAG)
 c----------      
       ILAW    = 0

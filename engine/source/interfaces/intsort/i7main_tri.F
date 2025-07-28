@@ -91,7 +91,7 @@ C-----------------------------------------------
 #include      "units_c.inc"
 #include      "task_c.inc"
 #include      "timeri_c.inc"
-C common pour variable globale en memoire partagee
+C common block for global variables in shared memory
       COMMON /I7MAINC/BMINMA,CURV_MAX_MAX,RESULT,NSNR,NSNROLD,I_MEMG,NMN_G
       INTEGER RESULT,NSNR,NSNROLD,I_MEMG,NMN_G
       my_real 
@@ -206,11 +206,11 @@ C
       CURV_MAX_MAX = ZERO
 C
 C -------------------------------------------------------------
-C     STOCKAGE DES ANCIENS CANDIDATS AVEC PENE INITIALE
-C     OU AVEC DU FILTRAGE DE FROTTEMENT
+C     STORAGE OF OLD CANDIDATES WITH INITIAL PENETRATION
+C     OR WITH FRICTION FILTERING
 C -------------------------------------------------------------
 C
-C Barriere dans tous les cas pour bminma [et cur_max_max]
+C Barrier in all cases for bminma [and cur_max_max]
 C
       CALL MY_BARRIER
 C
@@ -226,7 +226,7 @@ C
           ENDIF
           IP0 = 1
           IP1 = IP0 + NSN + NSNROLD + 3
-C MWA = MWAG SUR TASK 0
+C MWA = MWAG ON TASK 0
           I_SK_OLD = INTBUF_TAB%I_STOK(1)
           CALL I7TRC(
      1      NSN+NSNROLD      ,I_SK_OLD         ,INTBUF_TAB%CAND_N,INTBUF_TAB%CAND_E,
@@ -234,7 +234,7 @@ C MWA = MWAG SUR TASK 0
      3      MWAG(IP0)        ,INTBUF_TAB%IFPEN ,INACTI           ,IFQ              ,
      4      NUM_IMP          ,IND_IMP          ,INTBUF_TAB%STFNS ,NIN              ,
      5      NSN ,ITIED,INTBUF_TAB%CAND_F )
-C stockage INACTI en negatif
+C store INACTI as negative
           IF(I_SK_OLD==0)INACTI=-ABS(INACTI)
           INTBUF_TAB%I_STOK(1)=I_SK_OLD
           IF(INACTII/=7.AND.INACIMP>0)THEN
@@ -251,9 +251,9 @@ C stockage INACTI en negatif
         INTBUF_TAB%I_STOK(1)=0
       ENDIF
 C -------------------------------------------------------------
-C     CALCUL BORNE DOMAINE REMONTE DANS I7XSAVE
+C     DOMAIN BOUNDARY CALCULATION RETURNED IN I7XSAVE
 C -------------------------------------------------------------
-C eshift : decalage sur cand_e
+C eshift: offset on cand_e
       IF(TYPE18)THEN
         CALL I18XSAVE(
      1         X            ,INTBUF_TAB%NSV ,INTBUF_TAB%MSR,NSN  ,NMN ,
@@ -287,9 +287,9 @@ C eshift : decalage sur cand_e
 #include "lockoff.inc"
 
       RESULT = 0
-C BARRIER II_STOK et RESULT
+C BARRIER II_STOK and RESULT
       CALL MY_BARRIER
-C a conserver pour cas inacti est modifie sur p0
+C to keep for case where inacti is modified on p0
       INACTI=IPARI(22,NIN)
       IF(ITASK==0)THEN
         IF(ABS(BMINMA(6)-BMINMA(3))>2*EP30.OR.
@@ -312,7 +312,6 @@ C mean value m by direction
         MX=BMINMA(7)/MAX(NMN_G,1)
         MY=BMINMA(8)/MAX(NMN_G,1)
         MZ=BMINMA(9)/MAX(NMN_G,1)
-c        print*,noint,'m=',mx,my,mz,NMN,NRTM
 C standard deviation by direction
 C        DX=SQRT(BMINMA(10)/MAX(NMN,1)-MX**2)
 C        DY=SQRT(BMINMA(11)/MAX(NMN,1)-MY**2)
@@ -372,7 +371,7 @@ C
 
         IF(ITASK==0)THEN
 C
-C recuperation des noeuds remote NSNR stockes dans XREM
+C retrieval of remote nodes NSNR stored in XREM
 C    
            IF (MULTI_FVM%IS_USED .AND. NTY == 7 .AND. INACTI == 7) THEN
 C     Interface type 18 and law151
@@ -406,7 +405,7 @@ C     Interface type 18 and law151
 
            ENDIF
 C
-C renumerotation locale des anciens candidats
+C local renumbering of old candidates
 C
           IF(INACTI==5.OR.INACTI==6.OR.INACTI==7.OR.
      +       IFQ>0.OR.NUM_IMP>0.OR.ITIED/=0)THEN
@@ -423,7 +422,7 @@ C
       ILD = 0
       NB_N_B = 1
 C
-C Barrier comm spmd_tri7box + BMINMA + Retour I7BUCE
+C Barrier comm spmd_tri7box + BMINMA + Return I7BUCE
 C     IF(ITASK == 0) THEN
 c       IF(INTBUF_TAB%METRIC%CYCLE0 == 10000) THEN
 c         INTBUF_TAB%METRIC%CYCLE0 = 0
@@ -554,7 +553,7 @@ C--------------------------------------------------------------
       IF (RESULT/=0) THEN
         CALL MY_BARRIER
         IF (ITASK==0) THEN
-C utile si on revient
+C useful if we return
           INTBUF_TAB%I_STOK(1) = I_SK_OLD
           RESULT = 0
         ENDIF
@@ -565,9 +564,9 @@ C utile si on revient
         TZINF  = INTBUF_TAB%VARIABLES(tzinf_index)
         GOTO 50
       ENDIF
-C mise a - de dist temporairement pour reperage dans partie frontiere
+C temporarily set dist to negative for identification in frontier part
       IF(NSPMD>1)THEN
-C mono tache
+C single task
 !$OMP SINGLE
         IF (IMONM > 0) CALL STARTIME(TIMERS,26)
         INTBUF_TAB%VARIABLES(distance_index) = -INTBUF_TAB%VARIABLES(distance_index)

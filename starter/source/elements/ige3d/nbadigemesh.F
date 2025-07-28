@@ -491,7 +491,7 @@ C
             READ(LINE,ERR=999,FMT=FMT_10I) J10
             DO J=1,10
              IF(J10(J) /= 0)THEN
-               IXIG3D(IAD)=USR2SYS(J10(J),ITABM1,MESS,ID)   ! ITABM1 donne de la merde
+               IXIG3D(IAD)=USR2SYS(J10(J),ITABM1,MESS,ID)
                IAD=IAD+1
              ENDIF
             ENDDO

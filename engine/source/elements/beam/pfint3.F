@@ -94,7 +94,6 @@ C---------------------------------------------------
         IR1Z=NINT(GEO(9 ,IG))
         IR2Y=NINT(GEO(10,IG))
         IR2Z=NINT(GEO(11,IG))
-C ... this looks suspicious - DWS
         M21(I)=IR1Y*M21(I)+(1-IR2Y)*M22(I)
         M22(I)=IR2Y*M22(I)+(1-IR1Y)*M21(I)
         M31(I)=IR1Z*M31(I)+(1-IR2Z)*M32(I)

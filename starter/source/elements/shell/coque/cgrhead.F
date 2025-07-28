@@ -45,19 +45,19 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C            A R G U M E N T S
 C-----------------------------------------------
-C     IXC(NIXC,NUMELC)  TABLEAU MID(1)+CONECS(2-5)+PID(6)+         E
+C     IXC(NIXC,NUMELC)  ARRAY MID(1)+CONECS(2-5)+PID(6)+           E
 C                       N GLOBAL(7)                               E
-C     PM(NPROPM,NUMMAT) TABLEAU DES CARACS DES MATERIAUX           E
-C     GEO(NPROPG,NUMGEO)TABLEAU DES CARACS DES PID                 E
-C     INUM(9,NUMELC)    TABLEAU DE TRAVAIL                         E/S
-C     ISEL(NSELC)       TABLEAU DES COQUES CHOISIES POUR TH        E/S
-C     ITR1(NSELC)       TABLEAU DE TRAVAIL                         E/S
-C     EADD(NUMELC)      TABLEAU DES ADRESEES DANS IDAM CHGT DAMIER   S
-C     INDEX(NUMELC)     TABLEAU DE TRAVAIL                         E/S
-C     ITRI(7,NUMELC)    TABLEAU DE TRAVAIL                         E/S
-C     IPARTC(NUMELC)    TABLEAU PART                               E/S
-C     CEP(NUMELC)    TABLEAU PROC                                  E/S
-C     XEP(NUMELC)    TABLEAU PROC                                  E/S
+C     PM(NPROPM,NUMMAT) ARRAY MATERIAL CHARACTERISTICS             E
+C     GEO(NPROPG,NUMGEO)ARRAY PID CHARACTERISTICS                  E
+C     INUM(9,NUMELC)    WORKING ARRAY                              E/S
+C     ISEL(NSELC)       ARRAY SELECTED SHELLS FOR TH               E/S
+C     ITR1(NSELC)       WORKING ARRAY                              E/S
+C     EADD(NUMELC)      ARRAY ADDRESSES IN IDAM CHECKBOARD         S
+C     INDEX(NUMELC)     WORKING ARRAY                              E/S
+C     ITRI(7,NUMELC)    WORKING ARRAY                              E/S
+C     IPARTC(NUMELC)    PART ARRAY                                 E/S
+C     CEP(NUMELC)    PROC ARRAY                                    E/S
+C     XEP(NUMELC)    PROC ARRAY                                    E/S
 C     NOD2ELC(4*NUMELC)                                            E/S
 C     ISHEOFF(NUMELC)   FLAG ELEM RBY ON/OFF                       E/S
 C-----------------------------------------------
@@ -101,7 +101,7 @@ C-----------------------------------------------
      .        IWORKSH(3,*)
       INTEGER , DIMENSION(NUMELC) , INTENT(INOUT):: PTSHEL
       INTEGER , INTENT(IN) :: DAMP_RANGE_PART(NPART)     !< flag to compute the damping range
-C     REAL OU REAL*8
+C     REAL OR REAL*8
       my_real
      .    PM(NPROPM,*), GEO(NPROPG,*),XNUM(*),THK(*), RNOISE(NPERTURB,*),
      .    SH4ANG(*)
@@ -136,32 +136,29 @@ C-----------------------------------------------
       EXTERNAL MY_SHIFTL,MY_SHIFTR,MY_AND
       INTEGER MY_SHIFTL,MY_SHIFTR,MY_AND,IPIDL
       INTEGER, DIMENSION(:), ALLOCATABLE :: INDEX2, INUM_PTSHEL
-C     REAL OU REAL*8
+C     REAL OR REAL*8
       my_real, DIMENSION(:,:), ALLOCATABLE :: XNUM_RNOISE
 C
       TYPE (DRAPE_PLY_)             , POINTER   :: DRAPE_PLY
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
-Clef 1---------------------------------
+C1---------------------------------
       DATA MSKMLN /O'07770000000'/
       DATA MSKTYP /O'00007770000'/
       DATA MSKIHB /O'00000007000'/
       DATA MSKISN /O'00000000700'/
       DATA MSKIST /O'00000000070'/
       DATA MSKIPL /O'00000000007'/
-Clef 2---------------------------------
+C2---------------------------------
       DATA MSKITH /O'10000000000'/
       DATA MSKIRP /O'07000000000'/
       DATA MSKNPN /O'00777000000'/
-C     DATA MSKICS /O'10000000000'/
-C     DATA MSKJTH /O'00000000000'/
-C     DATA MSKIEX /O'00000000000'/
       DATA MSKIRB /O'00000000007'/
-Clef 3---------------------------------
+C3---------------------------------
       DATA MSKMID /O'07777777777'/
-Clef 4---------------------------------
+C4---------------------------------
       DATA MSKPID /O'07777777777'/
 C======================================================================|
-C   TRI GLOBAL SUR TOUS LES CRITERES POUR TOUS LES ELEMENTS
+C   GLOBAL SORTING ON ALL CRITERIA FOR ALL ELEMENTS
 C----------------------------------------------------------
       ALLOCATE(ANGLE(NUMELC))
       ALLOCATE(INUM_WORKC(3,NUMELC))
@@ -318,7 +315,7 @@ C
           ITRI(1,I)=0
         ELSE
 C
-C         ILEV doit etre de poids fort sur 1ere clef
+C         ILEV must have strong weight on 1st key
           PRT = IPARTC(II)
           IADM= IPART(10,PRT)
           IF(IADM==0)THEN
@@ -382,7 +379,7 @@ C---
 C --- PID 51 combined with LAW58 ---
             IF (NINT(PM(19,IMATLY)) == 58) NB_LAW58 = NB_LAW58 + 1
           ENDDO
-C --- set IREP for tri criteria:
+C --- set IREP for sorting criteria:
           IF (NB_LAW58 == NPN) THEN
             IREP = 2
           ELSEIF (NB_LAW58 > 0) THEN
@@ -404,7 +401,7 @@ C---
 C --- PID 51 combined with LAW58 ---
             IF (NINT(PM(19,IMATLY)) == 58) NB_LAW58 = NB_LAW58 + 1
           ENDDO
-C --- set IREP for tri criteria:
+C --- set IREP for sorting criteria:
           IF (NB_LAW58 == NPN) THEN
             IREP = 2
           ELSEIF (NB_LAW58 > 0) THEN
@@ -448,13 +445,13 @@ C         IF(IPLA == 3) IPLA=2
         ISTRAIN = NINT(GEO(11,PID))
         IF(MLN == 19.OR.MLN>=25.OR.MLN == 15)ISTRAIN = 1
         ISSN = IABS(NINT(GEO(3,PID)))
-C tri sur elem delete des rigidbody
-C IRB = 0 : elem actif
-C IRB = 1 : elem inactif et optimise pour en SPMD
-C IRB = 2 : elem inactif mais optimise pour etre actif en SPMD
+C sorting on elem delete for rigidbody
+C IRB = 0 : active elem
+C IRB = 1 : inactive elem and optimized for SPMD
+C IRB = 2 : inactive elem but optimized to be active in SPMD
         IRB = ISHEOFF(I)
 C
-C---     Clef2 
+C---     Key2 
         JSMS = 0
         IF(ISMS/=0)THEN
           IF(IDTGRS/=0)THEN
@@ -467,7 +464,7 @@ C       JSMS=MY_SHIFTL(JSMS,0)
         ITRI(2,I) = JSMS
 C       NEXT=MY_SHIFTL(NEXT,1)
 C
-C---     Clef3 
+C---     Key3 
 C       IPLA   = MY_SHIFTL(IPLA,0)
         ISTRAIN= MY_SHIFTL(ISTRAIN,3)
         ISSN   = MY_SHIFTL(ISSN,6)
@@ -476,7 +473,7 @@ C       IPLA   = MY_SHIFTL(IPLA,0)
         MLN    = MY_SHIFTL(MLN,21)
         ITRI(3,I)=IPLA+ISTRAIN+ISSN+IHBE+IGTYP+MLN
 C
-C---     Clef4 
+C---     Key4 
 C
 C       IRB    = MY_SHIFTL(IRB,0)
 C
@@ -493,15 +490,15 @@ C
         ITRI(4,I)=ITHK+IREP+NPN+ICSEN+JTHE+IEXPAN+IRB+IFAIL+ISHXFEM_PLY
      .           +IXFEM
      
-C---     Clef5 
+C---     Key5 
 C       MID=MY_SHIFTL(MID,0)
         ITRI(5,I)=MID
-C---     Clef6 
+C---     Key6 
 C       PID=MY_SHIFTL(PID,0)
         ITRI(6,I)=PID
-C --- clef7 used for type17 iworkc=0 with/out type17 (or type51) PID  
+C --- key7 used for type17 iworkc=0 with/out type17 (or type51) PID  
         ITRI(7,I) =  IWORKSH(2,I) 
-C --- clef 8---------------------------------          
+C --- key 8---------------------------------          
         ITRI(8,I )= DAMP_RANGE_PART(IPARTC(II))
       ENDDO
 C
@@ -597,13 +594,13 @@ C
         END IF
       END IF
 C
-C INVERSION DE INDEX (DANS ITR1)
+C INVERSION OF INDEX (IN ITR1)
 C
       DO I=1,NUMELC
         ITR1(INDEX(I))=I
       ENDDO
 C
-C RENUMEROTATION DE L'ARBRE
+C RENUMBERING OF THE TREE
       IF(NADMESH /= 0)THEN
         DO  I=1,NUMELC
           IF(SH4TREE(1,I) /= 0)
@@ -613,7 +610,7 @@ C RENUMEROTATION DE L'ARBRE
         ENDDO
       END IF
 C
-C RENUMEROTATION POUR SURFACES
+C RENUMBERING FOR SURFACES
 C
       DO I=1,NSURF
         NN=IGRSURF(I)%NSEG
@@ -622,7 +619,7 @@ C
      .       IGRSURF(I)%ELEM(J) = ITR1(IGRSURF(I)%ELEM(J))
         ENDDO
       ENDDO
-C RENUMEROTATION POUR shell in Accel (gauge)
+C RENUMBERING FOR shell in Accel (gauge)
 C
       DO I=1,NBGAUGE
          N1 = LGAUGE(1,I)
@@ -632,7 +629,7 @@ C
          ENDIF
       ENDDO
 C
-C RENUMEROTATION POUR GROUPES DE SHELL
+C RENUMBERING FOR SHELL GROUPS
 C
       DO I=1,NGRSHEL
         NN=IGRSH4N(I)%NENTITY
@@ -641,14 +638,14 @@ C
         ENDDO
       ENDDO
 C
-C renumerotation CONNECTIVITE INVERSE
+C renumbering INVERSE CONNECTIVITY
 C
       DO I=1,4*NUMELC
         IF (NOD2ELC(I) /= 0) NOD2ELC(I)=ITR1(NOD2ELC(I))
       END DO
 C
 C--------------------------------------------------------------
-C         DETERMINATION DES SUPER_GROUPES
+C         DETERMINATION OF SUPER_GROUPS
 C--------------------------------------------------------------
       ND=1
       DO I=2,NUMELC

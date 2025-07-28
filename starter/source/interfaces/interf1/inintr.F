@@ -237,7 +237,7 @@ C-----------------------------------------------
             INTERFACE_TYPE24(NEXT_INTER(3)) = N
             IF(NTY == 25) THEN
               ! special case : interface type 25 with edge to edge 
-              ! LEDGE array is initialized during the sorting (why? i don't know)
+              ! LEDGE array is initialized during the sorting                    
               ! i7remnode algo for interface type 25 with edge to edge must be done after the %LEDGE initialization
               IEDGE = IPARI(58,N)
               IF(IEDGE/=0) SKIP_TYPE25_EDGE_2_EDGE = 1

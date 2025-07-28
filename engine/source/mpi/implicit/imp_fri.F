@@ -220,7 +220,7 @@ C-----------------------------------------------
           DO I =1,NDDL
            LB(I) = LB(I)-LX(I)
           ENDDO
-C------calcul DE for L_search as DD,DDR will be updated           
+C------calculate DE for L_search as DD,DDR will be updated           
           CALL PRODUT_VMHP(NDDL0 ,NDDL  ,IDDL  ,NDOF  ,IKC   ,
      .                     DD    ,DDR   ,LB    ,DE    ,W_DDL )
         IF ((NSREM+NSL)>0)
@@ -292,14 +292,14 @@ C-----------------------------------------------
      .        LRS2,LRSS2
       my_real
      .       KSS(6,NSL)
-C------com. tableau de noeuds secnds remotes (a proc origine) et diag_ss
+C------comm. table of remote secondary nodes (to origin proc) and diag_ss
       CALL SPMD_IFC1(NSREM  ,NSL ,KSS )
       IF (NSL>0) CALL IMP_FRSN(IPARI ,INTBUF_TAB  ,NBINTC,INTLIST)
 C      IF ((NSREM+NSL)==0) RETURN
       DO N =1,NUMNOD
        ILOCP(N)=0
       ENDDO
-C--------tag noeuds supp eventuellement dependants----
+C--------tag additional nodes possibly dependent----
       N_KINE=0
 C
       CALL TAG_INTS(NSL    ,ILOCP     ,N_KINE)
@@ -346,7 +346,7 @@ C-------iddlm-----------------
         IF (IKC(ND)/=0) NKC = NKC + 1
        ENDDO
       ENDDO
-C-----couplage avec cond. kine ------
+C-----coupling with kinematic constraints ------
       CALL DIM_KINEFR(
      1    NPBY      ,LPBY      ,ITAB      ,NRBYAC    ,IRBYAC    ,
      2    NINT2     ,IINT2     ,IPARI     ,INTBUF_TAB,ILOCP,
@@ -370,7 +370,7 @@ C-----couplage avec cond. kine ------
 C----6---------------------------------------------------------------7---------8
       RETURN
       END
-C  ------retouve ISL en num global(par chaque proc)---
+C  ------retrieve ISL in global num (by each proc)---
       !||====================================================================
       !||    imp_frsn        ../engine/source/mpi/implicit/imp_fri.F
       !||--- called by ------------------------------------------------------
@@ -410,7 +410,7 @@ C   S o u r c e  L i n e s
 C-----------------------------------------------
 C
         L = 0
-C -----tri par proc---independant interface structure------
+C -----sort by proc---independent interface structure------
         DO I = 1, NSPMD
           IF(IAD_SL(I+1)>IAD_SL(I))THEN
             DO II = 1, NBINTC
@@ -604,7 +604,7 @@ C
        ENDDO
 C---------
 C
-C Allocation des tableaux de frontieres interfaces pour implicit
+C Allocation of boundary interface arrays for implicit
 C
 C
         NCONT = NSREM-NSREM11
@@ -629,7 +629,7 @@ C
       ALLOCATE(IAD_SREM(NSPMD+1),STAT=IERROR8)
       IF(ALLOCATED(INBSL)) DEALLOCATE(INBSL)
       ALLOCATE(INBSL(NBINTC,NSPMD),STAT=IERROR9)
-C -----tri par proc---independant interface structure------
+C -----sort by proc---independent interface structure------
         DO II = 1, NBINTC
           NIN = INTLIST(II)
           DEBUT(NIN) = 0
@@ -971,7 +971,7 @@ C------int2-------
          ELSE
           NNOD=4
          ENDIF
-C-------si noeud main est dependant aussi-----
+C-------if main node is also dependent-----
          DO M=1,NNOD
           NJ=INTBUF_TAB(N)%IRECTM(NL+M)
           DO J = 1 , MIN(3,NDOF(NJ))
@@ -993,7 +993,7 @@ C------RBE3-------
          N=IFRS3(I)
          NNOD=IRBE3(5,N)
          IAD=IRBE3(1,N)
-C-------si noeud main est dependant aussi-----
+C-------if main node is also dependent-----
          DO M=1,NNOD
           NJ=LRBE3(IAD+M)
           DO J = 1 , MIN(3,NDOF(NJ))
@@ -1132,7 +1132,7 @@ C------int2-------
          ELSE
           NNOD=4
          ENDIF
-C-------si noeud main est dependant aussi-----
+C-------if main node is also dependent-----
          DO M=1,NNOD
           NJ=INTBUF_TAB(N)%IRECTM(NL+M)
           DO J = 1 , MIN(3,NDOF(NJ))
@@ -1154,7 +1154,7 @@ C------RBE3-------
          N=IFRS3(I)
          NNOD=IRBE3(5,N)
          IAD=IRBE3(1,N)
-C-------si noeud main est dependant aussi-----
+C-------if main node is also dependent-----
          DO M=1,NNOD
           NJ=LRBE3(IAD+M)
           DO J = 1 , MIN(3,NDOF(NJ))
@@ -1718,7 +1718,7 @@ C
          ELSE
           NNOD=4
          ENDIF
-C-------si noeud main est dependant aussi-----
+C-------if main node is also dependent-----
          DO M=1,NNOD
           NJ=INTBUF_TAB(N)%IRECTM(NL+M)
           NDD = 0
@@ -1910,7 +1910,7 @@ C-------------RBE2----------------------
        ALLOCATE(DIAG_MR2(6,NRBE2_FRS),STAT=IERROR1)
        DIAG_MR2=ZERO
       ENDIF
-C--------local secnd node-,d'abord independant----
+C--------local secondary node-, first independent----
        DO I = 1, NSL
         N = ISL(I)
         DO J = 1, MIN(3,NDOF(N))
@@ -2208,14 +2208,14 @@ C-----------------------------------------------
        ENDDO
       ELSE
        DO I = 1, NSL
-C--------local secnd node-----
+C--------local secondary node-----
         N = ISL(I)
          DO J = 1, MIN(3,NDOF(N))
           ID = IDDSL(J,I)
           IF (ID>0) DIAG_K(ID)=DIAG_K(ID)+DIAG_S(J,I)
          ENDDO
        ENDDO
-C--------si il y a des noeuds independant-----
+C--------if there are independent nodes-----
        DO I1=1,NI2_FRS
          I=IFRS2_S(I1)
          N=IFRS2(1,I)
@@ -2322,14 +2322,14 @@ C-----------------------------------------------
        ENDDO
       ELSE
        DO I = 1, NSL
-C--------local secnd node-----
+C--------local secondary node-----
         N = ISL(I)
          DO J = 1, MIN(3,NDOF(N))
           ID = IDDSL(J,I)
           IF (ID>0) DIAG_K(ID)=DIAG_K(ID)-DIAG_S(J,I)
          ENDDO
        ENDDO
-C--------si il y a des noeuds independant-----
+C--------if there are independent nodes-----
        DO I1=1,NI2_FRS
          I=IFRS2_S(I1)
          N=IFRS2(1,I)
@@ -2448,30 +2448,30 @@ C-----------------------------------------------
       IF ((NSREM+NSL)==0) RETURN
 C
       IF (INTP_C>0) THEN
-C-----renvoie U(NDDL_SL) et receive U(NDDL_SI)-----
+C-----send U(NDDL_SL) and receive U(NDDL_SI)-----
        CALL SPMD_IFRU(LX )
        CALL MAV_LTFR(LX  ,F   )
-C-----renvoie F (NDDL_SI) et receive F (NDDL_SL)-----
+C-----send F (NDDL_SI) and receive F (NDDL_SL)-----
        CALL SPMD_IFRF(F )
       ELSE
 C
-C-----initialise D,A noeuds independant d'abord-----
+C-----initialize D,A independent nodes first-----
       CALL FR_U2D(NDOF  ,LX    ,D     ,A     ,NSREM, NSL )
-C-----noeuds kin -----
+C-----kinematic nodes -----
       CALL FR_U2DD(D    ,DR    ,X     ,IPARI  ,INTBUF_TAB,
      1             NDOF  ,A     ,AR     ,LX     ,
      2             IBFV ,SKEW  ,XFRAME,IRBE3,LRBE3    ,
      3             IRBE2,LRBE2 )
-C-----renvoie D (NSL) et receive DFI (NSREM)-----
+C-----send D (NSL) and receive DFI (NSREM)-----
       CALL SPMD_IFCD(D  ,NSL, NSREM)
-C-----calcul  force de contact ->A ,FFI-----
+C-----compute contact force ->A ,FFI-----
       IF (NSREM>0)
      . CALL I7MAINFR(A     ,V     ,D      ,X      ,MS    ,
      1               IPARI ,INTBUF_TAB  ,NUM_IMP,NS_IMP,
      2               NE_IMP)
-C-----renvoie FFI (NSREM) et receive A (NSL)-----
+C-----send FFI (NSREM) and receive A (NSL)-----
       CALL SPMD_IFCF(A, NSREM  ,NSL)
-C-----Calcul A avec noeuds dependant---------
+C-----Compute A with dependent nodes---------
       CALL UPD_FR(A     ,AR     ,X     ,IPARI  ,INTBUF_TAB,
      1            NDOF   ,IBFV  ,SKEW   ,XFRAME ,
      2            IRBE3 ,LRBE3  ,IRBE2 ,LRBE2  )
@@ -2513,10 +2513,10 @@ C-----------------------------------------------
       IF ((NSREM+NSL)==0) RETURN
 C
       IF (INTP_C>0) THEN
-C-----renvoie U(NDDL_SL) et receive U(NDDL_SI)-----
+C-----send U(NDDL_SL) and receive U(NDDL_SI)-----
        CALL SPMD_IFRU_GPU(LX,NINDEX)
        CALL MAV_LTFR_GPU(LX  ,F, NINDEX)
-C-----renvoie F (NDDL_SI) et receive F (NDDL_SL)-----
+C-----send F (NDDL_SI) and receive F (NDDL_SL)-----
        CALL SPMD_IFRF_GPU(F,NINDEX)
       ELSE
         PRINT*,'**ERROR OPTION NOT COMPATIBLE WITH GPU'
@@ -2551,7 +2551,7 @@ C----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,K,ID,ND,M,N
-C----noeuds independant d'abord-----
+C----independent nodes first-----
       DO I = 1,NSREM
        FFI(1,I)=ZERO
        FFI(2,I)=ZERO
@@ -2774,7 +2774,7 @@ C------int2-------
          ELSE
           NNOD=4
          ENDIF
-C-------si noeud main est dependant aussi-----
+C-------if main node is also dependent-----
          DO M=1,NNOD
           NJ=INTBUF_TAB(N)%IRECTM(NL+M)
            DO J=1,NDOF(NJ)
@@ -3051,7 +3051,7 @@ C------int2-------
          ELSE
           NNOD=4
          ENDIF
-C-------si noeud main est dependant aussi-----
+C-------if main node is also dependent-----
          DO M=1,NNOD
           NJ=INTBUF_TAB(N)%IRECTM(NL+M)
            DO J=1,NDOF(NJ)
@@ -3665,7 +3665,7 @@ C--------recupere fr_nrow et passe en global (par rap. a PROC) --
          ENDDO
         ENDDO
        ENDDO
-C----cumule au cas ou les noeuds partient plusieurs frontieres--
+C----accumulate in case nodes belong to multiple interfaces--
        DO IP =1,NSPMD
         DO NK=IAD_ELEM(1,IP),IAD_ELEM(1,IP+1)-1
          N = -IFRLOC(NK)
@@ -5505,7 +5505,7 @@ C
        DO N =1,NUMNOD
         ILOCP(N)=0
        ENDDO
-C--------N_KINE: NML---LSI nb. noeuds kin-
+C--------N_KINE: NML---LSI number of kinematic nodes-
        N_KINE=0
        CALL TAG_INTML(NSREM  ,ILOCP  ,N_KINE ,IDDL ,IKC ,NDOF ,LSI)
        IF (LSI>0) THEN
@@ -9420,7 +9420,7 @@ C-----------------------------------------------
       my_real
      .     KII(6,6)
 C-------------------------------------
-C------IDDL en fonction de noeuds kin d'abords-----
+C------IDDL as function of kinematic nodes first-----
        NN = 0
        DO I = 1,NSL
         IF (IKC_SL(I)>0) THEN

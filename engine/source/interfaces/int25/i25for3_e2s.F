@@ -417,7 +417,7 @@ C---------------------------------
      .           MAX(EM30,MASM+MAS2)
             STIF(I) = MAX(STIF0(I) ,FAC*SQRT(VISCF*VIS2(I))*DT1INV)
             FF = VIS * VN(I)
-            ECONVT = ECONVT + FF * VN(I) * DT1 ! this is wrong (but unused)...
+            ECONVT = ECONVT + FF * VN(I) * DT1 
             FNI(I)  = MIN(FNI(I),FF)
           ENDDO
         ELSE

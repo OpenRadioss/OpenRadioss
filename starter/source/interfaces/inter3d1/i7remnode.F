@@ -888,9 +888,8 @@ C---------
                     IEDGE = IPARI(58,N)
                     IF(IDDLEVEL==0.AND.(NTY/=24.AND.NTY/=25)) CYCLE
                     ! special case : interface type 25 with edge to edge 
-                    ! LEDGE array is initialized during the sorting (why? i don't know)
+                    ! LEDGE array is initialized during the sorting                    
                     ! interface type 25 with edge to edge must be treated after the %LEDGE initialization
-                    ! it's little bit pitiful ...
                     ! type25 + SKIP_TYPE25_EDGE_2_EDGE==1 --> skip the interface type 25 with e2e
                     IF(IDDLEVEL==0.AND.NTY==25.AND.SKIP_TYPE25_EDGE_2_EDGE==1) CYCLE
                     ! type/=25 + SKIP_TYPE25_EDGE_2_EDGE==2 -6> only compute the interface 25 with e2e

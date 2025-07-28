@@ -98,7 +98,6 @@ C
         EXX(I)=EXX(I)-(EXY0(I)*EXY00(I)+EXZ0(I)*EXZ00(I))
         EXY(I)=EXY(I)+EXZ0(I)*EXX00(I)
         EXZ(I)=EXZ(I)+EXY0(I)*EXX00(I)
-C ... this looks suspicious.
         RZ10(I)=RZ1(I)
         RY10(I)=RY1(I)
         RZ20(I)=RZ2(I)

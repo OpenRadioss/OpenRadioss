@@ -1406,17 +1406,6 @@ C
           NOD = FR_ELEM(J)
           IF(IABS(NALE(NOD)) == 1) THEN
             IF(IVECTOR == 1) THEN
-              DO CC = ADDCNE(NOD),ADDCNE(NOD+1)-1
-                IF(PROCNE(CC) == LOC_PROC) THEN
-                  SBUF(L)   = FSKYV(CC,1)
-                  SBUF(L+1) = FSKYV(CC,2)
-                  SBUF(L+2) = FSKYV(CC,3)
-                  SBUF(L+3) = FSKYV(CC,4)
-                  SBUF(L+4) = FSKYV(CC,5)
-                  SBUF(L+5) = FSKYV(CC,6)
-                  L = L + SIZE
-                ENDIF
-              ENDDO
             ELSE
               DO CC = ADDCNE(NOD),ADDCNE(NOD+1)-1
                 IF(PROCNE(CC) == LOC_PROC) THEN
@@ -1456,17 +1445,6 @@ C
           NOD = FR_ELEM(J)
           IF(IABS(NALE(NOD)) == 1) THEN
             IF(IVECTOR == 1) THEN
-              DO CC = ADDCNE(NOD), ADDCNE(NOD+1)-1
-                IF(PROCNE(CC) == I) THEN
-                  FSKYV(CC,1) = RBUF(L)
-                  FSKYV(CC,2) = RBUF(L+1)
-                  FSKYV(CC,3) = RBUF(L+2)
-                  FSKYV(CC,4) = RBUF(L+3)
-                  FSKYV(CC,5) = RBUF(L+4)
-                  FSKYV(CC,6) = RBUF(L+5)
-                  L = L + SIZE
-                ENDIF
-              ENDDO
             ELSE
               DO CC = ADDCNE(NOD), ADDCNE(NOD+1)-1
                 IF(PROCNE(CC) == I) THEN

@@ -228,7 +228,7 @@ C======================================================================|
         IF (TYP == 14) ISENS_ENERGY = 1 ! save internal/kinetic energy (PARTSAV)
       ENDDO ! DO I=1,NSENSOR
 C
-C Boucle parallele dynamique SMP
+C Dynamic parallel loop SMP
 C
 !$OMP DO SCHEDULE(DYNAMIC,1)
       DO IG = 1, NGROUC
@@ -236,7 +236,7 @@ C
             NG = IGROUC(IG)
             SENSORS%NGR_SENSOR(ITASK+1) = NG
             NGR_FAIL_WIND = NG
-            IF (IPARG(1, NG) == 151) THEN !  Debranchement loi 151
+            IF (IPARG(1, NG) == 151) THEN !  Bypass law 151
                CYCLE
             ENDIF
 C---------temporarily used to avoid pass KTBUF_STR everywhere

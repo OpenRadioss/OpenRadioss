@@ -1288,7 +1288,7 @@ C
         NULLIFY(INTERCEP(3,I)%P)
       ENDDO
 C------------------------------------------------------------------
-C Initialisations variables NNOISE (pour fichiers Rad2noise Engine
+C Initializations of NNOISE variables (for Rad2noise Engine files
 C------------------------------------------------------------------
       NNOISE_SAV = 0
       SINOISE = 0
@@ -1296,7 +1296,7 @@ C------------------------------------------------------------------
       ALLOCATE(INOISE(0))
       ALLOCATE(FNOISE(0))
 C------------------------------------------------------------------
-C Initialisation size for INISHCEL
+C Initialization size for INISHCEL
 C------------------------------------------------------------------
       NUSPHCEL = 0
 C----------------------------------------------
@@ -1393,7 +1393,7 @@ C
      .                         C1='IQUAOFF')
 C Float
 C----------------------------------------------
-C     ALLOC TABLES INTEGER IGEO et IPM
+C     ALLOC INTEGER TABLES IGEO and IPM
 C----------------------------------------------
       LEN_G = NPROPGI*NUMGEO
       LEN_M = NPROPMI*NUMMAT
@@ -1421,16 +1421,16 @@ C----------------------------------------------
       END IF
       CALL TRACE_OUT1()
 C----------------------------------------------
-C     ALLOC ET INIT DU TAB. TAG NOEUDS UTILISES SUR P0
+C     ALLOC AND INIT OF TAG TABLE FOR NODES USED ON P0
 C----------------------------------------------
       ERR_CATEGORY='INTERNAL'
 c obsolete code, replaced by new chained-list IFRONT
-C     codage des differents types de noeuds frontiere:
-C     0 noeud pas sur le proc
-C     1 frontiere acceleration
-C     10 frontiere cinematique
-C     100 frontitere interface
-C     combinaisons possibles
+C     coding of different types of boundary nodes:
+C     0 node not on proc
+C     1 acceleration boundary
+C     10 kinematic boundary
+C     100 interface boundary
+C     possible combinations
 
 
 c SIFRONT minimum size NUMNOD. Value set to 2*NUMNOD
@@ -1463,7 +1463,7 @@ C----------------------------------------------
 
 c      IF(FLAG_GOTO == 1) GOTO 207 !!go to traitement rad2rad
 C--------------------------------------------
-C     CALCUL ISECUT
+C     CALCULATE ISECUT
 C--------------------------------------------
       ISECUT=0
       CALL LECSEC0(LSUBMODEL)
@@ -1779,7 +1779,7 @@ C --- Initialisations
       IF(NUMELP > 0) IBEAM_VECTOR(1:NUMELP) = ZERO
       IF(NUMELP > 0) RBEAM_VECTOR(1:3,1:NUMELP) = ZERO
 C
-C---  Pointeurs : sous-tableaux
+C---  Pointers: sub-arrays
       IF(SISKWN-SIFRAME<SISKWN) THEN
       IFRAME => ISKWN(SISKWN-SIFRAME+1:SISKWN)
       ELSE
@@ -1998,7 +1998,7 @@ C
       CALL APARTIN(NPART)
       END IF
 C--------------------------------------------
-C     LECTURE DES FONCTIONS & TABLES
+C     READING FUNCTIONS & TABLES
 C--------------------------------------------
       ERR_MSG='FUNCTIONS & TABLES'
       ERR_CATEGORY='FUNCTIONS & TABLES'
@@ -2057,7 +2057,7 @@ C       TABLES
 
       CALL TRACE_OUT1()
 C--------------------------------------------
-C     LECTURE DES FONCTIONS 2D
+C     READING 2D FUNCTIONS
 C--------------------------------------------
       ALLOCATE(FUNC2D(NFUNC2D))
       IF(NFUNC2D > 0) THEN
@@ -2083,7 +2083,7 @@ C-------------------------------------------
       IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,MSGTYPE=MSGERROR,C1='PM')
       ALLOCATE(GEO(SGEO),STAT=stat)
       IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,MSGTYPE=MSGERROR,C1='GEO')
-c dans le skew, on met tous les skew du modele
+c in the skew, we put all the skews of the model
       ALLOCATE(SKEW(SSKEW) ,STAT=stat)
       IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,MSGTYPE=MSGERROR,C1='SKEW')
       IF(SSKEW-SXFRAME<SSKEW) THEN
@@ -2111,7 +2111,7 @@ C--------------------------------------------
       CALL KININI(D      )
       CALL TRACE_OUT1()
 C--------------------------------------------
-C     LECTURE DES MATERIAUX
+C     READING MATERIALS
 C--------------------------------------------
       ERR_MSG='MATERIALS'
       ERR_CATEGORY='MATERIALS'
@@ -2153,7 +2153,7 @@ c
 c
       CALL TITRE3
 C--------------------------------------------
-C     INITIALISATION DES POINTEURS UTILISATEUR
+C     INITIALIZATION OF USER POINTERS
 C--------------------------------------------
         CALL SAV_BUF_POINT(PM     ,1)
         CALL SAV_BUF_POINT(BUFMAT ,2)
@@ -2185,7 +2185,7 @@ C
 
       CALL TRACE_OUT1()
 C--------------------------------------------
-C     LECTURE DES SUBMODELS & TRANSFORMATION DE SUBMODEL
+C     READING SUBMODELS & SUBMODEL TRANSFORMATION
 C--------------------------------------------
       ERR_MSG='SUBMODELS'
       ERR_CATEGORY='SUBMODELS'
@@ -2208,8 +2208,8 @@ C--------------------------------------------
 
       CALL TRACE_OUT1()
 C--------------------------------------------
-C     LECTURE DES REPERES OBLIQUES
-C   + LECTURE DES REFERENTIELS
+C     READING OBLIQUE COORDINATE SYSTEMS
+C   + READING REFERENCE FRAMES
 C--------------------------------------------
 C     SKEWS
       ERR_MSG='SKEWS'
@@ -2226,7 +2226,7 @@ C
      .                   NOM_OPT(LNOPT1*INOM_OPT(10)+1),UNITAB)
       CALL TRACE_OUT1()
 C--------------------------------------------
-C     PRELECTURE DES DRAPE
+C     PRE-READING PLY DEFINITIONS
 C--------------------------------------------
       IF(NDRAPE > 0) THEN
         ALLOCATE(IDRAPEID(NDRAPE)     ,STAT=stat)
@@ -2239,7 +2239,7 @@ C--------------------------------------------
         ALLOCATE(IDRAPEID(0))
       ENDIF
 C--------------------------------------------
-C     LECTURE DES PROPRIETES
+C     READING PROPERTIES
 C--------------------------------------------
       IF(NSPHSOL/=0)THEN
         CALL HM_PREREAD_PART(IPART,IGEO,LSUBMODEL)
@@ -2296,7 +2296,7 @@ C
       ENDIF
 c
       IF(NUMSTACK > 0) THEN
-C prelecture
+C pre-reading
          LEN_G = NPROPGI*(NUMSTACK + NUMPLY)
          ALLOCATE(IGEO_STACK(LEN_G),STAT=stat)
          IGEO_STACK = 0
@@ -2352,10 +2352,10 @@ C
 C
       CALL TRACE_OUT1()
 C-----------------------------------------------------
-C     LECTURE DES PARTS
-C     REMPLACEMENT DES NUMEROS EXTERNES DES MATERIAUX
-C     REMPLACEMENT DES NUMEROS EXTERNES DES PROPRIETES
-C     PAR LES NUMEROS INTERNES
+C     READING PARTS
+C     REPLACEMENT OF EXTERNAL MATERIAL NUMBERS
+C     REPLACEMENT OF EXTERNAL PROPERTY NUMBERS
+C     BY INTERNAL NUMBERS
 C-----------------------------------------------------
       ERR_MSG='PARTS'
       ERR_CATEGORY='PARTS'
@@ -2491,7 +2491,7 @@ C
       CALL SET_POIN_UMP(IPART,IPM,TAB_UMP_LOC,POIN_UMP,TAILLE2)
       CALL TRACE_OUT1()
 C--------------------------------------------
-C     LECTURE DES SOLIDES
+C     READING SOLIDS
 C--------------------------------------------
       ERR_MSG='ELEMENTS'
       ERR_CATEGORY='ELEMENTS'
@@ -2506,7 +2506,7 @@ C--------------------------------------------
       ENDIF
       CALL TRACE_OUT1()
 C--------------------------------------------
-C     LECTURE DES ELEMENTS 2D
+C     READING 2D ELEMENTS
 C--------------------------------------------
       IF(NUMELQ/=0)THEN
         WRITE(ISTDO,'(A)')TITRE(16)
@@ -2514,7 +2514,7 @@ C--------------------------------------------
      .             IPM     ,IGEO   ,UNITAB ,LSUBMODEL)
       ENDIF
 C--------------------------------------------
-C     LECTURE DES COQUES
+C     READING SHELLS
 C--------------------------------------------
        ALLOCATE(ITAG(NUMNOD),STAT=stat)
        IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
@@ -2528,12 +2528,12 @@ C
      .             THKE   ,IPM     ,IGEO   ,UNITAB ,ITAG   ,SH4ANG, LSUBMODEL)
       ENDIF
 C
-C          ATTENTION, LES ELEMENTS COQUE SONT PERMUTES
-C          POUR GENERER DES GROUPES OPTIMISES
-C          APRES LA LECTURE DES PID
+C          WARNING, SHELL ELEMENTS ARE PERMUTED
+C          TO GENERATE OPTIMIZED GROUPS
+C          AFTER READING PIDs
 C
 C--------------------------------------------
-C     LECTURE DES BARRES
+C     READING TRUSSES
 C--------------------------------------------
       IF(NUMELT/=0)THEN
        WRITE(ISTDO,'(A)')TITRE(18)
@@ -2541,7 +2541,7 @@ C--------------------------------------------
      .             IPM    ,IGEO    ,LSUBMODEL)
       ENDIF
 C--------------------------------------------
-C     LECTURE DES POUTRES
+C     READING BEAMS
 C--------------------------------------------
       IF(NUMELP/=0)THEN
        WRITE(ISTDO,'(A)')TITRE(19)
@@ -2549,7 +2549,7 @@ C--------------------------------------------
      .                   IPM    ,IGEO   ,LSUBMODEL,IBEAM_VECTOR,RBEAM_VECTOR)
       ENDIF
 C--------------------------------------------
-C     LECTURE DES RESSORTS
+C     READING SPRINGS
 C--------------------------------------------
       REINT = ZERO
       IF(NUMELR/=0)THEN
@@ -2558,7 +2558,7 @@ C--------------------------------------------
      .             IGEO  ,IXR_KJ ,LSUBMODEL,ISKWN,R_SKEW,IPM)
       ENDIF
 C--------------------------------------------
-C     LECTURE DES COQUES TRIANGLE
+C     READING TRIANGULAR SHELLS
 C--------------------------------------------
       IF(NUMELTG/=0)THEN
         IF(N2D==0 .AND. NUMELTRIA==0)THEN
@@ -2595,7 +2595,7 @@ C--------------------------------------------
 C     Check XFEM FLAG
       IF(NUMELTG + NUMELC == 0) ICRACK3D = 0
 C--------------------------------------------
-C     LECTURE DES ELEMENTS ISO-GEOMETRIQUES
+C     READING ISO-GEOMETRIC ELEMENTS
 C--------------------------------------------
       NCTRLMAX = 0
       IF(NUMELIG3D/=0)THEN
@@ -2664,14 +2664,14 @@ c
         ALLOCATE(KNOTLOCPC(0) ,STAT=stat)
       ENDIF
 C--------------------------------------------
-C     PRELECTURE GRNOD/NODENS
+C     PRE-READING GRNOD/NODENS
 C--------------------------------------------
       IF(NUMELX > 0 .AND. NGRNOD > 0 )THEN
         WRITE(ISTDO,'(A)')' .. NODENS GROUP '
         CALL HM_PRELECGRNS(ITABM1 ,IGRNOD, LSUBMODEL)
       ENDIF
 C---------------------------------------------
-C      PRELECTURE DES ELEMENTS MULTI-PURPOSE.
+C      PRE-READING MULTI-PURPOSE ELEMENTS.
 C---------------------------------------------
       ERR_MSG='MULTI-PURPOSE ELEMENTS'
       ERR_CATEGORY='MULTI-PURPOSE ELEMENTS'
@@ -2855,7 +2855,7 @@ c
 c
       CALL TRACE_OUT1()
 C--------------------------------------------
-C     LECTURE DES PARAMETRES GLOBAUX + PARTICULES SPH.
+C     READING GLOBAL PARAMETERS + SPH PARTICLES.
 C---------------------------------------------
       ERR_MSG='SPH'
       ERR_CATEGORY='SPH'
@@ -3086,7 +3086,7 @@ C--------------------------------------------
       IF(ALLOCATED(IWORK)) DEALLOCATE(IWORK)
       CALL TRACE_OUT1()
 C--------------------------------------------
-C     LECTURE DES SUBSETS
+C     READING SUBSETS
 C--------------------------------------------
       TAGSURFIGE = 0
       SIBUFSSG = 0  ! to be removed
@@ -3103,7 +3103,7 @@ C--------------------------------------------
       ENDIF
       CALL TRACE_OUT1()
 C--------------------------------------------
-C     LECTURE DES BOXES (BOX et BOX des BOX)
+C     READING BOXES (BOX and BOX of BOX)
 C--------------------------------------------
       CALL STARTIME(19,1)
 C--------------------------------------------
@@ -3178,7 +3178,7 @@ C---
      2     IXT_S ,IXT_S_IND,IXP_S,IXP_S_IND,IXR_S,IXR_S_IND,
      3     IXTG_S,IXTG_S_IND)
 C--------------------------------------------
-C    LECTURE DES GROUPES DE PARTS (1st LEVEL)
+C    READING PART GROUPS (1st LEVEL)
 C--------------------------------------------
       WRITE(ISTDO,'(A)')' .. PART GROUPS'
       ERR_CATEGORY='PART GROUPS'
@@ -3189,7 +3189,7 @@ C--------------------------------------------
       FLAGG = 1 !BUILD GROUPS
       CALL HM_READ_GRPART(IGRPART , IPART, ISUBMOD, FLAGG ,NGRPART,LSUBMODEL, SUBSETS )
 C--------------------------------------------
-C    LECTURE DES GROUPES DES GROUPES
+C    READING GROUPS OF GROUPS
 C--------------------------------------------
       ERR_CATEGORY='GROUP OF GROUPS'
       ICOUNT = 1
@@ -3213,7 +3213,7 @@ C---
      .       LSUBMODEL)
       ENDDO
 C--------------------------------------------
-C    LECTURE DES SURFACES
+C    READING SURFACES
 C--------------------------------------------
 
       ! allocation for pre-read of Rbody needed for /SET
@@ -3518,7 +3518,7 @@ c
       ENDIF
 c
 C-------
-C       LECTURE DES SURFACES DES SURFACES
+C       READING SURFACES OF SURFACES
 C-------
         ICOUNT = 1
         ITER   = 0
@@ -3572,7 +3572,7 @@ C---
       ENDDO
       NSEGS=NSEGS+NSEGSMAX
 C--------------------------------------------
-C     LECTURE DES LIGNES
+C     READING LINES
 C--------------------------------------------
       IF(NSLIN > 0) THEN
         WRITE(ISTDO,'(A)')' .. LINES '
@@ -4449,8 +4449,8 @@ C     ---------------------------------------------------------------
        ENDIF
       CALL TRACE_OUT1()
 C--------------------------------------------
-C     MULTIMATERIAUX
-C     INITIALISATION DES POURCENTAGES NODAUX
+C     MULTIMATERIALS
+C     INITIALIZATION OF NODAL PERCENTAGES
 C--------------------------------------------
       CALL TRACE_IN1(ERR_MSG,LEN_TRIM(ERR_MSG))
        IF(NMULT>0)THEN
@@ -8740,7 +8740,7 @@ C
       CALL TRACE_OUT1()
 !---
 C--------------------------------------------
-C     INITIALISATION DES BUFFERS  --- IGRNOD, IGRBRIC, ..., IGRSURF, ... ---
+C     INITIALIZATION OF BUFFERS  --- IGRNOD, IGRBRIC, ..., IGRSURF, ... ---
 C--------------------------------------------
       ERR_MSG='GROUP ENTITIES BUFFER INITIALIZATION'
       ERR_CATEGORY='INTERNAL'
@@ -10239,9 +10239,9 @@ C init MULTIMAX
       CALL SETMULTI(IPARI  )
       CALL TRACE_OUT1()
 C---------------------------------------------------------------------
-C      INITIALISATION DES INTERFACES DEUXIEME PARTIE
-C     INIT INTERFACE TYPE 6 + STATISTIQUES BUCKET SORT TYPE 4
-C     MISE DANS FRONTIERE(1) DES NOEUDS DS INTERFACE
+C      INITIALIZATION OF INTERFACES SECOND PART
+C     INIT INTERFACE TYPE 6 + BUCKET SORT TYPE 4 STATISTICS
+C     PUT INTERFACE NODES INTO FRONTIERE(1)
 C---------------------------------------------------------------------
       ERR_MSG='INTERFACE INITIALIZATION PHASE 2'
       ERR_CATEGORY='INTERFACES'

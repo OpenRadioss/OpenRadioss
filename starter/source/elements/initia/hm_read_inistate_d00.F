@@ -222,7 +222,7 @@ C
       KTRIELSPHCEL = 0
       NEM1 = 0
 C-----------------------------------------
-C     CONTRAINTES INITIALES FICHIER D00
+C     INITIAL CONSTRAINTS FILE D00
 C-----------------------------------------
       IS_AVAILABLE = .FALSE.
       GLOB         = .FALSE.
