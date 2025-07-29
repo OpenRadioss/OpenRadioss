@@ -76,10 +76,10 @@ class Subroutine:
             max_len = max(max_len, max([len(sub) for sub in self.callers_name]))
         if self.modules_name:
             max_len = max(max_len, max([len(sub) for sub in self.modules_name]))
-        self.header = f'      !||====================================================================\n'
-        self.header += f'      !||    {self.name.ljust(max_len)}   {self.path}\n'
+        self.header = f'!||====================================================================\n'
+        self.header += f'!||    {self.name.ljust(max_len)}   {self.path}\n'
         if self.callers_name:
-            self.header += f'      !||--- called by ------------------------------------------------------\n'
+            self.header += f'!||--- called by ------------------------------------------------------\n'
         elif debug : # warning about dead code
             print(f'Warning: Subroutine {self.name} in {self.path} is dead')
 
@@ -88,32 +88,32 @@ class Subroutine:
             #check if caller is in subroutines
             if caller in subroutines and caller != self.name:
                 path=subroutines[caller].path
-                self.header += f'      !||    {caller.ljust(max_len)}   {path}\n'
+                self.header += f'!||    {caller.ljust(max_len)}   {path}\n'
             else:
                 pass
-                #self.header += f'      !||    {caller.ljust(max_len)}   \n'
+                #self.header += f'!||    {caller.ljust(max_len)}   \n'
         #if callees_name is not empty
         if self.callees_name:
-            self.header += f'      !||--- calls      -----------------------------------------------------\n'
+            self.header += f'!||--- calls      -----------------------------------------------------\n'
              
             for callee in sorted(self.callees_name):
                 if(callee in subroutines) and callee != self.name:
                     path=subroutines[callee].path
-                    self.header += f'      !||    {callee.ljust(max_len)}   {path}\n'
+                    self.header += f'!||    {callee.ljust(max_len)}   {path}\n'
                 else:   
-                    #self.header += f'      !||    {callee.ljust(max_len)}   \n'
+                    #self.header += f'!||    {callee.ljust(max_len)}   \n'
                     pass
         # if modules_name is not empty
         if self.modules_name:
-            self.header += f'      !||--- uses       -----------------------------------------------------\n' 
+            self.header += f'!||--- uses       -----------------------------------------------------\n' 
             for module in sorted(self.modules_name):
                 if(module in subroutines):
                     path=subroutines[module].path
-                    self.header += f'      !||    {module.ljust(max_len)}   {path}\n'
+                    self.header += f'!||    {module.ljust(max_len)}   {path}\n'
                 else:
                     pass
-                    #self.header += f'      !||    {module.ljust(max_len)}\n'
-        self.header += f'      !||====================================================================\n'
+                    #self.header += f'!||    {module.ljust(max_len)}\n'
+        self.header += f'!||====================================================================\n'
 
 class CodeAnalyzer:
     def __init__(self):
