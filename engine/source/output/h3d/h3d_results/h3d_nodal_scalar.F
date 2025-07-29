@@ -77,6 +77,7 @@ C-----------------------------------------------
       USE NAMES_AND_TITLES_MOD, ONLY: NCHARLINE100
       USE MULTI_FVM_MOD , ONLY : MULTI_FVM_STRUCT
       USE OUTPUT_MOD , ONLY : NODA_SURF, NODA_PEXT, H3D_HAS_NODA_PEXT
+      USE ANIM_MONVOL_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -370,7 +371,10 @@ c
          ENDIF
 C--------------------------------------------------
          !Then Monitored Volumes (Pressure,Density,Temperature,Sound Speed)
-         IF(NVOLU > 0)CALL ANIMBALE(IFUNC, VALUE_NUMNOD_REAL, IS_WRITTEN_NODE , MONVOL, VOLMON, 1)
+         IF(NVOLU > 0)CALL ANIMBALE(IFUNC, VALUE_NUMNOD_REAL, IS_WRITTEN_NODE , MONVOL, VOLMON, 1,
+     .                    NUMNOD, NIMV, NVOLU, NRVOLU, LICBAG, LIBAGJET,
+     .                    LIBAGHOL, LRCBAG, LRBAGJET, LRBAGHOL, NSPMD)
+
          DO I=1,NUMNOD
            IF(IS_WRITTEN_NODE(I) == 1) THEN
              VALUE(I) = VALUE_NUMNOD_REAL(I)
