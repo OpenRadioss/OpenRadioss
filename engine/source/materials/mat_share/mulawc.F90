@@ -1588,25 +1588,26 @@
 !
               elseif (ilaw == 80) then
                 call sigeps80c(&
-                &jlt,          nuparam0,      nuvar,        nfunc,&
-                &ifunc,        npf,          npt,          ipt,&
-                &iflag,        tf,           tt,           dt1c,&
-                &uparam0,       rho,          area,         eint,&
-                &thklyl,       epspxx,       epspyy,       epspxy,&
-                &epspyz,       epspzx,       depsxx,       depsyy,&
-                &depsxy,       depsyz,       depszx,       epsxx,&
-                &epsyy,        epsxy,        epsyz,        epszx,&
-                &sigoxx,sigoyy,sigoxy,sigoyz,&
-                &sigozx,signxx,       signyy,       signxy,&
-                &signyz,       signzx,       sigvxx,       sigvyy,&
-                &sigvxy,       sigvyz,       sigvzx,       ssp,&
-                &viscmx,       thkn,         lbuf%pla,     uvar,&
-                &off,          ngl,          pm,           ipm,&
-                &matly(jmly),  etse,         gs,           vol0,&
-                &sigy,         el_temp,      die,          coef,&
-                &shf,          epsd_pg,      table,        ithk,&
-                &nvartmp,      vartmp,       epsthtot,     jthe,&
-                &idt_therm,    theaccfact)
+                 jlt,          nuparam0,      nuvar,        nfunc,&
+                 ifunc,        npf,          npt,          ipt,&
+                 iflag,        tf,           tt,           dt1c,&
+                 uparam0,       rho,          area,         eint,&
+                 thklyl,       epspxx,       epspyy,       epspxy,&
+                 epspyz,       epspzx,       depsxx,       depsyy,&
+                 depsxy,       depsyz,       depszx,       epsxx,&
+                 epsyy,        epsxy,        epsyz,        epszx,&
+                 sigoxx,sigoyy,sigoxy,sigoyz,&
+                 sigozx,signxx,       signyy,       signxy,&
+                 signyz,       signzx,       sigvxx,       sigvyy,&
+                 sigvxy,       sigvyz,       sigvzx,       ssp,&
+                 viscmx,       thkn,         lbuf%pla,     uvar,&
+                 off,          ngl,          pm,           ipm,&
+                 matly(jmly),  etse,         gs,           vol0,&
+                 sigy,         el_temp,      die,          coef,&
+                 shf,          epsd_pg,      table,        ithk,&
+                 nvartmp,      vartmp,       epsthtot,     jthe,&
+                 idt_therm,    theaccfact)
+                 lbuf%epsd(1:nel) = epsd_pg(1:nel)                
 !
               elseif (ilaw == 82) then
                 call sigeps82c(&
@@ -1772,28 +1773,30 @@
 !
               elseif (ilaw == 122) then
                 call sigeps122c(&
-                &jlt      ,nuparam0 ,nuvar    ,uparam0  ,uvar     ,&
-                &epsxx    ,epsyy    ,rho      ,lbuf%pla ,dpla     ,&
-                &depsxx   ,depsyy   ,depsxy   ,depsyz   ,depszx   ,&
-                &sigoxx,sigoyy,sigoxy,sigoyz,sigozx,&
-                &signxx   ,signyy   ,signxy   ,signyz   ,signzx   ,&
-                &thkn     ,thklyl   ,off      ,sigy     ,etse     ,&
-                &lbuf%dmg ,lbuf%seq ,shf      ,ssp      ,&
-                &epsd_pg  ,nfunc    ,ifunc    ,npf      ,tf       ,&
-                &nvartmp  ,vartmp   ,ioff_duct)
+                 jlt      ,nuparam0 ,nuvar    ,uparam0  ,uvar     ,   &
+                 epsxx    ,epsyy    ,rho      ,lbuf%pla ,dpla     ,   &
+                 depsxx   ,depsyy   ,depsxy   ,depsyz   ,depszx   ,   &
+                 sigoxx   ,sigoyy   ,sigoxy   ,sigoyz   ,sigozx   ,   &
+                 signxx   ,signyy   ,signxy   ,signyz   ,signzx   ,   &
+                 thkn     ,thklyl   ,off      ,sigy     ,etse     ,   &
+                 lbuf%dmg ,lbuf%seq ,shf      ,ssp      ,asrate   ,   &
+                 epsd_pg  ,nfunc    ,ifunc    ,npf      ,tf       ,   &
+                 nvartmp  ,vartmp   ,ioff_duct)
+                 lbuf%epsd(1:nel) = epsd_pg(1:nel)
 !
               elseif (ilaw == 125) then
                call sigeps125c(&
-               &jlt      ,matparam   ,nuvar    ,uvar      ,&
-               &rho      ,thkn       ,thklyl   , shf      ,&
-               &nfunc    ,ifunc      ,npf      ,tf        ,snpc    ,&
-               &stf      ,epsd_pg                                  ,&
-               &depsxx   ,depsyy     ,depsxy                       ,&
-               &epsxx    ,epsyy      ,epsxy    ,epsyz    ,epszx    ,&
-               &sigoxx   ,sigoyy     ,sigoxy                       ,&
-               &signxx   ,signyy     ,signxy   ,signzx   ,signyz   ,&
-               &off      ,sigy       ,etse     ,ssp      ,lbuf%dmg ,&
-               &gbuf%dmg ,lbuf%off  )
+                    jlt      ,matparam   ,nuvar    ,uvar      ,&
+                    rho      ,thkn       ,thklyl   , shf      ,&
+                    nfunc    ,ifunc      ,npf      ,tf        ,snpc    ,&
+                    stf      ,epsd_pg                                  ,&
+                    depsxx   ,depsyy     ,depsxy                       ,&
+                    epsxx    ,epsyy      ,epsxy    ,epsyz    ,epszx    ,&
+                    sigoxx   ,sigoyy     ,sigoxy                       ,&
+                    signxx   ,signyy     ,signxy   ,signzx   ,signyz   ,&
+                    off      ,sigy       ,etse     ,ssp      ,lbuf%dmg ,&
+                    gbuf%dmg ,lbuf%off  )
+                 lbuf%epsd(1:nel) = epsd_pg(1:nel)
 !
               elseif (ilaw == 127) then
                 ! ---
@@ -1807,16 +1810,17 @@
                 enddo
                 !---
                 call sigeps127c(&
-                &jlt      ,matparam   ,nuvar    ,uvar      ,         &
-                &rho      ,thkn       ,thklyl   ,shf       ,ncycle  ,&
-                &nfunc    ,ifunc      ,npf      ,tf        ,snpc    ,&
-                &stf      ,epsd_pg    ,npttot                       ,&
-                &depsxx   ,depsyy     ,depsxy   ,depsyz   ,depszx   ,&
-                &epsxx    ,epsyy      ,epsxy    ,epsyz    ,epszx    ,&
-                &sigoxx   ,sigoyy     ,sigoxy   ,sigozx   ,sigoyz   ,&
-                &signxx   ,signyy     ,signxy   ,signzx   ,signyz   ,&
-                &off      ,sigy       ,etse     ,ssp      ,lbuf%dmg ,&
-                &gbuf%dmg  ,lbuf%off)
+                 jlt      ,matparam   ,nuvar    ,uvar      ,         &
+                 rho      ,thkn       ,thklyl   ,shf       ,ncycle  ,&
+                 nfunc    ,ifunc      ,npf      ,tf        ,snpc    ,&
+                 stf      ,epsd_pg    ,npttot                       ,&
+                 depsxx   ,depsyy     ,depsxy   ,depsyz   ,depszx   ,&
+                 epsxx    ,epsyy      ,epsxy    ,epsyz    ,epszx    ,&
+                 sigoxx   ,sigoyy     ,sigoxy   ,sigozx   ,sigoyz   ,&
+                 signxx   ,signyy     ,signxy   ,signzx   ,signyz   ,&
+                 off      ,sigy       ,etse     ,ssp      ,lbuf%dmg ,&
+                 gbuf%dmg  ,lbuf%off)
+                 lbuf%epsd(1:nel) = epsd_pg(1:nel)
 !
               elseif (ilaw == 128) then
                 sigoxx(1:nel) = lbuf%sig(1:nel)
@@ -1952,14 +1956,14 @@
                   ! non-local material
                   if (inloc > 0) then
                     do i=jft,jlt
-                      dpla(i)  = max(varnl(i,it),zero)
+                      dpla(i) = max(varnl(i,it),zero)
                       epsd(i) = lbuf%epsdnl(i)
                     enddo
                     el_pla => lbuf%planl(1:nel)
                     ! classical local material
                   else
                     do i=jft,jlt
-                      dpla(i)  = lbuf%pla(i) - pla0(i)
+                      dpla(i) = lbuf%pla(i) - pla0(i)
                       epsd(i) = lbuf%epsd(i)
                     enddo
                     el_pla => lbuf%pla(1:nel)

@@ -37,7 +37,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      4     SIGOXX  ,SIGOYY  ,SIGOXY  ,SIGOYZ  ,SIGOZX  ,
      5     SIGNXX  ,SIGNYY  ,SIGNXY  ,SIGNYZ  ,SIGNZX  ,
      6     THK     ,THKLY   ,OFF     ,SIGY    ,ETSE    ,
-     7     DMG     ,SEQ     ,SHF     ,SOUNDSP ,
+     7     DMG     ,SEQ     ,SHF     ,SOUNDSP ,ASRATE  ,
      8     EPSD_PG ,NFUNC   ,IFUNC   ,NPF     ,TF      ,
      9     NVARTMP ,VARTMP  ,IOFF_DUCT)
 C-----------------------------------------------
@@ -57,6 +57,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER, INTENT(IN) :: NEL,NUPARAM,NUVAR,
      .   NFUNC,IFUNC(NFUNC),NPF(SNPC),NVARTMP
+      my_real, INTENT(IN) :: ASRATE
       my_real, INTENT(IN) ::
      .   UPARAM(NUPARAM),TF(STF)
       my_real,DIMENSION(NEL), INTENT(IN) :: 
@@ -78,11 +79,18 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER IRES,I
+      my_real ,DIMENSION(NEL) :: EPSD
 C=======================================================================
 c
       IRES = NINT(UPARAM(17)) ! Plastic projection method
                               !  = 1 => Nice method
                               !  = 2 => Cutting plane
+                              
+      ! strain rate filtering, using global element strain rate
+      do i=1,nel
+        epsd(i) = asrate*epsd_pg(i) + (one-asrate)*uvar(i,18)
+        uvar(i,18) = epsd(i)
+      end do
 c--------------------------                        
       SELECT CASE (IRES)
 c      
@@ -95,7 +103,7 @@ c
      4         SIGOXX  ,SIGOYY  ,SIGOXY  ,SIGOYZ  ,SIGOZX  ,
      5         SIGNXX  ,SIGNYY  ,SIGNXY  ,SIGNYZ  ,SIGNZX  ,
      6         THK     ,THKLY   ,OFF     ,SIGY    ,ETSE    ,
-     7         DMG     ,SEQ     ,EPSD_PG ,SHF     ,SOUNDSP ,
+     7         DMG     ,SEQ     ,EPSD    ,SHF     ,SOUNDSP ,
      8         NFUNC   ,IFUNC   ,NPF     ,TF      ,NVARTMP ,
      9         VARTMP  )
 c      
@@ -108,7 +116,7 @@ c
      4         SIGOXX  ,SIGOYY  ,SIGOXY  ,SIGOYZ  ,SIGOZX  ,
      5         SIGNXX  ,SIGNYY  ,SIGNXY  ,SIGNYZ  ,SIGNZX  ,
      6         THK     ,THKLY   ,OFF     ,SIGY    ,ETSE    ,
-     7         DMG     ,SEQ     ,EPSD_PG ,SHF     ,SOUNDSP ,
+     7         DMG     ,SEQ     ,EPSD    ,SHF     ,SOUNDSP ,
      8         NFUNC   ,IFUNC   ,NPF     ,TF      ,NVARTMP ,
      9         VARTMP  )
     

@@ -536,10 +536,9 @@ c-------------------------------------------
       asrate = one   ! to be changed for default value
 #include "vectorize.inc"
       do i = 1,nel
-        eps_k2 = (kxx(i)*kxx(i)+kyy(i)*kyy(i)+kxx(i)*kyy(i)              
-     &         + fourth*one_over_9*kxy(i)*kxy(i))*gbuf%thk(i)**2
-        eps_m2 = four_over_3*(exx(i)*exx(i)+eyy(i)*eyy(i)+exx(i)*eyy(i)  
-     &         + fourth*exy(i)*exy(i))
+        eps_k2 = (kxx(i)**2+kyy(i)**2+kxx(i)*kyy(i)+fourth*kxy(i)**2)
+     .         * one_over_9*gbuf%thk(i)**2
+        eps_m2 = four_over_3*(exx(i)**2+eyy(i)**2+exx(i)*eyy(i) + fourth*exy(i)**2)
         epsd_pg(i) = sqrt(eps_k2 + eps_m2)*dtinv
       end do
 !-------------------------------------------------------------------------------

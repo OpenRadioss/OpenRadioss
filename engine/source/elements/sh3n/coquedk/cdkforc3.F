@@ -412,17 +412,16 @@ c-------------------------------------------
 !       e = 1/2 e eps_eq^2
 !       eps_eq = sqrt[ eps_m^2 + 1/12 k^2t^2 ]
 !-------------------------------------------------------------------------------
-        dt1 = dt1c(1)
-        dtinv = dt1 / max(dt1**2,em20)  ! inverse of dt
+      dt1 = dt1c(1)
+      dtinv = dt1 / max(dt1**2,em20)  ! inverse of dt
 #include "vectorize.inc"
-        do i = 1,nel
-          eps_k2 = (kxx(i)*kxx(i)+kyy(i)*kyy(i)+kxx(i)*kyy(i)              
-     &           + fourth*one_over_9*kxy(i)*kxy(i)) * gbuf%thk(i)**2
-          eps_m2 = four_over_3*(exx(i)*exx(i)+eyy(i)*eyy(i)+exx(i)*eyy(i)  
-     &           + fourth*exy(i)*exy(i))
-          epsd_pg(i) = sqrt(eps_k2 + eps_m2)*dtinv
-          epsd_glob(i) = epsd_glob(i) + epsd_pg(i) / npg
-        end do
+      do i = 1,nel
+        eps_k2 = (kxx(i)**2+kyy(i)**2+kxx(i)*kyy(i)+fourth*kxy(i)**2)
+     .         * one_over_9*gbuf%thk(i)**2
+        eps_m2 = four_over_3*(exx(i)**2+eyy(i)**2+exx(i)*eyy(i) + fourth*exy(i)**2)
+        epsd_pg(i) = sqrt(eps_k2 + eps_m2)*dtinv
+        epsd_glob(i) = epsd_glob(i) + epsd_pg(i) / npg
+      end do
 C----------------------------------------------------------------------------
        CALL CMAIN3(TIMERS,
      1     ELBUF_STR ,JFT       ,JLT       ,NFT       ,IPARG      ,

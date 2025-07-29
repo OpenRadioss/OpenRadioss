@@ -342,7 +342,7 @@ c--------------------------
       ! Number of functions
       NFUNC   = 3
       ! Number of user variables 
-      NUVAR   = 17
+      NUVAR   = 18
       ! Number of temporary variable for interpolation
       NVARTMP = 3
 c          
