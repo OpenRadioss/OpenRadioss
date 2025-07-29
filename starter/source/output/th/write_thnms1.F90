@@ -216,7 +216,7 @@
 
           write(io, *) '$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
           write(io, *) '$$'
-          write(io, *) '$$               FILE NMS release 2025.0'
+          write(io, *) '$$               FILE NMS release 2026.0'
           write(io, *) '$$'
           write(io, *) '$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
           write(io, *) '$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
@@ -244,6 +244,7 @@
           write(io, *) '         13 CE_ELAST  ELASTIC CONTACT ENERGY'
           write(io, *) '         14 CE_FRIC   FRICTIONAL CONTACT ENERGY'
           write(io, *) '         15 CE_DAMP   DAMPING CONTACT ENERGY'
+          write(io, *) '         16 WPLA      PLASTIC WORK'
 
 
           write(io, *) '$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
