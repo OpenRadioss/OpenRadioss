@@ -355,6 +355,13 @@ c----         USER VARIABLES from 1 to 5
                 N = I + NFT
                 FUNC(EL2FA(NN3+NFT+I)) = EHOUR(N)
                ENDDO
+c---
+            ELSEIF (IFUNC == 26) THEN
+              IF (GBUF%G_EPSD > 0) THEN 
+                DO I = LFT,LLT
+                  FUNC(EL2FA(NN3+NFT+I)) = GBUF%EPSD(I)
+                ENDDO
+              ENDIF
 c----
             ELSEIF (IFUNC>=27 .AND. IFUNC<=39 .AND.
      .       (MLW == 28.OR.MLW == 29.OR.MLW == 30.OR.MLW == 31.OR.

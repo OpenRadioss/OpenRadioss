@@ -444,6 +444,15 @@
                   enddo
                 endif
 !--------------------------------------------------
+              elseif(keyword == 'EPSD')then
+!--------------------------------------------------
+                if(gbuf%g_epsd > 0)then
+                  do i=1,nel
+                    value(i) = gbuf%epsd(i)
+                    is_written_value(i) = 1
+                  enddo
+                endif
+!--------------------------------------------------
               elseif(keyword == 'P')then
 !--------------------------------------------------
                 if (mlw == 151) then
