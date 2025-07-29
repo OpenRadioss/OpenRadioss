@@ -138,7 +138,6 @@ C
       !||    sigeps81            ../engine/source/materials/mat/mat081/sigeps81.F90
       !||    sigeps90            ../engine/source/materials/mat/mat090/sigeps90.F
       !||    sigeps96            ../engine/source/materials/mat/mat096/sigeps96.F
-      !||    sigeps96c           ../engine/source/materials/mat/mat096/sigeps96c.F
       !||====================================================================
       SUBROUTINE VINTER2(TF,IAD,IPOS ,ILEN,NEL0,X,DYDX,Y)
 C IDEM VINTER AVEC POSSIBILITE DE FAIRE DECROITRE X

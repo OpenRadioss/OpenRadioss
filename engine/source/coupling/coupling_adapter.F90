@@ -348,15 +348,16 @@
 
 !       Only for cwipi, not for precice yet
       !||====================================================================
-      !||    coupling_set_mesh           ../engine/source/coupling/coupling_adapter.F90
+      !||    coupling_set_mesh            ../engine/source/coupling/coupling_adapter.F90
       !||--- called by ------------------------------------------------------
-      !||    coupling_set_interface      ../engine/source/coupling/coupling_adapter.F90
+      !||    coupling_set_interface       ../engine/source/coupling/coupling_adapter.F90
       !||--- calls      -----------------------------------------------------
-      !||    coupling_adapter_set_mesh   ../engine/source/coupling/coupling_c_interface.cpp
-      !||    make_unique                 ../engine/source/coupling/coupling_adapter.F90
+      !||    coupling_adapter_set_mesh    ../engine/source/coupling/coupling_c_interface.cpp
+      !||    coupling_adapter_set_nodes   ../engine/source/coupling/coupling_c_interface.cpp
+      !||    make_unique                  ../engine/source/coupling/coupling_adapter.F90
       !||--- uses       -----------------------------------------------------
-      !||    groupdef_mod                ../common_source/modules/groupdef_mod.F
-      !||    nodal_arrays_mod            ../common_source/modules/nodal_arrays.F90
+      !||    groupdef_mod                 ../common_source/modules/groupdef_mod.F
+      !||    nodal_arrays_mod             ../common_source/modules/nodal_arrays.F90
       !||====================================================================
         subroutine coupling_set_mesh(coupling, surf,  nodes)
 ! ----------------------------------------------------------------------------------------------------------------------

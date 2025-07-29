@@ -136,7 +136,6 @@
       !||    sigeps87c                 ../engine/source/materials/mat/mat087/sigeps87c.F90
       !||    sigeps88c                 ../engine/source/materials/mat/mat088/sigeps88c.F
       !||    sigeps93c                 ../engine/source/materials/mat/mat093/sigeps93c.F
-      !||    sigeps96c                 ../engine/source/materials/mat/mat096/sigeps96c.F
       !||    startime                  ../engine/source/system/timer_mod.F90
       !||    stoptime                  ../engine/source/system/timer_mod.F90
       !||    urotov                    ../engine/source/airbag/uroto.F
