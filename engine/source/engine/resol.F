@@ -3283,6 +3283,7 @@ C----------------------------------
               ZMOMT=ZERO
               DEF=ZERO
               DMF=ZERO
+              WPLAST=ZERO
 C
               DT1=DT2
               DT2=EP06

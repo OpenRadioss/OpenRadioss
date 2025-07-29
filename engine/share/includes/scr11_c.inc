@@ -23,9 +23,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C.../SCR11/
       COMMON /SCR11/ ENINT, ENCIN, XMOMT, YMOMT, ZMOMT, XMASS, ENROT, ECONT, 
      .               MASS0, ENTOT0, DMF ,  DEF, ENCIN2, ENROT2, DELTAE,
-     .               EAMS     
+     .               EAMS , WPLAST    
 C     REAL ou REAL*8
       my_real
      .    ENINT, ENCIN, XMOMT, YMOMT, ZMOMT, XMASS, ENROT, ECONT,
      .    MASS0, ENTOT0 , DMF ,  DEF, ENCIN2, ENROT2, DELTAE,
-     .    EAMS   
+     .    EAMS , WPLAST 

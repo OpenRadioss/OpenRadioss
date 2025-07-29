@@ -292,7 +292,9 @@ C-------HIERARCHY INFO------------
       IWA(4)=NSUBS
       IWA(5)=NTHGRP2 
       IF(NSECT==0.AND.NSFLSW/=0) IWA(5)=NTHGRP2+1
-      IF(TH_VERS >= 2021)THEN
+      IF (TH_VERS >= 2026)THEN
+        NGLOBTH=16  
+      ELSEIF (TH_VERS >= 2021) THEN
         NGLOBTH=15   
       ELSE
         NGLOBTH=12

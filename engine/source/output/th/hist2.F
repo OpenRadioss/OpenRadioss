@@ -311,6 +311,7 @@ C------------------------
           WA(II+13)= ECONT+ECONT_CUMU !Contact Elastic Energy
           WA(II+14)= ECONTV ! Contact Frictional Energy
           WA(II+15)= ECONTD ! Damping Frictional Energy
+          WA(II+16)= WPLAST ! Plastic Work
 C         NGLOBTH depends on /TH/VERS
           IF(IUNIT==IUHIS) CALL WRTDES(WA,WA,NGLOBTH,ITTYP,1)
         ENDIF  ! ISPMD==0
