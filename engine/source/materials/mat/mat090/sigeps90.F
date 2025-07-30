@@ -127,14 +127,14 @@ C-----------------------------------------------
      .           NINDX_PRINT,N,FAIL
       INTEGER :: ILOAD(MVSIZ,3),INDX_L(MVSIZ),INDX_UNL(MVSIZ),INDX(MVSIZ),
      .           INDX_PRINT(NEL)
-      INTEGER ,DIMENSION(NEL) :: IAD,ILEN,IPOS,JJ
+      INTEGER ,DIMENSION(NEL) :: IAD,ILEN,IPOS,JJ,UNLOAD
       my_real
      . E0,AA,G,NU,SHAPE,HYS,
      . YFAC1,YFACJ1,YFACJ2,RATEJ1,RATEJ2, EPSE,EP1,
      . EP2,EP3,EP4,EP5,EP6,ERT11,ERT12,ERT13,ERT21,
      . ERT22,ERT23,ERT31,ERT32,ERT33,SJ1,SJ2,FAC,T1,T2,T3,
      . DAM,EPE,E_MIN(MVSIZ),DELTA,ALPHA,TCUT,DE,RATEEPS, 
-     . DEPS,E_MAX,E_NEW,E_OLD,EPSS
+     . DEPS,E_MAX,E_NEW,E_OLD,EPSS,TCUT0
       my_real :: DF(3),EPSP(3)
    
       my_real ,DIMENSION(NEL)       :: DYDX,STMP1,STMP2
@@ -160,9 +160,12 @@ C-----------------------------------------------
         ALPHA   =  UPARAM(2*NFUNC + 13)
         TFLAG   =  UPARAM(2*NFUNC + 14)
         FAIL    =  NINT(UPARAM(2*NFUNC + 15))
-        TCUT    =  UPARAM(2*NFUNC + 16)
+        TCUT0    =  UPARAM(2*NFUNC + 16)
 C       
-        IF(TIME == ZERO )UVAR(1:NEL,8) = E0
+        IF(TIME == ZERO )THEN
+          UVAR(1:NEL,8) = E0
+          UVAR(1:NEL,7) = ONE
+        ENDIF  
 C           
 C-----------------------------------------------
 C     
@@ -374,10 +377,12 @@ C sous groupe
         INDX_UNL(1:NINDX) = 0
         NE_L    = 0
         NE_UNL  = 0
+        UNLOAD(1:NEL) = 0
 C                
          DO I=1,NINDX
           II = INDX(I)
           DEPS = EPST(I) - UVAR(II,6)
+
           IF(DEINT(I) >= ZERO .OR. DEPS >= ZERO) THEN
               NE_L = NE_L + 1 
               INDX_L(NE_L) = I
@@ -387,6 +392,7 @@ C
               NE_UNL = NE_UNL + 1 
               INDX_UNL(NE_UNL) = I
               UVAR(II,3) = EPSD(II)
+              UNLOAD(I) = 1 
           ENDIF
           STRAINRATE(I,1) = EPSD(II)
           STRAINRATE(I,2) = EPSD(II)
@@ -673,7 +679,7 @@ C       idam is a hidden flag, only idam=0 is activated, Idam > 0 not tested.
               DAM = ONE - (ECURENT(II)/UVAR(I,2))**SHAPE    
               DAM = DAM**ALPHA                             
               DAM = ONE - (ONE - HYS)*DAM                  
-              UVAR(I,7) = DAM                              
+              UVAR(I,7) = DAM   
 C             global                                       
               DO K=1,3                                     
                   S(II,K)= DAM*S(II,K)                       
@@ -690,7 +696,8 @@ C damage by direction to be tested for
             I = INDX(II)                               
             IF (UVAR(I,2) > ZERO) THEN                        
               DAM = ONE - (ECURENT(II)/UVAR(I,2))**SHAPE    
-              DAM = ONE - (ONE - HYS)*DAM                  
+              DAM = ONE - (ONE - HYS)*DAM    
+              UVAR(I,7) = DAM              
               DO K=1,3                                     
                   IF(ILOAD(II,K) < 0)S(II,K) = DAM*S(II,K)    
               ENDDO                                        
@@ -709,7 +716,7 @@ C S < 0 for traction
             T1 = -S(I,1)
             T2 = -S(I,2)
             T3 = -S(I,3)
-            IF(T1 >= TCUT .OR. T2 >= TCUT .OR. T3 >= TCUT ) OFF(II) = FOUR_OVER_5
+            IF(T1 >= TCUT0 .OR. T2 >= TCUT0 .OR. T3 >= TCUT0 ) OFF(II) = FOUR_OVER_5
             T1 = T1/EV(I,2)/EV(I,3) 
             T2 = T2/EV(I,1)/EV(I,3) 
             T3 = T3/EV(I,1)/EV(I,2) 
@@ -762,7 +769,9 @@ C S > 0 for compression - curve definition
 C S < 0 for traction
            T1 = -S(I,1)
            T2 = -S(I,2)
-           T3 = -S(I,3)     
+           T3 = -S(I,3)    
+           TCUT = TCUT0
+           IF(UNLOAD(I) == 1 ) TCUT = UVAR(II,7)*TCUT0
            T1 = MIN(TCUT, T1)
            T2 = MIN(TCUT, T2)
            T3 = MIN(TCUT, T3)
