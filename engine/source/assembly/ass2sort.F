@@ -23,7 +23,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||====================================================================
       !||    ass2sort      ../engine/source/assembly/ass2sort.F
       !||--- called by ------------------------------------------------------
-      !||    asspar2       ../engine/source/assembly/asspar2.F
       !||    asspar4       ../engine/source/assembly/asspar4.F
       !||    i17lll_ass    ../engine/source/interfaces/int17/i17for3.F
       !||--- calls      -----------------------------------------------------

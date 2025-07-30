@@ -29,7 +29,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    clskew3        ../engine/source/elements/sh3n/coquedk/cdkcoor3.F
       !||    cortdir3       ../engine/source/elements/shell/coque/cortdir3.F
       !||    czcorp5        ../engine/source/elements/shell/coquez/czcorp5.F
-      !||    czcorp5v       ../engine/source/elements/shell/coquez/czcorc.F
       !||    czcorp5x       ../engine/source/elements/shell/coquez/czcorc.F
       !||--- uses       -----------------------------------------------------
       !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
@@ -1310,8 +1309,6 @@ C
       END
       !||====================================================================
       !||    czcorp5v   ../engine/source/elements/shell/coquez/czcorc.F
-      !||--- called by ------------------------------------------------------
-      !||    czcorc1    ../engine/source/elements/shell/coquez/czcorc.F
       !||--- calls      -----------------------------------------------------
       !||    a3invdp    ../engine/source/elements/shell/coquez/czcorc.F
       !||====================================================================

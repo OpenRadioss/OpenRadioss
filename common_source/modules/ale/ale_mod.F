@@ -45,7 +45,6 @@ C-----------------------------------------------
       !||    amomt2                          ../engine/source/ale/ale2d/amomt2.F
       !||    amomt3                          ../engine/source/elements/solid/solide/amomt3.F
       !||    amomtn3                         ../engine/source/elements/solid/solide/amomtn3.F
-      !||    asspar2                         ../engine/source/assembly/asspar2.F
       !||    asspar4                         ../engine/source/assembly/asspar4.F
       !||    c3grtails                       ../starter/source/elements/sh3n/coque3n/c3grtails.F
       !||    contrl                          ../starter/source/starter/contrl.F

@@ -57,7 +57,6 @@ C=======================================================================
       !||    alew7                            ../engine/source/ale/grid/alew7.F
       !||    alewdx                           ../engine/source/ale/grid/alewdx.F
       !||    arezon                           ../engine/source/ale/arezon.F
-      !||    asspar2                          ../engine/source/assembly/asspar2.F
       !||    asspar3                          ../engine/source/assembly/asspar3.F
       !||    asspar4                          ../engine/source/assembly/asspar4.F
       !||    asspart                          ../engine/source/assembly/asspart.F
@@ -258,7 +257,6 @@ C
       !||====================================================================
       !||    idp_lock       ../engine/source/system/machine.F
       !||--- called by ------------------------------------------------------
-      !||    asspar2        ../engine/source/assembly/asspar2.F
       !||    bafil2         ../engine/source/ale/bimat/bafil2.F
       !||    balph2         ../engine/source/ale/bimat/balph2.F
       !||    befil2         ../engine/source/ale/bimat/befil2.F
@@ -289,7 +287,6 @@ C
       !||====================================================================
       !||    idp_free         ../engine/source/system/machine.F
       !||--- called by ------------------------------------------------------
-      !||    asspar2          ../engine/source/assembly/asspar2.F
       !||    bafil2           ../engine/source/ale/bimat/bafil2.F
       !||    balph2           ../engine/source/ale/bimat/balph2.F
       !||    befil2           ../engine/source/ale/bimat/befil2.F

@@ -28,7 +28,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    ass2sort           ../engine/source/assembly/ass2sort.F
       !||    ass2sort_pxfem     ../engine/source/assembly/ass2sort.F
       !||    my_barrier         ../engine/source/system/machine.F
-      !||    order_v            ../engine/source/assembly/asspar2.F
       !||--- uses       -----------------------------------------------------
       !||    ale_mod            ../common_source/modules/ale/ale_mod.F
       !||    connectivity_mod   ../common_source/modules/connectivity.F90

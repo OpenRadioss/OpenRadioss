@@ -28,7 +28,6 @@
       !||    alemain                  ../engine/source/ale/alemain.F
       !||    alethe                   ../engine/source/ale/alethe.F
       !||    assadd2                  ../engine/source/assembly/assadd2.F
-      !||    asspar2                  ../engine/source/assembly/asspar2.F
       !||    asspar4                  ../engine/source/assembly/asspar4.F
       !||    asspari2                 ../engine/source/assembly/asspar4.F
       !||    bforc2                   ../engine/source/ale/bimat/bforc2.F
