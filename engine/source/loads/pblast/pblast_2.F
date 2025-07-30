@@ -302,6 +302,7 @@ C-----------------------------------------------
 
 
             ! scaled distance
+            cos_theta = 0 
             SELECT CASE(ISHAPE)
               CASE (1,2)
                 ! Dist

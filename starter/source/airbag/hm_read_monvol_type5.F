@@ -695,6 +695,7 @@ C
      .           I1 = T_MONVOLN%ID, C1 = T_MONVOLN%TITLE, I2 = IVDP(II))
          ENDIF
       ENDDO
+      LCA = 0
       IF (NCA > 0) THEN
          LCA = T_MONVOL_METADATA%LCA
          DO II = 1, NCA

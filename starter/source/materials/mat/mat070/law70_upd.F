@@ -77,6 +77,10 @@ C-----------------------------------------------
       my_real ,DIMENSION(:)   ,ALLOCATABLE :: XF
       my_real ,DIMENSION(:,:) ,ALLOCATABLE :: XI,YI,YF
 C=======================================================================
+      S2 = -HUGE(S2)
+      T2 = -HUGE(T2)
+      Y1 = -HUGE(Y1)
+      Y2 = -HUGE(Y2)
       NCURV  = INT(UPARAM(1))
       NLOAD  = INT(UPARAM(7))
       NULOAD = INT(UPARAM(8))

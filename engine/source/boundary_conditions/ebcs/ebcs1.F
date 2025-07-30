@@ -68,6 +68,16 @@ C-----------------------------------------------
 C-----------------------------------------------
 C Presssion et densite imposes
       EBCS => EBCS_TAB%tab(IEBCS)%poly
+      C = zero
+      LCAR = zero
+      ener = zero
+      PRES = ZERO
+      RHO = ZERO
+      R1 = ZERO
+      R2 = ZERO
+      IPRES = 0 
+      IRHO = 0 
+      IENER = 0 
       SELECT TYPE (EBCS)
       TYPE IS (t_ebcs_pres)
         IPRES=EBCS%ipres

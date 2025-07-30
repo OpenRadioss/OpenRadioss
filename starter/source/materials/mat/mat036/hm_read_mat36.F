@@ -102,13 +102,14 @@ C-----------------------------------------------
      .           NBLINE,NBREAD,IFAIL,OPTE,ILAW,NFUNC
       my_real :: RHO0, RHOR,E,NU,G,C1,SOUNDSP, EPSMAX,EPSR1,EPSR2,EPSF,FISOKIN,FCUT,
      .           PSCAL_UNIT,PSCALE,EINF,CE ,
-     .           YFAC(MAXFUNC),RATE(MAXFUNC),STRAINRATE_UNIT(MAXFUNC),YFAC_UNIT(MAXFUNC)
+     .           YFAC(MAXFUNC),RATE(MAX(1,MAXFUNC)),STRAINRATE_UNIT(MAXFUNC),YFAC_UNIT(MAXFUNC)
       LOGICAL :: IS_AVAILABLE,IS_ENCRYPTED
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
       IS_ENCRYPTED = .FALSE.
       IS_AVAILABLE = .FALSE.
+      RATE(1) = ZERO
 C--------------------------------------------------
 C EXTRACT DATA (IS OPTION CRYPTED)
 C--------------------------------------------------

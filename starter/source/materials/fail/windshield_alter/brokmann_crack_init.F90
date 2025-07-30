@@ -117,6 +117,7 @@
 !--------------------------------------------------
 !     parameter initialization and unit_conversions
 !--------------------------------------------------
+      p0 = -huge(p0)
       fac_v    = fac_l / fac_t  ! conversion to (m/s)
       fac_lenm = ep06 * fac_l   ! conversion to micrometers
       fac_mpa  = em6  * fac_m / (fac_l * fac_t**2) ! stress conversion to MPa      

@@ -136,6 +136,7 @@ C-----------------------------------------------
 C     B e g i n n i n g   o f   s o u r c e
 C-----------------------------------------------
       MESS = 'MONITORED VOLUME DEFINITION             '
+      RMWI = 0
 C     =======
 C     Reading
 C     =======
@@ -200,7 +201,6 @@ C     =======
          ALLOCATE(T_MONVOLN%RBAGHOL(NRBHOL, NVENT))
          T_MONVOLN%RBAGHOL(1:NRBHOL, 1:NVENT) = ZERO
       ENDIF
-      IF (NVENT > 0) THEN
          ALLOCATE(IPVENT(NVENT), IFVENT(NVENT), AVENT(NVENT), BVENT(NVENT))
          ALLOCATE(TVENT(NVENT), TSTOPE(NVENT), DPDEF(NVENT), DTPDEF(NVENT),
      .        IDTPDEF(NVENT))
@@ -210,7 +210,6 @@ C     =======
      .        FPORP1(NVENT), FPORA1(NVENT))
          ALLOCATE(IBLOCKAGE(NVENT), CLEAK(NVENT))
          ALLOCATE(IVDP(NVENT), FVDP(NVENT))
-      ENDIF
 
       IF (NVENTHOLES > 0) THEN
          DO II = 1, NVENTHOLES
@@ -1114,7 +1113,6 @@ C     ===================
       IF (ALLOCATED(FPA)) DEALLOCATE(FPA)     
       IF (ALLOCATED(FPZ)) DEALLOCATE(FPZ)     
       IF (ALLOCATED(I_INJSYS)) DEALLOCATE(I_INJSYS)  
-      IF (NVENT > 0) THEN
          DEALLOCATE(IPVENT, IFVENT, AVENT, BVENT)
          DEALLOCATE(TVENT, TSTOPE, DPDEF, DTPDEF,
      .        IDTPDEF)
@@ -1124,7 +1122,6 @@ C     ===================
      .        FPORP1, FPORA1)
          DEALLOCATE(IBLOCKAGE, CLEAK)
          DEALLOCATE(IVDP, FVDP)
-      ENDIF
       IF (NCA > 0) THEN
          DEALLOCATE(COMM_BAGID, COMM_IPVENT, COMM_IPORT, COMM_IPORP,
      .        COMM_DPDEF, COMM_AVENT, COMM_TVENT, COMM_DTPDEF, 

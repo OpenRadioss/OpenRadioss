@@ -85,7 +85,7 @@ C-----------------------------------------------
 C
       CHARACTER MESS*40
       DATA MESS/'INTERFACE INPUT                         '/
-
+      L = 0
       NSN   = 0
       NMN   = 0
       NRTM  = 0

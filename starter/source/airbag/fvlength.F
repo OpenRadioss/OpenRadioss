@@ -75,6 +75,32 @@ C-----------------------------------------------
 C---------------------------------------------------
 C Noeuds des volumes finis
 C---------------------------------------------------
+      X12 = ZERO
+      Y12 = ZERO
+      Z12 = ZERO
+      X23 = ZERO
+      Y23 = ZERO
+      Z23 = ZERO
+      X31 = ZERO
+      Y31 = ZERO
+      Z31 = ZERO
+      DL0 = DLH
+      DL1 = EP30
+      DL2 = EP30
+      DLBR1 = EP30
+      DLBR2 = EP30
+      DLBR3 = EP30
+      X1 = ZERO
+      Y1 = ZERO
+      Z1 = ZERO
+      X2 = ZERO
+      Y2 = ZERO
+      Z2 = ZERO
+      X3 = ZERO
+      Y3 = ZERO
+      Z3 = ZERO
+
+
       DO I=1,NNS
          IF (IFVNOD(1,I)==1) THEN
             IEL=IFVNOD(2,I)

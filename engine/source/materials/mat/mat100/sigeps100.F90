@@ -183,6 +183,13 @@
           coefm = one
           n_network  =  uparam(1)
           flag_he    =  uparam(2)
+          g = -huge(g)
+          tauy0 = -huge(tauy0)
+          shift = -huge(shift)
+          facpl = -huge(facpl)
+          exppl = -huge(exppl)
+          ff = -huge(ff)
+          epshat = -huge(epshat)
           if ( flag_he == 3 .or.flag_he == 4 .or.flag_he == 5 )flag_he = 1
 
           flag_mul   =  uparam(3)  !calculated in updmat = 1 if irup==33

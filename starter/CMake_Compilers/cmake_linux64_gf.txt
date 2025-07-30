@@ -77,7 +77,7 @@ set( portability "-fallow-argument-mismatch -fallow-invalid-boz -std=legacy")
 endif()
 
 #set( strict "-Waliasing -Wunused-dummy-argument -Werror=unused-dummy-argument -Wdo-subscript -Warray-bounds -Wtabs -Werror=tabs -pedantic-errors -Wsurprising -Wuse-without-only -Werror=use-without-only ") 
-set( strict "-Werror=aliasing -Werror=unused-dummy-argument -Werror=do-subscript -Werror=array-bounds -Werror=surprising -Werror=tabs") 
+set( strict "-Werror=aliasing -Werror=unused-dummy-argument -Werror=do-subscript -Werror=array-bounds -Werror=surprising -Werror=tabs -Werror=maybe-uninitialized") 
 
 #no lto, OpenMP can be used
 set( OPENMP "-fopenmp" )

@@ -73,9 +73,11 @@ C-----------------------------------------------
         INTEGER, DIMENSION(:), ALLOCATABLE :: TAG_ARRAY
         my_real :: LOCAL_SIZE
         my_real, DIMENSION(3) :: MAX_NODE,MIN_NODE,DISTANCE
+        integer, target :: nothing(1,1) !< dummy for indirection
 C-----------------------------------------------
         ALLOCATE(TAG_ARRAY(NUMNOD))
         TAG_ARRAY(1:NUMNOD) = 0
+        IX => nothing
         ELEMENT_SIZE = -ONE
         MIN_MAX_POSITION(1:3) = EP30
         MIN_MAX_POSITION(4:6) = -EP30

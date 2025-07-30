@@ -135,16 +135,9 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
-
+      ERRAVE_MIN = huge(ERRAVE_MIN) 
       ALLOCATE (SIG(1:NPT))
 
-      IF ( MAXA < NMULA ) THEN
-        WRITE(*,*) 'ERROR, MAXA < MA'
-        WRITE(*,*)&
-      __FILE__,&
-      __LINE__
-        CALL MY_EXIT(2)
-      ENDIF
       ! IF ABS(Y(I)) <  SMALL_ABS_YI, use SMALL_ABS_YI to avoid
       ! unnecessary numerical issues when avoid divided by small value
 
@@ -175,13 +168,6 @@
       ENDDO  
      
       IF (MAXA < NMULA) THEN   
-        WRITE(*,*) 'ERROR: MAXA < MA'
-        WRITE(*,*) ' MAXA = ', MAXA
-        WRITE(*,*) ' MA = ', MAXA
-        WRITE(*,*) ' FILE = ',&
-      __FILE__
-        WRITE(*,*) ' LINE = ',&
-      __LINE__
         CALL MY_EXIT(2)
       ENDIF
 
@@ -354,13 +340,6 @@
             DO I = 1, NMULA
               A(I) = A0(I)
             ENDDO
-          ENDIF
-        ELSE
-          IF (IDEBUG > 0) THEN
-            WRITE(IOUT,*) &
-        __FILE__,&
-        __LINE__
-            WRITE(IOUT,*) ' LM converges to invalid point'
           ENDIF
         ENDIF
 
@@ -681,9 +660,6 @@
       ENDIF 
 
       IF (IDEBUG > 0) THEN
-        WRITE(IOUT,*)&
-      __FILE__,&
-      __LINE__
         DO J=1, NCA
           write(IOUT,*) 'J,ATRY(J) = ', J, ATRY(J)
         ENDDO

@@ -240,6 +240,7 @@
       endif
 
       !automatic c_solid value and check if it is positive
+      c_solid = zero
       if(C_FUNC_ID > 0 )then
          xvec1(1:1,1) = rho_tmd
          call table_mat_vinterp(eos_param%table(2),1,1,vartmp(1,2),xvec1,yy,slope)

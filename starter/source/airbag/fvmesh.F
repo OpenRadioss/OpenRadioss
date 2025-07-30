@@ -174,6 +174,7 @@ C liste chainee polygones
       TYPE(POLYGONE), POINTER :: FIRST, PTR_PREC, PTR_CUR, PTR_TMP,
      .                           PTR_OLD, FIRST2, PTR_CUR2, PTR_PREC2,
      .                           PTR_TMP2
+      TYPE(POLYGONE), TARGET :: NOTHING
 C liste chainee polyedres
       TYPE POLYHEDRE
          INTEGER RANK
@@ -205,6 +206,14 @@ C    - IFVPOLH(NPOLY)   : Attribution polygones-polyedres
 C    - IFVPADR(NPOLH+1) : Adresses dans le tableau precedent
 C
 C
+      NOTHING%PTR => NOTHING
+      PTR_PREC => NOTHING
+      IQUAD = 0
+      n4 = 0
+      nx = 0
+      ny = 0
+      nz = 0
+      ipsurf = 0
       NULLIFY(FIRST)
       NULLIFY(PHFIRST)
       NULLIFY(PTR_CUR)

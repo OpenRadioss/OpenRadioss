@@ -114,6 +114,11 @@ C
       INTEGER, DIMENSION(:, :), POINTER :: FAC
       INTEGER, DIMENSION(:), POINTER :: NOD
 
+
+      !Initialize 
+      FAC => NULL()
+      NOD => NULL()
+      NALL = 0
       ALLOCATE(ADDCNET(NB_NODE + 1), ADSKY(NB_NODE + 1))
       DO I=1,NB_NODE
          ADDCNET(I) = 0
@@ -172,6 +177,10 @@ C
             FAC => FAC5(1:4, 1:5)
             NOD => NOD5(1:5)
          CASE DEFAULT
+            FAC => FAC5(1:4, 1:5)
+            NOD => NOD5(1:5)
+ 
+            
 C     ERROR
          END SELECT
          DO J=1,NFAC

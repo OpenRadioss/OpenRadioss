@@ -74,6 +74,8 @@ C
       INTEGER :: IAD, IAD1, IAD2, NNODEF(4), N1(8), N2(8), IP1(8), IP2(8), IS, NB_COMMON_NODE
       INTEGER, DIMENSION(:, :), POINTER :: FAC, FAC2
       INTEGER, DIMENSION(:), POINTER :: NOD, NOD2
+      integer, dimension(1,1), target :: nothing
+      
       DATA FAC4 /1,5,3,
      .           3,5,6,
      .           6,5,1,
@@ -104,6 +106,16 @@ C
       LOGICAL :: ERROR_RAISED, FACE_OK, FACE2_OK
 C     INITIALIZE ERROR FLAG
       ERROR_RAISED = .FALSE.
+      FACE_OK = .FALSE.
+      FACE2_OK = .FALSE.   
+      ng = 0
+C-----------------------------------------------
+      FAC2 => nothing 
+      FAC => nothing
+      NOD2 => nothing(:,1)
+      NOD => nothing(:,1)
+      REDIR => nothing(:,1)
+      REDIR2 => nothing(:,1)
 
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
 C     TETRA indirection

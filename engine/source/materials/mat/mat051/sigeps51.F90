@@ -281,6 +281,7 @@
       IX3 = HUGE(IX3)
       IX4 = HUGE(IX4)
       ML = HUGE(ML)
+      P = 0
       IF(TIMESTEP > ZERO)THEN
         UNDT = ONE/TIMESTEP
       ELSE

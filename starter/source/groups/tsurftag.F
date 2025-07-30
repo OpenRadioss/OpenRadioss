@@ -73,6 +73,8 @@ C-------------------------------------------------------------------------
       IORD = 0
       ELEM = 0
       ELEM8 = 0
+      FACET = 0
+      IE10 = 0
 C-----------Search Element Tetra 10 containing the facet N1 N2 N3---------------
 
       DO I=KNOD2ELS(N1)+1,KNOD2ELS(N1+1)     

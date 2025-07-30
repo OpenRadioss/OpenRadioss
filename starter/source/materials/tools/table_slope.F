@@ -56,6 +56,7 @@ C=======================================================================
       STIFFMAX = ZERO
       STIFFMIN = EP20
       XMAX     = ZERO
+      Y1 = 0
       NDIM = TABLE%NDIM
       NPT  = SIZE(TABLE%X(1)%VALUES)
 c
@@ -88,13 +89,14 @@ c
       ELSE IF (NDIM == 2) THEN
         LEN2 = SIZE(TABLE%X(2)%VALUES)
         X1   = TABLE%X(1)%VALUES(1)
-        Y1   = TABLE%Y2D(1,1)
+        Y1 = TABLE%Y2D(1,1)
+        Y2 = 0
         DO I = 2,NPT
           X2 = TABLE%X(1)%VALUES(I)
           DX = X2 - X1
           DO J = 1,LEN2
             Y2 = TABLE%Y2D(I,J)
-            DY = Y2 - Y1          
+            DY = Y2 - Y1
             DYDX = DY/DX
             IF (DYDX > STIFFMAX) THEN
               STIFFMAX = DYDX

@@ -214,6 +214,10 @@ C-------------------------------------------------------------------------------
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
+      base_x = -huge(base_x)
+      base_y = -huge(base_y)
+      base_z = -huge(base_z)
+      
       !init tables
       CALL PBLAST_INIT_TABLES(PBLAST%PBLAST_DATA)
       tmp(1:3) = HUGE(tmp(1))

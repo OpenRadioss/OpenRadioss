@@ -225,7 +225,7 @@ C
           IF(NINDX == 0 ) RETURN  ! all groupe elemenet is deleted
           !
           ! Treatment of not deleted element.
-#include "vectorize.inc"   !
+#include "vectorize.inc" 
         DO N=1,NINDX
             I = INDX(N)                      
             AV(N,1) = EPSXX(I)       

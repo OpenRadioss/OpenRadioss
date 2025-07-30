@@ -70,6 +70,7 @@ C-------------------------------------------
       NIPMAX_SOL = 0
       NPTS = 1
       NPTT = 0
+      NPTR= 1
       NPTT_PLY = 0
       IF (MCHECK == 0) THEN
         ALLOCATE (SENSORS%ANIM(SENSORS%NANIM))

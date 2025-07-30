@@ -86,6 +86,7 @@ C
       TYPE(G_BUFEL_)     , POINTER :: GBUF
       TYPE(L_BUFEL_)     , POINTER :: LBUF
 C=======================================================================
+      P2 = 0
       DO I=LFT,LLT
         XN(1)=X1L(I)
         YN(1)=Y1L(I)

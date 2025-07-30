@@ -131,6 +131,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 
           still_connected = .FALSE.
+          old_secondary_node = 0
           do i = 1, ninter
             itype = IPARI(INDEX_ITYPE,i)
             if(itype == 7) then

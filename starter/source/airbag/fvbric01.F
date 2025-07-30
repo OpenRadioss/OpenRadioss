@@ -94,9 +94,15 @@ C-----------------------------------------------
       DATA NFACE/6,4,5,5/
       
       LOGICAL :: FACE_OK
+      INTEGER, TARGET :: nothing(1,1)
+     
 C-----------------------------------------------
 C     S o u r c e  l i n e s
 C-----------------------------------------------
+      REDIR => nothing(:,1)
+      NOD => nothing(:,1)
+      FAC => nothing
+      NNODE = 0
 C     TETRA indirection
       REDIRT(1)=1
       REDIRT(2)=3

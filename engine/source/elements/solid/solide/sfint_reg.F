@@ -95,12 +95,22 @@ C-----------------------------------------------
       my_real, POINTER, DIMENSION(:) :: 
      .   VNL,FNL,UNL,STIFNL,MASS,MASS0,VNL0
       ! Coefficient for non-local stability to take into account damping
+      my_real, target :: nothing(1)
       my_real, PARAMETER :: CDAMP = 0.7D0
 c-----------------------------------------------------------------------
 c     VAR_REG :  variable a regulariser (local cumulated plastic strain)
 c     NTVAR  =  NT * VAR_REG
 C=======================================================================
 c 
+      nothing = ZERO
+      VNL => nothing
+      FNL => nothing
+      UNL => nothing
+      STIFNL => nothing
+      MASS => nothing
+      MASS0 => nothing
+      VNL0 => nothing
+      
       ! Recover non-local parameters
       L2     = NLOC_DMG%LEN(IMAT)**2 !< Squared internal length 
       XI     = NLOC_DMG%DAMP(IMAT)   !< Damping parameter

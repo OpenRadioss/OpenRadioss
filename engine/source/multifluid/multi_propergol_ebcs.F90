@@ -108,6 +108,8 @@
 
       NVARTMP_EOS = 128
       VARTMP_EOS(1,:) = 1
+      PSURF = 0
+      VII = ZERO
 
       TCAR_P = EBCS%TCAR_P
       TCAR_VF = EBCS%TCAR_VF

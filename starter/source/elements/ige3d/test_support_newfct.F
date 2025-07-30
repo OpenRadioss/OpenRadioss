@@ -56,6 +56,32 @@ C-----------------------------------------------
       INTEGER :: I,J,K,DIRTANG1,DIRTANG2,INTERSEC,IDFCT,IOUT
       my_real :: DET, T1, T2, XA(5),YA(5),COIN(2,2),XB, YB, XC, YC, XD, YD, TOL
 C-----------------------------------------------
+C   Initialize local variables
+C-----------------------------------------------
+      I = 0
+      J = 0 
+      K = 0
+      DIRTANG1 = 0
+      DIRTANG2 = 0
+      INTERSEC = 0
+      IDFCT = 0
+      IOUT = 0
+      DET = 0.0
+      T1 = 0.0
+      T2 = 0.0
+      XA = 0.0
+      YA = 0.0
+      COIN = 0.0
+      XB = 0.0
+      YB = 0.0
+      XC = 0.0
+      YC = 0.0
+      XD = 0.0
+      YD = 0.0
+      TOL = 0.0
+C-----------------------------------------------
+
+
 C
       L_TAB_NEWFCTCUT = 0
       TOL = EM06

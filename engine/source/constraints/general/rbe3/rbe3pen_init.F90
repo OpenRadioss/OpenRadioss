@@ -168,6 +168,7 @@
       msbar = zero
       stfnm = zero
       stfrm = zero
+      gminv(1:9) = -HUGE(gminv(1))
       do i=1,nml
         m = iml(i)
         wi(i) = frbe3(1,i)

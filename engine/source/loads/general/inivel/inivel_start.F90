@@ -129,10 +129,20 @@
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
 !  if need update in case of FVM
+       vl(1:3) = zero
+       nixj(1:6) = zero
+       vlt(1:3) = zero
        iupdate = 0 
        t_kin = zero
+       vra = zero
+       igtria = 0
        sens_id = -HUGE(sens_id)
        tstart = -HUGE(tstart)
+       igrs = 0
+       ifra = 0
+       idir = 0
+       igqd = 0
+       igbric = 0
        do n =1,ninivelt 
          itype = inivel_t(n)%itype
          if (itype /=5 ) cycle 

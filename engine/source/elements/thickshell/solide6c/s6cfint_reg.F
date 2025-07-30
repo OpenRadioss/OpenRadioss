@@ -104,6 +104,7 @@ C-----------------------------------------------
      . MASSTH,UNLTH,VNLTH,FNLTH
       my_real, DIMENSION(:,:), ALLOCATABLE :: 
      . STIFNLTH,DTN
+      my_real, target :: nothing(1)
       ! Safety coefficient for non-local stability vs mechanical stability
       ! (it has been slightly increased vs nloc_dmg_init.F)
       my_real, PARAMETER :: CSTA  = 40.0D0
@@ -150,6 +151,7 @@ C-----------------------------------------------
      9 0.491001129763160,0.735741735638020,0.936320479015252,
      9 1.               /
 C=======================================================================
+      STIFNL => nothing
       L2     = NLOC_DMG%LEN(IMAT)**2
       XI     = NLOC_DMG%DAMP(IMAT)
       NNOD   = NLOC_DMG%NNOD
