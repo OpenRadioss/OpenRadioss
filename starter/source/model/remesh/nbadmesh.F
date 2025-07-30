@@ -95,10 +95,7 @@ C------
       ALLOCATE(ITAB(NUMNUSR),ITABM1(2*NUMNUSR),
      .         IXC(NIXC,NUMELC0),IXTG(NIXTG,NUMELTG0),
      .        KNOD2SH(0:NUMNUSR),NOD2SH(4*NUMELC0+3*NUMELTG0),
-     .        TAG(4,NUMELC0+NUMELTG0),STAT=stat)
-      IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
-     .                          MSGTYPE=MSGERROR,
-     .                         C1='ITAB')     
+     .        TAG(4,NUMELC0+NUMELTG0))
       TAG=0
 C------
 C--------------------------------------------------

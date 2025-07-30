@@ -106,6 +106,9 @@ C
       TYPE(G_BUFEL_),POINTER :: GBUF
 C-----------------------------------------------
       GBUF => ELBUF_STR%GBUF
+      IPID = IC(5,1+NFT)
+      IGTYP = IGEO(11,IPID)
+
 C
       CALL PCOORI(X,IC(1,NFT+1), 
      .            MXT,MXG ,NC1,NC2,NC3,DELTAX,

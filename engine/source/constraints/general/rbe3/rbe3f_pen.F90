@@ -108,6 +108,8 @@
 !! 2.  partial transtional dof of indepenent nodes is forbenden and error out : to do
 !! 3.  local skew is used for partial rotational dof (co-linear case)
 !! 4.  rrbe3pen_* will be in restart file : 10*nrbe3_lp, init only with TT=zero
+      gminv = zero
+      mrefbr(1:3) = -HUGE(mrefbr(1))
       wi(1:nml) = frbe3(1,1:nml)
       xbar(1:3) = zero
       vts(1:3) = zero

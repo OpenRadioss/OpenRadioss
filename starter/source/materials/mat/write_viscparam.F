@@ -97,7 +97,7 @@ c
       NUMTABL  = VISC%NTABLE
       IF (NUMTABL > 0) THEN
         CALL WRITE_MAT_TABLE(VISC%TABLE, NUMTABL)
-        LEN = LEN + NFIX + LENI + LENR
+        LEN = LEN + NFIX
       END IF
 c-----------
       RETURN

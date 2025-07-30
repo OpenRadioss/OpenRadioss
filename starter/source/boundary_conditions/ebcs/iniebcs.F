@@ -78,10 +78,12 @@ C-----------------------------------------------
       INTEGER IMID, IPID !< material and property iid
       INTEGER, DIMENSION(:, :), POINTER :: IX
       INTEGER :: NIX
+      integer, target :: nothing(1,1) !< dummy for indirection
 C=======================================================================
       EBCS_TAG_CELL_SPMD(1:NUMELQ+NUMELTG+NUMELS)=0
-      NULLIFY(IX)
+      IX => nothing
       NIX = 0
+      ICELL = 0
       IF (N2D == 0) THEN
          LENMWA = NUMNOD+2+8*NUMELS
          ALLOCATE(MWA(LENMWA),  STAT=ERR)

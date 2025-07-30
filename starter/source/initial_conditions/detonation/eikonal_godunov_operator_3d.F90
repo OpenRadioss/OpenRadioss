@@ -88,6 +88,8 @@
           b = min(tt_adj(2),tt_adj(4))
           c = min(tt_adj(5),tt_adj(6))
           max_abc = max(max(a,b),c)
+          k = 0
+          l = 0
           if (a == ep21 .and. b == ep21 .and. c == ep21) return
           if (a == ep21 .and. b == ep21)then
             m=5

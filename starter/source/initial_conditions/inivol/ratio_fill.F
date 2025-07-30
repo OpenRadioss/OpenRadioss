@@ -106,7 +106,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
-
+      ELEM_NUMNOD = -HUGE(ELEM_NUMNOD)
       ! check part to fill with current phase (JMID)
       K = 0
       DO I=1,NEL

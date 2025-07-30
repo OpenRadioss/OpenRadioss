@@ -152,6 +152,7 @@
           icumu     = inivol(i_inivol)%container(idc)%icumu
           nsegsurf  = 0
           npoints   = 0
+          inod1     = 0
           if(idsurf > 0) nsegsurf = igrsurf(idsurf)%nseg
           if(idgrnod > 0) npoints = igrnod(idgrnod)%nentity
           part_id   = inivol(i_inivol)%part_id
@@ -316,8 +317,10 @@
           end if ! idsurf>0 or idgrnod>0
 
           !last node
-          user_polygon%point(nsegsurf+1)%y = user_polygon%point(1)%y
-          user_polygon%point(nsegsurf+1)%z = user_polygon%point(1)%z
+          if(size(user_polygon%point,1) > nsegsurf) then
+            user_polygon%point(nsegsurf+1)%y = user_polygon%point(1)%y
+            user_polygon%point(nsegsurf+1)%z = user_polygon%point(1)%z
+          endif
           !margin Y-dir
           DLy = xyz(5)-xyz(2)
           xyz(2) = xyz(2) - max(em10,em02*DLy)
@@ -515,7 +518,7 @@
                     !sum_tag == 3 : elem is inside  (may be considered as outside if is_reversed is true)
                     !sum_tag == 0 : elem is outside (may be considered as inside if is_reversed is true)
                     ! reversed option (Iopt)
-                    if(is_reversed .and. prod_tag > 0)then
+                    if(is_reversed)then
                        cycle
                     elseif(.not.is_reversed .and. sum_tag == 0)then
                        cycle

@@ -172,6 +172,15 @@
       ems0          = mat_param%uparam(25) 
       sc0           = mat_param%uparam(26)
       slims         = mat_param%uparam(27)
+      ! shear parameters for directions 13 and 23
+      gamma02       = 0 
+      tau02         = 0 
+      ems013        = 0 
+      sc013         = 0 
+      gamma03       = 0 
+      tau03         = 0 
+      ems023        = 0 
+      sc023         = 0 
      !
       gammaf = mat_param%uparam(44) 
       gammar = mat_param%uparam(45)  

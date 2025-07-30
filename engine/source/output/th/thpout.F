@@ -70,10 +70,11 @@ C
       TYPE(BUF_LAY_)  ,POINTER :: BUFLY
       TYPE(L_BUFEL_)  ,POINTER :: LBUF
 C-----------------------------------------------
-
+         AREA = -HUGE(AREA)
 C-------------------------
 C           ELEMENTS POUTRE
 C-------------------------
+ 
         IJK = 0
         IPA  = 400        
         DO NITER=1,NTHGRP2
@@ -105,7 +106,7 @@ C
                         NPT  = IPARG(6,NG)
                         IGTYP =IPARG(38,NG)
                         IF (IGTYP == 18) THEN
-                          BUFLY => ELBUF_TAB(NG)%BUFLY(ILAYER)
+                          !BUFLY => ELBUF_TAB(NG)%BUFLY(ILAYER)
                         END IF
 
                         DO I=1,3
@@ -161,10 +162,10 @@ C
                                            SX   = GBUF%FOR(KK(1)+I)/AREA
                                            WA(IJK)=SX 
                                         ELSEIF(IGTYP == 18 ) THEN
-                                           IF (BUFLY%L_SIG > 0) THEN
+                                           IF (ELBUF_TAB(NG)%BUFLY(ILAYER)%L_SIG > 0) THEN
                                             DO IPT = 1,NPT
                                              AREAPT  = GEO(IPA+IPT,PID) 
-                                             LBUF  => BUFLY%LBUF(1,1,IPT)
+                                             LBUF  => ELBUF_TAB(NG)%BUFLY(ILAYER)%LBUF(1,1,IPT)
                                              WA(IJK) = WA(IJK)+ LBUF%SIG(KK(1)+I) * AREAPT/AREA
                                             ENDDO 
                                            END IF !(BUFLY%L_SIG > 0) 
@@ -176,10 +177,10 @@ C
                                            SXY  = GBUF%FOR(KK(2)+I)/AREA
                                            WA(IJK)=SXY 
                                         ELSEIF(IGTYP == 18 ) THEN
-                                           IF (BUFLY%L_SIG > 0) THEN
+                                           IF (ELBUF_TAB(NG)%BUFLY(ILAYER)%L_SIG > 0) THEN
                                             DO IPT = 1,NPT
                                              AREAPT  = GEO(IPA+IPT,PID) 
-                                             LBUF  => BUFLY%LBUF(1,1,IPT)
+                                             LBUF  => ELBUF_TAB(NG)%BUFLY(ILAYER)%LBUF(1,1,IPT)
                                              WA(IJK) = WA(IJK)+ LBUF%SIG(KK(2)+I)*AREAPT/AREA
                                             ENDDO 
                                            END IF !(BUFLY%L_SIG > 0) 
@@ -191,10 +192,10 @@ C
                                            SZX  = GBUF%FOR(KK(3)+I)/AREA
                                            WA(IJK)=SZX 
                                         ELSEIF(IGTYP == 18 ) THEN
-                                           IF (BUFLY%L_SIG > 0) THEN                                            
+                                           IF (ELBUF_TAB(NG)%BUFLY(ILAYER)%L_SIG > 0) THEN                                            
                                             DO IPT = 1,NPT
                                              AREAPT  = GEO(IPA+IPT,PID) 
-                                             LBUF  => BUFLY%LBUF(1,1,IPT)
+                                             LBUF  => ELBUF_TAB(NG)%BUFLY(ILAYER)%LBUF(1,1,IPT)
                                              WA(IJK) = WA(IJK)+ LBUF%SIG(KK(3)+I) * AREAPT/AREA
                                             ENDDO 
                                            END IF !(BUFLY%L_SIG > 0) 
@@ -205,7 +206,7 @@ C
                                             JJ  = NINT(IDX)
                                             IPT = JJ + 1
                                             IK  = MOD((ITHBUF(L) - 12),3) + 1
-                                            LBUF  => BUFLY%LBUF(1,1,IPT) 
+                                            LBUF  => ELBUF_TAB(NG)%BUFLY(ILAYER)%LBUF(1,1,IPT) 
                                             WA(IJK) = LBUF%SIG(KK(IK)+I)
                                         ENDIF
                                     ELSEIF (ITHBUF(L) == 255) THEN
@@ -215,19 +216,19 @@ C
                                             WA(IJK)=GBUF%PLA(I) 
                                           ENDIF
                                         ELSEIF(IGTYP == 18 ) THEN
-                                           IF (BUFLY%L_PLA > 0) THEN                                            
+                                           IF (ELBUF_TAB(NG)%BUFLY(ILAYER)%L_PLA > 0) THEN                                            
                                             DO IPT = 1,NPT
                                              AREAPT  = GEO(IPA+IPT,PID) 
-                                             LBUF  => BUFLY%LBUF(1,1,IPT)
+                                             LBUF  => ELBUF_TAB(NG)%BUFLY(ILAYER)%LBUF(1,1,IPT)
                                              WA(IJK) = WA(IJK)+ LBUF%PLA(I) * AREAPT/AREA
                                             ENDDO 
                                            END IF 
                                         END IF! (IGTYP) 
                                     ELSEIF (ITHBUF(L) > 255 .AND.ITHBUF(L) <= 336 ) THEN
                                         IF(IGTYP == 18 ) THEN
-                                           IF (BUFLY%L_PLA > 0) THEN                                                                                     
+                                           IF (ELBUF_TAB(NG)%BUFLY(ILAYER)%L_PLA > 0) THEN 
                                             IPT = ITHBUF(L) - 255 
-                                            LBUF  => BUFLY%LBUF(1,1,IPT) 
+                                            LBUF  => ELBUF_TAB(NG)%BUFLY(ILAYER)%LBUF(1,1,IPT) 
                                             WA(IJK) = LBUF%PLA(I)
                                            ENDIF
                                         ENDIF

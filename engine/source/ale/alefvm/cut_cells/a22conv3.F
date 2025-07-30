@@ -94,16 +94,25 @@ C-----------------------------------------------
       my_real,  DIMENSION(:), POINTER      :: VAR, pRHO , pEINT
       INTEGER                              :: ADD, ADD0 ,K    
       INTEGER,DIMENSION(:,:),  POINTER     :: pAdjBRICK                  
+      my_real, target :: nothing(2)
+      integer, target :: inothing(2,2)
       LOGICAL :: debug_outp
 C-----------------------------------------------
 
       !---------------------------------------------------------!
       ! INITIALIZATION                                          !
       !---------------------------------------------------------!
+      valvois = 0
       NIN     = 1
       NBF     = 1+ITASK*NB/NTHREAD
       NBL     = (ITASK+1)*NB/NTHREAD
       NBL     = MIN(NBL,NB)
+      nothing = 0
+      inothing = 0
+      VAR => nothing
+      pRHO => nothing
+      pEINT => nothing
+      pAdjBRICK => inothing
       
       !---------------------------------------------------------!
       ! SECONDARY CELLS : GET MATERIAL BUFFER VALUE  (%PHI)         !

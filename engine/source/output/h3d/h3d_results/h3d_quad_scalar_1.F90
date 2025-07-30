@@ -267,6 +267,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
           ilay = layer_input
           iuvar = iuvar_input
+          imat_tillotson = -huge(imat_tillotson)
           call initbuf(iparg    ,ng      ,&
           &mlw     ,nel     ,nft     ,iad     ,ity     ,&
           &npt     ,jale    ,ismstr  ,jeul    ,jturb   ,&

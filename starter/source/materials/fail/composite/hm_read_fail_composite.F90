@@ -121,6 +121,7 @@
       ifail_so = max(0,ifail_so)
 !
       !< Shell element deletion flag
+      pthkf = zero
       if (ifail_sh == 1) then
         pthkf = em06
       elseif (ifail_sh == 2) then 

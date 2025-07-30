@@ -111,6 +111,7 @@ C-----------------------------------------------
         my_real, DIMENSION(:,:), ALLOCATABLE :: LOCAL_X
         INTEGER, DIMENSION(:), ALLOCATABLE:: LIST_NODE ! list of node close to the surface
         INTEGER, DIMENSION(32) :: ID_NODE_SAVE
+        integer, target :: nothing(1,1) !< dummy for indirection
 C-----------------------------------------------
         ALLOCATE( TAG_ARRAY(NUMNOD) )   
         ALLOCATE( SURF_NODE_LIST(NUMNOD) )
@@ -182,7 +183,7 @@ C-----------------------------------------------
             ELSE
                 FIRST = -HUGE(FIRST)
                 NODE_NUMBER = -HUGE(NODE_NUMBER)
-                IXP => NULL()
+                IXP => nothing
             ENDIF
             ! ---------------
 

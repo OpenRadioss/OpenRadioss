@@ -121,7 +121,7 @@
       strdef    = nint(uparam(7))
       nindx     = 0  
       f         = min(ff,zep4/max(em20,timestep))
-
+      e11       = -huge(e11)
 !c----------------------------------------------
 !c     strain transformation flag following input definition
 !c-------------------

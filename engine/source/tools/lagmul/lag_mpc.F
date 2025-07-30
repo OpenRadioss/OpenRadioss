@@ -67,6 +67,8 @@ C        IK = IAD,IAD+1,IAD+2,...
 C        LLL(LAG_NKF)  : I = LLL(IK)
 C        JLL(LAG_NKF)  : J = JLL(IK)
 C======================================================================|
+      S1 = 0
+      S2 = 0
       KF = 0
       NN = 0
       S3 = -HUGE(S3)

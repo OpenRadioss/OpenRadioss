@@ -90,6 +90,7 @@ C-----------------------------------------------
       PEXT     =RVOLU(3)
       POLD     =RVOLU(12)
       SCALT    =RVOLU(26)
+      EFAC = ZERO
 C------------------------
       DO IV=1,NVENT
         IDEF   = IBAGHOL(1,IV)

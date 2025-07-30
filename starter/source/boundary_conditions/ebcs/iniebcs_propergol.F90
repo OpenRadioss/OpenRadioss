@@ -155,6 +155,8 @@
               end do
               tmp(1:) = zero
               MULTIPLE_CV_DETECTED = .false.
+              imat = 0
+              cv = zero
 
               do kk=1,ebcs%nb_elem
 

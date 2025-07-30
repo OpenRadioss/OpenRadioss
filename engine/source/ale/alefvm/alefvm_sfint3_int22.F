@@ -178,6 +178,7 @@ c      3. Assemblge de FINT(1:3) = Sum Ff(1:3)
         
         !--Face-1:6
         !-----------------------------------
+        ClosedSurface = 0 
         DO J=1,NV46
           NADJ              =  BRICK_LIST(NIN,IB)%POLY(MCELL)%FACE(J)%NAdjCell
           ClosedSurface     =  BRICK_LIST(NIN,IB)%ClosedSurf(J)

@@ -324,9 +324,9 @@
         type python_
           type(python_function), dimension(:), allocatable:: functs !< the python functions
           integer :: funct_offset !< the local id of the python function starts after the id of other kind of functions
-          integer :: nb_functs !< the number of python functions
-          integer :: sensor_offset !< the local id of the python sensor starts after the id of other kind of sensors
-          integer :: nb_sensors !< the number of python sensors
+          integer :: nb_functs = 0!< the number of python functions
+          integer :: sensor_offset = 0 !< the local id of the python sensor starts after the id of other kind of sensors
+          integer :: nb_sensors = 0!< the number of python sensors
           type(python_element) :: elements !< element quantities requested from Python code
           type(c_ptr) :: context
         end type python_

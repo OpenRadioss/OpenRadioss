@@ -130,7 +130,10 @@
         hk(nel)
       integer, parameter :: niter = 3 !< Number of return mapping iterations
 !===============================================================================
-!
+      dsigbxxdlam = zero
+      dsigbxydlam = zero
+      dsigbyydlam  =zero
+ 
       !=========================================================================
       ! - INITIALISATION OF COMPUTATION ON TIME STEP
       !=========================================================================

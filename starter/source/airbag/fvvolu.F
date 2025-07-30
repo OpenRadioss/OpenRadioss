@@ -80,6 +80,20 @@ C-----------------------------------------------
 C---------------------------------------------------
 C Noeuds des volumes finis
 C---------------------------------------------------
+      X1 = ZERO
+      Y1 = ZERO
+      Z1 = ZERO
+      X2 = ZERO
+      Y2 = ZERO
+      Z2 = ZERO
+      X3 = ZERO
+      Y3 = ZERO
+      Z3 = ZERO
+      NX = ZERO
+      NY = ZERO
+      NZ = ZERO
+
+
       DO I=1,NNS
          IF (IFVNOD(1,I)==1) THEN
             IEL=IFVNOD(2,I)

@@ -406,6 +406,8 @@ C Sizing memory space for parith/on without spmd
 C----------------------------------------------------
 C
         I_STOK = INTBUF_TAB%I_STOK(1)
+        DEBUT = 0
+        I_STOK_LOC = 0
         
 C decoupage statique
         IF(INACTI /= 7 .OR. IBAG == 0)THEN

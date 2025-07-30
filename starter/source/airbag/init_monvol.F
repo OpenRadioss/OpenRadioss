@@ -722,6 +722,9 @@ C----------------------------------------------------------------------------
                      RBAGJET_SAVE(JJ, II) = T_MONVOL(NN)%RBAGJET(JJ, II)
                   ENDDO
                ENDDO
+            ELSE
+              ALLOCATE(IBAGJET_SAVE(NIBJET, 0))
+              ALLOCATE(RBAGJET_SAVE(NRBJET, 0))   
             ENDIF
             IF (ALLOCATED(T_MONVOL(NN)%RBAGJET)) DEALLOCATE(T_MONVOL(NN)%RBAGJET)
             IF (ALLOCATED(T_MONVOL(NN)%IBAGJET)) DEALLOCATE(T_MONVOL(NN)%IBAGJET)
@@ -758,6 +761,9 @@ C----------------------------------------------------------------------------
                      RBAGJET_SAVE(JJ, II) = T_MONVOL(NN)%RBAGJET(JJ, II)
                   ENDDO
                ENDDO
+            ELSE
+               ALLOCATE(IBAGJET_SAVE(NIBJET, 0))
+               ALLOCATE(RBAGJET_SAVE(NRBJET, 0))
             ENDIF
             IF (ALLOCATED(T_MONVOL(NN)%RBAGJET)) DEALLOCATE(T_MONVOL(NN)%RBAGJET)
             IF (ALLOCATED(T_MONVOL(NN)%IBAGJET)) DEALLOCATE(T_MONVOL(NN)%IBAGJET)

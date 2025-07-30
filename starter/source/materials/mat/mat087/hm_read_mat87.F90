@@ -116,6 +116,7 @@
 !-----------------------------------------------
         is_encrypted = .false.
         is_available = .false.
+        yld0 = zero
         ilaw = 87
 !--------------------------------------------------
 ! Parameters initialisation

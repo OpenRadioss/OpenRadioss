@@ -262,6 +262,9 @@
           nfunct = python%funct_offset + python%nb_functs -python%nb_sensors! offset = nb of non-python functions
           any_python_func = .false.
           dt11 = dt1
+          x1s = zero
+          x2s = zero
+          fxb = zero
           if(dt11==zero)dt11 = ep30
           do i=1,nel
             dx(i)=dx(i)/xl0(i)

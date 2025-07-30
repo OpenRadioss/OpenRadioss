@@ -117,6 +117,9 @@ C
             P0(I)=ZERO
           ENDDO
 
+        MFT = 0
+        KLT = 0
+        KTY = 0
         DO IS=1,NSEG
           KSEG=ABS(ISEG(IS))
           ORIENT=ZERO

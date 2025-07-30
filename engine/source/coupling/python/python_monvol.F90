@@ -88,23 +88,31 @@
               reals(i) = t_monvol(i)%volume
               uid(i) = t_monvol(i)%uid
             end do
+            allocate(character(len=14) :: basename)
             basename = 'MONVOL_VOLUME' // c_null_char
             call python_update_reals(basename, uid, reals, nvolu)
+            deallocate(basename)
             do i = 1, nvolu
               reals(i) = t_monvol(i)%pressure
             end do
+            allocate(character(len=16) :: basename)
             basename = 'MONVOL_PRESSURE' // c_null_char
             call python_update_reals(basename, uid, reals, nvolu)
+            deallocate(basename)
             do i = 1, nvolu
               reals(i) = t_monvol(i)%area
             end do
+            allocate(character(len=12) :: basename)
             basename = 'MONVOL_AREA' // c_null_char
             call python_update_reals(basename, uid, reals, nvolu)
+            deallocate(basename)
             do i = 1, nvolu
               reals(i) = t_monvol(i)%temperature
             end do
+            allocate(character(len=19) :: basename)
             basename = 'MONVOL_TEMPERATURE' // c_null_char
             call python_update_reals(basename, uid, reals, nvolu)
+            deallocate(basename)
             deallocate(reals)
             deallocate(uid)
           end if

@@ -97,11 +97,11 @@
             table_mat(1)%notable = fun_1
             ndim = table(fun_1)%ndim
             table_mat(1)%ndim = ndim
-            allocate (table_mat(1)%x(ndim),stat=stat)
+            allocate (table_mat(1)%x(ndim))
             ! loop over dimensions to copy abscissa
             do i = 1,ndim
               npt = size(table(fun_1)%x(i)%values)
-              allocate (table_mat(1)%x(i)%values(npt),stat=stat)
+              allocate (table_mat(1)%x(i)%values(npt))
               table_mat(1)%x(i)%values(1:npt) = table(fun_1)%x(i)%values(1:npt)
             end do
             ! 1 dimension, stress vs strain loading

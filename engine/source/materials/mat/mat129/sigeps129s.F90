@@ -154,6 +154,7 @@
 !     uvar(1) = plastic strain rate, saved for filtering
 !     uvar(2) = accumulated creep strain
 !===============================================================================    
+      g2 = 0
       niter  = 5   ! max number of newton iterations
       dtime  = max(timestep, em20)
       rho0   = mat_param%rho0
@@ -419,9 +420,9 @@
         dpyz = normyz * dpla(i)
         dpzx = normzx * dpla(i)
 !                
-        signxx(i) = signxx(i) - (dpxx + dcxx + depsth(i)) * g2
-        signyy(i) = signyy(i) - (dpyy + dcyy + depsth(i)) * g2 
-        signzz(i) = signzz(i) - (dpzz + dczz + depsth(i)) * g2
+        signxx(i) = signxx(i) - (dpxx + dcxx + depsth(i)) * two * shear(i)
+        signyy(i) = signyy(i) - (dpyy + dcyy + depsth(i)) * two * shear(i)
+        signzz(i) = signzz(i) - (dpzz + dczz + depsth(i)) * two * shear(i)
         signxy(i) = signxy(i) - (dpxy + dcxy) * shear(i)
         signyz(i) = signyz(i) - (dpyz + dcyz) * shear(i)
         signzx(i) = signzx(i) - (dpzx + dczx) * shear(i)

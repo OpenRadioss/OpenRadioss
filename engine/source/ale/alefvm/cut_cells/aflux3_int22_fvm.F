@@ -113,7 +113,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------      
-
+      IBVm = 0
       !======================================================!
       ! INITIALIZATIONS                                      !
       !======================================================! 
@@ -290,7 +290,7 @@ C-----------------------------------------------
               IALEFVM_FLG                   = IPM(251,IMAT)
               IF(ALEFVM_Param%IFORM/=0)IALEFVM_FLG = ALEFVM_Param%IFORM !for debug purpose if set in alefvm_init.F
               
-              
+              VF = ZERO 
               SELECT CASE(ALEFVM_Param%ISOLVER)
                 CASE(1)
                   !CENTERED FVM - U average              
