@@ -8447,8 +8447,8 @@ C Init var parallel SMP
 
                   CALL LAG_MULT(
      1               IPARI    ,NODES%X        ,NODES%A        ,
-     2               WA(NWAFTSK),NODES%V        ,NODES%MS       ,NODES%IN       ,NODES%VR       ,
-     3               ITSK       ,WA       ,NODES%ITAB     ,IXS      ,IXS(L2)  ,
+     2               NODES%V        ,NODES%MS       ,NODES%IN       ,NODES%VR       ,
+     3               ITSK       ,NODES%ITAB     ,IXS      ,IXS(L2)  ,
      4               IXS(L3)  ,IGRNOD     ,FANI     ,FSAV     ,
      5               SKEWS%SKEW     ,NODES%AR       ,LAMBDA   ,LAGBUF   ,IBCSLAG  ,
      6               IXS(L1)  ,GJBUFI   ,GJBUFR   ,IBMPC    ,RBMPC    ,
@@ -8478,8 +8478,8 @@ C===============================================================================
                   END IF
                   CALL LAG_MULTP(
      1               IPARI    ,NODES%X        ,NODES%A        ,
-     2               WA       ,NODES%V        ,NODES%MS       ,NODES%IN       ,NODES%VR       ,
-     3                         WA       ,NODES%ITAB     ,IXS      ,IXS(L2)  ,
+     2               NODES%V        ,NODES%MS       ,NODES%IN       ,NODES%VR       ,
+     3               NODES%ITAB     ,IXS      ,IXS(L2)  ,
      4               IXS(L3)  ,FANI     ,FSAV     ,
      5               SKEWS%SKEW     ,NODES%AR       ,LAMBDA   ,LAGBUF   ,IBCSLAG  ,
      6               IXS(L1)  ,GJBUFI   ,GJBUFR   ,IBMPC    ,RBMPC    ,

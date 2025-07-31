@@ -58,7 +58,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||====================================================================
       SUBROUTINE I7MAIN_TRI(TIMERS,
      1                  IPARI   ,X       ,V       ,
-     2                  MS      ,NIN     ,ITASK   ,MWAG    ,WEIGHT  ,
+     2                  MS      ,NIN     ,ITASK   ,WEIGHT  ,
      3                  ISENDTO ,IRCVFROM,RETRI   ,IAD_ELEM,FR_ELEM ,
      4                  ITAB    ,KINET   ,TEMP    ,NRTM_T  ,RENUM   ,
      5                  NSNFIOLD,ESHIFT  ,NUM_IMP ,IND_IMP ,NODNX_SMS,
@@ -103,7 +103,7 @@ C-----------------------------------------------
       INTEGER NIN ,ITASK, RETRI, NRTM_T,ESHIFT,
      .        NUM_IMP ,IND_IMP(*),
      .        ITAB(*), KINET(*),
-     .        IPARI(NPARI,NINTER),  MWAG(*),
+     .        IPARI(NPARI,NINTER),
      .        ISENDTO(NINTER+1,*),IRCVFROM(NINTER+1,*),
      .        WEIGHT(*), IAD_ELEM(2,*) ,FR_ELEM(*),
      .        RENUM(*), NSNFIOLD(NSPMD), NODNX_SMS(*), IXS(NIXS, *)
@@ -120,7 +120,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER 
      .        LOC_PROC,
-     .        I, IP0, IP1, IP2, IP21, I_SK_OLD, I_STOK1, 
+     .        I, IP0, IP2, IP21, I_SK_OLD, I_STOK1, 
      .        ADD1, NB_N_B, NOINT, INACTI, MULTIMP, IGAP, IFQ, ITIED
       INTEGER 
      .        ILD, NCONT, NCONTACT, INACTII, INACIMP, INTTH,
@@ -212,6 +212,15 @@ C -------------------------------------------------------------
 C
 C Barrier in all cases for bminma [and cur_max_max]
 C
+      IF(ITASK==0)THEN
+        IF(.NOT. ALLOCATED(INTBUF_TAB%CAND_A)) THEN
+          ALLOCATE(INTBUF_TAB%CAND_A(NSNROLD+NSN+3))   
+        ELSEIF(SIZE(INTBUF_TAB%CAND_A)<NSNROLD+NSN+3) THEN
+          DEALLOCATE(INTBUF_TAB%CAND_A)
+          ALLOCATE(INTBUF_TAB%CAND_A(NSN+NSNROLD+3))
+        ENDIF
+      ENDIF
+
       CALL MY_BARRIER
 C
       IF(INACTI==5.OR.INACTI==6.OR.INACTI==7.OR.IFQ>0.OR.
@@ -225,13 +234,12 @@ C
             INACIMP = 1
           ENDIF
           IP0 = 1
-          IP1 = IP0 + NSN + NSNROLD + 3
 C MWA = MWAG ON TASK 0
           I_SK_OLD = INTBUF_TAB%I_STOK(1)
           CALL I7TRC(
      1      NSN+NSNROLD      ,I_SK_OLD         ,INTBUF_TAB%CAND_N,INTBUF_TAB%CAND_E,
      2      INTBUF_TAB%CAND_P,INTBUF_TAB%FTSAVX,INTBUF_TAB%FTSAVY,INTBUF_TAB%FTSAVZ,
-     3      MWAG(IP0)        ,INTBUF_TAB%IFPEN ,INACTI           ,IFQ              ,
+     3      INTBUF_TAB%CAND_A        ,INTBUF_TAB%IFPEN ,INACTI           ,IFQ              ,
      4      NUM_IMP          ,IND_IMP          ,INTBUF_TAB%STFNS ,NIN              ,
      5      NSN ,ITIED,INTBUF_TAB%CAND_F )
 C store INACTI as negative
@@ -460,7 +468,7 @@ C
      1 X      ,INTBUF_TAB%IRECTM(1+4*ESHIFT),INTBUF_TAB%NSV  ,INACTI    ,INTBUF_TAB%CAND_P,
      2 NMN_G  ,NRTM_T                       ,NSN     ,INTBUF_TAB%CAND_E,INTBUF_TAB%CAND_N,
      3 GAP    ,NOINT       ,INTBUF_TAB%I_STOK(1) ,NCONTACT ,BMINMA ,
-     4 TZINF  ,MAXBOX      ,MINBOX         ,MWAG         ,CURV_MAX  ,
+     4 TZINF  ,MAXBOX      ,MINBOX         ,INTBUF_TAB%CAND_A,CURV_MAX  ,
      6 NB_N_B ,ESHIFT      ,ILD            ,IFQ    ,INTBUF_TAB%IFPEN,
      8 INTBUF_TAB%STFNS,NIN ,INTBUF_TAB%STFM(1+ESHIFT),IPARI(21,NIN),INTBUF_TAB%GAP_S,
      A NSNR   ,NCONT  ,RENUM  ,NSNROLD  ,INTBUF_TAB%GAP_M(1+ESHIFT),
@@ -474,7 +482,7 @@ C
      1 X      ,INTBUF_TAB%IRECTM(1+4*ESHIFT),INTBUF_TAB%NSV  ,INACTI    ,INTBUF_TAB%CAND_P,
      2 NMN_G  ,NRTM_T                       ,NSN     ,INTBUF_TAB%CAND_E,INTBUF_TAB%CAND_N,
      3 GAP    ,NOINT       ,INTBUF_TAB%I_STOK(1) ,NCONTACT ,BMINMA ,
-     4 TZINF  ,MAXBOX      ,MINBOX         ,MWAG         ,CURV_MAX  ,
+     4 TZINF  ,MAXBOX      ,MINBOX         ,INTBUF_TAB%CAND_A,CURV_MAX  ,
      6 NB_N_B ,ESHIFT      ,ILD            ,IFQ    ,INTBUF_TAB%IFPEN,
      8 INTBUF_TAB%STFNS,NIN ,INTBUF_TAB%STFM(1+ESHIFT),IPARI(21,NIN),INTBUF_TAB%GAP_S,
      A NSNR   ,NCONT  ,RENUM  ,NSNROLD  ,INTBUF_TAB%GAP_M(1+ESHIFT),
