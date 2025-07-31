@@ -20,15 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    emomt2    ../engine/source/ale/euler2d/emomt2.F
-      !||--- called by ------------------------------------------------------
-      !||    qforc2    ../engine/source/elements/solid_2d/quad/qforc2.F
-      !||--- calls      -----------------------------------------------------
-      !||    upwind    ../engine/source/elements/solid/solide/upwind.F
-      !||--- uses       -----------------------------------------------------
-      !||    ale_mod   ../common_source/modules/ale/ale_mod.F
-      !||====================================================================
+!||====================================================================
+!||    emomt2    ../engine/source/ale/euler2d/emomt2.F
+!||--- called by ------------------------------------------------------
+!||    qforc2    ../engine/source/elements/solid_2d/quad/qforc2.F
+!||--- calls      -----------------------------------------------------
+!||    upwind    ../engine/source/elements/solid/solide/upwind.F
+!||--- uses       -----------------------------------------------------
+!||    ale_mod   ../common_source/modules/ale/ale_mod.F
+!||====================================================================
       SUBROUTINE EMOMT2(PM,RHO,
      .                  Y1,Y2,Y3,Y4,Z1,Z2,Z3,Z4,
      .                  VY1,VY2,VY3,VY4,VZ1,VZ2,VZ3,VZ4,

@@ -20,11 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    inthqd          ../starter/source/fluid/inte_qd.F
-      !||--- called by ------------------------------------------------------
-      !||    mass_fluid_qd   ../starter/source/fluid/mass-fluid_qd.F
-      !||====================================================================
+!||====================================================================
+!||    inthqd          ../starter/source/fluid/inte_qd.F
+!||--- called by ------------------------------------------------------
+!||    mass_fluid_qd   ../starter/source/fluid/mass-fluid_qd.F
+!||====================================================================
       SUBROUTINE INTHQD(X1 , Y1,  Z1,  X2,  Y2,  Z2,
      .                  X3,  Y3,  Z3,  X4,  Y4,  Z4,
      .                  XP,  YP,  ZP,  XS,  YS,  ZS,
@@ -112,11 +112,11 @@ C
       END
 C
 C
-      !||====================================================================
-      !||    intgqd          ../starter/source/fluid/inte_qd.F
-      !||--- called by ------------------------------------------------------
-      !||    mass_fluid_qd   ../starter/source/fluid/mass-fluid_qd.F
-      !||====================================================================
+!||====================================================================
+!||    intgqd          ../starter/source/fluid/inte_qd.F
+!||--- called by ------------------------------------------------------
+!||    mass_fluid_qd   ../starter/source/fluid/mass-fluid_qd.F
+!||====================================================================
       SUBROUTINE INTGQD(X1 , Y1,  Z1,  X2,  Y2,  Z2,
      .                  X3,  Y3,  Z3,  X4,  Y4,  Z4,
      .                  XP,  YP,  ZP,  XS,  YS,  ZS,

@@ -22,15 +22,15 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C=======================================================================
 C
-      !||====================================================================
-      !||    inisrf         ../starter/source/constraints/general/rbody/inisrf.F
-      !||--- called by ------------------------------------------------------
-      !||    initia         ../starter/source/elements/initia/initia.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg         ../starter/source/output/message/message.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod    ../starter/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    inisrf         ../starter/source/constraints/general/rbody/inisrf.F
+!||--- called by ------------------------------------------------------
+!||    initia         ../starter/source/elements/initia/initia.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg         ../starter/source/output/message/message.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod    ../starter/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE INISRF(X,V,VR,NPBY,RBY,IGRSURF,BUFSF)
 C-----------------------------------------------
 C   M o d u l e s

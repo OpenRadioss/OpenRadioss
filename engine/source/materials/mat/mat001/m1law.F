@@ -20,16 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    m1law            ../engine/source/materials/mat/mat001/m1law.F
-      !||--- called by ------------------------------------------------------
-      !||    mmain            ../engine/source/materials/mat_share/mmain.F90
-      !||--- calls      -----------------------------------------------------
-      !||    mdtsph           ../engine/source/materials/mat_share/mdtsph.F
-      !||    mqviscb          ../engine/source/materials/mat_share/mqviscb.F
-      !||--- uses       -----------------------------------------------------
-      !||    glob_therm_mod   ../common_source/modules/mat_elem/glob_therm_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    m1law            ../engine/source/materials/mat/mat001/m1law.F
+!||--- called by ------------------------------------------------------
+!||    mmain            ../engine/source/materials/mat_share/mmain.F90
+!||--- calls      -----------------------------------------------------
+!||    mdtsph           ../engine/source/materials/mat_share/mdtsph.F
+!||    mqviscb          ../engine/source/materials/mat_share/mqviscb.F
+!||--- uses       -----------------------------------------------------
+!||    glob_therm_mod   ../common_source/modules/mat_elem/glob_therm_mod.F90
+!||====================================================================
       SUBROUTINE M1LAW(
      1   PM,      OFF,     SIG,     EINT,
      2   RHO,     QOLD,    VOL,     STIFN,

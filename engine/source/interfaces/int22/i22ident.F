@@ -20,19 +20,19 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    i22ident         ../engine/source/interfaces/int22/i22ident.F
-      !||--- called by ------------------------------------------------------
-      !||    i22buce          ../engine/source/interfaces/intsort/i22buce.F
-      !||--- calls      -----------------------------------------------------
-      !||    i22gbit          ../engine/source/interfaces/int22/i22ident.F
-      !||    int22listcombi   ../engine/source/interfaces/int22/int22ListCombi.F
-      !||    my_barrier       ../engine/source/system/machine.F
-      !||--- uses       -----------------------------------------------------
-      !||    i22bufbric_mod   ../common_source/modules/interfaces/cut-cell-search_mod.F
-      !||    i22edge_mod      ../common_source/modules/interfaces/cut-cell-buffer_mod.F
-      !||    i22tri_mod       ../common_source/modules/interfaces/cut-cell-search_mod.F
-      !||====================================================================
+!||====================================================================
+!||    i22ident         ../engine/source/interfaces/int22/i22ident.F
+!||--- called by ------------------------------------------------------
+!||    i22buce          ../engine/source/interfaces/intsort/i22buce.F
+!||--- calls      -----------------------------------------------------
+!||    i22gbit          ../engine/source/interfaces/int22/i22ident.F
+!||    int22listcombi   ../engine/source/interfaces/int22/int22ListCombi.F
+!||    my_barrier       ../engine/source/system/machine.F
+!||--- uses       -----------------------------------------------------
+!||    i22bufbric_mod   ../common_source/modules/interfaces/cut-cell-search_mod.F
+!||    i22edge_mod      ../common_source/modules/interfaces/cut-cell-buffer_mod.F
+!||    i22tri_mod       ../common_source/modules/interfaces/cut-cell-search_mod.F
+!||====================================================================
       SUBROUTINE I22IDENT(
      1       IXS, X, ITASK, NIN, BUFBRIC)
 C============================================================================      
@@ -602,14 +602,14 @@ C=======================================================================
 
 
 
-      !||====================================================================
-      !||    i22gbit          ../engine/source/interfaces/int22/i22ident.F
-      !||--- called by ------------------------------------------------------
-      !||    i22ident         ../engine/source/interfaces/int22/i22ident.F
-      !||--- uses       -----------------------------------------------------
-      !||    i22bufbric_mod   ../common_source/modules/interfaces/cut-cell-search_mod.F
-      !||    i22tri_mod       ../common_source/modules/interfaces/cut-cell-search_mod.F
-      !||====================================================================
+!||====================================================================
+!||    i22gbit          ../engine/source/interfaces/int22/i22ident.F
+!||--- called by ------------------------------------------------------
+!||    i22ident         ../engine/source/interfaces/int22/i22ident.F
+!||--- uses       -----------------------------------------------------
+!||    i22bufbric_mod   ../common_source/modules/interfaces/cut-cell-search_mod.F
+!||    i22tri_mod       ../common_source/modules/interfaces/cut-cell-search_mod.F
+!||====================================================================
       SUBROUTINE I22GBIT(
      1       IAD , Icode, Idble, Nbits, Npqts, 
      2       idb1, idb2, NIN )

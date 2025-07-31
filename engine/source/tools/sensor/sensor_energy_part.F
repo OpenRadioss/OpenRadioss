@@ -20,15 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    sensor_energy_part   ../engine/source/tools/sensor/sensor_energy_part.F
-      !||--- called by ------------------------------------------------------
-      !||    forint               ../engine/source/elements/forint.F
-      !||    forintc              ../engine/source/elements/forintc.F
-      !||--- uses       -----------------------------------------------------
-      !||    groupdef_mod         ../common_source/modules/groupdef_mod.F
-      !||    sensor_mod           ../common_source/modules/sensor_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    sensor_energy_part   ../engine/source/tools/sensor/sensor_energy_part.F
+!||--- called by ------------------------------------------------------
+!||    forint               ../engine/source/elements/forint.F
+!||    forintc              ../engine/source/elements/forintc.F
+!||--- uses       -----------------------------------------------------
+!||    groupdef_mod         ../common_source/modules/groupdef_mod.F
+!||    sensor_mod           ../common_source/modules/sensor_mod.F90
+!||====================================================================
       SUBROUTINE SENSOR_ENERGY_PART(IPART ,SUBSET ,IPRI,SENSORS,ITASK)
 C-----------------------------------------------
 C   M o d u l e s

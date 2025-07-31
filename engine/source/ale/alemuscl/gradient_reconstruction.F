@@ -20,17 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    gradient_reconstruction         ../engine/source/ale/alemuscl/gradient_reconstruction.F
-      !||--- called by ------------------------------------------------------
-      !||    ale51_gradient_reconstruction   ../engine/source/ale/alemuscl/ale51_gradient_reconstruction.F
-      !||--- calls      -----------------------------------------------------
-      !||    cg                              ../engine/source/ale/alemuscl/conjugate_gradient.F
-      !||--- uses       -----------------------------------------------------
-      !||    ale_connectivity_mod            ../common_source/modules/ale/ale_connectivity_mod.F
-      !||    alemuscl_mod                    ../common_source/modules/ale/alemuscl_mod.F
-      !||    segvar_mod                      ../engine/share/modules/segvar_mod.F
-      !||====================================================================
+!||====================================================================
+!||    gradient_reconstruction         ../engine/source/ale/alemuscl/gradient_reconstruction.F
+!||--- called by ------------------------------------------------------
+!||    ale51_gradient_reconstruction   ../engine/source/ale/alemuscl/ale51_gradient_reconstruction.F
+!||--- calls      -----------------------------------------------------
+!||    cg                              ../engine/source/ale/alemuscl/conjugate_gradient.F
+!||--- uses       -----------------------------------------------------
+!||    ale_connectivity_mod            ../common_source/modules/ale/ale_connectivity_mod.F
+!||    alemuscl_mod                    ../common_source/modules/ale/alemuscl_mod.F
+!||    segvar_mod                      ../engine/share/modules/segvar_mod.F
+!||====================================================================
       SUBROUTINE GRADIENT_RECONSTRUCTION(IXS, X, ALE_CONNECT, ITRIMAT,SEGVAR)
 C-----------------------------------------------
 C  D e s c r i p t i o n

@@ -20,12 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    eporin3                ../starter/source/ale/ale3d/eporin3.F
-      !||--- called by ------------------------------------------------------
-      !||    initia                 ../starter/source/elements/initia/initia.F
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    eporin3                ../starter/source/ale/ale3d/eporin3.F
+!||--- called by ------------------------------------------------------
+!||    initia                 ../starter/source/elements/initia/initia.F
+!||--- uses       -----------------------------------------------------
+!||====================================================================
       SUBROUTINE EPORIN3(IXS ,VEUL,ALE_CONNECTIVITY,GEO,NFT,NEL)
 C-----------------------------------------------
 C   M o d u l e s

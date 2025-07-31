@@ -20,17 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    admthke             ../engine/source/model/remesh/admthke.F
-      !||--- called by ------------------------------------------------------
-      !||    admerr              ../engine/source/model/remesh/admerr.F
-      !||    err_thk             ../engine/source/elements/shell/err_thk.F
-      !||--- calls      -----------------------------------------------------
-      !||    spmd_exch_nodarea   ../engine/source/mpi/anim/spmd_exch_nodarea.F
-      !||--- uses       -----------------------------------------------------
-      !||    elbufdef_mod        ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||    remesh_mod          ../engine/share/modules/remesh_mod.F
-      !||====================================================================
+!||====================================================================
+!||    admthke             ../engine/source/model/remesh/admthke.F
+!||--- called by ------------------------------------------------------
+!||    admerr              ../engine/source/model/remesh/admerr.F
+!||    err_thk             ../engine/source/elements/shell/err_thk.F
+!||--- calls      -----------------------------------------------------
+!||    spmd_exch_nodarea   ../engine/source/mpi/anim/spmd_exch_nodarea.F
+!||--- uses       -----------------------------------------------------
+!||    elbufdef_mod        ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    remesh_mod          ../engine/share/modules/remesh_mod.F
+!||====================================================================
       SUBROUTINE ADMTHKE(
      .       IXC     ,IXTG    ,X       ,IPARG   ,ELBUF_TAB,
      .       IPART   ,IPARTC  ,IPARTTG ,IAD_ELEM,FR_ELEM ,

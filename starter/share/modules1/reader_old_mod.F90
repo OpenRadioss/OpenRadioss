@@ -22,69 +22,69 @@
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
  !! \brief Direct Reader (old reader) parameters
 !! \details current Reader is based on library. Direct Reader (Fortran READ statement) is only related to limited specific cases
-      !||====================================================================
-      !||    reader_old_mod             ../starter/share/modules1/reader_old_mod.F90
-      !||--- called by ------------------------------------------------------
-      !||    admlcnt                    ../starter/source/model/remesh/admlist.F
-      !||    admlist                    ../starter/source/model/remesh/admlist.F
-      !||    bigbox                     ../starter/source/model/box/bigbox.F
-      !||    bigbox2                    ../starter/source/model/box/bigbox.F
-      !||    bigsbox                    ../starter/source/model/box/bigbox.F
-      !||    fredec0                    ../starter/source/starter/freform.F
-      !||    fredec4                    ../starter/source/starter/freform.F
-      !||    fredec5                    ../starter/source/starter/freform.F
-      !||    fredec6                    ../starter/source/starter/freform.F
-      !||    fredec_2key_4id            ../starter/source/starter/freform.F
-      !||    fredec_2key_4id_t          ../starter/source/starter/freform.F
-      !||    fredec_2key_id_or_key_id   ../starter/source/starter/freform.F
-      !||    fredec_key_3id_t           ../starter/source/starter/freform.F
-      !||    freerr                     ../starter/source/starter/freform.F
-      !||    hm_prelce16s               ../starter/source/elements/reader/hm_read_solid.F
-      !||    hm_preread_node            ../starter/source/elements/reader/hm_preread_node.F
-      !||    hm_read_beam               ../starter/source/elements/reader/hm_read_beam.F
-      !||    hm_read_cluster            ../starter/source/output/cluster/hm_read_cluster.F
-      !||    hm_read_friction_models    ../starter/source/interfaces/friction/reader/hm_read_friction_models.F
-      !||    hm_read_grav               ../starter/source/loads/general/grav/hm_read_grav.F
-      !||    hm_read_inter_type24       ../starter/source/interfaces/int24/hm_read_inter_type24.F
-      !||    hm_read_lines              ../starter/source/groups/hm_read_lines.F
-      !||    hm_read_mat                ../starter/source/materials/mat/hm_read_mat.F90
-      !||    hm_read_mat10              ../starter/source/materials/mat/mat010/hm_read_mat10.F
-      !||    hm_read_mat29_31           ../starter/source/materials/mat/matuser/hm_read_mat_user29_31.F
-      !||    hm_read_mat_99             ../starter/source/materials/mat/matuser/hm_read_mat_user_99.F
-      !||    hm_read_prop_generic       ../starter/source/properties/hm_read_prop_generic.F
-      !||    hm_read_quad               ../starter/source/elements/reader/hm_read_quad.F
-      !||    hm_read_rivet              ../starter/source/elements/reader/hm_read_rivet.F
-      !||    hm_read_sh3n               ../starter/source/elements/reader/hm_read_sh3n.F
-      !||    hm_read_shell              ../starter/source/elements/reader/hm_read_shell.F
-      !||    hm_read_sphcel             ../starter/source/elements/reader/hm_read_sphcel.F
-      !||    hm_read_spring             ../starter/source/elements/reader/hm_read_spring.F
-      !||    hm_read_surfsurf           ../starter/source/groups/hm_read_surfsurf.F
-      !||    hm_read_table1             ../starter/source/tools/curve/hm_read_table.F
-      !||    hm_read_tria               ../starter/source/elements/reader/hm_read_tria.F
-      !||    hm_read_truss              ../starter/source/elements/reader/hm_read_truss.F
-      !||    lec_ddw                    ../starter/source/spmd/domain_decomposition/grid2mat.F
-      !||    lec_ddw_poin               ../starter/source/spmd/domain_decomposition/grid2mat.F
-      !||    lec_inistate_yfile         ../starter/source/initial_conditions/inista/lec_inistate_yfile.F
-      !||    lecextlnk                  ../starter/source/coupling/rad2rad/lecextlnk.F
-      !||    lecig3d                    ../starter/source/elements/ige3d/lecig3d.F
-      !||    lecrefsta                  ../starter/source/loads/reference_state/refsta/lecrefsta.F
-      !||    nbadigemesh                ../starter/source/elements/ige3d/nbadigemesh.F
-      !||    nbadmesh                   ../starter/source/model/remesh/nbadmesh.F
-      !||    nextsla                    ../starter/source/starter/freform.F
-      !||    prelec_ddw                 ../starter/source/spmd/domain_decomposition/grid2mat.F
-      !||    prelec_ddw_poin            ../starter/source/spmd/domain_decomposition/grid2mat.F
-      !||    prelecig3d                 ../starter/source/elements/ige3d/prelecig3d.F
-      !||    r2r_exist                  ../starter/source/coupling/rad2rad/routines_r2r.F
-      !||    r2r_group                  ../starter/source/coupling/rad2rad/r2r_group.F
-      !||    r2r_input                  ../starter/source/coupling/rad2rad/r2r_input.F
-      !||    r2r_listcnt                ../starter/source/coupling/rad2rad/routines_r2r.F
-      !||    r2r_prelec                 ../starter/source/coupling/rad2rad/r2r_prelec.F
-      !||    read_sensor_user           ../starter/source/tools/sensor/read_sensor_user.F
-      !||    sz_r2r                     ../starter/source/coupling/rad2rad/routines_r2r.F
-      !||    user_output                ../starter/source/user_interface/user_output.F
-      !||    yctrl                      ../starter/source/initial_conditions/inista/yctrl.F
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    reader_old_mod             ../starter/share/modules1/reader_old_mod.F90
+!||--- called by ------------------------------------------------------
+!||    admlcnt                    ../starter/source/model/remesh/admlist.F
+!||    admlist                    ../starter/source/model/remesh/admlist.F
+!||    bigbox                     ../starter/source/model/box/bigbox.F
+!||    bigbox2                    ../starter/source/model/box/bigbox.F
+!||    bigsbox                    ../starter/source/model/box/bigbox.F
+!||    fredec0                    ../starter/source/starter/freform.F
+!||    fredec4                    ../starter/source/starter/freform.F
+!||    fredec5                    ../starter/source/starter/freform.F
+!||    fredec6                    ../starter/source/starter/freform.F
+!||    fredec_2key_4id            ../starter/source/starter/freform.F
+!||    fredec_2key_4id_t          ../starter/source/starter/freform.F
+!||    fredec_2key_id_or_key_id   ../starter/source/starter/freform.F
+!||    fredec_key_3id_t           ../starter/source/starter/freform.F
+!||    freerr                     ../starter/source/starter/freform.F
+!||    hm_prelce16s               ../starter/source/elements/reader/hm_read_solid.F
+!||    hm_preread_node            ../starter/source/elements/reader/hm_preread_node.F
+!||    hm_read_beam               ../starter/source/elements/reader/hm_read_beam.F
+!||    hm_read_cluster            ../starter/source/output/cluster/hm_read_cluster.F
+!||    hm_read_friction_models    ../starter/source/interfaces/friction/reader/hm_read_friction_models.F
+!||    hm_read_grav               ../starter/source/loads/general/grav/hm_read_grav.F
+!||    hm_read_inter_type24       ../starter/source/interfaces/int24/hm_read_inter_type24.F
+!||    hm_read_lines              ../starter/source/groups/hm_read_lines.F
+!||    hm_read_mat                ../starter/source/materials/mat/hm_read_mat.F90
+!||    hm_read_mat10              ../starter/source/materials/mat/mat010/hm_read_mat10.F
+!||    hm_read_mat29_31           ../starter/source/materials/mat/matuser/hm_read_mat_user29_31.F
+!||    hm_read_mat_99             ../starter/source/materials/mat/matuser/hm_read_mat_user_99.F
+!||    hm_read_prop_generic       ../starter/source/properties/hm_read_prop_generic.F
+!||    hm_read_quad               ../starter/source/elements/reader/hm_read_quad.F
+!||    hm_read_rivet              ../starter/source/elements/reader/hm_read_rivet.F
+!||    hm_read_sh3n               ../starter/source/elements/reader/hm_read_sh3n.F
+!||    hm_read_shell              ../starter/source/elements/reader/hm_read_shell.F
+!||    hm_read_sphcel             ../starter/source/elements/reader/hm_read_sphcel.F
+!||    hm_read_spring             ../starter/source/elements/reader/hm_read_spring.F
+!||    hm_read_surfsurf           ../starter/source/groups/hm_read_surfsurf.F
+!||    hm_read_table1             ../starter/source/tools/curve/hm_read_table.F
+!||    hm_read_tria               ../starter/source/elements/reader/hm_read_tria.F
+!||    hm_read_truss              ../starter/source/elements/reader/hm_read_truss.F
+!||    lec_ddw                    ../starter/source/spmd/domain_decomposition/grid2mat.F
+!||    lec_ddw_poin               ../starter/source/spmd/domain_decomposition/grid2mat.F
+!||    lec_inistate_yfile         ../starter/source/initial_conditions/inista/lec_inistate_yfile.F
+!||    lecextlnk                  ../starter/source/coupling/rad2rad/lecextlnk.F
+!||    lecig3d                    ../starter/source/elements/ige3d/lecig3d.F
+!||    lecrefsta                  ../starter/source/loads/reference_state/refsta/lecrefsta.F
+!||    nbadigemesh                ../starter/source/elements/ige3d/nbadigemesh.F
+!||    nbadmesh                   ../starter/source/model/remesh/nbadmesh.F
+!||    nextsla                    ../starter/source/starter/freform.F
+!||    prelec_ddw                 ../starter/source/spmd/domain_decomposition/grid2mat.F
+!||    prelec_ddw_poin            ../starter/source/spmd/domain_decomposition/grid2mat.F
+!||    prelecig3d                 ../starter/source/elements/ige3d/prelecig3d.F
+!||    r2r_exist                  ../starter/source/coupling/rad2rad/routines_r2r.F
+!||    r2r_group                  ../starter/source/coupling/rad2rad/r2r_group.F
+!||    r2r_input                  ../starter/source/coupling/rad2rad/r2r_input.F
+!||    r2r_listcnt                ../starter/source/coupling/rad2rad/routines_r2r.F
+!||    r2r_prelec                 ../starter/source/coupling/rad2rad/r2r_prelec.F
+!||    read_sensor_user           ../starter/source/tools/sensor/read_sensor_user.F
+!||    sz_r2r                     ../starter/source/coupling/rad2rad/routines_r2r.F
+!||    user_output                ../starter/source/user_interface/user_output.F
+!||    yctrl                      ../starter/source/initial_conditions/inista/yctrl.F
+!||--- uses       -----------------------------------------------------
+!||====================================================================
       module reader_old_mod
 
       use names_and_titles_mod , only : ncharline

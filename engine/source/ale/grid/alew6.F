@@ -20,21 +20,21 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    alew6                  ../engine/source/ale/grid/alew6.F
-      !||--- called by ------------------------------------------------------
-      !||    alewdx                 ../engine/source/ale/grid/alewdx.F
-      !||--- calls      -----------------------------------------------------
-      !||    centroid2              ../engine/source/multifluid/centroid.F
-      !||    centroid3              ../engine/source/multifluid/centroid.F
-      !||    centroid3t             ../engine/source/multifluid/centroid.F
-      !||    my_barrier             ../engine/source/system/machine.F
-      !||    spmd_e1vois            ../engine/source/mpi/fluid/spmd_cfd.F
-      !||    spmd_envois            ../engine/source/mpi/fluid/spmd_cfd.F
-      !||--- uses       -----------------------------------------------------
-      !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
-      !||    elbufdef_mod           ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    alew6                  ../engine/source/ale/grid/alew6.F
+!||--- called by ------------------------------------------------------
+!||    alewdx                 ../engine/source/ale/grid/alewdx.F
+!||--- calls      -----------------------------------------------------
+!||    centroid2              ../engine/source/multifluid/centroid.F
+!||    centroid3              ../engine/source/multifluid/centroid.F
+!||    centroid3t             ../engine/source/multifluid/centroid.F
+!||    my_barrier             ../engine/source/system/machine.F
+!||    spmd_e1vois            ../engine/source/mpi/fluid/spmd_cfd.F
+!||    spmd_envois            ../engine/source/mpi/fluid/spmd_cfd.F
+!||--- uses       -----------------------------------------------------
+!||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
+!||    elbufdef_mod           ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||====================================================================
       SUBROUTINE ALEW6( 
      1     X             , V        ,W       ,WA       ,
      .     XCELL         ,XFACE     ,

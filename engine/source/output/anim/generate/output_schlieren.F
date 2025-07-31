@@ -20,19 +20,19 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    output_schlieren       ../engine/source/output/anim/generate/output_schlieren.F
-      !||--- called by ------------------------------------------------------
-      !||    dfuncc                 ../engine/source/output/anim/generate/dfuncc.F
-      !||    dfuncs                 ../engine/source/output/anim/generate/dfunc6.F
-      !||    h3d_quad_scalar_1      ../engine/source/output/h3d/h3d_results/h3d_quad_scalar_1.F90
-      !||    h3d_shell_scalar_1     ../engine/source/output/h3d/h3d_results/h3d_shell_scalar_1.F
-      !||    h3d_solid_scalar_1     ../engine/source/output/h3d/h3d_results/h3d_solid_scalar_1.F
-      !||--- uses       -----------------------------------------------------
-      !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
-      !||    elbufdef_mod           ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||    initbuf_mod            ../engine/share/resol/initbuf.F
-      !||====================================================================
+!||====================================================================
+!||    output_schlieren       ../engine/source/output/anim/generate/output_schlieren.F
+!||--- called by ------------------------------------------------------
+!||    dfuncc                 ../engine/source/output/anim/generate/dfuncc.F
+!||    dfuncs                 ../engine/source/output/anim/generate/dfunc6.F
+!||    h3d_quad_scalar_1      ../engine/source/output/h3d/h3d_results/h3d_quad_scalar_1.F90
+!||    h3d_shell_scalar_1     ../engine/source/output/h3d/h3d_results/h3d_shell_scalar_1.F
+!||    h3d_solid_scalar_1     ../engine/source/output/h3d/h3d_results/h3d_solid_scalar_1.F
+!||--- uses       -----------------------------------------------------
+!||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
+!||    elbufdef_mod           ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    initbuf_mod            ../engine/share/resol/initbuf.F
+!||====================================================================
       SUBROUTINE OUTPUT_SCHLIEREN(
      1                     EVAR   , IX    , X          ,
      2                     IPARG  , WA_L  , ELBUF_TAB  ,ALE_CONNECTIVITY ,VOL,

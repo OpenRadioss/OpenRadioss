@@ -20,11 +20,11 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    visc_plas_mod   ../engine/source/materials/visc/visc_plas.F90
-      !||--- called by ------------------------------------------------------
-      !||    viscmain        ../engine/source/materials/visc/viscmain.F
-      !||====================================================================
+!||====================================================================
+!||    visc_plas_mod   ../engine/source/materials/visc/visc_plas.F90
+!||--- called by ------------------------------------------------------
+!||    viscmain        ../engine/source/materials/visc/viscmain.F
+!||====================================================================
       module visc_plas_mod
       contains
 ! ======================================================================================================================
@@ -35,15 +35,15 @@
 !!\brief This subroutine computes damping forces for /DAMP/FREQ_RANGE for solid elements
 !=======================================================================================================================
 !
-      !||====================================================================
-      !||    visc_plas        ../engine/source/materials/visc/visc_plas.F90
-      !||--- called by ------------------------------------------------------
-      !||    viscmain         ../engine/source/materials/visc/viscmain.F
-      !||--- uses       -----------------------------------------------------
-      !||    constant_mod     ../common_source/modules/constant_mod.F
-      !||    precision_mod    ../common_source/modules/precision_mod.F90
-      !||    visc_param_mod   ../common_source/modules/mat_elem/visc_param_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    visc_plas        ../engine/source/materials/visc/visc_plas.F90
+!||--- called by ------------------------------------------------------
+!||    viscmain         ../engine/source/materials/visc/viscmain.F
+!||--- uses       -----------------------------------------------------
+!||    constant_mod     ../common_source/modules/constant_mod.F
+!||    precision_mod    ../common_source/modules/precision_mod.F90
+!||    visc_param_mod   ../common_source/modules/mat_elem/visc_param_mod.F90
+!||====================================================================
         subroutine visc_plas(visc,nel     , rho, soundsp     , &
                                        depspxx  ,depspyy  ,depspzz  ,depspxy  ,depspyz  ,depspzx  , &
                                        sigvoxx  ,sigvoyy  ,sigvozz  ,sigvoxy  ,sigvoyz  ,sigvozx  , &

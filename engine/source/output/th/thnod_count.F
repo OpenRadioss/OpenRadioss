@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    thnod_count   ../engine/source/output/th/thnod_count.F
-      !||--- called by ------------------------------------------------------
-      !||    init_th       ../engine/source/output/th/init_th.F
-      !||--- uses       -----------------------------------------------------
-      !||    plyxfem_mod   ../engine/share/modules/plyxfem_mod.F
-      !||====================================================================
+!||====================================================================
+!||    thnod_count   ../engine/source/output/th/thnod_count.F
+!||--- called by ------------------------------------------------------
+!||    init_th       ../engine/source/output/th/init_th.F
+!||--- uses       -----------------------------------------------------
+!||    plyxfem_mod   ../engine/share/modules/plyxfem_mod.F
+!||====================================================================
       SUBROUTINE THNOD_COUNT(ITHGRP, NTHGRP2, WA_SIZE, INDEX_WA_NOD, ITHBUF, WEIGHT,SITHBUF)
 C-----------------------------------------------
 C   M o d u l e s

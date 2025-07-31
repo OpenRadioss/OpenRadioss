@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    i8lagm    ../engine/source/interfaces/int16/i8lagm.F
-      !||--- called by ------------------------------------------------------
-      !||    i16main   ../engine/source/interfaces/int16/i16main.F
-      !||--- calls      -----------------------------------------------------
-      !||    i8lll     ../engine/source/interfaces/int16/i8lagm.F
-      !||====================================================================
+!||====================================================================
+!||    i8lagm    ../engine/source/interfaces/int16/i8lagm.F
+!||--- called by ------------------------------------------------------
+!||    i16main   ../engine/source/interfaces/int16/i16main.F
+!||--- calls      -----------------------------------------------------
+!||    i8lll     ../engine/source/interfaces/int16/i8lagm.F
+!||====================================================================
       SUBROUTINE I8LAGM(X      ,V      ,LLL    ,JLL     ,SLL   ,
      2                  XLL    ,CANDN  ,CANDE  ,I_STOK  ,IXS   ,
      3                  IADLL  ,EMINX  ,NSV    ,NELEM   ,
@@ -190,17 +190,17 @@ C
 C-----------------------------------------------
       RETURN
       END
-      !||====================================================================
-      !||    i8lll         ../engine/source/interfaces/int16/i8lagm.F
-      !||--- called by ------------------------------------------------------
-      !||    i8lagm        ../engine/source/interfaces/int16/i8lagm.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg        ../engine/source/output/message/message.F
-      !||    arret         ../engine/source/system/arret.F
-      !||    i8rst         ../engine/source/interfaces/int16/i8lagm.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod   ../engine/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    i8lll         ../engine/source/interfaces/int16/i8lagm.F
+!||--- called by ------------------------------------------------------
+!||    i8lagm        ../engine/source/interfaces/int16/i8lagm.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg        ../engine/source/output/message/message.F
+!||    arret         ../engine/source/system/arret.F
+!||    i8rst         ../engine/source/interfaces/int16/i8lagm.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod   ../engine/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE I8LLL(LLT  ,LLL       ,JLL  ,SLL  ,XLL  ,V     ,
      2                  XX   ,YY        ,ZZ   ,III  ,IADLL ,
      3                  N_MUL_MX,A      ,X    ,ITIED,NINT ,NKMAX ,
@@ -490,15 +490,15 @@ C
       RETURN
       END
 C
-      !||====================================================================
-      !||    i8rst    ../engine/source/interfaces/int16/i8lagm.F
-      !||--- called by ------------------------------------------------------
-      !||    i8lll    ../engine/source/interfaces/int16/i8lagm.F
-      !||--- calls      -----------------------------------------------------
-      !||    i8deri   ../engine/source/interfaces/int16/i8lagm.F
-      !||    i8ni     ../engine/source/interfaces/int16/i8lagm.F
-      !||    i8rstn   ../engine/source/interfaces/int16/i8lagm.F
-      !||====================================================================
+!||====================================================================
+!||    i8rst    ../engine/source/interfaces/int16/i8lagm.F
+!||--- called by ------------------------------------------------------
+!||    i8lll    ../engine/source/interfaces/int16/i8lagm.F
+!||--- calls      -----------------------------------------------------
+!||    i8deri   ../engine/source/interfaces/int16/i8lagm.F
+!||    i8ni     ../engine/source/interfaces/int16/i8lagm.F
+!||    i8rstn   ../engine/source/interfaces/int16/i8lagm.F
+!||====================================================================
       SUBROUTINE I8RST(LLT,R  ,S     ,T     ,NI    ,
      2            NX  ,NY  ,NZ  ,XX    ,YY    ,ZZ    )
 C-----------------------------------------------
@@ -620,11 +620,11 @@ C
       RETURN
       END
 C
-      !||====================================================================
-      !||    i8ni    ../engine/source/interfaces/int16/i8lagm.F
-      !||--- called by ------------------------------------------------------
-      !||    i8rst   ../engine/source/interfaces/int16/i8lagm.F
-      !||====================================================================
+!||====================================================================
+!||    i8ni    ../engine/source/interfaces/int16/i8lagm.F
+!||--- called by ------------------------------------------------------
+!||    i8rst   ../engine/source/interfaces/int16/i8lagm.F
+!||====================================================================
       SUBROUTINE I8NI(LLT,RR ,SS ,TT ,NI    )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -688,11 +688,11 @@ C------------------------------------
 C-----------------------------------------------
       RETURN
       END
-      !||====================================================================
-      !||    i8rstn   ../engine/source/interfaces/int16/i8lagm.F
-      !||--- called by ------------------------------------------------------
-      !||    i8rst    ../engine/source/interfaces/int16/i8lagm.F
-      !||====================================================================
+!||====================================================================
+!||    i8rstn   ../engine/source/interfaces/int16/i8lagm.F
+!||--- called by ------------------------------------------------------
+!||    i8rst    ../engine/source/interfaces/int16/i8lagm.F
+!||====================================================================
       SUBROUTINE I8RSTN(LLT,RR ,SS    ,TT    ,NI    ,CONV  ,
      2            DRDX  ,DRDY  ,DRDZ  ,DSDX  ,DSDY  ,DSDZ  ,
      3            DTDX  ,DTDY  ,DTDZ  ,XX    ,YY    ,ZZ    ,
@@ -769,11 +769,11 @@ C
 C-----------------------------------------------
       RETURN
       END
-      !||====================================================================
-      !||    i8deri   ../engine/source/interfaces/int16/i8lagm.F
-      !||--- called by ------------------------------------------------------
-      !||    i8rst    ../engine/source/interfaces/int16/i8lagm.F
-      !||====================================================================
+!||====================================================================
+!||    i8deri   ../engine/source/interfaces/int16/i8lagm.F
+!||--- called by ------------------------------------------------------
+!||    i8rst    ../engine/source/interfaces/int16/i8lagm.F
+!||====================================================================
       SUBROUTINE I8DERI(LLT,RR,SS ,TT    ,NI    ,
      2   DRDX  ,DRDY  ,DRDZ  ,DSDX  ,DSDY  ,DSDZ  ,
      3   DTDX  ,DTDY  ,DTDZ  ,DXDR  ,DYDR  ,DZDR  ,

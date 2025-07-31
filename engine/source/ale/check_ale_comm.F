@@ -20,15 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    check_ale_comm   ../engine/source/ale/check_ale_comm.F
-      !||--- called by ------------------------------------------------------
-      !||    resol            ../engine/source/engine/resol.F
-      !||--- calls      -----------------------------------------------------
-      !||--- uses       -----------------------------------------------------
-      !||    elbufdef_mod     ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||    spmd_mod         ../engine/source/mpi/spmd_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    check_ale_comm   ../engine/source/ale/check_ale_comm.F
+!||--- called by ------------------------------------------------------
+!||    resol            ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||    elbufdef_mod     ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    spmd_mod         ../engine/source/mpi/spmd_mod.F90
+!||====================================================================
         SUBROUTINE CHECK_ALE_COMM(IPARG_L,ELBUF_TAB,GLOBAL_ACTIVE_ALE_ELEMENT,ITHERM)
 !$COMMENT
 !       CHECK_ALE_COMM description

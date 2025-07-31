@@ -20,21 +20,21 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    r2r_void               ../starter/source/coupling/rad2rad/r2r_void.F
-      !||--- called by ------------------------------------------------------
-      !||    lectur                 ../starter/source/starter/lectur.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg                 ../starter/source/output/message/message.F
-      !||    fretitl                ../starter/source/starter/freform.F
-      !||    init_mat_weight        ../starter/source/user_interface/set_dd_mat_weight.F
-      !||--- uses       -----------------------------------------------------
-      !||    ddweights_mod          ../starter/share/modules1/ddweights_mod.F
-      !||    message_mod            ../starter/share/message_module/message_mod.F
-      !||    r2r_mod                ../starter/share/modules1/r2r_mod.F
-      !||    restmod                ../starter/share/modules1/restart_mod.F
-      !||    stack_var_mod          ../starter/share/modules1/stack_var_mod.F
-      !||====================================================================
+!||====================================================================
+!||    r2r_void               ../starter/source/coupling/rad2rad/r2r_void.F
+!||--- called by ------------------------------------------------------
+!||    lectur                 ../starter/source/starter/lectur.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                 ../starter/source/output/message/message.F
+!||    fretitl                ../starter/source/starter/freform.F
+!||    init_mat_weight        ../starter/source/user_interface/set_dd_mat_weight.F
+!||--- uses       -----------------------------------------------------
+!||    ddweights_mod          ../starter/share/modules1/ddweights_mod.F
+!||    message_mod            ../starter/share/message_module/message_mod.F
+!||    r2r_mod                ../starter/share/modules1/r2r_mod.F
+!||    restmod                ../starter/share/modules1/restart_mod.F
+!||    stack_var_mod          ../starter/share/modules1/stack_var_mod.F
+!||====================================================================
       SUBROUTINE R2R_VOID(IPARTL)
 C-----------------------------------------------
 C   M o d u l e s
@@ -434,14 +434,14 @@ C-----------
         RETURN
       END SUBROUTINE R2R_VOID
 
-      !||====================================================================
-      !||    r2r_void_1d             ../starter/source/coupling/rad2rad/r2r_void.F
-      !||--- called by ------------------------------------------------------
-      !||    tag_elem_void_r2r_lin   ../starter/source/coupling/rad2rad/tagelem_r2r.F
-      !||--- uses       -----------------------------------------------------
-      !||    r2r_mod                 ../starter/share/modules1/r2r_mod.F
-      !||    restmod                 ../starter/share/modules1/restart_mod.F
-      !||====================================================================
+!||====================================================================
+!||    r2r_void_1d             ../starter/source/coupling/rad2rad/r2r_void.F
+!||--- called by ------------------------------------------------------
+!||    tag_elem_void_r2r_lin   ../starter/source/coupling/rad2rad/tagelem_r2r.F
+!||--- uses       -----------------------------------------------------
+!||    r2r_mod                 ../starter/share/modules1/r2r_mod.F
+!||    restmod                 ../starter/share/modules1/restart_mod.F
+!||====================================================================
       SUBROUTINE R2R_VOID_1D(ID_PART,IPARTL)
 C-----------------------------------------------
 C   M o d u l e s

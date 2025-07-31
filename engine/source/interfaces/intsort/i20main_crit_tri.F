@@ -20,16 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    i20main_crit_tri   ../engine/source/interfaces/intsort/i20main_crit_tri.F
-      !||--- called by ------------------------------------------------------
-      !||    inttri             ../engine/source/interfaces/intsort/inttri.F
-      !||--- calls      -----------------------------------------------------
-      !||    i20buce_crit       ../engine/source/interfaces/intsort/i20buce_crit.F
-      !||--- uses       -----------------------------------------------------
-      !||    h3d_mod            ../engine/share/modules/h3d_mod.F
-      !||    intbufdef_mod      ../common_source/modules/interfaces/intbufdef_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    i20main_crit_tri   ../engine/source/interfaces/intsort/i20main_crit_tri.F
+!||--- called by ------------------------------------------------------
+!||    inttri             ../engine/source/interfaces/intsort/inttri.F
+!||--- calls      -----------------------------------------------------
+!||    i20buce_crit       ../engine/source/interfaces/intsort/i20buce_crit.F
+!||--- uses       -----------------------------------------------------
+!||    h3d_mod            ../engine/share/modules/h3d_mod.F
+!||    intbufdef_mod      ../common_source/modules/interfaces/intbufdef_mod.F90
+!||====================================================================
       SUBROUTINE I20MAIN_CRIT_TRI(
      1  IPARI  ,X      ,NIN    ,
      2  ITASK  ,V      ,XSLV_L ,XMSR_L ,VSLV_L ,

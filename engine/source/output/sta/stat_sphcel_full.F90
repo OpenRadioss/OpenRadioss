@@ -20,28 +20,28 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    stat_sphcel_full_mod   ../engine/source/output/sta/stat_sphcel_full.F90
-      !||--- called by ------------------------------------------------------
-      !||    genstat                ../engine/source/output/sta/genstat.F
-      !||====================================================================
+!||====================================================================
+!||    stat_sphcel_full_mod   ../engine/source/output/sta/stat_sphcel_full.F90
+!||--- called by ------------------------------------------------------
+!||    genstat                ../engine/source/output/sta/genstat.F
+!||====================================================================
       module stat_sphcel_full_mod
         contains
 ! ======================================================================================================================
 !                                                   PROCEDURES
 ! ======================================================================================================================
 !! \sphcel element write full in state file ( stress , energy , rho, slen, epsp , aux )
-      !||====================================================================
-      !||    stat_sphcel_full    ../engine/source/output/sta/stat_sphcel_full.F90
-      !||--- called by ------------------------------------------------------
-      !||    genstat             ../engine/source/output/sta/genstat.F
-      !||--- calls      -----------------------------------------------------
-      !||    spmd_rgather9_dp    ../engine/source/mpi/interfaces/spmd_outp.F
-      !||    spmd_stat_pgather   ../engine/source/mpi/output/spmd_stat.F
-      !||--- uses       -----------------------------------------------------
-      !||    elbufdef_mod        ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||    precision_mod       ../common_source/modules/precision_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    stat_sphcel_full    ../engine/source/output/sta/stat_sphcel_full.F90
+!||--- called by ------------------------------------------------------
+!||    genstat             ../engine/source/output/sta/genstat.F
+!||--- calls      -----------------------------------------------------
+!||    spmd_rgather9_dp    ../engine/source/mpi/interfaces/spmd_outp.F
+!||    spmd_stat_pgather   ../engine/source/mpi/output/spmd_stat.F
+!||--- uses       -----------------------------------------------------
+!||    elbufdef_mod        ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    precision_mod       ../common_source/modules/precision_mod.F90
+!||====================================================================
         subroutine stat_sphcel_full(numsph     ,nisp       ,ngroup         ,nparg         ,sizloc          ,  &
                                     npart      ,sizp0      ,nspmd          ,stat_numelsph ,stat_numelsph_g ,  &
                                     nspbuf     ,numnod     ,npropmi        ,nummat        ,lipart1         ,  &

@@ -20,28 +20,28 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    sigeps81_mod   ../engine/source/materials/mat/mat081/sigeps81.F90
-      !||--- called by ------------------------------------------------------
-      !||    mulaw          ../engine/source/materials/mat_share/mulaw.F90
-      !||====================================================================
+!||====================================================================
+!||    sigeps81_mod   ../engine/source/materials/mat/mat081/sigeps81.F90
+!||--- called by ------------------------------------------------------
+!||    mulaw          ../engine/source/materials/mat_share/mulaw.F90
+!||====================================================================
       module sigeps81_mod
       contains
 ! ======================================================================================================================
 ! \brief   Drucker-Prager with cap hardening material law /MAT/LAW81 (DPRAG_CAP)
 ! \details Material law based on Drucker-Prager pressure dependent plastic model with cap hardening.
 ! ======================================================================================================================
-      !||====================================================================
-      !||    sigeps81           ../engine/source/materials/mat/mat081/sigeps81.F90
-      !||--- called by ------------------------------------------------------
-      !||    mulaw              ../engine/source/materials/mat_share/mulaw.F90
-      !||--- calls      -----------------------------------------------------
-      !||    vinter2            ../engine/source/tools/curve/vinter.F
-      !||--- uses       -----------------------------------------------------
-      !||    constant_mod       ../common_source/modules/constant_mod.F
-      !||    matparam_def_mod   ../common_source/modules/mat_elem/matparam_def_mod.F90
-      !||    precision_mod      ../common_source/modules/precision_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    sigeps81           ../engine/source/materials/mat/mat081/sigeps81.F90
+!||--- called by ------------------------------------------------------
+!||    mulaw              ../engine/source/materials/mat_share/mulaw.F90
+!||--- calls      -----------------------------------------------------
+!||    vinter2            ../engine/source/tools/curve/vinter.F
+!||--- uses       -----------------------------------------------------
+!||    constant_mod       ../common_source/modules/constant_mod.F
+!||    matparam_def_mod   ../common_source/modules/mat_elem/matparam_def_mod.F90
+!||    precision_mod      ../common_source/modules/precision_mod.F90
+!||====================================================================
         subroutine sigeps81 (                                                  &
           nel     ,nuvar   ,uvar     ,matparam ,nfunc    ,ifunc   ,           &
           npf     ,tf      ,snpc     ,stf      ,rho0     ,rho     ,           &

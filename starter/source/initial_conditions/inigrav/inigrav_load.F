@@ -20,21 +20,21 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    inigrav_load           ../starter/source/initial_conditions/inigrav/inigrav_load.F
-      !||--- called by ------------------------------------------------------
-      !||    initia                 ../starter/source/elements/initia/initia.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg                 ../starter/source/output/message/message.F
-      !||    check_is_on_segment    ../starter/source/initial_conditions/inigrav/inigrav_load.F
-      !||    inigrav_eos            ../starter/source/initial_conditions/inigrav/inigrav_eos.F
-      !||    inigrav_m37            ../starter/source/initial_conditions/inigrav/inigrav_m37.F
-      !||    inigrav_m51            ../starter/source/initial_conditions/inigrav/inigrav_m51.F
-      !||    inigrav_part_list      ../starter/source/initial_conditions/inigrav/inigrav_part_list.F
-      !||--- uses       -----------------------------------------------------
-      !||    inigrav                ../starter/share/modules1/inigrav_mod.F
-      !||    message_mod            ../starter/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    inigrav_load           ../starter/source/initial_conditions/inigrav/inigrav_load.F
+!||--- called by ------------------------------------------------------
+!||    initia                 ../starter/source/elements/initia/initia.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                 ../starter/source/output/message/message.F
+!||    check_is_on_segment    ../starter/source/initial_conditions/inigrav/inigrav_load.F
+!||    inigrav_eos            ../starter/source/initial_conditions/inigrav/inigrav_eos.F
+!||    inigrav_m37            ../starter/source/initial_conditions/inigrav/inigrav_m37.F
+!||    inigrav_m51            ../starter/source/initial_conditions/inigrav/inigrav_m51.F
+!||    inigrav_part_list      ../starter/source/initial_conditions/inigrav/inigrav_part_list.F
+!||--- uses       -----------------------------------------------------
+!||    inigrav                ../starter/share/modules1/inigrav_mod.F
+!||    message_mod            ../starter/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE INIGRAV_LOAD(ELBUF_TAB ,IPART  ,IGRPART ,IPARG  ,IPARTTG  ,
      1                        IPARTS    ,IPARTQ ,X       ,IXS    ,IXQ      ,
      2                        IXTG      ,PM     ,IPM     ,BUFMAT ,MULTI_FVM,
@@ -544,11 +544,11 @@ C-----------------------------------------------
 
 
 
-      !||====================================================================
-      !||    check_is_on_segment   ../starter/source/initial_conditions/inigrav/inigrav_load.F
-      !||--- called by ------------------------------------------------------
-      !||    inigrav_load          ../starter/source/initial_conditions/inigrav/inigrav_load.F
-      !||====================================================================
+!||====================================================================
+!||    check_is_on_segment   ../starter/source/initial_conditions/inigrav/inigrav_load.F
+!||--- called by ------------------------------------------------------
+!||    inigrav_load          ../starter/source/initial_conditions/inigrav/inigrav_load.F
+!||====================================================================
       SUBROUTINE CHECK_IS_ON_SEGMENT(P,Z,H,lTRIA,lTEST)
 C-----------------------------------------------
 C   Description

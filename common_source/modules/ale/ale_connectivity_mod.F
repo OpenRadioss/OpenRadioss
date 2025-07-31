@@ -20,206 +20,206 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    ale_connectivity_mod             ../common_source/modules/ale/ale_connectivity_mod.F
-      !||--- called by ------------------------------------------------------
-      !||    a4conv3                          ../engine/source/ale/ale3d/a4conv3.F
-      !||    a4flux3                          ../engine/source/ale/ale3d/a4flux3.F
-      !||    aconv2                           ../engine/source/ale/ale2d/aconv2.F
-      !||    aconv3                           ../engine/source/ale/ale3d/aconv3.F
-      !||    aconve                           ../engine/source/ale/aconve.F
-      !||    adiff2                           ../engine/source/ale/ale2d/adiff2.F
-      !||    adiff3                           ../engine/source/ale/ale3d/adiff3.F
-      !||    aeturb                           ../engine/source/ale/turbulence/aeturb.F
-      !||    afimp2                           ../engine/source/ale/ale2d/afimp2.F
-      !||    afimp3                           ../engine/source/ale/ale3d/afimp3.F
-      !||    aflux0                           ../engine/source/ale/aflux0.F
-      !||    aflux2                           ../engine/source/ale/ale2d/aflux2.F
-      !||    aflux3                           ../engine/source/ale/ale3d/aflux3.F
-      !||    afluxt                           ../engine/source/ale/ale51/afluxt.F
-      !||    agaug3                           ../engine/source/ale/agauge.F
-      !||    agaug3q                          ../engine/source/ale/agaug3q.F
-      !||    agaug3t                          ../engine/source/ale/agaug3t.F
-      !||    agauge                           ../engine/source/ale/agauge.F
-      !||    agrad0                           ../engine/source/ale/agrad0.F
-      !||    agrad2                           ../engine/source/ale/ale2d/agrad2.F
-      !||    agrad3                           ../engine/source/ale/ale3d/agrad3.F
-      !||    akturb                           ../engine/source/ale/turbulence/akturb.F
-      !||    ale51_antidiff2                  ../engine/source/ale/ale51/ale51_antidiff2.F
-      !||    ale51_antidiff3                  ../engine/source/ale/ale51/ale51_antidiff3.F
-      !||    ale51_finish                     ../engine/source/ale/ale51/ale51_finish.F
-      !||    ale51_gradient_reconstruction    ../engine/source/ale/alemuscl/ale51_gradient_reconstruction.F
-      !||    ale51_gradient_reconstruction2   ../engine/source/ale/alemuscl/ale51_gradient_reconstruction2.F
-      !||    ale51_init                       ../engine/source/ale/ale51/ale51_init.F
-      !||    ale51_spmd2                      ../engine/source/ale/ale51/ale51_spmd2.F
-      !||    ale51_spmd3                      ../engine/source/ale/ale51/ale51_spmd3.F
-      !||    ale51_upwind2                    ../engine/source/ale/ale51/ale51_upwind2.F
-      !||    ale51_upwind3                    ../engine/source/ale/ale51/ale51_upwind3.F
-      !||    aleconv3                         ../engine/source/ale/porous/aleconv.F
-      !||    aleconve                         ../engine/source/ale/porous/aleconv.F
-      !||    aleflow                          ../engine/source/ale/porous/aleflow.F
-      !||    aleflux                          ../engine/source/ale/porous/aleflux.F
-      !||    alefvm_aflux3                    ../engine/source/ale/alefvm/alefvm_aflux3.F
-      !||    alefvm_eflux3                    ../engine/source/ale/alefvm/alefvm_eflux3.F
-      !||    alefvm_main                      ../engine/source/ale/alefvm/alefvm_main.F
-      !||    alefvm_sfint3                    ../engine/source/ale/alefvm/alefvm_sfint3.F
-      !||    alefvm_tfext                     ../engine/source/ale/alefvm/alefvm_tfext.F
-      !||    alelec                           ../starter/source/ale/alelec.F
-      !||    alemain                          ../engine/source/ale/alemain.F
-      !||    alemuscl_upwind                  ../engine/source/ale/alemuscl/alemuscl_upwind.F
-      !||    alemuscl_upwind2                 ../engine/source/ale/alemuscl/alemuscl_upwind2.F
-      !||    aleso2                           ../starter/source/ale/ale2d/aleso2.F
-      !||    aleso2t                          ../starter/source/ale/ale2d/aleso2t.F
-      !||    aleso3                           ../starter/source/ale/ale3d/aleso3.F
-      !||    alesop                           ../starter/source/ale/alesop.F
-      !||    alethe                           ../engine/source/ale/alethe.F
-      !||    alew                             ../engine/source/ale/grid/alew.F
-      !||    alew1                            ../engine/source/ale/grid/alew1.F
-      !||    alew5                            ../engine/source/ale/grid/alew5.F
-      !||    alew6                            ../engine/source/ale/grid/alew6.F
-      !||    alewdx                           ../engine/source/ale/grid/alewdx.F
-      !||    amulf2                           ../engine/source/ale/bimat/amulf2.F
-      !||    arezo2                           ../engine/source/ale/ale2d/arezo2.F
-      !||    arezo3                           ../engine/source/ale/ale3d/arezo3.F
-      !||    arezon                           ../engine/source/ale/arezon.F
-      !||    atherm                           ../engine/source/ale/atherm.F
-      !||    bconv2                           ../engine/source/ale/ale2d/bconv2.F
-      !||    bcs_wall_trigger                 ../engine/source/boundary_conditions/bcs_wall_trigger.F90
-      !||    bforc2                           ../engine/source/ale/bimat/bforc2.F
-      !||    binit2                           ../starter/source/ale/bimat/binit2.F
-      !||    brezo2                           ../engine/source/ale/ale2d/brezo2.F
-      !||    brezo2_sig                       ../engine/source/ale/ale2d/brezo2.F
-      !||    build_connectivity               ../engine/source/multifluid/connectivity.F
-      !||    c_idglob                         ../starter/source/restart/ddsplit/c_idglob.F
-      !||    c_ixfloc                         ../starter/source/restart/ddsplit/c_ixfloc.F
-      !||    c_spmd_ne_connect                ../starter/source/ale/spmd_ne_connect.F
-      !||    c_vois                           ../starter/source/restart/ddsplit/c_vois.F
-      !||    ddsplit                          ../starter/source/restart/ddsplit/ddsplit.F
-      !||    dfunc0                           ../engine/source/output/anim/generate/dfunc0.F
-      !||    dfuncc                           ../engine/source/output/anim/generate/dfuncc.F
-      !||    dfuncs                           ../engine/source/output/anim/generate/dfunc6.F
-      !||    ede112                           ../engine/source/ale/euler2d/ede112.F
-      !||    eflux2                           ../engine/source/ale/euler2d/eflux2.F
-      !||    eflux3                           ../engine/source/ale/euler3d/eflux3.F
-      !||    egrad2                           ../engine/source/ale/euler2d/egrad2.F
-      !||    egrad3                           ../engine/source/ale/euler3d/egrad3.F
-      !||    eig                              ../engine/stub/eig.F
-      !||    eig1                             ../engine/stub/eig1.F
-      !||    eigcond                          ../engine/stub/eigcond.F
-      !||    eigp                             ../engine/stub/eigp.F
-      !||    eikonal_compute_adjacent         ../starter/source/initial_conditions/detonation/eikonal_compute_adjacent.F90
-      !||    eikonal_fast_marching_method     ../starter/source/initial_conditions/detonation/eikonal_fast_marching_method.F90
-      !||    eikonal_init_start_list_2d       ../starter/source/initial_conditions/detonation/eikonal_init_start_list_2d.F90
-      !||    eikonal_solver                   ../starter/source/initial_conditions/detonation/eikonal_solver.F90
-      !||    eporin3                          ../starter/source/ale/ale3d/eporin3.F
-      !||    findele                          ../starter/source/boundary_conditions/ebcs/findele.F
-      !||    forint                           ../engine/source/elements/forint.F
-      !||    funct_python_update_elements     ../engine/source/tools/curve/funct_python_update_elements.F90
-      !||    genani                           ../engine/source/output/anim/generate/genani.F
-      !||    genh3d                           ../engine/source/output/h3d/h3d_results/genh3d.F
-      !||    gradient_reconstruction          ../engine/source/ale/alemuscl/gradient_reconstruction.F
-      !||    gradient_reconstruction2         ../engine/source/ale/alemuscl/gradient_reconstruction2.F
-      !||    h3d_nodal_scalar                 ../engine/source/output/h3d/h3d_results/h3d_nodal_scalar.F
-      !||    h3d_quad_scalar                  ../engine/source/output/h3d/h3d_results/h3d_quad_scalar.F
-      !||    h3d_quad_scalar_1                ../engine/source/output/h3d/h3d_results/h3d_quad_scalar_1.F90
-      !||    h3d_shell_scalar                 ../engine/source/output/h3d/h3d_results/h3d_shell_scalar.F
-      !||    h3d_shell_scalar_1               ../engine/source/output/h3d/h3d_results/h3d_shell_scalar_1.F
-      !||    h3d_solid_scalar                 ../engine/source/output/h3d/h3d_results/h3d_solid_scalar.F
-      !||    h3d_solid_scalar_1               ../engine/source/output/h3d/h3d_results/h3d_solid_scalar_1.F
-      !||    i12chk3                          ../starter/source/interfaces/inter3d1/i12chk3.F
-      !||    i18dst3                          ../engine/source/interfaces/int18/i18dst3.F
-      !||    i18main_kine_1                   ../engine/source/interfaces/int18/i18main_kine.F
-      !||    i18main_kine_i                   ../engine/source/interfaces/int18/i18main_kine.F
-      !||    i22buce                          ../engine/source/interfaces/intsort/i22buce.F
-      !||    i22main_tri                      ../engine/source/interfaces/intsort/i22main_tri.F
-      !||    i7mainf                          ../engine/source/interfaces/int07/i7mainf.F
-      !||    ig3dinit3                        ../starter/source/elements/ige3d/ig3dinit3.F
-      !||    ig3duforc3                       ../engine/source/elements/ige3d/ig3duforc3.F
-      !||    imp_buck                         ../engine/source/implicit/imp_buck.F
-      !||    iniebcs                          ../starter/source/boundary_conditions/ebcs/iniebcs.F
-      !||    inigrav_load                     ../starter/source/initial_conditions/inigrav/inigrav_load.F
-      !||    inigrav_m51                      ../starter/source/initial_conditions/inigrav/inigrav_m51.F
-      !||    inint3                           ../starter/source/interfaces/inter3d1/inint3.F
-      !||    inintr                           ../starter/source/interfaces/interf1/inintr.F
-      !||    init_bcs_wall                    ../starter/source/boundary_conditions/init_bcs_wall.F90
-      !||    init_diffusion                   ../engine/share/modules/diffusion_mod.F
-      !||    initia                           ../starter/source/elements/initia/initia.F
-      !||    intfop2                          ../engine/source/interfaces/interf/intfop2.F
-      !||    inttri                           ../engine/source/interfaces/intsort/inttri.F
-      !||    lectur                           ../engine/source/input/lectur.F
-      !||    m11law                           ../engine/source/materials/mat/mat011/m11law.F
-      !||    m11vs2                           ../engine/source/materials/mat/mat011/m11vs2.F
-      !||    m11vs3                           ../engine/source/materials/mat/mat011/m11vs3.F
-      !||    m51init                          ../starter/source/materials/mat/mat051/m51init.F
-      !||    m51vois2                         ../engine/source/materials/mat/mat051/m51vois2.F
-      !||    m51vois3                         ../engine/source/materials/mat/mat051/m51vois3.F
-      !||    mat11check                       ../starter/source/materials/mat/mat011/mat11check.F
-      !||    matini                           ../starter/source/materials/mat_share/matini.F
-      !||    mmain                            ../engine/source/materials/mat_share/mmain.F90
-      !||    mulaw                            ../engine/source/materials/mat_share/mulaw.F90
-      !||    multi_connectivity               ../starter/source/multifluid/multi_connectivity.F
-      !||    multi_fluxes_computation         ../engine/source/multifluid/multi_fluxes_computation.F
-      !||    multi_muscl_fluxes_computation   ../engine/source/multifluid/multi_muscl_fluxes_computation.F
-      !||    multi_muscl_gradients            ../engine/source/multifluid/multi_muscl_gradients.F
-      !||    multi_timeevolution              ../engine/source/multifluid/multi_timeevolution.F
-      !||    multi_unplug_neighbors           ../starter/source/multifluid/multi_unplug_neighbors.F
-      !||    multifluid_init2                 ../starter/source/multifluid/multifluid_init2.F
-      !||    multifluid_init2t                ../starter/source/multifluid/multifluid_init2t.F
-      !||    multifluid_init3                 ../starter/source/multifluid/multifluid_init3.F
-      !||    multifluid_init3t                ../starter/source/multifluid/multifluid_init3t.F
-      !||    nodal_schlieren                  ../engine/source/output/anim/generate/nodal_schlieren.F
-      !||    nrf51ini                         ../starter/source/materials/mat/mat051/nrf51ini.F
-      !||    ns_fvm_diffusion                 ../engine/source/multifluid/ns_fvm_diffusion.F
-      !||    output_schlieren                 ../engine/source/output/anim/generate/output_schlieren.F
-      !||    q4forc2                          ../engine/source/elements/solid_2d/quad4/q4forc2.F
-      !||    q4init2                          ../starter/source/elements/solid_2d/quad4/q4init2.F
-      !||    qforc2                           ../engine/source/elements/solid_2d/quad/qforc2.F
-      !||    qinit2                           ../starter/source/elements/solid_2d/quad/qinit2.F
-      !||    radioss2                         ../engine/source/engine/radioss2.F
-      !||    rdresb                           ../engine/source/output/restart/rdresb.F
-      !||    resol                            ../engine/source/engine/resol.F
-      !||    resol_head                       ../engine/source/engine/resol_head.F
-      !||    restalloc                        ../engine/source/output/restart/arralloc.F
-      !||    s10forc3                         ../engine/source/elements/solid/solide10/s10forc3.F
-      !||    s10init3                         ../starter/source/elements/solid/solide10/s10init3.F
-      !||    s11defo3                         ../engine/source/elements/solid/solide/s11defo3.F
-      !||    s11fx3                           ../engine/source/elements/solid/solide/s11fx3.F
-      !||    s16forc3                         ../engine/source/elements/thickshell/solide16/s16forc3.F
-      !||    s16init3                         ../starter/source/elements/thickshell/solide16/s16init3.F
-      !||    s20forc3                         ../engine/source/elements/solid/solide20/s20forc3.F
-      !||    s20init3                         ../starter/source/elements/solid/solide20/s20init3.F
-      !||    s4forc3                          ../engine/source/elements/solid/solide4/s4forc3.F
-      !||    s4init3                          ../starter/source/elements/solid/solide4/s4init3.F
-      !||    s6cforc3                         ../engine/source/elements/thickshell/solide6c/s6cforc3.F
-      !||    s6cinit3                         ../starter/source/elements/thickshell/solide6c/s6cinit3.F
-      !||    s8cforc3                         ../engine/source/elements/thickshell/solide8c/s8cforc3.F
-      !||    s8cinit3                         ../starter/source/elements/thickshell/solide8c/s8cinit3.F
-      !||    s8eforc3                         ../engine/source/elements/solid/solide8e/s8eforc3.F
-      !||    s8forc3                          ../engine/source/elements/solid/solide8/s8forc3.F
-      !||    s8sforc3                         ../engine/source/elements/solid/solide8s/s8sforc3.F
-      !||    s8zforc3                         ../engine/source/elements/solid/solide8z/s8zforc3.F
-      !||    s8zinit3                         ../starter/source/elements/solid/solide8z/s8zinit3.F
-      !||    scforc3                          ../engine/source/elements/thickshell/solidec/scforc3.F
-      !||    scinit3                          ../starter/source/elements/thickshell/solidec/scinit3.F
-      !||    seggetv                          ../engine/source/interfaces/interf/seggetv.F
-      !||    sforc3                           ../engine/source/elements/solid/solide/sforc3.F
-      !||    sigeps51                         ../engine/source/materials/mat/mat051/sigeps51.F90
-      !||    sigeps51_boundary_material       ../engine/source/materials/mat/mat051/sigeps51_boundary_material.F90
-      !||    sinit22_fvm                      ../engine/source/interfaces/int22/sinit22_fvm.F
-      !||    sinit3                           ../starter/source/elements/solid/solide/sinit3.F
-      !||    sortie_main                      ../engine/source/output/sortie_main.F
-      !||    spinit3                          ../starter/source/elements/sph/spinit3.F
-      !||    split_cfd_solide                 ../starter/source/spmd/split_cfd_solide.F
-      !||    spmd_exch_inter_18               ../engine/source/mpi/interfaces/spmd_exch_inter_18.F
-      !||    spmd_ne_connect                  ../starter/source/ale/spmd_ne_connect.F
-      !||    spstres                          ../engine/source/elements/sph/spstres.F
-      !||    suinit3                          ../starter/source/elements/elbuf_init/suinit3.F
-      !||    szforc3                          ../engine/source/elements/solid/solidez/szforc3.F
-      !||    w_front                          ../starter/source/restart/ddsplit/w_front.F
-      !||    w_ing2loc                        ../starter/source/restart/ddsplit/w_ing2loc.F
-      !||    wrcomip                          ../starter/source/restart/ddsplit/wrcommp.F
-      !||    wrrestp                          ../engine/source/output/restart/wrrestp.F
-      !||====================================================================
+!||====================================================================
+!||    ale_connectivity_mod             ../common_source/modules/ale/ale_connectivity_mod.F
+!||--- called by ------------------------------------------------------
+!||    a4conv3                          ../engine/source/ale/ale3d/a4conv3.F
+!||    a4flux3                          ../engine/source/ale/ale3d/a4flux3.F
+!||    aconv2                           ../engine/source/ale/ale2d/aconv2.F
+!||    aconv3                           ../engine/source/ale/ale3d/aconv3.F
+!||    aconve                           ../engine/source/ale/aconve.F
+!||    adiff2                           ../engine/source/ale/ale2d/adiff2.F
+!||    adiff3                           ../engine/source/ale/ale3d/adiff3.F
+!||    aeturb                           ../engine/source/ale/turbulence/aeturb.F
+!||    afimp2                           ../engine/source/ale/ale2d/afimp2.F
+!||    afimp3                           ../engine/source/ale/ale3d/afimp3.F
+!||    aflux0                           ../engine/source/ale/aflux0.F
+!||    aflux2                           ../engine/source/ale/ale2d/aflux2.F
+!||    aflux3                           ../engine/source/ale/ale3d/aflux3.F
+!||    afluxt                           ../engine/source/ale/ale51/afluxt.F
+!||    agaug3                           ../engine/source/ale/agauge.F
+!||    agaug3q                          ../engine/source/ale/agaug3q.F
+!||    agaug3t                          ../engine/source/ale/agaug3t.F
+!||    agauge                           ../engine/source/ale/agauge.F
+!||    agrad0                           ../engine/source/ale/agrad0.F
+!||    agrad2                           ../engine/source/ale/ale2d/agrad2.F
+!||    agrad3                           ../engine/source/ale/ale3d/agrad3.F
+!||    akturb                           ../engine/source/ale/turbulence/akturb.F
+!||    ale51_antidiff2                  ../engine/source/ale/ale51/ale51_antidiff2.F
+!||    ale51_antidiff3                  ../engine/source/ale/ale51/ale51_antidiff3.F
+!||    ale51_finish                     ../engine/source/ale/ale51/ale51_finish.F
+!||    ale51_gradient_reconstruction    ../engine/source/ale/alemuscl/ale51_gradient_reconstruction.F
+!||    ale51_gradient_reconstruction2   ../engine/source/ale/alemuscl/ale51_gradient_reconstruction2.F
+!||    ale51_init                       ../engine/source/ale/ale51/ale51_init.F
+!||    ale51_spmd2                      ../engine/source/ale/ale51/ale51_spmd2.F
+!||    ale51_spmd3                      ../engine/source/ale/ale51/ale51_spmd3.F
+!||    ale51_upwind2                    ../engine/source/ale/ale51/ale51_upwind2.F
+!||    ale51_upwind3                    ../engine/source/ale/ale51/ale51_upwind3.F
+!||    aleconv3                         ../engine/source/ale/porous/aleconv.F
+!||    aleconve                         ../engine/source/ale/porous/aleconv.F
+!||    aleflow                          ../engine/source/ale/porous/aleflow.F
+!||    aleflux                          ../engine/source/ale/porous/aleflux.F
+!||    alefvm_aflux3                    ../engine/source/ale/alefvm/alefvm_aflux3.F
+!||    alefvm_eflux3                    ../engine/source/ale/alefvm/alefvm_eflux3.F
+!||    alefvm_main                      ../engine/source/ale/alefvm/alefvm_main.F
+!||    alefvm_sfint3                    ../engine/source/ale/alefvm/alefvm_sfint3.F
+!||    alefvm_tfext                     ../engine/source/ale/alefvm/alefvm_tfext.F
+!||    alelec                           ../starter/source/ale/alelec.F
+!||    alemain                          ../engine/source/ale/alemain.F
+!||    alemuscl_upwind                  ../engine/source/ale/alemuscl/alemuscl_upwind.F
+!||    alemuscl_upwind2                 ../engine/source/ale/alemuscl/alemuscl_upwind2.F
+!||    aleso2                           ../starter/source/ale/ale2d/aleso2.F
+!||    aleso2t                          ../starter/source/ale/ale2d/aleso2t.F
+!||    aleso3                           ../starter/source/ale/ale3d/aleso3.F
+!||    alesop                           ../starter/source/ale/alesop.F
+!||    alethe                           ../engine/source/ale/alethe.F
+!||    alew                             ../engine/source/ale/grid/alew.F
+!||    alew1                            ../engine/source/ale/grid/alew1.F
+!||    alew5                            ../engine/source/ale/grid/alew5.F
+!||    alew6                            ../engine/source/ale/grid/alew6.F
+!||    alewdx                           ../engine/source/ale/grid/alewdx.F
+!||    amulf2                           ../engine/source/ale/bimat/amulf2.F
+!||    arezo2                           ../engine/source/ale/ale2d/arezo2.F
+!||    arezo3                           ../engine/source/ale/ale3d/arezo3.F
+!||    arezon                           ../engine/source/ale/arezon.F
+!||    atherm                           ../engine/source/ale/atherm.F
+!||    bconv2                           ../engine/source/ale/ale2d/bconv2.F
+!||    bcs_wall_trigger                 ../engine/source/boundary_conditions/bcs_wall_trigger.F90
+!||    bforc2                           ../engine/source/ale/bimat/bforc2.F
+!||    binit2                           ../starter/source/ale/bimat/binit2.F
+!||    brezo2                           ../engine/source/ale/ale2d/brezo2.F
+!||    brezo2_sig                       ../engine/source/ale/ale2d/brezo2.F
+!||    build_connectivity               ../engine/source/multifluid/connectivity.F
+!||    c_idglob                         ../starter/source/restart/ddsplit/c_idglob.F
+!||    c_ixfloc                         ../starter/source/restart/ddsplit/c_ixfloc.F
+!||    c_spmd_ne_connect                ../starter/source/ale/spmd_ne_connect.F
+!||    c_vois                           ../starter/source/restart/ddsplit/c_vois.F
+!||    ddsplit                          ../starter/source/restart/ddsplit/ddsplit.F
+!||    dfunc0                           ../engine/source/output/anim/generate/dfunc0.F
+!||    dfuncc                           ../engine/source/output/anim/generate/dfuncc.F
+!||    dfuncs                           ../engine/source/output/anim/generate/dfunc6.F
+!||    ede112                           ../engine/source/ale/euler2d/ede112.F
+!||    eflux2                           ../engine/source/ale/euler2d/eflux2.F
+!||    eflux3                           ../engine/source/ale/euler3d/eflux3.F
+!||    egrad2                           ../engine/source/ale/euler2d/egrad2.F
+!||    egrad3                           ../engine/source/ale/euler3d/egrad3.F
+!||    eig                              ../engine/stub/eig.F
+!||    eig1                             ../engine/stub/eig1.F
+!||    eigcond                          ../engine/stub/eigcond.F
+!||    eigp                             ../engine/stub/eigp.F
+!||    eikonal_compute_adjacent         ../starter/source/initial_conditions/detonation/eikonal_compute_adjacent.F90
+!||    eikonal_fast_marching_method     ../starter/source/initial_conditions/detonation/eikonal_fast_marching_method.F90
+!||    eikonal_init_start_list_2d       ../starter/source/initial_conditions/detonation/eikonal_init_start_list_2d.F90
+!||    eikonal_solver                   ../starter/source/initial_conditions/detonation/eikonal_solver.F90
+!||    eporin3                          ../starter/source/ale/ale3d/eporin3.F
+!||    findele                          ../starter/source/boundary_conditions/ebcs/findele.F
+!||    forint                           ../engine/source/elements/forint.F
+!||    funct_python_update_elements     ../engine/source/tools/curve/funct_python_update_elements.F90
+!||    genani                           ../engine/source/output/anim/generate/genani.F
+!||    genh3d                           ../engine/source/output/h3d/h3d_results/genh3d.F
+!||    gradient_reconstruction          ../engine/source/ale/alemuscl/gradient_reconstruction.F
+!||    gradient_reconstruction2         ../engine/source/ale/alemuscl/gradient_reconstruction2.F
+!||    h3d_nodal_scalar                 ../engine/source/output/h3d/h3d_results/h3d_nodal_scalar.F
+!||    h3d_quad_scalar                  ../engine/source/output/h3d/h3d_results/h3d_quad_scalar.F
+!||    h3d_quad_scalar_1                ../engine/source/output/h3d/h3d_results/h3d_quad_scalar_1.F90
+!||    h3d_shell_scalar                 ../engine/source/output/h3d/h3d_results/h3d_shell_scalar.F
+!||    h3d_shell_scalar_1               ../engine/source/output/h3d/h3d_results/h3d_shell_scalar_1.F
+!||    h3d_solid_scalar                 ../engine/source/output/h3d/h3d_results/h3d_solid_scalar.F
+!||    h3d_solid_scalar_1               ../engine/source/output/h3d/h3d_results/h3d_solid_scalar_1.F
+!||    i12chk3                          ../starter/source/interfaces/inter3d1/i12chk3.F
+!||    i18dst3                          ../engine/source/interfaces/int18/i18dst3.F
+!||    i18main_kine_1                   ../engine/source/interfaces/int18/i18main_kine.F
+!||    i18main_kine_i                   ../engine/source/interfaces/int18/i18main_kine.F
+!||    i22buce                          ../engine/source/interfaces/intsort/i22buce.F
+!||    i22main_tri                      ../engine/source/interfaces/intsort/i22main_tri.F
+!||    i7mainf                          ../engine/source/interfaces/int07/i7mainf.F
+!||    ig3dinit3                        ../starter/source/elements/ige3d/ig3dinit3.F
+!||    ig3duforc3                       ../engine/source/elements/ige3d/ig3duforc3.F
+!||    imp_buck                         ../engine/source/implicit/imp_buck.F
+!||    iniebcs                          ../starter/source/boundary_conditions/ebcs/iniebcs.F
+!||    inigrav_load                     ../starter/source/initial_conditions/inigrav/inigrav_load.F
+!||    inigrav_m51                      ../starter/source/initial_conditions/inigrav/inigrav_m51.F
+!||    inint3                           ../starter/source/interfaces/inter3d1/inint3.F
+!||    inintr                           ../starter/source/interfaces/interf1/inintr.F
+!||    init_bcs_wall                    ../starter/source/boundary_conditions/init_bcs_wall.F90
+!||    init_diffusion                   ../engine/share/modules/diffusion_mod.F
+!||    initia                           ../starter/source/elements/initia/initia.F
+!||    intfop2                          ../engine/source/interfaces/interf/intfop2.F
+!||    inttri                           ../engine/source/interfaces/intsort/inttri.F
+!||    lectur                           ../engine/source/input/lectur.F
+!||    m11law                           ../engine/source/materials/mat/mat011/m11law.F
+!||    m11vs2                           ../engine/source/materials/mat/mat011/m11vs2.F
+!||    m11vs3                           ../engine/source/materials/mat/mat011/m11vs3.F
+!||    m51init                          ../starter/source/materials/mat/mat051/m51init.F
+!||    m51vois2                         ../engine/source/materials/mat/mat051/m51vois2.F
+!||    m51vois3                         ../engine/source/materials/mat/mat051/m51vois3.F
+!||    mat11check                       ../starter/source/materials/mat/mat011/mat11check.F
+!||    matini                           ../starter/source/materials/mat_share/matini.F
+!||    mmain                            ../engine/source/materials/mat_share/mmain.F90
+!||    mulaw                            ../engine/source/materials/mat_share/mulaw.F90
+!||    multi_connectivity               ../starter/source/multifluid/multi_connectivity.F
+!||    multi_fluxes_computation         ../engine/source/multifluid/multi_fluxes_computation.F
+!||    multi_muscl_fluxes_computation   ../engine/source/multifluid/multi_muscl_fluxes_computation.F
+!||    multi_muscl_gradients            ../engine/source/multifluid/multi_muscl_gradients.F
+!||    multi_timeevolution              ../engine/source/multifluid/multi_timeevolution.F
+!||    multi_unplug_neighbors           ../starter/source/multifluid/multi_unplug_neighbors.F
+!||    multifluid_init2                 ../starter/source/multifluid/multifluid_init2.F
+!||    multifluid_init2t                ../starter/source/multifluid/multifluid_init2t.F
+!||    multifluid_init3                 ../starter/source/multifluid/multifluid_init3.F
+!||    multifluid_init3t                ../starter/source/multifluid/multifluid_init3t.F
+!||    nodal_schlieren                  ../engine/source/output/anim/generate/nodal_schlieren.F
+!||    nrf51ini                         ../starter/source/materials/mat/mat051/nrf51ini.F
+!||    ns_fvm_diffusion                 ../engine/source/multifluid/ns_fvm_diffusion.F
+!||    output_schlieren                 ../engine/source/output/anim/generate/output_schlieren.F
+!||    q4forc2                          ../engine/source/elements/solid_2d/quad4/q4forc2.F
+!||    q4init2                          ../starter/source/elements/solid_2d/quad4/q4init2.F
+!||    qforc2                           ../engine/source/elements/solid_2d/quad/qforc2.F
+!||    qinit2                           ../starter/source/elements/solid_2d/quad/qinit2.F
+!||    radioss2                         ../engine/source/engine/radioss2.F
+!||    rdresb                           ../engine/source/output/restart/rdresb.F
+!||    resol                            ../engine/source/engine/resol.F
+!||    resol_head                       ../engine/source/engine/resol_head.F
+!||    restalloc                        ../engine/source/output/restart/arralloc.F
+!||    s10forc3                         ../engine/source/elements/solid/solide10/s10forc3.F
+!||    s10init3                         ../starter/source/elements/solid/solide10/s10init3.F
+!||    s11defo3                         ../engine/source/elements/solid/solide/s11defo3.F
+!||    s11fx3                           ../engine/source/elements/solid/solide/s11fx3.F
+!||    s16forc3                         ../engine/source/elements/thickshell/solide16/s16forc3.F
+!||    s16init3                         ../starter/source/elements/thickshell/solide16/s16init3.F
+!||    s20forc3                         ../engine/source/elements/solid/solide20/s20forc3.F
+!||    s20init3                         ../starter/source/elements/solid/solide20/s20init3.F
+!||    s4forc3                          ../engine/source/elements/solid/solide4/s4forc3.F
+!||    s4init3                          ../starter/source/elements/solid/solide4/s4init3.F
+!||    s6cforc3                         ../engine/source/elements/thickshell/solide6c/s6cforc3.F
+!||    s6cinit3                         ../starter/source/elements/thickshell/solide6c/s6cinit3.F
+!||    s8cforc3                         ../engine/source/elements/thickshell/solide8c/s8cforc3.F
+!||    s8cinit3                         ../starter/source/elements/thickshell/solide8c/s8cinit3.F
+!||    s8eforc3                         ../engine/source/elements/solid/solide8e/s8eforc3.F
+!||    s8forc3                          ../engine/source/elements/solid/solide8/s8forc3.F
+!||    s8sforc3                         ../engine/source/elements/solid/solide8s/s8sforc3.F
+!||    s8zforc3                         ../engine/source/elements/solid/solide8z/s8zforc3.F
+!||    s8zinit3                         ../starter/source/elements/solid/solide8z/s8zinit3.F
+!||    scforc3                          ../engine/source/elements/thickshell/solidec/scforc3.F
+!||    scinit3                          ../starter/source/elements/thickshell/solidec/scinit3.F
+!||    seggetv                          ../engine/source/interfaces/interf/seggetv.F
+!||    sforc3                           ../engine/source/elements/solid/solide/sforc3.F
+!||    sigeps51                         ../engine/source/materials/mat/mat051/sigeps51.F90
+!||    sigeps51_boundary_material       ../engine/source/materials/mat/mat051/sigeps51_boundary_material.F90
+!||    sinit22_fvm                      ../engine/source/interfaces/int22/sinit22_fvm.F
+!||    sinit3                           ../starter/source/elements/solid/solide/sinit3.F
+!||    sortie_main                      ../engine/source/output/sortie_main.F
+!||    spinit3                          ../starter/source/elements/sph/spinit3.F
+!||    split_cfd_solide                 ../starter/source/spmd/split_cfd_solide.F
+!||    spmd_exch_inter_18               ../engine/source/mpi/interfaces/spmd_exch_inter_18.F
+!||    spmd_ne_connect                  ../starter/source/ale/spmd_ne_connect.F
+!||    spstres                          ../engine/source/elements/sph/spstres.F
+!||    suinit3                          ../starter/source/elements/elbuf_init/suinit3.F
+!||    szforc3                          ../engine/source/elements/solid/solidez/szforc3.F
+!||    w_front                          ../starter/source/restart/ddsplit/w_front.F
+!||    w_ing2loc                        ../starter/source/restart/ddsplit/w_ing2loc.F
+!||    wrcomip                          ../starter/source/restart/ddsplit/wrcommp.F
+!||    wrrestp                          ../engine/source/output/restart/wrrestp.F
+!||====================================================================
       MODULE ALE_CONNECTIVITY_MOD
       
         IMPLICIT NONE
@@ -274,11 +274,11 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !     ***********    !
       CONTAINS
       
-      !||====================================================================
-      !||    ale_connectivity_init   ../common_source/modules/ale/ale_connectivity_mod.F
-      !||--- uses       -----------------------------------------------------
-      !||    ale_mod                 ../common_source/modules/ale/ale_mod.F
-      !||====================================================================
+!||====================================================================
+!||    ale_connectivity_init   ../common_source/modules/ale/ale_connectivity_mod.F
+!||--- uses       -----------------------------------------------------
+!||    ale_mod                 ../common_source/modules/ale/ale_mod.F
+!||====================================================================
       SUBROUTINE ALE_CONNECTIVITY_INIT(THIS)
         USE ALE_MOD      
         IMPLICIT NONE
@@ -298,12 +298,12 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
         THIS%HAS_NN_CONNECT = RESULT
       END SUBROUTINE ALE_CONNECTIVITY_INIT
       
-      !||====================================================================
-      !||    ale_compute_connectivity   ../common_source/modules/ale/ale_connectivity_mod.F
-      !||--- calls      -----------------------------------------------------
-      !||    quicksort_i                ../common_source/tools/sort/quicksort.F
-      !||    quicksort_i2               ../common_source/tools/sort/quicksort.F
-      !||====================================================================
+!||====================================================================
+!||    ale_compute_connectivity   ../common_source/modules/ale/ale_connectivity_mod.F
+!||--- calls      -----------------------------------------------------
+!||    quicksort_i                ../common_source/tools/sort/quicksort.F
+!||    quicksort_i2               ../common_source/tools/sort/quicksort.F
+!||====================================================================
       SUBROUTINE ALE_COMPUTE_CONNECTIVITY(THIS, NUMNOD, NUMELQ, NUMELTG, NUMELS, 
      .     NIXQ, NIXTG, NIXS,
      .     IXQ, IXTG, IXS)
@@ -649,9 +649,9 @@ C-----------------------------------------------
         DEALLOCATE(ADSKY, EDGES, IDX, EDGES_TMP, NN_NB_CONNECT, NE_NB_CONNECT)
       END SUBROUTINE ALE_COMPUTE_CONNECTIVITY
 
-      !||====================================================================
-      !||    ale_deallocate_connectivity   ../common_source/modules/ale/ale_connectivity_mod.F
-      !||====================================================================
+!||====================================================================
+!||    ale_deallocate_connectivity   ../common_source/modules/ale/ale_connectivity_mod.F
+!||====================================================================
       SUBROUTINE ALE_DEALLOCATE_CONNECTIVITY(THIS)
         IMPLICIT NONE
         CLASS(T_ALE_CONNECTIVITY), INTENT(INOUT) :: THIS
@@ -664,10 +664,10 @@ C-----------------------------------------------
         
       END SUBROUTINE ALE_DEALLOCATE_CONNECTIVITY
 
-      !||====================================================================
-      !||    ale_compute_ee_connectivity   ../common_source/modules/ale/ale_connectivity_mod.F
-      !||--- calls      -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    ale_compute_ee_connectivity   ../common_source/modules/ale/ale_connectivity_mod.F
+!||--- calls      -----------------------------------------------------
+!||====================================================================
       SUBROUTINE ALE_COMPUTE_EE_CONNECTIVITY(THIS, PM, IGEO,
      .     NPROPGI,NUMGEO, NPROPM, NUMMAT, NUMNOD, NUMELQ, NUMELTG, NUMELS, N2D, 
      .     IALE, IEULER, ITHERM, IALELAG, ISHADOW,

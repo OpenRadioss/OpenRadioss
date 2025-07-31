@@ -20,11 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    s20coork   ../engine/source/elements/solid/solide20/s20coork.F
-      !||--- called by ------------------------------------------------------
-      !||    s20ke3     ../engine/source/elements/solid/solide20/s20ke3.F
-      !||====================================================================
+!||====================================================================
+!||    s20coork   ../engine/source/elements/solid/solide20/s20coork.F
+!||--- called by ------------------------------------------------------
+!||    s20ke3     ../engine/source/elements/solid/solide20/s20ke3.F
+!||====================================================================
       SUBROUTINE S20COORK(
      1   X,       IXS,     IXS20,   NPE,
      2   XX,      YY,      ZZ,      OFFG,

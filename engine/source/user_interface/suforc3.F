@@ -20,25 +20,25 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    suforc3             ../engine/source/user_interface/suforc3.F
-      !||--- called by ------------------------------------------------------
-      !||    forint              ../engine/source/elements/forint.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg              ../engine/source/output/message/message.F
-      !||    arret               ../engine/source/system/arret.F
-      !||    sfillopt            ../engine/source/elements/solid/solide/sfillopt.F
-      !||    sucoor3             ../engine/source/user_interface/suforc3.F
-      !||    sucumu3             ../engine/source/user_interface/suforc3.F
-      !||    sucumu3p            ../engine/source/user_interface/suforc3.F
-      !||    suser43             ../engine/source/elements/solid/sconnect/suser43.F
-      !||--- uses       -----------------------------------------------------
-      !||    elbufdef_mod        ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||    mat_elem_mod        ../common_source/modules/mat_elem/mat_elem_mod.F90
-      !||    message_mod         ../engine/share/message_module/message_mod.F
-      !||    table_mod           ../engine/share/modules/table_mod.F
-      !||    timer_mod           ../engine/source/system/timer_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    suforc3             ../engine/source/user_interface/suforc3.F
+!||--- called by ------------------------------------------------------
+!||    forint              ../engine/source/elements/forint.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg              ../engine/source/output/message/message.F
+!||    arret               ../engine/source/system/arret.F
+!||    sfillopt            ../engine/source/elements/solid/solide/sfillopt.F
+!||    sucoor3             ../engine/source/user_interface/suforc3.F
+!||    sucumu3             ../engine/source/user_interface/suforc3.F
+!||    sucumu3p            ../engine/source/user_interface/suforc3.F
+!||    suser43             ../engine/source/elements/solid/sconnect/suser43.F
+!||--- uses       -----------------------------------------------------
+!||    elbufdef_mod        ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    mat_elem_mod        ../common_source/modules/mat_elem/mat_elem_mod.F90
+!||    message_mod         ../engine/share/message_module/message_mod.F
+!||    table_mod           ../engine/share/modules/table_mod.F
+!||    timer_mod           ../engine/source/system/timer_mod.F90
+!||====================================================================
       SUBROUTINE SUFORC3(TIMERS, ELBUF_STR,
      1           LFT      ,LLT      ,NFT     ,NEL     ,IXS     ,       
      2           PM       ,GEO      ,IPM     ,IGEO    ,X       ,       
@@ -454,11 +454,11 @@ C-----------
       END
 
 
-      !||====================================================================
-      !||    sucumu3   ../engine/source/user_interface/suforc3.F
-      !||--- called by ------------------------------------------------------
-      !||    suforc3   ../engine/source/user_interface/suforc3.F
-      !||====================================================================
+!||====================================================================
+!||    sucumu3   ../engine/source/user_interface/suforc3.F
+!||--- called by ------------------------------------------------------
+!||    suforc3   ../engine/source/user_interface/suforc3.F
+!||====================================================================
       SUBROUTINE SUCUMU3(A     ,AR    ,NC    ,STIFN ,STIFR ,
      .                   STI   ,STIR  ,FX    ,FY    ,FZ    ,
      .                   MX    ,MY    ,MZ    )
@@ -513,11 +513,11 @@ c
 C-----------
       RETURN
       END
-      !||====================================================================
-      !||    sucumu3p   ../engine/source/user_interface/suforc3.F
-      !||--- called by ------------------------------------------------------
-      !||    suforc3    ../engine/source/user_interface/suforc3.F
-      !||====================================================================
+!||====================================================================
+!||    sucumu3p   ../engine/source/user_interface/suforc3.F
+!||--- called by ------------------------------------------------------
+!||    suforc3    ../engine/source/user_interface/suforc3.F
+!||====================================================================
       SUBROUTINE SUCUMU3P(FSKY,FSKYV,IADS,STI,STIR,
      .   FX,FY,FZ,MX,MY,MZ)
 C-----------------------------------------------
@@ -600,11 +600,11 @@ c
 c-----------
       RETURN
       END
-      !||====================================================================
-      !||    sucoor3   ../engine/source/user_interface/suforc3.F
-      !||--- called by ------------------------------------------------------
-      !||    suforc3   ../engine/source/user_interface/suforc3.F
-      !||====================================================================
+!||====================================================================
+!||    sucoor3   ../engine/source/user_interface/suforc3.F
+!||--- called by ------------------------------------------------------
+!||    suforc3   ../engine/source/user_interface/suforc3.F
+!||====================================================================
       SUBROUTINE SUCOOR3(IXS,X  ,V,VR,W,D,FR_WAVE ,FR_W_E  ,
      .                   XX , YY, ZZ, UX, UY, UZ, 
      .                   VX , VY, VZ, VRX, VRY, VRZ,

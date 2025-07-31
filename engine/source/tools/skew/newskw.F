@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    newskw        ../engine/source/tools/skew/newskw.F
-      !||--- called by ------------------------------------------------------
-      !||    resol         ../engine/source/engine/resol.F
-      !||--- calls      -----------------------------------------------------
-      !||    spmd_sd_skw   ../engine/source/mpi/output/spmd_sd_skw.F
-      !||====================================================================
+!||====================================================================
+!||    newskw        ../engine/source/tools/skew/newskw.F
+!||--- called by ------------------------------------------------------
+!||    resol         ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
+!||    spmd_sd_skw   ../engine/source/mpi/output/spmd_sd_skw.F
+!||====================================================================
       SUBROUTINE NEWSKW(SKEW    ,ISKWN        ,X           ,ISKWP_L ,NSKWP,
      1                  NUMSKW_L,NUMSKW_L_SEND,ISKWP_L_SEND,RECVCOUNT,ISKWP)
 C-----------------------------------------------
@@ -370,11 +370,11 @@ C
 C
       RETURN
       END SUBROUTINE NEWSKW
-      !||====================================================================
-      !||    newskw_init   ../engine/source/tools/skew/newskw.F
-      !||--- called by ------------------------------------------------------
-      !||    resol         ../engine/source/engine/resol.F
-      !||====================================================================
+!||====================================================================
+!||    newskw_init   ../engine/source/tools/skew/newskw.F
+!||--- called by ------------------------------------------------------
+!||    resol         ../engine/source/engine/resol.F
+!||====================================================================
       SUBROUTINE NEWSKW_INIT(ISKWP ,NUMSKW_L,NSKWP,NUMSKW_L_SEND,ISKWP_L_SEND,RECVCOUNT)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

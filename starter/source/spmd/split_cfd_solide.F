@@ -21,15 +21,15 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
         
-      !||====================================================================
-      !||    split_cfd_solide       ../starter/source/spmd/split_cfd_solide.F
-      !||--- called by ------------------------------------------------------
-      !||    lectur                 ../starter/source/starter/lectur.F
-      !||--- calls      -----------------------------------------------------
-      !||    plist_ifront           ../starter/source/spmd/node/ddtools.F
-      !||--- uses       -----------------------------------------------------
-      !||    split_cfd_mod          ../starter/share/modules1/split_cfd_mod.F
-      !||====================================================================
+!||====================================================================
+!||    split_cfd_solide       ../starter/source/spmd/split_cfd_solide.F
+!||--- called by ------------------------------------------------------
+!||    lectur                 ../starter/source/starter/lectur.F
+!||--- calls      -----------------------------------------------------
+!||    plist_ifront           ../starter/source/spmd/node/ddtools.F
+!||--- uses       -----------------------------------------------------
+!||    split_cfd_mod          ../starter/share/modules1/split_cfd_mod.F
+!||====================================================================
         SUBROUTINE SPLIT_CFD_SOLIDE(NUMELS,ALE_CONNECTIVITY,IXS,ALE_ELM,SIZE_ALE_ELM)
 !$COMMENT
 !       SPLIT_CFD_SOLIDE description :
@@ -140,13 +140,13 @@ C ----------------------------------------
 
 
 
-      !||====================================================================
-      !||    deallocate_split_cfd_solide   ../starter/source/spmd/split_cfd_solide.F
-      !||--- called by ------------------------------------------------------
-      !||    lectur                        ../starter/source/starter/lectur.F
-      !||--- uses       -----------------------------------------------------
-      !||    split_cfd_mod                 ../starter/share/modules1/split_cfd_mod.F
-      !||====================================================================
+!||====================================================================
+!||    deallocate_split_cfd_solide   ../starter/source/spmd/split_cfd_solide.F
+!||--- called by ------------------------------------------------------
+!||    lectur                        ../starter/source/starter/lectur.F
+!||--- uses       -----------------------------------------------------
+!||    split_cfd_mod                 ../starter/share/modules1/split_cfd_mod.F
+!||====================================================================
         SUBROUTINE DEALLOCATE_SPLIT_CFD_SOLIDE(ALE_ELM)
 !$COMMENT
 !       DEALLOCATE_SPLIT_CFD_SOLIDE description :

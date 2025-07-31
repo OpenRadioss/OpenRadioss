@@ -20,15 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    h3d_write_tensor     ../engine/source/output/h3d/h3d_results/h3d_write_tensor.F
-      !||--- called by ------------------------------------------------------
-      !||    h3d_nodal_tensor     ../engine/source/output/h3d/h3d_results/h3d_nodal_tensor.F
-      !||    h3d_oned_tensor      ../engine/source/output/h3d/h3d_results/h3d_oned_tensor.F
-      !||    h3d_quad_tensor      ../engine/source/output/h3d/h3d_results/h3d_quad_tensor.F
-      !||    h3d_solid_tensor_1   ../engine/source/output/h3d/h3d_results/h3d_solid_tensor_1.F
-      !||    h3d_sph_tensor       ../engine/source/output/h3d/h3d_results/h3d_sph_tensor.F
-      !||====================================================================
+!||====================================================================
+!||    h3d_write_tensor     ../engine/source/output/h3d/h3d_results/h3d_write_tensor.F
+!||--- called by ------------------------------------------------------
+!||    h3d_nodal_tensor     ../engine/source/output/h3d/h3d_results/h3d_nodal_tensor.F
+!||    h3d_oned_tensor      ../engine/source/output/h3d/h3d_results/h3d_oned_tensor.F
+!||    h3d_quad_tensor      ../engine/source/output/h3d/h3d_results/h3d_quad_tensor.F
+!||    h3d_solid_tensor_1   ../engine/source/output/h3d/h3d_results/h3d_solid_tensor_1.F
+!||    h3d_sph_tensor       ../engine/source/output/h3d/h3d_results/h3d_sph_tensor.F
+!||====================================================================
         SUBROUTINE H3D_WRITE_TENSOR(
      .                          IOK_PART  ,IS_WRITTEN ,TENSOR ,NEL ,OFFSET ,NFT,
      .                          VALUE    ,IS_WRITTEN_TENSOR)

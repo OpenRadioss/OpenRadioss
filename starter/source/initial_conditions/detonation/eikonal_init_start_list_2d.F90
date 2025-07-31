@@ -20,11 +20,11 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    eikonal_init_start_list_2d_mod   ../starter/source/initial_conditions/detonation/eikonal_init_start_list_2d.F90
-      !||--- called by ------------------------------------------------------
-      !||    eikonal_fast_marching_method     ../starter/source/initial_conditions/detonation/eikonal_fast_marching_method.F90
-      !||====================================================================
+!||====================================================================
+!||    eikonal_init_start_list_2d_mod   ../starter/source/initial_conditions/detonation/eikonal_init_start_list_2d.F90
+!||--- called by ------------------------------------------------------
+!||    eikonal_fast_marching_method     ../starter/source/initial_conditions/detonation/eikonal_fast_marching_method.F90
+!||====================================================================
       module eikonal_init_start_list_2d_mod
       contains
 ! ======================================================================================================================
@@ -32,13 +32,13 @@
 ! ======================================================================================================================
 !! \brief initialize narrow band for fast marching method depending on user input
 !! \details
-      !||====================================================================
-      !||    eikonal_init_start_list_2d     ../starter/source/initial_conditions/detonation/eikonal_init_start_list_2d.F90
-      !||--- called by ------------------------------------------------------
-      !||    eikonal_fast_marching_method   ../starter/source/initial_conditions/detonation/eikonal_fast_marching_method.F90
-      !||--- uses       -----------------------------------------------------
-      !||    detonators_mod                 ../starter/share/modules1/detonators_mod.F
-      !||====================================================================
+!||====================================================================
+!||    eikonal_init_start_list_2d     ../starter/source/initial_conditions/detonation/eikonal_init_start_list_2d.F90
+!||--- called by ------------------------------------------------------
+!||    eikonal_fast_marching_method   ../starter/source/initial_conditions/detonation/eikonal_fast_marching_method.F90
+!||--- uses       -----------------------------------------------------
+!||    detonators_mod                 ../starter/share/modules1/detonators_mod.F
+!||====================================================================
         subroutine eikonal_init_start_list_2d(nstart, start_elem_list, start_elem_tdet, detonators, numel, numnod, &
                                               nvois, nod2el, knod2el, ale_connectivity, elem_list_bij, neldet, xel, x, &
                                               nix, ix, mat_det, vel)

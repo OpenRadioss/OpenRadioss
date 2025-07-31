@@ -20,36 +20,36 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    sensor_base             ../engine/source/tools/sensor/sensor_base.F
-      !||--- called by ------------------------------------------------------
-      !||    resol                   ../engine/source/engine/resol.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg                  ../engine/source/output/message/message.F
-      !||    arret                   ../engine/source/system/arret.F
-      !||    sensor_acc              ../engine/source/tools/sensor/sensor_acc.F
-      !||    sensor_contact          ../engine/source/tools/sensor/sensor_contact.F
-      !||    sensor_dist             ../engine/source/tools/sensor/sensor_dist.F
-      !||    sensor_dist_surf        ../engine/source/tools/sensor/sensor_dist_surf.F
-      !||    sensor_energy           ../engine/source/tools/sensor/sensor_energy.F
-      !||    sensor_gauge            ../engine/source/tools/sensor/sensor_gauge.F
-      !||    sensor_hic              ../engine/source/tools/sensor/sensor_hic.F
-      !||    sensor_nic              ../engine/source/tools/sensor/sensor_nic.F
-      !||    sensor_python           ../engine/source/tools/sensor/sensor_python.F90
-      !||    sensor_rbody            ../engine/source/tools/sensor/sensor_rbody.F
-      !||    sensor_rwall            ../engine/source/tools/sensor/sensor_rwall.F
-      !||    sensor_section          ../engine/source/tools/sensor/sensor_section.F
-      !||    sensor_temp             ../engine/source/tools/sensor/sensor_temp.F
-      !||    sensor_time             ../engine/source/tools/sensor/sensor_time.F
-      !||    sensor_vel              ../engine/source/tools/sensor/sensor_vel.F
-      !||    sensor_work             ../engine/source/tools/sensor/sensor_work.F
-      !||--- uses       -----------------------------------------------------
-      !||    groupdef_mod            ../common_source/modules/groupdef_mod.F
-      !||    message_mod             ../engine/share/message_module/message_mod.F
-      !||    python_funct_mod        ../common_source/modules/python_mod.F90
-      !||    sensor_mod              ../common_source/modules/sensor_mod.F90
-      !||    sensor_python_mod       ../engine/source/tools/sensor/sensor_python.F90
-      !||====================================================================
+!||====================================================================
+!||    sensor_base             ../engine/source/tools/sensor/sensor_base.F
+!||--- called by ------------------------------------------------------
+!||    resol                   ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                  ../engine/source/output/message/message.F
+!||    arret                   ../engine/source/system/arret.F
+!||    sensor_acc              ../engine/source/tools/sensor/sensor_acc.F
+!||    sensor_contact          ../engine/source/tools/sensor/sensor_contact.F
+!||    sensor_dist             ../engine/source/tools/sensor/sensor_dist.F
+!||    sensor_dist_surf        ../engine/source/tools/sensor/sensor_dist_surf.F
+!||    sensor_energy           ../engine/source/tools/sensor/sensor_energy.F
+!||    sensor_gauge            ../engine/source/tools/sensor/sensor_gauge.F
+!||    sensor_hic              ../engine/source/tools/sensor/sensor_hic.F
+!||    sensor_nic              ../engine/source/tools/sensor/sensor_nic.F
+!||    sensor_python           ../engine/source/tools/sensor/sensor_python.F90
+!||    sensor_rbody            ../engine/source/tools/sensor/sensor_rbody.F
+!||    sensor_rwall            ../engine/source/tools/sensor/sensor_rwall.F
+!||    sensor_section          ../engine/source/tools/sensor/sensor_section.F
+!||    sensor_temp             ../engine/source/tools/sensor/sensor_temp.F
+!||    sensor_time             ../engine/source/tools/sensor/sensor_time.F
+!||    sensor_vel              ../engine/source/tools/sensor/sensor_vel.F
+!||    sensor_work             ../engine/source/tools/sensor/sensor_work.F
+!||--- uses       -----------------------------------------------------
+!||    groupdef_mod            ../common_source/modules/groupdef_mod.F
+!||    message_mod             ../engine/share/message_module/message_mod.F
+!||    python_funct_mod        ../common_source/modules/python_mod.F90
+!||    sensor_mod              ../common_source/modules/sensor_mod.F90
+!||    sensor_python_mod       ../engine/source/tools/sensor/sensor_python.F90
+!||====================================================================
       SUBROUTINE SENSOR_BASE(SENSORS  ,NSENSOR   ,TIME      ,TIMESTEP  ,
      .           XSENS     ,IPARI     ,PARTSAV2  ,GAUGE     ,FSAV      ,
      .           X         ,V         ,A         ,ACC       ,NPRW      ,

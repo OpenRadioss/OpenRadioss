@@ -20,17 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    sms_init               ../starter/source/ams/sms_init.F
-      !||--- called by ------------------------------------------------------
-      !||    lectur                 ../starter/source/starter/lectur.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg                 ../starter/source/output/message/message.F
-      !||    fretitl2               ../starter/source/starter/freform.F
-      !||    nodnx_sms_ini          ../starter/source/ams/sms_init.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod            ../starter/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    sms_init               ../starter/source/ams/sms_init.F
+!||--- called by ------------------------------------------------------
+!||    lectur                 ../starter/source/starter/lectur.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                 ../starter/source/output/message/message.F
+!||    fretitl2               ../starter/source/starter/freform.F
+!||    nodnx_sms_ini          ../starter/source/ams/sms_init.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod            ../starter/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE SMS_INIT(
      1  IXS     ,IXQ      ,IXC     ,IXT     ,IXP       ,
      2  IXR     ,IXTG     ,IXTG1   ,IXS10   ,IXS16     ,
@@ -373,11 +373,11 @@ C-----------------------------------------------
       RETURN
       END
 
-      !||====================================================================
-      !||    sms_ini_kad   ../starter/source/ams/sms_init.F
-      !||--- called by ------------------------------------------------------
-      !||    lectur        ../starter/source/starter/lectur.F
-      !||====================================================================
+!||====================================================================
+!||    sms_ini_kad   ../starter/source/ams/sms_init.F
+!||--- called by ------------------------------------------------------
+!||    lectur        ../starter/source/starter/lectur.F
+!||====================================================================
       SUBROUTINE SMS_INI_KAD(
      1  IXS     ,IXQ      ,IXC     ,IXT     ,IXP       ,
      2  IXR     ,IXTG     ,IXTG1   ,IXS10   ,IXS16     ,
@@ -710,11 +710,11 @@ C
 C-----------------------------------------------
       RETURN
       END
-      !||====================================================================
-      !||    nodnx_sms_ini   ../starter/source/ams/sms_init.F
-      !||--- called by ------------------------------------------------------
-      !||    sms_init        ../starter/source/ams/sms_init.F
-      !||====================================================================
+!||====================================================================
+!||    nodnx_sms_ini   ../starter/source/ams/sms_init.F
+!||--- called by ------------------------------------------------------
+!||    sms_init        ../starter/source/ams/sms_init.F
+!||====================================================================
       SUBROUTINE NODNX_SMS_INI(
      1 NUMNOD  ,NUMEL ,NIX ,MIX ,LIX ,
      2 IX      ,IPARTX,TAGPRT_SMS,NODNX_SMS)
@@ -755,12 +755,12 @@ C
 
       RETURN
       END
-      !||====================================================================
-      !||    sms_ini_kdi     ../starter/source/ams/sms_init.F
-      !||--- called by ------------------------------------------------------
-      !||    lectur          ../starter/source/starter/lectur.F
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    sms_ini_kdi     ../starter/source/ams/sms_init.F
+!||--- called by ------------------------------------------------------
+!||    lectur          ../starter/source/starter/lectur.F
+!||--- uses       -----------------------------------------------------
+!||====================================================================
       SUBROUTINE SMS_INI_KDI(
      2             IXC      ,IPARG   ,IXS      ,IXT      ,IXP     ,
      3             IXR      ,IXTG    ,IXS10    ,NODNX_SMS,KAD_SMS ,
@@ -1158,13 +1158,13 @@ C
 C
       RETURN
       END
-      !||====================================================================
-      !||    sms_ini_jad_1   ../starter/source/ams/sms_init.F
-      !||--- called by ------------------------------------------------------
-      !||    lectur          ../starter/source/starter/lectur.F
-      !||--- calls      -----------------------------------------------------
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    sms_ini_jad_1   ../starter/source/ams/sms_init.F
+!||--- called by ------------------------------------------------------
+!||    lectur          ../starter/source/starter/lectur.F
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||====================================================================
       SUBROUTINE SMS_INI_JAD_1(
      2             IXC      ,IPARG   ,IXS      ,IXT      ,IXP      ,
      3             IXR      ,IXTG    ,IXS10    ,NODNX_SMS,JADC_SMS ,
@@ -1544,14 +1544,14 @@ C reconstruit JAD_SMS
 C-----------------------------------------------
       RETURN
       END
-      !||====================================================================
-      !||    sms_ini_jad_2   ../starter/source/ams/sms_init.F
-      !||--- called by ------------------------------------------------------
-      !||    lectur          ../starter/source/starter/lectur.F
-      !||--- uses       -----------------------------------------------------
-      !||    intstamp_mod    ../starter/share/modules1/intstamp_mod.F
-      !||    message_mod     ../starter/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    sms_ini_jad_2   ../starter/source/ams/sms_init.F
+!||--- called by ------------------------------------------------------
+!||    lectur          ../starter/source/starter/lectur.F
+!||--- uses       -----------------------------------------------------
+!||    intstamp_mod    ../starter/share/modules1/intstamp_mod.F
+!||    message_mod     ../starter/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE SMS_INI_JAD_2(
      2             IXC      ,IPARG   ,IXS      ,IXT      ,IXP     ,
      3             IXR      ,IXTG    ,IXS10    ,NODNX_SMS,JADC_SMS,
@@ -1845,17 +1845,17 @@ C reconstruit JAD_SMS
 C-----------------------------------------------
       RETURN
       END
-      !||====================================================================
-      !||    sms_ini_jad_3   ../starter/source/ams/sms_init.F
-      !||--- called by ------------------------------------------------------
-      !||    lectur          ../starter/source/starter/lectur.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg          ../starter/source/output/message/message.F
-      !||    arret           ../starter/source/system/arret.F
-      !||--- uses       -----------------------------------------------------
-      !||    intstamp_mod    ../starter/share/modules1/intstamp_mod.F
-      !||    message_mod     ../starter/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    sms_ini_jad_3   ../starter/source/ams/sms_init.F
+!||--- called by ------------------------------------------------------
+!||    lectur          ../starter/source/starter/lectur.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg          ../starter/source/output/message/message.F
+!||    arret           ../starter/source/system/arret.F
+!||--- uses       -----------------------------------------------------
+!||    intstamp_mod    ../starter/share/modules1/intstamp_mod.F
+!||    message_mod     ../starter/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE SMS_INI_JAD_3(
      2             IXC      ,IPARG   ,IXS      ,IXT      ,IXP     ,
      3             IXR      ,IXTG    ,IXS10    ,NODNX_SMS,JADC_SMS,

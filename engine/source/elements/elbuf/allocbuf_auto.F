@@ -20,17 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    allocbuf_auto   ../engine/source/elements/elbuf/allocbuf_auto.F
-      !||--- called by ------------------------------------------------------
-      !||    elbuf_ini       ../engine/source/elements/elbuf/elbuf_ini.F
-      !||--- calls      -----------------------------------------------------
-      !||    read_db         ../common_source/tools/input_output/read_db.F
-      !||    read_dpdb       ../common_source/tools/input_output/read_db.F
-      !||--- uses       -----------------------------------------------------
-      !||    elbufdef_mod    ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||    h3d_inc_mod     ../engine/share/modules/h3d_inc_mod.F
-      !||====================================================================
+!||====================================================================
+!||    allocbuf_auto   ../engine/source/elements/elbuf/allocbuf_auto.F
+!||--- called by ------------------------------------------------------
+!||    elbuf_ini       ../engine/source/elements/elbuf/elbuf_ini.F
+!||--- calls      -----------------------------------------------------
+!||    read_db         ../common_source/tools/input_output/read_db.F
+!||    read_dpdb       ../common_source/tools/input_output/read_db.F
+!||--- uses       -----------------------------------------------------
+!||    elbufdef_mod    ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    h3d_inc_mod     ../engine/share/modules/h3d_inc_mod.F
+!||====================================================================
       SUBROUTINE ALLOCBUF_AUTO(ELBUF_STR,BUFLEN,NPT,ITY,ISNOD,NEWLEN,INLOC,ISOLNOD,
      .                         IDAMP_FREQ_RANGE)
 C-----------------------------------------------

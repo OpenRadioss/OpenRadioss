@@ -21,15 +21,15 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Cas|         I17MAIN_PENA            /int17/i17main_pena.F
-      !||====================================================================
-      !||    i17crit            ../engine/source/interfaces/int17/i17crit.F
-      !||--- called by ------------------------------------------------------
-      !||    i17main            ../engine/source/interfaces/int17/i17main.F
-      !||    i17main_crit_tri   ../engine/source/interfaces/int17/i17main_pena.F
-      !||--- calls      -----------------------------------------------------
-      !||    i16box             ../engine/source/interfaces/int16/i16crit.F
-      !||    i20box             ../engine/source/interfaces/int16/i16crit.F
-      !||====================================================================
+!||====================================================================
+!||    i17crit            ../engine/source/interfaces/int17/i17crit.F
+!||--- called by ------------------------------------------------------
+!||    i17main            ../engine/source/interfaces/int17/i17main.F
+!||    i17main_crit_tri   ../engine/source/interfaces/int17/i17main_pena.F
+!||--- calls      -----------------------------------------------------
+!||    i16box             ../engine/source/interfaces/int16/i16crit.F
+!||    i20box             ../engine/source/interfaces/int16/i16crit.F
+!||====================================================================
        SUBROUTINE I17CRIT(
      1       X      ,V      ,A       ,NELEM ,EMINX  ,
      2       NME    ,ITASK  ,XSAV    ,IXS   ,IXS16  ,

@@ -20,15 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    i2_dtn_28       ../starter/source/interfaces/inter3d1/i2_dtn_28.F
-      !||--- called by ------------------------------------------------------
-      !||    inintr2         ../starter/source/interfaces/inter3d1/inintr2.F
-      !||--- calls      -----------------------------------------------------
-      !||    i2_dtn_28_cin   ../starter/source/interfaces/inter3d1/i2_dtn_28.F
-      !||    i2_dtn_28_pen   ../starter/source/interfaces/inter3d1/i2_dtn_28.F
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    i2_dtn_28       ../starter/source/interfaces/inter3d1/i2_dtn_28.F
+!||--- called by ------------------------------------------------------
+!||    inintr2         ../starter/source/interfaces/inter3d1/inintr2.F
+!||--- calls      -----------------------------------------------------
+!||    i2_dtn_28_cin   ../starter/source/interfaces/inter3d1/i2_dtn_28.F
+!||    i2_dtn_28_pen   ../starter/source/interfaces/inter3d1/i2_dtn_28.F
+!||--- uses       -----------------------------------------------------
+!||====================================================================
       SUBROUTINE I2_DTN_28(X,INTBUF_TAB,IPARI,STIFN,MS,IN,N,NSN)
 C-----------------------------------------------
 C   M o d u l e s
@@ -80,11 +80,11 @@ c-----------
 C-----------
       RETURN
       END
-      !||====================================================================
-      !||    i2_dtn_28_cin   ../starter/source/interfaces/inter3d1/i2_dtn_28.F
-      !||--- called by ------------------------------------------------------
-      !||    i2_dtn_28       ../starter/source/interfaces/inter3d1/i2_dtn_28.F
-      !||====================================================================
+!||====================================================================
+!||    i2_dtn_28_cin   ../starter/source/interfaces/inter3d1/i2_dtn_28.F
+!||--- called by ------------------------------------------------------
+!||    i2_dtn_28       ../starter/source/interfaces/inter3d1/i2_dtn_28.F
+!||====================================================================
       SUBROUTINE I2_DTN_28_CIN(X,IRECT , NSV  ,IRTL  ,
      2                         IPARI, STIFN, STIFR, MS, IN,IRUPT)
 C-----------------------------------------------
@@ -249,12 +249,12 @@ C-----------
       RETURN
       END
 
-      !||====================================================================
-      !||    i2_dtn_28_pen   ../starter/source/interfaces/inter3d1/i2_dtn_28.F
-      !||--- called by ------------------------------------------------------
-      !||    i2_dtn_28       ../starter/source/interfaces/inter3d1/i2_dtn_28.F
-      !||--- calls      -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    i2_dtn_28_pen   ../starter/source/interfaces/inter3d1/i2_dtn_28.F
+!||--- called by ------------------------------------------------------
+!||    i2_dtn_28       ../starter/source/interfaces/inter3d1/i2_dtn_28.F
+!||--- calls      -----------------------------------------------------
+!||====================================================================
       SUBROUTINE I2_DTN_28_PEN(X,IRECT ,CRST    ,NSV  ,IRTL,
      2                         IPARI,STIFN, STFN,
      3                         STFR,VISC,IN,IRUPT)

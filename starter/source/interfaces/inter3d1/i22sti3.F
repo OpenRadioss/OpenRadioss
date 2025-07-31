@@ -21,13 +21,13 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
-      !||====================================================================
-      !||    i22sti3                ../starter/source/interfaces/inter3d1/i22sti3.F
-      !||--- called by ------------------------------------------------------
-      !||    inint3                 ../starter/source/interfaces/inter3d1/inint3.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod            ../starter/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    i22sti3                ../starter/source/interfaces/inter3d1/i22sti3.F
+!||--- called by ------------------------------------------------------
+!||    inint3                 ../starter/source/interfaces/inter3d1/inint3.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod            ../starter/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE I22STI3(  STF         ,NRT    )
 C-----------------------------------------------
 C   M o d u l e s

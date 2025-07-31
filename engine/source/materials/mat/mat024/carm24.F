@@ -20,11 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    carm24   ../engine/source/materials/mat/mat024/carm24.F
-      !||--- called by ------------------------------------------------------
-      !||    conc24   ../engine/source/materials/mat/mat024/conc24.F
-      !||====================================================================
+!||====================================================================
+!||    carm24   ../engine/source/materials/mat/mat024/carm24.F
+!||--- called by ------------------------------------------------------
+!||    conc24   ../engine/source/materials/mat/mat024/conc24.F
+!||====================================================================
       SUBROUTINE CARM24(NEL  ,YMS  ,Y0S  ,ETS  ,EPXA ,SIGA ,
      .                  DEPS1,DEPS2,DEPS3,DEPS4,DEPS5,DEPS6)
 C-----------------------------------------------

@@ -20,22 +20,22 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    i25main_free          ../engine/source/interfaces/intsort/i25main_free.F
-      !||--- called by ------------------------------------------------------
-      !||    inttri                ../engine/source/interfaces/intsort/inttri.F
-      !||--- calls      -----------------------------------------------------
-      !||    i25edge_switch        ../engine/source/interfaces/int25/i25edge_switch.F
-      !||    i25free_bound         ../engine/source/interfaces/int25/i25free_bound.F
-      !||    my_barrier            ../engine/source/system/machine.F
-      !||    spmd_get_stif25_edg   ../engine/source/mpi/interfaces/spmd_getstif25_edg.F
-      !||    startime              ../engine/source/system/timer_mod.F90
-      !||    stoptime              ../engine/source/system/timer_mod.F90
-      !||--- uses       -----------------------------------------------------
-      !||    intbufdef_mod         ../common_source/modules/interfaces/intbufdef_mod.F90
-      !||    timer_mod             ../engine/source/system/timer_mod.F90
-      !||    tri7box               ../engine/share/modules/tri7box.F
-      !||====================================================================
+!||====================================================================
+!||    i25main_free          ../engine/source/interfaces/intsort/i25main_free.F
+!||--- called by ------------------------------------------------------
+!||    inttri                ../engine/source/interfaces/intsort/inttri.F
+!||--- calls      -----------------------------------------------------
+!||    i25edge_switch        ../engine/source/interfaces/int25/i25edge_switch.F
+!||    i25free_bound         ../engine/source/interfaces/int25/i25free_bound.F
+!||    my_barrier            ../engine/source/system/machine.F
+!||    spmd_get_stif25_edg   ../engine/source/mpi/interfaces/spmd_getstif25_edg.F
+!||    startime              ../engine/source/system/timer_mod.F90
+!||    stoptime              ../engine/source/system/timer_mod.F90
+!||--- uses       -----------------------------------------------------
+!||    intbufdef_mod         ../common_source/modules/interfaces/intbufdef_mod.F90
+!||    timer_mod             ../engine/source/system/timer_mod.F90
+!||    tri7box               ../engine/share/modules/tri7box.F
+!||====================================================================
       SUBROUTINE I25MAIN_FREE(TIMERS,
      1                  ITASK, IPARI  ,INTBUF_TAB, INTLIST25, ISENDTO,
      2                  IRECVFROM)

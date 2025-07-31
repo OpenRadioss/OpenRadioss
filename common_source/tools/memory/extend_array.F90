@@ -20,20 +20,20 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    extend_array_mod              ../common_source/tools/memory/extend_array.F90
-      !||--- called by ------------------------------------------------------
-      !||    detach_node_from_interfaces   ../engine/source/engine/node_spliting/detach_node.F90
-      !||    extend_nodal_arrays           ../common_source/modules/nodal_arrays.F90
-      !||    fill_voxel_local              ../engine/source/interfaces/intsort/fill_voxel.F90
-      !||    fill_voxel_local_partial      ../engine/source/interfaces/intsort/fill_voxel.F90
-      !||    fill_voxel_remote             ../engine/source/interfaces/intsort/fill_voxel.F90
-      !||    lecsec42                      ../starter/source/tools/sect/hm_read_sect.F
-      !||    test_jc_shell_detach          ../engine/source/engine/node_spliting/detach_node.F90
-      !||    update_pon_shells             ../engine/source/engine/node_spliting/update_pon.F90
-      !||--- calls      -----------------------------------------------------
-      !||    build_error_message           ../common_source/tools/memory/shrink_array.F90
-      !||====================================================================
+!||====================================================================
+!||    extend_array_mod              ../common_source/tools/memory/extend_array.F90
+!||--- called by ------------------------------------------------------
+!||    detach_node_from_interfaces   ../engine/source/engine/node_spliting/detach_node.F90
+!||    extend_nodal_arrays           ../common_source/modules/nodal_arrays.F90
+!||    fill_voxel_local              ../engine/source/interfaces/intsort/fill_voxel.F90
+!||    fill_voxel_local_partial      ../engine/source/interfaces/intsort/fill_voxel.F90
+!||    fill_voxel_remote             ../engine/source/interfaces/intsort/fill_voxel.F90
+!||    lecsec42                      ../starter/source/tools/sect/hm_read_sect.F
+!||    test_jc_shell_detach          ../engine/source/engine/node_spliting/detach_node.F90
+!||    update_pon_shells             ../engine/source/engine/node_spliting/update_pon.F90
+!||--- calls      -----------------------------------------------------
+!||    build_error_message           ../common_source/tools/memory/shrink_array.F90
+!||====================================================================
       module extend_array_mod
         implicit none
         integer, parameter :: len_error_message = 100
@@ -73,12 +73,12 @@
 ! ======================================================================================================================
 !                                                     TOOLS
 ! ======================================================================================================================
-      !||====================================================================
-      !||    build_error_message   ../common_source/tools/memory/shrink_array.F90
-      !||--- called by ------------------------------------------------------
-      !||    extend_array_mod      ../common_source/tools/memory/extend_array.F90
-      !||    shrink_array_mod      ../common_source/tools/memory/shrink_array.F90
-      !||====================================================================
+!||====================================================================
+!||    build_error_message   ../common_source/tools/memory/shrink_array.F90
+!||--- called by ------------------------------------------------------
+!||    extend_array_mod      ../common_source/tools/memory/extend_array.F90
+!||    shrink_array_mod      ../common_source/tools/memory/shrink_array.F90
+!||====================================================================
         function build_error_message(str) result(error_message)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                     Arguments
@@ -95,73 +95,73 @@
           end if
         end function build_error_message
 
-      !||====================================================================
-      !||    check_error_and_write         ../common_source/tools/memory/shrink_array.F90
-      !||--- called by ------------------------------------------------------
-      !||    extend_array_double_1d        ../common_source/tools/memory/extend_array.F90
-      !||    extend_array_double_2d        ../common_source/tools/memory/extend_array.F90
-      !||    extend_array_double_3d        ../common_source/tools/memory/extend_array.F90
-      !||    extend_array_integer_1d       ../common_source/tools/memory/extend_array.F90
-      !||    extend_array_integer_2d       ../common_source/tools/memory/extend_array.F90
-      !||    extend_array_integer_3d       ../common_source/tools/memory/extend_array.F90
-      !||    extend_array_real_1d          ../common_source/tools/memory/extend_array.F90
-      !||    extend_array_real_2d          ../common_source/tools/memory/extend_array.F90
-      !||    extend_array_real_3d          ../common_source/tools/memory/extend_array.F90
-      !||    my_alloc_8_double_1d          ../common_source/tools/memory/my_alloc.F90
-      !||    my_alloc_8_double_2d          ../common_source/tools/memory/my_alloc.F90
-      !||    my_alloc_8_double_3d          ../common_source/tools/memory/my_alloc.F90
-      !||    my_alloc_8_integer_1d         ../common_source/tools/memory/my_alloc.F90
-      !||    my_alloc_8_integer_2d         ../common_source/tools/memory/my_alloc.F90
-      !||    my_alloc_8_integer_3d         ../common_source/tools/memory/my_alloc.F90
-      !||    my_alloc_8_logical_1d         ../common_source/tools/memory/my_alloc.F90
-      !||    my_alloc_8_logical_2d         ../common_source/tools/memory/my_alloc.F90
-      !||    my_alloc_8_logical_3d         ../common_source/tools/memory/my_alloc.F90
-      !||    my_alloc_8_pdouble_1d         ../common_source/tools/memory/my_alloc.F90
-      !||    my_alloc_8_pdouble_2d         ../common_source/tools/memory/my_alloc.F90
-      !||    my_alloc_8_pdouble_3d         ../common_source/tools/memory/my_alloc.F90
-      !||    my_alloc_8_pinteger_1d        ../common_source/tools/memory/my_alloc.F90
-      !||    my_alloc_8_pinteger_2d        ../common_source/tools/memory/my_alloc.F90
-      !||    my_alloc_8_pinteger_3d        ../common_source/tools/memory/my_alloc.F90
-      !||    my_alloc_8_plogical_1d        ../common_source/tools/memory/my_alloc.F90
-      !||    my_alloc_8_plogical_2d        ../common_source/tools/memory/my_alloc.F90
-      !||    my_alloc_8_plogical_3d        ../common_source/tools/memory/my_alloc.F90
-      !||    my_alloc_8_preal_1d           ../common_source/tools/memory/my_alloc.F90
-      !||    my_alloc_8_preal_2d           ../common_source/tools/memory/my_alloc.F90
-      !||    my_alloc_8_preal_3d           ../common_source/tools/memory/my_alloc.F90
-      !||    my_alloc_8_real_1d            ../common_source/tools/memory/my_alloc.F90
-      !||    my_alloc_8_real_2d            ../common_source/tools/memory/my_alloc.F90
-      !||    my_alloc_8_real_3d            ../common_source/tools/memory/my_alloc.F90
-      !||    my_alloc_double_1d            ../common_source/tools/memory/my_alloc.F90
-      !||    my_alloc_double_2d            ../common_source/tools/memory/my_alloc.F90
-      !||    my_alloc_double_3d            ../common_source/tools/memory/my_alloc.F90
-      !||    my_alloc_integer_1d           ../common_source/tools/memory/my_alloc.F90
-      !||    my_alloc_integer_2d           ../common_source/tools/memory/my_alloc.F90
-      !||    my_alloc_integer_3d           ../common_source/tools/memory/my_alloc.F90
-      !||    my_alloc_logical_1d           ../common_source/tools/memory/my_alloc.F90
-      !||    my_alloc_logical_2d           ../common_source/tools/memory/my_alloc.F90
-      !||    my_alloc_logical_3d           ../common_source/tools/memory/my_alloc.F90
-      !||    my_alloc_pdouble_1d           ../common_source/tools/memory/my_alloc.F90
-      !||    my_alloc_pdouble_2d           ../common_source/tools/memory/my_alloc.F90
-      !||    my_alloc_pdouble_3d           ../common_source/tools/memory/my_alloc.F90
-      !||    my_alloc_pinteger_1d          ../common_source/tools/memory/my_alloc.F90
-      !||    my_alloc_pinteger_2d          ../common_source/tools/memory/my_alloc.F90
-      !||    my_alloc_pinteger_3d          ../common_source/tools/memory/my_alloc.F90
-      !||    my_alloc_plogical_1d          ../common_source/tools/memory/my_alloc.F90
-      !||    my_alloc_plogical_2d          ../common_source/tools/memory/my_alloc.F90
-      !||    my_alloc_plogical_3d          ../common_source/tools/memory/my_alloc.F90
-      !||    my_alloc_preal_1d             ../common_source/tools/memory/my_alloc.F90
-      !||    my_alloc_preal_2d             ../common_source/tools/memory/my_alloc.F90
-      !||    my_alloc_preal_3d             ../common_source/tools/memory/my_alloc.F90
-      !||    my_alloc_real_1d              ../common_source/tools/memory/my_alloc.F90
-      !||    my_alloc_real_2d              ../common_source/tools/memory/my_alloc.F90
-      !||    my_alloc_real_3d              ../common_source/tools/memory/my_alloc.F90
-      !||    reallocate_array_integer_1d   ../common_source/tools/memory/extend_array.F90
-      !||    shrink_array_double_1d        ../common_source/tools/memory/shrink_array.F90
-      !||    shrink_array_integer_1d       ../common_source/tools/memory/shrink_array.F90
-      !||    shrink_array_real_1d          ../common_source/tools/memory/shrink_array.F90
-      !||--- calls      -----------------------------------------------------
-      !||    arret                         ../engine/source/system/arret.F
-      !||====================================================================
+!||====================================================================
+!||    check_error_and_write         ../common_source/tools/memory/shrink_array.F90
+!||--- called by ------------------------------------------------------
+!||    extend_array_double_1d        ../common_source/tools/memory/extend_array.F90
+!||    extend_array_double_2d        ../common_source/tools/memory/extend_array.F90
+!||    extend_array_double_3d        ../common_source/tools/memory/extend_array.F90
+!||    extend_array_integer_1d       ../common_source/tools/memory/extend_array.F90
+!||    extend_array_integer_2d       ../common_source/tools/memory/extend_array.F90
+!||    extend_array_integer_3d       ../common_source/tools/memory/extend_array.F90
+!||    extend_array_real_1d          ../common_source/tools/memory/extend_array.F90
+!||    extend_array_real_2d          ../common_source/tools/memory/extend_array.F90
+!||    extend_array_real_3d          ../common_source/tools/memory/extend_array.F90
+!||    my_alloc_8_double_1d          ../common_source/tools/memory/my_alloc.F90
+!||    my_alloc_8_double_2d          ../common_source/tools/memory/my_alloc.F90
+!||    my_alloc_8_double_3d          ../common_source/tools/memory/my_alloc.F90
+!||    my_alloc_8_integer_1d         ../common_source/tools/memory/my_alloc.F90
+!||    my_alloc_8_integer_2d         ../common_source/tools/memory/my_alloc.F90
+!||    my_alloc_8_integer_3d         ../common_source/tools/memory/my_alloc.F90
+!||    my_alloc_8_logical_1d         ../common_source/tools/memory/my_alloc.F90
+!||    my_alloc_8_logical_2d         ../common_source/tools/memory/my_alloc.F90
+!||    my_alloc_8_logical_3d         ../common_source/tools/memory/my_alloc.F90
+!||    my_alloc_8_pdouble_1d         ../common_source/tools/memory/my_alloc.F90
+!||    my_alloc_8_pdouble_2d         ../common_source/tools/memory/my_alloc.F90
+!||    my_alloc_8_pdouble_3d         ../common_source/tools/memory/my_alloc.F90
+!||    my_alloc_8_pinteger_1d        ../common_source/tools/memory/my_alloc.F90
+!||    my_alloc_8_pinteger_2d        ../common_source/tools/memory/my_alloc.F90
+!||    my_alloc_8_pinteger_3d        ../common_source/tools/memory/my_alloc.F90
+!||    my_alloc_8_plogical_1d        ../common_source/tools/memory/my_alloc.F90
+!||    my_alloc_8_plogical_2d        ../common_source/tools/memory/my_alloc.F90
+!||    my_alloc_8_plogical_3d        ../common_source/tools/memory/my_alloc.F90
+!||    my_alloc_8_preal_1d           ../common_source/tools/memory/my_alloc.F90
+!||    my_alloc_8_preal_2d           ../common_source/tools/memory/my_alloc.F90
+!||    my_alloc_8_preal_3d           ../common_source/tools/memory/my_alloc.F90
+!||    my_alloc_8_real_1d            ../common_source/tools/memory/my_alloc.F90
+!||    my_alloc_8_real_2d            ../common_source/tools/memory/my_alloc.F90
+!||    my_alloc_8_real_3d            ../common_source/tools/memory/my_alloc.F90
+!||    my_alloc_double_1d            ../common_source/tools/memory/my_alloc.F90
+!||    my_alloc_double_2d            ../common_source/tools/memory/my_alloc.F90
+!||    my_alloc_double_3d            ../common_source/tools/memory/my_alloc.F90
+!||    my_alloc_integer_1d           ../common_source/tools/memory/my_alloc.F90
+!||    my_alloc_integer_2d           ../common_source/tools/memory/my_alloc.F90
+!||    my_alloc_integer_3d           ../common_source/tools/memory/my_alloc.F90
+!||    my_alloc_logical_1d           ../common_source/tools/memory/my_alloc.F90
+!||    my_alloc_logical_2d           ../common_source/tools/memory/my_alloc.F90
+!||    my_alloc_logical_3d           ../common_source/tools/memory/my_alloc.F90
+!||    my_alloc_pdouble_1d           ../common_source/tools/memory/my_alloc.F90
+!||    my_alloc_pdouble_2d           ../common_source/tools/memory/my_alloc.F90
+!||    my_alloc_pdouble_3d           ../common_source/tools/memory/my_alloc.F90
+!||    my_alloc_pinteger_1d          ../common_source/tools/memory/my_alloc.F90
+!||    my_alloc_pinteger_2d          ../common_source/tools/memory/my_alloc.F90
+!||    my_alloc_pinteger_3d          ../common_source/tools/memory/my_alloc.F90
+!||    my_alloc_plogical_1d          ../common_source/tools/memory/my_alloc.F90
+!||    my_alloc_plogical_2d          ../common_source/tools/memory/my_alloc.F90
+!||    my_alloc_plogical_3d          ../common_source/tools/memory/my_alloc.F90
+!||    my_alloc_preal_1d             ../common_source/tools/memory/my_alloc.F90
+!||    my_alloc_preal_2d             ../common_source/tools/memory/my_alloc.F90
+!||    my_alloc_preal_3d             ../common_source/tools/memory/my_alloc.F90
+!||    my_alloc_real_1d              ../common_source/tools/memory/my_alloc.F90
+!||    my_alloc_real_2d              ../common_source/tools/memory/my_alloc.F90
+!||    my_alloc_real_3d              ../common_source/tools/memory/my_alloc.F90
+!||    reallocate_array_integer_1d   ../common_source/tools/memory/extend_array.F90
+!||    shrink_array_double_1d        ../common_source/tools/memory/shrink_array.F90
+!||    shrink_array_integer_1d       ../common_source/tools/memory/shrink_array.F90
+!||    shrink_array_real_1d          ../common_source/tools/memory/shrink_array.F90
+!||--- calls      -----------------------------------------------------
+!||    arret                         ../engine/source/system/arret.F
+!||====================================================================
         subroutine check_error_and_write(stat,msg)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                     Arguments
@@ -183,11 +183,11 @@
 
 
 !! \brief resize a 1D array of integer, copy the values 
-      !||====================================================================
-      !||    extend_array_integer_1d   ../common_source/tools/memory/extend_array.F90
-      !||--- calls      -----------------------------------------------------
-      !||    check_error_and_write     ../common_source/tools/memory/shrink_array.F90
-      !||====================================================================
+!||====================================================================
+!||    extend_array_integer_1d   ../common_source/tools/memory/extend_array.F90
+!||--- calls      -----------------------------------------------------
+!||    check_error_and_write     ../common_source/tools/memory/shrink_array.F90
+!||====================================================================
         subroutine extend_array_integer_1d(a, oldsize, newsize, msg, stat)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                     Arguments
@@ -226,11 +226,11 @@
           endif
         end subroutine extend_array_integer_1d
 
-      !||====================================================================
-      !||    extend_array_integer_2d   ../common_source/tools/memory/extend_array.F90
-      !||--- calls      -----------------------------------------------------
-      !||    check_error_and_write     ../common_source/tools/memory/shrink_array.F90
-      !||====================================================================
+!||====================================================================
+!||    extend_array_integer_2d   ../common_source/tools/memory/extend_array.F90
+!||--- calls      -----------------------------------------------------
+!||    check_error_and_write     ../common_source/tools/memory/shrink_array.F90
+!||====================================================================
         subroutine extend_array_integer_2d(a, oldsize1, oldsize2, newsize1, newsize2, msg, stat)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                     Arguments
@@ -306,11 +306,11 @@
         
         end subroutine extend_array_integer_2d
 
-      !||====================================================================
-      !||    extend_array_integer_3d   ../common_source/tools/memory/extend_array.F90
-      !||--- calls      -----------------------------------------------------
-      !||    check_error_and_write     ../common_source/tools/memory/shrink_array.F90
-      !||====================================================================
+!||====================================================================
+!||    extend_array_integer_3d   ../common_source/tools/memory/extend_array.F90
+!||--- calls      -----------------------------------------------------
+!||    check_error_and_write     ../common_source/tools/memory/shrink_array.F90
+!||====================================================================
         subroutine extend_array_integer_3d(a, oldsize1, oldsize2, oldsize3, newsize1, newsize2, newsize3, msg, stat)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                     Arguments
@@ -385,11 +385,11 @@
         if (present(stat)) stat = 0
       end subroutine extend_array_integer_3d
 
-      !||====================================================================
-      !||    extend_array_real_1d    ../common_source/tools/memory/extend_array.F90
-      !||--- calls      -----------------------------------------------------
-      !||    check_error_and_write   ../common_source/tools/memory/shrink_array.F90
-      !||====================================================================
+!||====================================================================
+!||    extend_array_real_1d    ../common_source/tools/memory/extend_array.F90
+!||--- calls      -----------------------------------------------------
+!||    check_error_and_write   ../common_source/tools/memory/shrink_array.F90
+!||====================================================================
         subroutine extend_array_real_1d(a, oldsize, newsize, msg, stat)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                     Arguments
@@ -428,11 +428,11 @@
           endif
         end subroutine extend_array_real_1d
 
-      !||====================================================================
-      !||    extend_array_real_2d    ../common_source/tools/memory/extend_array.F90
-      !||--- calls      -----------------------------------------------------
-      !||    check_error_and_write   ../common_source/tools/memory/shrink_array.F90
-      !||====================================================================
+!||====================================================================
+!||    extend_array_real_2d    ../common_source/tools/memory/extend_array.F90
+!||--- calls      -----------------------------------------------------
+!||    check_error_and_write   ../common_source/tools/memory/shrink_array.F90
+!||====================================================================
         subroutine extend_array_real_2d(a, oldsize1, oldsize2, newsize1, newsize2, msg, stat)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                     Arguments
@@ -508,11 +508,11 @@
         
         end subroutine extend_array_real_2d
 
-      !||====================================================================
-      !||    extend_array_real_3d    ../common_source/tools/memory/extend_array.F90
-      !||--- calls      -----------------------------------------------------
-      !||    check_error_and_write   ../common_source/tools/memory/shrink_array.F90
-      !||====================================================================
+!||====================================================================
+!||    extend_array_real_3d    ../common_source/tools/memory/extend_array.F90
+!||--- calls      -----------------------------------------------------
+!||    check_error_and_write   ../common_source/tools/memory/shrink_array.F90
+!||====================================================================
         subroutine extend_array_real_3d(a, oldsize1, oldsize2, oldsize3, newsize1, newsize2, newsize3, msg, stat)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                     Arguments
@@ -589,11 +589,11 @@
 
 
 
-      !||====================================================================
-      !||    extend_array_double_1d   ../common_source/tools/memory/extend_array.F90
-      !||--- calls      -----------------------------------------------------
-      !||    check_error_and_write    ../common_source/tools/memory/shrink_array.F90
-      !||====================================================================
+!||====================================================================
+!||    extend_array_double_1d   ../common_source/tools/memory/extend_array.F90
+!||--- calls      -----------------------------------------------------
+!||    check_error_and_write    ../common_source/tools/memory/shrink_array.F90
+!||====================================================================
         subroutine extend_array_double_1d(a, oldsize, newsize, msg, stat)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                     Arguments
@@ -632,11 +632,11 @@
           endif
         end subroutine extend_array_double_1d
 
-      !||====================================================================
-      !||    extend_array_double_2d   ../common_source/tools/memory/extend_array.F90
-      !||--- calls      -----------------------------------------------------
-      !||    check_error_and_write    ../common_source/tools/memory/shrink_array.F90
-      !||====================================================================
+!||====================================================================
+!||    extend_array_double_2d   ../common_source/tools/memory/extend_array.F90
+!||--- calls      -----------------------------------------------------
+!||    check_error_and_write    ../common_source/tools/memory/shrink_array.F90
+!||====================================================================
         subroutine extend_array_double_2d(a, oldsize1, oldsize2, newsize1, newsize2, msg, stat)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                     Arguments
@@ -712,11 +712,11 @@
         
         end subroutine extend_array_double_2d
 
-      !||====================================================================
-      !||    extend_array_double_3d   ../common_source/tools/memory/extend_array.F90
-      !||--- calls      -----------------------------------------------------
-      !||    check_error_and_write    ../common_source/tools/memory/shrink_array.F90
-      !||====================================================================
+!||====================================================================
+!||    extend_array_double_3d   ../common_source/tools/memory/extend_array.F90
+!||--- calls      -----------------------------------------------------
+!||    check_error_and_write    ../common_source/tools/memory/shrink_array.F90
+!||====================================================================
         subroutine extend_array_double_3d(a, oldsize1, oldsize2, oldsize3, newsize1, newsize2, newsize3, msg, stat)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                     Arguments
@@ -792,11 +792,11 @@
       end subroutine extend_array_double_3d
 
 
-      !||====================================================================
-      !||    reallocate_array_integer_1d   ../common_source/tools/memory/extend_array.F90
-      !||--- calls      -----------------------------------------------------
-      !||    check_error_and_write         ../common_source/tools/memory/shrink_array.F90
-      !||====================================================================
+!||====================================================================
+!||    reallocate_array_integer_1d   ../common_source/tools/memory/extend_array.F90
+!||--- calls      -----------------------------------------------------
+!||    check_error_and_write         ../common_source/tools/memory/shrink_array.F90
+!||====================================================================
         subroutine reallocate_array_integer_1d(a, newsize, msg, stat)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                     Arguments

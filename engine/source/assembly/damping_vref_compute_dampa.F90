@@ -20,14 +20,14 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    damping_vref_compute_dampa_mod   ../engine/source/assembly/damping_vref_compute_dampa.F90
-      !||--- called by ------------------------------------------------------
-      !||    damping51                        ../engine/source/assembly/damping.F
-      !||    damping_vref_rby                 ../engine/source/assembly/damping_vref_rby.F90
-      !||    dtnodarayl                       ../engine/source/time_step/dtnodarayl.F
-      !||    resol                            ../engine/source/engine/resol.F
-      !||====================================================================
+!||====================================================================
+!||    damping_vref_compute_dampa_mod   ../engine/source/assembly/damping_vref_compute_dampa.F90
+!||--- called by ------------------------------------------------------
+!||    damping51                        ../engine/source/assembly/damping.F
+!||    damping_vref_rby                 ../engine/source/assembly/damping_vref_rby.F90
+!||    dtnodarayl                       ../engine/source/time_step/dtnodarayl.F
+!||    resol                            ../engine/source/engine/resol.F
+!||====================================================================
       module damping_vref_compute_dampa_mod
       contains
 ! ======================================================================================================================
@@ -38,19 +38,19 @@
 !!\brief This subroutine computes damping paramters for /DAMP/VREL
 !=======================================================================================================================
 !
-      !||====================================================================
-      !||    damping_vref_compute_dampa   ../engine/source/assembly/damping_vref_compute_dampa.F90
-      !||--- called by ------------------------------------------------------
-      !||    damping51                    ../engine/source/assembly/damping.F
-      !||    damping_vref_rby             ../engine/source/assembly/damping_vref_rby.F90
-      !||    dtnodarayl                   ../engine/source/time_step/dtnodarayl.F
-      !||    resol                        ../engine/source/engine/resol.F
-      !||--- calls      -----------------------------------------------------
-      !||    get_u_func                   ../engine/source/user_interface/ufunc.F
-      !||--- uses       -----------------------------------------------------
-      !||    constant_mod                 ../common_source/modules/constant_mod.F
-      !||    precision_mod                ../common_source/modules/precision_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    damping_vref_compute_dampa   ../engine/source/assembly/damping_vref_compute_dampa.F90
+!||--- called by ------------------------------------------------------
+!||    damping51                    ../engine/source/assembly/damping.F
+!||    damping_vref_rby             ../engine/source/assembly/damping_vref_rby.F90
+!||    dtnodarayl                   ../engine/source/time_step/dtnodarayl.F
+!||    resol                        ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
+!||    get_u_func                   ../engine/source/user_interface/ufunc.F
+!||--- uses       -----------------------------------------------------
+!||    constant_mod                 ../common_source/modules/constant_mod.F
+!||    precision_mod                ../common_source/modules/precision_mod.F90
+!||====================================================================
         subroutine damping_vref_compute_dampa(id,ndamp,nrdamp,dampr,dt1,tt,damp_a)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules

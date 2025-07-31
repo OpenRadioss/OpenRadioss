@@ -20,18 +20,18 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    sensor_dist_surf0   ../engine/source/tools/sensor/sensor_dist_surf0.F
-      !||--- called by ------------------------------------------------------
-      !||    resol               ../engine/source/engine/resol.F
-      !||--- calls      -----------------------------------------------------
-      !||    dist_node_seg3n     ../engine/source/tools/sensor/dist_node_seg3n.F
-      !||    dist_node_seg4n     ../engine/source/tools/sensor/dist_node_seg4n.F
-      !||--- uses       -----------------------------------------------------
-      !||    groupdef_mod        ../common_source/modules/groupdef_mod.F
-      !||    sensor_mod          ../common_source/modules/sensor_mod.F90
-      !||    spmd_mod            ../engine/source/mpi/spmd_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    sensor_dist_surf0   ../engine/source/tools/sensor/sensor_dist_surf0.F
+!||--- called by ------------------------------------------------------
+!||    resol               ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
+!||    dist_node_seg3n     ../engine/source/tools/sensor/dist_node_seg3n.F
+!||    dist_node_seg4n     ../engine/source/tools/sensor/dist_node_seg4n.F
+!||--- uses       -----------------------------------------------------
+!||    groupdef_mod        ../common_source/modules/groupdef_mod.F
+!||    sensor_mod          ../common_source/modules/sensor_mod.F90
+!||    spmd_mod            ../engine/source/mpi/spmd_mod.F90
+!||====================================================================
       SUBROUTINE SENSOR_DIST_SURF0(NSENSOR,SENSOR_TAB,X,IGRSURF,COMM_SENS16)
 !$COMMENT
 !       SENSOR_DIST_SURF0 description

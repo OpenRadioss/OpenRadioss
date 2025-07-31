@@ -21,15 +21,15 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
-      !||====================================================================
-      !||    spmd_frwall_nn        ../engine/source/mpi/kinematic_conditions/spmd_frwall_nn.F
-      !||--- called by ------------------------------------------------------
-      !||    sms_build_diag        ../engine/source/ams/sms_build_diag.F
-      !||    sms_ini_kin_1         ../engine/source/ams/sms_init.F
-      !||--- calls      -----------------------------------------------------
-      !||--- uses       -----------------------------------------------------
-      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
-      !||====================================================================
+!||====================================================================
+!||    spmd_frwall_nn        ../engine/source/mpi/kinematic_conditions/spmd_frwall_nn.F
+!||--- called by ------------------------------------------------------
+!||    sms_build_diag        ../engine/source/ams/sms_build_diag.F
+!||    sms_ini_kin_1         ../engine/source/ams/sms_init.F
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
+!||====================================================================
       SUBROUTINE SPMD_FRWALL_NN(FR_WALL,IWADD)
 C 
 C-----------------------------------------------

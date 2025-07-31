@@ -20,17 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    laser2         ../engine/source/loads/laser/laser2.F
-      !||--- called by ------------------------------------------------------
-      !||    laser1         ../engine/source/loads/laser/laser1.F
-      !||--- calls      -----------------------------------------------------
-      !||    initbuf        ../engine/share/resol/initbuf.F
-      !||    interp         ../engine/source/tools/curve/interp.F
-      !||--- uses       -----------------------------------------------------
-      !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||    initbuf_mod    ../engine/share/resol/initbuf.F
-      !||====================================================================
+!||====================================================================
+!||    laser2         ../engine/source/loads/laser/laser2.F
+!||--- called by ------------------------------------------------------
+!||    laser1         ../engine/source/loads/laser/laser1.F
+!||--- calls      -----------------------------------------------------
+!||    initbuf        ../engine/share/resol/initbuf.F
+!||    interp         ../engine/source/tools/curve/interp.F
+!||--- uses       -----------------------------------------------------
+!||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    initbuf_mod    ../engine/share/resol/initbuf.F
+!||====================================================================
       SUBROUTINE LASER2(NL ,N1   ,N2   ,IFUNC    ,IAFUNC ,
      .                 LAS ,XLAS ,X    ,ELBUF_TAB,PM     ,
      .                 WA  ,IPARG,IXQ  ,TF       ,NPF    ,
@@ -255,17 +255,17 @@ C-------------------------
       RETURN
       END
 C
-      !||====================================================================
-      !||    laser3         ../engine/source/loads/laser/laser2.F
-      !||--- called by ------------------------------------------------------
-      !||    laser1         ../engine/source/loads/laser/laser1.F
-      !||--- calls      -----------------------------------------------------
-      !||    initbuf        ../engine/share/resol/initbuf.F
-      !||    interp         ../engine/source/tools/curve/interp.F
-      !||--- uses       -----------------------------------------------------
-      !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||    initbuf_mod    ../engine/share/resol/initbuf.F
-      !||====================================================================
+!||====================================================================
+!||    laser3         ../engine/source/loads/laser/laser2.F
+!||--- called by ------------------------------------------------------
+!||    laser1         ../engine/source/loads/laser/laser1.F
+!||--- calls      -----------------------------------------------------
+!||    initbuf        ../engine/share/resol/initbuf.F
+!||    interp         ../engine/source/tools/curve/interp.F
+!||--- uses       -----------------------------------------------------
+!||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    initbuf_mod    ../engine/share/resol/initbuf.F
+!||====================================================================
       SUBROUTINE LASER3(NL ,IFUNC ,
      .                 LAS ,XLAS ,X    ,ELBUF_TAB ,PM     ,
      .                 IPARG,IXQ  ,TF    ,NPF   ,WFEXT )

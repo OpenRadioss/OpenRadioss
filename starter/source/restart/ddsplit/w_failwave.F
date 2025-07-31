@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    w_failwave     ../starter/source/restart/ddsplit/w_failwave.F
-      !||--- called by ------------------------------------------------------
-      !||    ddsplit        ../starter/source/restart/ddsplit/ddsplit.F
-      !||--- calls      -----------------------------------------------------
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    w_failwave     ../starter/source/restart/ddsplit/w_failwave.F
+!||--- called by ------------------------------------------------------
+!||    ddsplit        ../starter/source/restart/ddsplit/ddsplit.F
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||====================================================================
       SUBROUTINE W_FAILWAVE(FAILWAVE,NODGLOB,NUMNOD,NUMNOD_L,LEN_AM,ITAB)
 C-----------------------------------------------
 C   M o d u l e s

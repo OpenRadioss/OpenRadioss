@@ -21,17 +21,17 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
-      !||====================================================================
-      !||    s4mass3             ../starter/source/elements/solid/solide4/s4mass3.F
-      !||--- called by ------------------------------------------------------
-      !||    inirig_mat          ../starter/source/elements/initia/inirig_mat.F
-      !||    inivoid             ../starter/source/elements/initia/inivoid.F
-      !||    multifluid_init3t   ../starter/source/multifluid/multifluid_init3t.F
-      !||    s4init3             ../starter/source/elements/solid/solide4/s4init3.F
-      !||--- calls      -----------------------------------------------------
-      !||    s4fraca             ../starter/source/elements/solid/solide4/s4mass3.F
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    s4mass3             ../starter/source/elements/solid/solide4/s4mass3.F
+!||--- called by ------------------------------------------------------
+!||    inirig_mat          ../starter/source/elements/initia/inirig_mat.F
+!||    inivoid             ../starter/source/elements/initia/inivoid.F
+!||    multifluid_init3t   ../starter/source/multifluid/multifluid_init3t.F
+!||    s4init3             ../starter/source/elements/solid/solide4/s4init3.F
+!||--- calls      -----------------------------------------------------
+!||    s4fraca             ../starter/source/elements/solid/solide4/s4mass3.F
+!||--- uses       -----------------------------------------------------
+!||====================================================================
       SUBROUTINE S4MASS3(
      1   RHO  ,MS ,PARTSAV,X   ,V,
      2   IPART,MSS,MSNF   ,MSSF,WMA,
@@ -220,11 +220,11 @@ C
 C-----------
       RETURN
       END
-      !||====================================================================
-      !||    s4frac     ../starter/source/elements/solid/solide4/s4mass3.F
-      !||--- calls      -----------------------------------------------------
-      !||    dis_n1n2   ../starter/source/elements/solid/solide4/s4mass3.F
-      !||====================================================================
+!||====================================================================
+!||    s4frac     ../starter/source/elements/solid/solide4/s4mass3.F
+!||--- calls      -----------------------------------------------------
+!||    dis_n1n2   ../starter/source/elements/solid/solide4/s4mass3.F
+!||====================================================================
       SUBROUTINE S4FRAC(X,IX1 ,IX2,IX3 ,IX4 ,PTG   )
 C----------------------------------------------
 C     MASS PARTITION IN FUNCTION OF NODAL ANGLES
@@ -299,11 +299,11 @@ C
 C-----------
       RETURN
       END
-      !||====================================================================
-      !||    dis_n1n2   ../starter/source/elements/solid/solide4/s4mass3.F
-      !||--- called by ------------------------------------------------------
-      !||    s4frac     ../starter/source/elements/solid/solide4/s4mass3.F
-      !||====================================================================
+!||====================================================================
+!||    dis_n1n2   ../starter/source/elements/solid/solide4/s4mass3.F
+!||--- called by ------------------------------------------------------
+!||    s4frac     ../starter/source/elements/solid/solide4/s4mass3.F
+!||====================================================================
       SUBROUTINE DIS_N1N2(X,N1 ,N2 ,S ,S2   )
 C----------------------------------------------
 C     S=L(N1,N2)
@@ -338,13 +338,13 @@ C=======================================================================
 C-----------
       RETURN
       END
-      !||====================================================================
-      !||    s4fraca     ../starter/source/elements/solid/solide4/s4mass3.F
-      !||--- called by ------------------------------------------------------
-      !||    s4mass3     ../starter/source/elements/solid/solide4/s4mass3.F
-      !||--- calls      -----------------------------------------------------
-      !||    area_tria   ../starter/source/elements/solid/solide4/s4mass3.F
-      !||====================================================================
+!||====================================================================
+!||    s4fraca     ../starter/source/elements/solid/solide4/s4mass3.F
+!||--- called by ------------------------------------------------------
+!||    s4mass3     ../starter/source/elements/solid/solide4/s4mass3.F
+!||--- calls      -----------------------------------------------------
+!||    area_tria   ../starter/source/elements/solid/solide4/s4mass3.F
+!||====================================================================
       SUBROUTINE S4FRACA(X,IX1 ,IX2,IX3 ,IX4 ,PTG ,IMAS_DS  )
 C----------------------------------------------
 C     MASS PARTITION IN FUNCTION OF NODAL ANGLES by AREA
@@ -400,12 +400,12 @@ C
 C-----------
       RETURN
       END
-      !||====================================================================
-      !||    area_tria   ../starter/source/elements/solid/solide4/s4mass3.F
-      !||--- called by ------------------------------------------------------
-      !||    s4fraca     ../starter/source/elements/solid/solide4/s4mass3.F
-      !||    s4fraca10   ../starter/source/elements/solid/solide10/s10mass3.F
-      !||====================================================================
+!||====================================================================
+!||    area_tria   ../starter/source/elements/solid/solide4/s4mass3.F
+!||--- called by ------------------------------------------------------
+!||    s4fraca     ../starter/source/elements/solid/solide4/s4mass3.F
+!||    s4fraca10   ../starter/source/elements/solid/solide10/s10mass3.F
+!||====================================================================
       SUBROUTINE AREA_TRIA(X,N1 ,N2 ,N3, A2 )
 C----------------------------------------------
 C-----------------------------------------------

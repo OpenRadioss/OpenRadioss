@@ -20,32 +20,32 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    hm_read_thgrne           ../starter/source/output/th/hm_read_thgrne.F
-      !||--- called by ------------------------------------------------------
-      !||    hm_read_thgrou           ../starter/source/output/th/hm_read_thgrou.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg                   ../starter/source/output/message/message.F
-      !||    fretitl                  ../starter/source/starter/freform.F
-      !||    fretitl2                 ../starter/source/starter/freform.F
-      !||    hm_get_int_array_index   ../starter/source/devtools/hm_reader/hm_get_int_array_index.F
-      !||    hm_get_intv              ../starter/source/devtools/hm_reader/hm_get_intv.F
-      !||    hm_get_string_index      ../starter/source/devtools/hm_reader/hm_get_string_index.F
-      !||    hm_thvarc                ../starter/source/output/th/hm_read_thvarc.F
-      !||    hord3                    ../starter/source/output/th/hord3.F
-      !||    nintrn                   ../starter/source/system/nintrn.F
-      !||    r2r_nin                  ../starter/source/coupling/rad2rad/routines_r2r.F
-      !||    r2r_sys                  ../starter/source/coupling/rad2rad/routines_r2r.F
-      !||    set_usrtos               ../starter/source/model/sets/ipartm1.F
-      !||    udouble                  ../starter/source/system/sysfus.F
-      !||    ulist2s                  ../starter/source/system/sysfus.F
-      !||    usr2sys                  ../starter/source/system/sysfus.F
-      !||    zeroin                   ../starter/source/system/zeroin.F
-      !||--- uses       -----------------------------------------------------
-      !||    hm_option_read_mod       ../starter/share/modules1/hm_option_read_mod.F
-      !||    message_mod              ../starter/share/message_module/message_mod.F
-      !||    submodel_mod             ../starter/share/modules1/submodel_mod.F
-      !||====================================================================
+!||====================================================================
+!||    hm_read_thgrne           ../starter/source/output/th/hm_read_thgrne.F
+!||--- called by ------------------------------------------------------
+!||    hm_read_thgrou           ../starter/source/output/th/hm_read_thgrou.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                   ../starter/source/output/message/message.F
+!||    fretitl                  ../starter/source/starter/freform.F
+!||    fretitl2                 ../starter/source/starter/freform.F
+!||    hm_get_int_array_index   ../starter/source/devtools/hm_reader/hm_get_int_array_index.F
+!||    hm_get_intv              ../starter/source/devtools/hm_reader/hm_get_intv.F
+!||    hm_get_string_index      ../starter/source/devtools/hm_reader/hm_get_string_index.F
+!||    hm_thvarc                ../starter/source/output/th/hm_read_thvarc.F
+!||    hord3                    ../starter/source/output/th/hord3.F
+!||    nintrn                   ../starter/source/system/nintrn.F
+!||    r2r_nin                  ../starter/source/coupling/rad2rad/routines_r2r.F
+!||    r2r_sys                  ../starter/source/coupling/rad2rad/routines_r2r.F
+!||    set_usrtos               ../starter/source/model/sets/ipartm1.F
+!||    udouble                  ../starter/source/system/sysfus.F
+!||    ulist2s                  ../starter/source/system/sysfus.F
+!||    usr2sys                  ../starter/source/system/sysfus.F
+!||    zeroin                   ../starter/source/system/zeroin.F
+!||--- uses       -----------------------------------------------------
+!||    hm_option_read_mod       ../starter/share/modules1/hm_option_read_mod.F
+!||    message_mod              ../starter/share/message_module/message_mod.F
+!||    submodel_mod             ../starter/share/modules1/submodel_mod.F
+!||====================================================================
       SUBROUTINE HM_READ_THGRNE(
      1      ITYP   ,KEY    ,ITAB  ,ITABM1   ,IX     ,
      3      NIX    ,IAD    ,IFI   ,ITHGRP   ,ITHBUF ,

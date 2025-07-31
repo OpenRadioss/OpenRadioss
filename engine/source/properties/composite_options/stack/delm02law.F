@@ -21,13 +21,13 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C power   delamination model ------
-      !||====================================================================
-      !||    delm02law        ../engine/source/properties/composite_options/stack/delm02law.F
-      !||--- called by ------------------------------------------------------
-      !||    delamination     ../engine/source/properties/composite_options/stack/delamination.F
-      !||--- uses       -----------------------------------------------------
-      !||    fail_param_mod   ../common_source/modules/mat_elem/fail_param_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    delm02law        ../engine/source/properties/composite_options/stack/delm02law.F
+!||--- called by ------------------------------------------------------
+!||    delamination     ../engine/source/properties/composite_options/stack/delamination.F
+!||--- uses       -----------------------------------------------------
+!||    fail_param_mod   ../common_source/modules/mat_elem/fail_param_mod.F90
+!||====================================================================
       SUBROUTINE DELM02LAW(FAIL    ,
      1     NEL    ,NUVAR  ,TIME   ,TIMESTEP ,
      2     NGL    ,IPLY    ,

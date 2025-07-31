@@ -20,12 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    s8erefcoor3   ../starter/source/elements/solid/solide8z/s8erefcoor3.F
-      !||--- called by ------------------------------------------------------
-      !||    s8zinit3      ../starter/source/elements/solid/solide8z/s8zinit3.F
-      !||    sinit3        ../starter/source/elements/solid/solide/sinit3.F
-      !||====================================================================
+!||====================================================================
+!||    s8erefcoor3   ../starter/source/elements/solid/solide8z/s8erefcoor3.F
+!||--- called by ------------------------------------------------------
+!||    s8zinit3      ../starter/source/elements/solid/solide8z/s8zinit3.F
+!||    sinit3        ../starter/source/elements/solid/solide/sinit3.F
+!||====================================================================
       SUBROUTINE S8EREFCOOR3(SAV,NPE,NEL,
      .     XD1  ,XD2  ,XD3  ,XD4  ,XD5  ,XD6  ,XD7  ,XD8   ,
      .     YD1  ,YD2  ,YD3  ,YD4  ,YD5  ,YD6  ,YD7  ,YD8   ,

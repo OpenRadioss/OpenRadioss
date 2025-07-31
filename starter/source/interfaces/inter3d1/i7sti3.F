@@ -21,23 +21,23 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
-      !||====================================================================
-      !||    i7sti3                  ../starter/source/interfaces/inter3d1/i7sti3.F
-      !||--- called by ------------------------------------------------------
-      !||    inint3                  ../starter/source/interfaces/inter3d1/inint3.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg                  ../starter/source/output/message/message.F
-      !||    friction_parts_search   ../starter/source/interfaces/inter3d1/i7sti3.F
-      !||    i4gmx3                  ../starter/source/interfaces/inter3d1/i4gmx3.F
-      !||    incoq3                  ../starter/source/interfaces/inter3d1/incoq3.F
-      !||    ineltc                  ../starter/source/interfaces/inter3d1/inelt.F
-      !||    ineltigeo               ../starter/source/interfaces/inter3d1/inelt.F
-      !||    inelts                  ../starter/source/interfaces/inter3d1/inelt.F
-      !||    insol3d                 ../starter/source/interfaces/inter3d1/insol3.F
-      !||    volint                  ../starter/source/interfaces/inter3d1/volint.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod             ../starter/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    i7sti3                  ../starter/source/interfaces/inter3d1/i7sti3.F
+!||--- called by ------------------------------------------------------
+!||    inint3                  ../starter/source/interfaces/inter3d1/inint3.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                  ../starter/source/output/message/message.F
+!||    friction_parts_search   ../starter/source/interfaces/inter3d1/i7sti3.F
+!||    i4gmx3                  ../starter/source/interfaces/inter3d1/i4gmx3.F
+!||    incoq3                  ../starter/source/interfaces/inter3d1/incoq3.F
+!||    ineltc                  ../starter/source/interfaces/inter3d1/inelt.F
+!||    ineltigeo               ../starter/source/interfaces/inter3d1/inelt.F
+!||    inelts                  ../starter/source/interfaces/inter3d1/inelt.F
+!||    insol3d                 ../starter/source/interfaces/inter3d1/insol3.F
+!||    volint                  ../starter/source/interfaces/inter3d1/volint.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod             ../starter/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE I7STI3(
      1              X          ,IRECT   ,STF          ,IXS      ,PM       ,
      2              GEO        ,NRT     ,IXC          ,NINT     ,STFAC    ,
@@ -1249,19 +1249,19 @@ C
      .                                                    1PG20.13)
       END
 
-      !||====================================================================
-      !||    friction_parts_search           ../starter/source/interfaces/inter3d1/i7sti3.F
-      !||--- called by ------------------------------------------------------
-      !||    hm_read_friction_orientations   ../starter/source/interfaces/friction/reader/hm_read_friction_orientations.F
-      !||    i11sti3                         ../starter/source/interfaces/inter3d1/i11sti3.F
-      !||    i21els3                         ../starter/source/interfaces/inter3d1/i21els3.F
-      !||    i24gapm                         ../starter/source/interfaces/inter3d1/i24sti3.F
-      !||    i24sti3                         ../starter/source/interfaces/inter3d1/i24sti3.F
-      !||    i25gapm                         ../starter/source/interfaces/inter3d1/i25sti3.F
-      !||    i25sti3                         ../starter/source/interfaces/inter3d1/i25sti3.F
-      !||    i7sti3                          ../starter/source/interfaces/inter3d1/i7sti3.F
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    friction_parts_search           ../starter/source/interfaces/inter3d1/i7sti3.F
+!||--- called by ------------------------------------------------------
+!||    hm_read_friction_orientations   ../starter/source/interfaces/friction/reader/hm_read_friction_orientations.F
+!||    i11sti3                         ../starter/source/interfaces/inter3d1/i11sti3.F
+!||    i21els3                         ../starter/source/interfaces/inter3d1/i21els3.F
+!||    i24gapm                         ../starter/source/interfaces/inter3d1/i24sti3.F
+!||    i24sti3                         ../starter/source/interfaces/inter3d1/i24sti3.F
+!||    i25gapm                         ../starter/source/interfaces/inter3d1/i25sti3.F
+!||    i25sti3                         ../starter/source/interfaces/inter3d1/i25sti3.F
+!||    i7sti3                          ../starter/source/interfaces/inter3d1/i7sti3.F
+!||--- uses       -----------------------------------------------------
+!||====================================================================
       SUBROUTINE FRICTION_PARTS_SEARCH(
      .            IP     ,NPARTSFRIC  ,PARTSFRIC  ,IPL )
                           

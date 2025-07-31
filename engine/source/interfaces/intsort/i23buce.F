@@ -20,18 +20,18 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    i23buce       ../engine/source/interfaces/intsort/i23buce.F
-      !||--- called by ------------------------------------------------------
-      !||    i23main_tri   ../engine/source/interfaces/intsort/i23main_tri.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg        ../engine/source/output/message/message.F
-      !||    arret         ../engine/source/system/arret.F
-      !||    i23trivox     ../engine/source/interfaces/intsort/i23trivox.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod   ../engine/share/message_module/message_mod.F
-      !||    tri7box       ../engine/share/modules/tri7box.F
-      !||====================================================================
+!||====================================================================
+!||    i23buce       ../engine/source/interfaces/intsort/i23buce.F
+!||--- called by ------------------------------------------------------
+!||    i23main_tri   ../engine/source/interfaces/intsort/i23main_tri.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg        ../engine/source/output/message/message.F
+!||    arret         ../engine/source/system/arret.F
+!||    i23trivox     ../engine/source/interfaces/intsort/i23trivox.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod   ../engine/share/message_module/message_mod.F
+!||    tri7box       ../engine/share/modules/tri7box.F
+!||====================================================================
        SUBROUTINE I23BUCE(
      1   X        ,IRECT   ,NSV      ,INACTI  ,
      2   NRTM     ,NSN     ,CAND_E   ,CAND_N  ,GAP      ,

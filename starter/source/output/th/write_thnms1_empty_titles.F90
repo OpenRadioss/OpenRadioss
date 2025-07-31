@@ -20,11 +20,11 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    write_thnms1_empty_titles_mod   ../starter/source/output/th/write_thnms1_empty_titles.F90
-      !||--- called by ------------------------------------------------------
-      !||    write_thnms1                    ../starter/source/output/th/write_thnms1.F90
-      !||====================================================================
+!||====================================================================
+!||    write_thnms1_empty_titles_mod   ../starter/source/output/th/write_thnms1_empty_titles.F90
+!||--- called by ------------------------------------------------------
+!||    write_thnms1                    ../starter/source/output/th/write_thnms1.F90
+!||====================================================================
       module write_thnms1_empty_titles_mod
         implicit none
       contains
@@ -32,11 +32,11 @@
 !                                                   PROCEDURES
 ! ======================================================================================================================
 !! \write in th.nms1 empty vars
-      !||====================================================================
-      !||    write_thnms1_empty_titles   ../starter/source/output/th/write_thnms1_empty_titles.F90
-      !||--- called by ------------------------------------------------------
-      !||    write_thnms1                ../starter/source/output/th/write_thnms1.F90
-      !||====================================================================
+!||====================================================================
+!||    write_thnms1_empty_titles   ../starter/source/output/th/write_thnms1_empty_titles.F90
+!||--- called by ------------------------------------------------------
+!||    write_thnms1                ../starter/source/output/th/write_thnms1.F90
+!||====================================================================
         subroutine write_thnms1_empty_titles(io,       init_id          ,end_id)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules

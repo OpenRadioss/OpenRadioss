@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    spmd_exch_rbe2_pon    ../engine/source/mpi/kinematic_conditions/spmd_exch_rbe2_pon.F
-      !||--- called by ------------------------------------------------------
-      !||    rbe2t1                ../engine/source/constraints/general/rbe2/rbe2f.F
-      !||--- calls      -----------------------------------------------------
-      !||--- uses       -----------------------------------------------------
-      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
-      !||====================================================================
+!||====================================================================
+!||    spmd_exch_rbe2_pon    ../engine/source/mpi/kinematic_conditions/spmd_exch_rbe2_pon.F
+!||--- called by ------------------------------------------------------
+!||    rbe2t1                ../engine/source/constraints/general/rbe2/rbe2f.F
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
+!||====================================================================
       SUBROUTINE SPMD_EXCH_RBE2_PON(
      1   A     ,AR     ,STIFN   ,STIFR  ,IAD_M   ,
      2   FR_M  ,LCOMM  ,ISIZE)

@@ -20,12 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    m14ama   ../engine/source/materials/mat/mat014/m14ama.F
-      !||--- called by ------------------------------------------------------
-      !||    m12law   ../engine/source/materials/mat/mat012/m12law.F
-      !||    m14law   ../engine/source/materials/mat/mat014/m14law.F
-      !||====================================================================
+!||====================================================================
+!||    m14ama   ../engine/source/materials/mat/mat014/m14ama.F
+!||--- called by ------------------------------------------------------
+!||    m12law   ../engine/source/materials/mat/mat012/m12law.F
+!||    m14law   ../engine/source/materials/mat/mat014/m14law.F
+!||====================================================================
       SUBROUTINE M14AMA(
      1   PM,      A,       RX,      RY,
      2   RZ,      SX,      SY,      SZ,

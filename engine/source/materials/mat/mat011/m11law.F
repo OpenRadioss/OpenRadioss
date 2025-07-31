@@ -20,19 +20,19 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    m11law                 ../engine/source/materials/mat/mat011/m11law.F
-      !||--- called by ------------------------------------------------------
-      !||    mmain                  ../engine/source/materials/mat_share/mmain.F90
-      !||--- calls      -----------------------------------------------------
-      !||    finter                 ../engine/source/tools/curve/finter.F
-      !||    m11vs2                 ../engine/source/materials/mat/mat011/m11vs2.F
-      !||    m11vs3                 ../engine/source/materials/mat/mat011/m11vs3.F
-      !||--- uses       -----------------------------------------------------
-      !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
-      !||    alefvm_mod             ../common_source/modules/ale/alefvm_mod.F
-      !||    elbufdef_mod           ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    m11law                 ../engine/source/materials/mat/mat011/m11law.F
+!||--- called by ------------------------------------------------------
+!||    mmain                  ../engine/source/materials/mat_share/mmain.F90
+!||--- calls      -----------------------------------------------------
+!||    finter                 ../engine/source/tools/curve/finter.F
+!||    m11vs2                 ../engine/source/materials/mat/mat011/m11vs2.F
+!||    m11vs3                 ../engine/source/materials/mat/mat011/m11vs3.F
+!||--- uses       -----------------------------------------------------
+!||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
+!||    alefvm_mod             ../common_source/modules/ale/alefvm_mod.F
+!||    elbufdef_mod           ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||====================================================================
       SUBROUTINE M11LAW(PM   ,OFF ,SIG   ,EINT     ,RHO    ,
      2                  T    ,RK  ,RE    ,VO       ,
      3                  ALE_CONNECT,IX  ,IPARG ,ELBUF_TAB,V      ,

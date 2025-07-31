@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    in12r      ../engine/source/interfaces/interf/in12r.F
-      !||--- called by ------------------------------------------------------
-      !||    int12w     ../engine/source/ale/inter/int12w.F
-      !||    intti12f   ../engine/source/interfaces/interf/intti12.F
-      !||    intti12v   ../engine/source/interfaces/interf/intti12.F
-      !||====================================================================
+!||====================================================================
+!||    in12r      ../engine/source/interfaces/interf/in12r.F
+!||--- called by ------------------------------------------------------
+!||    int12w     ../engine/source/ale/inter/int12w.F
+!||    intti12f   ../engine/source/interfaces/interf/intti12.F
+!||    intti12v   ../engine/source/interfaces/interf/intti12.F
+!||====================================================================
       SUBROUTINE IN12R(A,FRIGAP,NSV,NSN,FLAG,TAGKINE )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

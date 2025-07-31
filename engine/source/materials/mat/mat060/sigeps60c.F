@@ -20,15 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    sigeps60c     ../engine/source/materials/mat/mat060/sigeps60c.F
-      !||--- called by ------------------------------------------------------
-      !||    mulawc        ../engine/source/materials/mat_share/mulawc.F90
-      !||--- calls      -----------------------------------------------------
-      !||    finter        ../engine/source/tools/curve/finter.F
-      !||    inter_rat_v   ../engine/source/materials/mat/mat060/sigeps60c.F
-      !||    vinter        ../engine/source/tools/curve/vinter.F
-      !||====================================================================
+!||====================================================================
+!||    sigeps60c     ../engine/source/materials/mat/mat060/sigeps60c.F
+!||--- called by ------------------------------------------------------
+!||    mulawc        ../engine/source/materials/mat_share/mulawc.F90
+!||--- calls      -----------------------------------------------------
+!||    finter        ../engine/source/tools/curve/finter.F
+!||    inter_rat_v   ../engine/source/materials/mat/mat060/sigeps60c.F
+!||    vinter        ../engine/source/tools/curve/vinter.F
+!||====================================================================
       SUBROUTINE SIGEPS60C(
      1     NEL0    ,NUPARAM,NUVAR   ,MFUNC   ,KFUNC  ,
      2     NPF    ,NPT0    ,IPT     ,IFLAG   ,
@@ -776,12 +776,12 @@ C--------------------------------
 C
       RETURN
       END
-      !||====================================================================
-      !||    inter_rat   ../engine/source/materials/mat/mat060/sigeps60c.F
-      !||--- called by ------------------------------------------------------
-      !||    sigeps60    ../engine/source/materials/mat/mat060/sigeps60.F
-      !||    sigeps60g   ../engine/source/materials/mat/mat060/sigeps60g.F
-      !||====================================================================
+!||====================================================================
+!||    inter_rat   ../engine/source/materials/mat/mat060/sigeps60c.F
+!||--- called by ------------------------------------------------------
+!||    sigeps60    ../engine/source/materials/mat/mat060/sigeps60.F
+!||    sigeps60g   ../engine/source/materials/mat/mat060/sigeps60g.F
+!||====================================================================
       SUBROUTINE INTER_RAT(X0,X1,X2,X3,Y0,Y1,Y2,Y3,X,Y,YP,I,N)
 C
 C     INTERPOLATION (RATIONAL FUNCTION)
@@ -881,11 +881,11 @@ C
       END
 
 
-      !||====================================================================
-      !||    inter_rat_v   ../engine/source/materials/mat/mat060/sigeps60c.F
-      !||--- called by ------------------------------------------------------
-      !||    sigeps60c     ../engine/source/materials/mat/mat060/sigeps60c.F
-      !||====================================================================
+!||====================================================================
+!||    inter_rat_v   ../engine/source/materials/mat/mat060/sigeps60c.F
+!||--- called by ------------------------------------------------------
+!||    sigeps60c     ../engine/source/materials/mat/mat060/sigeps60c.F
+!||====================================================================
       SUBROUTINE INTER_RAT_V(NEL0,X0,X1,X2,X3,Y0,Y1,Y2,Y3,X,Y,YP,JJ,N)
 !
 !     INTERPOLATION (RATIONAL FUNCTION)

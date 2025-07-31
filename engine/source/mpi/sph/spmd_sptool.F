@@ -20,19 +20,19 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    spmd_inisph   ../engine/source/mpi/sph/spmd_sptool.F
-      !||--- called by ------------------------------------------------------
-      !||    rdresb        ../engine/source/output/restart/rdresb.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg        ../engine/source/output/message/message.F
-      !||    arret         ../engine/source/system/arret.F
-      !||    read_db       ../common_source/tools/input_output/read_db.F
-      !||    read_i_c      ../common_source/tools/input_output/write_routtines.c
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod   ../engine/share/message_module/message_mod.F
-      !||    sphbox        ../engine/share/modules/sphbox.F
-      !||====================================================================
+!||====================================================================
+!||    spmd_inisph   ../engine/source/mpi/sph/spmd_sptool.F
+!||--- called by ------------------------------------------------------
+!||    rdresb        ../engine/source/output/restart/rdresb.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg        ../engine/source/output/message/message.F
+!||    arret         ../engine/source/system/arret.F
+!||    read_db       ../common_source/tools/input_output/read_db.F
+!||    read_i_c      ../common_source/tools/input_output/write_routtines.c
+!||--- uses       -----------------------------------------------------
+!||    message_mod   ../engine/share/message_module/message_mod.F
+!||    sphbox        ../engine/share/modules/sphbox.F
+!||====================================================================
       SUBROUTINE SPMD_INISPH(IFLG)
 C-----------------------------------------------
 C   M o d u l e s
@@ -117,16 +117,16 @@ C
       RETURN
       END 
 C
-      !||====================================================================
-      !||    spmd_savesph   ../engine/source/mpi/sph/spmd_sptool.F
-      !||--- called by ------------------------------------------------------
-      !||    wrrestp        ../engine/source/output/restart/wrrestp.F
-      !||--- calls      -----------------------------------------------------
-      !||    write_db       ../common_source/tools/input_output/write_db.F
-      !||    write_i_c      ../common_source/tools/input_output/write_routtines.c
-      !||--- uses       -----------------------------------------------------
-      !||    sphbox         ../engine/share/modules/sphbox.F
-      !||====================================================================
+!||====================================================================
+!||    spmd_savesph   ../engine/source/mpi/sph/spmd_sptool.F
+!||--- called by ------------------------------------------------------
+!||    wrrestp        ../engine/source/output/restart/wrrestp.F
+!||--- calls      -----------------------------------------------------
+!||    write_db       ../common_source/tools/input_output/write_db.F
+!||    write_i_c      ../common_source/tools/input_output/write_routtines.c
+!||--- uses       -----------------------------------------------------
+!||    sphbox         ../engine/share/modules/sphbox.F
+!||====================================================================
       SUBROUTINE SPMD_SAVESPH(IFLG)
 C-----------------------------------------------
 C   M o d u l e s

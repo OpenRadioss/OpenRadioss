@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    m77init   ../starter/source/materials/mat/mat077/m77init.F
-      !||--- called by ------------------------------------------------------
-      !||    matini    ../starter/source/materials/mat_share/matini.F
-      !||--- calls      -----------------------------------------------------
-      !||    finter    ../starter/source/tools/curve/finter.F
-      !||====================================================================
+!||====================================================================
+!||    m77init   ../starter/source/materials/mat/mat077/m77init.F
+!||--- called by ------------------------------------------------------
+!||    matini    ../starter/source/materials/mat_share/matini.F
+!||--- calls      -----------------------------------------------------
+!||    finter    ../starter/source/tools/curve/finter.F
+!||====================================================================
       SUBROUTINE M77INIT(
      1      NEL    , NUPARAM, NUVAR   , NFUNC  , IFUNC  , NPF   ,
      2      TF     , UPARAM , RHO0    , VOLUME , EINT   ,UVAR   ) 

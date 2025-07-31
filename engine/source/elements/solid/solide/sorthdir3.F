@@ -20,18 +20,18 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    sorthdir3   ../engine/source/elements/solid/solide/sorthdir3.F
-      !||--- called by ------------------------------------------------------
-      !||    s10forc3    ../engine/source/elements/solid/solide10/s10forc3.F
-      !||    s10ke3      ../engine/source/elements/solid/solide10/s10ke3.F
-      !||    s20ke3      ../engine/source/elements/solid/solide20/s20ke3.F
-      !||    s4forc3     ../engine/source/elements/solid/solide4/s4forc3.F
-      !||    s4ke3       ../engine/source/elements/solid/solide4/s4ke3.F
-      !||    scoor3      ../engine/source/elements/solid/solide/scoor3.F
-      !||    srcoor3     ../engine/source/elements/solid/solide/srcoor3.F
-      !||    srcoork     ../engine/source/elements/solid/solide8z/srcoork.F
-      !||====================================================================
+!||====================================================================
+!||    sorthdir3   ../engine/source/elements/solid/solide/sorthdir3.F
+!||--- called by ------------------------------------------------------
+!||    s10forc3    ../engine/source/elements/solid/solide10/s10forc3.F
+!||    s10ke3      ../engine/source/elements/solid/solide10/s10ke3.F
+!||    s20ke3      ../engine/source/elements/solid/solide20/s20ke3.F
+!||    s4forc3     ../engine/source/elements/solid/solide4/s4forc3.F
+!||    s4ke3       ../engine/source/elements/solid/solide4/s4ke3.F
+!||    scoor3      ../engine/source/elements/solid/solide/scoor3.F
+!||    srcoor3     ../engine/source/elements/solid/solide/srcoor3.F
+!||    srcoork     ../engine/source/elements/solid/solide8z/srcoork.F
+!||====================================================================
       SUBROUTINE SORTHDIR3(
      1   RX,      RY,      RZ,      SX,
      2   SY,      SZ,      TX,      TY,

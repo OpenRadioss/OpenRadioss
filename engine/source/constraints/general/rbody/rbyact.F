@@ -21,19 +21,19 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 
-      !||====================================================================
-      !||    rbyact          ../engine/source/constraints/general/rbody/rbyact.F
-      !||--- called by ------------------------------------------------------
-      !||    rbypid          ../engine/source/constraints/general/rbody/rbypid.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg          ../engine/source/output/message/message.F
-      !||    arret           ../engine/source/system/arret.F
-      !||    inepri          ../engine/source/constraints/general/rbody/inepri.F
-      !||    spmd_exch_fr6   ../engine/source/mpi/kinematic_conditions/spmd_exch_fr6.F
-      !||    sum_6_float     ../engine/source/system/parit.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod     ../engine/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    rbyact          ../engine/source/constraints/general/rbody/rbyact.F
+!||--- called by ------------------------------------------------------
+!||    rbypid          ../engine/source/constraints/general/rbody/rbypid.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg          ../engine/source/output/message/message.F
+!||    arret           ../engine/source/system/arret.F
+!||    inepri          ../engine/source/constraints/general/rbody/inepri.F
+!||    spmd_exch_fr6   ../engine/source/mpi/kinematic_conditions/spmd_exch_fr6.F
+!||    sum_6_float     ../engine/source/system/parit.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod     ../engine/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE RBYACT(RBY,M,LSN ,NSL ,MS  ,
      .                  IN ,X,ITAB,SKEW,ISPH,
      .                  IWA,NPBYI,RBYI,LSNI ,

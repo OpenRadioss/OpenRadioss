@@ -20,21 +20,21 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    i10for3    ../engine/source/interfaces/int10/i10for3.F
-      !||--- called by ------------------------------------------------------
-      !||    i10mainf   ../engine/source/interfaces/int10/i10mainf.F
-      !||--- calls      -----------------------------------------------------
-      !||    i10sms2    ../engine/source/interfaces/int10/i10sms2.F
-      !||    i7ass0     ../engine/source/interfaces/int07/i7ass3.F
-      !||    i7ass05    ../engine/source/interfaces/int07/i7ass3.F
-      !||    i7ass2     ../engine/source/interfaces/int07/i7ass3.F
-      !||    i7ass25    ../engine/source/interfaces/int07/i7ass3.F
-      !||--- uses       -----------------------------------------------------
-      !||    anim_mod   ../common_source/modules/output/anim_mod.F
-      !||    h3d_mod    ../engine/share/modules/h3d_mod.F
-      !||    tri7box    ../engine/share/modules/tri7box.F
-      !||====================================================================
+!||====================================================================
+!||    i10for3    ../engine/source/interfaces/int10/i10for3.F
+!||--- called by ------------------------------------------------------
+!||    i10mainf   ../engine/source/interfaces/int10/i10mainf.F
+!||--- calls      -----------------------------------------------------
+!||    i10sms2    ../engine/source/interfaces/int10/i10sms2.F
+!||    i7ass0     ../engine/source/interfaces/int07/i7ass3.F
+!||    i7ass05    ../engine/source/interfaces/int07/i7ass3.F
+!||    i7ass2     ../engine/source/interfaces/int07/i7ass3.F
+!||    i7ass25    ../engine/source/interfaces/int07/i7ass3.F
+!||--- uses       -----------------------------------------------------
+!||    anim_mod   ../common_source/modules/output/anim_mod.F
+!||    h3d_mod    ../engine/share/modules/h3d_mod.F
+!||    tri7box    ../engine/share/modules/tri7box.F
+!||====================================================================
       SUBROUTINE I10FOR3(
      1    JLT    ,A      ,MS     ,V     ,FSAV  ,
      2    CAND_F ,STIFN  ,STIF   ,FSKYI ,ISKY  ,

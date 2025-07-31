@@ -23,12 +23,12 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 
 ! These subroutines are not called by radioss, but are used by the QA
 ! team.  Do not modify them. 
-      !||====================================================================
-      !||    get_env_variable_zombi   ../common_source/qa/kill_zombi.F
-      !||--- called by ------------------------------------------------------
-      !||    walking_dead_mode        ../common_source/qa/kill_zombi.F
-      !||--- calls      -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    get_env_variable_zombi   ../common_source/qa/kill_zombi.F
+!||--- called by ------------------------------------------------------
+!||    walking_dead_mode        ../common_source/qa/kill_zombi.F
+!||--- calls      -----------------------------------------------------
+!||====================================================================
         subroutine get_env_variable_zombi(zombi_activation)
 #include "implicit_f.inc"
         character(len=100) env
@@ -44,11 +44,11 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
         return
         end subroutine get_env_variable_zombi
         !   -----------------------------------
-      !||====================================================================
-      !||    get_process_pid_zombi   ../common_source/qa/kill_zombi.F
-      !||--- called by ------------------------------------------------------
-      !||    walking_dead_mode       ../common_source/qa/kill_zombi.F
-      !||====================================================================
+!||====================================================================
+!||    get_process_pid_zombi   ../common_source/qa/kill_zombi.F
+!||--- called by ------------------------------------------------------
+!||    walking_dead_mode       ../common_source/qa/kill_zombi.F
+!||====================================================================
         subroutine get_process_pid_zombi(current_process_pid)
 #include "implicit_f.inc"
         integer, intent(inout) :: current_process_pid
@@ -59,11 +59,11 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
         return
         end subroutine get_process_pid_zombi
         !   -----------------------------------
-      !||====================================================================
-      !||    write_process_pid_zombi   ../common_source/qa/kill_zombi.F
-      !||--- called by ------------------------------------------------------
-      !||    walking_dead_mode         ../common_source/qa/kill_zombi.F
-      !||====================================================================
+!||====================================================================
+!||    write_process_pid_zombi   ../common_source/qa/kill_zombi.F
+!||--- called by ------------------------------------------------------
+!||    walking_dead_mode         ../common_source/qa/kill_zombi.F
+!||====================================================================
         subroutine write_process_pid_zombi( current_process_pid,
      .              radflex_process_pid ,nspmd,list_process)
 #include "implicit_f.inc"
@@ -82,12 +82,12 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
         return
         end subroutine write_process_pid_zombi
         !   -----------------------------------
-      !||====================================================================
-      !||    init_list_process_pid   ../common_source/qa/kill_zombi.F
-      !||--- called by ------------------------------------------------------
-      !||    walking_dead_mode       ../common_source/qa/kill_zombi.F
-      !||--- calls      -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    init_list_process_pid   ../common_source/qa/kill_zombi.F
+!||--- called by ------------------------------------------------------
+!||    walking_dead_mode       ../common_source/qa/kill_zombi.F
+!||--- calls      -----------------------------------------------------
+!||====================================================================
         subroutine init_list_process_pid( radflex_process_pid,
      .               current_process_pid,nspmd,list_process )
 
@@ -116,14 +116,14 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
         return
         end subroutine init_list_process_pid
         !   -----------------------------------
-      !||====================================================================
-      !||    walking_dead_mode         ../common_source/qa/kill_zombi.F
-      !||--- calls      -----------------------------------------------------
-      !||    get_env_variable_zombi    ../common_source/qa/kill_zombi.F
-      !||    get_process_pid_zombi     ../common_source/qa/kill_zombi.F
-      !||    init_list_process_pid     ../common_source/qa/kill_zombi.F
-      !||    write_process_pid_zombi   ../common_source/qa/kill_zombi.F
-      !||====================================================================
+!||====================================================================
+!||    walking_dead_mode         ../common_source/qa/kill_zombi.F
+!||--- calls      -----------------------------------------------------
+!||    get_env_variable_zombi    ../common_source/qa/kill_zombi.F
+!||    get_process_pid_zombi     ../common_source/qa/kill_zombi.F
+!||    init_list_process_pid     ../common_source/qa/kill_zombi.F
+!||    write_process_pid_zombi   ../common_source/qa/kill_zombi.F
+!||====================================================================
         subroutine walking_dead_mode(radflex_process_pid,ispmd,nspmd)
 #include "implicit_f.inc"
 #ifdef MPI

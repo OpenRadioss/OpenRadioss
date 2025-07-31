@@ -20,21 +20,21 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    stop_sensor   ../engine/source/tools/sensor/stop_sensor.F
-      !||--- called by ------------------------------------------------------
-      !||    resol         ../engine/source/engine/resol.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg        ../engine/source/output/message/message.F
-      !||--- uses       -----------------------------------------------------
-      !||    anim_mod      ../common_source/modules/output/anim_mod.F
-      !||    h3d_mod       ../engine/share/modules/h3d_mod.F
-      !||    imp_dyna      ../engine/share/modules/impbufdef_mod.F
-      !||    message_mod   ../engine/share/message_module/message_mod.F
-      !||    output_mod    ../common_source/modules/output/output_mod.F90
-      !||    sensor_mod    ../common_source/modules/sensor_mod.F90
-      !||    state_mod     ../common_source/modules/state_mod.F
-      !||====================================================================
+!||====================================================================
+!||    stop_sensor   ../engine/source/tools/sensor/stop_sensor.F
+!||--- called by ------------------------------------------------------
+!||    resol         ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg        ../engine/source/output/message/message.F
+!||--- uses       -----------------------------------------------------
+!||    anim_mod      ../common_source/modules/output/anim_mod.F
+!||    h3d_mod       ../engine/share/modules/h3d_mod.F
+!||    imp_dyna      ../engine/share/modules/impbufdef_mod.F
+!||    message_mod   ../engine/share/message_module/message_mod.F
+!||    output_mod    ../common_source/modules/output/output_mod.F90
+!||    sensor_mod    ../common_source/modules/sensor_mod.F90
+!||    state_mod     ../common_source/modules/state_mod.F
+!||====================================================================
       SUBROUTINE STOP_SENSOR(SENSORS   ,H3D_DATA  ,DYNAIN_DATA,OUTPUT)
 C-----------------------------------------------
 C   M o d u l e s

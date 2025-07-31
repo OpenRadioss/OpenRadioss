@@ -20,17 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    spmd_wait_nb         ../engine/source/mpi/interfaces/spmd_wait_nb.F
-      !||--- called by ------------------------------------------------------
-      !||    inter_prepare_sort   ../engine/source/interfaces/generic/inter_prepare_sort.F
-      !||--- calls      -----------------------------------------------------
-      !||--- uses       -----------------------------------------------------
-      !||    intbufdef_mod        ../common_source/modules/interfaces/intbufdef_mod.F90
-      !||    inter_sorting_mod    ../engine/share/modules/inter_sorting_mod.F
-      !||    message_mod          ../engine/share/message_module/message_mod.F
-      !||    tri7box              ../engine/share/modules/tri7box.F
-      !||====================================================================
+!||====================================================================
+!||    spmd_wait_nb         ../engine/source/mpi/interfaces/spmd_wait_nb.F
+!||--- called by ------------------------------------------------------
+!||    inter_prepare_sort   ../engine/source/interfaces/generic/inter_prepare_sort.F
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||    intbufdef_mod        ../common_source/modules/interfaces/intbufdef_mod.F90
+!||    inter_sorting_mod    ../engine/share/modules/inter_sorting_mod.F
+!||    message_mod          ../engine/share/message_module/message_mod.F
+!||    tri7box              ../engine/share/modules/tri7box.F
+!||====================================================================
         SUBROUTINE SPMD_WAIT_NB(IRCVFROM,ISENDTO,NIN,SORT_COMM)
 !$COMMENT
 !       SPMD_WAIT_NB description :

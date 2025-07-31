@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    w_dampvrel     ../starter/source/restart/ddsplit/w_dampvrel.F
-      !||--- called by ------------------------------------------------------
-      !||    ddsplit        ../starter/source/restart/ddsplit/ddsplit.F
-      !||--- calls      -----------------------------------------------------
-      !||    nlocal         ../starter/source/spmd/node/ddtools.F
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    w_dampvrel     ../starter/source/restart/ddsplit/w_dampvrel.F
+!||--- called by ------------------------------------------------------
+!||    ddsplit        ../starter/source/restart/ddsplit/ddsplit.F
+!||--- calls      -----------------------------------------------------
+!||    nlocal         ../starter/source/spmd/node/ddtools.F
+!||--- uses       -----------------------------------------------------
+!||====================================================================
       SUBROUTINE W_DAMPVREL(DAMPR,IGRNOD,IDAMP_VREL_L,NDAMP_VREL_L,LEN_IA,
      .                      NGRNOD,NDAMP,NRDAMP,NSPMD)
 C-----------------------------------------------

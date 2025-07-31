@@ -43,14 +43,14 @@ C 12000 -> 12999 => spmd_lag.F
 C 13000 -> 13999 => spmd_dsreso.F
 
 C
-      !||====================================================================
-      !||    spmd_tri7vox0   ../engine/source/mpi/interfaces/spmd_int.F
-      !||--- called by ------------------------------------------------------
-      !||    i7main_tri      ../engine/source/interfaces/intsort/i7main_tri.F
-      !||--- uses       -----------------------------------------------------
-      !||    spmd_mod        ../engine/source/mpi/spmd_mod.F90
-      !||    tri7box         ../engine/share/modules/tri7box.F
-      !||====================================================================
+!||====================================================================
+!||    spmd_tri7vox0   ../engine/source/mpi/interfaces/spmd_int.F
+!||--- called by ------------------------------------------------------
+!||    i7main_tri      ../engine/source/interfaces/intsort/i7main_tri.F
+!||--- uses       -----------------------------------------------------
+!||    spmd_mod        ../engine/source/mpi/spmd_mod.F90
+!||    tri7box         ../engine/share/modules/tri7box.F
+!||====================================================================
       SUBROUTINE SPMD_TRI7VOX0(
      1   X      ,BMINMAL ,IGAP   ,NRTM  ,STF   ,
      2   TZINF  ,CURV_MAX,GAPMIN ,GAPMAX,GAP_M ,
@@ -193,20 +193,20 @@ C
 C
 C END TRI7VOX0
 C This routine cannot be used for type25 anymore
-      !||====================================================================
-      !||    spmd_tri7vox   ../engine/source/mpi/interfaces/spmd_int.F
-      !||--- called by ------------------------------------------------------
-      !||    i23main_tri    ../engine/source/interfaces/intsort/i23main_tri.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg         ../engine/source/output/message/message.F
-      !||    arret          ../engine/source/system/arret.F
-      !||    spmd_wait      ../engine/source/mpi/spmd_wait.F90
-      !||    spmd_waitany   ../engine/source/mpi/spmd_wait.F90
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod    ../engine/share/message_module/message_mod.F
-      !||    spmd_mod       ../engine/source/mpi/spmd_mod.F90
-      !||    tri7box        ../engine/share/modules/tri7box.F
-      !||====================================================================
+!||====================================================================
+!||    spmd_tri7vox   ../engine/source/mpi/interfaces/spmd_int.F
+!||--- called by ------------------------------------------------------
+!||    i23main_tri    ../engine/source/interfaces/intsort/i23main_tri.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg         ../engine/source/output/message/message.F
+!||    arret          ../engine/source/system/arret.F
+!||    spmd_wait      ../engine/source/mpi/spmd_wait.F90
+!||    spmd_waitany   ../engine/source/mpi/spmd_wait.F90
+!||--- uses       -----------------------------------------------------
+!||    message_mod    ../engine/share/message_module/message_mod.F
+!||    spmd_mod       ../engine/source/mpi/spmd_mod.F90
+!||    tri7box        ../engine/share/modules/tri7box.F
+!||====================================================================
       SUBROUTINE SPMD_TRI7VOX(
      1   NSV     ,NSN      ,X      ,V     ,MS     ,
      2   BMINMAL ,WEIGHT   ,STIFN  ,NIN   ,ISENDTO,
@@ -865,21 +865,21 @@ C
       END
 C
 c END TRI7VOX
-      !||====================================================================
-      !||    spmd_tri18_151vox   ../engine/source/mpi/interfaces/spmd_int.F
-      !||--- called by ------------------------------------------------------
-      !||    i7main_tri          ../engine/source/interfaces/intsort/i7main_tri.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg              ../engine/source/output/message/message.F
-      !||    arret               ../engine/source/system/arret.F
-      !||    spmd_wait           ../engine/source/mpi/spmd_wait.F90
-      !||    spmd_waitany        ../engine/source/mpi/spmd_wait.F90
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod         ../engine/share/message_module/message_mod.F
-      !||    multi_fvm_mod       ../common_source/modules/ale/multi_fvm_mod.F90
-      !||    spmd_mod            ../engine/source/mpi/spmd_mod.F90
-      !||    tri7box             ../engine/share/modules/tri7box.F
-      !||====================================================================
+!||====================================================================
+!||    spmd_tri18_151vox   ../engine/source/mpi/interfaces/spmd_int.F
+!||--- called by ------------------------------------------------------
+!||    i7main_tri          ../engine/source/interfaces/intsort/i7main_tri.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg              ../engine/source/output/message/message.F
+!||    arret               ../engine/source/system/arret.F
+!||    spmd_wait           ../engine/source/mpi/spmd_wait.F90
+!||    spmd_waitany        ../engine/source/mpi/spmd_wait.F90
+!||--- uses       -----------------------------------------------------
+!||    message_mod         ../engine/share/message_module/message_mod.F
+!||    multi_fvm_mod       ../common_source/modules/ale/multi_fvm_mod.F90
+!||    spmd_mod            ../engine/source/mpi/spmd_mod.F90
+!||    tri7box             ../engine/share/modules/tri7box.F
+!||====================================================================
       SUBROUTINE SPMD_TRI18_151VOX(
      1   NSV     ,NSN      ,X      ,V     ,MS     ,
      2   BMINMAL ,WEIGHT   ,STIFN  ,NIN   ,ISENDTO,
@@ -1364,20 +1364,20 @@ C
 #endif
       RETURN
       END
-      !||====================================================================
-      !||    spmd_tri24vox   ../engine/source/mpi/interfaces/spmd_int.F
-      !||--- called by ------------------------------------------------------
-      !||    i24main_tri     ../engine/source/interfaces/intsort/i24main_tri.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg          ../engine/source/output/message/message.F
-      !||    arret           ../engine/source/system/arret.F
-      !||    spmd_wait       ../engine/source/mpi/spmd_wait.F90
-      !||    spmd_waitany    ../engine/source/mpi/spmd_wait.F90
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod     ../engine/share/message_module/message_mod.F
-      !||    spmd_mod        ../engine/source/mpi/spmd_mod.F90
-      !||    tri7box         ../engine/share/modules/tri7box.F
-      !||====================================================================
+!||====================================================================
+!||    spmd_tri24vox   ../engine/source/mpi/interfaces/spmd_int.F
+!||--- called by ------------------------------------------------------
+!||    i24main_tri     ../engine/source/interfaces/intsort/i24main_tri.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg          ../engine/source/output/message/message.F
+!||    arret           ../engine/source/system/arret.F
+!||    spmd_wait       ../engine/source/mpi/spmd_wait.F90
+!||    spmd_waitany    ../engine/source/mpi/spmd_wait.F90
+!||--- uses       -----------------------------------------------------
+!||    message_mod     ../engine/share/message_module/message_mod.F
+!||    spmd_mod        ../engine/source/mpi/spmd_mod.F90
+!||    tri7box         ../engine/share/modules/tri7box.F
+!||====================================================================
       SUBROUTINE SPMD_TRI24VOX(
      1   NSV     ,NSN      ,X      ,V     ,MS     ,
      2   BMINMAL ,WEIGHT   ,STIFN  ,NIN   ,ISENDTO,
@@ -2204,19 +2204,19 @@ C
       END
 C
 c END TRI24VOX
-      !||====================================================================
-      !||    spmd_tri24gat   ../engine/source/mpi/interfaces/spmd_int.F
-      !||--- called by ------------------------------------------------------
-      !||    i24main_tri     ../engine/source/interfaces/intsort/i24main_tri.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg          ../engine/source/output/message/message.F
-      !||    arret           ../engine/source/system/arret.F
-      !||--- uses       -----------------------------------------------------
-      !||    h3d_mod         ../engine/share/modules/h3d_mod.F
-      !||    message_mod     ../engine/share/message_module/message_mod.F
-      !||    spmd_mod        ../engine/source/mpi/spmd_mod.F90
-      !||    tri7box         ../engine/share/modules/tri7box.F
-      !||====================================================================
+!||====================================================================
+!||    spmd_tri24gat   ../engine/source/mpi/interfaces/spmd_int.F
+!||--- called by ------------------------------------------------------
+!||    i24main_tri     ../engine/source/interfaces/intsort/i24main_tri.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg          ../engine/source/output/message/message.F
+!||    arret           ../engine/source/system/arret.F
+!||--- uses       -----------------------------------------------------
+!||    h3d_mod         ../engine/share/modules/h3d_mod.F
+!||    message_mod     ../engine/share/message_module/message_mod.F
+!||    spmd_mod        ../engine/source/mpi/spmd_mod.F90
+!||    tri7box         ../engine/share/modules/tri7box.F
+!||====================================================================
       SUBROUTINE SPMD_TRI24GAT(RESULT,NSN ,CAND_N ,I_STOK,NIN,
      2                        IGAP  ,NSNR,MULTIMP,ITY,INTTH ,
      3                        ILEV  ,IEDGE4, H3D_DATA,INTFRIC,
@@ -2978,23 +2978,23 @@ C
       END
 
 C END TRI24GAT
-      !||====================================================================
-      !||    spmd_tri7gat    ../engine/source/mpi/interfaces/spmd_int.F
-      !||--- called by ------------------------------------------------------
-      !||    i22main_tri     ../engine/source/interfaces/intsort/i22main_tri.F
-      !||    i23main_tri     ../engine/source/interfaces/intsort/i23main_tri.F
-      !||    i7main_tri      ../engine/source/interfaces/intsort/i7main_tri.F
-      !||    inter_sort_07   ../engine/source/interfaces/int07/inter_sort_07.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg          ../engine/source/output/message/message.F
-      !||    arret           ../engine/source/system/arret.F
-      !||--- uses       -----------------------------------------------------
-      !||    h3d_mod         ../engine/share/modules/h3d_mod.F
-      !||    message_mod     ../engine/share/message_module/message_mod.F
-      !||    multi_fvm_mod   ../common_source/modules/ale/multi_fvm_mod.F90
-      !||    spmd_mod        ../engine/source/mpi/spmd_mod.F90
-      !||    tri7box         ../engine/share/modules/tri7box.F
-      !||====================================================================
+!||====================================================================
+!||    spmd_tri7gat    ../engine/source/mpi/interfaces/spmd_int.F
+!||--- called by ------------------------------------------------------
+!||    i22main_tri     ../engine/source/interfaces/intsort/i22main_tri.F
+!||    i23main_tri     ../engine/source/interfaces/intsort/i23main_tri.F
+!||    i7main_tri      ../engine/source/interfaces/intsort/i7main_tri.F
+!||    inter_sort_07   ../engine/source/interfaces/int07/inter_sort_07.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg          ../engine/source/output/message/message.F
+!||    arret           ../engine/source/system/arret.F
+!||--- uses       -----------------------------------------------------
+!||    h3d_mod         ../engine/share/modules/h3d_mod.F
+!||    message_mod     ../engine/share/message_module/message_mod.F
+!||    multi_fvm_mod   ../common_source/modules/ale/multi_fvm_mod.F90
+!||    spmd_mod        ../engine/source/mpi/spmd_mod.F90
+!||    tri7box         ../engine/share/modules/tri7box.F
+!||====================================================================
       SUBROUTINE SPMD_TRI7GAT(RESULT ,NSN    ,CAND_N  ,I_STOK  ,NIN    ,
      2                        IGAP   ,NSNR   ,MULTIMP ,ITY     ,INTTH  ,
      3                        ILEV   ,NSNFIOLD,IPARI  ,H3D_DATA,INTFRIC,
@@ -3530,21 +3530,21 @@ C
       END
 
 C END TRI7GAT
-      !||====================================================================
-      !||    spmd_tri10box   ../engine/source/mpi/interfaces/spmd_int.F
-      !||--- called by ------------------------------------------------------
-      !||    i10main_tri     ../engine/source/interfaces/intsort/i10main_tri.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg          ../engine/source/output/message/message.F
-      !||    arret           ../engine/source/system/arret.F
-      !||    spmd_wait       ../engine/source/mpi/spmd_wait.F90
-      !||    spmd_waitany    ../engine/source/mpi/spmd_wait.F90
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod     ../engine/share/message_module/message_mod.F
-      !||    outputs_mod     ../common_source/modules/outputs_mod.F
-      !||    spmd_mod        ../engine/source/mpi/spmd_mod.F90
-      !||    tri7box         ../engine/share/modules/tri7box.F
-      !||====================================================================
+!||====================================================================
+!||    spmd_tri10box   ../engine/source/mpi/interfaces/spmd_int.F
+!||--- called by ------------------------------------------------------
+!||    i10main_tri     ../engine/source/interfaces/intsort/i10main_tri.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg          ../engine/source/output/message/message.F
+!||    arret           ../engine/source/system/arret.F
+!||    spmd_wait       ../engine/source/mpi/spmd_wait.F90
+!||    spmd_waitany    ../engine/source/mpi/spmd_wait.F90
+!||--- uses       -----------------------------------------------------
+!||    message_mod     ../engine/share/message_module/message_mod.F
+!||    outputs_mod     ../common_source/modules/outputs_mod.F
+!||    spmd_mod        ../engine/source/mpi/spmd_mod.F90
+!||    tri7box         ../engine/share/modules/tri7box.F
+!||====================================================================
       SUBROUTINE SPMD_TRI10BOX(NSV     ,NSN     ,X      ,V   ,MS     ,
      2                         BMINMAL ,WEIGHT  ,STIFN  ,NIN ,ISENDTO,
      3                         IRCVFROM,IAD_ELEM,FR_ELEM,NSNR,IGAP   ,
@@ -3911,19 +3911,19 @@ C
       END
 C      
 C END SPMD_TRI10BOX
-      !||====================================================================
-      !||    spmd_tri10gat   ../engine/source/mpi/interfaces/spmd_int.F
-      !||--- called by ------------------------------------------------------
-      !||    i10main_tri     ../engine/source/interfaces/intsort/i10main_tri.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg          ../engine/source/output/message/message.F
-      !||    arret           ../engine/source/system/arret.F
-      !||--- uses       -----------------------------------------------------
-      !||    h3d_mod         ../engine/share/modules/h3d_mod.F
-      !||    message_mod     ../engine/share/message_module/message_mod.F
-      !||    spmd_mod        ../engine/source/mpi/spmd_mod.F90
-      !||    tri7box         ../engine/share/modules/tri7box.F
-      !||====================================================================
+!||====================================================================
+!||    spmd_tri10gat   ../engine/source/mpi/interfaces/spmd_int.F
+!||--- called by ------------------------------------------------------
+!||    i10main_tri     ../engine/source/interfaces/intsort/i10main_tri.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg          ../engine/source/output/message/message.F
+!||    arret           ../engine/source/system/arret.F
+!||--- uses       -----------------------------------------------------
+!||    h3d_mod         ../engine/share/modules/h3d_mod.F
+!||    message_mod     ../engine/share/message_module/message_mod.F
+!||    spmd_mod        ../engine/source/mpi/spmd_mod.F90
+!||    tri7box         ../engine/share/modules/tri7box.F
+!||====================================================================
       SUBROUTINE SPMD_TRI10GAT(RESULT,NSN ,CAND_N ,I_STOK,NIN,
      2                        IGAP  ,NSNR,MULTIMP,ITY,INTTH,H3D_DATA)
 C-----------------------------------------------
@@ -4234,14 +4234,14 @@ C
       END
 
 C FIN TRI10GAT
-      !||====================================================================
-      !||    spmd_tri11vox0   ../engine/source/mpi/interfaces/spmd_int.F
-      !||--- called by ------------------------------------------------------
-      !||    i11main_tri      ../engine/source/interfaces/intsort/i11main_tri.F
-      !||--- uses       -----------------------------------------------------
-      !||    spmd_mod         ../engine/source/mpi/spmd_mod.F90
-      !||    tri7box          ../engine/share/modules/tri7box.F
-      !||====================================================================
+!||====================================================================
+!||    spmd_tri11vox0   ../engine/source/mpi/interfaces/spmd_int.F
+!||--- called by ------------------------------------------------------
+!||    i11main_tri      ../engine/source/interfaces/intsort/i11main_tri.F
+!||--- uses       -----------------------------------------------------
+!||    spmd_mod         ../engine/source/mpi/spmd_mod.F90
+!||    tri7box          ../engine/share/modules/tri7box.F
+!||====================================================================
       SUBROUTINE SPMD_TRI11VOX0(
      1   X      ,BMINMAL ,IGAP   ,NRTM  ,STF   ,
      2   TZINF  ,IRECTM  ,GAP, GAP_M,
@@ -4375,20 +4375,20 @@ C
       RETURN
       END
 C END TRI11VOX0
-      !||====================================================================
-      !||    spmd_tri11vox   ../engine/source/mpi/interfaces/spmd_int.F
-      !||--- called by ------------------------------------------------------
-      !||    i11main_tri     ../engine/source/interfaces/intsort/i11main_tri.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg          ../engine/source/output/message/message.F
-      !||    arret           ../engine/source/system/arret.F
-      !||    spmd_wait       ../engine/source/mpi/spmd_wait.F90
-      !||    spmd_waitany    ../engine/source/mpi/spmd_wait.F90
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod     ../engine/share/message_module/message_mod.F
-      !||    spmd_mod        ../engine/source/mpi/spmd_mod.F90
-      !||    tri7box         ../engine/share/modules/tri7box.F
-      !||====================================================================
+!||====================================================================
+!||    spmd_tri11vox   ../engine/source/mpi/interfaces/spmd_int.F
+!||--- called by ------------------------------------------------------
+!||    i11main_tri     ../engine/source/interfaces/intsort/i11main_tri.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg          ../engine/source/output/message/message.F
+!||    arret           ../engine/source/system/arret.F
+!||    spmd_wait       ../engine/source/mpi/spmd_wait.F90
+!||    spmd_waitany    ../engine/source/mpi/spmd_wait.F90
+!||--- uses       -----------------------------------------------------
+!||    message_mod     ../engine/share/message_module/message_mod.F
+!||    spmd_mod        ../engine/source/mpi/spmd_mod.F90
+!||    tri7box         ../engine/share/modules/tri7box.F
+!||====================================================================
       SUBROUTINE SPMD_TRI11VOX(
      1   IRECTS  ,NRTS     ,X      ,V     ,MS     ,
      2   BMINMAL ,WEIGHT   ,STIFS  ,NIN   ,ISENDTO,
@@ -4906,19 +4906,19 @@ C
       END
 C
 C END SPMD_TRI11VOX
-      !||====================================================================
-      !||    spmd_tri11gat   ../engine/source/mpi/interfaces/spmd_int.F
-      !||--- called by ------------------------------------------------------
-      !||    i11main_tri     ../engine/source/interfaces/intsort/i11main_tri.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg          ../engine/source/output/message/message.F
-      !||    arret           ../engine/source/system/arret.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod     ../engine/share/message_module/message_mod.F
-      !||    outputs_mod     ../common_source/modules/outputs_mod.F
-      !||    spmd_mod        ../engine/source/mpi/spmd_mod.F90
-      !||    tri7box         ../engine/share/modules/tri7box.F
-      !||====================================================================
+!||====================================================================
+!||    spmd_tri11gat   ../engine/source/mpi/interfaces/spmd_int.F
+!||--- called by ------------------------------------------------------
+!||    i11main_tri     ../engine/source/interfaces/intsort/i11main_tri.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg          ../engine/source/output/message/message.F
+!||    arret           ../engine/source/system/arret.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod     ../engine/share/message_module/message_mod.F
+!||    outputs_mod     ../common_source/modules/outputs_mod.F
+!||    spmd_mod        ../engine/source/mpi/spmd_mod.F90
+!||    tri7box         ../engine/share/modules/tri7box.F
+!||====================================================================
       SUBROUTINE SPMD_TRI11GAT(RESULT,NRTS ,CAND_S ,I_STOK,NIN,
      2                         INACTI,NRTSR,MULTIMP,IGAP,INTTH,
      2                         NISUB,INTFRIC,NODADT_THERM)
@@ -5376,14 +5376,14 @@ C
       END
 C
 C END SPMD_TRI11GAT
-      !||====================================================================
-      !||    spmd_tri23vox0   ../engine/source/mpi/interfaces/spmd_int.F
-      !||--- called by ------------------------------------------------------
-      !||    i23main_tri      ../engine/source/interfaces/intsort/i23main_tri.F
-      !||--- uses       -----------------------------------------------------
-      !||    spmd_mod         ../engine/source/mpi/spmd_mod.F90
-      !||    tri7box          ../engine/share/modules/tri7box.F
-      !||====================================================================
+!||====================================================================
+!||    spmd_tri23vox0   ../engine/source/mpi/interfaces/spmd_int.F
+!||--- called by ------------------------------------------------------
+!||    i23main_tri      ../engine/source/interfaces/intsort/i23main_tri.F
+!||--- uses       -----------------------------------------------------
+!||    spmd_mod         ../engine/source/mpi/spmd_mod.F90
+!||    tri7box          ../engine/share/modules/tri7box.F
+!||====================================================================
       SUBROUTINE SPMD_TRI23VOX0(
      1   X      ,BMINMAL ,IGAP   ,NRTM  ,STF   ,
      2   TZINF  ,CURV_MAX,GAPMIN ,GAPMAX,GAP_M ,
@@ -5523,14 +5523,14 @@ C
       END
 C
 C END SPMD_TRI23VOX0
-      !||====================================================================
-      !||    spmd_tri24vox0   ../engine/source/mpi/interfaces/spmd_int.F
-      !||--- called by ------------------------------------------------------
-      !||    i24main_tri      ../engine/source/interfaces/intsort/i24main_tri.F
-      !||--- uses       -----------------------------------------------------
-      !||    spmd_mod         ../engine/source/mpi/spmd_mod.F90
-      !||    tri7box          ../engine/share/modules/tri7box.F
-      !||====================================================================
+!||====================================================================
+!||    spmd_tri24vox0   ../engine/source/mpi/interfaces/spmd_int.F
+!||--- called by ------------------------------------------------------
+!||    i24main_tri      ../engine/source/interfaces/intsort/i24main_tri.F
+!||--- uses       -----------------------------------------------------
+!||    spmd_mod         ../engine/source/mpi/spmd_mod.F90
+!||    tri7box          ../engine/share/modules/tri7box.F
+!||====================================================================
       SUBROUTINE SPMD_TRI24VOX0(
      1   X      ,BMINMAL ,NRTM  ,STF   ,MARGE  ,
      2   CURV_MAX,GAP_M  ,IRECT  ,GAP  ,BGAPSMX,

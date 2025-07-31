@@ -20,37 +20,37 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    alethe                           ../engine/source/ale/alethe.F
-      !||--- called by ------------------------------------------------------
-      !||    alemain                          ../engine/source/ale/alemain.F
-      !||--- calls      -----------------------------------------------------
-      !||    aconve                           ../engine/source/ale/aconve.F
-      !||    aeturb                           ../engine/source/ale/turbulence/aeturb.F
-      !||    aflux0                           ../engine/source/ale/aflux0.F
-      !||    afluxt                           ../engine/source/ale/ale51/afluxt.F
-      !||    agrad0                           ../engine/source/ale/agrad0.F
-      !||    akturb                           ../engine/source/ale/turbulence/akturb.F
-      !||    ale51_finish                     ../engine/source/ale/ale51/ale51_finish.F
-      !||    ale51_gradient_reconstruction    ../engine/source/ale/alemuscl/ale51_gradient_reconstruction.F
-      !||    ale51_gradient_reconstruction2   ../engine/source/ale/alemuscl/ale51_gradient_reconstruction2.F
-      !||    ale51_init                       ../engine/source/ale/ale51/ale51_init.F
-      !||    arezon                           ../engine/source/ale/arezon.F
-      !||    atherm                           ../engine/source/ale/atherm.F
-      !||    bhol2                            ../engine/source/ale/ale2d/bhol2.F
-      !||    my_barrier                       ../engine/source/system/machine.F
-      !||    spmd_xvois                       ../engine/source/mpi/fluid/spmd_cfd.F
-      !||--- uses       -----------------------------------------------------
-      !||    ale_connectivity_mod             ../common_source/modules/ale/ale_connectivity_mod.F
-      !||    ale_mod                          ../common_source/modules/ale/ale_mod.F
-      !||    alemuscl_mod                     ../common_source/modules/ale/alemuscl_mod.F
-      !||    arezon_mod                       ../engine/source/ale/arezon.F
-      !||    elbufdef_mod                     ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||    glob_therm_mod                   ../common_source/modules/mat_elem/glob_therm_mod.F90
-      !||    i22tri_mod                       ../common_source/modules/interfaces/cut-cell-search_mod.F
-      !||    matparam_def_mod                 ../common_source/modules/mat_elem/matparam_def_mod.F90
-      !||    segvar_mod                       ../engine/share/modules/segvar_mod.F
-      !||====================================================================
+!||====================================================================
+!||    alethe                           ../engine/source/ale/alethe.F
+!||--- called by ------------------------------------------------------
+!||    alemain                          ../engine/source/ale/alemain.F
+!||--- calls      -----------------------------------------------------
+!||    aconve                           ../engine/source/ale/aconve.F
+!||    aeturb                           ../engine/source/ale/turbulence/aeturb.F
+!||    aflux0                           ../engine/source/ale/aflux0.F
+!||    afluxt                           ../engine/source/ale/ale51/afluxt.F
+!||    agrad0                           ../engine/source/ale/agrad0.F
+!||    akturb                           ../engine/source/ale/turbulence/akturb.F
+!||    ale51_finish                     ../engine/source/ale/ale51/ale51_finish.F
+!||    ale51_gradient_reconstruction    ../engine/source/ale/alemuscl/ale51_gradient_reconstruction.F
+!||    ale51_gradient_reconstruction2   ../engine/source/ale/alemuscl/ale51_gradient_reconstruction2.F
+!||    ale51_init                       ../engine/source/ale/ale51/ale51_init.F
+!||    arezon                           ../engine/source/ale/arezon.F
+!||    atherm                           ../engine/source/ale/atherm.F
+!||    bhol2                            ../engine/source/ale/ale2d/bhol2.F
+!||    my_barrier                       ../engine/source/system/machine.F
+!||    spmd_xvois                       ../engine/source/mpi/fluid/spmd_cfd.F
+!||--- uses       -----------------------------------------------------
+!||    ale_connectivity_mod             ../common_source/modules/ale/ale_connectivity_mod.F
+!||    ale_mod                          ../common_source/modules/ale/ale_mod.F
+!||    alemuscl_mod                     ../common_source/modules/ale/alemuscl_mod.F
+!||    arezon_mod                       ../engine/source/ale/arezon.F
+!||    elbufdef_mod                     ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    glob_therm_mod                   ../common_source/modules/mat_elem/glob_therm_mod.F90
+!||    i22tri_mod                       ../common_source/modules/interfaces/cut-cell-search_mod.F
+!||    matparam_def_mod                 ../common_source/modules/mat_elem/matparam_def_mod.F90
+!||    segvar_mod                       ../engine/share/modules/segvar_mod.F
+!||====================================================================
       SUBROUTINE ALETHE(
      1   IPARG,      ELBUF_TAB,  FLUX,       VAL2,
      2   PHI,        ALE_CONNECT,IXS,        IXQ,

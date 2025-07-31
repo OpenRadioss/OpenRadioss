@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    spmd_fvb_gath_begin   ../engine/source/mpi/airbags/spmd_fvb.F
-      !||--- called by ------------------------------------------------------
-      !||    fvupd0                ../engine/source/airbag/fvupd.F
-      !||--- calls      -----------------------------------------------------
-      !||--- uses       -----------------------------------------------------
-      !||    fvbag_mod             ../engine/share/modules/fvbag_mod.F
-      !||====================================================================
+!||====================================================================
+!||    spmd_fvb_gath_begin   ../engine/source/mpi/airbags/spmd_fvb.F
+!||--- called by ------------------------------------------------------
+!||    fvupd0                ../engine/source/airbag/fvupd.F
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||    fvbag_mod             ../engine/share/modules/fvbag_mod.F
+!||====================================================================
       SUBROUTINE SPMD_FVB_GATH_BEGIN(IFV, X, XXX, XXXA, 
      .                                    V, VVV, VVVA)
 C Gather local X into XXX,XXXA,on the PMAIN of the FVM
@@ -210,14 +210,14 @@ C
 #endif
       RETURN
       END
-      !||====================================================================
-      !||    spmd_fvb_gath_end   ../engine/source/mpi/airbags/spmd_fvb.F
-      !||--- called by ------------------------------------------------------
-      !||    fvupd1              ../engine/source/airbag/fvupd.F
-      !||--- calls      -----------------------------------------------------
-      !||--- uses       -----------------------------------------------------
-      !||    fvbag_mod           ../engine/share/modules/fvbag_mod.F
-      !||====================================================================
+!||====================================================================
+!||    spmd_fvb_gath_end   ../engine/source/mpi/airbags/spmd_fvb.F
+!||--- called by ------------------------------------------------------
+!||    fvupd1              ../engine/source/airbag/fvupd.F
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||    fvbag_mod           ../engine/share/modules/fvbag_mod.F
+!||====================================================================
       SUBROUTINE SPMD_FVB_GATH_END(IFV, X, XXX, XXXA, 
      .                                    V, VVV, VVVA)
 

@@ -20,11 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    idealgas   ../common_source/eos/idealgas.F
-      !||--- called by ------------------------------------------------------
-      !||    eosmain    ../common_source/eos/eosmain.F
-      !||====================================================================
+!||====================================================================
+!||    idealgas   ../common_source/eos/idealgas.F
+!||--- called by ------------------------------------------------------
+!||    eosmain    ../common_source/eos/eosmain.F
+!||====================================================================
       SUBROUTINE IDEALGAS(IFLAG ,NEL  ,PM   ,OFF   ,EINT  ,MU   ,
      2                     ESPE ,DVOL ,DF   ,VNEW  ,MAT   ,PSH  ,
      3                     PNEW ,DPDM ,DPDE )

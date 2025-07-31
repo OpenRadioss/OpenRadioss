@@ -20,19 +20,19 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    sdlen_dege   ../engine/source/elements/solid/solide/sdlen_dege.F
-      !||--- called by ------------------------------------------------------
-      !||    s8cforc3     ../engine/source/elements/thickshell/solide8c/s8cforc3.F
-      !||    s8eforc3     ../engine/source/elements/solid/solide8e/s8eforc3.F
-      !||    s8sforc3     ../engine/source/elements/solid/solide8s/s8sforc3.F
-      !||    s8zforc3     ../engine/source/elements/solid/solide8z/s8zforc3.F
-      !||    sdlen8       ../engine/source/elements/solid/solidez/sdlen8.F
-      !||--- calls      -----------------------------------------------------
-      !||    degenes8     ../engine/source/elements/solid/solide/degenes8.F
-      !||    deges4v      ../engine/source/elements/solid/solide/deges4v.F
-      !||    idege8       ../engine/source/elements/solid/solide/idege8.F
-      !||====================================================================
+!||====================================================================
+!||    sdlen_dege   ../engine/source/elements/solid/solide/sdlen_dege.F
+!||--- called by ------------------------------------------------------
+!||    s8cforc3     ../engine/source/elements/thickshell/solide8c/s8cforc3.F
+!||    s8eforc3     ../engine/source/elements/solid/solide8e/s8eforc3.F
+!||    s8sforc3     ../engine/source/elements/solid/solide8s/s8sforc3.F
+!||    s8zforc3     ../engine/source/elements/solid/solide8z/s8zforc3.F
+!||    sdlen8       ../engine/source/elements/solid/solidez/sdlen8.F
+!||--- calls      -----------------------------------------------------
+!||    degenes8     ../engine/source/elements/solid/solide/degenes8.F
+!||    deges4v      ../engine/source/elements/solid/solide/deges4v.F
+!||    idege8       ../engine/source/elements/solid/solide/idege8.F
+!||====================================================================
       SUBROUTINE SDLEN_DEGE(
      1   VOLG,    LAT,     X1,      X2,
      2   X3,      X4,      X5,      X6,

@@ -21,17 +21,17 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
-      !||====================================================================
-      !||    i9sti2                 ../starter/source/interfaces/int09/i9sti2.F
-      !||--- called by ------------------------------------------------------
-      !||    inint2                 ../starter/source/interfaces/inter2d1/inint2.F
-      !||--- calls      -----------------------------------------------------
-      !||    inare2                 ../starter/source/interfaces/inter2d1/inare2.F
-      !||    inori2                 ../starter/source/interfaces/inter2d1/inori2.F
-      !||    inrch2                 ../starter/source/interfaces/inter2d1/inrch2.F
-      !||    local_index            ../starter/source/interfaces/interf1/local_index.F
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    i9sti2                 ../starter/source/interfaces/int09/i9sti2.F
+!||--- called by ------------------------------------------------------
+!||    inint2                 ../starter/source/interfaces/inter2d1/inint2.F
+!||--- calls      -----------------------------------------------------
+!||    inare2                 ../starter/source/interfaces/inter2d1/inare2.F
+!||    inori2                 ../starter/source/interfaces/inter2d1/inori2.F
+!||    inrch2                 ../starter/source/interfaces/inter2d1/inrch2.F
+!||    local_index            ../starter/source/interfaces/interf1/local_index.F
+!||--- uses       -----------------------------------------------------
+!||====================================================================
       SUBROUTINE I9STI2(
      1 X     ,IRECT  ,IXQ   ,
      2 NRT   ,NINT   ,

@@ -20,17 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    c3evec3          ../starter/source/elements/sh3n/coque3n/c3evec3.F
-      !||--- called by ------------------------------------------------------
-      !||    c3epsini         ../starter/source/elements/sh3n/coque3n/c3epsini.F
-      !||    c3fint_reg_ini   ../starter/source/elements/sh3n/coque3n/c3fint_reg_ini.F
-      !||    c3init3          ../starter/source/elements/sh3n/coque3n/c3init3.F
-      !||    cdkinit3         ../starter/source/elements/sh3n/coquedk/cdkinit3.F
-      !||    fsigtini         ../starter/source/constraints/fxbody/fsigtini.F
-      !||    inirig_mat       ../starter/source/elements/initia/inirig_mat.F
-      !||    inivoid          ../starter/source/elements/initia/inivoid.F
-      !||====================================================================
+!||====================================================================
+!||    c3evec3          ../starter/source/elements/sh3n/coque3n/c3evec3.F
+!||--- called by ------------------------------------------------------
+!||    c3epsini         ../starter/source/elements/sh3n/coque3n/c3epsini.F
+!||    c3fint_reg_ini   ../starter/source/elements/sh3n/coque3n/c3fint_reg_ini.F
+!||    c3init3          ../starter/source/elements/sh3n/coque3n/c3init3.F
+!||    cdkinit3         ../starter/source/elements/sh3n/coquedk/cdkinit3.F
+!||    fsigtini         ../starter/source/constraints/fxbody/fsigtini.F
+!||    inirig_mat       ../starter/source/elements/initia/inirig_mat.F
+!||    inivoid          ../starter/source/elements/initia/inivoid.F
+!||====================================================================
       SUBROUTINE C3EVEC3(JFT ,JLT ,AREA,
      .                   X1  ,X2  ,X3  ,Y1  ,Y2  ,Y3  ,
      .                   Z1  ,Z2  ,Z3  ,E1X ,E2X ,E3X ,

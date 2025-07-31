@@ -20,12 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    agrad2                 ../starter/source/ale/ale2d/agrad2.F
-      !||--- called by ------------------------------------------------------
-      !||    matini                 ../starter/source/materials/mat_share/matini.F
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    agrad2                 ../starter/source/ale/ale2d/agrad2.F
+!||--- called by ------------------------------------------------------
+!||    matini                 ../starter/source/materials/mat_share/matini.F
+!||--- uses       -----------------------------------------------------
+!||====================================================================
       SUBROUTINE AGRAD2(IXQ,X,ALE_CONNECTIVITY,GRAD,NEL)
 C-----------------------------------------------
 C   D e s c r i p t i on

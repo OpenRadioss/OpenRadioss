@@ -21,12 +21,12 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 
-      !||====================================================================
-      !||    s20rst     ../engine/source/elements/solid/solide20/s20rst.F
-      !||--- called by ------------------------------------------------------
-      !||    s20forc3   ../engine/source/elements/solid/solide20/s20forc3.F
-      !||    s20ke3     ../engine/source/elements/solid/solide20/s20ke3.F
-      !||====================================================================
+!||====================================================================
+!||    s20rst     ../engine/source/elements/solid/solide20/s20rst.F
+!||--- called by ------------------------------------------------------
+!||    s20forc3   ../engine/source/elements/solid/solide20/s20forc3.F
+!||    s20ke3     ../engine/source/elements/solid/solide20/s20ke3.F
+!||====================================================================
       SUBROUTINE S20RST(R,S,T,
      2   NI   ,DNIDR ,DNIDS ,DNIDT )
 C-----------------------------------------------

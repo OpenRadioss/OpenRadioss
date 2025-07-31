@@ -20,19 +20,19 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    stat_c_auxf         ../engine/source/output/sta/stat_c_auxf.F
-      !||--- called by ------------------------------------------------------
-      !||    genstat             ../engine/source/output/sta/genstat.F
-      !||--- calls      -----------------------------------------------------
-      !||    spmd_rgather9_dp    ../engine/source/mpi/interfaces/spmd_outp.F
-      !||    spmd_stat_pgather   ../engine/source/mpi/output/spmd_stat.F
-      !||    strs_txt50          ../engine/source/output/sta/sta_txt.F
-      !||    tab_strs_txt50      ../engine/source/output/sta/sta_txt.F
-      !||--- uses       -----------------------------------------------------
-      !||    elbufdef_mod        ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||    my_alloc_mod        ../common_source/tools/memory/my_alloc.F90
-      !||====================================================================
+!||====================================================================
+!||    stat_c_auxf         ../engine/source/output/sta/stat_c_auxf.F
+!||--- called by ------------------------------------------------------
+!||    genstat             ../engine/source/output/sta/genstat.F
+!||--- calls      -----------------------------------------------------
+!||    spmd_rgather9_dp    ../engine/source/mpi/interfaces/spmd_outp.F
+!||    spmd_stat_pgather   ../engine/source/mpi/output/spmd_stat.F
+!||    strs_txt50          ../engine/source/output/sta/sta_txt.F
+!||    tab_strs_txt50      ../engine/source/output/sta/sta_txt.F
+!||--- uses       -----------------------------------------------------
+!||    elbufdef_mod        ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    my_alloc_mod        ../common_source/tools/memory/my_alloc.F90
+!||====================================================================
       SUBROUTINE STAT_C_AUXF(ELBUF_TAB ,IPARG ,IPM ,IGEO ,IXC ,
      2                       IXTG  ,WA,WAP0 ,IPARTC, IPARTTG,
      3                       IPART_STATE,STAT_INDXC,STAT_INDXTG,SIZP0)

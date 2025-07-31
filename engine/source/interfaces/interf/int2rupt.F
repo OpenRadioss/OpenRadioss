@@ -20,16 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    int2rupt        ../engine/source/interfaces/interf/int2rupt.F
-      !||--- called by ------------------------------------------------------
-      !||    intti1          ../engine/source/interfaces/interf/intti1.F
-      !||--- calls      -----------------------------------------------------
-      !||    i2rupt          ../engine/source/interfaces/interf/int2rupt.F
-      !||--- uses       -----------------------------------------------------
-      !||    h3d_mod         ../engine/share/modules/h3d_mod.F
-      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    int2rupt        ../engine/source/interfaces/interf/int2rupt.F
+!||--- called by ------------------------------------------------------
+!||    intti1          ../engine/source/interfaces/interf/intti1.F
+!||--- calls      -----------------------------------------------------
+!||    i2rupt          ../engine/source/interfaces/interf/int2rupt.F
+!||--- uses       -----------------------------------------------------
+!||    h3d_mod         ../engine/share/modules/h3d_mod.F
+!||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
+!||====================================================================
       SUBROUTINE INT2RUPT(IPARI   ,MS      ,IN      ,
      .                    X       ,V       ,A       ,STIFN   ,IGEO    ,
      .                    WEIGHT  ,FSAV    ,ILEV    ,NPF     ,TF      ,
@@ -98,19 +98,19 @@ C-----------
       RETURN
       END SUBROUTINE INT2RUPT
 C
-      !||====================================================================
-      !||    i2rupt                    ../engine/source/interfaces/interf/int2rupt.F
-      !||--- called by ------------------------------------------------------
-      !||    int2rupt                  ../engine/source/interfaces/interf/int2rupt.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg                    ../engine/source/output/message/message.F
-      !||    arret                     ../engine/source/system/arret.F
-      !||    ruptint2                  ../engine/source/interfaces/interf/ruptint2.F
-      !||--- uses       -----------------------------------------------------
-      !||    h3d_mod                   ../engine/share/modules/h3d_mod.F
-      !||    message_mod               ../engine/share/message_module/message_mod.F
-      !||    uintbuf_mod               ../engine/source/user_interface/uintbuf_mod.F
-      !||====================================================================
+!||====================================================================
+!||    i2rupt                    ../engine/source/interfaces/interf/int2rupt.F
+!||--- called by ------------------------------------------------------
+!||    int2rupt                  ../engine/source/interfaces/interf/int2rupt.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                    ../engine/source/output/message/message.F
+!||    arret                     ../engine/source/system/arret.F
+!||    ruptint2                  ../engine/source/interfaces/interf/ruptint2.F
+!||--- uses       -----------------------------------------------------
+!||    h3d_mod                   ../engine/share/modules/h3d_mod.F
+!||    message_mod               ../engine/share/message_module/message_mod.F
+!||    uintbuf_mod               ../engine/source/user_interface/uintbuf_mod.F
+!||====================================================================
       SUBROUTINE I2RUPT(X      ,V       ,A       ,MS      ,IN      ,
      2                 STIFN   ,FSAV    ,WEIGHT  ,IRECT   ,NSV     , 
      3                 MSR     ,IRTL    ,IRUPT   ,CRST    ,MMASS   , 

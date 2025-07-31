@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    thkin    ../engine/source/output/th/thkin.F
-      !||--- called by ------------------------------------------------------
-      !||    hist2    ../engine/source/output/th/hist2.F
-      !||--- calls      -----------------------------------------------------
-      !||    wrtdes   ../engine/source/output/th/wrtdes.F
-      !||====================================================================
+!||====================================================================
+!||    thkin    ../engine/source/output/th/thkin.F
+!||--- called by ------------------------------------------------------
+!||    hist2    ../engine/source/output/th/hist2.F
+!||--- calls      -----------------------------------------------------
+!||    wrtdes   ../engine/source/output/th/wrtdes.F
+!||====================================================================
       SUBROUTINE THKIN(J1,J2,ITHBUF,L1,L2,WA,FSAV,IFORM)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

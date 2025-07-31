@@ -20,16 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    s10upd11t12    ../engine/source/elements/solid/solide10/s10upd11t12.F
-      !||--- called by ------------------------------------------------------
-      !||    s10forc3       ../engine/source/elements/solid/solide10/s10forc3.F
-      !||--- calls      -----------------------------------------------------
-      !||    s10pij12       ../engine/source/elements/solid/solide10/s10pij12.F
-      !||    s10pijsav12    ../engine/source/elements/solid/solide10/s10pijsav12.F
-      !||--- uses       -----------------------------------------------------
-      !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    s10upd11t12    ../engine/source/elements/solid/solide10/s10upd11t12.F
+!||--- called by ------------------------------------------------------
+!||    s10forc3       ../engine/source/elements/solid/solide10/s10forc3.F
+!||--- calls      -----------------------------------------------------
+!||    s10pij12       ../engine/source/elements/solid/solide10/s10pij12.F
+!||    s10pijsav12    ../engine/source/elements/solid/solide10/s10pijsav12.F
+!||--- uses       -----------------------------------------------------
+!||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||====================================================================
       SUBROUTINE S10UPD11T12(
      1   ELBUF_TAB,OFFG,     OFFG0,    NC,
      2   XX,       YY,       ZZ,       NEL,

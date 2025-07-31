@@ -20,15 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    i3msr3        ../engine/source/interfaces/inter3d/i3msr3.F
-      !||--- called by ------------------------------------------------------
-      !||    i6main        ../engine/source/interfaces/inter3d/i6main.F
-      !||    i9main3       ../engine/source/interfaces/int09/i9main3.F
-      !||    intvo3        ../engine/source/interfaces/inter3d/intvo3.F
-      !||--- calls      -----------------------------------------------------
-      !||    nearest_seg   ../common_source/interf/nearest_seg.F
-      !||====================================================================
+!||====================================================================
+!||    i3msr3        ../engine/source/interfaces/inter3d/i3msr3.F
+!||--- called by ------------------------------------------------------
+!||    i6main        ../engine/source/interfaces/inter3d/i6main.F
+!||    i9main3       ../engine/source/interfaces/int09/i9main3.F
+!||    intvo3        ../engine/source/interfaces/inter3d/intvo3.F
+!||--- calls      -----------------------------------------------------
+!||    nearest_seg   ../common_source/interf/nearest_seg.F
+!||====================================================================
       SUBROUTINE I3MSR3(
      1   X,       IRECT,   LMSR,    MSR,
      2   NSV,     ILOC,    IRTL,    NSEG,

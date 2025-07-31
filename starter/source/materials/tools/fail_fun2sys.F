@@ -20,15 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    fail_fun2sys     ../starter/source/materials/tools/fail_fun2sys.F
-      !||--- called by ------------------------------------------------------
-      !||    updfail          ../starter/source/materials/updfail.F90
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg           ../starter/source/output/message/message.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod      ../starter/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    fail_fun2sys     ../starter/source/materials/tools/fail_fun2sys.F
+!||--- called by ------------------------------------------------------
+!||    updfail          ../starter/source/materials/updfail.F90
+!||--- calls      -----------------------------------------------------
+!||    ancmsg           ../starter/source/output/message/message.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod      ../starter/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE FAIL_FUN2SYS(FAIL ,TITLE  ,MAT_ID ,NFUNCT  ,FUNC_ID  )
 C-----------------------------------------------
 C   M o d u l e s

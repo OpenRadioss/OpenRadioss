@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    anioffs        ../starter/source/output/anim/anioffs.F
-      !||--- called by ------------------------------------------------------
-      !||    genani1        ../starter/source/output/anim/genani1.F
-      !||--- calls      -----------------------------------------------------
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    anioffs        ../starter/source/output/anim/anioffs.F
+!||--- called by ------------------------------------------------------
+!||    genani1        ../starter/source/output/anim/genani1.F
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||====================================================================
       SUBROUTINE ANIOFFS(ELBUF_TAB ,IPARG   ,IOFF             ,EL2FA   ,    
      .                   NBF     ,NBPART  ,ISPH3D  )             
 C-----------------------------------------------

@@ -20,75 +20,75 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    lech3d                    ../engine/source/output/h3d/h3d_build_fortran/lech3d.F
-      !||--- called by ------------------------------------------------------
-      !||    lectur                    ../engine/source/input/lectur.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg                    ../engine/source/output/message/message.F
-      !||    arret                     ../engine/source/system/arret.F
-      !||    create_h3d_1d_scalar      ../engine/source/output/h3d/h3d_build_fortran/create_h3d_1d_scalar.F
-      !||    create_h3d_1d_tensor      ../engine/source/output/h3d/h3d_build_fortran/create_h3d_1d_tensor.F
-      !||    create_h3d_1d_torsor      ../engine/source/output/h3d/h3d_build_fortran/create_h3d_1d_torsor.F
-      !||    create_h3d_1d_vector      ../engine/source/output/h3d/h3d_build_fortran/create_h3d_1d_vector.F
-      !||    create_h3d_arg_keyword    ../engine/source/output/h3d/h3d_build_fortran/create_h3d_arg_keyword.F
-      !||    create_h3d_input          ../engine/source/output/h3d/h3d_build_fortran/create_h3d_input.F
-      !||    create_h3d_nodal_scalar   ../engine/source/output/h3d/h3d_build_fortran/create_h3d_nodal_scalar.F
-      !||    create_h3d_nodal_tensor   ../engine/source/output/h3d/h3d_build_fortran/create_h3d_nodal_tensor.F
-      !||    create_h3d_nodal_vector   ../engine/source/output/h3d/h3d_build_fortran/create_h3d_nodal_vector.F
-      !||    create_h3d_parts          ../engine/source/output/h3d/h3d_build_fortran/create_h3d_parts.F
-      !||    create_h3d_parts_all      ../engine/source/output/h3d/h3d_build_fortran/create_h3d_parts_all.F
-      !||    create_h3d_quad_scalar    ../engine/source/output/h3d/h3d_build_fortran/create_h3d_quad_scalar.F
-      !||    create_h3d_quad_tensor    ../engine/source/output/h3d/h3d_build_fortran/create_h3d_quad_tensor.F
-      !||    create_h3d_quad_vector    ../engine/source/output/h3d/h3d_build_fortran/create_h3d_quad_vector.F
-      !||    create_h3d_shell_scalar   ../engine/source/output/h3d/h3d_build_fortran/create_h3d_shell_scalar.F
-      !||    create_h3d_shell_tensor   ../engine/source/output/h3d/h3d_build_fortran/create_h3d_shell_tensor.F
-      !||    create_h3d_shell_vector   ../engine/source/output/h3d/h3d_build_fortran/create_h3d_shell_vector.F
-      !||    create_h3d_skin_scalar    ../engine/source/output/h3d/h3d_build_fortran/create_h3d_skin_scalar.F
-      !||    create_h3d_skin_tensor    ../engine/source/output/h3d/h3d_build_fortran/create_h3d_skin_tensor.F
-      !||    create_h3d_skin_vector    ../engine/source/output/h3d/h3d_build_fortran/create_h3d_skin_vector.F
-      !||    create_h3d_solid_scalar   ../engine/source/output/h3d/h3d_build_fortran/create_h3d_solid_scalar.F
-      !||    create_h3d_solid_tensor   ../engine/source/output/h3d/h3d_build_fortran/create_h3d_solid_tensor.F
-      !||    create_h3d_solid_vector   ../engine/source/output/h3d/h3d_build_fortran/create_h3d_solid_vector.F
-      !||    create_h3d_sph_scalar     ../engine/source/output/h3d/h3d_build_fortran/create_h3d_sph_scalar.F
-      !||    create_h3d_sph_tensor     ../engine/source/output/h3d/h3d_build_fortran/create_h3d_sph_tensor.F
-      !||    h3d_gene_keyword          ../engine/source/output/h3d/input_list/h3d_gene_keyword.F
-      !||    h3d_list_1d_scalar        ../engine/source/output/h3d/input_list/h3d_list_1d_scalar.F
-      !||    h3d_list_1d_tensor        ../engine/source/output/h3d/input_list/h3d_list_1d_tensor.F
-      !||    h3d_list_1d_torsor        ../engine/source/output/h3d/input_list/h3d_list_1d_torsor.F
-      !||    h3d_list_1d_vector        ../engine/source/output/h3d/input_list/h3d_list_1d_vector.F
-      !||    h3d_list_nodal_scalar     ../engine/source/output/h3d/input_list/h3d_list_noda_scalar.F
-      !||    h3d_list_nodal_tensor     ../engine/source/output/h3d/input_list/h3d_list_noda_tensor.F
-      !||    h3d_list_nodal_vector     ../engine/source/output/h3d/input_list/h3d_list_noda_vector.F
-      !||    h3d_list_quad_scalar      ../engine/source/output/h3d/input_list/h3d_list_quad_scalar.F
-      !||    h3d_list_quad_tensor      ../engine/source/output/h3d/input_list/h3d_list_quad_tensor.F
-      !||    h3d_list_quad_vector      ../engine/source/output/h3d/input_list/h3d_list_quad_vector.F
-      !||    h3d_list_shell_scalar     ../engine/source/output/h3d/input_list/h3d_list_shell_scalar.F
-      !||    h3d_list_shell_tensor     ../engine/source/output/h3d/input_list/h3d_list_shell_tensor.F
-      !||    h3d_list_shell_vector     ../engine/source/output/h3d/input_list/h3d_list_shell_vector.F
-      !||    h3d_list_solid_scalar     ../engine/source/output/h3d/input_list/h3d_list_solid_scalar.F
-      !||    h3d_list_solid_tensor     ../engine/source/output/h3d/input_list/h3d_list_solid_tensor.F
-      !||    h3d_list_solid_vector     ../engine/source/output/h3d/input_list/h3d_list_solid_vector.F
-      !||    h3d_list_sph_scalar       ../engine/source/output/h3d/input_list/h3d_list_sph_scalar.F
-      !||    h3d_list_sph_tensor       ../engine/source/output/h3d/input_list/h3d_list_sph_tensor.F
-      !||    h3d_skin_dim              ../engine/source/output/h3d/h3d_results/h3d_skin_ixskin.F
-      !||    initbuf                   ../engine/share/resol/initbuf.F
-      !||--- uses       -----------------------------------------------------
-      !||    elbufdef_mod              ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||    groupdef_mod              ../common_source/modules/groupdef_mod.F
-      !||    h3d_inc_mod               ../engine/share/modules/h3d_inc_mod.F
-      !||    h3d_mod                   ../engine/share/modules/h3d_mod.F
-      !||    initbuf_mod               ../engine/share/resol/initbuf.F
-      !||    loads_mod                 ../common_source/modules/loads/loads_mod.F90
-      !||    matparam_def_mod          ../common_source/modules/mat_elem/matparam_def_mod.F90
-      !||    message_mod               ../engine/share/message_module/message_mod.F
-      !||    multi_fvm_mod             ../common_source/modules/ale/multi_fvm_mod.F90
-      !||    names_and_titles_mod      ../common_source/modules/names_and_titles_mod.F
-      !||    output_mod                ../common_source/modules/output/output_mod.F90
-      !||    pblast_mod                ../common_source/modules/loads/pblast_mod.F90
-      !||    stack_mod                 ../engine/share/modules/stack_mod.F
-      !||    tri7box                   ../engine/share/modules/tri7box.F
-      !||====================================================================
+!||====================================================================
+!||    lech3d                    ../engine/source/output/h3d/h3d_build_fortran/lech3d.F
+!||--- called by ------------------------------------------------------
+!||    lectur                    ../engine/source/input/lectur.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                    ../engine/source/output/message/message.F
+!||    arret                     ../engine/source/system/arret.F
+!||    create_h3d_1d_scalar      ../engine/source/output/h3d/h3d_build_fortran/create_h3d_1d_scalar.F
+!||    create_h3d_1d_tensor      ../engine/source/output/h3d/h3d_build_fortran/create_h3d_1d_tensor.F
+!||    create_h3d_1d_torsor      ../engine/source/output/h3d/h3d_build_fortran/create_h3d_1d_torsor.F
+!||    create_h3d_1d_vector      ../engine/source/output/h3d/h3d_build_fortran/create_h3d_1d_vector.F
+!||    create_h3d_arg_keyword    ../engine/source/output/h3d/h3d_build_fortran/create_h3d_arg_keyword.F
+!||    create_h3d_input          ../engine/source/output/h3d/h3d_build_fortran/create_h3d_input.F
+!||    create_h3d_nodal_scalar   ../engine/source/output/h3d/h3d_build_fortran/create_h3d_nodal_scalar.F
+!||    create_h3d_nodal_tensor   ../engine/source/output/h3d/h3d_build_fortran/create_h3d_nodal_tensor.F
+!||    create_h3d_nodal_vector   ../engine/source/output/h3d/h3d_build_fortran/create_h3d_nodal_vector.F
+!||    create_h3d_parts          ../engine/source/output/h3d/h3d_build_fortran/create_h3d_parts.F
+!||    create_h3d_parts_all      ../engine/source/output/h3d/h3d_build_fortran/create_h3d_parts_all.F
+!||    create_h3d_quad_scalar    ../engine/source/output/h3d/h3d_build_fortran/create_h3d_quad_scalar.F
+!||    create_h3d_quad_tensor    ../engine/source/output/h3d/h3d_build_fortran/create_h3d_quad_tensor.F
+!||    create_h3d_quad_vector    ../engine/source/output/h3d/h3d_build_fortran/create_h3d_quad_vector.F
+!||    create_h3d_shell_scalar   ../engine/source/output/h3d/h3d_build_fortran/create_h3d_shell_scalar.F
+!||    create_h3d_shell_tensor   ../engine/source/output/h3d/h3d_build_fortran/create_h3d_shell_tensor.F
+!||    create_h3d_shell_vector   ../engine/source/output/h3d/h3d_build_fortran/create_h3d_shell_vector.F
+!||    create_h3d_skin_scalar    ../engine/source/output/h3d/h3d_build_fortran/create_h3d_skin_scalar.F
+!||    create_h3d_skin_tensor    ../engine/source/output/h3d/h3d_build_fortran/create_h3d_skin_tensor.F
+!||    create_h3d_skin_vector    ../engine/source/output/h3d/h3d_build_fortran/create_h3d_skin_vector.F
+!||    create_h3d_solid_scalar   ../engine/source/output/h3d/h3d_build_fortran/create_h3d_solid_scalar.F
+!||    create_h3d_solid_tensor   ../engine/source/output/h3d/h3d_build_fortran/create_h3d_solid_tensor.F
+!||    create_h3d_solid_vector   ../engine/source/output/h3d/h3d_build_fortran/create_h3d_solid_vector.F
+!||    create_h3d_sph_scalar     ../engine/source/output/h3d/h3d_build_fortran/create_h3d_sph_scalar.F
+!||    create_h3d_sph_tensor     ../engine/source/output/h3d/h3d_build_fortran/create_h3d_sph_tensor.F
+!||    h3d_gene_keyword          ../engine/source/output/h3d/input_list/h3d_gene_keyword.F
+!||    h3d_list_1d_scalar        ../engine/source/output/h3d/input_list/h3d_list_1d_scalar.F
+!||    h3d_list_1d_tensor        ../engine/source/output/h3d/input_list/h3d_list_1d_tensor.F
+!||    h3d_list_1d_torsor        ../engine/source/output/h3d/input_list/h3d_list_1d_torsor.F
+!||    h3d_list_1d_vector        ../engine/source/output/h3d/input_list/h3d_list_1d_vector.F
+!||    h3d_list_nodal_scalar     ../engine/source/output/h3d/input_list/h3d_list_noda_scalar.F
+!||    h3d_list_nodal_tensor     ../engine/source/output/h3d/input_list/h3d_list_noda_tensor.F
+!||    h3d_list_nodal_vector     ../engine/source/output/h3d/input_list/h3d_list_noda_vector.F
+!||    h3d_list_quad_scalar      ../engine/source/output/h3d/input_list/h3d_list_quad_scalar.F
+!||    h3d_list_quad_tensor      ../engine/source/output/h3d/input_list/h3d_list_quad_tensor.F
+!||    h3d_list_quad_vector      ../engine/source/output/h3d/input_list/h3d_list_quad_vector.F
+!||    h3d_list_shell_scalar     ../engine/source/output/h3d/input_list/h3d_list_shell_scalar.F
+!||    h3d_list_shell_tensor     ../engine/source/output/h3d/input_list/h3d_list_shell_tensor.F
+!||    h3d_list_shell_vector     ../engine/source/output/h3d/input_list/h3d_list_shell_vector.F
+!||    h3d_list_solid_scalar     ../engine/source/output/h3d/input_list/h3d_list_solid_scalar.F
+!||    h3d_list_solid_tensor     ../engine/source/output/h3d/input_list/h3d_list_solid_tensor.F
+!||    h3d_list_solid_vector     ../engine/source/output/h3d/input_list/h3d_list_solid_vector.F
+!||    h3d_list_sph_scalar       ../engine/source/output/h3d/input_list/h3d_list_sph_scalar.F
+!||    h3d_list_sph_tensor       ../engine/source/output/h3d/input_list/h3d_list_sph_tensor.F
+!||    h3d_skin_dim              ../engine/source/output/h3d/h3d_results/h3d_skin_ixskin.F
+!||    initbuf                   ../engine/share/resol/initbuf.F
+!||--- uses       -----------------------------------------------------
+!||    elbufdef_mod              ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    groupdef_mod              ../common_source/modules/groupdef_mod.F
+!||    h3d_inc_mod               ../engine/share/modules/h3d_inc_mod.F
+!||    h3d_mod                   ../engine/share/modules/h3d_mod.F
+!||    initbuf_mod               ../engine/share/resol/initbuf.F
+!||    loads_mod                 ../common_source/modules/loads/loads_mod.F90
+!||    matparam_def_mod          ../common_source/modules/mat_elem/matparam_def_mod.F90
+!||    message_mod               ../engine/share/message_module/message_mod.F
+!||    multi_fvm_mod             ../common_source/modules/ale/multi_fvm_mod.F90
+!||    names_and_titles_mod      ../common_source/modules/names_and_titles_mod.F
+!||    output_mod                ../common_source/modules/output/output_mod.F90
+!||    pblast_mod                ../common_source/modules/loads/pblast_mod.F90
+!||    stack_mod                 ../engine/share/modules/stack_mod.F
+!||    tri7box                   ../engine/share/modules/tri7box.F
+!||====================================================================
       SUBROUTINE LECH3D(GEO,IGEO,IPM,IPART,H3D_DATA,MULTI_FVM,IPARI,IPARG,TAG_SKINS6,
      .                  MDS_LABEL,MDS_OUTPUT_TABLE,MDS_NMAT,MAX_DEPVAR,MDS_NDEPSVAR,
      .                  ELBUF_STR,STACK,IBCL,ILOADP,LLOADP,LOADS,MAT_PARAM,PBLAST,

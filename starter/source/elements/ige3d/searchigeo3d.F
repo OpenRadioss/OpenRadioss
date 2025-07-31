@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    presearchigeo3d   ../starter/source/elements/ige3d/searchigeo3d.F
-      !||--- called by ------------------------------------------------------
-      !||    lectur            ../starter/source/starter/lectur.F
-      !||--- calls      -----------------------------------------------------
-      !||    myqsort3d         ../starter/source/elements/ige3d/searchigeo3d.F
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    presearchigeo3d   ../starter/source/elements/ige3d/searchigeo3d.F
+!||--- called by ------------------------------------------------------
+!||    lectur            ../starter/source/starter/lectur.F
+!||--- calls      -----------------------------------------------------
+!||    myqsort3d         ../starter/source/elements/ige3d/searchigeo3d.F
+!||--- uses       -----------------------------------------------------
+!||====================================================================
       SUBROUTINE PRESEARCHIGEO3D(IGRSURF,xigetmp, permige)
 C-----------------------------------------------
 C   M o d u l e s
@@ -74,12 +74,12 @@ c
       RETURN
       END
       
-      !||====================================================================
-      !||    searchigeo3d   ../starter/source/elements/ige3d/searchigeo3d.F
-      !||--- called by ------------------------------------------------------
-      !||    lectur         ../starter/source/starter/lectur.F
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    searchigeo3d   ../starter/source/elements/ige3d/searchigeo3d.F
+!||--- called by ------------------------------------------------------
+!||    lectur         ../starter/source/starter/lectur.F
+!||--- uses       -----------------------------------------------------
+!||====================================================================
       SUBROUTINE SEARCHIGEO3D(IGRSURF,IADTABIGEINI, PERM, 
      .                  NIGETMP, NIGE, RIGETMP, RIGE,
      .                  XIGETMP, XIGE, VIGETMP, VIGE,
@@ -168,10 +168,10 @@ c
       RETURN
       END
       
-      !||====================================================================
-      !||    searchigeo3dold   ../starter/source/elements/ige3d/searchigeo3d.F
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    searchigeo3dold   ../starter/source/elements/ige3d/searchigeo3d.F
+!||--- uses       -----------------------------------------------------
+!||====================================================================
       SUBROUTINE SEARCHIGEO3DOLD(IGRSURF,IADTABIGEINI, PERM, 
      .                  NIGETMP, NIGE, RIGETMP, RIGE,
      .                  XIGETMP, XIGE, VIGETMP, VIGE,
@@ -265,10 +265,10 @@ c
       RETURN
       END
 
-      !||====================================================================
-      !||    searchigeo3d3   ../starter/source/elements/ige3d/searchigeo3d.F
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    searchigeo3d3   ../starter/source/elements/ige3d/searchigeo3d.F
+!||--- uses       -----------------------------------------------------
+!||====================================================================
       SUBROUTINE SEARCHIGEO3D3(IGRSURF,N, PERM, 
 c      SUBROUTINE SEARCHIGEO3D(IGRSURF,N, NSEGIGE ,PERM, 
      .                        NIGETMP, NIGE, RIGETMP, RIGE,
@@ -383,10 +383,10 @@ c
       END
 c
 
-      !||====================================================================
-      !||    searchigeo3d2   ../starter/source/elements/ige3d/searchigeo3d.F
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    searchigeo3d2   ../starter/source/elements/ige3d/searchigeo3d.F
+!||--- uses       -----------------------------------------------------
+!||====================================================================
       SUBROUTINE SEARCHIGEO3D2(IGRSURF,IADTABIGE, PERM, 
      .                        NIGETMP, NIGE, RIGETMP, RIGE,
      .                        XIGETMP, XIGE, VIGETMP, VIGE,
@@ -468,13 +468,13 @@ c
       RETURN
       END
 c
-      !||====================================================================
-      !||    myqsort3d         ../starter/source/elements/ige3d/searchigeo3d.F
-      !||--- called by ------------------------------------------------------
-      !||    presearchigeo3d   ../starter/source/elements/ige3d/searchigeo3d.F
-      !||    reorder_ig3d      ../starter/source/elements/ige3d/reorder_ig3d.F
-      !||--- calls      -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    myqsort3d         ../starter/source/elements/ige3d/searchigeo3d.F
+!||--- called by ------------------------------------------------------
+!||    presearchigeo3d   ../starter/source/elements/ige3d/searchigeo3d.F
+!||    reorder_ig3d      ../starter/source/elements/ige3d/reorder_ig3d.F
+!||--- calls      -----------------------------------------------------
+!||====================================================================
       SUBROUTINE MYQSORT3D(n, X, perm)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

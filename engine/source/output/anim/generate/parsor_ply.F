@@ -20,20 +20,20 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    parsor_ply            ../engine/source/output/anim/generate/parsor_ply.F
-      !||--- called by ------------------------------------------------------
-      !||    genani                ../engine/source/output/anim/generate/genani.F
-      !||--- calls      -----------------------------------------------------
-      !||    get_ply_nod           ../engine/source/output/anim/generate/anin_ply_init.F
-      !||    get_ply_nodid         ../engine/source/output/anim/generate/anin_ply_init.F
-      !||    spmd_iget_partn_ply   ../engine/source/mpi/anim/spmd_iget_partn_ply.F
-      !||    spmd_iglob_partn      ../engine/source/mpi/anim/spmd_iglob_partn.F
-      !||    write_i_c             ../common_source/tools/input_output/write_routtines.c
-      !||--- uses       -----------------------------------------------------
-      !||    my_alloc_mod          ../common_source/tools/memory/my_alloc.F90
-      !||    plyxfem_mod           ../engine/share/modules/plyxfem_mod.F
-      !||====================================================================
+!||====================================================================
+!||    parsor_ply            ../engine/source/output/anim/generate/parsor_ply.F
+!||--- called by ------------------------------------------------------
+!||    genani                ../engine/source/output/anim/generate/genani.F
+!||--- calls      -----------------------------------------------------
+!||    get_ply_nod           ../engine/source/output/anim/generate/anin_ply_init.F
+!||    get_ply_nodid         ../engine/source/output/anim/generate/anin_ply_init.F
+!||    spmd_iget_partn_ply   ../engine/source/mpi/anim/spmd_iget_partn_ply.F
+!||    spmd_iglob_partn      ../engine/source/mpi/anim/spmd_iglob_partn.F
+!||    write_i_c             ../common_source/tools/input_output/write_routtines.c
+!||--- uses       -----------------------------------------------------
+!||    my_alloc_mod          ../common_source/tools/memory/my_alloc.F90
+!||    plyxfem_mod           ../engine/share/modules/plyxfem_mod.F
+!||====================================================================
       SUBROUTINE PARSOR_PLY(NEL_PLY, X,       D,       XNORM,  CDG,
      .                      IPARG,   IXC,     IXTG,    INVERT, EL2FA,
      .                      MATER,   IPARTC,  NODGLOB, IDPLY,  IADPLY,

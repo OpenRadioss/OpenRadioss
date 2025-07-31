@@ -20,19 +20,19 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    boltst       ../engine/source/elements/solid/solide/boltst.F
-      !||--- called by ------------------------------------------------------
-      !||    s10forc3     ../engine/source/elements/solid/solide10/s10forc3.F
-      !||    s4forc3      ../engine/source/elements/solid/solide4/s4forc3.F
-      !||    s8cforc3     ../engine/source/elements/thickshell/solide8c/s8cforc3.F
-      !||    s8eforc3     ../engine/source/elements/solid/solide8e/s8eforc3.F
-      !||    s8zforc3     ../engine/source/elements/solid/solide8z/s8zforc3.F
-      !||    sforc3       ../engine/source/elements/solid/solide/sforc3.F
-      !||    szforc3      ../engine/source/elements/solid/solidez/szforc3.F
-      !||--- uses       -----------------------------------------------------
-      !||    sensor_mod   ../common_source/modules/sensor_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    boltst       ../engine/source/elements/solid/solide/boltst.F
+!||--- called by ------------------------------------------------------
+!||    s10forc3     ../engine/source/elements/solid/solide10/s10forc3.F
+!||    s4forc3      ../engine/source/elements/solid/solide4/s4forc3.F
+!||    s8cforc3     ../engine/source/elements/thickshell/solide8c/s8cforc3.F
+!||    s8eforc3     ../engine/source/elements/solid/solide8e/s8eforc3.F
+!||    s8zforc3     ../engine/source/elements/solid/solide8z/s8zforc3.F
+!||    sforc3       ../engine/source/elements/solid/solide/sforc3.F
+!||    szforc3      ../engine/source/elements/solid/solidez/szforc3.F
+!||--- uses       -----------------------------------------------------
+!||    sensor_mod   ../common_source/modules/sensor_mod.F90
+!||====================================================================
       SUBROUTINE BOLTST(IP      ,BPRELD   ,SIG       ,TT        ,        
      .                  NEL     ,NPT      ,NSENSOR   ,SENSOR_TAB)
 C-----------------------------------------------  

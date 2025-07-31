@@ -20,16 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    check_mat_elem_prop_compatibility   ../starter/source/materials/mat/check_mat_elem_prop_compatibility.F
-      !||--- called by ------------------------------------------------------
-      !||    lectur                              ../starter/source/starter/lectur.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg                              ../starter/source/output/message/message.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod                         ../starter/share/message_module/message_mod.F
-      !||    stack_mod                           ../starter/share/modules1/stack_mod.F
-      !||====================================================================
+!||====================================================================
+!||    check_mat_elem_prop_compatibility   ../starter/source/materials/mat/check_mat_elem_prop_compatibility.F
+!||--- called by ------------------------------------------------------
+!||    lectur                              ../starter/source/starter/lectur.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                              ../starter/source/output/message/message.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod                         ../starter/share/message_module/message_mod.F
+!||    stack_mod                           ../starter/share/modules1/stack_mod.F
+!||====================================================================
       SUBROUTINE CHECK_MAT_ELEM_PROP_COMPATIBILITY(
      .  ELBUF_STR,IPARG    ,IPM      ,IGEO     ,NUMMAT   ,NUMGEO   ,
      .  NGROUP   ,NPARG    ,NPROPMI  ,NPROPGI  ,MAT_PARAM,N2D      ,

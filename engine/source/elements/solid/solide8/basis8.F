@@ -21,16 +21,16 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
-      !||====================================================================
-      !||    basis8        ../engine/source/elements/solid/solide8/basis8.F
-      !||--- called by ------------------------------------------------------
-      !||    basisf        ../engine/source/elements/solid/solide8/basisf.F
-      !||    s8cfint_reg   ../engine/source/elements/thickshell/solide8c/s8cfint_reg.F
-      !||    s8cforc3      ../engine/source/elements/thickshell/solide8c/s8cforc3.F
-      !||    s8eforc3      ../engine/source/elements/solid/solide8e/s8eforc3.F
-      !||    s8sforc3      ../engine/source/elements/solid/solide8s/s8sforc3.F
-      !||    s8zforc3      ../engine/source/elements/solid/solide8z/s8zforc3.F
-      !||====================================================================
+!||====================================================================
+!||    basis8        ../engine/source/elements/solid/solide8/basis8.F
+!||--- called by ------------------------------------------------------
+!||    basisf        ../engine/source/elements/solid/solide8/basisf.F
+!||    s8cfint_reg   ../engine/source/elements/thickshell/solide8c/s8cfint_reg.F
+!||    s8cforc3      ../engine/source/elements/thickshell/solide8c/s8cforc3.F
+!||    s8eforc3      ../engine/source/elements/solid/solide8e/s8eforc3.F
+!||    s8sforc3      ../engine/source/elements/solid/solide8s/s8sforc3.F
+!||    s8zforc3      ../engine/source/elements/solid/solide8z/s8zforc3.F
+!||====================================================================
       SUBROUTINE BASIS8 (R,S,T,H,PR,PS,PT)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

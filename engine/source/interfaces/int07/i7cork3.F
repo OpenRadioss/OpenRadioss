@@ -20,18 +20,18 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    i7cork3        ../engine/source/interfaces/int07/i7cork3.F
-      !||--- called by ------------------------------------------------------
-      !||    i10fku3        ../engine/source/interfaces/int10/i10ke3.F
-      !||    i10ke3         ../engine/source/interfaces/int10/i10ke3.F
-      !||    i7fku3         ../engine/source/interfaces/int07/i7ke3.F
-      !||    i7ke3          ../engine/source/interfaces/int07/i7ke3.F
-      !||    imp_i10mainf   ../engine/source/interfaces/int10/i10ke3.F
-      !||    imp_i7mainf    ../engine/source/interfaces/int07/i7ke3.F
-      !||--- uses       -----------------------------------------------------
-      !||    tri7box        ../engine/share/modules/tri7box.F
-      !||====================================================================
+!||====================================================================
+!||    i7cork3        ../engine/source/interfaces/int07/i7cork3.F
+!||--- called by ------------------------------------------------------
+!||    i10fku3        ../engine/source/interfaces/int10/i10ke3.F
+!||    i10ke3         ../engine/source/interfaces/int10/i10ke3.F
+!||    i7fku3         ../engine/source/interfaces/int07/i7ke3.F
+!||    i7ke3          ../engine/source/interfaces/int07/i7ke3.F
+!||    imp_i10mainf   ../engine/source/interfaces/int10/i10ke3.F
+!||    imp_i7mainf    ../engine/source/interfaces/int07/i7ke3.F
+!||--- uses       -----------------------------------------------------
+!||    tri7box        ../engine/share/modules/tri7box.F
+!||====================================================================
       SUBROUTINE I7CORK3(JLT   ,X     ,IRECT ,NSV   ,CAND_E  ,
      1                CAND_N  ,STF   ,STFN  ,X1    ,X2     ,
      2                X3      ,X4    ,Y1    ,Y2    ,Y3     ,
@@ -277,14 +277,14 @@ C
 C
       RETURN
       END
-      !||====================================================================
-      !||    i7corp3    ../engine/source/interfaces/int07/i7cork3.F
-      !||--- called by ------------------------------------------------------
-      !||    i7forcf3   ../engine/source/interfaces/int07/i7ke3.F
-      !||--- uses       -----------------------------------------------------
-      !||    imp_intm   ../engine/share/modules/imp_intm.F
-      !||    tri7box    ../engine/share/modules/tri7box.F
-      !||====================================================================
+!||====================================================================
+!||    i7corp3    ../engine/source/interfaces/int07/i7cork3.F
+!||--- called by ------------------------------------------------------
+!||    i7forcf3   ../engine/source/interfaces/int07/i7ke3.F
+!||--- uses       -----------------------------------------------------
+!||    imp_intm   ../engine/share/modules/imp_intm.F
+!||    tri7box    ../engine/share/modules/tri7box.F
+!||====================================================================
       SUBROUTINE I7CORP3(JLT   ,X     ,IRECT ,CAND_E  ,CAND_N  ,
      1                   STIF  ,H1    ,H2    ,H3      ,H4      ,
      2                   N1    ,N2    ,N3    ,IX1     ,IX2     ,
@@ -361,14 +361,14 @@ C
 C
       RETURN
       END
-      !||====================================================================
-      !||    i7corkp3   ../engine/source/interfaces/int07/i7cork3.F
-      !||--- called by ------------------------------------------------------
-      !||    i10fku3    ../engine/source/interfaces/int10/i10ke3.F
-      !||    i7fku3     ../engine/source/interfaces/int07/i7ke3.F
-      !||--- uses       -----------------------------------------------------
-      !||    imp_intm   ../engine/share/modules/imp_intm.F
-      !||====================================================================
+!||====================================================================
+!||    i7corkp3   ../engine/source/interfaces/int07/i7cork3.F
+!||--- called by ------------------------------------------------------
+!||    i10fku3    ../engine/source/interfaces/int10/i10ke3.F
+!||    i7fku3     ../engine/source/interfaces/int07/i7ke3.F
+!||--- uses       -----------------------------------------------------
+!||    imp_intm   ../engine/share/modules/imp_intm.F
+!||====================================================================
       SUBROUTINE I7CORKP3(
      1                    JLT   ,XI      ,YI     ,ZI     ,D      ,   
      2                    DXI   ,DYI     ,DZI    ,NSVG   ,NIN    ,

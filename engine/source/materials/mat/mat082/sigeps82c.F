@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    sigeps82c   ../engine/source/materials/mat/mat082/sigeps82c.F
-      !||--- called by ------------------------------------------------------
-      !||    mulawc      ../engine/source/materials/mat_share/mulawc.F90
-      !||--- calls      -----------------------------------------------------
-      !||    finter      ../engine/source/tools/curve/finter.F
-      !||====================================================================
+!||====================================================================
+!||    sigeps82c   ../engine/source/materials/mat/mat082/sigeps82c.F
+!||--- called by ------------------------------------------------------
+!||    mulawc      ../engine/source/materials/mat_share/mulawc.F90
+!||--- calls      -----------------------------------------------------
+!||    finter      ../engine/source/tools/curve/finter.F
+!||====================================================================
               SUBROUTINE SIGEPS82C(
      1      NEL    , NUPARAM, NUVAR   , NFUNC , IFUNC ,
      2      NPF    , NPT0   , IPT , IFLAG  ,

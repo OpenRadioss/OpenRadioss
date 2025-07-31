@@ -20,15 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    i24inisur_nei          ../starter/source/interfaces/inter3d1/i24inisu_nei.F
-      !||--- called by ------------------------------------------------------
-      !||    inint3                 ../starter/source/interfaces/inter3d1/inint3.F
-      !||--- calls      -----------------------------------------------------
-      !||    comm_seg_en            ../starter/source/interfaces/inter3d1/i24inisu_nei.F
-      !||    msg_err                ../starter/source/interfaces/inter3d1/i24tools.F
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    i24inisur_nei          ../starter/source/interfaces/inter3d1/i24inisu_nei.F
+!||--- called by ------------------------------------------------------
+!||    inint3                 ../starter/source/interfaces/inter3d1/inint3.F
+!||--- calls      -----------------------------------------------------
+!||    comm_seg_en            ../starter/source/interfaces/inter3d1/i24inisu_nei.F
+!||    msg_err                ../starter/source/interfaces/inter3d1/i24tools.F
+!||--- uses       -----------------------------------------------------
+!||====================================================================
       SUBROUTINE I24INISUR_NEI(NRTM ,NSN,IRECT,IRTLM,MVOISIN,
      2                         NVOISIN,MSEGLO ,MSEGTYP,ITAB ,X ,
      3                         ID,TITR,IGEO )
@@ -203,17 +203,17 @@ c       print *,'NVOISIN(1,I)=',(ITAB(NVOISIN(J,I)),J=1,N_N(I))
 c      END DO
       RETURN
       END
-      !||====================================================================
-      !||    comm_seg_en     ../starter/source/interfaces/inter3d1/i24inisu_nei.F
-      !||--- called by ------------------------------------------------------
-      !||    i24inisur_nei   ../starter/source/interfaces/inter3d1/i24inisu_nei.F
-      !||--- calls      -----------------------------------------------------
-      !||    comm_seg_e      ../starter/source/interfaces/inter3d1/i24inisu_nei.F
-      !||    comm_seg_n      ../starter/source/interfaces/inter3d1/i24inisu_nei.F
-      !||    re_ori          ../starter/source/interfaces/inter3d1/i24tools.F
-      !||    removeic1       ../starter/source/interfaces/inter3d1/i24tools.F
-      !||    seg_opp         ../starter/source/interfaces/inter3d1/i24tools.F
-      !||====================================================================
+!||====================================================================
+!||    comm_seg_en     ../starter/source/interfaces/inter3d1/i24inisu_nei.F
+!||--- called by ------------------------------------------------------
+!||    i24inisur_nei   ../starter/source/interfaces/inter3d1/i24inisu_nei.F
+!||--- calls      -----------------------------------------------------
+!||    comm_seg_e      ../starter/source/interfaces/inter3d1/i24inisu_nei.F
+!||    comm_seg_n      ../starter/source/interfaces/inter3d1/i24inisu_nei.F
+!||    re_ori          ../starter/source/interfaces/inter3d1/i24tools.F
+!||    removeic1       ../starter/source/interfaces/inter3d1/i24tools.F
+!||    seg_opp         ../starter/source/interfaces/inter3d1/i24tools.F
+!||====================================================================
       SUBROUTINE COMM_SEG_EN(N1,IED1,N2,IED2,NE,ICE,ISELF,
      .                       I1,I2,IRECT,IM2SH ,NN,ICN ,X  ,IE,IN ,IRR)
 C----6---------------------------------------------------------------7---------8
@@ -281,15 +281,15 @@ C        print *,'!!!error (report to developer)!!!',(NE-NE0),(NN-NN0)
 C----6---------------------------------------------------------------7---------8
       RETURN
       END
-      !||====================================================================
-      !||    comm_seg_e    ../starter/source/interfaces/inter3d1/i24inisu_nei.F
-      !||--- called by ------------------------------------------------------
-      !||    comm_seg_en   ../starter/source/interfaces/inter3d1/i24inisu_nei.F
-      !||--- calls      -----------------------------------------------------
-      !||    add_id        ../starter/source/interfaces/inter3d1/i24tools.F
-      !||    intab         ../starter/source/interfaces/inter3d1/i24tools.F
-      !||    same_seg      ../starter/source/interfaces/inter3d1/i24tools.F
-      !||====================================================================
+!||====================================================================
+!||    comm_seg_e    ../starter/source/interfaces/inter3d1/i24inisu_nei.F
+!||--- called by ------------------------------------------------------
+!||    comm_seg_en   ../starter/source/interfaces/inter3d1/i24inisu_nei.F
+!||--- calls      -----------------------------------------------------
+!||    add_id        ../starter/source/interfaces/inter3d1/i24tools.F
+!||    intab         ../starter/source/interfaces/inter3d1/i24tools.F
+!||    same_seg      ../starter/source/interfaces/inter3d1/i24tools.F
+!||====================================================================
       SUBROUTINE COMM_SEG_E(N1,IED1,N2,IED2,N,IC,ISELF,
      .                      I1,I2,IRECT,IASYM)
 C----6---------------------------------------------------------------7---------8
@@ -345,13 +345,13 @@ C----add 0 for IC if find nothing -> consisting w/ ICN------------------------
 C----6---------------------------------------------------------------7---------8
       RETURN
       END
-      !||====================================================================
-      !||    comm_seg_n    ../starter/source/interfaces/inter3d1/i24inisu_nei.F
-      !||--- called by ------------------------------------------------------
-      !||    comm_seg_en   ../starter/source/interfaces/inter3d1/i24inisu_nei.F
-      !||--- calls      -----------------------------------------------------
-      !||    add_n_id      ../starter/source/interfaces/inter3d1/i24tools.F
-      !||====================================================================
+!||====================================================================
+!||    comm_seg_n    ../starter/source/interfaces/inter3d1/i24inisu_nei.F
+!||--- called by ------------------------------------------------------
+!||    comm_seg_en   ../starter/source/interfaces/inter3d1/i24inisu_nei.F
+!||--- calls      -----------------------------------------------------
+!||    add_n_id      ../starter/source/interfaces/inter3d1/i24tools.F
+!||====================================================================
       SUBROUTINE COMM_SEG_N(NE0,NE,ICE,NN,ICN,ISELF,I1,I2,IRECT)
 C----6---------------------------------------------------------------7---------8
 C   I m p l i c i t   T y p e s
@@ -408,11 +408,11 @@ C----add 0 for IC if find nothing -> consisting w/ ICN------------------------
 C----6---------------------------------------------------------------7---------8
       RETURN
       END
-      !||====================================================================
-      !||    i24ini_gap_n   ../starter/source/interfaces/inter3d1/i24inisu_nei.F
-      !||--- called by ------------------------------------------------------
-      !||    inint3         ../starter/source/interfaces/inter3d1/inint3.F
-      !||====================================================================
+!||====================================================================
+!||    i24ini_gap_n   ../starter/source/interfaces/inter3d1/i24inisu_nei.F
+!||--- called by ------------------------------------------------------
+!||    inint3         ../starter/source/interfaces/inter3d1/inint3.F
+!||====================================================================
       SUBROUTINE I24INI_GAP_N(
      1 NRTM  ,IRECT ,IXS   ,GEO   ,IXC   ,IXTG  ,
      2 IXT   ,IXP   ,IPART  ,IPARTC   ,IPARTTG  ,

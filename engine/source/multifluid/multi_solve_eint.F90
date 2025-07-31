@@ -20,11 +20,11 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    multi_solve_eint_mod   ../engine/source/multifluid/multi_solve_eint.F90
-      !||--- called by ------------------------------------------------------
-      !||    multi_inlet_ebcs       ../engine/source/multifluid/multi_inlet_ebcs.F
-      !||====================================================================
+!||====================================================================
+!||    multi_solve_eint_mod   ../engine/source/multifluid/multi_solve_eint.F90
+!||--- called by ------------------------------------------------------
+!||    multi_inlet_ebcs       ../engine/source/multifluid/multi_inlet_ebcs.F
+!||====================================================================
       MODULE MULTI_SOLVE_EINT_MOD
       CONTAINS
 ! ======================================================================================================================
@@ -32,19 +32,19 @@
 ! ======================================================================================================================
 !! \brief solve internal energy
 !! \details 
-      !||====================================================================
-      !||    multi_solve_eint      ../engine/source/multifluid/multi_solve_eint.F90
-      !||--- called by ------------------------------------------------------
-      !||    multi_inlet_ebcs      ../engine/source/multifluid/multi_inlet_ebcs.F
-      !||--- calls      -----------------------------------------------------
-      !||    multi_submatlaw       ../engine/source/multifluid/multi_submatlaw.F
-      !||--- uses       -----------------------------------------------------
-      !||    constant_mod          ../common_source/modules/constant_mod.F
-      !||    eosmain_mod           ../common_source/eos/eosmain.F
-      !||    matparam_def_mod      ../common_source/modules/mat_elem/matparam_def_mod.F90
-      !||    multi_submatlaw_mod   ../engine/source/multifluid/multi_submatlaw.F
-      !||    precision_mod         ../common_source/modules/precision_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    multi_solve_eint      ../engine/source/multifluid/multi_solve_eint.F90
+!||--- called by ------------------------------------------------------
+!||    multi_inlet_ebcs      ../engine/source/multifluid/multi_inlet_ebcs.F
+!||--- calls      -----------------------------------------------------
+!||    multi_submatlaw       ../engine/source/multifluid/multi_submatlaw.F
+!||--- uses       -----------------------------------------------------
+!||    constant_mod          ../common_source/modules/constant_mod.F
+!||    eosmain_mod           ../common_source/eos/eosmain.F
+!||    matparam_def_mod      ../common_source/modules/mat_elem/matparam_def_mod.F90
+!||    multi_submatlaw_mod   ../engine/source/multifluid/multi_submatlaw.F
+!||    precision_mod         ../common_source/modules/precision_mod.F90
+!||====================================================================
       SUBROUTINE MULTI_SOLVE_EINT(MATLAW   , LOCAL_MATID, PM        , IPM         , NPROPM , NPROPMI,&
                                   EINT     , RHO        , PRES      , SSP         , &
                                   BURNFRAC , BURNTIME   , DELTAX    , CURRENT_TIME, &

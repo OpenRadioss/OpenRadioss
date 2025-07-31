@@ -20,21 +20,21 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    r23forc3           ../engine/source/elements/spring/r23forc3.F
-      !||--- called by ------------------------------------------------------
-      !||    forint             ../engine/source/elements/forint.F
-      !||--- calls      -----------------------------------------------------
-      !||    r23law108          ../engine/source/elements/spring/r23law108.F
-      !||    r23law113          ../engine/source/elements/spring/r23law113.F
-      !||    r23law114          ../engine/source/elements/spring/r23law114.F
-      !||--- uses       -----------------------------------------------------
-      !||    elbufdef_mod       ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||    h3d_mod            ../engine/share/modules/h3d_mod.F
-      !||    python_funct_mod   ../common_source/modules/python_mod.F90
-      !||    sensor_mod         ../common_source/modules/sensor_mod.F90
-      !||    table_mod          ../engine/share/modules/table_mod.F
-      !||====================================================================
+!||====================================================================
+!||    r23forc3           ../engine/source/elements/spring/r23forc3.F
+!||--- called by ------------------------------------------------------
+!||    forint             ../engine/source/elements/forint.F
+!||--- calls      -----------------------------------------------------
+!||    r23law108          ../engine/source/elements/spring/r23law108.F
+!||    r23law113          ../engine/source/elements/spring/r23law113.F
+!||    r23law114          ../engine/source/elements/spring/r23law114.F
+!||--- uses       -----------------------------------------------------
+!||    elbufdef_mod       ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    h3d_mod            ../engine/share/modules/h3d_mod.F
+!||    python_funct_mod   ../common_source/modules/python_mod.F90
+!||    sensor_mod         ../common_source/modules/sensor_mod.F90
+!||    table_mod          ../engine/share/modules/table_mod.F
+!||====================================================================
       SUBROUTINE R23FORC3(PYTHON,
      1   ELBUF_STR,            JFT,                  JLT,                  NEL,
      2   MTN,                  IGEO,                 GEO,                  IPM,

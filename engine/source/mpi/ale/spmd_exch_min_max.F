@@ -20,18 +20,18 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    spmd_exch_min_max                ../engine/source/mpi/ale/spmd_exch_min_max.F
-      !||--- called by ------------------------------------------------------
-      !||    ale51_gradient_reconstruction    ../engine/source/ale/alemuscl/ale51_gradient_reconstruction.F
-      !||    ale51_gradient_reconstruction2   ../engine/source/ale/alemuscl/ale51_gradient_reconstruction2.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg                           ../engine/source/output/message/message.F
-      !||    arret                            ../engine/source/system/arret.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod                      ../engine/share/message_module/message_mod.F
-      !||    spmd_comm_world_mod              ../engine/source/mpi/spmd_comm_world.F90
-      !||====================================================================
+!||====================================================================
+!||    spmd_exch_min_max                ../engine/source/mpi/ale/spmd_exch_min_max.F
+!||--- called by ------------------------------------------------------
+!||    ale51_gradient_reconstruction    ../engine/source/ale/alemuscl/ale51_gradient_reconstruction.F
+!||    ale51_gradient_reconstruction2   ../engine/source/ale/alemuscl/ale51_gradient_reconstruction2.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                           ../engine/source/output/message/message.F
+!||    arret                            ../engine/source/system/arret.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod                      ../engine/share/message_module/message_mod.F
+!||    spmd_comm_world_mod              ../engine/source/mpi/spmd_comm_world.F90
+!||====================================================================
       SUBROUTINE SPMD_EXCH_MIN_MAX(IAD_ELEM ,FR_ELEM ,MIN_ARRAY,MAX_ARRAY )
 C-----------------------------------------------
 C   M o d u l e s

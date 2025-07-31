@@ -20,15 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    cupdt3f            ../engine/source/elements/shell/coque/cupdt3.F
-      !||--- called by ------------------------------------------------------
-      !||    cbaforc3           ../engine/source/elements/shell/coqueba/cbaforc3.F
-      !||    cforc3             ../engine/source/elements/shell/coque/cforc3.F
-      !||    czforc3            ../engine/source/elements/shell/coquez/czforc3.F
-      !||--- calls      -----------------------------------------------------
-      !||    double_flot_ieee   ../engine/source/system/parit.F
-      !||====================================================================
+!||====================================================================
+!||    cupdt3f            ../engine/source/elements/shell/coque/cupdt3.F
+!||--- called by ------------------------------------------------------
+!||    cbaforc3           ../engine/source/elements/shell/coqueba/cbaforc3.F
+!||    cforc3             ../engine/source/elements/shell/coque/cforc3.F
+!||    czforc3            ../engine/source/elements/shell/coquez/czforc3.F
+!||--- calls      -----------------------------------------------------
+!||    double_flot_ieee   ../engine/source/system/parit.F
+!||====================================================================
       SUBROUTINE CUPDT3F(JFT   ,JLT  ,I8F   ,I8M   ,NVC    ,
      2                  OFFG   ,OFF  ,STI   ,STIR  ,I8STIFN,
      3                  I8STIFR,IXC  ,PM    ,AREA  ,THK    ,
@@ -500,11 +500,11 @@ C
       RETURN
       END
 C
-      !||====================================================================
-      !||    cupdt3   ../engine/source/elements/shell/coque/cupdt3.F
-      !||--- called by ------------------------------------------------------
-      !||    cforc3   ../engine/source/elements/shell/coque/cforc3.F
-      !||====================================================================
+!||====================================================================
+!||    cupdt3   ../engine/source/elements/shell/coque/cupdt3.F
+!||--- called by ------------------------------------------------------
+!||    cforc3   ../engine/source/elements/shell/coque/cforc3.F
+!||====================================================================
       SUBROUTINE CUPDT3(JFT  ,JLT  ,F      ,M    ,NVC  ,
      2                  OFFG ,OFF  ,STI    ,STIR ,STIFN,
      3                  STIFR,IXC  ,PM     ,AREA ,THK  ,
@@ -950,11 +950,11 @@ C
       RETURN
       END
 C
-      !||====================================================================
-      !||    cupdt3p   ../engine/source/elements/shell/coque/cupdt3.F
-      !||--- called by ------------------------------------------------------
-      !||    cforc3    ../engine/source/elements/shell/coque/cforc3.F
-      !||====================================================================
+!||====================================================================
+!||    cupdt3p   ../engine/source/elements/shell/coque/cupdt3.F
+!||--- called by ------------------------------------------------------
+!||    cforc3    ../engine/source/elements/shell/coque/cforc3.F
+!||====================================================================
       SUBROUTINE CUPDT3P(JFT  ,JLT    ,OFFG   ,OFF   ,STI  ,
      2                   STIR ,FSKY   ,FSKYV  ,IADC  ,IXC  ,
      3                   F11  ,F12    ,F13    ,F14   ,F21  ,

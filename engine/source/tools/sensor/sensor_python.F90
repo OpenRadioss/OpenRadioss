@@ -21,25 +21,25 @@
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 
-      !||====================================================================
-      !||    sensor_python_mod   ../engine/source/tools/sensor/sensor_python.F90
-      !||--- called by ------------------------------------------------------
-      !||    sensor_base         ../engine/source/tools/sensor/sensor_base.F
-      !||    sensor_init         ../engine/source/tools/sensor/sensor_init.F
-      !||====================================================================
+!||====================================================================
+!||    sensor_python_mod   ../engine/source/tools/sensor/sensor_python.F90
+!||--- called by ------------------------------------------------------
+!||    sensor_base         ../engine/source/tools/sensor/sensor_base.F
+!||    sensor_init         ../engine/source/tools/sensor/sensor_init.F
+!||====================================================================
       module sensor_python_mod 
       contains
-      !||====================================================================
-      !||    sensor_python                     ../engine/source/tools/sensor/sensor_python.F90
-      !||--- called by ------------------------------------------------------
-      !||    sensor_base                       ../engine/source/tools/sensor/sensor_base.F
-      !||    sensor_init                       ../engine/source/tools/sensor/sensor_init.F
-      !||--- calls      -----------------------------------------------------
-      !||--- uses       -----------------------------------------------------
-      !||    constant_mod                      ../common_source/modules/constant_mod.F
-      !||    python_funct_mod                  ../common_source/modules/python_mod.F90
-      !||    sensor_mod                        ../common_source/modules/sensor_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    sensor_python                     ../engine/source/tools/sensor/sensor_python.F90
+!||--- called by ------------------------------------------------------
+!||    sensor_base                       ../engine/source/tools/sensor/sensor_base.F
+!||    sensor_init                       ../engine/source/tools/sensor/sensor_init.F
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||    constant_mod                      ../common_source/modules/constant_mod.F
+!||    python_funct_mod                  ../common_source/modules/python_mod.F90
+!||    sensor_mod                        ../common_source/modules/sensor_mod.F90
+!||====================================================================
       subroutine sensor_python(sensor)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   modules

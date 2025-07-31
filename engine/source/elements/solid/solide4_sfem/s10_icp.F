@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    s10_icp     ../engine/source/elements/solid/solide4_sfem/s10_icp.F
-      !||--- called by ------------------------------------------------------
-      !||    s10forc3    ../engine/source/elements/solid/solide10/s10forc3.F
-      !||--- calls      -----------------------------------------------------
-      !||    jacob_j33   ../engine/source/elements/solid/solide8e/jacob_j33.F
-      !||====================================================================
+!||====================================================================
+!||    s10_icp     ../engine/source/elements/solid/solide4_sfem/s10_icp.F
+!||--- called by ------------------------------------------------------
+!||    s10forc3    ../engine/source/elements/solid/solide10/s10forc3.F
+!||--- calls      -----------------------------------------------------
+!||    jacob_j33   ../engine/source/elements/solid/solide8e/jacob_j33.F
+!||====================================================================
       SUBROUTINE S10_ICP(
      1   OFFG,    JACG,    FACP,    NU,
      2   DXX,     DXY,     DXZ,     DYX,

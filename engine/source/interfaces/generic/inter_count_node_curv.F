@@ -20,21 +20,21 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    inter_count_node_curv    ../engine/source/interfaces/generic/inter_count_node_curv.F
-      !||--- called by ------------------------------------------------------
-      !||    inter_prepare_sort       ../engine/source/interfaces/generic/inter_prepare_sort.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg                   ../engine/source/output/message/message.F
-      !||    arret                    ../engine/source/system/arret.F
-      !||    inter_curv_computation   ../engine/source/interfaces/generic/inter_curv_computation.F
-      !||    my_barrier               ../engine/source/system/machine.F
-      !||--- uses       -----------------------------------------------------
-      !||    intbufdef_mod            ../common_source/modules/interfaces/intbufdef_mod.F90
-      !||    inter_sorting_mod        ../engine/share/modules/inter_sorting_mod.F
-      !||    inter_struct_mod         ../engine/share/modules/inter_struct_mod.F
-      !||    message_mod              ../engine/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    inter_count_node_curv    ../engine/source/interfaces/generic/inter_count_node_curv.F
+!||--- called by ------------------------------------------------------
+!||    inter_prepare_sort       ../engine/source/interfaces/generic/inter_prepare_sort.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                   ../engine/source/output/message/message.F
+!||    arret                    ../engine/source/system/arret.F
+!||    inter_curv_computation   ../engine/source/interfaces/generic/inter_curv_computation.F
+!||    my_barrier               ../engine/source/system/machine.F
+!||--- uses       -----------------------------------------------------
+!||    intbufdef_mod            ../common_source/modules/interfaces/intbufdef_mod.F90
+!||    inter_sorting_mod        ../engine/share/modules/inter_sorting_mod.F
+!||    inter_struct_mod         ../engine/share/modules/inter_struct_mod.F
+!||    message_mod              ../engine/share/message_module/message_mod.F
+!||====================================================================
         SUBROUTINE INTER_COUNT_NODE_CURV( NIN,ITASK,IPARI,INTBUF_TAB,
      1                                    X,INTER_STRUCT)
 !$COMMENT

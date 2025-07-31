@@ -20,12 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    dsphnor     ../starter/source/output/anim/dsphnor.F
-      !||--- called by ------------------------------------------------------
-      !||    genani1     ../starter/source/output/anim/genani1.F
-      !||--- calls      -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    dsphnor     ../starter/source/output/anim/dsphnor.F
+!||--- called by ------------------------------------------------------
+!||    genani1     ../starter/source/output/anim/genani1.F
+!||--- calls      -----------------------------------------------------
+!||====================================================================
       SUBROUTINE DSPHNOR(KXSP,X,SPBUF,NNSPH)                            
 C-----------------------------------------------                        
 C   I m p l i c i t   T y p e s                                         

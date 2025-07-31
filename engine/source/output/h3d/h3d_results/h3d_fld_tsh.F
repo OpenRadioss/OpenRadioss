@@ -20,16 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    h3d_fld_tsh       ../engine/source/output/h3d/h3d_results/h3d_fld_tsh.F
-      !||--- called by ------------------------------------------------------
-      !||    h3d_skin_scalar   ../engine/source/output/h3d/h3d_results/h3d_skin_scalar.F
-      !||--- calls      -----------------------------------------------------
-      !||    fail_fld_tsh      ../engine/source/materials/fail/fld/fail_fld_tsh.F
-      !||--- uses       -----------------------------------------------------
-      !||    elbufdef_mod      ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||    fail_param_mod    ../common_source/modules/mat_elem/fail_param_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    h3d_fld_tsh       ../engine/source/output/h3d/h3d_results/h3d_fld_tsh.F
+!||--- called by ------------------------------------------------------
+!||    h3d_skin_scalar   ../engine/source/output/h3d/h3d_results/h3d_skin_scalar.F
+!||--- calls      -----------------------------------------------------
+!||    fail_fld_tsh      ../engine/source/materials/fail/fld/fail_fld_tsh.F
+!||--- uses       -----------------------------------------------------
+!||    elbufdef_mod      ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    fail_param_mod    ../common_source/modules/mat_elem/fail_param_mod.F90
+!||====================================================================
       SUBROUTINE H3D_FLD_TSH(ELBUF_TAB,FAIL,
      .                       IR,IS,IT,ILAY,IFAIL,
      .                       NPF,TF,NGL,EVAR,NEL )

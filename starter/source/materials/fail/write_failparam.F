@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    write_failparam        ../starter/source/materials/fail/write_failparam.F
-      !||--- called by ------------------------------------------------------
-      !||    write_matparam         ../starter/source/materials/mat/write_matparam.F
-      !||--- calls      -----------------------------------------------------
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    write_failparam        ../starter/source/materials/fail/write_failparam.F
+!||--- called by ------------------------------------------------------
+!||    write_matparam         ../starter/source/materials/mat/write_matparam.F
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||====================================================================
       SUBROUTINE WRITE_FAILPARAM(FAIL,LEN)
 C-----------------------------------------------
 C   M o d u l e s

@@ -24,40 +24,40 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 
 
 C
-      !||====================================================================
-      !||    spmd_rbcast                       ../engine/source/mpi/generic/spmd_rbcast.F
-      !||--- called by ------------------------------------------------------
-      !||    agauge                            ../engine/source/ale/agauge.F
-      !||    agauge0                           ../engine/source/ale/agauge.F
-      !||    alelin                            ../engine/source/ale/grid/alelin.F
-      !||    ecrit                             ../engine/source/output/ecrit.F
-      !||    find_dt_for_targeted_added_mass   ../engine/source/time_step/find_dt_for_targeted_added_mass.F
-      !||    get_mass_rby_spmd                 ../engine/source/coupling/rad2rad/r2r_init.F
-      !||    get_u_nod_a                       ../engine/source/user_interface/uaccess.F
-      !||    get_u_nod_d                       ../engine/source/user_interface/uaccess.F
-      !||    get_u_nod_v                       ../engine/source/user_interface/uaccess.F
-      !||    get_u_nod_x                       ../engine/source/user_interface/uaccess.F
-      !||    i9wal2                            ../engine/source/interfaces/int09/i9wal2.F
-      !||    i9wal3                            ../engine/source/interfaces/int09/i9wal3.F
-      !||    imp_buck                          ../engine/source/implicit/imp_buck.F
-      !||    intstamp_ass                      ../engine/source/interfaces/int21/intstamp_ass.F
-      !||    manctr                            ../engine/source/input/manctr.F
-      !||    movfra1                           ../engine/source/tools/skew/movfram.F
-      !||    movfra2                           ../engine/source/tools/skew/movfram.F
-      !||    movfra_imp                        ../engine/source/tools/skew/movfram.F
-      !||    r2r_input_init                    ../engine/source/coupling/rad2rad/r2r_input_init.F
-      !||    resol                             ../engine/source/engine/resol.F
-      !||    section_init                      ../engine/source/tools/sect/section_init.F
-      !||    section_readp                     ../engine/source/tools/sect/section_readp.F
-      !||    sensor_spmd                       ../engine/source/tools/sensor/sensor_spmd.F
-      !||    sms_pcg                           ../engine/source/ams/sms_pcg.F
-      !||    sms_produt3                       ../engine/source/ams/sms_proj.F
-      !||    sms_produt_h                      ../engine/source/ams/sms_proj.F
-      !||    spmd_i21crit                      ../engine/source/mpi/interfaces/spmd_i21crit.F
-      !||--- calls      -----------------------------------------------------
-      !||--- uses       -----------------------------------------------------
-      !||    spmd_comm_world_mod               ../engine/source/mpi/spmd_comm_world.F90
-      !||====================================================================
+!||====================================================================
+!||    spmd_rbcast                       ../engine/source/mpi/generic/spmd_rbcast.F
+!||--- called by ------------------------------------------------------
+!||    agauge                            ../engine/source/ale/agauge.F
+!||    agauge0                           ../engine/source/ale/agauge.F
+!||    alelin                            ../engine/source/ale/grid/alelin.F
+!||    ecrit                             ../engine/source/output/ecrit.F
+!||    find_dt_for_targeted_added_mass   ../engine/source/time_step/find_dt_for_targeted_added_mass.F
+!||    get_mass_rby_spmd                 ../engine/source/coupling/rad2rad/r2r_init.F
+!||    get_u_nod_a                       ../engine/source/user_interface/uaccess.F
+!||    get_u_nod_d                       ../engine/source/user_interface/uaccess.F
+!||    get_u_nod_v                       ../engine/source/user_interface/uaccess.F
+!||    get_u_nod_x                       ../engine/source/user_interface/uaccess.F
+!||    i9wal2                            ../engine/source/interfaces/int09/i9wal2.F
+!||    i9wal3                            ../engine/source/interfaces/int09/i9wal3.F
+!||    imp_buck                          ../engine/source/implicit/imp_buck.F
+!||    intstamp_ass                      ../engine/source/interfaces/int21/intstamp_ass.F
+!||    manctr                            ../engine/source/input/manctr.F
+!||    movfra1                           ../engine/source/tools/skew/movfram.F
+!||    movfra2                           ../engine/source/tools/skew/movfram.F
+!||    movfra_imp                        ../engine/source/tools/skew/movfram.F
+!||    r2r_input_init                    ../engine/source/coupling/rad2rad/r2r_input_init.F
+!||    resol                             ../engine/source/engine/resol.F
+!||    section_init                      ../engine/source/tools/sect/section_init.F
+!||    section_readp                     ../engine/source/tools/sect/section_readp.F
+!||    sensor_spmd                       ../engine/source/tools/sensor/sensor_spmd.F
+!||    sms_pcg                           ../engine/source/ams/sms_pcg.F
+!||    sms_produt3                       ../engine/source/ams/sms_proj.F
+!||    sms_produt_h                      ../engine/source/ams/sms_proj.F
+!||    spmd_i21crit                      ../engine/source/mpi/interfaces/spmd_i21crit.F
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||    spmd_comm_world_mod               ../engine/source/mpi/spmd_comm_world.F90
+!||====================================================================
       SUBROUTINE SPMD_RBCAST(TABI,TABR,N1,N2,FROM,ADD)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

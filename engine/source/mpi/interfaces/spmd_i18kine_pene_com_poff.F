@@ -21,22 +21,22 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
-      !||====================================================================
-      !||    spmd_i18kine_pene_com_poff   ../engine/source/mpi/interfaces/spmd_i18kine_pene_com_poff.F
-      !||--- called by ------------------------------------------------------
-      !||    i18main_kine_1               ../engine/source/interfaces/int18/i18main_kine.F
-      !||    i18main_kine_2               ../engine/source/interfaces/int18/i18main_kine.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg                       ../engine/source/output/message/message.F
-      !||    arret                        ../engine/source/system/arret.F
-      !||--- uses       -----------------------------------------------------
-      !||    anim_mod                     ../common_source/modules/output/anim_mod.F
-      !||    h3d_mod                      ../engine/share/modules/h3d_mod.F
-      !||    intbufdef_mod                ../common_source/modules/interfaces/intbufdef_mod.F90
-      !||    message_mod                  ../engine/share/message_module/message_mod.F
-      !||    spmd_comm_world_mod          ../engine/source/mpi/spmd_comm_world.F90
-      !||    tri7box                      ../engine/share/modules/tri7box.F
-      !||====================================================================
+!||====================================================================
+!||    spmd_i18kine_pene_com_poff   ../engine/source/mpi/interfaces/spmd_i18kine_pene_com_poff.F
+!||--- called by ------------------------------------------------------
+!||    i18main_kine_1               ../engine/source/interfaces/int18/i18main_kine.F
+!||    i18main_kine_2               ../engine/source/interfaces/int18/i18main_kine.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                       ../engine/source/output/message/message.F
+!||    arret                        ../engine/source/system/arret.F
+!||--- uses       -----------------------------------------------------
+!||    anim_mod                     ../common_source/modules/output/anim_mod.F
+!||    h3d_mod                      ../engine/share/modules/h3d_mod.F
+!||    intbufdef_mod                ../common_source/modules/interfaces/intbufdef_mod.F90
+!||    message_mod                  ../engine/share/message_module/message_mod.F
+!||    spmd_comm_world_mod          ../engine/source/mpi/spmd_comm_world.F90
+!||    tri7box                      ../engine/share/modules/tri7box.F
+!||====================================================================
       SUBROUTINE SPMD_I18KINE_PENE_COM_POFF(IPARI,INTBUF_TAB,FCONT,
      *                MTF,A,IAD_ELEM,FR_ELEM,MODE,SLVNDTAG,TAGPENE,ITAB,
      .                H3D_DATA )

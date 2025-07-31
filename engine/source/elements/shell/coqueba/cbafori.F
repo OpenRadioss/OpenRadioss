@@ -20,11 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    cbafori    ../engine/source/elements/shell/coqueba/cbafori.F
-      !||--- called by ------------------------------------------------------
-      !||    cbaforc3   ../engine/source/elements/shell/coqueba/cbaforc3.F
-      !||====================================================================
+!||====================================================================
+!||    cbafori    ../engine/source/elements/shell/coqueba/cbafori.F
+!||--- called by ------------------------------------------------------
+!||    cbaforc3   ../engine/source/elements/shell/coqueba/cbaforc3.F
+!||====================================================================
           SUBROUTINE CBAFORI(JFT  ,JLT   ,NG    ,CDET ,THK0,
      2                     TH12 ,FF0   ,MM0   ,NEL  ,BM  ,
      3                     BMF  ,BF    ,BC    ,TC   ,VF  ,
@@ -273,11 +273,11 @@ C
 C    
       RETURN
       END
-      !||====================================================================
-      !||    cbaforct   ../engine/source/elements/shell/coqueba/cbafori.F
-      !||--- called by ------------------------------------------------------
-      !||    cbaforc3   ../engine/source/elements/shell/coqueba/cbaforc3.F
-      !||====================================================================
+!||====================================================================
+!||    cbaforct   ../engine/source/elements/shell/coqueba/cbafori.F
+!||--- called by ------------------------------------------------------
+!||    cbaforc3   ../engine/source/elements/shell/coqueba/cbaforc3.F
+!||====================================================================
         SUBROUTINE CBAFORCT(JFT   ,JLT  ,VOL   ,X13  ,X24  ,
      2                      Y13   ,Y24  ,VSTRE ,VF   ,NPLAT,
      3                      IPLAT ,OFF  ,NEL   )
@@ -349,11 +349,11 @@ C
 C
        RETURN
        END
-      !||====================================================================
-      !||    cbaforrz   ../engine/source/elements/shell/coqueba/cbafori.F
-      !||--- called by ------------------------------------------------------
-      !||    cbaforc3   ../engine/source/elements/shell/coqueba/cbaforc3.F
-      !||====================================================================
+!||====================================================================
+!||    cbaforrz   ../engine/source/elements/shell/coqueba/cbafori.F
+!||--- called by ------------------------------------------------------
+!||    cbaforc3   ../engine/source/elements/shell/coqueba/cbaforc3.F
+!||====================================================================
         SUBROUTINE CBAFORRZ(JFT  ,JLT  ,VOL  ,FF   ,VSRZ ,
      2                      VF   ,VMZ  ,BM   ,BMRZ ,BRZ  ,
      3                      KRZ  ,VRLZ ,EINT ,OFF  ,DT1C ,
@@ -448,11 +448,11 @@ C
 C
        RETURN
        END
-      !||====================================================================
-      !||    cbafori1   ../engine/source/elements/shell/coqueba/cbafori.F
-      !||--- called by ------------------------------------------------------
-      !||    cbaforc3   ../engine/source/elements/shell/coqueba/cbaforc3.F
-      !||====================================================================
+!||====================================================================
+!||    cbafori1   ../engine/source/elements/shell/coqueba/cbafori.F
+!||--- called by ------------------------------------------------------
+!||    cbaforc3   ../engine/source/elements/shell/coqueba/cbaforc3.F
+!||====================================================================
           SUBROUTINE CBAFORI1(JFT  ,JLT  ,FF  ,BM  ,VF,
      .                      NPLAT,IPLAT,VOL ,NEL ) 
 C--------------------------------------------------------------------------------------------------

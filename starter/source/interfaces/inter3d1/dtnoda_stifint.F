@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    dtnoda_stifint   ../starter/source/interfaces/inter3d1/dtnoda_stifint.F
-      !||--- called by ------------------------------------------------------
-      !||    initia           ../starter/source/elements/initia/initia.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod      ../starter/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    dtnoda_stifint   ../starter/source/interfaces/inter3d1/dtnoda_stifint.F
+!||--- called by ------------------------------------------------------
+!||    initia           ../starter/source/elements/initia/initia.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod      ../starter/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE DTNODA_STIFINT( MS    ,STIFN  ,DT_STIFINT)
 C-----------------------------------------------
 C   M o d u l e s

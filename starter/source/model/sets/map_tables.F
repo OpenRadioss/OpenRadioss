@@ -20,21 +20,21 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    create_map_tables      ../starter/source/model/sets/map_tables.F
-      !||--- called by ------------------------------------------------------
-      !||    lectur                 ../starter/source/starter/lectur.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg                 ../starter/source/output/message/message.F
-      !||    hm_option_read_key     ../starter/source/devtools/hm_reader/hm_option_read_key.F
-      !||    hm_option_start        ../starter/source/devtools/hm_reader/hm_option_start.F
-      !||    map_order              ../starter/source/model/sets/map_order.F
-      !||--- uses       -----------------------------------------------------
-      !||    hm_option_read_mod     ../starter/share/modules1/hm_option_read_mod.F
-      !||    mapping_option_mod     ../starter/share/modules1/dichotomy_mod.F
-      !||    message_mod            ../starter/share/message_module/message_mod.F
-      !||    submodel_mod           ../starter/share/modules1/submodel_mod.F
-      !||====================================================================
+!||====================================================================
+!||    create_map_tables      ../starter/source/model/sets/map_tables.F
+!||--- called by ------------------------------------------------------
+!||    lectur                 ../starter/source/starter/lectur.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                 ../starter/source/output/message/message.F
+!||    hm_option_read_key     ../starter/source/devtools/hm_reader/hm_option_read_key.F
+!||    hm_option_start        ../starter/source/devtools/hm_reader/hm_option_start.F
+!||    map_order              ../starter/source/model/sets/map_order.F
+!||--- uses       -----------------------------------------------------
+!||    hm_option_read_mod     ../starter/share/modules1/hm_option_read_mod.F
+!||    mapping_option_mod     ../starter/share/modules1/dichotomy_mod.F
+!||    message_mod            ../starter/share/message_module/message_mod.F
+!||    submodel_mod           ../starter/share/modules1/submodel_mod.F
+!||====================================================================
       SUBROUTINE CREATE_MAP_TABLES ( MAP_TABLES ,MODE  ,
      *                               LSUBMODEL  ,SUBSET,
      *                               IPART,

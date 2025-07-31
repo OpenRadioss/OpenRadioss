@@ -21,13 +21,13 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
-      !||====================================================================
-      !||    w_fixvel   ../starter/source/restart/ddsplit/w_fixvel.F
-      !||--- called by ------------------------------------------------------
-      !||    ddsplit    ../starter/source/restart/ddsplit/ddsplit.F
-      !||--- calls      -----------------------------------------------------
-      !||    nlocal     ../starter/source/spmd/node/ddtools.F
-      !||====================================================================
+!||====================================================================
+!||    w_fixvel   ../starter/source/restart/ddsplit/w_fixvel.F
+!||--- called by ------------------------------------------------------
+!||    ddsplit    ../starter/source/restart/ddsplit/ddsplit.F
+!||--- calls      -----------------------------------------------------
+!||    nlocal     ../starter/source/spmd/node/ddtools.F
+!||====================================================================
       SUBROUTINE W_FIXVEL(VEL,NC,IBFV,NFXVEL_L,LEN_AM,PROC)
 C-----------------------------------------------
 C   M o d u l e s

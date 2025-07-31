@@ -20,28 +20,28 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    suinit3                ../starter/source/elements/elbuf_init/suinit3.F
-      !||--- called by ------------------------------------------------------
-      !||    initia                 ../starter/source/elements/initia/initia.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg                 ../starter/source/output/message/message.F
-      !||    dtmain                 ../starter/source/materials/time_step/dtmain.F
-      !||    failini                ../starter/source/elements/solid/solide/failini.F
-      !||    fretitl2               ../starter/source/starter/freform.F
-      !||    matini                 ../starter/source/materials/mat_share/matini.F
-      !||    sbulk3                 ../starter/source/elements/solid/solide/sbulk3.F
-      !||    scoor3                 ../starter/source/elements/solid/solide/scoor3.F
-      !||    sdlen3                 ../starter/source/elements/solid/solide/sdlen3.F
-      !||    sini43                 ../starter/source/elements/solid/sconnect/sini43.F
-      !||    spcoor3                ../starter/source/elements/solid/sconnect/spcoor3.F
-      !||    srcoor3                ../starter/source/elements/solid/solide/srcoor3.F
-      !||    suderi3                ../starter/source/elements/elbuf_init/suderi3.F
-      !||    sumass3                ../starter/source/elements/elbuf_init/suinit3.F
-      !||--- uses       -----------------------------------------------------
-      !||    detonators_mod         ../starter/share/modules1/detonators_mod.F
-      !||    message_mod            ../starter/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    suinit3                ../starter/source/elements/elbuf_init/suinit3.F
+!||--- called by ------------------------------------------------------
+!||    initia                 ../starter/source/elements/initia/initia.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                 ../starter/source/output/message/message.F
+!||    dtmain                 ../starter/source/materials/time_step/dtmain.F
+!||    failini                ../starter/source/elements/solid/solide/failini.F
+!||    fretitl2               ../starter/source/starter/freform.F
+!||    matini                 ../starter/source/materials/mat_share/matini.F
+!||    sbulk3                 ../starter/source/elements/solid/solide/sbulk3.F
+!||    scoor3                 ../starter/source/elements/solid/solide/scoor3.F
+!||    sdlen3                 ../starter/source/elements/solid/solide/sdlen3.F
+!||    sini43                 ../starter/source/elements/solid/sconnect/sini43.F
+!||    spcoor3                ../starter/source/elements/solid/sconnect/spcoor3.F
+!||    srcoor3                ../starter/source/elements/solid/solide/srcoor3.F
+!||    suderi3                ../starter/source/elements/elbuf_init/suderi3.F
+!||    sumass3                ../starter/source/elements/elbuf_init/suinit3.F
+!||--- uses       -----------------------------------------------------
+!||    detonators_mod         ../starter/share/modules1/detonators_mod.F
+!||    message_mod            ../starter/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE SUINIT3(ELBUF_STR,MS      ,IXS    ,PM       ,X       ,
      .                   DETONATORS,GEO     ,VEUL   ,ALE_CONNECTIVITY ,IPARG   ,
      .                   DTELEM   ,SIGI    ,NEL    ,SKEW     ,IGEO    ,
@@ -420,11 +420,11 @@ C-----------
       RETURN
       END
 C
-      !||====================================================================
-      !||    sumass3   ../starter/source/elements/elbuf_init/suinit3.F
-      !||--- called by ------------------------------------------------------
-      !||    suinit3   ../starter/source/elements/elbuf_init/suinit3.F
-      !||====================================================================
+!||====================================================================
+!||    sumass3   ../starter/source/elements/elbuf_init/suinit3.F
+!||--- called by ------------------------------------------------------
+!||    suinit3   ../starter/source/elements/elbuf_init/suinit3.F
+!||====================================================================
       SUBROUTINE SUMASS3(MS,PARTSAV,X,V,IPART,MSS,
      2             MAS,INN,VOL,VOLU,MASS,IN,
      3             NC1, NC2, NC3, NC4, NC5, NC6, NC7, NC8,

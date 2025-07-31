@@ -20,11 +20,11 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    init_global_frontier_monvol_mod   ../engine/source/airbag/init_global_monvol_frontier.F90
-      !||--- called by ------------------------------------------------------
-      !||    resol                             ../engine/source/engine/resol.F
-      !||====================================================================
+!||====================================================================
+!||    init_global_frontier_monvol_mod   ../engine/source/airbag/init_global_monvol_frontier.F90
+!||--- called by ------------------------------------------------------
+!||    resol                             ../engine/source/engine/resol.F
+!||====================================================================
       module init_global_frontier_monvol_mod
       contains
 ! ======================================================================================================================
@@ -34,17 +34,17 @@
 !! \details loop over the monitored volumes to find a main processor
 !!          --> the main processor has at least 1 monitored volume
 !!          --> the main processor has the lowest number of segment
-      !||====================================================================
-      !||    init_global_frontier_monvol   ../engine/source/airbag/init_global_monvol_frontier.F90
-      !||--- called by ------------------------------------------------------
-      !||    resol                         ../engine/source/engine/resol.F
-      !||--- calls      -----------------------------------------------------
-      !||--- uses       -----------------------------------------------------
-      !||    groupdef_mod                  ../common_source/modules/groupdef_mod.F
-      !||    monvol_struct_mod             ../engine/share/modules/monvol_struct_mod.F
-      !||    precision_mod                 ../common_source/modules/precision_mod.F90
-      !||    spmd_mod                      ../engine/source/mpi/spmd_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    init_global_frontier_monvol   ../engine/source/airbag/init_global_monvol_frontier.F90
+!||--- called by ------------------------------------------------------
+!||    resol                         ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||    groupdef_mod                  ../common_source/modules/groupdef_mod.F
+!||    monvol_struct_mod             ../engine/share/modules/monvol_struct_mod.F
+!||    precision_mod                 ../common_source/modules/precision_mod.F90
+!||    spmd_mod                      ../engine/source/mpi/spmd_mod.F90
+!||====================================================================
         subroutine init_global_frontier_monvol(ispmd,nspmd,nvolu,nsurf,monvol, &
                        nimv,volmon,  nrvolu , & 
                        fr_mv,frontier_global_mv, t_monvoln,igrsurf )

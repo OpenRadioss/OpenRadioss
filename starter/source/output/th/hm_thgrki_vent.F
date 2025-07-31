@@ -20,35 +20,35 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    hm_thgrki_vent           ../starter/source/output/th/hm_thgrki_vent.F
-      !||--- called by ------------------------------------------------------
-      !||    hm_read_thgrou           ../starter/source/output/th/hm_read_thgrou.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg                   ../starter/source/output/message/message.F
-      !||    fretitl                  ../starter/source/starter/freform.F
-      !||    fretitl2                 ../starter/source/starter/freform.F
-      !||    hm_get_int_array_index   ../starter/source/devtools/hm_reader/hm_get_int_array_index.F
-      !||    hm_get_intv              ../starter/source/devtools/hm_reader/hm_get_intv.F
-      !||    hm_get_string_index      ../starter/source/devtools/hm_reader/hm_get_string_index.F
-      !||    hm_thvarc                ../starter/source/output/th/hm_read_thvarc.F
-      !||    hm_thvarvent             ../starter/source/output/th/hm_thvarent.F
-      !||    hord                     ../starter/source/output/th/hord.F
-      !||    name_fvbag               ../starter/source/output/th/hm_thgrki_vent.F
-      !||    nintrn                   ../starter/source/system/nintrn.F
-      !||    r2r_exist                ../starter/source/coupling/rad2rad/routines_r2r.F
-      !||    r2r_listcnt              ../starter/source/coupling/rad2rad/routines_r2r.F
-      !||    ulist2s                  ../starter/source/system/sysfus.F
-      !||    usr2sys                  ../starter/source/system/sysfus.F
-      !||    zeroin                   ../starter/source/system/zeroin.F
-      !||--- uses       -----------------------------------------------------
-      !||    format_mod               ../starter/share/modules1/format_mod.F90
-      !||    fvbag_mod                ../starter/share/modules1/fvbag_mod.F
-      !||    hm_option_read_mod       ../starter/share/modules1/hm_option_read_mod.F
-      !||    message_mod              ../starter/share/message_module/message_mod.F
-      !||    monvol_struct_mod        ../starter/share/modules1/monvol_struct_mod.F
-      !||    submodel_mod             ../starter/share/modules1/submodel_mod.F
-      !||====================================================================
+!||====================================================================
+!||    hm_thgrki_vent           ../starter/source/output/th/hm_thgrki_vent.F
+!||--- called by ------------------------------------------------------
+!||    hm_read_thgrou           ../starter/source/output/th/hm_read_thgrou.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                   ../starter/source/output/message/message.F
+!||    fretitl                  ../starter/source/starter/freform.F
+!||    fretitl2                 ../starter/source/starter/freform.F
+!||    hm_get_int_array_index   ../starter/source/devtools/hm_reader/hm_get_int_array_index.F
+!||    hm_get_intv              ../starter/source/devtools/hm_reader/hm_get_intv.F
+!||    hm_get_string_index      ../starter/source/devtools/hm_reader/hm_get_string_index.F
+!||    hm_thvarc                ../starter/source/output/th/hm_read_thvarc.F
+!||    hm_thvarvent             ../starter/source/output/th/hm_thvarent.F
+!||    hord                     ../starter/source/output/th/hord.F
+!||    name_fvbag               ../starter/source/output/th/hm_thgrki_vent.F
+!||    nintrn                   ../starter/source/system/nintrn.F
+!||    r2r_exist                ../starter/source/coupling/rad2rad/routines_r2r.F
+!||    r2r_listcnt              ../starter/source/coupling/rad2rad/routines_r2r.F
+!||    ulist2s                  ../starter/source/system/sysfus.F
+!||    usr2sys                  ../starter/source/system/sysfus.F
+!||    zeroin                   ../starter/source/system/zeroin.F
+!||--- uses       -----------------------------------------------------
+!||    format_mod               ../starter/share/modules1/format_mod.F90
+!||    fvbag_mod                ../starter/share/modules1/fvbag_mod.F
+!||    hm_option_read_mod       ../starter/share/modules1/hm_option_read_mod.F
+!||    message_mod              ../starter/share/message_module/message_mod.F
+!||    monvol_struct_mod        ../starter/share/modules1/monvol_struct_mod.F
+!||    submodel_mod             ../starter/share/modules1/submodel_mod.F
+!||====================================================================
       SUBROUTINE HM_THGRKI_VENT(
      1      ITYP  ,KEY    ,INOPT1,
      3      IAD   ,IFI    ,ITHGRP,ITHBUF ,
@@ -331,13 +331,13 @@ C
       RETURN
       END
 C
-      !||====================================================================
-      !||    name_fvbag       ../starter/source/output/th/hm_thgrki_vent.F
-      !||--- called by ------------------------------------------------------
-      !||    hm_thgrki_vent   ../starter/source/output/th/hm_thgrki_vent.F
-      !||--- uses       -----------------------------------------------------
-      !||    fvbag_mod        ../starter/share/modules1/fvbag_mod.F
-      !||====================================================================
+!||====================================================================
+!||    name_fvbag       ../starter/source/output/th/hm_thgrki_vent.F
+!||--- called by ------------------------------------------------------
+!||    hm_thgrki_vent   ../starter/source/output/th/hm_thgrki_vent.F
+!||--- uses       -----------------------------------------------------
+!||    fvbag_mod        ../starter/share/modules1/fvbag_mod.F
+!||====================================================================
       SUBROUTINE NAME_FVBAG(IBAGHOL, VENT_NAME, NVENT )
 C-----------------------------------------------
 C   M o d u l e s 

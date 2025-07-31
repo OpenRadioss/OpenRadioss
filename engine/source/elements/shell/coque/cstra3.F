@@ -20,12 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    cstra3       ../engine/source/elements/shell/coque/cstra3.F
-      !||--- called by ------------------------------------------------------
-      !||    cforc3       ../engine/source/elements/shell/coque/cforc3.F
-      !||    cforc3_crk   ../engine/source/elements/xfem/cforc3_crk.F
-      !||====================================================================
+!||====================================================================
+!||    cstra3       ../engine/source/elements/shell/coque/cstra3.F
+!||--- called by ------------------------------------------------------
+!||    cforc3       ../engine/source/elements/shell/coque/cforc3.F
+!||    cforc3_crk   ../engine/source/elements/xfem/cforc3_crk.F
+!||====================================================================
       SUBROUTINE CSTRA3(JFT    ,JLT  ,GSTR   ,SHF     ,AREA  , 
      2                  EXX    ,EYY  ,EXY    ,EXZ     ,EYZ   ,  
      3                  KXX    ,KYY  ,KXY    ,DT1C    ,EPSDOT, 

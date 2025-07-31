@@ -20,12 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    scdefo3    ../engine/source/elements/thickshell/solidec/scdefo3.F
-      !||--- called by ------------------------------------------------------
-      !||    s6cforc3   ../engine/source/elements/thickshell/solide6c/s6cforc3.F
-      !||    scforc3    ../engine/source/elements/thickshell/solidec/scforc3.F
-      !||====================================================================
+!||====================================================================
+!||    scdefo3    ../engine/source/elements/thickshell/solidec/scdefo3.F
+!||--- called by ------------------------------------------------------
+!||    s6cforc3   ../engine/source/elements/thickshell/solide6c/s6cforc3.F
+!||    scforc3    ../engine/source/elements/thickshell/solidec/scforc3.F
+!||====================================================================
       SUBROUTINE SCDEFO3(
      1   DXX,     DXY,     DXZ,     DYX,
      2   DYY,     DYZ,     DZX,     DZY,

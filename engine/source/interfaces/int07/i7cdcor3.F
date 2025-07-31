@@ -20,19 +20,19 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    i7cdcor3         ../engine/source/interfaces/int07/i7cdcor3.F
-      !||--- called by ------------------------------------------------------
-      !||    i10mainf         ../engine/source/interfaces/int10/i10mainf.F
-      !||    i18main_kine_i   ../engine/source/interfaces/int18/i18main_kine.F
-      !||    i20mainf         ../engine/source/interfaces/int20/i20mainf.F
-      !||    i21mainf         ../engine/source/interfaces/int21/i21mainf.F
-      !||    i23mainf         ../engine/source/interfaces/int23/i23mainf.F
-      !||    i7main_lmult     ../engine/source/interfaces/int07/i7main_lmult.F
-      !||    i7mainf          ../engine/source/interfaces/int07/i7mainf.F
-      !||    imp_i10mainf     ../engine/source/interfaces/int10/i10ke3.F
-      !||    imp_i7mainf      ../engine/source/interfaces/int07/i7ke3.F
-      !||====================================================================
+!||====================================================================
+!||    i7cdcor3         ../engine/source/interfaces/int07/i7cdcor3.F
+!||--- called by ------------------------------------------------------
+!||    i10mainf         ../engine/source/interfaces/int10/i10mainf.F
+!||    i18main_kine_i   ../engine/source/interfaces/int18/i18main_kine.F
+!||    i20mainf         ../engine/source/interfaces/int20/i20mainf.F
+!||    i21mainf         ../engine/source/interfaces/int21/i21mainf.F
+!||    i23mainf         ../engine/source/interfaces/int23/i23mainf.F
+!||    i7main_lmult     ../engine/source/interfaces/int07/i7main_lmult.F
+!||    i7mainf          ../engine/source/interfaces/int07/i7mainf.F
+!||    imp_i10mainf     ../engine/source/interfaces/int10/i10ke3.F
+!||    imp_i7mainf      ../engine/source/interfaces/int07/i7ke3.F
+!||====================================================================
       SUBROUTINE I7CDCOR3(JLT,INDEX,CAND_E,CAND_N,CAND_E_N,
      .                    CAND_N_N)      
 C============================================================================

@@ -21,13 +21,13 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 CCgw|============================================================       
-      !||====================================================================
-      !||    initbuf    ../starter/source/output/anim/initbuf.F
-      !||--- called by ------------------------------------------------------
-      !||    dfuncs     ../starter/source/output/anim/dfuncs.F
-      !||    dmasanis   ../starter/source/output/anim/dmasanis.F
-      !||    tensors    ../starter/source/output/anim/tensors.F
-      !||====================================================================
+!||====================================================================
+!||    initbuf    ../starter/source/output/anim/initbuf.F
+!||--- called by ------------------------------------------------------
+!||    dfuncs     ../starter/source/output/anim/dfuncs.F
+!||    dmasanis   ../starter/source/output/anim/dmasanis.F
+!||    tensors    ../starter/source/output/anim/tensors.F
+!||====================================================================
       SUBROUTINE INITBUF (IPARG    ,NG      ,                           
      2   MTN     ,LLT     ,NFT     ,IAD     ,ITY     ,                  
      3   NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,                  

@@ -20,9 +20,9 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    interface_utable_mod   ../starter/source/user_interface/interface_utable.F
-      !||====================================================================
+!||====================================================================
+!||    interface_utable_mod   ../starter/source/user_interface/interface_utable.F
+!||====================================================================
       MODULE INTERFACE_UTABLE_MOD 
 C-----------------------------------------------
 #include      "my_real.inc"

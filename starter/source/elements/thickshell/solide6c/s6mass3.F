@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    s6mass3    ../starter/source/elements/thickshell/solide6c/s6mass3.F
-      !||--- called by ------------------------------------------------------
-      !||    s6cinit3   ../starter/source/elements/thickshell/solide6c/s6cinit3.F
-      !||--- calls      -----------------------------------------------------
-      !||    s6fraca    ../starter/source/elements/thickshell/solide6c/s6fraca3.F
-      !||====================================================================
+!||====================================================================
+!||    s6mass3    ../starter/source/elements/thickshell/solide6c/s6mass3.F
+!||--- called by ------------------------------------------------------
+!||    s6cinit3   ../starter/source/elements/thickshell/solide6c/s6cinit3.F
+!||--- calls      -----------------------------------------------------
+!||    s6fraca    ../starter/source/elements/thickshell/solide6c/s6fraca3.F
+!||====================================================================
       SUBROUTINE S6MASS3(RHO,MS,PARTSAV,X,V,IPART,MSS,
      .     RHOCP,MCP ,MCPS,MSSA,FILL, VOLU, 
      .     NC1, NC2, NC3, NC4, NC5, NC6,IMAS_DS)

@@ -20,20 +20,20 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    i22subvol        ../engine/source/interfaces/int22/i22subvol.F
-      !||--- called by ------------------------------------------------------
-      !||    inttri           ../engine/source/interfaces/intsort/inttri.F
-      !||--- calls      -----------------------------------------------------
-      !||    i22aera          ../engine/source/interfaces/int22/i22subvol.F
-      !||    my_barrier       ../engine/source/system/machine.F
-      !||--- uses       -----------------------------------------------------
-      !||    elbufdef_mod     ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||    groupdef_mod     ../common_source/modules/groupdef_mod.F
-      !||    i22bufbric_mod   ../common_source/modules/interfaces/cut-cell-search_mod.F
-      !||    i22edge_mod      ../common_source/modules/interfaces/cut-cell-buffer_mod.F
-      !||    i22tri_mod       ../common_source/modules/interfaces/cut-cell-search_mod.F
-      !||====================================================================
+!||====================================================================
+!||    i22subvol        ../engine/source/interfaces/int22/i22subvol.F
+!||--- called by ------------------------------------------------------
+!||    inttri           ../engine/source/interfaces/intsort/inttri.F
+!||--- calls      -----------------------------------------------------
+!||    i22aera          ../engine/source/interfaces/int22/i22subvol.F
+!||    my_barrier       ../engine/source/system/machine.F
+!||--- uses       -----------------------------------------------------
+!||    elbufdef_mod     ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    groupdef_mod     ../common_source/modules/groupdef_mod.F
+!||    i22bufbric_mod   ../common_source/modules/interfaces/cut-cell-search_mod.F
+!||    i22edge_mod      ../common_source/modules/interfaces/cut-cell-buffer_mod.F
+!||    i22tri_mod       ../common_source/modules/interfaces/cut-cell-search_mod.F
+!||====================================================================
       SUBROUTINE I22SUBVOL(X    ,NIN     ,ITASK  ,IPARI  ,ITAB     , 
      .                     IXS  ,IXTG    ,V      ,IPARG  ,ELBUF_TAB,
      .                     W    ,IGRSH3N )
@@ -2369,13 +2369,13 @@ c              print *, "idsh3n=", IXTG(NIXTG,IBUFSSG(J))  !IDSPRI=
       END
 
 
-      !||====================================================================
-      !||    i22aera       ../engine/source/interfaces/int22/i22subvol.F
-      !||--- called by ------------------------------------------------------
-      !||    i22for3       ../engine/source/interfaces/int22/i22for3.F
-      !||    i22subvol     ../engine/source/interfaces/int22/i22subvol.F
-      !||    sinit22_fvm   ../engine/source/interfaces/int22/sinit22_fvm.F
-      !||====================================================================
+!||====================================================================
+!||    i22aera       ../engine/source/interfaces/int22/i22subvol.F
+!||--- called by ------------------------------------------------------
+!||    i22for3       ../engine/source/interfaces/int22/i22for3.F
+!||    i22subvol     ../engine/source/interfaces/int22/i22subvol.F
+!||    sinit22_fvm   ../engine/source/interfaces/int22/sinit22_fvm.F
+!||====================================================================
       FUNCTION I22AERA(NPTS, P, C)
 C=======================================================================     
 C-----------------------------------------------

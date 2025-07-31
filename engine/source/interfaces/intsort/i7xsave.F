@@ -23,14 +23,14 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C  |         I10MAIN_TRI                       /intsort/i10main_tri.F
 C  |         I11MAIN_TRI                       /intsort/i11main_tri.F
 C  |         I24MAIN_TRI                       /intsort/i24main_tri.F
-      !||====================================================================
-      !||    i7xsave       ../engine/source/interfaces/intsort/i7xsave.F
-      !||--- called by ------------------------------------------------------
-      !||    i23main_tri   ../engine/source/interfaces/intsort/i23main_tri.F
-      !||    i24main_tri   ../engine/source/interfaces/intsort/i24main_tri.F
-      !||    i25main_tri   ../engine/source/interfaces/intsort/i25main_tri.F
-      !||    i7main_tri    ../engine/source/interfaces/intsort/i7main_tri.F
-      !||====================================================================
+!||====================================================================
+!||    i7xsave       ../engine/source/interfaces/intsort/i7xsave.F
+!||--- called by ------------------------------------------------------
+!||    i23main_tri   ../engine/source/interfaces/intsort/i23main_tri.F
+!||    i24main_tri   ../engine/source/interfaces/intsort/i24main_tri.F
+!||    i25main_tri   ../engine/source/interfaces/intsort/i25main_tri.F
+!||    i7main_tri    ../engine/source/interfaces/intsort/i7main_tri.F
+!||====================================================================
       SUBROUTINE I7XSAVE(
      1       X     ,NSV  ,MSR   ,NSN   ,NMN     ,
      2       ITASK ,XSAV ,XMIN  ,YMIN  ,ZMIN    ,

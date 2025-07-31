@@ -20,23 +20,23 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    insol3      ../starter/source/interfaces/inter3d1/insol3.F
-      !||--- called by ------------------------------------------------------
-      !||    i1chk3      ../starter/source/interfaces/inter3d1/i1chk3.F
-      !||    i20sti3     ../starter/source/interfaces/inter3d1/i20sti3.F
-      !||    i21els3     ../starter/source/interfaces/inter3d1/i21els3.F
-      !||    i23gap3     ../starter/source/interfaces/inter3d1/i23gap3.F
-      !||    i2_surfi    ../starter/source/interfaces/inter3d1/i2_surfi.F90
-      !||    i2buc1      ../starter/source/interfaces/inter3d1/i2buc1.F
-      !||    i2chk3      ../starter/source/interfaces/inter3d1/i2chk3.F
-      !||    i2cor3      ../starter/source/interfaces/inter3d1/i2cor3.F
-      !||    i3sti3      ../starter/source/interfaces/inter3d1/i3sti3.F
-      !||    i9sti3      ../starter/source/interfaces/int09/i9sti3.F
-      !||    r2r_count   ../starter/source/coupling/rad2rad/r2r_count.F
-      !||--- calls      -----------------------------------------------------
-      !||    norma1      ../starter/source/interfaces/inter3d1/norma1.F
-      !||====================================================================
+!||====================================================================
+!||    insol3      ../starter/source/interfaces/inter3d1/insol3.F
+!||--- called by ------------------------------------------------------
+!||    i1chk3      ../starter/source/interfaces/inter3d1/i1chk3.F
+!||    i20sti3     ../starter/source/interfaces/inter3d1/i20sti3.F
+!||    i21els3     ../starter/source/interfaces/inter3d1/i21els3.F
+!||    i23gap3     ../starter/source/interfaces/inter3d1/i23gap3.F
+!||    i2_surfi    ../starter/source/interfaces/inter3d1/i2_surfi.F90
+!||    i2buc1      ../starter/source/interfaces/inter3d1/i2buc1.F
+!||    i2chk3      ../starter/source/interfaces/inter3d1/i2chk3.F
+!||    i2cor3      ../starter/source/interfaces/inter3d1/i2cor3.F
+!||    i3sti3      ../starter/source/interfaces/inter3d1/i3sti3.F
+!||    i9sti3      ../starter/source/interfaces/int09/i9sti3.F
+!||    r2r_count   ../starter/source/coupling/rad2rad/r2r_count.F
+!||--- calls      -----------------------------------------------------
+!||    norma1      ../starter/source/interfaces/inter3d1/norma1.F
+!||====================================================================
       SUBROUTINE INSOL3(X   ,IRECT,IXS      ,NINT    ,NEL  ,I   ,
      .                 AREA ,NOINT,KNOD2ELS ,NOD2ELS ,IR   ,IXS10,
      .                 IXS16,IXS20)
@@ -173,18 +173,18 @@ C
        RETURN
 C
       END
-      !||====================================================================
-      !||    insol3d       ../starter/source/interfaces/inter3d1/insol3.F
-      !||--- called by ------------------------------------------------------
-      !||    i24gapm       ../starter/source/interfaces/inter3d1/i24sti3.F
-      !||    i25gapm       ../starter/source/interfaces/inter3d1/i25sti3.F
-      !||    i7sti3        ../starter/source/interfaces/inter3d1/i7sti3.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg        ../starter/source/output/message/message.F
-      !||    norma1d       ../starter/source/interfaces/inter3d1/norma1.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod   ../starter/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    insol3d       ../starter/source/interfaces/inter3d1/insol3.F
+!||--- called by ------------------------------------------------------
+!||    i24gapm       ../starter/source/interfaces/inter3d1/i24sti3.F
+!||    i25gapm       ../starter/source/interfaces/inter3d1/i25sti3.F
+!||    i7sti3        ../starter/source/interfaces/inter3d1/i7sti3.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg        ../starter/source/output/message/message.F
+!||    norma1d       ../starter/source/interfaces/inter3d1/norma1.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod   ../starter/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE INSOL3D(X   ,IRECT ,IXS     ,NINT   ,NEL,I ,
      .                  AREA ,NOINT ,KNOD2ELS,NOD2ELS,IR ,
      .                  IXS10,IXS16,IXS20    ,TAGELEMS,INDEXE,
@@ -440,18 +440,18 @@ c       IF(NINT<0) WRITE (IOUT,1400) I,NOINT
 
        RETURN
       END
-      !||====================================================================
-      !||    i12sol3                ../starter/source/interfaces/inter3d1/insol3.F
-      !||--- called by ------------------------------------------------------
-      !||    i12chk3                ../starter/source/interfaces/inter3d1/i12chk3.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg                 ../starter/source/output/message/message.F
-      !||    iface                  ../starter/source/ale/ale3d/iface.F
-      !||    insolt10               ../starter/source/interfaces/inter3d1/insolt10.F
-      !||    norma1                 ../starter/source/interfaces/inter3d1/norma1.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod            ../starter/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    i12sol3                ../starter/source/interfaces/inter3d1/insol3.F
+!||--- called by ------------------------------------------------------
+!||    i12chk3                ../starter/source/interfaces/inter3d1/i12chk3.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                 ../starter/source/output/message/message.F
+!||    iface                  ../starter/source/ale/ale3d/iface.F
+!||    insolt10               ../starter/source/interfaces/inter3d1/insolt10.F
+!||    norma1                 ../starter/source/interfaces/inter3d1/norma1.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod            ../starter/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE I12SOL3(X,IRECT,IXS,NINT,NEL,I,
      .                  AREA,NOINT,IADD,INVC,NF,ITAB,
      .                  KNOD2ELS,NOD2ELS,NTY,ID,TITR)

@@ -21,16 +21,16 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C finalisation parith/on spmd (1ere partie effectuee dans Starter)
-      !||====================================================================
-      !||    assadd2          ../engine/source/assembly/assadd2.F
-      !||--- called by ------------------------------------------------------
-      !||    resol_init       ../engine/source/engine/resol_init.F
-      !||--- calls      -----------------------------------------------------
-      !||    my_orders        ../common_source/tools/sort/my_orders.c
-      !||--- uses       -----------------------------------------------------
-      !||    glob_therm_mod   ../common_source/modules/mat_elem/glob_therm_mod.F90
-      !||    my_alloc_mod     ../common_source/tools/memory/my_alloc.F90
-      !||====================================================================
+!||====================================================================
+!||    assadd2          ../engine/source/assembly/assadd2.F
+!||--- called by ------------------------------------------------------
+!||    resol_init       ../engine/source/engine/resol_init.F
+!||--- calls      -----------------------------------------------------
+!||    my_orders        ../common_source/tools/sort/my_orders.c
+!||--- uses       -----------------------------------------------------
+!||    glob_therm_mod   ../common_source/modules/mat_elem/glob_therm_mod.F90
+!||    my_alloc_mod     ../common_source/tools/memory/my_alloc.F90
+!||====================================================================
       SUBROUTINE ASSADD2(ADDCNE  ,INDSKY  ,FSKY  ,FSKYM    ,IAD_ELEM ,
      2             FR_ELEM ,FR_NBCC ,PROCNE,NISKYFI  ,ADDCNI2  ,        
      3             PROCNI2 ,IAD_I2M ,FR_I2M,FR_NBCCI2,INDSKYI2 ,        
@@ -423,11 +423,11 @@ C
       RETURN
       END
 C 
-      !||====================================================================
-      !||    assinit   ../engine/source/assembly/assadd2.F
-      !||--- called by ------------------------------------------------------
-      !||    resol     ../engine/source/engine/resol.F
-      !||====================================================================
+!||====================================================================
+!||    assinit   ../engine/source/assembly/assadd2.F
+!||--- called by ------------------------------------------------------
+!||    resol     ../engine/source/engine/resol.F
+!||====================================================================
       SUBROUTINE ASSINIT(
      1    ADDCNE, IAD_ELEM, FR_ELEM, PROCNE, LISENDP, LIRECVP)
 C-----------------------------------------------
@@ -480,11 +480,11 @@ C
 C
       RETURN
       END
-      !||====================================================================
-      !||    assinit_pxfem   ../engine/source/assembly/assadd2.F
-      !||--- called by ------------------------------------------------------
-      !||    resol           ../engine/source/engine/resol.F
-      !||====================================================================
+!||====================================================================
+!||    assinit_pxfem   ../engine/source/assembly/assadd2.F
+!||--- called by ------------------------------------------------------
+!||    resol           ../engine/source/engine/resol.F
+!||====================================================================
       SUBROUTINE ASSINIT_PXFEM(
      1    ADDCNE,INOD, IAD_ELEM, FR_ELEM, PROCNE, LISENDP, LIRECVP)
 C-----------------------------------------------
@@ -540,11 +540,11 @@ C
 C
       RETURN
       END
-      !||====================================================================
-      !||    assinit_crkxfem   ../engine/source/assembly/assadd2.F
-      !||--- called by ------------------------------------------------------
-      !||    resol             ../engine/source/engine/resol.F
-      !||====================================================================
+!||====================================================================
+!||    assinit_crkxfem   ../engine/source/assembly/assadd2.F
+!||--- called by ------------------------------------------------------
+!||    resol             ../engine/source/engine/resol.F
+!||====================================================================
       SUBROUTINE ASSINIT_CRKXFEM(
      1    ADDCNE_CRKXFEM,INOD_CRKXFEM, IAD_ELEM, FR_ELEM, PROCNE, LISENDP, LIRECVP)
 C-----------------------------------------------

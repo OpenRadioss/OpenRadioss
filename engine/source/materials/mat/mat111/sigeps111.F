@@ -20,15 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    sigeps111       ../engine/source/materials/mat/mat111/sigeps111.F
-      !||--- called by ------------------------------------------------------
-      !||    mulaw           ../engine/source/materials/mat_share/mulaw.F90
-      !||--- calls      -----------------------------------------------------
-      !||    cardan_method   ../engine/source/materials/mat/mat111/sigeps111.F
-      !||    finter          ../engine/source/tools/curve/finter.F
-      !||    prodaat         ../engine/source/materials/tools/prodAAT.F
-      !||====================================================================
+!||====================================================================
+!||    sigeps111       ../engine/source/materials/mat/mat111/sigeps111.F
+!||--- called by ------------------------------------------------------
+!||    mulaw           ../engine/source/materials/mat_share/mulaw.F90
+!||--- calls      -----------------------------------------------------
+!||    cardan_method   ../engine/source/materials/mat/mat111/sigeps111.F
+!||    finter          ../engine/source/tools/curve/finter.F
+!||    prodaat         ../engine/source/materials/tools/prodAAT.F
+!||====================================================================
        SUBROUTINE SIGEPS111(
      1      NEL    , NUPARAM, NUVAR   , NFUNC , IFUNC , NPF   ,
      2      TF     , TIME   , TIMESTEP, UPARAM, RHO0  , RHO   ,
@@ -283,11 +283,11 @@ c-----------
       RETURN
       END
 C  
-      !||====================================================================
-      !||    cardan_method   ../engine/source/materials/mat/mat111/sigeps111.F
-      !||--- called by ------------------------------------------------------
-      !||    sigeps111       ../engine/source/materials/mat/mat111/sigeps111.F
-      !||====================================================================
+!||====================================================================
+!||    cardan_method   ../engine/source/materials/mat/mat111/sigeps111.F
+!||--- called by ------------------------------------------------------
+!||    sigeps111       ../engine/source/materials/mat/mat111/sigeps111.F
+!||====================================================================
       SUBROUTINE CARDAN_METHOD(ITEST,NEL,I1,ICOMP,LAMT)
 C  solve X**3 - I*X + 2 = 0
 C-----------------------------------------------

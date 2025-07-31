@@ -20,21 +20,21 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    upxfem_tagxp    ../engine/source/elements/xfem/upxfem_tagxp.F
-      !||--- called by ------------------------------------------------------
-      !||    resol           ../engine/source/engine/resol.F
-      !||--- calls      -----------------------------------------------------
-      !||    crk_tagxp3      ../engine/source/elements/xfem/crk_tagxp3.F
-      !||    crk_tagxp4      ../engine/source/elements/xfem/crk_tagxp4.F
-      !||    startimeg       ../engine/source/system/timer.F
-      !||    stoptimeg       ../engine/source/system/timer.F
-      !||    upenric3_n3     ../engine/source/elements/xfem/upenric3_nx.F
-      !||    upenric3_n4     ../engine/source/elements/xfem/upenric3_nx.F
-      !||--- uses       -----------------------------------------------------
-      !||    crackxfem_mod   ../engine/share/modules/crackxfem_mod.F
-      !||    elbufdef_mod    ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    upxfem_tagxp    ../engine/source/elements/xfem/upxfem_tagxp.F
+!||--- called by ------------------------------------------------------
+!||    resol           ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
+!||    crk_tagxp3      ../engine/source/elements/xfem/crk_tagxp3.F
+!||    crk_tagxp4      ../engine/source/elements/xfem/crk_tagxp4.F
+!||    startimeg       ../engine/source/system/timer.F
+!||    stoptimeg       ../engine/source/system/timer.F
+!||    upenric3_n3     ../engine/source/elements/xfem/upenric3_nx.F
+!||    upenric3_n4     ../engine/source/elements/xfem/upenric3_nx.F
+!||--- uses       -----------------------------------------------------
+!||    crackxfem_mod   ../engine/share/modules/crackxfem_mod.F
+!||    elbufdef_mod    ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||====================================================================
       SUBROUTINE UPXFEM_TAGXP(XFEM_TAB,
      .                        IPARG    ,IXC     ,NGROUC  ,IGROUC  ,IXTG    ,
      .                        IADC_CRK ,IEL_CRK ,INOD_CRK,ELCUTC  ,NODEDGE ,

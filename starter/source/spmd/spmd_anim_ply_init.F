@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    spmd_anim_ply_init   ../starter/source/spmd/spmd_anim_ply_init.F
-      !||--- called by ------------------------------------------------------
-      !||    lectur               ../starter/source/starter/lectur.F
-      !||--- uses       -----------------------------------------------------
-      !||    plyxfem_mod          ../starter/share/modules1/plyxfem_mod.F
-      !||    stack_mod            ../starter/share/modules1/stack_mod.F
-      !||====================================================================
+!||====================================================================
+!||    spmd_anim_ply_init   ../starter/source/spmd/spmd_anim_ply_init.F
+!||--- called by ------------------------------------------------------
+!||    lectur               ../starter/source/starter/lectur.F
+!||--- uses       -----------------------------------------------------
+!||    plyxfem_mod          ../starter/share/modules1/plyxfem_mod.F
+!||    stack_mod            ../starter/share/modules1/stack_mod.F
+!||====================================================================
       SUBROUTINE SPMD_ANIM_PLY_INIT (IGEO, GEO  ,IPARG  ,IXC  ,IXTG ,
      .                          IPARTC,IPARTQ,IPARTTG,STACK)
 C-----------------------------------------------
@@ -269,13 +269,13 @@ C-------------------------------
 
       RETURN
       END
-      !||====================================================================
-      !||    get_ply_nod   ../starter/source/spmd/spmd_anim_ply_init.F
-      !||--- called by ------------------------------------------------------
-      !||    w_anim_ply    ../starter/source/restart/ddsplit/w_anim_ply.F
-      !||--- uses       -----------------------------------------------------
-      !||    plyxfem_mod   ../starter/share/modules1/plyxfem_mod.F
-      !||====================================================================
+!||====================================================================
+!||    get_ply_nod   ../starter/source/spmd/spmd_anim_ply_init.F
+!||--- called by ------------------------------------------------------
+!||    w_anim_ply    ../starter/source/restart/ddsplit/w_anim_ply.F
+!||--- uses       -----------------------------------------------------
+!||    plyxfem_mod   ../starter/share/modules1/plyxfem_mod.F
+!||====================================================================
       INTEGER FUNCTION GET_PLY_NOD(IPLY,NODID)
 C-----------------------------------------------
 C   M o d u l e s
@@ -341,11 +341,11 @@ C-----------------------------------------------
       END
 
 
-      !||====================================================================
-      !||    get_ply_nodid   ../starter/source/spmd/spmd_anim_ply_init.F
-      !||--- uses       -----------------------------------------------------
-      !||    plyxfem_mod     ../starter/share/modules1/plyxfem_mod.F
-      !||====================================================================
+!||====================================================================
+!||    get_ply_nodid   ../starter/source/spmd/spmd_anim_ply_init.F
+!||--- uses       -----------------------------------------------------
+!||    plyxfem_mod     ../starter/share/modules1/plyxfem_mod.F
+!||====================================================================
       INTEGER FUNCTION GET_PLY_NODID(IPLY,NODID,OFFSET)
 C-----------------------------------------------
 C   M o d u l e s

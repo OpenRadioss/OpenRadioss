@@ -20,12 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    s20therm   ../engine/source/elements/solid/solide20/s20therm.F
-      !||--- called by ------------------------------------------------------
-      !||    s16forc3   ../engine/source/elements/thickshell/solide16/s16forc3.F
-      !||    s20forc3   ../engine/source/elements/solid/solide20/s20forc3.F
-      !||====================================================================
+!||====================================================================
+!||    s20therm   ../engine/source/elements/solid/solide20/s20therm.F
+!||--- called by ------------------------------------------------------
+!||    s16forc3   ../engine/source/elements/thickshell/solide16/s16forc3.F
+!||    s20forc3   ../engine/source/elements/solid/solide20/s20forc3.F
+!||====================================================================
       SUBROUTINE S20THERM(
      1   NPE,     PM,      IMAT,     NC,
      2   VOL,     PX,      PY,      PZ,

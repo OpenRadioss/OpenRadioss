@@ -20,17 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    fill_clause_node_box   ../starter/source/model/sets/fill_clause_node_box.F
-      !||--- called by ------------------------------------------------------
-      !||    create_node_box        ../starter/source/model/sets/create_node_box.F
-      !||--- calls      -----------------------------------------------------
-      !||    node_box               ../starter/source/model/sets/fill_clause_node_box.F
-      !||    set_merge_simple       ../starter/source/model/sets/set_merge_simple.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod            ../starter/share/message_module/message_mod.F
-      !||    set_mod                ../starter/share/modules1/set_mod.F
-      !||====================================================================
+!||====================================================================
+!||    fill_clause_node_box   ../starter/source/model/sets/fill_clause_node_box.F
+!||--- called by ------------------------------------------------------
+!||    create_node_box        ../starter/source/model/sets/create_node_box.F
+!||--- calls      -----------------------------------------------------
+!||    node_box               ../starter/source/model/sets/fill_clause_node_box.F
+!||    set_merge_simple       ../starter/source/model/sets/set_merge_simple.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod            ../starter/share/message_module/message_mod.F
+!||    set_mod                ../starter/share/modules1/set_mod.F
+!||====================================================================
       SUBROUTINE FILL_CLAUSE_NODE_BOX( IBOX   ,X  ,SKEW  ,SET_TITLE ,KEYSET,
      *                                 BOXLIST, BOXLIST_SIZE,
      *                                 BOXNDS, SZ_BOXNDS      )
@@ -102,17 +102,17 @@ C-------
       END
 
 
-      !||====================================================================
-      !||    node_box               ../starter/source/model/sets/fill_clause_node_box.F
-      !||--- called by ------------------------------------------------------
-      !||    fill_clause_node_box   ../starter/source/model/sets/fill_clause_node_box.F
-      !||--- calls      -----------------------------------------------------
-      !||    set_merge_simple       ../starter/source/model/sets/set_merge_simple.F
-      !||    simple_node_box        ../starter/source/model/sets/simple_node_box.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod            ../starter/share/message_module/message_mod.F
-      !||    set_mod                ../starter/share/modules1/set_mod.F
-      !||====================================================================
+!||====================================================================
+!||    node_box               ../starter/source/model/sets/fill_clause_node_box.F
+!||--- called by ------------------------------------------------------
+!||    fill_clause_node_box   ../starter/source/model/sets/fill_clause_node_box.F
+!||--- calls      -----------------------------------------------------
+!||    set_merge_simple       ../starter/source/model/sets/set_merge_simple.F
+!||    simple_node_box        ../starter/source/model/sets/simple_node_box.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod            ../starter/share/message_module/message_mod.F
+!||    set_mod                ../starter/share/modules1/set_mod.F
+!||====================================================================
       RECURSIVE SUBROUTINE NODE_BOX( IB  ,
      *                     IBOX ,X  ,SKEW  ,SET_TITLE ,KEYSET,
      *                     BOXNDS, SZ_BOXNDS      )

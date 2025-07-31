@@ -20,15 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    spmd_i25_prepare   ../engine/source/interfaces/int25/i25_prepare.F
-      !||--- called by ------------------------------------------------------
-      !||    resol              ../engine/source/engine/resol.F
-      !||--- uses       -----------------------------------------------------
-      !||    intbufdef_mod      ../common_source/modules/interfaces/intbufdef_mod.F90
-      !||    message_mod        ../engine/share/message_module/message_mod.F
-      !||    tri7box            ../engine/share/modules/tri7box.F
-      !||====================================================================
+!||====================================================================
+!||    spmd_i25_prepare   ../engine/source/interfaces/int25/i25_prepare.F
+!||--- called by ------------------------------------------------------
+!||    resol              ../engine/source/engine/resol.F
+!||--- uses       -----------------------------------------------------
+!||    intbufdef_mod      ../common_source/modules/interfaces/intbufdef_mod.F90
+!||    message_mod        ../engine/share/message_module/message_mod.F
+!||    tri7box            ../engine/share/modules/tri7box.F
+!||====================================================================
       SUBROUTINE SPMD_I25_PREPARE(MODE,IPARI, INTBUF_TAB,
      *                         IAD_ELEM, FR_ELEM,INTLIST,NBINTC,
      *                         IAD_I25 , SFR_I25, FR_I25)

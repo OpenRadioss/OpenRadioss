@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    szstraingps      ../engine/source/elements/solid/solidez/szstraingps.F
-      !||--- called by ------------------------------------------------------
-      !||    gpsstrain_skin   ../engine/source/output/anim/generate/tensgpstrain.F
-      !||    strn_tenscor3    ../engine/source/output/h3d/h3d_results/h3d_strn_tenscor3.F
-      !||    tensgpstrain     ../engine/source/output/anim/generate/tensgpstrain.F
-      !||====================================================================
+!||====================================================================
+!||    szstraingps      ../engine/source/elements/solid/solidez/szstraingps.F
+!||--- called by ------------------------------------------------------
+!||    gpsstrain_skin   ../engine/source/output/anim/generate/tensgpstrain.F
+!||    strn_tenscor3    ../engine/source/output/h3d/h3d_results/h3d_strn_tenscor3.F
+!||    tensgpstrain     ../engine/source/output/anim/generate/tensgpstrain.F
+!||====================================================================
       SUBROUTINE SZSTRAINGPS(
      1   STRAIN,  STR_PI,  STRHG,   NEL)
 C-----------------------------------------------

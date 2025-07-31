@@ -20,66 +20,66 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    czforc3             ../engine/source/elements/shell/coquez/czforc3.F
-      !||--- called by ------------------------------------------------------
-      !||    forintc             ../engine/source/elements/forintc.F
-      !||--- calls      -----------------------------------------------------
-      !||    cbilan              ../engine/source/elements/shell/coque/cbilan.F
-      !||    cfint_reg           ../engine/source/elements/shell/coque/cfint_reg.F
-      !||    cmain3              ../engine/source/materials/mat_share/cmain3.F
-      !||    cncoef3b            ../engine/source/elements/sh3n/coquedk/cncoef3.F
-      !||    cncoefort           ../engine/source/elements/sh3n/coquedk/cncoef3.F
-      !||    cndt3               ../engine/source/elements/sh3n/coquedk/cndt3.F
-      !||    crklayer4n_adv      ../engine/source/elements/xfem/crklayer4n_adv.F
-      !||    crklayer4n_ini      ../engine/source/elements/xfem/crklayer4n_ini.F
-      !||    crklen4n_adv        ../engine/source/elements/xfem/crklen4n_adv.F
-      !||    crkoffc             ../engine/source/elements/xfem/precrklay.F
-      !||    cupdt3f             ../engine/source/elements/shell/coque/cupdt3.F
-      !||    cupdtn3             ../engine/source/elements/shell/coque/cupdtn3.F
-      !||    cupdtn3p            ../engine/source/elements/shell/coque/cupdtn3.F
-      !||    czcorc1             ../engine/source/elements/shell/coquez/czcorc.F
-      !||    czcorcht            ../engine/source/elements/shell/coquez/czcorc.F
-      !||    czcorct             ../engine/source/elements/shell/coquez/czcorc.F
-      !||    czdef               ../engine/source/elements/shell/coquez/czdef.F
-      !||    czdefrz             ../engine/source/elements/shell/coquez/czdef.F
-      !||    czdefrzt            ../engine/source/elements/shell/coquez/czdef.F
-      !||    czdeft              ../engine/source/elements/shell/coquez/czdef.F
-      !||    czdeftw             ../engine/source/elements/shell/coquez/czdef.F
-      !||    czfintce            ../engine/source/elements/shell/coquez/czfintce.F
-      !||    czfintcrz           ../engine/source/elements/shell/coquez/czfintce.F
-      !||    czfintn1            ../engine/source/elements/shell/coquez/czfintn.F
-      !||    czfintn_or          ../engine/source/elements/shell/coquez/czfintn.F
-      !||    czfintnm            ../engine/source/elements/shell/coquez/czfintn.F
-      !||    czfintnm1           ../engine/source/elements/shell/coquez/czfintn.F
-      !||    czfintnrz           ../engine/source/elements/shell/coquez/czfintn.F
-      !||    czfintnrz_or        ../engine/source/elements/shell/coquez/czfintn.F
-      !||    czproj1             ../engine/source/elements/shell/coquez/czproj.F
-      !||    czstra3             ../engine/source/elements/shell/coquez/czstra3.F
-      !||    czstrah3            ../engine/source/elements/shell/coquez/czstrah3.F
-      !||    dttherm             ../engine/source/time_step/dttherm.F90
-      !||    precrklay           ../engine/source/elements/xfem/precrklay.F
-      !||    set_failwave_nod4   ../engine/source/materials/fail/failwave/set_failwave_nod4.F
-      !||    set_failwave_sh4n   ../engine/source/materials/fail/failwave/upd_failwave_sh4n.F
-      !||    startime            ../engine/source/system/timer_mod.F90
-      !||    stoptime            ../engine/source/system/timer_mod.F90
-      !||    tempcg              ../engine/source/materials/mat_share/tempcg.F
-      !||    thermc              ../engine/source/materials/mat_share/thermc.F
-      !||--- uses       -----------------------------------------------------
-      !||    crackxfem_mod       ../engine/share/modules/crackxfem_mod.F
-      !||    drape_mod           ../engine/share/modules/drape_mod.F
-      !||    dt_mod              ../engine/source/modules/dt_mod.F
-      !||    dttherm_mod         ../engine/source/time_step/dttherm.F90
-      !||    elbufdef_mod        ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||    failwave_mod        ../common_source/modules/failwave_mod.F
-      !||    glob_therm_mod      ../common_source/modules/mat_elem/glob_therm_mod.F90
-      !||    mat_elem_mod        ../common_source/modules/mat_elem/mat_elem_mod.F90
-      !||    nlocal_reg_mod      ../common_source/modules/nlocal_reg_mod.F
-      !||    sensor_mod          ../common_source/modules/sensor_mod.F90
-      !||    stack_mod           ../engine/share/modules/stack_mod.F
-      !||    table_mod           ../engine/share/modules/table_mod.F
-      !||    timer_mod           ../engine/source/system/timer_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    czforc3             ../engine/source/elements/shell/coquez/czforc3.F
+!||--- called by ------------------------------------------------------
+!||    forintc             ../engine/source/elements/forintc.F
+!||--- calls      -----------------------------------------------------
+!||    cbilan              ../engine/source/elements/shell/coque/cbilan.F
+!||    cfint_reg           ../engine/source/elements/shell/coque/cfint_reg.F
+!||    cmain3              ../engine/source/materials/mat_share/cmain3.F
+!||    cncoef3b            ../engine/source/elements/sh3n/coquedk/cncoef3.F
+!||    cncoefort           ../engine/source/elements/sh3n/coquedk/cncoef3.F
+!||    cndt3               ../engine/source/elements/sh3n/coquedk/cndt3.F
+!||    crklayer4n_adv      ../engine/source/elements/xfem/crklayer4n_adv.F
+!||    crklayer4n_ini      ../engine/source/elements/xfem/crklayer4n_ini.F
+!||    crklen4n_adv        ../engine/source/elements/xfem/crklen4n_adv.F
+!||    crkoffc             ../engine/source/elements/xfem/precrklay.F
+!||    cupdt3f             ../engine/source/elements/shell/coque/cupdt3.F
+!||    cupdtn3             ../engine/source/elements/shell/coque/cupdtn3.F
+!||    cupdtn3p            ../engine/source/elements/shell/coque/cupdtn3.F
+!||    czcorc1             ../engine/source/elements/shell/coquez/czcorc.F
+!||    czcorcht            ../engine/source/elements/shell/coquez/czcorc.F
+!||    czcorct             ../engine/source/elements/shell/coquez/czcorc.F
+!||    czdef               ../engine/source/elements/shell/coquez/czdef.F
+!||    czdefrz             ../engine/source/elements/shell/coquez/czdef.F
+!||    czdefrzt            ../engine/source/elements/shell/coquez/czdef.F
+!||    czdeft              ../engine/source/elements/shell/coquez/czdef.F
+!||    czdeftw             ../engine/source/elements/shell/coquez/czdef.F
+!||    czfintce            ../engine/source/elements/shell/coquez/czfintce.F
+!||    czfintcrz           ../engine/source/elements/shell/coquez/czfintce.F
+!||    czfintn1            ../engine/source/elements/shell/coquez/czfintn.F
+!||    czfintn_or          ../engine/source/elements/shell/coquez/czfintn.F
+!||    czfintnm            ../engine/source/elements/shell/coquez/czfintn.F
+!||    czfintnm1           ../engine/source/elements/shell/coquez/czfintn.F
+!||    czfintnrz           ../engine/source/elements/shell/coquez/czfintn.F
+!||    czfintnrz_or        ../engine/source/elements/shell/coquez/czfintn.F
+!||    czproj1             ../engine/source/elements/shell/coquez/czproj.F
+!||    czstra3             ../engine/source/elements/shell/coquez/czstra3.F
+!||    czstrah3            ../engine/source/elements/shell/coquez/czstrah3.F
+!||    dttherm             ../engine/source/time_step/dttherm.F90
+!||    precrklay           ../engine/source/elements/xfem/precrklay.F
+!||    set_failwave_nod4   ../engine/source/materials/fail/failwave/set_failwave_nod4.F
+!||    set_failwave_sh4n   ../engine/source/materials/fail/failwave/upd_failwave_sh4n.F
+!||    startime            ../engine/source/system/timer_mod.F90
+!||    stoptime            ../engine/source/system/timer_mod.F90
+!||    tempcg              ../engine/source/materials/mat_share/tempcg.F
+!||    thermc              ../engine/source/materials/mat_share/thermc.F
+!||--- uses       -----------------------------------------------------
+!||    crackxfem_mod       ../engine/share/modules/crackxfem_mod.F
+!||    drape_mod           ../engine/share/modules/drape_mod.F
+!||    dt_mod              ../engine/source/modules/dt_mod.F
+!||    dttherm_mod         ../engine/source/time_step/dttherm.F90
+!||    elbufdef_mod        ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    failwave_mod        ../common_source/modules/failwave_mod.F
+!||    glob_therm_mod      ../common_source/modules/mat_elem/glob_therm_mod.F90
+!||    mat_elem_mod        ../common_source/modules/mat_elem/mat_elem_mod.F90
+!||    nlocal_reg_mod      ../common_source/modules/nlocal_reg_mod.F
+!||    sensor_mod          ../common_source/modules/sensor_mod.F90
+!||    stack_mod           ../engine/share/modules/stack_mod.F
+!||    table_mod           ../engine/share/modules/table_mod.F
+!||    timer_mod           ../engine/source/system/timer_mod.F90
+!||====================================================================
       SUBROUTINE CZFORC3(TIMERS,
      1   ELBUF_STR,   JFT,         JLT,         NFT,
      2   NPT,         ITAB,        MTN,

@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    smallg3    ../engine/source/elements/solid/solide/smallg3.F
-      !||--- called by ------------------------------------------------------
-      !||    s8eforc3   ../engine/source/elements/solid/solide8e/s8eforc3.F
-      !||    s8sforc3   ../engine/source/elements/solid/solide8s/s8sforc3.F
-      !||    s8zforc3   ../engine/source/elements/solid/solide8z/s8zforc3.F
-      !||====================================================================
+!||====================================================================
+!||    smallg3    ../engine/source/elements/solid/solide/smallg3.F
+!||--- called by ------------------------------------------------------
+!||    s8eforc3   ../engine/source/elements/solid/solide8e/s8eforc3.F
+!||    s8sforc3   ../engine/source/elements/solid/solide8s/s8sforc3.F
+!||    s8zforc3   ../engine/source/elements/solid/solide8z/s8zforc3.F
+!||====================================================================
       SUBROUTINE SMALLG3(
      1   SAV,     OFFG,    WXX,     WYY,
      2   WZZ,     R11,     R12,     R13,

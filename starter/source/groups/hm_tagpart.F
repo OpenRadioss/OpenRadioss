@@ -20,21 +20,21 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    hm_tagpart             ../starter/source/groups/hm_tagpart.F
-      !||--- called by ------------------------------------------------------
-      !||    hm_lecgre              ../starter/source/groups/hm_lecgre.F
-      !||    hm_lecgrn              ../starter/source/groups/hm_lecgrn.F
-      !||    hm_read_grpart         ../starter/source/groups/hm_read_grpart.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg                 ../starter/source/output/message/message.F
-      !||    groups_get_elem_list   ../starter/source/groups/groups_get_elem_list.F
-      !||--- uses       -----------------------------------------------------
-      !||    hm_option_read_mod     ../starter/share/modules1/hm_option_read_mod.F
-      !||    message_mod            ../starter/share/message_module/message_mod.F
-      !||    r2r_mod                ../starter/share/modules1/r2r_mod.F
-      !||    submodel_mod           ../starter/share/modules1/submodel_mod.F
-      !||====================================================================
+!||====================================================================
+!||    hm_tagpart             ../starter/source/groups/hm_tagpart.F
+!||--- called by ------------------------------------------------------
+!||    hm_lecgre              ../starter/source/groups/hm_lecgre.F
+!||    hm_lecgrn              ../starter/source/groups/hm_lecgrn.F
+!||    hm_read_grpart         ../starter/source/groups/hm_read_grpart.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                 ../starter/source/output/message/message.F
+!||    groups_get_elem_list   ../starter/source/groups/groups_get_elem_list.F
+!||--- uses       -----------------------------------------------------
+!||    hm_option_read_mod     ../starter/share/modules1/hm_option_read_mod.F
+!||    message_mod            ../starter/share/message_module/message_mod.F
+!||    r2r_mod                ../starter/share/modules1/r2r_mod.F
+!||    submodel_mod           ../starter/share/modules1/submodel_mod.F
+!||====================================================================
       SUBROUTINE HM_TAGPART(BUFFTMP,IPART  ,KEY   ,
      .                   ID     ,TITR   ,TITR1  ,FLAG   ,SUBSET,LSUBMODEL)
 C old routine w/o index of BUFFTMP

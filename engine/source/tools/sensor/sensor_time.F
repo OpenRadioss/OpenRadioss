@@ -21,14 +21,14 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C=======================================================================
-      !||====================================================================
-      !||    sensor_time   ../engine/source/tools/sensor/sensor_time.F
-      !||--- called by ------------------------------------------------------
-      !||    sensor_base   ../engine/source/tools/sensor/sensor_base.F
-      !||    sensor_init   ../engine/source/tools/sensor/sensor_init.F
-      !||--- uses       -----------------------------------------------------
-      !||    sensor_mod    ../common_source/modules/sensor_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    sensor_time   ../engine/source/tools/sensor/sensor_time.F
+!||--- called by ------------------------------------------------------
+!||    sensor_base   ../engine/source/tools/sensor/sensor_base.F
+!||    sensor_init   ../engine/source/tools/sensor/sensor_init.F
+!||--- uses       -----------------------------------------------------
+!||    sensor_mod    ../common_source/modules/sensor_mod.F90
+!||====================================================================
       SUBROUTINE SENSOR_TIME(SENSOR ,TIME   ,TIMESTEP)
 C-----------------------------------------------
 C   M o d u l e s

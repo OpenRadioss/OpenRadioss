@@ -20,12 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    cm1inif    ../starter/source/elements/shell/coque/cm1inif.F
-      !||--- called by ------------------------------------------------------
-      !||    fsigcini   ../starter/source/constraints/fxbody/fsigcini.F
-      !||    fsigtini   ../starter/source/constraints/fxbody/fsigtini.F
-      !||====================================================================
+!||====================================================================
+!||    cm1inif    ../starter/source/elements/shell/coque/cm1inif.F
+!||--- called by ------------------------------------------------------
+!||    fsigcini   ../starter/source/constraints/fxbody/fsigcini.F
+!||    fsigtini   ../starter/source/constraints/fxbody/fsigtini.F
+!||====================================================================
       SUBROUTINE CM1INIF(JFT  ,JLT  ,FOR  ,MOM  ,ITHK ,
      .                   THK  ,EINT ,NU   ,G    ,A1   , 
      .                   A2   ,GS   ,KXX  ,KYY  ,KXY  ,

@@ -20,17 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    sigeps121c       ../engine/source/materials/mat/mat121/sigeps121c.F
-      !||--- called by ------------------------------------------------------
-      !||    mulawc           ../engine/source/materials/mat_share/mulawc.F90
-      !||--- calls      -----------------------------------------------------
-      !||    mat121c_newton   ../engine/source/materials/mat/mat121/mat121c_newton.F
-      !||    mat121c_nice     ../engine/source/materials/mat/mat121/mat121c_nice.F
-      !||    vinter2          ../engine/source/tools/curve/vinter.F
-      !||--- uses       -----------------------------------------------------
-      !||    elbufdef_mod     ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    sigeps121c       ../engine/source/materials/mat/mat121/sigeps121c.F
+!||--- called by ------------------------------------------------------
+!||    mulawc           ../engine/source/materials/mat_share/mulawc.F90
+!||--- calls      -----------------------------------------------------
+!||    mat121c_newton   ../engine/source/materials/mat/mat121/mat121c_newton.F
+!||    mat121c_nice     ../engine/source/materials/mat/mat121/mat121c_nice.F
+!||    vinter2          ../engine/source/tools/curve/vinter.F
+!||--- uses       -----------------------------------------------------
+!||    elbufdef_mod     ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||====================================================================
       SUBROUTINE SIGEPS121C(
      1     NEL     ,NGL     ,NUPARAM ,NUVAR   ,NFUNC   ,IFUNC   ,NPF     ,
      2     TF      ,TIMESTEP,TIME    ,UPARAM  ,UVAR    ,RHO     ,PLA     ,

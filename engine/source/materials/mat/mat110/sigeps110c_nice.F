@@ -20,17 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    sigeps110c_nice       ../engine/source/materials/mat/mat110/sigeps110c_nice.F
-      !||--- called by ------------------------------------------------------
-      !||    sigeps110c            ../engine/source/materials/mat/mat110/sigeps110c.F
-      !||--- calls      -----------------------------------------------------
-      !||    table2d_vinterp_log   ../engine/source/tools/curve/table2d_vinterp_log.F
-      !||    table_vinterp         ../engine/source/tools/curve/table_tools.F
-      !||--- uses       -----------------------------------------------------
-      !||    interface_table_mod   ../engine/share/modules/table_mod.F
-      !||    table_mod             ../engine/share/modules/table_mod.F
-      !||====================================================================
+!||====================================================================
+!||    sigeps110c_nice       ../engine/source/materials/mat/mat110/sigeps110c_nice.F
+!||--- called by ------------------------------------------------------
+!||    sigeps110c            ../engine/source/materials/mat/mat110/sigeps110c.F
+!||--- calls      -----------------------------------------------------
+!||    table2d_vinterp_log   ../engine/source/tools/curve/table2d_vinterp_log.F
+!||    table_vinterp         ../engine/source/tools/curve/table_tools.F
+!||--- uses       -----------------------------------------------------
+!||    interface_table_mod   ../engine/share/modules/table_mod.F
+!||    table_mod             ../engine/share/modules/table_mod.F
+!||====================================================================
       SUBROUTINE SIGEPS110C_NICE(
      1     NEL     ,NGL     ,NUPARAM ,NUVAR   ,NPF     , 
      2     TIME    ,TIMESTEP,UPARAM  ,UVAR    ,JTHE    ,OFF     ,

@@ -20,12 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    iniebcsp       ../starter/source/boundary_conditions/ebcs/iniebcsp.F
-      !||--- called by ------------------------------------------------------
-      !||    iniebcsp0      ../starter/source/boundary_conditions/ebcs/iniebcsp0.F
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    iniebcsp       ../starter/source/boundary_conditions/ebcs/iniebcsp.F
+!||--- called by ------------------------------------------------------
+!||    iniebcsp0      ../starter/source/boundary_conditions/ebcs/iniebcsp0.F
+!||--- uses       -----------------------------------------------------
+!||====================================================================
       SUBROUTINE INIEBCSP(NSEG,NOD,ISEG,IELEM,IRECT,LISTE,LA,IPARG,ELBUF_STR,P0,X)
 C-----------------------------------------------
 C   M o d u l e s

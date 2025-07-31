@@ -20,34 +20,34 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    lecsec4bolt              ../starter/source/tools/sect/lecsec4bolt.F
-      !||--- called by ------------------------------------------------------
-      !||    lectur                   ../starter/source/starter/lectur.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg                   ../starter/source/output/message/message.F
-      !||    anodset                  ../starter/source/output/analyse/analyse_node.c
-      !||    elegror                  ../starter/source/groups/elegror.F
-      !||    hm_get_floatv            ../starter/source/devtools/hm_reader/hm_get_floatv.F
-      !||    hm_get_int_array_index   ../starter/source/devtools/hm_reader/hm_get_int_array_index.F
-      !||    hm_get_intv              ../starter/source/devtools/hm_reader/hm_get_intv.F
-      !||    hm_get_string            ../starter/source/devtools/hm_reader/hm_get_string.F
-      !||    hm_option_read_key       ../starter/source/devtools/hm_reader/hm_option_read_key.F
-      !||    hm_option_start          ../starter/source/devtools/hm_reader/hm_option_start.F
-      !||    nodgrnr5                 ../starter/source/starter/freform.F
-      !||    sec_nodes_sol            ../starter/source/tools/sect/hm_read_sect.F
-      !||    secstri                  ../starter/source/tools/sect/hm_read_sect.F
-      !||    subrotpoint              ../starter/source/model/submodel/subrot.F
-      !||    subrotvect               ../starter/source/model/submodel/subrot.F
-      !||    udouble                  ../starter/source/system/sysfus.F
-      !||    usr2sys                  ../starter/source/system/sysfus.F
-      !||    zerore                   ../starter/source/system/zerore.F
-      !||--- uses       -----------------------------------------------------
-      !||    hm_option_read_mod       ../starter/share/modules1/hm_option_read_mod.F
-      !||    message_mod              ../starter/share/message_module/message_mod.F
-      !||    r2r_mod                  ../starter/share/modules1/r2r_mod.F
-      !||    submodel_mod             ../starter/share/modules1/submodel_mod.F
-      !||====================================================================
+!||====================================================================
+!||    lecsec4bolt              ../starter/source/tools/sect/lecsec4bolt.F
+!||--- called by ------------------------------------------------------
+!||    lectur                   ../starter/source/starter/lectur.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                   ../starter/source/output/message/message.F
+!||    anodset                  ../starter/source/output/analyse/analyse_node.c
+!||    elegror                  ../starter/source/groups/elegror.F
+!||    hm_get_floatv            ../starter/source/devtools/hm_reader/hm_get_floatv.F
+!||    hm_get_int_array_index   ../starter/source/devtools/hm_reader/hm_get_int_array_index.F
+!||    hm_get_intv              ../starter/source/devtools/hm_reader/hm_get_intv.F
+!||    hm_get_string            ../starter/source/devtools/hm_reader/hm_get_string.F
+!||    hm_option_read_key       ../starter/source/devtools/hm_reader/hm_option_read_key.F
+!||    hm_option_start          ../starter/source/devtools/hm_reader/hm_option_start.F
+!||    nodgrnr5                 ../starter/source/starter/freform.F
+!||    sec_nodes_sol            ../starter/source/tools/sect/hm_read_sect.F
+!||    secstri                  ../starter/source/tools/sect/hm_read_sect.F
+!||    subrotpoint              ../starter/source/model/submodel/subrot.F
+!||    subrotvect               ../starter/source/model/submodel/subrot.F
+!||    udouble                  ../starter/source/system/sysfus.F
+!||    usr2sys                  ../starter/source/system/sysfus.F
+!||    zerore                   ../starter/source/system/zerore.F
+!||--- uses       -----------------------------------------------------
+!||    hm_option_read_mod       ../starter/share/modules1/hm_option_read_mod.F
+!||    message_mod              ../starter/share/message_module/message_mod.F
+!||    r2r_mod                  ../starter/share/modules1/r2r_mod.F
+!||    submodel_mod             ../starter/share/modules1/submodel_mod.F
+!||====================================================================
       SUBROUTINE LECSEC4BOLT(IXS   ,IXQ   ,IXC    ,IXT    ,IXP    ,IXR    ,
      2                       IXTG  ,X0    ,NSTRF  ,ITAB   ,ITABM1 ,
      3                       IGRNOD,SECBUF ,

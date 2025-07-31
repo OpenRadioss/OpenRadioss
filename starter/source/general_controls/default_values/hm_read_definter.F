@@ -20,24 +20,24 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    hm_read_definter          ../starter/source/general_controls/default_values/hm_read_definter.F
-      !||--- called by ------------------------------------------------------
-      !||    contrl                    ../starter/source/starter/contrl.F
-      !||--- calls      -----------------------------------------------------
-      !||    hm_option_read_key        ../starter/source/devtools/hm_reader/hm_option_read_key.F
-      !||    hm_option_start           ../starter/source/devtools/hm_reader/hm_option_start.F
-      !||    hm_read_definter_type02   ../starter/source/general_controls/default_values/hm_read_definter_type02.F
-      !||    hm_read_definter_type07   ../starter/source/general_controls/default_values/hm_read_definter_type07.F
-      !||    hm_read_definter_type11   ../starter/source/general_controls/default_values/hm_read_definter_type11.F
-      !||    hm_read_definter_type19   ../starter/source/general_controls/default_values/hm_read_definter_type19.F
-      !||    hm_read_definter_type24   ../starter/source/general_controls/default_values/hm_read_definter_type24.F
-      !||    hm_read_definter_type25   ../starter/source/general_controls/default_values/hm_read_definter_type25.F
-      !||--- uses       -----------------------------------------------------
-      !||    hm_option_read_mod        ../starter/share/modules1/hm_option_read_mod.F
-      !||    message_mod               ../starter/share/message_module/message_mod.F
-      !||    submodel_mod              ../starter/share/modules1/submodel_mod.F
-      !||====================================================================
+!||====================================================================
+!||    hm_read_definter          ../starter/source/general_controls/default_values/hm_read_definter.F
+!||--- called by ------------------------------------------------------
+!||    contrl                    ../starter/source/starter/contrl.F
+!||--- calls      -----------------------------------------------------
+!||    hm_option_read_key        ../starter/source/devtools/hm_reader/hm_option_read_key.F
+!||    hm_option_start           ../starter/source/devtools/hm_reader/hm_option_start.F
+!||    hm_read_definter_type02   ../starter/source/general_controls/default_values/hm_read_definter_type02.F
+!||    hm_read_definter_type07   ../starter/source/general_controls/default_values/hm_read_definter_type07.F
+!||    hm_read_definter_type11   ../starter/source/general_controls/default_values/hm_read_definter_type11.F
+!||    hm_read_definter_type19   ../starter/source/general_controls/default_values/hm_read_definter_type19.F
+!||    hm_read_definter_type24   ../starter/source/general_controls/default_values/hm_read_definter_type24.F
+!||    hm_read_definter_type25   ../starter/source/general_controls/default_values/hm_read_definter_type25.F
+!||--- uses       -----------------------------------------------------
+!||    hm_option_read_mod        ../starter/share/modules1/hm_option_read_mod.F
+!||    message_mod               ../starter/share/message_module/message_mod.F
+!||    submodel_mod              ../starter/share/modules1/submodel_mod.F
+!||====================================================================
       SUBROUTINE HM_READ_DEFINTER(HM_NINTER_DEF,DEF_INTER,LSUBMODEL)
 C============================================================================
 C

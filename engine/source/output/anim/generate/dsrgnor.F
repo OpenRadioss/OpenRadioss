@@ -20,15 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    dsrgnor        ../engine/source/output/anim/generate/dsrgnor.F
-      !||--- called by ------------------------------------------------------
-      !||    genani         ../engine/source/output/anim/generate/genani.F
-      !||--- calls      -----------------------------------------------------
-      !||    write_s_c      ../common_source/tools/input_output/write_routtines.c
-      !||--- uses       -----------------------------------------------------
-      !||    groupdef_mod   ../common_source/modules/groupdef_mod.F
-      !||====================================================================
+!||====================================================================
+!||    dsrgnor        ../engine/source/output/anim/generate/dsrgnor.F
+!||--- called by ------------------------------------------------------
+!||    genani         ../engine/source/output/anim/generate/genani.F
+!||--- calls      -----------------------------------------------------
+!||    write_s_c      ../common_source/tools/input_output/write_routtines.c
+!||--- uses       -----------------------------------------------------
+!||    groupdef_mod   ../common_source/modules/groupdef_mod.F
+!||====================================================================
       SUBROUTINE DSRGNOR(IGRSURF,BUFSF)
 C-----------------------------------------------
 C   M o d u l e s

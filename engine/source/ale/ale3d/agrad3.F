@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    agrad3                 ../engine/source/ale/ale3d/agrad3.F
-      !||--- called by ------------------------------------------------------
-      !||    agrad0                 ../engine/source/ale/agrad0.F
-      !||    nodal_schlieren        ../engine/source/output/anim/generate/nodal_schlieren.F
-      !||--- uses       -----------------------------------------------------
-      !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
-      !||====================================================================
+!||====================================================================
+!||    agrad3                 ../engine/source/ale/ale3d/agrad3.F
+!||--- called by ------------------------------------------------------
+!||    agrad0                 ../engine/source/ale/agrad0.F
+!||    nodal_schlieren        ../engine/source/output/anim/generate/nodal_schlieren.F
+!||--- uses       -----------------------------------------------------
+!||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
+!||====================================================================
       SUBROUTINE AGRAD3(IXS,X,ALE_CONNECTIVITY,GRAD)
 C-----------------------------------------------
 C   S o u r c e   L i n e s

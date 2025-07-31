@@ -20,21 +20,21 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    soltosphf      ../engine/source/elements/sph/soltosph.F
-      !||--- called by ------------------------------------------------------
-      !||    resol          ../engine/source/engine/resol.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg         ../engine/source/output/message/message.F
-      !||    arret          ../engine/source/system/arret.F
-      !||    my_barrier     ../engine/source/system/machine.F
-      !||    startimeg      ../engine/source/system/timer.F
-      !||    stoptimeg      ../engine/source/system/timer.F
-      !||--- uses       -----------------------------------------------------
-      !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||    message_mod    ../engine/share/message_module/message_mod.F
-      !||    soltosph_mod   ../engine/share/modules/soltosph_mod.F
-      !||====================================================================
+!||====================================================================
+!||    soltosphf      ../engine/source/elements/sph/soltosph.F
+!||--- called by ------------------------------------------------------
+!||    resol          ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg         ../engine/source/output/message/message.F
+!||    arret          ../engine/source/system/arret.F
+!||    my_barrier     ../engine/source/system/machine.F
+!||    startimeg      ../engine/source/system/timer.F
+!||    stoptimeg      ../engine/source/system/timer.F
+!||--- uses       -----------------------------------------------------
+!||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    message_mod    ../engine/share/message_module/message_mod.F
+!||    soltosph_mod   ../engine/share/modules/soltosph_mod.F
+!||====================================================================
       SUBROUTINE SOLTOSPHF(
      1   A      ,SPBUF   ,IXS     ,KXSP    ,IPARTSP ,
      2   NOD2SP ,IRST   ,NGROUNC  ,IGROUNC ,IPARG   ,
@@ -503,20 +503,20 @@ C
       END IF
       RETURN
       END SUBROUTINE SOLTOSPHF
-      !||====================================================================
-      !||    soltosphp      ../engine/source/elements/sph/soltosph.F
-      !||--- called by ------------------------------------------------------
-      !||    forintp        ../engine/source/elements/forintp.F
-      !||--- calls      -----------------------------------------------------
-      !||    initbuf        ../engine/share/resol/initbuf.F
-      !||    sig_heph1      ../engine/source/elements/sph/soltosph_hour.F
-      !||    srep2glo       ../engine/source/elements/sph/srep2glo.F
-      !||    startimeg      ../engine/source/system/timer.F
-      !||    stoptimeg      ../engine/source/system/timer.F
-      !||--- uses       -----------------------------------------------------
-      !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||    initbuf_mod    ../engine/share/resol/initbuf.F
-      !||====================================================================
+!||====================================================================
+!||    soltosphp      ../engine/source/elements/sph/soltosph.F
+!||--- called by ------------------------------------------------------
+!||    forintp        ../engine/source/elements/forintp.F
+!||--- calls      -----------------------------------------------------
+!||    initbuf        ../engine/share/resol/initbuf.F
+!||    sig_heph1      ../engine/source/elements/sph/soltosph_hour.F
+!||    srep2glo       ../engine/source/elements/sph/srep2glo.F
+!||    startimeg      ../engine/source/system/timer.F
+!||    stoptimeg      ../engine/source/system/timer.F
+!||--- uses       -----------------------------------------------------
+!||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    initbuf_mod    ../engine/share/resol/initbuf.F
+!||====================================================================
       SUBROUTINE SOLTOSPHP(
      .   X      ,SPBUF   ,IXS     ,KXSP    ,IPARTSP ,
      .   IRST   ,ELBUF_TAB,IPARG  ,NGROUNC ,IGROUNC ,

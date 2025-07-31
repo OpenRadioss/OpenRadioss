@@ -21,14 +21,14 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
-      !||====================================================================
-      !||    spmd_exch_icodt       ../engine/source/mpi/nodes/spmd_exch_icodt.F
-      !||--- called by ------------------------------------------------------
-      !||    resol                 ../engine/source/engine/resol.F
-      !||--- calls      -----------------------------------------------------
-      !||--- uses       -----------------------------------------------------
-      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
-      !||====================================================================
+!||====================================================================
+!||    spmd_exch_icodt       ../engine/source/mpi/nodes/spmd_exch_icodt.F
+!||--- called by ------------------------------------------------------
+!||    resol                 ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
+!||====================================================================
       SUBROUTINE SPMD_EXCH_ICODT(ICODT,IAD_ELEM,FR_ELEM,SIZE,LENR)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

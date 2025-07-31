@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    trimat_mod                       ../engine/share/modules/trimat.F
-      !||--- called by ------------------------------------------------------
-      !||    afluxt                           ../engine/source/ale/ale51/afluxt.F
-      !||    ale51_gradient_reconstruction    ../engine/source/ale/alemuscl/ale51_gradient_reconstruction.F
-      !||    ale51_gradient_reconstruction2   ../engine/source/ale/alemuscl/ale51_gradient_reconstruction2.F
-      !||    restalloc                        ../engine/source/output/restart/arralloc.F
-      !||====================================================================
+!||====================================================================
+!||    trimat_mod                       ../engine/share/modules/trimat.F
+!||--- called by ------------------------------------------------------
+!||    afluxt                           ../engine/source/ale/ale51/afluxt.F
+!||    ale51_gradient_reconstruction    ../engine/source/ale/alemuscl/ale51_gradient_reconstruction.F
+!||    ale51_gradient_reconstruction2   ../engine/source/ale/alemuscl/ale51_gradient_reconstruction2.F
+!||    restalloc                        ../engine/source/output/restart/arralloc.F
+!||====================================================================
       MODULE TRIMAT_MOD
 #include "my_real.inc"
 C tableau tempo entier partage

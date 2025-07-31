@@ -21,17 +21,17 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 
-      !||====================================================================
-      !||    check_nan_acc      ../engine/source/output/outfile/check_nan_acc.F
-      !||--- called by ------------------------------------------------------
-      !||    resol              ../engine/source/engine/resol.F
-      !||--- calls      -----------------------------------------------------
-      !||    my_isnan           ../engine/source/system/my_isnan.F
-      !||    spmd_barrier       ../engine/source/mpi/spmd_mod.F90
-      !||--- uses       -----------------------------------------------------
-      !||    nodal_arrays_mod   ../common_source/modules/nodal_arrays.F90
-      !||    spmd_mod           ../engine/source/mpi/spmd_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    check_nan_acc      ../engine/source/output/outfile/check_nan_acc.F
+!||--- called by ------------------------------------------------------
+!||    resol              ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
+!||    my_isnan           ../engine/source/system/my_isnan.F
+!||    spmd_barrier       ../engine/source/mpi/spmd_mod.F90
+!||--- uses       -----------------------------------------------------
+!||    nodal_arrays_mod   ../common_source/modules/nodal_arrays.F90
+!||    spmd_mod           ../engine/source/mpi/spmd_mod.F90
+!||====================================================================
       SUBROUTINE CHECK_NAN_ACC(NCYCLE,NODES)
       USE SPMD_MOD, ONLY : SPMD_BARRIER
       USE nodal_arrays_mod

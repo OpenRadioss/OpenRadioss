@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    zerovars_auto   ../starter/source/elements/elbuf_init/zerovars_auto.F
-      !||--- called by ------------------------------------------------------
-      !||    elbuf_ini       ../starter/source/elements/elbuf_init/elbuf_ini.F
-      !||--- uses       -----------------------------------------------------
-      !||    elbuftag_mod    ../starter/share/modules1/elbuftag_mod.F
-      !||====================================================================
+!||====================================================================
+!||    zerovars_auto   ../starter/source/elements/elbuf_init/zerovars_auto.F
+!||--- called by ------------------------------------------------------
+!||    elbuf_ini       ../starter/source/elements/elbuf_init/elbuf_ini.F
+!||--- uses       -----------------------------------------------------
+!||    elbuftag_mod    ../starter/share/modules1/elbuftag_mod.F
+!||====================================================================
       SUBROUTINE ZEROVARS_AUTO(ELBUF_STR)
 C-----------------------------------------------
 C   M o d u l e s

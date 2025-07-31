@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    table_slope   ../starter/source/materials/tools/table_slope.F
-      !||--- called by ------------------------------------------------------
-      !||    law163_upd    ../starter/source/materials/mat/mat163/law163_upd.F90
-      !||    law70_upd     ../starter/source/materials/mat/mat070/law70_upd.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod   ../starter/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    table_slope   ../starter/source/materials/tools/table_slope.F
+!||--- called by ------------------------------------------------------
+!||    law163_upd    ../starter/source/materials/mat/mat163/law163_upd.F90
+!||    law70_upd     ../starter/source/materials/mat/mat070/law70_upd.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod   ../starter/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE TABLE_SLOPE(TABLE,STIFFINI,STIFFMIN,STIFFMAX,XMAX)
 C-----------------------------------------------
 C   M o d u l e s

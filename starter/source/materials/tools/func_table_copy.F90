@@ -22,33 +22,33 @@
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 ! --------------------------------------------------------------------------------------------------------------
 !
-      !||====================================================================
-      !||    func_table_copy_mod   ../starter/source/materials/tools/func_table_copy.F90
-      !||--- called by ------------------------------------------------------
-      !||    hm_read_mat129        ../starter/source/materials/mat/mat129/hm_read_mat129.F90
-      !||    hm_read_mat50         ../starter/source/materials/mat/mat050/hm_read_mat50.F90
-      !||    hm_read_mat57         ../starter/source/materials/mat/mat057/hm_read_mat57.F90
-      !||    hm_read_mat87         ../starter/source/materials/mat/mat087/hm_read_mat87.F90
-      !||====================================================================
+!||====================================================================
+!||    func_table_copy_mod   ../starter/source/materials/tools/func_table_copy.F90
+!||--- called by ------------------------------------------------------
+!||    hm_read_mat129        ../starter/source/materials/mat/mat129/hm_read_mat129.F90
+!||    hm_read_mat50         ../starter/source/materials/mat/mat050/hm_read_mat50.F90
+!||    hm_read_mat57         ../starter/source/materials/mat/mat057/hm_read_mat57.F90
+!||    hm_read_mat87         ../starter/source/materials/mat/mat087/hm_read_mat87.F90
+!||====================================================================
        module func_table_copy_mod
        contains
 
 !! \brief  creates local 2d table in material parameter structure from input function list
 !! \detail mat_param table array : mat_param%ntable > 0 should be already allocated
 
-      !||====================================================================
-      !||    func_table_copy        ../starter/source/materials/tools/func_table_copy.F90
-      !||--- called by ------------------------------------------------------
-      !||    hm_read_mat129         ../starter/source/materials/mat/mat129/hm_read_mat129.F90
-      !||    hm_read_mat50          ../starter/source/materials/mat/mat050/hm_read_mat50.F90
-      !||    hm_read_mat57          ../starter/source/materials/mat/mat057/hm_read_mat57.F90
-      !||    hm_read_mat87          ../starter/source/materials/mat/mat087/hm_read_mat87.F90
-      !||--- calls      -----------------------------------------------------
-      !||    mattab_usr2sys         ../starter/source/materials/tools/mattab_usr2sys.F
-      !||    table_values_2d        ../starter/source/materials/tools/table_values_2d.F
-      !||    unify_abscissa_2d      ../starter/source/materials/tools/unify_abscissas_2d.F
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    func_table_copy        ../starter/source/materials/tools/func_table_copy.F90
+!||--- called by ------------------------------------------------------
+!||    hm_read_mat129         ../starter/source/materials/mat/mat129/hm_read_mat129.F90
+!||    hm_read_mat50          ../starter/source/materials/mat/mat050/hm_read_mat50.F90
+!||    hm_read_mat57          ../starter/source/materials/mat/mat057/hm_read_mat57.F90
+!||    hm_read_mat87          ../starter/source/materials/mat/mat087/hm_read_mat87.F90
+!||--- calls      -----------------------------------------------------
+!||    mattab_usr2sys         ../starter/source/materials/tools/mattab_usr2sys.F
+!||    table_values_2d        ../starter/source/materials/tools/table_values_2d.F
+!||    unify_abscissa_2d      ../starter/source/materials/tools/unify_abscissas_2d.F
+!||--- uses       -----------------------------------------------------
+!||====================================================================
        subroutine func_table_copy(mat_table,mat_title,mat_id   ,     &
                                   nfunc    ,ifunc    ,x2vect   ,x1scale  ,x2scale  ,fscale   ,               &
                                   ntable   ,table    ,ierr     )

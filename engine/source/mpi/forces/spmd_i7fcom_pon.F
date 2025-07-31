@@ -21,47 +21,47 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
-      !||====================================================================
-      !||    spmd_i7fcom_pon        ../engine/source/mpi/forces/spmd_i7fcom_pon.F
-      !||--- called by ------------------------------------------------------
-      !||    resol                  ../engine/source/engine/resol.F
-      !||--- calls      -----------------------------------------------------
-      !||    addcomi20              ../engine/source/mpi/interfaces/spmd_i7tool.F
-      !||    ancmsg                 ../engine/source/output/message/message.F
-      !||    arret                  ../engine/source/system/arret.F
-      !||    intcontp               ../engine/source/mpi/interfaces/spmd_i7tool.F
-      !||    intcontp25e            ../engine/source/mpi/interfaces/intcontp25e.F
-      !||    putdpdaanc             ../engine/source/mpi/interfaces/spmd_i7tool.F
-      !||    putdpzero              ../engine/source/mpi/interfaces/spmd_i7tool.F
-      !||    reallocate_i_skyline   ../engine/source/system/reallocate_skyline.F
-      !||    sorti11                ../engine/source/mpi/interfaces/spmd_i7tool.F
-      !||    sorti11t               ../engine/source/mpi/interfaces/spmd_i7tool.F
-      !||    sorti11tt              ../engine/source/mpi/interfaces/spmd_i7tool.F
-      !||    sorti17                ../engine/source/mpi/interfaces/spmd_i7tool.F
-      !||    sorti20                ../engine/source/mpi/interfaces/spmd_i7tool.F
-      !||    sorti25                ../engine/source/mpi/interfaces/sorti25.F
-      !||    sortint                ../engine/source/mpi/interfaces/spmd_i7tool.F
-      !||    spmd_fiadd11_pon       ../engine/source/mpi/interfaces/spmd_i7tool.F
-      !||    spmd_fiadd17_pon       ../engine/source/mpi/interfaces/spmd_i7tool.F
-      !||    spmd_fiadd20_pon       ../engine/source/mpi/interfaces/spmd_i20tool.F
-      !||    spmd_fiadd20e_pon      ../engine/source/mpi/interfaces/spmd_i20tool.F
-      !||    spmd_fiadd20f_pon      ../engine/source/mpi/interfaces/spmd_i7tool.F
-      !||    spmd_fiadd20fe_pon     ../engine/source/mpi/interfaces/spmd_i7tool.F
-      !||    spmd_fiadd25e_pon      ../engine/source/mpi/interfaces/spmd_fiadd25e_pon.F
-      !||    spmd_fiadd_pon         ../engine/source/mpi/interfaces/spmd_i7tool.F
-      !||--- uses       -----------------------------------------------------
-      !||    glob_therm_mod         ../common_source/modules/mat_elem/glob_therm_mod.F90
-      !||    groupdef_mod           ../common_source/modules/groupdef_mod.F
-      !||    h3d_mod                ../engine/share/modules/h3d_mod.F
-      !||    heat_mod               ../engine/share/modules/heat_mod.F
-      !||    intbufdef_mod          ../common_source/modules/interfaces/intbufdef_mod.F90
-      !||    interfaces_mod         ../common_source/modules/interfaces/interfaces_mod.F90
-      !||    message_mod            ../engine/share/message_module/message_mod.F
-      !||    multi_fvm_mod          ../common_source/modules/ale/multi_fvm_mod.F90
-      !||    spmd_comm_world_mod    ../engine/source/mpi/spmd_comm_world.F90
-      !||    tri25ebox              ../engine/share/modules/tri25ebox.F
-      !||    tri7box                ../engine/share/modules/tri7box.F
-      !||====================================================================
+!||====================================================================
+!||    spmd_i7fcom_pon        ../engine/source/mpi/forces/spmd_i7fcom_pon.F
+!||--- called by ------------------------------------------------------
+!||    resol                  ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
+!||    addcomi20              ../engine/source/mpi/interfaces/spmd_i7tool.F
+!||    ancmsg                 ../engine/source/output/message/message.F
+!||    arret                  ../engine/source/system/arret.F
+!||    intcontp               ../engine/source/mpi/interfaces/spmd_i7tool.F
+!||    intcontp25e            ../engine/source/mpi/interfaces/intcontp25e.F
+!||    putdpdaanc             ../engine/source/mpi/interfaces/spmd_i7tool.F
+!||    putdpzero              ../engine/source/mpi/interfaces/spmd_i7tool.F
+!||    reallocate_i_skyline   ../engine/source/system/reallocate_skyline.F
+!||    sorti11                ../engine/source/mpi/interfaces/spmd_i7tool.F
+!||    sorti11t               ../engine/source/mpi/interfaces/spmd_i7tool.F
+!||    sorti11tt              ../engine/source/mpi/interfaces/spmd_i7tool.F
+!||    sorti17                ../engine/source/mpi/interfaces/spmd_i7tool.F
+!||    sorti20                ../engine/source/mpi/interfaces/spmd_i7tool.F
+!||    sorti25                ../engine/source/mpi/interfaces/sorti25.F
+!||    sortint                ../engine/source/mpi/interfaces/spmd_i7tool.F
+!||    spmd_fiadd11_pon       ../engine/source/mpi/interfaces/spmd_i7tool.F
+!||    spmd_fiadd17_pon       ../engine/source/mpi/interfaces/spmd_i7tool.F
+!||    spmd_fiadd20_pon       ../engine/source/mpi/interfaces/spmd_i20tool.F
+!||    spmd_fiadd20e_pon      ../engine/source/mpi/interfaces/spmd_i20tool.F
+!||    spmd_fiadd20f_pon      ../engine/source/mpi/interfaces/spmd_i7tool.F
+!||    spmd_fiadd20fe_pon     ../engine/source/mpi/interfaces/spmd_i7tool.F
+!||    spmd_fiadd25e_pon      ../engine/source/mpi/interfaces/spmd_fiadd25e_pon.F
+!||    spmd_fiadd_pon         ../engine/source/mpi/interfaces/spmd_i7tool.F
+!||--- uses       -----------------------------------------------------
+!||    glob_therm_mod         ../common_source/modules/mat_elem/glob_therm_mod.F90
+!||    groupdef_mod           ../common_source/modules/groupdef_mod.F
+!||    h3d_mod                ../engine/share/modules/h3d_mod.F
+!||    heat_mod               ../engine/share/modules/heat_mod.F
+!||    intbufdef_mod          ../common_source/modules/interfaces/intbufdef_mod.F90
+!||    interfaces_mod         ../common_source/modules/interfaces/interfaces_mod.F90
+!||    message_mod            ../engine/share/message_module/message_mod.F
+!||    multi_fvm_mod          ../common_source/modules/ale/multi_fvm_mod.F90
+!||    spmd_comm_world_mod    ../engine/source/mpi/spmd_comm_world.F90
+!||    tri25ebox              ../engine/share/modules/tri25ebox.F
+!||    tri7box                ../engine/share/modules/tri7box.F
+!||====================================================================
       SUBROUTINE SPMD_I7FCOM_PON(
      1                       IPARI   ,INTLIST,NBINTC  ,NISKYFI,ICODT   ,
      2                       SECFCUM ,NSTRF  ,ICONTACT,FCONT  ,IGRBRIC ,

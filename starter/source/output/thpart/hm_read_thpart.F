@@ -20,25 +20,25 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    hm_read_thpart           ../starter/source/output/thpart/hm_read_thpart.F
-      !||--- called by ------------------------------------------------------
-      !||    lectur                   ../starter/source/starter/lectur.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg                   ../starter/source/output/message/message.F
-      !||    fretitl                  ../starter/source/starter/freform.F
-      !||    hm_get_intv              ../starter/source/devtools/hm_reader/hm_get_intv.F
-      !||    hm_option_is_encrypted   ../starter/source/devtools/hm_reader/hm_option_is_encrypted.F
-      !||    hm_option_read_key       ../starter/source/devtools/hm_reader/hm_option_read_key.F
-      !||    hm_option_start          ../starter/source/devtools/hm_reader/hm_option_start.F
-      !||    nintri                   ../starter/source/system/nintrr.F
-      !||    nintrigr                 ../starter/source/system/nintrr.F
-      !||    udouble                  ../starter/source/system/sysfus.F
-      !||--- uses       -----------------------------------------------------
-      !||    hm_option_read_mod       ../starter/share/modules1/hm_option_read_mod.F
-      !||    message_mod              ../starter/share/message_module/message_mod.F
-      !||    submodel_mod             ../starter/share/modules1/submodel_mod.F
-      !||====================================================================
+!||====================================================================
+!||    hm_read_thpart           ../starter/source/output/thpart/hm_read_thpart.F
+!||--- called by ------------------------------------------------------
+!||    lectur                   ../starter/source/starter/lectur.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                   ../starter/source/output/message/message.F
+!||    fretitl                  ../starter/source/starter/freform.F
+!||    hm_get_intv              ../starter/source/devtools/hm_reader/hm_get_intv.F
+!||    hm_option_is_encrypted   ../starter/source/devtools/hm_reader/hm_option_is_encrypted.F
+!||    hm_option_read_key       ../starter/source/devtools/hm_reader/hm_option_read_key.F
+!||    hm_option_start          ../starter/source/devtools/hm_reader/hm_option_start.F
+!||    nintri                   ../starter/source/system/nintrr.F
+!||    nintrigr                 ../starter/source/system/nintrr.F
+!||    udouble                  ../starter/source/system/sysfus.F
+!||--- uses       -----------------------------------------------------
+!||    hm_option_read_mod       ../starter/share/modules1/hm_option_read_mod.F
+!||    message_mod              ../starter/share/message_module/message_mod.F
+!||    submodel_mod             ../starter/share/modules1/submodel_mod.F
+!||====================================================================
       SUBROUTINE HM_READ_THPART(IPART    ,IGRBRIC ,IGRQUAD  ,IGRSH4N ,IGRSH3N,
      .                     IGRTRUSS ,IGRBEAM ,IGRSPRING, LSUBMODEL)
 C-----------------------------------------------

@@ -20,22 +20,22 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    ruser33      ../engine/source/elements/joint/ruser33.F
-      !||--- called by ------------------------------------------------------
-      !||    rgjoint      ../engine/source/elements/joint/rgjoint.F
-      !||--- calls      -----------------------------------------------------
-      !||    def_fdof     ../engine/source/elements/joint/ruser33.F
-      !||    get_u_func   ../engine/source/user_interface/ufunc.F
-      !||    get_u_mid    ../engine/source/user_interface/upidmid.F
-      !||    get_u_mnu    ../engine/source/user_interface/upidmid.F
-      !||    get_u_pid    ../engine/source/user_interface/upidmid.F
-      !||    get_u_pnu    ../engine/source/user_interface/upidmid.F
-      !||    sens_block   ../engine/source/elements/joint/ruser33.F
-      !||    stdpl        ../engine/source/elements/joint/ruser33.F
-      !||    xddl33       ../engine/source/elements/joint/ruser33.F
-      !||    xddl33i      ../engine/source/elements/joint/ruser33.F
-      !||====================================================================
+!||====================================================================
+!||    ruser33      ../engine/source/elements/joint/ruser33.F
+!||--- called by ------------------------------------------------------
+!||    rgjoint      ../engine/source/elements/joint/rgjoint.F
+!||--- calls      -----------------------------------------------------
+!||    def_fdof     ../engine/source/elements/joint/ruser33.F
+!||    get_u_func   ../engine/source/user_interface/ufunc.F
+!||    get_u_mid    ../engine/source/user_interface/upidmid.F
+!||    get_u_mnu    ../engine/source/user_interface/upidmid.F
+!||    get_u_pid    ../engine/source/user_interface/upidmid.F
+!||    get_u_pnu    ../engine/source/user_interface/upidmid.F
+!||    sens_block   ../engine/source/elements/joint/ruser33.F
+!||    stdpl        ../engine/source/elements/joint/ruser33.F
+!||    xddl33       ../engine/source/elements/joint/ruser33.F
+!||    xddl33i      ../engine/source/elements/joint/ruser33.F
+!||====================================================================
       SUBROUTINE RUSER33(NEL   ,IOUT   ,IPROP  ,NUVAR  ,UVAR  ,
      .                   FX    ,FY     ,FZ     ,XMOM   ,YMOM  ,
      .                   ZMOM  ,XKM    ,XKR    ,XCM    ,XCR   ,
@@ -332,13 +332,13 @@ C----   Internal Energy
 C-------------------------------
       RETURN
       END
-      !||====================================================================
-      !||    xddl33       ../engine/source/elements/joint/ruser33.F
-      !||--- called by ------------------------------------------------------
-      !||    ruser33      ../engine/source/elements/joint/ruser33.F
-      !||--- calls      -----------------------------------------------------
-      !||    get_u_func   ../engine/source/user_interface/ufunc.F
-      !||====================================================================
+!||====================================================================
+!||    xddl33       ../engine/source/elements/joint/ruser33.F
+!||--- called by ------------------------------------------------------
+!||    ruser33      ../engine/source/elements/joint/ruser33.F
+!||--- calls      -----------------------------------------------------
+!||    get_u_func   ../engine/source/user_interface/ufunc.F
+!||====================================================================
       SUBROUTINE XDDL33(NEL, DX, FX, KX, IFUN, KMX, FAC_X)
 C-------------------------------------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -372,13 +372,13 @@ C---- KX is no longer a scale factor on force but the effective stiffness
 C-------------------------------
       RETURN
       END
-      !||====================================================================
-      !||    xddl33i      ../engine/source/elements/joint/ruser33.F
-      !||--- called by ------------------------------------------------------
-      !||    ruser33      ../engine/source/elements/joint/ruser33.F
-      !||--- calls      -----------------------------------------------------
-      !||    get_u_func   ../engine/source/user_interface/ufunc.F
-      !||====================================================================
+!||====================================================================
+!||    xddl33i      ../engine/source/elements/joint/ruser33.F
+!||--- called by ------------------------------------------------------
+!||    ruser33      ../engine/source/elements/joint/ruser33.F
+!||--- calls      -----------------------------------------------------
+!||    get_u_func   ../engine/source/user_interface/ufunc.F
+!||====================================================================
       SUBROUTINE XDDL33I(NEL, DX, FX, KX, IFUN, KMX, FAC_X)
 C-------------------------------------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -409,13 +409,13 @@ C-------------------------------------------------------------------------
 C-------------------------------
       RETURN
       END
-      !||====================================================================
-      !||    stdpl        ../engine/source/elements/joint/ruser33.F
-      !||--- called by ------------------------------------------------------
-      !||    ruser33      ../engine/source/elements/joint/ruser33.F
-      !||--- calls      -----------------------------------------------------
-      !||    get_u_func   ../engine/source/user_interface/ufunc.F
-      !||====================================================================
+!||====================================================================
+!||    stdpl        ../engine/source/elements/joint/ruser33.F
+!||--- called by ------------------------------------------------------
+!||    ruser33      ../engine/source/elements/joint/ruser33.F
+!||--- calls      -----------------------------------------------------
+!||    get_u_func   ../engine/source/user_interface/ufunc.F
+!||====================================================================
       SUBROUTINE STDPL(NEL,DX,VX,FX,KX,KNN,KF,CR,CRX,DXMI,DXMA,KMX,
      .                 FM,FRP,IFUN,ICOMB,DEQ,FCOMB,XCENT,FAC_X)       
 C-------------------------------------------------------------------------
@@ -529,11 +529,11 @@ C
 C-------------------------------
       RETURN
       END
-      !||====================================================================
-      !||    sens_block   ../engine/source/elements/joint/ruser33.F
-      !||--- called by ------------------------------------------------------
-      !||    ruser33      ../engine/source/elements/joint/ruser33.F
-      !||====================================================================
+!||====================================================================
+!||    sens_block   ../engine/source/elements/joint/ruser33.F
+!||--- called by ------------------------------------------------------
+!||    ruser33      ../engine/source/elements/joint/ruser33.F
+!||====================================================================
       SUBROUTINE SENS_BLOCK(NEL,DX,FX,KX,KNN,CR,CRX,DXS,FLAG,KMX)       
 C-------------------------------------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -563,11 +563,11 @@ C
 C-------------------------------
       RETURN
       END
-      !||====================================================================
-      !||    def_fdof   ../engine/source/elements/joint/ruser33.F
-      !||--- called by ------------------------------------------------------
-      !||    ruser33    ../engine/source/elements/joint/ruser33.F
-      !||====================================================================
+!||====================================================================
+!||    def_fdof   ../engine/source/elements/joint/ruser33.F
+!||--- called by ------------------------------------------------------
+!||    ruser33    ../engine/source/elements/joint/ruser33.F
+!||====================================================================
       SUBROUTINE DEF_FDOF(JTYP,FDOF)       
 C-------------------------------------------------------------------------
 C   I m p l i c i t   T y p e s

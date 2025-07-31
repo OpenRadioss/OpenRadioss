@@ -20,19 +20,19 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    spmd_oldnumcd                ../engine/source/mpi/interfaces/spmd_i7tool.F
-      !||--- called by ------------------------------------------------------
-      !||    i10tri                       ../engine/source/interfaces/intsort/i10tri.F
-      !||    i20tri                       ../engine/source/interfaces/intsort/i20tri.F
-      !||    i23trivox                    ../engine/source/interfaces/intsort/i23trivox.F
-      !||    i24trivox                    ../engine/source/interfaces/intsort/i24trivox.F
-      !||    i7tri                        ../engine/source/interfaces/intsort/i7tri.F
-      !||    i7trivox                     ../engine/source/interfaces/intsort/i7trivox.F
-      !||    inter7_collision_detection   ../engine/source/interfaces/intsort/inter7_collision_detection.F90
-      !||--- uses       -----------------------------------------------------
-      !||    tri7box                      ../engine/share/modules/tri7box.F
-      !||====================================================================
+!||====================================================================
+!||    spmd_oldnumcd                ../engine/source/mpi/interfaces/spmd_i7tool.F
+!||--- called by ------------------------------------------------------
+!||    i10tri                       ../engine/source/interfaces/intsort/i10tri.F
+!||    i20tri                       ../engine/source/interfaces/intsort/i20tri.F
+!||    i23trivox                    ../engine/source/interfaces/intsort/i23trivox.F
+!||    i24trivox                    ../engine/source/interfaces/intsort/i24trivox.F
+!||    i7tri                        ../engine/source/interfaces/intsort/i7tri.F
+!||    i7trivox                     ../engine/source/interfaces/intsort/i7trivox.F
+!||    inter7_collision_detection   ../engine/source/interfaces/intsort/inter7_collision_detection.F90
+!||--- uses       -----------------------------------------------------
+!||    tri7box                      ../engine/share/modules/tri7box.F
+!||====================================================================
       SUBROUTINE SPMD_OLDNUMCD(RENUM,OLDNUM,NSNR,NSNROLD,
      .           INTHEAT,IDT_THERM,NODADT_THERM) 
 C-----------------------------------------------
@@ -72,13 +72,13 @@ C
       RETURN
       END
 C
-      !||====================================================================
-      !||    spmd_rnumcd20   ../engine/source/mpi/interfaces/spmd_i7tool.F
-      !||--- called by ------------------------------------------------------
-      !||    i20main_tri     ../engine/source/interfaces/intsort/i20main_tri.F
-      !||--- uses       -----------------------------------------------------
-      !||    tri7box         ../engine/share/modules/tri7box.F
-      !||====================================================================
+!||====================================================================
+!||    spmd_rnumcd20   ../engine/source/mpi/interfaces/spmd_i7tool.F
+!||--- called by ------------------------------------------------------
+!||    i20main_tri     ../engine/source/interfaces/intsort/i20main_tri.F
+!||--- uses       -----------------------------------------------------
+!||    tri7box         ../engine/share/modules/tri7box.F
+!||====================================================================
       SUBROUTINE SPMD_RNUMCD20(
      1   CAND_N  ,RENUM  ,II_STOK,NIN,NSN,
      2   NSNFIOLD,NSNROLD)
@@ -146,16 +146,16 @@ C
 C
       RETURN
       END
-      !||====================================================================
-      !||    spmd_rnumcd     ../engine/source/mpi/interfaces/spmd_i7tool.F
-      !||--- called by ------------------------------------------------------
-      !||    i23main_tri     ../engine/source/interfaces/intsort/i23main_tri.F
-      !||    i24main_tri     ../engine/source/interfaces/intsort/i24main_tri.F
-      !||    i7main_tri      ../engine/source/interfaces/intsort/i7main_tri.F
-      !||    inter_sort_07   ../engine/source/interfaces/int07/inter_sort_07.F
-      !||--- uses       -----------------------------------------------------
-      !||    tri7box         ../engine/share/modules/tri7box.F
-      !||====================================================================
+!||====================================================================
+!||    spmd_rnumcd     ../engine/source/mpi/interfaces/spmd_i7tool.F
+!||--- called by ------------------------------------------------------
+!||    i23main_tri     ../engine/source/interfaces/intsort/i23main_tri.F
+!||    i24main_tri     ../engine/source/interfaces/intsort/i24main_tri.F
+!||    i7main_tri      ../engine/source/interfaces/intsort/i7main_tri.F
+!||    inter_sort_07   ../engine/source/interfaces/int07/inter_sort_07.F
+!||--- uses       -----------------------------------------------------
+!||    tri7box         ../engine/share/modules/tri7box.F
+!||====================================================================
       SUBROUTINE SPMD_RNUMCD(
      1   CAND_N  ,RENUM  ,II_STOK,NIN,NSN,
      2   NSNFIOLD,NSNROLD)
@@ -226,13 +226,13 @@ C
       END
 
 C
-      !||====================================================================
-      !||    spmd_rnumcd10   ../engine/source/mpi/interfaces/spmd_i7tool.F
-      !||--- called by ------------------------------------------------------
-      !||    i10main_tri     ../engine/source/interfaces/intsort/i10main_tri.F
-      !||--- uses       -----------------------------------------------------
-      !||    tri7box         ../engine/share/modules/tri7box.F
-      !||====================================================================
+!||====================================================================
+!||    spmd_rnumcd10   ../engine/source/mpi/interfaces/spmd_i7tool.F
+!||--- called by ------------------------------------------------------
+!||    i10main_tri     ../engine/source/interfaces/intsort/i10main_tri.F
+!||--- uses       -----------------------------------------------------
+!||    tri7box         ../engine/share/modules/tri7box.F
+!||====================================================================
       SUBROUTINE SPMD_RNUMCD10(
      1   CAND_N  ,RENUM  ,II_STOK,NIN,NSN,
      2   NSNFIOLD,NSNROLD)
@@ -310,13 +310,13 @@ C
 C
       RETURN
       END
-      !||====================================================================
-      !||    spmd_rnum25   ../engine/source/mpi/interfaces/spmd_i7tool.F
-      !||--- called by ------------------------------------------------------
-      !||    i25main_tri   ../engine/source/interfaces/intsort/i25main_tri.F
-      !||--- uses       -----------------------------------------------------
-      !||    tri7box       ../engine/share/modules/tri7box.F
-      !||====================================================================
+!||====================================================================
+!||    spmd_rnum25   ../engine/source/mpi/interfaces/spmd_i7tool.F
+!||--- called by ------------------------------------------------------
+!||    i25main_tri   ../engine/source/interfaces/intsort/i25main_tri.F
+!||--- uses       -----------------------------------------------------
+!||    tri7box       ../engine/share/modules/tri7box.F
+!||====================================================================
       SUBROUTINE SPMD_RNUM25(
      1   RENUM  ,NIN,NSN,NSNFIOLD,NSNROLD)
 C-----------------------------------------------
@@ -374,13 +374,13 @@ C
       RETURN
       END
 C
-      !||====================================================================
-      !||    spmd_rnumcd11   ../engine/source/mpi/interfaces/spmd_i7tool.F
-      !||--- called by ------------------------------------------------------
-      !||    i11main_tri     ../engine/source/interfaces/intsort/i11main_tri.F
-      !||--- uses       -----------------------------------------------------
-      !||    tri7box         ../engine/share/modules/tri7box.F
-      !||====================================================================
+!||====================================================================
+!||    spmd_rnumcd11   ../engine/source/mpi/interfaces/spmd_i7tool.F
+!||--- called by ------------------------------------------------------
+!||    i11main_tri     ../engine/source/interfaces/intsort/i11main_tri.F
+!||--- uses       -----------------------------------------------------
+!||    tri7box         ../engine/share/modules/tri7box.F
+!||====================================================================
       SUBROUTINE SPMD_RNUMCD11(
      1   CAND_N  ,RENUM  ,II_STOK,NIN,NRTS,
      2   NSNFIOLD,NSNROLD,ADDCM,CHAINE,CAND_M,NSN4,NRTM)
@@ -461,18 +461,18 @@ C
       RETURN
       END
 C
-      !||====================================================================
-      !||    spmd_fiadd_poff    ../engine/source/mpi/interfaces/spmd_i7tool.F
-      !||--- called by ------------------------------------------------------
-      !||    spmd_i7fcom_poff   ../engine/source/mpi/forces/spmd_i7fcom_poff.F
-      !||--- calls      -----------------------------------------------------
-      !||    ibcoff             ../engine/source/interfaces/interf/ibcoff.F
-      !||--- uses       -----------------------------------------------------
-      !||    anim_mod           ../common_source/modules/output/anim_mod.F
-      !||    h3d_mod            ../engine/share/modules/h3d_mod.F
-      !||    multi_fvm_mod      ../common_source/modules/ale/multi_fvm_mod.F90
-      !||    parameters_mod     ../common_source/modules/interfaces/parameters_mod.F
-      !||====================================================================
+!||====================================================================
+!||    spmd_fiadd_poff    ../engine/source/mpi/interfaces/spmd_i7tool.F
+!||--- called by ------------------------------------------------------
+!||    spmd_i7fcom_poff   ../engine/source/mpi/forces/spmd_i7fcom_poff.F
+!||--- calls      -----------------------------------------------------
+!||    ibcoff             ../engine/source/interfaces/interf/ibcoff.F
+!||--- uses       -----------------------------------------------------
+!||    anim_mod           ../common_source/modules/output/anim_mod.F
+!||    h3d_mod            ../engine/share/modules/h3d_mod.F
+!||    multi_fvm_mod      ../common_source/modules/ale/multi_fvm_mod.F90
+!||    parameters_mod     ../common_source/modules/interfaces/parameters_mod.F
+!||====================================================================
       SUBROUTINE SPMD_FIADD_POFF(
      1       NB    ,LEN     ,BUFR   ,NSV    ,A       ,
      2       STIFN ,VISCN   ,IBC    ,ISECIN ,NOINT   ,
@@ -666,14 +666,14 @@ C
       RETURN
       END
 C
-      !||====================================================================
-      !||    spmd_fiadd11_poff   ../engine/source/mpi/interfaces/spmd_i7tool.F
-      !||--- called by ------------------------------------------------------
-      !||    spmd_i7fcom_poff    ../engine/source/mpi/forces/spmd_i7fcom_poff.F
-      !||--- uses       -----------------------------------------------------
-      !||    anim_mod            ../common_source/modules/output/anim_mod.F
-      !||    h3d_mod             ../engine/share/modules/h3d_mod.F
-      !||====================================================================
+!||====================================================================
+!||    spmd_fiadd11_poff   ../engine/source/mpi/interfaces/spmd_i7tool.F
+!||--- called by ------------------------------------------------------
+!||    spmd_i7fcom_poff    ../engine/source/mpi/forces/spmd_i7fcom_poff.F
+!||--- uses       -----------------------------------------------------
+!||    anim_mod            ../common_source/modules/output/anim_mod.F
+!||    h3d_mod             ../engine/share/modules/h3d_mod.F
+!||====================================================================
       SUBROUTINE SPMD_FIADD11_POFF(
      1       NB    ,LEN     ,BUFR   ,IRECTS ,A       ,
      2       STIFN ,VISCN   ,IBC    ,ISECIN ,NOINT   ,
@@ -971,14 +971,14 @@ C
       RETURN
       END
 C
-      !||====================================================================
-      !||    spmd_fiadd17_poff   ../engine/source/mpi/interfaces/spmd_i7tool.F
-      !||--- called by ------------------------------------------------------
-      !||    spmd_i7fcom_poff    ../engine/source/mpi/forces/spmd_i7fcom_poff.F
-      !||--- uses       -----------------------------------------------------
-      !||    anim_mod            ../common_source/modules/output/anim_mod.F
-      !||    h3d_mod             ../engine/share/modules/h3d_mod.F
-      !||====================================================================
+!||====================================================================
+!||    spmd_fiadd17_poff   ../engine/source/mpi/interfaces/spmd_i7tool.F
+!||--- called by ------------------------------------------------------
+!||    spmd_i7fcom_poff    ../engine/source/mpi/forces/spmd_i7fcom_poff.F
+!||--- uses       -----------------------------------------------------
+!||    anim_mod            ../common_source/modules/output/anim_mod.F
+!||    h3d_mod             ../engine/share/modules/h3d_mod.F
+!||====================================================================
       SUBROUTINE SPMD_FIADD17_POFF(
      1       NB    ,LEN   ,BUFR   ,NELEMS ,A     ,
      2       STIFN ,FCONT ,IXS    ,IXS16  ,FROTS ,
@@ -1189,17 +1189,17 @@ C
       RETURN
       END
 C
-      !||====================================================================
-      !||    spmd_fiadd20_poff   ../engine/source/mpi/interfaces/spmd_i7tool.F
-      !||--- called by ------------------------------------------------------
-      !||    spmd_i7fcom_poff    ../engine/source/mpi/forces/spmd_i7fcom_poff.F
-      !||--- calls      -----------------------------------------------------
-      !||    getdpdaanc          ../engine/source/mpi/interfaces/spmd_i7tool.F
-      !||    ibcoff              ../engine/source/interfaces/interf/ibcoff.F
-      !||--- uses       -----------------------------------------------------
-      !||    anim_mod            ../common_source/modules/output/anim_mod.F
-      !||    h3d_mod             ../engine/share/modules/h3d_mod.F
-      !||====================================================================
+!||====================================================================
+!||    spmd_fiadd20_poff   ../engine/source/mpi/interfaces/spmd_i7tool.F
+!||--- called by ------------------------------------------------------
+!||    spmd_i7fcom_poff    ../engine/source/mpi/forces/spmd_i7fcom_poff.F
+!||--- calls      -----------------------------------------------------
+!||    getdpdaanc          ../engine/source/mpi/interfaces/spmd_i7tool.F
+!||    ibcoff              ../engine/source/interfaces/interf/ibcoff.F
+!||--- uses       -----------------------------------------------------
+!||    anim_mod            ../common_source/modules/output/anim_mod.F
+!||    h3d_mod             ../engine/share/modules/h3d_mod.F
+!||====================================================================
       SUBROUTINE SPMD_FIADD20_POFF(
      1       NB    ,LEN     ,BUFR   ,NSV    ,A       ,
      2       STIFN ,VISCN   ,IBC    ,ISECIN ,NOINT   ,
@@ -1460,16 +1460,16 @@ C
       RETURN
       END
 C
-      !||====================================================================
-      !||    spmd_fiadd20e_poff   ../engine/source/mpi/interfaces/spmd_i7tool.F
-      !||--- called by ------------------------------------------------------
-      !||    spmd_i7fcom_poff     ../engine/source/mpi/forces/spmd_i7fcom_poff.F
-      !||--- calls      -----------------------------------------------------
-      !||    getdpdaanc           ../engine/source/mpi/interfaces/spmd_i7tool.F
-      !||--- uses       -----------------------------------------------------
-      !||    anim_mod             ../common_source/modules/output/anim_mod.F
-      !||    h3d_mod              ../engine/share/modules/h3d_mod.F
-      !||====================================================================
+!||====================================================================
+!||    spmd_fiadd20e_poff   ../engine/source/mpi/interfaces/spmd_i7tool.F
+!||--- called by ------------------------------------------------------
+!||    spmd_i7fcom_poff     ../engine/source/mpi/forces/spmd_i7fcom_poff.F
+!||--- calls      -----------------------------------------------------
+!||    getdpdaanc           ../engine/source/mpi/interfaces/spmd_i7tool.F
+!||--- uses       -----------------------------------------------------
+!||    anim_mod             ../common_source/modules/output/anim_mod.F
+!||    h3d_mod              ../engine/share/modules/h3d_mod.F
+!||====================================================================
       SUBROUTINE SPMD_FIADD20E_POFF(
      1       NB    ,LEN     ,BUFR   ,IXLINS ,A       ,
      2       STIFN ,VISCN   ,IBC    ,ISECIN ,NOINT   ,
@@ -1769,20 +1769,20 @@ C
       END
 C
 C
-      !||====================================================================
-      !||    spmd_fiadd_pon    ../engine/source/mpi/interfaces/spmd_i7tool.F
-      !||--- called by ------------------------------------------------------
-      !||    spmd_i7fcom_pon   ../engine/source/mpi/forces/spmd_i7fcom_pon.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg            ../engine/source/output/message/message.F
-      !||    arret             ../engine/source/system/arret.F
-      !||    ibcoff            ../engine/source/interfaces/interf/ibcoff.F
-      !||--- uses       -----------------------------------------------------
-      !||    anim_mod          ../common_source/modules/output/anim_mod.F
-      !||    h3d_mod           ../engine/share/modules/h3d_mod.F
-      !||    message_mod       ../engine/share/message_module/message_mod.F
-      !||    parameters_mod    ../common_source/modules/interfaces/parameters_mod.F
-      !||====================================================================
+!||====================================================================
+!||    spmd_fiadd_pon    ../engine/source/mpi/interfaces/spmd_i7tool.F
+!||--- called by ------------------------------------------------------
+!||    spmd_i7fcom_pon   ../engine/source/mpi/forces/spmd_i7fcom_pon.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg            ../engine/source/output/message/message.F
+!||    arret             ../engine/source/system/arret.F
+!||    ibcoff            ../engine/source/interfaces/interf/ibcoff.F
+!||--- uses       -----------------------------------------------------
+!||    anim_mod          ../common_source/modules/output/anim_mod.F
+!||    h3d_mod           ../engine/share/modules/h3d_mod.F
+!||    message_mod       ../engine/share/message_module/message_mod.F
+!||    parameters_mod    ../common_source/modules/interfaces/parameters_mod.F
+!||====================================================================
       SUBROUTINE SPMD_FIADD_PON(
      1       NB     ,LEN    ,BUFR   ,NSV     ,FSKYI,
      2       ISKY   ,IBC    ,ISECIN ,NOINT   ,IBAG ,
@@ -1982,19 +1982,19 @@ C Boundary cond.
 C
       RETURN
       END
-      !||====================================================================
-      !||    spmd_fiadd20f_pon   ../engine/source/mpi/interfaces/spmd_i7tool.F
-      !||--- called by ------------------------------------------------------
-      !||    spmd_i7fcom_pon     ../engine/source/mpi/forces/spmd_i7fcom_pon.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg              ../engine/source/output/message/message.F
-      !||    arret               ../engine/source/system/arret.F
-      !||    ibcoff              ../engine/source/interfaces/interf/ibcoff.F
-      !||--- uses       -----------------------------------------------------
-      !||    anim_mod            ../common_source/modules/output/anim_mod.F
-      !||    h3d_mod             ../engine/share/modules/h3d_mod.F
-      !||    message_mod         ../engine/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    spmd_fiadd20f_pon   ../engine/source/mpi/interfaces/spmd_i7tool.F
+!||--- called by ------------------------------------------------------
+!||    spmd_i7fcom_pon     ../engine/source/mpi/forces/spmd_i7fcom_pon.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg              ../engine/source/output/message/message.F
+!||    arret               ../engine/source/system/arret.F
+!||    ibcoff              ../engine/source/interfaces/interf/ibcoff.F
+!||--- uses       -----------------------------------------------------
+!||    anim_mod            ../common_source/modules/output/anim_mod.F
+!||    h3d_mod             ../engine/share/modules/h3d_mod.F
+!||    message_mod         ../engine/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE SPMD_FIADD20F_PON(
      1       NB     ,LEN    ,BUFR   ,NSV     ,FSKYI,
      2       ISKY   ,IBC    ,ISECIN ,NOINT   ,IBAG ,
@@ -2176,18 +2176,18 @@ C
       RETURN
       END
 
-      !||====================================================================
-      !||    spmd_fiadd11_pon   ../engine/source/mpi/interfaces/spmd_i7tool.F
-      !||--- called by ------------------------------------------------------
-      !||    spmd_i7fcom_pon    ../engine/source/mpi/forces/spmd_i7fcom_pon.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg             ../engine/source/output/message/message.F
-      !||    arret              ../engine/source/system/arret.F
-      !||--- uses       -----------------------------------------------------
-      !||    anim_mod           ../common_source/modules/output/anim_mod.F
-      !||    h3d_mod            ../engine/share/modules/h3d_mod.F
-      !||    message_mod        ../engine/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    spmd_fiadd11_pon   ../engine/source/mpi/interfaces/spmd_i7tool.F
+!||--- called by ------------------------------------------------------
+!||    spmd_i7fcom_pon    ../engine/source/mpi/forces/spmd_i7fcom_pon.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg             ../engine/source/output/message/message.F
+!||    arret              ../engine/source/system/arret.F
+!||--- uses       -----------------------------------------------------
+!||    anim_mod           ../common_source/modules/output/anim_mod.F
+!||    h3d_mod            ../engine/share/modules/h3d_mod.F
+!||    message_mod        ../engine/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE SPMD_FIADD11_PON(
      1       NB     ,LEN    ,BUFR  ,IRECTS  ,FSKYI,
      2       ISKY   ,IBC    ,ISECIN,NOINT   ,IBAG ,
@@ -2516,18 +2516,18 @@ C
       RETURN
       END
 C
-      !||====================================================================
-      !||    spmd_fiadd20fe_pon   ../engine/source/mpi/interfaces/spmd_i7tool.F
-      !||--- called by ------------------------------------------------------
-      !||    spmd_i7fcom_pon      ../engine/source/mpi/forces/spmd_i7fcom_pon.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg               ../engine/source/output/message/message.F
-      !||    arret                ../engine/source/system/arret.F
-      !||--- uses       -----------------------------------------------------
-      !||    anim_mod             ../common_source/modules/output/anim_mod.F
-      !||    h3d_mod              ../engine/share/modules/h3d_mod.F
-      !||    message_mod          ../engine/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    spmd_fiadd20fe_pon   ../engine/source/mpi/interfaces/spmd_i7tool.F
+!||--- called by ------------------------------------------------------
+!||    spmd_i7fcom_pon      ../engine/source/mpi/forces/spmd_i7fcom_pon.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg               ../engine/source/output/message/message.F
+!||    arret                ../engine/source/system/arret.F
+!||--- uses       -----------------------------------------------------
+!||    anim_mod             ../common_source/modules/output/anim_mod.F
+!||    h3d_mod              ../engine/share/modules/h3d_mod.F
+!||    message_mod          ../engine/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE SPMD_FIADD20FE_PON(
      1       NB     ,LEN    ,BUFR  ,IRECTS  ,FSKYI,
      2       ISKY   ,IBC    ,ISECIN,NOINT   ,IBAG ,
@@ -2740,14 +2740,14 @@ C
       RETURN
       END
 C
-      !||====================================================================
-      !||    spmd_fiadd17_pon   ../engine/source/mpi/interfaces/spmd_i7tool.F
-      !||--- called by ------------------------------------------------------
-      !||    spmd_i7fcom_pon    ../engine/source/mpi/forces/spmd_i7fcom_pon.F
-      !||--- uses       -----------------------------------------------------
-      !||    anim_mod           ../common_source/modules/output/anim_mod.F
-      !||    h3d_mod            ../engine/share/modules/h3d_mod.F
-      !||====================================================================
+!||====================================================================
+!||    spmd_fiadd17_pon   ../engine/source/mpi/interfaces/spmd_i7tool.F
+!||--- called by ------------------------------------------------------
+!||    spmd_i7fcom_pon    ../engine/source/mpi/forces/spmd_i7fcom_pon.F
+!||--- uses       -----------------------------------------------------
+!||    anim_mod           ../common_source/modules/output/anim_mod.F
+!||    h3d_mod            ../engine/share/modules/h3d_mod.F
+!||====================================================================
       SUBROUTINE SPMD_FIADD17_PON(
      1       NB     ,LEN    ,BUFR  ,NELEMS ,FSKYI ,
      2       ISKY   ,FCONT  ,IXS   ,IXS16  ,H3D_DATA  )
@@ -2832,28 +2832,28 @@ C
       RETURN
       END
 C
-      !||====================================================================
-      !||    mpp_init                     ../engine/source/mpi/interfaces/spmd_i7tool.F
-      !||--- called by ------------------------------------------------------
-      !||    resol_init                   ../engine/source/engine/resol_init.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg                       ../engine/source/output/message/message.F
-      !||    my_orders                    ../common_source/tools/sort/my_orders.c
-      !||    spmd_ibcast                  ../engine/source/mpi/generic/spmd_ibcast.F
-      !||    spmd_split_comm              ../engine/source/mpi/init/spmd_split_comm.F
-      !||    spmd_split_comm_inter        ../engine/source/mpi/interfaces/spmd_split_comm_inter.F
-      !||    spmd_split_comm_joint        ../engine/source/mpi/init/spmd_split_comm_joint.F
-      !||--- uses       -----------------------------------------------------
-      !||    groupdef_mod                 ../common_source/modules/groupdef_mod.F
-      !||    intbufdef_mod                ../common_source/modules/interfaces/intbufdef_mod.F90
-      !||    inter_sorting_mod            ../engine/share/modules/inter_sorting_mod.F
-      !||    interface_modification_mod   ../engine/share/modules/interface_modification_mod.F
-      !||    message_mod                  ../engine/share/message_module/message_mod.F
-      !||    my_alloc_mod                 ../common_source/tools/memory/my_alloc.F90
-      !||    sensor_mod                   ../common_source/modules/sensor_mod.F90
-      !||    tri25ebox                    ../engine/share/modules/tri25ebox.F
-      !||    tri7box                      ../engine/share/modules/tri7box.F
-      !||====================================================================
+!||====================================================================
+!||    mpp_init                     ../engine/source/mpi/interfaces/spmd_i7tool.F
+!||--- called by ------------------------------------------------------
+!||    resol_init                   ../engine/source/engine/resol_init.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                       ../engine/source/output/message/message.F
+!||    my_orders                    ../common_source/tools/sort/my_orders.c
+!||    spmd_ibcast                  ../engine/source/mpi/generic/spmd_ibcast.F
+!||    spmd_split_comm              ../engine/source/mpi/init/spmd_split_comm.F
+!||    spmd_split_comm_inter        ../engine/source/mpi/interfaces/spmd_split_comm_inter.F
+!||    spmd_split_comm_joint        ../engine/source/mpi/init/spmd_split_comm_joint.F
+!||--- uses       -----------------------------------------------------
+!||    groupdef_mod                 ../common_source/modules/groupdef_mod.F
+!||    intbufdef_mod                ../common_source/modules/interfaces/intbufdef_mod.F90
+!||    inter_sorting_mod            ../engine/share/modules/inter_sorting_mod.F
+!||    interface_modification_mod   ../engine/share/modules/interface_modification_mod.F
+!||    message_mod                  ../engine/share/message_module/message_mod.F
+!||    my_alloc_mod                 ../common_source/tools/memory/my_alloc.F90
+!||    sensor_mod                   ../common_source/modules/sensor_mod.F90
+!||    tri25ebox                    ../engine/share/modules/tri25ebox.F
+!||    tri7box                      ../engine/share/modules/tri7box.F
+!||====================================================================
       SUBROUTINE MPP_INIT(
      1   IPARI   ,ISENDTO ,IRCVFROM,INTLIST ,NBINTC  ,
      2   ISIZXV  ,ILENXV  ,IAD_ELEM,I2SIZE  ,ITASK   ,
@@ -3375,25 +3375,25 @@ C
 
       RETURN
       END
-      !||====================================================================
-      !||    spmd_initfi                  ../engine/source/mpi/interfaces/spmd_i7tool.F
-      !||--- called by ------------------------------------------------------
-      !||    rdresb                       ../engine/source/output/restart/rdresb.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg                       ../engine/source/output/message/message.F
-      !||    arret                        ../engine/source/system/arret.F
-      !||    read_db                      ../common_source/tools/input_output/read_db.F
-      !||    read_i_c                     ../common_source/tools/input_output/write_routtines.c
-      !||    read_r_c                     ../common_source/tools/input_output/write_routtines.c
-      !||--- uses       -----------------------------------------------------
-      !||    h3d_mod                      ../engine/share/modules/h3d_mod.F
-      !||    interface_modification_mod   ../engine/share/modules/interface_modification_mod.F
-      !||    intstamp_glob_mod            ../engine/share/modules/intstamp_glob_mod.F
-      !||    message_mod                  ../engine/share/message_module/message_mod.F
-      !||    parameters_mod               ../common_source/modules/interfaces/parameters_mod.F
-      !||    tri25ebox                    ../engine/share/modules/tri25ebox.F
-      !||    tri7box                      ../engine/share/modules/tri7box.F
-      !||====================================================================
+!||====================================================================
+!||    spmd_initfi                  ../engine/source/mpi/interfaces/spmd_i7tool.F
+!||--- called by ------------------------------------------------------
+!||    rdresb                       ../engine/source/output/restart/rdresb.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                       ../engine/source/output/message/message.F
+!||    arret                        ../engine/source/system/arret.F
+!||    read_db                      ../common_source/tools/input_output/read_db.F
+!||    read_i_c                     ../common_source/tools/input_output/write_routtines.c
+!||    read_r_c                     ../common_source/tools/input_output/write_routtines.c
+!||--- uses       -----------------------------------------------------
+!||    h3d_mod                      ../engine/share/modules/h3d_mod.F
+!||    interface_modification_mod   ../engine/share/modules/interface_modification_mod.F
+!||    intstamp_glob_mod            ../engine/share/modules/intstamp_glob_mod.F
+!||    message_mod                  ../engine/share/message_module/message_mod.F
+!||    parameters_mod               ../common_source/modules/interfaces/parameters_mod.F
+!||    tri25ebox                    ../engine/share/modules/tri25ebox.F
+!||    tri7box                      ../engine/share/modules/tri7box.F
+!||====================================================================
       SUBROUTINE SPMD_INITFI(IPARI,IFLAG,H3D_DATA,PARAMETERS,IDT_THERM,INTHEAT)
 C-----------------------------------------------
 C   M o d u l e s
@@ -5099,23 +5099,23 @@ C
       RETURN
       END
 C
-      !||====================================================================
-      !||    spmd_savefi                  ../engine/source/mpi/interfaces/spmd_i7tool.F
-      !||--- called by ------------------------------------------------------
-      !||    wrrestp                      ../engine/source/output/restart/wrrestp.F
-      !||--- calls      -----------------------------------------------------
-      !||    write_db                     ../common_source/tools/input_output/write_db.F
-      !||    write_i_c                    ../common_source/tools/input_output/write_routtines.c
-      !||    write_r_c                    ../common_source/tools/input_output/write_routtines.c
-      !||--- uses       -----------------------------------------------------
-      !||    intbufdef_mod                ../common_source/modules/interfaces/intbufdef_mod.F90
-      !||    interface_modification_mod   ../engine/share/modules/interface_modification_mod.F
-      !||    intstamp_glob_mod            ../engine/share/modules/intstamp_glob_mod.F
-      !||    parameters_mod               ../common_source/modules/interfaces/parameters_mod.F
-      !||    sensor_mod                   ../common_source/modules/sensor_mod.F90
-      !||    tri25ebox                    ../engine/share/modules/tri25ebox.F
-      !||    tri7box                      ../engine/share/modules/tri7box.F
-      !||====================================================================
+!||====================================================================
+!||    spmd_savefi                  ../engine/source/mpi/interfaces/spmd_i7tool.F
+!||--- called by ------------------------------------------------------
+!||    wrrestp                      ../engine/source/output/restart/wrrestp.F
+!||--- calls      -----------------------------------------------------
+!||    write_db                     ../common_source/tools/input_output/write_db.F
+!||    write_i_c                    ../common_source/tools/input_output/write_routtines.c
+!||    write_r_c                    ../common_source/tools/input_output/write_routtines.c
+!||--- uses       -----------------------------------------------------
+!||    intbufdef_mod                ../common_source/modules/interfaces/intbufdef_mod.F90
+!||    interface_modification_mod   ../engine/share/modules/interface_modification_mod.F
+!||    intstamp_glob_mod            ../engine/share/modules/intstamp_glob_mod.F
+!||    parameters_mod               ../common_source/modules/interfaces/parameters_mod.F
+!||    sensor_mod                   ../common_source/modules/sensor_mod.F90
+!||    tri25ebox                    ../engine/share/modules/tri25ebox.F
+!||    tri7box                      ../engine/share/modules/tri7box.F
+!||====================================================================
       SUBROUTINE SPMD_SAVEFI(IPARI, IFLAG,INTBUF_TAB,NSENSOR,SENSOR_TAB,PARAMETERS)
 C-----------------------------------------------
 C   M o d u l e s
@@ -5661,12 +5661,12 @@ C
       RETURN
       END
 C
-      !||====================================================================
-      !||    sortint           ../engine/source/mpi/interfaces/spmd_i7tool.F
-      !||--- called by ------------------------------------------------------
-      !||    spmd_i21fthecom   ../engine/source/mpi/interfaces/send_cand.F
-      !||    spmd_i7fcom_pon   ../engine/source/mpi/forces/spmd_i7fcom_pon.F
-      !||====================================================================
+!||====================================================================
+!||    sortint           ../engine/source/mpi/interfaces/spmd_i7tool.F
+!||--- called by ------------------------------------------------------
+!||    spmd_i21fthecom   ../engine/source/mpi/interfaces/send_cand.F
+!||    spmd_i7fcom_pon   ../engine/source/mpi/forces/spmd_i7fcom_pon.F
+!||====================================================================
       SUBROUTINE SORTINT(N,ISKY,INDEX)  
 C
 C-----------------------------------------------
@@ -5734,9 +5734,9 @@ C
       RETURN
       END
 C
-      !||====================================================================
-      !||    sorti7   ../engine/source/mpi/interfaces/spmd_i7tool.F
-      !||====================================================================
+!||====================================================================
+!||    sorti7   ../engine/source/mpi/interfaces/spmd_i7tool.F
+!||====================================================================
       SUBROUTINE SORTI7(N,ISKY,FSKYI,FTHESKYI,NFSKYI)
 C
 C-----------------------------------------------
@@ -5896,9 +5896,9 @@ C
       RETURN
       END
 C
-      !||====================================================================
-      !||    sorti7t   ../engine/source/mpi/interfaces/spmd_i7tool.F
-      !||====================================================================
+!||====================================================================
+!||    sorti7t   ../engine/source/mpi/interfaces/spmd_i7tool.F
+!||====================================================================
       SUBROUTINE SORTI7T(N,ISKY,FSKYI,FTHESKYI,CONDNSKYI,NFSKYI)
 C
 C-----------------------------------------------
@@ -6068,12 +6068,12 @@ C
       RETURN
       END
 C
-      !||====================================================================
-      !||    sorti20             ../engine/source/mpi/interfaces/spmd_i7tool.F
-      !||--- called by ------------------------------------------------------
-      !||    spmd_i17frots_pon   ../engine/source/mpi/interfaces/spmd_i17frots_pon.F
-      !||    spmd_i7fcom_pon     ../engine/source/mpi/forces/spmd_i7fcom_pon.F
-      !||====================================================================
+!||====================================================================
+!||    sorti20             ../engine/source/mpi/interfaces/spmd_i7tool.F
+!||--- called by ------------------------------------------------------
+!||    spmd_i17frots_pon   ../engine/source/mpi/interfaces/spmd_i17frots_pon.F
+!||    spmd_i7fcom_pon     ../engine/source/mpi/forces/spmd_i7fcom_pon.F
+!||====================================================================
       SUBROUTINE SORTI20(N,ISKY,FSKYI,NFSKYI)
 C
 C-----------------------------------------------
@@ -6222,13 +6222,13 @@ C
       RETURN
       END
 C
-      !||====================================================================
-      !||    intcontp            ../engine/source/mpi/interfaces/spmd_i7tool.F
-      !||--- called by ------------------------------------------------------
-      !||    spmd_i17frots_pon   ../engine/source/mpi/interfaces/spmd_i17frots_pon.F
-      !||    spmd_i21fthecom     ../engine/source/mpi/interfaces/send_cand.F
-      !||    spmd_i7fcom_pon     ../engine/source/mpi/forces/spmd_i7fcom_pon.F
-      !||====================================================================
+!||====================================================================
+!||    intcontp            ../engine/source/mpi/interfaces/spmd_i7tool.F
+!||--- called by ------------------------------------------------------
+!||    spmd_i17frots_pon   ../engine/source/mpi/interfaces/spmd_i17frots_pon.F
+!||    spmd_i21fthecom     ../engine/source/mpi/interfaces/send_cand.F
+!||    spmd_i7fcom_pon     ../engine/source/mpi/forces/spmd_i7fcom_pon.F
+!||====================================================================
       SUBROUTINE INTCONTP(N,ISKY,NSNFI,ISIZENV,NSNFITOT,LEN)
 C
 C-----------------------------------------------
@@ -6276,11 +6276,11 @@ C
       RETURN
       END
 C
-      !||====================================================================
-      !||    addcomi20         ../engine/source/mpi/interfaces/spmd_i7tool.F
-      !||--- called by ------------------------------------------------------
-      !||    spmd_i7fcom_pon   ../engine/source/mpi/forces/spmd_i7fcom_pon.F
-      !||====================================================================
+!||====================================================================
+!||    addcomi20         ../engine/source/mpi/interfaces/spmd_i7tool.F
+!||--- called by ------------------------------------------------------
+!||    spmd_i7fcom_pon   ../engine/source/mpi/forces/spmd_i7fcom_pon.F
+!||====================================================================
       SUBROUTINE ADDCOMI20(NSNFI,NSVFI,ISIZENV,LENI20)
 C
 C-----------------------------------------------
@@ -6320,11 +6320,11 @@ C
       RETURN
       END
 C
-      !||====================================================================
-      !||    sorti11           ../engine/source/mpi/interfaces/spmd_i7tool.F
-      !||--- called by ------------------------------------------------------
-      !||    spmd_i7fcom_pon   ../engine/source/mpi/forces/spmd_i7fcom_pon.F
-      !||====================================================================
+!||====================================================================
+!||    sorti11           ../engine/source/mpi/interfaces/spmd_i7tool.F
+!||--- called by ------------------------------------------------------
+!||    spmd_i7fcom_pon   ../engine/source/mpi/forces/spmd_i7fcom_pon.F
+!||====================================================================
       SUBROUTINE SORTI11(N,ISKY,FSKYI,NFSKYI)
 C
 C-----------------------------------------------
@@ -6528,11 +6528,11 @@ C
       RETURN
       END
 C
-      !||====================================================================
-      !||    sorti11t          ../engine/source/mpi/interfaces/spmd_i7tool.F
-      !||--- called by ------------------------------------------------------
-      !||    spmd_i7fcom_pon   ../engine/source/mpi/forces/spmd_i7fcom_pon.F
-      !||====================================================================
+!||====================================================================
+!||    sorti11t          ../engine/source/mpi/interfaces/spmd_i7tool.F
+!||--- called by ------------------------------------------------------
+!||    spmd_i7fcom_pon   ../engine/source/mpi/forces/spmd_i7fcom_pon.F
+!||====================================================================
       SUBROUTINE SORTI11T(N,ISKY,FSKYI,FTHESKYI,NFSKYI)
 C
 C-----------------------------------------------
@@ -6749,11 +6749,11 @@ C
       RETURN
       END
 C
-      !||====================================================================
-      !||    sorti11tt         ../engine/source/mpi/interfaces/spmd_i7tool.F
-      !||--- called by ------------------------------------------------------
-      !||    spmd_i7fcom_pon   ../engine/source/mpi/forces/spmd_i7fcom_pon.F
-      !||====================================================================
+!||====================================================================
+!||    sorti11tt         ../engine/source/mpi/interfaces/spmd_i7tool.F
+!||--- called by ------------------------------------------------------
+!||    spmd_i7fcom_pon   ../engine/source/mpi/forces/spmd_i7fcom_pon.F
+!||====================================================================
       SUBROUTINE SORTI11TT(N,ISKY,FSKYI,FTHESKYI,CONDNSKYI,NFSKYI)
 C
 C-----------------------------------------------
@@ -6982,11 +6982,11 @@ C
       RETURN
       END
 C
-      !||====================================================================
-      !||    sorti17           ../engine/source/mpi/interfaces/spmd_i7tool.F
-      !||--- called by ------------------------------------------------------
-      !||    spmd_i7fcom_pon   ../engine/source/mpi/forces/spmd_i7fcom_pon.F
-      !||====================================================================
+!||====================================================================
+!||    sorti17           ../engine/source/mpi/interfaces/spmd_i7tool.F
+!||--- called by ------------------------------------------------------
+!||    spmd_i7fcom_pon   ../engine/source/mpi/forces/spmd_i7fcom_pon.F
+!||====================================================================
       SUBROUTINE SORTI17(N,ISKY,FSKYI)
 C
 C-----------------------------------------------
@@ -7064,12 +7064,12 @@ C
       END
 
 
-      !||====================================================================
-      !||    putdpzero         ../engine/source/mpi/interfaces/spmd_i7tool.F
-      !||--- called by ------------------------------------------------------
-      !||    spmd_i7fcom_pon   ../engine/source/mpi/forces/spmd_i7fcom_pon.F
-      !||    spmd_i7xvcom2     ../engine/source/mpi/interfaces/spmd_i7xvcom2.F
-      !||====================================================================
+!||====================================================================
+!||    putdpzero         ../engine/source/mpi/interfaces/spmd_i7tool.F
+!||--- called by ------------------------------------------------------
+!||    spmd_i7fcom_pon   ../engine/source/mpi/forces/spmd_i7fcom_pon.F
+!||    spmd_i7xvcom2     ../engine/source/mpi/interfaces/spmd_i7xvcom2.F
+!||====================================================================
       SUBROUTINE PUTDPZERO(ZZ,BUF,IRESP,INC)
 C
 C-----------------------------------------------
@@ -7107,11 +7107,11 @@ C
       RETURN
       END
 
-      !||====================================================================
-      !||    adddp            ../engine/source/mpi/interfaces/spmd_i7tool.F
-      !||--- called by ------------------------------------------------------
-      !||    spmd_exch_da20   ../engine/source/mpi/interfaces/spmd_exch_da20.F
-      !||====================================================================
+!||====================================================================
+!||    adddp            ../engine/source/mpi/interfaces/spmd_i7tool.F
+!||--- called by ------------------------------------------------------
+!||    spmd_exch_da20   ../engine/source/mpi/interfaces/spmd_exch_da20.F
+!||====================================================================
       SUBROUTINE ADDDP(DAANC6,DAANC6L,LEN)
 C
 C-----------------------------------------------
@@ -7144,11 +7144,11 @@ C
       RETURN
       END
 
-      !||====================================================================
-      !||    conversion7     ../engine/source/mpi/interfaces/spmd_i7tool.F
-      !||--- called by ------------------------------------------------------
-      !||    spmd_tri20box   ../engine/source/mpi/interfaces/spmd_tri20box.F
-      !||====================================================================
+!||====================================================================
+!||    conversion7     ../engine/source/mpi/interfaces/spmd_i7tool.F
+!||--- called by ------------------------------------------------------
+!||    spmd_tri20box   ../engine/source/mpi/interfaces/spmd_tri20box.F
+!||====================================================================
       SUBROUTINE CONVERSION7(XREM,XREM_DP,IREM,SIZ,LEN)
 C
 C-----------------------------------------------
@@ -7181,12 +7181,12 @@ C
       RETURN
       END
 
-      !||====================================================================
-      !||    conversion11     ../engine/source/mpi/interfaces/spmd_i7tool.F
-      !||--- called by ------------------------------------------------------
-      !||    spmd_tri20boxe   ../engine/source/mpi/interfaces/spmd_tri20boxe.F
-      !||    spmd_tri22vox    ../engine/source/mpi/interfaces/spmd_tri22vox.F
-      !||====================================================================
+!||====================================================================
+!||    conversion11     ../engine/source/mpi/interfaces/spmd_i7tool.F
+!||--- called by ------------------------------------------------------
+!||    spmd_tri20boxe   ../engine/source/mpi/interfaces/spmd_tri20boxe.F
+!||    spmd_tri22vox    ../engine/source/mpi/interfaces/spmd_tri22vox.F
+!||====================================================================
       SUBROUTINE CONVERSION11(XREM,XREM_DP,IREM,SIZ,LEN)
 C
 C-----------------------------------------------
@@ -7219,18 +7219,18 @@ C-----------------------------------------------
 C
       RETURN
       END
-      !||====================================================================
-      !||    upgrade_rem_2ry   ../engine/source/mpi/interfaces/spmd_i7tool.F
-      !||--- called by ------------------------------------------------------
-      !||    resol             ../engine/source/engine/resol.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg            ../engine/source/output/message/message.F
-      !||    arret             ../engine/source/system/arret.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod       ../engine/share/message_module/message_mod.F
-      !||    tri25ebox         ../engine/share/modules/tri25ebox.F
-      !||    tri7box           ../engine/share/modules/tri7box.F
-      !||====================================================================
+!||====================================================================
+!||    upgrade_rem_2ry   ../engine/source/mpi/interfaces/spmd_i7tool.F
+!||--- called by ------------------------------------------------------
+!||    resol             ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg            ../engine/source/output/message/message.F
+!||    arret             ../engine/source/system/arret.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod       ../engine/share/message_module/message_mod.F
+!||    tri25ebox         ../engine/share/modules/tri25ebox.F
+!||    tri7box           ../engine/share/modules/tri7box.F
+!||====================================================================
       SUBROUTINE UPGRADE_REM_2RY(IPARI,COUNT_REMSLV,COUNT_REMSLVE,NODADT_THERM)
       USE TRI7BOX
       USE TRI25EBOX
@@ -7347,16 +7347,16 @@ C            ALLOCATE(FSKYFIE(NI)%P(8,LSKYFI),STAT=IERROR1)
       RETURN
       END
 
-      !||====================================================================
-      !||    getdpdaanc           ../engine/source/mpi/interfaces/spmd_i7tool.F
-      !||--- called by ------------------------------------------------------
-      !||    spmd_exch_da20       ../engine/source/mpi/interfaces/spmd_exch_da20.F
-      !||    spmd_fiadd20_poff    ../engine/source/mpi/interfaces/spmd_i7tool.F
-      !||    spmd_fiadd20_pon     ../engine/source/mpi/interfaces/spmd_i20tool.F
-      !||    spmd_fiadd20e_poff   ../engine/source/mpi/interfaces/spmd_i7tool.F
-      !||    spmd_fiadd20e_pon    ../engine/source/mpi/interfaces/spmd_i20tool.F
-      !||    spmd_i7xvcom2        ../engine/source/mpi/interfaces/spmd_i7xvcom2.F
-      !||====================================================================
+!||====================================================================
+!||    getdpdaanc           ../engine/source/mpi/interfaces/spmd_i7tool.F
+!||--- called by ------------------------------------------------------
+!||    spmd_exch_da20       ../engine/source/mpi/interfaces/spmd_exch_da20.F
+!||    spmd_fiadd20_poff    ../engine/source/mpi/interfaces/spmd_i7tool.F
+!||    spmd_fiadd20_pon     ../engine/source/mpi/interfaces/spmd_i20tool.F
+!||    spmd_fiadd20e_poff   ../engine/source/mpi/interfaces/spmd_i7tool.F
+!||    spmd_fiadd20e_pon    ../engine/source/mpi/interfaces/spmd_i20tool.F
+!||    spmd_i7xvcom2        ../engine/source/mpi/interfaces/spmd_i7xvcom2.F
+!||====================================================================
       SUBROUTINE GETDPDAANC(DAANC6,BUF,IRESP,INC)
 C
 C-----------------------------------------------
@@ -7387,14 +7387,14 @@ C
       END
 
 
-      !||====================================================================
-      !||    putdpdaanc         ../engine/source/mpi/interfaces/spmd_i7tool.F
-      !||--- called by ------------------------------------------------------
-      !||    spmd_exch_da20     ../engine/source/mpi/interfaces/spmd_exch_da20.F
-      !||    spmd_i7fcom_poff   ../engine/source/mpi/forces/spmd_i7fcom_poff.F
-      !||    spmd_i7fcom_pon    ../engine/source/mpi/forces/spmd_i7fcom_pon.F
-      !||    spmd_i7xvcom2      ../engine/source/mpi/interfaces/spmd_i7xvcom2.F
-      !||====================================================================
+!||====================================================================
+!||    putdpdaanc         ../engine/source/mpi/interfaces/spmd_i7tool.F
+!||--- called by ------------------------------------------------------
+!||    spmd_exch_da20     ../engine/source/mpi/interfaces/spmd_exch_da20.F
+!||    spmd_i7fcom_poff   ../engine/source/mpi/forces/spmd_i7fcom_poff.F
+!||    spmd_i7fcom_pon    ../engine/source/mpi/forces/spmd_i7fcom_pon.F
+!||    spmd_i7xvcom2      ../engine/source/mpi/interfaces/spmd_i7xvcom2.F
+!||====================================================================
       SUBROUTINE PUTDPDAANC(DAANC6,BUF,IRESP,INC)
 C
 C-----------------------------------------------

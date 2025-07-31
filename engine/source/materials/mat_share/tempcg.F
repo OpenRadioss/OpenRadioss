@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    tempcg        ../engine/source/materials/mat_share/tempcg.F
-      !||--- called by ------------------------------------------------------
-      !||    cforc3        ../engine/source/elements/shell/coque/cforc3.F
-      !||    cforc3_crk    ../engine/source/elements/xfem/cforc3_crk.F
-      !||    czforc3       ../engine/source/elements/shell/coquez/czforc3.F
-      !||    czforc3_crk   ../engine/source/elements/xfem/czforc3_crk.F
-      !||====================================================================
+!||====================================================================
+!||    tempcg        ../engine/source/materials/mat_share/tempcg.F
+!||--- called by ------------------------------------------------------
+!||    cforc3        ../engine/source/elements/shell/coque/cforc3.F
+!||    cforc3_crk    ../engine/source/elements/xfem/cforc3_crk.F
+!||    czforc3       ../engine/source/elements/shell/coquez/czforc3.F
+!||    czforc3_crk   ../engine/source/elements/xfem/czforc3_crk.F
+!||====================================================================
       SUBROUTINE TEMPCG(NUMNOD, NEL  ,IXC ,TEMP ,TEMPEL)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

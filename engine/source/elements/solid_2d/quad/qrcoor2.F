@@ -20,12 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    qrcoor2   ../engine/source/elements/solid_2d/quad/qrcoor2.F
-      !||--- called by ------------------------------------------------------
-      !||    q4ke2     ../engine/source/elements/solid_2d/quad4/q4ke2.F
-      !||    qforc2    ../engine/source/elements/solid_2d/quad/qforc2.F
-      !||====================================================================
+!||====================================================================
+!||    qrcoor2   ../engine/source/elements/solid_2d/quad/qrcoor2.F
+!||--- called by ------------------------------------------------------
+!||    q4ke2     ../engine/source/elements/solid_2d/quad4/q4ke2.F
+!||    qforc2    ../engine/source/elements/solid_2d/quad/qforc2.F
+!||====================================================================
       SUBROUTINE QRCOOR2(
      1   X,       NCP,     Y1,      Y2,
      2   Y3,      Y4,      Z1,      Z2,

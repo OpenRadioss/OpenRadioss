@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    cgshell4       ../engine/source/implicit/cgshell.F
-      !||--- called by ------------------------------------------------------
-      !||    spbrm_pre      ../engine/source/implicit/imp_solv.F
-      !||--- uses       -----------------------------------------------------
-      !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    cgshell4       ../engine/source/implicit/cgshell.F
+!||--- called by ------------------------------------------------------
+!||    spbrm_pre      ../engine/source/implicit/imp_solv.F
+!||--- uses       -----------------------------------------------------
+!||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||====================================================================
       SUBROUTINE CGSHELL4(ELBUF_STR,JFT,JLT ,PM   ,IXC ,
      +                    X   ,MAS,XC ,YC ,ZC )
 C-----------------------------------------------
@@ -91,13 +91,13 @@ C
 C
       RETURN
       END
-      !||====================================================================
-      !||    cgshell3       ../engine/source/implicit/cgshell.F
-      !||--- called by ------------------------------------------------------
-      !||    spbrm_pre      ../engine/source/implicit/imp_solv.F
-      !||--- uses       -----------------------------------------------------
-      !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    cgshell3       ../engine/source/implicit/cgshell.F
+!||--- called by ------------------------------------------------------
+!||    spbrm_pre      ../engine/source/implicit/imp_solv.F
+!||--- uses       -----------------------------------------------------
+!||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||====================================================================
       SUBROUTINE CGSHELL3(ELBUF_STR,JFT,JLT ,PM   ,IXTG ,
      +                    X   ,MAS,XC ,YC ,ZC )
 C-----------------------------------------------

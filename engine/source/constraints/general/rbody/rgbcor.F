@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    rgbcor     ../engine/source/constraints/general/rbody/rgbcor.F
-      !||--- called by ------------------------------------------------------
-      !||    rbycor     ../engine/source/constraints/general/rbody/rbycor.F
-      !||--- uses       -----------------------------------------------------
-      !||    imp_dyna   ../engine/share/modules/impbufdef_mod.F
-      !||====================================================================
+!||====================================================================
+!||    rgbcor     ../engine/source/constraints/general/rbody/rgbcor.F
+!||--- called by ------------------------------------------------------
+!||    rbycor     ../engine/source/constraints/general/rbody/rbycor.F
+!||--- uses       -----------------------------------------------------
+!||    imp_dyna   ../engine/share/modules/impbufdef_mod.F
+!||====================================================================
       SUBROUTINE RGBCOR(V  ,VR  ,X    ,RBY,NOD ,
      2                  NBY,SKEW,ISKEW,FS ,ITAB,
      3                  WEIGHT,A,AR   ,MS ,IN  ,
@@ -460,16 +460,16 @@ C
 C
       RETURN
       END
-      !||====================================================================
-      !||    rbe2cor    ../engine/source/constraints/general/rbody/rgbcor.F
-      !||--- called by ------------------------------------------------------
-      !||    resol      ../engine/source/engine/resol.F
-      !||--- calls      -----------------------------------------------------
-      !||    prerbe2    ../engine/source/constraints/general/rbe2/rbe2f.F
-      !||    rbe2cor0   ../engine/source/constraints/general/rbody/rgbcor.F
-      !||--- uses       -----------------------------------------------------
-      !||    imp_dyna   ../engine/share/modules/impbufdef_mod.F
-      !||====================================================================
+!||====================================================================
+!||    rbe2cor    ../engine/source/constraints/general/rbody/rgbcor.F
+!||--- called by ------------------------------------------------------
+!||    resol      ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
+!||    prerbe2    ../engine/source/constraints/general/rbe2/rbe2f.F
+!||    rbe2cor0   ../engine/source/constraints/general/rbody/rgbcor.F
+!||--- uses       -----------------------------------------------------
+!||    imp_dyna   ../engine/share/modules/impbufdef_mod.F
+!||====================================================================
       SUBROUTINE RBE2COR(IRBE2 ,LRBE2 ,X    ,V     ,VR    ,
      2                   SKEW  ,ISKEW ,ITAB ,WEIGHT,A     ,
      3                   AR    ,MS    ,IN   ,WEIGHT_MD)
@@ -541,13 +541,13 @@ C-----------------------------------------------
 C
       RETURN
       END
-      !||====================================================================
-      !||    rbe2cor0   ../engine/source/constraints/general/rbody/rgbcor.F
-      !||--- called by ------------------------------------------------------
-      !||    rbe2cor    ../engine/source/constraints/general/rbody/rgbcor.F
-      !||--- uses       -----------------------------------------------------
-      !||    imp_dyna   ../engine/share/modules/impbufdef_mod.F
-      !||====================================================================
+!||====================================================================
+!||    rbe2cor0   ../engine/source/constraints/general/rbody/rgbcor.F
+!||--- called by ------------------------------------------------------
+!||    rbe2cor    ../engine/source/constraints/general/rbody/rgbcor.F
+!||--- uses       -----------------------------------------------------
+!||    imp_dyna   ../engine/share/modules/impbufdef_mod.F
+!||====================================================================
       SUBROUTINE RBE2COR0(V  ,VR  ,X    ,NSL   ,ISL   ,
      2                    JT ,JR  ,M    ,WEIGHT,A     ,
      3                    AR ,MS  ,IN   ,ITAB ,IRAD  ,

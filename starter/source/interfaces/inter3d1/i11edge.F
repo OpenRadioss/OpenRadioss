@@ -21,12 +21,12 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
-      !||====================================================================
-      !||    i11edge         ../starter/source/interfaces/inter3d1/i11edge.F
-      !||--- called by ------------------------------------------------------
-      !||    lecins          ../starter/source/interfaces/interf1/lecins.F
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    i11edge         ../starter/source/interfaces/inter3d1/i11edge.F
+!||--- called by ------------------------------------------------------
+!||    lecins          ../starter/source/interfaces/interf1/lecins.F
+!||--- uses       -----------------------------------------------------
+!||====================================================================
       SUBROUTINE I11EDGE(IPARI,INTBUF_TAB)
 C-----------------------------------------------
 C   M o d u l e s

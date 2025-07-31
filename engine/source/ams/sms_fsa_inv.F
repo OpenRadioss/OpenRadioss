@@ -20,27 +20,27 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    sms_check        ../engine/source/ams/sms_fsa_inv.F
-      !||--- called by ------------------------------------------------------
-      !||    sms_pcg          ../engine/source/ams/sms_pcg.F
-      !||--- calls      -----------------------------------------------------
-      !||    floatmin         ../common_source/tools/math/precision.c
-      !||    my_barrier       ../engine/source/system/machine.F
-      !||    sms_fsa_invh     ../engine/source/ams/sms_fsa_inv.F
-      !||    spmd_exchm_sms   ../engine/source/mpi/ams/spmd_sms.F
-      !||    spmd_glob_lmin   ../engine/source/mpi/ams/spmd_sms.F
-      !||    spmd_max_s       ../engine/source/mpi/implicit/imp_spmd.F
-      !||    spmd_nndft_sms   ../engine/source/mpi/ams/spmd_sms.F
-      !||    spmd_nnz_sms     ../engine/source/mpi/ams/spmd_sms.F
-      !||    startime         ../engine/source/system/timer_mod.F90
-      !||    stoptime         ../engine/source/system/timer_mod.F90
-      !||--- uses       -----------------------------------------------------
-      !||    ams_work_mod     ../engine/source/modules/ams_work_mod.F90
-      !||    message_mod      ../engine/share/message_module/message_mod.F
-      !||    my_alloc_mod     ../common_source/tools/memory/my_alloc.F90
-      !||    timer_mod        ../engine/source/system/timer_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    sms_check        ../engine/source/ams/sms_fsa_inv.F
+!||--- called by ------------------------------------------------------
+!||    sms_pcg          ../engine/source/ams/sms_pcg.F
+!||--- calls      -----------------------------------------------------
+!||    floatmin         ../common_source/tools/math/precision.c
+!||    my_barrier       ../engine/source/system/machine.F
+!||    sms_fsa_invh     ../engine/source/ams/sms_fsa_inv.F
+!||    spmd_exchm_sms   ../engine/source/mpi/ams/spmd_sms.F
+!||    spmd_glob_lmin   ../engine/source/mpi/ams/spmd_sms.F
+!||    spmd_max_s       ../engine/source/mpi/implicit/imp_spmd.F
+!||    spmd_nndft_sms   ../engine/source/mpi/ams/spmd_sms.F
+!||    spmd_nnz_sms     ../engine/source/mpi/ams/spmd_sms.F
+!||    startime         ../engine/source/system/timer_mod.F90
+!||    stoptime         ../engine/source/system/timer_mod.F90
+!||--- uses       -----------------------------------------------------
+!||    ams_work_mod     ../engine/source/modules/ams_work_mod.F90
+!||    message_mod      ../engine/share/message_module/message_mod.F
+!||    my_alloc_mod     ../common_source/tools/memory/my_alloc.F90
+!||    timer_mod        ../engine/source/system/timer_mod.F90
+!||====================================================================
       SUBROUTINE SMS_CHECK(TIMERS,NODFT ,NODLT ,IADK  ,JDIK  ,DIAG_K ,  
      2                     LT_K  ,IADI  , JDII ,LT_I  ,ITASK  ,
      3                     ITAB  ,IAD_ELEM,FR_ELEM,FR_SMS,FR_RMS,
@@ -325,20 +325,20 @@ C--------------------------------------------
       RETURN
       END
 C--------factorized sparse approximate inverse version hybrid------- 
-      !||====================================================================
-      !||    sms_fsa_invh    ../engine/source/ams/sms_fsa_inv.F
-      !||--- called by ------------------------------------------------------
-      !||    sms_check       ../engine/source/ams/sms_fsa_inv.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg          ../engine/source/output/message/message.F
-      !||    arret           ../engine/source/system/arret.F
-      !||    get_subsp_sms   ../engine/source/ams/sms_fsa_inv.F
-      !||    imp_fsai        ../engine/source/implicit/imp_fsa_inv.F
-      !||    sms_pcg1        ../engine/source/ams/sms_fsa_inv.F
-      !||    sp_stat0        ../engine/source/implicit/imp_fsa_inv.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod     ../engine/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    sms_fsa_invh    ../engine/source/ams/sms_fsa_inv.F
+!||--- called by ------------------------------------------------------
+!||    sms_check       ../engine/source/ams/sms_fsa_inv.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg          ../engine/source/output/message/message.F
+!||    arret           ../engine/source/system/arret.F
+!||    get_subsp_sms   ../engine/source/ams/sms_fsa_inv.F
+!||    imp_fsai        ../engine/source/implicit/imp_fsa_inv.F
+!||    sms_pcg1        ../engine/source/ams/sms_fsa_inv.F
+!||    sp_stat0        ../engine/source/implicit/imp_fsa_inv.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod     ../engine/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE SMS_FSA_INVH(NNZM   ,IADM  ,JDIM  , DIAG_M, LT_M, 
      1                  NNDFT0 ,NNDFT1,ITASK ,DIAG_INV)
 C-----------------------------------------------
@@ -425,14 +425,14 @@ C
       RETURN
       END
 C----------version spmd---set submatrix A(N,N) Format m.c.c.s. for FSAI ----
-      !||====================================================================
-      !||    get_subsp_sms   ../engine/source/ams/sms_fsa_inv.F
-      !||--- called by ------------------------------------------------------
-      !||    sms_fsa_invh    ../engine/source/ams/sms_fsa_inv.F
-      !||--- calls      -----------------------------------------------------
-      !||    ind_lt2ln       ../engine/source/implicit/imp_fsa_inv.F
-      !||    intab0          ../engine/source/implicit/imp_fsa_inv.F
-      !||====================================================================
+!||====================================================================
+!||    get_subsp_sms   ../engine/source/ams/sms_fsa_inv.F
+!||--- called by ------------------------------------------------------
+!||    sms_fsa_invh    ../engine/source/ams/sms_fsa_inv.F
+!||--- calls      -----------------------------------------------------
+!||    ind_lt2ln       ../engine/source/implicit/imp_fsa_inv.F
+!||    intab0          ../engine/source/implicit/imp_fsa_inv.F
+!||====================================================================
       SUBROUTINE GET_SUBSP_SMS(IADM  ,JDIM  ,DIAG_M ,LT_M  ,NC    ,
      .                         IADA  ,JDIA  ,DIAG_A ,LT_A  ,JM    ,   
      .                         NNDFT0,NNDFT1 )
@@ -481,14 +481,14 @@ C
 C
       RETURN
       END
-      !||====================================================================
-      !||    sms_pcg1       ../engine/source/ams/sms_fsa_inv.F
-      !||--- called by ------------------------------------------------------
-      !||    sms_fsa_invh   ../engine/source/ams/sms_fsa_inv.F
-      !||--- calls      -----------------------------------------------------
-      !||    mav_lt         ../engine/source/implicit/produt_v.F
-      !||    produt_v0      ../engine/source/implicit/produt_v.F
-      !||====================================================================
+!||====================================================================
+!||    sms_pcg1       ../engine/source/ams/sms_fsa_inv.F
+!||--- called by ------------------------------------------------------
+!||    sms_fsa_invh   ../engine/source/ams/sms_fsa_inv.F
+!||--- calls      -----------------------------------------------------
+!||    mav_lt         ../engine/source/implicit/produt_v.F
+!||    produt_v0      ../engine/source/implicit/produt_v.F
+!||====================================================================
       SUBROUTINE SMS_PCG1( 
      1                    NDDL  ,IADK  ,JDIK  ,DIAG_K ,LT_K  ,   
      2                    R     ,ISP   )

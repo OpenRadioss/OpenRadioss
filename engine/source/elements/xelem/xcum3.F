@@ -20,11 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    xcum3    ../engine/source/elements/xelem/xcum3.F
-      !||--- called by ------------------------------------------------------
-      !||    xforc3   ../engine/source/elements/xelem/xforc3.F
-      !||====================================================================
+!||====================================================================
+!||    xcum3    ../engine/source/elements/xelem/xcum3.F
+!||--- called by ------------------------------------------------------
+!||    xforc3   ../engine/source/elements/xelem/xforc3.F
+!||====================================================================
       SUBROUTINE XCUM3(NX,KXX,IXX,UFORC,USTIFM,
      2                 UVISCM,MS,F,STIFN)
 C-----------------------------------------------
@@ -81,11 +81,11 @@ C-----
       ENDDO
       RETURN
       END
-      !||====================================================================
-      !||    xcum3p   ../engine/source/elements/xelem/xcum3.F
-      !||--- called by ------------------------------------------------------
-      !||    xforc3   ../engine/source/elements/xelem/xforc3.F
-      !||====================================================================
+!||====================================================================
+!||    xcum3p   ../engine/source/elements/xelem/xcum3.F
+!||--- called by ------------------------------------------------------
+!||    xforc3   ../engine/source/elements/xelem/xforc3.F
+!||====================================================================
       SUBROUTINE XCUM3P(NX,KXX,IXX,UFORC,USTIFM,
      2                  UVISCM,MS,NISKYL,FSKYI,ISKY)
 C-----------------------------------------------

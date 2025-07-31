@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    inigrav_m51            ../starter/source/initial_conditions/inigrav/inigrav_m51.F
-      !||--- called by ------------------------------------------------------
-      !||    inigrav_load           ../starter/source/initial_conditions/inigrav/inigrav_load.F
-      !||--- calls      -----------------------------------------------------
-      !||    polysolve              ../starter/source/initial_conditions/inigrav/inigrav_m51.F
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    inigrav_m51            ../starter/source/initial_conditions/inigrav/inigrav_m51.F
+!||--- called by ------------------------------------------------------
+!||    inigrav_load           ../starter/source/initial_conditions/inigrav/inigrav_load.F
+!||--- calls      -----------------------------------------------------
+!||    polysolve              ../starter/source/initial_conditions/inigrav/inigrav_m51.F
+!||--- uses       -----------------------------------------------------
+!||====================================================================
       SUBROUTINE INIGRAV_M51(NELG, NEL , NG   , MATID, IPM, GRAV0, DEPTH, PM,     BUFMAT, ELBUF_TAB,
      .                       PSURF,LIST, ALE_CONNECTIVITY, NV46 , IX , NIX  , NFT  , BUFMATG, IPARG)
 C-----------------------------------------------
@@ -274,11 +274,11 @@ C
       
       END SUBROUTINE INIGRAV_M51
 
-      !||====================================================================
-      !||    polysolve     ../starter/source/initial_conditions/inigrav/inigrav_m51.F
-      !||--- called by ------------------------------------------------------
-      !||    inigrav_m51   ../starter/source/initial_conditions/inigrav/inigrav_m51.F
-      !||====================================================================
+!||====================================================================
+!||    polysolve     ../starter/source/initial_conditions/inigrav/inigrav_m51.F
+!||--- called by ------------------------------------------------------
+!||    inigrav_m51   ../starter/source/initial_conditions/inigrav/inigrav_m51.F
+!||====================================================================
       SUBROUTINE POLYSOLVE(C0, C1, C2, C3, C4, C5, PRES, EINT, MU, RHO0, VOL0, PEXT, UID)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

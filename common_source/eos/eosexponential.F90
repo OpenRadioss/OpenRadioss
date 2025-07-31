@@ -41,14 +41,14 @@ module eosexponential_mod
 !! \details  COLLOCATED SCHEME
 !! \details     EOSMAIN / IFLG = 2 : SINGLE PASS FOR P[n+1] AND DERIVATIVES
 !----------------------------------------------------------------------------
-      !||====================================================================
-      !||    eosexponential   ../common_source/eos/eosexponential.F90
-      !||--- called by ------------------------------------------------------
-      !||    eosmain          ../common_source/eos/eosmain.F
-      !||--- uses       -----------------------------------------------------
-      !||    constant_mod     ../common_source/modules/constant_mod.F
-      !||    precision_mod    ../common_source/modules/precision_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    eosexponential   ../common_source/eos/eosexponential.F90
+!||--- called by ------------------------------------------------------
+!||    eosmain          ../common_source/eos/eosmain.F
+!||--- uses       -----------------------------------------------------
+!||    constant_mod     ../common_source/modules/constant_mod.F
+!||    precision_mod    ../common_source/modules/precision_mod.F90
+!||====================================================================
       subroutine eosexponential(iflag ,nel   ,pm   ,off  ,eint ,&
                                 dvol  ,vnew  ,mat  ,psh  ,      &
                                 pnew  ,dpdm  ,dpdE ,time ,&

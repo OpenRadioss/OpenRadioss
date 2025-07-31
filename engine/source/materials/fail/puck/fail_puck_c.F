@@ -21,12 +21,12 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 
-      !||====================================================================
-      !||    fail_puck_c     ../engine/source/materials/fail/puck/fail_puck_c.F
-      !||--- called by ------------------------------------------------------
-      !||    mulawc          ../engine/source/materials/mat_share/mulawc.F90
-      !||    usermat_shell   ../engine/source/materials/mat_share/usermat_shell.F
-      !||====================================================================
+!||====================================================================
+!||    fail_puck_c     ../engine/source/materials/fail/puck/fail_puck_c.F
+!||--- called by ------------------------------------------------------
+!||    mulawc          ../engine/source/materials/mat_share/mulawc.F90
+!||    usermat_shell   ../engine/source/materials/mat_share/usermat_shell.F
+!||====================================================================
       SUBROUTINE FAIL_PUCK_C(
      1     NEL       ,NUPARAM   ,NUVAR     ,UPARAM    ,UVAR      , 
      2     TIME      ,NGL       ,IPG       ,ILAY      ,IPT       ,                          

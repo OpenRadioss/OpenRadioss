@@ -20,19 +20,19 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    spmd_i18kine_com_acc   ../engine/source/mpi/interfaces/spmd_i18kine_com_acc.F
-      !||--- called by ------------------------------------------------------
-      !||    i18main_kine_1         ../engine/source/interfaces/int18/i18main_kine.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg                 ../engine/source/output/message/message.F
-      !||    arret                  ../engine/source/system/arret.F
-      !||--- uses       -----------------------------------------------------
-      !||    intbufdef_mod          ../common_source/modules/interfaces/intbufdef_mod.F90
-      !||    message_mod            ../engine/share/message_module/message_mod.F
-      !||    spmd_comm_world_mod    ../engine/source/mpi/spmd_comm_world.F90
-      !||    tri7box                ../engine/share/modules/tri7box.F
-      !||====================================================================
+!||====================================================================
+!||    spmd_i18kine_com_acc   ../engine/source/mpi/interfaces/spmd_i18kine_com_acc.F
+!||--- called by ------------------------------------------------------
+!||    i18main_kine_1         ../engine/source/interfaces/int18/i18main_kine.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                 ../engine/source/output/message/message.F
+!||    arret                  ../engine/source/system/arret.F
+!||--- uses       -----------------------------------------------------
+!||    intbufdef_mod          ../common_source/modules/interfaces/intbufdef_mod.F90
+!||    message_mod            ../engine/share/message_module/message_mod.F
+!||    spmd_comm_world_mod    ../engine/source/mpi/spmd_comm_world.F90
+!||    tri7box                ../engine/share/modules/tri7box.F
+!||====================================================================
       SUBROUTINE SPMD_I18KINE_COM_ACC(IPARI,INTBUF_TAB,
      *                MTF,A,ITAB,TAGPENE)
 C-----------------------------------------------

@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    outp_no           ../engine/source/output/sty/outp_no.F
-      !||--- called by ------------------------------------------------------
-      !||    genoutp           ../engine/source/output/sty/genoutp.F
-      !||--- calls      -----------------------------------------------------
-      !||    spmd_doutp_gath   ../engine/source/mpi/interfaces/spmd_outp.F
-      !||====================================================================
+!||====================================================================
+!||    outp_no           ../engine/source/output/sty/outp_no.F
+!||--- called by ------------------------------------------------------
+!||    genoutp           ../engine/source/output/sty/genoutp.F
+!||--- calls      -----------------------------------------------------
+!||    spmd_doutp_gath   ../engine/source/mpi/interfaces/spmd_outp.F
+!||====================================================================
       SUBROUTINE OUTP_NO(KEY ,TEXT  ,LEN       ,ANIN   ,NUMNOD,
      2                   ITAB,INNODA,ITABG,LENG,NODGLOB,WEIGHT)
 C-----------------------------------------------

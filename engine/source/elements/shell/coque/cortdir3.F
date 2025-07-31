@@ -20,24 +20,24 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    cortdir3         ../engine/source/elements/shell/coque/cortdir3.F
-      !||--- called by ------------------------------------------------------
-      !||    c3coork3         ../engine/source/elements/sh3n/coque3n/c3coork3.F
-      !||    cbacoor          ../engine/source/elements/shell/coqueba/cbacoor.F
-      !||    cbacoork         ../engine/source/elements/shell/coqueba/cbacoork.F
-      !||    cdk6coor3        ../engine/source/elements/sh3n/coquedk6/cdk6coor3.F
-      !||    cdkcoor3         ../engine/source/elements/sh3n/coquedk/cdkcoor3.F
-      !||    cevec3           ../engine/source/elements/shell/coque/cevec3.F
-      !||    cnvec3           ../engine/source/elements/shell/coque/cnvec3.F
-      !||    czcoork3         ../engine/source/elements/shell/coquez/czcoork3.F
-      !||    czcorc1          ../engine/source/elements/shell/coquez/czcorc.F
-      !||    dynain_c_strsg   ../engine/source/output/dynain/dynain_c_strsg.F
-      !||    get_q4lsys       ../engine/source/output/sta/sta_c_get_q4lsys.F
-      !||    get_t3lsys       ../engine/source/output/sta/sta_c_get_t3lsys.F
-      !||--- uses       -----------------------------------------------------
-      !||    elbufdef_mod     ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    cortdir3         ../engine/source/elements/shell/coque/cortdir3.F
+!||--- called by ------------------------------------------------------
+!||    c3coork3         ../engine/source/elements/sh3n/coque3n/c3coork3.F
+!||    cbacoor          ../engine/source/elements/shell/coqueba/cbacoor.F
+!||    cbacoork         ../engine/source/elements/shell/coqueba/cbacoork.F
+!||    cdk6coor3        ../engine/source/elements/sh3n/coquedk6/cdk6coor3.F
+!||    cdkcoor3         ../engine/source/elements/sh3n/coquedk/cdkcoor3.F
+!||    cevec3           ../engine/source/elements/shell/coque/cevec3.F
+!||    cnvec3           ../engine/source/elements/shell/coque/cnvec3.F
+!||    czcoork3         ../engine/source/elements/shell/coquez/czcoork3.F
+!||    czcorc1          ../engine/source/elements/shell/coquez/czcorc.F
+!||    dynain_c_strsg   ../engine/source/output/dynain/dynain_c_strsg.F
+!||    get_q4lsys       ../engine/source/output/sta/sta_c_get_q4lsys.F
+!||    get_t3lsys       ../engine/source/output/sta/sta_c_get_t3lsys.F
+!||--- uses       -----------------------------------------------------
+!||    elbufdef_mod     ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||====================================================================
       SUBROUTINE CORTDIR3(ELBUF_STR,DIR_A  ,DIR_B  ,JFT    ,JLT    ,
      .                    NLAY     ,IREP   ,RX     ,RY     ,RZ     ,
      .                    SX       ,SY     ,SZ     ,E1X    ,E1Y    ,

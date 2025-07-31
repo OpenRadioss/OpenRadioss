@@ -20,15 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    ingrbric_dx            ../starter/source/interfaces/interf1/ingrbric_dx.F
-      !||--- called by ------------------------------------------------------
-      !||    lecint                 ../starter/source/interfaces/interf1/lecint.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg                 ../starter/source/output/message/message.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod            ../starter/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    ingrbric_dx            ../starter/source/interfaces/interf1/ingrbric_dx.F
+!||--- called by ------------------------------------------------------
+!||    lecint                 ../starter/source/interfaces/interf1/lecint.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                 ../starter/source/output/message/message.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod            ../starter/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE INGRBRIC_DX(NBRIC    , IBUFSSG, GLOBAL_GAP     , IXS        , X      ,  
      .                       NOINT    , TITR   , IS_GAP_COMPUTED, PM         , IPM    ,
      .                       IDDLEVEL , ISTIFF , AUTO_RHO       , AUTO_LENGTH,

@@ -20,15 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    cneveci           ../starter/source/elements/shell/coqueba/cneveci.F
-      !||--- called by ------------------------------------------------------
-      !||    cbafint_reg_ini   ../starter/source/elements/shell/coqueba/cbafint_reg_ini.F
-      !||    cbainit3          ../starter/source/elements/shell/coqueba/cbainit3.F
-      !||    cnepsini          ../starter/source/elements/shell/coqueba/cnepsini.F
-      !||--- calls      -----------------------------------------------------
-      !||    clskew3           ../starter/source/elements/shell/coque/clskew.F
-      !||====================================================================
+!||====================================================================
+!||    cneveci           ../starter/source/elements/shell/coqueba/cneveci.F
+!||--- called by ------------------------------------------------------
+!||    cbafint_reg_ini   ../starter/source/elements/shell/coqueba/cbafint_reg_ini.F
+!||    cbainit3          ../starter/source/elements/shell/coqueba/cbainit3.F
+!||    cnepsini          ../starter/source/elements/shell/coqueba/cnepsini.F
+!||--- calls      -----------------------------------------------------
+!||    clskew3           ../starter/source/elements/shell/coque/clskew.F
+!||====================================================================
       SUBROUTINE CNEVECI(JFT ,JLT ,AREA,
      .           X1  ,X2  ,X3  ,X4  ,Y1  ,Y2  ,
      .           Y3  ,Y4  ,Z1  ,Z2  ,Z3  ,Z4  ,

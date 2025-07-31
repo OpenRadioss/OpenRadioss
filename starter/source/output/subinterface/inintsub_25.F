@@ -20,20 +20,20 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    inintsub_25             ../starter/source/output/subinterface/inintsub_25.F
-      !||--- called by ------------------------------------------------------
-      !||    inintsub                ../starter/source/interfaces/interf1/inintsub.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg                  ../starter/source/output/message/message.F
-      !||    bitget                  ../starter/source/interfaces/inter3d1/bitget.F
-      !||    bitset                  ../starter/source/interfaces/inter3d1/bitget.F
-      !||    fretitl2                ../starter/source/starter/freform.F
-      !||    get_edge_fic_node       ../starter/source/output/subinterface/get_edge_fic_node.F90
-      !||--- uses       -----------------------------------------------------
-      !||    get_edge_fic_node_mod   ../starter/source/output/subinterface/get_edge_fic_node.F90
-      !||    message_mod             ../starter/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    inintsub_25             ../starter/source/output/subinterface/inintsub_25.F
+!||--- called by ------------------------------------------------------
+!||    inintsub                ../starter/source/interfaces/interf1/inintsub.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                  ../starter/source/output/message/message.F
+!||    bitget                  ../starter/source/interfaces/inter3d1/bitget.F
+!||    bitset                  ../starter/source/interfaces/inter3d1/bitget.F
+!||    fretitl2                ../starter/source/starter/freform.F
+!||    get_edge_fic_node       ../starter/source/output/subinterface/get_edge_fic_node.F90
+!||--- uses       -----------------------------------------------------
+!||    get_edge_fic_node_mod   ../starter/source/output/subinterface/get_edge_fic_node.F90
+!||    message_mod             ../starter/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE ININTSUB_25(ITAB      ,IGRNOD ,IGRSURF ,NOM_OPT ,INTBUF_TAB,
      .                       NRTM      ,NRTM0  ,NSN     ,NISUBS  ,NISUBM    ,
      .                       NOINT     ,NI     ,NOD2NSV ,NOD2RTM ,KAD       ,

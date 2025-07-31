@@ -20,16 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    joint_mod               ../engine/share/modules/joint_mod.F
-      !||--- called by ------------------------------------------------------
-      !||    cjoint                  ../engine/source/constraints/general/cyl_joint/cjoint.F
-      !||    deallocate_joint        ../engine/source/constraints/general/cyl_joint/deallocate_joint.F
-      !||    read_joint              ../engine/source/output/restart/read_joint.F
-      !||    spmd_split_comm_joint   ../engine/source/mpi/init/spmd_split_comm_joint.F
-      !||    telesc                  ../engine/source/constraints/general/cyl_joint/telesc.F
-      !||    write_joint             ../engine/source/output/restart/write_joint.F
-      !||====================================================================
+!||====================================================================
+!||    joint_mod               ../engine/share/modules/joint_mod.F
+!||--- called by ------------------------------------------------------
+!||    cjoint                  ../engine/source/constraints/general/cyl_joint/cjoint.F
+!||    deallocate_joint        ../engine/source/constraints/general/cyl_joint/deallocate_joint.F
+!||    read_joint              ../engine/source/output/restart/read_joint.F
+!||    spmd_split_comm_joint   ../engine/source/mpi/init/spmd_split_comm_joint.F
+!||    telesc                  ../engine/source/constraints/general/cyl_joint/telesc.F
+!||    write_joint             ../engine/source/output/restart/write_joint.F
+!||====================================================================
         MODULE JOINT_MOD
 #include "my_real.inc"
 !$COMMENT

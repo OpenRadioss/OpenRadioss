@@ -20,17 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    i25sto      ../engine/source/interfaces/intsort/i25sto.F
-      !||--- called by ------------------------------------------------------
-      !||    i25trivox   ../engine/source/interfaces/intsort/i25trivox.F
-      !||--- calls      -----------------------------------------------------
-      !||    i25cor3t    ../engine/source/interfaces/intsort/i25cor3t.F
-      !||    i25pen3     ../engine/source/interfaces/intsort/i25pen3.F
-      !||    i25s1s2     ../engine/source/interfaces/intsort/i25sto.F
-      !||--- uses       -----------------------------------------------------
-      !||    tri7box     ../engine/share/modules/tri7box.F
-      !||====================================================================
+!||====================================================================
+!||    i25sto      ../engine/source/interfaces/intsort/i25sto.F
+!||--- called by ------------------------------------------------------
+!||    i25trivox   ../engine/source/interfaces/intsort/i25trivox.F
+!||--- calls      -----------------------------------------------------
+!||    i25cor3t    ../engine/source/interfaces/intsort/i25cor3t.F
+!||    i25pen3     ../engine/source/interfaces/intsort/i25pen3.F
+!||    i25s1s2     ../engine/source/interfaces/intsort/i25sto.F
+!||--- uses       -----------------------------------------------------
+!||    tri7box     ../engine/share/modules/tri7box.F
+!||====================================================================
       SUBROUTINE I25STO(
      1      J_STOK,IRECT  ,X     ,NSV   ,II_STOK,
      2      CAND_N,CAND_E ,MULNSN,NOINT ,MARGE  ,
@@ -128,15 +128,15 @@ C
 C-----------------------------------------------
       RETURN
       END
-      !||====================================================================
-      !||    i25s1s2   ../engine/source/interfaces/intsort/i25sto.F
-      !||--- called by ------------------------------------------------------
-      !||    i25sto    ../engine/source/interfaces/intsort/i25sto.F
-      !||--- calls      -----------------------------------------------------
-      !||    bitget    ../engine/source/interfaces/intsort/i20sto.F
-      !||--- uses       -----------------------------------------------------
-      !||    tri7box   ../engine/share/modules/tri7box.F
-      !||====================================================================
+!||====================================================================
+!||    i25s1s2   ../engine/source/interfaces/intsort/i25sto.F
+!||--- called by ------------------------------------------------------
+!||    i25sto    ../engine/source/interfaces/intsort/i25sto.F
+!||--- calls      -----------------------------------------------------
+!||    bitget    ../engine/source/interfaces/intsort/i20sto.F
+!||--- uses       -----------------------------------------------------
+!||    tri7box   ../engine/share/modules/tri7box.F
+!||====================================================================
       SUBROUTINE I25S1S2(LLT  ,NSN  ,ESHIFT,PROV_N,PROV_E,
      .                   NBINFLG,MBINFLG,PENE)
 C-----------------------------------------------

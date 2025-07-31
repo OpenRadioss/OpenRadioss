@@ -20,11 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    alewdx_grid_bcs   ../engine/source/ale/grid/alewdx_grid_bcs.F
-      !||--- called by ------------------------------------------------------
-      !||    alew5             ../engine/source/ale/grid/alew5.F
-      !||====================================================================
+!||====================================================================
+!||    alewdx_grid_bcs   ../engine/source/ale/grid/alewdx_grid_bcs.F
+!||--- called by ------------------------------------------------------
+!||    alew5             ../engine/source/ale/grid/alew5.F
+!||====================================================================
       SUBROUTINE ALEWDX_GRID_BCS( SKEW, ISKEW,  ICODT, VEC, NALE, NODE_ID)
 C-----------------------------------------------
 C     D e s c r i p t i o n

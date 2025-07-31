@@ -20,16 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    find_surface_inter        ../engine/source/interfaces/interf/find_surface_inter.F
-      !||--- called by ------------------------------------------------------
-      !||    resol                     ../engine/source/engine/resol.F
-      !||--- calls      -----------------------------------------------------
-      !||    myqsort_int               ../common_source/tools/sort/myqsort_int.F
-      !||--- uses       -----------------------------------------------------
-      !||    intbufdef_mod             ../common_source/modules/interfaces/intbufdef_mod.F90
-      !||    shooting_node_mod         ../engine/share/modules/shooting_node_mod.F
-      !||====================================================================
+!||====================================================================
+!||    find_surface_inter        ../engine/source/interfaces/interf/find_surface_inter.F
+!||--- called by ------------------------------------------------------
+!||    resol                     ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
+!||    myqsort_int               ../common_source/tools/sort/myqsort_int.F
+!||--- uses       -----------------------------------------------------
+!||    intbufdef_mod             ../common_source/modules/interfaces/intbufdef_mod.F90
+!||    shooting_node_mod         ../engine/share/modules/shooting_node_mod.F
+!||====================================================================
         SUBROUTINE FIND_SURFACE_INTER(ITAB  ,SHOOT_STRUCT  ,IXS  ,IXS10  ,IXC  ,
      .                                IXTG  ,
      .                                NGROUP,NPARG,IGROUPS,IPARG )

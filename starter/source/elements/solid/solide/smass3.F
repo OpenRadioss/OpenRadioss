@@ -20,20 +20,20 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    smass3             ../starter/source/elements/solid/solide/smass3.F
-      !||--- called by ------------------------------------------------------
-      !||    inirig_mat         ../starter/source/elements/initia/inirig_mat.F
-      !||    inivoid            ../starter/source/elements/initia/inivoid.F
-      !||    multifluid_init3   ../starter/source/multifluid/multifluid_init3.F
-      !||    s8cinit3           ../starter/source/elements/thickshell/solide8c/s8cinit3.F
-      !||    s8zinit3           ../starter/source/elements/solid/solide8z/s8zinit3.F
-      !||    scinit3            ../starter/source/elements/thickshell/solidec/scinit3.F
-      !||    sinit3             ../starter/source/elements/solid/solide/sinit3.F
-      !||--- calls      -----------------------------------------------------
-      !||    my_exit            ../starter/source/output/analyse/analyse.c
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    smass3             ../starter/source/elements/solid/solide/smass3.F
+!||--- called by ------------------------------------------------------
+!||    inirig_mat         ../starter/source/elements/initia/inirig_mat.F
+!||    inivoid            ../starter/source/elements/initia/inivoid.F
+!||    multifluid_init3   ../starter/source/multifluid/multifluid_init3.F
+!||    s8cinit3           ../starter/source/elements/thickshell/solide8c/s8cinit3.F
+!||    s8zinit3           ../starter/source/elements/solid/solide8z/s8zinit3.F
+!||    scinit3            ../starter/source/elements/thickshell/solidec/scinit3.F
+!||    sinit3             ../starter/source/elements/solid/solide/sinit3.F
+!||--- calls      -----------------------------------------------------
+!||    my_exit            ../starter/source/output/analyse/analyse.c
+!||--- uses       -----------------------------------------------------
+!||====================================================================
       SUBROUTINE SMASS3(
      1     RHO    ,MS   ,PARTSAV,X    ,V ,
      2     IPART  ,MSS  ,VOLU   ,

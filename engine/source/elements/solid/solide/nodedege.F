@@ -20,11 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    nodedege   ../engine/source/elements/solid/solide/nodedege.F
-      !||--- called by ------------------------------------------------------
-      !||    deges4v    ../engine/source/elements/solid/solide/deges4v.F
-      !||====================================================================
+!||====================================================================
+!||    nodedege   ../engine/source/elements/solid/solide/nodedege.F
+!||--- called by ------------------------------------------------------
+!||    deges4v    ../engine/source/elements/solid/solide/deges4v.F
+!||====================================================================
       SUBROUTINE NODEDEGE(X,Y,Z,XYZ,NN)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

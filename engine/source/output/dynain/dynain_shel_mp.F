@@ -20,17 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    dynain_shel_mp   ../engine/source/output/dynain/dynain_shel_mp.F
-      !||--- called by ------------------------------------------------------
-      !||    gendynain        ../engine/source/output/dynain/gendynain.F
-      !||--- calls      -----------------------------------------------------
-      !||    my_orders        ../common_source/tools/sort/my_orders.c
-      !||    strs_txt50       ../engine/source/output/sta/sta_txt.F
-      !||--- uses       -----------------------------------------------------
-      !||    elbufdef_mod     ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||    state_mod        ../common_source/modules/state_mod.F
-      !||====================================================================
+!||====================================================================
+!||    dynain_shel_mp   ../engine/source/output/dynain/dynain_shel_mp.F
+!||--- called by ------------------------------------------------------
+!||    gendynain        ../engine/source/output/dynain/gendynain.F
+!||--- calls      -----------------------------------------------------
+!||    my_orders        ../common_source/tools/sort/my_orders.c
+!||    strs_txt50       ../engine/source/output/sta/sta_txt.F
+!||--- uses       -----------------------------------------------------
+!||    elbufdef_mod     ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    state_mod        ../common_source/modules/state_mod.F
+!||====================================================================
       SUBROUTINE DYNAIN_SHEL_MP(ITAB   ,ITABG   ,LENG    ,IGEO     ,IXC    ,
      .                          IXTG   ,IPARTC  ,IPARTTG ,DYNAIN_DATA      ,
      .                          NODTAG ,DYNAIN_INDXC,DYNAIN_INDXTG,IPARG   ,

@@ -21,11 +21,11 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
-      !||====================================================================
-      !||    invoi2   ../starter/source/interfaces/inter2d1/invoi2.F
-      !||--- called by ------------------------------------------------------
-      !||    inint2   ../starter/source/interfaces/inter2d1/inint2.F
-      !||====================================================================
+!||====================================================================
+!||    invoi2   ../starter/source/interfaces/inter2d1/invoi2.F
+!||--- called by ------------------------------------------------------
+!||    inint2   ../starter/source/interfaces/inter2d1/inint2.F
+!||====================================================================
       SUBROUTINE INVOI2(X,IRECT,LMSR,MSR,NSV,ILOC,IRTL,NSEG,NSN,NRT)
 C-----------------------------------------------
 C   D e s c r i p t i o n

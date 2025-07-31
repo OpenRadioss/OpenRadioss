@@ -20,56 +20,56 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    resol_head             ../engine/source/engine/resol_head.F
-      !||--- called by ------------------------------------------------------
-      !||    radioss2               ../engine/source/engine/radioss2.F
-      !||--- calls      -----------------------------------------------------
-      !||    resol                  ../engine/source/engine/resol.F
-      !||    trace_in               ../engine/source/system/trace_back.F
-      !||    trace_out              ../engine/source/system/trace_back.F
-      !||--- uses       -----------------------------------------------------
-      !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
-      !||    cluster_mod            ../engine/share/modules/cluster_mod.F
-      !||    connectivity_mod       ../common_source/modules/connectivity.F90
-      !||    coupling_adapter_mod   ../engine/source/coupling/coupling_adapter.F90
-      !||    damp_mod               ../engine/share/modules/damp_mod.F
-      !||    diffusion_mod          ../engine/share/modules/diffusion_mod.F
-      !||    drape_mod              ../engine/share/modules/drape_mod.F
-      !||    dsgraph_mod            ../engine/share/modules/dsgraph_mod.F
-      !||    dt_mod                 ../engine/source/modules/dt_mod.F
-      !||    ebcs_mod               ../common_source/modules/boundary_conditions/ebcs_mod.F90
-      !||    eig_mod                ../engine/share/modules/eig_mod.F
-      !||    fxb_mod                ../engine/share/modules/fxb_mod.F
-      !||    glob_therm_mod         ../common_source/modules/mat_elem/glob_therm_mod.F90
-      !||    groupdef_mod           ../common_source/modules/groupdef_mod.F
-      !||    h3d_mod                ../engine/share/modules/h3d_mod.F
-      !||    intbuf_fric_mod        ../common_source/modules/interfaces/intbuf_fric_mod.F90
-      !||    interfaces_mod         ../common_source/modules/interfaces/interfaces_mod.F90
-      !||    loads_mod              ../common_source/modules/loads/loads_mod.F90
-      !||    mat_elem_mod           ../common_source/modules/mat_elem/mat_elem_mod.F90
-      !||    monvol_struct_mod      ../engine/share/modules/monvol_struct_mod.F
-      !||    multi_fvm_mod          ../common_source/modules/ale/multi_fvm_mod.F90
-      !||    names_and_titles_mod   ../common_source/modules/names_and_titles_mod.F
-      !||    nodal_arrays_mod       ../common_source/modules/nodal_arrays.F90
-      !||    output_mod             ../common_source/modules/output/output_mod.F90
-      !||    pblast_mod             ../common_source/modules/loads/pblast_mod.F90
-      !||    pinchtype_mod          ../common_source/modules/pinchtype_mod.F
-      !||    python_funct_mod       ../common_source/modules/python_mod.F90
-      !||    rbe3_mod               ../common_source/modules/constraints/rbe3_mod.F90
-      !||    restmod                ../engine/share/modules/restart_mod.F
-      !||    segvar_mod             ../engine/share/modules/segvar_mod.F
-      !||    sensor_mod             ../common_source/modules/sensor_mod.F90
-      !||    skew_mod               ../common_source/modules/skew_mod.F90
-      !||    soltosph_mod           ../engine/share/modules/soltosph_mod.F
-      !||    sph_mod                ../engine/share/modules/sph_mod.F
-      !||    stack_mod              ../engine/share/modules/stack_mod.F
-      !||    state_mod              ../common_source/modules/state_mod.F
-      !||    table_glob_mod         ../engine/share/modules/table_glob_mod.F
-      !||    timer_mod              ../engine/source/system/timer_mod.F90
-      !||    unitab_mod             ../common_source/modules/unitab_mod.F
-      !||    user_windows_mod       ../common_source/modules/user_windows_mod.F
-      !||====================================================================
+!||====================================================================
+!||    resol_head             ../engine/source/engine/resol_head.F
+!||--- called by ------------------------------------------------------
+!||    radioss2               ../engine/source/engine/radioss2.F
+!||--- calls      -----------------------------------------------------
+!||    resol                  ../engine/source/engine/resol.F
+!||    trace_in               ../engine/source/system/trace_back.F
+!||    trace_out              ../engine/source/system/trace_back.F
+!||--- uses       -----------------------------------------------------
+!||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
+!||    cluster_mod            ../engine/share/modules/cluster_mod.F
+!||    connectivity_mod       ../common_source/modules/connectivity.F90
+!||    coupling_adapter_mod   ../engine/source/coupling/coupling_adapter.F90
+!||    damp_mod               ../engine/share/modules/damp_mod.F
+!||    diffusion_mod          ../engine/share/modules/diffusion_mod.F
+!||    drape_mod              ../engine/share/modules/drape_mod.F
+!||    dsgraph_mod            ../engine/share/modules/dsgraph_mod.F
+!||    dt_mod                 ../engine/source/modules/dt_mod.F
+!||    ebcs_mod               ../common_source/modules/boundary_conditions/ebcs_mod.F90
+!||    eig_mod                ../engine/share/modules/eig_mod.F
+!||    fxb_mod                ../engine/share/modules/fxb_mod.F
+!||    glob_therm_mod         ../common_source/modules/mat_elem/glob_therm_mod.F90
+!||    groupdef_mod           ../common_source/modules/groupdef_mod.F
+!||    h3d_mod                ../engine/share/modules/h3d_mod.F
+!||    intbuf_fric_mod        ../common_source/modules/interfaces/intbuf_fric_mod.F90
+!||    interfaces_mod         ../common_source/modules/interfaces/interfaces_mod.F90
+!||    loads_mod              ../common_source/modules/loads/loads_mod.F90
+!||    mat_elem_mod           ../common_source/modules/mat_elem/mat_elem_mod.F90
+!||    monvol_struct_mod      ../engine/share/modules/monvol_struct_mod.F
+!||    multi_fvm_mod          ../common_source/modules/ale/multi_fvm_mod.F90
+!||    names_and_titles_mod   ../common_source/modules/names_and_titles_mod.F
+!||    nodal_arrays_mod       ../common_source/modules/nodal_arrays.F90
+!||    output_mod             ../common_source/modules/output/output_mod.F90
+!||    pblast_mod             ../common_source/modules/loads/pblast_mod.F90
+!||    pinchtype_mod          ../common_source/modules/pinchtype_mod.F
+!||    python_funct_mod       ../common_source/modules/python_mod.F90
+!||    rbe3_mod               ../common_source/modules/constraints/rbe3_mod.F90
+!||    restmod                ../engine/share/modules/restart_mod.F
+!||    segvar_mod             ../engine/share/modules/segvar_mod.F
+!||    sensor_mod             ../common_source/modules/sensor_mod.F90
+!||    skew_mod               ../common_source/modules/skew_mod.F90
+!||    soltosph_mod           ../engine/share/modules/soltosph_mod.F
+!||    sph_mod                ../engine/share/modules/sph_mod.F
+!||    stack_mod              ../engine/share/modules/stack_mod.F
+!||    state_mod              ../common_source/modules/state_mod.F
+!||    table_glob_mod         ../engine/share/modules/table_glob_mod.F
+!||    timer_mod              ../engine/source/system/timer_mod.F90
+!||    unitab_mod             ../common_source/modules/unitab_mod.F
+!||    user_windows_mod       ../common_source/modules/user_windows_mod.F
+!||====================================================================
       SUBROUTINE RESOL_HEAD( ELEMENT, NODES,
      .           ITASK       ,AF          ,IAF            ,IDATA      ,RDATA,
      .           GRAPHE      ,IFLOW       ,RFLOW          ,

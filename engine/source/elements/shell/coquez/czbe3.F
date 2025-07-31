@@ -20,11 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    czbe3   ../engine/source/elements/shell/coquez/czbe3.F
-      !||--- called by ------------------------------------------------------
-      !||    czke3   ../engine/source/elements/shell/coquez/czke3.F
-      !||====================================================================
+!||====================================================================
+!||    czbe3   ../engine/source/elements/shell/coquez/czbe3.F
+!||--- called by ------------------------------------------------------
+!||    czke3   ../engine/source/elements/shell/coquez/czke3.F
+!||====================================================================
         SUBROUTINE CZBE3(JFT ,JLT  ,AREA ,A_I  ,X13  ,
      2                  X24  ,Y13  ,Y24  ,MX13 ,MX23 ,
      3                  MX34 ,MY13 ,MY23 ,MY34 ,Z1   ,
@@ -105,13 +105,13 @@ C
 C
       RETURN
       END
-      !||====================================================================
-      !||    czber3     ../engine/source/elements/shell/coquez/czbe3.F
-      !||--- called by ------------------------------------------------------
-      !||    czke3      ../engine/source/elements/shell/coquez/czke3.F
-      !||--- calls      -----------------------------------------------------
-      !||    czderirz   ../engine/source/elements/shell/coquez/czdef.F
-      !||====================================================================
+!||====================================================================
+!||    czber3     ../engine/source/elements/shell/coquez/czbe3.F
+!||--- called by ------------------------------------------------------
+!||    czke3      ../engine/source/elements/shell/coquez/czke3.F
+!||--- calls      -----------------------------------------------------
+!||    czderirz   ../engine/source/elements/shell/coquez/czdef.F
+!||====================================================================
         SUBROUTINE CZBER3(JFT ,JLT  ,AREA ,A_I  ,X13  ,
      1                   X24  ,Y13  ,Y24  ,MX13 ,MX23 ,
      2                   MX34 ,MY13 ,MY23 ,MY34 ,Z1   ,

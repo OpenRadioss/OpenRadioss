@@ -20,20 +20,20 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    sbilan                ../engine/source/elements/solid/solide/sbilan.F
-      !||--- called by ------------------------------------------------------
-      !||    s8cforc3              ../engine/source/elements/thickshell/solide8c/s8cforc3.F
-      !||    s8eforc3              ../engine/source/elements/solid/solide8e/s8eforc3.F
-      !||    s8sforc3              ../engine/source/elements/solid/solide8s/s8sforc3.F
-      !||    s8zforc3              ../engine/source/elements/solid/solide8z/s8zforc3.F
-      !||    sforc3                ../engine/source/elements/solid/solide/sforc3.F
-      !||--- calls      -----------------------------------------------------
-      !||    grelem_sav            ../engine/source/output/th/grelem_sav.F
-      !||    sensor_energy_bilan   ../engine/source/tools/sensor/sensor_energy_bilan.F
-      !||--- uses       -----------------------------------------------------
-      !||    sensor_mod            ../common_source/modules/sensor_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    sbilan                ../engine/source/elements/solid/solide/sbilan.F
+!||--- called by ------------------------------------------------------
+!||    s8cforc3              ../engine/source/elements/thickshell/solide8c/s8cforc3.F
+!||    s8eforc3              ../engine/source/elements/solid/solide8e/s8eforc3.F
+!||    s8sforc3              ../engine/source/elements/solid/solide8s/s8sforc3.F
+!||    s8zforc3              ../engine/source/elements/solid/solide8z/s8zforc3.F
+!||    sforc3                ../engine/source/elements/solid/solide/sforc3.F
+!||--- calls      -----------------------------------------------------
+!||    grelem_sav            ../engine/source/output/th/grelem_sav.F
+!||    sensor_energy_bilan   ../engine/source/tools/sensor/sensor_energy_bilan.F
+!||--- uses       -----------------------------------------------------
+!||    sensor_mod            ../common_source/modules/sensor_mod.F90
+!||====================================================================
       SUBROUTINE SBILAN(PARTSAV,EINT,RHO,RK,VOL,
      .   VX1, VX2, VX3, VX4, VX5, VX6, VX7, VX8,
      .   VY1, VY2, VY3, VY4, VY5, VY6, VY7, VY8,

@@ -20,19 +20,19 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    i25maind_2      ../engine/source/interfaces/int25/i25maind_2.F
-      !||--- called by ------------------------------------------------------
-      !||    inttri          ../engine/source/interfaces/intsort/inttri.F
-      !||--- calls      -----------------------------------------------------
-      !||    i25comp_2       ../engine/source/interfaces/int25/i25comp_2.F
-      !||--- uses       -----------------------------------------------------
-      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
-      !||    message_mod     ../engine/share/message_module/message_mod.F
-      !||    mpi_commod      ../engine/share/modules/mpi_comm_mod.F
-      !||    sensor_mod      ../common_source/modules/sensor_mod.F90
-      !||    tri7box         ../engine/share/modules/tri7box.F
-      !||====================================================================
+!||====================================================================
+!||    i25maind_2      ../engine/source/interfaces/int25/i25maind_2.F
+!||--- called by ------------------------------------------------------
+!||    inttri          ../engine/source/interfaces/intsort/inttri.F
+!||--- calls      -----------------------------------------------------
+!||    i25comp_2       ../engine/source/interfaces/int25/i25comp_2.F
+!||--- uses       -----------------------------------------------------
+!||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
+!||    message_mod     ../engine/share/message_module/message_mod.F
+!||    mpi_commod      ../engine/share/modules/mpi_comm_mod.F
+!||    sensor_mod      ../common_source/modules/sensor_mod.F90
+!||    tri7box         ../engine/share/modules/tri7box.F
+!||====================================================================
       SUBROUTINE I25MAIND_2(
      1       IPARI    ,ITAB    ,SENSOR_TAB,INTLIST25,INTBUF_TAB ,
      2       X        ,V       ,KINET   ,JTASK    ,NB_DST2    ,

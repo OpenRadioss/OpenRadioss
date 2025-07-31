@@ -21,13 +21,13 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 
-      !||====================================================================
-      !||    write_nloc_struct   ../starter/source/restart/ddsplit/write_nloc_struct.F
-      !||--- called by ------------------------------------------------------
-      !||    ddsplit             ../starter/source/restart/ddsplit/ddsplit.F
-      !||--- calls      -----------------------------------------------------
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    write_nloc_struct   ../starter/source/restart/ddsplit/write_nloc_struct.F
+!||--- called by ------------------------------------------------------
+!||    ddsplit             ../starter/source/restart/ddsplit/ddsplit.F
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||====================================================================
       SUBROUTINE WRITE_NLOC_STRUCT(NLOC_DMG ,NUMNOD_L ,NODGLOB  ,NODLOC   ,
      .                             CEL      ,CEP      ,PROC     ,IXS      ,
      .                             IXC      ,IXTG     ,NUMELS_L ,NUMELC_L ,

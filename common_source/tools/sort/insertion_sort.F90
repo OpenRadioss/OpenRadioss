@@ -22,12 +22,12 @@
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 
 
-      !||====================================================================
-      !||    insertion_sort_mod         ../common_source/tools/sort/insertion_sort.F90
-      !||--- called by ------------------------------------------------------
-      !||    clipping_weiler_atherton   ../common_source/tools/clipping/polygon_clipping_mod.F90
-      !||    eikonal_sort_narrow_band   ../starter/source/initial_conditions/detonation/eikonal_sort_narrow_band.F90
-      !||====================================================================
+!||====================================================================
+!||    insertion_sort_mod         ../common_source/tools/sort/insertion_sort.F90
+!||--- called by ------------------------------------------------------
+!||    clipping_weiler_atherton   ../common_source/tools/clipping/polygon_clipping_mod.F90
+!||    eikonal_sort_narrow_band   ../starter/source/initial_conditions/detonation/eikonal_sort_narrow_band.F90
+!||====================================================================
       module insertion_sort_mod
 
         ! insertion sort for real and integer arrays
@@ -40,14 +40,14 @@
 ! ======================================================================================================================
 !! \brief This subroutine is sorting array of size n with insertion sorting algorithm
 !! \details resulting index are provided
-      !||====================================================================
-      !||    real_insertion_sort_with_index   ../common_source/tools/sort/insertion_sort.F90
-      !||--- called by ------------------------------------------------------
-      !||    clipping_weiler_atherton         ../common_source/tools/clipping/polygon_clipping_mod.F90
-      !||    eikonal_sort_narrow_band         ../starter/source/initial_conditions/detonation/eikonal_sort_narrow_band.F90
-      !||--- uses       -----------------------------------------------------
-      !||    precision_mod                    ../common_source/modules/precision_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    real_insertion_sort_with_index   ../common_source/tools/sort/insertion_sort.F90
+!||--- called by ------------------------------------------------------
+!||    clipping_weiler_atherton         ../common_source/tools/clipping/polygon_clipping_mod.F90
+!||    eikonal_sort_narrow_band         ../starter/source/initial_conditions/detonation/eikonal_sort_narrow_band.F90
+!||--- uses       -----------------------------------------------------
+!||    precision_mod                    ../common_source/modules/precision_mod.F90
+!||====================================================================
         subroutine real_insertion_sort_with_index(array, index, n)
           use precision_mod , only : WP
           implicit none
@@ -91,9 +91,9 @@
 ! ======================================================================================================================
 !! \brief This subroutine is sorting array of size n with insertion sorting algorithm
 !! \details resulting index are provided
-      !||====================================================================
-      !||    integer_insertion_sort_with_index   ../common_source/tools/sort/insertion_sort.F90
-      !||====================================================================
+!||====================================================================
+!||    integer_insertion_sort_with_index   ../common_source/tools/sort/insertion_sort.F90
+!||====================================================================
         subroutine integer_insertion_sort_with_index(array, index, n)
           implicit none
 ! ----------------------------------------------------------------------------------------------------------------------

@@ -20,11 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    rdtime33   ../engine/source/elements/joint/rdtime33.F
-      !||--- called by ------------------------------------------------------
-      !||    rgjoint    ../engine/source/elements/joint/rgjoint.F
-      !||====================================================================
+!||====================================================================
+!||    rdtime33   ../engine/source/elements/joint/rdtime33.F
+!||--- called by ------------------------------------------------------
+!||    rgjoint    ../engine/source/elements/joint/rgjoint.F
+!||====================================================================
       SUBROUTINE RDTIME33(
      1   JFT,     JLT,     DT2T,    NELTST,
      2   ITYPTST, IXR,     EINT,    STI,

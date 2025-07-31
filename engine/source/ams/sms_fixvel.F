@@ -20,17 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    sms_fixvel         ../engine/source/ams/sms_fixvel.F
-      !||--- called by ------------------------------------------------------
-      !||    sms_encin_2        ../engine/source/ams/sms_encin_2.F
-      !||    sms_mass_scale_2   ../engine/source/ams/sms_mass_scale_2.F
-      !||    sms_pcg            ../engine/source/ams/sms_pcg.F
-      !||--- calls      -----------------------------------------------------
-      !||    vinter             ../engine/source/tools/curve/vinter.F
-      !||--- uses       -----------------------------------------------------
-      !||    sensor_mod         ../common_source/modules/sensor_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    sms_fixvel         ../engine/source/ams/sms_fixvel.F
+!||--- called by ------------------------------------------------------
+!||    sms_encin_2        ../engine/source/ams/sms_encin_2.F
+!||    sms_mass_scale_2   ../engine/source/ams/sms_mass_scale_2.F
+!||    sms_pcg            ../engine/source/ams/sms_pcg.F
+!||--- calls      -----------------------------------------------------
+!||    vinter             ../engine/source/tools/curve/vinter.F
+!||--- uses       -----------------------------------------------------
+!||    sensor_mod         ../common_source/modules/sensor_mod.F90
+!||====================================================================
       SUBROUTINE SMS_FIXVEL(IBFV  ,A     ,V     ,NPC    ,TF        ,
      2                     VEL    ,MS    ,X     ,SKEW   ,SENSOR_TAB,
      3                     WEIGHT ,D     ,IFRAME ,XFRAME ,NSENSOR   ,

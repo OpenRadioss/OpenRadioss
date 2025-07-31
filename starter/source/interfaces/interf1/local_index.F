@@ -21,18 +21,18 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
-      !||====================================================================
-      !||    local_index   ../starter/source/interfaces/interf1/local_index.F
-      !||--- called by ------------------------------------------------------
-      !||    i12chk3       ../starter/source/interfaces/inter3d1/i12chk3.F
-      !||    i1chk2        ../starter/source/interfaces/inter2d1/i1chk2.F
-      !||    i1chk3        ../starter/source/interfaces/inter3d1/i1chk3.F
-      !||    i3sti2        ../starter/source/interfaces/inter2d1/i3sti2.F
-      !||    i3sti3        ../starter/source/interfaces/inter3d1/i3sti3.F
-      !||    i6sti3        ../starter/source/interfaces/inter3d1/i6sti3.F
-      !||    i9sti2        ../starter/source/interfaces/int09/i9sti2.F
-      !||    i9sti3        ../starter/source/interfaces/int09/i9sti3.F
-      !||====================================================================
+!||====================================================================
+!||    local_index   ../starter/source/interfaces/interf1/local_index.F
+!||--- called by ------------------------------------------------------
+!||    i12chk3       ../starter/source/interfaces/inter3d1/i12chk3.F
+!||    i1chk2        ../starter/source/interfaces/inter2d1/i1chk2.F
+!||    i1chk3        ../starter/source/interfaces/inter3d1/i1chk3.F
+!||    i3sti2        ../starter/source/interfaces/inter2d1/i3sti2.F
+!||    i3sti3        ../starter/source/interfaces/inter3d1/i3sti3.F
+!||    i6sti3        ../starter/source/interfaces/inter3d1/i6sti3.F
+!||    i9sti2        ../starter/source/interfaces/int09/i9sti2.F
+!||    i9sti3        ../starter/source/interfaces/int09/i9sti3.F
+!||====================================================================
       SUBROUTINE LOCAL_INDEX(IL,IG,NODES,N)
 C-----------------------------------------------
 C   D e s c r i p t i o n

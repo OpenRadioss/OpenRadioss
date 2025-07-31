@@ -20,17 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    law119_upd             ../starter/source/materials/mat/mat119/law119_upd.F
-      !||--- called by ------------------------------------------------------
-      !||    updmat                 ../starter/source/materials/updmat.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg                 ../starter/source/output/message/message.F
-      !||    table_inters           ../starter/source/tools/curve/func_inters.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod            ../starter/share/message_module/message_mod.F
-      !||    table_mod              ../starter/share/modules1/table_mod.F
-      !||====================================================================
+!||====================================================================
+!||    law119_upd             ../starter/source/materials/mat/mat119/law119_upd.F
+!||--- called by ------------------------------------------------------
+!||    updmat                 ../starter/source/materials/updmat.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                 ../starter/source/output/message/message.F
+!||    table_inters           ../starter/source/tools/curve/func_inters.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod            ../starter/share/message_module/message_mod.F
+!||    table_mod              ../starter/share/modules1/table_mod.F
+!||====================================================================
       SUBROUTINE LAW119_UPD(NUPARAM ,NUMTABL ,ITABLE ,TABLE  ,TABLE_ID ,
      .                      UPARAM  ,PM      ,TITR   ,MAT_ID )          
 C-----------------------------------------------

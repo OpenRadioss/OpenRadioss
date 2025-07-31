@@ -20,74 +20,74 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    usermat_solid               ../engine/source/materials/mat_share/usermat_solid.F
-      !||--- called by ------------------------------------------------------
-      !||    mmain                       ../engine/source/materials/mat_share/mmain.F90
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg                      ../engine/source/output/message/message.F
-      !||    arret                       ../engine/source/system/arret.F
-      !||    epsf2u                      ../engine/source/materials/mat/mat033/sigeps33.F
-      !||    fail_biquad_s               ../engine/source/materials/fail/biquad/fail_biquad_s.F
-      !||    fail_changchang_s           ../engine/source/materials/fail/changchang/fail_changchang_s.F
-      !||    fail_cockroft_s             ../engine/source/materials/fail/cockroft_latham/fail_cockroft_s.F
-      !||    fail_composite_s            ../engine/source/materials/fail/composite/fail_composite_s.F90
-      !||    fail_emc                    ../engine/source/materials/fail/emc/fail_emc.F
-      !||    fail_energy_s               ../engine/source/materials/fail/energy/fail_energy_s.F
-      !||    fail_gene1_s                ../engine/source/materials/fail/gene1/fail_gene1_s.F
-      !||    fail_hashin_s               ../engine/source/materials/fail/hashin/fail_hashin_s.F
-      !||    fail_hoffman_s              ../engine/source/materials/fail/hoffman/fail_hoffman_s.F
-      !||    fail_inievo_s               ../engine/source/materials/fail/inievo/fail_inievo_s.F
-      !||    fail_johnson                ../engine/source/materials/fail/johnson_cook/fail_johnson.F
-      !||    fail_lemaitre_s             ../engine/source/materials/fail/lemaitre/fail_lemaitre_s.F90
-      !||    fail_maxstrain_s            ../engine/source/materials/fail/max_strain/fail_maxstrain_s.F
-      !||    fail_mullins_or_s           ../engine/source/materials/fail/mullins_or/fail_mullins_OR_s.F
-      !||    fail_orthbiquad_s           ../engine/source/materials/fail/orthbiquad/fail_orthbiquad_s.F
-      !||    fail_orthenerg_s            ../engine/source/materials/fail/orthenerg/fail_orthenerg_s.F
-      !||    fail_orthstrain             ../engine/source/materials/fail/orthstrain/fail_orthstrain_s.F
-      !||    fail_puck_s                 ../engine/source/materials/fail/puck/fail_puck_s.F
-      !||    fail_rtcl_s                 ../engine/source/materials/fail/rtcl/fail_rtcl_s.F
-      !||    fail_sahraei_s              ../engine/source/materials/fail/sahraei/fail_sahraei_s.F
-      !||    fail_spalling_s             ../engine/source/materials/fail/spalling/fail_spalling_s.F90
-      !||    fail_syazwan_s              ../engine/source/materials/fail/syazwan/fail_syazwan_s.F
-      !||    fail_tab2_s                 ../engine/source/materials/fail/tabulated/fail_tab2_s.F
-      !||    fail_tab_old_s              ../engine/source/materials/fail/tabulated/fail_tab_old_s.F
-      !||    fail_tab_s                  ../engine/source/materials/fail/tabulated/fail_tab_s.F
-      !||    fail_tbutcher_s             ../engine/source/materials/fail/tuler_butcher/fail_tbutcher_s.F
-      !||    fail_tensstrain_s           ../engine/source/materials/fail/tensstrain/fail_tensstrain_s.F
-      !||    fail_tsaihill_s             ../engine/source/materials/fail/tsaihill/fail_tsaihill_s.F
-      !||    fail_tsaiwu_s               ../engine/source/materials/fail/tsaiwu/fail_tsaiwu_s.F
-      !||    fail_visual_s               ../engine/source/materials/fail/visual/fail_visual_s.F
-      !||    fail_wierzbicki_s           ../engine/source/materials/fail/wierzbicki/fail_wierzbicki_s.F
-      !||    fail_wilkins_s              ../engine/source/materials/fail/wilkins/fail_wilkins_s.F
-      !||    mdtsph                      ../engine/source/materials/mat_share/mdtsph.F
-      !||    mqviscb                     ../engine/source/materials/mat_share/mqviscb.F
-      !||    mreploc                     ../engine/source/materials/mat_share/mreploc.F
-      !||    mrotens                     ../engine/source/materials/mat_share/mrotens.F
-      !||    mrotensns                   ../engine/source/materials/mat_share/mrotens.F
-      !||    nolib_usermat99             ../engine/source/user_interface/nolib_usermat99.F
-      !||    nsvisul                     ../engine/source/materials/mat_share/nsvisul.F
-      !||    sreploc3                    ../engine/source/elements/solid/solide/sreploc3.F
-      !||    startime                    ../engine/source/system/timer_mod.F90
-      !||    stoptime                    ../engine/source/system/timer_mod.F90
-      !||    viscmain                    ../engine/source/materials/visc/viscmain.F
-      !||--- uses       -----------------------------------------------------
-      !||    dt_mod                      ../engine/source/modules/dt_mod.F
-      !||    elbufdef_mod                ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||    fail_composite_s_mod        ../engine/source/materials/fail/composite/fail_composite_s.F90
-      !||    fail_lemaitre_s_mod         ../engine/source/materials/fail/lemaitre/fail_lemaitre_s.F90
-      !||    fail_param_mod              ../common_source/modules/mat_elem/fail_param_mod.F90
-      !||    fail_spalling_s_mod         ../engine/source/materials/fail/spalling/fail_spalling_s.F90
-      !||    glob_therm_mod              ../common_source/modules/mat_elem/glob_therm_mod.F90
-      !||    law_userso                  ../engine/source/user_interface/law_userso.F
-      !||    mat_elem_mod                ../common_source/modules/mat_elem/mat_elem_mod.F90
-      !||    matparam_def_mod            ../common_source/modules/mat_elem/matparam_def_mod.F90
-      !||    message_mod                 ../engine/share/message_module/message_mod.F
-      !||    names_and_titles_mod        ../common_source/modules/names_and_titles_mod.F
-      !||    nlocal_reg_mod              ../common_source/modules/nlocal_reg_mod.F
-      !||    table_mod                   ../engine/share/modules/table_mod.F
-      !||    timer_mod                   ../engine/source/system/timer_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    usermat_solid               ../engine/source/materials/mat_share/usermat_solid.F
+!||--- called by ------------------------------------------------------
+!||    mmain                       ../engine/source/materials/mat_share/mmain.F90
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                      ../engine/source/output/message/message.F
+!||    arret                       ../engine/source/system/arret.F
+!||    epsf2u                      ../engine/source/materials/mat/mat033/sigeps33.F
+!||    fail_biquad_s               ../engine/source/materials/fail/biquad/fail_biquad_s.F
+!||    fail_changchang_s           ../engine/source/materials/fail/changchang/fail_changchang_s.F
+!||    fail_cockroft_s             ../engine/source/materials/fail/cockroft_latham/fail_cockroft_s.F
+!||    fail_composite_s            ../engine/source/materials/fail/composite/fail_composite_s.F90
+!||    fail_emc                    ../engine/source/materials/fail/emc/fail_emc.F
+!||    fail_energy_s               ../engine/source/materials/fail/energy/fail_energy_s.F
+!||    fail_gene1_s                ../engine/source/materials/fail/gene1/fail_gene1_s.F
+!||    fail_hashin_s               ../engine/source/materials/fail/hashin/fail_hashin_s.F
+!||    fail_hoffman_s              ../engine/source/materials/fail/hoffman/fail_hoffman_s.F
+!||    fail_inievo_s               ../engine/source/materials/fail/inievo/fail_inievo_s.F
+!||    fail_johnson                ../engine/source/materials/fail/johnson_cook/fail_johnson.F
+!||    fail_lemaitre_s             ../engine/source/materials/fail/lemaitre/fail_lemaitre_s.F90
+!||    fail_maxstrain_s            ../engine/source/materials/fail/max_strain/fail_maxstrain_s.F
+!||    fail_mullins_or_s           ../engine/source/materials/fail/mullins_or/fail_mullins_OR_s.F
+!||    fail_orthbiquad_s           ../engine/source/materials/fail/orthbiquad/fail_orthbiquad_s.F
+!||    fail_orthenerg_s            ../engine/source/materials/fail/orthenerg/fail_orthenerg_s.F
+!||    fail_orthstrain             ../engine/source/materials/fail/orthstrain/fail_orthstrain_s.F
+!||    fail_puck_s                 ../engine/source/materials/fail/puck/fail_puck_s.F
+!||    fail_rtcl_s                 ../engine/source/materials/fail/rtcl/fail_rtcl_s.F
+!||    fail_sahraei_s              ../engine/source/materials/fail/sahraei/fail_sahraei_s.F
+!||    fail_spalling_s             ../engine/source/materials/fail/spalling/fail_spalling_s.F90
+!||    fail_syazwan_s              ../engine/source/materials/fail/syazwan/fail_syazwan_s.F
+!||    fail_tab2_s                 ../engine/source/materials/fail/tabulated/fail_tab2_s.F
+!||    fail_tab_old_s              ../engine/source/materials/fail/tabulated/fail_tab_old_s.F
+!||    fail_tab_s                  ../engine/source/materials/fail/tabulated/fail_tab_s.F
+!||    fail_tbutcher_s             ../engine/source/materials/fail/tuler_butcher/fail_tbutcher_s.F
+!||    fail_tensstrain_s           ../engine/source/materials/fail/tensstrain/fail_tensstrain_s.F
+!||    fail_tsaihill_s             ../engine/source/materials/fail/tsaihill/fail_tsaihill_s.F
+!||    fail_tsaiwu_s               ../engine/source/materials/fail/tsaiwu/fail_tsaiwu_s.F
+!||    fail_visual_s               ../engine/source/materials/fail/visual/fail_visual_s.F
+!||    fail_wierzbicki_s           ../engine/source/materials/fail/wierzbicki/fail_wierzbicki_s.F
+!||    fail_wilkins_s              ../engine/source/materials/fail/wilkins/fail_wilkins_s.F
+!||    mdtsph                      ../engine/source/materials/mat_share/mdtsph.F
+!||    mqviscb                     ../engine/source/materials/mat_share/mqviscb.F
+!||    mreploc                     ../engine/source/materials/mat_share/mreploc.F
+!||    mrotens                     ../engine/source/materials/mat_share/mrotens.F
+!||    mrotensns                   ../engine/source/materials/mat_share/mrotens.F
+!||    nolib_usermat99             ../engine/source/user_interface/nolib_usermat99.F
+!||    nsvisul                     ../engine/source/materials/mat_share/nsvisul.F
+!||    sreploc3                    ../engine/source/elements/solid/solide/sreploc3.F
+!||    startime                    ../engine/source/system/timer_mod.F90
+!||    stoptime                    ../engine/source/system/timer_mod.F90
+!||    viscmain                    ../engine/source/materials/visc/viscmain.F
+!||--- uses       -----------------------------------------------------
+!||    dt_mod                      ../engine/source/modules/dt_mod.F
+!||    elbufdef_mod                ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    fail_composite_s_mod        ../engine/source/materials/fail/composite/fail_composite_s.F90
+!||    fail_lemaitre_s_mod         ../engine/source/materials/fail/lemaitre/fail_lemaitre_s.F90
+!||    fail_param_mod              ../common_source/modules/mat_elem/fail_param_mod.F90
+!||    fail_spalling_s_mod         ../engine/source/materials/fail/spalling/fail_spalling_s.F90
+!||    glob_therm_mod              ../common_source/modules/mat_elem/glob_therm_mod.F90
+!||    law_userso                  ../engine/source/user_interface/law_userso.F
+!||    mat_elem_mod                ../common_source/modules/mat_elem/mat_elem_mod.F90
+!||    matparam_def_mod            ../common_source/modules/mat_elem/matparam_def_mod.F90
+!||    message_mod                 ../engine/share/message_module/message_mod.F
+!||    names_and_titles_mod        ../common_source/modules/names_and_titles_mod.F
+!||    nlocal_reg_mod              ../common_source/modules/nlocal_reg_mod.F
+!||    table_mod                   ../engine/share/modules/table_mod.F
+!||    timer_mod                   ../engine/source/system/timer_mod.F90
+!||====================================================================
       SUBROUTINE USERMAT_SOLID(TIMERS,
      1   LFT,      LLT,      NFT,      MTN,
      2   JCVT,     PM,       OFF,      SIG,

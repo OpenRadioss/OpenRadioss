@@ -20,11 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    mod_spbuc3   ../engine/source/elements/sph/spbuc3.F
-      !||--- called by ------------------------------------------------------
-      !||    spbuc3       ../engine/source/elements/sph/spbuc3.F
-      !||====================================================================
+!||====================================================================
+!||    mod_spbuc3   ../engine/source/elements/sph/spbuc3.F
+!||--- called by ------------------------------------------------------
+!||    spbuc3       ../engine/source/elements/sph/spbuc3.F
+!||====================================================================
       MODULE MOD_SPBUC3
       implicit none
       INTEGER*8, DIMENSION(:), ALLOCATABLE ::  IV
@@ -33,23 +33,23 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       INTEGER, DIMENSION(:,:), ALLOCATABLE ::  IXSPR
 
       END MODULE MOD_SPBUC3
-      !||====================================================================
-      !||    spbuc3           ../engine/source/elements/sph/spbuc3.F
-      !||--- called by ------------------------------------------------------
-      !||    sphtri           ../engine/source/elements/sph/sphtri.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg           ../engine/source/output/message/message.F
-      !||    arret            ../engine/source/system/arret.F
-      !||    my_barrier       ../engine/source/system/machine.F
-      !||    myqsort          ../common_source/tools/sort/myqsort.F
-      !||    sptrivox         ../engine/source/elements/sph/sptrivox.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod      ../engine/share/message_module/message_mod.F
-      !||    mod_spbuc3       ../engine/source/elements/sph/spbuc3.F
-      !||    sph_struct_mod   ../engine/share/modules/sph_struct_mod.F
-      !||    sphbox           ../engine/share/modules/sphbox.F
-      !||    tri7box          ../engine/share/modules/tri7box.F
-      !||====================================================================
+!||====================================================================
+!||    spbuc3           ../engine/source/elements/sph/spbuc3.F
+!||--- called by ------------------------------------------------------
+!||    sphtri           ../engine/source/elements/sph/sphtri.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg           ../engine/source/output/message/message.F
+!||    arret            ../engine/source/system/arret.F
+!||    my_barrier       ../engine/source/system/machine.F
+!||    myqsort          ../common_source/tools/sort/myqsort.F
+!||    sptrivox         ../engine/source/elements/sph/sptrivox.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod      ../engine/share/message_module/message_mod.F
+!||    mod_spbuc3       ../engine/source/elements/sph/spbuc3.F
+!||    sph_struct_mod   ../engine/share/modules/sph_struct_mod.F
+!||    sphbox           ../engine/share/modules/sphbox.F
+!||    tri7box          ../engine/share/modules/tri7box.F
+!||====================================================================
       SUBROUTINE SPBUC3(X     ,KXSP   ,IXSP  ,NOD2SP,NSN   ,
      2                  SPBUF ,MA     ,JVOIS ,JSTOR ,JPERM ,
      3                  DVOIS ,IREDUCE,BMINMA,NSNR  ,NSP2SORTF,

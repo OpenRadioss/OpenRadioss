@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    add_mass_stat    ../starter/source/tools/admas/add_mass_stat.F
-      !||--- called by ------------------------------------------------------
-      !||    lectur           ../starter/source/starter/lectur.F
-      !||--- calls      -----------------------------------------------------
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod      ../starter/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    add_mass_stat    ../starter/source/tools/admas/add_mass_stat.F
+!||--- called by ------------------------------------------------------
+!||    lectur           ../starter/source/starter/lectur.F
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||    message_mod      ../starter/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE ADD_MASS_STAT(MS,IN,STIFN,STIFR,ITAB,TOTMAS)
 C-----------------------------------------------
 C   M o d u l e s

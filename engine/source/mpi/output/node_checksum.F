@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    checksum_mod             ../engine/source/mpi/output/node_checksum.F
-      !||--- called by ------------------------------------------------------
-      !||    spmd_collect_multi_fvm   ../engine/source/mpi/output/spmd_collect_multi_fvm.F
-      !||    spmd_flush_accel         ../engine/source/mpi/output/spmd_flush_accel.F
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    checksum_mod             ../engine/source/mpi/output/node_checksum.F
+!||--- called by ------------------------------------------------------
+!||    spmd_collect_multi_fvm   ../engine/source/mpi/output/spmd_collect_multi_fvm.F
+!||    spmd_flush_accel         ../engine/source/mpi/output/spmd_flush_accel.F
+!||--- uses       -----------------------------------------------------
+!||====================================================================
       MODULE CHECKSUM_MOD
         INTEGER, PARAMETER :: ROOT = 65521
         INTEGER, PARAMETER :: TWO_POWER_16 = 65536
@@ -41,14 +41,14 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
         end interface
       CONTAINS
 !! \brief Returns Adler32 checksum of A(1:SIZ2,1:SIZ1)
-      !||====================================================================
-      !||    double_array_checksum    ../engine/source/mpi/output/node_checksum.F
-      !||--- called by ------------------------------------------------------
-      !||    spmd_collect_multi_fvm   ../engine/source/mpi/output/spmd_collect_multi_fvm.F
-      !||    spmd_flush_accel         ../engine/source/mpi/output/spmd_flush_accel.F
-      !||--- calls      -----------------------------------------------------
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    double_array_checksum    ../engine/source/mpi/output/node_checksum.F
+!||--- called by ------------------------------------------------------
+!||    spmd_collect_multi_fvm   ../engine/source/mpi/output/spmd_collect_multi_fvm.F
+!||    spmd_flush_accel         ../engine/source/mpi/output/spmd_flush_accel.F
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||====================================================================
         FUNCTION  DOUBLE_ARRAY_CHECKSUM(A,SIZ1,SIZ2) RESULT(CHECKSUM)
            USE ISO_C_BINDING
 C-----------------------------------------------

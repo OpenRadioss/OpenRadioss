@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    i7cor3t   ../engine/source/interfaces/int07/i7cor3t.F
-      !||--- called by ------------------------------------------------------
-      !||    i10sto    ../engine/source/interfaces/intsort/i10sto.F
-      !||    i7sto     ../engine/source/interfaces/intsort/i7sto.F
-      !||--- uses       -----------------------------------------------------
-      !||    tri7box   ../engine/share/modules/tri7box.F
-      !||====================================================================
+!||====================================================================
+!||    i7cor3t   ../engine/source/interfaces/int07/i7cor3t.F
+!||--- called by ------------------------------------------------------
+!||    i10sto    ../engine/source/interfaces/intsort/i10sto.F
+!||    i7sto     ../engine/source/interfaces/intsort/i7sto.F
+!||--- uses       -----------------------------------------------------
+!||    tri7box   ../engine/share/modules/tri7box.F
+!||====================================================================
       SUBROUTINE I7COR3T(JLT     ,X     ,IRECT ,NSV   ,CAND_E ,
      1                   CAND_N  ,IGAP  ,GAP   ,X1    ,X2     ,
      2                   X3      ,X4    ,Y1    ,Y2    ,Y3     ,

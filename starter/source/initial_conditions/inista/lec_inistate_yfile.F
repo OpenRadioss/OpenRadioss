@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    lec_inistate_yfile   ../starter/source/initial_conditions/inista/lec_inistate_yfile.F
-      !||--- called by ------------------------------------------------------
-      !||    lec_inistate         ../starter/source/elements/initia/lec_inistate.F
-      !||--- uses       -----------------------------------------------------
-      !||    format_mod           ../starter/share/modules1/format_mod.F90
-      !||    reader_old_mod       ../starter/share/modules1/reader_old_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    lec_inistate_yfile   ../starter/source/initial_conditions/inista/lec_inistate_yfile.F
+!||--- called by ------------------------------------------------------
+!||    lec_inistate         ../starter/source/elements/initia/lec_inistate.F
+!||--- uses       -----------------------------------------------------
+!||    format_mod           ../starter/share/modules1/format_mod.F90
+!||    reader_old_mod       ../starter/share/modules1/reader_old_mod.F90
+!||====================================================================
       SUBROUTINE LEC_INISTATE_YFILE( 
      1                  NSIGSH    ,NSIGS     ,NSIGSPH   ,NSIGRS    ,NSIGI     ,                 
      2                  SIGSH     ,SIGI      ,SIGSPH    ,SIGRS     ,SIGSP     ,                  

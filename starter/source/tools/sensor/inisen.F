@@ -20,17 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    inisen                 ../starter/source/tools/sensor/inisen.F
-      !||--- called by ------------------------------------------------------
-      !||    lectur                 ../starter/source/starter/lectur.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg                 ../starter/source/output/message/message.F
-      !||    iniparsen              ../starter/source/tools/sensor/iniparsen.F
-      !||    sort_logical_sensors   ../starter/source/tools/sensor/sort_logical_sensors.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod            ../starter/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    inisen                 ../starter/source/tools/sensor/inisen.F
+!||--- called by ------------------------------------------------------
+!||    lectur                 ../starter/source/starter/lectur.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                 ../starter/source/output/message/message.F
+!||    iniparsen              ../starter/source/tools/sensor/iniparsen.F
+!||    sort_logical_sensors   ../starter/source/tools/sensor/sort_logical_sensors.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod            ../starter/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE INISEN(SENSORS , IPARI ,NOM_OPT ,PTR_NOPT_RWALL,
      .                  PTR_NOPT_SECT ,PTR_NOPT_INTER  ,IXR    ,R_SKEW   ,NUMELR,
      .                  NSECT   ,NINTER ,NINTSUB ,NRWALL   ,NRBODY  )

@@ -20,15 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    read_elgroup_param   ../engine/source/output/restart/read_elgroup_param.F
-      !||--- called by ------------------------------------------------------
-      !||    rdresb               ../engine/source/output/restart/rdresb.F
-      !||--- calls      -----------------------------------------------------
-      !||    read_db              ../common_source/tools/input_output/read_db.F
-      !||--- uses       -----------------------------------------------------
-      !||    mat_elem_mod         ../common_source/modules/mat_elem/mat_elem_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    read_elgroup_param   ../engine/source/output/restart/read_elgroup_param.F
+!||--- called by ------------------------------------------------------
+!||    rdresb               ../engine/source/output/restart/rdresb.F
+!||--- calls      -----------------------------------------------------
+!||    read_db              ../common_source/tools/input_output/read_db.F
+!||--- uses       -----------------------------------------------------
+!||    mat_elem_mod         ../common_source/modules/mat_elem/mat_elem_mod.F90
+!||====================================================================
       SUBROUTINE READ_ELGROUP_PARAM(MAT_ELEM)
 C-----------------------------------------------
 C   M o d u l e s

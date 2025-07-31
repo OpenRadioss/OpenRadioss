@@ -20,86 +20,86 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    resol_init                 ../engine/source/engine/resol_init.F
-      !||--- called by ------------------------------------------------------
-      !||    resol                      ../engine/source/engine/resol.F
-      !||--- calls      -----------------------------------------------------
-      !||    admgvid                    ../engine/source/model/remesh/admgvid.F
-      !||    admini                     ../engine/source/model/remesh/admini.F
-      !||    admordr                    ../engine/source/model/remesh/admordr.F
-      !||    anim_xfe_init              ../engine/source/output/anim/generate/anim_crk_init.F
-      !||    assadd2                    ../engine/source/assembly/assadd2.F
-      !||    chkinit                    ../engine/source/interfaces/interf/chkstfn3.F
-      !||    cndmasi2_dim               ../engine/source/elements/solid/solide10/s10cndf.F
-      !||    cndmasi2_ini               ../engine/source/elements/solid/solide10/s10cndf.F
-      !||    cndordr                    ../engine/source/model/remesh/cndordr.F
-      !||    dim_tshedg                 ../engine/source/elements/thickshell/solidec/dim_tshedg.F
-      !||    fillipartl                 ../engine/source/engine/resol_init.F
-      !||    findgroupc                 ../engine/source/elements/findgroup.F
-      !||    findgroups                 ../engine/source/elements/findgroup.F
-      !||    grpsplit                   ../engine/source/engine/resol_init.F
-      !||    imp_init                   ../engine/source/implicit/imp_init.F
-      !||    ind_tshedg                 ../engine/source/elements/thickshell/solidec/ind_tshedg.F
-      !||    ini_tmax                   ../engine/source/output/ini_outmax.F
-      !||    init_kyne                  ../engine/source/engine/resol_init.F
-      !||    init_reac_nod              ../engine/source/output/th/init_reac_nod.F
-      !||    init_th_group              ../engine/source/output/th/init_th_group.F
-      !||    initimeg                   ../engine/source/system/timer.F
-      !||    inivel_init                ../engine/source/loads/general/inivel/inivel_init.F90
-      !||    int_flushtime              ../common_source/modules/interfaces/metric_mod.F
-      !||    inter_sh_offset_ini        ../engine/source/interfaces/shell_offset/inter_offset_ini.F90
-      !||    kinini                     ../engine/source/constraints/general/kinini.F
-      !||    mpp_init                   ../engine/source/mpi/interfaces/spmd_i7tool.F
-      !||    my_barrier                 ../engine/source/system/machine.F
-      !||    nloc_count_solnod          ../engine/source/elements/solid/solide/nloc_count_solnod.F90
-      !||    r2r_init                   ../engine/source/coupling/rad2rad/r2r_init.F
-      !||    rbe2_init                  ../engine/source/constraints/general/rbe2/rbe2f.F
-      !||    s10cnd_ini                 ../engine/source/elements/solid/solide10/s10cndf.F
-      !||    s10cndi2_ini               ../engine/source/elements/solid/solide10/s10cndf.F
-      !||    s10cnds_dim                ../engine/source/elements/solid/solide10/s10cndf.F
-      !||    s10cnds_ini                ../engine/source/elements/solid/solide10/s10cndf.F
-      !||    section_init               ../engine/source/tools/sect/section_init.F
-      !||    spmd_anim_ply_init         ../engine/source/mpi/anim/spmd_anim_ply_init.F
-      !||    spmd_failwave_boundaries   ../engine/source/mpi/output/spmd_exch_failwave.F
-      !||    spmd_max_i                 ../engine/source/mpi/implicit/imp_spmd.F
-      !||    spmd_sub_boundaries        ../engine/source/mpi/spmd_exch_sub.F
-      !||    tmax_ipart                 ../engine/source/output/tmax_ipart.F
-      !||    tshcdcom_dim               ../engine/source/elements/thickshell/solidec/tshcdcom_dim.F
-      !||    tshcdcom_ini               ../engine/source/elements/thickshell/solidec/tshcdcom_ini.F
-      !||    zero1                      ../engine/source/system/zero.F
-      !||    zeror                      ../engine/source/system/zero.F
-      !||--- uses       -----------------------------------------------------
-      !||    alemuscl_mod               ../common_source/modules/ale/alemuscl_mod.F
-      !||    crackxfem_mod              ../engine/share/modules/crackxfem_mod.F
-      !||    dtdc_mod                   ../engine/share/modules/dtdc_mod.F
-      !||    ecnd_mod                   ../engine/share/modules/ecdn_mod.F
-      !||    elbufdef_mod               ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||    failwave_mod               ../common_source/modules/failwave_mod.F
-      !||    glob_therm_mod             ../common_source/modules/mat_elem/glob_therm_mod.F90
-      !||    groupdef_mod               ../common_source/modules/groupdef_mod.F
-      !||    h3d_inc_mod                ../engine/share/modules/h3d_inc_mod.F
-      !||    h3d_mod                    ../engine/share/modules/h3d_mod.F
-      !||    inivel_init_mod            ../engine/source/loads/general/inivel/inivel_init.F90
-      !||    intbufdef_mod              ../common_source/modules/interfaces/intbufdef_mod.F90
-      !||    inter_sh_offset_ini_mod    ../engine/source/interfaces/shell_offset/inter_offset_ini.F90
-      !||    inter_sh_offset_mod        ../engine/source/modules/interfaces/sh_offset_mod.F90
-      !||    inter_sorting_mod          ../engine/share/modules/inter_sorting_mod.F
-      !||    loads_mod                  ../common_source/modules/loads/loads_mod.F90
-      !||    nloc_count_solnod_mod      ../engine/source/elements/solid/solide/nloc_count_solnod.F90
-      !||    nlocal_reg_mod             ../common_source/modules/nlocal_reg_mod.F
-      !||    outmax_mod                 ../common_source/modules/outmax_mod.F
-      !||    output_mod                 ../common_source/modules/output/output_mod.F90
-      !||    outputs_mod                ../common_source/modules/outputs_mod.F
-      !||    parith_on_mod              ../common_source/modules/parith_on_mod.F90
-      !||    pblast_mod                 ../common_source/modules/loads/pblast_mod.F90
-      !||    pinchtype_mod              ../common_source/modules/pinchtype_mod.F
-      !||    plyxfem_mod                ../engine/share/modules/plyxfem_mod.F
-      !||    rbe3_mod                   ../common_source/modules/constraints/rbe3_mod.F90
-      !||    sensor_mod                 ../common_source/modules/sensor_mod.F90
-      !||    spmd_xv_inter_type1_mod    ../engine/source/mpi/nodes/spmd_sd_xv_inter1.F90
-      !||    stack_mod                  ../engine/share/modules/stack_mod.F
-      !||====================================================================
+!||====================================================================
+!||    resol_init                 ../engine/source/engine/resol_init.F
+!||--- called by ------------------------------------------------------
+!||    resol                      ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
+!||    admgvid                    ../engine/source/model/remesh/admgvid.F
+!||    admini                     ../engine/source/model/remesh/admini.F
+!||    admordr                    ../engine/source/model/remesh/admordr.F
+!||    anim_xfe_init              ../engine/source/output/anim/generate/anim_crk_init.F
+!||    assadd2                    ../engine/source/assembly/assadd2.F
+!||    chkinit                    ../engine/source/interfaces/interf/chkstfn3.F
+!||    cndmasi2_dim               ../engine/source/elements/solid/solide10/s10cndf.F
+!||    cndmasi2_ini               ../engine/source/elements/solid/solide10/s10cndf.F
+!||    cndordr                    ../engine/source/model/remesh/cndordr.F
+!||    dim_tshedg                 ../engine/source/elements/thickshell/solidec/dim_tshedg.F
+!||    fillipartl                 ../engine/source/engine/resol_init.F
+!||    findgroupc                 ../engine/source/elements/findgroup.F
+!||    findgroups                 ../engine/source/elements/findgroup.F
+!||    grpsplit                   ../engine/source/engine/resol_init.F
+!||    imp_init                   ../engine/source/implicit/imp_init.F
+!||    ind_tshedg                 ../engine/source/elements/thickshell/solidec/ind_tshedg.F
+!||    ini_tmax                   ../engine/source/output/ini_outmax.F
+!||    init_kyne                  ../engine/source/engine/resol_init.F
+!||    init_reac_nod              ../engine/source/output/th/init_reac_nod.F
+!||    init_th_group              ../engine/source/output/th/init_th_group.F
+!||    initimeg                   ../engine/source/system/timer.F
+!||    inivel_init                ../engine/source/loads/general/inivel/inivel_init.F90
+!||    int_flushtime              ../common_source/modules/interfaces/metric_mod.F
+!||    inter_sh_offset_ini        ../engine/source/interfaces/shell_offset/inter_offset_ini.F90
+!||    kinini                     ../engine/source/constraints/general/kinini.F
+!||    mpp_init                   ../engine/source/mpi/interfaces/spmd_i7tool.F
+!||    my_barrier                 ../engine/source/system/machine.F
+!||    nloc_count_solnod          ../engine/source/elements/solid/solide/nloc_count_solnod.F90
+!||    r2r_init                   ../engine/source/coupling/rad2rad/r2r_init.F
+!||    rbe2_init                  ../engine/source/constraints/general/rbe2/rbe2f.F
+!||    s10cnd_ini                 ../engine/source/elements/solid/solide10/s10cndf.F
+!||    s10cndi2_ini               ../engine/source/elements/solid/solide10/s10cndf.F
+!||    s10cnds_dim                ../engine/source/elements/solid/solide10/s10cndf.F
+!||    s10cnds_ini                ../engine/source/elements/solid/solide10/s10cndf.F
+!||    section_init               ../engine/source/tools/sect/section_init.F
+!||    spmd_anim_ply_init         ../engine/source/mpi/anim/spmd_anim_ply_init.F
+!||    spmd_failwave_boundaries   ../engine/source/mpi/output/spmd_exch_failwave.F
+!||    spmd_max_i                 ../engine/source/mpi/implicit/imp_spmd.F
+!||    spmd_sub_boundaries        ../engine/source/mpi/spmd_exch_sub.F
+!||    tmax_ipart                 ../engine/source/output/tmax_ipart.F
+!||    tshcdcom_dim               ../engine/source/elements/thickshell/solidec/tshcdcom_dim.F
+!||    tshcdcom_ini               ../engine/source/elements/thickshell/solidec/tshcdcom_ini.F
+!||    zero1                      ../engine/source/system/zero.F
+!||    zeror                      ../engine/source/system/zero.F
+!||--- uses       -----------------------------------------------------
+!||    alemuscl_mod               ../common_source/modules/ale/alemuscl_mod.F
+!||    crackxfem_mod              ../engine/share/modules/crackxfem_mod.F
+!||    dtdc_mod                   ../engine/share/modules/dtdc_mod.F
+!||    ecnd_mod                   ../engine/share/modules/ecdn_mod.F
+!||    elbufdef_mod               ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    failwave_mod               ../common_source/modules/failwave_mod.F
+!||    glob_therm_mod             ../common_source/modules/mat_elem/glob_therm_mod.F90
+!||    groupdef_mod               ../common_source/modules/groupdef_mod.F
+!||    h3d_inc_mod                ../engine/share/modules/h3d_inc_mod.F
+!||    h3d_mod                    ../engine/share/modules/h3d_mod.F
+!||    inivel_init_mod            ../engine/source/loads/general/inivel/inivel_init.F90
+!||    intbufdef_mod              ../common_source/modules/interfaces/intbufdef_mod.F90
+!||    inter_sh_offset_ini_mod    ../engine/source/interfaces/shell_offset/inter_offset_ini.F90
+!||    inter_sh_offset_mod        ../engine/source/modules/interfaces/sh_offset_mod.F90
+!||    inter_sorting_mod          ../engine/share/modules/inter_sorting_mod.F
+!||    loads_mod                  ../common_source/modules/loads/loads_mod.F90
+!||    nloc_count_solnod_mod      ../engine/source/elements/solid/solide/nloc_count_solnod.F90
+!||    nlocal_reg_mod             ../common_source/modules/nlocal_reg_mod.F
+!||    outmax_mod                 ../common_source/modules/outmax_mod.F
+!||    output_mod                 ../common_source/modules/output/output_mod.F90
+!||    outputs_mod                ../common_source/modules/outputs_mod.F
+!||    parith_on_mod              ../common_source/modules/parith_on_mod.F90
+!||    pblast_mod                 ../common_source/modules/loads/pblast_mod.F90
+!||    pinchtype_mod              ../common_source/modules/pinchtype_mod.F
+!||    plyxfem_mod                ../engine/share/modules/plyxfem_mod.F
+!||    rbe3_mod                   ../common_source/modules/constraints/rbe3_mod.F90
+!||    sensor_mod                 ../common_source/modules/sensor_mod.F90
+!||    spmd_xv_inter_type1_mod    ../engine/source/mpi/nodes/spmd_sd_xv_inter1.F90
+!||    stack_mod                  ../engine/share/modules/stack_mod.F
+!||====================================================================
       SUBROUTINE RESOL_INIT(
      1  ITASK   ,FR_NBCC   ,
      2  ISENDTO ,IRCVFROM ,IAD_ELEM,FR_ELEM   ,ITABM1    ,
@@ -1201,13 +1201,13 @@ C-------------------------------------------
       END
 C
 C-----------------------------------------------
-      !||====================================================================
-      !||    grpsplit       ../engine/source/engine/resol_init.F
-      !||--- called by ------------------------------------------------------
-      !||    resol_init     ../engine/source/engine/resol_init.F
-      !||--- calls      -----------------------------------------------------
-      !||    sort_mid_pid   ../engine/source/system/sort_mid_pid.F
-      !||====================================================================
+!||====================================================================
+!||    grpsplit       ../engine/source/engine/resol_init.F
+!||--- called by ------------------------------------------------------
+!||    resol_init     ../engine/source/engine/resol_init.F
+!||--- calls      -----------------------------------------------------
+!||    sort_mid_pid   ../engine/source/system/sort_mid_pid.F
+!||====================================================================
       SUBROUTINE  GRPSPLIT(
      1     IPARG, IGROUC, NGROUC, IGROUNC, NGROUNC,
      2     IXC,IXS,IXTG,IPM,IGEO,PM,GEO,TABMP_L,TAB_MAT)
@@ -1453,11 +1453,11 @@ C
        END
 C
 C-----------------------------------------------
-      !||====================================================================
-      !||    fillipartl   ../engine/source/engine/resol_init.F
-      !||--- called by ------------------------------------------------------
-      !||    resol_init   ../engine/source/engine/resol_init.F
-      !||====================================================================
+!||====================================================================
+!||    fillipartl   ../engine/source/engine/resol_init.F
+!||--- called by ------------------------------------------------------
+!||    resol_init   ../engine/source/engine/resol_init.F
+!||====================================================================
       SUBROUTINE  FILLIPARTL(
      1     IPARTL ,IPARTS,IPARTQ ,IPARTC ,IPARTT,
      2     IPARTP ,IPARTR,IPARTUR,IPARTTG,IPARTX,
@@ -1545,13 +1545,13 @@ C
        RETURN
        END
 C
-      !||====================================================================
-      !||    smp_init             ../engine/source/engine/resol_init.F
-      !||--- called by ------------------------------------------------------
-      !||    resol                ../engine/source/engine/resol.F
-      !||--- calls      -----------------------------------------------------
-      !||    omp_get_thread_num   ../engine/source/engine/openmp_stub.F90
-      !||====================================================================
+!||====================================================================
+!||    smp_init             ../engine/source/engine/resol_init.F
+!||--- called by ------------------------------------------------------
+!||    resol                ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
+!||    omp_get_thread_num   ../engine/source/engine/openmp_stub.F90
+!||====================================================================
       SUBROUTINE SMP_INIT(
      1   ITSK  ,NODFTSK ,NODLTSK ,NUMNTSK,NDTSK,
      2   IPMTSK,PARTFTSK,PARTLTSK,NWAFTSK,IGMTSK,
@@ -1602,11 +1602,11 @@ c     LOUT = ISPMD==0.AND.ITSK==0
 C
       RETURN
       END
-      !||====================================================================
-      !||    init_kyne    ../engine/source/engine/resol_init.F
-      !||--- called by ------------------------------------------------------
-      !||    resol_init   ../engine/source/engine/resol_init.F
-      !||====================================================================
+!||====================================================================
+!||    init_kyne    ../engine/source/engine/resol_init.F
+!||--- called by ------------------------------------------------------
+!||    resol_init   ../engine/source/engine/resol_init.F
+!||====================================================================
       SUBROUTINE INIT_KYNE(IKINE,NPBY,LPBY,TAGSLV_RBY)
 C----6---------------------------------------------------------------7---------8
 C   I m p l i c i t   T y p e s

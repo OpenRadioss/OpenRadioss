@@ -20,19 +20,19 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    corth3         ../starter/source/elements/shell/coque/corth3.F
-      !||--- called by ------------------------------------------------------
-      !||    c3epsini       ../starter/source/elements/sh3n/coque3n/c3epsini.F
-      !||    c3init3        ../starter/source/elements/sh3n/coque3n/c3init3.F
-      !||    cbainit3       ../starter/source/elements/shell/coqueba/cbainit3.F
-      !||    cdkepsini      ../starter/source/elements/sh3n/coquedk/cdkepsini.F
-      !||    cdkinit3       ../starter/source/elements/sh3n/coquedk/cdkinit3.F
-      !||    cepsini        ../starter/source/elements/shell/coque/cepsini.F
-      !||    cinit3         ../starter/source/elements/shell/coque/cinit3.F
-      !||    cnepsini       ../starter/source/elements/shell/coqueba/cnepsini.F
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    corth3         ../starter/source/elements/shell/coque/corth3.F
+!||--- called by ------------------------------------------------------
+!||    c3epsini       ../starter/source/elements/sh3n/coque3n/c3epsini.F
+!||    c3init3        ../starter/source/elements/sh3n/coque3n/c3init3.F
+!||    cbainit3       ../starter/source/elements/shell/coqueba/cbainit3.F
+!||    cdkepsini      ../starter/source/elements/sh3n/coquedk/cdkepsini.F
+!||    cdkinit3       ../starter/source/elements/sh3n/coquedk/cdkinit3.F
+!||    cepsini        ../starter/source/elements/shell/coque/cepsini.F
+!||    cinit3         ../starter/source/elements/shell/coque/cinit3.F
+!||    cnepsini       ../starter/source/elements/shell/coqueba/cnepsini.F
+!||--- uses       -----------------------------------------------------
+!||====================================================================
       SUBROUTINE CORTH3(ELBUF_STR,DIR_A   ,DIR_B   ,JFT    ,JLT    ,
      .                  NLAY     ,IREP    ,NEL     ,
      .                  X1  ,X2  ,X3  ,X4  ,Y1  ,Y2  ,

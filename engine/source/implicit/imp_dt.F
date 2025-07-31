@@ -20,11 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    imp_dt2   ../engine/source/implicit/imp_dt.F
-      !||--- called by ------------------------------------------------------
-      !||    resol     ../engine/source/engine/resol.F
-      !||====================================================================
+!||====================================================================
+!||    imp_dt2   ../engine/source/implicit/imp_dt.F
+!||--- called by ------------------------------------------------------
+!||    resol     ../engine/source/engine/resol.F
+!||====================================================================
       SUBROUTINE IMP_DT2(DT_E)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -67,13 +67,13 @@ C         DT_MIN=MAX(DT_E,DT_MIN)
 C
       RETURN
       END
-      !||====================================================================
-      !||    imp_dtn    ../engine/source/implicit/imp_dt.F
-      !||--- called by ------------------------------------------------------
-      !||    imp_solv   ../engine/source/implicit/imp_solv.F
-      !||--- calls      -----------------------------------------------------
-      !||    imp_dtf    ../engine/source/implicit/imp_dt.F
-      !||====================================================================
+!||====================================================================
+!||    imp_dtn    ../engine/source/implicit/imp_dt.F
+!||--- called by ------------------------------------------------------
+!||    imp_solv   ../engine/source/implicit/imp_solv.F
+!||--- calls      -----------------------------------------------------
+!||    imp_dtf    ../engine/source/implicit/imp_dt.F
+!||====================================================================
       SUBROUTINE IMP_DTN(IT,UL2,FAC,CUMUL_ALEN)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -270,11 +270,11 @@ C---------------------------
  1006 FORMAT(5X,'--TERMINAL LOADING TIME BY RIKS METHOD IS:',E11.4/)
       RETURN
       END
-      !||====================================================================
-      !||    imp_dtf   ../engine/source/implicit/imp_dt.F
-      !||--- called by ------------------------------------------------------
-      !||    imp_dtn   ../engine/source/implicit/imp_dt.F
-      !||====================================================================
+!||====================================================================
+!||    imp_dtf   ../engine/source/implicit/imp_dt.F
+!||--- called by ------------------------------------------------------
+!||    imp_dtn   ../engine/source/implicit/imp_dt.F
+!||====================================================================
       SUBROUTINE IMP_DTF(FAC)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

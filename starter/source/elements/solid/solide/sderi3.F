@@ -20,18 +20,18 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    sderi3             ../starter/source/elements/solid/solide/sderi3.F
-      !||--- called by ------------------------------------------------------
-      !||    inirig_mat         ../starter/source/elements/initia/inirig_mat.F
-      !||    inivoid            ../starter/source/elements/initia/inivoid.F
-      !||    multifluid_init3   ../starter/source/multifluid/multifluid_init3.F
-      !||    sinit3             ../starter/source/elements/solid/solide/sinit3.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg             ../starter/source/output/message/message.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod        ../starter/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    sderi3             ../starter/source/elements/solid/solide/sderi3.F
+!||--- called by ------------------------------------------------------
+!||    inirig_mat         ../starter/source/elements/initia/inirig_mat.F
+!||    inivoid            ../starter/source/elements/initia/inivoid.F
+!||    multifluid_init3   ../starter/source/multifluid/multifluid_init3.F
+!||    sinit3             ../starter/source/elements/solid/solide/sinit3.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg             ../starter/source/output/message/message.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod        ../starter/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE SDERI3(
      .              VOL  ,VEUL ,GEO  ,IGEO , 
      .              XD1  ,XD2  ,XD3  ,XD4  ,XD5   ,XD6  ,XD7   ,XD8   ,
@@ -248,14 +248,14 @@ C
 C
       RETURN
       END SUBROUTINE SDERI3
-      !||====================================================================
-      !||    sjac_i             ../starter/source/elements/solid/solide/sderi3.F
-      !||--- called by ------------------------------------------------------
-      !||    multifluid_init3   ../starter/source/multifluid/multifluid_init3.F
-      !||    srefsta3           ../starter/source/elements/solid/solide/srefsta3.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod        ../starter/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    sjac_i             ../starter/source/elements/solid/solide/sderi3.F
+!||--- called by ------------------------------------------------------
+!||    multifluid_init3   ../starter/source/multifluid/multifluid_init3.F
+!||    srefsta3           ../starter/source/elements/solid/solide/srefsta3.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod        ../starter/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE SJAC_I(
      .              X1   ,X2   ,X3   ,X4   ,X5   ,X6   ,X7   ,X8   ,
      .              Y1   ,Y2   ,Y3   ,Y4   ,Y5   ,Y6   ,Y7   ,Y8   ,

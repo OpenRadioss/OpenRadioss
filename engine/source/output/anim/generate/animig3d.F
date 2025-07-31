@@ -20,16 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    animig3d       ../engine/source/output/anim/generate/animig3d.F
-      !||--- called by ------------------------------------------------------
-      !||    genani         ../engine/source/output/anim/generate/genani.F
-      !||--- calls      -----------------------------------------------------
-      !||    projecig3d     ../engine/source/elements/ige3d/projecig3d.F
-      !||--- uses       -----------------------------------------------------
-      !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||    message_mod    ../engine/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    animig3d       ../engine/source/output/anim/generate/animig3d.F
+!||--- called by ------------------------------------------------------
+!||    genani         ../engine/source/output/anim/generate/genani.F
+!||--- calls      -----------------------------------------------------
+!||    projecig3d     ../engine/source/elements/ige3d/projecig3d.F
+!||--- uses       -----------------------------------------------------
+!||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    message_mod    ../engine/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE ANIMIG3D(ELBUF_TAB,IPARG    ,X     ,D        , V       ,A     ,
      .                    WIGE     ,KXIG3D   ,IXIG3D,IG3DSOLID,NANIM3D_L,X_TEMP,
      .                    D_TEMP   ,V_TEMP   ,A_TEMP,TABSTRESL,IGEO     ,KNOT  ,

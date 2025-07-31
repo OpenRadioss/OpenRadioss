@@ -20,19 +20,19 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    gravit_fvm_fem        ../engine/source/loads/general/grav/gravit_fvm_fem.F
-      !||--- called by ------------------------------------------------------
-      !||    resol                 ../engine/source/engine/resol.F
-      !||--- calls      -----------------------------------------------------
-      !||    finter                ../engine/source/tools/curve/finter.F
-      !||    finter_smooth         ../engine/source/tools/curve/finter_smooth.F
-      !||    my_barrier            ../engine/source/system/machine.F
-      !||--- uses       -----------------------------------------------------
-      !||    ale_mod               ../common_source/modules/ale/ale_mod.F
-      !||    python_funct_mod      ../common_source/modules/python_mod.F90
-      !||    sensor_mod            ../common_source/modules/sensor_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    gravit_fvm_fem        ../engine/source/loads/general/grav/gravit_fvm_fem.F
+!||--- called by ------------------------------------------------------
+!||    resol                 ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
+!||    finter                ../engine/source/tools/curve/finter.F
+!||    finter_smooth         ../engine/source/tools/curve/finter_smooth.F
+!||    my_barrier            ../engine/source/system/machine.F
+!||--- uses       -----------------------------------------------------
+!||    ale_mod               ../common_source/modules/ale/ale_mod.F
+!||    python_funct_mod      ../common_source/modules/python_mod.F90
+!||    sensor_mod            ../common_source/modules/sensor_mod.F90
+!||====================================================================
       SUBROUTINE GRAVIT_FVM_FEM(IGRV  ,AGRV   ,NPC   ,TF   ,A     ,
      2                          V     ,X      ,SKEW  ,MS   ,SENSOR_TAB,
      3                          WEIGHT,IB     ,ITASK ,NALE ,NSENSOR , PYTHON, WFEXT)

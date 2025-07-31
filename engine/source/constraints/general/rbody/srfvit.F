@@ -20,15 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    srfvit         ../engine/source/constraints/general/rbody/srfvit.F
-      !||--- called by ------------------------------------------------------
-      !||    resol          ../engine/source/engine/resol.F
-      !||--- calls      -----------------------------------------------------
-      !||    rotbmr         ../engine/source/tools/skew/rotbmr.F
-      !||--- uses       -----------------------------------------------------
-      !||    groupdef_mod   ../common_source/modules/groupdef_mod.F
-      !||====================================================================
+!||====================================================================
+!||    srfvit         ../engine/source/constraints/general/rbody/srfvit.F
+!||--- called by ------------------------------------------------------
+!||    resol          ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
+!||    rotbmr         ../engine/source/tools/skew/rotbmr.F
+!||--- uses       -----------------------------------------------------
+!||    groupdef_mod   ../common_source/modules/groupdef_mod.F
+!||====================================================================
       SUBROUTINE SRFVIT(X,V,VR,A,AR,
      2            NPBY,RBY  ,MS  ,IN  ,
      3            IGRSURF ,BUFSF )

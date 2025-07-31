@@ -20,19 +20,19 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    hm_read_xelem    ../starter/source/elements/reader/hm_read_xelem.F
-      !||--- called by ------------------------------------------------------
-      !||    lectur           ../starter/source/starter/lectur.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg           ../starter/source/output/message/message.F
-      !||    anodset          ../starter/source/output/analyse/analyse_node.c
-      !||    nodgrnr5         ../starter/source/starter/freform.F
-      !||    udouble          ../starter/source/system/sysfus.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod      ../starter/share/message_module/message_mod.F
-      !||    submodel_mod     ../starter/share/modules1/submodel_mod.F
-      !||====================================================================
+!||====================================================================
+!||    hm_read_xelem    ../starter/source/elements/reader/hm_read_xelem.F
+!||--- called by ------------------------------------------------------
+!||    lectur           ../starter/source/starter/lectur.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg           ../starter/source/output/message/message.F
+!||    anodset          ../starter/source/output/analyse/analyse_node.c
+!||    nodgrnr5         ../starter/source/starter/freform.F
+!||    udouble          ../starter/source/system/sysfus.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod      ../starter/share/message_module/message_mod.F
+!||    submodel_mod     ../starter/share/modules1/submodel_mod.F
+!||====================================================================
       SUBROUTINE HM_READ_XELEM(IGRNOD   ,ITAB ,ITABM1,IPART,IPARTX,
      .                  IPM,IGEO ,KXX ,IXX, LSUBMODEL)
 C-----------------------------------------------

@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    w_isurf_str    ../starter/source/restart/ddsplit/w_isurf_str.F
-      !||--- called by ------------------------------------------------------
-      !||    ddsplit        ../starter/source/restart/ddsplit/ddsplit.F
-      !||--- calls      -----------------------------------------------------
-      !||    fretitl        ../starter/source/starter/freform.F
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    w_isurf_str    ../starter/source/restart/ddsplit/w_isurf_str.F
+!||--- called by ------------------------------------------------------
+!||    ddsplit        ../starter/source/restart/ddsplit/ddsplit.F
+!||--- calls      -----------------------------------------------------
+!||    fretitl        ../starter/source/starter/freform.F
+!||--- uses       -----------------------------------------------------
+!||====================================================================
         SUBROUTINE W_ISURF_STR( LEN_IA,PROC,NUMNOD,NSURF,NUMELS,
      .                          NUMELQ,NUMELC,NUMELT,NUMELP,NUMELR,
      .                          NODLOCAL,SCEL,CEL,LTITR,LENISURF_L,

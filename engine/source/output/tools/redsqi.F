@@ -20,21 +20,21 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    redsqi        ../engine/source/output/tools/redsqi.F
-      !||--- called by ------------------------------------------------------
-      !||    convrrest     ../engine/source/output/restart/rdresb.F
-      !||    dsrrest       ../engine/source/output/restart/rdresb.F
-      !||    eigrrest      ../engine/source/output/restart/rdresb.F
-      !||    fxbresb       ../engine/source/output/restart/rdresb.F
-      !||    fxfluxrrest   ../engine/source/constraints/thermic/fxfluxrrest.F
-      !||    fxtemprrest   ../engine/source/output/restart/rdresb.F
-      !||    nfrrest       ../engine/source/output/restart/rdresb.F
-      !||    radiarrest    ../engine/source/output/restart/rdresb.F
-      !||    rmatrrest     ../engine/source/output/restart/rdresb.F
-      !||--- calls      -----------------------------------------------------
-      !||    istr          ../engine/source/tools/univ/istr.F
-      !||====================================================================
+!||====================================================================
+!||    redsqi        ../engine/source/output/tools/redsqi.F
+!||--- called by ------------------------------------------------------
+!||    convrrest     ../engine/source/output/restart/rdresb.F
+!||    dsrrest       ../engine/source/output/restart/rdresb.F
+!||    eigrrest      ../engine/source/output/restart/rdresb.F
+!||    fxbresb       ../engine/source/output/restart/rdresb.F
+!||    fxfluxrrest   ../engine/source/constraints/thermic/fxfluxrrest.F
+!||    fxtemprrest   ../engine/source/output/restart/rdresb.F
+!||    nfrrest       ../engine/source/output/restart/rdresb.F
+!||    radiarrest    ../engine/source/output/restart/rdresb.F
+!||    rmatrrest     ../engine/source/output/restart/rdresb.F
+!||--- calls      -----------------------------------------------------
+!||    istr          ../engine/source/tools/univ/istr.F
+!||====================================================================
       SUBROUTINE REDSQI(IA,L,IFORM)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

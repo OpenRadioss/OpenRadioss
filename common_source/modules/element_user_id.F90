@@ -20,37 +20,37 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    user_id_mod                ../common_source/modules/element_user_id.F90
-      !||--- called by ------------------------------------------------------
-      !||    fredec0                    ../starter/source/starter/freform.F
-      !||    fredec5                    ../starter/source/starter/freform.F
-      !||    fredec_2key_4id            ../starter/source/starter/freform.F
-      !||    fredec_2key_4id_t          ../starter/source/starter/freform.F
-      !||    fredec_2key_id_or_key_id   ../starter/source/starter/freform.F
-      !||    fredec_key_3id_t           ../starter/source/starter/freform.F
-      !||    hm_prelce16s               ../starter/source/elements/reader/hm_read_solid.F
-      !||    hm_preread_node            ../starter/source/elements/reader/hm_preread_node.F
-      !||    hm_read_beam               ../starter/source/elements/reader/hm_read_beam.F
-      !||    hm_read_node               ../starter/source/elements/reader/hm_read_node.F
-      !||    hm_read_quad               ../starter/source/elements/reader/hm_read_quad.F
-      !||    hm_read_rivet              ../starter/source/elements/reader/hm_read_rivet.F
-      !||    hm_read_sh3n               ../starter/source/elements/reader/hm_read_sh3n.F
-      !||    hm_read_shell              ../starter/source/elements/reader/hm_read_shell.F
-      !||    hm_read_sphcel             ../starter/source/elements/reader/hm_read_sphcel.F
-      !||    hm_read_spring             ../starter/source/elements/reader/hm_read_spring.F
-      !||    hm_read_submodel           ../starter/source/model/assembling/hm_read_submodel.F
-      !||    hm_read_thgrou             ../starter/source/output/th/hm_read_thgrou.F
-      !||    hm_read_tria               ../starter/source/elements/reader/hm_read_tria.F
-      !||    hm_read_truss              ../starter/source/elements/reader/hm_read_truss.F
-      !||    hm_read_unit               ../starter/source/general_controls/computation/hm_read_unit.F
-      !||    hm_thgrki_vent             ../starter/source/output/th/hm_thgrki_vent.F
-      !||    identson3                  ../starter/source/model/remesh/build_admesh.F
-      !||    identson4                  ../starter/source/model/remesh/build_admesh.F
-      !||    nbadigemesh                ../starter/source/elements/ige3d/nbadigemesh.F
-      !||    nbadmesh                   ../starter/source/model/remesh/nbadmesh.F
-      !||    python_register            ../engine/source/tools/curve/python_register.F90
-      !||====================================================================
+!||====================================================================
+!||    user_id_mod                ../common_source/modules/element_user_id.F90
+!||--- called by ------------------------------------------------------
+!||    fredec0                    ../starter/source/starter/freform.F
+!||    fredec5                    ../starter/source/starter/freform.F
+!||    fredec_2key_4id            ../starter/source/starter/freform.F
+!||    fredec_2key_4id_t          ../starter/source/starter/freform.F
+!||    fredec_2key_id_or_key_id   ../starter/source/starter/freform.F
+!||    fredec_key_3id_t           ../starter/source/starter/freform.F
+!||    hm_prelce16s               ../starter/source/elements/reader/hm_read_solid.F
+!||    hm_preread_node            ../starter/source/elements/reader/hm_preread_node.F
+!||    hm_read_beam               ../starter/source/elements/reader/hm_read_beam.F
+!||    hm_read_node               ../starter/source/elements/reader/hm_read_node.F
+!||    hm_read_quad               ../starter/source/elements/reader/hm_read_quad.F
+!||    hm_read_rivet              ../starter/source/elements/reader/hm_read_rivet.F
+!||    hm_read_sh3n               ../starter/source/elements/reader/hm_read_sh3n.F
+!||    hm_read_shell              ../starter/source/elements/reader/hm_read_shell.F
+!||    hm_read_sphcel             ../starter/source/elements/reader/hm_read_sphcel.F
+!||    hm_read_spring             ../starter/source/elements/reader/hm_read_spring.F
+!||    hm_read_submodel           ../starter/source/model/assembling/hm_read_submodel.F
+!||    hm_read_thgrou             ../starter/source/output/th/hm_read_thgrou.F
+!||    hm_read_tria               ../starter/source/elements/reader/hm_read_tria.F
+!||    hm_read_truss              ../starter/source/elements/reader/hm_read_truss.F
+!||    hm_read_unit               ../starter/source/general_controls/computation/hm_read_unit.F
+!||    hm_thgrki_vent             ../starter/source/output/th/hm_thgrki_vent.F
+!||    identson3                  ../starter/source/model/remesh/build_admesh.F
+!||    identson4                  ../starter/source/model/remesh/build_admesh.F
+!||    nbadigemesh                ../starter/source/elements/ige3d/nbadigemesh.F
+!||    nbadmesh                   ../starter/source/model/remesh/nbadmesh.F
+!||    python_register            ../engine/source/tools/curve/python_register.F90
+!||====================================================================
       module user_id_mod
 
         type id_limits_
@@ -66,11 +66,11 @@
 
       contains
 !! \brief Returns the user id and group id of all the elements
-      !||====================================================================
-      !||    element_user_id   ../common_source/modules/element_user_id.F90
-      !||--- called by ------------------------------------------------------
-      !||    python_register   ../engine/source/tools/curve/python_register.F90
-      !||====================================================================
+!||====================================================================
+!||    element_user_id   ../common_source/modules/element_user_id.F90
+!||--- called by ------------------------------------------------------
+!||    python_register   ../engine/source/tools/curve/python_register.F90
+!||====================================================================
         subroutine element_user_id(user_id, group_id, local_id, nelem, &
           ixs, nixs, numels, &
           ixc, nixc, numelc, &

@@ -20,12 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    multi_connectivity     ../starter/source/multifluid/multi_connectivity.F
-      !||--- called by ------------------------------------------------------
-      !||    lectur                 ../starter/source/starter/lectur.F
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    multi_connectivity     ../starter/source/multifluid/multi_connectivity.F
+!||--- called by ------------------------------------------------------
+!||    lectur                 ../starter/source/starter/lectur.F
+!||--- uses       -----------------------------------------------------
+!||====================================================================
       SUBROUTINE MULTI_CONNECTIVITY( INDX_S,INDX_Q,INDX_TG,
      1                               FACE_ELM_S,FACE_ELM_Q,FACE_ELM_TG,
      2                               IXS,IXQ,IXTG,CEP,ALE_CONNECTIVITY,BOOL_ALE_TG )

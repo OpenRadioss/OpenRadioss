@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    st_qaprint_general_controls   ../starter/source/output/qaprint/st_qaprint_general_controls.F
-      !||--- called by ------------------------------------------------------
-      !||    st_qaprint_driver             ../starter/source/output/qaprint/st_qaprint_driver.F
-      !||--- calls      -----------------------------------------------------
-      !||--- uses       -----------------------------------------------------
-      !||    defaults_mod                  ../starter/source/modules/defaults_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    st_qaprint_general_controls   ../starter/source/output/qaprint/st_qaprint_general_controls.F
+!||--- called by ------------------------------------------------------
+!||    st_qaprint_driver             ../starter/source/output/qaprint/st_qaprint_driver.F
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||    defaults_mod                  ../starter/source/modules/defaults_mod.F90
+!||====================================================================
       SUBROUTINE ST_QAPRINT_GENERAL_CONTROLS(NOM_OPT ,INOM_OPT  ,DAMPR  , IRAND, ALEA,
      1                                       XSEED   ,UNITAB    ,QP_IPERTURB,QP_RPERTURB,
      2                                       EIGIPM  , EIGRPM   ,DEFAULTS,DAMP_RANGE_PART)

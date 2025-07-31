@@ -26,11 +26,11 @@
 !|        updfail               ../starter/source/materials/updfail.F90
 !|-- calls ---------------
 !|====================================================================
-      !||====================================================================
-      !||    brokmann_random_mod   ../starter/source/materials/fail/windshield_alter/brokmann_random.F90
-      !||--- called by ------------------------------------------------------
-      !||    updfail               ../starter/source/materials/updfail.F90
-      !||====================================================================
+!||====================================================================
+!||    brokmann_random_mod   ../starter/source/materials/fail/windshield_alter/brokmann_random.F90
+!||--- called by ------------------------------------------------------
+!||    updfail               ../starter/source/materials/updfail.F90
+!||====================================================================
       module brokmann_random_mod
       contains
 ! ========================================================================================
@@ -38,14 +38,14 @@
 ! \details
 ! ========================================================================================
 
-      !||====================================================================
-      !||    brokmann_random           ../starter/source/materials/fail/windshield_alter/brokmann_random.F90
-      !||--- called by ------------------------------------------------------
-      !||    updfail                   ../starter/source/materials/updfail.F90
-      !||--- calls      -----------------------------------------------------
-      !||--- uses       -----------------------------------------------------
-      !||    stack_mod                 ../starter/share/modules1/stack_mod.F
-      !||====================================================================
+!||====================================================================
+!||    brokmann_random           ../starter/source/materials/fail/windshield_alter/brokmann_random.F90
+!||--- called by ------------------------------------------------------
+!||    updfail                   ../starter/source/materials/updfail.F90
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||    stack_mod                 ../starter/share/modules1/stack_mod.F
+!||====================================================================
       subroutine brokmann_random(brokmann ,fail   ,                 &
                  nixc   ,ixc    ,nixtg  ,ixtg   ,numelc ,numeltg  , &
                  iworksh,stack  ,igeo   ,npropgi,numgeo )

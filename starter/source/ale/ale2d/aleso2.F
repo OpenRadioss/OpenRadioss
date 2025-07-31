@@ -21,12 +21,12 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
-      !||====================================================================
-      !||    aleso2                 ../starter/source/ale/ale2d/aleso2.F
-      !||--- called by ------------------------------------------------------
-      !||    alelec                 ../starter/source/ale/alelec.F
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    aleso2                 ../starter/source/ale/ale2d/aleso2.F
+!||--- called by ------------------------------------------------------
+!||    alelec                 ../starter/source/ale/alelec.F
+!||--- uses       -----------------------------------------------------
+!||====================================================================
       SUBROUTINE ALESO2(ALE_CONNECTIVITY,PM,IXQ,IGEO)
 C-----------------------------------------------
 C   D e s c r i p t i o n

@@ -21,12 +21,12 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
-      !||====================================================================
-      !||    w_igrav     ../starter/source/restart/ddsplit/w_igrav.F
-      !||--- called by ------------------------------------------------------
-      !||    ddsplit     ../starter/source/restart/ddsplit/ddsplit.F
-      !||--- calls      -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    w_igrav     ../starter/source/restart/ddsplit/w_igrav.F
+!||--- called by ------------------------------------------------------
+!||    ddsplit     ../starter/source/restart/ddsplit/ddsplit.F
+!||--- calls      -----------------------------------------------------
+!||====================================================================
       SUBROUTINE W_IGRAV(
      .  IGRAV,LGRAV,NODLOCAL,PROC,LLGRAV_L,LEN_IA,NUMNOD_L)
 C-----------------------------------------------

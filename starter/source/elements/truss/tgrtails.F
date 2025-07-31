@@ -20,16 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    tgrtails       ../starter/source/elements/truss/tgrtails.F
-      !||--- called by ------------------------------------------------------
-      !||    lectur         ../starter/source/starter/lectur.F
-      !||--- calls      -----------------------------------------------------
-      !||    zeroin         ../starter/source/system/zeroin.F
-      !||--- uses       -----------------------------------------------------
-      !||    bpreload_mod   ../starter/share/modules1/bpreload_mod.F
-      !||    r2r_mod        ../starter/share/modules1/r2r_mod.F
-      !||====================================================================
+!||====================================================================
+!||    tgrtails       ../starter/source/elements/truss/tgrtails.F
+!||--- called by ------------------------------------------------------
+!||    lectur         ../starter/source/starter/lectur.F
+!||--- calls      -----------------------------------------------------
+!||    zeroin         ../starter/source/system/zeroin.F
+!||--- uses       -----------------------------------------------------
+!||    bpreload_mod   ../starter/share/modules1/bpreload_mod.F
+!||    r2r_mod        ../starter/share/modules1/r2r_mod.F
+!||====================================================================
       SUBROUTINE TGRTAILS(
      1    IXT     ,IPARG  ,PM      ,GEO       ,
      2    EADD    ,ND     ,DD_IAD  ,IDX       ,

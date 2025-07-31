@@ -20,58 +20,58 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    hm_read_properties     ../starter/source/properties/hm_read_properties.F
-      !||--- called by ------------------------------------------------------
-      !||    lectur                 ../starter/source/starter/lectur.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg                 ../starter/source/output/message/message.F
-      !||    fretitl                ../starter/source/starter/freform.F
-      !||    fretitl2               ../starter/source/starter/freform.F
-      !||    hm_option_read_key     ../starter/source/devtools/hm_reader/hm_option_read_key.F
-      !||    hm_option_start        ../starter/source/devtools/hm_reader/hm_option_start.F
-      !||    hm_prop_read21         ../starter/source/properties/thickshell/hm_read_prop21.F
-      !||    hm_read_inject1        ../starter/source/properties/injector/hm_read_inject1.F
-      !||    hm_read_inject2        ../starter/source/properties/injector/hm_read_inject2.F
-      !||    hm_read_prop0          ../starter/source/properties/void/hm_read_prop0.F
-      !||    hm_read_prop01         ../starter/source/properties/shell/hm_read_prop01.F
-      !||    hm_read_prop02         ../starter/source/properties/truss/hm_read_prop02.F
-      !||    hm_read_prop03         ../starter/source/properties/beam/hm_read_prop03.F
-      !||    hm_read_prop04         ../starter/source/properties/spring/hm_read_prop04.F
-      !||    hm_read_prop05         ../starter/source/properties/rivet/hm_read_prop05.F
-      !||    hm_read_prop06         ../starter/source/properties/solid/hm_read_prop06.F
-      !||    hm_read_prop08         ../starter/source/properties/spring/hm_read_prop08.F
-      !||    hm_read_prop09         ../starter/source/properties/shell/hm_read_prop09.F
-      !||    hm_read_prop10         ../starter/source/properties/shell/hm_read_prop10.F
-      !||    hm_read_prop11         ../starter/source/properties/shell/hm_read_prop11.F
-      !||    hm_read_prop12         ../starter/source/properties/spring/hm_read_prop12.F
-      !||    hm_read_prop13         ../starter/source/properties/spring/hm_read_prop13.F
-      !||    hm_read_prop14         ../starter/source/properties/solid/hm_read_prop14.F
-      !||    hm_read_prop14f        ../starter/source/properties/solid/hm_read_prop14.F
-      !||    hm_read_prop15         ../starter/source/properties/solid/hm_read_prop15.F
-      !||    hm_read_prop16         ../starter/source/properties/shell/hm_read_prop16.F
-      !||    hm_read_prop17         ../starter/source/properties/shell/hm_read_prop17.F
-      !||    hm_read_prop18         ../starter/source/properties/beam/hm_read_prop18.F
-      !||    hm_read_prop19         ../starter/source/properties/shell/hm_read_prop19.F
-      !||    hm_read_prop20         ../starter/source/properties/thickshell/hm_read_prop20.F
-      !||    hm_read_prop22         ../starter/source/properties/thickshell/hm_read_prop22.F
-      !||    hm_read_prop23         ../starter/source/properties/spring/hm_read_prop23.F
-      !||    hm_read_prop25         ../starter/source/properties/spring/hm_read_prop25.F
-      !||    hm_read_prop26         ../starter/source/properties/spring/hm_read_prop26.F
-      !||    hm_read_prop27         ../starter/source/properties/spring/hm_read_prop27.F
-      !||    hm_read_prop51         ../starter/source/properties/shell/hm_read_prop51.F
-      !||    hm_read_prop_generic   ../starter/source/properties/hm_read_prop_generic.F
-      !||    ini_prop_vars          ../starter/source/elements/elbuf_init/ini_prop_vars.F
-      !||    usr2sys                ../starter/source/system/sysfus.F
-      !||    vdouble                ../starter/source/system/sysfus.F
-      !||--- uses       -----------------------------------------------------
-      !||    defaults_mod           ../starter/source/modules/defaults_mod.F90
-      !||    elbuftag_mod           ../starter/share/modules1/elbuftag_mod.F
-      !||    hm_option_read_mod     ../starter/share/modules1/hm_option_read_mod.F
-      !||    message_mod            ../starter/share/message_module/message_mod.F
-      !||    stack_mod              ../starter/share/modules1/stack_mod.F
-      !||    submodel_mod           ../starter/share/modules1/submodel_mod.F
-      !||====================================================================
+!||====================================================================
+!||    hm_read_properties     ../starter/source/properties/hm_read_properties.F
+!||--- called by ------------------------------------------------------
+!||    lectur                 ../starter/source/starter/lectur.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                 ../starter/source/output/message/message.F
+!||    fretitl                ../starter/source/starter/freform.F
+!||    fretitl2               ../starter/source/starter/freform.F
+!||    hm_option_read_key     ../starter/source/devtools/hm_reader/hm_option_read_key.F
+!||    hm_option_start        ../starter/source/devtools/hm_reader/hm_option_start.F
+!||    hm_prop_read21         ../starter/source/properties/thickshell/hm_read_prop21.F
+!||    hm_read_inject1        ../starter/source/properties/injector/hm_read_inject1.F
+!||    hm_read_inject2        ../starter/source/properties/injector/hm_read_inject2.F
+!||    hm_read_prop0          ../starter/source/properties/void/hm_read_prop0.F
+!||    hm_read_prop01         ../starter/source/properties/shell/hm_read_prop01.F
+!||    hm_read_prop02         ../starter/source/properties/truss/hm_read_prop02.F
+!||    hm_read_prop03         ../starter/source/properties/beam/hm_read_prop03.F
+!||    hm_read_prop04         ../starter/source/properties/spring/hm_read_prop04.F
+!||    hm_read_prop05         ../starter/source/properties/rivet/hm_read_prop05.F
+!||    hm_read_prop06         ../starter/source/properties/solid/hm_read_prop06.F
+!||    hm_read_prop08         ../starter/source/properties/spring/hm_read_prop08.F
+!||    hm_read_prop09         ../starter/source/properties/shell/hm_read_prop09.F
+!||    hm_read_prop10         ../starter/source/properties/shell/hm_read_prop10.F
+!||    hm_read_prop11         ../starter/source/properties/shell/hm_read_prop11.F
+!||    hm_read_prop12         ../starter/source/properties/spring/hm_read_prop12.F
+!||    hm_read_prop13         ../starter/source/properties/spring/hm_read_prop13.F
+!||    hm_read_prop14         ../starter/source/properties/solid/hm_read_prop14.F
+!||    hm_read_prop14f        ../starter/source/properties/solid/hm_read_prop14.F
+!||    hm_read_prop15         ../starter/source/properties/solid/hm_read_prop15.F
+!||    hm_read_prop16         ../starter/source/properties/shell/hm_read_prop16.F
+!||    hm_read_prop17         ../starter/source/properties/shell/hm_read_prop17.F
+!||    hm_read_prop18         ../starter/source/properties/beam/hm_read_prop18.F
+!||    hm_read_prop19         ../starter/source/properties/shell/hm_read_prop19.F
+!||    hm_read_prop20         ../starter/source/properties/thickshell/hm_read_prop20.F
+!||    hm_read_prop22         ../starter/source/properties/thickshell/hm_read_prop22.F
+!||    hm_read_prop23         ../starter/source/properties/spring/hm_read_prop23.F
+!||    hm_read_prop25         ../starter/source/properties/spring/hm_read_prop25.F
+!||    hm_read_prop26         ../starter/source/properties/spring/hm_read_prop26.F
+!||    hm_read_prop27         ../starter/source/properties/spring/hm_read_prop27.F
+!||    hm_read_prop51         ../starter/source/properties/shell/hm_read_prop51.F
+!||    hm_read_prop_generic   ../starter/source/properties/hm_read_prop_generic.F
+!||    ini_prop_vars          ../starter/source/elements/elbuf_init/ini_prop_vars.F
+!||    usr2sys                ../starter/source/system/sysfus.F
+!||    vdouble                ../starter/source/system/sysfus.F
+!||--- uses       -----------------------------------------------------
+!||    defaults_mod           ../starter/source/modules/defaults_mod.F90
+!||    elbuftag_mod           ../starter/share/modules1/elbuftag_mod.F
+!||    hm_option_read_mod     ../starter/share/modules1/hm_option_read_mod.F
+!||    message_mod            ../starter/share/message_module/message_mod.F
+!||    stack_mod              ../starter/share/modules1/stack_mod.F
+!||    submodel_mod           ../starter/share/modules1/submodel_mod.F
+!||====================================================================
       SUBROUTINE HM_READ_PROPERTIES(GEO   ,X     ,IX   ,PM   ,ITABM1 ,
      .                  BUFGEO,LBUFGEO   ,ISKN ,IGEO ,IPM    ,
      .                  NPC   ,PLD   ,UNITAB ,RTRANS,LSUBMODEL  ,

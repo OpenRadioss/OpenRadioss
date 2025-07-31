@@ -21,15 +21,15 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
-      !||====================================================================
-      !||    spmd_i21crit          ../engine/source/mpi/interfaces/spmd_i21crit.F
-      !||--- called by ------------------------------------------------------
-      !||    i21_icrit             ../engine/source/interfaces/intsort/i21_icrit.F
-      !||--- calls      -----------------------------------------------------
-      !||    spmd_rbcast           ../engine/source/mpi/generic/spmd_rbcast.F
-      !||--- uses       -----------------------------------------------------
-      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
-      !||====================================================================
+!||====================================================================
+!||    spmd_i21crit          ../engine/source/mpi/interfaces/spmd_i21crit.F
+!||--- called by ------------------------------------------------------
+!||    i21_icrit             ../engine/source/interfaces/intsort/i21_icrit.F
+!||--- calls      -----------------------------------------------------
+!||    spmd_rbcast           ../engine/source/mpi/generic/spmd_rbcast.F
+!||--- uses       -----------------------------------------------------
+!||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
+!||====================================================================
       SUBROUTINE SPMD_I21CRIT(GAPINF,VX,VY,VZ,DIST)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

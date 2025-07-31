@@ -20,11 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    i2vit10   ../engine/source/interfaces/interf/i2vit10.F
-      !||--- called by ------------------------------------------------------
-      !||    intti2v   ../engine/source/interfaces/interf/intti2v.F
-      !||====================================================================
+!||====================================================================
+!||    i2vit10   ../engine/source/interfaces/interf/i2vit10.F
+!||--- called by ------------------------------------------------------
+!||    intti2v   ../engine/source/interfaces/interf/intti2v.F
+!||====================================================================
       SUBROUTINE I2VIT10(
      1 NSN     ,NMN     ,MS      ,V       ,A       ,
      2 AR      ,VR      ,X       ,IRECT   ,NSV     ,
@@ -95,11 +95,11 @@ C
 C----
       RETURN
       END
-      !||====================================================================
-      !||    i2rot10   ../engine/source/interfaces/interf/i2vit10.F
-      !||--- called by ------------------------------------------------------
-      !||    intti2v   ../engine/source/interfaces/interf/intti2v.F
-      !||====================================================================
+!||====================================================================
+!||    i2rot10   ../engine/source/interfaces/interf/i2vit10.F
+!||--- called by ------------------------------------------------------
+!||    intti2v   ../engine/source/interfaces/interf/intti2v.F
+!||====================================================================
       SUBROUTINE I2ROT10(
      1 NSN     ,NMN     ,MS      ,V       ,A       ,
      2 AR      ,VR      ,X       ,IRECT   ,NSV     ,

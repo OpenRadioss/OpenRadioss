@@ -20,15 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    spmd_exch_nor         ../engine/source/mpi/interfaces/spmd_exch_nor.F
-      !||--- called by ------------------------------------------------------
-      !||    i25normp              ../engine/source/interfaces/int25/i25norm.F
-      !||--- calls      -----------------------------------------------------
-      !||--- uses       -----------------------------------------------------
-      !||    intbufdef_mod         ../common_source/modules/interfaces/intbufdef_mod.F90
-      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
-      !||====================================================================
+!||====================================================================
+!||    spmd_exch_nor         ../engine/source/mpi/interfaces/spmd_exch_nor.F
+!||--- called by ------------------------------------------------------
+!||    i25normp              ../engine/source/interfaces/int25/i25norm.F
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||    intbufdef_mod         ../common_source/modules/interfaces/intbufdef_mod.F90
+!||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
+!||====================================================================
       SUBROUTINE SPMD_EXCH_NOR(
      1   NI25,IAD_FREDG,FR_EDG,NOD_NORMAL,WNOD_NORMAL,SIZE,NADMSR,
      2   REQ_R  ,REQ_S  ,IRINDEX,ISINDEX,IAD_RECV    ,

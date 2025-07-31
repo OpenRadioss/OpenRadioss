@@ -20,20 +20,20 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    frelnk                 ../engine/source/input/frelnk.F
-      !||--- called by ------------------------------------------------------
-      !||    freform                ../engine/source/input/freform.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg                 ../engine/source/output/message/message.F
-      !||    arret                  ../engine/source/system/arret.F
-      !||    errmsg                 ../engine/source/input/errmsg.F
-      !||    ixyz                   ../engine/source/input/ixyz.F
-      !||    read10                 ../engine/source/input/read10.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod            ../engine/share/message_module/message_mod.F
-      !||    names_and_titles_mod   ../common_source/modules/names_and_titles_mod.F
-      !||====================================================================
+!||====================================================================
+!||    frelnk                 ../engine/source/input/frelnk.F
+!||--- called by ------------------------------------------------------
+!||    freform                ../engine/source/input/freform.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                 ../engine/source/output/message/message.F
+!||    arret                  ../engine/source/system/arret.F
+!||    errmsg                 ../engine/source/input/errmsg.F
+!||    ixyz                   ../engine/source/input/ixyz.F
+!||    read10                 ../engine/source/input/read10.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod            ../engine/share/message_module/message_mod.F
+!||    names_and_titles_mod   ../common_source/modules/names_and_titles_mod.F
+!||====================================================================
       SUBROUTINE FRELNK(IKAD,KEY0,KVEL,NRLINK,VEL_SK_FR)
 C-----------------------------------------------
 C   M o d u l e s

@@ -20,18 +20,18 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    s8zlke3    ../engine/source/elements/solid/solide8z/s8zlke3.F
-      !||--- called by ------------------------------------------------------
-      !||    s8cke3     ../engine/source/elements/thickshell/solide8c/s8cke3.F
-      !||    s8zke3     ../engine/source/elements/solid/solide8z/s8zke3.F
-      !||--- calls      -----------------------------------------------------
-      !||    s8zkeb3    ../engine/source/elements/solid/solide8z/s8zkeb3.F
-      !||    s8zkebg3   ../engine/source/elements/solid/solide8z/s8zkebg3.F
-      !||    s8zked3    ../engine/source/elements/solid/solide8z/s8zked3.F
-      !||    s8zkeg3    ../engine/source/elements/solid/solide8z/s8zkeg3.F
-      !||    s8zkeg33   ../engine/source/elements/solid/solide8z/s8zkeg33.F
-      !||====================================================================
+!||====================================================================
+!||    s8zlke3    ../engine/source/elements/solid/solide8z/s8zlke3.F
+!||--- called by ------------------------------------------------------
+!||    s8cke3     ../engine/source/elements/thickshell/solide8c/s8cke3.F
+!||    s8zke3     ../engine/source/elements/solid/solide8z/s8zke3.F
+!||--- calls      -----------------------------------------------------
+!||    s8zkeb3    ../engine/source/elements/solid/solide8z/s8zkeb3.F
+!||    s8zkebg3   ../engine/source/elements/solid/solide8z/s8zkebg3.F
+!||    s8zked3    ../engine/source/elements/solid/solide8z/s8zked3.F
+!||    s8zkeg3    ../engine/source/elements/solid/solide8z/s8zkeg3.F
+!||    s8zkeg33   ../engine/source/elements/solid/solide8z/s8zkeg33.F
+!||====================================================================
       SUBROUTINE S8ZLKE3(
      1   PX1,     PX2,     PX3,     PX4,
      2   PY1,     PY2,     PY3,     PY4,

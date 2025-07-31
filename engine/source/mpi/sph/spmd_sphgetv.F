@@ -20,17 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    spmd_sphgetv          ../engine/source/mpi/sph/spmd_sphgetv.F
-      !||--- called by ------------------------------------------------------
-      !||    sphprep               ../engine/source/elements/sph/sphprep.F
-      !||--- calls      -----------------------------------------------------
-      !||    spmd_ialltoallv       ../engine/source/mpi/generic/spmd_ialltoallv.F
-      !||    spmd_ialltoallv_int   ../engine/source/mpi/generic/spmd_ialltoallv_int.F
-      !||--- uses       -----------------------------------------------------
-      !||    sphbox                ../engine/share/modules/sphbox.F
-      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
-      !||====================================================================
+!||====================================================================
+!||    spmd_sphgetv          ../engine/source/mpi/sph/spmd_sphgetv.F
+!||--- called by ------------------------------------------------------
+!||    sphprep               ../engine/source/elements/sph/sphprep.F
+!||--- calls      -----------------------------------------------------
+!||    spmd_ialltoallv       ../engine/source/mpi/generic/spmd_ialltoallv.F
+!||    spmd_ialltoallv_int   ../engine/source/mpi/generic/spmd_ialltoallv_int.F
+!||--- uses       -----------------------------------------------------
+!||    sphbox                ../engine/share/modules/sphbox.F
+!||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
+!||====================================================================
       SUBROUTINE SPMD_SPHGETV(KXSP ,SPBUF, V, MS, ISORTSP, IPARTSP)
 C-----------------------------------------------
 C   M o d u l e s

@@ -21,13 +21,13 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
-      !||====================================================================
-      !||    c_rbyk    ../starter/source/restart/ddsplit/c_rbyk.F
-      !||--- called by ------------------------------------------------------
-      !||    ddsplit   ../starter/source/restart/ddsplit/ddsplit.F
-      !||--- calls      -----------------------------------------------------
-      !||    nlocal    ../starter/source/spmd/node/ddtools.F
-      !||====================================================================
+!||====================================================================
+!||    c_rbyk    ../starter/source/restart/ddsplit/c_rbyk.F
+!||--- called by ------------------------------------------------------
+!||    ddsplit   ../starter/source/restart/ddsplit/ddsplit.F
+!||--- calls      -----------------------------------------------------
+!||    nlocal    ../starter/source/spmd/node/ddtools.F
+!||====================================================================
       SUBROUTINE C_RBYK(NPBY,LPBY,PROC,NSLARB_L,NSKYRBK_L)
 C-----------------------------------------------
 C   M o d u l e s

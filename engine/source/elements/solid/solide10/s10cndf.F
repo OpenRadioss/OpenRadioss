@@ -20,17 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    s10cndf1               ../engine/source/elements/solid/solide10/s10cndf.F
-      !||--- called by ------------------------------------------------------
-      !||    resol                  ../engine/source/engine/resol.F
-      !||--- calls      -----------------------------------------------------
-      !||    my_barrier             ../engine/source/system/machine.F
-      !||    spmd_exch_a_scnd       ../engine/source/mpi/elements/spmd_exch_a_scnd.F
-      !||    spmd_exch_a_scnd_pon   ../engine/source/mpi/elements/spmd_exch_a_scnd_pon.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod            ../engine/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    s10cndf1               ../engine/source/elements/solid/solide10/s10cndf.F
+!||--- called by ------------------------------------------------------
+!||    resol                  ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
+!||    my_barrier             ../engine/source/system/machine.F
+!||    spmd_exch_a_scnd       ../engine/source/mpi/elements/spmd_exch_a_scnd.F
+!||    spmd_exch_a_scnd_pon   ../engine/source/mpi/elements/spmd_exch_a_scnd_pon.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod            ../engine/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE S10CNDF1(ICNDS10,WEIGHT ,IAD_CNDM,FR_CNDM,FR_NBCCCND,
      1                   ADDCNCND,PROCNCND,A    ,IADCND,FSKYCND,
      2                   ITAGND  , NODFTSK,NODLTSK,EFTSK ,ELTSK ,
@@ -209,17 +209,17 @@ C
 C----6---------------------------------------------------------------7---------8
       RETURN
       END
-      !||====================================================================
-      !||    s10cndf2               ../engine/source/elements/solid/solide10/s10cndf.F
-      !||--- called by ------------------------------------------------------
-      !||    resol                  ../engine/source/engine/resol.F
-      !||--- calls      -----------------------------------------------------
-      !||    my_barrier             ../engine/source/system/machine.F
-      !||    spmd_exch_a_scnd       ../engine/source/mpi/elements/spmd_exch_a_scnd.F
-      !||    spmd_exch_a_scnd_pon   ../engine/source/mpi/elements/spmd_exch_a_scnd_pon.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod            ../engine/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    s10cndf2               ../engine/source/elements/solid/solide10/s10cndf.F
+!||--- called by ------------------------------------------------------
+!||    resol                  ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
+!||    my_barrier             ../engine/source/system/machine.F
+!||    spmd_exch_a_scnd       ../engine/source/mpi/elements/spmd_exch_a_scnd.F
+!||    spmd_exch_a_scnd_pon   ../engine/source/mpi/elements/spmd_exch_a_scnd_pon.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod            ../engine/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE S10CNDF2(ICNDS10,WEIGHT ,IAD_CNDM,FR_CNDM,FR_NBCCCND,
      1                   ADDCNCND,PROCNCND,A    ,IADCND,FSKYCND,
      2                   ITAGND  , NODFTSK,NODLTSK,EFTSK ,ELTSK ,
@@ -388,11 +388,11 @@ C
 C----6---------------------------------------------------------------7---------8
       RETURN
       END
-      !||====================================================================
-      !||    s10cnd_ini   ../engine/source/elements/solid/solide10/s10cndf.F
-      !||--- called by ------------------------------------------------------
-      !||    resol_init   ../engine/source/engine/resol_init.F
-      !||====================================================================
+!||====================================================================
+!||    s10cnd_ini   ../engine/source/elements/solid/solide10/s10cndf.F
+!||--- called by ------------------------------------------------------
+!||    resol_init   ../engine/source/engine/resol_init.F
+!||====================================================================
       SUBROUTINE S10CND_INI(ICNDS10,ITAGND,IAD_CNDM,FR_CNDM,FR_NBCCCND,
      1                      ADDCNCND,PROCNCND,VND  ,V   ,ITAB    ,
      2                      IAD_CNDM1,FR_CNDM1,FR_NBCCCND1)
@@ -499,15 +499,15 @@ C
 C
       RETURN
       END
-      !||====================================================================
-      !||    s10cndi2_ini         ../engine/source/elements/solid/solide10/s10cndf.F
-      !||--- called by ------------------------------------------------------
-      !||    resol_init           ../engine/source/engine/resol_init.F
-      !||--- calls      -----------------------------------------------------
-      !||    spmd_exch_tag_scnd   ../engine/source/mpi/elements/spmd_exch_tag_scnd.F
-      !||--- uses       -----------------------------------------------------
-      !||    intbufdef_mod        ../common_source/modules/interfaces/intbufdef_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    s10cndi2_ini         ../engine/source/elements/solid/solide10/s10cndf.F
+!||--- called by ------------------------------------------------------
+!||    resol_init           ../engine/source/engine/resol_init.F
+!||--- calls      -----------------------------------------------------
+!||    spmd_exch_tag_scnd   ../engine/source/mpi/elements/spmd_exch_tag_scnd.F
+!||--- uses       -----------------------------------------------------
+!||    intbufdef_mod        ../common_source/modules/interfaces/intbufdef_mod.F90
+!||====================================================================
       SUBROUTINE S10CNDI2_INI(IPARI,INTBUF_TAB,ICNDS10,ITAGND,WEIGHT,
      1                        FR_CNDS,IAD_CNDS,itab  )
 C-----------------------------------------------
@@ -616,12 +616,12 @@ C------Change FR_CNDS(J) from Nd to id of ICNDS10 for STIFND
 C
       RETURN
       END
-      !||====================================================================
-      !||    s10cndamp              ../engine/source/elements/solid/solide10/s10cndf.F
-      !||--- calls      -----------------------------------------------------
-      !||    spmd_exch_a_scnd       ../engine/source/mpi/elements/spmd_exch_a_scnd.F
-      !||    spmd_exch_a_scnd_pon   ../engine/source/mpi/elements/spmd_exch_a_scnd_pon.F
-      !||====================================================================
+!||====================================================================
+!||    s10cndamp              ../engine/source/elements/solid/solide10/s10cndf.F
+!||--- calls      -----------------------------------------------------
+!||    spmd_exch_a_scnd       ../engine/source/mpi/elements/spmd_exch_a_scnd.F
+!||    spmd_exch_a_scnd_pon   ../engine/source/mpi/elements/spmd_exch_a_scnd_pon.F
+!||====================================================================
       SUBROUTINE S10CNDAMP(ICNDS10,MS   ,A   ,V    ,VD    ,
      1                     IADCND ,ADDCNCND,FSKYCND,WEIGHT ,IAD_CNDM,
      2                     FR_CNDM,FR_NBCCCND,PROCNCND)
@@ -755,13 +755,13 @@ C
 C----6---------------------------------------------------------------7---------8
       RETURN
       END
-      !||====================================================================
-      !||    s10cndfnd    ../engine/source/elements/solid/solide10/s10cndf.F
-      !||--- called by ------------------------------------------------------
-      !||    resol        ../engine/source/engine/resol.F
-      !||--- calls      -----------------------------------------------------
-      !||    my_barrier   ../engine/source/system/machine.F
-      !||====================================================================
+!||====================================================================
+!||    s10cndfnd    ../engine/source/elements/solid/solide10/s10cndf.F
+!||--- called by ------------------------------------------------------
+!||    resol        ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
+!||    my_barrier   ../engine/source/system/machine.F
+!||====================================================================
       SUBROUTINE S10CNDFND(ICNDS10,WEIGHT ,IAD_CNDS,FR_CNDS,ITAB   ,
      2                     NODFTSK,NODLTSK,EFTSK ,ELTSK ,ITSK   ,
      3                     STIFN ,STIFND)
@@ -810,11 +810,11 @@ c        END IF
 C----6---------------------------------------------------------------7---------8
       RETURN
       END
-      !||====================================================================
-      !||    s10cnds_dim   ../engine/source/elements/solid/solide10/s10cndf.F
-      !||--- called by ------------------------------------------------------
-      !||    resol_init    ../engine/source/engine/resol_init.F
-      !||====================================================================
+!||====================================================================
+!||    s10cnds_dim   ../engine/source/elements/solid/solide10/s10cndf.F
+!||--- called by ------------------------------------------------------
+!||    resol_init    ../engine/source/engine/resol_init.F
+!||====================================================================
       SUBROUTINE S10CNDS_DIM(ICNDS10,ITAGS,FR_ELEM,IAD_ELEM,NBDDS  )
 C-----------------------------------------------
 C   M o d u l e s
@@ -852,11 +852,11 @@ C--------
 C
       RETURN
       END
-      !||====================================================================
-      !||    s10cnds_ini   ../engine/source/elements/solid/solide10/s10cndf.F
-      !||--- called by ------------------------------------------------------
-      !||    resol_init    ../engine/source/engine/resol_init.F
-      !||====================================================================
+!||====================================================================
+!||    s10cnds_ini   ../engine/source/elements/solid/solide10/s10cndf.F
+!||--- called by ------------------------------------------------------
+!||    resol_init    ../engine/source/engine/resol_init.F
+!||====================================================================
       SUBROUTINE S10CNDS_INI(ICNDS10,ITAGS,FR_ELEM,IAD_ELEM,IAD_CDNS,FR_CDNS)
 C-----------------------------------------------
 C   M o d u l e s
@@ -898,9 +898,9 @@ c           FR_CDNS(NB) = ITAGS(N)
 C
       RETURN
       END
-      !||====================================================================
-      !||    s10print   ../engine/source/elements/solid/solide10/s10cndf.F
-      !||====================================================================
+!||====================================================================
+!||    s10print   ../engine/source/elements/solid/solide10/s10cndf.F
+!||====================================================================
       SUBROUTINE S10print(ICNDS10,A   ,V, ITAB    )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -936,15 +936,15 @@ C     REAL
 C----6---------------------------------------------------------------7---------8
       RETURN
       END
-      !||====================================================================
-      !||    cndmasi2_dim         ../engine/source/elements/solid/solide10/s10cndf.F
-      !||--- called by ------------------------------------------------------
-      !||    resol_init           ../engine/source/engine/resol_init.F
-      !||--- calls      -----------------------------------------------------
-      !||    spmd_exch_tag_scnd   ../engine/source/mpi/elements/spmd_exch_tag_scnd.F
-      !||--- uses       -----------------------------------------------------
-      !||    intbufdef_mod        ../common_source/modules/interfaces/intbufdef_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    cndmasi2_dim         ../engine/source/elements/solid/solide10/s10cndf.F
+!||--- called by ------------------------------------------------------
+!||    resol_init           ../engine/source/engine/resol_init.F
+!||--- calls      -----------------------------------------------------
+!||    spmd_exch_tag_scnd   ../engine/source/mpi/elements/spmd_exch_tag_scnd.F
+!||--- uses       -----------------------------------------------------
+!||    intbufdef_mod        ../common_source/modules/interfaces/intbufdef_mod.F90
+!||====================================================================
       SUBROUTINE CNDMASI2_DIM(IPARI,INTBUF_TAB,ICNDS10,ITAGND,WEIGHT,NKEND,
      1                        IAD_CNDS,FR_CNDS,S_FR ,NSPMD)
 C-----------------------------------------------
@@ -1037,13 +1037,13 @@ C=======================================================================
 C
       RETURN
       END
-      !||====================================================================
-      !||    cndmasi2_ini    ../engine/source/elements/solid/solide10/s10cndf.F
-      !||--- called by ------------------------------------------------------
-      !||    resol_init      ../engine/source/engine/resol_init.F
-      !||--- uses       -----------------------------------------------------
-      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    cndmasi2_ini    ../engine/source/elements/solid/solide10/s10cndf.F
+!||--- called by ------------------------------------------------------
+!||    resol_init      ../engine/source/engine/resol_init.F
+!||--- uses       -----------------------------------------------------
+!||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
+!||====================================================================
       SUBROUTINE CNDMASI2_INI(IPARI,INTBUF_TAB,ICNDS10,ITAGND,
      .                        NKEND,IMAP2ND,MASI2ND0,MS ,WEIGHT,itab )
 C-----------------------------------------------
@@ -1087,11 +1087,11 @@ C-----MASI2ND0 will be modified (as added mass) after DTNODA
 !
       RETURN
       END
-      !||====================================================================
-      !||    cnd_dmasi2   ../engine/source/elements/solid/solide10/s10cndf.F
-      !||--- called by ------------------------------------------------------
-      !||    resol        ../engine/source/engine/resol.F
-      !||====================================================================
+!||====================================================================
+!||    cnd_dmasi2   ../engine/source/elements/solid/solide10/s10cndf.F
+!||--- called by ------------------------------------------------------
+!||    resol        ../engine/source/engine/resol.F
+!||====================================================================
       SUBROUTINE CND_DMASI2(ICNDS10,NKEND,IMAP2ND,MASI2ND0,MS  ,WEIGHT)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -1158,11 +1158,11 @@ C---due to the part w/ weight(ns)=0; DMSI2 in itet2_c.inc for restart
 C
       RETURN
       END
-      !||====================================================================
-      !||    cndmasi2      ../engine/source/elements/solid/solide10/s10cndf.F
-      !||--- called by ------------------------------------------------------
-      !||    sortie_main   ../engine/source/output/sortie_main.F
-      !||====================================================================
+!||====================================================================
+!||    cndmasi2      ../engine/source/elements/solid/solide10/s10cndf.F
+!||--- called by ------------------------------------------------------
+!||    sortie_main   ../engine/source/output/sortie_main.F
+!||====================================================================
       SUBROUTINE CNDMASI2(ICNDS10,NKEND,IMAP2ND,MASI2ND0,MS ,V  ,A   ,
      .                    WEIGHT ,MAS_ND ,KEND)
 C-----------------------------------------------
@@ -1212,14 +1212,14 @@ C
 C
       RETURN
       END
-      !||====================================================================
-      !||    s10cnidamp             ../engine/source/elements/solid/solide10/s10cndf.F
-      !||--- calls      -----------------------------------------------------
-      !||    spmd_exch_a_scnd       ../engine/source/mpi/elements/spmd_exch_a_scnd.F
-      !||    spmd_exch_a_scnd_pon   ../engine/source/mpi/elements/spmd_exch_a_scnd_pon.F
-      !||--- uses       -----------------------------------------------------
-      !||    groupdef_mod           ../common_source/modules/groupdef_mod.F
-      !||====================================================================
+!||====================================================================
+!||    s10cnidamp             ../engine/source/elements/solid/solide10/s10cndf.F
+!||--- calls      -----------------------------------------------------
+!||    spmd_exch_a_scnd       ../engine/source/mpi/elements/spmd_exch_a_scnd.F
+!||    spmd_exch_a_scnd_pon   ../engine/source/mpi/elements/spmd_exch_a_scnd_pon.F
+!||--- uses       -----------------------------------------------------
+!||    groupdef_mod           ../common_source/modules/groupdef_mod.F
+!||====================================================================
       SUBROUTINE S10CNIDAMP(ICNDS10,MS   ,A   ,V    ,VD    ,
      1                      IADCND ,ADDCNCND,FSKYCND,SKEW  ,DAMPR  ,
      3                      DAMP   ,IGRNOD  ,DIM   ,WEIGHT ,IAD_CNDM,
@@ -1550,15 +1550,15 @@ C
 C----6---------------------------------------------------------------7---------8
       RETURN
       END
-      !||====================================================================
-      !||    s10cnistat             ../engine/source/elements/solid/solide10/s10cndf.F
-      !||--- calls      -----------------------------------------------------
-      !||    ngr2usr                ../engine/source/input/freform.F
-      !||    spmd_exch_a_scnd       ../engine/source/mpi/elements/spmd_exch_a_scnd.F
-      !||    spmd_exch_a_scnd_pon   ../engine/source/mpi/elements/spmd_exch_a_scnd_pon.F
-      !||--- uses       -----------------------------------------------------
-      !||    groupdef_mod           ../common_source/modules/groupdef_mod.F
-      !||====================================================================
+!||====================================================================
+!||    s10cnistat             ../engine/source/elements/solid/solide10/s10cndf.F
+!||--- calls      -----------------------------------------------------
+!||    ngr2usr                ../engine/source/input/freform.F
+!||    spmd_exch_a_scnd       ../engine/source/mpi/elements/spmd_exch_a_scnd.F
+!||    spmd_exch_a_scnd_pon   ../engine/source/mpi/elements/spmd_exch_a_scnd_pon.F
+!||--- uses       -----------------------------------------------------
+!||    groupdef_mod           ../common_source/modules/groupdef_mod.F
+!||====================================================================
       SUBROUTINE S10CNISTAT(ICNDS10,MS   ,A   ,V    ,VD    ,
      1                      IADCND ,ADDCNCND,FSKYCND,IGRNOD ,WEIGHT ,
      2                      IAD_CNDM,FR_CNDM,FR_NBCCCND,PROCNCND)
@@ -1756,14 +1756,14 @@ C
 C----6---------------------------------------------------------------7---------8
       RETURN
       END
-      !||====================================================================
-      !||    s10stfe_poff          ../engine/source/elements/solid/solide10/s10cndf.F
-      !||--- called by ------------------------------------------------------
-      !||    resol                 ../engine/source/engine/resol.F
-      !||--- calls      -----------------------------------------------------
-      !||    my_barrier            ../engine/source/system/machine.F
-      !||    spmd_exch_stif_scnd   ../engine/source/mpi/elements/spmd_exch_stif_scnd.F
-      !||====================================================================
+!||====================================================================
+!||    s10stfe_poff          ../engine/source/elements/solid/solide10/s10cndf.F
+!||--- called by ------------------------------------------------------
+!||    resol                 ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
+!||    my_barrier            ../engine/source/system/machine.F
+!||    spmd_exch_stif_scnd   ../engine/source/mpi/elements/spmd_exch_stif_scnd.F
+!||====================================================================
       SUBROUTINE S10STFE_POFF(ICNDS10,WEIGHT ,IAD_CNDS,FR_CNDS,ITAB   ,
      2                     NODFTSK,NODLTSK,EFTSK ,ELTSK ,ITSK   ,
      3                     STIFN ,STIFND)

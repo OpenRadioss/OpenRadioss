@@ -20,15 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    deplafakeige    ../engine/source/assembly/deplafakeige.F
-      !||--- called by ------------------------------------------------------
-      !||    resol           ../engine/source/engine/resol.F
-      !||--- calls      -----------------------------------------------------
-      !||    ig3donebasis    ../engine/source/elements/ige3d/ig3donebasis.F
-      !||--- uses       -----------------------------------------------------
-      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    deplafakeige    ../engine/source/assembly/deplafakeige.F
+!||--- called by ------------------------------------------------------
+!||    resol           ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
+!||    ig3donebasis    ../engine/source/elements/ige3d/ig3donebasis.F
+!||--- uses       -----------------------------------------------------
+!||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
+!||====================================================================
       SUBROUTINE DEPLAFAKEIGE(X     ,V    ,INTBUF_TAB,KXIG3D, 
      .                        IXIG3D,IGEO ,KNOT      ,WIGE  ,
      .                        KNOTLOCPC,KNOTLOCEL  )

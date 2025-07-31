@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    spmd_coarse_cell_exchange   ../engine/source/mpi/interfaces/spmd_coarse_cell_exchange.F
-      !||--- calls      -----------------------------------------------------
-      !||    check_coarse_grid           ../engine/source/interfaces/generic/check_coarse_grid.F
-      !||    spmd_ialltoallv_int         ../engine/source/mpi/generic/spmd_ialltoallv_int.F
-      !||--- uses       -----------------------------------------------------
-      !||    inter_sorting_mod           ../engine/share/modules/inter_sorting_mod.F
-      !||====================================================================
+!||====================================================================
+!||    spmd_coarse_cell_exchange   ../engine/source/mpi/interfaces/spmd_coarse_cell_exchange.F
+!||--- calls      -----------------------------------------------------
+!||    check_coarse_grid           ../engine/source/interfaces/generic/check_coarse_grid.F
+!||    spmd_ialltoallv_int         ../engine/source/mpi/generic/spmd_ialltoallv_int.F
+!||--- uses       -----------------------------------------------------
+!||    inter_sorting_mod           ../engine/share/modules/inter_sorting_mod.F
+!||====================================================================
         SUBROUTINE SPMD_COARSE_CELL_EXCHANGE(NB_INTER_SORTED,LIST_INTER_SORTED,IRECVFROM,ISENDTO,MODE,
      .              IPARI,SORT_COMM,NB_REQUEST_COARSE_CELL,ARRAY_REQUEST_COARSE_CELL,LIST_INTER_COARSE_CELL)
 !$COMMENT

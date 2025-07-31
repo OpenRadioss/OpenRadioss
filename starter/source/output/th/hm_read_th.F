@@ -20,11 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    hm_read_th    ../starter/source/output/th/hm_read_th.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod   ../starter/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    hm_read_th    ../starter/source/output/th/hm_read_th.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod   ../starter/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE HM_READ_TH()
 C-----------------------------------------------
 C   M o d u l e s

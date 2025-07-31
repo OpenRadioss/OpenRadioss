@@ -20,15 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    sphtri    ../engine/source/elements/sph/sphtri.F
-      !||--- called by ------------------------------------------------------
-      !||    sphprep   ../engine/source/elements/sph/sphprep.F
-      !||--- calls      -----------------------------------------------------
-      !||    spbuc3    ../engine/source/elements/sph/spbuc3.F
-      !||--- uses       -----------------------------------------------------
-      !||    sphbox    ../engine/share/modules/sphbox.F
-      !||====================================================================
+!||====================================================================
+!||    sphtri    ../engine/source/elements/sph/sphtri.F
+!||--- called by ------------------------------------------------------
+!||    sphprep   ../engine/source/elements/sph/sphprep.F
+!||--- calls      -----------------------------------------------------
+!||    spbuc3    ../engine/source/elements/sph/spbuc3.F
+!||--- uses       -----------------------------------------------------
+!||    sphbox    ../engine/share/modules/sphbox.F
+!||====================================================================
       SUBROUTINE SPHTRI(X       ,SPBUF   ,KXSP  ,IXSP  ,NOD2SP,
      2                  IREDUCE ,WSP2SORT,BMINMA,NSP2SORTF,NSP2SORTL,
      3                  ITASK   ,KREDUCE ,LGAUGE  ,GAUGE   )

@@ -21,16 +21,16 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C I17MAIN_LAG split in 3 routines for SPMD reorganization
-      !||====================================================================
-      !||    i17main_crit_tri   ../engine/source/interfaces/int17/i17main_pena.F
-      !||--- called by ------------------------------------------------------
-      !||    inttri             ../engine/source/interfaces/intsort/inttri.F
-      !||--- calls      -----------------------------------------------------
-      !||    i17crit            ../engine/source/interfaces/int17/i17crit.F
-      !||--- uses       -----------------------------------------------------
-      !||    groupdef_mod       ../common_source/modules/groupdef_mod.F
-      !||    intbufdef_mod      ../common_source/modules/interfaces/intbufdef_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    i17main_crit_tri   ../engine/source/interfaces/int17/i17main_pena.F
+!||--- called by ------------------------------------------------------
+!||    inttri             ../engine/source/interfaces/intsort/inttri.F
+!||--- calls      -----------------------------------------------------
+!||    i17crit            ../engine/source/interfaces/int17/i17crit.F
+!||--- uses       -----------------------------------------------------
+!||    groupdef_mod       ../common_source/modules/groupdef_mod.F
+!||    intbufdef_mod      ../common_source/modules/interfaces/intbufdef_mod.F90
+!||====================================================================
       SUBROUTINE I17MAIN_CRIT_TRI(
      1          IPARI  ,INTBUF_TAB ,X       ,NIN    ,
      2          ITASK  ,IGRBRIC    ,EMINX   ,NME    ,
@@ -129,27 +129,27 @@ C
       RETURN
       END
 C
-      !||====================================================================
-      !||    i17main_tri     ../engine/source/interfaces/int17/i17main_pena.F
-      !||--- called by ------------------------------------------------------
-      !||    inttri          ../engine/source/interfaces/intsort/inttri.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg          ../engine/source/output/message/message.F
-      !||    arret           ../engine/source/system/arret.F
-      !||    i17buce_pena    ../engine/source/interfaces/int17/i17buce.F
-      !||    i17frot         ../engine/source/interfaces/int17/i17main_pena.F
-      !||    i17xsave        ../engine/source/interfaces/int17/i17xsave.F
-      !||    my_barrier      ../engine/source/system/machine.F
-      !||    spmd_tri17box   ../engine/source/mpi/interfaces/spmd_tri17box.F
-      !||    spmd_tri17gat   ../engine/source/mpi/interfaces/spmd_i7crit.F
-      !||    startime        ../engine/source/system/timer_mod.F90
-      !||    stoptime        ../engine/source/system/timer_mod.F90
-      !||--- uses       -----------------------------------------------------
-      !||    groupdef_mod    ../common_source/modules/groupdef_mod.F
-      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
-      !||    message_mod     ../engine/share/message_module/message_mod.F
-      !||    timer_mod       ../engine/source/system/timer_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    i17main_tri     ../engine/source/interfaces/int17/i17main_pena.F
+!||--- called by ------------------------------------------------------
+!||    inttri          ../engine/source/interfaces/intsort/inttri.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg          ../engine/source/output/message/message.F
+!||    arret           ../engine/source/system/arret.F
+!||    i17buce_pena    ../engine/source/interfaces/int17/i17buce.F
+!||    i17frot         ../engine/source/interfaces/int17/i17main_pena.F
+!||    i17xsave        ../engine/source/interfaces/int17/i17xsave.F
+!||    my_barrier      ../engine/source/system/machine.F
+!||    spmd_tri17box   ../engine/source/mpi/interfaces/spmd_tri17box.F
+!||    spmd_tri17gat   ../engine/source/mpi/interfaces/spmd_i7crit.F
+!||    startime        ../engine/source/system/timer_mod.F90
+!||    stoptime        ../engine/source/system/timer_mod.F90
+!||--- uses       -----------------------------------------------------
+!||    groupdef_mod    ../common_source/modules/groupdef_mod.F
+!||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
+!||    message_mod     ../engine/share/message_module/message_mod.F
+!||    timer_mod       ../engine/source/system/timer_mod.F90
+!||====================================================================
       SUBROUTINE I17MAIN_TRI(TIMERS,
      1          IPARI  ,INTBUF_TAB ,X       ,NIN     ,
      2          ITASK  ,IGRBRIC    ,NME     ,NMES    ,
@@ -353,18 +353,18 @@ C
       RETURN
       END
 C
-      !||====================================================================
-      !||    i17main_pena    ../engine/source/interfaces/int17/i17main_pena.F
-      !||--- called by ------------------------------------------------------
-      !||    i7mainf         ../engine/source/interfaces/int07/i7mainf.F
-      !||--- calls      -----------------------------------------------------
-      !||    i17for3         ../engine/source/interfaces/int17/i17for3.F
-      !||    my_barrier      ../engine/source/system/machine.F
-      !||--- uses       -----------------------------------------------------
-      !||    groupdef_mod    ../common_source/modules/groupdef_mod.F
-      !||    h3d_mod         ../engine/share/modules/h3d_mod.F
-      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    i17main_pena    ../engine/source/interfaces/int17/i17main_pena.F
+!||--- called by ------------------------------------------------------
+!||    i7mainf         ../engine/source/interfaces/int07/i7mainf.F
+!||--- calls      -----------------------------------------------------
+!||    i17for3         ../engine/source/interfaces/int17/i17for3.F
+!||    my_barrier      ../engine/source/system/machine.F
+!||--- uses       -----------------------------------------------------
+!||    groupdef_mod    ../common_source/modules/groupdef_mod.F
+!||    h3d_mod         ../engine/share/modules/h3d_mod.F
+!||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
+!||====================================================================
       SUBROUTINE I17MAIN_PENA(
      1          NIN    ,IPARI  ,INTBUF_TAB    ,X      ,V      ,
      2          A      ,ITASK  ,IGRBRIC ,EMINX  ,MS     ,
@@ -470,11 +470,11 @@ C -------------------------------------------------------------
       RETURN
       END
 C
-      !||====================================================================
-      !||    i17frot       ../engine/source/interfaces/int17/i17main_pena.F
-      !||--- called by ------------------------------------------------------
-      !||    i17main_tri   ../engine/source/interfaces/int17/i17main_pena.F
-      !||====================================================================
+!||====================================================================
+!||    i17frot       ../engine/source/interfaces/int17/i17main_pena.F
+!||--- called by ------------------------------------------------------
+!||    i17main_tri   ../engine/source/interfaces/int17/i17main_pena.F
+!||====================================================================
       SUBROUTINE I17FROT(ITASK,FROTM,FROTS,NME,NSE)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

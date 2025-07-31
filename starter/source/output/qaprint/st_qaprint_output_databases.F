@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    st_qaprint_output_databases   ../starter/source/output/qaprint/st_qaprint_output_databases.F
-      !||--- called by ------------------------------------------------------
-      !||    st_qaprint_driver             ../starter/source/output/qaprint/st_qaprint_driver.F
-      !||--- calls      -----------------------------------------------------
-      !||    fretitl2                      ../starter/source/starter/freform.F
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    st_qaprint_output_databases   ../starter/source/output/qaprint/st_qaprint_output_databases.F
+!||--- called by ------------------------------------------------------
+!||    st_qaprint_driver             ../starter/source/output/qaprint/st_qaprint_driver.F
+!||--- calls      -----------------------------------------------------
+!||    fretitl2                      ../starter/source/starter/freform.F
+!||--- uses       -----------------------------------------------------
+!||====================================================================
       SUBROUTINE ST_QAPRINT_OUTPUT_DATABASES(NOM_OPT, INOM_OPT, LACCELM, ACCELM,LGAUGE,GAUGE)
 C============================================================================
 C   M o d u l e s

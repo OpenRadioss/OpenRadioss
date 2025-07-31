@@ -20,11 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    chkslv3     ../engine/source/interfaces/interf/chkstfn3.F
-      !||--- called by ------------------------------------------------------
-      !||    chkstfn3n   ../engine/source/interfaces/interf/chkstfn3.F
-      !||====================================================================
+!||====================================================================
+!||    chkslv3     ../engine/source/interfaces/interf/chkstfn3.F
+!||--- called by ------------------------------------------------------
+!||    chkstfn3n   ../engine/source/interfaces/interf/chkstfn3.F
+!||====================================================================
       SUBROUTINE CHKSLV3(
      .  NSN     ,NSV,STFN,ITAG,ITASK,
      .  NEWFRONT)
@@ -64,11 +64,11 @@ C
       RETURN
       END
 C
-      !||====================================================================
-      !||    chkslv3_t24   ../engine/source/interfaces/interf/chkstfn3.F
-      !||--- called by ------------------------------------------------------
-      !||    chkstfn3n     ../engine/source/interfaces/interf/chkstfn3.F
-      !||====================================================================
+!||====================================================================
+!||    chkslv3_t24   ../engine/source/interfaces/interf/chkstfn3.F
+!||--- called by ------------------------------------------------------
+!||    chkstfn3n     ../engine/source/interfaces/interf/chkstfn3.F
+!||====================================================================
       SUBROUTINE CHKSLV3_T24(
      .  NSN     ,NSV,   STFN,    ITAG, ITASK,
      .  IS2SE   ,IRTSE, NEWFRONT )
@@ -118,11 +118,11 @@ C si tag nul sur noeuds secnds alors stifn = 0.
 C
       RETURN
       END
-      !||====================================================================
-      !||    chkslv3b    ../engine/source/interfaces/interf/chkstfn3.F
-      !||--- called by ------------------------------------------------------
-      !||    chkstfn3n   ../engine/source/interfaces/interf/chkstfn3.F
-      !||====================================================================
+!||====================================================================
+!||    chkslv3b    ../engine/source/interfaces/interf/chkstfn3.F
+!||--- called by ------------------------------------------------------
+!||    chkstfn3n   ../engine/source/interfaces/interf/chkstfn3.F
+!||====================================================================
       SUBROUTINE CHKSLV3B(NSN,NSV,STFN,ITAG,ITASK)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -158,11 +158,11 @@ C
       RETURN
       END
 C
-      !||====================================================================
-      !||    chkslv3c    ../engine/source/interfaces/interf/chkstfn3.F
-      !||--- called by ------------------------------------------------------
-      !||    chkstfn3n   ../engine/source/interfaces/interf/chkstfn3.F
-      !||====================================================================
+!||====================================================================
+!||    chkslv3c    ../engine/source/interfaces/interf/chkstfn3.F
+!||--- called by ------------------------------------------------------
+!||    chkstfn3n   ../engine/source/interfaces/interf/chkstfn3.F
+!||====================================================================
       SUBROUTINE CHKSLV3C(
      .  NSN     ,NSV,STFA,ITAG,ITASK,
      .  NEWFRONT,NLG)
@@ -202,11 +202,11 @@ C
       RETURN
       END
 C
-      !||====================================================================
-      !||    chkipari   ../engine/source/interfaces/interf/chkstfn3.F
-      !||--- called by ------------------------------------------------------
-      !||    lectur     ../engine/source/input/lectur.F
-      !||====================================================================
+!||====================================================================
+!||    chkipari   ../engine/source/interfaces/interf/chkstfn3.F
+!||--- called by ------------------------------------------------------
+!||    lectur     ../engine/source/input/lectur.F
+!||====================================================================
       SUBROUTINE CHKIPARI(IPARI)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -250,11 +250,11 @@ C
       RETURN
       END
 C
-      !||====================================================================
-      !||    chkinit      ../engine/source/interfaces/interf/chkstfn3.F
-      !||--- called by ------------------------------------------------------
-      !||    resol_init   ../engine/source/engine/resol_init.F
-      !||====================================================================
+!||====================================================================
+!||    chkinit      ../engine/source/interfaces/interf/chkstfn3.F
+!||--- called by ------------------------------------------------------
+!||    resol_init   ../engine/source/engine/resol_init.F
+!||====================================================================
       SUBROUTINE CHKINIT(
      2   IXS        ,IXQ        ,IXC        ,IXT      ,IXP      ,
      3   IXR        ,IXTG       ,IXS10    ,IXS20    ,
@@ -535,32 +535,32 @@ C
 C
       RETURN
       END
-      !||====================================================================
-      !||    tagoff3n             ../engine/source/interfaces/interf/chkstfn3.F
-      !||--- called by ------------------------------------------------------
-      !||    resol                ../engine/source/engine/resol.F
-      !||--- calls      -----------------------------------------------------
-      !||    exch_tagel_c         ../engine/source/coupling/rad2rad/rad2rad_c.c
-      !||    get_ibuf_c           ../engine/source/coupling/rad2rad/rad2rad_c.c
-      !||    get_shmbuf_c         ../engine/source/coupling/rad2rad/rad2rad_c.c
-      !||    my_barrier           ../engine/source/system/machine.F
-      !||    r2r_exch_itag        ../engine/source/coupling/rad2rad/r2r_exchange.F
-      !||    r2r_tagel            ../engine/source/coupling/rad2rad/r2r_exchange.F
-      !||    send_ibuf_c          ../engine/source/coupling/rad2rad/rad2rad_c.c
-      !||    send_shmbuf_c        ../engine/source/coupling/rad2rad/rad2rad_c.c
-      !||    spmd_allglob_isum9   ../engine/source/mpi/generic/spmd_allglob_isum9.F
-      !||    spmd_exch_idel       ../engine/source/mpi/interfaces/spmd_exch_idel.F
-      !||    spmd_exch_r2r_itag   ../engine/source/mpi/r2r/spmd_r2r.F
-      !||    spmd_ibcast          ../engine/source/mpi/generic/spmd_ibcast.F
-      !||    spmd_r2r_tagel       ../engine/source/mpi/r2r/spmd_r2r.F
-      !||--- uses       -----------------------------------------------------
-      !||    elbufdef_mod         ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||    groupdef_mod         ../common_source/modules/groupdef_mod.F
-      !||    nodal_arrays_mod     ../common_source/modules/nodal_arrays.F90
-      !||    rad2r_mod            ../engine/share/modules/rad2r.F
-      !||    remesh_mod           ../engine/share/modules/remesh_mod.F
-      !||    shooting_node_mod    ../engine/share/modules/shooting_node_mod.F
-      !||====================================================================
+!||====================================================================
+!||    tagoff3n             ../engine/source/interfaces/interf/chkstfn3.F
+!||--- called by ------------------------------------------------------
+!||    resol                ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
+!||    exch_tagel_c         ../engine/source/coupling/rad2rad/rad2rad_c.c
+!||    get_ibuf_c           ../engine/source/coupling/rad2rad/rad2rad_c.c
+!||    get_shmbuf_c         ../engine/source/coupling/rad2rad/rad2rad_c.c
+!||    my_barrier           ../engine/source/system/machine.F
+!||    r2r_exch_itag        ../engine/source/coupling/rad2rad/r2r_exchange.F
+!||    r2r_tagel            ../engine/source/coupling/rad2rad/r2r_exchange.F
+!||    send_ibuf_c          ../engine/source/coupling/rad2rad/rad2rad_c.c
+!||    send_shmbuf_c        ../engine/source/coupling/rad2rad/rad2rad_c.c
+!||    spmd_allglob_isum9   ../engine/source/mpi/generic/spmd_allglob_isum9.F
+!||    spmd_exch_idel       ../engine/source/mpi/interfaces/spmd_exch_idel.F
+!||    spmd_exch_r2r_itag   ../engine/source/mpi/r2r/spmd_r2r.F
+!||    spmd_ibcast          ../engine/source/mpi/generic/spmd_ibcast.F
+!||    spmd_r2r_tagel       ../engine/source/mpi/r2r/spmd_r2r.F
+!||--- uses       -----------------------------------------------------
+!||    elbufdef_mod         ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    groupdef_mod         ../common_source/modules/groupdef_mod.F
+!||    nodal_arrays_mod     ../common_source/modules/nodal_arrays.F90
+!||    rad2r_mod            ../engine/share/modules/rad2r.F
+!||    remesh_mod           ../engine/share/modules/remesh_mod.F
+!||    shooting_node_mod    ../engine/share/modules/shooting_node_mod.F
+!||====================================================================
       SUBROUTINE TAGOFF3N(NODES,
      1    GEO     ,IXS   ,IXS10   ,IXS20   ,IXS16  ,IXQ    ,
      2    IXC     ,IXT    ,IXP    ,IXR     ,IXTG   ,
@@ -1234,37 +1234,37 @@ C
       END
 
 
-      !||====================================================================
-      !||    chkstfn3n           ../engine/source/interfaces/interf/chkstfn3.F
-      !||--- called by ------------------------------------------------------
-      !||    resol               ../engine/source/engine/resol.F
-      !||--- calls      -----------------------------------------------------
-      !||    chk11msr3n          ../engine/source/interfaces/interf/chkstfn3.F
-      !||    chk11msr3nb         ../engine/source/interfaces/interf/chkstfn3.F
-      !||    chk20emsr3n         ../engine/source/interfaces/interf/chkstfn3.F
-      !||    chk20emsr3nb        ../engine/source/interfaces/interf/chkstfn3.F
-      !||    chk20msr3n          ../engine/source/interfaces/interf/chkstfn3.F
-      !||    chk20msr3nb         ../engine/source/interfaces/interf/chkstfn3.F
-      !||    chk23msr3n          ../engine/source/interfaces/interf/chkstfn3.F
-      !||    chk23msr3nb         ../engine/source/interfaces/interf/chkstfn3.F
-      !||    chk2msr3n           ../engine/source/interfaces/interf/chkstfn3.F
-      !||    chk2msr3nb          ../engine/source/interfaces/interf/chkstfn3.F
-      !||    chk2msr3np          ../engine/source/interfaces/interf/chkstfn3.F
-      !||    chkmsr3n            ../engine/source/interfaces/interf/chkstfn3.F
-      !||    chkmsr3nb           ../engine/source/interfaces/interf/chkstfn3.F
-      !||    chkslv3             ../engine/source/interfaces/interf/chkstfn3.F
-      !||    chkslv3_t24         ../engine/source/interfaces/interf/chkstfn3.F
-      !||    chkslv3b            ../engine/source/interfaces/interf/chkstfn3.F
-      !||    chkslv3c            ../engine/source/interfaces/interf/chkstfn3.F
-      !||    setmsr2             ../engine/source/interfaces/interf/chkstfn3.F
-      !||    setmsr3             ../engine/source/interfaces/interf/chkstfn3.F
-      !||    spmd_exchmsr_idel   ../engine/source/mpi/interfaces/spmd_exchmsr_idel.F
-      !||    spmd_init_idel      ../engine/source/mpi/interfaces/spmd_init_idel.F
-      !||--- uses       -----------------------------------------------------
-      !||    elbufdef_mod        ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||    intbufdef_mod       ../common_source/modules/interfaces/intbufdef_mod.F90
-      !||    nodal_arrays_mod    ../common_source/modules/nodal_arrays.F90
-      !||====================================================================
+!||====================================================================
+!||    chkstfn3n           ../engine/source/interfaces/interf/chkstfn3.F
+!||--- called by ------------------------------------------------------
+!||    resol               ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
+!||    chk11msr3n          ../engine/source/interfaces/interf/chkstfn3.F
+!||    chk11msr3nb         ../engine/source/interfaces/interf/chkstfn3.F
+!||    chk20emsr3n         ../engine/source/interfaces/interf/chkstfn3.F
+!||    chk20emsr3nb        ../engine/source/interfaces/interf/chkstfn3.F
+!||    chk20msr3n          ../engine/source/interfaces/interf/chkstfn3.F
+!||    chk20msr3nb         ../engine/source/interfaces/interf/chkstfn3.F
+!||    chk23msr3n          ../engine/source/interfaces/interf/chkstfn3.F
+!||    chk23msr3nb         ../engine/source/interfaces/interf/chkstfn3.F
+!||    chk2msr3n           ../engine/source/interfaces/interf/chkstfn3.F
+!||    chk2msr3nb          ../engine/source/interfaces/interf/chkstfn3.F
+!||    chk2msr3np          ../engine/source/interfaces/interf/chkstfn3.F
+!||    chkmsr3n            ../engine/source/interfaces/interf/chkstfn3.F
+!||    chkmsr3nb           ../engine/source/interfaces/interf/chkstfn3.F
+!||    chkslv3             ../engine/source/interfaces/interf/chkstfn3.F
+!||    chkslv3_t24         ../engine/source/interfaces/interf/chkstfn3.F
+!||    chkslv3b            ../engine/source/interfaces/interf/chkstfn3.F
+!||    chkslv3c            ../engine/source/interfaces/interf/chkstfn3.F
+!||    setmsr2             ../engine/source/interfaces/interf/chkstfn3.F
+!||    setmsr3             ../engine/source/interfaces/interf/chkstfn3.F
+!||    spmd_exchmsr_idel   ../engine/source/mpi/interfaces/spmd_exchmsr_idel.F
+!||    spmd_init_idel      ../engine/source/mpi/interfaces/spmd_init_idel.F
+!||--- uses       -----------------------------------------------------
+!||    elbufdef_mod        ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    intbufdef_mod       ../common_source/modules/interfaces/intbufdef_mod.F90
+!||    nodal_arrays_mod    ../common_source/modules/nodal_arrays.F90
+!||====================================================================
       SUBROUTINE CHKSTFN3N(NODES,
      1    IPARI   ,GEO     ,IXS    ,IXQ       ,IXC      ,IXT     ,
      2    IXP     ,IXR     ,IXTG   ,ITAG      ,IPARG    ,ITASK   ,
@@ -1905,17 +1905,17 @@ C
       RETURN
       END
  
-      !||====================================================================
-      !||    chkmsr3n                    ../engine/source/interfaces/interf/chkstfn3.F
-      !||--- called by ------------------------------------------------------
-      !||    chkstfn3n                   ../engine/source/interfaces/interf/chkstfn3.F
-      !||--- calls      -----------------------------------------------------
-      !||    i24_remove_global_segment   ../engine/source/interfaces/interf/chkstfn3.F
-      !||    i25_remove_global_segment   ../engine/source/interfaces/interf/chkstfn3.F
-      !||    my_barrier                  ../engine/source/system/machine.F
-      !||--- uses       -----------------------------------------------------
-      !||    my_alloc_mod                ../common_source/tools/memory/my_alloc.F90
-      !||====================================================================
+!||====================================================================
+!||    chkmsr3n                    ../engine/source/interfaces/interf/chkstfn3.F
+!||--- called by ------------------------------------------------------
+!||    chkstfn3n                   ../engine/source/interfaces/interf/chkstfn3.F
+!||--- calls      -----------------------------------------------------
+!||    i24_remove_global_segment   ../engine/source/interfaces/interf/chkstfn3.F
+!||    i25_remove_global_segment   ../engine/source/interfaces/interf/chkstfn3.F
+!||    my_barrier                  ../engine/source/system/machine.F
+!||--- uses       -----------------------------------------------------
+!||    my_alloc_mod                ../common_source/tools/memory/my_alloc.F90
+!||====================================================================
       SUBROUTINE CHKMSR3N(
      1    NMN  ,MSR   ,ITAG  ,ITASK,IRECT   ,
      2    NRTM ,STF   ,ITAG2 ,IXS  ,IXC     ,
@@ -2107,15 +2107,15 @@ C
       RETURN
       END
 C
-      !||====================================================================
-      !||    chkmsr3nb                   ../engine/source/interfaces/interf/chkstfn3.F
-      !||--- called by ------------------------------------------------------
-      !||    chkstfn3n                   ../engine/source/interfaces/interf/chkstfn3.F
-      !||--- calls      -----------------------------------------------------
-      !||    i24_remove_global_segment   ../engine/source/interfaces/interf/chkstfn3.F
-      !||    i25_remove_global_segment   ../engine/source/interfaces/interf/chkstfn3.F
-      !||    my_barrier                  ../engine/source/system/machine.F
-      !||====================================================================
+!||====================================================================
+!||    chkmsr3nb                   ../engine/source/interfaces/interf/chkstfn3.F
+!||--- called by ------------------------------------------------------
+!||    chkstfn3n                   ../engine/source/interfaces/interf/chkstfn3.F
+!||--- calls      -----------------------------------------------------
+!||    i24_remove_global_segment   ../engine/source/interfaces/interf/chkstfn3.F
+!||    i25_remove_global_segment   ../engine/source/interfaces/interf/chkstfn3.F
+!||    my_barrier                  ../engine/source/system/machine.F
+!||====================================================================
       SUBROUTINE CHKMSR3NB(
      1    NMN  ,MSR   ,ITAG  ,ITASK,IRECT   ,
      2    NRTM ,STF   ,ITAG2 ,IXS  ,IXC     ,
@@ -2289,13 +2289,13 @@ C
       RETURN
       END
 C
-      !||====================================================================
-      !||    chk20msr3n   ../engine/source/interfaces/interf/chkstfn3.F
-      !||--- called by ------------------------------------------------------
-      !||    chkstfn3n    ../engine/source/interfaces/interf/chkstfn3.F
-      !||--- calls      -----------------------------------------------------
-      !||    my_barrier   ../engine/source/system/machine.F
-      !||====================================================================
+!||====================================================================
+!||    chk20msr3n   ../engine/source/interfaces/interf/chkstfn3.F
+!||--- called by ------------------------------------------------------
+!||    chkstfn3n    ../engine/source/interfaces/interf/chkstfn3.F
+!||--- calls      -----------------------------------------------------
+!||    my_barrier   ../engine/source/system/machine.F
+!||====================================================================
       SUBROUTINE CHK20MSR3N(
      1    NMN  ,MSR   ,ITAG  ,ITASK,IRECT   ,
      2    NRTM ,STF   ,ITAG2 ,IXS  ,IXC     ,
@@ -2446,13 +2446,13 @@ C
       RETURN
       END
 C
-      !||====================================================================
-      !||    chk20msr3nb   ../engine/source/interfaces/interf/chkstfn3.F
-      !||--- called by ------------------------------------------------------
-      !||    chkstfn3n     ../engine/source/interfaces/interf/chkstfn3.F
-      !||--- calls      -----------------------------------------------------
-      !||    my_barrier    ../engine/source/system/machine.F
-      !||====================================================================
+!||====================================================================
+!||    chk20msr3nb   ../engine/source/interfaces/interf/chkstfn3.F
+!||--- called by ------------------------------------------------------
+!||    chkstfn3n     ../engine/source/interfaces/interf/chkstfn3.F
+!||--- calls      -----------------------------------------------------
+!||    my_barrier    ../engine/source/system/machine.F
+!||====================================================================
       SUBROUTINE CHK20MSR3NB(
      1    NMN  ,MSR   ,ITAG  ,ITASK,IRECT   ,
      2    NRTM ,STF   ,ITAG2 ,IXS  ,IXC     ,
@@ -2604,13 +2604,13 @@ C
       RETURN
       END
 
-      !||====================================================================
-      !||    chk11msr3n   ../engine/source/interfaces/interf/chkstfn3.F
-      !||--- called by ------------------------------------------------------
-      !||    chkstfn3n    ../engine/source/interfaces/interf/chkstfn3.F
-      !||--- calls      -----------------------------------------------------
-      !||    my_barrier   ../engine/source/system/machine.F
-      !||====================================================================
+!||====================================================================
+!||    chk11msr3n   ../engine/source/interfaces/interf/chkstfn3.F
+!||--- called by ------------------------------------------------------
+!||    chkstfn3n    ../engine/source/interfaces/interf/chkstfn3.F
+!||--- calls      -----------------------------------------------------
+!||    my_barrier   ../engine/source/system/machine.F
+!||====================================================================
       SUBROUTINE CHK11MSR3N(
      1    NMN    ,MSR     ,ITAG  ,ITASK  ,IRECT  ,
      2    NRTM   ,STF     ,ITAG2 ,IXS    ,IXC   ,
@@ -2675,13 +2675,13 @@ C
       RETURN
       END
 C
-      !||====================================================================
-      !||    chk11msr3nb   ../engine/source/interfaces/interf/chkstfn3.F
-      !||--- called by ------------------------------------------------------
-      !||    chkstfn3n     ../engine/source/interfaces/interf/chkstfn3.F
-      !||--- calls      -----------------------------------------------------
-      !||    my_barrier    ../engine/source/system/machine.F
-      !||====================================================================
+!||====================================================================
+!||    chk11msr3nb   ../engine/source/interfaces/interf/chkstfn3.F
+!||--- called by ------------------------------------------------------
+!||    chkstfn3n     ../engine/source/interfaces/interf/chkstfn3.F
+!||--- calls      -----------------------------------------------------
+!||    my_barrier    ../engine/source/system/machine.F
+!||====================================================================
       SUBROUTINE CHK11MSR3NB(
      1    NMN    ,MSR   ,ITAG  ,ITASK   ,IRECT ,
      2    NRTM   ,STF   ,ITAG2 ,IXS     ,IXC   ,
@@ -2749,13 +2749,13 @@ C
       RETURN
       END
 C
-      !||====================================================================
-      !||    chk20emsr3n   ../engine/source/interfaces/interf/chkstfn3.F
-      !||--- called by ------------------------------------------------------
-      !||    chkstfn3n     ../engine/source/interfaces/interf/chkstfn3.F
-      !||--- calls      -----------------------------------------------------
-      !||    my_barrier    ../engine/source/system/machine.F
-      !||====================================================================
+!||====================================================================
+!||    chk20emsr3n   ../engine/source/interfaces/interf/chkstfn3.F
+!||--- called by ------------------------------------------------------
+!||    chkstfn3n     ../engine/source/interfaces/interf/chkstfn3.F
+!||--- calls      -----------------------------------------------------
+!||    my_barrier    ../engine/source/system/machine.F
+!||====================================================================
       SUBROUTINE CHK20EMSR3N(
      1    NMN    ,MSR     ,ITAG  ,ITASK  ,IRECT  ,
      2    NRTM   ,STF     ,ITAG2 ,IXS    ,IXC   ,
@@ -2927,13 +2927,13 @@ C
       RETURN
       END
 C
-      !||====================================================================
-      !||    chk20emsr3nb   ../engine/source/interfaces/interf/chkstfn3.F
-      !||--- called by ------------------------------------------------------
-      !||    chkstfn3n      ../engine/source/interfaces/interf/chkstfn3.F
-      !||--- calls      -----------------------------------------------------
-      !||    my_barrier     ../engine/source/system/machine.F
-      !||====================================================================
+!||====================================================================
+!||    chk20emsr3nb   ../engine/source/interfaces/interf/chkstfn3.F
+!||--- called by ------------------------------------------------------
+!||    chkstfn3n      ../engine/source/interfaces/interf/chkstfn3.F
+!||--- calls      -----------------------------------------------------
+!||    my_barrier     ../engine/source/system/machine.F
+!||====================================================================
       SUBROUTINE CHK20EMSR3NB(
      1    NMN    ,MSR   ,ITAG  ,ITASK   ,IRECT ,
      2    NRTM   ,STF   ,ITAG2 ,IXS     ,IXC   ,
@@ -3106,13 +3106,13 @@ C
       RETURN
       END
 C
-      !||====================================================================
-      !||    chk2msr3n    ../engine/source/interfaces/interf/chkstfn3.F
-      !||--- called by ------------------------------------------------------
-      !||    chkstfn3n    ../engine/source/interfaces/interf/chkstfn3.F
-      !||--- calls      -----------------------------------------------------
-      !||    my_barrier   ../engine/source/system/machine.F
-      !||====================================================================
+!||====================================================================
+!||    chk2msr3n    ../engine/source/interfaces/interf/chkstfn3.F
+!||--- called by ------------------------------------------------------
+!||    chkstfn3n    ../engine/source/interfaces/interf/chkstfn3.F
+!||--- calls      -----------------------------------------------------
+!||    my_barrier   ../engine/source/system/machine.F
+!||====================================================================
       SUBROUTINE CHK2MSR3N(
      1    NSN    ,NSV  ,ITAG ,ITASK,IRECT,
      2    IRTL   ,ITAG2,IXS  ,IXC  ,IXTG ,
@@ -3229,13 +3229,13 @@ C
       RETURN
       END
 C
-      !||====================================================================
-      !||    chk2msr3nb   ../engine/source/interfaces/interf/chkstfn3.F
-      !||--- called by ------------------------------------------------------
-      !||    chkstfn3n    ../engine/source/interfaces/interf/chkstfn3.F
-      !||--- calls      -----------------------------------------------------
-      !||    my_barrier   ../engine/source/system/machine.F
-      !||====================================================================
+!||====================================================================
+!||    chk2msr3nb   ../engine/source/interfaces/interf/chkstfn3.F
+!||--- called by ------------------------------------------------------
+!||    chkstfn3n    ../engine/source/interfaces/interf/chkstfn3.F
+!||--- calls      -----------------------------------------------------
+!||    my_barrier   ../engine/source/system/machine.F
+!||====================================================================
       SUBROUTINE CHK2MSR3NB(
      1    NSN    ,NSV  ,ITAG ,ITASK,IRECT,
      2    IRTL   ,ITAG2,IXS  ,IXC  ,IXTG ,
@@ -3378,13 +3378,13 @@ C
       RETURN
       END
 C
-      !||====================================================================
-      !||    chk2msr3np   ../engine/source/interfaces/interf/chkstfn3.F
-      !||--- called by ------------------------------------------------------
-      !||    chkstfn3n    ../engine/source/interfaces/interf/chkstfn3.F
-      !||--- calls      -----------------------------------------------------
-      !||    my_barrier   ../engine/source/system/machine.F
-      !||====================================================================
+!||====================================================================
+!||    chk2msr3np   ../engine/source/interfaces/interf/chkstfn3.F
+!||--- called by ------------------------------------------------------
+!||    chkstfn3n    ../engine/source/interfaces/interf/chkstfn3.F
+!||--- calls      -----------------------------------------------------
+!||    my_barrier   ../engine/source/system/machine.F
+!||====================================================================
       SUBROUTINE CHK2MSR3NP(
      1    NSN   ,NSV  ,ITAG   ,ITASK,IRECT ,
      2    IRTL  ,ITAG2,IXS    ,IXC  ,IXTG  ,
@@ -3479,13 +3479,13 @@ C
       RETURN
       END
 C
-      !||====================================================================
-      !||    chk23msr3n   ../engine/source/interfaces/interf/chkstfn3.F
-      !||--- called by ------------------------------------------------------
-      !||    chkstfn3n    ../engine/source/interfaces/interf/chkstfn3.F
-      !||--- calls      -----------------------------------------------------
-      !||    my_barrier   ../engine/source/system/machine.F
-      !||====================================================================
+!||====================================================================
+!||    chk23msr3n   ../engine/source/interfaces/interf/chkstfn3.F
+!||--- called by ------------------------------------------------------
+!||    chkstfn3n    ../engine/source/interfaces/interf/chkstfn3.F
+!||--- calls      -----------------------------------------------------
+!||    my_barrier   ../engine/source/system/machine.F
+!||====================================================================
       SUBROUTINE CHK23MSR3N(
      1    NMN  ,MSR   ,ITAG  ,ITASK,IRECT   ,
      2    NRTM ,STF   ,ITAG2 ,IXS  ,IXC     ,
@@ -3626,13 +3626,13 @@ C
       RETURN
       END
 C
-      !||====================================================================
-      !||    chk23msr3nb   ../engine/source/interfaces/interf/chkstfn3.F
-      !||--- called by ------------------------------------------------------
-      !||    chkstfn3n     ../engine/source/interfaces/interf/chkstfn3.F
-      !||--- calls      -----------------------------------------------------
-      !||    my_barrier    ../engine/source/system/machine.F
-      !||====================================================================
+!||====================================================================
+!||    chk23msr3nb   ../engine/source/interfaces/interf/chkstfn3.F
+!||--- called by ------------------------------------------------------
+!||    chkstfn3n     ../engine/source/interfaces/interf/chkstfn3.F
+!||--- calls      -----------------------------------------------------
+!||    my_barrier    ../engine/source/system/machine.F
+!||====================================================================
       SUBROUTINE CHK23MSR3NB(
      1    NMN  ,MSR   ,ITAG  ,ITASK,IRECT   ,
      2    NRTM ,STF   ,ITAG2 ,IXS  ,IXC     ,
@@ -3774,14 +3774,14 @@ C
       RETURN
       END
 C
-      !||====================================================================
-      !||    setmsr3                     ../engine/source/interfaces/interf/chkstfn3.F
-      !||--- called by ------------------------------------------------------
-      !||    chkstfn3n                   ../engine/source/interfaces/interf/chkstfn3.F
-      !||--- calls      -----------------------------------------------------
-      !||    i24_remove_global_segment   ../engine/source/interfaces/interf/chkstfn3.F
-      !||    i25_remove_global_segment   ../engine/source/interfaces/interf/chkstfn3.F
-      !||====================================================================
+!||====================================================================
+!||    setmsr3                     ../engine/source/interfaces/interf/chkstfn3.F
+!||--- called by ------------------------------------------------------
+!||    chkstfn3n                   ../engine/source/interfaces/interf/chkstfn3.F
+!||--- calls      -----------------------------------------------------
+!||    i24_remove_global_segment   ../engine/source/interfaces/interf/chkstfn3.F
+!||    i25_remove_global_segment   ../engine/source/interfaces/interf/chkstfn3.F
+!||====================================================================
       SUBROUTINE SETMSR3(STF  , NINDG, BUFS    , NINDEX, NTY,
      1                   IDEL , IFL  , NEWFRONT,NG,NRTM,
      2                   MSEGLO,MVOISIN,INDSEGLO,IBUFSEGLO)
@@ -3897,11 +3897,11 @@ C
       RETURN
       END
 C
-      !||====================================================================
-      !||    setmsr2     ../engine/source/interfaces/interf/chkstfn3.F
-      !||--- called by ------------------------------------------------------
-      !||    chkstfn3n   ../engine/source/interfaces/interf/chkstfn3.F
-      !||====================================================================
+!||====================================================================
+!||    setmsr2     ../engine/source/interfaces/interf/chkstfn3.F
+!||--- called by ------------------------------------------------------
+!||    chkstfn3n   ../engine/source/interfaces/interf/chkstfn3.F
+!||====================================================================
       SUBROUTINE SETMSR2(NINDG, BUFS, NINDEX, NSV, MS,
      2                   SMAS , IN  , SINER ,IDEL)
 C-----------------------------------------------
@@ -3953,14 +3953,14 @@ C
       END
 
 
-      !||====================================================================
-      !||    i24_remove_global_segment   ../engine/source/interfaces/interf/chkstfn3.F
-      !||--- called by ------------------------------------------------------
-      !||    chkmsr3n                    ../engine/source/interfaces/interf/chkstfn3.F
-      !||    chkmsr3nb                   ../engine/source/interfaces/interf/chkstfn3.F
-      !||    setmsr3                     ../engine/source/interfaces/interf/chkstfn3.F
-      !||    spmd_exch_idel_seglo        ../engine/source/mpi/interfaces/spmd_exch_idel_seglo.F
-      !||====================================================================
+!||====================================================================
+!||    i24_remove_global_segment   ../engine/source/interfaces/interf/chkstfn3.F
+!||--- called by ------------------------------------------------------
+!||    chkmsr3n                    ../engine/source/interfaces/interf/chkstfn3.F
+!||    chkmsr3nb                   ../engine/source/interfaces/interf/chkstfn3.F
+!||    setmsr3                     ../engine/source/interfaces/interf/chkstfn3.F
+!||    spmd_exch_idel_seglo        ../engine/source/mpi/interfaces/spmd_exch_idel_seglo.F
+!||====================================================================
       SUBROUTINE I24_REMOVE_GLOBAL_SEGMENT(IND_SEGLO,NIND_SEGLO,NIN, NRTM,MSEGLO,MVOISIN,FLAG)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -3994,14 +3994,14 @@ C-----------------------------------------------
            ENDDO
          ENDDO
       END
-      !||====================================================================
-      !||    i25_remove_global_segment   ../engine/source/interfaces/interf/chkstfn3.F
-      !||--- called by ------------------------------------------------------
-      !||    chkmsr3n                    ../engine/source/interfaces/interf/chkstfn3.F
-      !||    chkmsr3nb                   ../engine/source/interfaces/interf/chkstfn3.F
-      !||    setmsr3                     ../engine/source/interfaces/interf/chkstfn3.F
-      !||    spmd_exch_idel_seglo        ../engine/source/mpi/interfaces/spmd_exch_idel_seglo.F
-      !||====================================================================
+!||====================================================================
+!||    i25_remove_global_segment   ../engine/source/interfaces/interf/chkstfn3.F
+!||--- called by ------------------------------------------------------
+!||    chkmsr3n                    ../engine/source/interfaces/interf/chkstfn3.F
+!||    chkmsr3nb                   ../engine/source/interfaces/interf/chkstfn3.F
+!||    setmsr3                     ../engine/source/interfaces/interf/chkstfn3.F
+!||    spmd_exch_idel_seglo        ../engine/source/mpi/interfaces/spmd_exch_idel_seglo.F
+!||====================================================================
       SUBROUTINE I25_REMOVE_GLOBAL_SEGMENT(IND_SEGLO,NIND_SEGLO,NIN, NRTM,MSEGLO,MVOISIN,FLAG)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

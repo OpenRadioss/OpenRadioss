@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    shell_reactivation   ../engine/source/tools/seatbelts/shell_reactivation.F
-      !||--- called by ------------------------------------------------------
-      !||    update_slipring      ../engine/source/tools/seatbelts/update_slipring.F
-      !||--- calls      -----------------------------------------------------
-      !||    hencky_strain        ../engine/source/tools/seatbelts/shell_reactivation.F
-      !||====================================================================
+!||====================================================================
+!||    shell_reactivation   ../engine/source/tools/seatbelts/shell_reactivation.F
+!||--- called by ------------------------------------------------------
+!||    update_slipring      ../engine/source/tools/seatbelts/update_slipring.F
+!||--- calls      -----------------------------------------------------
+!||    hencky_strain        ../engine/source/tools/seatbelts/shell_reactivation.F
+!||====================================================================
       SUBROUTINE SHELL_REACTIVATION(I,II,L0FRAM1,L0FRAM2,NODE_FRAM1,
      .                              NODE_FRAM2,GSTR,NEL,XL2,YL2,
      .                              XL3,YL3,XL4,YL4,OFFSET,
@@ -175,13 +175,13 @@ C----------------------------------------------------------
 C                
       END
 C
-      !||====================================================================
-      !||    hencky_strain        ../engine/source/tools/seatbelts/shell_reactivation.F
-      !||--- called by ------------------------------------------------------
-      !||    shell_reactivation   ../engine/source/tools/seatbelts/shell_reactivation.F
-      !||--- calls      -----------------------------------------------------
-      !||    jacobiew             ../engine/source/materials/mat/mat033/sigeps33.F
-      !||====================================================================
+!||====================================================================
+!||    hencky_strain        ../engine/source/tools/seatbelts/shell_reactivation.F
+!||--- called by ------------------------------------------------------
+!||    shell_reactivation   ../engine/source/tools/seatbelts/shell_reactivation.F
+!||--- calls      -----------------------------------------------------
+!||    jacobiew             ../engine/source/materials/mat/mat033/sigeps33.F
+!||====================================================================
       SUBROUTINE HENCKY_STRAIN(FF,HH)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

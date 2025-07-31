@@ -20,11 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    dsdim0   ../starter/source/implicit/dsolve/dsdim.F
-      !||--- called by ------------------------------------------------------
-      !||    lectur   ../starter/source/starter/lectur.F
-      !||====================================================================
+!||====================================================================
+!||    dsdim0   ../starter/source/implicit/dsolve/dsdim.F
+!||--- called by ------------------------------------------------------
+!||    lectur   ../starter/source/starter/lectur.F
+!||====================================================================
       SUBROUTINE DSDIM0(NDOF  ,IXS   , IXQ    , IXC    , IXT    ,
      2                  IXP   ,IXR   , IXTG   , KXX    ,
      3                  IXX   ,GEO   )

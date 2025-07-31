@@ -20,24 +20,24 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    hm_read_ale_link       ../starter/source/constraints/ale/hm_read_ale_link_vel.F
-      !||--- called by ------------------------------------------------------
-      !||    lectur                 ../starter/source/starter/lectur.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg                 ../starter/source/output/message/message.F
-      !||    hm_get_floatv          ../starter/source/devtools/hm_reader/hm_get_floatv.F
-      !||    hm_get_intv            ../starter/source/devtools/hm_reader/hm_get_intv.F
-      !||    hm_option_read_key     ../starter/source/devtools/hm_reader/hm_option_read_key.F
-      !||    hm_option_start        ../starter/source/devtools/hm_reader/hm_option_start.F
-      !||    ngr2usr                ../starter/source/system/nintrr.F
-      !||    usr2sys                ../starter/source/system/sysfus.F
-      !||--- uses       -----------------------------------------------------
-      !||    format_mod             ../starter/share/modules1/format_mod.F90
-      !||    hm_option_read_mod     ../starter/share/modules1/hm_option_read_mod.F
-      !||    message_mod            ../starter/share/message_module/message_mod.F
-      !||    submodel_mod           ../starter/share/modules1/submodel_mod.F
-      !||====================================================================
+!||====================================================================
+!||    hm_read_ale_link       ../starter/source/constraints/ale/hm_read_ale_link_vel.F
+!||--- called by ------------------------------------------------------
+!||    lectur                 ../starter/source/starter/lectur.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                 ../starter/source/output/message/message.F
+!||    hm_get_floatv          ../starter/source/devtools/hm_reader/hm_get_floatv.F
+!||    hm_get_intv            ../starter/source/devtools/hm_reader/hm_get_intv.F
+!||    hm_option_read_key     ../starter/source/devtools/hm_reader/hm_option_read_key.F
+!||    hm_option_start        ../starter/source/devtools/hm_reader/hm_option_start.F
+!||    ngr2usr                ../starter/source/system/nintrr.F
+!||    usr2sys                ../starter/source/system/sysfus.F
+!||--- uses       -----------------------------------------------------
+!||    format_mod             ../starter/share/modules1/format_mod.F90
+!||    hm_option_read_mod     ../starter/share/modules1/hm_option_read_mod.F
+!||    message_mod            ../starter/share/message_module/message_mod.F
+!||    submodel_mod           ../starter/share/modules1/submodel_mod.F
+!||====================================================================
       SUBROUTINE HM_READ_ALE_LINK(ICODE, ISKEW, ITAB, ITABM1, IKINE,
      .     IGRNOD, IBCSLAG, LAG_NCF, LAG_NKF, LAG_NHF,
      .     IKINE1LAG, LINALE, LSUBMODEL, UNITAB)

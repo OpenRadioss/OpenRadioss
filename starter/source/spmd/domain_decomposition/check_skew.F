@@ -20,16 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    check_skew                   ../starter/source/spmd/domain_decomposition/check_skew.F
-      !||--- called by ------------------------------------------------------
-      !||    domdec2                      ../starter/source/spmd/domdec2.F
-      !||--- calls      -----------------------------------------------------
-      !||    hm_entity_reference_number   ../starter/source/devtools/hm_reader/hm_entity_reference_number.F
-      !||    ifrontplus                   ../starter/source/spmd/node/frontplus.F
-      !||--- uses       -----------------------------------------------------
-      !||    submodel_mod                 ../starter/share/modules1/submodel_mod.F
-      !||====================================================================
+!||====================================================================
+!||    check_skew                   ../starter/source/spmd/domain_decomposition/check_skew.F
+!||--- called by ------------------------------------------------------
+!||    domdec2                      ../starter/source/spmd/domdec2.F
+!||--- calls      -----------------------------------------------------
+!||    hm_entity_reference_number   ../starter/source/devtools/hm_reader/hm_entity_reference_number.F
+!||    ifrontplus                   ../starter/source/spmd/node/frontplus.F
+!||--- uses       -----------------------------------------------------
+!||    submodel_mod                 ../starter/share/modules1/submodel_mod.F
+!||====================================================================
         SUBROUTINE CHECK_SKEW(IXR,IGEO,ISKN,CEP,ISKWP,NSKWP,TAG_SKN,MULTIPLE_SKEW,
      .                        R_SKEW,IPM,OFFSET)
 C-----------------------------------------------

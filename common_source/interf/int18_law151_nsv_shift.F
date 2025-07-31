@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    int18_law151_nsv_shift_mod   ../common_source/interf/int18_law151_nsv_shift.F
-      !||--- called by ------------------------------------------------------
-      !||    inintr                       ../starter/source/interfaces/interf1/inintr.F
-      !||    intfop2                      ../engine/source/interfaces/interf/intfop2.F
-      !||    inttri                       ../engine/source/interfaces/intsort/inttri.F
-      !||====================================================================
+!||====================================================================
+!||    int18_law151_nsv_shift_mod   ../common_source/interf/int18_law151_nsv_shift.F
+!||--- called by ------------------------------------------------------
+!||    inintr                       ../starter/source/interfaces/interf1/inintr.F
+!||    intfop2                      ../engine/source/interfaces/interf/intfop2.F
+!||    inttri                       ../engine/source/interfaces/intsort/inttri.F
+!||====================================================================
       module int18_law151_nsv_shift_mod
       contains
 ! ======================================================================================================================
@@ -34,17 +34,17 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 ! ======================================================================================================================
 !! \brief index shifting for law151
 !! \details law151 has collocated numerical scheme node identifier is 1:NUMELS starting from NUMNOD+1 to NUMNOD+NUMELS
-      !||====================================================================
-      !||    int18_law151_nsv_shift   ../common_source/interf/int18_law151_nsv_shift.F
-      !||--- called by ------------------------------------------------------
-      !||    inintr                   ../starter/source/interfaces/interf1/inintr.F
-      !||    intfop2                  ../engine/source/interfaces/interf/intfop2.F
-      !||    inttri                   ../engine/source/interfaces/intsort/inttri.F
-      !||--- uses       -----------------------------------------------------
-      !||    groupdef_mod             ../common_source/modules/groupdef_mod.F
-      !||    intbufdef_mod            ../common_source/modules/interfaces/intbufdef_mod.F90
-      !||    multi_fvm_mod            ../common_source/modules/ale/multi_fvm_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    int18_law151_nsv_shift   ../common_source/interf/int18_law151_nsv_shift.F
+!||--- called by ------------------------------------------------------
+!||    inintr                   ../starter/source/interfaces/interf1/inintr.F
+!||    intfop2                  ../engine/source/interfaces/interf/intfop2.F
+!||    inttri                   ../engine/source/interfaces/intsort/inttri.F
+!||--- uses       -----------------------------------------------------
+!||    groupdef_mod             ../common_source/modules/groupdef_mod.F
+!||    intbufdef_mod            ../common_source/modules/interfaces/intbufdef_mod.F90
+!||    multi_fvm_mod            ../common_source/modules/ale/multi_fvm_mod.F90
+!||====================================================================
         subroutine int18_law151_nsv_shift(mode,itask,nthread,multi_fvm,ipari,intbuf_tab,npari,ninter,numnod,opt_int_id)
 !$COMMENT
 !       INT18_LAW151_NSV_SHIFT description

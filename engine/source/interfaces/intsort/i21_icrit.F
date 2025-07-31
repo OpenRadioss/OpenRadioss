@@ -20,18 +20,18 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    i21_icrit         ../engine/source/interfaces/intsort/i21_icrit.F
-      !||--- called by ------------------------------------------------------
-      !||    inttri            ../engine/source/interfaces/intsort/inttri.F
-      !||--- calls      -----------------------------------------------------
-      !||    spmd_glob_isum9   ../engine/source/mpi/interfaces/spmd_th.F
-      !||    spmd_i21crit      ../engine/source/mpi/interfaces/spmd_i21crit.F
-      !||--- uses       -----------------------------------------------------
-      !||    intbufdef_mod     ../common_source/modules/interfaces/intbufdef_mod.F90
-      !||    intstamp_mod      ../engine/share/modules/intstamp_mod.F
-      !||    sensor_mod        ../common_source/modules/sensor_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    i21_icrit         ../engine/source/interfaces/intsort/i21_icrit.F
+!||--- called by ------------------------------------------------------
+!||    inttri            ../engine/source/interfaces/intsort/inttri.F
+!||--- calls      -----------------------------------------------------
+!||    spmd_glob_isum9   ../engine/source/mpi/interfaces/spmd_th.F
+!||    spmd_i21crit      ../engine/source/mpi/interfaces/spmd_i21crit.F
+!||--- uses       -----------------------------------------------------
+!||    intbufdef_mod     ../common_source/modules/interfaces/intbufdef_mod.F90
+!||    intstamp_mod      ../engine/share/modules/intstamp_mod.F
+!||    sensor_mod        ../common_source/modules/sensor_mod.F90
+!||====================================================================
       SUBROUTINE I21_ICRIT(
      1  INTBUF_TAB     ,IPARI  ,DT2T   ,NELTST ,NSENSOR ,
      2  ITYPTST,XSLV   ,XMSR   ,VSLV   ,VMSR   ,

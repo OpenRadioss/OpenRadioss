@@ -20,15 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    desout                 ../starter/source/output/outp/desout.F
-      !||--- called by ------------------------------------------------------
-      !||    lectur                 ../starter/source/starter/lectur.F
-      !||--- calls      -----------------------------------------------------
-      !||    fretitl2               ../starter/source/starter/freform.F
-      !||--- uses       -----------------------------------------------------
-      !||    format_mod             ../starter/share/modules1/format_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    desout                 ../starter/source/output/outp/desout.F
+!||--- called by ------------------------------------------------------
+!||    lectur                 ../starter/source/starter/lectur.F
+!||--- calls      -----------------------------------------------------
+!||    fretitl2               ../starter/source/starter/freform.F
+!||--- uses       -----------------------------------------------------
+!||    format_mod             ../starter/share/modules1/format_mod.F90
+!||====================================================================
       SUBROUTINE DESOUT(X   ,IXS  ,IXQ  ,IXC  ,IXT  ,
      .                  IXP ,IXR  ,IXTG ,ITAB ,PM   ,
      .                  GEO ,MS   ,IXS10,IGEO ,IPM  ,

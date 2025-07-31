@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    c_joint_sms   ../starter/source/constraints/general/cyl_joint/write_count_joint_sms.F
-      !||--- called by ------------------------------------------------------
-      !||    ddsplit       ../starter/source/restart/ddsplit/ddsplit.F
-      !||--- calls      -----------------------------------------------------
-      !||    nlocal        ../starter/source/spmd/node/ddtools.F
-      !||====================================================================
+!||====================================================================
+!||    c_joint_sms   ../starter/source/constraints/general/cyl_joint/write_count_joint_sms.F
+!||--- called by ------------------------------------------------------
+!||    ddsplit       ../starter/source/restart/ddsplit/ddsplit.F
+!||--- calls      -----------------------------------------------------
+!||    nlocal        ../starter/source/spmd/node/ddtools.F
+!||====================================================================
       SUBROUTINE C_JOINT_SMS(LJOINT,PROC,LJOINT_L)
 C-----------------------------------------------
 C   M o d u l e s
@@ -71,13 +71,13 @@ C
       RETURN
       END SUBROUTINE C_JOINT_SMS
 C
-      !||====================================================================
-      !||    w_joint_sms   ../starter/source/constraints/general/cyl_joint/write_count_joint_sms.F
-      !||--- called by ------------------------------------------------------
-      !||    ddsplit       ../starter/source/restart/ddsplit/ddsplit.F
-      !||--- calls      -----------------------------------------------------
-      !||    nlocal        ../starter/source/spmd/node/ddtools.F
-      !||====================================================================
+!||====================================================================
+!||    w_joint_sms   ../starter/source/constraints/general/cyl_joint/write_count_joint_sms.F
+!||--- called by ------------------------------------------------------
+!||    ddsplit       ../starter/source/restart/ddsplit/ddsplit.F
+!||--- calls      -----------------------------------------------------
+!||    nlocal        ../starter/source/spmd/node/ddtools.F
+!||====================================================================
       SUBROUTINE W_JOINT_SMS(LJOINT,CEP,CEL,PROC,
      +                   NODLOCAL,LJOINT_L,LEN_IA)
 C-----------------------------------------------

@@ -20,15 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    s16coor3         ../starter/source/elements/thickshell/solide16/s16coor3.F
-      !||--- called by ------------------------------------------------------
-      !||    s16init3         ../starter/source/elements/thickshell/solide16/s16init3.F
-      !||--- calls      -----------------------------------------------------
-      !||    checkvolume_8n   ../starter/source/elements/solid/solide/checksvolume.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod      ../starter/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    s16coor3         ../starter/source/elements/thickshell/solide16/s16coor3.F
+!||--- called by ------------------------------------------------------
+!||    s16init3         ../starter/source/elements/thickshell/solide16/s16init3.F
+!||--- calls      -----------------------------------------------------
+!||    checkvolume_8n   ../starter/source/elements/solid/solide/checksvolume.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod      ../starter/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE S16COOR3(
      1                    X      ,V     ,IXS  ,IXS16 ,XX  ,
      2                    YY     ,ZZ    ,VX   ,VY    ,VZ  ,

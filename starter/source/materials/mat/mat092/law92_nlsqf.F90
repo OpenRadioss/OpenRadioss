@@ -27,20 +27,20 @@
 !>    @param[in]   ERRTOL      If ERRAVE < ERRTOL, data fitting converges.
 !>                                 ERRAVE = ( SUM [ ABS ( ( Y_inp-Y_fit)  )  ) / NPT
 !>    @param[out]  MUAL(1:NMUAL)   optimized material properties 
-      !||====================================================================
-      !||    law92_nlsqf            ../starter/source/materials/mat/mat092/law92_nlsqf.F90
-      !||--- called by ------------------------------------------------------
-      !||    law100_upd_ab          ../starter/source/materials/mat/mat100/law100_upd.F
-      !||    law92_upd              ../starter/source/materials/mat/mat092/law92_upd.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg                 ../starter/source/output/message/message.F
-      !||    arruda_boyce           ../starter/source/materials/mat/mat092/law92_nlsqf.F90
-      !||    law92_guess            ../starter/source/materials/mat/mat092/law92_nlsqf.F90
-      !||    mrqmin_law92           ../starter/source/materials/mat/mat092/law92_nlsqf.F90
-      !||    my_exit                ../starter/source/output/analyse/analyse.c
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod            ../starter/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    law92_nlsqf            ../starter/source/materials/mat/mat092/law92_nlsqf.F90
+!||--- called by ------------------------------------------------------
+!||    law100_upd_ab          ../starter/source/materials/mat/mat100/law100_upd.F
+!||    law92_upd              ../starter/source/materials/mat/mat092/law92_upd.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                 ../starter/source/output/message/message.F
+!||    arruda_boyce           ../starter/source/materials/mat/mat092/law92_nlsqf.F90
+!||    law92_guess            ../starter/source/materials/mat/mat092/law92_nlsqf.F90
+!||    mrqmin_law92           ../starter/source/materials/mat/mat092/law92_nlsqf.F90
+!||    my_exit                ../starter/source/output/analyse/analyse.c
+!||--- uses       -----------------------------------------------------
+!||    message_mod            ../starter/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE LAW92_NLSQF(STRETCH,Y,NMULA,NPT,AMULA,NSTART, ERRTOL,ID,TITR,ITEST)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
@@ -439,13 +439,13 @@
       END 
 
 ! Compute normal stress sig=dw/dlam_1 
-      !||====================================================================
-      !||    arruda_boyce    ../starter/source/materials/mat/mat092/law92_nlsqf.F90
-      !||--- called by ------------------------------------------------------
-      !||    law92_nlsqf     ../starter/source/materials/mat/mat092/law92_nlsqf.F90
-      !||    mrqcof_law92    ../starter/source/materials/mat/mat092/law92_nlsqf.F90
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    arruda_boyce    ../starter/source/materials/mat/mat092/law92_nlsqf.F90
+!||--- called by ------------------------------------------------------
+!||    law92_nlsqf     ../starter/source/materials/mat/mat092/law92_nlsqf.F90
+!||    mrqcof_law92    ../starter/source/materials/mat/mat092/law92_nlsqf.F90
+!||--- uses       -----------------------------------------------------
+!||====================================================================
       SUBROUTINE ARRUDA_BOYCE(STRETCH,A, SIG,ITEST ) 
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
@@ -514,12 +514,12 @@
       RETURN  
       END SUBROUTINE ARRUDA_BOYCE
 ! Compute normal stress DMu=dN/dmu, dlam = dN/dlam 
-      !||====================================================================
-      !||    arruda_boyce_dyda   ../starter/source/materials/mat/mat092/law92_nlsqf.F90
-      !||--- called by ------------------------------------------------------
-      !||    mrqcof_law92        ../starter/source/materials/mat/mat092/law92_nlsqf.F90
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    arruda_boyce_dyda   ../starter/source/materials/mat/mat092/law92_nlsqf.F90
+!||--- called by ------------------------------------------------------
+!||    mrqcof_law92        ../starter/source/materials/mat/mat092/law92_nlsqf.F90
+!||--- uses       -----------------------------------------------------
+!||====================================================================
       SUBROUTINE ARRUDA_BOYCE_DYDA(STRETCH,A,DYDA, ITEST) 
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
@@ -597,15 +597,15 @@
         
       RETURN  
       END SUBROUTINE ARRUDA_BOYCE_DYDA
-      !||====================================================================
-      !||    mrqmin_law92    ../starter/source/materials/mat/mat092/law92_nlsqf.F90
-      !||--- called by ------------------------------------------------------
-      !||    law92_nlsqf     ../starter/source/materials/mat/mat092/law92_nlsqf.F90
-      !||--- calls      -----------------------------------------------------
-      !||    inversion       ../starter/source/materials/tools/nlsqf.F
-      !||    mrqcof_law92    ../starter/source/materials/mat/mat092/law92_nlsqf.F90
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    mrqmin_law92    ../starter/source/materials/mat/mat092/law92_nlsqf.F90
+!||--- called by ------------------------------------------------------
+!||    law92_nlsqf     ../starter/source/materials/mat/mat092/law92_nlsqf.F90
+!||--- calls      -----------------------------------------------------
+!||    inversion       ../starter/source/materials/tools/nlsqf.F
+!||    mrqcof_law92    ../starter/source/materials/mat/mat092/law92_nlsqf.F90
+!||--- uses       -----------------------------------------------------
+!||====================================================================
       SUBROUTINE MRQMIN_LAW92(X,Y,SIG,NDATA,A,COVAR,ALPHA,NCA, ERRNOW, GAMMA,IRET,ITEST)  
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
@@ -712,15 +712,15 @@
       RETURN  
       END SUBROUTINE MRQMIN_LAW92
 !-----------
-      !||====================================================================
-      !||    mrqcof_law92        ../starter/source/materials/mat/mat092/law92_nlsqf.F90
-      !||--- called by ------------------------------------------------------
-      !||    mrqmin_law92        ../starter/source/materials/mat/mat092/law92_nlsqf.F90
-      !||--- calls      -----------------------------------------------------
-      !||    arruda_boyce        ../starter/source/materials/mat/mat092/law92_nlsqf.F90
-      !||    arruda_boyce_dyda   ../starter/source/materials/mat/mat092/law92_nlsqf.F90
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    mrqcof_law92        ../starter/source/materials/mat/mat092/law92_nlsqf.F90
+!||--- called by ------------------------------------------------------
+!||    mrqmin_law92        ../starter/source/materials/mat/mat092/law92_nlsqf.F90
+!||--- calls      -----------------------------------------------------
+!||    arruda_boyce        ../starter/source/materials/mat/mat092/law92_nlsqf.F90
+!||    arruda_boyce_dyda   ../starter/source/materials/mat/mat092/law92_nlsqf.F90
+!||--- uses       -----------------------------------------------------
+!||====================================================================
       SUBROUTINE MRQCOF_LAW92(X,Y,SIG, NDATA,A,ALPHA,BETA,NALP,ERRNOW,ITEST)  
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
@@ -783,12 +783,12 @@
       RETURN  
       END SUBROUTINE MRQCOF_LAW92
 ! Compute normal stress DMu=dN/dmu, dlam = dN/dlam 
-      !||====================================================================
-      !||    law92_guess     ../starter/source/materials/mat/mat092/law92_nlsqf.F90
-      !||--- called by ------------------------------------------------------
-      !||    law92_nlsqf     ../starter/source/materials/mat/mat092/law92_nlsqf.F90
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    law92_guess     ../starter/source/materials/mat/mat092/law92_nlsqf.F90
+!||--- called by ------------------------------------------------------
+!||    law92_nlsqf     ../starter/source/materials/mat/mat092/law92_nlsqf.F90
+!||--- uses       -----------------------------------------------------
+!||====================================================================
       SUBROUTINE LAW92_GUESS(STRETCH,SIG,A,NDATA )
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules

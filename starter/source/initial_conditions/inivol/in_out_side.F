@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    in_out_side       ../starter/source/initial_conditions/inivol/in_out_side.F
-      !||--- called by ------------------------------------------------------
-      !||    phase_detection   ../starter/source/initial_conditions/inivol/phase_detection.F
-      !||    ratio_fill        ../starter/source/initial_conditions/inivol/ratio_fill.F
-      !||--- calls      -----------------------------------------------------
-      !||    nfacette          ../starter/source/initial_conditions/inivol/nfacette.F
-      !||====================================================================
+!||====================================================================
+!||    in_out_side       ../starter/source/initial_conditions/inivol/in_out_side.F
+!||--- called by ------------------------------------------------------
+!||    phase_detection   ../starter/source/initial_conditions/inivol/phase_detection.F
+!||    ratio_fill        ../starter/source/initial_conditions/inivol/ratio_fill.F
+!||--- calls      -----------------------------------------------------
+!||    nfacette          ../starter/source/initial_conditions/inivol/nfacette.F
+!||====================================================================
       SUBROUTINE IN_OUT_SIDE(
      .       INOD      ,INOD2SURF ,KNOD2SURF ,NNOD2SURF ,X         ,
      .       XN        ,DIST      ,NSEG      ,SURF_ELTYP,NOD_NORMAL,

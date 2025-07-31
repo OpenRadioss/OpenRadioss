@@ -20,21 +20,21 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    spmd_exch_inter_18         ../engine/source/mpi/interfaces/spmd_exch_inter_18.F
-      !||--- called by ------------------------------------------------------
-      !||    resol                      ../engine/source/engine/resol.F
-      !||--- calls      -----------------------------------------------------
-      !||    alloc_my_real_1d_array     ../common_source/modules/array_mod.F
-      !||    dealloc_my_real_1d_array   ../common_source/modules/array_mod.F
-      !||--- uses       -----------------------------------------------------
-      !||    ale_connectivity_mod       ../common_source/modules/ale/ale_connectivity_mod.F
-      !||    array_mod                  ../common_source/modules/array_mod.F
-      !||    intbufdef_mod              ../common_source/modules/interfaces/intbufdef_mod.F90
-      !||    multi_fvm_mod              ../common_source/modules/ale/multi_fvm_mod.F90
-      !||    spmd_comm_world_mod        ../engine/source/mpi/spmd_comm_world.F90
-      !||    tri7box                    ../engine/share/modules/tri7box.F
-      !||====================================================================
+!||====================================================================
+!||    spmd_exch_inter_18         ../engine/source/mpi/interfaces/spmd_exch_inter_18.F
+!||--- called by ------------------------------------------------------
+!||    resol                      ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
+!||    alloc_my_real_1d_array     ../common_source/modules/array_mod.F
+!||    dealloc_my_real_1d_array   ../common_source/modules/array_mod.F
+!||--- uses       -----------------------------------------------------
+!||    ale_connectivity_mod       ../common_source/modules/ale/ale_connectivity_mod.F
+!||    array_mod                  ../common_source/modules/array_mod.F
+!||    intbufdef_mod              ../common_source/modules/interfaces/intbufdef_mod.F90
+!||    multi_fvm_mod              ../common_source/modules/ale/multi_fvm_mod.F90
+!||    spmd_comm_world_mod        ../engine/source/mpi/spmd_comm_world.F90
+!||    tri7box                    ../engine/share/modules/tri7box.F
+!||====================================================================
         SUBROUTINE SPMD_EXCH_INTER_18(NINTER,NSPMD,NUMBER_INTER18,SXCELL,INTER18_LIST,
      .                 XCELL,MULTI_FVM,XCELL_REMOTE,INTBUF_TAB,ALE_CONNECTIVITY)
 !$COMMENT

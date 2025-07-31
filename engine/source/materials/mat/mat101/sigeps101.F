@@ -21,34 +21,34 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C polypropylene - Bouvard law 
-      !||====================================================================
-      !||    sigeps101        ../engine/source/materials/mat/mat101/sigeps101.F
-      !||--- called by ------------------------------------------------------
-      !||    mulaw            ../engine/source/materials/mat_share/mulaw.F90
-      !||--- calls      -----------------------------------------------------
-      !||    at_tpu           ../engine/source/materials/mat/mat101/sigeps101.F
-      !||    atxb_tpu         ../engine/source/materials/mat/mat101/sigeps101.F
-      !||    axb_tpu          ../engine/source/materials/mat/mat101/sigeps101.F
-      !||    axbt_tpu         ../engine/source/materials/mat/mat101/sigeps101.F
-      !||    det_tpu          ../engine/source/materials/mat/mat101/sigeps101.F
-      !||    dev_tpu          ../engine/source/materials/mat/mat101/sigeps101.F
-      !||    eigsrt           ../engine/source/materials/mat/mat101/sigeps101.F
-      !||    emod_tpu         ../engine/source/materials/mat/mat101/sigeps101.F
-      !||    err_tpu          ../engine/source/materials/mat/mat101/sigeps101.F
-      !||    finter           ../engine/source/tools/curve/finter.F
-      !||    inv_tpu          ../engine/source/materials/mat/mat101/sigeps101.F
-      !||    mat3x3tovec6x1   ../engine/source/materials/mat/mat101/sigeps101.F
-      !||    qaqt_tpu         ../engine/source/materials/mat/mat101/sigeps101.F
-      !||    qtaq_tpu         ../engine/source/materials/mat/mat101/sigeps101.F
-      !||    skw_tpu          ../engine/source/materials/mat/mat101/sigeps101.F
-      !||    sp_tpu           ../engine/source/materials/mat/mat101/sigeps101.F
-      !||    sst_tpu          ../engine/source/materials/mat/mat101/sigeps101.F
-      !||    st_tpu           ../engine/source/materials/mat/mat101/sigeps101.F
-      !||    sym_tpu          ../engine/source/materials/mat/mat101/sigeps101.F
-      !||    tr_tpu           ../engine/source/materials/mat/mat101/sigeps101.F
-      !||    valprop_tpu      ../engine/source/materials/mat/mat101/sigeps101.F
-      !||    vec6x1tomat3x3   ../engine/source/materials/mat/mat101/sigeps101.F
-      !||====================================================================
+!||====================================================================
+!||    sigeps101        ../engine/source/materials/mat/mat101/sigeps101.F
+!||--- called by ------------------------------------------------------
+!||    mulaw            ../engine/source/materials/mat_share/mulaw.F90
+!||--- calls      -----------------------------------------------------
+!||    at_tpu           ../engine/source/materials/mat/mat101/sigeps101.F
+!||    atxb_tpu         ../engine/source/materials/mat/mat101/sigeps101.F
+!||    axb_tpu          ../engine/source/materials/mat/mat101/sigeps101.F
+!||    axbt_tpu         ../engine/source/materials/mat/mat101/sigeps101.F
+!||    det_tpu          ../engine/source/materials/mat/mat101/sigeps101.F
+!||    dev_tpu          ../engine/source/materials/mat/mat101/sigeps101.F
+!||    eigsrt           ../engine/source/materials/mat/mat101/sigeps101.F
+!||    emod_tpu         ../engine/source/materials/mat/mat101/sigeps101.F
+!||    err_tpu          ../engine/source/materials/mat/mat101/sigeps101.F
+!||    finter           ../engine/source/tools/curve/finter.F
+!||    inv_tpu          ../engine/source/materials/mat/mat101/sigeps101.F
+!||    mat3x3tovec6x1   ../engine/source/materials/mat/mat101/sigeps101.F
+!||    qaqt_tpu         ../engine/source/materials/mat/mat101/sigeps101.F
+!||    qtaq_tpu         ../engine/source/materials/mat/mat101/sigeps101.F
+!||    skw_tpu          ../engine/source/materials/mat/mat101/sigeps101.F
+!||    sp_tpu           ../engine/source/materials/mat/mat101/sigeps101.F
+!||    sst_tpu          ../engine/source/materials/mat/mat101/sigeps101.F
+!||    st_tpu           ../engine/source/materials/mat/mat101/sigeps101.F
+!||    sym_tpu          ../engine/source/materials/mat/mat101/sigeps101.F
+!||    tr_tpu           ../engine/source/materials/mat/mat101/sigeps101.F
+!||    valprop_tpu      ../engine/source/materials/mat/mat101/sigeps101.F
+!||    vec6x1tomat3x3   ../engine/source/materials/mat/mat101/sigeps101.F
+!||====================================================================
        SUBROUTINE SIGEPS101(
      1      NEL    , NUPARAM, NUVAR   , NFUNC  , IFUNC , 
      2      NPF    ,TF      , TIME    , TIMESTEP, UPARAM, 
@@ -1130,16 +1130,16 @@ C---- SUPPORTING ROUTINES FOR TPU MATERIAL ROUTINE
 C=====================================================================72
 C=====================================================================72
 C
-      !||====================================================================
-      !||    st_tpu       ../engine/source/materials/mat/mat101/sigeps101.F
-      !||--- called by ------------------------------------------------------
-      !||    atxb_tpu     ../engine/source/materials/mat/mat101/sigeps101.F
-      !||    axb_tpu      ../engine/source/materials/mat/mat101/sigeps101.F
-      !||    axbt_tpu     ../engine/source/materials/mat/mat101/sigeps101.F
-      !||    compee_tpu   ../engine/source/materials/mat/mat101/sigeps101.F
-      !||    sigeps101    ../engine/source/materials/mat/mat101/sigeps101.F
-      !||    skw_tpu      ../engine/source/materials/mat/mat101/sigeps101.F
-      !||====================================================================
+!||====================================================================
+!||    st_tpu       ../engine/source/materials/mat/mat101/sigeps101.F
+!||--- called by ------------------------------------------------------
+!||    atxb_tpu     ../engine/source/materials/mat/mat101/sigeps101.F
+!||    axb_tpu      ../engine/source/materials/mat/mat101/sigeps101.F
+!||    axbt_tpu     ../engine/source/materials/mat/mat101/sigeps101.F
+!||    compee_tpu   ../engine/source/materials/mat/mat101/sigeps101.F
+!||    sigeps101    ../engine/source/materials/mat/mat101/sigeps101.F
+!||    skw_tpu      ../engine/source/materials/mat/mat101/sigeps101.F
+!||====================================================================
       SUBROUTINE ST_TPU(A, VALUE, N)
 #include "implicit_f.inc"
 
@@ -1161,16 +1161,16 @@ C
 C
 C=====================================================================72
 C
-      !||====================================================================
-      !||    axb_tpu      ../engine/source/materials/mat/mat101/sigeps101.F
-      !||--- called by ------------------------------------------------------
-      !||    compee_tpu   ../engine/source/materials/mat/mat101/sigeps101.F
-      !||    qaqt_tpu     ../engine/source/materials/mat/mat101/sigeps101.F
-      !||    qtaq_tpu     ../engine/source/materials/mat/mat101/sigeps101.F
-      !||    sigeps101    ../engine/source/materials/mat/mat101/sigeps101.F
-      !||--- calls      -----------------------------------------------------
-      !||    st_tpu       ../engine/source/materials/mat/mat101/sigeps101.F
-      !||====================================================================
+!||====================================================================
+!||    axb_tpu      ../engine/source/materials/mat/mat101/sigeps101.F
+!||--- called by ------------------------------------------------------
+!||    compee_tpu   ../engine/source/materials/mat/mat101/sigeps101.F
+!||    qaqt_tpu     ../engine/source/materials/mat/mat101/sigeps101.F
+!||    qtaq_tpu     ../engine/source/materials/mat/mat101/sigeps101.F
+!||    sigeps101    ../engine/source/materials/mat/mat101/sigeps101.F
+!||--- calls      -----------------------------------------------------
+!||    st_tpu       ../engine/source/materials/mat/mat101/sigeps101.F
+!||====================================================================
       SUBROUTINE AXB_TPU(A, B, C, N)
 #include "implicit_f.inc"
 
@@ -1197,16 +1197,16 @@ C
 C
 C=====================================================================72
 C
-      !||====================================================================
-      !||    atxb_tpu     ../engine/source/materials/mat/mat101/sigeps101.F
-      !||--- called by ------------------------------------------------------
-      !||    compee_tpu   ../engine/source/materials/mat/mat101/sigeps101.F
-      !||    qtaq_tpu     ../engine/source/materials/mat/mat101/sigeps101.F
-      !||    qtaqmt_tpu   ../engine/source/materials/mat/mat101/sigeps101.F
-      !||    sigeps101    ../engine/source/materials/mat/mat101/sigeps101.F
-      !||--- calls      -----------------------------------------------------
-      !||    st_tpu       ../engine/source/materials/mat/mat101/sigeps101.F
-      !||====================================================================
+!||====================================================================
+!||    atxb_tpu     ../engine/source/materials/mat/mat101/sigeps101.F
+!||--- called by ------------------------------------------------------
+!||    compee_tpu   ../engine/source/materials/mat/mat101/sigeps101.F
+!||    qtaq_tpu     ../engine/source/materials/mat/mat101/sigeps101.F
+!||    qtaqmt_tpu   ../engine/source/materials/mat/mat101/sigeps101.F
+!||    sigeps101    ../engine/source/materials/mat/mat101/sigeps101.F
+!||--- calls      -----------------------------------------------------
+!||    st_tpu       ../engine/source/materials/mat/mat101/sigeps101.F
+!||====================================================================
       SUBROUTINE ATXB_TPU(A, B, C, N)
 #include "implicit_f.inc"
 
@@ -1232,11 +1232,11 @@ C
 C
 C=====================================================================72
 C
-      !||====================================================================
-      !||    sst_tpu     ../engine/source/materials/mat/mat101/sigeps101.F
-      !||--- called by ------------------------------------------------------
-      !||    sigeps101   ../engine/source/materials/mat/mat101/sigeps101.F
-      !||====================================================================
+!||====================================================================
+!||    sst_tpu     ../engine/source/materials/mat/mat101/sigeps101.F
+!||--- called by ------------------------------------------------------
+!||    sigeps101   ../engine/source/materials/mat/mat101/sigeps101.F
+!||====================================================================
       SUBROUTINE SST_TPU(COEFA, A, B, N)
 #include "implicit_f.inc"
 
@@ -1258,15 +1258,15 @@ C
 C
 C=====================================================================72
 C
-      !||====================================================================
-      !||    axbt_tpu     ../engine/source/materials/mat/mat101/sigeps101.F
-      !||--- called by ------------------------------------------------------
-      !||    qaqt_tpu     ../engine/source/materials/mat/mat101/sigeps101.F
-      !||    qtaqmt_tpu   ../engine/source/materials/mat/mat101/sigeps101.F
-      !||    sigeps101    ../engine/source/materials/mat/mat101/sigeps101.F
-      !||--- calls      -----------------------------------------------------
-      !||    st_tpu       ../engine/source/materials/mat/mat101/sigeps101.F
-      !||====================================================================
+!||====================================================================
+!||    axbt_tpu     ../engine/source/materials/mat/mat101/sigeps101.F
+!||--- called by ------------------------------------------------------
+!||    qaqt_tpu     ../engine/source/materials/mat/mat101/sigeps101.F
+!||    qtaqmt_tpu   ../engine/source/materials/mat/mat101/sigeps101.F
+!||    sigeps101    ../engine/source/materials/mat/mat101/sigeps101.F
+!||--- calls      -----------------------------------------------------
+!||    st_tpu       ../engine/source/materials/mat/mat101/sigeps101.F
+!||====================================================================
       SUBROUTINE AXBT_TPU(A, B, C, N)
 #include "implicit_f.inc"
 
@@ -1293,15 +1293,15 @@ C
 C
 C=====================================================================72
 C
-      !||====================================================================
-      !||    tr_tpu       ../engine/source/materials/mat/mat101/sigeps101.F
-      !||--- called by ------------------------------------------------------
-      !||    compee_tpu   ../engine/source/materials/mat/mat101/sigeps101.F
-      !||    dev_tpu      ../engine/source/materials/mat/mat101/sigeps101.F
-      !||    sigeps101    ../engine/source/materials/mat/mat101/sigeps101.F
-      !||--- calls      -----------------------------------------------------
-      !||    err_tpu      ../engine/source/materials/mat/mat101/sigeps101.F
-      !||====================================================================
+!||====================================================================
+!||    tr_tpu       ../engine/source/materials/mat/mat101/sigeps101.F
+!||--- called by ------------------------------------------------------
+!||    compee_tpu   ../engine/source/materials/mat/mat101/sigeps101.F
+!||    dev_tpu      ../engine/source/materials/mat/mat101/sigeps101.F
+!||    sigeps101    ../engine/source/materials/mat/mat101/sigeps101.F
+!||--- calls      -----------------------------------------------------
+!||    err_tpu      ../engine/source/materials/mat/mat101/sigeps101.F
+!||====================================================================
       SUBROUTINE TR_TPU(TENSOR, TR_TENSOR, N)
 #include "implicit_f.inc"
 
@@ -1324,13 +1324,13 @@ C
 C
 C=====================================================================72
 C
-      !||====================================================================
-      !||    det_tpu      ../engine/source/materials/mat/mat101/sigeps101.F
-      !||--- called by ------------------------------------------------------
-      !||    compee_tpu   ../engine/source/materials/mat/mat101/sigeps101.F
-      !||    inv_tpu      ../engine/source/materials/mat/mat101/sigeps101.F
-      !||    sigeps101    ../engine/source/materials/mat/mat101/sigeps101.F
-      !||====================================================================
+!||====================================================================
+!||    det_tpu      ../engine/source/materials/mat/mat101/sigeps101.F
+!||--- called by ------------------------------------------------------
+!||    compee_tpu   ../engine/source/materials/mat/mat101/sigeps101.F
+!||    inv_tpu      ../engine/source/materials/mat/mat101/sigeps101.F
+!||    sigeps101    ../engine/source/materials/mat/mat101/sigeps101.F
+!||====================================================================
       SUBROUTINE DET_TPU(TENSOR, TENSOR_DET)
 #include "implicit_f.inc"
 
@@ -1359,15 +1359,15 @@ C
 C
 C=====================================================================72
 C
-      !||====================================================================
-      !||    inv_tpu      ../engine/source/materials/mat/mat101/sigeps101.F
-      !||--- called by ------------------------------------------------------
-      !||    compee_tpu   ../engine/source/materials/mat/mat101/sigeps101.F
-      !||    qtaqmt_tpu   ../engine/source/materials/mat/mat101/sigeps101.F
-      !||    sigeps101    ../engine/source/materials/mat/mat101/sigeps101.F
-      !||--- calls      -----------------------------------------------------
-      !||    det_tpu      ../engine/source/materials/mat/mat101/sigeps101.F
-      !||====================================================================
+!||====================================================================
+!||    inv_tpu      ../engine/source/materials/mat/mat101/sigeps101.F
+!||--- called by ------------------------------------------------------
+!||    compee_tpu   ../engine/source/materials/mat/mat101/sigeps101.F
+!||    qtaqmt_tpu   ../engine/source/materials/mat/mat101/sigeps101.F
+!||    sigeps101    ../engine/source/materials/mat/mat101/sigeps101.F
+!||--- calls      -----------------------------------------------------
+!||    det_tpu      ../engine/source/materials/mat/mat101/sigeps101.F
+!||====================================================================
       SUBROUTINE INV_TPU(TENSOR, TENSOR_INV, TENSOR_DET)
 #include "implicit_f.inc"
 
@@ -1411,12 +1411,12 @@ C
 C
 C=====================================================================72
 C
-      !||====================================================================
-      !||    at_tpu       ../engine/source/materials/mat/mat101/sigeps101.F
-      !||--- called by ------------------------------------------------------
-      !||    compee_tpu   ../engine/source/materials/mat/mat101/sigeps101.F
-      !||    sigeps101    ../engine/source/materials/mat/mat101/sigeps101.F
-      !||====================================================================
+!||====================================================================
+!||    at_tpu       ../engine/source/materials/mat/mat101/sigeps101.F
+!||--- called by ------------------------------------------------------
+!||    compee_tpu   ../engine/source/materials/mat/mat101/sigeps101.F
+!||    sigeps101    ../engine/source/materials/mat/mat101/sigeps101.F
+!||====================================================================
       SUBROUTINE AT_TPU(COEFA, A, COEFB, B, C, N)
 #include "implicit_f.inc"
 
@@ -1442,14 +1442,14 @@ C=====================================================================72
 C
 C=====================================================================72
 C
-      !||====================================================================
-      !||    dev_tpu     ../engine/source/materials/mat/mat101/sigeps101.F
-      !||--- called by ------------------------------------------------------
-      !||    sigeps101   ../engine/source/materials/mat/mat101/sigeps101.F
-      !||--- calls      -----------------------------------------------------
-      !||    err_tpu     ../engine/source/materials/mat/mat101/sigeps101.F
-      !||    tr_tpu      ../engine/source/materials/mat/mat101/sigeps101.F
-      !||====================================================================
+!||====================================================================
+!||    dev_tpu     ../engine/source/materials/mat/mat101/sigeps101.F
+!||--- called by ------------------------------------------------------
+!||    sigeps101   ../engine/source/materials/mat/mat101/sigeps101.F
+!||--- calls      -----------------------------------------------------
+!||    err_tpu     ../engine/source/materials/mat/mat101/sigeps101.F
+!||    tr_tpu      ../engine/source/materials/mat/mat101/sigeps101.F
+!||====================================================================
       SUBROUTINE DEV_TPU(TENSOR, TENSORDEV, N)
 #include "implicit_f.inc"
 
@@ -1485,14 +1485,14 @@ C
 C
 C=====================================================================72
 C
-      !||====================================================================
-      !||    qaqt_tpu    ../engine/source/materials/mat/mat101/sigeps101.F
-      !||--- called by ------------------------------------------------------
-      !||    sigeps101   ../engine/source/materials/mat/mat101/sigeps101.F
-      !||--- calls      -----------------------------------------------------
-      !||    axb_tpu     ../engine/source/materials/mat/mat101/sigeps101.F
-      !||    axbt_tpu    ../engine/source/materials/mat/mat101/sigeps101.F
-      !||====================================================================
+!||====================================================================
+!||    qaqt_tpu    ../engine/source/materials/mat/mat101/sigeps101.F
+!||--- called by ------------------------------------------------------
+!||    sigeps101   ../engine/source/materials/mat/mat101/sigeps101.F
+!||--- calls      -----------------------------------------------------
+!||    axb_tpu     ../engine/source/materials/mat/mat101/sigeps101.F
+!||    axbt_tpu    ../engine/source/materials/mat/mat101/sigeps101.F
+!||====================================================================
       SUBROUTINE QAQT_TPU(Q, A, B, N)
 #include "implicit_f.inc"
 
@@ -1513,14 +1513,14 @@ C
 C
 C=====================================================================72
 C
-      !||====================================================================
-      !||    qtaq_tpu    ../engine/source/materials/mat/mat101/sigeps101.F
-      !||--- called by ------------------------------------------------------
-      !||    sigeps101   ../engine/source/materials/mat/mat101/sigeps101.F
-      !||--- calls      -----------------------------------------------------
-      !||    atxb_tpu    ../engine/source/materials/mat/mat101/sigeps101.F
-      !||    axb_tpu     ../engine/source/materials/mat/mat101/sigeps101.F
-      !||====================================================================
+!||====================================================================
+!||    qtaq_tpu    ../engine/source/materials/mat/mat101/sigeps101.F
+!||--- called by ------------------------------------------------------
+!||    sigeps101   ../engine/source/materials/mat/mat101/sigeps101.F
+!||--- calls      -----------------------------------------------------
+!||    atxb_tpu    ../engine/source/materials/mat/mat101/sigeps101.F
+!||    axb_tpu     ../engine/source/materials/mat/mat101/sigeps101.F
+!||====================================================================
       SUBROUTINE QTAQ_TPU(Q, A, B, N)
 #include "implicit_f.inc"
 
@@ -1541,13 +1541,13 @@ C
 C
 C=====================================================================72
 C
-      !||====================================================================
-      !||    sym_tpu     ../engine/source/materials/mat/mat101/sigeps101.F
-      !||--- called by ------------------------------------------------------
-      !||    sigeps101   ../engine/source/materials/mat/mat101/sigeps101.F
-      !||--- calls      -----------------------------------------------------
-      !||    err_tpu     ../engine/source/materials/mat/mat101/sigeps101.F
-      !||====================================================================
+!||====================================================================
+!||    sym_tpu     ../engine/source/materials/mat/mat101/sigeps101.F
+!||--- called by ------------------------------------------------------
+!||    sigeps101   ../engine/source/materials/mat/mat101/sigeps101.F
+!||--- calls      -----------------------------------------------------
+!||    err_tpu     ../engine/source/materials/mat/mat101/sigeps101.F
+!||====================================================================
       SUBROUTINE SYM_TPU(TENSOR, SYMMTENSOR, N)
 #include "implicit_f.inc"
 
@@ -1584,14 +1584,14 @@ C
 C
 C=====================================================================72
 C
-      !||====================================================================
-      !||    skw_tpu     ../engine/source/materials/mat/mat101/sigeps101.F
-      !||--- called by ------------------------------------------------------
-      !||    sigeps101   ../engine/source/materials/mat/mat101/sigeps101.F
-      !||--- calls      -----------------------------------------------------
-      !||    err_tpu     ../engine/source/materials/mat/mat101/sigeps101.F
-      !||    st_tpu      ../engine/source/materials/mat/mat101/sigeps101.F
-      !||====================================================================
+!||====================================================================
+!||    skw_tpu     ../engine/source/materials/mat/mat101/sigeps101.F
+!||--- called by ------------------------------------------------------
+!||    sigeps101   ../engine/source/materials/mat/mat101/sigeps101.F
+!||--- calls      -----------------------------------------------------
+!||    err_tpu     ../engine/source/materials/mat/mat101/sigeps101.F
+!||    st_tpu      ../engine/source/materials/mat/mat101/sigeps101.F
+!||====================================================================
       SUBROUTINE SKW_TPU(TENSOR, SKEWTENSOR, N)
 #include "implicit_f.inc"
 
@@ -1625,11 +1625,11 @@ C
 C
 C=====================================================================72
 C
-      !||====================================================================
-      !||    mat3x3tovec6x1   ../engine/source/materials/mat/mat101/sigeps101.F
-      !||--- called by ------------------------------------------------------
-      !||    sigeps101        ../engine/source/materials/mat/mat101/sigeps101.F
-      !||====================================================================
+!||====================================================================
+!||    mat3x3tovec6x1   ../engine/source/materials/mat/mat101/sigeps101.F
+!||--- called by ------------------------------------------------------
+!||    sigeps101        ../engine/source/materials/mat/mat101/sigeps101.F
+!||====================================================================
       SUBROUTINE MAT3X3TOVEC6X1(
      &   MATRIX, VECTOR, N
      &   )
@@ -1657,12 +1657,12 @@ C
 C
 C=====================================================================72
 C
-      !||====================================================================
-      !||    vec6x1tomat3x3   ../engine/source/materials/mat/mat101/sigeps101.F
-      !||--- called by ------------------------------------------------------
-      !||    compee_tpu       ../engine/source/materials/mat/mat101/sigeps101.F
-      !||    sigeps101        ../engine/source/materials/mat/mat101/sigeps101.F
-      !||====================================================================
+!||====================================================================
+!||    vec6x1tomat3x3   ../engine/source/materials/mat/mat101/sigeps101.F
+!||--- called by ------------------------------------------------------
+!||    compee_tpu       ../engine/source/materials/mat/mat101/sigeps101.F
+!||    sigeps101        ../engine/source/materials/mat/mat101/sigeps101.F
+!||====================================================================
       SUBROUTINE VEC6X1TOMAT3X3(
      &   VECTOR, MATRIX, N
      &   )
@@ -1713,11 +1713,11 @@ C
       ! END
           
           
-      !||====================================================================
-      !||    sp_tpu      ../engine/source/materials/mat/mat101/sigeps101.F
-      !||--- called by ------------------------------------------------------
-      !||    sigeps101   ../engine/source/materials/mat/mat101/sigeps101.F
-      !||====================================================================
+!||====================================================================
+!||    sp_tpu      ../engine/source/materials/mat/mat101/sigeps101.F
+!||--- called by ------------------------------------------------------
+!||    sigeps101   ../engine/source/materials/mat/mat101/sigeps101.F
+!||====================================================================
       SUBROUTINE SP_TPU(A, B, c, N)
 #include "implicit_f.inc"
 
@@ -1745,13 +1745,13 @@ C
 C
 C=====================================================================72
 C
-      !||====================================================================
-      !||    qtaqmt_tpu   ../engine/source/materials/mat/mat101/sigeps101.F
-      !||--- calls      -----------------------------------------------------
-      !||    atxb_tpu     ../engine/source/materials/mat/mat101/sigeps101.F
-      !||    axbt_tpu     ../engine/source/materials/mat/mat101/sigeps101.F
-      !||    inv_tpu      ../engine/source/materials/mat/mat101/sigeps101.F
-      !||====================================================================
+!||====================================================================
+!||    qtaqmt_tpu   ../engine/source/materials/mat/mat101/sigeps101.F
+!||--- calls      -----------------------------------------------------
+!||    atxb_tpu     ../engine/source/materials/mat/mat101/sigeps101.F
+!||    axbt_tpu     ../engine/source/materials/mat/mat101/sigeps101.F
+!||    inv_tpu      ../engine/source/materials/mat/mat101/sigeps101.F
+!||====================================================================
       SUBROUTINE QTAQMT_TPU(Q, A, B, N)
 #include "implicit_f.inc"
 
@@ -1775,11 +1775,11 @@ C
 C=====================================================================72
 C
 C
-      !||====================================================================
-      !||    emod_tpu    ../engine/source/materials/mat/mat101/sigeps101.F
-      !||--- called by ------------------------------------------------------
-      !||    sigeps101   ../engine/source/materials/mat/mat101/sigeps101.F
-      !||====================================================================
+!||====================================================================
+!||    emod_tpu    ../engine/source/materials/mat/mat101/sigeps101.F
+!||--- called by ------------------------------------------------------
+!||    sigeps101   ../engine/source/materials/mat/mat101/sigeps101.F
+!||====================================================================
       SUBROUTINE EMOD_TPU(AREF,A0  ,C   ,C0    ,DE1  ,DE2, D1,DREF,RES)
 !        CALL EMOD_TPU  (DEREF,DE0,THETA,THETA0,DVE1,DVE2,
 !     &                                                  EM04,DEDOT_REF,DE)
@@ -1802,11 +1802,11 @@ C
 C=====================================================================72
 C
 C
-      !||====================================================================
-      !||    valprop_tpu   ../engine/source/materials/mat/mat101/sigeps101.F
-      !||--- called by ------------------------------------------------------
-      !||    sigeps101     ../engine/source/materials/mat/mat101/sigeps101.F
-      !||====================================================================
+!||====================================================================
+!||    valprop_tpu   ../engine/source/materials/mat/mat101/sigeps101.F
+!||--- called by ------------------------------------------------------
+!||    sigeps101     ../engine/source/materials/mat/mat101/sigeps101.F
+!||====================================================================
       SUBROUTINE VALPROP_TPU(A,N,NP,D,V,NROT,IER)
 #include "implicit_f.inc"
 
@@ -1919,11 +1919,11 @@ C
 C
 C=====================================================================72
 C
-      !||====================================================================
-      !||    eigsrt      ../engine/source/materials/mat/mat101/sigeps101.F
-      !||--- called by ------------------------------------------------------
-      !||    sigeps101   ../engine/source/materials/mat/mat101/sigeps101.F
-      !||====================================================================
+!||====================================================================
+!||    eigsrt      ../engine/source/materials/mat/mat101/sigeps101.F
+!||--- called by ------------------------------------------------------
+!||    sigeps101   ../engine/source/materials/mat/mat101/sigeps101.F
+!||====================================================================
       SUBROUTINE EIGSRT(D,V,N,NP)
 #include "implicit_f.inc"
 
@@ -1958,18 +1958,18 @@ C
 C
 C=====================================================================72
 C
-      !||====================================================================
-      !||    compee_tpu       ../engine/source/materials/mat/mat101/sigeps101.F
-      !||--- calls      -----------------------------------------------------
-      !||    at_tpu           ../engine/source/materials/mat/mat101/sigeps101.F
-      !||    atxb_tpu         ../engine/source/materials/mat/mat101/sigeps101.F
-      !||    axb_tpu          ../engine/source/materials/mat/mat101/sigeps101.F
-      !||    det_tpu          ../engine/source/materials/mat/mat101/sigeps101.F
-      !||    inv_tpu          ../engine/source/materials/mat/mat101/sigeps101.F
-      !||    st_tpu           ../engine/source/materials/mat/mat101/sigeps101.F
-      !||    tr_tpu           ../engine/source/materials/mat/mat101/sigeps101.F
-      !||    vec6x1tomat3x3   ../engine/source/materials/mat/mat101/sigeps101.F
-      !||====================================================================
+!||====================================================================
+!||    compee_tpu       ../engine/source/materials/mat/mat101/sigeps101.F
+!||--- calls      -----------------------------------------------------
+!||    at_tpu           ../engine/source/materials/mat/mat101/sigeps101.F
+!||    atxb_tpu         ../engine/source/materials/mat/mat101/sigeps101.F
+!||    axb_tpu          ../engine/source/materials/mat/mat101/sigeps101.F
+!||    det_tpu          ../engine/source/materials/mat/mat101/sigeps101.F
+!||    inv_tpu          ../engine/source/materials/mat/mat101/sigeps101.F
+!||    st_tpu           ../engine/source/materials/mat/mat101/sigeps101.F
+!||    tr_tpu           ../engine/source/materials/mat/mat101/sigeps101.F
+!||    vec6x1tomat3x3   ../engine/source/materials/mat/mat101/sigeps101.F
+!||====================================================================
       SUBROUTINE COMPEE_TPU(F, FV, ROT, EE, NDI)
 
 #include "implicit_f.inc"
@@ -2108,12 +2108,12 @@ C
 C
 C=====================================================================72
 C
-      !||====================================================================
-      !||    invl_tpu     ../engine/source/materials/mat/mat101/sigeps101.F
-      !||--- calls      -----------------------------------------------------
-      !||    err_tpu      ../engine/source/materials/mat/mat101/sigeps101.F
-      !||    signum_tpu   ../engine/source/materials/mat/mat101/sigeps101.F
-      !||====================================================================
+!||====================================================================
+!||    invl_tpu     ../engine/source/materials/mat/mat101/sigeps101.F
+!||--- calls      -----------------------------------------------------
+!||    err_tpu      ../engine/source/materials/mat/mat101/sigeps101.F
+!||    signum_tpu   ../engine/source/materials/mat/mat101/sigeps101.F
+!||====================================================================
       SUBROUTINE INVL_TPU(A, B, C)
 #include "implicit_f.inc"
 
@@ -2143,11 +2143,11 @@ C
 C
 C=====================================================================72
 C
-      !||====================================================================
-      !||    signum_tpu   ../engine/source/materials/mat/mat101/sigeps101.F
-      !||--- called by ------------------------------------------------------
-      !||    invl_tpu     ../engine/source/materials/mat/mat101/sigeps101.F
-      !||====================================================================
+!||====================================================================
+!||    signum_tpu   ../engine/source/materials/mat/mat101/sigeps101.F
+!||--- called by ------------------------------------------------------
+!||    invl_tpu     ../engine/source/materials/mat/mat101/sigeps101.F
+!||====================================================================
       SUBROUTINE SIGNUM_TPU(A, B )
 #include "implicit_f.inc"
 c
@@ -2171,18 +2171,18 @@ C
 C
 C=====================================================================72
 C
-      !||====================================================================
-      !||    err_tpu     ../engine/source/materials/mat/mat101/sigeps101.F
-      !||--- called by ------------------------------------------------------
-      !||    dev_tpu     ../engine/source/materials/mat/mat101/sigeps101.F
-      !||    invl_tpu    ../engine/source/materials/mat/mat101/sigeps101.F
-      !||    sigeps101   ../engine/source/materials/mat/mat101/sigeps101.F
-      !||    skw_tpu     ../engine/source/materials/mat/mat101/sigeps101.F
-      !||    sym_tpu     ../engine/source/materials/mat/mat101/sigeps101.F
-      !||    tr_tpu      ../engine/source/materials/mat/mat101/sigeps101.F
-      !||--- calls      -----------------------------------------------------
-      !||    arret       ../engine/source/system/arret.F
-      !||====================================================================
+!||====================================================================
+!||    err_tpu     ../engine/source/materials/mat/mat101/sigeps101.F
+!||--- called by ------------------------------------------------------
+!||    dev_tpu     ../engine/source/materials/mat/mat101/sigeps101.F
+!||    invl_tpu    ../engine/source/materials/mat/mat101/sigeps101.F
+!||    sigeps101   ../engine/source/materials/mat/mat101/sigeps101.F
+!||    skw_tpu     ../engine/source/materials/mat/mat101/sigeps101.F
+!||    sym_tpu     ../engine/source/materials/mat/mat101/sigeps101.F
+!||    tr_tpu      ../engine/source/materials/mat/mat101/sigeps101.F
+!||--- calls      -----------------------------------------------------
+!||    arret       ../engine/source/system/arret.F
+!||====================================================================
       SUBROUTINE ERR_TPU(MESSAGE)
 c
 #include "implicit_f.inc"

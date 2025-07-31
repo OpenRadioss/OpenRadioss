@@ -20,25 +20,25 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    freanim                ../engine/source/output/anim/reader/freanim.F
-      !||--- called by ------------------------------------------------------
-      !||    freform                ../engine/source/input/freform.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg                 ../engine/source/output/message/message.F
-      !||    anim_dcod_key_0        ../engine/source/output/anim/reader/anim_dcod_key_0.F
-      !||    anim_reset_index_all   ../engine/source/output/anim/reader/anim_reset_index_all.F
-      !||    anim_set2zero_struct   ../engine/source/output/anim/reader/anim_set2zero_struct.F
-      !||    arret                  ../engine/source/system/arret.F
-      !||    fredec_8key_i          ../engine/source/input/fredec_8key_i.F
-      !||    wriusc2                ../engine/source/input/wriusc2.F
-      !||--- uses       -----------------------------------------------------
-      !||    anim_mod               ../common_source/modules/output/anim_mod.F
-      !||    message_mod            ../engine/share/message_module/message_mod.F
-      !||    names_and_titles_mod   ../common_source/modules/names_and_titles_mod.F
-      !||    sensor_mod             ../common_source/modules/sensor_mod.F90
-      !||    stack_mod              ../engine/share/modules/stack_mod.F
-      !||====================================================================
+!||====================================================================
+!||    freanim                ../engine/source/output/anim/reader/freanim.F
+!||--- called by ------------------------------------------------------
+!||    freform                ../engine/source/input/freform.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                 ../engine/source/output/message/message.F
+!||    anim_dcod_key_0        ../engine/source/output/anim/reader/anim_dcod_key_0.F
+!||    anim_reset_index_all   ../engine/source/output/anim/reader/anim_reset_index_all.F
+!||    anim_set2zero_struct   ../engine/source/output/anim/reader/anim_set2zero_struct.F
+!||    arret                  ../engine/source/system/arret.F
+!||    fredec_8key_i          ../engine/source/input/fredec_8key_i.F
+!||    wriusc2                ../engine/source/input/wriusc2.F
+!||--- uses       -----------------------------------------------------
+!||    anim_mod               ../common_source/modules/output/anim_mod.F
+!||    message_mod            ../engine/share/message_module/message_mod.F
+!||    names_and_titles_mod   ../common_source/modules/names_and_titles_mod.F
+!||    sensor_mod             ../common_source/modules/sensor_mod.F90
+!||    stack_mod              ../engine/share/modules/stack_mod.F
+!||====================================================================
       SUBROUTINE FREANIM(IKAD,KEY0,KANIM,SENSORS)
 C-----------------------------------------------
 C   M o d u l e s

@@ -20,34 +20,34 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    i20ini3                     ../starter/source/interfaces/inter3d1/i20ini3.F
-      !||--- called by ------------------------------------------------------
-      !||    inint3                      ../starter/source/interfaces/inter3d1/inint3.F
-      !||--- calls      -----------------------------------------------------
-      !||    i11buc1                     ../starter/source/interfaces/inter3d1/i11buc1.F
-      !||    i20dst3                     ../starter/source/interfaces/inter3d1/i20dst3.F
-      !||    i20dst3e                    ../starter/source/interfaces/inter3d1/i20dst3.F
-      !||    i20gap1                     ../starter/source/interfaces/inter3d1/i20dst3.F
-      !||    i20nlg                      ../starter/source/interfaces/inter3d1/i20sti3.F
-      !||    i20norm                     ../starter/source/interfaces/inter3d1/i20dst3.F
-      !||    i20pwr3                     ../starter/source/interfaces/inter3d1/i20pwr3.F
-      !||    i20pwr3a                    ../starter/source/interfaces/inter3d1/i20pwr3.F
-      !||    i20pwr3ae                   ../starter/source/interfaces/inter3d1/i20pwr3.F
-      !||    i20pwr3e                    ../starter/source/interfaces/inter3d1/i20pwr3.F
-      !||    i20sti3                     ../starter/source/interfaces/inter3d1/i20sti3.F
-      !||    i20sti3e                    ../starter/source/interfaces/inter3d1/i20sti3.F
-      !||    i20wcontdd                  ../starter/source/spmd/domain_decomposition/grid2mat.F
-      !||    i7buc1                      ../starter/source/interfaces/inter3d1/i7buc1.F
-      !||    i7cor3                      ../starter/source/interfaces/inter3d1/i7cor3.F
-      !||    i7err3                      ../starter/source/interfaces/inter3d1/i7err3.F
-      !||    i7pen3                      ../starter/source/interfaces/inter3d1/i7pen3.F
-      !||    update_weight_inter_type7   ../starter/source/spmd/domain_decomposition/update_weight_inter_type7.F
-      !||    upgrade_ixint               ../starter/source/interfaces/interf1/upgrade_ixint.F
-      !||--- uses       -----------------------------------------------------
-      !||    inter_cand_mod              ../starter/share/modules1/inter_cand_mod.F
-      !||    message_mod                 ../starter/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    i20ini3                     ../starter/source/interfaces/inter3d1/i20ini3.F
+!||--- called by ------------------------------------------------------
+!||    inint3                      ../starter/source/interfaces/inter3d1/inint3.F
+!||--- calls      -----------------------------------------------------
+!||    i11buc1                     ../starter/source/interfaces/inter3d1/i11buc1.F
+!||    i20dst3                     ../starter/source/interfaces/inter3d1/i20dst3.F
+!||    i20dst3e                    ../starter/source/interfaces/inter3d1/i20dst3.F
+!||    i20gap1                     ../starter/source/interfaces/inter3d1/i20dst3.F
+!||    i20nlg                      ../starter/source/interfaces/inter3d1/i20sti3.F
+!||    i20norm                     ../starter/source/interfaces/inter3d1/i20dst3.F
+!||    i20pwr3                     ../starter/source/interfaces/inter3d1/i20pwr3.F
+!||    i20pwr3a                    ../starter/source/interfaces/inter3d1/i20pwr3.F
+!||    i20pwr3ae                   ../starter/source/interfaces/inter3d1/i20pwr3.F
+!||    i20pwr3e                    ../starter/source/interfaces/inter3d1/i20pwr3.F
+!||    i20sti3                     ../starter/source/interfaces/inter3d1/i20sti3.F
+!||    i20sti3e                    ../starter/source/interfaces/inter3d1/i20sti3.F
+!||    i20wcontdd                  ../starter/source/spmd/domain_decomposition/grid2mat.F
+!||    i7buc1                      ../starter/source/interfaces/inter3d1/i7buc1.F
+!||    i7cor3                      ../starter/source/interfaces/inter3d1/i7cor3.F
+!||    i7err3                      ../starter/source/interfaces/inter3d1/i7err3.F
+!||    i7pen3                      ../starter/source/interfaces/inter3d1/i7pen3.F
+!||    update_weight_inter_type7   ../starter/source/spmd/domain_decomposition/update_weight_inter_type7.F
+!||    upgrade_ixint               ../starter/source/interfaces/interf1/upgrade_ixint.F
+!||--- uses       -----------------------------------------------------
+!||    inter_cand_mod              ../starter/share/modules1/inter_cand_mod.F
+!||    message_mod                 ../starter/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE I20INI3(X       ,IXS    ,IXC     ,
      2                  PM      ,GEO     ,IPARI   ,INTERFACE_ID ,ITAB    ,
      3                  MS      ,MWA     ,RWA     ,IXTG   ,IWRN    ,

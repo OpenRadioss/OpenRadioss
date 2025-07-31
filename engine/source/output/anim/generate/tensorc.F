@@ -20,23 +20,23 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    tensorc              ../engine/source/output/anim/generate/tensorc.F
-      !||--- called by ------------------------------------------------------
-      !||    genani               ../engine/source/output/anim/generate/genani.F
-      !||--- calls      -----------------------------------------------------
-      !||    layini               ../engine/source/elements/shell/coque/layini.F
-      !||    spmd_r4get_partn     ../engine/source/mpi/anim/spmd_r4get_partn.F
-      !||    uroto_tens2d         ../engine/source/materials/tools/uroto_tens2d.F
-      !||    uroto_tens2d_aniso   ../engine/source/materials/tools/uroto_tens2d_aniso.F
-      !||    write_r_c            ../common_source/tools/input_output/write_routtines.c
-      !||--- uses       -----------------------------------------------------
-      !||    drape_mod            ../engine/share/modules/drape_mod.F
-      !||    elbufdef_mod         ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||    matparam_def_mod     ../common_source/modules/mat_elem/matparam_def_mod.F90
-      !||    my_alloc_mod         ../common_source/tools/memory/my_alloc.F90
-      !||    stack_mod            ../engine/share/modules/stack_mod.F
-      !||====================================================================
+!||====================================================================
+!||    tensorc              ../engine/source/output/anim/generate/tensorc.F
+!||--- called by ------------------------------------------------------
+!||    genani               ../engine/source/output/anim/generate/genani.F
+!||--- calls      -----------------------------------------------------
+!||    layini               ../engine/source/elements/shell/coque/layini.F
+!||    spmd_r4get_partn     ../engine/source/mpi/anim/spmd_r4get_partn.F
+!||    uroto_tens2d         ../engine/source/materials/tools/uroto_tens2d.F
+!||    uroto_tens2d_aniso   ../engine/source/materials/tools/uroto_tens2d_aniso.F
+!||    write_r_c            ../common_source/tools/input_output/write_routtines.c
+!||--- uses       -----------------------------------------------------
+!||    drape_mod            ../engine/share/modules/drape_mod.F
+!||    elbufdef_mod         ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    matparam_def_mod     ../common_source/modules/mat_elem/matparam_def_mod.F90
+!||    my_alloc_mod         ../common_source/tools/memory/my_alloc.F90
+!||    stack_mod            ../engine/share/modules/stack_mod.F
+!||====================================================================
       SUBROUTINE TENSORC(ELBUF_TAB,IPARG ,ITENS ,INVERT,NELCUT,
      .                   EL2FA    ,NBF   ,TENS  ,EPSDOT,IADP  ,
      .                   NBF_L    ,NBPART,IADG  ,X     ,IXC   ,
@@ -1474,15 +1474,15 @@ C
       DEALLOCATE(WA)
       RETURN
       END
-      !||====================================================================
-      !||    tencgps1       ../engine/source/output/anim/generate/tensorc.F
-      !||--- called by ------------------------------------------------------
-      !||    genani         ../engine/source/output/anim/generate/genani.F
-      !||--- calls      -----------------------------------------------------
-      !||    shlrotg        ../engine/source/output/anim/generate/tensor6.F
-      !||--- uses       -----------------------------------------------------
-      !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    tencgps1       ../engine/source/output/anim/generate/tensorc.F
+!||--- called by ------------------------------------------------------
+!||    genani         ../engine/source/output/anim/generate/genani.F
+!||--- calls      -----------------------------------------------------
+!||    shlrotg        ../engine/source/output/anim/generate/tensor6.F
+!||--- uses       -----------------------------------------------------
+!||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||====================================================================
       SUBROUTINE TENCGPS1(ELBUF_TAB ,IPARG,ITENS,TENS1 ,TENS2  ,
      .                    X     ,IXC  ,IGEO ,IXTG  ,ITAGPS )
 C-----------------------------------------------
@@ -1635,15 +1635,15 @@ C-----------------------------------------------
 C
       RETURN
       END
-      !||====================================================================
-      !||    tencgps2       ../engine/source/output/anim/generate/tensorc.F
-      !||--- called by ------------------------------------------------------
-      !||    genani         ../engine/source/output/anim/generate/genani.F
-      !||--- calls      -----------------------------------------------------
-      !||    shlrotg        ../engine/source/output/anim/generate/tensor6.F
-      !||--- uses       -----------------------------------------------------
-      !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    tencgps2       ../engine/source/output/anim/generate/tensorc.F
+!||--- called by ------------------------------------------------------
+!||    genani         ../engine/source/output/anim/generate/genani.F
+!||--- calls      -----------------------------------------------------
+!||    shlrotg        ../engine/source/output/anim/generate/tensor6.F
+!||--- uses       -----------------------------------------------------
+!||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||====================================================================
       SUBROUTINE TENCGPS2(ELBUF_TAB ,IPARG,ITENS,TENS1 ,TENS2  ,
      .                    X     ,IXC  ,IGEO ,IXTG  ,GEO    ,
      .                    VGPS   )

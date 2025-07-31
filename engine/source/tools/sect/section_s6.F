@@ -20,15 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    section_s6         ../engine/source/tools/sect/section_s6.F
-      !||--- called by ------------------------------------------------------
-      !||    forint             ../engine/source/elements/forint.F
-      !||--- calls      -----------------------------------------------------
-      !||    section_skew       ../engine/source/tools/sect/section_skew.F
-      !||    section_skewp      ../engine/source/tools/sect/section_skewp.F
-      !||    sum_6_float_sect   ../engine/source/system/parit.F
-      !||====================================================================
+!||====================================================================
+!||    section_s6         ../engine/source/tools/sect/section_s6.F
+!||--- called by ------------------------------------------------------
+!||    forint             ../engine/source/elements/forint.F
+!||--- calls      -----------------------------------------------------
+!||    section_skew       ../engine/source/tools/sect/section_skew.F
+!||    section_skewp      ../engine/source/tools/sect/section_skewp.F
+!||    sum_6_float_sect   ../engine/source/system/parit.F
+!||====================================================================
       SUBROUTINE SECTION_S6 (
      1         LFT     ,LLT     ,NFT     ,NSEG       ,N1      ,
      2         N2      ,N3      ,NSTRF   ,X          ,V       ,

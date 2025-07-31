@@ -20,16 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    update_failwave      ../engine/source/materials/fail/failwave/update_failwave.F
-      !||--- called by ------------------------------------------------------
-      !||    resol                ../engine/source/engine/resol.F
-      !||--- calls      -----------------------------------------------------
-      !||    spmd_exch_failwave   ../engine/source/mpi/output/spmd_exch_failwave.F
-      !||--- uses       -----------------------------------------------------
-      !||    debug_mod            ../engine/share/modules/debug_mod.F
-      !||    failwave_mod         ../common_source/modules/failwave_mod.F
-      !||====================================================================
+!||====================================================================
+!||    update_failwave      ../engine/source/materials/fail/failwave/update_failwave.F
+!||--- called by ------------------------------------------------------
+!||    resol                ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
+!||    spmd_exch_failwave   ../engine/source/mpi/output/spmd_exch_failwave.F
+!||--- uses       -----------------------------------------------------
+!||    debug_mod            ../engine/share/modules/debug_mod.F
+!||    failwave_mod         ../common_source/modules/failwave_mod.F
+!||====================================================================
       SUBROUTINE UPDATE_FAILWAVE(FAILWAVE)
 C-----------------------------------------------
 C   M o d u l e s

@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    collect         ../engine/source/output/outfile/collect.F
-      !||--- called by ------------------------------------------------------
-      !||    resol           ../engine/source/engine/resol.F
-      !||--- uses       -----------------------------------------------------
-      !||    inoutfile_mod   ../common_source/modules/inoutfile_mod.F
-      !||====================================================================
+!||====================================================================
+!||    collect         ../engine/source/output/outfile/collect.F
+!||--- called by ------------------------------------------------------
+!||    resol           ../engine/source/engine/resol.F
+!||--- uses       -----------------------------------------------------
+!||    inoutfile_mod   ../common_source/modules/inoutfile_mod.F
+!||====================================================================
       SUBROUTINE COLLECT(A,ITAB,WEIGHT,NODGLOB)
       USE INOUTFILE_MOD
 C-----------------------------------------------
@@ -88,9 +88,9 @@ C-----------------------------------------------
       RETURN
 
       END
-      !||====================================================================
-      !||    collect_pit   ../engine/source/output/outfile/collect.F
-      !||====================================================================
+!||====================================================================
+!||    collect_pit   ../engine/source/output/outfile/collect.F
+!||====================================================================
       SUBROUTINE COLLECT_PIT(A,ITAB,WEIGHT,NODGLOB)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -148,9 +148,9 @@ C-----------------------------------------------
       RETURN
 
       END
-      !||====================================================================
-      !||    collectx   ../engine/source/output/outfile/collect.F
-      !||====================================================================
+!||====================================================================
+!||    collectx   ../engine/source/output/outfile/collect.F
+!||====================================================================
       SUBROUTINE COLLECTX(X,ITAB,WEIGHT,NODGLOB)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -208,9 +208,9 @@ C-----------------------------------------------
       RETURN
 
       END
-      !||====================================================================
-      !||    collectv   ../engine/source/output/outfile/collect.F
-      !||====================================================================
+!||====================================================================
+!||    collectv   ../engine/source/output/outfile/collect.F
+!||====================================================================
       SUBROUTINE COLLECTV(V,ITAB,WEIGHT,NODGLOB)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -269,15 +269,15 @@ C-----------------------------------------------
 
       END
 
-      !||====================================================================
-      !||    collectm        ../engine/source/output/outfile/collect.F
-      !||--- called by ------------------------------------------------------
-      !||    resol           ../engine/source/engine/resol.F
-      !||--- calls      -----------------------------------------------------
-      !||    my_orders       ../common_source/tools/sort/my_orders.c
-      !||--- uses       -----------------------------------------------------
-      !||    inoutfile_mod   ../common_source/modules/inoutfile_mod.F
-      !||====================================================================
+!||====================================================================
+!||    collectm        ../engine/source/output/outfile/collect.F
+!||--- called by ------------------------------------------------------
+!||    resol           ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
+!||    my_orders       ../common_source/tools/sort/my_orders.c
+!||--- uses       -----------------------------------------------------
+!||    inoutfile_mod   ../common_source/modules/inoutfile_mod.F
+!||====================================================================
       SUBROUTINE COLLECTM(NODNX_SMS,ITAB,WEIGHT,NODGLOB)
       USE INOUTFILE_MOD
 C-----------------------------------------------
@@ -368,13 +368,13 @@ C-----------------------------------------------
       END
 
 
-      !||====================================================================
-      !||    collectt        ../engine/source/output/outfile/collect.F
-      !||--- called by ------------------------------------------------------
-      !||    resol           ../engine/source/engine/resol.F
-      !||--- uses       -----------------------------------------------------
-      !||    inoutfile_mod   ../common_source/modules/inoutfile_mod.F
-      !||====================================================================
+!||====================================================================
+!||    collectt        ../engine/source/output/outfile/collect.F
+!||--- called by ------------------------------------------------------
+!||    resol           ../engine/source/engine/resol.F
+!||--- uses       -----------------------------------------------------
+!||    inoutfile_mod   ../common_source/modules/inoutfile_mod.F
+!||====================================================================
       SUBROUTINE COLLECTT(TEMP,ITAB,WEIGHT,NODGLOB)
       USE INOUTFILE_MOD
 C-----------------------------------------------

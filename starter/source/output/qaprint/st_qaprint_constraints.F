@@ -20,15 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    st_qaprint_constraints   ../starter/source/output/qaprint/st_qaprint_constraints.F
-      !||--- called by ------------------------------------------------------
-      !||    st_qaprint_driver        ../starter/source/output/qaprint/st_qaprint_driver.F
-      !||--- calls      -----------------------------------------------------
-      !||    fretitl2                 ../starter/source/starter/freform.F
-      !||--- uses       -----------------------------------------------------
-      !||    r2r_mod                  ../starter/share/modules1/r2r_mod.F
-      !||====================================================================
+!||====================================================================
+!||    st_qaprint_constraints   ../starter/source/output/qaprint/st_qaprint_constraints.F
+!||--- called by ------------------------------------------------------
+!||    st_qaprint_driver        ../starter/source/output/qaprint/st_qaprint_driver.F
+!||--- calls      -----------------------------------------------------
+!||    fretitl2                 ../starter/source/starter/freform.F
+!||--- uses       -----------------------------------------------------
+!||    r2r_mod                  ../starter/share/modules1/r2r_mod.F
+!||====================================================================
       SUBROUTINE ST_QAPRINT_CONSTRAINTS(NOM_OPT   ,INOM_OPT  ,NPBY      ,LPBY      ,RBY       ,
      2                                  IBFTEMP   ,FBFTEMP   ,IBFFLUX   ,FBFFLUX   ,ITAB      ,
      3                                  ICODE     ,ISKEW     ,IBCSLAG   ,IBFVEL    ,FBFVEL    ,

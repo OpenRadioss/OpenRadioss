@@ -20,16 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    thsph          ../engine/source/output/th/thsph.F
-      !||--- called by ------------------------------------------------------
-      !||    hist2          ../engine/source/output/th/hist2.F
-      !||--- calls      -----------------------------------------------------
-      !||    initbuf        ../engine/share/resol/initbuf.F
-      !||--- uses       -----------------------------------------------------
-      !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||    initbuf_mod    ../engine/share/resol/initbuf.F
-      !||====================================================================
+!||====================================================================
+!||    thsph          ../engine/source/output/th/thsph.F
+!||--- called by ------------------------------------------------------
+!||    hist2          ../engine/source/output/th/hist2.F
+!||--- calls      -----------------------------------------------------
+!||    initbuf        ../engine/share/resol/initbuf.F
+!||--- uses       -----------------------------------------------------
+!||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    initbuf_mod    ../engine/share/resol/initbuf.F
+!||====================================================================
       SUBROUTINE THSPH(ELBUF_TAB, NTHGRP2, ITHGRP, IPARG, ITHBUF,
      1                 SPBUF    ,    KXSP, NOD2SP,    PM,  WA    )
 C-----------------------------------------------

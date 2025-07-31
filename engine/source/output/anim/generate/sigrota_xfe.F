@@ -20,16 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    sigrota_xfe     ../engine/source/output/anim/generate/sigrota_xfe.F
-      !||--- called by ------------------------------------------------------
-      !||    tensorc_crk     ../engine/source/output/anim/generate/tensorc_crk.F
-      !||--- calls      -----------------------------------------------------
-      !||    urotov          ../engine/source/airbag/uroto.F
-      !||--- uses       -----------------------------------------------------
-      !||    crackxfem_mod   ../engine/share/modules/crackxfem_mod.F
-      !||    elbufdef_mod    ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    sigrota_xfe     ../engine/source/output/anim/generate/sigrota_xfe.F
+!||--- called by ------------------------------------------------------
+!||    tensorc_crk     ../engine/source/output/anim/generate/tensorc_crk.F
+!||--- calls      -----------------------------------------------------
+!||    urotov          ../engine/source/airbag/uroto.F
+!||--- uses       -----------------------------------------------------
+!||    crackxfem_mod   ../engine/share/modules/crackxfem_mod.F
+!||    elbufdef_mod    ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||====================================================================
       SUBROUTINE SIGROTA_XFE(ELBUF_STR,XFEM_STR,
      1               JFT   ,JLT    ,NFT     ,ILAY     ,NEL  ,
      2               ITY   ,IEL_CRK,IADC_CRK,IADTG_CRK,IXFEM,

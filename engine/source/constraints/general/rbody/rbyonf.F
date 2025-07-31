@@ -20,17 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    rbyonf            ../engine/source/constraints/general/rbody/rbyonf.F
-      !||--- called by ------------------------------------------------------
-      !||    lectur            ../engine/source/input/lectur.F
-      !||--- calls      -----------------------------------------------------
-      !||    rbypid            ../engine/source/constraints/general/rbody/rbypid.F
-      !||    spmd_glob_isum9   ../engine/source/mpi/interfaces/spmd_th.F
-      !||    spmd_ibcast       ../engine/source/mpi/generic/spmd_ibcast.F
-      !||--- uses       -----------------------------------------------------
-      !||    elbufdef_mod      ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    rbyonf            ../engine/source/constraints/general/rbody/rbyonf.F
+!||--- called by ------------------------------------------------------
+!||    lectur            ../engine/source/input/lectur.F
+!||--- calls      -----------------------------------------------------
+!||    rbypid            ../engine/source/constraints/general/rbody/rbypid.F
+!||    spmd_glob_isum9   ../engine/source/mpi/interfaces/spmd_th.F
+!||    spmd_ibcast       ../engine/source/mpi/generic/spmd_ibcast.F
+!||--- uses       -----------------------------------------------------
+!||    elbufdef_mod      ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||====================================================================
       SUBROUTINE RBYONF(IPARG   ,IPARI         ,MS     ,IN     ,
      2                  IXS     ,IXQ    ,IXC   ,IXT    ,IXP    ,
      3                  IXR     ,SKEW   ,ITAB  ,ITABM1 ,ISKWN  ,
@@ -210,16 +210,16 @@ C
 C-----------
       RETURN
       END
-      !||====================================================================
-      !||    rbysens        ../engine/source/constraints/general/rbody/rbyonf.F
-      !||--- called by ------------------------------------------------------
-      !||    resol          ../engine/source/engine/resol.F
-      !||--- calls      -----------------------------------------------------
-      !||    rbypid         ../engine/source/constraints/general/rbody/rbypid.F
-      !||--- uses       -----------------------------------------------------
-      !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||    sensor_mod     ../common_source/modules/sensor_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    rbysens        ../engine/source/constraints/general/rbody/rbyonf.F
+!||--- called by ------------------------------------------------------
+!||    resol          ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
+!||    rbypid         ../engine/source/constraints/general/rbody/rbypid.F
+!||--- uses       -----------------------------------------------------
+!||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    sensor_mod     ../common_source/modules/sensor_mod.F90
+!||====================================================================
       SUBROUTINE RBYSENS(IPARG,IPARI      ,MS    ,IN   ,
      2                  IXS  ,IXQ  ,IXC   ,IXT   ,IXP  ,
      3                  IXR  ,SKEW ,ITAB  ,ITABM1,ISKWN,

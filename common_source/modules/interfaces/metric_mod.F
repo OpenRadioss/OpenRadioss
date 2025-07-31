@@ -23,22 +23,22 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C  Part of interface buffer:
 C  Monitoring information for interface
 C----------------------------------------------------------------------- 
-      !||====================================================================
-      !||    metric_mod                     ../common_source/modules/interfaces/metric_mod.F
-      !||--- called by ------------------------------------------------------
-      !||    close_interf_time              ../engine/source/system/timer_interf.F
-      !||    freform                        ../engine/source/input/freform.F
-      !||    init_interf_sorting_strategy   ../engine/source/interfaces/init_interf_sorting_strategy.F
-      !||    int_startime                   ../engine/source/system/timer_interf.F
-      !||    int_stoptime                   ../engine/source/system/timer_interf.F
-      !||    intbufdef_mod                  ../common_source/modules/interfaces/intbufdef_mod.F90
-      !||    inter_deallocate_wait          ../engine/source/interfaces/generic/inter_deallocate_wait.F
-      !||    inter_sort                     ../engine/source/interfaces/generic/inter_sort.F
-      !||    intfop2                        ../engine/source/interfaces/interf/intfop2.F
-      !||    inttri                         ../engine/source/interfaces/intsort/inttri.F
-      !||    open_interf_time               ../engine/source/system/timer_interf.F
-      !||    printime_interf                ../engine/source/system/timer_interf.F
-      !||====================================================================
+!||====================================================================
+!||    metric_mod                     ../common_source/modules/interfaces/metric_mod.F
+!||--- called by ------------------------------------------------------
+!||    close_interf_time              ../engine/source/system/timer_interf.F
+!||    freform                        ../engine/source/input/freform.F
+!||    init_interf_sorting_strategy   ../engine/source/interfaces/init_interf_sorting_strategy.F
+!||    int_startime                   ../engine/source/system/timer_interf.F
+!||    int_stoptime                   ../engine/source/system/timer_interf.F
+!||    intbufdef_mod                  ../common_source/modules/interfaces/intbufdef_mod.F90
+!||    inter_deallocate_wait          ../engine/source/interfaces/generic/inter_deallocate_wait.F
+!||    inter_sort                     ../engine/source/interfaces/generic/inter_sort.F
+!||    intfop2                        ../engine/source/interfaces/interf/intfop2.F
+!||    inttri                         ../engine/source/interfaces/intsort/inttri.F
+!||    open_interf_time               ../engine/source/system/timer_interf.F
+!||    printime_interf                ../engine/source/system/timer_interf.F
+!||====================================================================
       MODULE METRIC_MOD 
 C----------------------------------------
 
@@ -82,9 +82,9 @@ C Debug
       END TYPE
       CONTAINS
 
-      !||====================================================================
-      !||    int_printime   ../common_source/modules/interfaces/metric_mod.F
-      !||====================================================================
+!||====================================================================
+!||    int_printime   ../common_source/modules/interfaces/metric_mod.F
+!||====================================================================
       SUBROUTINE INT_PRINTIME(THIS)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -114,11 +114,11 @@ c      CALL INT_FLUSHTIME(THIS)
       END SUBROUTINE
 
 
-      !||====================================================================
-      !||    int_flushtime   ../common_source/modules/interfaces/metric_mod.F
-      !||--- called by ------------------------------------------------------
-      !||    resol_init      ../engine/source/engine/resol_init.F
-      !||====================================================================
+!||====================================================================
+!||    int_flushtime   ../common_source/modules/interfaces/metric_mod.F
+!||--- called by ------------------------------------------------------
+!||    resol_init      ../engine/source/engine/resol_init.F
+!||====================================================================
       SUBROUTINE INT_FLUSHTIME(THIS)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

@@ -25,23 +25,23 @@
 ! ==================================================================================================
 !! \brief write ale rezoning data structure in restart file
 !! \details
-      !||====================================================================
-      !||    write_ale_rezoning_param_mod   ../engine/source/output/restart/write_ale_rezoning_param.F90
-      !||--- called by ------------------------------------------------------
-      !||    write_matparam                 ../engine/source/output/restart/write_matparam.F
-      !||====================================================================
+!||====================================================================
+!||    write_ale_rezoning_param_mod   ../engine/source/output/restart/write_ale_rezoning_param.F90
+!||--- called by ------------------------------------------------------
+!||    write_matparam                 ../engine/source/output/restart/write_matparam.F
+!||====================================================================
       module write_ale_rezoning_param_mod
       contains
 
-      !||====================================================================
-      !||    write_ale_rezoning_param   ../engine/source/output/restart/write_ale_rezoning_param.F90
-      !||--- called by ------------------------------------------------------
-      !||    write_matparam             ../engine/source/output/restart/write_matparam.F
-      !||--- calls      -----------------------------------------------------
-      !||    write_i_c                  ../common_source/tools/input_output/write_routtines.c
-      !||--- uses       -----------------------------------------------------
-      !||    ale_mod                    ../common_source/modules/ale/ale_mod.F
-      !||====================================================================
+!||====================================================================
+!||    write_ale_rezoning_param   ../engine/source/output/restart/write_ale_rezoning_param.F90
+!||--- called by ------------------------------------------------------
+!||    write_matparam             ../engine/source/output/restart/write_matparam.F
+!||--- calls      -----------------------------------------------------
+!||    write_i_c                  ../common_source/tools/input_output/write_routtines.c
+!||--- uses       -----------------------------------------------------
+!||    ale_mod                    ../common_source/modules/ale/ale_mod.F
+!||====================================================================
       subroutine write_ale_rezoning_param(rezon)
 ! --------------------------------------------------------------------------------------------------
 !                                                   Modules

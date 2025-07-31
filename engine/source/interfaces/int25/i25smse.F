@@ -20,17 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    i25sms0e      ../engine/source/interfaces/int25/i25smse.F
-      !||--- called by ------------------------------------------------------
-      !||    i25for3e      ../engine/source/interfaces/int25/i25for3e.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg        ../engine/source/output/message/message.F
-      !||    arret         ../engine/source/system/arret.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod   ../engine/share/message_module/message_mod.F
-      !||    tri7box       ../engine/share/modules/tri7box.F
-      !||====================================================================
+!||====================================================================
+!||    i25sms0e      ../engine/source/interfaces/int25/i25smse.F
+!||--- called by ------------------------------------------------------
+!||    i25for3e      ../engine/source/interfaces/int25/i25for3e.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg        ../engine/source/output/message/message.F
+!||    arret         ../engine/source/system/arret.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod   ../engine/share/message_module/message_mod.F
+!||    tri7box       ../engine/share/modules/tri7box.F
+!||====================================================================
       SUBROUTINE I25SMS0E(JLT   ,CS_LOC ,N1    ,N2     ,M1     ,
      2                    M2    ,HS1    ,HS2   ,HM1    ,HM2    ,
      3               STIF  ,NIN    ,NOINT ,MSKYI_SMS ,ISKYI_SMS,
@@ -211,17 +211,17 @@ C        lies onto the same domain
 C      
       RETURN
       END
-      !||====================================================================
-      !||    i25sms2e      ../engine/source/interfaces/int25/i25smse.F
-      !||--- called by ------------------------------------------------------
-      !||    i25for3e      ../engine/source/interfaces/int25/i25for3e.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg        ../engine/source/output/message/message.F
-      !||    arret         ../engine/source/system/arret.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod   ../engine/share/message_module/message_mod.F
-      !||    tri7box       ../engine/share/modules/tri7box.F
-      !||====================================================================
+!||====================================================================
+!||    i25sms2e      ../engine/source/interfaces/int25/i25smse.F
+!||--- called by ------------------------------------------------------
+!||    i25for3e      ../engine/source/interfaces/int25/i25for3e.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg        ../engine/source/output/message/message.F
+!||    arret         ../engine/source/system/arret.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod   ../engine/share/message_module/message_mod.F
+!||    tri7box       ../engine/share/modules/tri7box.F
+!||====================================================================
       SUBROUTINE I25SMS2E(JLT   ,CS_LOC ,N1    ,N2     ,M1     ,
      2                    M2    ,HS1    ,HS2   ,HM1    ,HM2    ,
      3               STIF  ,NIN    ,NOINT ,MSKYI_SMS ,ISKYI_SMS,

@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    r2len3      ../engine/source/elements/spring/r2len3.F
-      !||--- called by ------------------------------------------------------
-      !||    r23law108   ../engine/source/elements/spring/r23law108.F
-      !||    r23law113   ../engine/source/elements/spring/r23law113.F
-      !||    r23law114   ../engine/source/elements/spring/r23law114.F
-      !||    rforc3      ../engine/source/elements/spring/rforc3.F
-      !||====================================================================
+!||====================================================================
+!||    r2len3      ../engine/source/elements/spring/r2len3.F
+!||--- called by ------------------------------------------------------
+!||    r23law108   ../engine/source/elements/spring/r23law108.F
+!||    r23law113   ../engine/source/elements/spring/r23law113.F
+!||    r23law114   ../engine/source/elements/spring/r23law114.F
+!||    rforc3      ../engine/source/elements/spring/rforc3.F
+!||====================================================================
       SUBROUTINE R2LEN3(
      1   JFT,     JLT,     OFF,     DT2T,
      2   NELTST,  ITYPTST, STI,     STIR,

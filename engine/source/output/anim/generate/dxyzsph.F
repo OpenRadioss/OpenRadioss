@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    dxyzsph           ../engine/source/output/anim/generate/dxyzsph.F
-      !||--- called by ------------------------------------------------------
-      !||    genani            ../engine/source/output/anim/generate/genani.F
-      !||--- calls      -----------------------------------------------------
-      !||    spmd_gather_sph   ../engine/source/mpi/anim/spmd_gather_sph.F
-      !||    write_r_c         ../common_source/tools/input_output/write_routtines.c
-      !||====================================================================
+!||====================================================================
+!||    dxyzsph           ../engine/source/output/anim/generate/dxyzsph.F
+!||--- called by ------------------------------------------------------
+!||    genani            ../engine/source/output/anim/generate/genani.F
+!||--- calls      -----------------------------------------------------
+!||    spmd_gather_sph   ../engine/source/mpi/anim/spmd_gather_sph.F
+!||    write_r_c         ../common_source/tools/input_output/write_routtines.c
+!||====================================================================
       SUBROUTINE DXYZSPH (NESPH,KXSP,X,SPBUF,SNNSPHG,NNSPH)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

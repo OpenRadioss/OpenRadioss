@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    ale_box_coloration   ../starter/source/initial_conditions/inivol/ale_box_coloration.F
-      !||--- called by ------------------------------------------------------
-      !||    init_inivol          ../starter/source/initial_conditions/inivol/init_inivol.F90
-      !||--- calls      -----------------------------------------------------
-      !||--- uses       -----------------------------------------------------
-      !||    inivol_def_mod       ../starter/share/modules1/inivol_mod.F
-      !||====================================================================
+!||====================================================================
+!||    ale_box_coloration   ../starter/source/initial_conditions/inivol/ale_box_coloration.F
+!||--- called by ------------------------------------------------------
+!||    init_inivol          ../starter/source/initial_conditions/inivol/init_inivol.F90
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||    inivol_def_mod       ../starter/share/modules1/inivol_mod.F
+!||====================================================================
         SUBROUTINE ALE_BOX_COLORATION(NSURF,NUMNOD,
      .                                NB_CELL_X,NB_CELL_Y,NB_CELL_Z,SURFACE_NUMBER,
      .                                MIN_MAX_POSITION,CELL,X,IGRSURF,INIVOL,CELL_POSITION,

@@ -21,30 +21,30 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 
-      !||====================================================================
-      !||    mod_sptri   ../starter/source/elements/sph/sptri.F
-      !||--- called by ------------------------------------------------------
-      !||    sptri       ../starter/source/elements/sph/sptri.F
-      !||====================================================================
+!||====================================================================
+!||    mod_sptri   ../starter/source/elements/sph/sptri.F
+!||--- called by ------------------------------------------------------
+!||    sptri       ../starter/source/elements/sph/sptri.F
+!||====================================================================
       module MOD_SPTRI
       implicit none
       INTEGER, DIMENSION(:), ALLOCATABLE :: WREDUCE
       END MODULE MOD_SPTRI
 
-      !||====================================================================
-      !||    sptri         ../starter/source/elements/sph/sptri.F
-      !||--- called by ------------------------------------------------------
-      !||    lectur        ../starter/source/starter/lectur.F
-      !||    spinih        ../starter/source/elements/sph/spinih.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg        ../starter/source/output/message/message.F
-      !||    arret         ../starter/source/system/arret.F
-      !||    spbuc31       ../starter/source/elements/sph/spbuc31.F
-      !||    spclasv       ../starter/source/elements/sph/spclasv.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod   ../starter/share/message_module/message_mod.F
-      !||    mod_sptri     ../starter/source/elements/sph/sptri.F
-      !||====================================================================
+!||====================================================================
+!||    sptri         ../starter/source/elements/sph/sptri.F
+!||--- called by ------------------------------------------------------
+!||    lectur        ../starter/source/starter/lectur.F
+!||    spinih        ../starter/source/elements/sph/spinih.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg        ../starter/source/output/message/message.F
+!||    arret         ../starter/source/system/arret.F
+!||    spbuc31       ../starter/source/elements/sph/spbuc31.F
+!||    spclasv       ../starter/source/elements/sph/spclasv.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod   ../starter/share/message_module/message_mod.F
+!||    mod_sptri     ../starter/source/elements/sph/sptri.F
+!||====================================================================
       SUBROUTINE SPTRI(KXSP,IXSP,NOD2SP,X,SPBUF,
      .                 LPRTSPH,LONFSPH,IPARTSP,SZ_INTP_DIST,MAX_INTP_DIST_PART,
      .                 PRE_SEARCH)

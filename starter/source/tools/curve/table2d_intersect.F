@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    table2d_intersect   ../starter/source/tools/curve/table2d_intersect.F
-      !||--- called by ------------------------------------------------------
-      !||    law76_upd           ../starter/source/materials/mat/mat076/law76_upd.F
-      !||--- uses       -----------------------------------------------------
-      !||    table_mod           ../starter/share/modules1/table_mod.F
-      !||====================================================================
+!||====================================================================
+!||    table2d_intersect   ../starter/source/tools/curve/table2d_intersect.F
+!||--- called by ------------------------------------------------------
+!||    law76_upd           ../starter/source/materials/mat/mat076/law76_upd.F
+!||--- uses       -----------------------------------------------------
+!||    table_mod           ../starter/share/modules1/table_mod.F
+!||====================================================================
       SUBROUTINE TABLE2D_INTERSECT(TABLE  ,I1    ,I2    ,NPT    ,
      .                             XFAC   ,XINT  ,YINT  )
 C-----------------------------------------------

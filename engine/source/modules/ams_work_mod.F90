@@ -21,16 +21,16 @@
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !! \brief  Type for AMS working directory
-      !||====================================================================
-      !||    ams_work_mod       ../engine/source/modules/ams_work_mod.F90
-      !||--- called by ------------------------------------------------------
-      !||    resol              ../engine/source/engine/resol.F
-      !||    sms_check          ../engine/source/ams/sms_fsa_inv.F
-      !||    sms_mass_scale_2   ../engine/source/ams/sms_mass_scale_2.F
-      !||    sms_pcg            ../engine/source/ams/sms_pcg.F
-      !||--- uses       -----------------------------------------------------
-      !||    precision_mod      ../common_source/modules/precision_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    ams_work_mod       ../engine/source/modules/ams_work_mod.F90
+!||--- called by ------------------------------------------------------
+!||    resol              ../engine/source/engine/resol.F
+!||    sms_check          ../engine/source/ams/sms_fsa_inv.F
+!||    sms_mass_scale_2   ../engine/source/ams/sms_mass_scale_2.F
+!||    sms_pcg            ../engine/source/ams/sms_pcg.F
+!||--- uses       -----------------------------------------------------
+!||    precision_mod      ../common_source/modules/precision_mod.F90
+!||====================================================================
         module ams_work_mod
             use precision_mod , only: WP
             implicit none

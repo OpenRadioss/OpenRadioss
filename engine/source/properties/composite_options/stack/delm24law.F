@@ -21,13 +21,13 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C total strain delamination failure model ------
-      !||====================================================================
-      !||    delm24law        ../engine/source/properties/composite_options/stack/delm24law.F
-      !||--- called by ------------------------------------------------------
-      !||    delamination     ../engine/source/properties/composite_options/stack/delamination.F
-      !||--- uses       -----------------------------------------------------
-      !||    fail_param_mod   ../common_source/modules/mat_elem/fail_param_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    delm24law        ../engine/source/properties/composite_options/stack/delm24law.F
+!||--- called by ------------------------------------------------------
+!||    delamination     ../engine/source/properties/composite_options/stack/delamination.F
+!||--- uses       -----------------------------------------------------
+!||    fail_param_mod   ../common_source/modules/mat_elem/fail_param_mod.F90
+!||====================================================================
       SUBROUTINE DELM24LAW(FAIL    ,
      1     NEL    ,NUVAR   ,TIME   ,TIMESTEP ,
      3     NGL    ,IPLY    ,

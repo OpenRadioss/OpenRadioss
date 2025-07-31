@@ -20,17 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    i10tri          ../engine/source/interfaces/intsort/i10tri.F
-      !||--- called by ------------------------------------------------------
-      !||    i10buce         ../engine/source/interfaces/intsort/i10buce.F
-      !||--- calls      -----------------------------------------------------
-      !||    i10sto          ../engine/source/interfaces/intsort/i10sto.F
-      !||    i7dstk          ../engine/source/interfaces/intsort/i7dstk.F
-      !||    spmd_oldnumcd   ../engine/source/mpi/interfaces/spmd_i7tool.F
-      !||--- uses       -----------------------------------------------------
-      !||    tri7box         ../engine/share/modules/tri7box.F
-      !||====================================================================
+!||====================================================================
+!||    i10tri          ../engine/source/interfaces/intsort/i10tri.F
+!||--- called by ------------------------------------------------------
+!||    i10buce         ../engine/source/interfaces/intsort/i10buce.F
+!||--- calls      -----------------------------------------------------
+!||    i10sto          ../engine/source/interfaces/intsort/i10sto.F
+!||    i7dstk          ../engine/source/interfaces/intsort/i7dstk.F
+!||    spmd_oldnumcd   ../engine/source/mpi/interfaces/spmd_i7tool.F
+!||--- uses       -----------------------------------------------------
+!||    tri7box         ../engine/share/modules/tri7box.F
+!||====================================================================
       SUBROUTINE I10TRI(
      1      ADD   ,NSN    ,RENUM  ,NSNR     ,NRTM   ,
      2      IRECT ,X      ,XYZM   ,IGAP     ,GAP    ,

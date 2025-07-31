@@ -20,12 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    pmass     ../starter/source/elements/beam/pmass.F
-      !||--- called by ------------------------------------------------------
-      !||    inivoid   ../starter/source/elements/initia/inivoid.F
-      !||    pinit3    ../starter/source/elements/beam/pinit3.F
-      !||====================================================================
+!||====================================================================
+!||    pmass     ../starter/source/elements/beam/pmass.F
+!||--- called by ------------------------------------------------------
+!||    inivoid   ../starter/source/elements/initia/inivoid.F
+!||    pinit3    ../starter/source/elements/beam/pinit3.F
+!||====================================================================
       SUBROUTINE PMASS(GEO    ,PM       ,
      .                 STIFN ,STIFR  ,PARTSAV ,V      ,IPART   ,
      .                 MSP   ,INP    ,IGEO    ,STP     ,

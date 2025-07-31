@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    mintp1_rt      ../common_source/eos/mintp1_rt.F
-      !||--- called by ------------------------------------------------------
-      !||    sesame         ../common_source/eos/sesame.F
-      !||--- calls      -----------------------------------------------------
-      !||    minter1d_rat   ../common_source/eos/minter1d_rat.F
-      !||====================================================================
+!||====================================================================
+!||    mintp1_rt      ../common_source/eos/mintp1_rt.F
+!||--- called by ------------------------------------------------------
+!||    sesame         ../common_source/eos/sesame.F
+!||--- calls      -----------------------------------------------------
+!||    minter1d_rat   ../common_source/eos/minter1d_rat.F
+!||====================================================================
       SUBROUTINE MINTP1_RT(XX,NX,YY,NY,ZZ,X,Y,Z,DZDX,DZDY)
 C=======================================================================
 C

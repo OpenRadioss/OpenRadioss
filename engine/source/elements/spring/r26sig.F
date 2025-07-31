@@ -20,15 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    r26sig                ../engine/source/elements/spring/r26sig.F
-      !||--- called by ------------------------------------------------------
-      !||    r26def3               ../engine/source/elements/spring/r26def3.F
-      !||--- calls      -----------------------------------------------------
-      !||    finter                ../engine/source/tools/curve/finter.F
-      !||--- uses       -----------------------------------------------------
-      !||    python_funct_mod      ../common_source/modules/python_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    r26sig                ../engine/source/elements/spring/r26sig.F
+!||--- called by ------------------------------------------------------
+!||    r26def3               ../engine/source/elements/spring/r26def3.F
+!||--- calls      -----------------------------------------------------
+!||    finter                ../engine/source/tools/curve/finter.F
+!||--- uses       -----------------------------------------------------
+!||    python_funct_mod      ../common_source/modules/python_mod.F90
+!||====================================================================
       SUBROUTINE R26SIG(PYTHON, 
      1   FX,      XK,      DX,      DXOLD,
      2   E,       OFF,     XL0,     TF,

@@ -20,27 +20,27 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    spmd_cell_exchange         ../engine/source/mpi/generic/spmd_cell_exchange.F
-      !||--- called by ------------------------------------------------------
-      !||    inter_sort_07              ../engine/source/interfaces/int07/inter_sort_07.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg                     ../engine/source/output/message/message.F
-      !||    arret                      ../engine/source/system/arret.F
-      !||    fill_voxel_local_partial   ../engine/source/interfaces/intsort/fill_voxel.F90
-      !||    fill_voxel_remote          ../engine/source/interfaces/intsort/fill_voxel.F90
-      !||    startime                   ../engine/source/system/timer_mod.F90
-      !||    stoptime                   ../engine/source/system/timer_mod.F90
-      !||--- uses       -----------------------------------------------------
-      !||    fill_voxel_mod             ../engine/source/interfaces/intsort/fill_voxel.F90
-      !||    inter_sorting_mod          ../engine/share/modules/inter_sorting_mod.F
-      !||    inter_struct_mod           ../engine/share/modules/inter_struct_mod.F
-      !||    message_mod                ../engine/share/message_module/message_mod.F
-      !||    multi_fvm_mod              ../common_source/modules/ale/multi_fvm_mod.F90
-      !||    spmd_comm_world_mod        ../engine/source/mpi/spmd_comm_world.F90
-      !||    timer_mod                  ../engine/source/system/timer_mod.F90
-      !||    tri7box                    ../engine/share/modules/tri7box.F
-      !||====================================================================
+!||====================================================================
+!||    spmd_cell_exchange         ../engine/source/mpi/generic/spmd_cell_exchange.F
+!||--- called by ------------------------------------------------------
+!||    inter_sort_07              ../engine/source/interfaces/int07/inter_sort_07.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                     ../engine/source/output/message/message.F
+!||    arret                      ../engine/source/system/arret.F
+!||    fill_voxel_local_partial   ../engine/source/interfaces/intsort/fill_voxel.F90
+!||    fill_voxel_remote          ../engine/source/interfaces/intsort/fill_voxel.F90
+!||    startime                   ../engine/source/system/timer_mod.F90
+!||    stoptime                   ../engine/source/system/timer_mod.F90
+!||--- uses       -----------------------------------------------------
+!||    fill_voxel_mod             ../engine/source/interfaces/intsort/fill_voxel.F90
+!||    inter_sorting_mod          ../engine/share/modules/inter_sorting_mod.F
+!||    inter_struct_mod           ../engine/share/modules/inter_struct_mod.F
+!||    message_mod                ../engine/share/message_module/message_mod.F
+!||    multi_fvm_mod              ../common_source/modules/ale/multi_fvm_mod.F90
+!||    spmd_comm_world_mod        ../engine/source/mpi/spmd_comm_world.F90
+!||    timer_mod                  ../engine/source/system/timer_mod.F90
+!||    tri7box                    ../engine/share/modules/tri7box.F
+!||====================================================================
       SUBROUTINE SPMD_CELL_EXCHANGE(TIMERS, NIN,ISENDTO,IRCVFROM,NSN,NSNR,IGAP,
      1                               IFQ,INACTI,NSNFIOLD,INTTH,ITYP,STFNS, NSV,
      2                               NRTM, X,

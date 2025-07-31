@@ -20,11 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    pfint3   ../engine/source/elements/beam/pfint3.F
-      !||--- called by ------------------------------------------------------
-      !||    pforc3   ../engine/source/elements/beam/pforc3.F
-      !||====================================================================
+!||====================================================================
+!||    pfint3   ../engine/source/elements/beam/pfint3.F
+!||--- called by ------------------------------------------------------
+!||    pforc3   ../engine/source/elements/beam/pforc3.F
+!||====================================================================
       SUBROUTINE PFINT3(FOR    ,MOM    ,GEO    ,OFFG   ,OFF,
      .                  AL     ,F1     ,F2     ,F3     ,M1 ,
      .                  M2     ,M3     ,STI    ,STIR   ,NEL,

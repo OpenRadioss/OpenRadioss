@@ -20,15 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    dsecnor     ../engine/source/output/anim/generate/dsecnor.F
-      !||--- called by ------------------------------------------------------
-      !||    genani      ../engine/source/output/anim/generate/genani.F
-      !||--- calls      -----------------------------------------------------
-      !||    dnwalc      ../engine/source/output/anim/generate/dnwalc.F
-      !||    dnwals      ../engine/source/output/anim/generate/dnwals.F
-      !||    write_s_c   ../common_source/tools/input_output/write_routtines.c
-      !||====================================================================
+!||====================================================================
+!||    dsecnor     ../engine/source/output/anim/generate/dsecnor.F
+!||--- called by ------------------------------------------------------
+!||    genani      ../engine/source/output/anim/generate/genani.F
+!||--- calls      -----------------------------------------------------
+!||    dnwalc      ../engine/source/output/anim/generate/dnwalc.F
+!||    dnwals      ../engine/source/output/anim/generate/dnwals.F
+!||    write_s_c   ../common_source/tools/input_output/write_routtines.c
+!||====================================================================
       SUBROUTINE DSECNOR(X    ,RWBUF,NPRW)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

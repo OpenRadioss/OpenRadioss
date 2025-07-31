@@ -20,12 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    fail_rtcl_c     ../engine/source/materials/fail/rtcl/fail_rtcl_c.F
-      !||--- called by ------------------------------------------------------
-      !||    mulawc          ../engine/source/materials/mat_share/mulawc.F90
-      !||    usermat_shell   ../engine/source/materials/mat_share/usermat_shell.F
-      !||====================================================================
+!||====================================================================
+!||    fail_rtcl_c     ../engine/source/materials/fail/rtcl/fail_rtcl_c.F
+!||--- called by ------------------------------------------------------
+!||    mulawc          ../engine/source/materials/mat_share/mulawc.F90
+!||    usermat_shell   ../engine/source/materials/mat_share/usermat_shell.F
+!||====================================================================
       SUBROUTINE FAIL_RTCL_C (
      1     NEL      ,NUPARAM  ,NUVAR    ,TIME     ,TIMESTEP ,UPARAM   ,
      2     SIGNXX   ,SIGNYY   ,SIGNXY   ,SIGNYZ   ,SIGNZX   ,NPTOT    ,

@@ -20,18 +20,18 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    sigeps76c          ../engine/source/materials/mat/mat076/sigeps76c.F
-      !||--- called by ------------------------------------------------------
-      !||    mulawc             ../engine/source/materials/mat_share/mulawc.F90
-      !||--- calls      -----------------------------------------------------
-      !||    asso_qplas76c      ../engine/source/materials/mat/mat076/asso_qplas76c.F
-      !||    no_asso_lplas76c   ../engine/source/materials/mat/mat076/no_asso_lplas76c.F
-      !||    no_asso_qplas76c   ../engine/source/materials/mat/mat076/no_asso_qplas76c.F
-      !||    vinter             ../engine/source/tools/curve/vinter.F
-      !||--- uses       -----------------------------------------------------
-      !||    matparam_def_mod   ../common_source/modules/mat_elem/matparam_def_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    sigeps76c          ../engine/source/materials/mat/mat076/sigeps76c.F
+!||--- called by ------------------------------------------------------
+!||    mulawc             ../engine/source/materials/mat_share/mulawc.F90
+!||--- calls      -----------------------------------------------------
+!||    asso_qplas76c      ../engine/source/materials/mat/mat076/asso_qplas76c.F
+!||    no_asso_lplas76c   ../engine/source/materials/mat/mat076/no_asso_lplas76c.F
+!||    no_asso_qplas76c   ../engine/source/materials/mat/mat076/no_asso_qplas76c.F
+!||    vinter             ../engine/source/tools/curve/vinter.F
+!||--- uses       -----------------------------------------------------
+!||    matparam_def_mod   ../common_source/modules/mat_elem/matparam_def_mod.F90
+!||====================================================================
       SUBROUTINE SIGEPS76C(
      1     NEL     ,NUPARAM ,NUVAR   ,NFUNC   ,IFUNC   ,
      2     NPF     ,TF      ,MATPARAM,TIME    ,TIMESTEP,

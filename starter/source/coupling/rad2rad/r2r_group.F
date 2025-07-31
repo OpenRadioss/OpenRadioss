@@ -20,32 +20,32 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    r2r_group              ../starter/source/coupling/rad2rad/r2r_group.F
-      !||--- called by ------------------------------------------------------
-      !||    lectur                 ../starter/source/starter/lectur.F
-      !||--- calls      -----------------------------------------------------
-      !||    ale_check_lag          ../starter/source/ale/ale_check_lag.F
-      !||    ancmsg                 ../starter/source/output/message/message.F
-      !||    chk_flg_fsi            ../starter/source/coupling/rad2rad/routines_r2r.F
-      !||    new_link               ../starter/source/coupling/rad2rad/new_link.F
-      !||    printcenter            ../starter/source/starter/radioss_title.F
-      !||    r2r_input              ../starter/source/coupling/rad2rad/r2r_input.F
-      !||    r2r_prelec             ../starter/source/coupling/rad2rad/r2r_prelec.F
-      !||    tagnod_r2r             ../starter/source/coupling/rad2rad/tagnod_r2r.F
-      !||    tagnod_r2r_nl          ../starter/source/coupling/rad2rad/tagnod_r2r_nl.F
-      !||    tagnod_r2r_s           ../starter/source/coupling/rad2rad/tagnod_r2r.F
-      !||    tagnods_r2r            ../starter/source/coupling/rad2rad/tagnod_r2r.F
-      !||--- uses       -----------------------------------------------------
-      !||    detonators_mod         ../starter/share/modules1/detonators_mod.F
-      !||    group_mod              ../starter/share/modules1/group_mod.F
-      !||    inivol_def_mod         ../starter/share/modules1/inivol_mod.F
-      !||    message_mod            ../starter/share/message_module/message_mod.F
-      !||    r2r_mod                ../starter/share/modules1/r2r_mod.F
-      !||    reader_old_mod         ../starter/share/modules1/reader_old_mod.F90
-      !||    restmod                ../starter/share/modules1/restart_mod.F
-      !||    submodel_mod           ../starter/share/modules1/submodel_mod.F
-      !||====================================================================
+!||====================================================================
+!||    r2r_group              ../starter/source/coupling/rad2rad/r2r_group.F
+!||--- called by ------------------------------------------------------
+!||    lectur                 ../starter/source/starter/lectur.F
+!||--- calls      -----------------------------------------------------
+!||    ale_check_lag          ../starter/source/ale/ale_check_lag.F
+!||    ancmsg                 ../starter/source/output/message/message.F
+!||    chk_flg_fsi            ../starter/source/coupling/rad2rad/routines_r2r.F
+!||    new_link               ../starter/source/coupling/rad2rad/new_link.F
+!||    printcenter            ../starter/source/starter/radioss_title.F
+!||    r2r_input              ../starter/source/coupling/rad2rad/r2r_input.F
+!||    r2r_prelec             ../starter/source/coupling/rad2rad/r2r_prelec.F
+!||    tagnod_r2r             ../starter/source/coupling/rad2rad/tagnod_r2r.F
+!||    tagnod_r2r_nl          ../starter/source/coupling/rad2rad/tagnod_r2r_nl.F
+!||    tagnod_r2r_s           ../starter/source/coupling/rad2rad/tagnod_r2r.F
+!||    tagnods_r2r            ../starter/source/coupling/rad2rad/tagnod_r2r.F
+!||--- uses       -----------------------------------------------------
+!||    detonators_mod         ../starter/share/modules1/detonators_mod.F
+!||    group_mod              ../starter/share/modules1/group_mod.F
+!||    inivol_def_mod         ../starter/share/modules1/inivol_mod.F
+!||    message_mod            ../starter/share/message_module/message_mod.F
+!||    r2r_mod                ../starter/share/modules1/r2r_mod.F
+!||    reader_old_mod         ../starter/share/modules1/reader_old_mod.F90
+!||    restmod                ../starter/share/modules1/restart_mod.F
+!||    submodel_mod           ../starter/share/modules1/submodel_mod.F
+!||====================================================================
       SUBROUTINE R2R_GROUP(
      1           NGROU,INNOD,FLAG,IPARTS,
      2           IPARTQ,IPARTC,IPARTT,IPARTP,IPARTR,IPARTG,

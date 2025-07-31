@@ -20,15 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    fvbric01       ../starter/source/airbag/fvbric01.F
-      !||--- called by ------------------------------------------------------
-      !||    init_monvol    ../starter/source/airbag/init_monvol.F
-      !||--- calls      -----------------------------------------------------
-      !||    arret          ../starter/source/system/arret.F
-      !||    iface          ../starter/source/ale/ale3d/iface.F
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    fvbric01       ../starter/source/airbag/fvbric01.F
+!||--- called by ------------------------------------------------------
+!||    init_monvol    ../starter/source/airbag/init_monvol.F
+!||--- calls      -----------------------------------------------------
+!||    arret          ../starter/source/system/arret.F
+!||    iface          ../starter/source/ale/ale3d/iface.F
+!||--- uses       -----------------------------------------------------
+!||====================================================================
       SUBROUTINE FVBRIC01(IBUF, ELEM, NTGI, NB_NODE, NBRIC, IXS, 
      .     TBRIC, TFAC)
 C-----------------------------------------------  

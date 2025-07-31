@@ -20,60 +20,60 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    sphbox                ../engine/share/modules/sphbox.F
-      !||--- called by ------------------------------------------------------
-      !||    forintp               ../engine/source/elements/forintp.F
-      !||    restmod               ../engine/share/modules/restart_mod.F
-      !||    soltosph_on1          ../engine/source/elements/sph/soltosph_on1.F
-      !||    soltosph_on12         ../engine/source/elements/sph/soltosph_on1.F
-      !||    soltosph_on2          ../engine/source/elements/sph/soltosph_on2.F
-      !||    spadasm               ../engine/source/elements/sph/spadasm.F
-      !||    spadasm0              ../engine/source/elements/sph/spadasm.F
-      !||    spbuc3                ../engine/source/elements/sph/spbuc3.F
-      !||    spclasv               ../engine/source/elements/sph/spclasv.F
-      !||    spcompl               ../engine/source/elements/sph/spcompl.F
-      !||    spdens                ../engine/source/elements/sph/spdens.F
-      !||    spforcp               ../engine/source/elements/sph/spforcp.F
-      !||    spgauge               ../engine/source/elements/sph/spgauge.F
-      !||    spgradt               ../engine/source/elements/sph/sptemp.F
-      !||    spgtsym               ../engine/source/elements/sph/sptemp.F
-      !||    sphtri                ../engine/source/elements/sph/sphtri.F
-      !||    splaplt               ../engine/source/elements/sph/sptemp.F
-      !||    splissv               ../engine/source/elements/sph/splissv.F
-      !||    spmd_inisph           ../engine/source/mpi/sph/spmd_sptool.F
-      !||    spmd_savesph          ../engine/source/mpi/sph/spmd_sptool.F
-      !||    spmd_spamaj           ../engine/source/mpi/sph/spmd_spamaj.F
-      !||    spmd_sphgat           ../engine/source/mpi/sph/spmd_sphgat.F
-      !||    spmd_sphgeta          ../engine/source/mpi/elements/spmd_sph.F
-      !||    spmd_sphgetd          ../engine/source/mpi/elements/spmd_sph.F
-      !||    spmd_sphgetdk         ../engine/source/mpi/elements/spmd_sph.F
-      !||    spmd_sphgetf          ../engine/source/mpi/elements/spmd_sph.F
-      !||    spmd_sphgetg          ../engine/source/mpi/elements/spmd_sph.F
-      !||    spmd_sphgeth          ../engine/source/mpi/elements/spmd_sph.F
-      !||    spmd_sphgetimp        ../engine/source/mpi/elements/spmd_sph.F
-      !||    spmd_sphgetisph       ../engine/source/mpi/elements/spmd_sph.F
-      !||    spmd_sphgetstb        ../engine/source/mpi/elements/spmd_sph.F
-      !||    spmd_sphgett          ../engine/source/mpi/elements/spmd_sph.F
-      !||    spmd_sphgetv          ../engine/source/mpi/sph/spmd_sphgetv.F
-      !||    spmd_sphgetvois_off   ../engine/source/mpi/elements/spmd_sph.F
-      !||    spmd_sphgetw          ../engine/source/mpi/elements/spmd_sph.F
-      !||    spmd_sphgetwa         ../engine/source/mpi/elements/spmd_sph.F
-      !||    spmd_sphgetx          ../engine/source/mpi/elements/spmd_sph.F
-      !||    spmd_sphvox           ../engine/source/mpi/sph/spmd_sphvox.F
-      !||    sponfprs              ../engine/source/elements/sph/sponfprs.F
-      !||    sponfro               ../engine/source/elements/sph/sponfro.F
-      !||    sponfv                ../engine/source/elements/sph/sponfv.F
-      !||    sponof2               ../engine/source/elements/sph/sponof2.F
-      !||    sppro3                ../engine/source/elements/sph/sppro3.F
-      !||    spscomp               ../engine/source/elements/sph/spcompl.F
-      !||    spsgsym               ../engine/source/elements/sph/spsgsym.F
-      !||    spstabs               ../engine/source/elements/sph/spstab.F
-      !||    spstabw               ../engine/source/elements/sph/spstab.F
-      !||    spsym_alloc           ../engine/source/elements/sph/spsym_alloc.F
-      !||    spsymp                ../engine/source/elements/sph/spsym.F
-      !||    sptrivox              ../engine/source/elements/sph/sptrivox.F
-      !||====================================================================
+!||====================================================================
+!||    sphbox                ../engine/share/modules/sphbox.F
+!||--- called by ------------------------------------------------------
+!||    forintp               ../engine/source/elements/forintp.F
+!||    restmod               ../engine/share/modules/restart_mod.F
+!||    soltosph_on1          ../engine/source/elements/sph/soltosph_on1.F
+!||    soltosph_on12         ../engine/source/elements/sph/soltosph_on1.F
+!||    soltosph_on2          ../engine/source/elements/sph/soltosph_on2.F
+!||    spadasm               ../engine/source/elements/sph/spadasm.F
+!||    spadasm0              ../engine/source/elements/sph/spadasm.F
+!||    spbuc3                ../engine/source/elements/sph/spbuc3.F
+!||    spclasv               ../engine/source/elements/sph/spclasv.F
+!||    spcompl               ../engine/source/elements/sph/spcompl.F
+!||    spdens                ../engine/source/elements/sph/spdens.F
+!||    spforcp               ../engine/source/elements/sph/spforcp.F
+!||    spgauge               ../engine/source/elements/sph/spgauge.F
+!||    spgradt               ../engine/source/elements/sph/sptemp.F
+!||    spgtsym               ../engine/source/elements/sph/sptemp.F
+!||    sphtri                ../engine/source/elements/sph/sphtri.F
+!||    splaplt               ../engine/source/elements/sph/sptemp.F
+!||    splissv               ../engine/source/elements/sph/splissv.F
+!||    spmd_inisph           ../engine/source/mpi/sph/spmd_sptool.F
+!||    spmd_savesph          ../engine/source/mpi/sph/spmd_sptool.F
+!||    spmd_spamaj           ../engine/source/mpi/sph/spmd_spamaj.F
+!||    spmd_sphgat           ../engine/source/mpi/sph/spmd_sphgat.F
+!||    spmd_sphgeta          ../engine/source/mpi/elements/spmd_sph.F
+!||    spmd_sphgetd          ../engine/source/mpi/elements/spmd_sph.F
+!||    spmd_sphgetdk         ../engine/source/mpi/elements/spmd_sph.F
+!||    spmd_sphgetf          ../engine/source/mpi/elements/spmd_sph.F
+!||    spmd_sphgetg          ../engine/source/mpi/elements/spmd_sph.F
+!||    spmd_sphgeth          ../engine/source/mpi/elements/spmd_sph.F
+!||    spmd_sphgetimp        ../engine/source/mpi/elements/spmd_sph.F
+!||    spmd_sphgetisph       ../engine/source/mpi/elements/spmd_sph.F
+!||    spmd_sphgetstb        ../engine/source/mpi/elements/spmd_sph.F
+!||    spmd_sphgett          ../engine/source/mpi/elements/spmd_sph.F
+!||    spmd_sphgetv          ../engine/source/mpi/sph/spmd_sphgetv.F
+!||    spmd_sphgetvois_off   ../engine/source/mpi/elements/spmd_sph.F
+!||    spmd_sphgetw          ../engine/source/mpi/elements/spmd_sph.F
+!||    spmd_sphgetwa         ../engine/source/mpi/elements/spmd_sph.F
+!||    spmd_sphgetx          ../engine/source/mpi/elements/spmd_sph.F
+!||    spmd_sphvox           ../engine/source/mpi/sph/spmd_sphvox.F
+!||    sponfprs              ../engine/source/elements/sph/sponfprs.F
+!||    sponfro               ../engine/source/elements/sph/sponfro.F
+!||    sponfv                ../engine/source/elements/sph/sponfv.F
+!||    sponof2               ../engine/source/elements/sph/sponof2.F
+!||    sppro3                ../engine/source/elements/sph/sppro3.F
+!||    spscomp               ../engine/source/elements/sph/spcompl.F
+!||    spsgsym               ../engine/source/elements/sph/spsgsym.F
+!||    spstabs               ../engine/source/elements/sph/spstab.F
+!||    spstabw               ../engine/source/elements/sph/spstab.F
+!||    spsym_alloc           ../engine/source/elements/sph/spsym_alloc.F
+!||    spsymp                ../engine/source/elements/sph/spsym.F
+!||    sptrivox              ../engine/source/elements/sph/sptrivox.F
+!||====================================================================
       MODULE SPHBOX
 #include "my_real.inc"
       TYPE real_pointer5

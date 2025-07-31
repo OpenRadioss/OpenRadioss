@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    parsorc        ../starter/source/output/anim/parsorc.F
-      !||--- called by ------------------------------------------------------
-      !||    genani1        ../starter/source/output/anim/genani1.F
-      !||--- calls      -----------------------------------------------------
-      !||    facnor         ../starter/source/output/anim/facnor.F
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    parsorc        ../starter/source/output/anim/parsorc.F
+!||--- called by ------------------------------------------------------
+!||    genani1        ../starter/source/output/anim/genani1.F
+!||--- calls      -----------------------------------------------------
+!||    facnor         ../starter/source/output/anim/facnor.F
+!||--- uses       -----------------------------------------------------
+!||====================================================================
       SUBROUTINE PARSORC(X    ,D    ,XNORM,IADD ,CDG  ,
      .                  BUFEL,IPARG,IXQ  ,IXC  ,IXTG ,
      .                  INVERT,EL2FA,

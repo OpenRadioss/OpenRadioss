@@ -20,21 +20,21 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    eng_qaprint_driver                 ../engine/source/output/qaprint/eng_qaprint_driver.F
-      !||--- called by ------------------------------------------------------
-      !||    sortie_main                        ../engine/source/output/sortie_main.F
-      !||--- calls      -----------------------------------------------------
-      !||    eng_qaprint_animinput              ../engine/source/output/qaprint/eng_qaprint_animinput.F
-      !||    eng_qaprint_dtinput                ../engine/source/output/qaprint/eng_qaprint_dtinput.F
-      !||    eng_qaprint_generalcontrolsinput   ../engine/source/output/qaprint/eng_qaprint_generalcontrolsinput.F
-      !||--- uses       -----------------------------------------------------
-      !||    dt_mod                             ../engine/source/modules/dt_mod.F
-      !||    glob_therm_mod                     ../common_source/modules/mat_elem/glob_therm_mod.F90
-      !||    output_mod                         ../common_source/modules/output/output_mod.F90
-      !||    qa_out_mod                         ../common_source/qa/qa_out_mod.F
-      !||    sensor_mod                         ../common_source/modules/sensor_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    eng_qaprint_driver                 ../engine/source/output/qaprint/eng_qaprint_driver.F
+!||--- called by ------------------------------------------------------
+!||    sortie_main                        ../engine/source/output/sortie_main.F
+!||--- calls      -----------------------------------------------------
+!||    eng_qaprint_animinput              ../engine/source/output/qaprint/eng_qaprint_animinput.F
+!||    eng_qaprint_dtinput                ../engine/source/output/qaprint/eng_qaprint_dtinput.F
+!||    eng_qaprint_generalcontrolsinput   ../engine/source/output/qaprint/eng_qaprint_generalcontrolsinput.F
+!||--- uses       -----------------------------------------------------
+!||    dt_mod                             ../engine/source/modules/dt_mod.F
+!||    glob_therm_mod                     ../common_source/modules/mat_elem/glob_therm_mod.F90
+!||    output_mod                         ../common_source/modules/output/output_mod.F90
+!||    qa_out_mod                         ../common_source/qa/qa_out_mod.F
+!||    sensor_mod                         ../common_source/modules/sensor_mod.F90
+!||====================================================================
       SUBROUTINE ENG_QAPRINT_DRIVER(IRUNN_BIS ,SENSORS,DT,OUTPUT,IPARIT,GLOB_THERM)
 C-----------------------------------------------
 C   M o d u l e s

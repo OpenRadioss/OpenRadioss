@@ -20,12 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    sms_mod   ../engine/share/modules/sms_mod.F
-      !||--- called by ------------------------------------------------------
-      !||    resol     ../engine/source/engine/resol.F
-      !||    wrrestp   ../engine/source/output/restart/wrrestp.F
-      !||====================================================================
+!||====================================================================
+!||    sms_mod   ../engine/share/modules/sms_mod.F
+!||--- called by ------------------------------------------------------
+!||    resol     ../engine/source/engine/resol.F
+!||    wrrestp   ../engine/source/output/restart/wrrestp.F
+!||====================================================================
       MODULE SMS_MOD
 C-----------------------------------------------
 C   m y _ r e a l
@@ -58,17 +58,17 @@ C-----------------------------------------------
       INTEGER, DIMENSION(:,:),ALLOCATABLE :: ISKYI_SMS
 C-----------------------------------------------
       END MODULE SMS_MOD
-      !||====================================================================
-      !||    sms_pcg_proj   ../engine/share/modules/sms_mod.F
-      !||--- called by ------------------------------------------------------
-      !||    resol          ../engine/source/engine/resol.F
-      !||    sms_inisi      ../engine/source/ams/sms_proj.F
-      !||    sms_inist      ../engine/source/ams/sms_proj.F
-      !||    sms_inix       ../engine/source/ams/sms_proj.F
-      !||    sms_pcg        ../engine/source/ams/sms_pcg.F
-      !||    sms_pro_p      ../engine/source/ams/sms_proj.F
-      !||    sms_updst      ../engine/source/ams/sms_proj.F
-      !||====================================================================
+!||====================================================================
+!||    sms_pcg_proj   ../engine/share/modules/sms_mod.F
+!||--- called by ------------------------------------------------------
+!||    resol          ../engine/source/engine/resol.F
+!||    sms_inisi      ../engine/source/ams/sms_proj.F
+!||    sms_inist      ../engine/source/ams/sms_proj.F
+!||    sms_inix       ../engine/source/ams/sms_proj.F
+!||    sms_pcg        ../engine/source/ams/sms_pcg.F
+!||    sms_pro_p      ../engine/source/ams/sms_proj.F
+!||    sms_updst      ../engine/source/ams/sms_proj.F
+!||====================================================================
       MODULE SMS_PCG_PROJ
 #include      "my_real.inc"
       my_real,

@@ -20,16 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    i11cor3        ../engine/source/interfaces/int11/i11cor3.F
-      !||--- called by ------------------------------------------------------
-      !||    i11fku3        ../engine/source/interfaces/int11/i11ke3.F
-      !||    i11ke3         ../engine/source/interfaces/int11/i11ke3.F
-      !||    i11mainf       ../engine/source/interfaces/int11/i11mainf.F
-      !||    imp_i11mainf   ../engine/source/interfaces/int11/i11ke3.F
-      !||--- uses       -----------------------------------------------------
-      !||    tri7box        ../engine/share/modules/tri7box.F
-      !||====================================================================
+!||====================================================================
+!||    i11cor3        ../engine/source/interfaces/int11/i11cor3.F
+!||--- called by ------------------------------------------------------
+!||    i11fku3        ../engine/source/interfaces/int11/i11ke3.F
+!||    i11ke3         ../engine/source/interfaces/int11/i11ke3.F
+!||    i11mainf       ../engine/source/interfaces/int11/i11mainf.F
+!||    imp_i11mainf   ../engine/source/interfaces/int11/i11ke3.F
+!||--- uses       -----------------------------------------------------
+!||    tri7box        ../engine/share/modules/tri7box.F
+!||====================================================================
       SUBROUTINE I11COR3(
      1      JLT     ,IRECTS  ,IRECTM  ,X        ,V        ,
      2      CAND_S  ,CAND_M  ,STFS    ,STFM     ,GAP      ,

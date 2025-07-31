@@ -20,15 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    write_elgroup_param   ../engine/source/output/restart/write_elgroup_param.F
-      !||--- called by ------------------------------------------------------
-      !||    wrrestp               ../engine/source/output/restart/wrrestp.F
-      !||--- calls      -----------------------------------------------------
-      !||    write_db              ../common_source/tools/input_output/write_db.F
-      !||--- uses       -----------------------------------------------------
-      !||    group_param_mod       ../common_source/modules/mat_elem/group_param_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    write_elgroup_param   ../engine/source/output/restart/write_elgroup_param.F
+!||--- called by ------------------------------------------------------
+!||    wrrestp               ../engine/source/output/restart/wrrestp.F
+!||--- calls      -----------------------------------------------------
+!||    write_db              ../common_source/tools/input_output/write_db.F
+!||--- uses       -----------------------------------------------------
+!||    group_param_mod       ../common_source/modules/mat_elem/group_param_mod.F90
+!||====================================================================
       SUBROUTINE WRITE_ELGROUP_PARAM(GROUP_PARAM_TAB,NGROUP)
 C-----------------------------------------------
 C   M o d u l e s

@@ -22,15 +22,15 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 #ifdef MPI
 
-      !||====================================================================
-      !||    spmd_kill             ../engine/source/mpi/init/spmd_kill.F
-      !||--- called by ------------------------------------------------------
-      !||    arret                 ../engine/source/system/arret.F
-      !||--- calls      -----------------------------------------------------
-      !||    my_exit               ../engine/source/system/my_exit.c
-      !||--- uses       -----------------------------------------------------
-      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
-      !||====================================================================
+!||====================================================================
+!||    spmd_kill             ../engine/source/mpi/init/spmd_kill.F
+!||--- called by ------------------------------------------------------
+!||    arret                 ../engine/source/system/arret.F
+!||--- calls      -----------------------------------------------------
+!||    my_exit               ../engine/source/system/my_exit.c
+!||--- uses       -----------------------------------------------------
+!||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
+!||====================================================================
       SUBROUTINE SPMD_KILL(ICODE)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -60,15 +60,15 @@ C-----------------------------------------------
 
 #elif 1 
 C
-      !||====================================================================
-      !||    spmd_kill             ../engine/source/mpi/init/spmd_kill.F
-      !||--- called by ------------------------------------------------------
-      !||    arret                 ../engine/source/system/arret.F
-      !||--- calls      -----------------------------------------------------
-      !||    my_exit               ../engine/source/system/my_exit.c
-      !||--- uses       -----------------------------------------------------
-      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
-      !||====================================================================
+!||====================================================================
+!||    spmd_kill             ../engine/source/mpi/init/spmd_kill.F
+!||--- called by ------------------------------------------------------
+!||    arret                 ../engine/source/system/arret.F
+!||--- calls      -----------------------------------------------------
+!||    my_exit               ../engine/source/system/my_exit.c
+!||--- uses       -----------------------------------------------------
+!||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
+!||====================================================================
       SUBROUTINE SPMD_KILL(ICODE)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

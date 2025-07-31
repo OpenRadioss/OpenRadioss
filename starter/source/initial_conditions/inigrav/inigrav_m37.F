@@ -20,12 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    inigrav_m37    ../starter/source/initial_conditions/inigrav/inigrav_m37.F
-      !||--- called by ------------------------------------------------------
-      !||    inigrav_load   ../starter/source/initial_conditions/inigrav/inigrav_load.F
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    inigrav_m37    ../starter/source/initial_conditions/inigrav/inigrav_m37.F
+!||--- called by ------------------------------------------------------
+!||    inigrav_load   ../starter/source/initial_conditions/inigrav/inigrav_load.F
+!||--- uses       -----------------------------------------------------
+!||====================================================================
       SUBROUTINE INIGRAV_M37(NELG, NEL, NG, MATID, IPM, GRAV0, DEPTH, PM, BUFMAT, ELBUF_TAB, PSURF, LIST)
 C-----------------------------------------------
 C   M o d u l e s

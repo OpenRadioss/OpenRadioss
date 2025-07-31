@@ -21,15 +21,15 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 
-      !||====================================================================
-      !||    rad_spmd_recv         ../engine/source/mpi/generic/rad_spmd_recv.F
-      !||--- called by ------------------------------------------------------
-      !||    aniskewf              ../engine/source/output/anim/generate/aniskewf.F
-      !||    printime              ../engine/source/system/timer.F
-      !||--- calls      -----------------------------------------------------
-      !||--- uses       -----------------------------------------------------
-      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
-      !||====================================================================
+!||====================================================================
+!||    rad_spmd_recv         ../engine/source/mpi/generic/rad_spmd_recv.F
+!||--- called by ------------------------------------------------------
+!||    aniskewf              ../engine/source/output/anim/generate/aniskewf.F
+!||    printime              ../engine/source/system/timer.F
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
+!||====================================================================
       SUBROUTINE RAD_SPMD_RECV(A,SIZ,ISPMD,IT_SPMD,MSGTAG,INTSIZE)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

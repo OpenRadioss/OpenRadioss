@@ -20,15 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    upidmid_dum         ../engine/source/user_interface/upidmid.F
-      !||--- called by ------------------------------------------------------
-      !||    radioss2            ../engine/source/engine/radioss2.F
-      !||--- calls      -----------------------------------------------------
-      !||    get_var_user_f      ../engine/source/user_interface/eng_callback_c.c
-      !||    get_var_user_f_sp   ../engine/source/user_interface/eng_callback_c.c
-      !||    get_var_user_i      ../engine/source/user_interface/eng_callback_c.c
-      !||====================================================================
+!||====================================================================
+!||    upidmid_dum         ../engine/source/user_interface/upidmid.F
+!||--- called by ------------------------------------------------------
+!||    radioss2            ../engine/source/engine/radioss2.F
+!||--- calls      -----------------------------------------------------
+!||    get_var_user_f      ../engine/source/user_interface/eng_callback_c.c
+!||    get_var_user_f_sp   ../engine/source/user_interface/eng_callback_c.c
+!||    get_var_user_i      ../engine/source/user_interface/eng_callback_c.c
+!||====================================================================
       SUBROUTINE UPIDMID_DUM(IERR)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -152,27 +152,27 @@ C
       RETURN
       END
 
-      !||====================================================================
-      !||    get_u_pnu           ../engine/source/user_interface/upidmid.F
-      !||--- called by ------------------------------------------------------
-      !||    ruser32             ../engine/source/elements/spring/ruser32.F
-      !||    ruser33             ../engine/source/elements/joint/ruser33.F
-      !||    ruser35             ../engine/source/elements/spring/ruser35.F
-      !||    ruser36             ../engine/source/elements/spring/ruser36.F
-      !||    ruser44             ../engine/source/elements/spring/ruser44.F
-      !||    ruser46             ../engine/source/elements/spring/ruser46.F
-      !||    xanim28             ../engine/source/elements/xelem/xanim28.F
-      !||    xanim29             ../engine/source/output/anim/generate/xanim29.F
-      !||    xanim30             ../engine/source/output/anim/generate/xanim30.F
-      !||    xanim31             ../engine/source/output/anim/generate/xanim31.F
-      !||    xforc28             ../engine/source/elements/xelem/xforc28.F
-      !||    xforc29             ../engine/source/elements/xelem/xforc29.F
-      !||    xforc30             ../engine/source/elements/xelem/xforc30.F
-      !||    xforc31             ../engine/source/elements/xelem/xforc31.F
-      !||--- calls      -----------------------------------------------------
-      !||    get_var_user_f      ../engine/source/user_interface/eng_callback_c.c
-      !||    get_var_user_f_sp   ../engine/source/user_interface/eng_callback_c.c
-      !||====================================================================
+!||====================================================================
+!||    get_u_pnu           ../engine/source/user_interface/upidmid.F
+!||--- called by ------------------------------------------------------
+!||    ruser32             ../engine/source/elements/spring/ruser32.F
+!||    ruser33             ../engine/source/elements/joint/ruser33.F
+!||    ruser35             ../engine/source/elements/spring/ruser35.F
+!||    ruser36             ../engine/source/elements/spring/ruser36.F
+!||    ruser44             ../engine/source/elements/spring/ruser44.F
+!||    ruser46             ../engine/source/elements/spring/ruser46.F
+!||    xanim28             ../engine/source/elements/xelem/xanim28.F
+!||    xanim29             ../engine/source/output/anim/generate/xanim29.F
+!||    xanim30             ../engine/source/output/anim/generate/xanim30.F
+!||    xanim31             ../engine/source/output/anim/generate/xanim31.F
+!||    xforc28             ../engine/source/elements/xelem/xforc28.F
+!||    xforc29             ../engine/source/elements/xelem/xforc29.F
+!||    xforc30             ../engine/source/elements/xelem/xforc30.F
+!||    xforc31             ../engine/source/elements/xelem/xforc31.F
+!||--- calls      -----------------------------------------------------
+!||    get_var_user_f      ../engine/source/user_interface/eng_callback_c.c
+!||    get_var_user_f_sp   ../engine/source/user_interface/eng_callback_c.c
+!||====================================================================
       INTEGER FUNCTION GET_U_PNU(IVAR,IP,K)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -228,26 +228,26 @@ C       GET_U_PNU = NINT(BUFGEO(NINT(GEO(K,IP))-1+IVAR))
 C
       RETURN
       END
-      !||====================================================================
-      !||    get_u_mnu        ../engine/source/user_interface/upidmid.F
-      !||--- called by ------------------------------------------------------
-      !||    ruser32          ../engine/source/elements/spring/ruser32.F
-      !||    ruser33          ../engine/source/elements/joint/ruser33.F
-      !||    ruser35          ../engine/source/elements/spring/ruser35.F
-      !||    ruser36          ../engine/source/elements/spring/ruser36.F
-      !||    ruser44          ../engine/source/elements/spring/ruser44.F
-      !||    ruser46          ../engine/source/elements/spring/ruser46.F
-      !||    xanim28          ../engine/source/elements/xelem/xanim28.F
-      !||    xanim29          ../engine/source/output/anim/generate/xanim29.F
-      !||    xanim30          ../engine/source/output/anim/generate/xanim30.F
-      !||    xanim31          ../engine/source/output/anim/generate/xanim31.F
-      !||    xforc28          ../engine/source/elements/xelem/xforc28.F
-      !||    xforc29          ../engine/source/elements/xelem/xforc29.F
-      !||    xforc30          ../engine/source/elements/xelem/xforc30.F
-      !||    xforc31          ../engine/source/elements/xelem/xforc31.F
-      !||--- calls      -----------------------------------------------------
-      !||    get_var_user_i   ../engine/source/user_interface/eng_callback_c.c
-      !||====================================================================
+!||====================================================================
+!||    get_u_mnu        ../engine/source/user_interface/upidmid.F
+!||--- called by ------------------------------------------------------
+!||    ruser32          ../engine/source/elements/spring/ruser32.F
+!||    ruser33          ../engine/source/elements/joint/ruser33.F
+!||    ruser35          ../engine/source/elements/spring/ruser35.F
+!||    ruser36          ../engine/source/elements/spring/ruser36.F
+!||    ruser44          ../engine/source/elements/spring/ruser44.F
+!||    ruser46          ../engine/source/elements/spring/ruser46.F
+!||    xanim28          ../engine/source/elements/xelem/xanim28.F
+!||    xanim29          ../engine/source/output/anim/generate/xanim29.F
+!||    xanim30          ../engine/source/output/anim/generate/xanim30.F
+!||    xanim31          ../engine/source/output/anim/generate/xanim31.F
+!||    xforc28          ../engine/source/elements/xelem/xforc28.F
+!||    xforc29          ../engine/source/elements/xelem/xforc29.F
+!||    xforc30          ../engine/source/elements/xelem/xforc30.F
+!||    xforc31          ../engine/source/elements/xelem/xforc31.F
+!||--- calls      -----------------------------------------------------
+!||    get_var_user_i   ../engine/source/user_interface/eng_callback_c.c
+!||====================================================================
       INTEGER FUNCTION GET_U_MNU(IVAR,IM,K)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -287,27 +287,27 @@ C
       RETURN
       END
 
-      !||====================================================================
-      !||    get_u_pid        ../engine/source/user_interface/upidmid.F
-      !||--- called by ------------------------------------------------------
-      !||    get_u_p          ../engine/source/user_interface/upidmid.F
-      !||    ruser32          ../engine/source/elements/spring/ruser32.F
-      !||    ruser33          ../engine/source/elements/joint/ruser33.F
-      !||    ruser35          ../engine/source/elements/spring/ruser35.F
-      !||    ruser36          ../engine/source/elements/spring/ruser36.F
-      !||    ruser44          ../engine/source/elements/spring/ruser44.F
-      !||    ruser46          ../engine/source/elements/spring/ruser46.F
-      !||    xanim28          ../engine/source/elements/xelem/xanim28.F
-      !||    xanim29          ../engine/source/output/anim/generate/xanim29.F
-      !||    xanim30          ../engine/source/output/anim/generate/xanim30.F
-      !||    xanim31          ../engine/source/output/anim/generate/xanim31.F
-      !||    xforc28          ../engine/source/elements/xelem/xforc28.F
-      !||    xforc29          ../engine/source/elements/xelem/xforc29.F
-      !||    xforc30          ../engine/source/elements/xelem/xforc30.F
-      !||    xforc31          ../engine/source/elements/xelem/xforc31.F
-      !||--- calls      -----------------------------------------------------
-      !||    get_var_user_i   ../engine/source/user_interface/eng_callback_c.c
-      !||====================================================================
+!||====================================================================
+!||    get_u_pid        ../engine/source/user_interface/upidmid.F
+!||--- called by ------------------------------------------------------
+!||    get_u_p          ../engine/source/user_interface/upidmid.F
+!||    ruser32          ../engine/source/elements/spring/ruser32.F
+!||    ruser33          ../engine/source/elements/joint/ruser33.F
+!||    ruser35          ../engine/source/elements/spring/ruser35.F
+!||    ruser36          ../engine/source/elements/spring/ruser36.F
+!||    ruser44          ../engine/source/elements/spring/ruser44.F
+!||    ruser46          ../engine/source/elements/spring/ruser46.F
+!||    xanim28          ../engine/source/elements/xelem/xanim28.F
+!||    xanim29          ../engine/source/output/anim/generate/xanim29.F
+!||    xanim30          ../engine/source/output/anim/generate/xanim30.F
+!||    xanim31          ../engine/source/output/anim/generate/xanim31.F
+!||    xforc28          ../engine/source/elements/xelem/xforc28.F
+!||    xforc29          ../engine/source/elements/xelem/xforc29.F
+!||    xforc30          ../engine/source/elements/xelem/xforc30.F
+!||    xforc31          ../engine/source/elements/xelem/xforc31.F
+!||--- calls      -----------------------------------------------------
+!||    get_var_user_i   ../engine/source/user_interface/eng_callback_c.c
+!||====================================================================
       INTEGER FUNCTION GET_U_PID(IP)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -335,27 +335,27 @@ C     GET_U_PID = NINT(GEO(40,IP))
 C---
       RETURN
       END
-      !||====================================================================
-      !||    get_u_mid        ../engine/source/user_interface/upidmid.F
-      !||--- called by ------------------------------------------------------
-      !||    get_u_m          ../engine/source/user_interface/upidmid.F
-      !||    ruser32          ../engine/source/elements/spring/ruser32.F
-      !||    ruser33          ../engine/source/elements/joint/ruser33.F
-      !||    ruser35          ../engine/source/elements/spring/ruser35.F
-      !||    ruser36          ../engine/source/elements/spring/ruser36.F
-      !||    ruser44          ../engine/source/elements/spring/ruser44.F
-      !||    ruser46          ../engine/source/elements/spring/ruser46.F
-      !||    xanim28          ../engine/source/elements/xelem/xanim28.F
-      !||    xanim29          ../engine/source/output/anim/generate/xanim29.F
-      !||    xanim30          ../engine/source/output/anim/generate/xanim30.F
-      !||    xanim31          ../engine/source/output/anim/generate/xanim31.F
-      !||    xforc28          ../engine/source/elements/xelem/xforc28.F
-      !||    xforc29          ../engine/source/elements/xelem/xforc29.F
-      !||    xforc30          ../engine/source/elements/xelem/xforc30.F
-      !||    xforc31          ../engine/source/elements/xelem/xforc31.F
-      !||--- calls      -----------------------------------------------------
-      !||    get_var_user_i   ../engine/source/user_interface/eng_callback_c.c
-      !||====================================================================
+!||====================================================================
+!||    get_u_mid        ../engine/source/user_interface/upidmid.F
+!||--- called by ------------------------------------------------------
+!||    get_u_m          ../engine/source/user_interface/upidmid.F
+!||    ruser32          ../engine/source/elements/spring/ruser32.F
+!||    ruser33          ../engine/source/elements/joint/ruser33.F
+!||    ruser35          ../engine/source/elements/spring/ruser35.F
+!||    ruser36          ../engine/source/elements/spring/ruser36.F
+!||    ruser44          ../engine/source/elements/spring/ruser44.F
+!||    ruser46          ../engine/source/elements/spring/ruser46.F
+!||    xanim28          ../engine/source/elements/xelem/xanim28.F
+!||    xanim29          ../engine/source/output/anim/generate/xanim29.F
+!||    xanim30          ../engine/source/output/anim/generate/xanim30.F
+!||    xanim31          ../engine/source/output/anim/generate/xanim31.F
+!||    xforc28          ../engine/source/elements/xelem/xforc28.F
+!||    xforc29          ../engine/source/elements/xelem/xforc29.F
+!||    xforc30          ../engine/source/elements/xelem/xforc30.F
+!||    xforc31          ../engine/source/elements/xelem/xforc31.F
+!||--- calls      -----------------------------------------------------
+!||    get_var_user_i   ../engine/source/user_interface/eng_callback_c.c
+!||====================================================================
       INTEGER FUNCTION GET_U_MID(IM)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -382,11 +382,11 @@ C---
       RETURN
       END
 
-      !||====================================================================
-      !||    get_u_m     ../engine/source/user_interface/upidmid.F
-      !||--- calls      -----------------------------------------------------
-      !||    get_u_mid   ../engine/source/user_interface/upidmid.F
-      !||====================================================================
+!||====================================================================
+!||    get_u_m     ../engine/source/user_interface/upidmid.F
+!||--- calls      -----------------------------------------------------
+!||    get_u_mid   ../engine/source/user_interface/upidmid.F
+!||====================================================================
       INTEGER FUNCTION GET_U_M(MID)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -418,11 +418,11 @@ C-----------------------------------------------
       RETURN
       END
 
-      !||====================================================================
-      !||    get_u_p     ../engine/source/user_interface/upidmid.F
-      !||--- calls      -----------------------------------------------------
-      !||    get_u_pid   ../engine/source/user_interface/upidmid.F
-      !||====================================================================
+!||====================================================================
+!||    get_u_p     ../engine/source/user_interface/upidmid.F
+!||--- calls      -----------------------------------------------------
+!||    get_u_pid   ../engine/source/user_interface/upidmid.F
+!||====================================================================
       INTEGER FUNCTION GET_U_P(PID)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -454,9 +454,9 @@ C-----------------------------------------------
       RETURN
       END
 C
-      !||====================================================================
-      !||    get_u_proc   ../engine/source/user_interface/upidmid.F
-      !||====================================================================
+!||====================================================================
+!||    get_u_proc   ../engine/source/user_interface/upidmid.F
+!||====================================================================
       INTEGER FUNCTION GET_U_PROC()
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -474,11 +474,11 @@ C
       RETURN
       END
 C
-      !||====================================================================
-      !||    get_u_task           ../engine/source/user_interface/upidmid.F
-      !||--- calls      -----------------------------------------------------
-      !||    omp_get_thread_num   ../engine/source/engine/openmp_stub.F90
-      !||====================================================================
+!||====================================================================
+!||    get_u_task           ../engine/source/user_interface/upidmid.F
+!||--- calls      -----------------------------------------------------
+!||    omp_get_thread_num   ../engine/source/engine/openmp_stub.F90
+!||====================================================================
       INTEGER FUNCTION GET_U_TASK()
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

@@ -20,20 +20,20 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    fredynain              ../engine/source/input/fredynain.F
-      !||--- called by ------------------------------------------------------
-      !||    freform                ../engine/source/input/freform.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg                 ../engine/source/output/message/message.F
-      !||    arret                  ../engine/source/system/arret.F
-      !||    fredec_8key_i          ../engine/source/input/fredec_8key_i.F
-      !||    wriusc2                ../engine/source/input/wriusc2.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod            ../engine/share/message_module/message_mod.F
-      !||    names_and_titles_mod   ../common_source/modules/names_and_titles_mod.F
-      !||    state_mod              ../common_source/modules/state_mod.F
-      !||====================================================================
+!||====================================================================
+!||    fredynain              ../engine/source/input/fredynain.F
+!||--- called by ------------------------------------------------------
+!||    freform                ../engine/source/input/freform.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                 ../engine/source/output/message/message.F
+!||    arret                  ../engine/source/system/arret.F
+!||    fredec_8key_i          ../engine/source/input/fredec_8key_i.F
+!||    wriusc2                ../engine/source/input/wriusc2.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod            ../engine/share/message_module/message_mod.F
+!||    names_and_titles_mod   ../common_source/modules/names_and_titles_mod.F
+!||    state_mod              ../common_source/modules/state_mod.F
+!||====================================================================
       SUBROUTINE FREDYNAIN(IKAD,KEY0,KDYNAIN,DYNAIN_DATA)
 C-----------------------------------------------
 C   M o d u l e s

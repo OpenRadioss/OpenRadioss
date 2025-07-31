@@ -20,19 +20,19 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    section_skewp   ../engine/source/tools/sect/section_skewp.F
-      !||--- called by ------------------------------------------------------
-      !||    section         ../engine/source/tools/sect/section.F
-      !||    section_3n      ../engine/source/tools/sect/section_3n.F
-      !||    section_c       ../engine/source/tools/sect/section_c.F
-      !||    section_p       ../engine/source/tools/sect/section_p.F
-      !||    section_r       ../engine/source/tools/sect/section_r.F
-      !||    section_s       ../engine/source/tools/sect/section_s.F
-      !||    section_s4      ../engine/source/tools/sect/section_s4.F
-      !||    section_s6      ../engine/source/tools/sect/section_s6.F
-      !||    section_t       ../engine/source/tools/sect/section_t.F
-      !||====================================================================
+!||====================================================================
+!||    section_skewp   ../engine/source/tools/sect/section_skewp.F
+!||--- called by ------------------------------------------------------
+!||    section         ../engine/source/tools/sect/section.F
+!||    section_3n      ../engine/source/tools/sect/section_3n.F
+!||    section_c       ../engine/source/tools/sect/section_c.F
+!||    section_p       ../engine/source/tools/sect/section_p.F
+!||    section_r       ../engine/source/tools/sect/section_r.F
+!||    section_s       ../engine/source/tools/sect/section_s.F
+!||    section_s4      ../engine/source/tools/sect/section_s4.F
+!||    section_s6      ../engine/source/tools/sect/section_s6.F
+!||    section_t       ../engine/source/tools/sect/section_t.F
+!||====================================================================
       SUBROUTINE SECTION_SKEWP(
      1   XXC, YYC, ZZC, XX4  , YY4 , ZZ4 ,
      2   XX5, YY5, ZZ5, XX6  , YY6 , ZZ6 ,

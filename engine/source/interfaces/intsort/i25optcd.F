@@ -20,16 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    i25optcd          ../engine/source/interfaces/intsort/i25optcd.F
-      !||--- called by ------------------------------------------------------
-      !||    i25main_opt_tri   ../engine/source/interfaces/intsort/i25main_opt_tri.F
-      !||--- calls      -----------------------------------------------------
-      !||    my_barrier        ../engine/source/system/machine.F
-      !||    sync_data         ../engine/source/system/machine.F
-      !||--- uses       -----------------------------------------------------
-      !||    tri7box           ../engine/share/modules/tri7box.F
-      !||====================================================================
+!||====================================================================
+!||    i25optcd          ../engine/source/interfaces/intsort/i25optcd.F
+!||--- called by ------------------------------------------------------
+!||    i25main_opt_tri   ../engine/source/interfaces/intsort/i25main_opt_tri.F
+!||--- calls      -----------------------------------------------------
+!||    my_barrier        ../engine/source/system/machine.F
+!||    sync_data         ../engine/source/system/machine.F
+!||--- uses       -----------------------------------------------------
+!||    tri7box           ../engine/share/modules/tri7box.F
+!||====================================================================
       SUBROUTINE I25OPTCD(
      1       NSV    ,CAND_E ,CAND_N  ,X         ,I_STOK   ,
      2       IRECT  ,GAP_S  ,GAP_M   ,V         ,ICURV    ,

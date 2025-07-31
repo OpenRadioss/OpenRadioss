@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    fxbwrestp          ../starter/source/restart/ddsplit/wrrest.F
-      !||--- called by ------------------------------------------------------
-      !||    ddsplit            ../starter/source/restart/ddsplit/ddsplit.F
-      !||--- calls      -----------------------------------------------------
-      !||    wrtsqi             ../starter/source/output/tools/wrtsqi.F
-      !||    wrtsqr             ../starter/source/output/tools/wrtsqr.F
-      !||====================================================================
+!||====================================================================
+!||    fxbwrestp          ../starter/source/restart/ddsplit/wrrest.F
+!||--- called by ------------------------------------------------------
+!||    ddsplit            ../starter/source/restart/ddsplit/ddsplit.F
+!||--- calls      -----------------------------------------------------
+!||    wrtsqi             ../starter/source/output/tools/wrtsqi.F
+!||    wrtsqr             ../starter/source/output/tools/wrtsqr.F
+!||====================================================================
       SUBROUTINE FXBWRESTP(
      .   FXBIPM_L , FXBRPM   , FXBNOD_L , FXBMOD_L, FXBGLM_L,
      .   FXBCPM_L , FXBCPS_L , FXBLM_L  , FXBFLS_L, FXBDLS_L,
@@ -193,12 +193,12 @@ C
       RETURN
       END
 
-      !||====================================================================
-      !||    eigwrest    ../starter/source/restart/ddsplit/wrrest.F
-      !||--- calls      -----------------------------------------------------
-      !||    wrtsqi      ../starter/source/output/tools/wrtsqi.F
-      !||    wrtsqr      ../starter/source/output/tools/wrtsqr.F
-      !||====================================================================
+!||====================================================================
+!||    eigwrest    ../starter/source/restart/ddsplit/wrrest.F
+!||--- calls      -----------------------------------------------------
+!||    wrtsqi      ../starter/source/output/tools/wrtsqi.F
+!||    wrtsqr      ../starter/source/output/tools/wrtsqr.F
+!||====================================================================
       SUBROUTINE EIGWREST(EIGIPM, EIGIBUF, EIGRPM)      
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -262,12 +262,12 @@ C
 C
       RETURN
       END
-      !||====================================================================
-      !||    eigwrestp   ../starter/source/restart/ddsplit/wrrest.F
-      !||--- called by ------------------------------------------------------
-      !||    ddsplit     ../starter/source/restart/ddsplit/ddsplit.F
-      !||--- calls      -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    eigwrestp   ../starter/source/restart/ddsplit/wrrest.F
+!||--- called by ------------------------------------------------------
+!||    ddsplit     ../starter/source/restart/ddsplit/ddsplit.F
+!||--- calls      -----------------------------------------------------
+!||====================================================================
       SUBROUTINE EIGWRESTP(EIGIPM, EIGIBUF, EIGRPM, LEIBUF_L,LEN_AM)      
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -301,14 +301,14 @@ C
       RETURN
       END
 
-      !||====================================================================
-      !||    dswrest       ../starter/source/restart/ddsplit/wrrest.F
-      !||--- calls      -----------------------------------------------------
-      !||    wrtsqi        ../starter/source/output/tools/wrtsqi.F
-      !||    wrtsqr        ../starter/source/output/tools/wrtsqr.F
-      !||--- uses       -----------------------------------------------------
-      !||    dsgraph_mod   ../starter/share/modules1/dsgraph_mod.F
-      !||====================================================================
+!||====================================================================
+!||    dswrest       ../starter/source/restart/ddsplit/wrrest.F
+!||--- calls      -----------------------------------------------------
+!||    wrtsqi        ../starter/source/output/tools/wrtsqi.F
+!||    wrtsqr        ../starter/source/output/tools/wrtsqr.F
+!||--- uses       -----------------------------------------------------
+!||    dsgraph_mod   ../starter/share/modules1/dsgraph_mod.F
+!||====================================================================
       SUBROUTINE DSWREST(GRAPHE)
 C-----------------------------------------------
 C   M o d u l e s
@@ -424,12 +424,12 @@ C
       RETURN
       END
 
-      !||====================================================================
-      !||    dswrestp      ../starter/source/restart/ddsplit/wrrest.F
-      !||--- calls      -----------------------------------------------------
-      !||--- uses       -----------------------------------------------------
-      !||    dsgraph_mod   ../starter/share/modules1/dsgraph_mod.F
-      !||====================================================================
+!||====================================================================
+!||    dswrestp      ../starter/source/restart/ddsplit/wrrest.F
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||    dsgraph_mod   ../starter/share/modules1/dsgraph_mod.F
+!||====================================================================
       SUBROUTINE DSWRESTP(PGRAPH,LEN_IA,LEN_AM)
 C-----------------------------------------------
 C   M o d u l e s
@@ -515,12 +515,12 @@ C
       RETURN
       END
 
-      !||====================================================================
-      !||    nfwrest     ../starter/source/restart/ddsplit/wrrest.F
-      !||--- calls      -----------------------------------------------------
-      !||    wrtsqi      ../starter/source/output/tools/wrtsqi.F
-      !||    wrtsqr      ../starter/source/output/tools/wrtsqr.F
-      !||====================================================================
+!||====================================================================
+!||    nfwrest     ../starter/source/restart/ddsplit/wrrest.F
+!||--- calls      -----------------------------------------------------
+!||    wrtsqi      ../starter/source/output/tools/wrtsqi.F
+!||    wrtsqr      ../starter/source/output/tools/wrtsqr.F
+!||====================================================================
       SUBROUTINE NFWREST(IFLOW, RFLOW)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -559,12 +559,12 @@ C--------------------------------------
 C
       RETURN
       END
-      !||====================================================================
-      !||    nfwrestp    ../starter/source/restart/ddsplit/wrrest.F
-      !||--- called by ------------------------------------------------------
-      !||    ddsplit     ../starter/source/restart/ddsplit/ddsplit.F
-      !||--- calls      -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    nfwrestp    ../starter/source/restart/ddsplit/wrrest.F
+!||--- called by ------------------------------------------------------
+!||    ddsplit     ../starter/source/restart/ddsplit/ddsplit.F
+!||--- calls      -----------------------------------------------------
+!||====================================================================
       SUBROUTINE NFWRESTP(IFLOW, RFLOW,LEN_IA,LEN_AM)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -599,11 +599,11 @@ C
 C
 
 C for shell heat transfer
-      !||====================================================================
-      !||    thcwrest   ../starter/source/restart/ddsplit/wrrest.F
-      !||--- calls      -----------------------------------------------------
-      !||    wrtsqr     ../starter/source/output/tools/wrtsqr.F
-      !||====================================================================
+!||====================================================================
+!||    thcwrest   ../starter/source/restart/ddsplit/wrrest.F
+!||--- calls      -----------------------------------------------------
+!||    wrtsqr     ../starter/source/output/tools/wrtsqr.F
+!||====================================================================
       SUBROUTINE THCWREST(MCP,TEMP)      
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -636,12 +636,12 @@ C--------------------------------------
       END
 
 C convection flux 
-      !||====================================================================
-      !||    convwrest   ../starter/source/restart/ddsplit/wrrest.F
-      !||--- calls      -----------------------------------------------------
-      !||    wrtsqi      ../starter/source/output/tools/wrtsqi.F
-      !||    wrtsqr      ../starter/source/output/tools/wrtsqr.F
-      !||====================================================================
+!||====================================================================
+!||    convwrest   ../starter/source/restart/ddsplit/wrrest.F
+!||--- calls      -----------------------------------------------------
+!||    wrtsqi      ../starter/source/output/tools/wrtsqi.F
+!||    wrtsqr      ../starter/source/output/tools/wrtsqr.F
+!||====================================================================
       SUBROUTINE CONVWREST(IBCV,FCONV,NUMCONV,NICONV,LFACTHER)      
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -675,12 +675,12 @@ C--------------------------------------
       END
 
 C for rigid_ material     
-      !||====================================================================
-      !||    rigmatwrest   ../starter/source/restart/ddsplit/wrrest.F
-      !||--- calls      -----------------------------------------------------
-      !||    wrtsqi        ../starter/source/output/tools/wrtsqi.F
-      !||    wrtsqr        ../starter/source/output/tools/wrtsqr.F
-      !||====================================================================
+!||====================================================================
+!||    rigmatwrest   ../starter/source/restart/ddsplit/wrrest.F
+!||--- calls      -----------------------------------------------------
+!||    wrtsqi        ../starter/source/output/tools/wrtsqi.F
+!||    wrtsqr        ../starter/source/output/tools/wrtsqr.F
+!||====================================================================
       SUBROUTINE RIGMATWREST(RBYM  ,IRBYM    ,LCRBYM, WEIGHT)      
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -719,12 +719,12 @@ C--------------------------------------
       END
 
 C for shell composite xfem 
-      !||====================================================================
-      !||    plyxfem_wrest   ../starter/source/restart/ddsplit/wrrest.F
-      !||--- calls      -----------------------------------------------------
-      !||    wrtsqi          ../starter/source/output/tools/wrtsqi.F
-      !||    wrtsqr          ../starter/source/output/tools/wrtsqr.F
-      !||====================================================================
+!||====================================================================
+!||    plyxfem_wrest   ../starter/source/restart/ddsplit/wrrest.F
+!||--- calls      -----------------------------------------------------
+!||    wrtsqi          ../starter/source/output/tools/wrtsqi.F
+!||    wrtsqr          ../starter/source/output/tools/wrtsqr.F
+!||====================================================================
       SUBROUTINE PLYXFEM_WREST(MS_PLY,ZI_PLY,IEL,INOD,ICODE,ISKEW)      
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

@@ -20,19 +20,19 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    i11trivox1       ../starter/source/interfaces/inter3d1/i11trivox1.F
-      !||--- called by ------------------------------------------------------
-      !||    i11buc_vox1      ../starter/source/interfaces/inter3d1/i11buc1.F
-      !||--- calls      -----------------------------------------------------
-      !||    i11resetvoxel1   ../starter/source/interfaces/inter3d1/i11trivox1.F
-      !||    i11sto_vox1      ../starter/source/interfaces/inter3d1/i11sto.F
-      !||    ireallocate      ../starter/share/modules1/realloc_mod.F
-      !||--- uses       -----------------------------------------------------
-      !||    realloc_mod      ../starter/share/modules1/realloc_mod.F
-      !||    tri11            ../starter/share/modules1/tri11_mod.F
-      !||    tri7box          ../starter/share/modules1/tri7box.F
-      !||====================================================================
+!||====================================================================
+!||    i11trivox1       ../starter/source/interfaces/inter3d1/i11trivox1.F
+!||--- called by ------------------------------------------------------
+!||    i11buc_vox1      ../starter/source/interfaces/inter3d1/i11buc1.F
+!||--- calls      -----------------------------------------------------
+!||    i11resetvoxel1   ../starter/source/interfaces/inter3d1/i11trivox1.F
+!||    i11sto_vox1      ../starter/source/interfaces/inter3d1/i11sto.F
+!||    ireallocate      ../starter/share/modules1/realloc_mod.F
+!||--- uses       -----------------------------------------------------
+!||    realloc_mod      ../starter/share/modules1/realloc_mod.F
+!||    tri11            ../starter/share/modules1/tri11_mod.F
+!||    tri7box          ../starter/share/modules1/tri7box.F
+!||====================================================================
       SUBROUTINE I11TRIVOX1(
      1      IRECTS, IRECTM , X     , NRTM     ,
      2      XYZM  , II_STOK, CAND_S, CAND_M   ,NSN    ,
@@ -522,13 +522,13 @@ C=======================================================================
 
 
 
-      !||====================================================================
-      !||    i11resetvoxel1   ../starter/source/interfaces/inter3d1/i11trivox1.F
-      !||--- called by ------------------------------------------------------
-      !||    i11trivox1       ../starter/source/interfaces/inter3d1/i11trivox1.F
-      !||--- uses       -----------------------------------------------------
-      !||    tri7box          ../starter/share/modules1/tri7box.F
-      !||====================================================================
+!||====================================================================
+!||    i11resetvoxel1   ../starter/source/interfaces/inter3d1/i11trivox1.F
+!||--- called by ------------------------------------------------------
+!||    i11trivox1       ../starter/source/interfaces/inter3d1/i11trivox1.F
+!||--- uses       -----------------------------------------------------
+!||    tri7box          ../starter/share/modules1/tri7box.F
+!||====================================================================
       SUBROUTINE I11RESETVOXEL1(
      1      tMIN, tMAX ,
      2      NBX  , NBY  , NBZ, VOXEL)

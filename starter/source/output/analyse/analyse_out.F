@@ -22,12 +22,12 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
 C
-      !||====================================================================
-      !||    writc    ../starter/source/output/analyse/analyse_out.F
-      !||--- called by ------------------------------------------------------
-      !||    wiout    ../starter/source/output/analyse/analyse_out.F
-      !||    wistdo   ../starter/source/output/analyse/analyse_out.F
-      !||====================================================================
+!||====================================================================
+!||    writc    ../starter/source/output/analyse/analyse_out.F
+!||--- called by ------------------------------------------------------
+!||    wiout    ../starter/source/output/analyse/analyse_out.F
+!||    wistdo   ../starter/source/output/analyse/analyse_out.F
+!||====================================================================
       SUBROUTINE WRITC(UNIT,LENGTH,TABINT)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -77,11 +77,11 @@ C
 C
 C
 C
-      !||====================================================================
-      !||    wiout   ../starter/source/output/analyse/analyse_out.F
-      !||--- calls      -----------------------------------------------------
-      !||    writc   ../starter/source/output/analyse/analyse_out.F
-      !||====================================================================
+!||====================================================================
+!||    wiout   ../starter/source/output/analyse/analyse_out.F
+!||--- calls      -----------------------------------------------------
+!||    writc   ../starter/source/output/analyse/analyse_out.F
+!||====================================================================
       INTEGER FUNCTION WIOUT(LENGTH,TABINT)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -105,11 +105,11 @@ C
 C
 C
 C
-      !||====================================================================
-      !||    wistdo   ../starter/source/output/analyse/analyse_out.F
-      !||--- calls      -----------------------------------------------------
-      !||    writc    ../starter/source/output/analyse/analyse_out.F
-      !||====================================================================
+!||====================================================================
+!||    wistdo   ../starter/source/output/analyse/analyse_out.F
+!||--- calls      -----------------------------------------------------
+!||    writc    ../starter/source/output/analyse/analyse_out.F
+!||====================================================================
       INTEGER FUNCTION WISTDO(LENGTH,TABINT)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

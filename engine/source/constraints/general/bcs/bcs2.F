@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    bcs2     ../engine/source/constraints/general/bcs/bcs2.F
-      !||--- called by ------------------------------------------------------
-      !||    i9avel   ../engine/source/interfaces/int09/i9avel.F
-      !||    i9wal2   ../engine/source/interfaces/int09/i9wal2.F
-      !||    i9wal3   ../engine/source/interfaces/int09/i9wal3.F
-      !||    iqela2   ../engine/source/ale/inter/iqela2.F
-      !||====================================================================
+!||====================================================================
+!||    bcs2     ../engine/source/constraints/general/bcs/bcs2.F
+!||--- called by ------------------------------------------------------
+!||    i9avel   ../engine/source/interfaces/int09/i9avel.F
+!||    i9wal2   ../engine/source/interfaces/int09/i9wal2.F
+!||    i9wal3   ../engine/source/interfaces/int09/i9wal3.F
+!||    iqela2   ../engine/source/ale/inter/iqela2.F
+!||====================================================================
       SUBROUTINE BCS2(A,B,J,K)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -137,11 +137,11 @@ C-----------------------------------------------
 
 
 
-      !||====================================================================
-      !||    bcs2v    ../engine/source/constraints/general/bcs/bcs2.F
-      !||--- called by ------------------------------------------------------
-      !||    alewdx   ../engine/source/ale/grid/alewdx.F
-      !||====================================================================
+!||====================================================================
+!||    bcs2v    ../engine/source/constraints/general/bcs/bcs2.F
+!||--- called by ------------------------------------------------------
+!||    alewdx   ../engine/source/ale/grid/alewdx.F
+!||====================================================================
       SUBROUTINE BCS2V(NINDX,INDX,ISKEW,ICODT,A,B)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

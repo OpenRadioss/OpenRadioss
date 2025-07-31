@@ -20,16 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    spmd_gather_int       ../engine/source/mpi/generic/spmd_gather_int.F
-      !||--- called by ------------------------------------------------------
-      !||    genh3d                ../engine/source/output/h3d/h3d_results/genh3d.F
-      !||    init_th               ../engine/source/output/th/init_th.F
-      !||    read_dynain           ../engine/source/output/dynain/read_dynain.F
-      !||--- calls      -----------------------------------------------------
-      !||--- uses       -----------------------------------------------------
-      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
-      !||====================================================================
+!||====================================================================
+!||    spmd_gather_int       ../engine/source/mpi/generic/spmd_gather_int.F
+!||--- called by ------------------------------------------------------
+!||    genh3d                ../engine/source/output/h3d/h3d_results/genh3d.F
+!||    init_th               ../engine/source/output/th/init_th.F
+!||    read_dynain           ../engine/source/output/dynain/read_dynain.F
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
+!||====================================================================
         SUBROUTINE SPMD_GATHER_INT(SENDBUF,RECVBUF,PROC,SEND_SIZE,RCV_SIZE)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

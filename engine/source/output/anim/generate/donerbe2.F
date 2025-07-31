@@ -20,11 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    donerbe2   ../engine/source/output/anim/generate/donerbe2.F
-      !||--- called by ------------------------------------------------------
-      !||    genani     ../engine/source/output/anim/generate/genani.F
-      !||====================================================================
+!||====================================================================
+!||    donerbe2   ../engine/source/output/anim/generate/donerbe2.F
+!||--- called by ------------------------------------------------------
+!||    genani     ../engine/source/output/anim/generate/genani.F
+!||====================================================================
       SUBROUTINE DONERBE2(I,NERBE2_1,IRBE2,NERBE2T)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

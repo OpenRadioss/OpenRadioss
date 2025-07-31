@@ -20,20 +20,20 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    lecinp           ../engine/source/input/lecinp.F
-      !||--- called by ------------------------------------------------------
-      !||    radioss2         ../engine/source/engine/radioss2.F
-      !||--- calls      -----------------------------------------------------
-      !||    freform          ../engine/source/input/freform.F
-      !||--- uses       -----------------------------------------------------
-      !||    dt_mod           ../engine/source/modules/dt_mod.F
-      !||    glob_therm_mod   ../common_source/modules/mat_elem/glob_therm_mod.F90
-      !||    h3d_mod          ../engine/share/modules/h3d_mod.F
-      !||    output_mod       ../common_source/modules/output/output_mod.F90
-      !||    sensor_mod       ../common_source/modules/sensor_mod.F90
-      !||    state_mod        ../common_source/modules/state_mod.F
-      !||====================================================================
+!||====================================================================
+!||    lecinp           ../engine/source/input/lecinp.F
+!||--- called by ------------------------------------------------------
+!||    radioss2         ../engine/source/engine/radioss2.F
+!||--- calls      -----------------------------------------------------
+!||    freform          ../engine/source/input/freform.F
+!||--- uses       -----------------------------------------------------
+!||    dt_mod           ../engine/source/modules/dt_mod.F
+!||    glob_therm_mod   ../common_source/modules/mat_elem/glob_therm_mod.F90
+!||    h3d_mod          ../engine/share/modules/h3d_mod.F
+!||    output_mod       ../common_source/modules/output/output_mod.F90
+!||    sensor_mod       ../common_source/modules/sensor_mod.F90
+!||    state_mod        ../common_source/modules/state_mod.F
+!||====================================================================
       SUBROUTINE LECINP(IRUN,IRFL,IRFE,H3D_DATA,FLAG_CST_AMS,DYNAIN_DATA,
      .                  SENSORS ,DT, OUTPUT ,GLOB_THERM)
 C-----------------------------------------------

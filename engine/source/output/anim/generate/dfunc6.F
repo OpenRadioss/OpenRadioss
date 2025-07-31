@@ -20,31 +20,31 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    dfuncs                       ../engine/source/output/anim/generate/dfunc6.F
-      !||--- called by ------------------------------------------------------
-      !||    genani                       ../engine/source/output/anim/generate/genani.F
-      !||--- calls      -----------------------------------------------------
-      !||    initbuf                      ../engine/share/resol/initbuf.F
-      !||    output_schlieren             ../engine/source/output/anim/generate/output_schlieren.F
-      !||    schlieren_buffer_gathering   ../engine/source/output/anim/generate/schlieren_buffer_gathering.F
-      !||    spmd_r4get_partn             ../engine/source/mpi/anim/spmd_r4get_partn.F
-      !||    srotorth                     ../engine/source/elements/solid/srotorth.F
-      !||    write_r_c                    ../common_source/tools/input_output/write_routtines.c
-      !||--- uses       -----------------------------------------------------
-      !||    ale_connectivity_mod         ../common_source/modules/ale/ale_connectivity_mod.F
-      !||    aleanim_mod                  ../engine/share/modules/aleanim_mod.F
-      !||    alefvm_mod                   ../common_source/modules/ale/alefvm_mod.F
-      !||    elbufdef_mod                 ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||    i22tri_mod                   ../common_source/modules/interfaces/cut-cell-search_mod.F
-      !||    initbuf_mod                  ../engine/share/resol/initbuf.F
-      !||    mat_elem_mod                 ../common_source/modules/mat_elem/mat_elem_mod.F90
-      !||    matparam_def_mod             ../common_source/modules/mat_elem/matparam_def_mod.F90
-      !||    multi_fvm_mod                ../common_source/modules/ale/multi_fvm_mod.F90
-      !||    multimat_param_mod           ../common_source/modules/multimat_param_mod.F90
-      !||    my_alloc_mod                 ../common_source/tools/memory/my_alloc.F90
-      !||    schlieren_mod                ../engine/share/modules/schlieren_mod.F
-      !||====================================================================
+!||====================================================================
+!||    dfuncs                       ../engine/source/output/anim/generate/dfunc6.F
+!||--- called by ------------------------------------------------------
+!||    genani                       ../engine/source/output/anim/generate/genani.F
+!||--- calls      -----------------------------------------------------
+!||    initbuf                      ../engine/share/resol/initbuf.F
+!||    output_schlieren             ../engine/source/output/anim/generate/output_schlieren.F
+!||    schlieren_buffer_gathering   ../engine/source/output/anim/generate/schlieren_buffer_gathering.F
+!||    spmd_r4get_partn             ../engine/source/mpi/anim/spmd_r4get_partn.F
+!||    srotorth                     ../engine/source/elements/solid/srotorth.F
+!||    write_r_c                    ../common_source/tools/input_output/write_routtines.c
+!||--- uses       -----------------------------------------------------
+!||    ale_connectivity_mod         ../common_source/modules/ale/ale_connectivity_mod.F
+!||    aleanim_mod                  ../engine/share/modules/aleanim_mod.F
+!||    alefvm_mod                   ../common_source/modules/ale/alefvm_mod.F
+!||    elbufdef_mod                 ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    i22tri_mod                   ../common_source/modules/interfaces/cut-cell-search_mod.F
+!||    initbuf_mod                  ../engine/share/resol/initbuf.F
+!||    mat_elem_mod                 ../common_source/modules/mat_elem/mat_elem_mod.F90
+!||    matparam_def_mod             ../common_source/modules/mat_elem/matparam_def_mod.F90
+!||    multi_fvm_mod                ../common_source/modules/ale/multi_fvm_mod.F90
+!||    multimat_param_mod           ../common_source/modules/multimat_param_mod.F90
+!||    my_alloc_mod                 ../common_source/tools/memory/my_alloc.F90
+!||    schlieren_mod                ../engine/share/modules/schlieren_mod.F
+!||====================================================================
       SUBROUTINE DFUNCS(ELBUF_TAB  ,FUNC      ,IFUNC     ,IPARG    ,GEO     ,
      2                  IXS        ,MASS      ,PM        ,EL2FA    ,NBF     ,
      3                  IPM        ,IGEO      ,NBPART    ,EHOUR    ,ANIM    ,

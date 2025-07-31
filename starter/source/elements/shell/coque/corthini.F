@@ -20,20 +20,20 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    corthini               ../starter/source/elements/shell/coque/corthini.F
-      !||--- called by ------------------------------------------------------
-      !||    c3init3                ../starter/source/elements/sh3n/coque3n/c3init3.F
-      !||    cinit3                 ../starter/source/elements/shell/coque/cinit3.F
-      !||    cmaini3                ../starter/source/elements/sh3n/coquedk/cmaini3.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg                 ../starter/source/output/message/message.F
-      !||    fretitl2               ../starter/source/starter/freform.F
-      !||--- uses       -----------------------------------------------------
-      !||    drape_mod              ../starter/share/modules1/drape_mod.F
-      !||    message_mod            ../starter/share/message_module/message_mod.F
-      !||    stack_mod              ../starter/share/modules1/stack_mod.F
-      !||====================================================================
+!||====================================================================
+!||    corthini               ../starter/source/elements/shell/coque/corthini.F
+!||--- called by ------------------------------------------------------
+!||    c3init3                ../starter/source/elements/sh3n/coque3n/c3init3.F
+!||    cinit3                 ../starter/source/elements/shell/coque/cinit3.F
+!||    cmaini3                ../starter/source/elements/sh3n/coquedk/cmaini3.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                 ../starter/source/output/message/message.F
+!||    fretitl2               ../starter/source/starter/freform.F
+!||--- uses       -----------------------------------------------------
+!||    drape_mod              ../starter/share/modules1/drape_mod.F
+!||    message_mod            ../starter/share/message_module/message_mod.F
+!||    stack_mod              ../starter/share/modules1/stack_mod.F
+!||====================================================================
       SUBROUTINE CORTHINI(
      1           JFT     ,JLT     ,NFT     ,NLAY    ,NUMEL   ,
      2           NSIGSH  ,NIX     ,IX      ,IGEO    ,GEO     ,

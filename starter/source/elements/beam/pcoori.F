@@ -20,16 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    pcoori        ../starter/source/elements/beam/pcoori.F
-      !||--- called by ------------------------------------------------------
-      !||    inivoid       ../starter/source/elements/initia/inivoid.F
-      !||    pinit3        ../starter/source/elements/beam/pinit3.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg        ../starter/source/output/message/message.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod   ../starter/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    pcoori        ../starter/source/elements/beam/pcoori.F
+!||--- called by ------------------------------------------------------
+!||    inivoid       ../starter/source/elements/initia/inivoid.F
+!||    pinit3        ../starter/source/elements/beam/pinit3.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg        ../starter/source/output/message/message.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod   ../starter/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE PCOORI(X,NCP, 
      .                  MXT,MXG,NC1,NC2,NC3,DELTAX,
      .                  X1,X2,X3, Y1,Y2,Y3, Z1,Z2,Z3,

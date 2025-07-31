@@ -20,27 +20,27 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    table_mat_vinterp_mod        ../starter/source/materials/tools/table_mat_vinterp.F
-      !||--- called by ------------------------------------------------------
-      !||    hm_read_eos_compaction_tab   ../starter/source/materials/eos/hm_read_eos_compaction_tab.F90
-      !||    hm_read_mat133               ../starter/source/materials/mat/mat133/hm_read_mat133.F90
-      !||    law133_upd                   ../starter/source/materials/mat/mat133/law133_upd.F90
-      !||    law87_upd                    ../starter/source/materials/mat/mat087/law87_upd.F90
-      !||    sigeps70                     ../starter/source/materials/mat/mat070/sigeps70.F
-      !||====================================================================
+!||====================================================================
+!||    table_mat_vinterp_mod        ../starter/source/materials/tools/table_mat_vinterp.F
+!||--- called by ------------------------------------------------------
+!||    hm_read_eos_compaction_tab   ../starter/source/materials/eos/hm_read_eos_compaction_tab.F90
+!||    hm_read_mat133               ../starter/source/materials/mat/mat133/hm_read_mat133.F90
+!||    law133_upd                   ../starter/source/materials/mat/mat133/law133_upd.F90
+!||    law87_upd                    ../starter/source/materials/mat/mat087/law87_upd.F90
+!||    sigeps70                     ../starter/source/materials/mat/mat070/sigeps70.F
+!||====================================================================
       MODULE TABLE_MAT_VINTERP_MOD
       CONTAINS
-      !||====================================================================
-      !||    table_mat_vinterp            ../starter/source/materials/tools/table_mat_vinterp.F
-      !||--- called by ------------------------------------------------------
-      !||    hm_read_eos_compaction_tab   ../starter/source/materials/eos/hm_read_eos_compaction_tab.F90
-      !||    hm_read_mat133               ../starter/source/materials/mat/mat133/hm_read_mat133.F90
-      !||    law133_upd                   ../starter/source/materials/mat/mat133/law133_upd.F90
-      !||    law87_upd                    ../starter/source/materials/mat/mat087/law87_upd.F90
-      !||    sigeps70                     ../starter/source/materials/mat/mat070/sigeps70.F
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    table_mat_vinterp            ../starter/source/materials/tools/table_mat_vinterp.F
+!||--- called by ------------------------------------------------------
+!||    hm_read_eos_compaction_tab   ../starter/source/materials/eos/hm_read_eos_compaction_tab.F90
+!||    hm_read_mat133               ../starter/source/materials/mat/mat133/hm_read_mat133.F90
+!||    law133_upd                   ../starter/source/materials/mat/mat133/law133_upd.F90
+!||    law87_upd                    ../starter/source/materials/mat/mat087/law87_upd.F90
+!||    sigeps70                     ../starter/source/materials/mat/mat070/sigeps70.F
+!||--- uses       -----------------------------------------------------
+!||====================================================================
       SUBROUTINE TABLE_MAT_VINTERP(TABLE,DIMX,NEL,IPOS,XX,YY,DYDX)
 C-----------------------------------------------
       USE TABLE4D_MOD

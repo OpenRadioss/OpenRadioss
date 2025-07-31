@@ -20,18 +20,18 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    radiation             ../engine/source/constraints/thermic/radiation.F
-      !||--- called by ------------------------------------------------------
-      !||    resol                 ../engine/source/engine/resol.F
-      !||--- calls      -----------------------------------------------------
-      !||    finter                ../engine/source/tools/curve/finter.F
-      !||    omp_get_thread_num    ../engine/source/engine/openmp_stub.F90
-      !||--- uses       -----------------------------------------------------
-      !||    glob_therm_mod        ../common_source/modules/mat_elem/glob_therm_mod.F90
-      !||    python_funct_mod      ../common_source/modules/python_mod.F90
-      !||    sensor_mod            ../common_source/modules/sensor_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    radiation             ../engine/source/constraints/thermic/radiation.F
+!||--- called by ------------------------------------------------------
+!||    resol                 ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
+!||    finter                ../engine/source/tools/curve/finter.F
+!||    omp_get_thread_num    ../engine/source/engine/openmp_stub.F90
+!||--- uses       -----------------------------------------------------
+!||    glob_therm_mod        ../common_source/modules/mat_elem/glob_therm_mod.F90
+!||    python_funct_mod      ../common_source/modules/python_mod.F90
+!||    sensor_mod            ../common_source/modules/sensor_mod.F90
+!||====================================================================
       SUBROUTINE RADIATION(IBCR   ,FRADIA    ,NPC       ,TF     , X  ,
      1                     TEMP   ,NSENSOR   ,SENSOR_TAB,FTHE   ,IAD ,
      2                     FTHESKY, PYTHON   ,GLOB_THERM)

@@ -20,44 +20,44 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    failwave_mod               ../common_source/modules/failwave_mod.F
-      !||--- called by ------------------------------------------------------
-      !||    c3forc3                    ../engine/source/elements/sh3n/coque3n/c3forc3.F
-      !||    c3forc3_crk                ../engine/source/elements/xfem/c3forc3_crk.F
-      !||    cbaforc3                   ../engine/source/elements/shell/coqueba/cbaforc3.F
-      !||    cdk6forc3                  ../engine/source/elements/sh3n/coquedk6/cdk6forc3.F
-      !||    cdkforc3                   ../engine/source/elements/sh3n/coquedk/cdkforc3.F
-      !||    cforc3                     ../engine/source/elements/shell/coque/cforc3.F
-      !||    cforc3_crk                 ../engine/source/elements/xfem/cforc3_crk.F
-      !||    cmain3                     ../engine/source/materials/mat_share/cmain3.F
-      !||    cmain3pinch                ../engine/source/elements/shell/coqueba/cmain3pinch.F
-      !||    czforc3                    ../engine/source/elements/shell/coquez/czforc3.F
-      !||    czforc3_crk                ../engine/source/elements/xfem/czforc3_crk.F
-      !||    ddsplit                    ../starter/source/restart/ddsplit/ddsplit.F
-      !||    fail_setoff_c              ../engine/source/materials/fail/fail_setoff_c.F
-      !||    fail_setoff_npg_c          ../engine/source/materials/fail/fail_setoff_npg_c.F
-      !||    fail_setoff_wind_frwave    ../engine/source/materials/fail/fail_setoff_wind_frwave.F
-      !||    failwave_init              ../starter/source/materials/fail/failwave_init.F
-      !||    forintc                    ../engine/source/elements/forintc.F
-      !||    hm_read_fail               ../starter/source/materials/fail/hm_read_fail.F
-      !||    lectur                     ../engine/source/input/lectur.F
-      !||    mulawc                     ../engine/source/materials/mat_share/mulawc.F90
-      !||    read_failwave              ../engine/source/output/restart/read_failwave.F
-      !||    read_material_models       ../starter/source/materials/read_material_models.F
-      !||    resol                      ../engine/source/engine/resol.F
-      !||    resol_init                 ../engine/source/engine/resol_init.F
-      !||    restmod                    ../engine/share/modules/restart_mod.F
-      !||    set_failwave_nod3          ../engine/source/materials/fail/failwave/set_failwave_nod3.F
-      !||    set_failwave_nod4          ../engine/source/materials/fail/failwave/set_failwave_nod4.F
-      !||    set_failwave_sh3n          ../engine/source/materials/fail/failwave/upd_failwave_sh3n.F
-      !||    set_failwave_sh4n          ../engine/source/materials/fail/failwave/upd_failwave_sh4n.F
-      !||    spmd_exch_failwave         ../engine/source/mpi/output/spmd_exch_failwave.F
-      !||    spmd_failwave_boundaries   ../engine/source/mpi/output/spmd_exch_failwave.F
-      !||    update_failwave            ../engine/source/materials/fail/failwave/update_failwave.F
-      !||    usermat_shell              ../engine/source/materials/mat_share/usermat_shell.F
-      !||    w_failwave                 ../engine/source/output/restart/w_failwave.F
-      !||====================================================================
+!||====================================================================
+!||    failwave_mod               ../common_source/modules/failwave_mod.F
+!||--- called by ------------------------------------------------------
+!||    c3forc3                    ../engine/source/elements/sh3n/coque3n/c3forc3.F
+!||    c3forc3_crk                ../engine/source/elements/xfem/c3forc3_crk.F
+!||    cbaforc3                   ../engine/source/elements/shell/coqueba/cbaforc3.F
+!||    cdk6forc3                  ../engine/source/elements/sh3n/coquedk6/cdk6forc3.F
+!||    cdkforc3                   ../engine/source/elements/sh3n/coquedk/cdkforc3.F
+!||    cforc3                     ../engine/source/elements/shell/coque/cforc3.F
+!||    cforc3_crk                 ../engine/source/elements/xfem/cforc3_crk.F
+!||    cmain3                     ../engine/source/materials/mat_share/cmain3.F
+!||    cmain3pinch                ../engine/source/elements/shell/coqueba/cmain3pinch.F
+!||    czforc3                    ../engine/source/elements/shell/coquez/czforc3.F
+!||    czforc3_crk                ../engine/source/elements/xfem/czforc3_crk.F
+!||    ddsplit                    ../starter/source/restart/ddsplit/ddsplit.F
+!||    fail_setoff_c              ../engine/source/materials/fail/fail_setoff_c.F
+!||    fail_setoff_npg_c          ../engine/source/materials/fail/fail_setoff_npg_c.F
+!||    fail_setoff_wind_frwave    ../engine/source/materials/fail/fail_setoff_wind_frwave.F
+!||    failwave_init              ../starter/source/materials/fail/failwave_init.F
+!||    forintc                    ../engine/source/elements/forintc.F
+!||    hm_read_fail               ../starter/source/materials/fail/hm_read_fail.F
+!||    lectur                     ../engine/source/input/lectur.F
+!||    mulawc                     ../engine/source/materials/mat_share/mulawc.F90
+!||    read_failwave              ../engine/source/output/restart/read_failwave.F
+!||    read_material_models       ../starter/source/materials/read_material_models.F
+!||    resol                      ../engine/source/engine/resol.F
+!||    resol_init                 ../engine/source/engine/resol_init.F
+!||    restmod                    ../engine/share/modules/restart_mod.F
+!||    set_failwave_nod3          ../engine/source/materials/fail/failwave/set_failwave_nod3.F
+!||    set_failwave_nod4          ../engine/source/materials/fail/failwave/set_failwave_nod4.F
+!||    set_failwave_sh3n          ../engine/source/materials/fail/failwave/upd_failwave_sh3n.F
+!||    set_failwave_sh4n          ../engine/source/materials/fail/failwave/upd_failwave_sh4n.F
+!||    spmd_exch_failwave         ../engine/source/mpi/output/spmd_exch_failwave.F
+!||    spmd_failwave_boundaries   ../engine/source/mpi/output/spmd_exch_failwave.F
+!||    update_failwave            ../engine/source/materials/fail/failwave/update_failwave.F
+!||    usermat_shell              ../engine/source/materials/mat_share/usermat_shell.F
+!||    w_failwave                 ../engine/source/output/restart/w_failwave.F
+!||====================================================================
       MODULE FAILWAVE_MOD
 C-----------------------------------------------
 #include      "my_real.inc"

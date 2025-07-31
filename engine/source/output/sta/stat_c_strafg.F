@@ -20,25 +20,25 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    stat_c_strafg       ../engine/source/output/sta/stat_c_strafg.F
-      !||--- called by ------------------------------------------------------
-      !||    genstat             ../engine/source/output/sta/genstat.F
-      !||--- calls      -----------------------------------------------------
-      !||    get_q4l             ../engine/source/output/sta/stat_c_strafg.F
-      !||    get_t3l             ../engine/source/output/sta/stat_c_strafg.F
-      !||    layini              ../engine/source/elements/shell/coque/layini.F
-      !||    shell2g             ../engine/source/output/sta/stat_c_strafg.F
-      !||    spmd_rgather9_dp    ../engine/source/mpi/interfaces/spmd_outp.F
-      !||    spmd_stat_pgather   ../engine/source/mpi/output/spmd_stat.F
-      !||    strs_txt50          ../engine/source/output/sta/sta_txt.F
-      !||    tab_strs_txt50      ../engine/source/output/sta/sta_txt.F
-      !||--- uses       -----------------------------------------------------
-      !||    drape_mod           ../engine/share/modules/drape_mod.F
-      !||    elbufdef_mod        ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||    my_alloc_mod        ../common_source/tools/memory/my_alloc.F90
-      !||    stack_mod           ../engine/share/modules/stack_mod.F
-      !||====================================================================
+!||====================================================================
+!||    stat_c_strafg       ../engine/source/output/sta/stat_c_strafg.F
+!||--- called by ------------------------------------------------------
+!||    genstat             ../engine/source/output/sta/genstat.F
+!||--- calls      -----------------------------------------------------
+!||    get_q4l             ../engine/source/output/sta/stat_c_strafg.F
+!||    get_t3l             ../engine/source/output/sta/stat_c_strafg.F
+!||    layini              ../engine/source/elements/shell/coque/layini.F
+!||    shell2g             ../engine/source/output/sta/stat_c_strafg.F
+!||    spmd_rgather9_dp    ../engine/source/mpi/interfaces/spmd_outp.F
+!||    spmd_stat_pgather   ../engine/source/mpi/output/spmd_stat.F
+!||    strs_txt50          ../engine/source/output/sta/sta_txt.F
+!||    tab_strs_txt50      ../engine/source/output/sta/sta_txt.F
+!||--- uses       -----------------------------------------------------
+!||    drape_mod           ../engine/share/modules/drape_mod.F
+!||    elbufdef_mod        ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    my_alloc_mod        ../common_source/tools/memory/my_alloc.F90
+!||    stack_mod           ../engine/share/modules/stack_mod.F
+!||====================================================================
       SUBROUTINE STAT_C_STRAFG(ELBUF_TAB,
      1                        X    ,IPARG ,IPM ,IGEO ,IXC ,
      2                        IXTG  ,WA,WAP0 ,IPARTC, IPARTTG,
@@ -747,14 +747,14 @@ c----------
 c-----------
       RETURN
       END
-      !||====================================================================
-      !||    get_q4l          ../engine/source/output/sta/stat_c_strafg.F
-      !||--- called by ------------------------------------------------------
-      !||    dynain_c_strag   ../engine/source/output/dynain/dynain_c_strag.F
-      !||    stat_c_strafg    ../engine/source/output/sta/stat_c_strafg.F
-      !||--- calls      -----------------------------------------------------
-      !||    clskew3          ../engine/source/elements/sh3n/coquedk/cdkcoor3.F
-      !||====================================================================
+!||====================================================================
+!||    get_q4l          ../engine/source/output/sta/stat_c_strafg.F
+!||--- called by ------------------------------------------------------
+!||    dynain_c_strag   ../engine/source/output/dynain/dynain_c_strag.F
+!||    stat_c_strafg    ../engine/source/output/sta/stat_c_strafg.F
+!||--- calls      -----------------------------------------------------
+!||    clskew3          ../engine/source/elements/sh3n/coquedk/cdkcoor3.F
+!||====================================================================
         SUBROUTINE GET_Q4L(JFT    ,JLT    ,IXC    ,X    ,OFFG   ,
      .                     IREL   ,VQ     )
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
@@ -814,14 +814,14 @@ C----------------------------
 C
       RETURN
       END
-      !||====================================================================
-      !||    get_t3l          ../engine/source/output/sta/stat_c_strafg.F
-      !||--- called by ------------------------------------------------------
-      !||    dynain_c_strag   ../engine/source/output/dynain/dynain_c_strag.F
-      !||    stat_c_strafg    ../engine/source/output/sta/stat_c_strafg.F
-      !||--- calls      -----------------------------------------------------
-      !||    clskew3          ../engine/source/elements/sh3n/coquedk/cdkcoor3.F
-      !||====================================================================
+!||====================================================================
+!||    get_t3l          ../engine/source/output/sta/stat_c_strafg.F
+!||--- called by ------------------------------------------------------
+!||    dynain_c_strag   ../engine/source/output/dynain/dynain_c_strag.F
+!||    stat_c_strafg    ../engine/source/output/sta/stat_c_strafg.F
+!||--- calls      -----------------------------------------------------
+!||    clskew3          ../engine/source/elements/sh3n/coquedk/cdkcoor3.F
+!||====================================================================
         SUBROUTINE GET_T3L(JFT    ,JLT    ,IXTG    ,X    ,OFFG   ,
      .                     IREL   ,VQ     )
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
@@ -880,13 +880,13 @@ C----------------------------
 C
       RETURN
       END
-      !||====================================================================
-      !||    shell2g          ../engine/source/output/sta/stat_c_strafg.F
-      !||--- called by ------------------------------------------------------
-      !||    dynain_c_strag   ../engine/source/output/dynain/dynain_c_strag.F
-      !||    stat_c_strafg    ../engine/source/output/sta/stat_c_strafg.F
-      !||    stat_c_strsfg    ../engine/source/output/sta/stat_c_strsfg.F
-      !||====================================================================
+!||====================================================================
+!||    shell2g          ../engine/source/output/sta/stat_c_strafg.F
+!||--- called by ------------------------------------------------------
+!||    dynain_c_strag   ../engine/source/output/dynain/dynain_c_strag.F
+!||    stat_c_strafg    ../engine/source/output/sta/stat_c_strafg.F
+!||    stat_c_strsfg    ../engine/source/output/sta/stat_c_strsfg.F
+!||====================================================================
       SUBROUTINE SHELL2G(EPS,QT)
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
 #include      "implicit_f.inc"

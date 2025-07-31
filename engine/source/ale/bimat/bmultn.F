@@ -20,11 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    bmultn   ../engine/source/ale/bimat/bmultn.F
-      !||--- called by ------------------------------------------------------
-      !||    resol    ../engine/source/engine/resol.F
-      !||====================================================================
+!||====================================================================
+!||    bmultn   ../engine/source/ale/bimat/bmultn.F
+!||--- called by ------------------------------------------------------
+!||    resol    ../engine/source/engine/resol.F
+!||====================================================================
       SUBROUTINE BMULTN(FILL,DFILL,IMS,NODFT,NODLT)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

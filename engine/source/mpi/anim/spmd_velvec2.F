@@ -20,15 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    spmd_velvec2          ../engine/source/mpi/anim/spmd_velvec2.F
-      !||--- called by ------------------------------------------------------
-      !||    velvec2               ../engine/source/output/anim/generate/velvec.F
-      !||--- calls      -----------------------------------------------------
-      !||    write_r_c             ../common_source/tools/input_output/write_routtines.c
-      !||--- uses       -----------------------------------------------------
-      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
-      !||====================================================================
+!||====================================================================
+!||    spmd_velvec2          ../engine/source/mpi/anim/spmd_velvec2.F
+!||--- called by ------------------------------------------------------
+!||    velvec2               ../engine/source/output/anim/generate/velvec.F
+!||--- calls      -----------------------------------------------------
+!||    write_r_c             ../common_source/tools/input_output/write_routtines.c
+!||--- uses       -----------------------------------------------------
+!||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
+!||====================================================================
       SUBROUTINE SPMD_VELVEC2(V,NODGLOB,RBUF,NUMPOG)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

@@ -21,18 +21,18 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
-      !||====================================================================
-      !||    spmd_exch_da20        ../engine/source/mpi/interfaces/spmd_exch_da20.F
-      !||--- called by ------------------------------------------------------
-      !||    resol                 ../engine/source/engine/resol.F
-      !||--- calls      -----------------------------------------------------
-      !||    adddp                 ../engine/source/mpi/interfaces/spmd_i7tool.F
-      !||    getdpdaanc            ../engine/source/mpi/interfaces/spmd_i7tool.F
-      !||    putdpdaanc            ../engine/source/mpi/interfaces/spmd_i7tool.F
-      !||--- uses       -----------------------------------------------------
-      !||    intbufdef_mod         ../common_source/modules/interfaces/intbufdef_mod.F90
-      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
-      !||====================================================================
+!||====================================================================
+!||    spmd_exch_da20        ../engine/source/mpi/interfaces/spmd_exch_da20.F
+!||--- called by ------------------------------------------------------
+!||    resol                 ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
+!||    adddp                 ../engine/source/mpi/interfaces/spmd_i7tool.F
+!||    getdpdaanc            ../engine/source/mpi/interfaces/spmd_i7tool.F
+!||    putdpdaanc            ../engine/source/mpi/interfaces/spmd_i7tool.F
+!||--- uses       -----------------------------------------------------
+!||    intbufdef_mod         ../common_source/modules/interfaces/intbufdef_mod.F90
+!||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
+!||====================================================================
       SUBROUTINE SPMD_EXCH_DA20(
      1   INTBUF_TAB,IPARI,IAD_ELEM,FR_ELEM,
      2   LEN20,NBINT20,LENR ,INTLIST ,NBINTC )

@@ -20,36 +20,36 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    multi_submatlaw_mod              ../engine/source/multifluid/multi_submatlaw.F
-      !||--- called by ------------------------------------------------------
-      !||    multi_inlet_ebcs                 ../engine/source/multifluid/multi_inlet_ebcs.F
-      !||    multi_muscl_compute_pressure     ../engine/source/multifluid/multi_muscl_compute_pressure.F90
-      !||    multi_muscl_fluxes_computation   ../engine/source/multifluid/multi_muscl_fluxes_computation.F
-      !||    multi_nrf_ebcs                   ../engine/source/multifluid/multi_nrf_ebcs.F
-      !||    multi_pressure_equilibrium       ../engine/source/multifluid/multi_pressure_equilibrium.F
-      !||    multi_propergol_ebcs             ../engine/source/multifluid/multi_propergol_ebcs.F90
-      !||    multi_solve_eint                 ../engine/source/multifluid/multi_solve_eint.F90
-      !||====================================================================
+!||====================================================================
+!||    multi_submatlaw_mod              ../engine/source/multifluid/multi_submatlaw.F
+!||--- called by ------------------------------------------------------
+!||    multi_inlet_ebcs                 ../engine/source/multifluid/multi_inlet_ebcs.F
+!||    multi_muscl_compute_pressure     ../engine/source/multifluid/multi_muscl_compute_pressure.F90
+!||    multi_muscl_fluxes_computation   ../engine/source/multifluid/multi_muscl_fluxes_computation.F
+!||    multi_nrf_ebcs                   ../engine/source/multifluid/multi_nrf_ebcs.F
+!||    multi_pressure_equilibrium       ../engine/source/multifluid/multi_pressure_equilibrium.F
+!||    multi_propergol_ebcs             ../engine/source/multifluid/multi_propergol_ebcs.F90
+!||    multi_solve_eint                 ../engine/source/multifluid/multi_solve_eint.F90
+!||====================================================================
       MODULE MULTI_SUBMATLAW_MOD
       CONTAINS
-      !||====================================================================
-      !||    multi_submatlaw                ../engine/source/multifluid/multi_submatlaw.F
-      !||--- called by ------------------------------------------------------
-      !||    multi_inlet_ebcs               ../engine/source/multifluid/multi_inlet_ebcs.F
-      !||    multi_muscl_compute_pressure   ../engine/source/multifluid/multi_muscl_compute_pressure.F90
-      !||    multi_nrf_ebcs                 ../engine/source/multifluid/multi_nrf_ebcs.F
-      !||    multi_pressure_equilibrium     ../engine/source/multifluid/multi_pressure_equilibrium.F
-      !||    multi_propergol_ebcs           ../engine/source/multifluid/multi_propergol_ebcs.F90
-      !||    multi_solve_eint               ../engine/source/multifluid/multi_solve_eint.F90
-      !||--- calls      -----------------------------------------------------
-      !||    arret                          ../engine/source/system/arret.F
-      !||    eosmain                        ../common_source/eos/eosmain.F
-      !||--- uses       -----------------------------------------------------
-      !||    alemuscl_mod                   ../common_source/modules/ale/alemuscl_mod.F
-      !||    eosmain_mod                    ../common_source/eos/eosmain.F
-      !||    matparam_def_mod               ../common_source/modules/mat_elem/matparam_def_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    multi_submatlaw                ../engine/source/multifluid/multi_submatlaw.F
+!||--- called by ------------------------------------------------------
+!||    multi_inlet_ebcs               ../engine/source/multifluid/multi_inlet_ebcs.F
+!||    multi_muscl_compute_pressure   ../engine/source/multifluid/multi_muscl_compute_pressure.F90
+!||    multi_nrf_ebcs                 ../engine/source/multifluid/multi_nrf_ebcs.F
+!||    multi_pressure_equilibrium     ../engine/source/multifluid/multi_pressure_equilibrium.F
+!||    multi_propergol_ebcs           ../engine/source/multifluid/multi_propergol_ebcs.F90
+!||    multi_solve_eint               ../engine/source/multifluid/multi_solve_eint.F90
+!||--- calls      -----------------------------------------------------
+!||    arret                          ../engine/source/system/arret.F
+!||    eosmain                        ../common_source/eos/eosmain.F
+!||--- uses       -----------------------------------------------------
+!||    alemuscl_mod                   ../common_source/modules/ale/alemuscl_mod.F
+!||    eosmain_mod                    ../common_source/eos/eosmain.F
+!||    matparam_def_mod               ../common_source/modules/mat_elem/matparam_def_mod.F90
+!||====================================================================
       SUBROUTINE MULTI_SUBMATLAW(
      1   IFLAG,       MATLAW,      LOCAL_MATID, NEL,
      2   EINT,        PRES,        RHO,         SSP,

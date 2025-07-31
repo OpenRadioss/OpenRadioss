@@ -20,41 +20,41 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    alewdx                 ../engine/source/ale/grid/alewdx.F
-      !||--- called by ------------------------------------------------------
-      !||    resol                  ../engine/source/engine/resol.F
-      !||--- calls      -----------------------------------------------------
-      !||    alelin                 ../engine/source/ale/grid/alelin.F
-      !||    alew                   ../engine/source/ale/grid/alew.F
-      !||    alew1                  ../engine/source/ale/grid/alew1.F
-      !||    alew2                  ../engine/source/ale/grid/alew2.F
-      !||    alew4                  ../engine/source/ale/grid/alew4.F
-      !||    alew5                  ../engine/source/ale/grid/alew5.F
-      !||    alew6                  ../engine/source/ale/grid/alew6.F
-      !||    alew7                  ../engine/source/ale/grid/alew7.F
-      !||    alew8                  ../engine/source/ale/grid/alew8.F90
-      !||    bcs2v                  ../engine/source/constraints/general/bcs/bcs2.F
-      !||    bcs3v                  ../engine/source/ale/inter/bcs3v.F
-      !||    intal3                 ../engine/source/ale/inter/intal3.F
-      !||    laser1                 ../engine/source/loads/laser/laser1.F
-      !||    my_barrier             ../engine/source/system/machine.F
-      !||    rgwal1                 ../engine/source/ale/grid/rgwal1.F
-      !||    startime               ../engine/source/system/timer_mod.F90
-      !||    stoptime               ../engine/source/system/timer_mod.F90
-      !||    wlag                   ../engine/source/ale/grid/wlag.F
-      !||    wpor                   ../engine/source/ale/grid/wpor.F
-      !||--- uses       -----------------------------------------------------
-      !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
-      !||    ale_mod                ../common_source/modules/ale/ale_mod.F
-      !||    alew8_mod              ../engine/source/ale/grid/alew8.F90
-      !||    elbufdef_mod           ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||    groupdef_mod           ../common_source/modules/groupdef_mod.F
-      !||    intbufdef_mod          ../common_source/modules/interfaces/intbufdef_mod.F90
-      !||    multi_fvm_mod          ../common_source/modules/ale/multi_fvm_mod.F90
-      !||    python_funct_mod       ../common_source/modules/python_mod.F90
-      !||    timer_mod              ../engine/source/system/timer_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    alewdx                 ../engine/source/ale/grid/alewdx.F
+!||--- called by ------------------------------------------------------
+!||    resol                  ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
+!||    alelin                 ../engine/source/ale/grid/alelin.F
+!||    alew                   ../engine/source/ale/grid/alew.F
+!||    alew1                  ../engine/source/ale/grid/alew1.F
+!||    alew2                  ../engine/source/ale/grid/alew2.F
+!||    alew4                  ../engine/source/ale/grid/alew4.F
+!||    alew5                  ../engine/source/ale/grid/alew5.F
+!||    alew6                  ../engine/source/ale/grid/alew6.F
+!||    alew7                  ../engine/source/ale/grid/alew7.F
+!||    alew8                  ../engine/source/ale/grid/alew8.F90
+!||    bcs2v                  ../engine/source/constraints/general/bcs/bcs2.F
+!||    bcs3v                  ../engine/source/ale/inter/bcs3v.F
+!||    intal3                 ../engine/source/ale/inter/intal3.F
+!||    laser1                 ../engine/source/loads/laser/laser1.F
+!||    my_barrier             ../engine/source/system/machine.F
+!||    rgwal1                 ../engine/source/ale/grid/rgwal1.F
+!||    startime               ../engine/source/system/timer_mod.F90
+!||    stoptime               ../engine/source/system/timer_mod.F90
+!||    wlag                   ../engine/source/ale/grid/wlag.F
+!||    wpor                   ../engine/source/ale/grid/wpor.F
+!||--- uses       -----------------------------------------------------
+!||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
+!||    ale_mod                ../common_source/modules/ale/ale_mod.F
+!||    alew8_mod              ../engine/source/ale/grid/alew8.F90
+!||    elbufdef_mod           ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    groupdef_mod           ../common_source/modules/groupdef_mod.F
+!||    intbufdef_mod          ../common_source/modules/interfaces/intbufdef_mod.F90
+!||    multi_fvm_mod          ../common_source/modules/ale/multi_fvm_mod.F90
+!||    python_funct_mod       ../common_source/modules/python_mod.F90
+!||    timer_mod              ../engine/source/system/timer_mod.F90
+!||====================================================================
       SUBROUTINE ALEWDX(TIMERS,
      1     GEO             ,X             ,D          ,V          ,VR         ,
      2     W               ,WA            ,WB         ,SKEW       ,

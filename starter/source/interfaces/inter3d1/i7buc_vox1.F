@@ -20,18 +20,18 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    i7buc_vox1             ../starter/source/interfaces/inter3d1/i7buc_vox1.F
-      !||--- called by ------------------------------------------------------
-      !||    inint3                 ../starter/source/interfaces/inter3d1/inint3.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg                 ../starter/source/output/message/message.F
-      !||    i7trivox1              ../starter/source/interfaces/inter3d1/i7trivox1.F
-      !||--- uses       -----------------------------------------------------
-      !||    front_mod              ../starter/share/modules1/front_mod.F
-      !||    message_mod            ../starter/share/message_module/message_mod.F
-      !||    tri7box                ../starter/share/modules1/tri7box.F
-      !||====================================================================
+!||====================================================================
+!||    i7buc_vox1             ../starter/source/interfaces/inter3d1/i7buc_vox1.F
+!||--- called by ------------------------------------------------------
+!||    inint3                 ../starter/source/interfaces/inter3d1/inint3.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                 ../starter/source/output/message/message.F
+!||    i7trivox1              ../starter/source/interfaces/inter3d1/i7trivox1.F
+!||--- uses       -----------------------------------------------------
+!||    front_mod              ../starter/share/modules1/front_mod.F
+!||    message_mod            ../starter/share/message_module/message_mod.F
+!||    tri7box                ../starter/share/modules1/tri7box.F
+!||====================================================================
       SUBROUTINE I7BUC_VOX1(
      1   X     ,IRECT,NSV    ,BUMULT,NSEG    ,
      2   NMN   ,NRTM ,MWA    ,NSN   ,

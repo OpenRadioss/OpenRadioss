@@ -21,12 +21,12 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
-      !||====================================================================
-      !||    icompc   ../common_source/tools/sort/icompc.F
-      !||--- called by ------------------------------------------------------
-      !||    iparti   ../common_source/tools/sort/iparti.F
-      !||    triins   ../common_source/tools/sort/triins.F
-      !||====================================================================
+!||====================================================================
+!||    icompc   ../common_source/tools/sort/icompc.F
+!||--- called by ------------------------------------------------------
+!||    iparti   ../common_source/tools/sort/iparti.F
+!||    triins   ../common_source/tools/sort/triins.F
+!||====================================================================
       INTEGER FUNCTION ICOMPC(I,J,TAB)
 C
 C      COMPCL=  -1 SI TAB(I)<TAB(J)

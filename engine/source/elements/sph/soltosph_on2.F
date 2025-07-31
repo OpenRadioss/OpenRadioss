@@ -20,22 +20,22 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    soltosph_on2   ../engine/source/elements/sph/soltosph_on2.F
-      !||--- called by ------------------------------------------------------
-      !||    sphprep        ../engine/source/elements/sph/sphprep.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg         ../engine/source/output/message/message.F
-      !||    arret          ../engine/source/system/arret.F
-      !||    my_barrier     ../engine/source/system/machine.F
-      !||    startimeg      ../engine/source/system/timer.F
-      !||    stoptimeg      ../engine/source/system/timer.F
-      !||--- uses       -----------------------------------------------------
-      !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||    message_mod    ../engine/share/message_module/message_mod.F
-      !||    soltosph_mod   ../engine/share/modules/soltosph_mod.F
-      !||    sphbox         ../engine/share/modules/sphbox.F
-      !||====================================================================
+!||====================================================================
+!||    soltosph_on2   ../engine/source/elements/sph/soltosph_on2.F
+!||--- called by ------------------------------------------------------
+!||    sphprep        ../engine/source/elements/sph/sphprep.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg         ../engine/source/output/message/message.F
+!||    arret          ../engine/source/system/arret.F
+!||    my_barrier     ../engine/source/system/machine.F
+!||    startimeg      ../engine/source/system/timer.F
+!||    stoptimeg      ../engine/source/system/timer.F
+!||--- uses       -----------------------------------------------------
+!||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    message_mod    ../engine/share/message_module/message_mod.F
+!||    soltosph_mod   ../engine/share/modules/soltosph_mod.F
+!||    sphbox         ../engine/share/modules/sphbox.F
+!||====================================================================
       SUBROUTINE SOLTOSPH_ON2(
      .   X      ,SPBUF    ,KXSP   ,IPARTSP ,ELBUF_TAB,
      .   IPARG  ,NGROUNC ,IGROUNC ,ITASK   ,IXSP     ,

@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    alefvm_gravity_int22   ../engine/source/ale/alefvm/alefvm_gravity_int22.F
-      !||--- called by ------------------------------------------------------
-      !||    sforc3                 ../engine/source/elements/solid/solide/sforc3.F
-      !||--- uses       -----------------------------------------------------
-      !||    alefvm_mod             ../common_source/modules/ale/alefvm_mod.F
-      !||    i22bufbric_mod         ../common_source/modules/interfaces/cut-cell-search_mod.F
-      !||====================================================================
+!||====================================================================
+!||    alefvm_gravity_int22   ../engine/source/ale/alefvm/alefvm_gravity_int22.F
+!||--- called by ------------------------------------------------------
+!||    sforc3                 ../engine/source/elements/solid/solide/sforc3.F
+!||--- uses       -----------------------------------------------------
+!||    alefvm_mod             ../common_source/modules/ale/alefvm_mod.F
+!||    i22bufbric_mod         ../common_source/modules/interfaces/cut-cell-search_mod.F
+!||====================================================================
       SUBROUTINE ALEFVM_GRAVITY_INT22 (VOLN, IXS , RHO , IAD22 )
 C-----------------------------------------------
 C   D e s c r i p t i o n

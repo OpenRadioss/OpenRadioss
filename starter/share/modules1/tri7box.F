@@ -20,29 +20,29 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    tri7box          ../starter/share/modules1/tri7box.F
-      !||--- called by ------------------------------------------------------
-      !||    i11buc_vox1      ../starter/source/interfaces/inter3d1/i11buc1.F
-      !||    i11resetvoxel1   ../starter/source/interfaces/inter3d1/i11trivox1.F
-      !||    i11trivox1       ../starter/source/interfaces/inter3d1/i11trivox1.F
-      !||    i25buc_vox1      ../starter/source/interfaces/inter3d1/i25buc_vox1.F
-      !||    i25buce_edg      ../starter/source/interfaces/inter3d1/i25buce_edg.F
-      !||    i25cor3_e2s      ../starter/source/interfaces/inter3d1/i25cor3_e2s.F
-      !||    i25cor3e         ../starter/source/interfaces/inter3d1/i25cor3e.F
-      !||    i25cor3t         ../starter/source/interfaces/inter3d1/i25cor3t.F
-      !||    i25pen3_e2s      ../starter/source/interfaces/inter3d1/i25pen3_e2s.F
-      !||    i25pen3_edg      ../starter/source/interfaces/inter3d1/i25pen3_edg.F
-      !||    i25sto           ../starter/source/interfaces/inter3d1/i25sto.F
-      !||    i25sto_e2s       ../starter/source/interfaces/inter3d1/i25sto_e2s.F
-      !||    i25sto_edg       ../starter/source/interfaces/inter3d1/i25sto_edg.F
-      !||    i25trivox1       ../starter/source/interfaces/inter3d1/i25trivox1.F
-      !||    i25trivox_edg    ../starter/source/interfaces/inter3d1/i25trivox_edg.F
-      !||    i7buc_vox1       ../starter/source/interfaces/inter3d1/i7buc_vox1.F
-      !||    i7trivox1        ../starter/source/interfaces/inter3d1/i7trivox1.F
-      !||    spbuc31          ../starter/source/elements/sph/spbuc31.F
-      !||    sptrivox         ../starter/source/elements/sph/sptrivox.F
-      !||====================================================================
+!||====================================================================
+!||    tri7box          ../starter/share/modules1/tri7box.F
+!||--- called by ------------------------------------------------------
+!||    i11buc_vox1      ../starter/source/interfaces/inter3d1/i11buc1.F
+!||    i11resetvoxel1   ../starter/source/interfaces/inter3d1/i11trivox1.F
+!||    i11trivox1       ../starter/source/interfaces/inter3d1/i11trivox1.F
+!||    i25buc_vox1      ../starter/source/interfaces/inter3d1/i25buc_vox1.F
+!||    i25buce_edg      ../starter/source/interfaces/inter3d1/i25buce_edg.F
+!||    i25cor3_e2s      ../starter/source/interfaces/inter3d1/i25cor3_e2s.F
+!||    i25cor3e         ../starter/source/interfaces/inter3d1/i25cor3e.F
+!||    i25cor3t         ../starter/source/interfaces/inter3d1/i25cor3t.F
+!||    i25pen3_e2s      ../starter/source/interfaces/inter3d1/i25pen3_e2s.F
+!||    i25pen3_edg      ../starter/source/interfaces/inter3d1/i25pen3_edg.F
+!||    i25sto           ../starter/source/interfaces/inter3d1/i25sto.F
+!||    i25sto_e2s       ../starter/source/interfaces/inter3d1/i25sto_e2s.F
+!||    i25sto_edg       ../starter/source/interfaces/inter3d1/i25sto_edg.F
+!||    i25trivox1       ../starter/source/interfaces/inter3d1/i25trivox1.F
+!||    i25trivox_edg    ../starter/source/interfaces/inter3d1/i25trivox_edg.F
+!||    i7buc_vox1       ../starter/source/interfaces/inter3d1/i7buc_vox1.F
+!||    i7trivox1        ../starter/source/interfaces/inter3d1/i7trivox1.F
+!||    spbuc31          ../starter/source/elements/sph/spbuc31.F
+!||    sptrivox         ../starter/source/elements/sph/sptrivox.F
+!||====================================================================
       MODULE TRI7BOX
 C Temporary array for VOXEL SORTING
         INTEGER , DIMENSION(:), ALLOCATABLE :: NEXT_NOD

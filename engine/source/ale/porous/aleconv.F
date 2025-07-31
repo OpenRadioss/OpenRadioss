@@ -20,15 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    aleconve               ../engine/source/ale/porous/aleconv.F
-      !||--- called by ------------------------------------------------------
-      !||    aleflow                ../engine/source/ale/porous/aleflow.F
-      !||--- calls      -----------------------------------------------------
-      !||    aleconv3               ../engine/source/ale/porous/aleconv.F
-      !||--- uses       -----------------------------------------------------
-      !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
-      !||====================================================================
+!||====================================================================
+!||    aleconve               ../engine/source/ale/porous/aleconv.F
+!||--- called by ------------------------------------------------------
+!||    aleflow                ../engine/source/ale/porous/aleflow.F
+!||--- calls      -----------------------------------------------------
+!||    aleconv3               ../engine/source/ale/porous/aleconv.F
+!||--- uses       -----------------------------------------------------
+!||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
+!||====================================================================
       SUBROUTINE ALECONVE(VAR ,FLUX ,FLU1 ,PHI ,ALE_CONNECT ,PHIV)
 C-----------------------------------------------
 C   D e s c r i p t i o n
@@ -65,13 +65,13 @@ C-------------
       RETURN
       END SUBROUTINE ALECONVE
 c
-      !||====================================================================
-      !||    aleconv3               ../engine/source/ale/porous/aleconv.F
-      !||--- called by ------------------------------------------------------
-      !||    aleconve               ../engine/source/ale/porous/aleconv.F
-      !||--- uses       -----------------------------------------------------
-      !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
-      !||====================================================================
+!||====================================================================
+!||    aleconv3               ../engine/source/ale/porous/aleconv.F
+!||--- called by ------------------------------------------------------
+!||    aleconve               ../engine/source/ale/porous/aleconv.F
+!||--- uses       -----------------------------------------------------
+!||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
+!||====================================================================
       SUBROUTINE ALECONV3(VTOT ,PHI ,FLUX ,FLU1  ,PHIV , ALE_CONNECT ,IOFF)
         USE ALE_CONNECTIVITY_MOD
 C-----------------------------------------------

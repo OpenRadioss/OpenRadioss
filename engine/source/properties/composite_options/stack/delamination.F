@@ -20,18 +20,18 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    delamination   ../engine/source/properties/composite_options/stack/delamination.F
-      !||--- called by ------------------------------------------------------
-      !||    cmain3         ../engine/source/materials/mat_share/cmain3.F
-      !||--- calls      -----------------------------------------------------
-      !||    delm01law      ../engine/source/properties/composite_options/stack/delm01law.F
-      !||    delm02law      ../engine/source/properties/composite_options/stack/delm02law.F
-      !||    delm24law      ../engine/source/properties/composite_options/stack/delm24law.F
-      !||--- uses       -----------------------------------------------------
-      !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||    mat_elem_mod   ../common_source/modules/mat_elem/mat_elem_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    delamination   ../engine/source/properties/composite_options/stack/delamination.F
+!||--- called by ------------------------------------------------------
+!||    cmain3         ../engine/source/materials/mat_share/cmain3.F
+!||--- calls      -----------------------------------------------------
+!||    delm01law      ../engine/source/properties/composite_options/stack/delm01law.F
+!||    delm02law      ../engine/source/properties/composite_options/stack/delm02law.F
+!||    delm24law      ../engine/source/properties/composite_options/stack/delm24law.F
+!||--- uses       -----------------------------------------------------
+!||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    mat_elem_mod   ../common_source/modules/mat_elem/mat_elem_mod.F90
+!||====================================================================
       SUBROUTINE DELAMINATION(ELBUF_STR,MAT_PARAM,
      1           JFT      ,JLT     ,IR     ,IS     ,NPT      ,
      2           MAT_IPLY ,IPM     ,PM     ,BUFMAT ,NPF      ,

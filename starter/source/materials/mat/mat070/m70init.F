@@ -20,12 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    m70init   ../starter/source/materials/mat/mat070/m70init.F
-      !||--- called by ------------------------------------------------------
-      !||    matini    ../starter/source/materials/mat_share/matini.F
-      !||    sigin3b   ../starter/source/elements/solid/solid8p/sigin3b.F
-      !||====================================================================
+!||====================================================================
+!||    m70init   ../starter/source/materials/mat/mat070/m70init.F
+!||--- called by ------------------------------------------------------
+!||    matini    ../starter/source/materials/mat_share/matini.F
+!||    sigin3b   ../starter/source/elements/solid/solid8p/sigin3b.F
+!||====================================================================
       SUBROUTINE M70INIT(NEL ,NUPARAM ,NUVAR ,UPARAM ,UVAR) 
 C-----------------------------------------------
 C   I M P L I C I T   T Y P E S

@@ -20,28 +20,28 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    sigeps125c_mod   ../engine/source/materials/mat/mat125/sigeps125c.F90
-      !||--- called by ------------------------------------------------------
-      !||    mulawc           ../engine/source/materials/mat_share/mulawc.F90
-      !||====================================================================
+!||====================================================================
+!||    sigeps125c_mod   ../engine/source/materials/mat/mat125/sigeps125c.F90
+!||--- called by ------------------------------------------------------
+!||    mulawc           ../engine/source/materials/mat_share/mulawc.F90
+!||====================================================================
       module sigeps125c_mod
         contains
   ! ======================================================================================================================
   ! \brief   material law /MAT/LAW125
   ! \details Material law  Dedicated to composite application. 
   ! ======================================================================================================================
-      !||====================================================================
-      !||    sigeps125c         ../engine/source/materials/mat/mat125/sigeps125c.F90
-      !||--- called by ------------------------------------------------------
-      !||    mulawc             ../engine/source/materials/mat_share/mulawc.F90
-      !||--- calls      -----------------------------------------------------
-      !||    vinter             ../engine/source/tools/curve/vinter.F
-      !||--- uses       -----------------------------------------------------
-      !||    constant_mod       ../common_source/modules/constant_mod.F
-      !||    matparam_def_mod   ../common_source/modules/mat_elem/matparam_def_mod.F90
-      !||    precision_mod      ../common_source/modules/precision_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    sigeps125c         ../engine/source/materials/mat/mat125/sigeps125c.F90
+!||--- called by ------------------------------------------------------
+!||    mulawc             ../engine/source/materials/mat_share/mulawc.F90
+!||--- calls      -----------------------------------------------------
+!||    vinter             ../engine/source/tools/curve/vinter.F
+!||--- uses       -----------------------------------------------------
+!||    constant_mod       ../common_source/modules/constant_mod.F
+!||    matparam_def_mod   ../common_source/modules/mat_elem/matparam_def_mod.F90
+!||    precision_mod      ../common_source/modules/precision_mod.F90
+!||====================================================================
          SUBROUTINE sigeps125c(                                   &
            nel     ,mat_param  , nuvar   ,uvar   ,                &
            rho     ,thk       ,thkly     ,shf    ,                &

@@ -20,69 +20,69 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    s4forc3                ../engine/source/elements/solid/solide4/s4forc3.F
-      !||--- called by ------------------------------------------------------
-      !||    alemain                ../engine/source/ale/alemain.F
-      !||    forint                 ../engine/source/elements/forint.F
-      !||--- calls      -----------------------------------------------------
-      !||    a4mass3                ../engine/source/elements/solid/solide4/a4mass3.F
-      !||    a4mass3p               ../engine/source/elements/solid/solide4/a4mass3p.F
-      !||    a4momt3                ../engine/source/elements/solid/solide4/a4momt3.F
-      !||    boltst                 ../engine/source/elements/solid/solide/boltst.F
-      !||    check_off_ale          ../engine/source/elements/solid/solide/check_off_ale.F
-      !||    e4pxle3                ../engine/source/elements/solid/solide4/e4pxle3.F
-      !||    mmain                  ../engine/source/materials/mat_share/mmain.F90
-      !||    s11fx3                 ../engine/source/elements/solid/solide/s11fx3.F
-      !||    s4bilan                ../engine/source/elements/solid/solide4/s4bilan.F
-      !||    s4coor3                ../engine/source/elements/solid/solide4/s4coor3.F
-      !||    s4cumu3                ../engine/source/elements/solid/solide4/s4cumu3.F
-      !||    s4cumu3p               ../engine/source/elements/solid/solide4/s4cumu3p.F
-      !||    s4defo3                ../engine/source/elements/solid/solide4/s4defo3.F
-      !||    s4defot3               ../engine/source/elements/solid/solide4/s4defot3.F
-      !||    s4deri3                ../engine/source/elements/solid/solide4/s4deri3.F
-      !||    s4derit3               ../engine/source/elements/solid/solide4/s4derit3.F
-      !||    s4derito3              ../engine/source/elements/solid/solide4/s4derito3.F
-      !||    s4fillopt              ../engine/source/elements/solid/solide4/s4fillopt.F
-      !||    s4fint3                ../engine/source/elements/solid/solide4/s4fint3.F
-      !||    s4fint_reg             ../engine/source/elements/solid/solide4/s4fint_reg.F
-      !||    s4for_distor           ../engine/source/elements/solid/solide4/s4for_distor.F
-      !||    s4malla3               ../engine/source/elements/solid/solide4/s4mall3.F
-      !||    s4rcoor12              ../engine/source/elements/solid/solide4/s4rcoor12.F
-      !||    s4sav12                ../engine/source/elements/solid/solide4/s4sav12.F
-      !||    s4sav3                 ../engine/source/elements/solid/solide4/s4sav3.F
-      !||    s4therm                ../engine/source/elements/solid/solide4/s4therm.F
-      !||    s4upd11t12             ../engine/source/elements/solid/solide4/s4upd11t12.F
-      !||    s4voln_m               ../engine/source/elements/solid/solide4_sfem/s4voln_m.F
-      !||    sdistor_ini            ../engine/source/elements/solid/solide/sdistror_ini.F90
-      !||    sgcoor3                ../engine/source/elements/solid/solide/sgcoor3.F
-      !||    sgeodel3               ../engine/source/elements/solid/solide/sgeodel3.F
-      !||    smallb3                ../engine/source/elements/solid/solide/smallb3.F
-      !||    smallgeo3              ../engine/source/elements/solid/solide/smallgeo3.F
-      !||    sordef12               ../engine/source/elements/solid/solidez/sordef12.F
-      !||    sordeft12              ../engine/source/elements/solid/solidez/sordeft12.F
-      !||    sorthdir3              ../engine/source/elements/solid/solide/sorthdir3.F
-      !||    sreploc3               ../engine/source/elements/solid/solide/sreploc3.F
-      !||    srho3                  ../engine/source/elements/solid/solide/srho3.F
-      !||    srota3                 ../engine/source/elements/solid/solide/srota3.F
-      !||    sroto12_sig            ../engine/source/elements/solid/solidez/sroto12_sig.F
-      !||    sstra3                 ../engine/source/elements/solid/solide/sstra3.F
-      !||    startime               ../engine/source/system/timer_mod.F90
-      !||    stoptime               ../engine/source/system/timer_mod.F90
-      !||--- uses       -----------------------------------------------------
-      !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
-      !||    ale_mod                ../common_source/modules/ale/ale_mod.F
-      !||    dt_mod                 ../engine/source/modules/dt_mod.F
-      !||    elbufdef_mod           ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||    glob_therm_mod         ../common_source/modules/mat_elem/glob_therm_mod.F90
-      !||    mat_elem_mod           ../common_source/modules/mat_elem/mat_elem_mod.F90
-      !||    mmain_mod              ../engine/source/materials/mat_share/mmain.F90
-      !||    nlocal_reg_mod         ../common_source/modules/nlocal_reg_mod.F
-      !||    sdistor_ini_mod        ../engine/source/elements/solid/solide/sdistror_ini.F90
-      !||    sensor_mod             ../common_source/modules/sensor_mod.F90
-      !||    table_mod              ../engine/share/modules/table_mod.F
-      !||    timer_mod              ../engine/source/system/timer_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    s4forc3                ../engine/source/elements/solid/solide4/s4forc3.F
+!||--- called by ------------------------------------------------------
+!||    alemain                ../engine/source/ale/alemain.F
+!||    forint                 ../engine/source/elements/forint.F
+!||--- calls      -----------------------------------------------------
+!||    a4mass3                ../engine/source/elements/solid/solide4/a4mass3.F
+!||    a4mass3p               ../engine/source/elements/solid/solide4/a4mass3p.F
+!||    a4momt3                ../engine/source/elements/solid/solide4/a4momt3.F
+!||    boltst                 ../engine/source/elements/solid/solide/boltst.F
+!||    check_off_ale          ../engine/source/elements/solid/solide/check_off_ale.F
+!||    e4pxle3                ../engine/source/elements/solid/solide4/e4pxle3.F
+!||    mmain                  ../engine/source/materials/mat_share/mmain.F90
+!||    s11fx3                 ../engine/source/elements/solid/solide/s11fx3.F
+!||    s4bilan                ../engine/source/elements/solid/solide4/s4bilan.F
+!||    s4coor3                ../engine/source/elements/solid/solide4/s4coor3.F
+!||    s4cumu3                ../engine/source/elements/solid/solide4/s4cumu3.F
+!||    s4cumu3p               ../engine/source/elements/solid/solide4/s4cumu3p.F
+!||    s4defo3                ../engine/source/elements/solid/solide4/s4defo3.F
+!||    s4defot3               ../engine/source/elements/solid/solide4/s4defot3.F
+!||    s4deri3                ../engine/source/elements/solid/solide4/s4deri3.F
+!||    s4derit3               ../engine/source/elements/solid/solide4/s4derit3.F
+!||    s4derito3              ../engine/source/elements/solid/solide4/s4derito3.F
+!||    s4fillopt              ../engine/source/elements/solid/solide4/s4fillopt.F
+!||    s4fint3                ../engine/source/elements/solid/solide4/s4fint3.F
+!||    s4fint_reg             ../engine/source/elements/solid/solide4/s4fint_reg.F
+!||    s4for_distor           ../engine/source/elements/solid/solide4/s4for_distor.F
+!||    s4malla3               ../engine/source/elements/solid/solide4/s4mall3.F
+!||    s4rcoor12              ../engine/source/elements/solid/solide4/s4rcoor12.F
+!||    s4sav12                ../engine/source/elements/solid/solide4/s4sav12.F
+!||    s4sav3                 ../engine/source/elements/solid/solide4/s4sav3.F
+!||    s4therm                ../engine/source/elements/solid/solide4/s4therm.F
+!||    s4upd11t12             ../engine/source/elements/solid/solide4/s4upd11t12.F
+!||    s4voln_m               ../engine/source/elements/solid/solide4_sfem/s4voln_m.F
+!||    sdistor_ini            ../engine/source/elements/solid/solide/sdistror_ini.F90
+!||    sgcoor3                ../engine/source/elements/solid/solide/sgcoor3.F
+!||    sgeodel3               ../engine/source/elements/solid/solide/sgeodel3.F
+!||    smallb3                ../engine/source/elements/solid/solide/smallb3.F
+!||    smallgeo3              ../engine/source/elements/solid/solide/smallgeo3.F
+!||    sordef12               ../engine/source/elements/solid/solidez/sordef12.F
+!||    sordeft12              ../engine/source/elements/solid/solidez/sordeft12.F
+!||    sorthdir3              ../engine/source/elements/solid/solide/sorthdir3.F
+!||    sreploc3               ../engine/source/elements/solid/solide/sreploc3.F
+!||    srho3                  ../engine/source/elements/solid/solide/srho3.F
+!||    srota3                 ../engine/source/elements/solid/solide/srota3.F
+!||    sroto12_sig            ../engine/source/elements/solid/solidez/sroto12_sig.F
+!||    sstra3                 ../engine/source/elements/solid/solide/sstra3.F
+!||    startime               ../engine/source/system/timer_mod.F90
+!||    stoptime               ../engine/source/system/timer_mod.F90
+!||--- uses       -----------------------------------------------------
+!||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
+!||    ale_mod                ../common_source/modules/ale/ale_mod.F
+!||    dt_mod                 ../engine/source/modules/dt_mod.F
+!||    elbufdef_mod           ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    glob_therm_mod         ../common_source/modules/mat_elem/glob_therm_mod.F90
+!||    mat_elem_mod           ../common_source/modules/mat_elem/mat_elem_mod.F90
+!||    mmain_mod              ../engine/source/materials/mat_share/mmain.F90
+!||    nlocal_reg_mod         ../common_source/modules/nlocal_reg_mod.F
+!||    sdistor_ini_mod        ../engine/source/elements/solid/solide/sdistror_ini.F90
+!||    sensor_mod             ../common_source/modules/sensor_mod.F90
+!||    table_mod              ../engine/share/modules/table_mod.F
+!||    timer_mod              ../engine/source/system/timer_mod.F90
+!||====================================================================
       SUBROUTINE S4FORC3(TIMERS,
      1   ELBUF_TAB,  NG,               PM,         GEO,
      2   IXS,        X,                A,          V,

@@ -20,26 +20,26 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    write_matparam                 ../engine/source/output/restart/write_matparam.F
-      !||--- called by ------------------------------------------------------
-      !||    wrrestp                        ../engine/source/output/restart/wrrestp.F
-      !||--- calls      -----------------------------------------------------
-      !||    write_ale_rezoning_param       ../engine/source/output/restart/write_ale_rezoning_param.F90
-      !||    write_c_c                      ../common_source/tools/input_output/write_routtines.c
-      !||    write_db                       ../common_source/tools/input_output/write_db.F
-      !||    write_eosparam                 ../engine/source/output/restart/write_eosparam.F90
-      !||    write_failparam                ../engine/source/output/restart/write_failparam.F
-      !||    write_i_c                      ../common_source/tools/input_output/write_routtines.c
-      !||    write_mat_table                ../engine/source/materials/tools/write_mat_table.F
-      !||    write_thermparam               ../engine/source/output/restart/write_thermparam.F90
-      !||    write_viscparam                ../engine/source/output/restart/write_viscparam.F
-      !||--- uses       -----------------------------------------------------
-      !||    mat_elem_mod                   ../common_source/modules/mat_elem/mat_elem_mod.F90
-      !||    names_and_titles_mod           ../common_source/modules/names_and_titles_mod.F
-      !||    write_ale_rezoning_param_mod   ../engine/source/output/restart/write_ale_rezoning_param.F90
-      !||    write_therpmaram_mod           ../engine/source/output/restart/write_thermparam.F90
-      !||====================================================================
+!||====================================================================
+!||    write_matparam                 ../engine/source/output/restart/write_matparam.F
+!||--- called by ------------------------------------------------------
+!||    wrrestp                        ../engine/source/output/restart/wrrestp.F
+!||--- calls      -----------------------------------------------------
+!||    write_ale_rezoning_param       ../engine/source/output/restart/write_ale_rezoning_param.F90
+!||    write_c_c                      ../common_source/tools/input_output/write_routtines.c
+!||    write_db                       ../common_source/tools/input_output/write_db.F
+!||    write_eosparam                 ../engine/source/output/restart/write_eosparam.F90
+!||    write_failparam                ../engine/source/output/restart/write_failparam.F
+!||    write_i_c                      ../common_source/tools/input_output/write_routtines.c
+!||    write_mat_table                ../engine/source/materials/tools/write_mat_table.F
+!||    write_thermparam               ../engine/source/output/restart/write_thermparam.F90
+!||    write_viscparam                ../engine/source/output/restart/write_viscparam.F
+!||--- uses       -----------------------------------------------------
+!||    mat_elem_mod                   ../common_source/modules/mat_elem/mat_elem_mod.F90
+!||    names_and_titles_mod           ../common_source/modules/names_and_titles_mod.F
+!||    write_ale_rezoning_param_mod   ../engine/source/output/restart/write_ale_rezoning_param.F90
+!||    write_therpmaram_mod           ../engine/source/output/restart/write_thermparam.F90
+!||====================================================================
       SUBROUTINE WRITE_MATPARAM(MAT_ELEM)
 C-----------------------------------------------
 C   M o d u l e s

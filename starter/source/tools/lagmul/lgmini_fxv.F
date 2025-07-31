@@ -20,16 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    lgmini_fxv             ../starter/source/tools/lagmul/lgmini_fxv.F
-      !||--- called by ------------------------------------------------------
-      !||    lagm_ini               ../starter/source/tools/lagmul/lagm_ini.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg                 ../starter/source/output/message/message.F
-      !||    fretitl2               ../starter/source/starter/freform.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod            ../starter/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    lgmini_fxv             ../starter/source/tools/lagmul/lgmini_fxv.F
+!||--- called by ------------------------------------------------------
+!||    lagm_ini               ../starter/source/tools/lagmul/lagm_ini.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                 ../starter/source/output/message/message.F
+!||    fretitl2               ../starter/source/starter/freform.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod            ../starter/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE LGMINI_FXV(IADLL  ,JLL    ,LLL    ,IBFV   ,VEL    ,
      .                      NC, MASS, INER, ITAB   ,NOM_OPT)
       USE MESSAGE_MOD

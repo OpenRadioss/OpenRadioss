@@ -20,17 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    ig3donebasis   ../engine/source/elements/ige3d/ig3donebasis.F
-      !||--- called by ------------------------------------------------------
-      !||    deplafakeige   ../engine/source/assembly/deplafakeige.F
-      !||    i7assigeo0     ../engine/source/interfaces/int07/i7ass3.F
-      !||    projecig3d     ../engine/source/elements/ige3d/projecig3d.F
-      !||--- calls      -----------------------------------------------------
-      !||    onebasisfun    ../engine/source/elements/ige3d/onebasisfun.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod    ../engine/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    ig3donebasis   ../engine/source/elements/ige3d/ig3donebasis.F
+!||--- called by ------------------------------------------------------
+!||    deplafakeige   ../engine/source/assembly/deplafakeige.F
+!||    i7assigeo0     ../engine/source/interfaces/int07/i7ass3.F
+!||    projecig3d     ../engine/source/elements/ige3d/projecig3d.F
+!||--- calls      -----------------------------------------------------
+!||    onebasisfun    ../engine/source/elements/ige3d/onebasisfun.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod    ../engine/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE IG3DONEBASIS(
      1 ITEL  ,N     ,XXI   ,YYI   ,
      2 ZZI   ,WWI   ,IDX   ,IDY   ,

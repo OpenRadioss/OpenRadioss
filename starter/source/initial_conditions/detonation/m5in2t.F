@@ -20,18 +20,18 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    m5in2t              ../starter/source/initial_conditions/detonation/m5in2t.F
-      !||--- called by ------------------------------------------------------
-      !||    multifluid_init2t   ../starter/source/multifluid/multifluid_init2t.F
-      !||--- calls      -----------------------------------------------------
-      !||    detcord             ../starter/source/initial_conditions/detonation/detcord.F
-      !||    ecran1              ../starter/source/initial_conditions/detonation/ecran1.F
-      !||    ecran2              ../starter/source/initial_conditions/detonation/ecran2.F
-      !||--- uses       -----------------------------------------------------
-      !||    detonators_mod      ../starter/share/modules1/detonators_mod.F
-      !||    message_mod         ../starter/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    m5in2t              ../starter/source/initial_conditions/detonation/m5in2t.F
+!||--- called by ------------------------------------------------------
+!||    multifluid_init2t   ../starter/source/multifluid/multifluid_init2t.F
+!||--- calls      -----------------------------------------------------
+!||    detcord             ../starter/source/initial_conditions/detonation/detcord.F
+!||    ecran1              ../starter/source/initial_conditions/detonation/ecran1.F
+!||    ecran2              ../starter/source/initial_conditions/detonation/ecran2.F
+!||--- uses       -----------------------------------------------------
+!||    detonators_mod      ../starter/share/modules1/detonators_mod.F
+!||    message_mod         ../starter/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE M5IN2T(PM,MAT,M151_ID,DETONATORS,TB,X,IX,NIX)
 C-----------------------------------------------
 C   M o d u l e s

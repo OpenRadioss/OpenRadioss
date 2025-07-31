@@ -21,15 +21,15 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 
-      !||====================================================================
-      !||    nloc_dmg_init    ../starter/source/materials/fail/nloc_dmg_init.F
-      !||--- called by ------------------------------------------------------
-      !||    initia           ../starter/source/elements/initia/initia.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg           ../starter/source/output/message/message.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod      ../starter/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    nloc_dmg_init    ../starter/source/materials/fail/nloc_dmg_init.F
+!||--- called by ------------------------------------------------------
+!||    initia           ../starter/source/elements/initia/initia.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg           ../starter/source/output/message/message.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod      ../starter/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE NLOC_DMG_INIT(ELBUF_TAB,NLOC_DMG ,IPARG    ,IXC      ,
      .                         IXS      ,IXTG     ,AREA     ,DTELEM   ,
      .                         NUMEL    ,IPM      ,X        ,XREFS    ,

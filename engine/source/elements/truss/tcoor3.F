@@ -20,11 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    tcoor3   ../engine/source/elements/truss/tcoor3.F
-      !||--- called by ------------------------------------------------------
-      !||    tforc3   ../engine/source/elements/truss/tforc3.F
-      !||====================================================================
+!||====================================================================
+!||    tcoor3   ../engine/source/elements/truss/tcoor3.F
+!||--- called by ------------------------------------------------------
+!||    tforc3   ../engine/source/elements/truss/tforc3.F
+!||====================================================================
       SUBROUTINE TCOOR3(
      1   X,       NCC,     MAT,     MGM,
      2   NGL,     NC1,     NC2,     X1,

@@ -20,16 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    i2for3n       ../engine/source/interfaces/interf/i2for3.F
-      !||--- called by ------------------------------------------------------
-      !||    intti2f       ../engine/source/interfaces/interf/intti2f.F
-      !||--- calls      -----------------------------------------------------
-      !||    i2forces      ../engine/source/interfaces/interf/i2forces.F
-      !||    i2forces_2d   ../engine/source/interfaces/interf/i2forces_2D.F
-      !||--- uses       -----------------------------------------------------
-      !||    h3d_mod       ../engine/share/modules/h3d_mod.F
-      !||====================================================================
+!||====================================================================
+!||    i2for3n       ../engine/source/interfaces/interf/i2for3.F
+!||--- called by ------------------------------------------------------
+!||    intti2f       ../engine/source/interfaces/interf/intti2f.F
+!||--- calls      -----------------------------------------------------
+!||    i2forces      ../engine/source/interfaces/interf/i2forces.F
+!||    i2forces_2d   ../engine/source/interfaces/interf/i2forces_2D.F
+!||--- uses       -----------------------------------------------------
+!||    h3d_mod       ../engine/share/modules/h3d_mod.F
+!||====================================================================
       SUBROUTINE I2FOR3N(NSN    ,NMN    ,A      ,IRECT  ,CRST   ,
      2                   MSR    ,NSV    ,IRTL   ,MS     ,WEIGHT ,
      3                   STIFN  ,MMASS  ,IDEL2  ,SMASS  ,X      ,
@@ -295,15 +295,15 @@ C
       RETURN
       END
 C  |         INTTI12F                        /interf/intti12.F
-      !||====================================================================
-      !||    i2for3     ../engine/source/interfaces/interf/i2for3.F
-      !||--- called by ------------------------------------------------------
-      !||    intti2f    ../engine/source/interfaces/interf/intti2f.F
-      !||--- calls      -----------------------------------------------------
-      !||    i2forces   ../engine/source/interfaces/interf/i2forces.F
-      !||--- uses       -----------------------------------------------------
-      !||    h3d_mod    ../engine/share/modules/h3d_mod.F
-      !||====================================================================
+!||====================================================================
+!||    i2for3     ../engine/source/interfaces/interf/i2for3.F
+!||--- called by ------------------------------------------------------
+!||    intti2f    ../engine/source/interfaces/interf/intti2f.F
+!||--- calls      -----------------------------------------------------
+!||    i2forces   ../engine/source/interfaces/interf/i2forces.F
+!||--- uses       -----------------------------------------------------
+!||    h3d_mod    ../engine/share/modules/h3d_mod.F
+!||====================================================================
       SUBROUTINE I2FOR3(NSN     ,NMN     ,A     ,IRECT  ,CRST    ,
      2                  MSR     ,NSV     ,IRTL  ,MS     ,WEIGHT  ,
      3                  STIFN   ,MMASS   ,X     ,V      ,FSAV    ,
@@ -500,15 +500,15 @@ C----
 C
       RETURN
       END
-      !||====================================================================
-      !||    i2for3o    ../engine/source/interfaces/interf/i2for3.F
-      !||--- called by ------------------------------------------------------
-      !||    intti2f    ../engine/source/interfaces/interf/intti2f.F
-      !||--- calls      -----------------------------------------------------
-      !||    i2forces   ../engine/source/interfaces/interf/i2forces.F
-      !||--- uses       -----------------------------------------------------
-      !||    h3d_mod    ../engine/share/modules/h3d_mod.F
-      !||====================================================================
+!||====================================================================
+!||    i2for3o    ../engine/source/interfaces/interf/i2for3.F
+!||--- called by ------------------------------------------------------
+!||    intti2f    ../engine/source/interfaces/interf/intti2f.F
+!||--- calls      -----------------------------------------------------
+!||    i2forces   ../engine/source/interfaces/interf/i2forces.F
+!||--- uses       -----------------------------------------------------
+!||    h3d_mod    ../engine/share/modules/h3d_mod.F
+!||====================================================================
       SUBROUTINE I2FOR3O(NSN      ,NMN     ,A        ,IRECT  ,CRST    ,
      2                   MSR      ,NSV     ,IRTL     ,MS     ,WEIGHT  ,
      3                   STIFN    ,MMASS   ,X        ,V      ,FSAV    ,
@@ -697,13 +697,13 @@ C-----
       RETURN
       END
 
-      !||====================================================================
-      !||    i2mom3n   ../engine/source/interfaces/interf/i2for3.F
-      !||--- called by ------------------------------------------------------
-      !||    intti2f   ../engine/source/interfaces/interf/intti2f.F
-      !||--- uses       -----------------------------------------------------
-      !||    h3d_mod   ../engine/share/modules/h3d_mod.F
-      !||====================================================================
+!||====================================================================
+!||    i2mom3n   ../engine/source/interfaces/interf/i2for3.F
+!||--- called by ------------------------------------------------------
+!||    intti2f   ../engine/source/interfaces/interf/intti2f.F
+!||--- uses       -----------------------------------------------------
+!||    h3d_mod   ../engine/share/modules/h3d_mod.F
+!||====================================================================
       SUBROUTINE I2MOM3N(NSN ,NMN     ,AR      ,IRECT    ,CRST    ,
      2               MSR     ,NSV     ,IRTL    ,IN       ,MS      ,
      3               A       ,X       ,WEIGHT  ,STIFR    ,STIFN   ,
@@ -1052,11 +1052,11 @@ C
       RETURN
       END
 C==========================================================================
-      !||====================================================================
-      !||    i2mom3    ../engine/source/interfaces/interf/i2for3.F
-      !||--- called by ------------------------------------------------------
-      !||    intti2f   ../engine/source/interfaces/interf/intti2f.F
-      !||====================================================================
+!||====================================================================
+!||    i2mom3    ../engine/source/interfaces/interf/i2for3.F
+!||--- called by ------------------------------------------------------
+!||    intti2f   ../engine/source/interfaces/interf/intti2f.F
+!||====================================================================
       SUBROUTINE I2MOM3(NSN,NMN,AR ,IRECT ,CRST,
      2                  MSR,NSV,IRTL,IN    ,MS  ,
      3                  A  ,X  ,WEIGHT,STIFR,STIFN,
@@ -1273,15 +1273,15 @@ C
       RETURN
       END
 C==========================================================================
-      !||====================================================================
-      !||    i2fomo3    ../engine/source/interfaces/interf/i2for3.F
-      !||--- called by ------------------------------------------------------
-      !||    intti2f    ../engine/source/interfaces/interf/intti2f.F
-      !||--- calls      -----------------------------------------------------
-      !||    i2forces   ../engine/source/interfaces/interf/i2forces.F
-      !||--- uses       -----------------------------------------------------
-      !||    h3d_mod    ../engine/share/modules/h3d_mod.F
-      !||====================================================================
+!||====================================================================
+!||    i2fomo3    ../engine/source/interfaces/interf/i2for3.F
+!||--- called by ------------------------------------------------------
+!||    intti2f    ../engine/source/interfaces/interf/intti2f.F
+!||--- calls      -----------------------------------------------------
+!||    i2forces   ../engine/source/interfaces/interf/i2forces.F
+!||--- uses       -----------------------------------------------------
+!||    h3d_mod    ../engine/share/modules/h3d_mod.F
+!||====================================================================
       SUBROUTINE I2FOMO3(NSN     ,NMN     ,A      ,IRECT  ,DPARA   ,
      2                   MSR     ,NSV     ,IRTL   ,MS     ,WEIGHT  ,
      3                   AR      ,IN      ,X      ,STIFN  ,STIFR   ,
@@ -1716,9 +1716,9 @@ C
 C
       RETURN
       END
-      !||====================================================================
-      !||    i2mzero   ../engine/source/interfaces/interf/i2for3.F
-      !||====================================================================
+!||====================================================================
+!||    i2mzero   ../engine/source/interfaces/interf/i2for3.F
+!||====================================================================
       SUBROUTINE I2MZERO(NMN,MSR,AR,IN,STIFR,WEIGHT)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

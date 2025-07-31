@@ -26,31 +26,31 @@
 !! \brief read input cards of /therm_stress option
 !! \details
 ! ==================================================================================================
-      !||====================================================================
-      !||    hm_read_therm_stress_mod   ../starter/source/materials/therm/hm_read_therm_stress.F90
-      !||--- called by ------------------------------------------------------
-      !||    read_material_models       ../starter/source/materials/read_material_models.F
-      !||====================================================================
+!||====================================================================
+!||    hm_read_therm_stress_mod   ../starter/source/materials/therm/hm_read_therm_stress.F90
+!||--- called by ------------------------------------------------------
+!||    read_material_models       ../starter/source/materials/read_material_models.F
+!||====================================================================
       module hm_read_therm_stress_mod
       contains
 
-      !||====================================================================
-      !||    hm_read_therm_stress   ../starter/source/materials/therm/hm_read_therm_stress.F90
-      !||--- called by ------------------------------------------------------
-      !||    read_material_models   ../starter/source/materials/read_material_models.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg                 ../starter/source/output/message/message.F
-      !||    hm_get_floatv          ../starter/source/devtools/hm_reader/hm_get_floatv.F
-      !||    hm_get_intv            ../starter/source/devtools/hm_reader/hm_get_intv.F
-      !||    hm_option_count        ../starter/source/devtools/hm_reader/hm_option_count.F
-      !||    hm_option_read_key     ../starter/source/devtools/hm_reader/hm_option_read_key.F
-      !||    hm_option_start        ../starter/source/devtools/hm_reader/hm_option_start.F
-      !||--- uses       -----------------------------------------------------
-      !||    elbuftag_mod           ../starter/share/modules1/elbuftag_mod.F
-      !||    hm_option_read_mod     ../starter/share/modules1/hm_option_read_mod.F
-      !||    message_mod            ../starter/share/message_module/message_mod.F
-      !||    submodel_mod           ../starter/share/modules1/submodel_mod.F
-      !||====================================================================
+!||====================================================================
+!||    hm_read_therm_stress   ../starter/source/materials/therm/hm_read_therm_stress.F90
+!||--- called by ------------------------------------------------------
+!||    read_material_models   ../starter/source/materials/read_material_models.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                 ../starter/source/output/message/message.F
+!||    hm_get_floatv          ../starter/source/devtools/hm_reader/hm_get_floatv.F
+!||    hm_get_intv            ../starter/source/devtools/hm_reader/hm_get_intv.F
+!||    hm_option_count        ../starter/source/devtools/hm_reader/hm_option_count.F
+!||    hm_option_read_key     ../starter/source/devtools/hm_reader/hm_option_read_key.F
+!||    hm_option_start        ../starter/source/devtools/hm_reader/hm_option_start.F
+!||--- uses       -----------------------------------------------------
+!||    elbuftag_mod           ../starter/share/modules1/elbuftag_mod.F
+!||    hm_option_read_mod     ../starter/share/modules1/hm_option_read_mod.F
+!||    message_mod            ../starter/share/message_module/message_mod.F
+!||    submodel_mod           ../starter/share/modules1/submodel_mod.F
+!||====================================================================
       subroutine hm_read_therm_stress(nummat   ,mat_param ,mlaw_tag ,unitab   ,lsubmodel ,   &
                                       iout     ,npropm   ,npropmi   ,ipm      ,pm       )
 !-----------------------------------------------

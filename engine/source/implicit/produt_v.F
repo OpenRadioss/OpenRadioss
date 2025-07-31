@@ -21,14 +21,14 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C---------------------r={x}^t{y}---
-      !||====================================================================
-      !||    produt_v     ../engine/source/implicit/produt_v.F
-      !||--- called by ------------------------------------------------------
-      !||    imp_qrf      ../engine/source/implicit/imp_pc_inv.F
-      !||    mav_qt       ../engine/source/implicit/imp_pc_inv.F
-      !||--- calls      -----------------------------------------------------
-      !||    spmd_sum_s   ../engine/source/mpi/implicit/imp_spmd.F
-      !||====================================================================
+!||====================================================================
+!||    produt_v     ../engine/source/implicit/produt_v.F
+!||--- called by ------------------------------------------------------
+!||    imp_qrf      ../engine/source/implicit/imp_pc_inv.F
+!||    mav_qt       ../engine/source/implicit/imp_pc_inv.F
+!||--- calls      -----------------------------------------------------
+!||    spmd_sum_s   ../engine/source/mpi/implicit/imp_spmd.F
+!||====================================================================
       SUBROUTINE PRODUT_V( NDDL  ,X   ,Y  ,R)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -58,11 +58,11 @@ C--------------------------------------------
       RETURN
       END
 C---------------------r={x}^t{y}---
-      !||====================================================================
-      !||    produt_v_loc   ../engine/source/implicit/produt_v.F
-      !||--- called by ------------------------------------------------------
-      !||    mav_mn         ../engine/source/implicit/produt_v.F
-      !||====================================================================
+!||====================================================================
+!||    produt_v_loc   ../engine/source/implicit/produt_v.F
+!||--- called by ------------------------------------------------------
+!||    mav_mn         ../engine/source/implicit/produt_v.F
+!||====================================================================
       SUBROUTINE PRODUT_V_LOC( NDDL  ,X   ,Y  ,R)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -85,23 +85,23 @@ C-----------------------------
 C--------------------------------------------
       RETURN
       END
-      !||====================================================================
-      !||    produt_w     ../engine/source/implicit/produt_v.F
-      !||--- called by ------------------------------------------------------
-      !||    bfgs_1       ../engine/source/implicit/imp_bfgs.F
-      !||    bfgs_1p      ../engine/source/implicit/imp_bfgs.F
-      !||    bfgs_rhd     ../engine/source/implicit/imp_bfgs.F
-      !||    ext_rhs      ../engine/source/implicit/upd_glob_k.F
-      !||    imp_chkm     ../engine/source/implicit/imp_solv.F
-      !||    imp_lanzp    ../engine/source/implicit/imp_lanz.F
-      !||    nsloan_5     ../engine/source/implicit/imp_bfgs.F
-      !||    produt_u     ../engine/source/implicit/produt_v.F
-      !||    produt_u2    ../engine/source/implicit/produt_v.F
-      !||    produt_vm    ../engine/source/implicit/produt_v.F
-      !||    rer02        ../engine/source/implicit/upd_glob_k.F
-      !||--- calls      -----------------------------------------------------
-      !||    spmd_sum_s   ../engine/source/mpi/implicit/imp_spmd.F
-      !||====================================================================
+!||====================================================================
+!||    produt_w     ../engine/source/implicit/produt_v.F
+!||--- called by ------------------------------------------------------
+!||    bfgs_1       ../engine/source/implicit/imp_bfgs.F
+!||    bfgs_1p      ../engine/source/implicit/imp_bfgs.F
+!||    bfgs_rhd     ../engine/source/implicit/imp_bfgs.F
+!||    ext_rhs      ../engine/source/implicit/upd_glob_k.F
+!||    imp_chkm     ../engine/source/implicit/imp_solv.F
+!||    imp_lanzp    ../engine/source/implicit/imp_lanz.F
+!||    nsloan_5     ../engine/source/implicit/imp_bfgs.F
+!||    produt_u     ../engine/source/implicit/produt_v.F
+!||    produt_u2    ../engine/source/implicit/produt_v.F
+!||    produt_vm    ../engine/source/implicit/produt_v.F
+!||    rer02        ../engine/source/implicit/upd_glob_k.F
+!||--- calls      -----------------------------------------------------
+!||    spmd_sum_s   ../engine/source/mpi/implicit/imp_spmd.F
+!||====================================================================
       SUBROUTINE PRODUT_W( NDDL  ,X   ,Y  ,W , R)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -137,18 +137,18 @@ C-----------------------------
 C--------------------------------------------
       RETURN
       END
-      !||====================================================================
-      !||    d_to_u        ../engine/source/implicit/produt_v.F
-      !||--- called by ------------------------------------------------------
-      !||    nsloan_5      ../engine/source/implicit/imp_bfgs.F
-      !||    produt_vm     ../engine/source/implicit/produt_v.F
-      !||    produt_vmh    ../engine/source/implicit/produt_v.F
-      !||    produt_vmhp   ../engine/source/implicit/produt_v.F
-      !||--- calls      -----------------------------------------------------
-      !||    condens_b     ../engine/source/implicit/upd_glob_k.F
-      !||    cp_real       ../engine/source/implicit/produt_v.F
-      !||    imp_setb      ../engine/source/implicit/imp_setb.F
-      !||====================================================================
+!||====================================================================
+!||    d_to_u        ../engine/source/implicit/produt_v.F
+!||--- called by ------------------------------------------------------
+!||    nsloan_5      ../engine/source/implicit/imp_bfgs.F
+!||    produt_vm     ../engine/source/implicit/produt_v.F
+!||    produt_vmh    ../engine/source/implicit/produt_v.F
+!||    produt_vmhp   ../engine/source/implicit/produt_v.F
+!||--- calls      -----------------------------------------------------
+!||    condens_b     ../engine/source/implicit/upd_glob_k.F
+!||    cp_real       ../engine/source/implicit/produt_v.F
+!||    imp_setb      ../engine/source/implicit/imp_setb.F
+!||====================================================================
       SUBROUTINE D_TO_U(NDDL0 ,NDDL  ,IDDL  ,NDOF  ,IKC   ,
      .                  D     ,DR    ,U     )
 C-----------------------------------------------
@@ -176,12 +176,12 @@ C--------------------------------------------
       RETURN
       END
 C---------------------r={x}^t{y}--x comes from u(3,*)-
-      !||====================================================================
-      !||    produt_vm   ../engine/source/implicit/produt_v.F
-      !||--- calls      -----------------------------------------------------
-      !||    d_to_u      ../engine/source/implicit/produt_v.F
-      !||    produt_w    ../engine/source/implicit/produt_v.F
-      !||====================================================================
+!||====================================================================
+!||    produt_vm   ../engine/source/implicit/produt_v.F
+!||--- calls      -----------------------------------------------------
+!||    d_to_u      ../engine/source/implicit/produt_v.F
+!||    produt_w    ../engine/source/implicit/produt_v.F
+!||====================================================================
       SUBROUTINE PRODUT_VM(NDDL0 ,NDDL  ,IDDL  ,NDOF  ,IKC   ,
      .                     DD    ,DDR   ,Y     ,R     ,W_IMP )
 C-----------------------------------------------
@@ -209,16 +209,16 @@ C--------------------------------------------
       RETURN
       END
 C---------------------norm2={x}^t{x}--x comes from u(3,*)-
-      !||====================================================================
-      !||    produt_u         ../engine/source/implicit/produt_v.F
-      !||--- called by ------------------------------------------------------
-      !||    al_constraint1   ../engine/source/implicit/nl_solv.F
-      !||    al_constraint2   ../engine/source/implicit/nl_solv.F
-      !||--- calls      -----------------------------------------------------
-      !||    condens_b        ../engine/source/implicit/upd_glob_k.F
-      !||    imp_setb         ../engine/source/implicit/imp_setb.F
-      !||    produt_w         ../engine/source/implicit/produt_v.F
-      !||====================================================================
+!||====================================================================
+!||    produt_u         ../engine/source/implicit/produt_v.F
+!||--- called by ------------------------------------------------------
+!||    al_constraint1   ../engine/source/implicit/nl_solv.F
+!||    al_constraint2   ../engine/source/implicit/nl_solv.F
+!||--- calls      -----------------------------------------------------
+!||    condens_b        ../engine/source/implicit/upd_glob_k.F
+!||    imp_setb         ../engine/source/implicit/imp_setb.F
+!||    produt_w         ../engine/source/implicit/produt_v.F
+!||====================================================================
       SUBROUTINE PRODUT_U(NDDL0 ,NDDL  ,IDDL  ,NDOF  ,IKC   ,
      .                    DD    ,DDR   ,NORM2 ,W_IMP )
 C-----------------------------------------------
@@ -246,16 +246,16 @@ C--------------------------------------------
       RETURN
       END
 C---------------------norm2={x}^t{y}--x,y come from D1(3,*),D2--
-      !||====================================================================
-      !||    produt_u2        ../engine/source/implicit/produt_v.F
-      !||--- called by ------------------------------------------------------
-      !||    al_constraint1   ../engine/source/implicit/nl_solv.F
-      !||    al_constraint2   ../engine/source/implicit/nl_solv.F
-      !||--- calls      -----------------------------------------------------
-      !||    condens_b        ../engine/source/implicit/upd_glob_k.F
-      !||    imp_setb         ../engine/source/implicit/imp_setb.F
-      !||    produt_w         ../engine/source/implicit/produt_v.F
-      !||====================================================================
+!||====================================================================
+!||    produt_u2        ../engine/source/implicit/produt_v.F
+!||--- called by ------------------------------------------------------
+!||    al_constraint1   ../engine/source/implicit/nl_solv.F
+!||    al_constraint2   ../engine/source/implicit/nl_solv.F
+!||--- calls      -----------------------------------------------------
+!||    condens_b        ../engine/source/implicit/upd_glob_k.F
+!||    imp_setb         ../engine/source/implicit/imp_setb.F
+!||    produt_w         ../engine/source/implicit/produt_v.F
+!||====================================================================
       SUBROUTINE PRODUT_U2(NDDL0 ,NDDL  ,IDDL  ,NDOF  ,IKC   ,
      .                     D1    ,D1R   ,D2    ,D2R   ,NORM2 ,
      .                     W_IMP )
@@ -286,9 +286,9 @@ C--------------------------------------------
       RETURN
       END
 C---------------------r={x}^t{y}--(only with free dof)-
-      !||====================================================================
-      !||    zero_ud   ../engine/source/implicit/produt_v.F
-      !||====================================================================
+!||====================================================================
+!||    zero_ud   ../engine/source/implicit/produt_v.F
+!||====================================================================
       SUBROUTINE ZERO_UD( NUM,IDDL,NDOF,IKC ,D ,DR ,IR)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -326,14 +326,14 @@ C--------------------------------------------
       RETURN
       END
 C-------------produce {w}=[K]{v} using only upper-triangle----
-      !||====================================================================
-      !||    mav_lt      ../engine/source/implicit/produt_v.F
-      !||--- called by ------------------------------------------------------
-      !||    imp_dykv    ../engine/source/implicit/imp_dyna.F
-      !||    imp_dykv0   ../engine/source/implicit/imp_dyna.F
-      !||    imp_pcg1    ../engine/source/implicit/imp_fsa_inv.F
-      !||    sms_pcg1    ../engine/source/ams/sms_fsa_inv.F
-      !||====================================================================
+!||====================================================================
+!||    mav_lt      ../engine/source/implicit/produt_v.F
+!||--- called by ------------------------------------------------------
+!||    imp_dykv    ../engine/source/implicit/imp_dyna.F
+!||    imp_dykv0   ../engine/source/implicit/imp_dyna.F
+!||    imp_pcg1    ../engine/source/implicit/imp_fsa_inv.F
+!||    sms_pcg1    ../engine/source/ams/sms_fsa_inv.F
+!||====================================================================
       SUBROUTINE MAV_LT(
      1                    NDDL  ,NNZ   ,IADL  ,JDIL  ,DIAG_K ,   
      2                    LT_K  ,V     ,W     )
@@ -388,11 +388,11 @@ C        W(I) = W(I) + LT_K(J)*V(K)
 C       ENDDO
 C      ENDDO
 C-------------produit {w}=[K]{v} non-sym----
-      !||====================================================================
-      !||    mav_lt1     ../engine/source/implicit/produt_v.F
-      !||--- called by ------------------------------------------------------
-      !||    prec_solv   ../engine/source/implicit/prec_solv.F
-      !||====================================================================
+!||====================================================================
+!||    mav_lt1     ../engine/source/implicit/produt_v.F
+!||--- called by ------------------------------------------------------
+!||    prec_solv   ../engine/source/implicit/prec_solv.F
+!||====================================================================
       SUBROUTINE MAV_LT1(
      1                    NDDL  ,NNZ   ,IADL  ,JDIL  ,DIAG_K ,   
      2                    LT_K  ,V     ,W     )
@@ -429,16 +429,16 @@ C--------------------------------------------
       RETURN
       END
 C-------------produce {w}=[LT_K]{v}+[LT_I]{v} using only upper-triangle----
-      !||====================================================================
-      !||    mav_lt2         ../engine/source/implicit/produt_v.F
-      !||--- calls      -----------------------------------------------------
-      !||    int_matv        ../engine/source/implicit/imp_int_k.F
-      !||    matv_kif        ../engine/source/implicit/imp_solv.F
-      !||    mv_matv         ../engine/source/airbag/monv_imp0.F
-      !||--- uses       -----------------------------------------------------
-      !||    groupdef_mod    ../common_source/modules/groupdef_mod.F
-      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    mav_lt2         ../engine/source/implicit/produt_v.F
+!||--- calls      -----------------------------------------------------
+!||    int_matv        ../engine/source/implicit/imp_int_k.F
+!||    matv_kif        ../engine/source/implicit/imp_solv.F
+!||    mv_matv         ../engine/source/airbag/monv_imp0.F
+!||--- uses       -----------------------------------------------------
+!||    groupdef_mod    ../common_source/modules/groupdef_mod.F
+!||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
+!||====================================================================
       SUBROUTINE MAV_LT2(
      1                    NDDL  ,NDDLI ,IADL  ,JDIL  ,DIAG_K,   
      2                    LT_K  ,IADI  ,JDII  ,ITOK  ,LT_I  ,
@@ -539,20 +539,20 @@ C--------------------------------------------
       RETURN
       END
 C------spmd----produce {w}=[LT_K]{v}+[LT_I]{v} using only upper-triangle----
-      !||====================================================================
-      !||    mav_ltp         ../engine/source/implicit/produt_v.F
-      !||--- called by ------------------------------------------------------
-      !||    imp_lanzp       ../engine/source/implicit/imp_lanz.F
-      !||--- calls      -----------------------------------------------------
-      !||    fr_matv         ../engine/source/mpi/implicit/imp_fri.F
-      !||    int_matvp       ../engine/source/implicit/imp_int_k.F
-      !||    matv_kif        ../engine/source/implicit/imp_solv.F
-      !||    mv_matv         ../engine/source/airbag/monv_imp0.F
-      !||    spmd_sumf_v     ../engine/source/mpi/implicit/imp_spmd.F
-      !||--- uses       -----------------------------------------------------
-      !||    groupdef_mod    ../common_source/modules/groupdef_mod.F
-      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    mav_ltp         ../engine/source/implicit/produt_v.F
+!||--- called by ------------------------------------------------------
+!||    imp_lanzp       ../engine/source/implicit/imp_lanz.F
+!||--- calls      -----------------------------------------------------
+!||    fr_matv         ../engine/source/mpi/implicit/imp_fri.F
+!||    int_matvp       ../engine/source/implicit/imp_int_k.F
+!||    matv_kif        ../engine/source/implicit/imp_solv.F
+!||    mv_matv         ../engine/source/airbag/monv_imp0.F
+!||    spmd_sumf_v     ../engine/source/mpi/implicit/imp_spmd.F
+!||--- uses       -----------------------------------------------------
+!||    groupdef_mod    ../common_source/modules/groupdef_mod.F
+!||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
+!||====================================================================
       SUBROUTINE MAV_LTP(
      1                    NDDL  ,NDDLI ,IADL  ,JDIL  ,DIAG_K,   
      2                    LT_K  ,IADI  ,JDII  ,ITOK  ,LT_I  ,
@@ -668,9 +668,9 @@ C--------------------------------------------
       RETURN
       END
 C-------------produit {w}=[K]{v} with {v} non zero indices----
-      !||====================================================================
-      !||    mav_zi   ../engine/source/implicit/produt_v.F
-      !||====================================================================
+!||====================================================================
+!||    mav_zi   ../engine/source/implicit/produt_v.F
+!||====================================================================
       SUBROUTINE MAV_ZI(II,NDDL  ,NNZ   ,IADL  ,JDIL  ,DIAG_K ,   
      1                  LT_K  ,NNZZ ,IADM   ,JDIM  , LT_M  ,W )
 C-----------------------------------------------
@@ -741,9 +741,9 @@ C--------------------------------------------
       RETURN
       END
 C-------------produit {w}=[K]{v} with {v}=LT_M(*,II) en format C.C.S.----
-      !||====================================================================
-      !||    mav_z   ../engine/source/implicit/produt_v.F
-      !||====================================================================
+!||====================================================================
+!||    mav_z   ../engine/source/implicit/produt_v.F
+!||====================================================================
       SUBROUTINE MAV_Z(II,NDDL  ,NNZ   ,IADL  ,JDIL  ,DIAG_K ,   
      1                  LT_K   ,NNZM ,IADM   ,JDIM  , LT_M  ,W )
 C-----------------------------------------------
@@ -809,11 +809,11 @@ C-------Kij Vj (j<i)---
 C--------------------------------------------
       RETURN
       END
-      !||====================================================================
-      !||    buf_dim    ../engine/source/implicit/produt_v.F
-      !||--- called by ------------------------------------------------------
-      !||    imp_cpre   ../engine/source/implicit/imp_solv.F
-      !||====================================================================
+!||====================================================================
+!||    buf_dim    ../engine/source/implicit/produt_v.F
+!||--- called by ------------------------------------------------------
+!||    imp_cpre   ../engine/source/implicit/imp_solv.F
+!||====================================================================
       SUBROUTINE BUF_DIM( L1,L2,L3,L4)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -839,34 +839,34 @@ C----longueur de ELBUF,BUFMAT--------
 C--------------------------------------------
       RETURN
       END
-      !||====================================================================
-      !||    cp_real        ../engine/source/implicit/produt_v.F
-      !||--- called by ------------------------------------------------------
-      !||    clceig         ../engine/source/constraints/general/bcs/bc_imp0.F
-      !||    cp_ifront      ../engine/source/implicit/produt_v.F
-      !||    cp_impbuf      ../engine/source/implicit/produt_v.F
-      !||    d_to_u         ../engine/source/implicit/produt_v.F
-      !||    dis_cp         ../engine/source/implicit/imp_solv.F
-      !||    dyna_cpk0      ../engine/source/implicit/imp_dyna.F
-      !||    dyna_cpr0      ../engine/source/implicit/imp_dyna.F
-      !||    ext_rhs        ../engine/source/implicit/upd_glob_k.F
-      !||    imp_cpre       ../engine/source/implicit/imp_solv.F
-      !||    imp_frkm       ../engine/source/mpi/implicit/imp_fri.F
-      !||    imp_frks       ../engine/source/mpi/implicit/imp_fri.F
-      !||    imp_kfiltr     ../engine/source/implicit/imp_fsa_inv.F
-      !||    imp_restarcp   ../engine/source/implicit/imp_sol_init.F
-      !||    imp_sol_init   ../engine/source/implicit/imp_sol_init.F
-      !||    imprrest       ../engine/source/output/restart/rdresb.F
-      !||    ind_lt2ln      ../engine/source/implicit/imp_fsa_inv.F
-      !||    l2g_kloc       ../engine/source/implicit/ind_glob_k.F
-      !||    nl_solv        ../engine/source/implicit/nl_solv.F
-      !||    save_kif       ../engine/source/implicit/imp_solv.F
-      !||    tra_frkm       ../engine/source/mpi/implicit/imp_fri.F
-      !||    upd_aspc       ../engine/source/constraints/general/bcs/bc_imp0.F
-      !||    upd_int_k      ../engine/source/implicit/upd_glob_k.F
-      !||    upd_kml        ../engine/source/mpi/implicit/imp_fri.F
-      !||    upd_ksl        ../engine/source/mpi/implicit/imp_fri.F
-      !||====================================================================
+!||====================================================================
+!||    cp_real        ../engine/source/implicit/produt_v.F
+!||--- called by ------------------------------------------------------
+!||    clceig         ../engine/source/constraints/general/bcs/bc_imp0.F
+!||    cp_ifront      ../engine/source/implicit/produt_v.F
+!||    cp_impbuf      ../engine/source/implicit/produt_v.F
+!||    d_to_u         ../engine/source/implicit/produt_v.F
+!||    dis_cp         ../engine/source/implicit/imp_solv.F
+!||    dyna_cpk0      ../engine/source/implicit/imp_dyna.F
+!||    dyna_cpr0      ../engine/source/implicit/imp_dyna.F
+!||    ext_rhs        ../engine/source/implicit/upd_glob_k.F
+!||    imp_cpre       ../engine/source/implicit/imp_solv.F
+!||    imp_frkm       ../engine/source/mpi/implicit/imp_fri.F
+!||    imp_frks       ../engine/source/mpi/implicit/imp_fri.F
+!||    imp_kfiltr     ../engine/source/implicit/imp_fsa_inv.F
+!||    imp_restarcp   ../engine/source/implicit/imp_sol_init.F
+!||    imp_sol_init   ../engine/source/implicit/imp_sol_init.F
+!||    imprrest       ../engine/source/output/restart/rdresb.F
+!||    ind_lt2ln      ../engine/source/implicit/imp_fsa_inv.F
+!||    l2g_kloc       ../engine/source/implicit/ind_glob_k.F
+!||    nl_solv        ../engine/source/implicit/nl_solv.F
+!||    save_kif       ../engine/source/implicit/imp_solv.F
+!||    tra_frkm       ../engine/source/mpi/implicit/imp_fri.F
+!||    upd_aspc       ../engine/source/constraints/general/bcs/bc_imp0.F
+!||    upd_int_k      ../engine/source/implicit/upd_glob_k.F
+!||    upd_kml        ../engine/source/mpi/implicit/imp_fri.F
+!||    upd_ksl        ../engine/source/mpi/implicit/imp_fri.F
+!||====================================================================
       SUBROUTINE CP_REAL( N  ,X   ,XC)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -890,28 +890,28 @@ C-----------------------------
 C--------------------------------------------
       RETURN
       END
-      !||====================================================================
-      !||    cp_int       ../engine/source/implicit/produt_v.F
-      !||--- called by ------------------------------------------------------
-      !||    cp_iadd      ../engine/source/mpi/implicit/imp_fri.F
-      !||    cp_ifront    ../engine/source/implicit/produt_v.F
-      !||    cp_inttd     ../engine/source/implicit/imp_int_k.F
-      !||    cp_slnr      ../engine/source/mpi/implicit/imp_fri.F
-      !||    dim_ktot     ../engine/source/implicit/ind_glob_k.F
-      !||    dim_spa2     ../engine/source/implicit/ind_glob_k.F
-      !||    dim_span     ../engine/source/implicit/ind_glob_k.F
-      !||    doub_nrs     ../engine/source/mpi/implicit/imp_fri.F
-      !||    dyna_cpk0    ../engine/source/implicit/imp_dyna.F
-      !||    imp_frkm     ../engine/source/mpi/implicit/imp_fri.F
-      !||    imp_frks     ../engine/source/mpi/implicit/imp_fri.F
-      !||    imp_kfiltr   ../engine/source/implicit/imp_fsa_inv.F
-      !||    ind_lt2ln    ../engine/source/implicit/imp_fsa_inv.F
-      !||    ind_spa2     ../engine/source/implicit/ind_glob_k.F
-      !||    ind_span     ../engine/source/implicit/ind_glob_k.F
-      !||    l2g_kloc     ../engine/source/implicit/ind_glob_k.F
-      !||    rmdim_imp    ../engine/source/model/remesh/rm_imp0.F
-      !||    save_kif     ../engine/source/implicit/imp_solv.F
-      !||====================================================================
+!||====================================================================
+!||    cp_int       ../engine/source/implicit/produt_v.F
+!||--- called by ------------------------------------------------------
+!||    cp_iadd      ../engine/source/mpi/implicit/imp_fri.F
+!||    cp_ifront    ../engine/source/implicit/produt_v.F
+!||    cp_inttd     ../engine/source/implicit/imp_int_k.F
+!||    cp_slnr      ../engine/source/mpi/implicit/imp_fri.F
+!||    dim_ktot     ../engine/source/implicit/ind_glob_k.F
+!||    dim_spa2     ../engine/source/implicit/ind_glob_k.F
+!||    dim_span     ../engine/source/implicit/ind_glob_k.F
+!||    doub_nrs     ../engine/source/mpi/implicit/imp_fri.F
+!||    dyna_cpk0    ../engine/source/implicit/imp_dyna.F
+!||    imp_frkm     ../engine/source/mpi/implicit/imp_fri.F
+!||    imp_frks     ../engine/source/mpi/implicit/imp_fri.F
+!||    imp_kfiltr   ../engine/source/implicit/imp_fsa_inv.F
+!||    ind_lt2ln    ../engine/source/implicit/imp_fsa_inv.F
+!||    ind_spa2     ../engine/source/implicit/ind_glob_k.F
+!||    ind_span     ../engine/source/implicit/ind_glob_k.F
+!||    l2g_kloc     ../engine/source/implicit/ind_glob_k.F
+!||    rmdim_imp    ../engine/source/model/remesh/rm_imp0.F
+!||    save_kif     ../engine/source/implicit/imp_solv.F
+!||====================================================================
       SUBROUTINE CP_INT( N  ,X   ,XC)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -934,12 +934,12 @@ C--------------------------------------------
       RETURN
       END
 C---------------------r={x}^t{y}---
-      !||====================================================================
-      !||    produt_v0   ../engine/source/implicit/produt_v.F
-      !||--- called by ------------------------------------------------------
-      !||    imp_pcg1    ../engine/source/implicit/imp_fsa_inv.F
-      !||    sms_pcg1    ../engine/source/ams/sms_fsa_inv.F
-      !||====================================================================
+!||====================================================================
+!||    produt_v0   ../engine/source/implicit/produt_v.F
+!||--- called by ------------------------------------------------------
+!||    imp_pcg1    ../engine/source/implicit/imp_fsa_inv.F
+!||    sms_pcg1    ../engine/source/ams/sms_fsa_inv.F
+!||====================================================================
       SUBROUTINE PRODUT_V0( NDDL  ,X   ,Y  ,R)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -964,11 +964,11 @@ C-----------------------------
 C--------------------------------------------
       RETURN
       END
-      !||====================================================================
-      !||    buf_dim1       ../engine/source/implicit/produt_v.F
-      !||--- called by ------------------------------------------------------
-      !||    imp_sol_init   ../engine/source/implicit/imp_sol_init.F
-      !||====================================================================
+!||====================================================================
+!||    buf_dim1       ../engine/source/implicit/produt_v.F
+!||--- called by ------------------------------------------------------
+!||    imp_sol_init   ../engine/source/implicit/imp_sol_init.F
+!||====================================================================
       SUBROUTINE BUF_DIM1( L1,LT)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -999,21 +999,21 @@ C----longueur de ELBUF,BUFMAT--------
 C--------------------------------------------
       RETURN
       END
-      !||====================================================================
-      !||    cp_impbuf         ../engine/source/implicit/produt_v.F
-      !||--- called by ------------------------------------------------------
-      !||    imp_solv          ../engine/source/implicit/imp_solv.F
-      !||--- calls      -----------------------------------------------------
-      !||    copy_elbuf        ../engine/source/elements/elbuf/copy_elbuf.F
-      !||    copy_intbuf_tab   ../common_source/interf/copy_intbuf_tab.F
-      !||    cp_ifront         ../engine/source/implicit/produt_v.F
-      !||    cp_real           ../engine/source/implicit/produt_v.F
-      !||--- uses       -----------------------------------------------------
-      !||    elbufdef_mod      ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||    imp_i7cp          ../engine/share/modules/imp_intm.F
-      !||    imp_intbuf        ../engine/share/modules/imp_mod_def.F90
-      !||    intbufdef_mod     ../common_source/modules/interfaces/intbufdef_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    cp_impbuf         ../engine/source/implicit/produt_v.F
+!||--- called by ------------------------------------------------------
+!||    imp_solv          ../engine/source/implicit/imp_solv.F
+!||--- calls      -----------------------------------------------------
+!||    copy_elbuf        ../engine/source/elements/elbuf/copy_elbuf.F
+!||    copy_intbuf_tab   ../common_source/interf/copy_intbuf_tab.F
+!||    cp_ifront         ../engine/source/implicit/produt_v.F
+!||    cp_real           ../engine/source/implicit/produt_v.F
+!||--- uses       -----------------------------------------------------
+!||    elbufdef_mod      ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    imp_i7cp          ../engine/share/modules/imp_intm.F
+!||    imp_intbuf        ../engine/share/modules/imp_mod_def.F90
+!||    intbufdef_mod     ../common_source/modules/interfaces/intbufdef_mod.F90
+!||====================================================================
       SUBROUTINE CP_IMPBUF(
      .           IFLAG   ,ELBUF   ,ELBUF_C ,BUFMAT   ,BUFMAT_C ,
      .           FSAV    ,VOLMON  ,PARTSAV ,INTBUF_TAB,
@@ -1141,13 +1141,13 @@ C--------------------------------------------
       RETURN
       END
 C-------------produce {w}=[K]{v} using only upper-triangle----
-      !||====================================================================
-      !||    mav_lt_h     ../engine/source/implicit/produt_v.F
-      !||--- called by ------------------------------------------------------
-      !||    mav_lth0     ../engine/source/implicit/produt_v.F
-      !||--- calls      -----------------------------------------------------
-      !||    my_barrier   ../engine/source/system/machine.F
-      !||====================================================================
+!||====================================================================
+!||    mav_lt_h     ../engine/source/implicit/produt_v.F
+!||--- called by ------------------------------------------------------
+!||    mav_lth0     ../engine/source/implicit/produt_v.F
+!||--- calls      -----------------------------------------------------
+!||    my_barrier   ../engine/source/system/machine.F
+!||====================================================================
       SUBROUTINE MAV_LT_H(NDDL   ,
      1                    F_DDL  ,L_DDL   ,IADL  ,JDIL   ,DIAG_K ,   
      2                    LT_K   ,V       ,W     )
@@ -1197,22 +1197,22 @@ C--------------------------------------------
       RETURN
       END
 C------Hybrid----produce {w}=[LT_K]{v}+[LT_I]{v} using only upper-triangle----
-      !||====================================================================
-      !||    mav_lth0        ../engine/source/implicit/produt_v.F
-      !||--- called by ------------------------------------------------------
-      !||    lin_solv        ../engine/source/implicit/lin_solv.F
-      !||--- calls      -----------------------------------------------------
-      !||    fr_matv         ../engine/source/mpi/implicit/imp_fri.F
-      !||    int_matvp       ../engine/source/implicit/imp_int_k.F
-      !||    matv_kif        ../engine/source/implicit/imp_solv.F
-      !||    mav_lt_h        ../engine/source/implicit/produt_v.F
-      !||    mv_matv         ../engine/source/airbag/monv_imp0.F
-      !||    my_barrier      ../engine/source/system/machine.F
-      !||    spmd_sumf_v     ../engine/source/mpi/implicit/imp_spmd.F
-      !||--- uses       -----------------------------------------------------
-      !||    groupdef_mod    ../common_source/modules/groupdef_mod.F
-      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    mav_lth0        ../engine/source/implicit/produt_v.F
+!||--- called by ------------------------------------------------------
+!||    lin_solv        ../engine/source/implicit/lin_solv.F
+!||--- calls      -----------------------------------------------------
+!||    fr_matv         ../engine/source/mpi/implicit/imp_fri.F
+!||    int_matvp       ../engine/source/implicit/imp_int_k.F
+!||    matv_kif        ../engine/source/implicit/imp_solv.F
+!||    mav_lt_h        ../engine/source/implicit/produt_v.F
+!||    mv_matv         ../engine/source/airbag/monv_imp0.F
+!||    my_barrier      ../engine/source/system/machine.F
+!||    spmd_sumf_v     ../engine/source/mpi/implicit/imp_spmd.F
+!||--- uses       -----------------------------------------------------
+!||    groupdef_mod    ../common_source/modules/groupdef_mod.F
+!||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
+!||====================================================================
       SUBROUTINE MAV_LTH0(
      1                    NDDL  ,NDDLI ,IADL  ,JDIL  ,DIAG_K,   
      2                    LT_K  ,IADI  ,JDII  ,ITOK  ,LT_I  ,
@@ -1348,24 +1348,24 @@ C--------------------------------------------
       RETURN
       END
 C------Hybrid----produce {w}=[LT_K]{v}+[LT_I]{v} using only upper-triangle----
-      !||====================================================================
-      !||    mav_lth         ../engine/source/implicit/produt_v.F
-      !||--- called by ------------------------------------------------------
-      !||    imp_pcgh        ../engine/source/implicit/imp_pcg.F
-      !||    mmav_lth        ../engine/source/implicit/produt_v.F
-      !||--- calls      -----------------------------------------------------
-      !||    fr_matv         ../engine/source/mpi/implicit/imp_fri.F
-      !||    int_matvp       ../engine/source/implicit/imp_int_k.F
-      !||    matv_kif        ../engine/source/implicit/imp_solv.F
-      !||    mav_liuh        ../engine/source/implicit/produt_v.F
-      !||    mav_lu_h        ../engine/source/implicit/produt_v.F
-      !||    mv_matv         ../engine/source/airbag/monv_imp0.F
-      !||    my_barrier      ../engine/source/system/machine.F
-      !||    spmd_sumf_v     ../engine/source/mpi/implicit/imp_spmd.F
-      !||--- uses       -----------------------------------------------------
-      !||    groupdef_mod    ../common_source/modules/groupdef_mod.F
-      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    mav_lth         ../engine/source/implicit/produt_v.F
+!||--- called by ------------------------------------------------------
+!||    imp_pcgh        ../engine/source/implicit/imp_pcg.F
+!||    mmav_lth        ../engine/source/implicit/produt_v.F
+!||--- calls      -----------------------------------------------------
+!||    fr_matv         ../engine/source/mpi/implicit/imp_fri.F
+!||    int_matvp       ../engine/source/implicit/imp_int_k.F
+!||    matv_kif        ../engine/source/implicit/imp_solv.F
+!||    mav_liuh        ../engine/source/implicit/produt_v.F
+!||    mav_lu_h        ../engine/source/implicit/produt_v.F
+!||    mv_matv         ../engine/source/airbag/monv_imp0.F
+!||    my_barrier      ../engine/source/system/machine.F
+!||    spmd_sumf_v     ../engine/source/mpi/implicit/imp_spmd.F
+!||--- uses       -----------------------------------------------------
+!||    groupdef_mod    ../common_source/modules/groupdef_mod.F
+!||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
+!||====================================================================
       SUBROUTINE MAV_LTH(
      1                    NDDL  ,NDDLI ,IADL  ,JDIL  ,DIAG_K,   
      2                    LT_K  ,IADI  ,JDII  ,ITOK  ,LT_I  ,
@@ -1509,26 +1509,26 @@ C--------------------------------------------
       RETURN
       END
 C-----------Hybrid {x}t{y}-.{Weight}--
-      !||====================================================================
-      !||    produt_h     ../engine/source/implicit/produt_v.F
-      !||--- called by ------------------------------------------------------
-      !||    bfgs_h1      ../engine/source/implicit/imp_bfgs.F
-      !||    bfgs_h1p     ../engine/source/implicit/imp_bfgs.F
-      !||    bfgs_rhdh    ../engine/source/implicit/imp_bfgs.F
-      !||    imp_inisi    ../engine/source/implicit/imp_pcg.F
-      !||    imp_pcgh     ../engine/source/implicit/imp_pcg.F
-      !||    imp_ppcgh    ../engine/source/implicit/imp_pcg.F
-      !||    imp_updv2    ../engine/source/implicit/imp_pcg.F
-      !||    mam_nm       ../engine/source/implicit/produt_v.F
-      !||    mav_nm       ../engine/source/implicit/produt_v.F
-      !||    mortho_gs    ../engine/source/implicit/produt_v.F
-      !||    produt_uh    ../engine/source/implicit/produt_v.F
-      !||    produt_uh2   ../engine/source/implicit/produt_v.F
-      !||    produt_vmh   ../engine/source/implicit/produt_v.F
-      !||--- calls      -----------------------------------------------------
-      !||    my_barrier   ../engine/source/system/machine.F
-      !||    spmd_sum_s   ../engine/source/mpi/implicit/imp_spmd.F
-      !||====================================================================
+!||====================================================================
+!||    produt_h     ../engine/source/implicit/produt_v.F
+!||--- called by ------------------------------------------------------
+!||    bfgs_h1      ../engine/source/implicit/imp_bfgs.F
+!||    bfgs_h1p     ../engine/source/implicit/imp_bfgs.F
+!||    bfgs_rhdh    ../engine/source/implicit/imp_bfgs.F
+!||    imp_inisi    ../engine/source/implicit/imp_pcg.F
+!||    imp_pcgh     ../engine/source/implicit/imp_pcg.F
+!||    imp_ppcgh    ../engine/source/implicit/imp_pcg.F
+!||    imp_updv2    ../engine/source/implicit/imp_pcg.F
+!||    mam_nm       ../engine/source/implicit/produt_v.F
+!||    mav_nm       ../engine/source/implicit/produt_v.F
+!||    mortho_gs    ../engine/source/implicit/produt_v.F
+!||    produt_uh    ../engine/source/implicit/produt_v.F
+!||    produt_uh2   ../engine/source/implicit/produt_v.F
+!||    produt_vmh   ../engine/source/implicit/produt_v.F
+!||--- calls      -----------------------------------------------------
+!||    my_barrier   ../engine/source/system/machine.F
+!||    spmd_sum_s   ../engine/source/mpi/implicit/imp_spmd.F
+!||====================================================================
       SUBROUTINE PRODUT_H(F_DDL  ,L_DDL ,X   ,Y  ,W , R ,ITASK )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -1618,15 +1618,15 @@ C---------------------
       RETURN
       END
 C---------------------r={x}^t{y}--x comes from u(3,*)-
-      !||====================================================================
-      !||    produt_vmh   ../engine/source/implicit/produt_v.F
-      !||--- calls      -----------------------------------------------------
-      !||    d_to_u       ../engine/source/implicit/produt_v.F
-      !||    my_barrier   ../engine/source/system/machine.F
-      !||    produt_h     ../engine/source/implicit/produt_v.F
-      !||--- uses       -----------------------------------------------------
-      !||    imp_workh    ../engine/share/modules/impbufdef_mod.F
-      !||====================================================================
+!||====================================================================
+!||    produt_vmh   ../engine/source/implicit/produt_v.F
+!||--- calls      -----------------------------------------------------
+!||    d_to_u       ../engine/source/implicit/produt_v.F
+!||    my_barrier   ../engine/source/system/machine.F
+!||    produt_h     ../engine/source/implicit/produt_v.F
+!||--- uses       -----------------------------------------------------
+!||    imp_workh    ../engine/share/modules/impbufdef_mod.F
+!||====================================================================
       SUBROUTINE PRODUT_VMH(NDDL0 ,NDDL  ,IDDL  ,NDOF  ,IKC   ,
      .                      DD    ,DDR   ,Y     ,R     ,W_IMP ,
      .                      F_DDL ,L_DDL ,ITASK )
@@ -1668,19 +1668,19 @@ C--------------------------------------------
       RETURN
       END
 C-------------norm2={x}^t{x}--x comes from u(3,*)- Hybrid---
-      !||====================================================================
-      !||    produt_uh         ../engine/source/implicit/produt_v.F
-      !||--- called by ------------------------------------------------------
-      !||    al_constrainth1   ../engine/source/implicit/nl_solv.F
-      !||    al_constrainth2   ../engine/source/implicit/nl_solv.F
-      !||--- calls      -----------------------------------------------------
-      !||    condens_b         ../engine/source/implicit/upd_glob_k.F
-      !||    imp_setb          ../engine/source/implicit/imp_setb.F
-      !||    my_barrier        ../engine/source/system/machine.F
-      !||    produt_h          ../engine/source/implicit/produt_v.F
-      !||--- uses       -----------------------------------------------------
-      !||    imp_workh         ../engine/share/modules/impbufdef_mod.F
-      !||====================================================================
+!||====================================================================
+!||    produt_uh         ../engine/source/implicit/produt_v.F
+!||--- called by ------------------------------------------------------
+!||    al_constrainth1   ../engine/source/implicit/nl_solv.F
+!||    al_constrainth2   ../engine/source/implicit/nl_solv.F
+!||--- calls      -----------------------------------------------------
+!||    condens_b         ../engine/source/implicit/upd_glob_k.F
+!||    imp_setb          ../engine/source/implicit/imp_setb.F
+!||    my_barrier        ../engine/source/system/machine.F
+!||    produt_h          ../engine/source/implicit/produt_v.F
+!||--- uses       -----------------------------------------------------
+!||    imp_workh         ../engine/share/modules/impbufdef_mod.F
+!||====================================================================
       SUBROUTINE PRODUT_UH(NDDL0 ,NDDL  ,IDDL  ,NDOF  ,IKC   ,
      .                     DD    ,DDR   ,NORM2 ,W_IMP ,F_DDL ,
      .                     L_DDL ,ITASK )
@@ -1722,19 +1722,19 @@ C--------------------------------------------
       RETURN
       END
 C---------------------norm2={x}^t{y}--x,y come from D1(3,*),D2-- Hybrid
-      !||====================================================================
-      !||    produt_uh2        ../engine/source/implicit/produt_v.F
-      !||--- called by ------------------------------------------------------
-      !||    al_constrainth1   ../engine/source/implicit/nl_solv.F
-      !||    al_constrainth2   ../engine/source/implicit/nl_solv.F
-      !||--- calls      -----------------------------------------------------
-      !||    condens_b         ../engine/source/implicit/upd_glob_k.F
-      !||    imp_setb          ../engine/source/implicit/imp_setb.F
-      !||    my_barrier        ../engine/source/system/machine.F
-      !||    produt_h          ../engine/source/implicit/produt_v.F
-      !||--- uses       -----------------------------------------------------
-      !||    imp_workh         ../engine/share/modules/impbufdef_mod.F
-      !||====================================================================
+!||====================================================================
+!||    produt_uh2        ../engine/source/implicit/produt_v.F
+!||--- called by ------------------------------------------------------
+!||    al_constrainth1   ../engine/source/implicit/nl_solv.F
+!||    al_constrainth2   ../engine/source/implicit/nl_solv.F
+!||--- calls      -----------------------------------------------------
+!||    condens_b         ../engine/source/implicit/upd_glob_k.F
+!||    imp_setb          ../engine/source/implicit/imp_setb.F
+!||    my_barrier        ../engine/source/system/machine.F
+!||    produt_h          ../engine/source/implicit/produt_v.F
+!||--- uses       -----------------------------------------------------
+!||    imp_workh         ../engine/share/modules/impbufdef_mod.F
+!||====================================================================
       SUBROUTINE PRODUT_UH2(NDDL0 ,NDDL  ,IDDL  ,NDOF  ,IKC   ,
      .                     D1    ,D1R   ,D2    ,D2R   ,NORM2 ,
      .                     W_IMP ,F_DDL ,L_DDL ,ITASK )
@@ -1778,14 +1778,14 @@ C--------------------------------------------
       RETURN
       END
 C-------------produit {w}=[K]{v} using [K] complete----
-      !||====================================================================
-      !||    mav_lu_h    ../engine/source/implicit/produt_v.F
-      !||--- called by ------------------------------------------------------
-      !||    mav_ltgh    ../engine/source/implicit/produt_v.F
-      !||    mav_lth     ../engine/source/implicit/produt_v.F
-      !||--- uses       -----------------------------------------------------
-      !||    imp_workh   ../engine/share/modules/impbufdef_mod.F
-      !||====================================================================
+!||====================================================================
+!||    mav_lu_h    ../engine/source/implicit/produt_v.F
+!||--- called by ------------------------------------------------------
+!||    mav_ltgh    ../engine/source/implicit/produt_v.F
+!||    mav_lth     ../engine/source/implicit/produt_v.F
+!||--- uses       -----------------------------------------------------
+!||    imp_workh   ../engine/share/modules/impbufdef_mod.F
+!||====================================================================
       SUBROUTINE MAV_LU_H(NDDL   ,
      1                    F_DDL  ,L_DDL   ,IADL  ,JDIL   ,DIAG_K ,   
      2                    LT_K   ,V       ,W     )
@@ -1833,20 +1833,20 @@ C
 C--------------------------------------------
       RETURN
       END
-      !||====================================================================
-      !||    cp_ifront     ../engine/source/implicit/produt_v.F
-      !||--- called by ------------------------------------------------------
-      !||    cp_impbuf     ../engine/source/implicit/produt_v.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg        ../engine/source/output/message/message.F
-      !||    arret         ../engine/source/system/arret.F
-      !||    cp_int        ../engine/source/implicit/produt_v.F
-      !||    cp_real       ../engine/source/implicit/produt_v.F
-      !||--- uses       -----------------------------------------------------
-      !||    imp_i7cp      ../engine/share/modules/imp_intm.F
-      !||    message_mod   ../engine/share/message_module/message_mod.F
-      !||    tri7box       ../engine/share/modules/tri7box.F
-      !||====================================================================
+!||====================================================================
+!||    cp_ifront     ../engine/source/implicit/produt_v.F
+!||--- called by ------------------------------------------------------
+!||    cp_impbuf     ../engine/source/implicit/produt_v.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg        ../engine/source/output/message/message.F
+!||    arret         ../engine/source/system/arret.F
+!||    cp_int        ../engine/source/implicit/produt_v.F
+!||    cp_real       ../engine/source/implicit/produt_v.F
+!||--- uses       -----------------------------------------------------
+!||    imp_i7cp      ../engine/share/modules/imp_intm.F
+!||    message_mod   ../engine/share/message_module/message_mod.F
+!||    tri7box       ../engine/share/modules/tri7box.F
+!||====================================================================
       SUBROUTINE CP_IFRONT(IFLAG ,IPARI ,ISLEN7 ,IRLEN7   ,
      .                     ISLEN11,IRLEN11,ISLEN17 ,IRLEN17,IRLEN7T  ,
      .                     ISLEN7T,IRLEN20,ISLEN20 ,IRLEN20T,ISLEN20T,
@@ -2414,11 +2414,11 @@ C-----------------------------------------------------------------------
       RETURN
       END
 C---------norm2={x}^t{x}--x comes from D(3,*)- including kinematic nodes
-      !||====================================================================
-      !||    produt_u0    ../engine/source/implicit/produt_v.F
-      !||--- calls      -----------------------------------------------------
-      !||    spmd_sum_s   ../engine/source/mpi/implicit/imp_spmd.F
-      !||====================================================================
+!||====================================================================
+!||    produt_u0    ../engine/source/implicit/produt_v.F
+!||--- calls      -----------------------------------------------------
+!||    spmd_sum_s   ../engine/source/mpi/implicit/imp_spmd.F
+!||====================================================================
       SUBROUTINE PRODUT_U0(DD    ,DDR   ,NORM2 ,WEIGHT)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -2467,14 +2467,14 @@ C--------------------------------------------
       END
 C     
 C------Hybrid----produit {W}=[DIAG_K]{v}+[LT_K]{v}+[LT_K0]{v}+[KI0]{v}----
-      !||====================================================================
-      !||    mav_ltgh      ../engine/source/implicit/produt_v.F
-      !||--- calls      -----------------------------------------------------
-      !||    mav_lu_h      ../engine/source/implicit/produt_v.F
-      !||    mav_lui_h     ../engine/source/implicit/produt_v.F
-      !||    my_barrier    ../engine/source/system/machine.F
-      !||    spmd_sumf_v   ../engine/source/mpi/implicit/imp_spmd.F
-      !||====================================================================
+!||====================================================================
+!||    mav_ltgh      ../engine/source/implicit/produt_v.F
+!||--- calls      -----------------------------------------------------
+!||    mav_lu_h      ../engine/source/implicit/produt_v.F
+!||    mav_lui_h     ../engine/source/implicit/produt_v.F
+!||    my_barrier    ../engine/source/system/machine.F
+!||    spmd_sumf_v   ../engine/source/mpi/implicit/imp_spmd.F
+!||====================================================================
       SUBROUTINE MAV_LTGH(
      1                    NDDL  ,IADL  ,JDIL  ,DIAG_K,LT_K  ,   
      2                    V     ,W     ,F_DDL ,L_DDL ,ITASK ,
@@ -2512,13 +2512,13 @@ C--------------------------------------------
       RETURN
       END
 C-------------produit {w}=[K]{v} using [K] completebut w/o DIAG----
-      !||====================================================================
-      !||    mav_lui_h   ../engine/source/implicit/produt_v.F
-      !||--- called by ------------------------------------------------------
-      !||    mav_ltgh    ../engine/source/implicit/produt_v.F
-      !||--- uses       -----------------------------------------------------
-      !||    imp_workh   ../engine/share/modules/impbufdef_mod.F
-      !||====================================================================
+!||====================================================================
+!||    mav_lui_h   ../engine/source/implicit/produt_v.F
+!||--- called by ------------------------------------------------------
+!||    mav_ltgh    ../engine/source/implicit/produt_v.F
+!||--- uses       -----------------------------------------------------
+!||    imp_workh   ../engine/share/modules/impbufdef_mod.F
+!||====================================================================
       SUBROUTINE MAV_LUI_H(F_DDL  ,L_DDL   ,V      ,W     )
 C-----------------------------------------------
 C   M o d u l e s
@@ -2552,13 +2552,13 @@ C
 C--------------------------------------------
       RETURN
       END
-      !||====================================================================
-      !||    cp_dm          ../engine/source/implicit/produt_v.F
-      !||--- called by ------------------------------------------------------
-      !||    imp_restarcp   ../engine/source/implicit/imp_sol_init.F
-      !||    imp_sol_init   ../engine/source/implicit/imp_sol_init.F
-      !||    resol          ../engine/source/engine/resol.F
-      !||====================================================================
+!||====================================================================
+!||    cp_dm          ../engine/source/implicit/produt_v.F
+!||--- called by ------------------------------------------------------
+!||    imp_restarcp   ../engine/source/implicit/imp_sol_init.F
+!||    imp_sol_init   ../engine/source/implicit/imp_sol_init.F
+!||    resol          ../engine/source/engine/resol.F
+!||====================================================================
       SUBROUTINE CP_DM(NUMGEO,GEO,IGEO,DMCP,IFLAG)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -2599,12 +2599,12 @@ C-----IFLAG=1 > store dm to DMCP and put dm=zero ; IFLAG=2 reput dm
       END IF
       RETURN
       END
-      !||====================================================================
-      !||    vscal_h         ../engine/source/implicit/produt_v.F
-      !||--- called by ------------------------------------------------------
-      !||    mortho_gs       ../engine/source/implicit/produt_v.F
-      !||    sms_mortho_gs   ../engine/source/ams/sms_proj.F
-      !||====================================================================
+!||====================================================================
+!||    vscal_h         ../engine/source/implicit/produt_v.F
+!||--- called by ------------------------------------------------------
+!||    mortho_gs       ../engine/source/implicit/produt_v.F
+!||    sms_mortho_gs   ../engine/source/ams/sms_proj.F
+!||====================================================================
       SUBROUTINE VSCAL_H(F_DDL  ,L_DDL ,V   ,S    ,ITASK  )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -2637,12 +2637,12 @@ C-----------------------------
 C--------------------------------------------
       RETURN
       END
-      !||====================================================================
-      !||    vaxpy_h         ../engine/source/implicit/produt_v.F
-      !||--- called by ------------------------------------------------------
-      !||    mortho_gs       ../engine/source/implicit/produt_v.F
-      !||    sms_mortho_gs   ../engine/source/ams/sms_proj.F
-      !||====================================================================
+!||====================================================================
+!||    vaxpy_h         ../engine/source/implicit/produt_v.F
+!||--- called by ------------------------------------------------------
+!||    mortho_gs       ../engine/source/implicit/produt_v.F
+!||    sms_mortho_gs   ../engine/source/ams/sms_proj.F
+!||====================================================================
       SUBROUTINE VAXPY_H(F_DDL  ,L_DDL ,A   ,B    ,S    ,ITASK  )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -2676,17 +2676,17 @@ C-----------------------------
 C--------------------------------------------
       RETURN
       END
-      !||====================================================================
-      !||    mortho_gs    ../engine/source/implicit/produt_v.F
-      !||--- called by ------------------------------------------------------
-      !||    imp_inisi    ../engine/source/implicit/imp_pcg.F
-      !||    imp_updst    ../engine/source/implicit/imp_pcg.F
-      !||--- calls      -----------------------------------------------------
-      !||    my_barrier   ../engine/source/system/machine.F
-      !||    produt_h     ../engine/source/implicit/produt_v.F
-      !||    vaxpy_h      ../engine/source/implicit/produt_v.F
-      !||    vscal_h      ../engine/source/implicit/produt_v.F
-      !||====================================================================
+!||====================================================================
+!||    mortho_gs    ../engine/source/implicit/produt_v.F
+!||--- called by ------------------------------------------------------
+!||    imp_inisi    ../engine/source/implicit/imp_pcg.F
+!||    imp_updst    ../engine/source/implicit/imp_pcg.F
+!||--- calls      -----------------------------------------------------
+!||    my_barrier   ../engine/source/system/machine.F
+!||    produt_h     ../engine/source/implicit/produt_v.F
+!||    vaxpy_h      ../engine/source/implicit/produt_v.F
+!||    vscal_h      ../engine/source/implicit/produt_v.F
+!||====================================================================
       SUBROUTINE MORTHO_GS(F_DDL  ,L_DDL  ,NDDL   ,MD_F   ,MD_L   ,
      .                     A      ,WDDL   ,ITASK  )
 C-----------------------------------------------
@@ -2737,14 +2737,14 @@ C---------------------
 C--------------------------------------------
       RETURN
       END
-      !||====================================================================
-      !||    mav_nm      ../engine/source/implicit/produt_v.F
-      !||--- called by ------------------------------------------------------
-      !||    imp_inix    ../engine/source/implicit/imp_pcg.F
-      !||    imp_pro_p   ../engine/source/implicit/imp_pcg.F
-      !||--- calls      -----------------------------------------------------
-      !||    produt_h    ../engine/source/implicit/produt_v.F
-      !||====================================================================
+!||====================================================================
+!||    mav_nm      ../engine/source/implicit/produt_v.F
+!||--- called by ------------------------------------------------------
+!||    imp_inix    ../engine/source/implicit/imp_pcg.F
+!||    imp_pro_p   ../engine/source/implicit/imp_pcg.F
+!||--- calls      -----------------------------------------------------
+!||    produt_h    ../engine/source/implicit/produt_v.F
+!||====================================================================
       SUBROUTINE MAV_NM(F_ND ,L_ND ,ND   ,MD  ,A  ,B  ,C  ,WDDL,ITASK )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -2780,14 +2780,14 @@ C-----------------------------
 C--------------------------------------------
       RETURN
       END
-      !||====================================================================
-      !||    mav_mn         ../engine/source/implicit/produt_v.F
-      !||--- called by ------------------------------------------------------
-      !||    imp_inix       ../engine/source/implicit/imp_pcg.F
-      !||    imp_pro_p      ../engine/source/implicit/imp_pcg.F
-      !||--- calls      -----------------------------------------------------
-      !||    produt_v_loc   ../engine/source/implicit/produt_v.F
-      !||====================================================================
+!||====================================================================
+!||    mav_mn         ../engine/source/implicit/produt_v.F
+!||--- called by ------------------------------------------------------
+!||    imp_inix       ../engine/source/implicit/imp_pcg.F
+!||    imp_pro_p      ../engine/source/implicit/imp_pcg.F
+!||--- calls      -----------------------------------------------------
+!||    produt_v_loc   ../engine/source/implicit/produt_v.F
+!||====================================================================
       SUBROUTINE MAV_MN(ND   ,MD     ,A     ,B     ,C      ,ITASK )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -2829,13 +2829,13 @@ C------------may add dynamic smp on ND after--
 C--------------------------------------------
       RETURN
       END
-      !||====================================================================
-      !||    mam_nm      ../engine/source/implicit/produt_v.F
-      !||--- called by ------------------------------------------------------
-      !||    imp_inist   ../engine/source/implicit/imp_pcg.F
-      !||--- calls      -----------------------------------------------------
-      !||    produt_h    ../engine/source/implicit/produt_v.F
-      !||====================================================================
+!||====================================================================
+!||    mam_nm      ../engine/source/implicit/produt_v.F
+!||--- called by ------------------------------------------------------
+!||    imp_inist   ../engine/source/implicit/imp_pcg.F
+!||--- calls      -----------------------------------------------------
+!||    produt_h    ../engine/source/implicit/produt_v.F
+!||====================================================================
       SUBROUTINE MAM_NM(F_ND ,L_ND ,ND, MD   ,A   ,B   ,C  ,WDDL,ITASK)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -2873,12 +2873,12 @@ C-----------------------------
 C--------------------------------------------
       RETURN
       END
-      !||====================================================================
-      !||    mav_mm      ../engine/source/implicit/produt_v.F
-      !||--- called by ------------------------------------------------------
-      !||    imp_inist   ../engine/source/implicit/imp_pcg.F
-      !||    sms_inist   ../engine/source/ams/sms_proj.F
-      !||====================================================================
+!||====================================================================
+!||    mav_mm      ../engine/source/implicit/produt_v.F
+!||--- called by ------------------------------------------------------
+!||    imp_inist   ../engine/source/implicit/imp_pcg.F
+!||    sms_inist   ../engine/source/ams/sms_proj.F
+!||====================================================================
       SUBROUTINE MAV_MM(ND   ,MD     ,A     ,B     ,ITASK )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -2928,23 +2928,23 @@ C
 C--------------------------------------------
       RETURN
       END
-      !||====================================================================
-      !||    mmav_lth        ../engine/source/implicit/produt_v.F
-      !||--- called by ------------------------------------------------------
-      !||    imp_inisi       ../engine/source/implicit/imp_pcg.F
-      !||    imp_inist       ../engine/source/implicit/imp_pcg.F
-      !||    imp_ppcgh       ../engine/source/implicit/imp_pcg.F
-      !||    imp_updv2       ../engine/source/implicit/imp_pcg.F
-      !||--- calls      -----------------------------------------------------
-      !||    mav_lth         ../engine/source/implicit/produt_v.F
-      !||    mmv_lh          ../engine/source/implicit/produt_v.F
-      !||    mmv_lth         ../engine/source/implicit/produt_v.F
-      !||    my_barrier      ../engine/source/system/machine.F
-      !||--- uses       -----------------------------------------------------
-      !||    groupdef_mod    ../common_source/modules/groupdef_mod.F
-      !||    imp_workh       ../engine/share/modules/impbufdef_mod.F
-      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    mmav_lth        ../engine/source/implicit/produt_v.F
+!||--- called by ------------------------------------------------------
+!||    imp_inisi       ../engine/source/implicit/imp_pcg.F
+!||    imp_inist       ../engine/source/implicit/imp_pcg.F
+!||    imp_ppcgh       ../engine/source/implicit/imp_pcg.F
+!||    imp_updv2       ../engine/source/implicit/imp_pcg.F
+!||--- calls      -----------------------------------------------------
+!||    mav_lth         ../engine/source/implicit/produt_v.F
+!||    mmv_lh          ../engine/source/implicit/produt_v.F
+!||    mmv_lth         ../engine/source/implicit/produt_v.F
+!||    my_barrier      ../engine/source/system/machine.F
+!||--- uses       -----------------------------------------------------
+!||    groupdef_mod    ../common_source/modules/groupdef_mod.F
+!||    imp_workh       ../engine/share/modules/impbufdef_mod.F
+!||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
+!||====================================================================
       SUBROUTINE MMAV_LTH(
      1                    NDDL  ,NDDLI ,IADK  ,JDIK  ,DIAG_K,   
      2                    LT_K  ,IADI  ,JDII  ,ITOK  ,LT_I  ,
@@ -3033,15 +3033,15 @@ C-----------------{w}=[Lm]{zw2}----
 C      
       RETURN
       END
-      !||====================================================================
-      !||    mmv_lth       ../engine/source/implicit/produt_v.F
-      !||--- called by ------------------------------------------------------
-      !||    imp_ppcgh     ../engine/source/implicit/imp_pcg.F
-      !||    mmav_lth      ../engine/source/implicit/produt_v.F
-      !||--- calls      -----------------------------------------------------
-      !||    my_barrier    ../engine/source/system/machine.F
-      !||    spmd_sumf_v   ../engine/source/mpi/implicit/imp_spmd.F
-      !||====================================================================
+!||====================================================================
+!||    mmv_lth       ../engine/source/implicit/produt_v.F
+!||--- called by ------------------------------------------------------
+!||    imp_ppcgh     ../engine/source/implicit/imp_pcg.F
+!||    mmav_lth      ../engine/source/implicit/produt_v.F
+!||--- calls      -----------------------------------------------------
+!||    my_barrier    ../engine/source/system/machine.F
+!||    spmd_sumf_v   ../engine/source/mpi/implicit/imp_spmd.F
+!||====================================================================
       SUBROUTINE MMV_LTH(
      1                    NDDL  ,IADM  ,JDIM  ,DIAG_M ,LT_M  ,   
      2                    V     ,Z     ,F_DDL ,L_DDL  ,ITASK )
@@ -3098,15 +3098,15 @@ C---------------------
 C--------------------------------------------
       RETURN
       END
-      !||====================================================================
-      !||    mmv_lh        ../engine/source/implicit/produt_v.F
-      !||--- called by ------------------------------------------------------
-      !||    imp_ppcgh     ../engine/source/implicit/imp_pcg.F
-      !||    mmav_lth      ../engine/source/implicit/produt_v.F
-      !||--- calls      -----------------------------------------------------
-      !||    my_barrier    ../engine/source/system/machine.F
-      !||    spmd_sumf_v   ../engine/source/mpi/implicit/imp_spmd.F
-      !||====================================================================
+!||====================================================================
+!||    mmv_lh        ../engine/source/implicit/produt_v.F
+!||--- called by ------------------------------------------------------
+!||    imp_ppcgh     ../engine/source/implicit/imp_pcg.F
+!||    mmav_lth      ../engine/source/implicit/produt_v.F
+!||--- calls      -----------------------------------------------------
+!||    my_barrier    ../engine/source/system/machine.F
+!||    spmd_sumf_v   ../engine/source/mpi/implicit/imp_spmd.F
+!||====================================================================
       SUBROUTINE MMV_LH(
      1                    NDDL  ,IADM  ,JDIM  ,DIAG_M ,LT_M  ,   
      2                    V     ,Z     ,F_DDL ,L_DDL  ,ITASK )
@@ -3174,13 +3174,13 @@ C---------------------
 C--------------------------------------------
       RETURN
       END
-      !||====================================================================
-      !||    mav_liuh    ../engine/source/implicit/produt_v.F
-      !||--- called by ------------------------------------------------------
-      !||    mav_lth     ../engine/source/implicit/produt_v.F
-      !||--- uses       -----------------------------------------------------
-      !||    imp_workh   ../engine/share/modules/impbufdef_mod.F
-      !||====================================================================
+!||====================================================================
+!||    mav_liuh    ../engine/source/implicit/produt_v.F
+!||--- called by ------------------------------------------------------
+!||    mav_lth     ../engine/source/implicit/produt_v.F
+!||--- uses       -----------------------------------------------------
+!||    imp_workh   ../engine/share/modules/impbufdef_mod.F
+!||====================================================================
       SUBROUTINE MAV_LIUH(F_DDL  ,L_DDL   ,IADI  ,JDII   ,ITOK  ,   
      2                    LT_I   ,WORK_II ,V     ,W      ,ITASK )
 C-----------------------------------------------
@@ -3235,19 +3235,19 @@ C--------------------------------------------
       RETURN
       END
 C-----------Hybrid {x}t{y}-.{Weight}--HP: Hyprid SMP // inside
-      !||====================================================================
-      !||    produt_hp     ../engine/source/implicit/produt_v.F
-      !||--- called by ------------------------------------------------------
-      !||    imp_solv      ../engine/source/implicit/imp_solv.F
-      !||    lin_solv      ../engine/source/implicit/lin_solv.F
-      !||    nl_solv       ../engine/source/implicit/nl_solv.F
-      !||    produt_uhp    ../engine/source/implicit/produt_v.F
-      !||    produt_uhp2   ../engine/source/implicit/produt_v.F
-      !||    produt_vmhp   ../engine/source/implicit/produt_v.F
-      !||--- calls      -----------------------------------------------------
-      !||    imp_smpini    ../engine/source/implicit/imp_solv.F
-      !||    spmd_sum_s    ../engine/source/mpi/implicit/imp_spmd.F
-      !||====================================================================
+!||====================================================================
+!||    produt_hp     ../engine/source/implicit/produt_v.F
+!||--- called by ------------------------------------------------------
+!||    imp_solv      ../engine/source/implicit/imp_solv.F
+!||    lin_solv      ../engine/source/implicit/lin_solv.F
+!||    nl_solv       ../engine/source/implicit/nl_solv.F
+!||    produt_uhp    ../engine/source/implicit/produt_v.F
+!||    produt_uhp2   ../engine/source/implicit/produt_v.F
+!||    produt_vmhp   ../engine/source/implicit/produt_v.F
+!||--- calls      -----------------------------------------------------
+!||    imp_smpini    ../engine/source/implicit/imp_solv.F
+!||    spmd_sum_s    ../engine/source/mpi/implicit/imp_spmd.F
+!||====================================================================
       SUBROUTINE PRODUT_HP(NDDL ,X   ,Y  ,W , R )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -3307,15 +3307,15 @@ C---------------------
       RETURN
       END
 C---------------------r={x}^t{y}--x comes from u(1-3,*)-
-      !||====================================================================
-      !||    produt_vmhp   ../engine/source/implicit/produt_v.F
-      !||--- called by ------------------------------------------------------
-      !||    imp_frfv      ../engine/source/mpi/implicit/imp_fri.F
-      !||    nl_solv       ../engine/source/implicit/nl_solv.F
-      !||--- calls      -----------------------------------------------------
-      !||    d_to_u        ../engine/source/implicit/produt_v.F
-      !||    produt_hp     ../engine/source/implicit/produt_v.F
-      !||====================================================================
+!||====================================================================
+!||    produt_vmhp   ../engine/source/implicit/produt_v.F
+!||--- called by ------------------------------------------------------
+!||    imp_frfv      ../engine/source/mpi/implicit/imp_fri.F
+!||    nl_solv       ../engine/source/implicit/nl_solv.F
+!||--- calls      -----------------------------------------------------
+!||    d_to_u        ../engine/source/implicit/produt_v.F
+!||    produt_hp     ../engine/source/implicit/produt_v.F
+!||====================================================================
       SUBROUTINE PRODUT_VMHP(NDDL0 ,NDDL  ,IDDL  ,NDOF  ,IKC   ,
      .                       DD    ,DDR   ,Y     ,R     ,W_IMP )
 C-----------------------------------------------
@@ -3343,17 +3343,17 @@ C--------------------------------------------
       RETURN
       END
 C-------------norm2={x}^t{x}--x comes from u(3,*)- Hybrid---
-      !||====================================================================
-      !||    produt_uhp          ../engine/source/implicit/produt_v.F
-      !||--- called by ------------------------------------------------------
-      !||    al_constraint1_hp   ../engine/source/implicit/nl_solv.F
-      !||    al_constraint2_hp   ../engine/source/implicit/nl_solv.F
-      !||    nl_solv             ../engine/source/implicit/nl_solv.F
-      !||--- calls      -----------------------------------------------------
-      !||    condens_b           ../engine/source/implicit/upd_glob_k.F
-      !||    imp_setb            ../engine/source/implicit/imp_setb.F
-      !||    produt_hp           ../engine/source/implicit/produt_v.F
-      !||====================================================================
+!||====================================================================
+!||    produt_uhp          ../engine/source/implicit/produt_v.F
+!||--- called by ------------------------------------------------------
+!||    al_constraint1_hp   ../engine/source/implicit/nl_solv.F
+!||    al_constraint2_hp   ../engine/source/implicit/nl_solv.F
+!||    nl_solv             ../engine/source/implicit/nl_solv.F
+!||--- calls      -----------------------------------------------------
+!||    condens_b           ../engine/source/implicit/upd_glob_k.F
+!||    imp_setb            ../engine/source/implicit/imp_setb.F
+!||    produt_hp           ../engine/source/implicit/produt_v.F
+!||====================================================================
       SUBROUTINE PRODUT_UHP(NDDL0 ,NDDL  ,IDDL  ,NDOF  ,IKC   ,
      .                      DD    ,DDR   ,NORM2 ,W_IMP )
 C-----------------------------------------------
@@ -3381,17 +3381,17 @@ C----------to // IMP_SETB,CONDENS_B-------------------
       RETURN
       END
 C---------------------norm2={x}^t{y}--x,y come from D1(3,*),D2-- Hybrid
-      !||====================================================================
-      !||    produt_uhp2         ../engine/source/implicit/produt_v.F
-      !||--- called by ------------------------------------------------------
-      !||    al_constraint1_hp   ../engine/source/implicit/nl_solv.F
-      !||    al_constraint2_hp   ../engine/source/implicit/nl_solv.F
-      !||    nl_solv             ../engine/source/implicit/nl_solv.F
-      !||--- calls      -----------------------------------------------------
-      !||    condens_b           ../engine/source/implicit/upd_glob_k.F
-      !||    imp_setb            ../engine/source/implicit/imp_setb.F
-      !||    produt_hp           ../engine/source/implicit/produt_v.F
-      !||====================================================================
+!||====================================================================
+!||    produt_uhp2         ../engine/source/implicit/produt_v.F
+!||--- called by ------------------------------------------------------
+!||    al_constraint1_hp   ../engine/source/implicit/nl_solv.F
+!||    al_constraint2_hp   ../engine/source/implicit/nl_solv.F
+!||    nl_solv             ../engine/source/implicit/nl_solv.F
+!||--- calls      -----------------------------------------------------
+!||    condens_b           ../engine/source/implicit/upd_glob_k.F
+!||    imp_setb            ../engine/source/implicit/imp_setb.F
+!||    produt_hp           ../engine/source/implicit/produt_v.F
+!||====================================================================
       SUBROUTINE PRODUT_UHP2(NDDL0 ,NDDL  ,IDDL  ,NDOF  ,IKC   ,
      .                       D1    ,D1R   ,D2    ,D2R   ,NORM2 ,
      .                       W_IMP )
@@ -3423,14 +3423,14 @@ C--------------------------------------------
       RETURN
       END
 C---------norm2={x}^t{x}--x comes from D(3,*)- including kinematic nodes
-      !||====================================================================
-      !||    produt_uhp0   ../engine/source/implicit/produt_v.F
-      !||--- called by ------------------------------------------------------
-      !||    imp_solv      ../engine/source/implicit/imp_solv.F
-      !||--- calls      -----------------------------------------------------
-      !||    imp_smpini    ../engine/source/implicit/imp_solv.F
-      !||    spmd_sum_s    ../engine/source/mpi/implicit/imp_spmd.F
-      !||====================================================================
+!||====================================================================
+!||    produt_uhp0   ../engine/source/implicit/produt_v.F
+!||--- called by ------------------------------------------------------
+!||    imp_solv      ../engine/source/implicit/imp_solv.F
+!||--- calls      -----------------------------------------------------
+!||    imp_smpini    ../engine/source/implicit/imp_solv.F
+!||    spmd_sum_s    ../engine/source/mpi/implicit/imp_spmd.F
+!||====================================================================
       SUBROUTINE PRODUT_UHP0(DD    ,DDR   ,NORM2 ,WEIGHT)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -3485,11 +3485,11 @@ C
 C--------------------------------------------
       RETURN
       END
-      !||====================================================================
-      !||    vscal_hp     ../engine/source/implicit/produt_v.F
-      !||--- calls      -----------------------------------------------------
-      !||    imp_smpini   ../engine/source/implicit/imp_solv.F
-      !||====================================================================
+!||====================================================================
+!||    vscal_hp     ../engine/source/implicit/produt_v.F
+!||--- calls      -----------------------------------------------------
+!||    imp_smpini   ../engine/source/implicit/imp_solv.F
+!||====================================================================
       SUBROUTINE VSCAL_HP(N , V   ,S    )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -3525,13 +3525,13 @@ C-----------------------------
 C--------------------------------------------
       RETURN
       END
-      !||====================================================================
-      !||    vscaly_hp    ../engine/source/implicit/produt_v.F
-      !||--- called by ------------------------------------------------------
-      !||    imp_solv     ../engine/source/implicit/imp_solv.F
-      !||--- calls      -----------------------------------------------------
-      !||    imp_smpini   ../engine/source/implicit/imp_solv.F
-      !||====================================================================
+!||====================================================================
+!||    vscaly_hp    ../engine/source/implicit/produt_v.F
+!||--- called by ------------------------------------------------------
+!||    imp_solv     ../engine/source/implicit/imp_solv.F
+!||--- calls      -----------------------------------------------------
+!||    imp_smpini   ../engine/source/implicit/imp_solv.F
+!||====================================================================
       SUBROUTINE VSCALY_HP(N , V   ,Y   ,S    )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -3568,14 +3568,14 @@ C-----------------------------
 C--------------------------------------------
       RETURN
       END
-      !||====================================================================
-      !||    vaxpy_hp     ../engine/source/implicit/produt_v.F
-      !||--- called by ------------------------------------------------------
-      !||    imp_solv     ../engine/source/implicit/imp_solv.F
-      !||    nl_solv      ../engine/source/implicit/nl_solv.F
-      !||--- calls      -----------------------------------------------------
-      !||    imp_smpini   ../engine/source/implicit/imp_solv.F
-      !||====================================================================
+!||====================================================================
+!||    vaxpy_hp     ../engine/source/implicit/produt_v.F
+!||--- called by ------------------------------------------------------
+!||    imp_solv     ../engine/source/implicit/imp_solv.F
+!||    nl_solv      ../engine/source/implicit/nl_solv.F
+!||--- calls      -----------------------------------------------------
+!||    imp_smpini   ../engine/source/implicit/imp_solv.F
+!||====================================================================
       SUBROUTINE VAXPY_HP(N , V   ,Y   ,S    )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -3612,14 +3612,14 @@ C-----------------------------
 C--------------------------------------------
       RETURN
       END
-      !||====================================================================
-      !||    cp_real_hp   ../engine/source/implicit/produt_v.F
-      !||--- called by ------------------------------------------------------
-      !||    imp_intfr    ../engine/source/implicit/imp_solv.F
-      !||    imp_solv     ../engine/source/implicit/imp_solv.F
-      !||--- calls      -----------------------------------------------------
-      !||    imp_smpini   ../engine/source/implicit/imp_solv.F
-      !||====================================================================
+!||====================================================================
+!||    cp_real_hp   ../engine/source/implicit/produt_v.F
+!||--- called by ------------------------------------------------------
+!||    imp_intfr    ../engine/source/implicit/imp_solv.F
+!||    imp_solv     ../engine/source/implicit/imp_solv.F
+!||--- calls      -----------------------------------------------------
+!||    imp_smpini   ../engine/source/implicit/imp_solv.F
+!||====================================================================
       SUBROUTINE CP_REAL_HP( N  ,X   ,XC)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -3646,13 +3646,13 @@ C-----------------------------
 C--------------------------------------------
       RETURN
       END
-      !||====================================================================
-      !||    cp_int_hp    ../engine/source/implicit/produt_v.F
-      !||--- called by ------------------------------------------------------
-      !||    imp_solv     ../engine/source/implicit/imp_solv.F
-      !||--- calls      -----------------------------------------------------
-      !||    imp_smpini   ../engine/source/implicit/imp_solv.F
-      !||====================================================================
+!||====================================================================
+!||    cp_int_hp    ../engine/source/implicit/produt_v.F
+!||--- called by ------------------------------------------------------
+!||    imp_solv     ../engine/source/implicit/imp_solv.F
+!||--- calls      -----------------------------------------------------
+!||    imp_smpini   ../engine/source/implicit/imp_solv.F
+!||====================================================================
       SUBROUTINE CP_INT_HP( N  ,X   ,XC)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -3677,13 +3677,13 @@ C-----------------------------
 C--------------------------------------------
       RETURN
       END
-      !||====================================================================
-      !||    zeror_hp     ../engine/source/implicit/produt_v.F
-      !||--- called by ------------------------------------------------------
-      !||    imp_solv     ../engine/source/implicit/imp_solv.F
-      !||--- calls      -----------------------------------------------------
-      !||    imp_smpini   ../engine/source/implicit/imp_solv.F
-      !||====================================================================
+!||====================================================================
+!||    zeror_hp     ../engine/source/implicit/produt_v.F
+!||--- called by ------------------------------------------------------
+!||    imp_solv     ../engine/source/implicit/imp_solv.F
+!||--- calls      -----------------------------------------------------
+!||    imp_smpini   ../engine/source/implicit/imp_solv.F
+!||====================================================================
       SUBROUTINE ZEROR_HP( X   ,N)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

@@ -20,19 +20,19 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    dtnoda         ../engine/source/time_step/dtnoda.F
-      !||--- called by ------------------------------------------------------
-      !||    resol          ../engine/source/engine/resol.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg         ../engine/source/output/message/message.F
-      !||    arret          ../engine/source/system/arret.F
-      !||--- uses       -----------------------------------------------------
-      !||    ale_mod        ../common_source/modules/ale/ale_mod.F
-      !||    groupdef_mod   ../common_source/modules/groupdef_mod.F
-      !||    h3d_mod        ../engine/share/modules/h3d_mod.F
-      !||    message_mod    ../engine/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    dtnoda         ../engine/source/time_step/dtnoda.F
+!||--- called by ------------------------------------------------------
+!||    resol          ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg         ../engine/source/output/message/message.F
+!||    arret          ../engine/source/system/arret.F
+!||--- uses       -----------------------------------------------------
+!||    ale_mod        ../common_source/modules/ale/ale_mod.F
+!||    groupdef_mod   ../common_source/modules/groupdef_mod.F
+!||    h3d_mod        ../engine/share/modules/h3d_mod.F
+!||    message_mod    ../engine/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE DTNODA(NODFT ,NODLT ,NELTST,ITYPTST,ITAB   ,
      2                  MS    ,IN    ,STIFN ,STIFR  ,DT2T   ,
      3                  DMAST ,DINERT,ADT   ,ADM    ,IMSCH  ,

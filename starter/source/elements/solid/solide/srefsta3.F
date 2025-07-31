@@ -20,28 +20,28 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    srefsta3               ../starter/source/elements/solid/solide/srefsta3.F
-      !||--- called by ------------------------------------------------------
-      !||    initia                 ../starter/source/elements/initia/initia.F
-      !||--- calls      -----------------------------------------------------
-      !||    mmain                  ../starter/source/materials/mat_share/mmain.F
-      !||    sdefo3                 ../starter/source/elements/solid/solide/sdefo3.F
-      !||    sdefot3                ../starter/source/elements/solid/solide/srefsta3.F
-      !||    sjac_i                 ../starter/source/elements/solid/solide/sderi3.F
-      !||    sordeft3               ../starter/source/elements/solid/solide/srefsta3.F
-      !||    sortho3                ../starter/source/elements/solid/solide/sortho3.F
-      !||    srefderi3              ../starter/source/elements/solid/solide/srefsta3.F
-      !||    srepiso3               ../starter/source/elements/solid/solide/srepiso3.F
-      !||    srho3                  ../starter/source/elements/solid/solide/srho3.F
-      !||    srorth3                ../starter/source/elements/solid/solide/srorth3.F
-      !||    srrota3                ../starter/source/elements/solid/solide/srrota3.F
-      !||    storth3                ../starter/source/elements/solid/solidez/szorth3.F
-      !||    szordef3               ../starter/source/elements/solid/solidez/szorth3.F
-      !||    szrefderi3             ../starter/source/elements/solid/solide/srefsta3.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod            ../starter/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    srefsta3               ../starter/source/elements/solid/solide/srefsta3.F
+!||--- called by ------------------------------------------------------
+!||    initia                 ../starter/source/elements/initia/initia.F
+!||--- calls      -----------------------------------------------------
+!||    mmain                  ../starter/source/materials/mat_share/mmain.F
+!||    sdefo3                 ../starter/source/elements/solid/solide/sdefo3.F
+!||    sdefot3                ../starter/source/elements/solid/solide/srefsta3.F
+!||    sjac_i                 ../starter/source/elements/solid/solide/sderi3.F
+!||    sordeft3               ../starter/source/elements/solid/solide/srefsta3.F
+!||    sortho3                ../starter/source/elements/solid/solide/sortho3.F
+!||    srefderi3              ../starter/source/elements/solid/solide/srefsta3.F
+!||    srepiso3               ../starter/source/elements/solid/solide/srepiso3.F
+!||    srho3                  ../starter/source/elements/solid/solide/srho3.F
+!||    srorth3                ../starter/source/elements/solid/solide/srorth3.F
+!||    srrota3                ../starter/source/elements/solid/solide/srrota3.F
+!||    storth3                ../starter/source/elements/solid/solidez/szorth3.F
+!||    szordef3               ../starter/source/elements/solid/solidez/szorth3.F
+!||    szrefderi3             ../starter/source/elements/solid/solide/srefsta3.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod            ../starter/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE SREFSTA3(ELBUF_STR,IXS     ,PM     ,GEO     ,IPARG  ,
      .                    IPM      ,IGEO    ,SKEW   ,X       ,XREFS  ,
      .                    NEL      ,IPARTS  ,IPART  ,BUFMAT  ,MAT_PARAM,
@@ -648,11 +648,11 @@ C ======================================================================
       RETURN
       END SUBROUTINE SREFSTA3
 C
-      !||====================================================================
-      !||    sdefot3    ../starter/source/elements/solid/solide/srefsta3.F
-      !||--- called by ------------------------------------------------------
-      !||    srefsta3   ../starter/source/elements/solid/solide/srefsta3.F
-      !||====================================================================
+!||====================================================================
+!||    sdefot3    ../starter/source/elements/solid/solide/srefsta3.F
+!||--- called by ------------------------------------------------------
+!||    srefsta3   ../starter/source/elements/solid/solide/srefsta3.F
+!||====================================================================
       SUBROUTINE SDEFOT3(NEL,
      .   PX1, PX2, PX3, PX4,
      .   PY1, PY2, PY3, PY4,
@@ -732,11 +732,11 @@ C                                                                     12
 C-----------
       RETURN
       END SUBROUTINE SDEFOT3
-      !||====================================================================
-      !||    sordeft3   ../starter/source/elements/solid/solide/srefsta3.F
-      !||--- called by ------------------------------------------------------
-      !||    srefsta3   ../starter/source/elements/solid/solide/srefsta3.F
-      !||====================================================================
+!||====================================================================
+!||    sordeft3   ../starter/source/elements/solid/solide/srefsta3.F
+!||--- called by ------------------------------------------------------
+!||    srefsta3   ../starter/source/elements/solid/solide/srefsta3.F
+!||====================================================================
       SUBROUTINE SORDEFT3( NEL, MXX, MXY, MXZ,  
      .                     MYX, MYY, MYZ, MZX, MZY, MZZ,
      .                     G1X,G1Y,G1Z,G2X,G2Y,G2Z,G3X,G3Y,G3Z)
@@ -791,15 +791,15 @@ C-----------------------------------------------
 C-----------
       RETURN
       END SUBROUTINE SORDEFT3
-      !||====================================================================
-      !||    srefderi3     ../starter/source/elements/solid/solide/srefsta3.F
-      !||--- called by ------------------------------------------------------
-      !||    srefsta3      ../starter/source/elements/solid/solide/srefsta3.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg        ../starter/source/output/message/message.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod   ../starter/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    srefderi3     ../starter/source/elements/solid/solide/srefsta3.F
+!||--- called by ------------------------------------------------------
+!||    srefsta3      ../starter/source/elements/solid/solide/srefsta3.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg        ../starter/source/output/message/message.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod   ../starter/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE SREFDERI3(NEL ,JEUL ,
      .              VOL  ,VEUL ,GEO  ,IGEO , 
      .              X1   ,X2   ,X3   ,X4   ,X5   ,X6   ,X7   ,X8   ,
@@ -1039,15 +1039,15 @@ C---
 C-----------
       RETURN
       END SUBROUTINE SREFDERI3
-      !||====================================================================
-      !||    szrefderi3    ../starter/source/elements/solid/solide/srefsta3.F
-      !||--- called by ------------------------------------------------------
-      !||    srefsta3      ../starter/source/elements/solid/solide/srefsta3.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg        ../starter/source/output/message/message.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod   ../starter/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    szrefderi3    ../starter/source/elements/solid/solide/srefsta3.F
+!||--- called by ------------------------------------------------------
+!||    srefsta3      ../starter/source/elements/solid/solide/srefsta3.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg        ../starter/source/output/message/message.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod   ../starter/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE SZREFDERI3(NEL,JEUL ,
      .              VOL  ,VEUL ,GEO  ,IGEO , 
      .              X1   ,X2   ,X3   ,X4   ,X5   ,X6   ,X7   ,X8   , 

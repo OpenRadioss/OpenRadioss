@@ -20,15 +20,15 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    parith_on_mod          ../common_source/modules/parith_on_mod.F90
-      !||--- called by ------------------------------------------------------
-      !||    connectivity_mod       ../common_source/modules/connectivity.F90
-      !||    interfaces_mod         ../common_source/modules/interfaces/interfaces_mod.F90
-      !||    reallocate_i_skyline   ../engine/source/system/reallocate_skyline.F
-      !||    resol_init             ../engine/source/engine/resol_init.F
-      !||    update_pon_shells      ../engine/source/engine/node_spliting/update_pon.F90
-      !||====================================================================
+!||====================================================================
+!||    parith_on_mod          ../common_source/modules/parith_on_mod.F90
+!||--- called by ------------------------------------------------------
+!||    connectivity_mod       ../common_source/modules/connectivity.F90
+!||    interfaces_mod         ../common_source/modules/interfaces/interfaces_mod.F90
+!||    reallocate_i_skyline   ../engine/source/system/reallocate_skyline.F
+!||    resol_init             ../engine/source/engine/resol_init.F
+!||    update_pon_shells      ../engine/source/engine/node_spliting/update_pon.F90
+!||====================================================================
       module parith_on_mod
 #include "my_real.inc"
 

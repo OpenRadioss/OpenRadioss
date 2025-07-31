@@ -20,19 +20,19 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    i12chk3                ../starter/source/interfaces/inter3d1/i12chk3.F
-      !||--- called by ------------------------------------------------------
-      !||    inint3                 ../starter/source/interfaces/inter3d1/inint3.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg                 ../starter/source/output/message/message.F
-      !||    i12sol3                ../starter/source/interfaces/inter3d1/insol3.F
-      !||    icinv3                 ../starter/source/interfaces/inter3d1/icinv3.F
-      !||    local_index            ../starter/source/interfaces/interf1/local_index.F
-      !||--- uses       -----------------------------------------------------
-      !||    format_mod             ../starter/share/modules1/format_mod.F90
-      !||    message_mod            ../starter/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    i12chk3                ../starter/source/interfaces/inter3d1/i12chk3.F
+!||--- called by ------------------------------------------------------
+!||    inint3                 ../starter/source/interfaces/inter3d1/inint3.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                 ../starter/source/output/message/message.F
+!||    i12sol3                ../starter/source/interfaces/inter3d1/insol3.F
+!||    icinv3                 ../starter/source/interfaces/inter3d1/icinv3.F
+!||    local_index            ../starter/source/interfaces/interf1/local_index.F
+!||--- uses       -----------------------------------------------------
+!||    format_mod             ../starter/share/modules1/format_mod.F90
+!||    message_mod            ../starter/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE I12CHK3(X   ,IRECT,IXS,NRT   ,IXC,
      .                  NINT,NSN  ,NSV,NOINT ,MWA,
      .                  IXTG,PM,ISEG,ALE_CONNECTIVITY,

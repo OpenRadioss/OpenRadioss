@@ -20,15 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    timfun                ../engine/source/tools/curve/timfun.F
-      !||--- called by ------------------------------------------------------
-      !||    resol                 ../engine/source/engine/resol.F
-      !||--- calls      -----------------------------------------------------
-      !||    interp                ../engine/source/tools/curve/interp.F
-      !||--- uses       -----------------------------------------------------
-      !||    python_funct_mod      ../common_source/modules/python_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    timfun                ../engine/source/tools/curve/timfun.F
+!||--- called by ------------------------------------------------------
+!||    resol                 ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
+!||    interp                ../engine/source/tools/curve/interp.F
+!||--- uses       -----------------------------------------------------
+!||    python_funct_mod      ../common_source/modules/python_mod.F90
+!||====================================================================
       SUBROUTINE TIMFUN (PYTHON, FV,NP,TF)
             USE PYTHON_FUNCT_MOD
 C-----------------------------------------------

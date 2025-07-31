@@ -20,55 +20,55 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    imp_buck               ../engine/source/implicit/imp_buck.F
-      !||--- called by ------------------------------------------------------
-      !||    resol                  ../engine/source/engine/resol.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg                 ../engine/source/output/message/message.F
-      !||    arret                  ../engine/source/system/arret.F
-      !||    fv_imp                 ../engine/source/constraints/general/impvel/fv_imp0.F
-      !||    fv_rw                  ../engine/source/constraints/general/impvel/fv_imp0.F
-      !||    genani                 ../engine/source/output/anim/generate/genani.F
-      !||    genoutp                ../engine/source/output/sty/genoutp.F
-      !||    imp_glob_khp           ../engine/source/implicit/imp_glob_k.F
-      !||    imp_kpres              ../engine/source/implicit/imp_glob_k.F
-      !||    ind_glob_k             ../engine/source/implicit/ind_glob_k.F
-      !||    ini_kic                ../engine/source/implicit/imp_solv.F
-      !||    mumps_set2             ../engine/source/implicit/imp_mumps.F
-      !||    recudis                ../engine/source/implicit/recudis.F
-      !||    recukin                ../engine/source/implicit/recudis.F
-      !||    rgwal0_imp             ../engine/source/constraints/general/rwall/rgwal0.F
-      !||    spmd_cddl              ../engine/source/mpi/implicit/imp_spmd.F
-      !||    spmd_ds_rrecv          ../engine/source/mpi/implicit/spmd_dsreso.F
-      !||    spmd_ds_rsend          ../engine/source/mpi/implicit/spmd_dsreso.F
-      !||    spmd_inf_g             ../engine/source/mpi/implicit/imp_spmd.F
-      !||    spmd_mumps_ini         ../engine/source/mpi/implicit/imp_spmd.F
-      !||    spmd_rbcast            ../engine/source/mpi/generic/spmd_rbcast.F
-      !||    upd_fr_k               ../engine/source/mpi/implicit/imp_fri.F
-      !||    upd_glob_k             ../engine/source/implicit/upd_glob_k.F
-      !||    zeror                  ../engine/source/system/zero.F
-      !||--- uses       -----------------------------------------------------
-      !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
-      !||    anim_mod               ../common_source/modules/output/anim_mod.F
-      !||    cluster_mod            ../engine/share/modules/cluster_mod.F
-      !||    crackxfem_mod          ../engine/share/modules/crackxfem_mod.F
-      !||    drape_mod              ../engine/share/modules/drape_mod.F
-      !||    dsgraph_mod            ../engine/share/modules/dsgraph_mod.F
-      !||    elbufdef_mod           ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||    glob_therm_mod         ../common_source/modules/mat_elem/glob_therm_mod.F90
-      !||    groupdef_mod           ../common_source/modules/groupdef_mod.F
-      !||    h3d_mod                ../engine/share/modules/h3d_mod.F
-      !||    imp_workg              ../engine/share/modules/impbufdef_mod.F
-      !||    impbufdef_mod          ../engine/share/modules/impbufdef_mod.F
-      !||    intbufdef_mod          ../common_source/modules/interfaces/intbufdef_mod.F90
-      !||    matparam_def_mod       ../common_source/modules/mat_elem/matparam_def_mod.F90
-      !||    message_mod            ../engine/share/message_module/message_mod.F
-      !||    multi_fvm_mod          ../common_source/modules/ale/multi_fvm_mod.F90
-      !||    output_mod             ../common_source/modules/output/output_mod.F90
-      !||    sensor_mod             ../common_source/modules/sensor_mod.F90
-      !||    stack_mod              ../engine/share/modules/stack_mod.F
-      !||====================================================================
+!||====================================================================
+!||    imp_buck               ../engine/source/implicit/imp_buck.F
+!||--- called by ------------------------------------------------------
+!||    resol                  ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                 ../engine/source/output/message/message.F
+!||    arret                  ../engine/source/system/arret.F
+!||    fv_imp                 ../engine/source/constraints/general/impvel/fv_imp0.F
+!||    fv_rw                  ../engine/source/constraints/general/impvel/fv_imp0.F
+!||    genani                 ../engine/source/output/anim/generate/genani.F
+!||    genoutp                ../engine/source/output/sty/genoutp.F
+!||    imp_glob_khp           ../engine/source/implicit/imp_glob_k.F
+!||    imp_kpres              ../engine/source/implicit/imp_glob_k.F
+!||    ind_glob_k             ../engine/source/implicit/ind_glob_k.F
+!||    ini_kic                ../engine/source/implicit/imp_solv.F
+!||    mumps_set2             ../engine/source/implicit/imp_mumps.F
+!||    recudis                ../engine/source/implicit/recudis.F
+!||    recukin                ../engine/source/implicit/recudis.F
+!||    rgwal0_imp             ../engine/source/constraints/general/rwall/rgwal0.F
+!||    spmd_cddl              ../engine/source/mpi/implicit/imp_spmd.F
+!||    spmd_ds_rrecv          ../engine/source/mpi/implicit/spmd_dsreso.F
+!||    spmd_ds_rsend          ../engine/source/mpi/implicit/spmd_dsreso.F
+!||    spmd_inf_g             ../engine/source/mpi/implicit/imp_spmd.F
+!||    spmd_mumps_ini         ../engine/source/mpi/implicit/imp_spmd.F
+!||    spmd_rbcast            ../engine/source/mpi/generic/spmd_rbcast.F
+!||    upd_fr_k               ../engine/source/mpi/implicit/imp_fri.F
+!||    upd_glob_k             ../engine/source/implicit/upd_glob_k.F
+!||    zeror                  ../engine/source/system/zero.F
+!||--- uses       -----------------------------------------------------
+!||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
+!||    anim_mod               ../common_source/modules/output/anim_mod.F
+!||    cluster_mod            ../engine/share/modules/cluster_mod.F
+!||    crackxfem_mod          ../engine/share/modules/crackxfem_mod.F
+!||    drape_mod              ../engine/share/modules/drape_mod.F
+!||    dsgraph_mod            ../engine/share/modules/dsgraph_mod.F
+!||    elbufdef_mod           ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    glob_therm_mod         ../common_source/modules/mat_elem/glob_therm_mod.F90
+!||    groupdef_mod           ../common_source/modules/groupdef_mod.F
+!||    h3d_mod                ../engine/share/modules/h3d_mod.F
+!||    imp_workg              ../engine/share/modules/impbufdef_mod.F
+!||    impbufdef_mod          ../engine/share/modules/impbufdef_mod.F
+!||    intbufdef_mod          ../common_source/modules/interfaces/intbufdef_mod.F90
+!||    matparam_def_mod       ../common_source/modules/mat_elem/matparam_def_mod.F90
+!||    message_mod            ../engine/share/message_module/message_mod.F
+!||    multi_fvm_mod          ../common_source/modules/ale/multi_fvm_mod.F90
+!||    output_mod             ../common_source/modules/output/output_mod.F90
+!||    sensor_mod             ../common_source/modules/sensor_mod.F90
+!||    stack_mod              ../engine/share/modules/stack_mod.F
+!||====================================================================
       SUBROUTINE IMP_BUCK(
      2                    PM          , GEO         , IPM      , IGEO     , ELBUF     ,
      3                    IXS         , IXQ         , IXC      , IXT      , IXP       ,
@@ -930,9 +930,9 @@ C
 #endif 
       END
 
-      !||====================================================================
-      !||    stobuck   ../engine/source/implicit/imp_buck.F
-      !||====================================================================
+!||====================================================================
+!||    stobuck   ../engine/source/implicit/imp_buck.F
+!||====================================================================
       SUBROUTINE STOBUCK(DIAG_K  , LT_K  , DIAG_KG, LT_KG   , IADK   ,
      .                   JDIK    , ROWIND, COLPTR , VALUE_OP, VALUE_K,
      .                   VALUE_KG, N     , SIGMA  )

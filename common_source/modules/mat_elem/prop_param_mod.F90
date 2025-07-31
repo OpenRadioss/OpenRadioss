@@ -20,18 +20,18 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    prop_param_mod               ../common_source/modules/mat_elem/prop_param_mod.F90
-      !||--- called by ------------------------------------------------------
-      !||    mat_elem_mod                 ../common_source/modules/mat_elem/mat_elem_mod.F90
-      !||    mulaw                        ../engine/source/materials/mat_share/mulaw.F90
-      !||    sigeps51                     ../engine/source/materials/mat/mat051/sigeps51.F90
-      !||    sigeps51_boundary_material   ../engine/source/materials/mat/mat051/sigeps51_boundary_material.F90
-      !||--- uses       -----------------------------------------------------
-      !||    names_and_titles_mod         ../common_source/modules/names_and_titles_mod.F
-      !||    ply_param_mod                ../common_source/modules/mat_elem/ply_param_mod.F90
-      !||    precision_mod                ../common_source/modules/precision_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    prop_param_mod               ../common_source/modules/mat_elem/prop_param_mod.F90
+!||--- called by ------------------------------------------------------
+!||    mat_elem_mod                 ../common_source/modules/mat_elem/mat_elem_mod.F90
+!||    mulaw                        ../engine/source/materials/mat_share/mulaw.F90
+!||    sigeps51                     ../engine/source/materials/mat/mat051/sigeps51.F90
+!||    sigeps51_boundary_material   ../engine/source/materials/mat/mat051/sigeps51_boundary_material.F90
+!||--- uses       -----------------------------------------------------
+!||    names_and_titles_mod         ../common_source/modules/names_and_titles_mod.F
+!||    ply_param_mod                ../common_source/modules/mat_elem/ply_param_mod.F90
+!||    precision_mod                ../common_source/modules/precision_mod.F90
+!||====================================================================
       module prop_param_mod
 
 !=======================================================================================      

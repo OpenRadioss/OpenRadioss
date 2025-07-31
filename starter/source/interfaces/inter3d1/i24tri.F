@@ -20,22 +20,22 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    i24tri                 ../starter/source/interfaces/inter3d1/i24tri.F
-      !||--- called by ------------------------------------------------------
-      !||    i24buc1                ../starter/source/interfaces/inter3d1/i24buc1.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg                 ../starter/source/output/message/message.F
-      !||    i24fic_getn            ../starter/source/interfaces/inter3d1/i24surfi.F
-      !||    i24s1s2                ../starter/source/interfaces/inter3d1/i24buc1.F
-      !||    i7cmp3                 ../starter/source/interfaces/inter3d1/i7cmp3.F
-      !||    i7cor3                 ../starter/source/interfaces/inter3d1/i7cor3.F
-      !||    i7dst3                 ../starter/source/interfaces/inter3d1/i7dst3.F
-      !||    i7dstk                 ../starter/source/interfaces/inter3d1/i7dstk.F
-      !||    i7pen3                 ../starter/source/interfaces/inter3d1/i7pen3.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod            ../starter/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    i24tri                 ../starter/source/interfaces/inter3d1/i24tri.F
+!||--- called by ------------------------------------------------------
+!||    i24buc1                ../starter/source/interfaces/inter3d1/i24buc1.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                 ../starter/source/output/message/message.F
+!||    i24fic_getn            ../starter/source/interfaces/inter3d1/i24surfi.F
+!||    i24s1s2                ../starter/source/interfaces/inter3d1/i24buc1.F
+!||    i7cmp3                 ../starter/source/interfaces/inter3d1/i7cmp3.F
+!||    i7cor3                 ../starter/source/interfaces/inter3d1/i7cor3.F
+!||    i7dst3                 ../starter/source/interfaces/inter3d1/i7dst3.F
+!||    i7dstk                 ../starter/source/interfaces/inter3d1/i7dstk.F
+!||    i7pen3                 ../starter/source/interfaces/inter3d1/i7pen3.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod            ../starter/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE I24TRI(
      1      BPE    ,PE    ,BPN   ,PN    ,ADD   ,
      2      IRECT  ,X     ,NB_NC ,NB_EC ,XYZM  ,

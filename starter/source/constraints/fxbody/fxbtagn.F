@@ -20,12 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    fxbtagn         ../starter/source/constraints/fxbody/fxbtagn.F
-      !||--- called by ------------------------------------------------------
-      !||    lectur          ../starter/source/starter/lectur.F
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    fxbtagn         ../starter/source/constraints/fxbody/fxbtagn.F
+!||--- called by ------------------------------------------------------
+!||    lectur          ../starter/source/starter/lectur.F
+!||--- uses       -----------------------------------------------------
+!||====================================================================
       SUBROUTINE FXBTAGN(FXBNOD, NSN  , NTAG , IBCLD, IBPRL,
      .                   IXS   , IXC  , IXT  , IXP  , IXR  ,
      .                   IXTG  , IPARG, ITAG , NBMO , NBML ,

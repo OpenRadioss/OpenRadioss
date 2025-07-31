@@ -20,22 +20,22 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    calculp2_mod    ../starter/source/materials/mat/mat057/calculp2.F90
-      !||--- called by ------------------------------------------------------
-      !||    hm_read_mat57   ../starter/source/materials/mat/mat057/hm_read_mat57.F90
-      !||    hm_read_mat78   ../starter/source/materials/mat/mat078/hm_read_mat78.F
-      !||====================================================================
+!||====================================================================
+!||    calculp2_mod    ../starter/source/materials/mat/mat057/calculp2.F90
+!||--- called by ------------------------------------------------------
+!||    hm_read_mat57   ../starter/source/materials/mat/mat057/hm_read_mat57.F90
+!||    hm_read_mat78   ../starter/source/materials/mat/mat078/hm_read_mat78.F
+!||====================================================================
       module calculp2_mod
         implicit none
       contains
-      !||====================================================================
-      !||    calculp2        ../starter/source/materials/mat/mat057/calculp2.F90
-      !||--- called by ------------------------------------------------------
-      !||    hm_read_mat57   ../starter/source/materials/mat/mat057/hm_read_mat57.F90
-      !||    hm_read_mat78   ../starter/source/materials/mat/mat078/hm_read_mat78.F
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    calculp2        ../starter/source/materials/mat/mat057/calculp2.F90
+!||--- called by ------------------------------------------------------
+!||    hm_read_mat57   ../starter/source/materials/mat/mat057/hm_read_mat57.F90
+!||    hm_read_mat78   ../starter/source/materials/mat/mat078/hm_read_mat78.F
+!||--- uses       -----------------------------------------------------
+!||====================================================================
         subroutine calculp2(a    ,c    ,h    ,p    ,m    ,r45  )
 !-------------------------------------------------------------------------------
 !   M o d u l e s

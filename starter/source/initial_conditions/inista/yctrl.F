@@ -20,17 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    yctrl                  ../starter/source/initial_conditions/inista/yctrl.F
-      !||--- called by ------------------------------------------------------
-      !||    lectur                 ../starter/source/starter/lectur.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg                 ../starter/source/output/message/message.F
-      !||--- uses       -----------------------------------------------------
-      !||    format_mod             ../starter/share/modules1/format_mod.F90
-      !||    message_mod            ../starter/share/message_module/message_mod.F
-      !||    reader_old_mod         ../starter/share/modules1/reader_old_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    yctrl                  ../starter/source/initial_conditions/inista/yctrl.F
+!||--- called by ------------------------------------------------------
+!||    lectur                 ../starter/source/starter/lectur.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                 ../starter/source/output/message/message.F
+!||--- uses       -----------------------------------------------------
+!||    format_mod             ../starter/share/modules1/format_mod.F90
+!||    message_mod            ../starter/share/message_module/message_mod.F
+!||    reader_old_mod         ../starter/share/modules1/reader_old_mod.F90
+!||====================================================================
       SUBROUTINE YCTRL(IGRBRIC)
 C-----------------------------------------------
 C   M o d u l e s
@@ -393,17 +393,17 @@ cc       ENDIF
       RETURN
       END
 
-      !||====================================================================
-      !||    uel2sys                ../starter/source/initial_conditions/inista/yctrl.F
-      !||--- called by ------------------------------------------------------
-      !||    hm_read_inistate_d00   ../starter/source/elements/initia/hm_read_inistate_d00.F
-      !||    hm_yctrl               ../starter/source/elements/initia/hm_yctrl.F
-      !||    iniboltprel            ../starter/source/loads/bolt/iniboltprel.F
-      !||    initag_preload_a       ../starter/source/loads/general/preload/hm_read_preload_axial.F90
-      !||    initia                 ../starter/source/elements/initia/initia.F
-      !||    lec_inistate_tri       ../starter/source/elements/initia/lec_inistate_tri.F
-      !||    lecfill                ../starter/source/elements/initia/lecfill.F
-      !||====================================================================
+!||====================================================================
+!||    uel2sys                ../starter/source/initial_conditions/inista/yctrl.F
+!||--- called by ------------------------------------------------------
+!||    hm_read_inistate_d00   ../starter/source/elements/initia/hm_read_inistate_d00.F
+!||    hm_yctrl               ../starter/source/elements/initia/hm_yctrl.F
+!||    iniboltprel            ../starter/source/loads/bolt/iniboltprel.F
+!||    initag_preload_a       ../starter/source/loads/general/preload/hm_read_preload_axial.F90
+!||    initia                 ../starter/source/elements/initia/initia.F
+!||    lec_inistate_tri       ../starter/source/elements/initia/lec_inistate_tri.F
+!||    lecfill                ../starter/source/elements/initia/lecfill.F
+!||====================================================================
       INTEGER FUNCTION UEL2SYS(IU,KSYSUSR,NUMEL)
 C     INTERNAL ID FROM USER ID IU (0 IF IT DOES NOT EXIST)
 C-----------------------------------------------

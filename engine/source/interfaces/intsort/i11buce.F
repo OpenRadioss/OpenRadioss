@@ -20,20 +20,20 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    i11buce_vox   ../engine/source/interfaces/intsort/i11buce.F
-      !||--- called by ------------------------------------------------------
-      !||    i11main_tri   ../engine/source/interfaces/intsort/i11main_tri.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg        ../engine/source/output/message/message.F
-      !||    arret         ../engine/source/system/arret.F
-      !||    i11trivox     ../engine/source/interfaces/intsort/i11trivox.F
-      !||    my_barrier    ../engine/source/system/machine.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod   ../engine/share/message_module/message_mod.F
-      !||    tri11         ../engine/share/modules/tri11_mod.F
-      !||    tri7box       ../engine/share/modules/tri7box.F
-      !||====================================================================
+!||====================================================================
+!||    i11buce_vox   ../engine/source/interfaces/intsort/i11buce.F
+!||--- called by ------------------------------------------------------
+!||    i11main_tri   ../engine/source/interfaces/intsort/i11main_tri.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg        ../engine/source/output/message/message.F
+!||    arret         ../engine/source/system/arret.F
+!||    i11trivox     ../engine/source/interfaces/intsort/i11trivox.F
+!||    my_barrier    ../engine/source/system/machine.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod   ../engine/share/message_module/message_mod.F
+!||    tri11         ../engine/share/modules/tri11_mod.F
+!||    tri7box       ../engine/share/modules/tri7box.F
+!||====================================================================
        SUBROUTINE I11BUCE_VOX(
      1   X      ,IRECTS  ,IRECTM ,NRTS    ,NMN     ,
      2   NRTM   ,NSN     ,CAND_M ,CAND_S  ,MAXGAP  ,

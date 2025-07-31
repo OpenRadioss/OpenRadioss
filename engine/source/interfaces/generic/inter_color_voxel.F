@@ -20,19 +20,19 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    inter_color_voxel    ../engine/source/interfaces/generic/inter_color_voxel.F
-      !||--- called by ------------------------------------------------------
-      !||    inter_prepare_sort   ../engine/source/interfaces/generic/inter_prepare_sort.F
-      !||--- calls      -----------------------------------------------------
-      !||    inter_cell_color     ../engine/source/interfaces/generic/inter_cell_color.F
-      !||    my_barrier           ../engine/source/system/machine.F
-      !||--- uses       -----------------------------------------------------
-      !||    intbufdef_mod        ../common_source/modules/interfaces/intbufdef_mod.F90
-      !||    inter_sorting_mod    ../engine/share/modules/inter_sorting_mod.F
-      !||    inter_struct_mod     ../engine/share/modules/inter_struct_mod.F
-      !||    multi_fvm_mod        ../common_source/modules/ale/multi_fvm_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    inter_color_voxel    ../engine/source/interfaces/generic/inter_color_voxel.F
+!||--- called by ------------------------------------------------------
+!||    inter_prepare_sort   ../engine/source/interfaces/generic/inter_prepare_sort.F
+!||--- calls      -----------------------------------------------------
+!||    inter_cell_color     ../engine/source/interfaces/generic/inter_cell_color.F
+!||    my_barrier           ../engine/source/system/machine.F
+!||--- uses       -----------------------------------------------------
+!||    intbufdef_mod        ../common_source/modules/interfaces/intbufdef_mod.F90
+!||    inter_sorting_mod    ../engine/share/modules/inter_sorting_mod.F
+!||    inter_struct_mod     ../engine/share/modules/inter_struct_mod.F
+!||    multi_fvm_mod        ../common_source/modules/ale/multi_fvm_mod.F90
+!||====================================================================
         SUBROUTINE INTER_COLOR_VOXEL(ITASK,NB_INTER_SORTED,LIST_INTER_SORTED,IPARI,INTBUF_TAB,
      .                               X,INTER_STRUCT,SORT_COMM)
 !$COMMENT

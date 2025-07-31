@@ -20,21 +20,21 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    sbulk3     ../starter/source/elements/solid/solide/sbulk3.F
-      !||--- called by ------------------------------------------------------
-      !||    inivoid    ../starter/source/elements/initia/inivoid.F
-      !||    s10init3   ../starter/source/elements/solid/solide10/s10init3.F
-      !||    s16init3   ../starter/source/elements/thickshell/solide16/s16init3.F
-      !||    s20init3   ../starter/source/elements/solid/solide20/s20init3.F
-      !||    s4init3    ../starter/source/elements/solid/solide4/s4init3.F
-      !||    s6cinit3   ../starter/source/elements/thickshell/solide6c/s6cinit3.F
-      !||    s8cinit3   ../starter/source/elements/thickshell/solide8c/s8cinit3.F
-      !||    s8zinit3   ../starter/source/elements/solid/solide8z/s8zinit3.F
-      !||    scinit3    ../starter/source/elements/thickshell/solidec/scinit3.F
-      !||    sinit3     ../starter/source/elements/solid/solide/sinit3.F
-      !||    suinit3    ../starter/source/elements/elbuf_init/suinit3.F
-      !||====================================================================
+!||====================================================================
+!||    sbulk3     ../starter/source/elements/solid/solide/sbulk3.F
+!||--- called by ------------------------------------------------------
+!||    inivoid    ../starter/source/elements/initia/inivoid.F
+!||    s10init3   ../starter/source/elements/solid/solide10/s10init3.F
+!||    s16init3   ../starter/source/elements/thickshell/solide16/s16init3.F
+!||    s20init3   ../starter/source/elements/solid/solide20/s20init3.F
+!||    s4init3    ../starter/source/elements/solid/solide4/s4init3.F
+!||    s6cinit3   ../starter/source/elements/thickshell/solide6c/s6cinit3.F
+!||    s8cinit3   ../starter/source/elements/thickshell/solide8c/s8cinit3.F
+!||    s8zinit3   ../starter/source/elements/solid/solide8z/s8zinit3.F
+!||    scinit3    ../starter/source/elements/thickshell/solidec/scinit3.F
+!||    sinit3     ../starter/source/elements/solid/solide/sinit3.F
+!||    suinit3    ../starter/source/elements/elbuf_init/suinit3.F
+!||====================================================================
       SUBROUTINE SBULK3(
      1          VOLU    ,NC      ,NNC     ,MAT     ,PM      ,
      2          VOLNOD  ,BVOLNOD ,VNS     ,BNS     ,VNSX    ,

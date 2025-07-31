@@ -20,20 +20,20 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    i24surfi       ../starter/source/interfaces/inter3d1/i24surfi.F
-      !||--- called by ------------------------------------------------------
-      !||    lecins         ../starter/source/interfaces/interf1/lecins.F
-      !||    lecint         ../starter/source/interfaces/interf1/lecint.F
-      !||--- calls      -----------------------------------------------------
-      !||    bitset         ../starter/source/interfaces/inter3d1/bitget.F
-      !||    i24edge1       ../starter/source/interfaces/inter3d1/i24surfi.F
-      !||    i24edge2       ../starter/source/interfaces/inter3d1/i24surfi.F
-      !||    in24coq_sol3   ../starter/source/interfaces/inter3d1/i24surfi.F
-      !||    sh2surf        ../starter/source/interfaces/inter3d1/i24surfi.F
-      !||--- uses       -----------------------------------------------------
-      !||    format_mod     ../starter/share/modules1/format_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    i24surfi       ../starter/source/interfaces/inter3d1/i24surfi.F
+!||--- called by ------------------------------------------------------
+!||    lecins         ../starter/source/interfaces/interf1/lecins.F
+!||    lecint         ../starter/source/interfaces/interf1/lecint.F
+!||--- calls      -----------------------------------------------------
+!||    bitset         ../starter/source/interfaces/inter3d1/bitget.F
+!||    i24edge1       ../starter/source/interfaces/inter3d1/i24surfi.F
+!||    i24edge2       ../starter/source/interfaces/inter3d1/i24surfi.F
+!||    in24coq_sol3   ../starter/source/interfaces/inter3d1/i24surfi.F
+!||    sh2surf        ../starter/source/interfaces/inter3d1/i24surfi.F
+!||--- uses       -----------------------------------------------------
+!||    format_mod     ../starter/share/modules1/format_mod.F90
+!||====================================================================
       SUBROUTINE I24SURFI(IALLO   ,IPARI   ,IGRNOD  ,IGRSURF ,
      1                    IRECT   ,FRIGAP  ,
      2                    NSV     ,MSR     ,ITAB    ,X       ,
@@ -409,17 +409,17 @@ C----------doubling shell segments-excepting coating shell-----------
 C
       RETURN
       END
-      !||====================================================================
-      !||    i24edge1      ../starter/source/interfaces/inter3d1/i24surfi.F
-      !||--- called by ------------------------------------------------------
-      !||    i24surfi      ../starter/source/interfaces/inter3d1/i24surfi.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg        ../starter/source/output/message/message.F
-      !||    bitset        ../starter/source/interfaces/inter3d1/bitget.F
-      !||--- uses       -----------------------------------------------------
-      !||    format_mod    ../starter/share/modules1/format_mod.F90
-      !||    message_mod   ../starter/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    i24edge1      ../starter/source/interfaces/inter3d1/i24surfi.F
+!||--- called by ------------------------------------------------------
+!||    i24surfi      ../starter/source/interfaces/inter3d1/i24surfi.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg        ../starter/source/output/message/message.F
+!||    bitset        ../starter/source/interfaces/inter3d1/bitget.F
+!||--- uses       -----------------------------------------------------
+!||    format_mod    ../starter/share/modules1/format_mod.F90
+!||    message_mod   ../starter/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE I24EDGE1(IALLO      ,NSEG    ,NACTIF  ,IEDGE   ,
      1                    SURF_NODES ,ITAB    ,ISU     ,
      2                    X          ,EDG_COS ,MBINFLG ,IADM    ,NLS     ,
@@ -860,11 +860,11 @@ c      DEALLOCATE (TAG)
 C-----------
       RETURN
       END
-      !||====================================================================
-      !||    sh2surf    ../starter/source/interfaces/inter3d1/i24surfi.F
-      !||--- called by ------------------------------------------------------
-      !||    i24surfi   ../starter/source/interfaces/inter3d1/i24surfi.F
-      !||====================================================================
+!||====================================================================
+!||    sh2surf    ../starter/source/interfaces/inter3d1/i24surfi.F
+!||--- called by ------------------------------------------------------
+!||    i24surfi   ../starter/source/interfaces/inter3d1/i24surfi.F
+!||====================================================================
       SUBROUTINE SH2SURF(NRTM0,IRECT,IEDG,MBINFLG,MSEGTYP,NRTM )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -926,14 +926,14 @@ c        print *,'!!!NRTM0,NRTM1=', NRTM0,NRTM1
 C------------------------------------------------------------
       RETURN
       END
-      !||====================================================================
-      !||    in24coq_sol3   ../starter/source/interfaces/inter3d1/i24surfi.F
-      !||--- called by ------------------------------------------------------
-      !||    i24surfi       ../starter/source/interfaces/inter3d1/i24surfi.F
-      !||    i25surfi       ../starter/source/interfaces/inter3d1/i25surfi.F
-      !||--- calls      -----------------------------------------------------
-      !||    seg_ins        ../starter/source/interfaces/inter3d1/i24surfi.F
-      !||====================================================================
+!||====================================================================
+!||    in24coq_sol3   ../starter/source/interfaces/inter3d1/i24surfi.F
+!||--- called by ------------------------------------------------------
+!||    i24surfi       ../starter/source/interfaces/inter3d1/i24surfi.F
+!||    i25surfi       ../starter/source/interfaces/inter3d1/i25surfi.F
+!||--- calls      -----------------------------------------------------
+!||    seg_ins        ../starter/source/interfaces/inter3d1/i24surfi.F
+!||====================================================================
       SUBROUTINE IN24COQ_SOL3(IRECT ,IXC ,IXTG ,MSEGTYP   ,X  ,
      .                   KNOD2ELC ,KNOD2ELTG ,NOD2ELC ,NOD2ELTG,
      .                   KNOD2ELS,NOD2ELS,IXS ,IXS10 ,IXS16 ,IXS20 )
@@ -1082,11 +1082,11 @@ C
       
       RETURN
       END
-      !||====================================================================
-      !||    seg_ins        ../starter/source/interfaces/inter3d1/i24surfi.F
-      !||--- called by ------------------------------------------------------
-      !||    in24coq_sol3   ../starter/source/interfaces/inter3d1/i24surfi.F
-      !||====================================================================
+!||====================================================================
+!||    seg_ins        ../starter/source/interfaces/inter3d1/i24surfi.F
+!||--- called by ------------------------------------------------------
+!||    in24coq_sol3   ../starter/source/interfaces/inter3d1/i24surfi.F
+!||====================================================================
       SUBROUTINE SEG_INS(IRECT,NDS,NNOD,INS,X)
 C----6---------------------------------------------------------------7---------8
 C   I m p l i c i t   T y p e s
@@ -1150,17 +1150,17 @@ C
 C----6---------------------------------------------------------------7---------8
       RETURN
       END
-      !||====================================================================
-      !||    i24edge2      ../starter/source/interfaces/inter3d1/i24surfi.F
-      !||--- called by ------------------------------------------------------
-      !||    i24surfi      ../starter/source/interfaces/inter3d1/i24surfi.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg        ../starter/source/output/message/message.F
-      !||    bitset        ../starter/source/interfaces/inter3d1/bitget.F
-      !||--- uses       -----------------------------------------------------
-      !||    format_mod    ../starter/share/modules1/format_mod.F90
-      !||    message_mod   ../starter/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    i24edge2      ../starter/source/interfaces/inter3d1/i24surfi.F
+!||--- called by ------------------------------------------------------
+!||    i24surfi      ../starter/source/interfaces/inter3d1/i24surfi.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg        ../starter/source/output/message/message.F
+!||    bitset        ../starter/source/interfaces/inter3d1/bitget.F
+!||--- uses       -----------------------------------------------------
+!||    format_mod    ../starter/share/modules1/format_mod.F90
+!||    message_mod   ../starter/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE I24EDGE2(IALLO      ,NSEG    ,NACTIF  ,
      1                    SURF_NODES ,ITAB    ,ISU     ,
      2                    X          ,EDG_COS ,MBINFLG ,IADM    ,NLS     ,
@@ -1542,13 +1542,13 @@ c---------------------------------------
 C-----------
       RETURN
       END
-      !||====================================================================
-      !||    i24xfic_ini   ../starter/source/interfaces/inter3d1/i24surfi.F
-      !||--- called by ------------------------------------------------------
-      !||    i24buc1       ../starter/source/interfaces/inter3d1/i24buc1.F
-      !||--- calls      -----------------------------------------------------
-      !||    i24fic_getn   ../starter/source/interfaces/inter3d1/i24surfi.F
-      !||====================================================================
+!||====================================================================
+!||    i24xfic_ini   ../starter/source/interfaces/inter3d1/i24surfi.F
+!||--- called by ------------------------------------------------------
+!||    i24buc1       ../starter/source/interfaces/inter3d1/i24buc1.F
+!||--- calls      -----------------------------------------------------
+!||    i24fic_getn   ../starter/source/interfaces/inter3d1/i24surfi.F
+!||====================================================================
       SUBROUTINE I24XFIC_INI(NRTSE   ,IRTSE   ,NSNE    ,IS2SE   ,IS2PT   ,
      4                       NSN     ,NSV     ,X       ,XFIC    ,NPT     )
 C============================================================================
@@ -1640,12 +1640,12 @@ C---------left side
 C-----------
       RETURN
       END
-      !||====================================================================
-      !||    i24fics_ini   ../starter/source/interfaces/inter3d1/i24surfi.F
-      !||--- called by ------------------------------------------------------
-      !||    i24stsecnd    ../starter/source/interfaces/inter3d1/i24stslav.F
-      !||    inint3        ../starter/source/interfaces/inter3d1/inint3.F
-      !||====================================================================
+!||====================================================================
+!||    i24fics_ini   ../starter/source/interfaces/inter3d1/i24surfi.F
+!||--- called by ------------------------------------------------------
+!||    i24stsecnd    ../starter/source/interfaces/inter3d1/i24stslav.F
+!||    inint3        ../starter/source/interfaces/inter3d1/inint3.F
+!||====================================================================
       SUBROUTINE I24FICS_INI(IRTSE   ,NSNE    ,IS2SE   ,NSV    ,IS2PT ,
      4                       NSN     ,FIC_S   )
 C============================================================================
@@ -1711,11 +1711,11 @@ C=======================================================================
 C-----------
       RETURN
       END
-      !||====================================================================
-      !||    i24fici_ini   ../starter/source/interfaces/inter3d1/i24surfi.F
-      !||--- called by ------------------------------------------------------
-      !||    inint3        ../starter/source/interfaces/inter3d1/inint3.F
-      !||====================================================================
+!||====================================================================
+!||    i24fici_ini   ../starter/source/interfaces/inter3d1/i24surfi.F
+!||--- called by ------------------------------------------------------
+!||    inint3        ../starter/source/interfaces/inter3d1/inint3.F
+!||====================================================================
       SUBROUTINE I24FICI_INI(IRTSE   ,NSNE    ,IS2SE   ,NSV    ,IS2PT ,
      4                       NSN     ,FIC_I   )
 C============================================================================
@@ -1780,13 +1780,13 @@ C=======================================================================
 C-----------
       RETURN
       END
-      !||====================================================================
-      !||    i24isegpt_ini   ../starter/source/interfaces/inter3d1/i24surfi.F
-      !||--- called by ------------------------------------------------------
-      !||    inint3          ../starter/source/interfaces/inter3d1/inint3.F
-      !||--- calls      -----------------------------------------------------
-      !||    i24fic_getn     ../starter/source/interfaces/inter3d1/i24surfi.F
-      !||====================================================================
+!||====================================================================
+!||    i24isegpt_ini   ../starter/source/interfaces/inter3d1/i24surfi.F
+!||--- called by ------------------------------------------------------
+!||    inint3          ../starter/source/interfaces/inter3d1/inint3.F
+!||--- calls      -----------------------------------------------------
+!||    i24fic_getn     ../starter/source/interfaces/inter3d1/i24surfi.F
+!||====================================================================
       SUBROUTINE I24ISEGPT_INI(IRTSE   ,NSNE    ,IS2SE   ,NSV    ,IS2PT ,
      4                         NSN     ,ISEGPT  ,NPT , ISPT2)
 C============================================================================
@@ -1858,11 +1858,11 @@ C-----------
       RETURN
       END
 
-      !||====================================================================
-      !||    ispt2_ini   ../starter/source/interfaces/inter3d1/i24surfi.F
-      !||--- called by ------------------------------------------------------
-      !||    inint3      ../starter/source/interfaces/inter3d1/inint3.F
-      !||====================================================================
+!||====================================================================
+!||    ispt2_ini   ../starter/source/interfaces/inter3d1/i24surfi.F
+!||--- called by ------------------------------------------------------
+!||    inint3      ../starter/source/interfaces/inter3d1/inint3.F
+!||====================================================================
       SUBROUTINE ISPT2_INI(CAND_N, I_STOK, NSN, IRTLM,
      *                     ISEGPT, ISPT2)
 C-----------------------------------------------
@@ -1904,18 +1904,18 @@ C-----------------------------------------------
          
       END
 
-      !||====================================================================
-      !||    i24fic_getn                      ../starter/source/interfaces/inter3d1/i24surfi.F
-      !||--- called by ------------------------------------------------------
-      !||    i24isegpt_ini                    ../starter/source/interfaces/inter3d1/i24surfi.F
-      !||    i24pen3                          ../starter/source/interfaces/inter3d1/i24pen3.F
-      !||    i24tri                           ../starter/source/interfaces/inter3d1/i24tri.F
-      !||    i24xfic_ini                      ../starter/source/interfaces/inter3d1/i24surfi.F
-      !||    iwcontdd_type24                  ../starter/source/spmd/domain_decomposition/iwcontdd_type24.F
-      !||    update_weight_inter_type_24_25   ../starter/source/spmd/domain_decomposition/update_weight_inter_type_24_25.F
-      !||--- calls      -----------------------------------------------------
-      !||    arret                            ../starter/source/system/arret.F
-      !||====================================================================
+!||====================================================================
+!||    i24fic_getn                      ../starter/source/interfaces/inter3d1/i24surfi.F
+!||--- called by ------------------------------------------------------
+!||    i24isegpt_ini                    ../starter/source/interfaces/inter3d1/i24surfi.F
+!||    i24pen3                          ../starter/source/interfaces/inter3d1/i24pen3.F
+!||    i24tri                           ../starter/source/interfaces/inter3d1/i24tri.F
+!||    i24xfic_ini                      ../starter/source/interfaces/inter3d1/i24surfi.F
+!||    iwcontdd_type24                  ../starter/source/spmd/domain_decomposition/iwcontdd_type24.F
+!||    update_weight_inter_type_24_25   ../starter/source/spmd/domain_decomposition/update_weight_inter_type_24_25.F
+!||--- calls      -----------------------------------------------------
+!||    arret                            ../starter/source/system/arret.F
+!||====================================================================
       SUBROUTINE I24FIC_GETN(NS      ,IRTSE   ,IS2SE   ,IE    ,NS1     ,
      4                       NS2     )
 C============================================================================
@@ -1957,11 +1957,11 @@ C=======================================================================
 C-----------
       RETURN
       END
-      !||====================================================================
-      !||    i24ficv_ini   ../starter/source/interfaces/inter3d1/i24surfi.F
-      !||--- called by ------------------------------------------------------
-      !||    inint3        ../starter/source/interfaces/inter3d1/inint3.F
-      !||====================================================================
+!||====================================================================
+!||    i24ficv_ini   ../starter/source/interfaces/inter3d1/i24surfi.F
+!||--- called by ------------------------------------------------------
+!||    inint3        ../starter/source/interfaces/inter3d1/inint3.F
+!||====================================================================
       SUBROUTINE I24FICV_INI(IRTSE   ,NSNE    ,IS2SE   ,NSV    ,IS2PT ,
      +                       NSN     ,FIC_V   ,NPT   )
 C============================================================================

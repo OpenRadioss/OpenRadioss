@@ -20,107 +20,107 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    inint3                           ../starter/source/interfaces/inter3d1/inint3.F
-      !||--- called by ------------------------------------------------------
-      !||    inintr                           ../starter/source/interfaces/interf1/inintr.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg                           ../starter/source/output/message/message.F
-      !||    i11buc_vox1                      ../starter/source/interfaces/inter3d1/i11buc1.F
-      !||    i11dst3                          ../starter/source/interfaces/inter3d1/i11dst3.F
-      !||    i11pwr3                          ../starter/source/interfaces/inter3d1/i11pwr3.F
-      !||    i11remline                       ../starter/source/interfaces/inter3d1/i11remlin.F
-      !||    i11sti3                          ../starter/source/interfaces/inter3d1/i11sti3.F
-      !||    i12chk3                          ../starter/source/interfaces/inter3d1/i12chk3.F
-      !||    i12tid3                          ../starter/source/interfaces/inter3d1/i12tid3.F
-      !||    i17sti3                          ../starter/source/interfaces/inter3d1/i17sti3.F
-      !||    i18pwr3                          ../starter/source/interfaces/inter3d1/i18pwr3.F
-      !||    i1bcs_check                      ../starter/source/interfaces/int01/i1bcs_check.F90
-      !||    i1chk3                           ../starter/source/interfaces/inter3d1/i1chk3.F
-      !||    i1tid3                           ../starter/source/interfaces/inter3d1/i1tid3.F
-      !||    i20ini3                          ../starter/source/interfaces/inter3d1/i20ini3.F
-      !||    i21els3                          ../starter/source/interfaces/inter3d1/i21els3.F
-      !||    i22err3                          ../starter/source/interfaces/inter3d1/i22err3.F
-      !||    i22sti3                          ../starter/source/interfaces/inter3d1/i22sti3.F
-      !||    i22tzinf                         ../starter/source/interfaces/inter3d1/i22tzinf.F
-      !||    i23buc1                          ../starter/source/interfaces/inter3d1/i23buc3.F
-      !||    i23dst3                          ../starter/source/interfaces/inter3d1/i23dst3.F
-      !||    i23gap3                          ../starter/source/interfaces/inter3d1/i23gap3.F
-      !||    i23pwr3                          ../starter/source/interfaces/inter3d1/i23pwr3.F
-      !||    i24buc1                          ../starter/source/interfaces/inter3d1/i24buc1.F
-      !||    i24cand                          ../starter/source/interfaces/inter3d1/i24pen3.F
-      !||    i24cor3                          ../starter/source/interfaces/inter3d1/i24cor3.F
-      !||    i24fici_ini                      ../starter/source/interfaces/inter3d1/i24surfi.F
-      !||    i24fics_ini                      ../starter/source/interfaces/inter3d1/i24surfi.F
-      !||    i24ficv_ini                      ../starter/source/interfaces/inter3d1/i24surfi.F
-      !||    i24ini_gap_n                     ../starter/source/interfaces/inter3d1/i24inisu_nei.F
-      !||    i24inisur_nei                    ../starter/source/interfaces/inter3d1/i24inisu_nei.F
-      !||    i24isegpt_ini                    ../starter/source/interfaces/inter3d1/i24surfi.F
-      !||    i24ll_kg                         ../starter/source/interfaces/inter3d1/i24sti3.F
-      !||    i24pen3                          ../starter/source/interfaces/inter3d1/i24pen3.F
-      !||    i24pwr3                          ../starter/source/interfaces/inter3d1/i24pwr3.F
-      !||    i24sti3                          ../starter/source/interfaces/inter3d1/i24sti3.F
-      !||    i25buc_vox1                      ../starter/source/interfaces/inter3d1/i25buc_vox1.F
-      !||    i25buce_edg                      ../starter/source/interfaces/inter3d1/i25buce_edg.F
-      !||    i25cand                          ../starter/source/interfaces/inter3d1/i25pwr3.F
-      !||    i25cor3                          ../starter/source/interfaces/inter3d1/i25cor3.F
-      !||    i25cor3_e2s                      ../starter/source/interfaces/inter3d1/i25cor3_e2s.F
-      !||    i25cor3e                         ../starter/source/interfaces/inter3d1/i25cor3e.F
-      !||    i25dst3_e2s                      ../starter/source/interfaces/inter3d1/i25dst3_e2s.F
-      !||    i25ini_gap_n                     ../starter/source/interfaces/inter3d1/i25neigh.F
-      !||    i25neigh                         ../starter/source/interfaces/inter3d1/i25neigh.F
-      !||    i25norm                          ../starter/source/interfaces/inter3d1/i25norm3.F
-      !||    i25pen3                          ../starter/source/interfaces/inter3d1/i25pen3.F
-      !||    i25pen3e                         ../starter/source/interfaces/inter3d1/i25pen3e.F
-      !||    i25pwr3                          ../starter/source/interfaces/inter3d1/i25pwr3.F
-      !||    i25pwr3_e2s                      ../starter/source/interfaces/inter3d1/i25pwr3_e2s.F
-      !||    i25pwr3e                         ../starter/source/interfaces/inter3d1/i25pwr3e.F
-      !||    i25remline                       ../starter/source/interfaces/int25/i25remlin.F
-      !||    i25sors                          ../starter/source/interfaces/inter3d1/i25sors.F
-      !||    i25sti3                          ../starter/source/interfaces/inter3d1/i25sti3.F
-      !||    i25sti_edg                       ../starter/source/interfaces/inter3d1/i25sti_edg.F
-      !||    i2buc1                           ../starter/source/interfaces/inter3d1/i2buc1.F
-      !||    i2chk3                           ../starter/source/interfaces/inter3d1/i2chk3.F
-      !||    i2main                           ../starter/source/interfaces/interf1/i2master.F
-      !||    i2surfs                          ../starter/source/interfaces/inter3d1/i2surfs.F
-      !||    i2tid3                           ../starter/source/interfaces/inter3d1/i2tid3.F
-      !||    i2wcontdd                        ../starter/source/spmd/domain_decomposition/grid2mat.F
-      !||    i3pen3                           ../starter/source/interfaces/inter3d1/i3pen3.F
-      !||    i3sti3                           ../starter/source/interfaces/inter3d1/i3sti3.F
-      !||    i5pwr3                           ../starter/source/interfaces/inter3d1/i3pen3.F
-      !||    i7buc1                           ../starter/source/interfaces/inter3d1/i7buc1.F
-      !||    i7buc_vox1                       ../starter/source/interfaces/inter3d1/i7buc_vox1.F
-      !||    i7cor3                           ../starter/source/interfaces/inter3d1/i7cor3.F
-      !||    i7dst3                           ../starter/source/interfaces/inter3d1/i7dst3.F
-      !||    i7err3                           ../starter/source/interfaces/inter3d1/i7err3.F
-      !||    i7pen3                           ../starter/source/interfaces/inter3d1/i7pen3.F
-      !||    i7pwr3                           ../starter/source/interfaces/inter3d1/i7pwr3.F
-      !||    i7remnode                        ../starter/source/interfaces/inter3d1/i7remnode.F
-      !||    i7sti3                           ../starter/source/interfaces/inter3d1/i7sti3.F
-      !||    i9bcs_check                      ../starter/source/interfaces/int09/i9bcs_check.F90
-      !||    i9sti3                           ../starter/source/interfaces/int09/i9sti3.F
-      !||    in12r                            ../starter/source/interfaces/inter3d1/in12r.F
-      !||    inint0                           ../starter/source/interfaces/interf1/inint0.F
-      !||    inint0_8                         ../starter/source/interfaces/interf1/inint0_8.F
-      !||    invoi3                           ../starter/source/interfaces/inter3d1/invoi3.F
-      !||    ispt2_ini                        ../starter/source/interfaces/inter3d1/i24surfi.F
-      !||    iwcontdd                         ../starter/source/spmd/domain_decomposition/grid2mat.F
-      !||    iwcontdd_151                     ../starter/source/spmd/domain_decomposition/grid2mat.F
-      !||    iwcontdd_type24                  ../starter/source/spmd/domain_decomposition/iwcontdd_type24.F
-      !||    iwcontdd_type25                  ../starter/source/spmd/domain_decomposition/iwcontdd_type25.F
-      !||    remn_i2op                        ../starter/source/interfaces/inter3d1/i7remnode.F
-      !||    update_weight_inter_type11       ../starter/source/spmd/domain_decomposition/update_weight_inter_type11.F
-      !||    update_weight_inter_type2        ../starter/source/spmd/domain_decomposition/update_weight_inter_type2.F
-      !||    update_weight_inter_type7        ../starter/source/spmd/domain_decomposition/update_weight_inter_type7.F
-      !||    update_weight_inter_type_24_25   ../starter/source/spmd/domain_decomposition/update_weight_inter_type_24_25.F
-      !||    upgrade_ixint                    ../starter/source/interfaces/interf1/upgrade_ixint.F
-      !||    upgrade_remnode                  ../starter/source/interfaces/interf1/upgrade_remnode.F
-      !||    upgrade_remnode_edg              ../starter/source/interfaces/interf1/upgrade_remnode.F
-      !||--- uses       -----------------------------------------------------
-      !||    front_mod                        ../starter/share/modules1/front_mod.F
-      !||    inter_cand_mod                   ../starter/share/modules1/inter_cand_mod.F
-      !||    message_mod                      ../starter/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    inint3                           ../starter/source/interfaces/inter3d1/inint3.F
+!||--- called by ------------------------------------------------------
+!||    inintr                           ../starter/source/interfaces/interf1/inintr.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                           ../starter/source/output/message/message.F
+!||    i11buc_vox1                      ../starter/source/interfaces/inter3d1/i11buc1.F
+!||    i11dst3                          ../starter/source/interfaces/inter3d1/i11dst3.F
+!||    i11pwr3                          ../starter/source/interfaces/inter3d1/i11pwr3.F
+!||    i11remline                       ../starter/source/interfaces/inter3d1/i11remlin.F
+!||    i11sti3                          ../starter/source/interfaces/inter3d1/i11sti3.F
+!||    i12chk3                          ../starter/source/interfaces/inter3d1/i12chk3.F
+!||    i12tid3                          ../starter/source/interfaces/inter3d1/i12tid3.F
+!||    i17sti3                          ../starter/source/interfaces/inter3d1/i17sti3.F
+!||    i18pwr3                          ../starter/source/interfaces/inter3d1/i18pwr3.F
+!||    i1bcs_check                      ../starter/source/interfaces/int01/i1bcs_check.F90
+!||    i1chk3                           ../starter/source/interfaces/inter3d1/i1chk3.F
+!||    i1tid3                           ../starter/source/interfaces/inter3d1/i1tid3.F
+!||    i20ini3                          ../starter/source/interfaces/inter3d1/i20ini3.F
+!||    i21els3                          ../starter/source/interfaces/inter3d1/i21els3.F
+!||    i22err3                          ../starter/source/interfaces/inter3d1/i22err3.F
+!||    i22sti3                          ../starter/source/interfaces/inter3d1/i22sti3.F
+!||    i22tzinf                         ../starter/source/interfaces/inter3d1/i22tzinf.F
+!||    i23buc1                          ../starter/source/interfaces/inter3d1/i23buc3.F
+!||    i23dst3                          ../starter/source/interfaces/inter3d1/i23dst3.F
+!||    i23gap3                          ../starter/source/interfaces/inter3d1/i23gap3.F
+!||    i23pwr3                          ../starter/source/interfaces/inter3d1/i23pwr3.F
+!||    i24buc1                          ../starter/source/interfaces/inter3d1/i24buc1.F
+!||    i24cand                          ../starter/source/interfaces/inter3d1/i24pen3.F
+!||    i24cor3                          ../starter/source/interfaces/inter3d1/i24cor3.F
+!||    i24fici_ini                      ../starter/source/interfaces/inter3d1/i24surfi.F
+!||    i24fics_ini                      ../starter/source/interfaces/inter3d1/i24surfi.F
+!||    i24ficv_ini                      ../starter/source/interfaces/inter3d1/i24surfi.F
+!||    i24ini_gap_n                     ../starter/source/interfaces/inter3d1/i24inisu_nei.F
+!||    i24inisur_nei                    ../starter/source/interfaces/inter3d1/i24inisu_nei.F
+!||    i24isegpt_ini                    ../starter/source/interfaces/inter3d1/i24surfi.F
+!||    i24ll_kg                         ../starter/source/interfaces/inter3d1/i24sti3.F
+!||    i24pen3                          ../starter/source/interfaces/inter3d1/i24pen3.F
+!||    i24pwr3                          ../starter/source/interfaces/inter3d1/i24pwr3.F
+!||    i24sti3                          ../starter/source/interfaces/inter3d1/i24sti3.F
+!||    i25buc_vox1                      ../starter/source/interfaces/inter3d1/i25buc_vox1.F
+!||    i25buce_edg                      ../starter/source/interfaces/inter3d1/i25buce_edg.F
+!||    i25cand                          ../starter/source/interfaces/inter3d1/i25pwr3.F
+!||    i25cor3                          ../starter/source/interfaces/inter3d1/i25cor3.F
+!||    i25cor3_e2s                      ../starter/source/interfaces/inter3d1/i25cor3_e2s.F
+!||    i25cor3e                         ../starter/source/interfaces/inter3d1/i25cor3e.F
+!||    i25dst3_e2s                      ../starter/source/interfaces/inter3d1/i25dst3_e2s.F
+!||    i25ini_gap_n                     ../starter/source/interfaces/inter3d1/i25neigh.F
+!||    i25neigh                         ../starter/source/interfaces/inter3d1/i25neigh.F
+!||    i25norm                          ../starter/source/interfaces/inter3d1/i25norm3.F
+!||    i25pen3                          ../starter/source/interfaces/inter3d1/i25pen3.F
+!||    i25pen3e                         ../starter/source/interfaces/inter3d1/i25pen3e.F
+!||    i25pwr3                          ../starter/source/interfaces/inter3d1/i25pwr3.F
+!||    i25pwr3_e2s                      ../starter/source/interfaces/inter3d1/i25pwr3_e2s.F
+!||    i25pwr3e                         ../starter/source/interfaces/inter3d1/i25pwr3e.F
+!||    i25remline                       ../starter/source/interfaces/int25/i25remlin.F
+!||    i25sors                          ../starter/source/interfaces/inter3d1/i25sors.F
+!||    i25sti3                          ../starter/source/interfaces/inter3d1/i25sti3.F
+!||    i25sti_edg                       ../starter/source/interfaces/inter3d1/i25sti_edg.F
+!||    i2buc1                           ../starter/source/interfaces/inter3d1/i2buc1.F
+!||    i2chk3                           ../starter/source/interfaces/inter3d1/i2chk3.F
+!||    i2main                           ../starter/source/interfaces/interf1/i2master.F
+!||    i2surfs                          ../starter/source/interfaces/inter3d1/i2surfs.F
+!||    i2tid3                           ../starter/source/interfaces/inter3d1/i2tid3.F
+!||    i2wcontdd                        ../starter/source/spmd/domain_decomposition/grid2mat.F
+!||    i3pen3                           ../starter/source/interfaces/inter3d1/i3pen3.F
+!||    i3sti3                           ../starter/source/interfaces/inter3d1/i3sti3.F
+!||    i5pwr3                           ../starter/source/interfaces/inter3d1/i3pen3.F
+!||    i7buc1                           ../starter/source/interfaces/inter3d1/i7buc1.F
+!||    i7buc_vox1                       ../starter/source/interfaces/inter3d1/i7buc_vox1.F
+!||    i7cor3                           ../starter/source/interfaces/inter3d1/i7cor3.F
+!||    i7dst3                           ../starter/source/interfaces/inter3d1/i7dst3.F
+!||    i7err3                           ../starter/source/interfaces/inter3d1/i7err3.F
+!||    i7pen3                           ../starter/source/interfaces/inter3d1/i7pen3.F
+!||    i7pwr3                           ../starter/source/interfaces/inter3d1/i7pwr3.F
+!||    i7remnode                        ../starter/source/interfaces/inter3d1/i7remnode.F
+!||    i7sti3                           ../starter/source/interfaces/inter3d1/i7sti3.F
+!||    i9bcs_check                      ../starter/source/interfaces/int09/i9bcs_check.F90
+!||    i9sti3                           ../starter/source/interfaces/int09/i9sti3.F
+!||    in12r                            ../starter/source/interfaces/inter3d1/in12r.F
+!||    inint0                           ../starter/source/interfaces/interf1/inint0.F
+!||    inint0_8                         ../starter/source/interfaces/interf1/inint0_8.F
+!||    invoi3                           ../starter/source/interfaces/inter3d1/invoi3.F
+!||    ispt2_ini                        ../starter/source/interfaces/inter3d1/i24surfi.F
+!||    iwcontdd                         ../starter/source/spmd/domain_decomposition/grid2mat.F
+!||    iwcontdd_151                     ../starter/source/spmd/domain_decomposition/grid2mat.F
+!||    iwcontdd_type24                  ../starter/source/spmd/domain_decomposition/iwcontdd_type24.F
+!||    iwcontdd_type25                  ../starter/source/spmd/domain_decomposition/iwcontdd_type25.F
+!||    remn_i2op                        ../starter/source/interfaces/inter3d1/i7remnode.F
+!||    update_weight_inter_type11       ../starter/source/spmd/domain_decomposition/update_weight_inter_type11.F
+!||    update_weight_inter_type2        ../starter/source/spmd/domain_decomposition/update_weight_inter_type2.F
+!||    update_weight_inter_type7        ../starter/source/spmd/domain_decomposition/update_weight_inter_type7.F
+!||    update_weight_inter_type_24_25   ../starter/source/spmd/domain_decomposition/update_weight_inter_type_24_25.F
+!||    upgrade_ixint                    ../starter/source/interfaces/interf1/upgrade_ixint.F
+!||    upgrade_remnode                  ../starter/source/interfaces/interf1/upgrade_remnode.F
+!||    upgrade_remnode_edg              ../starter/source/interfaces/interf1/upgrade_remnode.F
+!||--- uses       -----------------------------------------------------
+!||    front_mod                        ../starter/share/modules1/front_mod.F
+!||    inter_cand_mod                   ../starter/share/modules1/inter_cand_mod.F
+!||    message_mod                      ../starter/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE ININT3(INSCR         ,X                   ,IXS                   ,IXC          ,PM      ,
      1                  GEO           ,IPARI               ,NIN                   ,ITAB         ,MS      ,
      2                  MWA           ,RWA                 ,IXTG                  ,IWRN         ,IKINE   ,

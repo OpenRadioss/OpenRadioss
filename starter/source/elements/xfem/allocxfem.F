@@ -20,12 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    allocxfem      ../starter/source/elements/xfem/allocxfem.F
-      !||--- called by ------------------------------------------------------
-      !||    lectur         ../starter/source/starter/lectur.F
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    allocxfem      ../starter/source/elements/xfem/allocxfem.F
+!||--- called by ------------------------------------------------------
+!||    lectur         ../starter/source/starter/lectur.F
+!||--- uses       -----------------------------------------------------
+!||====================================================================
       SUBROUTINE ALLOCXFEM(
      .           IXC    ,IXTG  ,IPARG  ,LCNE_CRKXFEM,CRKLVSET,
      .           CRKSKY ,CRKAVX,CRKEDGE,XFEM_PHANTOM)

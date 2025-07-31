@@ -21,15 +21,15 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
-      !||====================================================================
-      !||    spmd_exch_idel_seglo        ../engine/source/mpi/interfaces/spmd_exch_idel_seglo.F
-      !||--- calls      -----------------------------------------------------
-      !||    i24_remove_global_segment   ../engine/source/interfaces/interf/chkstfn3.F
-      !||    i25_remove_global_segment   ../engine/source/interfaces/interf/chkstfn3.F
-      !||--- uses       -----------------------------------------------------
-      !||    intbufdef_mod               ../common_source/modules/interfaces/intbufdef_mod.F90
-      !||    spmd_comm_world_mod         ../engine/source/mpi/spmd_comm_world.F90
-      !||====================================================================
+!||====================================================================
+!||    spmd_exch_idel_seglo        ../engine/source/mpi/interfaces/spmd_exch_idel_seglo.F
+!||--- calls      -----------------------------------------------------
+!||    i24_remove_global_segment   ../engine/source/interfaces/interf/chkstfn3.F
+!||    i25_remove_global_segment   ../engine/source/interfaces/interf/chkstfn3.F
+!||--- uses       -----------------------------------------------------
+!||    intbufdef_mod               ../common_source/modules/interfaces/intbufdef_mod.F90
+!||    spmd_comm_world_mod         ../engine/source/mpi/spmd_comm_world.F90
+!||====================================================================
         SUBROUTINE SPMD_EXCH_IDEL_SEGLO(IPARI,INTBUF_TAB,INDSEGLO,IBUFSEGLO)
 C-----------------------------------------------
 C   M o d u l e s

@@ -20,16 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    igrsurf_split         ../starter/source/spmd/igrsurf_split.F
-      !||--- called by ------------------------------------------------------
-      !||    lectur                ../starter/source/starter/lectur.F
-      !||--- calls      -----------------------------------------------------
-      !||    ifrontplus            ../starter/source/spmd/node/frontplus.F
-      !||    plist_ifront          ../starter/source/spmd/node/ddtools.F
-      !||--- uses       -----------------------------------------------------
-      !||    monvol_struct_mod     ../starter/share/modules1/monvol_struct_mod.F
-      !||====================================================================
+!||====================================================================
+!||    igrsurf_split         ../starter/source/spmd/igrsurf_split.F
+!||--- called by ------------------------------------------------------
+!||    lectur                ../starter/source/starter/lectur.F
+!||--- calls      -----------------------------------------------------
+!||    ifrontplus            ../starter/source/spmd/node/frontplus.F
+!||    plist_ifront          ../starter/source/spmd/node/ddtools.F
+!||--- uses       -----------------------------------------------------
+!||    monvol_struct_mod     ../starter/share/modules1/monvol_struct_mod.F
+!||====================================================================
         SUBROUTINE IGRSURF_SPLIT(SCEP,CEP,T_MONVOL,IGRSURF,IGRSURF_PROC)
 !$COMMENT
 ! IGSURF_SPLIT description

@@ -20,20 +20,20 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    check_remote_surface_state   ../engine/source/interfaces/interf/check_remote_surface_state.F
-      !||--- called by ------------------------------------------------------
-      !||    resol                        ../engine/source/engine/resol.F
-      !||--- calls      -----------------------------------------------------
-      !||    alloc_2d_array               ../common_source/modules/array_mod.F
-      !||    dealloc_2d_array             ../common_source/modules/array_mod.F
-      !||    surface_deactivation         ../engine/source/interfaces/interf/surface_deactivation.F
-      !||--- uses       -----------------------------------------------------
-      !||    array_mod                    ../common_source/modules/array_mod.F
-      !||    intbufdef_mod                ../common_source/modules/interfaces/intbufdef_mod.F90
-      !||    shooting_node_mod            ../engine/share/modules/shooting_node_mod.F
-      !||    spmd_comm_world_mod          ../engine/source/mpi/spmd_comm_world.F90
-      !||====================================================================
+!||====================================================================
+!||    check_remote_surface_state   ../engine/source/interfaces/interf/check_remote_surface_state.F
+!||--- called by ------------------------------------------------------
+!||    resol                        ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
+!||    alloc_2d_array               ../common_source/modules/array_mod.F
+!||    dealloc_2d_array             ../common_source/modules/array_mod.F
+!||    surface_deactivation         ../engine/source/interfaces/interf/surface_deactivation.F
+!||--- uses       -----------------------------------------------------
+!||    array_mod                    ../common_source/modules/array_mod.F
+!||    intbufdef_mod                ../common_source/modules/interfaces/intbufdef_mod.F90
+!||    shooting_node_mod            ../engine/share/modules/shooting_node_mod.F
+!||    spmd_comm_world_mod          ../engine/source/mpi/spmd_comm_world.F90
+!||====================================================================
         SUBROUTINE CHECK_REMOTE_SURFACE_STATE( SURFARCE_NB,SURFACE_ID,SHIFT_INTERFACE,INTBUF_TAB,
      .                                  IPARI,IAD_ELEM,SHOOT_STRUCT )
 !$COMMENT

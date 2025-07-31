@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    sensor_energy_total   ../engine/source/tools/sensor/sensor_energy_total.F
-      !||--- called by ------------------------------------------------------
-      !||    sortie_main           ../engine/source/output/sortie_main.F
-      !||--- uses       -----------------------------------------------------
-      !||    sensor_mod            ../common_source/modules/sensor_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    sensor_energy_total   ../engine/source/tools/sensor/sensor_energy_total.F
+!||--- called by ------------------------------------------------------
+!||    sortie_main           ../engine/source/output/sortie_main.F
+!||--- uses       -----------------------------------------------------
+!||    sensor_mod            ../common_source/modules/sensor_mod.F90
+!||====================================================================
       SUBROUTINE SENSOR_ENERGY_TOTAL(SENSORS ,ENINT  ,ENCIN  )  
 C-----------------------------------------------
 C   M o d u l e s

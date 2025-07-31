@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    sconnect_off   ../engine/source/elements/solid/sconnect/sconnect_off.F
-      !||--- called by ------------------------------------------------------
-      !||    suser43        ../engine/source/elements/solid/sconnect/suser43.F
-      !||--- uses       -----------------------------------------------------
-      !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    sconnect_off   ../engine/source/elements/solid/sconnect/sconnect_off.F
+!||--- called by ------------------------------------------------------
+!||    suser43        ../engine/source/elements/solid/sconnect/suser43.F
+!||--- uses       -----------------------------------------------------
+!||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||====================================================================
       SUBROUTINE SCONNECT_OFF(ELBUF_STR,OFFG     ,NEL    ,NPG    ,NGL     ,
      .                        ISOLID   ,TIME     )
 C-----------------------------------------------

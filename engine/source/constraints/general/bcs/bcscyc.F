@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    bcscyc      ../engine/source/constraints/general/bcs/bcscyc.F
-      !||--- called by ------------------------------------------------------
-      !||    resol       ../engine/source/engine/resol.F
-      !||--- calls      -----------------------------------------------------
-      !||    acc_cycon   ../engine/source/constraints/general/bcs/bcscyc.F
-      !||    chkv0_cy    ../engine/source/constraints/general/bcs/bcscyc.F
-      !||====================================================================
+!||====================================================================
+!||    bcscyc      ../engine/source/constraints/general/bcs/bcscyc.F
+!||--- called by ------------------------------------------------------
+!||    resol       ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
+!||    acc_cycon   ../engine/source/constraints/general/bcs/bcscyc.F
+!||    chkv0_cy    ../engine/source/constraints/general/bcs/bcscyc.F
+!||====================================================================
       SUBROUTINE BCSCYC(IBCSCYC,LBCSCYC,SKEW,X,V,A,ITAB)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -75,17 +75,17 @@ C----case AMS done before in sms_pcg
 C
       RETURN
       END
-      !||====================================================================
-      !||    acc_cycon     ../engine/source/constraints/general/bcs/bcscyc.F
-      !||--- called by ------------------------------------------------------
-      !||    bcscyc        ../engine/source/constraints/general/bcs/bcscyc.F
-      !||    sms_bcscyc    ../engine/source/ams/sms_bcscyc.F
-      !||--- calls      -----------------------------------------------------
-      !||    v_c2cylin     ../engine/source/constraints/general/bcs/bcscyc.F
-      !||    v_cyc2c       ../engine/source/constraints/general/bcs/bcscyc.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod   ../engine/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    acc_cycon     ../engine/source/constraints/general/bcs/bcscyc.F
+!||--- called by ------------------------------------------------------
+!||    bcscyc        ../engine/source/constraints/general/bcs/bcscyc.F
+!||    sms_bcscyc    ../engine/source/ams/sms_bcscyc.F
+!||--- calls      -----------------------------------------------------
+!||    v_c2cylin     ../engine/source/constraints/general/bcs/bcscyc.F
+!||    v_cyc2c       ../engine/source/constraints/general/bcs/bcscyc.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod   ../engine/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE ACC_CYCON(NBCY_N,IXCYCL,ISK,SKEW,X  ,A)
 C-----------------------------------------------
 C   M o d u l e s
@@ -133,12 +133,12 @@ C--- mean(A")-> A'(x',y',z')->A (SKEW^t)
 C
       RETURN
       END
-      !||====================================================================
-      !||    v_c2cylin   ../engine/source/constraints/general/bcs/bcscyc.F
-      !||--- called by ------------------------------------------------------
-      !||    acc_cycon   ../engine/source/constraints/general/bcs/bcscyc.F
-      !||    chkv0_cy    ../engine/source/constraints/general/bcs/bcscyc.F
-      !||====================================================================
+!||====================================================================
+!||    v_c2cylin   ../engine/source/constraints/general/bcs/bcscyc.F
+!||--- called by ------------------------------------------------------
+!||    acc_cycon   ../engine/source/constraints/general/bcs/bcscyc.F
+!||    chkv0_cy    ../engine/source/constraints/general/bcs/bcscyc.F
+!||====================================================================
       SUBROUTINE V_C2CYLIN(NBCY,IX,X,V,SKEW,XYZ0,CCOS,CSIN,V_C)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -187,11 +187,11 @@ C----- compute v to v_cylin
 C
       RETURN
       END SUBROUTINE V_C2CYLIN
-      !||====================================================================
-      !||    v_cyc2c     ../engine/source/constraints/general/bcs/bcscyc.F
-      !||--- called by ------------------------------------------------------
-      !||    acc_cycon   ../engine/source/constraints/general/bcs/bcscyc.F
-      !||====================================================================
+!||====================================================================
+!||    v_cyc2c     ../engine/source/constraints/general/bcs/bcscyc.F
+!||--- called by ------------------------------------------------------
+!||    acc_cycon   ../engine/source/constraints/general/bcs/bcscyc.F
+!||====================================================================
       SUBROUTINE V_CYC2C(NBCY,SKEW,CCOS,CSIN,V_C,VC)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -226,16 +226,16 @@ C----- compute v_cylin to v
 C
       RETURN
       END SUBROUTINE V_CYC2C
-      !||====================================================================
-      !||    chkv0_cy      ../engine/source/constraints/general/bcs/bcscyc.F
-      !||--- called by ------------------------------------------------------
-      !||    bcscyc        ../engine/source/constraints/general/bcs/bcscyc.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg        ../engine/source/output/message/message.F
-      !||    v_c2cylin     ../engine/source/constraints/general/bcs/bcscyc.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod   ../engine/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    chkv0_cy      ../engine/source/constraints/general/bcs/bcscyc.F
+!||--- called by ------------------------------------------------------
+!||    bcscyc        ../engine/source/constraints/general/bcs/bcscyc.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg        ../engine/source/output/message/message.F
+!||    v_c2cylin     ../engine/source/constraints/general/bcs/bcscyc.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod   ../engine/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE CHKV0_CY(NBCY_N,IXCYCL,ISK,SKEW,X  ,V ,ID ,ITAB)
 C-----------------------------------------------
 C   M o d u l e s

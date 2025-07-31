@@ -21,18 +21,18 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C  
-      !||====================================================================
-      !||    law111_upd             ../starter/source/materials/mat/mat111/law111_upd.F
-      !||--- called by ------------------------------------------------------
-      !||    updmat                 ../starter/source/materials/updmat.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg                 ../starter/source/output/message/message.F
-      !||    arret                  ../starter/source/system/arret.F
-      !||    func_slope             ../starter/source/tools/curve/func_slope.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod            ../starter/share/message_module/message_mod.F
-      !||    table_mod              ../starter/share/modules1/table_mod.F
-      !||====================================================================
+!||====================================================================
+!||    law111_upd             ../starter/source/materials/mat/mat111/law111_upd.F
+!||--- called by ------------------------------------------------------
+!||    updmat                 ../starter/source/materials/updmat.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                 ../starter/source/output/message/message.F
+!||    arret                  ../starter/source/system/arret.F
+!||    func_slope             ../starter/source/tools/curve/func_slope.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod            ../starter/share/message_module/message_mod.F
+!||    table_mod              ../starter/share/modules1/table_mod.F
+!||====================================================================
       SUBROUTINE LAW111_UPD(IOUT,TITR    ,MAT_ID,UPARAM,NFUNC,
      .                      IFUNC, FUNC_ID,NPC   ,PLD   ,PM,IPM)
 C-----------------------------------------------

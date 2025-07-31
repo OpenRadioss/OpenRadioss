@@ -20,15 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    spmd_mstop            ../engine/source/mpi/init/spmd_mstop.F
-      !||--- called by ------------------------------------------------------
-      !||    imp_sol_init          ../engine/source/implicit/imp_sol_init.F
-      !||--- calls      -----------------------------------------------------
-      !||    my_exit               ../engine/source/system/my_exit.c
-      !||--- uses       -----------------------------------------------------
-      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
-      !||====================================================================
+!||====================================================================
+!||    spmd_mstop            ../engine/source/mpi/init/spmd_mstop.F
+!||--- called by ------------------------------------------------------
+!||    imp_sol_init          ../engine/source/implicit/imp_sol_init.F
+!||--- calls      -----------------------------------------------------
+!||    my_exit               ../engine/source/system/my_exit.c
+!||--- uses       -----------------------------------------------------
+!||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
+!||====================================================================
       SUBROUTINE SPMD_MSTOP()
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

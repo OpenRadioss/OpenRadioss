@@ -20,34 +20,34 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    upd_tmax          ../engine/source/output/upd_outmax.F
-      !||--- called by ------------------------------------------------------
-      !||    ini_tmax          ../engine/source/output/ini_outmax.F
-      !||    resol             ../engine/source/engine/resol.F
-      !||--- calls      -----------------------------------------------------
-      !||    gps_solid         ../engine/source/output/outmaxsubr.F
-      !||    gpstra_solid      ../engine/source/output/outmaxsubr.F
-      !||    my_barrier        ../engine/source/system/machine.F
-      !||    sig3dpin2h        ../engine/source/output/outmaxsubr.F
-      !||    tm_dmg_shells     ../engine/source/output/outmaxsubr.F
-      !||    tm_dmg_solid      ../engine/source/output/outmaxsubr.F
-      !||    tm_dmgl25_shell   ../engine/source/output/outmaxsubr.F
-      !||    tm_seq_shell      ../engine/source/output/outmaxsubr.F
-      !||    tm_seq_solid      ../engine/source/output/outmaxsubr.F
-      !||    tm_sig_shell      ../engine/source/output/outmaxsubr.F
-      !||    tm_sig_solid      ../engine/source/output/outmaxsubr.F
-      !||    tm_stra_shell     ../engine/source/output/outmaxsubr.F
-      !||    tm_stra_solid     ../engine/source/output/outmaxsubr.F
-      !||    tm_vonm_shell     ../engine/source/output/outmaxsubr.F
-      !||    tm_vonm_solid     ../engine/source/output/outmaxsubr.F
-      !||    upd_tmnorm2       ../engine/source/output/outmaxsubr.F
-      !||    upd_tmtens        ../engine/source/output/outmaxsubr.F
-      !||--- uses       -----------------------------------------------------
-      !||    elbufdef_mod      ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||    outmax_mod        ../common_source/modules/outmax_mod.F
-      !||    stack_mod         ../engine/share/modules/stack_mod.F
-      !||====================================================================
+!||====================================================================
+!||    upd_tmax          ../engine/source/output/upd_outmax.F
+!||--- called by ------------------------------------------------------
+!||    ini_tmax          ../engine/source/output/ini_outmax.F
+!||    resol             ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
+!||    gps_solid         ../engine/source/output/outmaxsubr.F
+!||    gpstra_solid      ../engine/source/output/outmaxsubr.F
+!||    my_barrier        ../engine/source/system/machine.F
+!||    sig3dpin2h        ../engine/source/output/outmaxsubr.F
+!||    tm_dmg_shells     ../engine/source/output/outmaxsubr.F
+!||    tm_dmg_solid      ../engine/source/output/outmaxsubr.F
+!||    tm_dmgl25_shell   ../engine/source/output/outmaxsubr.F
+!||    tm_seq_shell      ../engine/source/output/outmaxsubr.F
+!||    tm_seq_solid      ../engine/source/output/outmaxsubr.F
+!||    tm_sig_shell      ../engine/source/output/outmaxsubr.F
+!||    tm_sig_solid      ../engine/source/output/outmaxsubr.F
+!||    tm_stra_shell     ../engine/source/output/outmaxsubr.F
+!||    tm_stra_solid     ../engine/source/output/outmaxsubr.F
+!||    tm_vonm_shell     ../engine/source/output/outmaxsubr.F
+!||    tm_vonm_solid     ../engine/source/output/outmaxsubr.F
+!||    upd_tmnorm2       ../engine/source/output/outmaxsubr.F
+!||    upd_tmtens        ../engine/source/output/outmaxsubr.F
+!||--- uses       -----------------------------------------------------
+!||    elbufdef_mod      ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    outmax_mod        ../common_source/modules/outmax_mod.F
+!||    stack_mod         ../engine/share/modules/stack_mod.F
+!||====================================================================
       SUBROUTINE UPD_TMAX(ELBUF_TAB,IPARG   ,GEO     ,PM   ,
      .           IXS  ,IXS10   ,IXS16   ,IXS20   ,IXQ     ,
      .           IXC  ,IXTG   ,IXT    ,IXP     ,IXR     ,

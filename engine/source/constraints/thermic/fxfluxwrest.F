@@ -20,18 +20,18 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    fxfluxwrest      ../engine/source/constraints/thermic/fxfluxwrest.F
-      !||--- called by ------------------------------------------------------
-      !||    wrrestp          ../engine/source/output/restart/wrrestp.F
-      !||--- calls      -----------------------------------------------------
-      !||    write_db         ../common_source/tools/input_output/write_db.F
-      !||    write_i_c        ../common_source/tools/input_output/write_routtines.c
-      !||    wrtsqi           ../engine/source/output/tools/wrtsqi.F
-      !||    wrtsqr           ../engine/source/output/tools/wrtsqr.F
-      !||--- uses       -----------------------------------------------------
-      !||    glob_therm_mod   ../common_source/modules/mat_elem/glob_therm_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    fxfluxwrest      ../engine/source/constraints/thermic/fxfluxwrest.F
+!||--- called by ------------------------------------------------------
+!||    wrrestp          ../engine/source/output/restart/wrrestp.F
+!||--- calls      -----------------------------------------------------
+!||    write_db         ../common_source/tools/input_output/write_db.F
+!||    write_i_c        ../common_source/tools/input_output/write_routtines.c
+!||    wrtsqi           ../engine/source/output/tools/wrtsqi.F
+!||    wrtsqr           ../engine/source/output/tools/wrtsqr.F
+!||--- uses       -----------------------------------------------------
+!||    glob_therm_mod   ../common_source/modules/mat_elem/glob_therm_mod.F90
+!||====================================================================
       SUBROUTINE FXFLUXWREST(IBFFLUX, FBFFLUX, GLOB_THERM)
 C-----------------------------------------------
 C   M o d u l e s

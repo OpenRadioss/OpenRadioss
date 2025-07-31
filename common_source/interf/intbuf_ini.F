@@ -20,21 +20,21 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    intbuf_ini         ../common_source/interf/intbuf_ini.F
-      !||--- called by ------------------------------------------------------
-      !||    rdresb             ../engine/source/output/restart/rdresb.F
-      !||--- calls      -----------------------------------------------------
-      !||    arret              ../engine/source/system/arret.F
-      !||    decompress_i_nnz   ../common_source/comm/decompress_nnz.F
-      !||    decompress_r_nnz   ../common_source/comm/decompress_nnz.F
-      !||    intbuf_ini_t8      ../common_source/interf/intbuf_ini.F
-      !||    read_db            ../common_source/tools/input_output/read_db.F
-      !||    read_i_c           ../common_source/tools/input_output/write_routtines.c
-      !||--- uses       -----------------------------------------------------
-      !||    intbufdef_mod      ../common_source/modules/interfaces/intbufdef_mod.F90
-      !||    message_mod        ../engine/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    intbuf_ini         ../common_source/interf/intbuf_ini.F
+!||--- called by ------------------------------------------------------
+!||    rdresb             ../engine/source/output/restart/rdresb.F
+!||--- calls      -----------------------------------------------------
+!||    arret              ../engine/source/system/arret.F
+!||    decompress_i_nnz   ../common_source/comm/decompress_nnz.F
+!||    decompress_r_nnz   ../common_source/comm/decompress_nnz.F
+!||    intbuf_ini_t8      ../common_source/interf/intbuf_ini.F
+!||    read_db            ../common_source/tools/input_output/read_db.F
+!||    read_i_c           ../common_source/tools/input_output/write_routtines.c
+!||--- uses       -----------------------------------------------------
+!||    intbufdef_mod      ../common_source/modules/interfaces/intbufdef_mod.F90
+!||    message_mod        ../engine/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE INTBUF_INI(INTBUF_TAB)  
 C-----------------------------------------------
 C   M o d u l e s
@@ -2126,15 +2126,15 @@ C-----
       RETURN
 
       END SUBROUTINE INTBUF_INI
-      !||====================================================================
-      !||    intbuf_ini_t8   ../common_source/interf/intbuf_ini.F
-      !||--- called by ------------------------------------------------------
-      !||    intbuf_ini      ../common_source/interf/intbuf_ini.F
-      !||--- calls      -----------------------------------------------------
-      !||    read_i_c        ../common_source/tools/input_output/write_routtines.c
-      !||--- uses       -----------------------------------------------------
-      !||    int8_mod        ../common_source/modules/interfaces/int8_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    intbuf_ini_t8   ../common_source/interf/intbuf_ini.F
+!||--- called by ------------------------------------------------------
+!||    intbuf_ini      ../common_source/interf/intbuf_ini.F
+!||--- calls      -----------------------------------------------------
+!||    read_i_c        ../common_source/tools/input_output/write_routtines.c
+!||--- uses       -----------------------------------------------------
+!||    int8_mod        ../common_source/modules/interfaces/int8_mod.F90
+!||====================================================================
       SUBROUTINE INTBUF_INI_T8(T8)  
 C Reads the T8 structures
 

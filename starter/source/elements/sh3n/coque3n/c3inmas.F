@@ -20,21 +20,21 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    c3inmas                ../starter/source/elements/sh3n/coque3n/c3inmas.F
-      !||--- called by ------------------------------------------------------
-      !||    c3init3                ../starter/source/elements/sh3n/coque3n/c3init3.F
-      !||    cdkinit3               ../starter/source/elements/sh3n/coquedk/cdkinit3.F
-      !||    inirig_mat             ../starter/source/elements/initia/inirig_mat.F
-      !||    inivoid                ../starter/source/elements/initia/inivoid.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg                 ../starter/source/output/message/message.F
-      !||    fretitl2               ../starter/source/starter/freform.F
-      !||--- uses       -----------------------------------------------------
-      !||    drape_mod              ../starter/share/modules1/drape_mod.F
-      !||    message_mod            ../starter/share/message_module/message_mod.F
-      !||    stack_mod              ../starter/share/modules1/stack_mod.F
-      !||====================================================================
+!||====================================================================
+!||    c3inmas                ../starter/source/elements/sh3n/coque3n/c3inmas.F
+!||--- called by ------------------------------------------------------
+!||    c3init3                ../starter/source/elements/sh3n/coque3n/c3init3.F
+!||    cdkinit3               ../starter/source/elements/sh3n/coquedk/cdkinit3.F
+!||    inirig_mat             ../starter/source/elements/initia/inirig_mat.F
+!||    inivoid                ../starter/source/elements/initia/inivoid.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                 ../starter/source/output/message/message.F
+!||    fretitl2               ../starter/source/starter/freform.F
+!||--- uses       -----------------------------------------------------
+!||    drape_mod              ../starter/share/modules1/drape_mod.F
+!||    message_mod            ../starter/share/message_module/message_mod.F
+!||    stack_mod              ../starter/share/modules1/stack_mod.F
+!||====================================================================
       SUBROUTINE C3INMAS(X,XREFTG ,IXTG ,GEO,PM ,MS ,TINER,THKE  ,
      .                   PARTSAV,V     ,IPART  ,MSTG    ,INTG    ,
      .                   PTG   ,IGEO    ,IMAT  ,IPROP   ,AREA    ,

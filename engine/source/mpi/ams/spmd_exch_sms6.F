@@ -20,15 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    spmd_exch_sms6   ../engine/source/mpi/ams/spmd_exch_sms6.F
-      !||--- called by ------------------------------------------------------
-      !||    sms_build_diag   ../engine/source/ams/sms_build_diag.F
-      !||    sms_mav_lt       ../engine/source/ams/sms_pcg.F
-      !||--- calls      -----------------------------------------------------
-      !||--- uses       -----------------------------------------------------
-      !||    spmd_mod         ../engine/source/mpi/spmd_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    spmd_exch_sms6   ../engine/source/mpi/ams/spmd_exch_sms6.F
+!||--- called by ------------------------------------------------------
+!||    sms_build_diag   ../engine/source/ams/sms_build_diag.F
+!||    sms_mav_lt       ../engine/source/ams/sms_pcg.F
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||    spmd_mod         ../engine/source/mpi/spmd_mod.F90
+!||====================================================================
       SUBROUTINE SPMD_EXCH_SMS6(V,NODNX_SMS,IAD_ELEM,FR_ELEM,
      .                           SIZE,LENR)
               USE SPMD_MOD

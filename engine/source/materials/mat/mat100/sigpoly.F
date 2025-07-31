@@ -24,15 +24,15 @@ C-----------------------------------------------
 C   Hyperelastic model: polynomial strain energy potential
 C   compute stresses using MATB which is the 
 C   left cauchy green tensor [b]=[F][FT]
-      !||====================================================================
-      !||    polystress2   ../engine/source/materials/mat/mat100/sigpoly.F
-      !||--- called by ------------------------------------------------------
-      !||    sigeps100     ../engine/source/materials/mat/mat100/sigeps100.F90
-      !||    sigeps95      ../engine/source/materials/mat/mat095/sigeps95.F
-      !||--- calls      -----------------------------------------------------
-      !||    mullins_or    ../engine/source/materials/fail/mullins_or/fail_mullins_OR_s.F
-      !||    prodmat       ../engine/source/materials/tools/prodmat.F
-      !||====================================================================
+!||====================================================================
+!||    polystress2   ../engine/source/materials/mat/mat100/sigpoly.F
+!||--- called by ------------------------------------------------------
+!||    sigeps100     ../engine/source/materials/mat/mat100/sigeps100.F90
+!||    sigeps95      ../engine/source/materials/mat/mat095/sigeps95.F
+!||--- calls      -----------------------------------------------------
+!||    mullins_or    ../engine/source/materials/fail/mullins_or/fail_mullins_OR_s.F
+!||    prodmat       ../engine/source/materials/tools/prodmat.F
+!||====================================================================
        SUBROUTINE POLYSTRESS2(
      1                NEL , MATB, C10, C01, C20, 
      2                C11 ,C02, C30, C21, C12,
@@ -186,14 +186,14 @@ C----------------------------------------------------------------
 C   
       RETURN
       END
-      !||====================================================================
-      !||    polystrest2   ../engine/source/materials/mat/mat100/sigpoly.F
-      !||--- called by ------------------------------------------------------
-      !||    sigeps95      ../engine/source/materials/mat/mat095/sigeps95.F
-      !||--- calls      -----------------------------------------------------
-      !||    mullins_or    ../engine/source/materials/fail/mullins_or/fail_mullins_OR_s.F
-      !||    prodmat       ../engine/source/materials/tools/prodmat.F
-      !||====================================================================
+!||====================================================================
+!||    polystrest2   ../engine/source/materials/mat/mat100/sigpoly.F
+!||--- called by ------------------------------------------------------
+!||    sigeps95      ../engine/source/materials/mat/mat095/sigeps95.F
+!||--- calls      -----------------------------------------------------
+!||    mullins_or    ../engine/source/materials/fail/mullins_or/fail_mullins_OR_s.F
+!||    prodmat       ../engine/source/materials/tools/prodmat.F
+!||====================================================================
        SUBROUTINE POLYSTREST2(
      1                NEL , MATB, C10, C01, C20, 
      2                C11 ,C02, C30, C21, C12,
@@ -378,9 +378,9 @@ c------------------------------------------------------------------------
 C   Hyperelastic model: polynomial strain energy potential
 C   compute stresses using EV(NEL,3) which are the 
 C   stretches (using principal direction)
-      !||====================================================================
-      !||    polystress   ../engine/source/materials/mat/mat100/sigpoly.F
-      !||====================================================================
+!||====================================================================
+!||    polystress   ../engine/source/materials/mat/mat100/sigpoly.F
+!||====================================================================
        SUBROUTINE POLYSTRESS(
      1                NEL ,EV,NUPARAM, UPARAM,T1,T2,T3,STIFF,
      2                BI1,BI2,JDET,EVB)

@@ -20,19 +20,19 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    spmd_iget_partn_ply   ../engine/source/mpi/anim/spmd_iget_partn_ply.F
-      !||--- called by ------------------------------------------------------
-      !||    delnumbc_ply          ../engine/source/output/anim/generate/delnumbc_ply.F
-      !||    parsor_ply            ../engine/source/output/anim/generate/parsor_ply.F
-      !||--- calls      -----------------------------------------------------
-      !||    get_ply_nod           ../engine/source/output/anim/generate/anin_ply_init.F
-      !||    write_c_c             ../common_source/tools/input_output/write_routtines.c
-      !||    write_i_c             ../common_source/tools/input_output/write_routtines.c
-      !||--- uses       -----------------------------------------------------
-      !||    plyxfem_mod           ../engine/share/modules/plyxfem_mod.F
-      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
-      !||====================================================================
+!||====================================================================
+!||    spmd_iget_partn_ply   ../engine/source/mpi/anim/spmd_iget_partn_ply.F
+!||--- called by ------------------------------------------------------
+!||    delnumbc_ply          ../engine/source/output/anim/generate/delnumbc_ply.F
+!||    parsor_ply            ../engine/source/output/anim/generate/parsor_ply.F
+!||--- calls      -----------------------------------------------------
+!||    get_ply_nod           ../engine/source/output/anim/generate/anin_ply_init.F
+!||    write_c_c             ../common_source/tools/input_output/write_routtines.c
+!||    write_i_c             ../common_source/tools/input_output/write_routtines.c
+!||--- uses       -----------------------------------------------------
+!||    plyxfem_mod           ../engine/share/modules/plyxfem_mod.F
+!||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
+!||====================================================================
       SUBROUTINE SPMD_IGET_PARTN_PLY(SIZE,NBF_L,NP,NBPART,IADG,
      *           SRBUF,IFLAG,IDPLY)
 C-----------------------------------------------

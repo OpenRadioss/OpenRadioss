@@ -20,11 +20,11 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    inter_init_node_color_mod   ../engine/source/interfaces/generic/inter_init_node_color.F90
-      !||--- called by ------------------------------------------------------
-      !||    inter_init_component        ../engine/source/interfaces/generic/inter_init_component.F90
-      !||====================================================================
+!||====================================================================
+!||    inter_init_node_color_mod   ../engine/source/interfaces/generic/inter_init_node_color.F90
+!||--- called by ------------------------------------------------------
+!||    inter_init_component        ../engine/source/interfaces/generic/inter_init_component.F90
+!||====================================================================
       module inter_init_node_color_mod
       contains
 ! ======================================================================================================================
@@ -32,16 +32,16 @@
 ! ======================================================================================================================
 !! \brief Here is a small description of the routine, [after the header]
 !! \details if needed, more details can be added here
-      !||====================================================================
-      !||    inter_init_node_color   ../engine/source/interfaces/generic/inter_init_node_color.F90
-      !||--- called by ------------------------------------------------------
-      !||    inter_init_component    ../engine/source/interfaces/generic/inter_init_component.F90
-      !||--- calls      -----------------------------------------------------
-      !||    alloc_int_1d_array      ../common_source/modules/array_mod.F
-      !||--- uses       -----------------------------------------------------
-      !||    array_mod               ../common_source/modules/array_mod.F
-      !||    constant_mod            ../common_source/modules/constant_mod.F
-      !||====================================================================
+!||====================================================================
+!||    inter_init_node_color   ../engine/source/interfaces/generic/inter_init_node_color.F90
+!||--- called by ------------------------------------------------------
+!||    inter_init_component    ../engine/source/interfaces/generic/inter_init_component.F90
+!||--- calls      -----------------------------------------------------
+!||    alloc_int_1d_array      ../common_source/modules/array_mod.F
+!||--- uses       -----------------------------------------------------
+!||    array_mod               ../common_source/modules/array_mod.F
+!||    constant_mod            ../common_source/modules/constant_mod.F
+!||====================================================================
         subroutine inter_init_node_color( nsn,nrtm,nb_cell_x,nb_cell_y,nb_cell_z, &
                                           numnod,s_comp_nb,m_comp_nb, &
                                           nsv,irectm,s_node_color,m_node_color, &

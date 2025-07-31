@@ -20,59 +20,59 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    scforc3                ../engine/source/elements/thickshell/solidec/scforc3.F
-      !||--- called by ------------------------------------------------------
-      !||    forint                 ../engine/source/elements/forint.F
-      !||--- calls      -----------------------------------------------------
-      !||    csmall3                ../engine/source/elements/solid/solide/csmall3.F
-      !||    mmain                  ../engine/source/materials/mat_share/mmain.F90
-      !||    s8csigp3               ../engine/source/elements/thickshell/solide8c/s8csigp3.F
-      !||    s8for_distor           ../engine/source/elements/solid/solide/s8for_distor.F
-      !||    s8get_x3               ../engine/source/elements/solid/solide/s8get_x3.F
-      !||    s8sav3                 ../engine/source/elements/solid/solide/s8sav3.F
-      !||    scdefc3                ../engine/source/elements/thickshell/solidec/scdefc3.F
-      !||    scdefo3                ../engine/source/elements/thickshell/solidec/scdefo3.F
-      !||    scderi3                ../engine/source/elements/thickshell/solidec/scderi3.F
-      !||    scfint3                ../engine/source/elements/thickshell/solidec/scfint3.F
-      !||    scfint_reg             ../engine/source/elements/thickshell/solidec/scfint_reg.F
-      !||    schour3_1              ../engine/source/elements/thickshell/solidec/schour3_1.F
-      !||    scordef3               ../engine/source/elements/thickshell/solidec/scordef3.F
-      !||    scroto_sig             ../engine/source/elements/thickshell/solidec/scroto_sig.F
-      !||    sctherm                ../engine/source/elements/thickshell/solidec/sctherm.F
-      !||    scumu3                 ../engine/source/elements/solid/solide/scumu3.F
-      !||    scumu3p                ../engine/source/elements/solid/solide/scumu3p.F
-      !||    scumualpha             ../engine/source/elements/thickshell/solidec/scumualpha.F
-      !||    sczero3                ../engine/source/elements/thickshell/solidec/sczero3.F
-      !||    sdistor_ini            ../engine/source/elements/solid/solide/sdistror_ini.F90
-      !||    sdlen3                 ../engine/source/elements/solid/solide/sdlen3.F
-      !||    sdlensh                ../engine/source/elements/thickshell/solidec/sdlensh.F
-      !||    sdlensh2               ../engine/source/elements/thickshell/solidec/sdlensh2.F
-      !||    sfillopt               ../engine/source/elements/solid/solide/sfillopt.F
-      !||    sgetdir3               ../engine/source/elements/thickshell/solidec/sgetdir3.F
-      !||    sgparav3               ../engine/source/elements/solid/solide/sgparav3.F
-      !||    shour_ctl              ../engine/source/elements/solid/solidez/shour_ctl.F90
-      !||    smallb3                ../engine/source/elements/solid/solide/smallb3.F
-      !||    srbilan                ../engine/source/elements/solid/solide/srbilan.F
-      !||    srcoor3                ../engine/source/elements/solid/solide/srcoor3.F
-      !||    srho3                  ../engine/source/elements/solid/solide/srho3.F
-      !||    srrota3                ../engine/source/elements/solid/solide/srrota3.F
-      !||    sstra3                 ../engine/source/elements/solid/solide/sstra3.F
-      !||    tshgeodel3             ../engine/source/elements/thickshell/solidec/tshgeodel3.F
-      !||--- uses       -----------------------------------------------------
-      !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
-      !||    dt_mod                 ../engine/source/modules/dt_mod.F
-      !||    elbufdef_mod           ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||    glob_therm_mod         ../common_source/modules/mat_elem/glob_therm_mod.F90
-      !||    mat_elem_mod           ../common_source/modules/mat_elem/mat_elem_mod.F90
-      !||    mmain_mod              ../engine/source/materials/mat_share/mmain.F90
-      !||    nlocal_reg_mod         ../common_source/modules/nlocal_reg_mod.F
-      !||    sdistor_ini_mod        ../engine/source/elements/solid/solide/sdistror_ini.F90
-      !||    sensor_mod             ../common_source/modules/sensor_mod.F90
-      !||    shour_ctl_mod          ../engine/source/elements/solid/solidez/shour_ctl.F90
-      !||    table_mod              ../engine/share/modules/table_mod.F
-      !||    timer_mod              ../engine/source/system/timer_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    scforc3                ../engine/source/elements/thickshell/solidec/scforc3.F
+!||--- called by ------------------------------------------------------
+!||    forint                 ../engine/source/elements/forint.F
+!||--- calls      -----------------------------------------------------
+!||    csmall3                ../engine/source/elements/solid/solide/csmall3.F
+!||    mmain                  ../engine/source/materials/mat_share/mmain.F90
+!||    s8csigp3               ../engine/source/elements/thickshell/solide8c/s8csigp3.F
+!||    s8for_distor           ../engine/source/elements/solid/solide/s8for_distor.F
+!||    s8get_x3               ../engine/source/elements/solid/solide/s8get_x3.F
+!||    s8sav3                 ../engine/source/elements/solid/solide/s8sav3.F
+!||    scdefc3                ../engine/source/elements/thickshell/solidec/scdefc3.F
+!||    scdefo3                ../engine/source/elements/thickshell/solidec/scdefo3.F
+!||    scderi3                ../engine/source/elements/thickshell/solidec/scderi3.F
+!||    scfint3                ../engine/source/elements/thickshell/solidec/scfint3.F
+!||    scfint_reg             ../engine/source/elements/thickshell/solidec/scfint_reg.F
+!||    schour3_1              ../engine/source/elements/thickshell/solidec/schour3_1.F
+!||    scordef3               ../engine/source/elements/thickshell/solidec/scordef3.F
+!||    scroto_sig             ../engine/source/elements/thickshell/solidec/scroto_sig.F
+!||    sctherm                ../engine/source/elements/thickshell/solidec/sctherm.F
+!||    scumu3                 ../engine/source/elements/solid/solide/scumu3.F
+!||    scumu3p                ../engine/source/elements/solid/solide/scumu3p.F
+!||    scumualpha             ../engine/source/elements/thickshell/solidec/scumualpha.F
+!||    sczero3                ../engine/source/elements/thickshell/solidec/sczero3.F
+!||    sdistor_ini            ../engine/source/elements/solid/solide/sdistror_ini.F90
+!||    sdlen3                 ../engine/source/elements/solid/solide/sdlen3.F
+!||    sdlensh                ../engine/source/elements/thickshell/solidec/sdlensh.F
+!||    sdlensh2               ../engine/source/elements/thickshell/solidec/sdlensh2.F
+!||    sfillopt               ../engine/source/elements/solid/solide/sfillopt.F
+!||    sgetdir3               ../engine/source/elements/thickshell/solidec/sgetdir3.F
+!||    sgparav3               ../engine/source/elements/solid/solide/sgparav3.F
+!||    shour_ctl              ../engine/source/elements/solid/solidez/shour_ctl.F90
+!||    smallb3                ../engine/source/elements/solid/solide/smallb3.F
+!||    srbilan                ../engine/source/elements/solid/solide/srbilan.F
+!||    srcoor3                ../engine/source/elements/solid/solide/srcoor3.F
+!||    srho3                  ../engine/source/elements/solid/solide/srho3.F
+!||    srrota3                ../engine/source/elements/solid/solide/srrota3.F
+!||    sstra3                 ../engine/source/elements/solid/solide/sstra3.F
+!||    tshgeodel3             ../engine/source/elements/thickshell/solidec/tshgeodel3.F
+!||--- uses       -----------------------------------------------------
+!||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
+!||    dt_mod                 ../engine/source/modules/dt_mod.F
+!||    elbufdef_mod           ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    glob_therm_mod         ../common_source/modules/mat_elem/glob_therm_mod.F90
+!||    mat_elem_mod           ../common_source/modules/mat_elem/mat_elem_mod.F90
+!||    mmain_mod              ../engine/source/materials/mat_share/mmain.F90
+!||    nlocal_reg_mod         ../common_source/modules/nlocal_reg_mod.F
+!||    sdistor_ini_mod        ../engine/source/elements/solid/solide/sdistror_ini.F90
+!||    sensor_mod             ../common_source/modules/sensor_mod.F90
+!||    shour_ctl_mod          ../engine/source/elements/solid/solidez/shour_ctl.F90
+!||    table_mod              ../engine/share/modules/table_mod.F
+!||    timer_mod              ../engine/source/system/timer_mod.F90
+!||====================================================================
       SUBROUTINE SCFORC3(TIMERS, ELBUF_TAB,NG      ,
      1                   PM       ,GEO     ,IXS      ,X       ,
      2                   A        ,V       ,MS       ,W       ,FLUX     ,

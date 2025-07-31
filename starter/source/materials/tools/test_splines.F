@@ -20,11 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    test_spline          ../starter/source/materials/tools/test_splines.F
-      !||--- calls      -----------------------------------------------------
-      !||    spline_interpol_2d   ../starter/source/materials/tools/spline_interpol_2d.F
-      !||====================================================================
+!||====================================================================
+!||    test_spline          ../starter/source/materials/tools/test_splines.F
+!||--- calls      -----------------------------------------------------
+!||    spline_interpol_2d   ../starter/source/materials/tools/spline_interpol_2d.F
+!||====================================================================
        SUBROUTINE TEST_SPLINE(NPT0,NSUB,XF,YF,XX,YY)
 C-----------------------------------------------
 C   D e s c r i p t i o n

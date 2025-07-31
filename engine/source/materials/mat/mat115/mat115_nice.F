@@ -20,11 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    mat115_nice   ../engine/source/materials/mat/mat115/mat115_nice.F
-      !||--- called by ------------------------------------------------------
-      !||    sigeps115     ../engine/source/materials/mat/mat115/sigeps115.F
-      !||====================================================================
+!||====================================================================
+!||    mat115_nice   ../engine/source/materials/mat/mat115/mat115_nice.F
+!||--- called by ------------------------------------------------------
+!||    sigeps115     ../engine/source/materials/mat/mat115/sigeps115.F
+!||====================================================================
       SUBROUTINE MAT115_NICE(
      1     NEL     ,NGL     ,NUPARAM ,NUVAR   ,GRHO    , 
      2     TIME    ,TIMESTEP,UPARAM  ,UVAR    ,OFF     ,SIGY    ,

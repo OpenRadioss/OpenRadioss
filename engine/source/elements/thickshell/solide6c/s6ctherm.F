@@ -20,11 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    s6ctherm   ../engine/source/elements/thickshell/solide6c/s6ctherm.F
-      !||--- called by ------------------------------------------------------
-      !||    s6cforc3   ../engine/source/elements/thickshell/solide6c/s6cforc3.F
-      !||====================================================================
+!||====================================================================
+!||    s6ctherm   ../engine/source/elements/thickshell/solide6c/s6ctherm.F
+!||--- called by ------------------------------------------------------
+!||    s6cforc3   ../engine/source/elements/thickshell/solide6c/s6cforc3.F
+!||====================================================================
       SUBROUTINE S6CTHERM(
      1   PM       ,IMAT     ,VOL      ,NC1      ,
      2   NC2      ,NC3      ,NC4      ,NC5      ,

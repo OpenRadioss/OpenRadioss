@@ -20,9 +20,9 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    s10rrota10   ../engine/source/elements/solid/solide10/s10rrota10.F
-      !||====================================================================
+!||====================================================================
+!||    s10rrota10   ../engine/source/elements/solid/solide10/s10rrota10.F
+!||====================================================================
       SUBROUTINE S10RROTA10(
      1   R11,     R12,     R13,     R21,
      2   R22,     R23,     R31,     R32,

@@ -20,25 +20,25 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    hm_read_friction_orientations   ../starter/source/interfaces/friction/reader/hm_read_friction_orientations.F
-      !||--- called by ------------------------------------------------------
-      !||    lectur                          ../starter/source/starter/lectur.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg                          ../starter/source/output/message/message.F
-      !||    friction_parts_search           ../starter/source/interfaces/inter3d1/i7sti3.F
-      !||    hm_get_float_array_index        ../starter/source/devtools/hm_reader/hm_get_float_array_index.F
-      !||    hm_get_int_array_index          ../starter/source/devtools/hm_reader/hm_get_int_array_index.F
-      !||    hm_get_intv                     ../starter/source/devtools/hm_reader/hm_get_intv.F
-      !||    hm_option_read_key              ../starter/source/devtools/hm_reader/hm_option_read_key.F
-      !||    hm_option_start                 ../starter/source/devtools/hm_reader/hm_option_start.F
-      !||    subrotvect                      ../starter/source/model/submodel/subrot.F
-      !||--- uses       -----------------------------------------------------
-      !||    hm_option_read_mod              ../starter/share/modules1/hm_option_read_mod.F
-      !||    message_mod                     ../starter/share/message_module/message_mod.F
-      !||    r2r_mod                         ../starter/share/modules1/r2r_mod.F
-      !||    submodel_mod                    ../starter/share/modules1/submodel_mod.F
-      !||====================================================================
+!||====================================================================
+!||    hm_read_friction_orientations   ../starter/source/interfaces/friction/reader/hm_read_friction_orientations.F
+!||--- called by ------------------------------------------------------
+!||    lectur                          ../starter/source/starter/lectur.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                          ../starter/source/output/message/message.F
+!||    friction_parts_search           ../starter/source/interfaces/inter3d1/i7sti3.F
+!||    hm_get_float_array_index        ../starter/source/devtools/hm_reader/hm_get_float_array_index.F
+!||    hm_get_int_array_index          ../starter/source/devtools/hm_reader/hm_get_int_array_index.F
+!||    hm_get_intv                     ../starter/source/devtools/hm_reader/hm_get_intv.F
+!||    hm_option_read_key              ../starter/source/devtools/hm_reader/hm_option_read_key.F
+!||    hm_option_start                 ../starter/source/devtools/hm_reader/hm_option_start.F
+!||    subrotvect                      ../starter/source/model/submodel/subrot.F
+!||--- uses       -----------------------------------------------------
+!||    hm_option_read_mod              ../starter/share/modules1/hm_option_read_mod.F
+!||    message_mod                     ../starter/share/message_module/message_mod.F
+!||    r2r_mod                         ../starter/share/modules1/r2r_mod.F
+!||    submodel_mod                    ../starter/share/modules1/submodel_mod.F
+!||====================================================================
       SUBROUTINE HM_READ_FRICTION_ORIENTATIONS (
      1        INTBUF_FRIC_TAB,NPFRICORTH,IGRPART ,IPART     ,PFRICORTH  ,
      2        IREPFORTH ,ISKN       ,PHIFORTH    ,VFORTH    ,SKEW       ,

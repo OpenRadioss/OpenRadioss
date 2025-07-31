@@ -20,19 +20,19 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    spmd_check_tag    ../engine/source/mpi/ams/spmd_check_tag.F
-      !||--- called by ------------------------------------------------------
-      !||    spmd_exch_smst2   ../engine/source/mpi/ams/spmd_exch_smst2.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg            ../engine/source/output/message/message.F
-      !||    arret             ../engine/source/system/arret.F
-      !||--- uses       -----------------------------------------------------
-      !||    intbufdef_mod     ../common_source/modules/interfaces/intbufdef_mod.F90
-      !||    message_mod       ../engine/share/message_module/message_mod.F
-      !||    restmod           ../engine/share/modules/restart_mod.F
-      !||    tri7box           ../engine/share/modules/tri7box.F
-      !||====================================================================
+!||====================================================================
+!||    spmd_check_tag    ../engine/source/mpi/ams/spmd_check_tag.F
+!||--- called by ------------------------------------------------------
+!||    spmd_exch_smst2   ../engine/source/mpi/ams/spmd_exch_smst2.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg            ../engine/source/output/message/message.F
+!||    arret             ../engine/source/system/arret.F
+!||--- uses       -----------------------------------------------------
+!||    intbufdef_mod     ../common_source/modules/interfaces/intbufdef_mod.F90
+!||    message_mod       ../engine/share/message_module/message_mod.F
+!||    restmod           ../engine/share/modules/restart_mod.F
+!||    tri7box           ../engine/share/modules/tri7box.F
+!||====================================================================
       SUBROUTINE SPMD_CHECK_TAG(NIN,I_STOK,INTBUF_TAB,TAG,NSNR,
      .                          NSN,NTY,INACTI,IFQ,ITIED,NRTS)
 C-----------------------------------------------

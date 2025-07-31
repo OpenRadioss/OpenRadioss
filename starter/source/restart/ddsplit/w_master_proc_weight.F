@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    w_main_proc_weight   ../starter/source/restart/ddsplit/w_master_proc_weight.F
-      !||--- called by ------------------------------------------------------
-      !||    ddsplit              ../starter/source/restart/ddsplit/ddsplit.F
-      !||--- calls      -----------------------------------------------------
-      !||    nlocal               ../starter/source/spmd/node/ddtools.F
-      !||====================================================================
+!||====================================================================
+!||    w_main_proc_weight   ../starter/source/restart/ddsplit/w_master_proc_weight.F
+!||--- called by ------------------------------------------------------
+!||    ddsplit              ../starter/source/restart/ddsplit/ddsplit.F
+!||--- calls      -----------------------------------------------------
+!||    nlocal               ../starter/source/spmd/node/ddtools.F
+!||====================================================================
         SUBROUTINE W_MAIN_PROC_WEIGHT(NODGLOB,NUMNOD_L,NSPMD,PROC)
 C-----------------------------------------------
 C   M o d u l e s

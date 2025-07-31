@@ -20,20 +20,20 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    err_thk             ../engine/source/elements/shell/err_thk.F
-      !||--- called by ------------------------------------------------------
-      !||    resol               ../engine/source/engine/resol.F
-      !||--- calls      -----------------------------------------------------
-      !||    admthke             ../engine/source/model/remesh/admthke.F
-      !||    my_barrier          ../engine/source/system/machine.F
-      !||    spmd_exch_nodarea   ../engine/source/mpi/anim/spmd_exch_nodarea.F
-      !||    startimeg           ../engine/source/system/timer.F
-      !||    stoptimeg           ../engine/source/system/timer.F
-      !||--- uses       -----------------------------------------------------
-      !||    elbufdef_mod        ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||    message_mod         ../engine/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    err_thk             ../engine/source/elements/shell/err_thk.F
+!||--- called by ------------------------------------------------------
+!||    resol               ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
+!||    admthke             ../engine/source/model/remesh/admthke.F
+!||    my_barrier          ../engine/source/system/machine.F
+!||    spmd_exch_nodarea   ../engine/source/mpi/anim/spmd_exch_nodarea.F
+!||    startimeg           ../engine/source/system/timer.F
+!||    stoptimeg           ../engine/source/system/timer.F
+!||--- uses       -----------------------------------------------------
+!||    elbufdef_mod        ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    message_mod         ../engine/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE ERR_THK(
      .             IXC     ,IXTG    ,IPARG   ,IAD_ELEM,FR_ELEM ,
      .             WEIGHT  ,X       ,ELBUF_TAB,IPART   ,IPARTC  ,

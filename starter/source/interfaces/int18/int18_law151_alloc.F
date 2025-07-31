@@ -20,12 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    int18_law151_alloc   ../starter/source/interfaces/int18/int18_law151_alloc.F
-      !||--- called by ------------------------------------------------------
-      !||    lectur               ../starter/source/starter/lectur.F
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    int18_law151_alloc   ../starter/source/interfaces/int18/int18_law151_alloc.F
+!||--- called by ------------------------------------------------------
+!||    lectur               ../starter/source/starter/lectur.F
+!||--- uses       -----------------------------------------------------
+!||====================================================================
         SUBROUTINE INT18_LAW151_ALLOC(NPARI,NINTER,NUMNOD,NUMELS,MULTI_FVM,IPARI)
 !$COMMENT
 !       INT18_LAW151_ALLOC description

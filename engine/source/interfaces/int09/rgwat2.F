@@ -20,17 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    rgwat2         ../engine/source/interfaces/int09/rgwat2.F
-      !||--- called by ------------------------------------------------------
-      !||    rgwath         ../engine/source/interfaces/int09/rgwath.F
-      !||--- calls      -----------------------------------------------------
-      !||    initbuf        ../engine/share/resol/initbuf.F
-      !||    spmd_extag     ../engine/source/mpi/fluid/spmd_cfd.F
-      !||--- uses       -----------------------------------------------------
-      !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||    initbuf_mod    ../engine/share/resol/initbuf.F
-      !||====================================================================
+!||====================================================================
+!||    rgwat2         ../engine/source/interfaces/int09/rgwat2.F
+!||--- called by ------------------------------------------------------
+!||    rgwath         ../engine/source/interfaces/int09/rgwath.F
+!||--- calls      -----------------------------------------------------
+!||    initbuf        ../engine/share/resol/initbuf.F
+!||    spmd_extag     ../engine/source/mpi/fluid/spmd_cfd.F
+!||--- uses       -----------------------------------------------------
+!||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    initbuf_mod    ../engine/share/resol/initbuf.F
+!||====================================================================
       SUBROUTINE RGWAT2(
      1               X        ,NELW ,NE      ,IXQ    ,
      4               ELBUF_TAB,IPARG,PM      ,NTAG   ,TEMP   ,

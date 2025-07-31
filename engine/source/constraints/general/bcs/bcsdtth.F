@@ -21,11 +21,11 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Ch       
-      !||====================================================================
-      !||    bcsdtth       ../engine/source/constraints/general/bcs/bcsdtth.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod   ../engine/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    bcsdtth       ../engine/source/constraints/general/bcs/bcsdtth.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod   ../engine/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE BCSDTTH(ICODT,ICODR,KINET,ITAB,LPBY,NPBY)
       USE MESSAGE_MOD
 C
@@ -209,11 +209,11 @@ C
 
 C-------------------------------------------------------------------------------------
 Ch       
-      !||====================================================================
-      !||    bcsdtth_copy   ../engine/source/constraints/general/bcs/bcsdtth.F
-      !||--- called by ------------------------------------------------------
-      !||    resol          ../engine/source/engine/resol.F
-      !||====================================================================
+!||====================================================================
+!||    bcsdtth_copy   ../engine/source/constraints/general/bcs/bcsdtth.F
+!||--- called by ------------------------------------------------------
+!||    resol          ../engine/source/engine/resol.F
+!||====================================================================
       SUBROUTINE BCSDTTH_COPY(ICODT, ICODR, ICODT0, ICODR0,IFLAG)
 C
 C-----------------------------------------------

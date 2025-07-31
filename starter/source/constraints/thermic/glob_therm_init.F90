@@ -21,11 +21,11 @@
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 
-      !||====================================================================
-      !||    glob_therm_init_mod   ../starter/source/constraints/thermic/glob_therm_init.F90
-      !||--- called by ------------------------------------------------------
-      !||    starter0              ../starter/source/starter/starter0.F
-      !||====================================================================
+!||====================================================================
+!||    glob_therm_init_mod   ../starter/source/constraints/thermic/glob_therm_init.F90
+!||--- called by ------------------------------------------------------
+!||    starter0              ../starter/source/starter/starter0.F
+!||====================================================================
       module glob_therm_init_mod
         implicit none
       contains
@@ -37,12 +37,12 @@
 ! ======================================================================================================================
 
 
-      !||====================================================================
-      !||    glob_therm_init   ../starter/source/constraints/thermic/glob_therm_init.F90
-      !||--- called by ------------------------------------------------------
-      !||    starter0          ../starter/source/starter/starter0.F
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    glob_therm_init   ../starter/source/constraints/thermic/glob_therm_init.F90
+!||--- called by ------------------------------------------------------
+!||    starter0          ../starter/source/starter/starter0.F
+!||--- uses       -----------------------------------------------------
+!||====================================================================
         subroutine glob_therm_init(glob_therm)
 
 !-----------------------------------------------

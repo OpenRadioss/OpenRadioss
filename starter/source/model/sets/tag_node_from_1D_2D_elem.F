@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    tag_node_from_1d_2d_elem   ../starter/source/model/sets/tag_node_from_1D_2D_elem.F
-      !||--- called by ------------------------------------------------------
-      !||    create_node_from_element   ../starter/source/model/sets/create_node_from_element.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod                ../starter/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    tag_node_from_1d_2d_elem   ../starter/source/model/sets/tag_node_from_1D_2D_elem.F
+!||--- called by ------------------------------------------------------
+!||    create_node_from_element   ../starter/source/model/sets/create_node_from_element.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod                ../starter/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE TAG_NODE_FROM_1D_2D_ELEM(
      .                         IX     ,NIX    ,NIX1   ,NIX2   ,NUMEL,
      .                         ELEM   ,TAGNOD,CLAUSE_NODE,IND)

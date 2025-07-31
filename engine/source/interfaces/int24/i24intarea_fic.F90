@@ -20,26 +20,26 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    i24intarea_fic_mod   ../engine/source/interfaces/int24/i24intarea_fic.F90
-      !||--- called by ------------------------------------------------------
-      !||    i24_save_sub         ../engine/source/interfaces/int24/i24_save_sub.F
-      !||    i24for3              ../engine/source/interfaces/int24/i24for3.F
-      !||====================================================================
+!||====================================================================
+!||    i24intarea_fic_mod   ../engine/source/interfaces/int24/i24intarea_fic.F90
+!||--- called by ------------------------------------------------------
+!||    i24_save_sub         ../engine/source/interfaces/int24/i24_save_sub.F
+!||    i24for3              ../engine/source/interfaces/int24/i24for3.F
+!||====================================================================
       module i24intarea_fic_mod
       contains
 ! ======================================================================================================================
 !                                                   procedures
 ! ======================================================================================================================
 !! \brief get the area of fictif node based on edge nodes
-      !||====================================================================
-      !||    i24intarea_fic   ../engine/source/interfaces/int24/i24intarea_fic.F90
-      !||--- called by ------------------------------------------------------
-      !||    i24_save_sub     ../engine/source/interfaces/int24/i24_save_sub.F
-      !||    i24for3          ../engine/source/interfaces/int24/i24for3.F
-      !||--- uses       -----------------------------------------------------
-      !||    constant_mod     ../common_source/modules/constant_mod.F
-      !||====================================================================
+!||====================================================================
+!||    i24intarea_fic   ../engine/source/interfaces/int24/i24intarea_fic.F90
+!||--- called by ------------------------------------------------------
+!||    i24_save_sub     ../engine/source/interfaces/int24/i24_save_sub.F
+!||    i24for3          ../engine/source/interfaces/int24/i24for3.F
+!||--- uses       -----------------------------------------------------
+!||    constant_mod     ../common_source/modules/constant_mod.F
+!||====================================================================
         subroutine i24intarea_fic(irtse, nsne, is2se, is2pt, ns, nrtse, numnod, arean, arean_fic)
 
 ! --------------------------------------------------------------------------------------------------

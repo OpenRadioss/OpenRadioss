@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    i14ist          ../engine/source/interfaces/int14/i14ist.F
-      !||--- called by ------------------------------------------------------
-      !||    resol           ../engine/source/engine/resol.F
-      !||--- uses       -----------------------------------------------------
-      !||    groupdef_mod    ../common_source/modules/groupdef_mod.F
-      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    i14ist          ../engine/source/interfaces/int14/i14ist.F
+!||--- called by ------------------------------------------------------
+!||    resol           ../engine/source/engine/resol.F
+!||--- uses       -----------------------------------------------------
+!||    groupdef_mod    ../common_source/modules/groupdef_mod.F
+!||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
+!||====================================================================
       SUBROUTINE I14IST(IPARI,INTBUF_TAB,IGRSURF,BUFSF)
 C-----------------------------------------------
 C   M o d u l e s

@@ -20,11 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    build_cnel   ../starter/source/model/mesh/build_cnel.F
-      !||--- called by ------------------------------------------------------
-      !||    lectur       ../starter/source/starter/lectur.F
-      !||====================================================================
+!||====================================================================
+!||    build_cnel   ../starter/source/model/mesh/build_cnel.F
+!||--- called by ------------------------------------------------------
+!||    lectur       ../starter/source/starter/lectur.F
+!||====================================================================
       SUBROUTINE BUILD_CNEL(
      2   IXS        ,IXQ        ,IXC        ,IXT      ,IXP      ,
      3   IXR        ,IXTG       ,IXS10      ,IXS20    ,
@@ -390,16 +390,16 @@ C
 C------------------------------------------------
       RETURN
       END
-      !||====================================================================
-      !||    prepare_int25   ../starter/source/model/mesh/build_cnel.F
-      !||--- called by ------------------------------------------------------
-      !||    lectur          ../starter/source/starter/lectur.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg          ../starter/source/output/message/message.F
-      !||--- uses       -----------------------------------------------------
-      !||    front_mod       ../starter/share/modules1/front_mod.F
-      !||    message_mod     ../starter/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    prepare_int25   ../starter/source/model/mesh/build_cnel.F
+!||--- called by ------------------------------------------------------
+!||    lectur          ../starter/source/starter/lectur.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg          ../starter/source/output/message/message.F
+!||--- uses       -----------------------------------------------------
+!||    front_mod       ../starter/share/modules1/front_mod.F
+!||    message_mod     ../starter/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE PREPARE_INT25(
      1   INTBUF_TAB , IPARI, INTERCEP, NRTMT_25)
 C-----------------------------------------------
@@ -496,12 +496,12 @@ C         IRTLM(3,-) <=> n de segment local sur IRTLM(4,-)
 
       RETURN
       END 
-      !||====================================================================
-      !||    build_csrect    ../starter/source/model/mesh/build_cnel.F
-      !||--- called by ------------------------------------------------------
-      !||    lectur          ../starter/source/starter/lectur.F
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    build_csrect    ../starter/source/model/mesh/build_cnel.F
+!||--- called by ------------------------------------------------------
+!||    lectur          ../starter/source/starter/lectur.F
+!||--- uses       -----------------------------------------------------
+!||====================================================================
       SUBROUTINE BUILD_CSRECT(
      1   INTBUF_TAB , IPARI, CSRECT   ,ADDCSRECT    )
 C-----------------------------------------------

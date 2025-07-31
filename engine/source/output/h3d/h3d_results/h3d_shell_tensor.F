@@ -20,27 +20,27 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    h3d_shell_tensor            ../engine/source/output/h3d/h3d_results/h3d_shell_tensor.F
-      !||--- called by ------------------------------------------------------
-      !||    genh3d                      ../engine/source/output/h3d/h3d_results/genh3d.F
-      !||--- calls      -----------------------------------------------------
-      !||    h3d_write_sh_tensor         ../engine/source/output/h3d/h3d_results/h3d_write_sh_tensor.F
-      !||    h3d_write_sh_tensor_array   ../engine/source/output/h3d/h3d_results/h3d_write_sh_tensor_array.F
-      !||    layini                      ../engine/source/elements/shell/coque/layini.F
-      !||    roto_tens2d                 ../engine/source/materials/tools/roto_tens2d.F
-      !||    roto_tens2d_aniso           ../engine/source/materials/tools/roto_tens2d_aniso.F
-      !||    sh3_tstrain                 ../engine/source/output/h3d/h3d_results/h3d_shell_tensor.F
-      !||    sh4_tstrain                 ../engine/source/output/h3d/h3d_results/h3d_shell_tensor.F
-      !||    uroto_tens2d                ../engine/source/materials/tools/uroto_tens2d.F
-      !||    uroto_tens2d_aniso          ../engine/source/materials/tools/uroto_tens2d_aniso.F
-      !||--- uses       -----------------------------------------------------
-      !||    drape_mod                   ../engine/share/modules/drape_mod.F
-      !||    elbufdef_mod                ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||    matparam_def_mod            ../common_source/modules/mat_elem/matparam_def_mod.F90
-      !||    names_and_titles_mod        ../common_source/modules/names_and_titles_mod.F
-      !||    stack_mod                   ../engine/share/modules/stack_mod.F
-      !||====================================================================
+!||====================================================================
+!||    h3d_shell_tensor            ../engine/source/output/h3d/h3d_results/h3d_shell_tensor.F
+!||--- called by ------------------------------------------------------
+!||    genh3d                      ../engine/source/output/h3d/h3d_results/genh3d.F
+!||--- calls      -----------------------------------------------------
+!||    h3d_write_sh_tensor         ../engine/source/output/h3d/h3d_results/h3d_write_sh_tensor.F
+!||    h3d_write_sh_tensor_array   ../engine/source/output/h3d/h3d_results/h3d_write_sh_tensor_array.F
+!||    layini                      ../engine/source/elements/shell/coque/layini.F
+!||    roto_tens2d                 ../engine/source/materials/tools/roto_tens2d.F
+!||    roto_tens2d_aniso           ../engine/source/materials/tools/roto_tens2d_aniso.F
+!||    sh3_tstrain                 ../engine/source/output/h3d/h3d_results/h3d_shell_tensor.F
+!||    sh4_tstrain                 ../engine/source/output/h3d/h3d_results/h3d_shell_tensor.F
+!||    uroto_tens2d                ../engine/source/materials/tools/uroto_tens2d.F
+!||    uroto_tens2d_aniso          ../engine/source/materials/tools/uroto_tens2d_aniso.F
+!||--- uses       -----------------------------------------------------
+!||    drape_mod                   ../engine/share/modules/drape_mod.F
+!||    elbufdef_mod                ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    matparam_def_mod            ../common_source/modules/mat_elem/matparam_def_mod.F90
+!||    names_and_titles_mod        ../common_source/modules/names_and_titles_mod.F
+!||    stack_mod                   ../engine/share/modules/stack_mod.F
+!||====================================================================
       SUBROUTINE H3D_SHELL_TENSOR(ELBUF_TAB,SHELL_TENSOR,IPARG ,ITENS ,INVERT,NELCUT,
      2                   EL2FA    ,NBF   ,TENS  ,EPSDOT,IADP  ,
      3                   NBF_L    ,NBPART,IADG  ,X     ,IXC   ,
@@ -2136,13 +2136,13 @@ C-----------------------------------------------
 C
       RETURN
       END
-      !||====================================================================
-      !||    sh4_tstrain        ../engine/source/output/h3d/h3d_results/h3d_shell_tensor.F
-      !||--- called by ------------------------------------------------------
-      !||    h3d_shell_tensor   ../engine/source/output/h3d/h3d_results/h3d_shell_tensor.F
-      !||--- calls      -----------------------------------------------------
-      !||    c4sysg2l           ../engine/source/output/h3d/h3d_results/h3d_shell_tensor.F
-      !||====================================================================
+!||====================================================================
+!||    sh4_tstrain        ../engine/source/output/h3d/h3d_results/h3d_shell_tensor.F
+!||--- called by ------------------------------------------------------
+!||    h3d_shell_tensor   ../engine/source/output/h3d/h3d_results/h3d_shell_tensor.F
+!||--- calls      -----------------------------------------------------
+!||    c4sysg2l           ../engine/source/output/h3d/h3d_results/h3d_shell_tensor.F
+!||====================================================================
         SUBROUTINE SH4_TSTRAIN(XN,YN,ZN,DX,DY,DZ,STRAIN,NEL)
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
 #include      "implicit_f.inc"
@@ -2244,13 +2244,13 @@ C---------------
 C
       RETURN
       END
-      !||====================================================================
-      !||    c4sysg2l      ../engine/source/output/h3d/h3d_results/h3d_shell_tensor.F
-      !||--- called by ------------------------------------------------------
-      !||    sh4_tstrain   ../engine/source/output/h3d/h3d_results/h3d_shell_tensor.F
-      !||--- calls      -----------------------------------------------------
-      !||    clsys3        ../engine/source/output/h3d/h3d_results/h3d_shell_tensor.F
-      !||====================================================================
+!||====================================================================
+!||    c4sysg2l      ../engine/source/output/h3d/h3d_results/h3d_shell_tensor.F
+!||--- called by ------------------------------------------------------
+!||    sh4_tstrain   ../engine/source/output/h3d/h3d_results/h3d_shell_tensor.F
+!||--- calls      -----------------------------------------------------
+!||    clsys3        ../engine/source/output/h3d/h3d_results/h3d_shell_tensor.F
+!||====================================================================
       SUBROUTINE C4SYSG2L(XN,YN,ZN,XL2,YL2,XL3,YL3,XL4,YL4,ZL1,AREA,NEL) 
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -2330,14 +2330,14 @@ C
 c-----------
       RETURN
       END
-      !||====================================================================
-      !||    clsys3     ../engine/source/output/h3d/h3d_results/h3d_shell_tensor.F
-      !||--- called by ------------------------------------------------------
-      !||    c3sysg2l   ../engine/source/output/h3d/h3d_results/h3d_shell_tensor.F
-      !||    c4sysg2l   ../engine/source/output/h3d/h3d_results/h3d_shell_tensor.F
-      !||    sdlensh    ../engine/source/elements/thickshell/solidec/sdlensh.F
-      !||    sdlensh8   ../engine/source/elements/thickshell/solide8c/sdlensh8.F
-      !||====================================================================
+!||====================================================================
+!||    clsys3     ../engine/source/output/h3d/h3d_results/h3d_shell_tensor.F
+!||--- called by ------------------------------------------------------
+!||    c3sysg2l   ../engine/source/output/h3d/h3d_results/h3d_shell_tensor.F
+!||    c4sysg2l   ../engine/source/output/h3d/h3d_results/h3d_shell_tensor.F
+!||    sdlensh    ../engine/source/elements/thickshell/solidec/sdlensh.F
+!||    sdlensh8   ../engine/source/elements/thickshell/solide8c/sdlensh8.F
+!||====================================================================
       SUBROUTINE CLSYS3(RX, RY, RZ, SX, SY, SZ, VQ, DET,NEL)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -2428,14 +2428,14 @@ C~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 c-----------
       RETURN
       END
-      !||====================================================================
-      !||    sh3_tstrain        ../engine/source/output/h3d/h3d_results/h3d_shell_tensor.F
-      !||--- called by ------------------------------------------------------
-      !||    h3d_shell_tensor   ../engine/source/output/h3d/h3d_results/h3d_shell_tensor.F
-      !||--- calls      -----------------------------------------------------
-      !||    c3sysg2l           ../engine/source/output/h3d/h3d_results/h3d_shell_tensor.F
-      !||    u_from_f2          ../engine/source/output/h3d/h3d_results/h3d_shell_tensor.F
-      !||====================================================================
+!||====================================================================
+!||    sh3_tstrain        ../engine/source/output/h3d/h3d_results/h3d_shell_tensor.F
+!||--- called by ------------------------------------------------------
+!||    h3d_shell_tensor   ../engine/source/output/h3d/h3d_results/h3d_shell_tensor.F
+!||--- calls      -----------------------------------------------------
+!||    c3sysg2l           ../engine/source/output/h3d/h3d_results/h3d_shell_tensor.F
+!||    u_from_f2          ../engine/source/output/h3d/h3d_results/h3d_shell_tensor.F
+!||====================================================================
         SUBROUTINE SH3_TSTRAIN(XN,YN,ZN,DX,DY,DZ,STRAIN,NEL,IHBE)
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
 #include      "implicit_f.inc"
@@ -2519,13 +2519,13 @@ C--- local sys for 3N isn't really material ----
 C
       RETURN
       END
-      !||====================================================================
-      !||    c3sysg2l      ../engine/source/output/h3d/h3d_results/h3d_shell_tensor.F
-      !||--- called by ------------------------------------------------------
-      !||    sh3_tstrain   ../engine/source/output/h3d/h3d_results/h3d_shell_tensor.F
-      !||--- calls      -----------------------------------------------------
-      !||    clsys3        ../engine/source/output/h3d/h3d_results/h3d_shell_tensor.F
-      !||====================================================================
+!||====================================================================
+!||    c3sysg2l      ../engine/source/output/h3d/h3d_results/h3d_shell_tensor.F
+!||--- called by ------------------------------------------------------
+!||    sh3_tstrain   ../engine/source/output/h3d/h3d_results/h3d_shell_tensor.F
+!||--- calls      -----------------------------------------------------
+!||    clsys3        ../engine/source/output/h3d/h3d_results/h3d_shell_tensor.F
+!||====================================================================
       SUBROUTINE C3SYSG2L(XN,YN,ZN,XL2,YL2,XL3,YL3,AREA,NEL) 
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -2586,11 +2586,11 @@ C
 c-----------
       RETURN
       END
-      !||====================================================================
-      !||    u_from_f2     ../engine/source/output/h3d/h3d_results/h3d_shell_tensor.F
-      !||--- called by ------------------------------------------------------
-      !||    sh3_tstrain   ../engine/source/output/h3d/h3d_results/h3d_shell_tensor.F
-      !||====================================================================
+!||====================================================================
+!||    u_from_f2     ../engine/source/output/h3d/h3d_results/h3d_shell_tensor.F
+!||--- called by ------------------------------------------------------
+!||    sh3_tstrain   ../engine/source/output/h3d/h3d_results/h3d_shell_tensor.F
+!||====================================================================
       SUBROUTINE U_FROM_F2(F,STRAIN,NEL )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

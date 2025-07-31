@@ -20,26 +20,26 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    i2_surfi_dim_mod   ../starter/source/interfaces/inter3d1/i2_surfi_dim.F90
-      !||--- called by ------------------------------------------------------
-      !||    lecint             ../starter/source/interfaces/interf1/lecint.F
-      !||====================================================================
+!||====================================================================
+!||    i2_surfi_dim_mod   ../starter/source/interfaces/inter3d1/i2_surfi_dim.F90
+!||--- called by ------------------------------------------------------
+!||    lecint             ../starter/source/interfaces/interf1/lecint.F
+!||====================================================================
       module i2_surfi_dim_mod
       contains
 ! ======================================================================================================================
 !                                                   procedures
 ! ======================================================================================================================
 !! \brief this subroutine doing the dimensioning of the interface type2 w/ input surf/surf
-      !||====================================================================
-      !||    i2_surfi_dim     ../starter/source/interfaces/inter3d1/i2_surfi_dim.F90
-      !||--- called by ------------------------------------------------------
-      !||    lecint           ../starter/source/interfaces/interf1/lecint.F
-      !||--- calls      -----------------------------------------------------
-      !||    select_s2s       ../starter/source/interfaces/inter3d1/select_s2s.F90
-      !||--- uses       -----------------------------------------------------
-      !||    select_s2s_mod   ../starter/source/interfaces/inter3d1/select_s2s.F90
-      !||====================================================================
+!||====================================================================
+!||    i2_surfi_dim     ../starter/source/interfaces/inter3d1/i2_surfi_dim.F90
+!||--- called by ------------------------------------------------------
+!||    lecint           ../starter/source/interfaces/interf1/lecint.F
+!||--- calls      -----------------------------------------------------
+!||    select_s2s       ../starter/source/interfaces/inter3d1/select_s2s.F90
+!||--- uses       -----------------------------------------------------
+!||    select_s2s_mod   ../starter/source/interfaces/inter3d1/select_s2s.F90
+!||====================================================================
         subroutine i2_surfi_dim(                                             &
                          npari   ,ipari   ,nsurf   ,igrsurf ,                &
                          nsn     ,nrtm    ,nmn     ,dsearch ,                &

@@ -20,15 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    arret_message       ../starter/source/interfaces/int24/arret_message.F
-      !||--- called by ------------------------------------------------------
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg              ../starter/source/output/message/message.F
-      !||    arret               ../starter/source/system/arret.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod         ../starter/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    arret_message       ../starter/source/interfaces/int24/arret_message.F
+!||--- called by ------------------------------------------------------
+!||--- calls      -----------------------------------------------------
+!||    ancmsg              ../starter/source/output/message/message.F
+!||    arret               ../starter/source/system/arret.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod         ../starter/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE ARRET_MESSAGE(ITY,INTID,IPENMAX)
 C-----------------------------------------------
 C   M o d u l e s
@@ -60,15 +60,15 @@ C-----------------------------------------------
 
       END
 
-      !||====================================================================
-      !||    arret_message_slid   ../starter/source/interfaces/int24/arret_message.F
-      !||--- called by ------------------------------------------------------
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg               ../starter/source/output/message/message.F
-      !||    arret                ../starter/source/system/arret.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod          ../starter/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    arret_message_slid   ../starter/source/interfaces/int24/arret_message.F
+!||--- called by ------------------------------------------------------
+!||--- calls      -----------------------------------------------------
+!||    ancmsg               ../starter/source/output/message/message.F
+!||    arret                ../starter/source/system/arret.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod          ../starter/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE ARRET_MESSAGE_SLID(ITY,INTID)
 C-----------------------------------------------
 C   M o d u l e s

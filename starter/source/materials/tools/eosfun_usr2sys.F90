@@ -20,11 +20,11 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    eosfun_usr2sys_mod   ../starter/source/materials/tools/eosfun_usr2sys.F90
-      !||--- called by ------------------------------------------------------
-      !||    updmat               ../starter/source/materials/updmat.F
-      !||====================================================================
+!||====================================================================
+!||    eosfun_usr2sys_mod   ../starter/source/materials/tools/eosfun_usr2sys.F90
+!||--- called by ------------------------------------------------------
+!||    updmat               ../starter/source/materials/updmat.F
+!||====================================================================
       module EOSFUN_USR2SYS_MOD
       contains
 ! ======================================================================================================================
@@ -32,16 +32,16 @@
 ! ======================================================================================================================
 !! \brief convert user function identifier into internal function identifiers
 !! \details
-      !||====================================================================
-      !||    eosfun_usr2sys         ../starter/source/materials/tools/eosfun_usr2sys.F90
-      !||--- called by ------------------------------------------------------
-      !||    updmat                 ../starter/source/materials/updmat.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg                 ../starter/source/output/message/message.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod            ../starter/share/message_module/message_mod.F
-      !||    table_mod              ../starter/share/modules1/table_mod.F
-      !||====================================================================
+!||====================================================================
+!||    eosfun_usr2sys         ../starter/source/materials/tools/eosfun_usr2sys.F90
+!||--- called by ------------------------------------------------------
+!||    updmat                 ../starter/source/materials/updmat.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                 ../starter/source/output/message/message.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod            ../starter/share/message_module/message_mod.F
+!||    table_mod              ../starter/share/modules1/table_mod.F
+!||====================================================================
       SUBROUTINE EOSFUN_USR2SYS(TITR, EOS_ID, NFUNC  ,IFUNC  ,FUNC_ID, NFUNCT  )
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules

@@ -20,25 +20,25 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    dfunc0                       ../engine/source/output/anim/generate/dfunc0.F
-      !||--- called by ------------------------------------------------------
-      !||    genani                       ../engine/source/output/anim/generate/genani.F
-      !||--- calls      -----------------------------------------------------
-      !||    schlieren_buffer_gathering   ../engine/source/output/anim/generate/schlieren_buffer_gathering.F
-      !||    spmd_r4get_partn             ../engine/source/mpi/anim/spmd_r4get_partn.F
-      !||    write_r_c                    ../common_source/tools/input_output/write_routtines.c
-      !||--- uses       -----------------------------------------------------
-      !||    ale_connectivity_mod         ../common_source/modules/ale/ale_connectivity_mod.F
-      !||    alefvm_mod                   ../common_source/modules/ale/alefvm_mod.F
-      !||    elbufdef_mod                 ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||    initbuf_mod                  ../engine/share/resol/initbuf.F
-      !||    matparam_def_mod             ../common_source/modules/mat_elem/matparam_def_mod.F90
-      !||    multi_fvm_mod                ../common_source/modules/ale/multi_fvm_mod.F90
-      !||    multimat_param_mod           ../common_source/modules/multimat_param_mod.F90
-      !||    my_alloc_mod                 ../common_source/tools/memory/my_alloc.F90
-      !||    schlieren_mod                ../engine/share/modules/schlieren_mod.F
-      !||====================================================================
+!||====================================================================
+!||    dfunc0                       ../engine/source/output/anim/generate/dfunc0.F
+!||--- called by ------------------------------------------------------
+!||    genani                       ../engine/source/output/anim/generate/genani.F
+!||--- calls      -----------------------------------------------------
+!||    schlieren_buffer_gathering   ../engine/source/output/anim/generate/schlieren_buffer_gathering.F
+!||    spmd_r4get_partn             ../engine/source/mpi/anim/spmd_r4get_partn.F
+!||    write_r_c                    ../common_source/tools/input_output/write_routtines.c
+!||--- uses       -----------------------------------------------------
+!||    ale_connectivity_mod         ../common_source/modules/ale/ale_connectivity_mod.F
+!||    alefvm_mod                   ../common_source/modules/ale/alefvm_mod.F
+!||    elbufdef_mod                 ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    initbuf_mod                  ../engine/share/resol/initbuf.F
+!||    matparam_def_mod             ../common_source/modules/mat_elem/matparam_def_mod.F90
+!||    multi_fvm_mod                ../common_source/modules/ale/multi_fvm_mod.F90
+!||    multimat_param_mod           ../common_source/modules/multimat_param_mod.F90
+!||    my_alloc_mod                 ../common_source/tools/memory/my_alloc.F90
+!||    schlieren_mod                ../engine/share/modules/schlieren_mod.F
+!||====================================================================
       SUBROUTINE DFUNC0(ELBUF_TAB, FUNC             ,IFUNC     ,IPARG   ,
      2                  MASS     , PM               ,EL2FA     ,NBF     ,
      3                  NBPART   , IADG             ,SPBUF     ,IPART   ,

@@ -21,13 +21,13 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C Computes AINV(NEL,3,3) which is the inverse of MAT(NEL,3,3)
-      !||====================================================================
-      !||    kmatinv3    ../engine/source/materials/tools/kmatinv.F
-      !||--- called by ------------------------------------------------------
-      !||    calcmatb    ../engine/source/materials/mat/mat100/calcmatb.F
-      !||    sigeps100   ../engine/source/materials/mat/mat100/sigeps100.F90
-      !||    sigeps95    ../engine/source/materials/mat/mat095/sigeps95.F
-      !||====================================================================
+!||====================================================================
+!||    kmatinv3    ../engine/source/materials/tools/kmatinv.F
+!||--- called by ------------------------------------------------------
+!||    calcmatb    ../engine/source/materials/mat/mat100/calcmatb.F
+!||    sigeps100   ../engine/source/materials/mat/mat100/sigeps100.F90
+!||    sigeps95    ../engine/source/materials/mat/mat095/sigeps95.F
+!||====================================================================
        SUBROUTINE KMATINV3(MAT, AINV  ,NEL)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

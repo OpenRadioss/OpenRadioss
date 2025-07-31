@@ -20,32 +20,32 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    arezon_mod   ../engine/source/ale/arezon.F
-      !||--- called by ------------------------------------------------------
-      !||    alethe       ../engine/source/ale/alethe.F
-      !||====================================================================
+!||====================================================================
+!||    arezon_mod   ../engine/source/ale/arezon.F
+!||--- called by ------------------------------------------------------
+!||    alethe       ../engine/source/ale/alethe.F
+!||====================================================================
       MODULE AREZON_MOD
       CONTAINS
-      !||====================================================================
-      !||    arezon                 ../engine/source/ale/arezon.F
-      !||--- called by ------------------------------------------------------
-      !||    alethe                 ../engine/source/ale/alethe.F
-      !||--- calls      -----------------------------------------------------
-      !||    arezo2                 ../engine/source/ale/ale2d/arezo2.F
-      !||    arezo3                 ../engine/source/ale/ale3d/arezo3.F
-      !||    brezo2                 ../engine/source/ale/ale2d/brezo2.F
-      !||    initbuf                ../engine/share/resol/initbuf.F
-      !||    my_barrier             ../engine/source/system/machine.F
-      !||    spmd_e1vois            ../engine/source/mpi/fluid/spmd_cfd.F
-      !||--- uses       -----------------------------------------------------
-      !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
-      !||    arezo2_mod             ../engine/source/ale/ale2d/arezo2.F
-      !||    arezo3_mod             ../engine/source/ale/ale3d/arezo3.F
-      !||    elbufdef_mod           ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||    initbuf_mod            ../engine/share/resol/initbuf.F
-      !||    multimat_param_mod     ../common_source/modules/multimat_param_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    arezon                 ../engine/source/ale/arezon.F
+!||--- called by ------------------------------------------------------
+!||    alethe                 ../engine/source/ale/alethe.F
+!||--- calls      -----------------------------------------------------
+!||    arezo2                 ../engine/source/ale/ale2d/arezo2.F
+!||    arezo3                 ../engine/source/ale/ale3d/arezo3.F
+!||    brezo2                 ../engine/source/ale/ale2d/brezo2.F
+!||    initbuf                ../engine/share/resol/initbuf.F
+!||    my_barrier             ../engine/source/system/machine.F
+!||    spmd_e1vois            ../engine/source/mpi/fluid/spmd_cfd.F
+!||--- uses       -----------------------------------------------------
+!||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
+!||    arezo2_mod             ../engine/source/ale/ale2d/arezo2.F
+!||    arezo3_mod             ../engine/source/ale/ale3d/arezo3.F
+!||    elbufdef_mod           ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    initbuf_mod            ../engine/share/resol/initbuf.F
+!||    multimat_param_mod     ../common_source/modules/multimat_param_mod.F90
+!||====================================================================
       SUBROUTINE AREZON(
      1  IPARG   ,ELBUF_STR,FLUX    ,PHI     ,ALE_CONNECT   ,
      2  NVAR    ,NV       ,ITASK   ,NERCVOIS,

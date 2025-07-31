@@ -20,101 +20,101 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    imp_intm        ../engine/share/modules/imp_intm.F
-      !||--- called by ------------------------------------------------------
-      !||    ass_spmd        ../engine/source/implicit/assem_int.F
-      !||    ass_spmd11      ../engine/source/implicit/assem_int.F
-      !||    assem_ksl       ../engine/source/mpi/implicit/imp_fri.F
-      !||    cp_iadd         ../engine/source/mpi/implicit/imp_fri.F
-      !||    cp_slnr         ../engine/source/mpi/implicit/imp_fri.F
-      !||    diag_int        ../engine/source/mpi/implicit/imp_fri.F
-      !||    dim_frkm        ../engine/source/mpi/implicit/imp_fri.F
-      !||    dim_frkm1       ../engine/source/mpi/implicit/imp_fri.F
-      !||    doub_nrs        ../engine/source/mpi/implicit/imp_fri.F
-      !||    ffizero         ../engine/source/interfaces/int07/i7ke3.F
-      !||    fr_a2b          ../engine/source/mpi/implicit/imp_fri.F
-      !||    fr_a2bd         ../engine/source/mpi/implicit/imp_fri.F
-      !||    fr_u2d          ../engine/source/mpi/implicit/imp_fri.F
-      !||    fr_u2dd         ../engine/source/mpi/implicit/imp_fri.F
-      !||    i10corp3        ../engine/source/interfaces/int10/i10corp3.F
-      !||    i10frf3         ../engine/source/interfaces/int10/i10keg3.F
-      !||    i10keg3         ../engine/source/interfaces/int10/i10keg3.F
-      !||    i10kfor3        ../engine/source/interfaces/int10/i10keg3.F
-      !||    i11corkp3       ../engine/source/interfaces/int11/i11corp3.F
-      !||    i11corp3        ../engine/source/interfaces/int11/i11corp3.F
-      !||    i11frf3         ../engine/source/interfaces/int11/i11keg3.F
-      !||    i11keg3         ../engine/source/interfaces/int11/i11keg3.F
-      !||    i11kfor3        ../engine/source/interfaces/int11/i11keg3.F
-      !||    i24corp3        ../engine/source/interfaces/int24/i24cork3.F
-      !||    i24keg3         ../engine/source/interfaces/int24/i24ke3.F
-      !||    i7corkp3        ../engine/source/interfaces/int07/i7cork3.F
-      !||    i7corp3         ../engine/source/interfaces/int07/i7cork3.F
-      !||    i7frf3          ../engine/source/interfaces/int07/i7keg3.F
-      !||    i7keg3          ../engine/source/interfaces/int07/i7keg3.F
-      !||    i7kfor3         ../engine/source/interfaces/int07/i7keg3.F
-      !||    iddl_int        ../engine/source/mpi/implicit/imp_fri.F
-      !||    imp_diags       ../engine/source/mpi/implicit/imp_fri.F
-      !||    imp_diagsn      ../engine/source/mpi/implicit/imp_fri.F
-      !||    imp_fr7i        ../engine/source/mpi/implicit/imp_fri.F
-      !||    imp_frii        ../engine/source/mpi/implicit/imp_fri.F
-      !||    imp_frkm        ../engine/source/mpi/implicit/imp_fri.F
-      !||    imp_frks        ../engine/source/mpi/implicit/imp_fri.F
-      !||    imp_frsl        ../engine/source/mpi/implicit/imp_fri.F
-      !||    imp_frsn        ../engine/source/mpi/implicit/imp_fri.F
-      !||    imp_fvkm        ../engine/source/mpi/implicit/imp_fri.F
-      !||    imp_fvksl       ../engine/source/mpi/implicit/imp_fri.F
-      !||    imp_fvkss       ../engine/source/mpi/implicit/imp_fri.F
-      !||    imp_init        ../engine/source/implicit/imp_init.F
-      !||    imp_mumps1      ../engine/source/implicit/imp_mumps.F
-      !||    imp_pcgh        ../engine/source/implicit/imp_pcg.F
-      !||    ind_fvn         ../engine/source/mpi/implicit/imp_fri.F
-      !||    ind_kinefr      ../engine/source/mpi/implicit/imp_fri.F
-      !||    ind_kinfrk      ../engine/source/mpi/implicit/imp_fri.F
-      !||    ind_sld         ../engine/source/mpi/implicit/imp_fri.F
-      !||    ini_dd0         ../engine/source/mpi/implicit/imp_fri.F
-      !||    ini_ddfv        ../engine/source/mpi/implicit/imp_fri.F
-      !||    ini_frfd        ../engine/source/mpi/implicit/imp_fri.F
-      !||    ini_frkc        ../engine/source/mpi/implicit/imp_fri.F
-      !||    ini_frud        ../engine/source/mpi/implicit/imp_fri.F
-      !||    ini_intm        ../engine/source/mpi/implicit/imp_fri.F
-      !||    ini_kic         ../engine/source/implicit/imp_solv.F
-      !||    ini_ksi         ../engine/source/mpi/implicit/imp_fri.F
-      !||    ini_slnr        ../engine/source/mpi/implicit/imp_fri.F
-      !||    int_matvp       ../engine/source/implicit/imp_int_k.F
-      !||    jdifrtok        ../engine/source/mpi/implicit/imp_fri.F
-      !||    mav_ltfr        ../engine/source/mpi/implicit/imp_fri.F
-      !||    mav_ltfr_gpu    ../engine/source/mpi/implicit/imp_fri.F
-      !||    mumps_set       ../engine/source/implicit/imp_mumps.F
-      !||    mumps_set2      ../engine/source/implicit/imp_mumps.F
-      !||    ndofi_nsl       ../engine/source/mpi/implicit/imp_fri.F
-      !||    pr_deb          ../engine/source/implicit/imp_solv.F
-      !||    pr_solnfo       ../engine/source/implicit/imp_solv.F
-      !||    rowfr_dim       ../engine/source/mpi/implicit/imp_fri.F
-      !||    rowfr_dim11     ../engine/source/mpi/implicit/imp_fri.F
-      !||    rowfr_dim24     ../engine/source/mpi/implicit/imp_fri.F
-      !||    rowfr_ind       ../engine/source/mpi/implicit/imp_fri.F
-      !||    rowfr_ind11     ../engine/source/mpi/implicit/imp_fri.F
-      !||    rowfr_ind24     ../engine/source/mpi/implicit/imp_fri.F
-      !||    scom_frk        ../engine/source/mpi/implicit/imp_fri.F
-      !||    scom_frk1       ../engine/source/mpi/implicit/imp_fri.F
-      !||    scom_frud       ../engine/source/mpi/implicit/imp_fri.F
-      !||    set_ind_fr      ../engine/source/mpi/implicit/imp_fri.F
-      !||    spmd_ifc1       ../engine/source/mpi/implicit/imp_spmd.F
-      !||    spmd_ifcd       ../engine/source/mpi/implicit/imp_spmd.F
-      !||    spmd_ifcf       ../engine/source/mpi/implicit/imp_spmd.F
-      !||    spmd_ifrf       ../engine/source/mpi/implicit/imp_spmd.F
-      !||    spmd_ifrf_gpu   ../engine/source/mpi/implicit/imp_spmd.F
-      !||    spmd_ifri       ../engine/source/mpi/implicit/imp_spmd.F
-      !||    spmd_ifru       ../engine/source/mpi/implicit/imp_spmd.F
-      !||    spmd_ifru_gpu   ../engine/source/mpi/implicit/imp_spmd.F
-      !||    tag_intml       ../engine/source/mpi/implicit/imp_fri.F
-      !||    tag_ints        ../engine/source/mpi/implicit/imp_fri.F
-      !||    tra_frkm        ../engine/source/mpi/implicit/imp_fri.F
-      !||    upd_fr          ../engine/source/mpi/implicit/imp_fri.F
-      !||    upd_kml         ../engine/source/mpi/implicit/imp_fri.F
-      !||    upd_ksl         ../engine/source/mpi/implicit/imp_fri.F
-      !||====================================================================
+!||====================================================================
+!||    imp_intm        ../engine/share/modules/imp_intm.F
+!||--- called by ------------------------------------------------------
+!||    ass_spmd        ../engine/source/implicit/assem_int.F
+!||    ass_spmd11      ../engine/source/implicit/assem_int.F
+!||    assem_ksl       ../engine/source/mpi/implicit/imp_fri.F
+!||    cp_iadd         ../engine/source/mpi/implicit/imp_fri.F
+!||    cp_slnr         ../engine/source/mpi/implicit/imp_fri.F
+!||    diag_int        ../engine/source/mpi/implicit/imp_fri.F
+!||    dim_frkm        ../engine/source/mpi/implicit/imp_fri.F
+!||    dim_frkm1       ../engine/source/mpi/implicit/imp_fri.F
+!||    doub_nrs        ../engine/source/mpi/implicit/imp_fri.F
+!||    ffizero         ../engine/source/interfaces/int07/i7ke3.F
+!||    fr_a2b          ../engine/source/mpi/implicit/imp_fri.F
+!||    fr_a2bd         ../engine/source/mpi/implicit/imp_fri.F
+!||    fr_u2d          ../engine/source/mpi/implicit/imp_fri.F
+!||    fr_u2dd         ../engine/source/mpi/implicit/imp_fri.F
+!||    i10corp3        ../engine/source/interfaces/int10/i10corp3.F
+!||    i10frf3         ../engine/source/interfaces/int10/i10keg3.F
+!||    i10keg3         ../engine/source/interfaces/int10/i10keg3.F
+!||    i10kfor3        ../engine/source/interfaces/int10/i10keg3.F
+!||    i11corkp3       ../engine/source/interfaces/int11/i11corp3.F
+!||    i11corp3        ../engine/source/interfaces/int11/i11corp3.F
+!||    i11frf3         ../engine/source/interfaces/int11/i11keg3.F
+!||    i11keg3         ../engine/source/interfaces/int11/i11keg3.F
+!||    i11kfor3        ../engine/source/interfaces/int11/i11keg3.F
+!||    i24corp3        ../engine/source/interfaces/int24/i24cork3.F
+!||    i24keg3         ../engine/source/interfaces/int24/i24ke3.F
+!||    i7corkp3        ../engine/source/interfaces/int07/i7cork3.F
+!||    i7corp3         ../engine/source/interfaces/int07/i7cork3.F
+!||    i7frf3          ../engine/source/interfaces/int07/i7keg3.F
+!||    i7keg3          ../engine/source/interfaces/int07/i7keg3.F
+!||    i7kfor3         ../engine/source/interfaces/int07/i7keg3.F
+!||    iddl_int        ../engine/source/mpi/implicit/imp_fri.F
+!||    imp_diags       ../engine/source/mpi/implicit/imp_fri.F
+!||    imp_diagsn      ../engine/source/mpi/implicit/imp_fri.F
+!||    imp_fr7i        ../engine/source/mpi/implicit/imp_fri.F
+!||    imp_frii        ../engine/source/mpi/implicit/imp_fri.F
+!||    imp_frkm        ../engine/source/mpi/implicit/imp_fri.F
+!||    imp_frks        ../engine/source/mpi/implicit/imp_fri.F
+!||    imp_frsl        ../engine/source/mpi/implicit/imp_fri.F
+!||    imp_frsn        ../engine/source/mpi/implicit/imp_fri.F
+!||    imp_fvkm        ../engine/source/mpi/implicit/imp_fri.F
+!||    imp_fvksl       ../engine/source/mpi/implicit/imp_fri.F
+!||    imp_fvkss       ../engine/source/mpi/implicit/imp_fri.F
+!||    imp_init        ../engine/source/implicit/imp_init.F
+!||    imp_mumps1      ../engine/source/implicit/imp_mumps.F
+!||    imp_pcgh        ../engine/source/implicit/imp_pcg.F
+!||    ind_fvn         ../engine/source/mpi/implicit/imp_fri.F
+!||    ind_kinefr      ../engine/source/mpi/implicit/imp_fri.F
+!||    ind_kinfrk      ../engine/source/mpi/implicit/imp_fri.F
+!||    ind_sld         ../engine/source/mpi/implicit/imp_fri.F
+!||    ini_dd0         ../engine/source/mpi/implicit/imp_fri.F
+!||    ini_ddfv        ../engine/source/mpi/implicit/imp_fri.F
+!||    ini_frfd        ../engine/source/mpi/implicit/imp_fri.F
+!||    ini_frkc        ../engine/source/mpi/implicit/imp_fri.F
+!||    ini_frud        ../engine/source/mpi/implicit/imp_fri.F
+!||    ini_intm        ../engine/source/mpi/implicit/imp_fri.F
+!||    ini_kic         ../engine/source/implicit/imp_solv.F
+!||    ini_ksi         ../engine/source/mpi/implicit/imp_fri.F
+!||    ini_slnr        ../engine/source/mpi/implicit/imp_fri.F
+!||    int_matvp       ../engine/source/implicit/imp_int_k.F
+!||    jdifrtok        ../engine/source/mpi/implicit/imp_fri.F
+!||    mav_ltfr        ../engine/source/mpi/implicit/imp_fri.F
+!||    mav_ltfr_gpu    ../engine/source/mpi/implicit/imp_fri.F
+!||    mumps_set       ../engine/source/implicit/imp_mumps.F
+!||    mumps_set2      ../engine/source/implicit/imp_mumps.F
+!||    ndofi_nsl       ../engine/source/mpi/implicit/imp_fri.F
+!||    pr_deb          ../engine/source/implicit/imp_solv.F
+!||    pr_solnfo       ../engine/source/implicit/imp_solv.F
+!||    rowfr_dim       ../engine/source/mpi/implicit/imp_fri.F
+!||    rowfr_dim11     ../engine/source/mpi/implicit/imp_fri.F
+!||    rowfr_dim24     ../engine/source/mpi/implicit/imp_fri.F
+!||    rowfr_ind       ../engine/source/mpi/implicit/imp_fri.F
+!||    rowfr_ind11     ../engine/source/mpi/implicit/imp_fri.F
+!||    rowfr_ind24     ../engine/source/mpi/implicit/imp_fri.F
+!||    scom_frk        ../engine/source/mpi/implicit/imp_fri.F
+!||    scom_frk1       ../engine/source/mpi/implicit/imp_fri.F
+!||    scom_frud       ../engine/source/mpi/implicit/imp_fri.F
+!||    set_ind_fr      ../engine/source/mpi/implicit/imp_fri.F
+!||    spmd_ifc1       ../engine/source/mpi/implicit/imp_spmd.F
+!||    spmd_ifcd       ../engine/source/mpi/implicit/imp_spmd.F
+!||    spmd_ifcf       ../engine/source/mpi/implicit/imp_spmd.F
+!||    spmd_ifrf       ../engine/source/mpi/implicit/imp_spmd.F
+!||    spmd_ifrf_gpu   ../engine/source/mpi/implicit/imp_spmd.F
+!||    spmd_ifri       ../engine/source/mpi/implicit/imp_spmd.F
+!||    spmd_ifru       ../engine/source/mpi/implicit/imp_spmd.F
+!||    spmd_ifru_gpu   ../engine/source/mpi/implicit/imp_spmd.F
+!||    tag_intml       ../engine/source/mpi/implicit/imp_fri.F
+!||    tag_ints        ../engine/source/mpi/implicit/imp_fri.F
+!||    tra_frkm        ../engine/source/mpi/implicit/imp_fri.F
+!||    upd_fr          ../engine/source/mpi/implicit/imp_fri.F
+!||    upd_kml         ../engine/source/mpi/implicit/imp_fri.F
+!||    upd_ksl         ../engine/source/mpi/implicit/imp_fri.F
+!||====================================================================
       MODULE IMP_INTM
 #include "my_real.inc"
       TYPE int_pointer2
@@ -182,13 +182,13 @@ C quand INTP_D>0 la matrice de rigidite M.C.R.S.-----
 C      
       END MODULE IMP_INTM
 C
-      !||====================================================================
-      !||    imp_i7cp     ../engine/share/modules/imp_intm.F
-      !||--- called by ------------------------------------------------------
-      !||    cp_ifront    ../engine/source/implicit/produt_v.F
-      !||    cp_impbuf    ../engine/source/implicit/produt_v.F
-      !||    imp_stif24   ../engine/source/implicit/imp_solv.F
-      !||====================================================================
+!||====================================================================
+!||    imp_i7cp     ../engine/share/modules/imp_intm.F
+!||--- called by ------------------------------------------------------
+!||    cp_ifront    ../engine/source/implicit/produt_v.F
+!||    cp_impbuf    ../engine/source/implicit/produt_v.F
+!||    imp_stif24   ../engine/source/implicit/imp_solv.F
+!||====================================================================
       MODULE IMP_I7CP
       INTEGER LII7CP,LRI7CP,LENSCP(20)
 #include "my_real.inc"

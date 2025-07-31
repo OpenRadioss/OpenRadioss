@@ -20,15 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    spdens    ../engine/source/elements/sph/spdens.F
-      !||--- called by ------------------------------------------------------
-      !||    forintp   ../engine/source/elements/forintp.F
-      !||--- calls      -----------------------------------------------------
-      !||    weight1   ../engine/source/elements/sph/weight.F
-      !||--- uses       -----------------------------------------------------
-      !||    sphbox    ../engine/share/modules/sphbox.F
-      !||====================================================================
+!||====================================================================
+!||    spdens    ../engine/source/elements/sph/spdens.F
+!||--- called by ------------------------------------------------------
+!||    forintp   ../engine/source/elements/forintp.F
+!||--- calls      -----------------------------------------------------
+!||    weight1   ../engine/source/elements/sph/weight.F
+!||--- uses       -----------------------------------------------------
+!||    sphbox    ../engine/share/modules/sphbox.F
+!||====================================================================
       SUBROUTINE SPDENS(
      1    X        ,V       ,MS      ,SPBUF   ,ITAB    ,
      2    KXSP     ,IXSP    ,NOD2SP  ,ISPSYM  ,XSPSYM  ,

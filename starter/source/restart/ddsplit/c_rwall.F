@@ -21,13 +21,13 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
-      !||====================================================================
-      !||    c_rwall   ../starter/source/restart/ddsplit/c_rwall.F
-      !||--- called by ------------------------------------------------------
-      !||    ddsplit   ../starter/source/restart/ddsplit/ddsplit.F
-      !||--- calls      -----------------------------------------------------
-      !||    nlocal    ../starter/source/spmd/node/ddtools.F
-      !||====================================================================
+!||====================================================================
+!||    c_rwall   ../starter/source/restart/ddsplit/c_rwall.F
+!||--- called by ------------------------------------------------------
+!||    ddsplit   ../starter/source/restart/ddsplit/ddsplit.F
+!||--- calls      -----------------------------------------------------
+!||    nlocal    ../starter/source/spmd/node/ddtools.F
+!||====================================================================
       SUBROUTINE C_RWALL(NPRW    ,LPRW   ,RWL     ,
      2                   CEP    ,PROC    ,NSLAW_L ,NESLAW_L,
      3                   LWSAV_L,NSKYRW_L)

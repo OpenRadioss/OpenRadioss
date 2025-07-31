@@ -20,12 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    flush_remnode_array   ../starter/source/interfaces/inter3d1/flush_remnode_array.F
-      !||--- called by ------------------------------------------------------
-      !||    inintr                ../starter/source/interfaces/interf1/inintr.F
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    flush_remnode_array   ../starter/source/interfaces/inter3d1/flush_remnode_array.F
+!||--- called by ------------------------------------------------------
+!||    inintr                ../starter/source/interfaces/interf1/inintr.F
+!||--- uses       -----------------------------------------------------
+!||====================================================================
         SUBROUTINE FLUSH_REMNODE_ARRAY(NINTER,NPARI,IPARI,INTBUF_TAB)
 !$COMMENT
 !       FLUSH_REMNODE_ARRAY description :

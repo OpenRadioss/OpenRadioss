@@ -21,68 +21,68 @@
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !#define DEBUG_SPMD
-      !||====================================================================
-      !||    spmd_error_mod            ../engine/source/mpi/spmd_error.F90
-      !||--- called by ------------------------------------------------------
-      !||    spmd_allgatherv_double    ../engine/source/mpi/spmd_allgatherv.F90
-      !||    spmd_allgatherv_doubles   ../engine/source/mpi/spmd_allgatherv.F90
-      !||    spmd_allgatherv_int       ../engine/source/mpi/spmd_allgatherv.F90
-      !||    spmd_allgatherv_ints      ../engine/source/mpi/spmd_allgatherv.F90
-      !||    spmd_allgatherv_real      ../engine/source/mpi/spmd_allgatherv.F90
-      !||    spmd_allgatherv_reals     ../engine/source/mpi/spmd_allgatherv.F90
-      !||    spmd_allreduce_double     ../engine/source/mpi/spmd_mod.F90
-      !||    spmd_allreduce_doubles    ../engine/source/mpi/spmd_mod.F90
-      !||    spmd_allreduce_int        ../engine/source/mpi/spmd_mod.F90
-      !||    spmd_allreduce_ints       ../engine/source/mpi/spmd_mod.F90
-      !||    spmd_allreduce_real       ../engine/source/mpi/spmd_mod.F90
-      !||    spmd_allreduce_reals      ../engine/source/mpi/spmd_mod.F90
-      !||    spmd_alltoall_double      ../engine/source/mpi/generic/spmd_alltoall.F90
-      !||    spmd_alltoall_doubles     ../engine/source/mpi/generic/spmd_alltoall.F90
-      !||    spmd_alltoall_int         ../engine/source/mpi/generic/spmd_alltoall.F90
-      !||    spmd_alltoall_ints        ../engine/source/mpi/generic/spmd_alltoall.F90
-      !||    spmd_alltoall_real        ../engine/source/mpi/generic/spmd_alltoall.F90
-      !||    spmd_alltoall_reals       ../engine/source/mpi/generic/spmd_alltoall.F90
-      !||    spmd_barrier              ../engine/source/mpi/spmd_mod.F90
-      !||    spmd_comm_rank            ../engine/source/mpi/spmd_mod.F90
-      !||    spmd_comm_size            ../engine/source/mpi/spmd_mod.F90
-      !||    spmd_irecv_double         ../engine/source/mpi/spmd_irecv.F90
-      !||    spmd_irecv_doubles        ../engine/source/mpi/spmd_irecv.F90
-      !||    spmd_irecv_int            ../engine/source/mpi/spmd_irecv.F90
-      !||    spmd_irecv_ints           ../engine/source/mpi/spmd_irecv.F90
-      !||    spmd_irecv_real           ../engine/source/mpi/spmd_irecv.F90
-      !||    spmd_irecv_reals          ../engine/source/mpi/spmd_irecv.F90
-      !||    spmd_isend_double         ../engine/source/mpi/spmd_isend.F90
-      !||    spmd_isend_doubles        ../engine/source/mpi/spmd_isend.F90
-      !||    spmd_isend_int            ../engine/source/mpi/spmd_isend.F90
-      !||    spmd_isend_ints           ../engine/source/mpi/spmd_isend.F90
-      !||    spmd_isend_real           ../engine/source/mpi/spmd_isend.F90
-      !||    spmd_isend_reals          ../engine/source/mpi/spmd_isend.F90
-      !||    spmd_probe                ../engine/source/mpi/spmd_mod.F90
-      !||    spmd_recv_double          ../engine/source/mpi/spmd_recv.F90
-      !||    spmd_recv_doubles         ../engine/source/mpi/spmd_recv.F90
-      !||    spmd_recv_doubles2d       ../engine/source/mpi/spmd_recv.F90
-      !||    spmd_recv_int             ../engine/source/mpi/spmd_recv.F90
-      !||    spmd_recv_ints            ../engine/source/mpi/spmd_recv.F90
-      !||    spmd_recv_real            ../engine/source/mpi/spmd_recv.F90
-      !||    spmd_recv_reals           ../engine/source/mpi/spmd_recv.F90
-      !||    spmd_recv_reals2d         ../engine/source/mpi/spmd_recv.F90
-      !||    spmd_reduce_double        ../engine/source/mpi/spmd_mod.F90
-      !||    spmd_reduce_doubles       ../engine/source/mpi/spmd_mod.F90
-      !||    spmd_reduce_int           ../engine/source/mpi/spmd_mod.F90
-      !||    spmd_reduce_ints          ../engine/source/mpi/spmd_mod.F90
-      !||    spmd_reduce_real          ../engine/source/mpi/spmd_mod.F90
-      !||    spmd_reduce_reals         ../engine/source/mpi/spmd_mod.F90
-      !||    spmd_send_double          ../engine/source/mpi/spmd_send.F90
-      !||    spmd_send_doubles         ../engine/source/mpi/spmd_send.F90
-      !||    spmd_send_int             ../engine/source/mpi/spmd_send.F90
-      !||    spmd_send_ints            ../engine/source/mpi/spmd_send.F90
-      !||    spmd_send_real            ../engine/source/mpi/spmd_send.F90
-      !||    spmd_send_reals           ../engine/source/mpi/spmd_send.F90
-      !||    spmd_wait                 ../engine/source/mpi/spmd_wait.F90
-      !||    spmd_waitall              ../engine/source/mpi/spmd_wait.F90
-      !||    spmd_waitany              ../engine/source/mpi/spmd_wait.F90
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    spmd_error_mod            ../engine/source/mpi/spmd_error.F90
+!||--- called by ------------------------------------------------------
+!||    spmd_allgatherv_double    ../engine/source/mpi/spmd_allgatherv.F90
+!||    spmd_allgatherv_doubles   ../engine/source/mpi/spmd_allgatherv.F90
+!||    spmd_allgatherv_int       ../engine/source/mpi/spmd_allgatherv.F90
+!||    spmd_allgatherv_ints      ../engine/source/mpi/spmd_allgatherv.F90
+!||    spmd_allgatherv_real      ../engine/source/mpi/spmd_allgatherv.F90
+!||    spmd_allgatherv_reals     ../engine/source/mpi/spmd_allgatherv.F90
+!||    spmd_allreduce_double     ../engine/source/mpi/spmd_mod.F90
+!||    spmd_allreduce_doubles    ../engine/source/mpi/spmd_mod.F90
+!||    spmd_allreduce_int        ../engine/source/mpi/spmd_mod.F90
+!||    spmd_allreduce_ints       ../engine/source/mpi/spmd_mod.F90
+!||    spmd_allreduce_real       ../engine/source/mpi/spmd_mod.F90
+!||    spmd_allreduce_reals      ../engine/source/mpi/spmd_mod.F90
+!||    spmd_alltoall_double      ../engine/source/mpi/generic/spmd_alltoall.F90
+!||    spmd_alltoall_doubles     ../engine/source/mpi/generic/spmd_alltoall.F90
+!||    spmd_alltoall_int         ../engine/source/mpi/generic/spmd_alltoall.F90
+!||    spmd_alltoall_ints        ../engine/source/mpi/generic/spmd_alltoall.F90
+!||    spmd_alltoall_real        ../engine/source/mpi/generic/spmd_alltoall.F90
+!||    spmd_alltoall_reals       ../engine/source/mpi/generic/spmd_alltoall.F90
+!||    spmd_barrier              ../engine/source/mpi/spmd_mod.F90
+!||    spmd_comm_rank            ../engine/source/mpi/spmd_mod.F90
+!||    spmd_comm_size            ../engine/source/mpi/spmd_mod.F90
+!||    spmd_irecv_double         ../engine/source/mpi/spmd_irecv.F90
+!||    spmd_irecv_doubles        ../engine/source/mpi/spmd_irecv.F90
+!||    spmd_irecv_int            ../engine/source/mpi/spmd_irecv.F90
+!||    spmd_irecv_ints           ../engine/source/mpi/spmd_irecv.F90
+!||    spmd_irecv_real           ../engine/source/mpi/spmd_irecv.F90
+!||    spmd_irecv_reals          ../engine/source/mpi/spmd_irecv.F90
+!||    spmd_isend_double         ../engine/source/mpi/spmd_isend.F90
+!||    spmd_isend_doubles        ../engine/source/mpi/spmd_isend.F90
+!||    spmd_isend_int            ../engine/source/mpi/spmd_isend.F90
+!||    spmd_isend_ints           ../engine/source/mpi/spmd_isend.F90
+!||    spmd_isend_real           ../engine/source/mpi/spmd_isend.F90
+!||    spmd_isend_reals          ../engine/source/mpi/spmd_isend.F90
+!||    spmd_probe                ../engine/source/mpi/spmd_mod.F90
+!||    spmd_recv_double          ../engine/source/mpi/spmd_recv.F90
+!||    spmd_recv_doubles         ../engine/source/mpi/spmd_recv.F90
+!||    spmd_recv_doubles2d       ../engine/source/mpi/spmd_recv.F90
+!||    spmd_recv_int             ../engine/source/mpi/spmd_recv.F90
+!||    spmd_recv_ints            ../engine/source/mpi/spmd_recv.F90
+!||    spmd_recv_real            ../engine/source/mpi/spmd_recv.F90
+!||    spmd_recv_reals           ../engine/source/mpi/spmd_recv.F90
+!||    spmd_recv_reals2d         ../engine/source/mpi/spmd_recv.F90
+!||    spmd_reduce_double        ../engine/source/mpi/spmd_mod.F90
+!||    spmd_reduce_doubles       ../engine/source/mpi/spmd_mod.F90
+!||    spmd_reduce_int           ../engine/source/mpi/spmd_mod.F90
+!||    spmd_reduce_ints          ../engine/source/mpi/spmd_mod.F90
+!||    spmd_reduce_real          ../engine/source/mpi/spmd_mod.F90
+!||    spmd_reduce_reals         ../engine/source/mpi/spmd_mod.F90
+!||    spmd_send_double          ../engine/source/mpi/spmd_send.F90
+!||    spmd_send_doubles         ../engine/source/mpi/spmd_send.F90
+!||    spmd_send_int             ../engine/source/mpi/spmd_send.F90
+!||    spmd_send_ints            ../engine/source/mpi/spmd_send.F90
+!||    spmd_send_real            ../engine/source/mpi/spmd_send.F90
+!||    spmd_send_reals           ../engine/source/mpi/spmd_send.F90
+!||    spmd_wait                 ../engine/source/mpi/spmd_wait.F90
+!||    spmd_waitall              ../engine/source/mpi/spmd_wait.F90
+!||    spmd_waitany              ../engine/source/mpi/spmd_wait.F90
+!||--- uses       -----------------------------------------------------
+!||====================================================================
       module spmd_error_mod
         use iso_c_binding
         implicit none
@@ -103,9 +103,9 @@
       contains
 
 #ifdef DEBUG_SPMD
-      !||====================================================================
-      !||    print_traceback   ../engine/source/mpi/spmd_error.F90
-      !||====================================================================
+!||====================================================================
+!||    print_traceback   ../engine/source/mpi/spmd_error.F90
+!||====================================================================
         subroutine print_traceback()
           implicit none
           integer(c_int) :: pid
@@ -142,67 +142,67 @@
 
 
 !! \brief Trace Entry in MPI subroutines
-      !||====================================================================
-      !||    spmd_in                   ../engine/source/mpi/spmd_error.F90
-      !||--- called by ------------------------------------------------------
-      !||    spmd_allgatherv_double    ../engine/source/mpi/spmd_allgatherv.F90
-      !||    spmd_allgatherv_doubles   ../engine/source/mpi/spmd_allgatherv.F90
-      !||    spmd_allgatherv_int       ../engine/source/mpi/spmd_allgatherv.F90
-      !||    spmd_allgatherv_ints      ../engine/source/mpi/spmd_allgatherv.F90
-      !||    spmd_allgatherv_real      ../engine/source/mpi/spmd_allgatherv.F90
-      !||    spmd_allgatherv_reals     ../engine/source/mpi/spmd_allgatherv.F90
-      !||    spmd_allreduce_double     ../engine/source/mpi/spmd_mod.F90
-      !||    spmd_allreduce_doubles    ../engine/source/mpi/spmd_mod.F90
-      !||    spmd_allreduce_int        ../engine/source/mpi/spmd_mod.F90
-      !||    spmd_allreduce_ints       ../engine/source/mpi/spmd_mod.F90
-      !||    spmd_allreduce_real       ../engine/source/mpi/spmd_mod.F90
-      !||    spmd_allreduce_reals      ../engine/source/mpi/spmd_mod.F90
-      !||    spmd_alltoall_double      ../engine/source/mpi/generic/spmd_alltoall.F90
-      !||    spmd_alltoall_doubles     ../engine/source/mpi/generic/spmd_alltoall.F90
-      !||    spmd_alltoall_int         ../engine/source/mpi/generic/spmd_alltoall.F90
-      !||    spmd_alltoall_ints        ../engine/source/mpi/generic/spmd_alltoall.F90
-      !||    spmd_alltoall_real        ../engine/source/mpi/generic/spmd_alltoall.F90
-      !||    spmd_alltoall_reals       ../engine/source/mpi/generic/spmd_alltoall.F90
-      !||    spmd_barrier              ../engine/source/mpi/spmd_mod.F90
-      !||    spmd_comm_rank            ../engine/source/mpi/spmd_mod.F90
-      !||    spmd_comm_size            ../engine/source/mpi/spmd_mod.F90
-      !||    spmd_irecv_double         ../engine/source/mpi/spmd_irecv.F90
-      !||    spmd_irecv_doubles        ../engine/source/mpi/spmd_irecv.F90
-      !||    spmd_irecv_int            ../engine/source/mpi/spmd_irecv.F90
-      !||    spmd_irecv_ints           ../engine/source/mpi/spmd_irecv.F90
-      !||    spmd_irecv_real           ../engine/source/mpi/spmd_irecv.F90
-      !||    spmd_irecv_reals          ../engine/source/mpi/spmd_irecv.F90
-      !||    spmd_isend_double         ../engine/source/mpi/spmd_isend.F90
-      !||    spmd_isend_doubles        ../engine/source/mpi/spmd_isend.F90
-      !||    spmd_isend_int            ../engine/source/mpi/spmd_isend.F90
-      !||    spmd_isend_ints           ../engine/source/mpi/spmd_isend.F90
-      !||    spmd_isend_real           ../engine/source/mpi/spmd_isend.F90
-      !||    spmd_isend_reals          ../engine/source/mpi/spmd_isend.F90
-      !||    spmd_probe                ../engine/source/mpi/spmd_mod.F90
-      !||    spmd_recv_double          ../engine/source/mpi/spmd_recv.F90
-      !||    spmd_recv_doubles         ../engine/source/mpi/spmd_recv.F90
-      !||    spmd_recv_doubles2d       ../engine/source/mpi/spmd_recv.F90
-      !||    spmd_recv_int             ../engine/source/mpi/spmd_recv.F90
-      !||    spmd_recv_ints            ../engine/source/mpi/spmd_recv.F90
-      !||    spmd_recv_real            ../engine/source/mpi/spmd_recv.F90
-      !||    spmd_recv_reals           ../engine/source/mpi/spmd_recv.F90
-      !||    spmd_recv_reals2d         ../engine/source/mpi/spmd_recv.F90
-      !||    spmd_reduce_double        ../engine/source/mpi/spmd_mod.F90
-      !||    spmd_reduce_doubles       ../engine/source/mpi/spmd_mod.F90
-      !||    spmd_reduce_int           ../engine/source/mpi/spmd_mod.F90
-      !||    spmd_reduce_ints          ../engine/source/mpi/spmd_mod.F90
-      !||    spmd_reduce_real          ../engine/source/mpi/spmd_mod.F90
-      !||    spmd_reduce_reals         ../engine/source/mpi/spmd_mod.F90
-      !||    spmd_send_double          ../engine/source/mpi/spmd_send.F90
-      !||    spmd_send_doubles         ../engine/source/mpi/spmd_send.F90
-      !||    spmd_send_int             ../engine/source/mpi/spmd_send.F90
-      !||    spmd_send_ints            ../engine/source/mpi/spmd_send.F90
-      !||    spmd_send_real            ../engine/source/mpi/spmd_send.F90
-      !||    spmd_send_reals           ../engine/source/mpi/spmd_send.F90
-      !||    spmd_wait                 ../engine/source/mpi/spmd_wait.F90
-      !||    spmd_waitall              ../engine/source/mpi/spmd_wait.F90
-      !||    spmd_waitany              ../engine/source/mpi/spmd_wait.F90
-      !||====================================================================
+!||====================================================================
+!||    spmd_in                   ../engine/source/mpi/spmd_error.F90
+!||--- called by ------------------------------------------------------
+!||    spmd_allgatherv_double    ../engine/source/mpi/spmd_allgatherv.F90
+!||    spmd_allgatherv_doubles   ../engine/source/mpi/spmd_allgatherv.F90
+!||    spmd_allgatherv_int       ../engine/source/mpi/spmd_allgatherv.F90
+!||    spmd_allgatherv_ints      ../engine/source/mpi/spmd_allgatherv.F90
+!||    spmd_allgatherv_real      ../engine/source/mpi/spmd_allgatherv.F90
+!||    spmd_allgatherv_reals     ../engine/source/mpi/spmd_allgatherv.F90
+!||    spmd_allreduce_double     ../engine/source/mpi/spmd_mod.F90
+!||    spmd_allreduce_doubles    ../engine/source/mpi/spmd_mod.F90
+!||    spmd_allreduce_int        ../engine/source/mpi/spmd_mod.F90
+!||    spmd_allreduce_ints       ../engine/source/mpi/spmd_mod.F90
+!||    spmd_allreduce_real       ../engine/source/mpi/spmd_mod.F90
+!||    spmd_allreduce_reals      ../engine/source/mpi/spmd_mod.F90
+!||    spmd_alltoall_double      ../engine/source/mpi/generic/spmd_alltoall.F90
+!||    spmd_alltoall_doubles     ../engine/source/mpi/generic/spmd_alltoall.F90
+!||    spmd_alltoall_int         ../engine/source/mpi/generic/spmd_alltoall.F90
+!||    spmd_alltoall_ints        ../engine/source/mpi/generic/spmd_alltoall.F90
+!||    spmd_alltoall_real        ../engine/source/mpi/generic/spmd_alltoall.F90
+!||    spmd_alltoall_reals       ../engine/source/mpi/generic/spmd_alltoall.F90
+!||    spmd_barrier              ../engine/source/mpi/spmd_mod.F90
+!||    spmd_comm_rank            ../engine/source/mpi/spmd_mod.F90
+!||    spmd_comm_size            ../engine/source/mpi/spmd_mod.F90
+!||    spmd_irecv_double         ../engine/source/mpi/spmd_irecv.F90
+!||    spmd_irecv_doubles        ../engine/source/mpi/spmd_irecv.F90
+!||    spmd_irecv_int            ../engine/source/mpi/spmd_irecv.F90
+!||    spmd_irecv_ints           ../engine/source/mpi/spmd_irecv.F90
+!||    spmd_irecv_real           ../engine/source/mpi/spmd_irecv.F90
+!||    spmd_irecv_reals          ../engine/source/mpi/spmd_irecv.F90
+!||    spmd_isend_double         ../engine/source/mpi/spmd_isend.F90
+!||    spmd_isend_doubles        ../engine/source/mpi/spmd_isend.F90
+!||    spmd_isend_int            ../engine/source/mpi/spmd_isend.F90
+!||    spmd_isend_ints           ../engine/source/mpi/spmd_isend.F90
+!||    spmd_isend_real           ../engine/source/mpi/spmd_isend.F90
+!||    spmd_isend_reals          ../engine/source/mpi/spmd_isend.F90
+!||    spmd_probe                ../engine/source/mpi/spmd_mod.F90
+!||    spmd_recv_double          ../engine/source/mpi/spmd_recv.F90
+!||    spmd_recv_doubles         ../engine/source/mpi/spmd_recv.F90
+!||    spmd_recv_doubles2d       ../engine/source/mpi/spmd_recv.F90
+!||    spmd_recv_int             ../engine/source/mpi/spmd_recv.F90
+!||    spmd_recv_ints            ../engine/source/mpi/spmd_recv.F90
+!||    spmd_recv_real            ../engine/source/mpi/spmd_recv.F90
+!||    spmd_recv_reals           ../engine/source/mpi/spmd_recv.F90
+!||    spmd_recv_reals2d         ../engine/source/mpi/spmd_recv.F90
+!||    spmd_reduce_double        ../engine/source/mpi/spmd_mod.F90
+!||    spmd_reduce_doubles       ../engine/source/mpi/spmd_mod.F90
+!||    spmd_reduce_int           ../engine/source/mpi/spmd_mod.F90
+!||    spmd_reduce_ints          ../engine/source/mpi/spmd_mod.F90
+!||    spmd_reduce_real          ../engine/source/mpi/spmd_mod.F90
+!||    spmd_reduce_reals         ../engine/source/mpi/spmd_mod.F90
+!||    spmd_send_double          ../engine/source/mpi/spmd_send.F90
+!||    spmd_send_doubles         ../engine/source/mpi/spmd_send.F90
+!||    spmd_send_int             ../engine/source/mpi/spmd_send.F90
+!||    spmd_send_ints            ../engine/source/mpi/spmd_send.F90
+!||    spmd_send_real            ../engine/source/mpi/spmd_send.F90
+!||    spmd_send_reals           ../engine/source/mpi/spmd_send.F90
+!||    spmd_wait                 ../engine/source/mpi/spmd_wait.F90
+!||    spmd_waitall              ../engine/source/mpi/spmd_wait.F90
+!||    spmd_waitany              ../engine/source/mpi/spmd_wait.F90
+!||====================================================================
         subroutine spmd_in(tag)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
@@ -221,70 +221,70 @@
 #endif
         end subroutine spmd_in
 
-      !||====================================================================
-      !||    spmd_out                  ../engine/source/mpi/spmd_error.F90
-      !||--- called by ------------------------------------------------------
-      !||    spmd_allgatherv_double    ../engine/source/mpi/spmd_allgatherv.F90
-      !||    spmd_allgatherv_doubles   ../engine/source/mpi/spmd_allgatherv.F90
-      !||    spmd_allgatherv_int       ../engine/source/mpi/spmd_allgatherv.F90
-      !||    spmd_allgatherv_ints      ../engine/source/mpi/spmd_allgatherv.F90
-      !||    spmd_allgatherv_real      ../engine/source/mpi/spmd_allgatherv.F90
-      !||    spmd_allgatherv_reals     ../engine/source/mpi/spmd_allgatherv.F90
-      !||    spmd_allreduce_double     ../engine/source/mpi/spmd_mod.F90
-      !||    spmd_allreduce_doubles    ../engine/source/mpi/spmd_mod.F90
-      !||    spmd_allreduce_int        ../engine/source/mpi/spmd_mod.F90
-      !||    spmd_allreduce_ints       ../engine/source/mpi/spmd_mod.F90
-      !||    spmd_allreduce_real       ../engine/source/mpi/spmd_mod.F90
-      !||    spmd_allreduce_reals      ../engine/source/mpi/spmd_mod.F90
-      !||    spmd_alltoall_double      ../engine/source/mpi/generic/spmd_alltoall.F90
-      !||    spmd_alltoall_doubles     ../engine/source/mpi/generic/spmd_alltoall.F90
-      !||    spmd_alltoall_int         ../engine/source/mpi/generic/spmd_alltoall.F90
-      !||    spmd_alltoall_ints        ../engine/source/mpi/generic/spmd_alltoall.F90
-      !||    spmd_alltoall_real        ../engine/source/mpi/generic/spmd_alltoall.F90
-      !||    spmd_alltoall_reals       ../engine/source/mpi/generic/spmd_alltoall.F90
-      !||    spmd_barrier              ../engine/source/mpi/spmd_mod.F90
-      !||    spmd_comm_rank            ../engine/source/mpi/spmd_mod.F90
-      !||    spmd_comm_size            ../engine/source/mpi/spmd_mod.F90
-      !||    spmd_irecv_double         ../engine/source/mpi/spmd_irecv.F90
-      !||    spmd_irecv_doubles        ../engine/source/mpi/spmd_irecv.F90
-      !||    spmd_irecv_int            ../engine/source/mpi/spmd_irecv.F90
-      !||    spmd_irecv_ints           ../engine/source/mpi/spmd_irecv.F90
-      !||    spmd_irecv_real           ../engine/source/mpi/spmd_irecv.F90
-      !||    spmd_irecv_reals          ../engine/source/mpi/spmd_irecv.F90
-      !||    spmd_isend_double         ../engine/source/mpi/spmd_isend.F90
-      !||    spmd_isend_doubles        ../engine/source/mpi/spmd_isend.F90
-      !||    spmd_isend_int            ../engine/source/mpi/spmd_isend.F90
-      !||    spmd_isend_ints           ../engine/source/mpi/spmd_isend.F90
-      !||    spmd_isend_real           ../engine/source/mpi/spmd_isend.F90
-      !||    spmd_isend_reals          ../engine/source/mpi/spmd_isend.F90
-      !||    spmd_probe                ../engine/source/mpi/spmd_mod.F90
-      !||    spmd_recv_double          ../engine/source/mpi/spmd_recv.F90
-      !||    spmd_recv_doubles         ../engine/source/mpi/spmd_recv.F90
-      !||    spmd_recv_doubles2d       ../engine/source/mpi/spmd_recv.F90
-      !||    spmd_recv_int             ../engine/source/mpi/spmd_recv.F90
-      !||    spmd_recv_ints            ../engine/source/mpi/spmd_recv.F90
-      !||    spmd_recv_real            ../engine/source/mpi/spmd_recv.F90
-      !||    spmd_recv_reals           ../engine/source/mpi/spmd_recv.F90
-      !||    spmd_recv_reals2d         ../engine/source/mpi/spmd_recv.F90
-      !||    spmd_reduce_double        ../engine/source/mpi/spmd_mod.F90
-      !||    spmd_reduce_doubles       ../engine/source/mpi/spmd_mod.F90
-      !||    spmd_reduce_int           ../engine/source/mpi/spmd_mod.F90
-      !||    spmd_reduce_ints          ../engine/source/mpi/spmd_mod.F90
-      !||    spmd_reduce_real          ../engine/source/mpi/spmd_mod.F90
-      !||    spmd_reduce_reals         ../engine/source/mpi/spmd_mod.F90
-      !||    spmd_send_double          ../engine/source/mpi/spmd_send.F90
-      !||    spmd_send_doubles         ../engine/source/mpi/spmd_send.F90
-      !||    spmd_send_int             ../engine/source/mpi/spmd_send.F90
-      !||    spmd_send_ints            ../engine/source/mpi/spmd_send.F90
-      !||    spmd_send_real            ../engine/source/mpi/spmd_send.F90
-      !||    spmd_send_reals           ../engine/source/mpi/spmd_send.F90
-      !||    spmd_wait                 ../engine/source/mpi/spmd_wait.F90
-      !||    spmd_waitall              ../engine/source/mpi/spmd_wait.F90
-      !||    spmd_waitany              ../engine/source/mpi/spmd_wait.F90
-      !||--- calls      -----------------------------------------------------
-      !||--- uses       -----------------------------------------------------
-      !||    spmd_comm_world_mod       ../engine/source/mpi/spmd_comm_world.F90
-      !||====================================================================
+!||====================================================================
+!||    spmd_out                  ../engine/source/mpi/spmd_error.F90
+!||--- called by ------------------------------------------------------
+!||    spmd_allgatherv_double    ../engine/source/mpi/spmd_allgatherv.F90
+!||    spmd_allgatherv_doubles   ../engine/source/mpi/spmd_allgatherv.F90
+!||    spmd_allgatherv_int       ../engine/source/mpi/spmd_allgatherv.F90
+!||    spmd_allgatherv_ints      ../engine/source/mpi/spmd_allgatherv.F90
+!||    spmd_allgatherv_real      ../engine/source/mpi/spmd_allgatherv.F90
+!||    spmd_allgatherv_reals     ../engine/source/mpi/spmd_allgatherv.F90
+!||    spmd_allreduce_double     ../engine/source/mpi/spmd_mod.F90
+!||    spmd_allreduce_doubles    ../engine/source/mpi/spmd_mod.F90
+!||    spmd_allreduce_int        ../engine/source/mpi/spmd_mod.F90
+!||    spmd_allreduce_ints       ../engine/source/mpi/spmd_mod.F90
+!||    spmd_allreduce_real       ../engine/source/mpi/spmd_mod.F90
+!||    spmd_allreduce_reals      ../engine/source/mpi/spmd_mod.F90
+!||    spmd_alltoall_double      ../engine/source/mpi/generic/spmd_alltoall.F90
+!||    spmd_alltoall_doubles     ../engine/source/mpi/generic/spmd_alltoall.F90
+!||    spmd_alltoall_int         ../engine/source/mpi/generic/spmd_alltoall.F90
+!||    spmd_alltoall_ints        ../engine/source/mpi/generic/spmd_alltoall.F90
+!||    spmd_alltoall_real        ../engine/source/mpi/generic/spmd_alltoall.F90
+!||    spmd_alltoall_reals       ../engine/source/mpi/generic/spmd_alltoall.F90
+!||    spmd_barrier              ../engine/source/mpi/spmd_mod.F90
+!||    spmd_comm_rank            ../engine/source/mpi/spmd_mod.F90
+!||    spmd_comm_size            ../engine/source/mpi/spmd_mod.F90
+!||    spmd_irecv_double         ../engine/source/mpi/spmd_irecv.F90
+!||    spmd_irecv_doubles        ../engine/source/mpi/spmd_irecv.F90
+!||    spmd_irecv_int            ../engine/source/mpi/spmd_irecv.F90
+!||    spmd_irecv_ints           ../engine/source/mpi/spmd_irecv.F90
+!||    spmd_irecv_real           ../engine/source/mpi/spmd_irecv.F90
+!||    spmd_irecv_reals          ../engine/source/mpi/spmd_irecv.F90
+!||    spmd_isend_double         ../engine/source/mpi/spmd_isend.F90
+!||    spmd_isend_doubles        ../engine/source/mpi/spmd_isend.F90
+!||    spmd_isend_int            ../engine/source/mpi/spmd_isend.F90
+!||    spmd_isend_ints           ../engine/source/mpi/spmd_isend.F90
+!||    spmd_isend_real           ../engine/source/mpi/spmd_isend.F90
+!||    spmd_isend_reals          ../engine/source/mpi/spmd_isend.F90
+!||    spmd_probe                ../engine/source/mpi/spmd_mod.F90
+!||    spmd_recv_double          ../engine/source/mpi/spmd_recv.F90
+!||    spmd_recv_doubles         ../engine/source/mpi/spmd_recv.F90
+!||    spmd_recv_doubles2d       ../engine/source/mpi/spmd_recv.F90
+!||    spmd_recv_int             ../engine/source/mpi/spmd_recv.F90
+!||    spmd_recv_ints            ../engine/source/mpi/spmd_recv.F90
+!||    spmd_recv_real            ../engine/source/mpi/spmd_recv.F90
+!||    spmd_recv_reals           ../engine/source/mpi/spmd_recv.F90
+!||    spmd_recv_reals2d         ../engine/source/mpi/spmd_recv.F90
+!||    spmd_reduce_double        ../engine/source/mpi/spmd_mod.F90
+!||    spmd_reduce_doubles       ../engine/source/mpi/spmd_mod.F90
+!||    spmd_reduce_int           ../engine/source/mpi/spmd_mod.F90
+!||    spmd_reduce_ints          ../engine/source/mpi/spmd_mod.F90
+!||    spmd_reduce_real          ../engine/source/mpi/spmd_mod.F90
+!||    spmd_reduce_reals         ../engine/source/mpi/spmd_mod.F90
+!||    spmd_send_double          ../engine/source/mpi/spmd_send.F90
+!||    spmd_send_doubles         ../engine/source/mpi/spmd_send.F90
+!||    spmd_send_int             ../engine/source/mpi/spmd_send.F90
+!||    spmd_send_ints            ../engine/source/mpi/spmd_send.F90
+!||    spmd_send_real            ../engine/source/mpi/spmd_send.F90
+!||    spmd_send_reals           ../engine/source/mpi/spmd_send.F90
+!||    spmd_wait                 ../engine/source/mpi/spmd_wait.F90
+!||    spmd_waitall              ../engine/source/mpi/spmd_wait.F90
+!||    spmd_waitany              ../engine/source/mpi/spmd_wait.F90
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||    spmd_comm_world_mod       ../engine/source/mpi/spmd_comm_world.F90
+!||====================================================================
         subroutine spmd_out(tag, ierr)
           use spmd_comm_world_mod, only: SPMD_COMM_WORLD
 ! ----------------------------------------------------------------------------------------------------------------------

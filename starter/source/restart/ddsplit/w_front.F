@@ -20,20 +20,20 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    w_front                ../starter/source/restart/ddsplit/w_front.F
-      !||--- called by ------------------------------------------------------
-      !||    ddsplit                ../starter/source/restart/ddsplit/ddsplit.F
-      !||--- calls      -----------------------------------------------------
-      !||    arret                  ../starter/source/system/arret.F
-      !||    nlocal                 ../starter/source/spmd/node/ddtools.F
-      !||    plist_ifront           ../starter/source/spmd/node/ddtools.F
-      !||--- uses       -----------------------------------------------------
-      !||    constraint_mod         ../starter/source/modules/constaint_mod.F90
-      !||    front_mod              ../starter/share/modules1/front_mod.F
-      !||    fvbag_mod              ../starter/share/modules1/fvbag_mod.F
-      !||    split_cfd_mod          ../starter/share/modules1/split_cfd_mod.F
-      !||====================================================================
+!||====================================================================
+!||    w_front                ../starter/source/restart/ddsplit/w_front.F
+!||--- called by ------------------------------------------------------
+!||    ddsplit                ../starter/source/restart/ddsplit/ddsplit.F
+!||--- calls      -----------------------------------------------------
+!||    arret                  ../starter/source/system/arret.F
+!||    nlocal                 ../starter/source/spmd/node/ddtools.F
+!||    plist_ifront           ../starter/source/spmd/node/ddtools.F
+!||--- uses       -----------------------------------------------------
+!||    constraint_mod         ../starter/source/modules/constaint_mod.F90
+!||    front_mod              ../starter/share/modules1/front_mod.F
+!||    fvbag_mod              ../starter/share/modules1/fvbag_mod.F
+!||    split_cfd_mod          ../starter/share/modules1/split_cfd_mod.F
+!||====================================================================
       SUBROUTINE W_FRONT(
      1   PROC    ,NBDDACC ,NBDDKIN ,NODLOCAL,
      2   NBDDPROC,NBDDBOUN,NODGLOB ,NUMNOD_L,NBDDNRB ,

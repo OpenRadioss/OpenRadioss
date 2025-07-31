@@ -20,26 +20,26 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    intcrit                      ../engine/source/interfaces/intsort/intcrit.F
-      !||--- called by ------------------------------------------------------
-      !||    inttri                       ../engine/source/interfaces/intsort/inttri.F
-      !||--- calls      -----------------------------------------------------
-      !||    spmd_get_stif                ../engine/source/mpi/interfaces/send_cand.F
-      !||    spmd_get_stif11              ../engine/source/mpi/interfaces/send_cand.F
-      !||    spmd_get_stif20              ../engine/source/mpi/interfaces/send_cand.F
-      !||    spmd_get_stif20e             ../engine/source/mpi/interfaces/send_cand.F
-      !||    spmd_get_stif25              ../engine/source/mpi/interfaces/send_cand.F
-      !||    spmd_sync_mmxg2              ../engine/source/mpi/interfaces/spmd_sync_mmxg2.F
-      !||    startime                     ../engine/source/system/timer_mod.F90
-      !||    stoptime                     ../engine/source/system/timer_mod.F90
-      !||--- uses       -----------------------------------------------------
-      !||    intbufdef_mod                ../common_source/modules/interfaces/intbufdef_mod.F90
-      !||    interface_modification_mod   ../engine/share/modules/interface_modification_mod.F
-      !||    sensor_mod                   ../common_source/modules/sensor_mod.F90
-      !||    timer_mod                    ../engine/source/system/timer_mod.F90
-      !||    tri7box                      ../engine/share/modules/tri7box.F
-      !||====================================================================
+!||====================================================================
+!||    intcrit                      ../engine/source/interfaces/intsort/intcrit.F
+!||--- called by ------------------------------------------------------
+!||    inttri                       ../engine/source/interfaces/intsort/inttri.F
+!||--- calls      -----------------------------------------------------
+!||    spmd_get_stif                ../engine/source/mpi/interfaces/send_cand.F
+!||    spmd_get_stif11              ../engine/source/mpi/interfaces/send_cand.F
+!||    spmd_get_stif20              ../engine/source/mpi/interfaces/send_cand.F
+!||    spmd_get_stif20e             ../engine/source/mpi/interfaces/send_cand.F
+!||    spmd_get_stif25              ../engine/source/mpi/interfaces/send_cand.F
+!||    spmd_sync_mmxg2              ../engine/source/mpi/interfaces/spmd_sync_mmxg2.F
+!||    startime                     ../engine/source/system/timer_mod.F90
+!||    stoptime                     ../engine/source/system/timer_mod.F90
+!||--- uses       -----------------------------------------------------
+!||    intbufdef_mod                ../common_source/modules/interfaces/intbufdef_mod.F90
+!||    interface_modification_mod   ../engine/share/modules/interface_modification_mod.F
+!||    sensor_mod                   ../common_source/modules/sensor_mod.F90
+!||    timer_mod                    ../engine/source/system/timer_mod.F90
+!||    tri7box                      ../engine/share/modules/tri7box.F
+!||====================================================================
       SUBROUTINE INTCRIT(TIMERS,
      1  ERRORS, IPARI  ,NEWFRONT,ISENDTO,NSENSOR ,
      2  IRCVFROM,DT2T   ,NELTST ,ITYPTST ,ITAB   ,

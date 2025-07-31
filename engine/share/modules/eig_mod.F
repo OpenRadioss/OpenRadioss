@@ -20,15 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    eig_mod      ../engine/share/modules/eig_mod.F
-      !||--- called by ------------------------------------------------------
-      !||    eigrrest     ../engine/source/output/restart/rdresb.F
-      !||    leceig       ../engine/source/input/leceig.F
-      !||    lecfxinp     ../engine/source/input/lecfxinp.F
-      !||    resol_head   ../engine/source/engine/resol_head.F
-      !||    restalloc    ../engine/source/output/restart/arralloc.F
-      !||====================================================================
+!||====================================================================
+!||    eig_mod      ../engine/share/modules/eig_mod.F
+!||--- called by ------------------------------------------------------
+!||    eigrrest     ../engine/source/output/restart/rdresb.F
+!||    leceig       ../engine/source/input/leceig.F
+!||    lecfxinp     ../engine/source/input/lecfxinp.F
+!||    resol_head   ../engine/source/engine/resol_head.F
+!||    restalloc    ../engine/source/output/restart/arralloc.F
+!||====================================================================
       MODULE EIG_MOD
 C-----------------------------------------------
 C   m y _ r e a l

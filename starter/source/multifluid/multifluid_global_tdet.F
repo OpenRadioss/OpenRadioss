@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    multifluid_global_tdet   ../starter/source/multifluid/multifluid_global_tdet.F
-      !||--- called by ------------------------------------------------------
-      !||    initia                   ../starter/source/elements/initia/initia.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod              ../starter/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    multifluid_global_tdet   ../starter/source/multifluid/multifluid_global_tdet.F
+!||--- called by ------------------------------------------------------
+!||    initia                   ../starter/source/elements/initia/initia.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod              ../starter/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE MULTIFLUID_GLOBAL_TDET(IPARG,ELBUF_TAB,MULTI_FVM,IPM)
 C-----------------------------------------------
 C   D e s c r i p t i o n

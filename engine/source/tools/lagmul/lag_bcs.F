@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    lag_bcs        ../engine/source/tools/lagmul/lag_bcs.F
-      !||--- called by ------------------------------------------------------
-      !||    lag_mult       ../engine/source/tools/lagmul/lag_mult.F
-      !||--- uses       -----------------------------------------------------
-      !||    groupdef_mod   ../common_source/modules/groupdef_mod.F
-      !||====================================================================
+!||====================================================================
+!||    lag_bcs        ../engine/source/tools/lagmul/lag_bcs.F
+!||--- called by ------------------------------------------------------
+!||    lag_mult       ../engine/source/tools/lagmul/lag_mult.F
+!||--- uses       -----------------------------------------------------
+!||    groupdef_mod   ../common_source/modules/groupdef_mod.F
+!||====================================================================
       SUBROUTINE LAG_BCS(IGRNOD ,IBCSLAG,SK     ,RLL    ,NGRNOD ,
      2                   IADLL  ,LLL    ,JLL    ,SLL    ,XLL    ,
      3                   COMNTAG,ICFTAG ,JCFTAG ,MASS   ,INER   ,

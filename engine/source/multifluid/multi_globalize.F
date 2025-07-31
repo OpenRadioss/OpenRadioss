@@ -20,17 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    multi_globalize   ../engine/source/multifluid/multi_globalize.F
-      !||--- called by ------------------------------------------------------
-      !||    alemain           ../engine/source/ale/alemain.F
-      !||--- calls      -----------------------------------------------------
-      !||    multi_bilan       ../engine/source/multifluid/multi_bilan.F
-      !||--- uses       -----------------------------------------------------
-      !||    elbufdef_mod      ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||    initbuf_mod       ../engine/share/resol/initbuf.F
-      !||    multi_fvm_mod     ../common_source/modules/ale/multi_fvm_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    multi_globalize   ../engine/source/multifluid/multi_globalize.F
+!||--- called by ------------------------------------------------------
+!||    alemain           ../engine/source/ale/alemain.F
+!||--- calls      -----------------------------------------------------
+!||    multi_bilan       ../engine/source/multifluid/multi_bilan.F
+!||--- uses       -----------------------------------------------------
+!||    elbufdef_mod      ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    initbuf_mod       ../engine/share/resol/initbuf.F
+!||    multi_fvm_mod     ../common_source/modules/ale/multi_fvm_mod.F90
+!||====================================================================
       SUBROUTINE MULTI_GLOBALIZE(ELBUF_TAB, IPARG, ITASK, MULTI_FVM, 
      .     PARTSAV, IPARTS, GRESAV, IGRTH, GRTH)
 C-----------------------------------------------

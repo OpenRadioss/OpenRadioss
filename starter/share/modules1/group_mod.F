@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    group_mod      ../starter/share/modules1/group_mod.F
-      !||--- called by ------------------------------------------------------
-      !||    lectur         ../starter/source/starter/lectur.F
-      !||    r2r_exist      ../starter/source/coupling/rad2rad/routines_r2r.F
-      !||    r2r_group      ../starter/source/coupling/rad2rad/r2r_group.F
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    group_mod      ../starter/share/modules1/group_mod.F
+!||--- called by ------------------------------------------------------
+!||    lectur         ../starter/source/starter/lectur.F
+!||    r2r_exist      ../starter/source/coupling/rad2rad/routines_r2r.F
+!||    r2r_group      ../starter/source/coupling/rad2rad/r2r_group.F
+!||--- uses       -----------------------------------------------------
+!||====================================================================
       MODULE GROUP_MOD
 
         USE GROUPDEF_MOD      

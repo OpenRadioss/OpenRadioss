@@ -20,21 +20,21 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    i24ke3          ../engine/source/interfaces/int24/i24ke3.F
-      !||--- called by ------------------------------------------------------
-      !||    imp_int_k       ../engine/source/implicit/imp_int_k.F
-      !||--- calls      -----------------------------------------------------
-      !||    ass_spmd        ../engine/source/implicit/assem_int.F
-      !||    assem_int       ../engine/source/implicit/assem_int.F
-      !||    ffizero         ../engine/source/interfaces/int07/i7ke3.F
-      !||    i24corkm        ../engine/source/interfaces/int24/i24cork3.F
-      !||    i24keg3         ../engine/source/interfaces/int24/i24ke3.F
-      !||    i24kgeo3        ../engine/source/interfaces/int24/i24ke3.F
-      !||--- uses       -----------------------------------------------------
-      !||    imp_intbufdef   ../engine/share/modules/imp_mod_def.F90
-      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    i24ke3          ../engine/source/interfaces/int24/i24ke3.F
+!||--- called by ------------------------------------------------------
+!||    imp_int_k       ../engine/source/implicit/imp_int_k.F
+!||--- calls      -----------------------------------------------------
+!||    ass_spmd        ../engine/source/implicit/assem_int.F
+!||    assem_int       ../engine/source/implicit/assem_int.F
+!||    ffizero         ../engine/source/interfaces/int07/i7ke3.F
+!||    i24corkm        ../engine/source/interfaces/int24/i24cork3.F
+!||    i24keg3         ../engine/source/interfaces/int24/i24ke3.F
+!||    i24kgeo3        ../engine/source/interfaces/int24/i24ke3.F
+!||--- uses       -----------------------------------------------------
+!||    imp_intbufdef   ../engine/share/modules/imp_mod_def.F90
+!||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
+!||====================================================================
       SUBROUTINE I24KE3( A     ,V      ,MS   ,
      1                   IPARI ,INTBUF_TAB,X    ,NIN   ,
      3                   IDDL  ,K_DIAG ,K_LT ,IADK ,JDIK  ,
@@ -261,14 +261,14 @@ C
 C
       RETURN
       END
-      !||====================================================================
-      !||    i24keg3    ../engine/source/interfaces/int24/i24ke3.F
-      !||--- called by ------------------------------------------------------
-      !||    i24ke3     ../engine/source/interfaces/int24/i24ke3.F
-      !||--- uses       -----------------------------------------------------
-      !||    imp_intm   ../engine/share/modules/imp_intm.F
-      !||    tri7box    ../engine/share/modules/tri7box.F
-      !||====================================================================
+!||====================================================================
+!||    i24keg3    ../engine/source/interfaces/int24/i24ke3.F
+!||--- called by ------------------------------------------------------
+!||    i24ke3     ../engine/source/interfaces/int24/i24ke3.F
+!||--- uses       -----------------------------------------------------
+!||    imp_intm   ../engine/share/modules/imp_intm.F
+!||    tri7box    ../engine/share/modules/tri7box.F
+!||====================================================================
       SUBROUTINE I24KEG3(JLT    ,A      ,V      ,MS    ,FRIC   ,
      1                  IX1    ,IX2    ,IX3    ,IX4   ,NSVG   ,
      2                  STIF   ,VXI    ,VYI    ,VZI   ,MSI    ,
@@ -550,11 +550,11 @@ C
 C
        RETURN
       END
-      !||====================================================================
-      !||    i24kgeo3   ../engine/source/interfaces/int24/i24ke3.F
-      !||--- called by ------------------------------------------------------
-      !||    i24ke3     ../engine/source/interfaces/int24/i24ke3.F
-      !||====================================================================
+!||====================================================================
+!||    i24kgeo3   ../engine/source/interfaces/int24/i24ke3.F
+!||--- called by ------------------------------------------------------
+!||    i24ke3     ../engine/source/interfaces/int24/i24ke3.F
+!||====================================================================
       SUBROUTINE I24KGEO3(JLT    ,IX1    ,IX2    ,IX3    ,IX4   ,
      1                    NSVG   ,STIF   ,H1     ,H2     ,H3    ,
      2                    H4     ,PENE   ,STIGLO ,KI11   ,KI12  ,

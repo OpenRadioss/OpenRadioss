@@ -21,13 +21,13 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C=======================================================================
-      !||====================================================================
-      !||    sensor_gauge   ../engine/source/tools/sensor/sensor_gauge.F
-      !||--- called by ------------------------------------------------------
-      !||    sensor_base    ../engine/source/tools/sensor/sensor_base.F
-      !||--- uses       -----------------------------------------------------
-      !||    sensor_mod     ../common_source/modules/sensor_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    sensor_gauge   ../engine/source/tools/sensor/sensor_gauge.F
+!||--- called by ------------------------------------------------------
+!||    sensor_base    ../engine/source/tools/sensor/sensor_base.F
+!||--- uses       -----------------------------------------------------
+!||    sensor_mod     ../common_source/modules/sensor_mod.F90
+!||====================================================================
       SUBROUTINE SENSOR_GAUGE(SENSOR ,GAUGE)
 C-----------------------------------------------
 C   M o d u l e s

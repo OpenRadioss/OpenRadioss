@@ -20,12 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    spmd_ibcast_subcomm   ../engine/source/mpi/generic/spmd_ibcast_subcomm.F
-      !||--- called by ------------------------------------------------------
-      !||    fvbag2                ../engine/source/airbag/fvbag2.F
-      !||--- calls      -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    spmd_ibcast_subcomm   ../engine/source/mpi/generic/spmd_ibcast_subcomm.F
+!||--- called by ------------------------------------------------------
+!||    fvbag2                ../engine/source/airbag/fvbag2.F
+!||--- calls      -----------------------------------------------------
+!||====================================================================
       SUBROUTINE SPMD_IBCAST_SUBCOMM(BUFFER,N,FROM,COMM)
 C Wrapper to MPI_BCAST for INTEGER
 C-----------------------------------------------

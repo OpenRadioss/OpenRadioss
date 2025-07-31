@@ -20,18 +20,18 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    fvbric2_mod   ../starter/source/airbag/fvbric2.F
-      !||--- called by ------------------------------------------------------
-      !||    init_monvol   ../starter/source/airbag/init_monvol.F
-      !||====================================================================
+!||====================================================================
+!||    fvbric2_mod   ../starter/source/airbag/fvbric2.F
+!||--- called by ------------------------------------------------------
+!||    init_monvol   ../starter/source/airbag/init_monvol.F
+!||====================================================================
       MODULE FVBRIC2_MOD
       CONTAINS
-      !||====================================================================
-      !||    fvbric2       ../starter/source/airbag/fvbric2.F
-      !||--- called by ------------------------------------------------------
-      !||    init_monvol   ../starter/source/airbag/init_monvol.F
-      !||====================================================================
+!||====================================================================
+!||    fvbric2       ../starter/source/airbag/fvbric2.F
+!||--- called by ------------------------------------------------------
+!||    init_monvol   ../starter/source/airbag/init_monvol.F
+!||====================================================================
       SUBROUTINE FVBRIC2(ELEM  , IXS , NEL    , NBRIC,
      .                   TBRIC , TFAC, TAGELS , NELA ,
      .                   IBUFA , NNA , ELEMA  ,

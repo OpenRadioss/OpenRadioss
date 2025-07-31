@@ -21,16 +21,16 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
-      !||====================================================================
-      !||    i3pen2                 ../starter/source/interfaces/inter2d1/i3pen2.F
-      !||--- called by ------------------------------------------------------
-      !||    inint2                 ../starter/source/interfaces/inter2d1/inint2.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg                 ../starter/source/output/message/message.F
-      !||--- uses       -----------------------------------------------------
-      !||    format_mod             ../starter/share/modules1/format_mod.F90
-      !||    message_mod            ../starter/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    i3pen2                 ../starter/source/interfaces/inter2d1/i3pen2.F
+!||--- called by ------------------------------------------------------
+!||    inint2                 ../starter/source/interfaces/inter2d1/inint2.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                 ../starter/source/output/message/message.F
+!||--- uses       -----------------------------------------------------
+!||    format_mod             ../starter/share/modules1/format_mod.F90
+!||    message_mod            ../starter/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE I3PEN2(X,IRECT,MSR,NSV,ILOC,IRTL,NSN,
      1                  CST,IRTLO,FRIC0,FRIC,GAP,IWPENE,
      2                  ITAB,ID,TITR)

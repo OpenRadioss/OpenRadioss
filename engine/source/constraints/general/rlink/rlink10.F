@@ -20,15 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    rlink10         ../engine/source/constraints/general/rlink/rlink10.F
-      !||--- called by ------------------------------------------------------
-      !||    resol           ../engine/source/engine/resol.F
-      !||--- calls      -----------------------------------------------------
-      !||    rlink1          ../engine/source/constraints/general/rlink/rlink1.F
-      !||    rlink2          ../engine/source/constraints/general/rlink/rlink2.F
-      !||    spmd_exch_fr6   ../engine/source/mpi/kinematic_conditions/spmd_exch_fr6.F
-      !||====================================================================
+!||====================================================================
+!||    rlink10         ../engine/source/constraints/general/rlink/rlink10.F
+!||--- called by ------------------------------------------------------
+!||    resol           ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
+!||    rlink1          ../engine/source/constraints/general/rlink/rlink1.F
+!||    rlink2          ../engine/source/constraints/general/rlink/rlink2.F
+!||    spmd_exch_fr6   ../engine/source/mpi/kinematic_conditions/spmd_exch_fr6.F
+!||====================================================================
       SUBROUTINE RLINK10(
      1   MS    ,IN    ,A     ,AR   ,V    ,
      2   VR    ,NLINK ,LLINK ,SKEW ,FR_RL,
@@ -127,16 +127,16 @@ c            ENDDO
 C
       RETURN
       END
-      !||====================================================================
-      !||    rlink11         ../engine/source/constraints/general/rlink/rlink10.F
-      !||--- called by ------------------------------------------------------
-      !||    resol           ../engine/source/engine/resol.F
-      !||--- calls      -----------------------------------------------------
-      !||    rlink1          ../engine/source/constraints/general/rlink/rlink1.F
-      !||    rlink2          ../engine/source/constraints/general/rlink/rlink2.F
-      !||    rlink3          ../engine/source/constraints/general/rlink/rlink10.F
-      !||    spmd_exch_fr6   ../engine/source/mpi/kinematic_conditions/spmd_exch_fr6.F
-      !||====================================================================
+!||====================================================================
+!||    rlink11         ../engine/source/constraints/general/rlink/rlink10.F
+!||--- called by ------------------------------------------------------
+!||    resol           ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
+!||    rlink1          ../engine/source/constraints/general/rlink/rlink1.F
+!||    rlink2          ../engine/source/constraints/general/rlink/rlink2.F
+!||    rlink3          ../engine/source/constraints/general/rlink/rlink10.F
+!||    spmd_exch_fr6   ../engine/source/mpi/kinematic_conditions/spmd_exch_fr6.F
+!||====================================================================
       SUBROUTINE RLINK11(
      1   MS    ,IN    ,A     ,AR    ,V     ,
      2   VR    ,NNLINK,LLLINK,SKEW  ,FR_LL ,
@@ -252,13 +252,13 @@ C
       RETURN
       END
 
-      !||====================================================================
-      !||    rlink3        ../engine/source/constraints/general/rlink/rlink10.F
-      !||--- called by ------------------------------------------------------
-      !||    rlink11       ../engine/source/constraints/general/rlink/rlink10.F
-      !||--- calls      -----------------------------------------------------
-      !||    sum_6_float   ../engine/source/system/parit.F
-      !||====================================================================
+!||====================================================================
+!||    rlink3        ../engine/source/constraints/general/rlink/rlink10.F
+!||--- called by ------------------------------------------------------
+!||    rlink11       ../engine/source/constraints/general/rlink/rlink10.F
+!||--- calls      -----------------------------------------------------
+!||    sum_6_float   ../engine/source/system/parit.F
+!||====================================================================
       SUBROUTINE RLINK3(MS ,IN    ,X     ,A    ,AR   ,
      2                  V  ,VR    ,NSN   ,IC   ,ICR  ,
      3                  NOD,XFRAME,WEIGHT,FRL6 ,IFLAG)

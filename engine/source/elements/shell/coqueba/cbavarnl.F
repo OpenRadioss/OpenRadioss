@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    cbavarnl         ../engine/source/elements/shell/coqueba/cbavarnl.F
-      !||--- called by ------------------------------------------------------
-      !||    cbaforc3         ../engine/source/elements/shell/coqueba/cbaforc3.F
-      !||--- uses       -----------------------------------------------------
-      !||    nlocal_reg_mod   ../common_source/modules/nlocal_reg_mod.F
-      !||====================================================================
+!||====================================================================
+!||    cbavarnl         ../engine/source/elements/shell/coqueba/cbavarnl.F
+!||--- called by ------------------------------------------------------
+!||    cbaforc3         ../engine/source/elements/shell/coqueba/cbaforc3.F
+!||--- uses       -----------------------------------------------------
+!||    nlocal_reg_mod   ../common_source/modules/nlocal_reg_mod.F
+!||====================================================================
       SUBROUTINE CBAVARNL(JFT      ,JLT      ,NG       ,IXC      ,NLOC_DMG ,
      .                    VARNL    ,NDDL     ,NC1      ,NC2      ,NC3      ,
      .                    NC4      ,NEL      )

@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    spmd_exch_rbe3        ../engine/source/mpi/kinematic_conditions/spmd_exch_rbe3.F
-      !||--- called by ------------------------------------------------------
-      !||    rbe3t1                ../engine/source/constraints/general/rbe3/rbe3f.F
-      !||--- calls      -----------------------------------------------------
-      !||--- uses       -----------------------------------------------------
-      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
-      !||====================================================================
+!||====================================================================
+!||    spmd_exch_rbe3        ../engine/source/mpi/kinematic_conditions/spmd_exch_rbe3.F
+!||--- called by ------------------------------------------------------
+!||    rbe3t1                ../engine/source/constraints/general/rbe3/rbe3f.F
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
+!||====================================================================
       SUBROUTINE SPMD_EXCH_RBE3(
      1   A    ,AR     ,MS    ,IN     ,STIFN,
      2   STIFR,FR_M   ,IAD_M ,LCOMM  ,ISIZE,

@@ -20,42 +20,42 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    wriusc2                ../engine/source/input/wriusc2.F
-      !||--- called by ------------------------------------------------------
-      !||    create_h3d_input       ../engine/source/output/h3d/h3d_build_fortran/create_h3d_input.F
-      !||    fraleonoff             ../engine/source/input/fraleonoff.F
-      !||    fralnk                 ../engine/source/input/fralnk.F
-      !||    fralnk2                ../engine/source/input/fralnk.F
-      !||    freabf                 ../engine/source/input/freabf.F
-      !||    freanim                ../engine/source/output/anim/reader/freanim.F
-      !||    frecpl                 ../engine/source/input/frecpl.F
-      !||    fredamp                ../engine/source/input/fredamp.F
-      !||    fredebug               ../engine/source/input/fredebug.F
-      !||    fredli                 ../engine/source/input/fredli.F
-      !||    fredynain              ../engine/source/input/fredynain.F
-      !||    freflw                 ../engine/source/input/freflw.F
-      !||    freform                ../engine/source/input/freform.F
-      !||    frefunc                ../engine/source/input/frefunc.F
-      !||    frefvbag               ../engine/source/input/frefvbag.F
-      !||    frefxinp               ../engine/source/input/frefxinp.F
-      !||    freimpl                ../engine/source/input/freimpl.F
-      !||    freiniv                ../engine/source/input/freiniv.F
-      !||    freint                 ../engine/source/input/freint.F
-      !||    frenois                ../engine/source/input/frenois.F
-      !||    freoutp                ../engine/source/input/freoutp.F
-      !||    frestat                ../engine/source/input/frestat.F
-      !||    frethermal             ../engine/source/constraints/thermic/frethermal.F
-      !||    freupwind              ../engine/source/input/freupwind.F
-      !||    freupwm                ../engine/source/input/freupwm.F
-      !||    h3d_read               ../engine/source/output/h3d/h3d_build_fortran/h3d_read.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg                 ../engine/source/output/message/message.F
-      !||    arret                  ../engine/source/system/arret.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod            ../engine/share/message_module/message_mod.F
-      !||    names_and_titles_mod   ../common_source/modules/names_and_titles_mod.F
-      !||====================================================================
+!||====================================================================
+!||    wriusc2                ../engine/source/input/wriusc2.F
+!||--- called by ------------------------------------------------------
+!||    create_h3d_input       ../engine/source/output/h3d/h3d_build_fortran/create_h3d_input.F
+!||    fraleonoff             ../engine/source/input/fraleonoff.F
+!||    fralnk                 ../engine/source/input/fralnk.F
+!||    fralnk2                ../engine/source/input/fralnk.F
+!||    freabf                 ../engine/source/input/freabf.F
+!||    freanim                ../engine/source/output/anim/reader/freanim.F
+!||    frecpl                 ../engine/source/input/frecpl.F
+!||    fredamp                ../engine/source/input/fredamp.F
+!||    fredebug               ../engine/source/input/fredebug.F
+!||    fredli                 ../engine/source/input/fredli.F
+!||    fredynain              ../engine/source/input/fredynain.F
+!||    freflw                 ../engine/source/input/freflw.F
+!||    freform                ../engine/source/input/freform.F
+!||    frefunc                ../engine/source/input/frefunc.F
+!||    frefvbag               ../engine/source/input/frefvbag.F
+!||    frefxinp               ../engine/source/input/frefxinp.F
+!||    freimpl                ../engine/source/input/freimpl.F
+!||    freiniv                ../engine/source/input/freiniv.F
+!||    freint                 ../engine/source/input/freint.F
+!||    frenois                ../engine/source/input/frenois.F
+!||    freoutp                ../engine/source/input/freoutp.F
+!||    frestat                ../engine/source/input/frestat.F
+!||    frethermal             ../engine/source/constraints/thermic/frethermal.F
+!||    freupwind              ../engine/source/input/freupwind.F
+!||    freupwm                ../engine/source/input/freupwm.F
+!||    h3d_read               ../engine/source/output/h3d/h3d_build_fortran/h3d_read.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                 ../engine/source/output/message/message.F
+!||    arret                  ../engine/source/system/arret.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod            ../engine/share/message_module/message_mod.F
+!||    names_and_titles_mod   ../common_source/modules/names_and_titles_mod.F
+!||====================================================================
       SUBROUTINE WRIUSC2(IREC,NBC,KEY0)
 C-----------------------------------------------
 C   M o d u l e s

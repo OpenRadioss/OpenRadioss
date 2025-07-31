@@ -21,12 +21,12 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
-      !||====================================================================
-      !||    trirap   ../common_source/tools/sort/trirap.F
-      !||--- calls      -----------------------------------------------------
-      !||    iparti   ../common_source/tools/sort/iparti.F
-      !||    triins   ../common_source/tools/sort/triins.F
-      !||====================================================================
+!||====================================================================
+!||    trirap   ../common_source/tools/sort/trirap.F
+!||--- calls      -----------------------------------------------------
+!||    iparti   ../common_source/tools/sort/iparti.F
+!||    triins   ../common_source/tools/sort/triins.F
+!||====================================================================
       SUBROUTINE TRIRAP(N,TAB,N2)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

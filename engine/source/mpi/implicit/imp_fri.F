@@ -20,19 +20,19 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    imp_fri         ../engine/source/mpi/implicit/imp_fri.F
-      !||--- called by ------------------------------------------------------
-      !||    imp_chkm        ../engine/source/implicit/imp_solv.F
-      !||    imp_intfr       ../engine/source/implicit/imp_solv.F
-      !||--- calls      -----------------------------------------------------
-      !||    imp_frkd        ../engine/source/mpi/implicit/imp_fri.F
-      !||    imp_frki        ../engine/source/mpi/implicit/imp_fri.F
-      !||    imp_frsl        ../engine/source/mpi/implicit/imp_fri.F
-      !||    spmd_sumf_v     ../engine/source/mpi/implicit/imp_spmd.F
-      !||--- uses       -----------------------------------------------------
-      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    imp_fri         ../engine/source/mpi/implicit/imp_fri.F
+!||--- called by ------------------------------------------------------
+!||    imp_chkm        ../engine/source/implicit/imp_solv.F
+!||    imp_intfr       ../engine/source/implicit/imp_solv.F
+!||--- calls      -----------------------------------------------------
+!||    imp_frkd        ../engine/source/mpi/implicit/imp_fri.F
+!||    imp_frki        ../engine/source/mpi/implicit/imp_fri.F
+!||    imp_frsl        ../engine/source/mpi/implicit/imp_fri.F
+!||    spmd_sumf_v     ../engine/source/mpi/implicit/imp_spmd.F
+!||--- uses       -----------------------------------------------------
+!||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
+!||====================================================================
       SUBROUTINE IMP_FRI(
      1    NUM_IMP   ,NS_IMP    ,NE_IMP    ,IPARI     ,INTBUF_TAB,
      2    NPBY      ,LPBY      ,ITAB      ,NRBYAC    ,
@@ -118,20 +118,20 @@ C-----------------------------------------------
 C----6---------------------------------------------------------------7---------8
       RETURN
       END
-      !||====================================================================
-      !||    imp_frfv        ../engine/source/mpi/implicit/imp_fri.F
-      !||--- called by ------------------------------------------------------
-      !||    imp_chkm        ../engine/source/implicit/imp_solv.F
-      !||    imp_intfr       ../engine/source/implicit/imp_solv.F
-      !||--- calls      -----------------------------------------------------
-      !||    fr_matv         ../engine/source/mpi/implicit/imp_fri.F
-      !||    ini_dd0         ../engine/source/mpi/implicit/imp_fri.F
-      !||    ini_ddfv        ../engine/source/mpi/implicit/imp_fri.F
-      !||    produt_vmhp     ../engine/source/implicit/produt_v.F
-      !||    spmd_sumf_v     ../engine/source/mpi/implicit/imp_spmd.F
-      !||--- uses       -----------------------------------------------------
-      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    imp_frfv        ../engine/source/mpi/implicit/imp_fri.F
+!||--- called by ------------------------------------------------------
+!||    imp_chkm        ../engine/source/implicit/imp_solv.F
+!||    imp_intfr       ../engine/source/implicit/imp_solv.F
+!||--- calls      -----------------------------------------------------
+!||    fr_matv         ../engine/source/mpi/implicit/imp_fri.F
+!||    ini_dd0         ../engine/source/mpi/implicit/imp_fri.F
+!||    ini_ddfv        ../engine/source/mpi/implicit/imp_fri.F
+!||    produt_vmhp     ../engine/source/implicit/produt_v.F
+!||    spmd_sumf_v     ../engine/source/mpi/implicit/imp_spmd.F
+!||--- uses       -----------------------------------------------------
+!||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
+!||====================================================================
       SUBROUTINE IMP_FRFV(
      1    NUM_IMP   ,NS_IMP    ,NE_IMP    ,IPARI     ,INTBUF_TAB,
      2    IDDL      ,IKC       ,NDOF      ,NSREM     ,
@@ -231,24 +231,24 @@ C------calculate DE for L_search as DD,DDR will be updated
 C----6---------------------------------------------------------------7---------8
       RETURN
       END
-      !||====================================================================
-      !||    imp_frki        ../engine/source/mpi/implicit/imp_fri.F
-      !||--- called by ------------------------------------------------------
-      !||    imp_fri         ../engine/source/mpi/implicit/imp_fri.F
-      !||--- calls      -----------------------------------------------------
-      !||    diag_int        ../engine/source/mpi/implicit/imp_fri.F
-      !||    dim_kinefr      ../engine/source/mpi/implicit/imp_fri.F
-      !||    iddl_int        ../engine/source/mpi/implicit/imp_fri.F
-      !||    imp_frsn        ../engine/source/mpi/implicit/imp_fri.F
-      !||    ind_kinefr      ../engine/source/mpi/implicit/imp_fri.F
-      !||    ini_intm        ../engine/source/mpi/implicit/imp_fri.F
-      !||    spmd_ifc1       ../engine/source/mpi/implicit/imp_spmd.F
-      !||    tag_intm        ../engine/source/mpi/implicit/imp_fri.F
-      !||    tag_intm11      ../engine/source/mpi/implicit/imp_fri.F
-      !||    tag_ints        ../engine/source/mpi/implicit/imp_fri.F
-      !||--- uses       -----------------------------------------------------
-      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    imp_frki        ../engine/source/mpi/implicit/imp_fri.F
+!||--- called by ------------------------------------------------------
+!||    imp_fri         ../engine/source/mpi/implicit/imp_fri.F
+!||--- calls      -----------------------------------------------------
+!||    diag_int        ../engine/source/mpi/implicit/imp_fri.F
+!||    dim_kinefr      ../engine/source/mpi/implicit/imp_fri.F
+!||    iddl_int        ../engine/source/mpi/implicit/imp_fri.F
+!||    imp_frsn        ../engine/source/mpi/implicit/imp_fri.F
+!||    ind_kinefr      ../engine/source/mpi/implicit/imp_fri.F
+!||    ini_intm        ../engine/source/mpi/implicit/imp_fri.F
+!||    spmd_ifc1       ../engine/source/mpi/implicit/imp_spmd.F
+!||    tag_intm        ../engine/source/mpi/implicit/imp_fri.F
+!||    tag_intm11      ../engine/source/mpi/implicit/imp_fri.F
+!||    tag_ints        ../engine/source/mpi/implicit/imp_fri.F
+!||--- uses       -----------------------------------------------------
+!||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
+!||====================================================================
       SUBROUTINE IMP_FRKI(
      1    IPARI     ,INTBUF_TAB,NUM_IMP   ,NS_IMP    ,NE_IMP    ,
      2    NPBY      ,LPBY      ,ITAB      ,NRBYAC    ,IRBYAC    ,
@@ -371,15 +371,15 @@ C----6---------------------------------------------------------------7---------8
       RETURN
       END
 C  ------retrieve ISL in global num (by each proc)---
-      !||====================================================================
-      !||    imp_frsn        ../engine/source/mpi/implicit/imp_fri.F
-      !||--- called by ------------------------------------------------------
-      !||    imp_frkd        ../engine/source/mpi/implicit/imp_fri.F
-      !||    imp_frki        ../engine/source/mpi/implicit/imp_fri.F
-      !||--- uses       -----------------------------------------------------
-      !||    imp_intm        ../engine/share/modules/imp_intm.F
-      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    imp_frsn        ../engine/source/mpi/implicit/imp_fri.F
+!||--- called by ------------------------------------------------------
+!||    imp_frkd        ../engine/source/mpi/implicit/imp_fri.F
+!||    imp_frki        ../engine/source/mpi/implicit/imp_fri.F
+!||--- uses       -----------------------------------------------------
+!||    imp_intm        ../engine/share/modules/imp_intm.F
+!||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
+!||====================================================================
       SUBROUTINE IMP_FRSN(IPARI ,INTBUF_TAB  ,NBINTC,INTLIST)
 C-----------------------------------------------
 C   M o d u l e s
@@ -445,13 +445,13 @@ C
 C
       RETURN
       END
-      !||====================================================================
-      !||    imp_frii       ../engine/source/mpi/implicit/imp_fri.F
-      !||--- called by ------------------------------------------------------
-      !||    imp_sol_init   ../engine/source/implicit/imp_sol_init.F
-      !||--- uses       -----------------------------------------------------
-      !||    imp_intm       ../engine/share/modules/imp_intm.F
-      !||====================================================================
+!||====================================================================
+!||    imp_frii       ../engine/source/mpi/implicit/imp_fri.F
+!||--- called by ------------------------------------------------------
+!||    imp_sol_init   ../engine/source/implicit/imp_sol_init.F
+!||--- uses       -----------------------------------------------------
+!||    imp_intm       ../engine/share/modules/imp_intm.F
+!||====================================================================
       SUBROUTINE IMP_FRII(NINTER)
 C-----------------------------------------------
 C   M o d u l e s
@@ -491,16 +491,16 @@ C
 C
       RETURN
       END
-      !||====================================================================
-      !||    imp_fr7i        ../engine/source/mpi/implicit/imp_fri.F
-      !||--- called by ------------------------------------------------------
-      !||    imp_chkm        ../engine/source/implicit/imp_solv.F
-      !||    imp_solv        ../engine/source/implicit/imp_solv.F
-      !||--- uses       -----------------------------------------------------
-      !||    imp_intm        ../engine/share/modules/imp_intm.F
-      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
-      !||    tri7box         ../engine/share/modules/tri7box.F
-      !||====================================================================
+!||====================================================================
+!||    imp_fr7i        ../engine/source/mpi/implicit/imp_fri.F
+!||--- called by ------------------------------------------------------
+!||    imp_chkm        ../engine/source/implicit/imp_solv.F
+!||    imp_solv        ../engine/source/implicit/imp_solv.F
+!||--- uses       -----------------------------------------------------
+!||    imp_intm        ../engine/share/modules/imp_intm.F
+!||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
+!||    tri7box         ../engine/share/modules/tri7box.F
+!||====================================================================
       SUBROUTINE IMP_FR7I(IPARI ,INTBUF_TAB,NUM_IMP ,NS_IMP ,NSREM ,
      1                    NBINTC,INTLIST)
 C-----------------------------------------------
@@ -687,16 +687,16 @@ C
 C
       RETURN
       END
-      !||====================================================================
-      !||    imp_frsl     ../engine/source/mpi/implicit/imp_fri.F
-      !||--- called by ------------------------------------------------------
-      !||    imp_fri      ../engine/source/mpi/implicit/imp_fri.F
-      !||--- calls      -----------------------------------------------------
-      !||    spmd_inis    ../engine/source/mpi/implicit/imp_spmd.F
-      !||    spmd_inisl   ../engine/source/mpi/implicit/imp_spmd.F
-      !||--- uses       -----------------------------------------------------
-      !||    imp_intm     ../engine/share/modules/imp_intm.F
-      !||====================================================================
+!||====================================================================
+!||    imp_frsl     ../engine/source/mpi/implicit/imp_fri.F
+!||--- called by ------------------------------------------------------
+!||    imp_fri      ../engine/source/mpi/implicit/imp_fri.F
+!||--- calls      -----------------------------------------------------
+!||    spmd_inis    ../engine/source/mpi/implicit/imp_spmd.F
+!||    spmd_inisl   ../engine/source/mpi/implicit/imp_spmd.F
+!||--- uses       -----------------------------------------------------
+!||    imp_intm     ../engine/share/modules/imp_intm.F
+!||====================================================================
       SUBROUTINE IMP_FRSL(NBINTC,NSREM ,NSL   )
 C-----------------------------------------------
 C   M o d u l e s
@@ -762,11 +762,11 @@ C
       RETURN
       END
 C   --------- ----
-      !||====================================================================
-      !||    tag_intm   ../engine/source/mpi/implicit/imp_fri.F
-      !||--- called by ------------------------------------------------------
-      !||    imp_frki   ../engine/source/mpi/implicit/imp_fri.F
-      !||====================================================================
+!||====================================================================
+!||    tag_intm   ../engine/source/mpi/implicit/imp_fri.F
+!||--- called by ------------------------------------------------------
+!||    imp_frki   ../engine/source/mpi/implicit/imp_fri.F
+!||====================================================================
       SUBROUTINE TAG_INTM(
      1    JLT       ,NS_IMP    ,NE_IMP      ,IRECT    ,NSV       ,
      2    ILOC      ,N_IMPN    ,NSN         )
@@ -813,14 +813,14 @@ C----6---------------------------------------------------------------7---------8
       RETURN
       END
 C   --------- ----
-      !||====================================================================
-      !||    tag_ints   ../engine/source/mpi/implicit/imp_fri.F
-      !||--- called by ------------------------------------------------------
-      !||    imp_frki   ../engine/source/mpi/implicit/imp_fri.F
-      !||    kin_ksl    ../engine/source/mpi/implicit/imp_fri.F
-      !||--- uses       -----------------------------------------------------
-      !||    imp_intm   ../engine/share/modules/imp_intm.F
-      !||====================================================================
+!||====================================================================
+!||    tag_ints   ../engine/source/mpi/implicit/imp_fri.F
+!||--- called by ------------------------------------------------------
+!||    imp_frki   ../engine/source/mpi/implicit/imp_fri.F
+!||    kin_ksl    ../engine/source/mpi/implicit/imp_fri.F
+!||--- uses       -----------------------------------------------------
+!||    imp_intm   ../engine/share/modules/imp_intm.F
+!||====================================================================
       SUBROUTINE TAG_INTS(NSL       ,ILOC      ,N_IMPN     )
 C-----------------------------------------------
 C   M o d u l e s
@@ -866,14 +866,14 @@ C
 C----6---------------------------------------------------------------7---------8
       RETURN
       END
-      !||====================================================================
-      !||    ini_ddfv        ../engine/source/mpi/implicit/imp_fri.F
-      !||--- called by ------------------------------------------------------
-      !||    imp_frfv        ../engine/source/mpi/implicit/imp_fri.F
-      !||--- uses       -----------------------------------------------------
-      !||    imp_intm        ../engine/share/modules/imp_intm.F
-      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    ini_ddfv        ../engine/source/mpi/implicit/imp_fri.F
+!||--- called by ------------------------------------------------------
+!||    imp_frfv        ../engine/source/mpi/implicit/imp_fri.F
+!||--- uses       -----------------------------------------------------
+!||    imp_intm        ../engine/share/modules/imp_intm.F
+!||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
+!||====================================================================
       SUBROUTINE INI_DDFV(IDDL ,IKC  ,NDOF  ,IPARI ,INTBUF_TAB ,
      .                    D    ,DR   ,DD    ,DDR   ,NSL   ,
      .                    IRBE3,LRBE3,IRBE2 ,LRBE2 )
@@ -1030,14 +1030,14 @@ C------RBE2-------
 C----6---------------------------------------------------------------7---------8
       RETURN
       END
-      !||====================================================================
-      !||    ini_dd0         ../engine/source/mpi/implicit/imp_fri.F
-      !||--- called by ------------------------------------------------------
-      !||    imp_frfv        ../engine/source/mpi/implicit/imp_fri.F
-      !||--- uses       -----------------------------------------------------
-      !||    imp_intm        ../engine/share/modules/imp_intm.F
-      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    ini_dd0         ../engine/source/mpi/implicit/imp_fri.F
+!||--- called by ------------------------------------------------------
+!||    imp_frfv        ../engine/source/mpi/implicit/imp_fri.F
+!||--- uses       -----------------------------------------------------
+!||    imp_intm        ../engine/share/modules/imp_intm.F
+!||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
+!||====================================================================
       SUBROUTINE INI_DD0(IDDL ,IKC  ,NDOF  ,IPARI ,INTBUF_TAB ,
      .                   DD   ,DDR  ,NSL   ,IRBE3 ,LRBE3 ,
      .                   IRBE2,LRBE2 )
@@ -1192,13 +1192,13 @@ C----6---------------------------------------------------------------7---------8
       RETURN
       END
 C   --------- ----
-      !||====================================================================
-      !||    ini_intm   ../engine/source/mpi/implicit/imp_fri.F
-      !||--- called by ------------------------------------------------------
-      !||    imp_frki   ../engine/source/mpi/implicit/imp_fri.F
-      !||--- uses       -----------------------------------------------------
-      !||    imp_intm   ../engine/share/modules/imp_intm.F
-      !||====================================================================
+!||====================================================================
+!||    ini_intm   ../engine/source/mpi/implicit/imp_fri.F
+!||--- called by ------------------------------------------------------
+!||    imp_frki   ../engine/source/mpi/implicit/imp_fri.F
+!||--- uses       -----------------------------------------------------
+!||    imp_intm   ../engine/share/modules/imp_intm.F
+!||====================================================================
       SUBROUTINE INI_INTM(ILOC  ,N_IMPS,N_IMPN )
 C-----------------------------------------------
 C   M o d u l e s
@@ -1237,13 +1237,13 @@ C
 C----6---------------------------------------------------------------7---------8
       RETURN
       END
-      !||====================================================================
-      !||    dim_kinefr      ../engine/source/mpi/implicit/imp_fri.F
-      !||--- called by ------------------------------------------------------
-      !||    imp_frki        ../engine/source/mpi/implicit/imp_fri.F
-      !||--- uses       -----------------------------------------------------
-      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    dim_kinefr      ../engine/source/mpi/implicit/imp_fri.F
+!||--- called by ------------------------------------------------------
+!||    imp_frki        ../engine/source/mpi/implicit/imp_fri.F
+!||--- uses       -----------------------------------------------------
+!||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
+!||====================================================================
       SUBROUTINE DIM_KINEFR(
      1    NPBY      ,LPBY      ,ITAB      ,NRBYAC    ,IRBYAC    ,
      2    NINT2     ,IINT2     ,IPARI     ,INTBUF_TAB,INLOC     ,
@@ -1345,16 +1345,16 @@ C--------RBE2--------------------
 C----6---------------------------------------------------------------7---------8
       RETURN
       END
-      !||====================================================================
-      !||    ind_kinefr      ../engine/source/mpi/implicit/imp_fri.F
-      !||--- called by ------------------------------------------------------
-      !||    imp_frki        ../engine/source/mpi/implicit/imp_fri.F
-      !||--- uses       -----------------------------------------------------
-      !||    imp_aspc        ../engine/share/modules/impbufdef_mod.F
-      !||    imp_intm        ../engine/share/modules/imp_intm.F
-      !||    imp_rwl         ../engine/share/modules/impbufdef_mod.F
-      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    ind_kinefr      ../engine/source/mpi/implicit/imp_fri.F
+!||--- called by ------------------------------------------------------
+!||    imp_frki        ../engine/source/mpi/implicit/imp_fri.F
+!||--- uses       -----------------------------------------------------
+!||    imp_aspc        ../engine/share/modules/impbufdef_mod.F
+!||    imp_intm        ../engine/share/modules/imp_intm.F
+!||    imp_rwl         ../engine/share/modules/impbufdef_mod.F
+!||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
+!||====================================================================
       SUBROUTINE IND_KINEFR(
      1    NPBY      ,LPBY      ,ITAB      ,NRBYAC    ,IRBYAC    ,
      2    NINT2     ,IINT2     ,IPARI     ,INTBUF_TAB,INLOC     ,
@@ -1600,16 +1600,16 @@ C-----RBE2------
 C----6---------------------------------------------------------------7---------8
       RETURN
       END
-      !||====================================================================
-      !||    iddl_int        ../engine/source/mpi/implicit/imp_fri.F
-      !||--- called by ------------------------------------------------------
-      !||    imp_frki        ../engine/source/mpi/implicit/imp_fri.F
-      !||--- calls      -----------------------------------------------------
-      !||    rbe3cl          ../engine/source/constraints/general/rbe3/rbe3f.F
-      !||--- uses       -----------------------------------------------------
-      !||    imp_intm        ../engine/share/modules/imp_intm.F
-      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    iddl_int        ../engine/source/mpi/implicit/imp_fri.F
+!||--- called by ------------------------------------------------------
+!||    imp_frki        ../engine/source/mpi/implicit/imp_fri.F
+!||--- calls      -----------------------------------------------------
+!||    rbe3cl          ../engine/source/constraints/general/rbe3/rbe3f.F
+!||--- uses       -----------------------------------------------------
+!||    imp_intm        ../engine/share/modules/imp_intm.F
+!||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
+!||====================================================================
       SUBROUTINE IDDL_INT(NSL    ,IDDL    ,IKC     ,NDOF     ,IDDLM   ,
      .                    IPARI  ,INTBUF_TAB,IRBE3   ,LRBE3    ,FRBE3   ,
      .                     X     ,SKEW    ,IRBE2   ,LRBE2    )
@@ -1811,28 +1811,28 @@ C-----------Rbe2-------------------
 C
       RETURN
       END
-      !||====================================================================
-      !||    diag_int        ../engine/source/mpi/implicit/imp_fri.F
-      !||--- called by ------------------------------------------------------
-      !||    imp_frki        ../engine/source/mpi/implicit/imp_fri.F
-      !||--- calls      -----------------------------------------------------
-      !||    bcl_impkd       ../engine/source/constraints/general/bcs/bc_imp0.F
-      !||    fv_updkd        ../engine/source/constraints/general/impvel/fv_imp0.F
-      !||    fv_updkd2       ../engine/source/constraints/general/bcs/bc_imp0.F
-      !||    i2_frup0        ../engine/source/interfaces/interf/i2_imp1.F
-      !||    i2_frup1        ../engine/source/interfaces/interf/i2_imp1.F
-      !||    l_dir           ../engine/source/constraints/general/bcs/bc_imp0.F
-      !||    prerbe2fr       ../engine/source/constraints/general/rbe2/rbe2f.F
-      !||    prerbe3fr       ../engine/source/constraints/general/rbe3/rbe3f.F
-      !||    rbe2_impkd      ../engine/source/constraints/general/rbe2/rbe2_imp0.F
-      !||    rbe3_frupd      ../engine/source/constraints/general/rbe3/rbe3_imp0.F
-      !||    updfr_rb        ../engine/source/constraints/general/rbody/rby_imp0.F
-      !||--- uses       -----------------------------------------------------
-      !||    imp_aspc        ../engine/share/modules/impbufdef_mod.F
-      !||    imp_intm        ../engine/share/modules/imp_intm.F
-      !||    imp_rwl         ../engine/share/modules/impbufdef_mod.F
-      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    diag_int        ../engine/source/mpi/implicit/imp_fri.F
+!||--- called by ------------------------------------------------------
+!||    imp_frki        ../engine/source/mpi/implicit/imp_fri.F
+!||--- calls      -----------------------------------------------------
+!||    bcl_impkd       ../engine/source/constraints/general/bcs/bc_imp0.F
+!||    fv_updkd        ../engine/source/constraints/general/impvel/fv_imp0.F
+!||    fv_updkd2       ../engine/source/constraints/general/bcs/bc_imp0.F
+!||    i2_frup0        ../engine/source/interfaces/interf/i2_imp1.F
+!||    i2_frup1        ../engine/source/interfaces/interf/i2_imp1.F
+!||    l_dir           ../engine/source/constraints/general/bcs/bc_imp0.F
+!||    prerbe2fr       ../engine/source/constraints/general/rbe2/rbe2f.F
+!||    prerbe3fr       ../engine/source/constraints/general/rbe3/rbe3f.F
+!||    rbe2_impkd      ../engine/source/constraints/general/rbe2/rbe2_imp0.F
+!||    rbe3_frupd      ../engine/source/constraints/general/rbe3/rbe3_imp0.F
+!||    updfr_rb        ../engine/source/constraints/general/rbody/rby_imp0.F
+!||--- uses       -----------------------------------------------------
+!||    imp_aspc        ../engine/share/modules/impbufdef_mod.F
+!||    imp_intm        ../engine/share/modules/imp_intm.F
+!||    imp_rwl         ../engine/share/modules/impbufdef_mod.F
+!||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
+!||====================================================================
       SUBROUTINE DIAG_INT(NSL    ,NDOF    ,IPARI  ,INTBUF_TAB,
      .                    KSS    ,X       ,IBFV   ,SKEW    ,XFRAME,
      .                    IRBE3  ,LRBE3   ,IRBE2  ,LRBE2   )
@@ -2124,18 +2124,18 @@ C-------AUTOSPC
 C
       RETURN
       END
-      !||====================================================================
-      !||    intabfr     ../engine/source/mpi/implicit/imp_fri.F
-      !||--- called by ------------------------------------------------------
-      !||    get_iad     ../engine/source/mpi/implicit/imp_fri.F
-      !||    imp_fvkm    ../engine/source/mpi/implicit/imp_fri.F
-      !||    imp_fvkss   ../engine/source/mpi/implicit/imp_fri.F
-      !||    ini_frud    ../engine/source/mpi/implicit/imp_fri.F
-      !||    upd_kml     ../engine/source/mpi/implicit/imp_fri.F
-      !||    upd_ksl     ../engine/source/mpi/implicit/imp_fri.F
-      !||--- calls      -----------------------------------------------------
-      !||    intab       ../engine/source/implicit/ind_glob_k.F
-      !||====================================================================
+!||====================================================================
+!||    intabfr     ../engine/source/mpi/implicit/imp_fri.F
+!||--- called by ------------------------------------------------------
+!||    get_iad     ../engine/source/mpi/implicit/imp_fri.F
+!||    imp_fvkm    ../engine/source/mpi/implicit/imp_fri.F
+!||    imp_fvkss   ../engine/source/mpi/implicit/imp_fri.F
+!||    ini_frud    ../engine/source/mpi/implicit/imp_fri.F
+!||    upd_kml     ../engine/source/mpi/implicit/imp_fri.F
+!||    upd_ksl     ../engine/source/mpi/implicit/imp_fri.F
+!||--- calls      -----------------------------------------------------
+!||    intab       ../engine/source/implicit/ind_glob_k.F
+!||====================================================================
        SUBROUTINE INTABFR(NIC,IC,N,INTAB)
 C----6---------------------------------------------------------------7---------8
 C   I m p l i c i t   T y p e s
@@ -2161,15 +2161,15 @@ C
       RETURN
       END
 C   --------- ----
-      !||====================================================================
-      !||    imp_diags       ../engine/source/mpi/implicit/imp_fri.F
-      !||--- called by ------------------------------------------------------
-      !||    lin_solvh1      ../engine/source/implicit/lin_solv.F
-      !||    lin_solvih2     ../engine/source/implicit/lin_solv.F
-      !||--- uses       -----------------------------------------------------
-      !||    imp_intm        ../engine/share/modules/imp_intm.F
-      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    imp_diags       ../engine/source/mpi/implicit/imp_fri.F
+!||--- called by ------------------------------------------------------
+!||    lin_solvh1      ../engine/source/implicit/lin_solv.F
+!||    lin_solvih2     ../engine/source/implicit/lin_solv.F
+!||--- uses       -----------------------------------------------------
+!||    imp_intm        ../engine/share/modules/imp_intm.F
+!||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
+!||====================================================================
       SUBROUTINE IMP_DIAGS(DIAG_K,NDOF,NSL,IPARI,INTBUF_TAB,IRBE3,LRBE3,
      .                     IRBE2 )
 C-----------------------------------------------
@@ -2275,15 +2275,15 @@ C----6---------------------------------------------------------------7---------8
       RETURN
       END
 C   --------- ----
-      !||====================================================================
-      !||    imp_diagsn      ../engine/source/mpi/implicit/imp_fri.F
-      !||--- called by ------------------------------------------------------
-      !||    lin_solvh1      ../engine/source/implicit/lin_solv.F
-      !||    lin_solvih2     ../engine/source/implicit/lin_solv.F
-      !||--- uses       -----------------------------------------------------
-      !||    imp_intm        ../engine/share/modules/imp_intm.F
-      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    imp_diagsn      ../engine/source/mpi/implicit/imp_fri.F
+!||--- called by ------------------------------------------------------
+!||    lin_solvh1      ../engine/source/implicit/lin_solv.F
+!||    lin_solvih2     ../engine/source/implicit/lin_solv.F
+!||--- uses       -----------------------------------------------------
+!||    imp_intm        ../engine/share/modules/imp_intm.F
+!||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
+!||====================================================================
       SUBROUTINE IMP_DIAGSN(DIAG_K,NDOF,NSL,IPARI,INTBUF_TAB,IRBE3,LRBE3,
      .                      IRBE2 )
 C-----------------------------------------------
@@ -2388,28 +2388,28 @@ C
 C----6---------------------------------------------------------------7---------8
       RETURN
       END
-      !||====================================================================
-      !||    fr_matv         ../engine/source/mpi/implicit/imp_fri.F
-      !||--- called by ------------------------------------------------------
-      !||    imp_frfv        ../engine/source/mpi/implicit/imp_fri.F
-      !||    mav_lth         ../engine/source/implicit/produt_v.F
-      !||    mav_lth0        ../engine/source/implicit/produt_v.F
-      !||    mav_ltp         ../engine/source/implicit/produt_v.F
-      !||--- calls      -----------------------------------------------------
-      !||    fr_a2b          ../engine/source/mpi/implicit/imp_fri.F
-      !||    fr_a2bd         ../engine/source/mpi/implicit/imp_fri.F
-      !||    fr_u2d          ../engine/source/mpi/implicit/imp_fri.F
-      !||    fr_u2dd         ../engine/source/mpi/implicit/imp_fri.F
-      !||    i7mainfr        ../engine/source/interfaces/int07/i7ke3.F
-      !||    mav_ltfr        ../engine/source/mpi/implicit/imp_fri.F
-      !||    spmd_ifcd       ../engine/source/mpi/implicit/imp_spmd.F
-      !||    spmd_ifcf       ../engine/source/mpi/implicit/imp_spmd.F
-      !||    spmd_ifrf       ../engine/source/mpi/implicit/imp_spmd.F
-      !||    spmd_ifru       ../engine/source/mpi/implicit/imp_spmd.F
-      !||    upd_fr          ../engine/source/mpi/implicit/imp_fri.F
-      !||--- uses       -----------------------------------------------------
-      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    fr_matv         ../engine/source/mpi/implicit/imp_fri.F
+!||--- called by ------------------------------------------------------
+!||    imp_frfv        ../engine/source/mpi/implicit/imp_fri.F
+!||    mav_lth         ../engine/source/implicit/produt_v.F
+!||    mav_lth0        ../engine/source/implicit/produt_v.F
+!||    mav_ltp         ../engine/source/implicit/produt_v.F
+!||--- calls      -----------------------------------------------------
+!||    fr_a2b          ../engine/source/mpi/implicit/imp_fri.F
+!||    fr_a2bd         ../engine/source/mpi/implicit/imp_fri.F
+!||    fr_u2d          ../engine/source/mpi/implicit/imp_fri.F
+!||    fr_u2dd         ../engine/source/mpi/implicit/imp_fri.F
+!||    i7mainfr        ../engine/source/interfaces/int07/i7ke3.F
+!||    mav_ltfr        ../engine/source/mpi/implicit/imp_fri.F
+!||    spmd_ifcd       ../engine/source/mpi/implicit/imp_spmd.F
+!||    spmd_ifcf       ../engine/source/mpi/implicit/imp_spmd.F
+!||    spmd_ifrf       ../engine/source/mpi/implicit/imp_spmd.F
+!||    spmd_ifru       ../engine/source/mpi/implicit/imp_spmd.F
+!||    upd_fr          ../engine/source/mpi/implicit/imp_fri.F
+!||--- uses       -----------------------------------------------------
+!||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
+!||====================================================================
       SUBROUTINE FR_MATV(  A     ,V     ,D      ,MS     ,X      ,
      1                     DR    ,AR    ,IPARI  ,INTBUF_TAB     ,
      2                     NDOF  ,NUM_IMP,NS_IMP,NE_IMP,LX      ,
@@ -2483,13 +2483,13 @@ C
 C
       RETURN
       END
-      !||====================================================================
-      !||    fr_matv_gpu     ../engine/source/mpi/implicit/imp_fri.F
-      !||--- calls      -----------------------------------------------------
-      !||    mav_ltfr_gpu    ../engine/source/mpi/implicit/imp_fri.F
-      !||    spmd_ifrf_gpu   ../engine/source/mpi/implicit/imp_spmd.F
-      !||    spmd_ifru_gpu   ../engine/source/mpi/implicit/imp_spmd.F
-      !||====================================================================
+!||====================================================================
+!||    fr_matv_gpu     ../engine/source/mpi/implicit/imp_fri.F
+!||--- calls      -----------------------------------------------------
+!||    mav_ltfr_gpu    ../engine/source/mpi/implicit/imp_fri.F
+!||    spmd_ifrf_gpu   ../engine/source/mpi/implicit/imp_spmd.F
+!||    spmd_ifru_gpu   ../engine/source/mpi/implicit/imp_spmd.F
+!||====================================================================
       SUBROUTINE FR_MATV_GPU(NSREM, NSL, LX ,F ,NINDEX)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -2525,13 +2525,13 @@ C-----send F (NDDL_SI) and receive F (NDDL_SL)-----
 C
       RETURN
       END
-      !||====================================================================
-      !||    fr_u2d     ../engine/source/mpi/implicit/imp_fri.F
-      !||--- called by ------------------------------------------------------
-      !||    fr_matv    ../engine/source/mpi/implicit/imp_fri.F
-      !||--- uses       -----------------------------------------------------
-      !||    imp_intm   ../engine/share/modules/imp_intm.F
-      !||====================================================================
+!||====================================================================
+!||    fr_u2d     ../engine/source/mpi/implicit/imp_fri.F
+!||--- called by ------------------------------------------------------
+!||    fr_matv    ../engine/source/mpi/implicit/imp_fri.F
+!||--- uses       -----------------------------------------------------
+!||    imp_intm   ../engine/share/modules/imp_intm.F
+!||====================================================================
       SUBROUTINE FR_U2D(NDOF  ,LX    ,D     ,A    ,NSREM ,NSL )
 C-----------------------------------------------
 C   M o d u l e s
@@ -2577,29 +2577,29 @@ C--------pour com avec FFI----
 C
       RETURN
       END
-      !||====================================================================
-      !||    fr_u2dd         ../engine/source/mpi/implicit/imp_fri.F
-      !||--- called by ------------------------------------------------------
-      !||    fr_matv         ../engine/source/mpi/implicit/imp_fri.F
-      !||--- calls      -----------------------------------------------------
-      !||    bc_upd2d        ../engine/source/constraints/general/bcs/bc_imp0.F
-      !||    bc_updd         ../engine/source/constraints/general/bcs/bc_imp0.F
-      !||    bcl_impd        ../engine/source/constraints/general/bcs/bc_imp0.F
-      !||    fv_impd         ../engine/source/constraints/general/impvel/fv_imp0.F
-      !||    i2_frrd0        ../engine/source/interfaces/interf/i2_imp2.F
-      !||    i2_frrd1        ../engine/source/interfaces/interf/i2_imp2.F
-      !||    l_dir           ../engine/source/constraints/general/bcs/bc_imp0.F
-      !||    prerbe2fr       ../engine/source/constraints/general/rbe2/rbe2f.F
-      !||    prerbe3fr       ../engine/source/constraints/general/rbe3/rbe3f.F
-      !||    rbe2_frd        ../engine/source/constraints/general/rbe2/rbe2v.F
-      !||    rbe3_frd        ../engine/source/constraints/general/rbe3/rbe3v.F
-      !||    rby_imp3        ../engine/source/constraints/general/rbody/rby_impd.F
-      !||--- uses       -----------------------------------------------------
-      !||    imp_aspc        ../engine/share/modules/impbufdef_mod.F
-      !||    imp_intm        ../engine/share/modules/imp_intm.F
-      !||    imp_rwl         ../engine/share/modules/impbufdef_mod.F
-      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    fr_u2dd         ../engine/source/mpi/implicit/imp_fri.F
+!||--- called by ------------------------------------------------------
+!||    fr_matv         ../engine/source/mpi/implicit/imp_fri.F
+!||--- calls      -----------------------------------------------------
+!||    bc_upd2d        ../engine/source/constraints/general/bcs/bc_imp0.F
+!||    bc_updd         ../engine/source/constraints/general/bcs/bc_imp0.F
+!||    bcl_impd        ../engine/source/constraints/general/bcs/bc_imp0.F
+!||    fv_impd         ../engine/source/constraints/general/impvel/fv_imp0.F
+!||    i2_frrd0        ../engine/source/interfaces/interf/i2_imp2.F
+!||    i2_frrd1        ../engine/source/interfaces/interf/i2_imp2.F
+!||    l_dir           ../engine/source/constraints/general/bcs/bc_imp0.F
+!||    prerbe2fr       ../engine/source/constraints/general/rbe2/rbe2f.F
+!||    prerbe3fr       ../engine/source/constraints/general/rbe3/rbe3f.F
+!||    rbe2_frd        ../engine/source/constraints/general/rbe2/rbe2v.F
+!||    rbe3_frd        ../engine/source/constraints/general/rbe3/rbe3v.F
+!||    rby_imp3        ../engine/source/constraints/general/rbody/rby_impd.F
+!||--- uses       -----------------------------------------------------
+!||    imp_aspc        ../engine/share/modules/impbufdef_mod.F
+!||    imp_intm        ../engine/share/modules/imp_intm.F
+!||    imp_rwl         ../engine/share/modules/impbufdef_mod.F
+!||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
+!||====================================================================
       SUBROUTINE FR_U2DD( D     ,DR    ,X     ,IPARI  ,INTBUF_TAB,
      .                    NDOF  ,A     ,AR     ,LX     ,
      .                    IBFV  ,SKEW  ,XFRAME,IRBE3  ,LRBE3  ,
@@ -2800,30 +2800,30 @@ C-------if main node is also dependent-----
 C
       RETURN
       END
-      !||====================================================================
-      !||    upd_fr          ../engine/source/mpi/implicit/imp_fri.F
-      !||--- called by ------------------------------------------------------
-      !||    fr_matv         ../engine/source/mpi/implicit/imp_fri.F
-      !||--- calls      -----------------------------------------------------
-      !||    bc_fi           ../engine/source/constraints/general/bcs/bc_imp0.F
-      !||    bc_fi2          ../engine/source/constraints/general/bcs/bc_imp0.F
-      !||    bc_updf         ../engine/source/constraints/general/bcs/bc_imp0.F
-      !||    fv_updf         ../engine/source/constraints/general/impvel/fv_imp0.F
-      !||    i2_frfm0        ../engine/source/interfaces/interf/i2_imp1.F
-      !||    i2_frfm1        ../engine/source/interfaces/interf/i2_imp1.F
-      !||    kin_updf        ../engine/source/constraints/general/impvel/fv_imp0.F
-      !||    l_dir           ../engine/source/constraints/general/bcs/bc_imp0.F
-      !||    prerbe2fr       ../engine/source/constraints/general/rbe2/rbe2f.F
-      !||    prerbe3fr       ../engine/source/constraints/general/rbe3/rbe3f.F
-      !||    rbe2frf         ../engine/source/constraints/general/rbe2/rbe2f.F
-      !||    rbe3frf         ../engine/source/constraints/general/rbe3/rbe3f.F
-      !||    rby_impf        ../engine/source/constraints/general/rbody/rby_imp0.F
-      !||--- uses       -----------------------------------------------------
-      !||    imp_aspc        ../engine/share/modules/impbufdef_mod.F
-      !||    imp_intm        ../engine/share/modules/imp_intm.F
-      !||    imp_rwl         ../engine/share/modules/impbufdef_mod.F
-      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    upd_fr          ../engine/source/mpi/implicit/imp_fri.F
+!||--- called by ------------------------------------------------------
+!||    fr_matv         ../engine/source/mpi/implicit/imp_fri.F
+!||--- calls      -----------------------------------------------------
+!||    bc_fi           ../engine/source/constraints/general/bcs/bc_imp0.F
+!||    bc_fi2          ../engine/source/constraints/general/bcs/bc_imp0.F
+!||    bc_updf         ../engine/source/constraints/general/bcs/bc_imp0.F
+!||    fv_updf         ../engine/source/constraints/general/impvel/fv_imp0.F
+!||    i2_frfm0        ../engine/source/interfaces/interf/i2_imp1.F
+!||    i2_frfm1        ../engine/source/interfaces/interf/i2_imp1.F
+!||    kin_updf        ../engine/source/constraints/general/impvel/fv_imp0.F
+!||    l_dir           ../engine/source/constraints/general/bcs/bc_imp0.F
+!||    prerbe2fr       ../engine/source/constraints/general/rbe2/rbe2f.F
+!||    prerbe3fr       ../engine/source/constraints/general/rbe3/rbe3f.F
+!||    rbe2frf         ../engine/source/constraints/general/rbe2/rbe2f.F
+!||    rbe3frf         ../engine/source/constraints/general/rbe3/rbe3f.F
+!||    rby_impf        ../engine/source/constraints/general/rbody/rby_imp0.F
+!||--- uses       -----------------------------------------------------
+!||    imp_aspc        ../engine/share/modules/impbufdef_mod.F
+!||    imp_intm        ../engine/share/modules/imp_intm.F
+!||    imp_rwl         ../engine/share/modules/impbufdef_mod.F
+!||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
+!||====================================================================
       SUBROUTINE UPD_FR(  A     ,AR     ,X     ,IPARI  ,INTBUF_TAB,
      1                   NDOF   ,IBFV  ,SKEW   ,XFRAME ,
      2                   IRBE3  ,LRBE3  ,IRBE2 ,LRBE2  )
@@ -2941,13 +2941,13 @@ C
 C
       RETURN
       END
-      !||====================================================================
-      !||    fr_a2b     ../engine/source/mpi/implicit/imp_fri.F
-      !||--- called by ------------------------------------------------------
-      !||    fr_matv    ../engine/source/mpi/implicit/imp_fri.F
-      !||--- uses       -----------------------------------------------------
-      !||    imp_intm   ../engine/share/modules/imp_intm.F
-      !||====================================================================
+!||====================================================================
+!||    fr_a2b     ../engine/source/mpi/implicit/imp_fri.F
+!||--- called by ------------------------------------------------------
+!||    fr_matv    ../engine/source/mpi/implicit/imp_fri.F
+!||--- uses       -----------------------------------------------------
+!||    imp_intm   ../engine/share/modules/imp_intm.F
+!||====================================================================
       SUBROUTINE FR_A2B(NDOF  ,LB    ,A     ,NSL  )
 C-----------------------------------------------
 C   M o d u l e s
@@ -2987,14 +2987,14 @@ C---------
 C
       RETURN
       END
-      !||====================================================================
-      !||    fr_a2bd         ../engine/source/mpi/implicit/imp_fri.F
-      !||--- called by ------------------------------------------------------
-      !||    fr_matv         ../engine/source/mpi/implicit/imp_fri.F
-      !||--- uses       -----------------------------------------------------
-      !||    imp_intm        ../engine/share/modules/imp_intm.F
-      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    fr_a2bd         ../engine/source/mpi/implicit/imp_fri.F
+!||--- called by ------------------------------------------------------
+!||    fr_matv         ../engine/source/mpi/implicit/imp_fri.F
+!||--- uses       -----------------------------------------------------
+!||    imp_intm        ../engine/share/modules/imp_intm.F
+!||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
+!||====================================================================
       SUBROUTINE FR_A2BD(NDOF  ,IPARI ,INTBUF_TAB  ,LB    ,A     ,
      .                   AR    ,IRBE3 ,LRBE3  ,IRBE2 ,LRBE2  )
 C-----------------------------------------------
@@ -3103,13 +3103,13 @@ C------RBE2-------
 C
       RETURN
       END
-      !||====================================================================
-      !||    dim_nrmax    ../engine/source/mpi/implicit/imp_fri.F
-      !||--- called by ------------------------------------------------------
-      !||    dim_glob_k   ../engine/source/implicit/ind_glob_k.F
-      !||--- uses       -----------------------------------------------------
-      !||    imp_frk      ../engine/share/modules/impbufdef_mod.F
-      !||====================================================================
+!||====================================================================
+!||    dim_nrmax    ../engine/source/mpi/implicit/imp_fri.F
+!||--- called by ------------------------------------------------------
+!||    dim_glob_k   ../engine/source/implicit/ind_glob_k.F
+!||--- uses       -----------------------------------------------------
+!||    imp_frk      ../engine/share/modules/impbufdef_mod.F
+!||====================================================================
       SUBROUTINE DIM_NRMAX(NROW  ,FR_ELEM ,IAD_ELEM,NNMAX   )
 C-----------------------------------------------
 C   M o d u l e s
@@ -3147,15 +3147,15 @@ C
 C
       RETURN
       END
-      !||====================================================================
-      !||    kin_nrmax0   ../engine/source/mpi/implicit/imp_fri.F
-      !||--- called by ------------------------------------------------------
-      !||    dim_kinmax   ../engine/source/implicit/ind_glob_k.F
-      !||--- calls      -----------------------------------------------------
-      !||    reorder_a    ../engine/source/implicit/ind_glob_k.F
-      !||--- uses       -----------------------------------------------------
-      !||    imp_frk      ../engine/share/modules/impbufdef_mod.F
-      !||====================================================================
+!||====================================================================
+!||    kin_nrmax0   ../engine/source/mpi/implicit/imp_fri.F
+!||--- called by ------------------------------------------------------
+!||    dim_kinmax   ../engine/source/implicit/ind_glob_k.F
+!||--- calls      -----------------------------------------------------
+!||    reorder_a    ../engine/source/implicit/ind_glob_k.F
+!||--- uses       -----------------------------------------------------
+!||    imp_frk      ../engine/share/modules/impbufdef_mod.F
+!||====================================================================
       SUBROUTINE KIN_NRMAX0(
      1    NNMAX     ,NKMAX     ,NROWK     ,ICOK      ,ICOKM     ,
      2    ILOC      ,INK       ,FR_ELEM   ,IAD_ELEM  )
@@ -3203,16 +3203,16 @@ C
 C
       RETURN
       END
-      !||====================================================================
-      !||    kin_nrmax    ../engine/source/mpi/implicit/imp_fri.F
-      !||--- called by ------------------------------------------------------
-      !||    dim_kinmax   ../engine/source/implicit/ind_glob_k.F
-      !||    ind_glob_k   ../engine/source/implicit/ind_glob_k.F
-      !||--- calls      -----------------------------------------------------
-      !||    reorder_a    ../engine/source/implicit/ind_glob_k.F
-      !||--- uses       -----------------------------------------------------
-      !||    imp_frk      ../engine/share/modules/impbufdef_mod.F
-      !||====================================================================
+!||====================================================================
+!||    kin_nrmax    ../engine/source/mpi/implicit/imp_fri.F
+!||--- called by ------------------------------------------------------
+!||    dim_kinmax   ../engine/source/implicit/ind_glob_k.F
+!||    ind_glob_k   ../engine/source/implicit/ind_glob_k.F
+!||--- calls      -----------------------------------------------------
+!||    reorder_a    ../engine/source/implicit/ind_glob_k.F
+!||--- uses       -----------------------------------------------------
+!||    imp_frk      ../engine/share/modules/impbufdef_mod.F
+!||====================================================================
       SUBROUTINE KIN_NRMAX(
      1    NNMAX     ,NKMAX     ,NROWK     ,ICOK      ,ICOKM     ,
      2    ILOC      ,INK       ,FR_ELEM   ,IAD_ELEM  )
@@ -3261,13 +3261,13 @@ C
 C
       RETURN
       END
-      !||====================================================================
-      !||    ind_nrmax   ../engine/source/mpi/implicit/imp_fri.F
-      !||--- called by ------------------------------------------------------
-      !||    ind_nrfr    ../engine/source/mpi/implicit/imp_fri.F
-      !||--- calls      -----------------------------------------------------
-      !||    reorder_a   ../engine/source/implicit/ind_glob_k.F
-      !||====================================================================
+!||====================================================================
+!||    ind_nrmax   ../engine/source/mpi/implicit/imp_fri.F
+!||--- called by ------------------------------------------------------
+!||    ind_nrfr    ../engine/source/mpi/implicit/imp_fri.F
+!||--- calls      -----------------------------------------------------
+!||    reorder_a   ../engine/source/implicit/ind_glob_k.F
+!||====================================================================
       SUBROUTINE IND_NRMAX(
      1    NFT       ,NEL       ,NPN       ,NPPS      ,NNMAX     ,
      2    NROW      ,ICOL      ,IAD_RL    ,FR_ICOL   ,N_FRNN    )
@@ -3316,20 +3316,20 @@ C
       RETURN
       END
 
-      !||====================================================================
-      !||    dim_fr_k       ../engine/source/mpi/implicit/imp_fri.F
-      !||--- called by ------------------------------------------------------
-      !||    dim_glob_k     ../engine/source/implicit/ind_glob_k.F
-      !||--- calls      -----------------------------------------------------
-      !||    dim_elemsp     ../engine/source/implicit/ind_glob_k.F
-      !||    intab          ../engine/source/implicit/ind_glob_k.F
-      !||    reorder_a      ../engine/source/implicit/ind_glob_k.F
-      !||    spmd_icol      ../engine/source/mpi/implicit/imp_spmd.F
-      !||    spmd_nrow      ../engine/source/mpi/implicit/imp_spmd.F
-      !||--- uses       -----------------------------------------------------
-      !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||    imp_frk        ../engine/share/modules/impbufdef_mod.F
-      !||====================================================================
+!||====================================================================
+!||    dim_fr_k       ../engine/source/mpi/implicit/imp_fri.F
+!||--- called by ------------------------------------------------------
+!||    dim_glob_k     ../engine/source/implicit/ind_glob_k.F
+!||--- calls      -----------------------------------------------------
+!||    dim_elemsp     ../engine/source/implicit/ind_glob_k.F
+!||    intab          ../engine/source/implicit/ind_glob_k.F
+!||    reorder_a      ../engine/source/implicit/ind_glob_k.F
+!||    spmd_icol      ../engine/source/mpi/implicit/imp_spmd.F
+!||    spmd_nrow      ../engine/source/mpi/implicit/imp_spmd.F
+!||--- uses       -----------------------------------------------------
+!||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    imp_frk        ../engine/share/modules/impbufdef_mod.F
+!||====================================================================
       SUBROUTINE DIM_FR_K(
      1    ELBUF     ,IPARG     ,IXS       ,IXQ       ,IXC       ,
      2    IXT       ,IXP       ,IXR       ,IXTG      ,IXTG1     ,
@@ -3518,18 +3518,18 @@ C------definit IFRLOC (global)pour ind_glob_k---
 C
       RETURN
       END
-      !||====================================================================
-      !||    ind_fr_k       ../engine/source/mpi/implicit/imp_fri.F
-      !||--- called by ------------------------------------------------------
-      !||    ind_glob_k     ../engine/source/implicit/ind_glob_k.F
-      !||--- calls      -----------------------------------------------------
-      !||    dim_elemsp     ../engine/source/implicit/ind_glob_k.F
-      !||    ind_fr_k0      ../engine/source/mpi/implicit/imp_fri.F
-      !||    reorder_a      ../engine/source/implicit/ind_glob_k.F
-      !||--- uses       -----------------------------------------------------
-      !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||    imp_frk        ../engine/share/modules/impbufdef_mod.F
-      !||====================================================================
+!||====================================================================
+!||    ind_fr_k       ../engine/source/mpi/implicit/imp_fri.F
+!||--- called by ------------------------------------------------------
+!||    ind_glob_k     ../engine/source/implicit/ind_glob_k.F
+!||--- calls      -----------------------------------------------------
+!||    dim_elemsp     ../engine/source/implicit/ind_glob_k.F
+!||    ind_fr_k0      ../engine/source/mpi/implicit/imp_fri.F
+!||    reorder_a      ../engine/source/implicit/ind_glob_k.F
+!||--- uses       -----------------------------------------------------
+!||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    imp_frk        ../engine/share/modules/impbufdef_mod.F
+!||====================================================================
       SUBROUTINE IND_FR_K(
      1    ELBUF     ,IPARG     ,IXS       ,IXQ       ,IXC       ,
      2    IXT       ,IXP       ,IXR       ,IXTG      ,IXTG1     ,
@@ -3614,16 +3614,16 @@ C------ind_ [k] de FR.------
 C
       RETURN
       END
-      !||====================================================================
-      !||    ind_nrfr     ../engine/source/mpi/implicit/imp_fri.F
-      !||--- called by ------------------------------------------------------
-      !||    ind_glob_k   ../engine/source/implicit/ind_glob_k.F
-      !||--- calls      -----------------------------------------------------
-      !||    ind_nrmax    ../engine/source/mpi/implicit/imp_fri.F
-      !||    reorder_a    ../engine/source/implicit/ind_glob_k.F
-      !||--- uses       -----------------------------------------------------
-      !||    imp_frk      ../engine/share/modules/impbufdef_mod.F
-      !||====================================================================
+!||====================================================================
+!||    ind_nrfr     ../engine/source/mpi/implicit/imp_fri.F
+!||--- called by ------------------------------------------------------
+!||    ind_glob_k   ../engine/source/implicit/ind_glob_k.F
+!||--- calls      -----------------------------------------------------
+!||    ind_nrmax    ../engine/source/mpi/implicit/imp_fri.F
+!||    reorder_a    ../engine/source/implicit/ind_glob_k.F
+!||--- uses       -----------------------------------------------------
+!||    imp_frk      ../engine/share/modules/impbufdef_mod.F
+!||====================================================================
       SUBROUTINE IND_NRFR(
      1    NFT       ,NEL       ,NPN       ,NPP       ,NNMAX     ,
      2    NROW      ,ICOL      ,FR_ELEM   ,IAD_ELEM  ,N_FR      ,
@@ -3711,16 +3711,16 @@ C
 C
       RETURN
       END
-      !||====================================================================
-      !||    ind_fr_k0    ../engine/source/mpi/implicit/imp_fri.F
-      !||--- called by ------------------------------------------------------
-      !||    ind_fr_k     ../engine/source/mpi/implicit/imp_fri.F
-      !||--- calls      -----------------------------------------------------
-      !||    reorder_l    ../engine/source/implicit/ind_glob_k.F
-      !||    spmd_sum_s   ../engine/source/mpi/implicit/imp_spmd.F
-      !||--- uses       -----------------------------------------------------
-      !||    imp_frk      ../engine/share/modules/impbufdef_mod.F
-      !||====================================================================
+!||====================================================================
+!||    ind_fr_k0    ../engine/source/mpi/implicit/imp_fri.F
+!||--- called by ------------------------------------------------------
+!||    ind_fr_k     ../engine/source/mpi/implicit/imp_fri.F
+!||--- calls      -----------------------------------------------------
+!||    reorder_l    ../engine/source/implicit/ind_glob_k.F
+!||    spmd_sum_s   ../engine/source/mpi/implicit/imp_spmd.F
+!||--- uses       -----------------------------------------------------
+!||    imp_frk      ../engine/share/modules/impbufdef_mod.F
+!||====================================================================
       SUBROUTINE IND_FR_K0(
      1    NDOF      ,NROW      ,NNMAX     ,ICOL      ,FR_ELEM   ,
      2    IAD_ELEM  ,N_FR      )
@@ -3873,20 +3873,20 @@ C-------termes knj,n-------
 C
       RETURN
       END
-      !||====================================================================
-      !||    ini_fr_k       ../engine/source/mpi/implicit/imp_fri.F
-      !||--- called by ------------------------------------------------------
-      !||    ind_glob_k     ../engine/source/implicit/ind_glob_k.F
-      !||--- calls      -----------------------------------------------------
-      !||    dim_elemsp     ../engine/source/implicit/ind_glob_k.F
-      !||    intab          ../engine/source/implicit/ind_glob_k.F
-      !||    reorder_a      ../engine/source/implicit/ind_glob_k.F
-      !||    spmd_icol      ../engine/source/mpi/implicit/imp_spmd.F
-      !||    spmd_nrow      ../engine/source/mpi/implicit/imp_spmd.F
-      !||--- uses       -----------------------------------------------------
-      !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||    imp_frk        ../engine/share/modules/impbufdef_mod.F
-      !||====================================================================
+!||====================================================================
+!||    ini_fr_k       ../engine/source/mpi/implicit/imp_fri.F
+!||--- called by ------------------------------------------------------
+!||    ind_glob_k     ../engine/source/implicit/ind_glob_k.F
+!||--- calls      -----------------------------------------------------
+!||    dim_elemsp     ../engine/source/implicit/ind_glob_k.F
+!||    intab          ../engine/source/implicit/ind_glob_k.F
+!||    reorder_a      ../engine/source/implicit/ind_glob_k.F
+!||    spmd_icol      ../engine/source/mpi/implicit/imp_spmd.F
+!||    spmd_nrow      ../engine/source/mpi/implicit/imp_spmd.F
+!||--- uses       -----------------------------------------------------
+!||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    imp_frk        ../engine/share/modules/impbufdef_mod.F
+!||====================================================================
       SUBROUTINE INI_FR_K(
      1    ELBUF     ,IPARG     ,IXS       ,IXQ       ,IXC       ,
      2    IXT       ,IXP       ,IXR       ,IXTG      ,IXTG1     ,
@@ -4070,21 +4070,21 @@ C-------d'abord c'est locale------------
 C
       RETURN
       END
-      !||====================================================================
-      !||    upd_fr_k      ../engine/source/mpi/implicit/imp_fri.F
-      !||--- called by ------------------------------------------------------
-      !||    imp_buck      ../engine/source/implicit/imp_buck.F
-      !||    imp_chkm      ../engine/source/implicit/imp_solv.F
-      !||    imp_k_eig     ../engine/stub/imp_k_eig.F
-      !||    imp_solv      ../engine/source/implicit/imp_solv.F
-      !||--- calls      -----------------------------------------------------
-      !||    condens_ind   ../engine/source/implicit/upd_glob_k.F
-      !||    intab0        ../engine/source/implicit/imp_fsa_inv.F
-      !||    spmd_max_iv   ../engine/source/mpi/implicit/imp_spmd.F
-      !||    spmd_sum_s    ../engine/source/mpi/implicit/imp_spmd.F
-      !||--- uses       -----------------------------------------------------
-      !||    imp_frk       ../engine/share/modules/impbufdef_mod.F
-      !||====================================================================
+!||====================================================================
+!||    upd_fr_k      ../engine/source/mpi/implicit/imp_fri.F
+!||--- called by ------------------------------------------------------
+!||    imp_buck      ../engine/source/implicit/imp_buck.F
+!||    imp_chkm      ../engine/source/implicit/imp_solv.F
+!||    imp_k_eig     ../engine/stub/imp_k_eig.F
+!||    imp_solv      ../engine/source/implicit/imp_solv.F
+!||--- calls      -----------------------------------------------------
+!||    condens_ind   ../engine/source/implicit/upd_glob_k.F
+!||    intab0        ../engine/source/implicit/imp_fsa_inv.F
+!||    spmd_max_iv   ../engine/source/mpi/implicit/imp_spmd.F
+!||    spmd_sum_s    ../engine/source/mpi/implicit/imp_spmd.F
+!||--- uses       -----------------------------------------------------
+!||    imp_frk       ../engine/share/modules/impbufdef_mod.F
+!||====================================================================
       SUBROUTINE UPD_FR_K(
      1    IADK     ,JDIK     ,NDOF      ,IKC      ,IDDL     ,
      2    INLOC    ,FR_ELEM  ,IAD_ELEM  ,NDDL     )
@@ -4336,15 +4336,15 @@ c      write(*,*)'ND_FR=',(ND_FR(J),J=1,NSPMD),ISPMD
 C
       RETURN
       END
-      !||====================================================================
-      !||    fr_dlft       ../engine/source/mpi/implicit/imp_fri.F
-      !||--- called by ------------------------------------------------------
-      !||    imp_checm0    ../engine/source/implicit/imp_solv.F
-      !||    lin_solvh1    ../engine/source/implicit/lin_solv.F
-      !||    lin_solvih2   ../engine/source/implicit/lin_solv.F
-      !||--- uses       -----------------------------------------------------
-      !||    imp_frk       ../engine/share/modules/impbufdef_mod.F
-      !||====================================================================
+!||====================================================================
+!||    fr_dlft       ../engine/source/mpi/implicit/imp_fri.F
+!||--- called by ------------------------------------------------------
+!||    imp_checm0    ../engine/source/implicit/imp_solv.F
+!||    lin_solvh1    ../engine/source/implicit/lin_solv.F
+!||    lin_solvih2   ../engine/source/implicit/lin_solv.F
+!||--- uses       -----------------------------------------------------
+!||    imp_frk       ../engine/share/modules/impbufdef_mod.F
+!||====================================================================
       SUBROUTINE FR_DLFT(NDDL,IDLFT0,IDLFT1)
 C-----------------------------------------------
 C   M o d u l e s
@@ -4371,13 +4371,13 @@ C
       RETURN
       END
 CCgw|     DIM_GLOB_K                       /implicit/ind_glob_k.F
-      !||====================================================================
-      !||    set_ikin2g   ../engine/source/mpi/implicit/imp_fri.F
-      !||--- called by ------------------------------------------------------
-      !||    dim_glob_k   ../engine/source/implicit/ind_glob_k.F
-      !||--- uses       -----------------------------------------------------
-      !||    imp_frk      ../engine/share/modules/impbufdef_mod.F
-      !||====================================================================
+!||====================================================================
+!||    set_ikin2g   ../engine/source/mpi/implicit/imp_fri.F
+!||--- called by ------------------------------------------------------
+!||    dim_glob_k   ../engine/source/implicit/ind_glob_k.F
+!||--- uses       -----------------------------------------------------
+!||    imp_frk      ../engine/share/modules/impbufdef_mod.F
+!||====================================================================
       SUBROUTINE SET_IKIN2G(NKINE,INLOC)
 C-----------------------------------------------
 C   M o d u l e s
@@ -4412,13 +4412,13 @@ C
       RETURN
       END
 CCgw|     IND_GLOB_K                       /implicit/ind_glob_k.F
-      !||====================================================================
-      !||    get_ikin2g   ../engine/source/mpi/implicit/imp_fri.F
-      !||--- called by ------------------------------------------------------
-      !||    ind_glob_k   ../engine/source/implicit/ind_glob_k.F
-      !||--- uses       -----------------------------------------------------
-      !||    imp_frk      ../engine/share/modules/impbufdef_mod.F
-      !||====================================================================
+!||====================================================================
+!||    get_ikin2g   ../engine/source/mpi/implicit/imp_fri.F
+!||--- called by ------------------------------------------------------
+!||    ind_glob_k   ../engine/source/implicit/ind_glob_k.F
+!||--- uses       -----------------------------------------------------
+!||    imp_frk      ../engine/share/modules/impbufdef_mod.F
+!||====================================================================
       SUBROUTINE GET_IKIN2G(NKINE,INK,ILOC)
 C-----------------------------------------------
 C   M o d u l e s
@@ -4451,13 +4451,13 @@ C
       RETURN
       END
 CCgw|     IND_GLOB_K                       /implicit/ind_glob_k.F
-      !||====================================================================
-      !||    zero_ikin2g   ../engine/source/mpi/implicit/imp_fri.F
-      !||--- called by ------------------------------------------------------
-      !||    ind_glob_k    ../engine/source/implicit/ind_glob_k.F
-      !||--- uses       -----------------------------------------------------
-      !||    imp_frk       ../engine/share/modules/impbufdef_mod.F
-      !||====================================================================
+!||====================================================================
+!||    zero_ikin2g   ../engine/source/mpi/implicit/imp_fri.F
+!||--- called by ------------------------------------------------------
+!||    ind_glob_k    ../engine/source/implicit/ind_glob_k.F
+!||--- uses       -----------------------------------------------------
+!||    imp_frk       ../engine/share/modules/impbufdef_mod.F
+!||====================================================================
       SUBROUTINE ZERO_IKIN2G(NKINE,ILOC)
 C-----------------------------------------------
 C   M o d u l e s
@@ -4484,16 +4484,16 @@ C
 C
       RETURN
       END
-      !||====================================================================
-      !||    ind_kine_kp   ../engine/source/mpi/implicit/imp_fri.F
-      !||--- called by ------------------------------------------------------
-      !||    ind_glob_k    ../engine/source/implicit/ind_glob_k.F
-      !||--- calls      -----------------------------------------------------
-      !||    reorder_j     ../engine/source/implicit/ind_glob_k.F
-      !||    reorder_l     ../engine/source/implicit/ind_glob_k.F
-      !||--- uses       -----------------------------------------------------
-      !||    imp_frk       ../engine/share/modules/impbufdef_mod.F
-      !||====================================================================
+!||====================================================================
+!||    ind_kine_kp   ../engine/source/mpi/implicit/imp_fri.F
+!||--- called by ------------------------------------------------------
+!||    ind_glob_k    ../engine/source/implicit/ind_glob_k.F
+!||--- calls      -----------------------------------------------------
+!||    reorder_j     ../engine/source/implicit/ind_glob_k.F
+!||    reorder_l     ../engine/source/implicit/ind_glob_k.F
+!||--- uses       -----------------------------------------------------
+!||    imp_frk       ../engine/share/modules/impbufdef_mod.F
+!||====================================================================
       SUBROUTINE IND_KINE_KP(
      1    NROWK     ,ICOK      ,ICOKM     ,NNMAX     ,NKMAX     ,
      2    NKINE     ,INK       ,IKPAT     ,IDDL      )
@@ -4544,11 +4544,11 @@ c----------------------
 C----6---------------------------------------------------------------7---------8
       RETURN
       END
-      !||====================================================================
-      !||    tag_intm11   ../engine/source/mpi/implicit/imp_fri.F
-      !||--- called by ------------------------------------------------------
-      !||    imp_frki     ../engine/source/mpi/implicit/imp_fri.F
-      !||====================================================================
+!||====================================================================
+!||    tag_intm11   ../engine/source/mpi/implicit/imp_fri.F
+!||--- called by ------------------------------------------------------
+!||    imp_frki     ../engine/source/mpi/implicit/imp_fri.F
+!||====================================================================
       SUBROUTINE TAG_INTM11(
      1    JLT       ,NS_IMP    ,NE_IMP      ,IRECTS   ,IRECTM   ,
      2    ILOC      ,N_IMPN    ,NSN         )
@@ -4587,13 +4587,13 @@ C--------secnd node-----
 C----6---------------------------------------------------------------7---------8
       RETURN
       END
-      !||====================================================================
-      !||    mav_ltfr   ../engine/source/mpi/implicit/imp_fri.F
-      !||--- called by ------------------------------------------------------
-      !||    fr_matv    ../engine/source/mpi/implicit/imp_fri.F
-      !||--- uses       -----------------------------------------------------
-      !||    imp_intm   ../engine/share/modules/imp_intm.F
-      !||====================================================================
+!||====================================================================
+!||    mav_ltfr   ../engine/source/mpi/implicit/imp_fri.F
+!||--- called by ------------------------------------------------------
+!||    fr_matv    ../engine/source/mpi/implicit/imp_fri.F
+!||--- uses       -----------------------------------------------------
+!||    imp_intm   ../engine/share/modules/imp_intm.F
+!||====================================================================
       SUBROUTINE MAV_LTFR(V     ,W     )
 C-----------------------------------------------
 C   M o d u l e s
@@ -4641,13 +4641,13 @@ C
 C--------------------------------------------
       RETURN
       END
-      !||====================================================================
-      !||    mav_ltfr_gpu   ../engine/source/mpi/implicit/imp_fri.F
-      !||--- called by ------------------------------------------------------
-      !||    fr_matv_gpu    ../engine/source/mpi/implicit/imp_fri.F
-      !||--- uses       -----------------------------------------------------
-      !||    imp_intm       ../engine/share/modules/imp_intm.F
-      !||====================================================================
+!||====================================================================
+!||    mav_ltfr_gpu   ../engine/source/mpi/implicit/imp_fri.F
+!||--- called by ------------------------------------------------------
+!||    fr_matv_gpu    ../engine/source/mpi/implicit/imp_fri.F
+!||--- uses       -----------------------------------------------------
+!||    imp_intm       ../engine/share/modules/imp_intm.F
+!||====================================================================
       SUBROUTINE MAV_LTFR_GPU(V     ,W     ,NINDEX)
 C-----------------------------------------------
 C   M o d u l e s
@@ -4699,22 +4699,22 @@ C
 C--------------------------------------------
       RETURN
       END
-      !||====================================================================
-      !||    ind_frkd        ../engine/source/mpi/implicit/imp_fri.F
-      !||--- called by ------------------------------------------------------
-      !||    imp_solv        ../engine/source/implicit/imp_solv.F
-      !||--- calls      -----------------------------------------------------
-      !||    reorder_fr      ../engine/source/mpi/implicit/imp_fri.F
-      !||    rowfr_dim       ../engine/source/mpi/implicit/imp_fri.F
-      !||    rowfr_dim11     ../engine/source/mpi/implicit/imp_fri.F
-      !||    rowfr_dim24     ../engine/source/mpi/implicit/imp_fri.F
-      !||    rowfr_ind       ../engine/source/mpi/implicit/imp_fri.F
-      !||    rowfr_ind11     ../engine/source/mpi/implicit/imp_fri.F
-      !||    rowfr_ind24     ../engine/source/mpi/implicit/imp_fri.F
-      !||    set_ind_fr      ../engine/source/mpi/implicit/imp_fri.F
-      !||--- uses       -----------------------------------------------------
-      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    ind_frkd        ../engine/source/mpi/implicit/imp_fri.F
+!||--- called by ------------------------------------------------------
+!||    imp_solv        ../engine/source/implicit/imp_solv.F
+!||--- calls      -----------------------------------------------------
+!||    reorder_fr      ../engine/source/mpi/implicit/imp_fri.F
+!||    rowfr_dim       ../engine/source/mpi/implicit/imp_fri.F
+!||    rowfr_dim11     ../engine/source/mpi/implicit/imp_fri.F
+!||    rowfr_dim24     ../engine/source/mpi/implicit/imp_fri.F
+!||    rowfr_ind       ../engine/source/mpi/implicit/imp_fri.F
+!||    rowfr_ind11     ../engine/source/mpi/implicit/imp_fri.F
+!||    rowfr_ind24     ../engine/source/mpi/implicit/imp_fri.F
+!||    set_ind_fr      ../engine/source/mpi/implicit/imp_fri.F
+!||--- uses       -----------------------------------------------------
+!||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
+!||====================================================================
       SUBROUTINE IND_FRKD(
      1    IPARI     ,INTBUF_TAB,NUM_IMP   ,NS_IMP    ,NE_IMP    ,
      2    IDDL      ,IKC       ,NDOF      ,NSREM     ,IND_IMP   )
@@ -4834,13 +4834,13 @@ C
 C----6---------------------------------------------------------------7---------8
       RETURN
       END
-      !||====================================================================
-      !||    rowfr_dim   ../engine/source/mpi/implicit/imp_fri.F
-      !||--- called by ------------------------------------------------------
-      !||    ind_frkd    ../engine/source/mpi/implicit/imp_fri.F
-      !||--- uses       -----------------------------------------------------
-      !||    imp_intm    ../engine/share/modules/imp_intm.F
-      !||====================================================================
+!||====================================================================
+!||    rowfr_dim   ../engine/source/mpi/implicit/imp_fri.F
+!||--- called by ------------------------------------------------------
+!||    ind_frkd    ../engine/source/mpi/implicit/imp_fri.F
+!||--- uses       -----------------------------------------------------
+!||    imp_intm    ../engine/share/modules/imp_intm.F
+!||====================================================================
       SUBROUTINE ROWFR_DIM(
      1    JLT       ,NS_IMP    ,NE_IMP      ,IRECT     ,NROW      ,
      2    NSN       ,NIN         )
@@ -4877,13 +4877,13 @@ C-----------------------------------------------
 C----6---------------------------------------------------------------7---------8
       RETURN
       END
-      !||====================================================================
-      !||    rowfr_dim11   ../engine/source/mpi/implicit/imp_fri.F
-      !||--- called by ------------------------------------------------------
-      !||    ind_frkd      ../engine/source/mpi/implicit/imp_fri.F
-      !||--- uses       -----------------------------------------------------
-      !||    imp_intm      ../engine/share/modules/imp_intm.F
-      !||====================================================================
+!||====================================================================
+!||    rowfr_dim11   ../engine/source/mpi/implicit/imp_fri.F
+!||--- called by ------------------------------------------------------
+!||    ind_frkd      ../engine/source/mpi/implicit/imp_fri.F
+!||--- uses       -----------------------------------------------------
+!||    imp_intm      ../engine/share/modules/imp_intm.F
+!||====================================================================
       SUBROUTINE ROWFR_DIM11(
      1    JLT       ,NS_IMP    ,NE_IMP      ,IRECTM    ,NROW      ,
      2    NSN       ,NIN         )
@@ -4918,15 +4918,15 @@ C-----------------------------------------------
 C----6---------------------------------------------------------------7---------8
       RETURN
       END
-      !||====================================================================
-      !||    rowfr_ind   ../engine/source/mpi/implicit/imp_fri.F
-      !||--- called by ------------------------------------------------------
-      !||    ind_frkd    ../engine/source/mpi/implicit/imp_fri.F
-      !||--- calls      -----------------------------------------------------
-      !||    reorder_a   ../engine/source/implicit/ind_glob_k.F
-      !||--- uses       -----------------------------------------------------
-      !||    imp_intm    ../engine/share/modules/imp_intm.F
-      !||====================================================================
+!||====================================================================
+!||    rowfr_ind   ../engine/source/mpi/implicit/imp_fri.F
+!||--- called by ------------------------------------------------------
+!||    ind_frkd    ../engine/source/mpi/implicit/imp_fri.F
+!||--- calls      -----------------------------------------------------
+!||    reorder_a   ../engine/source/implicit/ind_glob_k.F
+!||--- uses       -----------------------------------------------------
+!||    imp_intm    ../engine/share/modules/imp_intm.F
+!||====================================================================
       SUBROUTINE ROWFR_IND(
      1    JLT       ,NS_IMP    ,NE_IMP      ,IRECT     ,NROW      ,
      2    ICOL      ,NNMAX     ,NSN         ,NIN       )
@@ -4964,15 +4964,15 @@ C-----------------------------------------------
 C----6---------------------------------------------------------------7---------8
       RETURN
       END
-      !||====================================================================
-      !||    rowfr_ind11   ../engine/source/mpi/implicit/imp_fri.F
-      !||--- called by ------------------------------------------------------
-      !||    ind_frkd      ../engine/source/mpi/implicit/imp_fri.F
-      !||--- calls      -----------------------------------------------------
-      !||    reorder_a     ../engine/source/implicit/ind_glob_k.F
-      !||--- uses       -----------------------------------------------------
-      !||    imp_intm      ../engine/share/modules/imp_intm.F
-      !||====================================================================
+!||====================================================================
+!||    rowfr_ind11   ../engine/source/mpi/implicit/imp_fri.F
+!||--- called by ------------------------------------------------------
+!||    ind_frkd      ../engine/source/mpi/implicit/imp_fri.F
+!||--- calls      -----------------------------------------------------
+!||    reorder_a     ../engine/source/implicit/ind_glob_k.F
+!||--- uses       -----------------------------------------------------
+!||    imp_intm      ../engine/share/modules/imp_intm.F
+!||====================================================================
       SUBROUTINE ROWFR_IND11(
      1    JLT       ,NS_IMP    ,NE_IMP      ,IRECTM    ,NROW      ,
      2    ICOL      ,NNMAX     ,NSN       ,NIN         )
@@ -5013,15 +5013,15 @@ C-----------------------------------------------
 C----6---------------------------------------------------------------7---------8
       RETURN
       END
-      !||====================================================================
-      !||    rowfr_dim24   ../engine/source/mpi/implicit/imp_fri.F
-      !||--- called by ------------------------------------------------------
-      !||    ind_frkd      ../engine/source/mpi/implicit/imp_fri.F
-      !||--- calls      -----------------------------------------------------
-      !||    i24msegv      ../engine/source/implicit/ind_glob_k.F
-      !||--- uses       -----------------------------------------------------
-      !||    imp_intm      ../engine/share/modules/imp_intm.F
-      !||====================================================================
+!||====================================================================
+!||    rowfr_dim24   ../engine/source/mpi/implicit/imp_fri.F
+!||--- called by ------------------------------------------------------
+!||    ind_frkd      ../engine/source/mpi/implicit/imp_fri.F
+!||--- calls      -----------------------------------------------------
+!||    i24msegv      ../engine/source/implicit/ind_glob_k.F
+!||--- uses       -----------------------------------------------------
+!||    imp_intm      ../engine/share/modules/imp_intm.F
+!||====================================================================
       SUBROUTINE ROWFR_DIM24(
      1    JLT       ,NS_IMP    ,NE_IMP      ,IRECT     ,NROW      ,
      2    NSN       ,NIN       ,SUBTRIA     ,NVOISIN   )
@@ -5065,16 +5065,16 @@ C-----------------------------------------------
 C----6---------------------------------------------------------------7---------8
       RETURN
       END
-      !||====================================================================
-      !||    rowfr_ind24   ../engine/source/mpi/implicit/imp_fri.F
-      !||--- called by ------------------------------------------------------
-      !||    ind_frkd      ../engine/source/mpi/implicit/imp_fri.F
-      !||--- calls      -----------------------------------------------------
-      !||    i24msegv      ../engine/source/implicit/ind_glob_k.F
-      !||    reorder_a     ../engine/source/implicit/ind_glob_k.F
-      !||--- uses       -----------------------------------------------------
-      !||    imp_intm      ../engine/share/modules/imp_intm.F
-      !||====================================================================
+!||====================================================================
+!||    rowfr_ind24   ../engine/source/mpi/implicit/imp_fri.F
+!||--- called by ------------------------------------------------------
+!||    ind_frkd      ../engine/source/mpi/implicit/imp_fri.F
+!||--- calls      -----------------------------------------------------
+!||    i24msegv      ../engine/source/implicit/ind_glob_k.F
+!||    reorder_a     ../engine/source/implicit/ind_glob_k.F
+!||--- uses       -----------------------------------------------------
+!||    imp_intm      ../engine/share/modules/imp_intm.F
+!||====================================================================
       SUBROUTINE ROWFR_IND24(
      1    JLT       ,NS_IMP    ,NE_IMP      ,IRECT     ,NROW      ,
      2    ICOL      ,NNMAX     ,NSN         ,NIN       ,SUBTRIA     ,
@@ -5119,15 +5119,15 @@ C-----------------------------------------------
 C----6---------------------------------------------------------------7---------8
       RETURN
       END
-      !||====================================================================
-      !||    set_ind_fr   ../engine/source/mpi/implicit/imp_fri.F
-      !||--- called by ------------------------------------------------------
-      !||    ind_frkd     ../engine/source/mpi/implicit/imp_fri.F
-      !||--- calls      -----------------------------------------------------
-      !||    zero1        ../engine/source/system/zero.F
-      !||--- uses       -----------------------------------------------------
-      !||    imp_intm     ../engine/share/modules/imp_intm.F
-      !||====================================================================
+!||====================================================================
+!||    set_ind_fr   ../engine/source/mpi/implicit/imp_fri.F
+!||--- called by ------------------------------------------------------
+!||    ind_frkd     ../engine/source/mpi/implicit/imp_fri.F
+!||--- calls      -----------------------------------------------------
+!||    zero1        ../engine/source/system/zero.F
+!||--- uses       -----------------------------------------------------
+!||    imp_intm     ../engine/share/modules/imp_intm.F
+!||====================================================================
       SUBROUTINE SET_IND_FR(
      1    NSREM     ,IDDL      ,NDOF      ,NROW      ,ICOL      ,
      2    NNMAX     )
@@ -5219,11 +5219,11 @@ C-------save ICOL en forme compress-------
 C
       RETURN
       END
-      !||====================================================================
-      !||    reorder_fr   ../engine/source/mpi/implicit/imp_fri.F
-      !||--- called by ------------------------------------------------------
-      !||    ind_frkd     ../engine/source/mpi/implicit/imp_fri.F
-      !||====================================================================
+!||====================================================================
+!||    reorder_fr   ../engine/source/mpi/implicit/imp_fri.F
+!||--- called by ------------------------------------------------------
+!||    ind_frkd     ../engine/source/mpi/implicit/imp_fri.F
+!||====================================================================
       SUBROUTINE REORDER_FR(N,IC,IDDL)
 C----6---------------------------------------------------------------7---------8
 C   I m p l i c i t   T y p e s
@@ -5258,11 +5258,11 @@ C-----en ordre iddl croisante-----
 C----6---------------------------------------------------------------7---------8
       RETURN
       END
-      !||====================================================================
-      !||    jdifrtok   ../engine/source/mpi/implicit/imp_fri.F
-      !||--- uses       -----------------------------------------------------
-      !||    imp_intm   ../engine/share/modules/imp_intm.F
-      !||====================================================================
+!||====================================================================
+!||    jdifrtok   ../engine/source/mpi/implicit/imp_fri.F
+!||--- uses       -----------------------------------------------------
+!||    imp_intm   ../engine/share/modules/imp_intm.F
+!||====================================================================
       SUBROUTINE JDIFRTOK(ITOK  )
 C-----------------------------------------------
 C   M o d u l e s
@@ -5291,41 +5291,41 @@ C-----pass IDDLI to IDDLJ  croisante-----
 C----6---------------------------------------------------------------7---------8
       RETURN
       END
-      !||====================================================================
-      !||    imp_frkd        ../engine/source/mpi/implicit/imp_fri.F
-      !||--- called by ------------------------------------------------------
-      !||    imp_fri         ../engine/source/mpi/implicit/imp_fri.F
-      !||--- calls      -----------------------------------------------------
-      !||    cp_iadd         ../engine/source/mpi/implicit/imp_fri.F
-      !||    dim_frkm        ../engine/source/mpi/implicit/imp_fri.F
-      !||    dim_frkm1       ../engine/source/mpi/implicit/imp_fri.F
-      !||    dim_fvn         ../engine/source/mpi/implicit/imp_fri.F
-      !||    imp_frkm        ../engine/source/mpi/implicit/imp_fri.F
-      !||    imp_frks        ../engine/source/mpi/implicit/imp_fri.F
-      !||    imp_frsn        ../engine/source/mpi/implicit/imp_fri.F
-      !||    imp_fvkm        ../engine/source/mpi/implicit/imp_fri.F
-      !||    imp_fvksl       ../engine/source/mpi/implicit/imp_fri.F
-      !||    imp_fvkss       ../engine/source/mpi/implicit/imp_fri.F
-      !||    ind_fvn         ../engine/source/mpi/implicit/imp_fri.F
-      !||    ind_sld         ../engine/source/mpi/implicit/imp_fri.F
-      !||    ini_frfd        ../engine/source/mpi/implicit/imp_fri.F
-      !||    ini_frkc        ../engine/source/mpi/implicit/imp_fri.F
-      !||    ini_frud        ../engine/source/mpi/implicit/imp_fri.F
-      !||    ini_ksi         ../engine/source/mpi/implicit/imp_fri.F
-      !||    kin_kml         ../engine/source/mpi/implicit/imp_fri.F
-      !||    kin_ksl         ../engine/source/mpi/implicit/imp_fri.F
-      !||    scom_frk        ../engine/source/mpi/implicit/imp_fri.F
-      !||    scom_frk1       ../engine/source/mpi/implicit/imp_fri.F
-      !||    scom_frud       ../engine/source/mpi/implicit/imp_fri.F
-      !||    spmd_ifc1       ../engine/source/mpi/implicit/imp_spmd.F
-      !||    spmd_ifrf       ../engine/source/mpi/implicit/imp_spmd.F
-      !||    tag_intml       ../engine/source/mpi/implicit/imp_fri.F
-      !||    tra_frkm        ../engine/source/mpi/implicit/imp_fri.F
-      !||    upd_kml         ../engine/source/mpi/implicit/imp_fri.F
-      !||    upd_ksl         ../engine/source/mpi/implicit/imp_fri.F
-      !||--- uses       -----------------------------------------------------
-      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    imp_frkd        ../engine/source/mpi/implicit/imp_fri.F
+!||--- called by ------------------------------------------------------
+!||    imp_fri         ../engine/source/mpi/implicit/imp_fri.F
+!||--- calls      -----------------------------------------------------
+!||    cp_iadd         ../engine/source/mpi/implicit/imp_fri.F
+!||    dim_frkm        ../engine/source/mpi/implicit/imp_fri.F
+!||    dim_frkm1       ../engine/source/mpi/implicit/imp_fri.F
+!||    dim_fvn         ../engine/source/mpi/implicit/imp_fri.F
+!||    imp_frkm        ../engine/source/mpi/implicit/imp_fri.F
+!||    imp_frks        ../engine/source/mpi/implicit/imp_fri.F
+!||    imp_frsn        ../engine/source/mpi/implicit/imp_fri.F
+!||    imp_fvkm        ../engine/source/mpi/implicit/imp_fri.F
+!||    imp_fvksl       ../engine/source/mpi/implicit/imp_fri.F
+!||    imp_fvkss       ../engine/source/mpi/implicit/imp_fri.F
+!||    ind_fvn         ../engine/source/mpi/implicit/imp_fri.F
+!||    ind_sld         ../engine/source/mpi/implicit/imp_fri.F
+!||    ini_frfd        ../engine/source/mpi/implicit/imp_fri.F
+!||    ini_frkc        ../engine/source/mpi/implicit/imp_fri.F
+!||    ini_frud        ../engine/source/mpi/implicit/imp_fri.F
+!||    ini_ksi         ../engine/source/mpi/implicit/imp_fri.F
+!||    kin_kml         ../engine/source/mpi/implicit/imp_fri.F
+!||    kin_ksl         ../engine/source/mpi/implicit/imp_fri.F
+!||    scom_frk        ../engine/source/mpi/implicit/imp_fri.F
+!||    scom_frk1       ../engine/source/mpi/implicit/imp_fri.F
+!||    scom_frud       ../engine/source/mpi/implicit/imp_fri.F
+!||    spmd_ifc1       ../engine/source/mpi/implicit/imp_spmd.F
+!||    spmd_ifrf       ../engine/source/mpi/implicit/imp_spmd.F
+!||    tag_intml       ../engine/source/mpi/implicit/imp_fri.F
+!||    tra_frkm        ../engine/source/mpi/implicit/imp_fri.F
+!||    upd_kml         ../engine/source/mpi/implicit/imp_fri.F
+!||    upd_ksl         ../engine/source/mpi/implicit/imp_fri.F
+!||--- uses       -----------------------------------------------------
+!||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
+!||====================================================================
       SUBROUTINE IMP_FRKD(
      1      NPBY      ,LPBY      ,ITAB      ,NRBYAC    ,IRBYAC    ,
      2      IPARI     ,INTBUF_TAB,NINT2     ,IINT2     ,IDDL      ,
@@ -5568,15 +5568,15 @@ C ------passe IAD_SL,IAD_SREM en ddl-----
 C----6---------------------------------------------------------------7---------8
       RETURN
       END
-      !||====================================================================
-      !||    ini_frkc   ../engine/source/mpi/implicit/imp_fri.F
-      !||--- called by ------------------------------------------------------
-      !||    imp_frkd   ../engine/source/mpi/implicit/imp_fri.F
-      !||--- calls      -----------------------------------------------------
-      !||    spmd_isr   ../engine/source/mpi/implicit/imp_spmd.F
-      !||--- uses       -----------------------------------------------------
-      !||    imp_intm   ../engine/share/modules/imp_intm.F
-      !||====================================================================
+!||====================================================================
+!||    ini_frkc   ../engine/source/mpi/implicit/imp_fri.F
+!||--- called by ------------------------------------------------------
+!||    imp_frkd   ../engine/source/mpi/implicit/imp_fri.F
+!||--- calls      -----------------------------------------------------
+!||    spmd_isr   ../engine/source/mpi/implicit/imp_spmd.F
+!||--- uses       -----------------------------------------------------
+!||    imp_intm   ../engine/share/modules/imp_intm.F
+!||====================================================================
       SUBROUTINE INI_FRKC(NSREM  ,NSL    ,IKC    ,NDOF   ,IDDL  )
 C-----------------------------------------------
 C   M o d u l e s
@@ -5618,15 +5618,15 @@ C
 C
       RETURN
       END
-      !||====================================================================
-      !||    dim_frkm   ../engine/source/mpi/implicit/imp_fri.F
-      !||--- called by ------------------------------------------------------
-      !||    imp_frkd   ../engine/source/mpi/implicit/imp_fri.F
-      !||--- calls      -----------------------------------------------------
-      !||    spmd_isr   ../engine/source/mpi/implicit/imp_spmd.F
-      !||--- uses       -----------------------------------------------------
-      !||    imp_intm   ../engine/share/modules/imp_intm.F
-      !||====================================================================
+!||====================================================================
+!||    dim_frkm   ../engine/source/mpi/implicit/imp_fri.F
+!||--- called by ------------------------------------------------------
+!||    imp_frkd   ../engine/source/mpi/implicit/imp_fri.F
+!||--- calls      -----------------------------------------------------
+!||    spmd_isr   ../engine/source/mpi/implicit/imp_spmd.F
+!||--- uses       -----------------------------------------------------
+!||    imp_intm   ../engine/share/modules/imp_intm.F
+!||====================================================================
       SUBROUTINE DIM_FRKM(NSREM  ,NSL    ,SSIZE,RSIZE)
 C-----------------------------------------------
 C   M o d u l e s
@@ -5664,15 +5664,15 @@ C
 C
       RETURN
       END
-      !||====================================================================
-      !||    ini_ksi     ../engine/source/mpi/implicit/imp_fri.F
-      !||--- called by ------------------------------------------------------
-      !||    imp_frkd    ../engine/source/mpi/implicit/imp_fri.F
-      !||--- calls      -----------------------------------------------------
-      !||    getfr_kij   ../engine/source/mpi/implicit/imp_fri.F
-      !||--- uses       -----------------------------------------------------
-      !||    imp_intm    ../engine/share/modules/imp_intm.F
-      !||====================================================================
+!||====================================================================
+!||    ini_ksi     ../engine/source/mpi/implicit/imp_fri.F
+!||--- called by ------------------------------------------------------
+!||    imp_frkd    ../engine/source/mpi/implicit/imp_fri.F
+!||--- calls      -----------------------------------------------------
+!||    getfr_kij   ../engine/source/mpi/implicit/imp_fri.F
+!||--- uses       -----------------------------------------------------
+!||    imp_intm    ../engine/share/modules/imp_intm.F
+!||====================================================================
       SUBROUTINE INI_KSI(NSREM  ,KSI  ,IDDL )
 C-----------------------------------------------
 C   M o d u l e s
@@ -5711,33 +5711,33 @@ C--------------------------------------------
 C
       RETURN
       END
-      !||====================================================================
-      !||    upd_ksl         ../engine/source/mpi/implicit/imp_fri.F
-      !||--- called by ------------------------------------------------------
-      !||    imp_frkd        ../engine/source/mpi/implicit/imp_fri.F
-      !||--- calls      -----------------------------------------------------
-      !||    bc_updfr        ../engine/source/constraints/general/bcs/bc_imp0.F
-      !||    bc_updfr2       ../engine/source/constraints/general/bcs/bc_imp0.F
-      !||    bcl_frk         ../engine/source/constraints/general/bcs/bc_imp0.F
-      !||    cp_real         ../engine/source/implicit/produt_v.F
-      !||    fv_updfr        ../engine/source/constraints/general/impvel/fv_imp0.F
-      !||    fvl_frk         ../engine/source/constraints/general/impvel/fv_imp0.F
-      !||    get_iad         ../engine/source/mpi/implicit/imp_fri.F
-      !||    i2_frk0         ../engine/source/interfaces/interf/i2_imp1.F
-      !||    i2_frk1         ../engine/source/interfaces/interf/i2_imp1.F
-      !||    intabfr         ../engine/source/mpi/implicit/imp_fri.F
-      !||    l_dir           ../engine/source/constraints/general/bcs/bc_imp0.F
-      !||    prerbe2fr       ../engine/source/constraints/general/rbe2/rbe2f.F
-      !||    prerbe3fr       ../engine/source/constraints/general/rbe3/rbe3f.F
-      !||    rbe2_frk        ../engine/source/constraints/general/rbe2/rbe2_imp0.F
-      !||    rbe3_fr0        ../engine/source/constraints/general/rbe3/rbe3_imp0.F
-      !||    rby_frk         ../engine/source/constraints/general/rbody/rby_imp0.F
-      !||--- uses       -----------------------------------------------------
-      !||    imp_aspc        ../engine/share/modules/impbufdef_mod.F
-      !||    imp_intm        ../engine/share/modules/imp_intm.F
-      !||    imp_rwl         ../engine/share/modules/impbufdef_mod.F
-      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    upd_ksl         ../engine/source/mpi/implicit/imp_fri.F
+!||--- called by ------------------------------------------------------
+!||    imp_frkd        ../engine/source/mpi/implicit/imp_fri.F
+!||--- calls      -----------------------------------------------------
+!||    bc_updfr        ../engine/source/constraints/general/bcs/bc_imp0.F
+!||    bc_updfr2       ../engine/source/constraints/general/bcs/bc_imp0.F
+!||    bcl_frk         ../engine/source/constraints/general/bcs/bc_imp0.F
+!||    cp_real         ../engine/source/implicit/produt_v.F
+!||    fv_updfr        ../engine/source/constraints/general/impvel/fv_imp0.F
+!||    fvl_frk         ../engine/source/constraints/general/impvel/fv_imp0.F
+!||    get_iad         ../engine/source/mpi/implicit/imp_fri.F
+!||    i2_frk0         ../engine/source/interfaces/interf/i2_imp1.F
+!||    i2_frk1         ../engine/source/interfaces/interf/i2_imp1.F
+!||    intabfr         ../engine/source/mpi/implicit/imp_fri.F
+!||    l_dir           ../engine/source/constraints/general/bcs/bc_imp0.F
+!||    prerbe2fr       ../engine/source/constraints/general/rbe2/rbe2f.F
+!||    prerbe3fr       ../engine/source/constraints/general/rbe3/rbe3f.F
+!||    rbe2_frk        ../engine/source/constraints/general/rbe2/rbe2_imp0.F
+!||    rbe3_fr0        ../engine/source/constraints/general/rbe3/rbe3_imp0.F
+!||    rby_frk         ../engine/source/constraints/general/rbody/rby_imp0.F
+!||--- uses       -----------------------------------------------------
+!||    imp_aspc        ../engine/share/modules/impbufdef_mod.F
+!||    imp_intm        ../engine/share/modules/imp_intm.F
+!||    imp_rwl         ../engine/share/modules/impbufdef_mod.F
+!||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
+!||====================================================================
       SUBROUTINE UPD_KSL(
      1    IPARI     ,INTBUF_TAB,NINT2     ,IINT2     ,
      2    NPBY      ,LPBY      ,ITAB      ,NRBYAC    ,IRBYAC    ,
@@ -6338,13 +6338,13 @@ C--------------------------------------------
 C
       RETURN
       END
-      !||====================================================================
-      !||    assem_ksl   ../engine/source/mpi/implicit/imp_fri.F
-      !||--- calls      -----------------------------------------------------
-      !||    assem_kii   ../engine/source/implicit/imp_glob_k.F
-      !||--- uses       -----------------------------------------------------
-      !||    imp_intm    ../engine/share/modules/imp_intm.F
-      !||====================================================================
+!||====================================================================
+!||    assem_ksl   ../engine/source/mpi/implicit/imp_fri.F
+!||--- calls      -----------------------------------------------------
+!||    assem_kii   ../engine/source/implicit/imp_glob_k.F
+!||--- uses       -----------------------------------------------------
+!||    imp_intm    ../engine/share/modules/imp_intm.F
+!||====================================================================
       SUBROUTINE ASSEM_KSL(IDDL    ,K_DIAG    ,K_LT      ,IADK     ,
      1                     JDIK    ,KSS       ,NSL       )
 C-----------------------------------------------
@@ -6397,12 +6397,12 @@ C------------------------------------
 C----6---------------------------------------------------------------7---------8
       RETURN
       END
-      !||====================================================================
-      !||    assfr_kij    ../engine/source/mpi/implicit/imp_fri.F
-      !||--- called by ------------------------------------------------------
-      !||    ass_spmd     ../engine/source/implicit/assem_int.F
-      !||    ass_spmd11   ../engine/source/implicit/assem_int.F
-      !||====================================================================
+!||====================================================================
+!||    assfr_kij    ../engine/source/mpi/implicit/imp_fri.F
+!||--- called by ------------------------------------------------------
+!||    ass_spmd     ../engine/source/implicit/assem_int.F
+!||    ass_spmd11   ../engine/source/implicit/assem_int.F
+!||====================================================================
       SUBROUTINE ASSFR_KIJ( ID    ,JD   ,IADK  ,JDIK,K_LT  ,
      1                      KIJ   ,ND   )
 C----6---------------------------------------------------------------7---------8
@@ -6443,14 +6443,14 @@ C
 C----6---------------------------------------------------------------7---------8
       RETURN
       END
-      !||====================================================================
-      !||    getfr_kij   ../engine/source/mpi/implicit/imp_fri.F
-      !||--- called by ------------------------------------------------------
-      !||    imp_frkm    ../engine/source/mpi/implicit/imp_fri.F
-      !||    imp_fvkm    ../engine/source/mpi/implicit/imp_fri.F
-      !||    ini_ksi     ../engine/source/mpi/implicit/imp_fri.F
-      !||    upd_kml     ../engine/source/mpi/implicit/imp_fri.F
-      !||====================================================================
+!||====================================================================
+!||    getfr_kij   ../engine/source/mpi/implicit/imp_fri.F
+!||--- called by ------------------------------------------------------
+!||    imp_frkm    ../engine/source/mpi/implicit/imp_fri.F
+!||    imp_fvkm    ../engine/source/mpi/implicit/imp_fri.F
+!||    ini_ksi     ../engine/source/mpi/implicit/imp_fri.F
+!||    upd_kml     ../engine/source/mpi/implicit/imp_fri.F
+!||====================================================================
       SUBROUTINE GETFR_KIJ( ID    ,JD   ,IADK  ,JDIK,K_LT  ,
      1                      KIJ   ,NK   ,NL    )
 C----6---------------------------------------------------------------7---------8
@@ -6491,9 +6491,9 @@ C
 C----6---------------------------------------------------------------7---------8
       RETURN
       END
-      !||====================================================================
-      !||    putfr_kij   ../engine/source/mpi/implicit/imp_fri.F
-      !||====================================================================
+!||====================================================================
+!||    putfr_kij   ../engine/source/mpi/implicit/imp_fri.F
+!||====================================================================
       SUBROUTINE PUTFR_KIJ( ID    ,JD   ,IADK  ,JDIK,K_LT  ,
      1                      KIJ   ,NK   ,NL    )
 C----6---------------------------------------------------------------7---------8
@@ -6531,19 +6531,19 @@ C
 C----6---------------------------------------------------------------7---------8
       RETURN
       END
-      !||====================================================================
-      !||    kin_ksl         ../engine/source/mpi/implicit/imp_fri.F
-      !||--- called by ------------------------------------------------------
-      !||    imp_frkd        ../engine/source/mpi/implicit/imp_fri.F
-      !||--- calls      -----------------------------------------------------
-      !||    dim_kinfrk      ../engine/source/mpi/implicit/imp_fri.F
-      !||    doub_nrs        ../engine/source/mpi/implicit/imp_fri.F
-      !||    ind_kinfrk      ../engine/source/mpi/implicit/imp_fri.F
-      !||    ini_slnr        ../engine/source/mpi/implicit/imp_fri.F
-      !||    tag_ints        ../engine/source/mpi/implicit/imp_fri.F
-      !||--- uses       -----------------------------------------------------
-      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    kin_ksl         ../engine/source/mpi/implicit/imp_fri.F
+!||--- called by ------------------------------------------------------
+!||    imp_frkd        ../engine/source/mpi/implicit/imp_fri.F
+!||--- calls      -----------------------------------------------------
+!||    dim_kinfrk      ../engine/source/mpi/implicit/imp_fri.F
+!||    doub_nrs        ../engine/source/mpi/implicit/imp_fri.F
+!||    ind_kinfrk      ../engine/source/mpi/implicit/imp_fri.F
+!||    ini_slnr        ../engine/source/mpi/implicit/imp_fri.F
+!||    tag_ints        ../engine/source/mpi/implicit/imp_fri.F
+!||--- uses       -----------------------------------------------------
+!||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
+!||====================================================================
       SUBROUTINE KIN_KSL(
      1    IPARI     ,INTBUF_TAB,NINT2     ,IINT2     ,
      2    NPBY      ,LPBY      ,ITAB      ,NRBYAC    ,IRBYAC    ,
@@ -6626,15 +6626,15 @@ C
 C----6---------------------------------------------------------------7---------8
       RETURN
       END
-      !||====================================================================
-      !||    doub_nrs   ../engine/source/mpi/implicit/imp_fri.F
-      !||--- called by ------------------------------------------------------
-      !||    kin_ksl    ../engine/source/mpi/implicit/imp_fri.F
-      !||--- calls      -----------------------------------------------------
-      !||    cp_int     ../engine/source/implicit/produt_v.F
-      !||--- uses       -----------------------------------------------------
-      !||    imp_intm   ../engine/share/modules/imp_intm.F
-      !||====================================================================
+!||====================================================================
+!||    doub_nrs   ../engine/source/mpi/implicit/imp_fri.F
+!||--- called by ------------------------------------------------------
+!||    kin_ksl    ../engine/source/mpi/implicit/imp_fri.F
+!||--- calls      -----------------------------------------------------
+!||    cp_int     ../engine/source/implicit/produt_v.F
+!||--- uses       -----------------------------------------------------
+!||    imp_intm   ../engine/share/modules/imp_intm.F
+!||====================================================================
       SUBROUTINE DOUB_NRS(NSL  ,NNMAX ,NRS  ,ICOL   ,ILOCP     )
 C-----------------------------------------------
 C   M o d u l e s
@@ -6668,14 +6668,14 @@ C--- partie double--traitement diff.  srem puisque [k]rem est dja construit
 C----6---------------------------------------------------------------7---------8
       RETURN
       END
-      !||====================================================================
-      !||    ini_slnr   ../engine/source/mpi/implicit/imp_fri.F
-      !||--- called by ------------------------------------------------------
-      !||    kin_kml    ../engine/source/mpi/implicit/imp_fri.F
-      !||    kin_ksl    ../engine/source/mpi/implicit/imp_fri.F
-      !||--- uses       -----------------------------------------------------
-      !||    imp_intm   ../engine/share/modules/imp_intm.F
-      !||====================================================================
+!||====================================================================
+!||    ini_slnr   ../engine/source/mpi/implicit/imp_fri.F
+!||--- called by ------------------------------------------------------
+!||    kin_kml    ../engine/source/mpi/implicit/imp_fri.F
+!||    kin_ksl    ../engine/source/mpi/implicit/imp_fri.F
+!||--- uses       -----------------------------------------------------
+!||    imp_intm   ../engine/share/modules/imp_intm.F
+!||====================================================================
       SUBROUTINE INI_SLNR(NSL  ,NNMAX ,NRS  ,ICOL   ,NZ     ,
      .                    NDOF ,IAD_M )
 C-----------------------------------------------
@@ -6731,14 +6731,14 @@ C----------IKC_SL=NREMS when it's called by KIN_KML
 C----6---------------------------------------------------------------7---------8
       RETURN
       END
-      !||====================================================================
-      !||    dim_kinfrk      ../engine/source/mpi/implicit/imp_fri.F
-      !||--- called by ------------------------------------------------------
-      !||    kin_kml         ../engine/source/mpi/implicit/imp_fri.F
-      !||    kin_ksl         ../engine/source/mpi/implicit/imp_fri.F
-      !||--- uses       -----------------------------------------------------
-      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    dim_kinfrk      ../engine/source/mpi/implicit/imp_fri.F
+!||--- called by ------------------------------------------------------
+!||    kin_kml         ../engine/source/mpi/implicit/imp_fri.F
+!||    kin_ksl         ../engine/source/mpi/implicit/imp_fri.F
+!||--- uses       -----------------------------------------------------
+!||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
+!||====================================================================
       SUBROUTINE DIM_KINFRK(
      1    NPBY      ,LPBY      ,ITAB      ,NRBYAC    ,IRBYAC    ,
      2    NINT2     ,IINT2     ,IPARI     ,INTBUF_TAB,INLOC     ,
@@ -6870,19 +6870,19 @@ C-----RBE2------
 C----6---------------------------------------------------------------7---------8
       RETURN
       END
-      !||====================================================================
-      !||    ind_kinfrk      ../engine/source/mpi/implicit/imp_fri.F
-      !||--- called by ------------------------------------------------------
-      !||    kin_kml         ../engine/source/mpi/implicit/imp_fri.F
-      !||    kin_ksl         ../engine/source/mpi/implicit/imp_fri.F
-      !||--- calls      -----------------------------------------------------
-      !||    reorder_a       ../engine/source/implicit/ind_glob_k.F
-      !||--- uses       -----------------------------------------------------
-      !||    imp_aspc        ../engine/share/modules/impbufdef_mod.F
-      !||    imp_intm        ../engine/share/modules/imp_intm.F
-      !||    imp_rwl         ../engine/share/modules/impbufdef_mod.F
-      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    ind_kinfrk      ../engine/source/mpi/implicit/imp_fri.F
+!||--- called by ------------------------------------------------------
+!||    kin_kml         ../engine/source/mpi/implicit/imp_fri.F
+!||    kin_ksl         ../engine/source/mpi/implicit/imp_fri.F
+!||--- calls      -----------------------------------------------------
+!||    reorder_a       ../engine/source/implicit/ind_glob_k.F
+!||--- uses       -----------------------------------------------------
+!||    imp_aspc        ../engine/share/modules/impbufdef_mod.F
+!||    imp_intm        ../engine/share/modules/imp_intm.F
+!||    imp_rwl         ../engine/share/modules/impbufdef_mod.F
+!||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
+!||====================================================================
       SUBROUTINE IND_KINFRK(
      1    NPBY      ,LPBY      ,ITAB      ,NRBYAC    ,IRBYAC    ,
      2    NINT2     ,IINT2     ,IPARI     ,INTBUF_TAB,INLOC     ,
@@ -7119,15 +7119,15 @@ C ---
 C----6---------------------------------------------------------------7---------8
       RETURN
       END
-      !||====================================================================
-      !||    get_iad    ../engine/source/mpi/implicit/imp_fri.F
-      !||--- called by ------------------------------------------------------
-      !||    imp_fvkm   ../engine/source/mpi/implicit/imp_fri.F
-      !||    upd_kml    ../engine/source/mpi/implicit/imp_fri.F
-      !||    upd_ksl    ../engine/source/mpi/implicit/imp_fri.F
-      !||--- calls      -----------------------------------------------------
-      !||    intabfr    ../engine/source/mpi/implicit/imp_fri.F
-      !||====================================================================
+!||====================================================================
+!||    get_iad    ../engine/source/mpi/implicit/imp_fri.F
+!||--- called by ------------------------------------------------------
+!||    imp_fvkm   ../engine/source/mpi/implicit/imp_fri.F
+!||    upd_kml    ../engine/source/mpi/implicit/imp_fri.F
+!||    upd_ksl    ../engine/source/mpi/implicit/imp_fri.F
+!||--- calls      -----------------------------------------------------
+!||    intabfr    ../engine/source/mpi/implicit/imp_fri.F
+!||====================================================================
       SUBROUTINE GET_IAD(IAD_M ,IAD_S ,JDI_S ,NM   ,IS  ,
      1                   J     ,NRJ   ,NDOF  ,IAD   )
 C----6---------------------------------------------------------------7---------8
@@ -7170,12 +7170,12 @@ C
 C----6---------------------------------------------------------------7---------8
       RETURN
       END
-      !||====================================================================
-      !||    ikincf      ../engine/source/mpi/implicit/imp_fri.F
-      !||--- called by ------------------------------------------------------
-      !||    dim_frkm1   ../engine/source/mpi/implicit/imp_fri.F
-      !||    tra_frkm    ../engine/source/mpi/implicit/imp_fri.F
-      !||====================================================================
+!||====================================================================
+!||    ikincf      ../engine/source/mpi/implicit/imp_fri.F
+!||--- called by ------------------------------------------------------
+!||    dim_frkm1   ../engine/source/mpi/implicit/imp_fri.F
+!||    tra_frkm    ../engine/source/mpi/implicit/imp_fri.F
+!||====================================================================
       LOGICAL FUNCTION IKINCF(I)
 C----6---------------------------------------------------------------7---------8
 C   I m p l i c i t   T y p e s
@@ -7197,16 +7197,16 @@ C----6---------------------------------------------------------------7---------8
 C
       RETURN
       END
-      !||====================================================================
-      !||    dim_frkm1   ../engine/source/mpi/implicit/imp_fri.F
-      !||--- called by ------------------------------------------------------
-      !||    imp_frkd    ../engine/source/mpi/implicit/imp_fri.F
-      !||--- calls      -----------------------------------------------------
-      !||    ikincf      ../engine/source/mpi/implicit/imp_fri.F
-      !||    spmd_isr    ../engine/source/mpi/implicit/imp_spmd.F
-      !||--- uses       -----------------------------------------------------
-      !||    imp_intm    ../engine/share/modules/imp_intm.F
-      !||====================================================================
+!||====================================================================
+!||    dim_frkm1   ../engine/source/mpi/implicit/imp_fri.F
+!||--- called by ------------------------------------------------------
+!||    imp_frkd    ../engine/source/mpi/implicit/imp_fri.F
+!||--- calls      -----------------------------------------------------
+!||    ikincf      ../engine/source/mpi/implicit/imp_fri.F
+!||    spmd_isr    ../engine/source/mpi/implicit/imp_spmd.F
+!||--- uses       -----------------------------------------------------
+!||    imp_intm    ../engine/share/modules/imp_intm.F
+!||====================================================================
       SUBROUTINE DIM_FRKM1(NSREM,NSL  ,IDDL ,IKC ,NDOF  ,
      .                     NF_SI,NF_SL,LSI  ,LSL ,MSI,MSL)
 C-----------------------------------------------
@@ -7285,16 +7285,16 @@ c
 C
       RETURN
       END
-      !||====================================================================
-      !||    tra_frkm   ../engine/source/mpi/implicit/imp_fri.F
-      !||--- called by ------------------------------------------------------
-      !||    imp_frkd   ../engine/source/mpi/implicit/imp_fri.F
-      !||--- calls      -----------------------------------------------------
-      !||    cp_real    ../engine/source/implicit/produt_v.F
-      !||    ikincf     ../engine/source/mpi/implicit/imp_fri.F
-      !||--- uses       -----------------------------------------------------
-      !||    imp_intm   ../engine/share/modules/imp_intm.F
-      !||====================================================================
+!||====================================================================
+!||    tra_frkm   ../engine/source/mpi/implicit/imp_fri.F
+!||--- called by ------------------------------------------------------
+!||    imp_frkd   ../engine/source/mpi/implicit/imp_fri.F
+!||--- calls      -----------------------------------------------------
+!||    cp_real    ../engine/source/implicit/produt_v.F
+!||    ikincf     ../engine/source/mpi/implicit/imp_fri.F
+!||--- uses       -----------------------------------------------------
+!||    imp_intm   ../engine/share/modules/imp_intm.F
+!||====================================================================
       SUBROUTINE TRA_FRKM(NSL  ,IDDL ,IKC  ,NDOF  ,IAD_M,
      .                    KSI  ,KSL  ,IKCSL )
 C-----------------------------------------------
@@ -7416,17 +7416,17 @@ C----------other kin------------
 C
       RETURN
       END
-      !||====================================================================
-      !||    kin_kml         ../engine/source/mpi/implicit/imp_fri.F
-      !||--- called by ------------------------------------------------------
-      !||    imp_frkd        ../engine/source/mpi/implicit/imp_fri.F
-      !||--- calls      -----------------------------------------------------
-      !||    dim_kinfrk      ../engine/source/mpi/implicit/imp_fri.F
-      !||    ind_kinfrk      ../engine/source/mpi/implicit/imp_fri.F
-      !||    ini_slnr        ../engine/source/mpi/implicit/imp_fri.F
-      !||--- uses       -----------------------------------------------------
-      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    kin_kml         ../engine/source/mpi/implicit/imp_fri.F
+!||--- called by ------------------------------------------------------
+!||    imp_frkd        ../engine/source/mpi/implicit/imp_fri.F
+!||--- calls      -----------------------------------------------------
+!||    dim_kinfrk      ../engine/source/mpi/implicit/imp_fri.F
+!||    ind_kinfrk      ../engine/source/mpi/implicit/imp_fri.F
+!||    ini_slnr        ../engine/source/mpi/implicit/imp_fri.F
+!||--- uses       -----------------------------------------------------
+!||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
+!||====================================================================
       SUBROUTINE KIN_KML(
      1    IPARI     ,INTBUF_TAB,NINT2     ,IINT2     ,     
      2    NPBY      ,LPBY      ,ITAB      ,NRBYAC    ,IRBYAC    ,
@@ -7505,13 +7505,13 @@ C
 C----6---------------------------------------------------------------7---------8
       RETURN
       END
-      !||====================================================================
-      !||    tag_intml   ../engine/source/mpi/implicit/imp_fri.F
-      !||--- called by ------------------------------------------------------
-      !||    imp_frkd    ../engine/source/mpi/implicit/imp_fri.F
-      !||--- uses       -----------------------------------------------------
-      !||    imp_intm    ../engine/share/modules/imp_intm.F
-      !||====================================================================
+!||====================================================================
+!||    tag_intml   ../engine/source/mpi/implicit/imp_fri.F
+!||--- called by ------------------------------------------------------
+!||    imp_frkd    ../engine/source/mpi/implicit/imp_fri.F
+!||--- uses       -----------------------------------------------------
+!||    imp_intm    ../engine/share/modules/imp_intm.F
+!||====================================================================
       SUBROUTINE TAG_INTML(NSREM ,ILOC  ,N_IMPN ,IDDL ,IKC  ,
      .                     NDOF  ,LSI   )
 C-----------------------------------------------
@@ -7570,15 +7570,15 @@ C--------use also IKC_SL for ml IFLAG_KC ONLY----
 C----6---------------------------------------------------------------7---------8
       RETURN
       END
-      !||====================================================================
-      !||    scom_frk    ../engine/source/mpi/implicit/imp_fri.F
-      !||--- called by ------------------------------------------------------
-      !||    imp_frkd    ../engine/source/mpi/implicit/imp_fri.F
-      !||--- calls      -----------------------------------------------------
-      !||    spmd_exck   ../engine/source/mpi/implicit/imp_spmd.F
-      !||--- uses       -----------------------------------------------------
-      !||    imp_intm    ../engine/share/modules/imp_intm.F
-      !||====================================================================
+!||====================================================================
+!||    scom_frk    ../engine/source/mpi/implicit/imp_fri.F
+!||--- called by ------------------------------------------------------
+!||    imp_frkd    ../engine/source/mpi/implicit/imp_fri.F
+!||--- calls      -----------------------------------------------------
+!||    spmd_exck   ../engine/source/mpi/implicit/imp_spmd.F
+!||--- uses       -----------------------------------------------------
+!||    imp_intm    ../engine/share/modules/imp_intm.F
+!||====================================================================
       SUBROUTINE SCOM_FRK(KS11,KR11,SSIZE ,RSIZE)
 C-----------------------------------------------
 C   M o d u l e s
@@ -7623,16 +7623,16 @@ C
 C
       RETURN
       END
-      !||====================================================================
-      !||    scom_frk1   ../engine/source/mpi/implicit/imp_fri.F
-      !||--- called by ------------------------------------------------------
-      !||    imp_frkd    ../engine/source/mpi/implicit/imp_fri.F
-      !||--- calls      -----------------------------------------------------
-      !||    spmd_exci   ../engine/source/mpi/implicit/imp_spmd.F
-      !||    spmd_exck   ../engine/source/mpi/implicit/imp_spmd.F
-      !||--- uses       -----------------------------------------------------
-      !||    imp_intm    ../engine/share/modules/imp_intm.F
-      !||====================================================================
+!||====================================================================
+!||    scom_frk1   ../engine/source/mpi/implicit/imp_fri.F
+!||--- called by ------------------------------------------------------
+!||    imp_frkd    ../engine/source/mpi/implicit/imp_fri.F
+!||--- calls      -----------------------------------------------------
+!||    spmd_exci   ../engine/source/mpi/implicit/imp_spmd.F
+!||    spmd_exck   ../engine/source/mpi/implicit/imp_spmd.F
+!||--- uses       -----------------------------------------------------
+!||    imp_intm    ../engine/share/modules/imp_intm.F
+!||====================================================================
       SUBROUTINE SCOM_FRK1(KS11,KR11,NFACS,NFACR,IKCS ,IKCR )
 C-----------------------------------------------
 C   M o d u l e s
@@ -7695,34 +7695,34 @@ C
 C
       RETURN
       END
-      !||====================================================================
-      !||    upd_kml         ../engine/source/mpi/implicit/imp_fri.F
-      !||--- called by ------------------------------------------------------
-      !||    imp_frkd        ../engine/source/mpi/implicit/imp_fri.F
-      !||--- calls      -----------------------------------------------------
-      !||    bc_updfr        ../engine/source/constraints/general/bcs/bc_imp0.F
-      !||    bc_updfr2       ../engine/source/constraints/general/bcs/bc_imp0.F
-      !||    bcl_frk         ../engine/source/constraints/general/bcs/bc_imp0.F
-      !||    cp_real         ../engine/source/implicit/produt_v.F
-      !||    fv_updfr        ../engine/source/constraints/general/impvel/fv_imp0.F
-      !||    fvl_frk         ../engine/source/constraints/general/impvel/fv_imp0.F
-      !||    get_iad         ../engine/source/mpi/implicit/imp_fri.F
-      !||    getfr_kij       ../engine/source/mpi/implicit/imp_fri.F
-      !||    i2_frk0         ../engine/source/interfaces/interf/i2_imp1.F
-      !||    i2_frk1         ../engine/source/interfaces/interf/i2_imp1.F
-      !||    intabfr         ../engine/source/mpi/implicit/imp_fri.F
-      !||    l_dir           ../engine/source/constraints/general/bcs/bc_imp0.F
-      !||    prerbe2fr       ../engine/source/constraints/general/rbe2/rbe2f.F
-      !||    prerbe3fr       ../engine/source/constraints/general/rbe3/rbe3f.F
-      !||    rbe2_frk        ../engine/source/constraints/general/rbe2/rbe2_imp0.F
-      !||    rbe3_fr0        ../engine/source/constraints/general/rbe3/rbe3_imp0.F
-      !||    rby_frk         ../engine/source/constraints/general/rbody/rby_imp0.F
-      !||--- uses       -----------------------------------------------------
-      !||    imp_aspc        ../engine/share/modules/impbufdef_mod.F
-      !||    imp_intm        ../engine/share/modules/imp_intm.F
-      !||    imp_rwl         ../engine/share/modules/impbufdef_mod.F
-      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    upd_kml         ../engine/source/mpi/implicit/imp_fri.F
+!||--- called by ------------------------------------------------------
+!||    imp_frkd        ../engine/source/mpi/implicit/imp_fri.F
+!||--- calls      -----------------------------------------------------
+!||    bc_updfr        ../engine/source/constraints/general/bcs/bc_imp0.F
+!||    bc_updfr2       ../engine/source/constraints/general/bcs/bc_imp0.F
+!||    bcl_frk         ../engine/source/constraints/general/bcs/bc_imp0.F
+!||    cp_real         ../engine/source/implicit/produt_v.F
+!||    fv_updfr        ../engine/source/constraints/general/impvel/fv_imp0.F
+!||    fvl_frk         ../engine/source/constraints/general/impvel/fv_imp0.F
+!||    get_iad         ../engine/source/mpi/implicit/imp_fri.F
+!||    getfr_kij       ../engine/source/mpi/implicit/imp_fri.F
+!||    i2_frk0         ../engine/source/interfaces/interf/i2_imp1.F
+!||    i2_frk1         ../engine/source/interfaces/interf/i2_imp1.F
+!||    intabfr         ../engine/source/mpi/implicit/imp_fri.F
+!||    l_dir           ../engine/source/constraints/general/bcs/bc_imp0.F
+!||    prerbe2fr       ../engine/source/constraints/general/rbe2/rbe2f.F
+!||    prerbe3fr       ../engine/source/constraints/general/rbe3/rbe3f.F
+!||    rbe2_frk        ../engine/source/constraints/general/rbe2/rbe2_imp0.F
+!||    rbe3_fr0        ../engine/source/constraints/general/rbe3/rbe3_imp0.F
+!||    rby_frk         ../engine/source/constraints/general/rbody/rby_imp0.F
+!||--- uses       -----------------------------------------------------
+!||    imp_aspc        ../engine/share/modules/impbufdef_mod.F
+!||    imp_intm        ../engine/share/modules/imp_intm.F
+!||    imp_rwl         ../engine/share/modules/impbufdef_mod.F
+!||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
+!||====================================================================
       SUBROUTINE UPD_KML(
      1    IPARI     ,INTBUF_TAB,NINT2     ,IINT2     ,
      2    NPBY      ,LPBY      ,ITAB      ,NRBYAC    ,IRBYAC    ,
@@ -8361,17 +8361,17 @@ C--------------------------------------------
 C
       RETURN
       END
-      !||====================================================================
-      !||    imp_frkm    ../engine/source/mpi/implicit/imp_fri.F
-      !||--- called by ------------------------------------------------------
-      !||    imp_frkd    ../engine/source/mpi/implicit/imp_fri.F
-      !||--- calls      -----------------------------------------------------
-      !||    cp_int      ../engine/source/implicit/produt_v.F
-      !||    cp_real     ../engine/source/implicit/produt_v.F
-      !||    getfr_kij   ../engine/source/mpi/implicit/imp_fri.F
-      !||--- uses       -----------------------------------------------------
-      !||    imp_intm    ../engine/share/modules/imp_intm.F
-      !||====================================================================
+!||====================================================================
+!||    imp_frkm    ../engine/source/mpi/implicit/imp_fri.F
+!||--- called by ------------------------------------------------------
+!||    imp_frkd    ../engine/source/mpi/implicit/imp_fri.F
+!||--- calls      -----------------------------------------------------
+!||    cp_int      ../engine/source/implicit/produt_v.F
+!||    cp_real     ../engine/source/implicit/produt_v.F
+!||    getfr_kij   ../engine/source/mpi/implicit/imp_fri.F
+!||--- uses       -----------------------------------------------------
+!||    imp_intm    ../engine/share/modules/imp_intm.F
+!||====================================================================
       SUBROUTINE IMP_FRKM(
      1    NSREM     ,IKINM     ,IKCSI   ,IKC     ,NDOF    ,
      2    IDDL      ,IDDLM     ,INLOC   ,IAD_M   ,FRK_SI  ,
@@ -8680,11 +8680,11 @@ c       IF(ALLOCATED(IKC_SI)) DEALLOCATE(IKC_SI)
 C
       RETURN
       END
-      !||====================================================================
-      !||    dim_fvn    ../engine/source/mpi/implicit/imp_fri.F
-      !||--- called by ------------------------------------------------------
-      !||    imp_frkd   ../engine/source/mpi/implicit/imp_fri.F
-      !||====================================================================
+!||====================================================================
+!||    dim_fvn    ../engine/source/mpi/implicit/imp_fri.F
+!||--- called by ------------------------------------------------------
+!||    imp_frkd   ../engine/source/mpi/implicit/imp_fri.F
+!||====================================================================
       SUBROUTINE DIM_FVN(
      1    NDOF      ,IDDL      ,IKC       ,INLOC     ,NFV      )
 C----6---------------------------------------------------------------7---------8
@@ -8723,13 +8723,13 @@ C
 C----6---------------------------------------------------------------7---------8
       RETURN
       END
-      !||====================================================================
-      !||    ind_fvn    ../engine/source/mpi/implicit/imp_fri.F
-      !||--- called by ------------------------------------------------------
-      !||    imp_frkd   ../engine/source/mpi/implicit/imp_fri.F
-      !||--- uses       -----------------------------------------------------
-      !||    imp_intm   ../engine/share/modules/imp_intm.F
-      !||====================================================================
+!||====================================================================
+!||    ind_fvn    ../engine/source/mpi/implicit/imp_fri.F
+!||--- called by ------------------------------------------------------
+!||    imp_frkd   ../engine/source/mpi/implicit/imp_fri.F
+!||--- uses       -----------------------------------------------------
+!||    imp_intm   ../engine/share/modules/imp_intm.F
+!||====================================================================
       SUBROUTINE IND_FVN(
      1    NDOF      ,IDDL      ,IKC       ,INLOC     ,NFV     )
 C-----------------------------------------------
@@ -8776,17 +8776,17 @@ C--------local secnd node-----
 C----6---------------------------------------------------------------7---------8
       RETURN
       END
-      !||====================================================================
-      !||    imp_fvkss   ../engine/source/mpi/implicit/imp_fri.F
-      !||--- called by ------------------------------------------------------
-      !||    imp_frkd    ../engine/source/mpi/implicit/imp_fri.F
-      !||--- calls      -----------------------------------------------------
-      !||    get_kii     ../engine/source/implicit/imp_glob_k.F
-      !||    intabfr     ../engine/source/mpi/implicit/imp_fri.F
-      !||    put_kii     ../engine/source/implicit/imp_glob_k.F
-      !||--- uses       -----------------------------------------------------
-      !||    imp_intm    ../engine/share/modules/imp_intm.F
-      !||====================================================================
+!||====================================================================
+!||    imp_fvkss   ../engine/source/mpi/implicit/imp_fri.F
+!||--- called by ------------------------------------------------------
+!||    imp_frkd    ../engine/source/mpi/implicit/imp_fri.F
+!||--- calls      -----------------------------------------------------
+!||    get_kii     ../engine/source/implicit/imp_glob_k.F
+!||    intabfr     ../engine/source/mpi/implicit/imp_fri.F
+!||    put_kii     ../engine/source/implicit/imp_glob_k.F
+!||--- uses       -----------------------------------------------------
+!||    imp_intm    ../engine/share/modules/imp_intm.F
+!||====================================================================
       SUBROUTINE IMP_FVKSS(
      1    KSS      ,IDDL      ,IDDLM     ,IKC       ,NSL       ,
      2    D_IMP    ,LB        ,NFV       ,UDSL      ,INLOC     ,
@@ -8901,16 +8901,16 @@ C----------------------------
 C----6---------------------------------------------------------------7---------8
       RETURN
       END
-      !||====================================================================
-      !||    ini_frud    ../engine/source/mpi/implicit/imp_fri.F
-      !||--- called by ------------------------------------------------------
-      !||    imp_frkd    ../engine/source/mpi/implicit/imp_fri.F
-      !||--- calls      -----------------------------------------------------
-      !||    intabfr     ../engine/source/mpi/implicit/imp_fri.F
-      !||    spmd_exci   ../engine/source/mpi/implicit/imp_spmd.F
-      !||--- uses       -----------------------------------------------------
-      !||    imp_intm    ../engine/share/modules/imp_intm.F
-      !||====================================================================
+!||====================================================================
+!||    ini_frud    ../engine/source/mpi/implicit/imp_fri.F
+!||--- called by ------------------------------------------------------
+!||    imp_frkd    ../engine/source/mpi/implicit/imp_fri.F
+!||--- calls      -----------------------------------------------------
+!||    intabfr     ../engine/source/mpi/implicit/imp_fri.F
+!||    spmd_exci   ../engine/source/mpi/implicit/imp_spmd.F
+!||--- uses       -----------------------------------------------------
+!||    imp_intm    ../engine/share/modules/imp_intm.F
+!||====================================================================
       SUBROUTINE INI_FRUD(NSREM ,NSL   ,NFV   ,IFVSI ,IFVSL ,
      .                    NF_SI ,NF_SL ,LVSI  )
 C-----------------------------------------------
@@ -8996,15 +8996,15 @@ C
 C
       RETURN
       END
-      !||====================================================================
-      !||    scom_frud   ../engine/source/mpi/implicit/imp_fri.F
-      !||--- called by ------------------------------------------------------
-      !||    imp_frkd    ../engine/source/mpi/implicit/imp_fri.F
-      !||--- calls      -----------------------------------------------------
-      !||    spmd_exck   ../engine/source/mpi/implicit/imp_spmd.F
-      !||--- uses       -----------------------------------------------------
-      !||    imp_intm    ../engine/share/modules/imp_intm.F
-      !||====================================================================
+!||====================================================================
+!||    scom_frud   ../engine/source/mpi/implicit/imp_fri.F
+!||--- called by ------------------------------------------------------
+!||    imp_frkd    ../engine/source/mpi/implicit/imp_fri.F
+!||--- calls      -----------------------------------------------------
+!||    spmd_exck   ../engine/source/mpi/implicit/imp_spmd.F
+!||--- uses       -----------------------------------------------------
+!||    imp_intm    ../engine/share/modules/imp_intm.F
+!||====================================================================
       SUBROUTINE SCOM_FRUD(UDS,UDR,NF_S,NF_R,IKCS,IKCR )
 C-----------------------------------------------
 C   M o d u l e s
@@ -9080,15 +9080,15 @@ C-----------------------------------------------
 C
       RETURN
       END
-      !||====================================================================
-      !||    imp_fvksl   ../engine/source/mpi/implicit/imp_fri.F
-      !||--- called by ------------------------------------------------------
-      !||    imp_frkd    ../engine/source/mpi/implicit/imp_fri.F
-      !||--- calls      -----------------------------------------------------
-      !||    imp_fvksm   ../engine/source/mpi/implicit/imp_fri.F
-      !||--- uses       -----------------------------------------------------
-      !||    imp_intm    ../engine/share/modules/imp_intm.F
-      !||====================================================================
+!||====================================================================
+!||    imp_fvksl   ../engine/source/mpi/implicit/imp_fri.F
+!||--- called by ------------------------------------------------------
+!||    imp_frkd    ../engine/source/mpi/implicit/imp_fri.F
+!||--- calls      -----------------------------------------------------
+!||    imp_fvksm   ../engine/source/mpi/implicit/imp_fri.F
+!||--- uses       -----------------------------------------------------
+!||    imp_intm    ../engine/share/modules/imp_intm.F
+!||====================================================================
       SUBROUTINE IMP_FVKSL(
      1    IDDL      ,IDDLM     ,IKC       ,IFVSI     ,NF_SI     ,
      2    KSI       ,LB        ,NSREM     ,UDSI      )
@@ -9139,11 +9139,11 @@ C----------------------------
 C----6---------------------------------------------------------------7---------8
       RETURN
       END
-      !||====================================================================
-      !||    imp_fvksm   ../engine/source/mpi/implicit/imp_fri.F
-      !||--- called by ------------------------------------------------------
-      !||    imp_fvksl   ../engine/source/mpi/implicit/imp_fri.F
-      !||====================================================================
+!||====================================================================
+!||    imp_fvksm   ../engine/source/mpi/implicit/imp_fri.F
+!||--- called by ------------------------------------------------------
+!||    imp_fvksl   ../engine/source/mpi/implicit/imp_fri.F
+!||====================================================================
       SUBROUTINE IMP_FVKSM(
      1    NJ       ,IDDL      ,IDDLM     ,IKC       ,
      2    UDS      ,KSM       ,LB        )
@@ -9183,17 +9183,17 @@ C
 C----6---------------------------------------------------------------7---------8
       RETURN
       END
-      !||====================================================================
-      !||    imp_fvkm    ../engine/source/mpi/implicit/imp_fri.F
-      !||--- called by ------------------------------------------------------
-      !||    imp_frkd    ../engine/source/mpi/implicit/imp_fri.F
-      !||--- calls      -----------------------------------------------------
-      !||    get_iad     ../engine/source/mpi/implicit/imp_fri.F
-      !||    getfr_kij   ../engine/source/mpi/implicit/imp_fri.F
-      !||    intabfr     ../engine/source/mpi/implicit/imp_fri.F
-      !||--- uses       -----------------------------------------------------
-      !||    imp_intm    ../engine/share/modules/imp_intm.F
-      !||====================================================================
+!||====================================================================
+!||    imp_fvkm    ../engine/source/mpi/implicit/imp_fri.F
+!||--- called by ------------------------------------------------------
+!||    imp_frkd    ../engine/source/mpi/implicit/imp_fri.F
+!||--- calls      -----------------------------------------------------
+!||    get_iad     ../engine/source/mpi/implicit/imp_fri.F
+!||    getfr_kij   ../engine/source/mpi/implicit/imp_fri.F
+!||    intabfr     ../engine/source/mpi/implicit/imp_fri.F
+!||--- uses       -----------------------------------------------------
+!||    imp_intm    ../engine/share/modules/imp_intm.F
+!||====================================================================
       SUBROUTINE IMP_FVKM(
      1    KFR_SI   ,KFR_SL    ,IDDL      ,NDOF      ,IKC       ,
      2    INLOC    ,IAD_M     ,NSREM     ,NSL       ,UD0       ,
@@ -9291,13 +9291,13 @@ C----------------in KFR_SI------
 C----6---------------------------------------------------------------7---------8
       RETURN
       END
-      !||====================================================================
-      !||    ini_frfd   ../engine/source/mpi/implicit/imp_fri.F
-      !||--- called by ------------------------------------------------------
-      !||    imp_frkd   ../engine/source/mpi/implicit/imp_fri.F
-      !||--- uses       -----------------------------------------------------
-      !||    imp_intm   ../engine/share/modules/imp_intm.F
-      !||====================================================================
+!||====================================================================
+!||    ini_frfd   ../engine/source/mpi/implicit/imp_fri.F
+!||--- called by ------------------------------------------------------
+!||    imp_frkd   ../engine/source/mpi/implicit/imp_fri.F
+!||--- uses       -----------------------------------------------------
+!||    imp_intm   ../engine/share/modules/imp_intm.F
+!||====================================================================
       SUBROUTINE INI_FRFD(NSREM   ,NFV   ,IKCSI   ,NF_SI     ,FDSI )
 C-----------------------------------------------
 C   M o d u l e s
@@ -9352,13 +9352,13 @@ C-----------SECND INDEPEND.:LT,FRK_SL---------
 C
       RETURN
       END
-      !||====================================================================
-      !||    cp_slnr    ../engine/source/mpi/implicit/imp_fri.F
-      !||--- calls      -----------------------------------------------------
-      !||    cp_int     ../engine/source/implicit/produt_v.F
-      !||--- uses       -----------------------------------------------------
-      !||    imp_intm   ../engine/share/modules/imp_intm.F
-      !||====================================================================
+!||====================================================================
+!||    cp_slnr    ../engine/source/mpi/implicit/imp_fri.F
+!||--- calls      -----------------------------------------------------
+!||    cp_int     ../engine/source/implicit/produt_v.F
+!||--- uses       -----------------------------------------------------
+!||    imp_intm   ../engine/share/modules/imp_intm.F
+!||====================================================================
       SUBROUTINE CP_SLNR(IAD_CP  ,JDI_CP ,NSL  ,NZ)
 C-----------------------------------------------
 C   M o d u l e s
@@ -9386,16 +9386,16 @@ C
 C----6---------------------------------------------------------------7---------8
       RETURN
       END
-      !||====================================================================
-      !||    ind_sld    ../engine/source/mpi/implicit/imp_fri.F
-      !||--- called by ------------------------------------------------------
-      !||    imp_frkd   ../engine/source/mpi/implicit/imp_fri.F
-      !||--- calls      -----------------------------------------------------
-      !||    put_kii    ../engine/source/implicit/imp_glob_k.F
-      !||    zero1      ../engine/source/system/zero.F
-      !||--- uses       -----------------------------------------------------
-      !||    imp_intm   ../engine/share/modules/imp_intm.F
-      !||====================================================================
+!||====================================================================
+!||    ind_sld    ../engine/source/mpi/implicit/imp_fri.F
+!||--- called by ------------------------------------------------------
+!||    imp_frkd   ../engine/source/mpi/implicit/imp_fri.F
+!||--- calls      -----------------------------------------------------
+!||    put_kii    ../engine/source/implicit/imp_glob_k.F
+!||    zero1      ../engine/source/system/zero.F
+!||--- uses       -----------------------------------------------------
+!||    imp_intm   ../engine/share/modules/imp_intm.F
+!||====================================================================
       SUBROUTINE IND_SLD(NSL  ,NDOF  ,KSS )
 C-----------------------------------------------
 C   M o d u l e s
@@ -9554,18 +9554,18 @@ C----------other kin------------
 C
       RETURN
       END
-      !||====================================================================
-      !||    imp_frks   ../engine/source/mpi/implicit/imp_fri.F
-      !||--- called by ------------------------------------------------------
-      !||    imp_frkd   ../engine/source/mpi/implicit/imp_fri.F
-      !||--- calls      -----------------------------------------------------
-      !||    cp_int     ../engine/source/implicit/produt_v.F
-      !||    cp_real    ../engine/source/implicit/produt_v.F
-      !||    get_kii    ../engine/source/implicit/imp_glob_k.F
-      !||    get_kij    ../engine/source/implicit/imp_glob_k.F
-      !||--- uses       -----------------------------------------------------
-      !||    imp_intm   ../engine/share/modules/imp_intm.F
-      !||====================================================================
+!||====================================================================
+!||    imp_frks   ../engine/source/mpi/implicit/imp_fri.F
+!||--- called by ------------------------------------------------------
+!||    imp_frkd   ../engine/source/mpi/implicit/imp_fri.F
+!||--- calls      -----------------------------------------------------
+!||    cp_int     ../engine/source/implicit/produt_v.F
+!||    cp_real    ../engine/source/implicit/produt_v.F
+!||    get_kii    ../engine/source/implicit/imp_glob_k.F
+!||    get_kij    ../engine/source/implicit/imp_glob_k.F
+!||--- uses       -----------------------------------------------------
+!||    imp_intm   ../engine/share/modules/imp_intm.F
+!||====================================================================
       SUBROUTINE IMP_FRKS(NSL  ,IDDL ,IKC ,NDOF  ,IDDLM,
      .                    KSS  ,IAD_SLD )
 C-----------------------------------------------
@@ -9791,15 +9791,15 @@ C------independent nodes---------
 C
       RETURN
       END
-      !||====================================================================
-      !||    cp_iadd    ../engine/source/mpi/implicit/imp_fri.F
-      !||--- called by ------------------------------------------------------
-      !||    imp_frkd   ../engine/source/mpi/implicit/imp_fri.F
-      !||--- calls      -----------------------------------------------------
-      !||    cp_int     ../engine/source/implicit/produt_v.F
-      !||--- uses       -----------------------------------------------------
-      !||    imp_intm   ../engine/share/modules/imp_intm.F
-      !||====================================================================
+!||====================================================================
+!||    cp_iadd    ../engine/source/mpi/implicit/imp_fri.F
+!||--- called by ------------------------------------------------------
+!||    imp_frkd   ../engine/source/mpi/implicit/imp_fri.F
+!||--- calls      -----------------------------------------------------
+!||    cp_int     ../engine/source/implicit/produt_v.F
+!||--- uses       -----------------------------------------------------
+!||    imp_intm   ../engine/share/modules/imp_intm.F
+!||====================================================================
       SUBROUTINE CP_IADD(NSL ,NSREM,IAD_SLD  ,IAD_MLD)
 C-----------------------------------------------
 C   M o d u l e s
@@ -9829,16 +9829,16 @@ C----------------------------
 C----6---------------------------------------------------------------7---------8
       RETURN
       END
-      !||====================================================================
-      !||    nddli_frb    ../engine/source/mpi/implicit/imp_fri.F
-      !||--- called by ------------------------------------------------------
-      !||    getnddli_g   ../engine/source/mpi/implicit/imp_fri.F
-      !||--- calls      -----------------------------------------------------
-      !||    spmd_nrow    ../engine/source/mpi/implicit/imp_spmd.F
-      !||    spmd_sum_s   ../engine/source/mpi/implicit/imp_spmd.F
-      !||--- uses       -----------------------------------------------------
-      !||    imp_frk      ../engine/share/modules/impbufdef_mod.F
-      !||====================================================================
+!||====================================================================
+!||    nddli_frb    ../engine/source/mpi/implicit/imp_fri.F
+!||--- called by ------------------------------------------------------
+!||    getnddli_g   ../engine/source/mpi/implicit/imp_fri.F
+!||--- calls      -----------------------------------------------------
+!||    spmd_nrow    ../engine/source/mpi/implicit/imp_spmd.F
+!||    spmd_sum_s   ../engine/source/mpi/implicit/imp_spmd.F
+!||--- uses       -----------------------------------------------------
+!||    imp_frk      ../engine/share/modules/impbufdef_mod.F
+!||====================================================================
       SUBROUTINE NDDLI_FRB(
      1    NDOF      ,IKC       ,IDDL      ,NDOFI     ,NDDLIFB   ,
      2    FR_ELEM   ,IAD_ELEM  )
@@ -9913,13 +9913,13 @@ C
 C
       RETURN
       END
-      !||====================================================================
-      !||    ndofi_nsl   ../engine/source/mpi/implicit/imp_fri.F
-      !||--- called by ------------------------------------------------------
-      !||    nddli_ns    ../engine/source/mpi/implicit/imp_fri.F
-      !||--- uses       -----------------------------------------------------
-      !||    imp_intm    ../engine/share/modules/imp_intm.F
-      !||====================================================================
+!||====================================================================
+!||    ndofi_nsl   ../engine/source/mpi/implicit/imp_fri.F
+!||--- called by ------------------------------------------------------
+!||    nddli_ns    ../engine/source/mpi/implicit/imp_fri.F
+!||--- uses       -----------------------------------------------------
+!||    imp_intm    ../engine/share/modules/imp_intm.F
+!||====================================================================
       SUBROUTINE NDOFI_NSL(NSL   ,NDDLI     ,NDOFI     )
 C-----------------------------------------------
 C   M o d u l e s
@@ -9956,18 +9956,18 @@ C--------MIS  jour NDOFI pour NSL----
 C
       RETURN
       END
-      !||====================================================================
-      !||    getnddli_g      ../engine/source/mpi/implicit/imp_fri.F
-      !||--- called by ------------------------------------------------------
-      !||    imp_solv        ../engine/source/implicit/imp_solv.F
-      !||--- calls      -----------------------------------------------------
-      !||    nddli_frb       ../engine/source/mpi/implicit/imp_fri.F
-      !||    nddli_ns        ../engine/source/mpi/implicit/imp_fri.F
-      !||    spmd_nddlig     ../engine/source/mpi/implicit/imp_spmd.F
-      !||--- uses       -----------------------------------------------------
-      !||    imp_frk         ../engine/share/modules/impbufdef_mod.F
-      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    getnddli_g      ../engine/source/mpi/implicit/imp_fri.F
+!||--- called by ------------------------------------------------------
+!||    imp_solv        ../engine/source/implicit/imp_solv.F
+!||--- calls      -----------------------------------------------------
+!||    nddli_frb       ../engine/source/mpi/implicit/imp_fri.F
+!||    nddli_ns        ../engine/source/mpi/implicit/imp_fri.F
+!||    spmd_nddlig     ../engine/source/mpi/implicit/imp_spmd.F
+!||--- uses       -----------------------------------------------------
+!||    imp_frk         ../engine/share/modules/impbufdef_mod.F
+!||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
+!||====================================================================
       SUBROUTINE GETNDDLI_G(
      1    NPBY      ,LPBY      ,ITAB      ,NRBYAC    ,IRBYAC    ,
      2    NINT2     ,IINT2     ,IPARI     ,INTBUF_TAB,NDOFI     ,
@@ -10015,15 +10015,15 @@ C
 C
       RETURN
       END
-      !||====================================================================
-      !||    nddli_ns        ../engine/source/mpi/implicit/imp_fri.F
-      !||--- called by ------------------------------------------------------
-      !||    getnddli_g      ../engine/source/mpi/implicit/imp_fri.F
-      !||--- calls      -----------------------------------------------------
-      !||    ndofi_nsl       ../engine/source/mpi/implicit/imp_fri.F
-      !||--- uses       -----------------------------------------------------
-      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    nddli_ns        ../engine/source/mpi/implicit/imp_fri.F
+!||--- called by ------------------------------------------------------
+!||    getnddli_g      ../engine/source/mpi/implicit/imp_fri.F
+!||--- calls      -----------------------------------------------------
+!||    ndofi_nsl       ../engine/source/mpi/implicit/imp_fri.F
+!||--- uses       -----------------------------------------------------
+!||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
+!||====================================================================
       SUBROUTINE NDDLI_NS(
      1    NPBY      ,LPBY      ,ITAB      ,NRBYAC    ,IRBYAC    ,
      2    NINT2     ,IINT2     ,IPARI     ,INTBUF_TAB,NDOFI     ,
@@ -10135,15 +10135,15 @@ C-----mis  jour NDOFI pour NSL+kin------
 C----6---------------------------------------------------------------7---------8
       RETURN
       END
-      !||====================================================================
-      !||    spc_fr_k     ../engine/source/mpi/implicit/imp_fri.F
-      !||--- called by ------------------------------------------------------
-      !||    ind_glob_k   ../engine/source/implicit/ind_glob_k.F
-      !||--- calls      -----------------------------------------------------
-      !||    intab0       ../engine/source/implicit/imp_fsa_inv.F
-      !||--- uses       -----------------------------------------------------
-      !||    imp_frk      ../engine/share/modules/impbufdef_mod.F
-      !||====================================================================
+!||====================================================================
+!||    spc_fr_k     ../engine/source/mpi/implicit/imp_fri.F
+!||--- called by ------------------------------------------------------
+!||    ind_glob_k   ../engine/source/implicit/ind_glob_k.F
+!||--- calls      -----------------------------------------------------
+!||    intab0       ../engine/source/implicit/imp_fsa_inv.F
+!||--- uses       -----------------------------------------------------
+!||    imp_frk      ../engine/share/modules/impbufdef_mod.F
+!||====================================================================
       SUBROUTINE SPC_FR_K(
      1    IADK     ,JDIK     ,NDOF      ,IDDL     ,FR_ELEM  ,
      2    IAD_ELEM )

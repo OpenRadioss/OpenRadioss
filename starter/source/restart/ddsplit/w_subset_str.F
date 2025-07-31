@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    w_subset_str           ../starter/source/restart/ddsplit/w_subset_str.F
-      !||--- called by ------------------------------------------------------
-      !||    ddsplit                ../starter/source/restart/ddsplit/ddsplit.F
-      !||--- calls      -----------------------------------------------------
-      !||    fretitl                ../starter/source/starter/freform.F
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    w_subset_str           ../starter/source/restart/ddsplit/w_subset_str.F
+!||--- called by ------------------------------------------------------
+!||    ddsplit                ../starter/source/restart/ddsplit/ddsplit.F
+!||--- calls      -----------------------------------------------------
+!||    fretitl                ../starter/source/starter/freform.F
+!||--- uses       -----------------------------------------------------
+!||====================================================================
       SUBROUTINE W_SUBSET_STR(SUBSET,LEN_IA)
 C-----------------------------------------------
 C   M o d u l e s

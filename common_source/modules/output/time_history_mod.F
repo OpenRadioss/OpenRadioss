@@ -20,18 +20,18 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    time_history_mod   ../common_source/modules/output/time_history_mod.F
-      !||--- called by ------------------------------------------------------
-      !||    init_th0           ../engine/source/output/th/init_th0.F
-      !||    output_mod         ../common_source/modules/output/output_mod.F90
-      !||    radioss2           ../engine/source/engine/radioss2.F
-      !||    read_th_restart    ../engine/source/output/th/read_th_restart.F
-      !||    write_th_buffer    ../starter/source/restart/ddsplit/write_th_buffer.F
-      !||    write_th_restart   ../engine/source/output/th/write_th_restart.F
-      !||--- uses       -----------------------------------------------------
-      !||    th_surf_mod        ../common_source/modules/interfaces/th_surf_mod.F
-      !||====================================================================
+!||====================================================================
+!||    time_history_mod   ../common_source/modules/output/time_history_mod.F
+!||--- called by ------------------------------------------------------
+!||    init_th0           ../engine/source/output/th/init_th0.F
+!||    output_mod         ../common_source/modules/output/output_mod.F90
+!||    radioss2           ../engine/source/engine/radioss2.F
+!||    read_th_restart    ../engine/source/output/th/read_th_restart.F
+!||    write_th_buffer    ../starter/source/restart/ddsplit/write_th_buffer.F
+!||    write_th_restart   ../engine/source/output/th/write_th_restart.F
+!||--- uses       -----------------------------------------------------
+!||    th_surf_mod        ../common_source/modules/interfaces/th_surf_mod.F
+!||====================================================================
       MODULE TIME_HISTORY_MOD
        USE TH_SURF_MOD
 #include "my_real.inc" 
@@ -99,13 +99,13 @@ C
 
          CONTAINS
 
-      !||====================================================================
-      !||    th_alloc          ../common_source/modules/output/time_history_mod.F
-      !||--- called by ------------------------------------------------------
-      !||    read_th_restart   ../engine/source/output/th/read_th_restart.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod       ../engine/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    th_alloc          ../common_source/modules/output/time_history_mod.F
+!||--- called by ------------------------------------------------------
+!||    read_th_restart   ../engine/source/output/th/read_th_restart.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod       ../engine/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE TH_ALLOC(TH,
      .                       SITHGRP,  SITHBUF ,
      .                       SITHGRPA, SITHBUFA,
@@ -173,12 +173,12 @@ C-----------------------------------------------
          END SUBROUTINE TH_ALLOC
 
 
-      !||====================================================================
-      !||    th_clean   ../common_source/modules/output/time_history_mod.F
-      !||--- called by ------------------------------------------------------
-      !||    radioss2   ../engine/source/engine/radioss2.F
-      !||    starter0   ../starter/source/starter/starter0.F
-      !||====================================================================
+!||====================================================================
+!||    th_clean   ../common_source/modules/output/time_history_mod.F
+!||--- called by ------------------------------------------------------
+!||    radioss2   ../engine/source/engine/radioss2.F
+!||    starter0   ../starter/source/starter/starter0.F
+!||====================================================================
       SUBROUTINE TH_CLEAN(TH )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

@@ -20,18 +20,18 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    cm27in3                ../starter/source/materials/mat/mat027/cm27in3.F
-      !||--- called by ------------------------------------------------------
-      !||    c3init3                ../starter/source/elements/sh3n/coque3n/c3init3.F
-      !||    cinit3                 ../starter/source/elements/shell/coque/cinit3.F
-      !||    cmaini3                ../starter/source/elements/sh3n/coquedk/cmaini3.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg                 ../starter/source/output/message/message.F
-      !||    fretitl2               ../starter/source/starter/freform.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod            ../starter/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    cm27in3                ../starter/source/materials/mat/mat027/cm27in3.F
+!||--- called by ------------------------------------------------------
+!||    c3init3                ../starter/source/elements/sh3n/coque3n/c3init3.F
+!||    cinit3                 ../starter/source/elements/shell/coque/cinit3.F
+!||    cmaini3                ../starter/source/elements/sh3n/coquedk/cmaini3.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                 ../starter/source/output/message/message.F
+!||    fretitl2               ../starter/source/starter/freform.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod            ../starter/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE CM27IN3(ELBUF_STR,
      .                   GEO ,IGEO,PM ,IPM ,IX ,NIX,
      .                   NLAY,IR  ,IS ,IMAT )

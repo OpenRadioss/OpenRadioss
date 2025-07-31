@@ -20,20 +20,20 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    i25surfi         ../starter/source/interfaces/inter3d1/i25surfi.F
-      !||--- called by ------------------------------------------------------
-      !||    lecins           ../starter/source/interfaces/interf1/lecins.F
-      !||    lecint           ../starter/source/interfaces/interf1/lecint.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg           ../starter/source/output/message/message.F
-      !||    bitset           ../starter/source/interfaces/inter3d1/bitget.F
-      !||    in24coq_sol3     ../starter/source/interfaces/inter3d1/i24surfi.F
-      !||    sh2surf25        ../starter/source/interfaces/inter3d1/i25surfi.F
-      !||--- uses       -----------------------------------------------------
-      !||    format_mod       ../starter/share/modules1/format_mod.F90
-      !||    message_mod      ../starter/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    i25surfi         ../starter/source/interfaces/inter3d1/i25surfi.F
+!||--- called by ------------------------------------------------------
+!||    lecins           ../starter/source/interfaces/interf1/lecins.F
+!||    lecint           ../starter/source/interfaces/interf1/lecint.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg           ../starter/source/output/message/message.F
+!||    bitset           ../starter/source/interfaces/inter3d1/bitget.F
+!||    in24coq_sol3     ../starter/source/interfaces/inter3d1/i24surfi.F
+!||    sh2surf25        ../starter/source/interfaces/inter3d1/i25surfi.F
+!||--- uses       -----------------------------------------------------
+!||    format_mod       ../starter/share/modules1/format_mod.F90
+!||    message_mod      ../starter/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE I25SURFI(IALLO   ,IPARI   ,IGRNOD  ,IGRSURF ,
      1                    IRECT   ,FRIGAP  ,
      2                    NSV     ,MSR     ,ITAB    ,X       ,
@@ -478,11 +478,11 @@ C----------due the fact that NRTM is modified w/ shell seg
 C
       RETURN
       END
-      !||====================================================================
-      !||    sh2surf25   ../starter/source/interfaces/inter3d1/i25surfi.F
-      !||--- called by ------------------------------------------------------
-      !||    i25surfi    ../starter/source/interfaces/inter3d1/i25surfi.F
-      !||====================================================================
+!||====================================================================
+!||    sh2surf25   ../starter/source/interfaces/inter3d1/i25surfi.F
+!||--- called by ------------------------------------------------------
+!||    i25surfi    ../starter/source/interfaces/inter3d1/i25surfi.F
+!||====================================================================
       SUBROUTINE SH2SURF25(NRTM0,IRECT,IMBIN,MBINFLG,MSEGTYP,NRTM )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

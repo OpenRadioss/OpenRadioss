@@ -21,40 +21,40 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 cc
-      !||====================================================================
-      !||    cdk6forc3        ../engine/source/elements/sh3n/coquedk6/cdk6forc3.F
-      !||--- called by ------------------------------------------------------
-      !||    forintc          ../engine/source/elements/forintc.F
-      !||--- calls      -----------------------------------------------------
-      !||    c3bilan          ../engine/source/elements/sh3n/coque3n/c3bilan.F
-      !||    cbavisc          ../engine/source/elements/shell/coqueba/cbavisc.F
-      !||    cdk6coor3        ../engine/source/elements/sh3n/coquedk6/cdk6coor3.F
-      !||    cdk6defo3        ../engine/source/elements/sh3n/coquedk6/cdk6defo3.F
-      !||    cdk6deri3        ../engine/source/elements/sh3n/coquedk6/cdk6deri3.F
-      !||    cdk6fcum3        ../engine/source/elements/sh3n/coquedk6/cdk6fcum3.F
-      !||    cdk6fint3        ../engine/source/elements/sh3n/coquedk6/cdk6fint3.F
-      !||    cdk6fint_reg     ../engine/source/elements/sh3n/coquedk6/cdk6fint_reg.F
-      !||    cdk6stra3        ../engine/source/elements/sh3n/coquedk6/cdk6stra3.F
-      !||    cdk6updt3        ../engine/source/elements/sh3n/coquedk6/cdk6updt3.F
-      !||    cdk6updt3p       ../engine/source/elements/sh3n/coquedk6/cdk6updt3.F
-      !||    cmain3           ../engine/source/materials/mat_share/cmain3.F
-      !||    cncoef3          ../engine/source/elements/sh3n/coquedk/cncoef3.F
-      !||    cndt3            ../engine/source/elements/sh3n/coquedk/cndt3.F
-      !||    dttherm          ../engine/source/time_step/dttherm.F90
-      !||--- uses       -----------------------------------------------------
-      !||    drape_mod        ../engine/share/modules/drape_mod.F
-      !||    dt_mod           ../engine/source/modules/dt_mod.F
-      !||    dttherm_mod      ../engine/source/time_step/dttherm.F90
-      !||    elbufdef_mod     ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||    failwave_mod     ../common_source/modules/failwave_mod.F
-      !||    glob_therm_mod   ../common_source/modules/mat_elem/glob_therm_mod.F90
-      !||    mat_elem_mod     ../common_source/modules/mat_elem/mat_elem_mod.F90
-      !||    nlocal_reg_mod   ../common_source/modules/nlocal_reg_mod.F
-      !||    sensor_mod       ../common_source/modules/sensor_mod.F90
-      !||    stack_mod        ../engine/share/modules/stack_mod.F
-      !||    table_mod        ../engine/share/modules/table_mod.F
-      !||    timer_mod        ../engine/source/system/timer_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    cdk6forc3        ../engine/source/elements/sh3n/coquedk6/cdk6forc3.F
+!||--- called by ------------------------------------------------------
+!||    forintc          ../engine/source/elements/forintc.F
+!||--- calls      -----------------------------------------------------
+!||    c3bilan          ../engine/source/elements/sh3n/coque3n/c3bilan.F
+!||    cbavisc          ../engine/source/elements/shell/coqueba/cbavisc.F
+!||    cdk6coor3        ../engine/source/elements/sh3n/coquedk6/cdk6coor3.F
+!||    cdk6defo3        ../engine/source/elements/sh3n/coquedk6/cdk6defo3.F
+!||    cdk6deri3        ../engine/source/elements/sh3n/coquedk6/cdk6deri3.F
+!||    cdk6fcum3        ../engine/source/elements/sh3n/coquedk6/cdk6fcum3.F
+!||    cdk6fint3        ../engine/source/elements/sh3n/coquedk6/cdk6fint3.F
+!||    cdk6fint_reg     ../engine/source/elements/sh3n/coquedk6/cdk6fint_reg.F
+!||    cdk6stra3        ../engine/source/elements/sh3n/coquedk6/cdk6stra3.F
+!||    cdk6updt3        ../engine/source/elements/sh3n/coquedk6/cdk6updt3.F
+!||    cdk6updt3p       ../engine/source/elements/sh3n/coquedk6/cdk6updt3.F
+!||    cmain3           ../engine/source/materials/mat_share/cmain3.F
+!||    cncoef3          ../engine/source/elements/sh3n/coquedk/cncoef3.F
+!||    cndt3            ../engine/source/elements/sh3n/coquedk/cndt3.F
+!||    dttherm          ../engine/source/time_step/dttherm.F90
+!||--- uses       -----------------------------------------------------
+!||    drape_mod        ../engine/share/modules/drape_mod.F
+!||    dt_mod           ../engine/source/modules/dt_mod.F
+!||    dttherm_mod      ../engine/source/time_step/dttherm.F90
+!||    elbufdef_mod     ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    failwave_mod     ../common_source/modules/failwave_mod.F
+!||    glob_therm_mod   ../common_source/modules/mat_elem/glob_therm_mod.F90
+!||    mat_elem_mod     ../common_source/modules/mat_elem/mat_elem_mod.F90
+!||    nlocal_reg_mod   ../common_source/modules/nlocal_reg_mod.F
+!||    sensor_mod       ../common_source/modules/sensor_mod.F90
+!||    stack_mod        ../engine/share/modules/stack_mod.F
+!||    table_mod        ../engine/share/modules/table_mod.F
+!||    timer_mod        ../engine/source/system/timer_mod.F90
+!||====================================================================
       SUBROUTINE CDK6FORC3(TIMERS,
      1   ELBUF_STR,   JFT,         JLT,         PM,
      2   IXTG,        X,           F,           M,

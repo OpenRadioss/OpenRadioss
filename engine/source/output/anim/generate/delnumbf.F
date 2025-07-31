@@ -20,16 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    delnumbf          ../engine/source/output/anim/generate/delnumbf.F
-      !||--- called by ------------------------------------------------------
-      !||    genani            ../engine/source/output/anim/generate/genani.F
-      !||--- calls      -----------------------------------------------------
-      !||    spmd_iget_partn   ../engine/source/mpi/anim/spmd_iget_partn.F
-      !||    write_i_c         ../common_source/tools/input_output/write_routtines.c
-      !||--- uses       -----------------------------------------------------
-      !||    my_alloc_mod      ../common_source/tools/memory/my_alloc.F90
-      !||====================================================================
+!||====================================================================
+!||    delnumbf          ../engine/source/output/anim/generate/delnumbf.F
+!||--- called by ------------------------------------------------------
+!||    genani            ../engine/source/output/anim/generate/genani.F
+!||--- calls      -----------------------------------------------------
+!||    spmd_iget_partn   ../engine/source/mpi/anim/spmd_iget_partn.F
+!||    write_i_c         ../common_source/tools/input_output/write_routtines.c
+!||--- uses       -----------------------------------------------------
+!||    my_alloc_mod      ../common_source/tools/memory/my_alloc.F90
+!||====================================================================
       SUBROUTINE DELNUMBF(IPARG  ,IXT   ,IXP      ,IXR  ,EL2FA ,
      .                    NBF    ,INUM  ,DD_IAD   ,IADD ,NBPART,
      .                    IADG   ,INUMX1,NANIM1D_L)

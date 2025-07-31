@@ -22,15 +22,15 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 
 C
-      !||====================================================================
-      !||    spmd_exchseg_idel     ../engine/source/mpi/kinematic_conditions/spmd_exchseg_idel.F
-      !||--- called by ------------------------------------------------------
-      !||    chkload               ../engine/source/interfaces/chkload.F
-      !||--- calls      -----------------------------------------------------
-      !||--- uses       -----------------------------------------------------
-      !||    nodal_arrays_mod      ../common_source/modules/nodal_arrays.F90
-      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
-      !||====================================================================
+!||====================================================================
+!||    spmd_exchseg_idel     ../engine/source/mpi/kinematic_conditions/spmd_exchseg_idel.F
+!||--- called by ------------------------------------------------------
+!||    chkload               ../engine/source/interfaces/chkload.F
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||    nodal_arrays_mod      ../common_source/modules/nodal_arrays.F90
+!||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
+!||====================================================================
       SUBROUTINE SPMD_EXCHSEG_IDEL(
      1    BUFS  ,LBUFS ,IXS    ,IXC    ,IXTG   ,
      2    IXQ   ,IPARG ,ITAGL  ,NODES,TAGEL  ,

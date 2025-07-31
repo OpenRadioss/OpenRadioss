@@ -20,12 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    fail_hoffman_c   ../engine/source/materials/fail/hoffman/fail_hoffman_c.F
-      !||--- called by ------------------------------------------------------
-      !||    mulawc           ../engine/source/materials/mat_share/mulawc.F90
-      !||    usermat_shell    ../engine/source/materials/mat_share/usermat_shell.F
-      !||====================================================================
+!||====================================================================
+!||    fail_hoffman_c   ../engine/source/materials/fail/hoffman/fail_hoffman_c.F
+!||--- called by ------------------------------------------------------
+!||    mulawc           ../engine/source/materials/mat_share/mulawc.F90
+!||    usermat_shell    ../engine/source/materials/mat_share/usermat_shell.F
+!||====================================================================
       SUBROUTINE FAIL_HOFFMAN_C(
      1     NEL       ,NUPARAM   ,NUVAR     ,UPARAM    ,UVAR      , 
      2     TIME      ,NGL       ,IPG       ,ILAY      ,IPT       ,                          

@@ -20,11 +20,11 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    spmd_irecv_mod   ../engine/source/mpi/spmd_irecv.F90
-      !||--- called by ------------------------------------------------------
-      !||    spmd_mod         ../engine/source/mpi/spmd_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    spmd_irecv_mod   ../engine/source/mpi/spmd_irecv.F90
+!||--- called by ------------------------------------------------------
+!||    spmd_mod         ../engine/source/mpi/spmd_mod.F90
+!||====================================================================
       module spmd_irecv_mod
         implicit none
 
@@ -40,15 +40,15 @@
 
       contains
 ! ======================================================================================================================
-      !||====================================================================
-      !||    spmd_irecv_reals      ../engine/source/mpi/spmd_irecv.F90
-      !||--- calls      -----------------------------------------------------
-      !||    spmd_in               ../engine/source/mpi/spmd_error.F90
-      !||    spmd_out              ../engine/source/mpi/spmd_error.F90
-      !||--- uses       -----------------------------------------------------
-      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
-      !||    spmd_error_mod        ../engine/source/mpi/spmd_error.F90
-      !||====================================================================
+!||====================================================================
+!||    spmd_irecv_reals      ../engine/source/mpi/spmd_irecv.F90
+!||--- calls      -----------------------------------------------------
+!||    spmd_in               ../engine/source/mpi/spmd_error.F90
+!||    spmd_out              ../engine/source/mpi/spmd_error.F90
+!||--- uses       -----------------------------------------------------
+!||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
+!||    spmd_error_mod        ../engine/source/mpi/spmd_error.F90
+!||====================================================================
         subroutine spmd_irecv_reals(buf, buf_count, source, tag, request, comm)
           use spmd_comm_world_mod, only: SPMD_COMM_WORLD
           use spmd_error_mod, only: spmd_in, spmd_out
@@ -70,15 +70,15 @@
 #endif
         end subroutine spmd_irecv_reals
 ! ======================================================================================================================
-      !||====================================================================
-      !||    spmd_irecv_ints       ../engine/source/mpi/spmd_irecv.F90
-      !||--- calls      -----------------------------------------------------
-      !||    spmd_in               ../engine/source/mpi/spmd_error.F90
-      !||    spmd_out              ../engine/source/mpi/spmd_error.F90
-      !||--- uses       -----------------------------------------------------
-      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
-      !||    spmd_error_mod        ../engine/source/mpi/spmd_error.F90
-      !||====================================================================
+!||====================================================================
+!||    spmd_irecv_ints       ../engine/source/mpi/spmd_irecv.F90
+!||--- calls      -----------------------------------------------------
+!||    spmd_in               ../engine/source/mpi/spmd_error.F90
+!||    spmd_out              ../engine/source/mpi/spmd_error.F90
+!||--- uses       -----------------------------------------------------
+!||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
+!||    spmd_error_mod        ../engine/source/mpi/spmd_error.F90
+!||====================================================================
         subroutine spmd_irecv_ints(buf, buf_count, source, tag, request, comm)
           use spmd_comm_world_mod, only: SPMD_COMM_WORLD
           use spmd_error_mod, only: spmd_in, spmd_out
@@ -100,15 +100,15 @@
 #endif
         end subroutine spmd_irecv_ints
 ! ======================================================================================================================
-      !||====================================================================
-      !||    spmd_irecv_doubles    ../engine/source/mpi/spmd_irecv.F90
-      !||--- calls      -----------------------------------------------------
-      !||    spmd_in               ../engine/source/mpi/spmd_error.F90
-      !||    spmd_out              ../engine/source/mpi/spmd_error.F90
-      !||--- uses       -----------------------------------------------------
-      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
-      !||    spmd_error_mod        ../engine/source/mpi/spmd_error.F90
-      !||====================================================================
+!||====================================================================
+!||    spmd_irecv_doubles    ../engine/source/mpi/spmd_irecv.F90
+!||--- calls      -----------------------------------------------------
+!||    spmd_in               ../engine/source/mpi/spmd_error.F90
+!||    spmd_out              ../engine/source/mpi/spmd_error.F90
+!||--- uses       -----------------------------------------------------
+!||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
+!||    spmd_error_mod        ../engine/source/mpi/spmd_error.F90
+!||====================================================================
         subroutine spmd_irecv_doubles(buf, buf_count, source, tag, request, comm)
           use spmd_error_mod, only: spmd_in, spmd_out
           use spmd_comm_world_mod, only: SPMD_COMM_WORLD
@@ -129,15 +129,15 @@
           call spmd_out(tag,ierr)
 #endif
         end subroutine spmd_irecv_doubles
-      !||====================================================================
-      !||    spmd_irecv_double     ../engine/source/mpi/spmd_irecv.F90
-      !||--- calls      -----------------------------------------------------
-      !||    spmd_in               ../engine/source/mpi/spmd_error.F90
-      !||    spmd_out              ../engine/source/mpi/spmd_error.F90
-      !||--- uses       -----------------------------------------------------
-      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
-      !||    spmd_error_mod        ../engine/source/mpi/spmd_error.F90
-      !||====================================================================
+!||====================================================================
+!||    spmd_irecv_double     ../engine/source/mpi/spmd_irecv.F90
+!||--- calls      -----------------------------------------------------
+!||    spmd_in               ../engine/source/mpi/spmd_error.F90
+!||    spmd_out              ../engine/source/mpi/spmd_error.F90
+!||--- uses       -----------------------------------------------------
+!||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
+!||    spmd_error_mod        ../engine/source/mpi/spmd_error.F90
+!||====================================================================
         subroutine spmd_irecv_double(buf, buf_count, source, tag, request, comm)
           use spmd_error_mod, only: spmd_in, spmd_out
           use spmd_comm_world_mod, only: SPMD_COMM_WORLD
@@ -158,15 +158,15 @@
           call spmd_out(tag,ierr)
 #endif
         end subroutine spmd_irecv_double
-      !||====================================================================
-      !||    spmd_irecv_int        ../engine/source/mpi/spmd_irecv.F90
-      !||--- calls      -----------------------------------------------------
-      !||    spmd_in               ../engine/source/mpi/spmd_error.F90
-      !||    spmd_out              ../engine/source/mpi/spmd_error.F90
-      !||--- uses       -----------------------------------------------------
-      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
-      !||    spmd_error_mod        ../engine/source/mpi/spmd_error.F90
-      !||====================================================================
+!||====================================================================
+!||    spmd_irecv_int        ../engine/source/mpi/spmd_irecv.F90
+!||--- calls      -----------------------------------------------------
+!||    spmd_in               ../engine/source/mpi/spmd_error.F90
+!||    spmd_out              ../engine/source/mpi/spmd_error.F90
+!||--- uses       -----------------------------------------------------
+!||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
+!||    spmd_error_mod        ../engine/source/mpi/spmd_error.F90
+!||====================================================================
         subroutine spmd_irecv_int(buf, buf_count, source, tag, request, comm)
           use spmd_comm_world_mod, only: SPMD_COMM_WORLD
           use spmd_error_mod, only: spmd_in, spmd_out
@@ -187,15 +187,15 @@
           call spmd_out(tag,ierr)
 #endif
         end subroutine spmd_irecv_int
-      !||====================================================================
-      !||    spmd_irecv_real       ../engine/source/mpi/spmd_irecv.F90
-      !||--- calls      -----------------------------------------------------
-      !||    spmd_in               ../engine/source/mpi/spmd_error.F90
-      !||    spmd_out              ../engine/source/mpi/spmd_error.F90
-      !||--- uses       -----------------------------------------------------
-      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
-      !||    spmd_error_mod        ../engine/source/mpi/spmd_error.F90
-      !||====================================================================
+!||====================================================================
+!||    spmd_irecv_real       ../engine/source/mpi/spmd_irecv.F90
+!||--- calls      -----------------------------------------------------
+!||    spmd_in               ../engine/source/mpi/spmd_error.F90
+!||    spmd_out              ../engine/source/mpi/spmd_error.F90
+!||--- uses       -----------------------------------------------------
+!||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
+!||    spmd_error_mod        ../engine/source/mpi/spmd_error.F90
+!||====================================================================
         subroutine spmd_irecv_real(buf, buf_count, source, tag, request, comm)
           use spmd_comm_world_mod, only: SPMD_COMM_WORLD
           use spmd_error_mod, only: spmd_in, spmd_out

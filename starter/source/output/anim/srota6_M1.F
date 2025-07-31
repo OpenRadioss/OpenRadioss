@@ -20,17 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    srota6_m1   ../starter/source/output/anim/srota6_M1.F
-      !||--- called by ------------------------------------------------------
-      !||    sigin20b    ../starter/source/elements/solid/solide20/s20mass3.F
-      !||    sigin3b     ../starter/source/elements/solid/solid8p/sigin3b.F
-      !||    userin3     ../starter/source/elements/solid/solide/userin3.F
-      !||    ustrsin3    ../starter/source/elements/solid/solide/userin3.F
-      !||--- calls      -----------------------------------------------------
-      !||    scortho31   ../starter/source/elements/thickshell/solidec/scortho31.F
-      !||    sortho31    ../starter/source/output/anim/sortho31.F
-      !||====================================================================
+!||====================================================================
+!||    srota6_m1   ../starter/source/output/anim/srota6_M1.F
+!||--- called by ------------------------------------------------------
+!||    sigin20b    ../starter/source/elements/solid/solide20/s20mass3.F
+!||    sigin3b     ../starter/source/elements/solid/solid8p/sigin3b.F
+!||    userin3     ../starter/source/elements/solid/solide/userin3.F
+!||    ustrsin3    ../starter/source/elements/solid/solide/userin3.F
+!||--- calls      -----------------------------------------------------
+!||    scortho31   ../starter/source/elements/thickshell/solidec/scortho31.F
+!||    sortho31    ../starter/source/output/anim/sortho31.F
+!||====================================================================
       SUBROUTINE SROTA6_M1(X,IXS,KCVT,                                     
      .                   TENS,GAMA,KHBE  ,ITYP  )                                     
 C-----------------------------------------------                        

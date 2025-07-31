@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    initvars_auto   ../starter/source/elements/elbuf_init/initvars_auto.F
-      !||--- called by ------------------------------------------------------
-      !||    elbuf_ini       ../starter/source/elements/elbuf_init/elbuf_ini.F
-      !||--- uses       -----------------------------------------------------
-      !||    elbuftag_mod    ../starter/share/modules1/elbuftag_mod.F
-      !||====================================================================
+!||====================================================================
+!||    initvars_auto   ../starter/source/elements/elbuf_init/initvars_auto.F
+!||--- called by ------------------------------------------------------
+!||    elbuf_ini       ../starter/source/elements/elbuf_init/elbuf_ini.F
+!||--- uses       -----------------------------------------------------
+!||    elbuftag_mod    ../starter/share/modules1/elbuftag_mod.F
+!||====================================================================
       SUBROUTINE INITVARS_AUTO(
      .                         ELBUF_STR,MLAW_TAG ,PROP_TAG ,
      .                         GMAT     ,GLAW     ,IGTYP    ,JMULT    ,IFAIL    , 

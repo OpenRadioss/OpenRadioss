@@ -20,11 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    scfint3   ../engine/source/elements/thickshell/solidec/scfint3.F
-      !||--- called by ------------------------------------------------------
-      !||    scforc3   ../engine/source/elements/thickshell/solidec/scforc3.F
-      !||====================================================================
+!||====================================================================
+!||    scfint3   ../engine/source/elements/thickshell/solidec/scfint3.F
+!||--- called by ------------------------------------------------------
+!||    scforc3   ../engine/source/elements/thickshell/solidec/scforc3.F
+!||====================================================================
       SUBROUTINE SCFINT3(SIG,
      .   PX1, PX2, PX3, PX4,
      .   PY1, PY2, PY3, PY4,

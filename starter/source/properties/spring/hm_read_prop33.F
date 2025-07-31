@@ -20,28 +20,28 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    hm_read_prop33             ../starter/source/properties/spring/hm_read_prop33.F
-      !||--- called by ------------------------------------------------------
-      !||    hm_read_prop_generic       ../starter/source/properties/hm_read_prop_generic.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg                     ../starter/source/output/message/message.F
-      !||    hm_get_intv                ../starter/source/devtools/hm_reader/hm_get_intv.F
-      !||    hm_option_is_encrypted     ../starter/source/devtools/hm_reader/hm_option_is_encrypted.F
-      !||    hm_read_prop33_cyl_jnt     ../starter/source/properties/spring/hm_read_prop33_cyl_jnt.F
-      !||    hm_read_prop33_fix_jnt     ../starter/source/properties/spring/hm_read_prop33_fix_jnt.F
-      !||    hm_read_prop33_free_jnt    ../starter/source/properties/spring/hm_read_prop33_free_jnt.F
-      !||    hm_read_prop33_old_jnt     ../starter/source/properties/spring/hm_read_prop33_old_jnt.F
-      !||    hm_read_prop33_plan_jnt    ../starter/source/properties/spring/hm_read_prop33_plan_jnt.F
-      !||    hm_read_prop33_rev_jnt     ../starter/source/properties/spring/hm_read_prop33_rev_jnt.F
-      !||    hm_read_prop33_sph_jnt     ../starter/source/properties/spring/hm_read_prop33_sph_jnt.F
-      !||    hm_read_prop33_trans_jnt   ../starter/source/properties/spring/hm_read_prop33_trans_jnt.F
-      !||    hm_read_prop33_univ_jnt    ../starter/source/properties/spring/hm_read_prop33_univ_jnt.F
-      !||--- uses       -----------------------------------------------------
-      !||    elbuftag_mod               ../starter/share/modules1/elbuftag_mod.F
-      !||    message_mod                ../starter/share/message_module/message_mod.F
-      !||    submodel_mod               ../starter/share/modules1/submodel_mod.F
-      !||====================================================================
+!||====================================================================
+!||    hm_read_prop33             ../starter/source/properties/spring/hm_read_prop33.F
+!||--- called by ------------------------------------------------------
+!||    hm_read_prop_generic       ../starter/source/properties/hm_read_prop_generic.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                     ../starter/source/output/message/message.F
+!||    hm_get_intv                ../starter/source/devtools/hm_reader/hm_get_intv.F
+!||    hm_option_is_encrypted     ../starter/source/devtools/hm_reader/hm_option_is_encrypted.F
+!||    hm_read_prop33_cyl_jnt     ../starter/source/properties/spring/hm_read_prop33_cyl_jnt.F
+!||    hm_read_prop33_fix_jnt     ../starter/source/properties/spring/hm_read_prop33_fix_jnt.F
+!||    hm_read_prop33_free_jnt    ../starter/source/properties/spring/hm_read_prop33_free_jnt.F
+!||    hm_read_prop33_old_jnt     ../starter/source/properties/spring/hm_read_prop33_old_jnt.F
+!||    hm_read_prop33_plan_jnt    ../starter/source/properties/spring/hm_read_prop33_plan_jnt.F
+!||    hm_read_prop33_rev_jnt     ../starter/source/properties/spring/hm_read_prop33_rev_jnt.F
+!||    hm_read_prop33_sph_jnt     ../starter/source/properties/spring/hm_read_prop33_sph_jnt.F
+!||    hm_read_prop33_trans_jnt   ../starter/source/properties/spring/hm_read_prop33_trans_jnt.F
+!||    hm_read_prop33_univ_jnt    ../starter/source/properties/spring/hm_read_prop33_univ_jnt.F
+!||--- uses       -----------------------------------------------------
+!||    elbuftag_mod               ../starter/share/modules1/elbuftag_mod.F
+!||    message_mod                ../starter/share/message_module/message_mod.F
+!||    submodel_mod               ../starter/share/modules1/submodel_mod.F
+!||====================================================================
       SUBROUTINE HM_READ_PROP33(IOUT ,NUVAR ,PARGEO ,UNITAB,
      .                  IUNIT,ID    ,TITR   ,PROP_TAG,
      .                  IGTYP,LSUBMODEL)

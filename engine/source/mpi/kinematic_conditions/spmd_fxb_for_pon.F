@@ -21,13 +21,13 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 #ifdef MPI
-      !||====================================================================
-      !||    spmd_fxb_for_pon      ../engine/source/mpi/kinematic_conditions/spmd_fxb_for_pon.F
-      !||--- called by ------------------------------------------------------
-      !||    fxbyfor               ../engine/source/constraints/fxbody/fxbyfor.F
-      !||--- uses       -----------------------------------------------------
-      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
-      !||====================================================================
+!||====================================================================
+!||    spmd_fxb_for_pon      ../engine/source/mpi/kinematic_conditions/spmd_fxb_for_pon.F
+!||--- called by ------------------------------------------------------
+!||    fxbyfor               ../engine/source/constraints/fxbody/fxbyfor.F
+!||--- uses       -----------------------------------------------------
+!||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
+!||====================================================================
       SUBROUTINE SPMD_FXB_FOR_PON(FXBIPM, MFEXTP, FSKYFXB, DSKY, IADN)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -157,13 +157,13 @@ C
 
 
 C version simplifiee pour mono non SPMD
-      !||====================================================================
-      !||    spmd_fxb_for_pon      ../engine/source/mpi/kinematic_conditions/spmd_fxb_for_pon.F
-      !||--- called by ------------------------------------------------------
-      !||    fxbyfor               ../engine/source/constraints/fxbody/fxbyfor.F
-      !||--- uses       -----------------------------------------------------
-      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
-      !||====================================================================
+!||====================================================================
+!||    spmd_fxb_for_pon      ../engine/source/mpi/kinematic_conditions/spmd_fxb_for_pon.F
+!||--- called by ------------------------------------------------------
+!||    fxbyfor               ../engine/source/constraints/fxbody/fxbyfor.F
+!||--- uses       -----------------------------------------------------
+!||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
+!||====================================================================
       SUBROUTINE SPMD_FXB_FOR_PON(FXBIPM, MFEXTP, FSKYFXB, DSKY, IADN)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

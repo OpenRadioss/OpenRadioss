@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    volum0              ../engine/source/airbag/volum0.F
-      !||--- calls      -----------------------------------------------------
-      !||    spmd_exch_fr6       ../engine/source/mpi/kinematic_conditions/spmd_exch_fr6.F
-      !||    sum_6_float         ../engine/source/system/parit.F
-      !||--- uses       -----------------------------------------------------
-      !||    monvol_struct_mod   ../engine/share/modules/monvol_struct_mod.F
-      !||====================================================================
+!||====================================================================
+!||    volum0              ../engine/source/airbag/volum0.F
+!||--- calls      -----------------------------------------------------
+!||    spmd_exch_fr6       ../engine/source/mpi/kinematic_conditions/spmd_exch_fr6.F
+!||    sum_6_float         ../engine/source/system/parit.F
+!||--- uses       -----------------------------------------------------
+!||    monvol_struct_mod   ../engine/share/modules/monvol_struct_mod.F
+!||====================================================================
       SUBROUTINE VOLUM0(IVOLU   ,RVOLU ,VOL  ,X  ,SURF_NODES,
      2                  N       ,NN    ,SURF_ELTYP,SURF_ELEM,
      3                  ICONTACT,PORO  ,FR_MV, T_MONVOLN)

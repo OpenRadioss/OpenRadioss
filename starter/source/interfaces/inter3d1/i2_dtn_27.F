@@ -20,15 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    i2_dtn_27       ../starter/source/interfaces/inter3d1/i2_dtn_27.F
-      !||--- called by ------------------------------------------------------
-      !||    inintr2         ../starter/source/interfaces/inter3d1/inintr2.F
-      !||--- calls      -----------------------------------------------------
-      !||    i2_dtn_27_cin   ../starter/source/interfaces/inter3d1/i2_dtn_27.F
-      !||    i2_dtn_27_pen   ../starter/source/interfaces/inter3d1/i2_dtn_27.F
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    i2_dtn_27       ../starter/source/interfaces/inter3d1/i2_dtn_27.F
+!||--- called by ------------------------------------------------------
+!||    inintr2         ../starter/source/interfaces/inter3d1/inintr2.F
+!||--- calls      -----------------------------------------------------
+!||    i2_dtn_27_cin   ../starter/source/interfaces/inter3d1/i2_dtn_27.F
+!||    i2_dtn_27_pen   ../starter/source/interfaces/inter3d1/i2_dtn_27.F
+!||--- uses       -----------------------------------------------------
+!||====================================================================
       SUBROUTINE I2_DTN_27(X,INTBUF_TAB,IPARI,STIFN,MS,IN,N,NSN)
 C-----------------------------------------------
 C   M o d u l e s
@@ -83,12 +83,12 @@ C-----------
       RETURN
       END
 
-      !||====================================================================
-      !||    i2_dtn_27_cin   ../starter/source/interfaces/inter3d1/i2_dtn_27.F
-      !||--- called by ------------------------------------------------------
-      !||    i2_dtn_27       ../starter/source/interfaces/inter3d1/i2_dtn_27.F
-      !||--- calls      -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    i2_dtn_27_cin   ../starter/source/interfaces/inter3d1/i2_dtn_27.F
+!||--- called by ------------------------------------------------------
+!||    i2_dtn_27       ../starter/source/interfaces/inter3d1/i2_dtn_27.F
+!||--- calls      -----------------------------------------------------
+!||====================================================================
       SUBROUTINE I2_DTN_27_CIN(X,IRECT ,CRST    ,CSTS_BIS, NSV  ,
      2                         IRTL  ,IPARI, MSEGTYP2, STIFN, STIFR,
      2                         MS, IN, IRUPT)
@@ -323,12 +323,12 @@ C-----------
       RETURN
       END
 
-      !||====================================================================
-      !||    i2_dtn_27_pen   ../starter/source/interfaces/inter3d1/i2_dtn_27.F
-      !||--- called by ------------------------------------------------------
-      !||    i2_dtn_27       ../starter/source/interfaces/inter3d1/i2_dtn_27.F
-      !||--- calls      -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    i2_dtn_27_pen   ../starter/source/interfaces/inter3d1/i2_dtn_27.F
+!||--- called by ------------------------------------------------------
+!||    i2_dtn_27       ../starter/source/interfaces/inter3d1/i2_dtn_27.F
+!||--- calls      -----------------------------------------------------
+!||====================================================================
       SUBROUTINE I2_DTN_27_PEN(X,IRECT ,CRST    ,NSV  ,IRTL,
      2                         IPARI,MSEGTYP2,STIFN, STIFR,STFN,
      3                         STFR,VISC,IN,IRUPT)

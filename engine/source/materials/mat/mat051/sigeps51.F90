@@ -20,45 +20,45 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    sigeps51_mod   ../engine/source/materials/mat/mat051/sigeps51.F90
-      !||--- called by ------------------------------------------------------
-      !||    mulaw          ../engine/source/materials/mat_share/mulaw.F90
-      !||====================================================================
+!||====================================================================
+!||    sigeps51_mod   ../engine/source/materials/mat/mat051/sigeps51.F90
+!||--- called by ------------------------------------------------------
+!||    mulaw          ../engine/source/materials/mat_share/mulaw.F90
+!||====================================================================
       module sigeps51_mod
       contains
 ! ======================================================================================================================
 !                                                   procedures
 ! ======================================================================================================================
-      !||====================================================================
-      !||    sigeps51                         ../engine/source/materials/mat/mat051/sigeps51.F90
-      !||--- called by ------------------------------------------------------
-      !||    mulaw                            ../engine/source/materials/mat_share/mulaw.F90
-      !||--- calls      -----------------------------------------------------
-      !||    compute_bfrac                    ../engine/source/materials/mat/mat051/compute_bfrac.F
-      !||    dprag51                          ../engine/source/materials/mat/mat051/dprag51.F
-      !||    finter                           ../engine/source/tools/curve/finter.F
-      !||    granular51                       ../engine/source/materials/mat/mat051/granular51.F90
-      !||    jcook51                          ../engine/source/materials/mat/mat051/jcook51.F90
-      !||    jwl51                            ../engine/source/materials/mat/mat051/jwl51.F
-      !||    jwlun51                          ../engine/source/materials/mat/mat051/jwl51.F
-      !||    poly51                           ../engine/source/materials/mat/mat051/polynomial51.F
-      !||    polyun51                         ../engine/source/materials/mat/mat051/polynomial51.F
-      !||    sigeps51_boundary_material       ../engine/source/materials/mat/mat051/sigeps51_boundary_material.F90
-      !||--- uses       -----------------------------------------------------
-      !||    ale_connectivity_mod             ../common_source/modules/ale/ale_connectivity_mod.F
-      !||    constant_mod                     ../common_source/modules/constant_mod.F
-      !||    elbufdef_mod                     ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||    granular51_mod                   ../engine/source/materials/mat/mat051/granular51.F90
-      !||    i22bufbric_mod                   ../common_source/modules/interfaces/cut-cell-search_mod.F
-      !||    i22tri_mod                       ../common_source/modules/interfaces/cut-cell-search_mod.F
-      !||    jcook51_mod                      ../engine/source/materials/mat/mat051/jcook51.F90
-      !||    matparam_def_mod                 ../common_source/modules/mat_elem/matparam_def_mod.F90
-      !||    multimat_param_mod               ../common_source/modules/multimat_param_mod.F90
-      !||    precision_mod                    ../common_source/modules/precision_mod.F90
-      !||    prop_param_mod                   ../common_source/modules/mat_elem/prop_param_mod.F90
-      !||    sigeps51_boundary_material_mod   ../engine/source/materials/mat/mat051/sigeps51_boundary_material.F90
-      !||====================================================================
+!||====================================================================
+!||    sigeps51                         ../engine/source/materials/mat/mat051/sigeps51.F90
+!||--- called by ------------------------------------------------------
+!||    mulaw                            ../engine/source/materials/mat_share/mulaw.F90
+!||--- calls      -----------------------------------------------------
+!||    compute_bfrac                    ../engine/source/materials/mat/mat051/compute_bfrac.F
+!||    dprag51                          ../engine/source/materials/mat/mat051/dprag51.F
+!||    finter                           ../engine/source/tools/curve/finter.F
+!||    granular51                       ../engine/source/materials/mat/mat051/granular51.F90
+!||    jcook51                          ../engine/source/materials/mat/mat051/jcook51.F90
+!||    jwl51                            ../engine/source/materials/mat/mat051/jwl51.F
+!||    jwlun51                          ../engine/source/materials/mat/mat051/jwl51.F
+!||    poly51                           ../engine/source/materials/mat/mat051/polynomial51.F
+!||    polyun51                         ../engine/source/materials/mat/mat051/polynomial51.F
+!||    sigeps51_boundary_material       ../engine/source/materials/mat/mat051/sigeps51_boundary_material.F90
+!||--- uses       -----------------------------------------------------
+!||    ale_connectivity_mod             ../common_source/modules/ale/ale_connectivity_mod.F
+!||    constant_mod                     ../common_source/modules/constant_mod.F
+!||    elbufdef_mod                     ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    granular51_mod                   ../engine/source/materials/mat/mat051/granular51.F90
+!||    i22bufbric_mod                   ../common_source/modules/interfaces/cut-cell-search_mod.F
+!||    i22tri_mod                       ../common_source/modules/interfaces/cut-cell-search_mod.F
+!||    jcook51_mod                      ../engine/source/materials/mat/mat051/jcook51.F90
+!||    matparam_def_mod                 ../common_source/modules/mat_elem/matparam_def_mod.F90
+!||    multimat_param_mod               ../common_source/modules/multimat_param_mod.F90
+!||    precision_mod                    ../common_source/modules/precision_mod.F90
+!||    prop_param_mod                   ../common_source/modules/mat_elem/prop_param_mod.F90
+!||    sigeps51_boundary_material_mod   ../engine/source/materials/mat/mat051/sigeps51_boundary_material.F90
+!||====================================================================
       subroutine sigeps51( &
            nel    ,nuparam     ,nuvar   ,nfunc   ,ifunc    ,tburn  , &
            npf    ,tf          ,time    ,timestep,uparam   ,numel  , &

@@ -20,16 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    s6cbilan              ../engine/source/elements/thickshell/solide6c/s6cbilan.F
-      !||--- called by ------------------------------------------------------
-      !||    s6cforc3              ../engine/source/elements/thickshell/solide6c/s6cforc3.F
-      !||--- calls      -----------------------------------------------------
-      !||    grelem_sav            ../engine/source/output/th/grelem_sav.F
-      !||    sensor_energy_bilan   ../engine/source/tools/sensor/sensor_energy_bilan.F
-      !||--- uses       -----------------------------------------------------
-      !||    sensor_mod            ../common_source/modules/sensor_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    s6cbilan              ../engine/source/elements/thickshell/solide6c/s6cbilan.F
+!||--- called by ------------------------------------------------------
+!||    s6cforc3              ../engine/source/elements/thickshell/solide6c/s6cforc3.F
+!||--- calls      -----------------------------------------------------
+!||    grelem_sav            ../engine/source/output/th/grelem_sav.F
+!||    sensor_energy_bilan   ../engine/source/tools/sensor/sensor_energy_bilan.F
+!||--- uses       -----------------------------------------------------
+!||    sensor_mod            ../common_source/modules/sensor_mod.F90
+!||====================================================================
       SUBROUTINE S6CBILAN(PARTSAV,EINT,RHO,RK,VOL,
      .   VXA, VYA, VZA, VA2, VNEW,IPARTS ,
      .   GRESAV,GRTH,IGRTH,OFF,IEXPAN,EINTTH,

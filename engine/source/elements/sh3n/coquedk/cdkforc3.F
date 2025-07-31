@@ -20,45 +20,45 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    cdkforc3            ../engine/source/elements/sh3n/coquedk/cdkforc3.F
-      !||--- called by ------------------------------------------------------
-      !||    forintc             ../engine/source/elements/forintc.F
-      !||--- calls      -----------------------------------------------------
-      !||    c3bilan             ../engine/source/elements/sh3n/coque3n/c3bilan.F
-      !||    c3updt3             ../engine/source/elements/sh3n/coque3n/c3updt3.F
-      !||    c3updt3p            ../engine/source/elements/sh3n/coque3n/c3updt3.F
-      !||    cbavisc             ../engine/source/elements/shell/coqueba/cbavisc.F
-      !||    cdkcoor3            ../engine/source/elements/sh3n/coquedk/cdkcoor3.F
-      !||    cdkcurv3            ../engine/source/elements/sh3n/coquedk/cdkdefo3.F
-      !||    cdkdefo3            ../engine/source/elements/sh3n/coquedk/cdkdefo3.F
-      !||    cdkderi3            ../engine/source/elements/sh3n/coquedk/cdkderi3.F
-      !||    cdkderic3           ../engine/source/elements/sh3n/coquedk/cdkderi3.F
-      !||    cdkfcum3            ../engine/source/elements/sh3n/coquedk/cdkfcum3.F
-      !||    cdkfint3            ../engine/source/elements/sh3n/coquedk/cdkfint3.F
-      !||    cdkfint_reg         ../engine/source/elements/sh3n/coquedk/cdkfint_reg.F
-      !||    cdkstra3            ../engine/source/elements/sh3n/coquedk/cdkstra3.F
-      !||    cmain3              ../engine/source/materials/mat_share/cmain3.F
-      !||    cncoef3             ../engine/source/elements/sh3n/coquedk/cncoef3.F
-      !||    cndt3               ../engine/source/elements/sh3n/coquedk/cndt3.F
-      !||    dtcdk_reg           ../engine/source/elements/sh3n/coquedk/dtcdk_reg.F
-      !||    dttherm             ../engine/source/time_step/dttherm.F90
-      !||    set_failwave_nod3   ../engine/source/materials/fail/failwave/set_failwave_nod3.F
-      !||    set_failwave_sh3n   ../engine/source/materials/fail/failwave/upd_failwave_sh3n.F
-      !||--- uses       -----------------------------------------------------
-      !||    drape_mod           ../engine/share/modules/drape_mod.F
-      !||    dt_mod              ../engine/source/modules/dt_mod.F
-      !||    dttherm_mod         ../engine/source/time_step/dttherm.F90
-      !||    elbufdef_mod        ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||    failwave_mod        ../common_source/modules/failwave_mod.F
-      !||    glob_therm_mod      ../common_source/modules/mat_elem/glob_therm_mod.F90
-      !||    mat_elem_mod        ../common_source/modules/mat_elem/mat_elem_mod.F90
-      !||    nlocal_reg_mod      ../common_source/modules/nlocal_reg_mod.F
-      !||    sensor_mod          ../common_source/modules/sensor_mod.F90
-      !||    stack_mod           ../engine/share/modules/stack_mod.F
-      !||    table_mod           ../engine/share/modules/table_mod.F
-      !||    timer_mod           ../engine/source/system/timer_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    cdkforc3            ../engine/source/elements/sh3n/coquedk/cdkforc3.F
+!||--- called by ------------------------------------------------------
+!||    forintc             ../engine/source/elements/forintc.F
+!||--- calls      -----------------------------------------------------
+!||    c3bilan             ../engine/source/elements/sh3n/coque3n/c3bilan.F
+!||    c3updt3             ../engine/source/elements/sh3n/coque3n/c3updt3.F
+!||    c3updt3p            ../engine/source/elements/sh3n/coque3n/c3updt3.F
+!||    cbavisc             ../engine/source/elements/shell/coqueba/cbavisc.F
+!||    cdkcoor3            ../engine/source/elements/sh3n/coquedk/cdkcoor3.F
+!||    cdkcurv3            ../engine/source/elements/sh3n/coquedk/cdkdefo3.F
+!||    cdkdefo3            ../engine/source/elements/sh3n/coquedk/cdkdefo3.F
+!||    cdkderi3            ../engine/source/elements/sh3n/coquedk/cdkderi3.F
+!||    cdkderic3           ../engine/source/elements/sh3n/coquedk/cdkderi3.F
+!||    cdkfcum3            ../engine/source/elements/sh3n/coquedk/cdkfcum3.F
+!||    cdkfint3            ../engine/source/elements/sh3n/coquedk/cdkfint3.F
+!||    cdkfint_reg         ../engine/source/elements/sh3n/coquedk/cdkfint_reg.F
+!||    cdkstra3            ../engine/source/elements/sh3n/coquedk/cdkstra3.F
+!||    cmain3              ../engine/source/materials/mat_share/cmain3.F
+!||    cncoef3             ../engine/source/elements/sh3n/coquedk/cncoef3.F
+!||    cndt3               ../engine/source/elements/sh3n/coquedk/cndt3.F
+!||    dtcdk_reg           ../engine/source/elements/sh3n/coquedk/dtcdk_reg.F
+!||    dttherm             ../engine/source/time_step/dttherm.F90
+!||    set_failwave_nod3   ../engine/source/materials/fail/failwave/set_failwave_nod3.F
+!||    set_failwave_sh3n   ../engine/source/materials/fail/failwave/upd_failwave_sh3n.F
+!||--- uses       -----------------------------------------------------
+!||    drape_mod           ../engine/share/modules/drape_mod.F
+!||    dt_mod              ../engine/source/modules/dt_mod.F
+!||    dttherm_mod         ../engine/source/time_step/dttherm.F90
+!||    elbufdef_mod        ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    failwave_mod        ../common_source/modules/failwave_mod.F
+!||    glob_therm_mod      ../common_source/modules/mat_elem/glob_therm_mod.F90
+!||    mat_elem_mod        ../common_source/modules/mat_elem/mat_elem_mod.F90
+!||    nlocal_reg_mod      ../common_source/modules/nlocal_reg_mod.F
+!||    sensor_mod          ../common_source/modules/sensor_mod.F90
+!||    stack_mod           ../engine/share/modules/stack_mod.F
+!||    table_mod           ../engine/share/modules/table_mod.F
+!||    timer_mod           ../engine/source/system/timer_mod.F90
+!||====================================================================
       SUBROUTINE CDKFORC3(TIMERS,
      1   ELBUF_STR,   JFT,         JLT,         PM,
      2   IXTG,        X,           F,           M,

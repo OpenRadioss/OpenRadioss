@@ -20,11 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    init_qd       ../starter/source/fluid/init_qd.F
-      !||--- called by ------------------------------------------------------
-      !||    hm_read_bem   ../starter/source/loads/bem/hm_read_bem.F
-      !||====================================================================
+!||====================================================================
+!||    init_qd       ../starter/source/fluid/init_qd.F
+!||--- called by ------------------------------------------------------
+!||    hm_read_bem   ../starter/source/loads/bem/hm_read_bem.F
+!||====================================================================
       SUBROUTINE INIT_QD(IFLOW, IBUF, ELEM, X, XS, YS, ZS, XD, YD, ZD,
      .                   RFLOW, NORMAL, TA, AF, COSG, DCP)
 C-----------------------------------------------

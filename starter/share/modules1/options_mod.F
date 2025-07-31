@@ -23,12 +23,12 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !
 !   starter used only
 !
-      !||====================================================================
-      !||    option_mod      ../starter/share/modules1/options_mod.F
-      !||--- called by ------------------------------------------------------
-      !||    lectur          ../starter/source/starter/lectur.F
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    option_mod      ../starter/share/modules1/options_mod.F
+!||--- called by ------------------------------------------------------
+!||    lectur          ../starter/source/starter/lectur.F
+!||--- uses       -----------------------------------------------------
+!||====================================================================
       MODULE OPTION_MOD
 
         USE OPTIONDEF_MOD      

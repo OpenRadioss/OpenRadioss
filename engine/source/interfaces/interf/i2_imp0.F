@@ -20,16 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    i2_imp0         ../engine/source/interfaces/interf/i2_imp0.F
-      !||--- called by ------------------------------------------------------
-      !||    upd_glob_k      ../engine/source/implicit/upd_glob_k.F
-      !||--- calls      -----------------------------------------------------
-      !||    i2_imp1         ../engine/source/interfaces/interf/i2_imp1.F
-      !||    i2_impm         ../engine/source/interfaces/interf/i2_imp1.F
-      !||--- uses       -----------------------------------------------------
-      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    i2_imp0         ../engine/source/interfaces/interf/i2_imp0.F
+!||--- called by ------------------------------------------------------
+!||    upd_glob_k      ../engine/source/implicit/upd_glob_k.F
+!||--- calls      -----------------------------------------------------
+!||    i2_imp1         ../engine/source/interfaces/interf/i2_imp1.F
+!||    i2_impm         ../engine/source/interfaces/interf/i2_imp1.F
+!||--- uses       -----------------------------------------------------
+!||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
+!||====================================================================
       SUBROUTINE I2_IMP0(NINT2 ,IINT2 ,IPARI ,
      .                   INTBUF_TAB,X   ,MS   ,IN   ,
      .                   NMC2  ,IMIJ2 ,ITAB  ,
@@ -92,15 +92,15 @@ C-----------------------------------------------
 C
       RETURN
       END
-      !||====================================================================
-      !||    i2_impi         ../engine/source/interfaces/interf/i2_imp0.F
-      !||--- called by ------------------------------------------------------
-      !||    upd_int_k       ../engine/source/implicit/upd_glob_k.F
-      !||--- calls      -----------------------------------------------------
-      !||    i2_imp1         ../engine/source/interfaces/interf/i2_imp1.F
-      !||--- uses       -----------------------------------------------------
-      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    i2_impi         ../engine/source/interfaces/interf/i2_imp0.F
+!||--- called by ------------------------------------------------------
+!||    upd_int_k       ../engine/source/implicit/upd_glob_k.F
+!||--- calls      -----------------------------------------------------
+!||    i2_imp1         ../engine/source/interfaces/interf/i2_imp1.F
+!||--- uses       -----------------------------------------------------
+!||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
+!||====================================================================
       SUBROUTINE I2_IMPI(NINT2 ,IINT2 ,IPARI ,
      .                   INTBUF_TAB,X   ,MS   ,IN   ,
      .                   NSS2  ,ISS2,WEIGHT,IKC   ,NDOF  ,

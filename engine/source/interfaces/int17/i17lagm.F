@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    i17lagm      ../engine/source/interfaces/int17/i17lagm.F
-      !||--- called by ------------------------------------------------------
-      !||    i17main      ../engine/source/interfaces/int17/i17main.F
-      !||--- calls      -----------------------------------------------------
-      !||    i17lll       ../engine/source/interfaces/int17/i17lagm.F
-      !||    my_barrier   ../engine/source/system/machine.F
-      !||====================================================================
+!||====================================================================
+!||    i17lagm      ../engine/source/interfaces/int17/i17lagm.F
+!||--- called by ------------------------------------------------------
+!||    i17main      ../engine/source/interfaces/int17/i17main.F
+!||--- calls      -----------------------------------------------------
+!||    i17lll       ../engine/source/interfaces/int17/i17lagm.F
+!||    my_barrier   ../engine/source/system/machine.F
+!||====================================================================
       SUBROUTINE I17LAGM(X    ,V     ,LLL     ,JLL   ,SLL   ,
      2                  XLL   ,CANDN ,CANDE   ,I_STOK,IXS   ,
      3                  IXS16 ,IADLL ,EMINX   ,NELES ,NELEM ,
@@ -217,16 +217,16 @@ C-----------------------------------------------
       CALL MY_BARRIER
       RETURN
       END
-      !||====================================================================
-      !||    i17lll    ../engine/source/interfaces/int17/i17lagm.F
-      !||--- called by ------------------------------------------------------
-      !||    i17lagm   ../engine/source/interfaces/int17/i17lagm.F
-      !||--- calls      -----------------------------------------------------
-      !||    i17lll4   ../engine/source/interfaces/int17/i17lagm.F
-      !||    i17mini   ../engine/source/interfaces/int17/i17lagm.F
-      !||    i17rst    ../engine/source/interfaces/int17/i17lagm.F
-      !||    i17vit4   ../engine/source/interfaces/int17/i17lagm.F
-      !||====================================================================
+!||====================================================================
+!||    i17lll    ../engine/source/interfaces/int17/i17lagm.F
+!||--- called by ------------------------------------------------------
+!||    i17lagm   ../engine/source/interfaces/int17/i17lagm.F
+!||--- calls      -----------------------------------------------------
+!||    i17lll4   ../engine/source/interfaces/int17/i17lagm.F
+!||    i17mini   ../engine/source/interfaces/int17/i17lagm.F
+!||    i17rst    ../engine/source/interfaces/int17/i17lagm.F
+!||    i17vit4   ../engine/source/interfaces/int17/i17lagm.F
+!||====================================================================
       SUBROUTINE I17LLL(LLT  ,LLL    ,JLL   ,SLL    ,XLL   ,V      ,
      2                  XX   ,YY     ,ZZ    ,III    ,NC    ,IADLL  ,
      3                  N_MUL_MX,A   ,X     ,ITIED  ,NINT  ,NKMAX  ,
@@ -478,13 +478,13 @@ C
 #include "lockoff.inc"
       RETURN
       END
-      !||====================================================================
-      !||    i17vit4   ../engine/source/interfaces/int17/i17lagm.F
-      !||--- called by ------------------------------------------------------
-      !||    i17lll    ../engine/source/interfaces/int17/i17lagm.F
-      !||--- calls      -----------------------------------------------------
-      !||    i17ni     ../engine/source/interfaces/int17/i17lagm.F
-      !||====================================================================
+!||====================================================================
+!||    i17vit4   ../engine/source/interfaces/int17/i17lagm.F
+!||--- called by ------------------------------------------------------
+!||    i17lll    ../engine/source/interfaces/int17/i17lagm.F
+!||--- calls      -----------------------------------------------------
+!||    i17ni     ../engine/source/interfaces/int17/i17lagm.F
+!||====================================================================
       SUBROUTINE I17VIT4(LLT,NINT ,V      ,A      ,III    ,IIIS   ,
      2             NI_M   ,NI_S   ,NX     ,NY     ,NZ     ,VIT    ,
      3             ICONT  ,RM     ,TM     ,RS     ,TS     ,SM     ,
@@ -581,16 +581,16 @@ C
       RETURN
       END
 C
-      !||====================================================================
-      !||    i17lll4       ../engine/source/interfaces/int17/i17lagm.F
-      !||--- called by ------------------------------------------------------
-      !||    i17lll        ../engine/source/interfaces/int17/i17lagm.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg        ../engine/source/output/message/message.F
-      !||    arret         ../engine/source/system/arret.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod   ../engine/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    i17lll4       ../engine/source/interfaces/int17/i17lagm.F
+!||--- called by ------------------------------------------------------
+!||    i17lll        ../engine/source/interfaces/int17/i17lagm.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg        ../engine/source/output/message/message.F
+!||    arret         ../engine/source/system/arret.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod   ../engine/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE I17LLL4(LLT,LLL  ,JLL    ,SLL    ,XLL    ,N_MUL_MX,
      2             ITIED  ,NINT   ,NKMAX  ,NC     ,V      ,A      ,
      3             IADLL  ,III    ,IIIS   ,NI_M   ,NI_S   ,
@@ -757,16 +757,16 @@ C
       RETURN
       END
 C
-      !||====================================================================
-      !||    i17rst        ../engine/source/interfaces/int17/i17lagm.F
-      !||--- called by ------------------------------------------------------
-      !||    i17lll        ../engine/source/interfaces/int17/i17lagm.F
-      !||    i17lll_pena   ../engine/source/interfaces/int17/i17for3.F
-      !||--- calls      -----------------------------------------------------
-      !||    i16deri       ../engine/source/interfaces/int16/i16lagm.F
-      !||    i16ni         ../engine/source/interfaces/int16/i16lagm.F
-      !||    i16rstn       ../engine/source/interfaces/int16/i16lagm.F
-      !||====================================================================
+!||====================================================================
+!||    i17rst        ../engine/source/interfaces/int17/i17lagm.F
+!||--- called by ------------------------------------------------------
+!||    i17lll        ../engine/source/interfaces/int17/i17lagm.F
+!||    i17lll_pena   ../engine/source/interfaces/int17/i17for3.F
+!||--- calls      -----------------------------------------------------
+!||    i16deri       ../engine/source/interfaces/int16/i16lagm.F
+!||    i16ni         ../engine/source/interfaces/int16/i16lagm.F
+!||    i16rstn       ../engine/source/interfaces/int16/i16lagm.F
+!||====================================================================
       SUBROUTINE I17RST(LLT,R  ,S     ,T     ,NI    ,
      2            XX    ,YY    ,ZZ    )
 C-----------------------------------------------
@@ -879,16 +879,16 @@ C
       RETURN
       END
 C
-      !||====================================================================
-      !||    i17mini     ../engine/source/interfaces/int17/i17lagm.F
-      !||--- called by ------------------------------------------------------
-      !||    i17lll      ../engine/source/interfaces/int17/i17lagm.F
-      !||--- calls      -----------------------------------------------------
-      !||    i17abc      ../engine/source/interfaces/int17/i17lagm.F
-      !||    i17borne    ../engine/source/interfaces/int17/i17lagm.F
-      !||    i17norm     ../engine/source/interfaces/int17/i17lagm.F
-      !||    i17racine   ../engine/source/interfaces/int17/i17lagm.F
-      !||====================================================================
+!||====================================================================
+!||    i17mini     ../engine/source/interfaces/int17/i17lagm.F
+!||--- called by ------------------------------------------------------
+!||    i17lll      ../engine/source/interfaces/int17/i17lagm.F
+!||--- calls      -----------------------------------------------------
+!||    i17abc      ../engine/source/interfaces/int17/i17lagm.F
+!||    i17borne    ../engine/source/interfaces/int17/i17lagm.F
+!||    i17norm     ../engine/source/interfaces/int17/i17lagm.F
+!||    i17racine   ../engine/source/interfaces/int17/i17lagm.F
+!||====================================================================
       SUBROUTINE I17MINI(LLT   ,R_CS  ,S_CS  ,T_CS  ,RI_S  ,SI_S  ,
      2                   TI_S  ,NI_S  ,XXS   ,YYS   ,ZZS   ,XX    ,
      3                   YY    ,ZZ    ,R_CM  ,S_CM  ,T_CM  ,NX    ,
@@ -1242,12 +1242,12 @@ c
 c-----------------------------------------------------------------------
       RETURN
       END
-      !||====================================================================
-      !||    i17ni         ../engine/source/interfaces/int17/i17lagm.F
-      !||--- called by ------------------------------------------------------
-      !||    i17vit4       ../engine/source/interfaces/int17/i17lagm.F
-      !||    i17vit_pena   ../engine/source/interfaces/int17/i17for3.F
-      !||====================================================================
+!||====================================================================
+!||    i17ni         ../engine/source/interfaces/int17/i17lagm.F
+!||--- called by ------------------------------------------------------
+!||    i17vit4       ../engine/source/interfaces/int17/i17lagm.F
+!||    i17vit_pena   ../engine/source/interfaces/int17/i17for3.F
+!||====================================================================
       SUBROUTINE I17NI(LLT,R ,T ,NI    )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -1305,13 +1305,13 @@ C------------------------------------
 C-----------------------------------------------
       RETURN
       END
-      !||====================================================================
-      !||    i17racine       ../engine/source/interfaces/int17/i17lagm.F
-      !||--- called by ------------------------------------------------------
-      !||    i17borne        ../engine/source/interfaces/int17/i17lagm.F
-      !||    i17borne_pena   ../engine/source/interfaces/int17/i17for3.F
-      !||    i17mini         ../engine/source/interfaces/int17/i17lagm.F
-      !||====================================================================
+!||====================================================================
+!||    i17racine       ../engine/source/interfaces/int17/i17lagm.F
+!||--- called by ------------------------------------------------------
+!||    i17borne        ../engine/source/interfaces/int17/i17lagm.F
+!||    i17borne_pena   ../engine/source/interfaces/int17/i17for3.F
+!||    i17mini         ../engine/source/interfaces/int17/i17lagm.F
+!||====================================================================
       SUBROUTINE I17RACINE(LLT,A,B,C,R1,R2)
 C-----------------------------------------------
 C
@@ -1371,13 +1371,13 @@ c-----------------------------------------------------------------------
 c
       RETURN
       END
-      !||====================================================================
-      !||    i17borne    ../engine/source/interfaces/int17/i17lagm.F
-      !||--- called by ------------------------------------------------------
-      !||    i17mini     ../engine/source/interfaces/int17/i17lagm.F
-      !||--- calls      -----------------------------------------------------
-      !||    i17racine   ../engine/source/interfaces/int17/i17lagm.F
-      !||====================================================================
+!||====================================================================
+!||    i17borne    ../engine/source/interfaces/int17/i17lagm.F
+!||--- called by ------------------------------------------------------
+!||    i17mini     ../engine/source/interfaces/int17/i17lagm.F
+!||--- calls      -----------------------------------------------------
+!||    i17racine   ../engine/source/interfaces/int17/i17lagm.F
+!||====================================================================
       SUBROUTINE I17BORNE(LLT ,R_S ,A   ,B  ,C  ,ICONT,RS)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -1448,12 +1448,12 @@ C pas de recouvrement main/second
 c
       RETURN
       END
-      !||====================================================================
-      !||    i17abc         ../engine/source/interfaces/int17/i17lagm.F
-      !||--- called by ------------------------------------------------------
-      !||    i17mini        ../engine/source/interfaces/int17/i17lagm.F
-      !||    i17mini_pena   ../engine/source/interfaces/int17/i17for3.F
-      !||====================================================================
+!||====================================================================
+!||    i17abc         ../engine/source/interfaces/int17/i17lagm.F
+!||--- called by ------------------------------------------------------
+!||    i17mini        ../engine/source/interfaces/int17/i17lagm.F
+!||    i17mini_pena   ../engine/source/interfaces/int17/i17for3.F
+!||====================================================================
       SUBROUTINE I17ABC(LLT ,F   ,R   ,T   ,
      +                  B1  ,B2  ,B3  ,C1  ,C2  ,C3  )
 C-----------------------------------------------
@@ -1540,12 +1540,12 @@ c
 c
       RETURN
       END
-      !||====================================================================
-      !||    i17norm        ../engine/source/interfaces/int17/i17lagm.F
-      !||--- called by ------------------------------------------------------
-      !||    i17mini        ../engine/source/interfaces/int17/i17lagm.F
-      !||    i17mini_pena   ../engine/source/interfaces/int17/i17for3.F
-      !||====================================================================
+!||====================================================================
+!||    i17norm        ../engine/source/interfaces/int17/i17lagm.F
+!||--- called by ------------------------------------------------------
+!||    i17mini        ../engine/source/interfaces/int17/i17lagm.F
+!||    i17mini_pena   ../engine/source/interfaces/int17/i17for3.F
+!||====================================================================
       SUBROUTINE I17NORM(LLT ,RR  ,SS  ,TT    ,
      2                   NX  ,NY  ,NZ  ,XX    ,YY    ,ZZ    )
 C-----------------------------------------------

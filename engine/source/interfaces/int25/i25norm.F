@@ -21,16 +21,16 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 #define TO1D(i,j,k,s1,s2) i+(j-1)*s1+(k-1)*s1*s2
-      !||====================================================================
-      !||    i25tagn         ../engine/source/interfaces/int25/i25norm.F
-      !||--- called by ------------------------------------------------------
-      !||    i25main_norm    ../engine/source/interfaces/int25/i25main_norm.F
-      !||--- calls      -----------------------------------------------------
-      !||    my_barrier      ../engine/source/system/machine.F
-      !||--- uses       -----------------------------------------------------
-      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
-      !||    tri7box         ../engine/share/modules/tri7box.F
-      !||====================================================================
+!||====================================================================
+!||    i25tagn         ../engine/source/interfaces/int25/i25norm.F
+!||--- called by ------------------------------------------------------
+!||    i25main_norm    ../engine/source/interfaces/int25/i25main_norm.F
+!||--- calls      -----------------------------------------------------
+!||    my_barrier      ../engine/source/system/machine.F
+!||--- uses       -----------------------------------------------------
+!||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
+!||    tri7box         ../engine/share/modules/tri7box.F
+!||====================================================================
       SUBROUTINE I25TAGN (NI25    ,NIN     ,NRTM    ,NSN      ,NSNR    ,
      2                    JTASK   ,IAD_FRNOR ,FR_NOR ,IRTLM   ,MSEGTYP ,
      3                    I_STOK_GLO,I_STOK_RTLM,CAND_OPT_E,STFNS ,ACTNOR ,IRECT   ,
@@ -423,17 +423,17 @@ C
 C
       RETURN
       END
-      !||====================================================================
-      !||    i25normp        ../engine/source/interfaces/int25/i25norm.F
-      !||--- called by ------------------------------------------------------
-      !||    i25main_norm    ../engine/source/interfaces/int25/i25main_norm.F
-      !||--- calls      -----------------------------------------------------
-      !||    my_barrier      ../engine/source/system/machine.F
-      !||    spmd_exch_nor   ../engine/source/mpi/interfaces/spmd_exch_nor.F
-      !||--- uses       -----------------------------------------------------
-      !||    debug_mod       ../engine/share/modules/debug_mod.F
-      !||    mpi_commod      ../engine/share/modules/mpi_comm_mod.F
-      !||====================================================================
+!||====================================================================
+!||    i25normp        ../engine/source/interfaces/int25/i25norm.F
+!||--- called by ------------------------------------------------------
+!||    i25main_norm    ../engine/source/interfaces/int25/i25main_norm.F
+!||--- calls      -----------------------------------------------------
+!||    my_barrier      ../engine/source/system/machine.F
+!||    spmd_exch_nor   ../engine/source/mpi/interfaces/spmd_exch_nor.F
+!||--- uses       -----------------------------------------------------
+!||    debug_mod       ../engine/share/modules/debug_mod.F
+!||    mpi_commod      ../engine/share/modules/mpi_comm_mod.F
+!||====================================================================
       SUBROUTINE I25NORMP(NI25      ,NRTM  ,NRTM0   ,IRECT   ,X       ,
      .                    NOD_NORMAL,NMN   ,MSR     ,JTASK   ,STIFM, STFE,
      .                    ACTNOR  ,MSEGTYP ,TAGNOD  ,MVOISIN ,EVOISIN ,
@@ -1117,11 +1117,11 @@ CCCC #endif
       END
 
 
-      !||====================================================================
-      !||    i25assnp       ../engine/source/interfaces/int25/i25norm.F
-      !||--- called by ------------------------------------------------------
-      !||    i25main_norm   ../engine/source/interfaces/int25/i25main_norm.F
-      !||====================================================================
+!||====================================================================
+!||    i25assnp       ../engine/source/interfaces/int25/i25norm.F
+!||--- called by ------------------------------------------------------
+!||    i25main_norm   ../engine/source/interfaces/int25/i25main_norm.F
+!||====================================================================
       SUBROUTINE I25ASSNP(JTASK   ,NADMSR ,NOD_NORMAL,ADMSR ,ADSKYT  ,
      .                    IADNOR  ,ACTNOR ,FSKYT  )
 C-----------------------------------------------

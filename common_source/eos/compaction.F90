@@ -20,11 +20,11 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    compaction_mod   ../common_source/eos/compaction.F90
-      !||--- called by ------------------------------------------------------
-      !||    eosmain          ../common_source/eos/eosmain.F
-      !||====================================================================
+!||====================================================================
+!||    compaction_mod   ../common_source/eos/compaction.F90
+!||--- called by ------------------------------------------------------
+!||    eosmain          ../common_source/eos/eosmain.F
+!||====================================================================
       module compaction_mod
       contains
 ! ======================================================================================================================
@@ -52,15 +52,15 @@
 !! \details  COLLOCATED SCHEME
 !! \details     EOSMAIN / IFLG = 2 : SINGLE PASS FOR P[n+1] AND DERIVATIVES
 !----------------------------------------------------------------------------
-      !||====================================================================
-      !||    compaction      ../common_source/eos/compaction.F90
-      !||--- called by ------------------------------------------------------
-      !||    eosmain         ../common_source/eos/eosmain.F
-      !||--- uses       -----------------------------------------------------
-      !||    constant_mod    ../common_source/modules/constant_mod.F
-      !||    eos_param_mod   ../common_source/modules/mat_elem/eos_param_mod.F90
-      !||    precision_mod   ../common_source/modules/precision_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    compaction      ../common_source/eos/compaction.F90
+!||--- called by ------------------------------------------------------
+!||    eosmain         ../common_source/eos/eosmain.F
+!||--- uses       -----------------------------------------------------
+!||    constant_mod    ../common_source/modules/constant_mod.F
+!||    eos_param_mod   ../common_source/modules/mat_elem/eos_param_mod.F90
+!||    precision_mod   ../common_source/modules/precision_mod.F90
+!||====================================================================
       subroutine compaction(&
                             iflag , nel   , pm    , off  , eint , mu   , mu2 , &
                             dvol  , mat   , psh   , &

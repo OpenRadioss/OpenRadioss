@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    reaction_forces_check_for_requested_output   ../engine/source/output/reactions.F
-      !||--- called by ------------------------------------------------------
-      !||    resol                                        ../engine/source/engine/resol.F
-      !||--- uses       -----------------------------------------------------
-      !||    h3d_mod                                      ../engine/share/modules/h3d_mod.F
-      !||====================================================================
+!||====================================================================
+!||    reaction_forces_check_for_requested_output   ../engine/source/output/reactions.F
+!||--- called by ------------------------------------------------------
+!||    resol                                        ../engine/source/engine/resol.F
+!||--- uses       -----------------------------------------------------
+!||    h3d_mod                                      ../engine/share/modules/h3d_mod.F
+!||====================================================================
       SUBROUTINE REACTION_FORCES_CHECK_FOR_REQUESTED_OUTPUT(NPBY,H3D_DATA,COMPTREAC)
 C-----------------------------------------------
 C   D e s c r i p t i o n
@@ -114,11 +114,11 @@ C-----------------------------------------------
       RETURN
       END
 
-      !||====================================================================
-      !||    reaction_forces_1   ../engine/source/output/reactions.F
-      !||--- called by ------------------------------------------------------
-      !||    resol               ../engine/source/engine/resol.F
-      !||====================================================================
+!||====================================================================
+!||    reaction_forces_1   ../engine/source/output/reactions.F
+!||--- called by ------------------------------------------------------
+!||    resol               ../engine/source/engine/resol.F
+!||====================================================================
       SUBROUTINE REACTION_FORCES_1(NODFT ,NODLT ,A ,AR ,FREAC)
 C-----------------------------------------------
 C   D e s c r i p t i o n
@@ -190,11 +190,11 @@ C-----------------------------------------------
       RETURN
       END SUBROUTINE REACTION_FORCES_1
 
-      !||====================================================================
-      !||    reaction_forces_2   ../engine/source/output/reactions.F
-      !||--- called by ------------------------------------------------------
-      !||    resol               ../engine/source/engine/resol.F
-      !||====================================================================
+!||====================================================================
+!||    reaction_forces_2   ../engine/source/output/reactions.F
+!||--- called by ------------------------------------------------------
+!||    resol               ../engine/source/engine/resol.F
+!||====================================================================
       SUBROUTINE REACTION_FORCES_2(NODFT,NODLT,A,AR,MS,IN,FREAC,IFLAG )
 C-----------------------------------------------
 C   D e s c r i p t i o n
@@ -266,11 +266,11 @@ C-----------------------------------------------
       RETURN
       END SUBROUTINE REACTION_FORCES_2
 
-      !||====================================================================
-      !||    reaction_forces_3   ../engine/source/output/reactions.F
-      !||--- called by ------------------------------------------------------
-      !||    resol               ../engine/source/engine/resol.F
-      !||====================================================================
+!||====================================================================
+!||    reaction_forces_3   ../engine/source/output/reactions.F
+!||--- called by ------------------------------------------------------
+!||    resol               ../engine/source/engine/resol.F
+!||====================================================================
       SUBROUTINE REACTION_FORCES_3(NODFT,NODLT,A,AR,MS,IN,FREAC)
 C-----------------------------------------------
 C   D e s c r i p t i o n

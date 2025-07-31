@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    cholfact         ../engine/source/tools/lagmul/cholfact.F
-      !||--- called by ------------------------------------------------------
-      !||    lag_mult_sdp     ../engine/source/tools/lagmul/lag_mult_solv.F
-      !||    lag_mult_solv    ../engine/source/tools/lagmul/lag_mult_solv.F
-      !||    lag_mult_solvp   ../engine/source/tools/lagmul/lag_mult_solv.F
-      !||====================================================================
+!||====================================================================
+!||    cholfact         ../engine/source/tools/lagmul/cholfact.F
+!||--- called by ------------------------------------------------------
+!||    lag_mult_sdp     ../engine/source/tools/lagmul/lag_mult_solv.F
+!||    lag_mult_solv    ../engine/source/tools/lagmul/lag_mult_solv.F
+!||    lag_mult_solvp   ../engine/source/tools/lagmul/lag_mult_solv.F
+!||====================================================================
       INTEGER FUNCTION CHOLFACT(N,DIAG,H,IADH,JCIH,WCOL,IROW,JCOL)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -109,12 +109,12 @@ C-----------------------------------------------
       RETURN
       END
       
-      !||====================================================================
-      !||    prechol          ../engine/source/tools/lagmul/cholfact.F
-      !||--- called by ------------------------------------------------------
-      !||    lag_mult_solv    ../engine/source/tools/lagmul/lag_mult_solv.F
-      !||    lag_mult_solvp   ../engine/source/tools/lagmul/lag_mult_solv.F
-      !||====================================================================
+!||====================================================================
+!||    prechol          ../engine/source/tools/lagmul/cholfact.F
+!||--- called by ------------------------------------------------------
+!||    lag_mult_solv    ../engine/source/tools/lagmul/lag_mult_solv.F
+!||    lag_mult_solvp   ../engine/source/tools/lagmul/lag_mult_solv.F
+!||====================================================================
       SUBROUTINE PRECHOL(Z,D,L,R,NC,IADH,JCIH)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

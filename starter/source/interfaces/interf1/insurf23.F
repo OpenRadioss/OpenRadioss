@@ -20,16 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    insurf23     ../starter/source/interfaces/interf1/insurf23.F
-      !||--- called by ------------------------------------------------------
-      !||    lecins       ../starter/source/interfaces/interf1/lecins.F
-      !||    lecint       ../starter/source/interfaces/interf1/lecint.F
-      !||--- calls      -----------------------------------------------------
-      !||    count3       ../starter/source/interfaces/interf1/count3.F
-      !||--- uses       -----------------------------------------------------
-      !||    format_mod   ../starter/share/modules1/format_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    insurf23     ../starter/source/interfaces/interf1/insurf23.F
+!||--- called by ------------------------------------------------------
+!||    lecins       ../starter/source/interfaces/interf1/lecins.F
+!||    lecint       ../starter/source/interfaces/interf1/lecint.F
+!||--- calls      -----------------------------------------------------
+!||    count3       ../starter/source/interfaces/interf1/count3.F
+!||--- uses       -----------------------------------------------------
+!||    format_mod   ../starter/share/modules1/format_mod.F90
+!||====================================================================
       SUBROUTINE INSURF23(NRT       ,MSN   ,IR    ,IRECT ,NOINT  ,
      .                    SURF_NODES,ITAB  ,MSV   ,NRTNEW,X      ,
      .                    NTAG      )

@@ -20,28 +20,28 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    nintri                 ../starter/source/system/nintrr.F
-      !||--- called by ------------------------------------------------------
-      !||    ale_euler_init         ../starter/source/materials/ale/ale_euler_init.F
-      !||    fill_buffer_51         ../starter/source/materials/mat/mat051/fill_buffer_51.F
-      !||    fsdcod                 ../starter/source/system/fsdcod.F
-      !||    hm_preread_part        ../starter/source/model/assembling/hm_read_part.F
-      !||    hm_read_eref           ../starter/source/loads/reference_state/eref/hm_read_eref.F
-      !||    hm_read_inject1        ../starter/source/properties/injector/hm_read_inject1.F
-      !||    hm_read_inject2        ../starter/source/properties/injector/hm_read_inject2.F
-      !||    hm_read_part           ../starter/source/model/assembling/hm_read_part.F
-      !||    hm_read_retractor      ../starter/source/tools/seatbelts/hm_read_retractor.F
-      !||    hm_read_slipring       ../starter/source/tools/seatbelts/hm_read_slipring.F
-      !||    hm_read_thpart         ../starter/source/output/thpart/hm_read_thpart.F
-      !||    lecint                 ../starter/source/interfaces/interf1/lecint.F
-      !||    nbadigemesh            ../starter/source/elements/ige3d/nbadigemesh.F
-      !||    read_dfs_detcord       ../starter/source/initial_conditions/detonation/read_dfs_detcord.F
-      !||    read_dfs_detline       ../starter/source/initial_conditions/detonation/read_dfs_detline.F
-      !||    read_dfs_detplan       ../starter/source/initial_conditions/detonation/read_dfs_detplan.F
-      !||    read_dfs_detpoint      ../starter/source/initial_conditions/detonation/read_dfs_detpoint.F
-      !||    read_dfs_wave_shaper   ../starter/source/initial_conditions/detonation/read_dfs_wave_shaper.F
-      !||====================================================================
+!||====================================================================
+!||    nintri                 ../starter/source/system/nintrr.F
+!||--- called by ------------------------------------------------------
+!||    ale_euler_init         ../starter/source/materials/ale/ale_euler_init.F
+!||    fill_buffer_51         ../starter/source/materials/mat/mat051/fill_buffer_51.F
+!||    fsdcod                 ../starter/source/system/fsdcod.F
+!||    hm_preread_part        ../starter/source/model/assembling/hm_read_part.F
+!||    hm_read_eref           ../starter/source/loads/reference_state/eref/hm_read_eref.F
+!||    hm_read_inject1        ../starter/source/properties/injector/hm_read_inject1.F
+!||    hm_read_inject2        ../starter/source/properties/injector/hm_read_inject2.F
+!||    hm_read_part           ../starter/source/model/assembling/hm_read_part.F
+!||    hm_read_retractor      ../starter/source/tools/seatbelts/hm_read_retractor.F
+!||    hm_read_slipring       ../starter/source/tools/seatbelts/hm_read_slipring.F
+!||    hm_read_thpart         ../starter/source/output/thpart/hm_read_thpart.F
+!||    lecint                 ../starter/source/interfaces/interf1/lecint.F
+!||    nbadigemesh            ../starter/source/elements/ige3d/nbadigemesh.F
+!||    read_dfs_detcord       ../starter/source/initial_conditions/detonation/read_dfs_detcord.F
+!||    read_dfs_detline       ../starter/source/initial_conditions/detonation/read_dfs_detline.F
+!||    read_dfs_detplan       ../starter/source/initial_conditions/detonation/read_dfs_detplan.F
+!||    read_dfs_detpoint      ../starter/source/initial_conditions/detonation/read_dfs_detpoint.F
+!||    read_dfs_wave_shaper   ../starter/source/initial_conditions/detonation/read_dfs_wave_shaper.F
+!||====================================================================
       INTEGER FUNCTION NINTRI(IEXT,ANTN,M,N,M1)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -66,15 +66,15 @@ C-----------------------------------------------
       RETURN
       END
 C
-      !||====================================================================
-      !||    nintlst                ../starter/source/system/nintrr.F
-      !||--- called by ------------------------------------------------------
-      !||    hm_lecgre              ../starter/source/groups/hm_lecgre.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg                 ../starter/source/output/message/message.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod            ../starter/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    nintlst                ../starter/source/system/nintrr.F
+!||--- called by ------------------------------------------------------
+!||    hm_lecgre              ../starter/source/groups/hm_lecgre.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                 ../starter/source/output/message/message.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod            ../starter/share/message_module/message_mod.F
+!||====================================================================
       INTEGER FUNCTION NINTLST (LIST,NLIST,IX,NIX,NUMEL,MESS,
      .                          IX1,IX2,INDEX,KK,
      .                          TYPE,ID,TITR)
@@ -164,15 +164,15 @@ C
         RETURN
         END
 C
-      !||====================================================================
-      !||    nintlst2       ../starter/source/system/nintrr.F
-      !||--- called by ------------------------------------------------------
-      !||    state_admesh   ../starter/source/model/remesh/state_admesh.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg         ../starter/source/output/message/message.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod    ../starter/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    nintlst2       ../starter/source/system/nintrr.F
+!||--- called by ------------------------------------------------------
+!||    state_admesh   ../starter/source/model/remesh/state_admesh.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg         ../starter/source/output/message/message.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod    ../starter/share/message_module/message_mod.F
+!||====================================================================
       INTEGER FUNCTION NINTLST2 (LIST,NLIST,INDEXL,IX,NIX,NUMEL,
      .                           MESS,IX1,IX2,INDEX,KK)
       USE MESSAGE_MOD
@@ -245,82 +245,82 @@ C
         RETURN
         END
 C
-      !||====================================================================
-      !||    ngr2usr                       ../starter/source/system/nintrr.F
-      !||--- called by ------------------------------------------------------
-      !||    hm_preread_bcscyc             ../starter/source/constraints/general/bcs/lecbcscyc.F
-      !||    hm_preread_load_centri        ../starter/source/loads/general/load_centri/hm_preread_load_centri.F
-      !||    hm_preread_pblast             ../starter/source/loads/pblast/hm_preread_pblast.F
-      !||    hm_read_ale_link              ../starter/source/constraints/ale/hm_read_ale_link_vel.F
-      !||    hm_read_alebcs                ../starter/source/constraints/ale/hm_read_alebcs.F
-      !||    hm_read_bcs                   ../starter/source/constraints/general/bcs/hm_read_bcs.F
-      !||    hm_read_damp                  ../starter/source/general_controls/damping/hm_read_damp.F
-      !||    hm_read_ebcs_fluxout          ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_fluxout.F
-      !||    hm_read_ebcs_gradp0           ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_gradp0.F
-      !||    hm_read_ebcs_inip             ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_inip.F
-      !||    hm_read_ebcs_iniv             ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_iniv.F
-      !||    hm_read_ebcs_inlet            ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_inlet.F
-      !||    hm_read_ebcs_monvol           ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_monvol.F
-      !||    hm_read_ebcs_normv            ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_normv.F
-      !||    hm_read_ebcs_nrf              ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_nrf.F
-      !||    hm_read_ebcs_pres             ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_pres.F
-      !||    hm_read_ebcs_propergol        ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_propergol.F90
-      !||    hm_read_ebcs_valvin           ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_valvin.F
-      !||    hm_read_ebcs_valvout          ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_valvout.F
-      !||    hm_read_ebcs_vel              ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_vel.F
-      !||    hm_read_inter_hertz_type17    ../starter/source/interfaces/int17/hm_read_inter_hertz_type17.F
-      !||    hm_read_inter_lagdt_type07    ../starter/source/interfaces/int07/hm_read_inter_lagdt_type07.F
-      !||    hm_read_inter_lagmul_type02   ../starter/source/interfaces/int02/hm_read_inter_lagmul_type02.F
-      !||    hm_read_inter_lagmul_type07   ../starter/source/interfaces/int07/hm_read_inter_lagmul_type07.F
-      !||    hm_read_inter_lagmul_type16   ../starter/source/interfaces/int16/hm_read_inter_lagmul_type16.F
-      !||    hm_read_inter_lagmul_type17   ../starter/source/interfaces/int17/hm_read_inter_lagmul_type17.F
-      !||    hm_read_inter_type01          ../starter/source/interfaces/int01/hm_read_inter_type01.F
-      !||    hm_read_inter_type02          ../starter/source/interfaces/int02/hm_read_inter_type02.F
-      !||    hm_read_inter_type03          ../starter/source/interfaces/int03/hm_read_inter_type03.F
-      !||    hm_read_inter_type05          ../starter/source/interfaces/int05/hm_read_inter_type05.F
-      !||    hm_read_inter_type06          ../starter/source/interfaces/int06/hm_read_inter_type06.F
-      !||    hm_read_inter_type07          ../starter/source/interfaces/int07/hm_read_inter_type07.F
-      !||    hm_read_inter_type08          ../starter/source/interfaces/int08/hm_read_inter_type08.F
-      !||    hm_read_inter_type09          ../starter/source/interfaces/int09/hm_read_inter_type09.F
-      !||    hm_read_inter_type10          ../starter/source/interfaces/int10/hm_read_inter_type10.F
-      !||    hm_read_inter_type11          ../starter/source/interfaces/int11/hm_read_inter_type11.F
-      !||    hm_read_inter_type12          ../starter/source/interfaces/int12/hm_read_inter_type12.F
-      !||    hm_read_inter_type14          ../starter/source/interfaces/int14/hm_read_inter_type14.F
-      !||    hm_read_inter_type15          ../starter/source/interfaces/int15/hm_read_inter_type15.F
-      !||    hm_read_inter_type18          ../starter/source/interfaces/int18/hm_read_inter_type18.F
-      !||    hm_read_inter_type20          ../starter/source/interfaces/int20/hm_read_inter_type20.F
-      !||    hm_read_inter_type21          ../starter/source/interfaces/int21/hm_read_inter_type21.F
-      !||    hm_read_inter_type22          ../starter/source/interfaces/int22/hm_read_inter_type22.F
-      !||    hm_read_inter_type23          ../starter/source/interfaces/int23/hm_read_inter_type23.F
-      !||    hm_read_inter_type24          ../starter/source/interfaces/int24/hm_read_inter_type24.F
-      !||    hm_read_inter_type25          ../starter/source/interfaces/int25/hm_read_inter_type25.F
-      !||    hm_read_intsub                ../starter/source/output/subinterface/hm_read_intsub.F
-      !||    hm_read_link                  ../starter/source/constraints/rigidlink/hm_read_rlink.F
-      !||    hm_read_merge_node            ../starter/source/elements/reader/hm_read_merge_node.F
-      !||    hm_read_nbcs                  ../starter/source/constraints/general/bcs/hm_read_nbcs.F
-      !||    hm_read_pblast                ../starter/source/loads/pblast/hm_read_pblast.F
-      !||    hm_read_pcyl                  ../starter/source/loads/general/load_pcyl/hm_read_pcyl.F
-      !||    hm_read_rand                  ../starter/source/general_controls/computation/hm_read_rand.F
-      !||    hm_read_rbody                 ../starter/source/constraints/general/rbody/hm_read_rbody.F
-      !||    hm_read_rwall_cyl             ../starter/source/constraints/general/rwall/hm_read_rwall_cyl.F
-      !||    hm_read_rwall_lagmul          ../starter/source/constraints/general/rwall/hm_read_rwall_lagmul.F
-      !||    hm_read_rwall_paral           ../starter/source/constraints/general/rwall/hm_read_rwall_paral.F
-      !||    hm_read_rwall_plane           ../starter/source/constraints/general/rwall/hm_read_rwall_plane.F
-      !||    hm_read_rwall_spher           ../starter/source/constraints/general/rwall/hm_read_rwall_spher.F
-      !||    hm_read_rwall_therm           ../starter/source/constraints/general/rwall/hm_read_rwall_therm.F
-      !||    hm_read_slipring              ../starter/source/tools/seatbelts/hm_read_slipring.F
-      !||    hm_read_spcnd                 ../starter/source/constraints/sph/hm_read_spcnd.F
-      !||    lectrans                      ../starter/source/model/transformation/lectrans.F
-      !||    lectranssub                   ../starter/source/model/submodel/lectranssub.F
-      !||    printbcs                      ../starter/source/constraints/general/bcs/printbcs.F
-      !||    setrb2on                      ../starter/source/constraints/general/rbe2/hm_read_rbe2.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg                        ../starter/source/output/message/message.F
-      !||    hm_get_current_option         ../starter/source/devtools/hm_reader/hm_get_current_option.F
-      !||--- uses       -----------------------------------------------------
-      !||    hm_current_option_mod         ../starter/share/modules1/hm_current_option_mod.F
-      !||    message_mod                   ../starter/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    ngr2usr                       ../starter/source/system/nintrr.F
+!||--- called by ------------------------------------------------------
+!||    hm_preread_bcscyc             ../starter/source/constraints/general/bcs/lecbcscyc.F
+!||    hm_preread_load_centri        ../starter/source/loads/general/load_centri/hm_preread_load_centri.F
+!||    hm_preread_pblast             ../starter/source/loads/pblast/hm_preread_pblast.F
+!||    hm_read_ale_link              ../starter/source/constraints/ale/hm_read_ale_link_vel.F
+!||    hm_read_alebcs                ../starter/source/constraints/ale/hm_read_alebcs.F
+!||    hm_read_bcs                   ../starter/source/constraints/general/bcs/hm_read_bcs.F
+!||    hm_read_damp                  ../starter/source/general_controls/damping/hm_read_damp.F
+!||    hm_read_ebcs_fluxout          ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_fluxout.F
+!||    hm_read_ebcs_gradp0           ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_gradp0.F
+!||    hm_read_ebcs_inip             ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_inip.F
+!||    hm_read_ebcs_iniv             ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_iniv.F
+!||    hm_read_ebcs_inlet            ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_inlet.F
+!||    hm_read_ebcs_monvol           ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_monvol.F
+!||    hm_read_ebcs_normv            ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_normv.F
+!||    hm_read_ebcs_nrf              ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_nrf.F
+!||    hm_read_ebcs_pres             ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_pres.F
+!||    hm_read_ebcs_propergol        ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_propergol.F90
+!||    hm_read_ebcs_valvin           ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_valvin.F
+!||    hm_read_ebcs_valvout          ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_valvout.F
+!||    hm_read_ebcs_vel              ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_vel.F
+!||    hm_read_inter_hertz_type17    ../starter/source/interfaces/int17/hm_read_inter_hertz_type17.F
+!||    hm_read_inter_lagdt_type07    ../starter/source/interfaces/int07/hm_read_inter_lagdt_type07.F
+!||    hm_read_inter_lagmul_type02   ../starter/source/interfaces/int02/hm_read_inter_lagmul_type02.F
+!||    hm_read_inter_lagmul_type07   ../starter/source/interfaces/int07/hm_read_inter_lagmul_type07.F
+!||    hm_read_inter_lagmul_type16   ../starter/source/interfaces/int16/hm_read_inter_lagmul_type16.F
+!||    hm_read_inter_lagmul_type17   ../starter/source/interfaces/int17/hm_read_inter_lagmul_type17.F
+!||    hm_read_inter_type01          ../starter/source/interfaces/int01/hm_read_inter_type01.F
+!||    hm_read_inter_type02          ../starter/source/interfaces/int02/hm_read_inter_type02.F
+!||    hm_read_inter_type03          ../starter/source/interfaces/int03/hm_read_inter_type03.F
+!||    hm_read_inter_type05          ../starter/source/interfaces/int05/hm_read_inter_type05.F
+!||    hm_read_inter_type06          ../starter/source/interfaces/int06/hm_read_inter_type06.F
+!||    hm_read_inter_type07          ../starter/source/interfaces/int07/hm_read_inter_type07.F
+!||    hm_read_inter_type08          ../starter/source/interfaces/int08/hm_read_inter_type08.F
+!||    hm_read_inter_type09          ../starter/source/interfaces/int09/hm_read_inter_type09.F
+!||    hm_read_inter_type10          ../starter/source/interfaces/int10/hm_read_inter_type10.F
+!||    hm_read_inter_type11          ../starter/source/interfaces/int11/hm_read_inter_type11.F
+!||    hm_read_inter_type12          ../starter/source/interfaces/int12/hm_read_inter_type12.F
+!||    hm_read_inter_type14          ../starter/source/interfaces/int14/hm_read_inter_type14.F
+!||    hm_read_inter_type15          ../starter/source/interfaces/int15/hm_read_inter_type15.F
+!||    hm_read_inter_type18          ../starter/source/interfaces/int18/hm_read_inter_type18.F
+!||    hm_read_inter_type20          ../starter/source/interfaces/int20/hm_read_inter_type20.F
+!||    hm_read_inter_type21          ../starter/source/interfaces/int21/hm_read_inter_type21.F
+!||    hm_read_inter_type22          ../starter/source/interfaces/int22/hm_read_inter_type22.F
+!||    hm_read_inter_type23          ../starter/source/interfaces/int23/hm_read_inter_type23.F
+!||    hm_read_inter_type24          ../starter/source/interfaces/int24/hm_read_inter_type24.F
+!||    hm_read_inter_type25          ../starter/source/interfaces/int25/hm_read_inter_type25.F
+!||    hm_read_intsub                ../starter/source/output/subinterface/hm_read_intsub.F
+!||    hm_read_link                  ../starter/source/constraints/rigidlink/hm_read_rlink.F
+!||    hm_read_merge_node            ../starter/source/elements/reader/hm_read_merge_node.F
+!||    hm_read_nbcs                  ../starter/source/constraints/general/bcs/hm_read_nbcs.F
+!||    hm_read_pblast                ../starter/source/loads/pblast/hm_read_pblast.F
+!||    hm_read_pcyl                  ../starter/source/loads/general/load_pcyl/hm_read_pcyl.F
+!||    hm_read_rand                  ../starter/source/general_controls/computation/hm_read_rand.F
+!||    hm_read_rbody                 ../starter/source/constraints/general/rbody/hm_read_rbody.F
+!||    hm_read_rwall_cyl             ../starter/source/constraints/general/rwall/hm_read_rwall_cyl.F
+!||    hm_read_rwall_lagmul          ../starter/source/constraints/general/rwall/hm_read_rwall_lagmul.F
+!||    hm_read_rwall_paral           ../starter/source/constraints/general/rwall/hm_read_rwall_paral.F
+!||    hm_read_rwall_plane           ../starter/source/constraints/general/rwall/hm_read_rwall_plane.F
+!||    hm_read_rwall_spher           ../starter/source/constraints/general/rwall/hm_read_rwall_spher.F
+!||    hm_read_rwall_therm           ../starter/source/constraints/general/rwall/hm_read_rwall_therm.F
+!||    hm_read_slipring              ../starter/source/tools/seatbelts/hm_read_slipring.F
+!||    hm_read_spcnd                 ../starter/source/constraints/sph/hm_read_spcnd.F
+!||    lectrans                      ../starter/source/model/transformation/lectrans.F
+!||    lectranssub                   ../starter/source/model/submodel/lectranssub.F
+!||    printbcs                      ../starter/source/constraints/general/bcs/printbcs.F
+!||    setrb2on                      ../starter/source/constraints/general/rbe2/hm_read_rbe2.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                        ../starter/source/output/message/message.F
+!||    hm_get_current_option         ../starter/source/devtools/hm_reader/hm_get_current_option.F
+!||--- uses       -----------------------------------------------------
+!||    hm_current_option_mod         ../starter/share/modules1/hm_current_option_mod.F
+!||    message_mod                   ../starter/share/message_module/message_mod.F
+!||====================================================================
       INTEGER FUNCTION NGR2USR(IU,IGR,NGR)
 C-----------------------------------------------
 C   M o d u l e s
@@ -379,30 +379,30 @@ C-----------------------------------------------
       RETURN
       END
 C
-      !||====================================================================
-      !||    ngr2usrn                 ../starter/source/system/nintrr.F
-      !||--- called by ------------------------------------------------------
-      !||    fail_windshield_init     ../starter/source/materials/fail/windshield_alter/fail_windshield_init.F
-      !||    hm_pre_read_link         ../starter/source/constraints/rigidlink/hm_pre_read_rlink.F
-      !||    hm_preread_cload         ../starter/source/loads/general/cload/hm_preread_cload.F
-      !||    hm_preread_convec        ../starter/source/loads/thermic/hm_preread_convec.F
-      !||    hm_preread_grav          ../starter/source/loads/general/grav/hm_preread_grav.F
-      !||    hm_preread_impacc        ../starter/source/constraints/general/impvel/hm_preread_impacc.F
-      !||    hm_preread_impdisp       ../starter/source/constraints/general/impvel/hm_preread_impdisp.F
-      !||    hm_preread_impflux       ../starter/source/constraints/thermic/hm_preread_impflux.F
-      !||    hm_preread_imptemp       ../starter/source/constraints/thermic/hm_preread_imptemp.F
-      !||    hm_preread_impvel        ../starter/source/constraints/general/impvel/hm_preread_impvel.F
-      !||    hm_preread_load_centri   ../starter/source/loads/general/load_centri/hm_preread_load_centri.F
-      !||    hm_preread_pload         ../starter/source/loads/general/pload/hm_preread_pload.F
-      !||    hm_preread_radiation     ../starter/source/loads/thermic/hm_preread_radiation.F
-      !||    hm_preread_rbe2          ../starter/source/constraints/general/rbe2/hm_read_rbe2.F
-      !||    hm_preread_xelem         ../starter/source/elements/reader/hm_preread_xelem.F
-      !||    prelecdet                ../starter/source/initial_conditions/detonation/prelecdet.F
-      !||    random_walk_dmg          ../starter/source/materials/fail/fractal/random_walk_dmg.F90
-      !||    setrb2on                 ../starter/source/constraints/general/rbe2/hm_read_rbe2.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod              ../starter/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    ngr2usrn                 ../starter/source/system/nintrr.F
+!||--- called by ------------------------------------------------------
+!||    fail_windshield_init     ../starter/source/materials/fail/windshield_alter/fail_windshield_init.F
+!||    hm_pre_read_link         ../starter/source/constraints/rigidlink/hm_pre_read_rlink.F
+!||    hm_preread_cload         ../starter/source/loads/general/cload/hm_preread_cload.F
+!||    hm_preread_convec        ../starter/source/loads/thermic/hm_preread_convec.F
+!||    hm_preread_grav          ../starter/source/loads/general/grav/hm_preread_grav.F
+!||    hm_preread_impacc        ../starter/source/constraints/general/impvel/hm_preread_impacc.F
+!||    hm_preread_impdisp       ../starter/source/constraints/general/impvel/hm_preread_impdisp.F
+!||    hm_preread_impflux       ../starter/source/constraints/thermic/hm_preread_impflux.F
+!||    hm_preread_imptemp       ../starter/source/constraints/thermic/hm_preread_imptemp.F
+!||    hm_preread_impvel        ../starter/source/constraints/general/impvel/hm_preread_impvel.F
+!||    hm_preread_load_centri   ../starter/source/loads/general/load_centri/hm_preread_load_centri.F
+!||    hm_preread_pload         ../starter/source/loads/general/pload/hm_preread_pload.F
+!||    hm_preread_radiation     ../starter/source/loads/thermic/hm_preread_radiation.F
+!||    hm_preread_rbe2          ../starter/source/constraints/general/rbe2/hm_read_rbe2.F
+!||    hm_preread_xelem         ../starter/source/elements/reader/hm_preread_xelem.F
+!||    prelecdet                ../starter/source/initial_conditions/detonation/prelecdet.F
+!||    random_walk_dmg          ../starter/source/materials/fail/fractal/random_walk_dmg.F90
+!||    setrb2on                 ../starter/source/constraints/general/rbe2/hm_read_rbe2.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod              ../starter/share/message_module/message_mod.F
+!||====================================================================
       INTEGER FUNCTION NGR2USRN(IU,IGRNOD,NGRNOD,NUM)
 C-----------------------------------------------
 C   M o d u l e s
@@ -441,10 +441,10 @@ C-----------
       RETURN
       END
 C
-      !||====================================================================
-      !||    grsize         ../starter/source/system/nintrr.F
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    grsize         ../starter/source/system/nintrr.F
+!||--- uses       -----------------------------------------------------
+!||====================================================================
       INTEGER FUNCTION GRSIZE(IGU,IGRNOD,GRLEN)
 C-----------------------------------------------
 C   M o d u l e s
@@ -482,17 +482,17 @@ C-----------------------------------------------
 C-----------
       RETURN
       END
-      !||====================================================================
-      !||    grsizen                ../starter/source/system/nintrr.F
-      !||--- called by ------------------------------------------------------
-      !||    hm_prelecjoi           ../starter/source/constraints/general/cyl_joint/hm_prelecjoi.F
-      !||    hm_preread_merge       ../starter/source/constraints/general/merge/hm_preread_merge.F
-      !||    hm_preread_rbody       ../starter/source/constraints/general/rbody/hm_preread_rbody.F
-      !||    prelecsec              ../starter/source/tools/sect/prelecsec.F
-      !||    prelecsec4bolt         ../starter/source/tools/sect/prelecsec4bolt.F
-      !||    preread_rbody_lagmul   ../starter/source/constraints/general/rbody/preread_rbody_lagmul.F
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    grsizen                ../starter/source/system/nintrr.F
+!||--- called by ------------------------------------------------------
+!||    hm_prelecjoi           ../starter/source/constraints/general/cyl_joint/hm_prelecjoi.F
+!||    hm_preread_merge       ../starter/source/constraints/general/merge/hm_preread_merge.F
+!||    hm_preread_rbody       ../starter/source/constraints/general/rbody/hm_preread_rbody.F
+!||    prelecsec              ../starter/source/tools/sect/prelecsec.F
+!||    prelecsec4bolt         ../starter/source/tools/sect/prelecsec4bolt.F
+!||    preread_rbody_lagmul   ../starter/source/constraints/general/rbody/preread_rbody_lagmul.F
+!||--- uses       -----------------------------------------------------
+!||====================================================================
       INTEGER FUNCTION GRSIZEN(IGU,IGRNOD,GRLEN)
 C-----------------------------------------------
 C   M o d u l e s
@@ -526,14 +526,14 @@ C-----------------------------------------------
 C-----------
       RETURN
       END
-      !||====================================================================
-      !||    grsize_ele       ../starter/source/system/nintrr.F
-      !||--- called by ------------------------------------------------------
-      !||    lecsec42         ../starter/source/tools/sect/hm_read_sect.F
-      !||    prelecsec        ../starter/source/tools/sect/prelecsec.F
-      !||    prelecsec4bolt   ../starter/source/tools/sect/prelecsec4bolt.F
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    grsize_ele       ../starter/source/system/nintrr.F
+!||--- called by ------------------------------------------------------
+!||    lecsec42         ../starter/source/tools/sect/hm_read_sect.F
+!||    prelecsec        ../starter/source/tools/sect/prelecsec.F
+!||    prelecsec4bolt   ../starter/source/tools/sect/prelecsec4bolt.F
+!||--- uses       -----------------------------------------------------
+!||====================================================================
       INTEGER FUNCTION GRSIZE_ELE(IGU,IGRELEM,NGRELEM)
 C-----------------------------------------------
 C   M o d u l e s
@@ -567,13 +567,13 @@ C-----------------------------------------------
 C-----------
       RETURN
       END
-      !||====================================================================
-      !||    grsize_ele_trans   ../starter/source/system/nintrr.F
-      !||--- called by ------------------------------------------------------
-      !||    lecsec42           ../starter/source/tools/sect/hm_read_sect.F
-      !||    prelecsec          ../starter/source/tools/sect/prelecsec.F
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    grsize_ele_trans   ../starter/source/system/nintrr.F
+!||--- called by ------------------------------------------------------
+!||    lecsec42           ../starter/source/tools/sect/hm_read_sect.F
+!||    prelecsec          ../starter/source/tools/sect/prelecsec.F
+!||--- uses       -----------------------------------------------------
+!||====================================================================
       INTEGER FUNCTION GRSIZE_ELE_TRANS(IGU,IGRELEM,NGRELEM,SEATBELT_SHELL_TO_SPRING)
 C-----------------------------------------------
 C   M o d u l e s
@@ -616,12 +616,12 @@ C-----------------------------------------------
 C-----------
       RETURN
       END
-      !||====================================================================
-      !||    sortgroup   ../starter/source/system/nintrr.F
-      !||--- called by ------------------------------------------------------
-      !||    lectur      ../starter/source/starter/lectur.F
-      !||--- calls      -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    sortgroup   ../starter/source/system/nintrr.F
+!||--- called by ------------------------------------------------------
+!||    lectur      ../starter/source/starter/lectur.F
+!||--- calls      -----------------------------------------------------
+!||====================================================================
       SUBROUTINE SORTGROUP(
      1 IXS_S ,IXS_S_IND,IXQ_S,IXQ_S_IND,IXC_S,IXC_S_IND,
      2 IXT_S ,IXT_S_IND,IXP_S,IXP_S_IND,IXR_S,IXR_S_IND,
@@ -733,11 +733,11 @@ C-----------------------
         RETURN
         END
 
-      !||====================================================================
-      !||    user2sys   ../starter/source/system/nintrr.F
-      !||--- called by ------------------------------------------------------
-      !||    nintlstn   ../starter/source/system/nintrr.F
-      !||====================================================================
+!||====================================================================
+!||    user2sys   ../starter/source/system/nintrr.F
+!||--- called by ------------------------------------------------------
+!||    nintlstn   ../starter/source/system/nintrr.F
+!||====================================================================
       INTEGER FUNCTION USER2SYS(IU,IXX_S,NIX,CUR,LAST)
 C      FONCTION DONNE N0 SYSTEME D'UNE LISTE D'ELEMENTS USER OR ZERO IF NOT FOUND
 C-----------------------------------------------
@@ -786,16 +786,16 @@ C     >CAS IU>TABM
 
 C
         
-      !||====================================================================
-      !||    nintlstn               ../starter/source/system/nintrr.F
-      !||--- called by ------------------------------------------------------
-      !||    hm_lecgre              ../starter/source/groups/hm_lecgre.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg                 ../starter/source/output/message/message.F
-      !||    user2sys               ../starter/source/system/nintrr.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod            ../starter/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    nintlstn               ../starter/source/system/nintrr.F
+!||--- called by ------------------------------------------------------
+!||    hm_lecgre              ../starter/source/groups/hm_lecgre.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                 ../starter/source/output/message/message.F
+!||    user2sys               ../starter/source/system/nintrr.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod            ../starter/share/message_module/message_mod.F
+!||====================================================================
       INTEGER FUNCTION NINTLSTN(LIST,NLIST,IXX_S,NIX,NUMEL,MESS,
      .                          IXX_S_IND,INDEX,TYPE,ID,TITR)
       USE MESSAGE_MOD
@@ -862,12 +862,12 @@ C
         RETURN
         END
 C
-      !||====================================================================
-      !||    nintrigr         ../starter/source/system/nintrr.F
-      !||--- called by ------------------------------------------------------
-      !||    hm_read_thpart   ../starter/source/output/thpart/hm_read_thpart.F
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    nintrigr         ../starter/source/system/nintrr.F
+!||--- called by ------------------------------------------------------
+!||    hm_read_thpart   ../starter/source/output/thpart/hm_read_thpart.F
+!||--- uses       -----------------------------------------------------
+!||====================================================================
       INTEGER FUNCTION NINTRIGR(IEXT,IGR,NGR)
 C-----------------------------------------------
 C   M o d u l e s

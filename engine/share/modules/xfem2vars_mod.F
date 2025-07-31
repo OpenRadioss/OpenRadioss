@@ -20,15 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    xfem2vars_mod       ../engine/share/modules/xfem2vars_mod.F
-      !||--- called by ------------------------------------------------------
-      !||    crkxfem_rrestanim   ../engine/source/output/restart/rdresb.F
-      !||    resol               ../engine/source/engine/resol.F
-      !||    wrrestp             ../engine/source/output/restart/wrrestp.F
-      !||--- uses       -----------------------------------------------------
-      !||    crackxfem_mod       ../engine/share/modules/crackxfem_mod.F
-      !||====================================================================
+!||====================================================================
+!||    xfem2vars_mod       ../engine/share/modules/xfem2vars_mod.F
+!||--- called by ------------------------------------------------------
+!||    crkxfem_rrestanim   ../engine/source/output/restart/rdresb.F
+!||    resol               ../engine/source/engine/resol.F
+!||    wrrestp             ../engine/source/output/restart/wrrestp.F
+!||--- uses       -----------------------------------------------------
+!||    crackxfem_mod       ../engine/share/modules/crackxfem_mod.F
+!||====================================================================
       MODULE XFEM2VARS_MOD
 C-----------------------------------------------
 c     Global XFEM variables and structures declarations 

@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    i11dstk3       ../engine/source/interfaces/int11/i11dstk3.F
-      !||--- called by ------------------------------------------------------
-      !||    i11fku3        ../engine/source/interfaces/int11/i11ke3.F
-      !||    i11ke3         ../engine/source/interfaces/int11/i11ke3.F
-      !||    imp_i11mainf   ../engine/source/interfaces/int11/i11ke3.F
-      !||====================================================================
+!||====================================================================
+!||    i11dstk3       ../engine/source/interfaces/int11/i11dstk3.F
+!||--- called by ------------------------------------------------------
+!||    i11fku3        ../engine/source/interfaces/int11/i11ke3.F
+!||    i11ke3         ../engine/source/interfaces/int11/i11ke3.F
+!||    imp_i11mainf   ../engine/source/interfaces/int11/i11ke3.F
+!||====================================================================
       SUBROUTINE I11DSTK3(
      1   JLT    ,CAND_S,CAND_M,H1S   ,H2S   ,
      2   H1M    ,H2M   ,NX    ,NY    ,NZ    ,
@@ -176,11 +176,11 @@ C
 C
       RETURN
       END
-      !||====================================================================
-      !||    i11dstr3       ../engine/source/interfaces/int11/i11dstk3.F
-      !||--- called by ------------------------------------------------------
-      !||    imp_i11mainf   ../engine/source/interfaces/int11/i11ke3.F
-      !||====================================================================
+!||====================================================================
+!||    i11dstr3       ../engine/source/interfaces/int11/i11dstk3.F
+!||--- called by ------------------------------------------------------
+!||    imp_i11mainf   ../engine/source/interfaces/int11/i11ke3.F
+!||====================================================================
       SUBROUTINE I11DSTR3(
      1                    JLT    ,CAND_S,CAND_M,STIF   ,GAPV   ,
      2                     NX    ,NY    ,NZ    ,JLT_NEW)

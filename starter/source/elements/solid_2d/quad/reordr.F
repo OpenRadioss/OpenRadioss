@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    reordr         ../starter/source/elements/solid_2d/quad/reordr.F
-      !||--- called by ------------------------------------------------------
-      !||    lce16q3        ../starter/source/elements/solid_2d/quad/lce16q.F
-      !||    lce16s3        ../starter/source/elements/reader/hm_read_solid.F
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    reordr         ../starter/source/elements/solid_2d/quad/reordr.F
+!||--- called by ------------------------------------------------------
+!||    lce16q3        ../starter/source/elements/solid_2d/quad/lce16q.F
+!||    lce16s3        ../starter/source/elements/reader/hm_read_solid.F
+!||--- uses       -----------------------------------------------------
+!||====================================================================
       SUBROUTINE REORDR(IX, NX, NEL, PM, IPOINT, IPARTS, NGRELE, IGRELEM, NUMMAT)
 C-----------------------------------------------
 C   M o d u l e s

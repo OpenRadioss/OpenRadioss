@@ -20,19 +20,19 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    merge_node            ../starter/source/elements/nodes/merge_node.F
-      !||--- called by ------------------------------------------------------
-      !||    lectur                ../starter/source/starter/lectur.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg                ../starter/source/output/message/message.F
-      !||    merge_bucket_search   ../starter/source/elements/nodes/merge_bucket_search.F
-      !||    usrtos                ../starter/source/system/sysfus.F
-      !||    usrtosc               ../starter/source/model/submodel/merge.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod           ../starter/share/message_module/message_mod.F
-      !||    nod2el_mod            ../starter/share/modules1/nod2el_mod.F
-      !||====================================================================
+!||====================================================================
+!||    merge_node            ../starter/source/elements/nodes/merge_node.F
+!||--- called by ------------------------------------------------------
+!||    lectur                ../starter/source/starter/lectur.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                ../starter/source/output/message/message.F
+!||    merge_bucket_search   ../starter/source/elements/nodes/merge_bucket_search.F
+!||    usrtos                ../starter/source/system/sysfus.F
+!||    usrtosc               ../starter/source/model/submodel/merge.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod           ../starter/share/message_module/message_mod.F
+!||    nod2el_mod            ../starter/share/modules1/nod2el_mod.F
+!||====================================================================
       SUBROUTINE MERGE_NODE(X,ITAB,ITABM1 ,IMERGE,IMERGE2,
      .                      IADMERGE2,NMERGE_TOT,MERGE_NODE_TAB,MERGE_NODE_TOL,
      .                      NMERGE_NODE_CAND,NMERGE_NODE_DEST,IXS,IXS10,IXS20,

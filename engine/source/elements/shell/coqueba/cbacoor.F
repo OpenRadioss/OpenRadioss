@@ -20,17 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    cbacoor        ../engine/source/elements/shell/coqueba/cbacoor.F
-      !||--- called by ------------------------------------------------------
-      !||    cbaforc3       ../engine/source/elements/shell/coqueba/cbaforc3.F
-      !||--- calls      -----------------------------------------------------
-      !||    clskew3        ../engine/source/elements/sh3n/coquedk/cdkcoor3.F
-      !||    cortdir3       ../engine/source/elements/shell/coque/cortdir3.F
-      !||--- uses       -----------------------------------------------------
-      !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||    plyxfem_mod    ../engine/share/modules/plyxfem_mod.F
-      !||====================================================================
+!||====================================================================
+!||    cbacoor        ../engine/source/elements/shell/coqueba/cbacoor.F
+!||--- called by ------------------------------------------------------
+!||    cbaforc3       ../engine/source/elements/shell/coqueba/cbaforc3.F
+!||--- calls      -----------------------------------------------------
+!||    clskew3        ../engine/source/elements/sh3n/coquedk/cdkcoor3.F
+!||    cortdir3       ../engine/source/elements/shell/coque/cortdir3.F
+!||--- uses       -----------------------------------------------------
+!||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    plyxfem_mod    ../engine/share/modules/plyxfem_mod.F
+!||====================================================================
        SUBROUTINE CBACOOR(ELBUF_STR,JFT,JLT,X,V,
      .            VR,IXC,PM,OFFG,LL,
      1            AREA,VXYZ, RXYZ,VCORE,JAC,HX,HY,VKSI,VETA,
@@ -1162,15 +1162,15 @@ C
 C-------------              
         RETURN
         END
-      !||====================================================================
-      !||    cbacoort       ../engine/source/elements/shell/coqueba/cbacoor.F
-      !||--- called by ------------------------------------------------------
-      !||    cbaforc3       ../engine/source/elements/shell/coqueba/cbaforc3.F
-      !||--- calls      -----------------------------------------------------
-      !||    clskew3        ../engine/source/elements/sh3n/coquedk/cdkcoor3.F
-      !||--- uses       -----------------------------------------------------
-      !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    cbacoort       ../engine/source/elements/shell/coqueba/cbacoor.F
+!||--- called by ------------------------------------------------------
+!||    cbaforc3       ../engine/source/elements/shell/coqueba/cbaforc3.F
+!||--- calls      -----------------------------------------------------
+!||    clskew3        ../engine/source/elements/sh3n/coquedk/cdkcoor3.F
+!||--- uses       -----------------------------------------------------
+!||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||====================================================================
        SUBROUTINE CBACOORT(ELBUF_STR,JFT,JLT,X,V,
      .            VR,DR,IXC,PM,OFFG,AREA,
      1            VXYZ, RLZ,VCORE,JAC,HX,

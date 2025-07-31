@@ -21,14 +21,14 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
-      !||====================================================================
-      !||    spmd_exch_i24_gap     ../engine/source/mpi/interfaces/spmd_exch_i24_gap.F
-      !||--- called by ------------------------------------------------------
-      !||    i24pxfem              ../engine/source/interfaces/int24/i24pxfem.F
-      !||--- calls      -----------------------------------------------------
-      !||--- uses       -----------------------------------------------------
-      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
-      !||====================================================================
+!||====================================================================
+!||    spmd_exch_i24_gap     ../engine/source/mpi/interfaces/spmd_exch_i24_gap.F
+!||--- called by ------------------------------------------------------
+!||    i24pxfem              ../engine/source/interfaces/int24/i24pxfem.F
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
+!||====================================================================
       SUBROUTINE SPMD_EXCH_I24_GAP(
      1           WA,IAD_ELEM ,FR_ELEM,SIZE  ,LENR  )
 C-----------------------------------------------

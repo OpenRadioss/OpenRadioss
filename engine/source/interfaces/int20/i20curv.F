@@ -20,11 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    i20norms   ../engine/source/interfaces/int20/i20curv.F
-      !||--- called by ------------------------------------------------------
-      !||    i20mainf   ../engine/source/interfaces/int20/i20mainf.F
-      !||====================================================================
+!||====================================================================
+!||    i20norms   ../engine/source/interfaces/int20/i20curv.F
+!||--- called by ------------------------------------------------------
+!||    i20mainf   ../engine/source/interfaces/int20/i20mainf.F
+!||====================================================================
       SUBROUTINE I20NORMS(NRTM,IRECT,NUMNOD,X,NOD_NORMAL,
      2                  NMN ,MSR  ,NLN,NLG,GAP_SH,
      3                  IAD_ELEM,FR_ELEM,NSV,NSN)
@@ -161,12 +161,12 @@ c            AAA = ATAN2(SI,-CO)*TWO/PI/MAX(EM30,SI)
 
       RETURN
       END
-      !||====================================================================
-      !||    i20normsp        ../engine/source/interfaces/int20/i20curv.F
-      !||--- calls      -----------------------------------------------------
-      !||    myqsort          ../common_source/tools/sort/myqsort.F
-      !||    spmd_i7curvcom   ../engine/source/mpi/interfaces/spmd_i7curvcom.F
-      !||====================================================================
+!||====================================================================
+!||    i20normsp        ../engine/source/interfaces/int20/i20curv.F
+!||--- calls      -----------------------------------------------------
+!||    myqsort          ../common_source/tools/sort/myqsort.F
+!||    spmd_i7curvcom   ../engine/source/mpi/interfaces/spmd_i7curvcom.F
+!||====================================================================
       SUBROUTINE I20NORMSP(NRTM  ,IRECT   ,NUMNOD ,X    ,NOD_NORMAL,
      .                   NMN   ,MSR     ,LENT   ,MAXCC,ISDSIZ    ,
      .                   IRCSIZ,IAD_ELEM,FR_ELEM,ITAG ,NLN,NLG,
@@ -379,11 +379,11 @@ C
       END DO
       RETURN
       END
-      !||====================================================================
-      !||    i20norm    ../engine/source/interfaces/int20/i20curv.F
-      !||--- called by ------------------------------------------------------
-      !||    i20mainf   ../engine/source/interfaces/int20/i20mainf.F
-      !||====================================================================
+!||====================================================================
+!||    i20norm    ../engine/source/interfaces/int20/i20curv.F
+!||--- called by ------------------------------------------------------
+!||    i20mainf   ../engine/source/interfaces/int20/i20mainf.F
+!||====================================================================
       SUBROUTINE I20NORM(NRTM,IRECT,NUMNOD,X,NOD_NORMAL,
      .                  NMN ,MSR  ,NLN,NLG)
 C-----------------------------------------------
@@ -461,14 +461,14 @@ C optimisable en spmd si ajout flag pour routine de comm, spmd_exchange_n
       RETURN
       END
 C
-      !||====================================================================
-      !||    i20normp         ../engine/source/interfaces/int20/i20curv.F
-      !||--- called by ------------------------------------------------------
-      !||    i20mainf         ../engine/source/interfaces/int20/i20mainf.F
-      !||--- calls      -----------------------------------------------------
-      !||    myqsort          ../common_source/tools/sort/myqsort.F
-      !||    spmd_i7curvcom   ../engine/source/mpi/interfaces/spmd_i7curvcom.F
-      !||====================================================================
+!||====================================================================
+!||    i20normp         ../engine/source/interfaces/int20/i20curv.F
+!||--- called by ------------------------------------------------------
+!||    i20mainf         ../engine/source/interfaces/int20/i20mainf.F
+!||--- calls      -----------------------------------------------------
+!||    myqsort          ../common_source/tools/sort/myqsort.F
+!||    spmd_i7curvcom   ../engine/source/mpi/interfaces/spmd_i7curvcom.F
+!||====================================================================
       SUBROUTINE I20NORMP(NRTM  ,IRECT   ,NUMNOD ,X    ,NOD_NORMAL,
      .                   NMN   ,MSR     ,LENT   ,MAXCC,ISDSIZ    ,
      .                   IRCSIZ,IAD_ELEM,FR_ELEM,ITAG ,NLN,NLG)
@@ -590,11 +590,11 @@ C
       RETURN
       END
 C
-      !||====================================================================
-      !||    i20cmaj   ../engine/source/interfaces/int20/i20curv.F
-      !||--- called by ------------------------------------------------------
-      !||    i20dst3   ../engine/source/interfaces/int20/i20dst3.F
-      !||====================================================================
+!||====================================================================
+!||    i20cmaj   ../engine/source/interfaces/int20/i20curv.F
+!||--- called by ------------------------------------------------------
+!||    i20dst3   ../engine/source/interfaces/int20/i20dst3.F
+!||====================================================================
       SUBROUTINE I20CMAJ(JLT    ,CMAJ   ,IRECT  ,NOD_NORMAL,CAND_E,
      2                  X1     ,X2     ,X3     ,X4        ,NLN    ,
      3                  Y1     ,Y2     ,Y3     ,Y4        ,NLG    ,
@@ -759,11 +759,11 @@ c            Z^2 = (L.N)^2 L^2 / 4(N^2 L^2 - (L.N)^2)
 
       RETURN
       END
-      !||====================================================================
-      !||    i20normcnt   ../engine/source/interfaces/int20/i20curv.F
-      !||--- called by ------------------------------------------------------
-      !||    i20mainf     ../engine/source/interfaces/int20/i20mainf.F
-      !||====================================================================
+!||====================================================================
+!||    i20normcnt   ../engine/source/interfaces/int20/i20curv.F
+!||--- called by ------------------------------------------------------
+!||    i20mainf     ../engine/source/interfaces/int20/i20mainf.F
+!||====================================================================
       SUBROUTINE I20NORMCNT(NRTM  ,IRECT ,NUMNOD,ITAG  ,LENT   ,
      2                      MAXCC ,NLN   ,NLG   )
 C-----------------------------------------------

@@ -20,30 +20,30 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    python_spmd_mod                ../engine/source/mpi/python_spmd_mod.F90
-      !||--- called by ------------------------------------------------------
-      !||    funct_python_update_elements   ../engine/source/tools/curve/funct_python_update_elements.F90
-      !||    python_register                ../engine/source/tools/curve/python_register.F90
-      !||====================================================================
+!||====================================================================
+!||    python_spmd_mod                ../engine/source/mpi/python_spmd_mod.F90
+!||--- called by ------------------------------------------------------
+!||    funct_python_update_elements   ../engine/source/tools/curve/funct_python_update_elements.F90
+!||    python_register                ../engine/source/tools/curve/python_register.F90
+!||====================================================================
       module python_spmd_mod
       contains
 !! \brief initialize the python elemental variables found in the python function
-      !||====================================================================
-      !||    python_element_init   ../engine/source/mpi/python_spmd_mod.F90
-      !||--- called by ------------------------------------------------------
-      !||    python_register       ../engine/source/tools/curve/python_register.F90
-      !||--- calls      -----------------------------------------------------
-      !||    c_delete_hash         ../common_source/tools/container/c_hash_table.cpp
-      !||    c_hash_find           ../common_source/tools/container/c_hash_table.cpp
-      !||    c_hash_insert         ../common_source/tools/container/c_hash_table.cpp
-      !||    c_new_hash            ../common_source/tools/container/c_hash_table.cpp
-      !||    spmd_comm_rank        ../engine/source/mpi/spmd_mod.F90
-      !||    spmd_comm_size        ../engine/source/mpi/spmd_mod.F90
-      !||--- uses       -----------------------------------------------------
-      !||    python_element_mod    ../common_source/modules/python_element_mod.F90
-      !||    spmd_mod              ../engine/source/mpi/spmd_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    python_element_init   ../engine/source/mpi/python_spmd_mod.F90
+!||--- called by ------------------------------------------------------
+!||    python_register       ../engine/source/tools/curve/python_register.F90
+!||--- calls      -----------------------------------------------------
+!||    c_delete_hash         ../common_source/tools/container/c_hash_table.cpp
+!||    c_hash_find           ../common_source/tools/container/c_hash_table.cpp
+!||    c_hash_insert         ../common_source/tools/container/c_hash_table.cpp
+!||    c_new_hash            ../common_source/tools/container/c_hash_table.cpp
+!||    spmd_comm_rank        ../engine/source/mpi/spmd_mod.F90
+!||    spmd_comm_size        ../engine/source/mpi/spmd_mod.F90
+!||--- uses       -----------------------------------------------------
+!||    python_element_mod    ../common_source/modules/python_element_mod.F90
+!||    spmd_mod              ../engine/source/mpi/spmd_mod.F90
+!||====================================================================
         subroutine python_element_init(element, n, group_id, local_id, user_ids)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                     Module
@@ -146,15 +146,15 @@
 !         call flush(6)
         end subroutine python_element_init
 !! \brief synchronize python elemental variables found in the python function
-      !||====================================================================
-      !||    python_element_sync              ../engine/source/mpi/python_spmd_mod.F90
-      !||--- called by ------------------------------------------------------
-      !||    funct_python_update_elements     ../engine/source/tools/curve/funct_python_update_elements.F90
-      !||--- calls      -----------------------------------------------------
-      !||--- uses       -----------------------------------------------------
-      !||    python_element_mod               ../common_source/modules/python_element_mod.F90
-      !||    spmd_mod                         ../engine/source/mpi/spmd_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    python_element_sync              ../engine/source/mpi/python_spmd_mod.F90
+!||--- called by ------------------------------------------------------
+!||    funct_python_update_elements     ../engine/source/tools/curve/funct_python_update_elements.F90
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||    python_element_mod               ../common_source/modules/python_element_mod.F90
+!||    spmd_mod                         ../engine/source/mpi/spmd_mod.F90
+!||====================================================================
         subroutine python_element_sync(element)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                     Module

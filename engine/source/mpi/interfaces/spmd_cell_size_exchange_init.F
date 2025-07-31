@@ -20,15 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    spmd_cell_size_exchange_init   ../engine/source/mpi/interfaces/spmd_cell_size_exchange_init.F
-      !||--- called by ------------------------------------------------------
-      !||    spmd_cell_list_exchange        ../engine/source/mpi/interfaces/spmd_cell_list_exchange.F
-      !||--- uses       -----------------------------------------------------
-      !||    inter_sorting_mod              ../engine/share/modules/inter_sorting_mod.F
-      !||    inter_struct_mod               ../engine/share/modules/inter_struct_mod.F
-      !||    tri7box                        ../engine/share/modules/tri7box.F
-      !||====================================================================
+!||====================================================================
+!||    spmd_cell_size_exchange_init   ../engine/source/mpi/interfaces/spmd_cell_size_exchange_init.F
+!||--- called by ------------------------------------------------------
+!||    spmd_cell_list_exchange        ../engine/source/mpi/interfaces/spmd_cell_list_exchange.F
+!||--- uses       -----------------------------------------------------
+!||    inter_sorting_mod              ../engine/share/modules/inter_sorting_mod.F
+!||    inter_struct_mod               ../engine/share/modules/inter_struct_mod.F
+!||    tri7box                        ../engine/share/modules/tri7box.F
+!||====================================================================
         SUBROUTINE SPMD_CELL_SIZE_EXCHANGE_INIT(IRCVFROM,ISENDTO,IPARI,NIN,INTER_STRUCT,SORT_COMM)
 !$COMMENT
 !       SPMD_CELL_SIZE_EXCHANGE_INIT description :

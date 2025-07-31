@@ -21,28 +21,28 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 
-      !||====================================================================
-      !||    spmd_r4get_partn      ../engine/source/mpi/anim/spmd_r4get_partn.F
-      !||--- called by ------------------------------------------------------
-      !||    animcale              ../engine/source/output/anim/generate/genani.F
-      !||    dfunc0                ../engine/source/output/anim/generate/dfunc0.F
-      !||    dfuncc                ../engine/source/output/anim/generate/dfuncc.F
-      !||    dfuncc_crk            ../engine/source/output/anim/generate/dfuncc_crk.F
-      !||    dfuncc_ply            ../engine/source/output/anim/generate/dfuncc_ply.F
-      !||    dfuncf                ../engine/source/output/anim/generate/dfuncf.F
-      !||    dfuncs                ../engine/source/output/anim/generate/dfunc6.F
-      !||    genani                ../engine/source/output/anim/generate/genani.F
-      !||    tensor0               ../engine/source/output/anim/generate/tensor0.F
-      !||    tensorc               ../engine/source/output/anim/generate/tensorc.F
-      !||    tensorc_crk           ../engine/source/output/anim/generate/tensorc_crk.F
-      !||    tensorc_ply           ../engine/source/output/anim/generate/tensorc_ply.F
-      !||    tensors               ../engine/source/output/anim/generate/tensor6.F
-      !||    torseur               ../engine/source/output/anim/generate/torseur.F
-      !||--- calls      -----------------------------------------------------
-      !||    write_r_c             ../common_source/tools/input_output/write_routtines.c
-      !||--- uses       -----------------------------------------------------
-      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
-      !||====================================================================
+!||====================================================================
+!||    spmd_r4get_partn      ../engine/source/mpi/anim/spmd_r4get_partn.F
+!||--- called by ------------------------------------------------------
+!||    animcale              ../engine/source/output/anim/generate/monvol_anim.F90
+!||    dfunc0                ../engine/source/output/anim/generate/dfunc0.F
+!||    dfuncc                ../engine/source/output/anim/generate/dfuncc.F
+!||    dfuncc_crk            ../engine/source/output/anim/generate/dfuncc_crk.F
+!||    dfuncc_ply            ../engine/source/output/anim/generate/dfuncc_ply.F
+!||    dfuncf                ../engine/source/output/anim/generate/dfuncf.F
+!||    dfuncs                ../engine/source/output/anim/generate/dfunc6.F
+!||    genani                ../engine/source/output/anim/generate/genani.F
+!||    tensor0               ../engine/source/output/anim/generate/tensor0.F
+!||    tensorc               ../engine/source/output/anim/generate/tensorc.F
+!||    tensorc_crk           ../engine/source/output/anim/generate/tensorc_crk.F
+!||    tensorc_ply           ../engine/source/output/anim/generate/tensorc_ply.F
+!||    tensors               ../engine/source/output/anim/generate/tensor6.F
+!||    torseur               ../engine/source/output/anim/generate/torseur.F
+!||--- calls      -----------------------------------------------------
+!||    write_r_c             ../common_source/tools/input_output/write_routtines.c
+!||--- uses       -----------------------------------------------------
+!||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
+!||====================================================================
       SUBROUTINE SPMD_R4GET_PARTN(SIZE,NBF_L,NBPART,IADG,WAL,BUF)
 C gather sur p0 du tableau wa en fonction des parts (IADG)
 C-----------------------------------------------

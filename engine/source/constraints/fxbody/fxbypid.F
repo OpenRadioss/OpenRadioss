@@ -20,18 +20,18 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    fxbypid           ../engine/source/constraints/fxbody/fxbypid.F
-      !||--- called by ------------------------------------------------------
-      !||    resol             ../engine/source/engine/resol.F
-      !||--- calls      -----------------------------------------------------
-      !||    spmd_chkw         ../engine/source/mpi/generic/spmd_chkw.F
-      !||    spmd_glob_isum9   ../engine/source/mpi/interfaces/spmd_th.F
-      !||    spmd_ibcast       ../engine/source/mpi/generic/spmd_ibcast.F
-      !||    spmd_wiout        ../engine/source/mpi/generic/spmd_wiout.F
-      !||--- uses       -----------------------------------------------------
-      !||    elbufdef_mod      ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    fxbypid           ../engine/source/constraints/fxbody/fxbypid.F
+!||--- called by ------------------------------------------------------
+!||    resol             ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
+!||    spmd_chkw         ../engine/source/mpi/generic/spmd_chkw.F
+!||    spmd_glob_isum9   ../engine/source/mpi/interfaces/spmd_th.F
+!||    spmd_ibcast       ../engine/source/mpi/generic/spmd_ibcast.F
+!||    spmd_wiout        ../engine/source/mpi/generic/spmd_wiout.F
+!||--- uses       -----------------------------------------------------
+!||    elbufdef_mod      ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||====================================================================
       SUBROUTINE FXBYPID(IPARG ,         IXS   , IXQ   , IXC       ,
      .                   IXT   , IXP   , IXR   , IXTG  , FXBIPM    , 
      .                   FXBNOD, ONOF  , ITAG  , ONFELT, ELBUF_STR )

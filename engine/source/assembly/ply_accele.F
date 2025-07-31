@@ -20,15 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    ply_accele    ../engine/source/assembly/ply_accele.F
-      !||--- called by ------------------------------------------------------
-      !||    resol         ../engine/source/engine/resol.F
-      !||--- calls      -----------------------------------------------------
-      !||    plya          ../engine/source/assembly/ply_accele.F
-      !||--- uses       -----------------------------------------------------
-      !||    plyxfem_mod   ../engine/share/modules/plyxfem_mod.F
-      !||====================================================================
+!||====================================================================
+!||    ply_accele    ../engine/source/assembly/ply_accele.F
+!||--- called by ------------------------------------------------------
+!||    resol         ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
+!||    plya          ../engine/source/assembly/ply_accele.F
+!||--- uses       -----------------------------------------------------
+!||    plyxfem_mod   ../engine/share/modules/plyxfem_mod.F
+!||====================================================================
       SUBROUTINE PLY_ACCELE(INOD,MS_LAYER,ZI_LAYER,MS,NODFT,NODLT,
      .                     NPLYMAX,NPLYXFE,NDDIM,MSZ2 )
 C-----------------------------------------------
@@ -200,11 +200,11 @@ C
 C--------------------------------------------
       RETURN
       END
-      !||====================================================================
-      !||    plya         ../engine/source/assembly/ply_accele.F
-      !||--- called by ------------------------------------------------------
-      !||    ply_accele   ../engine/source/assembly/ply_accele.F
-      !||====================================================================
+!||====================================================================
+!||    plya         ../engine/source/assembly/ply_accele.F
+!||--- called by ------------------------------------------------------
+!||    ply_accele   ../engine/source/assembly/ply_accele.F
+!||====================================================================
       SUBROUTINE PLYA(J,NODFT,NODLT,NPLYXFE,INOD,ALPHA,MS,A)
 C-----------------------------------------------
 C   M o d u l e s

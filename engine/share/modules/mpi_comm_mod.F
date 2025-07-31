@@ -22,18 +22,18 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C generic module intended to pack information needed for asynchronous communications
 C where send and received are not done in the same routine
-      !||====================================================================
-      !||    mpi_commod               ../engine/share/modules/mpi_comm_mod.F
-      !||--- called by ------------------------------------------------------
-      !||    allocate_comm_struct     ../engine/share/modules/mpi_comm_mod.F
-      !||    deallocate_comm_struct   ../engine/share/modules/mpi_comm_mod.F
-      !||    i25main_norm             ../engine/source/interfaces/int25/i25main_norm.F
-      !||    i25main_slid             ../engine/source/interfaces/int25/i25main_slid.F
-      !||    i25maind_2               ../engine/source/interfaces/int25/i25maind_2.F
-      !||    i25normp                 ../engine/source/interfaces/int25/i25norm.F
-      !||    spmd_i25_slide_exch      ../engine/source/mpi/interfaces/spmd_i25slide.F
-      !||    spmd_i25front_nor        ../engine/source/mpi/interfaces/spmd_i25front.F
-      !||====================================================================
+!||====================================================================
+!||    mpi_commod               ../engine/share/modules/mpi_comm_mod.F
+!||--- called by ------------------------------------------------------
+!||    allocate_comm_struct     ../engine/share/modules/mpi_comm_mod.F
+!||    deallocate_comm_struct   ../engine/share/modules/mpi_comm_mod.F
+!||    i25main_norm             ../engine/source/interfaces/int25/i25main_norm.F
+!||    i25main_slid             ../engine/source/interfaces/int25/i25main_slid.F
+!||    i25maind_2               ../engine/source/interfaces/int25/i25maind_2.F
+!||    i25normp                 ../engine/source/interfaces/int25/i25norm.F
+!||    spmd_i25_slide_exch      ../engine/source/mpi/interfaces/spmd_i25slide.F
+!||    spmd_i25front_nor        ../engine/source/mpi/interfaces/spmd_i25front.F
+!||====================================================================
       MODULE MPI_COMMOD
       TYPE MPI_COMM_STRUCT
          INTEGER,DIMENSION(:,:), POINTER :: SEND_RQ
@@ -52,13 +52,13 @@ C where send and received are not done in the same routine
 
       END MODULE MPI_COMMOD 
 
-      !||====================================================================
-      !||    allocate_comm_struct   ../engine/share/modules/mpi_comm_mod.F
-      !||--- called by ------------------------------------------------------
-      !||    i25main_slid           ../engine/source/interfaces/int25/i25main_slid.F
-      !||--- uses       -----------------------------------------------------
-      !||    mpi_commod             ../engine/share/modules/mpi_comm_mod.F
-      !||====================================================================
+!||====================================================================
+!||    allocate_comm_struct   ../engine/share/modules/mpi_comm_mod.F
+!||--- called by ------------------------------------------------------
+!||    i25main_slid           ../engine/source/interfaces/int25/i25main_slid.F
+!||--- uses       -----------------------------------------------------
+!||    mpi_commod             ../engine/share/modules/mpi_comm_mod.F
+!||====================================================================
       SUBROUTINE ALLOCATE_COMM_STRUCT(OBJECT,S1,S2)
         USE MPI_COMMOD
 
@@ -73,13 +73,13 @@ C-----------------------------------------------
         ALLOCATE(OBJECT%TAG    (S1,S2))
         ALLOCATE(OBJECT%SIZ    (S1,S2))     
       END SUBROUTINE
-      !||====================================================================
-      !||    deallocate_comm_struct   ../engine/share/modules/mpi_comm_mod.F
-      !||--- called by ------------------------------------------------------
-      !||    i25main_slid             ../engine/source/interfaces/int25/i25main_slid.F
-      !||--- uses       -----------------------------------------------------
-      !||    mpi_commod               ../engine/share/modules/mpi_comm_mod.F
-      !||====================================================================
+!||====================================================================
+!||    deallocate_comm_struct   ../engine/share/modules/mpi_comm_mod.F
+!||--- called by ------------------------------------------------------
+!||    i25main_slid             ../engine/source/interfaces/int25/i25main_slid.F
+!||--- uses       -----------------------------------------------------
+!||    mpi_commod               ../engine/share/modules/mpi_comm_mod.F
+!||====================================================================
       SUBROUTINE DEALLOCATE_COMM_STRUCT(OBJECT,S1,S2)
        USE MPI_COMMOD
 C-----------------------------------------------

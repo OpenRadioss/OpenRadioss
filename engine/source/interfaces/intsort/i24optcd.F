@@ -20,17 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    i24optcd              ../engine/source/interfaces/intsort/i24optcd.F
-      !||--- called by ------------------------------------------------------
-      !||    i24main_opt_tri       ../engine/source/interfaces/intsort/i24main_opt_tri.F
-      !||--- calls      -----------------------------------------------------
-      !||    i24ispt2_ini_opttri   ../engine/source/interfaces/int24/i24cor3.F
-      !||    sync_data             ../engine/source/system/machine.F
-      !||--- uses       -----------------------------------------------------
-      !||    debug_mod             ../engine/share/modules/debug_mod.F
-      !||    tri7box               ../engine/share/modules/tri7box.F
-      !||====================================================================
+!||====================================================================
+!||    i24optcd              ../engine/source/interfaces/intsort/i24optcd.F
+!||--- called by ------------------------------------------------------
+!||    i24main_opt_tri       ../engine/source/interfaces/intsort/i24main_opt_tri.F
+!||--- calls      -----------------------------------------------------
+!||    i24ispt2_ini_opttri   ../engine/source/interfaces/int24/i24cor3.F
+!||    sync_data             ../engine/source/system/machine.F
+!||--- uses       -----------------------------------------------------
+!||    debug_mod             ../engine/share/modules/debug_mod.F
+!||    tri7box               ../engine/share/modules/tri7box.F
+!||====================================================================
       SUBROUTINE I24OPTCD(
      1       NSV    ,CAND_E ,CAND_N  ,X         ,I_STOK   ,
      2       IRECT  ,GAP_S  ,GAP_M   ,V         ,ICURV    ,

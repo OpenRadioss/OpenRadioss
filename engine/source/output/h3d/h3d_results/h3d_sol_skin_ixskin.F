@@ -20,17 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    h3d_sol_skin_ixskin   ../engine/source/output/h3d/h3d_results/h3d_sol_skin_ixskin.F
-      !||--- called by ------------------------------------------------------
-      !||    h3d_skin_ixskin       ../engine/source/output/h3d/h3d_results/h3d_skin_ixskin.F
-      !||    h3d_sol_skin_tensor   ../engine/source/output/h3d/h3d_results/h3d_sol_skin_tensor.F
-      !||--- calls      -----------------------------------------------------
-      !||    initbuf               ../engine/share/resol/initbuf.F
-      !||--- uses       -----------------------------------------------------
-      !||    elbufdef_mod          ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||    initbuf_mod           ../engine/share/resol/initbuf.F
-      !||====================================================================
+!||====================================================================
+!||    h3d_sol_skin_ixskin   ../engine/source/output/h3d/h3d_results/h3d_sol_skin_ixskin.F
+!||--- called by ------------------------------------------------------
+!||    h3d_skin_ixskin       ../engine/source/output/h3d/h3d_results/h3d_skin_ixskin.F
+!||    h3d_sol_skin_tensor   ../engine/source/output/h3d/h3d_results/h3d_sol_skin_tensor.F
+!||--- calls      -----------------------------------------------------
+!||    initbuf               ../engine/share/resol/initbuf.F
+!||--- uses       -----------------------------------------------------
+!||    elbufdef_mod          ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    initbuf_mod           ../engine/share/resol/initbuf.F
+!||====================================================================
       SUBROUTINE H3D_SOL_SKIN_IXSKIN(ELBUF_TAB,IPARG,IPARTS,IXS,IXS10,
      .                               IXSKIN  ,TAG_SKINS6,NSKIN )
 C-----------------------------------------------

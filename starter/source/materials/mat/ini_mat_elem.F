@@ -20,12 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    ini_mat_elem           ../starter/source/materials/mat/ini_mat_elem.F
-      !||--- called by ------------------------------------------------------
-      !||    read_material_models   ../starter/source/materials/read_material_models.F
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    ini_mat_elem           ../starter/source/materials/mat/ini_mat_elem.F
+!||--- called by ------------------------------------------------------
+!||    read_material_models   ../starter/source/materials/read_material_models.F
+!||--- uses       -----------------------------------------------------
+!||====================================================================
       SUBROUTINE INI_MAT_ELEM(MAT_ELEM)
 C-----------------------------------------------
 C   M o d u l e s

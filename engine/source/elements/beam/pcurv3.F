@@ -20,11 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    pcurv3   ../engine/source/elements/beam/pcurv3.F
-      !||--- called by ------------------------------------------------------
-      !||    pforc3   ../engine/source/elements/beam/pforc3.F
-      !||====================================================================
+!||====================================================================
+!||    pcurv3   ../engine/source/elements/beam/pcurv3.F
+!||--- called by ------------------------------------------------------
+!||    pforc3   ../engine/source/elements/beam/pforc3.F
+!||====================================================================
       SUBROUTINE PCURV3(
      1   R,       GEO,     OFFG,    OFF,
      2   EXX,     EXY,     EXZ,     KXX,

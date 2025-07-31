@@ -20,17 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    intstamp_ass       ../engine/source/interfaces/int21/intstamp_ass.F
-      !||--- called by ------------------------------------------------------
-      !||    resol              ../engine/source/engine/resol.F
-      !||--- calls      -----------------------------------------------------
-      !||    spmd_glob_dpsum9   ../engine/source/mpi/interfaces/spmd_th.F
-      !||    spmd_glob_dsum9    ../engine/source/mpi/interfaces/spmd_th.F
-      !||    spmd_rbcast        ../engine/source/mpi/generic/spmd_rbcast.F
-      !||--- uses       -----------------------------------------------------
-      !||    intstamp_mod       ../engine/share/modules/intstamp_mod.F
-      !||====================================================================
+!||====================================================================
+!||    intstamp_ass       ../engine/source/interfaces/int21/intstamp_ass.F
+!||--- called by ------------------------------------------------------
+!||    resol              ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
+!||    spmd_glob_dpsum9   ../engine/source/mpi/interfaces/spmd_th.F
+!||    spmd_glob_dsum9    ../engine/source/mpi/interfaces/spmd_th.F
+!||    spmd_rbcast        ../engine/source/mpi/generic/spmd_rbcast.F
+!||--- uses       -----------------------------------------------------
+!||    intstamp_mod       ../engine/share/modules/intstamp_mod.F
+!||====================================================================
       SUBROUTINE INTSTAMP_ASS(
      1           INTSTAMP,MS     ,IN      ,A     ,AR    ,
      2           STIFN   ,STIFR  ,WEIGHT  ,WFEXT)

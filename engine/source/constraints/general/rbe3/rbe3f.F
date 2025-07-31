@@ -20,29 +20,29 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    rbe3t1               ../engine/source/constraints/general/rbe3/rbe3f.F
-      !||--- called by ------------------------------------------------------
-      !||    resol                ../engine/source/engine/resol.F
-      !||--- calls      -----------------------------------------------------
-      !||    asp2_rbe3            ../engine/source/constraints/general/rbe3/rbe3f.F
-      !||    ass_rbe3             ../engine/source/constraints/general/rbe3/rbe3f.F
-      !||    dmi_rbe3             ../engine/source/constraints/general/rbe3/rbe3f.F
-      !||    foat_to_6_float      ../engine/source/system/parit.F
-      !||    prerbe3              ../engine/source/constraints/general/rbe3/rbe3f.F
-      !||    prerbe3p             ../engine/source/constraints/general/rbe3/rbe3f.F
-      !||    rbe3f                ../engine/source/constraints/general/rbe3/rbe3f.F
-      !||    rbe3pen_init         ../engine/source/constraints/general/rbe3/rbe3pen_init.F90
-      !||    rbe3poff             ../engine/source/constraints/general/rbe3/rbe3f.F
-      !||    spmd_exch_rbe3       ../engine/source/mpi/kinematic_conditions/spmd_exch_rbe3.F
-      !||    spmd_exch_rbe3_pon   ../engine/source/mpi/kinematic_conditions/spmd_exch_rbe3_pon.F
-      !||    zero1                ../engine/source/system/zero.F
-      !||--- uses       -----------------------------------------------------
-      !||    h3d_mod              ../engine/share/modules/h3d_mod.F
-      !||    nodal_arrays_mod     ../common_source/modules/nodal_arrays.F90
-      !||    rbe3_mod             ../common_source/modules/constraints/rbe3_mod.F90
-      !||    rbe3pen_init_mod     ../engine/source/constraints/general/rbe3/rbe3pen_init.F90
-      !||====================================================================
+!||====================================================================
+!||    rbe3t1               ../engine/source/constraints/general/rbe3/rbe3f.F
+!||--- called by ------------------------------------------------------
+!||    resol                ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
+!||    asp2_rbe3            ../engine/source/constraints/general/rbe3/rbe3f.F
+!||    ass_rbe3             ../engine/source/constraints/general/rbe3/rbe3f.F
+!||    dmi_rbe3             ../engine/source/constraints/general/rbe3/rbe3f.F
+!||    foat_to_6_float      ../engine/source/system/parit.F
+!||    prerbe3              ../engine/source/constraints/general/rbe3/rbe3f.F
+!||    prerbe3p             ../engine/source/constraints/general/rbe3/rbe3f.F
+!||    rbe3f                ../engine/source/constraints/general/rbe3/rbe3f.F
+!||    rbe3pen_init         ../engine/source/constraints/general/rbe3/rbe3pen_init.F90
+!||    rbe3poff             ../engine/source/constraints/general/rbe3/rbe3f.F
+!||    spmd_exch_rbe3       ../engine/source/mpi/kinematic_conditions/spmd_exch_rbe3.F
+!||    spmd_exch_rbe3_pon   ../engine/source/mpi/kinematic_conditions/spmd_exch_rbe3_pon.F
+!||    zero1                ../engine/source/system/zero.F
+!||--- uses       -----------------------------------------------------
+!||    h3d_mod              ../engine/share/modules/h3d_mod.F
+!||    nodal_arrays_mod     ../common_source/modules/nodal_arrays.F90
+!||    rbe3_mod             ../common_source/modules/constraints/rbe3_mod.F90
+!||    rbe3pen_init_mod     ../engine/source/constraints/general/rbe3/rbe3pen_init.F90
+!||====================================================================
       SUBROUTINE RBE3T1(RBE3  ,NODES    ,SKEW  ,
      *                  DMAST ,ADM      ,DINERT,
      *                  ADI   ,H3D_DATA , DT1  ,
@@ -201,11 +201,11 @@ C---  reset of secnd nodes forces is necessary w/AMS
 C---
       RETURN
       END
-      !||====================================================================
-      !||    rbe3poff   ../engine/source/constraints/general/rbe3/rbe3f.F
-      !||--- called by ------------------------------------------------------
-      !||    rbe3t1     ../engine/source/constraints/general/rbe3/rbe3f.F
-      !||====================================================================
+!||====================================================================
+!||    rbe3poff   ../engine/source/constraints/general/rbe3/rbe3f.F
+!||--- called by ------------------------------------------------------
+!||    rbe3t1     ../engine/source/constraints/general/rbe3/rbe3f.F
+!||====================================================================
       SUBROUTINE RBE3POFF(IRBE3 ,LRBE3 ,A    ,MS    ,WEIGHT,
      1                    AR    ,IN    ,STIFN,STIFR )
 C-----------------------------------------------
@@ -259,18 +259,18 @@ C-----------
       RETURN
       END
 
-      !||====================================================================
-      !||    rbe3f           ../engine/source/constraints/general/rbe3/rbe3f.F
-      !||--- called by ------------------------------------------------------
-      !||    rbe3t1          ../engine/source/constraints/general/rbe3/rbe3f.F
-      !||--- calls      -----------------------------------------------------
-      !||    mfac_rbe3       ../engine/source/constraints/general/rbe3/rbe3f.F
-      !||    rbe3cl          ../engine/source/constraints/general/rbe3/rbe3f.F
-      !||    rbe3f_pen       ../engine/source/constraints/general/rbe3/rbe3f_pen.F90
-      !||--- uses       -----------------------------------------------------
-      !||    rbe3_mod        ../common_source/modules/constraints/rbe3_mod.F90
-      !||    rbe3f_pen_mod   ../engine/source/constraints/general/rbe3/rbe3f_pen.F90
-      !||====================================================================
+!||====================================================================
+!||    rbe3f           ../engine/source/constraints/general/rbe3/rbe3f.F
+!||--- called by ------------------------------------------------------
+!||    rbe3t1          ../engine/source/constraints/general/rbe3/rbe3f.F
+!||--- calls      -----------------------------------------------------
+!||    mfac_rbe3       ../engine/source/constraints/general/rbe3/rbe3f.F
+!||    rbe3cl          ../engine/source/constraints/general/rbe3/rbe3f.F
+!||    rbe3f_pen       ../engine/source/constraints/general/rbe3/rbe3f_pen.F90
+!||--- uses       -----------------------------------------------------
+!||    rbe3_mod        ../common_source/modules/constraints/rbe3_mod.F90
+!||    rbe3f_pen_mod   ../engine/source/constraints/general/rbe3/rbe3f_pen.F90
+!||====================================================================
       SUBROUTINE RBE3F(IRBE3 ,LRBE3 ,X    ,A     ,AR    ,
      1                 MS    ,IN    ,FRBE3,SKEW  ,WEIGHT,
      2                 STIFN ,STIFR ,JT   ,JR    ,IROTG ,
@@ -492,11 +492,11 @@ C
 C---
       RETURN
       END
-      !||====================================================================
-      !||    ass_rbe3   ../engine/source/constraints/general/rbe3/rbe3f.F
-      !||--- called by ------------------------------------------------------
-      !||    rbe3t1     ../engine/source/constraints/general/rbe3/rbe3f.F
-      !||====================================================================
+!||====================================================================
+!||    ass_rbe3   ../engine/source/constraints/general/rbe3/rbe3f.F
+!||--- called by ------------------------------------------------------
+!||    rbe3t1     ../engine/source/constraints/general/rbe3/rbe3f.F
+!||====================================================================
       SUBROUTINE ASS_RBE3(IRBE3 ,LRBE3 ,A     ,AR    ,MS    ,
      1                    IN    ,WEIGHT,STIFN ,STIFR ,DA    ,
      2                    DAR   ,DMS   ,DIN   ,DSTIFN,DSTIFR,
@@ -575,9 +575,9 @@ C
 C---
       RETURN
       END
-      !||====================================================================
-      !||    asp0_rbe3   ../engine/source/constraints/general/rbe3/rbe3f.F
-      !||====================================================================
+!||====================================================================
+!||    asp0_rbe3   ../engine/source/constraints/general/rbe3/rbe3f.F
+!||====================================================================
       SUBROUTINE ASP0_RBE3(IRBE3 ,LRBE3 ,A     ,AR    ,MS    ,
      1                     IN    ,WEIGHT,STIFN ,STIFR ,DA    ,
      2                     DAR   ,DMS   ,DIN   ,DSTIFN,DSTIFR)
@@ -654,9 +654,9 @@ C
 C---
       RETURN
       END
-      !||====================================================================
-      !||    asp1_rbe3   ../engine/source/constraints/general/rbe3/rbe3f.F
-      !||====================================================================
+!||====================================================================
+!||    asp1_rbe3   ../engine/source/constraints/general/rbe3/rbe3f.F
+!||====================================================================
       SUBROUTINE ASP1_RBE3(IRBE3 ,LRBE3 ,A     ,AR    ,MS    ,
      1                     IN    ,WEIGHT,STIFN ,STIFR ,DA    ,
      2                     DAR   ,DMS   ,DIN   ,DSTIFN,DSTIFR)
@@ -745,11 +745,11 @@ C
 C---
       RETURN
       END
-      !||====================================================================
-      !||    asp2_rbe3   ../engine/source/constraints/general/rbe3/rbe3f.F
-      !||--- called by ------------------------------------------------------
-      !||    rbe3t1      ../engine/source/constraints/general/rbe3/rbe3f.F
-      !||====================================================================
+!||====================================================================
+!||    asp2_rbe3   ../engine/source/constraints/general/rbe3/rbe3f.F
+!||--- called by ------------------------------------------------------
+!||    rbe3t1      ../engine/source/constraints/general/rbe3/rbe3f.F
+!||====================================================================
       SUBROUTINE ASP2_RBE3(IRBE3 ,LRBE3 ,A     ,AR    ,MS    ,
      1                     IN    ,WEIGHT,STIFN ,STIFR ,DA    ,
      2                     DAR   ,DMS   ,DIN   ,DSTIFN,DSTIFR,
@@ -819,13 +819,13 @@ C    MS1 = MS1 + DMS(J,I)
 C---
       RETURN
       END
-      !||====================================================================
-      !||    dmi_rbe3   ../engine/source/constraints/general/rbe3/rbe3f.F
-      !||--- called by ------------------------------------------------------
-      !||    rbe3t1     ../engine/source/constraints/general/rbe3/rbe3f.F
-      !||--- uses       -----------------------------------------------------
-      !||    h3d_mod    ../engine/share/modules/h3d_mod.F
-      !||====================================================================
+!||====================================================================
+!||    dmi_rbe3   ../engine/source/constraints/general/rbe3/rbe3f.F
+!||--- called by ------------------------------------------------------
+!||    rbe3t1     ../engine/source/constraints/general/rbe3/rbe3f.F
+!||--- uses       -----------------------------------------------------
+!||    h3d_mod    ../engine/share/modules/h3d_mod.F
+!||====================================================================
       SUBROUTINE DMI_RBE3(NMT   ,LRBE3 ,MS0   ,IN0   ,DMS   ,
      1                    DIN   ,DMAST ,ADM   ,DINERT,ADI   ,
      2                    IROTG ,IRBE3 ,MS    ,IN    ,WEIGHT,
@@ -933,21 +933,21 @@ C-------output only when real added mass happened: debug usage
 C---
       RETURN
       END
-      !||====================================================================
-      !||    prerbe3          ../engine/source/constraints/general/rbe3/rbe3f.F
-      !||--- called by ------------------------------------------------------
-      !||    rbe3_imp0        ../engine/source/constraints/general/rbe3/rbe3_imp0.F
-      !||    rbe3_impd        ../engine/source/constraints/general/rbe3/rbe3v.F
-      !||    rbe3_impi        ../engine/source/constraints/general/rbe3/rbe3_imp0.F
-      !||    rbe3_impr1       ../engine/source/constraints/general/rbe3/rbe3_imp0.F
-      !||    rbe3_impr2       ../engine/source/constraints/general/rbe3/rbe3_imp0.F
-      !||    rbe3t1           ../engine/source/constraints/general/rbe3/rbe3f.F
-      !||    rbe3v            ../engine/source/constraints/general/rbe3/rbe3v.F
-      !||    sms_rbe3_nodxi   ../engine/source/ams/sms_rbe3.F
-      !||    sms_rbe3_prec    ../engine/source/ams/sms_rbe3.F
-      !||    sms_rbe3t1       ../engine/source/ams/sms_rbe3.F
-      !||    sms_rbe3t2       ../engine/source/ams/sms_rbe3.F
-      !||====================================================================
+!||====================================================================
+!||    prerbe3          ../engine/source/constraints/general/rbe3/rbe3f.F
+!||--- called by ------------------------------------------------------
+!||    rbe3_imp0        ../engine/source/constraints/general/rbe3/rbe3_imp0.F
+!||    rbe3_impd        ../engine/source/constraints/general/rbe3/rbe3v.F
+!||    rbe3_impi        ../engine/source/constraints/general/rbe3/rbe3_imp0.F
+!||    rbe3_impr1       ../engine/source/constraints/general/rbe3/rbe3_imp0.F
+!||    rbe3_impr2       ../engine/source/constraints/general/rbe3/rbe3_imp0.F
+!||    rbe3t1           ../engine/source/constraints/general/rbe3/rbe3f.F
+!||    rbe3v            ../engine/source/constraints/general/rbe3/rbe3v.F
+!||    sms_rbe3_nodxi   ../engine/source/ams/sms_rbe3.F
+!||    sms_rbe3_prec    ../engine/source/ams/sms_rbe3.F
+!||    sms_rbe3t1       ../engine/source/ams/sms_rbe3.F
+!||    sms_rbe3t2       ../engine/source/ams/sms_rbe3.F
+!||====================================================================
       SUBROUTINE PRERBE3(IRBE3 ,MAX_M , IROTG,JT  ,JR   )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -1028,18 +1028,18 @@ C======================================================================|
 C---
       RETURN
       END
-      !||====================================================================
-      !||    prerbe3fr   ../engine/source/constraints/general/rbe3/rbe3f.F
-      !||--- called by ------------------------------------------------------
-      !||    diag_int    ../engine/source/mpi/implicit/imp_fri.F
-      !||    fr_u2dd     ../engine/source/mpi/implicit/imp_fri.F
-      !||    imp3_a2b    ../engine/source/airbag/monv_imp0.F
-      !||    imp3_u2x    ../engine/source/airbag/monv_imp0.F
-      !||    upd_fr      ../engine/source/mpi/implicit/imp_fri.F
-      !||    upd_kml     ../engine/source/mpi/implicit/imp_fri.F
-      !||    upd_ksl     ../engine/source/mpi/implicit/imp_fri.F
-      !||    updk_mv     ../engine/source/airbag/monv_imp0.F
-      !||====================================================================
+!||====================================================================
+!||    prerbe3fr   ../engine/source/constraints/general/rbe3/rbe3f.F
+!||--- called by ------------------------------------------------------
+!||    diag_int    ../engine/source/mpi/implicit/imp_fri.F
+!||    fr_u2dd     ../engine/source/mpi/implicit/imp_fri.F
+!||    imp3_a2b    ../engine/source/airbag/monv_imp0.F
+!||    imp3_u2x    ../engine/source/airbag/monv_imp0.F
+!||    upd_fr      ../engine/source/mpi/implicit/imp_fri.F
+!||    upd_kml     ../engine/source/mpi/implicit/imp_fri.F
+!||    upd_ksl     ../engine/source/mpi/implicit/imp_fri.F
+!||    updk_mv     ../engine/source/airbag/monv_imp0.F
+!||====================================================================
       SUBROUTINE PRERBE3FR(IRBE3 ,N    ,JT  ,JR   )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -1111,31 +1111,31 @@ C======================================================================|
 C---
       RETURN
       END
-      !||====================================================================
-      !||    rbe3cl        ../engine/source/constraints/general/rbe3/rbe3f.F
-      !||--- called by ------------------------------------------------------
-      !||    id_mvini      ../engine/source/airbag/monv_imp0.F
-      !||    iddl_int      ../engine/source/mpi/implicit/imp_fri.F
-      !||    rbe3_fr0      ../engine/source/constraints/general/rbe3/rbe3_imp0.F
-      !||    rbe3_imp0     ../engine/source/constraints/general/rbe3/rbe3_imp0.F
-      !||    rbe3_impd     ../engine/source/constraints/general/rbe3/rbe3v.F
-      !||    rbe3_impi     ../engine/source/constraints/general/rbe3/rbe3_imp0.F
-      !||    rbe3_impr1    ../engine/source/constraints/general/rbe3/rbe3_imp0.F
-      !||    rbe3_impr2    ../engine/source/constraints/general/rbe3/rbe3_imp0.F
-      !||    rbe3_mint     ../engine/source/implicit/imp_int_k.F
-      !||    rbe3f         ../engine/source/constraints/general/rbe3/rbe3f.F
-      !||    rbe3v         ../engine/source/constraints/general/rbe3/rbe3v.F
-      !||    sms_rbe3_1    ../engine/source/ams/sms_rbe3.F
-      !||    sms_rbe3t2    ../engine/source/ams/sms_rbe3.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg        ../engine/source/output/message/message.F
-      !||    invert        ../engine/source/constraints/general/rbe3/rbe3f.F
-      !||    rbe3uf        ../engine/source/constraints/general/rbe3/rbe3f.F
-      !||    rbe3um        ../engine/source/constraints/general/rbe3/rbe3f.F
-      !||    zero1         ../engine/source/system/zero.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod   ../engine/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    rbe3cl        ../engine/source/constraints/general/rbe3/rbe3f.F
+!||--- called by ------------------------------------------------------
+!||    id_mvini      ../engine/source/airbag/monv_imp0.F
+!||    iddl_int      ../engine/source/mpi/implicit/imp_fri.F
+!||    rbe3_fr0      ../engine/source/constraints/general/rbe3/rbe3_imp0.F
+!||    rbe3_imp0     ../engine/source/constraints/general/rbe3/rbe3_imp0.F
+!||    rbe3_impd     ../engine/source/constraints/general/rbe3/rbe3v.F
+!||    rbe3_impi     ../engine/source/constraints/general/rbe3/rbe3_imp0.F
+!||    rbe3_impr1    ../engine/source/constraints/general/rbe3/rbe3_imp0.F
+!||    rbe3_impr2    ../engine/source/constraints/general/rbe3/rbe3_imp0.F
+!||    rbe3_mint     ../engine/source/implicit/imp_int_k.F
+!||    rbe3f         ../engine/source/constraints/general/rbe3/rbe3f.F
+!||    rbe3v         ../engine/source/constraints/general/rbe3/rbe3v.F
+!||    sms_rbe3_1    ../engine/source/ams/sms_rbe3.F
+!||    sms_rbe3t2    ../engine/source/ams/sms_rbe3.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg        ../engine/source/output/message/message.F
+!||    invert        ../engine/source/constraints/general/rbe3/rbe3f.F
+!||    rbe3uf        ../engine/source/constraints/general/rbe3/rbe3f.F
+!||    rbe3um        ../engine/source/constraints/general/rbe3/rbe3f.F
+!||    zero1         ../engine/source/system/zero.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod   ../engine/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE RBE3CL(INRBE3  ,ILRBE3  ,NS     ,XYZ    ,FRBE3   ,
      .                  SKEW    ,NG      ,IROT   ,FDSTNB ,MDSTNB  ,ID )
 C-----------------------------------------------
@@ -1477,9 +1477,9 @@ C
       RETURN
       END
 C----------------------------
-      !||====================================================================
-      !||    wrrinf   ../engine/source/constraints/general/rbe3/rbe3f.F
-      !||====================================================================
+!||====================================================================
+!||    wrrinf   ../engine/source/constraints/general/rbe3/rbe3f.F
+!||====================================================================
       SUBROUTINE WRRINF(TITLE,R,N)
 #include      "implicit_f.inc"
 c  !DECLARATIONS
@@ -1492,13 +1492,13 @@ C----------------------------
       print *, TITLE,(R(I),I=1,N)
       RETURN
       END
-      !||====================================================================
-      !||    rbe3uf   ../engine/source/constraints/general/rbe3/rbe3f.F
-      !||--- called by ------------------------------------------------------
-      !||    rbe3cl   ../engine/source/constraints/general/rbe3/rbe3f.F
-      !||--- calls      -----------------------------------------------------
-      !||    zero1    ../engine/source/system/zero.F
-      !||====================================================================
+!||====================================================================
+!||    rbe3uf   ../engine/source/constraints/general/rbe3/rbe3f.F
+!||--- called by ------------------------------------------------------
+!||    rbe3cl   ../engine/source/constraints/general/rbe3/rbe3f.F
+!||--- calls      -----------------------------------------------------
+!||    zero1    ../engine/source/system/zero.F
+!||====================================================================
       SUBROUTINE RBE3UF(INRBE3,ILRBE3,EL,TW,XYZ,REFPT,
      *                  FUFXLC,FUFYLC,FUFZLC,
      *                  FUFX,FUFY,FUFZ,MUFX,MUFY,MUFZ,
@@ -1610,13 +1610,13 @@ C
       RETURN
       END
 C
-      !||====================================================================
-      !||    rbe3um   ../engine/source/constraints/general/rbe3/rbe3f.F
-      !||--- called by ------------------------------------------------------
-      !||    rbe3cl   ../engine/source/constraints/general/rbe3/rbe3f.F
-      !||--- calls      -----------------------------------------------------
-      !||    zero1    ../engine/source/system/zero.F
-      !||====================================================================
+!||====================================================================
+!||    rbe3um   ../engine/source/constraints/general/rbe3/rbe3f.F
+!||--- called by ------------------------------------------------------
+!||    rbe3cl   ../engine/source/constraints/general/rbe3/rbe3f.F
+!||--- calls      -----------------------------------------------------
+!||    zero1    ../engine/source/system/zero.F
+!||====================================================================
       SUBROUTINE RBE3UM(INRBE3,ILRBE3,EL,TW,RW,XYZ,REFPT,CGMX,CGMY,CGMZ,
      *                  FUMXLC,FUMYLC,FUMZLC,MXLC,MYLC,MZLC,
      *                  FUMX,FUMY,FUMZ,MX,MY,MZ,MUMX,MUMY,MUMZ,
@@ -1794,11 +1794,11 @@ C
 C
       RETURN
       END
-      !||====================================================================
-      !||    invert   ../engine/source/constraints/general/rbe3/rbe3f.F
-      !||--- called by ------------------------------------------------------
-      !||    rbe3cl   ../engine/source/constraints/general/rbe3/rbe3f.F
-      !||====================================================================
+!||====================================================================
+!||    invert   ../engine/source/constraints/general/rbe3/rbe3f.F
+!||--- called by ------------------------------------------------------
+!||    rbe3cl   ../engine/source/constraints/general/rbe3/rbe3f.F
+!||====================================================================
        SUBROUTINE INVERT(MATRIX, INVERSE, N, ERRORFLAG)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -1896,12 +1896,12 @@ c  !STORE ANSWER
           ERRORFLAG = 0
         RETURN
         END SUBROUTINE INVERT
-      !||====================================================================
-      !||    rbe3frf    ../engine/source/constraints/general/rbe3/rbe3f.F
-      !||--- called by ------------------------------------------------------
-      !||    imp3_a2b   ../engine/source/airbag/monv_imp0.F
-      !||    upd_fr     ../engine/source/mpi/implicit/imp_fri.F
-      !||====================================================================
+!||====================================================================
+!||    rbe3frf    ../engine/source/constraints/general/rbe3/rbe3f.F
+!||--- called by ------------------------------------------------------
+!||    imp3_a2b   ../engine/source/airbag/monv_imp0.F
+!||    upd_fr     ../engine/source/mpi/implicit/imp_fri.F
+!||====================================================================
       SUBROUTINE RBE3FRF(NML   ,IML   ,NS    ,A     ,AR    ,
      *                   FDSTNB,MDSTNB,JT    ,JR    ,IROT  )
 C-----------------------------------------------
@@ -1970,14 +1970,14 @@ C======================================================================|
 C---
       RETURN
       END
-      !||====================================================================
-      !||    prerbe3p        ../engine/source/constraints/general/rbe3/rbe3f.F
-      !||--- called by ------------------------------------------------------
-      !||    rbe3t1          ../engine/source/constraints/general/rbe3/rbe3f.F
-      !||    sms_rbe3_prec   ../engine/source/ams/sms_rbe3.F
-      !||    sms_rbe3t1      ../engine/source/ams/sms_rbe3.F
-      !||    sms_rbe3t2      ../engine/source/ams/sms_rbe3.F
-      !||====================================================================
+!||====================================================================
+!||    prerbe3p        ../engine/source/constraints/general/rbe3/rbe3f.F
+!||--- called by ------------------------------------------------------
+!||    rbe3t1          ../engine/source/constraints/general/rbe3/rbe3f.F
+!||    sms_rbe3_prec   ../engine/source/ams/sms_rbe3.F
+!||    sms_rbe3t1      ../engine/source/ams/sms_rbe3.F
+!||    sms_rbe3t2      ../engine/source/ams/sms_rbe3.F
+!||====================================================================
       SUBROUTINE PRERBE3P(IRBE3 ,LRBE3 ,AD_M , IML  ,NMT   )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -2022,15 +2022,15 @@ C======================================================================|
 C---
       RETURN
       END
-      !||====================================================================
-      !||    prerbe3p0      ../engine/source/constraints/general/rbe3/rbe3f.F
-      !||--- called by ------------------------------------------------------
-      !||    resol          ../engine/source/engine/resol.F
-      !||--- calls      -----------------------------------------------------
-      !||--- uses       -----------------------------------------------------
-      !||    my_alloc_mod   ../common_source/tools/memory/my_alloc.F90
-      !||    rbe3_mod       ../common_source/modules/constraints/rbe3_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    prerbe3p0      ../engine/source/constraints/general/rbe3/rbe3f.F
+!||--- called by ------------------------------------------------------
+!||    resol          ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||    my_alloc_mod   ../common_source/tools/memory/my_alloc.F90
+!||    rbe3_mod       ../common_source/modules/constraints/rbe3_mod.F90
+!||====================================================================
       SUBROUTINE PRERBE3P0(RBE3)
       use rbe3_mod
       use my_alloc_mod
@@ -2093,12 +2093,12 @@ C---
       DEALLOCATE(ITAG)
       RETURN
       END
-      !||====================================================================
-      !||    mfac_rbe3    ../engine/source/constraints/general/rbe3/rbe3f.F
-      !||--- called by ------------------------------------------------------
-      !||    rbe3f        ../engine/source/constraints/general/rbe3/rbe3f.F
-      !||    sms_rbe3_1   ../engine/source/ams/sms_rbe3.F
-      !||====================================================================
+!||====================================================================
+!||    mfac_rbe3    ../engine/source/constraints/general/rbe3/rbe3f.F
+!||--- called by ------------------------------------------------------
+!||    rbe3f        ../engine/source/constraints/general/rbe3/rbe3f.F
+!||    sms_rbe3_1   ../engine/source/ams/sms_rbe3.F
+!||====================================================================
       SUBROUTINE MFAC_RBE3(FDSTNB,MDSTNB,NML ,IROT,SF,SM)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

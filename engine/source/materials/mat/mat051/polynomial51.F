@@ -20,11 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    polyun51   ../engine/source/materials/mat/mat051/polynomial51.F
-      !||--- called by ------------------------------------------------------
-      !||    sigeps51   ../engine/source/materials/mat/mat051/sigeps51.F90
-      !||====================================================================
+!||====================================================================
+!||    polyun51   ../engine/source/materials/mat/mat051/polynomial51.F
+!||--- called by ------------------------------------------------------
+!||    sigeps51   ../engine/source/materials/mat/mat051/sigeps51.F90
+!||====================================================================
       SUBROUTINE POLYUN51 (
      .    C0      ,C1     ,C2      ,C3       ,C4     , C5   ,GG,
      .    VOLUME  ,DVOL   ,VOLD    ,
@@ -88,11 +88,11 @@ C-----------------------------------------------
       RETURN
       END
 
-      !||====================================================================
-      !||    poly51     ../engine/source/materials/mat/mat051/polynomial51.F
-      !||--- called by ------------------------------------------------------
-      !||    sigeps51   ../engine/source/materials/mat/mat051/sigeps51.F90
-      !||====================================================================
+!||====================================================================
+!||    poly51     ../engine/source/materials/mat/mat051/polynomial51.F
+!||--- called by ------------------------------------------------------
+!||    sigeps51   ../engine/source/materials/mat/mat051/sigeps51.F90
+!||====================================================================
       SUBROUTINE POLY51 (C01,C11,C21,C31,C41,C51,GG1,
      .          V10,V1,V1OLD,MU1,MUP1,EINT1,
      .          PEXT,P1,PM1,P1I,

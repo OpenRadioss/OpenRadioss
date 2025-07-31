@@ -20,12 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    m37init        ../starter/source/materials/mat/mat037/m37init.F
-      !||--- called by ------------------------------------------------------
-      !||    matini         ../starter/source/materials/mat_share/matini.F
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    m37init        ../starter/source/materials/mat/mat037/m37init.F
+!||--- called by ------------------------------------------------------
+!||    matini         ../starter/source/materials/mat_share/matini.F
+!||--- uses       -----------------------------------------------------
+!||====================================================================
       SUBROUTINE M37INIT(
      .               IPM     ,PM        ,
      .               NGL     ,NUVAR     ,UVAR    ,UPARAM    ,X       ,

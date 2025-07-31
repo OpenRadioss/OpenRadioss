@@ -20,16 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    sigeps70                ../starter/source/materials/mat/mat070/sigeps70.F
-      !||--- called by ------------------------------------------------------
-      !||    mulaw                   ../starter/source/materials/mat_share/mulaw.F
-      !||--- calls      -----------------------------------------------------
-      !||    finter                  ../starter/source/tools/curve/finter.F
-      !||    table_mat_vinterp       ../starter/source/materials/tools/table_mat_vinterp.F
-      !||--- uses       -----------------------------------------------------
-      !||    table_mat_vinterp_mod   ../starter/source/materials/tools/table_mat_vinterp.F
-      !||====================================================================
+!||====================================================================
+!||    sigeps70                ../starter/source/materials/mat/mat070/sigeps70.F
+!||--- called by ------------------------------------------------------
+!||    mulaw                   ../starter/source/materials/mat_share/mulaw.F
+!||--- calls      -----------------------------------------------------
+!||    finter                  ../starter/source/tools/curve/finter.F
+!||    table_mat_vinterp       ../starter/source/materials/tools/table_mat_vinterp.F
+!||--- uses       -----------------------------------------------------
+!||    table_mat_vinterp_mod   ../starter/source/materials/tools/table_mat_vinterp.F
+!||====================================================================
       SUBROUTINE SIGEPS70(
      1     NEL    ,NUPARAM,NUVAR   ,MFUNC   ,KFUNC   ,NPF    ,
      2     TF     ,TIME   ,TIMESTEP,UPARAM  ,RHO0    ,RHO    ,

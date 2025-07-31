@@ -20,18 +20,18 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    parsor_crk         ../engine/source/output/anim/generate/parsor_crk.F
-      !||--- called by ------------------------------------------------------
-      !||    genani             ../engine/source/output/anim/generate/genani.F
-      !||--- calls      -----------------------------------------------------
-      !||    spmd_iget_partn    ../engine/source/mpi/anim/spmd_iget_partn.F
-      !||    spmd_iglob_partn   ../engine/source/mpi/anim/spmd_iglob_partn.F
-      !||    write_i_c          ../common_source/tools/input_output/write_routtines.c
-      !||--- uses       -----------------------------------------------------
-      !||    crackxfem_mod      ../engine/share/modules/crackxfem_mod.F
-      !||    my_alloc_mod       ../common_source/tools/memory/my_alloc.F90
-      !||====================================================================
+!||====================================================================
+!||    parsor_crk         ../engine/source/output/anim/generate/parsor_crk.F
+!||--- called by ------------------------------------------------------
+!||    genani             ../engine/source/output/anim/generate/genani.F
+!||--- calls      -----------------------------------------------------
+!||    spmd_iget_partn    ../engine/source/mpi/anim/spmd_iget_partn.F
+!||    spmd_iglob_partn   ../engine/source/mpi/anim/spmd_iglob_partn.F
+!||    write_i_c          ../common_source/tools/input_output/write_routtines.c
+!||--- uses       -----------------------------------------------------
+!||    crackxfem_mod      ../engine/share/modules/crackxfem_mod.F
+!||    my_alloc_mod       ../common_source/tools/memory/my_alloc.F90
+!||====================================================================
       SUBROUTINE PARSOR_CRK(IPARG  ,IXC     ,IXTG  ,EL2FA,IDCRK   ,
      .                      IAD_CRK,IAD_CRKG,NBF_L ,NBF  ,IEL_CRK ,
      .                      NODGLOBXFE,INDX_CRK,ITAB     )

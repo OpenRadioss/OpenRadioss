@@ -20,17 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    aleflow                ../engine/source/ale/porous/aleflow.F
-      !||--- called by ------------------------------------------------------
-      !||    sforc3                 ../engine/source/elements/solid/solide/sforc3.F
-      !||--- calls      -----------------------------------------------------
-      !||    aleconve               ../engine/source/ale/porous/aleconv.F
-      !||    aleflux                ../engine/source/ale/porous/aleflux.F
-      !||--- uses       -----------------------------------------------------
-      !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
-      !||    elbufdef_mod           ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    aleflow                ../engine/source/ale/porous/aleflow.F
+!||--- called by ------------------------------------------------------
+!||    sforc3                 ../engine/source/elements/solid/solide/sforc3.F
+!||--- calls      -----------------------------------------------------
+!||    aleconve               ../engine/source/ale/porous/aleconv.F
+!||    aleflux                ../engine/source/ale/porous/aleflux.F
+!||--- uses       -----------------------------------------------------
+!||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
+!||    elbufdef_mod           ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||====================================================================
       SUBROUTINE ALEFLOW(
      .         PM    ,MAT          ,X            ,
      .         MBUF  ,NEL          ,

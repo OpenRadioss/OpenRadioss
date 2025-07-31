@@ -20,11 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    preplyxfem   ../starter/source/properties/composite_options/stack/preplyxfem.F
-      !||--- called by ------------------------------------------------------
-      !||    lectur       ../starter/source/starter/lectur.F
-      !||====================================================================
+!||====================================================================
+!||    preplyxfem   ../starter/source/properties/composite_options/stack/preplyxfem.F
+!||--- called by ------------------------------------------------------
+!||    lectur       ../starter/source/starter/lectur.F
+!||====================================================================
       SUBROUTINE PREPLYXFEM(
      1      MS_PLY0,ZI_PLY0,IEL, INOD , IXC ,MS_PLY,ZI_PLY,ADDCNE ,
      2      MSZ20,MSZ2)
@@ -90,12 +90,12 @@ C
 C          
           RETURN
           END
-      !||====================================================================
-      !||    fillcne_pxfem   ../starter/source/properties/composite_options/stack/preplyxfem.F
-      !||--- called by ------------------------------------------------------
-      !||    lectur          ../starter/source/starter/lectur.F
-      !||--- calls      -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    fillcne_pxfem   ../starter/source/properties/composite_options/stack/preplyxfem.F
+!||--- called by ------------------------------------------------------
+!||    lectur          ../starter/source/starter/lectur.F
+!||--- calls      -----------------------------------------------------
+!||====================================================================
       SUBROUTINE FILLCNE_PXFEM(
      1   IEL , INOD, IXC,CEP, ADDCNE, CNE,CEL   )
 C-----------------------------------------------

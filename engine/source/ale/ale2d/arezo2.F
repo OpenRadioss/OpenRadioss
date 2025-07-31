@@ -20,20 +20,20 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    arezo2_mod   ../engine/source/ale/ale2d/arezo2.F
-      !||--- called by ------------------------------------------------------
-      !||    arezon       ../engine/source/ale/arezon.F
-      !||====================================================================
+!||====================================================================
+!||    arezo2_mod   ../engine/source/ale/ale2d/arezo2.F
+!||--- called by ------------------------------------------------------
+!||    arezon       ../engine/source/ale/arezon.F
+!||====================================================================
       MODULE AREZO2_MOD
       CONTAINS
-      !||====================================================================
-      !||    arezo2                 ../engine/source/ale/ale2d/arezo2.F
-      !||--- called by ------------------------------------------------------
-      !||    arezon                 ../engine/source/ale/arezon.F
-      !||--- uses       -----------------------------------------------------
-      !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
-      !||====================================================================
+!||====================================================================
+!||    arezo2                 ../engine/source/ale/ale2d/arezo2.F
+!||--- called by ------------------------------------------------------
+!||    arezon                 ../engine/source/ale/arezon.F
+!||--- uses       -----------------------------------------------------
+!||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
+!||====================================================================
       SUBROUTINE AREZO2(ALE_CONNECT,VAR,PHI,FLUX,VOL)
 C-----------------------------------------------
 C   M o d u l e s

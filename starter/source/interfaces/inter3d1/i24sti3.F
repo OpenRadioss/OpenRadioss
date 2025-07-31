@@ -20,18 +20,18 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    i24sti3                 ../starter/source/interfaces/inter3d1/i24sti3.F
-      !||--- called by ------------------------------------------------------
-      !||    inint3                  ../starter/source/interfaces/inter3d1/inint3.F
-      !||--- calls      -----------------------------------------------------
-      !||    friction_parts_search   ../starter/source/interfaces/inter3d1/i7sti3.F
-      !||    i24bord                 ../starter/source/interfaces/inter3d1/i24sti3.F
-      !||    i24gapm                 ../starter/source/interfaces/inter3d1/i24sti3.F
-      !||    i24normns               ../starter/source/interfaces/inter3d1/i24sti3.F
-      !||    insol3et                ../starter/source/interfaces/inter3d1/i24sti3.F
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    i24sti3                 ../starter/source/interfaces/inter3d1/i24sti3.F
+!||--- called by ------------------------------------------------------
+!||    inint3                  ../starter/source/interfaces/inter3d1/inint3.F
+!||--- calls      -----------------------------------------------------
+!||    friction_parts_search   ../starter/source/interfaces/inter3d1/i7sti3.F
+!||    i24bord                 ../starter/source/interfaces/inter3d1/i24sti3.F
+!||    i24gapm                 ../starter/source/interfaces/inter3d1/i24sti3.F
+!||    i24normns               ../starter/source/interfaces/inter3d1/i24sti3.F
+!||    insol3et                ../starter/source/interfaces/inter3d1/i24sti3.F
+!||--- uses       -----------------------------------------------------
+!||====================================================================
       SUBROUTINE I24STI3(
      1 X     ,IRECT ,STF   ,IXS   ,PM    ,
      2 GEO   ,NRT   ,IXC   ,NINT  ,STFAC ,
@@ -945,13 +945,13 @@ C-------shell elements
  1400 FORMAT(2X,'MIN,MAX OF SECONDARY GAP: ',2(1PG20.13))
  1500 FORMAT(2X,'MIN,MAX OF MAIN GAP: ',2(1PG20.13)/)
       END
-      !||====================================================================
-      !||    insol3et      ../starter/source/interfaces/inter3d1/i24sti3.F
-      !||--- called by ------------------------------------------------------
-      !||    i24sti3       ../starter/source/interfaces/inter3d1/i24sti3.F
-      !||    i25sti3       ../starter/source/interfaces/inter3d1/i25sti3.F
-      !||    remn_self24   ../starter/source/interfaces/inter3d1/remn_self24.F
-      !||====================================================================
+!||====================================================================
+!||    insol3et      ../starter/source/interfaces/inter3d1/i24sti3.F
+!||--- called by ------------------------------------------------------
+!||    i24sti3       ../starter/source/interfaces/inter3d1/i24sti3.F
+!||    i25sti3       ../starter/source/interfaces/inter3d1/i25sti3.F
+!||    remn_self24   ../starter/source/interfaces/inter3d1/remn_self24.F
+!||====================================================================
       SUBROUTINE INSOL3ET(X   ,IRECT ,IXS     ,NINT   ,NEL,I ,
      .                  AREA ,NOINT ,KNOD2ELS,NOD2ELS,IXS10 ,
      .                  IXS16,IXS20 ,NNOD    )
@@ -1068,22 +1068,22 @@ C
 C-----------------------------------------------
       RETURN
       END
-      !||====================================================================
-      !||    i24gapm                 ../starter/source/interfaces/inter3d1/i24sti3.F
-      !||--- called by ------------------------------------------------------
-      !||    i24sti3                 ../starter/source/interfaces/inter3d1/i24sti3.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg                  ../starter/source/output/message/message.F
-      !||    friction_parts_search   ../starter/source/interfaces/inter3d1/i7sti3.F
-      !||    i4gmx3                  ../starter/source/interfaces/inter3d1/i4gmx3.F
-      !||    incoq3                  ../starter/source/interfaces/inter3d1/incoq3.F
-      !||    ineltc                  ../starter/source/interfaces/inter3d1/inelt.F
-      !||    inelts_np               ../starter/source/interfaces/inter3d1/i24sti3.F
-      !||    insol3d                 ../starter/source/interfaces/inter3d1/insol3.F
-      !||    volint                  ../starter/source/interfaces/inter3d1/volint.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod             ../starter/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    i24gapm                 ../starter/source/interfaces/inter3d1/i24sti3.F
+!||--- called by ------------------------------------------------------
+!||    i24sti3                 ../starter/source/interfaces/inter3d1/i24sti3.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                  ../starter/source/output/message/message.F
+!||    friction_parts_search   ../starter/source/interfaces/inter3d1/i7sti3.F
+!||    i4gmx3                  ../starter/source/interfaces/inter3d1/i4gmx3.F
+!||    incoq3                  ../starter/source/interfaces/inter3d1/incoq3.F
+!||    ineltc                  ../starter/source/interfaces/inter3d1/inelt.F
+!||    inelts_np               ../starter/source/interfaces/inter3d1/i24sti3.F
+!||    insol3d                 ../starter/source/interfaces/inter3d1/insol3.F
+!||    volint                  ../starter/source/interfaces/inter3d1/volint.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod             ../starter/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE I24GAPM(
      1 X     ,IRECT ,STF   ,IXS   ,PM    ,
      2 GEO   ,NRT   ,IXC   ,NINT  ,STFAC ,
@@ -1795,12 +1795,12 @@ C-----------------------------------------------
  1400 FORMAT(I10,' MAIN SEGMENTS',' OF INTERFACE',I10,
      +                      ' ARE REVERSED THE NORMAL DIRECTION')
       END
-      !||====================================================================
-      !||    i24bord     ../starter/source/interfaces/inter3d1/i24sti3.F
-      !||--- called by ------------------------------------------------------
-      !||    i24sti3     ../starter/source/interfaces/inter3d1/i24sti3.F
-      !||--- calls      -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    i24bord     ../starter/source/interfaces/inter3d1/i24sti3.F
+!||--- called by ------------------------------------------------------
+!||    i24sti3     ../starter/source/interfaces/inter3d1/i24sti3.F
+!||--- calls      -----------------------------------------------------
+!||====================================================================
       SUBROUTINE I24BORD(NSEG,SURF_NODES ,TAGB)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -1893,15 +1893,15 @@ c         derniere arrete est un bord
 C-----------
       RETURN
       END
-      !||====================================================================
-      !||    i24normns   ../starter/source/interfaces/inter3d1/i24sti3.F
-      !||--- called by ------------------------------------------------------
-      !||    i24sti3     ../starter/source/interfaces/inter3d1/i24sti3.F
-      !||    i25sti3     ../starter/source/interfaces/inter3d1/i25sti3.F
-      !||--- calls      -----------------------------------------------------
-      !||    normv3      ../starter/source/interfaces/inter3d1/i24tools.F
-      !||    normvec     ../starter/source/interfaces/inter3d1/i24sti3.F
-      !||====================================================================
+!||====================================================================
+!||    i24normns   ../starter/source/interfaces/inter3d1/i24sti3.F
+!||--- called by ------------------------------------------------------
+!||    i24sti3     ../starter/source/interfaces/inter3d1/i24sti3.F
+!||    i25sti3     ../starter/source/interfaces/inter3d1/i25sti3.F
+!||--- calls      -----------------------------------------------------
+!||    normv3      ../starter/source/interfaces/inter3d1/i24tools.F
+!||    normvec     ../starter/source/interfaces/inter3d1/i24sti3.F
+!||====================================================================
       SUBROUTINE I24NORMNS(
      1 X     ,IRECT ,NRT   ,NSN   ,NSV   ,PEN_OLD, STF)
 C============================================================================
@@ -2003,14 +2003,14 @@ C-----------
        DEALLOCATE(NORM,ITAG)
       RETURN
       END
-      !||====================================================================
-      !||    normvec           ../starter/source/interfaces/inter3d1/i24sti3.F
-      !||--- called by ------------------------------------------------------
-      !||    i24normns         ../starter/source/interfaces/inter3d1/i24sti3.F
-      !||    sh_offset_nproj   ../starter/source/elements/shell/shell_offset/shell_offset_nproj.F90
-      !||--- calls      -----------------------------------------------------
-      !||    normv3            ../starter/source/interfaces/inter3d1/i24tools.F
-      !||====================================================================
+!||====================================================================
+!||    normvec           ../starter/source/interfaces/inter3d1/i24sti3.F
+!||--- called by ------------------------------------------------------
+!||    i24normns         ../starter/source/interfaces/inter3d1/i24sti3.F
+!||    sh_offset_nproj   ../starter/source/elements/shell/shell_offset/shell_offset_nproj.F90
+!||--- calls      -----------------------------------------------------
+!||    normv3            ../starter/source/interfaces/inter3d1/i24tools.F
+!||====================================================================
       SUBROUTINE NORMVEC(R,S,T)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -2036,15 +2036,15 @@ C~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
        CALL NORMV3(T,DET)
       RETURN
       END
-      !||====================================================================
-      !||    i24ll_kg      ../starter/source/interfaces/inter3d1/i24sti3.F
-      !||--- called by ------------------------------------------------------
-      !||    inint3        ../starter/source/interfaces/inter3d1/inint3.F
-      !||--- calls      -----------------------------------------------------
-      !||    volint        ../starter/source/interfaces/inter3d1/volint.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod   ../starter/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    i24ll_kg      ../starter/source/interfaces/inter3d1/i24sti3.F
+!||--- called by ------------------------------------------------------
+!||    inint3        ../starter/source/interfaces/inter3d1/inint3.F
+!||--- calls      -----------------------------------------------------
+!||    volint        ../starter/source/interfaces/inter3d1/volint.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod   ../starter/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE I24LL_KG(
      1 X     ,IRECT ,IXS   ,PM    ,WA    ,
      2 GEO   ,NRT   ,IXC   ,NINT  ,NTY   ,
@@ -2215,13 +2215,13 @@ C
 C-----------------------------------------------
       RETURN
       END
-      !||====================================================================
-      !||    inelts_np   ../starter/source/interfaces/inter3d1/i24sti3.F
-      !||--- called by ------------------------------------------------------
-      !||    i24gapm     ../starter/source/interfaces/inter3d1/i24sti3.F
-      !||--- calls      -----------------------------------------------------
-      !||    norma1      ../starter/source/interfaces/inter3d1/norma1.F
-      !||====================================================================
+!||====================================================================
+!||    inelts_np   ../starter/source/interfaces/inter3d1/i24sti3.F
+!||--- called by ------------------------------------------------------
+!||    i24gapm     ../starter/source/interfaces/inter3d1/i24sti3.F
+!||--- calls      -----------------------------------------------------
+!||    norma1      ../starter/source/interfaces/inter3d1/norma1.F
+!||====================================================================
       SUBROUTINE INELTS_NP(X        ,IRECT ,IXS   ,NREV ,NEL       ,
      .                     I        ,AREA  ,NOINT ,IR   ,SURF_ELTYP,
      .                     SURF_ELEM)
@@ -2302,9 +2302,9 @@ C
 C          
        RETURN
       END
-      !||====================================================================
-      !||    insolbox   ../starter/source/interfaces/inter3d1/i24sti3.F
-      !||====================================================================
+!||====================================================================
+!||    insolbox   ../starter/source/interfaces/inter3d1/i24sti3.F
+!||====================================================================
       SUBROUTINE INSOLBOX(X    ,S_TYPE  ,S_EL   ,NOINT ,IXS   ,
      .                   IXS10 ,IXS16   ,IXS20  ,NS    ,GAP   ,
      .                   IPART_E,IPART_NS,IPEN0 ,INS     )

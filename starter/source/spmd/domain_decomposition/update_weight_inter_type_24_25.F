@@ -20,15 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    update_weight_inter_type_24_25   ../starter/source/spmd/domain_decomposition/update_weight_inter_type_24_25.F
-      !||--- called by ------------------------------------------------------
-      !||    inint3                           ../starter/source/interfaces/inter3d1/inint3.F
-      !||--- calls      -----------------------------------------------------
-      !||    i24fic_getn                      ../starter/source/interfaces/inter3d1/i24surfi.F
-      !||--- uses       -----------------------------------------------------
-      !||    inter_cand_mod                   ../starter/share/modules1/inter_cand_mod.F
-      !||====================================================================
+!||====================================================================
+!||    update_weight_inter_type_24_25   ../starter/source/spmd/domain_decomposition/update_weight_inter_type_24_25.F
+!||--- called by ------------------------------------------------------
+!||    inint3                           ../starter/source/interfaces/inter3d1/inint3.F
+!||--- calls      -----------------------------------------------------
+!||    i24fic_getn                      ../starter/source/interfaces/inter3d1/i24surfi.F
+!||--- uses       -----------------------------------------------------
+!||    inter_cand_mod                   ../starter/share/modules1/inter_cand_mod.F
+!||====================================================================
         SUBROUTINE UPDATE_WEIGHT_INTER_TYPE_24_25(NUMNOD,NELEMINT,INTERFACE_ID,NSN,NRTM,
      .                                       IFIEND,IRECT,NSV,I_STOK,CAND_E,
      .                                       CAND_N,DGAPLOAD,GAP_S,GAP_M,X,INTER_CAND,

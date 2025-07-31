@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    cutmain   ../engine/source/tools/sect/cutmain.F
-      !||--- called by ------------------------------------------------------
-      !||    genani    ../engine/source/output/anim/generate/genani.F
-      !||--- calls      -----------------------------------------------------
-      !||    cutcon    ../engine/source/tools/sect/cutcon.F
-      !||====================================================================
+!||====================================================================
+!||    cutmain   ../engine/source/tools/sect/cutmain.F
+!||--- called by ------------------------------------------------------
+!||    genani    ../engine/source/output/anim/generate/genani.F
+!||--- calls      -----------------------------------------------------
+!||    cutcon    ../engine/source/tools/sect/cutcon.F
+!||====================================================================
       SUBROUTINE CUTMAIN(ICUT,XCUT,IXS,XYZ0,D,
      .                       NODCUT,NELCUT,ICBUF,CBUF,LEN,NBF)
 C------------------------------------------

@@ -20,24 +20,24 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    i25trivox_edg   ../engine/source/interfaces/intsort/i25trivox_edg.F
-      !||--- called by ------------------------------------------------------
-      !||    i25buce_edg     ../engine/source/interfaces/intsort/i25buce_edg.F
-      !||--- calls      -----------------------------------------------------
-      !||    bitget          ../engine/source/interfaces/intsort/i20sto.F
-      !||    i25sto_e2s      ../engine/source/interfaces/intsort/i25sto_e2s.F
-      !||    i25sto_edg      ../engine/source/interfaces/intsort/i25sto_edg.F
-      !||    int_checksum    ../engine/share/modules/debug_mod.F
-      !||    ireallocate     ../engine/share/modules/realloc_mod.F
-      !||    my_barrier      ../engine/source/system/machine.F
-      !||--- uses       -----------------------------------------------------
-      !||    debug_mod       ../engine/share/modules/debug_mod.F
-      !||    realloc_mod     ../engine/share/modules/realloc_mod.F
-      !||    tri11           ../engine/share/modules/tri11_mod.F
-      !||    tri25ebox       ../engine/share/modules/tri25ebox.F
-      !||    tri7box         ../engine/share/modules/tri7box.F
-      !||====================================================================
+!||====================================================================
+!||    i25trivox_edg   ../engine/source/interfaces/intsort/i25trivox_edg.F
+!||--- called by ------------------------------------------------------
+!||    i25buce_edg     ../engine/source/interfaces/intsort/i25buce_edg.F
+!||--- calls      -----------------------------------------------------
+!||    bitget          ../engine/source/interfaces/intsort/i20sto.F
+!||    i25sto_e2s      ../engine/source/interfaces/intsort/i25sto_e2s.F
+!||    i25sto_edg      ../engine/source/interfaces/intsort/i25sto_edg.F
+!||    int_checksum    ../engine/share/modules/debug_mod.F
+!||    ireallocate     ../engine/share/modules/realloc_mod.F
+!||    my_barrier      ../engine/source/system/machine.F
+!||--- uses       -----------------------------------------------------
+!||    debug_mod       ../engine/share/modules/debug_mod.F
+!||    realloc_mod     ../engine/share/modules/realloc_mod.F
+!||    tri11           ../engine/share/modules/tri11_mod.F
+!||    tri25ebox       ../engine/share/modules/tri25ebox.F
+!||    tri7box         ../engine/share/modules/tri7box.F
+!||====================================================================
       SUBROUTINE I25TRIVOX_EDG(
      1      I_MEM   ,VMAXDT  ,INACTI ,IRECT   ,
      2      X       ,V       ,STF    ,STFE    ,XYZM     ,

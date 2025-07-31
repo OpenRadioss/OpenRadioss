@@ -20,11 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    cbadef     ../engine/source/elements/shell/coqueba/cbadef.F
-      !||--- called by ------------------------------------------------------
-      !||    cbaforc3   ../engine/source/elements/shell/coqueba/cbaforc3.F
-      !||====================================================================
+!||====================================================================
+!||    cbadef     ../engine/source/elements/shell/coqueba/cbadef.F
+!||--- called by ------------------------------------------------------
+!||    cbaforc3   ../engine/source/elements/shell/coqueba/cbaforc3.F
+!||====================================================================
       SUBROUTINE CBADEF(JFT,JLT,NG,VCORE,AREA,CDET,VQN,VQ,VJFI,
      1                  VXYZ,RXYZ,VDEF,VNRM,VASTN,
      2                  HX,HY,VETA,VKSI,BM,BMF,BF,BC,TC,NPLAT,IPLAT,
@@ -737,11 +737,11 @@ C
  150   CONTINUE
        RETURN
        END
-      !||====================================================================
-      !||    cbadefsh   ../engine/source/elements/shell/coqueba/cbadef.F
-      !||--- called by ------------------------------------------------------
-      !||    cbaforc3   ../engine/source/elements/shell/coqueba/cbaforc3.F
-      !||====================================================================
+!||====================================================================
+!||    cbadefsh   ../engine/source/elements/shell/coqueba/cbadef.F
+!||--- called by ------------------------------------------------------
+!||    cbaforc3   ../engine/source/elements/shell/coqueba/cbaforc3.F
+!||====================================================================
         SUBROUTINE CBADEFSH(JFT  ,JLT  ,X13  ,X24  ,Y13  ,Y24  ,
      1                                 BM, VDEF, VXYZ , NPLAT, IPLAT)
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
@@ -788,14 +788,14 @@ C
        ENDDO
        RETURN
        END
-      !||====================================================================
-      !||    cbaderirz    ../engine/source/elements/shell/coqueba/cbadef.F
-      !||--- called by ------------------------------------------------------
-      !||    cbaforc3     ../engine/source/elements/shell/coqueba/cbaforc3.F
-      !||    cbake3       ../engine/source/elements/shell/coqueba/cbake3.F
-      !||--- calls      -----------------------------------------------------
-      !||    cbaderirz0   ../engine/source/elements/shell/coqueba/cbadef.F
-      !||====================================================================
+!||====================================================================
+!||    cbaderirz    ../engine/source/elements/shell/coqueba/cbadef.F
+!||--- called by ------------------------------------------------------
+!||    cbaforc3     ../engine/source/elements/shell/coqueba/cbaforc3.F
+!||    cbake3       ../engine/source/elements/shell/coqueba/cbake3.F
+!||--- calls      -----------------------------------------------------
+!||    cbaderirz0   ../engine/source/elements/shell/coqueba/cbadef.F
+!||====================================================================
         SUBROUTINE CBADERIRZ(JFT  ,JLT  ,AREA ,X13 ,X24   ,
      2                       Y13  ,Y24  ,BM0RZ,BMKRZ,BMERZ,
      3                       VCORE,NPLAT,IPLAT,ISMSTR)
@@ -858,11 +858,11 @@ C
 C
       RETURN
       END
-      !||====================================================================
-      !||    cbadefrz   ../engine/source/elements/shell/coqueba/cbadef.F
-      !||--- called by ------------------------------------------------------
-      !||    cbaforc3   ../engine/source/elements/shell/coqueba/cbaforc3.F
-      !||====================================================================
+!||====================================================================
+!||    cbadefrz   ../engine/source/elements/shell/coqueba/cbadef.F
+!||--- called by ------------------------------------------------------
+!||    cbaforc3   ../engine/source/elements/shell/coqueba/cbaforc3.F
+!||====================================================================
         SUBROUTINE CBADEFRZ(JFT ,JLT  ,AREA  ,RLZ   ,VDEF ,
      1                     VXYZ ,BM0RZ,BMKRZ,BMERZ  ,VRLZ ,
      2                     BMRZ ,BRZ  ,BM   ,NPLAT  ,IPLAT,
@@ -947,13 +947,13 @@ C
 C
       RETURN
       END
-      !||====================================================================
-      !||    cbaderirz0   ../engine/source/elements/shell/coqueba/cbadef.F
-      !||--- called by ------------------------------------------------------
-      !||    cbaderirz    ../engine/source/elements/shell/coqueba/cbadef.F
-      !||--- calls      -----------------------------------------------------
-      !||    cbpatch      ../engine/source/elements/shell/coqueba/cbadef.F
-      !||====================================================================
+!||====================================================================
+!||    cbaderirz0   ../engine/source/elements/shell/coqueba/cbadef.F
+!||--- called by ------------------------------------------------------
+!||    cbaderirz    ../engine/source/elements/shell/coqueba/cbadef.F
+!||--- calls      -----------------------------------------------------
+!||    cbpatch      ../engine/source/elements/shell/coqueba/cbadef.F
+!||====================================================================
         SUBROUTINE CBADERIRZ0(JFT ,JLT  ,AREA ,X13 ,X24   ,
      2                       Y13  ,Y24  ,MX13 ,MX23,MX34  ,
      3                       MY13 ,MY23 ,MY34 ,BM0RZ,BMKRZ,
@@ -1100,13 +1100,13 @@ C--------BM0RZ(I,3,1)->(NxI,y+NyI,x) -;BM0RZ(I,4,1)->(-NxI,y+NyI,x -2NI)-----
 C
       RETURN
       END
-      !||====================================================================
-      !||    cbpatch      ../engine/source/elements/shell/coqueba/cbadef.F
-      !||--- called by ------------------------------------------------------
-      !||    cbaderirz0   ../engine/source/elements/shell/coqueba/cbadef.F
-      !||    czderirz     ../engine/source/elements/shell/coquez/czdef.F
-      !||    czderirzt    ../engine/source/elements/shell/coquez/czdef.F
-      !||====================================================================
+!||====================================================================
+!||    cbpatch      ../engine/source/elements/shell/coqueba/cbadef.F
+!||--- called by ------------------------------------------------------
+!||    cbaderirz0   ../engine/source/elements/shell/coqueba/cbadef.F
+!||    czderirz     ../engine/source/elements/shell/coquez/czdef.F
+!||    czderirzt    ../engine/source/elements/shell/coquez/czdef.F
+!||====================================================================
         SUBROUTINE CBPATCH(JFT  ,JLT  ,BM0RZ,BMKRZ,BMERZ  ,AREA ,
      3                     MX13 ,MX23,MX34  ,MY13 ,MY23 ,MY34)
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
@@ -1212,11 +1212,11 @@ C
 C
       RETURN
       END
-      !||====================================================================
-      !||    cbadef1    ../engine/source/elements/shell/coqueba/cbadef.F
-      !||--- called by ------------------------------------------------------
-      !||    cbaforc3   ../engine/source/elements/shell/coqueba/cbaforc3.F
-      !||====================================================================
+!||====================================================================
+!||    cbadef1    ../engine/source/elements/shell/coqueba/cbadef.F
+!||--- called by ------------------------------------------------------
+!||    cbaforc3   ../engine/source/elements/shell/coqueba/cbaforc3.F
+!||====================================================================
       SUBROUTINE CBADEF1(JFT,JLT,NG,VCORE,VXYZ,VDEF,
      1                  HX,HY,BM,NPLAT,IPLAT,ISROT)
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
@@ -1283,11 +1283,11 @@ C----------no more constant shear-----------
 C       
        RETURN
        END
-      !||====================================================================
-      !||    cbadeft    ../engine/source/elements/shell/coqueba/cbadef.F
-      !||--- called by ------------------------------------------------------
-      !||    cbaforc3   ../engine/source/elements/shell/coqueba/cbaforc3.F
-      !||====================================================================
+!||====================================================================
+!||    cbadeft    ../engine/source/elements/shell/coqueba/cbadef.F
+!||--- called by ------------------------------------------------------
+!||    cbaforc3   ../engine/source/elements/shell/coqueba/cbaforc3.F
+!||====================================================================
       SUBROUTINE CBADEFT(JFT,JLT,VXYZ,RLZ,VDEF,
      2                   BM,NPLAT,IPLAT,ISROT,BMRZ )
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
@@ -1444,11 +1444,11 @@ C---------------
 C      
        RETURN
        END
-      !||====================================================================
-      !||    cbadeft1   ../engine/source/elements/shell/coqueba/cbadef.F
-      !||--- called by ------------------------------------------------------
-      !||    cbaforc3   ../engine/source/elements/shell/coqueba/cbaforc3.F
-      !||====================================================================
+!||====================================================================
+!||    cbadeft1   ../engine/source/elements/shell/coqueba/cbadef.F
+!||--- called by ------------------------------------------------------
+!||    cbaforc3   ../engine/source/elements/shell/coqueba/cbaforc3.F
+!||====================================================================
       SUBROUTINE CBADEFT1(JFT,JLT,NG,VCORE,VXYZ,VDEF,
      1                    HX,HY,BM,NPLAT,IPLAT,ISROT,
      2                    BMRZ,RXYZ,WXY )
@@ -1535,11 +1535,11 @@ C---------------
 C      
        RETURN
        END
-      !||====================================================================
-      !||    cbaderit1   ../engine/source/elements/shell/coqueba/cbadef.F
-      !||--- called by ------------------------------------------------------
-      !||    cbaforc3    ../engine/source/elements/shell/coqueba/cbaforc3.F
-      !||====================================================================
+!||====================================================================
+!||    cbaderit1   ../engine/source/elements/shell/coqueba/cbadef.F
+!||--- called by ------------------------------------------------------
+!||    cbaforc3    ../engine/source/elements/shell/coqueba/cbaforc3.F
+!||====================================================================
       SUBROUTINE CBADERIT1(JFT,JLT,NG,VCORE,VQ,VJFI,
      2                  HX,HY,VETA,VKSI,BM,NPLAT,IPLAT,
      3                  ISROT)
@@ -1722,11 +1722,11 @@ C
  150   CONTINUE
        RETURN
        END
-      !||====================================================================
-      !||    cbaderirzt   ../engine/source/elements/shell/coqueba/cbadef.F
-      !||--- called by ------------------------------------------------------
-      !||    cbaforc3     ../engine/source/elements/shell/coqueba/cbaforc3.F
-      !||====================================================================
+!||====================================================================
+!||    cbaderirzt   ../engine/source/elements/shell/coqueba/cbadef.F
+!||--- called by ------------------------------------------------------
+!||    cbaforc3     ../engine/source/elements/shell/coqueba/cbaforc3.F
+!||====================================================================
       SUBROUTINE CBADERIRZT(JFT,JLT,NG,BM0RZ,BMKRZ,BMERZ,BMRZ)
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
 C        CALCUL DES DEFORMATIONS GENERALISEES AUX POINTS DE GAUSS ET [B]
@@ -1776,11 +1776,11 @@ C---+BMRZ(3,J,I): NXY ,BMRZ(4,J,I):NYX
       ENDDO
        RETURN
        END
-      !||====================================================================
-      !||    cbadeftw   ../engine/source/elements/shell/coqueba/cbadef.F
-      !||--- called by ------------------------------------------------------
-      !||    cbaforc3   ../engine/source/elements/shell/coqueba/cbaforc3.F
-      !||====================================================================
+!||====================================================================
+!||    cbadeftw   ../engine/source/elements/shell/coqueba/cbadef.F
+!||--- called by ------------------------------------------------------
+!||    cbaforc3   ../engine/source/elements/shell/coqueba/cbaforc3.F
+!||====================================================================
       SUBROUTINE CBADEFTW(JFT,JLT,VXYZ,RXYZ,
      2                    BM,BMF,BF,NPLAT,IPLAT,
      3                    WXY )

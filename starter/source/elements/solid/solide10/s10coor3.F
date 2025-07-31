@@ -20,15 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    s10coor3         ../starter/source/elements/solid/solide10/s10coor3.F
-      !||--- called by ------------------------------------------------------
-      !||    s10init3         ../starter/source/elements/solid/solide10/s10init3.F
-      !||--- calls      -----------------------------------------------------
-      !||    checkvolume_4n   ../starter/source/elements/solid/solide/checksvolume.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod      ../starter/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    s10coor3         ../starter/source/elements/solid/solide10/s10coor3.F
+!||--- called by ------------------------------------------------------
+!||    s10init3         ../starter/source/elements/solid/solide10/s10init3.F
+!||--- calls      -----------------------------------------------------
+!||    checkvolume_4n   ../starter/source/elements/solid/solide/checksvolume.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod      ../starter/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE S10COOR3(
      1                    X      ,V     ,IXS   ,IXS10 ,XX  ,
      2                    YY     ,ZZ    ,VX    ,VY    ,VZ  ,
@@ -209,15 +209,15 @@ C
 CC        
       RETURN
       END
-      !||====================================================================
-      !||    s10coor3_old     ../starter/source/elements/solid/solide10/s10coor3.F
-      !||--- called by ------------------------------------------------------
-      !||    inirig_mat       ../starter/source/elements/initia/inirig_mat.F
-      !||--- calls      -----------------------------------------------------
-      !||    checkvolume_4n   ../starter/source/elements/solid/solide/checksvolume.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod      ../starter/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    s10coor3_old     ../starter/source/elements/solid/solide10/s10coor3.F
+!||--- called by ------------------------------------------------------
+!||    inirig_mat       ../starter/source/elements/initia/inirig_mat.F
+!||--- calls      -----------------------------------------------------
+!||    checkvolume_4n   ../starter/source/elements/solid/solide/checksvolume.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod      ../starter/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE S10COOR3_OLD(X,V, IXS,IXS10,
      .   XX, YY, ZZ, VX, VY, VZ,NC,
      .   NGL,MXT,NGEO,MASS,DTELEM,STI,

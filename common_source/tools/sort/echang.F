@@ -21,12 +21,12 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
-      !||====================================================================
-      !||    echang   ../common_source/tools/sort/echang.F
-      !||--- called by ------------------------------------------------------
-      !||    iparti   ../common_source/tools/sort/iparti.F
-      !||    triins   ../common_source/tools/sort/triins.F
-      !||====================================================================
+!||====================================================================
+!||    echang   ../common_source/tools/sort/echang.F
+!||--- called by ------------------------------------------------------
+!||    iparti   ../common_source/tools/sort/iparti.F
+!||    triins   ../common_source/tools/sort/triins.F
+!||====================================================================
       SUBROUTINE ECHANG(I,J,TAB)
 C
 C     SWITCH I and J in TAB

@@ -20,15 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    iedge_xfem    ../starter/source/elements/xfem/iedge_xfem.F
-      !||--- called by ------------------------------------------------------
-      !||    lectur        ../starter/source/starter/lectur.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg        ../starter/source/output/message/message.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod   ../starter/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    iedge_xfem    ../starter/source/elements/xfem/iedge_xfem.F
+!||--- called by ------------------------------------------------------
+!||    lectur        ../starter/source/starter/lectur.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg        ../starter/source/output/message/message.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod   ../starter/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE IEDGE_XFEM(
      .           IBORDNODE ,IXC       ,IXTG    ,IEDGESH4,IEDGESH3,
      .           IBORDEDGE ,NODEDGE   ,IELCRKC ,IELCRKTG,IEDGE   ,
@@ -397,9 +397,9 @@ C-----------
 C-----------
       RETURN
       END
-      !||====================================================================
-      !||    distfuncc1   ../starter/source/elements/xfem/iedge_xfem.F
-      !||====================================================================
+!||====================================================================
+!||    distfuncc1   ../starter/source/elements/xfem/iedge_xfem.F
+!||====================================================================
       SUBROUTINE DISTFUNCC1(PLXN,PLYN,PLZN,FI,
      .      X,Y,Z,XINT1X,XINT1Y,XINT1Z)
 C-----------------------------------------------
@@ -427,9 +427,9 @@ C
       RETURN
       END
 C
-      !||====================================================================
-      !||    distfuncc2   ../starter/source/elements/xfem/iedge_xfem.F
-      !||====================================================================
+!||====================================================================
+!||    distfuncc2   ../starter/source/elements/xfem/iedge_xfem.F
+!||====================================================================
       SUBROUTINE DISTFUNCC2(XN,YN,ZN,
      .           XT1,YT1,ZT1,XT2,YT2,ZT2,DIS)
 C-----------------------------------------------

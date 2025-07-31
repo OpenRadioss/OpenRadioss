@@ -20,25 +20,25 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    get_segment_criteria_mod   ../engine/source/interfaces/interf/get_segment_criteria.F90
-      !||--- called by ------------------------------------------------------
-      !||    get_neighbour_surface      ../engine/source/interfaces/interf/get_neighbour_surface.F90
-      !||    update_neighbour_segment   ../engine/source/interfaces/interf/update_neighbour_segment.F90
-      !||====================================================================
+!||====================================================================
+!||    get_segment_criteria_mod   ../engine/source/interfaces/interf/get_segment_criteria.F90
+!||--- called by ------------------------------------------------------
+!||    get_neighbour_surface      ../engine/source/interfaces/interf/get_neighbour_surface.F90
+!||    update_neighbour_segment   ../engine/source/interfaces/interf/update_neighbour_segment.F90
+!||====================================================================
       module get_segment_criteria_mod
       contains
 ! ======================================================================================================================
 !                                                   procedures
 ! ======================================================================================================================
 !! \brief Ths routine computes the angle between 2 segmet's normals
-      !||====================================================================
-      !||    get_segment_criteria       ../engine/source/interfaces/interf/get_segment_criteria.F90
-      !||--- called by ------------------------------------------------------
-      !||    update_neighbour_segment   ../engine/source/interfaces/interf/update_neighbour_segment.F90
-      !||--- uses       -----------------------------------------------------
-      !||    precision_mod              ../common_source/modules/precision_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    get_segment_criteria       ../engine/source/interfaces/interf/get_segment_criteria.F90
+!||--- called by ------------------------------------------------------
+!||    update_neighbour_segment   ../engine/source/interfaces/interf/update_neighbour_segment.F90
+!||--- uses       -----------------------------------------------------
+!||    precision_mod              ../common_source/modules/precision_mod.F90
+!||====================================================================
         subroutine get_segment_criteria( criteria,local_normal,remote_normal )
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   modules

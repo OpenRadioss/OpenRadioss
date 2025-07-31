@@ -20,11 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    tdefo3   ../engine/source/elements/truss/tdefo3.F
-      !||--- called by ------------------------------------------------------
-      !||    tforc3   ../engine/source/elements/truss/tforc3.F
-      !||====================================================================
+!||====================================================================
+!||    tdefo3   ../engine/source/elements/truss/tdefo3.F
+!||--- called by ------------------------------------------------------
+!||    tforc3   ../engine/source/elements/truss/tforc3.F
+!||====================================================================
       SUBROUTINE TDEFO3(
      1   V,       OFFG,    OFF,     NC1,
      2   NC2,     EPS,     AL,      VX1,

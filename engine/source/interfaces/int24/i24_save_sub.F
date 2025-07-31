@@ -20,16 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    i24_save_sub         ../engine/source/interfaces/int24/i24_save_sub.F
-      !||--- called by ------------------------------------------------------
-      !||    i24for3              ../engine/source/interfaces/int24/i24for3.F
-      !||--- calls      -----------------------------------------------------
-      !||    i24intarea_fic       ../engine/source/interfaces/int24/i24intarea_fic.F90
-      !||--- uses       -----------------------------------------------------
-      !||    i24intarea_fic_mod   ../engine/source/interfaces/int24/i24intarea_fic.F90
-      !||    tri7box              ../engine/share/modules/tri7box.F
-      !||====================================================================
+!||====================================================================
+!||    i24_save_sub         ../engine/source/interfaces/int24/i24_save_sub.F
+!||--- called by ------------------------------------------------------
+!||    i24for3              ../engine/source/interfaces/int24/i24for3.F
+!||--- calls      -----------------------------------------------------
+!||    i24intarea_fic       ../engine/source/interfaces/int24/i24intarea_fic.F90
+!||--- uses       -----------------------------------------------------
+!||    i24intarea_fic_mod   ../engine/source/interfaces/int24/i24intarea_fic.F90
+!||    tri7box              ../engine/share/modules/tri7box.F
+!||====================================================================
        SUBROUTINE I24_SAVE_SUB(NUMNOD,MVSIZ,NISUB,S_ADDSUBM,S_LISUBM,S_TYPSUB,NISUBMAX,I_STOK,
      *                         IE,ITYPSUB,NIN,I,NN,NFT,
      *                         ADDSUBM,LISUBM,TYPSUB,

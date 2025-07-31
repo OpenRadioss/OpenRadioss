@@ -20,16 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    i24dst3e   ../engine/source/interfaces/int24/i24dst3e.F
-      !||--- called by ------------------------------------------------------
-      !||    i24mainf   ../engine/source/interfaces/int24/i24main.F
-      !||--- calls      -----------------------------------------------------
-      !||    bitget     ../engine/source/interfaces/intsort/i20sto.F
-      !||--- uses       -----------------------------------------------------
-      !||    h3d_mod    ../engine/share/modules/h3d_mod.F
-      !||    tri7box    ../engine/share/modules/tri7box.F
-      !||====================================================================
+!||====================================================================
+!||    i24dst3e   ../engine/source/interfaces/int24/i24dst3e.F
+!||--- called by ------------------------------------------------------
+!||    i24mainf   ../engine/source/interfaces/int24/i24main.F
+!||--- calls      -----------------------------------------------------
+!||    bitget     ../engine/source/interfaces/intsort/i20sto.F
+!||--- uses       -----------------------------------------------------
+!||    h3d_mod    ../engine/share/modules/h3d_mod.F
+!||    tri7box    ../engine/share/modules/tri7box.F
+!||====================================================================
       SUBROUTINE I24DST3E(
      1                  JLT    ,A      ,X      ,CAND_N ,CAND_E ,
      2                  MBINFLG,ISEADD ,ISEDGE ,NSVG   ,NIN    ,

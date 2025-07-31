@@ -20,15 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    adiff2                 ../engine/source/ale/ale2d/adiff2.F
-      !||--- called by ------------------------------------------------------
-      !||    aeturb                 ../engine/source/ale/turbulence/aeturb.F
-      !||    akturb                 ../engine/source/ale/turbulence/akturb.F
-      !||    atherm                 ../engine/source/ale/atherm.F
-      !||--- uses       -----------------------------------------------------
-      !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
-      !||====================================================================
+!||====================================================================
+!||    adiff2                 ../engine/source/ale/ale2d/adiff2.F
+!||--- called by ------------------------------------------------------
+!||    aeturb                 ../engine/source/ale/turbulence/aeturb.F
+!||    akturb                 ../engine/source/ale/turbulence/akturb.F
+!||    atherm                 ../engine/source/ale/atherm.F
+!||--- uses       -----------------------------------------------------
+!||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
+!||====================================================================
       SUBROUTINE ADIFF2(PHIN,PHI,GRAD,ALPHA,ALE_CONNECT,VOL,TEMP,RHOCP,NEL)
 C-----------------------------------------------
 C   D e s c r i p t i o n

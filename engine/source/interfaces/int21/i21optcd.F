@@ -20,17 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    i21optcd          ../engine/source/interfaces/int21/i21optcd.F
-      !||--- called by ------------------------------------------------------
-      !||    i21main_opt_tri   ../engine/source/interfaces/intsort/i21main_opt_tri.F
-      !||--- calls      -----------------------------------------------------
-      !||    i21dst3           ../engine/source/interfaces/int21/i21dst3.F
-      !||    my_barrier        ../engine/source/system/machine.F
-      !||    startime          ../engine/source/system/timer_mod.F90
-      !||--- uses       -----------------------------------------------------
-      !||    timer_mod         ../engine/source/system/timer_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    i21optcd          ../engine/source/interfaces/int21/i21optcd.F
+!||--- called by ------------------------------------------------------
+!||    i21main_opt_tri   ../engine/source/interfaces/intsort/i21main_opt_tri.F
+!||--- calls      -----------------------------------------------------
+!||    i21dst3           ../engine/source/interfaces/int21/i21dst3.F
+!||    my_barrier        ../engine/source/system/machine.F
+!||    startime          ../engine/source/system/timer_mod.F90
+!||--- uses       -----------------------------------------------------
+!||    timer_mod         ../engine/source/system/timer_mod.F90
+!||====================================================================
       SUBROUTINE I21OPTCD(TIMERS, CAND_E ,CAND_N ,XLOC  ,I_STOK  ,IRECT  ,
      2                   GAP    ,GAP_S  ,IGAP    ,NSN    ,STFN   ,
      3                   ITASK  ,STF    ,INACTI  ,IFPEN  ,FTXSAV ,

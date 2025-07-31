@@ -20,18 +20,18 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    sigeps70                ../engine/source/materials/mat/mat070/sigeps70.F
-      !||--- called by ------------------------------------------------------
-      !||    mulaw                   ../engine/source/materials/mat_share/mulaw.F90
-      !||--- calls      -----------------------------------------------------
-      !||    finter                  ../engine/source/tools/curve/finter.F
-      !||    table_mat_vinterp       ../engine/source/materials/tools/table_mat_vinterp.F
-      !||    vinter2                 ../engine/source/tools/curve/vinter.F
-      !||--- uses       -----------------------------------------------------
-      !||    matparam_def_mod        ../common_source/modules/mat_elem/matparam_def_mod.F90
-      !||    table_mat_vinterp_mod   ../engine/source/materials/tools/table_mat_vinterp.F
-      !||====================================================================
+!||====================================================================
+!||    sigeps70                ../engine/source/materials/mat/mat070/sigeps70.F
+!||--- called by ------------------------------------------------------
+!||    mulaw                   ../engine/source/materials/mat_share/mulaw.F90
+!||--- calls      -----------------------------------------------------
+!||    finter                  ../engine/source/tools/curve/finter.F
+!||    table_mat_vinterp       ../engine/source/materials/tools/table_mat_vinterp.F
+!||    vinter2                 ../engine/source/tools/curve/vinter.F
+!||--- uses       -----------------------------------------------------
+!||    matparam_def_mod        ../common_source/modules/mat_elem/matparam_def_mod.F90
+!||    table_mat_vinterp_mod   ../engine/source/materials/tools/table_mat_vinterp.F
+!||====================================================================
       SUBROUTINE SIGEPS70(
      1   NEL,     NUPARAM, NUVAR,   MFUNC,
      2   KFUNC,   NPF,     TF,      TIME,

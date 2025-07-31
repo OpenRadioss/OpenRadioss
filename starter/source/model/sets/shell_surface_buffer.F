@@ -20,12 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    shell_surface_buffer   ../starter/source/model/sets/shell_surface_buffer.F
-      !||--- called by ------------------------------------------------------
-      !||    surface_buffer         ../starter/source/model/sets/surface_buffer.F
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    shell_surface_buffer   ../starter/source/model/sets/shell_surface_buffer.F
+!||--- called by ------------------------------------------------------
+!||    surface_buffer         ../starter/source/model/sets/surface_buffer.F
+!||--- uses       -----------------------------------------------------
+!||====================================================================
       SUBROUTINE SHELL_SURFACE_BUFFER(
      .                   IX     ,NIX      ,NIX1      ,NIX2      ,IELTYP,
      .                   NSEG   ,IAD_SURF ,OPT_O     ,BUFTMPSURF,CLAUSE)

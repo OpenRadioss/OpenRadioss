@@ -20,11 +20,11 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    damping_range_compute_param_mod   ../starter/source/general_controls/damping/damping_range_compute_param.F90
-      !||--- called by ------------------------------------------------------
-      !||    hm_read_damp                      ../starter/source/general_controls/damping/hm_read_damp.F
-      !||====================================================================
+!||====================================================================
+!||    damping_range_compute_param_mod   ../starter/source/general_controls/damping/damping_range_compute_param.F90
+!||--- called by ------------------------------------------------------
+!||    hm_read_damp                      ../starter/source/general_controls/damping/hm_read_damp.F
+!||====================================================================
       module damping_range_compute_param_mod
       contains
 ! ======================================================================================================================
@@ -35,14 +35,14 @@
 !\brief This subroutine compute de 3 maxwell components for the damping
 !=======================================================================================================================
 !
-      !||====================================================================
-      !||    damping_range_compute_param   ../starter/source/general_controls/damping/damping_range_compute_param.F90
-      !||--- called by ------------------------------------------------------
-      !||    hm_read_damp                  ../starter/source/general_controls/damping/hm_read_damp.F
-      !||--- calls      -----------------------------------------------------
-      !||    invert                        ../starter/source/constraints/general/rbe3/hm_read_rbe3.F
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    damping_range_compute_param   ../starter/source/general_controls/damping/damping_range_compute_param.F90
+!||--- called by ------------------------------------------------------
+!||    hm_read_damp                  ../starter/source/general_controls/damping/hm_read_damp.F
+!||--- calls      -----------------------------------------------------
+!||    invert                        ../starter/source/constraints/general/rbe3/hm_read_rbe3.F
+!||--- uses       -----------------------------------------------------
+!||====================================================================
         subroutine damping_range_compute_param(damp_ratio,f_low,f_high,maxwell_alpha,maxwell_tau)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules

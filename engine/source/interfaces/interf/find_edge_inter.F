@@ -20,15 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    find_edge_inter           ../engine/source/interfaces/interf/find_edge_inter.F
-      !||--- called by ------------------------------------------------------
-      !||    resol                     ../engine/source/engine/resol.F
-      !||--- calls      -----------------------------------------------------
-      !||--- uses       -----------------------------------------------------
-      !||    intbufdef_mod             ../common_source/modules/interfaces/intbufdef_mod.F90
-      !||    shooting_node_mod         ../engine/share/modules/shooting_node_mod.F
-      !||====================================================================
+!||====================================================================
+!||    find_edge_inter           ../engine/source/interfaces/interf/find_edge_inter.F
+!||--- called by ------------------------------------------------------
+!||    resol                     ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||    intbufdef_mod             ../common_source/modules/interfaces/intbufdef_mod.F90
+!||    shooting_node_mod         ../engine/share/modules/shooting_node_mod.F
+!||====================================================================
         SUBROUTINE FIND_EDGE_INTER( ITAB,SHOOT_STRUCT,IXS,IXS10,
      1                              IXC,IXTG,IXQ,IXT,IXP,
      2                              IXR,GEO,NGROUP,IGROUPS,IPARG )

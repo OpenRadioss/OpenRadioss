@@ -20,15 +20,15 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    python_element_mod    ../common_source/modules/python_element_mod.F90
-      !||--- called by ------------------------------------------------------
-      !||    python_element_init   ../engine/source/mpi/python_spmd_mod.F90
-      !||    python_element_sync   ../engine/source/mpi/python_spmd_mod.F90
-      !||    python_funct_mod      ../common_source/modules/python_mod.F90
-      !||    python_register       ../engine/source/tools/curve/python_register.F90
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    python_element_mod    ../common_source/modules/python_element_mod.F90
+!||--- called by ------------------------------------------------------
+!||    python_element_init   ../engine/source/mpi/python_spmd_mod.F90
+!||    python_element_sync   ../engine/source/mpi/python_spmd_mod.F90
+!||    python_funct_mod      ../common_source/modules/python_mod.F90
+!||    python_register       ../engine/source/tools/curve/python_register.F90
+!||--- uses       -----------------------------------------------------
+!||====================================================================
       module python_element_mod
         use iso_c_binding
         integer, parameter :: NAME_LEN = 100
@@ -92,9 +92,9 @@
 !                                                   Subroutines
 ! ----------------------------------------------------------------------------------------------------------------------
 !! \brief get the size to serialize the python elemental variables found in the python function
-      !||====================================================================
-      !||    element_get_size   ../common_source/modules/python_element_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    element_get_size   ../common_source/modules/python_element_mod.F90
+!||====================================================================
         integer function element_get_size(element) result(length)
           implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -111,10 +111,10 @@
           return
         end function element_get_size
 !! \brief serialize the python elemental variables found in the python function
-      !||====================================================================
-      !||    element_serialize   ../common_source/modules/python_element_mod.F90
-      !||--- calls      -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    element_serialize   ../common_source/modules/python_element_mod.F90
+!||--- calls      -----------------------------------------------------
+!||====================================================================
         subroutine element_serialize(element, buffer,buffer_size)
           implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -145,9 +145,9 @@
         end subroutine element_serialize
 
 !! \brief deserialize the python elemental variables found in the python function
-      !||====================================================================
-      !||    element_deserialize   ../common_source/modules/python_element_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    element_deserialize   ../common_source/modules/python_element_mod.F90
+!||====================================================================
         subroutine element_deserialize(element, buffer)
           implicit none
 ! ----------------------------------------------------------------------------------------------------------------------

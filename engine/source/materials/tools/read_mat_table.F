@@ -20,18 +20,18 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    read_mat_table   ../engine/source/materials/tools/read_mat_table.F
-      !||--- called by ------------------------------------------------------
-      !||    read_eosparam    ../engine/source/output/restart/read_eosparam.F90
-      !||    read_matparam    ../engine/source/output/restart/read_matparam.F
-      !||    read_viscparam   ../engine/source/output/restart/read_viscparam.F
-      !||--- calls      -----------------------------------------------------
-      !||    read_db          ../common_source/tools/input_output/read_db.F
-      !||    read_i_c         ../common_source/tools/input_output/write_routtines.c
-      !||--- uses       -----------------------------------------------------
-      !||    table4d_mod      ../common_source/modules/table4d_mod.F
-      !||====================================================================
+!||====================================================================
+!||    read_mat_table   ../engine/source/materials/tools/read_mat_table.F
+!||--- called by ------------------------------------------------------
+!||    read_eosparam    ../engine/source/output/restart/read_eosparam.F90
+!||    read_matparam    ../engine/source/output/restart/read_matparam.F
+!||    read_viscparam   ../engine/source/output/restart/read_viscparam.F
+!||--- calls      -----------------------------------------------------
+!||    read_db          ../common_source/tools/input_output/read_db.F
+!||    read_i_c         ../common_source/tools/input_output/write_routtines.c
+!||--- uses       -----------------------------------------------------
+!||    table4d_mod      ../common_source/modules/table4d_mod.F
+!||====================================================================
       SUBROUTINE READ_MAT_TABLE(TABLE, NUMTABL)
 C----------------------------------------------- 
 C   M o d u l e s

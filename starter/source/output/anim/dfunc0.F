@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    dfunc0         ../starter/source/output/anim/dfunc0.F
-      !||--- called by ------------------------------------------------------
-      !||    genani1        ../starter/source/output/anim/genani1.F
-      !||--- calls      -----------------------------------------------------
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    dfunc0         ../starter/source/output/anim/dfunc0.F
+!||--- called by ------------------------------------------------------
+!||    genani1        ../starter/source/output/anim/genani1.F
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||====================================================================
       SUBROUTINE DFUNC0(ELBUF_TAB ,FUNC    ,IFUNC   ,IPARG   ,PM      ,
      2                  EL2FA   ,NBF   ,SPBUF   ,IPART   ,IPARTSP )                                         
 C-----------------------------------------------

@@ -20,15 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    cbal58warp     ../engine/source/elements/shell/coqueba/cbawarpoff.F
-      !||--- called by ------------------------------------------------------
-      !||    cbaforc3       ../engine/source/elements/shell/coqueba/cbaforc3.F
-      !||--- calls      -----------------------------------------------------
-      !||    setuvarw       ../engine/source/elements/shell/coqueba/cbawarpoff.F
-      !||--- uses       -----------------------------------------------------
-      !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    cbal58warp     ../engine/source/elements/shell/coqueba/cbawarpoff.F
+!||--- called by ------------------------------------------------------
+!||    cbaforc3       ../engine/source/elements/shell/coqueba/cbaforc3.F
+!||--- calls      -----------------------------------------------------
+!||    setuvarw       ../engine/source/elements/shell/coqueba/cbawarpoff.F
+!||--- uses       -----------------------------------------------------
+!||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||====================================================================
        SUBROUTINE CBAL58WARP(ELBUF_STR,NEL,
      1                       X,IXC,E3X   ,E3Y   ,E3Z  ,OFFG ,ZLLC2 )
 C-----------------------------------------------
@@ -143,11 +143,11 @@ C----------------------------
 C----------------------------
       RETURN
       END
-      !||====================================================================
-      !||    setuvarw     ../engine/source/elements/shell/coqueba/cbawarpoff.F
-      !||--- called by ------------------------------------------------------
-      !||    cbal58warp   ../engine/source/elements/shell/coqueba/cbawarpoff.F
-      !||====================================================================
+!||====================================================================
+!||    setuvarw     ../engine/source/elements/shell/coqueba/cbawarpoff.F
+!||--- called by ------------------------------------------------------
+!||    cbal58warp   ../engine/source/elements/shell/coqueba/cbawarpoff.F
+!||====================================================================
        SUBROUTINE SETUVARW(NEL,PCOS,UVAR )
 C-----------------------------------------------
 C   I M P L I C I T   T Y P E S

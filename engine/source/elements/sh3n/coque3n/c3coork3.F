@@ -20,16 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    c3coork3       ../engine/source/elements/sh3n/coque3n/c3coork3.F
-      !||--- called by ------------------------------------------------------
-      !||    c3ke3          ../engine/source/elements/sh3n/coque3n/c3ke3.F
-      !||--- calls      -----------------------------------------------------
-      !||    clskew3        ../engine/source/elements/sh3n/coquedk/cdkcoor3.F
-      !||    cortdir3       ../engine/source/elements/shell/coque/cortdir3.F
-      !||--- uses       -----------------------------------------------------
-      !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    c3coork3       ../engine/source/elements/sh3n/coque3n/c3coork3.F
+!||--- called by ------------------------------------------------------
+!||    c3ke3          ../engine/source/elements/sh3n/coque3n/c3ke3.F
+!||--- calls      -----------------------------------------------------
+!||    clskew3        ../engine/source/elements/sh3n/coquedk/cdkcoor3.F
+!||    cortdir3       ../engine/source/elements/shell/coque/cortdir3.F
+!||--- uses       -----------------------------------------------------
+!||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||====================================================================
       SUBROUTINE C3COORK3(JFT     ,JLT    ,X     ,IXTG   ,  OFFG,
      2                     GEO    ,PID    ,MAT    ,NGL   ,AREA   ,  
      3                     IREP   ,NPT    ,ISMSTR ,NLAY  ,

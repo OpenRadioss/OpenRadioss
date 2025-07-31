@@ -21,13 +21,13 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C modified Puck model ------
-      !||====================================================================
-      !||    fail_puck_s     ../engine/source/materials/fail/puck/fail_puck_s.F
-      !||--- called by ------------------------------------------------------
-      !||    mmain           ../engine/source/materials/mat_share/mmain.F90
-      !||    mulaw           ../engine/source/materials/mat_share/mulaw.F90
-      !||    usermat_solid   ../engine/source/materials/mat_share/usermat_solid.F
-      !||====================================================================
+!||====================================================================
+!||    fail_puck_s     ../engine/source/materials/fail/puck/fail_puck_s.F
+!||--- called by ------------------------------------------------------
+!||    mmain           ../engine/source/materials/mat_share/mmain.F90
+!||    mulaw           ../engine/source/materials/mat_share/mulaw.F90
+!||    usermat_solid   ../engine/source/materials/mat_share/usermat_solid.F
+!||====================================================================
       SUBROUTINE FAIL_PUCK_S(
      1     NEL     ,NUVAR   ,ILAY    ,NPT0    ,
      2     TIME    ,TIMESTEP,UPARAM  ,

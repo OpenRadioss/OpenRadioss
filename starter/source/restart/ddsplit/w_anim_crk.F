@@ -21,13 +21,13 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
-      !||====================================================================
-      !||    w_anim_crk     ../starter/source/restart/ddsplit/w_anim_crk.F
-      !||--- called by ------------------------------------------------------
-      !||    ddsplit        ../starter/source/restart/ddsplit/ddsplit.F
-      !||--- calls      -----------------------------------------------------
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    w_anim_crk     ../starter/source/restart/ddsplit/w_anim_crk.F
+!||--- called by ------------------------------------------------------
+!||    ddsplit        ../starter/source/restart/ddsplit/ddsplit.F
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||====================================================================
       SUBROUTINE W_ANIM_CRK(
      .               IXC     ,IXTG   ,NUMELC_L,NUMELTG_L,NODLOCAL,
      .               NUMNOD_L ,INOD_L     ,CEL     ,CEP_XFE,PROC,

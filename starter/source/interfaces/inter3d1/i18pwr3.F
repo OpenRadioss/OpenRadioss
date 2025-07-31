@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    i18pwr3      ../starter/source/interfaces/inter3d1/i18pwr3.F
-      !||--- called by ------------------------------------------------------
-      !||    inint3       ../starter/source/interfaces/inter3d1/inint3.F
-      !||--- uses       -----------------------------------------------------
-      !||    format_mod   ../starter/share/modules1/format_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    i18pwr3      ../starter/source/interfaces/inter3d1/i18pwr3.F
+!||--- called by ------------------------------------------------------
+!||    inint3       ../starter/source/interfaces/inter3d1/inint3.F
+!||--- uses       -----------------------------------------------------
+!||    format_mod   ../starter/share/modules1/format_mod.F90
+!||====================================================================
       SUBROUTINE I18PWR3(ITAB,INACTI,CAND_E,CAND_N,STFN,
      1                  STF ,X     ,NSV   ,IWPENE,CAND_P,
      2                  CAND_EN,CAND_NN,TAG,NOINT,GAPV  ,

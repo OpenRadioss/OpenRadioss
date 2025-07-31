@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    dim_tshedg     ../engine/source/elements/thickshell/solidec/dim_tshedg.F
-      !||--- called by ------------------------------------------------------
-      !||    resol_init     ../engine/source/engine/resol_init.F
-      !||--- uses       -----------------------------------------------------
-      !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    dim_tshedg     ../engine/source/elements/thickshell/solidec/dim_tshedg.F
+!||--- called by ------------------------------------------------------
+!||    resol_init     ../engine/source/engine/resol_init.F
+!||--- uses       -----------------------------------------------------
+!||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||====================================================================
       SUBROUTINE DIM_TSHEDG(ELBUF_STR,NEDG, IXS ,IPARG )
 C=======================================================================
       USE ELBUFDEF_MOD     

@@ -20,19 +20,19 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    diffusion_mod       ../engine/share/modules/diffusion_mod.F
-      !||--- called by ------------------------------------------------------
-      !||    alemain             ../engine/source/ale/alemain.F
-      !||    ns_fvm_diffusion    ../engine/source/multifluid/ns_fvm_diffusion.F
-      !||    radioss2            ../engine/source/engine/radioss2.F
-      !||    resol               ../engine/source/engine/resol.F
-      !||    resol_head          ../engine/source/engine/resol_head.F
-      !||--- uses       -----------------------------------------------------
-      !||    linear_solver_mod   ../engine/share/modules/linear_solver_mod.F
-      !||    matrix_mod          ../common_source/linearalgebra/matrix_mod.F
-      !||    vector_mod          ../common_source/linearalgebra/vector_mod.F
-      !||====================================================================
+!||====================================================================
+!||    diffusion_mod       ../engine/share/modules/diffusion_mod.F
+!||--- called by ------------------------------------------------------
+!||    alemain             ../engine/source/ale/alemain.F
+!||    ns_fvm_diffusion    ../engine/source/multifluid/ns_fvm_diffusion.F
+!||    radioss2            ../engine/source/engine/radioss2.F
+!||    resol               ../engine/source/engine/resol.F
+!||    resol_head          ../engine/source/engine/resol_head.F
+!||--- uses       -----------------------------------------------------
+!||    linear_solver_mod   ../engine/share/modules/linear_solver_mod.F
+!||    matrix_mod          ../common_source/linearalgebra/matrix_mod.F
+!||    vector_mod          ../common_source/linearalgebra/vector_mod.F
+!||====================================================================
       MODULE DIFFUSION_MOD
       USE LINEAR_SOLVER_MOD
       USE MATRIX_MOD
@@ -70,14 +70,14 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !     |_____________________________|   !
 
       CONTAINS
-      !||====================================================================
-      !||    init_diffusion         ../engine/share/modules/diffusion_mod.F
-      !||--- calls      -----------------------------------------------------
-      !||--- uses       -----------------------------------------------------
-      !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
-      !||    linear_solver_mod      ../engine/share/modules/linear_solver_mod.F
-      !||    spmd_comm_world_mod    ../engine/source/mpi/spmd_comm_world.F90
-      !||====================================================================
+!||====================================================================
+!||    init_diffusion         ../engine/share/modules/diffusion_mod.F
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
+!||    linear_solver_mod      ../engine/share/modules/linear_solver_mod.F
+!||    spmd_comm_world_mod    ../engine/source/mpi/spmd_comm_world.F90
+!||====================================================================
       SUBROUTINE INIT_DIFFUSION(this, LINSOL, NRHS, IPARG, ALE_CONNECT)
       USE LINEAR_SOLVER_MOD
       USE ALE_CONNECTIVITY_MOD
@@ -177,13 +177,13 @@ C-----------------------------------------------
 
       END SUBROUTINE INIT_DIFFUSION
 
-      !||====================================================================
-      !||    solve_diffusion       ../engine/share/modules/diffusion_mod.F
-      !||--- calls      -----------------------------------------------------
-      !||    get_global_dim        ../engine/share/modules/linear_solver_mod.F
-      !||--- uses       -----------------------------------------------------
-      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
-      !||====================================================================
+!||====================================================================
+!||    solve_diffusion       ../engine/share/modules/diffusion_mod.F
+!||--- calls      -----------------------------------------------------
+!||    get_global_dim        ../engine/share/modules/linear_solver_mod.F
+!||--- uses       -----------------------------------------------------
+!||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
+!||====================================================================
       SUBROUTINE SOLVE_DIFFUSION(this)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -198,13 +198,13 @@ C-----------------------------------------------
       
       END SUBROUTINE SOLVE_DIFFUSION
 
-      !||====================================================================
-      !||    get_solution          ../engine/share/modules/diffusion_mod.F
-      !||--- calls      -----------------------------------------------------
-      !||    get_global_dim        ../engine/share/modules/linear_solver_mod.F
-      !||--- uses       -----------------------------------------------------
-      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
-      !||====================================================================
+!||====================================================================
+!||    get_solution          ../engine/share/modules/diffusion_mod.F
+!||--- calls      -----------------------------------------------------
+!||    get_global_dim        ../engine/share/modules/linear_solver_mod.F
+!||--- uses       -----------------------------------------------------
+!||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
+!||====================================================================
       SUBROUTINE GET_SOLUTION(this, SOL, GLOB_DIM)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -219,11 +219,11 @@ C-----------------------------------------------
       GLOB_DIM = this%LINEAR_SOLVER%GET_GLOBAL_DIM()
       END SUBROUTINE GET_SOLUTION
 
-      !||====================================================================
-      !||    terminate_diffusion   ../engine/share/modules/diffusion_mod.F
-      !||--- uses       -----------------------------------------------------
-      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
-      !||====================================================================
+!||====================================================================
+!||    terminate_diffusion   ../engine/share/modules/diffusion_mod.F
+!||--- uses       -----------------------------------------------------
+!||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
+!||====================================================================
       SUBROUTINE TERMINATE_DIFFUSION(this)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

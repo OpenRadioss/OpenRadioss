@@ -20,11 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    cndt_ply   ../engine/source/properties/composite_options/stack/cndt_ply.F
-      !||--- called by ------------------------------------------------------
-      !||    cbaforc3   ../engine/source/elements/shell/coqueba/cbaforc3.F
-      !||====================================================================
+!||====================================================================
+!||    cndt_ply   ../engine/source/properties/composite_options/stack/cndt_ply.F
+!||--- called by ------------------------------------------------------
+!||    cbaforc3   ../engine/source/elements/shell/coqueba/cbaforc3.F
+!||====================================================================
       SUBROUTINE CNDT_PLY(JFT     ,JLT   ,NPT,OFF  ,ALDT    ,AREA ,THK,
      1                    THK_IPLY,A1    ,A1_IPLY,STI ,OFFI,VISCMX)
 C-----------------------------------------------

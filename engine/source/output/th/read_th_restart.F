@@ -20,16 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    read_th_restart    ../engine/source/output/th/read_th_restart.F
-      !||--- called by ------------------------------------------------------
-      !||    rdresb             ../engine/source/output/restart/rdresb.F
-      !||--- calls      -----------------------------------------------------
-      !||    read_i_c           ../common_source/tools/input_output/write_routtines.c
-      !||    th_alloc           ../common_source/modules/output/time_history_mod.F
-      !||--- uses       -----------------------------------------------------
-      !||    time_history_mod   ../common_source/modules/output/time_history_mod.F
-      !||====================================================================
+!||====================================================================
+!||    read_th_restart    ../engine/source/output/th/read_th_restart.F
+!||--- called by ------------------------------------------------------
+!||    rdresb             ../engine/source/output/restart/rdresb.F
+!||--- calls      -----------------------------------------------------
+!||    read_i_c           ../common_source/tools/input_output/write_routtines.c
+!||    th_alloc           ../common_source/modules/output/time_history_mod.F
+!||--- uses       -----------------------------------------------------
+!||    time_history_mod   ../common_source/modules/output/time_history_mod.F
+!||====================================================================
       SUBROUTINE READ_TH_RESTART(TH)
    ! -----------------------------------------------
    !   ROUTINE DESCRIPTION    :

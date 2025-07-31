@@ -20,27 +20,27 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    c3ke3          ../engine/source/elements/sh3n/coque3n/c3ke3.F
-      !||--- called by ------------------------------------------------------
-      !||    imp_glob_k     ../engine/source/implicit/imp_glob_k.F
-      !||    imp_glob_k0    ../engine/source/implicit/imp_glob_k.F
-      !||--- calls      -----------------------------------------------------
-      !||    assem_c3       ../engine/source/implicit/assem_c3.F
-      !||    c3be3          ../engine/source/elements/sh3n/coque3n/c3be3.F
-      !||    c3coork3       ../engine/source/elements/sh3n/coque3n/c3coork3.F
-      !||    c3derirz       ../engine/source/elements/sh3n/coque3n/c3defo3.F
-      !||    c3eoff         ../engine/source/elements/sh3n/coque3n/c3eoff.F
-      !||    c3lke3         ../engine/source/elements/sh3n/coque3n/c3lke3.F
-      !||    c3lkerz3       ../engine/source/elements/sh3n/coque3n/c3lke3.F
-      !||    c3sumg3        ../engine/source/elements/sh3n/coque3n/c3sumg3.F
-      !||    cmatc3         ../engine/source/elements/shell/coqueba/cmatc3.F
-      !||    cmatip3        ../engine/source/elements/shell/coqueba/cmatc3.F
-      !||--- uses       -----------------------------------------------------
-      !||    drape_mod      ../engine/share/modules/drape_mod.F
-      !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||    stack_mod      ../engine/share/modules/stack_mod.F
-      !||====================================================================
+!||====================================================================
+!||    c3ke3          ../engine/source/elements/sh3n/coque3n/c3ke3.F
+!||--- called by ------------------------------------------------------
+!||    imp_glob_k     ../engine/source/implicit/imp_glob_k.F
+!||    imp_glob_k0    ../engine/source/implicit/imp_glob_k.F
+!||--- calls      -----------------------------------------------------
+!||    assem_c3       ../engine/source/implicit/assem_c3.F
+!||    c3be3          ../engine/source/elements/sh3n/coque3n/c3be3.F
+!||    c3coork3       ../engine/source/elements/sh3n/coque3n/c3coork3.F
+!||    c3derirz       ../engine/source/elements/sh3n/coque3n/c3defo3.F
+!||    c3eoff         ../engine/source/elements/sh3n/coque3n/c3eoff.F
+!||    c3lke3         ../engine/source/elements/sh3n/coque3n/c3lke3.F
+!||    c3lkerz3       ../engine/source/elements/sh3n/coque3n/c3lke3.F
+!||    c3sumg3        ../engine/source/elements/sh3n/coque3n/c3sumg3.F
+!||    cmatc3         ../engine/source/elements/shell/coqueba/cmatc3.F
+!||    cmatip3        ../engine/source/elements/shell/coqueba/cmatc3.F
+!||--- uses       -----------------------------------------------------
+!||    drape_mod      ../engine/share/modules/drape_mod.F
+!||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    stack_mod      ../engine/share/modules/stack_mod.F
+!||====================================================================
       SUBROUTINE C3KE3(
      1            JFT    ,JLT    ,NFT    ,NPT    ,MTN    ,
      2            ITHK   ,NCYCLE ,

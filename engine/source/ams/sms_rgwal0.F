@@ -20,36 +20,36 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    sms_rgwal_0          ../engine/source/ams/sms_rgwal0.F
-      !||--- called by ------------------------------------------------------
-      !||    sms_pcg              ../engine/source/ams/sms_pcg.F
-      !||--- calls      -----------------------------------------------------
-      !||    my_barrier           ../engine/source/system/machine.F
-      !||    sms_rgwalc_bcs_0     ../engine/source/ams/sms_rgwalc.F
-      !||    sms_rgwalc_bcs_1     ../engine/source/ams/sms_rgwalc.F
-      !||    sms_rgwalc_bilan     ../engine/source/ams/sms_rgwalc.F
-      !||    sms_rgwalc_fric      ../engine/source/ams/sms_rgwalc.F
-      !||    sms_rgwalc_impact    ../engine/source/ams/sms_rgwalc.F
-      !||    sms_rgwall_bcs_0     ../engine/source/ams/sms_rgwall.F
-      !||    sms_rgwall_bcs_1     ../engine/source/ams/sms_rgwall.F
-      !||    sms_rgwall_bilan     ../engine/source/ams/sms_rgwall.F
-      !||    sms_rgwall_fric      ../engine/source/ams/sms_rgwall.F
-      !||    sms_rgwall_impact    ../engine/source/ams/sms_rgwall.F
-      !||    sms_rgwalp_bcs_0     ../engine/source/ams/sms_rgwalp.F
-      !||    sms_rgwalp_bcs_1     ../engine/source/ams/sms_rgwalp.F
-      !||    sms_rgwalp_bilan     ../engine/source/ams/sms_rgwalp.F
-      !||    sms_rgwalp_fric      ../engine/source/ams/sms_rgwalp.F
-      !||    sms_rgwalp_impact    ../engine/source/ams/sms_rgwalp.F
-      !||    sms_rgwals_bcs_0     ../engine/source/ams/sms_rgwals.F
-      !||    sms_rgwals_bcs_1     ../engine/source/ams/sms_rgwals.F
-      !||    sms_rgwals_bilan     ../engine/source/ams/sms_rgwals.F
-      !||    sms_rgwals_fric      ../engine/source/ams/sms_rgwals.F
-      !||    sms_rgwals_impact    ../engine/source/ams/sms_rgwals.F
-      !||    sms_rgwalt           ../engine/source/ams/sms_rgwal0.F
-      !||    spmd_allglob_isum9   ../engine/source/mpi/generic/spmd_allglob_isum9.F
-      !||    spmd_exch_fr6        ../engine/source/mpi/kinematic_conditions/spmd_exch_fr6.F
-      !||====================================================================
+!||====================================================================
+!||    sms_rgwal_0          ../engine/source/ams/sms_rgwal0.F
+!||--- called by ------------------------------------------------------
+!||    sms_pcg              ../engine/source/ams/sms_pcg.F
+!||--- calls      -----------------------------------------------------
+!||    my_barrier           ../engine/source/system/machine.F
+!||    sms_rgwalc_bcs_0     ../engine/source/ams/sms_rgwalc.F
+!||    sms_rgwalc_bcs_1     ../engine/source/ams/sms_rgwalc.F
+!||    sms_rgwalc_bilan     ../engine/source/ams/sms_rgwalc.F
+!||    sms_rgwalc_fric      ../engine/source/ams/sms_rgwalc.F
+!||    sms_rgwalc_impact    ../engine/source/ams/sms_rgwalc.F
+!||    sms_rgwall_bcs_0     ../engine/source/ams/sms_rgwall.F
+!||    sms_rgwall_bcs_1     ../engine/source/ams/sms_rgwall.F
+!||    sms_rgwall_bilan     ../engine/source/ams/sms_rgwall.F
+!||    sms_rgwall_fric      ../engine/source/ams/sms_rgwall.F
+!||    sms_rgwall_impact    ../engine/source/ams/sms_rgwall.F
+!||    sms_rgwalp_bcs_0     ../engine/source/ams/sms_rgwalp.F
+!||    sms_rgwalp_bcs_1     ../engine/source/ams/sms_rgwalp.F
+!||    sms_rgwalp_bilan     ../engine/source/ams/sms_rgwalp.F
+!||    sms_rgwalp_fric      ../engine/source/ams/sms_rgwalp.F
+!||    sms_rgwalp_impact    ../engine/source/ams/sms_rgwalp.F
+!||    sms_rgwals_bcs_0     ../engine/source/ams/sms_rgwals.F
+!||    sms_rgwals_bcs_1     ../engine/source/ams/sms_rgwals.F
+!||    sms_rgwals_bilan     ../engine/source/ams/sms_rgwals.F
+!||    sms_rgwals_fric      ../engine/source/ams/sms_rgwals.F
+!||    sms_rgwals_impact    ../engine/source/ams/sms_rgwals.F
+!||    sms_rgwalt           ../engine/source/ams/sms_rgwal0.F
+!||    spmd_allglob_isum9   ../engine/source/mpi/generic/spmd_allglob_isum9.F
+!||    spmd_exch_fr6        ../engine/source/mpi/kinematic_conditions/spmd_exch_fr6.F
+!||====================================================================
       SUBROUTINE SMS_RGWAL_0(IFLAG  ,X      ,V      ,RWBUF   ,LPRW    ,   
      2                       NPRW   ,MS     ,FSAV   ,FR_WALL ,FOPT    ,
      3                       RWSAV  ,WEIGHT ,IRWL_WORK, NRWL_SMS,FRWL6,
@@ -372,11 +372,11 @@ C
 
       RETURN
       END
-      !||====================================================================
-      !||    sms_rgwalt    ../engine/source/ams/sms_rgwal0.F
-      !||--- called by ------------------------------------------------------
-      !||    sms_rgwal_0   ../engine/source/ams/sms_rgwal0.F
-      !||====================================================================
+!||====================================================================
+!||    sms_rgwalt    ../engine/source/ams/sms_rgwal0.F
+!||--- called by ------------------------------------------------------
+!||    sms_rgwal_0   ../engine/source/ams/sms_rgwal0.F
+!||====================================================================
       SUBROUTINE SMS_RGWALT(MSR ,RWL,FRWL6,PMAIN,FSAV,
      2                  FOPT)
 C-----------------------------------------------

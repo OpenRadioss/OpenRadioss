@@ -20,21 +20,21 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    s8for_distor       ../engine/source/elements/solid/solide/s8for_distor.F
-      !||--- called by ------------------------------------------------------
-      !||    s8cforc3           ../engine/source/elements/thickshell/solide8c/s8cforc3.F
-      !||    s8eforc3           ../engine/source/elements/solid/solide8e/s8eforc3.F
-      !||    scforc3            ../engine/source/elements/thickshell/solidec/scforc3.F
-      !||    sforc3             ../engine/source/elements/solid/solide/sforc3.F
-      !||    szforc3            ../engine/source/elements/solid/solidez/szforc3.F
-      !||--- calls      -----------------------------------------------------
-      !||    sfor_4n2s4         ../engine/source/elements/solid/solide/sfor_4n2s4.F90
-      !||    sfor_n2s4          ../engine/source/elements/solid/solide/sfor_n2s4.F
-      !||    sfor_visn8         ../engine/source/elements/solid/solide/sfor_visn8.F
-      !||--- uses       -----------------------------------------------------
-      !||    sfor_nsn2seg_mod   ../engine/source/elements/solid/solide/sfor_4n2s4.F90
-      !||====================================================================
+!||====================================================================
+!||    s8for_distor       ../engine/source/elements/solid/solide/s8for_distor.F
+!||--- called by ------------------------------------------------------
+!||    s8cforc3           ../engine/source/elements/thickshell/solide8c/s8cforc3.F
+!||    s8eforc3           ../engine/source/elements/solid/solide8e/s8eforc3.F
+!||    scforc3            ../engine/source/elements/thickshell/solidec/scforc3.F
+!||    sforc3             ../engine/source/elements/solid/solide/sforc3.F
+!||    szforc3            ../engine/source/elements/solid/solidez/szforc3.F
+!||--- calls      -----------------------------------------------------
+!||    sfor_4n2s4         ../engine/source/elements/solid/solide/sfor_4n2s4.F90
+!||    sfor_n2s4          ../engine/source/elements/solid/solide/sfor_n2s4.F
+!||    sfor_visn8         ../engine/source/elements/solid/solide/sfor_visn8.F
+!||--- uses       -----------------------------------------------------
+!||    sfor_nsn2seg_mod   ../engine/source/elements/solid/solide/sfor_4n2s4.F90
+!||====================================================================
       SUBROUTINE S8FOR_DISTOR(
      .   X1,      X2,      X3,      X4,      
      .   X5,      X6,      X7,      X8,      

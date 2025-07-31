@@ -20,15 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    sortho3    ../engine/source/elements/solid/solide/sortho3.F
-      !||--- called by ------------------------------------------------------
-      !||    pre_heph   ../engine/source/output/anim/generate/tensor6.F
-      !||    sr8coor3   ../engine/source/elements/solid/solide8/sr8coor3.F
-      !||    srcoor3    ../engine/source/elements/solid/solide/srcoor3.F
-      !||    srcoork    ../engine/source/elements/solid/solide8z/srcoork.F
-      !||    srep2glo   ../engine/source/elements/sph/srep2glo.F
-      !||====================================================================
+!||====================================================================
+!||    sortho3    ../engine/source/elements/solid/solide/sortho3.F
+!||--- called by ------------------------------------------------------
+!||    pre_heph   ../engine/source/output/anim/generate/tensor6.F
+!||    sr8coor3   ../engine/source/elements/solid/solide8/sr8coor3.F
+!||    srcoor3    ../engine/source/elements/solid/solide/srcoor3.F
+!||    srcoork    ../engine/source/elements/solid/solide8z/srcoork.F
+!||    srep2glo   ../engine/source/elements/sph/srep2glo.F
+!||====================================================================
       SUBROUTINE SORTHO3(
      1   RX,      RY,      RZ,      SX,
      2   SY,      SZ,      TX,      TY,

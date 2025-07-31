@@ -21,15 +21,15 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
-      !||====================================================================
-      !||    spmd_fr_poff          ../engine/source/mpi/kinematic_conditions/spmd_fr_poff.F
-      !||--- called by ------------------------------------------------------
-      !||    damping_vref          ../engine/source/assembly/damping_vref.F
-      !||    mv_matv               ../engine/source/airbag/monv_imp0.F
-      !||--- calls      -----------------------------------------------------
-      !||--- uses       -----------------------------------------------------
-      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
-      !||====================================================================
+!||====================================================================
+!||    spmd_fr_poff          ../engine/source/mpi/kinematic_conditions/spmd_fr_poff.F
+!||--- called by ------------------------------------------------------
+!||    damping_vref          ../engine/source/assembly/damping_vref.F
+!||    mv_matv               ../engine/source/airbag/monv_imp0.F
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
+!||====================================================================
       SUBROUTINE SPMD_FR_POFF(FR_WALL,FS,LEN)
 C cumul force sur frontiere en parith/Off
 C-----------------------------------------------

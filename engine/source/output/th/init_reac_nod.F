@@ -20,11 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    init_reac_nod   ../engine/source/output/th/init_reac_nod.F
-      !||--- called by ------------------------------------------------------
-      !||    resol_init      ../engine/source/engine/resol_init.F
-      !||====================================================================
+!||====================================================================
+!||    init_reac_nod   ../engine/source/output/th/init_reac_nod.F
+!||--- called by ------------------------------------------------------
+!||    resol_init      ../engine/source/engine/resol_init.F
+!||====================================================================
       SUBROUTINE INIT_REAC_NOD(CPTREAC,NODREAC,NTHGRP,ITHGRP,ITHBUF)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

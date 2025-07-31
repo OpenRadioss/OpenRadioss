@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    inifill         ../starter/source/initial_conditions/inivol/inifill.F
-      !||--- called by ------------------------------------------------------
-      !||    init_inivol     ../starter/source/initial_conditions/inivol/init_inivol.F90
-      !||--- calls      -----------------------------------------------------
-      !||    iniphase        ../starter/source/initial_conditions/inivol/iniphase.F
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    inifill         ../starter/source/initial_conditions/inivol/inifill.F
+!||--- called by ------------------------------------------------------
+!||    init_inivol     ../starter/source/initial_conditions/inivol/init_inivol.F90
+!||--- calls      -----------------------------------------------------
+!||    iniphase        ../starter/source/initial_conditions/inivol/iniphase.F
+!||--- uses       -----------------------------------------------------
+!||====================================================================
       SUBROUTINE INIFILL(NUMELS    ,NUMELTG,NUMELQ    ,NUMNOD   ,NPART    ,
      .                   NPROPMI   ,NUMMAT ,N2D       ,NGROUP   ,
      .                   IXS       ,IPM    ,IPART_    ,IPHASE   , SIPART_ ,

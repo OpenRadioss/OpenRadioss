@@ -20,20 +20,20 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    c3bilan               ../engine/source/elements/sh3n/coque3n/c3bilan.F
-      !||--- called by ------------------------------------------------------
-      !||    c3forc3               ../engine/source/elements/sh3n/coque3n/c3forc3.F
-      !||    c3forc3_crk           ../engine/source/elements/xfem/c3forc3_crk.F
-      !||    cdk6forc3             ../engine/source/elements/sh3n/coquedk6/cdk6forc3.F
-      !||    cdkforc3              ../engine/source/elements/sh3n/coquedk/cdkforc3.F
-      !||--- calls      -----------------------------------------------------
-      !||    c3coor3_crk2          ../engine/source/elements/xfem/c3coor3_crk.F
-      !||    grelem_sav            ../engine/source/output/th/grelem_sav.F
-      !||    sensor_energy_bilan   ../engine/source/tools/sensor/sensor_energy_bilan.F
-      !||--- uses       -----------------------------------------------------
-      !||    sensor_mod            ../common_source/modules/sensor_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    c3bilan               ../engine/source/elements/sh3n/coque3n/c3bilan.F
+!||--- called by ------------------------------------------------------
+!||    c3forc3               ../engine/source/elements/sh3n/coque3n/c3forc3.F
+!||    c3forc3_crk           ../engine/source/elements/xfem/c3forc3_crk.F
+!||    cdk6forc3             ../engine/source/elements/sh3n/coquedk6/cdk6forc3.F
+!||    cdkforc3              ../engine/source/elements/sh3n/coquedk/cdkforc3.F
+!||--- calls      -----------------------------------------------------
+!||    c3coor3_crk2          ../engine/source/elements/xfem/c3coor3_crk.F
+!||    grelem_sav            ../engine/source/output/th/grelem_sav.F
+!||    sensor_energy_bilan   ../engine/source/tools/sensor/sensor_energy_bilan.F
+!||--- uses       -----------------------------------------------------
+!||    sensor_mod            ../common_source/modules/sensor_mod.F90
+!||====================================================================
       SUBROUTINE C3BILAN(
      1   JFT,      JLT,      PM,       V,
      2   THK,      EINT,     PARTSAV,  IPARTTG,

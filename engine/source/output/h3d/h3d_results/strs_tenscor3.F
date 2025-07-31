@@ -20,17 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    strs_tenscor3        ../engine/source/output/h3d/h3d_results/strs_tenscor3.F
-      !||--- called by ------------------------------------------------------
-      !||    h3d_solid_tensor_1   ../engine/source/output/h3d/h3d_results/h3d_solid_tensor_1.F
-      !||--- calls      -----------------------------------------------------
-      !||    pre_heph             ../engine/source/output/anim/generate/tensor6.F
-      !||    srota6               ../engine/source/output/anim/generate/srota6.F
-      !||    szsigpara            ../engine/source/elements/solid/solidez/szsigpara.F
-      !||--- uses       -----------------------------------------------------
-      !||    elbufdef_mod         ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    strs_tenscor3        ../engine/source/output/h3d/h3d_results/strs_tenscor3.F
+!||--- called by ------------------------------------------------------
+!||    h3d_solid_tensor_1   ../engine/source/output/h3d/h3d_results/h3d_solid_tensor_1.F
+!||--- calls      -----------------------------------------------------
+!||    pre_heph             ../engine/source/output/anim/generate/tensor6.F
+!||    srota6               ../engine/source/output/anim/generate/srota6.F
+!||    szsigpara            ../engine/source/elements/solid/solidez/szsigpara.F
+!||--- uses       -----------------------------------------------------
+!||    elbufdef_mod         ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||====================================================================
       SUBROUTINE STRS_TENSCOR3(ELBUF_TAB,IPARG   ,IXS      ,IXS10   ,X        ,
      .                        PM        ,KCVT    ,NEL      ,EVAR    )
 C-----------------------------------------------

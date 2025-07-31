@@ -20,17 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    sigeps27c   ../engine/source/materials/mat/mat027/sigeps27c.F
-      !||--- called by ------------------------------------------------------
-      !||    mulawc      ../engine/source/materials/mat_share/mulawc.F90
-      !||--- calls      -----------------------------------------------------
-      !||    m27crak     ../engine/source/materials/mat/mat027/m27crak.F
-      !||    m27elas     ../engine/source/materials/mat/mat027/m27elas.F
-      !||    m27plas     ../engine/source/materials/mat/mat027/m27plas.F
-      !||    roto_sig    ../engine/source/airbag/roto.F
-      !||    uroto_sig   ../engine/source/airbag/uroto.F
-      !||====================================================================
+!||====================================================================
+!||    sigeps27c   ../engine/source/materials/mat/mat027/sigeps27c.F
+!||--- called by ------------------------------------------------------
+!||    mulawc      ../engine/source/materials/mat_share/mulawc.F90
+!||--- calls      -----------------------------------------------------
+!||    m27crak     ../engine/source/materials/mat/mat027/m27crak.F
+!||    m27elas     ../engine/source/materials/mat/mat027/m27elas.F
+!||    m27plas     ../engine/source/materials/mat/mat027/m27plas.F
+!||    roto_sig    ../engine/source/airbag/roto.F
+!||    uroto_sig   ../engine/source/airbag/uroto.F
+!||====================================================================
       SUBROUTINE SIGEPS27C(
      1                   JFT    ,JLT    ,PM     ,THK    ,OFF   ,
      2                   GSTR   ,IMAT   ,DT1    ,IPLA   ,SHF   ,

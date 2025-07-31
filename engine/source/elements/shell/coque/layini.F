@@ -20,24 +20,24 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    layini             ../engine/source/elements/shell/coque/layini.F
-      !||--- called by ------------------------------------------------------
-      !||    c_tf_ne            ../engine/source/output/sty/c_tf_ne.F
-      !||    cmain3             ../engine/source/materials/mat_share/cmain3.F
-      !||    cmatc3             ../engine/source/elements/shell/coqueba/cmatc3.F
-      !||    cncoefort          ../engine/source/elements/sh3n/coquedk/cncoef3.F
-      !||    dynain_c_strag     ../engine/source/output/dynain/dynain_c_strag.F
-      !||    dynain_c_strsg     ../engine/source/output/dynain/dynain_c_strsg.F
-      !||    h3d_shell_tensor   ../engine/source/output/h3d/h3d_results/h3d_shell_tensor.F
-      !||    stat_c_strafg      ../engine/source/output/sta/stat_c_strafg.F
-      !||    stat_c_strsfg      ../engine/source/output/sta/stat_c_strsfg.F
-      !||    tensorc            ../engine/source/output/anim/generate/tensorc.F
-      !||--- uses       -----------------------------------------------------
-      !||    drape_mod          ../engine/share/modules/drape_mod.F
-      !||    elbufdef_mod       ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||    stack_mod          ../engine/share/modules/stack_mod.F
-      !||====================================================================
+!||====================================================================
+!||    layini             ../engine/source/elements/shell/coque/layini.F
+!||--- called by ------------------------------------------------------
+!||    c_tf_ne            ../engine/source/output/sty/c_tf_ne.F
+!||    cmain3             ../engine/source/materials/mat_share/cmain3.F
+!||    cmatc3             ../engine/source/elements/shell/coqueba/cmatc3.F
+!||    cncoefort          ../engine/source/elements/sh3n/coquedk/cncoef3.F
+!||    dynain_c_strag     ../engine/source/output/dynain/dynain_c_strag.F
+!||    dynain_c_strsg     ../engine/source/output/dynain/dynain_c_strsg.F
+!||    h3d_shell_tensor   ../engine/source/output/h3d/h3d_results/h3d_shell_tensor.F
+!||    stat_c_strafg      ../engine/source/output/sta/stat_c_strafg.F
+!||    stat_c_strsfg      ../engine/source/output/sta/stat_c_strsfg.F
+!||    tensorc            ../engine/source/output/anim/generate/tensorc.F
+!||--- uses       -----------------------------------------------------
+!||    drape_mod          ../engine/share/modules/drape_mod.F
+!||    elbufdef_mod       ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    stack_mod          ../engine/share/modules/stack_mod.F
+!||====================================================================
       SUBROUTINE LAYINI(
      .           ELBUF_STR  ,JFT        ,JLT        ,GEO        ,IGEO      ,
      .           MAT        ,PID        ,THKLY      ,MATLY      ,POSLY     ,

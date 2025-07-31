@@ -21,12 +21,12 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
-      !||====================================================================
-      !||    w_gjoint    ../starter/source/restart/ddsplit/w_gjoint.F
-      !||--- called by ------------------------------------------------------
-      !||    ddsplit     ../starter/source/restart/ddsplit/ddsplit.F
-      !||--- calls      -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    w_gjoint    ../starter/source/restart/ddsplit/w_gjoint.F
+!||--- called by ------------------------------------------------------
+!||    ddsplit     ../starter/source/restart/ddsplit/ddsplit.F
+!||--- calls      -----------------------------------------------------
+!||====================================================================
       SUBROUTINE W_GJOINT(GJBUFI,NGJOINT,LKJNI,NODLOCAL,LEN_IA)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

@@ -20,16 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    i3for2     ../engine/source/interfaces/inter2d/i3for2.F
-      !||--- called by ------------------------------------------------------
-      !||    intvo2     ../engine/source/interfaces/inter2d/intvo2.F
-      !||--- calls      -----------------------------------------------------
-      !||    ibcoff     ../engine/source/interfaces/interf/ibcoff.F
-      !||--- uses       -----------------------------------------------------
-      !||    anim_mod   ../common_source/modules/output/anim_mod.F
-      !||    h3d_mod    ../engine/share/modules/h3d_mod.F
-      !||====================================================================
+!||====================================================================
+!||    i3for2     ../engine/source/interfaces/inter2d/i3for2.F
+!||--- called by ------------------------------------------------------
+!||    intvo2     ../engine/source/interfaces/inter2d/intvo2.F
+!||--- calls      -----------------------------------------------------
+!||    ibcoff     ../engine/source/interfaces/interf/ibcoff.F
+!||--- uses       -----------------------------------------------------
+!||    anim_mod   ../common_source/modules/output/anim_mod.F
+!||    h3d_mod    ../engine/share/modules/h3d_mod.F
+!||====================================================================
       SUBROUTINE I3FOR2(X     ,E    ,IRECT,LMSR ,MSR  ,
      1                  NSV   ,ILOC ,IRTL ,STF  ,NSN  ,
      2                  NMN   ,NTY  ,CST  ,IRTLO,FRIC0,

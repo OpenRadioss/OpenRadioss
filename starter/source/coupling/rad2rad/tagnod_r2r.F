@@ -20,15 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    tagnod_r2r    ../starter/source/coupling/rad2rad/tagnod_r2r.F
-      !||--- called by ------------------------------------------------------
-      !||    r2r_group     ../starter/source/coupling/rad2rad/r2r_group.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg        ../starter/source/output/message/message.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod   ../starter/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    tagnod_r2r    ../starter/source/coupling/rad2rad/tagnod_r2r.F
+!||--- called by ------------------------------------------------------
+!||    r2r_group     ../starter/source/coupling/rad2rad/r2r_group.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg        ../starter/source/output/message/message.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod   ../starter/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE TAGNOD_R2R(IX,NIX,NIX1,NIX2,NUMEL,IPARTE,
      1                  TAGBUF,NPART,FLAG,IDOM)
         USE MESSAGE_MOD
@@ -189,14 +189,14 @@ C-----------
         RETURN
       END SUBROUTINE TAGNOD_R2R
 
-      !||====================================================================
-      !||    tagnod_r2r_s   ../starter/source/coupling/rad2rad/tagnod_r2r.F
-      !||--- called by ------------------------------------------------------
-      !||    r2r_group      ../starter/source/coupling/rad2rad/r2r_group.F
-      !||--- uses       -----------------------------------------------------
-      !||    r2r_mod        ../starter/share/modules1/r2r_mod.F
-      !||    restmod        ../starter/share/modules1/restart_mod.F
-      !||====================================================================
+!||====================================================================
+!||    tagnod_r2r_s   ../starter/source/coupling/rad2rad/tagnod_r2r.F
+!||--- called by ------------------------------------------------------
+!||    r2r_group      ../starter/source/coupling/rad2rad/r2r_group.F
+!||--- uses       -----------------------------------------------------
+!||    r2r_mod        ../starter/share/modules1/r2r_mod.F
+!||    restmod        ../starter/share/modules1/restart_mod.F
+!||====================================================================
       SUBROUTINE TAGNOD_R2R_S(TAGBUF)
 C-----------------------------------------------
 C   M o d u l e s
@@ -251,15 +251,15 @@ C-----------
         RETURN
       END SUBROUTINE TAGNOD_R2R_S
 
-      !||====================================================================
-      !||    tagnods_r2r   ../starter/source/coupling/rad2rad/tagnod_r2r.F
-      !||--- called by ------------------------------------------------------
-      !||    r2r_group     ../starter/source/coupling/rad2rad/r2r_group.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg        ../starter/source/output/message/message.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod   ../starter/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    tagnods_r2r   ../starter/source/coupling/rad2rad/tagnod_r2r.F
+!||--- called by ------------------------------------------------------
+!||    r2r_group     ../starter/source/coupling/rad2rad/r2r_group.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg        ../starter/source/output/message/message.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod   ../starter/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE TAGNODS_R2R(IXS,IXS10,IXS20,IXS16,IPARTS,
      .                   TAGBUF,FLAG,IDOM)
         USE MESSAGE_MOD

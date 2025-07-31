@@ -20,51 +20,51 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    qforc2                 ../engine/source/elements/solid_2d/quad/qforc2.F
-      !||--- called by ------------------------------------------------------
-      !||    alemain                ../engine/source/ale/alemain.F
-      !||    forint                 ../engine/source/elements/forint.F
-      !||--- calls      -----------------------------------------------------
-      !||    alero2                 ../engine/source/ale/ale2d/alero2.F
-      !||    amomt2                 ../engine/source/ale/ale2d/amomt2.F
-      !||    check_off_ale          ../engine/source/elements/solid/solide/check_off_ale.F
-      !||    ede112                 ../engine/source/ale/euler2d/ede112.F
-      !||    edefo2                 ../engine/source/ale/euler2d/edefo2.F
-      !||    emomt2                 ../engine/source/ale/euler2d/emomt2.F
-      !||    eulro2                 ../engine/source/ale/euler2d/eulro2.F
-      !||    mmain                  ../engine/source/materials/mat_share/mmain.F90
-      !||    qbilan                 ../engine/source/elements/solid_2d/quad/qbilan.F
-      !||    qcoor2                 ../engine/source/elements/solid_2d/quad/qcoor2.F
-      !||    qcumu2                 ../engine/source/elements/solid_2d/quad/qcumu2.F
-      !||    qcumu2p                ../engine/source/elements/solid_2d/quad/qcumu2p.F
-      !||    qdefo2                 ../engine/source/elements/solid_2d/quad/qdefo2.F
-      !||    qdlen2                 ../engine/source/elements/solid_2d/quad/qdlen2.F
-      !||    qfint2                 ../engine/source/elements/solid_2d/quad/qfint2.F
-      !||    qhvis2                 ../engine/source/elements/solid_2d/quad/qhvis2.F
-      !||    qlagr2                 ../engine/source/elements/solid_2d/quad/qlagr2.F
-      !||    qmass2                 ../engine/source/elements/solid_2d/quad/qmass2.F
-      !||    qmass2p                ../engine/source/elements/solid_2d/quad/qmass2p.F
-      !||    qmassreal2             ../engine/source/elements/solid_2d/quad/qmassreal2.F
-      !||    qmassreal2p            ../engine/source/elements/solid_2d/quad/qmassreal2p.F
-      !||    qrcoor2                ../engine/source/elements/solid_2d/quad/qrcoor2.F
-      !||    qrdefo2                ../engine/source/elements/solid_2d/quad/qrdefo2.F
-      !||    qrota2                 ../engine/source/elements/solid_2d/quad/qrota2.F
-      !||    qrrota2                ../engine/source/elements/solid_2d/quad/qrrota2.F
-      !||    qvolu2                 ../engine/source/elements/solid_2d/quad/qvolu2.F
-      !||--- uses       -----------------------------------------------------
-      !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
-      !||    ale_mod                ../common_source/modules/ale/ale_mod.F
-      !||    dt_mod                 ../engine/source/modules/dt_mod.F
-      !||    elbufdef_mod           ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||    glob_therm_mod         ../common_source/modules/mat_elem/glob_therm_mod.F90
-      !||    mat_elem_mod           ../common_source/modules/mat_elem/mat_elem_mod.F90
-      !||    mmain_mod              ../engine/source/materials/mat_share/mmain.F90
-      !||    nlocal_reg_mod         ../common_source/modules/nlocal_reg_mod.F
-      !||    sensor_mod             ../common_source/modules/sensor_mod.F90
-      !||    table_mod              ../engine/share/modules/table_mod.F
-      !||    timer_mod              ../engine/source/system/timer_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    qforc2                 ../engine/source/elements/solid_2d/quad/qforc2.F
+!||--- called by ------------------------------------------------------
+!||    alemain                ../engine/source/ale/alemain.F
+!||    forint                 ../engine/source/elements/forint.F
+!||--- calls      -----------------------------------------------------
+!||    alero2                 ../engine/source/ale/ale2d/alero2.F
+!||    amomt2                 ../engine/source/ale/ale2d/amomt2.F
+!||    check_off_ale          ../engine/source/elements/solid/solide/check_off_ale.F
+!||    ede112                 ../engine/source/ale/euler2d/ede112.F
+!||    edefo2                 ../engine/source/ale/euler2d/edefo2.F
+!||    emomt2                 ../engine/source/ale/euler2d/emomt2.F
+!||    eulro2                 ../engine/source/ale/euler2d/eulro2.F
+!||    mmain                  ../engine/source/materials/mat_share/mmain.F90
+!||    qbilan                 ../engine/source/elements/solid_2d/quad/qbilan.F
+!||    qcoor2                 ../engine/source/elements/solid_2d/quad/qcoor2.F
+!||    qcumu2                 ../engine/source/elements/solid_2d/quad/qcumu2.F
+!||    qcumu2p                ../engine/source/elements/solid_2d/quad/qcumu2p.F
+!||    qdefo2                 ../engine/source/elements/solid_2d/quad/qdefo2.F
+!||    qdlen2                 ../engine/source/elements/solid_2d/quad/qdlen2.F
+!||    qfint2                 ../engine/source/elements/solid_2d/quad/qfint2.F
+!||    qhvis2                 ../engine/source/elements/solid_2d/quad/qhvis2.F
+!||    qlagr2                 ../engine/source/elements/solid_2d/quad/qlagr2.F
+!||    qmass2                 ../engine/source/elements/solid_2d/quad/qmass2.F
+!||    qmass2p                ../engine/source/elements/solid_2d/quad/qmass2p.F
+!||    qmassreal2             ../engine/source/elements/solid_2d/quad/qmassreal2.F
+!||    qmassreal2p            ../engine/source/elements/solid_2d/quad/qmassreal2p.F
+!||    qrcoor2                ../engine/source/elements/solid_2d/quad/qrcoor2.F
+!||    qrdefo2                ../engine/source/elements/solid_2d/quad/qrdefo2.F
+!||    qrota2                 ../engine/source/elements/solid_2d/quad/qrota2.F
+!||    qrrota2                ../engine/source/elements/solid_2d/quad/qrrota2.F
+!||    qvolu2                 ../engine/source/elements/solid_2d/quad/qvolu2.F
+!||--- uses       -----------------------------------------------------
+!||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
+!||    ale_mod                ../common_source/modules/ale/ale_mod.F
+!||    dt_mod                 ../engine/source/modules/dt_mod.F
+!||    elbufdef_mod           ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    glob_therm_mod         ../common_source/modules/mat_elem/glob_therm_mod.F90
+!||    mat_elem_mod           ../common_source/modules/mat_elem/mat_elem_mod.F90
+!||    mmain_mod              ../engine/source/materials/mat_share/mmain.F90
+!||    nlocal_reg_mod         ../common_source/modules/nlocal_reg_mod.F
+!||    sensor_mod             ../common_source/modules/sensor_mod.F90
+!||    table_mod              ../engine/share/modules/table_mod.F
+!||    timer_mod              ../engine/source/system/timer_mod.F90
+!||====================================================================
       SUBROUTINE QFORC2(TIMERS, ELBUF_TAB  ,NG          ,
      1                  PM         ,GEO         ,IC          ,X        ,A           ,
      2                  V          ,MS          ,W           ,FLUX     ,FLU1        ,

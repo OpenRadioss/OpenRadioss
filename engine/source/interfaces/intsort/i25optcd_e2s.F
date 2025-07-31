@@ -20,19 +20,19 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    i25optcd_e2s      ../engine/source/interfaces/intsort/i25optcd_e2s.F
-      !||--- called by ------------------------------------------------------
-      !||    i25main_opt_tri   ../engine/source/interfaces/intsort/i25main_opt_tri.F
-      !||--- calls      -----------------------------------------------------
-      !||    int_checksum      ../engine/share/modules/debug_mod.F
-      !||    my_barrier        ../engine/source/system/machine.F
-      !||    sync_data         ../engine/source/system/machine.F
-      !||--- uses       -----------------------------------------------------
-      !||    debug_mod         ../engine/share/modules/debug_mod.F
-      !||    tri25ebox         ../engine/share/modules/tri25ebox.F
-      !||    tri7box           ../engine/share/modules/tri7box.F
-      !||====================================================================
+!||====================================================================
+!||    i25optcd_e2s      ../engine/source/interfaces/intsort/i25optcd_e2s.F
+!||--- called by ------------------------------------------------------
+!||    i25main_opt_tri   ../engine/source/interfaces/intsort/i25main_opt_tri.F
+!||--- calls      -----------------------------------------------------
+!||    int_checksum      ../engine/share/modules/debug_mod.F
+!||    my_barrier        ../engine/source/system/machine.F
+!||    sync_data         ../engine/source/system/machine.F
+!||--- uses       -----------------------------------------------------
+!||    debug_mod         ../engine/share/modules/debug_mod.F
+!||    tri25ebox         ../engine/share/modules/tri25ebox.F
+!||    tri7box           ../engine/share/modules/tri7box.F
+!||====================================================================
       SUBROUTINE I25OPTCD_E2S(CAND_M,CAND_S,X     ,I_STOK,IRECT   ,
      2                        NIN   ,V     ,GAP_M,IGAP  ,ITASK ,
      3                        STF   ,GAP_M_L,COUNT_REMSLVE,DRAD  ,

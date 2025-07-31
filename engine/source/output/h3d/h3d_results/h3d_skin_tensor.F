@@ -20,20 +20,20 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    h3d_skin_tensor        ../engine/source/output/h3d/h3d_results/h3d_skin_tensor.F
-      !||--- called by ------------------------------------------------------
-      !||    genh3d                 ../engine/source/output/h3d/h3d_results/genh3d.F
-      !||--- calls      -----------------------------------------------------
-      !||    h3d_sol_skin_tensor    ../engine/source/output/h3d/h3d_results/h3d_sol_skin_tensor.F
-      !||    initbuf                ../engine/share/resol/initbuf.F
-      !||    roto_sig2d             ../engine/source/output/h3d/h3d_results/h3d_skin_tensor.F
-      !||    tsh_dir2               ../engine/source/output/h3d/h3d_results/h3d_skin_tensor.F
-      !||--- uses       -----------------------------------------------------
-      !||    elbufdef_mod           ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||    initbuf_mod            ../engine/share/resol/initbuf.F
-      !||    names_and_titles_mod   ../common_source/modules/names_and_titles_mod.F
-      !||====================================================================
+!||====================================================================
+!||    h3d_skin_tensor        ../engine/source/output/h3d/h3d_results/h3d_skin_tensor.F
+!||--- called by ------------------------------------------------------
+!||    genh3d                 ../engine/source/output/h3d/h3d_results/genh3d.F
+!||--- calls      -----------------------------------------------------
+!||    h3d_sol_skin_tensor    ../engine/source/output/h3d/h3d_results/h3d_sol_skin_tensor.F
+!||    initbuf                ../engine/share/resol/initbuf.F
+!||    roto_sig2d             ../engine/source/output/h3d/h3d_results/h3d_skin_tensor.F
+!||    tsh_dir2               ../engine/source/output/h3d/h3d_results/h3d_skin_tensor.F
+!||--- uses       -----------------------------------------------------
+!||    elbufdef_mod           ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    initbuf_mod            ../engine/share/resol/initbuf.F
+!||    names_and_titles_mod   ../common_source/modules/names_and_titles_mod.F
+!||====================================================================
       SUBROUTINE H3D_SKIN_TENSOR(
      .                   ELBUF_TAB,SKIN_TENSOR, IPARG   ,IXS     ,X     ,PM  ,
      4                   IPARTS  ,IPM     ,IGEO    ,IXS10 ,IXS16 , IXS20  ,
@@ -593,15 +593,15 @@ C------for solid elements
 C-----------
       RETURN
       END
-      !||====================================================================
-      !||    tsh_dir2          ../engine/source/output/h3d/h3d_results/h3d_skin_tensor.F
-      !||--- called by ------------------------------------------------------
-      !||    h3d_fld_strain    ../engine/source/output/h3d/h3d_results/h3d_fld_strain.F
-      !||    h3d_skin_tensor   ../engine/source/output/h3d/h3d_results/h3d_skin_tensor.F
-      !||--- calls      -----------------------------------------------------
-      !||    scortho3          ../engine/source/elements/thickshell/solidec/scortho3.F
-      !||    srepisot3         ../engine/source/elements/solid/solide/srepisot3.F
-      !||====================================================================
+!||====================================================================
+!||    tsh_dir2          ../engine/source/output/h3d/h3d_results/h3d_skin_tensor.F
+!||--- called by ------------------------------------------------------
+!||    h3d_fld_strain    ../engine/source/output/h3d/h3d_results/h3d_fld_strain.F
+!||    h3d_skin_tensor   ../engine/source/output/h3d/h3d_results/h3d_skin_tensor.F
+!||--- calls      -----------------------------------------------------
+!||    scortho3          ../engine/source/elements/thickshell/solidec/scortho3.F
+!||    srepisot3         ../engine/source/elements/solid/solide/srepisot3.F
+!||====================================================================
       SUBROUTINE TSH_DIR2(X,IXS,DIR,DIRB,ICSTR,NEL)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -764,12 +764,12 @@ C-----------------------------------------------
 C-----------
       RETURN
       END SUBROUTINE TSH_DIR2
-      !||====================================================================
-      !||    roto_sig2d        ../engine/source/output/h3d/h3d_results/h3d_skin_tensor.F
-      !||--- called by ------------------------------------------------------
-      !||    h3d_fld_strain    ../engine/source/output/h3d/h3d_results/h3d_fld_strain.F
-      !||    h3d_skin_tensor   ../engine/source/output/h3d/h3d_results/h3d_skin_tensor.F
-      !||====================================================================
+!||====================================================================
+!||    roto_sig2d        ../engine/source/output/h3d/h3d_results/h3d_skin_tensor.F
+!||--- called by ------------------------------------------------------
+!||    h3d_fld_strain    ../engine/source/output/h3d/h3d_results/h3d_fld_strain.F
+!||    h3d_skin_tensor   ../engine/source/output/h3d/h3d_results/h3d_skin_tensor.F
+!||====================================================================
       SUBROUTINE ROTO_SIG2D(JFT,JLT,SIG,DIR)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -807,15 +807,15 @@ C-----------------------------------------------
 C-----------
       RETURN
       END
-      !||====================================================================
-      !||    tens3dto2d             ../engine/source/output/h3d/h3d_results/h3d_skin_tensor.F
-      !||--- called by ------------------------------------------------------
-      !||    h3d_sol_skin_scalar1   ../engine/source/output/h3d/h3d_results/h3d_sol_skin_scalar1.F
-      !||    h3d_sol_skin_tensor    ../engine/source/output/h3d/h3d_results/h3d_sol_skin_tensor.F
-      !||--- calls      -----------------------------------------------------
-      !||    clskew3                ../engine/source/elements/sh3n/coquedk/cdkcoor3.F
-      !||    rot3dto2d              ../engine/source/output/h3d/h3d_results/h3d_skin_tensor.F
-      !||====================================================================
+!||====================================================================
+!||    tens3dto2d             ../engine/source/output/h3d/h3d_results/h3d_skin_tensor.F
+!||--- called by ------------------------------------------------------
+!||    h3d_sol_skin_scalar1   ../engine/source/output/h3d/h3d_results/h3d_sol_skin_scalar1.F
+!||    h3d_sol_skin_tensor    ../engine/source/output/h3d/h3d_results/h3d_sol_skin_tensor.F
+!||--- calls      -----------------------------------------------------
+!||    clskew3                ../engine/source/elements/sh3n/coquedk/cdkcoor3.F
+!||    rot3dto2d              ../engine/source/output/h3d/h3d_results/h3d_skin_tensor.F
+!||====================================================================
       SUBROUTINE TENS3DTO2D(NEL,IXC,X,TEN3,TEN2)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -895,11 +895,11 @@ C-----------------------------------------------
 C-----------
       RETURN
       END SUBROUTINE TENS3DTO2D
-      !||====================================================================
-      !||    rot3dto2d    ../engine/source/output/h3d/h3d_results/h3d_skin_tensor.F
-      !||--- called by ------------------------------------------------------
-      !||    tens3dto2d   ../engine/source/output/h3d/h3d_results/h3d_skin_tensor.F
-      !||====================================================================
+!||====================================================================
+!||    rot3dto2d    ../engine/source/output/h3d/h3d_results/h3d_skin_tensor.F
+!||--- called by ------------------------------------------------------
+!||    tens3dto2d   ../engine/source/output/h3d/h3d_results/h3d_skin_tensor.F
+!||====================================================================
       SUBROUTINE ROT3DTO2D(NEL,SIG3D,SIG2D,
      .                     G1X,G1Y,G1Z,G2X,G2Y,G2Z,G3X,G3Y,G3Z)
 C-----------------------------------------------
@@ -934,9 +934,9 @@ C-----------------------------------------------
 C-----------
       RETURN
       END SUBROUTINE ROT3DTO2D
-      !||====================================================================
-      !||    reorder_n   ../engine/source/output/h3d/h3d_results/h3d_skin_tensor.F
-      !||====================================================================
+!||====================================================================
+!||    reorder_n   ../engine/source/output/h3d/h3d_results/h3d_skin_tensor.F
+!||====================================================================
       SUBROUTINE REORDER_N(N,IC)
 C----6---------------------------------------------------------------7---------8
 C   I m p l i c i t   T y p e s

@@ -21,17 +21,17 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 
-      !||====================================================================
-      !||    spmd_glob_imax9                   ../engine/source/mpi/generic/spmd_glob_imax9.F
-      !||--- called by ------------------------------------------------------
-      !||    find_dt_for_targeted_added_mass   ../engine/source/time_step/find_dt_for_targeted_added_mass.F
-      !||    genani                            ../engine/source/output/anim/generate/genani.F
-      !||    sms_ini_kin_1                     ../engine/source/ams/sms_init.F
-      !||    sms_ini_kin_2                     ../engine/source/ams/sms_init.F
-      !||--- calls      -----------------------------------------------------
-      !||--- uses       -----------------------------------------------------
-      !||    spmd_comm_world_mod               ../engine/source/mpi/spmd_comm_world.F90
-      !||====================================================================
+!||====================================================================
+!||    spmd_glob_imax9                   ../engine/source/mpi/generic/spmd_glob_imax9.F
+!||--- called by ------------------------------------------------------
+!||    find_dt_for_targeted_added_mass   ../engine/source/time_step/find_dt_for_targeted_added_mass.F
+!||    genani                            ../engine/source/output/anim/generate/genani.F
+!||    sms_ini_kin_1                     ../engine/source/ams/sms_init.F
+!||    sms_ini_kin_2                     ../engine/source/ams/sms_init.F
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||    spmd_comm_world_mod               ../engine/source/mpi/spmd_comm_world.F90
+!||====================================================================
       SUBROUTINE SPMD_GLOB_IMAX9(V,LEN)
 C gather tableau V de taille LEN de type integer
 C-----------------------------------------------

@@ -20,15 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    iniebcs_nrf_tcar   ../starter/source/boundary_conditions/ebcs/iniebcs_nrf_tcar.F
-      !||--- called by ------------------------------------------------------
-      !||    iniebcsp0          ../starter/source/boundary_conditions/ebcs/iniebcsp0.F
-      !||--- calls      -----------------------------------------------------
-      !||    ebcs_set_tcarp     ../starter/source/boundary_conditions/ebcs/iniebcs_nrf_tcar.F
-      !||--- uses       -----------------------------------------------------
-      !||    inigrav            ../starter/share/modules1/inigrav_mod.F
-      !||====================================================================
+!||====================================================================
+!||    iniebcs_nrf_tcar   ../starter/source/boundary_conditions/ebcs/iniebcs_nrf_tcar.F
+!||--- called by ------------------------------------------------------
+!||    iniebcsp0          ../starter/source/boundary_conditions/ebcs/iniebcsp0.F
+!||--- calls      -----------------------------------------------------
+!||    ebcs_set_tcarp     ../starter/source/boundary_conditions/ebcs/iniebcs_nrf_tcar.F
+!||--- uses       -----------------------------------------------------
+!||    inigrav            ../starter/share/modules1/inigrav_mod.F
+!||====================================================================
       SUBROUTINE INIEBCS_NRF_TCAR(EBCS_TAB, 
      .                    X, IXS,IXQ,IXTG,
      .                    PM, IPM,MAT_PARAM)
@@ -186,12 +186,12 @@ C-----------------------------------------------
 C-----------------------------------------------
 
       
-      !||====================================================================
-      !||    ebcs_set_tcarp     ../starter/source/boundary_conditions/ebcs/iniebcs_nrf_tcar.F
-      !||--- called by ------------------------------------------------------
-      !||    iniebcs_nrf_tcar   ../starter/source/boundary_conditions/ebcs/iniebcs_nrf_tcar.F
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    ebcs_set_tcarp     ../starter/source/boundary_conditions/ebcs/iniebcs_nrf_tcar.F
+!||--- called by ------------------------------------------------------
+!||    iniebcs_nrf_tcar   ../starter/source/boundary_conditions/ebcs/iniebcs_nrf_tcar.F
+!||--- uses       -----------------------------------------------------
+!||====================================================================
       SUBROUTINE EBCS_SET_TCARP(EBCS,TCAR_P)
       USE EBCS_MOD
 #include      "implicit_f.inc"

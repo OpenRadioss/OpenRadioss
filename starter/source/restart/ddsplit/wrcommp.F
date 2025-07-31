@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    wrcomip                ../starter/source/restart/ddsplit/wrcommp.F
-      !||--- called by ------------------------------------------------------
-      !||    ddsplit                ../starter/source/restart/ddsplit/ddsplit.F
-      !||--- uses       -----------------------------------------------------
-      !||    submodel_mod           ../starter/share/modules1/submodel_mod.F
-      !||    th_mod                 ../starter/share/modules1/th_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    wrcomip                ../starter/source/restart/ddsplit/wrcommp.F
+!||--- called by ------------------------------------------------------
+!||    ddsplit                ../starter/source/restart/ddsplit/ddsplit.F
+!||--- uses       -----------------------------------------------------
+!||    submodel_mod           ../starter/share/modules1/submodel_mod.F
+!||    th_mod                 ../starter/share/modules1/th_mod.F90
+!||====================================================================
       SUBROUTINE WRCOMIP(
      1   LMXVINT   ,LVARINT   ,TABVINT   ,NGROUP_L  ,LBUFEL_L ,
      2   LENWA_L   ,INTBAG_L  ,NUMELQ_L  ,NUMELS_L  ,NUMELC_L ,

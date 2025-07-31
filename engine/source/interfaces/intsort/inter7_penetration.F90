@@ -21,11 +21,11 @@
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 
-      !||====================================================================
-      !||    inter7_penetration_mod   ../engine/source/interfaces/intsort/inter7_penetration.F90
-      !||--- called by ------------------------------------------------------
-      !||    inter7_filter_cand       ../engine/source/interfaces/intsort/inter7_filter_cand.F90
-      !||====================================================================
+!||====================================================================
+!||    inter7_penetration_mod   ../engine/source/interfaces/intsort/inter7_penetration.F90
+!||--- called by ------------------------------------------------------
+!||    inter7_filter_cand       ../engine/source/interfaces/intsort/inter7_filter_cand.F90
+!||====================================================================
       MODULE INTER7_PENETRATION_MOD
       contains
 !! \brief computes the penetration between a chuck of secondary nodes and a main surface/segment
@@ -33,15 +33,15 @@
 !! the couple is the result of the broad phase collision detection, keeping all possible penetration
 !! for the given timestep, and also the possible penetration for the few next timesteps, until
 !! a secondary node has moved more than the margin (relatively to the main surface/segment)
-      !||====================================================================
-      !||    inter7_penetration   ../engine/source/interfaces/intsort/inter7_penetration.F90
-      !||--- called by ------------------------------------------------------
-      !||    inter7_filter_cand   ../engine/source/interfaces/intsort/inter7_filter_cand.F90
-      !||--- uses       -----------------------------------------------------
-      !||    collision_mod        ../engine/source/interfaces/intsort/collision_mod.F
-      !||    constant_mod         ../common_source/modules/constant_mod.F
-      !||    precision_mod        ../common_source/modules/precision_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    inter7_penetration   ../engine/source/interfaces/intsort/inter7_penetration.F90
+!||--- called by ------------------------------------------------------
+!||    inter7_filter_cand   ../engine/source/interfaces/intsort/inter7_filter_cand.F90
+!||--- uses       -----------------------------------------------------
+!||    collision_mod        ../engine/source/interfaces/intsort/collision_mod.F
+!||    constant_mod         ../common_source/modules/constant_mod.F
+!||    precision_mod        ../common_source/modules/precision_mod.F90
+!||====================================================================
         subroutine inter7_penetration(jlt   ,margin ,x1    ,x2     ,x3   ,&
         &x4    ,y1    ,y2    ,y3     ,y4   ,&
         &z1    ,z2    ,z3    ,z4     ,xi   ,&

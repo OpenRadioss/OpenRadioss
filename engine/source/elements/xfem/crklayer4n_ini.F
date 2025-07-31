@@ -20,18 +20,18 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    crklayer4n_ini   ../engine/source/elements/xfem/crklayer4n_ini.F
-      !||--- called by ------------------------------------------------------
-      !||    cforc3           ../engine/source/elements/shell/coque/cforc3.F
-      !||    czforc3          ../engine/source/elements/shell/coquez/czforc3.F
-      !||--- calls      -----------------------------------------------------
-      !||    arret            ../engine/source/system/arret.F
-      !||    lsint4           ../engine/source/elements/xfem/crklayer4n_adv.F
-      !||--- uses       -----------------------------------------------------
-      !||    crackxfem_mod    ../engine/share/modules/crackxfem_mod.F
-      !||    elbufdef_mod     ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    crklayer4n_ini   ../engine/source/elements/xfem/crklayer4n_ini.F
+!||--- called by ------------------------------------------------------
+!||    cforc3           ../engine/source/elements/shell/coque/cforc3.F
+!||    czforc3          ../engine/source/elements/shell/coquez/czforc3.F
+!||--- calls      -----------------------------------------------------
+!||    arret            ../engine/source/system/arret.F
+!||    lsint4           ../engine/source/elements/xfem/crklayer4n_adv.F
+!||--- uses       -----------------------------------------------------
+!||    crackxfem_mod    ../engine/share/modules/crackxfem_mod.F
+!||    elbufdef_mod     ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||====================================================================
       SUBROUTINE CRKLAYER4N_INI(
      .           XFEM_STR ,NEL      ,NFT      ,IXC      ,ELCUTC   ,
      .           ILAY     ,NLAY     ,IEL_CRK  ,INOD_CRK ,

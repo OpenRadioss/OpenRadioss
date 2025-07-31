@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    i2pen_rot   ../common_source/interf/i2pen_rot.F
-      !||--- called by ------------------------------------------------------
-      !||    i2_dtn_25   ../starter/source/interfaces/inter3d1/i2_dtn.F
-      !||    i2for25     ../engine/source/interfaces/interf/i2for25.F
-      !||    i2for25p    ../engine/source/interfaces/interf/i2for25p.F
-      !||====================================================================
+!||====================================================================
+!||    i2pen_rot   ../common_source/interf/i2pen_rot.F
+!||--- called by ------------------------------------------------------
+!||    i2_dtn_25   ../starter/source/interfaces/inter3d1/i2_dtn.F
+!||    i2for25     ../engine/source/interfaces/interf/i2for25.F
+!||    i2for25p    ../engine/source/interfaces/interf/i2for25p.F
+!||====================================================================
       SUBROUTINE I2PEN_ROT(SKEW    ,TT      ,DT1  ,STIF ,
      .         RS   ,RM   ,V1   ,V2   ,V3   ,
      .         RX   ,RY   ,RZ   ,VA   ,VB   ,
@@ -140,12 +140,12 @@ C-----------
       RETURN
       END
 
-      !||====================================================================
-      !||    i2pen_rot26   ../common_source/interf/i2pen_rot.F
-      !||--- called by ------------------------------------------------------
-      !||    i2for26       ../engine/source/interfaces/interf/i2for26.F
-      !||    i2for26p      ../engine/source/interfaces/interf/i2for26p.F
-      !||====================================================================
+!||====================================================================
+!||    i2pen_rot26   ../common_source/interf/i2pen_rot.F
+!||--- called by ------------------------------------------------------
+!||    i2for26       ../engine/source/interfaces/interf/i2for26.F
+!||    i2for26p      ../engine/source/interfaces/interf/i2for26p.F
+!||====================================================================
       SUBROUTINE I2PEN_ROT26(TT ,DT1  ,DWDU ,WLX   ,WLY   ,
      .         WLZ   ,RX   ,RY   ,RZ   ,VA   ,
      .         VB   ,VC   ,VD   )
@@ -260,13 +260,13 @@ C      STIF=SQRT((R(1)*R(1)+R(2)*R(2)+R(3)*R(3)))*DWDU
 C-----------
       RETURN
       END
-      !||====================================================================
-      !||    i2pen_rot27     ../common_source/interf/i2pen_rot.F
-      !||--- called by ------------------------------------------------------
-      !||    i2_dtn_27_pen   ../starter/source/interfaces/inter3d1/i2_dtn_27.F
-      !||    i2for27_pen     ../engine/source/interfaces/interf/i2for27_pen.F
-      !||    i2for27p_pen    ../engine/source/interfaces/interf/i2for27p_pen.F
-      !||====================================================================
+!||====================================================================
+!||    i2pen_rot27     ../common_source/interf/i2pen_rot.F
+!||--- called by ------------------------------------------------------
+!||    i2_dtn_27_pen   ../starter/source/interfaces/inter3d1/i2_dtn_27.F
+!||    i2for27_pen     ../engine/source/interfaces/interf/i2for27_pen.F
+!||    i2for27p_pen    ../engine/source/interfaces/interf/i2for27p_pen.F
+!||====================================================================
       SUBROUTINE I2PEN_ROT27(SKEW    ,TT      ,DT1  ,STIF ,
      .         RS   ,RM   ,VX   ,VY   ,VZ   ,
      .         RX   ,RY   ,RZ   ,VA   ,VB   ,
@@ -397,13 +397,13 @@ C-----------
       RETURN
       END
 
-      !||====================================================================
-      !||    i2pen_rot28     ../common_source/interf/i2pen_rot.F
-      !||--- called by ------------------------------------------------------
-      !||    i2_dtn_28_pen   ../starter/source/interfaces/inter3d1/i2_dtn_28.F
-      !||    i2for28_pen     ../engine/source/interfaces/interf/i2for28_pen.F
-      !||    i2for28p_pen    ../engine/source/interfaces/interf/i2for28p_pen.F
-      !||====================================================================
+!||====================================================================
+!||    i2pen_rot28     ../common_source/interf/i2pen_rot.F
+!||--- called by ------------------------------------------------------
+!||    i2_dtn_28_pen   ../starter/source/interfaces/inter3d1/i2_dtn_28.F
+!||    i2for28_pen     ../engine/source/interfaces/interf/i2for28_pen.F
+!||    i2for28p_pen    ../engine/source/interfaces/interf/i2for28p_pen.F
+!||====================================================================
       SUBROUTINE I2PEN_ROT28(SKEW    ,TT      ,DT1  ,STIF ,
      .         RS   ,RM   ,VX   ,VY   ,VZ   ,
      .         RX   ,RY   ,RZ   ,VA   ,VB   ,

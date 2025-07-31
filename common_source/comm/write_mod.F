@@ -20,22 +20,22 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    write_mod       ../common_source/comm/write_mod.F
-      !||--- called by ------------------------------------------------------
-      !||    write_sensors   ../engine/source/output/restart/write_sensors.F
-      !||====================================================================
+!||====================================================================
+!||    write_mod       ../common_source/comm/write_mod.F
+!||--- called by ------------------------------------------------------
+!||    write_sensors   ../engine/source/output/restart/write_sensors.F
+!||====================================================================
       MODULE WRITE_MOD
 #include "my_real.inc"
       CONTAINS
 !! \brief Wrapper routine to WRITE_I_C, to be used in order to avoid dummy-argument mismatch at error at compile tile
-      !||====================================================================
-      !||    write_integer   ../common_source/comm/write_mod.F
-      !||--- called by ------------------------------------------------------
-      !||    write_sensors   ../engine/source/output/restart/write_sensors.F
-      !||--- calls      -----------------------------------------------------
-      !||    write_i_c       ../common_source/tools/input_output/write_routtines.c
-      !||====================================================================
+!||====================================================================
+!||    write_integer   ../common_source/comm/write_mod.F
+!||--- called by ------------------------------------------------------
+!||    write_sensors   ../engine/source/output/restart/write_sensors.F
+!||--- calls      -----------------------------------------------------
+!||    write_i_c       ../common_source/tools/input_output/write_routtines.c
+!||====================================================================
         SUBROUTINE WRITE_INTEGER(A)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -53,11 +53,11 @@ C-----------------------------------------------
         ONE = 1
         CALL WRITE_I_C(A,ONE)
         END SUBROUTINE
-      !||====================================================================
-      !||    write_integer_1d   ../common_source/comm/write_mod.F
-      !||--- calls      -----------------------------------------------------
-      !||    write_i_c          ../common_source/tools/input_output/write_routtines.c
-      !||====================================================================
+!||====================================================================
+!||    write_integer_1d   ../common_source/comm/write_mod.F
+!||--- calls      -----------------------------------------------------
+!||    write_i_c          ../common_source/tools/input_output/write_routtines.c
+!||====================================================================
         SUBROUTINE WRITE_INTEGER_1D(A,N)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -70,11 +70,11 @@ C-----------------------------------------------
         INTEGER, INTENT(IN) :: N !< Dimension1
         CALL WRITE_I_C(A,N)
         END SUBROUTINE
-      !||====================================================================
-      !||    write_integer_2d   ../common_source/comm/write_mod.F
-      !||--- calls      -----------------------------------------------------
-      !||    write_i_c          ../common_source/tools/input_output/write_routtines.c
-      !||====================================================================
+!||====================================================================
+!||    write_integer_2d   ../common_source/comm/write_mod.F
+!||--- calls      -----------------------------------------------------
+!||    write_i_c          ../common_source/tools/input_output/write_routtines.c
+!||====================================================================
         SUBROUTINE WRITE_INTEGER_2D(A,N,M)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -93,11 +93,11 @@ C-----------------------------------------------
         D = M * N
         CALL WRITE_I_C(A,D)
         END SUBROUTINE
-      !||====================================================================
-      !||    write_integer_3d   ../common_source/comm/write_mod.F
-      !||--- calls      -----------------------------------------------------
-      !||    write_i_c          ../common_source/tools/input_output/write_routtines.c
-      !||====================================================================
+!||====================================================================
+!||    write_integer_3d   ../common_source/comm/write_mod.F
+!||--- calls      -----------------------------------------------------
+!||    write_i_c          ../common_source/tools/input_output/write_routtines.c
+!||====================================================================
         SUBROUTINE WRITE_INTEGER_3D(A,L,N,M)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -120,11 +120,11 @@ C-----------------------------------------------
 !! \brief Wrapper routine to WRITE_DB, to be used in order to avoid dummy-argument mismatch at error at compile tile
 
 !! \brief Wrapper routine to WRITE_DB, to be used in order to avoid dummy-argument mismatch at error at compile tile
-      !||====================================================================
-      !||    write_real   ../common_source/comm/write_mod.F
-      !||--- calls      -----------------------------------------------------
-      !||    write_db     ../common_source/tools/input_output/write_db.F
-      !||====================================================================
+!||====================================================================
+!||    write_real   ../common_source/comm/write_mod.F
+!||--- calls      -----------------------------------------------------
+!||    write_db     ../common_source/tools/input_output/write_db.F
+!||====================================================================
         SUBROUTINE WRITE_REAL(A)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -143,11 +143,11 @@ C-----------------------------------------------
         CALL WRITE_DB(A,ONE)
         END SUBROUTINE
 !! \brief Wrapper routine to WRITE_DB, to be used in order to avoid dummy-argument mismatch at error at compile tile
-      !||====================================================================
-      !||    write_real_1d   ../common_source/comm/write_mod.F
-      !||--- calls      -----------------------------------------------------
-      !||    write_db        ../common_source/tools/input_output/write_db.F
-      !||====================================================================
+!||====================================================================
+!||    write_real_1d   ../common_source/comm/write_mod.F
+!||--- calls      -----------------------------------------------------
+!||    write_db        ../common_source/tools/input_output/write_db.F
+!||====================================================================
         SUBROUTINE WRITE_REAL_1D(A,N)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -167,11 +167,11 @@ C-----------------------------------------------
         CALL WRITE_DB(A,D)
         END SUBROUTINE
 !! \brief Wrapper routine to WRITE_DB, to be used in order to avoid dummy-argument mismatch at error at compile tile
-      !||====================================================================
-      !||    write_real_2d   ../common_source/comm/write_mod.F
-      !||--- calls      -----------------------------------------------------
-      !||    write_db        ../common_source/tools/input_output/write_db.F
-      !||====================================================================
+!||====================================================================
+!||    write_real_2d   ../common_source/comm/write_mod.F
+!||--- calls      -----------------------------------------------------
+!||    write_db        ../common_source/tools/input_output/write_db.F
+!||====================================================================
         SUBROUTINE WRITE_REAL_2D(A,M,N)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -191,11 +191,11 @@ C-----------------------------------------------
         CALL WRITE_DB(A,D)
         END SUBROUTINE
 !! \brief Wrapper routine to WRITE_DB, to be used in order to avoid dummy-argument mismatch at error at compile tile
-      !||====================================================================
-      !||    write_real_3d   ../common_source/comm/write_mod.F
-      !||--- calls      -----------------------------------------------------
-      !||    write_db        ../common_source/tools/input_output/write_db.F
-      !||====================================================================
+!||====================================================================
+!||    write_real_3d   ../common_source/comm/write_mod.F
+!||--- calls      -----------------------------------------------------
+!||    write_db        ../common_source/tools/input_output/write_db.F
+!||====================================================================
         SUBROUTINE WRITE_REAL_3D(A,L,M,N)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -215,11 +215,11 @@ C-----------------------------------------------
         CALL WRITE_DB(A,D)
         END SUBROUTINE
 !! \brief Wrapper routine to WRITE_DPDB, to be used in order to avoid dummy-argument mismatch at error at compile tile
-      !||====================================================================
-      !||    write_double   ../common_source/comm/write_mod.F
-      !||--- calls      -----------------------------------------------------
-      !||    write_dpdb     ../common_source/tools/input_output/write_db.F
-      !||====================================================================
+!||====================================================================
+!||    write_double   ../common_source/comm/write_mod.F
+!||--- calls      -----------------------------------------------------
+!||    write_dpdb     ../common_source/tools/input_output/write_db.F
+!||====================================================================
         SUBROUTINE WRITE_DOUBLE(A)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -239,11 +239,11 @@ C-----------------------------------------------
         END SUBROUTINE
 
 !! \brief Wrapper routine to WRITE_DPDB, to be used in order to avoid dummy-argument mismatch at error at compile tile
-      !||====================================================================
-      !||    write_double_1d   ../common_source/comm/write_mod.F
-      !||--- calls      -----------------------------------------------------
-      !||    write_dpdb        ../common_source/tools/input_output/write_db.F
-      !||====================================================================
+!||====================================================================
+!||    write_double_1d   ../common_source/comm/write_mod.F
+!||--- calls      -----------------------------------------------------
+!||    write_dpdb        ../common_source/tools/input_output/write_db.F
+!||====================================================================
         SUBROUTINE WRITE_DOUBLE_1D(A,N)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -263,11 +263,11 @@ C-----------------------------------------------
         CALL WRITE_DPDB(A,D)
         END SUBROUTINE
 !! \brief Wrapper routine to WRITE_DPDB, to be used in order to avoid dummy-argument mismatch at error at compile tile
-      !||====================================================================
-      !||    write_double_2d   ../common_source/comm/write_mod.F
-      !||--- calls      -----------------------------------------------------
-      !||    write_dpdb        ../common_source/tools/input_output/write_db.F
-      !||====================================================================
+!||====================================================================
+!||    write_double_2d   ../common_source/comm/write_mod.F
+!||--- calls      -----------------------------------------------------
+!||    write_dpdb        ../common_source/tools/input_output/write_db.F
+!||====================================================================
         SUBROUTINE WRITE_DOUBLE_2D(A,M,N)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -287,11 +287,11 @@ C-----------------------------------------------
         CALL WRITE_DPDB(A,D)
         END SUBROUTINE
 !! \brief Wrapper routine to WRITE_DPDB, to be used in order to avoid dummy-argument mismatch at error at compile tile
-      !||====================================================================
-      !||    write_double_3d   ../common_source/comm/write_mod.F
-      !||--- calls      -----------------------------------------------------
-      !||    write_dpdb        ../common_source/tools/input_output/write_db.F
-      !||====================================================================
+!||====================================================================
+!||    write_double_3d   ../common_source/comm/write_mod.F
+!||--- calls      -----------------------------------------------------
+!||    write_dpdb        ../common_source/tools/input_output/write_db.F
+!||====================================================================
         SUBROUTINE WRITE_DOUBLE_3D(A,L,M,N)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

@@ -20,16 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    inintr_orthdirfric   ../starter/source/interfaces/interf1/inintr_orthdirfric.F
-      !||--- called by ------------------------------------------------------
-      !||    lectur               ../starter/source/starter/lectur.F
-      !||--- calls      -----------------------------------------------------
-      !||    incoq3               ../starter/source/interfaces/inter3d1/incoq3.F
-      !||    orthdir_proj         ../starter/source/interfaces/interf1/inintr_orthdirfric.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod          ../starter/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    inintr_orthdirfric   ../starter/source/interfaces/interf1/inintr_orthdirfric.F
+!||--- called by ------------------------------------------------------
+!||    lectur               ../starter/source/starter/lectur.F
+!||--- calls      -----------------------------------------------------
+!||    incoq3               ../starter/source/interfaces/inter3d1/incoq3.F
+!||    orthdir_proj         ../starter/source/interfaces/interf1/inintr_orthdirfric.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod          ../starter/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE ININTR_ORTHDIRFRIC(
      A                  IPARI   ,INTBUF_TAB,INTBUF_FRIC_TAB,IGEO  ,GEO      ,
      B                  X       , IXTG     ,IXC          ,IPARTTG , IPARTC  ,
@@ -178,15 +178,15 @@ C-----------
       RETURN
       END
 
-      !||====================================================================
-      !||    orthdir_proj         ../starter/source/interfaces/interf1/inintr_orthdirfric.F
-      !||--- called by ------------------------------------------------------
-      !||    inintr_orthdirfric   ../starter/source/interfaces/interf1/inintr_orthdirfric.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg               ../starter/source/output/message/message.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod          ../starter/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    orthdir_proj         ../starter/source/interfaces/interf1/inintr_orthdirfric.F
+!||--- called by ------------------------------------------------------
+!||    inintr_orthdirfric   ../starter/source/interfaces/interf1/inintr_orthdirfric.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg               ../starter/source/output/message/message.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod          ../starter/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE ORTHDIR_PROJ(
      .                  I      ,VX    , VY        ,VZ     , PHI   ,          
      .                  IREP   ,X     ,IRECTM     , ITAB  ,

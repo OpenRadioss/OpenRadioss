@@ -20,38 +20,38 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    i20main_tri                  ../engine/source/interfaces/intsort/i20main_tri.F
-      !||--- called by ------------------------------------------------------
-      !||    imp_tripi                    ../engine/source/implicit/imp_int_k.F
-      !||    inttri                       ../engine/source/interfaces/intsort/inttri.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg                       ../engine/source/output/message/message.F
-      !||    arret                        ../engine/source/system/arret.F
-      !||    check_sorting_criteria       ../engine/source/interfaces/intsort/check_sorting_criteria.F90
-      !||    i20buc_edge                  ../engine/source/interfaces/intsort/i20buce.F
-      !||    i20buce                      ../engine/source/interfaces/intsort/i20buce.F
-      !||    i20xsave                     ../engine/source/interfaces/intsort/i20xsave.F
-      !||    i7trc                        ../engine/source/interfaces/intsort/i7trc.F
-      !||    imp_rnumcd                   ../engine/source/implicit/imp_int_k.F
-      !||    my_barrier                   ../engine/source/system/machine.F
-      !||    spmd_get_inacti7             ../engine/source/mpi/interfaces/send_cand.F
-      !||    spmd_rnumcd20                ../engine/source/mpi/interfaces/spmd_i7tool.F
-      !||    spmd_tri20box                ../engine/source/mpi/interfaces/spmd_tri20box.F
-      !||    spmd_tri20boxe               ../engine/source/mpi/interfaces/spmd_tri20boxe.F
-      !||    spmd_tri20gat                ../engine/source/mpi/interfaces/spmd_i7crit.F
-      !||    spmd_tri20gate               ../engine/source/mpi/interfaces/spmd_i7crit.F
-      !||    startime                     ../engine/source/system/timer_mod.F90
-      !||    stoptime                     ../engine/source/system/timer_mod.F90
-      !||    upgrade_multimp              ../common_source/interf/upgrade_multimp.F
-      !||--- uses       -----------------------------------------------------
-      !||    check_sorting_criteria_mod   ../engine/source/interfaces/intsort/check_sorting_criteria.F90
-      !||    glob_therm_mod               ../common_source/modules/mat_elem/glob_therm_mod.F90
-      !||    h3d_mod                      ../engine/share/modules/h3d_mod.F
-      !||    intbufdef_mod                ../common_source/modules/interfaces/intbufdef_mod.F90
-      !||    message_mod                  ../engine/share/message_module/message_mod.F
-      !||    timer_mod                    ../engine/source/system/timer_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    i20main_tri                  ../engine/source/interfaces/intsort/i20main_tri.F
+!||--- called by ------------------------------------------------------
+!||    imp_tripi                    ../engine/source/implicit/imp_int_k.F
+!||    inttri                       ../engine/source/interfaces/intsort/inttri.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                       ../engine/source/output/message/message.F
+!||    arret                        ../engine/source/system/arret.F
+!||    check_sorting_criteria       ../engine/source/interfaces/intsort/check_sorting_criteria.F90
+!||    i20buc_edge                  ../engine/source/interfaces/intsort/i20buce.F
+!||    i20buce                      ../engine/source/interfaces/intsort/i20buce.F
+!||    i20xsave                     ../engine/source/interfaces/intsort/i20xsave.F
+!||    i7trc                        ../engine/source/interfaces/intsort/i7trc.F
+!||    imp_rnumcd                   ../engine/source/implicit/imp_int_k.F
+!||    my_barrier                   ../engine/source/system/machine.F
+!||    spmd_get_inacti7             ../engine/source/mpi/interfaces/send_cand.F
+!||    spmd_rnumcd20                ../engine/source/mpi/interfaces/spmd_i7tool.F
+!||    spmd_tri20box                ../engine/source/mpi/interfaces/spmd_tri20box.F
+!||    spmd_tri20boxe               ../engine/source/mpi/interfaces/spmd_tri20boxe.F
+!||    spmd_tri20gat                ../engine/source/mpi/interfaces/spmd_i7crit.F
+!||    spmd_tri20gate               ../engine/source/mpi/interfaces/spmd_i7crit.F
+!||    startime                     ../engine/source/system/timer_mod.F90
+!||    stoptime                     ../engine/source/system/timer_mod.F90
+!||    upgrade_multimp              ../common_source/interf/upgrade_multimp.F
+!||--- uses       -----------------------------------------------------
+!||    check_sorting_criteria_mod   ../engine/source/interfaces/intsort/check_sorting_criteria.F90
+!||    glob_therm_mod               ../common_source/modules/mat_elem/glob_therm_mod.F90
+!||    h3d_mod                      ../engine/share/modules/h3d_mod.F
+!||    intbufdef_mod                ../common_source/modules/interfaces/intbufdef_mod.F90
+!||    message_mod                  ../engine/share/message_module/message_mod.F
+!||    timer_mod                    ../engine/source/system/timer_mod.F90
+!||====================================================================
       SUBROUTINE I20MAIN_TRI(TIMERS,
      1                  IPARI   ,X       ,V       ,
      2                  MS      ,NIN     ,ITASK   ,MWAG    ,WEIGHT  ,
@@ -572,13 +572,13 @@ C mono tache
 C
       RETURN
       END
-      !||====================================================================
-      !||    i20xsinir                ../engine/source/interfaces/intsort/i20main_tri.F
-      !||--- called by ------------------------------------------------------
-      !||    check_sorting_criteria   ../engine/source/interfaces/intsort/check_sorting_criteria.F90
-      !||--- uses       -----------------------------------------------------
-      !||    tri7box                  ../engine/share/modules/tri7box.F
-      !||====================================================================
+!||====================================================================
+!||    i20xsinir                ../engine/source/interfaces/intsort/i20main_tri.F
+!||--- called by ------------------------------------------------------
+!||    check_sorting_criteria   ../engine/source/interfaces/intsort/check_sorting_criteria.F90
+!||--- uses       -----------------------------------------------------
+!||    tri7box                  ../engine/share/modules/tri7box.F
+!||====================================================================
        SUBROUTINE I20XSINIR(NSNR,NLINSR,ITASK,NIN,STFAC   )
 C-----------------------------------------------
 C   M o d u l e s

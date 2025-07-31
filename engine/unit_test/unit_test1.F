@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    main                         ../engine/unit_test/unit_test1.F
-      !||--- calls      -----------------------------------------------------
-      !||    set_stack_unlimited          ../engine/unit_test/unlimit_stack.cpp
-      !||--- uses       -----------------------------------------------------
-      !||    inter7_candidate_pairs_mod   ../engine/source/interfaces/intsort/inter7_candidate_pairs.F90
-      !||====================================================================
+!||====================================================================
+!||    main                         ../engine/unit_test/unit_test1.F
+!||--- calls      -----------------------------------------------------
+!||    set_stack_unlimited          ../engine/unit_test/unlimit_stack.cpp
+!||--- uses       -----------------------------------------------------
+!||    inter7_candidate_pairs_mod   ../engine/source/interfaces/intsort/inter7_candidate_pairs.F90
+!||====================================================================
         program main
 
             use INTER7_CANDIDATE_PAIRS_MOD

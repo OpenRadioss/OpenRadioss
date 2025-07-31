@@ -20,18 +20,18 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    anim_build_index_all   ../engine/source/output/anim/reader/anim_build_index_all.F
-      !||--- called by ------------------------------------------------------
-      !||    lectur                 ../engine/source/input/lectur.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg                 ../engine/source/output/message/message.F
-      !||    arret                  ../engine/source/system/arret.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod            ../engine/share/message_module/message_mod.F
-      !||    sensor_mod             ../common_source/modules/sensor_mod.F90
-      !||    stack_mod              ../engine/share/modules/stack_mod.F
-      !||====================================================================
+!||====================================================================
+!||    anim_build_index_all   ../engine/source/output/anim/reader/anim_build_index_all.F
+!||--- called by ------------------------------------------------------
+!||    lectur                 ../engine/source/input/lectur.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                 ../engine/source/output/message/message.F
+!||    arret                  ../engine/source/system/arret.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod            ../engine/share/message_module/message_mod.F
+!||    sensor_mod             ../common_source/modules/sensor_mod.F90
+!||    stack_mod              ../engine/share/modules/stack_mod.F
+!||====================================================================
       SUBROUTINE ANIM_BUILD_INDEX_ALL(ISPMD   ,MCHECK ,SENSORS ,IGEO    ,GEO    )
 C-----------------------------------------------
 C   M o d u l e s

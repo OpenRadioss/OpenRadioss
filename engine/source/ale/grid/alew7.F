@@ -21,24 +21,24 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 
-      !||====================================================================
-      !||    alew7                               ../engine/source/ale/grid/alew7.F
-      !||--- called by ------------------------------------------------------
-      !||    alewdx                              ../engine/source/ale/grid/alewdx.F
-      !||--- calls      -----------------------------------------------------
-      !||    my_barrier                          ../engine/source/system/machine.F
-      !||    spmd_exch_flow_tracking_data        ../engine/source/ale/grid/spmd_exch_flow_tracking_data.F90
-      !||    spmd_exch_flow_tracking_data2       ../engine/source/ale/grid/spmd_exch_flow_tracking_data2.F90
-      !||    spmd_exch_flow_tracking_data3       ../engine/source/ale/grid/spmd_exch_flow_tracking_data3.F90
-      !||    spmd_exch_flow_tracking_data4       ../engine/source/ale/grid/spmd_exch_flow_tracking_data4.F90
-      !||    valpvec                             ../engine/source/materials/mat/mat033/sigeps33.F
-      !||--- uses       -----------------------------------------------------
-      !||    ale_mod                             ../common_source/modules/ale/ale_mod.F
-      !||    spmd_exch_flow_tracking_data2_mod   ../engine/source/ale/grid/spmd_exch_flow_tracking_data2.F90
-      !||    spmd_exch_flow_tracking_data3_mod   ../engine/source/ale/grid/spmd_exch_flow_tracking_data3.F90
-      !||    spmd_exch_flow_tracking_data4_mod   ../engine/source/ale/grid/spmd_exch_flow_tracking_data4.F90
-      !||    spmd_exch_flow_tracking_data_mod    ../engine/source/ale/grid/spmd_exch_flow_tracking_data.F90
-      !||====================================================================
+!||====================================================================
+!||    alew7                               ../engine/source/ale/grid/alew7.F
+!||--- called by ------------------------------------------------------
+!||    alewdx                              ../engine/source/ale/grid/alewdx.F
+!||--- calls      -----------------------------------------------------
+!||    my_barrier                          ../engine/source/system/machine.F
+!||    spmd_exch_flow_tracking_data        ../engine/source/ale/grid/spmd_exch_flow_tracking_data.F90
+!||    spmd_exch_flow_tracking_data2       ../engine/source/ale/grid/spmd_exch_flow_tracking_data2.F90
+!||    spmd_exch_flow_tracking_data3       ../engine/source/ale/grid/spmd_exch_flow_tracking_data3.F90
+!||    spmd_exch_flow_tracking_data4       ../engine/source/ale/grid/spmd_exch_flow_tracking_data4.F90
+!||    valpvec                             ../engine/source/materials/mat/mat033/sigeps33.F
+!||--- uses       -----------------------------------------------------
+!||    ale_mod                             ../common_source/modules/ale/ale_mod.F
+!||    spmd_exch_flow_tracking_data2_mod   ../engine/source/ale/grid/spmd_exch_flow_tracking_data2.F90
+!||    spmd_exch_flow_tracking_data3_mod   ../engine/source/ale/grid/spmd_exch_flow_tracking_data3.F90
+!||    spmd_exch_flow_tracking_data4_mod   ../engine/source/ale/grid/spmd_exch_flow_tracking_data4.F90
+!||    spmd_exch_flow_tracking_data_mod    ../engine/source/ale/grid/spmd_exch_flow_tracking_data.F90
+!||====================================================================
       SUBROUTINE ALEW7(
      1   X       ,V       ,W       ,MS      , NALE,
      2   NODFT   ,NODLT   ,WEIGHT  ,NUMNOD  , DT1 ,

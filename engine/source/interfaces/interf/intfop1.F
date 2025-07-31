@@ -20,22 +20,22 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    intfop1         ../engine/source/interfaces/interf/intfop1.F
-      !||--- called by ------------------------------------------------------
-      !||    resol           ../engine/source/engine/resol.F
-      !||--- calls      -----------------------------------------------------
-      !||    i14cmp          ../engine/source/interfaces/int14/i14cmp.F
-      !||    i15cmp          ../engine/source/interfaces/int15/i15cmp.F
-      !||    i6main          ../engine/source/interfaces/inter3d/i6main.F
-      !||    intvo2          ../engine/source/interfaces/inter2d/intvo2.F
-      !||    intvo3          ../engine/source/interfaces/inter3d/intvo3.F
-      !||--- uses       -----------------------------------------------------
-      !||    groupdef_mod    ../common_source/modules/groupdef_mod.F
-      !||    h3d_mod         ../engine/share/modules/h3d_mod.F
-      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
-      !||    sensor_mod      ../common_source/modules/sensor_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    intfop1         ../engine/source/interfaces/interf/intfop1.F
+!||--- called by ------------------------------------------------------
+!||    resol           ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
+!||    i14cmp          ../engine/source/interfaces/int14/i14cmp.F
+!||    i15cmp          ../engine/source/interfaces/int15/i15cmp.F
+!||    i6main          ../engine/source/interfaces/inter3d/i6main.F
+!||    intvo2          ../engine/source/interfaces/inter2d/intvo2.F
+!||    intvo3          ../engine/source/interfaces/inter3d/intvo3.F
+!||--- uses       -----------------------------------------------------
+!||    groupdef_mod    ../common_source/modules/groupdef_mod.F
+!||    h3d_mod         ../engine/share/modules/h3d_mod.F
+!||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
+!||    sensor_mod      ../common_source/modules/sensor_mod.F90
+!||====================================================================
       SUBROUTINE INTFOP1(
      1       IPARI ,X      ,A    ,
      2       ICODT ,FSAV    ,WA      ,V      ,MS   ,

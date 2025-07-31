@@ -20,20 +20,20 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    freoutp                ../engine/source/input/freoutp.F
-      !||--- called by ------------------------------------------------------
-      !||    freform                ../engine/source/input/freform.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg                 ../engine/source/output/message/message.F
-      !||    arret                  ../engine/source/system/arret.F
-      !||    get_keys_id            ../engine/source/input/freoutp.F
-      !||    wriusc2                ../engine/source/input/wriusc2.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod            ../engine/share/message_module/message_mod.F
-      !||    names_and_titles_mod   ../common_source/modules/names_and_titles_mod.F
-      !||    sensor_mod             ../common_source/modules/sensor_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    freoutp                ../engine/source/input/freoutp.F
+!||--- called by ------------------------------------------------------
+!||    freform                ../engine/source/input/freform.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                 ../engine/source/output/message/message.F
+!||    arret                  ../engine/source/system/arret.F
+!||    get_keys_id            ../engine/source/input/freoutp.F
+!||    wriusc2                ../engine/source/input/wriusc2.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod            ../engine/share/message_module/message_mod.F
+!||    names_and_titles_mod   ../common_source/modules/names_and_titles_mod.F
+!||    sensor_mod             ../common_source/modules/sensor_mod.F90
+!||====================================================================
       SUBROUTINE FREOUTP(IKAD,KEY0,KOUTP,SENSORS)
 C-----------------------------------------------
 C   M o d u l e s
@@ -572,12 +572,12 @@ C
       END
       
 C             FREOUTP                         /freef/freoutp.F
-      !||====================================================================
-      !||    get_keys_id   ../engine/source/input/freoutp.F
-      !||--- called by ------------------------------------------------------
-      !||    freoutp       ../engine/source/input/freoutp.F
-      !||    freupwm       ../engine/source/input/freupwm.F
-      !||====================================================================
+!||====================================================================
+!||    get_keys_id   ../engine/source/input/freoutp.F
+!||--- called by ------------------------------------------------------
+!||    freoutp       ../engine/source/input/freoutp.F
+!||    freupwm       ../engine/source/input/freupwm.F
+!||====================================================================
       SUBROUTINE GET_KEYS_ID(CART, KEY2, KEY3,KEY4, ID)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

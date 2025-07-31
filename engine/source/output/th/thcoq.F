@@ -20,16 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    thcoq              ../engine/source/output/th/thcoq.F
-      !||--- called by ------------------------------------------------------
-      !||    hist2              ../engine/source/output/th/hist2.F
-      !||--- uses       -----------------------------------------------------
-      !||    elbufdef_mod       ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||    matparam_def_mod   ../common_source/modules/mat_elem/matparam_def_mod.F90
-      !||    pinchtype_mod      ../common_source/modules/pinchtype_mod.F
-      !||    stack_mod          ../engine/share/modules/stack_mod.F
-      !||====================================================================
+!||====================================================================
+!||    thcoq              ../engine/source/output/th/thcoq.F
+!||--- called by ------------------------------------------------------
+!||    hist2              ../engine/source/output/th/hist2.F
+!||--- uses       -----------------------------------------------------
+!||    elbufdef_mod       ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    matparam_def_mod   ../common_source/modules/mat_elem/matparam_def_mod.F90
+!||    pinchtype_mod      ../common_source/modules/pinchtype_mod.F
+!||    stack_mod          ../engine/share/modules/stack_mod.F
+!||====================================================================
       SUBROUTINE THCOQ(ELBUF_TAB,MATPARAM_TAB,NTHGRP2 , ITHGRP , 
      .                 IPARG    ,ITHBUF  ,WA      ,
      .                 IPM      ,IGEO  ,IXC    ,IXTG   ,PM     ,

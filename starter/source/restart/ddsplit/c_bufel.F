@@ -21,11 +21,11 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
-      !||====================================================================
-      !||    c_bufel   ../starter/source/restart/ddsplit/c_bufel.F
-      !||--- called by ------------------------------------------------------
-      !||    ddsplit   ../starter/source/restart/ddsplit/ddsplit.F
-      !||====================================================================
+!||====================================================================
+!||    c_bufel   ../starter/source/restart/ddsplit/c_bufel.F
+!||--- called by ------------------------------------------------------
+!||    ddsplit   ../starter/source/restart/ddsplit/ddsplit.F
+!||====================================================================
       SUBROUTINE C_BUFEL(IPARG,PROC,LBUFEL_L)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

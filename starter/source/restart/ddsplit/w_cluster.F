@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    w_cluster     ../starter/source/restart/ddsplit/w_cluster.F
-      !||--- called by ------------------------------------------------------
-      !||    ddsplit       ../starter/source/restart/ddsplit/ddsplit.F
-      !||--- calls      -----------------------------------------------------
-      !||--- uses       -----------------------------------------------------
-      !||    cluster_mod   ../starter/share/modules1/cluster_mod.F
-      !||====================================================================
+!||====================================================================
+!||    w_cluster     ../starter/source/restart/ddsplit/w_cluster.F
+!||--- called by ------------------------------------------------------
+!||    ddsplit       ../starter/source/restart/ddsplit/ddsplit.F
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||    cluster_mod   ../starter/share/modules1/cluster_mod.F
+!||====================================================================
       SUBROUTINE W_CLUSTER(CLUSTER,IPARG,NODLOCAL,
      .                     NCLUSTER_L,CEP,PROC,
      .                     NUMLOCGROUP, LEN_IA,LEN_AM )
@@ -192,13 +192,13 @@ C-----------
       RETURN
       END
 
-      !||====================================================================
-      !||    c_cluster     ../starter/source/restart/ddsplit/w_cluster.F
-      !||--- called by ------------------------------------------------------
-      !||    ddsplit       ../starter/source/restart/ddsplit/ddsplit.F
-      !||--- uses       -----------------------------------------------------
-      !||    cluster_mod   ../starter/share/modules1/cluster_mod.F
-      !||====================================================================
+!||====================================================================
+!||    c_cluster     ../starter/source/restart/ddsplit/w_cluster.F
+!||--- called by ------------------------------------------------------
+!||    ddsplit       ../starter/source/restart/ddsplit/ddsplit.F
+!||--- uses       -----------------------------------------------------
+!||    cluster_mod   ../starter/share/modules1/cluster_mod.F
+!||====================================================================
       SUBROUTINE C_CLUSTER(CLUSTERS,PROC,CEP,NCLUSTER_L,CLUSTERS_ID_L)
 C Count the number of clusters per PROC
 C-----------------------------------------------
@@ -239,11 +239,11 @@ c    Local ID of the Ith global cluster
       END DO
       RETURN
       END
-      !||====================================================================
-      !||    applysort2cluster   ../starter/source/restart/ddsplit/w_cluster.F
-      !||--- uses       -----------------------------------------------------
-      !||    cluster_mod         ../starter/share/modules1/cluster_mod.F
-      !||====================================================================
+!||====================================================================
+!||    applysort2cluster   ../starter/source/restart/ddsplit/w_cluster.F
+!||--- uses       -----------------------------------------------------
+!||    cluster_mod         ../starter/share/modules1/cluster_mod.F
+!||====================================================================
       SUBROUTINE APPLYSORT2CLUSTER(CLUSTERS,PERMUTATIONS)
 C Apply the new numbering (given in permutations) to the elements of clusters
 C-----------------------------------------------

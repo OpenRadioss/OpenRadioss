@@ -20,29 +20,29 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    r2r_exchange           ../engine/source/coupling/rad2rad/r2r_exchange.F
-      !||--- called by ------------------------------------------------------
-      !||    resol                  ../engine/source/engine/resol.F
-      !||--- calls      -----------------------------------------------------
-      !||    check_dtnoda_c         ../engine/source/coupling/rad2rad/rad2rad_c.c
-      !||    get_ibuf_c             ../engine/source/coupling/rad2rad/rad2rad_c.c
-      !||    get_stiff_c            ../engine/source/coupling/rad2rad/rad2rad_c.c
-      !||    get_stiff_spmd         ../engine/source/coupling/rad2rad/r2r_exchange.F
-      !||    r2r_block_c            ../engine/source/coupling/rad2rad/rad2rad_c.c
-      !||    r2r_sem_c              ../engine/source/coupling/rad2rad/rad2rad_c.c
-      !||    r2r_unlock_threads_c   ../engine/source/coupling/rad2rad/rad2rad_c.c
-      !||    send_data_c            ../engine/source/coupling/rad2rad/rad2rad_c.c
-      !||    send_data_nl_c         ../engine/source/coupling/rad2rad/rad2rad_c.c
-      !||    send_data_spmd         ../engine/source/coupling/rad2rad/r2r_exchange.F
-      !||    send_ibuf_c            ../engine/source/coupling/rad2rad/rad2rad_c.c
-      !||    spmd_exch_r2r          ../engine/source/mpi/r2r/spmd_r2r.F
-      !||    spmd_ibcast            ../engine/source/mpi/generic/spmd_ibcast.F
-      !||--- uses       -----------------------------------------------------
-      !||    groupdef_mod           ../common_source/modules/groupdef_mod.F
-      !||    nlocal_reg_mod         ../common_source/modules/nlocal_reg_mod.F
-      !||    rad2r_mod              ../engine/share/modules/rad2r.F
-      !||====================================================================
+!||====================================================================
+!||    r2r_exchange           ../engine/source/coupling/rad2rad/r2r_exchange.F
+!||--- called by ------------------------------------------------------
+!||    resol                  ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
+!||    check_dtnoda_c         ../engine/source/coupling/rad2rad/rad2rad_c.c
+!||    get_ibuf_c             ../engine/source/coupling/rad2rad/rad2rad_c.c
+!||    get_stiff_c            ../engine/source/coupling/rad2rad/rad2rad_c.c
+!||    get_stiff_spmd         ../engine/source/coupling/rad2rad/r2r_exchange.F
+!||    r2r_block_c            ../engine/source/coupling/rad2rad/rad2rad_c.c
+!||    r2r_sem_c              ../engine/source/coupling/rad2rad/rad2rad_c.c
+!||    r2r_unlock_threads_c   ../engine/source/coupling/rad2rad/rad2rad_c.c
+!||    send_data_c            ../engine/source/coupling/rad2rad/rad2rad_c.c
+!||    send_data_nl_c         ../engine/source/coupling/rad2rad/rad2rad_c.c
+!||    send_data_spmd         ../engine/source/coupling/rad2rad/r2r_exchange.F
+!||    send_ibuf_c            ../engine/source/coupling/rad2rad/rad2rad_c.c
+!||    spmd_exch_r2r          ../engine/source/mpi/r2r/spmd_r2r.F
+!||    spmd_ibcast            ../engine/source/mpi/generic/spmd_ibcast.F
+!||--- uses       -----------------------------------------------------
+!||    groupdef_mod           ../common_source/modules/groupdef_mod.F
+!||    nlocal_reg_mod         ../common_source/modules/nlocal_reg_mod.F
+!||    rad2r_mod              ../engine/share/modules/rad2r.F
+!||====================================================================
       SUBROUTINE R2R_EXCHANGE(
      1    IEXLNK   ,IGRNOD   ,DX       ,V        ,VR        ,
      2    A        ,AR       ,MS       ,IN       ,STX       ,STR       ,
@@ -276,17 +276,17 @@ C-----------------------------------------------------------------
         RETURN
       END SUBROUTINE R2R_EXCHANGE
 C
-      !||====================================================================
-      !||    send_data_spmd      ../engine/source/coupling/rad2rad/r2r_exchange.F
-      !||--- called by ------------------------------------------------------
-      !||    r2r_exchange        ../engine/source/coupling/rad2rad/r2r_exchange.F
-      !||--- calls      -----------------------------------------------------
-      !||    send_data_spmd_c    ../engine/source/coupling/rad2rad/rad2rad_c.c
-      !||    spmd_r2r_rby        ../engine/source/mpi/r2r/spmd_r2r.F
-      !||    spmd_r2r_rget       ../engine/source/mpi/r2r/spmd_r2r.F
-      !||    spmd_r2r_rget3      ../engine/source/mpi/r2r/spmd_r2r.F
-      !||    spmd_r2r_rget3_dp   ../engine/source/mpi/r2r/spmd_r2r.F
-      !||====================================================================
+!||====================================================================
+!||    send_data_spmd      ../engine/source/coupling/rad2rad/r2r_exchange.F
+!||--- called by ------------------------------------------------------
+!||    r2r_exchange        ../engine/source/coupling/rad2rad/r2r_exchange.F
+!||--- calls      -----------------------------------------------------
+!||    send_data_spmd_c    ../engine/source/coupling/rad2rad/rad2rad_c.c
+!||    spmd_r2r_rby        ../engine/source/mpi/r2r/spmd_r2r.F
+!||    spmd_r2r_rget       ../engine/source/mpi/r2r/spmd_r2r.F
+!||    spmd_r2r_rget3      ../engine/source/mpi/r2r/spmd_r2r.F
+!||    spmd_r2r_rget3_dp   ../engine/source/mpi/r2r/spmd_r2r.F
+!||====================================================================
       SUBROUTINE SEND_DATA_SPMD(
      1   IDP  ,NNG   ,GRNOD  ,A    ,AR    ,
      2   STX  ,STR   ,V      ,VR   ,MS    ,
@@ -354,14 +354,14 @@ C-----------------------------------------------------------------
         RETURN
       END SUBROUTINE SEND_DATA_SPMD
 C
-      !||====================================================================
-      !||    get_stiff_spmd     ../engine/source/coupling/rad2rad/r2r_exchange.F
-      !||--- called by ------------------------------------------------------
-      !||    r2r_exchange       ../engine/source/coupling/rad2rad/r2r_exchange.F
-      !||--- calls      -----------------------------------------------------
-      !||    get_stiff_spmd_c   ../engine/source/coupling/rad2rad/rad2rad_c.c
-      !||    spmd_r2r_rset      ../engine/source/mpi/r2r/spmd_r2r.F
-      !||====================================================================
+!||====================================================================
+!||    get_stiff_spmd     ../engine/source/coupling/rad2rad/r2r_exchange.F
+!||--- called by ------------------------------------------------------
+!||    r2r_exchange       ../engine/source/coupling/rad2rad/r2r_exchange.F
+!||--- calls      -----------------------------------------------------
+!||    get_stiff_spmd_c   ../engine/source/coupling/rad2rad/rad2rad_c.c
+!||    spmd_r2r_rset      ../engine/source/mpi/r2r/spmd_r2r.F
+!||====================================================================
       SUBROUTINE GET_STIFF_SPMD(
      1   IDP     ,NNG    ,GRNOD  ,MS   ,IN     ,
      2   STX     ,STR    ,DD_R2R ,NGLOB,WEIGHT ,
@@ -418,13 +418,13 @@ C-----------------------------------------------------------------
         RETURN
       END SUBROUTINE GET_STIFF_SPMD
 C
-      !||====================================================================
-      !||    r2r_tagel   ../engine/source/coupling/rad2rad/r2r_exchange.F
-      !||--- called by ------------------------------------------------------
-      !||    tagoff3n    ../engine/source/interfaces/interf/chkstfn3.F
-      !||--- uses       -----------------------------------------------------
-      !||    rad2r_mod   ../engine/share/modules/rad2r.F
-      !||====================================================================
+!||====================================================================
+!||    r2r_tagel   ../engine/source/coupling/rad2rad/r2r_exchange.F
+!||--- called by ------------------------------------------------------
+!||    tagoff3n    ../engine/source/interfaces/interf/chkstfn3.F
+!||--- uses       -----------------------------------------------------
+!||    rad2r_mod   ../engine/share/modules/rad2r.F
+!||====================================================================
       SUBROUTINE R2R_TAGEL(NTAGEL_R2R_SEND,ID_EL,ID_NODE,ITY,OFUR,TAGEL_SIZE)
 C-----------------------------------------------
 C   M o d u l e s
@@ -477,15 +477,15 @@ C-----------------------------------------------------------------
         RETURN
       END SUBROUTINE R2R_TAGEL
 
-      !||====================================================================
-      !||    r2r_exch_itag   ../engine/source/coupling/rad2rad/r2r_exchange.F
-      !||--- called by ------------------------------------------------------
-      !||    tagoff3n        ../engine/source/interfaces/interf/chkstfn3.F
-      !||--- calls      -----------------------------------------------------
-      !||    exch_itag_c     ../engine/source/coupling/rad2rad/rad2rad_c.c
-      !||--- uses       -----------------------------------------------------
-      !||    groupdef_mod    ../common_source/modules/groupdef_mod.F
-      !||====================================================================
+!||====================================================================
+!||    r2r_exch_itag   ../engine/source/coupling/rad2rad/r2r_exchange.F
+!||--- called by ------------------------------------------------------
+!||    tagoff3n        ../engine/source/interfaces/interf/chkstfn3.F
+!||--- calls      -----------------------------------------------------
+!||    exch_itag_c     ../engine/source/coupling/rad2rad/rad2rad_c.c
+!||--- uses       -----------------------------------------------------
+!||    groupdef_mod    ../common_source/modules/groupdef_mod.F
+!||====================================================================
       SUBROUTINE R2R_EXCH_ITAG(IEXLNK,IGRNOD,ITAG, FLAG)
 C-----------------------------------------------
 C   M o d u l e s

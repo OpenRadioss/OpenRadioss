@@ -20,27 +20,27 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    get_convexity_normals_mod                ../engine/source/interfaces/interf/get_convexity_normals.F90
-      !||--- called by ------------------------------------------------------
-      !||    get_neighbour_surface                    ../engine/source/interfaces/interf/get_neighbour_surface.F90
-      !||    get_neighbour_surface_from_remote_proc   ../engine/source/interfaces/interf/get_neighbour_surface_from_remote_proc.F90
-      !||====================================================================
+!||====================================================================
+!||    get_convexity_normals_mod                ../engine/source/interfaces/interf/get_convexity_normals.F90
+!||--- called by ------------------------------------------------------
+!||    get_neighbour_surface                    ../engine/source/interfaces/interf/get_neighbour_surface.F90
+!||    get_neighbour_surface_from_remote_proc   ../engine/source/interfaces/interf/get_neighbour_surface_from_remote_proc.F90
+!||====================================================================
       module get_convexity_normals_mod
       contains
 ! ======================================================================================================================
 !                                                   procedures
 ! ======================================================================================================================
 !! \brief This routine computes  the tangent vector to a segment around the edge n X e
-      !||====================================================================
-      !||    get_convexity_normals                    ../engine/source/interfaces/interf/get_convexity_normals.F90
-      !||--- called by ------------------------------------------------------
-      !||    get_neighbour_surface                    ../engine/source/interfaces/interf/get_neighbour_surface.F90
-      !||    get_neighbour_surface_from_remote_proc   ../engine/source/interfaces/interf/get_neighbour_surface_from_remote_proc.F90
-      !||--- uses       -----------------------------------------------------
-      !||    constant_mod                             ../common_source/modules/constant_mod.F
-      !||    precision_mod                            ../common_source/modules/precision_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    get_convexity_normals                    ../engine/source/interfaces/interf/get_convexity_normals.F90
+!||--- called by ------------------------------------------------------
+!||    get_neighbour_surface                    ../engine/source/interfaces/interf/get_neighbour_surface.F90
+!||    get_neighbour_surface_from_remote_proc   ../engine/source/interfaces/interf/get_neighbour_surface_from_remote_proc.F90
+!||--- uses       -----------------------------------------------------
+!||    constant_mod                             ../common_source/modules/constant_mod.F
+!||    precision_mod                            ../common_source/modules/precision_mod.F90
+!||====================================================================
         subroutine get_convexity_normals( node_id_1,node_id_2,normal,v_convexity,numnod,x )
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   modules

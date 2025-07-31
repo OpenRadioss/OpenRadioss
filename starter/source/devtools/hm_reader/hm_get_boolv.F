@@ -20,16 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    hm_get_boolv    ../starter/source/devtools/hm_reader/hm_get_boolv.F
-      !||--- called by ------------------------------------------------------
-      !||    hm_read_damp    ../starter/source/general_controls/damping/hm_read_damp.F
-      !||    hm_read_fail    ../starter/source/materials/fail/hm_read_fail.F
-      !||    hm_read_mat06   ../starter/source/materials/mat/mat006/hm_read_mat06.F
-      !||--- calls      -----------------------------------------------------
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod     ../starter/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    hm_get_boolv    ../starter/source/devtools/hm_reader/hm_get_boolv.F
+!||--- called by ------------------------------------------------------
+!||    hm_read_damp    ../starter/source/general_controls/damping/hm_read_damp.F
+!||    hm_read_fail    ../starter/source/materials/fail/hm_read_fail.F
+!||    hm_read_mat06   ../starter/source/materials/mat/mat006/hm_read_mat06.F
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||    message_mod     ../starter/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE HM_GET_BOOLV(NAME,BVAL,IS_AVAILABLE)
 C-----------------------------------------------
 C   ROUTINE DESCRIPTION :

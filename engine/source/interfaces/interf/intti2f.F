@@ -20,43 +20,43 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    intti2f         ../engine/source/interfaces/interf/intti2f.F
-      !||--- called by ------------------------------------------------------
-      !||    intti1          ../engine/source/interfaces/interf/intti1.F
-      !||--- calls      -----------------------------------------------------
-      !||    i2curvf         ../engine/source/interfaces/interf/i2curvf.F
-      !||    i2curvfp        ../engine/source/interfaces/interf/i2curvfp.F
-      !||    i2fomo3         ../engine/source/interfaces/interf/i2for3.F
-      !||    i2fomo3p        ../engine/source/interfaces/interf/i2for3p.F
-      !||    i2for10         ../engine/source/interfaces/interf/i2for10.F
-      !||    i2for10p        ../engine/source/interfaces/interf/i2for10p.F
-      !||    i2for25         ../engine/source/interfaces/interf/i2for25.F
-      !||    i2for25p        ../engine/source/interfaces/interf/i2for25p.F
-      !||    i2for26         ../engine/source/interfaces/interf/i2for26.F
-      !||    i2for26p        ../engine/source/interfaces/interf/i2for26p.F
-      !||    i2for27         ../engine/source/interfaces/interf/i2for27.F
-      !||    i2for27p        ../engine/source/interfaces/interf/i2for27p.F
-      !||    i2for28         ../engine/source/interfaces/interf/i2for28.F
-      !||    i2for28p        ../engine/source/interfaces/interf/i2for28p.F
-      !||    i2for3          ../engine/source/interfaces/interf/i2for3.F
-      !||    i2for3n         ../engine/source/interfaces/interf/i2for3.F
-      !||    i2for3o         ../engine/source/interfaces/interf/i2for3.F
-      !||    i2for3p         ../engine/source/interfaces/interf/i2for3p.F
-      !||    i2for3pn        ../engine/source/interfaces/interf/i2for3p.F
-      !||    i2for3po        ../engine/source/interfaces/interf/i2for3p.F
-      !||    i2mom10         ../engine/source/interfaces/interf/i2for10.F
-      !||    i2mom10p        ../engine/source/interfaces/interf/i2for10p.F
-      !||    i2mom3          ../engine/source/interfaces/interf/i2for3.F
-      !||    i2mom3n         ../engine/source/interfaces/interf/i2for3.F
-      !||    i2mom3p         ../engine/source/interfaces/interf/i2for3p.F
-      !||    i2mom3pn        ../engine/source/interfaces/interf/i2for3p.F
-      !||    i2mzerop        ../engine/source/interfaces/interf/i2for3p.F
-      !||    i2therm         ../engine/source/interfaces/interf/i2therm.F
-      !||--- uses       -----------------------------------------------------
-      !||    h3d_mod         ../engine/share/modules/h3d_mod.F
-      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    intti2f         ../engine/source/interfaces/interf/intti2f.F
+!||--- called by ------------------------------------------------------
+!||    intti1          ../engine/source/interfaces/interf/intti1.F
+!||--- calls      -----------------------------------------------------
+!||    i2curvf         ../engine/source/interfaces/interf/i2curvf.F
+!||    i2curvfp        ../engine/source/interfaces/interf/i2curvfp.F
+!||    i2fomo3         ../engine/source/interfaces/interf/i2for3.F
+!||    i2fomo3p        ../engine/source/interfaces/interf/i2for3p.F
+!||    i2for10         ../engine/source/interfaces/interf/i2for10.F
+!||    i2for10p        ../engine/source/interfaces/interf/i2for10p.F
+!||    i2for25         ../engine/source/interfaces/interf/i2for25.F
+!||    i2for25p        ../engine/source/interfaces/interf/i2for25p.F
+!||    i2for26         ../engine/source/interfaces/interf/i2for26.F
+!||    i2for26p        ../engine/source/interfaces/interf/i2for26p.F
+!||    i2for27         ../engine/source/interfaces/interf/i2for27.F
+!||    i2for27p        ../engine/source/interfaces/interf/i2for27p.F
+!||    i2for28         ../engine/source/interfaces/interf/i2for28.F
+!||    i2for28p        ../engine/source/interfaces/interf/i2for28p.F
+!||    i2for3          ../engine/source/interfaces/interf/i2for3.F
+!||    i2for3n         ../engine/source/interfaces/interf/i2for3.F
+!||    i2for3o         ../engine/source/interfaces/interf/i2for3.F
+!||    i2for3p         ../engine/source/interfaces/interf/i2for3p.F
+!||    i2for3pn        ../engine/source/interfaces/interf/i2for3p.F
+!||    i2for3po        ../engine/source/interfaces/interf/i2for3p.F
+!||    i2mom10         ../engine/source/interfaces/interf/i2for10.F
+!||    i2mom10p        ../engine/source/interfaces/interf/i2for10p.F
+!||    i2mom3          ../engine/source/interfaces/interf/i2for3.F
+!||    i2mom3n         ../engine/source/interfaces/interf/i2for3.F
+!||    i2mom3p         ../engine/source/interfaces/interf/i2for3p.F
+!||    i2mom3pn        ../engine/source/interfaces/interf/i2for3p.F
+!||    i2mzerop        ../engine/source/interfaces/interf/i2for3p.F
+!||    i2therm         ../engine/source/interfaces/interf/i2therm.F
+!||--- uses       -----------------------------------------------------
+!||    h3d_mod         ../engine/share/modules/h3d_mod.F
+!||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
+!||====================================================================
       SUBROUTINE INTTI2F(
      1   IPARI  ,X      ,V      ,A      ,
      2   VR     ,AR     ,MS     ,IN     ,WEIGHT ,STIFN  ,

@@ -21,14 +21,14 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
-      !||====================================================================
-      !||    dt10law   ../starter/source/materials/time_step/dt10law.F
-      !||--- called by ------------------------------------------------------
-      !||    dtmain    ../starter/source/materials/time_step/dtmain.F
-      !||--- calls      -----------------------------------------------------
-      !||    dtel      ../starter/source/materials/time_step/dtel.F
-      !||    dtsph     ../starter/source/materials/time_step/dtsph.F
-      !||====================================================================
+!||====================================================================
+!||    dt10law   ../starter/source/materials/time_step/dt10law.F
+!||--- called by ------------------------------------------------------
+!||    dtmain    ../starter/source/materials/time_step/dtmain.F
+!||--- calls      -----------------------------------------------------
+!||    dtel      ../starter/source/materials/time_step/dtel.F
+!||    dtsph     ../starter/source/materials/time_step/dtsph.F
+!||====================================================================
       SUBROUTINE DT10LAW (PM,GEO,PID,MAT, DELTAX, AIRE, VOL, DTX)
 C
 C     CALCUL DES DT ELEMENTAIRES POUR LA LOI 10 (ROC ET BETON)

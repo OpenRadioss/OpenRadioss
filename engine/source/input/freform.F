@@ -20,68 +20,68 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    freform                  ../engine/source/input/freform.F
-      !||--- called by ------------------------------------------------------
-      !||    lecinp                   ../engine/source/input/lecinp.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg                   ../engine/source/output/message/message.F
-      !||    arret                    ../engine/source/system/arret.F
-      !||    connection_sock_init_c   ../engine/source/coupling/rad2rad/rad2rad_c.c
-      !||    errmsg                   ../engine/source/input/errmsg.F
-      !||    fraleonoff               ../engine/source/input/fraleonoff.F
-      !||    fralnk                   ../engine/source/input/fralnk.F
-      !||    fralnk2                  ../engine/source/input/fralnk.F
-      !||    freabf                   ../engine/source/input/freabf.F
-      !||    freanim                  ../engine/source/output/anim/reader/freanim.F
-      !||    frebcs                   ../engine/source/input/frebcs.F
-      !||    frecpl                   ../engine/source/input/frecpl.F
-      !||    fredamp                  ../engine/source/input/fredamp.F
-      !||    fredebug                 ../engine/source/input/fredebug.F
-      !||    fredli                   ../engine/source/input/fredli.F
-      !||    fredli7                  ../engine/source/input/fredli7.F
-      !||    fredynain                ../engine/source/input/fredynain.F
-      !||    freeig                   ../engine/source/input/freeig.F
-      !||    freflw                   ../engine/source/input/freflw.F
-      !||    frefunc                  ../engine/source/input/frefunc.F
-      !||    frefvbag                 ../engine/source/input/frefvbag.F
-      !||    frefxinp                 ../engine/source/input/frefxinp.F
-      !||    freimpl                  ../engine/source/input/freimpl.F
-      !||    freiniv                  ../engine/source/input/freiniv.F
-      !||    freint                   ../engine/source/input/freint.F
-      !||    frelnk                   ../engine/source/input/frelnk.F
-      !||    frenois                  ../engine/source/input/frenois.F
-      !||    freoutp                  ../engine/source/input/freoutp.F
-      !||    frerbo                   ../engine/source/input/frerbo.F
-      !||    frestat                  ../engine/source/input/frestat.F
-      !||    frethermal               ../engine/source/constraints/thermic/frethermal.F
-      !||    freupwind                ../engine/source/input/freupwind.F
-      !||    freupwm                  ../engine/source/input/freupwm.F
-      !||    h3d_ini                  ../engine/source/output/h3d/h3d_build_fortran/h3d_ini.F
-      !||    h3d_read                 ../engine/source/output/h3d/h3d_build_fortran/h3d_read.F
-      !||    init_idel_brick          ../engine/source/modules/dt_mod.F
-      !||    open_f_scratch_file      ../engine/source/system/open_tempfile.F
-      !||    rdele                    ../engine/source/input/rdele.F
-      !||    redkey0                  ../engine/source/input/redkey0.F
-      !||    redkey1                  ../engine/source/input/redkey1.F
-      !||    redkey1_h3d              ../engine/source/input/redkey1_h3d.F
-      !||    wriusc2                  ../engine/source/input/wriusc2.F
-      !||--- uses       -----------------------------------------------------
-      !||    ale_mod                  ../common_source/modules/ale/ale_mod.F
-      !||    alemuscl_mod             ../common_source/modules/ale/alemuscl_mod.F
-      !||    check_mod                ../common_source/modules/check_mod.F
-      !||    dt_mod                   ../engine/source/modules/dt_mod.F
-      !||    fvbag_mod                ../engine/share/modules/fvbag_mod.F
-      !||    glob_therm_mod           ../common_source/modules/mat_elem/glob_therm_mod.F90
-      !||    h3d_mod                  ../engine/share/modules/h3d_mod.F
-      !||    message_mod              ../engine/share/message_module/message_mod.F
-      !||    metric_mod               ../common_source/modules/interfaces/metric_mod.F
-      !||    names_and_titles_mod     ../common_source/modules/names_and_titles_mod.F
-      !||    output_mod               ../common_source/modules/output/output_mod.F90
-      !||    sensor_mod               ../common_source/modules/sensor_mod.F90
-      !||    state_mod                ../common_source/modules/state_mod.F
-      !||    th_mod                   ../engine/share/modules/th_mod.F
-      !||====================================================================
+!||====================================================================
+!||    freform                  ../engine/source/input/freform.F
+!||--- called by ------------------------------------------------------
+!||    lecinp                   ../engine/source/input/lecinp.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                   ../engine/source/output/message/message.F
+!||    arret                    ../engine/source/system/arret.F
+!||    connection_sock_init_c   ../engine/source/coupling/rad2rad/rad2rad_c.c
+!||    errmsg                   ../engine/source/input/errmsg.F
+!||    fraleonoff               ../engine/source/input/fraleonoff.F
+!||    fralnk                   ../engine/source/input/fralnk.F
+!||    fralnk2                  ../engine/source/input/fralnk.F
+!||    freabf                   ../engine/source/input/freabf.F
+!||    freanim                  ../engine/source/output/anim/reader/freanim.F
+!||    frebcs                   ../engine/source/input/frebcs.F
+!||    frecpl                   ../engine/source/input/frecpl.F
+!||    fredamp                  ../engine/source/input/fredamp.F
+!||    fredebug                 ../engine/source/input/fredebug.F
+!||    fredli                   ../engine/source/input/fredli.F
+!||    fredli7                  ../engine/source/input/fredli7.F
+!||    fredynain                ../engine/source/input/fredynain.F
+!||    freeig                   ../engine/source/input/freeig.F
+!||    freflw                   ../engine/source/input/freflw.F
+!||    frefunc                  ../engine/source/input/frefunc.F
+!||    frefvbag                 ../engine/source/input/frefvbag.F
+!||    frefxinp                 ../engine/source/input/frefxinp.F
+!||    freimpl                  ../engine/source/input/freimpl.F
+!||    freiniv                  ../engine/source/input/freiniv.F
+!||    freint                   ../engine/source/input/freint.F
+!||    frelnk                   ../engine/source/input/frelnk.F
+!||    frenois                  ../engine/source/input/frenois.F
+!||    freoutp                  ../engine/source/input/freoutp.F
+!||    frerbo                   ../engine/source/input/frerbo.F
+!||    frestat                  ../engine/source/input/frestat.F
+!||    frethermal               ../engine/source/constraints/thermic/frethermal.F
+!||    freupwind                ../engine/source/input/freupwind.F
+!||    freupwm                  ../engine/source/input/freupwm.F
+!||    h3d_ini                  ../engine/source/output/h3d/h3d_build_fortran/h3d_ini.F
+!||    h3d_read                 ../engine/source/output/h3d/h3d_build_fortran/h3d_read.F
+!||    init_idel_brick          ../engine/source/modules/dt_mod.F
+!||    open_f_scratch_file      ../engine/source/system/open_tempfile.F
+!||    rdele                    ../engine/source/input/rdele.F
+!||    redkey0                  ../engine/source/input/redkey0.F
+!||    redkey1                  ../engine/source/input/redkey1.F
+!||    redkey1_h3d              ../engine/source/input/redkey1_h3d.F
+!||    wriusc2                  ../engine/source/input/wriusc2.F
+!||--- uses       -----------------------------------------------------
+!||    ale_mod                  ../common_source/modules/ale/ale_mod.F
+!||    alemuscl_mod             ../common_source/modules/ale/alemuscl_mod.F
+!||    check_mod                ../common_source/modules/check_mod.F
+!||    dt_mod                   ../engine/source/modules/dt_mod.F
+!||    fvbag_mod                ../engine/share/modules/fvbag_mod.F
+!||    glob_therm_mod           ../common_source/modules/mat_elem/glob_therm_mod.F90
+!||    h3d_mod                  ../engine/share/modules/h3d_mod.F
+!||    message_mod              ../engine/share/message_module/message_mod.F
+!||    metric_mod               ../common_source/modules/interfaces/metric_mod.F
+!||    names_and_titles_mod     ../common_source/modules/names_and_titles_mod.F
+!||    output_mod               ../common_source/modules/output/output_mod.F90
+!||    sensor_mod               ../common_source/modules/sensor_mod.F90
+!||    state_mod                ../common_source/modules/state_mod.F
+!||    th_mod                   ../engine/share/modules/th_mod.F
+!||====================================================================
       SUBROUTINE FREFORM(IRUNN,IRFL,IRFE,H3D_DATA,FLAG_CST_AMS,DYNAIN_DATA,
      .                   SENSORS,DT,OUTPUT,GLOB_THERM)
 C-----------------------------------------------
@@ -2695,18 +2695,18 @@ C-----------------------------------------------
       
       END
 
-      !||====================================================================
-      !||    ngr2usr            ../engine/source/input/freform.F
-      !||--- called by ------------------------------------------------------
-      !||    lecdamp            ../engine/source/input/lecdamp.F
-      !||    lecinv             ../engine/source/input/lecinv.F
-      !||    lectur             ../engine/source/input/lectur.F
-      !||    s10cnistat         ../engine/source/elements/solid/solide10/s10cndf.F
-      !||    sms_mass_scale_2   ../engine/source/ams/sms_mass_scale_2.F
-      !||    static             ../engine/source/general_controls/damping/static.F
-      !||--- uses       -----------------------------------------------------
-      !||    groupdef_mod       ../common_source/modules/groupdef_mod.F
-      !||====================================================================
+!||====================================================================
+!||    ngr2usr            ../engine/source/input/freform.F
+!||--- called by ------------------------------------------------------
+!||    lecdamp            ../engine/source/input/lecdamp.F
+!||    lecinv             ../engine/source/input/lecinv.F
+!||    lectur             ../engine/source/input/lectur.F
+!||    s10cnistat         ../engine/source/elements/solid/solide10/s10cndf.F
+!||    sms_mass_scale_2   ../engine/source/ams/sms_mass_scale_2.F
+!||    static             ../engine/source/general_controls/damping/static.F
+!||--- uses       -----------------------------------------------------
+!||    groupdef_mod       ../common_source/modules/groupdef_mod.F
+!||====================================================================
       INTEGER FUNCTION NGR2USR(IU,IGRNOD,NGRNOD)
 C-----------------------------------------------
 C   M o d u l e s
@@ -2755,16 +2755,16 @@ C-----------------------------------------------
       RETURN
       END
 C
-      !||====================================================================
-      !||    fretitl         ../engine/source/input/freform.F
-      !||--- called by ------------------------------------------------------
-      !||    genh3d          ../engine/source/output/h3d/h3d_results/genh3d.F
-      !||    w_gr_entity     ../engine/source/output/restart/w_gr_entity.F
-      !||    w_line_str      ../engine/source/output/restart/w_line_str.F
-      !||    w_subset_str    ../engine/source/output/restart/w_subset_str.F
-      !||    w_surf_str      ../engine/source/output/restart/w_surf_str.F
-      !||    write_sensors   ../engine/source/output/restart/write_sensors.F
-      !||====================================================================
+!||====================================================================
+!||    fretitl         ../engine/source/input/freform.F
+!||--- called by ------------------------------------------------------
+!||    genh3d          ../engine/source/output/h3d/h3d_results/genh3d.F
+!||    w_gr_entity     ../engine/source/output/restart/w_gr_entity.F
+!||    w_line_str      ../engine/source/output/restart/w_line_str.F
+!||    w_subset_str    ../engine/source/output/restart/w_subset_str.F
+!||    w_surf_str      ../engine/source/output/restart/w_surf_str.F
+!||    write_sensors   ../engine/source/output/restart/write_sensors.F
+!||====================================================================
       SUBROUTINE FRETITL(TITR,IASC,L)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -2799,19 +2799,19 @@ C-----------------------------------------------
 C-----------------------------------------------
       RETURN
       END
-      !||====================================================================
-      !||    fretitl2           ../engine/source/input/freform.F
-      !||--- called by ------------------------------------------------------
-      !||    alloc_group_str    ../engine/source/groups/alloc_group_str.F
-      !||    alloc_line_str     ../engine/source/groups/alloc_line_str.F
-      !||    alloc_subset_str   ../engine/source/groups/alloc_subset_str.F
-      !||    alloc_surf_str     ../engine/source/groups/alloc_surf_str.F
-      !||    genani             ../engine/source/output/anim/generate/genani.F
-      !||    hist1              ../engine/source/output/th/hist1.F
-      !||    outp_mt            ../engine/source/output/sty/outp_mt.F
-      !||    read_sensors       ../engine/source/output/restart/read_sensors.F
-      !||    thmonv             ../engine/source/output/th/thmonv.F
-      !||====================================================================
+!||====================================================================
+!||    fretitl2           ../engine/source/input/freform.F
+!||--- called by ------------------------------------------------------
+!||    alloc_group_str    ../engine/source/groups/alloc_group_str.F
+!||    alloc_line_str     ../engine/source/groups/alloc_line_str.F
+!||    alloc_subset_str   ../engine/source/groups/alloc_subset_str.F
+!||    alloc_surf_str     ../engine/source/groups/alloc_surf_str.F
+!||    genani             ../engine/source/output/anim/generate/genani.F
+!||    hist1              ../engine/source/output/th/hist1.F
+!||    outp_mt            ../engine/source/output/sty/outp_mt.F
+!||    read_sensors       ../engine/source/output/restart/read_sensors.F
+!||    thmonv             ../engine/source/output/th/thmonv.F
+!||====================================================================
       SUBROUTINE FRETITL2(TITR,IASC,L)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -2846,9 +2846,9 @@ C-----------------------------------------------
 C----------------------------------------------- 
       RETURN
       END
-      !||====================================================================
-      !||    fretitlr   ../engine/source/input/freform.F
-      !||====================================================================
+!||====================================================================
+!||    fretitlr   ../engine/source/input/freform.F
+!||====================================================================
       SUBROUTINE FRETITLR(TITR,ASC,L)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -2883,9 +2883,9 @@ C-----------------------------------------------
 C----------------------------------------------- 
       RETURN
       END
-      !||====================================================================
-      !||    fretitl2r   ../engine/source/input/freform.F
-      !||====================================================================
+!||====================================================================
+!||    fretitl2r   ../engine/source/input/freform.F
+!||====================================================================
       SUBROUTINE FRETITL2R(TITR,ASC,L)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

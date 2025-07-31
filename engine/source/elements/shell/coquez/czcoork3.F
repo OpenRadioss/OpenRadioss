@@ -20,16 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    czcoork3       ../engine/source/elements/shell/coquez/czcoork3.F
-      !||--- called by ------------------------------------------------------
-      !||    czke3          ../engine/source/elements/shell/coquez/czke3.F
-      !||--- calls      -----------------------------------------------------
-      !||    clskew3        ../engine/source/elements/sh3n/coquedk/cdkcoor3.F
-      !||    cortdir3       ../engine/source/elements/shell/coque/cortdir3.F
-      !||--- uses       -----------------------------------------------------
-      !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    czcoork3       ../engine/source/elements/shell/coquez/czcoork3.F
+!||--- called by ------------------------------------------------------
+!||    czke3          ../engine/source/elements/shell/coquez/czke3.F
+!||--- calls      -----------------------------------------------------
+!||    clskew3        ../engine/source/elements/sh3n/coquedk/cdkcoor3.F
+!||    cortdir3       ../engine/source/elements/shell/coque/cortdir3.F
+!||--- uses       -----------------------------------------------------
+!||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||====================================================================
         SUBROUTINE CZCOORK3(JFT  ,JLT  ,X     ,IXC  ,PM    ,
      1                      OFFG ,AREA ,AREA_I,VQN  ,VQ    ,
      2                      X13  ,X24  ,Y13   ,Y24  ,MX13  ,

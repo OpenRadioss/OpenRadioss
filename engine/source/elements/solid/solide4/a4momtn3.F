@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    a4momtn3   ../engine/source/elements/solid/solide4/a4momtn3.F
-      !||--- called by ------------------------------------------------------
-      !||    a4momt3    ../engine/source/elements/solid/solide4/a4momt3.F
-      !||--- calls      -----------------------------------------------------
-      !||    upwind4    ../engine/source/elements/solid/solide4/upwind4.F
-      !||====================================================================
+!||====================================================================
+!||    a4momtn3   ../engine/source/elements/solid/solide4/a4momtn3.F
+!||--- called by ------------------------------------------------------
+!||    a4momt3    ../engine/source/elements/solid/solide4/a4momt3.F
+!||--- calls      -----------------------------------------------------
+!||    upwind4    ../engine/source/elements/solid/solide4/upwind4.F
+!||====================================================================
       SUBROUTINE A4MOMTN3(
      1   RHO,     VOL,     VIS,     R,
      2   S,       T,       DELTAX,  VMX,

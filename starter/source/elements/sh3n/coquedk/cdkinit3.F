@@ -20,36 +20,36 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    cdkinit3            ../starter/source/elements/sh3n/coquedk/cdkinit3.F
-      !||--- called by ------------------------------------------------------
-      !||    initia              ../starter/source/elements/initia/initia.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg              ../starter/source/output/message/message.F
-      !||    c1buf3              ../starter/source/elements/shell/coque/c1buf3.F
-      !||    c3coori             ../starter/source/elements/sh3n/coque3n/c3coori.F
-      !||    c3epschk            ../starter/source/elements/sh3n/coque3n/c3init3.F
-      !||    c3evec3             ../starter/source/elements/sh3n/coque3n/c3evec3.F
-      !||    c3inmas             ../starter/source/elements/sh3n/coque3n/c3inmas.F
-      !||    c3veok3             ../starter/source/elements/sh3n/coque3n/c3veok3.F
-      !||    cdkderii            ../starter/source/elements/sh3n/coquedk/cdkderii.F
-      !||    cdkepsini           ../starter/source/elements/sh3n/coquedk/cdkepsini.F
-      !||    cdkevec3            ../starter/source/elements/sh3n/coquedk/cdkevec3.F
-      !||    cm35in3             ../starter/source/materials/mat/mat035/cm35in3.F
-      !||    cmaini3             ../starter/source/elements/sh3n/coquedk/cmaini3.F
-      !||    cmatini4            ../starter/source/materials/mat_share/cmatini4.F
-      !||    corth3              ../starter/source/elements/shell/coque/corth3.F
-      !||    csigini4            ../starter/source/elements/shell/coqueba/scigini4.F
-      !||    cuserini4           ../starter/source/elements/shell/coqueba/cuserini4.F
-      !||    initemp_shell       ../starter/source/materials/therm/initemp_shell.F90
-      !||    layini1             ../starter/source/elements/shell/coqueba/layini1.F
-      !||    thickini            ../starter/source/elements/shell/coqueba/thickini.F
-      !||--- uses       -----------------------------------------------------
-      !||    drape_mod           ../starter/share/modules1/drape_mod.F
-      !||    initemp_shell_mod   ../starter/source/materials/therm/initemp_shell.F90
-      !||    message_mod         ../starter/share/message_module/message_mod.F
-      !||    stack_mod           ../starter/share/modules1/stack_mod.F
-      !||====================================================================
+!||====================================================================
+!||    cdkinit3            ../starter/source/elements/sh3n/coquedk/cdkinit3.F
+!||--- called by ------------------------------------------------------
+!||    initia              ../starter/source/elements/initia/initia.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg              ../starter/source/output/message/message.F
+!||    c1buf3              ../starter/source/elements/shell/coque/c1buf3.F
+!||    c3coori             ../starter/source/elements/sh3n/coque3n/c3coori.F
+!||    c3epschk            ../starter/source/elements/sh3n/coque3n/c3init3.F
+!||    c3evec3             ../starter/source/elements/sh3n/coque3n/c3evec3.F
+!||    c3inmas             ../starter/source/elements/sh3n/coque3n/c3inmas.F
+!||    c3veok3             ../starter/source/elements/sh3n/coque3n/c3veok3.F
+!||    cdkderii            ../starter/source/elements/sh3n/coquedk/cdkderii.F
+!||    cdkepsini           ../starter/source/elements/sh3n/coquedk/cdkepsini.F
+!||    cdkevec3            ../starter/source/elements/sh3n/coquedk/cdkevec3.F
+!||    cm35in3             ../starter/source/materials/mat/mat035/cm35in3.F
+!||    cmaini3             ../starter/source/elements/sh3n/coquedk/cmaini3.F
+!||    cmatini4            ../starter/source/materials/mat_share/cmatini4.F
+!||    corth3              ../starter/source/elements/shell/coque/corth3.F
+!||    csigini4            ../starter/source/elements/shell/coqueba/scigini4.F
+!||    cuserini4           ../starter/source/elements/shell/coqueba/cuserini4.F
+!||    initemp_shell       ../starter/source/materials/therm/initemp_shell.F90
+!||    layini1             ../starter/source/elements/shell/coqueba/layini1.F
+!||    thickini            ../starter/source/elements/shell/coqueba/thickini.F
+!||--- uses       -----------------------------------------------------
+!||    drape_mod           ../starter/share/modules1/drape_mod.F
+!||    initemp_shell_mod   ../starter/source/materials/therm/initemp_shell.F90
+!||    message_mod         ../starter/share/message_module/message_mod.F
+!||    stack_mod           ../starter/share/modules1/stack_mod.F
+!||====================================================================
       SUBROUTINE CDKINIT3(ELBUF_STR,GROUP_PARAM,
      1                   IXTG  ,PM    ,X     ,GEO   ,
      2                   XMAS  ,IN    ,NVC   ,DTELEM,
@@ -430,11 +430,11 @@ C
 C---
       RETURN
       END
-      !||====================================================================
-      !||    cdkpxpyi    ../starter/source/elements/sh3n/coquedk/cdkinit3.F
-      !||--- called by ------------------------------------------------------
-      !||    cdkepsini   ../starter/source/elements/sh3n/coquedk/cdkepsini.F
-      !||====================================================================
+!||====================================================================
+!||    cdkpxpyi    ../starter/source/elements/sh3n/coquedk/cdkinit3.F
+!||--- called by ------------------------------------------------------
+!||    cdkepsini   ../starter/source/elements/sh3n/coquedk/cdkepsini.F
+!||====================================================================
       SUBROUTINE CDKPXPYI(JFT ,JLT ,ISMSTR   ,
      .                    PX2G,PY2G,PX3G,PY3G,
      .                    PX2 ,PY2 ,PX3 ,PY3 ,
@@ -515,11 +515,11 @@ C
       RETURN
       END
 C
-      !||====================================================================
-      !||    cdkdefoi    ../starter/source/elements/sh3n/coquedk/cdkinit3.F
-      !||--- called by ------------------------------------------------------
-      !||    cdkepsini   ../starter/source/elements/sh3n/coquedk/cdkepsini.F
-      !||====================================================================
+!||====================================================================
+!||    cdkdefoi    ../starter/source/elements/sh3n/coquedk/cdkinit3.F
+!||--- called by ------------------------------------------------------
+!||    cdkepsini   ../starter/source/elements/sh3n/coquedk/cdkepsini.F
+!||====================================================================
       SUBROUTINE CDKDEFOI(JFT  ,JLT  ,NEL  ,VL   ,GSTR ,
      .                    PX2  ,PY2  ,PX3  ,PY3  ,
      .                    E1X  ,E2X  ,E3X  ,E1Y  ,E2Y  ,

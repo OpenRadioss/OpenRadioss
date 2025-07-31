@@ -20,15 +20,15 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    coupling_adapter_mod   ../engine/source/coupling/coupling_adapter.F90
-      !||--- called by ------------------------------------------------------
-      !||    inipar                 ../engine/source/mpi/init/inipar.F
-      !||    radioss2               ../engine/source/engine/radioss2.F
-      !||    resol                  ../engine/source/engine/resol.F
-      !||    resol_head             ../engine/source/engine/resol_head.F
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    coupling_adapter_mod   ../engine/source/coupling/coupling_adapter.F90
+!||--- called by ------------------------------------------------------
+!||    inipar                 ../engine/source/mpi/init/inipar.F
+!||    radioss2               ../engine/source/engine/radioss2.F
+!||    resol                  ../engine/source/engine/resol.F
+!||    resol_head             ../engine/source/engine/resol_head.F
+!||--- uses       -----------------------------------------------------
+!||====================================================================
       module coupling_adapter_mod
         ! This file contain the generic coupling adapter interface used by CWIPI and preCICE
         ! The workflow is as follows:
@@ -204,11 +204,11 @@
 
       contains
       !!utility function to make unique values in an array of size 4
-      !||====================================================================
-      !||    make_unique         ../engine/source/coupling/coupling_adapter.F90
-      !||--- called by ------------------------------------------------------
-      !||    coupling_set_mesh   ../engine/source/coupling/coupling_adapter.F90
-      !||====================================================================
+!||====================================================================
+!||    make_unique         ../engine/source/coupling/coupling_adapter.F90
+!||--- called by ------------------------------------------------------
+!||    coupling_set_mesh   ../engine/source/coupling/coupling_adapter.F90
+!||====================================================================
       function make_unique(arr) result(n_unique)
          implicit none
          integer, intent(inout) :: arr(4)
@@ -242,11 +242,11 @@
        end function make_unique
 
         ! Initialize coupling adapter
-      !||====================================================================
-      !||    coupling_create      ../engine/source/coupling/coupling_adapter.F90
-      !||--- called by ------------------------------------------------------
-      !||    coupling_configure   ../engine/source/coupling/coupling_adapter.F90
-      !||====================================================================
+!||====================================================================
+!||    coupling_create      ../engine/source/coupling/coupling_adapter.F90
+!||--- called by ------------------------------------------------------
+!||    coupling_configure   ../engine/source/coupling/coupling_adapter.F90
+!||====================================================================
         subroutine coupling_create(coupling)
           implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -265,11 +265,11 @@
         end subroutine coupling_create
 
       ! Read configuration file *.cpl
-      !||====================================================================
-      !||    coupling_configure   ../engine/source/coupling/coupling_adapter.F90
-      !||--- calls      -----------------------------------------------------
-      !||    coupling_create      ../engine/source/coupling/coupling_adapter.F90
-      !||====================================================================
+!||====================================================================
+!||    coupling_configure   ../engine/source/coupling/coupling_adapter.F90
+!||--- calls      -----------------------------------------------------
+!||    coupling_create      ../engine/source/coupling/coupling_adapter.F90
+!||====================================================================
         subroutine coupling_configure(coupling, input_filename)
           implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -297,15 +297,15 @@
         end subroutine coupling_configure
 
         ! Set coupling nodes
-      !||====================================================================
-      !||    coupling_set_nodes           ../engine/source/coupling/coupling_adapter.F90
-      !||--- called by ------------------------------------------------------
-      !||    coupling_set_interface       ../engine/source/coupling/coupling_adapter.F90
-      !||--- calls      -----------------------------------------------------
-      !||    coupling_adapter_set_nodes   ../engine/source/coupling/coupling_c_interface.cpp
-      !||--- uses       -----------------------------------------------------
-      !||    groupdef_mod                 ../common_source/modules/groupdef_mod.F
-      !||====================================================================
+!||====================================================================
+!||    coupling_set_nodes           ../engine/source/coupling/coupling_adapter.F90
+!||--- called by ------------------------------------------------------
+!||    coupling_set_interface       ../engine/source/coupling/coupling_adapter.F90
+!||--- calls      -----------------------------------------------------
+!||    coupling_adapter_set_nodes   ../engine/source/coupling/coupling_c_interface.cpp
+!||--- uses       -----------------------------------------------------
+!||    groupdef_mod                 ../common_source/modules/groupdef_mod.F
+!||====================================================================
         subroutine coupling_set_nodes(coupling, igrnod, ngrnod)
           use GROUPDEF_MOD
           implicit none
@@ -347,18 +347,18 @@
         end subroutine coupling_set_nodes
 
 !       Only for cwipi, not for precice yet
-      !||====================================================================
-      !||    coupling_set_mesh            ../engine/source/coupling/coupling_adapter.F90
-      !||--- called by ------------------------------------------------------
-      !||    coupling_set_interface       ../engine/source/coupling/coupling_adapter.F90
-      !||--- calls      -----------------------------------------------------
-      !||    coupling_adapter_set_mesh    ../engine/source/coupling/coupling_c_interface.cpp
-      !||    coupling_adapter_set_nodes   ../engine/source/coupling/coupling_c_interface.cpp
-      !||    make_unique                  ../engine/source/coupling/coupling_adapter.F90
-      !||--- uses       -----------------------------------------------------
-      !||    groupdef_mod                 ../common_source/modules/groupdef_mod.F
-      !||    nodal_arrays_mod             ../common_source/modules/nodal_arrays.F90
-      !||====================================================================
+!||====================================================================
+!||    coupling_set_mesh            ../engine/source/coupling/coupling_adapter.F90
+!||--- called by ------------------------------------------------------
+!||    coupling_set_interface       ../engine/source/coupling/coupling_adapter.F90
+!||--- calls      -----------------------------------------------------
+!||    coupling_adapter_set_mesh    ../engine/source/coupling/coupling_c_interface.cpp
+!||    coupling_adapter_set_nodes   ../engine/source/coupling/coupling_c_interface.cpp
+!||    make_unique                  ../engine/source/coupling/coupling_adapter.F90
+!||--- uses       -----------------------------------------------------
+!||    groupdef_mod                 ../common_source/modules/groupdef_mod.F
+!||    nodal_arrays_mod             ../common_source/modules/nodal_arrays.F90
+!||====================================================================
         subroutine coupling_set_mesh(coupling, surf,  nodes)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                     Module
@@ -439,17 +439,17 @@
           
         end subroutine 
 
-      !||====================================================================
-      !||    coupling_set_interface   ../engine/source/coupling/coupling_adapter.F90
-      !||--- called by ------------------------------------------------------
-      !||    resol                    ../engine/source/engine/resol.F
-      !||--- calls      -----------------------------------------------------
-      !||    coupling_set_mesh        ../engine/source/coupling/coupling_adapter.F90
-      !||    coupling_set_nodes       ../engine/source/coupling/coupling_adapter.F90
-      !||--- uses       -----------------------------------------------------
-      !||    groupdef_mod             ../common_source/modules/groupdef_mod.F
-      !||    nodal_arrays_mod         ../common_source/modules/nodal_arrays.F90
-      !||====================================================================
+!||====================================================================
+!||    coupling_set_interface   ../engine/source/coupling/coupling_adapter.F90
+!||--- called by ------------------------------------------------------
+!||    resol                    ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
+!||    coupling_set_mesh        ../engine/source/coupling/coupling_adapter.F90
+!||    coupling_set_nodes       ../engine/source/coupling/coupling_adapter.F90
+!||--- uses       -----------------------------------------------------
+!||    groupdef_mod             ../common_source/modules/groupdef_mod.F
+!||    nodal_arrays_mod         ../common_source/modules/nodal_arrays.F90
+!||====================================================================
         subroutine coupling_set_interface(coupling, igrnod, ngrnod, surf, nsurf,  nodes)                  
           use GROUPDEF_MOD
           use nodal_arrays_mod
@@ -485,13 +485,13 @@
       
 
         ! Initialize coupling
-      !||====================================================================
-      !||    coupling_initialize   ../engine/source/coupling/coupling_adapter.F90
-      !||--- called by ------------------------------------------------------
-      !||    resol                 ../engine/source/engine/resol.F
-      !||--- uses       -----------------------------------------------------
-      !||    precision_mod         ../common_source/modules/precision_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    coupling_initialize   ../engine/source/coupling/coupling_adapter.F90
+!||--- called by ------------------------------------------------------
+!||    resol                 ../engine/source/engine/resol.F
+!||--- uses       -----------------------------------------------------
+!||    precision_mod         ../common_source/modules/precision_mod.F90
+!||====================================================================
         subroutine coupling_initialize(coupling, X, nb_nodes, mpi_rank, mpi_commsize)
           use precision_mod, only: WP
           implicit none
@@ -532,13 +532,13 @@
         end subroutine coupling_initialize
 
         ! Write data to coupling library
-      !||====================================================================
-      !||    coupling_write                ../engine/source/coupling/coupling_adapter.F90
-      !||--- calls      -----------------------------------------------------
-      !||    coupling_adapter_write_data   ../engine/source/coupling/coupling_c_interface.cpp
-      !||--- uses       -----------------------------------------------------
-      !||    precision_mod                 ../common_source/modules/precision_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    coupling_write                ../engine/source/coupling/coupling_adapter.F90
+!||--- calls      -----------------------------------------------------
+!||    coupling_adapter_write_data   ../engine/source/coupling/coupling_c_interface.cpp
+!||--- uses       -----------------------------------------------------
+!||    precision_mod                 ../common_source/modules/precision_mod.F90
+!||====================================================================
         subroutine coupling_write(coupling, dt, global_values, nb_nodes, name_id)
           use precision_mod, only: WP
           implicit none
@@ -570,13 +570,13 @@
         end subroutine coupling_write
 
         ! Read data from coupling library
-      !||====================================================================
-      !||    coupling_read                ../engine/source/coupling/coupling_adapter.F90
-      !||--- calls      -----------------------------------------------------
-      !||    coupling_adapter_read_data   ../engine/source/coupling/coupling_c_interface.cpp
-      !||--- uses       -----------------------------------------------------
-      !||    precision_mod                ../common_source/modules/precision_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    coupling_read                ../engine/source/coupling/coupling_adapter.F90
+!||--- calls      -----------------------------------------------------
+!||    coupling_adapter_read_data   ../engine/source/coupling/coupling_c_interface.cpp
+!||--- uses       -----------------------------------------------------
+!||    precision_mod                ../common_source/modules/precision_mod.F90
+!||====================================================================
         subroutine coupling_read(coupling, dt, global_values, nb_nodes, mode, name_id)
           use precision_mod, only: WP
           implicit none
@@ -613,17 +613,17 @@
 
 
 !! \brief main subroutine to create syncrhonization points from resol.F. It does both reading and writing
-      !||====================================================================
-      !||    coupling_sync                 ../engine/source/coupling/coupling_adapter.F90
-      !||--- called by ------------------------------------------------------
-      !||    resol                         ../engine/source/engine/resol.F
-      !||--- calls      -----------------------------------------------------
-      !||    coupling_adapter_read_data    ../engine/source/coupling/coupling_c_interface.cpp
-      !||    coupling_adapter_write_data   ../engine/source/coupling/coupling_c_interface.cpp
-      !||--- uses       -----------------------------------------------------
-      !||    nodal_arrays_mod              ../common_source/modules/nodal_arrays.F90
-      !||    precision_mod                 ../common_source/modules/precision_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    coupling_sync                 ../engine/source/coupling/coupling_adapter.F90
+!||--- called by ------------------------------------------------------
+!||    resol                         ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
+!||    coupling_adapter_read_data    ../engine/source/coupling/coupling_c_interface.cpp
+!||    coupling_adapter_write_data   ../engine/source/coupling/coupling_c_interface.cpp
+!||--- uses       -----------------------------------------------------
+!||    nodal_arrays_mod              ../common_source/modules/nodal_arrays.F90
+!||    precision_mod                 ../common_source/modules/precision_mod.F90
+!||====================================================================
         subroutine coupling_sync(coupling, dt, nodes, name_id)
           use precision_mod, only: WP
           use nodal_arrays_mod, only : nodal_arrays_
@@ -703,15 +703,15 @@
         end subroutine coupling_sync
 
         ! Advance coupling
-      !||====================================================================
-      !||    coupling_advance           ../engine/source/coupling/coupling_adapter.F90
-      !||--- called by ------------------------------------------------------
-      !||    resol                      ../engine/source/engine/resol.F
-      !||--- calls      -----------------------------------------------------
-      !||    coupling_adapter_advance   ../engine/source/coupling/coupling_c_interface.cpp
-      !||--- uses       -----------------------------------------------------
-      !||    precision_mod              ../common_source/modules/precision_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    coupling_advance           ../engine/source/coupling/coupling_adapter.F90
+!||--- called by ------------------------------------------------------
+!||    resol                      ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
+!||    coupling_adapter_advance   ../engine/source/coupling/coupling_c_interface.cpp
+!||--- uses       -----------------------------------------------------
+!||    precision_mod              ../common_source/modules/precision_mod.F90
+!||====================================================================
         subroutine coupling_advance(coupling, dt)
           use precision_mod, only: WP
           implicit none
@@ -738,11 +738,11 @@
         end subroutine coupling_advance
 
         ! Check if coupling is ongoing
-      !||====================================================================
-      !||    coupling_ongoing   ../engine/source/coupling/coupling_adapter.F90
-      !||--- called by ------------------------------------------------------
-      !||    resol              ../engine/source/engine/resol.F
-      !||====================================================================
+!||====================================================================
+!||    coupling_ongoing   ../engine/source/coupling/coupling_adapter.F90
+!||--- called by ------------------------------------------------------
+!||    resol              ../engine/source/engine/resol.F
+!||====================================================================
         subroutine coupling_ongoing(coupling, ongoing)
           implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -766,9 +766,9 @@
           coupling%active = ongoing
         end subroutine coupling_ongoing
 
-      !||====================================================================
-      !||    coupling_requires_writing_checkpoint   ../engine/source/coupling/coupling_adapter.F90
-      !||====================================================================
+!||====================================================================
+!||    coupling_requires_writing_checkpoint   ../engine/source/coupling/coupling_adapter.F90
+!||====================================================================
         subroutine coupling_requires_writing_checkpoint(coupling, required)
           implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -795,9 +795,9 @@
           end if
         end subroutine coupling_requires_writing_checkpoint
 
-      !||====================================================================
-      !||    coupling_requires_reading_checkpoint   ../engine/source/coupling/coupling_adapter.F90
-      !||====================================================================
+!||====================================================================
+!||    coupling_requires_reading_checkpoint   ../engine/source/coupling/coupling_adapter.F90
+!||====================================================================
         subroutine coupling_requires_reading_checkpoint(coupling, required)
           implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -825,14 +825,14 @@
         end subroutine coupling_requires_reading_checkpoint
 
         ! Finalize coupling
-      !||====================================================================
-      !||    coupling_finalize           ../engine/source/coupling/coupling_adapter.F90
-      !||--- called by ------------------------------------------------------
-      !||    resol                       ../engine/source/engine/resol.F
-      !||--- calls      -----------------------------------------------------
-      !||    coupling_adapter_destroy    ../engine/source/coupling/coupling_c_interface.cpp
-      !||    coupling_adapter_finalize   ../engine/source/coupling/coupling_c_interface.cpp
-      !||====================================================================
+!||====================================================================
+!||    coupling_finalize           ../engine/source/coupling/coupling_adapter.F90
+!||--- called by ------------------------------------------------------
+!||    resol                       ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
+!||    coupling_adapter_destroy    ../engine/source/coupling/coupling_c_interface.cpp
+!||    coupling_adapter_finalize   ../engine/source/coupling/coupling_c_interface.cpp
+!||====================================================================
         subroutine coupling_finalize(coupling)
           implicit none
 ! ----------------------------------------------------------------------------------------------------------------------

@@ -20,23 +20,23 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    cast_mod   ../common_source/modules/cast_mod.F90
-      !||--- called by ------------------------------------------------------
-      !||    fvbag1     ../engine/source/airbag/fvbag1.F
-      !||    fvtemp     ../engine/source/airbag/fvtemp.F
-      !||====================================================================
+!||====================================================================
+!||    cast_mod   ../common_source/modules/cast_mod.F90
+!||--- called by ------------------------------------------------------
+!||    fvbag1     ../engine/source/airbag/fvbag1.F
+!||    fvtemp     ../engine/source/airbag/fvtemp.F
+!||====================================================================
       module cast_mod
       contains
 ! ======================================================================================================================
 !                                                   PROCEDURES
 ! ======================================================================================================================
 !! \brief Convert a double precision value to a my_real value
-      !||====================================================================
-      !||    double_to_my_real   ../common_source/modules/cast_mod.F90
-      !||--- uses       -----------------------------------------------------
-      !||    precision_mod       ../common_source/modules/precision_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    double_to_my_real   ../common_source/modules/cast_mod.F90
+!||--- uses       -----------------------------------------------------
+!||    precision_mod       ../common_source/modules/precision_mod.F90
+!||====================================================================
         pure function double_to_my_real(x,nan_replacement, max_value) result(res)
           use precision_mod, only: WP
           implicit none

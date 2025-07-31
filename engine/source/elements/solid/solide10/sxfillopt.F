@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    sxfillopt   ../engine/source/elements/solid/solide10/sxfillopt.F
-      !||--- called by ------------------------------------------------------
-      !||    s10forc3    ../engine/source/elements/solid/solide10/s10forc3.F
-      !||    s16forc3    ../engine/source/elements/thickshell/solide16/s16forc3.F
-      !||    s20forc3    ../engine/source/elements/solid/solide20/s20forc3.F
-      !||====================================================================
+!||====================================================================
+!||    sxfillopt   ../engine/source/elements/solid/solide10/sxfillopt.F
+!||--- called by ------------------------------------------------------
+!||    s10forc3    ../engine/source/elements/solid/solide10/s10forc3.F
+!||    s16forc3    ../engine/source/elements/thickshell/solide16/s16forc3.F
+!||    s20forc3    ../engine/source/elements/solid/solide20/s20forc3.F
+!||====================================================================
       SUBROUTINE SXFILLOPT(
      1   NPE,     FILL,    STI,     FX,
      2   FY,      FZ,      NEL)

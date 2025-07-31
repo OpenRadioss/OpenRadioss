@@ -20,24 +20,24 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    s6get_xv_mod   ../engine/source/elements/thickshell/solide6c/s6get_xv.F90
-      !||--- called by ------------------------------------------------------
-      !||    s6cforc3       ../engine/source/elements/thickshell/solide6c/s6cforc3.F
-      !||====================================================================
+!||====================================================================
+!||    s6get_xv_mod   ../engine/source/elements/thickshell/solide6c/s6get_xv.F90
+!||--- called by ------------------------------------------------------
+!||    s6cforc3       ../engine/source/elements/thickshell/solide6c/s6cforc3.F
+!||====================================================================
       module s6get_xv_mod
       contains
 ! ======================================================================================================================
 ! \brief get x,v in global(basic) coordinate system for penta6 element
 ! ======================================================================================================================
-      !||====================================================================
-      !||    s6get_xv        ../engine/source/elements/thickshell/solide6c/s6get_xv.F90
-      !||--- called by ------------------------------------------------------
-      !||    s6cforc3        ../engine/source/elements/thickshell/solide6c/s6cforc3.F
-      !||--- uses       -----------------------------------------------------
-      !||    mvsiz_mod       ../engine/share/spe_inc/mvsiz_mod.F90
-      !||    precision_mod   ../common_source/modules/precision_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    s6get_xv        ../engine/source/elements/thickshell/solide6c/s6get_xv.F90
+!||--- called by ------------------------------------------------------
+!||    s6cforc3        ../engine/source/elements/thickshell/solide6c/s6cforc3.F
+!||--- uses       -----------------------------------------------------
+!||    mvsiz_mod       ../engine/share/spe_inc/mvsiz_mod.F90
+!||    precision_mod   ../common_source/modules/precision_mod.F90
+!||====================================================================
         subroutine s6get_xv(                                               &
                             nc1,      nc2,      nc3,                       &                       
                             nc4,      nc5,      nc6,                       &

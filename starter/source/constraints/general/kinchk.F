@@ -20,17 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    kinchk                 ../starter/source/constraints/general/kinchk.F
-      !||--- called by ------------------------------------------------------
-      !||    lectur                 ../starter/source/starter/lectur.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg                 ../starter/source/output/message/message.F
-      !||    fretitl2               ../starter/source/starter/freform.F
-      !||--- uses       -----------------------------------------------------
-      !||    format_mod             ../starter/share/modules1/format_mod.F90
-      !||    message_mod            ../starter/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    kinchk                 ../starter/source/constraints/general/kinchk.F
+!||--- called by ------------------------------------------------------
+!||    lectur                 ../starter/source/starter/lectur.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                 ../starter/source/output/message/message.F
+!||    fretitl2               ../starter/source/starter/freform.F
+!||--- uses       -----------------------------------------------------
+!||    format_mod             ../starter/share/modules1/format_mod.F90
+!||    message_mod            ../starter/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE KINCHK(IKINE,RWL,ITAB,NPRW,LPRW,KINET,
      1                  NPBY, LPBY,IRBE2,LRBE2,IRBE3,LRBE3,
      2                  NOM_OPT,PTR_NOPT_RWALL,PTR_NOPT_RBE2,
@@ -1206,11 +1206,11 @@ C
 C
       RETURN
       END
-      !||====================================================================
-      !||    kinrem   ../starter/source/constraints/general/kinchk.F
-      !||--- called by ------------------------------------------------------
-      !||    lectur   ../starter/source/starter/lectur.F
-      !||====================================================================
+!||====================================================================
+!||    kinrem   ../starter/source/constraints/general/kinchk.F
+!||--- called by ------------------------------------------------------
+!||    lectur   ../starter/source/starter/lectur.F
+!||====================================================================
       SUBROUTINE KINREM(IKINE,IKINEW,RWL,ITAB,NPRW,LPRW,
      1                   NPBY, LPBY)
 C-----------------------------------------------
@@ -1276,15 +1276,15 @@ C=======================================================================
 C
       RETURN
       END
-      !||====================================================================
-      !||    inivchk     ../starter/source/constraints/general/kinchk.F
-      !||--- called by ------------------------------------------------------
-      !||    lectur      ../starter/source/starter/lectur.F
-      !||--- calls      -----------------------------------------------------
-      !||    rbe2_impd   ../starter/source/constraints/general/kinchk.F
-      !||    rbe3_impd   ../starter/source/constraints/general/kinchk.F
-      !||    rby_v0      ../starter/source/constraints/general/kinchk.F
-      !||====================================================================
+!||====================================================================
+!||    inivchk     ../starter/source/constraints/general/kinchk.F
+!||--- called by ------------------------------------------------------
+!||    lectur      ../starter/source/starter/lectur.F
+!||--- calls      -----------------------------------------------------
+!||    rbe2_impd   ../starter/source/constraints/general/kinchk.F
+!||    rbe3_impd   ../starter/source/constraints/general/kinchk.F
+!||    rby_v0      ../starter/source/constraints/general/kinchk.F
+!||====================================================================
       SUBROUTINE INIVCHK(IKINE,RWL,ITAB,NPRW,LPRW,KINET,
      1                   NPBY, LPBY,IRBE2,LRBE2,IRBE3,LRBE3,
      2                   FRBE3,X   ,SKEW ,V   ,VR   )
@@ -1353,11 +1353,11 @@ C-----------------------------------------------------------------
 
       RETURN
       END
-      !||====================================================================
-      !||    rby_v0    ../starter/source/constraints/general/kinchk.F
-      !||--- called by ------------------------------------------------------
-      !||    inivchk   ../starter/source/constraints/general/kinchk.F
-      !||====================================================================
+!||====================================================================
+!||    rby_v0    ../starter/source/constraints/general/kinchk.F
+!||--- called by ------------------------------------------------------
+!||    inivchk   ../starter/source/constraints/general/kinchk.F
+!||====================================================================
       SUBROUTINE RBY_V0(X  ,NOD  ,M   ,NSN  ,D     ,DR  )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -1393,14 +1393,14 @@ C-----------------------------------------------
 C
       RETURN
       END
-      !||====================================================================
-      !||    rbe3_impd   ../starter/source/constraints/general/kinchk.F
-      !||--- called by ------------------------------------------------------
-      !||    inivchk     ../starter/source/constraints/general/kinchk.F
-      !||--- calls      -----------------------------------------------------
-      !||    prerbe3     ../starter/source/constraints/general/kinchk.F
-      !||    rbe3cl      ../starter/source/constraints/general/kinchk.F
-      !||====================================================================
+!||====================================================================
+!||    rbe3_impd   ../starter/source/constraints/general/kinchk.F
+!||--- called by ------------------------------------------------------
+!||    inivchk     ../starter/source/constraints/general/kinchk.F
+!||--- calls      -----------------------------------------------------
+!||    prerbe3     ../starter/source/constraints/general/kinchk.F
+!||    rbe3cl      ../starter/source/constraints/general/kinchk.F
+!||====================================================================
       SUBROUTINE RBE3_IMPD(IRBE3 ,LRBE3 ,X    ,D     ,DR    ,
      1                     FRBE3 ,SKEW  )
 C-----------------------------------------------
@@ -1485,11 +1485,11 @@ C
 C---
       RETURN
       END
-      !||====================================================================
-      !||    prerbe3     ../starter/source/constraints/general/kinchk.F
-      !||--- called by ------------------------------------------------------
-      !||    rbe3_impd   ../starter/source/constraints/general/kinchk.F
-      !||====================================================================
+!||====================================================================
+!||    prerbe3     ../starter/source/constraints/general/kinchk.F
+!||--- called by ------------------------------------------------------
+!||    rbe3_impd   ../starter/source/constraints/general/kinchk.F
+!||====================================================================
       SUBROUTINE PRERBE3(IRBE3 ,MAX_M , IROTG,JT  ,JR   )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -1570,17 +1570,17 @@ C======================================================================|
 C---
       RETURN
       END
-      !||====================================================================
-      !||    rbe3cl      ../starter/source/constraints/general/kinchk.F
-      !||--- called by ------------------------------------------------------
-      !||    rbe3_impd   ../starter/source/constraints/general/kinchk.F
-      !||--- calls      -----------------------------------------------------
-      !||    arret       ../starter/source/system/arret.F
-      !||    invert      ../starter/source/constraints/general/rbe3/hm_read_rbe3.F
-      !||    rbe3uf      ../starter/source/constraints/general/rbe3/hm_read_rbe3.F
-      !||    rbe3um      ../starter/source/constraints/general/rbe3/hm_read_rbe3.F
-      !||    zero1       ../starter/source/constraints/general/rbe3/hm_read_rbe3.F
-      !||====================================================================
+!||====================================================================
+!||    rbe3cl      ../starter/source/constraints/general/kinchk.F
+!||--- called by ------------------------------------------------------
+!||    rbe3_impd   ../starter/source/constraints/general/kinchk.F
+!||--- calls      -----------------------------------------------------
+!||    arret       ../starter/source/system/arret.F
+!||    invert      ../starter/source/constraints/general/rbe3/hm_read_rbe3.F
+!||    rbe3uf      ../starter/source/constraints/general/rbe3/hm_read_rbe3.F
+!||    rbe3um      ../starter/source/constraints/general/rbe3/hm_read_rbe3.F
+!||    zero1       ../starter/source/constraints/general/rbe3/hm_read_rbe3.F
+!||====================================================================
       SUBROUTINE RBE3CL(INRBE3  ,ILRBE3  ,NS     ,XYZ    ,FRBE3   ,
      .                  SKEW    ,NG      ,IROT   ,FDSTNB ,MDSTNB  )
 C-----------------------------------------------
@@ -1915,15 +1915,15 @@ C     DIAGNOSTIC INFORMATION
 C
       RETURN
       END
-      !||====================================================================
-      !||    rbe2_impd   ../starter/source/constraints/general/kinchk.F
-      !||--- called by ------------------------------------------------------
-      !||    inivchk     ../starter/source/constraints/general/kinchk.F
-      !||--- calls      -----------------------------------------------------
-      !||    prerbe2     ../starter/source/constraints/general/kinchk.F
-      !||    rbe2d0      ../starter/source/constraints/general/kinchk.F
-      !||    rbe2dl      ../starter/source/constraints/general/kinchk.F
-      !||====================================================================
+!||====================================================================
+!||    rbe2_impd   ../starter/source/constraints/general/kinchk.F
+!||--- called by ------------------------------------------------------
+!||    inivchk     ../starter/source/constraints/general/kinchk.F
+!||--- calls      -----------------------------------------------------
+!||    prerbe2     ../starter/source/constraints/general/kinchk.F
+!||    rbe2d0      ../starter/source/constraints/general/kinchk.F
+!||    rbe2dl      ../starter/source/constraints/general/kinchk.F
+!||====================================================================
       SUBROUTINE RBE2_IMPD(IRBE2 ,LRBE2 ,X    ,D     ,DR    ,SKEW )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -1965,11 +1965,11 @@ C======================================================================|
 C---
       RETURN
       END
-      !||====================================================================
-      !||    prerbe2     ../starter/source/constraints/general/kinchk.F
-      !||--- called by ------------------------------------------------------
-      !||    rbe2_impd   ../starter/source/constraints/general/kinchk.F
-      !||====================================================================
+!||====================================================================
+!||    prerbe2     ../starter/source/constraints/general/kinchk.F
+!||--- called by ------------------------------------------------------
+!||    rbe2_impd   ../starter/source/constraints/general/kinchk.F
+!||====================================================================
       SUBROUTINE PRERBE2(IRBE2 ,JT  ,JR   )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -2046,11 +2046,11 @@ C======================================================================|
 C---
       RETURN
       END
-      !||====================================================================
-      !||    rbe2d0      ../starter/source/constraints/general/kinchk.F
-      !||--- called by ------------------------------------------------------
-      !||    rbe2_impd   ../starter/source/constraints/general/kinchk.F
-      !||====================================================================
+!||====================================================================
+!||    rbe2d0      ../starter/source/constraints/general/kinchk.F
+!||--- called by ------------------------------------------------------
+!||    rbe2_impd   ../starter/source/constraints/general/kinchk.F
+!||====================================================================
       SUBROUTINE RBE2D0(NSL   ,ISL   ,X     ,V     ,VR    ,
      1                  JT    ,JR    ,M     )
 C-----------------------------------------------
@@ -2103,11 +2103,11 @@ C======================================================================|
 C---
       RETURN
       END
-      !||====================================================================
-      !||    rbe2dl      ../starter/source/constraints/general/kinchk.F
-      !||--- called by ------------------------------------------------------
-      !||    rbe2_impd   ../starter/source/constraints/general/kinchk.F
-      !||====================================================================
+!||====================================================================
+!||    rbe2dl      ../starter/source/constraints/general/kinchk.F
+!||--- called by ------------------------------------------------------
+!||    rbe2_impd   ../starter/source/constraints/general/kinchk.F
+!||====================================================================
       SUBROUTINE RBE2DL(NSN   ,ISL   ,X     ,V     ,VR    ,
      1                  JT    ,JR    ,M     ,SKEW  )
 C-----------------------------------------------

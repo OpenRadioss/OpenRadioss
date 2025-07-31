@@ -21,25 +21,25 @@
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 ! ----------------------------------------------------------------------------------------------------------------------
-      !||====================================================================
-      !||    eos_table_copy_mod           ../starter/source/materials/tools/eos_table_copy.F90
-      !||--- called by ------------------------------------------------------
-      !||    hm_read_eos_compaction_tab   ../starter/source/materials/eos/hm_read_eos_compaction_tab.F90
-      !||====================================================================
+!||====================================================================
+!||    eos_table_copy_mod           ../starter/source/materials/tools/eos_table_copy.F90
+!||--- called by ------------------------------------------------------
+!||    hm_read_eos_compaction_tab   ../starter/source/materials/eos/hm_read_eos_compaction_tab.F90
+!||====================================================================
        module eos_table_copy_mod
        contains
 
 !! \brief  see mat_table_copy  (adapted for type eosparam_struct_)
 
-      !||====================================================================
-      !||    eos_table_copy               ../starter/source/materials/tools/eos_table_copy.F90
-      !||--- called by ------------------------------------------------------
-      !||    hm_read_eos_compaction_tab   ../starter/source/materials/eos/hm_read_eos_compaction_tab.F90
-      !||--- calls      -----------------------------------------------------
-      !||    mattab_usr2sys               ../starter/source/materials/tools/mattab_usr2sys.F
-      !||--- uses       -----------------------------------------------------
-      !||    table_mod                    ../starter/share/modules1/table_mod.F
-      !||====================================================================
+!||====================================================================
+!||    eos_table_copy               ../starter/source/materials/tools/eos_table_copy.F90
+!||--- called by ------------------------------------------------------
+!||    hm_read_eos_compaction_tab   ../starter/source/materials/eos/hm_read_eos_compaction_tab.F90
+!||--- calls      -----------------------------------------------------
+!||    mattab_usr2sys               ../starter/source/materials/tools/mattab_usr2sys.F
+!||--- uses       -----------------------------------------------------
+!||    table_mod                    ../starter/share/modules1/table_mod.F
+!||====================================================================
        subroutine eos_table_copy(eos_param ,x2vect   ,x3vect   ,x4vect   , &
                                  x1scale   ,x2scale  ,x3scale  ,x4scale  , &
                                  fscale    ,ntable   ,table    ,ierr     , uid)

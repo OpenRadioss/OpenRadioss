@@ -21,12 +21,12 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
-      !||====================================================================
-      !||    i11sol     ../starter/source/interfaces/inter3d1/i11sol.F
-      !||--- called by ------------------------------------------------------
-      !||    i11sti3    ../starter/source/interfaces/inter3d1/i11sti3.F
-      !||    i20sti3e   ../starter/source/interfaces/inter3d1/i20sti3.F
-      !||====================================================================
+!||====================================================================
+!||    i11sol     ../starter/source/interfaces/inter3d1/i11sol.F
+!||--- called by ------------------------------------------------------
+!||    i11sti3    ../starter/source/interfaces/inter3d1/i11sti3.F
+!||    i20sti3e   ../starter/source/interfaces/inter3d1/i20sti3.F
+!||====================================================================
       SUBROUTINE I11SOL(X,IRECT,IXS,NINT,NEL,I,
      .                  AREA,NOINT,KNOD2ELS,NOD2ELS,IXS10)
 C-----------------------------------------------

@@ -20,17 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    create_seatbelt           ../starter/source/tools/seatbelts/create_seatbelt.F
-      !||--- called by ------------------------------------------------------
-      !||    lectur                    ../starter/source/starter/lectur.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg                    ../starter/source/output/message/message.F
-      !||    c_prevent_decomposition   ../starter/source/spmd/domain_decomposition/c_domain_decomposition.cpp
-      !||    new_seatbelt              ../starter/source/tools/seatbelts/new_seatbelt.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod               ../starter/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    create_seatbelt           ../starter/source/tools/seatbelts/create_seatbelt.F
+!||--- called by ------------------------------------------------------
+!||    lectur                    ../starter/source/starter/lectur.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                    ../starter/source/output/message/message.F
+!||    c_prevent_decomposition   ../starter/source/spmd/domain_decomposition/c_domain_decomposition.cpp
+!||    new_seatbelt              ../starter/source/tools/seatbelts/new_seatbelt.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod               ../starter/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE CREATE_SEATBELT(IXR,ITAB,KNOD2EL1D,NOD2EL1D,IPM,
      .                           X,SENSORS,BUFMAT,PM,GEO,
      .                           IDDLEVEL,KNOD2ELC,NOD2ELC,IXC,IGEO,

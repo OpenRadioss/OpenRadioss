@@ -20,23 +20,23 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    sphtri0         ../engine/source/elements/sph/sphtri0.F
-      !||--- called by ------------------------------------------------------
-      !||    sphprep         ../engine/source/elements/sph/sphprep.F
-      !||--- calls      -----------------------------------------------------
-      !||    my_barrier      ../engine/source/system/machine.F
-      !||    spmd_all_dmax   ../engine/source/mpi/elements/spmd_sph.F
-      !||    spmd_barrier    ../engine/source/mpi/spmd_mod.F90
-      !||    spmd_sphvox     ../engine/source/mpi/sph/spmd_sphvox.F
-      !||    spmd_sphvox0    ../engine/source/mpi/elements/spmd_sph.F
-      !||    startime        ../engine/source/system/timer_mod.F90
-      !||    stoptime        ../engine/source/system/timer_mod.F90
-      !||--- uses       -----------------------------------------------------
-      !||    spmd_mod        ../engine/source/mpi/spmd_mod.F90
-      !||    timer_mod       ../engine/source/system/timer_mod.F90
-      !||    tri7box         ../engine/share/modules/tri7box.F
-      !||====================================================================
+!||====================================================================
+!||    sphtri0         ../engine/source/elements/sph/sphtri0.F
+!||--- called by ------------------------------------------------------
+!||    sphprep         ../engine/source/elements/sph/sphprep.F
+!||--- calls      -----------------------------------------------------
+!||    my_barrier      ../engine/source/system/machine.F
+!||    spmd_all_dmax   ../engine/source/mpi/elements/spmd_sph.F
+!||    spmd_barrier    ../engine/source/mpi/spmd_mod.F90
+!||    spmd_sphvox     ../engine/source/mpi/sph/spmd_sphvox.F
+!||    spmd_sphvox0    ../engine/source/mpi/elements/spmd_sph.F
+!||    startime        ../engine/source/system/timer_mod.F90
+!||    stoptime        ../engine/source/system/timer_mod.F90
+!||--- uses       -----------------------------------------------------
+!||    spmd_mod        ../engine/source/mpi/spmd_mod.F90
+!||    timer_mod       ../engine/source/system/timer_mod.F90
+!||    tri7box         ../engine/share/modules/tri7box.F
+!||====================================================================
       SUBROUTINE SPHTRI0(TIMERS, X   , SPBUF, KXSP, WSP2SORT,BMINMA , DMAX,
      2                 NSP2SORTF,NSP2SORTL,NMN,ITASK, DBUC)  
 C============================================================================

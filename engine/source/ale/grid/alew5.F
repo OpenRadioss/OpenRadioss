@@ -20,18 +20,18 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    alew5                  ../engine/source/ale/grid/alew5.F
-      !||--- called by ------------------------------------------------------
-      !||    alewdx                 ../engine/source/ale/grid/alewdx.F
-      !||--- calls      -----------------------------------------------------
-      !||    alewdx_grid_bcs        ../engine/source/ale/grid/alewdx_grid_bcs.F
-      !||    my_barrier             ../engine/source/system/machine.F
-      !||    spmd_xvois             ../engine/source/mpi/fluid/spmd_cfd.F
-      !||--- uses       -----------------------------------------------------
-      !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
-      !||    ale_mod                ../common_source/modules/ale/ale_mod.F
-      !||====================================================================
+!||====================================================================
+!||    alew5                  ../engine/source/ale/grid/alew5.F
+!||--- called by ------------------------------------------------------
+!||    alewdx                 ../engine/source/ale/grid/alewdx.F
+!||--- calls      -----------------------------------------------------
+!||    alewdx_grid_bcs        ../engine/source/ale/grid/alewdx_grid_bcs.F
+!||    my_barrier             ../engine/source/system/machine.F
+!||    spmd_xvois             ../engine/source/mpi/fluid/spmd_cfd.F
+!||--- uses       -----------------------------------------------------
+!||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
+!||    ale_mod                ../common_source/modules/ale/ale_mod.F
+!||====================================================================
       SUBROUTINE ALEW5( 
      1     X               ,V       ,W       , WA      ,
      2     ALE_NN_CONNECT  ,NALE    ,NODFT   , NODLT   ,

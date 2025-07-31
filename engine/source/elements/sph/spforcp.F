@@ -20,15 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    spforcp   ../engine/source/elements/sph/spforcp.F
-      !||--- called by ------------------------------------------------------
-      !||    forintp   ../engine/source/elements/forintp.F
-      !||--- calls      -----------------------------------------------------
-      !||    weight1   ../engine/source/elements/sph/weight.F
-      !||--- uses       -----------------------------------------------------
-      !||    sphbox    ../engine/share/modules/sphbox.F
-      !||====================================================================
+!||====================================================================
+!||    spforcp   ../engine/source/elements/sph/spforcp.F
+!||--- called by ------------------------------------------------------
+!||    forintp   ../engine/source/elements/forintp.F
+!||--- calls      -----------------------------------------------------
+!||    weight1   ../engine/source/elements/sph/weight.F
+!||--- uses       -----------------------------------------------------
+!||    sphbox    ../engine/share/modules/sphbox.F
+!||====================================================================
       SUBROUTINE SPFORCP(
      1    PM        ,GEO       ,X         ,V         ,MS        ,
      2    SPBUF     ,ITAB      ,PLD       ,BUFMAT    ,BUFGEO    ,

@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    sigeps46   ../engine/source/materials/mat/mat046/sigeps46.F
-      !||--- called by ------------------------------------------------------
-      !||    m46law     ../engine/source/materials/mat/mat046/m46law.F
-      !||--- uses       -----------------------------------------------------
-      !||    ale_mod    ../common_source/modules/ale/ale_mod.F
-      !||====================================================================
+!||====================================================================
+!||    sigeps46   ../engine/source/materials/mat/mat046/sigeps46.F
+!||--- called by ------------------------------------------------------
+!||    m46law     ../engine/source/materials/mat/mat046/m46law.F
+!||--- uses       -----------------------------------------------------
+!||    ale_mod    ../common_source/modules/ale/ale_mod.F
+!||====================================================================
       SUBROUTINE SIGEPS46 (
      1     NEL    ,NUPARAM,NUVAR   ,
      2     TIME   ,TIMESTEP,UPARAM  ,RHO0    ,RHO    ,

@@ -20,47 +20,47 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    c3init3                   ../starter/source/elements/sh3n/coque3n/c3init3.F
-      !||--- called by ------------------------------------------------------
-      !||    initia                    ../starter/source/elements/initia/initia.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg                    ../starter/source/output/message/message.F
-      !||    c1buf3                    ../starter/source/elements/shell/coque/c1buf3.F
-      !||    c3coori                   ../starter/source/elements/sh3n/coque3n/c3coori.F
-      !||    c3derii                   ../starter/source/elements/sh3n/coque3n/c3derii.F
-      !||    c3eps11_ini               ../starter/source/elements/sh3n/coque3n/c3init3.F
-      !||    c3epschk                  ../starter/source/elements/sh3n/coque3n/c3init3.F
-      !||    c3epsini                  ../starter/source/elements/sh3n/coque3n/c3epsini.F
-      !||    c3evec3                   ../starter/source/elements/sh3n/coque3n/c3evec3.F
-      !||    c3inmas                   ../starter/source/elements/sh3n/coque3n/c3inmas.F
-      !||    c3veok3                   ../starter/source/elements/sh3n/coque3n/c3veok3.F
-      !||    cbufxfe                   ../starter/source/elements/xfem/cbufxfe.F
-      !||    cdkevec3                  ../starter/source/elements/sh3n/coquedk/cdkevec3.F
-      !||    cfailini                  ../starter/source/elements/shell/coque/cfailini.F
-      !||    cm27in3                   ../starter/source/materials/mat/mat027/cm27in3.F
-      !||    cm35in3                   ../starter/source/materials/mat/mat035/cm35in3.F
-      !||    cm58in3                   ../starter/source/materials/mat/mat058/cm58in3.F
-      !||    cmatini                   ../starter/source/materials/mat_share/cmatini.F
-      !||    corth3                    ../starter/source/elements/shell/coque/corth3.F
-      !||    corthdir                  ../starter/source/elements/shell/coque/corthdir.F
-      !||    corthini                  ../starter/source/elements/shell/coque/corthini.F
-      !||    csigini                   ../starter/source/elements/shell/coque/csigini.F
-      !||    cuserini                  ../starter/source/elements/shell/coque/cuserini.F
-      !||    fail_windshield_init      ../starter/source/materials/fail/windshield_alter/fail_windshield_init.F
-      !||    fractal_dmg_init          ../starter/source/materials/fail/fractal/fractal_dmg_init.F90
-      !||    fretitl2                  ../starter/source/starter/freform.F
-      !||    initemp_shell             ../starter/source/materials/therm/initemp_shell.F90
-      !||    law158_init               ../starter/source/materials/mat/mat158/law158_init.F
-      !||    layini1                   ../starter/source/elements/shell/coqueba/layini1.F
-      !||    thickini                  ../starter/source/elements/shell/coqueba/thickini.F
-      !||--- uses       -----------------------------------------------------
-      !||    drape_mod                 ../starter/share/modules1/drape_mod.F
-      !||    fractal_dmg_init_mod      ../starter/source/materials/fail/fractal/fractal_dmg_init.F90
-      !||    initemp_shell_mod         ../starter/source/materials/therm/initemp_shell.F90
-      !||    message_mod               ../starter/share/message_module/message_mod.F
-      !||    stack_mod                 ../starter/share/modules1/stack_mod.F
-      !||====================================================================
+!||====================================================================
+!||    c3init3                   ../starter/source/elements/sh3n/coque3n/c3init3.F
+!||--- called by ------------------------------------------------------
+!||    initia                    ../starter/source/elements/initia/initia.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                    ../starter/source/output/message/message.F
+!||    c1buf3                    ../starter/source/elements/shell/coque/c1buf3.F
+!||    c3coori                   ../starter/source/elements/sh3n/coque3n/c3coori.F
+!||    c3derii                   ../starter/source/elements/sh3n/coque3n/c3derii.F
+!||    c3eps11_ini               ../starter/source/elements/sh3n/coque3n/c3init3.F
+!||    c3epschk                  ../starter/source/elements/sh3n/coque3n/c3init3.F
+!||    c3epsini                  ../starter/source/elements/sh3n/coque3n/c3epsini.F
+!||    c3evec3                   ../starter/source/elements/sh3n/coque3n/c3evec3.F
+!||    c3inmas                   ../starter/source/elements/sh3n/coque3n/c3inmas.F
+!||    c3veok3                   ../starter/source/elements/sh3n/coque3n/c3veok3.F
+!||    cbufxfe                   ../starter/source/elements/xfem/cbufxfe.F
+!||    cdkevec3                  ../starter/source/elements/sh3n/coquedk/cdkevec3.F
+!||    cfailini                  ../starter/source/elements/shell/coque/cfailini.F
+!||    cm27in3                   ../starter/source/materials/mat/mat027/cm27in3.F
+!||    cm35in3                   ../starter/source/materials/mat/mat035/cm35in3.F
+!||    cm58in3                   ../starter/source/materials/mat/mat058/cm58in3.F
+!||    cmatini                   ../starter/source/materials/mat_share/cmatini.F
+!||    corth3                    ../starter/source/elements/shell/coque/corth3.F
+!||    corthdir                  ../starter/source/elements/shell/coque/corthdir.F
+!||    corthini                  ../starter/source/elements/shell/coque/corthini.F
+!||    csigini                   ../starter/source/elements/shell/coque/csigini.F
+!||    cuserini                  ../starter/source/elements/shell/coque/cuserini.F
+!||    fail_windshield_init      ../starter/source/materials/fail/windshield_alter/fail_windshield_init.F
+!||    fractal_dmg_init          ../starter/source/materials/fail/fractal/fractal_dmg_init.F90
+!||    fretitl2                  ../starter/source/starter/freform.F
+!||    initemp_shell             ../starter/source/materials/therm/initemp_shell.F90
+!||    law158_init               ../starter/source/materials/mat/mat158/law158_init.F
+!||    layini1                   ../starter/source/elements/shell/coqueba/layini1.F
+!||    thickini                  ../starter/source/elements/shell/coqueba/thickini.F
+!||--- uses       -----------------------------------------------------
+!||    drape_mod                 ../starter/share/modules1/drape_mod.F
+!||    fractal_dmg_init_mod      ../starter/source/materials/fail/fractal/fractal_dmg_init.F90
+!||    initemp_shell_mod         ../starter/source/materials/therm/initemp_shell.F90
+!||    message_mod               ../starter/share/message_module/message_mod.F
+!||    stack_mod                 ../starter/share/modules1/stack_mod.F
+!||====================================================================
       SUBROUTINE C3INIT3(ELBUF_STR,
      1                   IXTG   ,PM     ,X      ,GEO     ,IGRSH4N ,
      2                   XMAS    ,IN     ,NVC    ,DTELEM ,IGRSH3N ,
@@ -656,16 +656,16 @@ C------------
       RETURN
       END
 C
-      !||====================================================================
-      !||    c3epschk      ../starter/source/elements/sh3n/coque3n/c3init3.F
-      !||--- called by ------------------------------------------------------
-      !||    c3init3       ../starter/source/elements/sh3n/coque3n/c3init3.F
-      !||    cdkinit3      ../starter/source/elements/sh3n/coquedk/cdkinit3.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg        ../starter/source/output/message/message.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod   ../starter/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    c3epschk      ../starter/source/elements/sh3n/coque3n/c3init3.F
+!||--- called by ------------------------------------------------------
+!||    c3init3       ../starter/source/elements/sh3n/coque3n/c3init3.F
+!||    cdkinit3      ../starter/source/elements/sh3n/coquedk/cdkinit3.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg        ../starter/source/output/message/message.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod   ../starter/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE C3EPSCHK(JFT,JLT,NFT,PM,GEO,IXTG,GSTR,THK,
      .            NEL,CPT_ELTENS)
       USE MESSAGE_MOD
@@ -719,11 +719,11 @@ C-------------------------------------------------------------
 c-----------
       RETURN
       END
-      !||====================================================================
-      !||    c3eps11_ini   ../starter/source/elements/sh3n/coque3n/c3init3.F
-      !||--- called by ------------------------------------------------------
-      !||    c3init3       ../starter/source/elements/sh3n/coque3n/c3init3.F
-      !||====================================================================
+!||====================================================================
+!||    c3eps11_ini   ../starter/source/elements/sh3n/coque3n/c3init3.F
+!||--- called by ------------------------------------------------------
+!||    c3init3       ../starter/source/elements/sh3n/coque3n/c3init3.F
+!||====================================================================
       SUBROUTINE C3EPS11_INI(
      1           JFT    ,JLT   ,IXTG  ,X      ,X2S     ,
      2           X3S    ,Y3S   )

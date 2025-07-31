@@ -20,12 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    s10nxt4    ../engine/source/elements/solid/solide10/s10nxt4.F
-      !||--- called by ------------------------------------------------------
-      !||    eloff      ../engine/source/elements/eloff.F
-      !||    s10forc3   ../engine/source/elements/solid/solide10/s10forc3.F
-      !||====================================================================
+!||====================================================================
+!||    s10nxt4    ../engine/source/elements/solid/solide10/s10nxt4.F
+!||--- called by ------------------------------------------------------
+!||    eloff      ../engine/source/elements/eloff.F
+!||    s10forc3   ../engine/source/elements/solid/solide10/s10forc3.F
+!||====================================================================
       SUBROUTINE S10NXT4(NX,NEL)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

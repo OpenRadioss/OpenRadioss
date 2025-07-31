@@ -20,17 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    spmd_i25_slide_exch   ../engine/source/mpi/interfaces/spmd_i25slide.F
-      !||--- called by ------------------------------------------------------
-      !||    i25main_slid          ../engine/source/interfaces/int25/i25main_slid.F
-      !||--- calls      -----------------------------------------------------
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod           ../engine/share/message_module/message_mod.F
-      !||    mpi_commod            ../engine/share/modules/mpi_comm_mod.F
-      !||    pointerdef            ../engine/share/modules/pointerdef_mod.F
-      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
-      !||====================================================================
+!||====================================================================
+!||    spmd_i25_slide_exch   ../engine/source/mpi/interfaces/spmd_i25slide.F
+!||--- called by ------------------------------------------------------
+!||    i25main_slid          ../engine/source/interfaces/int25/i25main_slid.F
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||    message_mod           ../engine/share/message_module/message_mod.F
+!||    mpi_commod            ../engine/share/modules/mpi_comm_mod.F
+!||    pointerdef            ../engine/share/modules/pointerdef_mod.F
+!||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
+!||====================================================================
       SUBROUTINE SPMD_I25_SLIDE_EXCH(IBUF    ,RBUF      ,ISIZ    ,RSIZ 
      .                              ,NB      ,COMM_INT, COMM_REAL, COMM_SIZ
      .                              ,MODE    ,NIN,      COMM_PATTERN)
@@ -226,24 +226,24 @@ C          ENDIF
 
 
 C   
-      !||====================================================================
-      !||    spmd_i25_slide_gat    ../engine/source/mpi/interfaces/spmd_i25slide.F
-      !||--- called by ------------------------------------------------------
-      !||    i25main_slid          ../engine/source/interfaces/int25/i25main_slid.F
-      !||--- calls      -----------------------------------------------------
-      !||    deallocate_fi1_tmp    ../engine/source/mpi/interfaces/spmd_i25slide.F
-      !||    my_orders             ../common_source/tools/sort/my_orders.c
-      !||    reallocate_fi1        ../engine/source/mpi/interfaces/spmd_i25slide.F
-      !||    reallocate_fi2        ../engine/source/mpi/interfaces/spmd_i25slide.F
-      !||--- uses       -----------------------------------------------------
-      !||    h3d_mod               ../engine/share/modules/h3d_mod.F
-      !||    ifront_mod            ../engine/share/modules/ifront_mod.F
-      !||    intbufdef_mod         ../common_source/modules/interfaces/intbufdef_mod.F90
-      !||    message_mod           ../engine/share/message_module/message_mod.F
-      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
-      !||    tri25tmp              ../engine/share/modules/tri25tmp_mod.F
-      !||    tri7box               ../engine/share/modules/tri7box.F
-      !||====================================================================
+!||====================================================================
+!||    spmd_i25_slide_gat    ../engine/source/mpi/interfaces/spmd_i25slide.F
+!||--- called by ------------------------------------------------------
+!||    i25main_slid          ../engine/source/interfaces/int25/i25main_slid.F
+!||--- calls      -----------------------------------------------------
+!||    deallocate_fi1_tmp    ../engine/source/mpi/interfaces/spmd_i25slide.F
+!||    my_orders             ../common_source/tools/sort/my_orders.c
+!||    reallocate_fi1        ../engine/source/mpi/interfaces/spmd_i25slide.F
+!||    reallocate_fi2        ../engine/source/mpi/interfaces/spmd_i25slide.F
+!||--- uses       -----------------------------------------------------
+!||    h3d_mod               ../engine/share/modules/h3d_mod.F
+!||    ifront_mod            ../engine/share/modules/ifront_mod.F
+!||    intbufdef_mod         ../common_source/modules/interfaces/intbufdef_mod.F90
+!||    message_mod           ../engine/share/message_module/message_mod.F
+!||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
+!||    tri25tmp              ../engine/share/modules/tri25tmp_mod.F
+!||    tri7box               ../engine/share/modules/tri7box.F
+!||====================================================================
       SUBROUTINE SPMD_I25_SLIDE_GAT(NSN  ,NIN, NI25,
      2                             IGAP  ,NSNR   ,INTTH   ,ILEV,INTBUF_TAB,
      3                             FR_NOR, IAD_FRNOR, NB_SLID   ,ITAB, H3D_DATA,
@@ -1133,16 +1133,16 @@ C
       RETURN
       END
 
-      !||====================================================================
-      !||    reallocate_fi1        ../engine/source/mpi/interfaces/spmd_i25slide.F
-      !||--- called by ------------------------------------------------------
-      !||    spmd_i25_slide_gat    ../engine/source/mpi/interfaces/spmd_i25slide.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod           ../engine/share/message_module/message_mod.F
-      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
-      !||    tri25tmp              ../engine/share/modules/tri25tmp_mod.F
-      !||    tri7box               ../engine/share/modules/tri7box.F
-      !||====================================================================
+!||====================================================================
+!||    reallocate_fi1        ../engine/source/mpi/interfaces/spmd_i25slide.F
+!||--- called by ------------------------------------------------------
+!||    spmd_i25_slide_gat    ../engine/source/mpi/interfaces/spmd_i25slide.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod           ../engine/share/message_module/message_mod.F
+!||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
+!||    tri25tmp              ../engine/share/modules/tri25tmp_mod.F
+!||    tri7box               ../engine/share/modules/tri7box.F
+!||====================================================================
       SUBROUTINE REALLOCATE_FI1(NEW_SIZE,TMP,NIN,INTTH,IGAP,ILEV,INTFRIC,
      .                          FLAGREMN,IVIS2,ISTIF_MSDT,IFSUB_CAREA)
 C-----------------------------------------------
@@ -1314,16 +1314,16 @@ C
 
       RETURN
       END SUBROUTINE    
-      !||====================================================================
-      !||    deallocate_fi1_tmp    ../engine/source/mpi/interfaces/spmd_i25slide.F
-      !||--- called by ------------------------------------------------------
-      !||    spmd_i25_slide_gat    ../engine/source/mpi/interfaces/spmd_i25slide.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod           ../engine/share/message_module/message_mod.F
-      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
-      !||    tri25tmp              ../engine/share/modules/tri25tmp_mod.F
-      !||    tri7box               ../engine/share/modules/tri7box.F
-      !||====================================================================
+!||====================================================================
+!||    deallocate_fi1_tmp    ../engine/source/mpi/interfaces/spmd_i25slide.F
+!||--- called by ------------------------------------------------------
+!||    spmd_i25_slide_gat    ../engine/source/mpi/interfaces/spmd_i25slide.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod           ../engine/share/message_module/message_mod.F
+!||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
+!||    tri25tmp              ../engine/share/modules/tri25tmp_mod.F
+!||    tri7box               ../engine/share/modules/tri7box.F
+!||====================================================================
       SUBROUTINE DEALLOCATE_FI1_TMP(NEW_SIZE,TMP,NIN,INTTH,IGAP,ILEV,INTFRIC,
      .                          FLAGREMN,IVIS2,ISTIF_MSDT,IFSUB_CAREA)
 C-----------------------------------------------
@@ -1420,19 +1420,19 @@ C
       END SUBROUTINE    
 
 
-      !||====================================================================
-      !||    reallocate_fi2        ../engine/source/mpi/interfaces/spmd_i25slide.F
-      !||--- called by ------------------------------------------------------
-      !||    spmd_i25_slide_gat    ../engine/source/mpi/interfaces/spmd_i25slide.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg                ../engine/source/output/message/message.F
-      !||    arret                 ../engine/source/system/arret.F
-      !||--- uses       -----------------------------------------------------
-      !||    h3d_mod               ../engine/share/modules/h3d_mod.F
-      !||    message_mod           ../engine/share/message_module/message_mod.F
-      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
-      !||    tri7box               ../engine/share/modules/tri7box.F
-      !||====================================================================
+!||====================================================================
+!||    reallocate_fi2        ../engine/source/mpi/interfaces/spmd_i25slide.F
+!||--- called by ------------------------------------------------------
+!||    spmd_i25_slide_gat    ../engine/source/mpi/interfaces/spmd_i25slide.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                ../engine/source/output/message/message.F
+!||    arret                 ../engine/source/system/arret.F
+!||--- uses       -----------------------------------------------------
+!||    h3d_mod               ../engine/share/modules/h3d_mod.F
+!||    message_mod           ../engine/share/message_module/message_mod.F
+!||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
+!||    tri7box               ../engine/share/modules/tri7box.F
+!||====================================================================
       SUBROUTINE REALLOCATE_FI2(NIN, INTTH, NODFI, LSKYFI,H3D_DATA,NODADT_THERM) 
 C
 C                               
@@ -1653,14 +1653,14 @@ C
       RETURN
       END SUBROUTINE
 
-      !||====================================================================
-      !||    check_fi              ../engine/source/mpi/interfaces/spmd_i25slide.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod           ../engine/share/message_module/message_mod.F
-      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
-      !||    tri25tmp              ../engine/share/modules/tri25tmp_mod.F
-      !||    tri7box               ../engine/share/modules/tri7box.F
-      !||====================================================================
+!||====================================================================
+!||    check_fi              ../engine/source/mpi/interfaces/spmd_i25slide.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod           ../engine/share/message_module/message_mod.F
+!||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
+!||    tri25tmp              ../engine/share/modules/tri25tmp_mod.F
+!||    tri7box               ../engine/share/modules/tri7box.F
+!||====================================================================
       SUBROUTINE CHECK_FI()
 C use for debug only
 C

@@ -20,17 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    find_surface_from_remote_proc   ../engine/source/interfaces/interf/find_surface_from_remote_proc.F
-      !||--- called by ------------------------------------------------------
-      !||    spmd_exch_deleted_surf_edge     ../engine/source/mpi/interfaces/spmd_exch_deleted_surf_edge.F
-      !||--- calls      -----------------------------------------------------
-      !||    check_surface_state             ../engine/source/interfaces/interf/check_surface_state.F
-      !||--- uses       -----------------------------------------------------
-      !||    intbufdef_mod                   ../common_source/modules/interfaces/intbufdef_mod.F90
-      !||    nodal_arrays_mod                ../common_source/modules/nodal_arrays.F90
-      !||    shooting_node_mod               ../engine/share/modules/shooting_node_mod.F
-      !||====================================================================
+!||====================================================================
+!||    find_surface_from_remote_proc   ../engine/source/interfaces/interf/find_surface_from_remote_proc.F
+!||--- called by ------------------------------------------------------
+!||    spmd_exch_deleted_surf_edge     ../engine/source/mpi/interfaces/spmd_exch_deleted_surf_edge.F
+!||--- calls      -----------------------------------------------------
+!||    check_surface_state             ../engine/source/interfaces/interf/check_surface_state.F
+!||--- uses       -----------------------------------------------------
+!||    intbufdef_mod                   ../common_source/modules/interfaces/intbufdef_mod.F90
+!||    nodal_arrays_mod                ../common_source/modules/nodal_arrays.F90
+!||    shooting_node_mod               ../engine/share/modules/shooting_node_mod.F
+!||====================================================================
         SUBROUTINE FIND_SURFACE_FROM_REMOTE_PROC(SHOOT_STRUCT,NB_SURFACE,LIST_NODE,INTBUF_TAB,NODES,
      .                                           IPARI,GEO,
      .                                           IXS,IXC,IXT,IXP,IXR,IXTG,IXS10,

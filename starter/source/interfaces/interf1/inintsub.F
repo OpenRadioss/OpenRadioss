@@ -20,19 +20,19 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    inintsub               ../starter/source/interfaces/interf1/inintsub.F
-      !||--- called by ------------------------------------------------------
-      !||    lectur                 ../starter/source/starter/lectur.F
-      !||--- calls      -----------------------------------------------------
-      !||    bitset                 ../starter/source/interfaces/inter3d1/bitget.F
-      !||    fretitl2               ../starter/source/starter/freform.F
-      !||    inintsub_11            ../starter/source/output/subinterface/inintsub_11.F
-      !||    inintsub_25            ../starter/source/output/subinterface/inintsub_25.F
-      !||    inintsub_7             ../starter/source/output/subinterface/inintsub_7.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod            ../starter/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    inintsub               ../starter/source/interfaces/interf1/inintsub.F
+!||--- called by ------------------------------------------------------
+!||    lectur                 ../starter/source/starter/lectur.F
+!||--- calls      -----------------------------------------------------
+!||    bitset                 ../starter/source/interfaces/inter3d1/bitget.F
+!||    fretitl2               ../starter/source/starter/freform.F
+!||    inintsub_11            ../starter/source/output/subinterface/inintsub_11.F
+!||    inintsub_25            ../starter/source/output/subinterface/inintsub_25.F
+!||    inintsub_7             ../starter/source/output/subinterface/inintsub_7.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod            ../starter/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE ININTSUB(ITAB      ,IGRNOD ,IGRSURF ,
      .                    IPARI     ,MAXRTM ,NOM_OPT ,
      .                    INTBUF_TAB,MAXRTMS,IGRSLIN ,

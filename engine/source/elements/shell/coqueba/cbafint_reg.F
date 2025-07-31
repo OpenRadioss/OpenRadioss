@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    cbafint_reg      ../engine/source/elements/shell/coqueba/cbafint_reg.F
-      !||--- called by ------------------------------------------------------
-      !||    cbaforc3         ../engine/source/elements/shell/coqueba/cbaforc3.F
-      !||--- uses       -----------------------------------------------------
-      !||    elbufdef_mod     ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||    nlocal_reg_mod   ../common_source/modules/nlocal_reg_mod.F
-      !||====================================================================
+!||====================================================================
+!||    cbafint_reg      ../engine/source/elements/shell/coqueba/cbafint_reg.F
+!||--- called by ------------------------------------------------------
+!||    cbaforc3         ../engine/source/elements/shell/coqueba/cbaforc3.F
+!||--- uses       -----------------------------------------------------
+!||    elbufdef_mod     ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    nlocal_reg_mod   ../common_source/modules/nlocal_reg_mod.F
+!||====================================================================
       SUBROUTINE CBAFINT_REG(
      1   NLOC_DMG,VAR_REG, THK,     NEL,
      2   OFF,     AREA,    NC1,     NC2,

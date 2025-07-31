@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    tkeg3        ../engine/source/elements/truss/tkeg3.F
-      !||--- called by ------------------------------------------------------
-      !||    r4ke3        ../engine/source/elements/spring/r4ke3.F
-      !||    ruser32ke3   ../engine/source/elements/spring/ruser32ke3.F
-      !||    tke3         ../engine/source/elements/truss/tke3.F
-      !||====================================================================
+!||====================================================================
+!||    tkeg3        ../engine/source/elements/truss/tkeg3.F
+!||--- called by ------------------------------------------------------
+!||    r4ke3        ../engine/source/elements/spring/r4ke3.F
+!||    ruser32ke3   ../engine/source/elements/spring/ruser32ke3.F
+!||    tke3         ../engine/source/elements/truss/tke3.F
+!||====================================================================
           SUBROUTINE TKEG3(JFT     ,JLT     ,
      1                   FX      ,AL      ,KE11    ,KE12    ,KE22   )
 C-----------------------------------------------

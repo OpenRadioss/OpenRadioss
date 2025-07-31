@@ -22,15 +22,15 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 
 C
-      !||====================================================================
-      !||    spmd_collectt         ../engine/source/mpi/output/spmd_collectt.F
-      !||--- called by ------------------------------------------------------
-      !||    resol                 ../engine/source/engine/resol.F
-      !||--- calls      -----------------------------------------------------
-      !||--- uses       -----------------------------------------------------
-      !||    inoutfile_mod         ../common_source/modules/inoutfile_mod.F
-      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
-      !||====================================================================
+!||====================================================================
+!||    spmd_collectt         ../engine/source/mpi/output/spmd_collectt.F
+!||--- called by ------------------------------------------------------
+!||    resol                 ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||    inoutfile_mod         ../common_source/modules/inoutfile_mod.F
+!||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
+!||====================================================================
       SUBROUTINE SPMD_COLLECTT(TEMP, ITAB, WEIGHT,NODGLOB,SIZP0)
       USE INOUTFILE_MOD
 C-----------------------------------------------

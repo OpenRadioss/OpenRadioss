@@ -20,66 +20,66 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    create_h3d_output_per_part_mod   ../engine/source/output/h3d/h3d_build_fortran/create_h3d_output_per_part.F90
-      !||--- called by ------------------------------------------------------
-      !||    create_h3d_1d_scalar             ../engine/source/output/h3d/h3d_build_fortran/create_h3d_1d_scalar.F
-      !||    create_h3d_1d_tensor             ../engine/source/output/h3d/h3d_build_fortran/create_h3d_1d_tensor.F
-      !||    create_h3d_1d_torsor             ../engine/source/output/h3d/h3d_build_fortran/create_h3d_1d_torsor.F
-      !||    create_h3d_1d_vector             ../engine/source/output/h3d/h3d_build_fortran/create_h3d_1d_vector.F
-      !||    create_h3d_nodal_scalar          ../engine/source/output/h3d/h3d_build_fortran/create_h3d_nodal_scalar.F
-      !||    create_h3d_nodal_tensor          ../engine/source/output/h3d/h3d_build_fortran/create_h3d_nodal_tensor.F
-      !||    create_h3d_nodal_vector          ../engine/source/output/h3d/h3d_build_fortran/create_h3d_nodal_vector.F
-      !||    create_h3d_quad_scalar           ../engine/source/output/h3d/h3d_build_fortran/create_h3d_quad_scalar.F
-      !||    create_h3d_quad_tensor           ../engine/source/output/h3d/h3d_build_fortran/create_h3d_quad_tensor.F
-      !||    create_h3d_quad_vector           ../engine/source/output/h3d/h3d_build_fortran/create_h3d_quad_vector.F
-      !||    create_h3d_shell_scalar          ../engine/source/output/h3d/h3d_build_fortran/create_h3d_shell_scalar.F
-      !||    create_h3d_shell_tensor          ../engine/source/output/h3d/h3d_build_fortran/create_h3d_shell_tensor.F
-      !||    create_h3d_shell_vector          ../engine/source/output/h3d/h3d_build_fortran/create_h3d_shell_vector.F
-      !||    create_h3d_skin_scalar           ../engine/source/output/h3d/h3d_build_fortran/create_h3d_skin_scalar.F
-      !||    create_h3d_skin_tensor           ../engine/source/output/h3d/h3d_build_fortran/create_h3d_skin_tensor.F
-      !||    create_h3d_skin_vector           ../engine/source/output/h3d/h3d_build_fortran/create_h3d_skin_vector.F
-      !||    create_h3d_solid_scalar          ../engine/source/output/h3d/h3d_build_fortran/create_h3d_solid_scalar.F
-      !||    create_h3d_solid_tensor          ../engine/source/output/h3d/h3d_build_fortran/create_h3d_solid_tensor.F
-      !||    create_h3d_solid_vector          ../engine/source/output/h3d/h3d_build_fortran/create_h3d_solid_vector.F
-      !||    create_h3d_sph_scalar            ../engine/source/output/h3d/h3d_build_fortran/create_h3d_sph_scalar.F
-      !||    create_h3d_sph_tensor            ../engine/source/output/h3d/h3d_build_fortran/create_h3d_sph_tensor.F
-      !||====================================================================
+!||====================================================================
+!||    create_h3d_output_per_part_mod   ../engine/source/output/h3d/h3d_build_fortran/create_h3d_output_per_part.F90
+!||--- called by ------------------------------------------------------
+!||    create_h3d_1d_scalar             ../engine/source/output/h3d/h3d_build_fortran/create_h3d_1d_scalar.F
+!||    create_h3d_1d_tensor             ../engine/source/output/h3d/h3d_build_fortran/create_h3d_1d_tensor.F
+!||    create_h3d_1d_torsor             ../engine/source/output/h3d/h3d_build_fortran/create_h3d_1d_torsor.F
+!||    create_h3d_1d_vector             ../engine/source/output/h3d/h3d_build_fortran/create_h3d_1d_vector.F
+!||    create_h3d_nodal_scalar          ../engine/source/output/h3d/h3d_build_fortran/create_h3d_nodal_scalar.F
+!||    create_h3d_nodal_tensor          ../engine/source/output/h3d/h3d_build_fortran/create_h3d_nodal_tensor.F
+!||    create_h3d_nodal_vector          ../engine/source/output/h3d/h3d_build_fortran/create_h3d_nodal_vector.F
+!||    create_h3d_quad_scalar           ../engine/source/output/h3d/h3d_build_fortran/create_h3d_quad_scalar.F
+!||    create_h3d_quad_tensor           ../engine/source/output/h3d/h3d_build_fortran/create_h3d_quad_tensor.F
+!||    create_h3d_quad_vector           ../engine/source/output/h3d/h3d_build_fortran/create_h3d_quad_vector.F
+!||    create_h3d_shell_scalar          ../engine/source/output/h3d/h3d_build_fortran/create_h3d_shell_scalar.F
+!||    create_h3d_shell_tensor          ../engine/source/output/h3d/h3d_build_fortran/create_h3d_shell_tensor.F
+!||    create_h3d_shell_vector          ../engine/source/output/h3d/h3d_build_fortran/create_h3d_shell_vector.F
+!||    create_h3d_skin_scalar           ../engine/source/output/h3d/h3d_build_fortran/create_h3d_skin_scalar.F
+!||    create_h3d_skin_tensor           ../engine/source/output/h3d/h3d_build_fortran/create_h3d_skin_tensor.F
+!||    create_h3d_skin_vector           ../engine/source/output/h3d/h3d_build_fortran/create_h3d_skin_vector.F
+!||    create_h3d_solid_scalar          ../engine/source/output/h3d/h3d_build_fortran/create_h3d_solid_scalar.F
+!||    create_h3d_solid_tensor          ../engine/source/output/h3d/h3d_build_fortran/create_h3d_solid_tensor.F
+!||    create_h3d_solid_vector          ../engine/source/output/h3d/h3d_build_fortran/create_h3d_solid_vector.F
+!||    create_h3d_sph_scalar            ../engine/source/output/h3d/h3d_build_fortran/create_h3d_sph_scalar.F
+!||    create_h3d_sph_tensor            ../engine/source/output/h3d/h3d_build_fortran/create_h3d_sph_tensor.F
+!||====================================================================
       module create_h3d_output_per_part_mod
       contains
 ! ======================================================================================================================
 ! \brief creation of h3d output per part or set of parts
 ! \details creation of h3d output per part or set of parts
 ! ======================================================================================================================
-      !||====================================================================
-      !||    create_h3d_output_per_part   ../engine/source/output/h3d/h3d_build_fortran/create_h3d_output_per_part.F90
-      !||--- called by ------------------------------------------------------
-      !||    create_h3d_1d_scalar         ../engine/source/output/h3d/h3d_build_fortran/create_h3d_1d_scalar.F
-      !||    create_h3d_1d_tensor         ../engine/source/output/h3d/h3d_build_fortran/create_h3d_1d_tensor.F
-      !||    create_h3d_1d_torsor         ../engine/source/output/h3d/h3d_build_fortran/create_h3d_1d_torsor.F
-      !||    create_h3d_1d_vector         ../engine/source/output/h3d/h3d_build_fortran/create_h3d_1d_vector.F
-      !||    create_h3d_nodal_scalar      ../engine/source/output/h3d/h3d_build_fortran/create_h3d_nodal_scalar.F
-      !||    create_h3d_nodal_tensor      ../engine/source/output/h3d/h3d_build_fortran/create_h3d_nodal_tensor.F
-      !||    create_h3d_nodal_vector      ../engine/source/output/h3d/h3d_build_fortran/create_h3d_nodal_vector.F
-      !||    create_h3d_quad_scalar       ../engine/source/output/h3d/h3d_build_fortran/create_h3d_quad_scalar.F
-      !||    create_h3d_quad_tensor       ../engine/source/output/h3d/h3d_build_fortran/create_h3d_quad_tensor.F
-      !||    create_h3d_quad_vector       ../engine/source/output/h3d/h3d_build_fortran/create_h3d_quad_vector.F
-      !||    create_h3d_shell_scalar      ../engine/source/output/h3d/h3d_build_fortran/create_h3d_shell_scalar.F
-      !||    create_h3d_shell_tensor      ../engine/source/output/h3d/h3d_build_fortran/create_h3d_shell_tensor.F
-      !||    create_h3d_shell_vector      ../engine/source/output/h3d/h3d_build_fortran/create_h3d_shell_vector.F
-      !||    create_h3d_skin_scalar       ../engine/source/output/h3d/h3d_build_fortran/create_h3d_skin_scalar.F
-      !||    create_h3d_skin_tensor       ../engine/source/output/h3d/h3d_build_fortran/create_h3d_skin_tensor.F
-      !||    create_h3d_skin_vector       ../engine/source/output/h3d/h3d_build_fortran/create_h3d_skin_vector.F
-      !||    create_h3d_solid_scalar      ../engine/source/output/h3d/h3d_build_fortran/create_h3d_solid_scalar.F
-      !||    create_h3d_solid_tensor      ../engine/source/output/h3d/h3d_build_fortran/create_h3d_solid_tensor.F
-      !||    create_h3d_solid_vector      ../engine/source/output/h3d/h3d_build_fortran/create_h3d_solid_vector.F
-      !||    create_h3d_sph_scalar        ../engine/source/output/h3d/h3d_build_fortran/create_h3d_sph_scalar.F
-      !||    create_h3d_sph_tensor        ../engine/source/output/h3d/h3d_build_fortran/create_h3d_sph_tensor.F
-      !||--- uses       -----------------------------------------------------
-      !||    groupdef_mod                 ../common_source/modules/groupdef_mod.F
-      !||    h3d_mod                      ../engine/share/modules/h3d_mod.F
-      !||    names_and_titles_mod         ../common_source/modules/names_and_titles_mod.F
-      !||====================================================================
+!||====================================================================
+!||    create_h3d_output_per_part   ../engine/source/output/h3d/h3d_build_fortran/create_h3d_output_per_part.F90
+!||--- called by ------------------------------------------------------
+!||    create_h3d_1d_scalar         ../engine/source/output/h3d/h3d_build_fortran/create_h3d_1d_scalar.F
+!||    create_h3d_1d_tensor         ../engine/source/output/h3d/h3d_build_fortran/create_h3d_1d_tensor.F
+!||    create_h3d_1d_torsor         ../engine/source/output/h3d/h3d_build_fortran/create_h3d_1d_torsor.F
+!||    create_h3d_1d_vector         ../engine/source/output/h3d/h3d_build_fortran/create_h3d_1d_vector.F
+!||    create_h3d_nodal_scalar      ../engine/source/output/h3d/h3d_build_fortran/create_h3d_nodal_scalar.F
+!||    create_h3d_nodal_tensor      ../engine/source/output/h3d/h3d_build_fortran/create_h3d_nodal_tensor.F
+!||    create_h3d_nodal_vector      ../engine/source/output/h3d/h3d_build_fortran/create_h3d_nodal_vector.F
+!||    create_h3d_quad_scalar       ../engine/source/output/h3d/h3d_build_fortran/create_h3d_quad_scalar.F
+!||    create_h3d_quad_tensor       ../engine/source/output/h3d/h3d_build_fortran/create_h3d_quad_tensor.F
+!||    create_h3d_quad_vector       ../engine/source/output/h3d/h3d_build_fortran/create_h3d_quad_vector.F
+!||    create_h3d_shell_scalar      ../engine/source/output/h3d/h3d_build_fortran/create_h3d_shell_scalar.F
+!||    create_h3d_shell_tensor      ../engine/source/output/h3d/h3d_build_fortran/create_h3d_shell_tensor.F
+!||    create_h3d_shell_vector      ../engine/source/output/h3d/h3d_build_fortran/create_h3d_shell_vector.F
+!||    create_h3d_skin_scalar       ../engine/source/output/h3d/h3d_build_fortran/create_h3d_skin_scalar.F
+!||    create_h3d_skin_tensor       ../engine/source/output/h3d/h3d_build_fortran/create_h3d_skin_tensor.F
+!||    create_h3d_skin_vector       ../engine/source/output/h3d/h3d_build_fortran/create_h3d_skin_vector.F
+!||    create_h3d_solid_scalar      ../engine/source/output/h3d/h3d_build_fortran/create_h3d_solid_scalar.F
+!||    create_h3d_solid_tensor      ../engine/source/output/h3d/h3d_build_fortran/create_h3d_solid_tensor.F
+!||    create_h3d_solid_vector      ../engine/source/output/h3d/h3d_build_fortran/create_h3d_solid_vector.F
+!||    create_h3d_sph_scalar        ../engine/source/output/h3d/h3d_build_fortran/create_h3d_sph_scalar.F
+!||    create_h3d_sph_tensor        ../engine/source/output/h3d/h3d_build_fortran/create_h3d_sph_tensor.F
+!||--- uses       -----------------------------------------------------
+!||    groupdef_mod                 ../common_source/modules/groupdef_mod.F
+!||    h3d_mod                      ../engine/share/modules/h3d_mod.F
+!||    names_and_titles_mod         ../common_source/modules/names_and_titles_mod.F
+!||====================================================================
       subroutine create_h3d_output_per_part(                                      &         
                  n_h3d_part,h3d_data,id_input,lipart1,npart,ipart,ngrpart,igrpart)
  !-----------------------------------------------

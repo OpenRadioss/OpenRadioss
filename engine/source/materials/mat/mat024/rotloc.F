@@ -20,11 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    rotloc   ../engine/source/materials/mat/mat024/rotloc.F
-      !||--- called by ------------------------------------------------------
-      !||    conc24   ../engine/source/materials/mat/mat024/conc24.F
-      !||====================================================================
+!||====================================================================
+!||    rotloc   ../engine/source/materials/mat/mat024/rotloc.F
+!||--- called by ------------------------------------------------------
+!||    conc24   ../engine/source/materials/mat/mat024/conc24.F
+!||====================================================================
       SUBROUTINE ROTLOC(
      1   NEL,     GAMA,    RX,      RY,
      2   RZ,      SX,      SY,      SZ,

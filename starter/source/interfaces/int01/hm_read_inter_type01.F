@@ -20,17 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    hm_read_inter_type01   ../starter/source/interfaces/int01/hm_read_inter_type01.F
-      !||--- called by ------------------------------------------------------
-      !||    hm_read_inter_fsi      ../starter/source/interfaces/reader/hm_read_inter_fsi.F
-      !||--- calls      -----------------------------------------------------
-      !||    hm_get_intv            ../starter/source/devtools/hm_reader/hm_get_intv.F
-      !||    ngr2usr                ../starter/source/system/nintrr.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod            ../starter/share/message_module/message_mod.F
-      !||    submodel_mod           ../starter/share/modules1/submodel_mod.F
-      !||====================================================================
+!||====================================================================
+!||    hm_read_inter_type01   ../starter/source/interfaces/int01/hm_read_inter_type01.F
+!||--- called by ------------------------------------------------------
+!||    hm_read_inter_fsi      ../starter/source/interfaces/reader/hm_read_inter_fsi.F
+!||--- calls      -----------------------------------------------------
+!||    hm_get_intv            ../starter/source/devtools/hm_reader/hm_get_intv.F
+!||    ngr2usr                ../starter/source/system/nintrr.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod            ../starter/share/message_module/message_mod.F
+!||    submodel_mod           ../starter/share/modules1/submodel_mod.F
+!||====================================================================
       SUBROUTINE HM_READ_INTER_TYPE01(IPARI, STFAC, FRIGAP, IGRSURF, LSUBMODEL, NSURF, NOINT, NPARI, NPARIR)
 C-----------------------------------------------
 C   D e s c r i p t i o n

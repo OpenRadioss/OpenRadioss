@@ -20,19 +20,19 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    lec_inistate           ../starter/source/elements/initia/lec_inistate.F
-      !||--- called by ------------------------------------------------------
-      !||    lectur                 ../starter/source/starter/lectur.F
-      !||--- calls      -----------------------------------------------------
-      !||    hm_read_inistate_d00   ../starter/source/elements/initia/hm_read_inistate_d00.F
-      !||    lec_inistate_tri       ../starter/source/elements/initia/lec_inistate_tri.F
-      !||    lec_inistate_yfile     ../starter/source/initial_conditions/inista/lec_inistate_yfile.F
-      !||--- uses       -----------------------------------------------------
-      !||    mapping_option_mod     ../starter/share/modules1/dichotomy_mod.F
-      !||    stack_mod              ../starter/share/modules1/stack_mod.F
-      !||    submodel_mod           ../starter/share/modules1/submodel_mod.F
-      !||====================================================================
+!||====================================================================
+!||    lec_inistate           ../starter/source/elements/initia/lec_inistate.F
+!||--- called by ------------------------------------------------------
+!||    lectur                 ../starter/source/starter/lectur.F
+!||--- calls      -----------------------------------------------------
+!||    hm_read_inistate_d00   ../starter/source/elements/initia/hm_read_inistate_d00.F
+!||    lec_inistate_tri       ../starter/source/elements/initia/lec_inistate_tri.F
+!||    lec_inistate_yfile     ../starter/source/initial_conditions/inista/lec_inistate_yfile.F
+!||--- uses       -----------------------------------------------------
+!||    mapping_option_mod     ../starter/share/modules1/dichotomy_mod.F
+!||    stack_mod              ../starter/share/modules1/stack_mod.F
+!||    submodel_mod           ../starter/share/modules1/submodel_mod.F
+!||====================================================================
       SUBROUTINE LEC_INISTATE(      IXS          ,IXQ          ,IXC          ,IXT     ,
      1                  IXP        ,IXR          ,GEO          ,PM           ,KXSP    ,
      2                  IXTG       ,INDEX        ,ITRI         ,

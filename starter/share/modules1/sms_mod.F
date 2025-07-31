@@ -20,12 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    sms_mod          ../starter/share/modules1/sms_mod.F
-      !||--- called by ------------------------------------------------------
-      !||    lectur           ../starter/source/starter/lectur.F
-      !||    nod_sms_dt_sol   ../starter/source/ams/sms_auto_dt.F
-      !||====================================================================
+!||====================================================================
+!||    sms_mod          ../starter/share/modules1/sms_mod.F
+!||--- called by ------------------------------------------------------
+!||    lectur           ../starter/source/starter/lectur.F
+!||    nod_sms_dt_sol   ../starter/source/ams/sms_auto_dt.F
+!||====================================================================
       MODULE SMS_MOD
 C-----------------------------------------------
 C   m y _ r e a l

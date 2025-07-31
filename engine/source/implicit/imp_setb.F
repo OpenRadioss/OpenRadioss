@@ -20,22 +20,22 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    imp_setb      ../engine/source/implicit/imp_setb.F
-      !||--- called by ------------------------------------------------------
-      !||    d_to_u        ../engine/source/implicit/produt_v.F
-      !||    imp_chkm      ../engine/source/implicit/imp_solv.F
-      !||    imp_dykv      ../engine/source/implicit/imp_dyna.F
-      !||    imp_dykv0     ../engine/source/implicit/imp_dyna.F
-      !||    imp_solv      ../engine/source/implicit/imp_solv.F
-      !||    produt_u      ../engine/source/implicit/produt_v.F
-      !||    produt_u2     ../engine/source/implicit/produt_v.F
-      !||    produt_uh     ../engine/source/implicit/produt_v.F
-      !||    produt_uh2    ../engine/source/implicit/produt_v.F
-      !||    produt_uhp    ../engine/source/implicit/produt_v.F
-      !||    produt_uhp2   ../engine/source/implicit/produt_v.F
-      !||    upd_rhs       ../engine/source/implicit/upd_glob_k.F
-      !||====================================================================
+!||====================================================================
+!||    imp_setb      ../engine/source/implicit/imp_setb.F
+!||--- called by ------------------------------------------------------
+!||    d_to_u        ../engine/source/implicit/produt_v.F
+!||    imp_chkm      ../engine/source/implicit/imp_solv.F
+!||    imp_dykv      ../engine/source/implicit/imp_dyna.F
+!||    imp_dykv0     ../engine/source/implicit/imp_dyna.F
+!||    imp_solv      ../engine/source/implicit/imp_solv.F
+!||    produt_u      ../engine/source/implicit/produt_v.F
+!||    produt_u2     ../engine/source/implicit/produt_v.F
+!||    produt_uh     ../engine/source/implicit/produt_v.F
+!||    produt_uh2    ../engine/source/implicit/produt_v.F
+!||    produt_uhp    ../engine/source/implicit/produt_v.F
+!||    produt_uhp2   ../engine/source/implicit/produt_v.F
+!||    upd_rhs       ../engine/source/implicit/upd_glob_k.F
+!||====================================================================
       SUBROUTINE IMP_SETB(F     ,M      ,IDDL   ,NDOF  ,B  )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -72,14 +72,14 @@ C------------------------------------------
 C--------------------------------------------
       RETURN
       END
-      !||====================================================================
-      !||    imp_setbp   ../engine/source/implicit/imp_setb.F
-      !||--- called by ------------------------------------------------------
-      !||    ext_rhs     ../engine/source/implicit/upd_glob_k.F
-      !||    get_fext    ../engine/source/implicit/imp_solv.F
-      !||    rer02       ../engine/source/implicit/upd_glob_k.F
-      !||    upd_rhs     ../engine/source/implicit/upd_glob_k.F
-      !||====================================================================
+!||====================================================================
+!||    imp_setbp   ../engine/source/implicit/imp_setb.F
+!||--- called by ------------------------------------------------------
+!||    ext_rhs     ../engine/source/implicit/upd_glob_k.F
+!||    get_fext    ../engine/source/implicit/imp_solv.F
+!||    rer02       ../engine/source/implicit/upd_glob_k.F
+!||    upd_rhs     ../engine/source/implicit/upd_glob_k.F
+!||====================================================================
       SUBROUTINE IMP_SETBP(F     ,M      ,IDDL   ,NDOF   ,IKC   ,
      .                    INLOC ,B      )
 C-----------------------------------------------
@@ -122,14 +122,14 @@ C------------------------------------------
 C--------------------------------------------
       RETURN
       END
-      !||====================================================================
-      !||    imp_setba   ../engine/source/implicit/imp_setb.F
-      !||--- called by ------------------------------------------------------
-      !||    ext_rhs     ../engine/source/implicit/upd_glob_k.F
-      !||    get_fext    ../engine/source/implicit/imp_solv.F
-      !||    imp_intfr   ../engine/source/implicit/imp_solv.F
-      !||    upd_rhs     ../engine/source/implicit/upd_glob_k.F
-      !||====================================================================
+!||====================================================================
+!||    imp_setba   ../engine/source/implicit/imp_setb.F
+!||--- called by ------------------------------------------------------
+!||    ext_rhs     ../engine/source/implicit/upd_glob_k.F
+!||    get_fext    ../engine/source/implicit/imp_solv.F
+!||    imp_intfr   ../engine/source/implicit/imp_solv.F
+!||    upd_rhs     ../engine/source/implicit/upd_glob_k.F
+!||====================================================================
       SUBROUTINE IMP_SETBA(F     ,M      ,IDDL   ,NDOF  ,B     ,
      1                     IFLAG )
 C-----------------------------------------------

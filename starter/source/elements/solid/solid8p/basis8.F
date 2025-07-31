@@ -21,11 +21,11 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
-      !||====================================================================
-      !||    basis8   ../starter/source/elements/solid/solid8p/basis8.F
-      !||--- called by ------------------------------------------------------
-      !||    basisf   ../starter/source/elements/solid/solid8p/basisf.F
-      !||====================================================================
+!||====================================================================
+!||    basis8   ../starter/source/elements/solid/solid8p/basis8.F
+!||--- called by ------------------------------------------------------
+!||    basisf   ../starter/source/elements/solid/solid8p/basisf.F
+!||====================================================================
       SUBROUTINE BASIS8 (R,S,T,H,PR,PS,PT)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

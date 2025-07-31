@@ -21,42 +21,42 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 
-      !||====================================================================
-      !||    sms_mass_scale_2   ../engine/source/ams/sms_mass_scale_2.F
-      !||--- called by ------------------------------------------------------
-      !||    resol              ../engine/source/engine/resol.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg             ../engine/source/output/message/message.F
-      !||    arret              ../engine/source/system/arret.F
-      !||    my_barrier         ../engine/source/system/machine.F
-      !||    ngr2usr            ../engine/source/input/freform.F
-      !||    sms_admesh_0       ../engine/source/ams/sms_admesh.F
-      !||    sms_bcs            ../engine/source/ams/sms_bcs.F
-      !||    sms_bcscyc         ../engine/source/ams/sms_bcscyc.F
-      !||    sms_cjoint_0       ../engine/source/ams/sms_cjoint.F
-      !||    sms_cjoint_2       ../engine/source/ams/sms_cjoint.F
-      !||    sms_fixvel         ../engine/source/ams/sms_fixvel.F
-      !||    sms_gravit         ../engine/source/ams/sms_gravit.F
-      !||    sms_mav_lt         ../engine/source/ams/sms_pcg.F
-      !||    sms_pcg            ../engine/source/ams/sms_pcg.F
-      !||    sms_rbe3t1         ../engine/source/ams/sms_rbe3.F
-      !||    sms_rbe_cnds       ../engine/source/ams/sms_rbe2.F
-      !||    sms_thbcs          ../engine/source/ams/sms_thbcs.F
-      !||    spmd_exch_a_rb6    ../engine/source/mpi/kinematic_conditions/spmd_exch_a_rb6.F
-      !||    spmd_list_sms      ../engine/source/mpi/ams/spmd_sms.F
-      !||    spmd_mij_sms       ../engine/source/mpi/ams/spmd_sms.F
-      !||    startime           ../engine/source/system/timer_mod.F90
-      !||    stoptime           ../engine/source/system/timer_mod.F90
-      !||--- uses       -----------------------------------------------------
-      !||    ams_work_mod       ../engine/source/modules/ams_work_mod.F90
-      !||    groupdef_mod       ../common_source/modules/groupdef_mod.F
-      !||    intstamp_mod       ../engine/share/modules/intstamp_mod.F
-      !||    message_mod        ../engine/share/message_module/message_mod.F
-      !||    my_alloc_mod       ../common_source/tools/memory/my_alloc.F90
-      !||    python_funct_mod   ../common_source/modules/python_mod.F90
-      !||    sensor_mod         ../common_source/modules/sensor_mod.F90
-      !||    timer_mod          ../engine/source/system/timer_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    sms_mass_scale_2   ../engine/source/ams/sms_mass_scale_2.F
+!||--- called by ------------------------------------------------------
+!||    resol              ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg             ../engine/source/output/message/message.F
+!||    arret              ../engine/source/system/arret.F
+!||    my_barrier         ../engine/source/system/machine.F
+!||    ngr2usr            ../engine/source/input/freform.F
+!||    sms_admesh_0       ../engine/source/ams/sms_admesh.F
+!||    sms_bcs            ../engine/source/ams/sms_bcs.F
+!||    sms_bcscyc         ../engine/source/ams/sms_bcscyc.F
+!||    sms_cjoint_0       ../engine/source/ams/sms_cjoint.F
+!||    sms_cjoint_2       ../engine/source/ams/sms_cjoint.F
+!||    sms_fixvel         ../engine/source/ams/sms_fixvel.F
+!||    sms_gravit         ../engine/source/ams/sms_gravit.F
+!||    sms_mav_lt         ../engine/source/ams/sms_pcg.F
+!||    sms_pcg            ../engine/source/ams/sms_pcg.F
+!||    sms_rbe3t1         ../engine/source/ams/sms_rbe3.F
+!||    sms_rbe_cnds       ../engine/source/ams/sms_rbe2.F
+!||    sms_thbcs          ../engine/source/ams/sms_thbcs.F
+!||    spmd_exch_a_rb6    ../engine/source/mpi/kinematic_conditions/spmd_exch_a_rb6.F
+!||    spmd_list_sms      ../engine/source/mpi/ams/spmd_sms.F
+!||    spmd_mij_sms       ../engine/source/mpi/ams/spmd_sms.F
+!||    startime           ../engine/source/system/timer_mod.F90
+!||    stoptime           ../engine/source/system/timer_mod.F90
+!||--- uses       -----------------------------------------------------
+!||    ams_work_mod       ../engine/source/modules/ams_work_mod.F90
+!||    groupdef_mod       ../common_source/modules/groupdef_mod.F
+!||    intstamp_mod       ../engine/share/modules/intstamp_mod.F
+!||    message_mod        ../engine/share/message_module/message_mod.F
+!||    my_alloc_mod       ../common_source/tools/memory/my_alloc.F90
+!||    python_funct_mod   ../common_source/modules/python_mod.F90
+!||    sensor_mod         ../common_source/modules/sensor_mod.F90
+!||    timer_mod          ../engine/source/system/timer_mod.F90
+!||====================================================================
       SUBROUTINE SMS_MASS_SCALE_2(TIMERS,PYTHON,
      1        ITASK    ,NODFT    ,NODLT    ,NODII_SMS ,INDX2_SMS ,
      2        NODXI_SMS,MS       ,MS0      ,A         ,ICODT     ,

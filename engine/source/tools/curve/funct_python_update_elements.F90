@@ -20,40 +20,40 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    funct_python_update_elements_mod   ../engine/source/tools/curve/funct_python_update_elements.F90
-      !||--- called by ------------------------------------------------------
-      !||    resol                              ../engine/source/engine/resol.F
-      !||====================================================================
+!||====================================================================
+!||    funct_python_update_elements_mod   ../engine/source/tools/curve/funct_python_update_elements.F90
+!||--- called by ------------------------------------------------------
+!||    resol                              ../engine/source/engine/resol.F
+!||====================================================================
       module funct_python_update_elements_mod
       implicit none
       contains
 !! \brief initialize the python elemental variables found in the python function
-      !||====================================================================
-      !||    funct_python_update_elements   ../engine/source/tools/curve/funct_python_update_elements.F90
-      !||--- called by ------------------------------------------------------
-      !||    resol                          ../engine/source/engine/resol.F
-      !||--- calls      -----------------------------------------------------
-      !||    h3d_quad_scalar_1              ../engine/source/output/h3d/h3d_results/h3d_quad_scalar_1.F90
-      !||    h3d_shell_scalar_1             ../engine/source/output/h3d/h3d_results/h3d_shell_scalar_1.F
-      !||    h3d_solid_scalar_1             ../engine/source/output/h3d/h3d_results/h3d_solid_scalar_1.F
-      !||    python_element_sync            ../engine/source/mpi/python_spmd_mod.F90
-      !||    schlieren_buffer_gathering     ../engine/source/output/anim/generate/schlieren_buffer_gathering.F
-      !||--- uses       -----------------------------------------------------
-      !||    ale_connectivity_mod           ../common_source/modules/ale/ale_connectivity_mod.F
-      !||    aleanim_mod                    ../engine/share/modules/aleanim_mod.F
-      !||    elbufdef_mod                   ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||    h3d_quad_scalar_1_mod          ../engine/source/output/h3d/h3d_results/h3d_quad_scalar_1.F90
-      !||    matparam_def_mod               ../common_source/modules/mat_elem/matparam_def_mod.F90
-      !||    multi_fvm_mod                  ../common_source/modules/ale/multi_fvm_mod.F90
-      !||    mvsiz_mod                      ../engine/share/spe_inc/mvsiz_mod.F90
-      !||    names_and_titles_mod           ../common_source/modules/names_and_titles_mod.F
-      !||    nodal_arrays_mod               ../common_source/modules/nodal_arrays.F90
-      !||    precision_mod                  ../common_source/modules/precision_mod.F90
-      !||    python_funct_mod               ../common_source/modules/python_mod.F90
-      !||    python_spmd_mod                ../engine/source/mpi/python_spmd_mod.F90
-      !||    stack_mod                      ../engine/share/modules/stack_mod.F
-      !||====================================================================
+!||====================================================================
+!||    funct_python_update_elements   ../engine/source/tools/curve/funct_python_update_elements.F90
+!||--- called by ------------------------------------------------------
+!||    resol                          ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
+!||    h3d_quad_scalar_1              ../engine/source/output/h3d/h3d_results/h3d_quad_scalar_1.F90
+!||    h3d_shell_scalar_1             ../engine/source/output/h3d/h3d_results/h3d_shell_scalar_1.F
+!||    h3d_solid_scalar_1             ../engine/source/output/h3d/h3d_results/h3d_solid_scalar_1.F
+!||    python_element_sync            ../engine/source/mpi/python_spmd_mod.F90
+!||    schlieren_buffer_gathering     ../engine/source/output/anim/generate/schlieren_buffer_gathering.F
+!||--- uses       -----------------------------------------------------
+!||    ale_connectivity_mod           ../common_source/modules/ale/ale_connectivity_mod.F
+!||    aleanim_mod                    ../engine/share/modules/aleanim_mod.F
+!||    elbufdef_mod                   ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    h3d_quad_scalar_1_mod          ../engine/source/output/h3d/h3d_results/h3d_quad_scalar_1.F90
+!||    matparam_def_mod               ../common_source/modules/mat_elem/matparam_def_mod.F90
+!||    multi_fvm_mod                  ../common_source/modules/ale/multi_fvm_mod.F90
+!||    mvsiz_mod                      ../engine/share/spe_inc/mvsiz_mod.F90
+!||    names_and_titles_mod           ../common_source/modules/names_and_titles_mod.F
+!||    nodal_arrays_mod               ../common_source/modules/nodal_arrays.F90
+!||    precision_mod                  ../common_source/modules/precision_mod.F90
+!||    python_funct_mod               ../common_source/modules/python_mod.F90
+!||    python_spmd_mod                ../engine/source/mpi/python_spmd_mod.F90
+!||    stack_mod                      ../engine/share/modules/stack_mod.F
+!||====================================================================
         subroutine funct_python_update_elements(py, ispmd, &
         &   n2d,  ngroup,  nixc, nixtg, nixs, nixq, &
         &   numgeo, numelc, numeltg, numels,numelq, nummat, numnod, &

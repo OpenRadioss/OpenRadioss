@@ -20,11 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    laser20   ../starter/source/loads/laser/laser20.F
-      !||--- called by ------------------------------------------------------
-      !||    laser10   ../starter/source/loads/laser/laser10.F
-      !||====================================================================
+!||====================================================================
+!||    laser20   ../starter/source/loads/laser/laser20.F
+!||--- called by ------------------------------------------------------
+!||    laser10   ../starter/source/loads/laser/laser10.F
+!||====================================================================
       SUBROUTINE LASER20(NL ,NS1 ,NS2 ,LAS ,XLAS ,X,IXQ,IPARG )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

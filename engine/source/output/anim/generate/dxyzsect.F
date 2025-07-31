@@ -22,19 +22,19 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C            SPMD_AGETMSR                    /spe/spmd_anim.F
 C            SSPMD_AGET_SECT                 /spe/spmd_anim.F
-      !||====================================================================
-      !||    dxyzsect         ../engine/source/output/anim/generate/dxyzsect.F
-      !||--- called by ------------------------------------------------------
-      !||    genani           ../engine/source/output/anim/generate/genani.F
-      !||--- calls      -----------------------------------------------------
-      !||    dxwalc           ../engine/source/output/anim/generate/dxwalc.F
-      !||    dxwall           ../engine/source/output/anim/generate/dxwall.F
-      !||    dxwalp           ../engine/source/output/anim/generate/dxwalp.F
-      !||    dxwals           ../engine/source/output/anim/generate/dxwals.F
-      !||    spmd_aget_sect   ../engine/source/mpi/anim/spmd_aget_sect.F
-      !||    spmd_agetmsr     ../engine/source/mpi/anim/spmd_agetmsr.F
-      !||    write_r_c        ../common_source/tools/input_output/write_routtines.c
-      !||====================================================================
+!||====================================================================
+!||    dxyzsect         ../engine/source/output/anim/generate/dxyzsect.F
+!||--- called by ------------------------------------------------------
+!||    genani           ../engine/source/output/anim/generate/genani.F
+!||--- calls      -----------------------------------------------------
+!||    dxwalc           ../engine/source/output/anim/generate/dxwalc.F
+!||    dxwall           ../engine/source/output/anim/generate/dxwall.F
+!||    dxwalp           ../engine/source/output/anim/generate/dxwalp.F
+!||    dxwals           ../engine/source/output/anim/generate/dxwals.F
+!||    spmd_aget_sect   ../engine/source/mpi/anim/spmd_aget_sect.F
+!||    spmd_agetmsr     ../engine/source/mpi/anim/spmd_agetmsr.F
+!||    write_r_c        ../common_source/tools/input_output/write_routtines.c
+!||====================================================================
       SUBROUTINE DXYZSECT (NSTRF,RWBUF,NPRW  ,X     ,XMIN ,
      2                     YMIN ,ZMIN  ,XMAX ,YMAX  , ZMAX,
      3                      FR_SEC,FR_WALL,WEIGHT,ITAB)

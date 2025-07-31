@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    i25cor3_1   ../engine/source/interfaces/int25/i25cor3.F
-      !||--- called by ------------------------------------------------------
-      !||    i25comp_1   ../engine/source/interfaces/int25/i25comp_1.F
-      !||--- uses       -----------------------------------------------------
-      !||    tri7box     ../engine/share/modules/tri7box.F
-      !||====================================================================
+!||====================================================================
+!||    i25cor3_1   ../engine/source/interfaces/int25/i25cor3.F
+!||--- called by ------------------------------------------------------
+!||    i25comp_1   ../engine/source/interfaces/int25/i25comp_1.F
+!||--- uses       -----------------------------------------------------
+!||    tri7box     ../engine/share/modules/tri7box.F
+!||====================================================================
       SUBROUTINE I25COR3_1(
      1               JLT     ,X      ,IRECT  ,NSV  ,CAND_E ,
      2               CAND_N  ,IRTLM  ,STF    ,STFN ,STIF   ,
@@ -224,13 +224,13 @@ C
 C
       RETURN
       END
-      !||====================================================================
-      !||    i25cor3_21   ../engine/source/interfaces/int25/i25cor3.F
-      !||--- called by ------------------------------------------------------
-      !||    i25comp_2    ../engine/source/interfaces/int25/i25comp_2.F
-      !||--- uses       -----------------------------------------------------
-      !||    tri7box      ../engine/share/modules/tri7box.F
-      !||====================================================================
+!||====================================================================
+!||    i25cor3_21   ../engine/source/interfaces/int25/i25cor3.F
+!||--- called by ------------------------------------------------------
+!||    i25comp_2    ../engine/source/interfaces/int25/i25comp_2.F
+!||--- uses       -----------------------------------------------------
+!||    tri7box      ../engine/share/modules/tri7box.F
+!||====================================================================
       SUBROUTINE I25COR3_21(
      1               JLT     ,X      ,IRECT ,NSV   ,CAND_E    ,
      2               CAND_N  ,STF    ,STFN  ,STIF  ,IGAP      ,
@@ -446,13 +446,13 @@ C
 C
       RETURN
       END
-      !||====================================================================
-      !||    i25cor3_22   ../engine/source/interfaces/int25/i25cor3.F
-      !||--- called by ------------------------------------------------------
-      !||    i25comp_2    ../engine/source/interfaces/int25/i25comp_2.F
-      !||--- uses       -----------------------------------------------------
-      !||    tri7box      ../engine/share/modules/tri7box.F
-      !||====================================================================
+!||====================================================================
+!||    i25cor3_22   ../engine/source/interfaces/int25/i25cor3.F
+!||--- called by ------------------------------------------------------
+!||    i25comp_2    ../engine/source/interfaces/int25/i25comp_2.F
+!||--- uses       -----------------------------------------------------
+!||    tri7box      ../engine/share/modules/tri7box.F
+!||====================================================================
       SUBROUTINE I25COR3_22(
      1               JLT     ,X      ,IRECT ,NSV   ,CAND_E      ,
      2               CAND_N  ,STF    ,STFN ,STIF   ,IGAP        ,
@@ -757,14 +757,14 @@ C
 C
       RETURN
       END
-      !||====================================================================
-      !||    i25cor3_3        ../engine/source/interfaces/int25/i25cor3.F
-      !||--- called by ------------------------------------------------------
-      !||    i25mainf         ../engine/source/interfaces/int25/i25mainf.F
-      !||--- uses       -----------------------------------------------------
-      !||    parameters_mod   ../common_source/modules/interfaces/parameters_mod.F
-      !||    tri7box          ../engine/share/modules/tri7box.F
-      !||====================================================================
+!||====================================================================
+!||    i25cor3_3        ../engine/source/interfaces/int25/i25cor3.F
+!||--- called by ------------------------------------------------------
+!||    i25mainf         ../engine/source/interfaces/int25/i25mainf.F
+!||--- uses       -----------------------------------------------------
+!||    parameters_mod   ../common_source/modules/interfaces/parameters_mod.F
+!||    tri7box          ../engine/share/modules/tri7box.F
+!||====================================================================
       SUBROUTINE I25COR3_3(
      1               JLT     ,X       ,IRECT  ,NSV   ,CAND_E      ,
      2               CAND_N  ,STF     ,STFN   ,STIF   ,NOD_NORMAL ,

@@ -20,17 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    create_line_from_element   ../starter/source/model/sets/create_line_from_element.F
-      !||--- called by ------------------------------------------------------
-      !||    create_box_clause          ../starter/source/model/sets/create_box_clause.F
-      !||    hm_set                     ../starter/source/model/sets/hm_set.F
-      !||    insert_clause_in_set       ../starter/source/model/sets/insert_clause_in_set.F
-      !||--- calls      -----------------------------------------------------
-      !||    line_buffer                ../starter/source/model/sets/line_buffer.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod                ../starter/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    create_line_from_element   ../starter/source/model/sets/create_line_from_element.F
+!||--- called by ------------------------------------------------------
+!||    create_box_clause          ../starter/source/model/sets/create_box_clause.F
+!||    hm_set                     ../starter/source/model/sets/hm_set.F
+!||    insert_clause_in_set       ../starter/source/model/sets/insert_clause_in_set.F
+!||--- calls      -----------------------------------------------------
+!||    line_buffer                ../starter/source/model/sets/line_buffer.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod                ../starter/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE CREATE_LINE_FROM_ELEMENT(IXT     ,IXP  ,IXR  ,CLAUSE ,DELBUF,
      .                                    GO_IN_ARRAY)
 C-----------------------------------------------

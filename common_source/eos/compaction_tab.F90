@@ -20,11 +20,11 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    compaction_tab_mod   ../common_source/eos/compaction_tab.F90
-      !||--- called by ------------------------------------------------------
-      !||    eosmain              ../common_source/eos/eosmain.F
-      !||====================================================================
+!||====================================================================
+!||    compaction_tab_mod   ../common_source/eos/compaction_tab.F90
+!||--- called by ------------------------------------------------------
+!||    eosmain              ../common_source/eos/eosmain.F
+!||====================================================================
       module compaction_tab_mod
       contains
 ! ======================================================================================================================
@@ -48,19 +48,19 @@
 !  COLLOCATED SCHEME
 !     EOSMAIN / IFLG = 2 : SINGLE PASS FOR P[n+1] AND DERIVATIVES
 !----------------------------------------------------------------------------
-      !||====================================================================
-      !||    compaction_tab          ../common_source/eos/compaction_tab.F90
-      !||--- called by ------------------------------------------------------
-      !||    eosmain                 ../common_source/eos/eosmain.F
-      !||--- calls      -----------------------------------------------------
-      !||    compaction_tab_init     ../common_source/eos/compaction_tab.F90
-      !||    table_mat_vinterp       ../engine/source/materials/tools/table_mat_vinterp.F
-      !||--- uses       -----------------------------------------------------
-      !||    constant_mod            ../common_source/modules/constant_mod.F
-      !||    eos_param_mod           ../common_source/modules/mat_elem/eos_param_mod.F90
-      !||    precision_mod           ../common_source/modules/precision_mod.F90
-      !||    table_mat_vinterp_mod   ../engine/source/materials/tools/table_mat_vinterp.F
-      !||====================================================================
+!||====================================================================
+!||    compaction_tab          ../common_source/eos/compaction_tab.F90
+!||--- called by ------------------------------------------------------
+!||    eosmain                 ../common_source/eos/eosmain.F
+!||--- calls      -----------------------------------------------------
+!||    compaction_tab_init     ../common_source/eos/compaction_tab.F90
+!||    table_mat_vinterp       ../engine/source/materials/tools/table_mat_vinterp.F
+!||--- uses       -----------------------------------------------------
+!||    constant_mod            ../common_source/modules/constant_mod.F
+!||    eos_param_mod           ../common_source/modules/mat_elem/eos_param_mod.F90
+!||    precision_mod           ../common_source/modules/precision_mod.F90
+!||    table_mat_vinterp_mod   ../engine/source/materials/tools/table_mat_vinterp.F
+!||====================================================================
       subroutine compaction_tab(&
                             iflag , nel   , pm     , off    , eint   , &
                             dvol  , mat   , psh    , dt1    , rho    , rho0  , &
@@ -291,18 +291,18 @@
 
 
 
-      !||====================================================================
-      !||    compaction_tab_init     ../common_source/eos/compaction_tab.F90
-      !||--- called by ------------------------------------------------------
-      !||    compaction_tab          ../common_source/eos/compaction_tab.F90
-      !||--- calls      -----------------------------------------------------
-      !||    table_mat_vinterp       ../engine/source/materials/tools/table_mat_vinterp.F
-      !||--- uses       -----------------------------------------------------
-      !||    constant_mod            ../common_source/modules/constant_mod.F
-      !||    eos_param_mod           ../common_source/modules/mat_elem/eos_param_mod.F90
-      !||    precision_mod           ../common_source/modules/precision_mod.F90
-      !||    table_mat_vinterp_mod   ../engine/source/materials/tools/table_mat_vinterp.F
-      !||====================================================================
+!||====================================================================
+!||    compaction_tab_init     ../common_source/eos/compaction_tab.F90
+!||--- called by ------------------------------------------------------
+!||    compaction_tab          ../common_source/eos/compaction_tab.F90
+!||--- calls      -----------------------------------------------------
+!||    table_mat_vinterp       ../engine/source/materials/tools/table_mat_vinterp.F
+!||--- uses       -----------------------------------------------------
+!||    constant_mod            ../common_source/modules/constant_mod.F
+!||    eos_param_mod           ../common_source/modules/mat_elem/eos_param_mod.F90
+!||    precision_mod           ../common_source/modules/precision_mod.F90
+!||    table_mat_vinterp_mod   ../engine/source/materials/tools/table_mat_vinterp.F
+!||====================================================================
       subroutine compaction_tab_init(eos_param,nel,nvartmp,vartmp,nvareos,vareos,rho,rho_tmd)
 !! \brief  This subroutine initialize VAREOS aray for initial time 0.0
 ! ----------------------------------------------------------------------------------------------------------------------

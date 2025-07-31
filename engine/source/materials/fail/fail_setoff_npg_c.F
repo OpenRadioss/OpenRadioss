@@ -20,17 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    fail_setoff_npg_c   ../engine/source/materials/fail/fail_setoff_npg_c.F
-      !||--- called by ------------------------------------------------------
-      !||    mulawc              ../engine/source/materials/mat_share/mulawc.F90
-      !||    usermat_shell       ../engine/source/materials/mat_share/usermat_shell.F
-      !||--- uses       -----------------------------------------------------
-      !||    elbufdef_mod        ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||    failwave_mod        ../common_source/modules/failwave_mod.F
-      !||    mat_elem_mod        ../common_source/modules/mat_elem/mat_elem_mod.F90
-      !||    stack_mod           ../engine/share/modules/stack_mod.F
-      !||====================================================================
+!||====================================================================
+!||    fail_setoff_npg_c   ../engine/source/materials/fail/fail_setoff_npg_c.F
+!||--- called by ------------------------------------------------------
+!||    mulawc              ../engine/source/materials/mat_share/mulawc.F90
+!||    usermat_shell       ../engine/source/materials/mat_share/usermat_shell.F
+!||--- uses       -----------------------------------------------------
+!||    elbufdef_mod        ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    failwave_mod        ../common_source/modules/failwave_mod.F
+!||    mat_elem_mod        ../common_source/modules/mat_elem/mat_elem_mod.F90
+!||    stack_mod           ../engine/share/modules/stack_mod.F
+!||====================================================================
       SUBROUTINE FAIL_SETOFF_NPG_C(
      .           ELBUF_STR,MAT_ELEM ,GEO      ,PID      ,
      .           NGL      ,NEL      ,IR       ,IS       ,

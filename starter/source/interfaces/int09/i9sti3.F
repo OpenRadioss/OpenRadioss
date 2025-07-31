@@ -20,18 +20,18 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    i9sti3                 ../starter/source/interfaces/int09/i9sti3.F
-      !||--- called by ------------------------------------------------------
-      !||    inint3                 ../starter/source/interfaces/inter3d1/inint3.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg                 ../starter/source/output/message/message.F
-      !||    inelts                 ../starter/source/interfaces/inter3d1/inelt.F
-      !||    insol3                 ../starter/source/interfaces/inter3d1/insol3.F
-      !||    local_index            ../starter/source/interfaces/interf1/local_index.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod            ../starter/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    i9sti3                 ../starter/source/interfaces/int09/i9sti3.F
+!||--- called by ------------------------------------------------------
+!||    inint3                 ../starter/source/interfaces/inter3d1/inint3.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                 ../starter/source/output/message/message.F
+!||    inelts                 ../starter/source/interfaces/inter3d1/inelt.F
+!||    insol3                 ../starter/source/interfaces/inter3d1/insol3.F
+!||    local_index            ../starter/source/interfaces/interf1/local_index.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod            ../starter/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE I9STI3(
      1 X        ,IRECT    ,STF      ,IXS      ,
      2 NRT      ,

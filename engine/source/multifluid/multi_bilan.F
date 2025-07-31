@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    multi_bilan           ../engine/source/multifluid/multi_bilan.F
-      !||--- called by ------------------------------------------------------
-      !||    multi_globalize       ../engine/source/multifluid/multi_globalize.F
-      !||    multi_update_global   ../engine/source/multifluid/multi_update_global.F
-      !||--- uses       -----------------------------------------------------
-      !||    multi_fvm_mod         ../common_source/modules/ale/multi_fvm_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    multi_bilan           ../engine/source/multifluid/multi_bilan.F
+!||--- called by ------------------------------------------------------
+!||    multi_globalize       ../engine/source/multifluid/multi_globalize.F
+!||    multi_update_global   ../engine/source/multifluid/multi_update_global.F
+!||--- uses       -----------------------------------------------------
+!||    multi_fvm_mod         ../common_source/modules/ale/multi_fvm_mod.F90
+!||====================================================================
       SUBROUTINE MULTI_BILAN(PARTSAV, VOL, MULTI_FVM,
      .     NEL, NFT, IPARTS, GRESAV, IGRTH, GRTH)
 C-----------------------------------------------

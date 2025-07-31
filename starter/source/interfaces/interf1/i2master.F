@@ -21,13 +21,13 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
-      !||====================================================================
-      !||    i2main          ../starter/source/interfaces/interf1/i2master.F
-      !||--- called by ------------------------------------------------------
-      !||    inint2          ../starter/source/interfaces/inter2d1/inint2.F
-      !||    inint3          ../starter/source/interfaces/inter3d1/inint3.F
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    i2main          ../starter/source/interfaces/interf1/i2master.F
+!||--- called by ------------------------------------------------------
+!||    inint2          ../starter/source/interfaces/inter2d1/inint2.F
+!||    inint3          ../starter/source/interfaces/inter3d1/inint3.F
+!||--- uses       -----------------------------------------------------
+!||====================================================================
       SUBROUTINE I2MAIN(NSV,MSR,IRECTM,IPARI,
      .                   TAG,MSRU,INTBUF_TAB)
 C-----------------------------------------------

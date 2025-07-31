@@ -20,20 +20,20 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    fralnk                 ../engine/source/input/fralnk.F
-      !||--- called by ------------------------------------------------------
-      !||    freform                ../engine/source/input/freform.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg                 ../engine/source/output/message/message.F
-      !||    arret                  ../engine/source/system/arret.F
-      !||    ixyz                   ../engine/source/input/ixyz.F
-      !||    read10                 ../engine/source/input/read10.F
-      !||    wriusc2                ../engine/source/input/wriusc2.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod            ../engine/share/message_module/message_mod.F
-      !||    names_and_titles_mod   ../common_source/modules/names_and_titles_mod.F
-      !||====================================================================
+!||====================================================================
+!||    fralnk                 ../engine/source/input/fralnk.F
+!||--- called by ------------------------------------------------------
+!||    freform                ../engine/source/input/freform.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                 ../engine/source/output/message/message.F
+!||    arret                  ../engine/source/system/arret.F
+!||    ixyz                   ../engine/source/input/ixyz.F
+!||    read10                 ../engine/source/input/read10.F
+!||    wriusc2                ../engine/source/input/wriusc2.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod            ../engine/share/message_module/message_mod.F
+!||    names_and_titles_mod   ../common_source/modules/names_and_titles_mod.F
+!||====================================================================
       SUBROUTINE FRALNK(IKAD,KEY0,KVEL,NALELK)
 C-----------------------------------------------
 C   M o d u l e s
@@ -160,20 +160,20 @@ C-----------------------------------------------
       CALL ARRET(0)
       END
 C format v12
-      !||====================================================================
-      !||    fralnk2                ../engine/source/input/fralnk.F
-      !||--- called by ------------------------------------------------------
-      !||    freform                ../engine/source/input/freform.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg                 ../engine/source/output/message/message.F
-      !||    arret                  ../engine/source/system/arret.F
-      !||    ixyz                   ../engine/source/input/ixyz.F
-      !||    read10                 ../engine/source/input/read10.F
-      !||    wriusc2                ../engine/source/input/wriusc2.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod            ../engine/share/message_module/message_mod.F
-      !||    names_and_titles_mod   ../common_source/modules/names_and_titles_mod.F
-      !||====================================================================
+!||====================================================================
+!||    fralnk2                ../engine/source/input/fralnk.F
+!||--- called by ------------------------------------------------------
+!||    freform                ../engine/source/input/freform.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                 ../engine/source/output/message/message.F
+!||    arret                  ../engine/source/system/arret.F
+!||    ixyz                   ../engine/source/input/ixyz.F
+!||    read10                 ../engine/source/input/read10.F
+!||    wriusc2                ../engine/source/input/wriusc2.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod            ../engine/share/message_module/message_mod.F
+!||    names_and_titles_mod   ../common_source/modules/names_and_titles_mod.F
+!||====================================================================
       SUBROUTINE FRALNK2(IKAD,KEY0,KALELINK,NALELK)
 C-----------------------------------------------
 C   M o d u l e s

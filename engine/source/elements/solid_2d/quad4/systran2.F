@@ -20,11 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    systran2   ../engine/source/elements/solid_2d/quad4/systran2.F
-      !||--- called by ------------------------------------------------------
-      !||    q4kerot2   ../engine/source/elements/solid_2d/quad4/q4kerot2.F
-      !||====================================================================
+!||====================================================================
+!||    systran2   ../engine/source/elements/solid_2d/quad4/systran2.F
+!||--- called by ------------------------------------------------------
+!||    q4kerot2   ../engine/source/elements/solid_2d/quad4/q4kerot2.F
+!||====================================================================
       SUBROUTINE SYSTRAN2(JFT, JLT, VQ, KK, ISYM)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

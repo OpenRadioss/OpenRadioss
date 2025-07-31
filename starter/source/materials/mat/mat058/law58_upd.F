@@ -20,20 +20,20 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    law58_upd              ../starter/source/materials/mat/mat058/law58_upd.F
-      !||--- called by ------------------------------------------------------
-      !||    updmat                 ../starter/source/materials/updmat.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg                 ../starter/source/output/message/message.F
-      !||    func_inters            ../starter/source/tools/curve/func_inters.F
-      !||    func_inters_shear      ../starter/source/tools/curve/func_inters.F
-      !||    func_slope             ../starter/source/tools/curve/func_slope.F
-      !||    matfun_usr2sys         ../starter/source/materials/tools/matfun_usr2sys.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod            ../starter/share/message_module/message_mod.F
-      !||    table_mod              ../starter/share/modules1/table_mod.F
-      !||====================================================================
+!||====================================================================
+!||    law58_upd              ../starter/source/materials/mat/mat058/law58_upd.F
+!||--- called by ------------------------------------------------------
+!||    updmat                 ../starter/source/materials/updmat.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                 ../starter/source/output/message/message.F
+!||    func_inters            ../starter/source/tools/curve/func_inters.F
+!||    func_inters_shear      ../starter/source/tools/curve/func_inters.F
+!||    func_slope             ../starter/source/tools/curve/func_slope.F
+!||    matfun_usr2sys         ../starter/source/materials/tools/matfun_usr2sys.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod            ../starter/share/message_module/message_mod.F
+!||    table_mod              ../starter/share/modules1/table_mod.F
+!||====================================================================
       SUBROUTINE LAW58_UPD(MAT_PARAM,TITR   ,NPC    ,PLD    ,  
      .                     NFUNC    ,NFUNL  ,IFUNC  ,MAT_ID ,FUNC_ID,
      .                     PM       ,SENSORS)

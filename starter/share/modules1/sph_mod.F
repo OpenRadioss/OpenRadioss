@@ -21,11 +21,11 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C last SPH structures only (see RESTMOD for other SPH structures)
-      !||====================================================================
-      !||    sph_mod   ../starter/share/modules1/sph_mod.F
-      !||--- called by ------------------------------------------------------
-      !||    lectur    ../starter/source/starter/lectur.F
-      !||====================================================================
+!||====================================================================
+!||    sph_mod   ../starter/share/modules1/sph_mod.F
+!||--- called by ------------------------------------------------------
+!||    lectur    ../starter/source/starter/lectur.F
+!||====================================================================
       MODULE SPH_MOD
 #include "my_real.inc"
 

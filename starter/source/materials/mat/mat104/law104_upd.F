@@ -20,15 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    law104_upd         ../starter/source/materials/mat/mat104/law104_upd.F
-      !||--- called by ------------------------------------------------------
-      !||    updmat             ../starter/source/materials/updmat.F
-      !||--- calls      -----------------------------------------------------
-      !||--- uses       -----------------------------------------------------
-      !||    elbuftag_mod       ../starter/share/modules1/elbuftag_mod.F
-      !||    message_mod        ../starter/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    law104_upd         ../starter/source/materials/mat/mat104/law104_upd.F
+!||--- called by ------------------------------------------------------
+!||    updmat             ../starter/source/materials/updmat.F
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||    elbuftag_mod       ../starter/share/modules1/elbuftag_mod.F
+!||    message_mod        ../starter/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE LAW104_UPD(IFAILG  ,NUPARAM ,NUPARF  ,UPARAM  ,UPARF   ,
      .                      NLOC_DMG,IMAT    ,MLAW_TAG,IPM     ,MATPARAM)
 C-----------------------------------------------

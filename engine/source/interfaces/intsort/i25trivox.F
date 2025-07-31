@@ -20,17 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    i25trivox      ../engine/source/interfaces/intsort/i25trivox.F
-      !||--- called by ------------------------------------------------------
-      !||    i25buce        ../engine/source/interfaces/intsort/i25buce.F
-      !||--- calls      -----------------------------------------------------
-      !||    i25sto         ../engine/source/interfaces/intsort/i25sto.F
-      !||    my_barrier     ../engine/source/system/machine.F
-      !||--- uses       -----------------------------------------------------
-      !||    my_alloc_mod   ../common_source/tools/memory/my_alloc.F90
-      !||    tri7box        ../engine/share/modules/tri7box.F
-      !||====================================================================
+!||====================================================================
+!||    i25trivox      ../engine/source/interfaces/intsort/i25trivox.F
+!||--- called by ------------------------------------------------------
+!||    i25buce        ../engine/source/interfaces/intsort/i25buce.F
+!||--- calls      -----------------------------------------------------
+!||    i25sto         ../engine/source/interfaces/intsort/i25sto.F
+!||    my_barrier     ../engine/source/system/machine.F
+!||--- uses       -----------------------------------------------------
+!||    my_alloc_mod   ../common_source/tools/memory/my_alloc.F90
+!||    tri7box        ../engine/share/modules/tri7box.F
+!||====================================================================
       SUBROUTINE I25TRIVOX(
      1      NSN    ,NSNR    ,ISZNSNR ,I_MEM   ,VMAXDT   ,
      2      IRECT  ,X       ,STF     ,STFN    ,XYZM     ,

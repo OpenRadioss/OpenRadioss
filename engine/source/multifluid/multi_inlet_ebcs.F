@@ -20,28 +20,28 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    multi_inlet_ebcs_mod   ../engine/source/multifluid/multi_inlet_ebcs.F
-      !||--- called by ------------------------------------------------------
-      !||    multi_ebcs             ../engine/source/multifluid/multi_ebcs.F
-      !||====================================================================
+!||====================================================================
+!||    multi_inlet_ebcs_mod   ../engine/source/multifluid/multi_inlet_ebcs.F
+!||--- called by ------------------------------------------------------
+!||    multi_ebcs             ../engine/source/multifluid/multi_ebcs.F
+!||====================================================================
       MODULE MULTI_INLET_EBCS_MOD
       CONTAINS
-      !||====================================================================
-      !||    multi_inlet_ebcs       ../engine/source/multifluid/multi_inlet_ebcs.F
-      !||--- called by ------------------------------------------------------
-      !||    multi_ebcs             ../engine/source/multifluid/multi_ebcs.F
-      !||--- calls      -----------------------------------------------------
-      !||    arret                  ../engine/source/system/arret.F
-      !||    multi_solve_eint       ../engine/source/multifluid/multi_solve_eint.F90
-      !||    multi_submatlaw        ../engine/source/multifluid/multi_submatlaw.F
-      !||--- uses       -----------------------------------------------------
-      !||    matparam_def_mod       ../common_source/modules/mat_elem/matparam_def_mod.F90
-      !||    multi_fvm_mod          ../common_source/modules/ale/multi_fvm_mod.F90
-      !||    multi_solve_eint_mod   ../engine/source/multifluid/multi_solve_eint.F90
-      !||    multi_submatlaw_mod    ../engine/source/multifluid/multi_submatlaw.F
-      !||    th_surf_mod            ../common_source/modules/interfaces/th_surf_mod.F
-      !||====================================================================
+!||====================================================================
+!||    multi_inlet_ebcs       ../engine/source/multifluid/multi_inlet_ebcs.F
+!||--- called by ------------------------------------------------------
+!||    multi_ebcs             ../engine/source/multifluid/multi_ebcs.F
+!||--- calls      -----------------------------------------------------
+!||    arret                  ../engine/source/system/arret.F
+!||    multi_solve_eint       ../engine/source/multifluid/multi_solve_eint.F90
+!||    multi_submatlaw        ../engine/source/multifluid/multi_submatlaw.F
+!||--- uses       -----------------------------------------------------
+!||    matparam_def_mod       ../common_source/modules/mat_elem/matparam_def_mod.F90
+!||    multi_fvm_mod          ../common_source/modules/ale/multi_fvm_mod.F90
+!||    multi_solve_eint_mod   ../engine/source/multifluid/multi_solve_eint.F90
+!||    multi_submatlaw_mod    ../engine/source/multifluid/multi_submatlaw.F
+!||    th_surf_mod            ../common_source/modules/interfaces/th_surf_mod.F
+!||====================================================================
       SUBROUTINE MULTI_INLET_EBCS(ITASK, EBCS_ID, MULTI_FVM, NELEM, ELEM_LIST, FACE_LIST, 
      .                            FVM_INLET_DATA, IXS, IXQ, IXTG, XGRID, WGRID, IPM, PM,
      .                            FUNC_VALUE, ID_SURF, NPF,TF,FSAVSURF, TIMESTEP, MATPARAM)

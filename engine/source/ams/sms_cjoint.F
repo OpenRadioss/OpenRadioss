@@ -20,15 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    sms_cjoint_0       ../engine/source/ams/sms_cjoint.F
-      !||--- called by ------------------------------------------------------
-      !||    sms_mass_scale_2   ../engine/source/ams/sms_mass_scale_2.F
-      !||--- calls      -----------------------------------------------------
-      !||    my_barrier         ../engine/source/system/machine.F
-      !||    sms_telesc_0       ../engine/source/ams/sms_cjoint.F
-      !||    spmd_sd_cj_0       ../engine/source/mpi/kinematic_conditions/spmd_sd_cj_0.F
-      !||====================================================================
+!||====================================================================
+!||    sms_cjoint_0       ../engine/source/ams/sms_cjoint.F
+!||--- called by ------------------------------------------------------
+!||    sms_mass_scale_2   ../engine/source/ams/sms_mass_scale_2.F
+!||--- calls      -----------------------------------------------------
+!||    my_barrier         ../engine/source/system/machine.F
+!||    sms_telesc_0       ../engine/source/ams/sms_cjoint.F
+!||    spmd_sd_cj_0       ../engine/source/mpi/kinematic_conditions/spmd_sd_cj_0.F
+!||====================================================================
       SUBROUTINE SMS_CJOINT_0(A    ,AR    ,V ,VR,X    ,
      2                      FSAV   ,LJOINT,MS,IN,IADCJ,
      3                      FR_CJ  ,CJWORK,TAG_LNK_SMS,DIAG_SMS,ITASK)
@@ -94,15 +94,15 @@ C
 
       RETURN
       END
-      !||====================================================================
-      !||    sms_cjoint_1   ../engine/source/ams/sms_cjoint.F
-      !||--- called by ------------------------------------------------------
-      !||    sms_pcg        ../engine/source/ams/sms_pcg.F
-      !||--- calls      -----------------------------------------------------
-      !||    my_barrier     ../engine/source/system/machine.F
-      !||    sms_telesc_1   ../engine/source/ams/sms_cjoint.F
-      !||    spmd_sd_cj_1   ../engine/source/mpi/kinematic_conditions/spmd_sd_cj_1.F
-      !||====================================================================
+!||====================================================================
+!||    sms_cjoint_1   ../engine/source/ams/sms_cjoint.F
+!||--- called by ------------------------------------------------------
+!||    sms_pcg        ../engine/source/ams/sms_pcg.F
+!||--- calls      -----------------------------------------------------
+!||    my_barrier     ../engine/source/system/machine.F
+!||    sms_telesc_1   ../engine/source/ams/sms_cjoint.F
+!||    spmd_sd_cj_1   ../engine/source/mpi/kinematic_conditions/spmd_sd_cj_1.F
+!||====================================================================
       SUBROUTINE SMS_CJOINT_1(A     ,MS         ,LJOINT ,IADCJ ,FR_CJ ,
      .                        CJWORK,IDOWN,TAG_LNK_SMS,ITASK)
 C-----------------------------------------------
@@ -163,15 +163,15 @@ C
 
       RETURN
       END
-      !||====================================================================
-      !||    sms_cjoint_2       ../engine/source/ams/sms_cjoint.F
-      !||--- called by ------------------------------------------------------
-      !||    sms_mass_scale_2   ../engine/source/ams/sms_mass_scale_2.F
-      !||--- calls      -----------------------------------------------------
-      !||    my_barrier         ../engine/source/system/machine.F
-      !||    sms_telesc_2       ../engine/source/ams/sms_cjoint.F
-      !||    spmd_sd_cj_1       ../engine/source/mpi/kinematic_conditions/spmd_sd_cj_1.F
-      !||====================================================================
+!||====================================================================
+!||    sms_cjoint_2       ../engine/source/ams/sms_cjoint.F
+!||--- called by ------------------------------------------------------
+!||    sms_mass_scale_2   ../engine/source/ams/sms_mass_scale_2.F
+!||--- calls      -----------------------------------------------------
+!||    my_barrier         ../engine/source/system/machine.F
+!||    sms_telesc_2       ../engine/source/ams/sms_cjoint.F
+!||    spmd_sd_cj_1       ../engine/source/mpi/kinematic_conditions/spmd_sd_cj_1.F
+!||====================================================================
       SUBROUTINE SMS_CJOINT_2(A    ,AR    ,V ,VR,X    ,
      2                      LJOINT,MS,IN,IADCJ,FR_CJ,
      3                      CJWORK,TAG_LNK_SMS,ITASK)
@@ -235,11 +235,11 @@ C
 
       RETURN
       END
-      !||====================================================================
-      !||    sms_telesc_0   ../engine/source/ams/sms_cjoint.F
-      !||--- called by ------------------------------------------------------
-      !||    sms_cjoint_0   ../engine/source/ams/sms_cjoint.F
-      !||====================================================================
+!||====================================================================
+!||    sms_telesc_0   ../engine/source/ams/sms_cjoint.F
+!||--- called by ------------------------------------------------------
+!||    sms_cjoint_0   ../engine/source/ams/sms_cjoint.F
+!||====================================================================
       SUBROUTINE SMS_TELESC_0(A,AR,V,VR,X,FS,NOD,MS,IN,
      .                        CJWORK,DIAG_SMS)
 C-----------------------------------------------
@@ -479,11 +479,11 @@ C
 C
       RETURN
       END
-      !||====================================================================
-      !||    sms_telesc_1   ../engine/source/ams/sms_cjoint.F
-      !||--- called by ------------------------------------------------------
-      !||    sms_cjoint_1   ../engine/source/ams/sms_cjoint.F
-      !||====================================================================
+!||====================================================================
+!||    sms_telesc_1   ../engine/source/ams/sms_cjoint.F
+!||--- called by ------------------------------------------------------
+!||    sms_cjoint_1   ../engine/source/ams/sms_cjoint.F
+!||====================================================================
       SUBROUTINE SMS_TELESC_1(A,DMS,NOD,CJWORK,IDOWN)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -579,11 +579,11 @@ C
 
       RETURN
       END
-      !||====================================================================
-      !||    sms_telesc_2   ../engine/source/ams/sms_cjoint.F
-      !||--- called by ------------------------------------------------------
-      !||    sms_cjoint_2   ../engine/source/ams/sms_cjoint.F
-      !||====================================================================
+!||====================================================================
+!||    sms_telesc_2   ../engine/source/ams/sms_cjoint.F
+!||--- called by ------------------------------------------------------
+!||    sms_cjoint_2   ../engine/source/ams/sms_cjoint.F
+!||====================================================================
       SUBROUTINE SMS_TELESC_2(A,AR,V,VR,X,NOD,MS,IN,
      .                        CJWORK)
 C-----------------------------------------------

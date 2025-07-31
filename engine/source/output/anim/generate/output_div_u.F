@@ -20,15 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    output_div_u         ../engine/source/output/anim/generate/output_div_u.F
-      !||--- called by ------------------------------------------------------
-      !||    h3d_quad_scalar_1    ../engine/source/output/h3d/h3d_results/h3d_quad_scalar_1.F90
-      !||    h3d_shell_scalar_1   ../engine/source/output/h3d/h3d_results/h3d_shell_scalar_1.F
-      !||    h3d_solid_scalar_1   ../engine/source/output/h3d/h3d_results/h3d_solid_scalar_1.F
-      !||--- uses       -----------------------------------------------------
-      !||    elbufdef_mod         ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    output_div_u         ../engine/source/output/anim/generate/output_div_u.F
+!||--- called by ------------------------------------------------------
+!||    h3d_quad_scalar_1    ../engine/source/output/h3d/h3d_results/h3d_quad_scalar_1.F90
+!||    h3d_shell_scalar_1   ../engine/source/output/h3d/h3d_results/h3d_shell_scalar_1.F
+!||    h3d_solid_scalar_1   ../engine/source/output/h3d/h3d_results/h3d_solid_scalar_1.F
+!||--- uses       -----------------------------------------------------
+!||    elbufdef_mod         ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||====================================================================
       SUBROUTINE OUTPUT_DIV_U( EVAR,IX,X,V,IPARG,ELBUF_TAB,NG, NIX,ITYP,
      .                         NUMEL, NEL, NUMNOD, NPARG, NGROUP, N2D , NFT)
 C-----------------------------------------------

@@ -20,19 +20,19 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    sigeps41                ../engine/source/materials/mat/mat041/sigeps41.F
-      !||--- called by ------------------------------------------------------
-      !||    mulaw                   ../engine/source/materials/mat_share/mulaw.F90
-      !||    mulaw8                  ../engine/source/materials/mat_share/mulaw8.F90
-      !||--- calls      -----------------------------------------------------
-      !||    burn_fraction_ireac1    ../engine/source/materials/mat/mat041/sigeps41.F
-      !||    burn_fraction_ireac2    ../engine/source/materials/mat/mat041/sigeps41.F
-      !||    mixture_equilibrium     ../engine/source/materials/mat/mat041/sigeps41.F
-      !||--- uses       -----------------------------------------------------
-      !||    output_mod              ../common_source/modules/output/output_mod.F90
-      !||    root_finding_algo_mod   ../common_source/modules/root_finding_algo_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    sigeps41                ../engine/source/materials/mat/mat041/sigeps41.F
+!||--- called by ------------------------------------------------------
+!||    mulaw                   ../engine/source/materials/mat_share/mulaw.F90
+!||    mulaw8                  ../engine/source/materials/mat_share/mulaw8.F90
+!||--- calls      -----------------------------------------------------
+!||    burn_fraction_ireac1    ../engine/source/materials/mat/mat041/sigeps41.F
+!||    burn_fraction_ireac2    ../engine/source/materials/mat/mat041/sigeps41.F
+!||    mixture_equilibrium     ../engine/source/materials/mat/mat041/sigeps41.F
+!||--- uses       -----------------------------------------------------
+!||    output_mod              ../common_source/modules/output/output_mod.F90
+!||    root_finding_algo_mod   ../common_source/modules/root_finding_algo_mod.F90
+!||====================================================================
       SUBROUTINE SIGEPS41 (
      1     NEL    ,NUPARAM,NUVAR   ,
      2     TIME   ,TIMESTEP,UPARAM  ,RHO0    ,RHO    ,
@@ -349,11 +349,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 
 C-----------------------------------------------
-      !||====================================================================
-      !||    burn_fraction_ireac1   ../engine/source/materials/mat/mat041/sigeps41.F
-      !||--- called by ------------------------------------------------------
-      !||    sigeps41               ../engine/source/materials/mat/mat041/sigeps41.F
-      !||====================================================================
+!||====================================================================
+!||    burn_fraction_ireac1   ../engine/source/materials/mat/mat041/sigeps41.F
+!||--- called by ------------------------------------------------------
+!||    sigeps41               ../engine/source/materials/mat/mat041/sigeps41.F
+!||====================================================================
       SUBROUTINE BURN_FRACTION_IREAC1(I_,B_,X_,G1,D_,Y_,cappa,artvisc,dt,pres,etar,fc,cburn,oldfc)
 C-----------------------------------------------
 C   D e s c r i p t i o n
@@ -412,11 +412,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 
 
-      !||====================================================================
-      !||    burn_fraction_ireac2   ../engine/source/materials/mat/mat041/sigeps41.F
-      !||--- called by ------------------------------------------------------
-      !||    sigeps41               ../engine/source/materials/mat/mat041/sigeps41.F
-      !||====================================================================
+!||====================================================================
+!||    burn_fraction_ireac2   ../engine/source/materials/mat/mat041/sigeps41.F
+!||--- called by ------------------------------------------------------
+!||    sigeps41               ../engine/source/materials/mat/mat041/sigeps41.F
+!||====================================================================
       SUBROUTINE BURN_FRACTION_IREAC2(I_,B_,X_,G1,D_,Y_,G2,Z_,G_,C_,E_,Figmax,FG1max,FG2min,cappa,chi,ccrit,tol,
      .                 artvisc,dt,pres,etar,fc,cburn,oldfc)
 C-----------------------------------------------
@@ -487,17 +487,17 @@ C-----------------------------------------------
 C-----------------------------------------------
 
 
-      !||====================================================================
-      !||    mixture_equilibrium     ../engine/source/materials/mat/mat041/sigeps41.F
-      !||--- called by ------------------------------------------------------
-      !||    sigeps41                ../engine/source/materials/mat/mat041/sigeps41.F
-      !||--- calls      -----------------------------------------------------
-      !||    jwl_eos_delta           ../engine/source/materials/mat/mat041/jwl_eos_mod.F90
-      !||    jwl_eos_state           ../engine/source/materials/mat/mat041/jwl_eos_mod.F90
-      !||--- uses       -----------------------------------------------------
-      !||    jwl_eos_mod             ../engine/source/materials/mat/mat041/jwl_eos_mod.F90
-      !||    root_finding_algo_mod   ../common_source/modules/root_finding_algo_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    mixture_equilibrium     ../engine/source/materials/mat/mat041/sigeps41.F
+!||--- called by ------------------------------------------------------
+!||    sigeps41                ../engine/source/materials/mat/mat041/sigeps41.F
+!||--- calls      -----------------------------------------------------
+!||    jwl_eos_delta           ../engine/source/materials/mat/mat041/jwl_eos_mod.F90
+!||    jwl_eos_state           ../engine/source/materials/mat/mat041/jwl_eos_mod.F90
+!||--- uses       -----------------------------------------------------
+!||    jwl_eos_mod             ../engine/source/materials/mat/mat041/jwl_eos_mod.F90
+!||    root_finding_algo_mod   ../common_source/modules/root_finding_algo_mod.F90
+!||====================================================================
       SUBROUTINE MIXTURE_EQUILIBRIUM(
      .               ar   ,br   ,r1r    ,r2r  ,r3r   ,cvr ,etar,
      .               ap   ,bp   ,r1p    ,r2p  ,r3p   ,cvp ,etap,

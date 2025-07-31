@@ -20,24 +20,24 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    python_share_memory_mod   ../engine/source/coupling/python/python_share_memory.F90
-      !||--- called by ------------------------------------------------------
-      !||    resol                     ../engine/source/engine/resol.F
-      !||====================================================================
+!||====================================================================
+!||    python_share_memory_mod   ../engine/source/coupling/python/python_share_memory.F90
+!||--- called by ------------------------------------------------------
+!||    resol                     ../engine/source/engine/resol.F
+!||====================================================================
       module python_share_memory_mod
       contains
-      !||====================================================================
-      !||    python_share_memory     ../engine/source/coupling/python/python_share_memory.F90
-      !||--- called by ------------------------------------------------------
-      !||    resol                   ../engine/source/engine/resol.F
-      !||--- calls      -----------------------------------------------------
-      !||    python_expose_doubles   ../common_source/modules/python_mod.F90
-      !||    python_expose_ints      ../common_source/modules/python_mod.F90
-      !||--- uses       -----------------------------------------------------
-      !||    nodal_arrays_mod        ../common_source/modules/nodal_arrays.F90
-      !||    python_funct_mod        ../common_source/modules/python_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    python_share_memory     ../engine/source/coupling/python/python_share_memory.F90
+!||--- called by ------------------------------------------------------
+!||    resol                   ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
+!||    python_expose_doubles   ../common_source/modules/python_mod.F90
+!||    python_expose_ints      ../common_source/modules/python_mod.F90
+!||--- uses       -----------------------------------------------------
+!||    nodal_arrays_mod        ../common_source/modules/nodal_arrays.F90
+!||    python_funct_mod        ../common_source/modules/python_mod.F90
+!||====================================================================
         subroutine python_share_memory(py, nodes, numnod,&
         & ixs, nixs, numels, &
         & ixc, nixc, numelc, &

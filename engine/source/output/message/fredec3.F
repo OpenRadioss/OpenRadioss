@@ -20,15 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    fredec3                ../engine/source/output/message/fredec3.F
-      !||--- called by ------------------------------------------------------
-      !||    build_msg              ../common_source/tools/memory/my_alloc.F90
-      !||--- calls      -----------------------------------------------------
-      !||    arret                  ../engine/source/system/arret.F
-      !||--- uses       -----------------------------------------------------
-      !||    names_and_titles_mod   ../common_source/modules/names_and_titles_mod.F
-      !||====================================================================
+!||====================================================================
+!||    fredec3                ../engine/source/output/message/fredec3.F
+!||--- called by ------------------------------------------------------
+!||    build_msg              ../common_source/tools/memory/my_alloc.F90
+!||--- calls      -----------------------------------------------------
+!||    arret                  ../engine/source/system/arret.F
+!||--- uses       -----------------------------------------------------
+!||    names_and_titles_mod   ../common_source/modules/names_and_titles_mod.F
+!||====================================================================
       SUBROUTINE FREDEC3(LINE,KEY)
 C-----------------------------------------------
 C   M o d u l e s

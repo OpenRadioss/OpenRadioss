@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    m3law8         ../engine/source/materials/mat/mat003/m3law8.F
-      !||--- called by ------------------------------------------------------
-      !||    mmain8         ../engine/source/materials/mat_share/mmain8.F
-      !||--- uses       -----------------------------------------------------
-      !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    m3law8         ../engine/source/materials/mat/mat003/m3law8.F
+!||--- called by ------------------------------------------------------
+!||    mmain8         ../engine/source/materials/mat_share/mmain8.F
+!||--- uses       -----------------------------------------------------
+!||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||====================================================================
       SUBROUTINE M3LAW8(
      1   PM,      OFF,     SIG,     EPSEQ,
      2   EINT,    RHO,     D1,      D2,

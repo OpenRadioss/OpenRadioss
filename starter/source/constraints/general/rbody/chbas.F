@@ -21,11 +21,11 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
-      !||====================================================================
-      !||    chbas    ../starter/source/constraints/general/rbody/chbas.F
-      !||--- called by ------------------------------------------------------
-      !||    inirby   ../starter/source/constraints/general/rbody/inirby.F
-      !||====================================================================
+!||====================================================================
+!||    chbas    ../starter/source/constraints/general/rbody/chbas.F
+!||--- called by ------------------------------------------------------
+!||    inirby   ../starter/source/constraints/general/rbody/inirby.F
+!||====================================================================
       SUBROUTINE CHBAS(A,M)
 C
 C    ENTREES A MATRICE DE PASSAGE X'=AX

@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    spmd_h3d_gather_r_node   ../engine/source/output/h3d/spmd/spmd_h3d_gather_r_node.F
-      !||--- called by ------------------------------------------------------
-      !||    genh3d                   ../engine/source/output/h3d/h3d_results/genh3d.F
-      !||--- calls      -----------------------------------------------------
-      !||--- uses       -----------------------------------------------------
-      !||    spmd_comm_world_mod      ../engine/source/mpi/spmd_comm_world.F90
-      !||====================================================================
+!||====================================================================
+!||    spmd_h3d_gather_r_node   ../engine/source/output/h3d/spmd/spmd_h3d_gather_r_node.F
+!||--- called by ------------------------------------------------------
+!||    genh3d                   ../engine/source/output/h3d/h3d_results/genh3d.F
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||    spmd_comm_world_mod      ../engine/source/mpi/spmd_comm_world.F90
+!||====================================================================
        SUBROUTINE SPMD_H3D_GATHER_R_NODE(WEIGHT,V,LEN,VP0,LENP0)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -89,14 +89,14 @@ C
        RETURN
        END
 
-      !||====================================================================
-      !||    spmd_h3d_sum_r_nodal   ../engine/source/output/h3d/spmd/spmd_h3d_gather_r_node.F
-      !||--- called by ------------------------------------------------------
-      !||    genh3d                 ../engine/source/output/h3d/h3d_results/genh3d.F
-      !||--- calls      -----------------------------------------------------
-      !||--- uses       -----------------------------------------------------
-      !||    spmd_comm_world_mod    ../engine/source/mpi/spmd_comm_world.F90
-      !||====================================================================
+!||====================================================================
+!||    spmd_h3d_sum_r_nodal   ../engine/source/output/h3d/spmd/spmd_h3d_gather_r_node.F
+!||--- called by ------------------------------------------------------
+!||    genh3d                 ../engine/source/output/h3d/h3d_results/genh3d.F
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||    spmd_comm_world_mod    ../engine/source/mpi/spmd_comm_world.F90
+!||====================================================================
        SUBROUTINE SPMD_H3D_SUM_R_NODAL(NODGLOB,V,LEN,VP0,LENP0)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -158,15 +158,15 @@ C-----------------------------------------------
        RETURN
        END
 
-      !||====================================================================
-      !||    spmd_h3d_sum_r_nodal_21   ../engine/source/output/h3d/spmd/spmd_h3d_gather_r_node.F
-      !||--- called by ------------------------------------------------------
-      !||    fcont_max_output          ../engine/source/output/h3d/h3d_results/fcont_max_output.F
-      !||    genh3d                    ../engine/source/output/h3d/h3d_results/genh3d.F
-      !||--- calls      -----------------------------------------------------
-      !||--- uses       -----------------------------------------------------
-      !||    spmd_comm_world_mod       ../engine/source/mpi/spmd_comm_world.F90
-      !||====================================================================
+!||====================================================================
+!||    spmd_h3d_sum_r_nodal_21   ../engine/source/output/h3d/spmd/spmd_h3d_gather_r_node.F
+!||--- called by ------------------------------------------------------
+!||    fcont_max_output          ../engine/source/output/h3d/h3d_results/fcont_max_output.F
+!||    genh3d                    ../engine/source/output/h3d/h3d_results/genh3d.F
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||    spmd_comm_world_mod       ../engine/source/mpi/spmd_comm_world.F90
+!||====================================================================
        SUBROUTINE SPMD_H3D_SUM_R_NODAL_21(NODGLOB,V,LEN,VP0,LENP0,VG21)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    ply_bcs     ../engine/source/constraints/general/bcs/ply_bcs.F
-      !||--- called by ------------------------------------------------------
-      !||    resol       ../engine/source/engine/resol.F
-      !||--- calls      -----------------------------------------------------
-      !||    ply_bcs1v   ../engine/source/constraints/general/bcs/ply_bcs.F
-      !||====================================================================
+!||====================================================================
+!||    ply_bcs     ../engine/source/constraints/general/bcs/ply_bcs.F
+!||--- called by ------------------------------------------------------
+!||    resol       ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
+!||    ply_bcs1v   ../engine/source/constraints/general/bcs/ply_bcs.F
+!||====================================================================
       SUBROUTINE PLY_BCS(NODFT,NODLT  ,ICODT ,ISKEW,
      2                 SKEW , INOD,MS_PLY,IBC_PLY)
 
@@ -67,13 +67,13 @@ C
 C
       RETURN
       END
-      !||====================================================================
-      !||    ply_bcs1v     ../engine/source/constraints/general/bcs/ply_bcs.F
-      !||--- called by ------------------------------------------------------
-      !||    ply_bcs       ../engine/source/constraints/general/bcs/ply_bcs.F
-      !||--- uses       -----------------------------------------------------
-      !||    plyxfem_mod   ../engine/share/modules/plyxfem_mod.F
-      !||====================================================================
+!||====================================================================
+!||    ply_bcs1v     ../engine/source/constraints/general/bcs/ply_bcs.F
+!||--- called by ------------------------------------------------------
+!||    ply_bcs       ../engine/source/constraints/general/bcs/ply_bcs.F
+!||--- uses       -----------------------------------------------------
+!||    plyxfem_mod   ../engine/share/modules/plyxfem_mod.F
+!||====================================================================
       SUBROUTINE PLY_BCS1V(NINDX,INDX,INOD,ISKEW,ICODT,B ,
      .                     MS_PLY,IBC_PLY)
 C-----------------------------------------------

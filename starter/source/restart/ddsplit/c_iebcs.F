@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    c_iebcs    ../starter/source/restart/ddsplit/c_iebcs.F
-      !||--- called by ------------------------------------------------------
-      !||    ddsplit    ../starter/source/restart/ddsplit/ddsplit.F
-      !||--- calls      -----------------------------------------------------
-      !||    iface      ../starter/source/ale/ale3d/iface.F
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    c_iebcs    ../starter/source/restart/ddsplit/c_iebcs.F
+!||--- called by ------------------------------------------------------
+!||    ddsplit    ../starter/source/restart/ddsplit/ddsplit.F
+!||--- calls      -----------------------------------------------------
+!||    iface      ../starter/source/ale/ale3d/iface.F
+!||--- uses       -----------------------------------------------------
+!||====================================================================
        SUBROUTINE C_IEBCS(IXS, IXQ, IXTG, 
      .     NUMELS, NUMELQ, NUMELTG,
      .      NEBCS, CEP, NUMEL,  PROC,

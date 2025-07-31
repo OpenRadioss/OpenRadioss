@@ -20,33 +20,33 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    hm_read_rbody          ../starter/source/constraints/general/rbody/hm_read_rbody.F
-      !||--- called by ------------------------------------------------------
-      !||    lectur                 ../starter/source/starter/lectur.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg                 ../starter/source/output/message/message.F
-      !||    anodset                ../starter/source/output/analyse/analyse_node.c
-      !||    fretitl                ../starter/source/starter/freform.F
-      !||    fretitl2               ../starter/source/starter/freform.F
-      !||    hm_get_floatv          ../starter/source/devtools/hm_reader/hm_get_floatv.F
-      !||    hm_get_intv            ../starter/source/devtools/hm_reader/hm_get_intv.F
-      !||    hm_option_read_key     ../starter/source/devtools/hm_reader/hm_option_read_key.F
-      !||    hm_option_start        ../starter/source/devtools/hm_reader/hm_option_start.F
-      !||    hm_sz_r2r              ../starter/source/coupling/rad2rad/routines_r2r.F
-      !||    newdbl                 ../starter/source/system/sysfus.F
-      !||    ngr2usr                ../starter/source/system/nintrr.F
-      !||    nodgrnr6               ../starter/source/starter/freform.F
-      !||    rigmodif_nd            ../starter/source/elements/solid/solide10/dim_s10edg.F
-      !||    spmdset                ../starter/source/constraints/general/rbody/spmdset.F
-      !||    udouble                ../starter/source/system/sysfus.F
-      !||    usr2sys                ../starter/source/system/sysfus.F
-      !||--- uses       -----------------------------------------------------
-      !||    hm_option_read_mod     ../starter/share/modules1/hm_option_read_mod.F
-      !||    message_mod            ../starter/share/message_module/message_mod.F
-      !||    r2r_mod                ../starter/share/modules1/r2r_mod.F
-      !||    submodel_mod           ../starter/share/modules1/submodel_mod.F
-      !||====================================================================
+!||====================================================================
+!||    hm_read_rbody          ../starter/source/constraints/general/rbody/hm_read_rbody.F
+!||--- called by ------------------------------------------------------
+!||    lectur                 ../starter/source/starter/lectur.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                 ../starter/source/output/message/message.F
+!||    anodset                ../starter/source/output/analyse/analyse_node.c
+!||    fretitl                ../starter/source/starter/freform.F
+!||    fretitl2               ../starter/source/starter/freform.F
+!||    hm_get_floatv          ../starter/source/devtools/hm_reader/hm_get_floatv.F
+!||    hm_get_intv            ../starter/source/devtools/hm_reader/hm_get_intv.F
+!||    hm_option_read_key     ../starter/source/devtools/hm_reader/hm_option_read_key.F
+!||    hm_option_start        ../starter/source/devtools/hm_reader/hm_option_start.F
+!||    hm_sz_r2r              ../starter/source/coupling/rad2rad/routines_r2r.F
+!||    newdbl                 ../starter/source/system/sysfus.F
+!||    ngr2usr                ../starter/source/system/nintrr.F
+!||    nodgrnr6               ../starter/source/starter/freform.F
+!||    rigmodif_nd            ../starter/source/elements/solid/solide10/dim_s10edg.F
+!||    spmdset                ../starter/source/constraints/general/rbody/spmdset.F
+!||    udouble                ../starter/source/system/sysfus.F
+!||    usr2sys                ../starter/source/system/sysfus.F
+!||--- uses       -----------------------------------------------------
+!||    hm_option_read_mod     ../starter/share/modules1/hm_option_read_mod.F
+!||    message_mod            ../starter/share/message_module/message_mod.F
+!||    r2r_mod                ../starter/share/modules1/r2r_mod.F
+!||    submodel_mod           ../starter/share/modules1/submodel_mod.F
+!||====================================================================
       SUBROUTINE HM_READ_RBODY(RBY       ,NPBY    ,LPBY    ,ITAB     ,ITABM1   ,
      2                         IGRNOD    ,IGRSURF ,IBFV    ,IGRV     ,IBGR     ,
      3                         SENSORS   ,IMERGE  ,UNITAB  ,ISKN     ,NOM_OPT  ,
@@ -543,21 +543,21 @@ C
 1202  FORMAT( 10X,10I10)
       END SUBROUTINE HM_READ_RBODY
 C
-      !||====================================================================
-      !||    setrbyon               ../starter/source/constraints/general/rbody/hm_read_rbody.F
-      !||--- called by ------------------------------------------------------
-      !||    lectur                 ../starter/source/starter/lectur.F
-      !||--- calls      -----------------------------------------------------
-      !||    hm_get_intv            ../starter/source/devtools/hm_reader/hm_get_intv.F
-      !||    hm_option_read_key     ../starter/source/devtools/hm_reader/hm_option_read_key.F
-      !||    hm_option_start        ../starter/source/devtools/hm_reader/hm_option_start.F
-      !||    hm_sz_r2r              ../starter/source/coupling/rad2rad/routines_r2r.F
-      !||--- uses       -----------------------------------------------------
-      !||    hm_option_read_mod     ../starter/share/modules1/hm_option_read_mod.F
-      !||    message_mod            ../starter/share/message_module/message_mod.F
-      !||    r2r_mod                ../starter/share/modules1/r2r_mod.F
-      !||    submodel_mod           ../starter/share/modules1/submodel_mod.F
-      !||====================================================================
+!||====================================================================
+!||    setrbyon               ../starter/source/constraints/general/rbody/hm_read_rbody.F
+!||--- called by ------------------------------------------------------
+!||    lectur                 ../starter/source/starter/lectur.F
+!||--- calls      -----------------------------------------------------
+!||    hm_get_intv            ../starter/source/devtools/hm_reader/hm_get_intv.F
+!||    hm_option_read_key     ../starter/source/devtools/hm_reader/hm_option_read_key.F
+!||    hm_option_start        ../starter/source/devtools/hm_reader/hm_option_start.F
+!||    hm_sz_r2r              ../starter/source/coupling/rad2rad/routines_r2r.F
+!||--- uses       -----------------------------------------------------
+!||    hm_option_read_mod     ../starter/share/modules1/hm_option_read_mod.F
+!||    message_mod            ../starter/share/message_module/message_mod.F
+!||    r2r_mod                ../starter/share/modules1/r2r_mod.F
+!||    submodel_mod           ../starter/share/modules1/submodel_mod.F
+!||====================================================================
       SUBROUTINE SETRBYON(IXS     ,IXC      ,IXTG   ,IGRNOD  ,IGRNRBY ,
      2                    ISOLOFF  ,ISHEOFF ,ITRIOFF,KNOD2ELS,KNOD2ELC,
      3                    KNOD2ELTG,NOD2ELS ,NOD2ELC,NOD2ELTG,IXQ     ,
@@ -736,14 +736,14 @@ C
       RETURN
       END SUBROUTINE SETRBYON
 C
-      !||====================================================================
-      !||    seteloff       ../starter/source/constraints/general/rbody/hm_read_rbody.F
-      !||--- called by ------------------------------------------------------
-      !||    lectur         ../starter/source/starter/lectur.F
-      !||--- calls      -----------------------------------------------------
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod    ../starter/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    seteloff       ../starter/source/constraints/general/rbody/hm_read_rbody.F
+!||--- called by ------------------------------------------------------
+!||    lectur         ../starter/source/starter/lectur.F
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||    message_mod    ../starter/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE SETELOFF(IXS    ,IXC    ,IXT    ,IXP    ,IXR    ,
      2                    IXTG   ,IPARG  ,        ISOLOFF,ISHEOFF,
      3                    ITRUOFF,IPOUOFF,IRESOFF,ITRIOFF,IGRNRBY,

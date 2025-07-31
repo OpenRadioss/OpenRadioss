@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    brest2             ../engine/source/ale/bimat/brest2.F
-      !||--- called by ------------------------------------------------------
-      !||    bforc2             ../engine/source/ale/bimat/bforc2.F
-      !||--- uses       -----------------------------------------------------
-      !||    matparam_def_mod   ../common_source/modules/mat_elem/matparam_def_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    brest2             ../engine/source/ale/bimat/brest2.F
+!||--- called by ------------------------------------------------------
+!||    bforc2             ../engine/source/ale/bimat/bforc2.F
+!||--- uses       -----------------------------------------------------
+!||    matparam_def_mod   ../common_source/modules/mat_elem/matparam_def_mod.F90
+!||====================================================================
       SUBROUTINE BREST2(VOLT,IC,VOLN,
      .     AIRE, AIRES, 
      .     D1, D2, D3, D4, D5, D6, 

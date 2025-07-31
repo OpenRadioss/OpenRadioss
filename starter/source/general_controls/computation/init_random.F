@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    init_random   ../starter/source/general_controls/computation/init_random.F
-      !||--- called by ------------------------------------------------------
-      !||    lectur        ../starter/source/starter/lectur.F
-      !||--- uses       -----------------------------------------------------
-      !||    random_mod    ../starter/share/modules1/random_mod.F
-      !||====================================================================
+!||====================================================================
+!||    init_random   ../starter/source/general_controls/computation/init_random.F
+!||--- called by ------------------------------------------------------
+!||    lectur        ../starter/source/starter/lectur.F
+!||--- uses       -----------------------------------------------------
+!||    random_mod    ../starter/share/modules1/random_mod.F
+!||====================================================================
         SUBROUTINE INIT_RANDOM( )
 !$COMMENT
 !       INIT_RANDOM description

@@ -20,17 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    i17buce_pena   ../engine/source/interfaces/int17/i17buce.F
-      !||--- called by ------------------------------------------------------
-      !||    i17main_tri    ../engine/source/interfaces/int17/i17main_pena.F
-      !||--- calls      -----------------------------------------------------
-      !||    arret          ../engine/source/system/arret.F
-      !||    i17tri         ../engine/source/interfaces/int17/i17tri.F
-      !||    my_barrier     ../engine/source/system/machine.F
-      !||--- uses       -----------------------------------------------------
-      !||    icontact_mod   ../engine/share/modules/icontact_mod.F
-      !||====================================================================
+!||====================================================================
+!||    i17buce_pena   ../engine/source/interfaces/int17/i17buce.F
+!||--- called by ------------------------------------------------------
+!||    i17main_tri    ../engine/source/interfaces/int17/i17main_pena.F
+!||--- calls      -----------------------------------------------------
+!||    arret          ../engine/source/system/arret.F
+!||    i17tri         ../engine/source/interfaces/int17/i17tri.F
+!||    my_barrier     ../engine/source/system/machine.F
+!||--- uses       -----------------------------------------------------
+!||    icontact_mod   ../engine/share/modules/icontact_mod.F
+!||====================================================================
        SUBROUTINE I17BUCE_PENA(
      1   NELES    ,IXS        ,IXS16    ,IXS20    ,NELEM    ,
      2   NME      ,LWAT       ,NMES     ,CAND_E   ,CAND_N   ,
@@ -159,20 +159,20 @@ C
       RETURN
       END
 C
-      !||====================================================================
-      !||    i17buce         ../engine/source/interfaces/int17/i17buce.F
-      !||--- called by ------------------------------------------------------
-      !||    i17main         ../engine/source/interfaces/int17/i17main.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg          ../engine/source/output/message/message.F
-      !||    arret           ../engine/source/system/arret.F
-      !||    i17tri          ../engine/source/interfaces/int17/i17tri.F
-      !||    my_barrier      ../engine/source/system/machine.F
-      !||    spmd_tri17box   ../engine/source/mpi/interfaces/spmd_tri17box.F
-      !||--- uses       -----------------------------------------------------
-      !||    icontact_mod    ../engine/share/modules/icontact_mod.F
-      !||    message_mod     ../engine/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    i17buce         ../engine/source/interfaces/int17/i17buce.F
+!||--- called by ------------------------------------------------------
+!||    i17main         ../engine/source/interfaces/int17/i17main.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg          ../engine/source/output/message/message.F
+!||    arret           ../engine/source/system/arret.F
+!||    i17tri          ../engine/source/interfaces/int17/i17tri.F
+!||    my_barrier      ../engine/source/system/machine.F
+!||    spmd_tri17box   ../engine/source/mpi/interfaces/spmd_tri17box.F
+!||--- uses       -----------------------------------------------------
+!||    icontact_mod    ../engine/share/modules/icontact_mod.F
+!||    message_mod     ../engine/share/message_module/message_mod.F
+!||====================================================================
        SUBROUTINE I17BUCE(
      1   NELES    ,IXS        ,IXS16    ,IXS20    ,NELEM    ,
      2   NME      ,LWAT       ,NMES     ,CAND_E   ,CAND_N   ,

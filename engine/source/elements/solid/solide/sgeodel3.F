@@ -21,20 +21,20 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C-----------------------------------------------
-      !||====================================================================
-      !||    sgeodel3      ../engine/source/elements/solid/solide/sgeodel3.F
-      !||--- called by ------------------------------------------------------
-      !||    s10forc3      ../engine/source/elements/solid/solide10/s10forc3.F
-      !||    s20forc3      ../engine/source/elements/solid/solide20/s20forc3.F
-      !||    s4forc3       ../engine/source/elements/solid/solide4/s4forc3.F
-      !||    s8eforc3      ../engine/source/elements/solid/solide8e/s8eforc3.F
-      !||    s8zforc3      ../engine/source/elements/solid/solide8z/s8zforc3.F
-      !||    sforc3        ../engine/source/elements/solid/solide/sforc3.F
-      !||    szforc3       ../engine/source/elements/solid/solidez/szforc3.F
-      !||--- uses       -----------------------------------------------------
-      !||    dt_mod        ../engine/source/modules/dt_mod.F
-      !||    message_mod   ../engine/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    sgeodel3      ../engine/source/elements/solid/solide/sgeodel3.F
+!||--- called by ------------------------------------------------------
+!||    s10forc3      ../engine/source/elements/solid/solide10/s10forc3.F
+!||    s20forc3      ../engine/source/elements/solid/solide20/s20forc3.F
+!||    s4forc3       ../engine/source/elements/solid/solide4/s4forc3.F
+!||    s8eforc3      ../engine/source/elements/solid/solide8e/s8eforc3.F
+!||    s8zforc3      ../engine/source/elements/solid/solide8z/s8zforc3.F
+!||    sforc3        ../engine/source/elements/solid/solide/sforc3.F
+!||    szforc3       ../engine/source/elements/solid/solidez/szforc3.F
+!||--- uses       -----------------------------------------------------
+!||    dt_mod        ../engine/source/modules/dt_mod.F
+!||    message_mod   ../engine/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE SGEODEL3(
      1   NGL,     OFFG,    VOLG,    DELTAX,
      2   VOLG0,   GEO,     L_MAX,   DT,

@@ -20,15 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    i2_impd         ../engine/source/interfaces/interf/i2_impd.F
-      !||--- called by ------------------------------------------------------
-      !||    recukin         ../engine/source/implicit/recudis.F
-      !||--- calls      -----------------------------------------------------
-      !||    int2_imp2       ../engine/source/interfaces/interf/i2_imp2.F
-      !||--- uses       -----------------------------------------------------
-      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    i2_impd         ../engine/source/interfaces/interf/i2_impd.F
+!||--- called by ------------------------------------------------------
+!||    recukin         ../engine/source/implicit/recudis.F
+!||--- calls      -----------------------------------------------------
+!||    int2_imp2       ../engine/source/interfaces/interf/i2_imp2.F
+!||--- uses       -----------------------------------------------------
+!||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
+!||====================================================================
       SUBROUTINE I2_IMPD(NINT2 ,IINT2,IPARI,INTBUF_TAB  ,
      .                   X     ,MS   ,IN   ,WEIGHT,NDOF ,
      .                   D     ,DR  )

@@ -20,32 +20,32 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    rdresa                 ../engine/source/output/restart/rdresa.F
-      !||--- called by ------------------------------------------------------
-      !||    radioss2               ../engine/source/engine/radioss2.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg                 ../engine/source/output/message/message.F
-      !||    arret                  ../engine/source/system/arret.F
-      !||    cur_fil_c              ../common_source/tools/input_output/write_routtines.c
-      !||    rdcomi                 ../engine/source/output/restart/rdcomm.F
-      !||    read_i_c               ../common_source/tools/input_output/write_routtines.c
-      !||--- uses       -----------------------------------------------------
-      !||    glob_therm_mod         ../common_source/modules/mat_elem/glob_therm_mod.F90
-      !||    h3d_mod                ../engine/share/modules/h3d_mod.F
-      !||    interfaces_mod         ../common_source/modules/interfaces/interfaces_mod.F90
-      !||    loads_mod              ../common_source/modules/loads/loads_mod.F90
-      !||    mat_elem_mod           ../common_source/modules/mat_elem/mat_elem_mod.F90
-      !||    message_mod            ../engine/share/message_module/message_mod.F
-      !||    multi_fvm_mod          ../common_source/modules/ale/multi_fvm_mod.F90
-      !||    names_and_titles_mod   ../common_source/modules/names_and_titles_mod.F
-      !||    pblast_mod             ../common_source/modules/loads/pblast_mod.F90
-      !||    pinchtype_mod          ../common_source/modules/pinchtype_mod.F
-      !||    rbe3_mod               ../common_source/modules/constraints/rbe3_mod.F90
-      !||    sensor_mod             ../common_source/modules/sensor_mod.F90
-      !||    skew_mod               ../common_source/modules/skew_mod.F90
-      !||    state_mod              ../common_source/modules/state_mod.F
-      !||====================================================================
+!||====================================================================
+!||    rdresa                 ../engine/source/output/restart/rdresa.F
+!||--- called by ------------------------------------------------------
+!||    radioss2               ../engine/source/engine/radioss2.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                 ../engine/source/output/message/message.F
+!||    arret                  ../engine/source/system/arret.F
+!||    cur_fil_c              ../common_source/tools/input_output/write_routtines.c
+!||    rdcomi                 ../engine/source/output/restart/rdcomm.F
+!||    read_i_c               ../common_source/tools/input_output/write_routtines.c
+!||--- uses       -----------------------------------------------------
+!||    glob_therm_mod         ../common_source/modules/mat_elem/glob_therm_mod.F90
+!||    h3d_mod                ../engine/share/modules/h3d_mod.F
+!||    interfaces_mod         ../common_source/modules/interfaces/interfaces_mod.F90
+!||    loads_mod              ../common_source/modules/loads/loads_mod.F90
+!||    mat_elem_mod           ../common_source/modules/mat_elem/mat_elem_mod.F90
+!||    message_mod            ../engine/share/message_module/message_mod.F
+!||    multi_fvm_mod          ../common_source/modules/ale/multi_fvm_mod.F90
+!||    names_and_titles_mod   ../common_source/modules/names_and_titles_mod.F
+!||    pblast_mod             ../common_source/modules/loads/pblast_mod.F90
+!||    pinchtype_mod          ../common_source/modules/pinchtype_mod.F
+!||    rbe3_mod               ../common_source/modules/constraints/rbe3_mod.F90
+!||    sensor_mod             ../common_source/modules/sensor_mod.F90
+!||    skew_mod               ../common_source/modules/skew_mod.F90
+!||    state_mod              ../common_source/modules/state_mod.F
+!||====================================================================
       SUBROUTINE RDRESA(ITSTV1 , LHEADER, LVARINT, LVARREA, PRADIOS,
      .                  PRESFIL,MULTI_FVM,H3D_DATA,
      .                  PINCH_DATA,DYNAIN_DATA,INTERFACES,SENSORS,LOADS,
@@ -196,18 +196,18 @@ C
       RETURN
       END
 
-      !||====================================================================
-      !||    iniresa          ../engine/source/output/restart/rdresa.F
-      !||--- called by ------------------------------------------------------
-      !||    radioss2         ../engine/source/engine/radioss2.F
-      !||--- uses       -----------------------------------------------------
-      !||    ale_mod          ../common_source/modules/ale/ale_mod.F
-      !||    aleanim_mod      ../engine/share/modules/aleanim_mod.F
-      !||    glob_therm_mod   ../common_source/modules/mat_elem/glob_therm_mod.F90
-      !||    h3d_mod          ../engine/share/modules/h3d_mod.F
-      !||    message_mod      ../engine/share/message_module/message_mod.F
-      !||    pinchtype_mod    ../common_source/modules/pinchtype_mod.F
-      !||====================================================================
+!||====================================================================
+!||    iniresa          ../engine/source/output/restart/rdresa.F
+!||--- called by ------------------------------------------------------
+!||    radioss2         ../engine/source/engine/radioss2.F
+!||--- uses       -----------------------------------------------------
+!||    ale_mod          ../common_source/modules/ale/ale_mod.F
+!||    aleanim_mod      ../engine/share/modules/aleanim_mod.F
+!||    glob_therm_mod   ../common_source/modules/mat_elem/glob_therm_mod.F90
+!||    h3d_mod          ../engine/share/modules/h3d_mod.F
+!||    message_mod      ../engine/share/message_module/message_mod.F
+!||    pinchtype_mod    ../common_source/modules/pinchtype_mod.F
+!||====================================================================
       SUBROUTINE INIRESA(H3D_DATA,PINCH_DATA,GLOB_THERM)
 C-----------------------------------------------
 C   M o d u l e s

@@ -25,24 +25,24 @@
 !Chd|-- called by -----------
 !Chd|-- calls ---------------
 !Chd|====================================================================
-      !||====================================================================
-      !||    fractal_elem_renum_mod   ../starter/source/materials/fail/fractal/fractal_elem_spmd_renum.F90
-      !||--- called by ------------------------------------------------------
-      !||    lectur                   ../starter/source/starter/lectur.F
-      !||====================================================================
+!||====================================================================
+!||    fractal_elem_renum_mod   ../starter/source/materials/fail/fractal/fractal_elem_spmd_renum.F90
+!||--- called by ------------------------------------------------------
+!||    lectur                   ../starter/source/starter/lectur.F
+!||====================================================================
       module fractal_elem_renum_mod
       contains
 ! ========================================================================================
 ! \brief renumber local element numbers in damaged element list after domain decomposition
 ! \details 
 
-      !||====================================================================
-      !||    fractal_elem_renum    ../starter/source/materials/fail/fractal/fractal_elem_spmd_renum.F90
-      !||--- called by ------------------------------------------------------
-      !||    lectur                ../starter/source/starter/lectur.F
-      !||--- uses       -----------------------------------------------------
-      !||    reorder_mod           ../starter/share/modules1/reorder_mod.F
-      !||====================================================================
+!||====================================================================
+!||    fractal_elem_renum    ../starter/source/materials/fail/fractal/fractal_elem_spmd_renum.F90
+!||--- called by ------------------------------------------------------
+!||    lectur                ../starter/source/starter/lectur.F
+!||--- uses       -----------------------------------------------------
+!||    reorder_mod           ../starter/share/modules1/reorder_mod.F
+!||====================================================================
       subroutine fractal_elem_renum(fail_fractal,numelc,numeltg)
 
 !-----------------------------------------------

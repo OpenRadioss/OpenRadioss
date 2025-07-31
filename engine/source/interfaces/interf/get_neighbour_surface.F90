@@ -20,11 +20,11 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    get_neighbour_surface_mod   ../engine/source/interfaces/interf/get_neighbour_surface.F90
-      !||--- called by ------------------------------------------------------
-      !||    resol                       ../engine/source/engine/resol.F
-      !||====================================================================
+!||====================================================================
+!||    get_neighbour_surface_mod   ../engine/source/interfaces/interf/get_neighbour_surface.F90
+!||--- called by ------------------------------------------------------
+!||    resol                       ../engine/source/engine/resol.F
+!||====================================================================
       module get_neighbour_surface_mod
       contains
 ! ======================================================================================================================
@@ -40,37 +40,37 @@
 !!          * compute for each pair (new segment + other segment) a criteria (angle between the 2 segment's normals)
 !!          * choose the neighbour segmennt with the lower criteria
 !!          * update the frontier for spmd exchange
-      !||====================================================================
-      !||    get_neighbour_surface             ../engine/source/interfaces/interf/get_neighbour_surface.F90
-      !||--- called by ------------------------------------------------------
-      !||    resol                             ../engine/source/engine/resol.F
-      !||--- calls      -----------------------------------------------------
-      !||    alloc_my_real_1d_array            ../common_source/modules/array_mod.F
-      !||    dealloc_my_real_1d_array          ../common_source/modules/array_mod.F
-      !||    get_convexity_normals             ../engine/source/interfaces/interf/get_convexity_normals.F90
-      !||    get_segment_interface_id          ../engine/source/interfaces/interf/get_segment_interface_id.F90
-      !||    get_segment_normal                ../engine/source/interfaces/interf/get_segment_normal.F90
-      !||    get_segment_orientation           ../engine/source/interfaces/interf/get_segment_orientation.F90
-      !||    spmd_exch_neighbour_segment       ../engine/source/mpi/interfaces/spmd_exch_neighbour_segment.F90
-      !||    spmd_update_frontier_int25        ../engine/source/mpi/interfaces/spmd_update_frontier_int25.F90
-      !||    update_neighbour_segment          ../engine/source/interfaces/interf/update_neighbour_segment.F90
-      !||--- uses       -----------------------------------------------------
-      !||    array_mod                         ../common_source/modules/array_mod.F
-      !||    constant_mod                      ../common_source/modules/constant_mod.F
-      !||    get_convexity_normals_mod         ../engine/source/interfaces/interf/get_convexity_normals.F90
-      !||    get_segment_criteria_mod          ../engine/source/interfaces/interf/get_segment_criteria.F90
-      !||    get_segment_interface_id_mod      ../engine/source/interfaces/interf/get_segment_interface_id.F90
-      !||    get_segment_normal_mod            ../engine/source/interfaces/interf/get_segment_normal.F90
-      !||    get_segment_orientation_mod       ../engine/source/interfaces/interf/get_segment_orientation.F90
-      !||    intbufdef_mod                     ../common_source/modules/interfaces/intbufdef_mod.F90
-      !||    nodal_arrays_mod                  ../common_source/modules/nodal_arrays.F90
-      !||    precision_mod                     ../common_source/modules/precision_mod.F90
-      !||    shooting_node_mod                 ../engine/share/modules/shooting_node_mod.F
-      !||    spmd_arrays_mod                   ../common_source/modules/interfaces/spmd_arrays_mod.F
-      !||    spmd_exch_neighbour_segment_mod   ../engine/source/mpi/interfaces/spmd_exch_neighbour_segment.F90
-      !||    spmd_update_frontier_int25_mod    ../engine/source/mpi/interfaces/spmd_update_frontier_int25.F90
-      !||    update_neighbour_segment_mod      ../engine/source/interfaces/interf/update_neighbour_segment.F90
-      !||====================================================================
+!||====================================================================
+!||    get_neighbour_surface             ../engine/source/interfaces/interf/get_neighbour_surface.F90
+!||--- called by ------------------------------------------------------
+!||    resol                             ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
+!||    alloc_my_real_1d_array            ../common_source/modules/array_mod.F
+!||    dealloc_my_real_1d_array          ../common_source/modules/array_mod.F
+!||    get_convexity_normals             ../engine/source/interfaces/interf/get_convexity_normals.F90
+!||    get_segment_interface_id          ../engine/source/interfaces/interf/get_segment_interface_id.F90
+!||    get_segment_normal                ../engine/source/interfaces/interf/get_segment_normal.F90
+!||    get_segment_orientation           ../engine/source/interfaces/interf/get_segment_orientation.F90
+!||    spmd_exch_neighbour_segment       ../engine/source/mpi/interfaces/spmd_exch_neighbour_segment.F90
+!||    spmd_update_frontier_int25        ../engine/source/mpi/interfaces/spmd_update_frontier_int25.F90
+!||    update_neighbour_segment          ../engine/source/interfaces/interf/update_neighbour_segment.F90
+!||--- uses       -----------------------------------------------------
+!||    array_mod                         ../common_source/modules/array_mod.F
+!||    constant_mod                      ../common_source/modules/constant_mod.F
+!||    get_convexity_normals_mod         ../engine/source/interfaces/interf/get_convexity_normals.F90
+!||    get_segment_criteria_mod          ../engine/source/interfaces/interf/get_segment_criteria.F90
+!||    get_segment_interface_id_mod      ../engine/source/interfaces/interf/get_segment_interface_id.F90
+!||    get_segment_normal_mod            ../engine/source/interfaces/interf/get_segment_normal.F90
+!||    get_segment_orientation_mod       ../engine/source/interfaces/interf/get_segment_orientation.F90
+!||    intbufdef_mod                     ../common_source/modules/interfaces/intbufdef_mod.F90
+!||    nodal_arrays_mod                  ../common_source/modules/nodal_arrays.F90
+!||    precision_mod                     ../common_source/modules/precision_mod.F90
+!||    shooting_node_mod                 ../engine/share/modules/shooting_node_mod.F
+!||    spmd_arrays_mod                   ../common_source/modules/interfaces/spmd_arrays_mod.F
+!||    spmd_exch_neighbour_segment_mod   ../engine/source/mpi/interfaces/spmd_exch_neighbour_segment.F90
+!||    spmd_update_frontier_int25_mod    ../engine/source/mpi/interfaces/spmd_update_frontier_int25.F90
+!||    update_neighbour_segment_mod      ../engine/source/interfaces/interf/update_neighbour_segment.F90
+!||====================================================================
         subroutine get_neighbour_surface( ispmd,nspmd,ninter25,npari,ninter,  &
                                           nbintc,nixs,nixc,nixtg,numnod,  &
                                           numels,numelc,numeltrg,s_elem_state, &

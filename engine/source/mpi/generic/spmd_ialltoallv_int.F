@@ -21,14 +21,14 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 
-      !||====================================================================
-      !||    spmd_ialltoallv_int         ../engine/source/mpi/generic/spmd_ialltoallv_int.F
-      !||--- called by ------------------------------------------------------
-      !||    spmd_coarse_cell_exchange   ../engine/source/mpi/interfaces/spmd_coarse_cell_exchange.F
-      !||    spmd_sphgat                 ../engine/source/mpi/sph/spmd_sphgat.F
-      !||    spmd_sphgetv                ../engine/source/mpi/sph/spmd_sphgetv.F
-      !||--- calls      -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    spmd_ialltoallv_int         ../engine/source/mpi/generic/spmd_ialltoallv_int.F
+!||--- called by ------------------------------------------------------
+!||    spmd_coarse_cell_exchange   ../engine/source/mpi/interfaces/spmd_coarse_cell_exchange.F
+!||    spmd_sphgat                 ../engine/source/mpi/sph/spmd_sphgat.F
+!||    spmd_sphgetv                ../engine/source/mpi/sph/spmd_sphgetv.F
+!||--- calls      -----------------------------------------------------
+!||====================================================================
         SUBROUTINE SPMD_IALLTOALLV_INT(SENDBUF,RECVBUF,SEND_SIZE,TOTAL_SEND_SIZE,SDISPLS,
      .                             TOTAL_RCV_SIZE,RCV_SIZE,RDISPLS,
      .                             REQUEST,COMM,NB_PROC)

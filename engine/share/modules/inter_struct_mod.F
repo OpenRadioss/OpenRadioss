@@ -20,32 +20,32 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    inter_struct_mod               ../engine/share/modules/inter_struct_mod.F
-      !||--- called by ------------------------------------------------------
-      !||    compute_voxel_dimensions       ../engine/source/interfaces/intsort/voxel_dimensions.F90
-      !||    fill_voxel_local_partial       ../engine/source/interfaces/intsort/fill_voxel.F90
-      !||    inter7_collision_detection     ../engine/source/interfaces/intsort/inter7_collision_detection.F90
-      !||    inter_cell_color               ../engine/source/interfaces/generic/inter_cell_color.F
-      !||    inter_check_sort               ../engine/source/interfaces/generic/inter_check_sort.F
-      !||    inter_color_voxel              ../engine/source/interfaces/generic/inter_color_voxel.F
-      !||    inter_count_node_curv          ../engine/source/interfaces/generic/inter_count_node_curv.F
-      !||    inter_deallocate_wait          ../engine/source/interfaces/generic/inter_deallocate_wait.F
-      !||    inter_minmax_node              ../engine/source/interfaces/generic/inter_minmax_node.F
-      !||    inter_prepare_sort             ../engine/source/interfaces/generic/inter_prepare_sort.F
-      !||    inter_sort                     ../engine/source/interfaces/generic/inter_sort.F
-      !||    inter_sort_07                  ../engine/source/interfaces/int07/inter_sort_07.F
-      !||    inter_struct_init              ../engine/source/interfaces/generic/inter_struct_init.F
-      !||    inter_trc_7                    ../engine/source/interfaces/int07/inter_trc_7.F
-      !||    inttri                         ../engine/source/interfaces/intsort/inttri.F
-      !||    resol                          ../engine/source/engine/resol.F
-      !||    spmd_box_limit_reduction       ../engine/source/mpi/interfaces/spmd_box_limit_reduction.F
-      !||    spmd_cell_exchange             ../engine/source/mpi/generic/spmd_cell_exchange.F
-      !||    spmd_cell_list_exchange        ../engine/source/mpi/interfaces/spmd_cell_list_exchange.F
-      !||    spmd_cell_size_exchange_init   ../engine/source/mpi/interfaces/spmd_cell_size_exchange_init.F
-      !||    spmd_get_inacti_global         ../engine/source/mpi/interfaces/spmd_get_inacti_global.F
-      !||    spmd_split_comm_inter          ../engine/source/mpi/interfaces/spmd_split_comm_inter.F
-      !||====================================================================
+!||====================================================================
+!||    inter_struct_mod               ../engine/share/modules/inter_struct_mod.F
+!||--- called by ------------------------------------------------------
+!||    compute_voxel_dimensions       ../engine/source/interfaces/intsort/voxel_dimensions.F90
+!||    fill_voxel_local_partial       ../engine/source/interfaces/intsort/fill_voxel.F90
+!||    inter7_collision_detection     ../engine/source/interfaces/intsort/inter7_collision_detection.F90
+!||    inter_cell_color               ../engine/source/interfaces/generic/inter_cell_color.F
+!||    inter_check_sort               ../engine/source/interfaces/generic/inter_check_sort.F
+!||    inter_color_voxel              ../engine/source/interfaces/generic/inter_color_voxel.F
+!||    inter_count_node_curv          ../engine/source/interfaces/generic/inter_count_node_curv.F
+!||    inter_deallocate_wait          ../engine/source/interfaces/generic/inter_deallocate_wait.F
+!||    inter_minmax_node              ../engine/source/interfaces/generic/inter_minmax_node.F
+!||    inter_prepare_sort             ../engine/source/interfaces/generic/inter_prepare_sort.F
+!||    inter_sort                     ../engine/source/interfaces/generic/inter_sort.F
+!||    inter_sort_07                  ../engine/source/interfaces/int07/inter_sort_07.F
+!||    inter_struct_init              ../engine/source/interfaces/generic/inter_struct_init.F
+!||    inter_trc_7                    ../engine/source/interfaces/int07/inter_trc_7.F
+!||    inttri                         ../engine/source/interfaces/intsort/inttri.F
+!||    resol                          ../engine/source/engine/resol.F
+!||    spmd_box_limit_reduction       ../engine/source/mpi/interfaces/spmd_box_limit_reduction.F
+!||    spmd_cell_exchange             ../engine/source/mpi/generic/spmd_cell_exchange.F
+!||    spmd_cell_list_exchange        ../engine/source/mpi/interfaces/spmd_cell_list_exchange.F
+!||    spmd_cell_size_exchange_init   ../engine/source/mpi/interfaces/spmd_cell_size_exchange_init.F
+!||    spmd_get_inacti_global         ../engine/source/mpi/interfaces/spmd_get_inacti_global.F
+!||    spmd_split_comm_inter          ../engine/source/mpi/interfaces/spmd_split_comm_inter.F
+!||====================================================================
         MODULE INTER_STRUCT_MOD
 #include      "my_real.inc"    
 !$COMMENT

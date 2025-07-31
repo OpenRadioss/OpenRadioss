@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    hm_get_current_option   ../starter/source/devtools/hm_reader/hm_get_current_option.F
-      !||--- called by ------------------------------------------------------
-      !||    ngr2usr                 ../starter/source/system/nintrr.F
-      !||--- calls      -----------------------------------------------------
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod             ../starter/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    hm_get_current_option   ../starter/source/devtools/hm_reader/hm_get_current_option.F
+!||--- called by ------------------------------------------------------
+!||    ngr2usr                 ../starter/source/system/nintrr.F
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||    message_mod             ../starter/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE HM_GET_CURRENT_OPTION(OPTION_ID,UNIT_ID,OPTION_TITR,
      .                              KEYWORD1,KEYWORD2,KEYWORD3,KEYWORD4)
 C-----------------------------------------------

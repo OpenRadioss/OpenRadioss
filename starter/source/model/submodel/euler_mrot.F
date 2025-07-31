@@ -24,12 +24,12 @@ C   This function computes a 3d rotation matrix.
 C   The rotation is about the axis <rx,ry,rz> .
 C   The rotation angle [sqrt(rx**2+ry**2+rz**2)] is specified in degrees. 
 C   These rotation is counter-clockwise looking from the positive direction.
-      !||====================================================================
-      !||    euler_mrot    ../starter/source/model/submodel/euler_mrot.F
-      !||--- called by ------------------------------------------------------
-      !||    lectrans      ../starter/source/model/transformation/lectrans.F
-      !||    lectranssub   ../starter/source/model/submodel/lectranssub.F
-      !||====================================================================
+!||====================================================================
+!||    euler_mrot    ../starter/source/model/submodel/euler_mrot.F
+!||--- called by ------------------------------------------------------
+!||    lectrans      ../starter/source/model/transformation/lectrans.F
+!||    lectranssub   ../starter/source/model/submodel/lectranssub.F
+!||====================================================================
       SUBROUTINE EULER_MROT (RX,RY,RZ,ROT)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

@@ -20,27 +20,27 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    lectranssub             ../starter/source/model/submodel/lectranssub.F
-      !||--- called by ------------------------------------------------------
-      !||    lectur                  ../starter/source/starter/lectur.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg                  ../starter/source/output/message/message.F
-      !||    euler_mrot              ../starter/source/model/submodel/euler_mrot.F
-      !||    hm_get_floatv           ../starter/source/devtools/hm_reader/hm_get_floatv.F
-      !||    hm_get_intv             ../starter/source/devtools/hm_reader/hm_get_intv.F
-      !||    hm_option_count         ../starter/source/devtools/hm_reader/hm_option_count.F
-      !||    hm_option_read_key      ../starter/source/devtools/hm_reader/hm_option_read_key.F
-      !||    hm_option_start         ../starter/source/devtools/hm_reader/hm_option_start.F
-      !||    ngr2usr                 ../starter/source/system/nintrr.F
-      !||    points_to_frame         ../starter/source/model/submodel/3points_to_frame.F
-      !||    rtranspos               ../starter/source/model/submodel/rtranspos.F
-      !||    usrtos                  ../starter/source/system/sysfus.F
-      !||--- uses       -----------------------------------------------------
-      !||    hm_option_read_mod      ../starter/share/modules1/hm_option_read_mod.F
-      !||    message_mod             ../starter/share/message_module/message_mod.F
-      !||    submodel_mod            ../starter/share/modules1/submodel_mod.F
-      !||====================================================================
+!||====================================================================
+!||    lectranssub             ../starter/source/model/submodel/lectranssub.F
+!||--- called by ------------------------------------------------------
+!||    lectur                  ../starter/source/starter/lectur.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                  ../starter/source/output/message/message.F
+!||    euler_mrot              ../starter/source/model/submodel/euler_mrot.F
+!||    hm_get_floatv           ../starter/source/devtools/hm_reader/hm_get_floatv.F
+!||    hm_get_intv             ../starter/source/devtools/hm_reader/hm_get_intv.F
+!||    hm_option_count         ../starter/source/devtools/hm_reader/hm_option_count.F
+!||    hm_option_read_key      ../starter/source/devtools/hm_reader/hm_option_read_key.F
+!||    hm_option_start         ../starter/source/devtools/hm_reader/hm_option_start.F
+!||    ngr2usr                 ../starter/source/system/nintrr.F
+!||    points_to_frame         ../starter/source/model/submodel/3points_to_frame.F
+!||    rtranspos               ../starter/source/model/submodel/rtranspos.F
+!||    usrtos                  ../starter/source/system/sysfus.F
+!||--- uses       -----------------------------------------------------
+!||    hm_option_read_mod      ../starter/share/modules1/hm_option_read_mod.F
+!||    message_mod             ../starter/share/message_module/message_mod.F
+!||    submodel_mod            ../starter/share/modules1/submodel_mod.F
+!||====================================================================
       SUBROUTINE LECTRANSSUB(X      ,IGRNOD,ITAB,ITABM1,UNITAB,
      .                       RTRANS ,LSUBMODEL,IS_DYNA)
 C-----------------------------------------------

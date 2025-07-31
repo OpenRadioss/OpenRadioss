@@ -20,15 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    ale51_upwind2          ../engine/source/ale/ale51/ale51_upwind2.F
-      !||--- called by ------------------------------------------------------
-      !||    afluxt                 ../engine/source/ale/ale51/afluxt.F
-      !||    ale51_finish           ../engine/source/ale/ale51/ale51_finish.F
-      !||    ale51_init             ../engine/source/ale/ale51/ale51_init.F
-      !||--- uses       -----------------------------------------------------
-      !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
-      !||====================================================================
+!||====================================================================
+!||    ale51_upwind2          ../engine/source/ale/ale51/ale51_upwind2.F
+!||--- called by ------------------------------------------------------
+!||    afluxt                 ../engine/source/ale/ale51/afluxt.F
+!||    ale51_finish           ../engine/source/ale/ale51/ale51_finish.F
+!||    ale51_init             ../engine/source/ale/ale51/ale51_init.F
+!||--- uses       -----------------------------------------------------
+!||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
+!||====================================================================
       SUBROUTINE ALE51_UPWIND2(PM,X,IXQ,FLUX,FLU1,ALE_CONNECT,
      .               ITRIMAT,DDVOL,QMV,IFLG)
 C-----------------------------------------------

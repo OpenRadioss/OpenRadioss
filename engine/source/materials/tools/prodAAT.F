@@ -21,15 +21,15 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C This subroutines computes C(NEL,3,3) which is the product [C] = [A][A]T
-      !||====================================================================
-      !||    prodaat     ../engine/source/materials/tools/prodAAT.F
-      !||--- called by ------------------------------------------------------
-      !||    calcmatb    ../engine/source/materials/mat/mat100/calcmatb.F
-      !||    sigeps100   ../engine/source/materials/mat/mat100/sigeps100.F90
-      !||    sigeps111   ../engine/source/materials/mat/mat111/sigeps111.F
-      !||    sigeps42    ../engine/source/materials/mat/mat042/sigeps42.F
-      !||    sigeps95    ../engine/source/materials/mat/mat095/sigeps95.F
-      !||====================================================================
+!||====================================================================
+!||    prodaat     ../engine/source/materials/tools/prodAAT.F
+!||--- called by ------------------------------------------------------
+!||    calcmatb    ../engine/source/materials/mat/mat100/calcmatb.F
+!||    sigeps100   ../engine/source/materials/mat/mat100/sigeps100.F90
+!||    sigeps111   ../engine/source/materials/mat/mat111/sigeps111.F
+!||    sigeps42    ../engine/source/materials/mat/mat042/sigeps42.F
+!||    sigeps95    ../engine/source/materials/mat/mat095/sigeps95.F
+!||====================================================================
       SUBROUTINE PRODAAT(A, C, NEL)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

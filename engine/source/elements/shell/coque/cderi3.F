@@ -20,12 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    cderi3       ../engine/source/elements/shell/coque/cderi3.F
-      !||--- called by ------------------------------------------------------
-      !||    cforc3       ../engine/source/elements/shell/coque/cforc3.F
-      !||    cforc3_crk   ../engine/source/elements/xfem/cforc3_crk.F
-      !||====================================================================
+!||====================================================================
+!||    cderi3       ../engine/source/elements/shell/coque/cderi3.F
+!||--- called by ------------------------------------------------------
+!||    cforc3       ../engine/source/elements/shell/coque/cforc3.F
+!||    cforc3_crk   ../engine/source/elements/xfem/cforc3_crk.F
+!||====================================================================
       SUBROUTINE CDERI3(
      1   JFT,     JLT,     SMSTR,   OFFG,
      2   STI,     STIR,    AREA,    PX1,

@@ -20,11 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    r3coor3   ../engine/source/elements/spring/r3coor3.F
-      !||--- called by ------------------------------------------------------
-      !||    rforc3    ../engine/source/elements/spring/rforc3.F
-      !||====================================================================
+!||====================================================================
+!||    r3coor3   ../engine/source/elements/spring/r3coor3.F
+!||--- called by ------------------------------------------------------
+!||    rforc3    ../engine/source/elements/spring/rforc3.F
+!||====================================================================
       SUBROUTINE R3COOR3(
      1   X,       VR,      IXR,     XDP,
      2   X1DP,    X2DP,    X3DP,    NGL,

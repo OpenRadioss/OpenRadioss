@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    st_qaprint_element     ../starter/source/output/qaprint/st_qaprint_element.F
-      !||--- called by ------------------------------------------------------
-      !||    st_qaprint_driver      ../starter/source/output/qaprint/st_qaprint_driver.F
-      !||--- calls      -----------------------------------------------------
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod            ../starter/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    st_qaprint_element     ../starter/source/output/qaprint/st_qaprint_element.F
+!||--- called by ------------------------------------------------------
+!||    st_qaprint_driver      ../starter/source/output/qaprint/st_qaprint_driver.F
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||    message_mod            ../starter/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE ST_QAPRINT_ELEMENT(IXS , IXS10, IPM   , IGEO, ITAB, 
      1                              ISOLNOD,IXR, R_SKEW,ISKWN, IXP ,
      2                              IXT    ,X  , IXC   ,IXTG ,THKE ,

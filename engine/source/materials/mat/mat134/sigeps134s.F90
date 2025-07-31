@@ -22,24 +22,24 @@
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !===============================================================================
 
-      !||====================================================================
-      !||    sigeps134s_mod   ../engine/source/materials/mat/mat134/sigeps134s.F90
-      !||--- called by ------------------------------------------------------
-      !||    mulaw            ../engine/source/materials/mat_share/mulaw.F90
-      !||====================================================================
+!||====================================================================
+!||    sigeps134s_mod   ../engine/source/materials/mat/mat134/sigeps134s.F90
+!||--- called by ------------------------------------------------------
+!||    mulaw            ../engine/source/materials/mat_share/mulaw.F90
+!||====================================================================
       module sigeps134s_mod
       contains
 
 
-      !||====================================================================
-      !||    sigeps134s         ../engine/source/materials/mat/mat134/sigeps134s.F90
-      !||--- called by ------------------------------------------------------
-      !||    mulaw              ../engine/source/materials/mat_share/mulaw.F90
-      !||--- uses       -----------------------------------------------------
-      !||    constant_mod       ../common_source/modules/constant_mod.F
-      !||    matparam_def_mod   ../common_source/modules/mat_elem/matparam_def_mod.F90
-      !||    precision_mod      ../common_source/modules/precision_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    sigeps134s         ../engine/source/materials/mat/mat134/sigeps134s.F90
+!||--- called by ------------------------------------------------------
+!||    mulaw              ../engine/source/materials/mat_share/mulaw.F90
+!||--- uses       -----------------------------------------------------
+!||    constant_mod       ../common_source/modules/constant_mod.F
+!||    matparam_def_mod   ../common_source/modules/mat_elem/matparam_def_mod.F90
+!||    precision_mod      ../common_source/modules/precision_mod.F90
+!||====================================================================
        subroutine sigeps134s(mat_param  ,                                       &
            nel      ,nuvar     ,uvar     ,rho      ,timestep ,                  &
            depsxx   ,depsyy   ,depszz   ,depsxy   ,depsyz   ,depszx   ,         &

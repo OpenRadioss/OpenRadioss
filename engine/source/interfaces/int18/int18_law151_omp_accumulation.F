@@ -20,15 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    int18_law151_omp_accumulation   ../engine/source/interfaces/int18/int18_law151_omp_accumulation.F
-      !||--- called by ------------------------------------------------------
-      !||    resol                           ../engine/source/engine/resol.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod                     ../engine/share/message_module/message_mod.F
-      !||    multi_fvm_mod                   ../common_source/modules/ale/multi_fvm_mod.F90
-      !||    tri7box                         ../engine/share/modules/tri7box.F
-      !||====================================================================
+!||====================================================================
+!||    int18_law151_omp_accumulation   ../engine/source/interfaces/int18/int18_law151_omp_accumulation.F
+!||--- called by ------------------------------------------------------
+!||    resol                           ../engine/source/engine/resol.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod                     ../engine/share/message_module/message_mod.F
+!||    multi_fvm_mod                   ../common_source/modules/ale/multi_fvm_mod.F90
+!||    tri7box                         ../engine/share/modules/tri7box.F
+!||====================================================================
         SUBROUTINE INT18_LAW151_OMP_ACCUMULATION( MULTI_FVM )
 !$COMMENT
 !       INT18_LAW151_OMP_ACCUMULATION description

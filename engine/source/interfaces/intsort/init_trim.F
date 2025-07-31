@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    init_trim   ../engine/source/interfaces/intsort/init_trim.F
-      !||--- called by ------------------------------------------------------
-      !||    resol       ../engine/source/engine/resol.F
-      !||--- uses       -----------------------------------------------------
-      !||    tri7box     ../engine/share/modules/tri7box.F
-      !||====================================================================
+!||====================================================================
+!||    init_trim   ../engine/source/interfaces/intsort/init_trim.F
+!||--- called by ------------------------------------------------------
+!||    resol       ../engine/source/engine/resol.F
+!||--- uses       -----------------------------------------------------
+!||    tri7box     ../engine/share/modules/tri7box.F
+!||====================================================================
       SUBROUTINE INIT_TRIM(NINTER)
 C Initialize arrays that are use to decide if bounding boxes
 C of each interfaces should be trimmed or not

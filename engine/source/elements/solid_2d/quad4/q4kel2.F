@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    q4kel2      ../engine/source/elements/solid_2d/quad4/q4kel2.F
-      !||--- called by ------------------------------------------------------
-      !||    q4ke2       ../engine/source/elements/solid_2d/quad4/q4ke2.F
-      !||--- calls      -----------------------------------------------------
-      !||    q4kelij2    ../engine/source/elements/solid_2d/quad4/q4kelij2.F
-      !||    q4kelijs2   ../engine/source/elements/solid_2d/quad4/q4kelijs2.F
-      !||====================================================================
+!||====================================================================
+!||    q4kel2      ../engine/source/elements/solid_2d/quad4/q4kel2.F
+!||--- called by ------------------------------------------------------
+!||    q4ke2       ../engine/source/elements/solid_2d/quad4/q4ke2.F
+!||--- calls      -----------------------------------------------------
+!||    q4kelij2    ../engine/source/elements/solid_2d/quad4/q4kelij2.F
+!||    q4kelijs2   ../engine/source/elements/solid_2d/quad4/q4kelijs2.F
+!||====================================================================
       SUBROUTINE Q4KEL2(
      1   PY1,     PY2,     PY3,     PY4,
      2   PZ1,     PZ2,     PZ3,     PZ4,

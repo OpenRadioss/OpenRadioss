@@ -20,21 +20,21 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    i5ke3           ../engine/source/interfaces/inter3d/i5ke3.F
-      !||--- called by ------------------------------------------------------
-      !||    imp_int_k       ../engine/source/implicit/imp_int_k.F
-      !||--- calls      -----------------------------------------------------
-      !||    assem_int       ../engine/source/implicit/assem_int.F
-      !||    i3cst3          ../engine/source/interfaces/inter3d/i3cst3.F
-      !||    i3dis3          ../engine/source/interfaces/inter3d/i3dis3.F
-      !||    i3gap3          ../engine/source/interfaces/inter3d/i3gap3.F
-      !||    i5cork3         ../engine/source/interfaces/inter3d/i5cork3.F
-      !||    i5frik3         ../engine/source/interfaces/inter3d/i5keg3.F
-      !||    i5keg3          ../engine/source/interfaces/inter3d/i5keg3.F
-      !||--- uses       -----------------------------------------------------
-      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    i5ke3           ../engine/source/interfaces/inter3d/i5ke3.F
+!||--- called by ------------------------------------------------------
+!||    imp_int_k       ../engine/source/implicit/imp_int_k.F
+!||--- calls      -----------------------------------------------------
+!||    assem_int       ../engine/source/implicit/assem_int.F
+!||    i3cst3          ../engine/source/interfaces/inter3d/i3cst3.F
+!||    i3dis3          ../engine/source/interfaces/inter3d/i3dis3.F
+!||    i3gap3          ../engine/source/interfaces/inter3d/i3gap3.F
+!||    i5cork3         ../engine/source/interfaces/inter3d/i5cork3.F
+!||    i5frik3         ../engine/source/interfaces/inter3d/i5keg3.F
+!||    i5keg3          ../engine/source/interfaces/inter3d/i5keg3.F
+!||--- uses       -----------------------------------------------------
+!||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
+!||====================================================================
       SUBROUTINE I5KE3(  A     ,V      ,MS   ,
      1                   IPARI ,INTBUF_TAB,X    ,
      2                   NUM_IMP,CAND_N,CAND_E     ,

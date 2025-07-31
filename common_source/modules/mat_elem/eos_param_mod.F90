@@ -21,25 +21,25 @@
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 
-      !||====================================================================
-      !||    eos_param_mod                ../common_source/modules/mat_elem/eos_param_mod.F90
-      !||--- called by ------------------------------------------------------
-      !||    compaction                   ../common_source/eos/compaction.F90
-      !||    compaction2                  ../common_source/eos/compaction2.F90
-      !||    compaction_tab               ../common_source/eos/compaction_tab.F90
-      !||    compaction_tab_init          ../common_source/eos/compaction_tab.F90
-      !||    eos_table_copy               ../starter/source/materials/tools/eos_table_copy.F90
-      !||    hm_read_eos_compaction       ../starter/source/materials/eos/hm_read_eos_compaction.F90
-      !||    hm_read_eos_compaction2      ../starter/source/materials/eos/hm_read_eos_compaction2.F90
-      !||    hm_read_eos_compaction_tab   ../starter/source/materials/eos/hm_read_eos_compaction_tab.F90
-      !||    matparam_def_mod             ../common_source/modules/mat_elem/matparam_def_mod.F90
-      !||    read_eosparam                ../engine/source/output/restart/read_eosparam.F90
-      !||    write_eosparam               ../engine/source/output/restart/write_eosparam.F90
-      !||--- uses       -----------------------------------------------------
-      !||    names_and_titles_mod         ../common_source/modules/names_and_titles_mod.F
-      !||    precision_mod                ../common_source/modules/precision_mod.F90
-      !||    table4d_mod                  ../common_source/modules/table4d_mod.F
-      !||====================================================================
+!||====================================================================
+!||    eos_param_mod                ../common_source/modules/mat_elem/eos_param_mod.F90
+!||--- called by ------------------------------------------------------
+!||    compaction                   ../common_source/eos/compaction.F90
+!||    compaction2                  ../common_source/eos/compaction2.F90
+!||    compaction_tab               ../common_source/eos/compaction_tab.F90
+!||    compaction_tab_init          ../common_source/eos/compaction_tab.F90
+!||    eos_table_copy               ../starter/source/materials/tools/eos_table_copy.F90
+!||    hm_read_eos_compaction       ../starter/source/materials/eos/hm_read_eos_compaction.F90
+!||    hm_read_eos_compaction2      ../starter/source/materials/eos/hm_read_eos_compaction2.F90
+!||    hm_read_eos_compaction_tab   ../starter/source/materials/eos/hm_read_eos_compaction_tab.F90
+!||    matparam_def_mod             ../common_source/modules/mat_elem/matparam_def_mod.F90
+!||    read_eosparam                ../engine/source/output/restart/read_eosparam.F90
+!||    write_eosparam               ../engine/source/output/restart/write_eosparam.F90
+!||--- uses       -----------------------------------------------------
+!||    names_and_titles_mod         ../common_source/modules/names_and_titles_mod.F
+!||    precision_mod                ../common_source/modules/precision_mod.F90
+!||    table4d_mod                  ../common_source/modules/table4d_mod.F
+!||====================================================================
       module eos_param_mod
 
 ! ======================================================================================================================
@@ -81,9 +81,9 @@
 
       contains
 
-      !||====================================================================
-      !||    destruct_eos_param   ../common_source/modules/mat_elem/eos_param_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    destruct_eos_param   ../common_source/modules/mat_elem/eos_param_mod.F90
+!||====================================================================
         subroutine destruct_eos_param(this)
           implicit none
           class(eos_param_) ,intent(inout) :: this
@@ -93,9 +93,9 @@
           if(allocated(this%table))  deallocate(this%table)
         end subroutine destruct_eos_param
 
-      !||====================================================================
-      !||    construct_eos_param   ../common_source/modules/mat_elem/eos_param_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    construct_eos_param   ../common_source/modules/mat_elem/eos_param_mod.F90
+!||====================================================================
         subroutine construct_eos_param(this)
           implicit none
           class(eos_param_) ,intent(inout) :: this

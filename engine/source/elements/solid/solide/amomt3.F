@@ -20,17 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    amomt3    ../engine/source/elements/solid/solide/amomt3.F
-      !||--- called by ------------------------------------------------------
-      !||    sforc3    ../engine/source/elements/solid/solide/sforc3.F
-      !||    szforc3   ../engine/source/elements/solid/solidez/szforc3.F
-      !||--- calls      -----------------------------------------------------
-      !||    ajac3_v   ../engine/source/elements/solid/solide/ajac3.F
-      !||    amomtn3   ../engine/source/elements/solid/solide/amomtn3.F
-      !||--- uses       -----------------------------------------------------
-      !||    ale_mod   ../common_source/modules/ale/ale_mod.F
-      !||====================================================================
+!||====================================================================
+!||    amomt3    ../engine/source/elements/solid/solide/amomt3.F
+!||--- called by ------------------------------------------------------
+!||    sforc3    ../engine/source/elements/solid/solide/sforc3.F
+!||    szforc3   ../engine/source/elements/solid/solidez/szforc3.F
+!||--- calls      -----------------------------------------------------
+!||    ajac3_v   ../engine/source/elements/solid/solide/ajac3.F
+!||    amomtn3   ../engine/source/elements/solid/solide/amomtn3.F
+!||--- uses       -----------------------------------------------------
+!||    ale_mod   ../common_source/modules/ale/ale_mod.F
+!||====================================================================
       SUBROUTINE AMOMT3(
      1   PM,      RHO,     VOL,     X1,
      2   X2,      X3,      X4,      X5,

@@ -20,36 +20,36 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    s8forc3                ../engine/source/elements/solid/solide8/s8forc3.F
-      !||--- called by ------------------------------------------------------
-      !||    forint                 ../engine/source/elements/forint.F
-      !||--- calls      -----------------------------------------------------
-      !||    mmain8                 ../engine/source/materials/mat_share/mmain8.F
-      !||    s8bilan                ../engine/source/elements/solid/solide8/s8bilan.F
-      !||    s8coor3                ../engine/source/elements/solid/solide8/s8coor3.F
-      !||    s8cumu3                ../engine/source/elements/solid/solide8/s8cumu3.F
-      !||    s8defo3                ../engine/source/elements/solid/solide8/s8defo3.F
-      !||    s8deri3                ../engine/source/elements/solid/solide8/s8deri3.F
-      !||    s8fint3                ../engine/source/elements/solid/solide8/s8fint3.F
-      !||    s8lagr3                ../engine/source/elements/solid/solide8/s8lagr3.F
-      !||    s8rota3                ../engine/source/elements/solid/solide8/s8rota3.F
-      !||    scumu3p                ../engine/source/elements/solid/solide/scumu3p.F
-      !||    smallb3                ../engine/source/elements/solid/solide/smallb3.F
-      !||    sr8bilan               ../engine/source/elements/solid/solide8/sr8bilan.F
-      !||    sr8coor3               ../engine/source/elements/solid/solide8/sr8coor3.F
-      !||    srrota3                ../engine/source/elements/solid/solide/srrota3.F
-      !||    startime               ../engine/source/system/timer_mod.F90
-      !||    stoptime               ../engine/source/system/timer_mod.F90
-      !||--- uses       -----------------------------------------------------
-      !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
-      !||    elbufdef_mod           ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||    glob_therm_mod         ../common_source/modules/mat_elem/glob_therm_mod.F90
-      !||    mat_elem_mod           ../common_source/modules/mat_elem/mat_elem_mod.F90
-      !||    sensor_mod             ../common_source/modules/sensor_mod.F90
-      !||    table_mod              ../engine/share/modules/table_mod.F
-      !||    timer_mod              ../engine/source/system/timer_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    s8forc3                ../engine/source/elements/solid/solide8/s8forc3.F
+!||--- called by ------------------------------------------------------
+!||    forint                 ../engine/source/elements/forint.F
+!||--- calls      -----------------------------------------------------
+!||    mmain8                 ../engine/source/materials/mat_share/mmain8.F
+!||    s8bilan                ../engine/source/elements/solid/solide8/s8bilan.F
+!||    s8coor3                ../engine/source/elements/solid/solide8/s8coor3.F
+!||    s8cumu3                ../engine/source/elements/solid/solide8/s8cumu3.F
+!||    s8defo3                ../engine/source/elements/solid/solide8/s8defo3.F
+!||    s8deri3                ../engine/source/elements/solid/solide8/s8deri3.F
+!||    s8fint3                ../engine/source/elements/solid/solide8/s8fint3.F
+!||    s8lagr3                ../engine/source/elements/solid/solide8/s8lagr3.F
+!||    s8rota3                ../engine/source/elements/solid/solide8/s8rota3.F
+!||    scumu3p                ../engine/source/elements/solid/solide/scumu3p.F
+!||    smallb3                ../engine/source/elements/solid/solide/smallb3.F
+!||    sr8bilan               ../engine/source/elements/solid/solide8/sr8bilan.F
+!||    sr8coor3               ../engine/source/elements/solid/solide8/sr8coor3.F
+!||    srrota3                ../engine/source/elements/solid/solide/srrota3.F
+!||    startime               ../engine/source/system/timer_mod.F90
+!||    stoptime               ../engine/source/system/timer_mod.F90
+!||--- uses       -----------------------------------------------------
+!||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
+!||    elbufdef_mod           ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    glob_therm_mod         ../common_source/modules/mat_elem/glob_therm_mod.F90
+!||    mat_elem_mod           ../common_source/modules/mat_elem/mat_elem_mod.F90
+!||    sensor_mod             ../common_source/modules/sensor_mod.F90
+!||    table_mod              ../engine/share/modules/table_mod.F
+!||    timer_mod              ../engine/source/system/timer_mod.F90
+!||====================================================================
       SUBROUTINE S8FORC3(TIMERS,
      1                   ELBUF_STR,PM       ,GEO    ,IXS      ,X      ,
      2                   A        ,V        ,MS     , 

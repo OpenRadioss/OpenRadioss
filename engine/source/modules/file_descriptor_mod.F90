@@ -22,20 +22,20 @@
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 
 !! \brief  Module intent is to provide a common location for all file descriptors
-      !||====================================================================
-      !||    file_descriptor_mod             ../engine/source/modules/file_descriptor_mod.F90
-      !||--- called by ------------------------------------------------------
-      !||    arret                           ../engine/source/system/arret.F
-      !||    checksum_option_checksum_file   ../common_source/modules/output/checksum_mod.F90
-      !||    checksum_option_outfile         ../common_source/modules/output/checksum_mod.F90
-      !||    checksum_restart_read           ../common_source/modules/output/checksum_mod.F90
-      !||    checksum_restart_write          ../common_source/modules/output/checksum_mod.F90
-      !||    mulawc                          ../engine/source/materials/mat_share/mulawc.F90
-      !||    pblast_alloc_error              ../common_source/modules/loads/pblast_mod.F90
-      !||    pblast_parameters__air_burst    ../common_source/modules/loads/pblast_mod.F90
-      !||    radioss2                        ../engine/source/engine/radioss2.F
-      !||    sigeps90                        ../engine/source/materials/mat/mat090/sigeps90.F
-      !||====================================================================
+!||====================================================================
+!||    file_descriptor_mod             ../engine/source/modules/file_descriptor_mod.F90
+!||--- called by ------------------------------------------------------
+!||    arret                           ../engine/source/system/arret.F
+!||    checksum_option_checksum_file   ../common_source/modules/output/checksum_mod.F90
+!||    checksum_option_outfile         ../common_source/modules/output/checksum_mod.F90
+!||    checksum_restart_read           ../common_source/modules/output/checksum_mod.F90
+!||    checksum_restart_write          ../common_source/modules/output/checksum_mod.F90
+!||    mulawc                          ../engine/source/materials/mat_share/mulawc.F90
+!||    pblast_alloc_error              ../common_source/modules/loads/pblast_mod.F90
+!||    pblast_parameters__air_burst    ../common_source/modules/loads/pblast_mod.F90
+!||    radioss2                        ../engine/source/engine/radioss2.F
+!||    sigeps90                        ../engine/source/materials/mat/mat090/sigeps90.F
+!||====================================================================
         module file_descriptor_mod
     
            ! Fortran file descriptor / same as units_c.inc

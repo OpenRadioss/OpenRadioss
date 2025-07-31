@@ -20,18 +20,18 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    eng_qaprint_dtinput   ../engine/source/output/qaprint/eng_qaprint_dtinput.F
-      !||--- called by ------------------------------------------------------
-      !||    eng_qaprint_driver    ../engine/source/output/qaprint/eng_qaprint_driver.F
-      !||--- calls      -----------------------------------------------------
-      !||    qaprint               ../common_source/qa/qa_out_mod.F
-      !||--- uses       -----------------------------------------------------
-      !||    dt_mod                ../engine/source/modules/dt_mod.F
-      !||    glob_therm_mod        ../common_source/modules/mat_elem/glob_therm_mod.F90
-      !||    message_mod           ../engine/share/message_module/message_mod.F
-      !||    qa_out_mod            ../common_source/qa/qa_out_mod.F
-      !||====================================================================
+!||====================================================================
+!||    eng_qaprint_dtinput   ../engine/source/output/qaprint/eng_qaprint_dtinput.F
+!||--- called by ------------------------------------------------------
+!||    eng_qaprint_driver    ../engine/source/output/qaprint/eng_qaprint_driver.F
+!||--- calls      -----------------------------------------------------
+!||    qaprint               ../common_source/qa/qa_out_mod.F
+!||--- uses       -----------------------------------------------------
+!||    dt_mod                ../engine/source/modules/dt_mod.F
+!||    glob_therm_mod        ../common_source/modules/mat_elem/glob_therm_mod.F90
+!||    message_mod           ../engine/share/message_module/message_mod.F
+!||    qa_out_mod            ../common_source/qa/qa_out_mod.F
+!||====================================================================
       SUBROUTINE ENG_QAPRINT_DTINPUT(DT,GLOB_THERM)
 C-----------------------------------------------
 C   M o d u l e s

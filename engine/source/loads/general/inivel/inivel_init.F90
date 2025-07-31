@@ -20,25 +20,25 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    inivel_init_mod   ../engine/source/loads/general/inivel/inivel_init.F90
-      !||--- called by ------------------------------------------------------
-      !||    resol_init        ../engine/source/engine/resol_init.F
-      !||====================================================================
+!||====================================================================
+!||    inivel_init_mod   ../engine/source/loads/general/inivel/inivel_init.F90
+!||--- called by ------------------------------------------------------
+!||    resol_init        ../engine/source/engine/resol_init.F
+!||====================================================================
       module inivel_init_mod
 !        
        contains
   !! \brief initialization ids of inivel data
-      !||====================================================================
-      !||    inivel_init     ../engine/source/loads/general/inivel/inivel_init.F90
-      !||--- called by ------------------------------------------------------
-      !||    resol_init      ../engine/source/engine/resol_init.F
-      !||--- uses       -----------------------------------------------------
-      !||    groupdef_mod    ../common_source/modules/groupdef_mod.F
-      !||    inivel_mod      ../common_source/modules/inivel_mod.F90
-      !||    precision_mod   ../common_source/modules/precision_mod.F90
-      !||    sensor_mod      ../common_source/modules/sensor_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    inivel_init     ../engine/source/loads/general/inivel/inivel_init.F90
+!||--- called by ------------------------------------------------------
+!||    resol_init      ../engine/source/engine/resol_init.F
+!||--- uses       -----------------------------------------------------
+!||    groupdef_mod    ../common_source/modules/groupdef_mod.F
+!||    inivel_mod      ../common_source/modules/inivel_mod.F90
+!||    precision_mod   ../common_source/modules/precision_mod.F90
+!||    sensor_mod      ../common_source/modules/sensor_mod.F90
+!||====================================================================
         subroutine inivel_init(                                               &
                        ngrnod,  ngrbric,    ngrquad,       ngrsh3n,           &
                        igrnod,  igrbric,    igrquad,       igrsh3n,           &

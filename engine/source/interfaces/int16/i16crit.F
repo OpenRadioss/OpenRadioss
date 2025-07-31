@@ -20,18 +20,18 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    i16crit         ../engine/source/interfaces/int16/i16crit.F
-      !||--- called by ------------------------------------------------------
-      !||    i16main         ../engine/source/interfaces/int16/i16main.F
-      !||--- calls      -----------------------------------------------------
-      !||    i10box          ../engine/source/interfaces/int16/i16crit.F
-      !||    i16box          ../engine/source/interfaces/int16/i16crit.F
-      !||    i20box          ../engine/source/interfaces/int16/i16crit.F
-      !||    i8box           ../engine/source/interfaces/int16/i16crit.F
-      !||--- uses       -----------------------------------------------------
-      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    i16crit         ../engine/source/interfaces/int16/i16crit.F
+!||--- called by ------------------------------------------------------
+!||    i16main         ../engine/source/interfaces/int16/i16main.F
+!||--- calls      -----------------------------------------------------
+!||    i10box          ../engine/source/interfaces/int16/i16crit.F
+!||    i16box          ../engine/source/interfaces/int16/i16crit.F
+!||    i20box          ../engine/source/interfaces/int16/i16crit.F
+!||    i8box           ../engine/source/interfaces/int16/i16crit.F
+!||--- uses       -----------------------------------------------------
+!||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
+!||====================================================================
        SUBROUTINE I16CRIT(
      1       X      ,NSV    ,NELEM ,NSN   ,EMINX  ,
      2       NME    ,ITASK  ,XSAV  ,IXS   ,IXS16  ,
@@ -214,12 +214,12 @@ C
 C
       RETURN
       END
-      !||====================================================================
-      !||    i16box    ../engine/source/interfaces/int16/i16crit.F
-      !||--- called by ------------------------------------------------------
-      !||    i16crit   ../engine/source/interfaces/int16/i16crit.F
-      !||    i17crit   ../engine/source/interfaces/int17/i17crit.F
-      !||====================================================================
+!||====================================================================
+!||    i16box    ../engine/source/interfaces/int16/i16crit.F
+!||--- called by ------------------------------------------------------
+!||    i16crit   ../engine/source/interfaces/int16/i16crit.F
+!||    i17crit   ../engine/source/interfaces/int17/i17crit.F
+!||====================================================================
       SUBROUTINE I16BOX(LFT ,LLT  ,NELEM,EMINX,NMEF,NMEL,
      2                  X   ,V    ,A    ,IXS ,IXS16,SIZE,
      3                  XMSR,INDEX,XSAV )
@@ -519,12 +519,12 @@ C--------------------------------------------------------------
 C
       RETURN
       END
-      !||====================================================================
-      !||    i20box    ../engine/source/interfaces/int16/i16crit.F
-      !||--- called by ------------------------------------------------------
-      !||    i16crit   ../engine/source/interfaces/int16/i16crit.F
-      !||    i17crit   ../engine/source/interfaces/int17/i17crit.F
-      !||====================================================================
+!||====================================================================
+!||    i20box    ../engine/source/interfaces/int16/i16crit.F
+!||--- called by ------------------------------------------------------
+!||    i16crit   ../engine/source/interfaces/int16/i16crit.F
+!||    i17crit   ../engine/source/interfaces/int17/i17crit.F
+!||====================================================================
       SUBROUTINE I20BOX(LFT ,LLT  ,NELEM,EMINX,NMEF,NMEL,
      2                  X   ,V    ,A    ,IXS ,IXS20,SIZE,
      3                  XMSR,INDEX,XSAV )
@@ -847,11 +847,11 @@ C--------------------------------------------------------------
 C
       RETURN
       END
-      !||====================================================================
-      !||    i10box    ../engine/source/interfaces/int16/i16crit.F
-      !||--- called by ------------------------------------------------------
-      !||    i16crit   ../engine/source/interfaces/int16/i16crit.F
-      !||====================================================================
+!||====================================================================
+!||    i10box    ../engine/source/interfaces/int16/i16crit.F
+!||--- called by ------------------------------------------------------
+!||    i16crit   ../engine/source/interfaces/int16/i16crit.F
+!||====================================================================
       SUBROUTINE I10BOX(LFT ,LLT  ,NELEM,EMINX,NMEF,NMEL,
      2                  X   ,V    ,A    ,IXS ,IXS10,SIZE,
      3                  XMSR,INDEX,XSAV )
@@ -968,11 +968,11 @@ C--------------------------------------------------------------
 C
       RETURN
       END
-      !||====================================================================
-      !||    i8box     ../engine/source/interfaces/int16/i16crit.F
-      !||--- called by ------------------------------------------------------
-      !||    i16crit   ../engine/source/interfaces/int16/i16crit.F
-      !||====================================================================
+!||====================================================================
+!||    i8box     ../engine/source/interfaces/int16/i16crit.F
+!||--- called by ------------------------------------------------------
+!||    i16crit   ../engine/source/interfaces/int16/i16crit.F
+!||====================================================================
       SUBROUTINE I8BOX(LFT ,LLT  ,NELEM,EMINX,NMEF,NMEL,
      2                  X   ,V    ,A    ,IXS ,SIZE,
      3                  XMSR,INDEX,XSAV )

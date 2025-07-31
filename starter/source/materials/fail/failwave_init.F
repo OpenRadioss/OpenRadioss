@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    failwave_init   ../starter/source/materials/fail/failwave_init.F
-      !||--- called by ------------------------------------------------------
-      !||    lectur          ../starter/source/starter/lectur.F
-      !||--- calls      -----------------------------------------------------
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod     ../starter/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    failwave_init   ../starter/source/materials/fail/failwave_init.F
+!||--- called by ------------------------------------------------------
+!||    lectur          ../starter/source/starter/lectur.F
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||    message_mod     ../starter/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE FAILWAVE_INIT(FAILWAVE,IPARG,IXC,IXTG,NUMNOD)
 C-----------------------------------------------
 C   M o d u l e s

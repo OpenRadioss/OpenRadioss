@@ -20,15 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    s8get_x3   ../engine/source/elements/solid/solide/s8get_x3.F
-      !||--- called by ------------------------------------------------------
-      !||    s8cforc3   ../engine/source/elements/thickshell/solide8c/s8cforc3.F
-      !||    s8eforc3   ../engine/source/elements/solid/solide8e/s8eforc3.F
-      !||    scforc3    ../engine/source/elements/thickshell/solidec/scforc3.F
-      !||    sforc3     ../engine/source/elements/solid/solide/sforc3.F
-      !||    szforc3    ../engine/source/elements/solid/solidez/szforc3.F
-      !||====================================================================
+!||====================================================================
+!||    s8get_x3   ../engine/source/elements/solid/solide/s8get_x3.F
+!||--- called by ------------------------------------------------------
+!||    s8cforc3   ../engine/source/elements/thickshell/solide8c/s8cforc3.F
+!||    s8eforc3   ../engine/source/elements/solid/solide8e/s8eforc3.F
+!||    scforc3    ../engine/source/elements/thickshell/solidec/scforc3.F
+!||    sforc3     ../engine/source/elements/solid/solide/sforc3.F
+!||    szforc3    ../engine/source/elements/solid/solidez/szforc3.F
+!||====================================================================
       SUBROUTINE S8GET_X3(
      .   NC1,      NC2,      NC3,      NC4,
      .   NC5,      NC6,      NC7,      NC8,

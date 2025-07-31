@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    ssurftagigeo           ../starter/source/groups/ssurftagigeo.F
-      !||--- called by ------------------------------------------------------
-      !||    hm_read_surf           ../starter/source/groups/hm_read_surf.F
-      !||--- calls      -----------------------------------------------------
-      !||    ssurfigeo              ../starter/source/groups/ssurftagigeo.F
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    ssurftagigeo           ../starter/source/groups/ssurftagigeo.F
+!||--- called by ------------------------------------------------------
+!||    hm_read_surf           ../starter/source/groups/hm_read_surf.F
+!||--- calls      -----------------------------------------------------
+!||    ssurfigeo              ../starter/source/groups/ssurftagigeo.F
+!||--- uses       -----------------------------------------------------
+!||====================================================================
       SUBROUTINE SSURFTAGIGEO(IXIG3D,IPARTIG3D,KXIG3D, 
      .                        TAGBUF,NSEG   ,
      .                        IEXT  ,FLAG     ,IFRE  ,KEY    ,
@@ -293,14 +293,14 @@ C-----------
       RETURN
       END
 
-      !||====================================================================
-      !||    ssurfigeo      ../starter/source/groups/ssurftagigeo.F
-      !||--- called by ------------------------------------------------------
-      !||    ssurftagigeo   ../starter/source/groups/ssurftagigeo.F
-      !||--- calls      -----------------------------------------------------
-      !||    ig3donebasis   ../starter/source/elements/ige3d/ig3donebasis.F
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    ssurfigeo      ../starter/source/groups/ssurftagigeo.F
+!||--- called by ------------------------------------------------------
+!||    ssurftagigeo   ../starter/source/groups/ssurftagigeo.F
+!||--- calls      -----------------------------------------------------
+!||    ig3donebasis   ../starter/source/elements/ige3d/ig3donebasis.F
+!||--- uses       -----------------------------------------------------
+!||====================================================================
       SUBROUTINE SSURFIGEO(JS,IELTYP,
      .               KXIG3D,IXIG3D,NCTRL,X,V,WIGE,
      .               KNOT,IGEO,DECALIGEO,JJ,NIGE,RIGE,XIGE,VIGE,IADTABIGE,
@@ -800,12 +800,12 @@ C-----------
       RETURN
       END
 C
-      !||====================================================================
-      !||    fictivmassigeo   ../starter/source/groups/ssurftagigeo.F
-      !||--- called by ------------------------------------------------------
-      !||    lectur           ../starter/source/starter/lectur.F
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    fictivmassigeo   ../starter/source/groups/ssurftagigeo.F
+!||--- called by ------------------------------------------------------
+!||    lectur           ../starter/source/starter/lectur.F
+!||--- uses       -----------------------------------------------------
+!||====================================================================
       SUBROUTINE FICTIVMASSIGEO(INTBUF_TAB,NCTRLMAX,MSIG3D,KXIG3D)
 C-----------------------------------------------
 C   M o d u l e s

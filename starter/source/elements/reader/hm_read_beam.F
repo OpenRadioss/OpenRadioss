@@ -20,21 +20,21 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    hm_read_beam     ../starter/source/elements/reader/hm_read_beam.F
-      !||--- called by ------------------------------------------------------
-      !||    lectur           ../starter/source/starter/lectur.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg           ../starter/source/output/message/message.F
-      !||    anodset          ../starter/source/output/analyse/analyse_node.c
-      !||    nintrn           ../starter/source/system/nintrn.F
-      !||    usr2sys          ../starter/source/system/sysfus.F
-      !||    vdouble          ../starter/source/system/sysfus.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod      ../starter/share/message_module/message_mod.F
-      !||    reader_old_mod   ../starter/share/modules1/reader_old_mod.F90
-      !||    submodel_mod     ../starter/share/modules1/submodel_mod.F
-      !||====================================================================
+!||====================================================================
+!||    hm_read_beam     ../starter/source/elements/reader/hm_read_beam.F
+!||--- called by ------------------------------------------------------
+!||    lectur           ../starter/source/starter/lectur.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg           ../starter/source/output/message/message.F
+!||    anodset          ../starter/source/output/analyse/analyse_node.c
+!||    nintrn           ../starter/source/system/nintrn.F
+!||    usr2sys          ../starter/source/system/sysfus.F
+!||    vdouble          ../starter/source/system/sysfus.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod      ../starter/share/message_module/message_mod.F
+!||    reader_old_mod   ../starter/share/modules1/reader_old_mod.F90
+!||    submodel_mod     ../starter/share/modules1/submodel_mod.F
+!||====================================================================
       SUBROUTINE HM_READ_BEAM(IXP    ,ITAB ,ITABM1,IPART,IPARTP,
      .                        IPM    ,IGEO   ,LSUBMODEL,IBEAM_VECTOR,RBEAM_VECTOR)
 C-----------------------------------------------

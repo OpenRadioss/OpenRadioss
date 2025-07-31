@@ -20,35 +20,35 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    law87_upd_mod   ../starter/source/materials/mat/mat087/law87_upd.F90
-      !||--- called by ------------------------------------------------------
-      !||    updmat          ../starter/source/materials/updmat.F
-      !||====================================================================
+!||====================================================================
+!||    law87_upd_mod   ../starter/source/materials/mat/mat087/law87_upd.F90
+!||--- called by ------------------------------------------------------
+!||    updmat          ../starter/source/materials/updmat.F
+!||====================================================================
       module law87_upd_mod
       contains
       ! ======================================================================================================================
       ! \brief Updating material parameters of /MAT/LAW87
       ! \details Updating material parameters of /MAT/LAW87
       ! ======================================================================================================================
-      !||====================================================================
-      !||    law87_upd                ../starter/source/materials/mat/mat087/law87_upd.F90
-      !||--- called by ------------------------------------------------------
-      !||    updmat                   ../starter/source/materials/updmat.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg                   ../starter/source/output/message/message.F
-      !||    crityld2000              ../starter/source/materials/mat/mat087/law87_upd.F90
-      !||    finter                   ../starter/source/tools/curve/finter.F
-      !||    hm_option_is_encrypted   ../starter/source/devtools/hm_reader/hm_option_is_encrypted.F
-      !||    invert                   ../starter/source/constraints/general/rbe3/hm_read_rbe3.F
-      !||    prodmatvect              ../starter/source/materials/mat/mat087/law87_upd.F90
-      !||    r_yld2000                ../starter/source/materials/mat/mat087/law87_upd.F90
-      !||    table_mat_vinterp        ../starter/source/materials/tools/table_mat_vinterp.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod              ../starter/share/message_module/message_mod.F
-      !||    table_mat_vinterp_mod    ../starter/source/materials/tools/table_mat_vinterp.F
-      !||    table_mod                ../starter/share/modules1/table_mod.F
-      !||====================================================================
+!||====================================================================
+!||    law87_upd                ../starter/source/materials/mat/mat087/law87_upd.F90
+!||--- called by ------------------------------------------------------
+!||    updmat                   ../starter/source/materials/updmat.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                   ../starter/source/output/message/message.F
+!||    crityld2000              ../starter/source/materials/mat/mat087/law87_upd.F90
+!||    finter                   ../starter/source/tools/curve/finter.F
+!||    hm_option_is_encrypted   ../starter/source/devtools/hm_reader/hm_option_is_encrypted.F
+!||    invert                   ../starter/source/constraints/general/rbe3/hm_read_rbe3.F
+!||    prodmatvect              ../starter/source/materials/mat/mat087/law87_upd.F90
+!||    r_yld2000                ../starter/source/materials/mat/mat087/law87_upd.F90
+!||    table_mat_vinterp        ../starter/source/materials/tools/table_mat_vinterp.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod              ../starter/share/message_module/message_mod.F
+!||    table_mat_vinterp_mod    ../starter/source/materials/tools/table_mat_vinterp.F
+!||    table_mod                ../starter/share/modules1/table_mod.F
+!||====================================================================
       subroutine law87_upd(                                                    &
         iout     ,titr     ,mat_id   ,matparam )
 !-----------------------------------------------
@@ -412,13 +412,13 @@
 !
       end subroutine law87_upd
 !
-      !||====================================================================
-      !||    crityld2000     ../starter/source/materials/mat/mat087/law87_upd.F90
-      !||--- called by ------------------------------------------------------
-      !||    law87_upd       ../starter/source/materials/mat/mat087/law87_upd.F90
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod     ../starter/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    crityld2000     ../starter/source/materials/mat/mat087/law87_upd.F90
+!||--- called by ------------------------------------------------------
+!||    law87_upd       ../starter/source/materials/mat/mat087/law87_upd.F90
+!||--- uses       -----------------------------------------------------
+!||    message_mod     ../starter/share/message_module/message_mod.F
+!||====================================================================
       subroutine crityld2000(                                                  &
         f        ,g        ,d        ,aa       ,al       )
 !-----------------------------------------------
@@ -448,13 +448,13 @@
            + ( abs(g*two*al(5)+ d*al(6)))**aa
       end subroutine crityld2000
 !
-      !||====================================================================
-      !||    r_yld2000       ../starter/source/materials/mat/mat087/law87_upd.F90
-      !||--- called by ------------------------------------------------------
-      !||    law87_upd       ../starter/source/materials/mat/mat087/law87_upd.F90
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod     ../starter/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    r_yld2000       ../starter/source/materials/mat/mat087/law87_upd.F90
+!||--- called by ------------------------------------------------------
+!||    law87_upd       ../starter/source/materials/mat/mat087/law87_upd.F90
+!||--- uses       -----------------------------------------------------
+!||    message_mod     ../starter/share/message_module/message_mod.F
+!||====================================================================
       subroutine r_yld2000(dx,dy,gamma, delta, a, al)
 !-----------------------------------------------
 !   M o d u l e s
@@ -489,11 +489,11 @@
       +     al(6)*(gamma*2*al(5)+delta*al(6))*(abs(gamma*2*al(5)+delta*al(6)))**aa
       end subroutine r_yld2000
 !
-      !||====================================================================
-      !||    prodmat         ../starter/source/materials/mat/mat087/law87_upd.F90
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod     ../starter/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    prodmat         ../starter/source/materials/mat/mat087/law87_upd.F90
+!||--- uses       -----------------------------------------------------
+!||    message_mod     ../starter/share/message_module/message_mod.F
+!||====================================================================
       subroutine prodmat(a, b, c, n)
 !-----------------------------------------------
 !   M o d u l e s
@@ -533,13 +533,13 @@
 !
       end subroutine prodmat
 !
-      !||====================================================================
-      !||    prodmatvect     ../starter/source/materials/mat/mat087/law87_upd.F90
-      !||--- called by ------------------------------------------------------
-      !||    law87_upd       ../starter/source/materials/mat/mat087/law87_upd.F90
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod     ../starter/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    prodmatvect     ../starter/source/materials/mat/mat087/law87_upd.F90
+!||--- called by ------------------------------------------------------
+!||    law87_upd       ../starter/source/materials/mat/mat087/law87_upd.F90
+!||--- uses       -----------------------------------------------------
+!||    message_mod     ../starter/share/message_module/message_mod.F
+!||====================================================================
       subroutine prodmatvect(a, b, c, n)
 !-----------------------------------------------
 !   M o d u l e s

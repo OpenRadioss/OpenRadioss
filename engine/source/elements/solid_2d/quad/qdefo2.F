@@ -20,12 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    qdefo2   ../engine/source/elements/solid_2d/quad/qdefo2.F
-      !||--- called by ------------------------------------------------------
-      !||    bforc2   ../engine/source/ale/bimat/bforc2.F
-      !||    qforc2   ../engine/source/elements/solid_2d/quad/qforc2.F
-      !||====================================================================
+!||====================================================================
+!||    qdefo2   ../engine/source/elements/solid_2d/quad/qdefo2.F
+!||--- called by ------------------------------------------------------
+!||    bforc2   ../engine/source/ale/bimat/bforc2.F
+!||    qforc2   ../engine/source/elements/solid_2d/quad/qforc2.F
+!||====================================================================
       SUBROUTINE QDEFO2(
      1   V,       W,       Y1,      Y2,
      2   Y3,      Y4,      Z1,      Z2,

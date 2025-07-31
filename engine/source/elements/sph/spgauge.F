@@ -20,19 +20,19 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    spgauge         ../engine/source/elements/sph/spgauge.F
-      !||--- called by ------------------------------------------------------
-      !||    forintp         ../engine/source/elements/forintp.F
-      !||--- calls      -----------------------------------------------------
-      !||    spmd_exch_fr6   ../engine/source/mpi/kinematic_conditions/spmd_exch_fr6.F
-      !||    sum_6_float     ../engine/source/system/parit.F
-      !||    weight0         ../engine/source/elements/sph/weight.F
-      !||--- uses       -----------------------------------------------------
-      !||    elbufdef_mod    ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||    initbuf_mod     ../engine/share/resol/initbuf.F
-      !||    sphbox          ../engine/share/modules/sphbox.F
-      !||====================================================================
+!||====================================================================
+!||    spgauge         ../engine/source/elements/sph/spgauge.F
+!||--- called by ------------------------------------------------------
+!||    forintp         ../engine/source/elements/forintp.F
+!||--- calls      -----------------------------------------------------
+!||    spmd_exch_fr6   ../engine/source/mpi/kinematic_conditions/spmd_exch_fr6.F
+!||    sum_6_float     ../engine/source/system/parit.F
+!||    weight0         ../engine/source/elements/sph/weight.F
+!||--- uses       -----------------------------------------------------
+!||    elbufdef_mod    ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    initbuf_mod     ../engine/share/resol/initbuf.F
+!||    sphbox          ../engine/share/modules/sphbox.F
+!||====================================================================
       SUBROUTINE SPGAUGE(LGAUGE  ,GAUGE ,KXSP   ,IXSP  ,
      1                   SPBUF   ,IPARG ,ELBUF_TAB,ISPSYM ,XSPSYM,
      2                   NOD2SP  ,X       ,ITASK  ,WA     ,WASIGSM,
@@ -250,11 +250,11 @@ C energy not yet available
 C
       RETURN
       END
-      !||====================================================================
-      !||    spgauge_f   ../engine/source/elements/sph/spgauge.F
-      !||--- called by ------------------------------------------------------
-      !||    resol       ../engine/source/engine/resol.F
-      !||====================================================================
+!||====================================================================
+!||    spgauge_f   ../engine/source/elements/sph/spgauge.F
+!||--- called by ------------------------------------------------------
+!||    resol       ../engine/source/engine/resol.F
+!||====================================================================
       SUBROUTINE SPGAUGE_F(P,FF,P0,P1,P2,N)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

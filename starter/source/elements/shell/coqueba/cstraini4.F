@@ -20,16 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    cstraini4     ../starter/source/elements/shell/coqueba/cstraini4.F
-      !||--- called by ------------------------------------------------------
-      !||    cbainit3      ../starter/source/elements/shell/coqueba/cbainit3.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg        ../starter/source/output/message/message.F
-      !||    cg2leps       ../starter/source/elements/shell/coqueba/scigini4.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod   ../starter/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    cstraini4     ../starter/source/elements/shell/coqueba/cstraini4.F
+!||--- called by ------------------------------------------------------
+!||    cbainit3      ../starter/source/elements/shell/coqueba/cbainit3.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg        ../starter/source/output/message/message.F
+!||    cg2leps       ../starter/source/elements/shell/coqueba/scigini4.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod   ../starter/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE CSTRAINI4(
      1           JFT    ,JLT   ,NFT    ,NEL    ,NUMSHEL,
      2           ISTRAIN,GSTR   ,SIGSH ,NSIGSH ,NUMEL  ,

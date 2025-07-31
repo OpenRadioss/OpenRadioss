@@ -20,17 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    pbilan                ../engine/source/elements/beam/pbilan.F
-      !||--- called by ------------------------------------------------------
-      !||    pforc3                ../engine/source/elements/beam/pforc3.F
-      !||--- calls      -----------------------------------------------------
-      !||    grelem_sav            ../engine/source/output/th/grelem_sav.F
-      !||    sensor_energy_bilan   ../engine/source/tools/sensor/sensor_energy_bilan.F
-      !||--- uses       -----------------------------------------------------
-      !||    h3d_mod               ../engine/share/modules/h3d_mod.F
-      !||    sensor_mod            ../common_source/modules/sensor_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    pbilan                ../engine/source/elements/beam/pbilan.F
+!||--- called by ------------------------------------------------------
+!||    pforc3                ../engine/source/elements/beam/pforc3.F
+!||--- calls      -----------------------------------------------------
+!||    grelem_sav            ../engine/source/output/th/grelem_sav.F
+!||    sensor_energy_bilan   ../engine/source/tools/sensor/sensor_energy_bilan.F
+!||--- uses       -----------------------------------------------------
+!||    h3d_mod               ../engine/share/modules/h3d_mod.F
+!||    sensor_mod            ../common_source/modules/sensor_mod.F90
+!||====================================================================
       SUBROUTINE PBILAN(
      1   PM,      V,       EINT,    GEO,
      2   PARTSAV, IPARTP,  TANI,    FOR,

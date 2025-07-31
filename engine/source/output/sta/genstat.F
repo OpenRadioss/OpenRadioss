@@ -20,77 +20,77 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    genstat                   ../engine/source/output/sta/genstat.F
-      !||--- called by ------------------------------------------------------
-      !||    sortie_main               ../engine/source/output/sortie_main.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg                    ../engine/source/output/message/message.F
-      !||    arret                     ../engine/source/system/arret.F
-      !||    close_c                   ../common_source/tools/input_output/write_routtines.c
-      !||    cur_fil_c                 ../common_source/tools/input_output/write_routtines.c
-      !||    open_c                    ../common_source/tools/input_output/write_routtines.c
-      !||    spmd_outpitab             ../engine/source/mpi/interfaces/spmd_outp.F
-      !||    stat_beam_mp              ../engine/source/output/sta/stat_beam_mp.F
-      !||    stat_beam_spmd            ../engine/source/output/sta/stat_beam_spmd.F
-      !||    stat_brick_mp             ../engine/source/output/sta/stat_brick_mp.F
-      !||    stat_brick_spmd           ../engine/source/output/sta/stat_brick_spmd.F
-      !||    stat_c_auxf               ../engine/source/output/sta/stat_c_auxf.F
-      !||    stat_c_epspf              ../engine/source/output/sta/stat_c_epspf.F
-      !||    stat_c_fail               ../engine/source/output/sta/stat_c_fail.F
-      !||    stat_c_off                ../engine/source/output/sta/stat_c_off.F
-      !||    stat_c_orth_loc           ../engine/source/output/sta/stat_c_orth_loc.F
-      !||    stat_c_straf              ../engine/source/output/sta/stat_c_straf.F
-      !||    stat_c_strafg             ../engine/source/output/sta/stat_c_strafg.F
-      !||    stat_c_strsf              ../engine/source/output/sta/stat_c_strsf.F
-      !||    stat_c_strsfg             ../engine/source/output/sta/stat_c_strsfg.F
-      !||    stat_c_thk                ../engine/source/output/sta/stat_c_thk.F
-      !||    stat_inimap1d_file_spmd   ../engine/source/output/sta/stat_inimap1d_file_spmd.F
-      !||    stat_inimap1d_spmd        ../engine/source/output/sta/stat_inimap1d_spmd.F
-      !||    stat_inimap2d_file_spmd   ../engine/source/output/sta/stat_inimap2d_file_spmd.F
-      !||    stat_inimap2d_spmd        ../engine/source/output/sta/stat_inimap2d_spmd.F
-      !||    stat_n_bcs                ../engine/source/output/sta/stat_n_bcs.F
-      !||    stat_n_temp               ../engine/source/output/sta/stat_n_temp.F
-      !||    stat_n_vel                ../engine/source/output/sta/state_n_vel.F
-      !||    stat_node                 ../engine/source/output/sta/stat_node.F
-      !||    stat_p_aux                ../engine/source/output/sta/stat_p_aux.F
-      !||    stat_p_full               ../engine/source/output/sta/stat_p_full.F
-      !||    stat_quad_mp              ../engine/source/output/sta/stat_quad_mp.F
-      !||    stat_quad_spmd            ../engine/source/output/sta/stat_quad_spmd.F
-      !||    stat_r_full               ../engine/source/output/sta/stat_r_full.F
-      !||    stat_s_auxf               ../engine/source/output/sta/stat_s_auxf.F
-      !||    stat_s_eref               ../engine/source/output/sta/stat_s_eref.F
-      !||    stat_s_fail               ../engine/source/output/sta/stat_s_fail.F
-      !||    stat_s_ortho              ../engine/source/output/sta/stat_s_ortho.F
-      !||    stat_s_straf              ../engine/source/output/sta/stat_s_straf.F
-      !||    stat_s_strsf              ../engine/source/output/sta/stat_s_strsf.F
-      !||    stat_shel_mp              ../engine/source/output/sta/stat_shel_mp.F
-      !||    stat_shel_spmd            ../engine/source/output/sta/stat_shel_spmd.F
-      !||    stat_size_c               ../engine/source/output/sta/stat_size.F
-      !||    stat_sphcel_full          ../engine/source/output/sta/stat_sphcel_full.F90
-      !||    stat_sphcel_mp            ../engine/source/output/sta/stat_sphcel_mp.F90
-      !||    stat_sphcel_spmd          ../engine/source/output/sta/stat_sphcel_spmd.F90
-      !||    stat_spring_mp            ../engine/source/output/sta/stat_spring_mp.F
-      !||    stat_spring_spmd          ../engine/source/output/sta/stat_spring_spmd.F
-      !||    stat_t_full               ../engine/source/output/sta/stat_t_full.F
-      !||    stat_truss_mp             ../engine/source/output/sta/stat_truss_mp.F
-      !||    stat_truss_spmd           ../engine/source/output/sta/stat_truss_spmd.F
-      !||    strs_txt50                ../engine/source/output/sta/sta_txt.F
-      !||--- uses       -----------------------------------------------------
-      !||    drape_mod                 ../engine/share/modules/drape_mod.F
-      !||    elbufdef_mod              ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||    inoutfile_mod             ../common_source/modules/inoutfile_mod.F
-      !||    mat_elem_mod              ../common_source/modules/mat_elem/mat_elem_mod.F90
-      !||    message_mod               ../engine/share/message_module/message_mod.F
-      !||    multi_fvm_mod             ../common_source/modules/ale/multi_fvm_mod.F90
-      !||    my_alloc_mod              ../common_source/tools/memory/my_alloc.F90
-      !||    output_mod                ../common_source/modules/output/output_mod.F90
-      !||    stack_mod                 ../engine/share/modules/stack_mod.F
-      !||    stat_sphcel_full_mod      ../engine/source/output/sta/stat_sphcel_full.F90
-      !||    stat_sphcel_mp_mod        ../engine/source/output/sta/stat_sphcel_mp.F90
-      !||    stat_sphcel_spmd_mod      ../engine/source/output/sta/stat_sphcel_spmd.F90
-      !||    state_inimap_mod          ../engine/share/modules/state_inimap_mod.F
-      !||====================================================================
+!||====================================================================
+!||    genstat                   ../engine/source/output/sta/genstat.F
+!||--- called by ------------------------------------------------------
+!||    sortie_main               ../engine/source/output/sortie_main.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                    ../engine/source/output/message/message.F
+!||    arret                     ../engine/source/system/arret.F
+!||    close_c                   ../common_source/tools/input_output/write_routtines.c
+!||    cur_fil_c                 ../common_source/tools/input_output/write_routtines.c
+!||    open_c                    ../common_source/tools/input_output/write_routtines.c
+!||    spmd_outpitab             ../engine/source/mpi/interfaces/spmd_outp.F
+!||    stat_beam_mp              ../engine/source/output/sta/stat_beam_mp.F
+!||    stat_beam_spmd            ../engine/source/output/sta/stat_beam_spmd.F
+!||    stat_brick_mp             ../engine/source/output/sta/stat_brick_mp.F
+!||    stat_brick_spmd           ../engine/source/output/sta/stat_brick_spmd.F
+!||    stat_c_auxf               ../engine/source/output/sta/stat_c_auxf.F
+!||    stat_c_epspf              ../engine/source/output/sta/stat_c_epspf.F
+!||    stat_c_fail               ../engine/source/output/sta/stat_c_fail.F
+!||    stat_c_off                ../engine/source/output/sta/stat_c_off.F
+!||    stat_c_orth_loc           ../engine/source/output/sta/stat_c_orth_loc.F
+!||    stat_c_straf              ../engine/source/output/sta/stat_c_straf.F
+!||    stat_c_strafg             ../engine/source/output/sta/stat_c_strafg.F
+!||    stat_c_strsf              ../engine/source/output/sta/stat_c_strsf.F
+!||    stat_c_strsfg             ../engine/source/output/sta/stat_c_strsfg.F
+!||    stat_c_thk                ../engine/source/output/sta/stat_c_thk.F
+!||    stat_inimap1d_file_spmd   ../engine/source/output/sta/stat_inimap1d_file_spmd.F
+!||    stat_inimap1d_spmd        ../engine/source/output/sta/stat_inimap1d_spmd.F
+!||    stat_inimap2d_file_spmd   ../engine/source/output/sta/stat_inimap2d_file_spmd.F
+!||    stat_inimap2d_spmd        ../engine/source/output/sta/stat_inimap2d_spmd.F
+!||    stat_n_bcs                ../engine/source/output/sta/stat_n_bcs.F
+!||    stat_n_temp               ../engine/source/output/sta/stat_n_temp.F
+!||    stat_n_vel                ../engine/source/output/sta/state_n_vel.F
+!||    stat_node                 ../engine/source/output/sta/stat_node.F
+!||    stat_p_aux                ../engine/source/output/sta/stat_p_aux.F
+!||    stat_p_full               ../engine/source/output/sta/stat_p_full.F
+!||    stat_quad_mp              ../engine/source/output/sta/stat_quad_mp.F
+!||    stat_quad_spmd            ../engine/source/output/sta/stat_quad_spmd.F
+!||    stat_r_full               ../engine/source/output/sta/stat_r_full.F
+!||    stat_s_auxf               ../engine/source/output/sta/stat_s_auxf.F
+!||    stat_s_eref               ../engine/source/output/sta/stat_s_eref.F
+!||    stat_s_fail               ../engine/source/output/sta/stat_s_fail.F
+!||    stat_s_ortho              ../engine/source/output/sta/stat_s_ortho.F
+!||    stat_s_straf              ../engine/source/output/sta/stat_s_straf.F
+!||    stat_s_strsf              ../engine/source/output/sta/stat_s_strsf.F
+!||    stat_shel_mp              ../engine/source/output/sta/stat_shel_mp.F
+!||    stat_shel_spmd            ../engine/source/output/sta/stat_shel_spmd.F
+!||    stat_size_c               ../engine/source/output/sta/stat_size.F
+!||    stat_sphcel_full          ../engine/source/output/sta/stat_sphcel_full.F90
+!||    stat_sphcel_mp            ../engine/source/output/sta/stat_sphcel_mp.F90
+!||    stat_sphcel_spmd          ../engine/source/output/sta/stat_sphcel_spmd.F90
+!||    stat_spring_mp            ../engine/source/output/sta/stat_spring_mp.F
+!||    stat_spring_spmd          ../engine/source/output/sta/stat_spring_spmd.F
+!||    stat_t_full               ../engine/source/output/sta/stat_t_full.F
+!||    stat_truss_mp             ../engine/source/output/sta/stat_truss_mp.F
+!||    stat_truss_spmd           ../engine/source/output/sta/stat_truss_spmd.F
+!||    strs_txt50                ../engine/source/output/sta/sta_txt.F
+!||--- uses       -----------------------------------------------------
+!||    drape_mod                 ../engine/share/modules/drape_mod.F
+!||    elbufdef_mod              ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    inoutfile_mod             ../common_source/modules/inoutfile_mod.F
+!||    mat_elem_mod              ../common_source/modules/mat_elem/mat_elem_mod.F90
+!||    message_mod               ../engine/share/message_module/message_mod.F
+!||    multi_fvm_mod             ../common_source/modules/ale/multi_fvm_mod.F90
+!||    my_alloc_mod              ../common_source/tools/memory/my_alloc.F90
+!||    output_mod                ../common_source/modules/output/output_mod.F90
+!||    stack_mod                 ../engine/share/modules/stack_mod.F
+!||    stat_sphcel_full_mod      ../engine/source/output/sta/stat_sphcel_full.F90
+!||    stat_sphcel_mp_mod        ../engine/source/output/sta/stat_sphcel_mp.F90
+!||    stat_sphcel_spmd_mod      ../engine/source/output/sta/stat_sphcel_spmd.F90
+!||    state_inimap_mod          ../engine/share/modules/state_inimap_mod.F
+!||====================================================================
       SUBROUTINE GENSTAT(X       ,MS      ,ELBUF_TAB,BUFEL  ,SPBUF    ,
      2                  IXS      ,IXQ     ,IXC      ,IXT     ,IXP     ,
      3                  IXR      ,IXTG    ,KXSP     ,IPARG   ,IPM     ,

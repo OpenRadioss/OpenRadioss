@@ -20,31 +20,31 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    get_segment_orientation_mod   ../engine/source/interfaces/interf/get_segment_orientation.F90
-      !||--- called by ------------------------------------------------------
-      !||    get_neighbour_surface         ../engine/source/interfaces/interf/get_neighbour_surface.F90
-      !||====================================================================
+!||====================================================================
+!||    get_segment_orientation_mod   ../engine/source/interfaces/interf/get_segment_orientation.F90
+!||--- called by ------------------------------------------------------
+!||    get_neighbour_surface         ../engine/source/interfaces/interf/get_neighbour_surface.F90
+!||====================================================================
       module get_segment_orientation_mod
       contains
 ! ======================================================================================================================
 !                                                   procedures
 ! ======================================================================================================================
 !! \brief This routine computes the orientation of a new active segment and changes the order of the node if the orientation is changed
-      !||====================================================================
-      !||    get_segment_orientation   ../engine/source/interfaces/interf/get_segment_orientation.F90
-      !||--- called by ------------------------------------------------------
-      !||    get_neighbour_surface     ../engine/source/interfaces/interf/get_neighbour_surface.F90
-      !||--- calls      -----------------------------------------------------
-      !||    get_segment_normal        ../engine/source/interfaces/interf/get_segment_normal.F90
-      !||    myqsort_int               ../common_source/tools/sort/myqsort_int.F
-      !||--- uses       -----------------------------------------------------
-      !||    constant_mod              ../common_source/modules/constant_mod.F
-      !||    get_segment_normal_mod    ../engine/source/interfaces/interf/get_segment_normal.F90
-      !||    intbufdef_mod             ../common_source/modules/interfaces/intbufdef_mod.F90
-      !||    precision_mod             ../common_source/modules/precision_mod.F90
-      !||    shooting_node_mod         ../engine/share/modules/shooting_node_mod.F
-      !||====================================================================
+!||====================================================================
+!||    get_segment_orientation   ../engine/source/interfaces/interf/get_segment_orientation.F90
+!||--- called by ------------------------------------------------------
+!||    get_neighbour_surface     ../engine/source/interfaces/interf/get_neighbour_surface.F90
+!||--- calls      -----------------------------------------------------
+!||    get_segment_normal        ../engine/source/interfaces/interf/get_segment_normal.F90
+!||    myqsort_int               ../common_source/tools/sort/myqsort_int.F
+!||--- uses       -----------------------------------------------------
+!||    constant_mod              ../common_source/modules/constant_mod.F
+!||    get_segment_normal_mod    ../engine/source/interfaces/interf/get_segment_normal.F90
+!||    intbufdef_mod             ../common_source/modules/interfaces/intbufdef_mod.F90
+!||    precision_mod             ../common_source/modules/precision_mod.F90
+!||    shooting_node_mod         ../engine/share/modules/shooting_node_mod.F
+!||====================================================================
         subroutine get_segment_orientation( segment_id,s_elem_state,nixs,nixc,nixtg, &
                                             numels,numelc,numeltg,numnod, &
                                             elem_state,ixs,ixc,ixtg,x,  &

@@ -26,24 +26,24 @@
 !! \brief calculate element temperature in integration point from nodal values
 !! \details
 ! ==================================================================================================
-      !||====================================================================
-      !||    s20temp_mod   ../starter/source/elements/solid/solide20/s20temp.F90
-      !||--- called by ------------------------------------------------------
-      !||    s16init3      ../starter/source/elements/thickshell/solide16/s16init3.F
-      !||    s20init3      ../starter/source/elements/solid/solide20/s20init3.F
-      !||====================================================================
+!||====================================================================
+!||    s20temp_mod   ../starter/source/elements/solid/solide20/s20temp.F90
+!||--- called by ------------------------------------------------------
+!||    s16init3      ../starter/source/elements/thickshell/solide16/s16init3.F
+!||    s20init3      ../starter/source/elements/solid/solide20/s20init3.F
+!||====================================================================
       module s20temp_mod
         implicit none
       contains
 
 
-      !||====================================================================
-      !||    s20temp         ../starter/source/elements/solid/solide20/s20temp.F90
-      !||--- called by ------------------------------------------------------
-      !||    s16init3        ../starter/source/elements/thickshell/solide16/s16init3.F
-      !||    s20init3        ../starter/source/elements/solid/solide20/s20init3.F
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    s20temp         ../starter/source/elements/solid/solide20/s20temp.F90
+!||--- called by ------------------------------------------------------
+!||    s16init3        ../starter/source/elements/thickshell/solide16/s16init3.F
+!||    s20init3        ../starter/source/elements/solid/solide20/s20init3.F
+!||--- uses       -----------------------------------------------------
+!||====================================================================
         subroutine s20temp(nel ,numnod ,mvsiz ,npe, nc, ni, temp ,tempel)
 
 !-----------------------------------------------

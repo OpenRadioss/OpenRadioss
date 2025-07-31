@@ -20,16 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    spinih         ../starter/source/elements/sph/spinih.F
-      !||--- called by ------------------------------------------------------
-      !||    lectur         ../starter/source/starter/lectur.F
-      !||--- calls      -----------------------------------------------------
-      !||    get_u_geo      ../starter/source/user_interface/uaccess.F
-      !||    reset_u_geo    ../starter/source/user_interface/uaccess.F
-      !||    sptri          ../starter/source/elements/sph/sptri.F
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    spinih         ../starter/source/elements/sph/spinih.F
+!||--- called by ------------------------------------------------------
+!||    lectur         ../starter/source/starter/lectur.F
+!||--- calls      -----------------------------------------------------
+!||    get_u_geo      ../starter/source/user_interface/uaccess.F
+!||    reset_u_geo    ../starter/source/user_interface/uaccess.F
+!||    sptri          ../starter/source/elements/sph/sptri.F
+!||--- uses       -----------------------------------------------------
+!||====================================================================
       SUBROUTINE SPINIH(KXSP,IPART,IPARTSP,SPBUF,PM,
      .                  IXSP    ,NOD2SP ,X       ,LPRTSPH,LONFSPH,
      .                  SNOD2SP ,SLONFSPH,NUMNOD,NPART,ITAB)

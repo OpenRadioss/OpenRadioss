@@ -20,22 +20,22 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    read_sensors           ../engine/source/output/restart/read_sensors.F
-      !||--- called by ------------------------------------------------------
-      !||    rdresb                 ../engine/source/output/restart/rdresb.F
-      !||--- calls      -----------------------------------------------------
-      !||    copy_python_function   ../common_source/modules/python_mod.F90
-      !||    fretitl2               ../engine/source/input/freform.F
-      !||    read_db                ../common_source/tools/input_output/read_db.F
-      !||    read_dpdb              ../common_source/tools/input_output/read_db.F
-      !||    read_i_c               ../common_source/tools/input_output/write_routtines.c
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod            ../engine/share/message_module/message_mod.F
-      !||    names_and_titles_mod   ../common_source/modules/names_and_titles_mod.F
-      !||    python_funct_mod       ../common_source/modules/python_mod.F90
-      !||    sensor_mod             ../common_source/modules/sensor_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    read_sensors           ../engine/source/output/restart/read_sensors.F
+!||--- called by ------------------------------------------------------
+!||    rdresb                 ../engine/source/output/restart/rdresb.F
+!||--- calls      -----------------------------------------------------
+!||    copy_python_function   ../common_source/modules/python_mod.F90
+!||    fretitl2               ../engine/source/input/freform.F
+!||    read_db                ../common_source/tools/input_output/read_db.F
+!||    read_dpdb              ../common_source/tools/input_output/read_db.F
+!||    read_i_c               ../common_source/tools/input_output/write_routtines.c
+!||--- uses       -----------------------------------------------------
+!||    message_mod            ../engine/share/message_module/message_mod.F
+!||    names_and_titles_mod   ../common_source/modules/names_and_titles_mod.F
+!||    python_funct_mod       ../common_source/modules/python_mod.F90
+!||    sensor_mod             ../common_source/modules/sensor_mod.F90
+!||====================================================================
       SUBROUTINE READ_SENSORS(SENSORS,PYTHON)
 C-----------------------------------------------
 C   M o d u l e s

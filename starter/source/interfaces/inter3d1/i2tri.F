@@ -20,19 +20,19 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    i2tri                  ../starter/source/interfaces/inter3d1/i2tri.F
-      !||--- called by ------------------------------------------------------
-      !||    i2buc1                 ../starter/source/interfaces/inter3d1/i2buc1.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg                 ../starter/source/output/message/message.F
-      !||    i2cor3                 ../starter/source/interfaces/inter3d1/i2cor3.F
-      !||    i2dst3                 ../starter/source/interfaces/inter3d1/i2dst3.F
-      !||    i2dst3_27              ../starter/source/interfaces/inter3d1/i2dst3_27.F
-      !||    i7dstk                 ../starter/source/interfaces/inter3d1/i7dstk.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod            ../starter/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    i2tri                  ../starter/source/interfaces/inter3d1/i2tri.F
+!||--- called by ------------------------------------------------------
+!||    i2buc1                 ../starter/source/interfaces/inter3d1/i2buc1.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                 ../starter/source/output/message/message.F
+!||    i2cor3                 ../starter/source/interfaces/inter3d1/i2cor3.F
+!||    i2dst3                 ../starter/source/interfaces/inter3d1/i2dst3.F
+!||    i2dst3_27              ../starter/source/interfaces/inter3d1/i2dst3_27.F
+!||    i7dstk                 ../starter/source/interfaces/inter3d1/i7dstk.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod            ../starter/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE I2TRI(
      1      BPE   ,PE    ,BPN   ,PN    ,ADD   ,
      2      IRECT ,X     ,NB_NC ,NB_EC ,XYZM  ,

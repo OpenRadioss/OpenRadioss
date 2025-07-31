@@ -20,16 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    m75init                ../starter/source/materials/mat/mat075/m75init.F
-      !||--- called by ------------------------------------------------------
-      !||    matini                 ../starter/source/materials/mat_share/matini.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg                 ../starter/source/output/message/message.F
-      !||    finter                 ../starter/source/tools/curve/finter.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod            ../starter/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    m75init                ../starter/source/materials/mat/mat075/m75init.F
+!||--- called by ------------------------------------------------------
+!||    matini                 ../starter/source/materials/mat_share/matini.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                 ../starter/source/output/message/message.F
+!||    finter                 ../starter/source/tools/curve/finter.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod            ../starter/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE M75INIT(
      1      NEL    , NUPARAM, NUVAR   , NFUNC  , IFUNC  , NPF   ,
      2      TF     , UPARAM , RHO0    , VOLUME , EINT   ,UVAR   ,

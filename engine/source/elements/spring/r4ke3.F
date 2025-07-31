@@ -20,21 +20,21 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    r4ke3          ../engine/source/elements/spring/r4ke3.F
-      !||--- called by ------------------------------------------------------
-      !||    imp_glob_k     ../engine/source/implicit/imp_glob_k.F
-      !||    imp_glob_k0    ../engine/source/implicit/imp_glob_k.F
-      !||--- calls      -----------------------------------------------------
-      !||    assem_p        ../engine/source/implicit/assem_p.F
-      !||    peoff          ../engine/source/elements/beam/peoff.F
-      !||    r1coork3       ../engine/source/elements/spring/r1coork3.F
-      !||    r4mat3         ../engine/source/elements/spring/r4mat3.F
-      !||    r4sumg3        ../engine/source/elements/spring/r4sumg3.F
-      !||    tkeg3          ../engine/source/elements/truss/tkeg3.F
-      !||--- uses       -----------------------------------------------------
-      !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    r4ke3          ../engine/source/elements/spring/r4ke3.F
+!||--- called by ------------------------------------------------------
+!||    imp_glob_k     ../engine/source/implicit/imp_glob_k.F
+!||    imp_glob_k0    ../engine/source/implicit/imp_glob_k.F
+!||--- calls      -----------------------------------------------------
+!||    assem_p        ../engine/source/implicit/assem_p.F
+!||    peoff          ../engine/source/elements/beam/peoff.F
+!||    r1coork3       ../engine/source/elements/spring/r1coork3.F
+!||    r4mat3         ../engine/source/elements/spring/r4mat3.F
+!||    r4sumg3        ../engine/source/elements/spring/r4sumg3.F
+!||    tkeg3          ../engine/source/elements/truss/tkeg3.F
+!||--- uses       -----------------------------------------------------
+!||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||====================================================================
       SUBROUTINE R4KE3(JFT    ,JLT   ,NEL   ,MTN    ,PM    ,
      1                 GEO    ,IXR   ,X     ,ELBUF_TAB,NPF   ,
      2                 TF     ,SKEW  ,OFFSET,FR_WAVE,

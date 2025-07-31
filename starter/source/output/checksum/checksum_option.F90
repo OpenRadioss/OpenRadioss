@@ -58,16 +58,16 @@ contains
 !! \details Section starts with /CHECKSUM/START and ends with /CHECKSUM/END.
 !! \details The result is a list of MD5 checksums for each sections.
 !! \details print the list in Starter output file.
-      !||====================================================================
-      !||    hm_read_checksum       ../starter/source/output/checksum/checksum_option.F90
-      !||--- called by ------------------------------------------------------
-      !||    starter0               ../starter/source/starter/starter0.F
-      !||--- calls      -----------------------------------------------------
-      !||    deck_checksum_read     ../starter/source/output/checksum/checksum_model.cpp
-      !||    hm_option_count        ../starter/source/devtools/hm_reader/hm_option_count.F
-      !||--- uses       -----------------------------------------------------
-      !||    file_descriptor_mod    ../starter/source/modules/file_descriptor_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    hm_read_checksum       ../starter/source/output/checksum/checksum_option.F90
+!||--- called by ------------------------------------------------------
+!||    starter0               ../starter/source/starter/starter0.F
+!||--- calls      -----------------------------------------------------
+!||    deck_checksum_read     ../starter/source/output/checksum/checksum_model.cpp
+!||    hm_option_count        ../starter/source/devtools/hm_reader/hm_option_count.F
+!||--- uses       -----------------------------------------------------
+!||    file_descriptor_mod    ../starter/source/modules/file_descriptor_mod.F90
+!||====================================================================
        subroutine hm_read_checksum(leni,input,lenp,path,output)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
@@ -132,15 +132,15 @@ contains
 !! \details Create rootnam_0000.checksum file 
 !! \details with the MD5 checksum of the section between /CHECKSUM/START and /CHECKSUM/END
 !! \details And the Checksul of output.
-      !||====================================================================
-      !||    st_checksum_file_print   ../starter/source/output/checksum/checksum_option.F90
-      !||--- called by ------------------------------------------------------
-      !||    f_anend                  ../starter/source/output/analyse/analyse_arret.F
-      !||--- calls      -----------------------------------------------------
-      !||    deck_checksum_read       ../starter/source/output/checksum/checksum_model.cpp
-      !||--- uses       -----------------------------------------------------
-      !||    file_descriptor_mod      ../starter/source/modules/file_descriptor_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    st_checksum_file_print   ../starter/source/output/checksum/checksum_option.F90
+!||--- called by ------------------------------------------------------
+!||    f_anend                  ../starter/source/output/analyse/analyse_arret.F
+!||--- calls      -----------------------------------------------------
+!||    deck_checksum_read       ../starter/source/output/checksum/checksum_model.cpp
+!||--- uses       -----------------------------------------------------
+!||    file_descriptor_mod      ../starter/source/modules/file_descriptor_mod.F90
+!||====================================================================
        subroutine st_checksum_file_print(output,rootnam,rootlen,enddate,endtime)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
@@ -229,14 +229,14 @@ contains
 
 
 !! \brief Writes the MD5 checksum in Restart files
-      !||====================================================================
-      !||    checksum_write_starter_restart   ../starter/source/output/checksum/checksum_option.F90
-      !||--- called by ------------------------------------------------------
-      !||    ddsplit                          ../starter/source/restart/ddsplit/ddsplit.F
-      !||--- calls      -----------------------------------------------------
-      !||    deck_checksum_read               ../starter/source/output/checksum/checksum_model.cpp
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    checksum_write_starter_restart   ../starter/source/output/checksum/checksum_option.F90
+!||--- called by ------------------------------------------------------
+!||    ddsplit                          ../starter/source/restart/ddsplit/ddsplit.F
+!||--- calls      -----------------------------------------------------
+!||    deck_checksum_read               ../starter/source/output/checksum/checksum_model.cpp
+!||--- uses       -----------------------------------------------------
+!||====================================================================
        subroutine checksum_write_starter_restart(output)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules

@@ -20,29 +20,29 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    init_th            ../engine/source/output/th/init_th.F
-      !||--- called by ------------------------------------------------------
-      !||    init_th0           ../engine/source/output/th/init_th0.F
-      !||--- calls      -----------------------------------------------------
-      !||    spmd_gather_int    ../engine/source/mpi/generic/spmd_gather_int.F
-      !||    spmd_gatherv_int   ../engine/source/mpi/generic/spmd_gatherv_int.F
-      !||    thcoq_count        ../engine/source/output/th/thcoq_count.F
-      !||    thnod_count        ../engine/source/output/th/thnod_count.F
-      !||    thnst_count        ../engine/source/output/th/thnst_count.F
-      !||    thpout_count       ../engine/source/output/th/thpout_count.F
-      !||    thquad_count       ../engine/source/output/th/thquad_count.F
-      !||    thres_count        ../engine/source/output/th/thres_count.F
-      !||    thsol_count        ../engine/source/output/th/thsol_count.F
-      !||    thsph_count        ../engine/source/output/th/thsph_count.F
-      !||    thtrus_count       ../engine/source/output/th/thtrus_count.F
-      !||--- uses       -----------------------------------------------------
-      !||    cluster_mod        ../engine/share/modules/cluster_mod.F
-      !||    elbufdef_mod       ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||    groupdef_mod       ../common_source/modules/groupdef_mod.F
-      !||    stack_mod          ../engine/share/modules/stack_mod.F
-      !||    th_mod             ../engine/share/modules/th_mod.F
-      !||====================================================================
+!||====================================================================
+!||    init_th            ../engine/source/output/th/init_th.F
+!||--- called by ------------------------------------------------------
+!||    init_th0           ../engine/source/output/th/init_th0.F
+!||--- calls      -----------------------------------------------------
+!||    spmd_gather_int    ../engine/source/mpi/generic/spmd_gather_int.F
+!||    spmd_gatherv_int   ../engine/source/mpi/generic/spmd_gatherv_int.F
+!||    thcoq_count        ../engine/source/output/th/thcoq_count.F
+!||    thnod_count        ../engine/source/output/th/thnod_count.F
+!||    thnst_count        ../engine/source/output/th/thnst_count.F
+!||    thpout_count       ../engine/source/output/th/thpout_count.F
+!||    thquad_count       ../engine/source/output/th/thquad_count.F
+!||    thres_count        ../engine/source/output/th/thres_count.F
+!||    thsol_count        ../engine/source/output/th/thsol_count.F
+!||    thsph_count        ../engine/source/output/th/thsph_count.F
+!||    thtrus_count       ../engine/source/output/th/thtrus_count.F
+!||--- uses       -----------------------------------------------------
+!||    cluster_mod        ../engine/share/modules/cluster_mod.F
+!||    elbufdef_mod       ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    groupdef_mod       ../common_source/modules/groupdef_mod.F
+!||    stack_mod          ../engine/share/modules/stack_mod.F
+!||    th_mod             ../engine/share/modules/th_mod.F
+!||====================================================================
         SUBROUTINE INIT_TH(IPARG,ITHBUF,ELBUF_TAB,IGEO,IXR,
      .                     ITHGRP,NTHGRP2,ID,WEIGHT,SITHBUF)
 C-----------------------------------------------

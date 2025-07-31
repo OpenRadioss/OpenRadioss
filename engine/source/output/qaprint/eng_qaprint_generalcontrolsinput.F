@@ -20,18 +20,18 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    eng_qaprint_generalcontrolsinput   ../engine/source/output/qaprint/eng_qaprint_generalcontrolsinput.F
-      !||--- called by ------------------------------------------------------
-      !||    eng_qaprint_driver                 ../engine/source/output/qaprint/eng_qaprint_driver.F
-      !||--- calls      -----------------------------------------------------
-      !||    qaprint                            ../common_source/qa/qa_out_mod.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod                        ../engine/share/message_module/message_mod.F
-      !||    output_mod                         ../common_source/modules/output/output_mod.F90
-      !||    qa_out_mod                         ../common_source/qa/qa_out_mod.F
-      !||    sensor_mod                         ../common_source/modules/sensor_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    eng_qaprint_generalcontrolsinput   ../engine/source/output/qaprint/eng_qaprint_generalcontrolsinput.F
+!||--- called by ------------------------------------------------------
+!||    eng_qaprint_driver                 ../engine/source/output/qaprint/eng_qaprint_driver.F
+!||--- calls      -----------------------------------------------------
+!||    qaprint                            ../common_source/qa/qa_out_mod.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod                        ../engine/share/message_module/message_mod.F
+!||    output_mod                         ../common_source/modules/output/output_mod.F90
+!||    qa_out_mod                         ../common_source/qa/qa_out_mod.F
+!||    sensor_mod                         ../common_source/modules/sensor_mod.F90
+!||====================================================================
       SUBROUTINE ENG_QAPRINT_GENERALCONTROLSINPUT(IRUNN,OUTPUT,IPARIT,SENSORS)
 C-----------------------------------------------
 C   M o d u l e s

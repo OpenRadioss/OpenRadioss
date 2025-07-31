@@ -20,11 +20,11 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    damping_range_solid_mod   ../engine/source/general_controls/damping/damping_range_solid.F90
-      !||--- called by ------------------------------------------------------
-      !||    viscmain                  ../engine/source/materials/visc/viscmain.F
-      !||====================================================================
+!||====================================================================
+!||    damping_range_solid_mod   ../engine/source/general_controls/damping/damping_range_solid.F90
+!||--- called by ------------------------------------------------------
+!||    viscmain                  ../engine/source/materials/visc/viscmain.F
+!||====================================================================
       module damping_range_solid_mod
       contains
 ! ======================================================================================================================
@@ -35,15 +35,15 @@
 !!\brief This subroutine computes damping forces for /DAMP/FREQ_RANGE for solid elements
 !=======================================================================================================================
 !
-      !||====================================================================
-      !||    damping_range_solid   ../engine/source/general_controls/damping/damping_range_solid.F90
-      !||--- called by ------------------------------------------------------
-      !||    viscmain              ../engine/source/materials/visc/viscmain.F
-      !||--- uses       -----------------------------------------------------
-      !||    constant_mod          ../common_source/modules/constant_mod.F
-      !||    elbufdef_mod          ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||    precision_mod         ../common_source/modules/precision_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    damping_range_solid   ../engine/source/general_controls/damping/damping_range_solid.F90
+!||--- called by ------------------------------------------------------
+!||    viscmain              ../engine/source/materials/visc/viscmain.F
+!||--- uses       -----------------------------------------------------
+!||    constant_mod          ../common_source/modules/constant_mod.F
+!||    elbufdef_mod          ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    precision_mod         ../common_source/modules/precision_mod.F90
+!||====================================================================
         subroutine damping_range_solid(damp_buf,nel     ,nvarvis ,uvarvis ,nvar_damp,et     , &
                                        epspxx  ,epspyy  ,epspzz  ,epspxy  ,epspyz  ,epspzx  , &
                                        sv1     ,sv2     ,sv3     ,sv4     ,sv5     ,sv6     , &

@@ -21,15 +21,15 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 
-      !||====================================================================
-      !||    spmd_lagbounds_exch_i22   ../engine/source/mpi/interfaces/spmd_lagbounds_exch_i22.F
-      !||--- called by ------------------------------------------------------
-      !||    i22main_tri               ../engine/source/interfaces/intsort/i22main_tri.F
-      !||--- calls      -----------------------------------------------------
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod               ../engine/share/message_module/message_mod.F
-      !||    spmd_comm_world_mod       ../engine/source/mpi/spmd_comm_world.F90
-      !||====================================================================
+!||====================================================================
+!||    spmd_lagbounds_exch_i22   ../engine/source/mpi/interfaces/spmd_lagbounds_exch_i22.F
+!||--- called by ------------------------------------------------------
+!||    i22main_tri               ../engine/source/interfaces/intsort/i22main_tri.F
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||    message_mod               ../engine/share/message_module/message_mod.F
+!||    spmd_comm_world_mod       ../engine/source/mpi/spmd_comm_world.F90
+!||====================================================================
       SUBROUTINE SPMD_LAGBOUNDS_EXCH_I22(
      1   BMINMAL_SPMD, BMINMAL   ,ISENDTO, IRCVFROM , NIN    )  
 C-----------------------------------------------

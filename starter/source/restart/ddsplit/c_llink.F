@@ -21,13 +21,13 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
-      !||====================================================================
-      !||    c_llink   ../starter/source/restart/ddsplit/c_llink.F
-      !||--- called by ------------------------------------------------------
-      !||    ddsplit   ../starter/source/restart/ddsplit/ddsplit.F
-      !||--- calls      -----------------------------------------------------
-      !||    nlocal    ../starter/source/spmd/node/ddtools.F
-      !||====================================================================
+!||====================================================================
+!||    c_llink   ../starter/source/restart/ddsplit/c_llink.F
+!||--- called by ------------------------------------------------------
+!||    ddsplit   ../starter/source/restart/ddsplit/ddsplit.F
+!||--- calls      -----------------------------------------------------
+!||    nlocal    ../starter/source/spmd/node/ddtools.F
+!||====================================================================
       SUBROUTINE C_LLINK(NNLINK,LLLINK,PROC,NLLINK_L,NSKYLL_L)
 C-----------------------------------------------
 C   M o d u l e s

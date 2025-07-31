@@ -20,15 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    setprojks6     ../engine/source/elements/thickshell/solide6c/setprojks6.F
-      !||--- called by ------------------------------------------------------
-      !||    s6ccumg3       ../engine/source/elements/thickshell/solide6c/s6ccumg3.F
-      !||--- calls      -----------------------------------------------------
-      !||    tranpvq33      ../engine/source/elements/thickshell/solide6c/tranpvq33.F
-      !||    tranqikqj      ../engine/source/elements/shell/coquez/czsumg3.F
-      !||    tranridrrj33   ../engine/source/elements/thickshell/solide6c/tranridrrj33.F
-      !||====================================================================
+!||====================================================================
+!||    setprojks6     ../engine/source/elements/thickshell/solide6c/setprojks6.F
+!||--- called by ------------------------------------------------------
+!||    s6ccumg3       ../engine/source/elements/thickshell/solide6c/s6ccumg3.F
+!||--- calls      -----------------------------------------------------
+!||    tranpvq33      ../engine/source/elements/thickshell/solide6c/tranpvq33.F
+!||    tranqikqj      ../engine/source/elements/shell/coquez/czsumg3.F
+!||    tranridrrj33   ../engine/source/elements/thickshell/solide6c/tranridrrj33.F
+!||====================================================================
       SUBROUTINE SETPROJKS6(
      1                 DR    ,R1     ,R2     ,R3     ,R4    ,
      1                 R5    ,R6     ,  

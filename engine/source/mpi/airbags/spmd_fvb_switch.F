@@ -20,16 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    spmd_fvb_switch   ../engine/source/mpi/airbags/spmd_fvb_switch.F
-      !||--- called by ------------------------------------------------------
-      !||    resol             ../engine/source/engine/resol.F
-      !||--- calls      -----------------------------------------------------
-      !||--- uses       -----------------------------------------------------
-      !||    elbufdef_mod      ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||    fvbag_mod         ../engine/share/modules/fvbag_mod.F
-      !||    spmd_mod          ../engine/source/mpi/spmd_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    spmd_fvb_switch   ../engine/source/mpi/airbags/spmd_fvb_switch.F
+!||--- called by ------------------------------------------------------
+!||    resol             ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||    elbufdef_mod      ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    fvbag_mod         ../engine/share/modules/fvbag_mod.F
+!||    spmd_mod          ../engine/source/mpi/spmd_mod.F90
+!||====================================================================
       SUBROUTINE SPMD_FVB_SWITCH(MONVOL)
 C  Broadcast the information that a type 8 fvmbag has switched to type 7 UP monvol
 C  To avoid deadlock, all processor must know which FVMBAGs have switched

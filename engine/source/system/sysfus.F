@@ -22,15 +22,15 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C     REAL
 #include "my_real.inc"
-      !||====================================================================
-      !||    sysfus        ../engine/source/system/sysfus.F
-      !||--- called by ------------------------------------------------------
-      !||    leccut        ../engine/source/tools/sect/leccut.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg        ../engine/source/output/message/message.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod   ../engine/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    sysfus        ../engine/source/system/sysfus.F
+!||--- called by ------------------------------------------------------
+!||    leccut        ../engine/source/tools/sect/leccut.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg        ../engine/source/output/message/message.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod   ../engine/share/message_module/message_mod.F
+!||====================================================================
        my_real  FUNCTION SYSFUS(IU,ITABM1,NUMNOD,MESS)
 C-----------------------------------------------
 C   M o d u l e s
@@ -83,18 +83,18 @@ C     >CAS IU>TABM
       END
 C
 C     REAL
-      !||====================================================================
-      !||    sysfus2       ../engine/source/system/sysfus.F
-      !||--- called by ------------------------------------------------------
-      !||    ale51_spmd2   ../engine/source/ale/ale51/ale51_spmd2.F
-      !||    ale51_spmd3   ../engine/source/ale/ale51/ale51_spmd3.F
-      !||    forcefingeo   ../engine/source/loads/general/forcefingeo.F
-      !||    fr_rlale      ../engine/source/mpi/kinematic_conditions/fr_rlink1.F
-      !||    fr_rlink1     ../engine/source/mpi/kinematic_conditions/fr_rlink1.F
-      !||    genh3d        ../engine/source/output/h3d/h3d_results/genh3d.F
-      !||    lcbcsf        ../engine/source/constraints/general/bcs/lcbcsf.F
-      !||    lecnoise      ../engine/source/general_controls/computation/lecnoise.F
-      !||====================================================================
+!||====================================================================
+!||    sysfus2       ../engine/source/system/sysfus.F
+!||--- called by ------------------------------------------------------
+!||    ale51_spmd2   ../engine/source/ale/ale51/ale51_spmd2.F
+!||    ale51_spmd3   ../engine/source/ale/ale51/ale51_spmd3.F
+!||    forcefingeo   ../engine/source/loads/general/forcefingeo.F
+!||    fr_rlale      ../engine/source/mpi/kinematic_conditions/fr_rlink1.F
+!||    fr_rlink1     ../engine/source/mpi/kinematic_conditions/fr_rlink1.F
+!||    genh3d        ../engine/source/output/h3d/h3d_results/genh3d.F
+!||    lcbcsf        ../engine/source/constraints/general/bcs/lcbcsf.F
+!||    lecnoise      ../engine/source/general_controls/computation/lecnoise.F
+!||====================================================================
       INTEGER FUNCTION SYSFUS2(IU,ITABM1,NUMNOD)
 C cette fonction retourne le no interne correspondant a un no user ou 0
 C si le noeud n'existe pas

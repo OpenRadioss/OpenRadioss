@@ -20,17 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    write_cut_cell_buffer   ../engine/source/interfaces/int22/write_cut_cell_buffer.F
-      !||--- calls      -----------------------------------------------------
-      !||    my_barrier              ../engine/source/system/machine.F
-      !||    omp_get_thread_num      ../engine/source/engine/openmp_stub.F90
-      !||--- uses       -----------------------------------------------------
-      !||    elbufdef_mod            ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||    i22bufbric_mod          ../common_source/modules/interfaces/cut-cell-search_mod.F
-      !||    i22tri_mod              ../common_source/modules/interfaces/cut-cell-search_mod.F
-      !||    initbuf_mod             ../engine/share/resol/initbuf.F
-      !||====================================================================
+!||====================================================================
+!||    write_cut_cell_buffer   ../engine/source/interfaces/int22/write_cut_cell_buffer.F
+!||--- calls      -----------------------------------------------------
+!||    my_barrier              ../engine/source/system/machine.F
+!||    omp_get_thread_num      ../engine/source/engine/openmp_stub.F90
+!||--- uses       -----------------------------------------------------
+!||    elbufdef_mod            ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    i22bufbric_mod          ../common_source/modules/interfaces/cut-cell-search_mod.F
+!||    i22tri_mod              ../common_source/modules/interfaces/cut-cell-search_mod.F
+!||    initbuf_mod             ../engine/share/resol/initbuf.F
+!||====================================================================
       SUBROUTINE WRITE_CUT_CELL_BUFFER ()      
 C-----------------------------------------------
 C   D e s c r i p t i o n

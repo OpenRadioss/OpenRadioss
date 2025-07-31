@@ -21,16 +21,16 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C  |         SPMD_R4GATHER_PART              /spe/spmd_anim.F
-      !||====================================================================
-      !||    torseur            ../engine/source/output/anim/generate/torseur.F
-      !||--- called by ------------------------------------------------------
-      !||    genani             ../engine/source/output/anim/generate/genani.F
-      !||--- calls      -----------------------------------------------------
-      !||    spmd_r4get_partn   ../engine/source/mpi/anim/spmd_r4get_partn.F
-      !||    write_r_c          ../common_source/tools/input_output/write_routtines.c
-      !||--- uses       -----------------------------------------------------
-      !||    my_alloc_mod       ../common_source/tools/memory/my_alloc.F90
-      !||====================================================================
+!||====================================================================
+!||    torseur            ../engine/source/output/anim/generate/torseur.F
+!||--- called by ------------------------------------------------------
+!||    genani             ../engine/source/output/anim/generate/genani.F
+!||--- calls      -----------------------------------------------------
+!||    spmd_r4get_partn   ../engine/source/mpi/anim/spmd_r4get_partn.F
+!||    write_r_c          ../common_source/tools/input_output/write_routtines.c
+!||--- uses       -----------------------------------------------------
+!||    my_alloc_mod       ../common_source/tools/memory/my_alloc.F90
+!||====================================================================
       SUBROUTINE TORSEUR(IADG  ,IPARG,ITENS,IXT   ,IXP  ,
      .                   IXR   ,EL2FA,NBF  ,TENS  ,TORS ,
      .                   NBPART)

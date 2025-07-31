@@ -20,20 +20,20 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    m25law                ../engine/source/materials/mat/mat025/m25law.F
-      !||--- called by ------------------------------------------------------
-      !||    mmain                 ../engine/source/materials/mat_share/mmain.F90
-      !||--- calls      -----------------------------------------------------
-      !||    mat25_crasurv_s       ../engine/source/materials/mat/mat025/mat25_crasurv_s.F90
-      !||    mat25_tsaiwu_s        ../engine/source/materials/mat/mat025/mat25_tsaiwu_s.F90
-      !||    mreploc               ../engine/source/materials/mat_share/mreploc.F
-      !||    mrotens               ../engine/source/materials/mat_share/mrotens.F
-      !||--- uses       -----------------------------------------------------
-      !||    mat25_crasurv_s_mod   ../engine/source/materials/mat/mat025/mat25_crasurv_s.F90
-      !||    mat25_tsaiwu_s_mod    ../engine/source/materials/mat/mat025/mat25_tsaiwu_s.F90
-      !||    matparam_def_mod      ../common_source/modules/mat_elem/matparam_def_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    m25law                ../engine/source/materials/mat/mat025/m25law.F
+!||--- called by ------------------------------------------------------
+!||    mmain                 ../engine/source/materials/mat_share/mmain.F90
+!||--- calls      -----------------------------------------------------
+!||    mat25_crasurv_s       ../engine/source/materials/mat/mat025/mat25_crasurv_s.F90
+!||    mat25_tsaiwu_s        ../engine/source/materials/mat/mat025/mat25_tsaiwu_s.F90
+!||    mreploc               ../engine/source/materials/mat_share/mreploc.F
+!||    mrotens               ../engine/source/materials/mat_share/mrotens.F
+!||--- uses       -----------------------------------------------------
+!||    mat25_crasurv_s_mod   ../engine/source/materials/mat/mat025/mat25_crasurv_s.F90
+!||    mat25_tsaiwu_s_mod    ../engine/source/materials/mat/mat025/mat25_tsaiwu_s.F90
+!||    matparam_def_mod      ../common_source/modules/mat_elem/matparam_def_mod.F90
+!||====================================================================
       SUBROUTINE M25LAW(MAT_PARAM,
      1   PM,        OFF,       SIG,
      2   EINT,      S01,       S02,       S03,

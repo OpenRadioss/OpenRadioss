@@ -20,17 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    frefunc       ../engine/source/input/frefunc.F
-      !||--- called by ------------------------------------------------------
-      !||    freform       ../engine/source/input/freform.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg        ../engine/source/output/message/message.F
-      !||    arret         ../engine/source/system/arret.F
-      !||    wriusc2       ../engine/source/input/wriusc2.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod   ../engine/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    frefunc       ../engine/source/input/frefunc.F
+!||--- called by ------------------------------------------------------
+!||    freform       ../engine/source/input/freform.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg        ../engine/source/output/message/message.F
+!||    arret         ../engine/source/system/arret.F
+!||    wriusc2       ../engine/source/input/wriusc2.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod   ../engine/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE FREFUNC(IKAD,KEY0,KFUNC,NFCT)
 C-----------------------------------------------
 C   M o d u l e s

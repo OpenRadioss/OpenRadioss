@@ -20,47 +20,47 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    r2r_init             ../engine/source/coupling/rad2rad/r2r_init.F
-      !||--- called by ------------------------------------------------------
-      !||    resol_init           ../engine/source/engine/resol_init.F
-      !||--- calls      -----------------------------------------------------
-      !||    connection_sock_c    ../engine/source/coupling/rad2rad/rad2rad_c.c
-      !||    get_fbuf_c           ../engine/source/coupling/rad2rad/rad2rad_c.c
-      !||    get_ibuf_c           ../engine/source/coupling/rad2rad/rad2rad_c.c
-      !||    get_mass_c           ../engine/source/coupling/rad2rad/rad2rad_c.c
-      !||    get_mass_rby_c       ../engine/source/coupling/rad2rad/rad2rad_c.c
-      !||    get_mass_rby_spmd    ../engine/source/coupling/rad2rad/r2r_init.F
-      !||    get_mass_spmd        ../engine/source/coupling/rad2rad/r2r_init.F
-      !||    get_name_c           ../engine/source/coupling/rad2rad/rad2rad_c.c
-      !||    init_activ_c         ../engine/source/coupling/rad2rad/rad2rad_c.c
-      !||    init_link_c          ../engine/source/coupling/rad2rad/rad2rad_c.c
-      !||    init_link_nl_c       ../engine/source/coupling/rad2rad/rad2rad_c.c
-      !||    init_link_spmd       ../engine/source/coupling/rad2rad/r2r_init.F
-      !||    omp_get_thread_num   ../engine/source/engine/openmp_stub.F90
-      !||    openfifo_c           ../engine/source/coupling/rad2rad/rad2rad_c.c
-      !||    opensem_c            ../engine/source/coupling/rad2rad/rad2rad_c.c
-      !||    openshm_c            ../engine/source/coupling/rad2rad/rad2rad_c.c
-      !||    r2r_rby              ../engine/source/coupling/rad2rad/r2r_init.F
-      !||    send_fbuf_c          ../engine/source/coupling/rad2rad/rad2rad_c.c
-      !||    send_ibuf_c          ../engine/source/coupling/rad2rad/rad2rad_c.c
-      !||    send_mass_c          ../engine/source/coupling/rad2rad/rad2rad_c.c
-      !||    send_mass_nl_c       ../engine/source/coupling/rad2rad/rad2rad_c.c
-      !||    send_mass_rby_c      ../engine/source/coupling/rad2rad/rad2rad_c.c
-      !||    send_mass_rby_spmd   ../engine/source/coupling/rad2rad/r2r_init.F
-      !||    send_mass_spmd       ../engine/source/coupling/rad2rad/r2r_init.F
-      !||    send_sock_init_c     ../engine/source/coupling/rad2rad/rad2rad_c.c
-      !||    spmd_allglob_isum9   ../engine/source/mpi/generic/spmd_allglob_isum9.F
-      !||    spmd_exch_r2r        ../engine/source/mpi/r2r/spmd_r2r.F
-      !||    spmd_exch_r2r_rby    ../engine/source/mpi/r2r/spmd_r2r.F
-      !||    spmd_ibcast          ../engine/source/mpi/generic/spmd_ibcast.F
-      !||    spmd_r2r_sync        ../engine/source/mpi/r2r/spmd_r2r.F
-      !||--- uses       -----------------------------------------------------
-      !||    groupdef_mod         ../common_source/modules/groupdef_mod.F
-      !||    message_mod          ../engine/share/message_module/message_mod.F
-      !||    nlocal_reg_mod       ../common_source/modules/nlocal_reg_mod.F
-      !||    rad2r_mod            ../engine/share/modules/rad2r.F
-      !||====================================================================
+!||====================================================================
+!||    r2r_init             ../engine/source/coupling/rad2rad/r2r_init.F
+!||--- called by ------------------------------------------------------
+!||    resol_init           ../engine/source/engine/resol_init.F
+!||--- calls      -----------------------------------------------------
+!||    connection_sock_c    ../engine/source/coupling/rad2rad/rad2rad_c.c
+!||    get_fbuf_c           ../engine/source/coupling/rad2rad/rad2rad_c.c
+!||    get_ibuf_c           ../engine/source/coupling/rad2rad/rad2rad_c.c
+!||    get_mass_c           ../engine/source/coupling/rad2rad/rad2rad_c.c
+!||    get_mass_rby_c       ../engine/source/coupling/rad2rad/rad2rad_c.c
+!||    get_mass_rby_spmd    ../engine/source/coupling/rad2rad/r2r_init.F
+!||    get_mass_spmd        ../engine/source/coupling/rad2rad/r2r_init.F
+!||    get_name_c           ../engine/source/coupling/rad2rad/rad2rad_c.c
+!||    init_activ_c         ../engine/source/coupling/rad2rad/rad2rad_c.c
+!||    init_link_c          ../engine/source/coupling/rad2rad/rad2rad_c.c
+!||    init_link_nl_c       ../engine/source/coupling/rad2rad/rad2rad_c.c
+!||    init_link_spmd       ../engine/source/coupling/rad2rad/r2r_init.F
+!||    omp_get_thread_num   ../engine/source/engine/openmp_stub.F90
+!||    openfifo_c           ../engine/source/coupling/rad2rad/rad2rad_c.c
+!||    opensem_c            ../engine/source/coupling/rad2rad/rad2rad_c.c
+!||    openshm_c            ../engine/source/coupling/rad2rad/rad2rad_c.c
+!||    r2r_rby              ../engine/source/coupling/rad2rad/r2r_init.F
+!||    send_fbuf_c          ../engine/source/coupling/rad2rad/rad2rad_c.c
+!||    send_ibuf_c          ../engine/source/coupling/rad2rad/rad2rad_c.c
+!||    send_mass_c          ../engine/source/coupling/rad2rad/rad2rad_c.c
+!||    send_mass_nl_c       ../engine/source/coupling/rad2rad/rad2rad_c.c
+!||    send_mass_rby_c      ../engine/source/coupling/rad2rad/rad2rad_c.c
+!||    send_mass_rby_spmd   ../engine/source/coupling/rad2rad/r2r_init.F
+!||    send_mass_spmd       ../engine/source/coupling/rad2rad/r2r_init.F
+!||    send_sock_init_c     ../engine/source/coupling/rad2rad/rad2rad_c.c
+!||    spmd_allglob_isum9   ../engine/source/mpi/generic/spmd_allglob_isum9.F
+!||    spmd_exch_r2r        ../engine/source/mpi/r2r/spmd_r2r.F
+!||    spmd_exch_r2r_rby    ../engine/source/mpi/r2r/spmd_r2r.F
+!||    spmd_ibcast          ../engine/source/mpi/generic/spmd_ibcast.F
+!||    spmd_r2r_sync        ../engine/source/mpi/r2r/spmd_r2r.F
+!||--- uses       -----------------------------------------------------
+!||    groupdef_mod         ../common_source/modules/groupdef_mod.F
+!||    message_mod          ../engine/share/message_module/message_mod.F
+!||    nlocal_reg_mod       ../common_source/modules/nlocal_reg_mod.F
+!||    rad2r_mod            ../engine/share/modules/rad2r.F
+!||====================================================================
       SUBROUTINE R2R_INIT(IEXLNK  ,ITAB,IGRNOD,X      ,
      2                    MS      ,IN  ,DD_R2R,WEIGHT ,IAD_ELEM,
      3                    FR_ELEM,ADDCNEL,CNEL,IXC,IPARG,ICODT,ICODR,
@@ -528,21 +528,21 @@ C
 C-----------------------------------------------------------------
         RETURN
       END SUBROUTINE R2R_INIT
-      !||====================================================================
-      !||    init_link_spmd     ../engine/source/coupling/rad2rad/r2r_init.F
-      !||--- called by ------------------------------------------------------
-      !||    r2r_init           ../engine/source/coupling/rad2rad/r2r_init.F
-      !||--- calls      -----------------------------------------------------
-      !||    init_buf_spmd_c    ../engine/source/coupling/rad2rad/rad2rad_c.c
-      !||    init_link_spmd_c   ../engine/source/coupling/rad2rad/rad2rad_c.c
-      !||    spmd_r2r_idef      ../engine/source/mpi/r2r/spmd_r2r.F
-      !||    spmd_r2r_iget      ../engine/source/mpi/r2r/spmd_r2r.F
-      !||    spmd_r2r_iget2     ../engine/source/mpi/r2r/spmd_r2r.F
-      !||    spmd_r2r_iget4     ../engine/source/mpi/r2r/spmd_r2r.F
-      !||    spmd_r2r_rget3     ../engine/source/mpi/r2r/spmd_r2r.F
-      !||--- uses       -----------------------------------------------------
-      !||    rad2r_mod          ../engine/share/modules/rad2r.F
-      !||====================================================================
+!||====================================================================
+!||    init_link_spmd     ../engine/source/coupling/rad2rad/r2r_init.F
+!||--- called by ------------------------------------------------------
+!||    r2r_init           ../engine/source/coupling/rad2rad/r2r_init.F
+!||--- calls      -----------------------------------------------------
+!||    init_buf_spmd_c    ../engine/source/coupling/rad2rad/rad2rad_c.c
+!||    init_link_spmd_c   ../engine/source/coupling/rad2rad/rad2rad_c.c
+!||    spmd_r2r_idef      ../engine/source/mpi/r2r/spmd_r2r.F
+!||    spmd_r2r_iget      ../engine/source/mpi/r2r/spmd_r2r.F
+!||    spmd_r2r_iget2     ../engine/source/mpi/r2r/spmd_r2r.F
+!||    spmd_r2r_iget4     ../engine/source/mpi/r2r/spmd_r2r.F
+!||    spmd_r2r_rget3     ../engine/source/mpi/r2r/spmd_r2r.F
+!||--- uses       -----------------------------------------------------
+!||    rad2r_mod          ../engine/share/modules/rad2r.F
+!||====================================================================
       SUBROUTINE INIT_LINK_SPMD(
      1   IDP   ,NNG   ,ITAB ,GRNOD,X,
      2   DD_R2R,NGLOB,WEIGHT,ADDCNEL,CNEL,IXC,OFC,IEX,INFO,TYP,
@@ -698,14 +698,14 @@ C------------------------------------------------------------------------C
         RETURN
       END SUBROUTINE INIT_LINK_SPMD
 C
-      !||====================================================================
-      !||    send_mass_spmd     ../engine/source/coupling/rad2rad/r2r_init.F
-      !||--- called by ------------------------------------------------------
-      !||    r2r_init           ../engine/source/coupling/rad2rad/r2r_init.F
-      !||--- calls      -----------------------------------------------------
-      !||    send_mass_spmd_c   ../engine/source/coupling/rad2rad/rad2rad_c.c
-      !||    spmd_r2r_rget      ../engine/source/mpi/r2r/spmd_r2r.F
-      !||====================================================================
+!||====================================================================
+!||    send_mass_spmd     ../engine/source/coupling/rad2rad/r2r_init.F
+!||--- called by ------------------------------------------------------
+!||    r2r_init           ../engine/source/coupling/rad2rad/r2r_init.F
+!||--- calls      -----------------------------------------------------
+!||    send_mass_spmd_c   ../engine/source/coupling/rad2rad/rad2rad_c.c
+!||    spmd_r2r_rget      ../engine/source/mpi/r2r/spmd_r2r.F
+!||====================================================================
       SUBROUTINE SEND_MASS_SPMD(
      1   IDP      ,NNG   ,GRNOD, MS, IN,
      2   DD_R2R   ,NGLOB ,WEIGHT ,FLAG_ROT )
@@ -739,14 +739,14 @@ C-----------------------------------------------------------------
         RETURN
       END SUBROUTINE SEND_MASS_SPMD
 C
-      !||====================================================================
-      !||    get_mass_spmd     ../engine/source/coupling/rad2rad/r2r_init.F
-      !||--- called by ------------------------------------------------------
-      !||    r2r_init          ../engine/source/coupling/rad2rad/r2r_init.F
-      !||--- calls      -----------------------------------------------------
-      !||    get_mass_spmd_c   ../engine/source/coupling/rad2rad/rad2rad_c.c
-      !||    spmd_r2r_rset4    ../engine/source/mpi/r2r/spmd_r2r.F
-      !||====================================================================
+!||====================================================================
+!||    get_mass_spmd     ../engine/source/coupling/rad2rad/r2r_init.F
+!||--- called by ------------------------------------------------------
+!||    r2r_init          ../engine/source/coupling/rad2rad/r2r_init.F
+!||--- calls      -----------------------------------------------------
+!||    get_mass_spmd_c   ../engine/source/coupling/rad2rad/rad2rad_c.c
+!||    spmd_r2r_rset4    ../engine/source/mpi/r2r/spmd_r2r.F
+!||====================================================================
       SUBROUTINE GET_MASS_SPMD(
      1   IDP      ,NNG   ,GRNOD,MS      ,IN,DD_R2R   ,
      2   NGLOB ,WEIGHT ,IAD_ELEM,FR_ELEM,FLAG_ROT)
@@ -786,17 +786,17 @@ C-----------------------------------------------------------------
         RETURN
       END SUBROUTINE GET_MASS_SPMD
 C
-      !||====================================================================
-      !||    send_mass_rby_spmd     ../engine/source/coupling/rad2rad/r2r_init.F
-      !||--- called by ------------------------------------------------------
-      !||    r2r_init               ../engine/source/coupling/rad2rad/r2r_init.F
-      !||--- calls      -----------------------------------------------------
-      !||    send_mass_rby_spmd_c   ../engine/source/coupling/rad2rad/rad2rad_c.c
-      !||    spmd_r2r_iget          ../engine/source/mpi/r2r/spmd_r2r.F
-      !||    spmd_r2r_rget          ../engine/source/mpi/r2r/spmd_r2r.F
-      !||--- uses       -----------------------------------------------------
-      !||    rad2r_mod              ../engine/share/modules/rad2r.F
-      !||====================================================================
+!||====================================================================
+!||    send_mass_rby_spmd     ../engine/source/coupling/rad2rad/r2r_init.F
+!||--- called by ------------------------------------------------------
+!||    r2r_init               ../engine/source/coupling/rad2rad/r2r_init.F
+!||--- calls      -----------------------------------------------------
+!||    send_mass_rby_spmd_c   ../engine/source/coupling/rad2rad/rad2rad_c.c
+!||    spmd_r2r_iget          ../engine/source/mpi/r2r/spmd_r2r.F
+!||    spmd_r2r_rget          ../engine/source/mpi/r2r/spmd_r2r.F
+!||--- uses       -----------------------------------------------------
+!||    rad2r_mod              ../engine/share/modules/rad2r.F
+!||====================================================================
       SUBROUTINE SEND_MASS_RBY_SPMD(
      1   IDP      ,NNG   ,GRNOD, MS, IN,
      2   DD_R2R   ,NGLOB ,WEIGHT ,FLAG_ROT,
@@ -870,17 +870,17 @@ C-----------------------------------------------------------------
         RETURN
       END SUBROUTINE SEND_MASS_RBY_SPMD
 C
-      !||====================================================================
-      !||    get_mass_rby_spmd     ../engine/source/coupling/rad2rad/r2r_init.F
-      !||--- called by ------------------------------------------------------
-      !||    r2r_init              ../engine/source/coupling/rad2rad/r2r_init.F
-      !||--- calls      -----------------------------------------------------
-      !||    get_mass_rby_spmd_c   ../engine/source/coupling/rad2rad/rad2rad_c.c
-      !||    r2r_rby               ../engine/source/coupling/rad2rad/r2r_init.F
-      !||    spmd_ibcast           ../engine/source/mpi/generic/spmd_ibcast.F
-      !||    spmd_r2r_iget         ../engine/source/mpi/r2r/spmd_r2r.F
-      !||    spmd_rbcast           ../engine/source/mpi/generic/spmd_rbcast.F
-      !||====================================================================
+!||====================================================================
+!||    get_mass_rby_spmd     ../engine/source/coupling/rad2rad/r2r_init.F
+!||--- called by ------------------------------------------------------
+!||    r2r_init              ../engine/source/coupling/rad2rad/r2r_init.F
+!||--- calls      -----------------------------------------------------
+!||    get_mass_rby_spmd_c   ../engine/source/coupling/rad2rad/rad2rad_c.c
+!||    r2r_rby               ../engine/source/coupling/rad2rad/r2r_init.F
+!||    spmd_ibcast           ../engine/source/mpi/generic/spmd_ibcast.F
+!||    spmd_r2r_iget         ../engine/source/mpi/r2r/spmd_r2r.F
+!||    spmd_rbcast           ../engine/source/mpi/generic/spmd_rbcast.F
+!||====================================================================
       SUBROUTINE GET_MASS_RBY_SPMD(
      1   IDP      ,NNG   ,GRNOD,MS      ,IN,DD_R2R   ,
      2   NGLOB ,WEIGHT ,IAD_ELEM,FR_ELEM,FLAG_ROT,
@@ -980,14 +980,14 @@ C-----------------------------------------------------------------
         RETURN
       END SUBROUTINE GET_MASS_RBY_SPMD
 C
-      !||====================================================================
-      !||    r2r_rby             ../engine/source/coupling/rad2rad/r2r_init.F
-      !||--- called by ------------------------------------------------------
-      !||    get_mass_rby_spmd   ../engine/source/coupling/rad2rad/r2r_init.F
-      !||    r2r_init            ../engine/source/coupling/rad2rad/r2r_init.F
-      !||--- calls      -----------------------------------------------------
-      !||    inepri              ../engine/source/constraints/general/rbody/inepri.F
-      !||====================================================================
+!||====================================================================
+!||    r2r_rby             ../engine/source/coupling/rad2rad/r2r_init.F
+!||--- called by ------------------------------------------------------
+!||    get_mass_rby_spmd   ../engine/source/coupling/rad2rad/r2r_init.F
+!||    r2r_init            ../engine/source/coupling/rad2rad/r2r_init.F
+!||--- calls      -----------------------------------------------------
+!||    inepri              ../engine/source/constraints/general/rbody/inepri.F
+!||====================================================================
       SUBROUTINE R2R_RBY(NNOD,ITAB,IBUF,X,MS,IN,NPBY,RBY,XDP,NPROC,
      .                   WEIGHT)
 C-----------------------------------------------

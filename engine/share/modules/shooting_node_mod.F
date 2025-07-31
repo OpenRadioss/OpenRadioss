@@ -20,29 +20,29 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    shooting_node_mod                        ../engine/share/modules/shooting_node_mod.F
-      !||--- called by ------------------------------------------------------
-      !||    check_edge_state                         ../engine/source/interfaces/interf/check_edge_state.F
-      !||    check_remote_surface_state               ../engine/source/interfaces/interf/check_remote_surface_state.F
-      !||    check_surface_state                      ../engine/source/interfaces/interf/check_surface_state.F
-      !||    count_nb_elem_edge                       ../engine/source/interfaces/interf/count_nb_elem_edge.F
-      !||    dealloc_shoot_inter                      ../engine/source/interfaces/interf/dealloc_shoot_inter.F
-      !||    find_edge_from_remote_proc               ../engine/source/interfaces/interf/find_edge_from_remote_proc.F
-      !||    find_edge_inter                          ../engine/source/interfaces/interf/find_edge_inter.F
-      !||    find_surface_from_remote_proc            ../engine/source/interfaces/interf/find_surface_from_remote_proc.F
-      !||    find_surface_inter                       ../engine/source/interfaces/interf/find_surface_inter.F
-      !||    get_neighbour_surface                    ../engine/source/interfaces/interf/get_neighbour_surface.F90
-      !||    get_neighbour_surface_from_remote_proc   ../engine/source/interfaces/interf/get_neighbour_surface_from_remote_proc.F90
-      !||    get_segment_interface_id                 ../engine/source/interfaces/interf/get_segment_interface_id.F90
-      !||    get_segment_orientation                  ../engine/source/interfaces/interf/get_segment_orientation.F90
-      !||    init_nodal_state                         ../engine/source/interfaces/interf/init_nodal_state.F
-      !||    resol                                    ../engine/source/engine/resol.F
-      !||    spmd_exch_deleted_surf_edge              ../engine/source/mpi/interfaces/spmd_exch_deleted_surf_edge.F
-      !||    spmd_exch_neighbour_segment              ../engine/source/mpi/interfaces/spmd_exch_neighbour_segment.F90
-      !||    tagoff3n                                 ../engine/source/interfaces/interf/chkstfn3.F
-      !||    update_neighbour_segment                 ../engine/source/interfaces/interf/update_neighbour_segment.F90
-      !||====================================================================
+!||====================================================================
+!||    shooting_node_mod                        ../engine/share/modules/shooting_node_mod.F
+!||--- called by ------------------------------------------------------
+!||    check_edge_state                         ../engine/source/interfaces/interf/check_edge_state.F
+!||    check_remote_surface_state               ../engine/source/interfaces/interf/check_remote_surface_state.F
+!||    check_surface_state                      ../engine/source/interfaces/interf/check_surface_state.F
+!||    count_nb_elem_edge                       ../engine/source/interfaces/interf/count_nb_elem_edge.F
+!||    dealloc_shoot_inter                      ../engine/source/interfaces/interf/dealloc_shoot_inter.F
+!||    find_edge_from_remote_proc               ../engine/source/interfaces/interf/find_edge_from_remote_proc.F
+!||    find_edge_inter                          ../engine/source/interfaces/interf/find_edge_inter.F
+!||    find_surface_from_remote_proc            ../engine/source/interfaces/interf/find_surface_from_remote_proc.F
+!||    find_surface_inter                       ../engine/source/interfaces/interf/find_surface_inter.F
+!||    get_neighbour_surface                    ../engine/source/interfaces/interf/get_neighbour_surface.F90
+!||    get_neighbour_surface_from_remote_proc   ../engine/source/interfaces/interf/get_neighbour_surface_from_remote_proc.F90
+!||    get_segment_interface_id                 ../engine/source/interfaces/interf/get_segment_interface_id.F90
+!||    get_segment_orientation                  ../engine/source/interfaces/interf/get_segment_orientation.F90
+!||    init_nodal_state                         ../engine/source/interfaces/interf/init_nodal_state.F
+!||    resol                                    ../engine/source/engine/resol.F
+!||    spmd_exch_deleted_surf_edge              ../engine/source/mpi/interfaces/spmd_exch_deleted_surf_edge.F
+!||    spmd_exch_neighbour_segment              ../engine/source/mpi/interfaces/spmd_exch_neighbour_segment.F90
+!||    tagoff3n                                 ../engine/source/interfaces/interf/chkstfn3.F
+!||    update_neighbour_segment                 ../engine/source/interfaces/interf/update_neighbour_segment.F90
+!||====================================================================
       MODULE SHOOTING_NODE_MOD
 !$COMMENT
 !       SHOOTING_NODE_MOD :

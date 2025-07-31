@@ -20,12 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    sensor_user_init   ../starter/source/tools/sensor/sensor_user_init.F
-      !||--- called by ------------------------------------------------------
-      !||    lectur             ../starter/source/starter/lectur.F
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    sensor_user_init   ../starter/source/tools/sensor/sensor_user_init.F
+!||--- called by ------------------------------------------------------
+!||    lectur             ../starter/source/starter/lectur.F
+!||--- uses       -----------------------------------------------------
+!||====================================================================
         SUBROUTINE SENSOR_USER_INIT(SENSOR_USER_STRUCT)
 !$COMMENT
 !       SENSOR_USER_INIT description

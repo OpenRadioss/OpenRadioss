@@ -20,18 +20,18 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    create_surface_from_element   ../starter/source/model/sets/create_surface_from_element.F
-      !||--- called by ------------------------------------------------------
-      !||    create_box_clause             ../starter/source/model/sets/create_box_clause.F
-      !||    hm_set                        ../starter/source/model/sets/hm_set.F
-      !||    insert_clause_in_set          ../starter/source/model/sets/insert_clause_in_set.F
-      !||--- calls      -----------------------------------------------------
-      !||    surface_buffer                ../starter/source/model/sets/surface_buffer.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod                   ../starter/share/message_module/message_mod.F
-      !||    surf_mod                      ../starter/share/modules1/surf_mod.F
-      !||====================================================================
+!||====================================================================
+!||    create_surface_from_element   ../starter/source/model/sets/create_surface_from_element.F
+!||--- called by ------------------------------------------------------
+!||    create_box_clause             ../starter/source/model/sets/create_box_clause.F
+!||    hm_set                        ../starter/source/model/sets/hm_set.F
+!||    insert_clause_in_set          ../starter/source/model/sets/insert_clause_in_set.F
+!||--- calls      -----------------------------------------------------
+!||    surface_buffer                ../starter/source/model/sets/surface_buffer.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod                   ../starter/share/message_module/message_mod.F
+!||    surf_mod                      ../starter/share/modules1/surf_mod.F
+!||====================================================================
       SUBROUTINE CREATE_SURFACE_FROM_ELEMENT(
      .                       IXS       ,IXS10    ,SH4TREE   ,SH3TREE   ,IXC       ,
      .                       IXTG      ,KNOD2ELS ,NOD2ELS   ,KNOD2ELC  ,NOD2ELC   ,

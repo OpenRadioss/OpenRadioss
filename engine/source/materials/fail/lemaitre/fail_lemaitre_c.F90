@@ -20,24 +20,24 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    fail_lemaitre_c_mod   ../engine/source/materials/fail/lemaitre/fail_lemaitre_c.F90
-      !||--- called by ------------------------------------------------------
-      !||    mulawc                ../engine/source/materials/mat_share/mulawc.F90
-      !||    usermat_shell         ../engine/source/materials/mat_share/usermat_shell.F
-      !||====================================================================
+!||====================================================================
+!||    fail_lemaitre_c_mod   ../engine/source/materials/fail/lemaitre/fail_lemaitre_c.F90
+!||--- called by ------------------------------------------------------
+!||    mulawc                ../engine/source/materials/mat_share/mulawc.F90
+!||    usermat_shell         ../engine/source/materials/mat_share/usermat_shell.F
+!||====================================================================
       module fail_lemaitre_c_mod
       contains
-      !||====================================================================
-      !||    fail_lemaitre_c    ../engine/source/materials/fail/lemaitre/fail_lemaitre_c.F90
-      !||--- called by ------------------------------------------------------
-      !||    mulawc             ../engine/source/materials/mat_share/mulawc.F90
-      !||    usermat_shell      ../engine/source/materials/mat_share/usermat_shell.F
-      !||--- uses       -----------------------------------------------------
-      !||    constant_mod       ../common_source/modules/constant_mod.F
-      !||    matparam_def_mod   ../common_source/modules/mat_elem/matparam_def_mod.F90
-      !||    precision_mod      ../common_source/modules/precision_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    fail_lemaitre_c    ../engine/source/materials/fail/lemaitre/fail_lemaitre_c.F90
+!||--- called by ------------------------------------------------------
+!||    mulawc             ../engine/source/materials/mat_share/mulawc.F90
+!||    usermat_shell      ../engine/source/materials/mat_share/usermat_shell.F
+!||--- uses       -----------------------------------------------------
+!||    constant_mod       ../common_source/modules/constant_mod.F
+!||    matparam_def_mod   ../common_source/modules/mat_elem/matparam_def_mod.F90
+!||    precision_mod      ../common_source/modules/precision_mod.F90
+!||====================================================================
       subroutine fail_lemaitre_c(                                              &
         nel      ,nuparam  ,uparam   ,matparam ,                               &
         signxx   ,signyy   ,signxy   ,dpla     ,pla      ,foff     ,           &

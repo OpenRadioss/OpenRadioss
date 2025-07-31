@@ -20,23 +20,23 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    rbypid            ../engine/source/constraints/general/rbody/rbypid.F
-      !||--- called by ------------------------------------------------------
-      !||    rbyonf            ../engine/source/constraints/general/rbody/rbyonf.F
-      !||    rbysens           ../engine/source/constraints/general/rbody/rbyonf.F
-      !||--- calls      -----------------------------------------------------
-      !||    rbyact            ../engine/source/constraints/general/rbody/rbyact.F
-      !||    spmd_chkw         ../engine/source/mpi/generic/spmd_chkw.F
-      !||    spmd_exch_fr6     ../engine/source/mpi/kinematic_conditions/spmd_exch_fr6.F
-      !||    spmd_glob_isum9   ../engine/source/mpi/interfaces/spmd_th.F
-      !||    spmd_ibcast       ../engine/source/mpi/generic/spmd_ibcast.F
-      !||    spmd_part_com     ../engine/source/mpi/interfaces/spmd_th.F
-      !||    spmd_wiout        ../engine/source/mpi/generic/spmd_wiout.F
-      !||    sum_6_float       ../engine/source/system/parit.F
-      !||--- uses       -----------------------------------------------------
-      !||    elbufdef_mod      ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    rbypid            ../engine/source/constraints/general/rbody/rbypid.F
+!||--- called by ------------------------------------------------------
+!||    rbyonf            ../engine/source/constraints/general/rbody/rbyonf.F
+!||    rbysens           ../engine/source/constraints/general/rbody/rbyonf.F
+!||--- calls      -----------------------------------------------------
+!||    rbyact            ../engine/source/constraints/general/rbody/rbyact.F
+!||    spmd_chkw         ../engine/source/mpi/generic/spmd_chkw.F
+!||    spmd_exch_fr6     ../engine/source/mpi/kinematic_conditions/spmd_exch_fr6.F
+!||    spmd_glob_isum9   ../engine/source/mpi/interfaces/spmd_th.F
+!||    spmd_ibcast       ../engine/source/mpi/generic/spmd_ibcast.F
+!||    spmd_part_com     ../engine/source/mpi/interfaces/spmd_th.F
+!||    spmd_wiout        ../engine/source/mpi/generic/spmd_wiout.F
+!||    sum_6_float       ../engine/source/system/parit.F
+!||--- uses       -----------------------------------------------------
+!||    elbufdef_mod      ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||====================================================================
       SUBROUTINE RBYPID(IPARG   ,IPARI       ,MS    ,IN     ,
      .                  IXS     ,IXQ  ,IXC   ,IXT   ,IXP    ,
      .                  IXR     ,SKEW ,ITAB  ,ITABM1,ISKWN  ,

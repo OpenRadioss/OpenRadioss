@@ -25,22 +25,22 @@
 ! ==================================================================================================
 !! \brief write therm_param data structure in restart file
 !! \details
-      !||====================================================================
-      !||    write_therpmaram_mod   ../starter/source/materials/mat/write_thermparam.F90
-      !||--- called by ------------------------------------------------------
-      !||    write_matparam         ../starter/source/materials/mat/write_matparam.F
-      !||====================================================================
+!||====================================================================
+!||    write_therpmaram_mod   ../starter/source/materials/mat/write_thermparam.F90
+!||--- called by ------------------------------------------------------
+!||    write_matparam         ../starter/source/materials/mat/write_matparam.F
+!||====================================================================
       module write_therpmaram_mod
         implicit none
       contains
 
-      !||====================================================================
-      !||    write_thermparam   ../starter/source/materials/mat/write_thermparam.F90
-      !||--- called by ------------------------------------------------------
-      !||    write_matparam     ../starter/source/materials/mat/write_matparam.F
-      !||--- calls      -----------------------------------------------------
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    write_thermparam   ../starter/source/materials/mat/write_thermparam.F90
+!||--- called by ------------------------------------------------------
+!||    write_matparam     ../starter/source/materials/mat/write_matparam.F
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||====================================================================
         subroutine write_thermparam(therm,len)
 ! --------------------------------------------------------------------------------------------------
 !                                                   Modules

@@ -21,22 +21,22 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 #ifndef DNC
-      !||====================================================================
-      !||    eig1                   ../engine/stub/eig1.F
-      !||--- uses       -----------------------------------------------------
-      !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
-      !||    cluster_mod            ../engine/share/modules/cluster_mod.F
-      !||    crackxfem_mod          ../engine/share/modules/crackxfem_mod.F
-      !||    drape_mod              ../engine/share/modules/drape_mod.F
-      !||    elbufdef_mod           ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||    groupdef_mod           ../common_source/modules/groupdef_mod.F
-      !||    h3d_mod                ../engine/share/modules/h3d_mod.F
-      !||    intbufdef_mod          ../common_source/modules/interfaces/intbufdef_mod.F90
-      !||    matparam_def_mod       ../common_source/modules/mat_elem/matparam_def_mod.F90
-      !||    message_mod            ../engine/share/message_module/message_mod.F
-      !||    multi_fvm_mod          ../common_source/modules/ale/multi_fvm_mod.F90
-      !||    stack_mod              ../engine/share/modules/stack_mod.F
-      !||====================================================================
+!||====================================================================
+!||    eig1                   ../engine/stub/eig1.F
+!||--- uses       -----------------------------------------------------
+!||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
+!||    cluster_mod            ../engine/share/modules/cluster_mod.F
+!||    crackxfem_mod          ../engine/share/modules/crackxfem_mod.F
+!||    drape_mod              ../engine/share/modules/drape_mod.F
+!||    elbufdef_mod           ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    groupdef_mod           ../common_source/modules/groupdef_mod.F
+!||    h3d_mod                ../engine/share/modules/h3d_mod.F
+!||    intbufdef_mod          ../common_source/modules/interfaces/intbufdef_mod.F90
+!||    matparam_def_mod       ../common_source/modules/mat_elem/matparam_def_mod.F90
+!||    message_mod            ../engine/share/message_module/message_mod.F
+!||    multi_fvm_mod          ../common_source/modules/ale/multi_fvm_mod.F90
+!||    stack_mod              ../engine/share/modules/stack_mod.F
+!||====================================================================
       SUBROUTINE EIG1(K_DIAG   , K_LT      , IADK        ,JDIK        , MS        , 
      2                IN       , NDDL      , NDOF        ,NNZL        , X         , 
      3                D        , V         , A           ,BUFEL       , IXS       , 

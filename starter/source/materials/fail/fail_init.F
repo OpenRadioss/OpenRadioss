@@ -20,12 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    fail_init          ../starter/source/materials/fail/fail_init.F
-      !||--- called by ------------------------------------------------------
-      !||    hm_read_fail       ../starter/source/materials/fail/hm_read_fail.F
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    fail_init          ../starter/source/materials/fail/fail_init.F
+!||--- called by ------------------------------------------------------
+!||    hm_read_fail       ../starter/source/materials/fail/hm_read_fail.F
+!||--- uses       -----------------------------------------------------
+!||====================================================================
       SUBROUTINE FAIL_INIT(MAT_PARAM ,NUMMAT)
 C-----------------------------------------------
 C   M o d u l e s

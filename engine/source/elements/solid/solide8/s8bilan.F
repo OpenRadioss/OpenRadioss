@@ -20,16 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    s8bilan               ../engine/source/elements/solid/solide8/s8bilan.F
-      !||--- called by ------------------------------------------------------
-      !||    s8forc3               ../engine/source/elements/solid/solide8/s8forc3.F
-      !||--- calls      -----------------------------------------------------
-      !||    grelem_sav            ../engine/source/output/th/grelem_sav.F
-      !||    sensor_energy_bilan   ../engine/source/tools/sensor/sensor_energy_bilan.F
-      !||--- uses       -----------------------------------------------------
-      !||    sensor_mod            ../common_source/modules/sensor_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    s8bilan               ../engine/source/elements/solid/solide8/s8bilan.F
+!||--- called by ------------------------------------------------------
+!||    s8forc3               ../engine/source/elements/solid/solide8/s8forc3.F
+!||--- calls      -----------------------------------------------------
+!||    grelem_sav            ../engine/source/output/th/grelem_sav.F
+!||    sensor_energy_bilan   ../engine/source/tools/sensor/sensor_energy_bilan.F
+!||--- uses       -----------------------------------------------------
+!||    sensor_mod            ../common_source/modules/sensor_mod.F90
+!||====================================================================
       SUBROUTINE S8BILAN(PARTSAV,EINT,RHO,RK,VOL,VNEW,
      .                   VX,VY,VZ,IPARTS,
      .                   GRESAV,GRTH,IGRTH,X,Y,Z,ITASK,IPARG,SENSORS)

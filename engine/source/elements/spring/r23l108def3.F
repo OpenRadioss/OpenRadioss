@@ -20,17 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    r23l108def3        ../engine/source/elements/spring/r23l108def3.F
-      !||--- called by ------------------------------------------------------
-      !||    r23law108          ../engine/source/elements/spring/r23law108.F
-      !||--- calls      -----------------------------------------------------
-      !||    redef3             ../engine/source/elements/spring/redef3.F90
-      !||    repla3             ../engine/source/elements/spring/repla3.F
-      !||--- uses       -----------------------------------------------------
-      !||    python_funct_mod   ../common_source/modules/python_mod.F90
-      !||    redef3_mod         ../engine/source/elements/spring/redef3.F90
-      !||====================================================================
+!||====================================================================
+!||    r23l108def3        ../engine/source/elements/spring/r23l108def3.F
+!||--- called by ------------------------------------------------------
+!||    r23law108          ../engine/source/elements/spring/r23law108.F
+!||--- calls      -----------------------------------------------------
+!||    redef3             ../engine/source/elements/spring/redef3.F90
+!||    repla3             ../engine/source/elements/spring/repla3.F
+!||--- uses       -----------------------------------------------------
+!||    python_funct_mod   ../common_source/modules/python_mod.F90
+!||    redef3_mod         ../engine/source/elements/spring/redef3.F90
+!||====================================================================
       SUBROUTINE R23L108DEF3(PYTHON,
      1   IPM,     IGEO,    MID,     PID,
      2   UPARAM,  SKEW,    GEO,     FX,

@@ -20,19 +20,19 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    soltosph_on1   ../engine/source/elements/sph/soltosph_on1.F
-      !||--- called by ------------------------------------------------------
-      !||    sphprep        ../engine/source/elements/sph/sphprep.F
-      !||--- calls      -----------------------------------------------------
-      !||    my_barrier     ../engine/source/system/machine.F
-      !||    startimeg      ../engine/source/system/timer.F
-      !||    stoptimeg      ../engine/source/system/timer.F
-      !||--- uses       -----------------------------------------------------
-      !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||    message_mod    ../engine/share/message_module/message_mod.F
-      !||    sphbox         ../engine/share/modules/sphbox.F
-      !||====================================================================
+!||====================================================================
+!||    soltosph_on1   ../engine/source/elements/sph/soltosph_on1.F
+!||--- called by ------------------------------------------------------
+!||    sphprep        ../engine/source/elements/sph/sphprep.F
+!||--- calls      -----------------------------------------------------
+!||    my_barrier     ../engine/source/system/machine.F
+!||    startimeg      ../engine/source/system/timer.F
+!||    stoptimeg      ../engine/source/system/timer.F
+!||--- uses       -----------------------------------------------------
+!||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    message_mod    ../engine/share/message_module/message_mod.F
+!||    sphbox         ../engine/share/modules/sphbox.F
+!||====================================================================
       SUBROUTINE SOLTOSPH_ON1(
      .   X      ,SPBUF    ,KXSP   ,IXSP     ,IPARTSP ,
      .   IPARG  ,NGROUNC ,IGROUNC ,ELBUF_TAB,ITASK   ,
@@ -412,18 +412,18 @@ C-----------------------------------------------
 C-----------------------------------------------
       RETURN
       END SUBROUTINE SOLTOSPH_ON1
-      !||====================================================================
-      !||    soltosph_on12   ../engine/source/elements/sph/soltosph_on1.F
-      !||--- called by ------------------------------------------------------
-      !||    sphprep         ../engine/source/elements/sph/sphprep.F
-      !||--- calls      -----------------------------------------------------
-      !||    startimeg       ../engine/source/system/timer.F
-      !||    stoptimeg       ../engine/source/system/timer.F
-      !||--- uses       -----------------------------------------------------
-      !||    elbufdef_mod    ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||    message_mod     ../engine/share/message_module/message_mod.F
-      !||    sphbox          ../engine/share/modules/sphbox.F
-      !||====================================================================
+!||====================================================================
+!||    soltosph_on12   ../engine/source/elements/sph/soltosph_on1.F
+!||--- called by ------------------------------------------------------
+!||    sphprep         ../engine/source/elements/sph/sphprep.F
+!||--- calls      -----------------------------------------------------
+!||    startimeg       ../engine/source/system/timer.F
+!||    stoptimeg       ../engine/source/system/timer.F
+!||--- uses       -----------------------------------------------------
+!||    elbufdef_mod    ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    message_mod     ../engine/share/message_module/message_mod.F
+!||    sphbox          ../engine/share/modules/sphbox.F
+!||====================================================================
       SUBROUTINE SOLTOSPH_ON12(
      .   X      ,SPBUF    ,KXSP   ,IXSP     ,IPARTSP ,
      .   IPARG  ,NGROUNC ,IGROUNC ,ELBUF_TAB,ITASK   ,

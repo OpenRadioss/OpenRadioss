@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    cmatini        ../starter/source/materials/mat_share/cmatini.F
-      !||--- called by ------------------------------------------------------
-      !||    c3init3        ../starter/source/elements/sh3n/coque3n/c3init3.F
-      !||    cbainit3       ../starter/source/elements/shell/coqueba/cbainit3.F
-      !||    cinit3         ../starter/source/elements/shell/coque/cinit3.F
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    cmatini        ../starter/source/materials/mat_share/cmatini.F
+!||--- called by ------------------------------------------------------
+!||    c3init3        ../starter/source/elements/sh3n/coque3n/c3init3.F
+!||    cbainit3       ../starter/source/elements/shell/coqueba/cbainit3.F
+!||    cinit3         ../starter/source/elements/shell/coque/cinit3.F
+!||--- uses       -----------------------------------------------------
+!||====================================================================
       SUBROUTINE CMATINI(ELBUF_STR, 
      1           JFT     ,JLT     ,NFT     ,NEL     ,NPT     ,
      2           ISTRAIN ,SIGSH   ,NUMEL   ,IX      ,NIX     ,

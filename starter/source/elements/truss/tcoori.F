@@ -21,12 +21,12 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
-      !||====================================================================
-      !||    tcoori    ../starter/source/elements/truss/tcoori.F
-      !||--- called by ------------------------------------------------------
-      !||    inivoid   ../starter/source/elements/initia/inivoid.F
-      !||    tinit3    ../starter/source/elements/truss/tinit3.F
-      !||====================================================================
+!||====================================================================
+!||    tcoori    ../starter/source/elements/truss/tcoori.F
+!||--- called by ------------------------------------------------------
+!||    inivoid   ../starter/source/elements/initia/inivoid.F
+!||    tinit3    ../starter/source/elements/truss/tinit3.F
+!||====================================================================
       SUBROUTINE TCOORI(X,NCP,MXT, MXG, NC1, NC2, 
      .     X1, X2, Y1, Y2, Z1, Z2)
 C

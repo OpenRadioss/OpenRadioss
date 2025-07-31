@@ -20,18 +20,18 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    rgbodv                ../engine/source/constraints/general/rbody/rgbodv.F
-      !||--- called by ------------------------------------------------------
-      !||    rbyvit                ../engine/source/constraints/general/rbody/rbyvit.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg                ../engine/source/output/message/message.F
-      !||    arret                 ../engine/source/system/arret.F
-      !||    velrot_explicit       ../engine/source/constraints/general/rbody/velrot_explicit.F90
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod           ../engine/share/message_module/message_mod.F
-      !||    velrot_explicit_mod   ../engine/source/constraints/general/rbody/velrot_explicit.F90
-      !||====================================================================
+!||====================================================================
+!||    rgbodv                ../engine/source/constraints/general/rbody/rgbodv.F
+!||--- called by ------------------------------------------------------
+!||    rbyvit                ../engine/source/constraints/general/rbody/rbyvit.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                ../engine/source/output/message/message.F
+!||    arret                 ../engine/source/system/arret.F
+!||    velrot_explicit       ../engine/source/constraints/general/rbody/velrot_explicit.F90
+!||--- uses       -----------------------------------------------------
+!||    message_mod           ../engine/share/message_module/message_mod.F
+!||    velrot_explicit_mod   ../engine/source/constraints/general/rbody/velrot_explicit.F90
+!||====================================================================
       SUBROUTINE RGBODV(V     ,VR   ,X     ,RBY ,NOD  ,
      2                  NBY   ,SKEW ,ISKEW ,FS  ,ITAB ,
      3                  WEIGHT,A    ,AR    ,MS  ,IN   ,

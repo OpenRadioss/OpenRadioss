@@ -20,11 +20,11 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    spmd_exch_neighbour_segment_mod   ../engine/source/mpi/interfaces/spmd_exch_neighbour_segment.F90
-      !||--- called by ------------------------------------------------------
-      !||    get_neighbour_surface             ../engine/source/interfaces/interf/get_neighbour_surface.F90
-      !||====================================================================
+!||====================================================================
+!||    spmd_exch_neighbour_segment_mod   ../engine/source/mpi/interfaces/spmd_exch_neighbour_segment.F90
+!||--- called by ------------------------------------------------------
+!||    get_neighbour_surface             ../engine/source/interfaces/interf/get_neighbour_surface.F90
+!||====================================================================
       module spmd_exch_neighbour_segment_mod
       contains
 ! ======================================================================================================================
@@ -50,24 +50,24 @@
 !!
 !!
 
-      !||====================================================================
-      !||    spmd_exch_neighbour_segment                  ../engine/source/mpi/interfaces/spmd_exch_neighbour_segment.F90
-      !||--- called by ------------------------------------------------------
-      !||    get_neighbour_surface                        ../engine/source/interfaces/interf/get_neighbour_surface.F90
-      !||--- calls      -----------------------------------------------------
-      !||    alloc_my_real_1d_array                       ../common_source/modules/array_mod.F
-      !||    get_neighbour_surface_from_remote_proc       ../engine/source/interfaces/interf/get_neighbour_surface_from_remote_proc.F90
-      !||    spmd_wait                                    ../engine/source/mpi/spmd_wait.F90
-      !||    spmd_waitany                                 ../engine/source/mpi/spmd_wait.F90
-      !||--- uses       -----------------------------------------------------
-      !||    array_mod                                    ../common_source/modules/array_mod.F
-      !||    get_neighbour_surface_from_remote_proc_mod   ../engine/source/interfaces/interf/get_neighbour_surface_from_remote_proc.F90
-      !||    intbufdef_mod                                ../common_source/modules/interfaces/intbufdef_mod.F90
-      !||    nodal_arrays_mod                             ../common_source/modules/nodal_arrays.F90
-      !||    precision_mod                                ../common_source/modules/precision_mod.F90
-      !||    shooting_node_mod                            ../engine/share/modules/shooting_node_mod.F
-      !||    spmd_mod                                     ../engine/source/mpi/spmd_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    spmd_exch_neighbour_segment                  ../engine/source/mpi/interfaces/spmd_exch_neighbour_segment.F90
+!||--- called by ------------------------------------------------------
+!||    get_neighbour_surface                        ../engine/source/interfaces/interf/get_neighbour_surface.F90
+!||--- calls      -----------------------------------------------------
+!||    alloc_my_real_1d_array                       ../common_source/modules/array_mod.F
+!||    get_neighbour_surface_from_remote_proc       ../engine/source/interfaces/interf/get_neighbour_surface_from_remote_proc.F90
+!||    spmd_wait                                    ../engine/source/mpi/spmd_wait.F90
+!||    spmd_waitany                                 ../engine/source/mpi/spmd_wait.F90
+!||--- uses       -----------------------------------------------------
+!||    array_mod                                    ../common_source/modules/array_mod.F
+!||    get_neighbour_surface_from_remote_proc_mod   ../engine/source/interfaces/interf/get_neighbour_surface_from_remote_proc.F90
+!||    intbufdef_mod                                ../common_source/modules/interfaces/intbufdef_mod.F90
+!||    nodal_arrays_mod                             ../common_source/modules/nodal_arrays.F90
+!||    precision_mod                                ../common_source/modules/precision_mod.F90
+!||    shooting_node_mod                            ../engine/share/modules/shooting_node_mod.F
+!||    spmd_mod                                     ../engine/source/mpi/spmd_mod.F90
+!||====================================================================
         subroutine spmd_exch_neighbour_segment(nspmd,ispmd, &
                                                 ninter,numnod, &
                                                 s_buffer_size,r_buffer_size,s_buffer_2_size,r_buffer_2_size,&

@@ -20,17 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    ecnd_mod      ../engine/share/modules/ecdn_mod.F
-      !||--- called by ------------------------------------------------------
-      !||    pvp_k         ../engine/source/implicit/imp_solv.F
-      !||    rdresb        ../engine/source/output/restart/rdresb.F
-      !||    resol         ../engine/source/engine/resol.F
-      !||    resol_init    ../engine/source/engine/resol_init.F
-      !||    restalloc     ../engine/source/output/restart/arralloc.F
-      !||    sortie_main   ../engine/source/output/sortie_main.F
-      !||    wrrestp       ../engine/source/output/restart/wrrestp.F
-      !||====================================================================
+!||====================================================================
+!||    ecnd_mod      ../engine/share/modules/ecdn_mod.F
+!||--- called by ------------------------------------------------------
+!||    pvp_k         ../engine/source/implicit/imp_solv.F
+!||    rdresb        ../engine/source/output/restart/rdresb.F
+!||    resol         ../engine/source/engine/resol.F
+!||    resol_init    ../engine/source/engine/resol_init.F
+!||    restalloc     ../engine/source/output/restart/arralloc.F
+!||    sortie_main   ../engine/source/output/sortie_main.F
+!||    wrrestp       ../engine/source/output/restart/wrrestp.F
+!||====================================================================
       MODULE ECND_MOD 
 C----------------------------------------------------------------------- 
 C    CND : CondeNsation Dynamic, ND means aussi Node_Dependent

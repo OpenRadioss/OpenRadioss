@@ -20,12 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    w_segquadfr   ../starter/source/restart/ddsplit/w_segquadfr.F
-      !||--- called by ------------------------------------------------------
-      !||    ddsplit       ../starter/source/restart/ddsplit/ddsplit.F
-      !||--- calls      -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    w_segquadfr   ../starter/source/restart/ddsplit/w_segquadfr.F
+!||--- called by ------------------------------------------------------
+!||    ddsplit       ../starter/source/restart/ddsplit/ddsplit.F
+!||--- calls      -----------------------------------------------------
+!||====================================================================
       SUBROUTINE W_SEGQUADFR(SEGQUADFR ,CEP ,P   ,CEL ,NSEGQUADFR_L,
      .                     LEN_IA)
 C-----------------------------------------------

@@ -20,48 +20,48 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    cforc3_crk       ../engine/source/elements/xfem/cforc3_crk.F
-      !||--- called by ------------------------------------------------------
-      !||    forintc          ../engine/source/elements/forintc.F
-      !||--- calls      -----------------------------------------------------
-      !||    cbilan           ../engine/source/elements/shell/coque/cbilan.F
-      !||    ccoef3           ../engine/source/elements/shell/coque/ccoef3.F
-      !||    ccoor3_crk       ../engine/source/elements/xfem/ccoor3_crk.F
-      !||    ccurv3           ../engine/source/elements/shell/coque/ccurv3.F
-      !||    cdefo3           ../engine/source/elements/shell/coque/cdefo3.F
-      !||    cderi3           ../engine/source/elements/shell/coque/cderi3.F
-      !||    cdlen3           ../engine/source/elements/shell/coque/cdlen3.F
-      !||    cdt3             ../engine/source/elements/shell/coque/cdt3.F
-      !||    cfint3           ../engine/source/elements/shell/coque/cfint3.F
-      !||    chsti3           ../engine/source/elements/shell/coque/chsti3.F
-      !||    chvis3           ../engine/source/elements/shell/coque/chvis3.F
-      !||    cmain3           ../engine/source/materials/mat_share/cmain3.F
-      !||    cnvec3           ../engine/source/elements/shell/coque/cnvec3.F
-      !||    cpxpy3           ../engine/source/elements/shell/coque/cpxpy3.F
-      !||    csens3           ../engine/source/elements/shell/coque/csens3.F
-      !||    cssp2a11         ../engine/source/elements/sh3n/coque3n/cssp2a11.F
-      !||    cstra3           ../engine/source/elements/shell/coque/cstra3.F
-      !||    cupdt3_crk       ../engine/source/elements/xfem/xfemfsky.F
-      !||    mhvis3           ../engine/source/airbag/mhvis3.F
-      !||    startime         ../engine/source/system/timer_mod.F90
-      !||    stoptime         ../engine/source/system/timer_mod.F90
-      !||    tempcg           ../engine/source/materials/mat_share/tempcg.F
-      !||    thermc           ../engine/source/materials/mat_share/thermc.F
-      !||--- uses       -----------------------------------------------------
-      !||    crackxfem_mod    ../engine/share/modules/crackxfem_mod.F
-      !||    drape_mod        ../engine/share/modules/drape_mod.F
-      !||    dt_mod           ../engine/source/modules/dt_mod.F
-      !||    elbufdef_mod     ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||    failwave_mod     ../common_source/modules/failwave_mod.F
-      !||    glob_therm_mod   ../common_source/modules/mat_elem/glob_therm_mod.F90
-      !||    mat_elem_mod     ../common_source/modules/mat_elem/mat_elem_mod.F90
-      !||    nlocal_reg_mod   ../common_source/modules/nlocal_reg_mod.F
-      !||    sensor_mod       ../common_source/modules/sensor_mod.F90
-      !||    stack_mod        ../engine/share/modules/stack_mod.F
-      !||    table_mod        ../engine/share/modules/table_mod.F
-      !||    timer_mod        ../engine/source/system/timer_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    cforc3_crk       ../engine/source/elements/xfem/cforc3_crk.F
+!||--- called by ------------------------------------------------------
+!||    forintc          ../engine/source/elements/forintc.F
+!||--- calls      -----------------------------------------------------
+!||    cbilan           ../engine/source/elements/shell/coque/cbilan.F
+!||    ccoef3           ../engine/source/elements/shell/coque/ccoef3.F
+!||    ccoor3_crk       ../engine/source/elements/xfem/ccoor3_crk.F
+!||    ccurv3           ../engine/source/elements/shell/coque/ccurv3.F
+!||    cdefo3           ../engine/source/elements/shell/coque/cdefo3.F
+!||    cderi3           ../engine/source/elements/shell/coque/cderi3.F
+!||    cdlen3           ../engine/source/elements/shell/coque/cdlen3.F
+!||    cdt3             ../engine/source/elements/shell/coque/cdt3.F
+!||    cfint3           ../engine/source/elements/shell/coque/cfint3.F
+!||    chsti3           ../engine/source/elements/shell/coque/chsti3.F
+!||    chvis3           ../engine/source/elements/shell/coque/chvis3.F
+!||    cmain3           ../engine/source/materials/mat_share/cmain3.F
+!||    cnvec3           ../engine/source/elements/shell/coque/cnvec3.F
+!||    cpxpy3           ../engine/source/elements/shell/coque/cpxpy3.F
+!||    csens3           ../engine/source/elements/shell/coque/csens3.F
+!||    cssp2a11         ../engine/source/elements/sh3n/coque3n/cssp2a11.F
+!||    cstra3           ../engine/source/elements/shell/coque/cstra3.F
+!||    cupdt3_crk       ../engine/source/elements/xfem/xfemfsky.F
+!||    mhvis3           ../engine/source/airbag/mhvis3.F
+!||    startime         ../engine/source/system/timer_mod.F90
+!||    stoptime         ../engine/source/system/timer_mod.F90
+!||    tempcg           ../engine/source/materials/mat_share/tempcg.F
+!||    thermc           ../engine/source/materials/mat_share/thermc.F
+!||--- uses       -----------------------------------------------------
+!||    crackxfem_mod    ../engine/share/modules/crackxfem_mod.F
+!||    drape_mod        ../engine/share/modules/drape_mod.F
+!||    dt_mod           ../engine/source/modules/dt_mod.F
+!||    elbufdef_mod     ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    failwave_mod     ../common_source/modules/failwave_mod.F
+!||    glob_therm_mod   ../common_source/modules/mat_elem/glob_therm_mod.F90
+!||    mat_elem_mod     ../common_source/modules/mat_elem/mat_elem_mod.F90
+!||    nlocal_reg_mod   ../common_source/modules/nlocal_reg_mod.F
+!||    sensor_mod       ../common_source/modules/sensor_mod.F90
+!||    stack_mod        ../engine/share/modules/stack_mod.F
+!||    table_mod        ../engine/share/modules/table_mod.F
+!||    timer_mod        ../engine/source/system/timer_mod.F90
+!||====================================================================
        SUBROUTINE CFORC3_CRK(TIMERS, XFEM_STR,
      1            JFT    ,JLT    ,PM    ,IXC   ,X      ,
      2            F      ,M      ,V     ,VR    ,FAILWAVE,

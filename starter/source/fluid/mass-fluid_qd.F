@@ -20,22 +20,22 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    mass_fluid_qd   ../starter/source/fluid/mass-fluid_qd.F
-      !||--- called by ------------------------------------------------------
-      !||    hm_read_bem     ../starter/source/loads/bem/hm_read_bem.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg          ../starter/source/output/message/message.F
-      !||    intanl_qd       ../starter/source/fluid/intanl_qd.F
-      !||    intanl_tg       ../starter/source/fluid/intanl_tg.F
-      !||    intgqd          ../starter/source/fluid/inte_qd.F
-      !||    intgtg          ../starter/source/fluid/inte_tg.F
-      !||    inthqd          ../starter/source/fluid/inte_qd.F
-      !||    inthtg          ../starter/source/fluid/inte_tg.F
-      !||    invert          ../starter/source/constraints/general/rbe3/hm_read_rbe3.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod     ../starter/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    mass_fluid_qd   ../starter/source/fluid/mass-fluid_qd.F
+!||--- called by ------------------------------------------------------
+!||    hm_read_bem     ../starter/source/loads/bem/hm_read_bem.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg          ../starter/source/output/message/message.F
+!||    intanl_qd       ../starter/source/fluid/intanl_qd.F
+!||    intanl_tg       ../starter/source/fluid/intanl_tg.F
+!||    intgqd          ../starter/source/fluid/inte_qd.F
+!||    intgtg          ../starter/source/fluid/inte_tg.F
+!||    inthqd          ../starter/source/fluid/inte_qd.F
+!||    inthtg          ../starter/source/fluid/inte_tg.F
+!||    invert          ../starter/source/constraints/general/rbe3/hm_read_rbe3.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod     ../starter/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE MASS_FLUID_QD(NNO, NEL, IFLOW, IBUF, ELEM, X,
      .                         NORMAL, AF, MFLE, CBEM, RHO,IRESP)
 C-----------------------------------------------

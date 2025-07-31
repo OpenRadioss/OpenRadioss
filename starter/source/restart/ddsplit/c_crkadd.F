@@ -21,11 +21,11 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
-      !||====================================================================
-      !||    c_crkadd   ../starter/source/restart/ddsplit/c_crkadd.F
-      !||--- called by ------------------------------------------------------
-      !||    ddsplit    ../starter/source/restart/ddsplit/ddsplit.F
-      !||====================================================================
+!||====================================================================
+!||    c_crkadd   ../starter/source/restart/ddsplit/c_crkadd.F
+!||--- called by ------------------------------------------------------
+!||    ddsplit    ../starter/source/restart/ddsplit/ddsplit.F
+!||====================================================================
       SUBROUTINE C_CRKADD(
      .        ELCUTC   ,NODENR    ,KXFENOD2ELC  ,ENRTAG  ,
      .        ELCUTC_L ,NODENR_L  ,KXFENOD2ELC_L,ENRTAG_L,

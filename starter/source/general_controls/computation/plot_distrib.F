@@ -20,15 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    plot_distrib                 ../starter/source/general_controls/computation/plot_distrib.F
-      !||--- called by ------------------------------------------------------
-      !||    hm_read_perturb_fail         ../starter/source/general_controls/computation/hm_read_perturb_fail.F
-      !||    hm_read_perturb_part_shell   ../starter/source/general_controls/computation/hm_read_perturb_part_shell.F
-      !||    hm_read_perturb_part_solid   ../starter/source/general_controls/computation/hm_read_perturb_part_solid.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod                  ../starter/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    plot_distrib                 ../starter/source/general_controls/computation/plot_distrib.F
+!||--- called by ------------------------------------------------------
+!||    hm_read_perturb_fail         ../starter/source/general_controls/computation/hm_read_perturb_fail.F
+!||    hm_read_perturb_part_shell   ../starter/source/general_controls/computation/hm_read_perturb_part_shell.F
+!||    hm_read_perturb_part_solid   ../starter/source/general_controls/computation/hm_read_perturb_part_solid.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod                  ../starter/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE PLOT_DISTRIB( ARRAY,S_ARRAY, NB_INTERV,SIZEY,X_MINVALUE,
      . X_MAXVALUE,Y_MAXVALUE,ECRIT)
 C-----------------------------------------------

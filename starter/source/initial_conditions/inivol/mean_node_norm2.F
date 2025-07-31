@@ -20,11 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    mean_node_norm2   ../starter/source/initial_conditions/inivol/mean_node_norm2.F
-      !||--- called by ------------------------------------------------------
-      !||    getphase          ../starter/source/initial_conditions/inivol/getphase.F
-      !||====================================================================
+!||====================================================================
+!||    mean_node_norm2   ../starter/source/initial_conditions/inivol/mean_node_norm2.F
+!||--- called by ------------------------------------------------------
+!||    getphase          ../starter/source/initial_conditions/inivol/getphase.F
+!||====================================================================
       SUBROUTINE MEAN_NODE_NORM2(IN,NOD_NORMAL,NX,NY,NZ)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

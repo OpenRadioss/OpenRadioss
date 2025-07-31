@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    dxwals         ../engine/source/output/anim/generate/dxwals.F
-      !||--- called by ------------------------------------------------------
-      !||    dxyzsect       ../engine/source/output/anim/generate/dxyzsect.F
-      !||--- calls      -----------------------------------------------------
-      !||    spmd_agetmsr   ../engine/source/mpi/anim/spmd_agetmsr.F
-      !||    write_r_c      ../common_source/tools/input_output/write_routtines.c
-      !||====================================================================
+!||====================================================================
+!||    dxwals         ../engine/source/output/anim/generate/dxwals.F
+!||--- called by ------------------------------------------------------
+!||    dxyzsect       ../engine/source/output/anim/generate/dxyzsect.F
+!||--- calls      -----------------------------------------------------
+!||    spmd_agetmsr   ../engine/source/mpi/anim/spmd_agetmsr.F
+!||    write_r_c      ../common_source/tools/input_output/write_routtines.c
+!||====================================================================
       SUBROUTINE DXWALS(X ,RWL ,MSR,FR_WALL)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

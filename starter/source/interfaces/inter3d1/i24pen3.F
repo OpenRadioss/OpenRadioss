@@ -21,20 +21,20 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
-      !||====================================================================
-      !||    i24pen3                ../starter/source/interfaces/inter3d1/i24pen3.F
-      !||--- called by ------------------------------------------------------
-      !||    inint3                 ../starter/source/interfaces/inter3d1/inint3.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg                 ../starter/source/output/message/message.F
-      !||    i24fic_getn            ../starter/source/interfaces/inter3d1/i24surfi.F
-      !||    i24penmax              ../starter/source/interfaces/inter3d1/i24pen3.F
-      !||    iconnet                ../starter/source/interfaces/inter3d1/i24pen3.F
-      !||    ini_st3                ../starter/source/interfaces/inter3d1/i24pen3.F
-      !||--- uses       -----------------------------------------------------
-      !||    format_mod             ../starter/share/modules1/format_mod.F90
-      !||    message_mod            ../starter/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    i24pen3                ../starter/source/interfaces/inter3d1/i24pen3.F
+!||--- called by ------------------------------------------------------
+!||    inint3                 ../starter/source/interfaces/inter3d1/inint3.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                 ../starter/source/output/message/message.F
+!||    i24fic_getn            ../starter/source/interfaces/inter3d1/i24surfi.F
+!||    i24penmax              ../starter/source/interfaces/inter3d1/i24pen3.F
+!||    iconnet                ../starter/source/interfaces/inter3d1/i24pen3.F
+!||    ini_st3                ../starter/source/interfaces/inter3d1/i24pen3.F
+!||--- uses       -----------------------------------------------------
+!||    format_mod             ../starter/share/modules1/format_mod.F90
+!||    message_mod            ../starter/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE I24PEN3(X    ,IRECT ,GAPV ,CAND_E,CAND_N,
      2                   NSV  ,INACTI,ITAB ,TAG   ,IWPENE,
      3                   NSN  ,IRTLM ,MSEGTYP   ,IWPENE0 ,
@@ -361,11 +361,11 @@ C
      .       1PG20.13)
 C
       END
-      !||====================================================================
-      !||    ini_st3   ../starter/source/interfaces/inter3d1/i24pen3.F
-      !||--- called by ------------------------------------------------------
-      !||    i24pen3   ../starter/source/interfaces/inter3d1/i24pen3.F
-      !||====================================================================
+!||====================================================================
+!||    ini_st3   ../starter/source/interfaces/inter3d1/i24pen3.F
+!||--- called by ------------------------------------------------------
+!||    i24pen3   ../starter/source/interfaces/inter3d1/i24pen3.F
+!||====================================================================
       SUBROUTINE INI_ST3(XX,YY,ZZ,XI,YI,ZI,NN,SSC,TTC,IER,ALP,
      1                   XC,YC,ZC)
 C
@@ -582,13 +582,13 @@ C
       ZC =H(1)*Z1+H(2)*Z2+H(3)*Z3+H(4)*Z4
       RETURN
       END
-      !||====================================================================
-      !||    i24penmax   ../starter/source/interfaces/inter3d1/i24pen3.F
-      !||--- called by ------------------------------------------------------
-      !||    i24pen3     ../starter/source/interfaces/inter3d1/i24pen3.F
-      !||--- calls      -----------------------------------------------------
-      !||    intab       ../starter/source/interfaces/inter3d1/i24tools.F
-      !||====================================================================
+!||====================================================================
+!||    i24penmax   ../starter/source/interfaces/inter3d1/i24pen3.F
+!||--- called by ------------------------------------------------------
+!||    i24pen3     ../starter/source/interfaces/inter3d1/i24pen3.F
+!||--- calls      -----------------------------------------------------
+!||    intab       ../starter/source/interfaces/inter3d1/i24tools.F
+!||====================================================================
       SUBROUTINE I24PENMAX(PEN  ,PENMAX,ETYP  ,EL    ,NS   ,
      +                     IXS   ,IXS10 ,IXS16 , IXS20  ,IELIM )
 C-----------------------------------------------
@@ -641,11 +641,11 @@ C-------
 
       RETURN
       END
-      !||====================================================================
-      !||    iconnet   ../starter/source/interfaces/inter3d1/i24pen3.F
-      !||--- called by ------------------------------------------------------
-      !||    i24pen3   ../starter/source/interfaces/inter3d1/i24pen3.F
-      !||====================================================================
+!||====================================================================
+!||    iconnet   ../starter/source/interfaces/inter3d1/i24pen3.F
+!||--- called by ------------------------------------------------------
+!||    i24pen3   ../starter/source/interfaces/inter3d1/i24pen3.F
+!||====================================================================
       SUBROUTINE ICONNET(IRECT ,IXS   ,KNOD2ELS,NOD2ELS,
      .                   IXS10 ,IXS16 ,IXS20 ,NS  ,ICONN   )
 C-----------------------------------------------
@@ -718,11 +718,11 @@ C
       RETURN
       END
 C-----------------------------------------------
-      !||====================================================================
-      !||    i24cand   ../starter/source/interfaces/inter3d1/i24pen3.F
-      !||--- called by ------------------------------------------------------
-      !||    inint3    ../starter/source/interfaces/inter3d1/inint3.F
-      !||====================================================================
+!||====================================================================
+!||    i24cand   ../starter/source/interfaces/inter3d1/i24pen3.F
+!||--- called by ------------------------------------------------------
+!||    inint3    ../starter/source/interfaces/inter3d1/inint3.F
+!||====================================================================
       SUBROUTINE I24CAND(CAND_E,CAND_N,NSN  ,IRTLM ,II_STOK ,
      *                    MSEGTYP)
 C

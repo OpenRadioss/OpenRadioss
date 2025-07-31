@@ -20,17 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    constit        ../starter/source/elements/nodes/constit.F
-      !||--- called by ------------------------------------------------------
-      !||    build_admesh   ../starter/source/model/remesh/build_admesh.F
-      !||    hm_read_node   ../starter/source/elements/reader/hm_read_node.F
-      !||    init_monvol    ../starter/source/airbag/init_monvol.F
-      !||    nbadigemesh    ../starter/source/elements/ige3d/nbadigemesh.F
-      !||    nbadmesh       ../starter/source/model/remesh/nbadmesh.F
-      !||    r2r_split      ../starter/source/coupling/rad2rad/r2r_split.F
-      !||--- calls      -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    constit        ../starter/source/elements/nodes/constit.F
+!||--- called by ------------------------------------------------------
+!||    build_admesh   ../starter/source/model/remesh/build_admesh.F
+!||    hm_read_node   ../starter/source/elements/reader/hm_read_node.F
+!||    init_monvol    ../starter/source/airbag/init_monvol.F
+!||    nbadigemesh    ../starter/source/elements/ige3d/nbadigemesh.F
+!||    nbadmesh       ../starter/source/model/remesh/nbadmesh.F
+!||    r2r_split      ../starter/source/coupling/rad2rad/r2r_split.F
+!||--- calls      -----------------------------------------------------
+!||====================================================================
       SUBROUTINE CONSTIT(ITAB,ITABM1,NUMNOD)
 C
 C    CONSTITUTION DU TABLEAU INVERSE DES NOEUDS

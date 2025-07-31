@@ -20,12 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    c_spmd_ne_connect      ../starter/source/ale/spmd_ne_connect.F
-      !||--- called by ------------------------------------------------------
-      !||    ddsplit                ../starter/source/restart/ddsplit/ddsplit.F
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    c_spmd_ne_connect      ../starter/source/ale/spmd_ne_connect.F
+!||--- called by ------------------------------------------------------
+!||    ddsplit                ../starter/source/restart/ddsplit/ddsplit.F
+!||--- uses       -----------------------------------------------------
+!||====================================================================
       SUBROUTINE C_SPMD_NE_CONNECT(ALE_CONNECTIVITY, PROC    , CEP      , CEL     , 
      .                             NODGLOBAL       , NODLOCAL, 
      .                             NUMEL           , NUMNOD  , NUMEL_L  , NUMNOD_L, 
@@ -154,13 +154,13 @@ C-----------------------------------------------
       END SUBROUTINE C_SPMD_NE_CONNECT
 
 
-      !||====================================================================
-      !||    spmd_ne_connect        ../starter/source/ale/spmd_ne_connect.F
-      !||--- called by ------------------------------------------------------
-      !||    ddsplit                ../starter/source/restart/ddsplit/ddsplit.F
-      !||--- calls      -----------------------------------------------------
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    spmd_ne_connect        ../starter/source/ale/spmd_ne_connect.F
+!||--- called by ------------------------------------------------------
+!||    ddsplit                ../starter/source/restart/ddsplit/ddsplit.F
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||====================================================================
       SUBROUTINE SPMD_NE_CONNECT(ALE_CONNECTIVITY, PROC    , CEP      , CEL     , 
      .                           NODGLOBAL       , NODLOCAL, 
      .                           NUMEL           , NUMNOD  , NUMEL_L  , NUMNOD_L, 

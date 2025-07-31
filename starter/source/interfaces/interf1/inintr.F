@@ -20,30 +20,30 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    inintr                       ../starter/source/interfaces/interf1/inintr.F
-      !||--- called by ------------------------------------------------------
-      !||    lectur                       ../starter/source/starter/lectur.F
-      !||--- calls      -----------------------------------------------------
-      !||    flush_remnode_array          ../starter/source/interfaces/inter3d1/flush_remnode_array.F
-      !||    fretitl2                     ../starter/source/starter/freform.F
-      !||    inint2                       ../starter/source/interfaces/inter2d1/inint2.F
-      !||    inint3                       ../starter/source/interfaces/inter3d1/inint3.F
-      !||    iwcontdd_new                 ../starter/source/spmd/domain_decomposition/grid2mat.F
-      !||    remn_i2_edgop                ../starter/source/interfaces/inter3d1/i7remnode.F
-      !||    remn_i2op                    ../starter/source/interfaces/inter3d1/i7remnode.F
-      !||    remn_self24                  ../starter/source/interfaces/inter3d1/remn_self24.F
-      !||    reset_gap                    ../starter/source/interfaces/interf1/reset_gap.F
-      !||    ri2_int24p_ini               ../starter/source/interfaces/inter3d1/i7remnode.F
-      !||    upgrade_remnode              ../starter/source/interfaces/interf1/upgrade_remnode.F
-      !||    upgrade_remnode_edg          ../starter/source/interfaces/interf1/upgrade_remnode.F
-      !||--- uses       -----------------------------------------------------
-      !||    front_mod                    ../starter/share/modules1/front_mod.F
-      !||    intbufmod                    ../starter/share/modules1/restart_mod.F
-      !||    intbufscratch_mod            ../starter/source/interfaces/interf1/intbufscratch_mod.F
-      !||    inter_cand_mod               ../starter/share/modules1/inter_cand_mod.F
-      !||    message_mod                  ../starter/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    inintr                       ../starter/source/interfaces/interf1/inintr.F
+!||--- called by ------------------------------------------------------
+!||    lectur                       ../starter/source/starter/lectur.F
+!||--- calls      -----------------------------------------------------
+!||    flush_remnode_array          ../starter/source/interfaces/inter3d1/flush_remnode_array.F
+!||    fretitl2                     ../starter/source/starter/freform.F
+!||    inint2                       ../starter/source/interfaces/inter2d1/inint2.F
+!||    inint3                       ../starter/source/interfaces/inter3d1/inint3.F
+!||    iwcontdd_new                 ../starter/source/spmd/domain_decomposition/grid2mat.F
+!||    remn_i2_edgop                ../starter/source/interfaces/inter3d1/i7remnode.F
+!||    remn_i2op                    ../starter/source/interfaces/inter3d1/i7remnode.F
+!||    remn_self24                  ../starter/source/interfaces/inter3d1/remn_self24.F
+!||    reset_gap                    ../starter/source/interfaces/interf1/reset_gap.F
+!||    ri2_int24p_ini               ../starter/source/interfaces/inter3d1/i7remnode.F
+!||    upgrade_remnode              ../starter/source/interfaces/interf1/upgrade_remnode.F
+!||    upgrade_remnode_edg          ../starter/source/interfaces/interf1/upgrade_remnode.F
+!||--- uses       -----------------------------------------------------
+!||    front_mod                    ../starter/share/modules1/front_mod.F
+!||    intbufmod                    ../starter/share/modules1/restart_mod.F
+!||    intbufscratch_mod            ../starter/source/interfaces/interf1/intbufscratch_mod.F
+!||    inter_cand_mod               ../starter/share/modules1/inter_cand_mod.F
+!||    message_mod                  ../starter/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE ININTR(IPARI     ,INSCR     ,X                 ,V               ,IXS         ,IXQ   ,
      2                  IXC       ,PM        ,GEO               ,ITAB            ,MS          ,
      3                  MWA       ,RWA       ,IXTG              ,IKINE           ,IXT         ,

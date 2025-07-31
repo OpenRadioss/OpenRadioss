@@ -20,20 +20,20 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    noise             ../engine/source/general_controls/computation/noise.F
-      !||--- called by ------------------------------------------------------
-      !||    sortie_main       ../engine/source/output/sortie_main.F
-      !||--- calls      -----------------------------------------------------
-      !||    cur_fil_c         ../common_source/tools/input_output/write_routtines.c
-      !||    initnoise         ../engine/source/general_controls/computation/initnoise.F
-      !||    initnoise2        ../engine/source/general_controls/computation/initnoise.F
-      !||    pnoise            ../engine/source/general_controls/computation/pnoise.F
-      !||    spmd_glob_dsum9   ../engine/source/mpi/interfaces/spmd_th.F
-      !||    wrtdes            ../engine/source/output/th/wrtdes.F
-      !||--- uses       -----------------------------------------------------
-      !||    elbufdef_mod      ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    noise             ../engine/source/general_controls/computation/noise.F
+!||--- called by ------------------------------------------------------
+!||    sortie_main       ../engine/source/output/sortie_main.F
+!||--- calls      -----------------------------------------------------
+!||    cur_fil_c         ../common_source/tools/input_output/write_routtines.c
+!||    initnoise         ../engine/source/general_controls/computation/initnoise.F
+!||    initnoise2        ../engine/source/general_controls/computation/initnoise.F
+!||    pnoise            ../engine/source/general_controls/computation/pnoise.F
+!||    spmd_glob_dsum9   ../engine/source/mpi/interfaces/spmd_th.F
+!||    wrtdes            ../engine/source/output/th/wrtdes.F
+!||--- uses       -----------------------------------------------------
+!||    elbufdef_mod      ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||====================================================================
       SUBROUTINE NOISE(
      1   DT2R  ,IN,J     ,BUF  ,V     ,
      2   A     ,IXS,ELBUF_TAB,IPARG,WEIGHT,

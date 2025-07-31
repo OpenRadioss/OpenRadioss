@@ -20,11 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    c_fxbody1   ../starter/source/restart/ddsplit/c_fxbody.F
-      !||--- called by ------------------------------------------------------
-      !||    ddsplit     ../starter/source/restart/ddsplit/ddsplit.F
-      !||====================================================================
+!||====================================================================
+!||    c_fxbody1   ../starter/source/restart/ddsplit/c_fxbody.F
+!||--- called by ------------------------------------------------------
+!||    ddsplit     ../starter/source/restart/ddsplit/ddsplit.F
+!||====================================================================
       SUBROUTINE C_FXBODY1(
      .   FXBIPM   , FXBNOD  , NODLOCAL, IPARG   , FXBELM,
      .   LENNOD_L , LENMOD_L, LENELM_L, LENSIG_L, PROC  ,
@@ -154,13 +154,13 @@ C Gravite
 C
       RETURN
       END
-      !||====================================================================
-      !||    c_fxbody2   ../starter/source/restart/ddsplit/c_fxbody.F
-      !||--- called by ------------------------------------------------------
-      !||    ddsplit     ../starter/source/restart/ddsplit/ddsplit.F
-      !||--- calls      -----------------------------------------------------
-      !||    nlocal      ../starter/source/spmd/node/ddtools.F
-      !||====================================================================
+!||====================================================================
+!||    c_fxbody2   ../starter/source/restart/ddsplit/c_fxbody.F
+!||--- called by ------------------------------------------------------
+!||    ddsplit     ../starter/source/restart/ddsplit/ddsplit.F
+!||--- calls      -----------------------------------------------------
+!||    nlocal      ../starter/source/spmd/node/ddtools.F
+!||====================================================================
       SUBROUTINE C_FXBODY2(
      .   FXBIPM   , FXBNOD  , NODLOCAL, IPARG   , FXBELM ,
      .   FXBNOD_L , FXBMOD_L, FXBELM_L, FXBSIG_L, PROC   ,
@@ -724,11 +724,11 @@ C Identification du PMAIN
 C
       RETURN
       END
-      !||====================================================================
-      !||    c_fxbody3   ../starter/source/restart/ddsplit/c_fxbody.F
-      !||--- called by ------------------------------------------------------
-      !||    ddsplit     ../starter/source/restart/ddsplit/ddsplit.F
-      !||====================================================================
+!||====================================================================
+!||    c_fxbody3   ../starter/source/restart/ddsplit/c_fxbody.F
+!||--- called by ------------------------------------------------------
+!||    ddsplit     ../starter/source/restart/ddsplit/ddsplit.F
+!||====================================================================
       SUBROUTINE C_FXBODY3(
      .     LENGLM_L, LENCP_L  , LENLM_L , LENFLS_L, LENDLS_L,
      .     LENMCD_L, LENGRVR_L, FXBIPM_L, PROC    )
@@ -789,11 +789,11 @@ C
 C
       RETURN
       END
-      !||====================================================================
-      !||    c_fxbody4   ../starter/source/restart/ddsplit/c_fxbody.F
-      !||--- called by ------------------------------------------------------
-      !||    ddsplit     ../starter/source/restart/ddsplit/ddsplit.F
-      !||====================================================================
+!||====================================================================
+!||    c_fxbody4   ../starter/source/restart/ddsplit/c_fxbody.F
+!||--- called by ------------------------------------------------------
+!||    ddsplit     ../starter/source/restart/ddsplit/ddsplit.F
+!||====================================================================
       SUBROUTINE C_FXBODY4(
      .     FXBGLM   , FXBCPM  , FXBCPS  , FXBLM   , FXBFLS  ,
      .     FXBDLS   , FXBGRVR , FXBIPM  , PROC    , FXBGLM_L,

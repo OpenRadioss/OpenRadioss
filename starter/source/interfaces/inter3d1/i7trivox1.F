@@ -20,19 +20,19 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    i7trivox1                  ../starter/source/interfaces/inter3d1/i7trivox1.F
-      !||--- called by ------------------------------------------------------
-      !||    i7buc_vox1                 ../starter/source/interfaces/inter3d1/i7buc_vox1.F
-      !||--- calls      -----------------------------------------------------
-      !||    i7cor3                     ../starter/source/interfaces/inter3d1/i7cor3.F
-      !||    i7dst3                     ../starter/source/interfaces/inter3d1/i7dst3.F
-      !||    i7pen3                     ../starter/source/interfaces/inter3d1/i7pen3.F
-      !||    inter_save_candidate       ../starter/source/interfaces/inter3d1/inter_save_candidate.F90
-      !||--- uses       -----------------------------------------------------
-      !||    inter_save_candidate_mod   ../starter/source/interfaces/inter3d1/inter_save_candidate.F90
-      !||    tri7box                    ../starter/share/modules1/tri7box.F
-      !||====================================================================
+!||====================================================================
+!||    i7trivox1                  ../starter/source/interfaces/inter3d1/i7trivox1.F
+!||--- called by ------------------------------------------------------
+!||    i7buc_vox1                 ../starter/source/interfaces/inter3d1/i7buc_vox1.F
+!||--- calls      -----------------------------------------------------
+!||    i7cor3                     ../starter/source/interfaces/inter3d1/i7cor3.F
+!||    i7dst3                     ../starter/source/interfaces/inter3d1/i7dst3.F
+!||    i7pen3                     ../starter/source/interfaces/inter3d1/i7pen3.F
+!||    inter_save_candidate       ../starter/source/interfaces/inter3d1/inter_save_candidate.F90
+!||--- uses       -----------------------------------------------------
+!||    inter_save_candidate_mod   ../starter/source/interfaces/inter3d1/inter_save_candidate.F90
+!||    tri7box                    ../starter/share/modules1/tri7box.F
+!||====================================================================
       SUBROUTINE I7TRIVOX1(
      1      NSN    ,I_MEM   ,IRECT    ,X       ,STF     ,
      2      STFN   ,XYZM    ,NSV      ,

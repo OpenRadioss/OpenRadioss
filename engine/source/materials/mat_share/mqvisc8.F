@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    mqvisc8   ../engine/source/materials/mat_share/mqvisc8.F
-      !||--- called by ------------------------------------------------------
-      !||    m1law8    ../engine/source/materials/mat/mat001/m1law8.F
-      !||    m2law8    ../engine/source/materials/mat/mat002/m2law8.F
-      !||    meos8     ../engine/source/materials/mat_share/meos8.F
-      !||    mulaw8    ../engine/source/materials/mat_share/mulaw8.F90
-      !||====================================================================
+!||====================================================================
+!||    mqvisc8   ../engine/source/materials/mat_share/mqvisc8.F
+!||--- called by ------------------------------------------------------
+!||    m1law8    ../engine/source/materials/mat/mat001/m1law8.F
+!||    m2law8    ../engine/source/materials/mat/mat002/m2law8.F
+!||    meos8     ../engine/source/materials/mat_share/meos8.F
+!||    mulaw8    ../engine/source/materials/mat_share/mulaw8.F90
+!||====================================================================
       SUBROUTINE MQVISC8(
      1   PM,      OFF,     RHO,     RK,
      2   T,       RE,      STI,     EINT,

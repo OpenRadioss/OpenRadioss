@@ -20,11 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    nasg      ../common_source/eos/nasg.F
-      !||--- called by ------------------------------------------------------
-      !||    eosmain   ../common_source/eos/eosmain.F
-      !||====================================================================
+!||====================================================================
+!||    nasg      ../common_source/eos/nasg.F
+!||--- called by ------------------------------------------------------
+!||    eosmain   ../common_source/eos/eosmain.F
+!||====================================================================
       SUBROUTINE NASG
      1              (IFLAG,NEL  ,PM   ,OFF  ,EINT ,MU  ,
      2               ESPE ,DVOL ,VNEW ,MAT  ,PSH ,

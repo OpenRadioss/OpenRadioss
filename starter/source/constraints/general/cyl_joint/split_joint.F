@@ -20,17 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    split_joint    ../starter/source/constraints/general/cyl_joint/split_joint.F
-      !||--- called by ------------------------------------------------------
-      !||    domdec2        ../starter/source/spmd/domdec2.F
-      !||--- calls      -----------------------------------------------------
-      !||    ifrontplus     ../starter/source/spmd/node/frontplus.F
-      !||    nlocal         ../starter/source/spmd/node/ddtools.F
-      !||    plist_ifront   ../starter/source/spmd/node/ddtools.F
-      !||--- uses       -----------------------------------------------------
-      !||    joint_mod      ../starter/share/modules1/joint_mod.F
-      !||====================================================================
+!||====================================================================
+!||    split_joint    ../starter/source/constraints/general/cyl_joint/split_joint.F
+!||--- called by ------------------------------------------------------
+!||    domdec2        ../starter/source/spmd/domdec2.F
+!||--- calls      -----------------------------------------------------
+!||    ifrontplus     ../starter/source/spmd/node/frontplus.F
+!||    nlocal         ../starter/source/spmd/node/ddtools.F
+!||    plist_ifront   ../starter/source/spmd/node/ddtools.F
+!||--- uses       -----------------------------------------------------
+!||    joint_mod      ../starter/share/modules1/joint_mod.F
+!||====================================================================
         SUBROUTINE SPLIT_JOINT( )
 !$COMMENT
 !       SPLIT_JOINT description
@@ -241,14 +241,14 @@ C=======================================================================
 
 
 
-      !||====================================================================
-      !||    print_joint    ../starter/source/constraints/general/cyl_joint/split_joint.F
-      !||--- calls      -----------------------------------------------------
-      !||    nlocal         ../starter/source/spmd/node/ddtools.F
-      !||    plist_ifront   ../starter/source/spmd/node/ddtools.F
-      !||--- uses       -----------------------------------------------------
-      !||    joint_mod      ../starter/share/modules1/joint_mod.F
-      !||====================================================================
+!||====================================================================
+!||    print_joint    ../starter/source/constraints/general/cyl_joint/split_joint.F
+!||--- calls      -----------------------------------------------------
+!||    nlocal         ../starter/source/spmd/node/ddtools.F
+!||    plist_ifront   ../starter/source/spmd/node/ddtools.F
+!||--- uses       -----------------------------------------------------
+!||    joint_mod      ../starter/share/modules1/joint_mod.F
+!||====================================================================
         SUBROUTINE print_JOINT(a)
 C-----------------------------------------------
 C   M o d u l e s

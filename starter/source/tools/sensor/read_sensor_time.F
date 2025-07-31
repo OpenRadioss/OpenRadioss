@@ -20,16 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    read_sensor_time     ../starter/source/tools/sensor/read_sensor_time.F
-      !||--- called by ------------------------------------------------------
-      !||    hm_read_sensors      ../starter/source/tools/sensor/hm_read_sensors.F
-      !||--- calls      -----------------------------------------------------
-      !||    hm_get_floatv        ../starter/source/devtools/hm_reader/hm_get_floatv.F
-      !||--- uses       -----------------------------------------------------
-      !||    hm_option_read_mod   ../starter/share/modules1/hm_option_read_mod.F
-      !||    submodel_mod         ../starter/share/modules1/submodel_mod.F
-      !||====================================================================
+!||====================================================================
+!||    read_sensor_time     ../starter/source/tools/sensor/read_sensor_time.F
+!||--- called by ------------------------------------------------------
+!||    hm_read_sensors      ../starter/source/tools/sensor/hm_read_sensors.F
+!||--- calls      -----------------------------------------------------
+!||    hm_get_floatv        ../starter/source/devtools/hm_reader/hm_get_floatv.F
+!||--- uses       -----------------------------------------------------
+!||    hm_option_read_mod   ../starter/share/modules1/hm_option_read_mod.F
+!||    submodel_mod         ../starter/share/modules1/submodel_mod.F
+!||====================================================================
       SUBROUTINE READ_SENSOR_TIME(SENSOR_PTR ,SENS_ID  ,UNITAB   ,LSUBMODEL )
 C-----------------------------------------------
 C   M o d u l e s

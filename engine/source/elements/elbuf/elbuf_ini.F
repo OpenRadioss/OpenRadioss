@@ -20,15 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    elbuf_ini       ../engine/source/elements/elbuf/elbuf_ini.F
-      !||--- called by ------------------------------------------------------
-      !||    rdresb          ../engine/source/output/restart/rdresb.F
-      !||--- calls      -----------------------------------------------------
-      !||    allocbuf_auto   ../engine/source/elements/elbuf/allocbuf_auto.F
-      !||--- uses       -----------------------------------------------------
-      !||    mat_elem_mod    ../common_source/modules/mat_elem/mat_elem_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    elbuf_ini       ../engine/source/elements/elbuf/elbuf_ini.F
+!||--- called by ------------------------------------------------------
+!||    rdresb          ../engine/source/output/restart/rdresb.F
+!||--- calls      -----------------------------------------------------
+!||    allocbuf_auto   ../engine/source/elements/elbuf/allocbuf_auto.F
+!||--- uses       -----------------------------------------------------
+!||    mat_elem_mod    ../common_source/modules/mat_elem/mat_elem_mod.F90
+!||====================================================================
       SUBROUTINE ELBUF_INI(MAT_ELEM ,NGROUP ,IPARG)  
 C-----------------------------------------------
 C   M o d u l e s

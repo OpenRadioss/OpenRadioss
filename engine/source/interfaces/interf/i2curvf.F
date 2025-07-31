@@ -20,18 +20,18 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    i2curvf      ../engine/source/interfaces/interf/i2curvf.F
-      !||--- called by ------------------------------------------------------
-      !||    intti2f      ../engine/source/interfaces/interf/intti2f.F
-      !||--- calls      -----------------------------------------------------
-      !||    i2_fform     ../engine/source/interfaces/interf/i2_fform.F
-      !||    i2curv_rep   ../engine/source/interfaces/interf/i2curv_rep.F
-      !||    i2forces     ../engine/source/interfaces/interf/i2forces.F
-      !||    inv3         ../engine/source/elements/joint/rskew33.F
-      !||--- uses       -----------------------------------------------------
-      !||    h3d_mod      ../engine/share/modules/h3d_mod.F
-      !||====================================================================
+!||====================================================================
+!||    i2curvf      ../engine/source/interfaces/interf/i2curvf.F
+!||--- called by ------------------------------------------------------
+!||    intti2f      ../engine/source/interfaces/interf/intti2f.F
+!||--- calls      -----------------------------------------------------
+!||    i2_fform     ../engine/source/interfaces/interf/i2_fform.F
+!||    i2curv_rep   ../engine/source/interfaces/interf/i2curv_rep.F
+!||    i2forces     ../engine/source/interfaces/interf/i2forces.F
+!||    inv3         ../engine/source/elements/joint/rskew33.F
+!||--- uses       -----------------------------------------------------
+!||    h3d_mod      ../engine/share/modules/h3d_mod.F
+!||====================================================================
       SUBROUTINE I2CURVF(
      .           MS      ,IN      ,X       ,V       ,VR      ,
      .           A       ,AR      ,STIFN   ,STIFR   ,WEIGHT  ,

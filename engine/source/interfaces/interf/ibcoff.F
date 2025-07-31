@@ -20,26 +20,26 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    ibcoff               ../engine/source/interfaces/interf/ibcoff.F
-      !||--- called by ------------------------------------------------------
-      !||    i20for3              ../engine/source/interfaces/int20/i20for3.F
-      !||    i21for3              ../engine/source/interfaces/int21/i21for3.F
-      !||    i23for3              ../engine/source/interfaces/int23/i23for3.F
-      !||    i24for3              ../engine/source/interfaces/int24/i24for3.F
-      !||    i25for3              ../engine/source/interfaces/int25/i25for3.F
-      !||    i3for2               ../engine/source/interfaces/inter2d/i3for2.F
-      !||    i3for3               ../engine/source/interfaces/inter3d/i3for3.F
-      !||    i5for3               ../engine/source/interfaces/inter3d/i5for3.F
-      !||    i7for3               ../engine/source/interfaces/int07/i7for3.F
-      !||    i8for3               ../engine/source/interfaces/inter3d/i8for3.F
-      !||    spmd_fiadd20_poff    ../engine/source/mpi/interfaces/spmd_i7tool.F
-      !||    spmd_fiadd20f_pon    ../engine/source/mpi/interfaces/spmd_i7tool.F
-      !||    spmd_fiadd25e_poff   ../engine/source/mpi/interfaces/spmd_fiadd25e_poff.F
-      !||    spmd_fiadd25e_pon    ../engine/source/mpi/interfaces/spmd_fiadd25e_pon.F
-      !||    spmd_fiadd_poff      ../engine/source/mpi/interfaces/spmd_i7tool.F
-      !||    spmd_fiadd_pon       ../engine/source/mpi/interfaces/spmd_i7tool.F
-      !||====================================================================
+!||====================================================================
+!||    ibcoff               ../engine/source/interfaces/interf/ibcoff.F
+!||--- called by ------------------------------------------------------
+!||    i20for3              ../engine/source/interfaces/int20/i20for3.F
+!||    i21for3              ../engine/source/interfaces/int21/i21for3.F
+!||    i23for3              ../engine/source/interfaces/int23/i23for3.F
+!||    i24for3              ../engine/source/interfaces/int24/i24for3.F
+!||    i25for3              ../engine/source/interfaces/int25/i25for3.F
+!||    i3for2               ../engine/source/interfaces/inter2d/i3for2.F
+!||    i3for3               ../engine/source/interfaces/inter3d/i3for3.F
+!||    i5for3               ../engine/source/interfaces/inter3d/i5for3.F
+!||    i7for3               ../engine/source/interfaces/int07/i7for3.F
+!||    i8for3               ../engine/source/interfaces/inter3d/i8for3.F
+!||    spmd_fiadd20_poff    ../engine/source/mpi/interfaces/spmd_i7tool.F
+!||    spmd_fiadd20f_pon    ../engine/source/mpi/interfaces/spmd_i7tool.F
+!||    spmd_fiadd25e_poff   ../engine/source/mpi/interfaces/spmd_fiadd25e_poff.F
+!||    spmd_fiadd25e_pon    ../engine/source/mpi/interfaces/spmd_fiadd25e_pon.F
+!||    spmd_fiadd_poff      ../engine/source/mpi/interfaces/spmd_i7tool.F
+!||    spmd_fiadd_pon       ../engine/source/mpi/interfaces/spmd_i7tool.F
+!||====================================================================
       SUBROUTINE IBCOFF(IBC,ICODT)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

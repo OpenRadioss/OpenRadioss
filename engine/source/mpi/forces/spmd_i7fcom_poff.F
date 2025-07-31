@@ -21,31 +21,31 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
-      !||====================================================================
-      !||    spmd_i7fcom_poff      ../engine/source/mpi/forces/spmd_i7fcom_poff.F
-      !||--- called by ------------------------------------------------------
-      !||    resol                 ../engine/source/engine/resol.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg                ../engine/source/output/message/message.F
-      !||    arret                 ../engine/source/system/arret.F
-      !||    putdpdaanc            ../engine/source/mpi/interfaces/spmd_i7tool.F
-      !||    spmd_fiadd11_poff     ../engine/source/mpi/interfaces/spmd_i7tool.F
-      !||    spmd_fiadd17_poff     ../engine/source/mpi/interfaces/spmd_i7tool.F
-      !||    spmd_fiadd20_poff     ../engine/source/mpi/interfaces/spmd_i7tool.F
-      !||    spmd_fiadd20e_poff    ../engine/source/mpi/interfaces/spmd_i7tool.F
-      !||    spmd_fiadd25e_poff    ../engine/source/mpi/interfaces/spmd_fiadd25e_poff.F
-      !||    spmd_fiadd_poff       ../engine/source/mpi/interfaces/spmd_i7tool.F
-      !||--- uses       -----------------------------------------------------
-      !||    groupdef_mod          ../common_source/modules/groupdef_mod.F
-      !||    h3d_mod               ../engine/share/modules/h3d_mod.F
-      !||    intbufdef_mod         ../common_source/modules/interfaces/intbufdef_mod.F90
-      !||    interfaces_mod        ../common_source/modules/interfaces/interfaces_mod.F90
-      !||    message_mod           ../engine/share/message_module/message_mod.F
-      !||    multi_fvm_mod         ../common_source/modules/ale/multi_fvm_mod.F90
-      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
-      !||    tri25ebox             ../engine/share/modules/tri25ebox.F
-      !||    tri7box               ../engine/share/modules/tri7box.F
-      !||====================================================================
+!||====================================================================
+!||    spmd_i7fcom_poff      ../engine/source/mpi/forces/spmd_i7fcom_poff.F
+!||--- called by ------------------------------------------------------
+!||    resol                 ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                ../engine/source/output/message/message.F
+!||    arret                 ../engine/source/system/arret.F
+!||    putdpdaanc            ../engine/source/mpi/interfaces/spmd_i7tool.F
+!||    spmd_fiadd11_poff     ../engine/source/mpi/interfaces/spmd_i7tool.F
+!||    spmd_fiadd17_poff     ../engine/source/mpi/interfaces/spmd_i7tool.F
+!||    spmd_fiadd20_poff     ../engine/source/mpi/interfaces/spmd_i7tool.F
+!||    spmd_fiadd20e_poff    ../engine/source/mpi/interfaces/spmd_i7tool.F
+!||    spmd_fiadd25e_poff    ../engine/source/mpi/interfaces/spmd_fiadd25e_poff.F
+!||    spmd_fiadd_poff       ../engine/source/mpi/interfaces/spmd_i7tool.F
+!||--- uses       -----------------------------------------------------
+!||    groupdef_mod          ../common_source/modules/groupdef_mod.F
+!||    h3d_mod               ../engine/share/modules/h3d_mod.F
+!||    intbufdef_mod         ../common_source/modules/interfaces/intbufdef_mod.F90
+!||    interfaces_mod        ../common_source/modules/interfaces/interfaces_mod.F90
+!||    message_mod           ../engine/share/message_module/message_mod.F
+!||    multi_fvm_mod         ../common_source/modules/ale/multi_fvm_mod.F90
+!||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
+!||    tri25ebox             ../engine/share/modules/tri25ebox.F
+!||    tri7box               ../engine/share/modules/tri7box.F
+!||====================================================================
       SUBROUTINE SPMD_I7FCOM_POFF(
      1   IPARI   ,A       ,STIFN   ,VISCN   ,
      2   INTLIST ,NBINTC  ,ICODT   ,SECFCUM ,NSTRF   ,

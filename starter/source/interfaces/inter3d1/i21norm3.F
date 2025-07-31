@@ -20,11 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    i21norm3        ../starter/source/interfaces/inter3d1/i21norm3.F
-      !||--- called by ------------------------------------------------------
-      !||    inint3_thkvar   ../starter/source/interfaces/inter3d1/inint3_thkvar.F
-      !||====================================================================
+!||====================================================================
+!||    i21norm3        ../starter/source/interfaces/inter3d1/i21norm3.F
+!||--- called by ------------------------------------------------------
+!||    inint3_thkvar   ../starter/source/interfaces/inter3d1/inint3_thkvar.F
+!||====================================================================
       SUBROUTINE I21NORM3(
      1 X     ,IRECTM ,NRTM  ,NMN   ,MSR   ,
      2 NINT  ,NTY   ,NOINT  ,NOD_NORMAL, XM0   )
@@ -240,11 +240,11 @@ C------------------------------------
       RETURN
  1000 FORMAT(2X,'GAP MIN = ',1PG20.13)
       END
-      !||====================================================================
-      !||    i21rcurv        ../starter/source/interfaces/inter3d1/i21norm3.F
-      !||--- called by ------------------------------------------------------
-      !||    inint3_thkvar   ../starter/source/interfaces/inter3d1/inint3_thkvar.F
-      !||====================================================================
+!||====================================================================
+!||    i21rcurv        ../starter/source/interfaces/inter3d1/i21norm3.F
+!||--- called by ------------------------------------------------------
+!||    inint3_thkvar   ../starter/source/interfaces/inter3d1/inint3_thkvar.F
+!||====================================================================
       SUBROUTINE I21RCURV(NRTM,XM0 ,NOD_NORMAL ,IRECT ,RCURV ,
      .                   ANGLM )
 C-----------------------------------------------

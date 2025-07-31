@@ -20,11 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    czlkec3   ../engine/source/elements/shell/coquez/czlkec3.F
-      !||--- called by ------------------------------------------------------
-      !||    czke3     ../engine/source/elements/shell/coquez/czke3.F
-      !||====================================================================
+!||====================================================================
+!||    czlkec3   ../engine/source/elements/shell/coquez/czlkec3.F
+!||--- called by ------------------------------------------------------
+!||    czke3     ../engine/source/elements/shell/coquez/czke3.F
+!||====================================================================
         SUBROUTINE CZLKEC3(JFT ,JLT   ,VOL  ,THK0 ,THK2 ,
      2                     HM  ,HF    ,HZ   ,A_I  ,Z1   ,
      3                    PX1  ,PX2  ,PY1   ,PY2  ,NPLAT,
@@ -628,11 +628,11 @@ C------ renforce positive  ----------
 C
        RETURN
        END
-      !||====================================================================
-      !||    czlkecr3   ../engine/source/elements/shell/coquez/czlkec3.F
-      !||--- called by ------------------------------------------------------
-      !||    czke3      ../engine/source/elements/shell/coquez/czke3.F
-      !||====================================================================
+!||====================================================================
+!||    czlkecr3   ../engine/source/elements/shell/coquez/czlkec3.F
+!||--- called by ------------------------------------------------------
+!||    czke3      ../engine/source/elements/shell/coquez/czke3.F
+!||====================================================================
         SUBROUTINE CZLKECR3(JFT ,JLT   ,VOL  ,THK0 ,THK2 ,
      2                     HM  ,HF    ,HZ   ,A_I  ,Z1   ,
      3                     PX1  ,PX2  ,PY1   ,PY2  ,

@@ -20,18 +20,18 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    rmatforp          ../engine/source/materials/mat/mat013/rmatforp.F
-      !||--- called by ------------------------------------------------------
-      !||    resol             ../engine/source/engine/resol.F
-      !||--- calls      -----------------------------------------------------
-      !||    rmatpon           ../engine/source/materials/mat/mat013/rmatpon.F
-      !||    spmd_exch_a_rm6   ../engine/source/mpi/kinematic_conditions/spmd_exch_a_rm6.F
-      !||    startime          ../engine/source/system/timer_mod.F90
-      !||    stoptime          ../engine/source/system/timer_mod.F90
-      !||--- uses       -----------------------------------------------------
-      !||    timer_mod         ../engine/source/system/timer_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    rmatforp          ../engine/source/materials/mat/mat013/rmatforp.F
+!||--- called by ------------------------------------------------------
+!||    resol             ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
+!||    rmatpon           ../engine/source/materials/mat/mat013/rmatpon.F
+!||    spmd_exch_a_rm6   ../engine/source/mpi/kinematic_conditions/spmd_exch_a_rm6.F
+!||    startime          ../engine/source/system/timer_mod.F90
+!||    stoptime          ../engine/source/system/timer_mod.F90
+!||--- uses       -----------------------------------------------------
+!||    timer_mod         ../engine/source/system/timer_mod.F90
+!||====================================================================
       SUBROUTINE RMATFORP(TIMERS,
      1   A       ,AR       ,X        ,VR     ,IN     ,
      2   STIFN   ,STIFR    ,IRBY     ,LNRBY  ,RBY    , 

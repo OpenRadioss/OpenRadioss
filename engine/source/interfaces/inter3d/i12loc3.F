@@ -20,11 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    i12loc3    ../engine/source/interfaces/inter3d/i12loc3.F
-      !||--- called by ------------------------------------------------------
-      !||    intti12a   ../engine/source/interfaces/interf/intti12.F
-      !||====================================================================
+!||====================================================================
+!||    i12loc3    ../engine/source/interfaces/inter3d/i12loc3.F
+!||--- called by ------------------------------------------------------
+!||    intti12a   ../engine/source/interfaces/interf/intti12.F
+!||====================================================================
       SUBROUTINE I12LOC3(
      1   XS,      XM,      IRECT,   LMSR,
      2   MSR,     NSV,     ILOC,    NSEG,

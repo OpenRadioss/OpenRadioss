@@ -20,17 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    hm_read_ale_close   ../starter/source/ale/hm_read_ale_close.F
-      !||--- called by ------------------------------------------------------
-      !||    hm_read_prop14      ../starter/source/properties/solid/hm_read_prop14.F
-      !||    hm_read_prop14f     ../starter/source/properties/solid/hm_read_prop14.F
-      !||    hm_read_prop15      ../starter/source/properties/solid/hm_read_prop15.F
-      !||--- calls      -----------------------------------------------------
-      !||    hm_get_floatv       ../starter/source/devtools/hm_reader/hm_get_floatv.F
-      !||--- uses       -----------------------------------------------------
-      !||    submodel_mod        ../starter/share/modules1/submodel_mod.F
-      !||====================================================================
+!||====================================================================
+!||    hm_read_ale_close   ../starter/source/ale/hm_read_ale_close.F
+!||--- called by ------------------------------------------------------
+!||    hm_read_prop14      ../starter/source/properties/solid/hm_read_prop14.F
+!||    hm_read_prop14f     ../starter/source/properties/solid/hm_read_prop14.F
+!||    hm_read_prop15      ../starter/source/properties/solid/hm_read_prop15.F
+!||--- calls      -----------------------------------------------------
+!||    hm_get_floatv       ../starter/source/devtools/hm_reader/hm_get_floatv.F
+!||--- uses       -----------------------------------------------------
+!||    submodel_mod        ../starter/share/modules1/submodel_mod.F
+!||====================================================================
       SUBROUTINE HM_READ_ALE_CLOSE(UNITAB, LSUBMODEL, GEO)
 C-----------------------------------------------
 C   Description

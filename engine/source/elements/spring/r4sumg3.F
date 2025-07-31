@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    r4sumg3      ../engine/source/elements/spring/r4sumg3.F
-      !||--- called by ------------------------------------------------------
-      !||    r4ke3        ../engine/source/elements/spring/r4ke3.F
-      !||    ruser32ke3   ../engine/source/elements/spring/ruser32ke3.F
-      !||    tke3         ../engine/source/elements/truss/tke3.F
-      !||====================================================================
+!||====================================================================
+!||    r4sumg3      ../engine/source/elements/spring/r4sumg3.F
+!||--- called by ------------------------------------------------------
+!||    r4ke3        ../engine/source/elements/spring/r4ke3.F
+!||    ruser32ke3   ../engine/source/elements/spring/ruser32ke3.F
+!||    tke3         ../engine/source/elements/truss/tke3.F
+!||====================================================================
       SUBROUTINE R4SUMG3(JFT    ,JLT    ,AL      ,KX      ,R11    ,
      3                   R21    ,R31    ,KE11    ,KE12    ,KE22   )
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8

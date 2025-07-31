@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    st_qaprint_time_histories   ../starter/source/output/qaprint/st_qaprint_time_histories.F
-      !||--- called by ------------------------------------------------------
-      !||    st_qaprint_driver           ../starter/source/output/qaprint/st_qaprint_driver.F
-      !||--- calls      -----------------------------------------------------
-      !||    st_qaprint_thgrou           ../starter/source/output/qaprint/st_qaprint_time_histories.F
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    st_qaprint_time_histories   ../starter/source/output/qaprint/st_qaprint_time_histories.F
+!||--- called by ------------------------------------------------------
+!||    st_qaprint_driver           ../starter/source/output/qaprint/st_qaprint_driver.F
+!||--- calls      -----------------------------------------------------
+!||    st_qaprint_thgrou           ../starter/source/output/qaprint/st_qaprint_time_histories.F
+!||--- uses       -----------------------------------------------------
+!||====================================================================
       SUBROUTINE ST_QAPRINT_TIME_HISTORIES(TH , ITHVAR , IPART  , SUBSETS, 
      .                                     IPARTTH, NTHGRPMX)
 C-----------------------------------------------
@@ -123,14 +123,14 @@ C-----------------------------------------------
 !    QA_PRINT for the THGROU
 
 
-      !||====================================================================
-      !||    st_qaprint_thgrou           ../starter/source/output/qaprint/st_qaprint_time_histories.F
-      !||--- called by ------------------------------------------------------
-      !||    st_qaprint_time_histories   ../starter/source/output/qaprint/st_qaprint_time_histories.F
-      !||--- calls      -----------------------------------------------------
-      !||    fretitl2                    ../starter/source/starter/freform.F
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    st_qaprint_thgrou           ../starter/source/output/qaprint/st_qaprint_time_histories.F
+!||--- called by ------------------------------------------------------
+!||    st_qaprint_time_histories   ../starter/source/output/qaprint/st_qaprint_time_histories.F
+!||--- calls      -----------------------------------------------------
+!||    fretitl2                    ../starter/source/starter/freform.F
+!||--- uses       -----------------------------------------------------
+!||====================================================================
       SUBROUTINE ST_QAPRINT_THGROU(NTHGROUP ,ITHGRP   ,ITHBUF   ,ITHVAR   ,IPART    ,
      .                             IPARTTH  ,NTHGRPMX ,SUBSETS  ,ISUBVAR  ,SITHGRP,SITHBUF) 
 C-----------------------------------------------

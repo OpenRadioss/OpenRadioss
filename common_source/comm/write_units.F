@@ -20,17 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    write_units   ../common_source/comm/write_units.F
-      !||--- called by ------------------------------------------------------
-      !||    ddsplit       ../starter/source/restart/ddsplit/ddsplit.F
-      !||    wrrestp       ../engine/source/output/restart/wrrestp.F
-      !||--- calls      -----------------------------------------------------
-      !||    write_db      ../common_source/tools/input_output/write_db.F
-      !||    write_i_c     ../common_source/tools/input_output/write_routtines.c
-      !||--- uses       -----------------------------------------------------
-      !||    unitab_mod    ../common_source/modules/unitab_mod.F
-      !||====================================================================
+!||====================================================================
+!||    write_units   ../common_source/comm/write_units.F
+!||--- called by ------------------------------------------------------
+!||    ddsplit       ../starter/source/restart/ddsplit/ddsplit.F
+!||    wrrestp       ../engine/source/output/restart/wrrestp.F
+!||--- calls      -----------------------------------------------------
+!||    write_db      ../common_source/tools/input_output/write_db.F
+!||    write_i_c     ../common_source/tools/input_output/write_routtines.c
+!||--- uses       -----------------------------------------------------
+!||    unitab_mod    ../common_source/modules/unitab_mod.F
+!||====================================================================
       SUBROUTINE WRITE_UNITS(UNITAB)
 C============================================================================
 C   M o d u l e s
@@ -77,17 +77,17 @@ C-----------------------------------------------
       ENDDO
 C----------------------------------------------- 
       END
-      !||====================================================================
-      !||    read_units    ../common_source/comm/write_units.F
-      !||--- called by ------------------------------------------------------
-      !||    rdresb        ../engine/source/output/restart/rdresb.F
-      !||--- calls      -----------------------------------------------------
-      !||    read_db       ../common_source/tools/input_output/read_db.F
-      !||    read_i_c      ../common_source/tools/input_output/write_routtines.c
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod   ../engine/share/message_module/message_mod.F
-      !||    unitab_mod    ../common_source/modules/unitab_mod.F
-      !||====================================================================
+!||====================================================================
+!||    read_units    ../common_source/comm/write_units.F
+!||--- called by ------------------------------------------------------
+!||    rdresb        ../engine/source/output/restart/rdresb.F
+!||--- calls      -----------------------------------------------------
+!||    read_db       ../common_source/tools/input_output/read_db.F
+!||    read_i_c      ../common_source/tools/input_output/write_routtines.c
+!||--- uses       -----------------------------------------------------
+!||    message_mod   ../engine/share/message_module/message_mod.F
+!||    unitab_mod    ../common_source/modules/unitab_mod.F
+!||====================================================================
       SUBROUTINE READ_UNITS(UNITAB)
 C============================================================================
 C   M o d u l e s

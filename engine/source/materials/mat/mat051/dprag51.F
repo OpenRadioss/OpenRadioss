@@ -20,11 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    dprag51    ../engine/source/materials/mat/mat051/dprag51.F
-      !||--- called by ------------------------------------------------------
-      !||    sigeps51   ../engine/source/materials/mat/mat051/sigeps51.F90
-      !||====================================================================
+!||====================================================================
+!||    dprag51    ../engine/source/materials/mat/mat051/dprag51.F
+!||--- called by ------------------------------------------------------
+!||    sigeps51   ../engine/source/materials/mat/mat051/sigeps51.F90
+!||====================================================================
       SUBROUTINE DPRAG51
      .          (NEL    ,SIGD   ,VOL      ,EPSEQ  , VFRAC ,
      .           DEPS   ,UPARAM ,VOLUME   ,EINT   , PLAS  ,

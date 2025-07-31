@@ -20,17 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    check_mod      ../common_source/modules/check_mod.F
-      !||--- called by ------------------------------------------------------
-      !||    contrl         ../starter/source/starter/contrl.F
-      !||    execargcheck   ../engine/source/engine/execargcheck.F
-      !||    freform        ../engine/source/input/freform.F
-      !||    lectur         ../engine/source/input/lectur.F
-      !||    radioss2       ../engine/source/engine/radioss2.F
-      !||    resol          ../engine/source/engine/resol.F
-      !||    starter0       ../starter/source/starter/starter0.F
-      !||====================================================================
+!||====================================================================
+!||    check_mod      ../common_source/modules/check_mod.F
+!||--- called by ------------------------------------------------------
+!||    contrl         ../starter/source/starter/contrl.F
+!||    execargcheck   ../engine/source/engine/execargcheck.F
+!||    freform        ../engine/source/input/freform.F
+!||    lectur         ../engine/source/input/lectur.F
+!||    radioss2       ../engine/source/engine/radioss2.F
+!||    resol          ../engine/source/engine/resol.F
+!||    starter0       ../starter/source/starter/starter0.F
+!||====================================================================
         MODULE CHECK_MOD
 
 !--------------------------------------------------------------------
@@ -55,12 +55,12 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 
         CONTAINS
 !           ---------------------------------------------------------
-      !||====================================================================
-      !||    check_message_definition   ../common_source/modules/check_mod.F
-      !||--- called by ------------------------------------------------------
-      !||    radioss2                   ../engine/source/engine/radioss2.F
-      !||    starter0                   ../starter/source/starter/starter0.F
-      !||====================================================================
+!||====================================================================
+!||    check_message_definition   ../common_source/modules/check_mod.F
+!||--- called by ------------------------------------------------------
+!||    radioss2                   ../engine/source/engine/radioss2.F
+!||    starter0                   ../starter/source/starter/starter0.F
+!||====================================================================
             SUBROUTINE CHECK_MESSAGE_DEFINITION()            
 !$COMMENT
 !           CHECK_MESSAGE_DEFINITION description

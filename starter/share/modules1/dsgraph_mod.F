@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    dsgraph_mod   ../starter/share/modules1/dsgraph_mod.F
-      !||--- called by ------------------------------------------------------
-      !||    ddsplit       ../starter/source/restart/ddsplit/ddsplit.F
-      !||    dswrest       ../starter/source/restart/ddsplit/wrrest.F
-      !||    dswrestp      ../starter/source/restart/ddsplit/wrrest.F
-      !||    lectur        ../starter/source/starter/lectur.F
-      !||====================================================================
+!||====================================================================
+!||    dsgraph_mod   ../starter/share/modules1/dsgraph_mod.F
+!||--- called by ------------------------------------------------------
+!||    ddsplit       ../starter/source/restart/ddsplit/ddsplit.F
+!||    dswrest       ../starter/source/restart/ddsplit/wrrest.F
+!||    dswrestp      ../starter/source/restart/ddsplit/wrrest.F
+!||    lectur        ../starter/source/starter/lectur.F
+!||====================================================================
       MODULE DSGRAPH_MOD
 C-----------------------------------------------
 C   m y _ r e a l

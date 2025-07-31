@@ -20,18 +20,18 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    sigeps112c            ../engine/source/materials/mat/mat112/sigeps112c.F
-      !||--- called by ------------------------------------------------------
-      !||    mulawc                ../engine/source/materials/mat_share/mulawc.F90
-      !||--- calls      -----------------------------------------------------
-      !||    mat112c_xia_newton    ../engine/source/materials/mat/mat112/mat112c_xia_newton.F
-      !||    mat112c_xia_nice      ../engine/source/materials/mat/mat112/mat112c_xia_nice.F
-      !||--- uses       -----------------------------------------------------
-      !||    elbufdef_mod          ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||    interface_table_mod   ../engine/share/modules/table_mod.F
-      !||    table_mod             ../engine/share/modules/table_mod.F
-      !||====================================================================
+!||====================================================================
+!||    sigeps112c            ../engine/source/materials/mat/mat112/sigeps112c.F
+!||--- called by ------------------------------------------------------
+!||    mulawc                ../engine/source/materials/mat_share/mulawc.F90
+!||--- calls      -----------------------------------------------------
+!||    mat112c_xia_newton    ../engine/source/materials/mat/mat112/mat112c_xia_newton.F
+!||    mat112c_xia_nice      ../engine/source/materials/mat/mat112/mat112c_xia_nice.F
+!||--- uses       -----------------------------------------------------
+!||    elbufdef_mod          ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    interface_table_mod   ../engine/share/modules/table_mod.F
+!||    table_mod             ../engine/share/modules/table_mod.F
+!||====================================================================
       SUBROUTINE SIGEPS112C(
      1     NEL     ,NGL     ,NUPARAM ,NUVAR   ,NFUNC   ,IFUNC   ,NPF     ,
      2     TF      ,TIMESTEP,TIME    ,UPARAM  ,UVAR    ,JTHE    ,RHO     ,

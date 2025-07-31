@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    s8fint3        ../engine/source/elements/solid/solide8/s8fint3.F
-      !||--- called by ------------------------------------------------------
-      !||    s8forc3        ../engine/source/elements/solid/solide8/s8forc3.F
-      !||--- uses       -----------------------------------------------------
-      !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    s8fint3        ../engine/source/elements/solid/solide8/s8fint3.F
+!||--- called by ------------------------------------------------------
+!||    s8forc3        ../engine/source/elements/solid/solide8/s8forc3.F
+!||--- uses       -----------------------------------------------------
+!||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||====================================================================
       SUBROUTINE S8FINT3(BUFLY,VOLGP,QVIS,
      .                   PX1,PX2,PX3,PX4,PX5,PX6,PX7,PX8,
      .                   PY1,PY2,PY3,PY4,PY5,PY6,PY7,PY8,

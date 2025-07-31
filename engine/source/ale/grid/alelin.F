@@ -20,16 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    alelin            ../engine/source/ale/grid/alelin.F
-      !||--- called by ------------------------------------------------------
-      !||    alewdx            ../engine/source/ale/grid/alewdx.F
-      !||--- calls      -----------------------------------------------------
-      !||    spmd_glob_dsum9   ../engine/source/mpi/interfaces/spmd_th.F
-      !||    spmd_rbcast       ../engine/source/mpi/generic/spmd_rbcast.F
-      !||--- uses       -----------------------------------------------------
-      !||    groupdef_mod      ../common_source/modules/groupdef_mod.F
-      !||====================================================================
+!||====================================================================
+!||    alelin            ../engine/source/ale/grid/alelin.F
+!||--- called by ------------------------------------------------------
+!||    alewdx            ../engine/source/ale/grid/alewdx.F
+!||--- calls      -----------------------------------------------------
+!||    spmd_glob_dsum9   ../engine/source/mpi/interfaces/spmd_th.F
+!||    spmd_rbcast       ../engine/source/mpi/generic/spmd_rbcast.F
+!||--- uses       -----------------------------------------------------
+!||    groupdef_mod      ../common_source/modules/groupdef_mod.F
+!||====================================================================
       SUBROUTINE ALELIN(NALELK ,LINALE ,W ,WEIGHT ,IGRNOD)
 C-----------------------------------------------
 C   M o d u l e s

@@ -22,14 +22,14 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 
 
-      !||====================================================================
-      !||    w_seatbelts    ../starter/source/restart/ddsplit/w_seatbelts.F
-      !||--- called by ------------------------------------------------------
-      !||    ddsplit        ../starter/source/restart/ddsplit/ddsplit.F
-      !||--- calls      -----------------------------------------------------
-      !||    nlocal         ../starter/source/spmd/node/ddtools.F
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    w_seatbelts    ../starter/source/restart/ddsplit/w_seatbelts.F
+!||--- called by ------------------------------------------------------
+!||    ddsplit        ../starter/source/restart/ddsplit/ddsplit.F
+!||--- calls      -----------------------------------------------------
+!||    nlocal         ../starter/source/spmd/node/ddtools.F
+!||--- uses       -----------------------------------------------------
+!||====================================================================
       SUBROUTINE W_SEATBELTS(LEN_IA,LEN_AM,P,NODLOCAL,N_ANCHOR_REMOTE_L,
      .                       N_ANCHOR_REMOTE_SEND_L,ANCHOR_REMOTE_L,ANCHOR_REMOTE_SEND_L)     
 C---------------------------------------------     

@@ -20,18 +20,18 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    pre_stackgroup         ../starter/source/stack/pres_stackgroup.F
-      !||--- called by ------------------------------------------------------
-      !||    lectur                 ../starter/source/starter/lectur.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg                 ../starter/source/output/message/message.F
-      !||--- uses       -----------------------------------------------------
-      !||    drape_mod              ../starter/share/modules1/drape_mod.F
-      !||    message_mod            ../starter/share/message_module/message_mod.F
-      !||    stack_mod              ../starter/share/modules1/stack_mod.F
-      !||    submodel_mod           ../starter/share/modules1/submodel_mod.F
-      !||====================================================================
+!||====================================================================
+!||    pre_stackgroup         ../starter/source/stack/pres_stackgroup.F
+!||--- called by ------------------------------------------------------
+!||    lectur                 ../starter/source/starter/lectur.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                 ../starter/source/output/message/message.F
+!||--- uses       -----------------------------------------------------
+!||    drape_mod              ../starter/share/modules1/drape_mod.F
+!||    message_mod            ../starter/share/message_module/message_mod.F
+!||    stack_mod              ../starter/share/modules1/stack_mod.F
+!||    submodel_mod           ../starter/share/modules1/submodel_mod.F
+!||====================================================================
       SUBROUTINE PRE_STACKGROUP( 
      .                     IGRSH3N    ,IGRSH4N  ,IXC        ,IXTG ,
      .                     IGEO       ,GEO      ,IGEO_STACK ,IWORKSH    ,

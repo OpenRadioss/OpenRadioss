@@ -20,21 +20,21 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    pke3           ../engine/source/elements/beam/pke3.F
-      !||--- called by ------------------------------------------------------
-      !||    imp_glob_k     ../engine/source/implicit/imp_glob_k.F
-      !||    imp_glob_k0    ../engine/source/implicit/imp_glob_k.F
-      !||--- calls      -----------------------------------------------------
-      !||    assem_p        ../engine/source/implicit/assem_p.F
-      !||    pcoork3        ../engine/source/elements/beam/pcoork3.F
-      !||    peoff          ../engine/source/elements/beam/peoff.F
-      !||    pkeg3          ../engine/source/elements/beam/pke3.F
-      !||    pmat3          ../engine/source/elements/beam/pmat3.F
-      !||    psumg3         ../engine/source/elements/beam/psumg3.F
-      !||--- uses       -----------------------------------------------------
-      !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    pke3           ../engine/source/elements/beam/pke3.F
+!||--- called by ------------------------------------------------------
+!||    imp_glob_k     ../engine/source/implicit/imp_glob_k.F
+!||    imp_glob_k0    ../engine/source/implicit/imp_glob_k.F
+!||--- calls      -----------------------------------------------------
+!||    assem_p        ../engine/source/implicit/assem_p.F
+!||    pcoork3        ../engine/source/elements/beam/pcoork3.F
+!||    peoff          ../engine/source/elements/beam/peoff.F
+!||    pkeg3          ../engine/source/elements/beam/pke3.F
+!||    pmat3          ../engine/source/elements/beam/pmat3.F
+!||    psumg3         ../engine/source/elements/beam/psumg3.F
+!||--- uses       -----------------------------------------------------
+!||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||====================================================================
       SUBROUTINE PKE3(JFT   ,JLT    ,NEL  ,MTN      ,ISMSTR,
      1                 PM   ,NCC    ,X    ,ELBUF_TAB,GEO   ,
      2                 OFFSET, IKGEO,
@@ -118,12 +118,12 @@ C-------------------------
 C
       RETURN
       END
-      !||====================================================================
-      !||    pkeg3    ../engine/source/elements/beam/pke3.F
-      !||--- called by ------------------------------------------------------
-      !||    pke3     ../engine/source/elements/beam/pke3.F
-      !||    r13ke3   ../engine/source/elements/spring/r13ke3.F
-      !||====================================================================
+!||====================================================================
+!||    pkeg3    ../engine/source/elements/beam/pke3.F
+!||--- called by ------------------------------------------------------
+!||    pke3     ../engine/source/elements/beam/pke3.F
+!||    r13ke3   ../engine/source/elements/spring/r13ke3.F
+!||====================================================================
           SUBROUTINE PKEG3(JFT     ,JLT     ,
      1                   FX      ,AL      ,KE11    ,KE12    ,KE22   )
 C-----------------------------------------------

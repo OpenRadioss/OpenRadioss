@@ -20,21 +20,21 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    tensors            ../engine/source/output/anim/generate/tensor6.F
-      !||--- called by ------------------------------------------------------
-      !||    genani             ../engine/source/output/anim/generate/genani.F
-      !||--- calls      -----------------------------------------------------
-      !||    initbuf            ../engine/share/resol/initbuf.F
-      !||    spmd_r4get_partn   ../engine/source/mpi/anim/spmd_r4get_partn.F
-      !||    srota6             ../engine/source/output/anim/generate/srota6.F
-      !||    srota6_s8s         ../engine/source/output/anim/generate/srota6_s8s.F
-      !||    write_r_c          ../common_source/tools/input_output/write_routtines.c
-      !||--- uses       -----------------------------------------------------
-      !||    elbufdef_mod       ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||    initbuf_mod        ../engine/share/resol/initbuf.F
-      !||    my_alloc_mod       ../common_source/tools/memory/my_alloc.F90
-      !||====================================================================
+!||====================================================================
+!||    tensors            ../engine/source/output/anim/generate/tensor6.F
+!||--- called by ------------------------------------------------------
+!||    genani             ../engine/source/output/anim/generate/genani.F
+!||--- calls      -----------------------------------------------------
+!||    initbuf            ../engine/share/resol/initbuf.F
+!||    spmd_r4get_partn   ../engine/source/mpi/anim/spmd_r4get_partn.F
+!||    srota6             ../engine/source/output/anim/generate/srota6.F
+!||    srota6_s8s         ../engine/source/output/anim/generate/srota6_s8s.F
+!||    write_r_c          ../common_source/tools/input_output/write_routtines.c
+!||--- uses       -----------------------------------------------------
+!||    elbufdef_mod       ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    initbuf_mod        ../engine/share/resol/initbuf.F
+!||    my_alloc_mod       ../common_source/tools/memory/my_alloc.F90
+!||====================================================================
       SUBROUTINE TENSORS(ELBUF_TAB,IPARG   ,ITENS   ,IXS     ,PM       ,
      2                   EL2FA    ,NBF     ,TENS    ,EPSDOT  ,
      3                   NBPART   ,X       ,IADG    ,IPART   ,
@@ -3390,19 +3390,19 @@ C-----------
       DEALLOCATE(WA)
       RETURN
       END SUBROUTINE TENSORS
-      !||====================================================================
-      !||    tensgps1           ../engine/source/output/anim/generate/tensor6.F
-      !||--- called by ------------------------------------------------------
-      !||    genani             ../engine/source/output/anim/generate/genani.F
-      !||    h3d_nodal_tensor   ../engine/source/output/h3d/h3d_results/h3d_nodal_tensor.F
-      !||--- calls      -----------------------------------------------------
-      !||    initbuf            ../engine/share/resol/initbuf.F
-      !||    shlrotg            ../engine/source/output/anim/generate/tensor6.F
-      !||    srota6             ../engine/source/output/anim/generate/srota6.F
-      !||--- uses       -----------------------------------------------------
-      !||    elbufdef_mod       ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||    initbuf_mod        ../engine/share/resol/initbuf.F
-      !||====================================================================
+!||====================================================================
+!||    tensgps1           ../engine/source/output/anim/generate/tensor6.F
+!||--- called by ------------------------------------------------------
+!||    genani             ../engine/source/output/anim/generate/genani.F
+!||    h3d_nodal_tensor   ../engine/source/output/h3d/h3d_results/h3d_nodal_tensor.F
+!||--- calls      -----------------------------------------------------
+!||    initbuf            ../engine/share/resol/initbuf.F
+!||    shlrotg            ../engine/source/output/anim/generate/tensor6.F
+!||    srota6             ../engine/source/output/anim/generate/srota6.F
+!||--- uses       -----------------------------------------------------
+!||    elbufdef_mod       ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    initbuf_mod        ../engine/share/resol/initbuf.F
+!||====================================================================
       SUBROUTINE TENSGPS1(FUNC1   ,FUNC2   ,IPARG   ,GEO     ,
      .                    IXS   ,IXS10   ,IXS16   ,IXS20   ,IXQ     ,
      .                    IXC   ,IXTG    ,IXT     ,IXP     ,IXR     ,
@@ -3634,19 +3634,19 @@ C
 C-----------------------------------------------
       RETURN
       END SUBROUTINE TENSGPS1
-      !||====================================================================
-      !||    tensgps2           ../engine/source/output/anim/generate/tensor6.F
-      !||--- called by ------------------------------------------------------
-      !||    genani             ../engine/source/output/anim/generate/genani.F
-      !||    h3d_nodal_tensor   ../engine/source/output/h3d/h3d_results/h3d_nodal_tensor.F
-      !||--- calls      -----------------------------------------------------
-      !||    initbuf            ../engine/share/resol/initbuf.F
-      !||    shlrotg            ../engine/source/output/anim/generate/tensor6.F
-      !||    srota6             ../engine/source/output/anim/generate/srota6.F
-      !||--- uses       -----------------------------------------------------
-      !||    elbufdef_mod       ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||    initbuf_mod        ../engine/share/resol/initbuf.F
-      !||====================================================================
+!||====================================================================
+!||    tensgps2           ../engine/source/output/anim/generate/tensor6.F
+!||--- called by ------------------------------------------------------
+!||    genani             ../engine/source/output/anim/generate/genani.F
+!||    h3d_nodal_tensor   ../engine/source/output/h3d/h3d_results/h3d_nodal_tensor.F
+!||--- calls      -----------------------------------------------------
+!||    initbuf            ../engine/share/resol/initbuf.F
+!||    shlrotg            ../engine/source/output/anim/generate/tensor6.F
+!||    srota6             ../engine/source/output/anim/generate/srota6.F
+!||--- uses       -----------------------------------------------------
+!||    elbufdef_mod       ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    initbuf_mod        ../engine/share/resol/initbuf.F
+!||====================================================================
       SUBROUTINE TENSGPS2(FUNC1   ,FUNC2   ,IPARG   ,GEO     ,
      .                    IXS   ,IXS10   ,IXS16   ,IXS20   ,IXQ     ,
      .                    IXC   ,IXTG    ,IXT     ,IXP     ,IXR     ,
@@ -3886,23 +3886,23 @@ C-----------------------------------------------
 C-----------
       RETURN
       END SUBROUTINE TENSGPS2
-      !||====================================================================
-      !||    tensgps3           ../engine/source/output/anim/generate/tensor6.F
-      !||--- called by ------------------------------------------------------
-      !||    genani             ../engine/source/output/anim/generate/genani.F
-      !||    gps_solid          ../engine/source/output/outmaxsubr.F
-      !||    h3d_nodal_tensor   ../engine/source/output/h3d/h3d_results/h3d_nodal_tensor.F
-      !||--- calls      -----------------------------------------------------
-      !||    initbuf            ../engine/share/resol/initbuf.F
-      !||    pre_heph           ../engine/source/output/anim/generate/tensor6.F
-      !||    srota6             ../engine/source/output/anim/generate/srota6.F
-      !||    szsigpara          ../engine/source/elements/solid/solidez/szsigpara.F
-      !||--- uses       -----------------------------------------------------
-      !||    elbufdef_mod       ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||    initbuf_mod        ../engine/share/resol/initbuf.F
-      !||    my_alloc_mod       ../common_source/tools/memory/my_alloc.F90
-      !||    outmax_mod         ../common_source/modules/outmax_mod.F
-      !||====================================================================
+!||====================================================================
+!||    tensgps3           ../engine/source/output/anim/generate/tensor6.F
+!||--- called by ------------------------------------------------------
+!||    genani             ../engine/source/output/anim/generate/genani.F
+!||    gps_solid          ../engine/source/output/outmaxsubr.F
+!||    h3d_nodal_tensor   ../engine/source/output/h3d/h3d_results/h3d_nodal_tensor.F
+!||--- calls      -----------------------------------------------------
+!||    initbuf            ../engine/share/resol/initbuf.F
+!||    pre_heph           ../engine/source/output/anim/generate/tensor6.F
+!||    srota6             ../engine/source/output/anim/generate/srota6.F
+!||    szsigpara          ../engine/source/elements/solid/solidez/szsigpara.F
+!||--- uses       -----------------------------------------------------
+!||    elbufdef_mod       ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    initbuf_mod        ../engine/share/resol/initbuf.F
+!||    my_alloc_mod       ../common_source/tools/memory/my_alloc.F90
+!||    outmax_mod         ../common_source/modules/outmax_mod.F
+!||====================================================================
       SUBROUTINE TENSGPS3(ELBUF_TAB,FUNC1   ,FUNC2   ,IPARG   ,GEO     ,
      .                    IXS      ,IXS10   ,IXS16   ,IXS20   ,IXQ     ,
      .                    IXC      ,IXTG    ,IXT     ,IXP     ,IXR     ,
@@ -4624,16 +4624,16 @@ c
 C-----------------------------------------------
       RETURN
       END SUBROUTINE TENSGPS3
-      !||====================================================================
-      !||    shlrotg    ../engine/source/output/anim/generate/tensor6.F
-      !||--- called by ------------------------------------------------------
-      !||    tencgps1   ../engine/source/output/anim/generate/tensorc.F
-      !||    tencgps2   ../engine/source/output/anim/generate/tensorc.F
-      !||    tensgps1   ../engine/source/output/anim/generate/tensor6.F
-      !||    tensgps2   ../engine/source/output/anim/generate/tensor6.F
-      !||--- calls      -----------------------------------------------------
-      !||    clskew3    ../engine/source/elements/sh3n/coquedk/cdkcoor3.F
-      !||====================================================================
+!||====================================================================
+!||    shlrotg    ../engine/source/output/anim/generate/tensor6.F
+!||--- called by ------------------------------------------------------
+!||    tencgps1   ../engine/source/output/anim/generate/tensorc.F
+!||    tencgps2   ../engine/source/output/anim/generate/tensorc.F
+!||    tensgps1   ../engine/source/output/anim/generate/tensor6.F
+!||    tensgps2   ../engine/source/output/anim/generate/tensor6.F
+!||--- calls      -----------------------------------------------------
+!||    clskew3    ../engine/source/elements/sh3n/coquedk/cdkcoor3.F
+!||====================================================================
       SUBROUTINE SHLROTG(JFT     ,JLT     ,NFT     ,X       ,TENS    ,
      1                   ITY     ,IXC     ,IXTG    ,IHBE    ,AREA    )
 C-----------------------------------------------
@@ -4731,20 +4731,20 @@ C--------------------------------------------------
 C-----------------------------------------------
       RETURN
       END SUBROUTINE SHLROTG
-      !||====================================================================
-      !||    tensgps_skin          ../engine/source/output/anim/generate/tensor6.F
-      !||--- called by ------------------------------------------------------
-      !||    h3d_sol_skin_tensor   ../engine/source/output/h3d/h3d_results/h3d_sol_skin_tensor.F
-      !||--- calls      -----------------------------------------------------
-      !||    initbuf               ../engine/share/resol/initbuf.F
-      !||    pre_heph              ../engine/source/output/anim/generate/tensor6.F
-      !||    srota6                ../engine/source/output/anim/generate/srota6.F
-      !||    szsigpara             ../engine/source/elements/solid/solidez/szsigpara.F
-      !||--- uses       -----------------------------------------------------
-      !||    elbufdef_mod          ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||    initbuf_mod           ../engine/share/resol/initbuf.F
-      !||    my_alloc_mod          ../common_source/tools/memory/my_alloc.F90
-      !||====================================================================
+!||====================================================================
+!||    tensgps_skin          ../engine/source/output/anim/generate/tensor6.F
+!||--- called by ------------------------------------------------------
+!||    h3d_sol_skin_tensor   ../engine/source/output/h3d/h3d_results/h3d_sol_skin_tensor.F
+!||--- calls      -----------------------------------------------------
+!||    initbuf               ../engine/share/resol/initbuf.F
+!||    pre_heph              ../engine/source/output/anim/generate/tensor6.F
+!||    srota6                ../engine/source/output/anim/generate/srota6.F
+!||    szsigpara             ../engine/source/elements/solid/solidez/szsigpara.F
+!||--- uses       -----------------------------------------------------
+!||    elbufdef_mod          ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    initbuf_mod           ../engine/share/resol/initbuf.F
+!||    my_alloc_mod          ../common_source/tools/memory/my_alloc.F90
+!||====================================================================
       SUBROUTINE TENSGPS_SKIN(ELBUF_TAB,FUNC1   ,FUNC2   ,IPARG   ,
      .                        IXS      ,IXS10   ,IXS16   ,IXS20   ,X        ,
      .                        ITAGPS  ,PM       ,TAG_SKIN_ND )
@@ -5437,16 +5437,16 @@ c
 C-----------------------------------------------
       RETURN
       END SUBROUTINE TENSGPS_SKIN
-      !||====================================================================
-      !||    pre_heph        ../engine/source/output/anim/generate/tensor6.F
-      !||--- called by ------------------------------------------------------
-      !||    strs_tenscor3   ../engine/source/output/h3d/h3d_results/strs_tenscor3.F
-      !||    tensgps3        ../engine/source/output/anim/generate/tensor6.F
-      !||    tensgps_skin    ../engine/source/output/anim/generate/tensor6.F
-      !||--- calls      -----------------------------------------------------
-      !||    sortho3         ../engine/source/elements/solid/solide/sortho3.F
-      !||    srepisot3       ../engine/source/elements/solid/solide/srepisot3.F
-      !||====================================================================
+!||====================================================================
+!||    pre_heph        ../engine/source/output/anim/generate/tensor6.F
+!||--- called by ------------------------------------------------------
+!||    strs_tenscor3   ../engine/source/output/h3d/h3d_results/strs_tenscor3.F
+!||    tensgps3        ../engine/source/output/anim/generate/tensor6.F
+!||    tensgps_skin    ../engine/source/output/anim/generate/tensor6.F
+!||--- calls      -----------------------------------------------------
+!||    sortho3         ../engine/source/elements/solid/solide/sortho3.F
+!||    srepisot3       ../engine/source/elements/solid/solide/srepisot3.F
+!||====================================================================
         SUBROUTINE PRE_HEPH(X,IXS,JR0,JS0,JT0,PM,MAT,NU,NFT,NEL)
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
 #include      "implicit_f.inc"

@@ -20,18 +20,18 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    sph_work_mod     ../common_source/modules/mat_elem/sph_work.F90
-      !||--- called by ------------------------------------------------------
-      !||    forintp          ../engine/source/elements/forintp.F
-      !||    resol            ../engine/source/engine/resol.F
-      !||    sph_crit_voxel   ../engine/source/elements/sph/sph_crit_voxel.F90
-      !||    sphprep          ../engine/source/elements/sph/sphprep.F
-      !||    splissv          ../engine/source/elements/sph/splissv.F
-      !||    sponfv           ../engine/source/elements/sph/sponfv.F
-      !||--- uses       -----------------------------------------------------
-      !||    precision_mod    ../common_source/modules/precision_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    sph_work_mod     ../common_source/modules/mat_elem/sph_work.F90
+!||--- called by ------------------------------------------------------
+!||    forintp          ../engine/source/elements/forintp.F
+!||    resol            ../engine/source/engine/resol.F
+!||    sph_crit_voxel   ../engine/source/elements/sph/sph_crit_voxel.F90
+!||    sphprep          ../engine/source/elements/sph/sphprep.F
+!||    splissv          ../engine/source/elements/sph/splissv.F
+!||    sponfv           ../engine/source/elements/sph/sponfv.F
+!||--- uses       -----------------------------------------------------
+!||    precision_mod    ../common_source/modules/precision_mod.F90
+!||====================================================================
       module sph_work_mod
         use precision_mod, only : WP
 !=======================================================================================      
@@ -78,14 +78,14 @@
 !                                                   init_sph_work
 ! ======================================================================================================================
 
-      !||====================================================================
-      !||    allocate_sph_work   ../common_source/modules/mat_elem/sph_work.F90
-      !||--- called by ------------------------------------------------------
-      !||    resol               ../engine/source/engine/resol.F
-      !||--- calls      -----------------------------------------------------
-      !||--- uses       -----------------------------------------------------
-      !||    my_alloc_mod        ../common_source/tools/memory/my_alloc.F90
-      !||====================================================================
+!||====================================================================
+!||    allocate_sph_work   ../common_source/modules/mat_elem/sph_work.F90
+!||--- called by ------------------------------------------------------
+!||    resol               ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||    my_alloc_mod        ../common_source/tools/memory/my_alloc.F90
+!||====================================================================
          subroutine allocate_sph_work(sph_work,                              &
        &                              numsph,size_wreduce,                   &
        &                              flag_sol_to_sph, size_itag,            &

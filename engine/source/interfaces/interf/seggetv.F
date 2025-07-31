@@ -22,21 +22,21 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C remplit le tableau segvar avec les valeurs des variables de  l ments voisins
 C sert pour les interfaces et pour les ebc
-      !||====================================================================
-      !||    seggetv                ../engine/source/interfaces/interf/seggetv.F
-      !||--- called by ------------------------------------------------------
-      !||    alemain                ../engine/source/ale/alemain.F
-      !||--- calls      -----------------------------------------------------
-      !||    initbuf                ../engine/share/resol/initbuf.F
-      !||    my_barrier             ../engine/source/system/machine.F
-      !||    varcondec              ../engine/source/interfaces/interf/varcondec.F
-      !||--- uses       -----------------------------------------------------
-      !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
-      !||    ale_mod                ../common_source/modules/ale/ale_mod.F
-      !||    elbufdef_mod           ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||    initbuf_mod            ../engine/share/resol/initbuf.F
-      !||    segvar_mod             ../engine/share/modules/segvar_mod.F
-      !||====================================================================
+!||====================================================================
+!||    seggetv                ../engine/source/interfaces/interf/seggetv.F
+!||--- called by ------------------------------------------------------
+!||    alemain                ../engine/source/ale/alemain.F
+!||--- calls      -----------------------------------------------------
+!||    initbuf                ../engine/share/resol/initbuf.F
+!||    my_barrier             ../engine/source/system/machine.F
+!||    varcondec              ../engine/source/interfaces/interf/varcondec.F
+!||--- uses       -----------------------------------------------------
+!||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
+!||    ale_mod                ../common_source/modules/ale/ale_mod.F
+!||    elbufdef_mod           ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    initbuf_mod            ../engine/share/resol/initbuf.F
+!||    segvar_mod             ../engine/share/modules/segvar_mod.F
+!||====================================================================
       SUBROUTINE SEGGETV(IPARG,ELBUF_TAB,ALE_CONNECTIVITY,ITASK,SEGVAR)
 C-----------------------------------------------
 C   M o d u l e s

@@ -20,15 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    sigeps25cp         ../engine/source/materials/mat/mat025/sigeps25cp.F
-      !||--- called by ------------------------------------------------------
-      !||    mulawc             ../engine/source/materials/mat_share/mulawc.F90
-      !||--- calls      -----------------------------------------------------
-      !||    m25cplrp2          ../engine/source/materials/mat/mat025/m25cplrc2.F
-      !||--- uses       -----------------------------------------------------
-      !||    matparam_def_mod   ../common_source/modules/mat_elem/matparam_def_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    sigeps25cp         ../engine/source/materials/mat/mat025/sigeps25cp.F
+!||--- called by ------------------------------------------------------
+!||    mulawc             ../engine/source/materials/mat_share/mulawc.F90
+!||--- calls      -----------------------------------------------------
+!||    m25cplrp2          ../engine/source/materials/mat/mat025/m25cplrc2.F
+!||--- uses       -----------------------------------------------------
+!||    matparam_def_mod   ../common_source/modules/mat_elem/matparam_def_mod.F90
+!||====================================================================
       SUBROUTINE SIGEPS25CP(MAT_PARAM,
      1                      JFT    ,JLT    ,OFF    ,DIR    ,
      2                      SHF    ,NPT    ,NGL    ,IPT    ,OFF_OLD,

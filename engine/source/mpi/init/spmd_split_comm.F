@@ -21,14 +21,14 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 
-      !||====================================================================
-      !||    spmd_split_comm       ../engine/source/mpi/init/spmd_split_comm.F
-      !||--- called by ------------------------------------------------------
-      !||    mpp_init              ../engine/source/mpi/interfaces/spmd_i7tool.F
-      !||--- calls      -----------------------------------------------------
-      !||--- uses       -----------------------------------------------------
-      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
-      !||====================================================================
+!||====================================================================
+!||    spmd_split_comm       ../engine/source/mpi/init/spmd_split_comm.F
+!||--- called by ------------------------------------------------------
+!||    mpp_init              ../engine/source/mpi/interfaces/spmd_i7tool.F
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
+!||====================================================================
       SUBROUTINE SPMD_SPLIT_COMM(ISACTIVE, COMM_LOCAL)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

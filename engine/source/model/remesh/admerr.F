@@ -20,18 +20,18 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    admerr         ../engine/source/model/remesh/admerr.F
-      !||--- called by ------------------------------------------------------
-      !||    resol          ../engine/source/engine/resol.F
-      !||--- calls      -----------------------------------------------------
-      !||    admthke        ../engine/source/model/remesh/admthke.F
-      !||    ancmsg         ../engine/source/output/message/message.F
-      !||    arret          ../engine/source/system/arret.F
-      !||--- uses       -----------------------------------------------------
-      !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||    message_mod    ../engine/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    admerr         ../engine/source/model/remesh/admerr.F
+!||--- called by ------------------------------------------------------
+!||    resol          ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
+!||    admthke        ../engine/source/model/remesh/admthke.F
+!||    ancmsg         ../engine/source/output/message/message.F
+!||    arret          ../engine/source/system/arret.F
+!||--- uses       -----------------------------------------------------
+!||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    message_mod    ../engine/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE ADMERR(
      .           IXC      ,IXTG    ,X       ,IPARG       ,ELBUF_TAB   ,
      .           IPART    ,IPARTC  ,IPARTTG ,ERR_THK_SH4 ,ERR_THK_SH3 ,

@@ -20,15 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    spgrhead           ../starter/source/elements/sph/spgrhead.F
-      !||--- called by ------------------------------------------------------
-      !||    lectur             ../starter/source/starter/lectur.F
-      !||--- calls      -----------------------------------------------------
-      !||    get_u_geo          ../starter/source/user_interface/uaccess.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod        ../starter/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    spgrhead           ../starter/source/elements/sph/spgrhead.F
+!||--- called by ------------------------------------------------------
+!||    lectur             ../starter/source/starter/lectur.F
+!||--- calls      -----------------------------------------------------
+!||    get_u_geo          ../starter/source/user_interface/uaccess.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod        ../starter/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE SPGRHEAD(KXSP    ,IXSP    ,IPARG     ,PM  ,IPART,
      2                    IPARTSP ,EADD    ,CEPSP     ,ND  ,IPM  ,
      3                    IGEO    ,SPBUF   ,SPH2SOL   ,

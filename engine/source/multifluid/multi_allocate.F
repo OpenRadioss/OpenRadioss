@@ -20,18 +20,18 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    multi_allocate   ../engine/source/multifluid/multi_allocate.F
-      !||--- called by ------------------------------------------------------
-      !||    restalloc        ../engine/source/output/restart/arralloc.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg           ../engine/source/output/message/message.F
-      !||    arret            ../engine/source/system/arret.F
-      !||--- uses       -----------------------------------------------------
-      !||    h3d_mod          ../engine/share/modules/h3d_mod.F
-      !||    message_mod      ../engine/share/message_module/message_mod.F
-      !||    multi_fvm_mod    ../common_source/modules/ale/multi_fvm_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    multi_allocate   ../engine/source/multifluid/multi_allocate.F
+!||--- called by ------------------------------------------------------
+!||    restalloc        ../engine/source/output/restart/arralloc.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg           ../engine/source/output/message/message.F
+!||    arret            ../engine/source/system/arret.F
+!||--- uses       -----------------------------------------------------
+!||    h3d_mod          ../engine/share/modules/h3d_mod.F
+!||    message_mod      ../engine/share/message_module/message_mod.F
+!||    multi_fvm_mod    ../common_source/modules/ale/multi_fvm_mod.F90
+!||====================================================================
       SUBROUTINE MULTI_ALLOCATE(MULTI_FVM, H3D_DATA)
 C-----------------------------------------------
 C   M o d u l e s

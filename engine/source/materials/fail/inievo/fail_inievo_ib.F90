@@ -20,31 +20,31 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    fail_inievo_ib_mod   ../engine/source/materials/fail/inievo/fail_inievo_ib.F90
-      !||--- called by ------------------------------------------------------
-      !||    fail_beam18          ../engine/source/elements/beam/fail_beam18.F
-      !||====================================================================
+!||====================================================================
+!||    fail_inievo_ib_mod   ../engine/source/materials/fail/inievo/fail_inievo_ib.F90
+!||--- called by ------------------------------------------------------
+!||    fail_beam18          ../engine/source/elements/beam/fail_beam18.F
+!||====================================================================
     module fail_inievo_ib_mod
     contains
 ! ======================================================================================================================
 ! \brief   inievo failure criteria for type18 beam elements
 ! ======================================================================================================================
-      !||====================================================================
-      !||    fail_inievo_ib        ../engine/source/materials/fail/inievo/fail_inievo_ib.F90
-      !||--- called by ------------------------------------------------------
-      !||    fail_beam18           ../engine/source/elements/beam/fail_beam18.F
-      !||--- calls      -----------------------------------------------------
-      !||    jacobiew_v            ../engine/source/materials/mat_share/jacobview_v.F
-      !||    table_vinterp         ../engine/source/tools/curve/table_tools.F
-      !||--- uses       -----------------------------------------------------
-      !||    constant_mod          ../common_source/modules/constant_mod.F
-      !||    elbufdef_mod          ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||    interface_table_mod   ../engine/share/modules/table_mod.F
-      !||    message_mod           ../engine/share/message_module/message_mod.F
-      !||    precision_mod         ../common_source/modules/precision_mod.F90
-      !||    table_mod             ../engine/share/modules/table_mod.F
-      !||====================================================================
+!||====================================================================
+!||    fail_inievo_ib        ../engine/source/materials/fail/inievo/fail_inievo_ib.F90
+!||--- called by ------------------------------------------------------
+!||    fail_beam18           ../engine/source/elements/beam/fail_beam18.F
+!||--- calls      -----------------------------------------------------
+!||    jacobiew_v            ../engine/source/materials/mat_share/jacobview_v.F
+!||    table_vinterp         ../engine/source/tools/curve/table_tools.F
+!||--- uses       -----------------------------------------------------
+!||    constant_mod          ../common_source/modules/constant_mod.F
+!||    elbufdef_mod          ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    interface_table_mod   ../engine/share/modules/table_mod.F
+!||    message_mod           ../engine/share/message_module/message_mod.F
+!||    precision_mod         ../common_source/modules/precision_mod.F90
+!||    table_mod             ../engine/share/modules/table_mod.F
+!||====================================================================
     subroutine fail_inievo_ib (                                               &
                nel     ,nuparam  ,nuvar    ,                                  &
                table   ,ntablf   ,itablf   ,time    ,uparam     ,             &

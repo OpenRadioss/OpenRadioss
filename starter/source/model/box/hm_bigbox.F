@@ -20,17 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    hm_bigbox              ../starter/source/model/box/hm_bigbox.F
-      !||--- called by ------------------------------------------------------
-      !||    hm_lecgrn              ../starter/source/groups/hm_lecgrn.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg                 ../starter/source/output/message/message.F
-      !||    boxbox                 ../starter/source/model/box/boxbox.F
-      !||    boxtagn                ../starter/source/model/box/bigbox.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod            ../starter/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    hm_bigbox              ../starter/source/model/box/hm_bigbox.F
+!||--- called by ------------------------------------------------------
+!||    hm_lecgrn              ../starter/source/groups/hm_lecgrn.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                 ../starter/source/output/message/message.F
+!||    boxbox                 ../starter/source/model/box/boxbox.F
+!||    boxtagn                ../starter/source/model/box/bigbox.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod            ../starter/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE HM_BIGBOX(X   ,FLAG,NNOD ,
      .                  SKEW,IGS    ,ISKN ,ITABM1,IBOX   ,
      .                  ID  ,IBUFBOX,IADB ,TITR,KEY,NN,

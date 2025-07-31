@@ -20,11 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    coqini     ../engine/source/elements/shell/coqini.F
-      !||--- called by ------------------------------------------------------
-      !||    radioss2   ../engine/source/engine/radioss2.F
-      !||====================================================================
+!||====================================================================
+!||    coqini     ../engine/source/elements/shell/coqini.F
+!||--- called by ------------------------------------------------------
+!||    radioss2   ../engine/source/engine/radioss2.F
+!||====================================================================
       SUBROUTINE COQINI
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -159,11 +159,11 @@ C
       RETURN
       END
 
-      !||====================================================================
-      !||    coqini_wm   ../engine/source/elements/shell/coqini.F
-      !||--- called by ------------------------------------------------------
-      !||    mulawc      ../engine/source/materials/mat_share/mulawc.F90
-      !||====================================================================
+!||====================================================================
+!||    coqini_wm   ../engine/source/elements/shell/coqini.F
+!||--- called by ------------------------------------------------------
+!||    mulawc      ../engine/source/materials/mat_share/mulawc.F90
+!||====================================================================
       SUBROUTINE COQINI_WM(WM)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

@@ -20,16 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    i7dstk        ../engine/source/interfaces/intsort/i7dstk.F
-      !||--- called by ------------------------------------------------------
-      !||    i10tri        ../engine/source/interfaces/intsort/i10tri.F
-      !||    i11tri        ../engine/source/interfaces/intsort/i11tri.F
-      !||    i20tri        ../engine/source/interfaces/intsort/i20tri.F
-      !||    i20tri_edge   ../engine/source/interfaces/intsort/i20tri.F
-      !||    i21tri        ../engine/source/interfaces/intsort/i21tri.F
-      !||    i7tri         ../engine/source/interfaces/intsort/i7tri.F
-      !||====================================================================
+!||====================================================================
+!||    i7dstk        ../engine/source/interfaces/intsort/i7dstk.F
+!||--- called by ------------------------------------------------------
+!||    i10tri        ../engine/source/interfaces/intsort/i10tri.F
+!||    i11tri        ../engine/source/interfaces/intsort/i11tri.F
+!||    i20tri        ../engine/source/interfaces/intsort/i20tri.F
+!||    i20tri_edge   ../engine/source/interfaces/intsort/i20tri.F
+!||    i21tri        ../engine/source/interfaces/intsort/i21tri.F
+!||    i7tri         ../engine/source/interfaces/intsort/i7tri.F
+!||====================================================================
         SUBROUTINE I7DSTK(NB_NC,NB_EC,ADD,BPN,PN,BPE,PE)
 C============================================================================
 C  cette routine est appelee par : I7TRI(/int7/i7tri.F)

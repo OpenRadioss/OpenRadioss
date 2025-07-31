@@ -20,12 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    w_fradia   ../starter/source/restart/ddsplit/w_fradia.F
-      !||--- called by ------------------------------------------------------
-      !||    ddsplit    ../starter/source/restart/ddsplit/ddsplit.F
-      !||--- calls      -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    w_fradia   ../starter/source/restart/ddsplit/w_fradia.F
+!||--- called by ------------------------------------------------------
+!||    ddsplit    ../starter/source/restart/ddsplit/ddsplit.F
+!||--- calls      -----------------------------------------------------
+!||====================================================================
       SUBROUTINE W_FRADIA(FAC,CEP,PROC,NRADIA_L,LEN_AM,
      .           NUMCONV,NUMRADIA,LFACTHER)
 C-----------------------------------------------

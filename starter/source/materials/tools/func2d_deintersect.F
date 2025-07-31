@@ -20,11 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    func2d_deintersect   ../starter/source/materials/tools/func2d_deintersect.F
-      !||--- called by ------------------------------------------------------
-      !||    law70_table          ../starter/source/materials/mat/mat070/law70_table.F
-      !||====================================================================
+!||====================================================================
+!||    func2d_deintersect   ../starter/source/materials/tools/func2d_deintersect.F
+!||--- called by ------------------------------------------------------
+!||    law70_table          ../starter/source/materials/mat/mat070/law70_table.F
+!||====================================================================
       SUBROUTINE FUNC2D_DEINTERSECT(NPT, NFUNC  ,YY    )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

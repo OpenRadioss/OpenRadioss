@@ -20,29 +20,29 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    inter7_filter_cand_mod   ../engine/source/interfaces/intsort/inter7_filter_cand.F90
-      !||--- called by ------------------------------------------------------
-      !||    inter7_candidate_pairs   ../engine/source/interfaces/intsort/inter7_candidate_pairs.F90
-      !||====================================================================
+!||====================================================================
+!||    inter7_filter_cand_mod   ../engine/source/interfaces/intsort/inter7_filter_cand.F90
+!||--- called by ------------------------------------------------------
+!||    inter7_candidate_pairs   ../engine/source/interfaces/intsort/inter7_candidate_pairs.F90
+!||====================================================================
       MODULE INTER7_FILTER_CAND_MOD
       contains
 !! \brief broad phase filtering of candidate pairs
 !! \details input: nodes and segment sharing the same voxel, output: filtered candidate pairs
-      !||====================================================================
-      !||    inter7_filter_cand       ../engine/source/interfaces/intsort/inter7_filter_cand.F90
-      !||--- called by ------------------------------------------------------
-      !||    inter7_candidate_pairs   ../engine/source/interfaces/intsort/inter7_candidate_pairs.F90
-      !||--- calls      -----------------------------------------------------
-      !||    inter7_gather_cand       ../engine/source/interfaces/int07/inter7_gather_cand.F90
-      !||    inter7_penetration       ../engine/source/interfaces/intsort/inter7_penetration.F90
-      !||--- uses       -----------------------------------------------------
-      !||    collision_mod            ../engine/source/interfaces/intsort/collision_mod.F
-      !||    constant_mod             ../common_source/modules/constant_mod.F
-      !||    inter7_gather_cand_mod   ../engine/source/interfaces/int07/inter7_gather_cand.F90
-      !||    inter7_penetration_mod   ../engine/source/interfaces/intsort/inter7_penetration.F90
-      !||    precision_mod            ../common_source/modules/precision_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    inter7_filter_cand       ../engine/source/interfaces/intsort/inter7_filter_cand.F90
+!||--- called by ------------------------------------------------------
+!||    inter7_candidate_pairs   ../engine/source/interfaces/intsort/inter7_candidate_pairs.F90
+!||--- calls      -----------------------------------------------------
+!||    inter7_gather_cand       ../engine/source/interfaces/int07/inter7_gather_cand.F90
+!||    inter7_penetration       ../engine/source/interfaces/intsort/inter7_penetration.F90
+!||--- uses       -----------------------------------------------------
+!||    collision_mod            ../engine/source/interfaces/intsort/collision_mod.F
+!||    constant_mod             ../common_source/modules/constant_mod.F
+!||    inter7_gather_cand_mod   ../engine/source/interfaces/int07/inter7_gather_cand.F90
+!||    inter7_penetration_mod   ../engine/source/interfaces/intsort/inter7_penetration.F90
+!||    precision_mod            ../common_source/modules/precision_mod.F90
+!||====================================================================
         SUBROUTINE INTER7_FILTER_CAND(&
         &j_stok,irect  ,x     ,nsv   ,ii_stok,&
         &cand_n,cand_e ,mulnsn,margin  ,&

@@ -20,29 +20,29 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    sfor_nsn2seg_mod   ../engine/source/elements/solid/solide/sfor_4n2s4.F90
-      !||--- called by ------------------------------------------------------
-      !||    s6for_distor       ../engine/source/elements/thickshell/solide6c/s6for_distor.F90
-      !||    s8for_distor       ../engine/source/elements/solid/solide/s8for_distor.F
-      !||====================================================================
+!||====================================================================
+!||    sfor_nsn2seg_mod   ../engine/source/elements/solid/solide/sfor_4n2s4.F90
+!||--- called by ------------------------------------------------------
+!||    s6for_distor       ../engine/source/elements/thickshell/solide6c/s6for_distor.F90
+!||    s8for_distor       ../engine/source/elements/solid/solide/s8for_distor.F
+!||====================================================================
       module sfor_nsn2seg_mod
       contains
 ! ======================================================================================================================
 ! \brief self-contact for 4-node to quad 
 ! ======================================================================================================================
-      !||====================================================================
-      !||    sfor_4n2s4       ../engine/source/elements/solid/solide/sfor_4n2s4.F90
-      !||--- called by ------------------------------------------------------
-      !||    s8for_distor     ../engine/source/elements/solid/solide/s8for_distor.F
-      !||--- calls      -----------------------------------------------------
-      !||    sfor_ns2s4       ../engine/source/elements/solid/solide/sfor_ns2s4.F90
-      !||--- uses       -----------------------------------------------------
-      !||    constant_mod     ../common_source/modules/constant_mod.F
-      !||    mvsiz_mod        ../engine/share/spe_inc/mvsiz_mod.F90
-      !||    precision_mod    ../common_source/modules/precision_mod.F90
-      !||    sfor_ns2s4_mod   ../engine/source/elements/solid/solide/sfor_ns2s4.F90
-      !||====================================================================
+!||====================================================================
+!||    sfor_4n2s4       ../engine/source/elements/solid/solide/sfor_4n2s4.F90
+!||--- called by ------------------------------------------------------
+!||    s8for_distor     ../engine/source/elements/solid/solide/s8for_distor.F
+!||--- calls      -----------------------------------------------------
+!||    sfor_ns2s4       ../engine/source/elements/solid/solide/sfor_ns2s4.F90
+!||--- uses       -----------------------------------------------------
+!||    constant_mod     ../common_source/modules/constant_mod.F
+!||    mvsiz_mod        ../engine/share/spe_inc/mvsiz_mod.F90
+!||    precision_mod    ../common_source/modules/precision_mod.F90
+!||    sfor_ns2s4_mod   ../engine/source/elements/solid/solide/sfor_ns2s4.F90
+!||====================================================================
          subroutine sfor_4n2s4(                                                 &
                              xn1,     xn2,    xn3,    xn4,                      &
                              yn1,     yn2,    yn3,    yn4,                      &
@@ -377,17 +377,17 @@
 ! ======================================================================================================================
 ! \brief self-contact for 3-node to tria 
 ! ======================================================================================================================
-      !||====================================================================
-      !||    sfor_3n2s3      ../engine/source/elements/solid/solide/sfor_4n2s4.F90
-      !||--- called by ------------------------------------------------------
-      !||    s6for_distor    ../engine/source/elements/thickshell/solide6c/s6for_distor.F90
-      !||--- calls      -----------------------------------------------------
-      !||    sfor_n2s3       ../engine/source/elements/solid/solide4/sfor_n2s3.F
-      !||--- uses       -----------------------------------------------------
-      !||    constant_mod    ../common_source/modules/constant_mod.F
-      !||    mvsiz_mod       ../engine/share/spe_inc/mvsiz_mod.F90
-      !||    precision_mod   ../common_source/modules/precision_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    sfor_3n2s3      ../engine/source/elements/solid/solide/sfor_4n2s4.F90
+!||--- called by ------------------------------------------------------
+!||    s6for_distor    ../engine/source/elements/thickshell/solide6c/s6for_distor.F90
+!||--- calls      -----------------------------------------------------
+!||    sfor_n2s3       ../engine/source/elements/solid/solide4/sfor_n2s3.F
+!||--- uses       -----------------------------------------------------
+!||    constant_mod    ../common_source/modules/constant_mod.F
+!||    mvsiz_mod       ../engine/share/spe_inc/mvsiz_mod.F90
+!||    precision_mod   ../common_source/modules/precision_mod.F90
+!||====================================================================
         subroutine sfor_3n2s3(                                                  &
                              xn1,     xn2,    xn3,                              &
                              yn1,     yn2,    yn3,                              &

@@ -20,19 +20,19 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    alelec                 ../starter/source/ale/alelec.F
-      !||--- called by ------------------------------------------------------
-      !||    lectur                 ../starter/source/starter/lectur.F
-      !||--- calls      -----------------------------------------------------
-      !||    ale_check_lag          ../starter/source/ale/ale_check_lag.F
-      !||    aleso2                 ../starter/source/ale/ale2d/aleso2.F
-      !||    aleso2t                ../starter/source/ale/ale2d/aleso2t.F
-      !||    aleso3                 ../starter/source/ale/ale3d/aleso3.F
-      !||    alesop                 ../starter/source/ale/alesop.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod            ../starter/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    alelec                 ../starter/source/ale/alelec.F
+!||--- called by ------------------------------------------------------
+!||    lectur                 ../starter/source/starter/lectur.F
+!||--- calls      -----------------------------------------------------
+!||    ale_check_lag          ../starter/source/ale/ale_check_lag.F
+!||    aleso2                 ../starter/source/ale/ale2d/aleso2.F
+!||    aleso2t                ../starter/source/ale/ale2d/aleso2t.F
+!||    aleso3                 ../starter/source/ale/ale3d/aleso3.F
+!||    alesop                 ../starter/source/ale/alesop.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod            ../starter/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE ALELEC(
      1      ICODE    ,IXS     , IXQ      , IXC             ,IXT    ,
      2      IXTG     ,PM      , IGEO     , ITAB            ,GEO    ,

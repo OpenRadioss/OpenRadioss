@@ -20,20 +20,20 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    spmd_exch_deleted_surf_edge     ../engine/source/mpi/interfaces/spmd_exch_deleted_surf_edge.F
-      !||--- called by ------------------------------------------------------
-      !||    resol                           ../engine/source/engine/resol.F
-      !||--- calls      -----------------------------------------------------
-      !||    find_edge_from_remote_proc      ../engine/source/interfaces/interf/find_edge_from_remote_proc.F
-      !||    find_surface_from_remote_proc   ../engine/source/interfaces/interf/find_surface_from_remote_proc.F
-      !||--- uses       -----------------------------------------------------
-      !||    array_mod                       ../common_source/modules/array_mod.F
-      !||    intbufdef_mod                   ../common_source/modules/interfaces/intbufdef_mod.F90
-      !||    nodal_arrays_mod                ../common_source/modules/nodal_arrays.F90
-      !||    shooting_node_mod               ../engine/share/modules/shooting_node_mod.F
-      !||    spmd_comm_world_mod             ../engine/source/mpi/spmd_comm_world.F90
-      !||====================================================================
+!||====================================================================
+!||    spmd_exch_deleted_surf_edge     ../engine/source/mpi/interfaces/spmd_exch_deleted_surf_edge.F
+!||--- called by ------------------------------------------------------
+!||    resol                           ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
+!||    find_edge_from_remote_proc      ../engine/source/interfaces/interf/find_edge_from_remote_proc.F
+!||    find_surface_from_remote_proc   ../engine/source/interfaces/interf/find_surface_from_remote_proc.F
+!||--- uses       -----------------------------------------------------
+!||    array_mod                       ../common_source/modules/array_mod.F
+!||    intbufdef_mod                   ../common_source/modules/interfaces/intbufdef_mod.F90
+!||    nodal_arrays_mod                ../common_source/modules/nodal_arrays.F90
+!||    shooting_node_mod               ../engine/share/modules/shooting_node_mod.F
+!||    spmd_comm_world_mod             ../engine/source/mpi/spmd_comm_world.F90
+!||====================================================================
         SUBROUTINE SPMD_EXCH_DELETED_SURF_EDGE( IAD_ELEM,NODES,SHOOT_STRUCT,INTBUF_TAB,NEWFRONT,
      .                                          IPARI,GEO,
      .                                          IXS,IXC,IXT,IXP,IXR,IXTG,IXS10,

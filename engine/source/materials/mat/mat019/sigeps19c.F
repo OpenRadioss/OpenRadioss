@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    sigeps19c    ../engine/source/materials/mat/mat019/sigeps19c.F
-      !||--- called by ------------------------------------------------------
-      !||    mulawc       ../engine/source/materials/mat_share/mulawc.F90
-      !||--- uses       -----------------------------------------------------
-      !||    sensor_mod   ../common_source/modules/sensor_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    sigeps19c    ../engine/source/materials/mat/mat019/sigeps19c.F
+!||--- called by ------------------------------------------------------
+!||    mulawc       ../engine/source/materials/mat_share/mulawc.F90
+!||--- uses       -----------------------------------------------------
+!||    sensor_mod   ../common_source/modules/sensor_mod.F90
+!||====================================================================
       SUBROUTINE SIGEPS19C(
      .            NEL    ,NUPARAM,NIPARAM,FLAG_ZCFAC,ZCFAC  ,SHF    ,
      .            UPARAM ,IPARAM ,NPTTOT ,SSP    ,NSENSOR,

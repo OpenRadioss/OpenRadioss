@@ -20,33 +20,33 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    h3d_solid_scalar_1             ../engine/source/output/h3d/h3d_results/h3d_solid_scalar_1.F
-      !||--- called by ------------------------------------------------------
-      !||    funct_python_update_elements   ../engine/source/tools/curve/funct_python_update_elements.F90
-      !||    h3d_solid_scalar               ../engine/source/output/h3d/h3d_results/h3d_solid_scalar.F
-      !||--- calls      -----------------------------------------------------
-      !||    h3d_write_scalar               ../engine/source/output/h3d/h3d_results/h3d_write_scalar.F
-      !||    initbuf                        ../engine/share/resol/initbuf.F
-      !||    output_div_u                   ../engine/source/output/anim/generate/output_div_u.F
-      !||    output_schlieren               ../engine/source/output/anim/generate/output_schlieren.F
-      !||    srotorth                       ../engine/source/elements/solid/srotorth.F
-      !||    ths_marea                      ../engine/source/output/h3d/h3d_results/h3d_solid_scalar_1.F
-      !||    ths_vol                        ../engine/source/output/h3d/h3d_results/h3d_solid_scalar_1.F
-      !||--- uses       -----------------------------------------------------
-      !||    ale_connectivity_mod           ../common_source/modules/ale/ale_connectivity_mod.F
-      !||    aleanim_mod                    ../engine/share/modules/aleanim_mod.F
-      !||    alefvm_mod                     ../common_source/modules/ale/alefvm_mod.F
-      !||    elbufdef_mod                   ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||    h3d_mod                        ../engine/share/modules/h3d_mod.F
-      !||    initbuf_mod                    ../engine/share/resol/initbuf.F
-      !||    mat_elem_mod                   ../common_source/modules/mat_elem/mat_elem_mod.F90
-      !||    matparam_def_mod               ../common_source/modules/mat_elem/matparam_def_mod.F90
-      !||    multi_fvm_mod                  ../common_source/modules/ale/multi_fvm_mod.F90
-      !||    multimat_param_mod             ../common_source/modules/multimat_param_mod.F90
-      !||    names_and_titles_mod           ../common_source/modules/names_and_titles_mod.F
-      !||    schlieren_mod                  ../engine/share/modules/schlieren_mod.F
-      !||====================================================================
+!||====================================================================
+!||    h3d_solid_scalar_1             ../engine/source/output/h3d/h3d_results/h3d_solid_scalar_1.F
+!||--- called by ------------------------------------------------------
+!||    funct_python_update_elements   ../engine/source/tools/curve/funct_python_update_elements.F90
+!||    h3d_solid_scalar               ../engine/source/output/h3d/h3d_results/h3d_solid_scalar.F
+!||--- calls      -----------------------------------------------------
+!||    h3d_write_scalar               ../engine/source/output/h3d/h3d_results/h3d_write_scalar.F
+!||    initbuf                        ../engine/share/resol/initbuf.F
+!||    output_div_u                   ../engine/source/output/anim/generate/output_div_u.F
+!||    output_schlieren               ../engine/source/output/anim/generate/output_schlieren.F
+!||    srotorth                       ../engine/source/elements/solid/srotorth.F
+!||    ths_marea                      ../engine/source/output/h3d/h3d_results/h3d_solid_scalar_1.F
+!||    ths_vol                        ../engine/source/output/h3d/h3d_results/h3d_solid_scalar_1.F
+!||--- uses       -----------------------------------------------------
+!||    ale_connectivity_mod           ../common_source/modules/ale/ale_connectivity_mod.F
+!||    aleanim_mod                    ../engine/share/modules/aleanim_mod.F
+!||    alefvm_mod                     ../common_source/modules/ale/alefvm_mod.F
+!||    elbufdef_mod                   ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    h3d_mod                        ../engine/share/modules/h3d_mod.F
+!||    initbuf_mod                    ../engine/share/resol/initbuf.F
+!||    mat_elem_mod                   ../common_source/modules/mat_elem/mat_elem_mod.F90
+!||    matparam_def_mod               ../common_source/modules/mat_elem/matparam_def_mod.F90
+!||    multi_fvm_mod                  ../common_source/modules/ale/multi_fvm_mod.F90
+!||    multimat_param_mod             ../common_source/modules/multimat_param_mod.F90
+!||    names_and_titles_mod           ../common_source/modules/names_and_titles_mod.F
+!||    schlieren_mod                  ../engine/share/modules/schlieren_mod.F
+!||====================================================================
       SUBROUTINE H3D_SOLID_SCALAR_1(CALLED_FROM_PYTHON,
      .                  ELBUF_TAB       ,SOLID_SCALAR ,IPARG       ,
      .                  IXS             ,PM           ,BUFMAT      ,
@@ -3062,11 +3062,11 @@ C--------------------------------------------------
 C-----------------------------------------------
         RETURN
       END
-      !||====================================================================
-      !||    ths_marea            ../engine/source/output/h3d/h3d_results/h3d_solid_scalar_1.F
-      !||--- called by ------------------------------------------------------
-      !||    h3d_solid_scalar_1   ../engine/source/output/h3d/h3d_results/h3d_solid_scalar_1.F
-      !||====================================================================
+!||====================================================================
+!||    ths_marea            ../engine/source/output/h3d/h3d_results/h3d_solid_scalar_1.F
+!||--- called by ------------------------------------------------------
+!||    h3d_solid_scalar_1   ../engine/source/output/h3d/h3d_results/h3d_solid_scalar_1.F
+!||====================================================================
       SUBROUTINE THS_MAREA(RX, RY, RZ, SX, SY, SZ, DET,NEL)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -3100,11 +3100,11 @@ C---------E3------------
 c-----------
         RETURN
       END
-      !||====================================================================
-      !||    ths_vol              ../engine/source/output/h3d/h3d_results/h3d_solid_scalar_1.F
-      !||--- called by ------------------------------------------------------
-      !||    h3d_solid_scalar_1   ../engine/source/output/h3d/h3d_results/h3d_solid_scalar_1.F
-      !||====================================================================
+!||====================================================================
+!||    ths_vol              ../engine/source/output/h3d/h3d_results/h3d_solid_scalar_1.F
+!||--- called by ------------------------------------------------------
+!||    h3d_solid_scalar_1   ../engine/source/output/h3d/h3d_results/h3d_solid_scalar_1.F
+!||====================================================================
       SUBROUTINE THS_VOL(RX, RY, RZ, SX, SY, SZ, TX, TY, TZ,DET,NEL)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

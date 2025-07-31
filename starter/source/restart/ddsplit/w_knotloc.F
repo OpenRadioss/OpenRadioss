@@ -21,13 +21,13 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
-      !||====================================================================
-      !||    w_knotloc     ../starter/source/restart/ddsplit/w_knotloc.F
-      !||--- called by ------------------------------------------------------
-      !||    ddsplit       ../starter/source/restart/ddsplit/ddsplit.F
-      !||--- calls      -----------------------------------------------------
-      !||    w_knotlocpc   ../starter/source/restart/ddsplit/w_knotlocpc.F
-      !||====================================================================
+!||====================================================================
+!||    w_knotloc     ../starter/source/restart/ddsplit/w_knotloc.F
+!||--- called by ------------------------------------------------------
+!||    ddsplit       ../starter/source/restart/ddsplit/ddsplit.F
+!||--- calls      -----------------------------------------------------
+!||    w_knotlocpc   ../starter/source/restart/ddsplit/w_knotlocpc.F
+!||====================================================================
       SUBROUTINE W_KNOTLOC(KXIG3D,NUMELIG3D_L,ISUMNIG3D_L,IXIG3D,CEP,
      .                  PROC,NODLOCAL,LEN_IA,KNOTLOCPC,KNOTLOCEL,NUMNOD_L,
      .                  NUMCONV,NUMRADIA)

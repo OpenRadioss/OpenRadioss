@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    movfra1       ../engine/source/tools/skew/movfram.F
-      !||--- called by ------------------------------------------------------
-      !||    resol         ../engine/source/engine/resol.F
-      !||--- calls      -----------------------------------------------------
-      !||    spmd_rbcast   ../engine/source/mpi/generic/spmd_rbcast.F
-      !||====================================================================
+!||====================================================================
+!||    movfra1       ../engine/source/tools/skew/movfram.F
+!||--- called by ------------------------------------------------------
+!||    resol         ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
+!||    spmd_rbcast   ../engine/source/mpi/generic/spmd_rbcast.F
+!||====================================================================
       SUBROUTINE MOVFRA1(XFRAME,IFRAME ,X, V ,A ,AR)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -359,14 +359,14 @@ C
       END SUBROUTINE MOVFRA1
 
 
-      !||====================================================================
-      !||    movfra2       ../engine/source/tools/skew/movfram.F
-      !||--- called by ------------------------------------------------------
-      !||    resol         ../engine/source/engine/resol.F
-      !||--- calls      -----------------------------------------------------
-      !||    rotbmr        ../engine/source/tools/skew/rotbmr.F
-      !||    spmd_rbcast   ../engine/source/mpi/generic/spmd_rbcast.F
-      !||====================================================================
+!||====================================================================
+!||    movfra2       ../engine/source/tools/skew/movfram.F
+!||--- called by ------------------------------------------------------
+!||    resol         ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
+!||    rotbmr        ../engine/source/tools/skew/rotbmr.F
+!||    spmd_rbcast   ../engine/source/mpi/generic/spmd_rbcast.F
+!||====================================================================
       SUBROUTINE MOVFRA2(XFRAME ,IFRAME ,X ,V ,VR , D)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -676,14 +676,14 @@ C-----------------------------------------------
       RETURN
       END SUBROUTINE MOVFRA2
 
-      !||====================================================================
-      !||    movfra_imp    ../engine/source/tools/skew/movfram.F
-      !||--- called by ------------------------------------------------------
-      !||    resol         ../engine/source/engine/resol.F
-      !||--- calls      -----------------------------------------------------
-      !||    rotbmr        ../engine/source/tools/skew/rotbmr.F
-      !||    spmd_rbcast   ../engine/source/mpi/generic/spmd_rbcast.F
-      !||====================================================================
+!||====================================================================
+!||    movfra_imp    ../engine/source/tools/skew/movfram.F
+!||--- called by ------------------------------------------------------
+!||    resol         ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
+!||    rotbmr        ../engine/source/tools/skew/rotbmr.F
+!||    spmd_rbcast   ../engine/source/mpi/generic/spmd_rbcast.F
+!||====================================================================
       SUBROUTINE MOVFRA_IMP(XFRAME,IFRAME ,X, V ,A ,VR ,AR ,D )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

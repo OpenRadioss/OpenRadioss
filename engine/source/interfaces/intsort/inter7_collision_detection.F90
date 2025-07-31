@@ -20,32 +20,32 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    inter7_collision_detection_mod   ../engine/source/interfaces/intsort/inter7_collision_detection.F90
-      !||--- called by ------------------------------------------------------
-      !||    inter_sort_07                    ../engine/source/interfaces/int07/inter_sort_07.F
-      !||====================================================================
+!||====================================================================
+!||    inter7_collision_detection_mod   ../engine/source/interfaces/intsort/inter7_collision_detection.F90
+!||--- called by ------------------------------------------------------
+!||    inter_sort_07                    ../engine/source/interfaces/int07/inter_sort_07.F
+!||====================================================================
       MODULE INTER7_COLLISION_DETECTION_MOD
       CONTAINS
-      !||====================================================================
-      !||    inter7_collision_detection   ../engine/source/interfaces/intsort/inter7_collision_detection.F90
-      !||--- called by ------------------------------------------------------
-      !||    inter_sort_07                ../engine/source/interfaces/int07/inter_sort_07.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg                       ../engine/source/output/message/message.F
-      !||    arret                        ../engine/source/system/arret.F
-      !||    inter7_candidate_pairs       ../engine/source/interfaces/intsort/inter7_candidate_pairs.F90
-      !||    spmd_oldnumcd                ../engine/source/mpi/interfaces/spmd_i7tool.F
-      !||--- uses       -----------------------------------------------------
-      !||    constant_mod                 ../common_source/modules/constant_mod.F
-      !||    fill_voxel_mod               ../engine/source/interfaces/intsort/fill_voxel.F90
-      !||    inter7_candidate_pairs_mod   ../engine/source/interfaces/intsort/inter7_candidate_pairs.F90
-      !||    inter_struct_mod             ../engine/share/modules/inter_struct_mod.F
-      !||    message_mod                  ../engine/share/message_module/message_mod.F
-      !||    precision_mod                ../common_source/modules/precision_mod.F90
-      !||    tri7box                      ../engine/share/modules/tri7box.F
-      !||    voxel_dimensions_mod         ../engine/source/interfaces/intsort/voxel_dimensions.F90
-      !||====================================================================
+!||====================================================================
+!||    inter7_collision_detection   ../engine/source/interfaces/intsort/inter7_collision_detection.F90
+!||--- called by ------------------------------------------------------
+!||    inter_sort_07                ../engine/source/interfaces/int07/inter_sort_07.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                       ../engine/source/output/message/message.F
+!||    arret                        ../engine/source/system/arret.F
+!||    inter7_candidate_pairs       ../engine/source/interfaces/intsort/inter7_candidate_pairs.F90
+!||    spmd_oldnumcd                ../engine/source/mpi/interfaces/spmd_i7tool.F
+!||--- uses       -----------------------------------------------------
+!||    constant_mod                 ../common_source/modules/constant_mod.F
+!||    fill_voxel_mod               ../engine/source/interfaces/intsort/fill_voxel.F90
+!||    inter7_candidate_pairs_mod   ../engine/source/interfaces/intsort/inter7_candidate_pairs.F90
+!||    inter_struct_mod             ../engine/share/modules/inter_struct_mod.F
+!||    message_mod                  ../engine/share/message_module/message_mod.F
+!||    precision_mod                ../common_source/modules/precision_mod.F90
+!||    tri7box                      ../engine/share/modules/tri7box.F
+!||    voxel_dimensions_mod         ../engine/source/interfaces/intsort/voxel_dimensions.F90
+!||====================================================================
         SUBROUTINE INTER7_COLLISION_DETECTION(&
         &X        ,IRECT   ,NSV     ,INACTI   ,CAND_P  ,&
         &NRTM    ,NSN     ,CAND_E   ,CAND_N  ,&

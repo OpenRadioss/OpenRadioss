@@ -20,21 +20,21 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    forcefingeo                   ../engine/source/loads/general/forcefingeo.F
-      !||--- called by ------------------------------------------------------
-      !||    resol                         ../engine/source/engine/resol.F
-      !||--- calls      -----------------------------------------------------
-      !||    finter                        ../engine/source/tools/curve/finter.F
-      !||    finter_smooth                 ../engine/source/tools/curve/finter_smooth.F
-      !||    sysfus2                       ../engine/source/system/sysfus.F
-      !||--- uses       -----------------------------------------------------
-      !||    h3d_mod                       ../engine/share/modules/h3d_mod.F
-      !||    nodal_arrays_mod              ../common_source/modules/nodal_arrays.F90
-      !||    python_call_funct_cload_mod   ../engine/source/loads/general/python_call_funct_cload.F90
-      !||    python_funct_mod              ../common_source/modules/python_mod.F90
-      !||    sensor_mod                    ../common_source/modules/sensor_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    forcefingeo                   ../engine/source/loads/general/forcefingeo.F
+!||--- called by ------------------------------------------------------
+!||    resol                         ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
+!||    finter                        ../engine/source/tools/curve/finter.F
+!||    finter_smooth                 ../engine/source/tools/curve/finter_smooth.F
+!||    sysfus2                       ../engine/source/system/sysfus.F
+!||--- uses       -----------------------------------------------------
+!||    h3d_mod                       ../engine/share/modules/h3d_mod.F
+!||    nodal_arrays_mod              ../common_source/modules/nodal_arrays.F90
+!||    python_call_funct_cload_mod   ../engine/source/loads/general/python_call_funct_cload.F90
+!||    python_funct_mod              ../common_source/modules/python_mod.F90
+!||    sensor_mod                    ../common_source/modules/sensor_mod.F90
+!||====================================================================
       SUBROUTINE FORCEFINGEO(IBFV  ,NPC    ,TF     ,A     ,V    ,X     ,
      2                       VEL   ,SENSOR_TAB,FSKY  ,FEXT ,ITABM1,
      3                       H3D_DATA,NSENSOR, PYTHON,WFEXT,NODES)

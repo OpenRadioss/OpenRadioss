@@ -20,29 +20,29 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    intti1                  ../engine/source/interfaces/interf/intti1.F
-      !||--- called by ------------------------------------------------------
-      !||    resol                   ../engine/source/engine/resol.F
-      !||--- calls      -----------------------------------------------------
-      !||    asspari2                ../engine/source/assembly/asspar4.F
-      !||    i2skip                  ../engine/source/interfaces/interf/i2for3p.F
-      !||    int2poff                ../engine/source/interfaces/interf/int2poff.F
-      !||    int2poffh               ../engine/source/interfaces/interf/int2poff.F
-      !||    int2rupt                ../engine/source/interfaces/interf/int2rupt.F
-      !||    intti12f                ../engine/source/interfaces/interf/intti12.F
-      !||    intti2f                 ../engine/source/interfaces/interf/intti2f.F
-      !||    spmd_exch_a_int2        ../engine/source/mpi/forces/spmd_exch_a_int2.F
-      !||    spmd_exch_a_int2_ams    ../engine/source/mpi/forces/spmd_exch_a_int2_ams.F
-      !||    spmd_exch_a_int2_pon    ../engine/source/mpi/forces/spmd_exch_a_int2_pon.F
-      !||    spmd_exch_a_int2h       ../engine/source/mpi/forces/spmd_exch_a_int2h.F
-      !||    spmd_exch_a_int2h_ams   ../engine/source/mpi/forces/spmd_exch_a_int2h_ams.F
-      !||--- uses       -----------------------------------------------------
-      !||    glob_therm_mod          ../common_source/modules/mat_elem/glob_therm_mod.F90
-      !||    h3d_mod                 ../engine/share/modules/h3d_mod.F
-      !||    intbufdef_mod           ../common_source/modules/interfaces/intbufdef_mod.F90
-      !||    my_alloc_mod            ../common_source/tools/memory/my_alloc.F90
-      !||====================================================================
+!||====================================================================
+!||    intti1                  ../engine/source/interfaces/interf/intti1.F
+!||--- called by ------------------------------------------------------
+!||    resol                   ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
+!||    asspari2                ../engine/source/assembly/asspar4.F
+!||    i2skip                  ../engine/source/interfaces/interf/i2for3p.F
+!||    int2poff                ../engine/source/interfaces/interf/int2poff.F
+!||    int2poffh               ../engine/source/interfaces/interf/int2poff.F
+!||    int2rupt                ../engine/source/interfaces/interf/int2rupt.F
+!||    intti12f                ../engine/source/interfaces/interf/intti12.F
+!||    intti2f                 ../engine/source/interfaces/interf/intti2f.F
+!||    spmd_exch_a_int2        ../engine/source/mpi/forces/spmd_exch_a_int2.F
+!||    spmd_exch_a_int2_ams    ../engine/source/mpi/forces/spmd_exch_a_int2_ams.F
+!||    spmd_exch_a_int2_pon    ../engine/source/mpi/forces/spmd_exch_a_int2_pon.F
+!||    spmd_exch_a_int2h       ../engine/source/mpi/forces/spmd_exch_a_int2h.F
+!||    spmd_exch_a_int2h_ams   ../engine/source/mpi/forces/spmd_exch_a_int2h_ams.F
+!||--- uses       -----------------------------------------------------
+!||    glob_therm_mod          ../common_source/modules/mat_elem/glob_therm_mod.F90
+!||    h3d_mod                 ../engine/share/modules/h3d_mod.F
+!||    intbufdef_mod           ../common_source/modules/interfaces/intbufdef_mod.F90
+!||    my_alloc_mod            ../common_source/tools/memory/my_alloc.F90
+!||====================================================================
       SUBROUTINE INTTI1(
      1   IPARI    ,X        ,V        ,A       ,
      2   VR       ,AR       ,WA       ,MS      ,IN       ,WEIGHT  ,

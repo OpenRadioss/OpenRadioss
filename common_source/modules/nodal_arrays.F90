@@ -20,60 +20,60 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    nodal_arrays_mod                         ../common_source/modules/nodal_arrays.F90
-      !||--- called by ------------------------------------------------------
-      !||    asspar4                                  ../engine/source/assembly/asspar4.F
-      !||    check_nan_acc                            ../engine/source/output/outfile/check_nan_acc.F
-      !||    chkload                                  ../engine/source/interfaces/chkload.F
-      !||    chkstfn3n                                ../engine/source/interfaces/interf/chkstfn3.F
-      !||    count_remote_nb_elem_edge                ../engine/source/interfaces/interf/count_remote_nb_elem_edge.F
-      !||    coupling_set_interface                   ../engine/source/coupling/coupling_adapter.F90
-      !||    coupling_set_mesh                        ../engine/source/coupling/coupling_adapter.F90
-      !||    coupling_sync                            ../engine/source/coupling/coupling_adapter.F90
-      !||    detach_node                              ../engine/source/engine/node_spliting/detach_node.F90
-      !||    detach_node_from_interfaces              ../engine/source/engine/node_spliting/detach_node.F90
-      !||    detach_node_from_shells                  ../engine/source/engine/node_spliting/detach_node.F90
-      !||    find_edge_from_remote_proc               ../engine/source/interfaces/interf/find_edge_from_remote_proc.F
-      !||    find_surface_from_remote_proc            ../engine/source/interfaces/interf/find_surface_from_remote_proc.F
-      !||    fixfingeo                                ../engine/source/constraints/general/impvel/fixfingeo.F
-      !||    fixvel                                   ../engine/source/constraints/general/impvel/fixvel.F
-      !||    force                                    ../engine/source/loads/general/force.F90
-      !||    forcefingeo                              ../engine/source/loads/general/forcefingeo.F
-      !||    funct_python_update_elements             ../engine/source/tools/curve/funct_python_update_elements.F90
-      !||    get_neighbour_surface                    ../engine/source/interfaces/interf/get_neighbour_surface.F90
-      !||    get_neighbour_surface_from_remote_proc   ../engine/source/interfaces/interf/get_neighbour_surface_from_remote_proc.F90
-      !||    init_ghost_shells                        ../engine/source/engine/node_spliting/ghost_shells.F90
-      !||    init_nodal_state                         ../engine/source/interfaces/interf/init_nodal_state.F
-      !||    lag_fxv                                  ../engine/source/tools/lagmul/lag_fxv.F
-      !||    lag_fxvp                                 ../engine/source/tools/lagmul/lag_fxv.F
-      !||    lag_mult                                 ../engine/source/tools/lagmul/lag_mult.F
-      !||    lag_multp                                ../engine/source/tools/lagmul/lag_mult.F
-      !||    python_call_funct_cload_dp               ../engine/source/loads/general/python_call_funct_cload.F90
-      !||    python_call_funct_cload_sp               ../engine/source/loads/general/python_call_funct_cload.F90
-      !||    python_register                          ../engine/source/tools/curve/python_register.F90
-      !||    python_share_memory                      ../engine/source/coupling/python/python_share_memory.F90
-      !||    python_update_nodal_entities             ../common_source/modules/python_mod.F90
-      !||    radioss2                                 ../engine/source/engine/radioss2.F
-      !||    rbe3t1                                   ../engine/source/constraints/general/rbe3/rbe3f.F
-      !||    rbe3v                                    ../engine/source/constraints/general/rbe3/rbe3v.F
-      !||    rdresb                                   ../engine/source/output/restart/rdresb.F
-      !||    resol                                    ../engine/source/engine/resol.F
-      !||    resol_head                               ../engine/source/engine/resol_head.F
-      !||    restalloc                                ../engine/source/output/restart/arralloc.F
-      !||    set_new_node_values                      ../engine/source/engine/node_spliting/detach_node.F90
-      !||    spmd_exch_deleted_surf_edge              ../engine/source/mpi/interfaces/spmd_exch_deleted_surf_edge.F
-      !||    spmd_exch_neighbour_segment              ../engine/source/mpi/interfaces/spmd_exch_neighbour_segment.F90
-      !||    spmd_exchange_ghost_shells               ../engine/source/engine/node_spliting/ghost_shells.F90
-      !||    spmd_exchmsr_idel                        ../engine/source/mpi/interfaces/spmd_exchmsr_idel.F
-      !||    spmd_exchseg_idel                        ../engine/source/mpi/kinematic_conditions/spmd_exchseg_idel.F
-      !||    tagoff3n                                 ../engine/source/interfaces/interf/chkstfn3.F
-      !||    test_jc_shell_detach                     ../engine/source/engine/node_spliting/detach_node.F90
-      !||    user_interface_mod                       ../engine/source/modules/user_interface_mod.F90
-      !||    wrrestp                                  ../engine/source/output/restart/wrrestp.F
-      !||--- uses       -----------------------------------------------------
-      !||    precision_mod                            ../common_source/modules/precision_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    nodal_arrays_mod                         ../common_source/modules/nodal_arrays.F90
+!||--- called by ------------------------------------------------------
+!||    asspar4                                  ../engine/source/assembly/asspar4.F
+!||    check_nan_acc                            ../engine/source/output/outfile/check_nan_acc.F
+!||    chkload                                  ../engine/source/interfaces/chkload.F
+!||    chkstfn3n                                ../engine/source/interfaces/interf/chkstfn3.F
+!||    count_remote_nb_elem_edge                ../engine/source/interfaces/interf/count_remote_nb_elem_edge.F
+!||    coupling_set_interface                   ../engine/source/coupling/coupling_adapter.F90
+!||    coupling_set_mesh                        ../engine/source/coupling/coupling_adapter.F90
+!||    coupling_sync                            ../engine/source/coupling/coupling_adapter.F90
+!||    detach_node                              ../engine/source/engine/node_spliting/detach_node.F90
+!||    detach_node_from_interfaces              ../engine/source/engine/node_spliting/detach_node.F90
+!||    detach_node_from_shells                  ../engine/source/engine/node_spliting/detach_node.F90
+!||    find_edge_from_remote_proc               ../engine/source/interfaces/interf/find_edge_from_remote_proc.F
+!||    find_surface_from_remote_proc            ../engine/source/interfaces/interf/find_surface_from_remote_proc.F
+!||    fixfingeo                                ../engine/source/constraints/general/impvel/fixfingeo.F
+!||    fixvel                                   ../engine/source/constraints/general/impvel/fixvel.F
+!||    force                                    ../engine/source/loads/general/force.F90
+!||    forcefingeo                              ../engine/source/loads/general/forcefingeo.F
+!||    funct_python_update_elements             ../engine/source/tools/curve/funct_python_update_elements.F90
+!||    get_neighbour_surface                    ../engine/source/interfaces/interf/get_neighbour_surface.F90
+!||    get_neighbour_surface_from_remote_proc   ../engine/source/interfaces/interf/get_neighbour_surface_from_remote_proc.F90
+!||    init_ghost_shells                        ../engine/source/engine/node_spliting/ghost_shells.F90
+!||    init_nodal_state                         ../engine/source/interfaces/interf/init_nodal_state.F
+!||    lag_fxv                                  ../engine/source/tools/lagmul/lag_fxv.F
+!||    lag_fxvp                                 ../engine/source/tools/lagmul/lag_fxv.F
+!||    lag_mult                                 ../engine/source/tools/lagmul/lag_mult.F
+!||    lag_multp                                ../engine/source/tools/lagmul/lag_mult.F
+!||    python_call_funct_cload_dp               ../engine/source/loads/general/python_call_funct_cload.F90
+!||    python_call_funct_cload_sp               ../engine/source/loads/general/python_call_funct_cload.F90
+!||    python_register                          ../engine/source/tools/curve/python_register.F90
+!||    python_share_memory                      ../engine/source/coupling/python/python_share_memory.F90
+!||    python_update_nodal_entities             ../common_source/modules/python_mod.F90
+!||    radioss2                                 ../engine/source/engine/radioss2.F
+!||    rbe3t1                                   ../engine/source/constraints/general/rbe3/rbe3f.F
+!||    rbe3v                                    ../engine/source/constraints/general/rbe3/rbe3v.F
+!||    rdresb                                   ../engine/source/output/restart/rdresb.F
+!||    resol                                    ../engine/source/engine/resol.F
+!||    resol_head                               ../engine/source/engine/resol_head.F
+!||    restalloc                                ../engine/source/output/restart/arralloc.F
+!||    set_new_node_values                      ../engine/source/engine/node_spliting/detach_node.F90
+!||    spmd_exch_deleted_surf_edge              ../engine/source/mpi/interfaces/spmd_exch_deleted_surf_edge.F
+!||    spmd_exch_neighbour_segment              ../engine/source/mpi/interfaces/spmd_exch_neighbour_segment.F90
+!||    spmd_exchange_ghost_shells               ../engine/source/engine/node_spliting/ghost_shells.F90
+!||    spmd_exchmsr_idel                        ../engine/source/mpi/interfaces/spmd_exchmsr_idel.F
+!||    spmd_exchseg_idel                        ../engine/source/mpi/kinematic_conditions/spmd_exchseg_idel.F
+!||    tagoff3n                                 ../engine/source/interfaces/interf/chkstfn3.F
+!||    test_jc_shell_detach                     ../engine/source/engine/node_spliting/detach_node.F90
+!||    user_interface_mod                       ../engine/source/modules/user_interface_mod.F90
+!||    wrrestp                                  ../engine/source/output/restart/wrrestp.F
+!||--- uses       -----------------------------------------------------
+!||    precision_mod                            ../common_source/modules/precision_mod.F90
+!||====================================================================
       module nodal_arrays_mod
         use precision_mod, only : wp
         use iso_c_binding, only: C_PTR
@@ -157,11 +157,11 @@
 !                                                   procedures
 ! ======================================================================================================================
        !\details Assign the pointer to the coordinates
-      !||====================================================================
-      !||    assign_ptrx   ../common_source/modules/nodal_arrays.F90
-      !||--- called by ------------------------------------------------------
-      !||    resol         ../engine/source/engine/resol.F
-      !||====================================================================
+!||====================================================================
+!||    assign_ptrx   ../common_source/modules/nodal_arrays.F90
+!||--- called by ------------------------------------------------------
+!||    resol         ../engine/source/engine/resol.F
+!||====================================================================
         subroutine assign_ptrX(ptrX, X, numnod)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
@@ -181,14 +181,14 @@
 
 
 !! \brief Allocate nodal arrays                                                              
-      !||====================================================================
-      !||    allocate_nodal_arrays   ../common_source/modules/nodal_arrays.F90
-      !||--- called by ------------------------------------------------------
-      !||    restalloc               ../engine/source/output/restart/arralloc.F
-      !||--- calls      -----------------------------------------------------
-      !||--- uses       -----------------------------------------------------
-      !||    my_alloc_mod            ../common_source/tools/memory/my_alloc.F90
-      !||====================================================================
+!||====================================================================
+!||    allocate_nodal_arrays   ../common_source/modules/nodal_arrays.F90
+!||--- called by ------------------------------------------------------
+!||    restalloc               ../engine/source/output/restart/arralloc.F
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||    my_alloc_mod            ../common_source/tools/memory/my_alloc.F90
+!||====================================================================
         subroutine allocate_nodal_arrays(arrays, numnod, nthreads, iroddl, iparith, &
           isecut, iisrot, impose_dr, idrot, nrcvvois, sicodt, itherm_fe)
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -338,14 +338,14 @@
 ! ----------------------------------------------------------------------------------------------------------------------
         end subroutine allocate_nodal_arrays
 !! \brief extend nodal arrays                                                              
-      !||====================================================================
-      !||    extend_nodal_arrays   ../common_source/modules/nodal_arrays.F90
-      !||--- called by ------------------------------------------------------
-      !||    detach_node           ../engine/source/engine/node_spliting/detach_node.F90
-      !||--- calls      -----------------------------------------------------
-      !||--- uses       -----------------------------------------------------
-      !||    extend_array_mod      ../common_source/tools/memory/extend_array.F90
-      !||====================================================================
+!||====================================================================
+!||    extend_nodal_arrays   ../common_source/modules/nodal_arrays.F90
+!||--- called by ------------------------------------------------------
+!||    detach_node           ../engine/source/engine/node_spliting/detach_node.F90
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||    extend_array_mod      ../common_source/tools/memory/extend_array.F90
+!||====================================================================
         subroutine extend_nodal_arrays(arrays, numnod)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
@@ -453,16 +453,16 @@
 
 
 !! \brief extend nodal arrays                                                              
-      !||====================================================================
-      !||    init_global_node_id   ../common_source/modules/nodal_arrays.F90
-      !||--- called by ------------------------------------------------------
-      !||    rdresb                ../engine/source/output/restart/rdresb.F
-      !||--- calls      -----------------------------------------------------
-      !||    reserve_capacity      ../common_source/tools/container/umap_mod.F90
-      !||--- uses       -----------------------------------------------------
-      !||    spmd_mod              ../engine/source/mpi/spmd_mod.F90
-      !||    umap_mod              ../common_source/tools/container/umap_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    init_global_node_id   ../common_source/modules/nodal_arrays.F90
+!||--- called by ------------------------------------------------------
+!||    rdresb                ../engine/source/output/restart/rdresb.F
+!||--- calls      -----------------------------------------------------
+!||    reserve_capacity      ../common_source/tools/container/umap_mod.F90
+!||--- uses       -----------------------------------------------------
+!||    spmd_mod              ../engine/source/mpi/spmd_mod.F90
+!||    umap_mod              ../common_source/tools/container/umap_mod.F90
+!||====================================================================
         subroutine init_global_node_id(arrays, numnod)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
@@ -500,11 +500,11 @@
         end subroutine init_global_node_id
 
 
-      !||====================================================================
-      !||    get_local_node_id   ../common_source/modules/nodal_arrays.F90
-      !||--- uses       -----------------------------------------------------
-      !||    umap_mod            ../common_source/tools/container/umap_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    get_local_node_id   ../common_source/modules/nodal_arrays.F90
+!||--- uses       -----------------------------------------------------
+!||    umap_mod            ../common_source/tools/container/umap_mod.F90
+!||====================================================================
         function get_local_node_id(arrays, global_id) result(local_id)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules

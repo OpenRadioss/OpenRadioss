@@ -20,16 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    blero2        ../engine/source/ale/bimat/blero2.F
-      !||--- called by ------------------------------------------------------
-      !||    bforc2        ../engine/source/ale/bimat/bforc2.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg        ../engine/source/output/message/message.F
-      !||    arret         ../engine/source/system/arret.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod   ../engine/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    blero2        ../engine/source/ale/bimat/blero2.F
+!||--- called by ------------------------------------------------------
+!||    bforc2        ../engine/source/ale/bimat/bforc2.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg        ../engine/source/output/message/message.F
+!||    arret         ../engine/source/system/arret.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod   ../engine/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE BLERO2(ALPH,VOLO,RHON,FLUX,FLU1,OFF,PM,NGL,VOLN,
      .     AIRE, D1, D2, D3, D4, D5, D6, VD2, DVOL, 
      .     VY1, VY2, VY3, VY4,

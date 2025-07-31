@@ -21,16 +21,16 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 
-      !||====================================================================
-      !||    spmd_box_limit_reduction   ../engine/source/mpi/interfaces/spmd_box_limit_reduction.F
-      !||--- called by ------------------------------------------------------
-      !||    inter_init_component       ../engine/source/interfaces/generic/inter_init_component.F90
-      !||    inter_prepare_sort         ../engine/source/interfaces/generic/inter_prepare_sort.F
-      !||--- calls      -----------------------------------------------------
-      !||--- uses       -----------------------------------------------------
-      !||    inter_struct_mod           ../engine/share/modules/inter_struct_mod.F
-      !||    spmd_mod                   ../engine/source/mpi/spmd_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    spmd_box_limit_reduction   ../engine/source/mpi/interfaces/spmd_box_limit_reduction.F
+!||--- called by ------------------------------------------------------
+!||    inter_init_component       ../engine/source/interfaces/generic/inter_init_component.F90
+!||    inter_prepare_sort         ../engine/source/interfaces/generic/inter_prepare_sort.F
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||    inter_struct_mod           ../engine/share/modules/inter_struct_mod.F
+!||    spmd_mod                   ../engine/source/mpi/spmd_mod.F90
+!||====================================================================
         SUBROUTINE SPMD_BOX_LIMIT_REDUCTION(NB_INTER_SORTED,box_limit)
 !$COMMENT
 !       SPMD_GRID_LIMIT_REDUCTION description :

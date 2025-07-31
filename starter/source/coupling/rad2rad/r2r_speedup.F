@@ -26,17 +26,17 @@ Cbm|-- called by -----------
 Cbm|        R2R_GROUP                       src/rad2r/r2r_group.F          
 Cbm|-- calls ---------------
 Cbm|====================================================================
-      !||====================================================================
-      !||    r2r_speedup      ../starter/source/coupling/rad2rad/r2r_speedup.F
-      !||--- called by ------------------------------------------------------
-      !||    lectur           ../starter/source/starter/lectur.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg           ../starter/source/output/message/message.F
-      !||    find_dt_engine   ../starter/source/coupling/rad2rad/r2r_speedup.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod      ../starter/share/message_module/message_mod.F
-      !||    r2r_mod          ../starter/share/modules1/r2r_mod.F
-      !||====================================================================
+!||====================================================================
+!||    r2r_speedup      ../starter/source/coupling/rad2rad/r2r_speedup.F
+!||--- called by ------------------------------------------------------
+!||    lectur           ../starter/source/starter/lectur.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg           ../starter/source/output/message/message.F
+!||    find_dt_engine   ../starter/source/coupling/rad2rad/r2r_speedup.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod      ../starter/share/message_module/message_mod.F
+!||    r2r_mod          ../starter/share/modules1/r2r_mod.F
+!||====================================================================
       SUBROUTINE R2R_SPEEDUP(DTELEM,DTNODA,DT_R2R,COST_R2R,ISOLOFF,
      .                       ISHEOFF,ITRUOFF ,IPOUOFF ,IRESOFF ,ITRIOFF,
      .                       IQUAOFF)
@@ -140,15 +140,15 @@ Cbm|-- called by -----------
 Cbm|        R2R_GROUP                       src/rad2r/r2r_group.F          
 Cbm|-- calls ---------------
 Cbm|====================================================================
-      !||====================================================================
-      !||    find_dt_engine   ../starter/source/coupling/rad2rad/r2r_speedup.F
-      !||--- called by ------------------------------------------------------
-      !||    r2r_speedup      ../starter/source/coupling/rad2rad/r2r_speedup.F
-      !||--- calls      -----------------------------------------------------
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod      ../starter/share/message_module/message_mod.F
-      !||    r2r_mod          ../starter/share/modules1/r2r_mod.F
-      !||====================================================================
+!||====================================================================
+!||    find_dt_engine   ../starter/source/coupling/rad2rad/r2r_speedup.F
+!||--- called by ------------------------------------------------------
+!||    r2r_speedup      ../starter/source/coupling/rad2rad/r2r_speedup.F
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||    message_mod      ../starter/share/message_module/message_mod.F
+!||    r2r_mod          ../starter/share/modules1/r2r_mod.F
+!||====================================================================
       SUBROUTINE FIND_DT_ENGINE(DTELEM,DTNODA,DT,FLG_CHK,FLG_CTL,
      .                         ISOLOFF,ISHEOFF,ITRUOFF ,IPOUOFF ,IRESOFF ,
      .                         ITRIOFF,IQUAOFF)

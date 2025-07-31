@@ -21,17 +21,17 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
-      !||====================================================================
-      !||    chkload             ../engine/source/interfaces/chkload.F
-      !||--- called by ------------------------------------------------------
-      !||    resol               ../engine/source/engine/resol.F
-      !||--- calls      -----------------------------------------------------
-      !||    my_barrier          ../engine/source/system/machine.F
-      !||    spmd_exchseg_idel   ../engine/source/mpi/kinematic_conditions/spmd_exchseg_idel.F
-      !||    spmd_init_idel      ../engine/source/mpi/interfaces/spmd_init_idel.F
-      !||--- uses       -----------------------------------------------------
-      !||    nodal_arrays_mod    ../common_source/modules/nodal_arrays.F90
-      !||====================================================================
+!||====================================================================
+!||    chkload             ../engine/source/interfaces/chkload.F
+!||--- called by ------------------------------------------------------
+!||    resol               ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
+!||    my_barrier          ../engine/source/system/machine.F
+!||    spmd_exchseg_idel   ../engine/source/mpi/kinematic_conditions/spmd_exchseg_idel.F
+!||    spmd_init_idel      ../engine/source/mpi/interfaces/spmd_init_idel.F
+!||--- uses       -----------------------------------------------------
+!||    nodal_arrays_mod    ../common_source/modules/nodal_arrays.F90
+!||====================================================================
       SUBROUTINE CHKLOAD(
      1    IB     ,IXS     ,IXQ     ,IXC    ,IXT     ,IXP     ,
      2    IXR    ,IXTG    ,ITAG   ,ITASK   ,ITAGL   ,ITAB    ,

@@ -22,15 +22,15 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C LOI ELASTIQUE 8 PTS D'INTEGRATION
 C***********************************************
-      !||====================================================================
-      !||    m1law8         ../engine/source/materials/mat/mat001/m1law8.F
-      !||--- called by ------------------------------------------------------
-      !||    mmain8         ../engine/source/materials/mat_share/mmain8.F
-      !||--- calls      -----------------------------------------------------
-      !||    mqvisc8        ../engine/source/materials/mat_share/mqvisc8.F
-      !||--- uses       -----------------------------------------------------
-      !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    m1law8         ../engine/source/materials/mat/mat001/m1law8.F
+!||--- called by ------------------------------------------------------
+!||    mmain8         ../engine/source/materials/mat_share/mmain8.F
+!||--- calls      -----------------------------------------------------
+!||    mqvisc8        ../engine/source/materials/mat_share/mqvisc8.F
+!||--- uses       -----------------------------------------------------
+!||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||====================================================================
       SUBROUTINE M1LAW8(
      1   PM,      OFF,     SIG,     EINT,
      2   RHO,     QOLD,    VOL,     STIFN,

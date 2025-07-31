@@ -20,26 +20,26 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    intstamp_glob_mod     ../engine/share/modules/intstamp_glob_mod.F
-      !||--- called by ------------------------------------------------------
-      !||    i21buce               ../engine/source/interfaces/intsort/i21buce.F
-      !||    i21cor3               ../engine/source/interfaces/int21/i21cor3.F
-      !||    lectur                ../engine/source/input/lectur.F
-      !||    radioss2              ../engine/source/engine/radioss2.F
-      !||    rdresb                ../engine/source/output/restart/rdresb.F
-      !||    resol                 ../engine/source/engine/resol.F
-      !||    restalloc             ../engine/source/output/restart/arralloc.F
-      !||    spmd_i21fthecom       ../engine/source/mpi/interfaces/send_cand.F
-      !||    spmd_i21tempcom       ../engine/source/mpi/interfaces/send_cand.F
-      !||    spmd_ifront_stamp     ../engine/source/mpi/interfaces/send_cand.F
-      !||    spmd_initfi           ../engine/source/mpi/interfaces/spmd_i7tool.F
-      !||    spmd_savefi           ../engine/source/mpi/interfaces/spmd_i7tool.F
-      !||    update_struct_int21   ../engine/source/interfaces/int21/update_struct_int21.F
-      !||    wrrestp               ../engine/source/output/restart/wrrestp.F
-      !||--- uses       -----------------------------------------------------
-      !||    intstamp_mod          ../engine/share/modules/intstamp_mod.F
-      !||====================================================================
+!||====================================================================
+!||    intstamp_glob_mod     ../engine/share/modules/intstamp_glob_mod.F
+!||--- called by ------------------------------------------------------
+!||    i21buce               ../engine/source/interfaces/intsort/i21buce.F
+!||    i21cor3               ../engine/source/interfaces/int21/i21cor3.F
+!||    lectur                ../engine/source/input/lectur.F
+!||    radioss2              ../engine/source/engine/radioss2.F
+!||    rdresb                ../engine/source/output/restart/rdresb.F
+!||    resol                 ../engine/source/engine/resol.F
+!||    restalloc             ../engine/source/output/restart/arralloc.F
+!||    spmd_i21fthecom       ../engine/source/mpi/interfaces/send_cand.F
+!||    spmd_i21tempcom       ../engine/source/mpi/interfaces/send_cand.F
+!||    spmd_ifront_stamp     ../engine/source/mpi/interfaces/send_cand.F
+!||    spmd_initfi           ../engine/source/mpi/interfaces/spmd_i7tool.F
+!||    spmd_savefi           ../engine/source/mpi/interfaces/spmd_i7tool.F
+!||    update_struct_int21   ../engine/source/interfaces/int21/update_struct_int21.F
+!||    wrrestp               ../engine/source/output/restart/wrrestp.F
+!||--- uses       -----------------------------------------------------
+!||    intstamp_mod          ../engine/share/modules/intstamp_mod.F
+!||====================================================================
       MODULE INTSTAMP_GLOB_MOD
 C-----------------------------------------------
 C   M o d u l e s

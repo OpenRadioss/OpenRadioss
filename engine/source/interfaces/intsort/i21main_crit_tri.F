@@ -20,16 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    i21main_crit_tri   ../engine/source/interfaces/intsort/i21main_crit_tri.F
-      !||--- called by ------------------------------------------------------
-      !||    inttri             ../engine/source/interfaces/intsort/inttri.F
-      !||--- calls      -----------------------------------------------------
-      !||    i21buce_crit       ../engine/source/interfaces/intsort/i21buce_crit.F
-      !||--- uses       -----------------------------------------------------
-      !||    intbufdef_mod      ../common_source/modules/interfaces/intbufdef_mod.F90
-      !||    intstamp_mod       ../engine/share/modules/intstamp_mod.F
-      !||====================================================================
+!||====================================================================
+!||    i21main_crit_tri   ../engine/source/interfaces/intsort/i21main_crit_tri.F
+!||--- called by ------------------------------------------------------
+!||    inttri             ../engine/source/interfaces/intsort/inttri.F
+!||--- calls      -----------------------------------------------------
+!||    i21buce_crit       ../engine/source/interfaces/intsort/i21buce_crit.F
+!||--- uses       -----------------------------------------------------
+!||    intbufdef_mod      ../common_source/modules/interfaces/intbufdef_mod.F90
+!||    intstamp_mod       ../engine/share/modules/intstamp_mod.F
+!||====================================================================
       SUBROUTINE I21MAIN_CRIT_TRI(
      1  IPARI  ,INTBUF_TAB     ,X      ,NIN    ,
      2  ITASK  ,V      ,XSLV_L ,XMSR_L ,VSLV_L ,

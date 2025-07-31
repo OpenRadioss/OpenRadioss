@@ -22,12 +22,12 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
 C  119      SUBROUTINE I11GMX3(X,IRECT,I,GAPMAX)
-      !||====================================================================
-      !||    i11gmx3    ../starter/source/interfaces/inter3d1/i11gmx3.F
-      !||--- called by ------------------------------------------------------
-      !||    i11sti3    ../starter/source/interfaces/inter3d1/i11sti3.F
-      !||    i20sti3e   ../starter/source/interfaces/inter3d1/i20sti3.F
-      !||====================================================================
+!||====================================================================
+!||    i11gmx3    ../starter/source/interfaces/inter3d1/i11gmx3.F
+!||--- called by ------------------------------------------------------
+!||    i11sti3    ../starter/source/interfaces/inter3d1/i11sti3.F
+!||    i20sti3e   ../starter/source/interfaces/inter3d1/i20sti3.F
+!||====================================================================
       SUBROUTINE I11GMX3(X,IRECT,I,GAPMAX,XL2)
 C
 C-----------------------------------------------

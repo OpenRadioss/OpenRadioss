@@ -20,18 +20,18 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    joint_mod          ../starter/share/modules1/joint_mod.F
-      !||--- called by ------------------------------------------------------
-      !||    ddsplit            ../starter/source/restart/ddsplit/ddsplit.F
-      !||    deallocate_joint   ../starter/source/constraints/general/cyl_joint/deallocate_joint.F
-      !||    hm_read_cyljoint   ../starter/source/constraints/general/cyl_joint/hm_read_cyljoint.F
-      !||    init_joint         ../starter/source/constraints/general/cyl_joint/init_joint.F
-      !||    lectur             ../starter/source/starter/lectur.F
-      !||    print_joint        ../starter/source/constraints/general/cyl_joint/split_joint.F
-      !||    split_joint        ../starter/source/constraints/general/cyl_joint/split_joint.F
-      !||    write_joint        ../starter/source/constraints/general/cyl_joint/write_joint.F
-      !||====================================================================
+!||====================================================================
+!||    joint_mod          ../starter/share/modules1/joint_mod.F
+!||--- called by ------------------------------------------------------
+!||    ddsplit            ../starter/source/restart/ddsplit/ddsplit.F
+!||    deallocate_joint   ../starter/source/constraints/general/cyl_joint/deallocate_joint.F
+!||    hm_read_cyljoint   ../starter/source/constraints/general/cyl_joint/hm_read_cyljoint.F
+!||    init_joint         ../starter/source/constraints/general/cyl_joint/init_joint.F
+!||    lectur             ../starter/source/starter/lectur.F
+!||    print_joint        ../starter/source/constraints/general/cyl_joint/split_joint.F
+!||    split_joint        ../starter/source/constraints/general/cyl_joint/split_joint.F
+!||    write_joint        ../starter/source/constraints/general/cyl_joint/write_joint.F
+!||====================================================================
         MODULE JOINT_MOD
 !$COMMENT
 !       JOINT_MOD description

@@ -20,17 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    cmatini4               ../starter/source/materials/mat_share/cmatini4.F
-      !||--- called by ------------------------------------------------------
-      !||    cbainit3               ../starter/source/elements/shell/coqueba/cbainit3.F
-      !||    cdkinit3               ../starter/source/elements/sh3n/coquedk/cdkinit3.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg                 ../starter/source/output/message/message.F
-      !||    fretitl2               ../starter/source/starter/freform.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod            ../starter/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    cmatini4               ../starter/source/materials/mat_share/cmatini4.F
+!||--- called by ------------------------------------------------------
+!||    cbainit3               ../starter/source/elements/shell/coqueba/cbainit3.F
+!||    cdkinit3               ../starter/source/elements/sh3n/coquedk/cdkinit3.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                 ../starter/source/output/message/message.F
+!||    fretitl2               ../starter/source/starter/freform.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod            ../starter/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE CMATINI4(ELBUF_STR,
      1           JFT    ,JLT    ,NFT   ,NEL    ,ISTRAIN ,
      2           SIGSH  ,NSIGSH ,NUMEL ,IX     ,NIX     ,

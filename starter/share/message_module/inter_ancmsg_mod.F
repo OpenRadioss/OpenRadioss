@@ -20,12 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    inter_ancmsg_mod       ../starter/share/message_module/inter_ancmsg_mod.F
-      !||--- called by ------------------------------------------------------
-      !||    message_mod            ../starter/share/message_module/message_mod.F
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    inter_ancmsg_mod       ../starter/share/message_module/inter_ancmsg_mod.F
+!||--- called by ------------------------------------------------------
+!||    message_mod            ../starter/share/message_module/message_mod.F
+!||--- uses       -----------------------------------------------------
+!||====================================================================
       MODULE INTER_ANCMSG_MOD
       INTERFACE
       SUBROUTINE ANCMSG(MSGID ,MSGTYPE,ANMODE,

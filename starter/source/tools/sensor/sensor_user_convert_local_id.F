@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    sensor_user_convert_local_id   ../starter/source/tools/sensor/sensor_user_convert_local_id.F
-      !||--- called by ------------------------------------------------------
-      !||    lectur                         ../starter/source/starter/lectur.F
-      !||--- calls      -----------------------------------------------------
-      !||    usr2sys                        ../starter/source/system/sysfus.F
-      !||====================================================================
+!||====================================================================
+!||    sensor_user_convert_local_id   ../starter/source/tools/sensor/sensor_user_convert_local_id.F
+!||--- called by ------------------------------------------------------
+!||    lectur                         ../starter/source/starter/lectur.F
+!||--- calls      -----------------------------------------------------
+!||    usr2sys                        ../starter/source/system/sysfus.F
+!||====================================================================
         SUBROUTINE SENSOR_USER_CONVERT_LOCAL_ID(ITABM1,POINTER_ENTITY,NUMBER_ENTITY,LIST_ENTITY,MODE0,IPART)
 !$COMMENT
 !       SENSOR_USER_CONVERT_LOCAL_I description

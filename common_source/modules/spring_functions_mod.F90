@@ -21,11 +21,11 @@
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 
-      !||====================================================================
-      !||    spring_functions_mod   ../common_source/modules/spring_functions_mod.F90
-      !||--- uses       -----------------------------------------------------
-      !||    precision_mod          ../common_source/modules/precision_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    spring_functions_mod   ../common_source/modules/spring_functions_mod.F90
+!||--- uses       -----------------------------------------------------
+!||    precision_mod          ../common_source/modules/precision_mod.F90
+!||====================================================================
        module spring_functions_mod
         use precision_mod, only : WP
         implicit none

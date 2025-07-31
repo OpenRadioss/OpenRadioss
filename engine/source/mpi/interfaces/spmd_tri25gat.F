@@ -20,18 +20,18 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    spmd_tri25gat   ../engine/source/mpi/interfaces/spmd_tri25gat.F
-      !||--- called by ------------------------------------------------------
-      !||    i25main_tri     ../engine/source/interfaces/intsort/i25main_tri.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg          ../engine/source/output/message/message.F
-      !||    arret           ../engine/source/system/arret.F
-      !||--- uses       -----------------------------------------------------
-      !||    h3d_mod         ../engine/share/modules/h3d_mod.F
-      !||    message_mod     ../engine/share/message_module/message_mod.F
-      !||    tri7box         ../engine/share/modules/tri7box.F
-      !||====================================================================
+!||====================================================================
+!||    spmd_tri25gat   ../engine/source/mpi/interfaces/spmd_tri25gat.F
+!||--- called by ------------------------------------------------------
+!||    i25main_tri     ../engine/source/interfaces/intsort/i25main_tri.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg          ../engine/source/output/message/message.F
+!||    arret           ../engine/source/system/arret.F
+!||--- uses       -----------------------------------------------------
+!||    h3d_mod         ../engine/share/modules/h3d_mod.F
+!||    message_mod     ../engine/share/message_module/message_mod.F
+!||    tri7box         ../engine/share/modules/tri7box.F
+!||====================================================================
       SUBROUTINE SPMD_TRI25GAT(RESULT,NSN ,CAND_N ,I_STOK,NIN,
      2                        IGAP  ,NSNR,MULTIMP,ITY,INTTH ,
      3                        ILEV  ,NSNFIOLD,IPARI,NSNROLD ,

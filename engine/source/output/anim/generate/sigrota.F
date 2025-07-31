@@ -20,16 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    sigrota        ../engine/source/output/anim/generate/sigrota.F
-      !||--- called by ------------------------------------------------------
-      !||    dfuncc_ply     ../engine/source/output/anim/generate/dfuncc_ply.F
-      !||    tensorc_ply    ../engine/source/output/anim/generate/tensorc_ply.F
-      !||--- calls      -----------------------------------------------------
-      !||    urotov         ../engine/source/airbag/uroto.F
-      !||--- uses       -----------------------------------------------------
-      !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    sigrota        ../engine/source/output/anim/generate/sigrota.F
+!||--- called by ------------------------------------------------------
+!||    dfuncc_ply     ../engine/source/output/anim/generate/dfuncc_ply.F
+!||    tensorc_ply    ../engine/source/output/anim/generate/tensorc_ply.F
+!||--- calls      -----------------------------------------------------
+!||    urotov         ../engine/source/airbag/uroto.F
+!||--- uses       -----------------------------------------------------
+!||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||====================================================================
       SUBROUTINE SIGROTA(JFT     ,JLT     ,NFT     ,IPT      ,NEL      ,
      2                   NS1     ,X       ,IXC     ,ELBUF_STR,
      3                   SIG     ,ITY     ,IXTG    ,IHBE     ,ISTRAIN  ,

@@ -21,12 +21,12 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 
-      !||====================================================================
-      !||    spclasv   ../starter/source/elements/sph/spclasv.F
-      !||--- called by ------------------------------------------------------
-      !||    sptri     ../starter/source/elements/sph/sptri.F
-      !||--- calls      -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    spclasv   ../starter/source/elements/sph/spclasv.F
+!||--- called by ------------------------------------------------------
+!||    sptri     ../starter/source/elements/sph/sptri.F
+!||--- calls      -----------------------------------------------------
+!||====================================================================
       SUBROUTINE SPCLASV(X      ,SPBUF ,KXSP   ,IXSP   ,NOD2SP    ,
      1                   WASPACT,MYSPATRUE,IREDUCE,KREDUCE)
 C-----------------------------------------------

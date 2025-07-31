@@ -20,17 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    outp_s_t              ../engine/source/output/sty/outp_s_t.F
-      !||--- called by ------------------------------------------------------
-      !||    genoutp               ../engine/source/output/sty/genoutp.F
-      !||--- calls      -----------------------------------------------------
-      !||    initbuf               ../engine/share/resol/initbuf.F
-      !||    spmd_rgather9_1comm   ../engine/source/mpi/interfaces/spmd_outp.F
-      !||--- uses       -----------------------------------------------------
-      !||    elbufdef_mod          ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||    initbuf_mod           ../engine/share/resol/initbuf.F
-      !||====================================================================
+!||====================================================================
+!||    outp_s_t              ../engine/source/output/sty/outp_s_t.F
+!||--- called by ------------------------------------------------------
+!||    genoutp               ../engine/source/output/sty/genoutp.F
+!||--- calls      -----------------------------------------------------
+!||    initbuf               ../engine/share/resol/initbuf.F
+!||    spmd_rgather9_1comm   ../engine/source/mpi/interfaces/spmd_outp.F
+!||--- uses       -----------------------------------------------------
+!||    elbufdef_mod          ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    initbuf_mod           ../engine/share/resol/initbuf.F
+!||====================================================================
       SUBROUTINE OUTP_S_T(NBX   ,KEY,TEXT,ELBUF_TAB,IPARG,
      .                    DD_IAD,SIZLOC,SIZP0,SIZ_WR)
 C-----------------------------------------------
@@ -180,17 +180,17 @@ c-----------
       RETURN
       END
 
-      !||====================================================================
-      !||    outp_s_tt             ../engine/source/output/sty/outp_s_t.F
-      !||--- called by ------------------------------------------------------
-      !||    genoutp               ../engine/source/output/sty/genoutp.F
-      !||--- calls      -----------------------------------------------------
-      !||    initbuf               ../engine/share/resol/initbuf.F
-      !||    spmd_rgather9_1comm   ../engine/source/mpi/interfaces/spmd_outp.F
-      !||--- uses       -----------------------------------------------------
-      !||    elbufdef_mod          ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||    initbuf_mod           ../engine/share/resol/initbuf.F
-      !||====================================================================
+!||====================================================================
+!||    outp_s_tt             ../engine/source/output/sty/outp_s_t.F
+!||--- called by ------------------------------------------------------
+!||    genoutp               ../engine/source/output/sty/genoutp.F
+!||--- calls      -----------------------------------------------------
+!||    initbuf               ../engine/share/resol/initbuf.F
+!||    spmd_rgather9_1comm   ../engine/source/mpi/interfaces/spmd_outp.F
+!||--- uses       -----------------------------------------------------
+!||    elbufdef_mod          ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    initbuf_mod           ../engine/share/resol/initbuf.F
+!||====================================================================
       SUBROUTINE OUTP_S_TT(NBX   ,KEY ,TEXT,ELBUF_TAB,IPARG,
      2                    DD_IAD  ,IPM ,IXS,SIZLOC,SIZP0,SIZ_WR )
 C-----------------------------------------------
@@ -1004,14 +1004,14 @@ c-------------------------------
 C-----------              
       RETURN
       END
-      !||====================================================================
-      !||    count_arsz_st   ../engine/source/output/sty/outp_s_t.F
-      !||--- called by ------------------------------------------------------
-      !||    genoutp         ../engine/source/output/sty/genoutp.F
-      !||    outp_arsz_st    ../engine/source/mpi/interfaces/spmd_outp.F
-      !||--- uses       -----------------------------------------------------
-      !||    elbufdef_mod    ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    count_arsz_st   ../engine/source/output/sty/outp_s_t.F
+!||--- called by ------------------------------------------------------
+!||    genoutp         ../engine/source/output/sty/genoutp.F
+!||    outp_arsz_st    ../engine/source/mpi/interfaces/spmd_outp.F
+!||--- uses       -----------------------------------------------------
+!||    elbufdef_mod    ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||====================================================================
       SUBROUTINE COUNT_ARSZ_ST(IPARG,DD_IAD,WASZ,SZP0)
 C-----------------------------------------------
 C   M o d u l e s

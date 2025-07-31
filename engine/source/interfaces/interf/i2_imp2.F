@@ -20,17 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    int2_imp2       ../engine/source/interfaces/interf/i2_imp2.F
-      !||--- called by ------------------------------------------------------
-      !||    i2_impd         ../engine/source/interfaces/interf/i2_impd.F
-      !||--- calls      -----------------------------------------------------
-      !||    i2recu0         ../engine/source/interfaces/interf/i2_imp2.F
-      !||    i2recu1         ../engine/source/interfaces/interf/i2_imp2.F
-      !||    i2recu2         ../engine/source/interfaces/interf/i2_imp2.F
-      !||--- uses       -----------------------------------------------------
-      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    int2_imp2       ../engine/source/interfaces/interf/i2_imp2.F
+!||--- called by ------------------------------------------------------
+!||    i2_impd         ../engine/source/interfaces/interf/i2_impd.F
+!||--- calls      -----------------------------------------------------
+!||    i2recu0         ../engine/source/interfaces/interf/i2_imp2.F
+!||    i2recu1         ../engine/source/interfaces/interf/i2_imp2.F
+!||    i2recu2         ../engine/source/interfaces/interf/i2_imp2.F
+!||--- uses       -----------------------------------------------------
+!||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
+!||====================================================================
       SUBROUTINE INT2_IMP2(IPARI,INTBUF_TAB,X    ,
      .                   MS  ,IN   ,WEIGHT  ,NDOF ,D    ,DR  )
 C-----------------------------------------------
@@ -88,14 +88,14 @@ C  version spmd avec plus d'un proc nsn = nsn_loc & nmn = nmn_loc
 C
       RETURN
       END
-      !||====================================================================
-      !||    i2recu0     ../engine/source/interfaces/interf/i2_imp2.F
-      !||--- called by ------------------------------------------------------
-      !||    int2_imp2   ../engine/source/interfaces/interf/i2_imp2.F
-      !||--- calls      -----------------------------------------------------
-      !||    velrot      ../engine/source/constraints/general/rbe2/rbe2v.F
-      !||    zero1       ../engine/source/system/zero.F
-      !||====================================================================
+!||====================================================================
+!||    i2recu0     ../engine/source/interfaces/interf/i2_imp2.F
+!||--- called by ------------------------------------------------------
+!||    int2_imp2   ../engine/source/interfaces/interf/i2_imp2.F
+!||--- calls      -----------------------------------------------------
+!||    velrot      ../engine/source/constraints/general/rbe2/rbe2v.F
+!||    zero1       ../engine/source/system/zero.F
+!||====================================================================
       SUBROUTINE I2RECU0(NSN,NMN,IRECT,CRST,MSR ,
      1                  NSV,IRTL,MS    ,X  ,WEIGHT,
      2                  NDOF, D  ,DR  )
@@ -212,13 +212,13 @@ C-------NDOF(M)> 3 comme rigid body---
 C
       RETURN
       END
-      !||====================================================================
-      !||    i2recu1     ../engine/source/interfaces/interf/i2_imp2.F
-      !||--- called by ------------------------------------------------------
-      !||    int2_imp2   ../engine/source/interfaces/interf/i2_imp2.F
-      !||--- calls      -----------------------------------------------------
-      !||    i2matc      ../engine/source/interfaces/interf/i2_imp1.F
-      !||====================================================================
+!||====================================================================
+!||    i2recu1     ../engine/source/interfaces/interf/i2_imp2.F
+!||--- called by ------------------------------------------------------
+!||    int2_imp2   ../engine/source/interfaces/interf/i2_imp2.F
+!||--- calls      -----------------------------------------------------
+!||    i2matc      ../engine/source/interfaces/interf/i2_imp1.F
+!||====================================================================
       SUBROUTINE I2RECU1(NSN,NMN,IRECT,DPARA,MSR ,
      1                  NSV,IRTL,MS    ,X  ,WEIGHT,
      2                  NDOF, D  ,DR  )
@@ -275,15 +275,15 @@ C-------recupere salve dis : in function of main's translation--
 C
       RETURN
       END      
-      !||====================================================================
-      !||    i2recu2     ../engine/source/interfaces/interf/i2_imp2.F
-      !||--- called by ------------------------------------------------------
-      !||    int2_imp2   ../engine/source/interfaces/interf/i2_imp2.F
-      !||--- calls      -----------------------------------------------------
-      !||    i2matc      ../engine/source/interfaces/interf/i2_imp1.F
-      !||    velrot      ../engine/source/constraints/general/rbe2/rbe2v.F
-      !||    zero1       ../engine/source/system/zero.F
-      !||====================================================================
+!||====================================================================
+!||    i2recu2     ../engine/source/interfaces/interf/i2_imp2.F
+!||--- called by ------------------------------------------------------
+!||    int2_imp2   ../engine/source/interfaces/interf/i2_imp2.F
+!||--- calls      -----------------------------------------------------
+!||    i2matc      ../engine/source/interfaces/interf/i2_imp1.F
+!||    velrot      ../engine/source/constraints/general/rbe2/rbe2v.F
+!||    zero1       ../engine/source/system/zero.F
+!||====================================================================
       SUBROUTINE I2RECU2(NSN,NMN,IRECT,DPARA,MSR ,
      1                  NSV,IRTL,MS    ,X  ,WEIGHT,
      2                  NDOF, D  ,DR  )
@@ -373,12 +373,12 @@ C-------recupere salve dis : in function of main's translation--
 C
       RETURN
       END
-      !||====================================================================
-      !||    i2_frrd1   ../engine/source/interfaces/interf/i2_imp2.F
-      !||--- called by ------------------------------------------------------
-      !||    fr_u2dd    ../engine/source/mpi/implicit/imp_fri.F
-      !||    imp3_u2x   ../engine/source/airbag/monv_imp0.F
-      !||====================================================================
+!||====================================================================
+!||    i2_frrd1   ../engine/source/interfaces/interf/i2_imp2.F
+!||--- called by ------------------------------------------------------
+!||    fr_u2dd    ../engine/source/mpi/implicit/imp_fri.F
+!||    imp3_u2x   ../engine/source/airbag/monv_imp0.F
+!||====================================================================
       SUBROUTINE I2_FRRD1(X   ,IRECT,DPARA ,NSV ,IRTL ,
      1                    D   ,II   )
 C-----------------------------------------------
@@ -467,12 +467,12 @@ C
 C
       RETURN
       END
-      !||====================================================================
-      !||    i2_frrd0   ../engine/source/interfaces/interf/i2_imp2.F
-      !||--- called by ------------------------------------------------------
-      !||    fr_u2dd    ../engine/source/mpi/implicit/imp_fri.F
-      !||    imp3_u2x   ../engine/source/airbag/monv_imp0.F
-      !||====================================================================
+!||====================================================================
+!||    i2_frrd0   ../engine/source/interfaces/interf/i2_imp2.F
+!||--- called by ------------------------------------------------------
+!||    fr_u2dd    ../engine/source/mpi/implicit/imp_fri.F
+!||    imp3_u2x   ../engine/source/airbag/monv_imp0.F
+!||====================================================================
       SUBROUTINE I2_FRRD0(X   ,IRECT,CRST  ,NSV  ,IRTL ,
      1                    D   ,DR   ,II    ,NDOF )
 C-----------------------------------------------

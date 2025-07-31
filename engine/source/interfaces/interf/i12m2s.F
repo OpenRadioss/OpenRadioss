@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    i12m2s       ../engine/source/interfaces/interf/i12m2s.F
-      !||--- called by ------------------------------------------------------
-      !||    intti12a     ../engine/source/interfaces/interf/intti12.F
-      !||--- uses       -----------------------------------------------------
-      !||    ale_mod      ../common_source/modules/ale/ale_mod.F
-      !||    segvar_mod   ../engine/share/modules/segvar_mod.F
-      !||====================================================================
+!||====================================================================
+!||    i12m2s       ../engine/source/interfaces/interf/i12m2s.F
+!||--- called by ------------------------------------------------------
+!||    intti12a     ../engine/source/interfaces/interf/intti12.F
+!||--- uses       -----------------------------------------------------
+!||    ale_mod      ../common_source/modules/ale/ale_mod.F
+!||    segvar_mod   ../engine/share/modules/segvar_mod.F
+!||====================================================================
       SUBROUTINE I12M2S(NSN,IRECTS,IRTL,NODVAR,NRTM,NRTS,
      .                  ISEGM,ISEGS,SEGVAR,JCODV)
 C-----------------------------------------------

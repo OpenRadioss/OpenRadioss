@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    sigeps22g      ../engine/source/materials/mat/mat022/sigeps22g.F
-      !||--- called by ------------------------------------------------------
-      !||    mulawglc       ../engine/source/materials/mat_share/mulawglc.F
-      !||--- uses       -----------------------------------------------------
-      !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    sigeps22g      ../engine/source/materials/mat/mat022/sigeps22g.F
+!||--- called by ------------------------------------------------------
+!||    mulawglc       ../engine/source/materials/mat_share/mulawglc.F
+!||--- uses       -----------------------------------------------------
+!||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||====================================================================
       SUBROUTINE SIGEPS22G(ELBUF_STR,
      1            JFT     ,JLT     ,PM      ,FOR     ,MOM      ,
      2            THK     ,OFF     ,DT1C    ,NU      ,THK0     ,

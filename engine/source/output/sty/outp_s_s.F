@@ -20,17 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    outp_s_s              ../engine/source/output/sty/outp_s_s.F
-      !||--- called by ------------------------------------------------------
-      !||    genoutp               ../engine/source/output/sty/genoutp.F
-      !||--- calls      -----------------------------------------------------
-      !||    initbuf               ../engine/share/resol/initbuf.F
-      !||    spmd_rgather9_1comm   ../engine/source/mpi/interfaces/spmd_outp.F
-      !||--- uses       -----------------------------------------------------
-      !||    elbufdef_mod          ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||    initbuf_mod           ../engine/share/resol/initbuf.F
-      !||====================================================================
+!||====================================================================
+!||    outp_s_s              ../engine/source/output/sty/outp_s_s.F
+!||--- called by ------------------------------------------------------
+!||    genoutp               ../engine/source/output/sty/genoutp.F
+!||--- calls      -----------------------------------------------------
+!||    initbuf               ../engine/share/resol/initbuf.F
+!||    spmd_rgather9_1comm   ../engine/source/mpi/interfaces/spmd_outp.F
+!||--- uses       -----------------------------------------------------
+!||    elbufdef_mod          ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    initbuf_mod           ../engine/share/resol/initbuf.F
+!||====================================================================
       SUBROUTINE OUTP_S_S(NBX     ,KEY     ,TEXT   ,ELBUF_TAB,
      .                    IPARG   ,EANI    ,IXS    ,IPM      ,DD_IAD ,
      .                    SIZLOC  ,SIZP0   ,SIZ_WR)
@@ -387,12 +387,12 @@ c
 c-----------
       RETURN
       END
-      !||====================================================================
-      !||    count_arsz_ss   ../engine/source/output/sty/outp_s_s.F
-      !||--- called by ------------------------------------------------------
-      !||    genoutp         ../engine/source/output/sty/genoutp.F
-      !||    outp_arsz_ss    ../engine/source/mpi/interfaces/spmd_outp.F
-      !||====================================================================
+!||====================================================================
+!||    count_arsz_ss   ../engine/source/output/sty/outp_s_s.F
+!||--- called by ------------------------------------------------------
+!||    genoutp         ../engine/source/output/sty/genoutp.F
+!||    outp_arsz_ss    ../engine/source/mpi/interfaces/spmd_outp.F
+!||====================================================================
       SUBROUTINE COUNT_ARSZ_SS(IPARG,DD_IAD,IPM,IXS,WASZ,SIZ_WRITE_LOC)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

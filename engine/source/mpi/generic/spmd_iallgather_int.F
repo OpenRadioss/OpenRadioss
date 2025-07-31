@@ -20,12 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    spmd_iallgather_int   ../engine/source/mpi/generic/spmd_iallgather_int.F
-      !||--- called by ------------------------------------------------------
-      !||    spmd_sphvox           ../engine/source/mpi/sph/spmd_sphvox.F
-      !||--- calls      -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    spmd_iallgather_int   ../engine/source/mpi/generic/spmd_iallgather_int.F
+!||--- called by ------------------------------------------------------
+!||    spmd_sphvox           ../engine/source/mpi/sph/spmd_sphvox.F
+!||--- calls      -----------------------------------------------------
+!||====================================================================
         SUBROUTINE SPMD_IALLGATHER_INT(SENDBUF,RECVBUF,SEND_SIZE,TOTAL_RCV_SIZE,RCV_SIZE, 
      .                              REQUEST,COMM)
 C-----------------------------------------------

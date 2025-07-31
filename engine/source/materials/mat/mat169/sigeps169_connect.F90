@@ -20,24 +20,24 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    sigeps169_connect_mod   ../engine/source/materials/mat/mat169/sigeps169_connect.F90
-      !||--- called by ------------------------------------------------------
-      !||    suser43                 ../engine/source/elements/solid/sconnect/suser43.F
-      !||====================================================================
+!||====================================================================
+!||    sigeps169_connect_mod   ../engine/source/materials/mat/mat169/sigeps169_connect.F90
+!||--- called by ------------------------------------------------------
+!||    suser43                 ../engine/source/elements/solid/sconnect/suser43.F
+!||====================================================================
       module sigeps169_connect_mod
       contains
 ! ===============================================================================================================
 !  \brief material for cohesive element, elastic in normal direction, elastoplastic in shear, with coupled damage
 ! ===============================================================================================================  
-      !||====================================================================
-      !||    sigeps169_connect   ../engine/source/materials/mat/mat169/sigeps169_connect.F90
-      !||--- called by ------------------------------------------------------
-      !||    suser43             ../engine/source/elements/solid/sconnect/suser43.F
-      !||--- uses       -----------------------------------------------------
-      !||    constant_mod        ../common_source/modules/constant_mod.F
-      !||    precision_mod       ../common_source/modules/precision_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    sigeps169_connect   ../engine/source/materials/mat/mat169/sigeps169_connect.F90
+!||--- called by ------------------------------------------------------
+!||    suser43             ../engine/source/elements/solid/sconnect/suser43.F
+!||--- uses       -----------------------------------------------------
+!||    constant_mod        ../common_source/modules/constant_mod.F
+!||    precision_mod       ../common_source/modules/precision_mod.F90
+!||====================================================================
         subroutine sigeps169_connect(                                          &
           nel     ,time    ,iparam  ,uparam  ,                                 &
           niparam ,nuparam ,stifm   ,                                          &

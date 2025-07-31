@@ -21,13 +21,13 @@
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 
-      !||====================================================================
-      !||    spmd_allgather_mod    ../engine/source/mpi/generic/spmd_allgather.F90
-      !||--- called by ------------------------------------------------------
-      !||    spmd_mod              ../engine/source/mpi/spmd_mod.F90
-      !||--- uses       -----------------------------------------------------
-      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
-      !||====================================================================
+!||====================================================================
+!||    spmd_allgather_mod    ../engine/source/mpi/generic/spmd_allgather.F90
+!||--- called by ------------------------------------------------------
+!||    spmd_mod              ../engine/source/mpi/spmd_mod.F90
+!||--- uses       -----------------------------------------------------
+!||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
+!||====================================================================
       module spmd_allgather_mod
         use spmd_comm_world_mod, only: SPMD_COMM_WORLD
 
@@ -52,10 +52,10 @@
 ! ======================================================================================================================
 
 ! ======================================================================================================================
-      !||====================================================================
-      !||    spmd_allgather_reals   ../engine/source/mpi/generic/spmd_allgather.F90
-      !||--- calls      -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    spmd_allgather_reals   ../engine/source/mpi/generic/spmd_allgather.F90
+!||--- calls      -----------------------------------------------------
+!||====================================================================
         subroutine spmd_allgather_reals(sendbuf, recvbuf, buf_count,comm)
           implicit none
 #include "spmd.inc"
@@ -79,10 +79,10 @@
 #endif
         end subroutine spmd_allgather_reals
 ! ======================================================================================================================
-      !||====================================================================
-      !||    spmd_allgather_doubles   ../engine/source/mpi/generic/spmd_allgather.F90
-      !||--- calls      -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    spmd_allgather_doubles   ../engine/source/mpi/generic/spmd_allgather.F90
+!||--- calls      -----------------------------------------------------
+!||====================================================================
         subroutine spmd_allgather_doubles(sendbuf, recvbuf, buf_count,comm)
           implicit none
 #include "spmd.inc"
@@ -106,10 +106,10 @@
 #endif
         end subroutine spmd_allgather_doubles
 ! ======================================================================================================================
-      !||====================================================================
-      !||    spmd_allgather_ints   ../engine/source/mpi/generic/spmd_allgather.F90
-      !||--- calls      -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    spmd_allgather_ints   ../engine/source/mpi/generic/spmd_allgather.F90
+!||--- calls      -----------------------------------------------------
+!||====================================================================
         subroutine spmd_allgather_ints(sendbuf, recvbuf, buf_count,comm)
           implicit none
 #include "spmd.inc"

@@ -25,23 +25,23 @@
 ! ==================================================================================================
 !! \brief read ale rezoning data structure from restart file
 !! \details
-      !||====================================================================
-      !||    read_ale_rezoning_param_mod   ../engine/source/output/restart/read_ale_rezoning_param.F90
-      !||--- called by ------------------------------------------------------
-      !||    read_matparam                 ../engine/source/output/restart/read_matparam.F
-      !||====================================================================
+!||====================================================================
+!||    read_ale_rezoning_param_mod   ../engine/source/output/restart/read_ale_rezoning_param.F90
+!||--- called by ------------------------------------------------------
+!||    read_matparam                 ../engine/source/output/restart/read_matparam.F
+!||====================================================================
       module read_ale_rezoning_param_mod
       contains
 
-      !||====================================================================
-      !||    read_ale_rezoning_param   ../engine/source/output/restart/read_ale_rezoning_param.F90
-      !||--- called by ------------------------------------------------------
-      !||    read_matparam             ../engine/source/output/restart/read_matparam.F
-      !||--- calls      -----------------------------------------------------
-      !||    read_i_c                  ../common_source/tools/input_output/write_routtines.c
-      !||--- uses       -----------------------------------------------------
-      !||    ale_mod                   ../common_source/modules/ale/ale_mod.F
-      !||====================================================================
+!||====================================================================
+!||    read_ale_rezoning_param   ../engine/source/output/restart/read_ale_rezoning_param.F90
+!||--- called by ------------------------------------------------------
+!||    read_matparam             ../engine/source/output/restart/read_matparam.F
+!||--- calls      -----------------------------------------------------
+!||    read_i_c                  ../common_source/tools/input_output/write_routtines.c
+!||--- uses       -----------------------------------------------------
+!||    ale_mod                   ../common_source/modules/ale/ale_mod.F
+!||====================================================================
       subroutine read_ale_rezoning_param(rezon)
 ! --------------------------------------------------------------------------------------------------
 !                                                   Modules

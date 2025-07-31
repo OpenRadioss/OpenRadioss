@@ -20,11 +20,11 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    get_neighbour_surface_from_remote_proc_mod   ../engine/source/interfaces/interf/get_neighbour_surface_from_remote_proc.F90
-      !||--- called by ------------------------------------------------------
-      !||    spmd_exch_neighbour_segment                  ../engine/source/mpi/interfaces/spmd_exch_neighbour_segment.F90
-      !||====================================================================
+!||====================================================================
+!||    get_neighbour_surface_from_remote_proc_mod   ../engine/source/interfaces/interf/get_neighbour_surface_from_remote_proc.F90
+!||--- called by ------------------------------------------------------
+!||    spmd_exch_neighbour_segment                  ../engine/source/mpi/interfaces/spmd_exch_neighbour_segment.F90
+!||====================================================================
       module get_neighbour_surface_from_remote_proc_mod
       contains
 ! ======================================================================================================================
@@ -35,28 +35,28 @@
 !!          * find the list of remote connected segments without neighbour
 !!          * check if the remote connected segments has no neighbour
 !!          * if yes, the remote connected segments is sent to the other procs
-      !||====================================================================
-      !||    get_neighbour_surface_from_remote_proc   ../engine/source/interfaces/interf/get_neighbour_surface_from_remote_proc.F90
-      !||--- called by ------------------------------------------------------
-      !||    spmd_exch_neighbour_segment              ../engine/source/mpi/interfaces/spmd_exch_neighbour_segment.F90
-      !||--- calls      -----------------------------------------------------
-      !||    alloc_my_real_1d_array                   ../common_source/modules/array_mod.F
-      !||    dealloc_my_real_1d_array                 ../common_source/modules/array_mod.F
-      !||    get_convexity_normals                    ../engine/source/interfaces/interf/get_convexity_normals.F90
-      !||    get_segment_interface_id                 ../engine/source/interfaces/interf/get_segment_interface_id.F90
-      !||    get_segment_normal                       ../engine/source/interfaces/interf/get_segment_normal.F90
-      !||--- uses       -----------------------------------------------------
-      !||    array_mod                                ../common_source/modules/array_mod.F
-      !||    constant_mod                             ../common_source/modules/constant_mod.F
-      !||    get_convexity_normals_mod                ../engine/source/interfaces/interf/get_convexity_normals.F90
-      !||    get_segment_edge_mod                     ../engine/source/interfaces/interf/get_segment_edge.F90
-      !||    get_segment_interface_id_mod             ../engine/source/interfaces/interf/get_segment_interface_id.F90
-      !||    get_segment_normal_mod                   ../engine/source/interfaces/interf/get_segment_normal.F90
-      !||    intbufdef_mod                            ../common_source/modules/interfaces/intbufdef_mod.F90
-      !||    nodal_arrays_mod                         ../common_source/modules/nodal_arrays.F90
-      !||    precision_mod                            ../common_source/modules/precision_mod.F90
-      !||    shooting_node_mod                        ../engine/share/modules/shooting_node_mod.F
-      !||====================================================================
+!||====================================================================
+!||    get_neighbour_surface_from_remote_proc   ../engine/source/interfaces/interf/get_neighbour_surface_from_remote_proc.F90
+!||--- called by ------------------------------------------------------
+!||    spmd_exch_neighbour_segment              ../engine/source/mpi/interfaces/spmd_exch_neighbour_segment.F90
+!||--- calls      -----------------------------------------------------
+!||    alloc_my_real_1d_array                   ../common_source/modules/array_mod.F
+!||    dealloc_my_real_1d_array                 ../common_source/modules/array_mod.F
+!||    get_convexity_normals                    ../engine/source/interfaces/interf/get_convexity_normals.F90
+!||    get_segment_interface_id                 ../engine/source/interfaces/interf/get_segment_interface_id.F90
+!||    get_segment_normal                       ../engine/source/interfaces/interf/get_segment_normal.F90
+!||--- uses       -----------------------------------------------------
+!||    array_mod                                ../common_source/modules/array_mod.F
+!||    constant_mod                             ../common_source/modules/constant_mod.F
+!||    get_convexity_normals_mod                ../engine/source/interfaces/interf/get_convexity_normals.F90
+!||    get_segment_edge_mod                     ../engine/source/interfaces/interf/get_segment_edge.F90
+!||    get_segment_interface_id_mod             ../engine/source/interfaces/interf/get_segment_interface_id.F90
+!||    get_segment_normal_mod                   ../engine/source/interfaces/interf/get_segment_normal.F90
+!||    intbufdef_mod                            ../common_source/modules/interfaces/intbufdef_mod.F90
+!||    nodal_arrays_mod                         ../common_source/modules/nodal_arrays.F90
+!||    precision_mod                            ../common_source/modules/precision_mod.F90
+!||    shooting_node_mod                        ../engine/share/modules/shooting_node_mod.F
+!||====================================================================
         subroutine get_neighbour_surface_from_remote_proc( ninter,numnod,nspmd,  &
                                                              size_r_buffer,nb_r_segment,s_buffer_2_size, &
                                                              nodes,r_buffer,s_buffer_2, &

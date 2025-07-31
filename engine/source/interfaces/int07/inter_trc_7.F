@@ -20,16 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    inter_trc_7        ../engine/source/interfaces/int07/inter_trc_7.F
-      !||--- called by ------------------------------------------------------
-      !||    inttri             ../engine/source/interfaces/intsort/inttri.F
-      !||--- calls      -----------------------------------------------------
-      !||    i7trc              ../engine/source/interfaces/intsort/i7trc.F
-      !||--- uses       -----------------------------------------------------
-      !||    intbufdef_mod      ../common_source/modules/interfaces/intbufdef_mod.F90
-      !||    inter_struct_mod   ../engine/share/modules/inter_struct_mod.F
-      !||====================================================================
+!||====================================================================
+!||    inter_trc_7        ../engine/source/interfaces/int07/inter_trc_7.F
+!||--- called by ------------------------------------------------------
+!||    inttri             ../engine/source/interfaces/intsort/inttri.F
+!||--- calls      -----------------------------------------------------
+!||    i7trc              ../engine/source/interfaces/intsort/i7trc.F
+!||--- uses       -----------------------------------------------------
+!||    intbufdef_mod      ../common_source/modules/interfaces/intbufdef_mod.F90
+!||    inter_struct_mod   ../engine/share/modules/inter_struct_mod.F
+!||====================================================================
         SUBROUTINE INTER_TRC_7( ITASK,NIN,IPARI,IND_IMP,
      1                          INTBUF_TAB,NB_INTER_SORTED,LIST_INTER_SORTED,INTER_STRUCT)
 !$COMMENT

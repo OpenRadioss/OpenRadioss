@@ -20,51 +20,51 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    i7mainf                     ../engine/source/interfaces/int07/i7mainf.F
-      !||--- called by ------------------------------------------------------
-      !||    intfop2                     ../engine/source/interfaces/interf/intfop2.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg                      ../engine/source/output/message/message.F
-      !||    arret                       ../engine/source/system/arret.F
-      !||    frictionparts_model_isot    ../engine/source/interfaces/int07/frictionparts_model.F
-      !||    frictionparts_model_ortho   ../engine/source/interfaces/int07/frictionparts_model.F
-      !||    i17main_pena                ../engine/source/interfaces/int17/i17main_pena.F
-      !||    i18dst3                     ../engine/source/interfaces/int18/i18dst3.F
-      !||    i18for3                     ../engine/source/interfaces/int18/i18for3.F
-      !||    i7ass33                     ../engine/source/interfaces/int07/i7ass3.F
-      !||    i7cdcor3                    ../engine/source/interfaces/int07/i7cdcor3.F
-      !||    i7cor3                      ../engine/source/interfaces/int07/i7cor3.F
-      !||    i7curvsz                    ../engine/source/interfaces/int07/i7curv.F
-      !||    i7dst3                      ../engine/source/interfaces/int07/i7dst3.F
-      !||    i7for3                      ../engine/source/interfaces/int07/i7for3.F
-      !||    i7norm                      ../engine/source/interfaces/int07/i7curv.F
-      !||    i7norme                     ../engine/source/interfaces/int07/i7rcurv.F
-      !||    i7normn                     ../engine/source/interfaces/int07/i7rcurv.F
-      !||    i7normnp                    ../engine/source/interfaces/int07/i7rcurv.F
-      !||    i7normp                     ../engine/source/interfaces/int07/i7curv.F
-      !||    i7rcurv                     ../engine/source/interfaces/int07/i7rcurv.F
-      !||    i7therm                     ../engine/source/interfaces/int07/i7therm.F
-      !||    my_barrier                  ../engine/source/system/machine.F
-      !||    spmd_exch_n                 ../engine/source/mpi/generic/spmd_exch_n.F
-      !||    spmd_i7curvsz               ../engine/source/mpi/interfaces/spmd_i7curvsz.F
-      !||    startime                    ../engine/source/system/timer_mod.F90
-      !||    stoptime                    ../engine/source/system/timer_mod.F90
-      !||    sum_6_float_sens            ../engine/source/system/parit.F
-      !||--- uses       -----------------------------------------------------
-      !||    ale_connectivity_mod        ../common_source/modules/ale/ale_connectivity_mod.F
-      !||    elbufdef_mod                ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||    groupdef_mod                ../common_source/modules/groupdef_mod.F
-      !||    h3d_mod                     ../engine/share/modules/h3d_mod.F
-      !||    i18dst3_mod                 ../engine/source/interfaces/int18/i18dst3.F
-      !||    i18for3_mod                 ../engine/source/interfaces/int18/i18for3.F
-      !||    intbuf_fric_mod             ../common_source/modules/interfaces/intbuf_fric_mod.F90
-      !||    intbufdef_mod               ../common_source/modules/interfaces/intbufdef_mod.F90
-      !||    message_mod                 ../engine/share/message_module/message_mod.F
-      !||    multi_fvm_mod               ../common_source/modules/ale/multi_fvm_mod.F90
-      !||    outputs_mod                 ../common_source/modules/outputs_mod.F
-      !||    timer_mod                   ../engine/source/system/timer_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    i7mainf                     ../engine/source/interfaces/int07/i7mainf.F
+!||--- called by ------------------------------------------------------
+!||    intfop2                     ../engine/source/interfaces/interf/intfop2.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                      ../engine/source/output/message/message.F
+!||    arret                       ../engine/source/system/arret.F
+!||    frictionparts_model_isot    ../engine/source/interfaces/int07/frictionparts_model.F
+!||    frictionparts_model_ortho   ../engine/source/interfaces/int07/frictionparts_model.F
+!||    i17main_pena                ../engine/source/interfaces/int17/i17main_pena.F
+!||    i18dst3                     ../engine/source/interfaces/int18/i18dst3.F
+!||    i18for3                     ../engine/source/interfaces/int18/i18for3.F
+!||    i7ass33                     ../engine/source/interfaces/int07/i7ass3.F
+!||    i7cdcor3                    ../engine/source/interfaces/int07/i7cdcor3.F
+!||    i7cor3                      ../engine/source/interfaces/int07/i7cor3.F
+!||    i7curvsz                    ../engine/source/interfaces/int07/i7curv.F
+!||    i7dst3                      ../engine/source/interfaces/int07/i7dst3.F
+!||    i7for3                      ../engine/source/interfaces/int07/i7for3.F
+!||    i7norm                      ../engine/source/interfaces/int07/i7curv.F
+!||    i7norme                     ../engine/source/interfaces/int07/i7rcurv.F
+!||    i7normn                     ../engine/source/interfaces/int07/i7rcurv.F
+!||    i7normnp                    ../engine/source/interfaces/int07/i7rcurv.F
+!||    i7normp                     ../engine/source/interfaces/int07/i7curv.F
+!||    i7rcurv                     ../engine/source/interfaces/int07/i7rcurv.F
+!||    i7therm                     ../engine/source/interfaces/int07/i7therm.F
+!||    my_barrier                  ../engine/source/system/machine.F
+!||    spmd_exch_n                 ../engine/source/mpi/generic/spmd_exch_n.F
+!||    spmd_i7curvsz               ../engine/source/mpi/interfaces/spmd_i7curvsz.F
+!||    startime                    ../engine/source/system/timer_mod.F90
+!||    stoptime                    ../engine/source/system/timer_mod.F90
+!||    sum_6_float_sens            ../engine/source/system/parit.F
+!||--- uses       -----------------------------------------------------
+!||    ale_connectivity_mod        ../common_source/modules/ale/ale_connectivity_mod.F
+!||    elbufdef_mod                ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    groupdef_mod                ../common_source/modules/groupdef_mod.F
+!||    h3d_mod                     ../engine/share/modules/h3d_mod.F
+!||    i18dst3_mod                 ../engine/source/interfaces/int18/i18dst3.F
+!||    i18for3_mod                 ../engine/source/interfaces/int18/i18for3.F
+!||    intbuf_fric_mod             ../common_source/modules/interfaces/intbuf_fric_mod.F90
+!||    intbufdef_mod               ../common_source/modules/interfaces/intbufdef_mod.F90
+!||    message_mod                 ../engine/share/message_module/message_mod.F
+!||    multi_fvm_mod               ../common_source/modules/ale/multi_fvm_mod.F90
+!||    outputs_mod                 ../common_source/modules/outputs_mod.F
+!||    timer_mod                   ../engine/source/system/timer_mod.F90
+!||====================================================================
       SUBROUTINE I7MAINF(TIMERS,
      1                   IPARI          ,X           ,A              ,ALE_CONNECTIVITY ,XCELL      ,
      2                   ICODT          ,FSAV        ,V              ,MS               ,DT2T       ,

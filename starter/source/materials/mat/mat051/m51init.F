@@ -20,17 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    m51init                ../starter/source/materials/mat/mat051/m51init.F
-      !||--- called by ------------------------------------------------------
-      !||    matini                 ../starter/source/materials/mat_share/matini.F
-      !||--- calls      -----------------------------------------------------
-      !||    m5in2                  ../starter/source/initial_conditions/detonation/m5in2.F
-      !||    m5in3                  ../starter/source/initial_conditions/detonation/m5in3.F
-      !||    nrf51ini               ../starter/source/materials/mat/mat051/nrf51ini.F
-      !||--- uses       -----------------------------------------------------
-      !||    detonators_mod         ../starter/share/modules1/detonators_mod.F
-      !||====================================================================
+!||====================================================================
+!||    m51init                ../starter/source/materials/mat/mat051/m51init.F
+!||--- called by ------------------------------------------------------
+!||    matini                 ../starter/source/materials/mat_share/matini.F
+!||--- calls      -----------------------------------------------------
+!||    m5in2                  ../starter/source/initial_conditions/detonation/m5in2.F
+!||    m5in3                  ../starter/source/initial_conditions/detonation/m5in3.F
+!||    nrf51ini               ../starter/source/materials/mat/mat051/nrf51ini.F
+!||--- uses       -----------------------------------------------------
+!||    detonators_mod         ../starter/share/modules1/detonators_mod.F
+!||====================================================================
       SUBROUTINE M51INIT(
      .               IPM                ,DETONATORS ,PM      ,TB      ,
      .               NUVAR              ,UVAR       ,UPARAM  ,X       ,

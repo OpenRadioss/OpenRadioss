@@ -20,29 +20,29 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    i18main_kine_1               ../engine/source/interfaces/int18/i18main_kine.F
-      !||--- called by ------------------------------------------------------
-      !||    resol                        ../engine/source/engine/resol.F
-      !||--- calls      -----------------------------------------------------
-      !||    i18_kine_m                   ../engine/source/interfaces/int18/i18main_kine.F
-      !||    i18main_kine_f               ../engine/source/interfaces/int18/i18main_kine.F
-      !||    i18main_kine_i               ../engine/source/interfaces/int18/i18main_kine.F
-      !||    my_barrier                   ../engine/source/system/machine.F
-      !||    spmd_i18kine_com_acc         ../engine/source/mpi/interfaces/spmd_i18kine_com_acc.F
-      !||    spmd_i18kine_com_ms          ../engine/source/mpi/interfaces/spmd_i18kine_com_ms.F
-      !||    spmd_i18kine_macc_com_poff   ../engine/source/mpi/interfaces/spmd_i18kine_macc_com_poff.F
-      !||    spmd_i18kine_msf_com_poff    ../engine/source/mpi/interfaces/spmd_i18kine_msf_com_poff.F
-      !||    spmd_i18kine_pene_com_poff   ../engine/source/mpi/interfaces/spmd_i18kine_pene_com_poff.F
-      !||--- uses       -----------------------------------------------------
-      !||    ale_connectivity_mod         ../common_source/modules/ale/ale_connectivity_mod.F
-      !||    anim_mod                     ../common_source/modules/output/anim_mod.F
-      !||    array_mod                    ../common_source/modules/array_mod.F
-      !||    h3d_mod                      ../engine/share/modules/h3d_mod.F
-      !||    intbufdef_mod                ../common_source/modules/interfaces/intbufdef_mod.F90
-      !||    multi_fvm_mod                ../common_source/modules/ale/multi_fvm_mod.F90
-      !||    tri7box                      ../engine/share/modules/tri7box.F
-      !||====================================================================
+!||====================================================================
+!||    i18main_kine_1               ../engine/source/interfaces/int18/i18main_kine.F
+!||--- called by ------------------------------------------------------
+!||    resol                        ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
+!||    i18_kine_m                   ../engine/source/interfaces/int18/i18main_kine.F
+!||    i18main_kine_f               ../engine/source/interfaces/int18/i18main_kine.F
+!||    i18main_kine_i               ../engine/source/interfaces/int18/i18main_kine.F
+!||    my_barrier                   ../engine/source/system/machine.F
+!||    spmd_i18kine_com_acc         ../engine/source/mpi/interfaces/spmd_i18kine_com_acc.F
+!||    spmd_i18kine_com_ms          ../engine/source/mpi/interfaces/spmd_i18kine_com_ms.F
+!||    spmd_i18kine_macc_com_poff   ../engine/source/mpi/interfaces/spmd_i18kine_macc_com_poff.F
+!||    spmd_i18kine_msf_com_poff    ../engine/source/mpi/interfaces/spmd_i18kine_msf_com_poff.F
+!||    spmd_i18kine_pene_com_poff   ../engine/source/mpi/interfaces/spmd_i18kine_pene_com_poff.F
+!||--- uses       -----------------------------------------------------
+!||    ale_connectivity_mod         ../common_source/modules/ale/ale_connectivity_mod.F
+!||    anim_mod                     ../common_source/modules/output/anim_mod.F
+!||    array_mod                    ../common_source/modules/array_mod.F
+!||    h3d_mod                      ../engine/share/modules/h3d_mod.F
+!||    intbufdef_mod                ../common_source/modules/interfaces/intbufdef_mod.F90
+!||    multi_fvm_mod                ../common_source/modules/ale/multi_fvm_mod.F90
+!||    tri7box                      ../engine/share/modules/tri7box.F
+!||====================================================================
       SUBROUTINE I18MAIN_KINE_1(IPARI   ,INTBUF_TAB ,X        ,V             ,
      2                          A       ,ISKEW      ,SKEW     ,LCOD          ,WA      ,
      3                          MS      ,ITAB       ,JTASK    ,KINET         ,STIFN   ,
@@ -306,22 +306,22 @@ C=======================================================================
       RETURN
 C
       END
-      !||====================================================================
-      !||    i18main_kine_2               ../engine/source/interfaces/int18/i18main_kine.F
-      !||--- called by ------------------------------------------------------
-      !||    resol                        ../engine/source/engine/resol.F
-      !||--- calls      -----------------------------------------------------
-      !||    i18main_kine_s               ../engine/source/interfaces/int18/i18main_kine.F
-      !||    i18main_kine_v               ../engine/source/interfaces/int18/i18main_kine.F
-      !||    my_barrier                   ../engine/source/system/machine.F
-      !||    spmd_i18kine_com_a           ../engine/source/mpi/interfaces/spmd_i18kine_com_a.F
-      !||    spmd_i18kine_com_v           ../engine/source/mpi/interfaces/spmd_i18kine_com_v.F
-      !||    spmd_i18kine_pene_com_poff   ../engine/source/mpi/interfaces/spmd_i18kine_pene_com_poff.F
-      !||--- uses       -----------------------------------------------------
-      !||    h3d_mod                      ../engine/share/modules/h3d_mod.F
-      !||    intbufdef_mod                ../common_source/modules/interfaces/intbufdef_mod.F90
-      !||    tri7box                      ../engine/share/modules/tri7box.F
-      !||====================================================================
+!||====================================================================
+!||    i18main_kine_2               ../engine/source/interfaces/int18/i18main_kine.F
+!||--- called by ------------------------------------------------------
+!||    resol                        ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
+!||    i18main_kine_s               ../engine/source/interfaces/int18/i18main_kine.F
+!||    i18main_kine_v               ../engine/source/interfaces/int18/i18main_kine.F
+!||    my_barrier                   ../engine/source/system/machine.F
+!||    spmd_i18kine_com_a           ../engine/source/mpi/interfaces/spmd_i18kine_com_a.F
+!||    spmd_i18kine_com_v           ../engine/source/mpi/interfaces/spmd_i18kine_com_v.F
+!||    spmd_i18kine_pene_com_poff   ../engine/source/mpi/interfaces/spmd_i18kine_pene_com_poff.F
+!||--- uses       -----------------------------------------------------
+!||    h3d_mod                      ../engine/share/modules/h3d_mod.F
+!||    intbufdef_mod                ../common_source/modules/interfaces/intbufdef_mod.F90
+!||    tri7box                      ../engine/share/modules/tri7box.F
+!||====================================================================
       SUBROUTINE I18MAIN_KINE_2(IPARI,INTBUF_TAB ,X   ,V       ,
      2                   A    ,ISKEW ,SKEW    ,LCOD   ,WA      ,
      3                   MS   ,ITAB  ,FSAV    ,JTASK  ,KINET   ,
@@ -496,25 +496,25 @@ C=======================================================================
       RETURN
 C
       END
-      !||====================================================================
-      !||    i18main_kine_i         ../engine/source/interfaces/int18/i18main_kine.F
-      !||--- called by ------------------------------------------------------
-      !||    i18main_kine_1         ../engine/source/interfaces/int18/i18main_kine.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg                 ../engine/source/output/message/message.F
-      !||    arret                  ../engine/source/system/arret.F
-      !||    i18dst3                ../engine/source/interfaces/int18/i18dst3.F
-      !||    i18kine_i              ../engine/source/interfaces/int18/i18main_kine.F
-      !||    i7cdcor3               ../engine/source/interfaces/int07/i7cdcor3.F
-      !||    i7cor3                 ../engine/source/interfaces/int07/i7cor3.F
-      !||    my_barrier             ../engine/source/system/machine.F
-      !||--- uses       -----------------------------------------------------
-      !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
-      !||    i18dst3_mod            ../engine/source/interfaces/int18/i18dst3.F
-      !||    intbufdef_mod          ../common_source/modules/interfaces/intbufdef_mod.F90
-      !||    message_mod            ../engine/share/message_module/message_mod.F
-      !||    multi_fvm_mod          ../common_source/modules/ale/multi_fvm_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    i18main_kine_i         ../engine/source/interfaces/int18/i18main_kine.F
+!||--- called by ------------------------------------------------------
+!||    i18main_kine_1         ../engine/source/interfaces/int18/i18main_kine.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                 ../engine/source/output/message/message.F
+!||    arret                  ../engine/source/system/arret.F
+!||    i18dst3                ../engine/source/interfaces/int18/i18dst3.F
+!||    i18kine_i              ../engine/source/interfaces/int18/i18main_kine.F
+!||    i7cdcor3               ../engine/source/interfaces/int07/i7cdcor3.F
+!||    i7cor3                 ../engine/source/interfaces/int07/i7cor3.F
+!||    my_barrier             ../engine/source/system/machine.F
+!||--- uses       -----------------------------------------------------
+!||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
+!||    i18dst3_mod            ../engine/source/interfaces/int18/i18dst3.F
+!||    intbufdef_mod          ../common_source/modules/interfaces/intbufdef_mod.F90
+!||    message_mod            ../engine/share/message_module/message_mod.F
+!||    multi_fvm_mod          ../common_source/modules/ale/multi_fvm_mod.F90
+!||====================================================================
       SUBROUTINE I18MAIN_KINE_I(NIN,IPARI,INTBUF_TAB      ,X        ,
      2      STIFN    ,V         ,A          ,MS           ,NMN      ,
      3      ITAB     ,LINDMAX   ,CAND_SAV   ,MTF          ,ALE_NE_CONNECT,
@@ -738,15 +738,15 @@ C cand_n et cand_e replaced with cand_n_n et cand_e_n
 
       RETURN
       END
-      !||====================================================================
-      !||    i18main_kine_f   ../engine/source/interfaces/int18/i18main_kine.F
-      !||--- called by ------------------------------------------------------
-      !||    i18main_kine_1   ../engine/source/interfaces/int18/i18main_kine.F
-      !||--- calls      -----------------------------------------------------
-      !||    i18kine_f        ../engine/source/interfaces/int18/i18main_kine.F
-      !||--- uses       -----------------------------------------------------
-      !||    intbufdef_mod    ../common_source/modules/interfaces/intbufdef_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    i18main_kine_f   ../engine/source/interfaces/int18/i18main_kine.F
+!||--- called by ------------------------------------------------------
+!||    i18main_kine_1   ../engine/source/interfaces/int18/i18main_kine.F
+!||--- calls      -----------------------------------------------------
+!||    i18kine_f        ../engine/source/interfaces/int18/i18main_kine.F
+!||--- uses       -----------------------------------------------------
+!||    intbufdef_mod    ../common_source/modules/interfaces/intbufdef_mod.F90
+!||====================================================================
       SUBROUTINE I18MAIN_KINE_F(NIN,
      1                          IPARI     ,INTBUF_TAB          ,X         ,STIFN     ,
      2                          V         ,A        ,MS        ,ITAB      ,LINDMAX   ,
@@ -893,11 +893,11 @@ c          JLT = MIN( NVSIZ, I_STOK_LOC - NFT )
 C
       RETURN
       END
-      !||====================================================================
-      !||    i18_kine_m       ../engine/source/interfaces/int18/i18main_kine.F
-      !||--- called by ------------------------------------------------------
-      !||    i18main_kine_1   ../engine/source/interfaces/int18/i18main_kine.F
-      !||====================================================================
+!||====================================================================
+!||    i18_kine_m       ../engine/source/interfaces/int18/i18main_kine.F
+!||--- called by ------------------------------------------------------
+!||    i18main_kine_1   ../engine/source/interfaces/int18/i18main_kine.F
+!||====================================================================
       SUBROUTINE I18_KINE_M(
      1      ITASK     ,NMN     ,MSR     ,V        ,A       ,MS      ,
      2      MTF       ,ISKEW  ,SKEW     ,LCOD     ,ITAB    )
@@ -973,16 +973,16 @@ c         a = [B] f
 
       RETURN
       END
-      !||====================================================================
-      !||    i18main_kine_v   ../engine/source/interfaces/int18/i18main_kine.F
-      !||--- called by ------------------------------------------------------
-      !||    i18main_kine_2   ../engine/source/interfaces/int18/i18main_kine.F
-      !||--- calls      -----------------------------------------------------
-      !||    i18kine_v        ../engine/source/interfaces/int18/i18main_kine.F
-      !||    my_barrier       ../engine/source/system/machine.F
-      !||--- uses       -----------------------------------------------------
-      !||    intbufdef_mod    ../common_source/modules/interfaces/intbufdef_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    i18main_kine_v   ../engine/source/interfaces/int18/i18main_kine.F
+!||--- called by ------------------------------------------------------
+!||    i18main_kine_2   ../engine/source/interfaces/int18/i18main_kine.F
+!||--- calls      -----------------------------------------------------
+!||    i18kine_v        ../engine/source/interfaces/int18/i18main_kine.F
+!||    my_barrier       ../engine/source/system/machine.F
+!||--- uses       -----------------------------------------------------
+!||    intbufdef_mod    ../common_source/modules/interfaces/intbufdef_mod.F90
+!||====================================================================
       SUBROUTINE I18MAIN_KINE_V(NIN,
      1      IPARI     ,INTBUF_TAB         ,X       ,STIFN     ,
      2      V         ,A         ,MS      ,JTASK   ,ITAB      ,
@@ -1123,17 +1123,17 @@ c          JLT = MIN( NVSIZ, I_STOK_LOC - NFT )
 C
       RETURN
       END
-      !||====================================================================
-      !||    i18main_kine_s   ../engine/source/interfaces/int18/i18main_kine.F
-      !||--- called by ------------------------------------------------------
-      !||    i18main_kine_2   ../engine/source/interfaces/int18/i18main_kine.F
-      !||--- calls      -----------------------------------------------------
-      !||    i18kine_s        ../engine/source/interfaces/int18/i18main_kine.F
-      !||    my_barrier       ../engine/source/system/machine.F
-      !||--- uses       -----------------------------------------------------
-      !||    h3d_mod          ../engine/share/modules/h3d_mod.F
-      !||    intbufdef_mod    ../common_source/modules/interfaces/intbufdef_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    i18main_kine_s   ../engine/source/interfaces/int18/i18main_kine.F
+!||--- called by ------------------------------------------------------
+!||    i18main_kine_2   ../engine/source/interfaces/int18/i18main_kine.F
+!||--- calls      -----------------------------------------------------
+!||    i18kine_s        ../engine/source/interfaces/int18/i18main_kine.F
+!||    my_barrier       ../engine/source/system/machine.F
+!||--- uses       -----------------------------------------------------
+!||    h3d_mod          ../engine/share/modules/h3d_mod.F
+!||    intbufdef_mod    ../common_source/modules/interfaces/intbufdef_mod.F90
+!||====================================================================
       SUBROUTINE I18MAIN_KINE_S(NIN,
      1      IPARI     ,INTBUF_TAB         ,X       ,STIFN    ,
      2      V         ,A         ,MS      ,FSAV    ,FCONT    ,
@@ -1281,13 +1281,13 @@ C=======================================================================
 C
       RETURN
       END
-      !||====================================================================
-      !||    i18kine_i        ../engine/source/interfaces/int18/i18main_kine.F
-      !||--- called by ------------------------------------------------------
-      !||    i18main_kine_i   ../engine/source/interfaces/int18/i18main_kine.F
-      !||--- uses       -----------------------------------------------------
-      !||    tri7box          ../engine/share/modules/tri7box.F
-      !||====================================================================
+!||====================================================================
+!||    i18kine_i        ../engine/source/interfaces/int18/i18main_kine.F
+!||--- called by ------------------------------------------------------
+!||    i18main_kine_i   ../engine/source/interfaces/int18/i18main_kine.F
+!||--- uses       -----------------------------------------------------
+!||    tri7box          ../engine/share/modules/tri7box.F
+!||====================================================================
       SUBROUTINE I18KINE_I(JLT ,A      ,V      ,
      2                  GAP    ,MS     ,NOINT  ,STFN  ,ITAB   ,
      3                  STIFN  ,STIF   ,X      ,IRECT ,
@@ -1528,13 +1528,13 @@ C---------------------
 C-----------------------------------------------------
       RETURN
       END
-      !||====================================================================
-      !||    i18kine_f        ../engine/source/interfaces/int18/i18main_kine.F
-      !||--- called by ------------------------------------------------------
-      !||    i18main_kine_f   ../engine/source/interfaces/int18/i18main_kine.F
-      !||--- uses       -----------------------------------------------------
-      !||    tri7box          ../engine/share/modules/tri7box.F
-      !||====================================================================
+!||====================================================================
+!||    i18kine_f        ../engine/source/interfaces/int18/i18main_kine.F
+!||--- called by ------------------------------------------------------
+!||    i18main_kine_f   ../engine/source/interfaces/int18/i18main_kine.F
+!||--- uses       -----------------------------------------------------
+!||    tri7box          ../engine/share/modules/tri7box.F
+!||====================================================================
       SUBROUTINE I18KINE_F(JLT ,A      ,V       ,CAND_E,CAND_N ,
      2                  GAP    ,MS     ,NOINT   ,STFN  ,ITAB   ,
      3                  STIFN  ,STIF   ,X       ,IRECT ,NSV    ,
@@ -1820,13 +1820,13 @@ C
 C-----------------------------------------------------
       RETURN
       END
-      !||====================================================================
-      !||    i18kine_v        ../engine/source/interfaces/int18/i18main_kine.F
-      !||--- called by ------------------------------------------------------
-      !||    i18main_kine_v   ../engine/source/interfaces/int18/i18main_kine.F
-      !||--- uses       -----------------------------------------------------
-      !||    tri7box          ../engine/share/modules/tri7box.F
-      !||====================================================================
+!||====================================================================
+!||    i18kine_v        ../engine/source/interfaces/int18/i18main_kine.F
+!||--- called by ------------------------------------------------------
+!||    i18main_kine_v   ../engine/source/interfaces/int18/i18main_kine.F
+!||--- uses       -----------------------------------------------------
+!||    tri7box          ../engine/share/modules/tri7box.F
+!||====================================================================
       SUBROUTINE I18KINE_V(JLT ,A      ,V      ,CAND_E ,CAND_N ,
      2                  GAP    ,MS     ,NOINT  ,STFN   ,ITAB  ,
      3                  STIFN  ,STIF   ,X      ,IRECT  ,NSV    ,
@@ -2018,15 +2018,15 @@ C-----------------------------------------------------
 C
       RETURN
       END
-      !||====================================================================
-      !||    i18kine_s        ../engine/source/interfaces/int18/i18main_kine.F
-      !||--- called by ------------------------------------------------------
-      !||    i18main_kine_s   ../engine/source/interfaces/int18/i18main_kine.F
-      !||--- uses       -----------------------------------------------------
-      !||    anim_mod         ../common_source/modules/output/anim_mod.F
-      !||    h3d_mod          ../engine/share/modules/h3d_mod.F
-      !||    tri7box          ../engine/share/modules/tri7box.F
-      !||====================================================================
+!||====================================================================
+!||    i18kine_s        ../engine/source/interfaces/int18/i18main_kine.F
+!||--- called by ------------------------------------------------------
+!||    i18main_kine_s   ../engine/source/interfaces/int18/i18main_kine.F
+!||--- uses       -----------------------------------------------------
+!||    anim_mod         ../common_source/modules/output/anim_mod.F
+!||    h3d_mod          ../engine/share/modules/h3d_mod.F
+!||    tri7box          ../engine/share/modules/tri7box.F
+!||====================================================================
       SUBROUTINE I18KINE_S(JLT ,A      ,V      ,CAND_E,CAND_N ,
      2                  GAP    ,MS    ,NOINT  ,STFN   ,ITAB   ,
      3                  STIFN  ,STIF   ,X      ,IRECT ,NSV    ,

@@ -20,16 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    lec_inistate_tri   ../starter/source/elements/initia/lec_inistate_tri.F
-      !||--- called by ------------------------------------------------------
-      !||    lec_inistate       ../starter/source/elements/initia/lec_inistate.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg             ../starter/source/output/message/message.F
-      !||    uel2sys            ../starter/source/initial_conditions/inista/yctrl.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod        ../starter/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    lec_inistate_tri   ../starter/source/elements/initia/lec_inistate_tri.F
+!||--- called by ------------------------------------------------------
+!||    lec_inistate       ../starter/source/elements/initia/lec_inistate.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg             ../starter/source/output/message/message.F
+!||    uel2sys            ../starter/source/initial_conditions/inista/yctrl.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod        ../starter/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE LEC_INISTATE_TRI(
      1                  IXS        ,IXQ          ,IXC          ,IXT          ,IXP       ,
      2                  IXR        ,KXSP         ,IXTG         ,INDEX        ,ITRI      ,

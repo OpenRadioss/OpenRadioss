@@ -20,20 +20,20 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    hm_read_inter_lagmul_type02   ../starter/source/interfaces/int02/hm_read_inter_lagmul_type02.F
-      !||--- called by ------------------------------------------------------
-      !||    hm_read_inter_lagmul          ../starter/source/interfaces/reader/hm_read_inter_lagmul.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg                        ../starter/source/output/message/message.F
-      !||    definter                      ../starter/source/interfaces/interf1/definter.F
-      !||    hm_get_floatv                 ../starter/source/devtools/hm_reader/hm_get_floatv.F
-      !||    hm_get_intv                   ../starter/source/devtools/hm_reader/hm_get_intv.F
-      !||    ngr2usr                       ../starter/source/system/nintrr.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod                   ../starter/share/message_module/message_mod.F
-      !||    submodel_mod                  ../starter/share/modules1/submodel_mod.F
-      !||====================================================================
+!||====================================================================
+!||    hm_read_inter_lagmul_type02   ../starter/source/interfaces/int02/hm_read_inter_lagmul_type02.F
+!||--- called by ------------------------------------------------------
+!||    hm_read_inter_lagmul          ../starter/source/interfaces/reader/hm_read_inter_lagmul.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                        ../starter/source/output/message/message.F
+!||    definter                      ../starter/source/interfaces/interf1/definter.F
+!||    hm_get_floatv                 ../starter/source/devtools/hm_reader/hm_get_floatv.F
+!||    hm_get_intv                   ../starter/source/devtools/hm_reader/hm_get_intv.F
+!||    ngr2usr                       ../starter/source/system/nintrr.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod                   ../starter/share/message_module/message_mod.F
+!||    submodel_mod                  ../starter/share/modules1/submodel_mod.F
+!||====================================================================
       SUBROUTINE HM_READ_INTER_LAGMUL_TYPE02(
      1        IPARI      ,FRIGAP     ,NOINT      ,
      2        IGRNOD     ,IGRSURF    ,DEF_INTER  ,TITR      ,UNITAB   ,

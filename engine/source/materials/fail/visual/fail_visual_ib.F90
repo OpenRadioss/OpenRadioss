@@ -21,11 +21,11 @@
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 
-      !||====================================================================
-      !||    fail_visual_ib_mod   ../engine/source/materials/fail/visual/fail_visual_ib.F90
-      !||--- called by ------------------------------------------------------
-      !||    fail_beam18          ../engine/source/elements/beam/fail_beam18.F
-      !||====================================================================
+!||====================================================================
+!||    fail_visual_ib_mod   ../engine/source/materials/fail/visual/fail_visual_ib.F90
+!||--- called by ------------------------------------------------------
+!||    fail_beam18          ../engine/source/elements/beam/fail_beam18.F
+!||====================================================================
     module fail_visual_ib_mod
     contains
 ! ======================================================================================================================
@@ -34,16 +34,16 @@
 ! \        1st principal strain in a simulation. The maximum value of all the cycles in a simulation is used to compute 
 ! \        the damage output.
 ! ======================================================================================================================
-      !||====================================================================
-      !||    fail_visual_ib   ../engine/source/materials/fail/visual/fail_visual_ib.F90
-      !||--- called by ------------------------------------------------------
-      !||    fail_beam18      ../engine/source/elements/beam/fail_beam18.F
-      !||--- calls      -----------------------------------------------------
-      !||    finter           ../engine/source/tools/curve/finter.F
-      !||--- uses       -----------------------------------------------------
-      !||    constant_mod     ../common_source/modules/constant_mod.F
-      !||    precision_mod    ../common_source/modules/precision_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    fail_visual_ib   ../engine/source/materials/fail/visual/fail_visual_ib.F90
+!||--- called by ------------------------------------------------------
+!||    fail_beam18      ../engine/source/elements/beam/fail_beam18.F
+!||--- calls      -----------------------------------------------------
+!||    finter           ../engine/source/tools/curve/finter.F
+!||--- uses       -----------------------------------------------------
+!||    constant_mod     ../common_source/modules/constant_mod.F
+!||    precision_mod    ../common_source/modules/precision_mod.F90
+!||====================================================================
       subroutine fail_visual_ib(                              &
                  nel      ,ngl      ,nuparam  ,uparam   ,     &
                  time     ,dfmax    ,                         &

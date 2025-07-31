@@ -20,29 +20,29 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    hm_read_visc_plas_mod   ../starter/source/materials/visc/hm_read_visc_plas.F90
-      !||--- called by ------------------------------------------------------
-      !||    hm_read_visc            ../starter/source/materials/visc/hm_read_visc.F
-      !||====================================================================
+!||====================================================================
+!||    hm_read_visc_plas_mod   ../starter/source/materials/visc/hm_read_visc_plas.F90
+!||--- called by ------------------------------------------------------
+!||    hm_read_visc            ../starter/source/materials/visc/hm_read_visc.F
+!||====================================================================
       module hm_read_visc_plas_mod
       contains
 ! ======================================================================================================================
 ! \brief Reading material parameters of /VISC/PLAS
 ! \details Reading material parameters of /VISC/PLAS
 ! ======================================================================================================================
-      !||====================================================================
-      !||    hm_read_visc_plas        ../starter/source/materials/visc/hm_read_visc_plas.F90
-      !||--- called by ------------------------------------------------------
-      !||    hm_read_visc             ../starter/source/materials/visc/hm_read_visc.F
-      !||--- calls      -----------------------------------------------------
-      !||    hm_get_floatv            ../starter/source/devtools/hm_reader/hm_get_floatv.F
-      !||    hm_option_is_encrypted   ../starter/source/devtools/hm_reader/hm_option_is_encrypted.F
-      !||--- uses       -----------------------------------------------------
-      !||    hm_option_read_mod       ../starter/share/modules1/hm_option_read_mod.F
-      !||    message_mod              ../starter/share/message_module/message_mod.F
-      !||    submodel_mod             ../starter/share/modules1/submodel_mod.F
-      !||====================================================================
+!||====================================================================
+!||    hm_read_visc_plas        ../starter/source/materials/visc/hm_read_visc_plas.F90
+!||--- called by ------------------------------------------------------
+!||    hm_read_visc             ../starter/source/materials/visc/hm_read_visc.F
+!||--- calls      -----------------------------------------------------
+!||    hm_get_floatv            ../starter/source/devtools/hm_reader/hm_get_floatv.F
+!||    hm_option_is_encrypted   ../starter/source/devtools/hm_reader/hm_option_is_encrypted.F
+!||--- uses       -----------------------------------------------------
+!||    hm_option_read_mod       ../starter/share/modules1/hm_option_read_mod.F
+!||    message_mod              ../starter/share/message_module/message_mod.F
+!||    submodel_mod             ../starter/share/modules1/submodel_mod.F
+!||====================================================================
        subroutine hm_read_visc_plas( &
                        visc     ,ivisc      ,iout , unitab  ,lsubmodel)
 !-----------------------------------------------

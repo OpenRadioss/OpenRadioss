@@ -20,19 +20,19 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    create_part_clause   ../starter/source/model/sets/create_part_clause.F
-      !||--- called by ------------------------------------------------------
-      !||    hm_set               ../starter/source/model/sets/hm_set.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg               ../starter/source/output/message/message.F
-      !||    create_part_list     ../starter/source/model/sets/create_part_clause.F
-      !||    create_part_list_g   ../starter/source/model/sets/create_part_clause.F
-      !||--- uses       -----------------------------------------------------
-      !||    hm_option_read_mod   ../starter/share/modules1/hm_option_read_mod.F
-      !||    message_mod          ../starter/share/message_module/message_mod.F
-      !||    submodel_mod         ../starter/share/modules1/submodel_mod.F
-      !||====================================================================
+!||====================================================================
+!||    create_part_clause   ../starter/source/model/sets/create_part_clause.F
+!||--- called by ------------------------------------------------------
+!||    hm_set               ../starter/source/model/sets/hm_set.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg               ../starter/source/output/message/message.F
+!||    create_part_list     ../starter/source/model/sets/create_part_clause.F
+!||    create_part_list_g   ../starter/source/model/sets/create_part_clause.F
+!||--- uses       -----------------------------------------------------
+!||    hm_option_read_mod   ../starter/share/modules1/hm_option_read_mod.F
+!||    message_mod          ../starter/share/message_module/message_mod.F
+!||    submodel_mod         ../starter/share/modules1/submodel_mod.F
+!||====================================================================
       SUBROUTINE CREATE_PART_CLAUSE(
      .                        CLAUSE   ,IPARTM1  ,JCLAUSE ,OPT_G ,IS_AVAILABLE ,
      .                        LSUBMODEL)
@@ -100,20 +100,20 @@ C-----------------------------------------------
         ENDIF
 C-----------------------------------------------
       END
-      !||====================================================================
-      !||    create_part_list            ../starter/source/model/sets/create_part_clause.F
-      !||--- called by ------------------------------------------------------
-      !||    create_part_clause          ../starter/source/model/sets/create_part_clause.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg                      ../starter/source/output/message/message.F
-      !||    hm_get_int_array_2indexes   ../starter/source/devtools/hm_reader/hm_get_int_array_2indexes.F
-      !||    hm_get_int_array_index      ../starter/source/devtools/hm_reader/hm_get_int_array_index.F
-      !||    set_usrtos                  ../starter/source/model/sets/ipartm1.F
-      !||--- uses       -----------------------------------------------------
-      !||    hm_option_read_mod          ../starter/share/modules1/hm_option_read_mod.F
-      !||    message_mod                 ../starter/share/message_module/message_mod.F
-      !||    submodel_mod                ../starter/share/modules1/submodel_mod.F
-      !||====================================================================
+!||====================================================================
+!||    create_part_list            ../starter/source/model/sets/create_part_clause.F
+!||--- called by ------------------------------------------------------
+!||    create_part_clause          ../starter/source/model/sets/create_part_clause.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                      ../starter/source/output/message/message.F
+!||    hm_get_int_array_2indexes   ../starter/source/devtools/hm_reader/hm_get_int_array_2indexes.F
+!||    hm_get_int_array_index      ../starter/source/devtools/hm_reader/hm_get_int_array_index.F
+!||    set_usrtos                  ../starter/source/model/sets/ipartm1.F
+!||--- uses       -----------------------------------------------------
+!||    hm_option_read_mod          ../starter/share/modules1/hm_option_read_mod.F
+!||    message_mod                 ../starter/share/message_module/message_mod.F
+!||    submodel_mod                ../starter/share/modules1/submodel_mod.F
+!||====================================================================
       SUBROUTINE CREATE_PART_LIST(
      .               CLAUSE,  IPARTM1  ,JCLAUSE ,IS_AVAILABLE ,LSUBMODEL)
 C-----------------------------------------------
@@ -235,19 +235,19 @@ C-------------------------
       RETURN
       END
 
-      !||====================================================================
-      !||    create_part_list_g          ../starter/source/model/sets/create_part_clause.F
-      !||--- called by ------------------------------------------------------
-      !||    create_part_clause          ../starter/source/model/sets/create_part_clause.F
-      !||--- calls      -----------------------------------------------------
-      !||    hm_get_int_array_2indexes   ../starter/source/devtools/hm_reader/hm_get_int_array_2indexes.F
-      !||    hm_get_int_array_index      ../starter/source/devtools/hm_reader/hm_get_int_array_index.F
-      !||    set_usrtos_nearest          ../starter/source/model/sets/ipartm1.F
-      !||--- uses       -----------------------------------------------------
-      !||    hm_option_read_mod          ../starter/share/modules1/hm_option_read_mod.F
-      !||    message_mod                 ../starter/share/message_module/message_mod.F
-      !||    submodel_mod                ../starter/share/modules1/submodel_mod.F
-      !||====================================================================
+!||====================================================================
+!||    create_part_list_g          ../starter/source/model/sets/create_part_clause.F
+!||--- called by ------------------------------------------------------
+!||    create_part_clause          ../starter/source/model/sets/create_part_clause.F
+!||--- calls      -----------------------------------------------------
+!||    hm_get_int_array_2indexes   ../starter/source/devtools/hm_reader/hm_get_int_array_2indexes.F
+!||    hm_get_int_array_index      ../starter/source/devtools/hm_reader/hm_get_int_array_index.F
+!||    set_usrtos_nearest          ../starter/source/model/sets/ipartm1.F
+!||--- uses       -----------------------------------------------------
+!||    hm_option_read_mod          ../starter/share/modules1/hm_option_read_mod.F
+!||    message_mod                 ../starter/share/message_module/message_mod.F
+!||    submodel_mod                ../starter/share/modules1/submodel_mod.F
+!||====================================================================
       SUBROUTINE CREATE_PART_LIST_G(
      .               CLAUSE,  IPARTM1  ,JCLAUSE ,IS_AVAILABLE ,LSUBMODEL)
 C-----------------------------------------------

@@ -20,24 +20,24 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    i20sti3                ../starter/source/interfaces/inter3d1/i20sti3.F
-      !||--- called by ------------------------------------------------------
-      !||    i20ini3                ../starter/source/interfaces/inter3d1/i20ini3.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg                 ../starter/source/output/message/message.F
-      !||    bitget                 ../starter/source/interfaces/inter3d1/bitget.F
-      !||    bitset                 ../starter/source/interfaces/inter3d1/bitget.F
-      !||    bitunset               ../starter/source/interfaces/inter3d1/bitget.F
-      !||    i20nelts               ../starter/source/interfaces/inter3d1/inelt.F
-      !||    i4gmx3                 ../starter/source/interfaces/inter3d1/i4gmx3.F
-      !||    incoq3                 ../starter/source/interfaces/inter3d1/incoq3.F
-      !||    ineltc                 ../starter/source/interfaces/inter3d1/inelt.F
-      !||    insol3                 ../starter/source/interfaces/inter3d1/insol3.F
-      !||    volint                 ../starter/source/interfaces/inter3d1/volint.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod            ../starter/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    i20sti3                ../starter/source/interfaces/inter3d1/i20sti3.F
+!||--- called by ------------------------------------------------------
+!||    i20ini3                ../starter/source/interfaces/inter3d1/i20ini3.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                 ../starter/source/output/message/message.F
+!||    bitget                 ../starter/source/interfaces/inter3d1/bitget.F
+!||    bitset                 ../starter/source/interfaces/inter3d1/bitget.F
+!||    bitunset               ../starter/source/interfaces/inter3d1/bitget.F
+!||    i20nelts               ../starter/source/interfaces/inter3d1/inelt.F
+!||    i4gmx3                 ../starter/source/interfaces/inter3d1/i4gmx3.F
+!||    incoq3                 ../starter/source/interfaces/inter3d1/incoq3.F
+!||    ineltc                 ../starter/source/interfaces/inter3d1/inelt.F
+!||    insol3                 ../starter/source/interfaces/inter3d1/insol3.F
+!||    volint                 ../starter/source/interfaces/inter3d1/volint.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod            ../starter/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE I20STI3(
      1 PM        ,GEO       ,X         ,MS        ,
      2 IXS       ,IXC       ,IXTG      ,IXT       ,
@@ -828,22 +828,22 @@ C------------
       RETURN
  1300 FORMAT(2X,'GAP MIN = ',1PG20.13)
       END
-      !||====================================================================
-      !||    i20sti3e               ../starter/source/interfaces/inter3d1/i20sti3.F
-      !||--- called by ------------------------------------------------------
-      !||    i20ini3                ../starter/source/interfaces/inter3d1/i20ini3.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg                 ../starter/source/output/message/message.F
-      !||    get_u_geo              ../starter/source/user_interface/uaccess.F
-      !||    i11coq                 ../starter/source/interfaces/inter3d1/i11coq.F
-      !||    i11fil                 ../starter/source/interfaces/inter3d1/i11coq.F
-      !||    i11gmx3                ../starter/source/interfaces/inter3d1/i11gmx3.F
-      !||    i11sol                 ../starter/source/interfaces/inter3d1/i11sol.F
-      !||    my_exit                ../starter/source/output/analyse/analyse.c
-      !||    volint                 ../starter/source/interfaces/inter3d1/volint.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod            ../starter/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    i20sti3e               ../starter/source/interfaces/inter3d1/i20sti3.F
+!||--- called by ------------------------------------------------------
+!||    i20ini3                ../starter/source/interfaces/inter3d1/i20ini3.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                 ../starter/source/output/message/message.F
+!||    get_u_geo              ../starter/source/user_interface/uaccess.F
+!||    i11coq                 ../starter/source/interfaces/inter3d1/i11coq.F
+!||    i11fil                 ../starter/source/interfaces/inter3d1/i11coq.F
+!||    i11gmx3                ../starter/source/interfaces/inter3d1/i11gmx3.F
+!||    i11sol                 ../starter/source/interfaces/inter3d1/i11sol.F
+!||    my_exit                ../starter/source/output/analyse/analyse.c
+!||    volint                 ../starter/source/interfaces/inter3d1/volint.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod            ../starter/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE I20STI3E(
      1 X     ,IXLIN ,STF   ,IXS   ,PM    ,
      2 GEO   ,NRT   ,IXC   ,NINTR ,SLSFAC,
@@ -1355,11 +1355,11 @@ C
  1300 FORMAT(2X,'COMPUTED GAP = ',1PG20.13)
 
       END
-      !||====================================================================
-      !||    i20nlg    ../starter/source/interfaces/inter3d1/i20sti3.F
-      !||--- called by ------------------------------------------------------
-      !||    i20ini3   ../starter/source/interfaces/inter3d1/i20ini3.F
-      !||====================================================================
+!||====================================================================
+!||    i20nlg    ../starter/source/interfaces/inter3d1/i20sti3.F
+!||--- called by ------------------------------------------------------
+!||    i20ini3   ../starter/source/interfaces/inter3d1/i20ini3.F
+!||====================================================================
       SUBROUTINE I20NLG(NLN  ,NRTM,NSN  ,NLINS ,NLINM ,
      .                  NLG  ,IRECT,NSV ,IXLINS,IXLINM,
      .                  NMN  ,NSNE ,NMNE,MSR   ,NSVE  ,

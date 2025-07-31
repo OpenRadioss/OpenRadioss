@@ -21,27 +21,27 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 
-      !||====================================================================
-      !||    groups_get_elem_list     ../starter/source/groups/groups_get_elem_list.F
-      !||--- called by ------------------------------------------------------
-      !||    hm_admlcnt               ../starter/source/groups/hm_admlistcnt.F
-      !||    hm_grogro                ../starter/source/groups/hm_grogro.F
-      !||    hm_grogronod             ../starter/source/groups/hm_grogronod.F
-      !||    hm_lecgre                ../starter/source/groups/hm_lecgre.F
-      !||    hm_submodgre             ../starter/source/groups/hm_submodgr.F
-      !||    hm_submodgrn             ../starter/source/groups/hm_submodgr.F
-      !||    hm_submodpart            ../starter/source/groups/hm_submodpart.F
-      !||    hm_surfgr2               ../starter/source/groups/hm_surfgr2.F
-      !||    hm_tagpart               ../starter/source/groups/hm_tagpart.F
-      !||    hm_tagpart2              ../starter/source/groups/hm_tagpart2.F
-      !||--- calls      -----------------------------------------------------
-      !||    hm_get_int_array_index   ../starter/source/devtools/hm_reader/hm_get_int_array_index.F
-      !||    hm_get_intv              ../starter/source/devtools/hm_reader/hm_get_intv.F
-      !||--- uses       -----------------------------------------------------
-      !||    hm_option_read_mod       ../starter/share/modules1/hm_option_read_mod.F
-      !||    message_mod              ../starter/share/message_module/message_mod.F
-      !||    submodel_mod             ../starter/share/modules1/submodel_mod.F
-      !||====================================================================
+!||====================================================================
+!||    groups_get_elem_list     ../starter/source/groups/groups_get_elem_list.F
+!||--- called by ------------------------------------------------------
+!||    hm_admlcnt               ../starter/source/groups/hm_admlistcnt.F
+!||    hm_grogro                ../starter/source/groups/hm_grogro.F
+!||    hm_grogronod             ../starter/source/groups/hm_grogronod.F
+!||    hm_lecgre                ../starter/source/groups/hm_lecgre.F
+!||    hm_submodgre             ../starter/source/groups/hm_submodgr.F
+!||    hm_submodgrn             ../starter/source/groups/hm_submodgr.F
+!||    hm_submodpart            ../starter/source/groups/hm_submodpart.F
+!||    hm_surfgr2               ../starter/source/groups/hm_surfgr2.F
+!||    hm_tagpart               ../starter/source/groups/hm_tagpart.F
+!||    hm_tagpart2              ../starter/source/groups/hm_tagpart2.F
+!||--- calls      -----------------------------------------------------
+!||    hm_get_int_array_index   ../starter/source/devtools/hm_reader/hm_get_int_array_index.F
+!||    hm_get_intv              ../starter/source/devtools/hm_reader/hm_get_intv.F
+!||--- uses       -----------------------------------------------------
+!||    hm_option_read_mod       ../starter/share/modules1/hm_option_read_mod.F
+!||    message_mod              ../starter/share/message_module/message_mod.F
+!||    submodel_mod             ../starter/share/modules1/submodel_mod.F
+!||====================================================================
       SUBROUTINE GROUPS_GET_ELEM_LIST(LIST_ENTITY,NENTITY,LSUBMODEL)
 C-----------------------------------------------
 C   M o d u l e s

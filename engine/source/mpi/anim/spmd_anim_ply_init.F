@@ -20,15 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    spmd_anim_ply_init   ../engine/source/mpi/anim/spmd_anim_ply_init.F
-      !||--- called by ------------------------------------------------------
-      !||    resol_init           ../engine/source/engine/resol_init.F
-      !||--- calls      -----------------------------------------------------
-      !||--- uses       -----------------------------------------------------
-      !||    plyxfem_mod          ../engine/share/modules/plyxfem_mod.F
-      !||    spmd_mod             ../engine/source/mpi/spmd_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    spmd_anim_ply_init   ../engine/source/mpi/anim/spmd_anim_ply_init.F
+!||--- called by ------------------------------------------------------
+!||    resol_init           ../engine/source/engine/resol_init.F
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||    plyxfem_mod          ../engine/share/modules/plyxfem_mod.F
+!||    spmd_mod             ../engine/source/mpi/spmd_mod.F90
+!||====================================================================
       SUBROUTINE SPMD_ANIM_PLY_INIT()
 C-----------------------------------------------
 C   M o d u l e s

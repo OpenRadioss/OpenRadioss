@@ -20,17 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    xgrtails       ../starter/source/elements/xelem/xgrtails.F
-      !||--- called by ------------------------------------------------------
-      !||    lectur         ../starter/source/starter/lectur.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg         ../starter/source/output/message/message.F
-      !||    zeroin         ../starter/source/system/zeroin.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod    ../starter/share/message_module/message_mod.F
-      !||    r2r_mod        ../starter/share/modules1/r2r_mod.F
-      !||====================================================================
+!||====================================================================
+!||    xgrtails       ../starter/source/elements/xelem/xgrtails.F
+!||--- called by ------------------------------------------------------
+!||    lectur         ../starter/source/starter/lectur.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg         ../starter/source/output/message/message.F
+!||    zeroin         ../starter/source/system/zeroin.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod    ../starter/share/message_module/message_mod.F
+!||    r2r_mod        ../starter/share/modules1/r2r_mod.F
+!||====================================================================
       SUBROUTINE XGRTAILS(
      1    KXX    ,IPARG  ,GEO     ,EADD,
      2    ND     ,DD_IAD ,IDX     ,LB_MAX, INUM,

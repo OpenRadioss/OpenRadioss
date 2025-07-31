@@ -20,22 +20,22 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    s4lagsfem         ../engine/source/elements/solid/solide4_sfem/s4lagsfem.F
-      !||--- called by ------------------------------------------------------
-      !||    resol             ../engine/source/engine/resol.F
-      !||--- calls      -----------------------------------------------------
-      !||    foat_to_6_float   ../engine/source/system/parit.F
-      !||    initbuf           ../engine/share/resol/initbuf.F
-      !||    s10volnod3        ../engine/source/elements/solid/solide4_sfem/s10volnod3.F
-      !||    s10volnodt3       ../engine/source/elements/solid/solide4_sfem/s10volnodt3.F
-      !||    s4volnod3         ../engine/source/elements/solid/solide4_sfem/s4volnod3.F
-      !||    s4volnod_sm       ../engine/source/elements/solid/solide4_sfem/s4volnod_sm.F
-      !||    spmd_exch_vol     ../engine/source/mpi/nodes/spmd_exch_vol.F
-      !||--- uses       -----------------------------------------------------
-      !||    elbufdef_mod      ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||    initbuf_mod       ../engine/share/resol/initbuf.F
-      !||====================================================================
+!||====================================================================
+!||    s4lagsfem         ../engine/source/elements/solid/solide4_sfem/s4lagsfem.F
+!||--- called by ------------------------------------------------------
+!||    resol             ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
+!||    foat_to_6_float   ../engine/source/system/parit.F
+!||    initbuf           ../engine/share/resol/initbuf.F
+!||    s10volnod3        ../engine/source/elements/solid/solide4_sfem/s10volnod3.F
+!||    s10volnodt3       ../engine/source/elements/solid/solide4_sfem/s10volnodt3.F
+!||    s4volnod3         ../engine/source/elements/solid/solide4_sfem/s4volnod3.F
+!||    s4volnod_sm       ../engine/source/elements/solid/solide4_sfem/s4volnod_sm.F
+!||    spmd_exch_vol     ../engine/source/mpi/nodes/spmd_exch_vol.F
+!||--- uses       -----------------------------------------------------
+!||    elbufdef_mod      ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    initbuf_mod       ../engine/share/resol/initbuf.F
+!||====================================================================
       SUBROUTINE S4LAGSFEM(IPARG,IXS,X,V,ELBUF_TAB,SFEM_NODVAR,S_SFEM_NODVAR,
      .                     IAD_ELEM,FR_ELEM,IXS10,XDP,SXDP,
      .                     NUMNOD, SFR_ELEM, NSPMD, NUMELS, NUMELS8, NUMELS10, NPARG, NGROUP, IRESP)

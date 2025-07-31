@@ -21,11 +21,11 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 
-      !||====================================================================
-      !||    szsvm     ../engine/source/elements/solid/solidez/szsvm.F
-      !||--- called by ------------------------------------------------------
-      !||    szhour3   ../engine/source/elements/solid/solidez/szhour3.F
-      !||====================================================================
+!||====================================================================
+!||    szsvm     ../engine/source/elements/solid/solidez/szsvm.F
+!||--- called by ------------------------------------------------------
+!||    szhour3   ../engine/source/elements/solid/solidez/szhour3.F
+!||====================================================================
       SUBROUTINE SZSVM(
      1   JR0,     JS0,     JT0,     FHOUR,
      2   SIGY,    SIG0,    NU,      SVM1,

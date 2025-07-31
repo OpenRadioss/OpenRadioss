@@ -20,61 +20,61 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    s8sforc3               ../engine/source/elements/solid/solide8s/s8sforc3.F
-      !||--- called by ------------------------------------------------------
-      !||    forint                 ../engine/source/elements/forint.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg                 ../engine/source/output/message/message.F
-      !||    basis8                 ../engine/source/elements/solid/solide8/basis8.F
-      !||    csmall3                ../engine/source/elements/solid/solide/csmall3.F
-      !||    degenes8               ../engine/source/elements/solid/solide/degenes8.F
-      !||    mmain                  ../engine/source/materials/mat_share/mmain.F90
-      !||    s8edefoc3              ../engine/source/elements/solid/solide8e/s8edefoc3.F
-      !||    s8edefw3               ../engine/source/elements/solid/solide8e/s8edefw3.F
-      !||    s8ederi_2              ../engine/source/elements/solid/solide8e/s8ederi_2.F
-      !||    s8ederic3              ../engine/source/elements/solid/solide8e/s8ederic3.F
-      !||    s8edericm3             ../engine/source/elements/solid/solide8e/s8edericm3.F
-      !||    s8ederig3              ../engine/source/elements/solid/solide8e/s8ederig3.F
-      !||    s8ederipr3             ../engine/source/elements/solid/solide8e/s8ederipr3.F
-      !||    s8efmoy3               ../engine/source/elements/solid/solide8e/s8efmoy3.F
-      !||    s8ejacip3              ../engine/source/elements/solid/solide8e/s8ejacip3.F
-      !||    s8eprst_ini            ../engine/source/elements/solid/solide8e/s8eprst_ini.F
-      !||    s8sbdefo3              ../engine/source/elements/solid/solide8s/s8sbdefo3.F
-      !||    s8sderi3               ../engine/source/elements/solid/solide8s/s8sderi3.F
-      !||    s8sfint3               ../engine/source/elements/solid/solide8s/s8sfint3.F
-      !||    s8sfint3_crimp         ../engine/source/elements/solid/solide8s/s8sfint3_crimp.F
-      !||    s8xref_imp             ../engine/source/elements/solid/solide8s/s8xref_imp.F
-      !||    s8zderims3             ../engine/source/elements/solid/solide8z/s8zderims3.F
-      !||    s8zfint_reg            ../engine/source/elements/solid/solide8z/s8zfint_reg.F
-      !||    s8zfintp3              ../engine/source/elements/solid/solide8z/s8zfintp3.F
-      !||    s8zzero3               ../engine/source/elements/solid/solide8z/s8zzero3.F
-      !||    sbilan                 ../engine/source/elements/solid/solide/sbilan.F
-      !||    scumu3                 ../engine/source/elements/solid/solide/scumu3.F
-      !||    scumu3p                ../engine/source/elements/solid/solide/scumu3p.F
-      !||    sdlen_dege             ../engine/source/elements/solid/solide/sdlen_dege.F
-      !||    sfillopt               ../engine/source/elements/solid/solide/sfillopt.F
-      !||    smallb3                ../engine/source/elements/solid/solide/smallb3.F
-      !||    smallg3                ../engine/source/elements/solid/solide/smallg3.F
-      !||    srbilan                ../engine/source/elements/solid/solide/srbilan.F
-      !||    srcoor3_imp            ../engine/source/elements/solid/solide8s/srcoor3_imp.F
-      !||    srho3                  ../engine/source/elements/solid/solide/srho3.F
-      !||    sstra3                 ../engine/source/elements/solid/solide/sstra3.F
-      !||    startime               ../engine/source/system/timer_mod.F90
-      !||    stoptime               ../engine/source/system/timer_mod.F90
-      !||--- uses       -----------------------------------------------------
-      !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
-      !||    dt_mod                 ../engine/source/modules/dt_mod.F
-      !||    elbufdef_mod           ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||    glob_therm_mod         ../common_source/modules/mat_elem/glob_therm_mod.F90
-      !||    mat_elem_mod           ../common_source/modules/mat_elem/mat_elem_mod.F90
-      !||    message_mod            ../engine/share/message_module/message_mod.F
-      !||    mmain_mod              ../engine/source/materials/mat_share/mmain.F90
-      !||    nlocal_reg_mod         ../common_source/modules/nlocal_reg_mod.F
-      !||    sensor_mod             ../common_source/modules/sensor_mod.F90
-      !||    table_mod              ../engine/share/modules/table_mod.F
-      !||    timer_mod              ../engine/source/system/timer_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    s8sforc3               ../engine/source/elements/solid/solide8s/s8sforc3.F
+!||--- called by ------------------------------------------------------
+!||    forint                 ../engine/source/elements/forint.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                 ../engine/source/output/message/message.F
+!||    basis8                 ../engine/source/elements/solid/solide8/basis8.F
+!||    csmall3                ../engine/source/elements/solid/solide/csmall3.F
+!||    degenes8               ../engine/source/elements/solid/solide/degenes8.F
+!||    mmain                  ../engine/source/materials/mat_share/mmain.F90
+!||    s8edefoc3              ../engine/source/elements/solid/solide8e/s8edefoc3.F
+!||    s8edefw3               ../engine/source/elements/solid/solide8e/s8edefw3.F
+!||    s8ederi_2              ../engine/source/elements/solid/solide8e/s8ederi_2.F
+!||    s8ederic3              ../engine/source/elements/solid/solide8e/s8ederic3.F
+!||    s8edericm3             ../engine/source/elements/solid/solide8e/s8edericm3.F
+!||    s8ederig3              ../engine/source/elements/solid/solide8e/s8ederig3.F
+!||    s8ederipr3             ../engine/source/elements/solid/solide8e/s8ederipr3.F
+!||    s8efmoy3               ../engine/source/elements/solid/solide8e/s8efmoy3.F
+!||    s8ejacip3              ../engine/source/elements/solid/solide8e/s8ejacip3.F
+!||    s8eprst_ini            ../engine/source/elements/solid/solide8e/s8eprst_ini.F
+!||    s8sbdefo3              ../engine/source/elements/solid/solide8s/s8sbdefo3.F
+!||    s8sderi3               ../engine/source/elements/solid/solide8s/s8sderi3.F
+!||    s8sfint3               ../engine/source/elements/solid/solide8s/s8sfint3.F
+!||    s8sfint3_crimp         ../engine/source/elements/solid/solide8s/s8sfint3_crimp.F
+!||    s8xref_imp             ../engine/source/elements/solid/solide8s/s8xref_imp.F
+!||    s8zderims3             ../engine/source/elements/solid/solide8z/s8zderims3.F
+!||    s8zfint_reg            ../engine/source/elements/solid/solide8z/s8zfint_reg.F
+!||    s8zfintp3              ../engine/source/elements/solid/solide8z/s8zfintp3.F
+!||    s8zzero3               ../engine/source/elements/solid/solide8z/s8zzero3.F
+!||    sbilan                 ../engine/source/elements/solid/solide/sbilan.F
+!||    scumu3                 ../engine/source/elements/solid/solide/scumu3.F
+!||    scumu3p                ../engine/source/elements/solid/solide/scumu3p.F
+!||    sdlen_dege             ../engine/source/elements/solid/solide/sdlen_dege.F
+!||    sfillopt               ../engine/source/elements/solid/solide/sfillopt.F
+!||    smallb3                ../engine/source/elements/solid/solide/smallb3.F
+!||    smallg3                ../engine/source/elements/solid/solide/smallg3.F
+!||    srbilan                ../engine/source/elements/solid/solide/srbilan.F
+!||    srcoor3_imp            ../engine/source/elements/solid/solide8s/srcoor3_imp.F
+!||    srho3                  ../engine/source/elements/solid/solide/srho3.F
+!||    sstra3                 ../engine/source/elements/solid/solide/sstra3.F
+!||    startime               ../engine/source/system/timer_mod.F90
+!||    stoptime               ../engine/source/system/timer_mod.F90
+!||--- uses       -----------------------------------------------------
+!||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
+!||    dt_mod                 ../engine/source/modules/dt_mod.F
+!||    elbufdef_mod           ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    glob_therm_mod         ../common_source/modules/mat_elem/glob_therm_mod.F90
+!||    mat_elem_mod           ../common_source/modules/mat_elem/mat_elem_mod.F90
+!||    message_mod            ../engine/share/message_module/message_mod.F
+!||    mmain_mod              ../engine/source/materials/mat_share/mmain.F90
+!||    nlocal_reg_mod         ../common_source/modules/nlocal_reg_mod.F
+!||    sensor_mod             ../common_source/modules/sensor_mod.F90
+!||    table_mod              ../engine/share/modules/table_mod.F
+!||    timer_mod              ../engine/source/system/timer_mod.F90
+!||====================================================================
       SUBROUTINE S8SFORC3(TIMERS, ELBUF_TAB,NG     ,
      1                    PM       ,GEO    ,IXS     ,X       ,
      2                    A        ,V      ,MS      ,W       ,FLUX    ,

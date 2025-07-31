@@ -20,15 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    cfint_reg        ../engine/source/elements/shell/coque/cfint_reg.F
-      !||--- called by ------------------------------------------------------
-      !||    cforc3           ../engine/source/elements/shell/coque/cforc3.F
-      !||    czforc3          ../engine/source/elements/shell/coquez/czforc3.F
-      !||--- uses       -----------------------------------------------------
-      !||    elbufdef_mod     ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||    nlocal_reg_mod   ../common_source/modules/nlocal_reg_mod.F
-      !||====================================================================
+!||====================================================================
+!||    cfint_reg        ../engine/source/elements/shell/coque/cfint_reg.F
+!||--- called by ------------------------------------------------------
+!||    cforc3           ../engine/source/elements/shell/coque/cforc3.F
+!||    czforc3          ../engine/source/elements/shell/coquez/czforc3.F
+!||--- uses       -----------------------------------------------------
+!||    elbufdef_mod     ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    nlocal_reg_mod   ../common_source/modules/nlocal_reg_mod.F
+!||====================================================================
       SUBROUTINE CFINT_REG(
      1   NLOC_DMG,VAR_REG, THK,     NEL,
      2   OFF,     AREA,    NC1,     NC2,

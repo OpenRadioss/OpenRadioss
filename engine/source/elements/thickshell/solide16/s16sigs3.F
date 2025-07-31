@@ -20,11 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    s16sigs3   ../engine/source/elements/thickshell/solide16/s16sigs3.F
-      !||--- called by ------------------------------------------------------
-      !||    s16forc3   ../engine/source/elements/thickshell/solide16/s16forc3.F
-      !||====================================================================
+!||====================================================================
+!||    s16sigs3   ../engine/source/elements/thickshell/solide16/s16sigs3.F
+!||--- called by ------------------------------------------------------
+!||    s16forc3   ../engine/source/elements/thickshell/solide16/s16forc3.F
+!||====================================================================
       SUBROUTINE S16SIGS3(
      1   DXX,     DYY,     DZZ,     D4,
      2   D5,      D6,      RX,      RY,

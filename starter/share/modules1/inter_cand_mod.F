@@ -20,21 +20,21 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    inter_cand_mod                   ../starter/share/modules1/inter_cand_mod.F
-      !||--- called by ------------------------------------------------------
-      !||    dometis                          ../starter/source/spmd/domain_decomposition/grid2mat.F
-      !||    i20ini3                          ../starter/source/interfaces/inter3d1/i20ini3.F
-      !||    inint3                           ../starter/source/interfaces/inter3d1/inint3.F
-      !||    inintr                           ../starter/source/interfaces/interf1/inintr.F
-      !||    lectur                           ../starter/source/starter/lectur.F
-      !||    update_weight_inter_type11       ../starter/source/spmd/domain_decomposition/update_weight_inter_type11.F
-      !||    update_weight_inter_type2        ../starter/source/spmd/domain_decomposition/update_weight_inter_type2.F
-      !||    update_weight_inter_type7        ../starter/source/spmd/domain_decomposition/update_weight_inter_type7.F
-      !||    update_weight_inter_type_24_25   ../starter/source/spmd/domain_decomposition/update_weight_inter_type_24_25.F
-      !||    update_weight_rbe3               ../starter/source/spmd/domain_decomposition/update_weight_rbe3.F
-      !||    upgrade_ixint                    ../starter/source/interfaces/interf1/upgrade_ixint.F
-      !||====================================================================
+!||====================================================================
+!||    inter_cand_mod                   ../starter/share/modules1/inter_cand_mod.F
+!||--- called by ------------------------------------------------------
+!||    dometis                          ../starter/source/spmd/domain_decomposition/grid2mat.F
+!||    i20ini3                          ../starter/source/interfaces/inter3d1/i20ini3.F
+!||    inint3                           ../starter/source/interfaces/inter3d1/inint3.F
+!||    inintr                           ../starter/source/interfaces/interf1/inintr.F
+!||    lectur                           ../starter/source/starter/lectur.F
+!||    update_weight_inter_type11       ../starter/source/spmd/domain_decomposition/update_weight_inter_type11.F
+!||    update_weight_inter_type2        ../starter/source/spmd/domain_decomposition/update_weight_inter_type2.F
+!||    update_weight_inter_type7        ../starter/source/spmd/domain_decomposition/update_weight_inter_type7.F
+!||    update_weight_inter_type_24_25   ../starter/source/spmd/domain_decomposition/update_weight_inter_type_24_25.F
+!||    update_weight_rbe3               ../starter/source/spmd/domain_decomposition/update_weight_rbe3.F
+!||    upgrade_ixint                    ../starter/source/interfaces/interf1/upgrade_ixint.F
+!||====================================================================
       MODULE INTER_CAND_MOD
 
         TYPE INTER_CAND_

@@ -20,12 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    aleso2t                ../starter/source/ale/ale2d/aleso2t.F
-      !||--- called by ------------------------------------------------------
-      !||    alelec                 ../starter/source/ale/alelec.F
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    aleso2t                ../starter/source/ale/ale2d/aleso2t.F
+!||--- called by ------------------------------------------------------
+!||    alelec                 ../starter/source/ale/alelec.F
+!||--- uses       -----------------------------------------------------
+!||====================================================================
       SUBROUTINE ALESO2T(ALE_CONNECTIVITY, PM, IXTG, IGEO)
 C-----------------------------------------------
 C   D e s c r i p t i o n

@@ -20,35 +20,35 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    intstamp_mod        ../engine/share/modules/intstamp_mod.F
-      !||--- called by ------------------------------------------------------
-      !||    i21_icrit           ../engine/source/interfaces/intsort/i21_icrit.F
-      !||    i21ass3             ../engine/source/interfaces/int21/i21ass3.F
-      !||    i21buce_crit        ../engine/source/interfaces/intsort/i21buce_crit.F
-      !||    i21main_crit_tri    ../engine/source/interfaces/intsort/i21main_crit_tri.F
-      !||    i21main_gap         ../engine/source/interfaces/int21/i21main_gap.F
-      !||    i21main_opt_tri     ../engine/source/interfaces/intsort/i21main_opt_tri.F
-      !||    i21main_tri         ../engine/source/interfaces/intsort/i21main_tri.F
-      !||    i21mainf            ../engine/source/interfaces/int21/i21mainf.F
-      !||    i25main_gap         ../engine/source/interfaces/int25/i25main_gap.F
-      !||    intfop2             ../engine/source/interfaces/interf/intfop2.F
-      !||    intstamp_ass        ../engine/source/interfaces/int21/intstamp_ass.F
-      !||    intstamp_dt         ../engine/source/interfaces/int21/intstamp_dt.F
-      !||    intstamp_glob_mod   ../engine/share/modules/intstamp_glob_mod.F
-      !||    intstamp_init       ../engine/source/interfaces/int21/intstamp_init.F
-      !||    intstamp_move       ../engine/source/interfaces/int21/intstamp_move.F
-      !||    inttri              ../engine/source/interfaces/intsort/inttri.F
-      !||    sms_build_mat_2     ../engine/source/ams/sms_build_mat_2.F
-      !||    sms_encin_2         ../engine/source/ams/sms_encin_2.F
-      !||    sms_ini_jad_2       ../engine/source/ams/sms_init.F
-      !||    sms_ini_jad_3       ../engine/source/ams/sms_init.F
-      !||    sms_mass_scale_2    ../engine/source/ams/sms_mass_scale_2.F
-      !||    sms_pcg             ../engine/source/ams/sms_pcg.F
-      !||    spmd_i21fthecom     ../engine/source/mpi/interfaces/send_cand.F
-      !||    spmd_i21tempcom     ../engine/source/mpi/interfaces/send_cand.F
-      !||    spmd_ifront_stamp   ../engine/source/mpi/interfaces/send_cand.F
-      !||====================================================================
+!||====================================================================
+!||    intstamp_mod        ../engine/share/modules/intstamp_mod.F
+!||--- called by ------------------------------------------------------
+!||    i21_icrit           ../engine/source/interfaces/intsort/i21_icrit.F
+!||    i21ass3             ../engine/source/interfaces/int21/i21ass3.F
+!||    i21buce_crit        ../engine/source/interfaces/intsort/i21buce_crit.F
+!||    i21main_crit_tri    ../engine/source/interfaces/intsort/i21main_crit_tri.F
+!||    i21main_gap         ../engine/source/interfaces/int21/i21main_gap.F
+!||    i21main_opt_tri     ../engine/source/interfaces/intsort/i21main_opt_tri.F
+!||    i21main_tri         ../engine/source/interfaces/intsort/i21main_tri.F
+!||    i21mainf            ../engine/source/interfaces/int21/i21mainf.F
+!||    i25main_gap         ../engine/source/interfaces/int25/i25main_gap.F
+!||    intfop2             ../engine/source/interfaces/interf/intfop2.F
+!||    intstamp_ass        ../engine/source/interfaces/int21/intstamp_ass.F
+!||    intstamp_dt         ../engine/source/interfaces/int21/intstamp_dt.F
+!||    intstamp_glob_mod   ../engine/share/modules/intstamp_glob_mod.F
+!||    intstamp_init       ../engine/source/interfaces/int21/intstamp_init.F
+!||    intstamp_move       ../engine/source/interfaces/int21/intstamp_move.F
+!||    inttri              ../engine/source/interfaces/intsort/inttri.F
+!||    sms_build_mat_2     ../engine/source/ams/sms_build_mat_2.F
+!||    sms_encin_2         ../engine/source/ams/sms_encin_2.F
+!||    sms_ini_jad_2       ../engine/source/ams/sms_init.F
+!||    sms_ini_jad_3       ../engine/source/ams/sms_init.F
+!||    sms_mass_scale_2    ../engine/source/ams/sms_mass_scale_2.F
+!||    sms_pcg             ../engine/source/ams/sms_pcg.F
+!||    spmd_i21fthecom     ../engine/source/mpi/interfaces/send_cand.F
+!||    spmd_i21tempcom     ../engine/source/mpi/interfaces/send_cand.F
+!||    spmd_ifront_stamp   ../engine/source/mpi/interfaces/send_cand.F
+!||====================================================================
       MODULE INTSTAMP_MOD
 C-----------------------------------------------
 C   m y _ r e a l
@@ -100,11 +100,11 @@ C-----------------------------------------------
 C    S p e c i f i c   F u n c t i o n s 
 C-----------------------------------------------
       CONTAINS
-      !||====================================================================
-      !||    intstamp_zero   ../engine/share/modules/intstamp_mod.F
-      !||--- called by ------------------------------------------------------
-      !||    restalloc       ../engine/source/output/restart/arralloc.F
-      !||====================================================================
+!||====================================================================
+!||    intstamp_zero   ../engine/share/modules/intstamp_mod.F
+!||--- called by ------------------------------------------------------
+!||    restalloc       ../engine/source/output/restart/arralloc.F
+!||====================================================================
       SUBROUTINE INTSTAMP_ZERO(INTSTAMP)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -171,13 +171,13 @@ C--------------------------------------
       END DO
       RETURN
       END SUBROUTINE INTSTAMP_ZERO
-      !||====================================================================
-      !||    intstamp_wresti   ../engine/share/modules/intstamp_mod.F
-      !||--- called by ------------------------------------------------------
-      !||    wrrestp           ../engine/source/output/restart/wrrestp.F
-      !||--- calls      -----------------------------------------------------
-      !||    write_i_c         ../common_source/tools/input_output/write_routtines.c
-      !||====================================================================
+!||====================================================================
+!||    intstamp_wresti   ../engine/share/modules/intstamp_mod.F
+!||--- called by ------------------------------------------------------
+!||    wrrestp           ../engine/source/output/restart/wrrestp.F
+!||--- calls      -----------------------------------------------------
+!||    write_i_c         ../common_source/tools/input_output/write_routtines.c
+!||====================================================================
       SUBROUTINE INTSTAMP_WRESTI(INTSTAMP)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -215,14 +215,14 @@ C--------------------------------------
       END DO
       RETURN
       END SUBROUTINE INTSTAMP_WRESTI
-      !||====================================================================
-      !||    intstamp_wrestr   ../engine/share/modules/intstamp_mod.F
-      !||--- called by ------------------------------------------------------
-      !||    wrrestp           ../engine/source/output/restart/wrrestp.F
-      !||--- calls      -----------------------------------------------------
-      !||    write_db          ../common_source/tools/input_output/write_db.F
-      !||    write_dpdb        ../common_source/tools/input_output/write_db.F
-      !||====================================================================
+!||====================================================================
+!||    intstamp_wrestr   ../engine/share/modules/intstamp_mod.F
+!||--- called by ------------------------------------------------------
+!||    wrrestp           ../engine/source/output/restart/wrrestp.F
+!||--- calls      -----------------------------------------------------
+!||    write_db          ../common_source/tools/input_output/write_db.F
+!||    write_dpdb        ../common_source/tools/input_output/write_db.F
+!||====================================================================
       SUBROUTINE INTSTAMP_WRESTR(INTSTAMP)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -272,13 +272,13 @@ C--------------------------------------
       END DO
       RETURN
       END SUBROUTINE INTSTAMP_WRESTR
-      !||====================================================================
-      !||    intstamp_rresti   ../engine/share/modules/intstamp_mod.F
-      !||--- called by ------------------------------------------------------
-      !||    rdresb            ../engine/source/output/restart/rdresb.F
-      !||--- calls      -----------------------------------------------------
-      !||    read_i_c          ../common_source/tools/input_output/write_routtines.c
-      !||====================================================================
+!||====================================================================
+!||    intstamp_rresti   ../engine/share/modules/intstamp_mod.F
+!||--- called by ------------------------------------------------------
+!||    rdresb            ../engine/source/output/restart/rdresb.F
+!||--- calls      -----------------------------------------------------
+!||    read_i_c          ../common_source/tools/input_output/write_routtines.c
+!||====================================================================
       SUBROUTINE INTSTAMP_RRESTI(INTSTAMP)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -316,14 +316,14 @@ C--------------------------------------
       END DO
       RETURN
       END SUBROUTINE INTSTAMP_RRESTI
-      !||====================================================================
-      !||    intstamp_rrestr   ../engine/share/modules/intstamp_mod.F
-      !||--- called by ------------------------------------------------------
-      !||    rdresb            ../engine/source/output/restart/rdresb.F
-      !||--- calls      -----------------------------------------------------
-      !||    read_db           ../common_source/tools/input_output/read_db.F
-      !||    read_dpdb         ../common_source/tools/input_output/read_db.F
-      !||====================================================================
+!||====================================================================
+!||    intstamp_rrestr   ../engine/share/modules/intstamp_mod.F
+!||--- called by ------------------------------------------------------
+!||    rdresb            ../engine/source/output/restart/rdresb.F
+!||--- calls      -----------------------------------------------------
+!||    read_db           ../common_source/tools/input_output/read_db.F
+!||    read_dpdb         ../common_source/tools/input_output/read_db.F
+!||====================================================================
       SUBROUTINE INTSTAMP_RRESTR(INTSTAMP)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

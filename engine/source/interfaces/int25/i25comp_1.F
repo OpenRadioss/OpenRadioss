@@ -20,20 +20,20 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    i25comp_1        ../engine/source/interfaces/int25/i25comp_1.F
-      !||--- called by ------------------------------------------------------
-      !||    i25main_slid     ../engine/source/interfaces/int25/i25main_slid.F
-      !||--- calls      -----------------------------------------------------
-      !||    i25cor3_1        ../engine/source/interfaces/int25/i25cor3.F
-      !||    i25dst3_1        ../engine/source/interfaces/int25/i25dst3_1.F
-      !||    i25glob_1        ../engine/source/interfaces/int25/i25dst3_1.F
-      !||    i25prep_slid_1   ../engine/source/interfaces/int25/i25slid.F
-      !||--- uses       -----------------------------------------------------
-      !||    intbufdef_mod    ../common_source/modules/interfaces/intbufdef_mod.F90
-      !||    sensor_mod       ../common_source/modules/sensor_mod.F90
-      !||    tri7box          ../engine/share/modules/tri7box.F
-      !||====================================================================
+!||====================================================================
+!||    i25comp_1        ../engine/source/interfaces/int25/i25comp_1.F
+!||--- called by ------------------------------------------------------
+!||    i25main_slid     ../engine/source/interfaces/int25/i25main_slid.F
+!||--- calls      -----------------------------------------------------
+!||    i25cor3_1        ../engine/source/interfaces/int25/i25cor3.F
+!||    i25dst3_1        ../engine/source/interfaces/int25/i25dst3_1.F
+!||    i25glob_1        ../engine/source/interfaces/int25/i25dst3_1.F
+!||    i25prep_slid_1   ../engine/source/interfaces/int25/i25slid.F
+!||--- uses       -----------------------------------------------------
+!||    intbufdef_mod    ../common_source/modules/interfaces/intbufdef_mod.F90
+!||    sensor_mod       ../common_source/modules/sensor_mod.F90
+!||    tri7box          ../engine/share/modules/tri7box.F
+!||====================================================================
       SUBROUTINE I25COMP_1(
      1                   IPARI   ,INTBUF_TAB ,X      ,ITAB   ,NIN        ,
      2                   KINET      ,JTASK  ,NB_DST1,V       ,NSENSOR    ,

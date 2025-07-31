@@ -20,16 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    spmd_exch_rbe2_sms    ../engine/source/mpi/kinematic_conditions/spmd_exch_rbe2_sms.F
-      !||--- called by ------------------------------------------------------
-      !||    sms_diag_rbe2         ../engine/source/ams/sms_rbe2.F
-      !||    sms_rbe_cnds          ../engine/source/ams/sms_rbe2.F
-      !||    sms_rbe_prec          ../engine/source/ams/sms_rbe2.F
-      !||--- calls      -----------------------------------------------------
-      !||--- uses       -----------------------------------------------------
-      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
-      !||====================================================================
+!||====================================================================
+!||    spmd_exch_rbe2_sms    ../engine/source/mpi/kinematic_conditions/spmd_exch_rbe2_sms.F
+!||--- called by ------------------------------------------------------
+!||    sms_diag_rbe2         ../engine/source/ams/sms_rbe2.F
+!||    sms_rbe_cnds          ../engine/source/ams/sms_rbe2.F
+!||    sms_rbe_prec          ../engine/source/ams/sms_rbe2.F
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
+!||====================================================================
       SUBROUTINE SPMD_EXCH_RBE2_SMS(
      1   A     ,IAD_M   ,FR_M  ,LCOMM  ,ISIZE)
 C-----------------------------------------------

@@ -20,21 +20,21 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    zeror          ../engine/source/system/zero.F
-      !||--- called by ------------------------------------------------------
-      !||    imp_buck       ../engine/source/implicit/imp_buck.F
-      !||    imp_chkm       ../engine/source/implicit/imp_solv.F
-      !||    imp_init       ../engine/source/implicit/imp_init.F
-      !||    imp_restarcp   ../engine/source/implicit/imp_sol_init.F
-      !||    int_matv       ../engine/source/implicit/imp_int_k.F
-      !||    int_matvp      ../engine/source/implicit/imp_int_k.F
-      !||    monv_m3        ../engine/source/airbag/monv_imp0.F
-      !||    mv_matv        ../engine/source/airbag/monv_imp0.F
-      !||    resol          ../engine/source/engine/resol.F
-      !||    resol_init     ../engine/source/engine/resol_init.F
-      !||    rgwal0_imp     ../engine/source/constraints/general/rwall/rgwal0.F
-      !||====================================================================
+!||====================================================================
+!||    zeror          ../engine/source/system/zero.F
+!||--- called by ------------------------------------------------------
+!||    imp_buck       ../engine/source/implicit/imp_buck.F
+!||    imp_chkm       ../engine/source/implicit/imp_solv.F
+!||    imp_init       ../engine/source/implicit/imp_init.F
+!||    imp_restarcp   ../engine/source/implicit/imp_sol_init.F
+!||    int_matv       ../engine/source/implicit/imp_int_k.F
+!||    int_matvp      ../engine/source/implicit/imp_int_k.F
+!||    monv_m3        ../engine/source/airbag/monv_imp0.F
+!||    mv_matv        ../engine/source/airbag/monv_imp0.F
+!||    resol          ../engine/source/engine/resol.F
+!||    resol_init     ../engine/source/engine/resol_init.F
+!||    rgwal0_imp     ../engine/source/constraints/general/rwall/rgwal0.F
+!||====================================================================
       SUBROUTINE ZEROR(A,N)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -59,28 +59,28 @@ C-----------------------------------------------
       ENDDO
       RETURN
       END
-      !||====================================================================
-      !||    zero1           ../engine/source/system/zero.F
-      !||--- called by ------------------------------------------------------
-      !||    autspc          ../engine/source/constraints/general/bcs/bc_imp0.F
-      !||    clceig          ../engine/source/constraints/general/bcs/bc_imp0.F
-      !||    i2recu0         ../engine/source/interfaces/interf/i2_imp2.F
-      !||    i2recu2         ../engine/source/interfaces/interf/i2_imp2.F
-      !||    imp_chkm        ../engine/source/implicit/imp_solv.F
-      !||    imp_sol_init    ../engine/source/implicit/imp_sol_init.F
-      !||    imp_solv        ../engine/source/implicit/imp_solv.F
-      !||    ind_sld         ../engine/source/mpi/implicit/imp_fri.F
-      !||    nrmlzauspc      ../engine/source/constraints/general/bcs/bc_imp0.F
-      !||    rbe3cl          ../engine/source/constraints/general/rbe3/rbe3f.F
-      !||    rbe3t1          ../engine/source/constraints/general/rbe3/rbe3f.F
-      !||    rbe3uf          ../engine/source/constraints/general/rbe3/rbe3f.F
-      !||    rbe3um          ../engine/source/constraints/general/rbe3/rbe3f.F
-      !||    resol           ../engine/source/engine/resol.F
-      !||    resol_init      ../engine/source/engine/resol_init.F
-      !||    set_ind_fr      ../engine/source/mpi/implicit/imp_fri.F
-      !||    sms_rbe3_prec   ../engine/source/ams/sms_rbe3.F
-      !||    sms_rbe3t1      ../engine/source/ams/sms_rbe3.F
-      !||====================================================================
+!||====================================================================
+!||    zero1           ../engine/source/system/zero.F
+!||--- called by ------------------------------------------------------
+!||    autspc          ../engine/source/constraints/general/bcs/bc_imp0.F
+!||    clceig          ../engine/source/constraints/general/bcs/bc_imp0.F
+!||    i2recu0         ../engine/source/interfaces/interf/i2_imp2.F
+!||    i2recu2         ../engine/source/interfaces/interf/i2_imp2.F
+!||    imp_chkm        ../engine/source/implicit/imp_solv.F
+!||    imp_sol_init    ../engine/source/implicit/imp_sol_init.F
+!||    imp_solv        ../engine/source/implicit/imp_solv.F
+!||    ind_sld         ../engine/source/mpi/implicit/imp_fri.F
+!||    nrmlzauspc      ../engine/source/constraints/general/bcs/bc_imp0.F
+!||    rbe3cl          ../engine/source/constraints/general/rbe3/rbe3f.F
+!||    rbe3t1          ../engine/source/constraints/general/rbe3/rbe3f.F
+!||    rbe3uf          ../engine/source/constraints/general/rbe3/rbe3f.F
+!||    rbe3um          ../engine/source/constraints/general/rbe3/rbe3f.F
+!||    resol           ../engine/source/engine/resol.F
+!||    resol_init      ../engine/source/engine/resol_init.F
+!||    set_ind_fr      ../engine/source/mpi/implicit/imp_fri.F
+!||    sms_rbe3_prec   ../engine/source/ams/sms_rbe3.F
+!||    sms_rbe3t1      ../engine/source/ams/sms_rbe3.F
+!||====================================================================
       SUBROUTINE ZERO1(A,N)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

@@ -20,15 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    lecgroup        ../starter/source/groups/lecgroup.F
-      !||--- called by ------------------------------------------------------
-      !||    lectur          ../starter/source/starter/lectur.F
-      !||--- calls      -----------------------------------------------------
-      !||    hm_lecgre       ../starter/source/groups/hm_lecgre.F
-      !||--- uses       -----------------------------------------------------
-      !||    submodel_mod    ../starter/share/modules1/submodel_mod.F
-      !||====================================================================
+!||====================================================================
+!||    lecgroup        ../starter/source/groups/lecgroup.F
+!||--- called by ------------------------------------------------------
+!||    lectur          ../starter/source/starter/lectur.F
+!||--- calls      -----------------------------------------------------
+!||    hm_lecgre       ../starter/source/groups/hm_lecgre.F
+!||--- uses       -----------------------------------------------------
+!||    submodel_mod    ../starter/share/modules1/submodel_mod.F
+!||====================================================================
       SUBROUTINE LECGROUP(
      1      ITAB     ,ITABM1             ,ISUBMOD  ,
      2      X        ,IXS      ,IXQ      ,IXC      ,IXT      ,IXP      ,

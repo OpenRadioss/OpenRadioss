@@ -20,11 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    i21gap3       ../engine/source/interfaces/int21/i21gap3.F
-      !||--- called by ------------------------------------------------------
-      !||    i21main_gap   ../engine/source/interfaces/int21/i21main_gap.F
-      !||====================================================================
+!||====================================================================
+!||    i21gap3       ../engine/source/interfaces/int21/i21gap3.F
+!||--- called by ------------------------------------------------------
+!||    i21main_gap   ../engine/source/interfaces/int21/i21main_gap.F
+!||====================================================================
       SUBROUTINE I21GAP3(
      1 ITASK ,IRECTS ,NRTS ,NSN   ,NSV   ,
      2 GAP   ,IGAP  ,GAP_S ,GAPMIN,CRITER,

@@ -20,17 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    hm_bigbox2             ../starter/source/model/box/hm_bigbox2.F
-      !||--- called by ------------------------------------------------------
-      !||    hm_lecgre              ../starter/source/groups/hm_lecgre.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg                 ../starter/source/output/message/message.F
-      !||    boxbox2                ../starter/source/model/box/boxbox.F
-      !||    boxtage                ../starter/source/model/box/bigbox.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod            ../starter/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    hm_bigbox2             ../starter/source/model/box/hm_bigbox2.F
+!||--- called by ------------------------------------------------------
+!||    hm_lecgre              ../starter/source/groups/hm_lecgre.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                 ../starter/source/output/message/message.F
+!||    boxbox2                ../starter/source/model/box/boxbox.F
+!||    boxtage                ../starter/source/model/box/bigbox.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod            ../starter/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE HM_BIGBOX2(X      ,FLAG   ,NEL     ,
      .                      SKEW   ,IGS    ,ISKN    ,ITABM1,IBOX   ,
      .                      ID     ,NADMESH,NIX     ,IX    ,NIX1   ,NUMEL ,

@@ -20,11 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    cutcon    ../engine/source/tools/sect/cutcon.F
-      !||--- called by ------------------------------------------------------
-      !||    cutmain   ../engine/source/tools/sect/cutmain.F
-      !||====================================================================
+!||====================================================================
+!||    cutcon    ../engine/source/tools/sect/cutcon.F
+!||--- called by ------------------------------------------------------
+!||    cutmain   ../engine/source/tools/sect/cutmain.F
+!||====================================================================
       SUBROUTINE CUTCON(ITYP,X0,VN,XYZ0,IXS,D,
      .                  NUMTOT,NUMEL,NC,NVOIS,NA,XYZ,AL,NODCUT)
 C------------------------------------------

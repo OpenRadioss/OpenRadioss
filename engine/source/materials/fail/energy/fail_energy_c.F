@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    fail_energy_c   ../engine/source/materials/fail/energy/fail_energy_c.F
-      !||--- called by ------------------------------------------------------
-      !||    mulawc          ../engine/source/materials/mat_share/mulawc.F90
-      !||    usermat_shell   ../engine/source/materials/mat_share/usermat_shell.F
-      !||--- calls      -----------------------------------------------------
-      !||    finter          ../engine/source/tools/curve/finter.F
-      !||====================================================================
+!||====================================================================
+!||    fail_energy_c   ../engine/source/materials/fail/energy/fail_energy_c.F
+!||--- called by ------------------------------------------------------
+!||    mulawc          ../engine/source/materials/mat_share/mulawc.F90
+!||    usermat_shell   ../engine/source/materials/mat_share/usermat_shell.F
+!||--- calls      -----------------------------------------------------
+!||    finter          ../engine/source/tools/curve/finter.F
+!||====================================================================
       SUBROUTINE FAIL_ENERGY_C(
      1     NEL      ,NUPARAM  ,NUVAR    ,NFUNC    ,IFUNC    ,
      2     UPARAM   ,UVAR     ,NPF      ,TF       ,TIME     , 

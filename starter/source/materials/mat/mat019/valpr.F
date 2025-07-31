@@ -21,11 +21,11 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
-      !||====================================================================
-      !||    valpr    ../starter/source/materials/mat/mat019/valpr.F
-      !||--- called by ------------------------------------------------------
-      !||    inepri   ../starter/source/materials/mat/mat019/inepri.F
-      !||====================================================================
+!||====================================================================
+!||    valpr    ../starter/source/materials/mat/mat019/valpr.F
+!||--- called by ------------------------------------------------------
+!||    inepri   ../starter/source/materials/mat/mat019/inepri.F
+!||====================================================================
       SUBROUTINE VALPR (A,R,N,MV)
 C-----------------------------------
 C-----------------------------------------------

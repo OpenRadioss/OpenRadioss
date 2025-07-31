@@ -20,16 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    fail_wind_frwave   ../engine/source/materials/fail/alter/fail_wind_frwave.F
-      !||--- called by ------------------------------------------------------
-      !||    mulawc             ../engine/source/materials/mat_share/mulawc.F90
-      !||    usermat_shell      ../engine/source/materials/mat_share/usermat_shell.F
-      !||--- calls      -----------------------------------------------------
-      !||    fail_brokmann      ../engine/source/materials/fail/alter/fail_brokmann.F
-      !||--- uses       -----------------------------------------------------
-      !||    rupture_mod        ../engine/share/modules/rupture_mod.F
-      !||====================================================================
+!||====================================================================
+!||    fail_wind_frwave   ../engine/source/materials/fail/alter/fail_wind_frwave.F
+!||--- called by ------------------------------------------------------
+!||    mulawc             ../engine/source/materials/mat_share/mulawc.F90
+!||    usermat_shell      ../engine/source/materials/mat_share/usermat_shell.F
+!||--- calls      -----------------------------------------------------
+!||    fail_brokmann      ../engine/source/materials/fail/alter/fail_brokmann.F
+!||--- uses       -----------------------------------------------------
+!||    rupture_mod        ../engine/share/modules/rupture_mod.F
+!||====================================================================
       SUBROUTINE FAIL_WIND_FRWAVE(
      1     NEL       ,NUPARAM   ,NUVAR     ,UPARAM    ,UVAR      ,
      2     TIME      ,TIMESTEP  ,SSP       ,ALDT      ,FWAVE_EL  ,

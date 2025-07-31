@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    roto       ../engine/source/airbag/roto.F
-      !||--- called by ------------------------------------------------------
-      !||    mulawglc   ../engine/source/materials/mat_share/mulawglc.F
-      !||    porfor5    ../engine/source/airbag/porfor5.F
-      !||    porform5   ../engine/source/airbag/porfor5.F
-      !||====================================================================
+!||====================================================================
+!||    roto       ../engine/source/airbag/roto.F
+!||--- called by ------------------------------------------------------
+!||    mulawglc   ../engine/source/materials/mat_share/mulawglc.F
+!||    porfor5    ../engine/source/airbag/porfor5.F
+!||    porform5   ../engine/source/airbag/porfor5.F
+!||====================================================================
       SUBROUTINE ROTO(JFT,JLT,SIG,DIR,NEL)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -65,14 +65,14 @@ C-----------------------------------------------
 C
       RETURN
       END
-      !||====================================================================
-      !||    rotov             ../engine/source/airbag/roto.F
-      !||--- called by ------------------------------------------------------
-      !||    mat25_crasurv_c   ../engine/source/materials/mat/mat025/mat25_crasurv_c.F90
-      !||    mat25_tsaiwu_c    ../engine/source/materials/mat/mat025/mat25_tsaiwu_c.F90
-      !||    mulawc            ../engine/source/materials/mat_share/mulawc.F90
-      !||    usermat_shell     ../engine/source/materials/mat_share/usermat_shell.F
-      !||====================================================================
+!||====================================================================
+!||    rotov             ../engine/source/airbag/roto.F
+!||--- called by ------------------------------------------------------
+!||    mat25_crasurv_c   ../engine/source/materials/mat/mat025/mat25_crasurv_c.F90
+!||    mat25_tsaiwu_c    ../engine/source/materials/mat/mat025/mat25_tsaiwu_c.F90
+!||    mulawc            ../engine/source/materials/mat_share/mulawc.F90
+!||    usermat_shell     ../engine/source/materials/mat_share/usermat_shell.F
+!||====================================================================
       SUBROUTINE ROTOV(JFT,JLT,SIG,DIR,NEL)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -116,12 +116,12 @@ C-----------------------------------------------
 C
       RETURN
       END
-      !||====================================================================
-      !||    roto_sig    ../engine/source/airbag/roto.F
-      !||--- called by ------------------------------------------------------
-      !||    prony25c    ../engine/source/materials/mat/mat025/prony25c.F
-      !||    sigeps27c   ../engine/source/materials/mat/mat027/sigeps27c.F
-      !||====================================================================
+!||====================================================================
+!||    roto_sig    ../engine/source/airbag/roto.F
+!||--- called by ------------------------------------------------------
+!||    prony25c    ../engine/source/materials/mat/mat025/prony25c.F
+!||    sigeps27c   ../engine/source/materials/mat/mat027/sigeps27c.F
+!||====================================================================
       SUBROUTINE ROTO_SIG(JFT,JLT,SIG,DIR,NEL)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

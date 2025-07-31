@@ -24,36 +24,36 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C=======================================================================
 C     // MEMOIRE PARTAGEE
 C=======================================================================
-      !||====================================================================
-      !||    my_barrier   ../starter/source/system/machine.F
-      !||====================================================================
+!||====================================================================
+!||    my_barrier   ../starter/source/system/machine.F
+!||====================================================================
       SUBROUTINE MY_BARRIER
         RETURN
       END
-      !||====================================================================
-      !||    bidon          ../starter/source/system/machine.F
-      !||--- called by ------------------------------------------------------
-      !||    initwg_shell   ../starter/source/spmd/domain_decomposition/initwg_shell.F
-      !||    initwg_solid   ../starter/source/spmd/domain_decomposition/initwg_solid.F
-      !||    initwg_tri     ../starter/source/spmd/domain_decomposition/initwg_tri.F
-      !||====================================================================
+!||====================================================================
+!||    bidon          ../starter/source/system/machine.F
+!||--- called by ------------------------------------------------------
+!||    initwg_shell   ../starter/source/spmd/domain_decomposition/initwg_shell.F
+!||    initwg_solid   ../starter/source/spmd/domain_decomposition/initwg_solid.F
+!||    initwg_tri     ../starter/source/spmd/domain_decomposition/initwg_tri.F
+!||====================================================================
       SUBROUTINE BIDON
         RETURN
       END
 
-      !||====================================================================
-      !||    bidon1   ../starter/source/system/machine.F
-      !||====================================================================
+!||====================================================================
+!||    bidon1   ../starter/source/system/machine.F
+!||====================================================================
       SUBROUTINE BIDON1(IBID)
         INTEGER IBID
         RETURN
       END
 
-      !||====================================================================
-      !||    bidon2         ../starter/source/system/machine.F
-      !||--- called by ------------------------------------------------------
-      !||    lecstack_ply   ../starter/source/properties/composite_options/stack/lecstack_ply.F
-      !||====================================================================
+!||====================================================================
+!||    bidon2         ../starter/source/system/machine.F
+!||--- called by ------------------------------------------------------
+!||    lecstack_ply   ../starter/source/properties/composite_options/stack/lecstack_ply.F
+!||====================================================================
       SUBROUTINE BIDON2(FAC_L)
         DOUBLE PRECISION FAC_L
         RETURN
@@ -63,13 +63,13 @@ C
 C=======================================================================
 C  ROUTINE VERIFICATION LIMITATIONS MACHINE
 C=======================================================================
-      !||====================================================================
-      !||    mverif        ../starter/source/system/machine.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg        ../starter/source/output/message/message.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod   ../starter/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    mverif        ../starter/source/system/machine.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg        ../starter/source/output/message/message.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod   ../starter/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE MVERIF()
       USE MESSAGE_MOD
 C
@@ -103,13 +103,13 @@ C        WRITE(IOUT,*)'** WARNING NUMNOD IS TOO LARGE FOR THIS VERSION'
       RETURN
       END
 
-      !||====================================================================
-      !||    my_etime   ../starter/source/system/machine.F
-      !||--- called by ------------------------------------------------------
-      !||    startime   ../starter/source/system/timer.F
-      !||    stoptime   ../starter/source/system/timer.F
-      !||--- calls      -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    my_etime   ../starter/source/system/machine.F
+!||--- called by ------------------------------------------------------
+!||    startime   ../starter/source/system/timer.F
+!||    stoptime   ../starter/source/system/timer.F
+!||--- calls      -----------------------------------------------------
+!||====================================================================
       SUBROUTINE MY_ETIME(TIMER)
       REAL  RESULT
       REAL, DIMENSION(4) :: TIMER
@@ -137,12 +137,12 @@ C        WRITE(IOUT,*)'** WARNING NUMNOD IS TOO LARGE FOR THIS VERSION'
 C
 C
 C appel Fortran flush
-      !||====================================================================
-      !||    my_flush   ../starter/source/system/machine.F
-      !||--- called by ------------------------------------------------------
-      !||    printcpu   ../starter/source/system/printcpu.F
-      !||--- calls      -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    my_flush   ../starter/source/system/machine.F
+!||--- called by ------------------------------------------------------
+!||    printcpu   ../starter/source/system/printcpu.F
+!||--- calls      -----------------------------------------------------
+!||====================================================================
       SUBROUTINE MY_FLUSH(IUNIT)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

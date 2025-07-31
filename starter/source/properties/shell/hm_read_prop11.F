@@ -20,25 +20,25 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    hm_read_prop11             ../starter/source/properties/shell/hm_read_prop11.F
-      !||--- called by ------------------------------------------------------
-      !||    hm_read_properties         ../starter/source/properties/hm_read_properties.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg                     ../starter/source/output/message/message.F
-      !||    fretitl2                   ../starter/source/starter/freform.F
-      !||    hm_get_float_array_index   ../starter/source/devtools/hm_reader/hm_get_float_array_index.F
-      !||    hm_get_floatv              ../starter/source/devtools/hm_reader/hm_get_floatv.F
-      !||    hm_get_int_array_index     ../starter/source/devtools/hm_reader/hm_get_int_array_index.F
-      !||    hm_get_intv                ../starter/source/devtools/hm_reader/hm_get_intv.F
-      !||    hm_option_is_encrypted     ../starter/source/devtools/hm_reader/hm_option_is_encrypted.F
-      !||    subrotvect                 ../starter/source/model/submodel/subrot.F
-      !||--- uses       -----------------------------------------------------
-      !||    defaults_mod               ../starter/source/modules/defaults_mod.F90
-      !||    elbuftag_mod               ../starter/share/modules1/elbuftag_mod.F
-      !||    message_mod                ../starter/share/message_module/message_mod.F
-      !||    submodel_mod               ../starter/share/modules1/submodel_mod.F
-      !||====================================================================
+!||====================================================================
+!||    hm_read_prop11             ../starter/source/properties/shell/hm_read_prop11.F
+!||--- called by ------------------------------------------------------
+!||    hm_read_properties         ../starter/source/properties/hm_read_properties.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                     ../starter/source/output/message/message.F
+!||    fretitl2                   ../starter/source/starter/freform.F
+!||    hm_get_float_array_index   ../starter/source/devtools/hm_reader/hm_get_float_array_index.F
+!||    hm_get_floatv              ../starter/source/devtools/hm_reader/hm_get_floatv.F
+!||    hm_get_int_array_index     ../starter/source/devtools/hm_reader/hm_get_int_array_index.F
+!||    hm_get_intv                ../starter/source/devtools/hm_reader/hm_get_intv.F
+!||    hm_option_is_encrypted     ../starter/source/devtools/hm_reader/hm_option_is_encrypted.F
+!||    subrotvect                 ../starter/source/model/submodel/subrot.F
+!||--- uses       -----------------------------------------------------
+!||    defaults_mod               ../starter/source/modules/defaults_mod.F90
+!||    elbuftag_mod               ../starter/share/modules1/elbuftag_mod.F
+!||    message_mod                ../starter/share/message_module/message_mod.F
+!||    submodel_mod               ../starter/share/modules1/submodel_mod.F
+!||====================================================================
       SUBROUTINE HM_READ_PROP11(GEO       ,IGEO     ,PM       ,IPM      ,ISKN     ,
      .                   UNITAB    ,RTRANS   ,LSUBMODEL,SUB_ID   ,IDTITL   ,
      .                   PROP_TAG  ,IG       ,IGTYP  ,DEFAULTS_SHELL )

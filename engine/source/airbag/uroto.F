@@ -20,11 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    uroto      ../engine/source/airbag/uroto.F
-      !||--- called by ------------------------------------------------------
-      !||    mulawglc   ../engine/source/materials/mat_share/mulawglc.F
-      !||====================================================================
+!||====================================================================
+!||    uroto      ../engine/source/airbag/uroto.F
+!||--- called by ------------------------------------------------------
+!||    mulawglc   ../engine/source/materials/mat_share/mulawglc.F
+!||====================================================================
       SUBROUTINE UROTO(JFT,JLT,SIG,DIR,NEL)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -63,18 +63,18 @@ C-----------------------------------------------
 C
       RETURN
       END
-      !||====================================================================
-      !||    urotov            ../engine/source/airbag/uroto.F
-      !||--- called by ------------------------------------------------------
-      !||    m32plas           ../engine/source/materials/mat/mat032/m32plas.F
-      !||    mat25_crasurv_c   ../engine/source/materials/mat/mat025/mat25_crasurv_c.F90
-      !||    mat25_tsaiwu_c    ../engine/source/materials/mat/mat025/mat25_tsaiwu_c.F90
-      !||    mulawc            ../engine/source/materials/mat_share/mulawc.F90
-      !||    sigrota           ../engine/source/output/anim/generate/sigrota.F
-      !||    sigrota_xfe       ../engine/source/output/anim/generate/sigrota_xfe.F
-      !||    tensorc_crk       ../engine/source/output/anim/generate/tensorc_crk.F
-      !||    usermat_shell     ../engine/source/materials/mat_share/usermat_shell.F
-      !||====================================================================
+!||====================================================================
+!||    urotov            ../engine/source/airbag/uroto.F
+!||--- called by ------------------------------------------------------
+!||    m32plas           ../engine/source/materials/mat/mat032/m32plas.F
+!||    mat25_crasurv_c   ../engine/source/materials/mat/mat025/mat25_crasurv_c.F90
+!||    mat25_tsaiwu_c    ../engine/source/materials/mat/mat025/mat25_tsaiwu_c.F90
+!||    mulawc            ../engine/source/materials/mat_share/mulawc.F90
+!||    sigrota           ../engine/source/output/anim/generate/sigrota.F
+!||    sigrota_xfe       ../engine/source/output/anim/generate/sigrota_xfe.F
+!||    tensorc_crk       ../engine/source/output/anim/generate/tensorc_crk.F
+!||    usermat_shell     ../engine/source/materials/mat_share/usermat_shell.F
+!||====================================================================
       SUBROUTINE UROTOV(JFT,JLT,SIG,DIR,NEL)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -116,11 +116,11 @@ C-----------------------------------------------
 C
       RETURN
       END
-      !||====================================================================
-      !||    uroto_sig   ../engine/source/airbag/uroto.F
-      !||--- called by ------------------------------------------------------
-      !||    sigeps27c   ../engine/source/materials/mat/mat027/sigeps27c.F
-      !||====================================================================
+!||====================================================================
+!||    uroto_sig   ../engine/source/airbag/uroto.F
+!||--- called by ------------------------------------------------------
+!||    sigeps27c   ../engine/source/materials/mat/mat027/sigeps27c.F
+!||====================================================================
       SUBROUTINE UROTO_SIG(JFT,JLT,SIG,DIR,NEL)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

@@ -20,26 +20,26 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    stat_sphcel_mp_mod   ../engine/source/output/sta/stat_sphcel_mp.F90
-      !||--- called by ------------------------------------------------------
-      !||    genstat              ../engine/source/output/sta/genstat.F
-      !||====================================================================
+!||====================================================================
+!||    stat_sphcel_mp_mod   ../engine/source/output/sta/stat_sphcel_mp.F90
+!||--- called by ------------------------------------------------------
+!||    genstat              ../engine/source/output/sta/genstat.F
+!||====================================================================
       module stat_sphcel_mp_mod
       contains
 ! ======================================================================================================================
 !                                                   PROCEDURES
 ! ======================================================================================================================
 !! \sphcel element state file write for smp
-      !||====================================================================
-      !||    stat_sphcel_mp   ../engine/source/output/sta/stat_sphcel_mp.F90
-      !||--- called by ------------------------------------------------------
-      !||    genstat          ../engine/source/output/sta/genstat.F
-      !||--- calls      -----------------------------------------------------
-      !||    my_orders        ../common_source/tools/sort/my_orders.c
-      !||--- uses       -----------------------------------------------------
-      !||    elbufdef_mod     ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    stat_sphcel_mp   ../engine/source/output/sta/stat_sphcel_mp.F90
+!||--- called by ------------------------------------------------------
+!||    genstat          ../engine/source/output/sta/genstat.F
+!||--- calls      -----------------------------------------------------
+!||    my_orders        ../common_source/tools/sort/my_orders.c
+!||--- uses       -----------------------------------------------------
+!||    elbufdef_mod     ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||====================================================================
         subroutine stat_sphcel_mp(numnod      ,numsph      ,nisp          ,npart      ,ngroup       ,  &
                                   nparg       ,lipart1     ,stat_numelsph ,itab       ,ipart        ,  &
                                   kxsp        ,ipartsph    ,ipart_state   ,nodtag     ,stat_indxsph ,  &

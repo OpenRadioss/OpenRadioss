@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    m1ismstr10_pon   ../engine/source/materials/mat/mat001/m1ismstr10_pon.F
-      !||--- called by ------------------------------------------------------
-      !||    m1lawtot         ../engine/source/materials/mat/mat001/m1lawtot.F
-      !||--- calls      -----------------------------------------------------
-      !||    princ_u          ../engine/source/materials/mat/mat001/princ_u.F
-      !||====================================================================
+!||====================================================================
+!||    m1ismstr10_pon   ../engine/source/materials/mat/mat001/m1ismstr10_pon.F
+!||--- called by ------------------------------------------------------
+!||    m1lawtot         ../engine/source/materials/mat/mat001/m1lawtot.F
+!||--- calls      -----------------------------------------------------
+!||    princ_u          ../engine/source/materials/mat/mat001/princ_u.F
+!||====================================================================
               SUBROUTINE M1ISMSTR10_PON(NEL ,
      1                              ES1 , ES2 ,ES3 ,ES4  ,ES5   ,
      2                              ES6 ,EPSTH, C1 ,G    ,SIG   )

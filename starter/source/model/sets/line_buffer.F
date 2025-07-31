@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    line_buffer                ../starter/source/model/sets/line_buffer.F
-      !||--- called by ------------------------------------------------------
-      !||    create_line_from_element   ../starter/source/model/sets/create_line_from_element.F
-      !||--- calls      -----------------------------------------------------
-      !||    elem_1d_line_buffer        ../starter/source/model/sets/elem_1D_line_buffer.F
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    line_buffer                ../starter/source/model/sets/line_buffer.F
+!||--- called by ------------------------------------------------------
+!||    create_line_from_element   ../starter/source/model/sets/create_line_from_element.F
+!||--- calls      -----------------------------------------------------
+!||    elem_1d_line_buffer        ../starter/source/model/sets/elem_1D_line_buffer.F
+!||--- uses       -----------------------------------------------------
+!||====================================================================
       SUBROUTINE LINE_BUFFER(
      .                   IXT      ,IXP    ,IXR  ,BUFTMPLINE ,  NSEG,
      .                   IAD_LINE ,CLAUSE )

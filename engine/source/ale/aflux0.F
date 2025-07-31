@@ -20,29 +20,29 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    aflux0                 ../engine/source/ale/aflux0.F
-      !||--- called by ------------------------------------------------------
-      !||    alethe                 ../engine/source/ale/alethe.F
-      !||--- calls      -----------------------------------------------------
-      !||    a4flux3                ../engine/source/ale/ale3d/a4flux3.F
-      !||    aflux2                 ../engine/source/ale/ale2d/aflux2.F
-      !||    aflux3                 ../engine/source/ale/ale3d/aflux3.F
-      !||    aflux3_int22_fvm       ../engine/source/ale/alefvm/cut_cells/aflux3_int22_fvm.F
-      !||    alefvm_aflux3          ../engine/source/ale/alefvm/alefvm_aflux3.F
-      !||    alefvm_eflux3          ../engine/source/ale/alefvm/alefvm_eflux3.F
-      !||    eflux2                 ../engine/source/ale/euler2d/eflux2.F
-      !||    eflux3                 ../engine/source/ale/euler3d/eflux3.F
-      !||    eflux3_int22_fvm       ../engine/source/ale/alefvm/cut_cells/eflux3_int22_fvm.F
-      !||    initbuf                ../engine/share/resol/initbuf.F
-      !||    my_barrier             ../engine/source/system/machine.F
-      !||--- uses       -----------------------------------------------------
-      !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
-      !||    alefvm_mod             ../common_source/modules/ale/alefvm_mod.F
-      !||    elbufdef_mod           ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||    i22tri_mod             ../common_source/modules/interfaces/cut-cell-search_mod.F
-      !||    initbuf_mod            ../engine/share/resol/initbuf.F
-      !||====================================================================
+!||====================================================================
+!||    aflux0                 ../engine/source/ale/aflux0.F
+!||--- called by ------------------------------------------------------
+!||    alethe                 ../engine/source/ale/alethe.F
+!||--- calls      -----------------------------------------------------
+!||    a4flux3                ../engine/source/ale/ale3d/a4flux3.F
+!||    aflux2                 ../engine/source/ale/ale2d/aflux2.F
+!||    aflux3                 ../engine/source/ale/ale3d/aflux3.F
+!||    aflux3_int22_fvm       ../engine/source/ale/alefvm/cut_cells/aflux3_int22_fvm.F
+!||    alefvm_aflux3          ../engine/source/ale/alefvm/alefvm_aflux3.F
+!||    alefvm_eflux3          ../engine/source/ale/alefvm/alefvm_eflux3.F
+!||    eflux2                 ../engine/source/ale/euler2d/eflux2.F
+!||    eflux3                 ../engine/source/ale/euler3d/eflux3.F
+!||    eflux3_int22_fvm       ../engine/source/ale/alefvm/cut_cells/eflux3_int22_fvm.F
+!||    initbuf                ../engine/share/resol/initbuf.F
+!||    my_barrier             ../engine/source/system/machine.F
+!||--- uses       -----------------------------------------------------
+!||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
+!||    alefvm_mod             ../common_source/modules/ale/alefvm_mod.F
+!||    elbufdef_mod           ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    i22tri_mod             ../common_source/modules/interfaces/cut-cell-search_mod.F
+!||    initbuf_mod            ../engine/share/resol/initbuf.F
+!||====================================================================
       SUBROUTINE AFLUX0(IPARG       ,ELBUF_STR ,PM    ,IXS         ,IXQ  ,
      .                  V           ,W         ,X     ,FLUX        ,FLU2 ,
      .                  VEUL        ,FILL      ,DFILL              ,VOL  ,

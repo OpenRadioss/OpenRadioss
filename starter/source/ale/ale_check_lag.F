@@ -20,16 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    ale_check_lag   ../starter/source/ale/ale_check_lag.F
-      !||--- called by ------------------------------------------------------
-      !||    alelec          ../starter/source/ale/alelec.F
-      !||    r2r_group       ../starter/source/coupling/rad2rad/r2r_group.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg          ../starter/source/output/message/message.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod     ../starter/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    ale_check_lag   ../starter/source/ale/ale_check_lag.F
+!||--- called by ------------------------------------------------------
+!||    alelec          ../starter/source/ale/alelec.F
+!||    r2r_group       ../starter/source/coupling/rad2rad/r2r_group.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg          ../starter/source/output/message/message.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod     ../starter/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE ALE_CHECK_LAG(NALE,IXS,IXQ,IXC,IXT,IXTG,PM,ITAB,NALE_R2R,FLAG_R2R,IGEO)
 C-----------------------------------------------
 C   D e s c r i p t i o n

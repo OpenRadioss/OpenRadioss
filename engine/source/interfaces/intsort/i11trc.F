@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    i11trc        ../engine/source/interfaces/intsort/i11trc.F
-      !||--- called by ------------------------------------------------------
-      !||    i11main_tri   ../engine/source/interfaces/intsort/i11main_tri.F
-      !||--- uses       -----------------------------------------------------
-      !||    tri7box       ../engine/share/modules/tri7box.F
-      !||====================================================================
+!||====================================================================
+!||    i11trc        ../engine/source/interfaces/intsort/i11trc.F
+!||--- called by ------------------------------------------------------
+!||    i11main_tri   ../engine/source/interfaces/intsort/i11main_tri.F
+!||--- uses       -----------------------------------------------------
+!||    tri7box       ../engine/share/modules/tri7box.F
+!||====================================================================
       SUBROUTINE I11TRC(
      1      I_STOK  ,CAND_N ,CAND_E,CAND_FX,CAND_FY ,
      2      CAND_FZ ,MFROT  ,ADDCM ,CHAINE ,NSN4    ,

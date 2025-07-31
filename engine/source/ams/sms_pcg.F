@@ -20,49 +20,49 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    sms_pcg            ../engine/source/ams/sms_pcg.F
-      !||--- called by ------------------------------------------------------
-      !||    sms_mass_scale_2   ../engine/source/ams/sms_mass_scale_2.F
-      !||--- calls      -----------------------------------------------------
-      !||    my_barrier         ../engine/source/system/machine.F
-      !||    sms_admesh_1       ../engine/source/ams/sms_admesh.F
-      !||    sms_admesh_2       ../engine/source/ams/sms_admesh.F
-      !||    sms_bcs            ../engine/source/ams/sms_bcs.F
-      !||    sms_bcscyc         ../engine/source/ams/sms_bcscyc.F
-      !||    sms_check          ../engine/source/ams/sms_fsa_inv.F
-      !||    sms_cjoint_1       ../engine/source/ams/sms_cjoint.F
-      !||    sms_fixvel         ../engine/source/ams/sms_fixvel.F
-      !||    sms_inisi          ../engine/source/ams/sms_proj.F
-      !||    sms_inist          ../engine/source/ams/sms_proj.F
-      !||    sms_inix           ../engine/source/ams/sms_proj.F
-      !||    sms_mav_lt         ../engine/source/ams/sms_pcg.F
-      !||    sms_pro_p          ../engine/source/ams/sms_proj.F
-      !||    sms_rbe3_prec      ../engine/source/ams/sms_rbe3.F
-      !||    sms_rbe3t1         ../engine/source/ams/sms_rbe3.F
-      !||    sms_rbe3t2         ../engine/source/ams/sms_rbe3.F
-      !||    sms_rbe_accl       ../engine/source/ams/sms_rbe2.F
-      !||    sms_rbe_cnds       ../engine/source/ams/sms_rbe2.F
-      !||    sms_rbe_corr       ../engine/source/ams/sms_rbe2.F
-      !||    sms_rbe_prec       ../engine/source/ams/sms_rbe2.F
-      !||    sms_rgwal_0        ../engine/source/ams/sms_rgwal0.F
-      !||    sms_rlink10        ../engine/source/ams/sms_rlink.F
-      !||    sms_rlink11        ../engine/source/ams/sms_rlink.F
-      !||    sms_updst          ../engine/source/ams/sms_proj.F
-      !||    spmd_exch_a_rb6    ../engine/source/mpi/kinematic_conditions/spmd_exch_a_rb6.F
-      !||    spmd_glob_dpsum9   ../engine/source/mpi/interfaces/spmd_th.F
-      !||    spmd_glob_dsum9    ../engine/source/mpi/interfaces/spmd_th.F
-      !||    spmd_rbcast        ../engine/source/mpi/generic/spmd_rbcast.F
-      !||    startime           ../engine/source/system/timer_mod.F90
-      !||    stoptime           ../engine/source/system/timer_mod.F90
-      !||    sum_6_float        ../engine/source/system/parit.F
-      !||--- uses       -----------------------------------------------------
-      !||    ams_work_mod       ../engine/source/modules/ams_work_mod.F90
-      !||    intstamp_mod       ../engine/share/modules/intstamp_mod.F
-      !||    sensor_mod         ../common_source/modules/sensor_mod.F90
-      !||    sms_pcg_proj       ../engine/share/modules/sms_mod.F
-      !||    timer_mod          ../engine/source/system/timer_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    sms_pcg            ../engine/source/ams/sms_pcg.F
+!||--- called by ------------------------------------------------------
+!||    sms_mass_scale_2   ../engine/source/ams/sms_mass_scale_2.F
+!||--- calls      -----------------------------------------------------
+!||    my_barrier         ../engine/source/system/machine.F
+!||    sms_admesh_1       ../engine/source/ams/sms_admesh.F
+!||    sms_admesh_2       ../engine/source/ams/sms_admesh.F
+!||    sms_bcs            ../engine/source/ams/sms_bcs.F
+!||    sms_bcscyc         ../engine/source/ams/sms_bcscyc.F
+!||    sms_check          ../engine/source/ams/sms_fsa_inv.F
+!||    sms_cjoint_1       ../engine/source/ams/sms_cjoint.F
+!||    sms_fixvel         ../engine/source/ams/sms_fixvel.F
+!||    sms_inisi          ../engine/source/ams/sms_proj.F
+!||    sms_inist          ../engine/source/ams/sms_proj.F
+!||    sms_inix           ../engine/source/ams/sms_proj.F
+!||    sms_mav_lt         ../engine/source/ams/sms_pcg.F
+!||    sms_pro_p          ../engine/source/ams/sms_proj.F
+!||    sms_rbe3_prec      ../engine/source/ams/sms_rbe3.F
+!||    sms_rbe3t1         ../engine/source/ams/sms_rbe3.F
+!||    sms_rbe3t2         ../engine/source/ams/sms_rbe3.F
+!||    sms_rbe_accl       ../engine/source/ams/sms_rbe2.F
+!||    sms_rbe_cnds       ../engine/source/ams/sms_rbe2.F
+!||    sms_rbe_corr       ../engine/source/ams/sms_rbe2.F
+!||    sms_rbe_prec       ../engine/source/ams/sms_rbe2.F
+!||    sms_rgwal_0        ../engine/source/ams/sms_rgwal0.F
+!||    sms_rlink10        ../engine/source/ams/sms_rlink.F
+!||    sms_rlink11        ../engine/source/ams/sms_rlink.F
+!||    sms_updst          ../engine/source/ams/sms_proj.F
+!||    spmd_exch_a_rb6    ../engine/source/mpi/kinematic_conditions/spmd_exch_a_rb6.F
+!||    spmd_glob_dpsum9   ../engine/source/mpi/interfaces/spmd_th.F
+!||    spmd_glob_dsum9    ../engine/source/mpi/interfaces/spmd_th.F
+!||    spmd_rbcast        ../engine/source/mpi/generic/spmd_rbcast.F
+!||    startime           ../engine/source/system/timer_mod.F90
+!||    stoptime           ../engine/source/system/timer_mod.F90
+!||    sum_6_float        ../engine/source/system/parit.F
+!||--- uses       -----------------------------------------------------
+!||    ams_work_mod       ../engine/source/modules/ams_work_mod.F90
+!||    intstamp_mod       ../engine/share/modules/intstamp_mod.F
+!||    sensor_mod         ../common_source/modules/sensor_mod.F90
+!||    sms_pcg_proj       ../engine/share/modules/sms_mod.F
+!||    timer_mod          ../engine/source/system/timer_mod.F90
+!||====================================================================
       SUBROUTINE SMS_PCG(TIMERS, NODFT ,NODLT    ,NNZ      ,IADK     ,
      2                JDIK      ,DIAG_SMS ,LT_K     ,R        ,ISP     ,
      3                X_SMS     ,P_SMS    ,Z_SMS    ,Y_SMS    ,PREC_SMS,
@@ -1677,24 +1677,24 @@ C--------------------------------------------
         RETURN
       END
 C-------------produit {w}=[K]{v} using full matrix K ----
-      !||====================================================================
-      !||    sms_mav_lt         ../engine/source/ams/sms_pcg.F
-      !||--- called by ------------------------------------------------------
-      !||    sms_encin_2        ../engine/source/ams/sms_encin_2.F
-      !||    sms_mass_scale_2   ../engine/source/ams/sms_mass_scale_2.F
-      !||    sms_pcg            ../engine/source/ams/sms_pcg.F
-      !||--- calls      -----------------------------------------------------
-      !||    foat_to_6_float    ../engine/source/system/parit.F
-      !||    my_barrier         ../engine/source/system/machine.F
-      !||    spmd_exch_sms      ../engine/source/mpi/ams/spmd_exch_sms.F
-      !||    spmd_exch_sms6     ../engine/source/mpi/ams/spmd_exch_sms6.F
-      !||    spmd_vfi_sms       ../engine/source/mpi/ams/spmd_vfi_sms.F
-      !||    startime           ../engine/source/system/timer_mod.F90
-      !||    stoptime           ../engine/source/system/timer_mod.F90
-      !||--- uses       -----------------------------------------------------
-      !||    my_alloc_mod       ../common_source/tools/memory/my_alloc.F90
-      !||    timer_mod          ../engine/source/system/timer_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    sms_mav_lt         ../engine/source/ams/sms_pcg.F
+!||--- called by ------------------------------------------------------
+!||    sms_encin_2        ../engine/source/ams/sms_encin_2.F
+!||    sms_mass_scale_2   ../engine/source/ams/sms_mass_scale_2.F
+!||    sms_pcg            ../engine/source/ams/sms_pcg.F
+!||--- calls      -----------------------------------------------------
+!||    foat_to_6_float    ../engine/source/system/parit.F
+!||    my_barrier         ../engine/source/system/machine.F
+!||    spmd_exch_sms      ../engine/source/mpi/ams/spmd_exch_sms.F
+!||    spmd_exch_sms6     ../engine/source/mpi/ams/spmd_exch_sms6.F
+!||    spmd_vfi_sms       ../engine/source/mpi/ams/spmd_vfi_sms.F
+!||    startime           ../engine/source/system/timer_mod.F90
+!||    stoptime           ../engine/source/system/timer_mod.F90
+!||--- uses       -----------------------------------------------------
+!||    my_alloc_mod       ../common_source/tools/memory/my_alloc.F90
+!||    timer_mod          ../engine/source/system/timer_mod.F90
+!||====================================================================
       SUBROUTINE SMS_MAV_LT(TIMERS, NODFT  ,NODLT ,NUMNOD ,IADL  ,JDIL  ,
      2                      ITASK  ,DIAG_K ,LT_K  ,V      ,W     ,
      3              NODFT1_SMS,NODLT1_SMS,INDX1_SMS,NODNX_SMS,IAD_ELEM ,
@@ -2507,20 +2507,20 @@ CC--------------------------------------------
 C        RETURN
 C      END
 C-------------product {w}=[K]{v}, v(numnod) using full matrix K ----
-      !||====================================================================
-      !||    sms_mav_lt2       ../engine/source/ams/sms_pcg.F
-      !||--- called by ------------------------------------------------------
-      !||    sms_inist         ../engine/source/ams/sms_proj.F
-      !||--- calls      -----------------------------------------------------
-      !||    foat_to_6_float   ../engine/source/system/parit.F
-      !||    my_barrier        ../engine/source/system/machine.F
-      !||    spmd_exch_sms     ../engine/source/mpi/ams/spmd_exch_sms.F
-      !||    spmd_fi_sms       ../engine/source/mpi/ams/spmd_fi_sms.F
-      !||    startime          ../engine/source/system/timer_mod.F90
-      !||    stoptime          ../engine/source/system/timer_mod.F90
-      !||--- uses       -----------------------------------------------------
-      !||    timer_mod         ../engine/source/system/timer_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    sms_mav_lt2       ../engine/source/ams/sms_pcg.F
+!||--- called by ------------------------------------------------------
+!||    sms_inist         ../engine/source/ams/sms_proj.F
+!||--- calls      -----------------------------------------------------
+!||    foat_to_6_float   ../engine/source/system/parit.F
+!||    my_barrier        ../engine/source/system/machine.F
+!||    spmd_exch_sms     ../engine/source/mpi/ams/spmd_exch_sms.F
+!||    spmd_fi_sms       ../engine/source/mpi/ams/spmd_fi_sms.F
+!||    startime          ../engine/source/system/timer_mod.F90
+!||    stoptime          ../engine/source/system/timer_mod.F90
+!||--- uses       -----------------------------------------------------
+!||    timer_mod         ../engine/source/system/timer_mod.F90
+!||====================================================================
       SUBROUTINE SMS_MAV_LT2(TIMERS, NODFT  ,NODLT ,NUMNOD ,IADL  ,JDIL  ,
      2                      ITASK  ,DIAG_K ,LT_K  ,V      ,W     ,
      3              NODFT1_SMS,NODLT1_SMS,INDX1_SMS,NODNX_SMS,IAD_ELEM ,

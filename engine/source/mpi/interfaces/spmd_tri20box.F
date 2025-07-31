@@ -21,19 +21,19 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
-      !||====================================================================
-      !||    spmd_tri20box         ../engine/source/mpi/interfaces/spmd_tri20box.F
-      !||--- called by ------------------------------------------------------
-      !||    i20main_tri           ../engine/source/interfaces/intsort/i20main_tri.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg                ../engine/source/output/message/message.F
-      !||    arret                 ../engine/source/system/arret.F
-      !||    conversion7           ../engine/source/mpi/interfaces/spmd_i7tool.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod           ../engine/share/message_module/message_mod.F
-      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
-      !||    tri7box               ../engine/share/modules/tri7box.F
-      !||====================================================================
+!||====================================================================
+!||    spmd_tri20box         ../engine/source/mpi/interfaces/spmd_tri20box.F
+!||--- called by ------------------------------------------------------
+!||    i20main_tri           ../engine/source/interfaces/intsort/i20main_tri.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                ../engine/source/output/message/message.F
+!||    arret                 ../engine/source/system/arret.F
+!||    conversion7           ../engine/source/mpi/interfaces/spmd_i7tool.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod           ../engine/share/message_module/message_mod.F
+!||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
+!||    tri7box               ../engine/share/modules/tri7box.F
+!||====================================================================
       SUBROUTINE SPMD_TRI20BOX(NSV     ,NSN     ,XA     ,VA   ,MS      ,
      2                         BMINMAL ,WEIGHT  ,STFA   ,NIN  ,ISENDTO ,
      3                         IRCVFROM,IAD_ELEM,FR_ELEM,NSNR ,IGAP    ,

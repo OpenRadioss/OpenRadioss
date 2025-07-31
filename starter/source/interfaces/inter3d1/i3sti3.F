@@ -21,21 +21,21 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
-      !||====================================================================
-      !||    i3sti3                 ../starter/source/interfaces/inter3d1/i3sti3.F
-      !||--- called by ------------------------------------------------------
-      !||    inint3                 ../starter/source/interfaces/inter3d1/inint3.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg                 ../starter/source/output/message/message.F
-      !||    incoq3                 ../starter/source/interfaces/inter3d1/incoq3.F
-      !||    ineltc                 ../starter/source/interfaces/inter3d1/inelt.F
-      !||    inelts                 ../starter/source/interfaces/inter3d1/inelt.F
-      !||    insol3                 ../starter/source/interfaces/inter3d1/insol3.F
-      !||    local_index            ../starter/source/interfaces/interf1/local_index.F
-      !||    volint                 ../starter/source/interfaces/inter3d1/volint.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod            ../starter/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    i3sti3                 ../starter/source/interfaces/inter3d1/i3sti3.F
+!||--- called by ------------------------------------------------------
+!||    inint3                 ../starter/source/interfaces/inter3d1/inint3.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                 ../starter/source/output/message/message.F
+!||    incoq3                 ../starter/source/interfaces/inter3d1/incoq3.F
+!||    ineltc                 ../starter/source/interfaces/inter3d1/inelt.F
+!||    inelts                 ../starter/source/interfaces/inter3d1/inelt.F
+!||    insol3                 ../starter/source/interfaces/inter3d1/insol3.F
+!||    local_index            ../starter/source/interfaces/interf1/local_index.F
+!||    volint                 ../starter/source/interfaces/inter3d1/volint.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod            ../starter/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE I3STI3(
      1 X     ,IRECT ,STF   ,IXS   ,PM    ,
      2 GEO   ,NRT   ,IXC   ,STFN  ,NSEG  ,

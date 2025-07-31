@@ -20,16 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    pnoise            ../engine/source/general_controls/computation/pnoise.F
-      !||--- called by ------------------------------------------------------
-      !||    noise             ../engine/source/general_controls/computation/noise.F
-      !||--- calls      -----------------------------------------------------
-      !||    spmd_glob_dsum9   ../engine/source/mpi/interfaces/spmd_th.F
-      !||    spmd_glob_isum9   ../engine/source/mpi/interfaces/spmd_th.F
-      !||--- uses       -----------------------------------------------------
-      !||    elbufdef_mod      ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    pnoise            ../engine/source/general_controls/computation/pnoise.F
+!||--- called by ------------------------------------------------------
+!||    noise             ../engine/source/general_controls/computation/noise.F
+!||--- calls      -----------------------------------------------------
+!||    spmd_glob_dsum9   ../engine/source/mpi/interfaces/spmd_th.F
+!||    spmd_glob_isum9   ../engine/source/mpi/interfaces/spmd_th.F
+!||--- uses       -----------------------------------------------------
+!||    elbufdef_mod      ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||====================================================================
       SUBROUTINE PNOISE(ELNOI,ELG,NOIADD,ELBUF_TAB,WA,IPARG)
 C-----------------------------------------------
 C   M o d u l e s

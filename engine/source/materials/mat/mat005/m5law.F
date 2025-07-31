@@ -20,11 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    m5law   ../engine/source/materials/mat/mat005/m5law.F
-      !||--- called by ------------------------------------------------------
-      !||    mmain   ../engine/source/materials/mat_share/mmain.F90
-      !||====================================================================
+!||====================================================================
+!||    m5law   ../engine/source/materials/mat/mat005/m5law.F
+!||--- called by ------------------------------------------------------
+!||    mmain   ../engine/source/materials/mat_share/mmain.F90
+!||====================================================================
       SUBROUTINE M5LAW(PM   ,SIG   ,EINT  ,RHO    ,PSH   ,
      1                 P0   ,TBURN ,BFRAC ,VOLN   ,DELTAX,
      2                 MAT  ,NEL   ,SSP   ,DF     ,

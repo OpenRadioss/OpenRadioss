@@ -20,25 +20,25 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    hm_read_thgrsens         ../starter/source/output/th/hm_read_thgrsens.F
-      !||--- called by ------------------------------------------------------
-      !||    hm_read_thgrou           ../starter/source/output/th/hm_read_thgrou.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg                   ../starter/source/output/message/message.F
-      !||    fretitl                  ../starter/source/starter/freform.F
-      !||    fretitl2                 ../starter/source/starter/freform.F
-      !||    hm_get_int_array_index   ../starter/source/devtools/hm_reader/hm_get_int_array_index.F
-      !||    hm_get_intv              ../starter/source/devtools/hm_reader/hm_get_intv.F
-      !||    hm_thvarc                ../starter/source/output/th/hm_read_thvarc.F
-      !||    hord                     ../starter/source/output/th/hord.F
-      !||    r2r_exist                ../starter/source/coupling/rad2rad/routines_r2r.F
-      !||    zeroin                   ../starter/source/system/zeroin.F
-      !||--- uses       -----------------------------------------------------
-      !||    format_mod               ../starter/share/modules1/format_mod.F90
-      !||    message_mod              ../starter/share/message_module/message_mod.F
-      !||    submodel_mod             ../starter/share/modules1/submodel_mod.F
-      !||====================================================================
+!||====================================================================
+!||    hm_read_thgrsens         ../starter/source/output/th/hm_read_thgrsens.F
+!||--- called by ------------------------------------------------------
+!||    hm_read_thgrou           ../starter/source/output/th/hm_read_thgrou.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                   ../starter/source/output/message/message.F
+!||    fretitl                  ../starter/source/starter/freform.F
+!||    fretitl2                 ../starter/source/starter/freform.F
+!||    hm_get_int_array_index   ../starter/source/devtools/hm_reader/hm_get_int_array_index.F
+!||    hm_get_intv              ../starter/source/devtools/hm_reader/hm_get_intv.F
+!||    hm_thvarc                ../starter/source/output/th/hm_read_thvarc.F
+!||    hord                     ../starter/source/output/th/hord.F
+!||    r2r_exist                ../starter/source/coupling/rad2rad/routines_r2r.F
+!||    zeroin                   ../starter/source/system/zeroin.F
+!||--- uses       -----------------------------------------------------
+!||    format_mod               ../starter/share/modules1/format_mod.F90
+!||    message_mod              ../starter/share/message_module/message_mod.F
+!||    submodel_mod             ../starter/share/modules1/submodel_mod.F
+!||====================================================================
       SUBROUTINE HM_READ_THGRSENS(SENSORS,
      .      ITYP     ,KEY      ,IGS      ,LITHBUFMX,ITHBUF   ,
      .      IAD      ,IFI      ,ITHGRP   ,ITHVAR   ,NVALL    ,

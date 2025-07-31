@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    i25pen3_edg   ../engine/source/interfaces/intsort/i25pen3_edg.F
-      !||--- called by ------------------------------------------------------
-      !||    i25sto_edg    ../engine/source/interfaces/intsort/i25sto_edg.F
-      !||--- uses       -----------------------------------------------------
-      !||    tri7box       ../engine/share/modules/tri7box.F
-      !||====================================================================
+!||====================================================================
+!||    i25pen3_edg   ../engine/source/interfaces/intsort/i25pen3_edg.F
+!||--- called by ------------------------------------------------------
+!||    i25sto_edg    ../engine/source/interfaces/intsort/i25sto_edg.F
+!||--- uses       -----------------------------------------------------
+!||    tri7box       ../engine/share/modules/tri7box.F
+!||====================================================================
       SUBROUTINE I25PEN3_EDG(JLT ,CAND_S ,CAND_M  ,DRAD  ,IGAP0   ,
      .                    NEDGE  ,LEDGE  ,MARGE   ,GAPE  ,GAP_E_L ,
      .                    IGAP   ,X      ,IRECT   ,PENE  ,ADMSR   ,

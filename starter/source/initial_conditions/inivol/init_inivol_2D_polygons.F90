@@ -29,14 +29,14 @@
 !! \details STEP 1 :elem is inside user polygon : if and only all its nodes are inside it
 !! \details STEP 2 :elem is outside suer polygon : if their encompassing boxes are not intersecting
 !! \details STEP 3 : for all other case compute clipping and decide (no clip : outside,   clip area > 0.0 : cut)
-      !||====================================================================
-      !||    init_inivol_2d_polygons    ../starter/source/initial_conditions/inivol/init_inivol_2D_polygons.F90
-      !||--- called by ------------------------------------------------------
-      !||    init_inivol                ../starter/source/initial_conditions/inivol/init_inivol.F90
-      !||--- calls      -----------------------------------------------------
-      !||--- uses       -----------------------------------------------------
-      !||    inivol_def_mod             ../starter/share/modules1/inivol_mod.F
-      !||====================================================================
+!||====================================================================
+!||    init_inivol_2d_polygons    ../starter/source/initial_conditions/inivol/init_inivol_2D_polygons.F90
+!||--- called by ------------------------------------------------------
+!||    init_inivol                ../starter/source/initial_conditions/inivol/init_inivol.F90
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||    inivol_def_mod             ../starter/share/modules1/inivol_mod.F
+!||====================================================================
       subroutine init_inivol_2D_polygons( &
                                 i_inivol  ,      idc,           mat_param, GLOBAL_xyz, &
                                 NUM_INIVOL,   inivol,               nsurf,    igrsurf, &

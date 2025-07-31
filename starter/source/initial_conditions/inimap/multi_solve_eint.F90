@@ -20,20 +20,20 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    multi_solve_eint_mod   ../starter/source/initial_conditions/inimap/multi_solve_eint.F90
-      !||--- called by ------------------------------------------------------
-      !||    ini_inimap1d           ../starter/source/initial_conditions/inimap/ini_inimap1d.F
-      !||====================================================================
+!||====================================================================
+!||    multi_solve_eint_mod   ../starter/source/initial_conditions/inimap/multi_solve_eint.F90
+!||--- called by ------------------------------------------------------
+!||    ini_inimap1d           ../starter/source/initial_conditions/inimap/ini_inimap1d.F
+!||====================================================================
       MODULE MULTI_SOLVE_EINT_MOD
       CONTAINS
-      !||====================================================================
-      !||    multi_solve_eint   ../starter/source/initial_conditions/inimap/multi_solve_eint.F90
-      !||--- called by ------------------------------------------------------
-      !||    ini_inimap1d       ../starter/source/initial_conditions/inimap/ini_inimap1d.F
-      !||--- calls      -----------------------------------------------------
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    multi_solve_eint   ../starter/source/initial_conditions/inimap/multi_solve_eint.F90
+!||--- called by ------------------------------------------------------
+!||    ini_inimap1d       ../starter/source/initial_conditions/inimap/ini_inimap1d.F
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||====================================================================
       SUBROUTINE MULTI_SOLVE_EINT(MATID, NFT,    NEL, PRESIN, EINT, RHO,   IFIRST, ILAST, ELEM_LIST, IPM, &
                                   PM   , BUFMAT, MLW, THETA, SNPC, STF ,NPC,    TF, VAREOS, NVAREOS, &
                                   MAT_PARAM, NVARTMP, VARTMP, NUMMAT, NPROPMI, NPROPM)

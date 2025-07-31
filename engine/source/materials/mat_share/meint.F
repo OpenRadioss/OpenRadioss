@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    meint        ../engine/source/materials/mat_share/meint.F
-      !||--- called by ------------------------------------------------------
-      !||    mmain        ../engine/source/materials/mat_share/mmain.F90
-      !||--- uses       -----------------------------------------------------
-      !||    ale_mod      ../common_source/modules/ale/ale_mod.F
-      !||    output_mod   ../common_source/modules/output/output_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    meint        ../engine/source/materials/mat_share/meint.F
+!||--- called by ------------------------------------------------------
+!||    mmain        ../engine/source/materials/mat_share/mmain.F90
+!||--- uses       -----------------------------------------------------
+!||    ale_mod      ../common_source/modules/ale/ale_mod.F
+!||    output_mod   ../common_source/modules/output/output_mod.F90
+!||====================================================================
       SUBROUTINE MEINT(
      1   OFF,     SNEW,    QOLD,    EINT,
      2   VNEW,    ESPE,    SOLD1,   SOLD2,

@@ -20,29 +20,29 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    hm_read_rbe3               ../starter/source/constraints/general/rbe3/hm_read_rbe3.F
-      !||--- called by ------------------------------------------------------
-      !||    lectur                     ../starter/source/starter/lectur.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg                     ../starter/source/output/message/message.F
-      !||    fretitl                    ../starter/source/starter/freform.F
-      !||    hm_get_float_array_index   ../starter/source/devtools/hm_reader/hm_get_float_array_index.F
-      !||    hm_get_int_array_index     ../starter/source/devtools/hm_reader/hm_get_int_array_index.F
-      !||    hm_get_intv                ../starter/source/devtools/hm_reader/hm_get_intv.F
-      !||    hm_option_read_key         ../starter/source/devtools/hm_reader/hm_option_read_key.F
-      !||    hm_option_start            ../starter/source/devtools/hm_reader/hm_option_start.F
-      !||    hm_sz_r2r                  ../starter/source/coupling/rad2rad/routines_r2r.F
-      !||    kinset                     ../starter/source/constraints/general/kinset.F
-      !||    nodgrnr5                   ../starter/source/starter/freform.F
-      !||    prerbe3fr                  ../starter/source/constraints/general/rbe3/hm_read_rbe3.F
-      !||    usr2sys                    ../starter/source/system/sysfus.F
-      !||--- uses       -----------------------------------------------------
-      !||    hm_option_read_mod         ../starter/share/modules1/hm_option_read_mod.F
-      !||    message_mod                ../starter/share/message_module/message_mod.F
-      !||    r2r_mod                    ../starter/share/modules1/r2r_mod.F
-      !||    submodel_mod               ../starter/share/modules1/submodel_mod.F
-      !||====================================================================
+!||====================================================================
+!||    hm_read_rbe3               ../starter/source/constraints/general/rbe3/hm_read_rbe3.F
+!||--- called by ------------------------------------------------------
+!||    lectur                     ../starter/source/starter/lectur.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                     ../starter/source/output/message/message.F
+!||    fretitl                    ../starter/source/starter/freform.F
+!||    hm_get_float_array_index   ../starter/source/devtools/hm_reader/hm_get_float_array_index.F
+!||    hm_get_int_array_index     ../starter/source/devtools/hm_reader/hm_get_int_array_index.F
+!||    hm_get_intv                ../starter/source/devtools/hm_reader/hm_get_intv.F
+!||    hm_option_read_key         ../starter/source/devtools/hm_reader/hm_option_read_key.F
+!||    hm_option_start            ../starter/source/devtools/hm_reader/hm_option_start.F
+!||    hm_sz_r2r                  ../starter/source/coupling/rad2rad/routines_r2r.F
+!||    kinset                     ../starter/source/constraints/general/kinset.F
+!||    nodgrnr5                   ../starter/source/starter/freform.F
+!||    prerbe3fr                  ../starter/source/constraints/general/rbe3/hm_read_rbe3.F
+!||    usr2sys                    ../starter/source/system/sysfus.F
+!||--- uses       -----------------------------------------------------
+!||    hm_option_read_mod         ../starter/share/modules1/hm_option_read_mod.F
+!||    message_mod                ../starter/share/message_module/message_mod.F
+!||    r2r_mod                    ../starter/share/modules1/r2r_mod.F
+!||    submodel_mod               ../starter/share/modules1/submodel_mod.F
+!||====================================================================
       SUBROUTINE HM_READ_RBE3(IRBE3  ,LRBE3  ,FRBE3  ,ITAB   ,ITABM1  ,
      .                         IGRNOD ,ISKN   ,LXINTD ,IKINE  ,IDDLEVEL,
      .                         NOM_OPT,ITAGND ,GRNOD_UID,UNITAB,LSUBMODEL )
@@ -370,20 +370,20 @@ C
  1104 FORMAT(3X,2I10,2X,3I1,1X,3I1,3I10)
 C 
       END SUBROUTINE HM_READ_RBE3 
-      !||====================================================================
-      !||    inirbe3                ../starter/source/constraints/general/rbe3/hm_read_rbe3.F
-      !||--- called by ------------------------------------------------------
-      !||    lectur                 ../starter/source/starter/lectur.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg                 ../starter/source/output/message/message.F
-      !||    fretitl2               ../starter/source/starter/freform.F
-      !||    hireorbe3              ../starter/source/constraints/general/rbe3/hm_read_rbe3.F
-      !||    ifrontplus             ../starter/source/spmd/node/frontplus.F
-      !||    nlocal                 ../starter/source/spmd/node/ddtools.F
-      !||    rbe3chk                ../starter/source/constraints/general/rbe3/hm_read_rbe3.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod            ../starter/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    inirbe3                ../starter/source/constraints/general/rbe3/hm_read_rbe3.F
+!||--- called by ------------------------------------------------------
+!||    lectur                 ../starter/source/starter/lectur.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                 ../starter/source/output/message/message.F
+!||    fretitl2               ../starter/source/starter/freform.F
+!||    hireorbe3              ../starter/source/constraints/general/rbe3/hm_read_rbe3.F
+!||    ifrontplus             ../starter/source/spmd/node/frontplus.F
+!||    nlocal                 ../starter/source/spmd/node/ddtools.F
+!||    rbe3chk                ../starter/source/constraints/general/rbe3/hm_read_rbe3.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod            ../starter/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE INIRBE3(IRBE3  ,LRBE3  ,FRBE3  ,SKEW   ,X     ,
      .                    MS     ,IN     ,NOM_OPT)
 C-----------------------------------------------
@@ -529,17 +529,17 @@ C optimisation possible
 C
       RETURN
       END
-      !||====================================================================
-      !||    rbe3chk   ../starter/source/constraints/general/rbe3/hm_read_rbe3.F
-      !||--- called by ------------------------------------------------------
-      !||    inirbe3   ../starter/source/constraints/general/rbe3/hm_read_rbe3.F
-      !||--- calls      -----------------------------------------------------
-      !||    invert    ../starter/source/constraints/general/rbe3/hm_read_rbe3.F
-      !||    rbe3uf    ../starter/source/constraints/general/rbe3/hm_read_rbe3.F
-      !||    rbe3um    ../starter/source/constraints/general/rbe3/hm_read_rbe3.F
-      !||    wrrinf    ../starter/source/constraints/general/rbe3/hm_read_rbe3.F
-      !||    zero1     ../starter/source/constraints/general/rbe3/hm_read_rbe3.F
-      !||====================================================================
+!||====================================================================
+!||    rbe3chk   ../starter/source/constraints/general/rbe3/hm_read_rbe3.F
+!||--- called by ------------------------------------------------------
+!||    inirbe3   ../starter/source/constraints/general/rbe3/hm_read_rbe3.F
+!||--- calls      -----------------------------------------------------
+!||    invert    ../starter/source/constraints/general/rbe3/hm_read_rbe3.F
+!||    rbe3uf    ../starter/source/constraints/general/rbe3/hm_read_rbe3.F
+!||    rbe3um    ../starter/source/constraints/general/rbe3/hm_read_rbe3.F
+!||    wrrinf    ../starter/source/constraints/general/rbe3/hm_read_rbe3.F
+!||    zero1     ../starter/source/constraints/general/rbe3/hm_read_rbe3.F
+!||====================================================================
       SUBROUTINE RBE3CHK(INRBE3  ,ILRBE3  ,NS     ,XYZ    ,FRBE3   ,
      .                   SKEW    ,NG      ,IROT   ,IMODIF ,WMIN    ,
      .                   IPEN    ,IERR   )
@@ -1036,14 +1036,14 @@ C
 C
       RETURN
       END
-      !||====================================================================
-      !||    rbe3uf    ../starter/source/constraints/general/rbe3/hm_read_rbe3.F
-      !||--- called by ------------------------------------------------------
-      !||    rbe3chk   ../starter/source/constraints/general/rbe3/hm_read_rbe3.F
-      !||    rbe3cl    ../starter/source/constraints/general/kinchk.F
-      !||--- calls      -----------------------------------------------------
-      !||    zero1     ../starter/source/constraints/general/rbe3/hm_read_rbe3.F
-      !||====================================================================
+!||====================================================================
+!||    rbe3uf    ../starter/source/constraints/general/rbe3/hm_read_rbe3.F
+!||--- called by ------------------------------------------------------
+!||    rbe3chk   ../starter/source/constraints/general/rbe3/hm_read_rbe3.F
+!||    rbe3cl    ../starter/source/constraints/general/kinchk.F
+!||--- calls      -----------------------------------------------------
+!||    zero1     ../starter/source/constraints/general/rbe3/hm_read_rbe3.F
+!||====================================================================
       SUBROUTINE RBE3UF(INRBE3,ILRBE3,EL,TW,XYZ,REFPT,
      *                  FUFXLC,FUFYLC,FUFZLC,
      *                  FUFX,FUFY,FUFZ,MUFX,MUFY,MUFZ,
@@ -1155,14 +1155,14 @@ C
       RETURN
       END
 C
-      !||====================================================================
-      !||    rbe3um    ../starter/source/constraints/general/rbe3/hm_read_rbe3.F
-      !||--- called by ------------------------------------------------------
-      !||    rbe3chk   ../starter/source/constraints/general/rbe3/hm_read_rbe3.F
-      !||    rbe3cl    ../starter/source/constraints/general/kinchk.F
-      !||--- calls      -----------------------------------------------------
-      !||    zero1     ../starter/source/constraints/general/rbe3/hm_read_rbe3.F
-      !||====================================================================
+!||====================================================================
+!||    rbe3um    ../starter/source/constraints/general/rbe3/hm_read_rbe3.F
+!||--- called by ------------------------------------------------------
+!||    rbe3chk   ../starter/source/constraints/general/rbe3/hm_read_rbe3.F
+!||    rbe3cl    ../starter/source/constraints/general/kinchk.F
+!||--- calls      -----------------------------------------------------
+!||    zero1     ../starter/source/constraints/general/rbe3/hm_read_rbe3.F
+!||====================================================================
       SUBROUTINE RBE3UM(INRBE3,ILRBE3,EL,TW,RW,XYZ,REFPT,CGMX,CGMY,CGMZ,
      *                  FUMXLC,FUMYLC,FUMZLC,MXLC,MYLC,MZLC,
      *                  FUMX,FUMY,FUMZ,MX,MY,MZ,MUMX,MUMY,MUMZ,
@@ -1340,16 +1340,16 @@ C
 C
       RETURN
       END
-      !||====================================================================
-      !||    invert                        ../starter/source/constraints/general/rbe3/hm_read_rbe3.F
-      !||--- called by ------------------------------------------------------
-      !||    damping_range_compute_param   ../starter/source/general_controls/damping/damping_range_compute_param.F90
-      !||    law87_upd                     ../starter/source/materials/mat/mat087/law87_upd.F90
-      !||    mass_fluid_qd                 ../starter/source/fluid/mass-fluid_qd.F
-      !||    mass_fluid_tg                 ../starter/source/fluid/mass-fluid_tg.F
-      !||    rbe3chk                       ../starter/source/constraints/general/rbe3/hm_read_rbe3.F
-      !||    rbe3cl                        ../starter/source/constraints/general/kinchk.F
-      !||====================================================================
+!||====================================================================
+!||    invert                        ../starter/source/constraints/general/rbe3/hm_read_rbe3.F
+!||--- called by ------------------------------------------------------
+!||    damping_range_compute_param   ../starter/source/general_controls/damping/damping_range_compute_param.F90
+!||    law87_upd                     ../starter/source/materials/mat/mat087/law87_upd.F90
+!||    mass_fluid_qd                 ../starter/source/fluid/mass-fluid_qd.F
+!||    mass_fluid_tg                 ../starter/source/fluid/mass-fluid_tg.F
+!||    rbe3chk                       ../starter/source/constraints/general/rbe3/hm_read_rbe3.F
+!||    rbe3cl                        ../starter/source/constraints/general/kinchk.F
+!||====================================================================
        SUBROUTINE INVERT(MATRIX, INVERSE, N, ERRORFLAG)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -1449,11 +1449,11 @@ c       !STORE ANSWER
         RETURN
         END SUBROUTINE INVERT
 C----------------------------
-      !||====================================================================
-      !||    wrrinf    ../starter/source/constraints/general/rbe3/hm_read_rbe3.F
-      !||--- called by ------------------------------------------------------
-      !||    rbe3chk   ../starter/source/constraints/general/rbe3/hm_read_rbe3.F
-      !||====================================================================
+!||====================================================================
+!||    wrrinf    ../starter/source/constraints/general/rbe3/hm_read_rbe3.F
+!||--- called by ------------------------------------------------------
+!||    rbe3chk   ../starter/source/constraints/general/rbe3/hm_read_rbe3.F
+!||====================================================================
       SUBROUTINE WRRINF(TITLE,R,N)
 #include      "implicit_f.inc"
 #include      "units_c.inc"
@@ -1469,14 +1469,14 @@ c      print *,TITLE,(R(I),I=1,N)
       RETURN
       END
 C----------------------------
-      !||====================================================================
-      !||    zero1     ../starter/source/constraints/general/rbe3/hm_read_rbe3.F
-      !||--- called by ------------------------------------------------------
-      !||    rbe3chk   ../starter/source/constraints/general/rbe3/hm_read_rbe3.F
-      !||    rbe3cl    ../starter/source/constraints/general/kinchk.F
-      !||    rbe3uf    ../starter/source/constraints/general/rbe3/hm_read_rbe3.F
-      !||    rbe3um    ../starter/source/constraints/general/rbe3/hm_read_rbe3.F
-      !||====================================================================
+!||====================================================================
+!||    zero1     ../starter/source/constraints/general/rbe3/hm_read_rbe3.F
+!||--- called by ------------------------------------------------------
+!||    rbe3chk   ../starter/source/constraints/general/rbe3/hm_read_rbe3.F
+!||    rbe3cl    ../starter/source/constraints/general/kinchk.F
+!||    rbe3uf    ../starter/source/constraints/general/rbe3/hm_read_rbe3.F
+!||    rbe3um    ../starter/source/constraints/general/rbe3/hm_read_rbe3.F
+!||====================================================================
       SUBROUTINE ZERO1(R,N)
 #include      "implicit_f.inc"
 c       !DECLARATIONS
@@ -1490,11 +1490,11 @@ C----------------------------
       ENDDO
       RETURN
       END
-      !||====================================================================
-      !||    prerbe3fr      ../starter/source/constraints/general/rbe3/hm_read_rbe3.F
-      !||--- called by ------------------------------------------------------
-      !||    hm_read_rbe3   ../starter/source/constraints/general/rbe3/hm_read_rbe3.F
-      !||====================================================================
+!||====================================================================
+!||    prerbe3fr      ../starter/source/constraints/general/rbe3/hm_read_rbe3.F
+!||--- called by ------------------------------------------------------
+!||    hm_read_rbe3   ../starter/source/constraints/general/rbe3/hm_read_rbe3.F
+!||====================================================================
       SUBROUTINE PRERBE3FR(IRBE3 ,N    ,JT  ,JR   )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -1566,16 +1566,16 @@ C======================================================================|
 C---
       RETURN
       END
-      !||====================================================================
-      !||    hireorbe3              ../starter/source/constraints/general/rbe3/hm_read_rbe3.F
-      !||--- called by ------------------------------------------------------
-      !||    inirbe3                ../starter/source/constraints/general/rbe3/hm_read_rbe3.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg                 ../starter/source/output/message/message.F
-      !||    fretitl2               ../starter/source/starter/freform.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod            ../starter/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    hireorbe3              ../starter/source/constraints/general/rbe3/hm_read_rbe3.F
+!||--- called by ------------------------------------------------------
+!||    inirbe3                ../starter/source/constraints/general/rbe3/hm_read_rbe3.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                 ../starter/source/output/message/message.F
+!||    fretitl2               ../starter/source/starter/freform.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod            ../starter/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE HIREORBE3(IRBE3  ,LRBE3  ,FRBE3 ,NOM_OPT)
 C-----------------------------------------------
 C   M o d u l e s

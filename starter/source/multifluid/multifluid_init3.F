@@ -20,30 +20,30 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    multifluid_init3       ../starter/source/multifluid/multifluid_init3.F
-      !||--- called by ------------------------------------------------------
-      !||    initia                 ../starter/source/elements/initia/initia.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg                 ../starter/source/output/message/message.F
-      !||    atheri                 ../starter/source/ale/atheri.F
-      !||    aturi3                 ../starter/source/ale/ale3d/aturi3.F
-      !||    dtmain                 ../starter/source/materials/time_step/dtmain.F
-      !||    fretitl2               ../starter/source/starter/freform.F
-      !||    m5in3                  ../starter/source/initial_conditions/detonation/m5in3.F
-      !||    matini                 ../starter/source/materials/mat_share/matini.F
-      !||    scoor3                 ../starter/source/elements/solid/solide/scoor3.F
-      !||    sderi3                 ../starter/source/elements/solid/solide/sderi3.F
-      !||    sdlen3                 ../starter/source/elements/solid/solide/sdlen3.F
-      !||    sjac_i                 ../starter/source/elements/solid/solide/sderi3.F
-      !||    smass3                 ../starter/source/elements/solid/solide/smass3.F
-      !||    smorth3                ../starter/source/elements/solid/solide/smorth3.F
-      !||    srcoor3                ../starter/source/elements/solid/solide/srcoor3.F
-      !||    sveok3                 ../starter/source/elements/solid/solide/sveok3.F
-      !||--- uses       -----------------------------------------------------
-      !||    detonators_mod         ../starter/share/modules1/detonators_mod.F
-      !||    message_mod            ../starter/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    multifluid_init3       ../starter/source/multifluid/multifluid_init3.F
+!||--- called by ------------------------------------------------------
+!||    initia                 ../starter/source/elements/initia/initia.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                 ../starter/source/output/message/message.F
+!||    atheri                 ../starter/source/ale/atheri.F
+!||    aturi3                 ../starter/source/ale/ale3d/aturi3.F
+!||    dtmain                 ../starter/source/materials/time_step/dtmain.F
+!||    fretitl2               ../starter/source/starter/freform.F
+!||    m5in3                  ../starter/source/initial_conditions/detonation/m5in3.F
+!||    matini                 ../starter/source/materials/mat_share/matini.F
+!||    scoor3                 ../starter/source/elements/solid/solide/scoor3.F
+!||    sderi3                 ../starter/source/elements/solid/solide/sderi3.F
+!||    sdlen3                 ../starter/source/elements/solid/solide/sdlen3.F
+!||    sjac_i                 ../starter/source/elements/solid/solide/sderi3.F
+!||    smass3                 ../starter/source/elements/solid/solide/smass3.F
+!||    smorth3                ../starter/source/elements/solid/solide/smorth3.F
+!||    srcoor3                ../starter/source/elements/solid/solide/srcoor3.F
+!||    sveok3                 ../starter/source/elements/solid/solide/sveok3.F
+!||--- uses       -----------------------------------------------------
+!||    detonators_mod         ../starter/share/modules1/detonators_mod.F
+!||    message_mod            ../starter/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE MULTIFLUID_INIT3(ELBUF_STR,MAS      ,IXS    ,PM      ,X       ,
      .     GEO      ,ALE_CONNECTIVITY   ,IPARG_GR,
      .     DTELEM    ,SIGI     ,NEL    ,SKEW    ,IGEO    ,

@@ -20,12 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    c3fint3       ../engine/source/elements/sh3n/coque3n/c3fint3.F
-      !||--- called by ------------------------------------------------------
-      !||    c3forc3       ../engine/source/elements/sh3n/coque3n/c3forc3.F
-      !||    c3forc3_crk   ../engine/source/elements/xfem/c3forc3_crk.F
-      !||====================================================================
+!||====================================================================
+!||    c3fint3       ../engine/source/elements/sh3n/coque3n/c3fint3.F
+!||--- called by ------------------------------------------------------
+!||    c3forc3       ../engine/source/elements/sh3n/coque3n/c3forc3.F
+!||    c3forc3_crk   ../engine/source/elements/xfem/c3forc3_crk.F
+!||====================================================================
       SUBROUTINE C3FINT3(JFT  ,JLT  ,FOR  ,MOM  ,THK,
      2                   PX1  ,PY1  ,PY2  ,FX1  ,FX2,
      3                   FX3  ,FY1  ,FY2  ,FY3  ,FZ1,
@@ -114,12 +114,12 @@ C
 C
       RETURN
       END
-      !||====================================================================
-      !||    c3fintrz      ../engine/source/elements/sh3n/coque3n/c3fint3.F
-      !||--- called by ------------------------------------------------------
-      !||    c3forc3       ../engine/source/elements/sh3n/coque3n/c3forc3.F
-      !||    c3forc3_crk   ../engine/source/elements/xfem/c3forc3_crk.F
-      !||====================================================================
+!||====================================================================
+!||    c3fintrz      ../engine/source/elements/sh3n/coque3n/c3fint3.F
+!||--- called by ------------------------------------------------------
+!||    c3forc3       ../engine/source/elements/sh3n/coque3n/c3forc3.F
+!||    c3forc3_crk   ../engine/source/elements/xfem/c3forc3_crk.F
+!||====================================================================
         SUBROUTINE C3FINTRZ(JFT  ,JLT  ,THK  ,AREA ,PX1  ,
      2                      PY1  ,PY2  ,F11  ,F12  ,F13  ,
      3                      F21  ,F22  ,F23  ,WXY  ,VSTRE,

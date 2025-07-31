@@ -20,17 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    qmorth2                ../starter/source/elements/solid_2d/quad/qmorth2.F
-      !||--- called by ------------------------------------------------------
-      !||    q4init2                ../starter/source/elements/solid_2d/quad4/q4init2.F
-      !||    qinit2                 ../starter/source/elements/solid_2d/quad/qinit2.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg                 ../starter/source/output/message/message.F
-      !||    fretitl2               ../starter/source/starter/freform.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod            ../starter/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    qmorth2                ../starter/source/elements/solid_2d/quad/qmorth2.F
+!||--- called by ------------------------------------------------------
+!||    q4init2                ../starter/source/elements/solid_2d/quad4/q4init2.F
+!||    qinit2                 ../starter/source/elements/solid_2d/quad/qinit2.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                 ../starter/source/output/message/message.F
+!||    fretitl2               ../starter/source/starter/freform.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod            ../starter/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE QMORTH2(PID  ,GEO  ,IGEO ,GAMA, NEL,
      .                   RY   ,RZ   ,SY   ,SZ, 
      .                   E1Y  ,E1Z  ,E2Y  ,E2Z)

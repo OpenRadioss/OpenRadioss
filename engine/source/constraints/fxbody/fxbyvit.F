@@ -20,17 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    fxbyvit        ../engine/source/constraints/fxbody/fxbyvit.F
-      !||--- called by ------------------------------------------------------
-      !||    resol          ../engine/source/engine/resol.F
-      !||--- calls      -----------------------------------------------------
-      !||    fxbodvp1       ../engine/source/constraints/fxbody/fxbodvp.F
-      !||    fxbodvp2       ../engine/source/constraints/fxbody/fxbodvp.F
-      !||    spmd_fxb_cin   ../engine/source/mpi/kinematic_conditions/spmd_fxb_cin.F
-      !||--- uses       -----------------------------------------------------
-      !||    anim_mod       ../common_source/modules/output/anim_mod.F
-      !||====================================================================
+!||====================================================================
+!||    fxbyvit        ../engine/source/constraints/fxbody/fxbyvit.F
+!||--- called by ------------------------------------------------------
+!||    resol          ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
+!||    fxbodvp1       ../engine/source/constraints/fxbody/fxbodvp.F
+!||    fxbodvp2       ../engine/source/constraints/fxbody/fxbodvp.F
+!||    spmd_fxb_cin   ../engine/source/mpi/kinematic_conditions/spmd_fxb_cin.F
+!||--- uses       -----------------------------------------------------
+!||    anim_mod       ../common_source/modules/output/anim_mod.F
+!||====================================================================
       SUBROUTINE FXBYVIT(FXBIPM, FXBNOD, FXBMOD  , FXBGLM , FXBLM ,
      .                   FXBMVN, FXBMCD, FXBSE   , FXBSV  , FXBVIT,
      .                   FXBACC, FXBRPM, V       , VR     , A     ,

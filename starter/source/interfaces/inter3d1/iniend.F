@@ -20,22 +20,22 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    iniend                 ../starter/source/interfaces/inter3d1/iniend.F
-      !||--- called by ------------------------------------------------------
-      !||    inintr2                ../starter/source/interfaces/inter3d1/inintr2.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg                 ../starter/source/output/message/message.F
-      !||    i6pen3                 ../starter/source/interfaces/inter3d1/i6pen3.F
-      !||    i6sti3                 ../starter/source/interfaces/inter3d1/i6sti3.F
-      !||    ifrontplus             ../starter/source/spmd/node/frontplus.F
-      !||    inint0                 ../starter/source/interfaces/interf1/inint0.F
-      !||    invoi3                 ../starter/source/interfaces/inter3d1/invoi3.F
-      !||    nlocal                 ../starter/source/spmd/node/ddtools.F
-      !||--- uses       -----------------------------------------------------
-      !||    front_mod              ../starter/share/modules1/front_mod.F
-      !||    message_mod            ../starter/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    iniend                 ../starter/source/interfaces/inter3d1/iniend.F
+!||--- called by ------------------------------------------------------
+!||    inintr2                ../starter/source/interfaces/inter3d1/inintr2.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                 ../starter/source/output/message/message.F
+!||    i6pen3                 ../starter/source/interfaces/inter3d1/i6pen3.F
+!||    i6sti3                 ../starter/source/interfaces/inter3d1/i6sti3.F
+!||    ifrontplus             ../starter/source/spmd/node/frontplus.F
+!||    inint0                 ../starter/source/interfaces/interf1/inint0.F
+!||    invoi3                 ../starter/source/interfaces/inter3d1/invoi3.F
+!||    nlocal                 ../starter/source/spmd/node/ddtools.F
+!||--- uses       -----------------------------------------------------
+!||    front_mod              ../starter/share/modules1/front_mod.F
+!||    message_mod            ../starter/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE INIEND(INSCR,X    ,IXS       ,
      .                  IXC  ,PM   ,GEO       ,IPARI    ,NOIN ,
      .                  INTC ,ITAB ,MS        ,NPBY     ,LPBY ,
@@ -344,16 +344,16 @@ C-----------------------------------------------------------------------
 C-----------------------------------------------------------------------
       END
 
-      !||====================================================================
-      !||    iniend2d        ../starter/source/interfaces/inter3d1/iniend.F
-      !||--- called by ------------------------------------------------------
-      !||    inintr2         ../starter/source/interfaces/inter3d1/inintr2.F
-      !||--- calls      -----------------------------------------------------
-      !||    ifrontplus      ../starter/source/spmd/node/frontplus.F
-      !||    nlocal          ../starter/source/spmd/node/ddtools.F
-      !||--- uses       -----------------------------------------------------
-      !||    front_mod       ../starter/share/modules1/front_mod.F
-      !||====================================================================
+!||====================================================================
+!||    iniend2d        ../starter/source/interfaces/inter3d1/iniend.F
+!||--- called by ------------------------------------------------------
+!||    inintr2         ../starter/source/interfaces/inter3d1/inintr2.F
+!||--- calls      -----------------------------------------------------
+!||    ifrontplus      ../starter/source/spmd/node/frontplus.F
+!||    nlocal          ../starter/source/spmd/node/ddtools.F
+!||--- uses       -----------------------------------------------------
+!||    front_mod       ../starter/share/modules1/front_mod.F
+!||====================================================================
       SUBROUTINE INIEND2D(IPARI,NOIN,MS,INTBUF_TAB )
 C-----------------------------------------------
 C   M o d u l e s

@@ -20,23 +20,23 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    law81_upd_mod   ../starter/source/materials/mat/mat081/law81_upd.F90
-      !||--- called by ------------------------------------------------------
-      !||    updmat          ../starter/source/materials/updmat.F
-      !||====================================================================
+!||====================================================================
+!||    law81_upd_mod   ../starter/source/materials/mat/mat081/law81_upd.F90
+!||--- called by ------------------------------------------------------
+!||    updmat          ../starter/source/materials/updmat.F
+!||====================================================================
       module law81_upd_mod
         implicit none
       contains
 ! \brief Update material law 81 to take into account tabulated stiffness
-      !||====================================================================
-      !||    law81_upd          ../starter/source/materials/mat/mat081/law81_upd.F90
-      !||--- called by ------------------------------------------------------
-      !||    updmat             ../starter/source/materials/updmat.F
-      !||--- calls      -----------------------------------------------------
-      !||    finter             ../starter/source/tools/curve/finter.F
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    law81_upd          ../starter/source/materials/mat/mat081/law81_upd.F90
+!||--- called by ------------------------------------------------------
+!||    updmat             ../starter/source/materials/updmat.F
+!||--- calls      -----------------------------------------------------
+!||    finter             ../starter/source/tools/curve/finter.F
+!||--- uses       -----------------------------------------------------
+!||====================================================================
         subroutine law81_upd(                                                   &
           matparam,nfunc   ,ifunc   ,npc     ,snpc    ,pld     ,stf     ,       &
           pm      ,npropm  ,iout    ,mat_id  ,titr    )

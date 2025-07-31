@@ -21,14 +21,14 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 c
-      !||====================================================================
-      !||    crk_coord_ini   ../engine/source/elements/xfem/crk_coord_ini.F
-      !||--- called by ------------------------------------------------------
-      !||    inixfem         ../engine/source/elements/xfem/inixfem.F
-      !||    resol           ../engine/source/engine/resol.F
-      !||--- uses       -----------------------------------------------------
-      !||    crackxfem_mod   ../engine/share/modules/crackxfem_mod.F
-      !||====================================================================
+!||====================================================================
+!||    crk_coord_ini   ../engine/source/elements/xfem/crk_coord_ini.F
+!||--- called by ------------------------------------------------------
+!||    inixfem         ../engine/source/elements/xfem/inixfem.F
+!||    resol           ../engine/source/engine/resol.F
+!||--- uses       -----------------------------------------------------
+!||    crackxfem_mod   ../engine/share/modules/crackxfem_mod.F
+!||====================================================================
       SUBROUTINE CRK_COORD_INI(ADDCNE_CRK,INOD_CRK,NODFT,NODLT,X,NODLEVXF)
 C-----------------------------------------------
       USE CRACKXFEM_MOD

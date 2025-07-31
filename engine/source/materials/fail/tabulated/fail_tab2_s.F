@@ -20,20 +20,20 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    fail_tab2_s           ../engine/source/materials/fail/tabulated/fail_tab2_s.F
-      !||--- called by ------------------------------------------------------
-      !||    mmain                 ../engine/source/materials/mat_share/mmain.F90
-      !||    mulaw                 ../engine/source/materials/mat_share/mulaw.F90
-      !||    usermat_solid         ../engine/source/materials/mat_share/usermat_solid.F
-      !||--- calls      -----------------------------------------------------
-      !||    finter                ../engine/source/tools/curve/finter.F
-      !||    table_vinterp         ../engine/source/tools/curve/table_tools.F
-      !||    vinter2               ../engine/source/tools/curve/vinter.F
-      !||--- uses       -----------------------------------------------------
-      !||    interface_table_mod   ../engine/share/modules/table_mod.F
-      !||    table_mod             ../engine/share/modules/table_mod.F
-      !||====================================================================
+!||====================================================================
+!||    fail_tab2_s           ../engine/source/materials/fail/tabulated/fail_tab2_s.F
+!||--- called by ------------------------------------------------------
+!||    mmain                 ../engine/source/materials/mat_share/mmain.F90
+!||    mulaw                 ../engine/source/materials/mat_share/mulaw.F90
+!||    usermat_solid         ../engine/source/materials/mat_share/usermat_solid.F
+!||--- calls      -----------------------------------------------------
+!||    finter                ../engine/source/tools/curve/finter.F
+!||    table_vinterp         ../engine/source/tools/curve/table_tools.F
+!||    vinter2               ../engine/source/tools/curve/vinter.F
+!||--- uses       -----------------------------------------------------
+!||    interface_table_mod   ../engine/share/modules/table_mod.F
+!||    table_mod             ../engine/share/modules/table_mod.F
+!||====================================================================
       SUBROUTINE FAIL_TAB2_S (
      1     NEL      ,NUPARAM  ,NUVAR    ,NFUNC    ,IFUNC    ,
      2     NPF      ,TABLE    ,TF       ,TIME     ,UPARAM   , 

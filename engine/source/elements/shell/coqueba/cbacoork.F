@@ -20,16 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    cbacoork       ../engine/source/elements/shell/coqueba/cbacoork.F
-      !||--- called by ------------------------------------------------------
-      !||    cbake3         ../engine/source/elements/shell/coqueba/cbake3.F
-      !||--- calls      -----------------------------------------------------
-      !||    clskew3        ../engine/source/elements/sh3n/coquedk/cdkcoor3.F
-      !||    cortdir3       ../engine/source/elements/shell/coque/cortdir3.F
-      !||--- uses       -----------------------------------------------------
-      !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    cbacoork       ../engine/source/elements/shell/coqueba/cbacoork.F
+!||--- called by ------------------------------------------------------
+!||    cbake3         ../engine/source/elements/shell/coqueba/cbake3.F
+!||--- calls      -----------------------------------------------------
+!||    clskew3        ../engine/source/elements/sh3n/coquedk/cdkcoor3.F
+!||    cortdir3       ../engine/source/elements/shell/coque/cortdir3.F
+!||--- uses       -----------------------------------------------------
+!||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||====================================================================
           SUBROUTINE CBACOORK(JFT,JLT,X,IXC,PM,OFFG,
      1                     GEO,AREA,VCORE,JAC,HX,HY,
      2                     VQN,VQG,VQ,VJFI,VNRM,VASTN,NPLAT,IPLAT,

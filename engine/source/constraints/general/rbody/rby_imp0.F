@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    rby_imp0     ../engine/source/constraints/general/rbody/rby_imp0.F
-      !||--- called by ------------------------------------------------------
-      !||    upd_glob_k   ../engine/source/implicit/upd_glob_k.F
-      !||--- calls      -----------------------------------------------------
-      !||    rby_imp1     ../engine/source/constraints/general/rbody/rby_imp0.F
-      !||    rby_impm     ../engine/source/constraints/general/rbody/rby_imp0.F
-      !||====================================================================
+!||====================================================================
+!||    rby_imp0     ../engine/source/constraints/general/rbody/rby_imp0.F
+!||--- called by ------------------------------------------------------
+!||    upd_glob_k   ../engine/source/implicit/upd_glob_k.F
+!||--- calls      -----------------------------------------------------
+!||    rby_imp1     ../engine/source/constraints/general/rbody/rby_imp0.F
+!||    rby_impm     ../engine/source/constraints/general/rbody/rby_imp0.F
+!||====================================================================
       SUBROUTINE RBY_IMP0(X     ,RBY   ,LPBY  ,NPBY  ,SKEW  ,
      1                    NRBYAC,IRBYAC,NSC   ,ISIJ  ,NMC   ,
      2                    IMIJ  ,NSS   ,ISS   ,ISKEW ,ITAB  ,
@@ -83,13 +83,13 @@ C
 C
       RETURN
       END
-      !||====================================================================
-      !||    rby_impi    ../engine/source/constraints/general/rbody/rby_imp0.F
-      !||--- called by ------------------------------------------------------
-      !||    upd_int_k   ../engine/source/implicit/upd_glob_k.F
-      !||--- calls      -----------------------------------------------------
-      !||    rby_imp1    ../engine/source/constraints/general/rbody/rby_imp0.F
-      !||====================================================================
+!||====================================================================
+!||    rby_impi    ../engine/source/constraints/general/rbody/rby_imp0.F
+!||--- called by ------------------------------------------------------
+!||    upd_int_k   ../engine/source/implicit/upd_glob_k.F
+!||--- calls      -----------------------------------------------------
+!||    rby_imp1    ../engine/source/constraints/general/rbody/rby_imp0.F
+!||====================================================================
       SUBROUTINE RBY_IMPI(X     ,RBY   ,LPBY  ,NPBY  ,SKEW  ,
      1                    NRBYAC,IRBYAC,NSS   ,ISS   ,ISKEW ,
      2                    ITAB  ,WEIGHT,MS    ,IN    ,
@@ -137,21 +137,21 @@ C-----------------------------------------------
 C
       RETURN
       END
-      !||====================================================================
-      !||    rby_imp1     ../engine/source/constraints/general/rbody/rby_imp0.F
-      !||--- called by ------------------------------------------------------
-      !||    rby_imp0     ../engine/source/constraints/general/rbody/rby_imp0.F
-      !||    rby_impi     ../engine/source/constraints/general/rbody/rby_imp0.F
-      !||--- calls      -----------------------------------------------------
-      !||    get_kii      ../engine/source/implicit/imp_glob_k.F
-      !||    get_kij      ../engine/source/implicit/imp_glob_k.F
-      !||    print_wkij   ../engine/source/implicit/imp_glob_k.F
-      !||    put_kii      ../engine/source/implicit/imp_glob_k.F
-      !||    put_kij      ../engine/source/implicit/imp_glob_k.F
-      !||    updkb_rb     ../engine/source/constraints/general/rbody/rby_imp0.F
-      !||    updkb_rb1    ../engine/source/constraints/general/rbody/rby_imp0.F
-      !||    updkb_rb2    ../engine/source/constraints/general/rbody/rby_imp0.F
-      !||====================================================================
+!||====================================================================
+!||    rby_imp1     ../engine/source/constraints/general/rbody/rby_imp0.F
+!||--- called by ------------------------------------------------------
+!||    rby_imp0     ../engine/source/constraints/general/rbody/rby_imp0.F
+!||    rby_impi     ../engine/source/constraints/general/rbody/rby_imp0.F
+!||--- calls      -----------------------------------------------------
+!||    get_kii      ../engine/source/implicit/imp_glob_k.F
+!||    get_kij      ../engine/source/implicit/imp_glob_k.F
+!||    print_wkij   ../engine/source/implicit/imp_glob_k.F
+!||    put_kii      ../engine/source/implicit/imp_glob_k.F
+!||    put_kij      ../engine/source/implicit/imp_glob_k.F
+!||    updkb_rb     ../engine/source/constraints/general/rbody/rby_imp0.F
+!||    updkb_rb1    ../engine/source/constraints/general/rbody/rby_imp0.F
+!||    updkb_rb2    ../engine/source/constraints/general/rbody/rby_imp0.F
+!||====================================================================
       SUBROUTINE RBY_IMP1(X    ,RBY,NOD ,NBY,
      1                   NSC, ISI ,NS ,NODS,
      2                  SKEW,ISKEW,ITAB,WEIGHT,MS ,IN  ,
@@ -250,16 +250,16 @@ c        write(*,*)'2 lt_k(2)=',lt_k(2),kdd(1,3),i
 C
       RETURN
       END
-      !||====================================================================
-      !||    rby_impm     ../engine/source/constraints/general/rbody/rby_imp0.F
-      !||--- called by ------------------------------------------------------
-      !||    rby_imp0     ../engine/source/constraints/general/rbody/rby_imp0.F
-      !||--- calls      -----------------------------------------------------
-      !||    get_kij      ../engine/source/implicit/imp_glob_k.F
-      !||    print_wkij   ../engine/source/implicit/imp_glob_k.F
-      !||    put_kij      ../engine/source/implicit/imp_glob_k.F
-      !||    updkb_rb2    ../engine/source/constraints/general/rbody/rby_imp0.F
-      !||====================================================================
+!||====================================================================
+!||    rby_impm     ../engine/source/constraints/general/rbody/rby_imp0.F
+!||--- called by ------------------------------------------------------
+!||    rby_imp0     ../engine/source/constraints/general/rbody/rby_imp0.F
+!||--- calls      -----------------------------------------------------
+!||    get_kij      ../engine/source/implicit/imp_glob_k.F
+!||    print_wkij   ../engine/source/implicit/imp_glob_k.F
+!||    put_kij      ../engine/source/implicit/imp_glob_k.F
+!||    updkb_rb2    ../engine/source/constraints/general/rbody/rby_imp0.F
+!||====================================================================
       SUBROUTINE RBY_IMPM(X    ,NMC   ,IMI   ,ISI  ,SKEW ,
      1                    ISKEW,ITAB  ,WEIGHT,MS   ,IN   ,
      2                    IADK ,JDIK  ,LT_K  ,NDOF ,IDDL )
@@ -311,15 +311,15 @@ C--------update --
 C
       RETURN
       END
-      !||====================================================================
-      !||    updkb_rb    ../engine/source/constraints/general/rbody/rby_imp0.F
-      !||--- called by ------------------------------------------------------
-      !||    i2_frk0     ../engine/source/interfaces/interf/i2_imp1.F
-      !||    i2updk0     ../engine/source/interfaces/interf/i2_imp1.F
-      !||    rbe2_imp1   ../engine/source/constraints/general/rbe2/rbe2_imp0.F
-      !||    rby_frk     ../engine/source/constraints/general/rbody/rby_imp0.F
-      !||    rby_imp1    ../engine/source/constraints/general/rbody/rby_imp0.F
-      !||====================================================================
+!||====================================================================
+!||    updkb_rb    ../engine/source/constraints/general/rbody/rby_imp0.F
+!||--- called by ------------------------------------------------------
+!||    i2_frk0     ../engine/source/interfaces/interf/i2_imp1.F
+!||    i2updk0     ../engine/source/interfaces/interf/i2_imp1.F
+!||    rbe2_imp1   ../engine/source/constraints/general/rbe2/rbe2_imp0.F
+!||    rby_frk     ../engine/source/constraints/general/rbody/rby_imp0.F
+!||    rby_imp1    ../engine/source/constraints/general/rbody/rby_imp0.F
+!||====================================================================
       SUBROUTINE UPDKB_RB(NDL,XS,YS,ZS,KDD,BD)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -412,15 +412,15 @@ C
 C
       RETURN
       END
-      !||====================================================================
-      !||    updkb_rb1   ../engine/source/constraints/general/rbody/rby_imp0.F
-      !||--- called by ------------------------------------------------------
-      !||    i2_frk0     ../engine/source/interfaces/interf/i2_imp1.F
-      !||    i2updk0     ../engine/source/interfaces/interf/i2_imp1.F
-      !||    rbe2_imp1   ../engine/source/constraints/general/rbe2/rbe2_imp0.F
-      !||    rby_frk     ../engine/source/constraints/general/rbody/rby_imp0.F
-      !||    rby_imp1    ../engine/source/constraints/general/rbody/rby_imp0.F
-      !||====================================================================
+!||====================================================================
+!||    updkb_rb1   ../engine/source/constraints/general/rbody/rby_imp0.F
+!||--- called by ------------------------------------------------------
+!||    i2_frk0     ../engine/source/interfaces/interf/i2_imp1.F
+!||    i2updk0     ../engine/source/interfaces/interf/i2_imp1.F
+!||    rbe2_imp1   ../engine/source/constraints/general/rbe2/rbe2_imp0.F
+!||    rby_frk     ../engine/source/constraints/general/rbody/rby_imp0.F
+!||    rby_imp1    ../engine/source/constraints/general/rbody/rby_imp0.F
+!||====================================================================
       SUBROUTINE UPDKB_RB1(NI,NJ,XS,YS,ZS,KDD)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -477,14 +477,14 @@ C
 C
       RETURN
       END
-      !||====================================================================
-      !||    updkb_rb2   ../engine/source/constraints/general/rbody/rby_imp0.F
-      !||--- called by ------------------------------------------------------
-      !||    i2updk0     ../engine/source/interfaces/interf/i2_imp1.F
-      !||    i2updkm0    ../engine/source/interfaces/interf/i2_imp1.F
-      !||    rby_imp1    ../engine/source/constraints/general/rbody/rby_imp0.F
-      !||    rby_impm    ../engine/source/constraints/general/rbody/rby_imp0.F
-      !||====================================================================
+!||====================================================================
+!||    updkb_rb2   ../engine/source/constraints/general/rbody/rby_imp0.F
+!||--- called by ------------------------------------------------------
+!||    i2updk0     ../engine/source/interfaces/interf/i2_imp1.F
+!||    i2updkm0    ../engine/source/interfaces/interf/i2_imp1.F
+!||    rby_imp1    ../engine/source/constraints/general/rbody/rby_imp0.F
+!||    rby_impm    ../engine/source/constraints/general/rbody/rby_imp0.F
+!||====================================================================
       SUBROUTINE UPDKB_RB2(NI,NJ,XS,YS,ZS,XS1,YS1,ZS1,KDD,ISYM)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -602,12 +602,12 @@ C
 C
       RETURN
       END
-      !||====================================================================
-      !||    rby_impf   ../engine/source/constraints/general/rbody/rby_imp0.F
-      !||--- called by ------------------------------------------------------
-      !||    imp3_a2b   ../engine/source/airbag/monv_imp0.F
-      !||    upd_fr     ../engine/source/mpi/implicit/imp_fri.F
-      !||====================================================================
+!||====================================================================
+!||    rby_impf   ../engine/source/constraints/general/rbody/rby_imp0.F
+!||--- called by ------------------------------------------------------
+!||    imp3_a2b   ../engine/source/airbag/monv_imp0.F
+!||    upd_fr     ../engine/source/mpi/implicit/imp_fri.F
+!||====================================================================
       SUBROUTINE RBY_IMPF(X  ,M  ,N   ,NDOF ,A     ,AR  )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -642,12 +642,12 @@ C-----------------------------------------------
 C
       RETURN
       END
-      !||====================================================================
-      !||    updfr_rb   ../engine/source/constraints/general/rbody/rby_imp0.F
-      !||--- called by ------------------------------------------------------
-      !||    diag_int   ../engine/source/mpi/implicit/imp_fri.F
-      !||    i2_frup0   ../engine/source/interfaces/interf/i2_imp1.F
-      !||====================================================================
+!||====================================================================
+!||    updfr_rb   ../engine/source/constraints/general/rbody/rby_imp0.F
+!||--- called by ------------------------------------------------------
+!||    diag_int   ../engine/source/mpi/implicit/imp_fri.F
+!||    i2_frup0   ../engine/source/interfaces/interf/i2_imp1.F
+!||====================================================================
       SUBROUTINE UPDFR_RB(XS,YS,ZS,KII,K)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -692,16 +692,16 @@ C
 C
       RETURN
       END
-      !||====================================================================
-      !||    rby_impr1    ../engine/source/constraints/general/rbody/rby_imp0.F
-      !||--- called by ------------------------------------------------------
-      !||    imp_dykv     ../engine/source/implicit/imp_dyna.F
-      !||    imp_dykv0    ../engine/source/implicit/imp_dyna.F
-      !||    upd_rhs      ../engine/source/implicit/upd_glob_k.F
-      !||    upd_rhs_fr   ../engine/source/implicit/imp_solv.F
-      !||--- calls      -----------------------------------------------------
-      !||    updb_rb      ../engine/source/constraints/general/rbody/rby_imp0.F
-      !||====================================================================
+!||====================================================================
+!||    rby_impr1    ../engine/source/constraints/general/rbody/rby_imp0.F
+!||--- called by ------------------------------------------------------
+!||    imp_dykv     ../engine/source/implicit/imp_dyna.F
+!||    imp_dykv0    ../engine/source/implicit/imp_dyna.F
+!||    upd_rhs      ../engine/source/implicit/upd_glob_k.F
+!||    upd_rhs_fr   ../engine/source/implicit/imp_solv.F
+!||--- calls      -----------------------------------------------------
+!||    updb_rb      ../engine/source/constraints/general/rbody/rby_imp0.F
+!||====================================================================
       SUBROUTINE RBY_IMPR1(X    ,RBY,NOD ,NBY,NDOF  ,
      1                   IDDL    ,B      )
 C-----------------------------------------------
@@ -760,15 +760,15 @@ C-------Update B---
 C
       RETURN
       END
-      !||====================================================================
-      !||    updb_rb      ../engine/source/constraints/general/rbody/rby_imp0.F
-      !||--- called by ------------------------------------------------------
-      !||    i2updb0      ../engine/source/interfaces/interf/i2_imp1.F
-      !||    i2updb02     ../engine/source/interfaces/interf/i2_imp1.F
-      !||    rbe2_impb0   ../engine/source/constraints/general/rbe2/rbe2_imp0.F
-      !||    rby_impr1    ../engine/source/constraints/general/rbody/rby_imp0.F
-      !||    rby_impr2    ../engine/source/constraints/general/rbody/rby_imp0.F
-      !||====================================================================
+!||====================================================================
+!||    updb_rb      ../engine/source/constraints/general/rbody/rby_imp0.F
+!||--- called by ------------------------------------------------------
+!||    i2updb0      ../engine/source/interfaces/interf/i2_imp1.F
+!||    i2updb02     ../engine/source/interfaces/interf/i2_imp1.F
+!||    rbe2_impb0   ../engine/source/constraints/general/rbe2/rbe2_imp0.F
+!||    rby_impr1    ../engine/source/constraints/general/rbody/rby_imp0.F
+!||    rby_impr2    ../engine/source/constraints/general/rbody/rby_imp0.F
+!||====================================================================
       SUBROUTINE UPDB_RB(NDL,XS,YS,ZS,BD)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -805,16 +805,16 @@ C
 C
       RETURN
       END
-      !||====================================================================
-      !||    rby_impr2    ../engine/source/constraints/general/rbody/rby_imp0.F
-      !||--- called by ------------------------------------------------------
-      !||    imp_dykv     ../engine/source/implicit/imp_dyna.F
-      !||    imp_dykv0    ../engine/source/implicit/imp_dyna.F
-      !||    upd_rhs      ../engine/source/implicit/upd_glob_k.F
-      !||    upd_rhs_fr   ../engine/source/implicit/imp_solv.F
-      !||--- calls      -----------------------------------------------------
-      !||    updb_rb      ../engine/source/constraints/general/rbody/rby_imp0.F
-      !||====================================================================
+!||====================================================================
+!||    rby_impr2    ../engine/source/constraints/general/rbody/rby_imp0.F
+!||--- called by ------------------------------------------------------
+!||    imp_dykv     ../engine/source/implicit/imp_dyna.F
+!||    imp_dykv0    ../engine/source/implicit/imp_dyna.F
+!||    upd_rhs      ../engine/source/implicit/upd_glob_k.F
+!||    upd_rhs_fr   ../engine/source/implicit/imp_solv.F
+!||--- calls      -----------------------------------------------------
+!||    updb_rb      ../engine/source/constraints/general/rbody/rby_imp0.F
+!||====================================================================
       SUBROUTINE RBY_IMPR2(X    ,RBY,NOD ,NBY,NDOF  ,
      1                   IDDL   ,B  ,AC  ,ACR    )
 C-----------------------------------------------
@@ -877,16 +877,16 @@ C-------Update B---
 C
       RETURN
       END
-      !||====================================================================
-      !||    rby_frk     ../engine/source/constraints/general/rbody/rby_imp0.F
-      !||--- called by ------------------------------------------------------
-      !||    upd_kml     ../engine/source/mpi/implicit/imp_fri.F
-      !||    upd_ksl     ../engine/source/mpi/implicit/imp_fri.F
-      !||--- calls      -----------------------------------------------------
-      !||    put_kmii    ../engine/source/implicit/imp_glob_k.F
-      !||    updkb_rb    ../engine/source/constraints/general/rbody/rby_imp0.F
-      !||    updkb_rb1   ../engine/source/constraints/general/rbody/rby_imp0.F
-      !||====================================================================
+!||====================================================================
+!||    rby_frk     ../engine/source/constraints/general/rbody/rby_imp0.F
+!||--- called by ------------------------------------------------------
+!||    upd_kml     ../engine/source/mpi/implicit/imp_fri.F
+!||    upd_ksl     ../engine/source/mpi/implicit/imp_fri.F
+!||--- calls      -----------------------------------------------------
+!||    put_kmii    ../engine/source/implicit/imp_glob_k.F
+!||    updkb_rb    ../engine/source/constraints/general/rbody/rby_imp0.F
+!||    updkb_rb1   ../engine/source/constraints/general/rbody/rby_imp0.F
+!||====================================================================
       SUBROUTINE RBY_FRK(NS   ,M    ,X     ,ITAB ,IKC  ,
      1                    NDOF  ,IDDL ,IDDLM,IADK ,JDIK ,
      2                    DIAG_K,LT_K ,B    ,A    ,KSS  ,

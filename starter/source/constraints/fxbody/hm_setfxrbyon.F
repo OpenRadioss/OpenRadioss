@@ -20,23 +20,23 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    hm_setfxrbyon          ../starter/source/constraints/fxbody/hm_setfxrbyon.F
-      !||--- called by ------------------------------------------------------
-      !||    lectur                 ../starter/source/starter/lectur.F
-      !||--- calls      -----------------------------------------------------
-      !||    fxrline                ../starter/source/constraints/fxbody/hm_read_fxb.F
-      !||    hm_get_intv            ../starter/source/devtools/hm_reader/hm_get_intv.F
-      !||    hm_get_string          ../starter/source/devtools/hm_reader/hm_get_string.F
-      !||    hm_option_read_key     ../starter/source/devtools/hm_reader/hm_option_read_key.F
-      !||    hm_option_start        ../starter/source/devtools/hm_reader/hm_option_start.F
-      !||    read_pch_file          ../starter/source/constraints/fxbody/read_pch_file.F
-      !||    usr2sys                ../starter/source/system/sysfus.F
-      !||--- uses       -----------------------------------------------------
-      !||    hm_option_read_mod     ../starter/share/modules1/hm_option_read_mod.F
-      !||    message_mod            ../starter/share/message_module/message_mod.F
-      !||    submodel_mod           ../starter/share/modules1/submodel_mod.F
-      !||====================================================================
+!||====================================================================
+!||    hm_setfxrbyon          ../starter/source/constraints/fxbody/hm_setfxrbyon.F
+!||--- called by ------------------------------------------------------
+!||    lectur                 ../starter/source/starter/lectur.F
+!||--- calls      -----------------------------------------------------
+!||    fxrline                ../starter/source/constraints/fxbody/hm_read_fxb.F
+!||    hm_get_intv            ../starter/source/devtools/hm_reader/hm_get_intv.F
+!||    hm_get_string          ../starter/source/devtools/hm_reader/hm_get_string.F
+!||    hm_option_read_key     ../starter/source/devtools/hm_reader/hm_option_read_key.F
+!||    hm_option_start        ../starter/source/devtools/hm_reader/hm_option_start.F
+!||    read_pch_file          ../starter/source/constraints/fxbody/read_pch_file.F
+!||    usr2sys                ../starter/source/system/sysfus.F
+!||--- uses       -----------------------------------------------------
+!||    hm_option_read_mod     ../starter/share/modules1/hm_option_read_mod.F
+!||    message_mod            ../starter/share/message_module/message_mod.F
+!||    submodel_mod           ../starter/share/modules1/submodel_mod.F
+!||====================================================================
       SUBROUTINE HM_SETFXRBYON(ITABM1,IXS,ISOLOFF,IXC,ISHEOFF,
      .                      IXT,ITRUOFF,IXP,IPOUOFF,IXR,IRESOFF,
      .                      IXTG,ITRIOFF,FXBIPM,LSUBMODEL)

@@ -22,14 +22,14 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 
 ! module with GROUP_SIZE as parameter
-      !||====================================================================
-      !||    collision_mod            ../engine/source/interfaces/intsort/collision_mod.F
-      !||--- called by ------------------------------------------------------
-      !||    inter7_candidate_pairs   ../engine/source/interfaces/intsort/inter7_candidate_pairs.F90
-      !||    inter7_filter_cand       ../engine/source/interfaces/intsort/inter7_filter_cand.F90
-      !||    inter7_gather_cand       ../engine/source/interfaces/int07/inter7_gather_cand.F90
-      !||    inter7_penetration       ../engine/source/interfaces/intsort/inter7_penetration.F90
-      !||====================================================================
+!||====================================================================
+!||    collision_mod            ../engine/source/interfaces/intsort/collision_mod.F
+!||--- called by ------------------------------------------------------
+!||    inter7_candidate_pairs   ../engine/source/interfaces/intsort/inter7_candidate_pairs.F90
+!||    inter7_filter_cand       ../engine/source/interfaces/intsort/inter7_filter_cand.F90
+!||    inter7_gather_cand       ../engine/source/interfaces/int07/inter7_gather_cand.F90
+!||    inter7_penetration       ../engine/source/interfaces/intsort/inter7_penetration.F90
+!||====================================================================
       MODULE COLLISION_MOD
         integer, parameter :: GROUP_SIZE = 64
       END MODULE COLLISION_MOD

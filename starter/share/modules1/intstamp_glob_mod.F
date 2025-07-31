@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    intstamp_glob_mod   ../starter/share/modules1/intstamp_glob_mod.F
-      !||--- called by ------------------------------------------------------
-      !||    lectur              ../starter/source/starter/lectur.F
-      !||--- uses       -----------------------------------------------------
-      !||    intstamp_mod        ../starter/share/modules1/intstamp_mod.F
-      !||====================================================================
+!||====================================================================
+!||    intstamp_glob_mod   ../starter/share/modules1/intstamp_glob_mod.F
+!||--- called by ------------------------------------------------------
+!||    lectur              ../starter/source/starter/lectur.F
+!||--- uses       -----------------------------------------------------
+!||    intstamp_mod        ../starter/share/modules1/intstamp_mod.F
+!||====================================================================
       MODULE INTSTAMP_GLOB_MOD
 C-----------------------------------------------
 C   M o d u l e s

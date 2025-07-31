@@ -20,12 +20,12 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    material_is_high_explosive_mod   ../starter/source/materials/material_is_high_explosive.F90
-      !||--- called by ------------------------------------------------------
-      !||    eikonal_init_mixture_vel         ../starter/source/initial_conditions/detonation/eikonal_ini_mixture_vel.F90
-      !||    read_dfs_detpoint                ../starter/source/initial_conditions/detonation/read_dfs_detpoint.F
-      !||====================================================================
+!||====================================================================
+!||    material_is_high_explosive_mod   ../starter/source/materials/material_is_high_explosive.F90
+!||--- called by ------------------------------------------------------
+!||    eikonal_init_mixture_vel         ../starter/source/initial_conditions/detonation/eikonal_ini_mixture_vel.F90
+!||    read_dfs_detpoint                ../starter/source/initial_conditions/detonation/read_dfs_detpoint.F
+!||====================================================================
       module material_is_high_explosive_mod
       contains
 ! ======================================================================================================================
@@ -34,12 +34,12 @@
 !! \brief Return true if material law requires computaiton of detonation times
 !! \details return TRUE only with mlw==5 (JWL) or mlw==97 (JWLB)
 !! \details other material law are high explosive models but do not require time control (law41 :Lee-Tarver,...)
-      !||====================================================================
-      !||    material_is_high_explosive   ../starter/source/materials/material_is_high_explosive.F90
-      !||--- called by ------------------------------------------------------
-      !||    eikonal_init_mixture_vel     ../starter/source/initial_conditions/detonation/eikonal_ini_mixture_vel.F90
-      !||    read_dfs_detpoint            ../starter/source/initial_conditions/detonation/read_dfs_detpoint.F
-      !||====================================================================
+!||====================================================================
+!||    material_is_high_explosive   ../starter/source/materials/material_is_high_explosive.F90
+!||--- called by ------------------------------------------------------
+!||    eikonal_init_mixture_vel     ../starter/source/initial_conditions/detonation/eikonal_ini_mixture_vel.F90
+!||    read_dfs_detpoint            ../starter/source/initial_conditions/detonation/read_dfs_detpoint.F
+!||====================================================================
         logical function material_is_high_explosive(mlw)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules

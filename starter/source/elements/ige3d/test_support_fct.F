@@ -20,12 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    test_support_fct   ../starter/source/elements/ige3d/test_support_fct.F
-      !||--- called by ------------------------------------------------------
-      !||    prerafig3d         ../starter/source/elements/ige3d/prerafig3d.F
-      !||--- calls      -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    test_support_fct   ../starter/source/elements/ige3d/test_support_fct.F
+!||--- called by ------------------------------------------------------
+!||    prerafig3d         ../starter/source/elements/ige3d/prerafig3d.F
+!||--- calls      -----------------------------------------------------
+!||====================================================================
       SUBROUTINE TEST_SUPPORT_FCT(IXIG3D, KXIG3D, KNOTLOCPC, DEGTANG1, DEGTANG2, DIR,
      .                            TAB_ELCUT, L_TAB_ELCUT,
      .                            TAB_COINKNOT,L_TAB_COINKNOT,

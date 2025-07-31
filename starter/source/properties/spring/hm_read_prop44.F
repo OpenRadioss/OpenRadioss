@@ -20,23 +20,23 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    hm_read_prop44           ../starter/source/properties/spring/hm_read_prop44.F
-      !||--- called by ------------------------------------------------------
-      !||    hm_read_prop_generic     ../starter/source/properties/hm_read_prop_generic.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg                   ../starter/source/output/message/message.F
-      !||    hm_get_floatv            ../starter/source/devtools/hm_reader/hm_get_floatv.F
-      !||    hm_get_floatv_dim        ../starter/source/devtools/hm_reader/hm_get_floatv_dim.F
-      !||    hm_get_intv              ../starter/source/devtools/hm_reader/hm_get_intv.F
-      !||    hm_option_is_encrypted   ../starter/source/devtools/hm_reader/hm_option_is_encrypted.F
-      !||    set_u_geo                ../starter/source/user_interface/uaccess.F
-      !||    set_u_pnu                ../starter/source/user_interface/uaccess.F
-      !||--- uses       -----------------------------------------------------
-      !||    elbuftag_mod             ../starter/share/modules1/elbuftag_mod.F
-      !||    message_mod              ../starter/share/message_module/message_mod.F
-      !||    submodel_mod             ../starter/share/modules1/submodel_mod.F
-      !||====================================================================
+!||====================================================================
+!||    hm_read_prop44           ../starter/source/properties/spring/hm_read_prop44.F
+!||--- called by ------------------------------------------------------
+!||    hm_read_prop_generic     ../starter/source/properties/hm_read_prop_generic.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                   ../starter/source/output/message/message.F
+!||    hm_get_floatv            ../starter/source/devtools/hm_reader/hm_get_floatv.F
+!||    hm_get_floatv_dim        ../starter/source/devtools/hm_reader/hm_get_floatv_dim.F
+!||    hm_get_intv              ../starter/source/devtools/hm_reader/hm_get_intv.F
+!||    hm_option_is_encrypted   ../starter/source/devtools/hm_reader/hm_option_is_encrypted.F
+!||    set_u_geo                ../starter/source/user_interface/uaccess.F
+!||    set_u_pnu                ../starter/source/user_interface/uaccess.F
+!||--- uses       -----------------------------------------------------
+!||    elbuftag_mod             ../starter/share/modules1/elbuftag_mod.F
+!||    message_mod              ../starter/share/message_module/message_mod.F
+!||    submodel_mod             ../starter/share/modules1/submodel_mod.F
+!||====================================================================
       SUBROUTINE HM_READ_PROP44(IOUT  ,IG   ,NUVAR ,PARGEO,
      .                          UNITAB,ISKN  ,IGEO ,TITR  ,IGTYP ,
      .                          PROP_TAG,LSUBMODEL ,SUB_ID,IUNIT)

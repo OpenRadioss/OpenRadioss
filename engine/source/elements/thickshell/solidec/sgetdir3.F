@@ -20,12 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    sgetdir3   ../engine/source/elements/thickshell/solidec/sgetdir3.F
-      !||--- called by ------------------------------------------------------
-      !||    s6cforc3   ../engine/source/elements/thickshell/solide6c/s6cforc3.F
-      !||    scforc3    ../engine/source/elements/thickshell/solidec/scforc3.F
-      !||====================================================================
+!||====================================================================
+!||    sgetdir3   ../engine/source/elements/thickshell/solidec/sgetdir3.F
+!||--- called by ------------------------------------------------------
+!||    s6cforc3   ../engine/source/elements/thickshell/solide6c/s6cforc3.F
+!||    scforc3    ../engine/source/elements/thickshell/solidec/scforc3.F
+!||====================================================================
       SUBROUTINE SGETDIR3(NEL,RX, RY, RZ, TX, TY, TZ,
      .                    E1X,E1Y,E1Z,E2X,E2Y,E2Z,DIR,DIRB,IREP)
 C-----------------------------------------------

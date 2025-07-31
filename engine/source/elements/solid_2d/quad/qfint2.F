@@ -20,12 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    qfint2   ../engine/source/elements/solid_2d/quad/qfint2.F
-      !||--- called by ------------------------------------------------------
-      !||    bforc2   ../engine/source/ale/bimat/bforc2.F
-      !||    qforc2   ../engine/source/elements/solid_2d/quad/qforc2.F
-      !||====================================================================
+!||====================================================================
+!||    qfint2   ../engine/source/elements/solid_2d/quad/qfint2.F
+!||--- called by ------------------------------------------------------
+!||    bforc2   ../engine/source/ale/bimat/bforc2.F
+!||    qforc2   ../engine/source/elements/solid_2d/quad/qforc2.F
+!||====================================================================
       SUBROUTINE QFINT2(
      1   SIG,     PY1,     PY2,     PZ1,
      2   PZ2,     AREA,    VOL,     QVIS,

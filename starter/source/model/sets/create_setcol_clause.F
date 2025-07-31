@@ -20,19 +20,19 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    create_setcol_array    ../starter/source/model/sets/create_setcol_clause.F
-      !||--- called by ------------------------------------------------------
-      !||    hm_set                 ../starter/source/model/sets/hm_set.F
-      !||    sort_set               ../starter/source/model/sets/sort_sets.F
-      !||--- calls      -----------------------------------------------------
-      !||    create_setcol_list     ../starter/source/model/sets/create_setcol_clause.F
-      !||    create_setcol_list_g   ../starter/source/model/sets/create_setcol_clause.F
-      !||--- uses       -----------------------------------------------------
-      !||    hm_option_read_mod     ../starter/share/modules1/hm_option_read_mod.F
-      !||    message_mod            ../starter/share/message_module/message_mod.F
-      !||    submodel_mod           ../starter/share/modules1/submodel_mod.F
-      !||====================================================================
+!||====================================================================
+!||    create_setcol_array    ../starter/source/model/sets/create_setcol_clause.F
+!||--- called by ------------------------------------------------------
+!||    hm_set                 ../starter/source/model/sets/hm_set.F
+!||    sort_set               ../starter/source/model/sets/sort_sets.F
+!||--- calls      -----------------------------------------------------
+!||    create_setcol_list     ../starter/source/model/sets/create_setcol_clause.F
+!||    create_setcol_list_g   ../starter/source/model/sets/create_setcol_clause.F
+!||--- uses       -----------------------------------------------------
+!||    hm_option_read_mod     ../starter/share/modules1/hm_option_read_mod.F
+!||    message_mod            ../starter/share/message_module/message_mod.F
+!||    submodel_mod           ../starter/share/modules1/submodel_mod.F
+!||====================================================================
       SUBROUTINE CREATE_SETCOL_ARRAY(SET,SETCOL_ARRAY ,ARRAY_SIZE, 
      .                               ISETCOLM  , NSET_COLLECT,
      .                               JCLAUSE ,OPT_G ,IS_AVAILABLE ,
@@ -88,19 +88,19 @@ C-----------------------------------------------
         ENDIF
 C-----------------------------------------------
       END
-      !||====================================================================
-      !||    create_setcol_list          ../starter/source/model/sets/create_setcol_clause.F
-      !||--- called by ------------------------------------------------------
-      !||    create_setcol_array         ../starter/source/model/sets/create_setcol_clause.F
-      !||--- calls      -----------------------------------------------------
-      !||    hm_get_int_array_2indexes   ../starter/source/devtools/hm_reader/hm_get_int_array_2indexes.F
-      !||    hm_get_int_array_index      ../starter/source/devtools/hm_reader/hm_get_int_array_index.F
-      !||    set_usrtos                  ../starter/source/model/sets/ipartm1.F
-      !||--- uses       -----------------------------------------------------
-      !||    hm_option_read_mod          ../starter/share/modules1/hm_option_read_mod.F
-      !||    message_mod                 ../starter/share/message_module/message_mod.F
-      !||    submodel_mod                ../starter/share/modules1/submodel_mod.F
-      !||====================================================================
+!||====================================================================
+!||    create_setcol_list          ../starter/source/model/sets/create_setcol_clause.F
+!||--- called by ------------------------------------------------------
+!||    create_setcol_array         ../starter/source/model/sets/create_setcol_clause.F
+!||--- calls      -----------------------------------------------------
+!||    hm_get_int_array_2indexes   ../starter/source/devtools/hm_reader/hm_get_int_array_2indexes.F
+!||    hm_get_int_array_index      ../starter/source/devtools/hm_reader/hm_get_int_array_index.F
+!||    set_usrtos                  ../starter/source/model/sets/ipartm1.F
+!||--- uses       -----------------------------------------------------
+!||    hm_option_read_mod          ../starter/share/modules1/hm_option_read_mod.F
+!||    message_mod                 ../starter/share/message_module/message_mod.F
+!||    submodel_mod                ../starter/share/modules1/submodel_mod.F
+!||====================================================================
       SUBROUTINE CREATE_SETCOL_LIST(
      .               SET,ARRAY, ARRAY_SIZE, ISETCOLM ,NSET_COLLECT ,JCLAUSE ,IS_AVAILABLE ,LSUBMODEL)
 C-----------------------------------------------
@@ -213,19 +213,19 @@ C-------------------------
       RETURN
       END
 
-      !||====================================================================
-      !||    create_setcol_list_g        ../starter/source/model/sets/create_setcol_clause.F
-      !||--- called by ------------------------------------------------------
-      !||    create_setcol_array         ../starter/source/model/sets/create_setcol_clause.F
-      !||--- calls      -----------------------------------------------------
-      !||    hm_get_int_array_2indexes   ../starter/source/devtools/hm_reader/hm_get_int_array_2indexes.F
-      !||    hm_get_int_array_index      ../starter/source/devtools/hm_reader/hm_get_int_array_index.F
-      !||    set_usrtos_nearest          ../starter/source/model/sets/ipartm1.F
-      !||--- uses       -----------------------------------------------------
-      !||    hm_option_read_mod          ../starter/share/modules1/hm_option_read_mod.F
-      !||    message_mod                 ../starter/share/message_module/message_mod.F
-      !||    submodel_mod                ../starter/share/modules1/submodel_mod.F
-      !||====================================================================
+!||====================================================================
+!||    create_setcol_list_g        ../starter/source/model/sets/create_setcol_clause.F
+!||--- called by ------------------------------------------------------
+!||    create_setcol_array         ../starter/source/model/sets/create_setcol_clause.F
+!||--- calls      -----------------------------------------------------
+!||    hm_get_int_array_2indexes   ../starter/source/devtools/hm_reader/hm_get_int_array_2indexes.F
+!||    hm_get_int_array_index      ../starter/source/devtools/hm_reader/hm_get_int_array_index.F
+!||    set_usrtos_nearest          ../starter/source/model/sets/ipartm1.F
+!||--- uses       -----------------------------------------------------
+!||    hm_option_read_mod          ../starter/share/modules1/hm_option_read_mod.F
+!||    message_mod                 ../starter/share/message_module/message_mod.F
+!||    submodel_mod                ../starter/share/modules1/submodel_mod.F
+!||====================================================================
       SUBROUTINE CREATE_SETCOL_LIST_G(
      .               SET,ARRAY, ARRAY_SIZE,  ISETCOLM, NSET_COLLECT, JCLAUSE ,IS_AVAILABLE ,LSUBMODEL)
 C-----------------------------------------------
@@ -346,13 +346,13 @@ C=======================================================================
       DEALLOCATE (PART_READ_TMP)
       DEALLOCATE (RESULT)
       END
-      !||====================================================================
-      !||    create_setcol_clause   ../starter/source/model/sets/create_setcol_clause.F
-      !||--- calls      -----------------------------------------------------
-      !||    insert_clause_in_set   ../starter/source/model/sets/insert_clause_in_set.F
-      !||--- uses       -----------------------------------------------------
-      !||    set_mod                ../starter/share/modules1/set_mod.F
-      !||====================================================================
+!||====================================================================
+!||    create_setcol_clause   ../starter/source/model/sets/create_setcol_clause.F
+!||--- calls      -----------------------------------------------------
+!||    insert_clause_in_set   ../starter/source/model/sets/insert_clause_in_set.F
+!||--- uses       -----------------------------------------------------
+!||    set_mod                ../starter/share/modules1/set_mod.F
+!||====================================================================
       SUBROUTINE CREATE_SETCOL_CLAUSE(SET,
      *                                SETL,SETL_SIZE,
      *                                CLAUSE,
@@ -436,15 +436,15 @@ C
 C-----------------------------------------------
        END
 
-      !||====================================================================
-      !||    create_set_collect     ../starter/source/model/sets/create_setcol_clause.F
-      !||--- called by ------------------------------------------------------
-      !||    hm_set                 ../starter/source/model/sets/hm_set.F
-      !||--- calls      -----------------------------------------------------
-      !||    insert_clause_in_set   ../starter/source/model/sets/insert_clause_in_set.F
-      !||--- uses       -----------------------------------------------------
-      !||    set_mod                ../starter/share/modules1/set_mod.F
-      !||====================================================================
+!||====================================================================
+!||    create_set_collect     ../starter/source/model/sets/create_setcol_clause.F
+!||--- called by ------------------------------------------------------
+!||    hm_set                 ../starter/source/model/sets/hm_set.F
+!||--- calls      -----------------------------------------------------
+!||    insert_clause_in_set   ../starter/source/model/sets/insert_clause_in_set.F
+!||--- uses       -----------------------------------------------------
+!||    set_mod                ../starter/share/modules1/set_mod.F
+!||====================================================================
       SUBROUTINE CREATE_SET_COLLECT(SET       ,SET_ID   ,IGS   ,SETCOL_ARRAY ,ARRAY_SIZE,
      *                              IXS       ,IXS10    ,                      IXQ    ,
      *                              IXC       ,IXTG     ,IXT       ,IXP       ,IXR    ,

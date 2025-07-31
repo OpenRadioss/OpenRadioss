@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    check_nodal_state   ../engine/source/interfaces/interf/check_nodal_state.F
-      !||--- called by ------------------------------------------------------
-      !||    resol               ../engine/source/engine/resol.F
-      !||--- uses       -----------------------------------------------------
-      !||    intbufdef_mod       ../common_source/modules/interfaces/intbufdef_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    check_nodal_state   ../engine/source/interfaces/interf/check_nodal_state.F
+!||--- called by ------------------------------------------------------
+!||    resol               ../engine/source/engine/resol.F
+!||--- uses       -----------------------------------------------------
+!||    intbufdef_mod       ../common_source/modules/interfaces/intbufdef_mod.F90
+!||====================================================================
         SUBROUTINE CHECK_NODAL_STATE( ITASK,ITAG,NEWFRONT,INTBUF_TAB,SIZE_SEC_NODE,
      .                        SHIFT_S_NODE,INTER_SEC_NODE,SEC_NODE_ID)
 !$COMMENT

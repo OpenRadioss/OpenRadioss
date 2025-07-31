@@ -20,17 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    dyna_ini      ../engine/source/implicit/imp_dyna.F
-      !||--- called by ------------------------------------------------------
-      !||    imp_init      ../engine/source/implicit/imp_init.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg        ../engine/source/output/message/message.F
-      !||    arret         ../engine/source/system/arret.F
-      !||--- uses       -----------------------------------------------------
-      !||    imp_dyna      ../engine/share/modules/impbufdef_mod.F
-      !||    message_mod   ../engine/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    dyna_ini      ../engine/source/implicit/imp_dyna.F
+!||--- called by ------------------------------------------------------
+!||    imp_init      ../engine/source/implicit/imp_init.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg        ../engine/source/output/message/message.F
+!||    arret         ../engine/source/system/arret.F
+!||--- uses       -----------------------------------------------------
+!||    imp_dyna      ../engine/share/modules/impbufdef_mod.F
+!||    message_mod   ../engine/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE DYNA_INI(NODFT ,NODLT ,D_AL  ,NM_A  ,NM_B ,
      1                    V     ,VR    )
 C-----------------------------------------------
@@ -136,11 +136,11 @@ C------gama,beta----
 C
       RETURN
       END
-      !||====================================================================
-      !||    dyna_in0   ../engine/source/implicit/imp_dyna.F
-      !||--- uses       -----------------------------------------------------
-      !||    imp_dyna   ../engine/share/modules/impbufdef_mod.F
-      !||====================================================================
+!||====================================================================
+!||    dyna_in0   ../engine/source/implicit/imp_dyna.F
+!||--- uses       -----------------------------------------------------
+!||    imp_dyna   ../engine/share/modules/impbufdef_mod.F
+!||====================================================================
       SUBROUTINE DYNA_IN0(NODFT ,NODLT )
 C-----------------------------------------------
 C   M o d u l e s
@@ -174,14 +174,14 @@ C------------------------------------------
 C
       RETURN
       END
-      !||====================================================================
-      !||    inte_dyna       ../engine/source/implicit/imp_dyna.F
-      !||--- called by ------------------------------------------------------
-      !||    integrator      ../engine/source/implicit/integrator.F
-      !||    integrator_hp   ../engine/source/implicit/integrator.F
-      !||--- uses       -----------------------------------------------------
-      !||    imp_dyna        ../engine/share/modules/impbufdef_mod.F
-      !||====================================================================
+!||====================================================================
+!||    inte_dyna       ../engine/source/implicit/imp_dyna.F
+!||--- called by ------------------------------------------------------
+!||    integrator      ../engine/source/implicit/integrator.F
+!||    integrator_hp   ../engine/source/implicit/integrator.F
+!||--- uses       -----------------------------------------------------
+!||    imp_dyna        ../engine/share/modules/impbufdef_mod.F
+!||====================================================================
       SUBROUTINE INTE_DYNA(NODFT,NODLT ,D    ,DR    ,V    ,VR    )
 C-----------------------------------------------
 C   M o d u l e s
@@ -288,14 +288,14 @@ c       print *,V(1,I),V(2,I),V(3,I)
 C--------------------------------------------
       RETURN
       END
-      !||====================================================================
-      !||    imp_dynam   ../engine/source/implicit/imp_dyna.F
-      !||--- called by ------------------------------------------------------
-      !||    imp_chkm    ../engine/source/implicit/imp_solv.F
-      !||    imp_solv    ../engine/source/implicit/imp_solv.F
-      !||--- uses       -----------------------------------------------------
-      !||    imp_dyna    ../engine/share/modules/impbufdef_mod.F
-      !||====================================================================
+!||====================================================================
+!||    imp_dynam   ../engine/source/implicit/imp_dyna.F
+!||--- called by ------------------------------------------------------
+!||    imp_chkm    ../engine/source/implicit/imp_solv.F
+!||    imp_solv    ../engine/source/implicit/imp_solv.F
+!||--- uses       -----------------------------------------------------
+!||    imp_dyna    ../engine/share/modules/impbufdef_mod.F
+!||====================================================================
       SUBROUTINE IMP_DYNAM(NODFT  ,NODLT   ,IDDL   ,NDOF   ,
      .                     DIAG_K ,MS      ,IN     ,D_AL   ,WEIGHT,
      .                     IADK   ,LT_K    )
@@ -381,13 +381,13 @@ C
 C--------------------------------------------
       RETURN
       END
-      !||====================================================================
-      !||    imp_dynar   ../engine/source/implicit/imp_dyna.F
-      !||--- called by ------------------------------------------------------
-      !||    upd_rhs     ../engine/source/implicit/upd_glob_k.F
-      !||--- uses       -----------------------------------------------------
-      !||    imp_dyna    ../engine/share/modules/impbufdef_mod.F
-      !||====================================================================
+!||====================================================================
+!||    imp_dynar   ../engine/source/implicit/imp_dyna.F
+!||--- called by ------------------------------------------------------
+!||    upd_rhs     ../engine/source/implicit/upd_glob_k.F
+!||--- uses       -----------------------------------------------------
+!||    imp_dyna    ../engine/share/modules/impbufdef_mod.F
+!||====================================================================
       SUBROUTINE IMP_DYNAR(DY_AC,DY_ACR,MS    ,IN    ,FINT ,MINT  ,
      .                      V    ,VR    )
 C-----------------------------------------------
@@ -448,13 +448,13 @@ C---add Cv in Fint---------------
 C--------------------------------------------
       RETURN
       END
-      !||====================================================================
-      !||    imp_fhht   ../engine/source/implicit/imp_dyna.F
-      !||--- called by ------------------------------------------------------
-      !||    upd_rhs    ../engine/source/implicit/upd_glob_k.F
-      !||--- uses       -----------------------------------------------------
-      !||    imp_dyna   ../engine/share/modules/impbufdef_mod.F
-      !||====================================================================
+!||====================================================================
+!||    imp_fhht   ../engine/source/implicit/imp_dyna.F
+!||--- called by ------------------------------------------------------
+!||    upd_rhs    ../engine/source/implicit/upd_glob_k.F
+!||--- uses       -----------------------------------------------------
+!||    imp_dyna   ../engine/share/modules/impbufdef_mod.F
+!||====================================================================
       SUBROUTINE IMP_FHHT(NDDL   ,LB    )
 C-----------------------------------------------
 C   M o d u l e s
@@ -494,15 +494,15 @@ C----- store  db in  DY_R0; add  db in lb in IMP_FHHT; this is du to SPMD versio
 C--------------------------------------------
       RETURN
       END
-      !||====================================================================
-      !||    dyna_cpr0   ../engine/source/implicit/imp_dyna.F
-      !||--- called by ------------------------------------------------------
-      !||    imp_solv    ../engine/source/implicit/imp_solv.F
-      !||--- calls      -----------------------------------------------------
-      !||    cp_real     ../engine/source/implicit/produt_v.F
-      !||--- uses       -----------------------------------------------------
-      !||    imp_dyna    ../engine/share/modules/impbufdef_mod.F
-      !||====================================================================
+!||====================================================================
+!||    dyna_cpr0   ../engine/source/implicit/imp_dyna.F
+!||--- called by ------------------------------------------------------
+!||    imp_solv    ../engine/source/implicit/imp_solv.F
+!||--- calls      -----------------------------------------------------
+!||    cp_real     ../engine/source/implicit/produt_v.F
+!||--- uses       -----------------------------------------------------
+!||    imp_dyna    ../engine/share/modules/impbufdef_mod.F
+!||====================================================================
       SUBROUTINE DYNA_CPR0(NDDL  )
 C-----------------------------------------------
 C   M o d u l e s
@@ -532,17 +532,17 @@ C--------------------------------------------
       RETURN
       END
 
-      !||====================================================================
-      !||    qstat_ini     ../engine/source/implicit/imp_dyna.F
-      !||--- called by ------------------------------------------------------
-      !||    imp_solv      ../engine/source/implicit/imp_solv.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg        ../engine/source/output/message/message.F
-      !||    arret         ../engine/source/system/arret.F
-      !||--- uses       -----------------------------------------------------
-      !||    imp_qstat     ../engine/share/modules/impbufdef_mod.F
-      !||    message_mod   ../engine/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    qstat_ini     ../engine/source/implicit/imp_dyna.F
+!||--- called by ------------------------------------------------------
+!||    imp_solv      ../engine/source/implicit/imp_solv.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg        ../engine/source/output/message/message.F
+!||    arret         ../engine/source/system/arret.F
+!||--- uses       -----------------------------------------------------
+!||    imp_qstat     ../engine/share/modules/impbufdef_mod.F
+!||    message_mod   ../engine/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE QSTAT_INI(NDDL   ,INLOC  ,IDDL    ,NDOF   ,IKC    ,
      .                     MS     ,IN      )
 C-----------------------------------------------
@@ -640,13 +640,13 @@ C
 C--------------------------------------------
       RETURN
       END
-      !||====================================================================
-      !||    qstat_it    ../engine/source/implicit/imp_dyna.F
-      !||--- called by ------------------------------------------------------
-      !||    lin_solv    ../engine/source/implicit/lin_solv.F
-      !||--- uses       -----------------------------------------------------
-      !||    imp_qstat   ../engine/share/modules/impbufdef_mod.F
-      !||====================================================================
+!||====================================================================
+!||    qstat_it    ../engine/source/implicit/imp_dyna.F
+!||--- called by ------------------------------------------------------
+!||    lin_solv    ../engine/source/implicit/lin_solv.F
+!||--- uses       -----------------------------------------------------
+!||    imp_qstat   ../engine/share/modules/impbufdef_mod.F
+!||====================================================================
       SUBROUTINE QSTAT_IT(NDDL   ,F      ,U      )
 C-----------------------------------------------
 C   M o d u l e s
@@ -675,13 +675,13 @@ C-----------------
 C--------------------------------------------
       RETURN
       END
-      !||====================================================================
-      !||    qstat_end   ../engine/source/implicit/imp_dyna.F
-      !||--- called by ------------------------------------------------------
-      !||    lin_solv    ../engine/source/implicit/lin_solv.F
-      !||--- uses       -----------------------------------------------------
-      !||    imp_qstat   ../engine/share/modules/impbufdef_mod.F
-      !||====================================================================
+!||====================================================================
+!||    qstat_end   ../engine/source/implicit/imp_dyna.F
+!||--- called by ------------------------------------------------------
+!||    lin_solv    ../engine/source/implicit/lin_solv.F
+!||--- uses       -----------------------------------------------------
+!||    imp_qstat   ../engine/share/modules/impbufdef_mod.F
+!||====================================================================
       SUBROUTINE QSTAT_END(NDDL   ,U      )
 C-----------------------------------------------
 C   M o d u l e s
@@ -710,26 +710,26 @@ C-----------------
 C--------------------------------------------
       RETURN
       END
-      !||====================================================================
-      !||    dyna_ina           ../engine/source/implicit/imp_dyna.F
-      !||--- called by ------------------------------------------------------
-      !||    imp_solv           ../engine/source/implicit/imp_solv.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg             ../engine/source/output/message/message.F
-      !||    arret              ../engine/source/system/arret.F
-      !||    force_imp          ../engine/source/loads/general/force_imp.F
-      !||    gravit_imp         ../engine/source/loads/general/grav/gravit_imp.F
-      !||    spmd_max_i         ../engine/source/mpi/implicit/imp_spmd.F
-      !||    spmd_sumf_a        ../engine/source/mpi/implicit/imp_spmd.F
-      !||--- uses       -----------------------------------------------------
-      !||    h3d_mod            ../engine/share/modules/h3d_mod.F
-      !||    imp_dyna           ../engine/share/modules/impbufdef_mod.F
-      !||    message_mod        ../engine/share/message_module/message_mod.F
-      !||    python_funct_mod   ../common_source/modules/python_mod.F90
-      !||    sensor_mod         ../common_source/modules/sensor_mod.F90
-      !||    skew_mod           ../common_source/modules/skew_mod.F90
-      !||    th_surf_mod        ../common_source/modules/interfaces/th_surf_mod.F
-      !||====================================================================
+!||====================================================================
+!||    dyna_ina           ../engine/source/implicit/imp_dyna.F
+!||--- called by ------------------------------------------------------
+!||    imp_solv           ../engine/source/implicit/imp_solv.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg             ../engine/source/output/message/message.F
+!||    arret              ../engine/source/system/arret.F
+!||    force_imp          ../engine/source/loads/general/force_imp.F
+!||    gravit_imp         ../engine/source/loads/general/grav/gravit_imp.F
+!||    spmd_max_i         ../engine/source/mpi/implicit/imp_spmd.F
+!||    spmd_sumf_a        ../engine/source/mpi/implicit/imp_spmd.F
+!||--- uses       -----------------------------------------------------
+!||    h3d_mod            ../engine/share/modules/h3d_mod.F
+!||    imp_dyna           ../engine/share/modules/impbufdef_mod.F
+!||    message_mod        ../engine/share/message_module/message_mod.F
+!||    python_funct_mod   ../common_source/modules/python_mod.F90
+!||    sensor_mod         ../common_source/modules/sensor_mod.F90
+!||    skew_mod           ../common_source/modules/skew_mod.F90
+!||    th_surf_mod        ../common_source/modules/interfaces/th_surf_mod.F
+!||====================================================================
       SUBROUTINE DYNA_INA(IBCL      ,FORC    ,SNPC    ,NPC    ,TF     ,A     ,
      2                    V         ,X       ,SKEWS   ,AR     ,VR     ,
      3                    SENSOR_TAB,WEIGHT  ,WFEXC   ,IADS_F ,
@@ -971,22 +971,22 @@ c    keep continuity with GM validation: -initialize later-
 C
       RETURN
       END
-      !||====================================================================
-      !||    dyna_wex           ../engine/source/implicit/imp_dyna.F
-      !||--- called by ------------------------------------------------------
-      !||    imp_solv           ../engine/source/implicit/imp_solv.F
-      !||--- calls      -----------------------------------------------------
-      !||    force_imp          ../engine/source/loads/general/force_imp.F
-      !||    gravit_imp         ../engine/source/loads/general/grav/gravit_imp.F
-      !||    wfv_imp            ../engine/source/constraints/general/impvel/fv_imp0.F
-      !||--- uses       -----------------------------------------------------
-      !||    h3d_mod            ../engine/share/modules/h3d_mod.F
-      !||    imp_dyna           ../engine/share/modules/impbufdef_mod.F
-      !||    python_funct_mod   ../common_source/modules/python_mod.F90
-      !||    sensor_mod         ../common_source/modules/sensor_mod.F90
-      !||    skew_mod           ../common_source/modules/skew_mod.F90
-      !||    th_surf_mod        ../common_source/modules/interfaces/th_surf_mod.F
-      !||====================================================================
+!||====================================================================
+!||    dyna_wex           ../engine/source/implicit/imp_dyna.F
+!||--- called by ------------------------------------------------------
+!||    imp_solv           ../engine/source/implicit/imp_solv.F
+!||--- calls      -----------------------------------------------------
+!||    force_imp          ../engine/source/loads/general/force_imp.F
+!||    gravit_imp         ../engine/source/loads/general/grav/gravit_imp.F
+!||    wfv_imp            ../engine/source/constraints/general/impvel/fv_imp0.F
+!||--- uses       -----------------------------------------------------
+!||    h3d_mod            ../engine/share/modules/h3d_mod.F
+!||    imp_dyna           ../engine/share/modules/impbufdef_mod.F
+!||    python_funct_mod   ../common_source/modules/python_mod.F90
+!||    sensor_mod         ../common_source/modules/sensor_mod.F90
+!||    skew_mod           ../common_source/modules/skew_mod.F90
+!||    th_surf_mod        ../common_source/modules/interfaces/th_surf_mod.F
+!||====================================================================
       SUBROUTINE DYNA_WEX(IBCL  ,FORC   ,SNPC,NPC   ,TF    ,A     ,
      2                    V     ,X      ,SKEWS  ,AR    ,VR    ,
      3                    SENSOR_TAB,WEIGHT,WFEXT ,IADS_F ,
@@ -1116,11 +1116,11 @@ C     which makes high error (energy) in case of high Rayleigh damping
 C
       RETURN
       END
-      !||====================================================================
-      !||    imp_qifam   ../engine/source/implicit/imp_dyna.F
-      !||--- called by ------------------------------------------------------
-      !||    imp_solv    ../engine/source/implicit/imp_solv.F
-      !||====================================================================
+!||====================================================================
+!||    imp_qifam   ../engine/source/implicit/imp_dyna.F
+!||--- called by ------------------------------------------------------
+!||    imp_solv    ../engine/source/implicit/imp_solv.F
+!||====================================================================
       SUBROUTINE IMP_QIFAM(NODFT  ,NODLT   ,IDDL   ,NDOF   ,INLOC ,
      .                     IKC    ,DIAG_K  ,MS     ,IN     ,WEIGHT)
 C-----------------------------------------------
@@ -1197,15 +1197,15 @@ C
 C--------------------------------------------
       RETURN
       END
-      !||====================================================================
-      !||    imp_dycrb   ../engine/source/implicit/imp_dyna.F
-      !||--- called by ------------------------------------------------------
-      !||    upd_rhs     ../engine/source/implicit/upd_glob_k.F
-      !||--- calls      -----------------------------------------------------
-      !||    rotbmr      ../engine/source/tools/skew/rotbmr.F
-      !||--- uses       -----------------------------------------------------
-      !||    imp_dyna    ../engine/share/modules/impbufdef_mod.F
-      !||====================================================================
+!||====================================================================
+!||    imp_dycrb   ../engine/source/implicit/imp_dyna.F
+!||--- called by ------------------------------------------------------
+!||    upd_rhs     ../engine/source/implicit/upd_glob_k.F
+!||--- calls      -----------------------------------------------------
+!||    rotbmr      ../engine/source/tools/skew/rotbmr.F
+!||--- uses       -----------------------------------------------------
+!||    imp_dyna    ../engine/share/modules/impbufdef_mod.F
+!||====================================================================
       SUBROUTINE IMP_DYCRB(AM    ,IN     ,VR     ,NBY    ,RBY0   ,
      .                     WEIGHT,ICODR  ,ISKEW  ,SKEW   )
 C-----------------------------------------------
@@ -1511,11 +1511,11 @@ C repere d'inertie principale -> repere globale
 C--------------------------------------------
       RETURN
       END
-      !||====================================================================
-      !||    dyna_iniv   ../engine/source/implicit/imp_dyna.F
-      !||--- uses       -----------------------------------------------------
-      !||    imp_dyna    ../engine/share/modules/impbufdef_mod.F
-      !||====================================================================
+!||====================================================================
+!||    dyna_iniv   ../engine/source/implicit/imp_dyna.F
+!||--- uses       -----------------------------------------------------
+!||    imp_dyna    ../engine/share/modules/impbufdef_mod.F
+!||====================================================================
       SUBROUTINE DYNA_INIV(NODFT ,NODLT ,MS   ,IN   ,D  ,DR  )
 C-----------------------------------------------
 C   M o d u l e s
@@ -1607,14 +1607,14 @@ C
 C--------------------------------------------
       RETURN
       END
-      !||====================================================================
-      !||    dyna_ivfac   ../engine/source/implicit/imp_dyna.F
-      !||--- calls      -----------------------------------------------------
-      !||    my_barrier   ../engine/source/system/machine.F
-      !||    spmd_sum_s   ../engine/source/mpi/implicit/imp_spmd.F
-      !||--- uses       -----------------------------------------------------
-      !||    imp_dyna     ../engine/share/modules/impbufdef_mod.F
-      !||====================================================================
+!||====================================================================
+!||    dyna_ivfac   ../engine/source/implicit/imp_dyna.F
+!||--- calls      -----------------------------------------------------
+!||    my_barrier   ../engine/source/system/machine.F
+!||    spmd_sum_s   ../engine/source/mpi/implicit/imp_spmd.F
+!||--- uses       -----------------------------------------------------
+!||    imp_dyna     ../engine/share/modules/impbufdef_mod.F
+!||====================================================================
       SUBROUTINE DYNA_IVFAC(NODFT ,NODLT ,MS  ,IN   ,WEIGHT,
      .                      EN_I  ,EFAC  ,ITASK)
 C-----------------------------------------------
@@ -1683,16 +1683,16 @@ C---------------------
 C--------------------------------------------
       RETURN
       END
-      !||====================================================================
-      !||    dyna_cpk0   ../engine/source/implicit/imp_dyna.F
-      !||--- called by ------------------------------------------------------
-      !||    imp_solv    ../engine/source/implicit/imp_solv.F
-      !||--- calls      -----------------------------------------------------
-      !||    cp_int      ../engine/source/implicit/produt_v.F
-      !||    cp_real     ../engine/source/implicit/produt_v.F
-      !||--- uses       -----------------------------------------------------
-      !||    imp_dyna    ../engine/share/modules/impbufdef_mod.F
-      !||====================================================================
+!||====================================================================
+!||    dyna_cpk0   ../engine/source/implicit/imp_dyna.F
+!||--- called by ------------------------------------------------------
+!||    imp_solv    ../engine/source/implicit/imp_solv.F
+!||--- calls      -----------------------------------------------------
+!||    cp_int      ../engine/source/implicit/produt_v.F
+!||    cp_real     ../engine/source/implicit/produt_v.F
+!||--- uses       -----------------------------------------------------
+!||    imp_dyna    ../engine/share/modules/impbufdef_mod.F
+!||====================================================================
       SUBROUTINE DYNA_CPK0(NDDL  ,NNZK  ,IADK  ,JDIK   ,DIAG_K ,
      .                     LT_K  )
 C-----------------------------------------------
@@ -1729,25 +1729,25 @@ C
 C--------------------------------------------
       RETURN
       END
-      !||====================================================================
-      !||    imp_dykv        ../engine/source/implicit/imp_dyna.F
-      !||--- called by ------------------------------------------------------
-      !||    imp_solv        ../engine/source/implicit/imp_solv.F
-      !||--- calls      -----------------------------------------------------
-      !||    i2_impr1        ../engine/source/interfaces/interf/i2_imp1.F
-      !||    i2_impr2        ../engine/source/interfaces/interf/i2_imp1.F
-      !||    imp_setb        ../engine/source/implicit/imp_setb.F
-      !||    mav_lt          ../engine/source/implicit/produt_v.F
-      !||    rbe2_impr1      ../engine/source/constraints/general/rbe2/rbe2_imp0.F
-      !||    rbe3_impr1      ../engine/source/constraints/general/rbe3/rbe3_imp0.F
-      !||    rbe3_impr2      ../engine/source/constraints/general/rbe3/rbe3_imp0.F
-      !||    rby_impr1       ../engine/source/constraints/general/rbody/rby_imp0.F
-      !||    rby_impr2       ../engine/source/constraints/general/rbody/rby_imp0.F
-      !||    spmd_sumf_a     ../engine/source/mpi/implicit/imp_spmd.F
-      !||--- uses       -----------------------------------------------------
-      !||    imp_dyna        ../engine/share/modules/impbufdef_mod.F
-      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    imp_dykv        ../engine/source/implicit/imp_dyna.F
+!||--- called by ------------------------------------------------------
+!||    imp_solv        ../engine/source/implicit/imp_solv.F
+!||--- calls      -----------------------------------------------------
+!||    i2_impr1        ../engine/source/interfaces/interf/i2_imp1.F
+!||    i2_impr2        ../engine/source/interfaces/interf/i2_imp1.F
+!||    imp_setb        ../engine/source/implicit/imp_setb.F
+!||    mav_lt          ../engine/source/implicit/produt_v.F
+!||    rbe2_impr1      ../engine/source/constraints/general/rbe2/rbe2_imp0.F
+!||    rbe3_impr1      ../engine/source/constraints/general/rbe3/rbe3_imp0.F
+!||    rbe3_impr2      ../engine/source/constraints/general/rbe3/rbe3_imp0.F
+!||    rby_impr1       ../engine/source/constraints/general/rbody/rby_imp0.F
+!||    rby_impr2       ../engine/source/constraints/general/rbody/rby_imp0.F
+!||    spmd_sumf_a     ../engine/source/mpi/implicit/imp_spmd.F
+!||--- uses       -----------------------------------------------------
+!||    imp_dyna        ../engine/share/modules/impbufdef_mod.F
+!||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
+!||====================================================================
       SUBROUTINE IMP_DYKV(NODFT  ,NODLT   ,IDDL   ,NDOF   ,IKC    ,
      .                    DIAG_K ,IADK    ,JDIK   ,LT_K   ,WEIGHT ,
      1                    RBY    ,X       ,SKEW   ,LPBY   ,NPBY   ,
@@ -1898,13 +1898,13 @@ C
 C--------------------------------------------
       RETURN
       END
-      !||====================================================================
-      !||    getdyna_a    ../engine/source/implicit/imp_dyna.F
-      !||--- called by ------------------------------------------------------
-      !||    rgwal0_imp   ../engine/source/constraints/general/rwall/rgwal0.F
-      !||--- uses       -----------------------------------------------------
-      !||    imp_dyna     ../engine/share/modules/impbufdef_mod.F
-      !||====================================================================
+!||====================================================================
+!||    getdyna_a    ../engine/source/implicit/imp_dyna.F
+!||--- called by ------------------------------------------------------
+!||    rgwal0_imp   ../engine/source/constraints/general/rwall/rgwal0.F
+!||--- uses       -----------------------------------------------------
+!||    imp_dyna     ../engine/share/modules/impbufdef_mod.F
+!||====================================================================
       SUBROUTINE GETDYNA_A(NODFT,NODLT,A )
 C-----------------------------------------------
 C   M o d u l e s
@@ -1934,25 +1934,25 @@ C------------------------------------------
 C--------------------------------------------
       RETURN
       END
-      !||====================================================================
-      !||    imp_dykv0       ../engine/source/implicit/imp_dyna.F
-      !||--- called by ------------------------------------------------------
-      !||    imp_solv        ../engine/source/implicit/imp_solv.F
-      !||--- calls      -----------------------------------------------------
-      !||    i2_impr1        ../engine/source/interfaces/interf/i2_imp1.F
-      !||    i2_impr2        ../engine/source/interfaces/interf/i2_imp1.F
-      !||    imp_setb        ../engine/source/implicit/imp_setb.F
-      !||    mav_lt          ../engine/source/implicit/produt_v.F
-      !||    rbe2_impr1      ../engine/source/constraints/general/rbe2/rbe2_imp0.F
-      !||    rbe3_impr1      ../engine/source/constraints/general/rbe3/rbe3_imp0.F
-      !||    rbe3_impr2      ../engine/source/constraints/general/rbe3/rbe3_imp0.F
-      !||    rby_impr1       ../engine/source/constraints/general/rbody/rby_imp0.F
-      !||    rby_impr2       ../engine/source/constraints/general/rbody/rby_imp0.F
-      !||    spmd_sumf_a     ../engine/source/mpi/implicit/imp_spmd.F
-      !||--- uses       -----------------------------------------------------
-      !||    imp_dyna        ../engine/share/modules/impbufdef_mod.F
-      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    imp_dykv0       ../engine/source/implicit/imp_dyna.F
+!||--- called by ------------------------------------------------------
+!||    imp_solv        ../engine/source/implicit/imp_solv.F
+!||--- calls      -----------------------------------------------------
+!||    i2_impr1        ../engine/source/interfaces/interf/i2_imp1.F
+!||    i2_impr2        ../engine/source/interfaces/interf/i2_imp1.F
+!||    imp_setb        ../engine/source/implicit/imp_setb.F
+!||    mav_lt          ../engine/source/implicit/produt_v.F
+!||    rbe2_impr1      ../engine/source/constraints/general/rbe2/rbe2_imp0.F
+!||    rbe3_impr1      ../engine/source/constraints/general/rbe3/rbe3_imp0.F
+!||    rbe3_impr2      ../engine/source/constraints/general/rbe3/rbe3_imp0.F
+!||    rby_impr1       ../engine/source/constraints/general/rbody/rby_imp0.F
+!||    rby_impr2       ../engine/source/constraints/general/rbody/rby_imp0.F
+!||    spmd_sumf_a     ../engine/source/mpi/implicit/imp_spmd.F
+!||--- uses       -----------------------------------------------------
+!||    imp_dyna        ../engine/share/modules/impbufdef_mod.F
+!||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
+!||====================================================================
       SUBROUTINE IMP_DYKV0(NODFT  ,NODLT   ,IDDL   ,NDOF   ,IKC    ,
      .                    DIAG_K ,IADK    ,JDIK   ,LT_K   ,WEIGHT ,
      1                    RBY    ,X       ,SKEW   ,LPBY   ,NPBY   ,
@@ -2091,15 +2091,15 @@ C
 C--------------------------------------------
       RETURN
       END
-      !||====================================================================
-      !||    imp_fhht1   ../engine/source/implicit/imp_dyna.F
-      !||--- called by ------------------------------------------------------
-      !||    upd_rhs     ../engine/source/implicit/upd_glob_k.F
-      !||--- calls      -----------------------------------------------------
-      !||    condens_b   ../engine/source/implicit/upd_glob_k.F
-      !||--- uses       -----------------------------------------------------
-      !||    imp_dyna    ../engine/share/modules/impbufdef_mod.F
-      !||====================================================================
+!||====================================================================
+!||    imp_fhht1   ../engine/source/implicit/imp_dyna.F
+!||--- called by ------------------------------------------------------
+!||    upd_rhs     ../engine/source/implicit/upd_glob_k.F
+!||--- calls      -----------------------------------------------------
+!||    condens_b   ../engine/source/implicit/upd_glob_k.F
+!||--- uses       -----------------------------------------------------
+!||    imp_dyna    ../engine/share/modules/impbufdef_mod.F
+!||====================================================================
       SUBROUTINE IMP_FHHT1(NDDL0   ,NDDL    ,LB    ,IKC   )
 C-----------------------------------------------
 C   M o d u l e s

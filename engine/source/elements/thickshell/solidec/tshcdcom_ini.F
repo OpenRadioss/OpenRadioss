@@ -20,11 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    tshcdcom_ini   ../engine/source/elements/thickshell/solidec/tshcdcom_ini.F
-      !||--- called by ------------------------------------------------------
-      !||    resol_init     ../engine/source/engine/resol_init.F
-      !||====================================================================
+!||====================================================================
+!||    tshcdcom_ini   ../engine/source/elements/thickshell/solidec/tshcdcom_ini.F
+!||--- called by ------------------------------------------------------
+!||    resol_init     ../engine/source/engine/resol_init.F
+!||====================================================================
       SUBROUTINE TSHCDCOM_INI(ISEND,IAD_ELEM,FR_ELEM,IAD_STSH,FR_STSH)
 C-----------------------------------------------
 C   M o d u l e s

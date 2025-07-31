@@ -20,18 +20,18 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    sigeps33      ../engine/source/materials/mat/mat033/sigeps33.F
-      !||--- called by ------------------------------------------------------
-      !||    mulaw         ../engine/source/materials/mat_share/mulaw.F90
-      !||    mulaw8        ../engine/source/materials/mat_share/mulaw8.F90
-      !||--- calls      -----------------------------------------------------
-      !||    dreh          ../engine/source/materials/mat/mat033/sigeps33.F
-      !||    finter        ../engine/source/tools/curve/finter.F
-      !||    jacobiew      ../engine/source/materials/mat/mat033/sigeps33.F
-      !||    valpvec_v     ../engine/source/materials/mat/mat033/sigeps33.F
-      !||    valpvecdp_v   ../engine/source/materials/mat/mat033/sigeps33.F
-      !||====================================================================
+!||====================================================================
+!||    sigeps33      ../engine/source/materials/mat/mat033/sigeps33.F
+!||--- called by ------------------------------------------------------
+!||    mulaw         ../engine/source/materials/mat_share/mulaw.F90
+!||    mulaw8        ../engine/source/materials/mat_share/mulaw8.F90
+!||--- calls      -----------------------------------------------------
+!||    dreh          ../engine/source/materials/mat/mat033/sigeps33.F
+!||    finter        ../engine/source/tools/curve/finter.F
+!||    jacobiew      ../engine/source/materials/mat/mat033/sigeps33.F
+!||    valpvec_v     ../engine/source/materials/mat/mat033/sigeps33.F
+!||    valpvecdp_v   ../engine/source/materials/mat/mat033/sigeps33.F
+!||====================================================================
       SUBROUTINE SIGEPS33(
      1      NEL    , NUPARAM, NUVAR   , NFUNC , IFUNC , NPF   ,
      2      TF     , TIME   , TIMESTEP, UPARAM, RHO0  , RHO   ,
@@ -595,14 +595,14 @@ C
 
       END
 
-      !||====================================================================
-      !||    jacobiew          ../engine/source/materials/mat/mat033/sigeps33.F
-      !||--- called by ------------------------------------------------------
-      !||    fail_orthstrain   ../engine/source/materials/fail/orthstrain/fail_orthstrain_s.F
-      !||    hencky_strain     ../engine/source/tools/seatbelts/shell_reactivation.F
-      !||    sigeps33          ../engine/source/materials/mat/mat033/sigeps33.F
-      !||    sigeps38          ../engine/source/materials/mat/mat038/sigeps38.F
-      !||====================================================================
+!||====================================================================
+!||    jacobiew          ../engine/source/materials/mat/mat033/sigeps33.F
+!||--- called by ------------------------------------------------------
+!||    fail_orthstrain   ../engine/source/materials/fail/orthstrain/fail_orthstrain_s.F
+!||    hencky_strain     ../engine/source/tools/seatbelts/shell_reactivation.F
+!||    sigeps33          ../engine/source/materials/mat/mat033/sigeps33.F
+!||    sigeps38          ../engine/source/materials/mat/mat038/sigeps38.F
+!||====================================================================
       SUBROUTINE  JACOBIEW(A,N,EW,EV,NROT)
 C-------------------------------------------------------KK141189-
 C COMPUTATION OF ALL EIGENVALUES AND EIGENVECTORS OF A SYMMETRIC
@@ -729,12 +729,12 @@ C SUM OF THE OFF DIAGONALS
       END
  
       
-      !||====================================================================
-      !||    dreh       ../engine/source/materials/mat/mat033/sigeps33.F
-      !||--- called by ------------------------------------------------------
-      !||    sigeps33   ../engine/source/materials/mat/mat033/sigeps33.F
-      !||    sigeps38   ../engine/source/materials/mat/mat038/sigeps38.F
-      !||====================================================================
+!||====================================================================
+!||    dreh       ../engine/source/materials/mat/mat033/sigeps33.F
+!||--- called by ------------------------------------------------------
+!||    sigeps33   ../engine/source/materials/mat/mat033/sigeps33.F
+!||    sigeps38   ../engine/source/materials/mat/mat038/sigeps38.F
+!||====================================================================
       SUBROUTINE DREH(B,TR,II,JJ,KEN) 
 C-------------------------------------------------------KK010587-
 C KEN=0 -> ROTATION OF MATRIX B BY TR = TR(T)*B*TR
@@ -781,15 +781,15 @@ C          IF(LK(I,K)==ZERO) GOTO 30
                                                                     
       END 
 C
-      !||====================================================================
-      !||    valpvec    ../engine/source/materials/mat/mat033/sigeps33.F
-      !||--- called by ------------------------------------------------------
-      !||    alew7      ../engine/source/ale/grid/alew7.F
-      !||    epsf2u     ../engine/source/materials/mat/mat033/sigeps33.F
-      !||    sigeps88   ../engine/source/materials/mat/mat088/sigeps88.F
-      !||--- calls      -----------------------------------------------------
-      !||    floatmin   ../common_source/tools/math/precision.c
-      !||====================================================================
+!||====================================================================
+!||    valpvec    ../engine/source/materials/mat/mat033/sigeps33.F
+!||--- called by ------------------------------------------------------
+!||    alew7      ../engine/source/ale/grid/alew7.F
+!||    epsf2u     ../engine/source/materials/mat/mat033/sigeps33.F
+!||    sigeps88   ../engine/source/materials/mat/mat088/sigeps88.F
+!||--- calls      -----------------------------------------------------
+!||    floatmin   ../common_source/tools/math/precision.c
+!||====================================================================
       SUBROUTINE VALPVEC(SIG,VAL,VEC,NEL)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -1100,14 +1100,14 @@ C
       RETURN
       END
 
-      !||====================================================================
-      !||    valpvecdp   ../engine/source/materials/mat/mat033/sigeps33.F
-      !||--- called by ------------------------------------------------------
-      !||    epsf2u      ../engine/source/materials/mat/mat033/sigeps33.F
-      !||    sigeps88    ../engine/source/materials/mat/mat088/sigeps88.F
-      !||--- calls      -----------------------------------------------------
-      !||    floatmin    ../common_source/tools/math/precision.c
-      !||====================================================================
+!||====================================================================
+!||    valpvecdp   ../engine/source/materials/mat/mat033/sigeps33.F
+!||--- called by ------------------------------------------------------
+!||    epsf2u      ../engine/source/materials/mat/mat033/sigeps33.F
+!||    sigeps88    ../engine/source/materials/mat/mat088/sigeps88.F
+!||--- calls      -----------------------------------------------------
+!||    floatmin    ../common_source/tools/math/precision.c
+!||====================================================================
       SUBROUTINE VALPVECDP(SIG,VAL,VEC,NEL)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -1431,15 +1431,15 @@ C str utilise com tableau temporaire au lieu de scalaires temporaires
       ENDDO
       RETURN
       END
-      !||====================================================================
-      !||    epsf2u          ../engine/source/materials/mat/mat033/sigeps33.F
-      !||--- called by ------------------------------------------------------
-      !||    mulaw           ../engine/source/materials/mat_share/mulaw.F90
-      !||    usermat_solid   ../engine/source/materials/mat_share/usermat_solid.F
-      !||--- calls      -----------------------------------------------------
-      !||    valpvec         ../engine/source/materials/mat/mat033/sigeps33.F
-      !||    valpvecdp       ../engine/source/materials/mat/mat033/sigeps33.F
-      !||====================================================================
+!||====================================================================
+!||    epsf2u          ../engine/source/materials/mat/mat033/sigeps33.F
+!||--- called by ------------------------------------------------------
+!||    mulaw           ../engine/source/materials/mat_share/mulaw.F90
+!||    usermat_solid   ../engine/source/materials/mat_share/usermat_solid.F
+!||--- calls      -----------------------------------------------------
+!||    valpvec         ../engine/source/materials/mat/mat033/sigeps33.F
+!||    valpvecdp       ../engine/source/materials/mat/mat033/sigeps33.F
+!||====================================================================
               SUBROUTINE EPSF2U(
      1      NEL    ,FXX    , FXY  , FXZ  , FYX  ,    
      2      FYY    ,FYZ    , FZX  , FZY  , FZZ  , 
@@ -1531,11 +1531,11 @@ c
 C      
       RETURN
       END
-      !||====================================================================
-      !||    valpvecop   ../engine/source/materials/mat/mat033/sigeps33.F
-      !||--- calls      -----------------------------------------------------
-      !||    floatmin    ../common_source/tools/math/precision.c
-      !||====================================================================
+!||====================================================================
+!||    valpvecop   ../engine/source/materials/mat/mat033/sigeps33.F
+!||--- calls      -----------------------------------------------------
+!||    floatmin    ../common_source/tools/math/precision.c
+!||====================================================================
       SUBROUTINE VALPVECOP(SIG,VAL,VEC,NEL)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -1879,25 +1879,25 @@ C str utilise com tableau temporaire au lieu de scalaires temporaires
       END
 
 
-      !||====================================================================
-      !||    valpvec_v   ../engine/source/materials/mat/mat033/sigeps33.F
-      !||--- called by ------------------------------------------------------
-      !||    sigeps124   ../engine/source/materials/mat/mat124/sigeps124.F
-      !||    sigeps163   ../engine/source/materials/mat/mat163/sigeps163.F90
-      !||    sigeps190   ../engine/source/materials/mat/mat190/sigeps190.F
-      !||    sigeps33    ../engine/source/materials/mat/mat033/sigeps33.F
-      !||    sigeps38    ../engine/source/materials/mat/mat038/sigeps38.F
-      !||    sigeps42    ../engine/source/materials/mat/mat042/sigeps42.F
-      !||    sigeps62    ../engine/source/materials/mat/mat062/sigeps62.F
-      !||    sigeps69    ../engine/source/materials/mat/mat069/sigeps69.F
-      !||    sigeps71    ../engine/source/materials/mat/mat071/sigeps71.F
-      !||    sigeps82    ../engine/source/materials/mat/mat082/sigeps82.F
-      !||    sigeps90    ../engine/source/materials/mat/mat090/sigeps90.F
-      !||    sigeps92    ../engine/source/materials/mat/mat092/sigeps92.F
-      !||    sigeps94    ../engine/source/materials/mat/mat094/sigeps94.F
-      !||--- calls      -----------------------------------------------------
-      !||    floatmin    ../common_source/tools/math/precision.c
-      !||====================================================================
+!||====================================================================
+!||    valpvec_v   ../engine/source/materials/mat/mat033/sigeps33.F
+!||--- called by ------------------------------------------------------
+!||    sigeps124   ../engine/source/materials/mat/mat124/sigeps124.F
+!||    sigeps163   ../engine/source/materials/mat/mat163/sigeps163.F90
+!||    sigeps190   ../engine/source/materials/mat/mat190/sigeps190.F
+!||    sigeps33    ../engine/source/materials/mat/mat033/sigeps33.F
+!||    sigeps38    ../engine/source/materials/mat/mat038/sigeps38.F
+!||    sigeps42    ../engine/source/materials/mat/mat042/sigeps42.F
+!||    sigeps62    ../engine/source/materials/mat/mat062/sigeps62.F
+!||    sigeps69    ../engine/source/materials/mat/mat069/sigeps69.F
+!||    sigeps71    ../engine/source/materials/mat/mat071/sigeps71.F
+!||    sigeps82    ../engine/source/materials/mat/mat082/sigeps82.F
+!||    sigeps90    ../engine/source/materials/mat/mat090/sigeps90.F
+!||    sigeps92    ../engine/source/materials/mat/mat092/sigeps92.F
+!||    sigeps94    ../engine/source/materials/mat/mat094/sigeps94.F
+!||--- calls      -----------------------------------------------------
+!||    floatmin    ../common_source/tools/math/precision.c
+!||====================================================================
       SUBROUTINE VALPVEC_V(SIG,VAL,VEC,NEL)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -2207,26 +2207,26 @@ C str utilise com tableau temporaire au lieu de scalaires temporaires
 C
       RETURN
       END
-      !||====================================================================
-      !||    valpvecdp_v       ../engine/source/materials/mat/mat033/sigeps33.F
-      !||--- called by ------------------------------------------------------
-      !||    fail_spalling_s   ../engine/source/materials/fail/spalling/fail_spalling_s.F90
-      !||    sigeps124         ../engine/source/materials/mat/mat124/sigeps124.F
-      !||    sigeps163         ../engine/source/materials/mat/mat163/sigeps163.F90
-      !||    sigeps190         ../engine/source/materials/mat/mat190/sigeps190.F
-      !||    sigeps33          ../engine/source/materials/mat/mat033/sigeps33.F
-      !||    sigeps38          ../engine/source/materials/mat/mat038/sigeps38.F
-      !||    sigeps42          ../engine/source/materials/mat/mat042/sigeps42.F
-      !||    sigeps62          ../engine/source/materials/mat/mat062/sigeps62.F
-      !||    sigeps69          ../engine/source/materials/mat/mat069/sigeps69.F
-      !||    sigeps71          ../engine/source/materials/mat/mat071/sigeps71.F
-      !||    sigeps82          ../engine/source/materials/mat/mat082/sigeps82.F
-      !||    sigeps90          ../engine/source/materials/mat/mat090/sigeps90.F
-      !||    sigeps92          ../engine/source/materials/mat/mat092/sigeps92.F
-      !||    sigeps94          ../engine/source/materials/mat/mat094/sigeps94.F
-      !||--- calls      -----------------------------------------------------
-      !||    floatmin          ../common_source/tools/math/precision.c
-      !||====================================================================
+!||====================================================================
+!||    valpvecdp_v       ../engine/source/materials/mat/mat033/sigeps33.F
+!||--- called by ------------------------------------------------------
+!||    fail_spalling_s   ../engine/source/materials/fail/spalling/fail_spalling_s.F90
+!||    sigeps124         ../engine/source/materials/mat/mat124/sigeps124.F
+!||    sigeps163         ../engine/source/materials/mat/mat163/sigeps163.F90
+!||    sigeps190         ../engine/source/materials/mat/mat190/sigeps190.F
+!||    sigeps33          ../engine/source/materials/mat/mat033/sigeps33.F
+!||    sigeps38          ../engine/source/materials/mat/mat038/sigeps38.F
+!||    sigeps42          ../engine/source/materials/mat/mat042/sigeps42.F
+!||    sigeps62          ../engine/source/materials/mat/mat062/sigeps62.F
+!||    sigeps69          ../engine/source/materials/mat/mat069/sigeps69.F
+!||    sigeps71          ../engine/source/materials/mat/mat071/sigeps71.F
+!||    sigeps82          ../engine/source/materials/mat/mat082/sigeps82.F
+!||    sigeps90          ../engine/source/materials/mat/mat090/sigeps90.F
+!||    sigeps92          ../engine/source/materials/mat/mat092/sigeps92.F
+!||    sigeps94          ../engine/source/materials/mat/mat094/sigeps94.F
+!||--- calls      -----------------------------------------------------
+!||    floatmin          ../common_source/tools/math/precision.c
+!||====================================================================
       SUBROUTINE VALPVECDP_V(SIG,VAL,VEC,NEL)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -2553,14 +2553,14 @@ C str utilise com tableau temporaire au lieu de scalaires temporaires
       ENDDO
       RETURN
       END
-      !||====================================================================
-      !||    valpvecop_v   ../engine/source/materials/mat/mat033/sigeps33.F
-      !||--- called by ------------------------------------------------------
-      !||    princ_u       ../engine/source/materials/mat/mat001/princ_u.F
-      !||    princ_u1      ../engine/source/materials/mat/mat001/princ_u1.F
-      !||--- calls      -----------------------------------------------------
-      !||    floatmin      ../common_source/tools/math/precision.c
-      !||====================================================================
+!||====================================================================
+!||    valpvecop_v   ../engine/source/materials/mat/mat033/sigeps33.F
+!||--- called by ------------------------------------------------------
+!||    princ_u       ../engine/source/materials/mat/mat001/princ_u.F
+!||    princ_u1      ../engine/source/materials/mat/mat001/princ_u1.F
+!||--- calls      -----------------------------------------------------
+!||    floatmin      ../common_source/tools/math/precision.c
+!||====================================================================
       SUBROUTINE VALPVECOP_V(SIG,VAL,VEC,NEL)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

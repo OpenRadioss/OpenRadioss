@@ -20,16 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    aniskewf        ../engine/source/output/anim/generate/aniskewf.F
-      !||--- called by ------------------------------------------------------
-      !||    genani          ../engine/source/output/anim/generate/genani.F
-      !||--- calls      -----------------------------------------------------
-      !||    rad_spmd_recv   ../engine/source/mpi/generic/rad_spmd_recv.F
-      !||    rad_spmd_send   ../engine/source/mpi/generic/rad_spmd_send.F
-      !||    spmd_igath      ../engine/source/mpi/anim/spmd_igath.F
-      !||    write_i_c       ../common_source/tools/input_output/write_routtines.c
-      !||====================================================================
+!||====================================================================
+!||    aniskewf        ../engine/source/output/anim/generate/aniskewf.F
+!||--- called by ------------------------------------------------------
+!||    genani          ../engine/source/output/anim/generate/genani.F
+!||--- calls      -----------------------------------------------------
+!||    rad_spmd_recv   ../engine/source/mpi/generic/rad_spmd_recv.F
+!||    rad_spmd_send   ../engine/source/mpi/generic/rad_spmd_send.F
+!||    spmd_igath      ../engine/source/mpi/anim/spmd_igath.F
+!||    write_i_c       ../common_source/tools/input_output/write_routtines.c
+!||====================================================================
       SUBROUTINE ANISKEWF(GEO,SKEW,IPARG,IXR,DD_IAD,LRBUF)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -160,13 +160,13 @@ C
       RETURN
       END
 
-      !||====================================================================
-      !||    cntskew           ../engine/source/output/anim/generate/aniskewf.F
-      !||--- called by ------------------------------------------------------
-      !||    genani            ../engine/source/output/anim/generate/genani.F
-      !||--- calls      -----------------------------------------------------
-      !||    spmd_glob_isum9   ../engine/source/mpi/interfaces/spmd_th.F
-      !||====================================================================
+!||====================================================================
+!||    cntskew           ../engine/source/output/anim/generate/aniskewf.F
+!||--- called by ------------------------------------------------------
+!||    genani            ../engine/source/output/anim/generate/genani.F
+!||--- calls      -----------------------------------------------------
+!||    spmd_glob_isum9   ../engine/source/mpi/interfaces/spmd_th.F
+!||====================================================================
        SUBROUTINE CNTSKEW(IPARG,CNT,CNTG)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

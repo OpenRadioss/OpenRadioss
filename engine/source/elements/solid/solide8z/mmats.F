@@ -20,24 +20,24 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    mmats          ../engine/source/elements/solid/solide8z/mmats.F
-      !||--- called by ------------------------------------------------------
-      !||    q4ke2          ../engine/source/elements/solid_2d/quad4/q4ke2.F
-      !||    s10ke3         ../engine/source/elements/solid/solide10/s10ke3.F
-      !||    s20ke3         ../engine/source/elements/solid/solide20/s20ke3.F
-      !||    s4ke3          ../engine/source/elements/solid/solide4/s4ke3.F
-      !||    s6cke3         ../engine/source/elements/thickshell/solide6c/s6cke3.F
-      !||    s8cke3         ../engine/source/elements/thickshell/solide8c/s8cke3.F
-      !||    s8zke3         ../engine/source/elements/solid/solide8z/s8zke3.F
-      !||--- calls      -----------------------------------------------------
-      !||    get_etfac_s    ../engine/source/elements/solid/solide8z/get_etfac_s.F
-      !||    gettrans       ../engine/source/elements/solid/solide8z/gettrans.F
-      !||    mstiforth      ../engine/source/elements/solid/solide8z/mstiforth.F
-      !||--- uses       -----------------------------------------------------
-      !||    imp_ktan       ../engine/share/modules/impbufdef_mod.F
-      !||    imp_ktan_def   ../engine/share/modules/impbufdef_mod.F
-      !||====================================================================
+!||====================================================================
+!||    mmats          ../engine/source/elements/solid/solide8z/mmats.F
+!||--- called by ------------------------------------------------------
+!||    q4ke2          ../engine/source/elements/solid_2d/quad4/q4ke2.F
+!||    s10ke3         ../engine/source/elements/solid/solide10/s10ke3.F
+!||    s20ke3         ../engine/source/elements/solid/solide20/s20ke3.F
+!||    s4ke3          ../engine/source/elements/solid/solide4/s4ke3.F
+!||    s6cke3         ../engine/source/elements/thickshell/solide6c/s6cke3.F
+!||    s8cke3         ../engine/source/elements/thickshell/solide8c/s8cke3.F
+!||    s8zke3         ../engine/source/elements/solid/solide8z/s8zke3.F
+!||--- calls      -----------------------------------------------------
+!||    get_etfac_s    ../engine/source/elements/solid/solide8z/get_etfac_s.F
+!||    gettrans       ../engine/source/elements/solid/solide8z/gettrans.F
+!||    mstiforth      ../engine/source/elements/solid/solide8z/mstiforth.F
+!||--- uses       -----------------------------------------------------
+!||    imp_ktan       ../engine/share/modules/impbufdef_mod.F
+!||    imp_ktan_def   ../engine/share/modules/impbufdef_mod.F
+!||====================================================================
       SUBROUTINE MMATS(JFT     ,JLT     ,PM    ,MAT    ,HH    ,
      .                  MTN    ,IORTH   ,IPM   ,IGEO   ,GAMA  ,
      .                  UPARAM ,CC      ,CG    ,G33    ,JHBE  ,

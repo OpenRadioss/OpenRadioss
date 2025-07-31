@@ -20,18 +20,18 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    i9main2         ../engine/source/interfaces/int09/i9main2.F
-      !||--- called by ------------------------------------------------------
-      !||    intal1          ../engine/source/ale/inter/intal1.F
-      !||--- calls      -----------------------------------------------------
-      !||    i9avel          ../engine/source/interfaces/int09/i9avel.F
-      !||    i9frms          ../engine/source/interfaces/int09/i9frms.F
-      !||    i9imp2          ../engine/source/interfaces/int09/i9imp2.F
-      !||    invoi2          ../engine/source/interfaces/inter2d/invoi2.F
-      !||--- uses       -----------------------------------------------------
-      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    i9main2         ../engine/source/interfaces/int09/i9main2.F
+!||--- called by ------------------------------------------------------
+!||    intal1          ../engine/source/ale/inter/intal1.F
+!||--- calls      -----------------------------------------------------
+!||    i9avel          ../engine/source/interfaces/int09/i9avel.F
+!||    i9frms          ../engine/source/interfaces/int09/i9frms.F
+!||    i9imp2          ../engine/source/interfaces/int09/i9imp2.F
+!||    invoi2          ../engine/source/interfaces/inter2d/invoi2.F
+!||--- uses       -----------------------------------------------------
+!||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
+!||====================================================================
       SUBROUTINE I9MAIN2(IPARI,INTBUF_TAB        ,X         ,V         ,
      1           A           ,ISKEW   ,SKEW      ,LCOD      ,FN        ,
      2           FT          ,MS      ,MSMN      ,MSMT      ,ITAB      ,

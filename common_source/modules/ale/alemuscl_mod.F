@@ -20,37 +20,37 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    alemuscl_mod                     ../common_source/modules/ale/alemuscl_mod.F
-      !||--- called by ------------------------------------------------------
-      !||    afluxt                           ../engine/source/ale/ale51/afluxt.F
-      !||    ale51_gradient_reconstruction    ../engine/source/ale/alemuscl/ale51_gradient_reconstruction.F
-      !||    ale51_gradient_reconstruction2   ../engine/source/ale/alemuscl/ale51_gradient_reconstruction2.F
-      !||    alemuscl_deallocate              ../engine/source/ale/alemuscl/alemuscl_deallocate.F
-      !||    alemuscl_upwind                  ../engine/source/ale/alemuscl/alemuscl_upwind.F
-      !||    alemuscl_upwind2                 ../engine/source/ale/alemuscl/alemuscl_upwind2.F
-      !||    alethe                           ../engine/source/ale/alethe.F
-      !||    contrl                           ../starter/source/starter/contrl.F
-      !||    freform                          ../engine/source/input/freform.F
-      !||    gradient_limitation              ../engine/source/ale/alemuscl/gradient_limitation.F
-      !||    gradient_limitation2             ../engine/source/ale/alemuscl/gradient_limitation2.F
-      !||    gradient_reconstruction          ../engine/source/ale/alemuscl/gradient_reconstruction.F
-      !||    gradient_reconstruction2         ../engine/source/ale/alemuscl/gradient_reconstruction2.F
-      !||    hm_read_ale_muscl                ../starter/source/general_controls/ale_cfd/hm_read_ale_muscl.F
-      !||    hm_read_mat37                    ../starter/source/materials/mat/mat037/hm_read_mat37.F
-      !||    hm_read_mat51                    ../starter/source/materials/mat/mat051/hm_read_mat51.F
-      !||    lectur                           ../engine/source/input/lectur.F
-      !||    multi_submatlaw                  ../engine/source/multifluid/multi_submatlaw.F
-      !||    radioss2                         ../engine/source/engine/radioss2.F
-      !||    rdcomi                           ../engine/source/output/restart/rdcomm.F
-      !||    resol                            ../engine/source/engine/resol.F
-      !||    resol_init                       ../engine/source/engine/resol_init.F
-      !||    restalloc                        ../engine/source/output/restart/arralloc.F
-      !||    st_qaprint_ale_options_driver    ../starter/source/output/qaprint/st_qaprint_ale_options_driver.F
-      !||    starter0                         ../starter/source/starter/starter0.F
-      !||    wrcomi                           ../engine/source/output/restart/wrcomm.F
-      !||    wrcomip                          ../starter/source/restart/ddsplit/wrcommp.F
-      !||====================================================================
+!||====================================================================
+!||    alemuscl_mod                     ../common_source/modules/ale/alemuscl_mod.F
+!||--- called by ------------------------------------------------------
+!||    afluxt                           ../engine/source/ale/ale51/afluxt.F
+!||    ale51_gradient_reconstruction    ../engine/source/ale/alemuscl/ale51_gradient_reconstruction.F
+!||    ale51_gradient_reconstruction2   ../engine/source/ale/alemuscl/ale51_gradient_reconstruction2.F
+!||    alemuscl_deallocate              ../engine/source/ale/alemuscl/alemuscl_deallocate.F
+!||    alemuscl_upwind                  ../engine/source/ale/alemuscl/alemuscl_upwind.F
+!||    alemuscl_upwind2                 ../engine/source/ale/alemuscl/alemuscl_upwind2.F
+!||    alethe                           ../engine/source/ale/alethe.F
+!||    contrl                           ../starter/source/starter/contrl.F
+!||    freform                          ../engine/source/input/freform.F
+!||    gradient_limitation              ../engine/source/ale/alemuscl/gradient_limitation.F
+!||    gradient_limitation2             ../engine/source/ale/alemuscl/gradient_limitation2.F
+!||    gradient_reconstruction          ../engine/source/ale/alemuscl/gradient_reconstruction.F
+!||    gradient_reconstruction2         ../engine/source/ale/alemuscl/gradient_reconstruction2.F
+!||    hm_read_ale_muscl                ../starter/source/general_controls/ale_cfd/hm_read_ale_muscl.F
+!||    hm_read_mat37                    ../starter/source/materials/mat/mat037/hm_read_mat37.F
+!||    hm_read_mat51                    ../starter/source/materials/mat/mat051/hm_read_mat51.F
+!||    lectur                           ../engine/source/input/lectur.F
+!||    multi_submatlaw                  ../engine/source/multifluid/multi_submatlaw.F
+!||    radioss2                         ../engine/source/engine/radioss2.F
+!||    rdcomi                           ../engine/source/output/restart/rdcomm.F
+!||    resol                            ../engine/source/engine/resol.F
+!||    resol_init                       ../engine/source/engine/resol_init.F
+!||    restalloc                        ../engine/source/output/restart/arralloc.F
+!||    st_qaprint_ale_options_driver    ../starter/source/output/qaprint/st_qaprint_ale_options_driver.F
+!||    starter0                         ../starter/source/starter/starter0.F
+!||    wrcomi                           ../engine/source/output/restart/wrcomm.F
+!||    wrcomip                          ../starter/source/restart/ddsplit/wrcommp.F
+!||====================================================================
       MODULE ALEMUSCL_MOD
 C-----------------------------------------------
         IMPLICIT NONE

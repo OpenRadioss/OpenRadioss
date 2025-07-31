@@ -20,19 +20,19 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    intal2          ../engine/source/ale/inter/intal2.F
-      !||--- called by ------------------------------------------------------
-      !||    intal1          ../engine/source/ale/inter/intal1.F
-      !||--- calls      -----------------------------------------------------
-      !||    iqel02          ../engine/source/ale/ale2d/iqel02.F
-      !||    iqel03          ../engine/source/ale/ale3d/iqel03.F
-      !||    iqela1          ../engine/source/ale/inter/iqela1.F
-      !||    iqela2          ../engine/source/ale/inter/iqela2.F
-      !||--- uses       -----------------------------------------------------
-      !||    h3d_mod         ../engine/share/modules/h3d_mod.F
-      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    intal2          ../engine/source/ale/inter/intal2.F
+!||--- called by ------------------------------------------------------
+!||    intal1          ../engine/source/ale/inter/intal1.F
+!||--- calls      -----------------------------------------------------
+!||    iqel02          ../engine/source/ale/ale2d/iqel02.F
+!||    iqel03          ../engine/source/ale/ale3d/iqel03.F
+!||    iqela1          ../engine/source/ale/inter/iqela1.F
+!||    iqela2          ../engine/source/ale/inter/iqela2.F
+!||--- uses       -----------------------------------------------------
+!||    h3d_mod         ../engine/share/modules/h3d_mod.F
+!||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
+!||====================================================================
       SUBROUTINE INTAL2(IPARI,INTBUF_TAB         , X        ,V         ,
      1           A           ,ISKEW   ,SKEW      ,LCOD      ,E         ,
      2           MSM         ,MS      ,ITAB      ,FSAV      ,FCONT     ,

@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    ini_msg       ../starter/source/output/message/inimsg.F
-      !||--- called by ------------------------------------------------------
-      !||    starter0      ../starter/source/starter/starter0.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod   ../starter/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    ini_msg       ../starter/source/output/message/inimsg.F
+!||--- called by ------------------------------------------------------
+!||    starter0      ../starter/source/starter/starter0.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod   ../starter/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE INI_MSG( )
       USE MESSAGE_MOD
 C-----------------------------------------------

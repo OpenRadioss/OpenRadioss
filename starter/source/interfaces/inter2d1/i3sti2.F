@@ -21,19 +21,19 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
-      !||====================================================================
-      !||    i3sti2                 ../starter/source/interfaces/inter2d1/i3sti2.F
-      !||--- called by ------------------------------------------------------
-      !||    inint2                 ../starter/source/interfaces/inter2d1/inint2.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg                 ../starter/source/output/message/message.F
-      !||    inare2                 ../starter/source/interfaces/inter2d1/inare2.F
-      !||    inori2                 ../starter/source/interfaces/inter2d1/inori2.F
-      !||    inrch2                 ../starter/source/interfaces/inter2d1/inrch2.F
-      !||    local_index            ../starter/source/interfaces/interf1/local_index.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod            ../starter/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    i3sti2                 ../starter/source/interfaces/inter2d1/i3sti2.F
+!||--- called by ------------------------------------------------------
+!||    inint2                 ../starter/source/interfaces/inter2d1/inint2.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                 ../starter/source/output/message/message.F
+!||    inare2                 ../starter/source/interfaces/inter2d1/inare2.F
+!||    inori2                 ../starter/source/interfaces/inter2d1/inori2.F
+!||    inrch2                 ../starter/source/interfaces/inter2d1/inrch2.F
+!||    local_index            ../starter/source/interfaces/interf1/local_index.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod            ../starter/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE I3STI2(
      1 X      ,IRECT   ,STF   ,IXQ     ,PM     ,
      2 NRT    ,STFN    ,NSEG  ,LNSV    ,NINT   ,

@@ -20,11 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    gfhour_or    ../engine/source/elements/solid/solidez/gfhour_or.F
-      !||--- called by ------------------------------------------------------
-      !||    szhour3_or   ../engine/source/elements/solid/solidez/szhour3_or.F
-      !||====================================================================
+!||====================================================================
+!||    gfhour_or    ../engine/source/elements/solid/solidez/gfhour_or.F
+!||--- called by ------------------------------------------------------
+!||    szhour3_or   ../engine/source/elements/solid/solidez/szhour3_or.F
+!||====================================================================
       SUBROUTINE GFHOUR_OR(LFT,LLT,
      .   FHOUR,JR0,JS0,JT0,FCL,
      .   HGX1, HGX2, HGX3, HGX4,

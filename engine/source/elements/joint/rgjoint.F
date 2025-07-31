@@ -20,22 +20,22 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    rgjoint      ../engine/source/elements/joint/rgjoint.F
-      !||--- called by ------------------------------------------------------
-      !||    rforc3       ../engine/source/elements/spring/rforc3.F
-      !||--- calls      -----------------------------------------------------
-      !||    ranim33      ../engine/source/elements/joint/ranim33.F
-      !||    rbilan33     ../engine/source/elements/joint/rbilan33.F
-      !||    rcum33       ../engine/source/elements/joint/rcum33.F
-      !||    rcum33p      ../engine/source/elements/joint/rcum33p.F
-      !||    rdtime33     ../engine/source/elements/joint/rdtime33.F
-      !||    rskew33      ../engine/source/elements/joint/rskew33.F
-      !||    ruser33      ../engine/source/elements/joint/ruser33.F
-      !||--- uses       -----------------------------------------------------
-      !||    h3d_mod      ../engine/share/modules/h3d_mod.F
-      !||    sensor_mod   ../common_source/modules/sensor_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    rgjoint      ../engine/source/elements/joint/rgjoint.F
+!||--- called by ------------------------------------------------------
+!||    rforc3       ../engine/source/elements/spring/rforc3.F
+!||--- calls      -----------------------------------------------------
+!||    ranim33      ../engine/source/elements/joint/ranim33.F
+!||    rbilan33     ../engine/source/elements/joint/rbilan33.F
+!||    rcum33       ../engine/source/elements/joint/rcum33.F
+!||    rcum33p      ../engine/source/elements/joint/rcum33p.F
+!||    rdtime33     ../engine/source/elements/joint/rdtime33.F
+!||    rskew33      ../engine/source/elements/joint/rskew33.F
+!||    ruser33      ../engine/source/elements/joint/ruser33.F
+!||--- uses       -----------------------------------------------------
+!||    h3d_mod      ../engine/share/modules/h3d_mod.F
+!||    sensor_mod   ../common_source/modules/sensor_mod.F90
+!||====================================================================
       SUBROUTINE RGJOINT(
      1   JFT,       JLT,       IPARTR,    NEL,
      2   NUVAR,     IOUT,      IPROP,     IADR,

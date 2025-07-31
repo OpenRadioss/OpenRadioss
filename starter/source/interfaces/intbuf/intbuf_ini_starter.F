@@ -20,15 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    intbuf_ini_starter   ../starter/source/interfaces/intbuf/intbuf_ini_starter.F
-      !||--- called by ------------------------------------------------------
-      !||    ddsplit              ../starter/source/restart/ddsplit/ddsplit.F
-      !||    lectur               ../starter/source/starter/lectur.F
-      !||--- calls      -----------------------------------------------------
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod          ../starter/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    intbuf_ini_starter   ../starter/source/interfaces/intbuf/intbuf_ini_starter.F
+!||--- called by ------------------------------------------------------
+!||    ddsplit              ../starter/source/restart/ddsplit/ddsplit.F
+!||    lectur               ../starter/source/starter/lectur.F
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||    message_mod          ../starter/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE INTBUF_INI_STARTER(INTBUF_TAB, IPARI, NUMN, 
      .                              I11FLAG, FLAG_ALLOCATE, PROC ,INTBUF_FRIC_TAB )
 C-----------------------------------------------
@@ -2142,12 +2142,12 @@ C-----
       RETURN
 
       END SUBROUTINE INTBUF_INI_STARTER
-      !||====================================================================
-      !||    int8_ini        ../starter/source/interfaces/intbuf/intbuf_ini_starter.F
-      !||--- called by ------------------------------------------------------
-      !||    lectur          ../starter/source/starter/lectur.F
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    int8_ini        ../starter/source/interfaces/intbuf/intbuf_ini_starter.F
+!||--- called by ------------------------------------------------------
+!||    lectur          ../starter/source/starter/lectur.F
+!||--- uses       -----------------------------------------------------
+!||====================================================================
       SUBROUTINE INT8_INI(INTBUF_TAB, IPARI, NBT8)
 C-----------------------------------------------
 C   M o d u l e s

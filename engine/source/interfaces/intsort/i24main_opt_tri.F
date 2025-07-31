@@ -20,15 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    i24main_opt_tri   ../engine/source/interfaces/intsort/i24main_opt_tri.F
-      !||--- called by ------------------------------------------------------
-      !||    inttri            ../engine/source/interfaces/intsort/inttri.F
-      !||--- calls      -----------------------------------------------------
-      !||    i24optcd          ../engine/source/interfaces/intsort/i24optcd.F
-      !||--- uses       -----------------------------------------------------
-      !||    intbufdef_mod     ../common_source/modules/interfaces/intbufdef_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    i24main_opt_tri   ../engine/source/interfaces/intsort/i24main_opt_tri.F
+!||--- called by ------------------------------------------------------
+!||    inttri            ../engine/source/interfaces/intsort/inttri.F
+!||--- calls      -----------------------------------------------------
+!||    i24optcd          ../engine/source/interfaces/intsort/i24optcd.F
+!||--- uses       -----------------------------------------------------
+!||    intbufdef_mod     ../common_source/modules/interfaces/intbufdef_mod.F90
+!||====================================================================
       SUBROUTINE I24MAIN_OPT_TRI(
      1                  IPARI   ,INTBUF_TAB,X    ,V      ,
      2                  NIN     ,ITASK ,COUNT_REMSLV,T2MAIN_SMS,LSKYI_SMS_NEW)

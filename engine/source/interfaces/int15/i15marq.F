@@ -20,11 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    i15marq   ../engine/source/interfaces/int15/i15marq.F
-      !||--- called by ------------------------------------------------------
-      !||    i15cmp    ../engine/source/interfaces/int15/i15cmp.F
-      !||====================================================================
+!||====================================================================
+!||    i15marq   ../engine/source/interfaces/int15/i15marq.F
+!||--- called by ------------------------------------------------------
+!||    i15cmp    ../engine/source/interfaces/int15/i15cmp.F
+!||====================================================================
       SUBROUTINE I15MARQ(KSI,NSC,KSC,NTC,KTC,
      2                   IACTIV,NSN,KSN,IMARQND,NNC,
      3                   KNC)

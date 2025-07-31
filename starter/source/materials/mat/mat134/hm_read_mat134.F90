@@ -23,28 +23,28 @@
 !copyright>        openradioss
 ! ======================================================================================================================
 
-      !||====================================================================
-      !||    hm_read_mat134_mod   ../starter/source/materials/mat/mat134/hm_read_mat134.F90
-      !||--- called by ------------------------------------------------------
-      !||    hm_read_mat          ../starter/source/materials/mat/hm_read_mat.F90
-      !||====================================================================
+!||====================================================================
+!||    hm_read_mat134_mod   ../starter/source/materials/mat/mat134/hm_read_mat134.F90
+!||--- called by ------------------------------------------------------
+!||    hm_read_mat          ../starter/source/materials/mat/hm_read_mat.F90
+!||====================================================================
       module hm_read_mat134_mod
         implicit none
       contains
 
-      !||====================================================================
-      !||    hm_read_mat134           ../starter/source/materials/mat/mat134/hm_read_mat134.F90
-      !||--- called by ------------------------------------------------------
-      !||    hm_read_mat              ../starter/source/materials/mat/hm_read_mat.F90
-      !||--- calls      -----------------------------------------------------
-      !||    hm_get_floatv            ../starter/source/devtools/hm_reader/hm_get_floatv.F
-      !||    hm_option_is_encrypted   ../starter/source/devtools/hm_reader/hm_option_is_encrypted.F
-      !||    init_mat_keyword         ../starter/source/materials/mat/init_mat_keyword.F
-      !||--- uses       -----------------------------------------------------
-      !||    elbuftag_mod             ../starter/share/modules1/elbuftag_mod.F
-      !||    message_mod              ../starter/share/message_module/message_mod.F
-      !||    submodel_mod             ../starter/share/modules1/submodel_mod.F
-      !||====================================================================
+!||====================================================================
+!||    hm_read_mat134           ../starter/source/materials/mat/mat134/hm_read_mat134.F90
+!||--- called by ------------------------------------------------------
+!||    hm_read_mat              ../starter/source/materials/mat/hm_read_mat.F90
+!||--- calls      -----------------------------------------------------
+!||    hm_get_floatv            ../starter/source/devtools/hm_reader/hm_get_floatv.F
+!||    hm_option_is_encrypted   ../starter/source/devtools/hm_reader/hm_option_is_encrypted.F
+!||    init_mat_keyword         ../starter/source/materials/mat/init_mat_keyword.F
+!||--- uses       -----------------------------------------------------
+!||    elbuftag_mod             ../starter/share/modules1/elbuftag_mod.F
+!||    message_mod              ../starter/share/message_module/message_mod.F
+!||    submodel_mod             ../starter/share/modules1/submodel_mod.F
+!||====================================================================
         subroutine hm_read_mat134( mtag, matparam ,                              &
           parmat   ,nuvar, unitab   ,lsubmodel,                       &
           mat_id   ,titr     ,     iout       )

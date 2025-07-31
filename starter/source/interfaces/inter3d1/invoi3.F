@@ -21,16 +21,16 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
-      !||====================================================================
-      !||    invoi3                 ../starter/source/interfaces/inter3d1/invoi3.F
-      !||--- called by ------------------------------------------------------
-      !||    iniend                 ../starter/source/interfaces/inter3d1/iniend.F
-      !||    inint3                 ../starter/source/interfaces/inter3d1/inint3.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg                 ../starter/source/output/message/message.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod            ../starter/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    invoi3                 ../starter/source/interfaces/inter3d1/invoi3.F
+!||--- called by ------------------------------------------------------
+!||    iniend                 ../starter/source/interfaces/inter3d1/iniend.F
+!||    inint3                 ../starter/source/interfaces/inter3d1/inint3.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                 ../starter/source/output/message/message.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod            ../starter/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE INVOI3(X,IRECT,LMSR,MSR,NSV,ILOC,IRTL,NSEG,NSN,NMN,ITAB,ID,TITR,NRT)
       USE MESSAGE_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE

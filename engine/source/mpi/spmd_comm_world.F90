@@ -20,453 +20,453 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    spmd_comm_world_mod             ../engine/source/mpi/spmd_comm_world.F90
-      !||--- called by ------------------------------------------------------
-      !||    ams_prepare_poff_assembly       ../engine/source/mpi/ams/spmd_sms.F
-      !||    check_fi                        ../engine/source/mpi/interfaces/spmd_i25slide.F
-      !||    check_remote_surface_state      ../engine/source/interfaces/interf/check_remote_surface_state.F
-      !||    deallocate_fi1_tmp              ../engine/source/mpi/interfaces/spmd_i25slide.F
-      !||    execargcheck                    ../engine/source/engine/execargcheck.F
-      !||    get_global_dim                  ../engine/share/modules/linear_solver_mod.F
-      !||    get_solution                    ../engine/share/modules/diffusion_mod.F
-      !||    h3d_create_rbe2_impi            ../engine/source/output/h3d/h3d_build_fortran/h3d_create_rbe2_impi.F
-      !||    h3d_create_rbe3_impi            ../engine/source/output/h3d/h3d_build_fortran/h3d_create_rbe3_impi.F
-      !||    h3d_create_rbodies_impi         ../engine/source/output/h3d/h3d_build_fortran/h3d_create_rbodies_impi.F
-      !||    h3d_gather_id_val               ../engine/source/output/h3d/spmd/h3d_gather_id_val.F90
-      !||    imp_mumps1                      ../engine/source/implicit/imp_mumps.F
-      !||    imp_mumps2                      ../engine/source/implicit/imp_mumps.F
-      !||    inipar                          ../engine/source/mpi/init/inipar.F
-      !||    init_diffusion                  ../engine/share/modules/diffusion_mod.F
-      !||    init_nodal_state                ../engine/source/interfaces/interf/init_nodal_state.F
-      !||    init_solver                     ../engine/share/modules/linear_solver_mod.F
-      !||    init_solver_cg                  ../engine/share/modules/linear_solver_mod.F
-      !||    init_solver_mumps               ../engine/share/modules/linear_solver_mod.F
-      !||    isanargument                    ../engine/source/engine/execargcheck.F
-      !||    mpi_min_real_begin              ../engine/share/modules/mpi_tools_mod.F
-      !||    mpi_min_real_end                ../engine/share/modules/mpi_tools_mod.F
-      !||    mumps_set                       ../engine/source/implicit/imp_mumps.F
-      !||    mumps_set2                      ../engine/source/implicit/imp_mumps.F
-      !||    outp_arsz_cs                    ../engine/source/mpi/interfaces/spmd_outp.F
-      !||    outp_arsz_ct                    ../engine/source/mpi/interfaces/spmd_outp.F
-      !||    outp_arsz_rs                    ../engine/source/mpi/interfaces/spmd_outp.F
-      !||    outp_arsz_rt                    ../engine/source/mpi/interfaces/spmd_outp.F
-      !||    outp_arsz_sps                   ../engine/source/mpi/interfaces/spmd_outp.F
-      !||    outp_arsz_spt                   ../engine/source/mpi/interfaces/spmd_outp.F
-      !||    outp_arsz_sptt                  ../engine/source/mpi/interfaces/spmd_outp.F
-      !||    outp_arsz_ss                    ../engine/source/mpi/interfaces/spmd_outp.F
-      !||    outp_arsz_st                    ../engine/source/mpi/interfaces/spmd_outp.F
-      !||    pexecinfo                       ../engine/source/engine/execargcheck.F
-      !||    phelpinfo                       ../engine/source/engine/execargcheck.F
-      !||    prexecinfo                      ../engine/source/engine/execargcheck.F
-      !||    prhelpinfo                      ../engine/source/engine/execargcheck.F
-      !||    print_stiff_mat                 ../engine/source/implicit/imp_mumps.F
-      !||    rad_spmd_recv                   ../engine/source/mpi/generic/rad_spmd_recv.F
-      !||    rad_spmd_send                   ../engine/source/mpi/generic/rad_spmd_send.F
-      !||    reallocate_fi1                  ../engine/source/mpi/interfaces/spmd_i25slide.F
-      !||    reallocate_fi2                  ../engine/source/mpi/interfaces/spmd_i25slide.F
-      !||    set_matrix                      ../engine/share/modules/linear_solver_mod.F
-      !||    set_matrix_cg                   ../engine/share/modules/linear_solver_mod.F
-      !||    set_matrix_mumps                ../engine/share/modules/linear_solver_mod.F
-      !||    set_rhs                         ../engine/share/modules/linear_solver_mod.F
-      !||    set_rhs_cg                      ../engine/share/modules/linear_solver_mod.F
-      !||    set_rhs_mumps                   ../engine/share/modules/linear_solver_mod.F
-      !||    solve                           ../engine/share/modules/linear_solver_mod.F
-      !||    solve_cg                        ../engine/share/modules/linear_solver_mod.F
-      !||    solve_diffusion                 ../engine/share/modules/diffusion_mod.F
-      !||    solve_mumps                     ../engine/share/modules/linear_solver_mod.F
-      !||    spmd_all_dmin                   ../engine/source/mpi/interfaces/spmd_th.F
-      !||    spmd_allgather_mod              ../engine/source/mpi/generic/spmd_allgather.F90
-      !||    spmd_allgatherv_double          ../engine/source/mpi/spmd_allgatherv.F90
-      !||    spmd_allgatherv_doubles         ../engine/source/mpi/spmd_allgatherv.F90
-      !||    spmd_allgatherv_int             ../engine/source/mpi/spmd_allgatherv.F90
-      !||    spmd_allgatherv_ints            ../engine/source/mpi/spmd_allgatherv.F90
-      !||    spmd_allgatherv_real            ../engine/source/mpi/spmd_allgatherv.F90
-      !||    spmd_allgatherv_reals           ../engine/source/mpi/spmd_allgatherv.F90
-      !||    spmd_allglob_isum9              ../engine/source/mpi/generic/spmd_allglob_isum9.F
-      !||    spmd_alltoall_double            ../engine/source/mpi/generic/spmd_alltoall.F90
-      !||    spmd_alltoall_doubles           ../engine/source/mpi/generic/spmd_alltoall.F90
-      !||    spmd_alltoall_int               ../engine/source/mpi/generic/spmd_alltoall.F90
-      !||    spmd_alltoall_ints              ../engine/source/mpi/generic/spmd_alltoall.F90
-      !||    spmd_alltoall_real              ../engine/source/mpi/generic/spmd_alltoall.F90
-      !||    spmd_alltoall_reals             ../engine/source/mpi/generic/spmd_alltoall.F90
-      !||    spmd_anim_ply_velvec            ../engine/source/mpi/anim/spmd_anim_ply_velvec.F
-      !||    spmd_anim_ply_xyznor            ../engine/source/mpi/anim/spmd_anim_ply_xyznor.F
-      !||    spmd_cddl                       ../engine/source/mpi/implicit/imp_spmd.F
-      !||    spmd_cell_exchange              ../engine/source/mpi/generic/spmd_cell_exchange.F
-      !||    spmd_cell_list_exchange         ../engine/source/mpi/interfaces/spmd_cell_list_exchange.F
-      !||    spmd_cell_size_exchange         ../engine/source/mpi/interfaces/spmd_cell_size_exchange.F
-      !||    spmd_cell_size_post_rcv         ../engine/source/mpi/interfaces/spmd_cell_size_post_rcv.F
-      !||    spmd_check_ale_neighbour        ../engine/source/mpi/fluid/spmd_check_ale_neighbour.F
-      !||    spmd_collect                    ../engine/source/mpi/output/spmd_collect.F
-      !||    spmd_collect_multi_fvm          ../engine/source/mpi/output/spmd_collect_multi_fvm.F
-      !||    spmd_collect_nlocal             ../engine/source/mpi/output/spmd_collect_nlocal.F
-      !||    spmd_collect_seatbelt           ../engine/source/mpi/output/spmd_collect_seatbelt.F
-      !||    spmd_collectm                   ../engine/source/mpi/output/spmd_collectm.F
-      !||    spmd_collectt                   ../engine/source/mpi/output/spmd_collectt.F
-      !||    spmd_comm_split                 ../engine/source/mpi/generic/spmd_comm_split.F
-      !||    spmd_crk_idmax                  ../engine/source/mpi/anim/spmd_crk_idmax.F
-      !||    spmd_dgather                    ../engine/source/mpi/output/spmd_gather.F
-      !||    spmd_doutp_gath                 ../engine/source/mpi/interfaces/spmd_outp.F
-      !||    spmd_doutp_vgath                ../engine/source/mpi/interfaces/spmd_outp.F
-      !||    spmd_dparrbe2                   ../engine/source/mpi/anim/spmd_dparrbe2.F
-      !||    spmd_dparrbe3                   ../engine/source/mpi/anim/spmd_dparrbe3.F
-      !||    spmd_dparrby                    ../engine/source/mpi/anim/spmd_dparrby.F
-      !||    spmd_ds_iexch                   ../engine/source/mpi/implicit/spmd_dsreso.F
-      !||    spmd_ds_irecv                   ../engine/source/mpi/implicit/spmd_dsreso.F
-      !||    spmd_ds_isend                   ../engine/source/mpi/implicit/spmd_dsreso.F
-      !||    spmd_ds_mexch                   ../engine/source/mpi/implicit/spmd_dsreso.F
-      !||    spmd_ds_rrecv                   ../engine/source/mpi/implicit/spmd_dsreso.F
-      !||    spmd_ds_rsend                   ../engine/source/mpi/implicit/spmd_dsreso.F
-      !||    spmd_ds_vdesc                   ../engine/source/mpi/implicit/spmd_dsreso.F
-      !||    spmd_ds_vexch                   ../engine/source/mpi/implicit/spmd_dsreso.F
-      !||    spmd_dstat_gath                 ../engine/source/mpi/output/spmd_stat.F
-      !||    spmd_dstat_vgath                ../engine/source/mpi/output/spmd_stat.F
-      !||    spmd_e_ref                      ../engine/source/mpi/implicit/imp_spmd.F
-      !||    spmd_ex_cputime                 ../engine/source/mpi/output/spmd_ex_cputime.F
-      !||    spmd_exch2_a_pon                ../engine/source/mpi/forces/spmd_exch2_a_pon.F
-      !||    spmd_exch_a                     ../engine/source/mpi/forces/spmd_exch_a.F
-      !||    spmd_exch_a_ams_poff            ../engine/source/mpi/forces/spmd_exch_a_ams_poff.F
-      !||    spmd_exch_a_int2                ../engine/source/mpi/forces/spmd_exch_a_int2.F
-      !||    spmd_exch_a_int2_ams            ../engine/source/mpi/forces/spmd_exch_a_int2_ams.F
-      !||    spmd_exch_a_int2_pon            ../engine/source/mpi/forces/spmd_exch_a_int2_pon.F
-      !||    spmd_exch_a_int2h               ../engine/source/mpi/forces/spmd_exch_a_int2h.F
-      !||    spmd_exch_a_int2h_ams           ../engine/source/mpi/forces/spmd_exch_a_int2h_ams.F
-      !||    spmd_exch_a_rb6                 ../engine/source/mpi/kinematic_conditions/spmd_exch_a_rb6.F
-      !||    spmd_exch_a_rb6_vrel            ../engine/source/mpi/kinematic_conditions/spmd_exch_a_rb6.F
-      !||    spmd_exch_a_rb6g                ../engine/source/mpi/kinematic_conditions/spmd_exch_a_rb6g.F
-      !||    spmd_exch_a_rm6                 ../engine/source/mpi/kinematic_conditions/spmd_exch_a_rm6.F
-      !||    spmd_exch_a_scnd                ../engine/source/mpi/elements/spmd_exch_a_scnd.F
-      !||    spmd_exch_a_scnd_pon            ../engine/source/mpi/elements/spmd_exch_a_scnd_pon.F
-      !||    spmd_exch_a_seatbelt            ../engine/source/mpi/seatbelts/spmd_exch_a_seatbelt.F
-      !||    spmd_exch_adm                   ../engine/source/mpi/anim/spmd_exch_adm.F
-      !||    spmd_exch_awork                 ../engine/source/mpi/ams/spmd_sms.F
-      !||    spmd_exch_crkavx                ../engine/source/mpi/elements/spmd_xfem.F
-      !||    spmd_exch_crkvel                ../engine/source/mpi/elements/spmd_xfem.F
-      !||    spmd_exch_cut                   ../engine/source/mpi/sections/spmd_section.F
-      !||    spmd_exch_da20                  ../engine/source/mpi/interfaces/spmd_exch_da20.F
-      !||    spmd_exch_deleted_surf_edge     ../engine/source/mpi/interfaces/spmd_exch_deleted_surf_edge.F
-      !||    spmd_exch_efric                 ../engine/source/mpi/interfaces/spmd_exch_efric.F
-      !||    spmd_exch_fa                    ../engine/source/mpi/elements/spmd_exch_dttsh.F
-      !||    spmd_exch_failwave              ../engine/source/mpi/output/spmd_exch_failwave.F
-      !||    spmd_exch_fr6                   ../engine/source/mpi/kinematic_conditions/spmd_exch_fr6.F
-      !||    spmd_exch_i24                   ../engine/source/mpi/interfaces/spmd_exch_i24.F
-      !||    spmd_exch_i24_gap               ../engine/source/mpi/interfaces/spmd_exch_i24_gap.F
-      !||    spmd_exch_i25                   ../engine/source/mpi/interfaces/spmd_exch_i25.F
-      !||    spmd_exch_icodt                 ../engine/source/mpi/nodes/spmd_exch_icodt.F
-      !||    spmd_exch_icont                 ../engine/source/mpi/nodes/spmd_exch_icont.F
-      !||    spmd_exch_idel                  ../engine/source/mpi/interfaces/spmd_exch_idel.F
-      !||    spmd_exch_idel_seglo            ../engine/source/mpi/interfaces/spmd_exch_idel_seglo.F
-      !||    spmd_exch_iedge                 ../engine/source/mpi/elements/spmd_xfem.F
-      !||    spmd_exch_inter_18              ../engine/source/mpi/interfaces/spmd_exch_inter_18.F
-      !||    spmd_exch_min_max               ../engine/source/mpi/ale/spmd_exch_min_max.F
-      !||    spmd_exch_mult                  ../engine/source/mpi/lag_multipliers/spmd_lag.F
-      !||    spmd_exch_n                     ../engine/source/mpi/generic/spmd_exch_n.F
-      !||    spmd_exch_nodarea               ../engine/source/mpi/anim/spmd_exch_nodarea.F
-      !||    spmd_exch_nodarea2              ../engine/source/mpi/anim/spmd_exch_nodarea2.F
-      !||    spmd_exch_nodareai              ../engine/source/mpi/anim/spmd_exch_nodareai.F
-      !||    spmd_exch_nodenr                ../engine/source/mpi/elements/spmd_xfem.F
-      !||    spmd_exch_nor                   ../engine/source/mpi/interfaces/spmd_exch_nor.F
-      !||    spmd_exch_press                 ../engine/source/mpi/interfaces/spmd_exch_press.F
-      !||    spmd_exch_r2r                   ../engine/source/mpi/r2r/spmd_r2r.F
-      !||    spmd_exch_r2r_2                 ../engine/source/mpi/r2r/spmd_r2r.F
-      !||    spmd_exch_r2r_itag              ../engine/source/mpi/r2r/spmd_r2r.F
-      !||    spmd_exch_r2r_nl                ../engine/source/mpi/r2r/spmd_exch_r2r_nl.F
-      !||    spmd_exch_r2r_rby               ../engine/source/mpi/r2r/spmd_r2r.F
-      !||    spmd_exch_r2r_sph               ../engine/source/mpi/r2r/spmd_r2r.F
-      !||    spmd_exch_r2r_sphoff            ../engine/source/mpi/r2r/spmd_r2r.F
-      !||    spmd_exch_rbe2_pon              ../engine/source/mpi/kinematic_conditions/spmd_exch_rbe2_pon.F
-      !||    spmd_exch_rbe2_sms              ../engine/source/mpi/kinematic_conditions/spmd_exch_rbe2_sms.F
-      !||    spmd_exch_rbe3                  ../engine/source/mpi/kinematic_conditions/spmd_exch_rbe3.F
-      !||    spmd_exch_rbe3_a_pon            ../engine/source/mpi/kinematic_conditions/spmd_exch_rbe3_a_pon.F
-      !||    spmd_exch_rbe3_nodnx            ../engine/source/mpi/ams/spmd_sms.F
-      !||    spmd_exch_rbe3_pon              ../engine/source/mpi/kinematic_conditions/spmd_exch_rbe3_pon.F
-      !||    spmd_exch_redge                 ../engine/source/mpi/elements/spmd_xfem.F
-      !||    spmd_exch_sec                   ../engine/source/mpi/sections/spmd_section.F
-      !||    spmd_exch_smst2                 ../engine/source/mpi/ams/spmd_exch_smst2.F
-      !||    spmd_exch_sorting_efric         ../engine/source/mpi/interfaces/spmd_exch_sorting_efric.F
-      !||    spmd_exch_stif_scnd             ../engine/source/mpi/elements/spmd_exch_stif_scnd.F
-      !||    spmd_exch_sub_poff              ../engine/source/mpi/spmd_exch_sub.F
-      !||    spmd_exch_sub_pon               ../engine/source/mpi/spmd_exch_sub.F
-      !||    spmd_exch_tag_scnd              ../engine/source/mpi/elements/spmd_exch_tag_scnd.F
-      !||    spmd_exch_tag_tsh               ../engine/source/mpi/elements/spmd_exch_dttsh.F
-      !||    spmd_exch_tagncont              ../engine/source/mpi/forces/spmd_exch_tagncont.F
-      !||    spmd_exch_tagxp                 ../engine/source/mpi/elements/spmd_xfem.F
-      !||    spmd_exch_thknod                ../engine/source/mpi/nodes/spmd_exch_thknod.F
-      !||    spmd_exch_userwi                ../engine/source/mpi/user_interface/spmd_exch_userwi.F
-      !||    spmd_exch_v                     ../engine/source/mpi/generic/spmd_exch_v.F
-      !||    spmd_exch_vmax                  ../engine/source/mpi/elements/spmd_exch_dttsh.F
-      !||    spmd_exch_vnpon                 ../engine/source/mpi/nodes/spmd_exch_vnpon.F90
-      !||    spmd_exch_vol                   ../engine/source/mpi/nodes/spmd_exch_vol.F
-      !||    spmd_exch_wave                  ../engine/source/mpi/nodes/spmd_exch_wave.F
-      !||    spmd_exch_work                  ../engine/source/mpi/r2r/spmd_r2r.F
-      !||    spmd_exchange_grad              ../engine/source/mpi/fluid/spmd_exchange_grad.F
-      !||    spmd_exchi_a_pon                ../engine/source/mpi/forces/spmd_exchi_a_pon.F
-      !||    spmd_exchm_sms                  ../engine/source/mpi/ams/spmd_sms.F
-      !||    spmd_exchmsr_idel               ../engine/source/mpi/interfaces/spmd_exchmsr_idel.F
-      !||    spmd_exchseg_idel               ../engine/source/mpi/kinematic_conditions/spmd_exchseg_idel.F
-      !||    spmd_exci                       ../engine/source/mpi/implicit/imp_spmd.F
-      !||    spmd_exck                       ../engine/source/mpi/implicit/imp_spmd.F
-      !||    spmd_exsum_fb6                  ../engine/source/mpi/generic/spmd_exsum_fb6.F
-      !||    spmd_failwave_boundaries        ../engine/source/mpi/output/spmd_exch_failwave.F
-      !||    spmd_fl_sum                     ../engine/source/mpi/generic/spmd_fl_sum.F
-      !||    spmd_flush_accel                ../engine/source/mpi/output/spmd_flush_accel.F
-      !||    spmd_fr_poff                    ../engine/source/mpi/kinematic_conditions/spmd_fr_poff.F
-      !||    spmd_frwall_nn                  ../engine/source/mpi/kinematic_conditions/spmd_frwall_nn.F
-      !||    spmd_fvb_adim                   ../engine/source/mpi/anim/spmd_fvb_adim.F
-      !||    spmd_fvb_aelf                   ../engine/source/mpi/anim/spmd_fvb_aelf.F
-      !||    spmd_fvb_amax                   ../engine/source/mpi/anim/spmd_fvb_amax.F
-      !||    spmd_fvb_amon                   ../engine/source/mpi/anim/spmd_fvb_amon.F
-      !||    spmd_fvb_anod                   ../engine/source/mpi/anim/spmd_fvb_anod.F
-      !||    spmd_fvb_anum                   ../engine/source/mpi/anim/spmd_fvb_anum.F
-      !||    spmd_fvb_aoff                   ../engine/source/mpi/anim/spmd_fvb_aoff.F
-      !||    spmd_fvb_apar                   ../engine/source/mpi/anim/spmd_fvb_apar.F
-      !||    spmd_fvb_asub1                  ../engine/source/mpi/anim/spmd_fvb_asub1.F
-      !||    spmd_fvb_asub2                  ../engine/source/mpi/anim/spmd_fvb_asub2.F
-      !||    spmd_fvb_atit                   ../engine/source/mpi/anim/spmd_fvb_atit.F
-      !||    spmd_fvb_atr                    ../engine/source/mpi/anim/spmd_fvb_atr.F
-      !||    spmd_fvb_avec                   ../engine/source/mpi/anim/spmd_fvb_avec.F
-      !||    spmd_fvb_scat_num_noda          ../engine/source/mpi/anim/spmd_fvb_scat_num_noda.F
-      !||    spmd_fxb_cin                    ../engine/source/mpi/kinematic_conditions/spmd_fxb_cin.F
-      !||    spmd_fxb_for                    ../engine/source/mpi/kinematic_conditions/spmd_fxb_for.F
-      !||    spmd_fxb_for_pon                ../engine/source/mpi/kinematic_conditions/spmd_fxb_for_pon.F
-      !||    spmd_gath_collective            ../engine/source/mpi/generic/spmd_gath_collective.F
-      !||    spmd_gather_dtnoda              ../engine/source/mpi/generic/spmd_gather_dtnoda.F
-      !||    spmd_gather_int                 ../engine/source/mpi/generic/spmd_gather_int.F
-      !||    spmd_gather_sph                 ../engine/source/mpi/anim/spmd_gather_sph.F
-      !||    spmd_gather_wa                  ../engine/source/mpi/anim/spmd_gather_wa.F
-      !||    spmd_gather_xyz16               ../engine/source/mpi/anim/spmd_gather_xyz16.F
-      !||    spmd_gatherf                    ../engine/source/mpi/anim/spmd_gatherf.F
-      !||    spmd_gatheritab                 ../engine/source/mpi/anim/spmd_gatheritab.F
-      !||    spmd_gatheritab_crk             ../engine/source/mpi/anim/spmd_gatheritab_crk.F
-      !||    spmd_gatherv                    ../engine/source/mpi/generic/spmd_gatherv.F
-      !||    spmd_gatherv_int                ../engine/source/mpi/generic/spmd_gatherv_int.F
-      !||    spmd_get_mult                   ../engine/source/mpi/lag_multipliers/spmd_lag.F
-      !||    spmd_gg_mult                    ../engine/source/mpi/lag_multipliers/spmd_lag.F
-      !||    spmd_glob_dpsum                 ../engine/source/mpi/interfaces/spmd_th.F
-      !||    spmd_glob_dpsum9                ../engine/source/mpi/interfaces/spmd_th.F
-      !||    spmd_glob_dsum                  ../engine/source/mpi/interfaces/spmd_th.F
-      !||    spmd_glob_dsum9                 ../engine/source/mpi/interfaces/spmd_th.F
-      !||    spmd_glob_fsum                  ../engine/source/mpi/interfaces/spmd_th.F
-      !||    spmd_glob_fsum9                 ../engine/source/mpi/interfaces/spmd_th.F
-      !||    spmd_glob_imax9                 ../engine/source/mpi/generic/spmd_glob_imax9.F
-      !||    spmd_glob_isum9                 ../engine/source/mpi/interfaces/spmd_th.F
-      !||    spmd_glob_lmax                  ../engine/source/mpi/ams/spmd_sms.F
-      !||    spmd_glob_lmin                  ../engine/source/mpi/ams/spmd_sms.F
-      !||    spmd_glob_max                   ../engine/source/mpi/interfaces/spmd_th.F
-      !||    spmd_glob_min                   ../engine/source/mpi/interfaces/spmd_th.F
-      !||    spmd_glob_min5                  ../engine/source/mpi/generic/spmd_glob_min5.F
-      !||    spmd_glob_minv                  ../engine/source/mpi/generic/spmd_glob_minv.F
-      !||    spmd_glob_rsum_poff             ../engine/source/mpi/generic/spmd_glob_rsum_poff.F
-      !||    spmd_h3d_gather_i               ../engine/source/output/h3d/spmd/spmd_h3d_gather_i.F
-      !||    spmd_h3d_gather_i_node          ../engine/source/output/h3d/spmd/spmd_h3d_gather_i_node.F
-      !||    spmd_h3d_gather_i_node_part     ../engine/source/output/h3d/spmd/spmd_h3d_gather_i_node_part.F
-      !||    spmd_h3d_gather_r               ../engine/source/output/h3d/spmd/spmd_h3d_gather_r.F
-      !||    spmd_h3d_gather_r_nodal_value   ../engine/source/output/h3d/spmd/spmd_h3d_gather_r_nodal_value.F
-      !||    spmd_h3d_gather_r_node          ../engine/source/output/h3d/spmd/spmd_h3d_gather_r_node.F
-      !||    spmd_h3d_gather_t_node          ../engine/source/output/h3d/spmd/spmd_h3d_gather_t_node.F
-      !||    spmd_h3d_getmsr                 ../engine/source/output/h3d/spmd/spmd_h3d_getmsr.F
-      !||    spmd_h3d_getmsr_update          ../engine/source/output/h3d/spmd/spmd_h3d_getmsr_update.F
-      !||    spmd_h3d_max_r_nodal_value      ../engine/source/output/h3d/spmd/spmd_h3d_gather_r_nodal_value.F
-      !||    spmd_h3d_max_r_nodal_value_21   ../engine/source/output/h3d/spmd/spmd_h3d_gather_r_nodal_value.F
-      !||    spmd_h3d_sum_r_nodal            ../engine/source/output/h3d/spmd/spmd_h3d_gather_r_node.F
-      !||    spmd_h3d_sum_r_nodal_21         ../engine/source/output/h3d/spmd/spmd_h3d_gather_r_node.F
-      !||    spmd_h3d_sum_r_nodal_value      ../engine/source/output/h3d/spmd/spmd_h3d_sum_r_nodal_value.F
-      !||    spmd_i17frots_pon               ../engine/source/mpi/interfaces/spmd_i17frots_pon.F
-      !||    spmd_i18kine_com_a              ../engine/source/mpi/interfaces/spmd_i18kine_com_a.F
-      !||    spmd_i18kine_com_acc            ../engine/source/mpi/interfaces/spmd_i18kine_com_acc.F
-      !||    spmd_i18kine_com_ms             ../engine/source/mpi/interfaces/spmd_i18kine_com_ms.F
-      !||    spmd_i18kine_com_v              ../engine/source/mpi/interfaces/spmd_i18kine_com_v.F
-      !||    spmd_i18kine_macc_com_poff      ../engine/source/mpi/interfaces/spmd_i18kine_macc_com_poff.F
-      !||    spmd_i18kine_msf_com_poff       ../engine/source/mpi/interfaces/spmd_i18kine_msf_com_poff.F
-      !||    spmd_i18kine_pene_com_poff      ../engine/source/mpi/interfaces/spmd_i18kine_pene_com_poff.F
-      !||    spmd_i20curvsz                  ../engine/source/mpi/interfaces/spmd_i20curvsz.F
-      !||    spmd_i20exch_n                  ../engine/source/mpi/interfaces/spmd_i20exch_n.F
-      !||    spmd_i20normf                   ../engine/source/mpi/interfaces/spmd_i20normf.F
-      !||    spmd_i21crit                    ../engine/source/mpi/interfaces/spmd_i21crit.F
-      !||    spmd_i25_slide_exch             ../engine/source/mpi/interfaces/spmd_i25slide.F
-      !||    spmd_i25_slide_gat              ../engine/source/mpi/interfaces/spmd_i25slide.F
-      !||    spmd_i25front_init              ../engine/source/mpi/interfaces/spmd_i25front.F
-      !||    spmd_i25front_nor               ../engine/source/mpi/interfaces/spmd_i25front.F
-      !||    spmd_i2d                        ../engine/source/mpi/implicit/imp_spmd.F
-      !||    spmd_i7curvcom                  ../engine/source/mpi/interfaces/spmd_i7curvcom.F
-      !||    spmd_i7curvsz                   ../engine/source/mpi/interfaces/spmd_i7curvsz.F
-      !||    spmd_i7fcom_poff                ../engine/source/mpi/forces/spmd_i7fcom_poff.F
-      !||    spmd_i7fcom_pon                 ../engine/source/mpi/forces/spmd_i7fcom_pon.F
-      !||    spmd_i7itied_cand               ../engine/source/mpi/interfaces/spmd_i7itied_cand.F
-      !||    spmd_i7xvcom2                   ../engine/source/mpi/interfaces/spmd_i7xvcom2.F
-      !||    spmd_i8_commslv                 ../engine/source/mpi/interfaces/spmd_i8tool.F
-      !||    spmd_i8_iloc                    ../engine/source/mpi/interfaces/spmd_i8tool.F
-      !||    spmd_i8_index                   ../engine/source/mpi/interfaces/spmd_i8tool.F
-      !||    spmd_i8_irtl                    ../engine/source/mpi/interfaces/spmd_i8tool.F
-      !||    spmd_i8_reduce                  ../engine/source/mpi/interfaces/spmd_i8tool.F
-      !||    spmd_i8_updbuf                  ../engine/source/mpi/interfaces/spmd_i8tool.F
-      !||    spmd_ibcast                     ../engine/source/mpi/generic/spmd_ibcast.F
-      !||    spmd_icol                       ../engine/source/mpi/implicit/imp_spmd.F
-      !||    spmd_ifc1                       ../engine/source/mpi/implicit/imp_spmd.F
-      !||    spmd_ifcd                       ../engine/source/mpi/implicit/imp_spmd.F
-      !||    spmd_ifcf                       ../engine/source/mpi/implicit/imp_spmd.F
-      !||    spmd_ifrf                       ../engine/source/mpi/implicit/imp_spmd.F
-      !||    spmd_ifrf_gpu                   ../engine/source/mpi/implicit/imp_spmd.F
-      !||    spmd_ifri                       ../engine/source/mpi/implicit/imp_spmd.F
-      !||    spmd_ifront                     ../engine/source/mpi/interfaces/spmd_ifront.F
-      !||    spmd_ifru                       ../engine/source/mpi/implicit/imp_spmd.F
-      !||    spmd_ifru_gpu                   ../engine/source/mpi/implicit/imp_spmd.F
-      !||    spmd_igath                      ../engine/source/mpi/anim/spmd_igath.F
-      !||    spmd_iget_partn                 ../engine/source/mpi/anim/spmd_iget_partn.F
-      !||    spmd_iget_partn_ply             ../engine/source/mpi/anim/spmd_iget_partn_ply.F
-      !||    spmd_iget_partn_sta             ../engine/source/mpi/output/spmd_stat.F
-      !||    spmd_iglob_partn                ../engine/source/mpi/anim/spmd_iglob_partn.F
-      !||    spmd_inf_g                      ../engine/source/mpi/implicit/imp_spmd.F
-      !||    spmd_inis                       ../engine/source/mpi/implicit/imp_spmd.F
-      !||    spmd_inisl                      ../engine/source/mpi/implicit/imp_spmd.F
-      !||    spmd_init_idel                  ../engine/source/mpi/interfaces/spmd_init_idel.F
-      !||    spmd_int18_law151_pon           ../engine/source/mpi/forces/spmd_int18_law151_pon.F
-      !||    spmd_int_allreduce_max          ../engine/source/mpi/implicit/imp_spmd.F
-      !||    spmd_irecv_double               ../engine/source/mpi/spmd_irecv.F90
-      !||    spmd_irecv_doubles              ../engine/source/mpi/spmd_irecv.F90
-      !||    spmd_irecv_int                  ../engine/source/mpi/spmd_irecv.F90
-      !||    spmd_irecv_ints                 ../engine/source/mpi/spmd_irecv.F90
-      !||    spmd_irecv_real                 ../engine/source/mpi/spmd_irecv.F90
-      !||    spmd_irecv_reals                ../engine/source/mpi/spmd_irecv.F90
-      !||    spmd_isend_double               ../engine/source/mpi/spmd_isend.F90
-      !||    spmd_isend_doubles              ../engine/source/mpi/spmd_isend.F90
-      !||    spmd_isend_int                  ../engine/source/mpi/spmd_isend.F90
-      !||    spmd_isend_ints                 ../engine/source/mpi/spmd_isend.F90
-      !||    spmd_isend_real                 ../engine/source/mpi/spmd_isend.F90
-      !||    spmd_isend_reals                ../engine/source/mpi/spmd_isend.F90
-      !||    spmd_isr                        ../engine/source/mpi/implicit/imp_spmd.F
-      !||    spmd_istat_gath                 ../engine/source/mpi/output/spmd_stat.F
-      !||    spmd_iwlg                       ../engine/source/mpi/implicit/spmd_dsreso.F
-      !||    spmd_kill                       ../engine/source/mpi/init/spmd_kill.F
-      !||    spmd_lagbounds_exch_i22         ../engine/source/mpi/interfaces/spmd_lagbounds_exch_i22.F
-      !||    spmd_list_sms                   ../engine/source/mpi/ams/spmd_sms.F
-      !||    spmd_max_f                      ../engine/source/mpi/implicit/imp_spmd.F
-      !||    spmd_max_i                      ../engine/source/mpi/implicit/imp_spmd.F
-      !||    spmd_max_ii                     ../engine/source/mpi/implicit/imp_spmd.F
-      !||    spmd_max_iv                     ../engine/source/mpi/implicit/imp_spmd.F
-      !||    spmd_max_s                      ../engine/source/mpi/implicit/imp_spmd.F
-      !||    spmd_max_xfe_i                  ../engine/source/mpi/elements/spmd_xfem.F
-      !||    spmd_mij_sms                    ../engine/source/mpi/ams/spmd_sms.F
-      !||    spmd_min_i                      ../engine/source/mpi/implicit/imp_spmd.F
-      !||    spmd_min_max                    ../engine/source/mpi/anim/spmd_min_max.F
-      !||    spmd_min_s                      ../engine/source/mpi/implicit/imp_spmd.F
-      !||    spmd_mod                        ../engine/source/mpi/spmd_mod.F90
-      !||    spmd_mstop                      ../engine/source/mpi/init/spmd_mstop.F
-      !||    spmd_mumps_count                ../engine/source/mpi/implicit/imp_spmd.F
-      !||    spmd_mumps_deal                 ../engine/source/mpi/implicit/imp_spmd.F
-      !||    spmd_mumps_exec                 ../engine/source/mpi/implicit/imp_spmd.F
-      !||    spmd_mumps_flush                ../engine/source/mpi/implicit/imp_spmd.F
-      !||    spmd_mumps_front                ../engine/source/mpi/implicit/imp_spmd.F
-      !||    spmd_mumps_gath                 ../engine/source/mpi/implicit/imp_spmd.F
-      !||    spmd_mumps_ini                  ../engine/source/mpi/implicit/imp_spmd.F
-      !||    spmd_mumps_rhs                  ../engine/source/mpi/implicit/imp_spmd.F
-      !||    spmd_n_ref                      ../engine/source/mpi/implicit/imp_spmd.F
-      !||    spmd_nddlig                     ../engine/source/mpi/implicit/imp_spmd.F
-      !||    spmd_ndof                       ../engine/source/mpi/implicit/imp_spmd.F
-      !||    spmd_nlist_sms                  ../engine/source/mpi/ams/spmd_sms.F
-      !||    spmd_nndft_sms                  ../engine/source/mpi/ams/spmd_sms.F
-      !||    spmd_nnz_sms                    ../engine/source/mpi/ams/spmd_sms.F
-      !||    spmd_nrow                       ../engine/source/mpi/implicit/imp_spmd.F
-      !||    spmd_out                        ../engine/source/mpi/spmd_error.F90
-      !||    spmd_outpitab                   ../engine/source/mpi/interfaces/spmd_outp.F
-      !||    spmd_part_com                   ../engine/source/mpi/interfaces/spmd_th.F
-      !||    spmd_printcpuinfo               ../engine/source/mpi/output/spmd_printcpuinfo.F
-      !||    spmd_r2r_idef                   ../engine/source/mpi/r2r/spmd_r2r.F
-      !||    spmd_r2r_iget                   ../engine/source/mpi/r2r/spmd_r2r.F
-      !||    spmd_r2r_iget2                  ../engine/source/mpi/r2r/spmd_r2r.F
-      !||    spmd_r2r_iget4                  ../engine/source/mpi/r2r/spmd_r2r.F
-      !||    spmd_r2r_rby                    ../engine/source/mpi/r2r/spmd_r2r.F
-      !||    spmd_r2r_rget                   ../engine/source/mpi/r2r/spmd_r2r.F
-      !||    spmd_r2r_rget3                  ../engine/source/mpi/r2r/spmd_r2r.F
-      !||    spmd_r2r_rget3_dp               ../engine/source/mpi/r2r/spmd_r2r.F
-      !||    spmd_r2r_rset                   ../engine/source/mpi/r2r/spmd_r2r.F
-      !||    spmd_r2r_rset3                  ../engine/source/mpi/r2r/spmd_r2r.F
-      !||    spmd_r2r_rset3b                 ../engine/source/mpi/r2r/spmd_r2r.F
-      !||    spmd_r2r_rset4                  ../engine/source/mpi/r2r/spmd_r2r.F
-      !||    spmd_r2r_sync                   ../engine/source/mpi/r2r/spmd_r2r.F
-      !||    spmd_r2r_tagel                  ../engine/source/mpi/r2r/spmd_r2r.F
-      !||    spmd_r4get_partn                ../engine/source/mpi/anim/spmd_r4get_partn.F
-      !||    spmd_rbcast                     ../engine/source/mpi/generic/spmd_rbcast.F
-      !||    spmd_recv_double                ../engine/source/mpi/spmd_recv.F90
-      !||    spmd_recv_doubles               ../engine/source/mpi/spmd_recv.F90
-      !||    spmd_recv_doubles2d             ../engine/source/mpi/spmd_recv.F90
-      !||    spmd_recv_int                   ../engine/source/mpi/spmd_recv.F90
-      !||    spmd_recv_ints                  ../engine/source/mpi/spmd_recv.F90
-      !||    spmd_recv_real                  ../engine/source/mpi/spmd_recv.F90
-      !||    spmd_recv_reals                 ../engine/source/mpi/spmd_recv.F90
-      !||    spmd_recv_reals2d               ../engine/source/mpi/spmd_recv.F90
-      !||    spmd_reduce_db                  ../engine/source/mpi/generic/spmd_reduce_db.F
-      !||    spmd_rgather9                   ../engine/source/mpi/interfaces/spmd_outp.F
-      !||    spmd_rgather9_1comm             ../engine/source/mpi/interfaces/spmd_outp.F
-      !||    spmd_rgather9_dp                ../engine/source/mpi/interfaces/spmd_outp.F
-      !||    spmd_rst_check                  ../engine/source/mpi/init/spmd_rst_check.F
-      !||    spmd_sd_acc                     ../engine/source/mpi/output/spmd_sd_acc.F
-      !||    spmd_sd_cj_0                    ../engine/source/mpi/kinematic_conditions/spmd_sd_cj_0.F
-      !||    spmd_sd_cj_1                    ../engine/source/mpi/kinematic_conditions/spmd_sd_cj_1.F
-      !||    spmd_sd_cj_2                    ../engine/source/mpi/kinematic_conditions/spmd_sd_cj_2.F
-      !||    spmd_sd_cut                     ../engine/source/mpi/sections/spmd_section.F
-      !||    spmd_sd_gau                     ../engine/source/mpi/output/spmd_sd_gau.F
-      !||    spmd_sd_gaug                    ../engine/source/mpi/output/spmd_sd_gaug.F
-      !||    spmd_sd_sens                    ../engine/source/mpi/output/spmd_sd_sens.F
-      !||    spmd_sd_skw                     ../engine/source/mpi/output/spmd_sd_skw.F
-      !||    spmd_sd_skw_anim                ../engine/source/mpi/output/spmd_sd_skw.F
-      !||    spmd_sd_xv                      ../engine/source/mpi/nodes/spmd_sd_xv.F
-      !||    spmd_send_double                ../engine/source/mpi/spmd_send.F90
-      !||    spmd_send_doubles               ../engine/source/mpi/spmd_send.F90
-      !||    spmd_send_int                   ../engine/source/mpi/spmd_send.F90
-      !||    spmd_send_ints                  ../engine/source/mpi/spmd_send.F90
-      !||    spmd_send_real                  ../engine/source/mpi/spmd_send.F90
-      !||    spmd_send_reals                 ../engine/source/mpi/spmd_send.F90
-      !||    spmd_send_vi                    ../engine/source/mpi/implicit/imp_spmd.F
-      !||    spmd_send_vr                    ../engine/source/mpi/implicit/imp_spmd.F
-      !||    spmd_sg_fani                    ../engine/source/mpi/lag_multipliers/spmd_lag.F
-      !||    spmd_sg_mult                    ../engine/source/mpi/lag_multipliers/spmd_lag.F
-      !||    spmd_sort_sms                   ../engine/source/mpi/ams/spmd_sms.F
-      !||    spmd_spamaj                     ../engine/source/mpi/sph/spmd_spamaj.F
-      !||    spmd_sphgat                     ../engine/source/mpi/sph/spmd_sphgat.F
-      !||    spmd_sphgetv                    ../engine/source/mpi/sph/spmd_sphgetv.F
-      !||    spmd_sphvox                     ../engine/source/mpi/sph/spmd_sphvox.F
-      !||    spmd_split_comm                 ../engine/source/mpi/init/spmd_split_comm.F
-      !||    spmd_split_comm_inter           ../engine/source/mpi/interfaces/spmd_split_comm_inter.F
-      !||    spmd_split_comm_joint           ../engine/source/mpi/init/spmd_split_comm_joint.F
-      !||    spmd_stat_pgather               ../engine/source/mpi/output/spmd_stat.F
-      !||    spmd_state_inimap1d_exch_data   ../engine/source/output/sta/spmd_state_inimap1d_exch_data.F
-      !||    spmd_state_inimap2d_exch_data   ../engine/source/output/sta/spmd_state_inimap2d_exch_data.F
-      !||    spmd_state_inimap_exch_siz      ../engine/source/output/sta/spmd_state_inimap_exch_siz.F
-      !||    spmd_sub_boundaries             ../engine/source/mpi/spmd_exch_sub.F
-      !||    spmd_sum_s                      ../engine/source/mpi/implicit/imp_spmd.F
-      !||    spmd_sum_s2                     ../engine/source/mpi/implicit/imp_spmd.F
-      !||    spmd_sumax                      ../engine/source/mpi/generic/spmd_sumax.F
-      !||    spmd_sumf_a                     ../engine/source/mpi/implicit/imp_spmd.F
-      !||    spmd_sumf_k                     ../engine/source/mpi/implicit/imp_spmd.F
-      !||    spmd_sumf_v                     ../engine/source/mpi/implicit/imp_spmd.F
-      !||    spmd_sumfc_v                    ../engine/source/mpi/implicit/imp_spmd.F
-      !||    spmd_sync_mmx                   ../engine/source/mpi/interfaces/spmd_sync_mmx.F
-      !||    spmd_tri17box                   ../engine/source/mpi/interfaces/spmd_tri17box.F
-      !||    spmd_tri20box                   ../engine/source/mpi/interfaces/spmd_tri20box.F
-      !||    spmd_tri20boxe                  ../engine/source/mpi/interfaces/spmd_tri20boxe.F
-      !||    spmd_tri22vox                   ../engine/source/mpi/interfaces/spmd_tri22vox.F
-      !||    spmd_tri7vox_optimized          ../engine/source/mpi/interfaces/spmd_tri7vox_optimized.F
-      !||    spmd_vchgrid                    ../engine/source/mpi/implicit/imp_spmd.F
-      !||    spmd_velvec2                    ../engine/source/mpi/anim/spmd_velvec2.F
-      !||    spmd_vgath                      ../engine/source/mpi/anim/spmd_vgath.F
-      !||    spmd_vgath_err                  ../engine/source/mpi/anim/spmd_vgath_err.F
-      !||    spmd_wiout                      ../engine/source/mpi/generic/spmd_wiout.F
-      !||    spmd_wrt_crk_xyznod             ../engine/source/mpi/anim/spmd_wrt_crk_xyznod.F
-      !||    spmd_wrt_crk_xyznor             ../engine/source/mpi/anim/spmd_wrt_crk_xyznor.F
-      !||    spmd_wrt_cutd                   ../engine/source/mpi/sections/spmd_section.F
-      !||    spmd_wrt_cutf                   ../engine/source/mpi/sections/spmd_section.F
-      !||    spmd_wrt_xyznod                 ../engine/source/mpi/anim/spmd_wrt_xyznod.F
-      !||    spmd_wrt_xyznor                 ../engine/source/mpi/anim/spmd_wrt_xyznor.F
-      !||    spmd_x_section                  ../engine/source/mpi/sections/spmd_section.F
-      !||    switch_to_dtnoda                ../engine/source/time_step/switch_to_dtnoda.F
-      !||    terminate                       ../engine/share/modules/linear_solver_mod.F
-      !||    terminate_cg                    ../engine/share/modules/linear_solver_mod.F
-      !||    terminate_diffusion             ../engine/share/modules/diffusion_mod.F
-      !||    terminate_mumps                 ../engine/share/modules/linear_solver_mod.F
-      !||    upcase                          ../engine/source/engine/execargcheck.F
-      !||====================================================================
+!||====================================================================
+!||    spmd_comm_world_mod             ../engine/source/mpi/spmd_comm_world.F90
+!||--- called by ------------------------------------------------------
+!||    ams_prepare_poff_assembly       ../engine/source/mpi/ams/spmd_sms.F
+!||    check_fi                        ../engine/source/mpi/interfaces/spmd_i25slide.F
+!||    check_remote_surface_state      ../engine/source/interfaces/interf/check_remote_surface_state.F
+!||    deallocate_fi1_tmp              ../engine/source/mpi/interfaces/spmd_i25slide.F
+!||    execargcheck                    ../engine/source/engine/execargcheck.F
+!||    get_global_dim                  ../engine/share/modules/linear_solver_mod.F
+!||    get_solution                    ../engine/share/modules/diffusion_mod.F
+!||    h3d_create_rbe2_impi            ../engine/source/output/h3d/h3d_build_fortran/h3d_create_rbe2_impi.F
+!||    h3d_create_rbe3_impi            ../engine/source/output/h3d/h3d_build_fortran/h3d_create_rbe3_impi.F
+!||    h3d_create_rbodies_impi         ../engine/source/output/h3d/h3d_build_fortran/h3d_create_rbodies_impi.F
+!||    h3d_gather_id_val               ../engine/source/output/h3d/spmd/h3d_gather_id_val.F90
+!||    imp_mumps1                      ../engine/source/implicit/imp_mumps.F
+!||    imp_mumps2                      ../engine/source/implicit/imp_mumps.F
+!||    inipar                          ../engine/source/mpi/init/inipar.F
+!||    init_diffusion                  ../engine/share/modules/diffusion_mod.F
+!||    init_nodal_state                ../engine/source/interfaces/interf/init_nodal_state.F
+!||    init_solver                     ../engine/share/modules/linear_solver_mod.F
+!||    init_solver_cg                  ../engine/share/modules/linear_solver_mod.F
+!||    init_solver_mumps               ../engine/share/modules/linear_solver_mod.F
+!||    isanargument                    ../engine/source/engine/execargcheck.F
+!||    mpi_min_real_begin              ../engine/share/modules/mpi_tools_mod.F
+!||    mpi_min_real_end                ../engine/share/modules/mpi_tools_mod.F
+!||    mumps_set                       ../engine/source/implicit/imp_mumps.F
+!||    mumps_set2                      ../engine/source/implicit/imp_mumps.F
+!||    outp_arsz_cs                    ../engine/source/mpi/interfaces/spmd_outp.F
+!||    outp_arsz_ct                    ../engine/source/mpi/interfaces/spmd_outp.F
+!||    outp_arsz_rs                    ../engine/source/mpi/interfaces/spmd_outp.F
+!||    outp_arsz_rt                    ../engine/source/mpi/interfaces/spmd_outp.F
+!||    outp_arsz_sps                   ../engine/source/mpi/interfaces/spmd_outp.F
+!||    outp_arsz_spt                   ../engine/source/mpi/interfaces/spmd_outp.F
+!||    outp_arsz_sptt                  ../engine/source/mpi/interfaces/spmd_outp.F
+!||    outp_arsz_ss                    ../engine/source/mpi/interfaces/spmd_outp.F
+!||    outp_arsz_st                    ../engine/source/mpi/interfaces/spmd_outp.F
+!||    pexecinfo                       ../engine/source/engine/execargcheck.F
+!||    phelpinfo                       ../engine/source/engine/execargcheck.F
+!||    prexecinfo                      ../engine/source/engine/execargcheck.F
+!||    prhelpinfo                      ../engine/source/engine/execargcheck.F
+!||    print_stiff_mat                 ../engine/source/implicit/imp_mumps.F
+!||    rad_spmd_recv                   ../engine/source/mpi/generic/rad_spmd_recv.F
+!||    rad_spmd_send                   ../engine/source/mpi/generic/rad_spmd_send.F
+!||    reallocate_fi1                  ../engine/source/mpi/interfaces/spmd_i25slide.F
+!||    reallocate_fi2                  ../engine/source/mpi/interfaces/spmd_i25slide.F
+!||    set_matrix                      ../engine/share/modules/linear_solver_mod.F
+!||    set_matrix_cg                   ../engine/share/modules/linear_solver_mod.F
+!||    set_matrix_mumps                ../engine/share/modules/linear_solver_mod.F
+!||    set_rhs                         ../engine/share/modules/linear_solver_mod.F
+!||    set_rhs_cg                      ../engine/share/modules/linear_solver_mod.F
+!||    set_rhs_mumps                   ../engine/share/modules/linear_solver_mod.F
+!||    solve                           ../engine/share/modules/linear_solver_mod.F
+!||    solve_cg                        ../engine/share/modules/linear_solver_mod.F
+!||    solve_diffusion                 ../engine/share/modules/diffusion_mod.F
+!||    solve_mumps                     ../engine/share/modules/linear_solver_mod.F
+!||    spmd_all_dmin                   ../engine/source/mpi/interfaces/spmd_th.F
+!||    spmd_allgather_mod              ../engine/source/mpi/generic/spmd_allgather.F90
+!||    spmd_allgatherv_double          ../engine/source/mpi/spmd_allgatherv.F90
+!||    spmd_allgatherv_doubles         ../engine/source/mpi/spmd_allgatherv.F90
+!||    spmd_allgatherv_int             ../engine/source/mpi/spmd_allgatherv.F90
+!||    spmd_allgatherv_ints            ../engine/source/mpi/spmd_allgatherv.F90
+!||    spmd_allgatherv_real            ../engine/source/mpi/spmd_allgatherv.F90
+!||    spmd_allgatherv_reals           ../engine/source/mpi/spmd_allgatherv.F90
+!||    spmd_allglob_isum9              ../engine/source/mpi/generic/spmd_allglob_isum9.F
+!||    spmd_alltoall_double            ../engine/source/mpi/generic/spmd_alltoall.F90
+!||    spmd_alltoall_doubles           ../engine/source/mpi/generic/spmd_alltoall.F90
+!||    spmd_alltoall_int               ../engine/source/mpi/generic/spmd_alltoall.F90
+!||    spmd_alltoall_ints              ../engine/source/mpi/generic/spmd_alltoall.F90
+!||    spmd_alltoall_real              ../engine/source/mpi/generic/spmd_alltoall.F90
+!||    spmd_alltoall_reals             ../engine/source/mpi/generic/spmd_alltoall.F90
+!||    spmd_anim_ply_velvec            ../engine/source/mpi/anim/spmd_anim_ply_velvec.F
+!||    spmd_anim_ply_xyznor            ../engine/source/mpi/anim/spmd_anim_ply_xyznor.F
+!||    spmd_cddl                       ../engine/source/mpi/implicit/imp_spmd.F
+!||    spmd_cell_exchange              ../engine/source/mpi/generic/spmd_cell_exchange.F
+!||    spmd_cell_list_exchange         ../engine/source/mpi/interfaces/spmd_cell_list_exchange.F
+!||    spmd_cell_size_exchange         ../engine/source/mpi/interfaces/spmd_cell_size_exchange.F
+!||    spmd_cell_size_post_rcv         ../engine/source/mpi/interfaces/spmd_cell_size_post_rcv.F
+!||    spmd_check_ale_neighbour        ../engine/source/mpi/fluid/spmd_check_ale_neighbour.F
+!||    spmd_collect                    ../engine/source/mpi/output/spmd_collect.F
+!||    spmd_collect_multi_fvm          ../engine/source/mpi/output/spmd_collect_multi_fvm.F
+!||    spmd_collect_nlocal             ../engine/source/mpi/output/spmd_collect_nlocal.F
+!||    spmd_collect_seatbelt           ../engine/source/mpi/output/spmd_collect_seatbelt.F
+!||    spmd_collectm                   ../engine/source/mpi/output/spmd_collectm.F
+!||    spmd_collectt                   ../engine/source/mpi/output/spmd_collectt.F
+!||    spmd_comm_split                 ../engine/source/mpi/generic/spmd_comm_split.F
+!||    spmd_crk_idmax                  ../engine/source/mpi/anim/spmd_crk_idmax.F
+!||    spmd_dgather                    ../engine/source/mpi/output/spmd_gather.F
+!||    spmd_doutp_gath                 ../engine/source/mpi/interfaces/spmd_outp.F
+!||    spmd_doutp_vgath                ../engine/source/mpi/interfaces/spmd_outp.F
+!||    spmd_dparrbe2                   ../engine/source/mpi/anim/spmd_dparrbe2.F
+!||    spmd_dparrbe3                   ../engine/source/mpi/anim/spmd_dparrbe3.F
+!||    spmd_dparrby                    ../engine/source/mpi/anim/spmd_dparrby.F
+!||    spmd_ds_iexch                   ../engine/source/mpi/implicit/spmd_dsreso.F
+!||    spmd_ds_irecv                   ../engine/source/mpi/implicit/spmd_dsreso.F
+!||    spmd_ds_isend                   ../engine/source/mpi/implicit/spmd_dsreso.F
+!||    spmd_ds_mexch                   ../engine/source/mpi/implicit/spmd_dsreso.F
+!||    spmd_ds_rrecv                   ../engine/source/mpi/implicit/spmd_dsreso.F
+!||    spmd_ds_rsend                   ../engine/source/mpi/implicit/spmd_dsreso.F
+!||    spmd_ds_vdesc                   ../engine/source/mpi/implicit/spmd_dsreso.F
+!||    spmd_ds_vexch                   ../engine/source/mpi/implicit/spmd_dsreso.F
+!||    spmd_dstat_gath                 ../engine/source/mpi/output/spmd_stat.F
+!||    spmd_dstat_vgath                ../engine/source/mpi/output/spmd_stat.F
+!||    spmd_e_ref                      ../engine/source/mpi/implicit/imp_spmd.F
+!||    spmd_ex_cputime                 ../engine/source/mpi/output/spmd_ex_cputime.F
+!||    spmd_exch2_a_pon                ../engine/source/mpi/forces/spmd_exch2_a_pon.F
+!||    spmd_exch_a                     ../engine/source/mpi/forces/spmd_exch_a.F
+!||    spmd_exch_a_ams_poff            ../engine/source/mpi/forces/spmd_exch_a_ams_poff.F
+!||    spmd_exch_a_int2                ../engine/source/mpi/forces/spmd_exch_a_int2.F
+!||    spmd_exch_a_int2_ams            ../engine/source/mpi/forces/spmd_exch_a_int2_ams.F
+!||    spmd_exch_a_int2_pon            ../engine/source/mpi/forces/spmd_exch_a_int2_pon.F
+!||    spmd_exch_a_int2h               ../engine/source/mpi/forces/spmd_exch_a_int2h.F
+!||    spmd_exch_a_int2h_ams           ../engine/source/mpi/forces/spmd_exch_a_int2h_ams.F
+!||    spmd_exch_a_rb6                 ../engine/source/mpi/kinematic_conditions/spmd_exch_a_rb6.F
+!||    spmd_exch_a_rb6_vrel            ../engine/source/mpi/kinematic_conditions/spmd_exch_a_rb6.F
+!||    spmd_exch_a_rb6g                ../engine/source/mpi/kinematic_conditions/spmd_exch_a_rb6g.F
+!||    spmd_exch_a_rm6                 ../engine/source/mpi/kinematic_conditions/spmd_exch_a_rm6.F
+!||    spmd_exch_a_scnd                ../engine/source/mpi/elements/spmd_exch_a_scnd.F
+!||    spmd_exch_a_scnd_pon            ../engine/source/mpi/elements/spmd_exch_a_scnd_pon.F
+!||    spmd_exch_a_seatbelt            ../engine/source/mpi/seatbelts/spmd_exch_a_seatbelt.F
+!||    spmd_exch_adm                   ../engine/source/mpi/anim/spmd_exch_adm.F
+!||    spmd_exch_awork                 ../engine/source/mpi/ams/spmd_sms.F
+!||    spmd_exch_crkavx                ../engine/source/mpi/elements/spmd_xfem.F
+!||    spmd_exch_crkvel                ../engine/source/mpi/elements/spmd_xfem.F
+!||    spmd_exch_cut                   ../engine/source/mpi/sections/spmd_section.F
+!||    spmd_exch_da20                  ../engine/source/mpi/interfaces/spmd_exch_da20.F
+!||    spmd_exch_deleted_surf_edge     ../engine/source/mpi/interfaces/spmd_exch_deleted_surf_edge.F
+!||    spmd_exch_efric                 ../engine/source/mpi/interfaces/spmd_exch_efric.F
+!||    spmd_exch_fa                    ../engine/source/mpi/elements/spmd_exch_dttsh.F
+!||    spmd_exch_failwave              ../engine/source/mpi/output/spmd_exch_failwave.F
+!||    spmd_exch_fr6                   ../engine/source/mpi/kinematic_conditions/spmd_exch_fr6.F
+!||    spmd_exch_i24                   ../engine/source/mpi/interfaces/spmd_exch_i24.F
+!||    spmd_exch_i24_gap               ../engine/source/mpi/interfaces/spmd_exch_i24_gap.F
+!||    spmd_exch_i25                   ../engine/source/mpi/interfaces/spmd_exch_i25.F
+!||    spmd_exch_icodt                 ../engine/source/mpi/nodes/spmd_exch_icodt.F
+!||    spmd_exch_icont                 ../engine/source/mpi/nodes/spmd_exch_icont.F
+!||    spmd_exch_idel                  ../engine/source/mpi/interfaces/spmd_exch_idel.F
+!||    spmd_exch_idel_seglo            ../engine/source/mpi/interfaces/spmd_exch_idel_seglo.F
+!||    spmd_exch_iedge                 ../engine/source/mpi/elements/spmd_xfem.F
+!||    spmd_exch_inter_18              ../engine/source/mpi/interfaces/spmd_exch_inter_18.F
+!||    spmd_exch_min_max               ../engine/source/mpi/ale/spmd_exch_min_max.F
+!||    spmd_exch_mult                  ../engine/source/mpi/lag_multipliers/spmd_lag.F
+!||    spmd_exch_n                     ../engine/source/mpi/generic/spmd_exch_n.F
+!||    spmd_exch_nodarea               ../engine/source/mpi/anim/spmd_exch_nodarea.F
+!||    spmd_exch_nodarea2              ../engine/source/mpi/anim/spmd_exch_nodarea2.F
+!||    spmd_exch_nodareai              ../engine/source/mpi/anim/spmd_exch_nodareai.F
+!||    spmd_exch_nodenr                ../engine/source/mpi/elements/spmd_xfem.F
+!||    spmd_exch_nor                   ../engine/source/mpi/interfaces/spmd_exch_nor.F
+!||    spmd_exch_press                 ../engine/source/mpi/interfaces/spmd_exch_press.F
+!||    spmd_exch_r2r                   ../engine/source/mpi/r2r/spmd_r2r.F
+!||    spmd_exch_r2r_2                 ../engine/source/mpi/r2r/spmd_r2r.F
+!||    spmd_exch_r2r_itag              ../engine/source/mpi/r2r/spmd_r2r.F
+!||    spmd_exch_r2r_nl                ../engine/source/mpi/r2r/spmd_exch_r2r_nl.F
+!||    spmd_exch_r2r_rby               ../engine/source/mpi/r2r/spmd_r2r.F
+!||    spmd_exch_r2r_sph               ../engine/source/mpi/r2r/spmd_r2r.F
+!||    spmd_exch_r2r_sphoff            ../engine/source/mpi/r2r/spmd_r2r.F
+!||    spmd_exch_rbe2_pon              ../engine/source/mpi/kinematic_conditions/spmd_exch_rbe2_pon.F
+!||    spmd_exch_rbe2_sms              ../engine/source/mpi/kinematic_conditions/spmd_exch_rbe2_sms.F
+!||    spmd_exch_rbe3                  ../engine/source/mpi/kinematic_conditions/spmd_exch_rbe3.F
+!||    spmd_exch_rbe3_a_pon            ../engine/source/mpi/kinematic_conditions/spmd_exch_rbe3_a_pon.F
+!||    spmd_exch_rbe3_nodnx            ../engine/source/mpi/ams/spmd_sms.F
+!||    spmd_exch_rbe3_pon              ../engine/source/mpi/kinematic_conditions/spmd_exch_rbe3_pon.F
+!||    spmd_exch_redge                 ../engine/source/mpi/elements/spmd_xfem.F
+!||    spmd_exch_sec                   ../engine/source/mpi/sections/spmd_section.F
+!||    spmd_exch_smst2                 ../engine/source/mpi/ams/spmd_exch_smst2.F
+!||    spmd_exch_sorting_efric         ../engine/source/mpi/interfaces/spmd_exch_sorting_efric.F
+!||    spmd_exch_stif_scnd             ../engine/source/mpi/elements/spmd_exch_stif_scnd.F
+!||    spmd_exch_sub_poff              ../engine/source/mpi/spmd_exch_sub.F
+!||    spmd_exch_sub_pon               ../engine/source/mpi/spmd_exch_sub.F
+!||    spmd_exch_tag_scnd              ../engine/source/mpi/elements/spmd_exch_tag_scnd.F
+!||    spmd_exch_tag_tsh               ../engine/source/mpi/elements/spmd_exch_dttsh.F
+!||    spmd_exch_tagncont              ../engine/source/mpi/forces/spmd_exch_tagncont.F
+!||    spmd_exch_tagxp                 ../engine/source/mpi/elements/spmd_xfem.F
+!||    spmd_exch_thknod                ../engine/source/mpi/nodes/spmd_exch_thknod.F
+!||    spmd_exch_userwi                ../engine/source/mpi/user_interface/spmd_exch_userwi.F
+!||    spmd_exch_v                     ../engine/source/mpi/generic/spmd_exch_v.F
+!||    spmd_exch_vmax                  ../engine/source/mpi/elements/spmd_exch_dttsh.F
+!||    spmd_exch_vnpon                 ../engine/source/mpi/nodes/spmd_exch_vnpon.F90
+!||    spmd_exch_vol                   ../engine/source/mpi/nodes/spmd_exch_vol.F
+!||    spmd_exch_wave                  ../engine/source/mpi/nodes/spmd_exch_wave.F
+!||    spmd_exch_work                  ../engine/source/mpi/r2r/spmd_r2r.F
+!||    spmd_exchange_grad              ../engine/source/mpi/fluid/spmd_exchange_grad.F
+!||    spmd_exchi_a_pon                ../engine/source/mpi/forces/spmd_exchi_a_pon.F
+!||    spmd_exchm_sms                  ../engine/source/mpi/ams/spmd_sms.F
+!||    spmd_exchmsr_idel               ../engine/source/mpi/interfaces/spmd_exchmsr_idel.F
+!||    spmd_exchseg_idel               ../engine/source/mpi/kinematic_conditions/spmd_exchseg_idel.F
+!||    spmd_exci                       ../engine/source/mpi/implicit/imp_spmd.F
+!||    spmd_exck                       ../engine/source/mpi/implicit/imp_spmd.F
+!||    spmd_exsum_fb6                  ../engine/source/mpi/generic/spmd_exsum_fb6.F
+!||    spmd_failwave_boundaries        ../engine/source/mpi/output/spmd_exch_failwave.F
+!||    spmd_fl_sum                     ../engine/source/mpi/generic/spmd_fl_sum.F
+!||    spmd_flush_accel                ../engine/source/mpi/output/spmd_flush_accel.F
+!||    spmd_fr_poff                    ../engine/source/mpi/kinematic_conditions/spmd_fr_poff.F
+!||    spmd_frwall_nn                  ../engine/source/mpi/kinematic_conditions/spmd_frwall_nn.F
+!||    spmd_fvb_adim                   ../engine/source/mpi/anim/spmd_fvb_adim.F
+!||    spmd_fvb_aelf                   ../engine/source/mpi/anim/spmd_fvb_aelf.F
+!||    spmd_fvb_amax                   ../engine/source/mpi/anim/spmd_fvb_amax.F
+!||    spmd_fvb_amon                   ../engine/source/mpi/anim/spmd_fvb_amon.F
+!||    spmd_fvb_anod                   ../engine/source/mpi/anim/spmd_fvb_anod.F
+!||    spmd_fvb_anum                   ../engine/source/mpi/anim/spmd_fvb_anum.F
+!||    spmd_fvb_aoff                   ../engine/source/mpi/anim/spmd_fvb_aoff.F
+!||    spmd_fvb_apar                   ../engine/source/mpi/anim/spmd_fvb_apar.F
+!||    spmd_fvb_asub1                  ../engine/source/mpi/anim/spmd_fvb_asub1.F
+!||    spmd_fvb_asub2                  ../engine/source/mpi/anim/spmd_fvb_asub2.F
+!||    spmd_fvb_atit                   ../engine/source/mpi/anim/spmd_fvb_atit.F
+!||    spmd_fvb_atr                    ../engine/source/mpi/anim/spmd_fvb_atr.F
+!||    spmd_fvb_avec                   ../engine/source/mpi/anim/spmd_fvb_avec.F
+!||    spmd_fvb_scat_num_noda          ../engine/source/mpi/anim/spmd_fvb_scat_num_noda.F
+!||    spmd_fxb_cin                    ../engine/source/mpi/kinematic_conditions/spmd_fxb_cin.F
+!||    spmd_fxb_for                    ../engine/source/mpi/kinematic_conditions/spmd_fxb_for.F
+!||    spmd_fxb_for_pon                ../engine/source/mpi/kinematic_conditions/spmd_fxb_for_pon.F
+!||    spmd_gath_collective            ../engine/source/mpi/generic/spmd_gath_collective.F
+!||    spmd_gather_dtnoda              ../engine/source/mpi/generic/spmd_gather_dtnoda.F
+!||    spmd_gather_int                 ../engine/source/mpi/generic/spmd_gather_int.F
+!||    spmd_gather_sph                 ../engine/source/mpi/anim/spmd_gather_sph.F
+!||    spmd_gather_wa                  ../engine/source/mpi/anim/spmd_gather_wa.F
+!||    spmd_gather_xyz16               ../engine/source/mpi/anim/spmd_gather_xyz16.F
+!||    spmd_gatherf                    ../engine/source/mpi/anim/spmd_gatherf.F
+!||    spmd_gatheritab                 ../engine/source/mpi/anim/spmd_gatheritab.F
+!||    spmd_gatheritab_crk             ../engine/source/mpi/anim/spmd_gatheritab_crk.F
+!||    spmd_gatherv                    ../engine/source/mpi/generic/spmd_gatherv.F
+!||    spmd_gatherv_int                ../engine/source/mpi/generic/spmd_gatherv_int.F
+!||    spmd_get_mult                   ../engine/source/mpi/lag_multipliers/spmd_lag.F
+!||    spmd_gg_mult                    ../engine/source/mpi/lag_multipliers/spmd_lag.F
+!||    spmd_glob_dpsum                 ../engine/source/mpi/interfaces/spmd_th.F
+!||    spmd_glob_dpsum9                ../engine/source/mpi/interfaces/spmd_th.F
+!||    spmd_glob_dsum                  ../engine/source/mpi/interfaces/spmd_th.F
+!||    spmd_glob_dsum9                 ../engine/source/mpi/interfaces/spmd_th.F
+!||    spmd_glob_fsum                  ../engine/source/mpi/interfaces/spmd_th.F
+!||    spmd_glob_fsum9                 ../engine/source/mpi/interfaces/spmd_th.F
+!||    spmd_glob_imax9                 ../engine/source/mpi/generic/spmd_glob_imax9.F
+!||    spmd_glob_isum9                 ../engine/source/mpi/interfaces/spmd_th.F
+!||    spmd_glob_lmax                  ../engine/source/mpi/ams/spmd_sms.F
+!||    spmd_glob_lmin                  ../engine/source/mpi/ams/spmd_sms.F
+!||    spmd_glob_max                   ../engine/source/mpi/interfaces/spmd_th.F
+!||    spmd_glob_min                   ../engine/source/mpi/interfaces/spmd_th.F
+!||    spmd_glob_min5                  ../engine/source/mpi/generic/spmd_glob_min5.F
+!||    spmd_glob_minv                  ../engine/source/mpi/generic/spmd_glob_minv.F
+!||    spmd_glob_rsum_poff             ../engine/source/mpi/generic/spmd_glob_rsum_poff.F
+!||    spmd_h3d_gather_i               ../engine/source/output/h3d/spmd/spmd_h3d_gather_i.F
+!||    spmd_h3d_gather_i_node          ../engine/source/output/h3d/spmd/spmd_h3d_gather_i_node.F
+!||    spmd_h3d_gather_i_node_part     ../engine/source/output/h3d/spmd/spmd_h3d_gather_i_node_part.F
+!||    spmd_h3d_gather_r               ../engine/source/output/h3d/spmd/spmd_h3d_gather_r.F
+!||    spmd_h3d_gather_r_nodal_value   ../engine/source/output/h3d/spmd/spmd_h3d_gather_r_nodal_value.F
+!||    spmd_h3d_gather_r_node          ../engine/source/output/h3d/spmd/spmd_h3d_gather_r_node.F
+!||    spmd_h3d_gather_t_node          ../engine/source/output/h3d/spmd/spmd_h3d_gather_t_node.F
+!||    spmd_h3d_getmsr                 ../engine/source/output/h3d/spmd/spmd_h3d_getmsr.F
+!||    spmd_h3d_getmsr_update          ../engine/source/output/h3d/spmd/spmd_h3d_getmsr_update.F
+!||    spmd_h3d_max_r_nodal_value      ../engine/source/output/h3d/spmd/spmd_h3d_gather_r_nodal_value.F
+!||    spmd_h3d_max_r_nodal_value_21   ../engine/source/output/h3d/spmd/spmd_h3d_gather_r_nodal_value.F
+!||    spmd_h3d_sum_r_nodal            ../engine/source/output/h3d/spmd/spmd_h3d_gather_r_node.F
+!||    spmd_h3d_sum_r_nodal_21         ../engine/source/output/h3d/spmd/spmd_h3d_gather_r_node.F
+!||    spmd_h3d_sum_r_nodal_value      ../engine/source/output/h3d/spmd/spmd_h3d_sum_r_nodal_value.F
+!||    spmd_i17frots_pon               ../engine/source/mpi/interfaces/spmd_i17frots_pon.F
+!||    spmd_i18kine_com_a              ../engine/source/mpi/interfaces/spmd_i18kine_com_a.F
+!||    spmd_i18kine_com_acc            ../engine/source/mpi/interfaces/spmd_i18kine_com_acc.F
+!||    spmd_i18kine_com_ms             ../engine/source/mpi/interfaces/spmd_i18kine_com_ms.F
+!||    spmd_i18kine_com_v              ../engine/source/mpi/interfaces/spmd_i18kine_com_v.F
+!||    spmd_i18kine_macc_com_poff      ../engine/source/mpi/interfaces/spmd_i18kine_macc_com_poff.F
+!||    spmd_i18kine_msf_com_poff       ../engine/source/mpi/interfaces/spmd_i18kine_msf_com_poff.F
+!||    spmd_i18kine_pene_com_poff      ../engine/source/mpi/interfaces/spmd_i18kine_pene_com_poff.F
+!||    spmd_i20curvsz                  ../engine/source/mpi/interfaces/spmd_i20curvsz.F
+!||    spmd_i20exch_n                  ../engine/source/mpi/interfaces/spmd_i20exch_n.F
+!||    spmd_i20normf                   ../engine/source/mpi/interfaces/spmd_i20normf.F
+!||    spmd_i21crit                    ../engine/source/mpi/interfaces/spmd_i21crit.F
+!||    spmd_i25_slide_exch             ../engine/source/mpi/interfaces/spmd_i25slide.F
+!||    spmd_i25_slide_gat              ../engine/source/mpi/interfaces/spmd_i25slide.F
+!||    spmd_i25front_init              ../engine/source/mpi/interfaces/spmd_i25front.F
+!||    spmd_i25front_nor               ../engine/source/mpi/interfaces/spmd_i25front.F
+!||    spmd_i2d                        ../engine/source/mpi/implicit/imp_spmd.F
+!||    spmd_i7curvcom                  ../engine/source/mpi/interfaces/spmd_i7curvcom.F
+!||    spmd_i7curvsz                   ../engine/source/mpi/interfaces/spmd_i7curvsz.F
+!||    spmd_i7fcom_poff                ../engine/source/mpi/forces/spmd_i7fcom_poff.F
+!||    spmd_i7fcom_pon                 ../engine/source/mpi/forces/spmd_i7fcom_pon.F
+!||    spmd_i7itied_cand               ../engine/source/mpi/interfaces/spmd_i7itied_cand.F
+!||    spmd_i7xvcom2                   ../engine/source/mpi/interfaces/spmd_i7xvcom2.F
+!||    spmd_i8_commslv                 ../engine/source/mpi/interfaces/spmd_i8tool.F
+!||    spmd_i8_iloc                    ../engine/source/mpi/interfaces/spmd_i8tool.F
+!||    spmd_i8_index                   ../engine/source/mpi/interfaces/spmd_i8tool.F
+!||    spmd_i8_irtl                    ../engine/source/mpi/interfaces/spmd_i8tool.F
+!||    spmd_i8_reduce                  ../engine/source/mpi/interfaces/spmd_i8tool.F
+!||    spmd_i8_updbuf                  ../engine/source/mpi/interfaces/spmd_i8tool.F
+!||    spmd_ibcast                     ../engine/source/mpi/generic/spmd_ibcast.F
+!||    spmd_icol                       ../engine/source/mpi/implicit/imp_spmd.F
+!||    spmd_ifc1                       ../engine/source/mpi/implicit/imp_spmd.F
+!||    spmd_ifcd                       ../engine/source/mpi/implicit/imp_spmd.F
+!||    spmd_ifcf                       ../engine/source/mpi/implicit/imp_spmd.F
+!||    spmd_ifrf                       ../engine/source/mpi/implicit/imp_spmd.F
+!||    spmd_ifrf_gpu                   ../engine/source/mpi/implicit/imp_spmd.F
+!||    spmd_ifri                       ../engine/source/mpi/implicit/imp_spmd.F
+!||    spmd_ifront                     ../engine/source/mpi/interfaces/spmd_ifront.F
+!||    spmd_ifru                       ../engine/source/mpi/implicit/imp_spmd.F
+!||    spmd_ifru_gpu                   ../engine/source/mpi/implicit/imp_spmd.F
+!||    spmd_igath                      ../engine/source/mpi/anim/spmd_igath.F
+!||    spmd_iget_partn                 ../engine/source/mpi/anim/spmd_iget_partn.F
+!||    spmd_iget_partn_ply             ../engine/source/mpi/anim/spmd_iget_partn_ply.F
+!||    spmd_iget_partn_sta             ../engine/source/mpi/output/spmd_stat.F
+!||    spmd_iglob_partn                ../engine/source/mpi/anim/spmd_iglob_partn.F
+!||    spmd_inf_g                      ../engine/source/mpi/implicit/imp_spmd.F
+!||    spmd_inis                       ../engine/source/mpi/implicit/imp_spmd.F
+!||    spmd_inisl                      ../engine/source/mpi/implicit/imp_spmd.F
+!||    spmd_init_idel                  ../engine/source/mpi/interfaces/spmd_init_idel.F
+!||    spmd_int18_law151_pon           ../engine/source/mpi/forces/spmd_int18_law151_pon.F
+!||    spmd_int_allreduce_max          ../engine/source/mpi/implicit/imp_spmd.F
+!||    spmd_irecv_double               ../engine/source/mpi/spmd_irecv.F90
+!||    spmd_irecv_doubles              ../engine/source/mpi/spmd_irecv.F90
+!||    spmd_irecv_int                  ../engine/source/mpi/spmd_irecv.F90
+!||    spmd_irecv_ints                 ../engine/source/mpi/spmd_irecv.F90
+!||    spmd_irecv_real                 ../engine/source/mpi/spmd_irecv.F90
+!||    spmd_irecv_reals                ../engine/source/mpi/spmd_irecv.F90
+!||    spmd_isend_double               ../engine/source/mpi/spmd_isend.F90
+!||    spmd_isend_doubles              ../engine/source/mpi/spmd_isend.F90
+!||    spmd_isend_int                  ../engine/source/mpi/spmd_isend.F90
+!||    spmd_isend_ints                 ../engine/source/mpi/spmd_isend.F90
+!||    spmd_isend_real                 ../engine/source/mpi/spmd_isend.F90
+!||    spmd_isend_reals                ../engine/source/mpi/spmd_isend.F90
+!||    spmd_isr                        ../engine/source/mpi/implicit/imp_spmd.F
+!||    spmd_istat_gath                 ../engine/source/mpi/output/spmd_stat.F
+!||    spmd_iwlg                       ../engine/source/mpi/implicit/spmd_dsreso.F
+!||    spmd_kill                       ../engine/source/mpi/init/spmd_kill.F
+!||    spmd_lagbounds_exch_i22         ../engine/source/mpi/interfaces/spmd_lagbounds_exch_i22.F
+!||    spmd_list_sms                   ../engine/source/mpi/ams/spmd_sms.F
+!||    spmd_max_f                      ../engine/source/mpi/implicit/imp_spmd.F
+!||    spmd_max_i                      ../engine/source/mpi/implicit/imp_spmd.F
+!||    spmd_max_ii                     ../engine/source/mpi/implicit/imp_spmd.F
+!||    spmd_max_iv                     ../engine/source/mpi/implicit/imp_spmd.F
+!||    spmd_max_s                      ../engine/source/mpi/implicit/imp_spmd.F
+!||    spmd_max_xfe_i                  ../engine/source/mpi/elements/spmd_xfem.F
+!||    spmd_mij_sms                    ../engine/source/mpi/ams/spmd_sms.F
+!||    spmd_min_i                      ../engine/source/mpi/implicit/imp_spmd.F
+!||    spmd_min_max                    ../engine/source/mpi/anim/spmd_min_max.F
+!||    spmd_min_s                      ../engine/source/mpi/implicit/imp_spmd.F
+!||    spmd_mod                        ../engine/source/mpi/spmd_mod.F90
+!||    spmd_mstop                      ../engine/source/mpi/init/spmd_mstop.F
+!||    spmd_mumps_count                ../engine/source/mpi/implicit/imp_spmd.F
+!||    spmd_mumps_deal                 ../engine/source/mpi/implicit/imp_spmd.F
+!||    spmd_mumps_exec                 ../engine/source/mpi/implicit/imp_spmd.F
+!||    spmd_mumps_flush                ../engine/source/mpi/implicit/imp_spmd.F
+!||    spmd_mumps_front                ../engine/source/mpi/implicit/imp_spmd.F
+!||    spmd_mumps_gath                 ../engine/source/mpi/implicit/imp_spmd.F
+!||    spmd_mumps_ini                  ../engine/source/mpi/implicit/imp_spmd.F
+!||    spmd_mumps_rhs                  ../engine/source/mpi/implicit/imp_spmd.F
+!||    spmd_n_ref                      ../engine/source/mpi/implicit/imp_spmd.F
+!||    spmd_nddlig                     ../engine/source/mpi/implicit/imp_spmd.F
+!||    spmd_ndof                       ../engine/source/mpi/implicit/imp_spmd.F
+!||    spmd_nlist_sms                  ../engine/source/mpi/ams/spmd_sms.F
+!||    spmd_nndft_sms                  ../engine/source/mpi/ams/spmd_sms.F
+!||    spmd_nnz_sms                    ../engine/source/mpi/ams/spmd_sms.F
+!||    spmd_nrow                       ../engine/source/mpi/implicit/imp_spmd.F
+!||    spmd_out                        ../engine/source/mpi/spmd_error.F90
+!||    spmd_outpitab                   ../engine/source/mpi/interfaces/spmd_outp.F
+!||    spmd_part_com                   ../engine/source/mpi/interfaces/spmd_th.F
+!||    spmd_printcpuinfo               ../engine/source/mpi/output/spmd_printcpuinfo.F
+!||    spmd_r2r_idef                   ../engine/source/mpi/r2r/spmd_r2r.F
+!||    spmd_r2r_iget                   ../engine/source/mpi/r2r/spmd_r2r.F
+!||    spmd_r2r_iget2                  ../engine/source/mpi/r2r/spmd_r2r.F
+!||    spmd_r2r_iget4                  ../engine/source/mpi/r2r/spmd_r2r.F
+!||    spmd_r2r_rby                    ../engine/source/mpi/r2r/spmd_r2r.F
+!||    spmd_r2r_rget                   ../engine/source/mpi/r2r/spmd_r2r.F
+!||    spmd_r2r_rget3                  ../engine/source/mpi/r2r/spmd_r2r.F
+!||    spmd_r2r_rget3_dp               ../engine/source/mpi/r2r/spmd_r2r.F
+!||    spmd_r2r_rset                   ../engine/source/mpi/r2r/spmd_r2r.F
+!||    spmd_r2r_rset3                  ../engine/source/mpi/r2r/spmd_r2r.F
+!||    spmd_r2r_rset3b                 ../engine/source/mpi/r2r/spmd_r2r.F
+!||    spmd_r2r_rset4                  ../engine/source/mpi/r2r/spmd_r2r.F
+!||    spmd_r2r_sync                   ../engine/source/mpi/r2r/spmd_r2r.F
+!||    spmd_r2r_tagel                  ../engine/source/mpi/r2r/spmd_r2r.F
+!||    spmd_r4get_partn                ../engine/source/mpi/anim/spmd_r4get_partn.F
+!||    spmd_rbcast                     ../engine/source/mpi/generic/spmd_rbcast.F
+!||    spmd_recv_double                ../engine/source/mpi/spmd_recv.F90
+!||    spmd_recv_doubles               ../engine/source/mpi/spmd_recv.F90
+!||    spmd_recv_doubles2d             ../engine/source/mpi/spmd_recv.F90
+!||    spmd_recv_int                   ../engine/source/mpi/spmd_recv.F90
+!||    spmd_recv_ints                  ../engine/source/mpi/spmd_recv.F90
+!||    spmd_recv_real                  ../engine/source/mpi/spmd_recv.F90
+!||    spmd_recv_reals                 ../engine/source/mpi/spmd_recv.F90
+!||    spmd_recv_reals2d               ../engine/source/mpi/spmd_recv.F90
+!||    spmd_reduce_db                  ../engine/source/mpi/generic/spmd_reduce_db.F
+!||    spmd_rgather9                   ../engine/source/mpi/interfaces/spmd_outp.F
+!||    spmd_rgather9_1comm             ../engine/source/mpi/interfaces/spmd_outp.F
+!||    spmd_rgather9_dp                ../engine/source/mpi/interfaces/spmd_outp.F
+!||    spmd_rst_check                  ../engine/source/mpi/init/spmd_rst_check.F
+!||    spmd_sd_acc                     ../engine/source/mpi/output/spmd_sd_acc.F
+!||    spmd_sd_cj_0                    ../engine/source/mpi/kinematic_conditions/spmd_sd_cj_0.F
+!||    spmd_sd_cj_1                    ../engine/source/mpi/kinematic_conditions/spmd_sd_cj_1.F
+!||    spmd_sd_cj_2                    ../engine/source/mpi/kinematic_conditions/spmd_sd_cj_2.F
+!||    spmd_sd_cut                     ../engine/source/mpi/sections/spmd_section.F
+!||    spmd_sd_gau                     ../engine/source/mpi/output/spmd_sd_gau.F
+!||    spmd_sd_gaug                    ../engine/source/mpi/output/spmd_sd_gaug.F
+!||    spmd_sd_sens                    ../engine/source/mpi/output/spmd_sd_sens.F
+!||    spmd_sd_skw                     ../engine/source/mpi/output/spmd_sd_skw.F
+!||    spmd_sd_skw_anim                ../engine/source/mpi/output/spmd_sd_skw.F
+!||    spmd_sd_xv                      ../engine/source/mpi/nodes/spmd_sd_xv.F
+!||    spmd_send_double                ../engine/source/mpi/spmd_send.F90
+!||    spmd_send_doubles               ../engine/source/mpi/spmd_send.F90
+!||    spmd_send_int                   ../engine/source/mpi/spmd_send.F90
+!||    spmd_send_ints                  ../engine/source/mpi/spmd_send.F90
+!||    spmd_send_real                  ../engine/source/mpi/spmd_send.F90
+!||    spmd_send_reals                 ../engine/source/mpi/spmd_send.F90
+!||    spmd_send_vi                    ../engine/source/mpi/implicit/imp_spmd.F
+!||    spmd_send_vr                    ../engine/source/mpi/implicit/imp_spmd.F
+!||    spmd_sg_fani                    ../engine/source/mpi/lag_multipliers/spmd_lag.F
+!||    spmd_sg_mult                    ../engine/source/mpi/lag_multipliers/spmd_lag.F
+!||    spmd_sort_sms                   ../engine/source/mpi/ams/spmd_sms.F
+!||    spmd_spamaj                     ../engine/source/mpi/sph/spmd_spamaj.F
+!||    spmd_sphgat                     ../engine/source/mpi/sph/spmd_sphgat.F
+!||    spmd_sphgetv                    ../engine/source/mpi/sph/spmd_sphgetv.F
+!||    spmd_sphvox                     ../engine/source/mpi/sph/spmd_sphvox.F
+!||    spmd_split_comm                 ../engine/source/mpi/init/spmd_split_comm.F
+!||    spmd_split_comm_inter           ../engine/source/mpi/interfaces/spmd_split_comm_inter.F
+!||    spmd_split_comm_joint           ../engine/source/mpi/init/spmd_split_comm_joint.F
+!||    spmd_stat_pgather               ../engine/source/mpi/output/spmd_stat.F
+!||    spmd_state_inimap1d_exch_data   ../engine/source/output/sta/spmd_state_inimap1d_exch_data.F
+!||    spmd_state_inimap2d_exch_data   ../engine/source/output/sta/spmd_state_inimap2d_exch_data.F
+!||    spmd_state_inimap_exch_siz      ../engine/source/output/sta/spmd_state_inimap_exch_siz.F
+!||    spmd_sub_boundaries             ../engine/source/mpi/spmd_exch_sub.F
+!||    spmd_sum_s                      ../engine/source/mpi/implicit/imp_spmd.F
+!||    spmd_sum_s2                     ../engine/source/mpi/implicit/imp_spmd.F
+!||    spmd_sumax                      ../engine/source/mpi/generic/spmd_sumax.F
+!||    spmd_sumf_a                     ../engine/source/mpi/implicit/imp_spmd.F
+!||    spmd_sumf_k                     ../engine/source/mpi/implicit/imp_spmd.F
+!||    spmd_sumf_v                     ../engine/source/mpi/implicit/imp_spmd.F
+!||    spmd_sumfc_v                    ../engine/source/mpi/implicit/imp_spmd.F
+!||    spmd_sync_mmx                   ../engine/source/mpi/interfaces/spmd_sync_mmx.F
+!||    spmd_tri17box                   ../engine/source/mpi/interfaces/spmd_tri17box.F
+!||    spmd_tri20box                   ../engine/source/mpi/interfaces/spmd_tri20box.F
+!||    spmd_tri20boxe                  ../engine/source/mpi/interfaces/spmd_tri20boxe.F
+!||    spmd_tri22vox                   ../engine/source/mpi/interfaces/spmd_tri22vox.F
+!||    spmd_tri7vox_optimized          ../engine/source/mpi/interfaces/spmd_tri7vox_optimized.F
+!||    spmd_vchgrid                    ../engine/source/mpi/implicit/imp_spmd.F
+!||    spmd_velvec2                    ../engine/source/mpi/anim/spmd_velvec2.F
+!||    spmd_vgath                      ../engine/source/mpi/anim/spmd_vgath.F
+!||    spmd_vgath_err                  ../engine/source/mpi/anim/spmd_vgath_err.F
+!||    spmd_wiout                      ../engine/source/mpi/generic/spmd_wiout.F
+!||    spmd_wrt_crk_xyznod             ../engine/source/mpi/anim/spmd_wrt_crk_xyznod.F
+!||    spmd_wrt_crk_xyznor             ../engine/source/mpi/anim/spmd_wrt_crk_xyznor.F
+!||    spmd_wrt_cutd                   ../engine/source/mpi/sections/spmd_section.F
+!||    spmd_wrt_cutf                   ../engine/source/mpi/sections/spmd_section.F
+!||    spmd_wrt_xyznod                 ../engine/source/mpi/anim/spmd_wrt_xyznod.F
+!||    spmd_wrt_xyznor                 ../engine/source/mpi/anim/spmd_wrt_xyznor.F
+!||    spmd_x_section                  ../engine/source/mpi/sections/spmd_section.F
+!||    switch_to_dtnoda                ../engine/source/time_step/switch_to_dtnoda.F
+!||    terminate                       ../engine/share/modules/linear_solver_mod.F
+!||    terminate_cg                    ../engine/share/modules/linear_solver_mod.F
+!||    terminate_diffusion             ../engine/share/modules/diffusion_mod.F
+!||    terminate_mumps                 ../engine/share/modules/linear_solver_mod.F
+!||    upcase                          ../engine/source/engine/execargcheck.F
+!||====================================================================
          module spmd_comm_world_mod
             implicit none
             integer :: spmd_comm_world

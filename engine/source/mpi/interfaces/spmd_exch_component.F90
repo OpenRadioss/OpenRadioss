@@ -20,11 +20,11 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    spmd_exchange_component_mod   ../engine/source/mpi/interfaces/spmd_exch_component.F90
-      !||--- called by ------------------------------------------------------
-      !||    inter_prepare_sort            ../engine/source/interfaces/generic/inter_prepare_sort.F
-      !||====================================================================
+!||====================================================================
+!||    spmd_exchange_component_mod   ../engine/source/mpi/interfaces/spmd_exch_component.F90
+!||--- called by ------------------------------------------------------
+!||    inter_prepare_sort            ../engine/source/interfaces/generic/inter_prepare_sort.F
+!||====================================================================
       module spmd_exchange_component_mod
       contains
 ! ======================================================================================================================
@@ -32,17 +32,17 @@
 ! ======================================================================================================================
 !! \brief Here is a small description of the routine, [after the header]
 !! \details if needed, more details can be added here
-      !||====================================================================
-      !||    spmd_exchange_component   ../engine/source/mpi/interfaces/spmd_exch_component.F90
-      !||--- called by ------------------------------------------------------
-      !||    inter_prepare_sort        ../engine/source/interfaces/generic/inter_prepare_sort.F
-      !||--- calls      -----------------------------------------------------
-      !||    spmd_waitany              ../engine/source/mpi/spmd_wait.F90
-      !||--- uses       -----------------------------------------------------
-      !||    constant_mod              ../common_source/modules/constant_mod.F
-      !||    inter_sorting_mod         ../engine/share/modules/inter_sorting_mod.F
-      !||    spmd_mod                  ../engine/source/mpi/spmd_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    spmd_exchange_component   ../engine/source/mpi/interfaces/spmd_exch_component.F90
+!||--- called by ------------------------------------------------------
+!||    inter_prepare_sort        ../engine/source/interfaces/generic/inter_prepare_sort.F
+!||--- calls      -----------------------------------------------------
+!||    spmd_waitany              ../engine/source/mpi/spmd_wait.F90
+!||--- uses       -----------------------------------------------------
+!||    constant_mod              ../common_source/modules/constant_mod.F
+!||    inter_sorting_mod         ../engine/share/modules/inter_sorting_mod.F
+!||    spmd_mod                  ../engine/source/mpi/spmd_mod.F90
+!||====================================================================
         subroutine spmd_exchange_component(mode,nspmd,component)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules

@@ -20,18 +20,18 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    lossfun_98             ../starter/source/materials/mat/mat098/lossfun_98.F
-      !||--- calls      -----------------------------------------------------
-      !||    calc_uniax             ../starter/source/materials/mat/mat098/lossfun_98.F
-      !||    calc_uniax_2           ../starter/source/materials/mat/mat098/lossfun_98.F
-      !||    fct_fiber              ../starter/source/materials/mat/mat098/lossfun_98.F
-      !||    fct_fiber_2            ../starter/source/materials/mat/mat098/lossfun_98.F
-      !||    finter                 ../starter/source/tools/curve/finter.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod            ../starter/share/message_module/message_mod.F
-      !||    table_mod              ../starter/share/modules1/table_mod.F
-      !||====================================================================
+!||====================================================================
+!||    lossfun_98             ../starter/source/materials/mat/mat098/lossfun_98.F
+!||--- calls      -----------------------------------------------------
+!||    calc_uniax             ../starter/source/materials/mat/mat098/lossfun_98.F
+!||    calc_uniax_2           ../starter/source/materials/mat/mat098/lossfun_98.F
+!||    fct_fiber              ../starter/source/materials/mat/mat098/lossfun_98.F
+!||    fct_fiber_2            ../starter/source/materials/mat/mat098/lossfun_98.F
+!||    finter                 ../starter/source/tools/curve/finter.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod            ../starter/share/message_module/message_mod.F
+!||    table_mod              ../starter/share/modules1/table_mod.F
+!||====================================================================
       SUBROUTINE LOSSFUN_98(NVAR,NDC,X,FUN,DFUN,CONS,DCONS,IGOTO,
      .                    NPC,PLD ,IFUNC,NFUNC,UPARAM,LENC,LENT,
      .                    XBIA,NPTBI,ISYM )
@@ -370,14 +370,14 @@ c-----------
       END
 
 
-      !||====================================================================
-      !||    calc_uniax    ../starter/source/materials/mat/mat098/lossfun_98.F
-      !||--- called by ------------------------------------------------------
-      !||    lossfun_98    ../starter/source/materials/mat/mat098/lossfun_98.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod   ../starter/share/message_module/message_mod.F
-      !||    table_mod     ../starter/share/modules1/table_mod.F
-      !||====================================================================
+!||====================================================================
+!||    calc_uniax    ../starter/source/materials/mat/mat098/lossfun_98.F
+!||--- called by ------------------------------------------------------
+!||    lossfun_98    ../starter/source/materials/mat/mat098/lossfun_98.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod   ../starter/share/message_module/message_mod.F
+!||    table_mod     ../starter/share/modules1/table_mod.F
+!||====================================================================
       SUBROUTINE CALC_UNIAX(EC,XFIB,YFIB,SIZEPN,DC0,HC0,
      .           YFAC,FLEX,STRETCH,SIGC)
 !           CALL  CALC_UNIAX(EC,XFIB,YFIB,NPT,DC0,HC0,
@@ -477,16 +477,16 @@ C
       RETURN
       END      
 
-      !||====================================================================
-      !||    fct_fiber_2   ../starter/source/materials/mat/mat098/lossfun_98.F
-      !||--- called by ------------------------------------------------------
-      !||    lossfun_98    ../starter/source/materials/mat/mat098/lossfun_98.F
-      !||--- calls      -----------------------------------------------------
-      !||    finter        ../starter/source/tools/curve/finter.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod   ../starter/share/message_module/message_mod.F
-      !||    table_mod     ../starter/share/modules1/table_mod.F
-      !||====================================================================
+!||====================================================================
+!||    fct_fiber_2   ../starter/source/materials/mat/mat098/lossfun_98.F
+!||--- called by ------------------------------------------------------
+!||    lossfun_98    ../starter/source/materials/mat/mat098/lossfun_98.F
+!||--- calls      -----------------------------------------------------
+!||    finter        ../starter/source/tools/curve/finter.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod   ../starter/share/message_module/message_mod.F
+!||    table_mod     ../starter/share/modules1/table_mod.F
+!||====================================================================
       SUBROUTINE FCT_FIBER_2(NPC,PLD ,IDN1,IDN2,YFAC1,YFAC2,
      .           XBIA,NPTBI,KFC,KFT,DC0,HC0,DT0,HT0,XCFIB,YCFIB,XTFIB,YTFIB )
 C-----------------------------------------------
@@ -571,14 +571,14 @@ c-----------
       RETURN
       END 
 
-      !||====================================================================
-      !||    fct_fiber     ../starter/source/materials/mat/mat098/lossfun_98.F
-      !||--- called by ------------------------------------------------------
-      !||    lossfun_98    ../starter/source/materials/mat/mat098/lossfun_98.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod   ../starter/share/message_module/message_mod.F
-      !||    table_mod     ../starter/share/modules1/table_mod.F
-      !||====================================================================
+!||====================================================================
+!||    fct_fiber     ../starter/source/materials/mat/mat098/lossfun_98.F
+!||--- called by ------------------------------------------------------
+!||    lossfun_98    ../starter/source/materials/mat/mat098/lossfun_98.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod   ../starter/share/message_module/message_mod.F
+!||    table_mod     ../starter/share/modules1/table_mod.F
+!||====================================================================
       SUBROUTINE FCT_FIBER(NPC,PLD ,IDN,SIZEPN,DC0,HC0,XFIB,YFIB)
 C-----------------------------------------------
 C   M o d u l e s
@@ -618,14 +618,14 @@ c-----------
       RETURN
       END 
 
-      !||====================================================================
-      !||    calc_uniax_2   ../starter/source/materials/mat/mat098/lossfun_98.F
-      !||--- called by ------------------------------------------------------
-      !||    lossfun_98     ../starter/source/materials/mat/mat098/lossfun_98.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod    ../starter/share/message_module/message_mod.F
-      !||    table_mod      ../starter/share/modules1/table_mod.F
-      !||====================================================================
+!||====================================================================
+!||    calc_uniax_2   ../starter/source/materials/mat/mat098/lossfun_98.F
+!||--- called by ------------------------------------------------------
+!||    lossfun_98     ../starter/source/materials/mat/mat098/lossfun_98.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod    ../starter/share/message_module/message_mod.F
+!||    table_mod      ../starter/share/modules1/table_mod.F
+!||====================================================================
       SUBROUTINE CALC_UNIAX_2(EC,XFIB,YFIB,SIZEPN,DC0,HC0,
      .           YFAC,FLEX1,FLEX2,EMBC ,SIGC)
 !        CALL  CALC_UNIAX_2(EC(I),XCFIB,YCFIB,LENC,DC0,HC0,

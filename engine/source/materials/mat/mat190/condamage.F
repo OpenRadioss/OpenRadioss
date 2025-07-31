@@ -21,23 +21,23 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 c-----------------------------------------------
-      !||====================================================================
-      !||    condamage_mod   ../engine/source/materials/mat/mat190/condamage.F
-      !||--- called by ------------------------------------------------------
-      !||    sigeps190       ../engine/source/materials/mat/mat190/sigeps190.F
-      !||====================================================================
+!||====================================================================
+!||    condamage_mod   ../engine/source/materials/mat/mat190/condamage.F
+!||--- called by ------------------------------------------------------
+!||    sigeps190       ../engine/source/materials/mat/mat190/sigeps190.F
+!||====================================================================
        MODULE CONDAMAGE_MOD
        CONTAINS 
-      !||====================================================================
-      !||    condamage               ../engine/source/materials/mat/mat190/condamage.F
-      !||--- called by ------------------------------------------------------
-      !||    sigeps190               ../engine/source/materials/mat/mat190/sigeps190.F
-      !||--- calls      -----------------------------------------------------
-      !||    table_mat_vinterp       ../engine/source/materials/tools/table_mat_vinterp.F
-      !||--- uses       -----------------------------------------------------
-      !||    table4d_mod             ../common_source/modules/table4d_mod.F
-      !||    table_mat_vinterp_mod   ../engine/source/materials/tools/table_mat_vinterp.F
-      !||====================================================================
+!||====================================================================
+!||    condamage               ../engine/source/materials/mat/mat190/condamage.F
+!||--- called by ------------------------------------------------------
+!||    sigeps190               ../engine/source/materials/mat/mat190/sigeps190.F
+!||--- calls      -----------------------------------------------------
+!||    table_mat_vinterp       ../engine/source/materials/tools/table_mat_vinterp.F
+!||--- uses       -----------------------------------------------------
+!||    table4d_mod             ../common_source/modules/table4d_mod.F
+!||    table_mat_vinterp_mod   ../engine/source/materials/tools/table_mat_vinterp.F
+!||====================================================================
         SUBROUTINE CONDAMAGE 
      .         (ZXX,ZYY,ZZZ,ZXY,ZZX,ZYZ,
      .         DAMAGE,NEL,HU,SHAPE,WHYSMAX,

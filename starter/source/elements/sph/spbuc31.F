@@ -20,15 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    spbuc31    ../starter/source/elements/sph/spbuc31.F
-      !||--- called by ------------------------------------------------------
-      !||    sptri      ../starter/source/elements/sph/sptri.F
-      !||--- calls      -----------------------------------------------------
-      !||    sptrivox   ../starter/source/elements/sph/sptrivox.F
-      !||--- uses       -----------------------------------------------------
-      !||    tri7box    ../starter/share/modules1/tri7box.F
-      !||====================================================================
+!||====================================================================
+!||    spbuc31    ../starter/source/elements/sph/spbuc31.F
+!||--- called by ------------------------------------------------------
+!||    sptri      ../starter/source/elements/sph/sptri.F
+!||--- calls      -----------------------------------------------------
+!||    sptrivox   ../starter/source/elements/sph/sptrivox.F
+!||--- uses       -----------------------------------------------------
+!||    tri7box    ../starter/share/modules1/tri7box.F
+!||====================================================================
       SUBROUTINE SPBUC31(X      ,KXSP  ,IXSP  ,NOD2SP,
      2                   SPBUF  ,MA    ,JVOIS ,JSTOR ,JPERM ,
      3                   DVOIS  ,IREDUCE,KREDUCE,BMINMA,IPARTSP ,
@@ -134,12 +134,12 @@ C
       RETURN
       END
 C
-      !||====================================================================
-      !||    sppro31    ../starter/source/elements/sph/spbuc31.F
-      !||--- called by ------------------------------------------------------
-      !||    sptrivox   ../starter/source/elements/sph/sptrivox.F
-      !||--- calls      -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    sppro31    ../starter/source/elements/sph/spbuc31.F
+!||--- called by ------------------------------------------------------
+!||    sptrivox   ../starter/source/elements/sph/sptrivox.F
+!||--- calls      -----------------------------------------------------
+!||====================================================================
       SUBROUTINE SPPRO31(IL    ,KXSP ,IXSP ,NOD2SP,JVOIS,
      .                  JSTOR,JPERM ,DVOIS,IREDUCE,KREDUCE)
 C-----------------------------------------------

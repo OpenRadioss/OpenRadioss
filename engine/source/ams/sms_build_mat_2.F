@@ -20,23 +20,23 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    sms_build_mat_2   ../engine/source/ams/sms_build_mat_2.F
-      !||--- called by ------------------------------------------------------
-      !||    resol             ../engine/source/engine/resol.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg            ../engine/source/output/message/message.F
-      !||    arret             ../engine/source/system/arret.F
-      !||    my_barrier        ../engine/source/system/machine.F
-      !||    sms_build_diag    ../engine/source/ams/sms_build_diag.F
-      !||    spmd_list_sms     ../engine/source/mpi/ams/spmd_sms.F
-      !||--- uses       -----------------------------------------------------
-      !||    elbufdef_mod      ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||    intbufdef_mod     ../common_source/modules/interfaces/intbufdef_mod.F90
-      !||    intstamp_mod      ../engine/share/modules/intstamp_mod.F
-      !||    message_mod       ../engine/share/message_module/message_mod.F
-      !||    my_alloc_mod      ../common_source/tools/memory/my_alloc.F90
-      !||====================================================================
+!||====================================================================
+!||    sms_build_mat_2   ../engine/source/ams/sms_build_mat_2.F
+!||--- called by ------------------------------------------------------
+!||    resol             ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg            ../engine/source/output/message/message.F
+!||    arret             ../engine/source/system/arret.F
+!||    my_barrier        ../engine/source/system/machine.F
+!||    sms_build_diag    ../engine/source/ams/sms_build_diag.F
+!||    spmd_list_sms     ../engine/source/mpi/ams/spmd_sms.F
+!||--- uses       -----------------------------------------------------
+!||    elbufdef_mod      ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    intbufdef_mod     ../common_source/modules/interfaces/intbufdef_mod.F90
+!||    intstamp_mod      ../engine/share/modules/intstamp_mod.F
+!||    message_mod       ../engine/share/message_module/message_mod.F
+!||    my_alloc_mod      ../common_source/tools/memory/my_alloc.F90
+!||====================================================================
       SUBROUTINE SMS_BUILD_MAT_2(
      1             ITASK    ,NODFT   ,NODLT  ,
      2             IXC      ,IPARG   ,IXS      ,IXT      ,IXP     ,

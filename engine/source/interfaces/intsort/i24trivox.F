@@ -20,18 +20,18 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    i24trivox       ../engine/source/interfaces/intsort/i24trivox.F
-      !||--- called by ------------------------------------------------------
-      !||    i24buce         ../engine/source/interfaces/intsort/i24buce.F
-      !||--- calls      -----------------------------------------------------
-      !||    i24fic_getn     ../engine/source/interfaces/int24/i24for3e.F
-      !||    i24sto          ../engine/source/interfaces/intsort/i24sto.F
-      !||    my_barrier      ../engine/source/system/machine.F
-      !||    spmd_oldnumcd   ../engine/source/mpi/interfaces/spmd_i7tool.F
-      !||--- uses       -----------------------------------------------------
-      !||    tri7box         ../engine/share/modules/tri7box.F
-      !||====================================================================
+!||====================================================================
+!||    i24trivox       ../engine/source/interfaces/intsort/i24trivox.F
+!||--- called by ------------------------------------------------------
+!||    i24buce         ../engine/source/interfaces/intsort/i24buce.F
+!||--- calls      -----------------------------------------------------
+!||    i24fic_getn     ../engine/source/interfaces/int24/i24for3e.F
+!||    i24sto          ../engine/source/interfaces/intsort/i24sto.F
+!||    my_barrier      ../engine/source/system/machine.F
+!||    spmd_oldnumcd   ../engine/source/mpi/interfaces/spmd_i7tool.F
+!||--- uses       -----------------------------------------------------
+!||    tri7box         ../engine/share/modules/tri7box.F
+!||====================================================================
       SUBROUTINE I24TRIVOX(
      1      NSN    ,NSNR    ,ISZNSNR ,I_MEM   ,VMAXDT   ,
      2      IRECT  ,X       ,STF     ,STFN    ,XYZM     ,

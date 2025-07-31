@@ -20,18 +20,18 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    qbilan                ../engine/source/elements/solid_2d/quad/qbilan.F
-      !||--- called by ------------------------------------------------------
-      !||    bforc2                ../engine/source/ale/bimat/bforc2.F
-      !||    q4forc2               ../engine/source/elements/solid_2d/quad4/q4forc2.F
-      !||    qforc2                ../engine/source/elements/solid_2d/quad/qforc2.F
-      !||--- calls      -----------------------------------------------------
-      !||    grelem_sav            ../engine/source/output/th/grelem_sav.F
-      !||    sensor_energy_bilan   ../engine/source/tools/sensor/sensor_energy_bilan.F
-      !||--- uses       -----------------------------------------------------
-      !||    sensor_mod            ../common_source/modules/sensor_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    qbilan                ../engine/source/elements/solid_2d/quad/qbilan.F
+!||--- called by ------------------------------------------------------
+!||    bforc2                ../engine/source/ale/bimat/bforc2.F
+!||    q4forc2               ../engine/source/elements/solid_2d/quad4/q4forc2.F
+!||    qforc2                ../engine/source/elements/solid_2d/quad/qforc2.F
+!||--- calls      -----------------------------------------------------
+!||    grelem_sav            ../engine/source/output/th/grelem_sav.F
+!||    sensor_energy_bilan   ../engine/source/tools/sensor/sensor_energy_bilan.F
+!||--- uses       -----------------------------------------------------
+!||    sensor_mod            ../common_source/modules/sensor_mod.F90
+!||====================================================================
       SUBROUTINE QBILAN(
      1   PARTSAV, OFF,     EINT,    RHO,
      2   RK,      VOL,     VY1,     VY2,

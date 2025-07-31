@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    xyznod_crk0     ../engine/source/output/anim/generate/xyznod_crk.F
-      !||--- called by ------------------------------------------------------
-      !||    genani          ../engine/source/output/anim/generate/genani.F
-      !||--- uses       -----------------------------------------------------
-      !||    crackxfem_mod   ../engine/share/modules/crackxfem_mod.F
-      !||====================================================================
+!||====================================================================
+!||    xyznod_crk0     ../engine/source/output/anim/generate/xyznod_crk.F
+!||--- called by ------------------------------------------------------
+!||    genani          ../engine/source/output/anim/generate/genani.F
+!||--- uses       -----------------------------------------------------
+!||    crackxfem_mod   ../engine/share/modules/crackxfem_mod.F
+!||====================================================================
       SUBROUTINE XYZNOD_CRK0(ILEV)
 C-----------------------------------------------
       USE CRACKXFEM_MOD        
@@ -55,16 +55,16 @@ C-----------
       RETURN
       END
 c
-      !||====================================================================
-      !||    xyznod_crk            ../engine/source/output/anim/generate/xyznod_crk.F
-      !||--- called by ------------------------------------------------------
-      !||    genani                ../engine/source/output/anim/generate/genani.F
-      !||--- calls      -----------------------------------------------------
-      !||    spmd_wrt_crk_xyznod   ../engine/source/mpi/anim/spmd_wrt_crk_xyznod.F
-      !||    write_r_c             ../common_source/tools/input_output/write_routtines.c
-      !||--- uses       -----------------------------------------------------
-      !||    crackxfem_mod         ../engine/share/modules/crackxfem_mod.F
-      !||====================================================================
+!||====================================================================
+!||    xyznod_crk            ../engine/source/output/anim/generate/xyznod_crk.F
+!||--- called by ------------------------------------------------------
+!||    genani                ../engine/source/output/anim/generate/genani.F
+!||--- calls      -----------------------------------------------------
+!||    spmd_wrt_crk_xyznod   ../engine/source/mpi/anim/spmd_wrt_crk_xyznod.F
+!||    write_r_c             ../common_source/tools/input_output/write_routtines.c
+!||--- uses       -----------------------------------------------------
+!||    crackxfem_mod         ../engine/share/modules/crackxfem_mod.F
+!||====================================================================
       SUBROUTINE XYZNOD_CRK(ICRK,NFNOD_CRKXFEMG,NODGLOBXFE)
 C-----------------------------------------------
       USE CRACKXFEM_MOD        

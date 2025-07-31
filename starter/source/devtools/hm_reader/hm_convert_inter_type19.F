@@ -20,18 +20,18 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    hm_convert_inter_type19    ../starter/source/devtools/hm_reader/hm_convert_inter_type19.F
-      !||--- called by ------------------------------------------------------
-      !||    starter0                   ../starter/source/starter/starter0.F
-      !||--- calls      -----------------------------------------------------
-      !||    hm_option_count            ../starter/source/devtools/hm_reader/hm_option_count.F
-      !||    hm_option_next             ../starter/source/devtools/hm_reader/hm_option_next.F
-      !||    hm_option_start            ../starter/source/devtools/hm_reader/hm_option_start.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod                ../starter/share/message_module/message_mod.F
-      !||    submodel_mod               ../starter/share/modules1/submodel_mod.F
-      !||====================================================================
+!||====================================================================
+!||    hm_convert_inter_type19    ../starter/source/devtools/hm_reader/hm_convert_inter_type19.F
+!||--- called by ------------------------------------------------------
+!||    starter0                   ../starter/source/starter/starter0.F
+!||--- calls      -----------------------------------------------------
+!||    hm_option_count            ../starter/source/devtools/hm_reader/hm_option_count.F
+!||    hm_option_next             ../starter/source/devtools/hm_reader/hm_option_next.F
+!||    hm_option_start            ../starter/source/devtools/hm_reader/hm_option_start.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod                ../starter/share/message_module/message_mod.F
+!||    submodel_mod               ../starter/share/modules1/submodel_mod.F
+!||====================================================================
       SUBROUTINE HM_CONVERT_INTER_TYPE19(IDMAX_INTER,IDMAX_GRNOD,IDMAX_LINE,LSUBMODEL)
 C-----------------------------------------------
 C   ROUTINE DESCRIPTION :

@@ -20,12 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    sini43         ../starter/source/elements/solid/sconnect/sini43.F
-      !||--- called by ------------------------------------------------------
-      !||    suinit3        ../starter/source/elements/elbuf_init/suinit3.F
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    sini43         ../starter/source/elements/solid/sconnect/sini43.F
+!||--- called by ------------------------------------------------------
+!||    suinit3        ../starter/source/elements/elbuf_init/suinit3.F
+!||--- uses       -----------------------------------------------------
+!||====================================================================
       SUBROUTINE SINI43(ELBUF_STR,
      1           MLW   ,NEL   ,AREA  ,VOLG  ,RHOG  ,
      2           STIFM ,STIFR ,VISCM ,VISCR ,UPARAM,

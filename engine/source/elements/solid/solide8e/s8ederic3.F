@@ -20,18 +20,18 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    s8ederic3     ../engine/source/elements/solid/solide8e/s8ederic3.F
-      !||--- called by ------------------------------------------------------
-      !||    s8eforc3      ../engine/source/elements/solid/solide8e/s8eforc3.F
-      !||    s8sforc3      ../engine/source/elements/solid/solide8s/s8sforc3.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg        ../engine/source/output/message/message.F
-      !||    arret         ../engine/source/system/arret.F
-      !||    schkjabt3     ../engine/source/elements/solid/solide4/schkjabt3.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod   ../engine/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    s8ederic3     ../engine/source/elements/solid/solide8e/s8ederic3.F
+!||--- called by ------------------------------------------------------
+!||    s8eforc3      ../engine/source/elements/solid/solide8e/s8eforc3.F
+!||    s8sforc3      ../engine/source/elements/solid/solide8s/s8sforc3.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg        ../engine/source/output/message/message.F
+!||    arret         ../engine/source/system/arret.F
+!||    schkjabt3     ../engine/source/elements/solid/solide4/schkjabt3.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod   ../engine/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE S8EDERIC3(
      1   OFF,     DET,     NGL,     X1,
      2   X2,      X3,      X4,      X5,

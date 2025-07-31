@@ -20,11 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    thquad_count   ../engine/source/output/th/thquad_count.F
-      !||--- called by ------------------------------------------------------
-      !||    init_th        ../engine/source/output/th/init_th.F
-      !||====================================================================
+!||====================================================================
+!||    thquad_count   ../engine/source/output/th/thquad_count.F
+!||--- called by ------------------------------------------------------
+!||    init_th        ../engine/source/output/th/init_th.F
+!||====================================================================
       SUBROUTINE THQUAD_COUNT(NTHGRP2 ,ITHGRP,WA_SIZE,INDEX_WA_QUAD,
      1                        IPARG,ITHBUF,SITHBUF  )
 C-----------------------------------------------

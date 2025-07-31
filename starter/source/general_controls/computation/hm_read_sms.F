@@ -20,20 +20,20 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    hm_read_sms          ../starter/source/general_controls/computation/hm_read_sms.F
-      !||--- called by ------------------------------------------------------
-      !||    contrl               ../starter/source/starter/contrl.F
-      !||--- calls      -----------------------------------------------------
-      !||    find_yield_engine    ../starter/source/general_controls/computation/hm_read_sms.F
-      !||    hm_get_intv          ../starter/source/devtools/hm_reader/hm_get_intv.F
-      !||    hm_option_count      ../starter/source/devtools/hm_reader/hm_option_count.F
-      !||    hm_option_read_key   ../starter/source/devtools/hm_reader/hm_option_read_key.F
-      !||    hm_option_start      ../starter/source/devtools/hm_reader/hm_option_start.F
-      !||--- uses       -----------------------------------------------------
-      !||    hm_option_read_mod   ../starter/share/modules1/hm_option_read_mod.F
-      !||    submodel_mod         ../starter/share/modules1/submodel_mod.F
-      !||====================================================================
+!||====================================================================
+!||    hm_read_sms          ../starter/source/general_controls/computation/hm_read_sms.F
+!||--- called by ------------------------------------------------------
+!||    contrl               ../starter/source/starter/contrl.F
+!||--- calls      -----------------------------------------------------
+!||    find_yield_engine    ../starter/source/general_controls/computation/hm_read_sms.F
+!||    hm_get_intv          ../starter/source/devtools/hm_reader/hm_get_intv.F
+!||    hm_option_count      ../starter/source/devtools/hm_reader/hm_option_count.F
+!||    hm_option_read_key   ../starter/source/devtools/hm_reader/hm_option_read_key.F
+!||    hm_option_start      ../starter/source/devtools/hm_reader/hm_option_start.F
+!||--- uses       -----------------------------------------------------
+!||    hm_option_read_mod   ../starter/share/modules1/hm_option_read_mod.F
+!||    submodel_mod         ../starter/share/modules1/submodel_mod.F
+!||====================================================================
       SUBROUTINE HM_READ_SMS(LSUBMODEL)
 C-----------------------------------------------
 C   ROUTINE DESCRIPTION :
@@ -136,15 +136,15 @@ C--------------------------------------------------
 C--------------------------------------------------
       RETURN
       END
-      !||====================================================================
-      !||    find_yield_engine   ../starter/source/general_controls/computation/hm_read_sms.F
-      !||--- called by ------------------------------------------------------
-      !||    hm_read_sms         ../starter/source/general_controls/computation/hm_read_sms.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg              ../starter/source/output/message/message.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod         ../starter/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    find_yield_engine   ../starter/source/general_controls/computation/hm_read_sms.F
+!||--- called by ------------------------------------------------------
+!||    hm_read_sms         ../starter/source/general_controls/computation/hm_read_sms.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg              ../starter/source/output/message/message.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod         ../starter/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE FIND_YIELD_ENGINE(DT_SMS_SWITCH)
       USE INOUTFILE_MOD
 C-----------------------------------------------
@@ -228,13 +228,13 @@ C
 C------------------------------------------- 
       RETURN
       END
-      !||====================================================================
-      !||    inisms         ../starter/source/general_controls/computation/hm_read_sms.F
-      !||--- called by ------------------------------------------------------
-      !||    lectur         ../starter/source/starter/lectur.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod    ../starter/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    inisms         ../starter/source/general_controls/computation/hm_read_sms.F
+!||--- called by ------------------------------------------------------
+!||    lectur         ../starter/source/starter/lectur.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod    ../starter/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE INISMS(
      .       IGRPART  ,IPARTS     ,IPARTQ   ,IPARTC  ,
      .       IPARTT   ,IPARTP     ,IPARTR   ,IPARTTG ,

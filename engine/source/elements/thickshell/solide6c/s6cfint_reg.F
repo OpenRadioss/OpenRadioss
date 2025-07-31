@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    s6cfint_reg      ../engine/source/elements/thickshell/solide6c/s6cfint_reg.F
-      !||--- called by ------------------------------------------------------
-      !||    s6cforc3         ../engine/source/elements/thickshell/solide6c/s6cforc3.F
-      !||--- uses       -----------------------------------------------------
-      !||    elbufdef_mod     ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||    nlocal_reg_mod   ../common_source/modules/nlocal_reg_mod.F
-      !||====================================================================
+!||====================================================================
+!||    s6cfint_reg      ../engine/source/elements/thickshell/solide6c/s6cfint_reg.F
+!||--- called by ------------------------------------------------------
+!||    s6cforc3         ../engine/source/elements/thickshell/solide6c/s6cforc3.F
+!||--- uses       -----------------------------------------------------
+!||    elbufdef_mod     ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    nlocal_reg_mod   ../common_source/modules/nlocal_reg_mod.F
+!||====================================================================
       SUBROUTINE S6CFINT_REG(
      1   NLOC_DMG,VAR_REG, NEL,     OFF,
      2   VOL,     NC1,     NC2,     NC3,

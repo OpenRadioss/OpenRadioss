@@ -20,19 +20,19 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    sigeps52              ../engine/source/materials/mat/mat052/sigeps52.F
-      !||--- called by ------------------------------------------------------
-      !||    mulaw                 ../engine/source/materials/mat_share/mulaw.F90
-      !||    mulaw8                ../engine/source/materials/mat_share/mulaw8.F90
-      !||--- calls      -----------------------------------------------------
-      !||    finter2               ../engine/source/tools/curve/vinter.F
-      !||    table_interp          ../engine/source/tools/curve/table_tools.F
-      !||    table_interp_law76    ../engine/source/tools/curve/table_tools.F
-      !||--- uses       -----------------------------------------------------
-      !||    interface_table_mod   ../engine/share/modules/table_mod.F
-      !||    table_mod             ../engine/share/modules/table_mod.F
-      !||====================================================================
+!||====================================================================
+!||    sigeps52              ../engine/source/materials/mat/mat052/sigeps52.F
+!||--- called by ------------------------------------------------------
+!||    mulaw                 ../engine/source/materials/mat_share/mulaw.F90
+!||    mulaw8                ../engine/source/materials/mat_share/mulaw8.F90
+!||--- calls      -----------------------------------------------------
+!||    finter2               ../engine/source/tools/curve/vinter.F
+!||    table_interp          ../engine/source/tools/curve/table_tools.F
+!||    table_interp_law76    ../engine/source/tools/curve/table_tools.F
+!||--- uses       -----------------------------------------------------
+!||    interface_table_mod   ../engine/share/modules/table_mod.F
+!||    table_mod             ../engine/share/modules/table_mod.F
+!||====================================================================
       SUBROUTINE SIGEPS52(
      1     NEL    ,NUPARAM,NUVAR   ,MFUNC   ,KFUNC   ,NPF    ,
      2     TF     ,TIME   ,TIMESTEP,UPARAM  ,RHO0    ,RHO    ,

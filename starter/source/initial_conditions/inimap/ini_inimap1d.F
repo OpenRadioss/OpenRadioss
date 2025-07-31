@@ -20,18 +20,18 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    ini_inimap1d           ../starter/source/initial_conditions/inimap/ini_inimap1d.F
-      !||--- called by ------------------------------------------------------
-      !||    initia                 ../starter/source/elements/initia/initia.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg                 ../starter/source/output/message/message.F
-      !||    multi_solve_eint       ../starter/source/initial_conditions/inimap/multi_solve_eint.F90
-      !||--- uses       -----------------------------------------------------
-      !||    inimap1d_mod           ../starter/share/modules1/inimap1d_mod.F
-      !||    message_mod            ../starter/share/message_module/message_mod.F
-      !||    multi_solve_eint_mod   ../starter/source/initial_conditions/inimap/multi_solve_eint.F90
-      !||====================================================================
+!||====================================================================
+!||    ini_inimap1d           ../starter/source/initial_conditions/inimap/ini_inimap1d.F
+!||--- called by ------------------------------------------------------
+!||    initia                 ../starter/source/elements/initia/initia.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                 ../starter/source/output/message/message.F
+!||    multi_solve_eint       ../starter/source/initial_conditions/inimap/multi_solve_eint.F90
+!||--- uses       -----------------------------------------------------
+!||    inimap1d_mod           ../starter/share/modules1/inimap1d_mod.F
+!||    message_mod            ../starter/share/message_module/message_mod.F
+!||    multi_solve_eint_mod   ../starter/source/initial_conditions/inimap/multi_solve_eint.F90
+!||====================================================================
       SUBROUTINE INI_INIMAP1D(INIMAP1D ,ELBUF_TAB ,IPART  ,IPARG   ,IPARTS   ,
      .                        IPARTQ   ,XGRID     ,VEL    ,IXS     ,IXQ      ,
      .                        IXTG     ,PM        ,IPM    ,BUFMAT  ,MULTI_FVM, 

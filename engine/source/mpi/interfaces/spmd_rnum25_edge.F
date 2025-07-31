@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    spmd_rnum25_edge   ../engine/source/mpi/interfaces/spmd_rnum25_edge.F
-      !||--- called by ------------------------------------------------------
-      !||    i25main_tri        ../engine/source/interfaces/intsort/i25main_tri.F
-      !||--- uses       -----------------------------------------------------
-      !||    tri25ebox          ../engine/share/modules/tri25ebox.F
-      !||    tri7box            ../engine/share/modules/tri7box.F
-      !||====================================================================
+!||====================================================================
+!||    spmd_rnum25_edge   ../engine/source/mpi/interfaces/spmd_rnum25_edge.F
+!||--- called by ------------------------------------------------------
+!||    i25main_tri        ../engine/source/interfaces/intsort/i25main_tri.F
+!||--- uses       -----------------------------------------------------
+!||    tri25ebox          ../engine/share/modules/tri25ebox.F
+!||    tri7box            ../engine/share/modules/tri7box.F
+!||====================================================================
       SUBROUTINE SPMD_RNUM25_EDGE(NIN,NEDGE,CAND_E2E,ISTOK_E2E, CAND_E2S,ISTOK_E2S)
 C-----------------------------------------------
 C   M o d u l e s

@@ -20,9 +20,9 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    get_size_tag   ../starter/source/spmd/get_size_tag.F
-      !||====================================================================
+!||====================================================================
+!||    get_size_tag   ../starter/source/spmd/get_size_tag.F
+!||====================================================================
         SUBROUTINE GET_SIZE_TAG(FLAG_FVM,FLAG_TAG,I24MAXNSNE,SIZE_TAG,IPARI)
 !       ----------------------------------------------------------------
 !       Description : GET_SIZE_TAG checks if TAG array is used and computes
@@ -78,11 +78,11 @@ C
         RETURN
         END SUBROUTINE GET_SIZE_TAG
 
-      !||====================================================================
-      !||    get_size_inter24   ../starter/source/spmd/get_size_tag.F
-      !||--- called by ------------------------------------------------------
-      !||    lectur             ../starter/source/starter/lectur.F
-      !||====================================================================
+!||====================================================================
+!||    get_size_inter24   ../starter/source/spmd/get_size_tag.F
+!||--- called by ------------------------------------------------------
+!||    lectur             ../starter/source/starter/lectur.F
+!||====================================================================
         SUBROUTINE GET_SIZE_INTER24(I24MAXNSNE,NINTER,NPARI,IPARI,FLAG_24_25)
 !       ----------------------------------------------------------------
 !       Description : GET_SIZE_INTER24 checks if NODLOCAL24 array is used and computes
@@ -132,13 +132,13 @@ C Tag Arrays must be increased accordingly
 
         END SUBROUTINE GET_SIZE_INTER24
 
-      !||====================================================================
-      !||    get_size_numnod_local   ../starter/source/spmd/get_size_tag.F
-      !||--- called by ------------------------------------------------------
-      !||    lectur                  ../starter/source/starter/lectur.F
-      !||--- calls      -----------------------------------------------------
-      !||    plist_ifront            ../starter/source/spmd/node/ddtools.F
-      !||====================================================================
+!||====================================================================
+!||    get_size_numnod_local   ../starter/source/spmd/get_size_tag.F
+!||--- called by ------------------------------------------------------
+!||    lectur                  ../starter/source/starter/lectur.F
+!||--- calls      -----------------------------------------------------
+!||    plist_ifront            ../starter/source/spmd/node/ddtools.F
+!||====================================================================
         SUBROUTINE GET_SIZE_NUMNOD_LOCAL(NUMNOD,NUMNOD_L)
 !       ----------------------------------------------------------------
 !       Description : GET_SIZE_NUMNOD_LOCAL computes the local number of 

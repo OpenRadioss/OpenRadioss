@@ -20,19 +20,19 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    h3d_velvecc22      ../engine/source/output/h3d/h3d_results/h3d_velvecc22.F
-      !||--- called by ------------------------------------------------------
-      !||    h3d_nodal_vector   ../engine/source/output/h3d/h3d_results/h3d_nodal_vector.F
-      !||--- calls      -----------------------------------------------------
-      !||    h3d_write_vector   ../engine/source/output/h3d/h3d_results/h3d_write_vector.F
-      !||--- uses       -----------------------------------------------------
-      !||    elbufdef_mod       ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||    i22bufbric_mod     ../common_source/modules/interfaces/cut-cell-search_mod.F
-      !||    i22edge_mod        ../common_source/modules/interfaces/cut-cell-buffer_mod.F
-      !||    i22tri_mod         ../common_source/modules/interfaces/cut-cell-search_mod.F
-      !||    initbuf_mod        ../engine/share/resol/initbuf.F
-      !||====================================================================
+!||====================================================================
+!||    h3d_velvecc22      ../engine/source/output/h3d/h3d_results/h3d_velvecc22.F
+!||--- called by ------------------------------------------------------
+!||    h3d_nodal_vector   ../engine/source/output/h3d/h3d_results/h3d_nodal_vector.F
+!||--- calls      -----------------------------------------------------
+!||    h3d_write_vector   ../engine/source/output/h3d/h3d_results/h3d_write_vector.F
+!||--- uses       -----------------------------------------------------
+!||    elbufdef_mod       ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    i22bufbric_mod     ../common_source/modules/interfaces/cut-cell-search_mod.F
+!||    i22edge_mod        ../common_source/modules/interfaces/cut-cell-buffer_mod.F
+!||    i22tri_mod         ../common_source/modules/interfaces/cut-cell-search_mod.F
+!||    initbuf_mod        ../engine/share/resol/initbuf.F
+!||====================================================================
       SUBROUTINE H3D_VELVECC22(ELBUF_TAB,IPARG,IFLG,IXS,IXQ,ITAB,
      .                         IOK_PART,IS_WRITTEN_NODE,NODAL_VECTOR)
 C-----------------------------------------------

@@ -20,59 +20,59 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    starter0                          ../starter/source/starter/starter0.F
-      !||--- called by ------------------------------------------------------
-      !||    starter                           ../starter/source/starter/starter.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg                            ../starter/source/output/message/message.F
-      !||    anend                             ../starter/source/output/analyse/analyse_arret.F
-      !||    aninit                            ../starter/source/output/analyse/analyse.c
-      !||    build_msg                         ../starter/source/output/message/build_msg.F
-      !||    checksum_check                    ../starter/source/output/checksum/checksum_check.F90
-      !||    contrl                            ../starter/source/starter/contrl.F
-      !||    execargcheck                      ../starter/source/starter/execargcheck.F
-      !||    f_anend                           ../starter/source/output/analyse/analyse_arret.F
-      !||    get_file_name_info                ../starter/source/system/get_file_name_info.F
-      !||    glob_therm_init                   ../starter/source/constraints/thermic/glob_therm_init.F90
-      !||    hm_convert_2d_elements_seatbelt   ../starter/source/devtools/hm_reader/hm_convert_2d_elements_seatbelt.F
-      !||    hm_convert_fail_tab               ../starter/source/devtools/hm_reader/hm_convert_fail_tab.F
-      !||    hm_convert_inter_type19           ../starter/source/devtools/hm_reader/hm_convert_inter_type19.F
-      !||    hm_count_2d_element_seatbelt      ../starter/source/devtools/hm_reader/hm_count_2d_element_seatbelt.F
-      !||    hm_get_max_id                     ../starter/source/devtools/hm_reader/hm_get_max_id.F
-      !||    hm_messages                       ../starter/source/devtools/hm_reader/hm_messages.F
-      !||    hm_read_checksum                  ../starter/source/output/checksum/checksum_option.F90
-      !||    hm_read_submodel                  ../starter/source/model/assembling/hm_read_submodel.F
-      !||    ini_msg                           ../starter/source/output/message/inimsg.F
-      !||    inicod                            ../starter/source/tools/univ/inicod.F
-      !||    iniconstant                       ../starter/source/system/iniconstant.F
-      !||    initime                           ../starter/source/system/timer.F
-      !||    lectur                            ../starter/source/starter/lectur.F
-      !||    my_exit                           ../starter/source/output/analyse/analyse.c
-      !||    prhelpinfo                        ../starter/source/starter/execargcheck.F
-      !||    printcenter                       ../starter/source/starter/radioss_title.F
-      !||    printcpu                          ../starter/source/system/printcpu.F
-      !||    printime                          ../starter/source/system/timer.F
-      !||    r2r_fork                          ../starter/source/coupling/rad2rad/r2r_fork.F
-      !||    radioss_title                     ../starter/source/starter/radioss_title.F
-      !||    setignorecore                     ../starter/source/system/traceback_handler.c
-      !||    st_uaccess_dum                    ../starter/source/user_interface/uaccess.F
-      !||    st_utable_dum                     ../starter/source/user_interface/utable.F
-      !||    startime                          ../starter/source/system/timer.F
-      !||    stoptime                          ../starter/source/system/timer.F
-      !||    titre1                            ../starter/source/output/outfile/titre1.F
-      !||    trace_in1                         ../starter/source/system/trace_back.F
-      !||    trace_out1                        ../starter/source/system/trace_back.F
-      !||--- uses       -----------------------------------------------------
-      !||    defaults_mod                      ../starter/source/modules/defaults_mod.F90
-      !||    detonators_mod                    ../starter/share/modules1/detonators_mod.F
-      !||    glob_therm_init_mod               ../starter/source/constraints/thermic/glob_therm_init.F90
-      !||    message_mod                       ../starter/share/message_module/message_mod.F
-      !||    submodel_mod                      ../starter/share/modules1/submodel_mod.F
-      !||    th_mod                            ../starter/share/modules1/th_mod.F90
-      !||    user_interface_mod                ../starter/source/modules/user_interface_mod.F90
-      !||    user_sensor_mod                   ../starter/source/modules/user_interface_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    starter0                          ../starter/source/starter/starter0.F
+!||--- called by ------------------------------------------------------
+!||    starter                           ../starter/source/starter/starter.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                            ../starter/source/output/message/message.F
+!||    anend                             ../starter/source/output/analyse/analyse_arret.F
+!||    aninit                            ../starter/source/output/analyse/analyse.c
+!||    build_msg                         ../starter/source/output/message/build_msg.F
+!||    checksum_check                    ../starter/source/output/checksum/checksum_check.F90
+!||    contrl                            ../starter/source/starter/contrl.F
+!||    execargcheck                      ../starter/source/starter/execargcheck.F
+!||    f_anend                           ../starter/source/output/analyse/analyse_arret.F
+!||    get_file_name_info                ../starter/source/system/get_file_name_info.F
+!||    glob_therm_init                   ../starter/source/constraints/thermic/glob_therm_init.F90
+!||    hm_convert_2d_elements_seatbelt   ../starter/source/devtools/hm_reader/hm_convert_2d_elements_seatbelt.F
+!||    hm_convert_fail_tab               ../starter/source/devtools/hm_reader/hm_convert_fail_tab.F
+!||    hm_convert_inter_type19           ../starter/source/devtools/hm_reader/hm_convert_inter_type19.F
+!||    hm_count_2d_element_seatbelt      ../starter/source/devtools/hm_reader/hm_count_2d_element_seatbelt.F
+!||    hm_get_max_id                     ../starter/source/devtools/hm_reader/hm_get_max_id.F
+!||    hm_messages                       ../starter/source/devtools/hm_reader/hm_messages.F
+!||    hm_read_checksum                  ../starter/source/output/checksum/checksum_option.F90
+!||    hm_read_submodel                  ../starter/source/model/assembling/hm_read_submodel.F
+!||    ini_msg                           ../starter/source/output/message/inimsg.F
+!||    inicod                            ../starter/source/tools/univ/inicod.F
+!||    iniconstant                       ../starter/source/system/iniconstant.F
+!||    initime                           ../starter/source/system/timer.F
+!||    lectur                            ../starter/source/starter/lectur.F
+!||    my_exit                           ../starter/source/output/analyse/analyse.c
+!||    prhelpinfo                        ../starter/source/starter/execargcheck.F
+!||    printcenter                       ../starter/source/starter/radioss_title.F
+!||    printcpu                          ../starter/source/system/printcpu.F
+!||    printime                          ../starter/source/system/timer.F
+!||    r2r_fork                          ../starter/source/coupling/rad2rad/r2r_fork.F
+!||    radioss_title                     ../starter/source/starter/radioss_title.F
+!||    setignorecore                     ../starter/source/system/traceback_handler.c
+!||    st_uaccess_dum                    ../starter/source/user_interface/uaccess.F
+!||    st_utable_dum                     ../starter/source/user_interface/utable.F
+!||    startime                          ../starter/source/system/timer.F
+!||    stoptime                          ../starter/source/system/timer.F
+!||    titre1                            ../starter/source/output/outfile/titre1.F
+!||    trace_in1                         ../starter/source/system/trace_back.F
+!||    trace_out1                        ../starter/source/system/trace_back.F
+!||--- uses       -----------------------------------------------------
+!||    defaults_mod                      ../starter/source/modules/defaults_mod.F90
+!||    detonators_mod                    ../starter/share/modules1/detonators_mod.F
+!||    glob_therm_init_mod               ../starter/source/constraints/thermic/glob_therm_init.F90
+!||    message_mod                       ../starter/share/message_module/message_mod.F
+!||    submodel_mod                      ../starter/share/modules1/submodel_mod.F
+!||    th_mod                            ../starter/share/modules1/th_mod.F90
+!||    user_interface_mod                ../starter/source/modules/user_interface_mod.F90
+!||    user_sensor_mod                   ../starter/source/modules/user_interface_mod.F90
+!||====================================================================
       SUBROUTINE STARTER0   
 C-----------------------------------------------
 C   M o d u l e s

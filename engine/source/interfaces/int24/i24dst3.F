@@ -20,19 +20,19 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    i24dst3       ../engine/source/interfaces/int24/i24dst3.F
-      !||--- called by ------------------------------------------------------
-      !||    i24mainf      ../engine/source/interfaces/int24/i24main.F
-      !||--- calls      -----------------------------------------------------
-      !||    i24nexttria   ../engine/source/interfaces/int24/i24dst3.F
-      !||    intersecsh    ../engine/source/interfaces/int24/i24dst3.F
-      !||    intersecv     ../engine/source/interfaces/int24/i24dst3.F
-      !||    intersecv0    ../engine/source/interfaces/int24/i24dst3.F
-      !||    s_in_m4       ../engine/source/interfaces/int24/i24dst3.F
-      !||--- uses       -----------------------------------------------------
-      !||    tri7box       ../engine/share/modules/tri7box.F
-      !||====================================================================
+!||====================================================================
+!||    i24dst3       ../engine/source/interfaces/int24/i24dst3.F
+!||--- called by ------------------------------------------------------
+!||    i24mainf      ../engine/source/interfaces/int24/i24main.F
+!||--- calls      -----------------------------------------------------
+!||    i24nexttria   ../engine/source/interfaces/int24/i24dst3.F
+!||    intersecsh    ../engine/source/interfaces/int24/i24dst3.F
+!||    intersecv     ../engine/source/interfaces/int24/i24dst3.F
+!||    intersecv0    ../engine/source/interfaces/int24/i24dst3.F
+!||    s_in_m4       ../engine/source/interfaces/int24/i24dst3.F
+!||--- uses       -----------------------------------------------------
+!||    tri7box       ../engine/share/modules/tri7box.F
+!||====================================================================
       SUBROUTINE I24DST3(
      1                  JLT    ,CAND_N ,CAND_E ,CN_LOC ,CE_LOC ,
      2                  X1     ,X2     ,X3     ,X4     ,Y1     ,
@@ -3433,15 +3433,15 @@ C-----peneref for nonlinear stif (quadratic...)
 C
       RETURN
       END
-      !||====================================================================
-      !||    i24nexttria    ../engine/source/interfaces/int24/i24dst3.F
-      !||--- called by ------------------------------------------------------
-      !||    i24dst3        ../engine/source/interfaces/int24/i24dst3.F
-      !||--- calls      -----------------------------------------------------
-      !||    i24nexttria2   ../engine/source/interfaces/int24/i24dst3.F
-      !||--- uses       -----------------------------------------------------
-      !||    tri7box        ../engine/share/modules/tri7box.F
-      !||====================================================================
+!||====================================================================
+!||    i24nexttria    ../engine/source/interfaces/int24/i24dst3.F
+!||--- called by ------------------------------------------------------
+!||    i24dst3        ../engine/source/interfaces/int24/i24dst3.F
+!||--- calls      -----------------------------------------------------
+!||    i24nexttria2   ../engine/source/interfaces/int24/i24dst3.F
+!||--- uses       -----------------------------------------------------
+!||    tri7box        ../engine/share/modules/tri7box.F
+!||====================================================================
       SUBROUTINE I24NEXTTRIA(
      1          IZLIM,ISTEP,SUBTRIA_N,SUBTRIA,
      2          LARGEP,PENE ,XXL  ,YYL  ,ZZL  ,
@@ -3733,13 +3733,13 @@ c         convex
 
       RETURN
       END
-      !||====================================================================
-      !||    i24nexttria2   ../engine/source/interfaces/int24/i24dst3.F
-      !||--- called by ------------------------------------------------------
-      !||    i24nexttria    ../engine/source/interfaces/int24/i24dst3.F
-      !||--- uses       -----------------------------------------------------
-      !||    tri7box        ../engine/share/modules/tri7box.F
-      !||====================================================================
+!||====================================================================
+!||    i24nexttria2   ../engine/source/interfaces/int24/i24dst3.F
+!||--- called by ------------------------------------------------------
+!||    i24nexttria    ../engine/source/interfaces/int24/i24dst3.F
+!||--- uses       -----------------------------------------------------
+!||    tri7box        ../engine/share/modules/tri7box.F
+!||====================================================================
       SUBROUTINE I24NEXTTRIA2(
      1          IZLIM,ISTEP,SUBTRIA_N,SUBTRIA,
      2          LARGEP,PENE ,XXL  ,YYL  ,ZZL  ,
@@ -4038,11 +4038,11 @@ c         convex
 
       RETURN
       END
-      !||====================================================================
-      !||    s_in_m4   ../engine/source/interfaces/int24/i24dst3.F
-      !||--- called by ------------------------------------------------------
-      !||    i24dst3   ../engine/source/interfaces/int24/i24dst3.F
-      !||====================================================================
+!||====================================================================
+!||    s_in_m4   ../engine/source/interfaces/int24/i24dst3.F
+!||--- called by ------------------------------------------------------
+!||    i24dst3   ../engine/source/interfaces/int24/i24dst3.F
+!||====================================================================
       SUBROUTINE S_IN_M4(X1,Y1,Z1,X2,Y2,Z2,X3,Y3,Z3,X4,Y4,Z4,
      1                   XI,YI,ZI,IER)
 C-----------------------------------------------
@@ -4204,11 +4204,11 @@ C
 C
       RETURN
       END
-      !||====================================================================
-      !||    intersecv   ../engine/source/interfaces/int24/i24dst3.F
-      !||--- called by ------------------------------------------------------
-      !||    i24dst3     ../engine/source/interfaces/int24/i24dst3.F
-      !||====================================================================
+!||====================================================================
+!||    intersecv   ../engine/source/interfaces/int24/i24dst3.F
+!||--- called by ------------------------------------------------------
+!||    i24dst3     ../engine/source/interfaces/int24/i24dst3.F
+!||====================================================================
       SUBROUTINE INTERSECV(
      1                    ISTEP    ,SUBTRIA,IXX3  ,IXX4  ,
      1                    INTERSECT,V12   ,V23    ,V34   ,V41    ,
@@ -4629,11 +4629,11 @@ C----------loose tolerance for tria
 C
       RETURN
       END
-      !||====================================================================
-      !||    intersecv0   ../engine/source/interfaces/int24/i24dst3.F
-      !||--- called by ------------------------------------------------------
-      !||    i24dst3      ../engine/source/interfaces/int24/i24dst3.F
-      !||====================================================================
+!||====================================================================
+!||    intersecv0   ../engine/source/interfaces/int24/i24dst3.F
+!||--- called by ------------------------------------------------------
+!||    i24dst3      ../engine/source/interfaces/int24/i24dst3.F
+!||====================================================================
       SUBROUTINE INTERSECV0(
      1                    ISTEP    ,SUBTRIA,IXX3  ,IXX4  ,
      1                    INTERSECT,V12   ,V23    ,V34   ,V41    ,
@@ -5012,14 +5012,14 @@ c            ZOI = ZI - ADT*VZI
 C
       RETURN
       END
-      !||====================================================================
-      !||    intersecsh   ../engine/source/interfaces/int24/i24dst3.F
-      !||--- called by ------------------------------------------------------
-      !||    i24dst3      ../engine/source/interfaces/int24/i24dst3.F
-      !||--- calls      -----------------------------------------------------
-      !||    n2edge3      ../engine/source/interfaces/int24/i24dst3.F
-      !||    n2edge3l     ../engine/source/interfaces/int24/n2edge3l.F
-      !||====================================================================
+!||====================================================================
+!||    intersecsh   ../engine/source/interfaces/int24/i24dst3.F
+!||--- called by ------------------------------------------------------
+!||    i24dst3      ../engine/source/interfaces/int24/i24dst3.F
+!||--- calls      -----------------------------------------------------
+!||    n2edge3      ../engine/source/interfaces/int24/i24dst3.F
+!||    n2edge3l     ../engine/source/interfaces/int24/n2edge3l.F
+!||====================================================================
       SUBROUTINE INTERSECSH(
      1                    ISTEP    ,SUBTRIA0,IXX3  ,IXX4  ,
      1                    INTERSECT,XX1    ,
@@ -5293,11 +5293,11 @@ C------------out of seg
 C
       RETURN
       END
-      !||====================================================================
-      !||    n2edge3      ../engine/source/interfaces/int24/i24dst3.F
-      !||--- called by ------------------------------------------------------
-      !||    intersecsh   ../engine/source/interfaces/int24/i24dst3.F
-      !||====================================================================
+!||====================================================================
+!||    n2edge3      ../engine/source/interfaces/int24/i24dst3.F
+!||--- called by ------------------------------------------------------
+!||    intersecsh   ../engine/source/interfaces/int24/i24dst3.F
+!||====================================================================
         SUBROUTINE N2EDGE3(
      1                           XXI    ,YYI      ,ZZI    ,
      2                           XXJ    ,YYJ      ,ZZJ    ,

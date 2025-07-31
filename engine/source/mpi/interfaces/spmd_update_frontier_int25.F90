@@ -20,11 +20,11 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    spmd_update_frontier_int25_mod   ../engine/source/mpi/interfaces/spmd_update_frontier_int25.F90
-      !||--- called by ------------------------------------------------------
-      !||    get_neighbour_surface            ../engine/source/interfaces/interf/get_neighbour_surface.F90
-      !||====================================================================
+!||====================================================================
+!||    spmd_update_frontier_int25_mod   ../engine/source/mpi/interfaces/spmd_update_frontier_int25.F90
+!||--- called by ------------------------------------------------------
+!||    get_neighbour_surface            ../engine/source/interfaces/interf/get_neighbour_surface.F90
+!||====================================================================
       module spmd_update_frontier_int25_mod
       implicit none
       contains
@@ -32,17 +32,17 @@
 !                                                   procedures
 ! ======================================================================================================================
 !! \brief This routine updates the frontiers for mpi comm / interface type25
-      !||====================================================================
-      !||    spmd_update_frontier_int25   ../engine/source/mpi/interfaces/spmd_update_frontier_int25.F90
-      !||--- called by ------------------------------------------------------
-      !||    get_neighbour_surface        ../engine/source/interfaces/interf/get_neighbour_surface.F90
-      !||--- calls      -----------------------------------------------------
-      !||    my_orders                    ../common_source/tools/sort/my_orders.c
-      !||--- uses       -----------------------------------------------------
-      !||    constant_mod                 ../common_source/modules/constant_mod.F
-      !||    intbufdef_mod                ../common_source/modules/interfaces/intbufdef_mod.F90
-      !||    spmd_arrays_mod              ../common_source/modules/interfaces/spmd_arrays_mod.F
-      !||====================================================================
+!||====================================================================
+!||    spmd_update_frontier_int25   ../engine/source/mpi/interfaces/spmd_update_frontier_int25.F90
+!||--- called by ------------------------------------------------------
+!||    get_neighbour_surface        ../engine/source/interfaces/interf/get_neighbour_surface.F90
+!||--- calls      -----------------------------------------------------
+!||    my_orders                    ../common_source/tools/sort/my_orders.c
+!||--- uses       -----------------------------------------------------
+!||    constant_mod                 ../common_source/modules/constant_mod.F
+!||    intbufdef_mod                ../common_source/modules/interfaces/intbufdef_mod.F90
+!||    spmd_arrays_mod              ../common_source/modules/interfaces/spmd_arrays_mod.F
+!||====================================================================
         subroutine spmd_update_frontier_int25( ispmd,nspmd,ninter25,npari,ninter,nbintc, &
                                                numnod,nbddedgt,nbddedg_max, &
                                                ipari,intlist,itab,  &

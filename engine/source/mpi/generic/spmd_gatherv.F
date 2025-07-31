@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    spmd_gatherv          ../engine/source/mpi/generic/spmd_gatherv.F
-      !||--- called by ------------------------------------------------------
-      !||    hist2                 ../engine/source/output/th/hist2.F
-      !||--- calls      -----------------------------------------------------
-      !||--- uses       -----------------------------------------------------
-      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
-      !||====================================================================
+!||====================================================================
+!||    spmd_gatherv          ../engine/source/mpi/generic/spmd_gatherv.F
+!||--- called by ------------------------------------------------------
+!||    hist2                 ../engine/source/output/th/hist2.F
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
+!||====================================================================
         SUBROUTINE SPMD_GATHERV(SENDBUF,RECVBUF,PROC,SEND_SIZE,TOTAL_RCV_SIZE,RCV_SIZE,DIPLS)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

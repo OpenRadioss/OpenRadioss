@@ -20,17 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    spsymp        ../engine/source/elements/sph/spsym.F
-      !||--- called by ------------------------------------------------------
-      !||    sphprep       ../engine/source/elements/sph/sphprep.F
-      !||--- calls      -----------------------------------------------------
-      !||    my_barrier    ../engine/source/system/machine.F
-      !||    myqsort       ../common_source/tools/sort/myqsort.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod   ../engine/share/message_module/message_mod.F
-      !||    sphbox        ../engine/share/modules/sphbox.F
-      !||====================================================================
+!||====================================================================
+!||    spsymp        ../engine/source/elements/sph/spsym.F
+!||--- called by ------------------------------------------------------
+!||    sphprep       ../engine/source/elements/sph/sphprep.F
+!||--- calls      -----------------------------------------------------
+!||    my_barrier    ../engine/source/system/machine.F
+!||    myqsort       ../common_source/tools/sort/myqsort.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod   ../engine/share/message_module/message_mod.F
+!||    sphbox        ../engine/share/modules/sphbox.F
+!||====================================================================
       SUBROUTINE SPSYMP(
      1    X       ,V        ,MS      ,SPBUF   ,ITAB    ,
      2    KXSP    ,IXSP     ,NOD2SP  ,ISPCOND ,ISPSYM  ,

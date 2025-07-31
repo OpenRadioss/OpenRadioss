@@ -20,19 +20,19 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    mid_pid_mod          ../starter/share/modules1/mid_pid_mod.F
-      !||--- called by ------------------------------------------------------
-      !||    ddsplit              ../starter/source/restart/ddsplit/ddsplit.F
-      !||    dometis              ../starter/source/spmd/domain_decomposition/grid2mat.F
-      !||    init_mid_pid_array   ../starter/source/spmd/tools/init_mid_pid_array.F
-      !||    initwg               ../starter/source/spmd/domain_decomposition/initwg.F
-      !||    initwg_shell         ../starter/source/spmd/domain_decomposition/initwg_shell.F
-      !||    initwg_solid         ../starter/source/spmd/domain_decomposition/initwg_solid.F
-      !||    initwg_tri           ../starter/source/spmd/domain_decomposition/initwg_tri.F
-      !||    lectur               ../starter/source/starter/lectur.F
-      !||    w_tabmat_prop        ../starter/source/restart/ddsplit/w_tabmat_prop.F
-      !||====================================================================
+!||====================================================================
+!||    mid_pid_mod          ../starter/share/modules1/mid_pid_mod.F
+!||--- called by ------------------------------------------------------
+!||    ddsplit              ../starter/source/restart/ddsplit/ddsplit.F
+!||    dometis              ../starter/source/spmd/domain_decomposition/grid2mat.F
+!||    init_mid_pid_array   ../starter/source/spmd/tools/init_mid_pid_array.F
+!||    initwg               ../starter/source/spmd/domain_decomposition/initwg.F
+!||    initwg_shell         ../starter/source/spmd/domain_decomposition/initwg_shell.F
+!||    initwg_solid         ../starter/source/spmd/domain_decomposition/initwg_solid.F
+!||    initwg_tri           ../starter/source/spmd/domain_decomposition/initwg_tri.F
+!||    lectur               ../starter/source/starter/lectur.F
+!||    w_tabmat_prop        ../starter/source/restart/ddsplit/w_tabmat_prop.F
+!||====================================================================
       MODULE MID_PID_MOD
 C-----------------------------------------------
 C   m y _ r e a l

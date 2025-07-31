@@ -20,18 +20,18 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    rskew33      ../engine/source/elements/joint/rskew33.F
-      !||--- called by ------------------------------------------------------
-      !||    rgjoint      ../engine/source/elements/joint/rgjoint.F
-      !||--- calls      -----------------------------------------------------
-      !||    get_u_skew   ../engine/source/user_interface/uaccess.F
-      !||    inv3         ../engine/source/elements/joint/rskew33.F
-      !||    prod_ab      ../engine/source/elements/joint/rskew33.F
-      !||    qrot33       ../engine/source/elements/joint/rskew33.F
-      !||--- uses       -----------------------------------------------------
-      !||    sensor_mod   ../common_source/modules/sensor_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    rskew33      ../engine/source/elements/joint/rskew33.F
+!||--- called by ------------------------------------------------------
+!||    rgjoint      ../engine/source/elements/joint/rgjoint.F
+!||--- calls      -----------------------------------------------------
+!||    get_u_skew   ../engine/source/user_interface/uaccess.F
+!||    inv3         ../engine/source/elements/joint/rskew33.F
+!||    prod_ab      ../engine/source/elements/joint/rskew33.F
+!||    qrot33       ../engine/source/elements/joint/rskew33.F
+!||--- uses       -----------------------------------------------------
+!||    sensor_mod   ../common_source/modules/sensor_mod.F90
+!||====================================================================
       SUBROUTINE RSKEW33(JFT    ,JLT     ,IXR   ,IOUT  ,IPROP,
      .                   NUVAR  ,UVAR    ,RBY   ,X     ,XL   ,
      .                   ROT1   ,ROT2    ,DX    ,DY    ,DZ   ,
@@ -346,16 +346,16 @@ C
 C-----------
       RETURN
       END
-      !||====================================================================
-      !||    inv3         ../engine/source/elements/joint/rskew33.F
-      !||--- called by ------------------------------------------------------
-      !||    i2curvf      ../engine/source/interfaces/interf/i2curvf.F
-      !||    i2curvfp     ../engine/source/interfaces/interf/i2curvfp.F
-      !||    i2curvv      ../engine/source/interfaces/interf/i2curvv.F
-      !||    i2loceq      ../common_source/interf/i2loceq.F
-      !||    i2loceq_27   ../common_source/interf/i2loceq.F
-      !||    rskew33      ../engine/source/elements/joint/rskew33.F
-      !||====================================================================
+!||====================================================================
+!||    inv3         ../engine/source/elements/joint/rskew33.F
+!||--- called by ------------------------------------------------------
+!||    i2curvf      ../engine/source/interfaces/interf/i2curvf.F
+!||    i2curvfp     ../engine/source/interfaces/interf/i2curvfp.F
+!||    i2curvv      ../engine/source/interfaces/interf/i2curvv.F
+!||    i2loceq      ../common_source/interf/i2loceq.F
+!||    i2loceq_27   ../common_source/interf/i2loceq.F
+!||    rskew33      ../engine/source/elements/joint/rskew33.F
+!||====================================================================
       SUBROUTINE INV3(A,B)
 C----------------------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -390,9 +390,9 @@ C-----------------------------------------------
       RETURN
       END
 
-      !||====================================================================
-      !||    rotq33   ../engine/source/elements/joint/rskew33.F
-      !||====================================================================
+!||====================================================================
+!||    rotq33   ../engine/source/elements/joint/rskew33.F
+!||====================================================================
       SUBROUTINE ROTQ33(SKEW, T, ROT, C, S)
 C-------------------------------------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -442,9 +442,9 @@ C---   first skew rotation
 C-----------------------------------------------
       RETURN
       END
-      !||====================================================================
-      !||    rot12   ../engine/source/elements/joint/rskew33.F
-      !||====================================================================
+!||====================================================================
+!||    rot12   ../engine/source/elements/joint/rskew33.F
+!||====================================================================
       SUBROUTINE ROT12(SKEW, RVEC, C, S)
 C-------------------------------------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -495,11 +495,11 @@ C
 C---------------------------
       RETURN
       END
-      !||====================================================================
-      !||    qrot33    ../engine/source/elements/joint/rskew33.F
-      !||--- called by ------------------------------------------------------
-      !||    rskew33   ../engine/source/elements/joint/rskew33.F
-      !||====================================================================
+!||====================================================================
+!||    qrot33    ../engine/source/elements/joint/rskew33.F
+!||--- called by ------------------------------------------------------
+!||    rskew33   ../engine/source/elements/joint/rskew33.F
+!||====================================================================
       SUBROUTINE QROT33(SKEW, T, C, S)
 C-------------------------------------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -552,9 +552,9 @@ C-----------------------------------------------
       RETURN
       END
 C==================================================== 
-      !||====================================================================
-      !||    prod_abt   ../engine/source/elements/joint/rskew33.F
-      !||====================================================================
+!||====================================================================
+!||    prod_abt   ../engine/source/elements/joint/rskew33.F
+!||====================================================================
       SUBROUTINE PROD_ABT(A,B,X)
 #include      "implicit_f.inc"
 #include      "param_c.inc"
@@ -573,9 +573,9 @@ C
       RETURN
       END
 C==================================================== 
-      !||====================================================================
-      !||    prod_atb   ../engine/source/elements/joint/rskew33.F
-      !||====================================================================
+!||====================================================================
+!||    prod_atb   ../engine/source/elements/joint/rskew33.F
+!||====================================================================
       SUBROUTINE PROD_ATB(A,B,X)
 #include      "implicit_f.inc"
 #include      "param_c.inc"
@@ -593,11 +593,11 @@ C
       RETURN
       END
 C==================================================== 
-      !||====================================================================
-      !||    prod_ab   ../engine/source/elements/joint/rskew33.F
-      !||--- called by ------------------------------------------------------
-      !||    rskew33   ../engine/source/elements/joint/rskew33.F
-      !||====================================================================
+!||====================================================================
+!||    prod_ab   ../engine/source/elements/joint/rskew33.F
+!||--- called by ------------------------------------------------------
+!||    rskew33   ../engine/source/elements/joint/rskew33.F
+!||====================================================================
       SUBROUTINE PROD_AB(A,B,X)
 #include      "implicit_f.inc"
 #include      "param_c.inc"

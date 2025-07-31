@@ -20,28 +20,28 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    qinit2                 ../starter/source/elements/solid_2d/quad/qinit2.F
-      !||--- called by ------------------------------------------------------
-      !||    initia                 ../starter/source/elements/initia/initia.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg                 ../starter/source/output/message/message.F
-      !||    atheri                 ../starter/source/ale/atheri.F
-      !||    aturi2                 ../starter/source/ale/ale2d/aturi2.F
-      !||    dtmain                 ../starter/source/materials/time_step/dtmain.F
-      !||    edlen2                 ../starter/source/ale/ale2d/edlen2.F
-      !||    fretitl2               ../starter/source/starter/freform.F
-      !||    matini                 ../starter/source/materials/mat_share/matini.F
-      !||    qcoor2                 ../starter/source/elements/solid_2d/quad/qcoor2.F
-      !||    qdlen2                 ../starter/source/elements/solid_2d/quad/qdlen2.F
-      !||    qmasi2                 ../starter/source/elements/solid_2d/quad/qmasi2.F
-      !||    qmorth2                ../starter/source/elements/solid_2d/quad/qmorth2.F
-      !||    qrcoor2                ../starter/source/elements/solid_2d/quad/qrcoor2.F
-      !||    qvoli2                 ../starter/source/elements/solid_2d/quad/qvoli2.F
-      !||--- uses       -----------------------------------------------------
-      !||    detonators_mod         ../starter/share/modules1/detonators_mod.F
-      !||    message_mod            ../starter/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    qinit2                 ../starter/source/elements/solid_2d/quad/qinit2.F
+!||--- called by ------------------------------------------------------
+!||    initia                 ../starter/source/elements/initia/initia.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                 ../starter/source/output/message/message.F
+!||    atheri                 ../starter/source/ale/atheri.F
+!||    aturi2                 ../starter/source/ale/ale2d/aturi2.F
+!||    dtmain                 ../starter/source/materials/time_step/dtmain.F
+!||    edlen2                 ../starter/source/ale/ale2d/edlen2.F
+!||    fretitl2               ../starter/source/starter/freform.F
+!||    matini                 ../starter/source/materials/mat_share/matini.F
+!||    qcoor2                 ../starter/source/elements/solid_2d/quad/qcoor2.F
+!||    qdlen2                 ../starter/source/elements/solid_2d/quad/qdlen2.F
+!||    qmasi2                 ../starter/source/elements/solid_2d/quad/qmasi2.F
+!||    qmorth2                ../starter/source/elements/solid_2d/quad/qmorth2.F
+!||    qrcoor2                ../starter/source/elements/solid_2d/quad/qrcoor2.F
+!||    qvoli2                 ../starter/source/elements/solid_2d/quad/qvoli2.F
+!||--- uses       -----------------------------------------------------
+!||    detonators_mod         ../starter/share/modules1/detonators_mod.F
+!||    message_mod            ../starter/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE QINIT2(ELBUF_STR   ,MS     ,IXQ       ,PM      ,X      ,
      .                  DETONATORS  ,GEO    ,VEUL      ,ALE_CONNECTIVITY   ,IPARG  ,
      .                  DTELEM      ,SIGI    ,IGEO   ,

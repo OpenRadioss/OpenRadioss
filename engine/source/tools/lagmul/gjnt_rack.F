@@ -20,11 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    gjnt_rack   ../engine/source/tools/lagmul/gjnt_rack.F
-      !||--- called by ------------------------------------------------------
-      !||    lag_gjnt    ../engine/source/tools/lagmul/lag_gjnt.F
-      !||====================================================================
+!||====================================================================
+!||    gjnt_rack   ../engine/source/tools/lagmul/gjnt_rack.F
+!||--- called by ------------------------------------------------------
+!||    lag_gjnt    ../engine/source/tools/lagmul/lag_gjnt.F
+!||====================================================================
       SUBROUTINE GJNT_RACK(SK     ,L1     ,L2     ,ALPHA  ,X      ,
      2                     IADLL  ,LLL    ,JLL    ,SLL    ,XLL    ,
      3                     N0     ,N1     ,N2     ,NC     )

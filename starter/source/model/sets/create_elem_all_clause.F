@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    create_elem_all_clause   ../starter/source/model/sets/create_elem_all_clause.F
-      !||--- called by ------------------------------------------------------
-      !||    hm_set                   ../starter/source/model/sets/hm_set.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod              ../starter/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    create_elem_all_clause   ../starter/source/model/sets/create_elem_all_clause.F
+!||--- called by ------------------------------------------------------
+!||    hm_set                   ../starter/source/model/sets/hm_set.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod              ../starter/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE CREATE_ELEM_ALL_CLAUSE( CLAUSE )
 C-----------------------------------------------
 C   ROUTINE DESCRIPTION :

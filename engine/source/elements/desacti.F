@@ -20,20 +20,20 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    desacti          ../engine/source/elements/desacti.F
-      !||--- called by ------------------------------------------------------
-      !||    resol            ../engine/source/engine/resol.F
-      !||--- calls      -----------------------------------------------------
-      !||    convecoff        ../engine/source/constraints/thermic/convecoff.F
-      !||    eloff            ../engine/source/elements/eloff.F
-      !||    radiatoff        ../engine/source/constraints/thermic/radiatoff.F
-      !||--- uses       -----------------------------------------------------
-      !||    elbufdef_mod     ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||    glob_therm_mod   ../common_source/modules/mat_elem/glob_therm_mod.F90
-      !||    groupdef_mod     ../common_source/modules/groupdef_mod.F
-      !||    sensor_mod       ../common_source/modules/sensor_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    desacti          ../engine/source/elements/desacti.F
+!||--- called by ------------------------------------------------------
+!||    resol            ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
+!||    convecoff        ../engine/source/constraints/thermic/convecoff.F
+!||    eloff            ../engine/source/elements/eloff.F
+!||    radiatoff        ../engine/source/constraints/thermic/radiatoff.F
+!||--- uses       -----------------------------------------------------
+!||    elbufdef_mod     ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    glob_therm_mod   ../common_source/modules/mat_elem/glob_therm_mod.F90
+!||    groupdef_mod     ../common_source/modules/groupdef_mod.F
+!||    sensor_mod       ../common_source/modules/sensor_mod.F90
+!||====================================================================
       SUBROUTINE DESACTI(IXS      ,IXQ      ,IXC     ,IXP     ,IXT      ,
      .                   IXR      ,IXTG     ,IPARG   ,IACTIV  , 
      .                   NSENSOR  ,SENSOR_TAB,FSKY    ,X      ,ELBUF_TAB,

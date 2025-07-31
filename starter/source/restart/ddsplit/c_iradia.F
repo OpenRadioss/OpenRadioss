@@ -20,11 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    c_iradia   ../starter/source/restart/ddsplit/c_iradia.F
-      !||--- called by ------------------------------------------------------
-      !||    ddsplit    ../starter/source/restart/ddsplit/ddsplit.F
-      !||====================================================================
+!||====================================================================
+!||    c_iradia   ../starter/source/restart/ddsplit/c_iradia.F
+!||--- called by ------------------------------------------------------
+!||    ddsplit    ../starter/source/restart/ddsplit/ddsplit.F
+!||====================================================================
       SUBROUTINE C_IRADIA(IBCR,CEP,PROC,NRADIA_L,
      .           NUMRADIA,NUMCONV,NIRADIA)
 C-----------------------------------------------

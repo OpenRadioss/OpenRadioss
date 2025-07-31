@@ -21,15 +21,15 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
-      !||====================================================================
-      !||    spmd_exch_a_int2_pon   ../engine/source/mpi/forces/spmd_exch_a_int2_pon.F
-      !||--- called by ------------------------------------------------------
-      !||    intti1                 ../engine/source/interfaces/interf/intti1.F
-      !||--- calls      -----------------------------------------------------
-      !||--- uses       -----------------------------------------------------
-      !||    h3d_mod                ../engine/share/modules/h3d_mod.F
-      !||    spmd_comm_world_mod    ../engine/source/mpi/spmd_comm_world.F90
-      !||====================================================================
+!||====================================================================
+!||    spmd_exch_a_int2_pon   ../engine/source/mpi/forces/spmd_exch_a_int2_pon.F
+!||--- called by ------------------------------------------------------
+!||    intti1                 ../engine/source/interfaces/interf/intti1.F
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||    h3d_mod                ../engine/share/modules/h3d_mod.F
+!||    spmd_comm_world_mod    ../engine/source/mpi/spmd_comm_world.F90
+!||====================================================================
       SUBROUTINE SPMD_EXCH_A_INT2_PON(
      1   FR_I2M ,IAD_I2M,ADDCNI2 ,PROCNI2 ,FR_NBCCI2,
      2   I2SIZE ,LENR   ,LENS    ,FSKYI2  ,INTTH2   ,

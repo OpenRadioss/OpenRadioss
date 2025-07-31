@@ -20,26 +20,26 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    hm_read_funct              ../starter/source/tools/curve/hm_read_funct.F
-      !||--- called by ------------------------------------------------------
-      !||    lectur                     ../starter/source/starter/lectur.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg                     ../starter/source/output/message/message.F
-      !||    fretitl                    ../starter/source/starter/freform.F
-      !||    hm_get_float_array_index   ../starter/source/devtools/hm_reader/hm_get_float_array_index.F
-      !||    hm_get_floatv              ../starter/source/devtools/hm_reader/hm_get_floatv.F
-      !||    hm_get_intv                ../starter/source/devtools/hm_reader/hm_get_intv.F
-      !||    hm_option_count            ../starter/source/devtools/hm_reader/hm_option_count.F
-      !||    hm_option_is_encrypted     ../starter/source/devtools/hm_reader/hm_option_is_encrypted.F
-      !||    hm_option_read_key         ../starter/source/devtools/hm_reader/hm_option_read_key.F
-      !||    hm_option_start            ../starter/source/devtools/hm_reader/hm_option_start.F
-      !||--- uses       -----------------------------------------------------
-      !||    hm_option_read_mod         ../starter/share/modules1/hm_option_read_mod.F
-      !||    message_mod                ../starter/share/message_module/message_mod.F
-      !||    submodel_mod               ../starter/share/modules1/submodel_mod.F
-      !||    table_mod                  ../starter/share/modules1/table_mod.F
-      !||====================================================================
+!||====================================================================
+!||    hm_read_funct              ../starter/source/tools/curve/hm_read_funct.F
+!||--- called by ------------------------------------------------------
+!||    lectur                     ../starter/source/starter/lectur.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                     ../starter/source/output/message/message.F
+!||    fretitl                    ../starter/source/starter/freform.F
+!||    hm_get_float_array_index   ../starter/source/devtools/hm_reader/hm_get_float_array_index.F
+!||    hm_get_floatv              ../starter/source/devtools/hm_reader/hm_get_floatv.F
+!||    hm_get_intv                ../starter/source/devtools/hm_reader/hm_get_intv.F
+!||    hm_option_count            ../starter/source/devtools/hm_reader/hm_option_count.F
+!||    hm_option_is_encrypted     ../starter/source/devtools/hm_reader/hm_option_is_encrypted.F
+!||    hm_option_read_key         ../starter/source/devtools/hm_reader/hm_option_read_key.F
+!||    hm_option_start            ../starter/source/devtools/hm_reader/hm_option_start.F
+!||--- uses       -----------------------------------------------------
+!||    hm_option_read_mod         ../starter/share/modules1/hm_option_read_mod.F
+!||    message_mod                ../starter/share/message_module/message_mod.F
+!||    submodel_mod               ../starter/share/modules1/submodel_mod.F
+!||    table_mod                  ../starter/share/modules1/table_mod.F
+!||====================================================================
       SUBROUTINE HM_READ_FUNCT(NPC     ,PLD      ,NFUNCT ,TABLE    ,NPTS_ALLOC,
      .                         NOM_OPT ,FUNCRYPT ,UNITAB ,LSUBMODEL)
 C-----------------------------------------------

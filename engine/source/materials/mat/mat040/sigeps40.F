@@ -21,14 +21,14 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 c jbm036
-      !||====================================================================
-      !||    sigeps40   ../engine/source/materials/mat/mat040/sigeps40.F
-      !||--- called by ------------------------------------------------------
-      !||    mulaw      ../engine/source/materials/mat_share/mulaw.F90
-      !||    mulaw8     ../engine/source/materials/mat_share/mulaw8.F90
-      !||--- calls      -----------------------------------------------------
-      !||    finter     ../engine/source/tools/curve/finter.F
-      !||====================================================================
+!||====================================================================
+!||    sigeps40   ../engine/source/materials/mat/mat040/sigeps40.F
+!||--- called by ------------------------------------------------------
+!||    mulaw      ../engine/source/materials/mat_share/mulaw.F90
+!||    mulaw8     ../engine/source/materials/mat_share/mulaw8.F90
+!||--- calls      -----------------------------------------------------
+!||    finter     ../engine/source/tools/curve/finter.F
+!||====================================================================
       SUBROUTINE SIGEPS40 (
      1     NEL    ,NUPARAM,NUVAR   ,NFUNC   ,IFUNC   ,NPF    ,
      2     TF     ,TIME   ,TIMESTEP,UPARAM  ,RHO0    ,RHO    ,

@@ -20,17 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    cutfunce       ../engine/source/tools/sect/cutfunce.F
-      !||--- called by ------------------------------------------------------
-      !||    genani         ../engine/source/output/anim/generate/genani.F
-      !||--- calls      -----------------------------------------------------
-      !||    initbuf        ../engine/share/resol/initbuf.F
-      !||    write_r_c      ../common_source/tools/input_output/write_routtines.c
-      !||--- uses       -----------------------------------------------------
-      !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||    initbuf_mod    ../engine/share/resol/initbuf.F
-      !||====================================================================
+!||====================================================================
+!||    cutfunce       ../engine/source/tools/sect/cutfunce.F
+!||--- called by ------------------------------------------------------
+!||    genani         ../engine/source/output/anim/generate/genani.F
+!||--- calls      -----------------------------------------------------
+!||    initbuf        ../engine/share/resol/initbuf.F
+!||    write_r_c      ../common_source/tools/input_output/write_routtines.c
+!||--- uses       -----------------------------------------------------
+!||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    initbuf_mod    ../engine/share/resol/initbuf.F
+!||====================================================================
       SUBROUTINE CUTFUNCE(NC   ,NUMEL,ELBUF_TAB,IFUNC  ,
      .                    IPARG,PM   ,IXS    )
 C-----------------------------------------------

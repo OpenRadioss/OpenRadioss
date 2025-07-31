@@ -20,23 +20,23 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    hm_read_prop14           ../starter/source/properties/solid/hm_read_prop14.F
-      !||--- called by ------------------------------------------------------
-      !||    hm_read_properties       ../starter/source/properties/hm_read_properties.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg                   ../starter/source/output/message/message.F
-      !||    arret                    ../starter/source/system/arret.F
-      !||    hm_get_floatv            ../starter/source/devtools/hm_reader/hm_get_floatv.F
-      !||    hm_get_intv              ../starter/source/devtools/hm_reader/hm_get_intv.F
-      !||    hm_option_is_encrypted   ../starter/source/devtools/hm_reader/hm_option_is_encrypted.F
-      !||    hm_read_ale_close        ../starter/source/ale/hm_read_ale_close.F
-      !||--- uses       -----------------------------------------------------
-      !||    defaults_mod             ../starter/source/modules/defaults_mod.F90
-      !||    elbuftag_mod             ../starter/share/modules1/elbuftag_mod.F
-      !||    message_mod              ../starter/share/message_module/message_mod.F
-      !||    submodel_mod             ../starter/share/modules1/submodel_mod.F
-      !||====================================================================
+!||====================================================================
+!||    hm_read_prop14           ../starter/source/properties/solid/hm_read_prop14.F
+!||--- called by ------------------------------------------------------
+!||    hm_read_properties       ../starter/source/properties/hm_read_properties.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                   ../starter/source/output/message/message.F
+!||    arret                    ../starter/source/system/arret.F
+!||    hm_get_floatv            ../starter/source/devtools/hm_reader/hm_get_floatv.F
+!||    hm_get_intv              ../starter/source/devtools/hm_reader/hm_get_intv.F
+!||    hm_option_is_encrypted   ../starter/source/devtools/hm_reader/hm_option_is_encrypted.F
+!||    hm_read_ale_close        ../starter/source/ale/hm_read_ale_close.F
+!||--- uses       -----------------------------------------------------
+!||    defaults_mod             ../starter/source/modules/defaults_mod.F90
+!||    elbuftag_mod             ../starter/share/modules1/elbuftag_mod.F
+!||    message_mod              ../starter/share/message_module/message_mod.F
+!||    submodel_mod             ../starter/share/modules1/submodel_mod.F
+!||====================================================================
       SUBROUTINE HM_READ_PROP14(GEO,IGEO,PROP_TAG,MULTI_FVM,IGTYP,IG,TITR,UNITAB,
      .                          LSUBMODEL,IPART,DEFAULTS_SOLID)
 C-----------------------------------------------
@@ -535,21 +535,21 @@ C
       END SUBROUTINE HM_READ_PROP14
 
 
-      !||====================================================================
-      !||    hm_read_prop14f          ../starter/source/properties/solid/hm_read_prop14.F
-      !||--- called by ------------------------------------------------------
-      !||    hm_read_properties       ../starter/source/properties/hm_read_properties.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg                   ../starter/source/output/message/message.F
-      !||    hm_get_floatv            ../starter/source/devtools/hm_reader/hm_get_floatv.F
-      !||    hm_option_is_encrypted   ../starter/source/devtools/hm_reader/hm_option_is_encrypted.F
-      !||    hm_read_ale_close        ../starter/source/ale/hm_read_ale_close.F
-      !||--- uses       -----------------------------------------------------
-      !||    defaults_mod             ../starter/source/modules/defaults_mod.F90
-      !||    elbuftag_mod             ../starter/share/modules1/elbuftag_mod.F
-      !||    message_mod              ../starter/share/message_module/message_mod.F
-      !||    submodel_mod             ../starter/share/modules1/submodel_mod.F
-      !||====================================================================
+!||====================================================================
+!||    hm_read_prop14f          ../starter/source/properties/solid/hm_read_prop14.F
+!||--- called by ------------------------------------------------------
+!||    hm_read_properties       ../starter/source/properties/hm_read_properties.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                   ../starter/source/output/message/message.F
+!||    hm_get_floatv            ../starter/source/devtools/hm_reader/hm_get_floatv.F
+!||    hm_option_is_encrypted   ../starter/source/devtools/hm_reader/hm_option_is_encrypted.F
+!||    hm_read_ale_close        ../starter/source/ale/hm_read_ale_close.F
+!||--- uses       -----------------------------------------------------
+!||    defaults_mod             ../starter/source/modules/defaults_mod.F90
+!||    elbuftag_mod             ../starter/share/modules1/elbuftag_mod.F
+!||    message_mod              ../starter/share/message_module/message_mod.F
+!||    submodel_mod             ../starter/share/modules1/submodel_mod.F
+!||====================================================================
       SUBROUTINE HM_READ_PROP14F(GEO,IGEO,PROP_TAG,MULTI_FVM,IGTYP,IG,TITR,UNITAB,LSUBMODEL,
      .                          DEFAULTS_SOLID)
 C-----------------------------------------------

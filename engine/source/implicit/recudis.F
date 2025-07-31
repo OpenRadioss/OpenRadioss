@@ -20,12 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    recudis    ../engine/source/implicit/recudis.F
-      !||--- called by ------------------------------------------------------
-      !||    imp_buck   ../engine/source/implicit/imp_buck.F
-      !||    lin_solv   ../engine/source/implicit/lin_solv.F
-      !||====================================================================
+!||====================================================================
+!||    recudis    ../engine/source/implicit/recudis.F
+!||--- called by ------------------------------------------------------
+!||    imp_buck   ../engine/source/implicit/imp_buck.F
+!||    lin_solv   ../engine/source/implicit/lin_solv.F
+!||====================================================================
       SUBROUTINE RECUDIS(NDDL  ,IDDL  ,NDOF  ,IKC   ,LX    ,
      1                   D     ,DR    ,INLOC )
 C-----------------------------------------------
@@ -72,26 +72,26 @@ C----No ddl actuelle -> IDDL(NUMNOD)+J(1-6)-NKC-----
 C
       RETURN
       END
-      !||====================================================================
-      !||    recukin         ../engine/source/implicit/recudis.F
-      !||--- called by ------------------------------------------------------
-      !||    imp_buck        ../engine/source/implicit/imp_buck.F
-      !||    imp_solv        ../engine/source/implicit/imp_solv.F
-      !||    rer02           ../engine/source/implicit/upd_glob_k.F
-      !||--- calls      -----------------------------------------------------
-      !||    bc_imp2         ../engine/source/constraints/general/bcs/bc_imp0.F
-      !||    fv_impd         ../engine/source/constraints/general/impvel/fv_imp0.F
-      !||    fvbc_impd       ../engine/source/constraints/general/impvel/fv_imp0.F
-      !||    i2_impd         ../engine/source/interfaces/interf/i2_impd.F
-      !||    rbe2_impd       ../engine/source/constraints/general/rbe2/rbe2v.F
-      !||    rbe3_impd       ../engine/source/constraints/general/rbe3/rbe3v.F
-      !||    rby_impd        ../engine/source/constraints/general/rbody/rby_impd.F
-      !||    rm_imp2         ../engine/source/model/remesh/rm_imp0.F
-      !||    rwl_impd        ../engine/source/constraints/general/rwall/srw_imp.F
-      !||--- uses       -----------------------------------------------------
-      !||    imp_fvbcl       ../engine/share/modules/impbufdef_mod.F
-      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    recukin         ../engine/source/implicit/recudis.F
+!||--- called by ------------------------------------------------------
+!||    imp_buck        ../engine/source/implicit/imp_buck.F
+!||    imp_solv        ../engine/source/implicit/imp_solv.F
+!||    rer02           ../engine/source/implicit/upd_glob_k.F
+!||--- calls      -----------------------------------------------------
+!||    bc_imp2         ../engine/source/constraints/general/bcs/bc_imp0.F
+!||    fv_impd         ../engine/source/constraints/general/impvel/fv_imp0.F
+!||    fvbc_impd       ../engine/source/constraints/general/impvel/fv_imp0.F
+!||    i2_impd         ../engine/source/interfaces/interf/i2_impd.F
+!||    rbe2_impd       ../engine/source/constraints/general/rbe2/rbe2v.F
+!||    rbe3_impd       ../engine/source/constraints/general/rbe3/rbe3v.F
+!||    rby_impd        ../engine/source/constraints/general/rbody/rby_impd.F
+!||    rm_imp2         ../engine/source/model/remesh/rm_imp0.F
+!||    rwl_impd        ../engine/source/constraints/general/rwall/srw_imp.F
+!||--- uses       -----------------------------------------------------
+!||    imp_fvbcl       ../engine/share/modules/impbufdef_mod.F
+!||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
+!||====================================================================
       SUBROUTINE RECUKIN(RBY   ,LPBY  ,NPBY  ,SKEW  ,ISKEW ,
      1                   ITAB  ,WEIGHT,MS    ,IN    ,
      2                   IBFV  ,VEL   ,ICODT,ICODR ,
@@ -177,11 +177,11 @@ C-------local FV-BCS coupling might modify global dirs due to unconsisting
 C
       RETURN
       END
-      !||====================================================================
-      !||    iddl2nod   ../engine/source/implicit/recudis.F
-      !||--- called by ------------------------------------------------------
-      !||    imp_solv   ../engine/source/implicit/imp_solv.F
-      !||====================================================================
+!||====================================================================
+!||    iddl2nod   ../engine/source/implicit/recudis.F
+!||--- called by ------------------------------------------------------
+!||    imp_solv   ../engine/source/implicit/imp_solv.F
+!||====================================================================
       SUBROUTINE IDDL2NOD(NDDL  ,IDDL  ,NDOF  ,IKC   ,INLOC ,
      1                    IID   ,NN    )
 C-----------------------------------------------
@@ -221,12 +221,12 @@ C----No ddl actuelle -> IDDL(NUMNOD)+J(1-6)-NKC-----
 C
       RETURN
       END
-      !||====================================================================
-      !||    weightddl   ../engine/source/implicit/recudis.F
-      !||--- called by ------------------------------------------------------
-      !||    imp_chkm    ../engine/source/implicit/imp_solv.F
-      !||    imp_solv    ../engine/source/implicit/imp_solv.F
-      !||====================================================================
+!||====================================================================
+!||    weightddl   ../engine/source/implicit/recudis.F
+!||--- called by ------------------------------------------------------
+!||    imp_chkm    ../engine/source/implicit/imp_solv.F
+!||    imp_solv    ../engine/source/implicit/imp_solv.F
+!||====================================================================
       SUBROUTINE WEIGHTDDL(IDDL  ,NDOF  ,IKC   ,WEIGHT,W_IMP ,
      1                     INLOC )
 C-----------------------------------------------

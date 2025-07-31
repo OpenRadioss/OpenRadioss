@@ -20,11 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    r4coork3   ../engine/source/elements/spring/r4coork3.F
-      !||--- called by ------------------------------------------------------
-      !||    r13ke3     ../engine/source/elements/spring/r13ke3.F
-      !||====================================================================
+!||====================================================================
+!||    r4coork3   ../engine/source/elements/spring/r4coork3.F
+!||--- called by ------------------------------------------------------
+!||    r13ke3     ../engine/source/elements/spring/r13ke3.F
+!||====================================================================
       SUBROUTINE R4COORK3(JFT    ,JLT    ,X      ,NCC   ,PID    ,
      2                    NGL    ,AL     ,R11    ,R12   ,R13    , 
      3                    R21    ,R22    ,R23    ,R31   ,R32    ,

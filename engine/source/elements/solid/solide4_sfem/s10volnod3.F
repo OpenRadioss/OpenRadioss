@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    s10volnod3        ../engine/source/elements/solid/solide4_sfem/s10volnod3.F
-      !||--- called by ------------------------------------------------------
-      !||    s4lagsfem         ../engine/source/elements/solid/solide4_sfem/s4lagsfem.F
-      !||--- calls      -----------------------------------------------------
-      !||    foat_to_6_float   ../engine/source/system/parit.F
-      !||    s10volj           ../engine/source/elements/solid/solide4_sfem/s10volj.F
-      !||====================================================================
+!||====================================================================
+!||    s10volnod3        ../engine/source/elements/solid/solide4_sfem/s10volnod3.F
+!||--- called by ------------------------------------------------------
+!||    s4lagsfem         ../engine/source/elements/solid/solide4_sfem/s4lagsfem.F
+!||--- calls      -----------------------------------------------------
+!||    foat_to_6_float   ../engine/source/system/parit.F
+!||    s10volj           ../engine/source/elements/solid/solide4_sfem/s10volj.F
+!||====================================================================
       SUBROUTINE S10VOLNOD3(
      1   VOLNOD6, X,       NC,      OFFG,
      2   VOLG,    XDP,     NEL,     NPT,

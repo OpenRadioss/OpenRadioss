@@ -20,15 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    rbe2_imp0    ../engine/source/constraints/general/rbe2/rbe2_imp0.F
-      !||--- called by ------------------------------------------------------
-      !||    upd_glob_k   ../engine/source/implicit/upd_glob_k.F
-      !||--- calls      -----------------------------------------------------
-      !||    prerbe2      ../engine/source/constraints/general/rbe2/rbe2f.F
-      !||    rbe2_imp1    ../engine/source/constraints/general/rbe2/rbe2_imp0.F
-      !||    rbe2_impl    ../engine/source/constraints/general/rbe2/rbe2_imp0.F
-      !||====================================================================
+!||====================================================================
+!||    rbe2_imp0    ../engine/source/constraints/general/rbe2/rbe2_imp0.F
+!||--- called by ------------------------------------------------------
+!||    upd_glob_k   ../engine/source/implicit/upd_glob_k.F
+!||--- calls      -----------------------------------------------------
+!||    prerbe2      ../engine/source/constraints/general/rbe2/rbe2f.F
+!||    rbe2_imp1    ../engine/source/constraints/general/rbe2/rbe2_imp0.F
+!||    rbe2_impl    ../engine/source/constraints/general/rbe2/rbe2_imp0.F
+!||====================================================================
       SUBROUTINE RBE2_IMP0(
      1                    IRBE2  ,LRBE2  ,X      ,NSRB2  ,ISB2   ,
      2                    IKC    ,NDOF   ,IDDL   ,IADK   ,JDIK   ,
@@ -85,15 +85,15 @@ C-----------------------------------------------
 C
       RETURN
       END
-      !||====================================================================
-      !||    rbe2_impi   ../engine/source/constraints/general/rbe2/rbe2_imp0.F
-      !||--- called by ------------------------------------------------------
-      !||    upd_int_k   ../engine/source/implicit/upd_glob_k.F
-      !||--- calls      -----------------------------------------------------
-      !||    prerbe2     ../engine/source/constraints/general/rbe2/rbe2f.F
-      !||    rbe2_imp1   ../engine/source/constraints/general/rbe2/rbe2_imp0.F
-      !||    rbe2_impl   ../engine/source/constraints/general/rbe2/rbe2_imp0.F
-      !||====================================================================
+!||====================================================================
+!||    rbe2_impi   ../engine/source/constraints/general/rbe2/rbe2_imp0.F
+!||--- called by ------------------------------------------------------
+!||    upd_int_k   ../engine/source/implicit/upd_glob_k.F
+!||--- calls      -----------------------------------------------------
+!||    prerbe2     ../engine/source/constraints/general/rbe2/rbe2f.F
+!||    rbe2_imp1   ../engine/source/constraints/general/rbe2/rbe2_imp0.F
+!||    rbe2_impl   ../engine/source/constraints/general/rbe2/rbe2_imp0.F
+!||====================================================================
       SUBROUTINE RBE2_IMPI(
      1                    IRBE2  ,LRBE2 ,X     ,SKEW   ,
      2                    NSB2   ,ISB2  ,IKC   ,NDOF   ,IDDL   ,
@@ -160,23 +160,23 @@ C----------debug: only for the lowest hierarchy
 C
       RETURN
       END
-      !||====================================================================
-      !||    rbe2_imp1    ../engine/source/constraints/general/rbe2/rbe2_imp0.F
-      !||--- called by ------------------------------------------------------
-      !||    rbe2_imp0    ../engine/source/constraints/general/rbe2/rbe2_imp0.F
-      !||    rbe2_impi    ../engine/source/constraints/general/rbe2/rbe2_imp0.F
-      !||--- calls      -----------------------------------------------------
-      !||    get_kii      ../engine/source/implicit/imp_glob_k.F
-      !||    get_kij      ../engine/source/implicit/imp_glob_k.F
-      !||    print_wkij   ../engine/source/implicit/imp_glob_k.F
-      !||    put_kii      ../engine/source/implicit/imp_glob_k.F
-      !||    put_kij      ../engine/source/implicit/imp_glob_k.F
-      !||    sym_kdd      ../engine/source/constraints/general/rbe2/rbe2_imp0.F
-      !||    updk_bc      ../engine/source/constraints/general/rbe3/rbe3_imp0.F
-      !||    updk_bc2     ../engine/source/constraints/general/rbe3/rbe3_imp0.F
-      !||    updkb_rb     ../engine/source/constraints/general/rbody/rby_imp0.F
-      !||    updkb_rb1    ../engine/source/constraints/general/rbody/rby_imp0.F
-      !||====================================================================
+!||====================================================================
+!||    rbe2_imp1    ../engine/source/constraints/general/rbe2/rbe2_imp0.F
+!||--- called by ------------------------------------------------------
+!||    rbe2_imp0    ../engine/source/constraints/general/rbe2/rbe2_imp0.F
+!||    rbe2_impi    ../engine/source/constraints/general/rbe2/rbe2_imp0.F
+!||--- calls      -----------------------------------------------------
+!||    get_kii      ../engine/source/implicit/imp_glob_k.F
+!||    get_kij      ../engine/source/implicit/imp_glob_k.F
+!||    print_wkij   ../engine/source/implicit/imp_glob_k.F
+!||    put_kii      ../engine/source/implicit/imp_glob_k.F
+!||    put_kij      ../engine/source/implicit/imp_glob_k.F
+!||    sym_kdd      ../engine/source/constraints/general/rbe2/rbe2_imp0.F
+!||    updk_bc      ../engine/source/constraints/general/rbe3/rbe3_imp0.F
+!||    updk_bc2     ../engine/source/constraints/general/rbe3/rbe3_imp0.F
+!||    updkb_rb     ../engine/source/constraints/general/rbody/rby_imp0.F
+!||    updkb_rb1    ../engine/source/constraints/general/rbody/rby_imp0.F
+!||====================================================================
       SUBROUTINE RBE2_IMP1(M     ,NSN   ,ISL   ,X      ,NSJ    ,
      2                    ISJ   ,JT    ,JR    ,IKC    ,NDOF   ,
      3                    IDDL  ,IADK  ,JDIK  ,DIAG_K,LT_K    ,
@@ -299,24 +299,24 @@ C-------fin -boucle secnd nodes--
 C
       RETURN
       END
-      !||====================================================================
-      !||    rbe2_impl      ../engine/source/constraints/general/rbe2/rbe2_imp0.F
-      !||--- called by ------------------------------------------------------
-      !||    rbe2_imp0      ../engine/source/constraints/general/rbe2/rbe2_imp0.F
-      !||    rbe2_impi      ../engine/source/constraints/general/rbe2/rbe2_imp0.F
-      !||--- calls      -----------------------------------------------------
-      !||    cdi_skew       ../engine/source/constraints/general/rbe2/rbe2_imp0.F
-      !||    get_kii        ../engine/source/implicit/imp_glob_k.F
-      !||    get_kij        ../engine/source/implicit/imp_glob_k.F
-      !||    print_wkij     ../engine/source/implicit/imp_glob_k.F
-      !||    put_kii        ../engine/source/implicit/imp_glob_k.F
-      !||    put_kij        ../engine/source/implicit/imp_glob_k.F
-      !||    rbe2_bcl       ../engine/source/constraints/general/rbe2/rbe2_imp0.F
-      !||    rbe2_impbl     ../engine/source/constraints/general/rbe2/rbe2_imp0.F
-      !||    sym_kdd        ../engine/source/constraints/general/rbe2/rbe2_imp0.F
-      !||    updcdik2_cdi   ../engine/source/constraints/general/rbe2/rbe2_imp0.F
-      !||    updk2_cdi      ../engine/source/constraints/general/rbe2/rbe2_imp0.F
-      !||====================================================================
+!||====================================================================
+!||    rbe2_impl      ../engine/source/constraints/general/rbe2/rbe2_imp0.F
+!||--- called by ------------------------------------------------------
+!||    rbe2_imp0      ../engine/source/constraints/general/rbe2/rbe2_imp0.F
+!||    rbe2_impi      ../engine/source/constraints/general/rbe2/rbe2_imp0.F
+!||--- calls      -----------------------------------------------------
+!||    cdi_skew       ../engine/source/constraints/general/rbe2/rbe2_imp0.F
+!||    get_kii        ../engine/source/implicit/imp_glob_k.F
+!||    get_kij        ../engine/source/implicit/imp_glob_k.F
+!||    print_wkij     ../engine/source/implicit/imp_glob_k.F
+!||    put_kii        ../engine/source/implicit/imp_glob_k.F
+!||    put_kij        ../engine/source/implicit/imp_glob_k.F
+!||    rbe2_bcl       ../engine/source/constraints/general/rbe2/rbe2_imp0.F
+!||    rbe2_impbl     ../engine/source/constraints/general/rbe2/rbe2_imp0.F
+!||    sym_kdd        ../engine/source/constraints/general/rbe2/rbe2_imp0.F
+!||    updcdik2_cdi   ../engine/source/constraints/general/rbe2/rbe2_imp0.F
+!||    updk2_cdi      ../engine/source/constraints/general/rbe2/rbe2_imp0.F
+!||====================================================================
       SUBROUTINE RBE2_IMPL(M     ,NSN   ,ISL   ,X      ,NSJ    ,
      2                    ISJ    ,JT    ,JR    ,IKC    ,NDOF   ,
      3                    IDDL   ,IADK  ,JDIK  ,DIAG_K,LT_K    ,
@@ -446,18 +446,18 @@ C-------fin -boucle secnd nodes--
 C
       RETURN
       END
-      !||====================================================================
-      !||    rbe2_impr1   ../engine/source/constraints/general/rbe2/rbe2_imp0.F
-      !||--- called by ------------------------------------------------------
-      !||    imp_dykv     ../engine/source/implicit/imp_dyna.F
-      !||    imp_dykv0    ../engine/source/implicit/imp_dyna.F
-      !||    upd_rhs      ../engine/source/implicit/upd_glob_k.F
-      !||    upd_rhs_fr   ../engine/source/implicit/imp_solv.F
-      !||--- calls      -----------------------------------------------------
-      !||    prerbe2      ../engine/source/constraints/general/rbe2/rbe2f.F
-      !||    rbe2_impb0   ../engine/source/constraints/general/rbe2/rbe2_imp0.F
-      !||    rbe2_impbl   ../engine/source/constraints/general/rbe2/rbe2_imp0.F
-      !||====================================================================
+!||====================================================================
+!||    rbe2_impr1   ../engine/source/constraints/general/rbe2/rbe2_imp0.F
+!||--- called by ------------------------------------------------------
+!||    imp_dykv     ../engine/source/implicit/imp_dyna.F
+!||    imp_dykv0    ../engine/source/implicit/imp_dyna.F
+!||    upd_rhs      ../engine/source/implicit/upd_glob_k.F
+!||    upd_rhs_fr   ../engine/source/implicit/imp_solv.F
+!||--- calls      -----------------------------------------------------
+!||    prerbe2      ../engine/source/constraints/general/rbe2/rbe2f.F
+!||    rbe2_impb0   ../engine/source/constraints/general/rbe2/rbe2_imp0.F
+!||    rbe2_impbl   ../engine/source/constraints/general/rbe2/rbe2_imp0.F
+!||====================================================================
       SUBROUTINE RBE2_IMPR1(
      1                    IRBE2  ,LRBE2 ,X     ,SKEW   ,NDOF   ,
      2                    IDDL   ,B     ,WEIGHT)
@@ -504,13 +504,13 @@ C-----------------------------------------------
 C
       RETURN
       END
-      !||====================================================================
-      !||    rbe2_impb0   ../engine/source/constraints/general/rbe2/rbe2_imp0.F
-      !||--- called by ------------------------------------------------------
-      !||    rbe2_impr1   ../engine/source/constraints/general/rbe2/rbe2_imp0.F
-      !||--- calls      -----------------------------------------------------
-      !||    updb_rb      ../engine/source/constraints/general/rbody/rby_imp0.F
-      !||====================================================================
+!||====================================================================
+!||    rbe2_impb0   ../engine/source/constraints/general/rbe2/rbe2_imp0.F
+!||--- called by ------------------------------------------------------
+!||    rbe2_impr1   ../engine/source/constraints/general/rbe2/rbe2_imp0.F
+!||--- calls      -----------------------------------------------------
+!||    updb_rb      ../engine/source/constraints/general/rbody/rby_imp0.F
+!||====================================================================
       SUBROUTINE RBE2_IMPB0(M     ,NSN   ,ISL   ,X      ,JT    ,
      2                      JR    ,NDOF  ,IDDL  ,B      ,IRAD  )
 C-----------------------------------------------
@@ -582,15 +582,15 @@ C-------Update B---
 C
       RETURN
       END
-      !||====================================================================
-      !||    rbe2_impbl   ../engine/source/constraints/general/rbe2/rbe2_imp0.F
-      !||--- called by ------------------------------------------------------
-      !||    rbe2_impl    ../engine/source/constraints/general/rbe2/rbe2_imp0.F
-      !||    rbe2_impr1   ../engine/source/constraints/general/rbe2/rbe2_imp0.F
-      !||--- calls      -----------------------------------------------------
-      !||    cdi_skew     ../engine/source/constraints/general/rbe2/rbe2_imp0.F
-      !||    rbe2impbsn   ../engine/source/constraints/general/rbe2/rbe2_imp0.F
-      !||====================================================================
+!||====================================================================
+!||    rbe2_impbl   ../engine/source/constraints/general/rbe2/rbe2_imp0.F
+!||--- called by ------------------------------------------------------
+!||    rbe2_impl    ../engine/source/constraints/general/rbe2/rbe2_imp0.F
+!||    rbe2_impr1   ../engine/source/constraints/general/rbe2/rbe2_imp0.F
+!||--- calls      -----------------------------------------------------
+!||    cdi_skew     ../engine/source/constraints/general/rbe2/rbe2_imp0.F
+!||    rbe2impbsn   ../engine/source/constraints/general/rbe2/rbe2_imp0.F
+!||====================================================================
       SUBROUTINE RBE2_IMPBL(M     ,NSN   ,ISL   ,X      ,JT    ,
      2                      JR    ,NDOF  ,IDDL  ,B      ,SKEW  ,
      3                      IRAD  )
@@ -674,12 +674,12 @@ C-------Update B---
 C
       RETURN
       END
-      !||====================================================================
-      !||    sym_kdd     ../engine/source/constraints/general/rbe2/rbe2_imp0.F
-      !||--- called by ------------------------------------------------------
-      !||    rbe2_imp1   ../engine/source/constraints/general/rbe2/rbe2_imp0.F
-      !||    rbe2_impl   ../engine/source/constraints/general/rbe2/rbe2_imp0.F
-      !||====================================================================
+!||====================================================================
+!||    sym_kdd     ../engine/source/constraints/general/rbe2/rbe2_imp0.F
+!||--- called by ------------------------------------------------------
+!||    rbe2_imp1   ../engine/source/constraints/general/rbe2/rbe2_imp0.F
+!||    rbe2_impl   ../engine/source/constraints/general/rbe2/rbe2_imp0.F
+!||====================================================================
       SUBROUTINE SYM_KDD(ND,KDD)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -704,17 +704,17 @@ C-----------------------------------------------
 C
       RETURN
       END
-      !||====================================================================
-      !||    cdi_skew     ../engine/source/constraints/general/rbe2/rbe2_imp0.F
-      !||--- called by ------------------------------------------------------
-      !||    rbe2_frk     ../engine/source/constraints/general/rbe2/rbe2_imp0.F
-      !||    rbe2_impbl   ../engine/source/constraints/general/rbe2/rbe2_imp0.F
-      !||    rbe2_impkd   ../engine/source/constraints/general/rbe2/rbe2_imp0.F
-      !||    rbe2_impl    ../engine/source/constraints/general/rbe2/rbe2_imp0.F
-      !||--- calls      -----------------------------------------------------
-      !||    cdi_bcn      ../engine/source/constraints/general/rbe2/rbe2_imp0.F
-      !||    cdi_bcn1     ../engine/source/constraints/general/rbe2/rbe2_imp0.F
-      !||====================================================================
+!||====================================================================
+!||    cdi_skew     ../engine/source/constraints/general/rbe2/rbe2_imp0.F
+!||--- called by ------------------------------------------------------
+!||    rbe2_frk     ../engine/source/constraints/general/rbe2/rbe2_imp0.F
+!||    rbe2_impbl   ../engine/source/constraints/general/rbe2/rbe2_imp0.F
+!||    rbe2_impkd   ../engine/source/constraints/general/rbe2/rbe2_imp0.F
+!||    rbe2_impl    ../engine/source/constraints/general/rbe2/rbe2_imp0.F
+!||--- calls      -----------------------------------------------------
+!||    cdi_bcn      ../engine/source/constraints/general/rbe2/rbe2_imp0.F
+!||    cdi_bcn1     ../engine/source/constraints/general/rbe2/rbe2_imp0.F
+!||====================================================================
       SUBROUTINE CDI_SKEW(XS,YS,ZS,JT,JR,SKEW,KT,KR,KTR,JT1,JR1,IRAD)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -740,13 +740,13 @@ C------------------------KT=QtJTQ-----------------------
 C
       RETURN
       END
-      !||====================================================================
-      !||    updk2_cdi      ../engine/source/constraints/general/rbe2/rbe2_imp0.F
-      !||--- called by ------------------------------------------------------
-      !||    rbe2_frk       ../engine/source/constraints/general/rbe2/rbe2_imp0.F
-      !||    rbe2_impl      ../engine/source/constraints/general/rbe2/rbe2_imp0.F
-      !||    updcdik2_cdi   ../engine/source/constraints/general/rbe2/rbe2_imp0.F
-      !||====================================================================
+!||====================================================================
+!||    updk2_cdi      ../engine/source/constraints/general/rbe2/rbe2_imp0.F
+!||--- called by ------------------------------------------------------
+!||    rbe2_frk       ../engine/source/constraints/general/rbe2/rbe2_imp0.F
+!||    rbe2_impl      ../engine/source/constraints/general/rbe2/rbe2_imp0.F
+!||    updcdik2_cdi   ../engine/source/constraints/general/rbe2/rbe2_imp0.F
+!||====================================================================
       SUBROUTINE UPDK2_CDI(NI,NJ,CDT,CDR,CDTR,KDD)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -797,15 +797,15 @@ C
 C
       RETURN
       END
-      !||====================================================================
-      !||    updcdik2_cdi   ../engine/source/constraints/general/rbe2/rbe2_imp0.F
-      !||--- called by ------------------------------------------------------
-      !||    rbe2_frk       ../engine/source/constraints/general/rbe2/rbe2_imp0.F
-      !||    rbe2_impkd     ../engine/source/constraints/general/rbe2/rbe2_imp0.F
-      !||    rbe2_impl      ../engine/source/constraints/general/rbe2/rbe2_imp0.F
-      !||--- calls      -----------------------------------------------------
-      !||    updk2_cdi      ../engine/source/constraints/general/rbe2/rbe2_imp0.F
-      !||====================================================================
+!||====================================================================
+!||    updcdik2_cdi   ../engine/source/constraints/general/rbe2/rbe2_imp0.F
+!||--- called by ------------------------------------------------------
+!||    rbe2_frk       ../engine/source/constraints/general/rbe2/rbe2_imp0.F
+!||    rbe2_impkd     ../engine/source/constraints/general/rbe2/rbe2_imp0.F
+!||    rbe2_impl      ../engine/source/constraints/general/rbe2/rbe2_imp0.F
+!||--- calls      -----------------------------------------------------
+!||    updk2_cdi      ../engine/source/constraints/general/rbe2/rbe2_imp0.F
+!||====================================================================
       SUBROUTINE UPDCDIK2_CDI(ND,CDT,CDR,CDTR,KDD)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -851,16 +851,16 @@ C
 C
       RETURN
       END
-      !||====================================================================
-      !||    rbe2_bcl    ../engine/source/constraints/general/rbe2/rbe2_imp0.F
-      !||--- called by ------------------------------------------------------
-      !||    rbe2_impl   ../engine/source/constraints/general/rbe2/rbe2_imp0.F
-      !||--- calls      -----------------------------------------------------
-      !||    bc_updk     ../engine/source/constraints/general/bcs/bc_imp0.F
-      !||    bc_updk2    ../engine/source/constraints/general/rbe2/rbe2_imp0.F
-      !||    dir_rbe2    ../engine/source/constraints/general/rbe2/rbe2v.F
-      !||    l_dir       ../engine/source/constraints/general/bcs/bc_imp0.F
-      !||====================================================================
+!||====================================================================
+!||    rbe2_bcl    ../engine/source/constraints/general/rbe2/rbe2_imp0.F
+!||--- called by ------------------------------------------------------
+!||    rbe2_impl   ../engine/source/constraints/general/rbe2/rbe2_imp0.F
+!||--- calls      -----------------------------------------------------
+!||    bc_updk     ../engine/source/constraints/general/bcs/bc_imp0.F
+!||    bc_updk2    ../engine/source/constraints/general/rbe2/rbe2_imp0.F
+!||    dir_rbe2    ../engine/source/constraints/general/rbe2/rbe2v.F
+!||    l_dir       ../engine/source/constraints/general/bcs/bc_imp0.F
+!||====================================================================
       SUBROUTINE RBE2_BCL(ICT  ,SKEW  ,IADN  ,IFIX  ,IADK ,
      1                    JDIK ,DIAG_K,LT_K  ,I     ,IR    )
 C-----------------------------------------------
@@ -996,18 +996,18 @@ C----------------110-------------------------
 C
       RETURN
       END
-      !||====================================================================
-      !||    cdi_bcn     ../engine/source/constraints/general/rbe2/rbe2_imp0.F
-      !||--- called by ------------------------------------------------------
-      !||    cdi_skew    ../engine/source/constraints/general/rbe2/rbe2_imp0.F
-      !||    rbe2fl      ../engine/source/constraints/general/rbe2/rbe2f.F
-      !||    rbe2frf     ../engine/source/constraints/general/rbe2/rbe2f.F
-      !||    sms_rbe_1   ../engine/source/ams/sms_rbe2.F
-      !||    sms_rbe_5   ../engine/source/ams/sms_rbe2.F
-      !||--- calls      -----------------------------------------------------
-      !||    dir_rbe2    ../engine/source/constraints/general/rbe2/rbe2v.F
-      !||    l_dir       ../engine/source/constraints/general/bcs/bc_imp0.F
-      !||====================================================================
+!||====================================================================
+!||    cdi_bcn     ../engine/source/constraints/general/rbe2/rbe2_imp0.F
+!||--- called by ------------------------------------------------------
+!||    cdi_skew    ../engine/source/constraints/general/rbe2/rbe2_imp0.F
+!||    rbe2fl      ../engine/source/constraints/general/rbe2/rbe2f.F
+!||    rbe2frf     ../engine/source/constraints/general/rbe2/rbe2f.F
+!||    sms_rbe_1   ../engine/source/ams/sms_rbe2.F
+!||    sms_rbe_5   ../engine/source/ams/sms_rbe2.F
+!||--- calls      -----------------------------------------------------
+!||    dir_rbe2    ../engine/source/constraints/general/rbe2/rbe2v.F
+!||    l_dir       ../engine/source/constraints/general/bcs/bc_imp0.F
+!||====================================================================
       SUBROUTINE CDI_BCN(ICT   ,SKEW  ,JT   ,KT  ,JT1 )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -1154,14 +1154,14 @@ C----------------111-------------------------
 C
       RETURN
       END
-      !||====================================================================
-      !||    rbe2impbsn   ../engine/source/constraints/general/rbe2/rbe2_imp0.F
-      !||--- called by ------------------------------------------------------
-      !||    rbe2_impbl   ../engine/source/constraints/general/rbe2/rbe2_imp0.F
-      !||--- calls      -----------------------------------------------------
-      !||    dir_rbe2     ../engine/source/constraints/general/rbe2/rbe2v.F
-      !||    l_dir        ../engine/source/constraints/general/bcs/bc_imp0.F
-      !||====================================================================
+!||====================================================================
+!||    rbe2impbsn   ../engine/source/constraints/general/rbe2/rbe2_imp0.F
+!||--- called by ------------------------------------------------------
+!||    rbe2_impbl   ../engine/source/constraints/general/rbe2/rbe2_imp0.F
+!||--- calls      -----------------------------------------------------
+!||    dir_rbe2     ../engine/source/constraints/general/rbe2/rbe2v.F
+!||    l_dir        ../engine/source/constraints/general/bcs/bc_imp0.F
+!||====================================================================
       SUBROUTINE RBE2IMPBSN(NSL   ,ISL   ,B     ,ICT    ,NDOF   ,
      2                     IDDL   ,SKEW  ,IR    )
 C-----------------------------------------------
@@ -1305,15 +1305,15 @@ C-------------------110---------------------
 C
       RETURN
       END
-      !||====================================================================
-      !||    bc_updk2    ../engine/source/constraints/general/rbe2/rbe2_imp0.F
-      !||--- called by ------------------------------------------------------
-      !||    bc_updk2d   ../engine/source/constraints/general/bcs/bc_imp0.F
-      !||    rbe2_bcl    ../engine/source/constraints/general/rbe2/rbe2_imp0.F
-      !||--- calls      -----------------------------------------------------
-      !||    get_kii     ../engine/source/implicit/imp_glob_k.F
-      !||    put_kii     ../engine/source/implicit/imp_glob_k.F
-      !||====================================================================
+!||====================================================================
+!||    bc_updk2    ../engine/source/constraints/general/rbe2/rbe2_imp0.F
+!||--- called by ------------------------------------------------------
+!||    bc_updk2d   ../engine/source/constraints/general/bcs/bc_imp0.F
+!||    rbe2_bcl    ../engine/source/constraints/general/rbe2/rbe2_imp0.F
+!||--- calls      -----------------------------------------------------
+!||    get_kii     ../engine/source/implicit/imp_glob_k.F
+!||    put_kii     ../engine/source/implicit/imp_glob_k.F
+!||====================================================================
       SUBROUTINE BC_UPDK2(N     ,IDDL  ,J    ,L     ,K     ,
      1                    IR    ,EJ    ,EL   ,IADK  ,JDIK  ,
      2                    DIAG_K,LT_K  )
@@ -1432,19 +1432,19 @@ C---------
 C
       RETURN
       END
-      !||====================================================================
-      !||    cdi_bcn1   ../engine/source/constraints/general/rbe2/rbe2_imp0.F
-      !||--- called by ------------------------------------------------------
-      !||    cdi_skew   ../engine/source/constraints/general/rbe2/rbe2_imp0.F
-      !||    rbe2_frd   ../engine/source/constraints/general/rbe2/rbe2v.F
-      !||    rbe2dl2    ../engine/source/constraints/general/rbe2/rbe2v.F
-      !||    rbe2fl     ../engine/source/constraints/general/rbe2/rbe2f.F
-      !||    rbe2frf    ../engine/source/constraints/general/rbe2/rbe2f.F
-      !||    rbe2vl1    ../engine/source/constraints/general/rbe2/rbe2v.F
-      !||--- calls      -----------------------------------------------------
-      !||    dir_rbe2   ../engine/source/constraints/general/rbe2/rbe2v.F
-      !||    l_dir      ../engine/source/constraints/general/bcs/bc_imp0.F
-      !||====================================================================
+!||====================================================================
+!||    cdi_bcn1   ../engine/source/constraints/general/rbe2/rbe2_imp0.F
+!||--- called by ------------------------------------------------------
+!||    cdi_skew   ../engine/source/constraints/general/rbe2/rbe2_imp0.F
+!||    rbe2_frd   ../engine/source/constraints/general/rbe2/rbe2v.F
+!||    rbe2dl2    ../engine/source/constraints/general/rbe2/rbe2v.F
+!||    rbe2fl     ../engine/source/constraints/general/rbe2/rbe2f.F
+!||    rbe2frf    ../engine/source/constraints/general/rbe2/rbe2f.F
+!||    rbe2vl1    ../engine/source/constraints/general/rbe2/rbe2v.F
+!||--- calls      -----------------------------------------------------
+!||    dir_rbe2   ../engine/source/constraints/general/rbe2/rbe2v.F
+!||    l_dir      ../engine/source/constraints/general/bcs/bc_imp0.F
+!||====================================================================
       SUBROUTINE CDI_BCN1(XS,YS,ZS,JT,JR,SKEW,KTR,IRAD)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -1629,16 +1629,16 @@ C----------------111-------------------------
 C
       RETURN
       END
-      !||====================================================================
-      !||    rbe2_impkd     ../engine/source/constraints/general/rbe2/rbe2_imp0.F
-      !||--- called by ------------------------------------------------------
-      !||    diag_int       ../engine/source/mpi/implicit/imp_fri.F
-      !||    updk_mv        ../engine/source/airbag/monv_imp0.F
-      !||--- calls      -----------------------------------------------------
-      !||    bcl_impkd      ../engine/source/constraints/general/bcs/bc_imp0.F
-      !||    cdi_skew       ../engine/source/constraints/general/rbe2/rbe2_imp0.F
-      !||    updcdik2_cdi   ../engine/source/constraints/general/rbe2/rbe2_imp0.F
-      !||====================================================================
+!||====================================================================
+!||    rbe2_impkd     ../engine/source/constraints/general/rbe2/rbe2_imp0.F
+!||--- called by ------------------------------------------------------
+!||    diag_int       ../engine/source/mpi/implicit/imp_fri.F
+!||    updk_mv        ../engine/source/airbag/monv_imp0.F
+!||--- calls      -----------------------------------------------------
+!||    bcl_impkd      ../engine/source/constraints/general/bcs/bc_imp0.F
+!||    cdi_skew       ../engine/source/constraints/general/rbe2/rbe2_imp0.F
+!||    updcdik2_cdi   ../engine/source/constraints/general/rbe2/rbe2_imp0.F
+!||====================================================================
       SUBROUTINE RBE2_IMPKD(M     ,NS    ,X     ,ISK    ,JT     ,
      2                     JR     ,NDOF  ,SKEW0 ,KDD    ,DIAG_KM,
      3                     DIAG_KN,IRAD  )
@@ -1720,17 +1720,17 @@ C-------Update K,
 C
       RETURN
       END
-      !||====================================================================
-      !||    rbe2_frk       ../engine/source/constraints/general/rbe2/rbe2_imp0.F
-      !||--- called by ------------------------------------------------------
-      !||    upd_kml        ../engine/source/mpi/implicit/imp_fri.F
-      !||    upd_ksl        ../engine/source/mpi/implicit/imp_fri.F
-      !||--- calls      -----------------------------------------------------
-      !||    cdi_skew       ../engine/source/constraints/general/rbe2/rbe2_imp0.F
-      !||    put_kmii       ../engine/source/implicit/imp_glob_k.F
-      !||    updcdik2_cdi   ../engine/source/constraints/general/rbe2/rbe2_imp0.F
-      !||    updk2_cdi      ../engine/source/constraints/general/rbe2/rbe2_imp0.F
-      !||====================================================================
+!||====================================================================
+!||    rbe2_frk       ../engine/source/constraints/general/rbe2/rbe2_imp0.F
+!||--- called by ------------------------------------------------------
+!||    upd_kml        ../engine/source/mpi/implicit/imp_fri.F
+!||    upd_ksl        ../engine/source/mpi/implicit/imp_fri.F
+!||--- calls      -----------------------------------------------------
+!||    cdi_skew       ../engine/source/constraints/general/rbe2/rbe2_imp0.F
+!||    put_kmii       ../engine/source/implicit/imp_glob_k.F
+!||    updcdik2_cdi   ../engine/source/constraints/general/rbe2/rbe2_imp0.F
+!||    updk2_cdi      ../engine/source/constraints/general/rbe2/rbe2_imp0.F
+!||====================================================================
       SUBROUTINE RBE2_FRK(NS    ,M    ,X     ,ISK  ,SKEW0 ,
      1                    IRAD  ,NDOF  ,IDDL ,JT   ,JR    ,
      2                    IADK  ,JDIK ,DIAG_K,LT_K ,B     ,

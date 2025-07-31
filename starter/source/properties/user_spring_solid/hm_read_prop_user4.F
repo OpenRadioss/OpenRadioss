@@ -20,20 +20,20 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    hm_read_prop_user4     ../starter/source/properties/user_spring_solid/hm_read_prop_user4.F
-      !||--- called by ------------------------------------------------------
-      !||    hm_read_prop_generic   ../starter/source/properties/hm_read_prop_generic.F
-      !||--- calls      -----------------------------------------------------
-      !||    hm_get_floatv          ../starter/source/devtools/hm_reader/hm_get_floatv.F
-      !||    hm_get_intv            ../starter/source/devtools/hm_reader/hm_get_intv.F
-      !||    my_exit                ../starter/source/output/analyse/analyse.c
-      !||    set_u_geo              ../starter/source/user_interface/uaccess.F
-      !||    set_u_pnu              ../starter/source/user_interface/uaccess.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod            ../starter/share/message_module/message_mod.F
-      !||    submodel_mod           ../starter/share/modules1/submodel_mod.F
-      !||====================================================================
+!||====================================================================
+!||    hm_read_prop_user4     ../starter/source/properties/user_spring_solid/hm_read_prop_user4.F
+!||--- called by ------------------------------------------------------
+!||    hm_read_prop_generic   ../starter/source/properties/hm_read_prop_generic.F
+!||--- calls      -----------------------------------------------------
+!||    hm_get_floatv          ../starter/source/devtools/hm_reader/hm_get_floatv.F
+!||    hm_get_intv            ../starter/source/devtools/hm_reader/hm_get_intv.F
+!||    my_exit                ../starter/source/output/analyse/analyse.c
+!||    set_u_geo              ../starter/source/user_interface/uaccess.F
+!||    set_u_pnu              ../starter/source/user_interface/uaccess.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod            ../starter/share/message_module/message_mod.F
+!||    submodel_mod           ../starter/share/modules1/submodel_mod.F
+!||====================================================================
       SUBROUTINE HM_READ_PROP_USER4(IOUT  ,NUVAR ,PARGEO ,UNITAB ,LSUBMODEL)
 C-----------------------------------------------
 C     This routine may be used for user defined rupture property 

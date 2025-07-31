@@ -26,11 +26,11 @@ Cbm|-- called by -----------
 Cbm|        TENSGPS3                      src/anim/tensor6.F            
 Cbm|-- calls ---------------
 Cbm|====================================================================
-      !||====================================================================
-      !||    sig_heph1   ../engine/source/elements/sph/soltosph_hour.F
-      !||--- called by ------------------------------------------------------
-      !||    soltosphp   ../engine/source/elements/sph/soltosph.F
-      !||====================================================================
+!||====================================================================
+!||    sig_heph1   ../engine/source/elements/sph/soltosph_hour.F
+!||--- called by ------------------------------------------------------
+!||    soltosphp   ../engine/source/elements/sph/soltosph.F
+!||====================================================================
       SUBROUTINE SIG_HEPH1(
      1   JR0,     JS0,     JT0,     GSIG,
      2   FHOUR,   SIG_HEPH,PM,      IXS,

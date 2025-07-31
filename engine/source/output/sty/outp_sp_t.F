@@ -20,17 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    outp_sp_t             ../engine/source/output/sty/outp_sp_t.F
-      !||--- called by ------------------------------------------------------
-      !||    genoutp               ../engine/source/output/sty/genoutp.F
-      !||--- calls      -----------------------------------------------------
-      !||    initbuf               ../engine/share/resol/initbuf.F
-      !||    spmd_rgather9_1comm   ../engine/source/mpi/interfaces/spmd_outp.F
-      !||--- uses       -----------------------------------------------------
-      !||    elbufdef_mod          ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||    initbuf_mod           ../engine/share/resol/initbuf.F
-      !||====================================================================
+!||====================================================================
+!||    outp_sp_t             ../engine/source/output/sty/outp_sp_t.F
+!||--- called by ------------------------------------------------------
+!||    genoutp               ../engine/source/output/sty/genoutp.F
+!||--- calls      -----------------------------------------------------
+!||    initbuf               ../engine/share/resol/initbuf.F
+!||    spmd_rgather9_1comm   ../engine/source/mpi/interfaces/spmd_outp.F
+!||--- uses       -----------------------------------------------------
+!||    elbufdef_mod          ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    initbuf_mod           ../engine/share/resol/initbuf.F
+!||====================================================================
       SUBROUTINE OUTP_SP_T(KEY,TEXT,ELBUF_TAB,IPARG,DD_IAD,SIZLOC,SIZP0,SIZ_WR)
 C-----------------------------------------------
 C   M o d u l e s
@@ -175,17 +175,17 @@ C
       END IF         ! ispmd = 0
       RETURN
       END
-      !||====================================================================
-      !||    outp_sp_tt            ../engine/source/output/sty/outp_sp_t.F
-      !||--- called by ------------------------------------------------------
-      !||    genoutp               ../engine/source/output/sty/genoutp.F
-      !||--- calls      -----------------------------------------------------
-      !||    initbuf               ../engine/share/resol/initbuf.F
-      !||    spmd_rgather9_1comm   ../engine/source/mpi/interfaces/spmd_outp.F
-      !||--- uses       -----------------------------------------------------
-      !||    elbufdef_mod          ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||    initbuf_mod           ../engine/share/resol/initbuf.F
-      !||====================================================================
+!||====================================================================
+!||    outp_sp_tt            ../engine/source/output/sty/outp_sp_t.F
+!||--- called by ------------------------------------------------------
+!||    genoutp               ../engine/source/output/sty/genoutp.F
+!||--- calls      -----------------------------------------------------
+!||    initbuf               ../engine/share/resol/initbuf.F
+!||    spmd_rgather9_1comm   ../engine/source/mpi/interfaces/spmd_outp.F
+!||--- uses       -----------------------------------------------------
+!||    elbufdef_mod          ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    initbuf_mod           ../engine/share/resol/initbuf.F
+!||====================================================================
       SUBROUTINE OUTP_SP_TT(KEY,TEXT,ELBUF_TAB,IPARG,DD_IAD,
      2           IPM  ,KXSP ,SPBUF,SIZLOC,SIZP0,SIZ_WR)
 C-----------------------------------------------
@@ -352,12 +352,12 @@ C
 C-----------             
       RETURN
       END
-      !||====================================================================
-      !||    count_arsz_spt   ../engine/source/output/sty/outp_sp_t.F
-      !||--- called by ------------------------------------------------------
-      !||    genoutp          ../engine/source/output/sty/genoutp.F
-      !||    outp_arsz_spt    ../engine/source/mpi/interfaces/spmd_outp.F
-      !||====================================================================
+!||====================================================================
+!||    count_arsz_spt   ../engine/source/output/sty/outp_sp_t.F
+!||--- called by ------------------------------------------------------
+!||    genoutp          ../engine/source/output/sty/genoutp.F
+!||    outp_arsz_spt    ../engine/source/mpi/interfaces/spmd_outp.F
+!||====================================================================
       SUBROUTINE COUNT_ARSZ_SPT(IPARG,DD_IAD,WASZ,SIZ_WRITE_LOC)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -405,12 +405,12 @@ C-----------------------------------------------
 
       RETURN
       END
-      !||====================================================================
-      !||    count_arsz_sptt   ../engine/source/output/sty/outp_sp_t.F
-      !||--- called by ------------------------------------------------------
-      !||    genoutp           ../engine/source/output/sty/genoutp.F
-      !||    outp_arsz_sptt    ../engine/source/mpi/interfaces/spmd_outp.F
-      !||====================================================================
+!||====================================================================
+!||    count_arsz_sptt   ../engine/source/output/sty/outp_sp_t.F
+!||--- called by ------------------------------------------------------
+!||    genoutp           ../engine/source/output/sty/genoutp.F
+!||    outp_arsz_sptt    ../engine/source/mpi/interfaces/spmd_outp.F
+!||====================================================================
       SUBROUTINE COUNT_ARSZ_SPTT(IPARG,DD_IAD,WASZ,SIZ_WRITE_LOC)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

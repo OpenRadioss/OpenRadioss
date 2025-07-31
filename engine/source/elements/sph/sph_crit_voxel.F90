@@ -20,11 +20,11 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    sph_crit_voxel_mod   ../engine/source/elements/sph/sph_crit_voxel.F90
-      !||--- called by ------------------------------------------------------
-      !||    sphprep              ../engine/source/elements/sph/sphprep.F
-      !||====================================================================
+!||====================================================================
+!||    sph_crit_voxel_mod   ../engine/source/elements/sph/sph_crit_voxel.F90
+!||--- called by ------------------------------------------------------
+!||    sphprep              ../engine/source/elements/sph/sphprep.F
+!||====================================================================
       module sph_crit_voxel_mod
       contains
 ! ======================================================================================================================
@@ -35,16 +35,16 @@
 !!\brief This subroutine computes damping forces for /DAMP/FREQ_RANGE for solid elements
 !=======================================================================================================================
 !
-      !||====================================================================
-      !||    sph_crit_voxel   ../engine/source/elements/sph/sph_crit_voxel.F90
-      !||--- called by ------------------------------------------------------
-      !||    sphprep          ../engine/source/elements/sph/sphprep.F
-      !||--- calls      -----------------------------------------------------
-      !||--- uses       -----------------------------------------------------
-      !||    constant_mod     ../common_source/modules/constant_mod.F
-      !||    sph_work_mod     ../common_source/modules/mat_elem/sph_work.F90
-      !||    spmd_mod         ../engine/source/mpi/spmd_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    sph_crit_voxel   ../engine/source/elements/sph/sph_crit_voxel.F90
+!||--- called by ------------------------------------------------------
+!||    sphprep          ../engine/source/elements/sph/sphprep.F
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||    constant_mod     ../common_source/modules/constant_mod.F
+!||    sph_work_mod     ../common_source/modules/mat_elem/sph_work.F90
+!||    spmd_mod         ../engine/source/mpi/spmd_mod.F90
+!||====================================================================
         subroutine sph_crit_voxel(xmax     ,ymax     ,zmax      ,xmin      ,ymin    ,         &
                                   zmin     ,diam_max ,voxsiz    ,majord_vox,nbk     ,         &
                                   nsp2sortf,nsp2sortl,itask     ,nbgauge   ,nthread ,         &

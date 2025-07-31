@@ -20,15 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    line_decomp    ../starter/source/model/group/line_decomp.F
-      !||--- called by ------------------------------------------------------
-      !||    lectur         ../starter/source/starter/lectur.F
-      !||--- calls      -----------------------------------------------------
-      !||    my_exit        ../starter/source/output/analyse/analyse.c
-      !||--- uses       -----------------------------------------------------
-      !||    front_mod      ../starter/share/modules1/front_mod.F
-      !||====================================================================
+!||====================================================================
+!||    line_decomp    ../starter/source/model/group/line_decomp.F
+!||--- called by ------------------------------------------------------
+!||    lectur         ../starter/source/starter/lectur.F
+!||--- calls      -----------------------------------------------------
+!||    my_exit        ../starter/source/output/analyse/analyse.c
+!||--- uses       -----------------------------------------------------
+!||    front_mod      ../starter/share/modules1/front_mod.F
+!||====================================================================
       SUBROUTINE LINE_DECOMP(IGRSLIN)
 C-----------------------------------------------
 C   M o d u l e s

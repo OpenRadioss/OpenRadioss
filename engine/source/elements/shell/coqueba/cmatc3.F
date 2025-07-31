@@ -20,22 +20,22 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    cmatc3         ../engine/source/elements/shell/coqueba/cmatc3.F
-      !||--- called by ------------------------------------------------------
-      !||    c3ke3          ../engine/source/elements/sh3n/coque3n/c3ke3.F
-      !||    cbake3         ../engine/source/elements/shell/coqueba/cbake3.F
-      !||    czke3          ../engine/source/elements/shell/coquez/czke3.F
-      !||--- calls      -----------------------------------------------------
-      !||    cctoglob       ../engine/source/elements/shell/coqueba/cmatc3.F
-      !||    gepm_lc        ../engine/source/elements/shell/coqueba/cmatc3.F
-      !||    get_etfac_s    ../engine/source/elements/solid/solide8z/get_etfac_s.F
-      !||    layini         ../engine/source/elements/shell/coque/layini.F
-      !||--- uses       -----------------------------------------------------
-      !||    drape_mod      ../engine/share/modules/drape_mod.F
-      !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||    stack_mod      ../engine/share/modules/stack_mod.F
-      !||====================================================================
+!||====================================================================
+!||    cmatc3         ../engine/source/elements/shell/coqueba/cmatc3.F
+!||--- called by ------------------------------------------------------
+!||    c3ke3          ../engine/source/elements/sh3n/coque3n/c3ke3.F
+!||    cbake3         ../engine/source/elements/shell/coqueba/cbake3.F
+!||    czke3          ../engine/source/elements/shell/coquez/czke3.F
+!||--- calls      -----------------------------------------------------
+!||    cctoglob       ../engine/source/elements/shell/coqueba/cmatc3.F
+!||    gepm_lc        ../engine/source/elements/shell/coqueba/cmatc3.F
+!||    get_etfac_s    ../engine/source/elements/solid/solide8z/get_etfac_s.F
+!||    layini         ../engine/source/elements/shell/coque/layini.F
+!||--- uses       -----------------------------------------------------
+!||    drape_mod      ../engine/share/modules/drape_mod.F
+!||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    stack_mod      ../engine/share/modules/stack_mod.F
+!||====================================================================
       SUBROUTINE CMATC3(JFT    ,JLT     ,PM     ,MAT     ,GEO      ,
      1                  PID    ,AREA    ,THK0   ,THK02   ,THK      , 
      2                  THKE   ,VOLG    ,MTN    ,NPT     ,ITHK     ,
@@ -393,12 +393,12 @@ C
       DEALLOCATE(MATLY, THKLY, POSLY, THK_LY)
       RETURN
       END
-      !||====================================================================
-      !||    cctoglob    ../engine/source/elements/shell/coqueba/cmatc3.F
-      !||--- called by ------------------------------------------------------
-      !||    cmatc3      ../engine/source/elements/shell/coqueba/cmatc3.F
-      !||    cncoefort   ../engine/source/elements/sh3n/coquedk/cncoef3.F
-      !||====================================================================
+!||====================================================================
+!||    cctoglob    ../engine/source/elements/shell/coqueba/cmatc3.F
+!||--- called by ------------------------------------------------------
+!||    cmatc3      ../engine/source/elements/shell/coqueba/cmatc3.F
+!||    cncoefort   ../engine/source/elements/sh3n/coquedk/cncoef3.F
+!||====================================================================
       SUBROUTINE CCTOGLOB(JFT,JLT,HM,HC,HMOR,DIR,NEL)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -458,12 +458,12 @@ C
 C
       RETURN
       END
-      !||====================================================================
-      !||    gepm_lc     ../engine/source/elements/shell/coqueba/cmatc3.F
-      !||--- called by ------------------------------------------------------
-      !||    cmatc3      ../engine/source/elements/shell/coqueba/cmatc3.F
-      !||    cncoefort   ../engine/source/elements/sh3n/coquedk/cncoef3.F
-      !||====================================================================
+!||====================================================================
+!||    gepm_lc     ../engine/source/elements/shell/coqueba/cmatc3.F
+!||--- called by ------------------------------------------------------
+!||    cmatc3      ../engine/source/elements/shell/coqueba/cmatc3.F
+!||    cncoefort   ../engine/source/elements/sh3n/coquedk/cncoef3.F
+!||====================================================================
       SUBROUTINE GEPM_LC(JFT,JLT,MAT,PM,SHF,HM,HC)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -511,15 +511,15 @@ C-----------------------------------------------
 C
       RETURN
       END
-      !||====================================================================
-      !||    putsignorc3     ../engine/source/elements/shell/coqueba/cmatc3.F
-      !||--- called by ------------------------------------------------------
-      !||    mulawc          ../engine/source/materials/mat_share/mulawc.F90
-      !||    usermat_shell   ../engine/source/materials/mat_share/usermat_shell.F
-      !||--- uses       -----------------------------------------------------
-      !||    imp_ktan        ../engine/share/modules/impbufdef_mod.F
-      !||    imp_ktan_def    ../engine/share/modules/impbufdef_mod.F
-      !||====================================================================
+!||====================================================================
+!||    putsignorc3     ../engine/source/elements/shell/coqueba/cmatc3.F
+!||--- called by ------------------------------------------------------
+!||    mulawc          ../engine/source/materials/mat_share/mulawc.F90
+!||    usermat_shell   ../engine/source/materials/mat_share/usermat_shell.F
+!||--- uses       -----------------------------------------------------
+!||    imp_ktan        ../engine/share/modules/impbufdef_mod.F
+!||    imp_ktan_def    ../engine/share/modules/impbufdef_mod.F
+!||====================================================================
       SUBROUTINE PUTSIGNORC3(JFT ,JLT ,IR,IS,IT,G_IMP ,SIGNOR)
 C-----------------------------------------------
 C   M o d u l e s
@@ -564,18 +564,18 @@ C-----------------------------------------------
 C
       RETURN
       END
-      !||====================================================================
-      !||    cmatip3        ../engine/source/elements/shell/coqueba/cmatc3.F
-      !||--- called by ------------------------------------------------------
-      !||    c3ke3          ../engine/source/elements/sh3n/coque3n/c3ke3.F
-      !||    cbake3         ../engine/source/elements/shell/coqueba/cbake3.F
-      !||    czke3          ../engine/source/elements/shell/coquez/czke3.F
-      !||--- calls      -----------------------------------------------------
-      !||    get_etfac_s    ../engine/source/elements/solid/solide8z/get_etfac_s.F
-      !||--- uses       -----------------------------------------------------
-      !||    imp_ktan       ../engine/share/modules/impbufdef_mod.F
-      !||    imp_ktan_def   ../engine/share/modules/impbufdef_mod.F
-      !||====================================================================
+!||====================================================================
+!||    cmatip3        ../engine/source/elements/shell/coqueba/cmatc3.F
+!||--- called by ------------------------------------------------------
+!||    c3ke3          ../engine/source/elements/sh3n/coque3n/c3ke3.F
+!||    cbake3         ../engine/source/elements/shell/coqueba/cbake3.F
+!||    czke3          ../engine/source/elements/shell/coquez/czke3.F
+!||--- calls      -----------------------------------------------------
+!||    get_etfac_s    ../engine/source/elements/solid/solide8z/get_etfac_s.F
+!||--- uses       -----------------------------------------------------
+!||    imp_ktan       ../engine/share/modules/impbufdef_mod.F
+!||    imp_ktan_def   ../engine/share/modules/impbufdef_mod.F
+!||====================================================================
       SUBROUTINE CMATIP3(JFT    ,JLT     ,PM     ,MAT     ,PID    ,
      1                   MTN    ,NPT     ,HM     ,HF      ,IORTH  ,
      2                   HMOR   ,HFOR    ,HMFOR  ,IPG     )
@@ -807,14 +807,14 @@ C
 
       RETURN
       END
-      !||====================================================================
-      !||    cmatch3        ../engine/source/elements/shell/coqueba/cmatc3.F
-      !||--- called by ------------------------------------------------------
-      !||    czke3          ../engine/source/elements/shell/coquez/czke3.F
-      !||--- uses       -----------------------------------------------------
-      !||    imp_ktan       ../engine/share/modules/impbufdef_mod.F
-      !||    imp_ktan_def   ../engine/share/modules/impbufdef_mod.F
-      !||====================================================================
+!||====================================================================
+!||    cmatch3        ../engine/source/elements/shell/coqueba/cmatc3.F
+!||--- called by ------------------------------------------------------
+!||    czke3          ../engine/source/elements/shell/coquez/czke3.F
+!||--- uses       -----------------------------------------------------
+!||    imp_ktan       ../engine/share/modules/impbufdef_mod.F
+!||    imp_ktan_def   ../engine/share/modules/impbufdef_mod.F
+!||====================================================================
       SUBROUTINE CMATCH3(JFT    ,JLT     ,PM     ,MAT     ,GEO   ,
      1                  PID     ,MTN     ,IDRIL  ,IGEO    ,HM    ,
      2                  HF      ,HZ      )
@@ -933,9 +933,9 @@ C-------elastic only; allows changing module by KZ_TOL----
 C
       RETURN
       END
-      !||====================================================================
-      !||    cdmstif   ../engine/source/elements/shell/coqueba/cmatc3.F
-      !||====================================================================
+!||====================================================================
+!||    cdmstif   ../engine/source/elements/shell/coqueba/cmatc3.F
+!||====================================================================
       SUBROUTINE CDMSTIF(JFT ,JLT   ,VOL  ,THK0 ,THK2 ,
      1                   HM  ,HF    ,HC   ,HZ   ,HMOR ,
      2                   HFOR ,HMFOR,IPLAT,DM   ,DF   ,

@@ -20,21 +20,21 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    inter7_gather_cand_mod   ../engine/source/interfaces/int07/inter7_gather_cand.F90
-      !||--- called by ------------------------------------------------------
-      !||    inter7_filter_cand       ../engine/source/interfaces/intsort/inter7_filter_cand.F90
-      !||====================================================================
+!||====================================================================
+!||    inter7_gather_cand_mod   ../engine/source/interfaces/int07/inter7_gather_cand.F90
+!||--- called by ------------------------------------------------------
+!||    inter7_filter_cand       ../engine/source/interfaces/intsort/inter7_filter_cand.F90
+!||====================================================================
       MODULE INTER7_GATHER_CAND_MOD
       CONTAINS
-      !||====================================================================
-      !||    inter7_gather_cand   ../engine/source/interfaces/int07/inter7_gather_cand.F90
-      !||--- called by ------------------------------------------------------
-      !||    inter7_filter_cand   ../engine/source/interfaces/intsort/inter7_filter_cand.F90
-      !||--- uses       -----------------------------------------------------
-      !||    collision_mod        ../engine/source/interfaces/intsort/collision_mod.F
-      !||    precision_mod        ../common_source/modules/precision_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    inter7_gather_cand   ../engine/source/interfaces/int07/inter7_gather_cand.F90
+!||--- called by ------------------------------------------------------
+!||    inter7_filter_cand   ../engine/source/interfaces/intsort/inter7_filter_cand.F90
+!||--- uses       -----------------------------------------------------
+!||    collision_mod        ../engine/source/interfaces/intsort/collision_mod.F
+!||    precision_mod        ../common_source/modules/precision_mod.F90
+!||====================================================================
         subroutine inter7_gather_cand(jlt     ,x     ,irect ,nsv   ,cand_e ,&
         &cand_n  ,igap  ,gap   ,x1    ,x2     ,&
         &x3      ,x4    ,y1    ,y2    ,y3     ,&

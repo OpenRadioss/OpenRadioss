@@ -20,18 +20,18 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    cfield_1              ../engine/source/loads/general/load_centri/cfield.F
-      !||--- called by ------------------------------------------------------
-      !||    resol                 ../engine/source/engine/resol.F
-      !||--- calls      -----------------------------------------------------
-      !||    finter                ../engine/source/tools/curve/finter.F
-      !||    my_barrier            ../engine/source/system/machine.F
-      !||    relfram_m1            ../engine/source/tools/skew/relfram_m1.F
-      !||--- uses       -----------------------------------------------------
-      !||    python_funct_mod      ../common_source/modules/python_mod.F90
-      !||    sensor_mod            ../common_source/modules/sensor_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    cfield_1              ../engine/source/loads/general/load_centri/cfield.F
+!||--- called by ------------------------------------------------------
+!||    resol                 ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
+!||    finter                ../engine/source/tools/curve/finter.F
+!||    my_barrier            ../engine/source/system/machine.F
+!||    relfram_m1            ../engine/source/tools/skew/relfram_m1.F
+!||--- uses       -----------------------------------------------------
+!||    python_funct_mod      ../common_source/modules/python_mod.F90
+!||    sensor_mod            ../common_source/modules/sensor_mod.F90
+!||====================================================================
       SUBROUTINE CFIELD_1(PYTHON, ICFIELD  ,FAC   ,NPC   ,TF    ,A ,
      2                  V     ,X     ,XFRAME  ,MS,SENSOR_TAB,
      3                  WEIGHT,IB,ITASK,IFRAME,NSENSOR,WFEXT)

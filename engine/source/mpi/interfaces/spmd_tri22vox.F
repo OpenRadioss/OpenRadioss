@@ -21,20 +21,20 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
-      !||====================================================================
-      !||    spmd_tri22vox         ../engine/source/mpi/interfaces/spmd_tri22vox.F
-      !||--- called by ------------------------------------------------------
-      !||    i22main_tri           ../engine/source/interfaces/intsort/i22main_tri.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg                ../engine/source/output/message/message.F
-      !||    arret                 ../engine/source/system/arret.F
-      !||    conversion11          ../engine/source/mpi/interfaces/spmd_i7tool.F
-      !||--- uses       -----------------------------------------------------
-      !||    i22tri_mod            ../common_source/modules/interfaces/cut-cell-search_mod.F
-      !||    message_mod           ../engine/share/message_module/message_mod.F
-      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
-      !||    tri7box               ../engine/share/modules/tri7box.F
-      !||====================================================================
+!||====================================================================
+!||    spmd_tri22vox         ../engine/source/mpi/interfaces/spmd_tri22vox.F
+!||--- called by ------------------------------------------------------
+!||    i22main_tri           ../engine/source/interfaces/intsort/i22main_tri.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                ../engine/source/output/message/message.F
+!||    arret                 ../engine/source/system/arret.F
+!||    conversion11          ../engine/source/mpi/interfaces/spmd_i7tool.F
+!||--- uses       -----------------------------------------------------
+!||    i22tri_mod            ../common_source/modules/interfaces/cut-cell-search_mod.F
+!||    message_mod           ../engine/share/message_module/message_mod.F
+!||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
+!||    tri7box               ../engine/share/modules/tri7box.F
+!||====================================================================
       SUBROUTINE SPMD_TRI22VOX(
      1   IRECTM  ,NRTM   ,X      ,V       ,BMINMAL  ,
      2   STIFE   ,NIN    ,ISENDTO,IRCVFROM,IAD_ELEM ,

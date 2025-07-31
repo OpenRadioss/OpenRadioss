@@ -20,17 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    intvo2          ../engine/source/interfaces/inter2d/intvo2.F
-      !||--- called by ------------------------------------------------------
-      !||    intfop1         ../engine/source/interfaces/interf/intfop1.F
-      !||--- calls      -----------------------------------------------------
-      !||    i3for2          ../engine/source/interfaces/inter2d/i3for2.F
-      !||    invoi2          ../engine/source/interfaces/inter2d/invoi2.F
-      !||--- uses       -----------------------------------------------------
-      !||    h3d_mod         ../engine/share/modules/h3d_mod.F
-      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    intvo2          ../engine/source/interfaces/inter2d/intvo2.F
+!||--- called by ------------------------------------------------------
+!||    intfop1         ../engine/source/interfaces/interf/intfop1.F
+!||--- calls      -----------------------------------------------------
+!||    i3for2          ../engine/source/interfaces/inter2d/i3for2.F
+!||    invoi2          ../engine/source/interfaces/inter2d/invoi2.F
+!||--- uses       -----------------------------------------------------
+!||    h3d_mod         ../engine/share/modules/h3d_mod.F
+!||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
+!||====================================================================
       SUBROUTINE INTVO2(IPARI,INTBUF_TAB ,X   ,A    ,
      .                  ICODT,FSAV       ,FSKYI,ISKY,
      .                  FCONT,FNCONT    , FTCONT,H3D_DATA      )

@@ -20,23 +20,23 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    hm_read_prop32           ../starter/source/properties/spring/hm_read_prop32.F
-      !||--- called by ------------------------------------------------------
-      !||    hm_read_prop_generic     ../starter/source/properties/hm_read_prop_generic.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg                   ../starter/source/output/message/message.F
-      !||    hm_get_floatv            ../starter/source/devtools/hm_reader/hm_get_floatv.F
-      !||    hm_get_floatv_dim        ../starter/source/devtools/hm_reader/hm_get_floatv_dim.F
-      !||    hm_get_intv              ../starter/source/devtools/hm_reader/hm_get_intv.F
-      !||    hm_option_is_encrypted   ../starter/source/devtools/hm_reader/hm_option_is_encrypted.F
-      !||    set_u_geo                ../starter/source/user_interface/uaccess.F
-      !||    set_u_pnu                ../starter/source/user_interface/uaccess.F
-      !||--- uses       -----------------------------------------------------
-      !||    elbuftag_mod             ../starter/share/modules1/elbuftag_mod.F
-      !||    message_mod              ../starter/share/message_module/message_mod.F
-      !||    submodel_mod             ../starter/share/modules1/submodel_mod.F
-      !||====================================================================
+!||====================================================================
+!||    hm_read_prop32           ../starter/source/properties/spring/hm_read_prop32.F
+!||--- called by ------------------------------------------------------
+!||    hm_read_prop_generic     ../starter/source/properties/hm_read_prop_generic.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                   ../starter/source/output/message/message.F
+!||    hm_get_floatv            ../starter/source/devtools/hm_reader/hm_get_floatv.F
+!||    hm_get_floatv_dim        ../starter/source/devtools/hm_reader/hm_get_floatv_dim.F
+!||    hm_get_intv              ../starter/source/devtools/hm_reader/hm_get_intv.F
+!||    hm_option_is_encrypted   ../starter/source/devtools/hm_reader/hm_option_is_encrypted.F
+!||    set_u_geo                ../starter/source/user_interface/uaccess.F
+!||    set_u_pnu                ../starter/source/user_interface/uaccess.F
+!||--- uses       -----------------------------------------------------
+!||    elbuftag_mod             ../starter/share/modules1/elbuftag_mod.F
+!||    message_mod              ../starter/share/message_module/message_mod.F
+!||    submodel_mod             ../starter/share/modules1/submodel_mod.F
+!||====================================================================
       SUBROUTINE HM_READ_PROP32(IOUT  ,NUVAR ,PARGEO,UNITAB,IG,
      .                          IGTYP,PROP_TAG,TITR,LSUBMODEL)
 C-----------------------------------------------
@@ -333,22 +333,22 @@ C
      & 5X,'CONFIDENTIAL DATA'//)
 C
       END
-      !||====================================================================
-      !||    rini32                 ../starter/source/properties/spring/hm_read_prop32.F
-      !||--- called by ------------------------------------------------------
-      !||    rinit3                 ../starter/source/elements/spring/rinit3.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg                 ../starter/source/output/message/message.F
-      !||    area                   ../starter/source/properties/spring/hm_read_prop32.F
-      !||    get_u_geo              ../starter/source/user_interface/uaccess.F
-      !||    get_u_mat              ../starter/source/user_interface/uaccess.F
-      !||    get_u_mid              ../starter/source/user_interface/uaccess.F
-      !||    get_u_mnu              ../starter/source/user_interface/uaccess.F
-      !||    get_u_pid              ../starter/source/user_interface/uaccess.F
-      !||    get_u_pnu              ../starter/source/user_interface/uaccess.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod            ../starter/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    rini32                 ../starter/source/properties/spring/hm_read_prop32.F
+!||--- called by ------------------------------------------------------
+!||    rinit3                 ../starter/source/elements/spring/rinit3.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                 ../starter/source/output/message/message.F
+!||    area                   ../starter/source/properties/spring/hm_read_prop32.F
+!||    get_u_geo              ../starter/source/user_interface/uaccess.F
+!||    get_u_mat              ../starter/source/user_interface/uaccess.F
+!||    get_u_mid              ../starter/source/user_interface/uaccess.F
+!||    get_u_mnu              ../starter/source/user_interface/uaccess.F
+!||    get_u_pid              ../starter/source/user_interface/uaccess.F
+!||    get_u_pnu              ../starter/source/user_interface/uaccess.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod            ../starter/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE RINI32(NEL   ,IOUT   ,IPROP ,
      3                  IX    ,XL     ,MASS  ,XINER  ,STIFM ,
      4                  STIFR ,VISCM  ,VISCR ,UVAR   ,NUVAR ,
@@ -556,13 +556,13 @@ C FOR NODAL AND ELEMENT TIME STEP COMPUTATION
 C
       RETURN
       END
-      !||====================================================================
-      !||    area          ../starter/source/properties/spring/hm_read_prop32.F
-      !||--- called by ------------------------------------------------------
-      !||    rini32        ../starter/source/properties/spring/hm_read_prop32.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod   ../starter/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    area          ../starter/source/properties/spring/hm_read_prop32.F
+!||--- called by ------------------------------------------------------
+!||    rini32        ../starter/source/properties/spring/hm_read_prop32.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod   ../starter/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE AREA(D1,X,X2,Y,Y2,EINT,STIF0)
       USE MESSAGE_MOD
 C-------------------------------------------------------------------------

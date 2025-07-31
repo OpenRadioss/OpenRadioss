@@ -20,19 +20,19 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    dtnodams       ../engine/source/time_step/dtnodams.F
-      !||--- called by ------------------------------------------------------
-      !||    resol          ../engine/source/engine/resol.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg         ../engine/source/output/message/message.F
-      !||    arret          ../engine/source/system/arret.F
-      !||--- uses       -----------------------------------------------------
-      !||    groupdef_mod   ../common_source/modules/groupdef_mod.F
-      !||    h3d_mod        ../engine/share/modules/h3d_mod.F
-      !||    message_mod    ../engine/share/message_module/message_mod.F
-      !||    my_alloc_mod   ../common_source/tools/memory/my_alloc.F90
-      !||====================================================================
+!||====================================================================
+!||    dtnodams       ../engine/source/time_step/dtnodams.F
+!||--- called by ------------------------------------------------------
+!||    resol          ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg         ../engine/source/output/message/message.F
+!||    arret          ../engine/source/system/arret.F
+!||--- uses       -----------------------------------------------------
+!||    groupdef_mod   ../common_source/modules/groupdef_mod.F
+!||    h3d_mod        ../engine/share/modules/h3d_mod.F
+!||    message_mod    ../engine/share/message_module/message_mod.F
+!||    my_alloc_mod   ../common_source/tools/memory/my_alloc.F90
+!||====================================================================
       SUBROUTINE DTNODAMS(NODFT ,NODLT ,NELTST,ITYPTST,ITAB   ,
      2                    MS    ,IN    ,STIFN ,STIFR  ,DT2T   ,
      3                    DMAST ,DINERT,ADT   ,ADM    ,IMSCH  ,

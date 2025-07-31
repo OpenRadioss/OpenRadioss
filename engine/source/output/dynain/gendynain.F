@@ -20,33 +20,33 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    gendynain          ../engine/source/output/dynain/gendynain.F
-      !||--- called by ------------------------------------------------------
-      !||    sortie_main        ../engine/source/output/sortie_main.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg             ../engine/source/output/message/message.F
-      !||    arret              ../engine/source/system/arret.F
-      !||    close_c            ../common_source/tools/input_output/write_routtines.c
-      !||    cur_fil_c          ../common_source/tools/input_output/write_routtines.c
-      !||    dynain_c_strag     ../engine/source/output/dynain/dynain_c_strag.F
-      !||    dynain_c_strsg     ../engine/source/output/dynain/dynain_c_strsg.F
-      !||    dynain_node        ../engine/source/output/dynain/dynain_node.F
-      !||    dynain_shel_mp     ../engine/source/output/dynain/dynain_shel_mp.F
-      !||    dynain_shel_spmd   ../engine/source/output/dynain/dynain_shel_spmd.F
-      !||    dynain_size_c      ../engine/source/output/dynain/dynain_size.F
-      !||    open_c             ../common_source/tools/input_output/write_routtines.c
-      !||    spmd_outpitab      ../engine/source/mpi/interfaces/spmd_outp.F
-      !||    strs_txt50         ../engine/source/output/sta/sta_txt.F
-      !||--- uses       -----------------------------------------------------
-      !||    drape_mod          ../engine/share/modules/drape_mod.F
-      !||    elbufdef_mod       ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||    inoutfile_mod      ../common_source/modules/inoutfile_mod.F
-      !||    matparam_def_mod   ../common_source/modules/mat_elem/matparam_def_mod.F90
-      !||    message_mod        ../engine/share/message_module/message_mod.F
-      !||    stack_mod          ../engine/share/modules/stack_mod.F
-      !||    state_mod          ../common_source/modules/state_mod.F
-      !||====================================================================
+!||====================================================================
+!||    gendynain          ../engine/source/output/dynain/gendynain.F
+!||--- called by ------------------------------------------------------
+!||    sortie_main        ../engine/source/output/sortie_main.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg             ../engine/source/output/message/message.F
+!||    arret              ../engine/source/system/arret.F
+!||    close_c            ../common_source/tools/input_output/write_routtines.c
+!||    cur_fil_c          ../common_source/tools/input_output/write_routtines.c
+!||    dynain_c_strag     ../engine/source/output/dynain/dynain_c_strag.F
+!||    dynain_c_strsg     ../engine/source/output/dynain/dynain_c_strsg.F
+!||    dynain_node        ../engine/source/output/dynain/dynain_node.F
+!||    dynain_shel_mp     ../engine/source/output/dynain/dynain_shel_mp.F
+!||    dynain_shel_spmd   ../engine/source/output/dynain/dynain_shel_spmd.F
+!||    dynain_size_c      ../engine/source/output/dynain/dynain_size.F
+!||    open_c             ../common_source/tools/input_output/write_routtines.c
+!||    spmd_outpitab      ../engine/source/mpi/interfaces/spmd_outp.F
+!||    strs_txt50         ../engine/source/output/sta/sta_txt.F
+!||--- uses       -----------------------------------------------------
+!||    drape_mod          ../engine/share/modules/drape_mod.F
+!||    elbufdef_mod       ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    inoutfile_mod      ../common_source/modules/inoutfile_mod.F
+!||    matparam_def_mod   ../common_source/modules/mat_elem/matparam_def_mod.F90
+!||    message_mod        ../engine/share/message_module/message_mod.F
+!||    stack_mod          ../engine/share/modules/stack_mod.F
+!||    state_mod          ../common_source/modules/state_mod.F
+!||====================================================================
        SUBROUTINE GENDYNAIN(X  ,ELBUF_TAB, BUFEL  ,IXC      ,IXTG     ,
      2                IPARG    ,IPM      , IGEO   ,ITAB     ,IPART    ,
      3                PM       ,GEO      , IPARTC ,IPARTTG  ,LENG     ,

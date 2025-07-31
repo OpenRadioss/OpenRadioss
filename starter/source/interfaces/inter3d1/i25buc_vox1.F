@@ -20,18 +20,18 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    i25buc_vox1            ../starter/source/interfaces/inter3d1/i25buc_vox1.F
-      !||--- called by ------------------------------------------------------
-      !||    inint3                 ../starter/source/interfaces/inter3d1/inint3.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg                 ../starter/source/output/message/message.F
-      !||    i25trivox1             ../starter/source/interfaces/inter3d1/i25trivox1.F
-      !||    insol25                ../starter/source/interfaces/inter3d1/i25buc_vox1.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod            ../starter/share/message_module/message_mod.F
-      !||    tri7box                ../starter/share/modules1/tri7box.F
-      !||====================================================================
+!||====================================================================
+!||    i25buc_vox1            ../starter/source/interfaces/inter3d1/i25buc_vox1.F
+!||--- called by ------------------------------------------------------
+!||    inint3                 ../starter/source/interfaces/inter3d1/inint3.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                 ../starter/source/output/message/message.F
+!||    i25trivox1             ../starter/source/interfaces/inter3d1/i25trivox1.F
+!||    insol25                ../starter/source/interfaces/inter3d1/i25buc_vox1.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod            ../starter/share/message_module/message_mod.F
+!||    tri7box                ../starter/share/modules1/tri7box.F
+!||====================================================================
       SUBROUTINE I25BUC_VOX1(
      1   X     ,IRECT,NSV    ,BUMULT,
      2   NMN   ,NRTM ,NSN   ,INTBUF_TAB  ,
@@ -502,11 +502,11 @@ C
       RETURN
       END
 
-      !||====================================================================
-      !||    insol25       ../starter/source/interfaces/inter3d1/i25buc_vox1.F
-      !||--- called by ------------------------------------------------------
-      !||    i25buc_vox1   ../starter/source/interfaces/inter3d1/i25buc_vox1.F
-      !||====================================================================
+!||====================================================================
+!||    insol25       ../starter/source/interfaces/inter3d1/i25buc_vox1.F
+!||--- called by ------------------------------------------------------
+!||    i25buc_vox1   ../starter/source/interfaces/inter3d1/i25buc_vox1.F
+!||====================================================================
       SUBROUTINE INSOL25(IRECT   ,IXS    ,IXS10,IXS16,IXS20,
      .                   KNOD2ELS,NOD2ELS,NEL  ,I    )
 C-----------------------------------------------

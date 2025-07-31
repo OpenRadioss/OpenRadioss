@@ -20,25 +20,25 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    agauge                 ../engine/source/ale/agauge.F
-      !||--- called by ------------------------------------------------------
-      !||    alemain                ../engine/source/ale/alemain.F
-      !||--- calls      -----------------------------------------------------
-      !||    agaug3                 ../engine/source/ale/agauge.F
-      !||    agaug30                ../engine/source/ale/agauge.F
-      !||    agaug3q                ../engine/source/ale/agaug3q.F
-      !||    agaug3t                ../engine/source/ale/agaug3t.F
-      !||    initbuf                ../engine/share/resol/initbuf.F
-      !||    my_barrier             ../engine/source/system/machine.F
-      !||    spmd_e1vois            ../engine/source/mpi/fluid/spmd_cfd.F
-      !||    spmd_rbcast            ../engine/source/mpi/generic/spmd_rbcast.F
-      !||    spmd_sd_gaug           ../engine/source/mpi/output/spmd_sd_gaug.F
-      !||--- uses       -----------------------------------------------------
-      !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
-      !||    elbufdef_mod           ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||    initbuf_mod            ../engine/share/resol/initbuf.F
-      !||====================================================================
+!||====================================================================
+!||    agauge                 ../engine/source/ale/agauge.F
+!||--- called by ------------------------------------------------------
+!||    alemain                ../engine/source/ale/alemain.F
+!||--- calls      -----------------------------------------------------
+!||    agaug3                 ../engine/source/ale/agauge.F
+!||    agaug30                ../engine/source/ale/agauge.F
+!||    agaug3q                ../engine/source/ale/agaug3q.F
+!||    agaug3t                ../engine/source/ale/agaug3t.F
+!||    initbuf                ../engine/share/resol/initbuf.F
+!||    my_barrier             ../engine/source/system/machine.F
+!||    spmd_e1vois            ../engine/source/mpi/fluid/spmd_cfd.F
+!||    spmd_rbcast            ../engine/source/mpi/generic/spmd_rbcast.F
+!||    spmd_sd_gaug           ../engine/source/mpi/output/spmd_sd_gaug.F
+!||--- uses       -----------------------------------------------------
+!||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
+!||    elbufdef_mod           ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    initbuf_mod            ../engine/share/resol/initbuf.F
+!||====================================================================
       SUBROUTINE AGAUGE(
      1  IPARG    ,ELBUF_STR   ,PHI     ,IXS      ,IXQ     ,
      2  X        ,ALE_CONNECT ,ITASK   ,NERCVOIS ,NESDVOIS,
@@ -362,11 +362,11 @@ C
       ENDIF 
       RETURN
       END
-      !||====================================================================
-      !||    agaug30   ../engine/source/ale/agauge.F
-      !||--- called by ------------------------------------------------------
-      !||    agauge    ../engine/source/ale/agauge.F
-      !||====================================================================
+!||====================================================================
+!||    agaug30   ../engine/source/ale/agauge.F
+!||--- called by ------------------------------------------------------
+!||    agauge    ../engine/source/ale/agauge.F
+!||====================================================================
       SUBROUTINE AGAUG30(LGAUGE ,GAUGE ,IX  ,X ,NIX, NUMEL,NCONNECT)
 C-----------------------------------------------
 C   Description
@@ -454,13 +454,13 @@ c in case of multiple solutions do not need to choose the best one : AGAUG3 will
 
       RETURN
       END
-      !||====================================================================
-      !||    agaug3                 ../engine/source/ale/agauge.F
-      !||--- called by ------------------------------------------------------
-      !||    agauge                 ../engine/source/ale/agauge.F
-      !||--- uses       -----------------------------------------------------
-      !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
-      !||====================================================================
+!||====================================================================
+!||    agaug3                 ../engine/source/ale/agauge.F
+!||--- called by ------------------------------------------------------
+!||    agauge                 ../engine/source/ale/agauge.F
+!||--- uses       -----------------------------------------------------
+!||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
+!||====================================================================
       SUBROUTINE AGAUG3(LGAUGE,GAUGE,PHI,IXS  ,X    ,ALE_CONNECT )
       USE ALE_CONNECTIVITY_MOD
 C-----------------------------------------------
@@ -548,14 +548,14 @@ c element associated to the gauge
 
       RETURN
       END
-      !||====================================================================
-      !||    agauge0       ../engine/source/ale/agauge.F
-      !||--- called by ------------------------------------------------------
-      !||    resol         ../engine/source/engine/resol.F
-      !||--- calls      -----------------------------------------------------
-      !||    spmd_rbcast   ../engine/source/mpi/generic/spmd_rbcast.F
-      !||    spmd_sd_gau   ../engine/source/mpi/output/spmd_sd_gau.F
-      !||====================================================================
+!||====================================================================
+!||    agauge0       ../engine/source/ale/agauge.F
+!||--- called by ------------------------------------------------------
+!||    resol         ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
+!||    spmd_rbcast   ../engine/source/mpi/generic/spmd_rbcast.F
+!||    spmd_sd_gau   ../engine/source/mpi/output/spmd_sd_gau.F
+!||====================================================================
       SUBROUTINE AGAUGE0(LGAUGE ,GAUGE,X ,IXC,IGAUP,NGAUP)
 C-----------------------------------------------
 C   D e s c r i p t i o n

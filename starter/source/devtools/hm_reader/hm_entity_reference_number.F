@@ -20,15 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    hm_entity_reference_number    ../starter/source/devtools/hm_reader/hm_entity_reference_number.F
-      !||--- called by ------------------------------------------------------
-      !||    check_skew                    ../starter/source/spmd/domain_decomposition/check_skew.F
-      !||--- calls      -----------------------------------------------------
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod                   ../starter/share/message_module/message_mod.F
-      !||    submodel_mod                  ../starter/share/modules1/submodel_mod.F
-      !||====================================================================
+!||====================================================================
+!||    hm_entity_reference_number    ../starter/source/devtools/hm_reader/hm_entity_reference_number.F
+!||--- called by ------------------------------------------------------
+!||    check_skew                    ../starter/source/spmd/domain_decomposition/check_skew.F
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||    message_mod                   ../starter/share/message_module/message_mod.F
+!||    submodel_mod                  ../starter/share/modules1/submodel_mod.F
+!||====================================================================
       SUBROUTINE HM_ENTITY_REFERENCE_NUMBER(NAME,SNAME,ID,REF_NUMBER)
 C-----------------------------------------------
 C   ROUTINE DESCRIPTION :

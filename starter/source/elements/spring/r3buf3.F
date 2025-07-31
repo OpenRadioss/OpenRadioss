@@ -21,15 +21,15 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
-      !||====================================================================
-      !||    r3buf3        ../starter/source/elements/spring/r3buf3.F
-      !||--- called by ------------------------------------------------------
-      !||    rinit3        ../starter/source/elements/spring/rinit3.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg        ../starter/source/output/message/message.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod   ../starter/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    r3buf3        ../starter/source/elements/spring/r3buf3.F
+!||--- called by ------------------------------------------------------
+!||    rinit3        ../starter/source/elements/spring/rinit3.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg        ../starter/source/output/message/message.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod   ../starter/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE R3BUF3(OFF  ,GEO  ,X   ,AL ,IX,
      .                  IPOS ,IGEO ,ITAB)
 C-----------------------------------------------

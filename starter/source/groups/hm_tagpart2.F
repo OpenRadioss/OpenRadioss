@@ -20,23 +20,23 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    hm_tagpart2              ../starter/source/groups/hm_tagpart2.F
-      !||--- called by ------------------------------------------------------
-      !||    hm_read_lines            ../starter/source/groups/hm_read_lines.F
-      !||    hm_read_surf             ../starter/source/groups/hm_read_surf.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg                   ../starter/source/output/message/message.F
-      !||    groups_get_elem_list     ../starter/source/groups/groups_get_elem_list.F
-      !||    hm_get_int_array_index   ../starter/source/devtools/hm_reader/hm_get_int_array_index.F
-      !||    hm_get_intv              ../starter/source/devtools/hm_reader/hm_get_intv.F
-      !||    set_usrtos               ../starter/source/model/sets/ipartm1.F
-      !||--- uses       -----------------------------------------------------
-      !||    hm_option_read_mod       ../starter/share/modules1/hm_option_read_mod.F
-      !||    message_mod              ../starter/share/message_module/message_mod.F
-      !||    r2r_mod                  ../starter/share/modules1/r2r_mod.F
-      !||    submodel_mod             ../starter/share/modules1/submodel_mod.F
-      !||====================================================================
+!||====================================================================
+!||    hm_tagpart2              ../starter/source/groups/hm_tagpart2.F
+!||--- called by ------------------------------------------------------
+!||    hm_read_lines            ../starter/source/groups/hm_read_lines.F
+!||    hm_read_surf             ../starter/source/groups/hm_read_surf.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                   ../starter/source/output/message/message.F
+!||    groups_get_elem_list     ../starter/source/groups/groups_get_elem_list.F
+!||    hm_get_int_array_index   ../starter/source/devtools/hm_reader/hm_get_int_array_index.F
+!||    hm_get_intv              ../starter/source/devtools/hm_reader/hm_get_intv.F
+!||    set_usrtos               ../starter/source/model/sets/ipartm1.F
+!||--- uses       -----------------------------------------------------
+!||    hm_option_read_mod       ../starter/share/modules1/hm_option_read_mod.F
+!||    message_mod              ../starter/share/message_module/message_mod.F
+!||    r2r_mod                  ../starter/share/modules1/r2r_mod.F
+!||    submodel_mod             ../starter/share/modules1/submodel_mod.F
+!||====================================================================
       SUBROUTINE HM_TAGPART2(BUFFTMP,IPART  ,KEY     ,
      .                    ID     ,TITR   ,TITR1   ,INDX     ,NINDX  ,
      .                    FLAG   ,SUBSET ,LSUBMODEL, MAP)

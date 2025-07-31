@@ -21,15 +21,15 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 
-      !||====================================================================
-      !||    sptrivox   ../starter/source/elements/sph/sptrivox.F
-      !||--- called by ------------------------------------------------------
-      !||    spbuc31    ../starter/source/elements/sph/spbuc31.F
-      !||--- calls      -----------------------------------------------------
-      !||    sppro31    ../starter/source/elements/sph/spbuc31.F
-      !||--- uses       -----------------------------------------------------
-      !||    tri7box    ../starter/share/modules1/tri7box.F
-      !||====================================================================
+!||====================================================================
+!||    sptrivox   ../starter/source/elements/sph/sptrivox.F
+!||--- called by ------------------------------------------------------
+!||    spbuc31    ../starter/source/elements/sph/spbuc31.F
+!||--- calls      -----------------------------------------------------
+!||    sppro31    ../starter/source/elements/sph/spbuc31.F
+!||--- uses       -----------------------------------------------------
+!||    tri7box    ../starter/share/modules1/tri7box.F
+!||====================================================================
       SUBROUTINE SPTRIVOX(
      1      NSN    ,X       ,BMINMA  ,NOD2SP  ,
      2      NBX    ,NBY     ,NBZ     ,

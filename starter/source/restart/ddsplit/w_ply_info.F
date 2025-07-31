@@ -20,12 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    w_ply_info   ../starter/source/restart/ddsplit/w_ply_info.F
-      !||--- called by ------------------------------------------------------
-      !||    ddsplit      ../starter/source/restart/ddsplit/ddsplit.F
-      !||--- calls      -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    w_ply_info   ../starter/source/restart/ddsplit/w_ply_info.F
+!||--- called by ------------------------------------------------------
+!||    ddsplit      ../starter/source/restart/ddsplit/ddsplit.F
+!||--- calls      -----------------------------------------------------
+!||====================================================================
       SUBROUTINE W_PLY_INFO(PLY_INFO,NUMPLY)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

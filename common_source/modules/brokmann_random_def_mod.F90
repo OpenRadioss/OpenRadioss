@@ -22,22 +22,22 @@
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !===================================================================================================
 
-      !||====================================================================
-      !||    brokmann_random_def_mod   ../common_source/modules/brokmann_random_def_mod.F90
-      !||--- called by ------------------------------------------------------
-      !||    brokmann_crack_init       ../starter/source/materials/fail/windshield_alter/brokmann_crack_init.F90
-      !||    brokmann_elem_renum       ../starter/source/materials/fail/windshield_alter/brokmann_elem_spmd_renum.F90
-      !||    brokmann_random           ../starter/source/materials/fail/windshield_alter/brokmann_random.F90
-      !||    c3init3                   ../starter/source/elements/sh3n/coque3n/c3init3.F
-      !||    cbainit3                  ../starter/source/elements/shell/coqueba/cbainit3.F
-      !||    cinit3                    ../starter/source/elements/shell/coque/cinit3.F
-      !||    fail_windshield_init      ../starter/source/materials/fail/windshield_alter/fail_windshield_init.F
-      !||    initia                    ../starter/source/elements/initia/initia.F
-      !||    lectur                    ../engine/source/input/lectur.F
-      !||    updfail                   ../starter/source/materials/updfail.F90
-      !||--- uses       -----------------------------------------------------
-      !||    precision_mod             ../common_source/modules/precision_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    brokmann_random_def_mod   ../common_source/modules/brokmann_random_def_mod.F90
+!||--- called by ------------------------------------------------------
+!||    brokmann_crack_init       ../starter/source/materials/fail/windshield_alter/brokmann_crack_init.F90
+!||    brokmann_elem_renum       ../starter/source/materials/fail/windshield_alter/brokmann_elem_spmd_renum.F90
+!||    brokmann_random           ../starter/source/materials/fail/windshield_alter/brokmann_random.F90
+!||    c3init3                   ../starter/source/elements/sh3n/coque3n/c3init3.F
+!||    cbainit3                  ../starter/source/elements/shell/coqueba/cbainit3.F
+!||    cinit3                    ../starter/source/elements/shell/coque/cinit3.F
+!||    fail_windshield_init      ../starter/source/materials/fail/windshield_alter/fail_windshield_init.F
+!||    initia                    ../starter/source/elements/initia/initia.F
+!||    lectur                    ../engine/source/input/lectur.F
+!||    updfail                   ../starter/source/materials/updfail.F90
+!||--- uses       -----------------------------------------------------
+!||    precision_mod             ../common_source/modules/precision_mod.F90
+!||====================================================================
       module brokmann_random_def_mod
         use precision_mod, only: WP
 ! ======================================================================================================================

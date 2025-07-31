@@ -20,18 +20,18 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    spmd_split_comm_inter   ../engine/source/mpi/interfaces/spmd_split_comm_inter.F
-      !||--- called by ------------------------------------------------------
-      !||    mpp_init                ../engine/source/mpi/interfaces/spmd_i7tool.F
-      !||--- calls      -----------------------------------------------------
-      !||--- uses       -----------------------------------------------------
-      !||    comm_tri7vox_mod        ../engine/share/modules/comm_tri7vox_mod.F
-      !||    intbufdef_mod           ../common_source/modules/interfaces/intbufdef_mod.F90
-      !||    inter_sorting_mod       ../engine/share/modules/inter_sorting_mod.F
-      !||    inter_struct_mod        ../engine/share/modules/inter_struct_mod.F
-      !||    spmd_comm_world_mod     ../engine/source/mpi/spmd_comm_world.F90
-      !||====================================================================
+!||====================================================================
+!||    spmd_split_comm_inter   ../engine/source/mpi/interfaces/spmd_split_comm_inter.F
+!||--- called by ------------------------------------------------------
+!||    mpp_init                ../engine/source/mpi/interfaces/spmd_i7tool.F
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||    comm_tri7vox_mod        ../engine/share/modules/comm_tri7vox_mod.F
+!||    intbufdef_mod           ../common_source/modules/interfaces/intbufdef_mod.F90
+!||    inter_sorting_mod       ../engine/share/modules/inter_sorting_mod.F
+!||    inter_struct_mod        ../engine/share/modules/inter_struct_mod.F
+!||    spmd_comm_world_mod     ../engine/source/mpi/spmd_comm_world.F90
+!||====================================================================
       SUBROUTINE SPMD_SPLIT_COMM_INTER( NBINTC,INTLIST,IPARI,ISENDTO,IRCVFROM,SORT_COMM ,
      .                                  NEED_COMM_INT25_SOLID_EROSION,COMM_INT25_SOLID_EROSION )
 !$COMMENT

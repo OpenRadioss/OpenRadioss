@@ -20,18 +20,18 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    m2law            ../engine/source/materials/mat/mat002/m2law.F
-      !||--- called by ------------------------------------------------------
-      !||    mmain            ../engine/source/materials/mat_share/mmain.F90
-      !||--- calls      -----------------------------------------------------
-      !||    m2iter_imp       ../engine/source/materials/mat/mat002/m2iter_imp.F
-      !||    mdtsph           ../engine/source/materials/mat_share/mdtsph.F
-      !||    mqviscb          ../engine/source/materials/mat_share/mqviscb.F
-      !||    mstrain_rate     ../engine/source/materials/mat_share/mstrain_rate.F
-      !||--- uses       -----------------------------------------------------
-      !||    glob_therm_mod   ../common_source/modules/mat_elem/glob_therm_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    m2law            ../engine/source/materials/mat/mat002/m2law.F
+!||--- called by ------------------------------------------------------
+!||    mmain            ../engine/source/materials/mat_share/mmain.F90
+!||--- calls      -----------------------------------------------------
+!||    m2iter_imp       ../engine/source/materials/mat/mat002/m2iter_imp.F
+!||    mdtsph           ../engine/source/materials/mat_share/mdtsph.F
+!||    mqviscb          ../engine/source/materials/mat_share/mqviscb.F
+!||    mstrain_rate     ../engine/source/materials/mat_share/mstrain_rate.F
+!||--- uses       -----------------------------------------------------
+!||    glob_therm_mod   ../common_source/modules/mat_elem/glob_therm_mod.F90
+!||====================================================================
       SUBROUTINE M2LAW(
      1   PM,      OFF,        SIG,     EINT,
      2   RHO,     QOLD,       EPXE,    EPSD,

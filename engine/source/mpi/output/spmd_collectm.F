@@ -21,16 +21,16 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
-      !||====================================================================
-      !||    spmd_collectm         ../engine/source/mpi/output/spmd_collectm.F
-      !||--- called by ------------------------------------------------------
-      !||    resol                 ../engine/source/engine/resol.F
-      !||--- calls      -----------------------------------------------------
-      !||    my_orders             ../common_source/tools/sort/my_orders.c
-      !||--- uses       -----------------------------------------------------
-      !||    inoutfile_mod         ../common_source/modules/inoutfile_mod.F
-      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
-      !||====================================================================
+!||====================================================================
+!||    spmd_collectm         ../engine/source/mpi/output/spmd_collectm.F
+!||--- called by ------------------------------------------------------
+!||    resol                 ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
+!||    my_orders             ../common_source/tools/sort/my_orders.c
+!||--- uses       -----------------------------------------------------
+!||    inoutfile_mod         ../common_source/modules/inoutfile_mod.F
+!||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
+!||====================================================================
       SUBROUTINE SPMD_COLLECTM(NODNX_SMS, ITAB, WEIGHT,NODGLOB,SIZP0)
       USE INOUTFILE_MOD
 C-----------------------------------------------

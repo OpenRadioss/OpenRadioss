@@ -20,19 +20,19 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    remn_self24            ../starter/source/interfaces/inter3d1/remn_self24.F
-      !||--- called by ------------------------------------------------------
-      !||    inintr                 ../starter/source/interfaces/interf1/inintr.F
-      !||    inintr2                ../starter/source/interfaces/inter3d1/inintr2.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg                 ../starter/source/output/message/message.F
-      !||    fretitl2               ../starter/source/starter/freform.F
-      !||    insol3et               ../starter/source/interfaces/inter3d1/i24sti3.F
-      !||    upgrade_remnode2       ../starter/source/interfaces/interf1/upgrade_remnode.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod            ../starter/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    remn_self24            ../starter/source/interfaces/inter3d1/remn_self24.F
+!||--- called by ------------------------------------------------------
+!||    inintr                 ../starter/source/interfaces/interf1/inintr.F
+!||    inintr2                ../starter/source/interfaces/inter3d1/inintr2.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                 ../starter/source/output/message/message.F
+!||    fretitl2               ../starter/source/starter/freform.F
+!||    insol3et               ../starter/source/interfaces/inter3d1/i24sti3.F
+!||    upgrade_remnode2       ../starter/source/interfaces/interf1/upgrade_remnode.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod            ../starter/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE REMN_SELF24(
      .               X   ,IXS   ,IXS10 ,IXS16,IXS20   ,
      .               KNOD2ELS,NOD2ELS,IPARI ,INTBUF_TAB ,

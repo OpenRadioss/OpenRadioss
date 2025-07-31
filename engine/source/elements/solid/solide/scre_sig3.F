@@ -20,11 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    scre_sig3     ../engine/source/elements/solid/solide/scre_sig3.F
-      !||--- called by ------------------------------------------------------
-      !||    sdistor_ini   ../engine/source/elements/solid/solide/sdistror_ini.F90
-      !||====================================================================
+!||====================================================================
+!||    scre_sig3     ../engine/source/elements/solid/solide/scre_sig3.F
+!||--- called by ------------------------------------------------------
+!||    sdistor_ini   ../engine/source/elements/solid/solide/sdistror_ini.F90
+!||====================================================================
       SUBROUTINE SCRE_SIG3(SIG,   SIG_C,  ISTAB,  OFFG , ISMSTR , NEL)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

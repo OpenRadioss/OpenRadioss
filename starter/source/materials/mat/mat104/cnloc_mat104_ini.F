@@ -20,12 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    cnloc_mat104_ini   ../starter/source/materials/mat/mat104/cnloc_mat104_ini.F
-      !||--- called by ------------------------------------------------------
-      !||    cnloc_matini       ../starter/source/materials/mat_share/cnloc_matini.F
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    cnloc_mat104_ini   ../starter/source/materials/mat/mat104/cnloc_mat104_ini.F
+!||--- called by ------------------------------------------------------
+!||    cnloc_matini       ../starter/source/materials/mat_share/cnloc_matini.F
+!||--- uses       -----------------------------------------------------
+!||====================================================================
       SUBROUTINE CNLOC_MAT104_INI(
      .          NEL      ,IPG      ,IPT      ,NUPARAM  ,NUVAR    ,UPARAM   ,
      .          UVAR     ,PLA      ,OFF      ,THKLY    ,OFFG     ,

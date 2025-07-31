@@ -20,15 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    m21law         ../engine/source/materials/mat/mat021/m21law.F
-      !||--- called by ------------------------------------------------------
-      !||    mmain          ../engine/source/materials/mat_share/mmain.F90
-      !||--- calls      -----------------------------------------------------
-      !||    finter         ../engine/source/tools/curve/finter.F
-      !||--- uses       -----------------------------------------------------
-      !||    constant_mod   ../common_source/modules/constant_mod.F
-      !||====================================================================
+!||====================================================================
+!||    m21law         ../engine/source/materials/mat/mat021/m21law.F
+!||--- called by ------------------------------------------------------
+!||    mmain          ../engine/source/materials/mat_share/mmain.F90
+!||--- calls      -----------------------------------------------------
+!||    finter         ../engine/source/tools/curve/finter.F
+!||--- uses       -----------------------------------------------------
+!||    constant_mod   ../common_source/modules/constant_mod.F
+!||====================================================================
       SUBROUTINE M21LAW (
      1           PM      ,OFF     ,SIG     ,EINT   ,RHO     ,
      2           EPSQ    ,EPXE    ,VOL     ,MAT    ,SSP     ,

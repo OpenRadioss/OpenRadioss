@@ -20,43 +20,43 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    s20forc3               ../engine/source/elements/solid/solide20/s20forc3.F
-      !||--- called by ------------------------------------------------------
-      !||    forint                 ../engine/source/elements/forint.F
-      !||--- calls      -----------------------------------------------------
-      !||    mmain                  ../engine/source/materials/mat_share/mmain.F90
-      !||    s20bilan               ../engine/source/elements/solid/solide20/s20bilan.F
-      !||    s20coor3               ../engine/source/elements/solid/solide20/s20coor3.F
-      !||    s20cumu3               ../engine/source/elements/solid/solide20/s20cumu3.F
-      !||    s20cumu3p              ../engine/source/elements/solid/solide20/s20cumu3p.F
-      !||    s20defo3               ../engine/source/elements/solid/solide20/s20defo3.F
-      !||    s20deri3               ../engine/source/elements/solid/solide20/s20deri3.F
-      !||    s20fint3               ../engine/source/elements/solid/solide20/s20fint3.F
-      !||    s20rst                 ../engine/source/elements/solid/solide20/s20rst.F
-      !||    s20tempcg              ../engine/source/elements/solid/solide20/s20tempcg.F
-      !||    s20therm               ../engine/source/elements/solid/solide20/s20therm.F
-      !||    sdlen8                 ../engine/source/elements/solid/solidez/sdlen8.F
-      !||    sdlenmax               ../engine/source/elements/solid/solide/sdlenmax.F
-      !||    sgeodel3               ../engine/source/elements/solid/solide/sgeodel3.F
-      !||    smalla3                ../engine/source/elements/solid/solide/smalla3.F
-      !||    smallb3                ../engine/source/elements/solid/solide/smallb3.F
-      !||    srho3                  ../engine/source/elements/solid/solide/srho3.F
-      !||    srota3                 ../engine/source/elements/solid/solide/srota3.F
-      !||    sstra3                 ../engine/source/elements/solid/solide/sstra3.F
-      !||    sxfillopt              ../engine/source/elements/solid/solide10/sxfillopt.F
-      !||--- uses       -----------------------------------------------------
-      !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
-      !||    dt_mod                 ../engine/source/modules/dt_mod.F
-      !||    elbufdef_mod           ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||    glob_therm_mod         ../common_source/modules/mat_elem/glob_therm_mod.F90
-      !||    mat_elem_mod           ../common_source/modules/mat_elem/mat_elem_mod.F90
-      !||    mmain_mod              ../engine/source/materials/mat_share/mmain.F90
-      !||    nlocal_reg_mod         ../common_source/modules/nlocal_reg_mod.F
-      !||    sensor_mod             ../common_source/modules/sensor_mod.F90
-      !||    table_mod              ../engine/share/modules/table_mod.F
-      !||    timer_mod              ../engine/source/system/timer_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    s20forc3               ../engine/source/elements/solid/solide20/s20forc3.F
+!||--- called by ------------------------------------------------------
+!||    forint                 ../engine/source/elements/forint.F
+!||--- calls      -----------------------------------------------------
+!||    mmain                  ../engine/source/materials/mat_share/mmain.F90
+!||    s20bilan               ../engine/source/elements/solid/solide20/s20bilan.F
+!||    s20coor3               ../engine/source/elements/solid/solide20/s20coor3.F
+!||    s20cumu3               ../engine/source/elements/solid/solide20/s20cumu3.F
+!||    s20cumu3p              ../engine/source/elements/solid/solide20/s20cumu3p.F
+!||    s20defo3               ../engine/source/elements/solid/solide20/s20defo3.F
+!||    s20deri3               ../engine/source/elements/solid/solide20/s20deri3.F
+!||    s20fint3               ../engine/source/elements/solid/solide20/s20fint3.F
+!||    s20rst                 ../engine/source/elements/solid/solide20/s20rst.F
+!||    s20tempcg              ../engine/source/elements/solid/solide20/s20tempcg.F
+!||    s20therm               ../engine/source/elements/solid/solide20/s20therm.F
+!||    sdlen8                 ../engine/source/elements/solid/solidez/sdlen8.F
+!||    sdlenmax               ../engine/source/elements/solid/solide/sdlenmax.F
+!||    sgeodel3               ../engine/source/elements/solid/solide/sgeodel3.F
+!||    smalla3                ../engine/source/elements/solid/solide/smalla3.F
+!||    smallb3                ../engine/source/elements/solid/solide/smallb3.F
+!||    srho3                  ../engine/source/elements/solid/solide/srho3.F
+!||    srota3                 ../engine/source/elements/solid/solide/srota3.F
+!||    sstra3                 ../engine/source/elements/solid/solide/sstra3.F
+!||    sxfillopt              ../engine/source/elements/solid/solide10/sxfillopt.F
+!||--- uses       -----------------------------------------------------
+!||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
+!||    dt_mod                 ../engine/source/modules/dt_mod.F
+!||    elbufdef_mod           ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    glob_therm_mod         ../common_source/modules/mat_elem/glob_therm_mod.F90
+!||    mat_elem_mod           ../common_source/modules/mat_elem/mat_elem_mod.F90
+!||    mmain_mod              ../engine/source/materials/mat_share/mmain.F90
+!||    nlocal_reg_mod         ../common_source/modules/nlocal_reg_mod.F
+!||    sensor_mod             ../common_source/modules/sensor_mod.F90
+!||    table_mod              ../engine/share/modules/table_mod.F
+!||    timer_mod              ../engine/source/system/timer_mod.F90
+!||====================================================================
       SUBROUTINE S20FORC3(TIMERS,
      1   ELBUF_TAB,  NG,         PM,         GEO,
      2   IXS,        X,          A,          V,

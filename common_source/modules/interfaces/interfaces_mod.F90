@@ -52,45 +52,45 @@
 !hd|        parameters_mod                modules/interfaces/parameters_mod.f
 !hd|        spmd_arrays_mod               modules/interfaces/spmd_arrays_mod.f
 !hd|====================================================================
-      !||====================================================================
-      !||    interfaces_mod                ../common_source/modules/interfaces/interfaces_mod.F90
-      !||--- called by ------------------------------------------------------
-      !||    ddsplit                       ../starter/source/restart/ddsplit/ddsplit.F
-      !||    detach_node                   ../engine/source/engine/node_spliting/detach_node.F90
-      !||    detach_node_from_interfaces   ../engine/source/engine/node_spliting/detach_node.F90
-      !||    hm_read_inter_struct          ../starter/source/interfaces/reader/hm_read_inter_struct.F
-      !||    hm_read_interfaces            ../starter/source/interfaces/reader/hm_read_interfaces.F
-      !||    hm_read_thgrou                ../starter/source/output/th/hm_read_thgrou.F
-      !||    i24mainf                      ../engine/source/interfaces/int24/i24main.F
-      !||    i25mainf                      ../engine/source/interfaces/int25/i25mainf.F
-      !||    imp_inttd0                    ../engine/source/implicit/imp_int_k.F
-      !||    imp_solv                      ../engine/source/implicit/imp_solv.F
-      !||    imp_tripi                     ../engine/source/implicit/imp_int_k.F
-      !||    initia                        ../starter/source/elements/initia/initia.F
-      !||    intfop2                       ../engine/source/interfaces/interf/intfop2.F
-      !||    inttri                        ../engine/source/interfaces/intsort/inttri.F
-      !||    lecins                        ../starter/source/interfaces/interf1/lecins.F
-      !||    lecint                        ../starter/source/interfaces/interf1/lecint.F
-      !||    lectur                        ../engine/source/input/lectur.F
-      !||    radioss2                      ../engine/source/engine/radioss2.F
-      !||    rdresa                        ../engine/source/output/restart/rdresa.F
-      !||    rdresb                        ../engine/source/output/restart/rdresb.F
-      !||    resol                         ../engine/source/engine/resol.F
-      !||    resol_head                    ../engine/source/engine/resol_head.F
-      !||    restalloc                     ../engine/source/output/restart/arralloc.F
-      !||    spmd_exch2_a_pon              ../engine/source/mpi/forces/spmd_exch2_a_pon.F
-      !||    spmd_i7fcom_poff              ../engine/source/mpi/forces/spmd_i7fcom_poff.F
-      !||    spmd_i7fcom_pon               ../engine/source/mpi/forces/spmd_i7fcom_pon.F
-      !||    spmd_i7xvcom2                 ../engine/source/mpi/interfaces/spmd_i7xvcom2.F
-      !||    test_jc_shell_detach          ../engine/source/engine/node_spliting/detach_node.F90
-      !||    wrrestp                       ../engine/source/output/restart/wrrestp.F
-      !||--- uses       -----------------------------------------------------
-      !||    intbuf_fric_mod               ../common_source/modules/interfaces/intbuf_fric_mod.F90
-      !||    intbufdef_mod                 ../common_source/modules/interfaces/intbufdef_mod.F90
-      !||    parameters_mod                ../common_source/modules/interfaces/parameters_mod.F
-      !||    parith_on_mod                 ../common_source/modules/parith_on_mod.F90
-      !||    spmd_arrays_mod               ../common_source/modules/interfaces/spmd_arrays_mod.F
-      !||====================================================================
+!||====================================================================
+!||    interfaces_mod                ../common_source/modules/interfaces/interfaces_mod.F90
+!||--- called by ------------------------------------------------------
+!||    ddsplit                       ../starter/source/restart/ddsplit/ddsplit.F
+!||    detach_node                   ../engine/source/engine/node_spliting/detach_node.F90
+!||    detach_node_from_interfaces   ../engine/source/engine/node_spliting/detach_node.F90
+!||    hm_read_inter_struct          ../starter/source/interfaces/reader/hm_read_inter_struct.F
+!||    hm_read_interfaces            ../starter/source/interfaces/reader/hm_read_interfaces.F
+!||    hm_read_thgrou                ../starter/source/output/th/hm_read_thgrou.F
+!||    i24mainf                      ../engine/source/interfaces/int24/i24main.F
+!||    i25mainf                      ../engine/source/interfaces/int25/i25mainf.F
+!||    imp_inttd0                    ../engine/source/implicit/imp_int_k.F
+!||    imp_solv                      ../engine/source/implicit/imp_solv.F
+!||    imp_tripi                     ../engine/source/implicit/imp_int_k.F
+!||    initia                        ../starter/source/elements/initia/initia.F
+!||    intfop2                       ../engine/source/interfaces/interf/intfop2.F
+!||    inttri                        ../engine/source/interfaces/intsort/inttri.F
+!||    lecins                        ../starter/source/interfaces/interf1/lecins.F
+!||    lecint                        ../starter/source/interfaces/interf1/lecint.F
+!||    lectur                        ../engine/source/input/lectur.F
+!||    radioss2                      ../engine/source/engine/radioss2.F
+!||    rdresa                        ../engine/source/output/restart/rdresa.F
+!||    rdresb                        ../engine/source/output/restart/rdresb.F
+!||    resol                         ../engine/source/engine/resol.F
+!||    resol_head                    ../engine/source/engine/resol_head.F
+!||    restalloc                     ../engine/source/output/restart/arralloc.F
+!||    spmd_exch2_a_pon              ../engine/source/mpi/forces/spmd_exch2_a_pon.F
+!||    spmd_i7fcom_poff              ../engine/source/mpi/forces/spmd_i7fcom_poff.F
+!||    spmd_i7fcom_pon               ../engine/source/mpi/forces/spmd_i7fcom_pon.F
+!||    spmd_i7xvcom2                 ../engine/source/mpi/interfaces/spmd_i7xvcom2.F
+!||    test_jc_shell_detach          ../engine/source/engine/node_spliting/detach_node.F90
+!||    wrrestp                       ../engine/source/output/restart/wrrestp.F
+!||--- uses       -----------------------------------------------------
+!||    intbuf_fric_mod               ../common_source/modules/interfaces/intbuf_fric_mod.F90
+!||    intbufdef_mod                 ../common_source/modules/interfaces/intbufdef_mod.F90
+!||    parameters_mod                ../common_source/modules/interfaces/parameters_mod.F
+!||    parith_on_mod                 ../common_source/modules/parith_on_mod.F90
+!||    spmd_arrays_mod               ../common_source/modules/interfaces/spmd_arrays_mod.F
+!||====================================================================
       module interfaces_mod
 !-----------------------------------------------
 !   m o d u l e s

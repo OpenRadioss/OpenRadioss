@@ -20,17 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    initwg_tri         ../starter/source/spmd/domain_decomposition/initwg_tri.F
-      !||--- called by ------------------------------------------------------
-      !||    initwg             ../starter/source/spmd/domain_decomposition/initwg.F
-      !||--- calls      -----------------------------------------------------
-      !||    bidon              ../starter/source/system/machine.F
-      !||    interlagran        ../starter/source/spmd/domain_decomposition/grid2mat.F
-      !||--- uses       -----------------------------------------------------
-      !||    ddweights_mod      ../starter/share/modules1/ddweights_mod.F
-      !||    mid_pid_mod        ../starter/share/modules1/mid_pid_mod.F
-      !||====================================================================
+!||====================================================================
+!||    initwg_tri         ../starter/source/spmd/domain_decomposition/initwg_tri.F
+!||--- called by ------------------------------------------------------
+!||    initwg             ../starter/source/spmd/domain_decomposition/initwg.F
+!||--- calls      -----------------------------------------------------
+!||    bidon              ../starter/source/system/machine.F
+!||    interlagran        ../starter/source/spmd/domain_decomposition/grid2mat.F
+!||--- uses       -----------------------------------------------------
+!||    ddweights_mod      ../starter/share/modules1/ddweights_mod.F
+!||    mid_pid_mod        ../starter/share/modules1/mid_pid_mod.F
+!||====================================================================
       SUBROUTINE INITWG_TRI(WD,PM,GEO,IXTG,IGEO,NUMELTG,IPM ,SIZE_IRUP,
      .            NUMMAT,NUMGEO,POIN_PART_TRI,MID_PID_TRI,IPARTG,
      .            OFF,BUFMAT,MID_OLD,PID_OLD,MLN_OLD,RECHERCHE,TELT_PRO,

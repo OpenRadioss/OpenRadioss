@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    dmasanic       ../engine/source/output/anim/generate/dmasanic.F
-      !||--- called by ------------------------------------------------------
-      !||    genani         ../engine/source/output/anim/generate/genani.F
-      !||--- uses       -----------------------------------------------------
-      !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||    stack_mod      ../engine/share/modules/stack_mod.F
-      !||====================================================================
+!||====================================================================
+!||    dmasanic       ../engine/source/output/anim/generate/dmasanic.F
+!||--- called by ------------------------------------------------------
+!||    genani         ../engine/source/output/anim/generate/genani.F
+!||--- uses       -----------------------------------------------------
+!||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    stack_mod      ../engine/share/modules/stack_mod.F
+!||====================================================================
       SUBROUTINE DMASANIC(ELBUF_TAB,X   ,D    ,GEO  ,IPARG,
      .                    IXQ  ,IXC  ,IXTG ,MAS  ,PM   ,
      .                    EL2FA,NBF  ,IGEO,STACK)

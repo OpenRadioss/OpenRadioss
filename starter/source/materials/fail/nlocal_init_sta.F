@@ -20,17 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    nlocal_init_sta   ../starter/source/materials/fail/nlocal_init_sta.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg            ../starter/source/output/message/message.F
-      !||    c3fint_reg_ini    ../starter/source/elements/sh3n/coque3n/c3fint_reg_ini.F
-      !||    cbafint_reg_ini   ../starter/source/elements/shell/coqueba/cbafint_reg_ini.F
-      !||    cdkfint_reg_ini   ../starter/source/elements/sh3n/coquedk/cdkfint_reg_ini.F
-      !||    cfint_reg_ini     ../starter/source/elements/shell/coque/cfint_reg_ini.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod       ../starter/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    nlocal_init_sta   ../starter/source/materials/fail/nlocal_init_sta.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg            ../starter/source/output/message/message.F
+!||    c3fint_reg_ini    ../starter/source/elements/sh3n/coque3n/c3fint_reg_ini.F
+!||    cbafint_reg_ini   ../starter/source/elements/shell/coqueba/cbafint_reg_ini.F
+!||    cdkfint_reg_ini   ../starter/source/elements/sh3n/coquedk/cdkfint_reg_ini.F
+!||    cfint_reg_ini     ../starter/source/elements/shell/coque/cfint_reg_ini.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod       ../starter/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE NLOCAL_INIT_STA(ELBUF_TAB,NLOC_DMG ,IPARG    ,IXC      ,
      .                           IXS      ,IXTG     ,AREA     ,X        ,
      .                           XREFS    ,XREFC    ,XREFTG   ,IPM      ,

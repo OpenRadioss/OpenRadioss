@@ -20,21 +20,21 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    sms_inist      ../engine/source/ams/sms_proj.F
-      !||--- called by ------------------------------------------------------
-      !||    sms_pcg        ../engine/source/ams/sms_pcg.F
-      !||--- calls      -----------------------------------------------------
-      !||    mav_mm         ../engine/source/implicit/produt_v.F
-      !||    my_barrier     ../engine/source/system/machine.F
-      !||    sms_mam_nm     ../engine/source/ams/sms_proj.F
-      !||    sms_mav_lt2    ../engine/source/ams/sms_pcg.F
-      !||    startime       ../engine/source/system/timer_mod.F90
-      !||    stoptime       ../engine/source/system/timer_mod.F90
-      !||--- uses       -----------------------------------------------------
-      !||    sms_pcg_proj   ../engine/share/modules/sms_mod.F
-      !||    timer_mod      ../engine/source/system/timer_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    sms_inist      ../engine/source/ams/sms_proj.F
+!||--- called by ------------------------------------------------------
+!||    sms_pcg        ../engine/source/ams/sms_pcg.F
+!||--- calls      -----------------------------------------------------
+!||    mav_mm         ../engine/source/implicit/produt_v.F
+!||    my_barrier     ../engine/source/system/machine.F
+!||    sms_mam_nm     ../engine/source/ams/sms_proj.F
+!||    sms_mav_lt2    ../engine/source/ams/sms_pcg.F
+!||    startime       ../engine/source/system/timer_mod.F90
+!||    stoptime       ../engine/source/system/timer_mod.F90
+!||--- uses       -----------------------------------------------------
+!||    sms_pcg_proj   ../engine/share/modules/sms_mod.F
+!||    timer_mod      ../engine/source/system/timer_mod.F90
+!||====================================================================
        SUBROUTINE SMS_INIST(TIMERS, 
      1           IADK  ,JDIK  ,DIAG_K ,LT_K  ,ITASK ,
      2           NODFT1_SMS,NODLT1_SMS,INDX1_SMS,NODNX_SMS,IAD_ELEM ,
@@ -165,20 +165,20 @@ C
 #endif
       RETURN
       END
-      !||====================================================================
-      !||    sms_inix       ../engine/source/ams/sms_proj.F
-      !||--- called by ------------------------------------------------------
-      !||    sms_pcg        ../engine/source/ams/sms_pcg.F
-      !||--- calls      -----------------------------------------------------
-      !||    my_barrier     ../engine/source/system/machine.F
-      !||    sms_mav_mn     ../engine/source/ams/sms_proj.F
-      !||    sms_mav_nm     ../engine/source/ams/sms_proj.F
-      !||    startime       ../engine/source/system/timer_mod.F90
-      !||    stoptime       ../engine/source/system/timer_mod.F90
-      !||--- uses       -----------------------------------------------------
-      !||    sms_pcg_proj   ../engine/share/modules/sms_mod.F
-      !||    timer_mod      ../engine/source/system/timer_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    sms_inix       ../engine/source/ams/sms_proj.F
+!||--- called by ------------------------------------------------------
+!||    sms_pcg        ../engine/source/ams/sms_pcg.F
+!||--- calls      -----------------------------------------------------
+!||    my_barrier     ../engine/source/system/machine.F
+!||    sms_mav_mn     ../engine/source/ams/sms_proj.F
+!||    sms_mav_nm     ../engine/source/ams/sms_proj.F
+!||    startime       ../engine/source/system/timer_mod.F90
+!||    stoptime       ../engine/source/system/timer_mod.F90
+!||--- uses       -----------------------------------------------------
+!||    sms_pcg_proj   ../engine/share/modules/sms_mod.F
+!||    timer_mod      ../engine/source/system/timer_mod.F90
+!||====================================================================
       SUBROUTINE SMS_INIX(TIMERS, NODFT,NODLT,NUMNOD,X  ,R ,WEIGHT,ITASK ,
      .                    DIAG_SMS)
 C-----------------------------------------------
@@ -283,20 +283,20 @@ C----------------------
 C----------------------
       RETURN
       END
-      !||====================================================================
-      !||    sms_pro_p      ../engine/source/ams/sms_proj.F
-      !||--- called by ------------------------------------------------------
-      !||    sms_pcg        ../engine/source/ams/sms_pcg.F
-      !||--- calls      -----------------------------------------------------
-      !||    my_barrier     ../engine/source/system/machine.F
-      !||    sms_mav_mn     ../engine/source/ams/sms_proj.F
-      !||    sms_mav_nm     ../engine/source/ams/sms_proj.F
-      !||    startime       ../engine/source/system/timer_mod.F90
-      !||    stoptime       ../engine/source/system/timer_mod.F90
-      !||--- uses       -----------------------------------------------------
-      !||    sms_pcg_proj   ../engine/share/modules/sms_mod.F
-      !||    timer_mod      ../engine/source/system/timer_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    sms_pro_p      ../engine/source/ams/sms_proj.F
+!||--- called by ------------------------------------------------------
+!||    sms_pcg        ../engine/source/ams/sms_pcg.F
+!||--- calls      -----------------------------------------------------
+!||    my_barrier     ../engine/source/system/machine.F
+!||    sms_mav_mn     ../engine/source/ams/sms_proj.F
+!||    sms_mav_nm     ../engine/source/ams/sms_proj.F
+!||    startime       ../engine/source/system/timer_mod.F90
+!||    stoptime       ../engine/source/system/timer_mod.F90
+!||--- uses       -----------------------------------------------------
+!||    sms_pcg_proj   ../engine/share/modules/sms_mod.F
+!||    timer_mod      ../engine/source/system/timer_mod.F90
+!||====================================================================
       SUBROUTINE SMS_PRO_P(TIMERS, NODFT ,NODLT ,NUMNOD ,P  ,WEIGHT,ITASK ,
      .                     PJ    ,DIAG_SMS)
 C-----------------------------------------------
@@ -396,15 +396,15 @@ C----------------------
 C
       RETURN
       END
-      !||====================================================================
-      !||    sms_updst      ../engine/source/ams/sms_proj.F
-      !||--- called by ------------------------------------------------------
-      !||    sms_pcg        ../engine/source/ams/sms_pcg.F
-      !||--- calls      -----------------------------------------------------
-      !||    my_barrier     ../engine/source/system/machine.F
-      !||--- uses       -----------------------------------------------------
-      !||    sms_pcg_proj   ../engine/share/modules/sms_mod.F
-      !||====================================================================
+!||====================================================================
+!||    sms_updst      ../engine/source/ams/sms_proj.F
+!||--- called by ------------------------------------------------------
+!||    sms_pcg        ../engine/source/ams/sms_pcg.F
+!||--- calls      -----------------------------------------------------
+!||    my_barrier     ../engine/source/system/machine.F
+!||--- uses       -----------------------------------------------------
+!||    sms_pcg_proj   ../engine/share/modules/sms_mod.F
+!||====================================================================
        SUBROUTINE SMS_UPDST( 
      1           IADK  ,JDIK  ,DIAG_K ,LT_K  ,ITASK ,
      2           NODFT1_SMS,NODLT1_SMS,INDX1_SMS,NODNX_SMS,IAD_ELEM ,
@@ -484,18 +484,18 @@ C----------------------
 C---------------------
       RETURN
       END
-      !||====================================================================
-      !||    sms_inisi       ../engine/source/ams/sms_proj.F
-      !||--- called by ------------------------------------------------------
-      !||    sms_pcg         ../engine/source/ams/sms_pcg.F
-      !||--- calls      -----------------------------------------------------
-      !||    my_barrier      ../engine/source/system/machine.F
-      !||    sms_inis        ../engine/source/ams/sms_proj.F
-      !||    sms_mortho_gs   ../engine/source/ams/sms_proj.F
-      !||    spmd_exch_sms   ../engine/source/mpi/ams/spmd_exch_sms.F
-      !||--- uses       -----------------------------------------------------
-      !||    sms_pcg_proj    ../engine/share/modules/sms_mod.F
-      !||====================================================================
+!||====================================================================
+!||    sms_inisi       ../engine/source/ams/sms_proj.F
+!||--- called by ------------------------------------------------------
+!||    sms_pcg         ../engine/source/ams/sms_pcg.F
+!||--- calls      -----------------------------------------------------
+!||    my_barrier      ../engine/source/system/machine.F
+!||    sms_inis        ../engine/source/ams/sms_proj.F
+!||    sms_mortho_gs   ../engine/source/ams/sms_proj.F
+!||    spmd_exch_sms   ../engine/source/mpi/ams/spmd_exch_sms.F
+!||--- uses       -----------------------------------------------------
+!||    sms_pcg_proj    ../engine/share/modules/sms_mod.F
+!||====================================================================
       SUBROUTINE SMS_INISI( 
      1           IADK  ,JDIK  ,DIAG_K ,LT_K  ,ITASK ,
      2           NODFT1_SMS,NODLT1_SMS,INDX1_SMS,NODNX_SMS,IAD_ELEM ,
@@ -598,11 +598,11 @@ C--------------------
 C--------------------
       RETURN
       END
-      !||====================================================================
-      !||    sms_inis    ../engine/source/ams/sms_proj.F
-      !||--- called by ------------------------------------------------------
-      !||    sms_inisi   ../engine/source/ams/sms_proj.F
-      !||====================================================================
+!||====================================================================
+!||    sms_inis    ../engine/source/ams/sms_proj.F
+!||--- called by ------------------------------------------------------
+!||    sms_inisi   ../engine/source/ams/sms_proj.F
+!||====================================================================
       SUBROUTINE SMS_INIS(NUMNOD,NODFT ,NODLT, NPF,   NPL,   S   ,
      .                    NODNX_SMS,KINET )
 C-----------------------------------------------
@@ -647,18 +647,18 @@ C
       RETURN
       END
 C-----------Hybrid {x}t{y}-.{Weight}--
-      !||====================================================================
-      !||    sms_produt_h       ../engine/source/ams/sms_proj.F
-      !||--- called by ------------------------------------------------------
-      !||    sms_mam_nm         ../engine/source/ams/sms_proj.F
-      !||    sms_mortho_gs      ../engine/source/ams/sms_proj.F
-      !||--- calls      -----------------------------------------------------
-      !||    my_barrier         ../engine/source/system/machine.F
-      !||    spmd_glob_dpsum9   ../engine/source/mpi/interfaces/spmd_th.F
-      !||    spmd_rbcast        ../engine/source/mpi/generic/spmd_rbcast.F
-      !||    spmd_sum_s         ../engine/source/mpi/implicit/imp_spmd.F
-      !||    sum_6_float        ../engine/source/system/parit.F
-      !||====================================================================
+!||====================================================================
+!||    sms_produt_h       ../engine/source/ams/sms_proj.F
+!||--- called by ------------------------------------------------------
+!||    sms_mam_nm         ../engine/source/ams/sms_proj.F
+!||    sms_mortho_gs      ../engine/source/ams/sms_proj.F
+!||--- calls      -----------------------------------------------------
+!||    my_barrier         ../engine/source/system/machine.F
+!||    spmd_glob_dpsum9   ../engine/source/mpi/interfaces/spmd_th.F
+!||    spmd_rbcast        ../engine/source/mpi/generic/spmd_rbcast.F
+!||    spmd_sum_s         ../engine/source/mpi/implicit/imp_spmd.F
+!||    sum_6_float        ../engine/source/system/parit.F
+!||====================================================================
       SUBROUTINE SMS_PRODUT_H(NODFT  ,NODLT ,X   ,Y  ,WEIGHT, R ,ITASK )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -769,17 +769,17 @@ C---------------------
       RETURN
       END
 C-----------Hybrid {x}t{y}-.{Weight}--
-      !||====================================================================
-      !||    sms_produt3        ../engine/source/ams/sms_proj.F
-      !||--- called by ------------------------------------------------------
-      !||    sms_mav_nm         ../engine/source/ams/sms_proj.F
-      !||--- calls      -----------------------------------------------------
-      !||    foat_to_6_float    ../engine/source/system/parit.F
-      !||    my_barrier         ../engine/source/system/machine.F
-      !||    spmd_glob_dpsum9   ../engine/source/mpi/interfaces/spmd_th.F
-      !||    spmd_glob_dsum9    ../engine/source/mpi/interfaces/spmd_th.F
-      !||    spmd_rbcast        ../engine/source/mpi/generic/spmd_rbcast.F
-      !||====================================================================
+!||====================================================================
+!||    sms_produt3        ../engine/source/ams/sms_proj.F
+!||--- called by ------------------------------------------------------
+!||    sms_mav_nm         ../engine/source/ams/sms_proj.F
+!||--- calls      -----------------------------------------------------
+!||    foat_to_6_float    ../engine/source/system/parit.F
+!||    my_barrier         ../engine/source/system/machine.F
+!||    spmd_glob_dpsum9   ../engine/source/mpi/interfaces/spmd_th.F
+!||    spmd_glob_dsum9    ../engine/source/mpi/interfaces/spmd_th.F
+!||    spmd_rbcast        ../engine/source/mpi/generic/spmd_rbcast.F
+!||====================================================================
       SUBROUTINE SMS_PRODUT3(NODFT  ,NODLT ,X   ,Y  ,WEIGHT, R ,ITASK )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -937,14 +937,14 @@ C----------------------
 C---------------------
       RETURN
       END
-      !||====================================================================
-      !||    sms_mav_nm    ../engine/source/ams/sms_proj.F
-      !||--- called by ------------------------------------------------------
-      !||    sms_inix      ../engine/source/ams/sms_proj.F
-      !||    sms_pro_p     ../engine/source/ams/sms_proj.F
-      !||--- calls      -----------------------------------------------------
-      !||    sms_produt3   ../engine/source/ams/sms_proj.F
-      !||====================================================================
+!||====================================================================
+!||    sms_mav_nm    ../engine/source/ams/sms_proj.F
+!||--- called by ------------------------------------------------------
+!||    sms_inix      ../engine/source/ams/sms_proj.F
+!||    sms_pro_p     ../engine/source/ams/sms_proj.F
+!||--- calls      -----------------------------------------------------
+!||    sms_produt3   ../engine/source/ams/sms_proj.F
+!||====================================================================
       SUBROUTINE SMS_MAV_NM(NODFT ,NODLT ,NUMNOD,MD  ,A  ,
      .                      B    ,C    ,WEIGHT,ITASK )
 C-----------------------------------------------
@@ -979,13 +979,13 @@ C-----------------------------
 C--------------------------------------------
       RETURN
       END
-      !||====================================================================
-      !||    sms_mam_nm     ../engine/source/ams/sms_proj.F
-      !||--- called by ------------------------------------------------------
-      !||    sms_inist      ../engine/source/ams/sms_proj.F
-      !||--- calls      -----------------------------------------------------
-      !||    sms_produt_h   ../engine/source/ams/sms_proj.F
-      !||====================================================================
+!||====================================================================
+!||    sms_mam_nm     ../engine/source/ams/sms_proj.F
+!||--- called by ------------------------------------------------------
+!||    sms_inist      ../engine/source/ams/sms_proj.F
+!||--- calls      -----------------------------------------------------
+!||    sms_produt_h   ../engine/source/ams/sms_proj.F
+!||====================================================================
       SUBROUTINE SMS_MAM_NM(NODFT ,NODLT ,NUMNOD, MD   ,A   ,
      .                      B   ,C  ,WEIGHT,ITASK)
 C-----------------------------------------------
@@ -1023,16 +1023,16 @@ C-----------------------------
 C--------------------------------------------
       RETURN
       END
-      !||====================================================================
-      !||    sms_mortho_gs   ../engine/source/ams/sms_proj.F
-      !||--- called by ------------------------------------------------------
-      !||    sms_inisi       ../engine/source/ams/sms_proj.F
-      !||--- calls      -----------------------------------------------------
-      !||    my_barrier      ../engine/source/system/machine.F
-      !||    sms_produt_h    ../engine/source/ams/sms_proj.F
-      !||    vaxpy_h         ../engine/source/implicit/produt_v.F
-      !||    vscal_h         ../engine/source/implicit/produt_v.F
-      !||====================================================================
+!||====================================================================
+!||    sms_mortho_gs   ../engine/source/ams/sms_proj.F
+!||--- called by ------------------------------------------------------
+!||    sms_inisi       ../engine/source/ams/sms_proj.F
+!||--- calls      -----------------------------------------------------
+!||    my_barrier      ../engine/source/system/machine.F
+!||    sms_produt_h    ../engine/source/ams/sms_proj.F
+!||    vaxpy_h         ../engine/source/implicit/produt_v.F
+!||    vscal_h         ../engine/source/implicit/produt_v.F
+!||====================================================================
       SUBROUTINE SMS_MORTHO_GS(NODFT  ,NODLT  ,NUMNOD ,MD_F   ,MD_L   ,
      .                     A      ,WEIGHT ,ITASK  )
 C-----------------------------------------------
@@ -1082,14 +1082,14 @@ C---------------------
 C--------------------------------------------
       RETURN
       END
-      !||====================================================================
-      !||    sms_mav_mn         ../engine/source/ams/sms_proj.F
-      !||--- called by ------------------------------------------------------
-      !||    sms_inix           ../engine/source/ams/sms_proj.F
-      !||    sms_pro_p          ../engine/source/ams/sms_proj.F
-      !||--- calls      -----------------------------------------------------
-      !||    sms_produt_v_loc   ../engine/source/ams/sms_proj.F
-      !||====================================================================
+!||====================================================================
+!||    sms_mav_mn         ../engine/source/ams/sms_proj.F
+!||--- called by ------------------------------------------------------
+!||    sms_inix           ../engine/source/ams/sms_proj.F
+!||    sms_pro_p          ../engine/source/ams/sms_proj.F
+!||--- calls      -----------------------------------------------------
+!||    sms_produt_v_loc   ../engine/source/ams/sms_proj.F
+!||====================================================================
       SUBROUTINE SMS_MAV_MN(ND   ,MD     ,A     ,B     ,C      ,ITASK )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -1130,11 +1130,11 @@ C--------------------------------------------
       RETURN
       END
 C---------------------r={x}^t{y}---
-      !||====================================================================
-      !||    sms_produt_v_loc   ../engine/source/ams/sms_proj.F
-      !||--- called by ------------------------------------------------------
-      !||    sms_mav_mn         ../engine/source/ams/sms_proj.F
-      !||====================================================================
+!||====================================================================
+!||    sms_produt_v_loc   ../engine/source/ams/sms_proj.F
+!||--- called by ------------------------------------------------------
+!||    sms_mav_mn         ../engine/source/ams/sms_proj.F
+!||====================================================================
       SUBROUTINE SMS_PRODUT_V_LOC( NDDL  ,X   ,Y  ,R)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

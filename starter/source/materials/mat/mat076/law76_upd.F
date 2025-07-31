@@ -20,17 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    law76_upd              ../starter/source/materials/mat/mat076/law76_upd.F
-      !||--- called by ------------------------------------------------------
-      !||    updmat                 ../starter/source/materials/updmat.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg                 ../starter/source/output/message/message.F
-      !||    func_comp              ../starter/source/materials/mat/mat076/law76_upd.F
-      !||    table2d_intersect      ../starter/source/tools/curve/table2d_intersect.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod            ../starter/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    law76_upd              ../starter/source/materials/mat/mat076/law76_upd.F
+!||--- called by ------------------------------------------------------
+!||    updmat                 ../starter/source/materials/updmat.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                 ../starter/source/output/message/message.F
+!||    func_comp              ../starter/source/materials/mat/mat076/law76_upd.F
+!||    table2d_intersect      ../starter/source/tools/curve/table2d_intersect.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod            ../starter/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE LAW76_UPD(IOUT   ,TITR    ,MAT_ID   ,NUPARAM ,MATPARAM ,
      .                     UPARAM ,NUMTABL ,ITABLE   ,TABLE   ,NFUNC    ,
      .                     IFUNC  ,NPC     ,PLD      )
@@ -332,13 +332,13 @@ c--------------------------------------------------------
 c--------------------------------------------------------
       RETURN
       END
-      !||====================================================================
-      !||    func_comp          ../starter/source/materials/mat/mat076/law76_upd.F
-      !||--- called by ------------------------------------------------------
-      !||    law76_upd          ../starter/source/materials/mat/mat076/law76_upd.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod        ../starter/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    func_comp          ../starter/source/materials/mat/mat076/law76_upd.F
+!||--- called by ------------------------------------------------------
+!||    law76_upd          ../starter/source/materials/mat/mat076/law76_upd.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod        ../starter/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE FUNC_COMP(TABLE   ,NTABLE  ,NPTMAX  ,NPT_TRAC ,NPT_SHEAR ,
      .                     NPT_COMP,X_COMP  ,Y_COMP  ,NUP      )
 C-----------------------------------------------

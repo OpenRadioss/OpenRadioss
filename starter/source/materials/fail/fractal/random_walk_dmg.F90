@@ -20,11 +20,11 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    random_walk_dmg_mod   ../starter/source/materials/fail/fractal/random_walk_dmg.F90
-      !||--- called by ------------------------------------------------------
-      !||    updfail               ../starter/source/materials/updfail.F90
-      !||====================================================================
+!||====================================================================
+!||    random_walk_dmg_mod   ../starter/source/materials/fail/fractal/random_walk_dmg.F90
+!||--- called by ------------------------------------------------------
+!||    updfail               ../starter/source/materials/updfail.F90
+!||====================================================================
       module random_walk_dmg_mod
       contains
 ! ========================================================================================
@@ -33,18 +33,18 @@
 
 ! ========================================================================================
 
-      !||====================================================================
-      !||    random_walk_dmg                ../starter/source/materials/fail/fractal/random_walk_dmg.F90
-      !||--- called by ------------------------------------------------------
-      !||    updfail                        ../starter/source/materials/updfail.F90
-      !||--- calls      -----------------------------------------------------
-      !||    fractal_element_neighbor       ../starter/source/materials/fail/fractal/fractal_element_neighbor.F90
-      !||    ngr2usrn                       ../starter/source/system/nintrr.F
-      !||--- uses       -----------------------------------------------------
-      !||    fractal_element_neighbor_mod   ../starter/source/materials/fail/fractal/fractal_element_neighbor.F90
-      !||    message_mod                    ../starter/share/message_module/message_mod.F
-      !||    stack_mod                      ../starter/share/modules1/stack_mod.F
-      !||====================================================================
+!||====================================================================
+!||    random_walk_dmg                ../starter/source/materials/fail/fractal/random_walk_dmg.F90
+!||--- called by ------------------------------------------------------
+!||    updfail                        ../starter/source/materials/updfail.F90
+!||--- calls      -----------------------------------------------------
+!||    fractal_element_neighbor       ../starter/source/materials/fail/fractal/fractal_element_neighbor.F90
+!||    ngr2usrn                       ../starter/source/system/nintrr.F
+!||--- uses       -----------------------------------------------------
+!||    fractal_element_neighbor_mod   ../starter/source/materials/fail/fractal/fractal_element_neighbor.F90
+!||    message_mod                    ../starter/share/message_module/message_mod.F
+!||    stack_mod                      ../starter/share/modules1/stack_mod.F
+!||====================================================================
         subroutine random_walk_dmg(fractal,fail ,                     &
                    ngrshel,ngrsh3n,igrsh4n,igrsh3n,                   &
                    nixc   ,ixc    ,nixtg  ,ixtg  ,numelc ,numeltg,    &

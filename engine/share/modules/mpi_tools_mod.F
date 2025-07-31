@@ -20,11 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    mpi_tools_mod   ../engine/share/modules/mpi_tools_mod.F
-      !||--- called by ------------------------------------------------------
-      !||    resol           ../engine/source/engine/resol.F
-      !||====================================================================
+!||====================================================================
+!||    mpi_tools_mod   ../engine/share/modules/mpi_tools_mod.F
+!||--- called by ------------------------------------------------------
+!||    resol           ../engine/source/engine/resol.F
+!||====================================================================
       MODULE MPI_TOOLS_MOD 
 C-----------------------------------------------
 C   m y _ r e a l
@@ -60,15 +60,15 @@ C  CALL MPI_MIN_REAL_END(VAL2,TAB2,1,MY_STRUCT)
 C  ! VAL2 is the min of VAL over the processors
 C  ! TAB2 is the TAB of the processor that has the minimum value of VAL
 
-      !||====================================================================
-      !||    mpi_min_real_begin    ../engine/share/modules/mpi_tools_mod.F
-      !||--- called by ------------------------------------------------------
-      !||    resol                 ../engine/source/engine/resol.F
-      !||--- calls      -----------------------------------------------------
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod           ../engine/share/message_module/message_mod.F
-      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
-      !||====================================================================
+!||====================================================================
+!||    mpi_min_real_begin    ../engine/share/modules/mpi_tools_mod.F
+!||--- called by ------------------------------------------------------
+!||    resol                 ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||    message_mod           ../engine/share/message_module/message_mod.F
+!||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
+!||====================================================================
       SUBROUTINE MPI_MIN_REAL_BEGIN(VAL,TAB,STAB,MY_STRUCT) 
 C-----------------------------------------------
 C   M o d u l e s
@@ -160,15 +160,15 @@ C-----------------------------------------------
       RETURN
       END SUBROUTINE MPI_MIN_REAL_BEGIN
 
-      !||====================================================================
-      !||    mpi_min_real_end      ../engine/share/modules/mpi_tools_mod.F
-      !||--- called by ------------------------------------------------------
-      !||    resol                 ../engine/source/engine/resol.F
-      !||--- calls      -----------------------------------------------------
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod           ../engine/share/message_module/message_mod.F
-      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
-      !||====================================================================
+!||====================================================================
+!||    mpi_min_real_end      ../engine/share/modules/mpi_tools_mod.F
+!||--- called by ------------------------------------------------------
+!||    resol                 ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||    message_mod           ../engine/share/message_module/message_mod.F
+!||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
+!||====================================================================
       SUBROUTINE MPI_MIN_REAL_END(VAL,TAB,STAB,MY_STRUCT) 
 C-----------------------------------------------
 C   M o d u l e s

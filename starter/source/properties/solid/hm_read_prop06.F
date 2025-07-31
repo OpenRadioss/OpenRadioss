@@ -20,24 +20,24 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    hm_read_prop06           ../starter/source/properties/solid/hm_read_prop06.F
-      !||--- called by ------------------------------------------------------
-      !||    hm_read_properties       ../starter/source/properties/hm_read_properties.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg                   ../starter/source/output/message/message.F
-      !||    arret                    ../starter/source/system/arret.F
-      !||    hm_get_floatv            ../starter/source/devtools/hm_reader/hm_get_floatv.F
-      !||    hm_get_intv              ../starter/source/devtools/hm_reader/hm_get_intv.F
-      !||    hm_option_is_encrypted   ../starter/source/devtools/hm_reader/hm_option_is_encrypted.F
-      !||    istr                     ../starter/source/tools/univ/istr.F
-      !||    subrotvect               ../starter/source/model/submodel/subrot.F
-      !||--- uses       -----------------------------------------------------
-      !||    defaults_mod             ../starter/source/modules/defaults_mod.F90
-      !||    elbuftag_mod             ../starter/share/modules1/elbuftag_mod.F
-      !||    message_mod              ../starter/share/message_module/message_mod.F
-      !||    submodel_mod             ../starter/share/modules1/submodel_mod.F
-      !||====================================================================
+!||====================================================================
+!||    hm_read_prop06           ../starter/source/properties/solid/hm_read_prop06.F
+!||--- called by ------------------------------------------------------
+!||    hm_read_properties       ../starter/source/properties/hm_read_properties.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                   ../starter/source/output/message/message.F
+!||    arret                    ../starter/source/system/arret.F
+!||    hm_get_floatv            ../starter/source/devtools/hm_reader/hm_get_floatv.F
+!||    hm_get_intv              ../starter/source/devtools/hm_reader/hm_get_intv.F
+!||    hm_option_is_encrypted   ../starter/source/devtools/hm_reader/hm_option_is_encrypted.F
+!||    istr                     ../starter/source/tools/univ/istr.F
+!||    subrotvect               ../starter/source/model/submodel/subrot.F
+!||--- uses       -----------------------------------------------------
+!||    defaults_mod             ../starter/source/modules/defaults_mod.F90
+!||    elbuftag_mod             ../starter/share/modules1/elbuftag_mod.F
+!||    message_mod              ../starter/share/message_module/message_mod.F
+!||    submodel_mod             ../starter/share/modules1/submodel_mod.F
+!||====================================================================
       SUBROUTINE HM_READ_PROP06(GEO      ,IGEO    ,PROP_TAG,MULTI_FVM ,IGTYP   ,
      .                          IG       ,IDTITL  ,UNITAB  ,LSUBMODEL ,RTRANS  ,
      .                          SUB_ID   ,ISKN    ,IPART   ,SUB_INDEX,DEFAULTS_SOLID)

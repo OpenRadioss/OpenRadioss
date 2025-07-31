@@ -20,20 +20,20 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    lagm_ini        ../starter/source/tools/lagmul/lagm_ini.F
-      !||--- called by ------------------------------------------------------
-      !||    lectur          ../starter/source/starter/lectur.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg          ../starter/source/output/message/message.F
-      !||    lgmini_bc       ../starter/source/tools/lagmul/lgmini_bc.F
-      !||    lgmini_fxv      ../starter/source/tools/lagmul/lgmini_fxv.F
-      !||    lgmini_gj       ../starter/source/tools/lagmul/lgmini_gj.F
-      !||    lgmini_i2       ../starter/source/tools/lagmul/lgmini_i2.F
-      !||    lgmini_mpc      ../starter/source/tools/lagmul/lgmini_mpc.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod     ../starter/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    lagm_ini        ../starter/source/tools/lagmul/lagm_ini.F
+!||--- called by ------------------------------------------------------
+!||    lectur          ../starter/source/starter/lectur.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg          ../starter/source/output/message/message.F
+!||    lgmini_bc       ../starter/source/tools/lagmul/lgmini_bc.F
+!||    lgmini_fxv      ../starter/source/tools/lagmul/lgmini_fxv.F
+!||    lgmini_gj       ../starter/source/tools/lagmul/lgmini_gj.F
+!||    lgmini_i2       ../starter/source/tools/lagmul/lgmini_i2.F
+!||    lgmini_mpc      ../starter/source/tools/lagmul/lgmini_mpc.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod     ../starter/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE LAGM_INI(NHF    ,IADHF       ,IADLL  ,JLL    ,LLL    ,
      2                    IPARI  ,INTBUF_TAB  ,IGRNOD ,        IBCSLAG,
      3                    MASS   ,INER        ,GJBUFI ,IBUFNC ,IBUFNN ,

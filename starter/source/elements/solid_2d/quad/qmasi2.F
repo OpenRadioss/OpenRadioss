@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    qmasi2    ../starter/source/elements/solid_2d/quad/qmasi2.F
-      !||--- called by ------------------------------------------------------
-      !||    binit2    ../starter/source/ale/bimat/binit2.F
-      !||    q4init2   ../starter/source/elements/solid_2d/quad4/q4init2.F
-      !||    qinit2    ../starter/source/elements/solid_2d/quad/qinit2.F
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    qmasi2    ../starter/source/elements/solid_2d/quad/qmasi2.F
+!||--- called by ------------------------------------------------------
+!||    binit2    ../starter/source/ale/bimat/binit2.F
+!||    q4init2   ../starter/source/elements/solid_2d/quad4/q4init2.F
+!||    qinit2    ../starter/source/elements/solid_2d/quad/qinit2.F
+!||--- uses       -----------------------------------------------------
+!||====================================================================
       SUBROUTINE QMASI2(PM,MAT,MS,VOL,MSQ,WMA,IPART,PARTSAV, 
      .     IX1, IX2, IX3, IX4 ,X ,V)
 C-----------------------------------------------

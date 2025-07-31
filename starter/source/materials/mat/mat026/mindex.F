@@ -21,9 +21,9 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
-      !||====================================================================
-      !||    mindex   ../starter/source/materials/mat/mat026/mindex.F
-      !||====================================================================
+!||====================================================================
+!||    mindex   ../starter/source/materials/mat/mat026/mindex.F
+!||====================================================================
       INTEGER FUNCTION MINDEX(AA,NI,NJ,A)
 C     RECHERCHE D'INDEX
 C-----------------------------------------------

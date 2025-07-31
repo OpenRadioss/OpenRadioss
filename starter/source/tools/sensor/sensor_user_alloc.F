@@ -20,12 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    sensor_user_alloc   ../starter/source/tools/sensor/sensor_user_alloc.F
-      !||--- called by ------------------------------------------------------
-      !||    read_sensor_user    ../starter/source/tools/sensor/read_sensor_user.F
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    sensor_user_alloc   ../starter/source/tools/sensor/sensor_user_alloc.F
+!||--- called by ------------------------------------------------------
+!||    read_sensor_user    ../starter/source/tools/sensor/read_sensor_user.F
+!||--- uses       -----------------------------------------------------
+!||====================================================================
         SUBROUTINE SENSOR_USER_ALLOC(ALREADY_DONE,SENSOR_USER_STRUCT)
 !$COMMENT
 !       SENSOR_USER_ALLOC description

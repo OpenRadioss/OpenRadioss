@@ -20,20 +20,20 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    i24setnodes     ../starter/source/interfaces/inter3d1/i24setnodes.F
-      !||--- called by ------------------------------------------------------
-      !||    lectur          ../starter/source/starter/lectur.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg          ../starter/source/output/message/message.F
-      !||    ifrontplus      ../starter/source/spmd/node/frontplus.F
-      !||    intersurfl      ../starter/source/spmd/node/ddtools.F
-      !||    nlocal          ../starter/source/spmd/node/ddtools.F
-      !||--- uses       -----------------------------------------------------
-      !||    front_mod       ../starter/share/modules1/front_mod.F
-      !||    i7i10splitmod   ../starter/share/modules1/i710split_mod.F
-      !||    message_mod     ../starter/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    i24setnodes     ../starter/source/interfaces/inter3d1/i24setnodes.F
+!||--- called by ------------------------------------------------------
+!||    lectur          ../starter/source/starter/lectur.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg          ../starter/source/output/message/message.F
+!||    ifrontplus      ../starter/source/spmd/node/frontplus.F
+!||    intersurfl      ../starter/source/spmd/node/ddtools.F
+!||    nlocal          ../starter/source/spmd/node/ddtools.F
+!||--- uses       -----------------------------------------------------
+!||    front_mod       ../starter/share/modules1/front_mod.F
+!||    i7i10splitmod   ../starter/share/modules1/i710split_mod.F
+!||    message_mod     ../starter/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE I24SETNODES(IPARI,INTBUF_TAB,INTERCEP,ITAB,I24MAXNSNE)
 C-----------------------------------------------
 C   M o d u l e s
@@ -131,14 +131,14 @@ C
       END
 
 
-      !||====================================================================
-      !||    secnd_surface_on_domain   ../starter/source/interfaces/inter3d1/i24setnodes.F
-      !||--- called by ------------------------------------------------------
-      !||    ipari_l_ini               ../starter/source/restart/ddsplit/ipari_l_ini.F
-      !||    prepare_split_i24         ../starter/source/restart/ddsplit/inter_tools.F
-      !||--- uses       -----------------------------------------------------
-      !||    front_mod                 ../starter/share/modules1/front_mod.F
-      !||====================================================================
+!||====================================================================
+!||    secnd_surface_on_domain   ../starter/source/interfaces/inter3d1/i24setnodes.F
+!||--- called by ------------------------------------------------------
+!||    ipari_l_ini               ../starter/source/restart/ddsplit/ipari_l_ini.F
+!||    prepare_split_i24         ../starter/source/restart/ddsplit/inter_tools.F
+!||--- uses       -----------------------------------------------------
+!||    front_mod                 ../starter/share/modules1/front_mod.F
+!||====================================================================
       INTEGER FUNCTION SECND_SURFACE_ON_DOMAIN(INTERCEP,SE,PROC)
 C-----------------------------------------------
 C   M o d u l e s

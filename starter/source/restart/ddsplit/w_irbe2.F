@@ -21,13 +21,13 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
-      !||====================================================================
-      !||    w_irbe2     ../starter/source/restart/ddsplit/w_irbe2.F
-      !||--- called by ------------------------------------------------------
-      !||    ddsplit     ../starter/source/restart/ddsplit/ddsplit.F
-      !||--- calls      -----------------------------------------------------
-      !||    nlocal      ../starter/source/spmd/node/ddtools.F
-      !||====================================================================
+!||====================================================================
+!||    w_irbe2     ../starter/source/restart/ddsplit/w_irbe2.F
+!||--- called by ------------------------------------------------------
+!||    ddsplit     ../starter/source/restart/ddsplit/ddsplit.F
+!||--- calls      -----------------------------------------------------
+!||    nlocal      ../starter/source/spmd/node/ddtools.F
+!||====================================================================
       SUBROUTINE W_IRBE2(IRBE2   ,LRBE2  ,NODLOCAL ,PROC    ,
      .                   LLRBE2_L,ITABRBE2M,NBDDRBE2,NUMNOD_L,LEN_IA )
 C-----------------------------------------------

@@ -20,21 +20,21 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    i25main_opt_tri    ../engine/source/interfaces/intsort/i25main_opt_tri.F
-      !||--- called by ------------------------------------------------------
-      !||    inttri             ../engine/source/interfaces/intsort/inttri.F
-      !||--- calls      -----------------------------------------------------
-      !||    i25irtlm           ../engine/source/interfaces/int25/i25irtlm.F
-      !||    i25optcd           ../engine/source/interfaces/intsort/i25optcd.F
-      !||    i25optcd_e2s       ../engine/source/interfaces/intsort/i25optcd_e2s.F
-      !||    i25optcd_edg       ../engine/source/interfaces/intsort/i25optcd_edg.F
-      !||    my_barrier         ../engine/source/system/machine.F
-      !||    upgrade_cand_opt   ../common_source/interf/upgrade_multimp.F
-      !||--- uses       -----------------------------------------------------
-      !||    intbufdef_mod      ../common_source/modules/interfaces/intbufdef_mod.F90
-      !||    tri7box            ../engine/share/modules/tri7box.F
-      !||====================================================================
+!||====================================================================
+!||    i25main_opt_tri    ../engine/source/interfaces/intsort/i25main_opt_tri.F
+!||--- called by ------------------------------------------------------
+!||    inttri             ../engine/source/interfaces/intsort/inttri.F
+!||--- calls      -----------------------------------------------------
+!||    i25irtlm           ../engine/source/interfaces/int25/i25irtlm.F
+!||    i25optcd           ../engine/source/interfaces/intsort/i25optcd.F
+!||    i25optcd_e2s       ../engine/source/interfaces/intsort/i25optcd_e2s.F
+!||    i25optcd_edg       ../engine/source/interfaces/intsort/i25optcd_edg.F
+!||    my_barrier         ../engine/source/system/machine.F
+!||    upgrade_cand_opt   ../common_source/interf/upgrade_multimp.F
+!||--- uses       -----------------------------------------------------
+!||    intbufdef_mod      ../common_source/modules/interfaces/intbufdef_mod.F90
+!||    tri7box            ../engine/share/modules/tri7box.F
+!||====================================================================
       SUBROUTINE I25MAIN_OPT_TRI(
      1                  NIN   ,IPARI  ,INTBUF_TAB,X       ,V      ,
      2                  ITASK ,ITAB   ,KINET ,COUNT_REMSLV,

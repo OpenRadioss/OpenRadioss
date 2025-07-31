@@ -25,21 +25,21 @@
 ! ==================================================================================================
 !! \brief write ale rezoning data structure in restart file
 !! \details
-      !||====================================================================
-      !||    write_ale_rezoning_param_mod   ../starter/source/materials/mat/write_ale_rezoning_param.F90
-      !||--- called by ------------------------------------------------------
-      !||    write_matparam                 ../starter/source/materials/mat/write_matparam.F
-      !||====================================================================
+!||====================================================================
+!||    write_ale_rezoning_param_mod   ../starter/source/materials/mat/write_ale_rezoning_param.F90
+!||--- called by ------------------------------------------------------
+!||    write_matparam                 ../starter/source/materials/mat/write_matparam.F
+!||====================================================================
       module write_ale_rezoning_param_mod
       contains
 
-      !||====================================================================
-      !||    write_ale_rezoning_param   ../starter/source/materials/mat/write_ale_rezoning_param.F90
-      !||--- called by ------------------------------------------------------
-      !||    write_matparam             ../starter/source/materials/mat/write_matparam.F
-      !||--- calls      -----------------------------------------------------
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    write_ale_rezoning_param   ../starter/source/materials/mat/write_ale_rezoning_param.F90
+!||--- called by ------------------------------------------------------
+!||    write_matparam             ../starter/source/materials/mat/write_matparam.F
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||====================================================================
       subroutine write_ale_rezoning_param(rezon)
 ! --------------------------------------------------------------------------------------------------
 !                                                   Modules

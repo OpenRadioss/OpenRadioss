@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    w_gr_entity_e          ../starter/source/restart/ddsplit/w_gr_entity.F
-      !||--- called by ------------------------------------------------------
-      !||    w_group_str            ../starter/source/restart/ddsplit/w_group_str.F
-      !||--- calls      -----------------------------------------------------
-      !||    fretitl                ../starter/source/starter/freform.F
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    w_gr_entity_e          ../starter/source/restart/ddsplit/w_gr_entity.F
+!||--- called by ------------------------------------------------------
+!||    w_group_str            ../starter/source/restart/ddsplit/w_group_str.F
+!||--- calls      -----------------------------------------------------
+!||    fretitl                ../starter/source/starter/freform.F
+!||--- uses       -----------------------------------------------------
+!||====================================================================
       SUBROUTINE W_GR_ENTITY_E(IGR  ,NGR  ,LEN_IA ,LENIGR ,CEP,
      .                       CEL    ,PROC ,ESHIFT )
 C-----------------------------------------------
@@ -134,14 +134,14 @@ C-----------------------------------------------
 !---------
       RETURN
       END
-      !||====================================================================
-      !||    w_gr_entity_p   ../starter/source/restart/ddsplit/w_gr_entity.F
-      !||--- called by ------------------------------------------------------
-      !||    w_group_str     ../starter/source/restart/ddsplit/w_group_str.F
-      !||--- calls      -----------------------------------------------------
-      !||    fretitl         ../starter/source/starter/freform.F
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    w_gr_entity_p   ../starter/source/restart/ddsplit/w_gr_entity.F
+!||--- called by ------------------------------------------------------
+!||    w_group_str     ../starter/source/restart/ddsplit/w_group_str.F
+!||--- calls      -----------------------------------------------------
+!||    fretitl         ../starter/source/starter/freform.F
+!||--- uses       -----------------------------------------------------
+!||====================================================================
       SUBROUTINE W_GR_ENTITY_P(IGR  ,NGR  ,LEN_IA ,LENIGR ,CEP,
      .                         CEL  ,PROC )
 C-----------------------------------------------
@@ -236,14 +236,14 @@ C-----------------------------------------------
 !---------
       RETURN
       END
-      !||====================================================================
-      !||    w_gr_entity_n          ../starter/source/restart/ddsplit/w_gr_entity.F
-      !||--- called by ------------------------------------------------------
-      !||    w_group_str            ../starter/source/restart/ddsplit/w_group_str.F
-      !||--- calls      -----------------------------------------------------
-      !||    fretitl                ../starter/source/starter/freform.F
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    w_gr_entity_n          ../starter/source/restart/ddsplit/w_gr_entity.F
+!||--- called by ------------------------------------------------------
+!||    w_group_str            ../starter/source/restart/ddsplit/w_group_str.F
+!||--- calls      -----------------------------------------------------
+!||    fretitl                ../starter/source/starter/freform.F
+!||--- uses       -----------------------------------------------------
+!||====================================================================
       SUBROUTINE W_GR_ENTITY_N(IGR  ,NGR       ,LEN_IA ,LENIGR ,NODLOCAL,
      .                         PROC ,FRONTB_R2R,NUMNOD_L)
 C-----------------------------------------------

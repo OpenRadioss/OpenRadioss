@@ -20,34 +20,34 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    array_mod                                ../common_source/modules/array_mod.F
-      !||--- called by ------------------------------------------------------
-      !||    ale_box_coloration                       ../starter/source/initial_conditions/inivol/ale_box_coloration.F
-      !||    check_remote_surface_state               ../engine/source/interfaces/interf/check_remote_surface_state.F
-      !||    domain_decomposition_pcyl                ../starter/source/loads/general/load_pcyl/domain_decomposition_pcyl.F
-      !||    get_neighbour_surface                    ../engine/source/interfaces/interf/get_neighbour_surface.F90
-      !||    get_neighbour_surface_from_remote_proc   ../engine/source/interfaces/interf/get_neighbour_surface_from_remote_proc.F90
-      !||    i18main_kine_1                           ../engine/source/interfaces/int18/i18main_kine.F
-      !||    i25sto                                   ../engine/source/interfaces/intsort/i25sto.F
-      !||    i25trivox1                               ../starter/source/interfaces/inter3d1/i25trivox1.F
-      !||    i7trivox1                                ../starter/source/interfaces/inter3d1/i7trivox1.F
-      !||    igrsurf_split                            ../starter/source/spmd/igrsurf_split.F
-      !||    init_inivol                              ../starter/source/initial_conditions/inivol/init_inivol.F90
-      !||    init_inivol_2d_polygons                  ../starter/source/initial_conditions/inivol/init_inivol_2D_polygons.F90
-      !||    init_nodal_state                         ../engine/source/interfaces/interf/init_nodal_state.F
-      !||    initia                                   ../starter/source/elements/initia/initia.F
-      !||    int18_alloc                              ../engine/source/interfaces/int18/int18_alloc.F
-      !||    inter_init_node_color                    ../engine/source/interfaces/generic/inter_init_node_color.F90
-      !||    inter_save_candidate                     ../starter/source/interfaces/inter3d1/inter_save_candidate.F90
-      !||    intfop2                                  ../engine/source/interfaces/interf/intfop2.F
-      !||    resol                                    ../engine/source/engine/resol.F
-      !||    spmd_exch_deleted_surf_edge              ../engine/source/mpi/interfaces/spmd_exch_deleted_surf_edge.F
-      !||    spmd_exch_inter_18                       ../engine/source/mpi/interfaces/spmd_exch_inter_18.F
-      !||    spmd_exch_neighbour_segment              ../engine/source/mpi/interfaces/spmd_exch_neighbour_segment.F90
-      !||    spmd_xv_inter_type1                      ../engine/source/mpi/nodes/spmd_sd_xv_inter1.F90
-      !||    update_neighbour_segment                 ../engine/source/interfaces/interf/update_neighbour_segment.F90
-      !||====================================================================
+!||====================================================================
+!||    array_mod                                ../common_source/modules/array_mod.F
+!||--- called by ------------------------------------------------------
+!||    ale_box_coloration                       ../starter/source/initial_conditions/inivol/ale_box_coloration.F
+!||    check_remote_surface_state               ../engine/source/interfaces/interf/check_remote_surface_state.F
+!||    domain_decomposition_pcyl                ../starter/source/loads/general/load_pcyl/domain_decomposition_pcyl.F
+!||    get_neighbour_surface                    ../engine/source/interfaces/interf/get_neighbour_surface.F90
+!||    get_neighbour_surface_from_remote_proc   ../engine/source/interfaces/interf/get_neighbour_surface_from_remote_proc.F90
+!||    i18main_kine_1                           ../engine/source/interfaces/int18/i18main_kine.F
+!||    i25sto                                   ../engine/source/interfaces/intsort/i25sto.F
+!||    i25trivox1                               ../starter/source/interfaces/inter3d1/i25trivox1.F
+!||    i7trivox1                                ../starter/source/interfaces/inter3d1/i7trivox1.F
+!||    igrsurf_split                            ../starter/source/spmd/igrsurf_split.F
+!||    init_inivol                              ../starter/source/initial_conditions/inivol/init_inivol.F90
+!||    init_inivol_2d_polygons                  ../starter/source/initial_conditions/inivol/init_inivol_2D_polygons.F90
+!||    init_nodal_state                         ../engine/source/interfaces/interf/init_nodal_state.F
+!||    initia                                   ../starter/source/elements/initia/initia.F
+!||    int18_alloc                              ../engine/source/interfaces/int18/int18_alloc.F
+!||    inter_init_node_color                    ../engine/source/interfaces/generic/inter_init_node_color.F90
+!||    inter_save_candidate                     ../starter/source/interfaces/inter3d1/inter_save_candidate.F90
+!||    intfop2                                  ../engine/source/interfaces/interf/intfop2.F
+!||    resol                                    ../engine/source/engine/resol.F
+!||    spmd_exch_deleted_surf_edge              ../engine/source/mpi/interfaces/spmd_exch_deleted_surf_edge.F
+!||    spmd_exch_inter_18                       ../engine/source/mpi/interfaces/spmd_exch_inter_18.F
+!||    spmd_exch_neighbour_segment              ../engine/source/mpi/interfaces/spmd_exch_neighbour_segment.F90
+!||    spmd_xv_inter_type1                      ../engine/source/mpi/nodes/spmd_sd_xv_inter1.F90
+!||    update_neighbour_segment                 ../engine/source/interfaces/interf/update_neighbour_segment.F90
+!||====================================================================
         MODULE ARRAY_MOD
 #include "my_real.inc"
 !$COMMENT
@@ -104,9 +104,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 
         CONTAINS
             ! ----------------------------
-      !||====================================================================
-      !||    alloc_1d_array_full   ../common_source/modules/array_mod.F
-      !||====================================================================
+!||====================================================================
+!||    alloc_1d_array_full   ../common_source/modules/array_mod.F
+!||====================================================================
             SUBROUTINE ALLOC_1D_ARRAY_FULL(THIS)
             IMPLICIT NONE
 
@@ -117,11 +117,11 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
             RETURN
             END SUBROUTINE 
 
-      !||====================================================================
-      !||    alloc_int_1d_array      ../common_source/modules/array_mod.F
-      !||--- called by ------------------------------------------------------
-      !||    inter_init_node_color   ../engine/source/interfaces/generic/inter_init_node_color.F90
-      !||====================================================================
+!||====================================================================
+!||    alloc_int_1d_array      ../common_source/modules/array_mod.F
+!||--- called by ------------------------------------------------------
+!||    inter_init_node_color   ../engine/source/interfaces/generic/inter_init_node_color.F90
+!||====================================================================
             SUBROUTINE ALLOC_INT_1D_ARRAY(THIS)
             IMPLICIT NONE
 
@@ -133,11 +133,11 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
             END SUBROUTINE 
  
             ! ----------------------------
-      !||====================================================================
-      !||    alloc_2d_array               ../common_source/modules/array_mod.F
-      !||--- called by ------------------------------------------------------
-      !||    check_remote_surface_state   ../engine/source/interfaces/interf/check_remote_surface_state.F
-      !||====================================================================
+!||====================================================================
+!||    alloc_2d_array               ../common_source/modules/array_mod.F
+!||--- called by ------------------------------------------------------
+!||    check_remote_surface_state   ../engine/source/interfaces/interf/check_remote_surface_state.F
+!||====================================================================
             SUBROUTINE ALLOC_2D_ARRAY(THIS)
             IMPLICIT NONE
 
@@ -148,11 +148,11 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
             RETURN
             END SUBROUTINE 
             ! ----------------------------
-      !||====================================================================
-      !||    alloc_3d_array       ../common_source/modules/array_mod.F
-      !||--- called by ------------------------------------------------------
-      !||    ale_box_coloration   ../starter/source/initial_conditions/inivol/ale_box_coloration.F
-      !||====================================================================
+!||====================================================================
+!||    alloc_3d_array       ../common_source/modules/array_mod.F
+!||--- called by ------------------------------------------------------
+!||    ale_box_coloration   ../starter/source/initial_conditions/inivol/ale_box_coloration.F
+!||====================================================================
             SUBROUTINE ALLOC_3D_ARRAY(THIS)
             IMPLICIT NONE
 
@@ -165,9 +165,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
             RETURN
             END SUBROUTINE 
             ! ----------------------------   
-      !||====================================================================
-      !||    dealloc_1d_array_full   ../common_source/modules/array_mod.F
-      !||====================================================================
+!||====================================================================
+!||    dealloc_1d_array_full   ../common_source/modules/array_mod.F
+!||====================================================================
             SUBROUTINE DEALLOC_1D_ARRAY_FULL(THIS)
             IMPLICIT NONE
 
@@ -178,9 +178,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
             RETURN
             END SUBROUTINE 
             ! ----------------------------
-      !||====================================================================
-      !||    dealloc_int_1d_array   ../common_source/modules/array_mod.F
-      !||====================================================================
+!||====================================================================
+!||    dealloc_int_1d_array   ../common_source/modules/array_mod.F
+!||====================================================================
            SUBROUTINE DEALLOC_INT_1D_ARRAY(THIS)
             IMPLICIT NONE
 
@@ -191,11 +191,11 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
             RETURN
             END SUBROUTINE 
   
-      !||====================================================================
-      !||    dealloc_2d_array             ../common_source/modules/array_mod.F
-      !||--- called by ------------------------------------------------------
-      !||    check_remote_surface_state   ../engine/source/interfaces/interf/check_remote_surface_state.F
-      !||====================================================================
+!||====================================================================
+!||    dealloc_2d_array             ../common_source/modules/array_mod.F
+!||--- called by ------------------------------------------------------
+!||    check_remote_surface_state   ../engine/source/interfaces/interf/check_remote_surface_state.F
+!||====================================================================
             SUBROUTINE DEALLOC_2D_ARRAY(THIS)
             IMPLICIT NONE
 
@@ -206,11 +206,11 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
             RETURN
             END SUBROUTINE 
             ! ----------------------------
-      !||====================================================================
-      !||    dealloc_3d_array   ../common_source/modules/array_mod.F
-      !||--- called by ------------------------------------------------------
-      !||    init_inivol        ../starter/source/initial_conditions/inivol/init_inivol.F90
-      !||====================================================================
+!||====================================================================
+!||    dealloc_3d_array   ../common_source/modules/array_mod.F
+!||--- called by ------------------------------------------------------
+!||    init_inivol        ../starter/source/initial_conditions/inivol/init_inivol.F90
+!||====================================================================
             SUBROUTINE DEALLOC_3D_ARRAY(THIS)
             IMPLICIT NONE
 
@@ -221,14 +221,14 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
             RETURN
             END SUBROUTINE 
             ! ----------------------------
-      !||====================================================================
-      !||    alloc_my_real_1d_array                   ../common_source/modules/array_mod.F
-      !||--- called by ------------------------------------------------------
-      !||    get_neighbour_surface                    ../engine/source/interfaces/interf/get_neighbour_surface.F90
-      !||    get_neighbour_surface_from_remote_proc   ../engine/source/interfaces/interf/get_neighbour_surface_from_remote_proc.F90
-      !||    spmd_exch_inter_18                       ../engine/source/mpi/interfaces/spmd_exch_inter_18.F
-      !||    spmd_exch_neighbour_segment              ../engine/source/mpi/interfaces/spmd_exch_neighbour_segment.F90
-      !||====================================================================
+!||====================================================================
+!||    alloc_my_real_1d_array                   ../common_source/modules/array_mod.F
+!||--- called by ------------------------------------------------------
+!||    get_neighbour_surface                    ../engine/source/interfaces/interf/get_neighbour_surface.F90
+!||    get_neighbour_surface_from_remote_proc   ../engine/source/interfaces/interf/get_neighbour_surface_from_remote_proc.F90
+!||    spmd_exch_inter_18                       ../engine/source/mpi/interfaces/spmd_exch_inter_18.F
+!||    spmd_exch_neighbour_segment              ../engine/source/mpi/interfaces/spmd_exch_neighbour_segment.F90
+!||====================================================================
             SUBROUTINE ALLOC_MY_REAL_1D_ARRAY(THIS)
 #include "implicit_f.inc"
 
@@ -240,13 +240,13 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
             END SUBROUTINE ALLOC_MY_REAL_1D_ARRAY
             ! ----------------------------
             ! ----------------------------
-      !||====================================================================
-      !||    dealloc_my_real_1d_array                 ../common_source/modules/array_mod.F
-      !||--- called by ------------------------------------------------------
-      !||    get_neighbour_surface                    ../engine/source/interfaces/interf/get_neighbour_surface.F90
-      !||    get_neighbour_surface_from_remote_proc   ../engine/source/interfaces/interf/get_neighbour_surface_from_remote_proc.F90
-      !||    spmd_exch_inter_18                       ../engine/source/mpi/interfaces/spmd_exch_inter_18.F
-      !||====================================================================
+!||====================================================================
+!||    dealloc_my_real_1d_array                 ../common_source/modules/array_mod.F
+!||--- called by ------------------------------------------------------
+!||    get_neighbour_surface                    ../engine/source/interfaces/interf/get_neighbour_surface.F90
+!||    get_neighbour_surface_from_remote_proc   ../engine/source/interfaces/interf/get_neighbour_surface_from_remote_proc.F90
+!||    spmd_exch_inter_18                       ../engine/source/mpi/interfaces/spmd_exch_inter_18.F
+!||====================================================================
             SUBROUTINE DEALLOC_MY_REAL_1D_ARRAY(THIS)
 #include "implicit_f.inc"
 
@@ -260,11 +260,11 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 
 
 
-      !||====================================================================
-      !||    alloc_my_real_2d_array   ../common_source/modules/array_mod.F
-      !||--- called by ------------------------------------------------------
-      !||    spmd_xv_inter_type1      ../engine/source/mpi/nodes/spmd_sd_xv_inter1.F90
-      !||====================================================================
+!||====================================================================
+!||    alloc_my_real_2d_array   ../common_source/modules/array_mod.F
+!||--- called by ------------------------------------------------------
+!||    spmd_xv_inter_type1      ../engine/source/mpi/nodes/spmd_sd_xv_inter1.F90
+!||====================================================================
             SUBROUTINE ALLOC_MY_REAL_2D_ARRAY(THIS)
 #include "implicit_f.inc"
 
@@ -276,11 +276,11 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
             END SUBROUTINE ALLOC_MY_REAL_2D_ARRAY
             ! ----------------------------
             ! ----------------------------
-      !||====================================================================
-      !||    dealloc_my_real_2d_array   ../common_source/modules/array_mod.F
-      !||--- called by ------------------------------------------------------
-      !||    spmd_xv_inter_type1        ../engine/source/mpi/nodes/spmd_sd_xv_inter1.F90
-      !||====================================================================
+!||====================================================================
+!||    dealloc_my_real_2d_array   ../common_source/modules/array_mod.F
+!||--- called by ------------------------------------------------------
+!||    spmd_xv_inter_type1        ../engine/source/mpi/nodes/spmd_sd_xv_inter1.F90
+!||====================================================================
             SUBROUTINE DEALLOC_MY_REAL_2D_ARRAY(THIS)
 #include "implicit_f.inc"
 

@@ -21,13 +21,13 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
-      !||====================================================================
-      !||    c_iloadp   ../starter/source/restart/ddsplit/c_iloadp.F
-      !||--- called by ------------------------------------------------------
-      !||    ddsplit    ../starter/source/restart/ddsplit/ddsplit.F
-      !||--- calls      -----------------------------------------------------
-      !||    nlocal     ../starter/source/spmd/node/ddtools.F
-      !||====================================================================
+!||====================================================================
+!||    c_iloadp   ../starter/source/restart/ddsplit/c_iloadp.F
+!||--- called by ------------------------------------------------------
+!||    ddsplit    ../starter/source/restart/ddsplit/ddsplit.F
+!||--- calls      -----------------------------------------------------
+!||    nlocal     ../starter/source/spmd/node/ddtools.F
+!||====================================================================
       SUBROUTINE C_ILOADP(ILOADP,LLOADP,LLLOADP_L,PROC)
 C-----------------------------------------------
 C   M o d u l e s

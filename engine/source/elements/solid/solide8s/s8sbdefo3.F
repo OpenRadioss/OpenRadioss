@@ -20,11 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    s8sbdefo3   ../engine/source/elements/solid/solide8s/s8sbdefo3.F
-      !||--- called by ------------------------------------------------------
-      !||    s8sforc3    ../engine/source/elements/solid/solide8s/s8sforc3.F
-      !||====================================================================
+!||====================================================================
+!||    s8sbdefo3   ../engine/source/elements/solid/solide8s/s8sbdefo3.F
+!||--- called by ------------------------------------------------------
+!||    s8sforc3    ../engine/source/elements/solid/solide8s/s8sforc3.F
+!||====================================================================
       SUBROUTINE S8SBDEFO3(
      1   ULX1,    ULX2,    ULX3,    ULX4,
      2   ULX5,    ULX6,    ULX7,    ULX8,

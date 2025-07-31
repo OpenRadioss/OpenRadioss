@@ -20,22 +20,22 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    i7main_lmult    ../engine/source/interfaces/int07/i7main_lmult.F
-      !||--- called by ------------------------------------------------------
-      !||    lag_mult        ../engine/source/tools/lagmul/lag_mult.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg          ../engine/source/output/message/message.F
-      !||    arret           ../engine/source/system/arret.F
-      !||    i7cdcor3        ../engine/source/interfaces/int07/i7cdcor3.F
-      !||    i7cor3          ../engine/source/interfaces/int07/i7cor3.F
-      !||    i7dst3          ../engine/source/interfaces/int07/i7dst3.F
-      !||    i7lagm          ../engine/source/interfaces/int07/i7lagm.F
-      !||    my_barrier      ../engine/source/system/machine.F
-      !||--- uses       -----------------------------------------------------
-      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
-      !||    message_mod     ../engine/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    i7main_lmult    ../engine/source/interfaces/int07/i7main_lmult.F
+!||--- called by ------------------------------------------------------
+!||    lag_mult        ../engine/source/tools/lagmul/lag_mult.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg          ../engine/source/output/message/message.F
+!||    arret           ../engine/source/system/arret.F
+!||    i7cdcor3        ../engine/source/interfaces/int07/i7cdcor3.F
+!||    i7cor3          ../engine/source/interfaces/int07/i7cor3.F
+!||    i7dst3          ../engine/source/interfaces/int07/i7dst3.F
+!||    i7lagm          ../engine/source/interfaces/int07/i7lagm.F
+!||    my_barrier      ../engine/source/system/machine.F
+!||--- uses       -----------------------------------------------------
+!||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
+!||    message_mod     ../engine/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE I7MAIN_LMULT(
      1      NIN      ,IPARI   ,INTBUF_TAB,X        ,
      2      V        ,A       ,ITASK   ,MS         ,

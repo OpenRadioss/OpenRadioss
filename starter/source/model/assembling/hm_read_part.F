@@ -20,28 +20,28 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    hm_read_part           ../starter/source/model/assembling/hm_read_part.F
-      !||--- called by ------------------------------------------------------
-      !||    lectur                 ../starter/source/starter/lectur.F
-      !||--- calls      -----------------------------------------------------
-      !||    ale_euler_init         ../starter/source/materials/ale/ale_euler_init.F
-      !||    ancmsg                 ../starter/source/output/message/message.F
-      !||    fretitl                ../starter/source/starter/freform.F
-      !||    fretitl2               ../starter/source/starter/freform.F
-      !||    get_u_geo              ../starter/source/user_interface/uaccess.F
-      !||    hm_get_floatv          ../starter/source/devtools/hm_reader/hm_get_floatv.F
-      !||    hm_get_intv            ../starter/source/devtools/hm_reader/hm_get_intv.F
-      !||    hm_option_read_key     ../starter/source/devtools/hm_reader/hm_option_read_key.F
-      !||    hm_option_start        ../starter/source/devtools/hm_reader/hm_option_start.F
-      !||    nintri                 ../starter/source/system/nintrr.F
-      !||    udouble                ../starter/source/system/sysfus.F
-      !||--- uses       -----------------------------------------------------
-      !||    elbuftag_mod           ../starter/share/modules1/elbuftag_mod.F
-      !||    hm_option_read_mod     ../starter/share/modules1/hm_option_read_mod.F
-      !||    message_mod            ../starter/share/message_module/message_mod.F
-      !||    submodel_mod           ../starter/share/modules1/submodel_mod.F
-      !||====================================================================
+!||====================================================================
+!||    hm_read_part           ../starter/source/model/assembling/hm_read_part.F
+!||--- called by ------------------------------------------------------
+!||    lectur                 ../starter/source/starter/lectur.F
+!||--- calls      -----------------------------------------------------
+!||    ale_euler_init         ../starter/source/materials/ale/ale_euler_init.F
+!||    ancmsg                 ../starter/source/output/message/message.F
+!||    fretitl                ../starter/source/starter/freform.F
+!||    fretitl2               ../starter/source/starter/freform.F
+!||    get_u_geo              ../starter/source/user_interface/uaccess.F
+!||    hm_get_floatv          ../starter/source/devtools/hm_reader/hm_get_floatv.F
+!||    hm_get_intv            ../starter/source/devtools/hm_reader/hm_get_intv.F
+!||    hm_option_read_key     ../starter/source/devtools/hm_reader/hm_option_read_key.F
+!||    hm_option_start        ../starter/source/devtools/hm_reader/hm_option_start.F
+!||    nintri                 ../starter/source/system/nintrr.F
+!||    udouble                ../starter/source/system/sysfus.F
+!||--- uses       -----------------------------------------------------
+!||    elbuftag_mod           ../starter/share/modules1/elbuftag_mod.F
+!||    hm_option_read_mod     ../starter/share/modules1/hm_option_read_mod.F
+!||    message_mod            ../starter/share/message_module/message_mod.F
+!||    submodel_mod           ../starter/share/modules1/submodel_mod.F
+!||====================================================================
       SUBROUTINE HM_READ_PART(IPART,PM,GEO,IPM,IGEO,IWA,THK_PART,
      .                        UNITAB,LSUBMODEL,MULTI_FVM,MLAW_TAG,
      .                        MAT_PARAM,GLOB_THERM)
@@ -510,21 +510,21 @@ C-------------------------------------
  2000 FORMAT(5X,'FOR LAW 70 THE DEFAULT VALUE OF Qa and Qb IS 0' )
 C
       END
-      !||====================================================================
-      !||    hm_preread_part        ../starter/source/model/assembling/hm_read_part.F
-      !||--- called by ------------------------------------------------------
-      !||    contrl                 ../starter/source/starter/contrl.F
-      !||    lectur                 ../starter/source/starter/lectur.F
-      !||--- calls      -----------------------------------------------------
-      !||    hm_get_intv            ../starter/source/devtools/hm_reader/hm_get_intv.F
-      !||    hm_option_read_key     ../starter/source/devtools/hm_reader/hm_option_read_key.F
-      !||    hm_option_start        ../starter/source/devtools/hm_reader/hm_option_start.F
-      !||    nintri                 ../starter/source/system/nintrr.F
-      !||--- uses       -----------------------------------------------------
-      !||    hm_option_read_mod     ../starter/share/modules1/hm_option_read_mod.F
-      !||    message_mod            ../starter/share/message_module/message_mod.F
-      !||    submodel_mod           ../starter/share/modules1/submodel_mod.F
-      !||====================================================================
+!||====================================================================
+!||    hm_preread_part        ../starter/source/model/assembling/hm_read_part.F
+!||--- called by ------------------------------------------------------
+!||    contrl                 ../starter/source/starter/contrl.F
+!||    lectur                 ../starter/source/starter/lectur.F
+!||--- calls      -----------------------------------------------------
+!||    hm_get_intv            ../starter/source/devtools/hm_reader/hm_get_intv.F
+!||    hm_option_read_key     ../starter/source/devtools/hm_reader/hm_option_read_key.F
+!||    hm_option_start        ../starter/source/devtools/hm_reader/hm_option_start.F
+!||    nintri                 ../starter/source/system/nintrr.F
+!||--- uses       -----------------------------------------------------
+!||    hm_option_read_mod     ../starter/share/modules1/hm_option_read_mod.F
+!||    message_mod            ../starter/share/message_module/message_mod.F
+!||    submodel_mod           ../starter/share/modules1/submodel_mod.F
+!||====================================================================
       SUBROUTINE HM_PREREAD_PART(IPART,IGEO,LSUBMODEL)
 C============================================================================
 C   M o d u l e s

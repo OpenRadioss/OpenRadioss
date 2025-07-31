@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    spmd_tri25vox0   ../engine/source/mpi/interfaces/spmd_tri25vox0.F
-      !||--- called by ------------------------------------------------------
-      !||    i25main_tri      ../engine/source/interfaces/intsort/i25main_tri.F
-      !||--- uses       -----------------------------------------------------
-      !||    tri25ebox        ../engine/share/modules/tri25ebox.F
-      !||    tri7box          ../engine/share/modules/tri7box.F
-      !||====================================================================
+!||====================================================================
+!||    spmd_tri25vox0   ../engine/source/mpi/interfaces/spmd_tri25vox0.F
+!||--- called by ------------------------------------------------------
+!||    i25main_tri      ../engine/source/interfaces/intsort/i25main_tri.F
+!||--- uses       -----------------------------------------------------
+!||    tri25ebox        ../engine/share/modules/tri25ebox.F
+!||    tri7box          ../engine/share/modules/tri7box.F
+!||====================================================================
       SUBROUTINE SPMD_TRI25VOX0(
      1   X      ,BMINMAL ,NRTM  ,STF   ,MARGE  ,
      2   CURV_MAX,GAP_M  ,IRECT  ,GAP  ,BGAPSMX,
@@ -190,14 +190,14 @@ c        indice des voxels occupes par la facette
 C
       RETURN
       END
-      !||====================================================================
-      !||    spmd_tri25vox0_edge   ../engine/source/mpi/interfaces/spmd_tri25vox0.F
-      !||--- called by ------------------------------------------------------
-      !||    i25main_tri           ../engine/source/interfaces/intsort/i25main_tri.F
-      !||--- uses       -----------------------------------------------------
-      !||    tri25ebox             ../engine/share/modules/tri25ebox.F
-      !||    tri7box               ../engine/share/modules/tri7box.F
-      !||====================================================================
+!||====================================================================
+!||    spmd_tri25vox0_edge   ../engine/source/mpi/interfaces/spmd_tri25vox0.F
+!||--- called by ------------------------------------------------------
+!||    i25main_tri           ../engine/source/interfaces/intsort/i25main_tri.F
+!||--- uses       -----------------------------------------------------
+!||    tri25ebox             ../engine/share/modules/tri25ebox.F
+!||    tri7box               ../engine/share/modules/tri7box.F
+!||====================================================================
       SUBROUTINE SPMD_TRI25VOX0_EDGE(
      1   X      ,BMINMAL ,NRTM  ,STFE   ,MARGE  ,
      2   CURV_MAX,GAP_M  ,IRECT  ,GAP  ,BGAPSMX,

@@ -20,16 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    set_user_window_nodes   ../starter/source/user_interface/user_windows_tools.F
-      !||--- calls      -----------------------------------------------------
-      !||    userwis_front           ../starter/source/user_interface/user_windows_tools.F
-      !||    usr2sys                 ../starter/source/system/sysfus.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod             ../starter/share/message_module/message_mod.F
-      !||    restmod                 ../starter/share/modules1/restart_mod.F
-      !||    user_interface_mod      ../starter/source/modules/user_interface_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    set_user_window_nodes   ../starter/source/user_interface/user_windows_tools.F
+!||--- calls      -----------------------------------------------------
+!||    userwis_front           ../starter/source/user_interface/user_windows_tools.F
+!||    usr2sys                 ../starter/source/system/sysfus.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod             ../starter/share/message_module/message_mod.F
+!||    restmod                 ../starter/share/modules1/restart_mod.F
+!||    user_interface_mod      ../starter/source/modules/user_interface_mod.F90
+!||====================================================================
       SUBROUTINE SET_USER_WINDOW_NODES(USERNODS,NUMBER_USERNODS)
 !$COMMENT
    ! -----------------------------------------------
@@ -112,14 +112,14 @@ C-----------------------------------------------
       DEALLOCATE(USER_NDS)
 
       END
-      !||====================================================================
-      !||    userwis_front           ../starter/source/user_interface/user_windows_tools.F
-      !||--- called by ------------------------------------------------------
-      !||    set_user_window_nodes   ../starter/source/user_interface/user_windows_tools.F
-      !||--- calls      -----------------------------------------------------
-      !||    ifrontplus              ../starter/source/spmd/node/frontplus.F
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    userwis_front           ../starter/source/user_interface/user_windows_tools.F
+!||--- called by ------------------------------------------------------
+!||    set_user_window_nodes   ../starter/source/user_interface/user_windows_tools.F
+!||--- calls      -----------------------------------------------------
+!||    ifrontplus              ../starter/source/spmd/node/frontplus.F
+!||--- uses       -----------------------------------------------------
+!||====================================================================
       SUBROUTINE USERWIS_FRONT(USERNODS,NUSERNODS)
 !$COMMENT
    ! -----------------------------------------------
@@ -165,16 +165,16 @@ C======================================================================|
       ENDDO
       
       END
-      !||====================================================================
-      !||    spmd_userwi_rest   ../starter/source/user_interface/user_windows_tools.F
-      !||--- called by ------------------------------------------------------
-      !||    ddsplit            ../starter/source/restart/ddsplit/ddsplit.F
-      !||--- calls      -----------------------------------------------------
-      !||    nlocal             ../starter/source/spmd/node/ddtools.F
-      !||    plist_ifront       ../starter/source/spmd/node/ddtools.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod        ../starter/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    spmd_userwi_rest   ../starter/source/user_interface/user_windows_tools.F
+!||--- called by ------------------------------------------------------
+!||    ddsplit            ../starter/source/restart/ddsplit/ddsplit.F
+!||--- calls      -----------------------------------------------------
+!||    nlocal             ../starter/source/spmd/node/ddtools.F
+!||    plist_ifront       ../starter/source/spmd/node/ddtools.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod        ../starter/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE SPMD_USERWI_REST(USER_WINDOWS,NODLOCAL,NUMNOD,NUMNOD_L,
      *                             P,NSPMD)
 !$COMMENT

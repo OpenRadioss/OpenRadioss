@@ -20,24 +20,24 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    binit2                 ../starter/source/ale/bimat/binit2.F
-      !||--- called by ------------------------------------------------------
-      !||    initia                 ../starter/source/elements/initia/initia.F
-      !||--- calls      -----------------------------------------------------
-      !||    atheri                 ../starter/source/ale/atheri.F
-      !||    aturi2                 ../starter/source/ale/ale2d/aturi2.F
-      !||    bimat2                 ../starter/source/ale/bimat/bimat2.F
-      !||    edlen2                 ../starter/source/ale/ale2d/edlen2.F
-      !||    matini                 ../starter/source/materials/mat_share/matini.F
-      !||    qcoor2                 ../starter/source/elements/solid_2d/quad/qcoor2.F
-      !||    qdlen2                 ../starter/source/elements/solid_2d/quad/qdlen2.F
-      !||    qmasi2                 ../starter/source/elements/solid_2d/quad/qmasi2.F
-      !||    qmasi2b                ../starter/source/elements/solid_2d/quad/qmasi2b.F
-      !||    qvoli2                 ../starter/source/elements/solid_2d/quad/qvoli2.F
-      !||--- uses       -----------------------------------------------------
-      !||    detonators_mod         ../starter/share/modules1/detonators_mod.F
-      !||====================================================================
+!||====================================================================
+!||    binit2                 ../starter/source/ale/bimat/binit2.F
+!||--- called by ------------------------------------------------------
+!||    initia                 ../starter/source/elements/initia/initia.F
+!||--- calls      -----------------------------------------------------
+!||    atheri                 ../starter/source/ale/atheri.F
+!||    aturi2                 ../starter/source/ale/ale2d/aturi2.F
+!||    bimat2                 ../starter/source/ale/bimat/bimat2.F
+!||    edlen2                 ../starter/source/ale/ale2d/edlen2.F
+!||    matini                 ../starter/source/materials/mat_share/matini.F
+!||    qcoor2                 ../starter/source/elements/solid_2d/quad/qcoor2.F
+!||    qdlen2                 ../starter/source/elements/solid_2d/quad/qdlen2.F
+!||    qmasi2                 ../starter/source/elements/solid_2d/quad/qmasi2.F
+!||    qmasi2b                ../starter/source/elements/solid_2d/quad/qmasi2b.F
+!||    qvoli2                 ../starter/source/elements/solid_2d/quad/qvoli2.F
+!||--- uses       -----------------------------------------------------
+!||    detonators_mod         ../starter/share/modules1/detonators_mod.F
+!||====================================================================
       SUBROUTINE BINIT2(ELBUF_STR ,MS       ,IXQ              ,PM        ,X       ,
      .                  DETONATORS,VEUL     ,ALE_CONNECTIVITY ,IPARG     ,FILL    ,
      .                  SIGI      ,BUFMAT   ,NEL              ,MAT_PARAM ,

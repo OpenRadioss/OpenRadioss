@@ -20,29 +20,29 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    tforc3              ../engine/source/elements/truss/tforc3.F
-      !||--- called by ------------------------------------------------------
-      !||    forint              ../engine/source/elements/forint.F
-      !||--- calls      -----------------------------------------------------
-      !||    m1lawt              ../engine/source/materials/mat/mat001/m1lawt.F
-      !||    m2lawt              ../engine/source/materials/mat/mat002/m2lawt.F
-      !||    preload_axial       ../engine/source/elements/spring/preload_axial.F90
-      !||    sigeps34t           ../engine/source/materials/mat/mat034/sigeps34t.F
-      !||    sigeps44t           ../engine/source/materials/mat/mat044/sigeps44t.F
-      !||    tbilan              ../engine/source/elements/truss/tbilan.F
-      !||    tcoor3              ../engine/source/elements/truss/tcoor3.F
-      !||    tdefo3              ../engine/source/elements/truss/tdefo3.F
-      !||    tdlen3              ../engine/source/elements/truss/tdlen3.F
-      !||    tfcum3              ../engine/source/elements/truss/tfcum3.F
-      !||    tfcum3p             ../engine/source/elements/truss/tfcum3p.F
-      !||--- uses       -----------------------------------------------------
-      !||    dt_mod              ../engine/source/modules/dt_mod.F
-      !||    elbufdef_mod        ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||    h3d_mod             ../engine/share/modules/h3d_mod.F
-      !||    preload_axial_mod   ../engine/source/elements/spring/preload_axial.F90
-      !||    sensor_mod          ../common_source/modules/sensor_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    tforc3              ../engine/source/elements/truss/tforc3.F
+!||--- called by ------------------------------------------------------
+!||    forint              ../engine/source/elements/forint.F
+!||--- calls      -----------------------------------------------------
+!||    m1lawt              ../engine/source/materials/mat/mat001/m1lawt.F
+!||    m2lawt              ../engine/source/materials/mat/mat002/m2lawt.F
+!||    preload_axial       ../engine/source/elements/spring/preload_axial.F90
+!||    sigeps34t           ../engine/source/materials/mat/mat034/sigeps34t.F
+!||    sigeps44t           ../engine/source/materials/mat/mat044/sigeps44t.F
+!||    tbilan              ../engine/source/elements/truss/tbilan.F
+!||    tcoor3              ../engine/source/elements/truss/tcoor3.F
+!||    tdefo3              ../engine/source/elements/truss/tdefo3.F
+!||    tdlen3              ../engine/source/elements/truss/tdlen3.F
+!||    tfcum3              ../engine/source/elements/truss/tfcum3.F
+!||    tfcum3p             ../engine/source/elements/truss/tfcum3p.F
+!||--- uses       -----------------------------------------------------
+!||    dt_mod              ../engine/source/modules/dt_mod.F
+!||    elbufdef_mod        ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    h3d_mod             ../engine/share/modules/h3d_mod.F
+!||    preload_axial_mod   ../engine/source/elements/spring/preload_axial.F90
+!||    sensor_mod          ../common_source/modules/sensor_mod.F90
+!||====================================================================
       SUBROUTINE TFORC3(
      1   ELBUF_STR,JFT,      JLT,      PM,
      2   GEO,      NCT,      X,        F,

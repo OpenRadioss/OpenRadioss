@@ -20,16 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    intbufscratch_mod   ../starter/source/interfaces/interf1/intbufscratch_mod.F
-      !||--- called by ------------------------------------------------------
-      !||    inintr              ../starter/source/interfaces/interf1/inintr.F
-      !||    inintr2             ../starter/source/interfaces/inter3d1/inintr2.F
-      !||    inintr_thkvar       ../starter/source/interfaces/interf1/inintr_thkvar.F
-      !||    lectur              ../starter/source/starter/lectur.F
-      !||    prescrint           ../starter/source/interfaces/interf1/prescrint.F
-      !||    scrint              ../starter/source/interfaces/interf1/scrint.F
-      !||====================================================================
+!||====================================================================
+!||    intbufscratch_mod   ../starter/source/interfaces/interf1/intbufscratch_mod.F
+!||--- called by ------------------------------------------------------
+!||    inintr              ../starter/source/interfaces/interf1/inintr.F
+!||    inintr2             ../starter/source/interfaces/inter3d1/inintr2.F
+!||    inintr_thkvar       ../starter/source/interfaces/interf1/inintr_thkvar.F
+!||    lectur              ../starter/source/starter/lectur.F
+!||    prescrint           ../starter/source/interfaces/interf1/prescrint.F
+!||    scrint              ../starter/source/interfaces/interf1/scrint.F
+!||====================================================================
       MODULE INTBUFSCRATCH_MOD
       TYPE SCRATCH_STRUCT_
         INTEGER, DIMENSION(:) , POINTER ::  WA    !  

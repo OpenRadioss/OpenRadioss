@@ -20,11 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    i2for10   ../engine/source/interfaces/interf/i2for10.F
-      !||--- called by ------------------------------------------------------
-      !||    intti2f   ../engine/source/interfaces/interf/intti2f.F
-      !||====================================================================
+!||====================================================================
+!||    i2for10   ../engine/source/interfaces/interf/i2for10.F
+!||--- called by ------------------------------------------------------
+!||    intti2f   ../engine/source/interfaces/interf/intti2f.F
+!||====================================================================
       SUBROUTINE I2FOR10(A       ,MS      ,STIFN   ,WEIGHT  ,IRECT   ,
      2                   NSV     ,MSR     ,IRTL    ,IRUPT   ,CRST    ,
      3                   FSM     ,NSN     ,CSTS_BIS)
@@ -135,11 +135,11 @@ C-----------
       END SUBROUTINE I2FOR10
 C
 C
-      !||====================================================================
-      !||    i2mom10   ../engine/source/interfaces/interf/i2for10.F
-      !||--- called by ------------------------------------------------------
-      !||    intti2f   ../engine/source/interfaces/interf/intti2f.F
-      !||====================================================================
+!||====================================================================
+!||    i2mom10   ../engine/source/interfaces/interf/i2for10.F
+!||--- called by ------------------------------------------------------
+!||    intti2f   ../engine/source/interfaces/interf/intti2f.F
+!||====================================================================
       SUBROUTINE I2MOM10(NSN    ,NMN    ,AR     ,IRECT   ,CRST    , 
      2                   MSR    ,NSV    ,IRTL   ,IN      ,MS      , 
      3                   A      ,X      ,WEIGHT ,STIFR   ,STIFN   ,

@@ -20,17 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    sigeps36      ../engine/source/materials/mat/mat036/sigeps36.F
-      !||--- called by ------------------------------------------------------
-      !||    mulaw         ../engine/source/materials/mat_share/mulaw.F90
-      !||    mulaw8        ../engine/source/materials/mat_share/mulaw8.F90
-      !||--- calls      -----------------------------------------------------
-      !||    finter        ../engine/source/tools/curve/finter.F
-      !||    m36iter_imp   ../engine/source/materials/mat/mat036/m36iter_imp.F
-      !||    vinter        ../engine/source/tools/curve/vinter.F
-      !||    vinter2       ../engine/source/tools/curve/vinter.F
-      !||====================================================================
+!||====================================================================
+!||    sigeps36      ../engine/source/materials/mat/mat036/sigeps36.F
+!||--- called by ------------------------------------------------------
+!||    mulaw         ../engine/source/materials/mat_share/mulaw.F90
+!||    mulaw8        ../engine/source/materials/mat_share/mulaw8.F90
+!||--- calls      -----------------------------------------------------
+!||    finter        ../engine/source/tools/curve/finter.F
+!||    m36iter_imp   ../engine/source/materials/mat/mat036/m36iter_imp.F
+!||    vinter        ../engine/source/tools/curve/vinter.F
+!||    vinter2       ../engine/source/tools/curve/vinter.F
+!||====================================================================
       SUBROUTINE SIGEPS36(
      1     NEL    ,NUVAR   ,MFUNC   ,KFUNC   ,NPF    ,
      2     TF     ,TIME   ,TIMESTEP,UPARAM  ,RHO0    ,

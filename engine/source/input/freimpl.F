@@ -20,23 +20,23 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    freimpl                ../engine/source/input/freimpl.F
-      !||--- called by ------------------------------------------------------
-      !||    freform                ../engine/source/input/freform.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg                 ../engine/source/output/message/message.F
-      !||    arret                  ../engine/source/system/arret.F
-      !||    order_dtf              ../engine/source/input/freimpl.F
-      !||    wriusc2                ../engine/source/input/wriusc2.F
-      !||--- uses       -----------------------------------------------------
-      !||    imp_dyna               ../engine/share/modules/impbufdef_mod.F
-      !||    imp_kbcs               ../engine/share/modules/impbufdef_mod.F
-      !||    imp_pcg_proj           ../engine/share/modules/impbufdef_mod.F
-      !||    imp_spbrm              ../engine/share/modules/impbufdef_mod.F
-      !||    message_mod            ../engine/share/message_module/message_mod.F
-      !||    names_and_titles_mod   ../common_source/modules/names_and_titles_mod.F
-      !||====================================================================
+!||====================================================================
+!||    freimpl                ../engine/source/input/freimpl.F
+!||--- called by ------------------------------------------------------
+!||    freform                ../engine/source/input/freform.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                 ../engine/source/output/message/message.F
+!||    arret                  ../engine/source/system/arret.F
+!||    order_dtf              ../engine/source/input/freimpl.F
+!||    wriusc2                ../engine/source/input/wriusc2.F
+!||--- uses       -----------------------------------------------------
+!||    imp_dyna               ../engine/share/modules/impbufdef_mod.F
+!||    imp_kbcs               ../engine/share/modules/impbufdef_mod.F
+!||    imp_pcg_proj           ../engine/share/modules/impbufdef_mod.F
+!||    imp_spbrm              ../engine/share/modules/impbufdef_mod.F
+!||    message_mod            ../engine/share/message_module/message_mod.F
+!||    names_and_titles_mod   ../common_source/modules/names_and_titles_mod.F
+!||====================================================================
       SUBROUTINE FREIMPL(IKAD,KEY0,KIMPL) 
 C-----------------------------------------------
 C   M o d u l e s
@@ -584,11 +584,11 @@ C
      .            C1=KEY0(IKEY))
       CALL ARRET(0)
       END
-      !||====================================================================
-      !||    order_dtf   ../engine/source/input/freimpl.F
-      !||--- called by ------------------------------------------------------
-      !||    freimpl     ../engine/source/input/freimpl.F
-      !||====================================================================
+!||====================================================================
+!||    order_dtf   ../engine/source/input/freimpl.F
+!||--- called by ------------------------------------------------------
+!||    freimpl     ../engine/source/input/freimpl.F
+!||====================================================================
       SUBROUTINE ORDER_DTF(N,RC)
 C----6---------------------------------------------------------------7---------8
 C   I m p l i c i t   T y p e s

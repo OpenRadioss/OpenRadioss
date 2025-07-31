@@ -20,29 +20,29 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    s8zke3         ../engine/source/elements/solid/solide8z/s8zke3.F
-      !||--- called by ------------------------------------------------------
-      !||    imp_glob_k     ../engine/source/implicit/imp_glob_k.F
-      !||    imp_glob_k0    ../engine/source/implicit/imp_glob_k.F
-      !||--- calls      -----------------------------------------------------
-      !||    assem_s8       ../engine/source/implicit/assem_s8.F
-      !||    mmat_h1        ../engine/source/elements/solid/solide8z/mmat_h1.F
-      !||    mmats          ../engine/source/elements/solid/solide8z/mmats.F
-      !||    mmstifs        ../engine/source/elements/solid/solide8z/mmstifs.F
-      !||    s8eoff         ../engine/source/elements/solid/solide8/s8eoff.F
-      !||    s8zcumg3       ../engine/source/elements/solid/solide8z/s8zcumg3.F
-      !||    s8zderict3     ../engine/source/elements/solid/solide8z/s8zderict3.F
-      !||    s8zderii3      ../engine/source/elements/solid/solide8z/s8zderii3.F
-      !||    s8zkgei3       ../engine/source/elements/solid/solide8z/s8zkgei3.F
-      !||    s8zkgeo3       ../engine/source/elements/solid/solide8z/s8zkgeo3.F
-      !||    s8zlke3        ../engine/source/elements/solid/solide8z/s8zlke3.F
-      !||    s8zlkep3       ../engine/source/elements/solid/solide8z/s8zlkep3.F
-      !||    s8zsigp3       ../engine/source/elements/solid/solide8z/s8zsigp3.F
-      !||    srcoork        ../engine/source/elements/solid/solide8z/srcoork.F
-      !||--- uses       -----------------------------------------------------
-      !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    s8zke3         ../engine/source/elements/solid/solide8z/s8zke3.F
+!||--- called by ------------------------------------------------------
+!||    imp_glob_k     ../engine/source/implicit/imp_glob_k.F
+!||    imp_glob_k0    ../engine/source/implicit/imp_glob_k.F
+!||--- calls      -----------------------------------------------------
+!||    assem_s8       ../engine/source/implicit/assem_s8.F
+!||    mmat_h1        ../engine/source/elements/solid/solide8z/mmat_h1.F
+!||    mmats          ../engine/source/elements/solid/solide8z/mmats.F
+!||    mmstifs        ../engine/source/elements/solid/solide8z/mmstifs.F
+!||    s8eoff         ../engine/source/elements/solid/solide8/s8eoff.F
+!||    s8zcumg3       ../engine/source/elements/solid/solide8z/s8zcumg3.F
+!||    s8zderict3     ../engine/source/elements/solid/solide8z/s8zderict3.F
+!||    s8zderii3      ../engine/source/elements/solid/solide8z/s8zderii3.F
+!||    s8zkgei3       ../engine/source/elements/solid/solide8z/s8zkgei3.F
+!||    s8zkgeo3       ../engine/source/elements/solid/solide8z/s8zkgeo3.F
+!||    s8zlke3        ../engine/source/elements/solid/solide8z/s8zlke3.F
+!||    s8zlkep3       ../engine/source/elements/solid/solide8z/s8zlkep3.F
+!||    s8zsigp3       ../engine/source/elements/solid/solide8z/s8zsigp3.F
+!||    srcoork        ../engine/source/elements/solid/solide8z/srcoork.F
+!||--- uses       -----------------------------------------------------
+!||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||====================================================================
       SUBROUTINE S8ZKE3(
      1   PM,       GEO,      IXS,      X,
      2   ELBUF_STR,NEL,      ICP,      ICSIG,

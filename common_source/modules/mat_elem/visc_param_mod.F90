@@ -20,26 +20,26 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    visc_param_mod         ../common_source/modules/mat_elem/visc_param_mod.F90
-      !||--- called by ------------------------------------------------------
-      !||    hm_read_visc_lprony    ../starter/source/materials/visc/hm_read_visc_lprony.F
-      !||    hm_read_visc_plas      ../starter/source/materials/visc/hm_read_visc_plas.F90
-      !||    hm_read_visc_prony     ../starter/source/materials/visc/hm_read_visc_prony.F
-      !||    matparam_def_mod       ../common_source/modules/mat_elem/matparam_def_mod.F90
-      !||    read_viscparam         ../engine/source/output/restart/read_viscparam.F
-      !||    updmat                 ../starter/source/materials/updmat.F
-      !||    visc_et                ../engine/source/elements/solid/solidez/visc_et.F
-      !||    visc_plas              ../engine/source/materials/visc/visc_plas.F90
-      !||    visc_prony             ../engine/source/materials/visc/visc_prony.F
-      !||    visc_prony_lstrain     ../engine/source/materials/visc/visc_prony_lstrain.F
-      !||    viscmain               ../engine/source/materials/visc/viscmain.F
-      !||    write_viscparam        ../engine/source/output/restart/write_viscparam.F
-      !||--- uses       -----------------------------------------------------
-      !||    names_and_titles_mod   ../common_source/modules/names_and_titles_mod.F
-      !||    precision_mod          ../common_source/modules/precision_mod.F90
-      !||    table4d_mod            ../common_source/modules/table4d_mod.F
-      !||====================================================================
+!||====================================================================
+!||    visc_param_mod         ../common_source/modules/mat_elem/visc_param_mod.F90
+!||--- called by ------------------------------------------------------
+!||    hm_read_visc_lprony    ../starter/source/materials/visc/hm_read_visc_lprony.F
+!||    hm_read_visc_plas      ../starter/source/materials/visc/hm_read_visc_plas.F90
+!||    hm_read_visc_prony     ../starter/source/materials/visc/hm_read_visc_prony.F
+!||    matparam_def_mod       ../common_source/modules/mat_elem/matparam_def_mod.F90
+!||    read_viscparam         ../engine/source/output/restart/read_viscparam.F
+!||    updmat                 ../starter/source/materials/updmat.F
+!||    visc_et                ../engine/source/elements/solid/solidez/visc_et.F
+!||    visc_plas              ../engine/source/materials/visc/visc_plas.F90
+!||    visc_prony             ../engine/source/materials/visc/visc_prony.F
+!||    visc_prony_lstrain     ../engine/source/materials/visc/visc_prony_lstrain.F
+!||    viscmain               ../engine/source/materials/visc/viscmain.F
+!||    write_viscparam        ../engine/source/output/restart/write_viscparam.F
+!||--- uses       -----------------------------------------------------
+!||    names_and_titles_mod   ../common_source/modules/names_and_titles_mod.F
+!||    precision_mod          ../common_source/modules/precision_mod.F90
+!||    table4d_mod            ../common_source/modules/table4d_mod.F
+!||====================================================================
       module visc_param_mod
 
 ! ======================================================================================================================
@@ -82,9 +82,9 @@
 
       contains
 
-      !||====================================================================
-      !||    destruct_visc_param   ../common_source/modules/mat_elem/visc_param_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    destruct_visc_param   ../common_source/modules/mat_elem/visc_param_mod.F90
+!||====================================================================
         subroutine destruct_visc_param(this)
           implicit none
           class(visc_param_) ,intent(inout) :: this

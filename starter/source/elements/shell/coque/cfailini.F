@@ -20,16 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    cfailini              ../starter/source/elements/shell/coque/cfailini.F
-      !||--- called by ------------------------------------------------------
-      !||    c3init3               ../starter/source/elements/sh3n/coque3n/c3init3.F
-      !||    cbainit3              ../starter/source/elements/shell/coqueba/cbainit3.F
-      !||    cinit3                ../starter/source/elements/shell/coque/cinit3.F
-      !||--- calls      -----------------------------------------------------
-      !||    biquad_coefficients   ../starter/source/materials/fail/biquad/biquad_coefficients.F
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    cfailini              ../starter/source/elements/shell/coque/cfailini.F
+!||--- called by ------------------------------------------------------
+!||    c3init3               ../starter/source/elements/sh3n/coque3n/c3init3.F
+!||    cbainit3              ../starter/source/elements/shell/coqueba/cbainit3.F
+!||    cinit3                ../starter/source/elements/shell/coque/cinit3.F
+!||--- calls      -----------------------------------------------------
+!||    biquad_coefficients   ../starter/source/materials/fail/biquad/biquad_coefficients.F
+!||--- uses       -----------------------------------------------------
+!||====================================================================
       SUBROUTINE CFAILINI(ELBUF_STR,MAT_PARAM,
      .           NPTT    ,NLAY     ,SIGSH    ,NSIGSH  ,PTSH    ,
      .           RNOISE  ,PERTURB  ,ALDT     ,THK     )
@@ -167,14 +167,14 @@ c
 c-----------
       RETURN
       END
-      !||====================================================================
-      !||    cfailini4             ../starter/source/elements/shell/coque/cfailini.F
-      !||--- called by ------------------------------------------------------
-      !||    cbainit3              ../starter/source/elements/shell/coqueba/cbainit3.F
-      !||--- calls      -----------------------------------------------------
-      !||    biquad_coefficients   ../starter/source/materials/fail/biquad/biquad_coefficients.F
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    cfailini4             ../starter/source/elements/shell/coque/cfailini.F
+!||--- called by ------------------------------------------------------
+!||    cbainit3              ../starter/source/elements/shell/coqueba/cbainit3.F
+!||--- calls      -----------------------------------------------------
+!||    biquad_coefficients   ../starter/source/materials/fail/biquad/biquad_coefficients.F
+!||--- uses       -----------------------------------------------------
+!||====================================================================
       SUBROUTINE CFAILINI4(
      .           ELBUF_STR,NPTR    ,NPTS    ,NPTT     ,NLAY    ,
      .           SIGSH    ,NSIGSH  ,PTSH    ,RNOISE   ,PERTURB ,

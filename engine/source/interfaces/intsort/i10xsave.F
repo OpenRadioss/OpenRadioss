@@ -21,12 +21,12 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C  |         I10MAIN_TRI                       /intsort/i10main_tri.F
-      !||====================================================================
-      !||    i10xsave      ../engine/source/interfaces/intsort/i10xsave.F
-      !||--- called by ------------------------------------------------------
-      !||    i10main_tri   ../engine/source/interfaces/intsort/i10main_tri.F
-      !||    i11main_tri   ../engine/source/interfaces/intsort/i11main_tri.F
-      !||====================================================================
+!||====================================================================
+!||    i10xsave      ../engine/source/interfaces/intsort/i10xsave.F
+!||--- called by ------------------------------------------------------
+!||    i10main_tri   ../engine/source/interfaces/intsort/i10main_tri.F
+!||    i11main_tri   ../engine/source/interfaces/intsort/i11main_tri.F
+!||====================================================================
       SUBROUTINE I10XSAVE(
      1       X     ,NSV  ,MSR   ,NSN   ,NMN     ,
      2       ITASK ,XSAV ,XMIN  ,YMIN  ,ZMIN    ,

@@ -20,15 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    intal4          ../engine/source/ale/inter/intal4.F
-      !||--- called by ------------------------------------------------------
-      !||    intal3          ../engine/source/ale/inter/intal3.F
-      !||--- calls      -----------------------------------------------------
-      !||    iqela3          ../engine/source/ale/inter/iqela3.F
-      !||--- uses       -----------------------------------------------------
-      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    intal4          ../engine/source/ale/inter/intal4.F
+!||--- called by ------------------------------------------------------
+!||    intal3          ../engine/source/ale/inter/intal3.F
+!||--- calls      -----------------------------------------------------
+!||    iqela3          ../engine/source/ale/inter/iqela3.F
+!||--- uses       -----------------------------------------------------
+!||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
+!||====================================================================
       SUBROUTINE INTAL4(IPARI,INTBUF_TAB,V,VG)
 C-----------------------------------------------
 C   M o d u l e s

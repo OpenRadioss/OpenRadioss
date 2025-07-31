@@ -20,10 +20,10 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    user_output        ../engine/source/user_interface/user_output.F
-      !||--- calls      -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    user_output        ../engine/source/user_interface/user_output.F
+!||--- calls      -----------------------------------------------------
+!||====================================================================
       SUBROUTINE USER_OUTPUT(IOUT,ILAW,ROOTN,ROOTLEN)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

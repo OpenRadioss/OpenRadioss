@@ -20,16 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    stat_n_bcs        ../engine/source/output/sta/stat_n_bcs.F
-      !||--- called by ------------------------------------------------------
-      !||    genstat           ../engine/source/output/sta/genstat.F
-      !||--- calls      -----------------------------------------------------
-      !||    spmd_istat_gath   ../engine/source/mpi/output/spmd_stat.F
-      !||    strs_txt50        ../engine/source/output/sta/sta_txt.F
-      !||--- uses       -----------------------------------------------------
-      !||    my_alloc_mod      ../common_source/tools/memory/my_alloc.F90
-      !||====================================================================
+!||====================================================================
+!||    stat_n_bcs        ../engine/source/output/sta/stat_n_bcs.F
+!||--- called by ------------------------------------------------------
+!||    genstat           ../engine/source/output/sta/genstat.F
+!||--- calls      -----------------------------------------------------
+!||    spmd_istat_gath   ../engine/source/mpi/output/spmd_stat.F
+!||    strs_txt50        ../engine/source/output/sta/sta_txt.F
+!||--- uses       -----------------------------------------------------
+!||    my_alloc_mod      ../common_source/tools/memory/my_alloc.F90
+!||====================================================================
       SUBROUTINE STAT_N_BCS(ICODE,NUMNOD,ITAB,ITABG,LENG,
      .   NODGLOB,ISKEW,NODTAG)
 C-----------------------------------------------

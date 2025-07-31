@@ -20,11 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    s6cumu3p   ../engine/source/elements/thickshell/solide6c/s6cumu3p.F
-      !||--- called by ------------------------------------------------------
-      !||    s6cforc3   ../engine/source/elements/thickshell/solide6c/s6cforc3.F
-      !||====================================================================
+!||====================================================================
+!||    s6cumu3p   ../engine/source/elements/thickshell/solide6c/s6cumu3p.F
+!||--- called by ------------------------------------------------------
+!||    s6cforc3   ../engine/source/elements/thickshell/solide6c/s6cforc3.F
+!||====================================================================
       SUBROUTINE S6CUMU3P(
      1   OFFG,    STI,     FSKY,    FSKYV,
      2   IADS,    F11,     F21,     F31,

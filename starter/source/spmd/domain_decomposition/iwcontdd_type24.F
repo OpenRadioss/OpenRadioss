@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    iwcontdd_type24   ../starter/source/spmd/domain_decomposition/iwcontdd_type24.F
-      !||--- called by ------------------------------------------------------
-      !||    inint3            ../starter/source/interfaces/inter3d1/inint3.F
-      !||--- calls      -----------------------------------------------------
-      !||    i24fic_getn       ../starter/source/interfaces/inter3d1/i24surfi.F
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    iwcontdd_type24   ../starter/source/spmd/domain_decomposition/iwcontdd_type24.F
+!||--- called by ------------------------------------------------------
+!||    inint3            ../starter/source/interfaces/inter3d1/inint3.F
+!||--- calls      -----------------------------------------------------
+!||    i24fic_getn       ../starter/source/interfaces/inter3d1/i24surfi.F
+!||--- uses       -----------------------------------------------------
+!||====================================================================
         SUBROUTINE IWCONTDD_TYPE24(NUMNOD,NSN,NMN,NSV,MSR,IWCONT,NSNT,NMNT,INTBUF_TAB)
 !$COMMENT
 !       IWCONTDD_TYPE24 description :

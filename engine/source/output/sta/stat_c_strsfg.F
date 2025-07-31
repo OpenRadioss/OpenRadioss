@@ -20,27 +20,27 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    stat_c_strsfg       ../engine/source/output/sta/stat_c_strsfg.F
-      !||--- called by ------------------------------------------------------
-      !||    genstat             ../engine/source/output/sta/genstat.F
-      !||--- calls      -----------------------------------------------------
-      !||    get_q4lsys          ../engine/source/output/sta/sta_c_get_q4lsys.F
-      !||    get_t3lsys          ../engine/source/output/sta/sta_c_get_t3lsys.F
-      !||    layini              ../engine/source/elements/shell/coque/layini.F
-      !||    orth2loc            ../engine/source/output/sta/stat_c_strsfg.F
-      !||    shell2g             ../engine/source/output/sta/stat_c_strafg.F
-      !||    sheml2g             ../engine/source/output/sta/stat_c_strsfg.F
-      !||    spmd_rgather9_dp    ../engine/source/mpi/interfaces/spmd_outp.F
-      !||    spmd_stat_pgather   ../engine/source/mpi/output/spmd_stat.F
-      !||    strs_txt50          ../engine/source/output/sta/sta_txt.F
-      !||    tab_strs_txt50      ../engine/source/output/sta/sta_txt.F
-      !||--- uses       -----------------------------------------------------
-      !||    drape_mod           ../engine/share/modules/drape_mod.F
-      !||    elbufdef_mod        ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||    my_alloc_mod        ../common_source/tools/memory/my_alloc.F90
-      !||    stack_mod           ../engine/share/modules/stack_mod.F
-      !||====================================================================
+!||====================================================================
+!||    stat_c_strsfg       ../engine/source/output/sta/stat_c_strsfg.F
+!||--- called by ------------------------------------------------------
+!||    genstat             ../engine/source/output/sta/genstat.F
+!||--- calls      -----------------------------------------------------
+!||    get_q4lsys          ../engine/source/output/sta/sta_c_get_q4lsys.F
+!||    get_t3lsys          ../engine/source/output/sta/sta_c_get_t3lsys.F
+!||    layini              ../engine/source/elements/shell/coque/layini.F
+!||    orth2loc            ../engine/source/output/sta/stat_c_strsfg.F
+!||    shell2g             ../engine/source/output/sta/stat_c_strafg.F
+!||    sheml2g             ../engine/source/output/sta/stat_c_strsfg.F
+!||    spmd_rgather9_dp    ../engine/source/mpi/interfaces/spmd_outp.F
+!||    spmd_stat_pgather   ../engine/source/mpi/output/spmd_stat.F
+!||    strs_txt50          ../engine/source/output/sta/sta_txt.F
+!||    tab_strs_txt50      ../engine/source/output/sta/sta_txt.F
+!||--- uses       -----------------------------------------------------
+!||    drape_mod           ../engine/share/modules/drape_mod.F
+!||    elbufdef_mod        ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    my_alloc_mod        ../common_source/tools/memory/my_alloc.F90
+!||    stack_mod           ../engine/share/modules/stack_mod.F
+!||====================================================================
       SUBROUTINE STAT_C_STRSFG(ELBUF_TAB,
      1                        X    ,IPARG ,IPM ,IGEO ,IXC ,
      2                        IXTG  ,WA,WAP0 ,IPARTC, IPARTTG,
@@ -1076,13 +1076,13 @@ c                        TENS(JFT:JLT,2) = SIGNYY(JFT:JLT)
 c                        TENS(JFT:JLT,3) = SIGNXY(JFT:JLT)
 c                        TENS(JFT:JLT,4) = SIGNYZ(JFT:JLT)
 c                        TENS(JFT:JLT,5) = SIGNZX(JFT:JLT)
-      !||====================================================================
-      !||    orth2loc        ../engine/source/output/sta/stat_c_strsfg.F
-      !||--- called by ------------------------------------------------------
-      !||    stat_c_strsfg   ../engine/source/output/sta/stat_c_strsfg.F
-      !||--- calls      -----------------------------------------------------
-      !||    urotovs         ../engine/source/output/sta/stat_c_strsfg.F
-      !||====================================================================
+!||====================================================================
+!||    orth2loc        ../engine/source/output/sta/stat_c_strsfg.F
+!||--- called by ------------------------------------------------------
+!||    stat_c_strsfg   ../engine/source/output/sta/stat_c_strsfg.F
+!||--- calls      -----------------------------------------------------
+!||    urotovs         ../engine/source/output/sta/stat_c_strsfg.F
+!||====================================================================
       SUBROUTINE ORTH2LOC(TENS,DIR_A,DIR_B,II,ILAW,IGTYP,NEL)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -1163,11 +1163,11 @@ c
 C
       RETURN
       END
-      !||====================================================================
-      !||    urotovs    ../engine/source/output/sta/stat_c_strsfg.F
-      !||--- called by ------------------------------------------------------
-      !||    orth2loc   ../engine/source/output/sta/stat_c_strsfg.F
-      !||====================================================================
+!||====================================================================
+!||    urotovs    ../engine/source/output/sta/stat_c_strsfg.F
+!||--- called by ------------------------------------------------------
+!||    orth2loc   ../engine/source/output/sta/stat_c_strsfg.F
+!||====================================================================
       SUBROUTINE UROTOVS(SIG,DIR1,DIR2)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -1202,11 +1202,11 @@ C-----------------------------------------------
 C
       RETURN
       END
-      !||====================================================================
-      !||    sheml2g         ../engine/source/output/sta/stat_c_strsfg.F
-      !||--- called by ------------------------------------------------------
-      !||    stat_c_strsfg   ../engine/source/output/sta/stat_c_strsfg.F
-      !||====================================================================
+!||====================================================================
+!||    sheml2g         ../engine/source/output/sta/stat_c_strsfg.F
+!||--- called by ------------------------------------------------------
+!||    stat_c_strsfg   ../engine/source/output/sta/stat_c_strsfg.F
+!||====================================================================
       SUBROUTINE SHEML2G(MOM,QT)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

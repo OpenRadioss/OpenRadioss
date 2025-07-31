@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    multi_unplug_neighbors   ../starter/source/multifluid/multi_unplug_neighbors.F
-      !||--- called by ------------------------------------------------------
-      !||    lectur                   ../starter/source/starter/lectur.F
-      !||--- calls      -----------------------------------------------------
-      !||    iface2                   ../starter/source/ale/ale3d/iface.F
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    multi_unplug_neighbors   ../starter/source/multifluid/multi_unplug_neighbors.F
+!||--- called by ------------------------------------------------------
+!||    lectur                   ../starter/source/starter/lectur.F
+!||--- calls      -----------------------------------------------------
+!||    iface2                   ../starter/source/ale/ale3d/iface.F
+!||--- uses       -----------------------------------------------------
+!||====================================================================
       SUBROUTINE MULTI_UNPLUG_NEIGHBORS(ALE_CONNECTIVITY, IXS, IXQ, IXTG)
 C-----------------------------------------------
 C     D e s c r i p t i o n

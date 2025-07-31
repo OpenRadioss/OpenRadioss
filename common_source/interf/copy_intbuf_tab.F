@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    copy_intbuf_tab   ../common_source/interf/copy_intbuf_tab.F
-      !||--- called by ------------------------------------------------------
-      !||    cp_impbuf         ../engine/source/implicit/produt_v.F
-      !||--- uses       -----------------------------------------------------
-      !||    intbufdef_mod     ../common_source/modules/interfaces/intbufdef_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    copy_intbuf_tab   ../common_source/interf/copy_intbuf_tab.F
+!||--- called by ------------------------------------------------------
+!||    cp_impbuf         ../engine/source/implicit/produt_v.F
+!||--- uses       -----------------------------------------------------
+!||    intbufdef_mod     ../common_source/modules/interfaces/intbufdef_mod.F90
+!||====================================================================
       SUBROUTINE COPY_INTBUF_TAB(INTBUF_TAB, INTBUF_TAB_C)  
 C-----------------------------------------------
 C   M o d u l e s
@@ -1060,13 +1060,13 @@ C-----
 
       END SUBROUTINE COPY_INTBUF_TAB
 
-      !||====================================================================
-      !||    intbuf_tab_c_ini   ../common_source/interf/copy_intbuf_tab.F
-      !||--- called by ------------------------------------------------------
-      !||    dim_int7           ../engine/source/implicit/ind_glob_k.F
-      !||--- uses       -----------------------------------------------------
-      !||    intbufdef_mod      ../common_source/modules/interfaces/intbufdef_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    intbuf_tab_c_ini   ../common_source/interf/copy_intbuf_tab.F
+!||--- called by ------------------------------------------------------
+!||    dim_int7           ../engine/source/implicit/ind_glob_k.F
+!||--- uses       -----------------------------------------------------
+!||    intbufdef_mod      ../common_source/modules/interfaces/intbufdef_mod.F90
+!||====================================================================
       SUBROUTINE INTBUF_TAB_C_INI(INTBUF_TAB, INTBUF_TAB_C)  
 C-----------------------------------------------
 C   M o d u l e s

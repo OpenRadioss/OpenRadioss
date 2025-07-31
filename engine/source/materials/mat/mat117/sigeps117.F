@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    sigeps117   ../engine/source/materials/mat/mat117/sigeps117.F
-      !||--- called by ------------------------------------------------------
-      !||    suser43     ../engine/source/elements/solid/sconnect/suser43.F
-      !||--- calls      -----------------------------------------------------
-      !||    finter      ../engine/source/tools/curve/finter.F
-      !||====================================================================
+!||====================================================================
+!||    sigeps117   ../engine/source/materials/mat/mat117/sigeps117.F
+!||--- called by ------------------------------------------------------
+!||    suser43     ../engine/source/elements/solid/sconnect/suser43.F
+!||--- calls      -----------------------------------------------------
+!||    finter      ../engine/source/tools/curve/finter.F
+!||====================================================================
       SUBROUTINE SIGEPS117(
      1     NEL     ,NUPARAM ,NUVAR   ,JSMS    ,TIME    ,TIMESTEP,
      2     UPARAM  ,UVAR    ,AREA    ,OFF     ,OFFL    ,

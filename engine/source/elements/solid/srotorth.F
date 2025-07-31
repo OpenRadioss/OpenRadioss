@@ -20,16 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    srotorth             ../engine/source/elements/solid/srotorth.F
-      !||--- called by ------------------------------------------------------
-      !||    dfuncs               ../engine/source/output/anim/generate/dfunc6.F
-      !||    h3d_solid_scalar_1   ../engine/source/output/h3d/h3d_results/h3d_solid_scalar_1.F
-      !||    stat_s_ortho         ../engine/source/output/sta/stat_s_ortho.F
-      !||--- calls      -----------------------------------------------------
-      !||    scortho31            ../engine/source/elements/thickshell/solidec/scortho31.F
-      !||    sortho31             ../engine/source/elements/solid/solide/sortho31.F
-      !||====================================================================
+!||====================================================================
+!||    srotorth             ../engine/source/elements/solid/srotorth.F
+!||--- called by ------------------------------------------------------
+!||    dfuncs               ../engine/source/output/anim/generate/dfunc6.F
+!||    h3d_solid_scalar_1   ../engine/source/output/h3d/h3d_results/h3d_solid_scalar_1.F
+!||    stat_s_ortho         ../engine/source/output/sta/stat_s_ortho.F
+!||--- calls      -----------------------------------------------------
+!||    scortho31            ../engine/source/elements/thickshell/solidec/scortho31.F
+!||    sortho31             ../engine/source/elements/solid/solide/sortho31.F
+!||====================================================================
       SUBROUTINE SROTORTH(X     ,IXS   ,GAMA  , KHBE  ,ITYP  ,
      .                    ICSIG )
 C-----------------------------------------------

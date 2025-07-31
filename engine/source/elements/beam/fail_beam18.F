@@ -20,28 +20,28 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    fail_beam18          ../engine/source/elements/beam/fail_beam18.F
-      !||--- called by ------------------------------------------------------
-      !||    main_beam18          ../engine/source/elements/beam/main_beam18.F
-      !||--- calls      -----------------------------------------------------
-      !||    fail_biquad_ib       ../engine/source/materials/fail/biquad/fail_biquad_ib.F
-      !||    fail_cockroft_ib     ../engine/source/materials/fail/cockroft_latham/fail_cockroft_ib.F
-      !||    fail_energy_ib       ../engine/source/materials/fail/energy/fail_energy_ib.F
-      !||    fail_gene1_ib        ../engine/source/materials/fail/gene1/fail_gene1_ib.F90
-      !||    fail_inievo_ib       ../engine/source/materials/fail/inievo/fail_inievo_ib.F90
-      !||    fail_johnson_ib      ../engine/source/materials/fail/johnson_cook/fail_johnson_ib.F
-      !||    fail_tab2_ib         ../engine/source/materials/fail/tabulated/fail_tab2_ib.F90
-      !||    fail_tensstrain_ib   ../engine/source/materials/fail/tensstrain/fail_tensstrain_ib.F
-      !||    fail_visual_ib       ../engine/source/materials/fail/visual/fail_visual_ib.F90
-      !||--- uses       -----------------------------------------------------
-      !||    elbufdef_mod         ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||    fail_gene1_ib_mod    ../engine/source/materials/fail/gene1/fail_gene1_ib.F90
-      !||    fail_inievo_ib_mod   ../engine/source/materials/fail/inievo/fail_inievo_ib.F90
-      !||    fail_tab2_ib_mod     ../engine/source/materials/fail/tabulated/fail_tab2_ib.F90
-      !||    fail_visual_ib_mod   ../engine/source/materials/fail/visual/fail_visual_ib.F90
-      !||    mat_elem_mod         ../common_source/modules/mat_elem/mat_elem_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    fail_beam18          ../engine/source/elements/beam/fail_beam18.F
+!||--- called by ------------------------------------------------------
+!||    main_beam18          ../engine/source/elements/beam/main_beam18.F
+!||--- calls      -----------------------------------------------------
+!||    fail_biquad_ib       ../engine/source/materials/fail/biquad/fail_biquad_ib.F
+!||    fail_cockroft_ib     ../engine/source/materials/fail/cockroft_latham/fail_cockroft_ib.F
+!||    fail_energy_ib       ../engine/source/materials/fail/energy/fail_energy_ib.F
+!||    fail_gene1_ib        ../engine/source/materials/fail/gene1/fail_gene1_ib.F90
+!||    fail_inievo_ib       ../engine/source/materials/fail/inievo/fail_inievo_ib.F90
+!||    fail_johnson_ib      ../engine/source/materials/fail/johnson_cook/fail_johnson_ib.F
+!||    fail_tab2_ib         ../engine/source/materials/fail/tabulated/fail_tab2_ib.F90
+!||    fail_tensstrain_ib   ../engine/source/materials/fail/tensstrain/fail_tensstrain_ib.F
+!||    fail_visual_ib       ../engine/source/materials/fail/visual/fail_visual_ib.F90
+!||--- uses       -----------------------------------------------------
+!||    elbufdef_mod         ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    fail_gene1_ib_mod    ../engine/source/materials/fail/gene1/fail_gene1_ib.F90
+!||    fail_inievo_ib_mod   ../engine/source/materials/fail/inievo/fail_inievo_ib.F90
+!||    fail_tab2_ib_mod     ../engine/source/materials/fail/tabulated/fail_tab2_ib.F90
+!||    fail_visual_ib_mod   ../engine/source/materials/fail/visual/fail_visual_ib.F90
+!||    mat_elem_mod         ../common_source/modules/mat_elem/mat_elem_mod.F90
+!||====================================================================
       SUBROUTINE FAIL_BEAM18(ELBUF_STR,FAIL     ,NUMMAT   ,NUMGEO   ,
      .                       NPROPM   ,NPROPG   ,SNPC     ,STF      ,
      .                       NEL      ,NPT      ,IMAT     ,IPROP    ,JTHE    ,

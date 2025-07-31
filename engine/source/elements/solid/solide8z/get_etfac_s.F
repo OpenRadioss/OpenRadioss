@@ -20,18 +20,18 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    get_etfac_s    ../engine/source/elements/solid/solide8z/get_etfac_s.F
-      !||--- called by ------------------------------------------------------
-      !||    cmatc3         ../engine/source/elements/shell/coqueba/cmatc3.F
-      !||    cmatip3        ../engine/source/elements/shell/coqueba/cmatc3.F
-      !||    mmats          ../engine/source/elements/solid/solide8z/mmats.F
-      !||--- calls      -----------------------------------------------------
-      !||    iktmat_ini     ../engine/source/implicit/imp_init.F
-      !||--- uses       -----------------------------------------------------
-      !||    imp_ktan       ../engine/share/modules/impbufdef_mod.F
-      !||    imp_ktan_def   ../engine/share/modules/impbufdef_mod.F
-      !||====================================================================
+!||====================================================================
+!||    get_etfac_s    ../engine/source/elements/solid/solide8z/get_etfac_s.F
+!||--- called by ------------------------------------------------------
+!||    cmatc3         ../engine/source/elements/shell/coqueba/cmatc3.F
+!||    cmatip3        ../engine/source/elements/shell/coqueba/cmatc3.F
+!||    mmats          ../engine/source/elements/solid/solide8z/mmats.F
+!||--- calls      -----------------------------------------------------
+!||    iktmat_ini     ../engine/source/implicit/imp_init.F
+!||--- uses       -----------------------------------------------------
+!||    imp_ktan       ../engine/share/modules/impbufdef_mod.F
+!||    imp_ktan_def   ../engine/share/modules/impbufdef_mod.F
+!||====================================================================
       SUBROUTINE GET_ETFAC_S(NEL,SFAC,MTN)
 C-----------------------------------------------
 C   M o d u l e s

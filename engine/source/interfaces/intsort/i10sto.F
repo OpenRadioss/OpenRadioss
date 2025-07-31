@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    i10sto    ../engine/source/interfaces/intsort/i10sto.F
-      !||--- called by ------------------------------------------------------
-      !||    i10tri    ../engine/source/interfaces/intsort/i10tri.F
-      !||--- calls      -----------------------------------------------------
-      !||    i7cor3t   ../engine/source/interfaces/int07/i7cor3t.F
-      !||    i7pen3    ../engine/source/interfaces/intsort/i7pen3.F
-      !||====================================================================
+!||====================================================================
+!||    i10sto    ../engine/source/interfaces/intsort/i10sto.F
+!||--- called by ------------------------------------------------------
+!||    i10tri    ../engine/source/interfaces/intsort/i10tri.F
+!||--- calls      -----------------------------------------------------
+!||    i7cor3t   ../engine/source/interfaces/int07/i7cor3t.F
+!||    i7pen3    ../engine/source/interfaces/intsort/i7pen3.F
+!||====================================================================
       SUBROUTINE I10STO(
      1      J_STOK,IRECT ,X      ,NSV   ,II_STOK,
      2      CAND_N,CAND_E,NSN4   ,NOINT ,MARGE  ,

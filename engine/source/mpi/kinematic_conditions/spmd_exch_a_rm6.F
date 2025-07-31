@@ -21,14 +21,14 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 
-      !||====================================================================
-      !||    spmd_exch_a_rm6       ../engine/source/mpi/kinematic_conditions/spmd_exch_a_rm6.F
-      !||--- called by ------------------------------------------------------
-      !||    rmatforp              ../engine/source/materials/mat/mat013/rmatforp.F
-      !||--- calls      -----------------------------------------------------
-      !||--- uses       -----------------------------------------------------
-      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
-      !||====================================================================
+!||====================================================================
+!||    spmd_exch_a_rm6       ../engine/source/mpi/kinematic_conditions/spmd_exch_a_rm6.F
+!||--- called by ------------------------------------------------------
+!||    rmatforp              ../engine/source/materials/mat/mat013/rmatforp.F
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
+!||====================================================================
       SUBROUTINE SPMD_EXCH_A_RM6(
      1    IAD_RBY,FR_RBY6,ICSIZE,RBF6)
 C realise le cumul des acc et stifness des noeuds main de rigid bodies

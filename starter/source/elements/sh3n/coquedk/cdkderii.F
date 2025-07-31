@@ -20,12 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    cdkderii          ../starter/source/elements/sh3n/coquedk/cdkderii.F
-      !||--- called by ------------------------------------------------------
-      !||    cdkinit3          ../starter/source/elements/sh3n/coquedk/cdkinit3.F
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    cdkderii          ../starter/source/elements/sh3n/coquedk/cdkderii.F
+!||--- called by ------------------------------------------------------
+!||    cdkinit3          ../starter/source/elements/sh3n/coquedk/cdkinit3.F
+!||--- uses       -----------------------------------------------------
+!||====================================================================
       SUBROUTINE CDKDERII(JFT   ,JLT,PM ,GEO ,PX2,PY2,PX3,PY3,
      .                    STIFN ,STIFR  ,IXTG ,THK ,SH3TREE ,
      .                    ALDT  ,UPARAM ,IPM  ,IGEO,PM_STACK,

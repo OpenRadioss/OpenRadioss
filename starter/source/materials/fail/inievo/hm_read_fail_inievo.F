@@ -20,23 +20,23 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    hm_read_fail_inievo            ../starter/source/materials/fail/inievo/hm_read_fail_inievo.F
-      !||--- called by ------------------------------------------------------
-      !||    hm_read_fail                   ../starter/source/materials/fail/hm_read_fail.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg                         ../starter/source/output/message/message.F
-      !||    hm_get_float_array_index       ../starter/source/devtools/hm_reader/hm_get_float_array_index.F
-      !||    hm_get_float_array_index_dim   ../starter/source/devtools/hm_reader/hm_get_float_array_index_dim.F
-      !||    hm_get_floatv                  ../starter/source/devtools/hm_reader/hm_get_floatv.F
-      !||    hm_get_int_array_index         ../starter/source/devtools/hm_reader/hm_get_int_array_index.F
-      !||    hm_get_intv                    ../starter/source/devtools/hm_reader/hm_get_intv.F
-      !||    hm_option_is_encrypted         ../starter/source/devtools/hm_reader/hm_option_is_encrypted.F
-      !||--- uses       -----------------------------------------------------
-      !||    hm_option_read_mod             ../starter/share/modules1/hm_option_read_mod.F
-      !||    message_mod                    ../starter/share/message_module/message_mod.F
-      !||    submodel_mod                   ../starter/share/modules1/submodel_mod.F
-      !||====================================================================
+!||====================================================================
+!||    hm_read_fail_inievo            ../starter/source/materials/fail/inievo/hm_read_fail_inievo.F
+!||--- called by ------------------------------------------------------
+!||    hm_read_fail                   ../starter/source/materials/fail/hm_read_fail.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                         ../starter/source/output/message/message.F
+!||    hm_get_float_array_index       ../starter/source/devtools/hm_reader/hm_get_float_array_index.F
+!||    hm_get_float_array_index_dim   ../starter/source/devtools/hm_reader/hm_get_float_array_index_dim.F
+!||    hm_get_floatv                  ../starter/source/devtools/hm_reader/hm_get_floatv.F
+!||    hm_get_int_array_index         ../starter/source/devtools/hm_reader/hm_get_int_array_index.F
+!||    hm_get_intv                    ../starter/source/devtools/hm_reader/hm_get_intv.F
+!||    hm_option_is_encrypted         ../starter/source/devtools/hm_reader/hm_option_is_encrypted.F
+!||--- uses       -----------------------------------------------------
+!||    hm_option_read_mod             ../starter/share/modules1/hm_option_read_mod.F
+!||    message_mod                    ../starter/share/message_module/message_mod.F
+!||    submodel_mod                   ../starter/share/modules1/submodel_mod.F
+!||====================================================================
        SUBROUTINE HM_READ_FAIL_INIEVO(
      .           FAIL     ,MAT_ID   ,FAIL_ID  ,IRUPT    ,
      .           TITR     ,LSUBMODEL,UNITAB   )

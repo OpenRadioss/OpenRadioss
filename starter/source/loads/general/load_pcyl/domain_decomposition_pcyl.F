@@ -20,15 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    domain_decomposition_pcyl   ../starter/source/loads/general/load_pcyl/domain_decomposition_pcyl.F
-      !||--- called by ------------------------------------------------------
-      !||    domdec2                     ../starter/source/spmd/domdec2.F
-      !||--- calls      -----------------------------------------------------
-      !||    ifrontplus                  ../starter/source/spmd/node/frontplus.F
-      !||    plist_ifront                ../starter/source/spmd/node/ddtools.F
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    domain_decomposition_pcyl   ../starter/source/loads/general/load_pcyl/domain_decomposition_pcyl.F
+!||--- called by ------------------------------------------------------
+!||    domdec2                     ../starter/source/spmd/domdec2.F
+!||--- calls      -----------------------------------------------------
+!||    ifrontplus                  ../starter/source/spmd/node/frontplus.F
+!||    plist_ifront                ../starter/source/spmd/node/ddtools.F
+!||--- uses       -----------------------------------------------------
+!||====================================================================
         SUBROUTINE DOMAIN_DECOMPOSITION_PCYL(LOADS,IFRAME)
 !$COMMENT
 !       DOMAIN_DECOMPOSITION_PCYL description

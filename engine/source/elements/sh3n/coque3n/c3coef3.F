@@ -20,12 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    c3coef3       ../engine/source/elements/sh3n/coque3n/c3coef3.F
-      !||--- called by ------------------------------------------------------
-      !||    c3forc3       ../engine/source/elements/sh3n/coque3n/c3forc3.F
-      !||    c3forc3_crk   ../engine/source/elements/xfem/c3forc3_crk.F
-      !||====================================================================
+!||====================================================================
+!||    c3coef3       ../engine/source/elements/sh3n/coque3n/c3coef3.F
+!||--- called by ------------------------------------------------------
+!||    c3forc3       ../engine/source/elements/sh3n/coque3n/c3forc3.F
+!||    c3forc3_crk   ../engine/source/elements/xfem/c3forc3_crk.F
+!||====================================================================
       SUBROUTINE C3COEF3(
      1            JFT    ,JLT    ,PM     ,MAT      ,GEO     ,
      2            PID    ,OFF    ,AREA   ,STI      ,STIR    ,

@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    cderii       ../starter/source/elements/shell/coque/cderii.F
-      !||--- called by ------------------------------------------------------
-      !||    cbainit3     ../starter/source/elements/shell/coqueba/cbainit3.F
-      !||    cinit3       ../starter/source/elements/shell/coque/cinit3.F
-      !||    inirig_mat   ../starter/source/elements/initia/inirig_mat.F
-      !||====================================================================
+!||====================================================================
+!||    cderii       ../starter/source/elements/shell/coque/cderii.F
+!||--- called by ------------------------------------------------------
+!||    cbainit3     ../starter/source/elements/shell/coqueba/cbainit3.F
+!||    cinit3       ../starter/source/elements/shell/coque/cinit3.F
+!||    inirig_mat   ../starter/source/elements/initia/inirig_mat.F
+!||====================================================================
       SUBROUTINE CDERII(PX1 ,PX2 ,PY1 ,PY2 ,
      .                  X1G ,X2G ,X3G ,X4G ,Y1G ,Y2G  , 
      .                  Y3G ,Y4G ,Z1G ,Z2G ,Z3G ,Z4G  ,

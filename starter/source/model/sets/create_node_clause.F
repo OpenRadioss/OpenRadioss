@@ -20,19 +20,19 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    create_node_clause     ../starter/source/model/sets/create_node_clause.F
-      !||--- called by ------------------------------------------------------
-      !||    hm_set                 ../starter/source/model/sets/hm_set.F
-      !||--- calls      -----------------------------------------------------
-      !||    create_node_box        ../starter/source/model/sets/create_node_box.F
-      !||    create_node_list       ../starter/source/model/sets/create_node_clause.F
-      !||    create_node_list_g     ../starter/source/model/sets/create_node_clause.F
-      !||--- uses       -----------------------------------------------------
-      !||    hm_option_read_mod     ../starter/share/modules1/hm_option_read_mod.F
-      !||    message_mod            ../starter/share/message_module/message_mod.F
-      !||    submodel_mod           ../starter/share/modules1/submodel_mod.F
-      !||====================================================================
+!||====================================================================
+!||    create_node_clause     ../starter/source/model/sets/create_node_clause.F
+!||--- called by ------------------------------------------------------
+!||    hm_set                 ../starter/source/model/sets/hm_set.F
+!||--- calls      -----------------------------------------------------
+!||    create_node_box        ../starter/source/model/sets/create_node_box.F
+!||    create_node_list       ../starter/source/model/sets/create_node_clause.F
+!||    create_node_list_g     ../starter/source/model/sets/create_node_clause.F
+!||--- uses       -----------------------------------------------------
+!||    hm_option_read_mod     ../starter/share/modules1/hm_option_read_mod.F
+!||    message_mod            ../starter/share/message_module/message_mod.F
+!||    submodel_mod           ../starter/share/modules1/submodel_mod.F
+!||====================================================================
       SUBROUTINE CREATE_NODE_CLAUSE(
      .                        CLAUSE   ,ITABM1  ,JCLAUSE ,OPT_G ,IS_AVAILABLE ,
      .                        LSUBMODEL,OPT_B   ,IBOX    ,X     ,SKEW         ,
@@ -106,20 +106,20 @@ C-----------------------------------------------
         ENDIF
 C-----------------------------------------------
       END
-      !||====================================================================
-      !||    create_node_list            ../starter/source/model/sets/create_node_clause.F
-      !||--- called by ------------------------------------------------------
-      !||    create_node_clause          ../starter/source/model/sets/create_node_clause.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg                      ../starter/source/output/message/message.F
-      !||    hm_get_int_array_2indexes   ../starter/source/devtools/hm_reader/hm_get_int_array_2indexes.F
-      !||    hm_get_int_array_index      ../starter/source/devtools/hm_reader/hm_get_int_array_index.F
-      !||    set_usrtos                  ../starter/source/model/sets/ipartm1.F
-      !||--- uses       -----------------------------------------------------
-      !||    hm_option_read_mod          ../starter/share/modules1/hm_option_read_mod.F
-      !||    message_mod                 ../starter/share/message_module/message_mod.F
-      !||    submodel_mod                ../starter/share/modules1/submodel_mod.F
-      !||====================================================================
+!||====================================================================
+!||    create_node_list            ../starter/source/model/sets/create_node_clause.F
+!||--- called by ------------------------------------------------------
+!||    create_node_clause          ../starter/source/model/sets/create_node_clause.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                      ../starter/source/output/message/message.F
+!||    hm_get_int_array_2indexes   ../starter/source/devtools/hm_reader/hm_get_int_array_2indexes.F
+!||    hm_get_int_array_index      ../starter/source/devtools/hm_reader/hm_get_int_array_index.F
+!||    set_usrtos                  ../starter/source/model/sets/ipartm1.F
+!||--- uses       -----------------------------------------------------
+!||    hm_option_read_mod          ../starter/share/modules1/hm_option_read_mod.F
+!||    message_mod                 ../starter/share/message_module/message_mod.F
+!||    submodel_mod                ../starter/share/modules1/submodel_mod.F
+!||====================================================================
       SUBROUTINE CREATE_NODE_LIST(
      .               CLAUSE,  ITABM1  ,JCLAUSE ,IS_AVAILABLE ,LSUBMODEL)
 C-----------------------------------------------
@@ -245,19 +245,19 @@ C-------------------------
       RETURN
       END
 
-      !||====================================================================
-      !||    create_node_list_g          ../starter/source/model/sets/create_node_clause.F
-      !||--- called by ------------------------------------------------------
-      !||    create_node_clause          ../starter/source/model/sets/create_node_clause.F
-      !||--- calls      -----------------------------------------------------
-      !||    hm_get_int_array_2indexes   ../starter/source/devtools/hm_reader/hm_get_int_array_2indexes.F
-      !||    hm_get_int_array_index      ../starter/source/devtools/hm_reader/hm_get_int_array_index.F
-      !||    set_usrtos_nearest          ../starter/source/model/sets/ipartm1.F
-      !||--- uses       -----------------------------------------------------
-      !||    hm_option_read_mod          ../starter/share/modules1/hm_option_read_mod.F
-      !||    message_mod                 ../starter/share/message_module/message_mod.F
-      !||    submodel_mod                ../starter/share/modules1/submodel_mod.F
-      !||====================================================================
+!||====================================================================
+!||    create_node_list_g          ../starter/source/model/sets/create_node_clause.F
+!||--- called by ------------------------------------------------------
+!||    create_node_clause          ../starter/source/model/sets/create_node_clause.F
+!||--- calls      -----------------------------------------------------
+!||    hm_get_int_array_2indexes   ../starter/source/devtools/hm_reader/hm_get_int_array_2indexes.F
+!||    hm_get_int_array_index      ../starter/source/devtools/hm_reader/hm_get_int_array_index.F
+!||    set_usrtos_nearest          ../starter/source/model/sets/ipartm1.F
+!||--- uses       -----------------------------------------------------
+!||    hm_option_read_mod          ../starter/share/modules1/hm_option_read_mod.F
+!||    message_mod                 ../starter/share/message_module/message_mod.F
+!||    submodel_mod                ../starter/share/modules1/submodel_mod.F
+!||====================================================================
       SUBROUTINE CREATE_NODE_LIST_G(
      .               CLAUSE,  ITABM1  ,JCLAUSE ,IS_AVAILABLE ,LSUBMODEL)
 C-----------------------------------------------

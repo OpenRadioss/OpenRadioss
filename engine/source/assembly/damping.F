@@ -20,18 +20,18 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    damping51                        ../engine/source/assembly/damping.F
-      !||--- called by ------------------------------------------------------
-      !||    resol                            ../engine/source/engine/resol.F
-      !||--- calls      -----------------------------------------------------
-      !||    damping_vref                     ../engine/source/assembly/damping_vref.F
-      !||    damping_vref_compute_dampa       ../engine/source/assembly/damping_vref_compute_dampa.F90
-      !||    get_u_func                       ../engine/source/user_interface/ufunc.F
-      !||--- uses       -----------------------------------------------------
-      !||    damping_vref_compute_dampa_mod   ../engine/source/assembly/damping_vref_compute_dampa.F90
-      !||    groupdef_mod                     ../common_source/modules/groupdef_mod.F
-      !||====================================================================
+!||====================================================================
+!||    damping51                        ../engine/source/assembly/damping.F
+!||--- called by ------------------------------------------------------
+!||    resol                            ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
+!||    damping_vref                     ../engine/source/assembly/damping_vref.F
+!||    damping_vref_compute_dampa       ../engine/source/assembly/damping_vref_compute_dampa.F90
+!||    get_u_func                       ../engine/source/user_interface/ufunc.F
+!||--- uses       -----------------------------------------------------
+!||    damping_vref_compute_dampa_mod   ../engine/source/assembly/damping_vref_compute_dampa.F90
+!||    groupdef_mod                     ../common_source/modules/groupdef_mod.F
+!||====================================================================
       SUBROUTINE DAMPING51(
      1  DIM    ,V      ,
      2  VR     ,A      ,AR     ,MS     ,IN     ,
@@ -779,13 +779,13 @@ C
       RETURN
       END
 C
-      !||====================================================================
-      !||    damping44      ../engine/source/assembly/damping.F
-      !||--- called by ------------------------------------------------------
-      !||    resol          ../engine/source/engine/resol.F
-      !||--- uses       -----------------------------------------------------
-      !||    groupdef_mod   ../common_source/modules/groupdef_mod.F
-      !||====================================================================
+!||====================================================================
+!||    damping44      ../engine/source/assembly/damping.F
+!||--- called by ------------------------------------------------------
+!||    resol          ../engine/source/engine/resol.F
+!||--- uses       -----------------------------------------------------
+!||    groupdef_mod   ../common_source/modules/groupdef_mod.F
+!||====================================================================
       SUBROUTINE DAMPING44(
      1  DIM    ,V      ,
      2  VR     ,A      ,AR     ,MS     ,IN     ,
@@ -870,13 +870,13 @@ C
 C--------------------------
 C          DAMPING alpha M + beta K
 C--------------------------
-      !||====================================================================
-      !||    damping        ../engine/source/assembly/damping.F
-      !||--- called by ------------------------------------------------------
-      !||    resol          ../engine/source/engine/resol.F
-      !||--- uses       -----------------------------------------------------
-      !||    groupdef_mod   ../common_source/modules/groupdef_mod.F
-      !||====================================================================
+!||====================================================================
+!||    damping        ../engine/source/assembly/damping.F
+!||--- called by ------------------------------------------------------
+!||    resol          ../engine/source/engine/resol.F
+!||--- uses       -----------------------------------------------------
+!||    groupdef_mod   ../common_source/modules/groupdef_mod.F
+!||====================================================================
       SUBROUTINE DAMPING(NODFT,NODLT,V ,VR,A ,AR ,DAMP,MS,IN,
      .                   IGRNOD,DIM,ITASK,WEIGHT,TAGSLV_RBY, WFEXT)
 C-----------------------------------------------

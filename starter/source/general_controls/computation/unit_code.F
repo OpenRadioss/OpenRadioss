@@ -20,16 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    unit_code      ../starter/source/general_controls/computation/unit_code.F
-      !||--- called by ------------------------------------------------------
-      !||    hm_read_unit   ../starter/source/general_controls/computation/hm_read_unit.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg         ../starter/source/output/message/message.F
-      !||--- uses       -----------------------------------------------------
-      !||    format_mod     ../starter/share/modules1/format_mod.F90
-      !||    message_mod    ../starter/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    unit_code      ../starter/source/general_controls/computation/unit_code.F
+!||--- called by ------------------------------------------------------
+!||    hm_read_unit   ../starter/source/general_controls/computation/hm_read_unit.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg         ../starter/source/output/message/message.F
+!||--- uses       -----------------------------------------------------
+!||    format_mod     ../starter/share/modules1/format_mod.F90
+!||    message_mod    ../starter/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE UNIT_CODE(LENGTH,FIELD,KEY,FAC,IERR1,ID)
       USE MESSAGE_MOD
       USE FORMAT_MOD , ONLY : FMT_F

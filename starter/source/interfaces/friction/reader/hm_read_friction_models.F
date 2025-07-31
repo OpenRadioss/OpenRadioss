@@ -20,22 +20,22 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    hm_read_friction_models   ../starter/source/interfaces/friction/reader/hm_read_friction_models.F
-      !||--- called by ------------------------------------------------------
-      !||    lectur                    ../starter/source/starter/lectur.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg                    ../starter/source/output/message/message.F
-      !||    hm_option_read_key        ../starter/source/devtools/hm_reader/hm_option_read_key.F
-      !||    hm_option_start           ../starter/source/devtools/hm_reader/hm_option_start.F
-      !||    hm_read_friction          ../starter/source/interfaces/friction/reader/hm_read_friction.F
-      !||--- uses       -----------------------------------------------------
-      !||    hm_option_read_mod        ../starter/share/modules1/hm_option_read_mod.F
-      !||    message_mod               ../starter/share/message_module/message_mod.F
-      !||    r2r_mod                   ../starter/share/modules1/r2r_mod.F
-      !||    reader_old_mod            ../starter/share/modules1/reader_old_mod.F90
-      !||    submodel_mod              ../starter/share/modules1/submodel_mod.F
-      !||====================================================================
+!||====================================================================
+!||    hm_read_friction_models   ../starter/source/interfaces/friction/reader/hm_read_friction_models.F
+!||--- called by ------------------------------------------------------
+!||    lectur                    ../starter/source/starter/lectur.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                    ../starter/source/output/message/message.F
+!||    hm_option_read_key        ../starter/source/devtools/hm_reader/hm_option_read_key.F
+!||    hm_option_start           ../starter/source/devtools/hm_reader/hm_option_start.F
+!||    hm_read_friction          ../starter/source/interfaces/friction/reader/hm_read_friction.F
+!||--- uses       -----------------------------------------------------
+!||    hm_option_read_mod        ../starter/share/modules1/hm_option_read_mod.F
+!||    message_mod               ../starter/share/message_module/message_mod.F
+!||    r2r_mod                   ../starter/share/modules1/r2r_mod.F
+!||    reader_old_mod            ../starter/share/modules1/reader_old_mod.F90
+!||    submodel_mod              ../starter/share/modules1/submodel_mod.F
+!||====================================================================
       SUBROUTINE HM_READ_FRICTION_MODELS(
      1        NOM_OPT                ,UNITAB          ,IGRPART          ,IPART         ,TAGPRT_FRIC,
      2        TABCOUPLEPARTS_FRIC_TMP,TABCOEF_FRIC_TMP,INTBUF_FRIC_TAB  ,

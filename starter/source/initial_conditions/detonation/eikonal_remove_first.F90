@@ -20,22 +20,22 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    eikonal_remove_first_mod       ../starter/source/initial_conditions/detonation/eikonal_remove_first.F90
-      !||--- called by ------------------------------------------------------
-      !||    eikonal_fast_marching_method   ../starter/source/initial_conditions/detonation/eikonal_fast_marching_method.F90
-      !||====================================================================
+!||====================================================================
+!||    eikonal_remove_first_mod       ../starter/source/initial_conditions/detonation/eikonal_remove_first.F90
+!||--- called by ------------------------------------------------------
+!||    eikonal_fast_marching_method   ../starter/source/initial_conditions/detonation/eikonal_fast_marching_method.F90
+!||====================================================================
       module eikonal_remove_first_mod
       contains
 ! ======================================================================================================================
 !                                                   procedures
 ! ======================================================================================================================
-      !||====================================================================
-      !||    eikonal_remove_first           ../starter/source/initial_conditions/detonation/eikonal_remove_first.F90
-      !||--- called by ------------------------------------------------------
-      !||    eikonal_fast_marching_method   ../starter/source/initial_conditions/detonation/eikonal_fast_marching_method.F90
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    eikonal_remove_first           ../starter/source/initial_conditions/detonation/eikonal_remove_first.F90
+!||--- called by ------------------------------------------------------
+!||    eikonal_fast_marching_method   ../starter/source/initial_conditions/detonation/eikonal_fast_marching_method.F90
+!||--- uses       -----------------------------------------------------
+!||====================================================================
         subroutine eikonal_remove_first(priority_queue_id,priority_queue_tt,n_queue)
 !! \brief Remove the first element of the list.
 !! \details When first element is calculated it is removed. List is still ordered (ascending order for arrival time)

@@ -20,16 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    c3evec3        ../engine/source/elements/sh3n/coque3n/c3evec3.F
-      !||--- called by ------------------------------------------------------
-      !||    c3forc3        ../engine/source/elements/sh3n/coque3n/c3forc3.F
-      !||    c3forc3_crk    ../engine/source/elements/xfem/c3forc3_crk.F
-      !||--- calls      -----------------------------------------------------
-      !||    clskew3        ../engine/source/elements/sh3n/coquedk/cdkcoor3.F
-      !||--- uses       -----------------------------------------------------
-      !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    c3evec3        ../engine/source/elements/sh3n/coque3n/c3evec3.F
+!||--- called by ------------------------------------------------------
+!||    c3forc3        ../engine/source/elements/sh3n/coque3n/c3forc3.F
+!||    c3forc3_crk    ../engine/source/elements/xfem/c3forc3_crk.F
+!||--- calls      -----------------------------------------------------
+!||    clskew3        ../engine/source/elements/sh3n/coquedk/cdkcoor3.F
+!||--- uses       -----------------------------------------------------
+!||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||====================================================================
       SUBROUTINE C3EVEC3(ELBUF_STR,DIR_A    ,DIR_B   ,JFT      ,JLT      ,
      .                   IREP     ,E1X0     ,E1Y0    ,E1Z0     ,E2X0     ,
      .                   E2Y0     ,E2Z0     ,E3X0    ,E3Y0     ,E3Z0     ,
@@ -513,9 +513,9 @@ C-------------Ej0 is used in mulawc for user'laws (99)
 c-----------
       RETURN
       END
-      !||====================================================================
-      !||    c3newve3   ../engine/source/elements/sh3n/coque3n/c3evec3.F
-      !||====================================================================
+!||====================================================================
+!||    c3newve3   ../engine/source/elements/sh3n/coque3n/c3evec3.F
+!||====================================================================
       SUBROUTINE C3NEWVE3(JFT  ,JLT  ,TG3  ,ECOS   ,ESIN   )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -547,11 +547,11 @@ C=======================================================================
 c-----------
       RETURN
       END
-      !||====================================================================
-      !||    shroto3   ../engine/source/elements/sh3n/coque3n/c3evec3.F
-      !||--- called by ------------------------------------------------------
-      !||    c3forc3   ../engine/source/elements/sh3n/coque3n/c3forc3.F
-      !||====================================================================
+!||====================================================================
+!||    shroto3   ../engine/source/elements/sh3n/coque3n/c3evec3.F
+!||--- called by ------------------------------------------------------
+!||    c3forc3   ../engine/source/elements/sh3n/coque3n/c3forc3.F
+!||====================================================================
       SUBROUTINE SHROTO3(JFT,JLT,ECOS,ESIN,EXX,
      .                     EYY,EXY,EXZ,EYZ,KXX,
      .                     KYY,KXY)
@@ -614,11 +614,11 @@ C
 C
       RETURN
       END
-      !||====================================================================
-      !||    shtroto3   ../engine/source/elements/sh3n/coque3n/c3evec3.F
-      !||--- called by ------------------------------------------------------
-      !||    c3forc3    ../engine/source/elements/sh3n/coque3n/c3forc3.F
-      !||====================================================================
+!||====================================================================
+!||    shtroto3   ../engine/source/elements/sh3n/coque3n/c3evec3.F
+!||--- called by ------------------------------------------------------
+!||    c3forc3    ../engine/source/elements/sh3n/coque3n/c3forc3.F
+!||====================================================================
       SUBROUTINE SHTROTO3(JFT,JLT,ECOS,ESIN,GSTR,
      .                    F_DEF,ISMSTR,NEL)
 C-----------------------------------------------
@@ -678,11 +678,11 @@ C------Exy :2*exy
 C
       RETURN
       END
-      !||====================================================================
-      !||    c3sroto3   ../engine/source/elements/sh3n/coque3n/c3evec3.F
-      !||--- called by ------------------------------------------------------
-      !||    c3forc3    ../engine/source/elements/sh3n/coque3n/c3forc3.F
-      !||====================================================================
+!||====================================================================
+!||    c3sroto3   ../engine/source/elements/sh3n/coque3n/c3evec3.F
+!||--- called by ------------------------------------------------------
+!||    c3forc3    ../engine/source/elements/sh3n/coque3n/c3forc3.F
+!||====================================================================
       SUBROUTINE C3SROTO3(JFT  ,JLT  ,ECOS ,ESIN      ,FOR,
      .                    MOM  ,NFOR ,NMOM ,IFRAM_OLD ,NEL)
 C-----------------------------------------------

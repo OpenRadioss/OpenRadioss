@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    spmd_gather_wa        ../engine/source/mpi/anim/spmd_gather_wa.F
-      !||--- called by ------------------------------------------------------
-      !||    dparrws               ../engine/source/output/anim/generate/dparrws.F
-      !||--- calls      -----------------------------------------------------
-      !||--- uses       -----------------------------------------------------
-      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
-      !||====================================================================
+!||====================================================================
+!||    spmd_gather_wa        ../engine/source/mpi/anim/spmd_gather_wa.F
+!||--- called by ------------------------------------------------------
+!||    dparrws               ../engine/source/output/anim/generate/dparrws.F
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
+!||====================================================================
        SUBROUTINE SPMD_GATHER_WA(MODE,SIZE_BUFFER_S,SIZE_BUFFER_R,SINDEX,RINDEX_PROC,
      1                           BUFFER_S,BUFFER_R,SHIFT_R,NB_ELEM_R)
 C-----------------------------------------------    

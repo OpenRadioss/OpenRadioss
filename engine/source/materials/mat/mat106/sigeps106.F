@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    sigeps106   ../engine/source/materials/mat/mat106/sigeps106.F
-      !||--- called by ------------------------------------------------------
-      !||    mulaw       ../engine/source/materials/mat_share/mulaw.F90
-      !||--- calls      -----------------------------------------------------
-      !||    finter      ../engine/source/tools/curve/finter.F
-      !||    jc          ../engine/source/materials/mat/mat106/sigeps106.F
-      !||====================================================================
+!||====================================================================
+!||    sigeps106   ../engine/source/materials/mat/mat106/sigeps106.F
+!||--- called by ------------------------------------------------------
+!||    mulaw       ../engine/source/materials/mat_share/mulaw.F90
+!||--- calls      -----------------------------------------------------
+!||    finter      ../engine/source/tools/curve/finter.F
+!||    jc          ../engine/source/materials/mat/mat106/sigeps106.F
+!||====================================================================
        SUBROUTINE SIGEPS106(
      A      NEL    , NUPARAM, NUVAR  , NFUNC   , IFUNC   , 
      B      NPF    , TF     , TIME   , TIMESTEP, UPARAM  , 
@@ -330,11 +330,11 @@ C
       RETURN
       END
   
-      !||====================================================================
-      !||    jc          ../engine/source/materials/mat/mat106/sigeps106.F
-      !||--- called by ------------------------------------------------------
-      !||    sigeps106   ../engine/source/materials/mat/mat106/sigeps106.F
-      !||====================================================================
+!||====================================================================
+!||    jc          ../engine/source/materials/mat/mat106/sigeps106.F
+!||--- called by ------------------------------------------------------
+!||    sigeps106   ../engine/source/materials/mat/mat106/sigeps106.F
+!||====================================================================
       SUBROUTINE JC(P,T,A,B,CM,CN,TREF,TM,EPSM,SIGMAM,JC_YIELD,TAN_JC)
 C--------------------------------------------------
 C     Johnson-Cook and tangent without viscous effect

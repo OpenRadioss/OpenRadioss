@@ -20,16 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    spcompl   ../engine/source/elements/sph/spcompl.F
-      !||--- called by ------------------------------------------------------
-      !||    sphprep   ../engine/source/elements/sph/sphprep.F
-      !||--- calls      -----------------------------------------------------
-      !||    weight0   ../engine/source/elements/sph/weight.F
-      !||    weight1   ../engine/source/elements/sph/weight.F
-      !||--- uses       -----------------------------------------------------
-      !||    sphbox    ../engine/share/modules/sphbox.F
-      !||====================================================================
+!||====================================================================
+!||    spcompl   ../engine/source/elements/sph/spcompl.F
+!||--- called by ------------------------------------------------------
+!||    sphprep   ../engine/source/elements/sph/sphprep.F
+!||--- calls      -----------------------------------------------------
+!||    weight0   ../engine/source/elements/sph/weight.F
+!||    weight1   ../engine/source/elements/sph/weight.F
+!||--- uses       -----------------------------------------------------
+!||    sphbox    ../engine/share/modules/sphbox.F
+!||====================================================================
       SUBROUTINE SPCOMPL(
      1    X       ,V       ,MS      ,SPBUF   ,ITAB    , 
      2    KXSP    ,IXSP    ,NOD2SP  ,ISPSYM  ,XSPSYM  , 
@@ -1173,13 +1173,13 @@ C-------------------------------------------
       END
 
 
-      !||====================================================================
-      !||    spscomp   ../engine/source/elements/sph/spcompl.F
-      !||--- called by ------------------------------------------------------
-      !||    forintp   ../engine/source/elements/forintp.F
-      !||--- uses       -----------------------------------------------------
-      !||    sphbox    ../engine/share/modules/sphbox.F
-      !||====================================================================
+!||====================================================================
+!||    spscomp   ../engine/source/elements/sph/spcompl.F
+!||--- called by ------------------------------------------------------
+!||    forintp   ../engine/source/elements/forintp.F
+!||--- uses       -----------------------------------------------------
+!||    sphbox    ../engine/share/modules/sphbox.F
+!||====================================================================
       SUBROUTINE SPSCOMP(
      1    ISPSYM  ,WACOMP  ,ISPCOND ,XFRAME  ,WSMCOMP ,
      2    GEO     ,IPART   ,IPARTSP ,WASPACT ,ITASK   )

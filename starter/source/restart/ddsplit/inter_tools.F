@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    w_intbuf_size      ../starter/source/restart/ddsplit/inter_tools.F
-      !||--- called by ------------------------------------------------------
-      !||    split_interfaces   ../starter/source/restart/ddsplit/split_interfaces.F
-      !||--- calls      -----------------------------------------------------
-      !||    arret              ../starter/source/system/arret.F
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    w_intbuf_size      ../starter/source/restart/ddsplit/inter_tools.F
+!||--- called by ------------------------------------------------------
+!||    split_interfaces   ../starter/source/restart/ddsplit/split_interfaces.F
+!||--- calls      -----------------------------------------------------
+!||    arret              ../starter/source/system/arret.F
+!||--- uses       -----------------------------------------------------
+!||====================================================================
       SUBROUTINE W_INTBUF_SIZE(INTBUF_TAB_L)
 c
 c write on disk all sizes of INTBUF_TAB arrays (INTEGERs then REALs)
@@ -607,13 +607,13 @@ C=======================================================================
 C GENERIC ROUTINES TO SPLIT & WRITE ON DISK
 C=======================================================================
 
-      !||====================================================================
-      !||    split_node_ival    ../starter/source/restart/ddsplit/inter_tools.F
-      !||--- called by ------------------------------------------------------
-      !||    split_interfaces   ../starter/source/restart/ddsplit/split_interfaces.F
-      !||--- calls      -----------------------------------------------------
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    split_node_ival    ../starter/source/restart/ddsplit/inter_tools.F
+!||--- called by ------------------------------------------------------
+!||    split_interfaces   ../starter/source/restart/ddsplit/split_interfaces.F
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||====================================================================
       SUBROUTINE SPLIT_NODE_IVAL(TAB,DIM1,DIM2,TAG)
 c
 c split & write node array (type INTEGER) with global value
@@ -652,13 +652,13 @@ C ----------------------------------------
 
       RETURN
       END
-      !||====================================================================
-      !||    filter_node_nodloc   ../starter/source/restart/ddsplit/inter_tools.F
-      !||--- called by ------------------------------------------------------
-      !||    split_interfaces     ../starter/source/restart/ddsplit/split_interfaces.F
-      !||--- calls      -----------------------------------------------------
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    filter_node_nodloc   ../starter/source/restart/ddsplit/inter_tools.F
+!||--- called by ------------------------------------------------------
+!||    split_interfaces     ../starter/source/restart/ddsplit/split_interfaces.F
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||====================================================================
       SUBROUTINE FILTER_NODE_NODLOC(TAB,DIM1,TAG,NODLOCAL) 
 c
 c Filter & write node array (type INTEGER) with local value
@@ -696,13 +696,13 @@ c     WRITE(6,*) __FILE__,__LINE__,IBUF(1:DIM1)
 
       RETURN
       END
-      !||====================================================================
-      !||    copy_node_nodloc   ../starter/source/restart/ddsplit/inter_tools.F
-      !||--- called by ------------------------------------------------------
-      !||    split_interfaces   ../starter/source/restart/ddsplit/split_interfaces.F
-      !||--- calls      -----------------------------------------------------
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    copy_node_nodloc   ../starter/source/restart/ddsplit/inter_tools.F
+!||--- called by ------------------------------------------------------
+!||    split_interfaces   ../starter/source/restart/ddsplit/split_interfaces.F
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||====================================================================
       SUBROUTINE COPY_NODE_NODLOC(TAB,DIM1,NODLOCAL) 
 c
 c Copy & write node array (type INTEGER) with local value
@@ -738,13 +738,13 @@ c
       RETURN
       END
 
-      !||====================================================================
-      !||    split_node_nodloc   ../starter/source/restart/ddsplit/inter_tools.F
-      !||--- called by ------------------------------------------------------
-      !||    split_interfaces    ../starter/source/restart/ddsplit/split_interfaces.F
-      !||--- calls      -----------------------------------------------------
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    split_node_nodloc   ../starter/source/restart/ddsplit/inter_tools.F
+!||--- called by ------------------------------------------------------
+!||    split_interfaces    ../starter/source/restart/ddsplit/split_interfaces.F
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||====================================================================
       SUBROUTINE SPLIT_NODE_NODLOC(TAB,DIM1,TAG,NODLOCAL) 
 c
 c split & write node array (type INTEGER) with local value
@@ -779,13 +779,13 @@ C ----------------------------------------
 
       RETURN
       END
-      !||====================================================================
-      !||    split_node_rval    ../starter/source/restart/ddsplit/inter_tools.F
-      !||--- called by ------------------------------------------------------
-      !||    split_interfaces   ../starter/source/restart/ddsplit/split_interfaces.F
-      !||--- calls      -----------------------------------------------------
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    split_node_rval    ../starter/source/restart/ddsplit/inter_tools.F
+!||--- called by ------------------------------------------------------
+!||    split_interfaces   ../starter/source/restart/ddsplit/split_interfaces.F
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||====================================================================
       SUBROUTINE SPLIT_NODE_RVAL(TAB,DIM1,DIM2,TAG)
 c
 c split & write node array (type REAL) with global value
@@ -824,13 +824,13 @@ C ----------------------------------------
 
       RETURN
       END
-      !||====================================================================
-      !||    split_node_rval_dummy   ../starter/source/restart/ddsplit/inter_tools.F
-      !||--- called by ------------------------------------------------------
-      !||    split_interfaces        ../starter/source/restart/ddsplit/split_interfaces.F
-      !||--- calls      -----------------------------------------------------
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    split_node_rval_dummy   ../starter/source/restart/ddsplit/inter_tools.F
+!||--- called by ------------------------------------------------------
+!||    split_interfaces        ../starter/source/restart/ddsplit/split_interfaces.F
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||====================================================================
       SUBROUTINE SPLIT_NODE_RVAL_DUMMY(DIM1,DIM2,TAG)
 c
 c split & write node array (type REAL) with global value
@@ -869,13 +869,13 @@ C ----------------------------------------
       RETURN
       END
  
-      !||====================================================================
-      !||    split_seg_nodloc   ../starter/source/restart/ddsplit/inter_tools.F
-      !||--- called by ------------------------------------------------------
-      !||    split_interfaces   ../starter/source/restart/ddsplit/split_interfaces.F
-      !||--- calls      -----------------------------------------------------
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    split_seg_nodloc   ../starter/source/restart/ddsplit/inter_tools.F
+!||--- called by ------------------------------------------------------
+!||    split_interfaces   ../starter/source/restart/ddsplit/split_interfaces.F
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||====================================================================
       SUBROUTINE SPLIT_SEG_NODLOC(TAB,DIM1,DIM2,TAG_SEG,NODLOCAL)
 c
 c split & write segments array (type INTEGER) with local value
@@ -915,13 +915,13 @@ C ----------------------------------------
 
       RETURN
       END
-      !||====================================================================
-      !||    split_seg_segloc   ../starter/source/restart/ddsplit/inter_tools.F
-      !||--- called by ------------------------------------------------------
-      !||    split_interfaces   ../starter/source/restart/ddsplit/split_interfaces.F
-      !||--- calls      -----------------------------------------------------
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    split_seg_segloc   ../starter/source/restart/ddsplit/inter_tools.F
+!||--- called by ------------------------------------------------------
+!||    split_interfaces   ../starter/source/restart/ddsplit/split_interfaces.F
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||====================================================================
       SUBROUTINE SPLIT_SEG_SEGLOC(TAB,DIM1,DIM2,TAG_SEG,SEGLOCAL)
 c
 c split & write segments array (type INTEGER) with local value
@@ -968,13 +968,13 @@ C ----------------------------------------
       RETURN
       END
 
-      !||====================================================================
-      !||    copy_ival          ../starter/source/restart/ddsplit/inter_tools.F
-      !||--- called by ------------------------------------------------------
-      !||    split_interfaces   ../starter/source/restart/ddsplit/split_interfaces.F
-      !||--- calls      -----------------------------------------------------
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    copy_ival          ../starter/source/restart/ddsplit/inter_tools.F
+!||--- called by ------------------------------------------------------
+!||    split_interfaces   ../starter/source/restart/ddsplit/split_interfaces.F
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||====================================================================
       SUBROUTINE COPY_IVAL(TAB,DIM1,DIM2)
 c 
 c copy and write array value (type INTEGER)
@@ -1010,13 +1010,13 @@ C ----------------------------------------
 
       RETURN
       END
-      !||====================================================================
-      !||    copy_ival_dummy    ../starter/source/restart/ddsplit/inter_tools.F
-      !||--- called by ------------------------------------------------------
-      !||    split_interfaces   ../starter/source/restart/ddsplit/split_interfaces.F
-      !||--- calls      -----------------------------------------------------
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    copy_ival_dummy    ../starter/source/restart/ddsplit/inter_tools.F
+!||--- called by ------------------------------------------------------
+!||    split_interfaces   ../starter/source/restart/ddsplit/split_interfaces.F
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||====================================================================
       SUBROUTINE COPY_IVAL_DUMMY(DIM1,DIM2)
 c 
 c copy and write array value (type INTEGER)
@@ -1052,13 +1052,13 @@ C ----------------------------------------
       RETURN
       END
  
-      !||====================================================================
-      !||    copy_ival_igeo     ../starter/source/restart/ddsplit/inter_tools.F
-      !||--- called by ------------------------------------------------------
-      !||    split_interfaces   ../starter/source/restart/ddsplit/split_interfaces.F
-      !||--- calls      -----------------------------------------------------
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    copy_ival_igeo     ../starter/source/restart/ddsplit/inter_tools.F
+!||--- called by ------------------------------------------------------
+!||    split_interfaces   ../starter/source/restart/ddsplit/split_interfaces.F
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||====================================================================
       SUBROUTINE COPY_IVAL_IGEO(TAB,DIM1,DIM2,OFFSET)
 c 
 c copy and write array value (type INTEGER)
@@ -1094,13 +1094,13 @@ C ----------------------------------------
 
       RETURN
       END
-      !||====================================================================
-      !||    copy_rval          ../starter/source/restart/ddsplit/inter_tools.F
-      !||--- called by ------------------------------------------------------
-      !||    split_interfaces   ../starter/source/restart/ddsplit/split_interfaces.F
-      !||--- calls      -----------------------------------------------------
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    copy_rval          ../starter/source/restart/ddsplit/inter_tools.F
+!||--- called by ------------------------------------------------------
+!||    split_interfaces   ../starter/source/restart/ddsplit/split_interfaces.F
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||====================================================================
       SUBROUTINE COPY_RVAL(TAB,DIM1,DIM2)
 c 
 c copy and write array value (type REAL)
@@ -1139,13 +1139,13 @@ C ----------------------------------------
 
       RETURN
       END
-      !||====================================================================
-      !||    split_node_nodloc_p0   ../starter/source/restart/ddsplit/inter_tools.F
-      !||--- called by ------------------------------------------------------
-      !||    split_interfaces       ../starter/source/restart/ddsplit/split_interfaces.F
-      !||--- calls      -----------------------------------------------------
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    split_node_nodloc_p0   ../starter/source/restart/ddsplit/inter_tools.F
+!||--- called by ------------------------------------------------------
+!||    split_interfaces       ../starter/source/restart/ddsplit/split_interfaces.F
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||====================================================================
       SUBROUTINE SPLIT_NODE_NODLOC_P0(TAB,DIM1,DIM2,NODLOCAL)
 c
 c same routine as SPLIT_NODE_NODLOC for interfaces splited 
@@ -1181,12 +1181,12 @@ C ----------------------------------------
 
       RETURN
       END
-      !||====================================================================
-      !||    prepare_split_cand   ../starter/source/restart/ddsplit/inter_tools.F
-      !||--- called by ------------------------------------------------------
-      !||    split_interfaces     ../starter/source/restart/ddsplit/split_interfaces.F
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    prepare_split_cand   ../starter/source/restart/ddsplit/inter_tools.F
+!||--- called by ------------------------------------------------------
+!||    split_interfaces     ../starter/source/restart/ddsplit/split_interfaces.F
+!||--- uses       -----------------------------------------------------
+!||====================================================================
       SUBROUTINE PREPARE_SPLIT_CAND(INTBUF_TAB, TAG_SEGM2, II_STOK, TAG_II)
 C-----------------------------------------------
 C   M o d u l e s
@@ -1221,13 +1221,13 @@ C ----------------------------------------
 
       RETURN
       END
-      !||====================================================================
-      !||    split_cand_ival    ../starter/source/restart/ddsplit/inter_tools.F
-      !||--- called by ------------------------------------------------------
-      !||    split_interfaces   ../starter/source/restart/ddsplit/split_interfaces.F
-      !||--- calls      -----------------------------------------------------
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    split_cand_ival    ../starter/source/restart/ddsplit/inter_tools.F
+!||--- called by ------------------------------------------------------
+!||    split_interfaces   ../starter/source/restart/ddsplit/split_interfaces.F
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||====================================================================
       SUBROUTINE SPLIT_CAND_IVAL(TAB    , II_STOK_L, TAG_II,
      .                           MULTIMP, NCONT )
 c
@@ -1264,13 +1264,13 @@ C ----------------------------------------
 
       RETURN
       END
-      !||====================================================================
-      !||    split_cand_rval    ../starter/source/restart/ddsplit/inter_tools.F
-      !||--- called by ------------------------------------------------------
-      !||    split_interfaces   ../starter/source/restart/ddsplit/split_interfaces.F
-      !||--- calls      -----------------------------------------------------
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    split_cand_rval    ../starter/source/restart/ddsplit/inter_tools.F
+!||--- called by ------------------------------------------------------
+!||    split_interfaces   ../starter/source/restart/ddsplit/split_interfaces.F
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||====================================================================
       SUBROUTINE SPLIT_CAND_RVAL(TAB,II_STOK_L,TAG_II,MULTIMP,NCONT)
 c
 c split & write candidates (REALs arrays sized MULTIMP*NCONT)
@@ -1308,13 +1308,13 @@ C ----------------------------------------
 
       RETURN
       END
-      !||====================================================================
-      !||    split_cand_rval_dummy   ../starter/source/restart/ddsplit/inter_tools.F
-      !||--- called by ------------------------------------------------------
-      !||    split_interfaces        ../starter/source/restart/ddsplit/split_interfaces.F
-      !||--- calls      -----------------------------------------------------
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    split_cand_rval_dummy   ../starter/source/restart/ddsplit/inter_tools.F
+!||--- called by ------------------------------------------------------
+!||    split_interfaces        ../starter/source/restart/ddsplit/split_interfaces.F
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||====================================================================
       SUBROUTINE SPLIT_CAND_RVAL_DUMMY(II_STOK_L,TAG_II,MULTIMP,NCONT)
 c
 c split & write candidates (REALs arrays sized MULTIMP*NCONT)
@@ -1362,13 +1362,13 @@ C=======================================================================
 C=======================================================================
 C SPECIFIC ROUTINES INT2
 C=======================================================================
-      !||====================================================================
-      !||    prepare_split_i2   ../starter/source/restart/ddsplit/inter_tools.F
-      !||--- called by ------------------------------------------------------
-      !||    split_interfaces   ../starter/source/restart/ddsplit/split_interfaces.F
-      !||--- uses       -----------------------------------------------------
-      !||    front_mod          ../starter/share/modules1/front_mod.F
-      !||====================================================================
+!||====================================================================
+!||    prepare_split_i2   ../starter/source/restart/ddsplit/inter_tools.F
+!||--- called by ------------------------------------------------------
+!||    split_interfaces   ../starter/source/restart/ddsplit/split_interfaces.F
+!||--- uses       -----------------------------------------------------
+!||    front_mod          ../starter/share/modules1/front_mod.F
+!||====================================================================
       SUBROUTINE PREPARE_SPLIT_I2(PROC, INTBUF_TAB  , NSN     , NMN      ,
      +                            NRTM, TAG_NODE_2RY, TAG_SEGM, TAG_SEGM2,
      +                            TAG_IRTL, TAG     , ITABI2M , NODLOCAL ,
@@ -1452,13 +1452,13 @@ C ----------------------------------------
 
       RETURN
       END
-      !||====================================================================
-      !||    split_node_ival2   ../starter/source/restart/ddsplit/inter_tools.F
-      !||--- called by ------------------------------------------------------
-      !||    split_interfaces   ../starter/source/restart/ddsplit/split_interfaces.F
-      !||--- calls      -----------------------------------------------------
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    split_node_ival2   ../starter/source/restart/ddsplit/inter_tools.F
+!||--- called by ------------------------------------------------------
+!||    split_interfaces   ../starter/source/restart/ddsplit/split_interfaces.F
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||====================================================================
       SUBROUTINE SPLIT_NODE_IVAL2(TAB,DIM1,DIM2,TAG_SEGM2,TAG_NODE_2RY)
 c specific type2, need use of 2 TAG arrays (one for main segment, one for secnd node)
 C-----------------------------------------------
@@ -1493,13 +1493,13 @@ C ----------------------------------------
 
       RETURN
       END
-      !||====================================================================
-      !||    split_seg_ival2    ../starter/source/restart/ddsplit/inter_tools.F
-      !||--- called by ------------------------------------------------------
-      !||    split_interfaces   ../starter/source/restart/ddsplit/split_interfaces.F
-      !||--- calls      -----------------------------------------------------
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    split_seg_ival2    ../starter/source/restart/ddsplit/inter_tools.F
+!||--- called by ------------------------------------------------------
+!||    split_interfaces   ../starter/source/restart/ddsplit/split_interfaces.F
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||====================================================================
       SUBROUTINE SPLIT_SEG_IVAL2(TAB,DIM1,TAG,TAG2)
 c
 c split segment array with global value specific type2
@@ -1542,14 +1542,14 @@ C=======================================================================
 C=======================================================================
 C SPECIFIC ROUTINES INT7
 C=======================================================================
-      !||====================================================================
-      !||    prepare_split_i7   ../starter/source/restart/ddsplit/inter_tools.F
-      !||--- called by ------------------------------------------------------
-      !||    split_interfaces   ../starter/source/restart/ddsplit/split_interfaces.F
-      !||--- uses       -----------------------------------------------------
-      !||    front_mod          ../starter/share/modules1/front_mod.F
-      !||    i7i10splitmod      ../starter/share/modules1/i710split_mod.F
-      !||====================================================================
+!||====================================================================
+!||    prepare_split_i7   ../starter/source/restart/ddsplit/inter_tools.F
+!||--- called by ------------------------------------------------------
+!||    split_interfaces   ../starter/source/restart/ddsplit/split_interfaces.F
+!||--- uses       -----------------------------------------------------
+!||    front_mod          ../starter/share/modules1/front_mod.F
+!||    i7i10splitmod      ../starter/share/modules1/i710split_mod.F
+!||====================================================================
       SUBROUTINE PREPARE_SPLIT_I7(PROC     ,   INTBUF_TAB  , IPARI       ,
      .                            INTERCEP ,   TAG_NODE_2RY, TAG_SEGM    ,
      .                            TAG_SEGM2,   TAG_NM      , TAG_NODE_MSR,
@@ -1728,17 +1728,17 @@ C     Interface type 18 law 151
 
       RETURN
       END
-      !||====================================================================
-      !||    split_cand_i7      ../starter/source/restart/ddsplit/inter_tools.F
-      !||--- called by ------------------------------------------------------
-      !||    split_interfaces   ../starter/source/restart/ddsplit/split_interfaces.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg             ../starter/source/output/message/message.F
-      !||    nlocal             ../starter/source/spmd/node/ddtools.F
-      !||    plist_ifront       ../starter/source/spmd/node/ddtools.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod        ../starter/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    split_cand_i7      ../starter/source/restart/ddsplit/inter_tools.F
+!||--- called by ------------------------------------------------------
+!||    split_interfaces   ../starter/source/restart/ddsplit/split_interfaces.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg             ../starter/source/output/message/message.F
+!||    nlocal             ../starter/source/spmd/node/ddtools.F
+!||    plist_ifront       ../starter/source/spmd/node/ddtools.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod        ../starter/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE SPLIT_CAND_I7(PROC     , INTBUF_TAB, NSN    , NSN_L       ,
      .                         TAG_SEGM2, II_STOK   , MULTIMP, NCONT       ,
      .                         NOINT    , INACTI    , TAG_SCRATCH ,
@@ -2013,14 +2013,14 @@ c     .          OR.IFQ>0)IPARI_L(24,NI)= C_NRTSR
 
       RETURN
       END
-      !||====================================================================
-      !||    split_remnode_i7   ../starter/source/restart/ddsplit/inter_tools.F
-      !||--- called by ------------------------------------------------------
-      !||    split_interfaces   ../starter/source/restart/ddsplit/split_interfaces.F
-      !||--- calls      -----------------------------------------------------
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod        ../starter/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    split_remnode_i7   ../starter/source/restart/ddsplit/inter_tools.F
+!||--- called by ------------------------------------------------------
+!||    split_interfaces   ../starter/source/restart/ddsplit/split_interfaces.F
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||    message_mod        ../starter/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE SPLIT_REMNODE_I7(PROC     , INTBUF_TAB, NRTM    , NRTM_L,
      .                            TAG_SEGM2, NREMNODE  , NODLOCAL, ITAB  ,NUMNOD_L)
 C-----------------------------------------------
@@ -2140,12 +2140,12 @@ C ----------------------------------------
 
       RETURN
       END
-      !||====================================================================
-      !||    prepare_split_cand_i25_edge   ../starter/source/restart/ddsplit/inter_tools.F
-      !||--- called by ------------------------------------------------------
-      !||    split_interfaces              ../starter/source/restart/ddsplit/split_interfaces.F
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    prepare_split_cand_i25_edge   ../starter/source/restart/ddsplit/inter_tools.F
+!||--- called by ------------------------------------------------------
+!||    split_interfaces              ../starter/source/restart/ddsplit/split_interfaces.F
+!||--- uses       -----------------------------------------------------
+!||====================================================================
             SUBROUTINE PREPARE_SPLIT_CAND_I25_EDGE(INTBUF_TAB,SEGLOC,
      .                             TAG_EDGE, NEDGE_L, TAG_EDGE2, NEDGE,
      .                             II_STOK_E, II_STOK_E_L, TAG_II_E2E,
@@ -2423,14 +2423,14 @@ C            master sgmt is local
       DEALLOCATE(TAGREMCAND_E2E,TAGREMCAND_E2S)
       RETURN
       END
-      !||====================================================================
-      !||    split_cand_i25_edge   ../starter/source/restart/ddsplit/inter_tools.F
-      !||--- called by ------------------------------------------------------
-      !||    split_interfaces      ../starter/source/restart/ddsplit/split_interfaces.F
-      !||--- calls      -----------------------------------------------------
-      !||--- uses       -----------------------------------------------------
-      !||    i25_fie_mod           ../starter/share/modules1/i25_fie_mod.F
-      !||====================================================================
+!||====================================================================
+!||    split_cand_i25_edge   ../starter/source/restart/ddsplit/inter_tools.F
+!||--- called by ------------------------------------------------------
+!||    split_interfaces      ../starter/source/restart/ddsplit/split_interfaces.F
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||    i25_fie_mod           ../starter/share/modules1/i25_fie_mod.F
+!||====================================================================
             SUBROUTINE SPLIT_CAND_I25_EDGE(INTBUF_TAB,SEGLOC,PROC,NIN,
      .                             TAG_EDGE, NEDGE_L, TAG_EDGE2, NEDGE,
      .                             II_STOK_E, II_STOK_E_L, TAG_II_E2E,
@@ -2543,15 +2543,15 @@ C         CANDS_E2S(ID) = - INTBUF_TAB%CANDS_E2S(I)
       RETURN
       END
 
-      !||====================================================================
-      !||    split_remnode_i25   ../starter/source/restart/ddsplit/inter_tools.F
-      !||--- called by ------------------------------------------------------
-      !||    split_interfaces    ../starter/source/restart/ddsplit/split_interfaces.F
-      !||--- calls      -----------------------------------------------------
-      !||--- uses       -----------------------------------------------------
-      !||    front_mod           ../starter/share/modules1/front_mod.F
-      !||    message_mod         ../starter/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    split_remnode_i25   ../starter/source/restart/ddsplit/inter_tools.F
+!||--- called by ------------------------------------------------------
+!||    split_interfaces    ../starter/source/restart/ddsplit/split_interfaces.F
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||    front_mod           ../starter/share/modules1/front_mod.F
+!||    message_mod         ../starter/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE SPLIT_REMNODE_I25(PROC     , INTBUF_TAB, NRTM    , NRTM_L ,
      .                            TAG_SEGM2 , NREMNODE  , NODLOCAL ,NREMNOR,
      .                            NSN       , NSN_L     ,TAG_NODE_2RY2,ITAB,
@@ -2722,14 +2722,14 @@ c
 
       RETURN
       END
-      !||====================================================================
-      !||    split_nisub_i7     ../starter/source/restart/ddsplit/inter_tools.F
-      !||--- called by ------------------------------------------------------
-      !||    split_interfaces   ../starter/source/restart/ddsplit/split_interfaces.F
-      !||--- calls      -----------------------------------------------------
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod        ../starter/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    split_nisub_i7     ../starter/source/restart/ddsplit/inter_tools.F
+!||--- called by ------------------------------------------------------
+!||    split_interfaces   ../starter/source/restart/ddsplit/split_interfaces.F
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||    message_mod        ../starter/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE SPLIT_NISUB_I7(INTBUF_TAB, NSN_L , TAG_NODE_2RY, NRTM_L,
      .                          TAG_SEGM  , NISUBS, NISUBM )
 C-----------------------------------------------
@@ -2814,14 +2814,14 @@ C
 
       RETURN
       END
-      !||====================================================================
-      !||    split_nisub_i25    ../starter/source/restart/ddsplit/inter_tools.F
-      !||--- called by ------------------------------------------------------
-      !||    split_interfaces   ../starter/source/restart/ddsplit/split_interfaces.F
-      !||--- calls      -----------------------------------------------------
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod        ../starter/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    split_nisub_i25    ../starter/source/restart/ddsplit/inter_tools.F
+!||--- called by ------------------------------------------------------
+!||    split_interfaces   ../starter/source/restart/ddsplit/split_interfaces.F
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||    message_mod        ../starter/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE SPLIT_NISUB_I25(INTBUF_TAB, NSN_L , TAG_NODE_2RY, NRTM_L,
      1                          TAG_SEGM  , NISUBS, NISUBM ,
      2       IEDGE,
@@ -2967,12 +2967,12 @@ C       CALL COPY_IVAL(INTBUF_TAB(NI)%INFLG_SUBE,NISUBE_L,1)
 
       RETURN
       END
-      !||====================================================================
-      !||    split_xsav      ../starter/source/restart/ddsplit/inter_tools.F
-      !||--- calls      -----------------------------------------------------
-      !||    nlocal          ../starter/source/spmd/node/ddtools.F
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    split_xsav      ../starter/source/restart/ddsplit/inter_tools.F
+!||--- calls      -----------------------------------------------------
+!||    nlocal          ../starter/source/spmd/node/ddtools.F
+!||--- uses       -----------------------------------------------------
+!||====================================================================
       SUBROUTINE SPLIT_XSAV(INTBUF_TAB, NUMNOD_L, NSN, NSN_L,
      .                      NMN       , NMN_L , TAG_SCRATCH, TAG_NODE_MSR,
      .                      TAG_NM    , NODLOCAL, PROC     , NI ,I710XSAV,
@@ -3205,15 +3205,15 @@ C=======================================================================
 C=======================================================================
 C SPECIFIC ROUTINES INT8
 C=======================================================================
-      !||====================================================================
-      !||    prepare_split_i8   ../starter/source/restart/ddsplit/inter_tools.F
-      !||--- called by ------------------------------------------------------
-      !||    split_interfaces   ../starter/source/restart/ddsplit/split_interfaces.F
-      !||--- calls      -----------------------------------------------------
-      !||    nlocal             ../starter/source/spmd/node/ddtools.F
-      !||--- uses       -----------------------------------------------------
-      !||    front_mod          ../starter/share/modules1/front_mod.F
-      !||====================================================================
+!||====================================================================
+!||    prepare_split_i8   ../starter/source/restart/ddsplit/inter_tools.F
+!||--- called by ------------------------------------------------------
+!||    split_interfaces   ../starter/source/restart/ddsplit/split_interfaces.F
+!||--- calls      -----------------------------------------------------
+!||    nlocal             ../starter/source/spmd/node/ddtools.F
+!||--- uses       -----------------------------------------------------
+!||    front_mod          ../starter/share/modules1/front_mod.F
+!||====================================================================
       SUBROUTINE PREPARE_SPLIT_I8(PROC     ,   INTBUF_TAB  , IPARI       ,
      .                            INTERCEP ,   TAG_NODE_2RY, TAG_SEGM    ,
      .                            TAG_SEGM2,   TAG_NM      , TAG_NODE_MSR,
@@ -3406,15 +3406,15 @@ C=======================================================================
 C=======================================================================
 C SPECIFIC ROUTINES INT 9
 C=======================================================================
-      !||====================================================================
-      !||    prepare_split_i9   ../starter/source/restart/ddsplit/inter_tools.F
-      !||--- called by ------------------------------------------------------
-      !||    split_interfaces   ../starter/source/restart/ddsplit/split_interfaces.F
-      !||--- calls      -----------------------------------------------------
-      !||    nlocal             ../starter/source/spmd/node/ddtools.F
-      !||--- uses       -----------------------------------------------------
-      !||    front_mod          ../starter/share/modules1/front_mod.F
-      !||====================================================================
+!||====================================================================
+!||    prepare_split_i9   ../starter/source/restart/ddsplit/inter_tools.F
+!||--- called by ------------------------------------------------------
+!||    split_interfaces   ../starter/source/restart/ddsplit/split_interfaces.F
+!||--- calls      -----------------------------------------------------
+!||    nlocal             ../starter/source/spmd/node/ddtools.F
+!||--- uses       -----------------------------------------------------
+!||    front_mod          ../starter/share/modules1/front_mod.F
+!||====================================================================
       SUBROUTINE PREPARE_SPLIT_I9(PROC        , INTBUF_TAB  , IPARI       ,
      .                            TAG_NODE_2RY, TAG_NODE_MSR, TAG_SCRATCH ,
      .                            TAG_IELES   , TAG_IELEM    , 
@@ -3533,15 +3533,15 @@ C=======================================================================
 C=======================================================================
 C SPECIFIC ROUTINES INT 11
 C=======================================================================
-      !||====================================================================
-      !||    prepare_split_i11   ../starter/source/restart/ddsplit/inter_tools.F
-      !||--- called by ------------------------------------------------------
-      !||    split_interfaces    ../starter/source/restart/ddsplit/split_interfaces.F
-      !||--- calls      -----------------------------------------------------
-      !||    nlocal              ../starter/source/spmd/node/ddtools.F
-      !||--- uses       -----------------------------------------------------
-      !||    front_mod           ../starter/share/modules1/front_mod.F
-      !||====================================================================
+!||====================================================================
+!||    prepare_split_i11   ../starter/source/restart/ddsplit/inter_tools.F
+!||--- called by ------------------------------------------------------
+!||    split_interfaces    ../starter/source/restart/ddsplit/split_interfaces.F
+!||--- calls      -----------------------------------------------------
+!||    nlocal              ../starter/source/spmd/node/ddtools.F
+!||--- uses       -----------------------------------------------------
+!||    front_mod           ../starter/share/modules1/front_mod.F
+!||====================================================================
       SUBROUTINE PREPARE_SPLIT_I11(PROC        , INTBUF_TAB, IPARI       ,
      .                             TAG_NODE_2RY, TAG_SEGM  , TAG_SEGM2   ,
      .                             TAG_NM      , TAG_SEGS  , TAG_NODE_MSR,
@@ -3656,16 +3656,16 @@ C IRECTS
 
       RETURN
       END
-      !||====================================================================
-      !||    split_cand_i11     ../starter/source/restart/ddsplit/inter_tools.F
-      !||--- called by ------------------------------------------------------
-      !||    split_interfaces   ../starter/source/restart/ddsplit/split_interfaces.F
-      !||--- calls      -----------------------------------------------------
-      !||    nlocal             ../starter/source/spmd/node/ddtools.F
-      !||--- uses       -----------------------------------------------------
-      !||    front_mod          ../starter/share/modules1/front_mod.F
-      !||    message_mod        ../starter/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    split_cand_i11     ../starter/source/restart/ddsplit/inter_tools.F
+!||--- called by ------------------------------------------------------
+!||    split_interfaces   ../starter/source/restart/ddsplit/split_interfaces.F
+!||--- calls      -----------------------------------------------------
+!||    nlocal             ../starter/source/spmd/node/ddtools.F
+!||--- uses       -----------------------------------------------------
+!||    front_mod          ../starter/share/modules1/front_mod.F
+!||    message_mod        ../starter/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE SPLIT_CAND_I11(PROC       , INTBUF_TAB, NRTS   , NRTS_L ,
      .                          TAG_SEGM2  , TAG_SEGS  , II_STOK, MULTIMP,
      .                          NCONT      , NOINT     , INACTI ,
@@ -3849,15 +3849,15 @@ C=======================================================================
 C=======================================================================
 C SPECIFIC ROUTINES INT 17
 C=======================================================================
-      !||====================================================================
-      !||    prepare_split_i17   ../starter/source/restart/ddsplit/inter_tools.F
-      !||--- called by ------------------------------------------------------
-      !||    split_interfaces    ../starter/source/restart/ddsplit/split_interfaces.F
-      !||--- calls      -----------------------------------------------------
-      !||    nlocal              ../starter/source/spmd/node/ddtools.F
-      !||--- uses       -----------------------------------------------------
-      !||    front_mod           ../starter/share/modules1/front_mod.F
-      !||====================================================================
+!||====================================================================
+!||    prepare_split_i17   ../starter/source/restart/ddsplit/inter_tools.F
+!||--- called by ------------------------------------------------------
+!||    split_interfaces    ../starter/source/restart/ddsplit/split_interfaces.F
+!||--- calls      -----------------------------------------------------
+!||    nlocal              ../starter/source/spmd/node/ddtools.F
+!||--- uses       -----------------------------------------------------
+!||    front_mod           ../starter/share/modules1/front_mod.F
+!||====================================================================
       SUBROUTINE PREPARE_SPLIT_I17(PROC        , INTBUF_TAB   , IPARI  ,
      .                            TAG_NODE_2RY , TAG_NODE_MSR , 
      .                            CEP          , CEL          , IGRBRIC ,
@@ -3935,15 +3935,15 @@ C=======================================================================
 C=======================================================================
 C SPECIFIC ROUTINES INT20
 C=======================================================================
-      !||====================================================================
-      !||    prepare_split_i20   ../starter/source/restart/ddsplit/inter_tools.F
-      !||--- called by ------------------------------------------------------
-      !||    split_interfaces    ../starter/source/restart/ddsplit/split_interfaces.F
-      !||--- calls      -----------------------------------------------------
-      !||    nlocal              ../starter/source/spmd/node/ddtools.F
-      !||--- uses       -----------------------------------------------------
-      !||    front_mod           ../starter/share/modules1/front_mod.F
-      !||====================================================================
+!||====================================================================
+!||    prepare_split_i20   ../starter/source/restart/ddsplit/inter_tools.F
+!||--- called by ------------------------------------------------------
+!||    split_interfaces    ../starter/source/restart/ddsplit/split_interfaces.F
+!||--- calls      -----------------------------------------------------
+!||    nlocal              ../starter/source/spmd/node/ddtools.F
+!||--- uses       -----------------------------------------------------
+!||    front_mod           ../starter/share/modules1/front_mod.F
+!||====================================================================
       SUBROUTINE PREPARE_SPLIT_I20(
      .              PROC        , INTBUF_TAB, IPARI    ,
      .              TAG_NODE_2RY, TAG_SEGM  , TAG_NODE_MSR,
@@ -4249,11 +4249,11 @@ C TAGG(I) = K => noeud I vers numero local de noeud d interface sur le proc
 
       RETURN
       END
-      !||====================================================================
-      !||    split_seg_rval_i20   ../starter/source/restart/ddsplit/inter_tools.F
-      !||--- calls      -----------------------------------------------------
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    split_seg_rval_i20   ../starter/source/restart/ddsplit/inter_tools.F
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||====================================================================
       SUBROUTINE SPLIT_SEG_RVAL_I20(TAB,DIM1,DIM2,TAG_SEG)
 C-----------------------------------------------
 C   M o d u l e s
@@ -4289,13 +4289,13 @@ C ----------------------------------------
 
       RETURN
       END
-      !||====================================================================
-      !||    split_seg_ival_i20   ../starter/source/restart/ddsplit/inter_tools.F
-      !||--- called by ------------------------------------------------------
-      !||    split_interfaces     ../starter/source/restart/ddsplit/split_interfaces.F
-      !||--- calls      -----------------------------------------------------
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    split_seg_ival_i20   ../starter/source/restart/ddsplit/inter_tools.F
+!||--- called by ------------------------------------------------------
+!||    split_interfaces     ../starter/source/restart/ddsplit/split_interfaces.F
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||====================================================================
       SUBROUTINE SPLIT_SEG_IVAL_I20(TAB,TAB_NLG,DIM1,DIM2,TAG,TAG_NLG)
 C-----------------------------------------------
 C   M o d u l e s
@@ -4329,13 +4329,13 @@ C ----------------------------------------
 
       RETURN
       END
-      !||====================================================================
-      !||    split_seg_ival_i20_2   ../starter/source/restart/ddsplit/inter_tools.F
-      !||--- called by ------------------------------------------------------
-      !||    split_interfaces       ../starter/source/restart/ddsplit/split_interfaces.F
-      !||--- calls      -----------------------------------------------------
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    split_seg_ival_i20_2   ../starter/source/restart/ddsplit/inter_tools.F
+!||--- called by ------------------------------------------------------
+!||    split_interfaces       ../starter/source/restart/ddsplit/split_interfaces.F
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||====================================================================
       SUBROUTINE SPLIT_SEG_IVAL_I20_2(TAG_SEG,DIM1,TAG_NLG)
 c specific inter 20 + redirection local to global
 C-----------------------------------------------
@@ -4367,12 +4367,12 @@ C ----------------------------------------
 
       RETURN
       END
-      !||====================================================================
-      !||    prepare_split_cand_i20_edge   ../starter/source/restart/ddsplit/inter_tools.F
-      !||--- called by ------------------------------------------------------
-      !||    split_interfaces              ../starter/source/restart/ddsplit/split_interfaces.F
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    prepare_split_cand_i20_edge   ../starter/source/restart/ddsplit/inter_tools.F
+!||--- called by ------------------------------------------------------
+!||    split_interfaces              ../starter/source/restart/ddsplit/split_interfaces.F
+!||--- uses       -----------------------------------------------------
+!||====================================================================
       SUBROUTINE PREPARE_SPLIT_CAND_I20_EDGE(INTBUF_TAB, TAG_NLINS2, II_STOK, TAG_II)
 C-----------------------------------------------
 C   M o d u l e s
@@ -4407,17 +4407,17 @@ C ----------------------------------------
 
       RETURN
       END
-      !||====================================================================
-      !||    split_cand_i20     ../starter/source/restart/ddsplit/inter_tools.F
-      !||--- called by ------------------------------------------------------
-      !||    split_interfaces   ../starter/source/restart/ddsplit/split_interfaces.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg             ../starter/source/output/message/message.F
-      !||    nlocal             ../starter/source/spmd/node/ddtools.F
-      !||    plist_ifront       ../starter/source/spmd/node/ddtools.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod        ../starter/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    split_cand_i20     ../starter/source/restart/ddsplit/inter_tools.F
+!||--- called by ------------------------------------------------------
+!||    split_interfaces   ../starter/source/restart/ddsplit/split_interfaces.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg             ../starter/source/output/message/message.F
+!||    nlocal             ../starter/source/spmd/node/ddtools.F
+!||    plist_ifront       ../starter/source/spmd/node/ddtools.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod        ../starter/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE SPLIT_CAND_I20(PROC     , INTBUF_TAB, NSN    , NSN_L       ,
      .                         TAG_SEGM2 , II_STOK   , MULTIMP, NCONT       ,
      .                         NOINT     , INACTI    , TAG_SCRATCH ,
@@ -4632,15 +4632,15 @@ c                IF(TAG(N)==0) THEN
 
       RETURN
       END
-      !||====================================================================
-      !||    split_cand_i20_edge   ../starter/source/restart/ddsplit/inter_tools.F
-      !||--- called by ------------------------------------------------------
-      !||    split_interfaces      ../starter/source/restart/ddsplit/split_interfaces.F
-      !||--- calls      -----------------------------------------------------
-      !||    nlocal                ../starter/source/spmd/node/ddtools.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod           ../starter/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    split_cand_i20_edge   ../starter/source/restart/ddsplit/inter_tools.F
+!||--- called by ------------------------------------------------------
+!||    split_interfaces      ../starter/source/restart/ddsplit/split_interfaces.F
+!||--- calls      -----------------------------------------------------
+!||    nlocal                ../starter/source/spmd/node/ddtools.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod           ../starter/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE SPLIT_CAND_I20_EDGE(PROC      , INTBUF_TAB, NLINS  , NLINS_L     ,
      .                               TAG_NLINS2, II_STOKE  , MULTIMP, NCONTE      ,
      .                               NOINT     , INACTI    , TAG_SCRATCH ,
@@ -4839,16 +4839,16 @@ C=======================================================================
 C=======================================================================
 C SPECIFIC ROUTINES INT 21
 C=======================================================================
-      !||====================================================================
-      !||    prepare_split_i21   ../starter/source/restart/ddsplit/inter_tools.F
-      !||--- called by ------------------------------------------------------
-      !||    split_interfaces    ../starter/source/restart/ddsplit/split_interfaces.F
-      !||--- calls      -----------------------------------------------------
-      !||    nlocal              ../starter/source/spmd/node/ddtools.F
-      !||    plist_ifront        ../starter/source/spmd/node/ddtools.F
-      !||--- uses       -----------------------------------------------------
-      !||    front_mod           ../starter/share/modules1/front_mod.F
-      !||====================================================================
+!||====================================================================
+!||    prepare_split_i21   ../starter/source/restart/ddsplit/inter_tools.F
+!||--- called by ------------------------------------------------------
+!||    split_interfaces    ../starter/source/restart/ddsplit/split_interfaces.F
+!||--- calls      -----------------------------------------------------
+!||    nlocal              ../starter/source/spmd/node/ddtools.F
+!||    plist_ifront        ../starter/source/spmd/node/ddtools.F
+!||--- uses       -----------------------------------------------------
+!||    front_mod           ../starter/share/modules1/front_mod.F
+!||====================================================================
       SUBROUTINE PREPARE_SPLIT_I21(PROC        , INTBUF_TAB  , IPARI       ,
      .                             TAG_NODE_2RY, TAG_SEGM    , TAG_NODE_2RY2,
      .                             TAG_SEGS    , TAG_NODE_MSR,
@@ -4992,13 +4992,13 @@ C ----------------------------------------
 
       RETURN
       END
-      !||====================================================================
-      !||    split_cand_ival_i21   ../starter/source/restart/ddsplit/inter_tools.F
-      !||--- called by ------------------------------------------------------
-      !||    split_interfaces      ../starter/source/restart/ddsplit/split_interfaces.F
-      !||--- calls      -----------------------------------------------------
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    split_cand_ival_i21   ../starter/source/restart/ddsplit/inter_tools.F
+!||--- called by ------------------------------------------------------
+!||    split_interfaces      ../starter/source/restart/ddsplit/split_interfaces.F
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||====================================================================
       SUBROUTINE SPLIT_CAND_IVAL_I21(TAB    , II_STOK_L, TAG_II,
      .                               DIM1, DIM2 )
 C introduce a second dimension
@@ -5036,13 +5036,13 @@ C ----------------------------------------
 
       RETURN
       END
-      !||====================================================================
-      !||    split_2ry_cand_ival_i21   ../starter/source/restart/ddsplit/inter_tools.F
-      !||--- called by ------------------------------------------------------
-      !||    split_interfaces          ../starter/source/restart/ddsplit/split_interfaces.F
-      !||--- calls      -----------------------------------------------------
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    split_2ry_cand_ival_i21   ../starter/source/restart/ddsplit/inter_tools.F
+!||--- called by ------------------------------------------------------
+!||    split_interfaces          ../starter/source/restart/ddsplit/split_interfaces.F
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||====================================================================
       SUBROUTINE SPLIT_2RY_CAND_IVAL_I21(TAB    , II_STOK_L, TAG_II,TAG_NODE_2RY2,
      .                               DIM1 )
 C introduce a second dimension
@@ -5079,14 +5079,14 @@ C ----------------------------------------
 
       RETURN
       END
-      !||====================================================================
-      !||    prepare_split_cand_i21   ../starter/source/restart/ddsplit/inter_tools.F
-      !||--- called by ------------------------------------------------------
-      !||    split_interfaces         ../starter/source/restart/ddsplit/split_interfaces.F
-      !||--- calls      -----------------------------------------------------
-      !||    nlocal                   ../starter/source/spmd/node/ddtools.F
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    prepare_split_cand_i21   ../starter/source/restart/ddsplit/inter_tools.F
+!||--- called by ------------------------------------------------------
+!||    split_interfaces         ../starter/source/restart/ddsplit/split_interfaces.F
+!||--- calls      -----------------------------------------------------
+!||    nlocal                   ../starter/source/spmd/node/ddtools.F
+!||--- uses       -----------------------------------------------------
+!||====================================================================
       SUBROUTINE PREPARE_SPLIT_CAND_I21(INTBUF_TAB, TAG_NODE_2RY2, II_STOK, TAG_II,C_II,PROC)
 C-----------------------------------------------
 C   M o d u l e s
@@ -5136,16 +5136,16 @@ C=======================================================================
 C=======================================================================
 C SPECIFIC ROUTINES INT 24
 C=======================================================================
-      !||====================================================================
-      !||    prepare_split_i24         ../starter/source/restart/ddsplit/inter_tools.F
-      !||--- called by ------------------------------------------------------
-      !||    split_interfaces          ../starter/source/restart/ddsplit/split_interfaces.F
-      !||--- calls      -----------------------------------------------------
-      !||    nlocal                    ../starter/source/spmd/node/ddtools.F
-      !||    secnd_surface_on_domain   ../starter/source/interfaces/inter3d1/i24setnodes.F
-      !||--- uses       -----------------------------------------------------
-      !||    front_mod                 ../starter/share/modules1/front_mod.F
-      !||====================================================================
+!||====================================================================
+!||    prepare_split_i24         ../starter/source/restart/ddsplit/inter_tools.F
+!||--- called by ------------------------------------------------------
+!||    split_interfaces          ../starter/source/restart/ddsplit/split_interfaces.F
+!||--- calls      -----------------------------------------------------
+!||    nlocal                    ../starter/source/spmd/node/ddtools.F
+!||    secnd_surface_on_domain   ../starter/source/interfaces/inter3d1/i24setnodes.F
+!||--- uses       -----------------------------------------------------
+!||    front_mod                 ../starter/share/modules1/front_mod.F
+!||====================================================================
       SUBROUTINE PREPARE_SPLIT_I24(PROC     , INTBUF_TAB  , IPARI       ,
      .                            INTERCEP , TAG_NODE_2RY, TAG_SEGM    ,
      .                            TAG_SEGM2, TAG_NM      , TAG_NODE_MSR,
@@ -5362,13 +5362,13 @@ c          ENDIF
  
       RETURN
       END
-      !||====================================================================
-      !||    split_node_ival_i24   ../starter/source/restart/ddsplit/inter_tools.F
-      !||--- called by ------------------------------------------------------
-      !||    split_interfaces      ../starter/source/restart/ddsplit/split_interfaces.F
-      !||--- calls      -----------------------------------------------------
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    split_node_ival_i24   ../starter/source/restart/ddsplit/inter_tools.F
+!||--- called by ------------------------------------------------------
+!||    split_interfaces      ../starter/source/restart/ddsplit/split_interfaces.F
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||====================================================================
       SUBROUTINE SPLIT_NODE_IVAL_I24(TAB,DIM1,TAG,TAG2)
 c
 c split node array with global value specific type24 & type25
@@ -5411,13 +5411,13 @@ C ----------------------------------------
 
       RETURN
       END
-      !||====================================================================
-      !||    split_seg_nodloc_i24   ../starter/source/restart/ddsplit/inter_tools.F
-      !||--- called by ------------------------------------------------------
-      !||    split_interfaces       ../starter/source/restart/ddsplit/split_interfaces.F
-      !||--- calls      -----------------------------------------------------
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    split_seg_nodloc_i24   ../starter/source/restart/ddsplit/inter_tools.F
+!||--- called by ------------------------------------------------------
+!||    split_interfaces       ../starter/source/restart/ddsplit/split_interfaces.F
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||====================================================================
       SUBROUTINE SPLIT_SEG_NODLOC_I24(TAB,DIM1,DIM2,TAG_SEG,NODLOCAL)
 C-----------------------------------------------
 C   M o d u l e s
@@ -5457,13 +5457,13 @@ C ----------------------------------------
 
       RETURN
       END
-      !||====================================================================
-      !||    split_segedge_nodloc_i24   ../starter/source/restart/ddsplit/inter_tools.F
-      !||--- called by ------------------------------------------------------
-      !||    split_interfaces           ../starter/source/restart/ddsplit/split_interfaces.F
-      !||--- calls      -----------------------------------------------------
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    split_segedge_nodloc_i24   ../starter/source/restart/ddsplit/inter_tools.F
+!||--- called by ------------------------------------------------------
+!||    split_interfaces           ../starter/source/restart/ddsplit/split_interfaces.F
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||====================================================================
       SUBROUTINE SPLIT_SEGEDGE_NODLOC_I24(TAB,DIM1,TAG_SEG,NODLOCAL,NI)
 C-----------------------------------------------
 C   M o d u l e s
@@ -5505,17 +5505,17 @@ C ----------------------------------------
 
       RETURN
       END
-      !||====================================================================
-      !||    split_cand_i24     ../starter/source/restart/ddsplit/inter_tools.F
-      !||--- called by ------------------------------------------------------
-      !||    split_interfaces   ../starter/source/restart/ddsplit/split_interfaces.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg             ../starter/source/output/message/message.F
-      !||    plist_ifront       ../starter/source/spmd/node/ddtools.F
-      !||--- uses       -----------------------------------------------------
-      !||    front_mod          ../starter/share/modules1/front_mod.F
-      !||    message_mod        ../starter/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    split_cand_i24     ../starter/source/restart/ddsplit/inter_tools.F
+!||--- called by ------------------------------------------------------
+!||    split_interfaces   ../starter/source/restart/ddsplit/split_interfaces.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg             ../starter/source/output/message/message.F
+!||    plist_ifront       ../starter/source/spmd/node/ddtools.F
+!||--- uses       -----------------------------------------------------
+!||    front_mod          ../starter/share/modules1/front_mod.F
+!||    message_mod        ../starter/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE SPLIT_CAND_I24(PROC    , INTBUF_TAB, NSN    , NSN_L        ,
      .                         TAG_SEGM2, II_STOK   , MULTIMP, NCONT        ,
      .                         NOINT    , INACTI    , TAG_SCRATCH ,II_STOK_L,
@@ -5782,12 +5782,12 @@ c                IF(TAG(N)==0) THEN
       RETURN
       END
 C
-      !||====================================================================
-      !||    split_seg_edge     ../starter/source/restart/ddsplit/inter_tools.F
-      !||--- called by ------------------------------------------------------
-      !||    split_interfaces   ../starter/source/restart/ddsplit/split_interfaces.F
-      !||--- calls      -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    split_seg_edge     ../starter/source/restart/ddsplit/inter_tools.F
+!||--- called by ------------------------------------------------------
+!||    split_interfaces   ../starter/source/restart/ddsplit/split_interfaces.F
+!||--- calls      -----------------------------------------------------
+!||====================================================================
       SUBROUTINE SPLIT_SEG_EDGE(NSNE_L,IS2SE,TAG_NSNE,TAG_SEG2,NI)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -5828,13 +5828,13 @@ C=======================================================================
 C=======================================================================
 C SPECIFIC ROUTINES INT 25
 C=======================================================================
-      !||====================================================================
-      !||    split_node_ival_i25   ../starter/source/restart/ddsplit/inter_tools.F
-      !||--- called by ------------------------------------------------------
-      !||    split_interfaces      ../starter/source/restart/ddsplit/split_interfaces.F
-      !||--- calls      -----------------------------------------------------
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    split_node_ival_i25   ../starter/source/restart/ddsplit/inter_tools.F
+!||--- called by ------------------------------------------------------
+!||    split_interfaces      ../starter/source/restart/ddsplit/split_interfaces.F
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||====================================================================
       SUBROUTINE SPLIT_NODE_IVAL_I25(TAB,DIMO,DIMN,TAG,TAG2)
 c
 c split node array with global value specific type24 & type25
@@ -5887,15 +5887,15 @@ C ----------------------------------------
 
       RETURN
       END
-      !||====================================================================
-      !||    prepare_split_i25   ../starter/source/restart/ddsplit/inter_tools.F
-      !||--- called by ------------------------------------------------------
-      !||    split_interfaces    ../starter/source/restart/ddsplit/split_interfaces.F
-      !||--- calls      -----------------------------------------------------
-      !||    nlocal              ../starter/source/spmd/node/ddtools.F
-      !||--- uses       -----------------------------------------------------
-      !||    front_mod           ../starter/share/modules1/front_mod.F
-      !||====================================================================
+!||====================================================================
+!||    prepare_split_i25   ../starter/source/restart/ddsplit/inter_tools.F
+!||--- called by ------------------------------------------------------
+!||    split_interfaces    ../starter/source/restart/ddsplit/split_interfaces.F
+!||--- calls      -----------------------------------------------------
+!||    nlocal              ../starter/source/spmd/node/ddtools.F
+!||--- uses       -----------------------------------------------------
+!||    front_mod           ../starter/share/modules1/front_mod.F
+!||====================================================================
       SUBROUTINE PREPARE_SPLIT_I25(PROC     , INTBUF_TAB   , IPARI          ,
      .                            INTERCEP  , TAG_NODE_2RY , TAG_SEGM       ,
      .                            TAG_SEGM2 , TAG_NM       , TAG_NODE_MSR   ,
@@ -6081,13 +6081,13 @@ C
 C
       RETURN
       END
-      !||====================================================================
-      !||    split_ledge_i25    ../starter/source/restart/ddsplit/inter_tools.F
-      !||--- called by ------------------------------------------------------
-      !||    split_interfaces   ../starter/source/restart/ddsplit/split_interfaces.F
-      !||--- calls      -----------------------------------------------------
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    split_ledge_i25    ../starter/source/restart/ddsplit/inter_tools.F
+!||--- called by ------------------------------------------------------
+!||    split_interfaces   ../starter/source/restart/ddsplit/split_interfaces.F
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||====================================================================
       SUBROUTINE SPLIT_LEDGE_I25(NEDGE,
      .                          NEDGE_L,
      .                          IRECTM,
@@ -6538,17 +6538,17 @@ C      WRITE(6,*) "NB_BOUNDARY_EDGES_REMOTE=",NB_BOUNDARY_EDGES_REMOTE
       RETURN
       END
 
-      !||====================================================================
-      !||    split_cand_i25     ../starter/source/restart/ddsplit/inter_tools.F
-      !||--- called by ------------------------------------------------------
-      !||    split_interfaces   ../starter/source/restart/ddsplit/split_interfaces.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg             ../starter/source/output/message/message.F
-      !||    nlocal             ../starter/source/spmd/node/ddtools.F
-      !||    plist_ifront       ../starter/source/spmd/node/ddtools.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod        ../starter/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    split_cand_i25     ../starter/source/restart/ddsplit/inter_tools.F
+!||--- called by ------------------------------------------------------
+!||    split_interfaces   ../starter/source/restart/ddsplit/split_interfaces.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg             ../starter/source/output/message/message.F
+!||    nlocal             ../starter/source/spmd/node/ddtools.F
+!||    plist_ifront       ../starter/source/spmd/node/ddtools.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod        ../starter/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE SPLIT_CAND_I25(PROC     , INTBUF_TAB, NSN    , NSN_L       ,
      .                         TAG_SEGM2, II_STOK   , MULTIMP, NCONT        ,
      .                         NOINT    , INACTI    , TAG_SCRATCH ,II_STOK_L,
@@ -6762,14 +6762,14 @@ c                IF(TAG(N)==0) THEN
       RETURN
       END
 
-      !||====================================================================
-      !||    split_adskyn_25    ../starter/source/restart/ddsplit/inter_tools.F
-      !||--- called by ------------------------------------------------------
-      !||    split_interfaces   ../starter/source/restart/ddsplit/split_interfaces.F
-      !||--- calls      -----------------------------------------------------
-      !||--- uses       -----------------------------------------------------
-      !||    front_mod          ../starter/share/modules1/front_mod.F
-      !||====================================================================
+!||====================================================================
+!||    split_adskyn_25    ../starter/source/restart/ddsplit/inter_tools.F
+!||--- called by ------------------------------------------------------
+!||    split_interfaces   ../starter/source/restart/ddsplit/split_interfaces.F
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||    front_mod          ../starter/share/modules1/front_mod.F
+!||====================================================================
       SUBROUTINE SPLIT_ADSKYN_25(ADSKYN,IADNOR,NADMSR,ADMSR,NADMSR_L,
      .                           NRTM_L,TAG_SEGM,TAG_SM,INTERCEP)
 c
@@ -6826,13 +6826,13 @@ C ----------------------------------------
 
       RETURN
       END
-      !||====================================================================
-      !||    split_lbound_i25   ../starter/source/restart/ddsplit/inter_tools.F
-      !||--- called by ------------------------------------------------------
-      !||    split_interfaces   ../starter/source/restart/ddsplit/split_interfaces.F
-      !||--- calls      -----------------------------------------------------
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    split_lbound_i25   ../starter/source/restart/ddsplit/inter_tools.F
+!||--- called by ------------------------------------------------------
+!||    split_interfaces   ../starter/source/restart/ddsplit/split_interfaces.F
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||====================================================================
       SUBROUTINE SPLIT_LBOUND_I25(NADMSR,NADMSR_L,LBOUND,TAG_SM)
 c
 C-----------------------------------------------
@@ -6878,13 +6878,13 @@ C ----------------------------------------
 C=======================================================================
 C END SPECIFIC ROUTINES INT25
 C=======================================================================
-      !||====================================================================
-      !||    split_isegpt_ival   ../starter/source/restart/ddsplit/inter_tools.F
-      !||--- called by ------------------------------------------------------
-      !||    split_interfaces    ../starter/source/restart/ddsplit/split_interfaces.F
-      !||--- calls      -----------------------------------------------------
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    split_isegpt_ival   ../starter/source/restart/ddsplit/inter_tools.F
+!||--- called by ------------------------------------------------------
+!||    split_interfaces    ../starter/source/restart/ddsplit/split_interfaces.F
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||====================================================================
       SUBROUTINE SPLIT_ISEGPT_IVAL(ISEGPT,NSN_L,DIM2,TAG_NODE_2RY,NI,TAG_2RY_INV,PROC)
 c
 c split & write node array (type INTEGER) with global value
@@ -6938,16 +6938,16 @@ C ----------------------------------------
 
       RETURN
       END
-      !||====================================================================
-      !||    split_remnode_i24   ../starter/source/restart/ddsplit/inter_tools.F
-      !||--- called by ------------------------------------------------------
-      !||    split_interfaces    ../starter/source/restart/ddsplit/split_interfaces.F
-      !||--- calls      -----------------------------------------------------
-      !||    nlocal              ../starter/source/spmd/node/ddtools.F
-      !||--- uses       -----------------------------------------------------
-      !||    front_mod           ../starter/share/modules1/front_mod.F
-      !||    message_mod         ../starter/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    split_remnode_i24   ../starter/source/restart/ddsplit/inter_tools.F
+!||--- called by ------------------------------------------------------
+!||    split_interfaces    ../starter/source/restart/ddsplit/split_interfaces.F
+!||--- calls      -----------------------------------------------------
+!||    nlocal              ../starter/source/spmd/node/ddtools.F
+!||--- uses       -----------------------------------------------------
+!||    front_mod           ../starter/share/modules1/front_mod.F
+!||    message_mod         ../starter/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE SPLIT_REMNODE_I24(PROC     , INTBUF_TAB, NRTM    , NRTM_L,
      .                            TAG_SEGM2, NREMNODE  , NODLOCAL, ITAB   ,
      .                             IS2ID   ,INTERCEP2  ,NSNE ,NODLOCAL24)
@@ -7084,14 +7084,14 @@ c      print *,'NREMNODE,SIZ1,SIZ2=',NREMNODE,SIZ1,SIZ2
       RETURN
       END
 
-      !||====================================================================
-      !||    split_remnode_i11   ../starter/source/restart/ddsplit/inter_tools.F
-      !||--- called by ------------------------------------------------------
-      !||    split_interfaces    ../starter/source/restart/ddsplit/split_interfaces.F
-      !||--- calls      -----------------------------------------------------
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod         ../starter/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    split_remnode_i11   ../starter/source/restart/ddsplit/inter_tools.F
+!||--- called by ------------------------------------------------------
+!||    split_interfaces    ../starter/source/restart/ddsplit/split_interfaces.F
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||    message_mod         ../starter/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE SPLIT_REMNODE_I11(PROC     , INTBUF_TAB, NRTM    , NRTM_L,
      .                            TAG_SEGM2, NODLOCAL, ITAB  ,NUMNOD_L, TAG_SEGS2,
      .                            NREMNODE_L)
@@ -7197,14 +7197,14 @@ C
       RETURN
       END
 
-      !||====================================================================
-      !||    split_remnode_i25_edge   ../starter/source/restart/ddsplit/inter_tools.F
-      !||--- called by ------------------------------------------------------
-      !||    split_interfaces         ../starter/source/restart/ddsplit/split_interfaces.F
-      !||--- calls      -----------------------------------------------------
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod              ../starter/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    split_remnode_i25_edge   ../starter/source/restart/ddsplit/inter_tools.F
+!||--- called by ------------------------------------------------------
+!||    split_interfaces         ../starter/source/restart/ddsplit/split_interfaces.F
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||    message_mod              ../starter/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE SPLIT_REMNODE_I25_EDGE(PROC     , INTBUF_TAB, NEDGE    , NEDGE_L,
      .                                 TAG_EDGE  , TAG_EDGE2 , SEGLOC   ,ITAB    ,
      .                                 NUMNOD_L  ,  NREMNODE_EDG_L)
@@ -7343,14 +7343,14 @@ C
       RETURN
       END
 
-      !||====================================================================
-      !||    split_remnode_i25_e2s   ../starter/source/restart/ddsplit/inter_tools.F
-      !||--- called by ------------------------------------------------------
-      !||    split_interfaces        ../starter/source/restart/ddsplit/split_interfaces.F
-      !||--- calls      -----------------------------------------------------
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod             ../starter/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    split_remnode_i25_e2s   ../starter/source/restart/ddsplit/inter_tools.F
+!||--- called by ------------------------------------------------------
+!||    split_interfaces        ../starter/source/restart/ddsplit/split_interfaces.F
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||    message_mod             ../starter/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE SPLIT_REMNODE_I25_E2S(PROC     , INTBUF_TAB, NRTM    , NRTM_L,
      .                                 TAG_EDGE  , TAG_EDGE2 , SEGLOC   ,ITAB    ,
      .                                 NUMNOD_L  ,  NREMNODE_E2S_L)

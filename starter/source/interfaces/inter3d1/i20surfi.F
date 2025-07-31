@@ -20,18 +20,18 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    i20surfi       ../starter/source/interfaces/inter3d1/i20surfi.F
-      !||--- called by ------------------------------------------------------
-      !||    lecins         ../starter/source/interfaces/interf1/lecins.F
-      !||    lecint         ../starter/source/interfaces/interf1/lecint.F
-      !||--- calls      -----------------------------------------------------
-      !||    bitset         ../starter/source/interfaces/inter3d1/bitget.F
-      !||    i20bord        ../starter/source/interfaces/inter3d1/i20surfi.F
-      !||    i20edge1       ../starter/source/interfaces/inter3d1/i20surfi.F
-      !||--- uses       -----------------------------------------------------
-      !||    format_mod     ../starter/share/modules1/format_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    i20surfi       ../starter/source/interfaces/inter3d1/i20surfi.F
+!||--- called by ------------------------------------------------------
+!||    lecins         ../starter/source/interfaces/interf1/lecins.F
+!||    lecint         ../starter/source/interfaces/interf1/lecint.F
+!||--- calls      -----------------------------------------------------
+!||    bitset         ../starter/source/interfaces/inter3d1/bitget.F
+!||    i20bord        ../starter/source/interfaces/inter3d1/i20surfi.F
+!||    i20edge1       ../starter/source/interfaces/inter3d1/i20surfi.F
+!||--- uses       -----------------------------------------------------
+!||    format_mod     ../starter/share/modules1/format_mod.F90
+!||====================================================================
       SUBROUTINE I20SURFI(IALLO   ,IPARI   ,IGRNOD  ,IGRSURF ,
      2                    IGRSLIN ,IRECT   ,FRIGAP  ,
      3                    NSV     ,MSR     ,IXLINS  ,IXLINM  ,
@@ -314,17 +314,17 @@ c-----------------------------------------------------------------
 
 
 
-      !||====================================================================
-      !||    i20edge1      ../starter/source/interfaces/inter3d1/i20surfi.F
-      !||--- called by ------------------------------------------------------
-      !||    i20surfi      ../starter/source/interfaces/inter3d1/i20surfi.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg        ../starter/source/output/message/message.F
-      !||    bitset        ../starter/source/interfaces/inter3d1/bitget.F
-      !||--- uses       -----------------------------------------------------
-      !||    format_mod    ../starter/share/modules1/format_mod.F90
-      !||    message_mod   ../starter/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    i20edge1      ../starter/source/interfaces/inter3d1/i20surfi.F
+!||--- called by ------------------------------------------------------
+!||    i20surfi      ../starter/source/interfaces/inter3d1/i20surfi.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg        ../starter/source/output/message/message.F
+!||    bitset        ../starter/source/interfaces/inter3d1/bitget.F
+!||--- uses       -----------------------------------------------------
+!||    format_mod    ../starter/share/modules1/format_mod.F90
+!||    message_mod   ../starter/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE I20EDGE1(IALLO     ,NSEG0     ,NLIN0   ,NLIN    ,NACTIF  ,
      2                    IXLINE    ,MSVE      ,NSME    ,IEDGE   ,
      3                    SURF_NODES,SLIN_NODES,ITAB    ,
@@ -636,16 +636,16 @@ C-----------
       END
 
 
-      !||====================================================================
-      !||    i20bord       ../starter/source/interfaces/inter3d1/i20surfi.F
-      !||--- called by ------------------------------------------------------
-      !||    i20surfi      ../starter/source/interfaces/inter3d1/i20surfi.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg        ../starter/source/output/message/message.F
-      !||    bitset        ../starter/source/interfaces/inter3d1/bitget.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod   ../starter/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    i20bord       ../starter/source/interfaces/inter3d1/i20surfi.F
+!||--- called by ------------------------------------------------------
+!||    i20surfi      ../starter/source/interfaces/inter3d1/i20surfi.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg        ../starter/source/output/message/message.F
+!||    bitset        ../starter/source/interfaces/inter3d1/bitget.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod   ../starter/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE I20BORD(NSEG  ,SURF_NODES ,TAGB,ISU)
 C-----------------------------------------------
 C   M o d u l e s

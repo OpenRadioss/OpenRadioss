@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    set_operator   ../starter/source/model/sets/set_operator.F
-      !||--- called by ------------------------------------------------------
-      !||    hm_set         ../starter/source/model/sets/hm_set.F
-      !||--- uses       -----------------------------------------------------
-      !||    set_mod        ../starter/share/modules1/set_mod.F
-      !||====================================================================
+!||====================================================================
+!||    set_operator   ../starter/source/model/sets/set_operator.F
+!||--- called by ------------------------------------------------------
+!||    hm_set         ../starter/source/model/sets/hm_set.F
+!||--- uses       -----------------------------------------------------
+!||    set_mod        ../starter/share/modules1/set_mod.F
+!||====================================================================
       SUBROUTINE SET_OPERATOR( OPT_D, OPT_O,OPT_G,
      *                         OPT_B, OPT_A,OPT_E,
      *                         OPT_I, OPT_C,

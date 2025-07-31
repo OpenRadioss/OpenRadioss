@@ -21,34 +21,34 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 
-      !||====================================================================
-      !||    spmd_stat_pgather     ../engine/source/mpi/output/spmd_stat.F
-      !||--- called by ------------------------------------------------------
-      !||    dynain_c_strag        ../engine/source/output/dynain/dynain_c_strag.F
-      !||    dynain_c_strsg        ../engine/source/output/dynain/dynain_c_strsg.F
-      !||    stat_c_auxf           ../engine/source/output/sta/stat_c_auxf.F
-      !||    stat_c_epspf          ../engine/source/output/sta/stat_c_epspf.F
-      !||    stat_c_fail           ../engine/source/output/sta/stat_c_fail.F
-      !||    stat_c_orth_loc       ../engine/source/output/sta/stat_c_orth_loc.F
-      !||    stat_c_straf          ../engine/source/output/sta/stat_c_straf.F
-      !||    stat_c_strafg         ../engine/source/output/sta/stat_c_strafg.F
-      !||    stat_c_strsf          ../engine/source/output/sta/stat_c_strsf.F
-      !||    stat_c_strsfg         ../engine/source/output/sta/stat_c_strsfg.F
-      !||    stat_p_aux            ../engine/source/output/sta/stat_p_aux.F
-      !||    stat_p_full           ../engine/source/output/sta/stat_p_full.F
-      !||    stat_r_full           ../engine/source/output/sta/stat_r_full.F
-      !||    stat_s_auxf           ../engine/source/output/sta/stat_s_auxf.F
-      !||    stat_s_eref           ../engine/source/output/sta/stat_s_eref.F
-      !||    stat_s_fail           ../engine/source/output/sta/stat_s_fail.F
-      !||    stat_s_ortho          ../engine/source/output/sta/stat_s_ortho.F
-      !||    stat_s_straf          ../engine/source/output/sta/stat_s_straf.F
-      !||    stat_s_strsf          ../engine/source/output/sta/stat_s_strsf.F
-      !||    stat_sphcel_full      ../engine/source/output/sta/stat_sphcel_full.F90
-      !||    stat_t_full           ../engine/source/output/sta/stat_t_full.F
-      !||--- calls      -----------------------------------------------------
-      !||--- uses       -----------------------------------------------------
-      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
-      !||====================================================================
+!||====================================================================
+!||    spmd_stat_pgather     ../engine/source/mpi/output/spmd_stat.F
+!||--- called by ------------------------------------------------------
+!||    dynain_c_strag        ../engine/source/output/dynain/dynain_c_strag.F
+!||    dynain_c_strsg        ../engine/source/output/dynain/dynain_c_strsg.F
+!||    stat_c_auxf           ../engine/source/output/sta/stat_c_auxf.F
+!||    stat_c_epspf          ../engine/source/output/sta/stat_c_epspf.F
+!||    stat_c_fail           ../engine/source/output/sta/stat_c_fail.F
+!||    stat_c_orth_loc       ../engine/source/output/sta/stat_c_orth_loc.F
+!||    stat_c_straf          ../engine/source/output/sta/stat_c_straf.F
+!||    stat_c_strafg         ../engine/source/output/sta/stat_c_strafg.F
+!||    stat_c_strsf          ../engine/source/output/sta/stat_c_strsf.F
+!||    stat_c_strsfg         ../engine/source/output/sta/stat_c_strsfg.F
+!||    stat_p_aux            ../engine/source/output/sta/stat_p_aux.F
+!||    stat_p_full           ../engine/source/output/sta/stat_p_full.F
+!||    stat_r_full           ../engine/source/output/sta/stat_r_full.F
+!||    stat_s_auxf           ../engine/source/output/sta/stat_s_auxf.F
+!||    stat_s_eref           ../engine/source/output/sta/stat_s_eref.F
+!||    stat_s_fail           ../engine/source/output/sta/stat_s_fail.F
+!||    stat_s_ortho          ../engine/source/output/sta/stat_s_ortho.F
+!||    stat_s_straf          ../engine/source/output/sta/stat_s_straf.F
+!||    stat_s_strsf          ../engine/source/output/sta/stat_s_strsf.F
+!||    stat_sphcel_full      ../engine/source/output/sta/stat_sphcel_full.F90
+!||    stat_t_full           ../engine/source/output/sta/stat_t_full.F
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
+!||====================================================================
        SUBROUTINE SPMD_STAT_PGATHER(PTV,PTLEN,PTV_P0,PTLEN_P0)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -109,20 +109,20 @@ C         construit les pointeurs globaux de fin de zone
 #endif
        RETURN
        END
-      !||====================================================================
-      !||    spmd_iget_partn_sta   ../engine/source/mpi/output/spmd_stat.F
-      !||--- called by ------------------------------------------------------
-      !||    dynain_shel_spmd      ../engine/source/output/dynain/dynain_shel_spmd.F
-      !||    stat_beam_spmd        ../engine/source/output/sta/stat_beam_spmd.F
-      !||    stat_brick_spmd       ../engine/source/output/sta/stat_brick_spmd.F
-      !||    stat_shel_spmd        ../engine/source/output/sta/stat_shel_spmd.F
-      !||    stat_sphcel_spmd      ../engine/source/output/sta/stat_sphcel_spmd.F90
-      !||    stat_spring_spmd      ../engine/source/output/sta/stat_spring_spmd.F
-      !||    stat_truss_spmd       ../engine/source/output/sta/stat_truss_spmd.F
-      !||--- calls      -----------------------------------------------------
-      !||--- uses       -----------------------------------------------------
-      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
-      !||====================================================================
+!||====================================================================
+!||    spmd_iget_partn_sta   ../engine/source/mpi/output/spmd_stat.F
+!||--- called by ------------------------------------------------------
+!||    dynain_shel_spmd      ../engine/source/output/dynain/dynain_shel_spmd.F
+!||    stat_beam_spmd        ../engine/source/output/sta/stat_beam_spmd.F
+!||    stat_brick_spmd       ../engine/source/output/sta/stat_brick_spmd.F
+!||    stat_shel_spmd        ../engine/source/output/sta/stat_shel_spmd.F
+!||    stat_sphcel_spmd      ../engine/source/output/sta/stat_sphcel_spmd.F90
+!||    stat_spring_spmd      ../engine/source/output/sta/stat_spring_spmd.F
+!||    stat_truss_spmd       ../engine/source/output/sta/stat_truss_spmd.F
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
+!||====================================================================
       SUBROUTINE SPMD_IGET_PARTN_STA(
      .             SIZE,STAT_NUMEL,STAT_LENELG,LENG,NP,
      .             IADG,NPGLOB,STAT_INDX)
@@ -197,16 +197,16 @@ C
       RETURN
       END
 
-      !||====================================================================
-      !||    spmd_dstat_vgath      ../engine/source/mpi/output/spmd_stat.F
-      !||--- called by ------------------------------------------------------
-      !||    dynain_node           ../engine/source/output/dynain/dynain_node.F
-      !||    stat_n_vel            ../engine/source/output/sta/state_n_vel.F
-      !||    stat_node             ../engine/source/output/sta/stat_node.F
-      !||--- calls      -----------------------------------------------------
-      !||--- uses       -----------------------------------------------------
-      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
-      !||====================================================================
+!||====================================================================
+!||    spmd_dstat_vgath      ../engine/source/mpi/output/spmd_stat.F
+!||--- called by ------------------------------------------------------
+!||    dynain_node           ../engine/source/output/dynain/dynain_node.F
+!||    stat_n_vel            ../engine/source/output/sta/state_n_vel.F
+!||    stat_node             ../engine/source/output/sta/stat_node.F
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
+!||====================================================================
        SUBROUTINE SPMD_DSTAT_VGATH(V,NODGLOB,WEIGHT,VGATH,NODTAG,
      .                             NODTAGLOB)
 C-----------------------------------------------
@@ -317,14 +317,14 @@ C   Reception du buffer flottant double des adresses NODGLOB
 #endif
        RETURN
        END
-      !||====================================================================
-      !||    spmd_dstat_gath       ../engine/source/mpi/output/spmd_stat.F
-      !||--- called by ------------------------------------------------------
-      !||    stat_n_temp           ../engine/source/output/sta/stat_n_temp.F
-      !||--- calls      -----------------------------------------------------
-      !||--- uses       -----------------------------------------------------
-      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
-      !||====================================================================
+!||====================================================================
+!||    spmd_dstat_gath       ../engine/source/mpi/output/spmd_stat.F
+!||--- called by ------------------------------------------------------
+!||    stat_n_temp           ../engine/source/output/sta/stat_n_temp.F
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
+!||====================================================================
        SUBROUTINE SPMD_DSTAT_GATH(V,NODGLOB,WEIGHT,VGATH,NODTAG,
      .                             NODTAGLOB)
 C-----------------------------------------------
@@ -431,14 +431,14 @@ C   Reception du buffer flottant double des adresses NODGLOB
        END
 
 
-      !||====================================================================
-      !||    spmd_istat_gath       ../engine/source/mpi/output/spmd_stat.F
-      !||--- called by ------------------------------------------------------
-      !||    stat_n_bcs            ../engine/source/output/sta/stat_n_bcs.F
-      !||--- calls      -----------------------------------------------------
-      !||--- uses       -----------------------------------------------------
-      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
-      !||====================================================================
+!||====================================================================
+!||    spmd_istat_gath       ../engine/source/mpi/output/spmd_stat.F
+!||--- called by ------------------------------------------------------
+!||    stat_n_bcs            ../engine/source/output/sta/stat_n_bcs.F
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
+!||====================================================================
        SUBROUTINE SPMD_ISTAT_GATH(VI,NODGLOB,VIGATH)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

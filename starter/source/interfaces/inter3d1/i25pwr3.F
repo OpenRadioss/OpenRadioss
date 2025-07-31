@@ -20,15 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    i25pwr3                ../starter/source/interfaces/inter3d1/i25pwr3.F
-      !||--- called by ------------------------------------------------------
-      !||    inint3                 ../starter/source/interfaces/inter3d1/inint3.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg                 ../starter/source/output/message/message.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod            ../starter/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    i25pwr3                ../starter/source/interfaces/inter3d1/i25pwr3.F
+!||--- called by ------------------------------------------------------
+!||    inint3                 ../starter/source/interfaces/inter3d1/inint3.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                 ../starter/source/output/message/message.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod            ../starter/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE I25PWR3(ITAB  ,INACTI,CAND_E,CAND_N ,STFN     ,
      1                   X     ,I_STOK,NSV   ,IWPENE ,PENE_OLD,
      2                   NOINT ,NTY   ,MSR   ,IRTLM  ,IRECT    ,
@@ -133,11 +133,11 @@ C            Reset (Same tracking will be done again in Engine)
 C
       RETURN
       END
-      !||====================================================================
-      !||    i25cand   ../starter/source/interfaces/inter3d1/i25pwr3.F
-      !||--- called by ------------------------------------------------------
-      !||    inint3    ../starter/source/interfaces/inter3d1/inint3.F
-      !||====================================================================
+!||====================================================================
+!||    i25cand   ../starter/source/interfaces/inter3d1/i25pwr3.F
+!||--- called by ------------------------------------------------------
+!||    inint3    ../starter/source/interfaces/inter3d1/inint3.F
+!||====================================================================
       SUBROUTINE I25CAND(CAND_E,CAND_N,NSN  ,IRTLM ,II_STOK ,
      *                   NRTM  ,MSEGTYP)
 C

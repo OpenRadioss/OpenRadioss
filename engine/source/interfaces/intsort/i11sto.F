@@ -20,15 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    i11sto_vox    ../engine/source/interfaces/intsort/i11sto.F
-      !||--- called by ------------------------------------------------------
-      !||    i11trivox     ../engine/source/interfaces/intsort/i11trivox.F
-      !||--- calls      -----------------------------------------------------
-      !||    i11pen3_vox   ../engine/source/interfaces/intsort/i11pen3.F
-      !||--- uses       -----------------------------------------------------
-      !||    tri7box       ../engine/share/modules/tri7box.F
-      !||====================================================================
+!||====================================================================
+!||    i11sto_vox    ../engine/source/interfaces/intsort/i11sto.F
+!||--- called by ------------------------------------------------------
+!||    i11trivox     ../engine/source/interfaces/intsort/i11trivox.F
+!||--- calls      -----------------------------------------------------
+!||    i11pen3_vox   ../engine/source/interfaces/intsort/i11pen3.F
+!||--- uses       -----------------------------------------------------
+!||    tri7box       ../engine/share/modules/tri7box.F
+!||====================================================================
       SUBROUTINE I11STO_VOX(
      1      J_STOK,IRECTS,IRECTM,X     ,II_STOK,
      2      CAND_S,CAND_M,NSN4  ,NOINT ,MARGE,
@@ -151,15 +151,15 @@ C-----------------------------------------------
 
 
 C            OLD ROUTINE 
-      !||====================================================================
-      !||    i11sto    ../engine/source/interfaces/intsort/i11sto.F
-      !||--- called by ------------------------------------------------------
-      !||    i11tri    ../engine/source/interfaces/intsort/i11tri.F
-      !||--- calls      -----------------------------------------------------
-      !||    i11pen3   ../engine/source/interfaces/intsort/i11pen3.F
-      !||--- uses       -----------------------------------------------------
-      !||    tri7box   ../engine/share/modules/tri7box.F
-      !||====================================================================
+!||====================================================================
+!||    i11sto    ../engine/source/interfaces/intsort/i11sto.F
+!||--- called by ------------------------------------------------------
+!||    i11tri    ../engine/source/interfaces/intsort/i11tri.F
+!||--- calls      -----------------------------------------------------
+!||    i11pen3   ../engine/source/interfaces/intsort/i11pen3.F
+!||--- uses       -----------------------------------------------------
+!||    tri7box   ../engine/share/modules/tri7box.F
+!||====================================================================
       SUBROUTINE  I11STO(
      1     J_STOK,IRECTS,IRECTM,X     ,II_STOK,
      2     CAND_S,CAND_M,NSN4  ,NOINT ,TZINF ,

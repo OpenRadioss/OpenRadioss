@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    sensor_and       ../engine/source/tools/sensor/sensor_and.F
-      !||--- called by ------------------------------------------------------
-      !||    sensor_logical   ../engine/source/tools/sensor/sensor_logical.F
-      !||--- uses       -----------------------------------------------------
-      !||    sensor_mod       ../common_source/modules/sensor_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    sensor_and       ../engine/source/tools/sensor/sensor_and.F
+!||--- called by ------------------------------------------------------
+!||    sensor_logical   ../engine/source/tools/sensor/sensor_logical.F
+!||--- uses       -----------------------------------------------------
+!||    sensor_mod       ../common_source/modules/sensor_mod.F90
+!||====================================================================
       SUBROUTINE SENSOR_AND(NSENSOR,SENSOR_TAB,SENS)
 C-----------------------------------------------
 C   ROUTINE DESCRIPTION :

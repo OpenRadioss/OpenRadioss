@@ -21,13 +21,13 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
-      !||====================================================================
-      !||    basisf    ../starter/source/elements/solid/solid8p/basisf.F
-      !||--- called by ------------------------------------------------------
-      !||    sderi3b   ../starter/source/elements/solid/solid8p/sderi3b.F
-      !||--- calls      -----------------------------------------------------
-      !||    basis8    ../starter/source/elements/solid/solid8p/basis8.F
-      !||====================================================================
+!||====================================================================
+!||    basisf    ../starter/source/elements/solid/solid8p/basisf.F
+!||--- called by ------------------------------------------------------
+!||    sderi3b   ../starter/source/elements/solid/solid8p/sderi3b.F
+!||--- calls      -----------------------------------------------------
+!||    basis8    ../starter/source/elements/solid/solid8p/basis8.F
+!||====================================================================
       SUBROUTINE BASISF(H,P1,P2,P3,IPT)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

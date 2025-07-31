@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    c3dt3         ../engine/source/elements/sh3n/coque3n/c3dt3.F
-      !||--- called by ------------------------------------------------------
-      !||    c3forc3       ../engine/source/elements/sh3n/coque3n/c3forc3.F
-      !||    c3forc3_crk   ../engine/source/elements/xfem/c3forc3_crk.F
-      !||--- calls      -----------------------------------------------------
-      !||    cssp2a11      ../engine/source/elements/sh3n/coque3n/cssp2a11.F
-      !||====================================================================
+!||====================================================================
+!||    c3dt3         ../engine/source/elements/sh3n/coque3n/c3dt3.F
+!||--- called by ------------------------------------------------------
+!||    c3forc3       ../engine/source/elements/sh3n/coque3n/c3forc3.F
+!||    c3forc3_crk   ../engine/source/elements/xfem/c3forc3_crk.F
+!||--- calls      -----------------------------------------------------
+!||    cssp2a11      ../engine/source/elements/sh3n/coque3n/cssp2a11.F
+!||====================================================================
       SUBROUTINE C3DT3(JFT   ,JLT    ,PM     ,OFF    ,DT2T   ,
      2                 NELTST,ITYPTST,STI    ,STIR   ,OFFG   ,
      3                 SSP   ,VISCMX ,ISMSTR ,NFT    ,IOFC   ,

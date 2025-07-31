@@ -22,14 +22,14 @@
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 ! ----------------------------------------------------------------------------------------------------------------------
 !
-      !||====================================================================
-      !||    mat_table_copy_mod   ../starter/source/materials/tools/mat_table_copy.F90
-      !||--- called by ------------------------------------------------------
-      !||    hm_read_mat128       ../starter/source/materials/mat/mat128/hm_read_mat128.F90
-      !||    hm_read_mat133       ../starter/source/materials/mat/mat133/hm_read_mat133.F90
-      !||    hm_read_mat163       ../starter/source/materials/mat/mat163/hm_read_mat163.F90
-      !||    hm_read_mat87        ../starter/source/materials/mat/mat087/hm_read_mat87.F90
-      !||====================================================================
+!||====================================================================
+!||    mat_table_copy_mod   ../starter/source/materials/tools/mat_table_copy.F90
+!||--- called by ------------------------------------------------------
+!||    hm_read_mat128       ../starter/source/materials/mat/mat128/hm_read_mat128.F90
+!||    hm_read_mat133       ../starter/source/materials/mat/mat133/hm_read_mat133.F90
+!||    hm_read_mat163       ../starter/source/materials/mat/mat163/hm_read_mat163.F90
+!||    hm_read_mat87        ../starter/source/materials/mat/mat087/hm_read_mat87.F90
+!||====================================================================
        module mat_table_copy_mod
        contains
 
@@ -38,17 +38,17 @@
 !! \detail                 with initialized table Ids : mat_param%table(i)%notable
 !! \detail input functions/tables will be copied to local mat_param table storage
 
-      !||====================================================================
-      !||    mat_table_copy     ../starter/source/materials/tools/mat_table_copy.F90
-      !||--- called by ------------------------------------------------------
-      !||    hm_read_mat128     ../starter/source/materials/mat/mat128/hm_read_mat128.F90
-      !||    hm_read_mat133     ../starter/source/materials/mat/mat133/hm_read_mat133.F90
-      !||    hm_read_mat163     ../starter/source/materials/mat/mat163/hm_read_mat163.F90
-      !||    hm_read_mat87      ../starter/source/materials/mat/mat087/hm_read_mat87.F90
-      !||--- calls      -----------------------------------------------------
-      !||    mattab_usr2sys     ../starter/source/materials/tools/mattab_usr2sys.F
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    mat_table_copy     ../starter/source/materials/tools/mat_table_copy.F90
+!||--- called by ------------------------------------------------------
+!||    hm_read_mat128     ../starter/source/materials/mat/mat128/hm_read_mat128.F90
+!||    hm_read_mat133     ../starter/source/materials/mat/mat133/hm_read_mat133.F90
+!||    hm_read_mat163     ../starter/source/materials/mat/mat163/hm_read_mat163.F90
+!||    hm_read_mat87      ../starter/source/materials/mat/mat087/hm_read_mat87.F90
+!||--- calls      -----------------------------------------------------
+!||    mattab_usr2sys     ../starter/source/materials/tools/mattab_usr2sys.F
+!||--- uses       -----------------------------------------------------
+!||====================================================================
        subroutine mat_table_copy(mat_param ,x2vect   ,x3vect   ,x4vect   , &
                                  x1scale   ,x2scale  ,x3scale  ,x4scale  , &
                                  fscale    ,ntable   ,table    ,ierr     )

@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    aflux3                 ../engine/source/ale/ale3d/aflux3.F
-      !||--- called by ------------------------------------------------------
-      !||    aflux0                 ../engine/source/ale/aflux0.F
-      !||--- uses       -----------------------------------------------------
-      !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
-      !||    i22bufbric_mod         ../common_source/modules/interfaces/cut-cell-search_mod.F
-      !||====================================================================
+!||====================================================================
+!||    aflux3                 ../engine/source/ale/ale3d/aflux3.F
+!||--- called by ------------------------------------------------------
+!||    aflux0                 ../engine/source/ale/aflux0.F
+!||--- uses       -----------------------------------------------------
+!||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
+!||    i22bufbric_mod         ../common_source/modules/interfaces/cut-cell-search_mod.F
+!||====================================================================
       SUBROUTINE AFLUX3(PM,IXS,V,W,X,FLUX,FLU1,ALE_CONNECT,NSG, TAG22)
 C-----------------------------------------------
 C   M o d u l e s

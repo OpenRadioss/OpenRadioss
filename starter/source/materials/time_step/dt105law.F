@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    dt105law   ../starter/source/materials/time_step/dt105law.F
-      !||--- called by ------------------------------------------------------
-      !||    dtmain     ../starter/source/materials/time_step/dtmain.F
-      !||--- calls      -----------------------------------------------------
-      !||    dtel       ../starter/source/materials/time_step/dtel.F
-      !||    dtsph      ../starter/source/materials/time_step/dtsph.F
-      !||====================================================================
+!||====================================================================
+!||    dt105law   ../starter/source/materials/time_step/dt105law.F
+!||--- called by ------------------------------------------------------
+!||    dtmain     ../starter/source/materials/time_step/dtmain.F
+!||--- calls      -----------------------------------------------------
+!||    dtel       ../starter/source/materials/time_step/dtel.F
+!||    dtsph      ../starter/source/materials/time_step/dtsph.F
+!||====================================================================
       SUBROUTINE DT105LAW(PM,GEO,PID,MAT, DELTAX, AIRE, VOL, DTX)
 C
 C     CALCUL DES DT ELEMENTAIRES POUR LA LOI 105

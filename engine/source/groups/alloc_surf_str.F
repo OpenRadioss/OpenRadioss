@@ -20,18 +20,18 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    alloc_surf_str         ../engine/source/groups/alloc_surf_str.F
-      !||--- called by ------------------------------------------------------
-      !||    surf_ini               ../engine/source/groups/surf_ini.F
-      !||--- calls      -----------------------------------------------------
-      !||    fretitl2               ../engine/source/input/freform.F
-      !||    read_i_c               ../common_source/tools/input_output/write_routtines.c
-      !||--- uses       -----------------------------------------------------
-      !||    groupdef_mod           ../common_source/modules/groupdef_mod.F
-      !||    message_mod            ../engine/share/message_module/message_mod.F
-      !||    names_and_titles_mod   ../common_source/modules/names_and_titles_mod.F
-      !||====================================================================
+!||====================================================================
+!||    alloc_surf_str         ../engine/source/groups/alloc_surf_str.F
+!||--- called by ------------------------------------------------------
+!||    surf_ini               ../engine/source/groups/surf_ini.F
+!||--- calls      -----------------------------------------------------
+!||    fretitl2               ../engine/source/input/freform.F
+!||    read_i_c               ../common_source/tools/input_output/write_routtines.c
+!||--- uses       -----------------------------------------------------
+!||    groupdef_mod           ../common_source/modules/groupdef_mod.F
+!||    message_mod            ../engine/share/message_module/message_mod.F
+!||    names_and_titles_mod   ../common_source/modules/names_and_titles_mod.F
+!||====================================================================
       SUBROUTINE ALLOC_SURF_STR(IGRSURF)
 C-----------------------------------------------
 C   M o d u l e s

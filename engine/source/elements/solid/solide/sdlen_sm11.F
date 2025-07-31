@@ -20,12 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    sdlen_sm11   ../engine/source/elements/solid/solide/sdlen_sm11.F
-      !||--- called by ------------------------------------------------------
-      !||    s8eforc3     ../engine/source/elements/solid/solide8e/s8eforc3.F
-      !||    s8zforc3     ../engine/source/elements/solid/solide8z/s8zforc3.F
-      !||====================================================================
+!||====================================================================
+!||    sdlen_sm11   ../engine/source/elements/solid/solide/sdlen_sm11.F
+!||--- called by ------------------------------------------------------
+!||    s8eforc3     ../engine/source/elements/solid/solide8e/s8eforc3.F
+!||    s8zforc3     ../engine/source/elements/solid/solide8z/s8zforc3.F
+!||====================================================================
       SUBROUTINE SDLEN_SM11(
      1   VOLG,    DELTAX,  SMAX,    IDEGE,
      2   NEL)

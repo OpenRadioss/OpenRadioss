@@ -20,16 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    h3d_create_rbe3_impi     ../engine/source/output/h3d/h3d_build_fortran/h3d_create_rbe3_impi.F
-      !||--- called by ------------------------------------------------------
-      !||    genh3d                   ../engine/source/output/h3d/h3d_results/genh3d.F
-      !||--- calls      -----------------------------------------------------
-      !||    c_h3d_create_rbe3_impi   ../engine/source/output/h3d/h3d_build_cpp/c_h3d_create_rbe3.cpp
-      !||    spmd_glob_isum9          ../engine/source/mpi/interfaces/spmd_th.F
-      !||--- uses       -----------------------------------------------------
-      !||    spmd_comm_world_mod      ../engine/source/mpi/spmd_comm_world.F90
-      !||====================================================================
+!||====================================================================
+!||    h3d_create_rbe3_impi     ../engine/source/output/h3d/h3d_build_fortran/h3d_create_rbe3_impi.F
+!||--- called by ------------------------------------------------------
+!||    genh3d                   ../engine/source/output/h3d/h3d_results/genh3d.F
+!||--- calls      -----------------------------------------------------
+!||    c_h3d_create_rbe3_impi   ../engine/source/output/h3d/h3d_build_cpp/c_h3d_create_rbe3.cpp
+!||    spmd_glob_isum9          ../engine/source/mpi/interfaces/spmd_th.F
+!||--- uses       -----------------------------------------------------
+!||    spmd_comm_world_mod      ../engine/source/mpi/spmd_comm_world.F90
+!||====================================================================
       SUBROUTINE H3D_CREATE_RBE3_IMPI(LRBE3, IRBE3,NODGLOB,WEIGHT,NERBE3Y,
      *                         NERBE3T ,ITAB,COMPID_RBE3S)
 C-----------------------------------------------

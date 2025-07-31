@@ -20,15 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    lce16q3        ../starter/source/elements/solid_2d/quad/lce16q.F
-      !||--- called by ------------------------------------------------------
-      !||    lectur         ../starter/source/starter/lectur.F
-      !||--- calls      -----------------------------------------------------
-      !||    reordr         ../starter/source/elements/solid_2d/quad/reordr.F
-      !||    usr2sys        ../starter/source/system/sysfus.F
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    lce16q3        ../starter/source/elements/solid_2d/quad/lce16q.F
+!||--- called by ------------------------------------------------------
+!||    lectur         ../starter/source/starter/lectur.F
+!||--- calls      -----------------------------------------------------
+!||    reordr         ../starter/source/elements/solid_2d/quad/reordr.F
+!||    usr2sys        ../starter/source/system/sysfus.F
+!||--- uses       -----------------------------------------------------
+!||====================================================================
       SUBROUTINE LCE16Q3(IXQ    ,ISEL  ,PM     ,IPOINT ,ITAB ,ITABM1,
      .                   ICODE  ,IPARTQ,IGRQUAD,IPM    ,IGEO )
 C--------------------------------------------------------

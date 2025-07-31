@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    alefvm_epsdot   ../engine/source/ale/alefvm/alefvm_epsdot.F
-      !||--- called by ------------------------------------------------------
-      !||    sforc3          ../engine/source/elements/solid/solide/sforc3.F
-      !||--- uses       -----------------------------------------------------
-      !||    alefvm_mod      ../common_source/modules/ale/alefvm_mod.F
-      !||====================================================================
+!||====================================================================
+!||    alefvm_epsdot   ../engine/source/ale/alefvm/alefvm_epsdot.F
+!||--- called by ------------------------------------------------------
+!||    sforc3          ../engine/source/elements/solid/solide/sforc3.F
+!||--- uses       -----------------------------------------------------
+!||    alefvm_mod      ../common_source/modules/ale/alefvm_mod.F
+!||====================================================================
       SUBROUTINE ALEFVM_EPSDOT (
      1                          IXS,  VOL,
      2                          N1X,  N2X,  N3X,  N4X,  N5X,   N6X,

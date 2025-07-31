@@ -20,20 +20,20 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    i9wal2            ../engine/source/interfaces/int09/i9wal2.F
-      !||--- called by ------------------------------------------------------
-      !||    i9wale            ../engine/source/interfaces/int09/i9wale.F
-      !||--- calls      -----------------------------------------------------
-      !||    bcs2              ../engine/source/constraints/general/bcs/bcs2.F
-      !||    i9grd2            ../engine/source/interfaces/int09/i9grd2.F
-      !||    spmd_glob_dsum9   ../engine/source/mpi/interfaces/spmd_th.F
-      !||    spmd_glob_isum9   ../engine/source/mpi/interfaces/spmd_th.F
-      !||    spmd_ibcast       ../engine/source/mpi/generic/spmd_ibcast.F
-      !||    spmd_rbcast       ../engine/source/mpi/generic/spmd_rbcast.F
-      !||--- uses       -----------------------------------------------------
-      !||    elbufdef_mod      ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    i9wal2            ../engine/source/interfaces/int09/i9wal2.F
+!||--- called by ------------------------------------------------------
+!||    i9wale            ../engine/source/interfaces/int09/i9wale.F
+!||--- calls      -----------------------------------------------------
+!||    bcs2              ../engine/source/constraints/general/bcs/bcs2.F
+!||    i9grd2            ../engine/source/interfaces/int09/i9grd2.F
+!||    spmd_glob_dsum9   ../engine/source/mpi/interfaces/spmd_th.F
+!||    spmd_glob_isum9   ../engine/source/mpi/interfaces/spmd_th.F
+!||    spmd_ibcast       ../engine/source/mpi/generic/spmd_ibcast.F
+!||    spmd_rbcast       ../engine/source/mpi/generic/spmd_rbcast.F
+!||--- uses       -----------------------------------------------------
+!||    elbufdef_mod      ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||====================================================================
       SUBROUTINE I9WAL2(X,V   ,W         ,A         ,CRST      ,
      2   NSV       ,ILOC      ,IRTL      ,ICODE     ,ISKEW     ,
      3   SKEW      ,MSR       ,LMSR      ,NSEG      ,IRECTS    ,

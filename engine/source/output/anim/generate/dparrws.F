@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    dparrws          ../engine/source/output/anim/generate/dparrws.F
-      !||--- called by ------------------------------------------------------
-      !||    genani           ../engine/source/output/anim/generate/genani.F
-      !||--- calls      -----------------------------------------------------
-      !||    spmd_gather_wa   ../engine/source/mpi/anim/spmd_gather_wa.F
-      !||    write_i_c        ../common_source/tools/input_output/write_routtines.c
-      !||====================================================================
+!||====================================================================
+!||    dparrws          ../engine/source/output/anim/generate/dparrws.F
+!||--- called by ------------------------------------------------------
+!||    genani           ../engine/source/output/anim/generate/genani.F
+!||--- calls      -----------------------------------------------------
+!||    spmd_gather_wa   ../engine/source/mpi/anim/spmd_gather_wa.F
+!||    write_i_c        ../common_source/tools/input_output/write_routtines.c
+!||====================================================================
       SUBROUTINE DPARRWS(NESBW,NSTRF,IXC   ,
      2                  IXTG ,X ,NODCUT,RWBUF,NPRW,
      3                  NODGLOB,BUF,IXS   )

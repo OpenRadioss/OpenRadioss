@@ -21,12 +21,12 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C  _clean      SUBROUTINE INARE2(AREA)
-      !||====================================================================
-      !||    inare2   ../starter/source/interfaces/inter2d1/inare2.F
-      !||--- called by ------------------------------------------------------
-      !||    i3sti2   ../starter/source/interfaces/inter2d1/i3sti2.F
-      !||    i9sti2   ../starter/source/interfaces/int09/i9sti2.F
-      !||====================================================================
+!||====================================================================
+!||    inare2   ../starter/source/interfaces/inter2d1/inare2.F
+!||--- called by ------------------------------------------------------
+!||    i3sti2   ../starter/source/interfaces/inter2d1/i3sti2.F
+!||    i9sti2   ../starter/source/interfaces/int09/i9sti2.F
+!||====================================================================
       SUBROUTINE INARE2(AREA,YE ,ZE)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

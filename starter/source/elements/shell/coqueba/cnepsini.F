@@ -20,18 +20,18 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    cnepsini       ../starter/source/elements/shell/coqueba/cnepsini.F
-      !||--- called by ------------------------------------------------------
-      !||    cbainit3       ../starter/source/elements/shell/coqueba/cbainit3.F
-      !||--- calls      -----------------------------------------------------
-      !||    cdefoi         ../starter/source/elements/shell/coque/cepsini.F
-      !||    cmlawi         ../starter/source/elements/shell/coque/cepsini.F
-      !||    cneveci        ../starter/source/elements/shell/coqueba/cneveci.F
-      !||    corth3         ../starter/source/elements/shell/coque/corth3.F
-      !||    cpxpyi         ../starter/source/elements/shell/coque/cepsini.F
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    cnepsini       ../starter/source/elements/shell/coqueba/cnepsini.F
+!||--- called by ------------------------------------------------------
+!||    cbainit3       ../starter/source/elements/shell/coqueba/cbainit3.F
+!||--- calls      -----------------------------------------------------
+!||    cdefoi         ../starter/source/elements/shell/coque/cepsini.F
+!||    cmlawi         ../starter/source/elements/shell/coque/cepsini.F
+!||    cneveci        ../starter/source/elements/shell/coqueba/cneveci.F
+!||    corth3         ../starter/source/elements/shell/coque/corth3.F
+!||    cpxpyi         ../starter/source/elements/shell/coque/cepsini.F
+!||--- uses       -----------------------------------------------------
+!||====================================================================
       SUBROUTINE CNEPSINI(ELBUF_STR,MAT_PARAM,
      1           JFT    ,JLT    ,ISMSTR,MTN   ,ITHK   ,
      2           PM     ,GEO    ,IXC   ,X     ,XREFC  ,

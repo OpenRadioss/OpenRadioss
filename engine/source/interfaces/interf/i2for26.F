@@ -20,18 +20,18 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    i2for26       ../engine/source/interfaces/interf/i2for26.F
-      !||--- called by ------------------------------------------------------
-      !||    intti2f       ../engine/source/interfaces/interf/intti2f.F
-      !||--- calls      -----------------------------------------------------
-      !||    i2loceq       ../common_source/interf/i2loceq.F
-      !||    i2pen_rot26   ../common_source/interf/i2pen_rot.F
-      !||    i2rep         ../common_source/interf/i2rep.F
-      !||    i2sms26       ../engine/source/interfaces/interf/i2sms26.F
-      !||--- uses       -----------------------------------------------------
-      !||    h3d_mod       ../engine/share/modules/h3d_mod.F
-      !||====================================================================
+!||====================================================================
+!||    i2for26       ../engine/source/interfaces/interf/i2for26.F
+!||--- called by ------------------------------------------------------
+!||    intti2f       ../engine/source/interfaces/interf/intti2f.F
+!||--- calls      -----------------------------------------------------
+!||    i2loceq       ../common_source/interf/i2loceq.F
+!||    i2pen_rot26   ../common_source/interf/i2pen_rot.F
+!||    i2rep         ../common_source/interf/i2rep.F
+!||    i2sms26       ../engine/source/interfaces/interf/i2sms26.F
+!||--- uses       -----------------------------------------------------
+!||    h3d_mod       ../engine/share/modules/h3d_mod.F
+!||====================================================================
       SUBROUTINE I2FOR26(
      .           X       ,V       ,VR      ,A        ,AR       ,
      .           MS      ,STIFN   ,STIFR   ,WEIGHT   ,IRECT    ,

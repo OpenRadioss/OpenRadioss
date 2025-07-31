@@ -20,11 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    iniconstant   ../starter/source/system/iniconstant.F
-      !||--- called by ------------------------------------------------------
-      !||    starter0      ../starter/source/starter/starter0.F
-      !||====================================================================
+!||====================================================================
+!||    iniconstant   ../starter/source/system/iniconstant.F
+!||--- called by ------------------------------------------------------
+!||    starter0      ../starter/source/starter/starter0.F
+!||====================================================================
       SUBROUTINE INICONSTANT
 C      
 #include "implicit_f.inc"   

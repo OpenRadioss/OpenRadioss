@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    inverted_group_dealloc   ../starter/source/model/sets/inverted_group_dealloc.F
-      !||--- called by ------------------------------------------------------
-      !||    lectur                   ../starter/source/starter/lectur.F
-      !||--- uses       -----------------------------------------------------
-      !||    inverted_group_mod       ../starter/share/modules1/inverted_group_mod.F
-      !||====================================================================
+!||====================================================================
+!||    inverted_group_dealloc   ../starter/source/model/sets/inverted_group_dealloc.F
+!||--- called by ------------------------------------------------------
+!||    lectur                   ../starter/source/starter/lectur.F
+!||--- uses       -----------------------------------------------------
+!||    inverted_group_mod       ../starter/share/modules1/inverted_group_mod.F
+!||====================================================================
         SUBROUTINE INVERTED_GROUP_DEALLOC(INV_GROUP)
 !$COMMENT
 !       INVERTED_GROUP_DEALLOC description

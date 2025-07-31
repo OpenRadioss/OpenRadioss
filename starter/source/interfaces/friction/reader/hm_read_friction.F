@@ -20,22 +20,22 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    hm_read_friction           ../starter/source/interfaces/friction/reader/hm_read_friction.F
-      !||--- called by ------------------------------------------------------
-      !||    hm_read_friction_models    ../starter/source/interfaces/friction/reader/hm_read_friction_models.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg                     ../starter/source/output/message/message.F
-      !||    fretitl                    ../starter/source/starter/freform.F
-      !||    hm_get_float_array_index   ../starter/source/devtools/hm_reader/hm_get_float_array_index.F
-      !||    hm_get_floatv              ../starter/source/devtools/hm_reader/hm_get_floatv.F
-      !||    hm_get_int_array_index     ../starter/source/devtools/hm_reader/hm_get_int_array_index.F
-      !||    hm_get_intv                ../starter/source/devtools/hm_reader/hm_get_intv.F
-      !||--- uses       -----------------------------------------------------
-      !||    hm_option_read_mod         ../starter/share/modules1/hm_option_read_mod.F
-      !||    message_mod                ../starter/share/message_module/message_mod.F
-      !||    submodel_mod               ../starter/share/modules1/submodel_mod.F
-      !||====================================================================
+!||====================================================================
+!||    hm_read_friction           ../starter/source/interfaces/friction/reader/hm_read_friction.F
+!||--- called by ------------------------------------------------------
+!||    hm_read_friction_models    ../starter/source/interfaces/friction/reader/hm_read_friction_models.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                     ../starter/source/output/message/message.F
+!||    fretitl                    ../starter/source/starter/freform.F
+!||    hm_get_float_array_index   ../starter/source/devtools/hm_reader/hm_get_float_array_index.F
+!||    hm_get_floatv              ../starter/source/devtools/hm_reader/hm_get_floatv.F
+!||    hm_get_int_array_index     ../starter/source/devtools/hm_reader/hm_get_int_array_index.F
+!||    hm_get_intv                ../starter/source/devtools/hm_reader/hm_get_intv.F
+!||--- uses       -----------------------------------------------------
+!||    hm_option_read_mod         ../starter/share/modules1/hm_option_read_mod.F
+!||    message_mod                ../starter/share/message_module/message_mod.F
+!||    submodel_mod               ../starter/share/modules1/submodel_mod.F
+!||====================================================================
       SUBROUTINE HM_READ_FRICTION(
      1        NIF     ,NOM_OPT   ,TITR       ,UNITAB    ,IGRPART       ,
      2        IPART   ,NSET      ,TAGPRT_FRIC,TABCOUPLEPARTS_FRIC_TMP  ,

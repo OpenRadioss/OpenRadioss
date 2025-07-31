@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    pretag_xfem   ../starter/source/elements/xfem/pretag_xfem.F
-      !||--- called by ------------------------------------------------------
-      !||    lectur        ../starter/source/starter/lectur.F
-      !||--- calls      -----------------------------------------------------
-      !||    tag_sh        ../starter/source/elements/xfem/pretag_xfem.F
-      !||====================================================================
+!||====================================================================
+!||    pretag_xfem   ../starter/source/elements/xfem/pretag_xfem.F
+!||--- called by ------------------------------------------------------
+!||    lectur        ../starter/source/starter/lectur.F
+!||--- calls      -----------------------------------------------------
+!||    tag_sh        ../starter/source/elements/xfem/pretag_xfem.F
+!||====================================================================
       SUBROUTINE PRETAG_XFEM(IPARG  ,ITAGE   ,IEL_CRKXFEM,ITAGN  ,INOD_CRKXFEM)
 C-----------------------------------------------
 c     numerotation locale des noeuds et elems fantomes des parts xfem
@@ -111,11 +111,11 @@ C-----------
       RETURN
       END
 c
-      !||====================================================================
-      !||    tag_sh        ../starter/source/elements/xfem/pretag_xfem.F
-      !||--- called by ------------------------------------------------------
-      !||    pretag_xfem   ../starter/source/elements/xfem/pretag_xfem.F
-      !||====================================================================
+!||====================================================================
+!||    tag_sh        ../starter/source/elements/xfem/pretag_xfem.F
+!||--- called by ------------------------------------------------------
+!||    pretag_xfem   ../starter/source/elements/xfem/pretag_xfem.F
+!||====================================================================
       SUBROUTINE TAG_SH(ITAGE,IEL_CRKXFEM,ECRKXFE,LFT,LLT,NFT)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

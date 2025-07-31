@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    cbastra3pinch   ../engine/source/elements/shell/coqueba/cbastra3pinch.F
-      !||--- called by ------------------------------------------------------
-      !||    cbaforc3        ../engine/source/elements/shell/coqueba/cbaforc3.F
-      !||--- uses       -----------------------------------------------------
-      !||    pinchtype_mod   ../common_source/modules/pinchtype_mod.F
-      !||====================================================================
+!||====================================================================
+!||    cbastra3pinch   ../engine/source/elements/shell/coqueba/cbastra3pinch.F
+!||--- called by ------------------------------------------------------
+!||    cbaforc3        ../engine/source/elements/shell/coqueba/cbaforc3.F
+!||--- uses       -----------------------------------------------------
+!||    pinchtype_mod   ../common_source/modules/pinchtype_mod.F
+!||====================================================================
       SUBROUTINE CBASTRA3PINCH(
      1                         JFT   ,JLT   ,NPLAT    ,IPLAT    ,
      2                         VDEFPINCH    ,EPINCHXZ ,

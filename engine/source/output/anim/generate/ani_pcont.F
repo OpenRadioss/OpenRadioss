@@ -20,16 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    ani_pcont           ../engine/source/output/anim/generate/ani_pcont.F
-      !||--- called by ------------------------------------------------------
-      !||    sortie_main         ../engine/source/output/sortie_main.F
-      !||--- calls      -----------------------------------------------------
-      !||    spmd_exch_nodarea   ../engine/source/mpi/anim/spmd_exch_nodarea.F
-      !||--- uses       -----------------------------------------------------
-      !||    h3d_mod             ../engine/share/modules/h3d_mod.F
-      !||    outputs_mod         ../common_source/modules/outputs_mod.F
-      !||====================================================================
+!||====================================================================
+!||    ani_pcont           ../engine/source/output/anim/generate/ani_pcont.F
+!||--- called by ------------------------------------------------------
+!||    sortie_main         ../engine/source/output/sortie_main.F
+!||--- calls      -----------------------------------------------------
+!||    spmd_exch_nodarea   ../engine/source/mpi/anim/spmd_exch_nodarea.F
+!||--- uses       -----------------------------------------------------
+!||    h3d_mod             ../engine/share/modules/h3d_mod.F
+!||    outputs_mod         ../common_source/modules/outputs_mod.F
+!||====================================================================
       SUBROUTINE ANI_PCONT(IXS ,IXC    ,IXTG    ,FASOLFR  ,X       ,
      .                 CONTN   ,CONTT  ,IAD_ELEM,FR_ELEM,WEIGHT    ,
      .                 IXQ     ,SEGQUADFR,IXS10 ,FNCONTP2,FTCONTP2 ,
@@ -853,17 +853,17 @@ C
 C
       RETURN
       END
-      !||====================================================================
-      !||    ani_pcont21         ../engine/source/output/anim/generate/ani_pcont.F
-      !||--- called by ------------------------------------------------------
-      !||    sortie_main         ../engine/source/output/sortie_main.F
-      !||--- calls      -----------------------------------------------------
-      !||    spmd_exch_nodarea   ../engine/source/mpi/anim/spmd_exch_nodarea.F
-      !||    spmd_glob_dsum9     ../engine/source/mpi/interfaces/spmd_th.F
-      !||--- uses       -----------------------------------------------------
-      !||    h3d_mod             ../engine/share/modules/h3d_mod.F
-      !||    outputs_mod         ../common_source/modules/outputs_mod.F
-      !||====================================================================
+!||====================================================================
+!||    ani_pcont21         ../engine/source/output/anim/generate/ani_pcont.F
+!||--- called by ------------------------------------------------------
+!||    sortie_main         ../engine/source/output/sortie_main.F
+!||--- calls      -----------------------------------------------------
+!||    spmd_exch_nodarea   ../engine/source/mpi/anim/spmd_exch_nodarea.F
+!||    spmd_glob_dsum9     ../engine/source/mpi/interfaces/spmd_th.F
+!||--- uses       -----------------------------------------------------
+!||    h3d_mod             ../engine/share/modules/h3d_mod.F
+!||    outputs_mod         ../common_source/modules/outputs_mod.F
+!||====================================================================
       SUBROUTINE ANI_PCONT21(IXS ,IXC    ,IXTG    ,FASOLFR  ,X       ,
      .                 CONTN   ,CONTT  ,IAD_ELEM,FR_ELEM,WEIGHT      ,
      .                 NODGLOB ,FNCONTG ,FTCONTG,FNCONTP2,FTCONTP2   ,

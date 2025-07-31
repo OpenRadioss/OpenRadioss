@@ -20,17 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    i10buce       ../engine/source/interfaces/intsort/i10buce.F
-      !||--- called by ------------------------------------------------------
-      !||    i10main_tri   ../engine/source/interfaces/intsort/i10main_tri.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg        ../engine/source/output/message/message.F
-      !||    arret         ../engine/source/system/arret.F
-      !||    i10tri        ../engine/source/interfaces/intsort/i10tri.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod   ../engine/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    i10buce       ../engine/source/interfaces/intsort/i10buce.F
+!||--- called by ------------------------------------------------------
+!||    i10main_tri   ../engine/source/interfaces/intsort/i10main_tri.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg        ../engine/source/output/message/message.F
+!||    arret         ../engine/source/system/arret.F
+!||    i10tri        ../engine/source/interfaces/intsort/i10tri.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod   ../engine/share/message_module/message_mod.F
+!||====================================================================
        SUBROUTINE I10BUCE(
      1   X       ,IRECT   ,NSV     ,NMN     ,NRTM    ,
      2   NSN     ,NCONT   ,CAND_E  ,CAND_N  ,GAP     ,

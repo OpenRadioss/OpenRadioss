@@ -20,11 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    qmass2ap   ../engine/source/elements/solid_2d/quad/qmass2ap.F
-      !||--- called by ------------------------------------------------------
-      !||    bforc2     ../engine/source/ale/bimat/bforc2.F
-      !||====================================================================
+!||====================================================================
+!||    qmass2ap   ../engine/source/elements/solid_2d/quad/qmass2ap.F
+!||--- called by ------------------------------------------------------
+!||    bforc2     ../engine/source/ale/bimat/bforc2.F
+!||====================================================================
       SUBROUTINE QMASS2AP(
      1   OFF,     RHO,     AREA,    FSKY,
      2   FSKYV,   IADQ,    NEL,     NFT)

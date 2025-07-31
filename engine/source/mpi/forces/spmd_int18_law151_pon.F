@@ -21,20 +21,20 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 
-      !||====================================================================
-      !||    spmd_int18_law151_pon   ../engine/source/mpi/forces/spmd_int18_law151_pon.F
-      !||--- called by ------------------------------------------------------
-      !||    resol                   ../engine/source/engine/resol.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg                  ../engine/source/output/message/message.F
-      !||    arret                   ../engine/source/system/arret.F
-      !||--- uses       -----------------------------------------------------
-      !||    intbufdef_mod           ../common_source/modules/interfaces/intbufdef_mod.F90
-      !||    message_mod             ../engine/share/message_module/message_mod.F
-      !||    multi_fvm_mod           ../common_source/modules/ale/multi_fvm_mod.F90
-      !||    spmd_comm_world_mod     ../engine/source/mpi/spmd_comm_world.F90
-      !||    tri7box                 ../engine/share/modules/tri7box.F
-      !||====================================================================
+!||====================================================================
+!||    spmd_int18_law151_pon   ../engine/source/mpi/forces/spmd_int18_law151_pon.F
+!||--- called by ------------------------------------------------------
+!||    resol                   ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                  ../engine/source/output/message/message.F
+!||    arret                   ../engine/source/system/arret.F
+!||--- uses       -----------------------------------------------------
+!||    intbufdef_mod           ../common_source/modules/interfaces/intbufdef_mod.F90
+!||    message_mod             ../engine/share/message_module/message_mod.F
+!||    multi_fvm_mod           ../common_source/modules/ale/multi_fvm_mod.F90
+!||    spmd_comm_world_mod     ../engine/source/mpi/spmd_comm_world.F90
+!||    tri7box                 ../engine/share/modules/tri7box.F
+!||====================================================================
         SUBROUTINE SPMD_INT18_LAW151_PON(     
      1   IPARI   ,ISLEN7  ,IRLEN7  ,IFLAG   ,INTBUF_TAB,
      2   MULTI_FVM)

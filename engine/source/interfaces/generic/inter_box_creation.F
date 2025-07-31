@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    inter_box_creation     ../engine/source/interfaces/generic/inter_box_creation.F
-      !||--- called by ------------------------------------------------------
-      !||    inter_init_component   ../engine/source/interfaces/generic/inter_init_component.F90
-      !||    inter_prepare_sort     ../engine/source/interfaces/generic/inter_prepare_sort.F
-      !||--- uses       -----------------------------------------------------
-      !||    inter_sorting_mod      ../engine/share/modules/inter_sorting_mod.F
-      !||====================================================================
+!||====================================================================
+!||    inter_box_creation     ../engine/source/interfaces/generic/inter_box_creation.F
+!||--- called by ------------------------------------------------------
+!||    inter_init_component   ../engine/source/interfaces/generic/inter_init_component.F90
+!||    inter_prepare_sort     ../engine/source/interfaces/generic/inter_prepare_sort.F
+!||--- uses       -----------------------------------------------------
+!||    inter_sorting_mod      ../engine/share/modules/inter_sorting_mod.F
+!||====================================================================
         SUBROUTINE INTER_BOX_CREATION(nb_cell_x,nb_cell_y,nb_cell_z,box_limit)
 !$COMMENT
 !       INTER_BOX_CREATION description :

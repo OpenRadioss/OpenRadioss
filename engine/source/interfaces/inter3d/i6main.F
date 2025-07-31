@@ -20,27 +20,27 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    i6main          ../engine/source/interfaces/inter3d/i6main.F
-      !||--- called by ------------------------------------------------------
-      !||    intfop1         ../engine/source/interfaces/interf/intfop1.F
-      !||--- calls      -----------------------------------------------------
-      !||    i3cor3          ../engine/source/interfaces/inter3d/i3cor3.F
-      !||    i3cst3          ../engine/source/interfaces/inter3d/i3cst3.F
-      !||    i3dis3          ../engine/source/interfaces/inter3d/i3dis3.F
-      !||    i3gap3          ../engine/source/interfaces/inter3d/i3gap3.F
-      !||    i3loc3          ../engine/source/interfaces/inter3d/i3loc3.F
-      !||    i3msr3          ../engine/source/interfaces/inter3d/i3msr3.F
-      !||    i6ass3          ../engine/source/interfaces/inter3d/i6ass3.F
-      !||    i6damp          ../engine/source/interfaces/inter3d/i6damp.F
-      !||    i6for3          ../engine/source/interfaces/inter3d/i6for3.F
-      !||    i6fri3          ../engine/source/interfaces/inter3d/i6fri3.F
-      !||    i6ini3          ../engine/source/interfaces/inter3d/i6ini3.F
-      !||    i6ipmact        ../engine/source/interfaces/inter3d/i6impact.F
-      !||--- uses       -----------------------------------------------------
-      !||    h3d_mod         ../engine/share/modules/h3d_mod.F
-      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    i6main          ../engine/source/interfaces/inter3d/i6main.F
+!||--- called by ------------------------------------------------------
+!||    intfop1         ../engine/source/interfaces/interf/intfop1.F
+!||--- calls      -----------------------------------------------------
+!||    i3cor3          ../engine/source/interfaces/inter3d/i3cor3.F
+!||    i3cst3          ../engine/source/interfaces/inter3d/i3cst3.F
+!||    i3dis3          ../engine/source/interfaces/inter3d/i3dis3.F
+!||    i3gap3          ../engine/source/interfaces/inter3d/i3gap3.F
+!||    i3loc3          ../engine/source/interfaces/inter3d/i3loc3.F
+!||    i3msr3          ../engine/source/interfaces/inter3d/i3msr3.F
+!||    i6ass3          ../engine/source/interfaces/inter3d/i6ass3.F
+!||    i6damp          ../engine/source/interfaces/inter3d/i6damp.F
+!||    i6for3          ../engine/source/interfaces/inter3d/i6for3.F
+!||    i6fri3          ../engine/source/interfaces/inter3d/i6fri3.F
+!||    i6ini3          ../engine/source/interfaces/inter3d/i6ini3.F
+!||    i6ipmact        ../engine/source/interfaces/inter3d/i6impact.F
+!||--- uses       -----------------------------------------------------
+!||    h3d_mod         ../engine/share/modules/h3d_mod.F
+!||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
+!||====================================================================
       SUBROUTINE I6MAIN(IPARI,X     ,A   ,
      2                  ICODT,NPC   ,TF     ,V     ,FSAV,
      3                  DT2T ,NELTST,ITYPTST,FSKYI ,ISKY,

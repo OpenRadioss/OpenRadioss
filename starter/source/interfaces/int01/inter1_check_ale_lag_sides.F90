@@ -26,18 +26,18 @@
 !! \brief check ALE and lagrangian surfaces
 !! \details ALE must be based on ALE nodes, lagrangian surface must be based on lagrangian nodes.
 !! \details it may happen that user defines EULER framework instead of ALE one, this is also checked.
-      !||====================================================================
-      !||    inter1_check_ale_lag_sides   ../starter/source/interfaces/int01/inter1_check_ale_lag_sides.F90
-      !||--- called by ------------------------------------------------------
-      !||    lecint                       ../starter/source/interfaces/interf1/lecint.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg                       ../starter/source/output/message/message.F
-      !||    normalize_shape              ../starter/source/interfaces/int01/inter1_seg_utils.F90
-      !||    sort_shape                   ../starter/source/interfaces/int01/inter1_seg_utils.F90
-      !||--- uses       -----------------------------------------------------
-      !||    inter1_seg_utils_mod         ../starter/source/interfaces/int01/inter1_seg_utils.F90
-      !||    message_mod                  ../starter/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    inter1_check_ale_lag_sides   ../starter/source/interfaces/int01/inter1_check_ale_lag_sides.F90
+!||--- called by ------------------------------------------------------
+!||    lecint                       ../starter/source/interfaces/interf1/lecint.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                       ../starter/source/output/message/message.F
+!||    normalize_shape              ../starter/source/interfaces/int01/inter1_seg_utils.F90
+!||    sort_shape                   ../starter/source/interfaces/int01/inter1_seg_utils.F90
+!||--- uses       -----------------------------------------------------
+!||    inter1_seg_utils_mod         ../starter/source/interfaces/int01/inter1_seg_utils.F90
+!||    message_mod                  ../starter/share/message_module/message_mod.F
+!||====================================================================
         subroutine inter1_check_ale_lag_sides(n2d, surf_uid1,surf_uid2, inter_uid, title,  &
                                               numnod, itab, nseg1, nseg2, irect1, irect2, nale, iddlevel)
 ! ----------------------------------------------------------------------------------------------------------------------

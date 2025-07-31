@@ -20,23 +20,23 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    animx           ../engine/source/output/anim/generate/animx.F
-      !||--- called by ------------------------------------------------------
-      !||    genani          ../engine/source/output/anim/generate/genani.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg          ../engine/source/output/message/message.F
-      !||    arret           ../engine/source/system/arret.F
-      !||    sav_buf_point   ../engine/source/user_interface/eng_callback_c.c
-      !||    xanim28         ../engine/source/elements/xelem/xanim28.F
-      !||    xanim29         ../engine/source/output/anim/generate/xanim29.F
-      !||    xanim30         ../engine/source/output/anim/generate/xanim30.F
-      !||    xanim31         ../engine/source/output/anim/generate/xanim31.F
-      !||    xcoor3          ../engine/source/elements/xelem/xcoor3.F
-      !||--- uses       -----------------------------------------------------
-      !||    elbufdef_mod    ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||    message_mod     ../engine/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    animx           ../engine/source/output/anim/generate/animx.F
+!||--- called by ------------------------------------------------------
+!||    genani          ../engine/source/output/anim/generate/genani.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg          ../engine/source/output/message/message.F
+!||    arret           ../engine/source/system/arret.F
+!||    sav_buf_point   ../engine/source/user_interface/eng_callback_c.c
+!||    xanim28         ../engine/source/elements/xelem/xanim28.F
+!||    xanim29         ../engine/source/output/anim/generate/xanim29.F
+!||    xanim30         ../engine/source/output/anim/generate/xanim30.F
+!||    xanim31         ../engine/source/output/anim/generate/xanim31.F
+!||    xcoor3          ../engine/source/elements/xelem/xcoor3.F
+!||--- uses       -----------------------------------------------------
+!||    elbufdef_mod    ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    message_mod     ../engine/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE ANIMX(ELBUF_TAB,
      .           IPARG    ,ITAB     ,X        ,KXX      ,IXX    ,
      .           IPARTX   ,PM       ,GEO      ,BUFMAT   ,BUFGEO ,

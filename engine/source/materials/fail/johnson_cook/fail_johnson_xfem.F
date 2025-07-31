@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    fail_johnson_xfem   ../engine/source/materials/fail/johnson_cook/fail_johnson_xfem.F
-      !||--- called by ------------------------------------------------------
-      !||    mulawc              ../engine/source/materials/mat_share/mulawc.F90
-      !||    usermat_shell       ../engine/source/materials/mat_share/usermat_shell.F
-      !||--- uses       -----------------------------------------------------
-      !||    crackxfem_mod       ../engine/share/modules/crackxfem_mod.F
-      !||====================================================================
+!||====================================================================
+!||    fail_johnson_xfem   ../engine/source/materials/fail/johnson_cook/fail_johnson_xfem.F
+!||--- called by ------------------------------------------------------
+!||    mulawc              ../engine/source/materials/mat_share/mulawc.F90
+!||    usermat_shell       ../engine/source/materials/mat_share/usermat_shell.F
+!||--- uses       -----------------------------------------------------
+!||    crackxfem_mod       ../engine/share/modules/crackxfem_mod.F
+!||====================================================================
       SUBROUTINE FAIL_JOHNSON_XFEM(
      1           NEL      ,NUPARAM  ,UPARAM   ,NUVAR    ,UVAR     ,
      2           TIME     ,TENS     ,DPLA     ,EPSP     ,TSTAR    ,

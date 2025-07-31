@@ -20,12 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    consider_edge_mod   ../starter/source/spmd/domain_decomposition/consider_edge.F
-      !||--- called by ------------------------------------------------------
-      !||    dometis             ../starter/source/spmd/domain_decomposition/grid2mat.F
-      !||    find_nodes          ../starter/source/spmd/domain_decomposition/grid2mat.F
-      !||====================================================================
+!||====================================================================
+!||    consider_edge_mod   ../starter/source/spmd/domain_decomposition/consider_edge.F
+!||--- called by ------------------------------------------------------
+!||    dometis             ../starter/source/spmd/domain_decomposition/grid2mat.F
+!||    find_nodes          ../starter/source/spmd/domain_decomposition/grid2mat.F
+!||====================================================================
       module consider_edge_mod
 !=======================================================================================================================
 !                                                  Module parameters
@@ -38,11 +38,11 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !                                                  Subroutines
 !=======================================================================================================================
 !! \brief returns true if the edge between two elements should be created
-      !||====================================================================
-      !||    consider_edge   ../starter/source/spmd/domain_decomposition/consider_edge.F
-      !||--- called by ------------------------------------------------------
-      !||    dometis         ../starter/source/spmd/domain_decomposition/grid2mat.F
-      !||====================================================================
+!||====================================================================
+!||    consider_edge   ../starter/source/spmd/domain_decomposition/consider_edge.F
+!||--- called by ------------------------------------------------------
+!||    dometis         ../starter/source/spmd/domain_decomposition/grid2mat.F
+!||====================================================================
         function consider_edge(connectivity,nb_nodes_mini,nelem,e1,e2) result(bool)
           implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -87,11 +87,11 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
         end function
 
 !! \brief sort array of nodes per element in descending order
-      !||====================================================================
-      !||    sort_descending   ../starter/source/spmd/domain_decomposition/consider_edge.F
-      !||--- called by ------------------------------------------------------
-      !||    dometis           ../starter/source/spmd/domain_decomposition/grid2mat.F
-      !||====================================================================
+!||====================================================================
+!||    sort_descending   ../starter/source/spmd/domain_decomposition/consider_edge.F
+!||--- called by ------------------------------------------------------
+!||    dometis           ../starter/source/spmd/domain_decomposition/grid2mat.F
+!||====================================================================
         subroutine sort_descending(array)
           implicit none
 ! ----------------------------------------------------------------------------------------------------------------------

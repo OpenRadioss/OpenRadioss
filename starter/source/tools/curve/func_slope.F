@@ -20,19 +20,19 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    func_slope    ../starter/source/tools/curve/func_slope.F
-      !||--- called by ------------------------------------------------------
-      !||    law111_upd    ../starter/source/materials/mat/mat111/law111_upd.F
-      !||    law158_upd    ../starter/source/materials/mat/mat158/law158_upd.F
-      !||    law58_upd     ../starter/source/materials/mat/mat058/law58_upd.F
-      !||    law77_upd     ../starter/source/materials/mat/mat077/law77_upd.F
-      !||    law88_upd     ../starter/source/materials/mat/mat088/law88_upd.F
-      !||    law90_upd     ../starter/source/materials/mat/mat090/law90_upd.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod   ../starter/share/message_module/message_mod.F
-      !||    table_mod     ../starter/share/modules1/table_mod.F
-      !||====================================================================
+!||====================================================================
+!||    func_slope    ../starter/source/tools/curve/func_slope.F
+!||--- called by ------------------------------------------------------
+!||    law111_upd    ../starter/source/materials/mat/mat111/law111_upd.F
+!||    law158_upd    ../starter/source/materials/mat/mat158/law158_upd.F
+!||    law58_upd     ../starter/source/materials/mat/mat058/law58_upd.F
+!||    law77_upd     ../starter/source/materials/mat/mat077/law77_upd.F
+!||    law88_upd     ../starter/source/materials/mat/mat088/law88_upd.F
+!||    law90_upd     ../starter/source/materials/mat/mat090/law90_upd.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod   ../starter/share/message_module/message_mod.F
+!||    table_mod     ../starter/share/modules1/table_mod.F
+!||====================================================================
       SUBROUTINE FUNC_SLOPE(IDN,FAC,NPC,PLD,STIFFMIN,STIFFMAX,STIFFINI,STIFFAVG)
 C-----------------------------------------------
 C   M o d u l e s
@@ -93,12 +93,12 @@ c-----------
       RETURN
       END
 C=======================================================================
-      !||====================================================================
-      !||    unify_x       ../starter/source/tools/curve/func_slope.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod   ../starter/share/message_module/message_mod.F
-      !||    table_mod     ../starter/share/modules1/table_mod.F
-      !||====================================================================
+!||====================================================================
+!||    unify_x       ../starter/source/tools/curve/func_slope.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod   ../starter/share/message_module/message_mod.F
+!||    table_mod     ../starter/share/modules1/table_mod.F
+!||====================================================================
       SUBROUTINE UNIFY_X(IDN1,IDN2,NPC,PLD,NPOINT,LEN1,LEN2,XUNI,NPTNEW)
 C-----------------------------------------------
 C   M o d u l e s

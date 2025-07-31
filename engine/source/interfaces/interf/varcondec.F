@@ -20,15 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    varcondec   ../engine/source/interfaces/interf/varcondec.F
-      !||--- called by ------------------------------------------------------
-      !||    aconve      ../engine/source/ale/aconve.F
-      !||    intti12a    ../engine/source/interfaces/interf/intti12.F
-      !||    seggetv     ../engine/source/interfaces/interf/seggetv.F
-      !||--- uses       -----------------------------------------------------
-      !||    ale_mod     ../common_source/modules/ale/ale_mod.F
-      !||====================================================================
+!||====================================================================
+!||    varcondec   ../engine/source/interfaces/interf/varcondec.F
+!||--- called by ------------------------------------------------------
+!||    aconve      ../engine/source/ale/aconve.F
+!||    intti12a    ../engine/source/interfaces/interf/intti12.F
+!||    seggetv     ../engine/source/interfaces/interf/seggetv.F
+!||--- uses       -----------------------------------------------------
+!||    ale_mod     ../common_source/modules/ale/ale_mod.F
+!||====================================================================
       SUBROUTINE VARCONDEC(ICODV,VARCONV,CODTOT)
 C-----------------------------------------------
 C   M o d u l e s

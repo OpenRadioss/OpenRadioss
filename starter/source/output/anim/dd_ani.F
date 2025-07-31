@@ -20,18 +20,18 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    dd_ani          ../starter/source/output/anim/dd_ani.F
-      !||--- called by ------------------------------------------------------
-      !||    domdec1         ../starter/source/spmd/domain_decomposition/domdec1.F
-      !||--- calls      -----------------------------------------------------
-      !||    parsor          ../starter/source/output/anim/parsor.F
-      !||    scanor          ../starter/source/output/anim/scanor.F
-      !||    slagcnt         ../starter/source/output/anim/slagcnt.F
-      !||    xyznod          ../starter/source/output/anim/xyznod.F
-      !||    xyznor          ../starter/source/output/anim/xyznor.F
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    dd_ani          ../starter/source/output/anim/dd_ani.F
+!||--- called by ------------------------------------------------------
+!||    domdec1         ../starter/source/spmd/domain_decomposition/domdec1.F
+!||--- calls      -----------------------------------------------------
+!||    parsor          ../starter/source/output/anim/parsor.F
+!||    scanor          ../starter/source/output/anim/scanor.F
+!||    slagcnt         ../starter/source/output/anim/slagcnt.F
+!||    xyznod          ../starter/source/output/anim/xyznod.F
+!||    xyznor          ../starter/source/output/anim/xyznor.F
+!||--- uses       -----------------------------------------------------
+!||====================================================================
       SUBROUTINE DD_ANI(X     ,IXS   ,IXQ  ,IXC  ,
      .                  IXT   ,IXP   ,IXR  ,IXTG ,
      .                  IPARG ,KXSP  ,IXSP )

@@ -20,24 +20,24 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    sgrtails               ../starter/source/elements/solid/solide/sgrtails.F
-      !||--- called by ------------------------------------------------------
-      !||    lectur                 ../starter/source/starter/lectur.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg                 ../starter/source/output/message/message.F
-      !||    arret                  ../starter/source/system/arret.F
-      !||    cpp_reorder_elements   ../starter/source/spmd/cpp_reorder_elements.cpp
-      !||    fretitl2               ../starter/source/starter/freform.F
-      !||    init_mat_keyword       ../starter/source/materials/mat/init_mat_keyword.F
-      !||    zeroin                 ../starter/source/system/zeroin.F
-      !||--- uses       -----------------------------------------------------
-      !||    cluster_mod            ../starter/share/modules1/cluster_mod.F
-      !||    inivol_def_mod         ../starter/share/modules1/inivol_mod.F
-      !||    message_mod            ../starter/share/message_module/message_mod.F
-      !||    r2r_mod                ../starter/share/modules1/r2r_mod.F
-      !||    reorder_mod            ../starter/share/modules1/reorder_mod.F
-      !||====================================================================
+!||====================================================================
+!||    sgrtails               ../starter/source/elements/solid/solide/sgrtails.F
+!||--- called by ------------------------------------------------------
+!||    lectur                 ../starter/source/starter/lectur.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                 ../starter/source/output/message/message.F
+!||    arret                  ../starter/source/system/arret.F
+!||    cpp_reorder_elements   ../starter/source/spmd/cpp_reorder_elements.cpp
+!||    fretitl2               ../starter/source/starter/freform.F
+!||    init_mat_keyword       ../starter/source/materials/mat/init_mat_keyword.F
+!||    zeroin                 ../starter/source/system/zeroin.F
+!||--- uses       -----------------------------------------------------
+!||    cluster_mod            ../starter/share/modules1/cluster_mod.F
+!||    inivol_def_mod         ../starter/share/modules1/inivol_mod.F
+!||    message_mod            ../starter/share/message_module/message_mod.F
+!||    r2r_mod                ../starter/share/modules1/r2r_mod.F
+!||    reorder_mod            ../starter/share/modules1/reorder_mod.F
+!||====================================================================
       SUBROUTINE SGRTAILS(
      1       IXS           ,PM      ,IPARG       , GEO     ,
      2       EADD          ,ND      ,IPARTS      , DD_IAD  ,

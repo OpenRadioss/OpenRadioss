@@ -20,71 +20,71 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    mulaw8_mod   ../engine/source/materials/mat_share/mulaw8.F90
-      !||--- called by ------------------------------------------------------
-      !||    mmain8       ../engine/source/materials/mat_share/mmain8.F
-      !||====================================================================
+!||====================================================================
+!||    mulaw8_mod   ../engine/source/materials/mat_share/mulaw8.F90
+!||--- called by ------------------------------------------------------
+!||    mmain8       ../engine/source/materials/mat_share/mmain8.F
+!||====================================================================
       module mulaw8_mod
       contains
 !! \brief 8 integrztion point brick element material subroutine
 !! \details Compute the material behavior for 8 integration points Brick element
-      !||====================================================================
-      !||    mulaw8                ../engine/source/materials/mat_share/mulaw8.F90
-      !||--- called by ------------------------------------------------------
-      !||    mmain8                ../engine/source/materials/mat_share/mmain8.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg                ../engine/source/output/message/message.F
-      !||    arret                 ../engine/source/system/arret.F
-      !||    fail_biquad_s         ../engine/source/materials/fail/biquad/fail_biquad_s.F
-      !||    fail_emc              ../engine/source/materials/fail/emc/fail_emc.F
-      !||    fail_energy_s         ../engine/source/materials/fail/energy/fail_energy_s.F
-      !||    fail_johnson          ../engine/source/materials/fail/johnson_cook/fail_johnson.F
-      !||    fail_orthbiquad_s     ../engine/source/materials/fail/orthbiquad/fail_orthbiquad_s.F
-      !||    fail_rtcl_s           ../engine/source/materials/fail/rtcl/fail_rtcl_s.F
-      !||    fail_sahraei_s        ../engine/source/materials/fail/sahraei/fail_sahraei_s.F
-      !||    fail_spalling_s       ../engine/source/materials/fail/spalling/fail_spalling_s.F90
-      !||    fail_tab_old_s        ../engine/source/materials/fail/tabulated/fail_tab_old_s.F
-      !||    fail_tab_s            ../engine/source/materials/fail/tabulated/fail_tab_s.F
-      !||    fail_tbutcher_s       ../engine/source/materials/fail/tuler_butcher/fail_tbutcher_s.F
-      !||    fail_tensstrain_s     ../engine/source/materials/fail/tensstrain/fail_tensstrain_s.F
-      !||    fail_visual_s         ../engine/source/materials/fail/visual/fail_visual_s.F
-      !||    fail_wierzbicki_s     ../engine/source/materials/fail/wierzbicki/fail_wierzbicki_s.F
-      !||    fail_wilkins_s        ../engine/source/materials/fail/wilkins/fail_wilkins_s.F
-      !||    mqvisc8               ../engine/source/materials/mat_share/mqvisc8.F
-      !||    mreploc               ../engine/source/materials/mat_share/mreploc.F
-      !||    mrotens               ../engine/source/materials/mat_share/mrotens.F
-      !||    sigeps28              ../engine/source/materials/mat/mat028/sigeps28.F
-      !||    sigeps33              ../engine/source/materials/mat/mat033/sigeps33.F
-      !||    sigeps34              ../engine/source/materials/mat/mat034/sigeps34.F
-      !||    sigeps35              ../engine/source/materials/mat/mat035/sigeps35.F
-      !||    sigeps36              ../engine/source/materials/mat/mat036/sigeps36.F
-      !||    sigeps38              ../engine/source/materials/mat/mat038/sigeps38.F
-      !||    sigeps40              ../engine/source/materials/mat/mat040/sigeps40.F
-      !||    sigeps41              ../engine/source/materials/mat/mat041/sigeps41.F
-      !||    sigeps42              ../engine/source/materials/mat/mat042/sigeps42.F
-      !||    sigeps44              ../engine/source/materials/mat/mat044/sigeps44.F
-      !||    sigeps45              ../engine/source/materials/mat/mat045/sigeps45.F
-      !||    sigeps48              ../engine/source/materials/mat/mat048/sigeps48.F
-      !||    sigeps50s             ../engine/source/materials/mat/mat050/sigeps50s.F90
-      !||    sigeps52              ../engine/source/materials/mat/mat052/sigeps52.F
-      !||    sigeps53              ../engine/source/materials/mat/mat053/sigeps53.F
-      !||    sigeps56              ../engine/source/materials/mat/mat056/sigeps56.F
-      !||    sigeps60              ../engine/source/materials/mat/mat060/sigeps60.F
-      !||    sigeps62              ../engine/source/materials/mat/mat062/sigeps62.F
-      !||    startime              ../engine/source/system/timer_mod.F90
-      !||    stoptime              ../engine/source/system/timer_mod.F90
-      !||--- uses       -----------------------------------------------------
-      !||    constant_mod          ../common_source/modules/constant_mod.F
-      !||    fail_spalling_s_mod   ../engine/source/materials/fail/spalling/fail_spalling_s.F90
-      !||    mat_elem_mod          ../common_source/modules/mat_elem/mat_elem_mod.F90
-      !||    message_mod           ../engine/share/message_module/message_mod.F
-      !||    mvsiz_mod             ../engine/share/spe_inc/mvsiz_mod.F90
-      !||    precision_mod         ../common_source/modules/precision_mod.F90
-      !||    sigeps50s_mod         ../engine/source/materials/mat/mat050/sigeps50s.F90
-      !||    table_mod             ../engine/share/modules/table_mod.F
-      !||    timer_mod             ../engine/source/system/timer_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    mulaw8                ../engine/source/materials/mat_share/mulaw8.F90
+!||--- called by ------------------------------------------------------
+!||    mmain8                ../engine/source/materials/mat_share/mmain8.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                ../engine/source/output/message/message.F
+!||    arret                 ../engine/source/system/arret.F
+!||    fail_biquad_s         ../engine/source/materials/fail/biquad/fail_biquad_s.F
+!||    fail_emc              ../engine/source/materials/fail/emc/fail_emc.F
+!||    fail_energy_s         ../engine/source/materials/fail/energy/fail_energy_s.F
+!||    fail_johnson          ../engine/source/materials/fail/johnson_cook/fail_johnson.F
+!||    fail_orthbiquad_s     ../engine/source/materials/fail/orthbiquad/fail_orthbiquad_s.F
+!||    fail_rtcl_s           ../engine/source/materials/fail/rtcl/fail_rtcl_s.F
+!||    fail_sahraei_s        ../engine/source/materials/fail/sahraei/fail_sahraei_s.F
+!||    fail_spalling_s       ../engine/source/materials/fail/spalling/fail_spalling_s.F90
+!||    fail_tab_old_s        ../engine/source/materials/fail/tabulated/fail_tab_old_s.F
+!||    fail_tab_s            ../engine/source/materials/fail/tabulated/fail_tab_s.F
+!||    fail_tbutcher_s       ../engine/source/materials/fail/tuler_butcher/fail_tbutcher_s.F
+!||    fail_tensstrain_s     ../engine/source/materials/fail/tensstrain/fail_tensstrain_s.F
+!||    fail_visual_s         ../engine/source/materials/fail/visual/fail_visual_s.F
+!||    fail_wierzbicki_s     ../engine/source/materials/fail/wierzbicki/fail_wierzbicki_s.F
+!||    fail_wilkins_s        ../engine/source/materials/fail/wilkins/fail_wilkins_s.F
+!||    mqvisc8               ../engine/source/materials/mat_share/mqvisc8.F
+!||    mreploc               ../engine/source/materials/mat_share/mreploc.F
+!||    mrotens               ../engine/source/materials/mat_share/mrotens.F
+!||    sigeps28              ../engine/source/materials/mat/mat028/sigeps28.F
+!||    sigeps33              ../engine/source/materials/mat/mat033/sigeps33.F
+!||    sigeps34              ../engine/source/materials/mat/mat034/sigeps34.F
+!||    sigeps35              ../engine/source/materials/mat/mat035/sigeps35.F
+!||    sigeps36              ../engine/source/materials/mat/mat036/sigeps36.F
+!||    sigeps38              ../engine/source/materials/mat/mat038/sigeps38.F
+!||    sigeps40              ../engine/source/materials/mat/mat040/sigeps40.F
+!||    sigeps41              ../engine/source/materials/mat/mat041/sigeps41.F
+!||    sigeps42              ../engine/source/materials/mat/mat042/sigeps42.F
+!||    sigeps44              ../engine/source/materials/mat/mat044/sigeps44.F
+!||    sigeps45              ../engine/source/materials/mat/mat045/sigeps45.F
+!||    sigeps48              ../engine/source/materials/mat/mat048/sigeps48.F
+!||    sigeps50s             ../engine/source/materials/mat/mat050/sigeps50s.F90
+!||    sigeps52              ../engine/source/materials/mat/mat052/sigeps52.F
+!||    sigeps53              ../engine/source/materials/mat/mat053/sigeps53.F
+!||    sigeps56              ../engine/source/materials/mat/mat056/sigeps56.F
+!||    sigeps60              ../engine/source/materials/mat/mat060/sigeps60.F
+!||    sigeps62              ../engine/source/materials/mat/mat062/sigeps62.F
+!||    startime              ../engine/source/system/timer_mod.F90
+!||    stoptime              ../engine/source/system/timer_mod.F90
+!||--- uses       -----------------------------------------------------
+!||    constant_mod          ../common_source/modules/constant_mod.F
+!||    fail_spalling_s_mod   ../engine/source/materials/fail/spalling/fail_spalling_s.F90
+!||    mat_elem_mod          ../common_source/modules/mat_elem/mat_elem_mod.F90
+!||    message_mod           ../engine/share/message_module/message_mod.F
+!||    mvsiz_mod             ../engine/share/spe_inc/mvsiz_mod.F90
+!||    precision_mod         ../common_source/modules/precision_mod.F90
+!||    sigeps50s_mod         ../engine/source/materials/mat/mat050/sigeps50s.F90
+!||    table_mod             ../engine/share/modules/table_mod.F
+!||    timer_mod             ../engine/source/system/timer_mod.F90
+!||====================================================================
         subroutine mulaw8(timers,                                    &
         &                 lft,     llt,     mtn,              &
         &                 npt,     d1,      d2,      d3,      &

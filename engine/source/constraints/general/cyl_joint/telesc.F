@@ -20,17 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    telesc           ../engine/source/constraints/general/cyl_joint/telesc.F
-      !||--- called by ------------------------------------------------------
-      !||    cjoint           ../engine/source/constraints/general/cyl_joint/cjoint.F
-      !||--- calls      -----------------------------------------------------
-      !||    my_barrier       ../engine/source/system/machine.F
-      !||    sum_6_float      ../engine/source/system/parit.F
-      !||--- uses       -----------------------------------------------------
-      !||    joint_mod        ../engine/share/modules/joint_mod.F
-      !||    spmd_mod         ../engine/source/mpi/spmd_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    telesc           ../engine/source/constraints/general/cyl_joint/telesc.F
+!||--- called by ------------------------------------------------------
+!||    cjoint           ../engine/source/constraints/general/cyl_joint/cjoint.F
+!||--- calls      -----------------------------------------------------
+!||    my_barrier       ../engine/source/system/machine.F
+!||    sum_6_float      ../engine/source/system/parit.F
+!||--- uses       -----------------------------------------------------
+!||    joint_mod        ../engine/share/modules/joint_mod.F
+!||    spmd_mod         ../engine/source/mpi/spmd_mod.F90
+!||====================================================================
         SUBROUTINE TELESC(N_JOINT,A,AR,V,VR,X,FS,MS,IN,ITASK)
 !$COMMENT
 !       TELESC description

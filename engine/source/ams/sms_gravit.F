@@ -20,17 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    sms_gravit         ../engine/source/ams/sms_gravit.F
-      !||--- called by ------------------------------------------------------
-      !||    sms_mass_scale_2   ../engine/source/ams/sms_mass_scale_2.F
-      !||--- calls      -----------------------------------------------------
-      !||    finter             ../engine/source/tools/curve/finter.F
-      !||--- uses       -----------------------------------------------------
-      !||    finter_mixed_mod   ../engine/source/tools/finter_mixed.F90
-      !||    python_funct_mod   ../common_source/modules/python_mod.F90
-      !||    sensor_mod         ../common_source/modules/sensor_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    sms_gravit         ../engine/source/ams/sms_gravit.F
+!||--- called by ------------------------------------------------------
+!||    sms_mass_scale_2   ../engine/source/ams/sms_mass_scale_2.F
+!||--- calls      -----------------------------------------------------
+!||    finter             ../engine/source/tools/curve/finter.F
+!||--- uses       -----------------------------------------------------
+!||    finter_mixed_mod   ../engine/source/tools/finter_mixed.F90
+!||    python_funct_mod   ../common_source/modules/python_mod.F90
+!||    sensor_mod         ../common_source/modules/sensor_mod.F90
+!||====================================================================
       SUBROUTINE SMS_GRAVIT(IGRV  ,AGRV   ,NPC   ,TF   ,A     ,
      2                      V     ,X      ,SKEW  ,MS   ,SENSOR_TAB,
      3                      WEIGHT,IB    ,ITASK,TAGSLV_RBY_SMS,NSENSOR, WFEXT,python)

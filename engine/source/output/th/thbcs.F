@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    thbcs    ../engine/source/output/th/thbcs.F
-      !||--- called by ------------------------------------------------------
-      !||    resol    ../engine/source/engine/resol.F
-      !||--- calls      -----------------------------------------------------
-      !||    bcs1th   ../engine/source/output/th/bcs1th.F
-      !||====================================================================
+!||====================================================================
+!||    thbcs    ../engine/source/output/th/thbcs.F
+!||--- called by ------------------------------------------------------
+!||    resol    ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
+!||    bcs1th   ../engine/source/output/th/bcs1th.F
+!||====================================================================
       SUBROUTINE THBCS(NODFT  ,NODLAST,ICODT  ,ICODR ,ISKEW  ,
      2                 SKEW   ,A      ,AR     ,MS    ,IN     ,
      3                 FTHREAC,NODREAC,CPTREAC)

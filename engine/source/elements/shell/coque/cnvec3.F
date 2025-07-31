@@ -21,16 +21,16 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C     routine reectite en 50c
-      !||====================================================================
-      !||    cnvec3         ../engine/source/elements/shell/coque/cnvec3.F
-      !||--- called by ------------------------------------------------------
-      !||    cforc3         ../engine/source/elements/shell/coque/cforc3.F
-      !||    cforc3_crk     ../engine/source/elements/xfem/cforc3_crk.F
-      !||--- calls      -----------------------------------------------------
-      !||    cortdir3       ../engine/source/elements/shell/coque/cortdir3.F
-      !||--- uses       -----------------------------------------------------
-      !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    cnvec3         ../engine/source/elements/shell/coque/cnvec3.F
+!||--- called by ------------------------------------------------------
+!||    cforc3         ../engine/source/elements/shell/coque/cforc3.F
+!||    cforc3_crk     ../engine/source/elements/xfem/cforc3_crk.F
+!||--- calls      -----------------------------------------------------
+!||    cortdir3       ../engine/source/elements/shell/coque/cortdir3.F
+!||--- uses       -----------------------------------------------------
+!||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||====================================================================
       SUBROUTINE CNVEC3(ELBUF_STR,DIR_A  ,DIR_B  ,
      1           JFT     ,JLT    ,IREP   ,IGTYP  ,NLAY   ,       
      2           X1      ,X2     ,X3     ,X4     ,Y1     ,Y2     ,       

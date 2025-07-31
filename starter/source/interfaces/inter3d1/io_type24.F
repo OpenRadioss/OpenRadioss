@@ -20,12 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    io_type24   ../starter/source/interfaces/inter3d1/io_type24.F
-      !||--- calls      -----------------------------------------------------
-      !||    io_iarray   ../starter/source/interfaces/inter3d1/io_type24.F
-      !||    io_rarray   ../starter/source/interfaces/inter3d1/io_type24.F
-      !||====================================================================
+!||====================================================================
+!||    io_type24   ../starter/source/interfaces/inter3d1/io_type24.F
+!||--- calls      -----------------------------------------------------
+!||    io_iarray   ../starter/source/interfaces/inter3d1/io_type24.F
+!||    io_rarray   ../starter/source/interfaces/inter3d1/io_type24.F
+!||====================================================================
       SUBROUTINE IO_TYPE24(IDO,IOUT,
      .                     IGAP, 
      .                     IPEN0,   
@@ -320,9 +320,9 @@ c     WRITE(6,*) " RWA       ";CALL IO_RARRAY (RWA      ,SIZ_RWA      ,IOUT ,FLA
 
       RETURN
       END
-      !||====================================================================
-      !||    io_int   ../starter/source/interfaces/inter3d1/io_type24.F
-      !||====================================================================
+!||====================================================================
+!||    io_int   ../starter/source/interfaces/inter3d1/io_type24.F
+!||====================================================================
       SUBROUTINE IO_INT(SCALAR,IOUT,FLAG)
 C============================================================================
 C-----------------------------------------------
@@ -358,11 +358,11 @@ c     CALL FLUSH(700)
       RETURN
       END
 
-      !||====================================================================
-      !||    io_iarray   ../starter/source/interfaces/inter3d1/io_type24.F
-      !||--- called by ------------------------------------------------------
-      !||    io_type24   ../starter/source/interfaces/inter3d1/io_type24.F
-      !||====================================================================
+!||====================================================================
+!||    io_iarray   ../starter/source/interfaces/inter3d1/io_type24.F
+!||--- called by ------------------------------------------------------
+!||    io_type24   ../starter/source/interfaces/inter3d1/io_type24.F
+!||====================================================================
       SUBROUTINE IO_IARRAY(ARRAY,LENGTH,IOUT,FLAG)
 C============================================================================
 C-----------------------------------------------
@@ -401,11 +401,11 @@ c          WRITE(6,*) I,ARRAY(I)
       RETURN
       END
 C============================================================================
-      !||====================================================================
-      !||    io_rarray   ../starter/source/interfaces/inter3d1/io_type24.F
-      !||--- called by ------------------------------------------------------
-      !||    io_type24   ../starter/source/interfaces/inter3d1/io_type24.F
-      !||====================================================================
+!||====================================================================
+!||    io_rarray   ../starter/source/interfaces/inter3d1/io_type24.F
+!||--- called by ------------------------------------------------------
+!||    io_type24   ../starter/source/interfaces/inter3d1/io_type24.F
+!||====================================================================
       SUBROUTINE IO_RARRAY(ARRAY,LENGTH,IOUT,FLAG)
 C-----------------------------------------------
 C   M o d u l e s

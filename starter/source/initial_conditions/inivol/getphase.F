@@ -20,15 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    getphase          ../starter/source/initial_conditions/inivol/getphase.F
-      !||--- called by ------------------------------------------------------
-      !||    init_inivol       ../starter/source/initial_conditions/inivol/init_inivol.F90
-      !||--- calls      -----------------------------------------------------
-      !||    mean_node_norm2   ../starter/source/initial_conditions/inivol/mean_node_norm2.F
-      !||    nfacette          ../starter/source/initial_conditions/inivol/nfacette.F
-      !||    phase_detection   ../starter/source/initial_conditions/inivol/phase_detection.F
-      !||====================================================================
+!||====================================================================
+!||    getphase          ../starter/source/initial_conditions/inivol/getphase.F
+!||--- called by ------------------------------------------------------
+!||    init_inivol       ../starter/source/initial_conditions/inivol/init_inivol.F90
+!||--- calls      -----------------------------------------------------
+!||    mean_node_norm2   ../starter/source/initial_conditions/inivol/mean_node_norm2.F
+!||    nfacette          ../starter/source/initial_conditions/inivol/nfacette.F
+!||    phase_detection   ../starter/source/initial_conditions/inivol/phase_detection.F
+!||====================================================================
       SUBROUTINE GETPHASE(MVSIZ            ,NUMELS       ,NUMELTG    ,NUMELQ         ,NUMNOD    ,
      .                    NPARG            ,NGROUP       ,NSURF      ,N2D            ,
      .                    X                ,SURF_TYPE    ,ITAGNSOL   ,DIS            ,NSOLTOSF  ,

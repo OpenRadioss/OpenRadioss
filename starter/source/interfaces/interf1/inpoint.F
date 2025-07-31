@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    inpoint      ../starter/source/interfaces/interf1/inpoint.F
-      !||--- called by ------------------------------------------------------
-      !||    lecins       ../starter/source/interfaces/interf1/lecins.F
-      !||    lecint       ../starter/source/interfaces/interf1/lecint.F
-      !||--- uses       -----------------------------------------------------
-      !||    format_mod   ../starter/share/modules1/format_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    inpoint      ../starter/source/interfaces/interf1/inpoint.F
+!||--- called by ------------------------------------------------------
+!||    lecins       ../starter/source/interfaces/interf1/lecins.F
+!||    lecint       ../starter/source/interfaces/interf1/lecint.F
+!||--- uses       -----------------------------------------------------
+!||    format_mod   ../starter/share/modules1/format_mod.F90
+!||====================================================================
       SUBROUTINE INPOINT(MSN,NOINT,BRICS,ITAB,MSV)
 C-----------------------------------------------
 C   M o d u l e s

@@ -20,22 +20,22 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    st_utable_dum   ../starter/source/user_interface/utable.F
-      !||--- called by ------------------------------------------------------
-      !||    starter0        ../starter/source/starter/starter0.F
-      !||====================================================================
+!||====================================================================
+!||    st_utable_dum   ../starter/source/user_interface/utable.F
+!||--- called by ------------------------------------------------------
+!||    starter0        ../starter/source/starter/starter0.F
+!||====================================================================
       SUBROUTINE ST_UTABLE_DUM(IERR)
 #include      "implicit_f.inc"
       INTEGER IERR
       IERR=0
       END      
-      !||====================================================================
-      !||    get_u_numtable   ../starter/source/user_interface/utable.F
-      !||--- uses       -----------------------------------------------------
-      !||    table_glob_mod   ../starter/share/modules1/table_glob_mod.F
-      !||    table_mod        ../starter/share/modules1/table_mod.F
-      !||====================================================================
+!||====================================================================
+!||    get_u_numtable   ../starter/source/user_interface/utable.F
+!||--- uses       -----------------------------------------------------
+!||    table_glob_mod   ../starter/share/modules1/table_glob_mod.F
+!||    table_mod        ../starter/share/modules1/table_mod.F
+!||====================================================================
       INTEGER FUNCTION GET_U_NUMTABLE(TID) 
       USE TABLE_GLOB_MOD
       USE TABLE_MOD
@@ -54,13 +54,13 @@ C
       ENDDO
       RETURN
       END
-      !||====================================================================
-      !||    get_u_table      ../starter/source/user_interface/utable.F
-      !||--- calls      -----------------------------------------------------
-      !||    table_interp     ../starter/source/tools/curve/table_tools.F
-      !||--- uses       -----------------------------------------------------
-      !||    table_glob_mod   ../starter/share/modules1/table_glob_mod.F
-      !||====================================================================
+!||====================================================================
+!||    get_u_table      ../starter/source/user_interface/utable.F
+!||--- calls      -----------------------------------------------------
+!||    table_interp     ../starter/source/tools/curve/table_tools.F
+!||--- uses       -----------------------------------------------------
+!||    table_glob_mod   ../starter/share/modules1/table_glob_mod.F
+!||====================================================================
       SUBROUTINE GET_U_TABLE(ITABLE,XX,YY) 
       USE TABLE_GLOB_MOD
 C-----------------------------------------------
@@ -79,13 +79,13 @@ C
       CALL TABLE_INTERP(TABLE(ITABLE),XX,YY)
       RETURN
       END
-      !||====================================================================
-      !||    get_u_vtable     ../starter/source/user_interface/utable.F
-      !||--- calls      -----------------------------------------------------
-      !||    table_vinterp    ../starter/source/tools/curve/table_tools.F
-      !||--- uses       -----------------------------------------------------
-      !||    table_glob_mod   ../starter/share/modules1/table_glob_mod.F
-      !||====================================================================
+!||====================================================================
+!||    get_u_vtable     ../starter/source/user_interface/utable.F
+!||--- calls      -----------------------------------------------------
+!||    table_vinterp    ../starter/source/tools/curve/table_tools.F
+!||--- uses       -----------------------------------------------------
+!||    table_glob_mod   ../starter/share/modules1/table_glob_mod.F
+!||====================================================================
       SUBROUTINE GET_U_VTABLE(ITABLE,NEL0,IPOS,XX,YY,DYDX1) 
       USE TABLE_GLOB_MOD
 C-----------------------------------------------

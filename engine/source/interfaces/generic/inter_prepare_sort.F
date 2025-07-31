@@ -20,35 +20,35 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    inter_prepare_sort            ../engine/source/interfaces/generic/inter_prepare_sort.F
-      !||--- called by ------------------------------------------------------
-      !||    inttri                        ../engine/source/interfaces/intsort/inttri.F
-      !||--- calls      -----------------------------------------------------
-      !||    compute_voxel_dimensions      ../engine/source/interfaces/intsort/voxel_dimensions.F90
-      !||    fill_voxel_local_partial      ../engine/source/interfaces/intsort/fill_voxel.F90
-      !||    inter_box_creation            ../engine/source/interfaces/generic/inter_box_creation.F
-      !||    inter_color_coarse_voxel      ../engine/source/interfaces/generic/inter_color_coarse_voxel.F
-      !||    inter_color_voxel             ../engine/source/interfaces/generic/inter_color_voxel.F
-      !||    inter_component_bound         ../engine/source/interfaces/generic/inter_component_bound.F90
-      !||    inter_count_node_curv         ../engine/source/interfaces/generic/inter_count_node_curv.F
-      !||    inter_voxel_creation          ../engine/source/interfaces/generic/inter_voxel_creation.F
-      !||    my_barrier                    ../engine/source/system/machine.F
-      !||    spmd_box_limit_reduction      ../engine/source/mpi/interfaces/spmd_box_limit_reduction.F
-      !||    spmd_cell_list_exchange       ../engine/source/mpi/interfaces/spmd_cell_list_exchange.F
-      !||    spmd_exchange_component       ../engine/source/mpi/interfaces/spmd_exch_component.F90
-      !||    spmd_wait_nb                  ../engine/source/mpi/interfaces/spmd_wait_nb.F
-      !||--- uses       -----------------------------------------------------
-      !||    command_line_args_mod         ../engine/share/modules/command_line_args.F
-      !||    fill_voxel_mod                ../engine/source/interfaces/intsort/fill_voxel.F90
-      !||    intbufdef_mod                 ../common_source/modules/interfaces/intbufdef_mod.F90
-      !||    inter_component_bound_mod     ../engine/source/interfaces/generic/inter_component_bound.F90
-      !||    inter_sorting_mod             ../engine/share/modules/inter_sorting_mod.F
-      !||    inter_struct_mod              ../engine/share/modules/inter_struct_mod.F
-      !||    spmd_exchange_component_mod   ../engine/source/mpi/interfaces/spmd_exch_component.F90
-      !||    tri7box                       ../engine/share/modules/tri7box.F
-      !||    voxel_dimensions_mod          ../engine/source/interfaces/intsort/voxel_dimensions.F90
-      !||====================================================================
+!||====================================================================
+!||    inter_prepare_sort            ../engine/source/interfaces/generic/inter_prepare_sort.F
+!||--- called by ------------------------------------------------------
+!||    inttri                        ../engine/source/interfaces/intsort/inttri.F
+!||--- calls      -----------------------------------------------------
+!||    compute_voxel_dimensions      ../engine/source/interfaces/intsort/voxel_dimensions.F90
+!||    fill_voxel_local_partial      ../engine/source/interfaces/intsort/fill_voxel.F90
+!||    inter_box_creation            ../engine/source/interfaces/generic/inter_box_creation.F
+!||    inter_color_coarse_voxel      ../engine/source/interfaces/generic/inter_color_coarse_voxel.F
+!||    inter_color_voxel             ../engine/source/interfaces/generic/inter_color_voxel.F
+!||    inter_component_bound         ../engine/source/interfaces/generic/inter_component_bound.F90
+!||    inter_count_node_curv         ../engine/source/interfaces/generic/inter_count_node_curv.F
+!||    inter_voxel_creation          ../engine/source/interfaces/generic/inter_voxel_creation.F
+!||    my_barrier                    ../engine/source/system/machine.F
+!||    spmd_box_limit_reduction      ../engine/source/mpi/interfaces/spmd_box_limit_reduction.F
+!||    spmd_cell_list_exchange       ../engine/source/mpi/interfaces/spmd_cell_list_exchange.F
+!||    spmd_exchange_component       ../engine/source/mpi/interfaces/spmd_exch_component.F90
+!||    spmd_wait_nb                  ../engine/source/mpi/interfaces/spmd_wait_nb.F
+!||--- uses       -----------------------------------------------------
+!||    command_line_args_mod         ../engine/share/modules/command_line_args.F
+!||    fill_voxel_mod                ../engine/source/interfaces/intsort/fill_voxel.F90
+!||    intbufdef_mod                 ../common_source/modules/interfaces/intbufdef_mod.F90
+!||    inter_component_bound_mod     ../engine/source/interfaces/generic/inter_component_bound.F90
+!||    inter_sorting_mod             ../engine/share/modules/inter_sorting_mod.F
+!||    inter_struct_mod              ../engine/share/modules/inter_struct_mod.F
+!||    spmd_exchange_component_mod   ../engine/source/mpi/interfaces/spmd_exch_component.F90
+!||    tri7box                       ../engine/share/modules/tri7box.F
+!||    voxel_dimensions_mod          ../engine/source/interfaces/intsort/voxel_dimensions.F90
+!||====================================================================
         SUBROUTINE INTER_PREPARE_SORT( ITASK,NB_INTER_SORTED,LIST_INTER_SORTED,ISENDTO,IRECVFROM,
      .                                 IPARI,IAD_ELEM,FR_ELEM,X,V,
      .                                 MS,TEMP,KINET,NODNX_SMS,ITAB,

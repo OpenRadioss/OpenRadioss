@@ -20,39 +20,39 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    afluxt                  ../engine/source/ale/ale51/afluxt.F
-      !||--- called by ------------------------------------------------------
-      !||    alethe                  ../engine/source/ale/alethe.F
-      !||--- calls      -----------------------------------------------------
-      !||    ale51_antidiff2         ../engine/source/ale/ale51/ale51_antidiff2.F
-      !||    ale51_antidiff3         ../engine/source/ale/ale51/ale51_antidiff3.F
-      !||    ale51_antidiff3_int22   ../engine/source/ale/alefvm/cut_cells/ale51_antidiff3_int22.F
-      !||    ale51_spmd2             ../engine/source/ale/ale51/ale51_spmd2.F
-      !||    ale51_spmd3             ../engine/source/ale/ale51/ale51_spmd3.F
-      !||    ale51_upwind2           ../engine/source/ale/ale51/ale51_upwind2.F
-      !||    ale51_upwind3           ../engine/source/ale/ale51/ale51_upwind3.F
-      !||    ale51_upwind3_int22     ../engine/source/ale/alefvm/cut_cells/ale51_upwind3_int22.F
-      !||    alemuscl_upwind         ../engine/source/ale/alemuscl/alemuscl_upwind.F
-      !||    alemuscl_upwind2        ../engine/source/ale/alemuscl/alemuscl_upwind2.F
-      !||    initbuf                 ../engine/share/resol/initbuf.F
-      !||    my_barrier              ../engine/source/system/machine.F
-      !||    spmd_e1vois             ../engine/source/mpi/fluid/spmd_cfd.F
-      !||    spmd_e4vois             ../engine/source/mpi/fluid/spmd_cfd.F
-      !||    spmd_e6vois             ../engine/source/mpi/fluid/spmd_cfd.F
-      !||    spmd_i4vois             ../engine/source/mpi/fluid/spmd_cfd.F
-      !||    spmd_i8vois             ../engine/source/mpi/fluid/spmd_cfd.F
-      !||--- uses       -----------------------------------------------------
-      !||    ale_connectivity_mod    ../common_source/modules/ale/ale_connectivity_mod.F
-      !||    alemuscl_mod            ../common_source/modules/ale/alemuscl_mod.F
-      !||    elbufdef_mod            ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||    i22bufbric_mod          ../common_source/modules/interfaces/cut-cell-search_mod.F
-      !||    i22tri_mod              ../common_source/modules/interfaces/cut-cell-search_mod.F
-      !||    initbuf_mod             ../engine/share/resol/initbuf.F
-      !||    multimat_param_mod      ../common_source/modules/multimat_param_mod.F90
-      !||    segvar_mod              ../engine/share/modules/segvar_mod.F
-      !||    trimat_mod              ../engine/share/modules/trimat.F
-      !||====================================================================
+!||====================================================================
+!||    afluxt                  ../engine/source/ale/ale51/afluxt.F
+!||--- called by ------------------------------------------------------
+!||    alethe                  ../engine/source/ale/alethe.F
+!||--- calls      -----------------------------------------------------
+!||    ale51_antidiff2         ../engine/source/ale/ale51/ale51_antidiff2.F
+!||    ale51_antidiff3         ../engine/source/ale/ale51/ale51_antidiff3.F
+!||    ale51_antidiff3_int22   ../engine/source/ale/alefvm/cut_cells/ale51_antidiff3_int22.F
+!||    ale51_spmd2             ../engine/source/ale/ale51/ale51_spmd2.F
+!||    ale51_spmd3             ../engine/source/ale/ale51/ale51_spmd3.F
+!||    ale51_upwind2           ../engine/source/ale/ale51/ale51_upwind2.F
+!||    ale51_upwind3           ../engine/source/ale/ale51/ale51_upwind3.F
+!||    ale51_upwind3_int22     ../engine/source/ale/alefvm/cut_cells/ale51_upwind3_int22.F
+!||    alemuscl_upwind         ../engine/source/ale/alemuscl/alemuscl_upwind.F
+!||    alemuscl_upwind2        ../engine/source/ale/alemuscl/alemuscl_upwind2.F
+!||    initbuf                 ../engine/share/resol/initbuf.F
+!||    my_barrier              ../engine/source/system/machine.F
+!||    spmd_e1vois             ../engine/source/mpi/fluid/spmd_cfd.F
+!||    spmd_e4vois             ../engine/source/mpi/fluid/spmd_cfd.F
+!||    spmd_e6vois             ../engine/source/mpi/fluid/spmd_cfd.F
+!||    spmd_i4vois             ../engine/source/mpi/fluid/spmd_cfd.F
+!||    spmd_i8vois             ../engine/source/mpi/fluid/spmd_cfd.F
+!||--- uses       -----------------------------------------------------
+!||    ale_connectivity_mod    ../common_source/modules/ale/ale_connectivity_mod.F
+!||    alemuscl_mod            ../common_source/modules/ale/alemuscl_mod.F
+!||    elbufdef_mod            ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    i22bufbric_mod          ../common_source/modules/interfaces/cut-cell-search_mod.F
+!||    i22tri_mod              ../common_source/modules/interfaces/cut-cell-search_mod.F
+!||    initbuf_mod             ../engine/share/resol/initbuf.F
+!||    multimat_param_mod      ../common_source/modules/multimat_param_mod.F90
+!||    segvar_mod              ../engine/share/modules/segvar_mod.F
+!||    trimat_mod              ../engine/share/modules/trimat.F
+!||====================================================================
       SUBROUTINE AFLUXT(IPARG   ,ELBUF_TAB   ,PM       ,IXS     ,IXQ     ,
      2                  X       ,FLUX        ,FLU2     ,
      3                  ALPHA   ,ALE_CONNECT ,ITASK    ,

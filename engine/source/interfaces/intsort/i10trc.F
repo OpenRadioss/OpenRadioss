@@ -20,11 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    i10trc        ../engine/source/interfaces/intsort/i10trc.F
-      !||--- called by ------------------------------------------------------
-      !||    i10main_tri   ../engine/source/interfaces/intsort/i10main_tri.F
-      !||====================================================================
+!||====================================================================
+!||    i10trc        ../engine/source/interfaces/intsort/i10trc.F
+!||--- called by ------------------------------------------------------
+!||    i10main_tri   ../engine/source/interfaces/intsort/i10main_tri.F
+!||====================================================================
       SUBROUTINE I10TRC(
      1      NSN   ,I_STOK   ,CAND_N ,CAND_E,CAND_F,
      2      CAND_A,NUM_IMP  ,IND_IMP)

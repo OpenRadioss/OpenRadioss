@@ -20,17 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    i25sto             ../starter/source/interfaces/inter3d1/i25sto.F
-      !||--- called by ------------------------------------------------------
-      !||    i25trivox1         ../starter/source/interfaces/inter3d1/i25trivox1.F
-      !||--- calls      -----------------------------------------------------
-      !||    i25cor3t           ../starter/source/interfaces/inter3d1/i25cor3t.F
-      !||    i25pen3a           ../starter/source/interfaces/inter3d1/i25pen3a.F
-      !||    i25s1s2            ../starter/source/interfaces/inter3d1/i25sto.F
-      !||--- uses       -----------------------------------------------------
-      !||    tri7box            ../starter/share/modules1/tri7box.F
-      !||====================================================================
+!||====================================================================
+!||    i25sto             ../starter/source/interfaces/inter3d1/i25sto.F
+!||--- called by ------------------------------------------------------
+!||    i25trivox1         ../starter/source/interfaces/inter3d1/i25trivox1.F
+!||--- calls      -----------------------------------------------------
+!||    i25cor3t           ../starter/source/interfaces/inter3d1/i25cor3t.F
+!||    i25pen3a           ../starter/source/interfaces/inter3d1/i25pen3a.F
+!||    i25s1s2            ../starter/source/interfaces/inter3d1/i25sto.F
+!||--- uses       -----------------------------------------------------
+!||    tri7box            ../starter/share/modules1/tri7box.F
+!||====================================================================
       SUBROUTINE I25STO(
      1      J_STOK,IRECT  ,X     ,NSV   ,local_i_stok,
      2      local_cand_n,local_cand_e ,MARGE  ,
@@ -137,13 +137,13 @@ C
 C-----------------------------------------------
       RETURN
       END
-      !||====================================================================
-      !||    i25s1s2   ../starter/source/interfaces/inter3d1/i25sto.F
-      !||--- called by ------------------------------------------------------
-      !||    i25sto    ../starter/source/interfaces/inter3d1/i25sto.F
-      !||--- calls      -----------------------------------------------------
-      !||    bitget    ../starter/source/interfaces/inter3d1/bitget.F
-      !||====================================================================
+!||====================================================================
+!||    i25s1s2   ../starter/source/interfaces/inter3d1/i25sto.F
+!||--- called by ------------------------------------------------------
+!||    i25sto    ../starter/source/interfaces/inter3d1/i25sto.F
+!||--- calls      -----------------------------------------------------
+!||    bitget    ../starter/source/interfaces/inter3d1/bitget.F
+!||====================================================================
       SUBROUTINE I25S1S2(J_STOK,PROV_N,PROV_E,NBINFLG,MBINFLG,PENE)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

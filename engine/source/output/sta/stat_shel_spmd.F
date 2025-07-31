@@ -20,19 +20,19 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    stat_shel_spmd        ../engine/source/output/sta/stat_shel_spmd.F
-      !||--- called by ------------------------------------------------------
-      !||    genstat               ../engine/source/output/sta/genstat.F
-      !||--- calls      -----------------------------------------------------
-      !||    my_orders             ../common_source/tools/sort/my_orders.c
-      !||    spmd_iget_partn_sta   ../engine/source/mpi/output/spmd_stat.F
-      !||    spmd_rgather9_dp      ../engine/source/mpi/interfaces/spmd_outp.F
-      !||--- uses       -----------------------------------------------------
-      !||    elbufdef_mod          ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||    message_mod           ../engine/share/message_module/message_mod.F
-      !||    my_alloc_mod          ../common_source/tools/memory/my_alloc.F90
-      !||====================================================================
+!||====================================================================
+!||    stat_shel_spmd        ../engine/source/output/sta/stat_shel_spmd.F
+!||--- called by ------------------------------------------------------
+!||    genstat               ../engine/source/output/sta/genstat.F
+!||--- calls      -----------------------------------------------------
+!||    my_orders             ../common_source/tools/sort/my_orders.c
+!||    spmd_iget_partn_sta   ../engine/source/mpi/output/spmd_stat.F
+!||    spmd_rgather9_dp      ../engine/source/mpi/interfaces/spmd_outp.F
+!||--- uses       -----------------------------------------------------
+!||    elbufdef_mod          ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    message_mod           ../engine/share/message_module/message_mod.F
+!||    my_alloc_mod          ../common_source/tools/memory/my_alloc.F90
+!||====================================================================
       SUBROUTINE STAT_SHEL_SPMD(ITAB,ITABG,LENG,IPART,IGEO,
      .            IXC,IXTG,IPARTC,IPARTTG,IPART_STATE,
      .            NODTAG,STAT_INDXC,STAT_INDXTG,LENGC,LENGTG,

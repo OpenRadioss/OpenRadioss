@@ -20,22 +20,22 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    m5in2              ../starter/source/initial_conditions/detonation/m5in2.F
-      !||--- called by ------------------------------------------------------
-      !||    m105init           ../starter/source/materials/mat/mat105/m105init.F
-      !||    m51init            ../starter/source/materials/mat/mat051/m51init.F
-      !||    m97init            ../starter/source/materials/mat/mat097/m97init.F
-      !||    matini             ../starter/source/materials/mat_share/matini.F
-      !||    multifluid_init2   ../starter/source/multifluid/multifluid_init2.F
-      !||--- calls      -----------------------------------------------------
-      !||    detcord            ../starter/source/initial_conditions/detonation/detcord.F
-      !||    ecran1             ../starter/source/initial_conditions/detonation/ecran1.F
-      !||    ecran2             ../starter/source/initial_conditions/detonation/ecran2.F
-      !||--- uses       -----------------------------------------------------
-      !||    detonators_mod     ../starter/share/modules1/detonators_mod.F
-      !||    message_mod        ../starter/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    m5in2              ../starter/source/initial_conditions/detonation/m5in2.F
+!||--- called by ------------------------------------------------------
+!||    m105init           ../starter/source/materials/mat/mat105/m105init.F
+!||    m51init            ../starter/source/materials/mat/mat051/m51init.F
+!||    m97init            ../starter/source/materials/mat/mat097/m97init.F
+!||    matini             ../starter/source/materials/mat_share/matini.F
+!||    multifluid_init2   ../starter/source/multifluid/multifluid_init2.F
+!||--- calls      -----------------------------------------------------
+!||    detcord            ../starter/source/initial_conditions/detonation/detcord.F
+!||    ecran1             ../starter/source/initial_conditions/detonation/ecran1.F
+!||    ecran2             ../starter/source/initial_conditions/detonation/ecran2.F
+!||--- uses       -----------------------------------------------------
+!||    detonators_mod     ../starter/share/modules1/detonators_mod.F
+!||    message_mod        ../starter/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE M5IN2(PM,MAT,M151_ID,DETONATORS,TB,X,IX,NIX)
 C-----------------------------------------------
 C   M o d u l e s

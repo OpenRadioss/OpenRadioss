@@ -26,12 +26,12 @@ C WRITE_I_C_DEBUG
 C Same for WRITE_DB
 C This allows to use the option -flush_rst_to_txt at the starter 
 
-      !||====================================================================
-      !||    write_i_c_debug        ../starter/source/output/tools/write_debug.F
-      !||--- calls      -----------------------------------------------------
-      !||    fretitl2               ../starter/source/starter/freform.F
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    write_i_c_debug        ../starter/source/output/tools/write_debug.F
+!||--- calls      -----------------------------------------------------
+!||    fretitl2               ../starter/source/starter/freform.F
+!||--- uses       -----------------------------------------------------
+!||====================================================================
       SUBROUTINE WRITE_I_C_DEBUG(A,N,SA)
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 ! Do not replace IMPLICIT NONE by an include here
@@ -72,10 +72,10 @@ C This allows to use the option -flush_rst_to_txt at the starter
 
       END SUBROUTINE
 
-      !||====================================================================
-      !||    write_db_debug   ../starter/source/output/tools/write_debug.F
-      !||--- calls      -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    write_db_debug   ../starter/source/output/tools/write_debug.F
+!||--- calls      -----------------------------------------------------
+!||====================================================================
       SUBROUTINE WRITE_DB_DEBUG(A,N,SA)
 ! Do not replace IMPLICIT NONE by an include here
       IMPLICIT NONE

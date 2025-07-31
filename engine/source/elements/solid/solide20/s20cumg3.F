@@ -20,16 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    s20cumg3   ../engine/source/elements/solid/solide20/s20cumg3.F
-      !||--- called by ------------------------------------------------------
-      !||    s20ke3     ../engine/source/elements/solid/solide20/s20ke3.F
-      !||--- calls      -----------------------------------------------------
-      !||    s8zkebg1   ../engine/source/elements/solid/solide8z/s8zkebg1.F
-      !||    s8zked3    ../engine/source/elements/solid/solide8z/s8zked3.F
-      !||    s8zkeg3    ../engine/source/elements/solid/solide8z/s8zkeg3.F
-      !||    s8zkeg33   ../engine/source/elements/solid/solide8z/s8zkeg33.F
-      !||====================================================================
+!||====================================================================
+!||    s20cumg3   ../engine/source/elements/solid/solide20/s20cumg3.F
+!||--- called by ------------------------------------------------------
+!||    s20ke3     ../engine/source/elements/solid/solide20/s20ke3.F
+!||--- calls      -----------------------------------------------------
+!||    s8zkebg1   ../engine/source/elements/solid/solide8z/s8zkebg1.F
+!||    s8zked3    ../engine/source/elements/solid/solide8z/s8zked3.F
+!||    s8zkeg3    ../engine/source/elements/solid/solide8z/s8zkeg3.F
+!||    s8zkeg33   ../engine/source/elements/solid/solide8z/s8zkeg33.F
+!||====================================================================
       SUBROUTINE S20CUMG3(
      1   PX,      PY,      PZ,      DD,
      2   GG,      DG,      G33,     IKSUP,

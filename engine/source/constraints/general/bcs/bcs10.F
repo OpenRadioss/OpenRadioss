@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    bcs10   ../engine/source/constraints/general/bcs/bcs10.F
-      !||--- called by ------------------------------------------------------
-      !||    resol   ../engine/source/engine/resol.F
-      !||--- calls      -----------------------------------------------------
-      !||    bcs1v   ../engine/source/constraints/general/bcs/bcs1.F
-      !||====================================================================
+!||====================================================================
+!||    bcs10   ../engine/source/constraints/general/bcs/bcs10.F
+!||--- called by ------------------------------------------------------
+!||    resol   ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
+!||    bcs1v   ../engine/source/constraints/general/bcs/bcs1.F
+!||====================================================================
       SUBROUTINE BCS10(NODFT,NODLT  ,ICODT  ,ICODR,ISKEW,
      2                 SKEW ,A      ,AR     ,MS   ,V    ,
      3                 VR   )

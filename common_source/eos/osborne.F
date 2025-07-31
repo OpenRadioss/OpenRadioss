@@ -20,11 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    osborne   ../common_source/eos/osborne.F
-      !||--- called by ------------------------------------------------------
-      !||    eosmain   ../common_source/eos/eosmain.F
-      !||====================================================================
+!||====================================================================
+!||    osborne   ../common_source/eos/osborne.F
+!||--- called by ------------------------------------------------------
+!||    eosmain   ../common_source/eos/eosmain.F
+!||====================================================================
       SUBROUTINE OSBORNE  (IFLAG,NEL  ,PM   ,OFF  ,EINT ,MU   ,
      2                     ESPE ,DVOL ,DF   ,VNEW ,MAT  ,PSH  ,
      3                     PNEW ,DPDM ,DPDE )

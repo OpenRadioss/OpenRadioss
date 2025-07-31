@@ -20,38 +20,38 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    pforc3              ../engine/source/elements/beam/pforc3.F
-      !||--- called by ------------------------------------------------------
-      !||    forint              ../engine/source/elements/forint.F
-      !||--- calls      -----------------------------------------------------
-      !||    finter              ../engine/source/tools/curve/finter.F
-      !||    main_beam18         ../engine/source/elements/beam/main_beam18.F
-      !||    main_beam3          ../engine/source/elements/beam/main_beam3.F
-      !||    pbilan              ../engine/source/elements/beam/pbilan.F
-      !||    pcoor3              ../engine/source/elements/beam/pcoor3.F
-      !||    pcurv3              ../engine/source/elements/beam/pcurv3.F
-      !||    pdamp3              ../engine/source/elements/beam/pdamp3.F
-      !||    pdefo3              ../engine/source/elements/beam/pdefo3.F
-      !||    pdlen3              ../engine/source/elements/beam/pdlen3.F
-      !||    pevec3              ../engine/source/elements/beam/pevec3.F
-      !||    pfcum3              ../engine/source/elements/beam/pfcum3.F
-      !||    pfcum3p             ../engine/source/elements/beam/pfcum3p.F
-      !||    pfint3              ../engine/source/elements/beam/pfint3.F
-      !||    pmcum3              ../engine/source/elements/beam/pmcum3.F
-      !||    pmcum3p             ../engine/source/elements/beam/pmcum3p.F
-      !||    ppxpy3              ../engine/source/elements/beam/ppxpy3.F
-      !||    preload_axial       ../engine/source/elements/spring/preload_axial.F90
-      !||    thermexppg          ../engine/source/elements/beam/thermexpp.F
-      !||    thermexppi          ../engine/source/elements/beam/thermexpp.F
-      !||--- uses       -----------------------------------------------------
-      !||    dt_mod              ../engine/source/modules/dt_mod.F
-      !||    elbufdef_mod        ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||    h3d_mod             ../engine/share/modules/h3d_mod.F
-      !||    mat_elem_mod        ../common_source/modules/mat_elem/mat_elem_mod.F90
-      !||    preload_axial_mod   ../engine/source/elements/spring/preload_axial.F90
-      !||    sensor_mod          ../common_source/modules/sensor_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    pforc3              ../engine/source/elements/beam/pforc3.F
+!||--- called by ------------------------------------------------------
+!||    forint              ../engine/source/elements/forint.F
+!||--- calls      -----------------------------------------------------
+!||    finter              ../engine/source/tools/curve/finter.F
+!||    main_beam18         ../engine/source/elements/beam/main_beam18.F
+!||    main_beam3          ../engine/source/elements/beam/main_beam3.F
+!||    pbilan              ../engine/source/elements/beam/pbilan.F
+!||    pcoor3              ../engine/source/elements/beam/pcoor3.F
+!||    pcurv3              ../engine/source/elements/beam/pcurv3.F
+!||    pdamp3              ../engine/source/elements/beam/pdamp3.F
+!||    pdefo3              ../engine/source/elements/beam/pdefo3.F
+!||    pdlen3              ../engine/source/elements/beam/pdlen3.F
+!||    pevec3              ../engine/source/elements/beam/pevec3.F
+!||    pfcum3              ../engine/source/elements/beam/pfcum3.F
+!||    pfcum3p             ../engine/source/elements/beam/pfcum3p.F
+!||    pfint3              ../engine/source/elements/beam/pfint3.F
+!||    pmcum3              ../engine/source/elements/beam/pmcum3.F
+!||    pmcum3p             ../engine/source/elements/beam/pmcum3p.F
+!||    ppxpy3              ../engine/source/elements/beam/ppxpy3.F
+!||    preload_axial       ../engine/source/elements/spring/preload_axial.F90
+!||    thermexppg          ../engine/source/elements/beam/thermexpp.F
+!||    thermexppi          ../engine/source/elements/beam/thermexpp.F
+!||--- uses       -----------------------------------------------------
+!||    dt_mod              ../engine/source/modules/dt_mod.F
+!||    elbufdef_mod        ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    h3d_mod             ../engine/share/modules/h3d_mod.F
+!||    mat_elem_mod        ../common_source/modules/mat_elem/mat_elem_mod.F90
+!||    preload_axial_mod   ../engine/source/elements/spring/preload_axial.F90
+!||    sensor_mod          ../common_source/modules/sensor_mod.F90
+!||====================================================================
       SUBROUTINE PFORC3(
      1           ELBUF_STR,JFT      ,JLT      ,NEL      ,
      2           MTN      ,ISMSTR   ,PM       ,NCC      ,

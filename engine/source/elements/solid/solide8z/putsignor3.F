@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    putsignor3     ../engine/source/elements/solid/solide8z/putsignor3.F
-      !||--- called by ------------------------------------------------------
-      !||    mmain          ../engine/source/materials/mat_share/mmain.F90
-      !||--- uses       -----------------------------------------------------
-      !||    imp_ktan       ../engine/share/modules/impbufdef_mod.F
-      !||    imp_ktan_def   ../engine/share/modules/impbufdef_mod.F
-      !||====================================================================
+!||====================================================================
+!||    putsignor3     ../engine/source/elements/solid/solide8z/putsignor3.F
+!||--- called by ------------------------------------------------------
+!||    mmain          ../engine/source/materials/mat_share/mmain.F90
+!||--- uses       -----------------------------------------------------
+!||    imp_ktan       ../engine/share/modules/impbufdef_mod.F
+!||    imp_ktan_def   ../engine/share/modules/impbufdef_mod.F
+!||====================================================================
       SUBROUTINE PUTSIGNOR3(JFT ,JLT ,MTN,IR,IS,IT,AL_IMP ,SIGNOR)
 C-----------------------------------------------
 C   M o d u l e s

@@ -20,20 +20,20 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    c_inivell_mod   ../starter/source/restart/ddsplit/c_inivell.F90
-      !||--- called by ------------------------------------------------------
-      !||    ddsplit         ../starter/source/restart/ddsplit/ddsplit.F
-      !||====================================================================
+!||====================================================================
+!||    c_inivell_mod   ../starter/source/restart/ddsplit/c_inivell.F90
+!||--- called by ------------------------------------------------------
+!||    ddsplit         ../starter/source/restart/ddsplit/ddsplit.F
+!||====================================================================
       module c_inivell_mod
        contains
   !! \brief get number of splited inivel rst w/ T_start or sensor_id 
-      !||====================================================================
-      !||    c_inivell      ../starter/source/restart/ddsplit/c_inivell.F90
-      !||--- called by ------------------------------------------------------
-      !||    ddsplit        ../starter/source/restart/ddsplit/ddsplit.F
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    c_inivell      ../starter/source/restart/ddsplit/c_inivell.F90
+!||--- called by ------------------------------------------------------
+!||    ddsplit        ../starter/source/restart/ddsplit/ddsplit.F
+!||--- uses       -----------------------------------------------------
+!||====================================================================
         subroutine c_inivell(                                                 &
                        ngrnod,  ngrbric,    ngrquad,       ngrsh3n,           &
                        igrnod,  igrbric,    igrquad,       igrsh3n,           &

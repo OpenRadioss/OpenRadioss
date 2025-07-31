@@ -20,11 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    depla   ../engine/source/assembly/depla.F
-      !||--- called by ------------------------------------------------------
-      !||    resol   ../engine/source/engine/resol.F
-      !||====================================================================
+!||====================================================================
+!||    depla   ../engine/source/assembly/depla.F
+!||--- called by ------------------------------------------------------
+!||    resol   ../engine/source/engine/resol.F
+!||====================================================================
       SUBROUTINE DEPLA(V, D, X, VR, DR, XDP, DDP, NUMNOD)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

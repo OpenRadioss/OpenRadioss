@@ -20,73 +20,73 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    optiondef_mod                   ../common_source/modules/optiondef_mod.F
-      !||--- called by ------------------------------------------------------
-      !||    addmaspart                      ../starter/source/tools/admas/addmaspart.F
-      !||    bigbox                          ../starter/source/model/box/bigbox.F
-      !||    bigbox2                         ../starter/source/model/box/bigbox.F
-      !||    bigsbox                         ../starter/source/model/box/bigbox.F
-      !||    box_surf_sh                     ../starter/source/model/box/bigbox.F
-      !||    boxassem1                       ../starter/source/model/box/bigbox.F
-      !||    boxassem2                       ../starter/source/model/box/bigbox.F
-      !||    boxassem3                       ../starter/source/model/box/bigbox.F
-      !||    boxassem4                       ../starter/source/model/box/bigbox.F
-      !||    boxbox                          ../starter/source/model/box/boxbox.F
-      !||    boxbox2                         ../starter/source/model/box/boxbox.F
-      !||    boxboxs                         ../starter/source/model/box/boxbox.F
-      !||    boxtage                         ../starter/source/model/box/bigbox.F
-      !||    boxtagn                         ../starter/source/model/box/bigbox.F
-      !||    create_box_clause               ../starter/source/model/sets/create_box_clause.F
-      !||    create_elt_box                  ../starter/source/model/sets/create_elt_box.F
-      !||    create_elt_clause               ../starter/source/model/sets/create_element_clause.F
-      !||    create_node_box                 ../starter/source/model/sets/create_node_box.F
-      !||    create_node_clause              ../starter/source/model/sets/create_node_clause.F
-      !||    create_nodens_clause            ../starter/source/model/sets/create_nodens_clause.F90
-      !||    create_rbody_box                ../starter/source/model/sets/create_rbody_box.F
-      !||    create_rbody_clause             ../starter/source/model/sets/create_rbody_clause.F
-      !||    elstagbox                       ../starter/source/model/box/bigbox.F
-      !||    elstagboxbox                    ../starter/source/model/box/boxbox.F
-      !||    elt_box                         ../starter/source/model/sets/fill_clause_elt_box.F
-      !||    facebox                         ../starter/source/model/box/bigbox.F
-      !||    fill_clause_elt_box             ../starter/source/model/sets/fill_clause_elt_box.F
-      !||    fill_clause_node_box            ../starter/source/model/sets/fill_clause_node_box.F
-      !||    fill_clause_rbody_box           ../starter/source/model/sets/fill_clause_rbody_box.F
-      !||    hm_bigbox                       ../starter/source/model/box/hm_bigbox.F
-      !||    hm_bigbox2                      ../starter/source/model/box/hm_bigbox2.F
-      !||    hm_bigsbox                      ../starter/source/groups/hm_bigsbox.F
-      !||    hm_lecgre                       ../starter/source/groups/hm_lecgre.F
-      !||    hm_lecgrn                       ../starter/source/groups/hm_lecgrn.F
-      !||    hm_read_admas                   ../starter/source/tools/admas/hm_read_admas.F
-      !||    hm_read_box                     ../starter/source/model/box/hm_read_box.F
-      !||    hm_read_inicrack                ../starter/source/initial_conditions/inicrack/hm_read_inicrack.F
-      !||    hm_read_lines                   ../starter/source/groups/hm_read_lines.F
-      !||    hm_read_surf                    ../starter/source/groups/hm_read_surf.F
-      !||    hm_set                          ../starter/source/model/sets/hm_set.F
-      !||    inicrkfill                      ../starter/source/elements/xfem/inicrkfill.F
-      !||    initia                          ../starter/source/elements/initia/initia.F
-      !||    lecgroup                        ../starter/source/groups/lecgroup.F
-      !||    lectur                          ../engine/source/input/lectur.F
-      !||    node_box                        ../starter/source/model/sets/fill_clause_node_box.F
-      !||    option_mod                      ../starter/share/modules1/options_mod.F
-      !||    printgroup                      ../starter/source/output/outfile/printgroup.F
-      !||    rbody_box                       ../starter/source/model/sets/fill_clause_rbody_box.F
-      !||    read_box_box                    ../starter/source/model/box/read_box_box.F
-      !||    read_box_cyl                    ../starter/source/model/box/read_box_cyl.F
-      !||    read_box_rect                   ../starter/source/model/box/read_box_rect.F
-      !||    read_box_spher                  ../starter/source/model/box/read_box_spher.F
-      !||    read_clause_box                 ../starter/source/model/sets/read_clause_box.F
-      !||    sboxboxsurf                     ../starter/source/model/box/bigbox.F
-      !||    simple_elt_box                  ../starter/source/model/sets/simpl_elt_box.F
-      !||    simple_node_box                 ../starter/source/model/sets/simple_node_box.F
-      !||    simple_rbody_box                ../starter/source/model/sets/simple_rbody_box.F
-      !||    spmd_msin_addmass               ../starter/source/elements/initia/spmd_msin_addmass.F
-      !||    st_qaprint_driver               ../starter/source/output/qaprint/st_qaprint_driver.F
-      !||    st_qaprint_initial_conditions   ../starter/source/output/qaprint/st_qaprint_initial_conditions.F
-      !||    st_qaprint_model_tools          ../starter/source/output/qaprint/st_qaprint_model_tools.F
-      !||--- uses       -----------------------------------------------------
-      !||    names_and_titles_mod            ../common_source/modules/names_and_titles_mod.F
-      !||====================================================================
+!||====================================================================
+!||    optiondef_mod                   ../common_source/modules/optiondef_mod.F
+!||--- called by ------------------------------------------------------
+!||    addmaspart                      ../starter/source/tools/admas/addmaspart.F
+!||    bigbox                          ../starter/source/model/box/bigbox.F
+!||    bigbox2                         ../starter/source/model/box/bigbox.F
+!||    bigsbox                         ../starter/source/model/box/bigbox.F
+!||    box_surf_sh                     ../starter/source/model/box/bigbox.F
+!||    boxassem1                       ../starter/source/model/box/bigbox.F
+!||    boxassem2                       ../starter/source/model/box/bigbox.F
+!||    boxassem3                       ../starter/source/model/box/bigbox.F
+!||    boxassem4                       ../starter/source/model/box/bigbox.F
+!||    boxbox                          ../starter/source/model/box/boxbox.F
+!||    boxbox2                         ../starter/source/model/box/boxbox.F
+!||    boxboxs                         ../starter/source/model/box/boxbox.F
+!||    boxtage                         ../starter/source/model/box/bigbox.F
+!||    boxtagn                         ../starter/source/model/box/bigbox.F
+!||    create_box_clause               ../starter/source/model/sets/create_box_clause.F
+!||    create_elt_box                  ../starter/source/model/sets/create_elt_box.F
+!||    create_elt_clause               ../starter/source/model/sets/create_element_clause.F
+!||    create_node_box                 ../starter/source/model/sets/create_node_box.F
+!||    create_node_clause              ../starter/source/model/sets/create_node_clause.F
+!||    create_nodens_clause            ../starter/source/model/sets/create_nodens_clause.F90
+!||    create_rbody_box                ../starter/source/model/sets/create_rbody_box.F
+!||    create_rbody_clause             ../starter/source/model/sets/create_rbody_clause.F
+!||    elstagbox                       ../starter/source/model/box/bigbox.F
+!||    elstagboxbox                    ../starter/source/model/box/boxbox.F
+!||    elt_box                         ../starter/source/model/sets/fill_clause_elt_box.F
+!||    facebox                         ../starter/source/model/box/bigbox.F
+!||    fill_clause_elt_box             ../starter/source/model/sets/fill_clause_elt_box.F
+!||    fill_clause_node_box            ../starter/source/model/sets/fill_clause_node_box.F
+!||    fill_clause_rbody_box           ../starter/source/model/sets/fill_clause_rbody_box.F
+!||    hm_bigbox                       ../starter/source/model/box/hm_bigbox.F
+!||    hm_bigbox2                      ../starter/source/model/box/hm_bigbox2.F
+!||    hm_bigsbox                      ../starter/source/groups/hm_bigsbox.F
+!||    hm_lecgre                       ../starter/source/groups/hm_lecgre.F
+!||    hm_lecgrn                       ../starter/source/groups/hm_lecgrn.F
+!||    hm_read_admas                   ../starter/source/tools/admas/hm_read_admas.F
+!||    hm_read_box                     ../starter/source/model/box/hm_read_box.F
+!||    hm_read_inicrack                ../starter/source/initial_conditions/inicrack/hm_read_inicrack.F
+!||    hm_read_lines                   ../starter/source/groups/hm_read_lines.F
+!||    hm_read_surf                    ../starter/source/groups/hm_read_surf.F
+!||    hm_set                          ../starter/source/model/sets/hm_set.F
+!||    inicrkfill                      ../starter/source/elements/xfem/inicrkfill.F
+!||    initia                          ../starter/source/elements/initia/initia.F
+!||    lecgroup                        ../starter/source/groups/lecgroup.F
+!||    lectur                          ../engine/source/input/lectur.F
+!||    node_box                        ../starter/source/model/sets/fill_clause_node_box.F
+!||    option_mod                      ../starter/share/modules1/options_mod.F
+!||    printgroup                      ../starter/source/output/outfile/printgroup.F
+!||    rbody_box                       ../starter/source/model/sets/fill_clause_rbody_box.F
+!||    read_box_box                    ../starter/source/model/box/read_box_box.F
+!||    read_box_cyl                    ../starter/source/model/box/read_box_cyl.F
+!||    read_box_rect                   ../starter/source/model/box/read_box_rect.F
+!||    read_box_spher                  ../starter/source/model/box/read_box_spher.F
+!||    read_clause_box                 ../starter/source/model/sets/read_clause_box.F
+!||    sboxboxsurf                     ../starter/source/model/box/bigbox.F
+!||    simple_elt_box                  ../starter/source/model/sets/simpl_elt_box.F
+!||    simple_node_box                 ../starter/source/model/sets/simple_node_box.F
+!||    simple_rbody_box                ../starter/source/model/sets/simple_rbody_box.F
+!||    spmd_msin_addmass               ../starter/source/elements/initia/spmd_msin_addmass.F
+!||    st_qaprint_driver               ../starter/source/output/qaprint/st_qaprint_driver.F
+!||    st_qaprint_initial_conditions   ../starter/source/output/qaprint/st_qaprint_initial_conditions.F
+!||    st_qaprint_model_tools          ../starter/source/output/qaprint/st_qaprint_model_tools.F
+!||--- uses       -----------------------------------------------------
+!||    names_and_titles_mod            ../common_source/modules/names_and_titles_mod.F
+!||====================================================================
       MODULE OPTIONDEF_MOD
 !----------------------------------------------------------------------- 
       USE NAMES_AND_TITLES_MOD, ONLY: NCHARTITLE

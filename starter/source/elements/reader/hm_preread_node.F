@@ -21,19 +21,19 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
-      !||====================================================================
-      !||    hm_preread_node        ../starter/source/elements/reader/hm_preread_node.F
-      !||--- called by ------------------------------------------------------
-      !||    contrl                 ../starter/source/starter/contrl.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg                 ../starter/source/output/message/message.F
-      !||    auto_node_merge        ../starter/source/elements/nodes/auto_node_merge.F
-      !||--- uses       -----------------------------------------------------
-      !||    hm_option_read_mod     ../starter/share/modules1/hm_option_read_mod.F
-      !||    message_mod            ../starter/share/message_module/message_mod.F
-      !||    reader_old_mod         ../starter/share/modules1/reader_old_mod.F90
-      !||    submodel_mod           ../starter/share/modules1/submodel_mod.F
-      !||====================================================================
+!||====================================================================
+!||    hm_preread_node        ../starter/source/elements/reader/hm_preread_node.F
+!||--- called by ------------------------------------------------------
+!||    contrl                 ../starter/source/starter/contrl.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                 ../starter/source/output/message/message.F
+!||    auto_node_merge        ../starter/source/elements/nodes/auto_node_merge.F
+!||--- uses       -----------------------------------------------------
+!||    hm_option_read_mod     ../starter/share/modules1/hm_option_read_mod.F
+!||    message_mod            ../starter/share/message_module/message_mod.F
+!||    reader_old_mod         ../starter/share/modules1/reader_old_mod.F90
+!||    submodel_mod           ../starter/share/modules1/submodel_mod.F
+!||====================================================================
       SUBROUTINE HM_PREREAD_NODE(UNITAB,LSUBMODEL,NUMNUSR,IS_DYNA)
 C-----------------------------------------------
 C   M o d u l e s

@@ -20,11 +20,11 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    fail_tab2_ib_mod   ../engine/source/materials/fail/tabulated/fail_tab2_ib.F90
-      !||--- called by ------------------------------------------------------
-      !||    fail_beam18        ../engine/source/elements/beam/fail_beam18.F
-      !||====================================================================
+!||====================================================================
+!||    fail_tab2_ib_mod   ../engine/source/materials/fail/tabulated/fail_tab2_ib.F90
+!||--- called by ------------------------------------------------------
+!||    fail_beam18        ../engine/source/elements/beam/fail_beam18.F
+!||====================================================================
     module fail_tab2_ib_mod
     contains
 ! ======================================================================================================================
@@ -32,21 +32,21 @@
 ! \details multiple failure models with different combinations with strain rate, thermal or mesh size dependency.
 ! ======================================================================================================================
 
-      !||====================================================================
-      !||    fail_tab2_ib          ../engine/source/materials/fail/tabulated/fail_tab2_ib.F90
-      !||--- called by ------------------------------------------------------
-      !||    fail_beam18           ../engine/source/elements/beam/fail_beam18.F
-      !||--- calls      -----------------------------------------------------
-      !||    finter                ../engine/source/tools/curve/finter.F
-      !||    table_vinterp         ../engine/source/tools/curve/table_tools.F
-      !||    vinter2               ../engine/source/tools/curve/vinter.F
-      !||--- uses       -----------------------------------------------------
-      !||    constant_mod          ../common_source/modules/constant_mod.F
-      !||    elbufdef_mod          ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||    interface_table_mod   ../engine/share/modules/table_mod.F
-      !||    precision_mod         ../common_source/modules/precision_mod.F90
-      !||    table_mod             ../engine/share/modules/table_mod.F
-      !||====================================================================
+!||====================================================================
+!||    fail_tab2_ib          ../engine/source/materials/fail/tabulated/fail_tab2_ib.F90
+!||--- called by ------------------------------------------------------
+!||    fail_beam18           ../engine/source/elements/beam/fail_beam18.F
+!||--- calls      -----------------------------------------------------
+!||    finter                ../engine/source/tools/curve/finter.F
+!||    table_vinterp         ../engine/source/tools/curve/table_tools.F
+!||    vinter2               ../engine/source/tools/curve/vinter.F
+!||--- uses       -----------------------------------------------------
+!||    constant_mod          ../common_source/modules/constant_mod.F
+!||    elbufdef_mod          ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    interface_table_mod   ../engine/share/modules/table_mod.F
+!||    precision_mod         ../common_source/modules/precision_mod.F90
+!||    table_mod             ../engine/share/modules/table_mod.F
+!||====================================================================
     subroutine fail_tab2_ib(                                            &
              nel   ,nuparam   ,nuvar   ,nfunc   ,ifunc  ,               &
              npf   ,table     ,tf      ,time    ,uparam ,               &

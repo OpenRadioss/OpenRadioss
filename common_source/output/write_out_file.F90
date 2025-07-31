@@ -23,9 +23,9 @@
 
 !! \brief Write line in text outut file, file given by its descriptor.
 !! \details This routine will be used in C file (C calls Fortran).
-      !||====================================================================
-      !||    write_out_file   ../common_source/output/write_out_file.F90
-      !||====================================================================
+!||====================================================================
+!||    write_out_file   ../common_source/output/write_out_file.F90
+!||====================================================================
         subroutine write_out_file(fd,line,len1)
 !----------------------------------------------
 !   i m p l i c i t   t y p e s

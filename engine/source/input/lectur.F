@@ -20,69 +20,69 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    lectur                 ../engine/source/input/lectur.F
-      !||--- called by ------------------------------------------------------
-      !||    radioss2               ../engine/source/engine/radioss2.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg                 ../engine/source/output/message/message.F
-      !||    anim_build_index_all   ../engine/source/output/anim/reader/anim_build_index_all.F
-      !||    arret                  ../engine/source/system/arret.F
-      !||    chkipari               ../engine/source/interfaces/interf/chkstfn3.F
-      !||    fr_rlale               ../engine/source/mpi/kinematic_conditions/fr_rlink1.F
-      !||    fr_rlink1              ../engine/source/mpi/kinematic_conditions/fr_rlink1.F
-      !||    lcbcsf                 ../engine/source/constraints/general/bcs/lcbcsf.F
-      !||    leccut                 ../engine/source/tools/sect/leccut.F
-      !||    lecdamp                ../engine/source/input/lecdamp.F
-      !||    leceig                 ../engine/source/input/leceig.F
-      !||    lecflsw                ../engine/source/fluid/lecflsw.F
-      !||    lecfun                 ../engine/source/tools/curve/lecfun.F
-      !||    lecfvbag               ../engine/source/input/lecfvbag.F
-      !||    lecfvbag1              ../engine/source/input/lecfvbag1.F
-      !||    lecfxinp               ../engine/source/input/lecfxinp.F
-      !||    lech3d                 ../engine/source/output/h3d/h3d_build_fortran/lech3d.F
-      !||    lecimpl                ../engine/source/input/lectur.F
-      !||    lecinv                 ../engine/source/input/lecinv.F
-      !||    lecnoise               ../engine/source/general_controls/computation/lecnoise.F
-      !||    lecstat                ../engine/source/input/lecstat.F
-      !||    ngr2usr                ../engine/source/input/freform.F
-      !||    prelech3d              ../engine/source/output/h3d/h3d_build_fortran/prelech3d.F90
-      !||    rbyonf                 ../engine/source/constraints/general/rbody/rbyonf.F
-      !||    read_dynain            ../engine/source/output/dynain/read_dynain.F
-      !||    rlink0                 ../engine/source/constraints/general/rlink/rlink0.F
-      !||    spmd_chkw              ../engine/source/mpi/generic/spmd_chkw.F
-      !||    spmd_glob_isum9        ../engine/source/mpi/interfaces/spmd_th.F
-      !||    spmd_ibcast            ../engine/source/mpi/generic/spmd_ibcast.F
-      !||    spmd_wiout             ../engine/source/mpi/generic/spmd_wiout.F
-      !||--- uses       -----------------------------------------------------
-      !||    ale_mod                ../common_source/modules/ale/ale_mod.F
-      !||    alemuscl_mod           ../common_source/modules/ale/alemuscl_mod.F
-      !||    anim_mod               ../common_source/modules/output/anim_mod.F
-      !||    check_mod              ../common_source/modules/check_mod.F
-      !||    dt_mod                 ../engine/source/modules/dt_mod.F
-      !||    elbufdef_mod           ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||    fvbag_mod              ../engine/share/modules/fvbag_mod.F
-      !||    fxb_mod                ../engine/share/modules/fxb_mod.F
-      !||    glob_therm_mod         ../common_source/modules/mat_elem/glob_therm_mod.F90
-      !||    groupdef_mod           ../common_source/modules/groupdef_mod.F
-      !||    h3d_mod                ../engine/share/modules/h3d_mod.F
-      !||    intbufdef_mod          ../common_source/modules/interfaces/intbufdef_mod.F90
-      !||    intstamp_glob_mod      ../engine/share/modules/intstamp_glob_mod.F
-      !||    loads_mod              ../common_source/modules/loads/loads_mod.F90
-      !||    mat_elem_mod           ../common_source/modules/mat_elem/mat_elem_mod.F90
-      !||    message_mod            ../engine/share/message_module/message_mod.F
-      !||    multi_fvm_mod          ../common_source/modules/ale/multi_fvm_mod.F90
-      !||    my_alloc_mod           ../common_source/tools/memory/my_alloc.F90
-      !||    names_and_titles_mod   ../common_source/modules/names_and_titles_mod.F
-      !||    output_mod             ../common_source/modules/output/output_mod.F90
-      !||    outputs_mod            ../common_source/modules/outputs_mod.F
-      !||    pblast_mod             ../common_source/modules/loads/pblast_mod.F90
-      !||    prelech3d_mod          ../engine/source/output/h3d/h3d_build_fortran/prelech3d.F90
-      !||    sensor_mod             ../common_source/modules/sensor_mod.F90
-      !||    stack_mod              ../engine/share/modules/stack_mod.F
-      !||    state_mod              ../common_source/modules/state_mod.F
-      !||    table_mod              ../engine/share/modules/table_mod.F
-      !||====================================================================
+!||====================================================================
+!||    lectur                 ../engine/source/input/lectur.F
+!||--- called by ------------------------------------------------------
+!||    radioss2               ../engine/source/engine/radioss2.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                 ../engine/source/output/message/message.F
+!||    anim_build_index_all   ../engine/source/output/anim/reader/anim_build_index_all.F
+!||    arret                  ../engine/source/system/arret.F
+!||    chkipari               ../engine/source/interfaces/interf/chkstfn3.F
+!||    fr_rlale               ../engine/source/mpi/kinematic_conditions/fr_rlink1.F
+!||    fr_rlink1              ../engine/source/mpi/kinematic_conditions/fr_rlink1.F
+!||    lcbcsf                 ../engine/source/constraints/general/bcs/lcbcsf.F
+!||    leccut                 ../engine/source/tools/sect/leccut.F
+!||    lecdamp                ../engine/source/input/lecdamp.F
+!||    leceig                 ../engine/source/input/leceig.F
+!||    lecflsw                ../engine/source/fluid/lecflsw.F
+!||    lecfun                 ../engine/source/tools/curve/lecfun.F
+!||    lecfvbag               ../engine/source/input/lecfvbag.F
+!||    lecfvbag1              ../engine/source/input/lecfvbag1.F
+!||    lecfxinp               ../engine/source/input/lecfxinp.F
+!||    lech3d                 ../engine/source/output/h3d/h3d_build_fortran/lech3d.F
+!||    lecimpl                ../engine/source/input/lectur.F
+!||    lecinv                 ../engine/source/input/lecinv.F
+!||    lecnoise               ../engine/source/general_controls/computation/lecnoise.F
+!||    lecstat                ../engine/source/input/lecstat.F
+!||    ngr2usr                ../engine/source/input/freform.F
+!||    prelech3d              ../engine/source/output/h3d/h3d_build_fortran/prelech3d.F90
+!||    rbyonf                 ../engine/source/constraints/general/rbody/rbyonf.F
+!||    read_dynain            ../engine/source/output/dynain/read_dynain.F
+!||    rlink0                 ../engine/source/constraints/general/rlink/rlink0.F
+!||    spmd_chkw              ../engine/source/mpi/generic/spmd_chkw.F
+!||    spmd_glob_isum9        ../engine/source/mpi/interfaces/spmd_th.F
+!||    spmd_ibcast            ../engine/source/mpi/generic/spmd_ibcast.F
+!||    spmd_wiout             ../engine/source/mpi/generic/spmd_wiout.F
+!||--- uses       -----------------------------------------------------
+!||    ale_mod                ../common_source/modules/ale/ale_mod.F
+!||    alemuscl_mod           ../common_source/modules/ale/alemuscl_mod.F
+!||    anim_mod               ../common_source/modules/output/anim_mod.F
+!||    check_mod              ../common_source/modules/check_mod.F
+!||    dt_mod                 ../engine/source/modules/dt_mod.F
+!||    elbufdef_mod           ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    fvbag_mod              ../engine/share/modules/fvbag_mod.F
+!||    fxb_mod                ../engine/share/modules/fxb_mod.F
+!||    glob_therm_mod         ../common_source/modules/mat_elem/glob_therm_mod.F90
+!||    groupdef_mod           ../common_source/modules/groupdef_mod.F
+!||    h3d_mod                ../engine/share/modules/h3d_mod.F
+!||    intbufdef_mod          ../common_source/modules/interfaces/intbufdef_mod.F90
+!||    intstamp_glob_mod      ../engine/share/modules/intstamp_glob_mod.F
+!||    loads_mod              ../common_source/modules/loads/loads_mod.F90
+!||    mat_elem_mod           ../common_source/modules/mat_elem/mat_elem_mod.F90
+!||    message_mod            ../engine/share/message_module/message_mod.F
+!||    multi_fvm_mod          ../common_source/modules/ale/multi_fvm_mod.F90
+!||    my_alloc_mod           ../common_source/tools/memory/my_alloc.F90
+!||    names_and_titles_mod   ../common_source/modules/names_and_titles_mod.F
+!||    output_mod             ../common_source/modules/output/output_mod.F90
+!||    outputs_mod            ../common_source/modules/outputs_mod.F
+!||    pblast_mod             ../common_source/modules/loads/pblast_mod.F90
+!||    prelech3d_mod          ../engine/source/output/h3d/h3d_build_fortran/prelech3d.F90
+!||    sensor_mod             ../common_source/modules/sensor_mod.F90
+!||    stack_mod              ../engine/share/modules/stack_mod.F
+!||    state_mod              ../common_source/modules/state_mod.F
+!||    table_mod              ../engine/share/modules/table_mod.F
+!||====================================================================
       SUBROUTINE LECTUR(ICODE   ,ISKEW ,ISKWN  ,IXTG   ,IXS   ,
      2                  IXQ     ,IXC   ,IXT    ,IXP    ,IXR   ,
      3                  ITAB    ,ITABM1,NPC    ,IPARG  ,IGRV  ,
@@ -3151,13 +3151,13 @@ C
      .  ' BRICK_DEL MAXIMUM VOLUME CHANGE . . . . . . . . . ',G14.7//)
 
       END
-      !||====================================================================
-      !||    prout_buck   ../engine/source/input/lectur.F
-      !||--- called by ------------------------------------------------------
-      !||    lecimpl      ../engine/source/input/lectur.F
-      !||--- uses       -----------------------------------------------------
-      !||    imp_kbcs     ../engine/share/modules/impbufdef_mod.F
-      !||====================================================================
+!||====================================================================
+!||    prout_buck   ../engine/source/input/lectur.F
+!||--- called by ------------------------------------------------------
+!||    lecimpl      ../engine/source/input/lectur.F
+!||--- uses       -----------------------------------------------------
+!||    imp_kbcs     ../engine/share/modules/impbufdef_mod.F
+!||====================================================================
       SUBROUTINE PROUT_BUCK(IP,NBUCK,IBUCK)
 C-----------------------------------------------
 C   M o d u l e s
@@ -3201,22 +3201,22 @@ C-----------------------------------------------
      .  ' NUMBER OF VECTORS IN BLOCK OR SET:  . . . ',2X,I5/
      .  ' LINEAR SOLVER:  . . . . . . . . . . . . . ',2X,A/)
       END
-      !||====================================================================
-      !||    lecimpl        ../engine/source/input/lectur.F
-      !||--- called by ------------------------------------------------------
-      !||    lectur         ../engine/source/input/lectur.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg         ../engine/source/output/message/message.F
-      !||    arret          ../engine/source/system/arret.F
-      !||    floatmin       ../common_source/tools/math/precision.c
-      !||    prout_buck     ../engine/source/input/lectur.F
-      !||    spmd_max_s     ../engine/source/mpi/implicit/imp_spmd.F
-      !||--- uses       -----------------------------------------------------
-      !||    imp_kbcs       ../engine/share/modules/impbufdef_mod.F
-      !||    imp_pcg_proj   ../engine/share/modules/impbufdef_mod.F
-      !||    imp_spbrm      ../engine/share/modules/impbufdef_mod.F
-      !||    message_mod    ../engine/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    lecimpl        ../engine/source/input/lectur.F
+!||--- called by ------------------------------------------------------
+!||    lectur         ../engine/source/input/lectur.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg         ../engine/source/output/message/message.F
+!||    arret          ../engine/source/system/arret.F
+!||    floatmin       ../common_source/tools/math/precision.c
+!||    prout_buck     ../engine/source/input/lectur.F
+!||    spmd_max_s     ../engine/source/mpi/implicit/imp_spmd.F
+!||--- uses       -----------------------------------------------------
+!||    imp_kbcs       ../engine/share/modules/impbufdef_mod.F
+!||    imp_pcg_proj   ../engine/share/modules/impbufdef_mod.F
+!||    imp_spbrm      ../engine/share/modules/impbufdef_mod.F
+!||    message_mod    ../engine/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE LECIMPL
 C-----------------------------------------------
 C   M o d u l e s

@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    print_summary   ../engine/source/system/timer.F
-      !||--- called by ------------------------------------------------------
-      !||    printime        ../engine/source/system/timer.F
-      !||--- calls      -----------------------------------------------------
-      !||    print_block     ../engine/source/system/timer.F
-      !||====================================================================
+!||====================================================================
+!||    print_summary   ../engine/source/system/timer.F
+!||--- called by ------------------------------------------------------
+!||    printime        ../engine/source/system/timer.F
+!||--- calls      -----------------------------------------------------
+!||    print_block     ../engine/source/system/timer.F
+!||====================================================================
       SUBROUTINE PRINT_SUMMARY(FLAG,NTIMAX,TABTIME,TITLES,OUT_ID,ITHERM) 
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -396,11 +396,11 @@ C
       END SUBROUTINE
 
 
-      !||====================================================================
-      !||    print_block     ../engine/source/system/timer.F
-      !||--- called by ------------------------------------------------------
-      !||    print_summary   ../engine/source/system/timer.F
-      !||====================================================================
+!||====================================================================
+!||    print_block     ../engine/source/system/timer.F
+!||--- called by ------------------------------------------------------
+!||    print_summary   ../engine/source/system/timer.F
+!||====================================================================
       SUBROUTINE PRINT_BLOCK(TITLE_PART,TABTIME,NTIMAX,
      . FLAG,OUT_ID,NFIELDS,FIELDS,TITLES)
 C-----------------------------------------------
@@ -483,29 +483,29 @@ C-----------------------------------------------
       END SUBROUTINE
 
 
-      !||====================================================================
-      !||    printime          ../engine/source/system/timer.F
-      !||--- called by ------------------------------------------------------
-      !||    resol             ../engine/source/engine/resol.F
-      !||--- calls      -----------------------------------------------------
-      !||    close_c           ../common_source/tools/input_output/write_routtines.c
-      !||    cur_fil_c         ../common_source/tools/input_output/write_routtines.c
-      !||    elapstime         ../engine/source/system/timer.F
-      !||    fseek_end_c       ../common_source/tools/input_output/write_routtines.c
-      !||    get_mem_map_var   ../engine/source/system/timer.F
-      !||    map_memory        ../common_source/comm/memory_use_c.c
-      !||    open_c            ../common_source/tools/input_output/write_routtines.c
-      !||    print_summary     ../engine/source/system/timer.F
-      !||    rad_spmd_recv     ../engine/source/mpi/generic/rad_spmd_recv.F
-      !||    rad_spmd_send     ../engine/source/mpi/generic/rad_spmd_send.F
-      !||    spmd_glob_isum9   ../engine/source/mpi/interfaces/spmd_th.F
-      !||    write_dpdb        ../common_source/tools/input_output/write_db.F
-      !||--- uses       -----------------------------------------------------
-      !||    inoutfile_mod     ../common_source/modules/inoutfile_mod.F
-      !||    output_mod        ../common_source/modules/output/output_mod.F90
-      !||    time_mod          ../engine/share/modules/time_mod.F
-      !||    timer_mod         ../engine/source/system/timer_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    printime          ../engine/source/system/timer.F
+!||--- called by ------------------------------------------------------
+!||    resol             ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
+!||    close_c           ../common_source/tools/input_output/write_routtines.c
+!||    cur_fil_c         ../common_source/tools/input_output/write_routtines.c
+!||    elapstime         ../engine/source/system/timer.F
+!||    fseek_end_c       ../common_source/tools/input_output/write_routtines.c
+!||    get_mem_map_var   ../engine/source/system/timer.F
+!||    map_memory        ../common_source/comm/memory_use_c.c
+!||    open_c            ../common_source/tools/input_output/write_routtines.c
+!||    print_summary     ../engine/source/system/timer.F
+!||    rad_spmd_recv     ../engine/source/mpi/generic/rad_spmd_recv.F
+!||    rad_spmd_send     ../engine/source/mpi/generic/rad_spmd_send.F
+!||    spmd_glob_isum9   ../engine/source/mpi/interfaces/spmd_th.F
+!||    write_dpdb        ../common_source/tools/input_output/write_db.F
+!||--- uses       -----------------------------------------------------
+!||    inoutfile_mod     ../common_source/modules/inoutfile_mod.F
+!||    output_mod        ../common_source/modules/output/output_mod.F90
+!||    time_mod          ../engine/share/modules/time_mod.F
+!||    timer_mod         ../engine/source/system/timer_mod.F90
+!||====================================================================
       SUBROUTINE PRINTIME(T,ITHERM,OUTPUT)
 C     routine d'affichage des timers
 C-----------------------------------------------
@@ -1255,13 +1255,13 @@ C      SECS = SECS/CLOCKRATE
 C
       RETURN
       END
-      !||====================================================================
-      !||    print_runtime   ../engine/source/system/timer.F
-      !||--- called by ------------------------------------------------------
-      !||    arret           ../engine/source/system/arret.F
-      !||--- uses       -----------------------------------------------------
-      !||    time_mod        ../engine/share/modules/time_mod.F
-      !||====================================================================
+!||====================================================================
+!||    print_runtime   ../engine/source/system/timer.F
+!||--- called by ------------------------------------------------------
+!||    arret           ../engine/source/system/arret.F
+!||--- uses       -----------------------------------------------------
+!||    time_mod        ../engine/share/modules/time_mod.F
+!||====================================================================
         SUBROUTINE PRINT_RUNTIME( )
 C-----------------------------------------------
 C   M o d u l e s
@@ -1322,16 +1322,16 @@ C
         RETURN
         END SUBROUTINE 
 
-      !||====================================================================
-      !||    printcpu               ../engine/source/system/timer.F
-      !||--- called by ------------------------------------------------------
-      !||    radioss2               ../engine/source/engine/radioss2.F
-      !||--- calls      -----------------------------------------------------
-      !||    cpuinfo                ../engine/source/system/mon_c.c
-      !||    get_solver_stacksize   ../common_source/comm/stacksize.cpp
-      !||    my_flush               ../engine/source/system/machine.F
-      !||    spmd_printcpuinfo      ../engine/source/mpi/output/spmd_printcpuinfo.F
-      !||====================================================================
+!||====================================================================
+!||    printcpu               ../engine/source/system/timer.F
+!||--- called by ------------------------------------------------------
+!||    radioss2               ../engine/source/engine/radioss2.F
+!||--- calls      -----------------------------------------------------
+!||    cpuinfo                ../engine/source/system/mon_c.c
+!||    get_solver_stacksize   ../common_source/comm/stacksize.cpp
+!||    my_flush               ../engine/source/system/machine.F
+!||    spmd_printcpuinfo      ../engine/source/mpi/output/spmd_printcpuinfo.F
+!||====================================================================
       SUBROUTINE PRINTCPU(IFLAG)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -1423,11 +1423,11 @@ C ecriture du complement en multiprocs
  7550 FORMAT (' CPU#  HOSTNAME     CPU TYPE AND FREQUENCY ')
 
       END
-      !||====================================================================
-      !||    initimeg     ../engine/source/system/timer.F
-      !||--- called by ------------------------------------------------------
-      !||    resol_init   ../engine/source/engine/resol_init.F
-      !||====================================================================
+!||====================================================================
+!||    initimeg     ../engine/source/system/timer.F
+!||--- called by ------------------------------------------------------
+!||    resol_init   ../engine/source/engine/resol_init.F
+!||====================================================================
       SUBROUTINE INITIMEG(NG)
 C     initialisation des timers groupes elem.
 C-----------------------------------------------
@@ -1454,35 +1454,35 @@ C-----------------------------------------------
 C
       RETURN
       END
-      !||====================================================================
-      !||    startimeg       ../engine/source/system/timer.F
-      !||--- called by ------------------------------------------------------
-      !||    err_thk         ../engine/source/elements/shell/err_thk.F
-      !||    forint          ../engine/source/elements/forint.F
-      !||    forintc         ../engine/source/elements/forintc.F
-      !||    forintp         ../engine/source/elements/forintp.F
-      !||    forints         ../engine/source/elements/forints.F
-      !||    imp_glob_k      ../engine/source/implicit/imp_glob_k.F
-      !||    imp_glob_k0     ../engine/source/implicit/imp_glob_k.F
-      !||    inixfem         ../engine/source/elements/xfem/inixfem.F
-      !||    prelecflow      ../engine/source/elements/solid/solide/prelecflow.F
-      !||    sms_ini_kdi     ../engine/source/ams/sms_init.F
-      !||    soltosph_on1    ../engine/source/elements/sph/soltosph_on1.F
-      !||    soltosph_on12   ../engine/source/elements/sph/soltosph_on1.F
-      !||    soltosph_on2    ../engine/source/elements/sph/soltosph_on2.F
-      !||    soltospha       ../engine/source/elements/sph/soltospha.F
-      !||    soltosphf       ../engine/source/elements/sph/soltosph.F
-      !||    soltosphp       ../engine/source/elements/sph/soltosph.F
-      !||    splissv         ../engine/source/elements/sph/splissv.F
-      !||    spstabs         ../engine/source/elements/sph/spstab.F
-      !||    thickvar        ../engine/source/elements/shell/coque/thickvar.F
-      !||    upxfem1         ../engine/source/elements/xfem/upxfem1.F
-      !||    upxfem2         ../engine/source/elements/xfem/upxfem2.F
-      !||    upxfem_tagxp    ../engine/source/elements/xfem/upxfem_tagxp.F
-      !||    xfeoff          ../engine/source/elements/xfem/xfeoff.F
-      !||--- calls      -----------------------------------------------------
-      !||    my_etime        ../engine/source/system/machine.F
-      !||====================================================================
+!||====================================================================
+!||    startimeg       ../engine/source/system/timer.F
+!||--- called by ------------------------------------------------------
+!||    err_thk         ../engine/source/elements/shell/err_thk.F
+!||    forint          ../engine/source/elements/forint.F
+!||    forintc         ../engine/source/elements/forintc.F
+!||    forintp         ../engine/source/elements/forintp.F
+!||    forints         ../engine/source/elements/forints.F
+!||    imp_glob_k      ../engine/source/implicit/imp_glob_k.F
+!||    imp_glob_k0     ../engine/source/implicit/imp_glob_k.F
+!||    inixfem         ../engine/source/elements/xfem/inixfem.F
+!||    prelecflow      ../engine/source/elements/solid/solide/prelecflow.F
+!||    sms_ini_kdi     ../engine/source/ams/sms_init.F
+!||    soltosph_on1    ../engine/source/elements/sph/soltosph_on1.F
+!||    soltosph_on12   ../engine/source/elements/sph/soltosph_on1.F
+!||    soltosph_on2    ../engine/source/elements/sph/soltosph_on2.F
+!||    soltospha       ../engine/source/elements/sph/soltospha.F
+!||    soltosphf       ../engine/source/elements/sph/soltosph.F
+!||    soltosphp       ../engine/source/elements/sph/soltosph.F
+!||    splissv         ../engine/source/elements/sph/splissv.F
+!||    spstabs         ../engine/source/elements/sph/spstab.F
+!||    thickvar        ../engine/source/elements/shell/coque/thickvar.F
+!||    upxfem1         ../engine/source/elements/xfem/upxfem1.F
+!||    upxfem2         ../engine/source/elements/xfem/upxfem2.F
+!||    upxfem_tagxp    ../engine/source/elements/xfem/upxfem_tagxp.F
+!||    xfeoff          ../engine/source/elements/xfem/xfeoff.F
+!||--- calls      -----------------------------------------------------
+!||    my_etime        ../engine/source/system/machine.F
+!||====================================================================
       SUBROUTINE STARTIMEG(NG)
 C     routine d incrementation des timers elem.
 C-----------------------------------------------
@@ -1504,33 +1504,33 @@ C
       RETURN
       END
 
-      !||====================================================================
-      !||    stoptimeg       ../engine/source/system/timer.F
-      !||--- called by ------------------------------------------------------
-      !||    err_thk         ../engine/source/elements/shell/err_thk.F
-      !||    forint          ../engine/source/elements/forint.F
-      !||    forintc         ../engine/source/elements/forintc.F
-      !||    forintp         ../engine/source/elements/forintp.F
-      !||    forints         ../engine/source/elements/forints.F
-      !||    inixfem         ../engine/source/elements/xfem/inixfem.F
-      !||    prelecflow      ../engine/source/elements/solid/solide/prelecflow.F
-      !||    sms_ini_kdi     ../engine/source/ams/sms_init.F
-      !||    soltosph_on1    ../engine/source/elements/sph/soltosph_on1.F
-      !||    soltosph_on12   ../engine/source/elements/sph/soltosph_on1.F
-      !||    soltosph_on2    ../engine/source/elements/sph/soltosph_on2.F
-      !||    soltospha       ../engine/source/elements/sph/soltospha.F
-      !||    soltosphf       ../engine/source/elements/sph/soltosph.F
-      !||    soltosphp       ../engine/source/elements/sph/soltosph.F
-      !||    splissv         ../engine/source/elements/sph/splissv.F
-      !||    spstabs         ../engine/source/elements/sph/spstab.F
-      !||    thickvar        ../engine/source/elements/shell/coque/thickvar.F
-      !||    upxfem1         ../engine/source/elements/xfem/upxfem1.F
-      !||    upxfem2         ../engine/source/elements/xfem/upxfem2.F
-      !||    upxfem_tagxp    ../engine/source/elements/xfem/upxfem_tagxp.F
-      !||    xfeoff          ../engine/source/elements/xfem/xfeoff.F
-      !||--- calls      -----------------------------------------------------
-      !||    my_etime        ../engine/source/system/machine.F
-      !||====================================================================
+!||====================================================================
+!||    stoptimeg       ../engine/source/system/timer.F
+!||--- called by ------------------------------------------------------
+!||    err_thk         ../engine/source/elements/shell/err_thk.F
+!||    forint          ../engine/source/elements/forint.F
+!||    forintc         ../engine/source/elements/forintc.F
+!||    forintp         ../engine/source/elements/forintp.F
+!||    forints         ../engine/source/elements/forints.F
+!||    inixfem         ../engine/source/elements/xfem/inixfem.F
+!||    prelecflow      ../engine/source/elements/solid/solide/prelecflow.F
+!||    sms_ini_kdi     ../engine/source/ams/sms_init.F
+!||    soltosph_on1    ../engine/source/elements/sph/soltosph_on1.F
+!||    soltosph_on12   ../engine/source/elements/sph/soltosph_on1.F
+!||    soltosph_on2    ../engine/source/elements/sph/soltosph_on2.F
+!||    soltospha       ../engine/source/elements/sph/soltospha.F
+!||    soltosphf       ../engine/source/elements/sph/soltosph.F
+!||    soltosphp       ../engine/source/elements/sph/soltosph.F
+!||    splissv         ../engine/source/elements/sph/splissv.F
+!||    spstabs         ../engine/source/elements/sph/spstab.F
+!||    thickvar        ../engine/source/elements/shell/coque/thickvar.F
+!||    upxfem1         ../engine/source/elements/xfem/upxfem1.F
+!||    upxfem2         ../engine/source/elements/xfem/upxfem2.F
+!||    upxfem_tagxp    ../engine/source/elements/xfem/upxfem_tagxp.F
+!||    xfeoff          ../engine/source/elements/xfem/xfeoff.F
+!||--- calls      -----------------------------------------------------
+!||    my_etime        ../engine/source/system/machine.F
+!||====================================================================
       SUBROUTINE STOPTIMEG(NG)
 C     routine incrementation du timer event
 C-----------------------------------------------
@@ -1552,18 +1552,18 @@ C
      .                       TIMERG(2,NG)-TIMERG(1,NG)
       RETURN
       END
-      !||====================================================================
-      !||    printimeg        ../engine/source/system/timer.F
-      !||--- called by ------------------------------------------------------
-      !||    resol            ../engine/source/engine/resol.F
-      !||--- calls      -----------------------------------------------------
-      !||    interlagran      ../engine/source/system/timer.F
-      !||    printcoques      ../engine/source/system/timer.F
-      !||    printsolides     ../engine/source/system/timer.F
-      !||    printtet10       ../engine/source/system/timer.F
-      !||    printtet4        ../engine/source/system/timer.F
-      !||    printtriangles   ../engine/source/system/timer.F
-      !||====================================================================
+!||====================================================================
+!||    printimeg        ../engine/source/system/timer.F
+!||--- called by ------------------------------------------------------
+!||    resol            ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
+!||    interlagran      ../engine/source/system/timer.F
+!||    printcoques      ../engine/source/system/timer.F
+!||    printsolides     ../engine/source/system/timer.F
+!||    printtet10       ../engine/source/system/timer.F
+!||    printtet4        ../engine/source/system/timer.F
+!||    printtriangles   ../engine/source/system/timer.F
+!||====================================================================
       SUBROUTINE PRINTIMEG(IPARG,PM,IPM,IXC,IXTG,IXS)
 C     routine d'affichage des timers
 C-----------------------------------------------
@@ -1953,13 +1953,13 @@ C
       RETURN
       END
 
-      !||====================================================================
-      !||    printcoques   ../engine/source/system/timer.F
-      !||--- called by ------------------------------------------------------
-      !||    printimeg     ../engine/source/system/timer.F
-      !||--- calls      -----------------------------------------------------
-      !||    my_fsort      ../engine/source/system/timer.F
-      !||====================================================================
+!||====================================================================
+!||    printcoques   ../engine/source/system/timer.F
+!||--- called by ------------------------------------------------------
+!||    printimeg     ../engine/source/system/timer.F
+!||--- calls      -----------------------------------------------------
+!||    my_fsort      ../engine/source/system/timer.F
+!||====================================================================
       SUBROUTINE PRINTCOQUES(IPARG,IXC,IPM,THEOGP,NUMSHG)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -2074,13 +2074,13 @@ c     .                '         TIMETHEO             DIFF      PCT'
 
       END
 
-      !||====================================================================
-      !||    printsolides   ../engine/source/system/timer.F
-      !||--- called by ------------------------------------------------------
-      !||    printimeg      ../engine/source/system/timer.F
-      !||--- calls      -----------------------------------------------------
-      !||    my_fsort       ../engine/source/system/timer.F
-      !||====================================================================
+!||====================================================================
+!||    printsolides   ../engine/source/system/timer.F
+!||--- called by ------------------------------------------------------
+!||    printimeg      ../engine/source/system/timer.F
+!||--- calls      -----------------------------------------------------
+!||    my_fsort       ../engine/source/system/timer.F
+!||====================================================================
       SUBROUTINE PRINTSOLIDES(IPARG,THEOGP,NUMSOLG,IPM,IXS)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -2182,13 +2182,13 @@ C-----------------------------------------------
      &        '         TIMETHEO             DIFF        PCT')
 
       END
-      !||====================================================================
-      !||    printtet4   ../engine/source/system/timer.F
-      !||--- called by ------------------------------------------------------
-      !||    printimeg   ../engine/source/system/timer.F
-      !||--- calls      -----------------------------------------------------
-      !||    my_fsort    ../engine/source/system/timer.F
-      !||====================================================================
+!||====================================================================
+!||    printtet4   ../engine/source/system/timer.F
+!||--- called by ------------------------------------------------------
+!||    printimeg   ../engine/source/system/timer.F
+!||--- calls      -----------------------------------------------------
+!||    my_fsort    ../engine/source/system/timer.F
+!||====================================================================
       SUBROUTINE PRINTTET4(IPARG,THEOGP,NUMSOLG,IPM,IXS)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -2289,13 +2289,13 @@ C-----------------------------------------------
      &        '         TIMETHEO             DIFF        PCT')
 
       END
-      !||====================================================================
-      !||    printtet10   ../engine/source/system/timer.F
-      !||--- called by ------------------------------------------------------
-      !||    printimeg    ../engine/source/system/timer.F
-      !||--- calls      -----------------------------------------------------
-      !||    my_fsort     ../engine/source/system/timer.F
-      !||====================================================================
+!||====================================================================
+!||    printtet10   ../engine/source/system/timer.F
+!||--- called by ------------------------------------------------------
+!||    printimeg    ../engine/source/system/timer.F
+!||--- calls      -----------------------------------------------------
+!||    my_fsort     ../engine/source/system/timer.F
+!||====================================================================
       SUBROUTINE PRINTTET10(IPARG,THEOGP,NUMSOLG)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -2392,13 +2392,13 @@ C-----------------------------------------------
 
       END
 
-      !||====================================================================
-      !||    printtriangles   ../engine/source/system/timer.F
-      !||--- called by ------------------------------------------------------
-      !||    printimeg        ../engine/source/system/timer.F
-      !||--- calls      -----------------------------------------------------
-      !||    my_fsort         ../engine/source/system/timer.F
-      !||====================================================================
+!||====================================================================
+!||    printtriangles   ../engine/source/system/timer.F
+!||--- called by ------------------------------------------------------
+!||    printimeg        ../engine/source/system/timer.F
+!||--- calls      -----------------------------------------------------
+!||    my_fsort         ../engine/source/system/timer.F
+!||====================================================================
       SUBROUTINE PRINTTRIANGLES(IPARG,THEOGP,NUMTRIG)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -2499,11 +2499,11 @@ C-----------------------------------------------
 
 
 
-      !||====================================================================
-      !||    interlagran   ../engine/source/system/timer.F
-      !||--- called by ------------------------------------------------------
-      !||    printimeg     ../engine/source/system/timer.F
-      !||====================================================================
+!||====================================================================
+!||    interlagran   ../engine/source/system/timer.F
+!||--- called by ------------------------------------------------------
+!||    printimeg     ../engine/source/system/timer.F
+!||====================================================================
       SUBROUTINE INTERLAGRAN(TAB,LX,LTAB,X,Y)
 
       REAL TAB(LTAB),LX(LTAB),X,Y,MUL
@@ -2526,15 +2526,15 @@ C-----------------------------------------------
       END
 
 C   mon tri flottant
-      !||====================================================================
-      !||    my_fsort         ../engine/source/system/timer.F
-      !||--- called by ------------------------------------------------------
-      !||    printcoques      ../engine/source/system/timer.F
-      !||    printsolides     ../engine/source/system/timer.F
-      !||    printtet10       ../engine/source/system/timer.F
-      !||    printtet4        ../engine/source/system/timer.F
-      !||    printtriangles   ../engine/source/system/timer.F
-      !||====================================================================
+!||====================================================================
+!||    my_fsort         ../engine/source/system/timer.F
+!||--- called by ------------------------------------------------------
+!||    printcoques      ../engine/source/system/timer.F
+!||    printsolides     ../engine/source/system/timer.F
+!||    printtet10       ../engine/source/system/timer.F
+!||    printtet4        ../engine/source/system/timer.F
+!||    printtriangles   ../engine/source/system/timer.F
+!||====================================================================
       SUBROUTINE MY_FSORT(ARRAY,INDEX,SIZE,WORK)
          INTEGER SIZE
          real
@@ -2561,17 +2561,17 @@ C   mon tri flottant
          ENDDO
       END
 
-      !||====================================================================
-      !||    elapstime                  ../engine/source/system/timer.F
-      !||--- called by ------------------------------------------------------
-      !||    add_elapsed_time_mon_off   ../engine/source/system/timer.F
-      !||    ecrit                      ../engine/source/output/ecrit.F
-      !||    printime                   ../engine/source/system/timer.F
-      !||    resol                      ../engine/source/engine/resol.F
-      !||--- calls      -----------------------------------------------------
-      !||--- uses       -----------------------------------------------------
-      !||    timer_mod                  ../engine/source/system/timer_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    elapstime                  ../engine/source/system/timer.F
+!||--- called by ------------------------------------------------------
+!||    add_elapsed_time_mon_off   ../engine/source/system/timer.F
+!||    ecrit                      ../engine/source/output/ecrit.F
+!||    printime                   ../engine/source/system/timer.F
+!||    resol                      ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||    timer_mod                  ../engine/source/system/timer_mod.F90
+!||====================================================================
       SUBROUTINE ELAPSTIME(T,ETIME)
         USE TIMER_MOD
 C     reset timer elapsed time et calcul tu temps elapsed courant
@@ -2629,10 +2629,10 @@ C-----------------------------------------------
 C
       RETURN
       END
-      !||====================================================================
-      !||    startime_mp   ../engine/source/system/timer.F
-      !||--- calls      -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    startime_mp   ../engine/source/system/timer.F
+!||--- calls      -----------------------------------------------------
+!||====================================================================
       SUBROUTINE STARTIME_MP(EVENT,NBR_GR,TIMER_MP)
 C     routine d'incrementation du timer event
 C-----------------------------------------------
@@ -2658,10 +2658,10 @@ C-----------------------------------------------
       RETURN
       END
 
-      !||====================================================================
-      !||    stoptime_mp   ../engine/source/system/timer.F
-      !||--- calls      -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    stoptime_mp   ../engine/source/system/timer.F
+!||--- calls      -----------------------------------------------------
+!||====================================================================
       SUBROUTINE STOPTIME_MP(EVENT,NBR_GR,TIMER_MP,CPUTIME_MP)
 C     routine incrementation du timer event
 C-----------------------------------------------
@@ -2691,14 +2691,14 @@ C
       RETURN
       END
        
-      !||====================================================================
-      !||    cumultime_mp      ../engine/source/system/timer.F
-      !||--- called by ------------------------------------------------------
-      !||    resol             ../engine/source/engine/resol.F
-      !||--- calls      -----------------------------------------------------
-      !||    printime_mp       ../engine/source/system/timer.F
-      !||    spmd_ex_cputime   ../engine/source/mpi/output/spmd_ex_cputime.F
-      !||====================================================================
+!||====================================================================
+!||    cumultime_mp      ../engine/source/system/timer.F
+!||--- called by ------------------------------------------------------
+!||    resol             ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
+!||    printime_mp       ../engine/source/system/timer.F
+!||    spmd_ex_cputime   ../engine/source/mpi/output/spmd_ex_cputime.F
+!||====================================================================
       SUBROUTINE CUMULTIME_MP(
      1          TAILLE,IPARG,
      2          IXC,IXQ,IXT,IXP,IXTG,
@@ -2979,11 +2979,11 @@ C
       END
       
       
-      !||====================================================================
-      !||    printime_mp    ../engine/source/system/timer.F
-      !||--- called by ------------------------------------------------------
-      !||    cumultime_mp   ../engine/source/system/timer.F
-      !||====================================================================
+!||====================================================================
+!||    printime_mp    ../engine/source/system/timer.F
+!||--- called by ------------------------------------------------------
+!||    cumultime_mp   ../engine/source/system/timer.F
+!||====================================================================
       SUBROUTINE PRINTIME_MP(TAILLE,TAB_UMP,CPUTIME_MP2,POIN_UMP,T1,
      .                       ELEM_MP,CPUTIME_MP,POIDS_REF)
 C     routine d'ecriture des timers
@@ -3155,11 +3155,11 @@ C
       END
 
 C workaround / one variable in commandline.inc conflicts with scr07.inc
-      !||====================================================================
-      !||    get_mem_map_var   ../engine/source/system/timer.F
-      !||--- called by ------------------------------------------------------
-      !||    printime          ../engine/source/system/timer.F
-      !||====================================================================
+!||====================================================================
+!||    get_mem_map_var   ../engine/source/system/timer.F
+!||--- called by ------------------------------------------------------
+!||    printime          ../engine/source/system/timer.F
+!||====================================================================
       SUBROUTINE GET_MEM_MAP_VAR(GOT_M_MAP)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -3179,22 +3179,22 @@ C-----------------------------------------------
       END
 
 !       ----------------------------------------
-      !||====================================================================
-      !||    add_elapsed_time_mon_off   ../engine/source/system/timer.F
-      !||--- called by ------------------------------------------------------
-      !||    resol                      ../engine/source/engine/resol.F
-      !||--- calls      -----------------------------------------------------
-      !||    close_c                    ../common_source/tools/input_output/write_routtines.c
-      !||    cur_fil_c                  ../common_source/tools/input_output/write_routtines.c
-      !||    elapstime                  ../engine/source/system/timer.F
-      !||    fseek_end_c                ../common_source/tools/input_output/write_routtines.c
-      !||    open_c                     ../common_source/tools/input_output/write_routtines.c
-      !||    write_dpdb                 ../common_source/tools/input_output/write_db.F
-      !||--- uses       -----------------------------------------------------
-      !||    inoutfile_mod              ../common_source/modules/inoutfile_mod.F
-      !||    time_mod                   ../engine/share/modules/time_mod.F
-      !||    timer_mod                  ../engine/source/system/timer_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    add_elapsed_time_mon_off   ../engine/source/system/timer.F
+!||--- called by ------------------------------------------------------
+!||    resol                      ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
+!||    close_c                    ../common_source/tools/input_output/write_routtines.c
+!||    cur_fil_c                  ../common_source/tools/input_output/write_routtines.c
+!||    elapstime                  ../engine/source/system/timer.F
+!||    fseek_end_c                ../common_source/tools/input_output/write_routtines.c
+!||    open_c                     ../common_source/tools/input_output/write_routtines.c
+!||    write_dpdb                 ../common_source/tools/input_output/write_db.F
+!||--- uses       -----------------------------------------------------
+!||    inoutfile_mod              ../common_source/modules/inoutfile_mod.F
+!||    time_mod                   ../engine/share/modules/time_mod.F
+!||    timer_mod                  ../engine/source/system/timer_mod.F90
+!||====================================================================
         SUBROUTINE ADD_ELAPSED_TIME_MON_OFF(T)
 !       When /MON/OFF is used, main processor 
 !       must write the elapsed time

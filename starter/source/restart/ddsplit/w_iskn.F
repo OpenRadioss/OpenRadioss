@@ -21,15 +21,15 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 CCgw|============================================================
-      !||====================================================================
-      !||    w_iskn         ../starter/source/restart/ddsplit/w_iskn.F
-      !||--- called by ------------------------------------------------------
-      !||    ddsplit        ../starter/source/restart/ddsplit/ddsplit.F
-      !||--- calls      -----------------------------------------------------
-      !||    nlocal         ../starter/source/spmd/node/ddtools.F
-      !||--- uses       -----------------------------------------------------
-      !||    submodel_mod   ../starter/share/modules1/submodel_mod.F
-      !||====================================================================
+!||====================================================================
+!||    w_iskn         ../starter/source/restart/ddsplit/w_iskn.F
+!||--- called by ------------------------------------------------------
+!||    ddsplit        ../starter/source/restart/ddsplit/ddsplit.F
+!||--- calls      -----------------------------------------------------
+!||    nlocal         ../starter/source/spmd/node/ddtools.F
+!||--- uses       -----------------------------------------------------
+!||    submodel_mod   ../starter/share/modules1/submodel_mod.F
+!||====================================================================
       SUBROUTINE W_ISKN(ISKN,NUMSKW,NSPH  ,IFRAME,NUMFRAM,NODLOCAL,
      2                  P   ,NUMNOD,CEPSP  ,LEN_IA  )
 C-----------------------------------------------

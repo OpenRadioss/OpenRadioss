@@ -20,21 +20,21 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    intstamp_mod          ../starter/share/modules1/intstamp_mod.F
-      !||--- called by ------------------------------------------------------
-      !||    ddsplit               ../starter/source/restart/ddsplit/ddsplit.F
-      !||    fsdcod                ../starter/source/system/fsdcod.F
-      !||    inint3_thkvar         ../starter/source/interfaces/inter3d1/inint3_thkvar.F
-      !||    inintr_thkvar         ../starter/source/interfaces/interf1/inintr_thkvar.F
-      !||    inter_dcod_friction   ../starter/source/interfaces/reader/inter_dcod_friction.F
-      !||    inter_dcod_function   ../starter/source/interfaces/reader/inter_dcod_function.F
-      !||    inter_dcod_sensor     ../starter/source/interfaces/reader/inter_dcod_sensor.F
-      !||    intstamp_glob_mod     ../starter/share/modules1/intstamp_glob_mod.F
-      !||    lecstamp              ../starter/source/interfaces/interf1/lecstamp.F
-      !||    sms_ini_jad_2         ../starter/source/ams/sms_init.F
-      !||    sms_ini_jad_3         ../starter/source/ams/sms_init.F
-      !||====================================================================
+!||====================================================================
+!||    intstamp_mod          ../starter/share/modules1/intstamp_mod.F
+!||--- called by ------------------------------------------------------
+!||    ddsplit               ../starter/source/restart/ddsplit/ddsplit.F
+!||    fsdcod                ../starter/source/system/fsdcod.F
+!||    inint3_thkvar         ../starter/source/interfaces/inter3d1/inint3_thkvar.F
+!||    inintr_thkvar         ../starter/source/interfaces/interf1/inintr_thkvar.F
+!||    inter_dcod_friction   ../starter/source/interfaces/reader/inter_dcod_friction.F
+!||    inter_dcod_function   ../starter/source/interfaces/reader/inter_dcod_function.F
+!||    inter_dcod_sensor     ../starter/source/interfaces/reader/inter_dcod_sensor.F
+!||    intstamp_glob_mod     ../starter/share/modules1/intstamp_glob_mod.F
+!||    lecstamp              ../starter/source/interfaces/interf1/lecstamp.F
+!||    sms_ini_jad_2         ../starter/source/ams/sms_init.F
+!||    sms_ini_jad_3         ../starter/source/ams/sms_init.F
+!||====================================================================
       MODULE INTSTAMP_MOD
 C-----------------------------------------------
 C   m y _ r e a l
@@ -86,11 +86,11 @@ C-----------------------------------------------
 C    S p e c i f i c   F u n c t i o n s 
 C-----------------------------------------------
       CONTAINS
-      !||====================================================================
-      !||    intstamp_zero   ../starter/share/modules1/intstamp_mod.F
-      !||--- called by ------------------------------------------------------
-      !||    lectur          ../starter/source/starter/lectur.F
-      !||====================================================================
+!||====================================================================
+!||    intstamp_zero   ../starter/share/modules1/intstamp_mod.F
+!||--- called by ------------------------------------------------------
+!||    lectur          ../starter/source/starter/lectur.F
+!||====================================================================
       SUBROUTINE INTSTAMP_ZERO(INTSTAMP)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -156,12 +156,12 @@ C--------------------------------------
       END DO
       RETURN
       END SUBROUTINE INTSTAMP_ZERO
-      !||====================================================================
-      !||    intstamp_wresti   ../starter/share/modules1/intstamp_mod.F
-      !||--- called by ------------------------------------------------------
-      !||    ddsplit           ../starter/source/restart/ddsplit/ddsplit.F
-      !||--- calls      -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    intstamp_wresti   ../starter/share/modules1/intstamp_mod.F
+!||--- called by ------------------------------------------------------
+!||    ddsplit           ../starter/source/restart/ddsplit/ddsplit.F
+!||--- calls      -----------------------------------------------------
+!||====================================================================
       SUBROUTINE INTSTAMP_WRESTI(INTSTAMP, LENI, NODLOCAL)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -200,12 +200,12 @@ C--------------------------------------
       END DO
       RETURN
       END SUBROUTINE INTSTAMP_WRESTI
-      !||====================================================================
-      !||    intstamp_wrestr   ../starter/share/modules1/intstamp_mod.F
-      !||--- called by ------------------------------------------------------
-      !||    ddsplit           ../starter/source/restart/ddsplit/ddsplit.F
-      !||--- calls      -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    intstamp_wrestr   ../starter/share/modules1/intstamp_mod.F
+!||--- called by ------------------------------------------------------
+!||    ddsplit           ../starter/source/restart/ddsplit/ddsplit.F
+!||--- calls      -----------------------------------------------------
+!||====================================================================
       SUBROUTINE INTSTAMP_WRESTR(INTSTAMP, LENI)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -266,10 +266,10 @@ C--------------------------------------
       END DO
       RETURN
       END SUBROUTINE INTSTAMP_WRESTR
-      !||====================================================================
-      !||    intstamp_rresti   ../starter/share/modules1/intstamp_mod.F
-      !||--- calls      -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    intstamp_rresti   ../starter/share/modules1/intstamp_mod.F
+!||--- calls      -----------------------------------------------------
+!||====================================================================
       SUBROUTINE INTSTAMP_RRESTI(INTSTAMP)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -306,10 +306,10 @@ C--------------------------------------
       END DO
       RETURN
       END SUBROUTINE INTSTAMP_RRESTI
-      !||====================================================================
-      !||    intstamp_rrestr   ../starter/share/modules1/intstamp_mod.F
-      !||--- calls      -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    intstamp_rrestr   ../starter/share/modules1/intstamp_mod.F
+!||--- calls      -----------------------------------------------------
+!||====================================================================
       SUBROUTINE INTSTAMP_RRESTR(INTSTAMP)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

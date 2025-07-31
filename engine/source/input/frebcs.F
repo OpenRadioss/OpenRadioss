@@ -20,19 +20,19 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    frebcs        ../engine/source/input/frebcs.F
-      !||--- called by ------------------------------------------------------
-      !||    freform       ../engine/source/input/freform.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg        ../engine/source/output/message/message.F
-      !||    arret         ../engine/source/system/arret.F
-      !||    errmsg        ../engine/source/input/errmsg.F
-      !||    ixyz          ../engine/source/input/ixyz.F
-      !||    wciusc2       ../engine/source/input/wciusc2.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod   ../engine/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    frebcs        ../engine/source/input/frebcs.F
+!||--- called by ------------------------------------------------------
+!||    freform       ../engine/source/input/freform.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg        ../engine/source/output/message/message.F
+!||    arret         ../engine/source/system/arret.F
+!||    errmsg        ../engine/source/input/errmsg.F
+!||    ixyz          ../engine/source/input/ixyz.F
+!||    wciusc2       ../engine/source/input/wciusc2.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod   ../engine/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE FREBCS(IKAD,KEY0,KBCS,KBCSR,NBCS1,NBCS2,BCS_SK_FR)
 C-----------------------------------------------
 C   M o d u l e s

@@ -20,20 +20,20 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    user_output           ../starter/source/user_interface/user_output.F
-      !||--- called by ------------------------------------------------------
-      !||    hm_read_fail_user     ../starter/source/materials/fail/failuser/hm_read_fail_user.F
-      !||    hm_read_mat29_31      ../starter/source/materials/mat/matuser/hm_read_mat_user29_31.F
-      !||    hm_read_mat_99        ../starter/source/materials/mat/matuser/hm_read_mat_user_99.F
-      !||    hm_read_prop_user     ../starter/source/properties/user_spring_solid/hm_read_prop_user.F
-      !||    hm_read_window_user   ../starter/source/tools/userwi/hm_read_window_user.F
-      !||    read_sensor_user      ../starter/source/tools/sensor/read_sensor_user.F
-      !||    rinit3                ../starter/source/elements/spring/rinit3.F
-      !||--- calls      -----------------------------------------------------
-      !||--- uses       -----------------------------------------------------
-      !||    reader_old_mod        ../starter/share/modules1/reader_old_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    user_output           ../starter/source/user_interface/user_output.F
+!||--- called by ------------------------------------------------------
+!||    hm_read_fail_user     ../starter/source/materials/fail/failuser/hm_read_fail_user.F
+!||    hm_read_mat29_31      ../starter/source/materials/mat/matuser/hm_read_mat_user29_31.F
+!||    hm_read_mat_99        ../starter/source/materials/mat/matuser/hm_read_mat_user_99.F
+!||    hm_read_prop_user     ../starter/source/properties/user_spring_solid/hm_read_prop_user.F
+!||    hm_read_window_user   ../starter/source/tools/userwi/hm_read_window_user.F
+!||    read_sensor_user      ../starter/source/tools/sensor/read_sensor_user.F
+!||    rinit3                ../starter/source/elements/spring/rinit3.F
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||    reader_old_mod        ../starter/share/modules1/reader_old_mod.F90
+!||====================================================================
       SUBROUTINE USER_OUTPUT(IOUT,ILAW,ROOTN,ROOTLEN,INPF)
 C-----------------------------------------------
 C   M o d u l e s

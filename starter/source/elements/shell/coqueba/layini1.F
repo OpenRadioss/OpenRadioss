@@ -20,17 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    layini1        ../starter/source/elements/shell/coqueba/layini1.F
-      !||--- called by ------------------------------------------------------
-      !||    c3init3        ../starter/source/elements/sh3n/coque3n/c3init3.F
-      !||    cbainit3       ../starter/source/elements/shell/coqueba/cbainit3.F
-      !||    cdkinit3       ../starter/source/elements/sh3n/coquedk/cdkinit3.F
-      !||    cinit3         ../starter/source/elements/shell/coque/cinit3.F
-      !||--- uses       -----------------------------------------------------
-      !||    drape_mod      ../starter/share/modules1/drape_mod.F
-      !||    stack_mod      ../starter/share/modules1/stack_mod.F
-      !||====================================================================
+!||====================================================================
+!||    layini1        ../starter/source/elements/shell/coqueba/layini1.F
+!||--- called by ------------------------------------------------------
+!||    c3init3        ../starter/source/elements/sh3n/coque3n/c3init3.F
+!||    cbainit3       ../starter/source/elements/shell/coqueba/cbainit3.F
+!||    cdkinit3       ../starter/source/elements/sh3n/coquedk/cdkinit3.F
+!||    cinit3         ../starter/source/elements/shell/coque/cinit3.F
+!||--- uses       -----------------------------------------------------
+!||    drape_mod      ../starter/share/modules1/drape_mod.F
+!||    stack_mod      ../starter/share/modules1/stack_mod.F
+!||====================================================================
       SUBROUTINE LAYINI1(
      .           ELBUF_STR  ,JFT        ,JLT        ,GEO        ,IGEO      ,
      .           MAT        ,PID        ,MATLY      ,POSLY      ,IGTYP     ,

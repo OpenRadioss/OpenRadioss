@@ -20,16 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    printbcs               ../starter/source/constraints/general/bcs/printbcs.F
-      !||--- called by ------------------------------------------------------
-      !||    lectur                 ../starter/source/starter/lectur.F
-      !||--- calls      -----------------------------------------------------
-      !||    ngr2usr                ../starter/source/system/nintrr.F
-      !||    usr2sys                ../starter/source/system/sysfus.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod            ../starter/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    printbcs               ../starter/source/constraints/general/bcs/printbcs.F
+!||--- called by ------------------------------------------------------
+!||    lectur                 ../starter/source/starter/lectur.F
+!||--- calls      -----------------------------------------------------
+!||    ngr2usr                ../starter/source/system/nintrr.F
+!||    usr2sys                ../starter/source/system/sysfus.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod            ../starter/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE PRINTBCS(ICODE     ,ISKEW   ,ITAB    ,ITABM1 ,IKINE  ,
      .                  IGRNOD    ,IBCSLAG ,LAG_NCF ,LAG_NKF,LAG_NHF,
      .                  IKINE1LAG ,ISKN    ,NOM_OPT , NBCSLAG)

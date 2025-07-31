@@ -20,46 +20,46 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    sphprep              ../engine/source/elements/sph/sphprep.F
-      !||--- called by ------------------------------------------------------
-      !||    resol                ../engine/source/engine/resol.F
-      !||--- calls      -----------------------------------------------------
-      !||    my_barrier           ../engine/source/system/machine.F
-      !||    soltosph_on1         ../engine/source/elements/sph/soltosph_on1.F
-      !||    soltosph_on12        ../engine/source/elements/sph/soltosph_on1.F
-      !||    soltosph_on2         ../engine/source/elements/sph/soltosph_on2.F
-      !||    spadasm              ../engine/source/elements/sph/spadasm.F
-      !||    spadasm0             ../engine/source/elements/sph/spadasm.F
-      !||    spclasv              ../engine/source/elements/sph/spclasv.F
-      !||    spcompl              ../engine/source/elements/sph/spcompl.F
-      !||    spechan              ../engine/source/elements/sph/spechan.F
-      !||    sph_crit_voxel       ../engine/source/elements/sph/sph_crit_voxel.F90
-      !||    sphtri               ../engine/source/elements/sph/sphtri.F
-      !||    sphtri0              ../engine/source/elements/sph/sphtri0.F
-      !||    spmd_allglob_isum9   ../engine/source/mpi/generic/spmd_allglob_isum9.F
-      !||    spmd_barrier         ../engine/source/mpi/spmd_mod.F90
-      !||    spmd_spamaj          ../engine/source/mpi/sph/spmd_spamaj.F
-      !||    spmd_sphgat          ../engine/source/mpi/sph/spmd_sphgat.F
-      !||    spmd_sphgetisph      ../engine/source/mpi/elements/spmd_sph.F
-      !||    spmd_sphgetv         ../engine/source/mpi/sph/spmd_sphgetv.F
-      !||    spmd_sphgetx         ../engine/source/mpi/elements/spmd_sph.F
-      !||    sponof1              ../engine/source/elements/sph/sponof1.F
-      !||    sponof2              ../engine/source/elements/sph/sponof2.F
-      !||    spsym_alloc          ../engine/source/elements/sph/spsym_alloc.F
-      !||    spsymp               ../engine/source/elements/sph/spsym.F
-      !||    startime             ../engine/source/system/timer_mod.F90
-      !||    stoptime             ../engine/source/system/timer_mod.F90
-      !||--- uses       -----------------------------------------------------
-      !||    elbufdef_mod         ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||    groupdef_mod         ../common_source/modules/groupdef_mod.F
-      !||    message_mod          ../engine/share/message_module/message_mod.F
-      !||    sph_crit_voxel_mod   ../engine/source/elements/sph/sph_crit_voxel.F90
-      !||    sph_struct_mod       ../engine/share/modules/sph_struct_mod.F
-      !||    sph_work_mod         ../common_source/modules/mat_elem/sph_work.F90
-      !||    spmd_mod             ../engine/source/mpi/spmd_mod.F90
-      !||    timer_mod            ../engine/source/system/timer_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    sphprep              ../engine/source/elements/sph/sphprep.F
+!||--- called by ------------------------------------------------------
+!||    resol                ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
+!||    my_barrier           ../engine/source/system/machine.F
+!||    soltosph_on1         ../engine/source/elements/sph/soltosph_on1.F
+!||    soltosph_on12        ../engine/source/elements/sph/soltosph_on1.F
+!||    soltosph_on2         ../engine/source/elements/sph/soltosph_on2.F
+!||    spadasm              ../engine/source/elements/sph/spadasm.F
+!||    spadasm0             ../engine/source/elements/sph/spadasm.F
+!||    spclasv              ../engine/source/elements/sph/spclasv.F
+!||    spcompl              ../engine/source/elements/sph/spcompl.F
+!||    spechan              ../engine/source/elements/sph/spechan.F
+!||    sph_crit_voxel       ../engine/source/elements/sph/sph_crit_voxel.F90
+!||    sphtri               ../engine/source/elements/sph/sphtri.F
+!||    sphtri0              ../engine/source/elements/sph/sphtri0.F
+!||    spmd_allglob_isum9   ../engine/source/mpi/generic/spmd_allglob_isum9.F
+!||    spmd_barrier         ../engine/source/mpi/spmd_mod.F90
+!||    spmd_spamaj          ../engine/source/mpi/sph/spmd_spamaj.F
+!||    spmd_sphgat          ../engine/source/mpi/sph/spmd_sphgat.F
+!||    spmd_sphgetisph      ../engine/source/mpi/elements/spmd_sph.F
+!||    spmd_sphgetv         ../engine/source/mpi/sph/spmd_sphgetv.F
+!||    spmd_sphgetx         ../engine/source/mpi/elements/spmd_sph.F
+!||    sponof1              ../engine/source/elements/sph/sponof1.F
+!||    sponof2              ../engine/source/elements/sph/sponof2.F
+!||    spsym_alloc          ../engine/source/elements/sph/spsym_alloc.F
+!||    spsymp               ../engine/source/elements/sph/spsym.F
+!||    startime             ../engine/source/system/timer_mod.F90
+!||    stoptime             ../engine/source/system/timer_mod.F90
+!||--- uses       -----------------------------------------------------
+!||    elbufdef_mod         ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    groupdef_mod         ../common_source/modules/groupdef_mod.F
+!||    message_mod          ../engine/share/message_module/message_mod.F
+!||    sph_crit_voxel_mod   ../engine/source/elements/sph/sph_crit_voxel.F90
+!||    sph_struct_mod       ../engine/share/modules/sph_struct_mod.F
+!||    sph_work_mod         ../common_source/modules/mat_elem/sph_work.F90
+!||    spmd_mod             ../engine/source/mpi/spmd_mod.F90
+!||    timer_mod            ../engine/source/system/timer_mod.F90
+!||====================================================================
       SUBROUTINE SPHPREP(TIMERS,
      1    PM      ,GEO     ,X       ,V       ,MS      ,
      2    ELBUF_TAB,WA      ,PLD     ,BUFMAT  ,PARTSAV ,

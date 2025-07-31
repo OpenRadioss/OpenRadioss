@@ -20,22 +20,22 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    inter_dcod_sensor      ../starter/source/interfaces/reader/inter_dcod_sensor.F
-      !||--- called by ------------------------------------------------------
-      !||    hm_read_inter_type05   ../starter/source/interfaces/int05/hm_read_inter_type05.F
-      !||    hm_read_inter_type07   ../starter/source/interfaces/int07/hm_read_inter_type07.F
-      !||    hm_read_inter_type11   ../starter/source/interfaces/int11/hm_read_inter_type11.F
-      !||    hm_read_inter_type21   ../starter/source/interfaces/int21/hm_read_inter_type21.F
-      !||    hm_read_inter_type24   ../starter/source/interfaces/int24/hm_read_inter_type24.F
-      !||    hm_read_inter_type25   ../starter/source/interfaces/int25/hm_read_inter_type25.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg                 ../starter/source/output/message/message.F
-      !||    fretitl2               ../starter/source/starter/freform.F
-      !||--- uses       -----------------------------------------------------
-      !||    intstamp_mod           ../starter/share/modules1/intstamp_mod.F
-      !||    message_mod            ../starter/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    inter_dcod_sensor      ../starter/source/interfaces/reader/inter_dcod_sensor.F
+!||--- called by ------------------------------------------------------
+!||    hm_read_inter_type05   ../starter/source/interfaces/int05/hm_read_inter_type05.F
+!||    hm_read_inter_type07   ../starter/source/interfaces/int07/hm_read_inter_type07.F
+!||    hm_read_inter_type11   ../starter/source/interfaces/int11/hm_read_inter_type11.F
+!||    hm_read_inter_type21   ../starter/source/interfaces/int21/hm_read_inter_type21.F
+!||    hm_read_inter_type24   ../starter/source/interfaces/int24/hm_read_inter_type24.F
+!||    hm_read_inter_type25   ../starter/source/interfaces/int25/hm_read_inter_type25.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                 ../starter/source/output/message/message.F
+!||    fretitl2               ../starter/source/starter/freform.F
+!||--- uses       -----------------------------------------------------
+!||    intstamp_mod           ../starter/share/modules1/intstamp_mod.F
+!||    message_mod            ../starter/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE INTER_DCOD_SENSOR(NTYP,NI,IPARI,NOM_OPT,SENSORS)
 
 C-----------------------------------------------

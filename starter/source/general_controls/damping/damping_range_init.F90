@@ -20,11 +20,11 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    damping_range_init_mod   ../starter/source/general_controls/damping/damping_range_init.F90
-      !||--- called by ------------------------------------------------------
-      !||    initia                   ../starter/source/elements/initia/initia.F
-      !||====================================================================
+!||====================================================================
+!||    damping_range_init_mod   ../starter/source/general_controls/damping/damping_range_init.F90
+!||--- called by ------------------------------------------------------
+!||    initia                   ../starter/source/elements/initia/initia.F
+!||====================================================================
       module damping_range_init_mod
       contains
 ! ======================================================================================================================
@@ -35,12 +35,12 @@
 !\brief This subroutine transfer parameters of maxwell component in group buffer
 !=======================================================================================================================
 !
-      !||====================================================================
-      !||    damping_range_init   ../starter/source/general_controls/damping/damping_range_init.F90
-      !||--- called by ------------------------------------------------------
-      !||    initia               ../starter/source/elements/initia/initia.F
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    damping_range_init   ../starter/source/general_controls/damping/damping_range_init.F90
+!||--- called by ------------------------------------------------------
+!||    initia               ../starter/source/elements/initia/initia.F
+!||--- uses       -----------------------------------------------------
+!||====================================================================
         subroutine damping_range_init(ndamp,nrdamp,dampr,ngroup,nparg,iparg,elbuf_tab)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules

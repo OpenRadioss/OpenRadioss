@@ -20,18 +20,18 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    wrtsqr         ../engine/source/output/tools/wrtsqr.F
-      !||--- called by ------------------------------------------------------
-      !||    convwrest      ../engine/source/output/restart/wrrest.F
-      !||    dswrest        ../engine/source/output/restart/wrrest.F
-      !||    eigwrest       ../engine/source/output/restart/wrrest.F
-      !||    fxfluxwrest    ../engine/source/constraints/thermic/fxfluxwrest.F
-      !||    fxtempwrest    ../engine/source/output/restart/wrrest.F
-      !||    nitschewrest   ../engine/source/output/restart/wrrest.F
-      !||    radiawrest     ../engine/source/output/restart/wrrest.F
-      !||    thcwrest       ../engine/source/output/restart/wrrest.F
-      !||====================================================================
+!||====================================================================
+!||    wrtsqr         ../engine/source/output/tools/wrtsqr.F
+!||--- called by ------------------------------------------------------
+!||    convwrest      ../engine/source/output/restart/wrrest.F
+!||    dswrest        ../engine/source/output/restart/wrrest.F
+!||    eigwrest       ../engine/source/output/restart/wrrest.F
+!||    fxfluxwrest    ../engine/source/constraints/thermic/fxfluxwrest.F
+!||    fxtempwrest    ../engine/source/output/restart/wrrest.F
+!||    nitschewrest   ../engine/source/output/restart/wrrest.F
+!||    radiawrest     ../engine/source/output/restart/wrrest.F
+!||    thcwrest       ../engine/source/output/restart/wrrest.F
+!||====================================================================
       SUBROUTINE WRTSQR(A,L,IFORM)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    r4mat3    ../engine/source/elements/spring/r4mat3.F
-      !||--- called by ------------------------------------------------------
-      !||    r4ke3     ../engine/source/elements/spring/r4ke3.F
-      !||--- calls      -----------------------------------------------------
-      !||    rkenonl   ../engine/source/elements/spring/r4mat3.F
-      !||====================================================================
+!||====================================================================
+!||    r4mat3    ../engine/source/elements/spring/r4mat3.F
+!||--- called by ------------------------------------------------------
+!||    r4ke3     ../engine/source/elements/spring/r4ke3.F
+!||--- calls      -----------------------------------------------------
+!||    rkenonl   ../engine/source/elements/spring/r4mat3.F
+!||====================================================================
       SUBROUTINE R4MAT3(JFT    ,JLT    ,GEO    ,KX     ,MGN    ,
      1                  AL0    ,FX     ,DX     ,TF     ,NPF    ,
      2                  POS    ,IGEO   )
@@ -91,17 +91,17 @@ C        IFUNC2(I) =NINT(GEO(18,MGN(I)))
 C
       RETURN
       END
-      !||====================================================================
-      !||    rkenonl     ../engine/source/elements/spring/r4mat3.F
-      !||--- called by ------------------------------------------------------
-      !||    r12mat3     ../engine/source/elements/spring/r12mat3.F
-      !||    r13mat3     ../engine/source/elements/spring/r13mat3.F
-      !||    r4mat3      ../engine/source/elements/spring/r4mat3.F
-      !||--- calls      -----------------------------------------------------
-      !||    es_func     ../engine/source/elements/spring/r4mat3.F
-      !||    vinter2     ../engine/source/tools/curve/vinter.F
-      !||    vinter2dp   ../engine/source/tools/curve/vinter.F
-      !||====================================================================
+!||====================================================================
+!||    rkenonl     ../engine/source/elements/spring/r4mat3.F
+!||--- called by ------------------------------------------------------
+!||    r12mat3     ../engine/source/elements/spring/r12mat3.F
+!||    r13mat3     ../engine/source/elements/spring/r13mat3.F
+!||    r4mat3      ../engine/source/elements/spring/r4mat3.F
+!||--- calls      -----------------------------------------------------
+!||    es_func     ../engine/source/elements/spring/r4mat3.F
+!||    vinter2     ../engine/source/tools/curve/vinter.F
+!||    vinter2dp   ../engine/source/tools/curve/vinter.F
+!||====================================================================
       SUBROUTINE RKENONL(JFT    ,JLT    ,KX     ,FX     ,DX     ,
      .                   IECROU ,IFUNC  ,IFUNC2 ,A      ,TF     ,
      .                   NPF    ,POS    )
@@ -188,11 +188,11 @@ C
 C
       RETURN
       END
-      !||====================================================================
-      !||    es_func   ../engine/source/elements/spring/r4mat3.F
-      !||--- called by ------------------------------------------------------
-      !||    rkenonl   ../engine/source/elements/spring/r4mat3.F
-      !||====================================================================
+!||====================================================================
+!||    es_func   ../engine/source/elements/spring/r4mat3.F
+!||--- called by ------------------------------------------------------
+!||    rkenonl   ../engine/source/elements/spring/r4mat3.F
+!||====================================================================
       SUBROUTINE ES_FUNC(IFUNCT  ,TF     ,NPF    ,E_S    )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

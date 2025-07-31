@@ -20,14 +20,14 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    polygon_clipping_mod      ../common_source/tools/clipping/polygon_clipping_mod.F90
-      !||--- called by ------------------------------------------------------
-      !||    init_inivol_2d_polygons   ../starter/source/initial_conditions/inivol/init_inivol_2D_polygons.F90
-      !||--- uses       -----------------------------------------------------
-      !||    polygon_mod               ../common_source/tools/clipping/polygon_mod.F90
-      !||    precision_mod             ../common_source/modules/precision_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    polygon_clipping_mod      ../common_source/tools/clipping/polygon_clipping_mod.F90
+!||--- called by ------------------------------------------------------
+!||    init_inivol_2d_polygons   ../starter/source/initial_conditions/inivol/init_inivol_2D_polygons.F90
+!||--- uses       -----------------------------------------------------
+!||    polygon_mod               ../common_source/tools/clipping/polygon_mod.F90
+!||    precision_mod             ../common_source/modules/precision_mod.F90
+!||====================================================================
       module polygon_clipping_mod
         use polygon_mod
         use precision_mod, only : WP
@@ -128,11 +128,11 @@
 ! ======================================================================================================================
 !                                                   PROCEDURES
 ! ======================================================================================================================
-      !||====================================================================
-      !||    nextpoint                  ../common_source/tools/clipping/polygon_clipping_mod.F90
-      !||--- called by ------------------------------------------------------
-      !||    clipping_weiler_atherton   ../common_source/tools/clipping/polygon_clipping_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    nextpoint                  ../common_source/tools/clipping/polygon_clipping_mod.F90
+!||--- called by ------------------------------------------------------
+!||    clipping_weiler_atherton   ../common_source/tools/clipping/polygon_clipping_mod.F90
+!||====================================================================
     subroutine NextPoint ( currentPoint, icur_list, list1, size1, list2, size2)
       implicit none
       type(pointer_to_point_), intent(inout) :: currentPoint
@@ -233,22 +233,22 @@
 ! --- POLYGONAL CLIPPING WITH WEILER-ATHERTON ALGORITHM
 ! pre-condition : no self intersection
 ! details : this subroutine is used for 2D /INIVOL option. Clipped polygon is user polygon. Clipping polygon is elem from user mesh
-      !||====================================================================
-      !||    clipping_weiler_atherton         ../common_source/tools/clipping/polygon_clipping_mod.F90
-      !||--- called by ------------------------------------------------------
-      !||    init_inivol_2d_polygons          ../starter/source/initial_conditions/inivol/init_inivol_2D_polygons.F90
-      !||--- calls      -----------------------------------------------------
-      !||    integer_array_reindex            ../common_source/tools/sort/array_reindex.F90
-      !||    nextpoint                        ../common_source/tools/clipping/polygon_clipping_mod.F90
-      !||    points_array_reindex             ../common_source/tools/clipping/polygon_clipping_mod.F90
-      !||    polygon_addpoint                 ../common_source/tools/clipping/polygon_mod.F90
-      !||    polygon_create                   ../common_source/tools/clipping/polygon_mod.F90
-      !||    real_insertion_sort_with_index   ../common_source/tools/sort/insertion_sort.F90
-      !||--- uses       -----------------------------------------------------
-      !||    array_reindex_mod                ../common_source/tools/sort/array_reindex.F90
-      !||    constant_mod                     ../common_source/modules/constant_mod.F
-      !||    insertion_sort_mod               ../common_source/tools/sort/insertion_sort.F90
-      !||====================================================================
+!||====================================================================
+!||    clipping_weiler_atherton         ../common_source/tools/clipping/polygon_clipping_mod.F90
+!||--- called by ------------------------------------------------------
+!||    init_inivol_2d_polygons          ../starter/source/initial_conditions/inivol/init_inivol_2D_polygons.F90
+!||--- calls      -----------------------------------------------------
+!||    integer_array_reindex            ../common_source/tools/sort/array_reindex.F90
+!||    nextpoint                        ../common_source/tools/clipping/polygon_clipping_mod.F90
+!||    points_array_reindex             ../common_source/tools/clipping/polygon_clipping_mod.F90
+!||    polygon_addpoint                 ../common_source/tools/clipping/polygon_mod.F90
+!||    polygon_create                   ../common_source/tools/clipping/polygon_mod.F90
+!||    real_insertion_sort_with_index   ../common_source/tools/sort/insertion_sort.F90
+!||--- uses       -----------------------------------------------------
+!||    array_reindex_mod                ../common_source/tools/sort/array_reindex.F90
+!||    constant_mod                     ../common_source/modules/constant_mod.F
+!||    insertion_sort_mod               ../common_source/tools/sort/insertion_sort.F90
+!||====================================================================
         subroutine Clipping_Weiler_Atherton(ClippedPolygon, ClippingPolygon, result_list, iStatus)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
@@ -668,13 +668,13 @@
 ! ======================================================================================================================
 !                                                   PROCEDURES
 ! ======================================================================================================================
-      !||====================================================================
-      !||    polygon_setclockwise      ../common_source/tools/clipping/polygon_clipping_mod.F90
-      !||--- called by ------------------------------------------------------
-      !||    init_inivol_2d_polygons   ../starter/source/initial_conditions/inivol/init_inivol_2D_polygons.F90
-      !||--- uses       -----------------------------------------------------
-      !||    constant_mod              ../common_source/modules/constant_mod.F
-      !||====================================================================
+!||====================================================================
+!||    polygon_setclockwise      ../common_source/tools/clipping/polygon_clipping_mod.F90
+!||--- called by ------------------------------------------------------
+!||    init_inivol_2d_polygons   ../starter/source/initial_conditions/inivol/init_inivol_2D_polygons.F90
+!||--- uses       -----------------------------------------------------
+!||    constant_mod              ../common_source/modules/constant_mod.F
+!||====================================================================
         subroutine polygon_SetClockWise( Polyg )
           use constant_mod , only : zero, half
           implicit none
@@ -716,11 +716,11 @@
 ! ======================================================================================================================
 !                                                   PROCEDURES
 ! ======================================================================================================================
-      !||====================================================================
-      !||    polygon_is_point_inside   ../common_source/tools/clipping/polygon_clipping_mod.F90
-      !||--- uses       -----------------------------------------------------
-      !||    constant_mod              ../common_source/modules/constant_mod.F
-      !||====================================================================
+!||====================================================================
+!||    polygon_is_point_inside   ../common_source/tools/clipping/polygon_clipping_mod.F90
+!||--- uses       -----------------------------------------------------
+!||    constant_mod              ../common_source/modules/constant_mod.F
+!||====================================================================
         function polygon_is_point_inside( Polyg, pt ) result(is_inside)
           use constant_mod , only : zero, em20, em10, half, one
           implicit none
@@ -786,11 +786,11 @@
 !! \details      Example array = (/ P1 P2 P3 P4/)
 !! \details              index = (/4 3 2 1/)
 !! \details      result will be  (/ P4 P3 P2 P1 /)
-      !||====================================================================
-      !||    points_array_reindex       ../common_source/tools/clipping/polygon_clipping_mod.F90
-      !||--- called by ------------------------------------------------------
-      !||    clipping_weiler_atherton   ../common_source/tools/clipping/polygon_clipping_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    points_array_reindex       ../common_source/tools/clipping/polygon_clipping_mod.F90
+!||--- called by ------------------------------------------------------
+!||    clipping_weiler_atherton   ../common_source/tools/clipping/polygon_clipping_mod.F90
+!||====================================================================
       subroutine points_array_reindex(array, index, n)
         implicit none
 ! ----------------------------------------------------------------------------------------------------------------------

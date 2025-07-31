@@ -21,11 +21,11 @@
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 ! ======================================================================================================================
-      !||====================================================================
-      !||    read_ale_grid_mod   ../engine/source/output/restart/read_ale_grid.F90
-      !||--- called by ------------------------------------------------------
-      !||    rdresb              ../engine/source/output/restart/rdresb.F
-      !||====================================================================
+!||====================================================================
+!||    read_ale_grid_mod   ../engine/source/output/restart/read_ale_grid.F90
+!||--- called by ------------------------------------------------------
+!||    rdresb              ../engine/source/output/restart/rdresb.F
+!||====================================================================
       module read_ale_grid_mod
       contains
 ! ======================================================================================================================
@@ -34,16 +34,16 @@
 !! \brief Load buffer from restart file.
 !! \details  necessary buffer specific to family of options /ALE/GRID/...
 !
-      !||====================================================================
-      !||    read_ale_grid   ../engine/source/output/restart/read_ale_grid.F90
-      !||--- called by ------------------------------------------------------
-      !||    rdresb          ../engine/source/output/restart/rdresb.F
-      !||--- calls      -----------------------------------------------------
-      !||    read_db         ../common_source/tools/input_output/read_db.F
-      !||--- uses       -----------------------------------------------------
-      !||    ale_mod         ../common_source/modules/ale/ale_mod.F
-      !||    precision_mod   ../common_source/modules/precision_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    read_ale_grid   ../engine/source/output/restart/read_ale_grid.F90
+!||--- called by ------------------------------------------------------
+!||    rdresb          ../engine/source/output/restart/rdresb.F
+!||--- calls      -----------------------------------------------------
+!||    read_db         ../common_source/tools/input_output/read_db.F
+!||--- uses       -----------------------------------------------------
+!||    ale_mod         ../common_source/modules/ale/ale_mod.F
+!||    precision_mod   ../common_source/modules/precision_mod.F90
+!||====================================================================
         subroutine read_ale_grid()
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules

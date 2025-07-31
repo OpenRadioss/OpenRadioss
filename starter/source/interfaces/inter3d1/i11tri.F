@@ -20,17 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    i11tri                 ../starter/source/interfaces/inter3d1/i11tri.F
-      !||--- called by ------------------------------------------------------
-      !||    i11buc1                ../starter/source/interfaces/inter3d1/i11buc1.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg                 ../starter/source/output/message/message.F
-      !||    i11sto                 ../starter/source/interfaces/inter3d1/i11sto.F
-      !||    i7dstk                 ../starter/source/interfaces/inter3d1/i7dstk.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod            ../starter/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    i11tri                 ../starter/source/interfaces/inter3d1/i11tri.F
+!||--- called by ------------------------------------------------------
+!||    i11buc1                ../starter/source/interfaces/inter3d1/i11buc1.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                 ../starter/source/output/message/message.F
+!||    i11sto                 ../starter/source/interfaces/inter3d1/i11sto.F
+!||    i7dstk                 ../starter/source/interfaces/inter3d1/i7dstk.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod            ../starter/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE I11TRI(
      1      BPE   ,PE    ,BPN   ,PN    ,ADD,
      2      IRECTS,X     ,NB_SC ,NB_MC ,XYZM,

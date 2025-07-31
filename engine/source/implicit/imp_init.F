@@ -20,20 +20,20 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    imp_init       ../engine/source/implicit/imp_init.F
-      !||--- called by ------------------------------------------------------
-      !||    resol_init     ../engine/source/engine/resol_init.F
-      !||--- calls      -----------------------------------------------------
-      !||    dyna_ini       ../engine/source/implicit/imp_dyna.F
-      !||    ktbuf_ini      ../engine/source/implicit/imp_init.F
-      !||    zeror          ../engine/source/system/zero.F
-      !||--- uses       -----------------------------------------------------
-      !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||    imp_aspc       ../engine/share/modules/impbufdef_mod.F
-      !||    imp_intm       ../engine/share/modules/imp_intm.F
-      !||    imp_kbcs       ../engine/share/modules/impbufdef_mod.F
-      !||====================================================================
+!||====================================================================
+!||    imp_init       ../engine/source/implicit/imp_init.F
+!||--- called by ------------------------------------------------------
+!||    resol_init     ../engine/source/engine/resol_init.F
+!||--- calls      -----------------------------------------------------
+!||    dyna_ini       ../engine/source/implicit/imp_dyna.F
+!||    ktbuf_ini      ../engine/source/implicit/imp_init.F
+!||    zeror          ../engine/source/system/zero.F
+!||--- uses       -----------------------------------------------------
+!||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    imp_aspc       ../engine/share/modules/impbufdef_mod.F
+!||    imp_intm       ../engine/share/modules/imp_intm.F
+!||    imp_kbcs       ../engine/share/modules/impbufdef_mod.F
+!||====================================================================
       SUBROUTINE IMP_INIT(V,VR,IPARG,IPM,IGEO,ELBUF_TAB)
 C-----------------------------------------------
 C   M o d u l e s
@@ -155,20 +155,20 @@ C
        RETURN
        END
 C-----------------------------------------------
-      !||====================================================================
-      !||    ktbuf_ini      ../engine/source/implicit/imp_init.F
-      !||--- called by ------------------------------------------------------
-      !||    imp_init       ../engine/source/implicit/imp_init.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg         ../engine/source/output/message/message.F
-      !||    arret          ../engine/source/system/arret.F
-      !||    grpreorder     ../engine/source/implicit/imp_glob_k.F
-      !||--- uses       -----------------------------------------------------
-      !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||    imp_ktan       ../engine/share/modules/impbufdef_mod.F
-      !||    imp_ktan_def   ../engine/share/modules/impbufdef_mod.F
-      !||    message_mod    ../engine/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    ktbuf_ini      ../engine/source/implicit/imp_init.F
+!||--- called by ------------------------------------------------------
+!||    imp_init       ../engine/source/implicit/imp_init.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg         ../engine/source/output/message/message.F
+!||    arret          ../engine/source/system/arret.F
+!||    grpreorder     ../engine/source/implicit/imp_glob_k.F
+!||--- uses       -----------------------------------------------------
+!||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    imp_ktan       ../engine/share/modules/impbufdef_mod.F
+!||    imp_ktan_def   ../engine/share/modules/impbufdef_mod.F
+!||    message_mod    ../engine/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE KTBUF_INI(ELBUF_TAB, IPARG ,IPM ,IGEO)
 C-----------------------------------------------
 C   M o d u l e s
@@ -336,15 +336,15 @@ C      IF (LENF==0 .AND. IKT > 0 ) IKT=0
 C-----
       RETURN
       END SUBROUTINE KTBUF_INI
-      !||====================================================================
-      !||    iktmat_ini     ../engine/source/implicit/imp_init.F
-      !||--- called by ------------------------------------------------------
-      !||    get_etfac_s    ../engine/source/elements/solid/solide8z/get_etfac_s.F
-      !||    put_etfac      ../engine/source/elements/solid/solide8z/put_etfac.F
-      !||--- uses       -----------------------------------------------------
-      !||    imp_ktan       ../engine/share/modules/impbufdef_mod.F
-      !||    imp_ktan_def   ../engine/share/modules/impbufdef_mod.F
-      !||====================================================================
+!||====================================================================
+!||    iktmat_ini     ../engine/source/implicit/imp_init.F
+!||--- called by ------------------------------------------------------
+!||    get_etfac_s    ../engine/source/elements/solid/solide8z/get_etfac_s.F
+!||    put_etfac      ../engine/source/elements/solid/solide8z/put_etfac.F
+!||--- uses       -----------------------------------------------------
+!||    imp_ktan       ../engine/share/modules/impbufdef_mod.F
+!||    imp_ktan_def   ../engine/share/modules/impbufdef_mod.F
+!||====================================================================
       SUBROUTINE IKTMAT_INI(MTN,IKTMAT)
 C-----------------------------------------------
 C   M o d u l e s
@@ -374,16 +374,16 @@ C-----------------------------------------------
 C       
       RETURN
       END SUBROUTINE IKTMAT_INI
-      !||====================================================================
-      !||    etfac_ini      ../engine/source/implicit/imp_init.F
-      !||--- called by ------------------------------------------------------
-      !||    imp_solv       ../engine/source/implicit/imp_solv.F
-      !||--- calls      -----------------------------------------------------
-      !||    grpreorder     ../engine/source/implicit/imp_glob_k.F
-      !||--- uses       -----------------------------------------------------
-      !||    imp_ktan       ../engine/share/modules/impbufdef_mod.F
-      !||    imp_ktan_def   ../engine/share/modules/impbufdef_mod.F
-      !||====================================================================
+!||====================================================================
+!||    etfac_ini      ../engine/source/implicit/imp_init.F
+!||--- called by ------------------------------------------------------
+!||    imp_solv       ../engine/source/implicit/imp_solv.F
+!||--- calls      -----------------------------------------------------
+!||    grpreorder     ../engine/source/implicit/imp_glob_k.F
+!||--- uses       -----------------------------------------------------
+!||    imp_ktan       ../engine/share/modules/impbufdef_mod.F
+!||    imp_ktan_def   ../engine/share/modules/impbufdef_mod.F
+!||====================================================================
       SUBROUTINE ETFAC_INI(IPARG )
 C-----------------------------------------------
 C   M o d u l e s

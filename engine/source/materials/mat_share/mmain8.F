@@ -20,38 +20,38 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    mmain8                ../engine/source/materials/mat_share/mmain8.F
-      !||--- called by ------------------------------------------------------
-      !||    s8forc3               ../engine/source/elements/solid/solide8/s8forc3.F
-      !||--- calls      -----------------------------------------------------
-      !||    fail_biquad_s         ../engine/source/materials/fail/biquad/fail_biquad_s.F
-      !||    fail_emc              ../engine/source/materials/fail/emc/fail_emc.F
-      !||    fail_johnson          ../engine/source/materials/fail/johnson_cook/fail_johnson.F
-      !||    fail_orthbiquad_s     ../engine/source/materials/fail/orthbiquad/fail_orthbiquad_s.F
-      !||    fail_rtcl_s           ../engine/source/materials/fail/rtcl/fail_rtcl_s.F
-      !||    fail_spalling_s       ../engine/source/materials/fail/spalling/fail_spalling_s.F90
-      !||    fail_tab_old_s        ../engine/source/materials/fail/tabulated/fail_tab_old_s.F
-      !||    fail_tab_s            ../engine/source/materials/fail/tabulated/fail_tab_s.F
-      !||    fail_tbutcher_s       ../engine/source/materials/fail/tuler_butcher/fail_tbutcher_s.F
-      !||    fail_wierzbicki_s     ../engine/source/materials/fail/wierzbicki/fail_wierzbicki_s.F
-      !||    fail_wilkins_s        ../engine/source/materials/fail/wilkins/fail_wilkins_s.F
-      !||    m1law8                ../engine/source/materials/mat/mat001/m1law8.F
-      !||    m2law8                ../engine/source/materials/mat/mat002/m2law8.F
-      !||    m3law8                ../engine/source/materials/mat/mat003/m3law8.F
-      !||    meos8                 ../engine/source/materials/mat_share/meos8.F
-      !||    mulaw8                ../engine/source/materials/mat_share/mulaw8.F90
-      !||    put_etfac             ../engine/source/elements/solid/solide8z/put_etfac.F
-      !||    startime              ../engine/source/system/timer_mod.F90
-      !||    stoptime              ../engine/source/system/timer_mod.F90
-      !||--- uses       -----------------------------------------------------
-      !||    elbufdef_mod          ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||    fail_spalling_s_mod   ../engine/source/materials/fail/spalling/fail_spalling_s.F90
-      !||    mat_elem_mod          ../common_source/modules/mat_elem/mat_elem_mod.F90
-      !||    mulaw8_mod            ../engine/source/materials/mat_share/mulaw8.F90
-      !||    table_mod             ../engine/share/modules/table_mod.F
-      !||    timer_mod             ../engine/source/system/timer_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    mmain8                ../engine/source/materials/mat_share/mmain8.F
+!||--- called by ------------------------------------------------------
+!||    s8forc3               ../engine/source/elements/solid/solide8/s8forc3.F
+!||--- calls      -----------------------------------------------------
+!||    fail_biquad_s         ../engine/source/materials/fail/biquad/fail_biquad_s.F
+!||    fail_emc              ../engine/source/materials/fail/emc/fail_emc.F
+!||    fail_johnson          ../engine/source/materials/fail/johnson_cook/fail_johnson.F
+!||    fail_orthbiquad_s     ../engine/source/materials/fail/orthbiquad/fail_orthbiquad_s.F
+!||    fail_rtcl_s           ../engine/source/materials/fail/rtcl/fail_rtcl_s.F
+!||    fail_spalling_s       ../engine/source/materials/fail/spalling/fail_spalling_s.F90
+!||    fail_tab_old_s        ../engine/source/materials/fail/tabulated/fail_tab_old_s.F
+!||    fail_tab_s            ../engine/source/materials/fail/tabulated/fail_tab_s.F
+!||    fail_tbutcher_s       ../engine/source/materials/fail/tuler_butcher/fail_tbutcher_s.F
+!||    fail_wierzbicki_s     ../engine/source/materials/fail/wierzbicki/fail_wierzbicki_s.F
+!||    fail_wilkins_s        ../engine/source/materials/fail/wilkins/fail_wilkins_s.F
+!||    m1law8                ../engine/source/materials/mat/mat001/m1law8.F
+!||    m2law8                ../engine/source/materials/mat/mat002/m2law8.F
+!||    m3law8                ../engine/source/materials/mat/mat003/m3law8.F
+!||    meos8                 ../engine/source/materials/mat_share/meos8.F
+!||    mulaw8                ../engine/source/materials/mat_share/mulaw8.F90
+!||    put_etfac             ../engine/source/elements/solid/solide8z/put_etfac.F
+!||    startime              ../engine/source/system/timer_mod.F90
+!||    stoptime              ../engine/source/system/timer_mod.F90
+!||--- uses       -----------------------------------------------------
+!||    elbufdef_mod          ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    fail_spalling_s_mod   ../engine/source/materials/fail/spalling/fail_spalling_s.F90
+!||    mat_elem_mod          ../common_source/modules/mat_elem/mat_elem_mod.F90
+!||    mulaw8_mod            ../engine/source/materials/mat_share/mulaw8.F90
+!||    table_mod             ../engine/share/modules/table_mod.F
+!||    timer_mod             ../engine/source/system/timer_mod.F90
+!||====================================================================
       SUBROUTINE MMAIN8(TIMERS, PM     ,GEO      ,ELBUF_STR,MAT_ELEM ,
      2                  IX     ,IPARG    ,V        ,TF       ,
      3                  NPF    ,BUFMAT   ,STIFN    ,X        ,D1      ,

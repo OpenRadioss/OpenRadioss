@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    sesa20     ../engine/source/materials/mat/mat026/sesa20.F
-      !||--- called by ------------------------------------------------------
-      !||    mmain      ../engine/source/materials/mat_share/mmain.F90
-      !||--- calls      -----------------------------------------------------
-      !||    mintp_re   ../common_source/eos/mintp_re.F
-      !||    mintp_rt   ../common_source/eos/mintp_rt.F
-      !||====================================================================
+!||====================================================================
+!||    sesa20     ../engine/source/materials/mat/mat026/sesa20.F
+!||--- called by ------------------------------------------------------
+!||    mmain      ../engine/source/materials/mat_share/mmain.F90
+!||--- calls      -----------------------------------------------------
+!||    mintp_re   ../common_source/eos/mintp_re.F
+!||    mintp_rt   ../common_source/eos/mintp_rt.F
+!||====================================================================
       SUBROUTINE SESA20(
      1   PM,      EINT,    RHO,     TEMP,
      2   Z,       QOLD,    SESAME,  SOUND,

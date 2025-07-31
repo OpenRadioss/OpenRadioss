@@ -20,11 +20,11 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    inter_init_component_list_mod   ../engine/source/interfaces/generic/inter_init_component_list.F90
-      !||--- called by ------------------------------------------------------
-      !||    inter_init_component            ../engine/source/interfaces/generic/inter_init_component.F90
-      !||====================================================================
+!||====================================================================
+!||    inter_init_component_list_mod   ../engine/source/interfaces/generic/inter_init_component_list.F90
+!||--- called by ------------------------------------------------------
+!||    inter_init_component            ../engine/source/interfaces/generic/inter_init_component.F90
+!||====================================================================
       module inter_init_component_list_mod
       contains
 ! ======================================================================================================================
@@ -32,13 +32,13 @@
 ! ======================================================================================================================
 !! \brief Here is a small description of the routine, [after the header]
 !! \details if needed, more details can be added here
-      !||====================================================================
-      !||    inter_init_component_list   ../engine/source/interfaces/generic/inter_init_component_list.F90
-      !||--- called by ------------------------------------------------------
-      !||    inter_init_component        ../engine/source/interfaces/generic/inter_init_component.F90
-      !||--- uses       -----------------------------------------------------
-      !||    inter_sorting_mod           ../engine/share/modules/inter_sorting_mod.F
-      !||====================================================================
+!||====================================================================
+!||    inter_init_component_list   ../engine/source/interfaces/generic/inter_init_component_list.F90
+!||--- called by ------------------------------------------------------
+!||    inter_init_component        ../engine/source/interfaces/generic/inter_init_component.F90
+!||--- uses       -----------------------------------------------------
+!||    inter_sorting_mod           ../engine/share/modules/inter_sorting_mod.F
+!||====================================================================
         subroutine inter_init_component_list( nsn,nrtm,numnod,nsv,irectm,s_node_color,m_node_color, &
                                               component )
 ! ----------------------------------------------------------------------------------------------------------------------

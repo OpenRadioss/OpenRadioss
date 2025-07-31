@@ -20,69 +20,69 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    arret                   ../starter/source/system/arret.F
-      !||--- called by ------------------------------------------------------
-      !||    ancmsg                  ../starter/source/output/message/message.F
-      !||    ani_fasolfr1            ../starter/source/output/anim/ani_fasolfr.F
-      !||    arret_message           ../starter/source/interfaces/int24/arret_message.F
-      !||    arret_message_slid      ../starter/source/interfaces/int24/arret_message.F
-      !||    c3grtails               ../starter/source/elements/sh3n/coque3n/c3grtails.F
-      !||    c_tricall               ../starter/stub/fvmbags_stub.F
-      !||    cgrtails                ../starter/source/elements/shell/coque/cgrtails.F
-      !||    contrl                  ../starter/source/starter/contrl.F
-      !||    error_alloc             ../starter/source/system/error_alloc.F
-      !||    facepoly                ../starter/source/airbag/facepoly.F
-      !||    fredec2im               ../starter/source/output/message/fredec2im.F
-      !||    fredec3m                ../starter/source/output/message/fredec3m.F
-      !||    fvbric0                 ../starter/source/airbag/fvbric0.F
-      !||    fvbric01                ../starter/source/airbag/fvbric01.F
-      !||    hm_preread_bem          ../starter/source/loads/bem/hm_read_bem.F
-      !||    hm_preread_pblast       ../starter/source/loads/pblast/hm_preread_pblast.F
-      !||    hm_read_bem             ../starter/source/loads/bem/hm_read_bem.F
-      !||    hm_read_fail_user       ../starter/source/materials/fail/failuser/hm_read_fail_user.F
-      !||    hm_read_mat29_31        ../starter/source/materials/mat/matuser/hm_read_mat_user29_31.F
-      !||    hm_read_mat_99          ../starter/source/materials/mat/matuser/hm_read_mat_user_99.F
-      !||    hm_read_pblast          ../starter/source/loads/pblast/hm_read_pblast.F
-      !||    hm_read_prop06          ../starter/source/properties/solid/hm_read_prop06.F
-      !||    hm_read_prop14          ../starter/source/properties/solid/hm_read_prop14.F
-      !||    hm_read_prop19          ../starter/source/properties/shell/hm_read_prop19.F
-      !||    hm_read_prop_user       ../starter/source/properties/user_spring_solid/hm_read_prop_user.F
-      !||    hm_read_retractor       ../starter/source/tools/seatbelts/hm_read_retractor.F
-      !||    hm_read_slipring        ../starter/source/tools/seatbelts/hm_read_slipring.F
-      !||    hm_read_window_user     ../starter/source/tools/userwi/hm_read_window_user.F
-      !||    i24fic_getn             ../starter/source/interfaces/inter3d1/i24surfi.F
-      !||    initia                  ../starter/source/elements/initia/initia.F
-      !||    law111_upd              ../starter/source/materials/mat/mat111/law111_upd.F
-      !||    law69_upd               ../starter/source/materials/mat/mat069/law69_upd.F
-      !||    law88_upd               ../starter/source/materials/mat/mat088/law88_upd.F
-      !||    lecstack_ply            ../starter/source/properties/composite_options/stack/lecstack_ply.F
-      !||    lectur                  ../starter/source/starter/lectur.F
-      !||    m20dcod                 ../starter/source/system/fsdcod.F
-      !||    matini                  ../starter/source/materials/mat_share/matini.F
-      !||    monvol_orient_surf      ../starter/share/modules1/monvol_struct_mod.F
-      !||    polyhedr1               ../starter/source/airbag/polyhedr1.F
-      !||    rbe3cl                  ../starter/source/constraints/general/kinchk.F
-      !||    read_msgfile            ../starter/source/output/message/read_msgfile.F
-      !||    read_sensor_user        ../starter/source/tools/sensor/read_sensor_user.F
-      !||    sgrtails                ../starter/source/elements/solid/solide/sgrtails.F
-      !||    sms_ini_jad_3           ../starter/source/ams/sms_init.F
-      !||    sort_set                ../starter/source/model/sets/sort_sets.F
-      !||    sptri                   ../starter/source/elements/sph/sptri.F
-      !||    t3grtails               ../starter/source/elements/solid_2d/tria/t3grtails.F
-      !||    table_interp            ../starter/source/tools/curve/table_tools.F
-      !||    table_vinterp           ../starter/source/tools/curve/table_tools.F
-      !||    tribox3                 ../starter/stub/fvmbags_stub.F
-      !||    tritri3                 ../starter/stub/fvmbags_stub.F
-      !||    w_bufbric_22            ../starter/source/interfaces/inter3d1/w_bufbric_22.F
-      !||    w_front                 ../starter/source/restart/ddsplit/w_front.F
-      !||    w_intbuf_size           ../starter/source/restart/ddsplit/inter_tools.F
-      !||--- calls      -----------------------------------------------------
-      !||    my_exit                 ../starter/source/output/analyse/analyse.c
-      !||    summsg                  ../starter/source/output/message/summsg.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod             ../starter/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    arret                   ../starter/source/system/arret.F
+!||--- called by ------------------------------------------------------
+!||    ancmsg                  ../starter/source/output/message/message.F
+!||    ani_fasolfr1            ../starter/source/output/anim/ani_fasolfr.F
+!||    arret_message           ../starter/source/interfaces/int24/arret_message.F
+!||    arret_message_slid      ../starter/source/interfaces/int24/arret_message.F
+!||    c3grtails               ../starter/source/elements/sh3n/coque3n/c3grtails.F
+!||    c_tricall               ../starter/stub/fvmbags_stub.F
+!||    cgrtails                ../starter/source/elements/shell/coque/cgrtails.F
+!||    contrl                  ../starter/source/starter/contrl.F
+!||    error_alloc             ../starter/source/system/error_alloc.F
+!||    facepoly                ../starter/source/airbag/facepoly.F
+!||    fredec2im               ../starter/source/output/message/fredec2im.F
+!||    fredec3m                ../starter/source/output/message/fredec3m.F
+!||    fvbric0                 ../starter/source/airbag/fvbric0.F
+!||    fvbric01                ../starter/source/airbag/fvbric01.F
+!||    hm_preread_bem          ../starter/source/loads/bem/hm_read_bem.F
+!||    hm_preread_pblast       ../starter/source/loads/pblast/hm_preread_pblast.F
+!||    hm_read_bem             ../starter/source/loads/bem/hm_read_bem.F
+!||    hm_read_fail_user       ../starter/source/materials/fail/failuser/hm_read_fail_user.F
+!||    hm_read_mat29_31        ../starter/source/materials/mat/matuser/hm_read_mat_user29_31.F
+!||    hm_read_mat_99          ../starter/source/materials/mat/matuser/hm_read_mat_user_99.F
+!||    hm_read_pblast          ../starter/source/loads/pblast/hm_read_pblast.F
+!||    hm_read_prop06          ../starter/source/properties/solid/hm_read_prop06.F
+!||    hm_read_prop14          ../starter/source/properties/solid/hm_read_prop14.F
+!||    hm_read_prop19          ../starter/source/properties/shell/hm_read_prop19.F
+!||    hm_read_prop_user       ../starter/source/properties/user_spring_solid/hm_read_prop_user.F
+!||    hm_read_retractor       ../starter/source/tools/seatbelts/hm_read_retractor.F
+!||    hm_read_slipring        ../starter/source/tools/seatbelts/hm_read_slipring.F
+!||    hm_read_window_user     ../starter/source/tools/userwi/hm_read_window_user.F
+!||    i24fic_getn             ../starter/source/interfaces/inter3d1/i24surfi.F
+!||    initia                  ../starter/source/elements/initia/initia.F
+!||    law111_upd              ../starter/source/materials/mat/mat111/law111_upd.F
+!||    law69_upd               ../starter/source/materials/mat/mat069/law69_upd.F
+!||    law88_upd               ../starter/source/materials/mat/mat088/law88_upd.F
+!||    lecstack_ply            ../starter/source/properties/composite_options/stack/lecstack_ply.F
+!||    lectur                  ../starter/source/starter/lectur.F
+!||    m20dcod                 ../starter/source/system/fsdcod.F
+!||    matini                  ../starter/source/materials/mat_share/matini.F
+!||    monvol_orient_surf      ../starter/share/modules1/monvol_struct_mod.F
+!||    polyhedr1               ../starter/source/airbag/polyhedr1.F
+!||    rbe3cl                  ../starter/source/constraints/general/kinchk.F
+!||    read_msgfile            ../starter/source/output/message/read_msgfile.F
+!||    read_sensor_user        ../starter/source/tools/sensor/read_sensor_user.F
+!||    sgrtails                ../starter/source/elements/solid/solide/sgrtails.F
+!||    sms_ini_jad_3           ../starter/source/ams/sms_init.F
+!||    sort_set                ../starter/source/model/sets/sort_sets.F
+!||    sptri                   ../starter/source/elements/sph/sptri.F
+!||    t3grtails               ../starter/source/elements/solid_2d/tria/t3grtails.F
+!||    table_interp            ../starter/source/tools/curve/table_tools.F
+!||    table_vinterp           ../starter/source/tools/curve/table_tools.F
+!||    tribox3                 ../starter/stub/fvmbags_stub.F
+!||    tritri3                 ../starter/stub/fvmbags_stub.F
+!||    w_bufbric_22            ../starter/source/interfaces/inter3d1/w_bufbric_22.F
+!||    w_front                 ../starter/source/restart/ddsplit/w_front.F
+!||    w_intbuf_size           ../starter/source/restart/ddsplit/inter_tools.F
+!||--- calls      -----------------------------------------------------
+!||    my_exit                 ../starter/source/output/analyse/analyse.c
+!||    summsg                  ../starter/source/output/message/summsg.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod             ../starter/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE ARRET (NN)
       USE MESSAGE_MOD
 C-----------------------------------------------

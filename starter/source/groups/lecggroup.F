@@ -20,17 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    lecggroup         ../starter/source/groups/lecggroup.F
-      !||--- called by ------------------------------------------------------
-      !||    lectur            ../starter/source/starter/lectur.F
-      !||--- calls      -----------------------------------------------------
-      !||    hm_grogro         ../starter/source/groups/hm_grogro.F
-      !||    hm_option_start   ../starter/source/devtools/hm_reader/hm_option_start.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod       ../starter/share/message_module/message_mod.F
-      !||    submodel_mod      ../starter/share/modules1/submodel_mod.F
-      !||====================================================================
+!||====================================================================
+!||    lecggroup         ../starter/source/groups/lecggroup.F
+!||--- called by ------------------------------------------------------
+!||    lectur            ../starter/source/starter/lectur.F
+!||--- calls      -----------------------------------------------------
+!||    hm_grogro         ../starter/source/groups/hm_grogro.F
+!||    hm_option_start   ../starter/source/devtools/hm_reader/hm_option_start.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod       ../starter/share/message_module/message_mod.F
+!||    submodel_mod      ../starter/share/modules1/submodel_mod.F
+!||====================================================================
       SUBROUTINE LECGGROUP(
      .           FLAGG ,
      .           ICOUNT   ,ITER  ,IGRBRIC  ,IGRQUAD  ,IGRSH4N,

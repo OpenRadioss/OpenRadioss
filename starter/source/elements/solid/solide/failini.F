@@ -20,23 +20,23 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    failini               ../starter/source/elements/solid/solide/failini.F
-      !||--- called by ------------------------------------------------------
-      !||    s10init3              ../starter/source/elements/solid/solide10/s10init3.F
-      !||    s16init3              ../starter/source/elements/thickshell/solide16/s16init3.F
-      !||    s20init3              ../starter/source/elements/solid/solide20/s20init3.F
-      !||    s4init3               ../starter/source/elements/solid/solide4/s4init3.F
-      !||    s6cinit3              ../starter/source/elements/thickshell/solide6c/s6cinit3.F
-      !||    s8cinit3              ../starter/source/elements/thickshell/solide8c/s8cinit3.F
-      !||    s8zinit3              ../starter/source/elements/solid/solide8z/s8zinit3.F
-      !||    scinit3               ../starter/source/elements/thickshell/solidec/scinit3.F
-      !||    sinit3                ../starter/source/elements/solid/solide/sinit3.F
-      !||    suinit3               ../starter/source/elements/elbuf_init/suinit3.F
-      !||--- calls      -----------------------------------------------------
-      !||    biquad_coefficients   ../starter/source/materials/fail/biquad/biquad_coefficients.F
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    failini               ../starter/source/elements/solid/solide/failini.F
+!||--- called by ------------------------------------------------------
+!||    s10init3              ../starter/source/elements/solid/solide10/s10init3.F
+!||    s16init3              ../starter/source/elements/thickshell/solide16/s16init3.F
+!||    s20init3              ../starter/source/elements/solid/solide20/s20init3.F
+!||    s4init3               ../starter/source/elements/solid/solide4/s4init3.F
+!||    s6cinit3              ../starter/source/elements/thickshell/solide6c/s6cinit3.F
+!||    s8cinit3              ../starter/source/elements/thickshell/solide8c/s8cinit3.F
+!||    s8zinit3              ../starter/source/elements/solid/solide8z/s8zinit3.F
+!||    scinit3               ../starter/source/elements/thickshell/solidec/scinit3.F
+!||    sinit3                ../starter/source/elements/solid/solide/sinit3.F
+!||    suinit3               ../starter/source/elements/elbuf_init/suinit3.F
+!||--- calls      -----------------------------------------------------
+!||    biquad_coefficients   ../starter/source/materials/fail/biquad/biquad_coefficients.F
+!||--- uses       -----------------------------------------------------
+!||====================================================================
       SUBROUTINE FAILINI(
      .   ELBUF_STR,NPTR,NPTS,NPTT,NLAY,IPM,SIGSP,NSIGI,FAIL_INI,
      .   SIGI,NSIGS,IX,NIX,PT,RNOISE,PERTURB,MAT_PARAM)

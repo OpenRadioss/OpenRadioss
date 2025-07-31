@@ -21,17 +21,17 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
-      !||====================================================================
-      !||    i6pen3                 ../starter/source/interfaces/inter3d1/i6pen3.F
-      !||--- called by ------------------------------------------------------
-      !||    iniend                 ../starter/source/interfaces/inter3d1/iniend.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg                 ../starter/source/output/message/message.F
-      !||    inist3                 ../starter/source/interfaces/inter3d1/inist3.F
-      !||--- uses       -----------------------------------------------------
-      !||    format_mod             ../starter/share/modules1/format_mod.F90
-      !||    message_mod            ../starter/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    i6pen3                 ../starter/source/interfaces/inter3d1/i6pen3.F
+!||--- called by ------------------------------------------------------
+!||    iniend                 ../starter/source/interfaces/inter3d1/iniend.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                 ../starter/source/output/message/message.F
+!||    inist3                 ../starter/source/interfaces/inter3d1/inist3.F
+!||--- uses       -----------------------------------------------------
+!||    format_mod             ../starter/share/modules1/format_mod.F90
+!||    message_mod            ../starter/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE I6PEN3(X     ,IRECT  ,MSR    ,NSV   ,ILOC  ,
      1                  IRTL  ,CST    ,IRTL0  ,GAP   ,NSN   ,
      2                  ITAB  ,IWPENE ,PENI   ,ICOR  ,ID    ,

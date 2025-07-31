@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    joint_elem_timestep   ../engine/source/elements/joint/joint_elem_timestep.F
-      !||--- called by ------------------------------------------------------
-      !||    resol                 ../engine/source/engine/resol.F
-      !||--- uses       -----------------------------------------------------
-      !||    elbufdef_mod          ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    joint_elem_timestep   ../engine/source/elements/joint/joint_elem_timestep.F
+!||--- called by ------------------------------------------------------
+!||    resol                 ../engine/source/engine/resol.F
+!||--- uses       -----------------------------------------------------
+!||    elbufdef_mod          ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||====================================================================
       SUBROUTINE JOINT_ELEM_TIMESTEP(MS,IN,STIFN,STIFR,IXR,IPART,
      1                               IPARTR,IGEO,GEO,NPBY,IPARG,ELBUF_TAB,
      2                               DT2T,NELTST,ITYPTST,NRBODY,ITAB)

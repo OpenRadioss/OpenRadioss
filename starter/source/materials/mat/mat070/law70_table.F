@@ -20,17 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    law70_table          ../starter/source/materials/mat/mat070/law70_table.F
-      !||--- called by ------------------------------------------------------
-      !||    law70_upd            ../starter/source/materials/mat/mat070/law70_upd.F
-      !||--- calls      -----------------------------------------------------
-      !||    func2d_deintersect   ../starter/source/materials/tools/func2d_deintersect.F
-      !||    table_values_2d      ../starter/source/materials/tools/table_values_2d.F
-      !||    unify_abscissa_2d    ../starter/source/materials/tools/unify_abscissas_2d.F
-      !||    vw_smooth            ../starter/source/tools/curve/vw_smooth.F
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    law70_table          ../starter/source/materials/mat/mat070/law70_table.F
+!||--- called by ------------------------------------------------------
+!||    law70_upd            ../starter/source/materials/mat/mat070/law70_upd.F
+!||--- calls      -----------------------------------------------------
+!||    func2d_deintersect   ../starter/source/materials/tools/func2d_deintersect.F
+!||    table_values_2d      ../starter/source/materials/tools/table_values_2d.F
+!||    unify_abscissa_2d    ../starter/source/materials/tools/unify_abscissas_2d.F
+!||    vw_smooth            ../starter/source/tools/curve/vw_smooth.F
+!||--- uses       -----------------------------------------------------
+!||====================================================================
       SUBROUTINE LAW70_TABLE(TABLE, NFUNC, LENGTH, LMAX, RATE, XI, YI)
 C-----------------------------------------------
 C   D e s c r i p t i o n

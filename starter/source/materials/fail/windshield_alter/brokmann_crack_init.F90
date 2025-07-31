@@ -25,11 +25,11 @@
 !Chd|-- called by -----------
 !Chd|-- calls ---------------
 !Chd|====================================================================
-      !||====================================================================
-      !||    brokmann_crack_init_mod   ../starter/source/materials/fail/windshield_alter/brokmann_crack_init.F90
-      !||--- called by ------------------------------------------------------
-      !||    fail_windshield_init      ../starter/source/materials/fail/windshield_alter/fail_windshield_init.F
-      !||====================================================================
+!||====================================================================
+!||    brokmann_crack_init_mod   ../starter/source/materials/fail/windshield_alter/brokmann_crack_init.F90
+!||--- called by ------------------------------------------------------
+!||    fail_windshield_init      ../starter/source/materials/fail/windshield_alter/fail_windshield_init.F
+!||====================================================================
       module brokmann_crack_init_mod
       contains
 ! ========================================================================================
@@ -37,13 +37,13 @@
 ! \details
 ! ========================================================================================
 
-      !||====================================================================
-      !||    brokmann_crack_init       ../starter/source/materials/fail/windshield_alter/brokmann_crack_init.F90
-      !||--- called by ------------------------------------------------------
-      !||    fail_windshield_init      ../starter/source/materials/fail/windshield_alter/fail_windshield_init.F
-      !||--- calls      -----------------------------------------------------
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    brokmann_crack_init       ../starter/source/materials/fail/windshield_alter/brokmann_crack_init.F90
+!||--- called by ------------------------------------------------------
+!||    fail_windshield_init      ../starter/source/materials/fail/windshield_alter/fail_windshield_init.F
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||====================================================================
       subroutine brokmann_crack_init(nel,ipt,npt,nuparam,nuvar,uparam,   &
                                      brokmann,uvar,indx,thk,aldt,ngl)
 

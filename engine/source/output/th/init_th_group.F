@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    init_th_group   ../engine/source/output/th/init_th_group.F
-      !||--- called by ------------------------------------------------------
-      !||    resol_init      ../engine/source/engine/resol_init.F
-      !||--- uses       -----------------------------------------------------
-      !||    groupdef_mod    ../common_source/modules/groupdef_mod.F
-      !||====================================================================
+!||====================================================================
+!||    init_th_group   ../engine/source/output/th/init_th_group.F
+!||--- called by ------------------------------------------------------
+!||    resol_init      ../engine/source/engine/resol_init.F
+!||--- uses       -----------------------------------------------------
+!||    groupdef_mod    ../common_source/modules/groupdef_mod.F
+!||====================================================================
       SUBROUTINE INIT_TH_GROUP(GR       ,IGR     ,NELEM    ,NGRTH   ,IPARG  ,
      .                         IPART    ,IGRBRIC ,IGRQUAD  ,IGRSH4N ,IGRSH3N,
      .                         IGRTRUSS ,IGRBEAM ,IGRSPRING)

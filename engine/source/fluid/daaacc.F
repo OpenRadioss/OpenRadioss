@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    daaacc        ../engine/source/fluid/daaacc.F
-      !||--- called by ------------------------------------------------------
-      !||    flow1         ../engine/source/fluid/flow1.F
-      !||--- calls      -----------------------------------------------------
-      !||    spmd_fl_sum   ../engine/source/mpi/generic/spmd_fl_sum.F
-      !||====================================================================
+!||====================================================================
+!||    daaacc        ../engine/source/fluid/daaacc.F
+!||--- called by ------------------------------------------------------
+!||    flow1         ../engine/source/fluid/flow1.F
+!||--- calls      -----------------------------------------------------
+!||    spmd_fl_sum   ../engine/source/mpi/generic/spmd_fl_sum.F
+!||====================================================================
       SUBROUTINE DAAACC(NDIM, NNO, NEL, IFLOW, IBUF, ELEM, IBUFL, CNP, A, NORMAL, ACCF)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

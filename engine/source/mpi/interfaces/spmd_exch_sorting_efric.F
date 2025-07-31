@@ -20,22 +20,22 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    spmd_exch_sorting_efric   ../engine/source/mpi/interfaces/spmd_exch_sorting_efric.F
-      !||--- called by ------------------------------------------------------
-      !||    inttri                    ../engine/source/interfaces/intsort/inttri.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg                    ../engine/source/output/message/message.F
-      !||    arret                     ../engine/source/system/arret.F
-      !||--- uses       -----------------------------------------------------
-      !||    h3d_mod                   ../engine/share/modules/h3d_mod.F
-      !||    intbufdef_mod             ../common_source/modules/interfaces/intbufdef_mod.F90
-      !||    message_mod               ../engine/share/message_module/message_mod.F
-      !||    outputs_mod               ../common_source/modules/outputs_mod.F
-      !||    spmd_comm_world_mod       ../engine/source/mpi/spmd_comm_world.F90
-      !||    tri25ebox                 ../engine/share/modules/tri25ebox.F
-      !||    tri7box                   ../engine/share/modules/tri7box.F
-      !||====================================================================
+!||====================================================================
+!||    spmd_exch_sorting_efric   ../engine/source/mpi/interfaces/spmd_exch_sorting_efric.F
+!||--- called by ------------------------------------------------------
+!||    inttri                    ../engine/source/interfaces/intsort/inttri.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                    ../engine/source/output/message/message.F
+!||    arret                     ../engine/source/system/arret.F
+!||--- uses       -----------------------------------------------------
+!||    h3d_mod                   ../engine/share/modules/h3d_mod.F
+!||    intbufdef_mod             ../common_source/modules/interfaces/intbufdef_mod.F90
+!||    message_mod               ../engine/share/message_module/message_mod.F
+!||    outputs_mod               ../common_source/modules/outputs_mod.F
+!||    spmd_comm_world_mod       ../engine/source/mpi/spmd_comm_world.F90
+!||    tri25ebox                 ../engine/share/modules/tri25ebox.F
+!||    tri7box                   ../engine/share/modules/tri7box.F
+!||====================================================================
       SUBROUTINE SPMD_EXCH_SORTING_EFRIC(
      1    IPARI   ,INTLIST ,NBINTC  ,ISLEN7 ,IRLEN7  ,
      2    IRLEN7T ,ISLEN7T ,IRLEN20 ,ISLEN20,IRLEN20T,

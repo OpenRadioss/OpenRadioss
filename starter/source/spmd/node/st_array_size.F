@@ -21,14 +21,14 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C----s---1----+----2----+----3----+----4----+----5----+----6----+----7--
-      !||====================================================================
-      !||    printstsz        ../starter/source/spmd/node/st_array_size.F
-      !||--- called by ------------------------------------------------------
-      !||    lectur           ../starter/source/starter/lectur.F
-      !||--- calls      -----------------------------------------------------
-      !||--- uses       -----------------------------------------------------
-      !||    detonators_mod   ../starter/share/modules1/detonators_mod.F
-      !||====================================================================
+!||====================================================================
+!||    printstsz        ../starter/source/spmd/node/st_array_size.F
+!||--- called by ------------------------------------------------------
+!||    lectur           ../starter/source/starter/lectur.F
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||    detonators_mod   ../starter/share/modules1/detonators_mod.F
+!||====================================================================
       SUBROUTINE PRINTSTSZ(DETONATORS)
 C-----------------------------------------------
       USE DETONATORS_MOD

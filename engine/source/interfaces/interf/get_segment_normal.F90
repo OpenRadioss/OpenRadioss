@@ -20,30 +20,30 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    get_segment_normal_mod                   ../engine/source/interfaces/interf/get_segment_normal.F90
-      !||--- called by ------------------------------------------------------
-      !||    get_neighbour_surface                    ../engine/source/interfaces/interf/get_neighbour_surface.F90
-      !||    get_neighbour_surface_from_remote_proc   ../engine/source/interfaces/interf/get_neighbour_surface_from_remote_proc.F90
-      !||    get_segment_orientation                  ../engine/source/interfaces/interf/get_segment_orientation.F90
-      !||====================================================================
+!||====================================================================
+!||    get_segment_normal_mod                   ../engine/source/interfaces/interf/get_segment_normal.F90
+!||--- called by ------------------------------------------------------
+!||    get_neighbour_surface                    ../engine/source/interfaces/interf/get_neighbour_surface.F90
+!||    get_neighbour_surface_from_remote_proc   ../engine/source/interfaces/interf/get_neighbour_surface_from_remote_proc.F90
+!||    get_segment_orientation                  ../engine/source/interfaces/interf/get_segment_orientation.F90
+!||====================================================================
       module get_segment_normal_mod
       contains
 ! ======================================================================================================================
 !                                                   procedures
 ! ======================================================================================================================
 !! \brief This routine computes the normals of a segment
-      !||====================================================================
-      !||    get_segment_normal                       ../engine/source/interfaces/interf/get_segment_normal.F90
-      !||--- called by ------------------------------------------------------
-      !||    get_neighbour_surface                    ../engine/source/interfaces/interf/get_neighbour_surface.F90
-      !||    get_neighbour_surface_from_remote_proc   ../engine/source/interfaces/interf/get_neighbour_surface_from_remote_proc.F90
-      !||    get_segment_orientation                  ../engine/source/interfaces/interf/get_segment_orientation.F90
-      !||--- uses       -----------------------------------------------------
-      !||    constant_mod                             ../common_source/modules/constant_mod.F
-      !||    intbufdef_mod                            ../common_source/modules/interfaces/intbufdef_mod.F90
-      !||    precision_mod                            ../common_source/modules/precision_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    get_segment_normal                       ../engine/source/interfaces/interf/get_segment_normal.F90
+!||--- called by ------------------------------------------------------
+!||    get_neighbour_surface                    ../engine/source/interfaces/interf/get_neighbour_surface.F90
+!||    get_neighbour_surface_from_remote_proc   ../engine/source/interfaces/interf/get_neighbour_surface_from_remote_proc.F90
+!||    get_segment_orientation                  ../engine/source/interfaces/interf/get_segment_orientation.F90
+!||--- uses       -----------------------------------------------------
+!||    constant_mod                             ../common_source/modules/constant_mod.F
+!||    intbufdef_mod                            ../common_source/modules/interfaces/intbufdef_mod.F90
+!||    precision_mod                            ../common_source/modules/precision_mod.F90
+!||====================================================================
         subroutine get_segment_normal( segment_id,segment_node_id,segment_position,normal,intbuf_tab,numnod,x )
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   modules

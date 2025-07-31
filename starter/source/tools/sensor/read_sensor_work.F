@@ -20,20 +20,20 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    read_sensor_work     ../starter/source/tools/sensor/read_sensor_work.F
-      !||--- called by ------------------------------------------------------
-      !||    hm_read_sensors      ../starter/source/tools/sensor/hm_read_sensors.F
-      !||--- calls      -----------------------------------------------------
-      !||    anodset              ../starter/source/output/analyse/analyse_node.c
-      !||    hm_get_floatv        ../starter/source/devtools/hm_reader/hm_get_floatv.F
-      !||    hm_get_intv          ../starter/source/devtools/hm_reader/hm_get_intv.F
-      !||    usr2sys              ../starter/source/system/sysfus.F
-      !||--- uses       -----------------------------------------------------
-      !||    hm_option_read_mod   ../starter/share/modules1/hm_option_read_mod.F
-      !||    message_mod          ../starter/share/message_module/message_mod.F
-      !||    submodel_mod         ../starter/share/modules1/submodel_mod.F
-      !||====================================================================
+!||====================================================================
+!||    read_sensor_work     ../starter/source/tools/sensor/read_sensor_work.F
+!||--- called by ------------------------------------------------------
+!||    hm_read_sensors      ../starter/source/tools/sensor/hm_read_sensors.F
+!||--- calls      -----------------------------------------------------
+!||    anodset              ../starter/source/output/analyse/analyse_node.c
+!||    hm_get_floatv        ../starter/source/devtools/hm_reader/hm_get_floatv.F
+!||    hm_get_intv          ../starter/source/devtools/hm_reader/hm_get_intv.F
+!||    usr2sys              ../starter/source/system/sysfus.F
+!||--- uses       -----------------------------------------------------
+!||    hm_option_read_mod   ../starter/share/modules1/hm_option_read_mod.F
+!||    message_mod          ../starter/share/message_module/message_mod.F
+!||    submodel_mod         ../starter/share/modules1/submodel_mod.F
+!||====================================================================
       SUBROUTINE READ_SENSOR_WORK(SENSOR_PTR ,SENS_ID  ,
      .           ITABM1  ,UNITAB   ,LSUBMODEL )
 C-----------------------------------------------

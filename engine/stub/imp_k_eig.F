@@ -20,20 +20,20 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    imp_k_eig       ../engine/stub/imp_k_eig.F
-      !||--- calls      -----------------------------------------------------
-      !||    imp_glob_k      ../engine/source/implicit/imp_glob_k.F
-      !||    my_barrier      ../engine/source/system/machine.F
-      !||    pr_infok        ../engine/source/implicit/imp_solv.F
-      !||    upd_fr_k        ../engine/source/mpi/implicit/imp_fri.F
-      !||    upd_glob_k      ../engine/source/implicit/upd_glob_k.F
-      !||--- uses       -----------------------------------------------------
-      !||    drape_mod       ../engine/share/modules/drape_mod.F
-      !||    elbufdef_mod    ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
-      !||    stack_mod       ../engine/share/modules/stack_mod.F
-      !||====================================================================
+!||====================================================================
+!||    imp_k_eig       ../engine/stub/imp_k_eig.F
+!||--- calls      -----------------------------------------------------
+!||    imp_glob_k      ../engine/source/implicit/imp_glob_k.F
+!||    my_barrier      ../engine/source/system/machine.F
+!||    pr_infok        ../engine/source/implicit/imp_solv.F
+!||    upd_fr_k        ../engine/source/mpi/implicit/imp_fri.F
+!||    upd_glob_k      ../engine/source/implicit/upd_glob_k.F
+!||--- uses       -----------------------------------------------------
+!||    drape_mod       ../engine/share/modules/drape_mod.F
+!||    elbufdef_mod    ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
+!||    stack_mod       ../engine/share/modules/stack_mod.F
+!||====================================================================
       SUBROUTINE IMP_K_EIG(NDDL0  , NNZK0   , DIAG_K , LT_K   , LSIZE ,
      .                     PM     , GEO     , IPM    , IGEO   , ELBUF ,
      .                     IXS    , IXQ     , IXC    , IXT    , IXP   ,

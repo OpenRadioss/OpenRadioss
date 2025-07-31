@@ -20,36 +20,36 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    spstres                ../engine/source/elements/sph/spstres.F
-      !||--- called by ------------------------------------------------------
-      !||    forintp                ../engine/source/elements/forintp.F
-      !||--- calls      -----------------------------------------------------
-      !||    mmain                  ../engine/source/materials/mat_share/mmain.F90
-      !||    spback3                ../engine/source/elements/sph/spback3.F
-      !||    spbilan                ../engine/source/elements/sph/spbilan.F
-      !||    spdefo3                ../engine/source/elements/sph/spdefo3.F
-      !||    spload3                ../engine/source/elements/sph/spload3.F
-      !||    spmallb3               ../engine/source/elements/sph/spmall3.F
-      !||    spoff3                 ../engine/source/elements/sph/spoff3.F
-      !||    spreploc               ../engine/source/elements/sph/spreploc.F
-      !||    sptempel               ../engine/source/elements/sph/sptemp.F
-      !||    spvol3                 ../engine/source/elements/sph/spvol3.F
-      !||    srota3                 ../engine/source/elements/solid/solide/srota3.F
-      !||    sstra3                 ../engine/source/elements/solid/solide/sstra3.F
-      !||--- uses       -----------------------------------------------------
-      !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
-      !||    dt_mod                 ../engine/source/modules/dt_mod.F
-      !||    elbufdef_mod           ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||    glob_therm_mod         ../common_source/modules/mat_elem/glob_therm_mod.F90
-      !||    mat_elem_mod           ../common_source/modules/mat_elem/mat_elem_mod.F90
-      !||    mmain_mod              ../engine/source/materials/mat_share/mmain.F90
-      !||    nlocal_reg_mod         ../common_source/modules/nlocal_reg_mod.F
-      !||    output_mod             ../common_source/modules/output/output_mod.F90
-      !||    sensor_mod             ../common_source/modules/sensor_mod.F90
-      !||    table_mod              ../engine/share/modules/table_mod.F
-      !||    timer_mod              ../engine/source/system/timer_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    spstres                ../engine/source/elements/sph/spstres.F
+!||--- called by ------------------------------------------------------
+!||    forintp                ../engine/source/elements/forintp.F
+!||--- calls      -----------------------------------------------------
+!||    mmain                  ../engine/source/materials/mat_share/mmain.F90
+!||    spback3                ../engine/source/elements/sph/spback3.F
+!||    spbilan                ../engine/source/elements/sph/spbilan.F
+!||    spdefo3                ../engine/source/elements/sph/spdefo3.F
+!||    spload3                ../engine/source/elements/sph/spload3.F
+!||    spmallb3               ../engine/source/elements/sph/spmall3.F
+!||    spoff3                 ../engine/source/elements/sph/spoff3.F
+!||    spreploc               ../engine/source/elements/sph/spreploc.F
+!||    sptempel               ../engine/source/elements/sph/sptemp.F
+!||    spvol3                 ../engine/source/elements/sph/spvol3.F
+!||    srota3                 ../engine/source/elements/solid/solide/srota3.F
+!||    sstra3                 ../engine/source/elements/solid/solide/sstra3.F
+!||--- uses       -----------------------------------------------------
+!||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
+!||    dt_mod                 ../engine/source/modules/dt_mod.F
+!||    elbufdef_mod           ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    glob_therm_mod         ../common_source/modules/mat_elem/glob_therm_mod.F90
+!||    mat_elem_mod           ../common_source/modules/mat_elem/mat_elem_mod.F90
+!||    mmain_mod              ../engine/source/materials/mat_share/mmain.F90
+!||    nlocal_reg_mod         ../common_source/modules/nlocal_reg_mod.F
+!||    output_mod             ../common_source/modules/output/output_mod.F90
+!||    sensor_mod             ../common_source/modules/sensor_mod.F90
+!||    table_mod              ../engine/share/modules/table_mod.F
+!||    timer_mod              ../engine/source/system/timer_mod.F90
+!||====================================================================
       SUBROUTINE SPSTRES(TIMERS, ELBUF_TAB,NG     , 
      1    PM        ,GEO       ,X         ,V         ,MS        ,
      2    W         ,SPBUF     ,WA        ,NLOC_DMG  ,

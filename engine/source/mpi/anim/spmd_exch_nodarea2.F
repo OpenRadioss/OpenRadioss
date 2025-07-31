@@ -23,17 +23,17 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 
 
 
-      !||====================================================================
-      !||    spmd_exch_nodarea2    ../engine/source/mpi/anim/spmd_exch_nodarea2.F
-      !||--- called by ------------------------------------------------------
-      !||    genani                ../engine/source/output/anim/generate/genani.F
-      !||    h3d_nodal_tensor      ../engine/source/output/h3d/h3d_results/h3d_nodal_tensor.F
-      !||    h3d_sol_skin_scalar   ../engine/source/output/h3d/h3d_results/h3d_sol_skin_scalar.F
-      !||    h3d_sol_skin_tensor   ../engine/source/output/h3d/h3d_results/h3d_sol_skin_tensor.F
-      !||--- calls      -----------------------------------------------------
-      !||--- uses       -----------------------------------------------------
-      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
-      !||====================================================================
+!||====================================================================
+!||    spmd_exch_nodarea2    ../engine/source/mpi/anim/spmd_exch_nodarea2.F
+!||--- called by ------------------------------------------------------
+!||    genani                ../engine/source/output/anim/generate/genani.F
+!||    h3d_nodal_tensor      ../engine/source/output/h3d/h3d_results/h3d_nodal_tensor.F
+!||    h3d_sol_skin_scalar   ../engine/source/output/h3d/h3d_results/h3d_sol_skin_scalar.F
+!||    h3d_sol_skin_tensor   ../engine/source/output/h3d/h3d_results/h3d_sol_skin_tensor.F
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
+!||====================================================================
       SUBROUTINE SPMD_EXCH_NODAREA2(
      .           NODAREA,IAD_ELEM,FR_ELEM,LENR,WEIGHT,JJ)
 C-----------------------------------------------

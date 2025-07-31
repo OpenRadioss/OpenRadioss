@@ -20,26 +20,26 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    nloc_count_solnod_mod   ../engine/source/elements/solid/solide/nloc_count_solnod.F90
-      !||--- called by ------------------------------------------------------
-      !||    resol_init              ../engine/source/engine/resol_init.F
-      !||====================================================================
+!||====================================================================
+!||    nloc_count_solnod_mod   ../engine/source/elements/solid/solide/nloc_count_solnod.F90
+!||--- called by ------------------------------------------------------
+!||    resol_init              ../engine/source/engine/resol_init.F
+!||====================================================================
       module nloc_count_solnod_mod
       contains
 ! ======================================================================================================================
 ! \brief count non-local effectives nodes for 8 nodes solid elements
 ! \details isolate only effective nodes to consider 8 nodes degenerated bricks
 ! ======================================================================================================================
-      !||====================================================================
-      !||    nloc_count_solnod   ../engine/source/elements/solid/solide/nloc_count_solnod.F90
-      !||--- called by ------------------------------------------------------
-      !||    resol_init          ../engine/source/engine/resol_init.F
-      !||--- calls      -----------------------------------------------------
-      !||    myqsort_int         ../common_source/tools/sort/myqsort_int.F
-      !||--- uses       -----------------------------------------------------
-      !||    elbufdef_mod        ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    nloc_count_solnod   ../engine/source/elements/solid/solide/nloc_count_solnod.F90
+!||--- called by ------------------------------------------------------
+!||    resol_init          ../engine/source/engine/resol_init.F
+!||--- calls      -----------------------------------------------------
+!||    myqsort_int         ../common_source/tools/sort/myqsort_int.F
+!||--- uses       -----------------------------------------------------
+!||    elbufdef_mod        ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||====================================================================
         subroutine nloc_count_solnod(                                 &
           ngroup   ,nparg    ,iparg    ,elbuf_tab,ixs      ,    &
           nixs     ,numels   )

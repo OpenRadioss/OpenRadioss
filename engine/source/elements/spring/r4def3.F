@@ -20,17 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    r4def3             ../engine/source/elements/spring/r4def3.F
-      !||--- called by ------------------------------------------------------
-      !||    rforc3             ../engine/source/elements/spring/rforc3.F
-      !||--- calls      -----------------------------------------------------
-      !||    redef3             ../engine/source/elements/spring/redef3.F90
-      !||    repla3             ../engine/source/elements/spring/repla3.F
-      !||--- uses       -----------------------------------------------------
-      !||    python_funct_mod   ../common_source/modules/python_mod.F90
-      !||    redef3_mod         ../engine/source/elements/spring/redef3.F90
-      !||====================================================================
+!||====================================================================
+!||    r4def3             ../engine/source/elements/spring/r4def3.F
+!||--- called by ------------------------------------------------------
+!||    rforc3             ../engine/source/elements/spring/rforc3.F
+!||--- calls      -----------------------------------------------------
+!||    redef3             ../engine/source/elements/spring/redef3.F90
+!||    repla3             ../engine/source/elements/spring/repla3.F
+!||--- uses       -----------------------------------------------------
+!||    python_funct_mod   ../common_source/modules/python_mod.F90
+!||    redef3_mod         ../engine/source/elements/spring/redef3.F90
+!||====================================================================
       SUBROUTINE R4DEF3(PYTHON,
      1   SKEW,    GEO,     FX,      FY,
      2   FZ,      E,       DX,      DY,

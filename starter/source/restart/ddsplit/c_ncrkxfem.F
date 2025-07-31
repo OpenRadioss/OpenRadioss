@@ -20,12 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    c_ncrkxfem     ../starter/source/restart/ddsplit/c_ncrkxfem.F
-      !||--- called by ------------------------------------------------------
-      !||    ddsplit        ../starter/source/restart/ddsplit/ddsplit.F
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    c_ncrkxfem     ../starter/source/restart/ddsplit/c_ncrkxfem.F
+!||--- called by ------------------------------------------------------
+!||    ddsplit        ../starter/source/restart/ddsplit/ddsplit.F
+!||--- uses       -----------------------------------------------------
+!||====================================================================
       SUBROUTINE C_NCRKXFEM(NODGLOB,INOD_CRKXFEM,INOD_L,
      .                      NUMNOD_L,NUMNODCRKXFE_L,INDEX,PROC,
      .                      IXC,IXTG,CEP_XFE,NODLOCAL,NODLEVXF_L,

@@ -20,23 +20,23 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    stifint_icontrol_mod   ../starter/source/interfaces/interf1/stifint_icontrol.F90
-      !||--- called by ------------------------------------------------------
-      !||    lectur                 ../starter/source/starter/lectur.F
-      !||====================================================================
+!||====================================================================
+!||    stifint_icontrol_mod   ../starter/source/interfaces/interf1/stifint_icontrol.F90
+!||--- called by ------------------------------------------------------
+!||    lectur                 ../starter/source/starter/lectur.F
+!||====================================================================
       module stifint_icontrol_mod
       
       contains
 !=======================================================================================================================
 !!\brief This subroutine do the initialization of stiffness contact interface for solid distortion control 
 !=======================================================================================================================
-      !||====================================================================
-      !||    stifint_icontrol   ../starter/source/interfaces/interf1/stifint_icontrol.F90
-      !||--- called by ------------------------------------------------------
-      !||    lectur             ../starter/source/starter/lectur.F
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    stifint_icontrol   ../starter/source/interfaces/interf1/stifint_icontrol.F90
+!||--- called by ------------------------------------------------------
+!||    lectur             ../starter/source/starter/lectur.F
+!||--- uses       -----------------------------------------------------
+!||====================================================================
         subroutine stifint_icontrol(                                           &                                    
                        numnod,    stifint,      npari,        ninter,          &
                         ipari,    npropgi,     numgeo,          igeo,          &

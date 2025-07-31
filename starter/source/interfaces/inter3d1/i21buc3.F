@@ -20,20 +20,20 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    i21buc1                ../starter/source/interfaces/inter3d1/i21buc3.F
-      !||--- called by ------------------------------------------------------
-      !||    inint3_thkvar          ../starter/source/interfaces/inter3d1/inint3_thkvar.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg                 ../starter/source/output/message/message.F
-      !||    i21cor3t               ../starter/source/interfaces/inter3d1/i21cor3t.F
-      !||    i21tri                 ../starter/source/interfaces/inter3d1/i21tri.F
-      !||    i7cmp3                 ../starter/source/interfaces/inter3d1/i7cmp3.F
-      !||    i7dst3                 ../starter/source/interfaces/inter3d1/i7dst3.F
-      !||    i7pen3                 ../starter/source/interfaces/inter3d1/i7pen3.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod            ../starter/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    i21buc1                ../starter/source/interfaces/inter3d1/i21buc3.F
+!||--- called by ------------------------------------------------------
+!||    inint3_thkvar          ../starter/source/interfaces/inter3d1/inint3_thkvar.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                 ../starter/source/output/message/message.F
+!||    i21cor3t               ../starter/source/interfaces/inter3d1/i21cor3t.F
+!||    i21tri                 ../starter/source/interfaces/inter3d1/i21tri.F
+!||    i7cmp3                 ../starter/source/interfaces/inter3d1/i7cmp3.F
+!||    i7dst3                 ../starter/source/interfaces/inter3d1/i7dst3.F
+!||    i7pen3                 ../starter/source/interfaces/inter3d1/i7pen3.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod            ../starter/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE I21BUC1(
      1   X     ,IRECT ,NSV   ,BUMULT,NSEG    ,
      2   NMN   ,NRTM ,MWA    ,NSN   ,CAND_E  ,

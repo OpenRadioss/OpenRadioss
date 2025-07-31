@@ -24,14 +24,14 @@ C
 C   Node definition for secnd side of Interface Type18.
 C   Input for secnd side is a GRBRIC. Nodes are extracted 
 C   from it into a sorted list
-      !||====================================================================
-      !||    ingrbric_nodes   ../starter/source/interfaces/interf1/ingrbric_nodes.F
-      !||--- called by ------------------------------------------------------
-      !||    lecins           ../starter/source/interfaces/interf1/lecins.F
-      !||    lecint           ../starter/source/interfaces/interf1/lecint.F
-      !||--- uses       -----------------------------------------------------
-      !||    format_mod       ../starter/share/modules1/format_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    ingrbric_nodes   ../starter/source/interfaces/interf1/ingrbric_nodes.F
+!||--- called by ------------------------------------------------------
+!||    lecins           ../starter/source/interfaces/interf1/lecins.F
+!||    lecint           ../starter/source/interfaces/interf1/lecint.F
+!||--- uses       -----------------------------------------------------
+!||    format_mod       ../starter/share/modules1/format_mod.F90
+!||====================================================================
       SUBROUTINE INGRBRIC_NODES(MSN,IBUFSSG,ITAB,MSV, IXS, NBRIC, NALE, IPM, BUFMAT, S_MSV)
 C-----------------------------------------------
 C   M o d u l e s

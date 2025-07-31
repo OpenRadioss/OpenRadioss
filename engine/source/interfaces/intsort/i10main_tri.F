@@ -21,34 +21,34 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C  |         I10XSAVE                        /intsort/i10xsave.F
-      !||====================================================================
-      !||    i10main_tri                  ../engine/source/interfaces/intsort/i10main_tri.F
-      !||--- called by ------------------------------------------------------
-      !||    imp_tripi                    ../engine/source/implicit/imp_int_k.F
-      !||    inttri                       ../engine/source/interfaces/intsort/inttri.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg                       ../engine/source/output/message/message.F
-      !||    arret                        ../engine/source/system/arret.F
-      !||    check_sorting_criteria       ../engine/source/interfaces/intsort/check_sorting_criteria.F90
-      !||    i10buce                      ../engine/source/interfaces/intsort/i10buce.F
-      !||    i10trc                       ../engine/source/interfaces/intsort/i10trc.F
-      !||    i10xsave                     ../engine/source/interfaces/intsort/i10xsave.F
-      !||    imp_rnumcd                   ../engine/source/implicit/imp_int_k.F
-      !||    my_barrier                   ../engine/source/system/machine.F
-      !||    spmd_rnumcd10                ../engine/source/mpi/interfaces/spmd_i7tool.F
-      !||    spmd_tri10box                ../engine/source/mpi/interfaces/spmd_int.F
-      !||    spmd_tri10gat                ../engine/source/mpi/interfaces/spmd_int.F
-      !||    startime                     ../engine/source/system/timer_mod.F90
-      !||    stoptime                     ../engine/source/system/timer_mod.F90
-      !||    upgrade_multimp              ../common_source/interf/upgrade_multimp.F
-      !||--- uses       -----------------------------------------------------
-      !||    check_sorting_criteria_mod   ../engine/source/interfaces/intsort/check_sorting_criteria.F90
-      !||    glob_therm_mod               ../common_source/modules/mat_elem/glob_therm_mod.F90
-      !||    h3d_mod                      ../engine/share/modules/h3d_mod.F
-      !||    intbufdef_mod                ../common_source/modules/interfaces/intbufdef_mod.F90
-      !||    message_mod                  ../engine/share/message_module/message_mod.F
-      !||    timer_mod                    ../engine/source/system/timer_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    i10main_tri                  ../engine/source/interfaces/intsort/i10main_tri.F
+!||--- called by ------------------------------------------------------
+!||    imp_tripi                    ../engine/source/implicit/imp_int_k.F
+!||    inttri                       ../engine/source/interfaces/intsort/inttri.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                       ../engine/source/output/message/message.F
+!||    arret                        ../engine/source/system/arret.F
+!||    check_sorting_criteria       ../engine/source/interfaces/intsort/check_sorting_criteria.F90
+!||    i10buce                      ../engine/source/interfaces/intsort/i10buce.F
+!||    i10trc                       ../engine/source/interfaces/intsort/i10trc.F
+!||    i10xsave                     ../engine/source/interfaces/intsort/i10xsave.F
+!||    imp_rnumcd                   ../engine/source/implicit/imp_int_k.F
+!||    my_barrier                   ../engine/source/system/machine.F
+!||    spmd_rnumcd10                ../engine/source/mpi/interfaces/spmd_i7tool.F
+!||    spmd_tri10box                ../engine/source/mpi/interfaces/spmd_int.F
+!||    spmd_tri10gat                ../engine/source/mpi/interfaces/spmd_int.F
+!||    startime                     ../engine/source/system/timer_mod.F90
+!||    stoptime                     ../engine/source/system/timer_mod.F90
+!||    upgrade_multimp              ../common_source/interf/upgrade_multimp.F
+!||--- uses       -----------------------------------------------------
+!||    check_sorting_criteria_mod   ../engine/source/interfaces/intsort/check_sorting_criteria.F90
+!||    glob_therm_mod               ../common_source/modules/mat_elem/glob_therm_mod.F90
+!||    h3d_mod                      ../engine/share/modules/h3d_mod.F
+!||    intbufdef_mod                ../common_source/modules/interfaces/intbufdef_mod.F90
+!||    message_mod                  ../engine/share/message_module/message_mod.F
+!||    timer_mod                    ../engine/source/system/timer_mod.F90
+!||====================================================================
       SUBROUTINE I10MAIN_TRI(TIMERS,
      1                  npari   ,IPARI   ,X       ,V       ,
      2                  MS      ,NIN     ,ITASK   ,MWAG    ,WEIGHT  ,

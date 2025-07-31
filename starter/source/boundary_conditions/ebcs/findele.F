@@ -20,19 +20,19 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    findele                ../starter/source/boundary_conditions/ebcs/findele.F
-      !||--- called by ------------------------------------------------------
-      !||    iniebcs                ../starter/source/boundary_conditions/ebcs/iniebcs.F
-      !||--- calls      -----------------------------------------------------
-      !||    iface                  ../starter/source/ale/ale3d/iface.F
-      !||    iface2                 ../starter/source/ale/ale3d/iface.F
-      !||    iface2t                ../starter/source/ale/ale3d/iface.F
-      !||    norma1                 ../starter/source/interfaces/inter3d1/norma1.F
-      !||--- uses       -----------------------------------------------------
-      !||    format_mod             ../starter/share/modules1/format_mod.F90
-      !||    message_mod            ../starter/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    findele                ../starter/source/boundary_conditions/ebcs/findele.F
+!||--- called by ------------------------------------------------------
+!||    iniebcs                ../starter/source/boundary_conditions/ebcs/iniebcs.F
+!||--- calls      -----------------------------------------------------
+!||    iface                  ../starter/source/ale/ale3d/iface.F
+!||    iface2                 ../starter/source/ale/ale3d/iface.F
+!||    iface2t                ../starter/source/ale/ale3d/iface.F
+!||    norma1                 ../starter/source/interfaces/inter3d1/norma1.F
+!||--- uses       -----------------------------------------------------
+!||    format_mod             ../starter/share/modules1/format_mod.F90
+!||    message_mod            ../starter/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE FINDELE(ALE_CONNECTIVITY, NNODE, NIX,  IDSU,ID,NSEG,IX,
      .                   ISEG,IELE,ITYPE,IFAC,SURF_NODES,IADD,INVC,PM,X,TYPE,IGEO)
 C-----------------------------------------------

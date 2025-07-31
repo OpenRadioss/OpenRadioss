@@ -20,20 +20,20 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    i25trivox_edg   ../starter/source/interfaces/inter3d1/i25trivox_edg.F
-      !||--- called by ------------------------------------------------------
-      !||    i25buce_edg     ../starter/source/interfaces/inter3d1/i25buce_edg.F
-      !||--- calls      -----------------------------------------------------
-      !||    bitget          ../starter/source/interfaces/inter3d1/bitget.F
-      !||    i25sto_e2s      ../starter/source/interfaces/inter3d1/i25sto_e2s.F
-      !||    i25sto_edg      ../starter/source/interfaces/inter3d1/i25sto_edg.F
-      !||    ireallocate     ../starter/share/modules1/realloc_mod.F
-      !||--- uses       -----------------------------------------------------
-      !||    realloc_mod     ../starter/share/modules1/realloc_mod.F
-      !||    tri11           ../starter/share/modules1/tri11_mod.F
-      !||    tri7box         ../starter/share/modules1/tri7box.F
-      !||====================================================================
+!||====================================================================
+!||    i25trivox_edg   ../starter/source/interfaces/inter3d1/i25trivox_edg.F
+!||--- called by ------------------------------------------------------
+!||    i25buce_edg     ../starter/source/interfaces/inter3d1/i25buce_edg.F
+!||--- calls      -----------------------------------------------------
+!||    bitget          ../starter/source/interfaces/inter3d1/bitget.F
+!||    i25sto_e2s      ../starter/source/interfaces/inter3d1/i25sto_e2s.F
+!||    i25sto_edg      ../starter/source/interfaces/inter3d1/i25sto_edg.F
+!||    ireallocate     ../starter/share/modules1/realloc_mod.F
+!||--- uses       -----------------------------------------------------
+!||    realloc_mod     ../starter/share/modules1/realloc_mod.F
+!||    tri11           ../starter/share/modules1/tri11_mod.F
+!||    tri7box         ../starter/share/modules1/tri7box.F
+!||====================================================================
       SUBROUTINE I25TRIVOX_EDG(
      1      I_MEM   ,VMAXDT  ,INACTI ,
      2      IRECT   ,X       ,STF    ,XYZM     ,

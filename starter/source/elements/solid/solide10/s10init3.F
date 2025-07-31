@@ -20,33 +20,33 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    s10init3               ../starter/source/elements/solid/solide10/s10init3.F
-      !||--- called by ------------------------------------------------------
-      !||    initia                 ../starter/source/elements/initia/initia.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg                 ../starter/source/output/message/message.F
-      !||    atheri                 ../starter/source/ale/atheri.F
-      !||    dtmain                 ../starter/source/materials/time_step/dtmain.F
-      !||    failini                ../starter/source/elements/solid/solide/failini.F
-      !||    fretitl2               ../starter/source/starter/freform.F
-      !||    matini                 ../starter/source/materials/mat_share/matini.F
-      !||    s10coor3               ../starter/source/elements/solid/solide10/s10coor3.F
-      !||    s10deri3               ../starter/source/elements/solid/solide10/s10deri3.F
-      !||    s10len3                ../starter/source/elements/solid/solide10/s10len3.F
-      !||    s10mass3               ../starter/source/elements/solid/solide10/s10mass3.F
-      !||    s10msi                 ../starter/source/elements/solid/solide10/s10mass3.F
-      !||    sboltini               ../starter/source/loads/bolt/sboltini.F
-      !||    sbulk3                 ../starter/source/elements/solid/solide/sbulk3.F
-      !||    sigin20b               ../starter/source/elements/solid/solide20/s20mass3.F
-      !||    smorth3                ../starter/source/elements/solid/solide/smorth3.F
-      !||    sreploc3               ../starter/source/elements/solid/solide/sreploc3.F
-      !||--- uses       -----------------------------------------------------
-      !||    bpreload_mod           ../starter/share/modules1/bpreload_mod.F
-      !||    defaults_mod           ../starter/source/modules/defaults_mod.F90
-      !||    detonators_mod         ../starter/share/modules1/detonators_mod.F
-      !||    message_mod            ../starter/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    s10init3               ../starter/source/elements/solid/solide10/s10init3.F
+!||--- called by ------------------------------------------------------
+!||    initia                 ../starter/source/elements/initia/initia.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                 ../starter/source/output/message/message.F
+!||    atheri                 ../starter/source/ale/atheri.F
+!||    dtmain                 ../starter/source/materials/time_step/dtmain.F
+!||    failini                ../starter/source/elements/solid/solide/failini.F
+!||    fretitl2               ../starter/source/starter/freform.F
+!||    matini                 ../starter/source/materials/mat_share/matini.F
+!||    s10coor3               ../starter/source/elements/solid/solide10/s10coor3.F
+!||    s10deri3               ../starter/source/elements/solid/solide10/s10deri3.F
+!||    s10len3                ../starter/source/elements/solid/solide10/s10len3.F
+!||    s10mass3               ../starter/source/elements/solid/solide10/s10mass3.F
+!||    s10msi                 ../starter/source/elements/solid/solide10/s10mass3.F
+!||    sboltini               ../starter/source/loads/bolt/sboltini.F
+!||    sbulk3                 ../starter/source/elements/solid/solide/sbulk3.F
+!||    sigin20b               ../starter/source/elements/solid/solide20/s20mass3.F
+!||    smorth3                ../starter/source/elements/solid/solide/smorth3.F
+!||    sreploc3               ../starter/source/elements/solid/solide/sreploc3.F
+!||--- uses       -----------------------------------------------------
+!||    bpreload_mod           ../starter/share/modules1/bpreload_mod.F
+!||    defaults_mod           ../starter/source/modules/defaults_mod.F90
+!||    detonators_mod         ../starter/share/modules1/detonators_mod.F
+!||    message_mod            ../starter/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE S10INIT3(ELBUF_STR,
      1    MAS     ,IXS     ,PM      ,X      ,
      2    DETONATORS,GEO     ,VEUL    ,ALE_CONNECTIVITY ,IPARG    ,

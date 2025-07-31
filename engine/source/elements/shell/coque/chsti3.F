@@ -20,12 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    chsti3       ../engine/source/elements/shell/coque/chsti3.F
-      !||--- called by ------------------------------------------------------
-      !||    cforc3       ../engine/source/elements/shell/coque/cforc3.F
-      !||    cforc3_crk   ../engine/source/elements/xfem/cforc3_crk.F
-      !||====================================================================
+!||====================================================================
+!||    chsti3       ../engine/source/elements/shell/coque/chsti3.F
+!||--- called by ------------------------------------------------------
+!||    cforc3       ../engine/source/elements/shell/coque/cforc3.F
+!||    cforc3_crk   ../engine/source/elements/xfem/cforc3_crk.F
+!||====================================================================
       SUBROUTINE CHSTI3(JFT ,JLT,THK,HOUR,OFF ,PX1,
      2                  PX2,PY1,PY2 ,SIGY,IXC,DT1C,
      3                  SSP,RHO,STI ,Z2 ,EANI,STIR,

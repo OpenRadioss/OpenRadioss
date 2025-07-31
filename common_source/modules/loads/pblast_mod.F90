@@ -20,48 +20,48 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    pblast_mod                ../common_source/modules/loads/pblast_mod.F90
-      !||--- called by ------------------------------------------------------
-      !||    contrl                    ../starter/source/starter/contrl.F
-      !||    ddsplit                   ../starter/source/restart/ddsplit/ddsplit.F
-      !||    genh3d                    ../engine/source/output/h3d/h3d_results/genh3d.F
-      !||    h3d_pre_skin_ixskin       ../engine/source/output/h3d/h3d_results/h3d_skin_ixskin.F
-      !||    h3d_pre_skin_scalar       ../engine/source/output/h3d/h3d_results/h3d_skin_scalar.F
-      !||    h3d_skin_dim              ../engine/source/output/h3d/h3d_results/h3d_skin_ixskin.F
-      !||    h3d_skin_ixskin           ../engine/source/output/h3d/h3d_results/h3d_skin_ixskin.F
-      !||    h3d_skin_pre_dim          ../engine/source/output/h3d/h3d_results/h3d_skin_ixskin.F
-      !||    h3d_skin_pre_map          ../engine/source/output/h3d/h3d_results/h3d_skin_pre_map.F
-      !||    h3d_skin_scalar           ../engine/source/output/h3d/h3d_results/h3d_skin_scalar.F
-      !||    h3d_skin_vector           ../engine/source/output/h3d/h3d_results/h3d_skin_vector.F
-      !||    hm_preread_pblast         ../starter/source/loads/pblast/hm_preread_pblast.F
-      !||    hm_read_load_pressure     ../starter/source/loads/general/load_pressure/hm_read_load_pressure.F
-      !||    hm_read_pblast            ../starter/source/loads/pblast/hm_read_pblast.F
-      !||    lech3d                    ../engine/source/output/h3d/h3d_build_fortran/lech3d.F
-      !||    lectur                    ../engine/source/input/lectur.F
-      !||    load_pressure             ../engine/source/loads/general/load_pressure/load_pressure.F
-      !||    pblast_1                  ../engine/source/loads/pblast/pblast_1.F
-      !||    pblast_2                  ../engine/source/loads/pblast/pblast_2.F
-      !||    pblast_3                  ../engine/source/loads/pblast/pblast_3.F
-      !||    pblast_load_computation   ../engine/source/loads/pblast/pblast.F
-      !||    prelech3d                 ../engine/source/output/h3d/h3d_build_fortran/prelech3d.F90
-      !||    radioss2                  ../engine/source/engine/radioss2.F
-      !||    rdcomi                    ../engine/source/output/restart/rdcomm.F
-      !||    rdresa                    ../engine/source/output/restart/rdresa.F
-      !||    rdresb                    ../engine/source/output/restart/rdresb.F
-      !||    resol                     ../engine/source/engine/resol.F
-      !||    resol_head                ../engine/source/engine/resol_head.F
-      !||    resol_init                ../engine/source/engine/resol_init.F
-      !||    sortie_main               ../engine/source/output/sortie_main.F
-      !||    st_qaprint_driver         ../starter/source/output/qaprint/st_qaprint_driver.F
-      !||    st_qaprint_loads          ../starter/source/output/qaprint/st_qaprint_loads.F
-      !||    starter0                  ../starter/source/starter/starter0.F
-      !||    wrcomi                    ../engine/source/output/restart/wrcomm.F
-      !||    wrcomip                   ../starter/source/restart/ddsplit/wrcommp.F
-      !||    wrrestp                   ../engine/source/output/restart/wrrestp.F
-      !||--- uses       -----------------------------------------------------
-      !||    precision_mod             ../common_source/modules/precision_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    pblast_mod                ../common_source/modules/loads/pblast_mod.F90
+!||--- called by ------------------------------------------------------
+!||    contrl                    ../starter/source/starter/contrl.F
+!||    ddsplit                   ../starter/source/restart/ddsplit/ddsplit.F
+!||    genh3d                    ../engine/source/output/h3d/h3d_results/genh3d.F
+!||    h3d_pre_skin_ixskin       ../engine/source/output/h3d/h3d_results/h3d_skin_ixskin.F
+!||    h3d_pre_skin_scalar       ../engine/source/output/h3d/h3d_results/h3d_skin_scalar.F
+!||    h3d_skin_dim              ../engine/source/output/h3d/h3d_results/h3d_skin_ixskin.F
+!||    h3d_skin_ixskin           ../engine/source/output/h3d/h3d_results/h3d_skin_ixskin.F
+!||    h3d_skin_pre_dim          ../engine/source/output/h3d/h3d_results/h3d_skin_ixskin.F
+!||    h3d_skin_pre_map          ../engine/source/output/h3d/h3d_results/h3d_skin_pre_map.F
+!||    h3d_skin_scalar           ../engine/source/output/h3d/h3d_results/h3d_skin_scalar.F
+!||    h3d_skin_vector           ../engine/source/output/h3d/h3d_results/h3d_skin_vector.F
+!||    hm_preread_pblast         ../starter/source/loads/pblast/hm_preread_pblast.F
+!||    hm_read_load_pressure     ../starter/source/loads/general/load_pressure/hm_read_load_pressure.F
+!||    hm_read_pblast            ../starter/source/loads/pblast/hm_read_pblast.F
+!||    lech3d                    ../engine/source/output/h3d/h3d_build_fortran/lech3d.F
+!||    lectur                    ../engine/source/input/lectur.F
+!||    load_pressure             ../engine/source/loads/general/load_pressure/load_pressure.F
+!||    pblast_1                  ../engine/source/loads/pblast/pblast_1.F
+!||    pblast_2                  ../engine/source/loads/pblast/pblast_2.F
+!||    pblast_3                  ../engine/source/loads/pblast/pblast_3.F
+!||    pblast_load_computation   ../engine/source/loads/pblast/pblast.F
+!||    prelech3d                 ../engine/source/output/h3d/h3d_build_fortran/prelech3d.F90
+!||    radioss2                  ../engine/source/engine/radioss2.F
+!||    rdcomi                    ../engine/source/output/restart/rdcomm.F
+!||    rdresa                    ../engine/source/output/restart/rdresa.F
+!||    rdresb                    ../engine/source/output/restart/rdresb.F
+!||    resol                     ../engine/source/engine/resol.F
+!||    resol_head                ../engine/source/engine/resol_head.F
+!||    resol_init                ../engine/source/engine/resol_init.F
+!||    sortie_main               ../engine/source/output/sortie_main.F
+!||    st_qaprint_driver         ../starter/source/output/qaprint/st_qaprint_driver.F
+!||    st_qaprint_loads          ../starter/source/output/qaprint/st_qaprint_loads.F
+!||    starter0                  ../starter/source/starter/starter0.F
+!||    wrcomi                    ../engine/source/output/restart/wrcomm.F
+!||    wrcomip                   ../starter/source/restart/ddsplit/wrcommp.F
+!||    wrrestp                   ../engine/source/output/restart/wrrestp.F
+!||--- uses       -----------------------------------------------------
+!||    precision_mod             ../common_source/modules/precision_mod.F90
+!||====================================================================
       MODULE PBLAST_MOD
 
         use precision_mod, only : WP
@@ -146,19 +146,19 @@
 
       contains
 
-      !||====================================================================
-      !||    pblast_load          ../common_source/modules/loads/pblast_mod.F90
-      !||--- called by ------------------------------------------------------
-      !||    rdresb               ../engine/source/output/restart/rdresb.F
-      !||--- calls      -----------------------------------------------------
-      !||    pblast_alloc_error   ../common_source/modules/loads/pblast_mod.F90
-      !||    read_db              ../common_source/tools/input_output/read_db.F
-      !||    read_i_c             ../common_source/tools/input_output/write_routtines.c
-      !||--- uses       -----------------------------------------------------
-      !||    constant_mod         ../common_source/modules/constant_mod.F
-      !||    message_mod          ../engine/share/message_module/message_mod.F
-      !||    precision_mod        ../common_source/modules/precision_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    pblast_load          ../common_source/modules/loads/pblast_mod.F90
+!||--- called by ------------------------------------------------------
+!||    rdresb               ../engine/source/output/restart/rdresb.F
+!||--- calls      -----------------------------------------------------
+!||    pblast_alloc_error   ../common_source/modules/loads/pblast_mod.F90
+!||    read_db              ../common_source/tools/input_output/read_db.F
+!||    read_i_c             ../common_source/tools/input_output/write_routtines.c
+!||--- uses       -----------------------------------------------------
+!||    constant_mod         ../common_source/modules/constant_mod.F
+!||    message_mod          ../engine/share/message_module/message_mod.F
+!||    precision_mod        ../common_source/modules/precision_mod.F90
+!||====================================================================
         subroutine pblast_load(pblast)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
@@ -248,15 +248,15 @@
         !! \brief : Write Error message in case of memory allocation error
         !! \details
         ! ======================================================================================================================
-      !||====================================================================
-      !||    pblast_alloc_error    ../common_source/modules/loads/pblast_mod.F90
-      !||--- called by ------------------------------------------------------
-      !||    pblast_load           ../common_source/modules/loads/pblast_mod.F90
-      !||--- calls      -----------------------------------------------------
-      !||    arret                 ../engine/source/system/arret.F
-      !||--- uses       -----------------------------------------------------
-      !||    file_descriptor_mod   ../engine/source/modules/file_descriptor_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    pblast_alloc_error    ../common_source/modules/loads/pblast_mod.F90
+!||--- called by ------------------------------------------------------
+!||    pblast_load           ../common_source/modules/loads/pblast_mod.F90
+!||--- calls      -----------------------------------------------------
+!||    arret                 ../engine/source/system/arret.F
+!||--- uses       -----------------------------------------------------
+!||    file_descriptor_mod   ../engine/source/modules/file_descriptor_mod.F90
+!||====================================================================
         subroutine pblast_alloc_error()
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
@@ -274,14 +274,14 @@
           call arret(2)
         end
 
-      !||====================================================================
-      !||    pblast_deallocate   ../common_source/modules/loads/pblast_mod.F90
-      !||--- called by ------------------------------------------------------
-      !||    resol               ../engine/source/engine/resol.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod         ../engine/share/message_module/message_mod.F
-      !||    precision_mod       ../common_source/modules/precision_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    pblast_deallocate   ../common_source/modules/loads/pblast_mod.F90
+!||--- called by ------------------------------------------------------
+!||    resol               ../engine/source/engine/resol.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod         ../engine/share/message_module/message_mod.F
+!||    precision_mod       ../common_source/modules/precision_mod.F90
+!||====================================================================
         subroutine pblast_deallocate(pblast)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
@@ -333,18 +333,18 @@
         end
 
 
-      !||====================================================================
-      !||    pblast_write_starter   ../common_source/modules/loads/pblast_mod.F90
-      !||--- called by ------------------------------------------------------
-      !||    ddsplit                ../starter/source/restart/ddsplit/ddsplit.F
-      !||--- calls      -----------------------------------------------------
-      !||    write_db               ../common_source/tools/input_output/write_db.F
-      !||    write_i_c              ../common_source/tools/input_output/write_routtines.c
-      !||--- uses       -----------------------------------------------------
-      !||    glob_therm_mod         ../common_source/modules/mat_elem/glob_therm_mod.F90
-      !||    message_mod            ../engine/share/message_module/message_mod.F
-      !||    precision_mod          ../common_source/modules/precision_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    pblast_write_starter   ../common_source/modules/loads/pblast_mod.F90
+!||--- called by ------------------------------------------------------
+!||    ddsplit                ../starter/source/restart/ddsplit/ddsplit.F
+!||--- calls      -----------------------------------------------------
+!||    write_db               ../common_source/tools/input_output/write_db.F
+!||    write_i_c              ../common_source/tools/input_output/write_routtines.c
+!||--- uses       -----------------------------------------------------
+!||    glob_therm_mod         ../common_source/modules/mat_elem/glob_therm_mod.F90
+!||    message_mod            ../engine/share/message_module/message_mod.F
+!||    precision_mod          ../common_source/modules/precision_mod.F90
+!||====================================================================
         subroutine pblast_write_starter(pblast,glob_therm,proc,cep,scep,&
         &                               numelc,numeltg,numels,          &
         &                               numelq,numelt,numelp,           &
@@ -453,17 +453,17 @@
         end
 
 
-      !||====================================================================
-      !||    pblast_write_engine   ../common_source/modules/loads/pblast_mod.F90
-      !||--- called by ------------------------------------------------------
-      !||    wrrestp               ../engine/source/output/restart/wrrestp.F
-      !||--- calls      -----------------------------------------------------
-      !||    write_db              ../common_source/tools/input_output/write_db.F
-      !||    write_i_c             ../common_source/tools/input_output/write_routtines.c
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod           ../engine/share/message_module/message_mod.F
-      !||    precision_mod         ../common_source/modules/precision_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    pblast_write_engine   ../common_source/modules/loads/pblast_mod.F90
+!||--- called by ------------------------------------------------------
+!||    wrrestp               ../engine/source/output/restart/wrrestp.F
+!||--- calls      -----------------------------------------------------
+!||    write_db              ../common_source/tools/input_output/write_db.F
+!||    write_i_c             ../common_source/tools/input_output/write_routtines.c
+!||--- uses       -----------------------------------------------------
+!||    message_mod           ../engine/share/message_module/message_mod.F
+!||    precision_mod         ../common_source/modules/precision_mod.F90
+!||====================================================================
         subroutine pblast_write_engine(pblast)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
@@ -534,12 +534,12 @@
           return
         end
 
-      !||====================================================================
-      !||    pblast_init_tables   ../common_source/modules/loads/pblast_mod.F90
-      !||--- called by ------------------------------------------------------
-      !||    hm_read_pblast       ../starter/source/loads/pblast/hm_read_pblast.F
-      !||    rdresb               ../engine/source/output/restart/rdresb.F
-      !||====================================================================
+!||====================================================================
+!||    pblast_init_tables   ../common_source/modules/loads/pblast_mod.F90
+!||--- called by ------------------------------------------------------
+!||    hm_read_pblast       ../starter/source/loads/pblast/hm_read_pblast.F
+!||    rdresb               ../engine/source/output/restart/rdresb.F
+!||====================================================================
         subroutine pblast_init_tables(pblast_data)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
@@ -3322,16 +3322,16 @@
 
 !! \ this subroutine is returning blast characteristic parameters {p_inci,p_refl,ta,t0,decay_inci,decay_refl}
 !! \ to build a blast time history. parameters are determined from free air model
-      !||====================================================================
-      !||    pblast_parameters__free_air   ../common_source/modules/loads/pblast_mod.F90
-      !||--- called by ------------------------------------------------------
-      !||    hm_read_pblast                ../starter/source/loads/pblast/hm_read_pblast.F
-      !||    pblast_1                      ../engine/source/loads/pblast/pblast_1.F
-      !||--- uses       -----------------------------------------------------
-      !||    constant_mod                  ../common_source/modules/constant_mod.F
-      !||    message_mod                   ../engine/share/message_module/message_mod.F
-      !||    precision_mod                 ../common_source/modules/precision_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    pblast_parameters__free_air   ../common_source/modules/loads/pblast_mod.F90
+!||--- called by ------------------------------------------------------
+!||    hm_read_pblast                ../starter/source/loads/pblast/hm_read_pblast.F
+!||    pblast_1                      ../engine/source/loads/pblast/pblast_1.F
+!||--- uses       -----------------------------------------------------
+!||    constant_mod                  ../common_source/modules/constant_mod.F
+!||    message_mod                   ../engine/share/message_module/message_mod.F
+!||    precision_mod                 ../common_source/modules/precision_mod.F90
+!||====================================================================
         subroutine pblast_parameters__free_air( pblast,z, w13, tdet,          &
         &                                       fac_p_bb, fac_i_bb, fac_t_bb, &
         &                                       is_decay_to_be_computed,      &
@@ -3566,16 +3566,16 @@
 
 !! \ this subroutine is returning blast characteristic parameters {p_inci,p_refl,ta,t0,decay_inci,decay_refl}
 !! \ to build a blast time history. parameters are determined from surface burst model
-      !||====================================================================
-      !||    pblast_parameters__surface_burst   ../common_source/modules/loads/pblast_mod.F90
-      !||--- called by ------------------------------------------------------
-      !||    hm_read_pblast                     ../starter/source/loads/pblast/hm_read_pblast.F
-      !||    pblast_2                           ../engine/source/loads/pblast/pblast_2.F
-      !||--- uses       -----------------------------------------------------
-      !||    constant_mod                       ../common_source/modules/constant_mod.F
-      !||    message_mod                        ../engine/share/message_module/message_mod.F
-      !||    precision_mod                      ../common_source/modules/precision_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    pblast_parameters__surface_burst   ../common_source/modules/loads/pblast_mod.F90
+!||--- called by ------------------------------------------------------
+!||    hm_read_pblast                     ../starter/source/loads/pblast/hm_read_pblast.F
+!||    pblast_2                           ../engine/source/loads/pblast/pblast_2.F
+!||--- uses       -----------------------------------------------------
+!||    constant_mod                       ../common_source/modules/constant_mod.F
+!||    message_mod                        ../engine/share/message_module/message_mod.F
+!||    precision_mod                      ../common_source/modules/precision_mod.F90
+!||====================================================================
         subroutine pblast_parameters__surface_burst(  pblast,z, w13, tdet,         &
         &                                            fac_p_bb, fac_i_bb, fac_t_bb, &
         &                                            is_decay_to_be_computed,      &
@@ -3779,21 +3779,21 @@
 
 !! \ this subroutine is returning blast characteristic parameters {p_inci,p_refl,ta,t0,decay_inci,decay_refl}
 !! \to build a blast time history. parameters are determined from surface burst model
-      !||====================================================================
-      !||    pblast_parameters__air_burst   ../common_source/modules/loads/pblast_mod.F90
-      !||--- called by ------------------------------------------------------
-      !||    hm_read_pblast                 ../starter/source/loads/pblast/hm_read_pblast.F
-      !||    pblast_3                       ../engine/source/loads/pblast/pblast_3.F
-      !||--- calls      -----------------------------------------------------
-      !||    dichotomic_search_r_asc        ../common_source/tools/search/dichotomic_search_r_asc.F
-      !||    dichotomic_search_r_desc       ../common_source/tools/search/dichotomic_search_r_desc.F
-      !||--- uses       -----------------------------------------------------
-      !||    constant_mod                   ../common_source/modules/constant_mod.F
-      !||    file_descriptor_mod            ../engine/source/modules/file_descriptor_mod.F90
-      !||    message_mod                    ../engine/share/message_module/message_mod.F
-      !||    names_and_titles_mod           ../common_source/modules/names_and_titles_mod.F
-      !||    precision_mod                  ../common_source/modules/precision_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    pblast_parameters__air_burst   ../common_source/modules/loads/pblast_mod.F90
+!||--- called by ------------------------------------------------------
+!||    hm_read_pblast                 ../starter/source/loads/pblast/hm_read_pblast.F
+!||    pblast_3                       ../engine/source/loads/pblast/pblast_3.F
+!||--- calls      -----------------------------------------------------
+!||    dichotomic_search_r_asc        ../common_source/tools/search/dichotomic_search_r_asc.F
+!||    dichotomic_search_r_desc       ../common_source/tools/search/dichotomic_search_r_desc.F
+!||--- uses       -----------------------------------------------------
+!||    constant_mod                   ../common_source/modules/constant_mod.F
+!||    file_descriptor_mod            ../engine/source/modules/file_descriptor_mod.F90
+!||    message_mod                    ../engine/share/message_module/message_mod.F
+!||    names_and_titles_mod           ../common_source/modules/names_and_titles_mod.F
+!||    precision_mod                  ../common_source/modules/precision_mod.F90
+!||====================================================================
         subroutine pblast_parameters__air_burst( pblast,z_struct, zc, zg, angle_g, w13, tdet, &
         &                                        fac_p_bb, fac_i_bb, fac_t_bb,                &
         &                                        is_decay_to_be_computed,                     &

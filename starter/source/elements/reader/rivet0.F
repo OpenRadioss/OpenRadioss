@@ -20,16 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    rivet0          ../starter/source/elements/reader/rivet0.F
-      !||--- called by ------------------------------------------------------
-      !||    hm_read_rivet   ../starter/source/elements/reader/hm_read_rivet.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg          ../starter/source/output/message/message.F
-      !||    kinset          ../starter/source/constraints/general/kinset.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod     ../starter/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    rivet0          ../starter/source/elements/reader/rivet0.F
+!||--- called by ------------------------------------------------------
+!||    hm_read_rivet   ../starter/source/elements/reader/hm_read_rivet.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg          ../starter/source/output/message/message.F
+!||    kinset          ../starter/source/constraints/general/kinset.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod     ../starter/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE RIVET0(V,VR,MS,IN,IXRI,RIVET,GEO,ITAB,IKINE)
       USE MESSAGE_MOD
 C

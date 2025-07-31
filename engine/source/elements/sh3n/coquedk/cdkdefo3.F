@@ -20,11 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    cdkdefo3   ../engine/source/elements/sh3n/coquedk/cdkdefo3.F
-      !||--- called by ------------------------------------------------------
-      !||    cdkforc3   ../engine/source/elements/sh3n/coquedk/cdkforc3.F
-      !||====================================================================
+!||====================================================================
+!||    cdkdefo3   ../engine/source/elements/sh3n/coquedk/cdkdefo3.F
+!||--- called by ------------------------------------------------------
+!||    cdkforc3   ../engine/source/elements/sh3n/coquedk/cdkforc3.F
+!||====================================================================
       SUBROUTINE CDKDEFO3(JFT,JLT,VLX,VLY,PX2,PY2,PX3,PY3,
      1                    EXX,EYY,EXY,EXZ,EYZ,DT1,EPSDOT,NFT,
      2                    ISTRAIN,GSTR,VDEF,NEL)
@@ -95,11 +95,11 @@ C
 C
       RETURN
       END
-      !||====================================================================
-      !||    cdkcurv3   ../engine/source/elements/sh3n/coquedk/cdkdefo3.F
-      !||--- called by ------------------------------------------------------
-      !||    cdkforc3   ../engine/source/elements/sh3n/coquedk/cdkforc3.F
-      !||====================================================================
+!||====================================================================
+!||    cdkcurv3   ../engine/source/elements/sh3n/coquedk/cdkdefo3.F
+!||--- called by ------------------------------------------------------
+!||    cdkforc3   ../engine/source/elements/sh3n/coquedk/cdkforc3.F
+!||====================================================================
       SUBROUTINE CDKCURV3(JFT,JLT,BZ1,BZ2,BZ3,BRX1,BRX2,BRX3,BRY1,
      1                   BRY2,BRY3,VLZ,RLX,RLY,KXX, KYY, KXY)
 C-----------------------------------------------

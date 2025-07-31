@@ -21,11 +21,11 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       
-      !||====================================================================
-      !||    sctorth3   ../engine/source/elements/thickshell/solide8c/sctorth3.F
-      !||--- called by ------------------------------------------------------
-      !||    s8cforc3   ../engine/source/elements/thickshell/solide8c/s8cforc3.F
-      !||====================================================================
+!||====================================================================
+!||    sctorth3   ../engine/source/elements/thickshell/solide8c/sctorth3.F
+!||--- called by ------------------------------------------------------
+!||    s8cforc3   ../engine/source/elements/thickshell/solide8c/s8cforc3.F
+!||====================================================================
       SUBROUTINE SCTORTH3(
      1   JFT,     JLT,     ICSTR,   NEL,
      2   RX,      RY,      RZ,      SX,

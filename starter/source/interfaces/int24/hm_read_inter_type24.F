@@ -20,24 +20,24 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    hm_read_inter_type24   ../starter/source/interfaces/int24/hm_read_inter_type24.F
-      !||--- called by ------------------------------------------------------
-      !||    hm_read_inter_struct   ../starter/source/interfaces/reader/hm_read_inter_struct.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg                 ../starter/source/output/message/message.F
-      !||    definter               ../starter/source/interfaces/interf1/definter.F
-      !||    hm_get_floatv          ../starter/source/devtools/hm_reader/hm_get_floatv.F
-      !||    hm_get_intv            ../starter/source/devtools/hm_reader/hm_get_intv.F
-      !||    inter_dcod_friction    ../starter/source/interfaces/reader/inter_dcod_friction.F
-      !||    inter_dcod_sensor      ../starter/source/interfaces/reader/inter_dcod_sensor.F
-      !||    ngr2usr                ../starter/source/system/nintrr.F
-      !||--- uses       -----------------------------------------------------
-      !||    format_mod             ../starter/share/modules1/format_mod.F90
-      !||    message_mod            ../starter/share/message_module/message_mod.F
-      !||    reader_old_mod         ../starter/share/modules1/reader_old_mod.F90
-      !||    submodel_mod           ../starter/share/modules1/submodel_mod.F
-      !||====================================================================
+!||====================================================================
+!||    hm_read_inter_type24   ../starter/source/interfaces/int24/hm_read_inter_type24.F
+!||--- called by ------------------------------------------------------
+!||    hm_read_inter_struct   ../starter/source/interfaces/reader/hm_read_inter_struct.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                 ../starter/source/output/message/message.F
+!||    definter               ../starter/source/interfaces/interf1/definter.F
+!||    hm_get_floatv          ../starter/source/devtools/hm_reader/hm_get_floatv.F
+!||    hm_get_intv            ../starter/source/devtools/hm_reader/hm_get_intv.F
+!||    inter_dcod_friction    ../starter/source/interfaces/reader/inter_dcod_friction.F
+!||    inter_dcod_sensor      ../starter/source/interfaces/reader/inter_dcod_sensor.F
+!||    ngr2usr                ../starter/source/system/nintrr.F
+!||--- uses       -----------------------------------------------------
+!||    format_mod             ../starter/share/modules1/format_mod.F90
+!||    message_mod            ../starter/share/message_module/message_mod.F
+!||    reader_old_mod         ../starter/share/modules1/reader_old_mod.F90
+!||    submodel_mod           ../starter/share/modules1/submodel_mod.F
+!||====================================================================
       SUBROUTINE HM_READ_INTER_TYPE24(
      1        IPARI      ,STFAC           ,FRIGAP     ,NOINT      ,NI         ,
      2        IGRNOD     ,IGRSURF         ,XFILTR     ,FRIC_P     ,DEF_INTER ,

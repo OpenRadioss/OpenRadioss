@@ -20,15 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    sigeps158c   ../engine/source/materials/mat/mat158/sigeps158c.F
-      !||--- called by ------------------------------------------------------
-      !||    mulawc       ../engine/source/materials/mat_share/mulawc.F90
-      !||--- calls      -----------------------------------------------------
-      !||    vinter2      ../engine/source/tools/curve/vinter.F
-      !||--- uses       -----------------------------------------------------
-      !||    sensor_mod   ../common_source/modules/sensor_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    sigeps158c   ../engine/source/materials/mat/mat158/sigeps158c.F
+!||--- called by ------------------------------------------------------
+!||    mulawc       ../engine/source/materials/mat_share/mulawc.F90
+!||--- calls      -----------------------------------------------------
+!||    vinter2      ../engine/source/tools/curve/vinter.F
+!||--- uses       -----------------------------------------------------
+!||    sensor_mod   ../common_source/modules/sensor_mod.F90
+!||====================================================================
       SUBROUTINE SIGEPS158C(
      1           NEL       ,NUPARAM   ,NUVAR     ,NFUNC     ,IFUNC     ,
      2           NPF       ,TF        ,TIME      ,TIMESTEP  ,UPARAM    ,

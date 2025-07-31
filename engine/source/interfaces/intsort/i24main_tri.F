@@ -20,35 +20,35 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    i24main_tri                  ../engine/source/interfaces/intsort/i24main_tri.F
-      !||--- called by ------------------------------------------------------
-      !||    inttri                       ../engine/source/interfaces/intsort/inttri.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg                       ../engine/source/output/message/message.F
-      !||    arret                        ../engine/source/system/arret.F
-      !||    check_sorting_criteria       ../engine/source/interfaces/intsort/check_sorting_criteria.F90
-      !||    i24buce                      ../engine/source/interfaces/intsort/i24buce.F
-      !||    i24trc                       ../engine/source/interfaces/intsort/i7trc.F
-      !||    i7xsave                      ../engine/source/interfaces/intsort/i7xsave.F
-      !||    my_barrier                   ../engine/source/system/machine.F
-      !||    spmd_rnumcd                  ../engine/source/mpi/interfaces/spmd_i7tool.F
-      !||    spmd_tri24gat                ../engine/source/mpi/interfaces/spmd_int.F
-      !||    spmd_tri24vox                ../engine/source/mpi/interfaces/spmd_int.F
-      !||    spmd_tri24vox0               ../engine/source/mpi/interfaces/spmd_int.F
-      !||    startime                     ../engine/source/system/timer_mod.F90
-      !||    stoptime                     ../engine/source/system/timer_mod.F90
-      !||    upgrade_multimp              ../common_source/interf/upgrade_multimp.F
-      !||--- uses       -----------------------------------------------------
-      !||    check_sorting_criteria_mod   ../engine/source/interfaces/intsort/check_sorting_criteria.F90
-      !||    h3d_mod                      ../engine/share/modules/h3d_mod.F
-      !||    imp_intbuf                   ../engine/share/modules/imp_mod_def.F90
-      !||    intbufdef_mod                ../common_source/modules/interfaces/intbufdef_mod.F90
-      !||    message_mod                  ../engine/share/message_module/message_mod.F
-      !||    parameters_mod               ../common_source/modules/interfaces/parameters_mod.F
-      !||    timer_mod                    ../engine/source/system/timer_mod.F90
-      !||    tri7box                      ../engine/share/modules/tri7box.F
-      !||====================================================================
+!||====================================================================
+!||    i24main_tri                  ../engine/source/interfaces/intsort/i24main_tri.F
+!||--- called by ------------------------------------------------------
+!||    inttri                       ../engine/source/interfaces/intsort/inttri.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                       ../engine/source/output/message/message.F
+!||    arret                        ../engine/source/system/arret.F
+!||    check_sorting_criteria       ../engine/source/interfaces/intsort/check_sorting_criteria.F90
+!||    i24buce                      ../engine/source/interfaces/intsort/i24buce.F
+!||    i24trc                       ../engine/source/interfaces/intsort/i7trc.F
+!||    i7xsave                      ../engine/source/interfaces/intsort/i7xsave.F
+!||    my_barrier                   ../engine/source/system/machine.F
+!||    spmd_rnumcd                  ../engine/source/mpi/interfaces/spmd_i7tool.F
+!||    spmd_tri24gat                ../engine/source/mpi/interfaces/spmd_int.F
+!||    spmd_tri24vox                ../engine/source/mpi/interfaces/spmd_int.F
+!||    spmd_tri24vox0               ../engine/source/mpi/interfaces/spmd_int.F
+!||    startime                     ../engine/source/system/timer_mod.F90
+!||    stoptime                     ../engine/source/system/timer_mod.F90
+!||    upgrade_multimp              ../common_source/interf/upgrade_multimp.F
+!||--- uses       -----------------------------------------------------
+!||    check_sorting_criteria_mod   ../engine/source/interfaces/intsort/check_sorting_criteria.F90
+!||    h3d_mod                      ../engine/share/modules/h3d_mod.F
+!||    imp_intbuf                   ../engine/share/modules/imp_mod_def.F90
+!||    intbufdef_mod                ../common_source/modules/interfaces/intbufdef_mod.F90
+!||    message_mod                  ../engine/share/message_module/message_mod.F
+!||    parameters_mod               ../common_source/modules/interfaces/parameters_mod.F
+!||    timer_mod                    ../engine/source/system/timer_mod.F90
+!||    tri7box                      ../engine/share/modules/tri7box.F
+!||====================================================================
       SUBROUTINE I24MAIN_TRI(TIMERS, 
      1                  IPARI   ,X       ,V       ,INTBUF_TAB,
      2                  MS      ,NIN     ,ITASK   ,MWAG    ,WEIGHT  ,

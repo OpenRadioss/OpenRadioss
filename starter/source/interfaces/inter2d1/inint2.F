@@ -20,25 +20,25 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    inint2                 ../starter/source/interfaces/inter2d1/inint2.F
-      !||--- called by ------------------------------------------------------
-      !||    inintr                 ../starter/source/interfaces/interf1/inintr.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg                 ../starter/source/output/message/message.F
-      !||    i1bcs_check            ../starter/source/interfaces/int01/i1bcs_check.F90
-      !||    i1chk2                 ../starter/source/interfaces/inter2d1/i1chk2.F
-      !||    i1tid2                 ../starter/source/interfaces/inter2d1/i1tid2.F
-      !||    i2main                 ../starter/source/interfaces/interf1/i2master.F
-      !||    i3pen2                 ../starter/source/interfaces/inter2d1/i3pen2.F
-      !||    i3sti2                 ../starter/source/interfaces/inter2d1/i3sti2.F
-      !||    i9bcs_check            ../starter/source/interfaces/int09/i9bcs_check.F90
-      !||    i9sti2                 ../starter/source/interfaces/int09/i9sti2.F
-      !||    inint0                 ../starter/source/interfaces/interf1/inint0.F
-      !||    invoi2                 ../starter/source/interfaces/inter2d1/invoi2.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod            ../starter/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    inint2                 ../starter/source/interfaces/inter2d1/inint2.F
+!||--- called by ------------------------------------------------------
+!||    inintr                 ../starter/source/interfaces/interf1/inintr.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                 ../starter/source/output/message/message.F
+!||    i1bcs_check            ../starter/source/interfaces/int01/i1bcs_check.F90
+!||    i1chk2                 ../starter/source/interfaces/inter2d1/i1chk2.F
+!||    i1tid2                 ../starter/source/interfaces/inter2d1/i1tid2.F
+!||    i2main                 ../starter/source/interfaces/interf1/i2master.F
+!||    i3pen2                 ../starter/source/interfaces/inter2d1/i3pen2.F
+!||    i3sti2                 ../starter/source/interfaces/inter2d1/i3sti2.F
+!||    i9bcs_check            ../starter/source/interfaces/int09/i9bcs_check.F90
+!||    i9sti2                 ../starter/source/interfaces/int09/i9sti2.F
+!||    inint0                 ../starter/source/interfaces/interf1/inint0.F
+!||    invoi2                 ../starter/source/interfaces/inter2d1/invoi2.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod            ../starter/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE ININT2(INTBUF_TAB ,INSCR    ,X         ,IXQ     ,SINSCR   ,
      .                  PM         ,GEO      ,IPARI     ,NINT    ,ITAB     ,
      .                  ITABM1     ,NUMNOD   ,IKINE     ,MWA     ,IPM      ,

@@ -20,22 +20,22 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    sensor_init             ../engine/source/tools/sensor/sensor_init.F
-      !||--- called by ------------------------------------------------------
-      !||    resol                   ../engine/source/engine/resol.F
-      !||--- calls      -----------------------------------------------------
-      !||    quicksort_i             ../common_source/tools/sort/quicksort.F
-      !||    sensor_logical          ../engine/source/tools/sensor/sensor_logical.F
-      !||    sensor_python           ../engine/source/tools/sensor/sensor_python.F90
-      !||    sensor_time             ../engine/source/tools/sensor/sensor_time.F
-      !||--- uses       -----------------------------------------------------
-      !||    groupdef_mod            ../common_source/modules/groupdef_mod.F
-      !||    my_alloc_mod            ../common_source/tools/memory/my_alloc.F90
-      !||    python_funct_mod        ../common_source/modules/python_mod.F90
-      !||    sensor_mod              ../common_source/modules/sensor_mod.F90
-      !||    sensor_python_mod       ../engine/source/tools/sensor/sensor_python.F90
-      !||====================================================================
+!||====================================================================
+!||    sensor_init             ../engine/source/tools/sensor/sensor_init.F
+!||--- called by ------------------------------------------------------
+!||    resol                   ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
+!||    quicksort_i             ../common_source/tools/sort/quicksort.F
+!||    sensor_logical          ../engine/source/tools/sensor/sensor_logical.F
+!||    sensor_python           ../engine/source/tools/sensor/sensor_python.F90
+!||    sensor_time             ../engine/source/tools/sensor/sensor_time.F
+!||--- uses       -----------------------------------------------------
+!||    groupdef_mod            ../common_source/modules/groupdef_mod.F
+!||    my_alloc_mod            ../common_source/tools/memory/my_alloc.F90
+!||    python_funct_mod        ../common_source/modules/python_mod.F90
+!||    sensor_mod              ../common_source/modules/sensor_mod.F90
+!||    sensor_python_mod       ../engine/source/tools/sensor/sensor_python.F90
+!||====================================================================
         SUBROUTINE SENSOR_INIT( SUBSET,IPARG,NGROUC,
      .                          IPARTC,IPARTTG,IPARTS,IPARTQ,IPARTT,
      .                          IPARTP,IPARTR,SENSORS,TIME  ,TIMESTEP,

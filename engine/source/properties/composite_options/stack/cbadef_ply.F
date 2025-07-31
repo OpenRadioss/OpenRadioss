@@ -20,11 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    cbadef_ply   ../engine/source/properties/composite_options/stack/cbadef_ply.F
-      !||--- called by ------------------------------------------------------
-      !||    cbaforc3     ../engine/source/elements/shell/coqueba/cbaforc3.F
-      !||====================================================================
+!||====================================================================
+!||    cbadef_ply   ../engine/source/properties/composite_options/stack/cbadef_ply.F
+!||--- called by ------------------------------------------------------
+!||    cbaforc3     ../engine/source/elements/shell/coqueba/cbaforc3.F
+!||====================================================================
       SUBROUTINE CBADEF_PLY(JFT,JLT,NG, NPT,NPLAT,IPLAT,VQ,
      1                  VXYZ,VETA,VKSI,BM,BC,TC,DT1C,
      2                  EXX, EYY , EYZ, EZX)
@@ -250,11 +250,11 @@ C
        RETURN
        END
 C
-      !||====================================================================
-      !||    cbadefsh_ply   ../engine/source/properties/composite_options/stack/cbadef_ply.F
-      !||--- called by ------------------------------------------------------
-      !||    cbaforc3       ../engine/source/elements/shell/coqueba/cbaforc3.F
-      !||====================================================================
+!||====================================================================
+!||    cbadefsh_ply   ../engine/source/properties/composite_options/stack/cbadef_ply.F
+!||--- called by ------------------------------------------------------
+!||    cbaforc3       ../engine/source/elements/shell/coqueba/cbaforc3.F
+!||====================================================================
         SUBROUTINE CBADEFSH_PLY(JFT,JLT,NPT ,NPLAT, IPLAT,X13 ,X24 ,
      .                        Y13 ,Y24, VXYZ,DT1C, EXY )
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8

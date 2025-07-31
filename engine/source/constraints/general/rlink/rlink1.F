@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    rlink1        ../engine/source/constraints/general/rlink/rlink1.F
-      !||--- called by ------------------------------------------------------
-      !||    rlink10       ../engine/source/constraints/general/rlink/rlink10.F
-      !||    rlink11       ../engine/source/constraints/general/rlink/rlink10.F
-      !||--- calls      -----------------------------------------------------
-      !||    sum_6_float   ../engine/source/system/parit.F
-      !||====================================================================
+!||====================================================================
+!||    rlink1        ../engine/source/constraints/general/rlink/rlink1.F
+!||--- called by ------------------------------------------------------
+!||    rlink10       ../engine/source/constraints/general/rlink/rlink10.F
+!||    rlink11       ../engine/source/constraints/general/rlink/rlink10.F
+!||--- calls      -----------------------------------------------------
+!||    sum_6_float   ../engine/source/system/parit.F
+!||====================================================================
       SUBROUTINE RLINK1(MS,IN ,A  ,AR    ,NSN  ,
      .                  IC,ICR,NOD,WEIGHT,FRL6 ,
      .                  IFLAG )

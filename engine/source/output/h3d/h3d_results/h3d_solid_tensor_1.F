@@ -20,27 +20,27 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    h3d_solid_tensor_1        ../engine/source/output/h3d/h3d_results/h3d_solid_tensor_1.F
-      !||--- called by ------------------------------------------------------
-      !||    h3d_solid_tensor          ../engine/source/output/h3d/h3d_results/h3d_solid_tensor.F
-      !||--- calls      -----------------------------------------------------
-      !||    h3d_write_tensor          ../engine/source/output/h3d/h3d_results/h3d_write_tensor.F
-      !||    h3d_write_tensor_corner   ../engine/source/output/h3d/h3d_results/h3d_write_tensor_corner.F
-      !||    initbuf                   ../engine/share/resol/initbuf.F
-      !||    s6_tstrain                ../engine/source/output/h3d/h3d_results/h3d_solid_tensor_1.F
-      !||    s8_tstrain                ../engine/source/output/h3d/h3d_results/h3d_solid_tensor_1.F
-      !||    srota6                    ../engine/source/output/anim/generate/srota6.F
-      !||    strn_tenscor3             ../engine/source/output/h3d/h3d_results/h3d_strn_tenscor3.F
-      !||    strs_tenscor3             ../engine/source/output/h3d/h3d_results/strs_tenscor3.F
-      !||    t4_tstrain                ../engine/source/output/h3d/h3d_results/h3d_solid_tensor_1.F
-      !||--- uses       -----------------------------------------------------
-      !||    elbufdef_mod              ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||    initbuf_mod               ../engine/share/resol/initbuf.F
-      !||    names_and_titles_mod      ../common_source/modules/names_and_titles_mod.F
-      !||    schlieren_mod             ../engine/share/modules/schlieren_mod.F
-      !||    stack_mod                 ../engine/share/modules/stack_mod.F
-      !||====================================================================
+!||====================================================================
+!||    h3d_solid_tensor_1        ../engine/source/output/h3d/h3d_results/h3d_solid_tensor_1.F
+!||--- called by ------------------------------------------------------
+!||    h3d_solid_tensor          ../engine/source/output/h3d/h3d_results/h3d_solid_tensor.F
+!||--- calls      -----------------------------------------------------
+!||    h3d_write_tensor          ../engine/source/output/h3d/h3d_results/h3d_write_tensor.F
+!||    h3d_write_tensor_corner   ../engine/source/output/h3d/h3d_results/h3d_write_tensor_corner.F
+!||    initbuf                   ../engine/share/resol/initbuf.F
+!||    s6_tstrain                ../engine/source/output/h3d/h3d_results/h3d_solid_tensor_1.F
+!||    s8_tstrain                ../engine/source/output/h3d/h3d_results/h3d_solid_tensor_1.F
+!||    srota6                    ../engine/source/output/anim/generate/srota6.F
+!||    strn_tenscor3             ../engine/source/output/h3d/h3d_results/h3d_strn_tenscor3.F
+!||    strs_tenscor3             ../engine/source/output/h3d/h3d_results/strs_tenscor3.F
+!||    t4_tstrain                ../engine/source/output/h3d/h3d_results/h3d_solid_tensor_1.F
+!||--- uses       -----------------------------------------------------
+!||    elbufdef_mod              ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    initbuf_mod               ../engine/share/resol/initbuf.F
+!||    names_and_titles_mod      ../common_source/modules/names_and_titles_mod.F
+!||    schlieren_mod             ../engine/share/modules/schlieren_mod.F
+!||    stack_mod                 ../engine/share/modules/stack_mod.F
+!||====================================================================
       SUBROUTINE H3D_SOLID_TENSOR_1(
      .                  ELBUF_TAB,SOLID_TENSOR, IPARG   ,ITENS   ,IXS     ,PM       ,
      2                   EL2FA    ,NBF     ,TENS    ,EPSDOT  ,
@@ -4577,14 +4577,14 @@ C
 C-----------
       RETURN
       END
-      !||====================================================================
-      !||    t4_tstrain           ../engine/source/output/h3d/h3d_results/h3d_solid_tensor_1.F
-      !||--- called by ------------------------------------------------------
-      !||    h3d_solid_tensor_1   ../engine/source/output/h3d/h3d_results/h3d_solid_tensor_1.F
-      !||--- calls      -----------------------------------------------------
-      !||    t4deri3              ../engine/source/output/h3d/h3d_results/h3d_solid_tensor_1.F
-      !||    u_from_f3            ../engine/source/output/h3d/h3d_results/h3d_solid_tensor_1.F
-      !||====================================================================
+!||====================================================================
+!||    t4_tstrain           ../engine/source/output/h3d/h3d_results/h3d_solid_tensor_1.F
+!||--- called by ------------------------------------------------------
+!||    h3d_solid_tensor_1   ../engine/source/output/h3d/h3d_results/h3d_solid_tensor_1.F
+!||--- calls      -----------------------------------------------------
+!||    t4deri3              ../engine/source/output/h3d/h3d_results/h3d_solid_tensor_1.F
+!||    u_from_f3            ../engine/source/output/h3d/h3d_results/h3d_solid_tensor_1.F
+!||====================================================================
         SUBROUTINE T4_TSTRAIN(XN,YN,ZN,DX,DY,DZ,STRAIN,NEL)
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
 #include      "implicit_f.inc"
@@ -4654,14 +4654,14 @@ C---------------
 C
       RETURN
       END
-      !||====================================================================
-      !||    s8_tstrain           ../engine/source/output/h3d/h3d_results/h3d_solid_tensor_1.F
-      !||--- called by ------------------------------------------------------
-      !||    h3d_solid_tensor_1   ../engine/source/output/h3d/h3d_results/h3d_solid_tensor_1.F
-      !||--- calls      -----------------------------------------------------
-      !||    t8deri3              ../engine/source/output/h3d/h3d_results/h3d_solid_tensor_1.F
-      !||    u_from_f3            ../engine/source/output/h3d/h3d_results/h3d_solid_tensor_1.F
-      !||====================================================================
+!||====================================================================
+!||    s8_tstrain           ../engine/source/output/h3d/h3d_results/h3d_solid_tensor_1.F
+!||--- called by ------------------------------------------------------
+!||    h3d_solid_tensor_1   ../engine/source/output/h3d/h3d_results/h3d_solid_tensor_1.F
+!||--- calls      -----------------------------------------------------
+!||    t8deri3              ../engine/source/output/h3d/h3d_results/h3d_solid_tensor_1.F
+!||    u_from_f3            ../engine/source/output/h3d/h3d_results/h3d_solid_tensor_1.F
+!||====================================================================
         SUBROUTINE S8_TSTRAIN(XN,YN,ZN,DX,DY,DZ,STRAIN,NEL)
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
 #include      "implicit_f.inc"
@@ -4752,14 +4752,14 @@ C---------------
 C
       RETURN
       END
-      !||====================================================================
-      !||    s6_tstrain           ../engine/source/output/h3d/h3d_results/h3d_solid_tensor_1.F
-      !||--- called by ------------------------------------------------------
-      !||    h3d_solid_tensor_1   ../engine/source/output/h3d/h3d_results/h3d_solid_tensor_1.F
-      !||--- calls      -----------------------------------------------------
-      !||    t6deri3              ../engine/source/output/h3d/h3d_results/h3d_solid_tensor_1.F
-      !||    u_from_f3            ../engine/source/output/h3d/h3d_results/h3d_solid_tensor_1.F
-      !||====================================================================
+!||====================================================================
+!||    s6_tstrain           ../engine/source/output/h3d/h3d_results/h3d_solid_tensor_1.F
+!||--- called by ------------------------------------------------------
+!||    h3d_solid_tensor_1   ../engine/source/output/h3d/h3d_results/h3d_solid_tensor_1.F
+!||--- calls      -----------------------------------------------------
+!||    t6deri3              ../engine/source/output/h3d/h3d_results/h3d_solid_tensor_1.F
+!||    u_from_f3            ../engine/source/output/h3d/h3d_results/h3d_solid_tensor_1.F
+!||====================================================================
         SUBROUTINE S6_TSTRAIN(XN,YN,ZN,DX,DY,DZ,STRAIN,NEL)
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
 #include      "implicit_f.inc"
@@ -4847,11 +4847,11 @@ C---------------
 C
       RETURN
       END
-      !||====================================================================
-      !||    t4deri3      ../engine/source/output/h3d/h3d_results/h3d_solid_tensor_1.F
-      !||--- called by ------------------------------------------------------
-      !||    t4_tstrain   ../engine/source/output/h3d/h3d_results/h3d_solid_tensor_1.F
-      !||====================================================================
+!||====================================================================
+!||    t4deri3      ../engine/source/output/h3d/h3d_results/h3d_solid_tensor_1.F
+!||--- called by ------------------------------------------------------
+!||    t4_tstrain   ../engine/source/output/h3d/h3d_results/h3d_solid_tensor_1.F
+!||====================================================================
       SUBROUTINE T4DERI3(
      .   X1,  X2,  X3,  X4,  Y1,  Y2,  Y3,  Y4, 
      .   Z1,  Z2,  Z3,  Z4,  PX1, PX2, PX3, PX4,
@@ -4935,11 +4935,11 @@ C
 C
       RETURN
       END
-      !||====================================================================
-      !||    t8deri3      ../engine/source/output/h3d/h3d_results/h3d_solid_tensor_1.F
-      !||--- called by ------------------------------------------------------
-      !||    s8_tstrain   ../engine/source/output/h3d/h3d_results/h3d_solid_tensor_1.F
-      !||====================================================================
+!||====================================================================
+!||    t8deri3      ../engine/source/output/h3d/h3d_results/h3d_solid_tensor_1.F
+!||--- called by ------------------------------------------------------
+!||    s8_tstrain   ../engine/source/output/h3d/h3d_results/h3d_solid_tensor_1.F
+!||====================================================================
       SUBROUTINE T8DERI3(
      .   X1, X2, X3, X4, X5, X6, X7, X8,
      .   Y1, Y2, Y3, Y4, Y5, Y6, Y7, Y8,
@@ -5063,11 +5063,11 @@ C
 C
       RETURN
       END
-      !||====================================================================
-      !||    t6deri3      ../engine/source/output/h3d/h3d_results/h3d_solid_tensor_1.F
-      !||--- called by ------------------------------------------------------
-      !||    s6_tstrain   ../engine/source/output/h3d/h3d_results/h3d_solid_tensor_1.F
-      !||====================================================================
+!||====================================================================
+!||    t6deri3      ../engine/source/output/h3d/h3d_results/h3d_solid_tensor_1.F
+!||--- called by ------------------------------------------------------
+!||    s6_tstrain   ../engine/source/output/h3d/h3d_results/h3d_solid_tensor_1.F
+!||====================================================================
       SUBROUTINE T6DERI3(
      .   X1, X2, X3, X4, X5, X6, 
      .   Y1, Y2, Y3, Y4, Y5, Y6, 
@@ -5165,15 +5165,15 @@ C ----------symtrie(a b c a b c)->P1-P3,anti-symtrie(-1 -1 -1 1 1 1)->P4
 C
       RETURN
       END
-      !||====================================================================
-      !||    u_from_f3    ../engine/source/output/h3d/h3d_results/h3d_solid_tensor_1.F
-      !||--- called by ------------------------------------------------------
-      !||    s6_tstrain   ../engine/source/output/h3d/h3d_results/h3d_solid_tensor_1.F
-      !||    s8_tstrain   ../engine/source/output/h3d/h3d_results/h3d_solid_tensor_1.F
-      !||    t4_tstrain   ../engine/source/output/h3d/h3d_results/h3d_solid_tensor_1.F
-      !||--- calls      -----------------------------------------------------
-      !||    princ_u1     ../engine/source/materials/mat/mat001/princ_u1.F
-      !||====================================================================
+!||====================================================================
+!||    u_from_f3    ../engine/source/output/h3d/h3d_results/h3d_solid_tensor_1.F
+!||--- called by ------------------------------------------------------
+!||    s6_tstrain   ../engine/source/output/h3d/h3d_results/h3d_solid_tensor_1.F
+!||    s8_tstrain   ../engine/source/output/h3d/h3d_results/h3d_solid_tensor_1.F
+!||    t4_tstrain   ../engine/source/output/h3d/h3d_results/h3d_solid_tensor_1.F
+!||--- calls      -----------------------------------------------------
+!||    princ_u1     ../engine/source/materials/mat/mat001/princ_u1.F
+!||====================================================================
       SUBROUTINE U_FROM_F3(F,STRAIN,NEL )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

@@ -20,16 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    i24buce       ../engine/source/interfaces/intsort/i24buce.F
-      !||--- called by ------------------------------------------------------
-      !||    i24main_tri   ../engine/source/interfaces/intsort/i24main_tri.F
-      !||--- calls      -----------------------------------------------------
-      !||    i24trivox     ../engine/source/interfaces/intsort/i24trivox.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod   ../engine/share/message_module/message_mod.F
-      !||    tri7box       ../engine/share/modules/tri7box.F
-      !||====================================================================
+!||====================================================================
+!||    i24buce       ../engine/source/interfaces/intsort/i24buce.F
+!||--- called by ------------------------------------------------------
+!||    i24main_tri   ../engine/source/interfaces/intsort/i24main_tri.F
+!||--- calls      -----------------------------------------------------
+!||    i24trivox     ../engine/source/interfaces/intsort/i24trivox.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod   ../engine/share/message_module/message_mod.F
+!||    tri7box       ../engine/share/modules/tri7box.F
+!||====================================================================
        SUBROUTINE I24BUCE(
      1   X        ,V       ,IRECT   ,NSV      ,STFN     , 
      2   NMN      ,NRTM    ,NSN     ,CAND_E   ,CAND_N   ,

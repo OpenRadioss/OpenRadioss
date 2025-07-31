@@ -23,11 +23,11 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C Non linear viscous model POWER LAW
 C output: the creep strain increment DGAMMA
 C-----------------------------------------------
-      !||====================================================================
-      !||    viscpower   ../engine/source/materials/mat/mat100/viscpower.F
-      !||--- called by ------------------------------------------------------
-      !||    sigeps100   ../engine/source/materials/mat/mat100/sigeps100.F90
-      !||====================================================================
+!||====================================================================
+!||    viscpower   ../engine/source/materials/mat/mat100/viscpower.F
+!||--- called by ------------------------------------------------------
+!||    sigeps100   ../engine/source/materials/mat/mat100/sigeps100.F90
+!||====================================================================
         SUBROUTINE VISCPOWER ( NEL, TBNORM,  A1,EXPM ,EXPN,GAMMAOLD, DGAMMA ) !POWER LAW
 C-----------------------------------------------
 C   I M P L I C I T   T Y P E S

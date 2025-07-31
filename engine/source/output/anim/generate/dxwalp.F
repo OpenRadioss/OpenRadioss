@@ -21,14 +21,14 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C            SPMD_AGETMSR                    /spe/mach_spmd.F
-      !||====================================================================
-      !||    dxwalp         ../engine/source/output/anim/generate/dxwalp.F
-      !||--- called by ------------------------------------------------------
-      !||    dxyzsect       ../engine/source/output/anim/generate/dxyzsect.F
-      !||--- calls      -----------------------------------------------------
-      !||    spmd_agetmsr   ../engine/source/mpi/anim/spmd_agetmsr.F
-      !||    write_r_c      ../common_source/tools/input_output/write_routtines.c
-      !||====================================================================
+!||====================================================================
+!||    dxwalp         ../engine/source/output/anim/generate/dxwalp.F
+!||--- called by ------------------------------------------------------
+!||    dxyzsect       ../engine/source/output/anim/generate/dxyzsect.F
+!||--- calls      -----------------------------------------------------
+!||    spmd_agetmsr   ../engine/source/mpi/anim/spmd_agetmsr.F
+!||    write_r_c      ../common_source/tools/input_output/write_routtines.c
+!||====================================================================
       SUBROUTINE DXWALP(X ,RWL ,MSR ,FR_WALL)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

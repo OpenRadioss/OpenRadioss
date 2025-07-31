@@ -22,11 +22,11 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
     
 
-      !||====================================================================
-      !||    sfint3b   ../engine/source/elements/solid/solide/sfint3b.F
-      !||--- called by ------------------------------------------------------
-      !||    sforc3    ../engine/source/elements/solid/solide/sforc3.F
-      !||====================================================================
+!||====================================================================
+!||    sfint3b   ../engine/source/elements/solid/solide/sfint3b.F
+!||--- called by ------------------------------------------------------
+!||    sforc3    ../engine/source/elements/solid/solide/sforc3.F
+!||====================================================================
       SUBROUTINE SFINT3B(
      1   SIG,     SIGD,    X,       NC1,
      2   NC2,     NC3,     NC4,     NC5,

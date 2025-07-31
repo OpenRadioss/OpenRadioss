@@ -20,21 +20,21 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    asspar4            ../engine/source/assembly/asspar4.F
-      !||--- called by ------------------------------------------------------
-      !||    resol              ../engine/source/engine/resol.F
-      !||--- calls      -----------------------------------------------------
-      !||    ass2sort           ../engine/source/assembly/ass2sort.F
-      !||    ass2sort_pxfem     ../engine/source/assembly/ass2sort.F
-      !||    my_barrier         ../engine/source/system/machine.F
-      !||--- uses       -----------------------------------------------------
-      !||    ale_mod            ../common_source/modules/ale/ale_mod.F
-      !||    connectivity_mod   ../common_source/modules/connectivity.F90
-      !||    glob_therm_mod     ../common_source/modules/mat_elem/glob_therm_mod.F90
-      !||    nodal_arrays_mod   ../common_source/modules/nodal_arrays.F90
-      !||    plyxfem_mod        ../engine/share/modules/plyxfem_mod.F
-      !||====================================================================
+!||====================================================================
+!||    asspar4            ../engine/source/assembly/asspar4.F
+!||--- called by ------------------------------------------------------
+!||    resol              ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
+!||    ass2sort           ../engine/source/assembly/ass2sort.F
+!||    ass2sort_pxfem     ../engine/source/assembly/ass2sort.F
+!||    my_barrier         ../engine/source/system/machine.F
+!||--- uses       -----------------------------------------------------
+!||    ale_mod            ../common_source/modules/ale/ale_mod.F
+!||    connectivity_mod   ../common_source/modules/connectivity.F90
+!||    glob_therm_mod     ../common_source/modules/mat_elem/glob_therm_mod.F90
+!||    nodal_arrays_mod   ../common_source/modules/nodal_arrays.F90
+!||    plyxfem_mod        ../engine/share/modules/plyxfem_mod.F
+!||====================================================================
       SUBROUTINE ASSPAR4(NODES,
      2  FSKY    ,FSKYV   ,ADSKY , FSKYM   ,
      3  MSNF    ,ISKY    ,FSKYI  ,FTHE    ,
@@ -1002,13 +1002,13 @@ C
         RETURN
       END SUBROUTINE ASSPAR4
 
-      !||====================================================================
-      !||    asspari2         ../engine/source/assembly/asspar4.F
-      !||--- called by ------------------------------------------------------
-      !||    intti1           ../engine/source/interfaces/interf/intti1.F
-      !||--- uses       -----------------------------------------------------
-      !||    glob_therm_mod   ../common_source/modules/mat_elem/glob_therm_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    asspari2         ../engine/source/assembly/asspar4.F
+!||--- called by ------------------------------------------------------
+!||    intti1           ../engine/source/interfaces/interf/intti1.F
+!||--- uses       -----------------------------------------------------
+!||    glob_therm_mod   ../common_source/modules/mat_elem/glob_therm_mod.F90
+!||====================================================================
       SUBROUTINE ASSPARI2(
      1  A    ,AR    ,STIFN  ,STIFR  ,MS  ,
      2  IN   ,FSKYI2,I2SIZE ,ADDCNI2,INDSKY,

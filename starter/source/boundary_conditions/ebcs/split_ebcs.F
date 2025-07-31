@@ -20,18 +20,18 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    split_ebcs           ../starter/source/boundary_conditions/ebcs/split_ebcs.F
-      !||--- called by ------------------------------------------------------
-      !||    ddsplit              ../starter/source/restart/ddsplit/ddsplit.F
-      !||--- uses       -----------------------------------------------------
-      !||    front_mod            ../starter/share/modules1/front_mod.F
-      !||    hm_option_read_mod   ../starter/share/modules1/hm_option_read_mod.F
-      !||    message_mod          ../starter/share/message_module/message_mod.F
-      !||    restmod              ../starter/share/modules1/restart_mod.F
-      !||    submodel_mod         ../starter/share/modules1/submodel_mod.F
-      !||    table_mod            ../starter/share/modules1/table_mod.F
-      !||====================================================================
+!||====================================================================
+!||    split_ebcs           ../starter/source/boundary_conditions/ebcs/split_ebcs.F
+!||--- called by ------------------------------------------------------
+!||    ddsplit              ../starter/source/restart/ddsplit/ddsplit.F
+!||--- uses       -----------------------------------------------------
+!||    front_mod            ../starter/share/modules1/front_mod.F
+!||    hm_option_read_mod   ../starter/share/modules1/hm_option_read_mod.F
+!||    message_mod          ../starter/share/message_module/message_mod.F
+!||    restmod              ../starter/share/modules1/restart_mod.F
+!||    submodel_mod         ../starter/share/modules1/submodel_mod.F
+!||    table_mod            ../starter/share/modules1/table_mod.F
+!||====================================================================
         SUBROUTINE SPLIT_EBCS( PROC_ID,LOCAL_NEBCS,LIST_OTHER_EBCS,NUMEL,
      1                         CEP,IGRSURF,LOCAL_ELEMENT_ID,
      2                         EBCS_TAB,EBCS_TAB_LOC_2)

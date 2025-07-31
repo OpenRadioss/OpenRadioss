@@ -20,18 +20,18 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    spmd_fiadd25e_poff   ../engine/source/mpi/interfaces/spmd_fiadd25e_poff.F
-      !||--- called by ------------------------------------------------------
-      !||    spmd_i7fcom_poff     ../engine/source/mpi/forces/spmd_i7fcom_poff.F
-      !||--- calls      -----------------------------------------------------
-      !||    ibcoff               ../engine/source/interfaces/interf/ibcoff.F
-      !||--- uses       -----------------------------------------------------
-      !||    anim_mod             ../common_source/modules/output/anim_mod.F
-      !||    debug_mod            ../engine/share/modules/debug_mod.F
-      !||    h3d_mod              ../engine/share/modules/h3d_mod.F
-      !||    multi_fvm_mod        ../common_source/modules/ale/multi_fvm_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    spmd_fiadd25e_poff   ../engine/source/mpi/interfaces/spmd_fiadd25e_poff.F
+!||--- called by ------------------------------------------------------
+!||    spmd_i7fcom_poff     ../engine/source/mpi/forces/spmd_i7fcom_poff.F
+!||--- calls      -----------------------------------------------------
+!||    ibcoff               ../engine/source/interfaces/interf/ibcoff.F
+!||--- uses       -----------------------------------------------------
+!||    anim_mod             ../common_source/modules/output/anim_mod.F
+!||    debug_mod            ../engine/share/modules/debug_mod.F
+!||    h3d_mod              ../engine/share/modules/h3d_mod.F
+!||    multi_fvm_mod        ../common_source/modules/ale/multi_fvm_mod.F90
+!||====================================================================
       SUBROUTINE SPMD_FIADD25E_POFF(
      1       NB    ,LEN     ,BUFR   ,NSV    ,A       ,
      2       STIFN ,VISCN   ,IBC    ,ISECIN ,NOINT   ,

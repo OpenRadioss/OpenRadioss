@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    ede112                 ../engine/source/ale/euler2d/ede112.F
-      !||--- called by ------------------------------------------------------
-      !||    qforc2                 ../engine/source/elements/solid_2d/quad/qforc2.F
-      !||--- uses       -----------------------------------------------------
-      !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
-      !||====================================================================
+!||====================================================================
+!||    ede112                 ../engine/source/ale/euler2d/ede112.F
+!||--- called by ------------------------------------------------------
+!||    qforc2                 ../engine/source/elements/solid_2d/quad/qforc2.F
+!||--- uses       -----------------------------------------------------
+!||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
+!||====================================================================
       SUBROUTINE EDE112(PM  ,V   ,X   ,IXQ ,ALE_CONNECT ,
      .                  WYZ ,DYZ ,DZY  ,EYY ,EZZ )
 C-----------------------------------------------

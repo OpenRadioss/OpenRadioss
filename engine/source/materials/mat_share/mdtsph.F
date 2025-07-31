@@ -20,20 +20,20 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    mdtsph          ../engine/source/materials/mat_share/mdtsph.F
-      !||--- called by ------------------------------------------------------
-      !||    m1law           ../engine/source/materials/mat/mat001/m1law.F
-      !||    m1lawi          ../engine/source/materials/mat/mat001/m1lawi.F
-      !||    m1lawtot        ../engine/source/materials/mat/mat001/m1lawtot.F
-      !||    m22law          ../engine/source/materials/mat/mat022/m22law.F
-      !||    m24law          ../engine/source/materials/mat/mat024/m24law.F
-      !||    m2law           ../engine/source/materials/mat/mat002/m2law.F
-      !||    mmain           ../engine/source/materials/mat_share/mmain.F90
-      !||    mulaw           ../engine/source/materials/mat_share/mulaw.F90
-      !||    sboltlaw        ../engine/source/elements/solid/solide/sboltlaw.F
-      !||    usermat_solid   ../engine/source/materials/mat_share/usermat_solid.F
-      !||====================================================================
+!||====================================================================
+!||    mdtsph          ../engine/source/materials/mat_share/mdtsph.F
+!||--- called by ------------------------------------------------------
+!||    m1law           ../engine/source/materials/mat/mat001/m1law.F
+!||    m1lawi          ../engine/source/materials/mat/mat001/m1lawi.F
+!||    m1lawtot        ../engine/source/materials/mat/mat001/m1lawtot.F
+!||    m22law          ../engine/source/materials/mat/mat022/m22law.F
+!||    m24law          ../engine/source/materials/mat/mat024/m24law.F
+!||    m2law           ../engine/source/materials/mat/mat002/m2law.F
+!||    mmain           ../engine/source/materials/mat_share/mmain.F90
+!||    mulaw           ../engine/source/materials/mat_share/mulaw.F90
+!||    sboltlaw        ../engine/source/elements/solid/solide/sboltlaw.F
+!||    usermat_solid   ../engine/source/materials/mat_share/usermat_solid.F
+!||====================================================================
       SUBROUTINE MDTSPH(
      1   PM,      OFF,     RHO,     RK,
      2   T,       RE,      STI,     DT2T,

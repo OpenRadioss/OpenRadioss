@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    st_qaprint_surf     ../starter/source/output/qaprint/st_qaprint_surf.F
-      !||--- called by ------------------------------------------------------
-      !||    st_qaprint_driver   ../starter/source/output/qaprint/st_qaprint_driver.F
-      !||--- calls      -----------------------------------------------------
-      !||    qa_print_surf       ../starter/source/output/qaprint/st_qaprint_surf.F
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    st_qaprint_surf     ../starter/source/output/qaprint/st_qaprint_surf.F
+!||--- called by ------------------------------------------------------
+!||    st_qaprint_driver   ../starter/source/output/qaprint/st_qaprint_driver.F
+!||--- calls      -----------------------------------------------------
+!||    qa_print_surf       ../starter/source/output/qaprint/st_qaprint_surf.F
+!||--- uses       -----------------------------------------------------
+!||====================================================================
       SUBROUTINE ST_QAPRINT_SURF(IGRSURF,IGRSLIN, BUFSF, SBUFSF)
 C-----------------------------------------------
 C   M o d u l e s
@@ -88,13 +88,13 @@ C-----------------------------------------------
       END
 
 
-      !||====================================================================
-      !||    qa_print_surf     ../starter/source/output/qaprint/st_qaprint_surf.F
-      !||--- called by ------------------------------------------------------
-      !||    st_qaprint_surf   ../starter/source/output/qaprint/st_qaprint_surf.F
-      !||--- calls      -----------------------------------------------------
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    qa_print_surf     ../starter/source/output/qaprint/st_qaprint_surf.F
+!||--- called by ------------------------------------------------------
+!||    st_qaprint_surf   ../starter/source/output/qaprint/st_qaprint_surf.F
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||====================================================================
       SUBROUTINE QA_PRINT_SURF(PTR_IGRSURF, GROUP_NAME, BUFSF, SBUFSF, IAD_PREV, NNOD)
 C-----------------------------------------------
 C   M o d u l e s

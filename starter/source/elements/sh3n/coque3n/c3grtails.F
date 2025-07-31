@@ -20,22 +20,22 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    c3grtails              ../starter/source/elements/sh3n/coque3n/c3grtails.F
-      !||--- called by ------------------------------------------------------
-      !||    lectur                 ../starter/source/starter/lectur.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg                 ../starter/source/output/message/message.F
-      !||    arret                  ../starter/source/system/arret.F
-      !||    fretitl2               ../starter/source/starter/freform.F
-      !||    zeroin                 ../starter/source/system/zeroin.F
-      !||--- uses       -----------------------------------------------------
-      !||    drape_mod              ../starter/share/modules1/drape_mod.F
-      !||    message_mod            ../starter/share/message_module/message_mod.F
-      !||    r2r_mod                ../starter/share/modules1/r2r_mod.F
-      !||    reorder_mod            ../starter/share/modules1/reorder_mod.F
-      !||    stack_mod              ../starter/share/modules1/stack_mod.F
-      !||====================================================================
+!||====================================================================
+!||    c3grtails              ../starter/source/elements/sh3n/coque3n/c3grtails.F
+!||--- called by ------------------------------------------------------
+!||    lectur                 ../starter/source/starter/lectur.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                 ../starter/source/output/message/message.F
+!||    arret                  ../starter/source/system/arret.F
+!||    fretitl2               ../starter/source/starter/freform.F
+!||    zeroin                 ../starter/source/system/zeroin.F
+!||--- uses       -----------------------------------------------------
+!||    drape_mod              ../starter/share/modules1/drape_mod.F
+!||    message_mod            ../starter/share/message_module/message_mod.F
+!||    r2r_mod                ../starter/share/modules1/r2r_mod.F
+!||    reorder_mod            ../starter/share/modules1/reorder_mod.F
+!||    stack_mod              ../starter/share/modules1/stack_mod.F
+!||====================================================================
       SUBROUTINE C3GRTAILS(
      1       IXTG    ,PM     ,IPARG   ,GEO    ,
      2       EADD    ,ND     ,IPARTTG,DD_IAD ,

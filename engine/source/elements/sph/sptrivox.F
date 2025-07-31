@@ -21,18 +21,18 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 
-      !||====================================================================
-      !||    sptrivox        ../engine/source/elements/sph/sptrivox.F
-      !||--- called by ------------------------------------------------------
-      !||    spbuc3          ../engine/source/elements/sph/spbuc3.F
-      !||--- calls      -----------------------------------------------------
-      !||    my_barrier      ../engine/source/system/machine.F
-      !||    spmd_sphgetdk   ../engine/source/mpi/elements/spmd_sph.F
-      !||    sppro3          ../engine/source/elements/sph/sppro3.F
-      !||--- uses       -----------------------------------------------------
-      !||    sphbox          ../engine/share/modules/sphbox.F
-      !||    tri7box         ../engine/share/modules/tri7box.F
-      !||====================================================================
+!||====================================================================
+!||    sptrivox        ../engine/source/elements/sph/sptrivox.F
+!||--- called by ------------------------------------------------------
+!||    spbuc3          ../engine/source/elements/sph/spbuc3.F
+!||--- calls      -----------------------------------------------------
+!||    my_barrier      ../engine/source/system/machine.F
+!||    spmd_sphgetdk   ../engine/source/mpi/elements/spmd_sph.F
+!||    sppro3          ../engine/source/elements/sph/sppro3.F
+!||--- uses       -----------------------------------------------------
+!||    sphbox          ../engine/share/modules/sphbox.F
+!||    tri7box         ../engine/share/modules/tri7box.F
+!||====================================================================
       SUBROUTINE SPTRIVOX(
      1      NSN    ,NSNR    ,X       ,BMINMA  ,NOD2SP  ,
      2      NBX    ,NBY     ,NBZ     ,MARGE   ,ITASK   ,

@@ -20,12 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    c3updt3    ../engine/source/elements/sh3n/coque3n/c3updt3.F
-      !||--- called by ------------------------------------------------------
-      !||    c3forc3    ../engine/source/elements/sh3n/coque3n/c3forc3.F
-      !||    cdkforc3   ../engine/source/elements/sh3n/coquedk/cdkforc3.F
-      !||====================================================================
+!||====================================================================
+!||    c3updt3    ../engine/source/elements/sh3n/coque3n/c3updt3.F
+!||--- called by ------------------------------------------------------
+!||    c3forc3    ../engine/source/elements/sh3n/coque3n/c3forc3.F
+!||    cdkforc3   ../engine/source/elements/sh3n/coquedk/cdkforc3.F
+!||====================================================================
       SUBROUTINE C3UPDT3(JFT  ,JLT ,F   ,M   ,NVC  ,
      2                   OFFG ,OFF ,STI ,STIR,STIFN,
      3                   STIFR,IXTG,NODADT_THERM,
@@ -390,12 +390,12 @@ C
 C-----------
       RETURN
       END
-      !||====================================================================
-      !||    c3updt3p   ../engine/source/elements/sh3n/coque3n/c3updt3.F
-      !||--- called by ------------------------------------------------------
-      !||    c3forc3    ../engine/source/elements/sh3n/coque3n/c3forc3.F
-      !||    cdkforc3   ../engine/source/elements/sh3n/coquedk/cdkforc3.F
-      !||====================================================================
+!||====================================================================
+!||    c3updt3p   ../engine/source/elements/sh3n/coque3n/c3updt3.F
+!||--- called by ------------------------------------------------------
+!||    c3forc3    ../engine/source/elements/sh3n/coque3n/c3forc3.F
+!||    cdkforc3   ../engine/source/elements/sh3n/coquedk/cdkforc3.F
+!||====================================================================
       SUBROUTINE C3UPDT3P(JFT,JLT ,OFFG ,OFF,STI,
      2                   STIR,FSKY,FSKYV,IADTG,F11  ,
      4                   F12  ,F13 ,F21 ,F22 ,F23  ,

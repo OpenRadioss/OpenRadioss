@@ -20,11 +20,11 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    damping_range_shell_mom_mod   ../engine/source/general_controls/damping/damping_range_shell_mom.F90
-      !||--- called by ------------------------------------------------------
-      !||    mulawglc                      ../engine/source/materials/mat_share/mulawglc.F
-      !||====================================================================
+!||====================================================================
+!||    damping_range_shell_mom_mod   ../engine/source/general_controls/damping/damping_range_shell_mom.F90
+!||--- called by ------------------------------------------------------
+!||    mulawglc                      ../engine/source/materials/mat_share/mulawglc.F
+!||====================================================================
       module damping_range_shell_mom_mod
       contains
 ! ======================================================================================================================
@@ -35,15 +35,15 @@
 !!\brief This subroutine computes damping forces for /DAMP/FREQ_RANGE for shells - simlar as prony_modelc
 !=======================================================================================================================
 !
-      !||====================================================================
-      !||    damping_range_shell_mom   ../engine/source/general_controls/damping/damping_range_shell_mom.F90
-      !||--- called by ------------------------------------------------------
-      !||    mulawglc                  ../engine/source/materials/mat_share/mulawglc.F
-      !||--- uses       -----------------------------------------------------
-      !||    constant_mod              ../common_source/modules/constant_mod.F
-      !||    elbufdef_mod              ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||    precision_mod             ../common_source/modules/precision_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    damping_range_shell_mom   ../engine/source/general_controls/damping/damping_range_shell_mom.F90
+!||--- called by ------------------------------------------------------
+!||    mulawglc                  ../engine/source/materials/mat_share/mulawglc.F
+!||--- uses       -----------------------------------------------------
+!||    constant_mod              ../common_source/modules/constant_mod.F
+!||    elbufdef_mod              ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    precision_mod             ../common_source/modules/precision_mod.F90
+!||====================================================================
         subroutine damping_range_shell_mom(damp_buf,nel      ,nuvarv  ,timestep ,dtinv   ,       &
                                            young   ,shear_mod,depbxx  ,depbyy   ,depbxy   ,       &
                                            momnxx  ,momnyy   ,momnxy  ,thk0     ,uvarv    ,       &

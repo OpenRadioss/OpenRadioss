@@ -20,35 +20,35 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    inter_sort_07                    ../engine/source/interfaces/int07/inter_sort_07.F
-      !||--- called by ------------------------------------------------------
-      !||    inter_sort                       ../engine/source/interfaces/generic/inter_sort.F
-      !||--- calls      -----------------------------------------------------
-      !||    check_sorting_criteria           ../engine/source/interfaces/intsort/check_sorting_criteria.F90
-      !||    i7buce                           ../engine/source/interfaces/intsort/i7buce.F
-      !||    i7buce_vox                       ../engine/source/interfaces/intsort/i7buce.F
-      !||    inter7_collision_detection       ../engine/source/interfaces/intsort/inter7_collision_detection.F90
-      !||    my_barrier                       ../engine/source/system/machine.F
-      !||    spmd_cell_exchange               ../engine/source/mpi/generic/spmd_cell_exchange.F
-      !||    spmd_rnumcd                      ../engine/source/mpi/interfaces/spmd_i7tool.F
-      !||    spmd_tri7gat                     ../engine/source/mpi/interfaces/spmd_int.F
-      !||    startime                         ../engine/source/system/timer_mod.F90
-      !||    stoptime                         ../engine/source/system/timer_mod.F90
-      !||    upgrade_multimp                  ../common_source/interf/upgrade_multimp.F
-      !||--- uses       -----------------------------------------------------
-      !||    check_sorting_criteria_mod       ../engine/source/interfaces/intsort/check_sorting_criteria.F90
-      !||    command_line_args_mod            ../engine/share/modules/command_line_args.F
-      !||    h3d_mod                          ../engine/share/modules/h3d_mod.F
-      !||    intbufdef_mod                    ../common_source/modules/interfaces/intbufdef_mod.F90
-      !||    inter7_collision_detection_mod   ../engine/source/interfaces/intsort/inter7_collision_detection.F90
-      !||    inter_sorting_mod                ../engine/share/modules/inter_sorting_mod.F
-      !||    inter_struct_mod                 ../engine/share/modules/inter_struct_mod.F
-      !||    message_mod                      ../engine/share/message_module/message_mod.F
-      !||    multi_fvm_mod                    ../common_source/modules/ale/multi_fvm_mod.F90
-      !||    timer_mod                        ../engine/source/system/timer_mod.F90
-      !||    tri7box                          ../engine/share/modules/tri7box.F
-      !||====================================================================
+!||====================================================================
+!||    inter_sort_07                    ../engine/source/interfaces/int07/inter_sort_07.F
+!||--- called by ------------------------------------------------------
+!||    inter_sort                       ../engine/source/interfaces/generic/inter_sort.F
+!||--- calls      -----------------------------------------------------
+!||    check_sorting_criteria           ../engine/source/interfaces/intsort/check_sorting_criteria.F90
+!||    i7buce                           ../engine/source/interfaces/intsort/i7buce.F
+!||    i7buce_vox                       ../engine/source/interfaces/intsort/i7buce.F
+!||    inter7_collision_detection       ../engine/source/interfaces/intsort/inter7_collision_detection.F90
+!||    my_barrier                       ../engine/source/system/machine.F
+!||    spmd_cell_exchange               ../engine/source/mpi/generic/spmd_cell_exchange.F
+!||    spmd_rnumcd                      ../engine/source/mpi/interfaces/spmd_i7tool.F
+!||    spmd_tri7gat                     ../engine/source/mpi/interfaces/spmd_int.F
+!||    startime                         ../engine/source/system/timer_mod.F90
+!||    stoptime                         ../engine/source/system/timer_mod.F90
+!||    upgrade_multimp                  ../common_source/interf/upgrade_multimp.F
+!||--- uses       -----------------------------------------------------
+!||    check_sorting_criteria_mod       ../engine/source/interfaces/intsort/check_sorting_criteria.F90
+!||    command_line_args_mod            ../engine/share/modules/command_line_args.F
+!||    h3d_mod                          ../engine/share/modules/h3d_mod.F
+!||    intbufdef_mod                    ../common_source/modules/interfaces/intbufdef_mod.F90
+!||    inter7_collision_detection_mod   ../engine/source/interfaces/intsort/inter7_collision_detection.F90
+!||    inter_sorting_mod                ../engine/share/modules/inter_sorting_mod.F
+!||    inter_struct_mod                 ../engine/share/modules/inter_struct_mod.F
+!||    message_mod                      ../engine/share/message_module/message_mod.F
+!||    multi_fvm_mod                    ../common_source/modules/ale/multi_fvm_mod.F90
+!||    timer_mod                        ../engine/source/system/timer_mod.F90
+!||    tri7box                          ../engine/share/modules/tri7box.F
+!||====================================================================
         SUBROUTINE INTER_SORT_07(TIMERS, IPARI,X,NIN,ITASK,ISENDTO,
      1                            IRCVFROM,RETRI,ITAB,NRTM_T,RENUM,RENUM_SIZ,
      2                            NSNFIOLD,ESHIFT,MULTI_FVM,INTBUF_TAB,H3D_DATA,

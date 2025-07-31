@@ -20,15 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    nboxlst                ../starter/source/model/box/nboxlist.F
-      !||--- called by ------------------------------------------------------
-      !||    hm_read_box            ../starter/source/model/box/hm_read_box.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg                 ../starter/source/output/message/message.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod            ../starter/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    nboxlst                ../starter/source/model/box/nboxlist.F
+!||--- called by ------------------------------------------------------
+!||    hm_read_box            ../starter/source/model/box/hm_read_box.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                 ../starter/source/output/message/message.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod            ../starter/share/message_module/message_mod.F
+!||====================================================================
       INTEGER FUNCTION NBOXLST(LIST  ,NLIST  ,IBOXTMP,NBBOX  ,
      .                         IX1   ,IX2    ,INDEX  ,KK     ,ID   ,TITR)
 C-----------------------------------------------

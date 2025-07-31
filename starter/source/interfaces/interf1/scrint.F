@@ -21,15 +21,15 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
-      !||====================================================================
-      !||    scrint              ../starter/source/interfaces/interf1/scrint.F
-      !||--- called by ------------------------------------------------------
-      !||    lectur              ../starter/source/starter/lectur.F
-      !||--- calls      -----------------------------------------------------
-      !||    nsegmt              ../starter/source/interfaces/interf1/nsegmt.F
-      !||--- uses       -----------------------------------------------------
-      !||    intbufscratch_mod   ../starter/source/interfaces/interf1/intbufscratch_mod.F
-      !||====================================================================
+!||====================================================================
+!||    scrint              ../starter/source/interfaces/interf1/scrint.F
+!||--- called by ------------------------------------------------------
+!||    lectur              ../starter/source/starter/lectur.F
+!||--- calls      -----------------------------------------------------
+!||    nsegmt              ../starter/source/interfaces/interf1/nsegmt.F
+!||--- uses       -----------------------------------------------------
+!||    intbufscratch_mod   ../starter/source/interfaces/interf1/intbufscratch_mod.F
+!||====================================================================
       SUBROUTINE SCRINT(IPARI,INSCR,INTBUF_TAB)
 C-----------------------------------------------
 C   M o d u l e s

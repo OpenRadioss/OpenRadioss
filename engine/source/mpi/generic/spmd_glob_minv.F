@@ -22,15 +22,15 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C==========================================================================
 C==========================================================================
-      !||====================================================================
-      !||    spmd_glob_minv        ../engine/source/mpi/generic/spmd_glob_minv.F
-      !||--- called by ------------------------------------------------------
-      !||    resol                 ../engine/source/engine/resol.F
-      !||--- calls      -----------------------------------------------------
-      !||--- uses       -----------------------------------------------------
-      !||    monvol_struct_mod     ../engine/share/modules/monvol_struct_mod.F
-      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
-      !||====================================================================
+!||====================================================================
+!||    spmd_glob_minv        ../engine/source/mpi/generic/spmd_glob_minv.F
+!||--- called by ------------------------------------------------------
+!||    resol                 ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||    monvol_struct_mod     ../engine/share/modules/monvol_struct_mod.F
+!||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
+!||====================================================================
       SUBROUTINE SPMD_GLOB_MINV(T_MONVOL, DT2,ITYPTS,NELTS,VOLMON, FR_MV)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

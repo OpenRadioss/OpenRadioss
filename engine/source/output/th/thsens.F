@@ -20,15 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    thsens       ../engine/source/output/th/thsens.F
-      !||--- called by ------------------------------------------------------
-      !||    hist2        ../engine/source/output/th/hist2.F
-      !||--- calls      -----------------------------------------------------
-      !||    wrtdes       ../engine/source/output/th/wrtdes.F
-      !||--- uses       -----------------------------------------------------
-      !||    sensor_mod   ../common_source/modules/sensor_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    thsens       ../engine/source/output/th/thsens.F
+!||--- called by ------------------------------------------------------
+!||    hist2        ../engine/source/output/th/hist2.F
+!||--- calls      -----------------------------------------------------
+!||    wrtdes       ../engine/source/output/th/wrtdes.F
+!||--- uses       -----------------------------------------------------
+!||    sensor_mod   ../common_source/modules/sensor_mod.F90
+!||====================================================================
       SUBROUTINE THSENS(SENSOR_TAB,NSENSOR ,
      .           J1   ,J2   ,L1   ,L2   ,ITHBUF,
      .           WA   ,IFORM,SITHBUF)

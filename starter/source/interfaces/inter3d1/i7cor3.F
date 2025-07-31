@@ -20,17 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    i7cor3      ../starter/source/interfaces/inter3d1/i7cor3.F
-      !||--- called by ------------------------------------------------------
-      !||    i20ini3     ../starter/source/interfaces/inter3d1/i20ini3.F
-      !||    i24buc1     ../starter/source/interfaces/inter3d1/i24buc1.F
-      !||    i24tri      ../starter/source/interfaces/inter3d1/i24tri.F
-      !||    i7buc1      ../starter/source/interfaces/inter3d1/i7buc1.F
-      !||    i7tri       ../starter/source/interfaces/inter3d1/i7tri.F
-      !||    i7trivox1   ../starter/source/interfaces/inter3d1/i7trivox1.F
-      !||    inint3      ../starter/source/interfaces/inter3d1/inint3.F
-      !||====================================================================
+!||====================================================================
+!||    i7cor3      ../starter/source/interfaces/inter3d1/i7cor3.F
+!||--- called by ------------------------------------------------------
+!||    i20ini3     ../starter/source/interfaces/inter3d1/i20ini3.F
+!||    i24buc1     ../starter/source/interfaces/inter3d1/i24buc1.F
+!||    i24tri      ../starter/source/interfaces/inter3d1/i24tri.F
+!||    i7buc1      ../starter/source/interfaces/inter3d1/i7buc1.F
+!||    i7tri       ../starter/source/interfaces/inter3d1/i7tri.F
+!||    i7trivox1   ../starter/source/interfaces/inter3d1/i7trivox1.F
+!||    inint3      ../starter/source/interfaces/inter3d1/inint3.F
+!||====================================================================
       SUBROUTINE I7COR3(X     ,IRECT ,NSV   ,CAND_E  ,CAND_N,
      2                  STF   ,STFN  ,GAPV  ,IGAP    ,GAP   ,
      3                  GAP_S ,GAP_M ,ISTF  ,GAPMIN  ,GAPMAX,

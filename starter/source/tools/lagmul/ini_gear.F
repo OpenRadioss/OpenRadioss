@@ -20,15 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    ini_gear               ../starter/source/tools/lagmul/ini_gear.F
-      !||--- called by ------------------------------------------------------
-      !||    lgmini_gj              ../starter/source/tools/lagmul/lgmini_gj.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg                 ../starter/source/output/message/message.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod            ../starter/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    ini_gear               ../starter/source/tools/lagmul/ini_gear.F
+!||--- called by ------------------------------------------------------
+!||    lgmini_gj              ../starter/source/tools/lagmul/lgmini_gj.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                 ../starter/source/output/message/message.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod            ../starter/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE INI_GEAR(IADLL  ,JLL   ,LLL   ,N0    ,N1    ,
      .                    N2     ,NC,ID,TITR)
       USE MESSAGE_MOD

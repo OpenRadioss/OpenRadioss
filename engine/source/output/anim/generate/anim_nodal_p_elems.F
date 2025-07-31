@@ -20,17 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    anim_nodal_p_elems   ../engine/source/output/anim/generate/anim_nodal_p_elems.F
-      !||--- called by ------------------------------------------------------
-      !||    nodalp               ../engine/source/output/anim/generate/nodalp.F
-      !||--- uses       -----------------------------------------------------
-      !||    elbufdef_mod         ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||    i22bufbric_mod       ../common_source/modules/interfaces/cut-cell-search_mod.F
-      !||    i22edge_mod          ../common_source/modules/interfaces/cut-cell-buffer_mod.F
-      !||    i22tri_mod           ../common_source/modules/interfaces/cut-cell-search_mod.F
-      !||    initbuf_mod          ../engine/share/resol/initbuf.F
-      !||====================================================================
+!||====================================================================
+!||    anim_nodal_p_elems   ../engine/source/output/anim/generate/anim_nodal_p_elems.F
+!||--- called by ------------------------------------------------------
+!||    nodalp               ../engine/source/output/anim/generate/nodalp.F
+!||--- uses       -----------------------------------------------------
+!||    elbufdef_mod         ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    i22bufbric_mod       ../common_source/modules/interfaces/cut-cell-search_mod.F
+!||    i22edge_mod          ../common_source/modules/interfaces/cut-cell-buffer_mod.F
+!||    i22tri_mod           ../common_source/modules/interfaces/cut-cell-search_mod.F
+!||    initbuf_mod          ../engine/share/resol/initbuf.F
+!||====================================================================
       SUBROUTINE ANIM_NODAL_P_ELEMS(IFUNC, WA4, IPARG,  ELBUF_TAB, IX , NIX  , NUMEL, ITAB , NV46, IS_WRITTEN_NODE)
 C-----------------------------------------------
 C   D e s c r i p t i o n

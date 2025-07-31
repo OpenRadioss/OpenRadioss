@@ -20,16 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    dtnodarayl                       ../engine/source/time_step/dtnodarayl.F
-      !||--- called by ------------------------------------------------------
-      !||    resol                            ../engine/source/engine/resol.F
-      !||--- calls      -----------------------------------------------------
-      !||    damping_vref_compute_dampa       ../engine/source/assembly/damping_vref_compute_dampa.F90
-      !||--- uses       -----------------------------------------------------
-      !||    damping_vref_compute_dampa_mod   ../engine/source/assembly/damping_vref_compute_dampa.F90
-      !||    groupdef_mod                     ../common_source/modules/groupdef_mod.F
-      !||====================================================================
+!||====================================================================
+!||    dtnodarayl                       ../engine/source/time_step/dtnodarayl.F
+!||--- called by ------------------------------------------------------
+!||    resol                            ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
+!||    damping_vref_compute_dampa       ../engine/source/assembly/damping_vref_compute_dampa.F90
+!||--- uses       -----------------------------------------------------
+!||    damping_vref_compute_dampa_mod   ../engine/source/assembly/damping_vref_compute_dampa.F90
+!||    groupdef_mod                     ../common_source/modules/groupdef_mod.F
+!||====================================================================
       SUBROUTINE DTNODARAYL(MS       ,IN    ,STIFN ,STIFR ,DT2T     ,
      1                      IGRNOD   ,DAMPR)
 C-----------------------------------------------

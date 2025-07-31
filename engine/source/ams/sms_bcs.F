@@ -20,15 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    sms_bcs            ../engine/source/ams/sms_bcs.F
-      !||--- called by ------------------------------------------------------
-      !||    sms_encin_2        ../engine/source/ams/sms_encin_2.F
-      !||    sms_mass_scale_2   ../engine/source/ams/sms_mass_scale_2.F
-      !||    sms_pcg            ../engine/source/ams/sms_pcg.F
-      !||--- calls      -----------------------------------------------------
-      !||    sms_bcs1v          ../engine/source/ams/sms_bcs.F
-      !||====================================================================
+!||====================================================================
+!||    sms_bcs            ../engine/source/ams/sms_bcs.F
+!||--- called by ------------------------------------------------------
+!||    sms_encin_2        ../engine/source/ams/sms_encin_2.F
+!||    sms_mass_scale_2   ../engine/source/ams/sms_mass_scale_2.F
+!||    sms_pcg            ../engine/source/ams/sms_pcg.F
+!||--- calls      -----------------------------------------------------
+!||    sms_bcs1v          ../engine/source/ams/sms_bcs.F
+!||====================================================================
       SUBROUTINE SMS_BCS(NODFT  ,NODLT  ,INDX1   ,ICODT   ,ISKEW   ,
      2                   SKEW    ,A      ,NODLAST )
 C-----------------------------------------------
@@ -69,11 +69,11 @@ C       DO 400 N=I,MIN(NODLT,I+1023)
 C
       RETURN
       END
-      !||====================================================================
-      !||    sms_bcs1v   ../engine/source/ams/sms_bcs.F
-      !||--- called by ------------------------------------------------------
-      !||    sms_bcs     ../engine/source/ams/sms_bcs.F
-      !||====================================================================
+!||====================================================================
+!||    sms_bcs1v   ../engine/source/ams/sms_bcs.F
+!||--- called by ------------------------------------------------------
+!||    sms_bcs     ../engine/source/ams/sms_bcs.F
+!||====================================================================
       SUBROUTINE SMS_BCS1V(NINDX,INDX,ISKEW,ICODT,
      .                 A    ,SKEW   )
 C-----------------------------------------------

@@ -21,15 +21,15 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
-      !||====================================================================
-      !||    spmd_exchmsr_idel     ../engine/source/mpi/interfaces/spmd_exchmsr_idel.F
-      !||--- called by ------------------------------------------------------
-      !||    chkstfn3n             ../engine/source/interfaces/interf/chkstfn3.F
-      !||--- calls      -----------------------------------------------------
-      !||--- uses       -----------------------------------------------------
-      !||    nodal_arrays_mod      ../common_source/modules/nodal_arrays.F90
-      !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
-      !||====================================================================
+!||====================================================================
+!||    spmd_exchmsr_idel     ../engine/source/mpi/interfaces/spmd_exchmsr_idel.F
+!||--- called by ------------------------------------------------------
+!||    chkstfn3n             ../engine/source/interfaces/interf/chkstfn3.F
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||    nodal_arrays_mod      ../common_source/modules/nodal_arrays.F90
+!||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
+!||====================================================================
       SUBROUTINE SPMD_EXCHMSR_IDEL(
      1    BUFS  ,LBUFS,IXS    ,IXC    ,IXTG   ,
      2    IXQ   ,IPARG ,ITAGL  ,NODES,

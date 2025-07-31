@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    amulf2                 ../engine/source/ale/bimat/amulf2.F
-      !||--- called by ------------------------------------------------------
-      !||    aflux2                 ../engine/source/ale/ale2d/aflux2.F
-      !||    eflux2                 ../engine/source/ale/euler2d/eflux2.F
-      !||--- uses       -----------------------------------------------------
-      !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
-      !||====================================================================
+!||====================================================================
+!||    amulf2                 ../engine/source/ale/bimat/amulf2.F
+!||--- called by ------------------------------------------------------
+!||    aflux2                 ../engine/source/ale/ale2d/aflux2.F
+!||    eflux2                 ../engine/source/ale/euler2d/eflux2.F
+!||--- uses       -----------------------------------------------------
+!||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
+!||====================================================================
       SUBROUTINE AMULF2(FILL,DFILL,FLUX,FLU1,VOL,ALE_CONNECT,ALPV,
      .     FLUX1, FLUX2, FLUX3, FLUX4, UPW, 
      .     NC1, NC2, NC3, NC4)

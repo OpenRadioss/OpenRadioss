@@ -20,25 +20,25 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    splissv               ../engine/source/elements/sph/splissv.F
-      !||--- called by ------------------------------------------------------
-      !||    resol                 ../engine/source/engine/resol.F
-      !||--- calls      -----------------------------------------------------
-      !||    foat_to_6_float       ../engine/source/system/parit.F
-      !||    my_barrier            ../engine/source/system/machine.F
-      !||    spmd_exch_a_sol2sph   ../engine/source/mpi/elements/spmd_sph.F
-      !||    spmd_sphgetf          ../engine/source/mpi/elements/spmd_sph.F
-      !||    startimeg             ../engine/source/system/timer.F
-      !||    stoptimeg             ../engine/source/system/timer.F
-      !||    weight0               ../engine/source/elements/sph/weight.F
-      !||--- uses       -----------------------------------------------------
-      !||    elbufdef_mod          ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||    message_mod           ../engine/share/message_module/message_mod.F
-      !||    my_alloc_mod          ../common_source/tools/memory/my_alloc.F90
-      !||    sph_work_mod          ../common_source/modules/mat_elem/sph_work.F90
-      !||    sphbox                ../engine/share/modules/sphbox.F
-      !||====================================================================
+!||====================================================================
+!||    splissv               ../engine/source/elements/sph/splissv.F
+!||--- called by ------------------------------------------------------
+!||    resol                 ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
+!||    foat_to_6_float       ../engine/source/system/parit.F
+!||    my_barrier            ../engine/source/system/machine.F
+!||    spmd_exch_a_sol2sph   ../engine/source/mpi/elements/spmd_sph.F
+!||    spmd_sphgetf          ../engine/source/mpi/elements/spmd_sph.F
+!||    startimeg             ../engine/source/system/timer.F
+!||    stoptimeg             ../engine/source/system/timer.F
+!||    weight0               ../engine/source/elements/sph/weight.F
+!||--- uses       -----------------------------------------------------
+!||    elbufdef_mod          ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    message_mod           ../engine/share/message_module/message_mod.F
+!||    my_alloc_mod          ../common_source/tools/memory/my_alloc.F90
+!||    sph_work_mod          ../common_source/modules/mat_elem/sph_work.F90
+!||    sphbox                ../engine/share/modules/sphbox.F
+!||====================================================================
       SUBROUTINE SPLISSV(
      1    X       ,V       ,MS      ,A       ,SPBUF   ,
      2    WA      ,ITAB    ,KXSP    ,IXSP    ,NOD2SP  ,

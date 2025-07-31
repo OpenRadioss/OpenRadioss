@@ -20,17 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    i20buce       ../engine/source/interfaces/intsort/i20buce.F
-      !||--- called by ------------------------------------------------------
-      !||    i20main_tri   ../engine/source/interfaces/intsort/i20main_tri.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg        ../engine/source/output/message/message.F
-      !||    arret         ../engine/source/system/arret.F
-      !||    i20tri        ../engine/source/interfaces/intsort/i20tri.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod   ../engine/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    i20buce       ../engine/source/interfaces/intsort/i20buce.F
+!||--- called by ------------------------------------------------------
+!||    i20main_tri   ../engine/source/interfaces/intsort/i20main_tri.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg        ../engine/source/output/message/message.F
+!||    arret         ../engine/source/system/arret.F
+!||    i20tri        ../engine/source/interfaces/intsort/i20tri.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod   ../engine/share/message_module/message_mod.F
+!||====================================================================
        SUBROUTINE I20BUCE(
      1   XA       ,IRECT   ,NSV     ,INACTI  ,CAND_P  ,
      2   NMN     ,NRTM    ,NSN     ,CAND_E  ,CAND_N ,
@@ -202,17 +202,17 @@ C        MAXBOX= THREE_OVER_4*MAXBOX
 C
       RETURN
       END
-      !||====================================================================
-      !||    i20buc_edge   ../engine/source/interfaces/intsort/i20buce.F
-      !||--- called by ------------------------------------------------------
-      !||    i20main_tri   ../engine/source/interfaces/intsort/i20main_tri.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg        ../engine/source/output/message/message.F
-      !||    arret         ../engine/source/system/arret.F
-      !||    i20tri_edge   ../engine/source/interfaces/intsort/i20tri.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod   ../engine/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    i20buc_edge   ../engine/source/interfaces/intsort/i20buce.F
+!||--- called by ------------------------------------------------------
+!||    i20main_tri   ../engine/source/interfaces/intsort/i20main_tri.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg        ../engine/source/output/message/message.F
+!||    arret         ../engine/source/system/arret.F
+!||    i20tri_edge   ../engine/source/interfaces/intsort/i20tri.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod   ../engine/share/message_module/message_mod.F
+!||====================================================================
        SUBROUTINE I20BUC_EDGE(
      1   XA      ,IXLINS  ,IXLINM   ,NLG     ,
      2   NLINSA  ,NMNE     ,NLINMA  ,CAND_M  ,CAND_S  ,

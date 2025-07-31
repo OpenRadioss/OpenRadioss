@@ -21,23 +21,23 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 c===========================================================================
-      !||====================================================================
-      !||    conversion_mod   ../engine/source/materials/mat/mat190/conversion.F
-      !||--- called by ------------------------------------------------------
-      !||    sigeps190        ../engine/source/materials/mat/mat190/sigeps190.F
-      !||====================================================================
+!||====================================================================
+!||    conversion_mod   ../engine/source/materials/mat/mat190/conversion.F
+!||--- called by ------------------------------------------------------
+!||    sigeps190        ../engine/source/materials/mat/mat190/sigeps190.F
+!||====================================================================
        MODULE CONVERSION_MOD
        CONTAINS 
-      !||====================================================================
-      !||    conversion              ../engine/source/materials/mat/mat190/conversion.F
-      !||--- called by ------------------------------------------------------
-      !||    sigeps190               ../engine/source/materials/mat/mat190/sigeps190.F
-      !||--- calls      -----------------------------------------------------
-      !||    table_mat_vinterp       ../engine/source/materials/tools/table_mat_vinterp.F
-      !||--- uses       -----------------------------------------------------
-      !||    table4d_mod             ../common_source/modules/table4d_mod.F
-      !||    table_mat_vinterp_mod   ../engine/source/materials/tools/table_mat_vinterp.F
-      !||====================================================================
+!||====================================================================
+!||    conversion              ../engine/source/materials/mat/mat190/conversion.F
+!||--- called by ------------------------------------------------------
+!||    sigeps190               ../engine/source/materials/mat/mat190/sigeps190.F
+!||--- calls      -----------------------------------------------------
+!||    table_mat_vinterp       ../engine/source/materials/tools/table_mat_vinterp.F
+!||--- uses       -----------------------------------------------------
+!||    table4d_mod             ../common_source/modules/table4d_mod.F
+!||    table_mat_vinterp_mod   ../engine/source/materials/tools/table_mat_vinterp.F
+!||====================================================================
        SUBROUTINE CONVERSION (
      .                ZXX     ,ZYY     ,ZZZ     ,ZXY     ,ZYZ     ,ZZX     ,   
      .                CIJKL   ,DFIRST  ,DRATE   ,XSCAL   ,SCAL    ,NEL     ,

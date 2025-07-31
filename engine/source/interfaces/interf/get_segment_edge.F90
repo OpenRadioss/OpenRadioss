@@ -20,25 +20,25 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    get_segment_edge_mod                     ../engine/source/interfaces/interf/get_segment_edge.F90
-      !||--- called by ------------------------------------------------------
-      !||    get_neighbour_surface_from_remote_proc   ../engine/source/interfaces/interf/get_neighbour_surface_from_remote_proc.F90
-      !||    get_segment_interface_id                 ../engine/source/interfaces/interf/get_segment_interface_id.F90
-      !||====================================================================
+!||====================================================================
+!||    get_segment_edge_mod                     ../engine/source/interfaces/interf/get_segment_edge.F90
+!||--- called by ------------------------------------------------------
+!||    get_neighbour_surface_from_remote_proc   ../engine/source/interfaces/interf/get_neighbour_surface_from_remote_proc.F90
+!||    get_segment_interface_id                 ../engine/source/interfaces/interf/get_segment_interface_id.F90
+!||====================================================================
       module get_segment_edge_mod
       contains
 ! ======================================================================================================================
 !                                                   procedures
 ! ======================================================================================================================
 !! \brief This routine finds the edge id with the 2 nodes "my_node_id_1" & "my_node_id_2"
-      !||====================================================================
-      !||    get_segment_edge           ../engine/source/interfaces/interf/get_segment_edge.F90
-      !||--- called by ------------------------------------------------------
-      !||    get_segment_interface_id   ../engine/source/interfaces/interf/get_segment_interface_id.F90
-      !||--- uses       -----------------------------------------------------
-      !||    intbufdef_mod              ../common_source/modules/interfaces/intbufdef_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    get_segment_edge           ../engine/source/interfaces/interf/get_segment_edge.F90
+!||--- called by ------------------------------------------------------
+!||    get_segment_interface_id   ../engine/source/interfaces/interf/get_segment_interface_id.F90
+!||--- uses       -----------------------------------------------------
+!||    intbufdef_mod              ../common_source/modules/interfaces/intbufdef_mod.F90
+!||====================================================================
         subroutine get_segment_edge( my_segment_id,my_node_id_1,my_node_id_2,my_iedge,intbuf_tab )
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   modules

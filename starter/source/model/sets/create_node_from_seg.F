@@ -20,16 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    create_node_from_seg   ../starter/source/model/sets/create_node_from_seg.F
-      !||--- called by ------------------------------------------------------
-      !||    hm_set                 ../starter/source/model/sets/hm_set.F
-      !||--- calls      -----------------------------------------------------
-      !||--- uses       -----------------------------------------------------
-      !||    hm_option_read_mod     ../starter/share/modules1/hm_option_read_mod.F
-      !||    message_mod            ../starter/share/message_module/message_mod.F
-      !||    submodel_mod           ../starter/share/modules1/submodel_mod.F
-      !||====================================================================
+!||====================================================================
+!||    create_node_from_seg   ../starter/source/model/sets/create_node_from_seg.F
+!||--- called by ------------------------------------------------------
+!||    hm_set                 ../starter/source/model/sets/hm_set.F
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||    hm_option_read_mod     ../starter/share/modules1/hm_option_read_mod.F
+!||    message_mod            ../starter/share/message_module/message_mod.F
+!||    submodel_mod           ../starter/share/modules1/submodel_mod.F
+!||====================================================================
       SUBROUTINE CREATE_NODE_FROM_SEG( CLAUSE )
 C-----------------------------------------------
 C   ROUTINE DESCRIPTION :

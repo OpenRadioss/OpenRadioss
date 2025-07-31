@@ -20,15 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    anim_set2zero_struct   ../engine/source/output/anim/reader/anim_set2zero_struct.F
-      !||--- called by ------------------------------------------------------
-      !||    freanim                ../engine/source/output/anim/reader/freanim.F
-      !||--- uses       -----------------------------------------------------
-      !||    anim_mod               ../common_source/modules/output/anim_mod.F
-      !||    message_mod            ../engine/share/message_module/message_mod.F
-      !||    sensor_mod             ../common_source/modules/sensor_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    anim_set2zero_struct   ../engine/source/output/anim/reader/anim_set2zero_struct.F
+!||--- called by ------------------------------------------------------
+!||    freanim                ../engine/source/output/anim/reader/freanim.F
+!||--- uses       -----------------------------------------------------
+!||    anim_mod               ../common_source/modules/output/anim_mod.F
+!||    message_mod            ../engine/share/message_module/message_mod.F
+!||    sensor_mod             ../common_source/modules/sensor_mod.F90
+!||====================================================================
       SUBROUTINE ANIM_SET2ZERO_STRUCT(SENSORS)
 C-----------------------------------------------
 C   M o d u l e s

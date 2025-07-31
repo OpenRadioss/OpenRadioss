@@ -20,12 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    cupdtn3    ../engine/source/elements/shell/coque/cupdtn3.F
-      !||--- called by ------------------------------------------------------
-      !||    cbaforc3   ../engine/source/elements/shell/coqueba/cbaforc3.F
-      !||    czforc3    ../engine/source/elements/shell/coquez/czforc3.F
-      !||====================================================================
+!||====================================================================
+!||    cupdtn3    ../engine/source/elements/shell/coque/cupdtn3.F
+!||--- called by ------------------------------------------------------
+!||    cbaforc3   ../engine/source/elements/shell/coqueba/cbaforc3.F
+!||    czforc3    ../engine/source/elements/shell/coquez/czforc3.F
+!||====================================================================
       SUBROUTINE CUPDTN3(JFT  ,JLT  ,F   ,M   ,NVC  ,
      2                  OFFG ,OFF  ,STI ,STIR,STIFN,
      3                  STIFR,IXC  ,PM  ,AREA ,THK  ,
@@ -474,12 +474,12 @@ C
 C
       RETURN
       END
-      !||====================================================================
-      !||    cupdtn3p   ../engine/source/elements/shell/coque/cupdtn3.F
-      !||--- called by ------------------------------------------------------
-      !||    cbaforc3   ../engine/source/elements/shell/coqueba/cbaforc3.F
-      !||    czforc3    ../engine/source/elements/shell/coquez/czforc3.F
-      !||====================================================================
+!||====================================================================
+!||    cupdtn3p   ../engine/source/elements/shell/coque/cupdtn3.F
+!||--- called by ------------------------------------------------------
+!||    cbaforc3   ../engine/source/elements/shell/coqueba/cbaforc3.F
+!||    czforc3    ../engine/source/elements/shell/coquez/czforc3.F
+!||====================================================================
       SUBROUTINE CUPDTN3P(JFT  ,JLT  ,OFFG ,OFF  ,STI ,
      2                   STIR ,FSKY ,FSKYV,IADC ,
      4                   F11  ,F12  ,F13 ,F14 ,F21  ,

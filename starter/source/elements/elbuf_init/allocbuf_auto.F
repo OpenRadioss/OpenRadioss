@@ -20,15 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    allocbuf_auto   ../starter/source/elements/elbuf_init/allocbuf_auto.F
-      !||--- called by ------------------------------------------------------
-      !||    elbuf_ini       ../starter/source/elements/elbuf_init/elbuf_ini.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg          ../starter/source/output/message/message.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod     ../starter/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    allocbuf_auto   ../starter/source/elements/elbuf_init/allocbuf_auto.F
+!||--- called by ------------------------------------------------------
+!||    elbuf_ini       ../starter/source/elements/elbuf_init/elbuf_ini.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg          ../starter/source/output/message/message.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod     ../starter/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE ALLOCBUF_AUTO(ELBUF_TAB,NLAY,NPTR,NPTS,NPTT,
      .                         NINTLAY,NEL,NPT,NG,NGROUP,ITY,
      .                         IGTYP,NPROPM,NUMMAT,PM )

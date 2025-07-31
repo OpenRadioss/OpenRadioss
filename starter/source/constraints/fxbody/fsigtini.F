@@ -20,18 +20,18 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    fsigtini   ../starter/source/constraints/fxbody/fsigtini.F
-      !||--- called by ------------------------------------------------------
-      !||    fxbsini    ../starter/source/constraints/fxbody/fxbsini.F
-      !||--- calls      -----------------------------------------------------
-      !||    c3curvi    ../starter/source/constraints/fxbody/fsigtini.F
-      !||    c3defli    ../starter/source/constraints/fxbody/fsigtini.F
-      !||    c3evec3    ../starter/source/elements/sh3n/coque3n/c3evec3.F
-      !||    c3pxpyi    ../starter/source/elements/sh3n/coque3n/c3epsini.F
-      !||    ccoefi     ../starter/source/constraints/fxbody/fsigcini.F
-      !||    cm1inif    ../starter/source/elements/shell/coque/cm1inif.F
-      !||====================================================================
+!||====================================================================
+!||    fsigtini   ../starter/source/constraints/fxbody/fsigtini.F
+!||--- called by ------------------------------------------------------
+!||    fxbsini    ../starter/source/constraints/fxbody/fxbsini.F
+!||--- calls      -----------------------------------------------------
+!||    c3curvi    ../starter/source/constraints/fxbody/fsigtini.F
+!||    c3defli    ../starter/source/constraints/fxbody/fsigtini.F
+!||    c3evec3    ../starter/source/elements/sh3n/coque3n/c3evec3.F
+!||    c3pxpyi    ../starter/source/elements/sh3n/coque3n/c3epsini.F
+!||    ccoefi     ../starter/source/constraints/fxbody/fsigcini.F
+!||    cm1inif    ../starter/source/elements/shell/coque/cm1inif.F
+!||====================================================================
       SUBROUTINE FSIGTINI(FXBELM, IPARG , X     , PM, IXTG , 
      .                    GEO   , FXBMOD, FXBSIG, R , NELTG)
 C-----------------------------------------------
@@ -209,11 +209,11 @@ C
 C
       RETURN
       END SUBROUTINE FSIGTINI
-      !||====================================================================
-      !||    c3defli    ../starter/source/constraints/fxbody/fsigtini.F
-      !||--- called by ------------------------------------------------------
-      !||    fsigtini   ../starter/source/constraints/fxbody/fsigtini.F
-      !||====================================================================
+!||====================================================================
+!||    c3defli    ../starter/source/constraints/fxbody/fsigtini.F
+!||--- called by ------------------------------------------------------
+!||    fsigtini   ../starter/source/constraints/fxbody/fsigtini.F
+!||====================================================================
       SUBROUTINE C3DEFLI (NEL  ,VL   ,GSTR ,
      .                    PX1  ,PY1  ,PY2  ,
      .                    E1X  ,E2X  ,E3X  ,E1Y  ,E2Y  ,E3Y ,E1Z ,E2Z ,E3Z ,
@@ -298,11 +298,11 @@ C
       ENDDO
       RETURN
       END SUBROUTINE C3DEFLI
-      !||====================================================================
-      !||    c3curvi    ../starter/source/constraints/fxbody/fsigtini.F
-      !||--- called by ------------------------------------------------------
-      !||    fsigtini   ../starter/source/constraints/fxbody/fsigtini.F
-      !||====================================================================
+!||====================================================================
+!||    c3curvi    ../starter/source/constraints/fxbody/fsigtini.F
+!||--- called by ------------------------------------------------------
+!||    fsigtini   ../starter/source/constraints/fxbody/fsigtini.F
+!||====================================================================
       SUBROUTINE C3CURVI(NEL  ,VRL  ,
      .                   PX1  ,PY1  ,PY2  ,
      .                   E1X  ,E2X  ,E3X  ,E1Y  ,E2Y  ,E3Y ,E1Z ,E2Z ,E3Z ,

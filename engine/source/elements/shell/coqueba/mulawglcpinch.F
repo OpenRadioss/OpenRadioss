@@ -20,17 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    mulawglcpinch    ../engine/source/elements/shell/coqueba/mulawglcpinch.F
-      !||--- called by ------------------------------------------------------
-      !||    cmain3pinch      ../engine/source/elements/shell/coqueba/cmain3pinch.F
-      !||--- calls      -----------------------------------------------------
-      !||    sigeps01gpinch   ../engine/source/materials/mat/mat001/sigeps01gpinch.F
-      !||    sigeps91gpinch   ../engine/source/materials/mat/mat091/sigeps91gpinch.F
-      !||--- uses       -----------------------------------------------------
-      !||    elbufdef_mod     ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||    table_mod        ../engine/share/modules/table_mod.F
-      !||====================================================================
+!||====================================================================
+!||    mulawglcpinch    ../engine/source/elements/shell/coqueba/mulawglcpinch.F
+!||--- called by ------------------------------------------------------
+!||    cmain3pinch      ../engine/source/elements/shell/coqueba/cmain3pinch.F
+!||--- calls      -----------------------------------------------------
+!||    sigeps01gpinch   ../engine/source/materials/mat/mat001/sigeps01gpinch.F
+!||    sigeps91gpinch   ../engine/source/materials/mat/mat091/sigeps91gpinch.F
+!||--- uses       -----------------------------------------------------
+!||    elbufdef_mod     ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    table_mod        ../engine/share/modules/table_mod.F
+!||====================================================================
       SUBROUTINE MULAWGLCPINCH(ELBUF_STR,
      1           JFT    ,JLT    ,PM     ,FOR   ,MOM   ,THK   ,
      2           EINT   ,OFF    ,GSTR   ,PLA   ,DIR   ,SHF   ,

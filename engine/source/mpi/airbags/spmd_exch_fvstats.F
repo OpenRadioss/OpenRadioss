@@ -20,15 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    spmd_exch_fvstats   ../engine/source/mpi/airbags/spmd_exch_fvstats.F
-      !||--- called by ------------------------------------------------------
-      !||    ecrit               ../engine/source/output/ecrit.F
-      !||--- calls      -----------------------------------------------------
-      !||--- uses       -----------------------------------------------------
-      !||    fvbag_mod           ../engine/share/modules/fvbag_mod.F
-      !||    spmd_mod            ../engine/source/mpi/spmd_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    spmd_exch_fvstats   ../engine/source/mpi/airbags/spmd_exch_fvstats.F
+!||--- called by ------------------------------------------------------
+!||    ecrit               ../engine/source/output/ecrit.F
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||    fvbag_mod           ../engine/share/modules/fvbag_mod.F
+!||    spmd_mod            ../engine/source/mpi/spmd_mod.F90
+!||====================================================================
       SUBROUTINE SPMD_EXCH_FVSTATS(MONVOL)                           
 C-----------------------------------------------
 C   M o d u l e s 

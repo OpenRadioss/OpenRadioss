@@ -20,22 +20,22 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    h3d_nodal_vector            ../engine/source/output/h3d/h3d_results/h3d_nodal_vector.F
-      !||--- called by ------------------------------------------------------
-      !||    genh3d                      ../engine/source/output/h3d/h3d_results/genh3d.F
-      !||--- calls      -----------------------------------------------------
-      !||    anim_nodal_vector_fvmbags   ../engine/source/output/anim/generate/anim_nodal_vector_fvmbags.F
-      !||    h3d_velvecc22               ../engine/source/output/h3d/h3d_results/h3d_velvecc22.F
-      !||    h3d_velvecz22               ../engine/source/output/h3d/h3d_results/h3d_velvecz22.F
-      !||    h3d_write_vector            ../engine/source/output/h3d/h3d_results/h3d_write_vector.F
-      !||--- uses       -----------------------------------------------------
-      !||    elbufdef_mod                ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||    fvbag_mod                   ../engine/share/modules/fvbag_mod.F
-      !||    groupdef_mod                ../common_source/modules/groupdef_mod.F
-      !||    names_and_titles_mod        ../common_source/modules/names_and_titles_mod.F
-      !||    outmax_mod                  ../common_source/modules/outmax_mod.F
-      !||====================================================================
+!||====================================================================
+!||    h3d_nodal_vector            ../engine/source/output/h3d/h3d_results/h3d_nodal_vector.F
+!||--- called by ------------------------------------------------------
+!||    genh3d                      ../engine/source/output/h3d/h3d_results/genh3d.F
+!||--- calls      -----------------------------------------------------
+!||    anim_nodal_vector_fvmbags   ../engine/source/output/anim/generate/anim_nodal_vector_fvmbags.F
+!||    h3d_velvecc22               ../engine/source/output/h3d/h3d_results/h3d_velvecc22.F
+!||    h3d_velvecz22               ../engine/source/output/h3d/h3d_results/h3d_velvecz22.F
+!||    h3d_write_vector            ../engine/source/output/h3d/h3d_results/h3d_write_vector.F
+!||--- uses       -----------------------------------------------------
+!||    elbufdef_mod                ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    fvbag_mod                   ../engine/share/modules/fvbag_mod.F
+!||    groupdef_mod                ../common_source/modules/groupdef_mod.F
+!||    names_and_titles_mod        ../common_source/modules/names_and_titles_mod.F
+!||    outmax_mod                  ../common_source/modules/outmax_mod.F
+!||====================================================================
       SUBROUTINE H3D_NODAL_VECTOR(
      .                  ELBUF_TAB          ,NODAL_VECTOR            ,IFUNC          ,IPARG           ,GEO             , 
      .                  MASS               ,PM                      ,ANIN           ,ITAB            ,NODE_ID         , 

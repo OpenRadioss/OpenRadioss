@@ -20,18 +20,18 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    spmd_agetmsr   ../engine/source/mpi/anim/spmd_agetmsr.F
-      !||--- called by ------------------------------------------------------
-      !||    dxwalc         ../engine/source/output/anim/generate/dxwalc.F
-      !||    dxwall         ../engine/source/output/anim/generate/dxwall.F
-      !||    dxwalp         ../engine/source/output/anim/generate/dxwalp.F
-      !||    dxwals         ../engine/source/output/anim/generate/dxwals.F
-      !||    dxyzsect       ../engine/source/output/anim/generate/dxyzsect.F
-      !||--- calls      -----------------------------------------------------
-      !||--- uses       -----------------------------------------------------
-      !||    spmd_mod       ../engine/source/mpi/spmd_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    spmd_agetmsr   ../engine/source/mpi/anim/spmd_agetmsr.F
+!||--- called by ------------------------------------------------------
+!||    dxwalc         ../engine/source/output/anim/generate/dxwalc.F
+!||    dxwall         ../engine/source/output/anim/generate/dxwall.F
+!||    dxwalp         ../engine/source/output/anim/generate/dxwalp.F
+!||    dxwals         ../engine/source/output/anim/generate/dxwals.F
+!||    dxyzsect       ../engine/source/output/anim/generate/dxyzsect.F
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||    spmd_mod       ../engine/source/mpi/spmd_mod.F90
+!||====================================================================
         SUBROUTINE SPMD_AGETMSR(FR_WALL,X,MSR,XWL,YWL,ZWL,RWL)
                 use spmd_mod
 C-----------------------------------------------

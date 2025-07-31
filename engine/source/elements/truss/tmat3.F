@@ -20,11 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    tmat3   ../engine/source/elements/truss/tmat3.F
-      !||--- called by ------------------------------------------------------
-      !||    tke3    ../engine/source/elements/truss/tke3.F
-      !||====================================================================
+!||====================================================================
+!||    tmat3   ../engine/source/elements/truss/tmat3.F
+!||--- called by ------------------------------------------------------
+!||    tke3    ../engine/source/elements/truss/tke3.F
+!||====================================================================
       SUBROUTINE TMAT3(JFT    ,JLT    ,PM    ,MAT    ,AREA   ,
      .                 AL     ,KX     )
 C-----------------------------------------------

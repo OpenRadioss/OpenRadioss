@@ -20,18 +20,18 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    main_beam18    ../engine/source/elements/beam/main_beam18.F
-      !||--- called by ------------------------------------------------------
-      !||    pforc3         ../engine/source/elements/beam/pforc3.F
-      !||--- calls      -----------------------------------------------------
-      !||    fail_beam18    ../engine/source/elements/beam/fail_beam18.F
-      !||    m2lawpi        ../engine/source/materials/mat/mat002/m2lawpi.F
-      !||    mulaw_ib       ../engine/source/elements/beam/mulaw_ib.F
-      !||--- uses       -----------------------------------------------------
-      !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||    mat_elem_mod   ../common_source/modules/mat_elem/mat_elem_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    main_beam18    ../engine/source/elements/beam/main_beam18.F
+!||--- called by ------------------------------------------------------
+!||    pforc3         ../engine/source/elements/beam/pforc3.F
+!||--- calls      -----------------------------------------------------
+!||    fail_beam18    ../engine/source/elements/beam/fail_beam18.F
+!||    m2lawpi        ../engine/source/materials/mat/mat002/m2lawpi.F
+!||    mulaw_ib       ../engine/source/elements/beam/mulaw_ib.F
+!||--- uses       -----------------------------------------------------
+!||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    mat_elem_mod   ../common_source/modules/mat_elem/mat_elem_mod.F90
+!||====================================================================
       SUBROUTINE MAIN_BEAM18(ELBUF_STR,
      1                  NEL     ,NPT     ,MTN     ,IMAT    ,
      2                  PID     ,NGL     ,PM      ,IPM     ,

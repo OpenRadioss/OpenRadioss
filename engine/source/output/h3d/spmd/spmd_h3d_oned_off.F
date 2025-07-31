@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    h3d_oned_off   ../engine/source/output/h3d/spmd/spmd_h3d_oned_off.F
-      !||--- called by ------------------------------------------------------
-      !||    genh3d         ../engine/source/output/h3d/h3d_results/genh3d.F
-      !||--- uses       -----------------------------------------------------
-      !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    h3d_oned_off   ../engine/source/output/h3d/spmd/spmd_h3d_oned_off.F
+!||--- called by ------------------------------------------------------
+!||    genh3d         ../engine/source/output/h3d/h3d_results/genh3d.F
+!||--- uses       -----------------------------------------------------
+!||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||====================================================================
        SUBROUTINE H3D_ONED_OFF(ELBUF_TAB, IPARG, IXT, IXP, IXR, ONED_SCALAR, ID_ELEM, ITY_ELEM,
      .                         IPART , IPARTT  ,IPARTP  ,IPARTR)
 C----------------------------------------------

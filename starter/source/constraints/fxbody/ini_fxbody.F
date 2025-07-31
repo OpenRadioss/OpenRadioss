@@ -20,22 +20,22 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    ini_fxbody             ../starter/source/constraints/fxbody/ini_fxbody.F
-      !||--- called by ------------------------------------------------------
-      !||    initia                 ../starter/source/elements/initia/initia.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg                 ../starter/source/output/message/message.F
-      !||    fretitl2               ../starter/source/starter/freform.F
-      !||    orthrg                 ../starter/source/constraints/fxbody/ortho_normalization.F
-      !||    orthsr                 ../starter/source/constraints/fxbody/ortho_normalization.F
-      !||    orthst                 ../starter/source/constraints/fxbody/ortho_normalization.F
-      !||    prscal                 ../starter/source/constraints/fxbody/ortho_normalization.F
-      !||    usr2sys                ../starter/source/system/sysfus.F
-      !||--- uses       -----------------------------------------------------
-      !||    format_mod             ../starter/share/modules1/format_mod.F90
-      !||    message_mod            ../starter/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    ini_fxbody             ../starter/source/constraints/fxbody/ini_fxbody.F
+!||--- called by ------------------------------------------------------
+!||    initia                 ../starter/source/elements/initia/initia.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                 ../starter/source/output/message/message.F
+!||    fretitl2               ../starter/source/starter/freform.F
+!||    orthrg                 ../starter/source/constraints/fxbody/ortho_normalization.F
+!||    orthsr                 ../starter/source/constraints/fxbody/ortho_normalization.F
+!||    orthst                 ../starter/source/constraints/fxbody/ortho_normalization.F
+!||    prscal                 ../starter/source/constraints/fxbody/ortho_normalization.F
+!||    usr2sys                ../starter/source/system/sysfus.F
+!||--- uses       -----------------------------------------------------
+!||    format_mod             ../starter/share/modules1/format_mod.F90
+!||    message_mod            ../starter/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE INI_FXBODY(FXBIPM,  FXBRPM, FXBNOD, FXBGLM,FXBCPM,   
      .                      FXBCPS,  FXBLM,  FXBFLS, FXBDLS,FXBMOD, 
      .                      ITAB, X ,MS, IN, FXB_MATRIX,

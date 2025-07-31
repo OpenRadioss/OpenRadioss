@@ -20,15 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    ply_vitesse   ../engine/source/assembly/ply_vitesse.F
-      !||--- called by ------------------------------------------------------
-      !||    resol         ../engine/source/engine/resol.F
-      !||--- calls      -----------------------------------------------------
-      !||    plyv          ../engine/source/assembly/ply_vitesse.F
-      !||--- uses       -----------------------------------------------------
-      !||    plyxfem_mod   ../engine/share/modules/plyxfem_mod.F
-      !||====================================================================
+!||====================================================================
+!||    ply_vitesse   ../engine/source/assembly/ply_vitesse.F
+!||--- called by ------------------------------------------------------
+!||    resol         ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
+!||    plyv          ../engine/source/assembly/ply_vitesse.F
+!||--- uses       -----------------------------------------------------
+!||    plyxfem_mod   ../engine/share/modules/plyxfem_mod.F
+!||====================================================================
       SUBROUTINE PLY_VITESSE(NODFT,NODLT,NPLYMAX,INOD,NDDIM)
 C-----------------------------------------------
 C   M o d u l e s
@@ -61,11 +61,11 @@ C
 C
       RETURN
       END
-      !||====================================================================
-      !||    plyv          ../engine/source/assembly/ply_vitesse.F
-      !||--- called by ------------------------------------------------------
-      !||    ply_vitesse   ../engine/source/assembly/ply_vitesse.F
-      !||====================================================================
+!||====================================================================
+!||    plyv          ../engine/source/assembly/ply_vitesse.F
+!||--- called by ------------------------------------------------------
+!||    ply_vitesse   ../engine/source/assembly/ply_vitesse.F
+!||====================================================================
       SUBROUTINE PLYV(NODFT,NODLT,INOD,A,V,U)
 C-----------------------------------------------
 C   M o d u l e s

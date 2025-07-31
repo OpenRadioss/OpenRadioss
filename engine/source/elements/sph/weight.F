@@ -20,16 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    weight0        ../engine/source/elements/sph/weight.F
-      !||--- called by ------------------------------------------------------
-      !||    spcompl        ../engine/source/elements/sph/spcompl.F
-      !||    spgauge        ../engine/source/elements/sph/spgauge.F
-      !||    splissv        ../engine/source/elements/sph/splissv.F
-      !||    spmd_sphgetd   ../engine/source/mpi/elements/spmd_sph.F
-      !||    sponfv         ../engine/source/elements/sph/sponfv.F
-      !||    spstabw        ../engine/source/elements/sph/spstab.F
-      !||====================================================================
+!||====================================================================
+!||    weight0        ../engine/source/elements/sph/weight.F
+!||--- called by ------------------------------------------------------
+!||    spcompl        ../engine/source/elements/sph/spcompl.F
+!||    spgauge        ../engine/source/elements/sph/spgauge.F
+!||    splissv        ../engine/source/elements/sph/splissv.F
+!||    spmd_sphgetd   ../engine/source/mpi/elements/spmd_sph.F
+!||    sponfv         ../engine/source/elements/sph/sponfv.F
+!||    spstabw        ../engine/source/elements/sph/spstab.F
+!||====================================================================
       SUBROUTINE WEIGHT0(XI,YI,ZI,XJ,YJ,ZJ,H,W)
 C-------------------------------------------------------------------------
 C-----------------------------------------------
@@ -64,17 +64,17 @@ C-----
       ENDIF
       RETURN
       END
-      !||====================================================================
-      !||    weight1        ../engine/source/elements/sph/weight.F
-      !||--- called by ------------------------------------------------------
-      !||    spcompl        ../engine/source/elements/sph/spcompl.F
-      !||    spdens         ../engine/source/elements/sph/spdens.F
-      !||    spforcp        ../engine/source/elements/sph/spforcp.F
-      !||    spgradt        ../engine/source/elements/sph/sptemp.F
-      !||    splaplt        ../engine/source/elements/sph/sptemp.F
-      !||    spmd_sphgetd   ../engine/source/mpi/elements/spmd_sph.F
-      !||    sponfv         ../engine/source/elements/sph/sponfv.F
-      !||====================================================================
+!||====================================================================
+!||    weight1        ../engine/source/elements/sph/weight.F
+!||--- called by ------------------------------------------------------
+!||    spcompl        ../engine/source/elements/sph/spcompl.F
+!||    spdens         ../engine/source/elements/sph/spdens.F
+!||    spforcp        ../engine/source/elements/sph/spforcp.F
+!||    spgradt        ../engine/source/elements/sph/sptemp.F
+!||    splaplt        ../engine/source/elements/sph/sptemp.F
+!||    spmd_sphgetd   ../engine/source/mpi/elements/spmd_sph.F
+!||    sponfv         ../engine/source/elements/sph/sponfv.F
+!||====================================================================
       SUBROUTINE WEIGHT1(XI,YI,ZI,XJ,YJ,ZJ,H,W,WGRAD)
 C-------------------------------------------------------------------------
 C-----------------------------------------------

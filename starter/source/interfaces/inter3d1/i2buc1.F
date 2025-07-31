@@ -20,22 +20,22 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    i2buc1                 ../starter/source/interfaces/inter3d1/i2buc1.F
-      !||--- called by ------------------------------------------------------
-      !||    inint3                 ../starter/source/interfaces/inter3d1/inint3.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg                 ../starter/source/output/message/message.F
-      !||    i2cor3                 ../starter/source/interfaces/inter3d1/i2cor3.F
-      !||    i2dst3                 ../starter/source/interfaces/inter3d1/i2dst3.F
-      !||    i2dst3_27              ../starter/source/interfaces/inter3d1/i2dst3_27.F
-      !||    i2tri                  ../starter/source/interfaces/inter3d1/i2tri.F
-      !||    incoq3                 ../starter/source/interfaces/inter3d1/incoq3.F
-      !||    insol3                 ../starter/source/interfaces/inter3d1/insol3.F
-      !||    volint                 ../starter/source/interfaces/inter3d1/volint.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod            ../starter/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    i2buc1                 ../starter/source/interfaces/inter3d1/i2buc1.F
+!||--- called by ------------------------------------------------------
+!||    inint3                 ../starter/source/interfaces/inter3d1/inint3.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                 ../starter/source/output/message/message.F
+!||    i2cor3                 ../starter/source/interfaces/inter3d1/i2cor3.F
+!||    i2dst3                 ../starter/source/interfaces/inter3d1/i2dst3.F
+!||    i2dst3_27              ../starter/source/interfaces/inter3d1/i2dst3_27.F
+!||    i2tri                  ../starter/source/interfaces/inter3d1/i2tri.F
+!||    incoq3                 ../starter/source/interfaces/inter3d1/incoq3.F
+!||    insol3                 ../starter/source/interfaces/inter3d1/insol3.F
+!||    volint                 ../starter/source/interfaces/inter3d1/volint.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod            ../starter/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE I2BUC1(
      1   X     ,IRECT,NSV   ,NSEG  ,IRTL,
      2   NMN   ,NRTM ,MWA   ,NSN   ,XYZM  ,

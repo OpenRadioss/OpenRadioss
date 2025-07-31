@@ -20,11 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    sigeps91gpinch   ../engine/source/materials/mat/mat091/sigeps91gpinch.F
-      !||--- called by ------------------------------------------------------
-      !||    mulawglcpinch    ../engine/source/elements/shell/coqueba/mulawglcpinch.F
-      !||====================================================================
+!||====================================================================
+!||    sigeps91gpinch   ../engine/source/materials/mat/mat091/sigeps91gpinch.F
+!||--- called by ------------------------------------------------------
+!||    mulawglcpinch    ../engine/source/elements/shell/coqueba/mulawglcpinch.F
+!||====================================================================
       SUBROUTINE SIGEPS91GPINCH(
      1                     JFT     ,JLT     ,NUVAR   ,UPARAM  ,RHO0    ,
      2                     THK     ,THK0    ,NEL     ,SSP     ,AREA    ,

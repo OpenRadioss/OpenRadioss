@@ -21,24 +21,24 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C NOUVELLE ROUTINE POUR REMPLIR LE TABLEAU DES POIDS
-      !||====================================================================
-      !||    initwg               ../starter/source/spmd/domain_decomposition/initwg.F
-      !||--- called by ------------------------------------------------------
-      !||    dometis              ../starter/source/spmd/domain_decomposition/grid2mat.F
-      !||--- calls      -----------------------------------------------------
-      !||    init_mid_pid_array   ../starter/source/spmd/tools/init_mid_pid_array.F
-      !||    initwg_poutre        ../starter/source/spmd/domain_decomposition/initwg_poutre.F
-      !||    initwg_quad          ../starter/source/spmd/domain_decomposition/initwg_quad.F
-      !||    initwg_ressort       ../starter/source/spmd/domain_decomposition/initwg_ressort.F
-      !||    initwg_shell         ../starter/source/spmd/domain_decomposition/initwg_shell.F
-      !||    initwg_solid         ../starter/source/spmd/domain_decomposition/initwg_solid.F
-      !||    initwg_tri           ../starter/source/spmd/domain_decomposition/initwg_tri.F
-      !||    initwg_truss         ../starter/source/spmd/domain_decomposition/initwg_truss.F
-      !||    initwg_x             ../starter/source/spmd/domain_decomposition/initwg_x.F
-      !||--- uses       -----------------------------------------------------
-      !||    ddweights_mod        ../starter/share/modules1/ddweights_mod.F
-      !||    mid_pid_mod          ../starter/share/modules1/mid_pid_mod.F
-      !||====================================================================
+!||====================================================================
+!||    initwg               ../starter/source/spmd/domain_decomposition/initwg.F
+!||--- called by ------------------------------------------------------
+!||    dometis              ../starter/source/spmd/domain_decomposition/grid2mat.F
+!||--- calls      -----------------------------------------------------
+!||    init_mid_pid_array   ../starter/source/spmd/tools/init_mid_pid_array.F
+!||    initwg_poutre        ../starter/source/spmd/domain_decomposition/initwg_poutre.F
+!||    initwg_quad          ../starter/source/spmd/domain_decomposition/initwg_quad.F
+!||    initwg_ressort       ../starter/source/spmd/domain_decomposition/initwg_ressort.F
+!||    initwg_shell         ../starter/source/spmd/domain_decomposition/initwg_shell.F
+!||    initwg_solid         ../starter/source/spmd/domain_decomposition/initwg_solid.F
+!||    initwg_tri           ../starter/source/spmd/domain_decomposition/initwg_tri.F
+!||    initwg_truss         ../starter/source/spmd/domain_decomposition/initwg_truss.F
+!||    initwg_x             ../starter/source/spmd/domain_decomposition/initwg_x.F
+!||--- uses       -----------------------------------------------------
+!||    ddweights_mod        ../starter/share/modules1/ddweights_mod.F
+!||    mid_pid_mod          ../starter/share/modules1/mid_pid_mod.F
+!||====================================================================
       SUBROUTINE INITWG(WD,PM,GEO,IXS,IXQ,
      .            IXC,IXT,IXP,IXR,IXTG,
      .            KXX,IGEO,ISOLNOD,IDARCH,

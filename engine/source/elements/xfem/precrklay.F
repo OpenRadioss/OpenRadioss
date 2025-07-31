@@ -20,14 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    precrklay       ../engine/source/elements/xfem/precrklay.F
-      !||--- called by ------------------------------------------------------
-      !||    cforc3          ../engine/source/elements/shell/coque/cforc3.F
-      !||    czforc3         ../engine/source/elements/shell/coquez/czforc3.F
-      !||--- uses       -----------------------------------------------------
-      !||    crackxfem_mod   ../engine/share/modules/crackxfem_mod.F
-      !||====================================================================
+!||====================================================================
+!||    precrklay       ../engine/source/elements/xfem/precrklay.F
+!||--- called by ------------------------------------------------------
+!||    cforc3          ../engine/source/elements/shell/coque/cforc3.F
+!||    czforc3         ../engine/source/elements/shell/coquez/czforc3.F
+!||--- uses       -----------------------------------------------------
+!||    crackxfem_mod   ../engine/share/modules/crackxfem_mod.F
+!||====================================================================
       SUBROUTINE PRECRKLAY(JFT     ,JLT    ,NFT     ,NLAY   ,ELCRKINI,
      .                     IEL_CRK,INOD_CRK,NODENR  ,CRKEDGE,XEDGE4N )
 C-----------------------------------------------
@@ -73,13 +73,13 @@ c           tag uncut layer for advancing
 C-----------
       RETURN
       END
-      !||====================================================================
-      !||    precrklaytg     ../engine/source/elements/xfem/precrklay.F
-      !||--- called by ------------------------------------------------------
-      !||    c3forc3         ../engine/source/elements/sh3n/coque3n/c3forc3.F
-      !||--- uses       -----------------------------------------------------
-      !||    crackxfem_mod   ../engine/share/modules/crackxfem_mod.F
-      !||====================================================================
+!||====================================================================
+!||    precrklaytg     ../engine/source/elements/xfem/precrklay.F
+!||--- called by ------------------------------------------------------
+!||    c3forc3         ../engine/source/elements/sh3n/coque3n/c3forc3.F
+!||--- uses       -----------------------------------------------------
+!||    crackxfem_mod   ../engine/share/modules/crackxfem_mod.F
+!||====================================================================
       SUBROUTINE PRECRKLAYTG(JFT      ,JLT      ,NFT     ,NLAY    ,ELCRKINI,
      .                       IEL_CRKTG,INOD_CRK ,NODENR  ,CRKEDGE ,XEDGE3N )
 C-----------------------------------------------
@@ -130,15 +130,15 @@ c           tag uncut layer for advancing
 C-----------
       RETURN
       END
-      !||====================================================================
-      !||    crkoffc         ../engine/source/elements/xfem/precrklay.F
-      !||--- called by ------------------------------------------------------
-      !||    cforc3          ../engine/source/elements/shell/coque/cforc3.F
-      !||    czforc3         ../engine/source/elements/shell/coquez/czforc3.F
-      !||--- uses       -----------------------------------------------------
-      !||    crackxfem_mod   ../engine/share/modules/crackxfem_mod.F
-      !||    elbufdef_mod    ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    crkoffc         ../engine/source/elements/xfem/precrklay.F
+!||--- called by ------------------------------------------------------
+!||    cforc3          ../engine/source/elements/shell/coque/cforc3.F
+!||    czforc3         ../engine/source/elements/shell/coquez/czforc3.F
+!||--- uses       -----------------------------------------------------
+!||    crackxfem_mod   ../engine/share/modules/crackxfem_mod.F
+!||    elbufdef_mod    ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||====================================================================
       SUBROUTINE CRKOFFC(ELBUF_STR,XFEM_STR  ,
      .                   JFT      ,JLT       ,NFT    ,IR      ,IS        ,
      .                   NXLAY    ,IEL_CRK   ,CRKEDGE,XEDGE4N )
@@ -206,14 +206,14 @@ C---
 C-----------
       RETURN
       END
-      !||====================================================================
-      !||    crkofftg        ../engine/source/elements/xfem/precrklay.F
-      !||--- called by ------------------------------------------------------
-      !||    c3forc3         ../engine/source/elements/sh3n/coque3n/c3forc3.F
-      !||--- uses       -----------------------------------------------------
-      !||    crackxfem_mod   ../engine/share/modules/crackxfem_mod.F
-      !||    elbufdef_mod    ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    crkofftg        ../engine/source/elements/xfem/precrklay.F
+!||--- called by ------------------------------------------------------
+!||    c3forc3         ../engine/source/elements/sh3n/coque3n/c3forc3.F
+!||--- uses       -----------------------------------------------------
+!||    crackxfem_mod   ../engine/share/modules/crackxfem_mod.F
+!||    elbufdef_mod    ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||====================================================================
       SUBROUTINE CRKOFFTG(ELBUF_STR,XFEM_STR  ,
      .                    JFT      ,JLT       ,NFT    ,IR      ,IS        ,
      .                    NXLAY    ,IEL_CRKTG ,CRKEDGE,XEDGE3N )

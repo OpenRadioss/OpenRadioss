@@ -21,24 +21,24 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C calcul des forces sur un groupe d'elements multi-purpose.
-      !||====================================================================
-      !||    xforc3          ../engine/source/elements/xelem/xforc3.F
-      !||--- called by ------------------------------------------------------
-      !||    forints         ../engine/source/elements/forints.F
-      !||--- calls      -----------------------------------------------------
-      !||    sav_buf_point   ../engine/source/user_interface/eng_callback_c.c
-      !||    xbilan3         ../engine/source/elements/xelem/xbilan3.F
-      !||    xcoor3          ../engine/source/elements/xelem/xcoor3.F
-      !||    xcum3           ../engine/source/elements/xelem/xcum3.F
-      !||    xcum3p          ../engine/source/elements/xelem/xcum3.F
-      !||    xdefo3          ../engine/source/elements/xelem/xdefo3.F
-      !||    xforc28         ../engine/source/elements/xelem/xforc28.F
-      !||    xforc29         ../engine/source/elements/xelem/xforc29.F
-      !||    xforc30         ../engine/source/elements/xelem/xforc30.F
-      !||    xforc31         ../engine/source/elements/xelem/xforc31.F
-      !||--- uses       -----------------------------------------------------
-      !||    elbufdef_mod    ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    xforc3          ../engine/source/elements/xelem/xforc3.F
+!||--- called by ------------------------------------------------------
+!||    forints         ../engine/source/elements/forints.F
+!||--- calls      -----------------------------------------------------
+!||    sav_buf_point   ../engine/source/user_interface/eng_callback_c.c
+!||    xbilan3         ../engine/source/elements/xelem/xbilan3.F
+!||    xcoor3          ../engine/source/elements/xelem/xcoor3.F
+!||    xcum3           ../engine/source/elements/xelem/xcum3.F
+!||    xcum3p          ../engine/source/elements/xelem/xcum3.F
+!||    xdefo3          ../engine/source/elements/xelem/xdefo3.F
+!||    xforc28         ../engine/source/elements/xelem/xforc28.F
+!||    xforc29         ../engine/source/elements/xelem/xforc29.F
+!||    xforc30         ../engine/source/elements/xelem/xforc30.F
+!||    xforc31         ../engine/source/elements/xelem/xforc31.F
+!||--- uses       -----------------------------------------------------
+!||    elbufdef_mod    ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||====================================================================
       SUBROUTINE XFORC3(
      1   NFT,      NEL,      GEO,      PM,
      2   ITAB,     KXX,      IXX,      X,

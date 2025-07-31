@@ -20,15 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    ssurftag               ../starter/source/groups/ssurftag.F
-      !||--- called by ------------------------------------------------------
-      !||    hm_read_surf           ../starter/source/groups/hm_read_surf.F
-      !||--- calls      -----------------------------------------------------
-      !||    ssurf10                ../starter/source/groups/ssurftag.F
-      !||--- uses       -----------------------------------------------------
-      !||    surf_mod               ../starter/share/modules1/surf_mod.F
-      !||====================================================================
+!||====================================================================
+!||    ssurftag               ../starter/source/groups/ssurftag.F
+!||--- called by ------------------------------------------------------
+!||    hm_read_surf           ../starter/source/groups/hm_read_surf.F
+!||--- calls      -----------------------------------------------------
+!||    ssurf10                ../starter/source/groups/ssurftag.F
+!||--- uses       -----------------------------------------------------
+!||    surf_mod               ../starter/share/modules1/surf_mod.F
+!||====================================================================
       SUBROUTINE SSURFTAG(IXS     ,IPARTS  ,NSEG0    ,IGRSURF ,TAGBUF,
      .                    NSEG    ,KNOD2ELS,NOD2ELS  ,IEXT    ,FLAG  ,
      .                    IXS10   ,IXS16   ,IXS20    ,IFRE    ,KEY   ,
@@ -511,11 +511,11 @@ C-----------
       RETURN
       END
 
-      !||====================================================================
-      !||    ssurf10    ../starter/source/groups/ssurftag.F
-      !||--- called by ------------------------------------------------------
-      !||    ssurftag   ../starter/source/groups/ssurftag.F
-      !||====================================================================
+!||====================================================================
+!||    ssurf10    ../starter/source/groups/ssurftag.F
+!||--- called by ------------------------------------------------------
+!||    ssurftag   ../starter/source/groups/ssurftag.F
+!||====================================================================
       SUBROUTINE SSURF10(N1    ,N2   ,N3        ,N4        ,JS       ,
      .                   NSEG0 ,ISEG ,SURF_NODES,SURF_ELTYP,SURF_ELEM)
 C-----------------------------------------------
@@ -539,11 +539,11 @@ C-----------------------------------------------
 !---
       RETURN
       END
-      !||====================================================================
-      !||    surfext_tagn   ../starter/source/groups/ssurftag.F
-      !||--- called by ------------------------------------------------------
-      !||    lectur         ../starter/source/starter/lectur.F
-      !||====================================================================
+!||====================================================================
+!||    surfext_tagn   ../starter/source/groups/ssurftag.F
+!||--- called by ------------------------------------------------------
+!||    lectur         ../starter/source/starter/lectur.F
+!||====================================================================
       SUBROUTINE SURFEXT_TAGN(IXS    ,KNOD2ELS,NOD2ELS  ,IXS10   ,FASTAG,itab)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

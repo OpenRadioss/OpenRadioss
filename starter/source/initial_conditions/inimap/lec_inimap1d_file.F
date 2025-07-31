@@ -20,16 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    lec_inimap1d_file      ../starter/source/initial_conditions/inimap/lec_inimap1d_file.F
-      !||--- called by ------------------------------------------------------
-      !||    hm_read_inimap1d       ../starter/source/initial_conditions/inimap/hm_read_inimap1d.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg                 ../starter/source/output/message/message.F
-      !||--- uses       -----------------------------------------------------
-      !||    inimap1d_mod           ../starter/share/modules1/inimap1d_mod.F
-      !||    message_mod            ../starter/share/message_module/message_mod.F
-      !||====================================================================
+!||====================================================================
+!||    lec_inimap1d_file      ../starter/source/initial_conditions/inimap/lec_inimap1d_file.F
+!||--- called by ------------------------------------------------------
+!||    hm_read_inimap1d       ../starter/source/initial_conditions/inimap/hm_read_inimap1d.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                 ../starter/source/output/message/message.F
+!||--- uses       -----------------------------------------------------
+!||    inimap1d_mod           ../starter/share/modules1/inimap1d_mod.F
+!||    message_mod            ../starter/share/message_module/message_mod.F
+!||====================================================================
       SUBROUTINE LEC_INIMAP1D_FILE(INIMAP1D, FILENAME, ID, TITLE)
 C-----------------------------------------------
 C   M o d u l e s

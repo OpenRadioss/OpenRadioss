@@ -20,27 +20,27 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    eikonal_compute_adjacent_mod   ../starter/source/initial_conditions/detonation/eikonal_compute_adjacent.F90
-      !||--- called by ------------------------------------------------------
-      !||    eikonal_fast_marching_method   ../starter/source/initial_conditions/detonation/eikonal_fast_marching_method.F90
-      !||====================================================================
+!||====================================================================
+!||    eikonal_compute_adjacent_mod   ../starter/source/initial_conditions/detonation/eikonal_compute_adjacent.F90
+!||--- called by ------------------------------------------------------
+!||    eikonal_fast_marching_method   ../starter/source/initial_conditions/detonation/eikonal_fast_marching_method.F90
+!||====================================================================
       module eikonal_compute_adjacent_mod
       contains
 ! ======================================================================================================================
 !                                                   procedures
 ! ======================================================================================================================
-      !||====================================================================
-      !||    eikonal_compute_adjacent          ../starter/source/initial_conditions/detonation/eikonal_compute_adjacent.F90
-      !||--- called by ------------------------------------------------------
-      !||    eikonal_fast_marching_method      ../starter/source/initial_conditions/detonation/eikonal_fast_marching_method.F90
-      !||--- calls      -----------------------------------------------------
-      !||    eikonal_godunov_operator_2d       ../starter/source/initial_conditions/detonation/eikonal_godunov_operator_2d.F90
-      !||    eikonal_godunov_operator_3d       ../starter/source/initial_conditions/detonation/eikonal_godunov_operator_3d.F90
-      !||--- uses       -----------------------------------------------------
-      !||    eikonal_godunov_operator_2d_mod   ../starter/source/initial_conditions/detonation/eikonal_godunov_operator_2d.F90
-      !||    eikonal_godunov_operator_3d_mod   ../starter/source/initial_conditions/detonation/eikonal_godunov_operator_3d.F90
-      !||====================================================================
+!||====================================================================
+!||    eikonal_compute_adjacent          ../starter/source/initial_conditions/detonation/eikonal_compute_adjacent.F90
+!||--- called by ------------------------------------------------------
+!||    eikonal_fast_marching_method      ../starter/source/initial_conditions/detonation/eikonal_fast_marching_method.F90
+!||--- calls      -----------------------------------------------------
+!||    eikonal_godunov_operator_2d       ../starter/source/initial_conditions/detonation/eikonal_godunov_operator_2d.F90
+!||    eikonal_godunov_operator_3d       ../starter/source/initial_conditions/detonation/eikonal_godunov_operator_3d.F90
+!||--- uses       -----------------------------------------------------
+!||    eikonal_godunov_operator_2d_mod   ../starter/source/initial_conditions/detonation/eikonal_godunov_operator_2d.F90
+!||    eikonal_godunov_operator_3d_mod   ../starter/source/initial_conditions/detonation/eikonal_godunov_operator_3d.F90
+!||====================================================================
         subroutine eikonal_compute_adjacent(ie, ALE_CONNECTIVITY,neldet, &
                                               tdet, tdet_adj, vel,vel_adj, xel,xel_adj, numel,elem_list_bij, &
                                               updown,num_new_activated, list_new_activated,  mat_det, &

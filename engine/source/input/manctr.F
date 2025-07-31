@@ -20,21 +20,21 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    manctr                 ../engine/source/input/manctr.F
-      !||--- called by ------------------------------------------------------
-      !||    resol                  ../engine/source/engine/resol.F
-      !||--- calls      -----------------------------------------------------
-      !||    spmd_ibcast            ../engine/source/mpi/generic/spmd_ibcast.F
-      !||    spmd_rbcast            ../engine/source/mpi/generic/spmd_rbcast.F
-      !||--- uses       -----------------------------------------------------
-      !||    ale_mod                ../common_source/modules/ale/ale_mod.F
-      !||    anim_mod               ../common_source/modules/output/anim_mod.F
-      !||    h3d_mod                ../engine/share/modules/h3d_mod.F
-      !||    inoutfile_mod          ../common_source/modules/inoutfile_mod.F
-      !||    names_and_titles_mod   ../common_source/modules/names_and_titles_mod.F
-      !||    sensor_mod             ../common_source/modules/sensor_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    manctr                 ../engine/source/input/manctr.F
+!||--- called by ------------------------------------------------------
+!||    resol                  ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
+!||    spmd_ibcast            ../engine/source/mpi/generic/spmd_ibcast.F
+!||    spmd_rbcast            ../engine/source/mpi/generic/spmd_rbcast.F
+!||--- uses       -----------------------------------------------------
+!||    ale_mod                ../common_source/modules/ale/ale_mod.F
+!||    anim_mod               ../common_source/modules/output/anim_mod.F
+!||    h3d_mod                ../engine/share/modules/h3d_mod.F
+!||    inoutfile_mod          ../common_source/modules/inoutfile_mod.F
+!||    names_and_titles_mod   ../common_source/modules/names_and_titles_mod.F
+!||    sensor_mod             ../common_source/modules/sensor_mod.F90
+!||====================================================================
       SUBROUTINE MANCTR(SENSORS ,H3D_DATA)
 C-----------------------------------------------
 C   M o d u l e s

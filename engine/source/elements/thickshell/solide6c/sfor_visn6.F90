@@ -20,25 +20,25 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    sfor_visn6_mod   ../engine/source/elements/thickshell/solide6c/sfor_visn6.F90
-      !||--- called by ------------------------------------------------------
-      !||    s6for_distor     ../engine/source/elements/thickshell/solide6c/s6for_distor.F90
-      !||====================================================================
+!||====================================================================
+!||    sfor_visn6_mod   ../engine/source/elements/thickshell/solide6c/sfor_visn6.F90
+!||--- called by ------------------------------------------------------
+!||    s6for_distor     ../engine/source/elements/thickshell/solide6c/s6for_distor.F90
+!||====================================================================
       module sfor_visn6_mod
       contains
 ! ======================================================================================================================
 ! \brief damping force calculation of distortion control for penta6 elements
 ! ======================================================================================================================
-      !||====================================================================
-      !||    sfor_visn6      ../engine/source/elements/thickshell/solide6c/sfor_visn6.F90
-      !||--- called by ------------------------------------------------------
-      !||    s6for_distor    ../engine/source/elements/thickshell/solide6c/s6for_distor.F90
-      !||--- uses       -----------------------------------------------------
-      !||    constant_mod    ../common_source/modules/constant_mod.F
-      !||    mvsiz_mod       ../engine/share/spe_inc/mvsiz_mod.F90
-      !||    precision_mod   ../common_source/modules/precision_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    sfor_visn6      ../engine/source/elements/thickshell/solide6c/sfor_visn6.F90
+!||--- called by ------------------------------------------------------
+!||    s6for_distor    ../engine/source/elements/thickshell/solide6c/s6for_distor.F90
+!||--- uses       -----------------------------------------------------
+!||    constant_mod    ../common_source/modules/constant_mod.F
+!||    mvsiz_mod       ../engine/share/spe_inc/mvsiz_mod.F90
+!||    precision_mod   ../common_source/modules/precision_mod.F90
+!||====================================================================
         subroutine sfor_visn6(                                                 &
                                  vc,      fld,    tol_v,                       &      
                                 vx1,      vx2,      vx3,                       &      

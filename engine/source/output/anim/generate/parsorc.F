@@ -20,19 +20,19 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    parsorc            ../engine/source/output/anim/generate/parsorc.F
-      !||--- called by ------------------------------------------------------
-      !||    genani             ../engine/source/output/anim/generate/genani.F
-      !||--- calls      -----------------------------------------------------
-      !||    facnor             ../engine/source/output/anim/generate/facnor.F
-      !||    spmd_iget_partn    ../engine/source/mpi/anim/spmd_iget_partn.F
-      !||    spmd_iglob_partn   ../engine/source/mpi/anim/spmd_iglob_partn.F
-      !||    write_i_c          ../common_source/tools/input_output/write_routtines.c
-      !||--- uses       -----------------------------------------------------
-      !||    elbufdef_mod       ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||    my_alloc_mod       ../common_source/tools/memory/my_alloc.F90
-      !||====================================================================
+!||====================================================================
+!||    parsorc            ../engine/source/output/anim/generate/parsorc.F
+!||--- called by ------------------------------------------------------
+!||    genani             ../engine/source/output/anim/generate/genani.F
+!||--- calls      -----------------------------------------------------
+!||    facnor             ../engine/source/output/anim/generate/facnor.F
+!||    spmd_iget_partn    ../engine/source/mpi/anim/spmd_iget_partn.F
+!||    spmd_iglob_partn   ../engine/source/mpi/anim/spmd_iglob_partn.F
+!||    write_i_c          ../common_source/tools/input_output/write_routtines.c
+!||--- uses       -----------------------------------------------------
+!||    elbufdef_mod       ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    my_alloc_mod       ../common_source/tools/memory/my_alloc.F90
+!||====================================================================
       SUBROUTINE PARSORC(X    ,D    ,XNORM,IADD ,CDG  ,
      .                  BUFEL,IPARG,IXQ  ,IXC  ,IXTG ,
      .                  ELBUF_TAB,INVERT,EL2FA,IADG,

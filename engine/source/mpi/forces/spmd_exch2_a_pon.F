@@ -20,22 +20,22 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    spmd_exch2_a_pon       ../engine/source/mpi/forces/spmd_exch2_a_pon.F
-      !||--- called by ------------------------------------------------------
-      !||    resol                  ../engine/source/engine/resol.F
-      !||--- calls      -----------------------------------------------------
-      !||    reallocate_i_skyline   ../engine/source/system/reallocate_skyline.F
-      !||    spmd_exchi_a_pon       ../engine/source/mpi/forces/spmd_exchi_a_pon.F
-      !||--- uses       -----------------------------------------------------
-      !||    crackxfem_mod          ../engine/share/modules/crackxfem_mod.F
-      !||    glob_therm_mod         ../common_source/modules/mat_elem/glob_therm_mod.F90
-      !||    h3d_mod                ../engine/share/modules/h3d_mod.F
-      !||    heat_mod               ../engine/share/modules/heat_mod.F
-      !||    interfaces_mod         ../common_source/modules/interfaces/interfaces_mod.F90
-      !||    plyxfem_mod            ../engine/share/modules/plyxfem_mod.F
-      !||    spmd_comm_world_mod    ../engine/source/mpi/spmd_comm_world.F90
-      !||====================================================================
+!||====================================================================
+!||    spmd_exch2_a_pon       ../engine/source/mpi/forces/spmd_exch2_a_pon.F
+!||--- called by ------------------------------------------------------
+!||    resol                  ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
+!||    reallocate_i_skyline   ../engine/source/system/reallocate_skyline.F
+!||    spmd_exchi_a_pon       ../engine/source/mpi/forces/spmd_exchi_a_pon.F
+!||--- uses       -----------------------------------------------------
+!||    crackxfem_mod          ../engine/share/modules/crackxfem_mod.F
+!||    glob_therm_mod         ../common_source/modules/mat_elem/glob_therm_mod.F90
+!||    h3d_mod                ../engine/share/modules/h3d_mod.F
+!||    heat_mod               ../engine/share/modules/heat_mod.F
+!||    interfaces_mod         ../common_source/modules/interfaces/interfaces_mod.F90
+!||    plyxfem_mod            ../engine/share/modules/plyxfem_mod.F
+!||    spmd_comm_world_mod    ../engine/source/mpi/spmd_comm_world.F90
+!||====================================================================
       SUBROUTINE SPMD_EXCH2_A_PON(INTERFACES,
      1   IAD_ELEM,FR_ELEM,ADDCNE,PROCNE,FR_NBCC,
      2   SIZE    ,LENR   ,LENS  ,FSKY  ,FSKYV  ,

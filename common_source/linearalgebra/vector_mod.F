@@ -20,20 +20,20 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    vector_mod          ../common_source/linearalgebra/vector_mod.F
-      !||--- called by ------------------------------------------------------
-      !||    diffusion_mod       ../engine/share/modules/diffusion_mod.F
-      !||    linear_solver_mod   ../engine/share/modules/linear_solver_mod.F
-      !||    prod_vec            ../common_source/linearalgebra/matrix_mod.F
-      !||    set_rhs             ../engine/share/modules/linear_solver_mod.F
-      !||    set_rhs_cg          ../engine/share/modules/linear_solver_mod.F
-      !||    set_rhs_mumps       ../engine/share/modules/linear_solver_mod.F
-      !||    solve_cg            ../engine/share/modules/linear_solver_mod.F
-      !||--- calls      -----------------------------------------------------
-      !||    get_dim             ../common_source/linearalgebra/vector_mod.F
-      !||    norm                ../common_source/linearalgebra/vector_mod.F
-      !||====================================================================
+!||====================================================================
+!||    vector_mod          ../common_source/linearalgebra/vector_mod.F
+!||--- called by ------------------------------------------------------
+!||    diffusion_mod       ../engine/share/modules/diffusion_mod.F
+!||    linear_solver_mod   ../engine/share/modules/linear_solver_mod.F
+!||    prod_vec            ../common_source/linearalgebra/matrix_mod.F
+!||    set_rhs             ../engine/share/modules/linear_solver_mod.F
+!||    set_rhs_cg          ../engine/share/modules/linear_solver_mod.F
+!||    set_rhs_mumps       ../engine/share/modules/linear_solver_mod.F
+!||    solve_cg            ../engine/share/modules/linear_solver_mod.F
+!||--- calls      -----------------------------------------------------
+!||    get_dim             ../common_source/linearalgebra/vector_mod.F
+!||    norm                ../common_source/linearalgebra/vector_mod.F
+!||====================================================================
       MODULE VECTOR_MOD
       implicit none
 #include      "my_real.inc"
@@ -61,13 +61,13 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !     Get Vector dimension     !
 !     ********************     !
 
-      !||====================================================================
-      !||    get_dim      ../common_source/linearalgebra/vector_mod.F
-      !||--- called by ------------------------------------------------------
-      !||    matrix_mod   ../common_source/linearalgebra/matrix_mod.F
-      !||    prod_vec     ../common_source/linearalgebra/matrix_mod.F
-      !||    vector_mod   ../common_source/linearalgebra/vector_mod.F
-      !||====================================================================
+!||====================================================================
+!||    get_dim      ../common_source/linearalgebra/vector_mod.F
+!||--- called by ------------------------------------------------------
+!||    matrix_mod   ../common_source/linearalgebra/matrix_mod.F
+!||    prod_vec     ../common_source/linearalgebra/matrix_mod.F
+!||    vector_mod   ../common_source/linearalgebra/vector_mod.F
+!||====================================================================
       function get_dim(this)
       class(t_vector), intent(in) :: this
       integer :: get_dim
@@ -78,9 +78,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !     Set Vector dimension     !
 !     ********************     !
 
-      !||====================================================================
-      !||    set_dim   ../common_source/linearalgebra/vector_mod.F
-      !||====================================================================
+!||====================================================================
+!||    set_dim   ../common_source/linearalgebra/vector_mod.F
+!||====================================================================
       subroutine set_dim(this, dim)
       class(t_vector), intent(inout) :: this
       integer :: dim
@@ -91,9 +91,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !     Allocate arrays     !
 !     ***************     !
 
-      !||====================================================================
-      !||    create   ../common_source/modules/boundary_conditions/ebcs_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    create   ../common_source/modules/boundary_conditions/ebcs_mod.F90
+!||====================================================================
       subroutine create(this, nn)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -109,9 +109,9 @@ C-----------------------------------------------
 !     Free allocated memory     !
 !     *********************     !
 
-      !||====================================================================
-      !||    destroy   ../common_source/modules/boundary_conditions/ebcs_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    destroy   ../common_source/modules/boundary_conditions/ebcs_mod.F90
+!||====================================================================
       subroutine destroy(this)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -126,9 +126,9 @@ C-----------------------------------------------
 !     Pointer association     !
 !     *******************     !
 
-      !||====================================================================
-      !||    associate   ../common_source/linearalgebra/vector_mod.F
-      !||====================================================================
+!||====================================================================
+!||    associate   ../common_source/linearalgebra/vector_mod.F
+!||====================================================================
       subroutine associate(this, ptr_irow, ptr_val)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -145,11 +145,11 @@ C-----------------------------------------------
 !     Compute Vector norm     !
 !     *******************     !
 
-      !||====================================================================
-      !||    norm         ../common_source/linearalgebra/vector_mod.F
-      !||--- called by ------------------------------------------------------
-      !||    vector_mod   ../common_source/linearalgebra/vector_mod.F
-      !||====================================================================
+!||====================================================================
+!||    norm         ../common_source/linearalgebra/vector_mod.F
+!||--- called by ------------------------------------------------------
+!||    vector_mod   ../common_source/linearalgebra/vector_mod.F
+!||====================================================================
       function norm(this)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

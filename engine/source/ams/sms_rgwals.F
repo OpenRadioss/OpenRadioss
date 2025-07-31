@@ -20,11 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    sms_rgwals_impact   ../engine/source/ams/sms_rgwals.F
-      !||--- called by ------------------------------------------------------
-      !||    sms_rgwal_0         ../engine/source/ams/sms_rgwal0.F
-      !||====================================================================
+!||====================================================================
+!||    sms_rgwals_impact   ../engine/source/ams/sms_rgwals.F
+!||--- called by ------------------------------------------------------
+!||    sms_rgwal_0         ../engine/source/ams/sms_rgwal0.F
+!||====================================================================
       SUBROUTINE SMS_RGWALS_IMPACT(X    ,A    ,V      ,RWL  ,NSW   ,
      1                             NSN  ,ITIED,MSR    ,MS   ,WEIGHT,
      2                             NIMPACT,IMPACT ,NSMS ,NRWL_SMS)
@@ -108,11 +108,11 @@ C
 C
       RETURN
       END
-      !||====================================================================
-      !||    sms_rgwals_fric   ../engine/source/ams/sms_rgwals.F
-      !||--- called by ------------------------------------------------------
-      !||    sms_rgwal_0       ../engine/source/ams/sms_rgwal0.F
-      !||====================================================================
+!||====================================================================
+!||    sms_rgwals_fric   ../engine/source/ams/sms_rgwals.F
+!||--- called by ------------------------------------------------------
+!||    sms_rgwal_0       ../engine/source/ams/sms_rgwal0.F
+!||====================================================================
       SUBROUTINE SMS_RGWALS_FRIC
      1                 (X      ,A      ,V      ,RWL      ,NSW    ,
      2                  NSN    ,ITIED  ,MSR    ,MS       ,WEIGHT ,
@@ -233,11 +233,11 @@ C
 C
       RETURN
       END
-      !||====================================================================
-      !||    sms_rgwals_bcs_0   ../engine/source/ams/sms_rgwals.F
-      !||--- called by ------------------------------------------------------
-      !||    sms_rgwal_0        ../engine/source/ams/sms_rgwal0.F
-      !||====================================================================
+!||====================================================================
+!||    sms_rgwals_bcs_0   ../engine/source/ams/sms_rgwals.F
+!||--- called by ------------------------------------------------------
+!||    sms_rgwal_0        ../engine/source/ams/sms_rgwal0.F
+!||====================================================================
       SUBROUTINE SMS_RGWALS_BCS_0
      1                 (X     ,A     ,V     ,RWL    ,NSW   ,
      2                  NSN   ,ITIED ,MSR    ,MS     ,WEIGHT ,
@@ -373,11 +373,11 @@ C glissement
 C
       RETURN
       END
-      !||====================================================================
-      !||    sms_rgwals_bcs_1   ../engine/source/ams/sms_rgwals.F
-      !||--- called by ------------------------------------------------------
-      !||    sms_rgwal_0        ../engine/source/ams/sms_rgwal0.F
-      !||====================================================================
+!||====================================================================
+!||    sms_rgwals_bcs_1   ../engine/source/ams/sms_rgwals.F
+!||--- called by ------------------------------------------------------
+!||    sms_rgwal_0        ../engine/source/ams/sms_rgwal0.F
+!||====================================================================
       SUBROUTINE SMS_RGWALS_BCS_1
      1                 (X     ,A     ,V     ,RWL    ,NSW   ,
      2                  NSN   ,ITIED ,MSR    ,MS     ,WEIGHT ,
@@ -508,13 +508,13 @@ C glissement
 C
       RETURN
       END
-      !||====================================================================
-      !||    sms_rgwals_bilan   ../engine/source/ams/sms_rgwals.F
-      !||--- called by ------------------------------------------------------
-      !||    sms_rgwal_0        ../engine/source/ams/sms_rgwal0.F
-      !||--- calls      -----------------------------------------------------
-      !||    sum_6_float        ../engine/source/system/parit.F
-      !||====================================================================
+!||====================================================================
+!||    sms_rgwals_bilan   ../engine/source/ams/sms_rgwals.F
+!||--- called by ------------------------------------------------------
+!||    sms_rgwal_0        ../engine/source/ams/sms_rgwal0.F
+!||--- calls      -----------------------------------------------------
+!||    sum_6_float        ../engine/source/system/parit.F
+!||====================================================================
       SUBROUTINE SMS_RGWALS_BILAN
      1                 (X     ,FREA    ,V      ,RWL    ,NSW   ,
      2                  NSN   ,ITIED   ,MSR    ,MS     ,WEIGHT ,

@@ -20,16 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    sigeps122       ../engine/source/materials/mat/mat122/sigeps122.F
-      !||--- called by ------------------------------------------------------
-      !||    mulaw           ../engine/source/materials/mat_share/mulaw.F90
-      !||--- calls      -----------------------------------------------------
-      !||    mat122_newton   ../engine/source/materials/mat/mat122/mat122_newton.F
-      !||    mat122_nice     ../engine/source/materials/mat/mat122/mat122_nice.F
-      !||--- uses       -----------------------------------------------------
-      !||    elbufdef_mod    ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    sigeps122       ../engine/source/materials/mat/mat122/sigeps122.F
+!||--- called by ------------------------------------------------------
+!||    mulaw           ../engine/source/materials/mat_share/mulaw.F90
+!||--- calls      -----------------------------------------------------
+!||    mat122_newton   ../engine/source/materials/mat/mat122/mat122_newton.F
+!||    mat122_nice     ../engine/source/materials/mat/mat122/mat122_nice.F
+!||--- uses       -----------------------------------------------------
+!||    elbufdef_mod    ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||====================================================================
       SUBROUTINE SIGEPS122(
      1     NEL     ,NUPARAM ,NUVAR   ,UPARAM  ,UVAR    ,RHO0    ,
      2     EPSXX   ,EPSYY   ,EPSZZ   ,PLA     ,DPLA    ,

@@ -20,11 +20,11 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    eikonal_godunov_operator_2d_mod   ../starter/source/initial_conditions/detonation/eikonal_godunov_operator_2d.F90
-      !||--- called by ------------------------------------------------------
-      !||    eikonal_compute_adjacent          ../starter/source/initial_conditions/detonation/eikonal_compute_adjacent.F90
-      !||====================================================================
+!||====================================================================
+!||    eikonal_godunov_operator_2d_mod   ../starter/source/initial_conditions/detonation/eikonal_godunov_operator_2d.F90
+!||--- called by ------------------------------------------------------
+!||    eikonal_compute_adjacent          ../starter/source/initial_conditions/detonation/eikonal_compute_adjacent.F90
+!||====================================================================
       module eikonal_godunov_operator_2d_mod
       contains
 
@@ -33,12 +33,12 @@
 ! ======================================================================================================================
 !! \brief Godunov operator for fast marching method in 2D using gradient reconstruction (unstructured mesh)
 !! \details Finite differences cannot be used since adjacent points are not necessarily aligned.
-      !||====================================================================
-      !||    eikonal_godunov_operator_2d   ../starter/source/initial_conditions/detonation/eikonal_godunov_operator_2d.F90
-      !||--- called by ------------------------------------------------------
-      !||    eikonal_compute_adjacent      ../starter/source/initial_conditions/detonation/eikonal_compute_adjacent.F90
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    eikonal_godunov_operator_2d   ../starter/source/initial_conditions/detonation/eikonal_godunov_operator_2d.F90
+!||--- called by ------------------------------------------------------
+!||    eikonal_compute_adjacent      ../starter/source/initial_conditions/detonation/eikonal_compute_adjacent.F90
+!||--- uses       -----------------------------------------------------
+!||====================================================================
         subroutine eikonal_Godunov_Operator_2d(xel, tt, xel_adj, tt_adj, n_adj, Velocity, Velocity_adj)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules

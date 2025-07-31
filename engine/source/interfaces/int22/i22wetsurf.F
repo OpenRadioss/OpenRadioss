@@ -20,18 +20,18 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    i22wetsurf                 ../engine/source/interfaces/int22/i22wetsurf.F
-      !||--- called by ------------------------------------------------------
-      !||    i22mainf                   ../engine/source/interfaces/int22/i22mainf.F
-      !||--- calls      -----------------------------------------------------
-      !||    getprojectedfacetype       ../engine/source/interfaces/int22/i22wetsurf.F
-      !||    polygonalclipping          ../engine/source/interfaces/int22/i22clip_tools.F
-      !||    setcounterclockwisepolyg   ../engine/source/interfaces/int22/i22clip_tools.F
-      !||--- uses       -----------------------------------------------------
-      !||    i22bufbric_mod             ../common_source/modules/interfaces/cut-cell-search_mod.F
-      !||    i22tri_mod                 ../common_source/modules/interfaces/cut-cell-search_mod.F
-      !||====================================================================
+!||====================================================================
+!||    i22wetsurf                 ../engine/source/interfaces/int22/i22wetsurf.F
+!||--- called by ------------------------------------------------------
+!||    i22mainf                   ../engine/source/interfaces/int22/i22mainf.F
+!||--- calls      -----------------------------------------------------
+!||    getprojectedfacetype       ../engine/source/interfaces/int22/i22wetsurf.F
+!||    polygonalclipping          ../engine/source/interfaces/int22/i22clip_tools.F
+!||    setcounterclockwisepolyg   ../engine/source/interfaces/int22/i22clip_tools.F
+!||--- uses       -----------------------------------------------------
+!||    i22bufbric_mod             ../common_source/modules/interfaces/cut-cell-search_mod.F
+!||    i22tri_mod                 ../common_source/modules/interfaces/cut-cell-search_mod.F
+!||====================================================================
       SUBROUTINE I22WETSURF(
      1                  JLT    ,CAND_B ,CAND_E  ,CB_LOC ,CE_LOC ,
      2                  X1     ,X2     ,X3      ,X4     ,Y1     ,
@@ -1371,13 +1371,13 @@ C
 C===============================================================================
 
 
-      !||====================================================================
-      !||    getprojectedfacetype   ../engine/source/interfaces/int22/i22wetsurf.F
-      !||--- called by ------------------------------------------------------
-      !||    i22wetsurf             ../engine/source/interfaces/int22/i22wetsurf.F
-      !||--- calls      -----------------------------------------------------
-      !||    intersectp             ../engine/source/interfaces/int22/i22clip_tools.F
-      !||====================================================================
+!||====================================================================
+!||    getprojectedfacetype   ../engine/source/interfaces/int22/i22wetsurf.F
+!||--- called by ------------------------------------------------------
+!||    i22wetsurf             ../engine/source/interfaces/int22/i22wetsurf.F
+!||--- calls      -----------------------------------------------------
+!||    intersectp             ../engine/source/interfaces/int22/i22clip_tools.F
+!||====================================================================
       FUNCTION GetProjectedFaceType(P1,P2,P3,P4,I,ListP)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

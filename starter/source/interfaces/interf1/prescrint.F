@@ -20,15 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    prescrint           ../starter/source/interfaces/interf1/prescrint.F
-      !||--- called by ------------------------------------------------------
-      !||    lectur              ../starter/source/starter/lectur.F
-      !||--- calls      -----------------------------------------------------
-      !||    presegmt            ../starter/source/interfaces/interf1/presegmt.F
-      !||--- uses       -----------------------------------------------------
-      !||    intbufscratch_mod   ../starter/source/interfaces/interf1/intbufscratch_mod.F
-      !||====================================================================
+!||====================================================================
+!||    prescrint           ../starter/source/interfaces/interf1/prescrint.F
+!||--- called by ------------------------------------------------------
+!||    lectur              ../starter/source/starter/lectur.F
+!||--- calls      -----------------------------------------------------
+!||    presegmt            ../starter/source/interfaces/interf1/presegmt.F
+!||--- uses       -----------------------------------------------------
+!||    intbufscratch_mod   ../starter/source/interfaces/interf1/intbufscratch_mod.F
+!||====================================================================
       SUBROUTINE PRESCRINT(IPARI, INTBUF_TAB,INSCR)
 C-----------------------------------------------
 C   M o d u l e s

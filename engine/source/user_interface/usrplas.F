@@ -20,20 +20,20 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    usrplas_dum   ../engine/source/user_interface/usrplas.F
-      !||--- called by ------------------------------------------------------
-      !||    radioss2      ../engine/source/engine/radioss2.F
-      !||====================================================================
+!||====================================================================
+!||    usrplas_dum   ../engine/source/user_interface/usrplas.F
+!||--- called by ------------------------------------------------------
+!||    radioss2      ../engine/source/engine/radioss2.F
+!||====================================================================
       SUBROUTINE USRPLAS_DUM(IERR)
 C---------+---------+---+---+--------------------------------------------
 #include      "implicit_f.inc"
        INTEGER IERR
        IERR=0
       END
-      !||====================================================================
-      !||    set_u_shlplas   ../engine/source/user_interface/usrplas.F
-      !||====================================================================
+!||====================================================================
+!||    set_u_shlplas   ../engine/source/user_interface/usrplas.F
+!||====================================================================
       SUBROUTINE SET_U_SHLPLAS(USRNEL,SIGY,ETSE)
 C---------+---------+---+---+--------------------------------------------
 C This routine must be called by SIGEPS29C, SIGEPS30C, SIGEPS31C 
@@ -83,9 +83,9 @@ C-----------------------------------------------
 C
       RETURN
       END
-      !||====================================================================
-      !||    set_u_solplas   ../engine/source/user_interface/usrplas.F
-      !||====================================================================
+!||====================================================================
+!||    set_u_solplas   ../engine/source/user_interface/usrplas.F
+!||====================================================================
       SUBROUTINE SET_U_SOLPLAS(USRNEL,SIGY,PLA)
 C---------+---------+---+---+--------------------------------------------
 C This routine must be called by SIGEPS29, SIGEPS30, SIGEPS31

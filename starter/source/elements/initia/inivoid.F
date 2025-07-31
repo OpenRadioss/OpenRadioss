@@ -20,41 +20,41 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    inivoid                ../starter/source/elements/initia/inivoid.F
-      !||--- called by ------------------------------------------------------
-      !||    initia                 ../starter/source/elements/initia/initia.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg                 ../starter/source/output/message/message.F
-      !||    c3coori                ../starter/source/elements/sh3n/coque3n/c3coori.F
-      !||    c3evec3                ../starter/source/elements/sh3n/coque3n/c3evec3.F
-      !||    c3inmas                ../starter/source/elements/sh3n/coque3n/c3inmas.F
-      !||    c3veok3                ../starter/source/elements/sh3n/coque3n/c3veok3.F
-      !||    ccoori                 ../starter/source/elements/shell/coque/ccoori.F
-      !||    ceveci                 ../starter/source/elements/shell/coque/ceveci.F
-      !||    cinmas                 ../starter/source/elements/shell/coque/cinmas.F
-      !||    cveok3                 ../starter/source/elements/shell/coque/cveok3.F
-      !||    fretitl2               ../starter/source/starter/freform.F
-      !||    pcoori                 ../starter/source/elements/beam/pcoori.F
-      !||    pmass                  ../starter/source/elements/beam/pmass.F
-      !||    r23mass                ../starter/source/elements/spring/rmass.F
-      !||    s4coor3                ../starter/source/elements/solid/solide4/s4coor3.F
-      !||    s4deri3                ../starter/source/elements/solid/solide4/s4deri3.F
-      !||    s4mass3                ../starter/source/elements/solid/solide4/s4mass3.F
-      !||    sbulk3                 ../starter/source/elements/solid/solide/sbulk3.F
-      !||    scoor3                 ../starter/source/elements/solid/solide/scoor3.F
-      !||    sderi3                 ../starter/source/elements/solid/solide/sderi3.F
-      !||    sdlen3                 ../starter/source/elements/solid/solide/sdlen3.F
-      !||    smass3                 ../starter/source/elements/solid/solide/smass3.F
-      !||    tcoori                 ../starter/source/elements/truss/tcoori.F
-      !||    tmass                  ../starter/source/elements/truss/tmass.F
-      !||--- uses       -----------------------------------------------------
-      !||    defaults_mod           ../starter/source/modules/defaults_mod.F90
-      !||    drape_mod              ../starter/share/modules1/drape_mod.F
-      !||    format_mod             ../starter/share/modules1/format_mod.F90
-      !||    message_mod            ../starter/share/message_module/message_mod.F
-      !||    stack_mod              ../starter/share/modules1/stack_mod.F
-      !||====================================================================
+!||====================================================================
+!||    inivoid                ../starter/source/elements/initia/inivoid.F
+!||--- called by ------------------------------------------------------
+!||    initia                 ../starter/source/elements/initia/initia.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                 ../starter/source/output/message/message.F
+!||    c3coori                ../starter/source/elements/sh3n/coque3n/c3coori.F
+!||    c3evec3                ../starter/source/elements/sh3n/coque3n/c3evec3.F
+!||    c3inmas                ../starter/source/elements/sh3n/coque3n/c3inmas.F
+!||    c3veok3                ../starter/source/elements/sh3n/coque3n/c3veok3.F
+!||    ccoori                 ../starter/source/elements/shell/coque/ccoori.F
+!||    ceveci                 ../starter/source/elements/shell/coque/ceveci.F
+!||    cinmas                 ../starter/source/elements/shell/coque/cinmas.F
+!||    cveok3                 ../starter/source/elements/shell/coque/cveok3.F
+!||    fretitl2               ../starter/source/starter/freform.F
+!||    pcoori                 ../starter/source/elements/beam/pcoori.F
+!||    pmass                  ../starter/source/elements/beam/pmass.F
+!||    r23mass                ../starter/source/elements/spring/rmass.F
+!||    s4coor3                ../starter/source/elements/solid/solide4/s4coor3.F
+!||    s4deri3                ../starter/source/elements/solid/solide4/s4deri3.F
+!||    s4mass3                ../starter/source/elements/solid/solide4/s4mass3.F
+!||    sbulk3                 ../starter/source/elements/solid/solide/sbulk3.F
+!||    scoor3                 ../starter/source/elements/solid/solide/scoor3.F
+!||    sderi3                 ../starter/source/elements/solid/solide/sderi3.F
+!||    sdlen3                 ../starter/source/elements/solid/solide/sdlen3.F
+!||    smass3                 ../starter/source/elements/solid/solide/smass3.F
+!||    tcoori                 ../starter/source/elements/truss/tcoori.F
+!||    tmass                  ../starter/source/elements/truss/tmass.F
+!||--- uses       -----------------------------------------------------
+!||    defaults_mod           ../starter/source/modules/defaults_mod.F90
+!||    drape_mod              ../starter/share/modules1/drape_mod.F
+!||    format_mod             ../starter/share/modules1/format_mod.F90
+!||    message_mod            ../starter/share/message_module/message_mod.F
+!||    stack_mod              ../starter/share/modules1/stack_mod.F
+!||====================================================================
       SUBROUTINE INIVOID(ELBUF_STR   ,
      +                   IXC    ,IXS    ,IXTG   ,X      ,V      ,
      1                   PM     ,GEO    ,MS     ,IN     ,PTG    ,
