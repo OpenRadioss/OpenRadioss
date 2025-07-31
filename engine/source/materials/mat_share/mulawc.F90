@@ -1718,12 +1718,13 @@
                 call sigeps109c(&
                 &jlt     ,ngl     ,nuparam0,nuvar   ,nvartmp  ,numtabl  ,&
                 &uparam0 ,uvar    ,vartmp  ,itable  ,table    ,jthe     ,&
-                &tt      ,dt1c    ,off     ,rho     ,lbuf%pla ,dpla     ,&
+                &tt      ,dt1     ,off     ,rho     ,lbuf%pla ,dpla     ,&
                 &ssp     ,sigy    ,etse    ,el_temp ,lbuf%epsd,gs       ,&
                 &depsxx  ,depsyy  ,depsxy  ,depsyz  ,depszx   ,&
                 &sigoxx  ,sigoyy  ,sigoxy  ,sigoyz  ,sigozx   ,&
                 &signxx  ,signyy  ,signxy  ,signyz  ,signzx   ,&
-                &thkn    ,thklyl  ,inloc   ,varnl(1,it),lbuf%off)
+                &thkn    ,thklyl  ,inloc   ,varnl(1,it),lbuf%off,lbuf%seq,&
+                &bufly%l_planl,lbuf%planl  ,bufly%l_epsdnl    ,lbuf%epsdnl)
 !
               elseif (ilaw == 110 )then
                 call sigeps110c(&

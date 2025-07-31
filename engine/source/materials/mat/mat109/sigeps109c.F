@@ -39,7 +39,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      5     DEPSXX  ,DEPSYY  ,DEPSXY  ,DEPSYZ  ,DEPSZX  ,
      6     SIGOXX  ,SIGOYY  ,SIGOXY  ,SIGOYZ  ,SIGOZX  ,
      7     SIGNXX  ,SIGNYY  ,SIGNXY  ,SIGNYZ  ,SIGNZX  ,
-     8     THK     ,THKLY   ,INLOC   ,DPLANL  ,LOFF    )
+     8     THK     ,THKLY   ,INLOC   ,DPLANL  ,LOFF    ,SEQ     ,
+     9     LPLANL  ,PLA_NL  ,LEPSDNL ,DPDT_NL )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -60,19 +61,22 @@ C-----------------------------------------------
       INTEGER ,DIMENSION(NUMTABL),INTENT(IN)  :: ITABLE
       INTEGER ,DIMENSION(NEL)    ,INTENT(IN)  :: NGL
 c
-      my_real  :: TIME
+      my_real  :: TIME,TIMESTEP
       my_real,DIMENSION(NUPARAM) ,INTENT(IN)  :: UPARAM
-      my_real,DIMENSION(NEL)     ,INTENT(IN)  :: RHO,OFF,GS,THKLY,TIMESTEP,
+      my_real,DIMENSION(NEL)     ,INTENT(IN)  :: RHO,OFF,GS,THKLY,
      .   DEPSXX,DEPSYY,DEPSXY,DEPSYZ,DEPSZX,
      .   SIGOXX,SIGOYY,SIGOXY,SIGOYZ,SIGOZX,DPLANL
       my_real ,DIMENSION(NEL)    ,INTENT(OUT) :: SOUNDSP,SIGY,ET,
      .   SIGNXX,SIGNYY,SIGNXY,SIGNYZ,SIGNZX
-      my_real ,DIMENSION(NEL) ,INTENT(INOUT) :: PLA,DPLA,EPSD,TEMP,THK
+      my_real ,DIMENSION(NEL) ,INTENT(INOUT) :: PLA,DPLA,EPSD,TEMP,THK,SEQ
       my_real ,DIMENSION(NEL,NUVAR)   ,INTENT(INOUT) :: UVAR
       INTEGER ,DIMENSION(NEL,NVARTMP) ,INTENT(INOUT) :: VARTMP
 c
       TYPE(TTABLE), DIMENSION(NTABLE) ::  TABLE
       my_real, DIMENSION(NEL), INTENT(IN) :: LOFF
+      INTEGER, INTENT(IN) :: LPLANL, LEPSDNL
+      my_real, DIMENSION(NEL*LPLANL) , INTENT(IN) :: PLA_NL
+      my_real, DIMENSION(NEL*LEPSDNL), INTENT(IN) :: DPDT_NL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -80,49 +84,52 @@ C-----------------------------------------------
      .   FUNC_YLD,FUNC_TEMP,FUNC_ETA,NDIM_YLD,NDIM_TEMP,NDIM_ETA
       INTEGER ,DIMENSION(NEL) :: INDEX
 c
-      my_real  :: YOUNG,LAME,G,G2,G3,A11,A12,NU,NNU,NNU1,TREF,TINI,BETA,LDAV,
-     .   XRATE,XSCALE,YSCALE,DTINV,J2,Q2,DPHI_DLAM,DLAMIN,ALPHA,ALPHI,
-     .   R,R1,R2,SAT,SBT,DPXX,DPYY,DPXY
-      my_real  :: check_svm
+      my_real  :: YOUNG,G,A11,A12,NU,TREF,TINI,ETA,
+     .   XRATE,XSCALE,YSCALE,DTINV,J2,Q2,DPHI_DLAM,ALPHA,ALPHI,
+     .   R,DFDSIG2,SIG_DFDSIG,DDEP,ASRATE
 c
       my_real, DIMENSION(NEL) ::SVM,SVMT,YLD,YLD_TREF,YLD_TEMP,
-     .   SXX,SYY,SXY,SYZ,SZX,SIGM,STXX,STYY,STXY,STYZ,STZX,PLA_NL,DPDT_NL,
+     .   SXX,SYY,SXY,SYZ,SZX,SIGM,STXX,STYY,STXY,STYZ,STZX,
      .   FACT_ETA,DYDX,HARDP,HARDR,YLD_I,HARDP_I,HARDR_I,DXDYV,DLAM,PHI,
-     .   FTHERM,TFAC,DEPSZZ,NORMXX,NORMYY,NORMXY,DEPSPXX,DEPSPYY,DEPSPXY
-     .   
+     .   FTHERM,TFAC,DEPSZZ,NORMXX,NORMYY,NORMXY,DEPSPXX,DEPSPYY,DEPSPXY,
+     .   STZZ,SZZ,DPXX,DPYY,DPXY,DPLA_DLAM,PLA0,DEZZ
       my_real, DIMENSION(NEL,3) :: XVEC_ETA
       my_real, DIMENSION(NEL,4) :: XVEC
       INTEGER, DIMENSION(NEL,3) :: IPOS_ETA
       INTEGER, DIMENSION(NEL,2) :: IPOS
-C-----------------------------------------------
+!-------------------------------------------------------------------------------
       ! VARTMP(1)   latest position of PLAS in TAB_YLD function 
       ! VARTMP(2)   latest position of PLAS in TAB_TEMP function 
       ! VARTMP(3)   latest position of TEMP in TAB_TEMP function 
       ! VARTMP(4)   latest position of TEMP in TAB_ETA function 
       ! VARTMP(5)   latest position of PLAS in TAB_ETA function 
-C=======================================================================
-c     Material model parameters
-c-----------------------------------------------
-      YOUNG   =  UPARAM(1)       ! Young modulus
-      NU      =  UPARAM(2)       ! Poisson ratio
-      BETA    =  UPARAM(3)       ! Thermal work coefficient
-      TREF    =  UPARAM(4)       ! Reference temperature
-      TINI    =  UPARAM(5)       ! Initial tempareture
-      ISMOOTH =  NINT(UPARAM(6)) ! function interpolation flag
-      XRATE   =  UPARAM(7)       ! strain rate abscissa factor for eta function
-      XSCALE  =  UPARAM(8)       ! strain rate abscissa factor for yld function
-      YSCALE  =  UPARAM(9)       ! Yld function scale factor
-      
-      G       =  UPARAM(11)      ! Shear modulus
-      G2      =  UPARAM(12)      ! Shear modulus * 2
-      G3      =  UPARAM(13)      ! Shear modulus * 3
-      LAME    =  UPARAM(15)      ! Lame parameter
-      A11     =  UPARAM(16)      ! YOUNG / (ONE - NU**2)
-      A12     =  UPARAM(17)      ! YOUNG * NU / (ONE - NU**2)
-      NNU     =  UPARAM(18)      ! NU / (ONE - NU)
-      NNU1    =  UPARAM(19)      !(ONE - TWO*NU) / (ONE - NU)
-      IF (JTHE /= 0) BETA = ZERO ! No temperature calculation inside material
-c
+!===============================================================================
+!
+      !=========================================================================
+      !< - INITIALISATION OF COMPUTATION ON TIME STEP
+      !=========================================================================
+      !< Recovering model parameters    
+      YOUNG   = UPARAM(1)       !< Young modulus
+      NU      = UPARAM(2)       !< Poisson's ratio
+      ETA     = UPARAM(3)       !< Thermal work coefficient
+      TREF    = UPARAM(4)       !< Reference temperature
+      TINI    = UPARAM(5)       !< Initial tempareture
+      ISMOOTH = NINT(UPARAM(6)) !< Function interpolation flag
+      XRATE   = UPARAM(7)       !< Strain rate abscissa factor for eta function
+      XSCALE  = UPARAM(8)       !< Strain rate abscissa factor for yld function
+      YSCALE  = UPARAM(9)       !< Yield function scale factor
+      G       = UPARAM(11)      !< Shear modulus
+      A11     = UPARAM(16)      !< 2D Elastic matrix diagonal coefficient
+      A12     = UPARAM(17)      !< 2D Elastic matrix off-diagonal coefficient
+      ASRATE  = UPARAM(21)      !< Filtering pulsation for plastic strain rate
+      !< Plastic strain rate filtering parameters
+      DTINV  = ONE / MAX(EM20, TIMESTEP)
+      ALPHA  = ASRATE*TIMESTEP
+      ALPHI  = ONE-ALPHA
+      !< No temperature calculation inside material
+      IF (JTHE /= 0) ETA = ZERO 
+!
+      !< Recovering tables and functions
       FUNC_YLD  = ITABLE(1)
       FUNC_TEMP = ITABLE(2)
       FUNC_ETA  = ITABLE(3)
@@ -133,35 +140,24 @@ c
       IF (FUNC_ETA  > 0) THEN
         NDIM_ETA   = TABLE(FUNC_ETA)%NDIM
       ENDIF
-c 
-      ! Maximal number of Newton iterations
-      NITER = 3
-c
-c     Initializations
-c
-      DPLA(1:NEL)  = ZERO          ! Initialization of the plastic strain increment
-      ET(1:NEL)    = ONE            ! Initialization of tangent stiffness factor
-      DEPSPXX(1:NEL)  = ZERO 
-      DEPSPYY(1:NEL)  = ZERO 
-      DEPSPXY(1:NEL)  = ZERO 
-      DTINV  = ONE / MAX(EM20, TIMESTEP(1))
-      DLAMIN = EM15
-      ALPHA  = 0.025
-      ALPHI  = ONE-ALPHA
-      ! Non-local plastic strain
-      IF (INLOC > 0) THEN 
-        DO I = 1,NEL
-          UVAR(I,1)  = UVAR(I,1) + MAX(DPLANL(I),ZERO)
-          PLA_NL(I)  = UVAR(I,1)
-          DPDT_NL(I) = MAX(DPLANL(I),ZERO)*DTINV
-        ENDDO
-      ENDIF
-c      
-c---  self heating factor and temperatiure initialization
-      IF (JTHE == 0) THEN    ! internal temperature is calculated
+!
+      !< Recovering internal variables and initializations of local variables
+      DO I = 1,NEL
+        PLA0(I)  = PLA(I) !< Initial plastic strain
+        DPLA(I)  = ZERO   !< Plastic strain increment initialization
+        ET(I)    = ONE    !< Hourglass stabilization variable initialization
+        HARDP(I) = ZERO   !< Hardening modulus initialization
+        DEZZ(I)  = ZERO   !< Thickness variation initialization
+      ENDDO
+!
+      !< Temperature & thermal softening factor initialization
+      IF (JTHE == 0) THEN
+        !< Temperature initialization
         IF (TIME == ZERO) TEMP(1:NEL) = TINI
-        IF (BETA > ZERO) THEN
-          IF (FUNC_ETA > 0) THEN    ! scale factor function for Taylor-Quinney coefficient
+        !< Thermal softening factor initialization
+        IF (ETA > ZERO) THEN
+          !< Taylor-Quinney factor
+          IF (FUNC_ETA > 0) THEN
             IF (INLOC == 0) THEN 
               XVEC_ETA(1:NEL,1) = EPSD(1:NEL) * XRATE 
             ELSE
@@ -180,199 +176,259 @@ c---  self heating factor and temperatiure initialization
               ENDIF
               IPOS_ETA(1:NEL,3) = VARTMP(1:NEL,5)
             END IF
-
-            CALL TABLE_VINTERP(TABLE(FUNC_ETA),NEL,NEL,IPOS_ETA,XVEC_ETA,FACT_ETA,DXDYV)          
-      
+            CALL TABLE_VINTERP(TABLE(FUNC_ETA),NEL,NEL,IPOS_ETA,XVEC_ETA,
+     .                         FACT_ETA,DXDYV)          
             IF (NDIM_ETA > 1) VARTMP(1:NEL,4) = IPOS_ETA(1:NEL,2)
             IF (NDIM_ETA > 2) VARTMP(1:NEL,5) = IPOS_ETA(1:NEL,3)
             DO I=1,NEL
-              FTHERM(I) = MIN(BETA*FACT_ETA(I), ONE)
+              FTHERM(I) = MIN(ETA*FACT_ETA(I), ONE)
             END DO
           ELSE
-            FTHERM(1:NEL) = MIN(BETA, ONE)
+            FTHERM(1:NEL) = MIN(ETA, ONE)
           END IF 
         END IF
       ENDIF
-c-----------------------------------------------
-c     Trial stress
-c-----------------------------------------------
+!      
+      !=========================================================================
+      ! - COMPUTATION OF TRIAL VALUES
+      !=========================================================================  
       DO I=1,NEL
-        LDAV = (DEPSXX(I) + DEPSYY(I)) * LAME
+        !< Computation of the trial stress tensor
         SIGNXX(I) = SIGOXX(I) + A11*DEPSXX(I) + A12*DEPSYY(I)
         SIGNYY(I) = SIGOYY(I) + A11*DEPSYY(I) + A12*DEPSXX(I)
         SIGNXY(I) = SIGOXY(I) + DEPSXY(I)*G
         SIGNYZ(I) = SIGOYZ(I) + DEPSYZ(I)*GS(I)
         SIGNZX(I) = SIGOZX(I) + DEPSZX(I)*GS(I)
-        SIGM(I)   = (SIGNXX(I) + SIGNYY(I)) * THIRD
-        ! deviatoric trial stress tensor
-        STXX(I) = SIGNXX(I) - SIGM(I)
-        STYY(I) = SIGNYY(I) - SIGM(I)
-        STXY(I) = SIGNXY(I)
-        IF (INLOC == 0) THEN
-          DEPSZZ(I) = -NNU * (DEPSXX(I) + DEPSYY(I))
-        ENDIF
+        !< Computation of the trace of the mean spherical stress 
+        SIGM(I) = (SIGNXX(I) + SIGNYY(I)) * THIRD
+        !< Computation of the trial deviatoric stress tensor
+        SXX(I) = SIGNXX(I) - SIGM(I)
+        SYY(I) = SIGNYY(I) - SIGM(I)
+        SZZ(I) = -SIGM(I)
+        SXY(I) = SIGNXY(I)
+        !< Assembling Von Mises equivalent stress
+        J2 = HALF*(SXX(I)**2 + SYY(I)**2 + SZZ(I)**2 + TWO*SXY(I)**2)
+        SVM(I) = SQRT(THREE*J2)
       ENDDO
-c----------------------------------------------------      
-c     Computation of the initial yield stress
-c----------------------------------------------------      
+!
+      !< Computation of the initial yield stress      
       XVEC(1:NEL,1) = PLA(1:NEL)
       XVEC(1:NEL,2) = EPSD(1:NEL) * XSCALE
       IPOS(1:NEL,1) = VARTMP(1:NEL,1)
       IPOS(1:NEL,2) = 1
-c
-      CALL TABLE2D_VINTERP_LOG(TABLE(FUNC_YLD),ISMOOTH,NEL,NEL,IPOS,XVEC  ,YLD  ,HARDP,HARDR)               
-c
-      YLD(1:NEL)   = YLD(1:NEL)   * YSCALE
-      HARDP(1:NEL) = HARDP(1:NEL) * YSCALE
+      CALL TABLE2D_VINTERP_LOG(TABLE(FUNC_YLD),ISMOOTH,NEL,NEL,IPOS,
+     .                         XVEC,YLD,HARDP,HARDR)
+      YLD(1:NEL) = YLD(1:NEL)*YSCALE
+      HARDP(1:NEL) = HARDP(1:NEL)*YSCALE
       VARTMP(1:NEL,1) = IPOS(1:NEL,1)
-c----------------------------------------------------      
-c     Computation of temperature dependent yield stress factor from quasistatic curves
-c----------------------------------------------------      
+      !< Adding temperature dependence to yield stress
       IF (FUNC_TEMP > 0) THEN
-c        XVEC(1:NEL,1) = PLA(1:NEL)
         XVEC(1:NEL,2) = TREF
         IPOS(1:NEL,1) = VARTMP(1:NEL,2)
         IPOS(1:NEL,2) = VARTMP(1:NEL,3)
         CALL TABLE_VINTERP(TABLE(FUNC_TEMP),NEL,NEL,IPOS,XVEC,YLD_TREF,DYDX)  
         VARTMP(1:NEL,2) = IPOS(1:NEL,1)     
         VARTMP(1:NEL,3) = IPOS(1:NEL,2)     
-c     
         XVEC(1:NEL,2) = TEMP(1:NEL)
-        CALL TABLE_VINTERP(TABLE(FUNC_TEMP),NEL,NEL,IPOS,XVEC,YLD_TEMP,DYDX)          
-c     
+        CALL TABLE_VINTERP(TABLE(FUNC_TEMP),NEL,NEL,IPOS,XVEC,YLD_TEMP,DYDX)
         TFAC(1:NEL)  = YLD_TEMP(1:NEL) / YLD_TREF(1:NEL)      
         YLD(1:NEL)   = YLD(1:NEL)   * TFAC(1:NEL)      
         HARDP(1:NEL) = HARDP(1:NEL) * TFAC(1:NEL) 
       ELSE
         TFAC(1:NEL) = ONE
       END IF
-c-----------------------------------------------
-c     Check plasticity 
-c-----------------------------------------------
+!     
+      !=========================================================================
+      ! - COMPUTATION OF YIELD FONCTION
+      !=========================================================================
+      PHI(1:NEL) = SVM(1:NEL) - YLD(1:NEL)
       NINDX = 0
       DO I=1,NEL
-        J2 = STXX(I)**2 + STYY(I)**2 + STXX(I)*STYY(I) + STXY(I)**2
-        Q2 = THREE*J2
-c
-        IF (Q2 > YLD(I)**2  .and. OFF(I) == ONE) THEN
-          NINDX = NINDX + 1   ! Number of the elements with plastic behaviour
-          INDEX(NINDX)  = I
-          SVMT(I) = SQRT(Q2)
-          PHI(I)  = SVMT(I) - YLD(I)
+        IF (PHI(I) >= ZERO .AND. OFF(I) == ONE) THEN
+          NINDX = NINDX + 1 
+          INDEX(NINDX) = I
         ENDIF
-      ENDDO
-c      
-      !====================================================================
-      ! - PLASTIC CORRECTION Newton
-      !====================================================================
-c
+      ENDDO    
+!  
+      !=========================================================================
+      ! - PLASTIC CORRECTION WITH CUTTING PLANE METHOD (SEMI-IMPLICIT)
+      !=========================================================================       
+!      
+      !< Number of iterations
+      NITER = 3
+!
       IF (NINDX > 0) THEN
-        DO II = 1, NINDX   ! Number of the element with plastic behaviour     
-          I = INDEX(II)
-          ! initialize incremental update
-          SXX(I) = STXX(I)
-          SYY(I) = STYY(I)
-          SXY(I) = STXY(I)
-          SVM(I) = SVMT(I)
-        END DO
-c
+!
+        !< Loop over the iterations  
         DO ITER = 1,NITER 
-c
+#include "vectorize.inc" 
+          !< Loop over yielding elements
           DO II = 1, NINDX      
             I = INDEX(II)
-c
-            PHI(I) = SVM(I) - YLD(I)
-            R      = THREE_HALF / SVM(I)           
-            NORMXX(I) = R*SXX(I)
-            NORMYY(I) = R*SYY(I)
-            NORMXY(I) = R*SXY(I)
-            DPHI_DLAM = G3 + HARDP(I)
-            DLAM(I) = PHI(I) / DPHI_DLAM
-            DPLA(I) = DPLA(I) + DLAM(I)
-          END DO
-          
-          ! Update Yld and Hardp with new plastic strain and strain rate
-          
+!
+            ! Note: in this part, the purpose is to compute for each iteration
+            ! a plastic multiplier allowing to update internal variables to satisfy
+            ! the consistency condition using the cutting plane semi-implicit 
+            ! iterative procedure.
+            ! Its expression at each iteration is : DLAMBDA = - PHI/DPHI_DLAMBDA
+            ! -> PHI          : current value of yield function (known)
+            ! -> DPHI_DLAMBDA : derivative of PHI with respect to DLAMBDA by taking
+            !                   into account of internal variables kinetic : 
+            !                   plasticity, temperature and damage (to compute)
+!
+            !< 1 - Computation of the normal to the yield surface
+            !-------------------------------------------------------------------
+            NORMXX(I) = THREE_HALF*SXX(I)/(MAX(SVM(I),EM20))
+            NORMYY(I) = THREE_HALF*SYY(I)/(MAX(SVM(I),EM20))
+            NORMXY(I) = THREE*SXY(I)/(MAX(SVM(I),EM20))
+!
+            !< 2 - Computation of DPHI_DLAMBDA
+            !-------------------------------------------------------------------
+!        
+            !   a) Derivative with respect stress increments tensor DSIG
+            !   ----------------------------------------------------------------
+            DFDSIG2 = NORMXX(I) * (A11*NORMXX(I) + A12*NORMYY(I))
+     .              + NORMYY(I) * (A11*NORMYY(I) + A12*NORMXX(I))
+     .              + NORMXY(I) * NORMXY(I) * G            
+!          
+            !   b) Derivative of dPLA with respect to DLAM
+            !   ----------------------------------------------------------------   
+            SIG_DFDSIG = SIGNXX(I) * NORMXX(I)
+     .                 + SIGNYY(I) * NORMYY(I)
+     .                 + SIGNXY(I) * NORMXY(I)    
+            DPLA_DLAM(I) = SIG_DFDSIG / YLD(I)       
+!
+            !   c) Assemble the derivation of the yield function w.r.t. lambda
+            !   ----------------------------------------------------------------
+            DPHI_DLAM = - DFDSIG2 + HARDP(I)*DPLA_DLAM(I)
+            DPHI_DLAM = SIGN(MAX(ABS(DPHI_DLAM),EM20),DPHI_DLAM)  
+!
+            !< 3 - Computation of the plastic multiplier
+            !-------------------------------------------------------------------
+            DLAM(I) = - PHI(I) / DPHI_DLAM
+!
+            !< 4 - Update the plastic strain related variables
+            !-------------------------------------------------------------------
+            !< Plastic strain increment on the iteration
+            DDEP    = DPLA_DLAM(I)*DLAM(I)
+            !< Plastic strain increment on the time step
+            DPLA(I) = MAX(DPLA(I) + DDEP,ZERO)
+            !< Update the plastic strain
+            PLA(I)  = PLA0(I) + DPLA(I)
+            !< Plastic strain tensor increment on the iteration
+            DPXX(I) = DLAM(I)*NORMXX(I)
+            DPYY(I) = DLAM(I)*NORMYY(I)
+            DPXY(I) = DLAM(I)*NORMXY(I)
+!
+          ENDDO
+!
+          !< 5 - Update the yield stress and its derivative
+          !---------------------------------------------------------------------
+          XVEC(1:NEL,1:2) = ZERO
+          IPOS(1:NEL,1:2) = 0
           DO II = 1, NINDX 
             I = INDEX(II)
-            XVEC(II,1) = PLA(I) + DPLA(I)
+            XVEC(II,1) = PLA(I)
             XVEC(II,2) = EPSD(I)
             IPOS(II,1) = VARTMP(I,1)
             IPOS(II,2) = 1
           ENDDO
-c
           CALL TABLE2D_VINTERP_LOG(TABLE(FUNC_YLD),ISMOOTH,NEL,NINDX,IPOS,XVEC,YLD_I,HARDP_I,HARDR_I)
-c
           DO II = 1, NINDX 
             I = INDEX(II)
             VARTMP(I,1) = IPOS(II,1)
-            HARDP(I) = HARDP_I(II)  *YSCALE*TFAC(I)
-            YLD(I)   = MIN(YLD_I(II)*YSCALE*TFAC(I), SVMT(I))
+            HARDP(I) = HARDP_I(II)*YSCALE*TFAC(I)
+            YLD(I) = YLD_I(II)*YSCALE*TFAC(I)
           ENDDO
-c                    
-          ! deviatoric stress update
-c
+!                    
+          !< 6 - Update the stress tensor and the yield function
+          !---------------------------------------------------------------------
+#include "vectorize.inc" 
           DO II = 1, NINDX 
             I = INDEX(II)
-c
-            DPXX = DLAM(I)*NORMXX(I)
-            DPYY = DLAM(I)*NORMYY(I)
-            DPXY = DLAM(I)*NORMXY(I)
-c
-            SXX(I) = SXX(I) - G2 * DPXX
-            SYY(I) = SYY(I) - G2 * DPYY
-            SXY(I) = SXY(I) - G2 * DPXY
-
-            J2 = SXX(I)*SXX(I) + SYY(I)*SYY(I) + SXX(I)*SYY(I) + SXY(I)*SXY(I)
+!
+            !< Update the Cauchy stress tensor
+            SIGNXX(I) = SIGNXX(I) - A11*DPXX(I) - A12*DPYY(I)
+            SIGNYY(I) = SIGNYY(I) - A12*DPXX(I) - A11*DPYY(I)
+            SIGNXY(I) = SIGNXY(I) - G*DPXY(I)
+!
+            !< Computation of the new trace of the mean spherical stress 
+            SIGM(I) = (SIGNXX(I) + SIGNYY(I)) * THIRD
+!
+            !< Computation of the new deviatoric stress tensor
+            SXX(I) = SIGNXX(I) - SIGM(I)
+            SYY(I) = SIGNYY(I) - SIGM(I)
+            SZZ(I) = -SIGM(I)
+            SXY(I) = SIGNXY(I)
+!
+            !< Assembling the new Von Mises equivalent stress
+            J2 = HALF*(SXX(I)**2 + SYY(I)**2 + SZZ(I)**2 + TWO*SXY(I)**2)
             SVM(I) = SQRT(THREE*J2)
+!
+            !< Update the yield function
             PHI(I) = SVM(I) - YLD(I)
-c
-            DEPSPXX(I) = DEPSPXX(I) + DPXX
-            DEPSPYY(I) = DEPSPYY(I) + DPYY
-            DEPSPXY(I) = DEPSPXY(I) + DPXY
-         ENDDO              
-c            
-        END DO   !  ITER = 1,NITER
-c        
+!
+            !< Update the thickness variation
+            IF (INLOC == 0) DEZZ(I) = DEZZ(I) - DPXX(I) - DPYY(I)
+!
+          ENDDO          
+          !< End of the loop over yielding elements 
+        ENDDO
+        ! End of the loop over the iterations 
+        !=======================================================================         
+        ! - END OF PLASTIC CORRECTION WITH CUTTING PLANE ITERATIVE METHOD
+        !=======================================================================         
+!        
+        !< Update the hourglass stabilization variable
         DO II = 1, NINDX 
           I = INDEX(II)
-          SIGNXX(I) = SXX(I) + SIGM(I)
-          SIGNYY(I) = SYY(I) + SIGM(I)
-          SIGNXY(I) = SXY(I)
-c
-          PLA(I) = PLA(I) + MAX(DPLA(I), ZERO)
           ET(I)  = HARDP(I) / (HARDP(I) + YOUNG)
-          IF (INLOC == 0) THEN 
-            DEPSZZ(I) = DEPSZZ(I) - NNU1*(DEPSPXX(I) + DEPSPYY(I))
-          ENDIF
         ENDDO                      
-c
-        ! Update the temperature
-        IF (JTHE == 0 .AND. BETA > ZERO .AND. INLOC == 0) THEN 
+!
+        !< Update the temperature
+        IF (JTHE == 0 .AND. ETA > ZERO .AND. INLOC == 0) THEN 
           DO II = 1, NINDX 
             I = INDEX(II)
             TEMP(I) = TEMP(I) + FTHERM(I)*YLD(I)*DPLA(I)
           ENDDO                      
-        ENDIF
-c
-c            
-      END IF     !  NINDX > 0
-c
-      SOUNDSP(1:NEL)= SQRT(A11 / RHO(1:NEL))
-      SIGY(1:NEL)   = YLD(1:NEL)
-      EPSD(1:NEL)   = ALPHA*DPLA(1:NEL)*DTINV + ALPHI*EPSD(1:NEL)
+        ENDIF 
+      ENDIF
+!
+      !< Non-local thickness variation and temperature update
+      !-------------------------------------------------------------------------
       IF (INLOC > 0) THEN 
         DO I = 1,NEL   
           IF (LOFF(I) == ONE) THEN   
-            DEPSZZ(I) = MAX(DPLANL(I),ZERO)*HALF*(SIGNXX(I)+SIGNYY(I))/MAX(YLD(I),EM20)
-            DEPSZZ(I) = - NU*((SIGNXX(I)-SIGOXX(I)+SIGNYY(I)-SIGOYY(I))/YOUNG) - DEPSZZ(I)
-            IF (JTHE == 0 .AND. BETA > ZERO) THEN 
+            DEZZ(I) = MAX(DPLANL(I),ZERO)*HALF*(SIGNXX(I)+SIGNYY(I))/MAX(YLD(I),EM20)
+            DEZZ(I) = - NU*((SIGNXX(I)-SIGOXX(I)+SIGNYY(I)-SIGOYY(I))/YOUNG) - DEZZ(I)
+            IF (JTHE == 0 .AND. ETA > ZERO) THEN 
               TEMP(I) = TEMP(I) + FTHERM(I)*YLD(I)*MAX(DPLANL(I),ZERO)
             ENDIF
           ENDIF
         ENDDO
       ENDIF
-      THK(1:NEL)    = THK(1:NEL) + DEPSZZ(1:NEL)*THKLY(1:NEL)*OFF(1:NEL)
-c-----------
-      RETURN
+!      
+      !< Storing output values and update soundspeed and thickness
+      !-------------------------------------------------------------------------
+      DO I=1,NEL 
+        !< Equivalent stress
+        SEQ(I) = SVM(I)
+        !< Sound speed
+        SOUNDSP(I) = SQRT(A11/RHO(I))
+        !< Yield stress
+        SIGY(I) = YLD(I)
+        !< Plastic strain rate
+        EPSD(I) = ALPHA*DPLA(I)*DTINV + ALPHI*EPSD(I)
+        !< Thickness variation
+        IF (INLOC > 0) THEN
+          IF (LOFF(I) == ONE) THEN 
+            DEZZ(I) = -NU*(SIGNXX(I)-SIGOXX(I)+SIGNYY(I)-SIGOYY(I))/YOUNG
+            DEZZ(I) = DEZZ(I) - MAX(DPLANL(I),ZERO)*HALF*(SIGNXX(I)+SIGNYY(I))/MAX(YLD(I),EM20)
+          ENDIF
+        ELSE
+          DEZZ(I) = -NU*(SIGNXX(I)-SIGOXX(I)+SIGNYY(I)-SIGOYY(I))/YOUNG + DEZZ(I)
+        ENDIF
+        THK(I) = THK(I) + DEZZ(I)*THKLY(I)*OFF(I)  
+      ENDDO
+!
       END SUBROUTINE SIGEPS109C

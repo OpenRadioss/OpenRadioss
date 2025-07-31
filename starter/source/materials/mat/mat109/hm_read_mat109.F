@@ -75,7 +75,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: ISMOOTH,ILAW,TAB_YLD,TAB_TEMP,TAB_ETA
       my_real :: YOUNG,NU,G,LAME,BULK,A1,A2,CP,TREF,TINI,ETA,XRATE,
-     .           XSCALE,YSCALE,YSCALE_UNIT,XSCALE_UNIT
+     .           XSCALE,YSCALE,YSCALE_UNIT,XSCALE_UNIT,FCUT
       LOGICAL :: IS_AVAILABLE,IS_ENCRYPTED
 C=======================================================================
       IS_ENCRYPTED   = .FALSE.
@@ -133,6 +133,7 @@ c------------------------
 c-----------------------------------------------
       A1   = YOUNG / (ONE - NU*NU)
       A2   = A1 * NU
+      FCUT = 10000.0D0*UNITAB%FAC_T_WORK
 c-----------------------------------------------
       UPARAM(1)  = YOUNG     ! Young modulus
       UPARAM(2)  = NU        ! Poisson ratio
@@ -157,6 +158,7 @@ c-----------------------------------------------
       UPARAM(18) = NU / (ONE - NU)              ! NNU
       UPARAM(19) = (ONE - TWO*NU) / (ONE - NU)  ! NNU1
       UPARAM(20) = CP
+      UPARAM(21) = FCUT*TWO*PI
 c----------------
       PARMAT(1) = BULK
       PARMAT(2) = YOUNG
@@ -171,6 +173,8 @@ c----------------
       MTAG%L_PLA  = 1
       MTAG%G_TEMP = 1
       MTAG%L_TEMP = 1
+      MTAG%G_SEQ  = 1
+      MTAG%L_SEQ  = 1
 c----------------
       ! activate heat source calculation in material
       MATPARAM%HEAT_FLAG = 1
@@ -186,7 +190,7 @@ c----------------
       CALL INIT_MAT_KEYWORD(MATPARAM,"SOLID_ISOTROPIC")
       CALL INIT_MAT_KEYWORD(MATPARAM,"SPH")
 c----------------
-      NUPARAM = 20
+      NUPARAM = 21
       NUVAR   = 0
       NTABL   = 3
 c
@@ -204,34 +208,48 @@ c-----------------------
       IF (IS_ENCRYPTED)THEN                                
         WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
       ELSE     
-        WRITE(IOUT,1100) RHO,YOUNG,NU,CP,TREF,TINI,ETA,TAB_YLD,TAB_TEMP,
-     .                   TAB_ETA,ISMOOTH,XRATE,XSCALE,YSCALE
+        WRITE(IOUT,1100) RHO
+        WRITE(IOUT,1200) YOUNG,NU
+        WRITE(IOUT,1300) TAB_YLD,ISMOOTH,XSCALE,YSCALE
+        WRITE(IOUT,1400) TAB_TEMP,TREF,TAB_ETA,CP,TINI,ETA,XRATE
       ENDIF
 c-----------        
       RETURN
 c-----------
- 1000 FORMAT(
-     & 5X,'    TABULATED ELASTIC PLASTIC LAW 109     ',/
-     & 5X,'    ---------------------------------     ')
+ 1000 FORMAT(/
+     & 5X,'-------------------------------------------------------',/
+     & 5X,'        MATERIAL MODEL: TABULATED ELASTO-PLASTIC       ',/,
+     & 5X,'-------------------------------------------------------',/)
  1001 FORMAT(/
      & 5X,A,/,
-     & 5X,'MATERIAL NUMBER . . . . . . . . . . . . . .=',I10/,
-     & 5X,'MATERIAL LAW. . . . . . . . . . . . . . . .=',I10/)
- 1100 FORMAT(
-     & 5X,'INITIAL DENSITY . . . . . . . . . . . . . .=',1PG20.13/ 
-     & 5X,'YOUNG MODULUS . . . . . . . . . . . . . . .=',1PG20.13/
-     & 5X,'POISSON RATIO . . . . . . . . . . . . . . .=',1PG20.13/
-     & 5X,'SPECIFIC HEAT COEFFICIENT . . . . . . . . .=',1PG20.13/
-     & 5X,'REFERENCE TEMPERATURE . . . . . . . . . . .=',1PG20.13/
-     & 5X,'INITIAL TEMPERATURE . . . . . . . . . . . .=',1PG20.13/
-     & 5X,'TAYLOR-QUINNEY COEFFICIENT. . . . . . . . .=',1PG20.13/
-     & 5X,'YIELD-STRAIN RATE TABLE ID. . . . . . . . .=',I10/
-     & 5X,'YIELD-TEMPERATURE TABLE ID. . . . . . . . .=',I10/
-     & 5X,'HEAT FRACTION TABLE ID. . . . . . . . . . .=',I10/
-     & 5X,'INTERPOLATION FLAG. . . . . . . . . . . . .=',I10/
-     & 5X,'STRAIN RATE SCALE FACTOR FOR HEAT TABLE . .=',1PG20.13/
-     & 5X,'STRAIN RATE SCALE FACTOR FOR YLD TABLES . .=',1PG20.13/
-     & 5X,'SCALE FACTOR FOR YLD-STRAIN RATE TABLE. . .=',1PG20.13//)
-c-----------
-      RETURN
-      END
+     & 5X,'MATERIAL NUMBER. . . . . . . . . . . . . . . . . . . .=',I10/,
+     & 5X,'MATERIAL LAW . . . . . . . . . . . . . . . . . . . . .=',I10/)
+ 1100 FORMAT(/
+     & 5X,'INITIAL DENSITY. . . . . . . . . . . . . . . . . . . .=',1PG20.13/)
+ 1200 FORMAT(/
+     & 5X,'ELASTIC PARAMETERS:                                    ',/,
+     & 5X,'-------------------                                    ',/,
+     & 5X,'YOUNG MODULUS. . . . . . . . . . . . . . . . . . . . .=',1PG20.13/,
+     & 5X,"POISSON'S RATIO. . . . . . . . . . . . . . . . . . . .=",1PG20.13/)
+ 1300 FORMAT(/
+     & 5X,'PLASTIC PARAMETERS:                                    ',/,
+     & 5X,'-------------------                                    ',/,
+     & 5X,'YIELD STRESS VS PL. STRAIN (VS STRAIN RATE) TABLE ID .=',I10/,
+     & 5X,'INTERPOLATION FLAG:. . . . . . . . . . . . . . . . . .=',I10/,
+     & 5X,'    = 1: LINEAR INTERPOLATION (DEFAULT)                ',/,
+     & 5X,'    = 2: LOGARITHMIC INTERPOLATION BASE 10             ',/,
+     & 5X,'    = 3: LOGARITHMIC INTERPOLATION BASE N              ',/,
+     & 5X,'STRAIN RATE SCALE FACTOR . . . . . . . . . . . . . . .=',1PG20.13/
+     & 5X,'YIELD STRESS SCALE FACTOR. . . . . . . . . . . . . . .=',1PG20.13/)
+ 1400 FORMAT(/
+     & 5X,'THERMAL PARAMETERS:                                    ',/,
+     & 5X,'-------------------                                    ',/,
+     & 5X,'YIELD STRESS TEMPERATURE DEPENDENCY TABLE ID . . . . .=',I10/
+     & 5X,'REFERENCE TEMPERATURE. . . . . . . . . . . . . . . . .=',1PG20.13/
+     & 5X,'HEAT FRACTION TABLE ID . . . . . . . . . . . . . . . .=',I10/
+     & 5X,'SPECIFIC HEAT COEFFICIENT. . . . . . . . . . . . . . .=',1PG20.13/
+     & 5X,'INITIAL TEMPERATURE. . . . . . . . . . . . . . . . . .=',1PG20.13/
+     & 5X,'TAYLOR-QUINNEY COEFFICIENT . . . . . . . . . . . . . .=',1PG20.13/
+     & 5X,'STRAIN RATE SCALE FACTOR FOR HEAT FRACTION . . . . . .=',1PG20.13/)
+      END SUBROUTINE HM_READ_MAT109
+!=======================================================================
