@@ -1489,6 +1489,7 @@
           integer, dimension(:) , allocatable ::  e2s_actnor
 
 !----t25 sorting buffers
+          integer, dimension(:) , allocatable ::  cand_a
           integer, dimension(:) , allocatable ::  i25_cand_a
           integer, dimension(:) , allocatable ::  i25_cand_b
 !=======================================================================

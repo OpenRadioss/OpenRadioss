@@ -1220,7 +1220,7 @@ C
           IF(TT>=TS) THEN  ! If interface is activated
             CALL I7MAIN_TRI(TIMERS,
      1 IPARI   ,X       ,V         ,
-     2 MS      ,N            ,ITASK        ,WAG     ,WEIGHT    ,
+     2 MS      ,N            ,ITASK        ,WEIGHT    ,
      3 ISENDTO ,IRECVFROM    ,RETRI        ,IAD_ELEM,FR_ELEM   ,
      4 ITAB    ,KINET        ,TEMP         ,NRTM_T  ,RENUM     ,
      5 NSNFIOLD,ESHIFT       ,IBID         ,IBID    ,IBID      ,

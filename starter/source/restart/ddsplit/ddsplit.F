@@ -1624,7 +1624,7 @@ C
      1      LENWA_L ,NTHWA    ,NAIRWA    ,NUMELS_L ,NUMELQ_L,
      2      NUMELC_L,NUMELTG_L,NUMELT_L  ,NUMELP_L ,NUMELR_L,
      3      NUMNOD_L,NMNT     ,L_MUL_LAG1,L_MUL_LAG,MAXNX   ,
-     4      LWASPH_L,NUMSPH_L  ,LWASPIO, NRCVVOIS, 
+     4      LWASPH_L,NUMSPH_L  ,LWASPIO, NRCVVOIS,NGROUP_L, 
      5      LWAMP_L, LWANMP_L,GLOB_THERM%ITHERM )
 C--------------------------------------
 C counts LLCFIELD
