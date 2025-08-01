@@ -68,68 +68,68 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER MAT(NEL), IFLAG, NEL
-      my_real PM(NPROPM,NUMMAT), 
-     .        OFF(NEL)  ,EINT(NEL) ,MU(NEL)   , 
-     .        DVOL(NEL) ,
-     .        VNEW(NEL) ,PNEW(NEL) ,DPDM(NEL),
-     .        DPDE(NEL)
-      my_real, INTENT(INOUT) :: PSH(NEL)
+        INTEGER MAT(NEL), IFLAG, NEL
+        my_real PM(NPROPM,NUMMAT),
+     .          OFF(NEL)  ,EINT(NEL) ,MU(NEL)   ,
+     .          DVOL(NEL) ,
+     .          VNEW(NEL) ,PNEW(NEL) ,DPDM(NEL),
+     .          DPDE(NEL)
+        my_real, INTENT(INOUT) :: PSH(NEL)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, MX
-      my_real :: P0,K0,K1,PC
+        INTEGER I, MX
+        my_real :: P0,K0,K1,PC
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
-      IF(IFLAG == 0) THEN
-        MX         = MAT(1)
-        K0         = PM(36,MX)
-        P0         = PM(32,MX)
-        PSH(1:NEL) = PM(88,MX)
-        K1         = PM(35,MX)
-        PC         = PM(37,MX)
-        DO I=1,NEL
-          DPDM(I) = K0*EXP( K1*LOG(1+MU(I)) )/(ONE+MU(I))     !total derivative
-          DPDE(I) = ZERO                                      !partial derivative
-          PNEW(I) = K0/K1 * (EXP(K1*LOG(ONE+MU(I))) - ONE )  + P0
-          PNEW(I) = MAX(PNEW(I),PC)*OFF(I)
-          PNEW(I) = PNEW(I)-PSH(I)
-        ENDDO
+        IF(IFLAG == 0) THEN
+          MX         = MAT(1)
+          K0         = PM(36,MX)
+          P0         = PM(32,MX)
+          PSH(1:NEL) = PM(88,MX)
+          K1         = PM(35,MX)
+          PC         = PM(37,MX)
+          DO I=1,NEL
+            DPDM(I) = K0*EXP( K1*LOG(1+MU(I)) )/(ONE+MU(I))     !total derivative
+            DPDE(I) = ZERO                                      !partial derivative
+            PNEW(I) = K0/K1 * (EXP(K1*LOG(ONE+MU(I))) - ONE )  + P0
+            PNEW(I) = MAX(PNEW(I),PC)*OFF(I)
+            PNEW(I) = PNEW(I)-PSH(I)
+          ENDDO
 
-      ELSEIF(IFLAG == 1) THEN
-        MX         = MAT(1)
-        K0         = PM(36,MX)
-        P0         = PM(32,MX)
-        PSH(1:NEL) = PM(88,MX)
-        K1         = PM(35,MX)
-        PC         = PM(37,MX)
-        DO I=1,NEL
-          PNEW(I) = K0/K1 * (EXP(K1*LOG(ONE+MU(I))) - ONE )  + P0
-          PNEW(I) = MAX(PNEW(I),PC)*OFF(I)
-          EINT(I) = EINT(I) - HALF*DVOL(I)*(PNEW(I)+PSH(I))
-          PNEW(I) = PNEW(I)-PSH(I)
-          DPDE(I) = ZERO
-        ENDDO
+        ELSEIF(IFLAG == 1) THEN
+          MX         = MAT(1)
+          K0         = PM(36,MX)
+          P0         = PM(32,MX)
+          PSH(1:NEL) = PM(88,MX)
+          K1         = PM(35,MX)
+          PC         = PM(37,MX)
+          DO I=1,NEL
+            PNEW(I) = K0/K1 * (EXP(K1*LOG(ONE+MU(I))) - ONE )  + P0
+            PNEW(I) = MAX(PNEW(I),PC)*OFF(I)
+            EINT(I) = EINT(I) - HALF*DVOL(I)*(PNEW(I)+PSH(I))
+            PNEW(I) = PNEW(I)-PSH(I)
+            DPDE(I) = ZERO
+          ENDDO
 
-       ELSEIF(IFLAG == 2) THEN
-         MX         = MAT(1)
-         K0         = PM(36,MX)
-         P0         = PM(32,MX)
-         PSH(1:NEL) = PM(88,MX)
-         K1         = PM(35,MX)
-         PC         = PM(37,MX)
-         DO I=1,NEL
-           IF (VNEW(I) > ZERO) THEN
-             PNEW(I) = K0/K1 * (EXP(K1*LOG(1+MU(I))) - ONE )  + P0
-             DPDM(I) = K0*EXP( K1*LOG(1+MU(I)) )/(ONE+MU(I)) !total derivative
-             DPDE(I) = ZERO
-             PNEW(I) = MAX(PNEW(I),PC)*OFF(I)
-             PNEW(I) = PNEW(I)-PSH(I)
-           ENDIF
-         ENDDO
-      ENDIF
-C------------------------      
-      RETURN
+        ELSEIF(IFLAG == 2) THEN
+          MX         = MAT(1)
+          K0         = PM(36,MX)
+          P0         = PM(32,MX)
+          PSH(1:NEL) = PM(88,MX)
+          K1         = PM(35,MX)
+          PC         = PM(37,MX)
+          DO I=1,NEL
+            IF (VNEW(I) > ZERO) THEN
+              PNEW(I) = K0/K1 * (EXP(K1*LOG(1+MU(I))) - ONE )  + P0
+              DPDM(I) = K0*EXP( K1*LOG(1+MU(I)) )/(ONE+MU(I)) !total derivative
+              DPDE(I) = ZERO
+              PNEW(I) = MAX(PNEW(I),PC)*OFF(I)
+              PNEW(I) = PNEW(I)-PSH(I)
+            ENDIF
+          ENDDO
+        ENDIF
+C------------------------
+        RETURN
       END

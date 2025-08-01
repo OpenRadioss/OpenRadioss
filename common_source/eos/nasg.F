@@ -70,96 +70,96 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER MAT(NEL), IFLAG, NEL
-      my_real PM(NPROPM,NUMMAT), 
-     .        OFF(NEL)  ,EINT(NEL) ,MU(NEL)   , 
-     .        ESPE(NEL) ,DVOL(NEL) ,
-     .        VNEW(NEL) ,PNEW(NEL) ,DPDM(NEL),
-     .        DPDE(NEL)
-      my_real, INTENT(INOUT) :: PSH(NEL)
+        INTEGER MAT(NEL), IFLAG, NEL
+        my_real PM(NPROPM,NUMMAT),
+     .          OFF(NEL)  ,EINT(NEL) ,MU(NEL)   ,
+     .          ESPE(NEL) ,DVOL(NEL) ,
+     .          VNEW(NEL) ,PNEW(NEL) ,DPDM(NEL),
+     .          DPDE(NEL)
+        my_real, INTENT(INOUT) :: PSH(NEL)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, MX
-      my_real :: P0,GAMMA,E0,AA,BB,PP,PSTAR, PC,V0
-      my_real :: Q,Q_,Cv,RHO0,NUM,DENOM,UNPMU,B,RHO
+        INTEGER I, MX
+        my_real :: P0,GAMMA,E0,AA,BB,PP,PSTAR, PC,V0
+        my_real :: Q,Q_,Cv,RHO0,NUM,DENOM,UNPMU,B,RHO
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
 
-      IF(IFLAG == 0) THEN
-        MX         = MAT(1)
-        E0         = PM(23 ,MX)
-        GAMMA      = PM(34 ,MX)
-        P0         = PM(32 ,MX)
-        PSH(1:NEL) = PM(88 ,MX)
-        PSTAR      = PM(160,MX)
-        Q          = PM(35 ,MX)
-        Q_         = PM(36 ,MX)
-        B          = PM(161,MX)
-        Cv         = PM(162,MX)
-        RHO0       = PM(1 , MX)
-        DO I=1,NEL
-          UNPMU   =  ONE+MU(I)
-          DENOM   = (ONE-RHO0*b*UNPMU)
-          NUM     = (ESPE(I)-RHO0*q)
-          PP      = (GAMMA-ONE)*UNPMU*NUM/DENOM - GAMMA*PSTAR
-          dPdE(I) = (GAMMA-ONE)*UNPMU / DENOM                                         !partial derivative
-          DPDM(I) = (GAMMA-ONE)*NUM/DENOM/DENOM + DPDE(I)*(PP+PSH(I))/UNPMU/UNPMU     !total derivative
-          PNEW(I) = MAX(PP,-GAMMA*PSTAR)*OFF(I)   ! P(mu[n+1],E[n])
-        ENDDO
-
-      ELSEIF(IFLAG == 1) THEN
-        MX         = MAT(1)
-        E0         = PM(23 ,MX)
-        GAMMA      = PM(34 ,MX)
-        P0         = PM(32 ,MX)
-        PSH(1:NEL) = PM(88 ,MX)
-        PSTAR      = PM(160,MX)
-        Q          = PM(35 ,MX)
-        Q_         = PM(36 ,MX)
-        B          = PM(161,MX)
-        Cv         = PM(162,MX)
-        RHO0       = PM(1 , MX)
-        DO I=1,NEL
-          EINT(I) = EINT(I) - HALF*DVOL(I)*(PNEW(I)+PSH(I))
-          UNPMU   =  ONE+MU(I)
-          RHO     = UNPMU*RHO0
-          V0      = VNEW(I)*RHO/RHO0
-          DENOM   = (VNEW(I)/V0-RHO0*b)
-          AA      = (GAMMA-ONE)*(-RHO0*q/DENOM)-GAMMA*PSTAR
-          BB      = (GAMMA-ONE)/ DENOM
-          dPdE(I) = BB  !partial derivative
-          PNEW(I) = (AA+BB*EINT(I)/V0)/(ONE+BB*DVOL(I)/TWO/V0)   ! P(mu[n+1],E[n+1])
-          PNEW(I) = MAX(PNEW(I),-GAMMA*PSTAR)*OFF(I)
-        ENDDO
-
-      ELSEIF(IFLAG == 2) THEN
-        MX         = MAT(1)
-        E0         = PM(23 ,MX)
-        GAMMA      = PM(34 ,MX)
-        P0         = PM(32 ,MX)
-        PSH(1:NEL) = PM(88 ,MX)
-        PSTAR      = PM(160,MX)
-        Q          = PM(35 ,MX)
-        Q_         = PM(36 ,MX)
-        B          = PM(161,MX)
-        Cv         = PM(162,MX)
-        RHO0       = PM(1 , MX)
-        PC         = PM(37, MX)
-        DO I=1, NEL
-          IF (VNEW(I) > ZERO) THEN
+        IF(IFLAG == 0) THEN
+          MX         = MAT(1)
+          E0         = PM(23 ,MX)
+          GAMMA      = PM(34 ,MX)
+          P0         = PM(32 ,MX)
+          PSH(1:NEL) = PM(88 ,MX)
+          PSTAR      = PM(160,MX)
+          Q          = PM(35 ,MX)
+          Q_         = PM(36 ,MX)
+          B          = PM(161,MX)
+          Cv         = PM(162,MX)
+          RHO0       = PM(1 , MX)
+          DO I=1,NEL
             UNPMU   =  ONE+MU(I)
             DENOM   = (ONE-RHO0*b*UNPMU)
             NUM     = (ESPE(I)-RHO0*q)
-            PNEW(I) = -PSH(I) +  (GAMMA-ONE)*UNPMU*NUM/DENOM - GAMMA*PSTAR
-            PNEW(I) = MAX(PNEW(I),MAX(PC, -GAMMA*PSTAR))*OFF(I)
-            dPdE(I) = (GAMMA-ONE)*UNPMU / DENOM                                              !partial derivative
-            DPDM(I) = (GAMMA-ONE)*NUM/DENOM/DENOM + dPdE(I)*(PNEW(I)+PSH(I))/UNPMU/UNPMU     !total derivative
-          ENDIF
-        ENDDO
+            PP      = (GAMMA-ONE)*UNPMU*NUM/DENOM - GAMMA*PSTAR
+            dPdE(I) = (GAMMA-ONE)*UNPMU / DENOM                                         !partial derivative
+            DPDM(I) = (GAMMA-ONE)*NUM/DENOM/DENOM + DPDE(I)*(PP+PSH(I))/UNPMU/UNPMU     !total derivative
+            PNEW(I) = MAX(PP,-GAMMA*PSTAR)*OFF(I)   ! P(mu[n+1],E[n])
+          ENDDO
 
-      ENDIF
+        ELSEIF(IFLAG == 1) THEN
+          MX         = MAT(1)
+          E0         = PM(23 ,MX)
+          GAMMA      = PM(34 ,MX)
+          P0         = PM(32 ,MX)
+          PSH(1:NEL) = PM(88 ,MX)
+          PSTAR      = PM(160,MX)
+          Q          = PM(35 ,MX)
+          Q_         = PM(36 ,MX)
+          B          = PM(161,MX)
+          Cv         = PM(162,MX)
+          RHO0       = PM(1 , MX)
+          DO I=1,NEL
+            EINT(I) = EINT(I) - HALF*DVOL(I)*(PNEW(I)+PSH(I))
+            UNPMU   =  ONE+MU(I)
+            RHO     = UNPMU*RHO0
+            V0      = VNEW(I)*RHO/RHO0
+            DENOM   = (VNEW(I)/V0-RHO0*b)
+            AA      = (GAMMA-ONE)*(-RHO0*q/DENOM)-GAMMA*PSTAR
+            BB      = (GAMMA-ONE)/ DENOM
+            dPdE(I) = BB  !partial derivative
+            PNEW(I) = (AA+BB*EINT(I)/V0)/(ONE+BB*DVOL(I)/TWO/V0)   ! P(mu[n+1],E[n+1])
+            PNEW(I) = MAX(PNEW(I),-GAMMA*PSTAR)*OFF(I)
+          ENDDO
+
+        ELSEIF(IFLAG == 2) THEN
+          MX         = MAT(1)
+          E0         = PM(23 ,MX)
+          GAMMA      = PM(34 ,MX)
+          P0         = PM(32 ,MX)
+          PSH(1:NEL) = PM(88 ,MX)
+          PSTAR      = PM(160,MX)
+          Q          = PM(35 ,MX)
+          Q_         = PM(36 ,MX)
+          B          = PM(161,MX)
+          Cv         = PM(162,MX)
+          RHO0       = PM(1 , MX)
+          PC         = PM(37, MX)
+          DO I=1, NEL
+            IF (VNEW(I) > ZERO) THEN
+              UNPMU   =  ONE+MU(I)
+              DENOM   = (ONE-RHO0*b*UNPMU)
+              NUM     = (ESPE(I)-RHO0*q)
+              PNEW(I) = -PSH(I) +  (GAMMA-ONE)*UNPMU*NUM/DENOM - GAMMA*PSTAR
+              PNEW(I) = MAX(PNEW(I),MAX(PC, -GAMMA*PSTAR))*OFF(I)
+              dPdE(I) = (GAMMA-ONE)*UNPMU / DENOM                                              !partial derivative
+              DPDM(I) = (GAMMA-ONE)*NUM/DENOM/DENOM + dPdE(I)*(PNEW(I)+PSH(I))/UNPMU/UNPMU     !total derivative
+            ENDIF
+          ENDDO
+
+        ENDIF
 C-----------------------------------------------
-      RETURN
+        RETURN
       END

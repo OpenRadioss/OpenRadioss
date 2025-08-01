@@ -39,18 +39,18 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER I, J
+        INTEGER I, J
 C     REAL
-      my_real
-     .   TAB(*)
+        my_real
+     .     TAB(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
         ICOMPC=1
         IF(TAB(I)<TAB(J)) THEN
-        ICOMPC=-1
+          ICOMPC=-1
         ELSE IF(TAB(I)==TAB(J)) THEN
-        ICOMPC=0
+          ICOMPC=0
         ENDIF
-      RETURN
+        RETURN
       END

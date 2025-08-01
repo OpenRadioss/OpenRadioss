@@ -44,40 +44,40 @@
 
 ! ======================================================================================================================
 !! \brief module to define data structure for viscosity model parameters in materials
-!! \details 
+!! \details
 
-      use table4d_mod
-      use names_and_titles_mod
-      use precision_mod, only : WP
+        use table4d_mod
+        use names_and_titles_mod
+        use precision_mod, only : WP
 
-      implicit none
-      private :: WP
+        implicit none
+        private :: WP
 !
 !
-!=======================================================================      
-      
-      type eos_param_
-        character(len=nchartitle) :: title = ''  !< eos model input name
-        integer :: nuparam                       !< number of real value paraameters
-        integer :: niparam                       !< number of int value parameters
-        !integer :: nuvar                         !< number of internal state variables    --> elbuf%bufly%eos%var(nel*nvar_eos)bg
-        integer :: nfunc                         !< number of local functions in material
-        integer :: ntable                        !< number of local function tables
-        integer :: isfluid                      !< indicated if EoS is designed for fluid
-        real(kind=WP) :: cv                            !< specific heat capacity (constant volume)
-        real(kind=WP) :: cp                            !< specific heat capacity (constant pressure)
+!=======================================================================
 
-        real(kind=WP)        ,dimension(:) ,allocatable :: uparam  !< real value eos parameter table
-        integer        ,dimension(:) ,allocatable :: iparam  !< int  value eos parameter table
-        integer        ,dimension(:) ,allocatable :: func    !< function table in eos models
-        type(table_4d_),dimension(:) ,allocatable :: table   !< local function tables
+        type eos_param_
+          character(len=nchartitle) :: title = ''  !< eos model input name
+          integer :: nuparam                       !< number of real value paraameters
+          integer :: niparam                       !< number of int value parameters
+          !integer :: nuvar                         !< number of internal state variables    --> elbuf%bufly%eos%var(nel*nvar_eos)bg
+          integer :: nfunc                         !< number of local functions in material
+          integer :: ntable                        !< number of local function tables
+          integer :: isfluid                      !< indicated if EoS is designed for fluid
+          real(kind=WP) :: cv                            !< specific heat capacity (constant volume)
+          real(kind=WP) :: cp                            !< specific heat capacity (constant pressure)
+
+          real(kind=WP)        ,dimension(:) ,allocatable :: uparam  !< real value eos parameter table
+          integer        ,dimension(:) ,allocatable :: iparam  !< int  value eos parameter table
+          integer        ,dimension(:) ,allocatable :: func    !< function table in eos models
+          type(table_4d_),dimension(:) ,allocatable :: table   !< local function tables
 
 
         contains
           procedure :: destruct => destruct_eos_param
           procedure :: construct => construct_eos_param
 
-      end type eos_param_
+        end type eos_param_
 
       contains
 

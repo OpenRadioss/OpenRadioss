@@ -37,9 +37,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NVAL,NNOD
-      my_real
-     .   MS(*),STIFN(*),TOTMAS,TARGET_DT_TAB(*),PER_ADM_TAB(*),DTSCA,DT(*),TMP(*)
+        INTEGER NVAL,NNOD
+        my_real
+     .     MS(*),STIFN(*),TOTMAS,TARGET_DT_TAB(*),PER_ADM_TAB(*),DTSCA,DT(*),TMP(*)
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -50,54 +50,54 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,N,COMPT,K
-      INTEGER :: CPT
-      my_real SUMK,SUMK_OLD,SUMM,SUMM_OLD,PER_ADM,TARGET_DT,SEUIL,CHUNK
+        INTEGER I,N,COMPT,K
+        INTEGER :: CPT
+        my_real SUMK,SUMK_OLD,SUMM,SUMM_OLD,PER_ADM,TARGET_DT,SEUIL,CHUNK
 C=======================================================================
 C
 C--------------------------------------------------------------------------------------
 C     EXTRACTED FROM ADD_MASS_STAT in starter - used in both starter and engine
 C--------------------------------------------------------------------------------------
 C
-      SUMK = ZERO
-      SUMM = ZERO
-      SUMK_OLD = ZERO
-      SUMM_OLD = ZERO
-      COMPT = 1
-      SEUIL = PER_ADM_TAB(1)
+        SUMK = ZERO
+        SUMM = ZERO
+        SUMK_OLD = ZERO
+        SUMM_OLD = ZERO
+        COMPT = 1
+        SEUIL = PER_ADM_TAB(1)
 C
-      DO I=1,NNOD
-        N=NINT(TMP(I))
-      ENDDO
+        DO I=1,NNOD
+          N=NINT(TMP(I))
+        ENDDO
 C
-      DO I=1,NNOD
-        IF (I > 1) THEN
-          IF (DT(I) > DT(I-1)) THEN
-            SUMK_OLD = SUMK
-            SUMM_OLD = SUMM
+        DO I=1,NNOD
+          IF (I > 1) THEN
+            IF (DT(I) > DT(I-1)) THEN
+              SUMK_OLD = SUMK
+              SUMM_OLD = SUMM
+            ENDIF
           ENDIF
-        ENDIF       
-        N=NINT(TMP(I))
-        PER_ADM = (DT(I)*SUMK_OLD - SUMM_OLD)/(MAX(EM20,TOTMAS))
-        IF (I>1) THEN
-          DO WHILE ((PER_ADM > SEUIL).AND.(COMPT<=NVAL))
-            TARGET_DT_TAB(COMPT) = DTSCA*SQRT(TWO*(TOTMAS*SEUIL+SUMM_OLD)/MAX(EM20,SUMK_OLD))
-            COMPT = COMPT+1
-            IF(COMPT<=NVAL) SEUIL = PER_ADM_TAB(COMPT)
-          ENDDO
-          IF (COMPT > NVAL) EXIT 
-        ENDIF 
-        SUMK = SUMK + STIFN(N)
-        SUMM = SUMM + MS(N)
+          N=NINT(TMP(I))
+          PER_ADM = (DT(I)*SUMK_OLD - SUMM_OLD)/(MAX(EM20,TOTMAS))
+          IF (I>1) THEN
+            DO WHILE ((PER_ADM > SEUIL).AND.(COMPT<=NVAL))
+              TARGET_DT_TAB(COMPT) = DTSCA*SQRT(TWO*(TOTMAS*SEUIL+SUMM_OLD)/MAX(EM20,SUMK_OLD))
+              COMPT = COMPT+1
+              IF(COMPT<=NVAL) SEUIL = PER_ADM_TAB(COMPT)
+            ENDDO
+            IF (COMPT > NVAL) EXIT
+          ENDIF
+          SUMK = SUMK + STIFN(N)
+          SUMM = SUMM + MS(N)
 C-- If threshold are not crossed target dt values must be computed for the last node
-        IF (I==NNOD) THEN
-          DO K=COMPT,NVAL
-            TARGET_DT_TAB(K) = DTSCA*SQRT(TWO*(TOTMAS*SEUIL+SUMM)/MAX(EM20,SUMK))
-            IF(K+1 <= NVAL) SEUIL = PER_ADM_TAB(K+1)
-          ENDDO
-        ENDIF
-      ENDDO
+          IF (I==NNOD) THEN
+            DO K=COMPT,NVAL
+              TARGET_DT_TAB(K) = DTSCA*SQRT(TWO*(TOTMAS*SEUIL+SUMM)/MAX(EM20,SUMK))
+              IF(K+1 <= NVAL) SEUIL = PER_ADM_TAB(K+1)
+            ENDDO
+          ENDIF
+        ENDDO
 C
 
-      RETURN
+        RETURN
       END

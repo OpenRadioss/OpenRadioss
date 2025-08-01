@@ -48,42 +48,42 @@ C-----------------------------------------------
         my_real, INTENT(IN) :: VAL
         INTEGER, INTENT(IN) :: LEN
         my_real, INTENT(IN) :: ARRAY(LEN)
-        INTEGER :: DICHOTOMIC_SEARCH_R_ASC        
+        INTEGER :: DICHOTOMIC_SEARCH_R_ASC
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
         INTEGER :: ISTART,IEND, IMID
 C-----------------------------------------------
 C   S o u r c e   L i n e s
-C-----------------------------------------------        
+C-----------------------------------------------
         ISTART = 1
         IEND = LEN
         !VAL ABOVE UPPER BOUND
         IF(ARRAY(1)>VAL)THEN
-         DICHOTOMIC_SEARCH_R_ASC = 1
-         RETURN
+          DICHOTOMIC_SEARCH_R_ASC = 1
+          RETURN
         ENDIF
         !VAL LOWER THAN LOWER BOUND
-        IF(ARRAY(LEN)<VAL)THEN        
-         DICHOTOMIC_SEARCH_R_ASC = LEN
-         RETURN
-        ENDIF        
+        IF(ARRAY(LEN)<VAL)THEN
+          DICHOTOMIC_SEARCH_R_ASC = LEN
+          RETURN
+        ENDIF
         !VAL IS BETWEEN THE BOUNDS
-        DO WHILE (ISTART+1<IEND)        
-            IMID=(IEND+ISTART)/2
-            IF(ARRAY(IMID) > VAL)THEN
-              !FOCUS ON LEFT PART
-              IEND = IMID
-            ELSEIF(ARRAY(IMID) < VAL)THEN
-              !FOCUS ON RIGHT PART
-              ISTART = IMID
-            ELSE
-              !FOUND BY CHANCE NO NEED TO ITERATE MORE
-              DICHOTOMIC_SEARCH_R_ASC = IMID
-              RETURN
-            ENDIF
-        ENDDO  
-         DICHOTOMIC_SEARCH_R_ASC = ISTART                          
-        RETURN      
+        DO WHILE (ISTART+1<IEND)
+          IMID=(IEND+ISTART)/2
+          IF(ARRAY(IMID) > VAL)THEN
+            !FOCUS ON LEFT PART
+            IEND = IMID
+          ELSEIF(ARRAY(IMID) < VAL)THEN
+            !FOCUS ON RIGHT PART
+            ISTART = IMID
+          ELSE
+            !FOUND BY CHANCE NO NEED TO ITERATE MORE
+            DICHOTOMIC_SEARCH_R_ASC = IMID
+            RETURN
+          ENDIF
+        ENDDO
+        DICHOTOMIC_SEARCH_R_ASC = ISTART
+        RETURN
       END FUNCTION DICHOTOMIC_SEARCH_R_ASC
-C-----------------------------------------------     
+C-----------------------------------------------

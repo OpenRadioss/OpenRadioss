@@ -39,48 +39,48 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER, INTENT(IN) :: FXBIPM(NBIPM,NFXBODY)
-      my_real, INTENT(IN) :: FXBRPM(LENRPM),V(3,NUMNOD),VR(3,NUMNOD)
-      my_real, INTENT(INOUT) :: FXBVIT(LENVAR)
+        INTEGER, INTENT(IN) :: FXBIPM(NBIPM,NFXBODY)
+        my_real, INTENT(IN) :: FXBRPM(LENRPM),V(3,NUMNOD),VR(3,NUMNOD)
+        my_real, INTENT(INOUT) :: FXBVIT(LENVAR)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NFX,I,AVAR,ARPM,IDMAST
-      my_real P11,P12,P13,P21,P22,P23,P31,P32,P33,W1,W2,W3,WL1,WL2,WL3
+        INTEGER NFX,I,AVAR,ARPM,IDMAST
+        my_real P11,P12,P13,P21,P22,P23,P31,P32,P33,W1,W2,W3,WL1,WL2,WL3
 
-      DO NFX=1,NFXBODY
-         IDMAST=FXBIPM(2,NFX)
-         AVAR=FXBIPM(13,NFX)
-         ARPM=FXBIPM(14,NFX)
-         DO I=1,3
+        DO NFX=1,NFXBODY
+          IDMAST=FXBIPM(2,NFX)
+          AVAR=FXBIPM(13,NFX)
+          ARPM=FXBIPM(14,NFX)
+          DO I=1,3
             FXBVIT(AVAR+9+I-1)=V(I,IDMAST)
-         END DO
-         P11=FXBRPM(ARPM+1)   
-         P12=FXBRPM(ARPM+2)   
-         P13=FXBRPM(ARPM+3)   
-         P21=FXBRPM(ARPM+4)   
-         P22=FXBRPM(ARPM+5)   
-         P23=FXBRPM(ARPM+6)   
-         P31=FXBRPM(ARPM+7)   
-         P32=FXBRPM(ARPM+8)   
-         P33=FXBRPM(ARPM+9)
-         W1=VR(1,IDMAST)
-         W2=VR(2,IDMAST)
-         W3=VR(3,IDMAST)
-         WL1=P11*W1+P21*W2+P31*W3
-         WL2=P12*W1+P22*W2+P32*W3
-         WL3=P13*W1+P23*W2+P33*W3
-         FXBVIT(AVAR)  =V(1,IDMAST)+P12*WL3-P13*WL2
-         FXBVIT(AVAR+1)=V(2,IDMAST)+P22*WL3-P23*WL2
-         FXBVIT(AVAR+2)=V(3,IDMAST)+P32*WL3-P33*WL2
-         FXBVIT(AVAR+3)=V(1,IDMAST)-P11*WL3+P13*WL1
-         FXBVIT(AVAR+4)=V(2,IDMAST)-P21*WL3+P23*WL1
-         FXBVIT(AVAR+5)=V(3,IDMAST)-P31*WL3+P33*WL1
-         FXBVIT(AVAR+6)=V(1,IDMAST)+P11*WL2-P12*WL1
-         FXBVIT(AVAR+7)=V(2,IDMAST)+P21*WL2-P22*WL1
-         FXBVIT(AVAR+8)=V(3,IDMAST)+P31*WL2-P32*WL1
-      ENDDO
-C      
-      RETURN
-      END  
-         
+          END DO
+          P11=FXBRPM(ARPM+1)
+          P12=FXBRPM(ARPM+2)
+          P13=FXBRPM(ARPM+3)
+          P21=FXBRPM(ARPM+4)
+          P22=FXBRPM(ARPM+5)
+          P23=FXBRPM(ARPM+6)
+          P31=FXBRPM(ARPM+7)
+          P32=FXBRPM(ARPM+8)
+          P33=FXBRPM(ARPM+9)
+          W1=VR(1,IDMAST)
+          W2=VR(2,IDMAST)
+          W3=VR(3,IDMAST)
+          WL1=P11*W1+P21*W2+P31*W3
+          WL2=P12*W1+P22*W2+P32*W3
+          WL3=P13*W1+P23*W2+P33*W3
+          FXBVIT(AVAR)  =V(1,IDMAST)+P12*WL3-P13*WL2
+          FXBVIT(AVAR+1)=V(2,IDMAST)+P22*WL3-P23*WL2
+          FXBVIT(AVAR+2)=V(3,IDMAST)+P32*WL3-P33*WL2
+          FXBVIT(AVAR+3)=V(1,IDMAST)-P11*WL3+P13*WL1
+          FXBVIT(AVAR+4)=V(2,IDMAST)-P21*WL3+P23*WL1
+          FXBVIT(AVAR+5)=V(3,IDMAST)-P31*WL3+P33*WL1
+          FXBVIT(AVAR+6)=V(1,IDMAST)+P11*WL2-P12*WL1
+          FXBVIT(AVAR+7)=V(2,IDMAST)+P21*WL2-P22*WL1
+          FXBVIT(AVAR+8)=V(3,IDMAST)+P31*WL2-P32*WL1
+        ENDDO
+C
+        RETURN
+      END
+

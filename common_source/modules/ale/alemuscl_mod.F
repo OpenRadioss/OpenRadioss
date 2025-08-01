@@ -56,22 +56,22 @@ C-----------------------------------------------
         IMPLICIT NONE
 #include      "my_real.inc"
 C-----------------------------------------------
-        TYPE ALEMUSCL_BUFFER_    
+        TYPE ALEMUSCL_BUFFER_
           my_real, DIMENSION(:, :), ALLOCATABLE    :: VOLUME_FRACTION
           my_real, DIMENSION(:, :), ALLOCATABLE    :: NODE_MAX_VALUE, NODE_MIN_VALUE
           my_real, DIMENSION(:, :, :), ALLOCATABLE :: GRAD
           my_real, DIMENSION(:, :), ALLOCATABLE    :: ELCENTER
           INTEGER, POINTER, DIMENSION(:)           :: pCNEL, pADDCNEL, pADDTMPL
         END TYPE
-      
+
         TYPE ALEMUSCL_PARAM_
           my_real  BETA
           INTEGER  IALEMUSCL
           INTEGER  I_LAW
-          INTEGER  I_MUSCL_OFF      
+          INTEGER  I_MUSCL_OFF
         END TYPE
-      
+
         TYPE(ALEMUSCL_BUFFER_) :: ALEMUSCL_Buffer !Cell data
         TYPE(ALEMUSCL_PARAM_)  :: ALEMUSCL_Param  !global parameters
-      
+
       END MODULE ALEMUSCL_MOD

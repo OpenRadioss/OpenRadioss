@@ -33,71 +33,71 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    th_surf_mod        ../common_source/modules/interfaces/th_surf_mod.F
 !||====================================================================
       MODULE TIME_HISTORY_MOD
-       USE TH_SURF_MOD
-#include "my_real.inc" 
+        USE TH_SURF_MOD
+#include "my_real.inc"
 
-         TYPE TH_
-            INTEGER  NITHGR
-            ! Global Time History
-            INTEGER, DIMENSION(:), ALLOCATABLE :: ITHBUF
-            INTEGER  SITHBUF
-            INTEGER, DIMENSION(:), ALLOCATABLE :: ITHGRP
-            INTEGER  SITHGRP
-            character (len=2048) :: TH_FILENAME
-            INTEGER :: TH_WRITE_TYPE
-            !
-            INTEGER, DIMENSION(:), ALLOCATABLE :: ITHBUFA
-            INTEGER  SITHBUFA
-            INTEGER, DIMENSION(:), ALLOCATABLE :: ITHBUFB
-            INTEGER  SITHBUFB
-            INTEGER, DIMENSION(:), ALLOCATABLE :: ITHBUFC
-            INTEGER  SITHBUFC
-            INTEGER, DIMENSION(:), ALLOCATABLE :: ITHBUFD
-            INTEGER  SITHBUFD
-            INTEGER, DIMENSION(:), ALLOCATABLE :: ITHBUFE
-            INTEGER  SITHBUFE
-            INTEGER, DIMENSION(:), ALLOCATABLE :: ITHBUFF
-            INTEGER  SITHBUFF
-            INTEGER, DIMENSION(:), ALLOCATABLE :: ITHBUFG
-            INTEGER  SITHBUFG
-            INTEGER, DIMENSION(:), ALLOCATABLE :: ITHBUFH
-            INTEGER  SITHBUFH
-            INTEGER, DIMENSION(:), ALLOCATABLE :: ITHBUFI
-            INTEGER  SITHBUFI
+        TYPE TH_
+          INTEGER  NITHGR
+          ! Global Time History
+          INTEGER, DIMENSION(:), ALLOCATABLE :: ITHBUF
+          INTEGER  SITHBUF
+          INTEGER, DIMENSION(:), ALLOCATABLE :: ITHGRP
+          INTEGER  SITHGRP
+          character (len=2048) :: TH_FILENAME
+          INTEGER :: TH_WRITE_TYPE
+          !
+          INTEGER, DIMENSION(:), ALLOCATABLE :: ITHBUFA
+          INTEGER  SITHBUFA
+          INTEGER, DIMENSION(:), ALLOCATABLE :: ITHBUFB
+          INTEGER  SITHBUFB
+          INTEGER, DIMENSION(:), ALLOCATABLE :: ITHBUFC
+          INTEGER  SITHBUFC
+          INTEGER, DIMENSION(:), ALLOCATABLE :: ITHBUFD
+          INTEGER  SITHBUFD
+          INTEGER, DIMENSION(:), ALLOCATABLE :: ITHBUFE
+          INTEGER  SITHBUFE
+          INTEGER, DIMENSION(:), ALLOCATABLE :: ITHBUFF
+          INTEGER  SITHBUFF
+          INTEGER, DIMENSION(:), ALLOCATABLE :: ITHBUFG
+          INTEGER  SITHBUFG
+          INTEGER, DIMENSION(:), ALLOCATABLE :: ITHBUFH
+          INTEGER  SITHBUFH
+          INTEGER, DIMENSION(:), ALLOCATABLE :: ITHBUFI
+          INTEGER  SITHBUFI
 
-            INTEGER, DIMENSION(:), ALLOCATABLE :: ITHGRPA
-            INTEGER  SITHGRPA
-            INTEGER, DIMENSION(:), ALLOCATABLE :: ITHGRPB
-            INTEGER  SITHGRPB
-            INTEGER, DIMENSION(:), ALLOCATABLE :: ITHGRPC
-            INTEGER  SITHGRPC
-            INTEGER, DIMENSION(:), ALLOCATABLE :: ITHGRPD
-            INTEGER  SITHGRPD
-            INTEGER, DIMENSION(:), ALLOCATABLE :: ITHGRPE
-            INTEGER  SITHGRPE
-            INTEGER, DIMENSION(:), ALLOCATABLE :: ITHGRPF
-            INTEGER  SITHGRPF
-            INTEGER, DIMENSION(:), ALLOCATABLE :: ITHGRPG
-            INTEGER  SITHGRPG
-            INTEGER, DIMENSION(:), ALLOCATABLE :: ITHGRPH
-            INTEGER  SITHGRPH
-            INTEGER, DIMENSION(:), ALLOCATABLE :: ITHGRPI
-            INTEGER  SITHGRPI
-            !
-            REAL(KIND=8) :: THIS    ! time of next TH file
-            REAL(KIND=8), DIMENSION(9) :: THIS1 ! time of next TH files (aTH,bTH,...)
-            REAL(KIND=8) :: DTHIS   ! time step of TH file
-            REAL(KIND=8), DIMENSION(9) :: DTHIS1 ! time step of TH files (aTH,bTH,...)
-            
-            TYPE (TH_SURF_) TH_SURF
-            
+          INTEGER, DIMENSION(:), ALLOCATABLE :: ITHGRPA
+          INTEGER  SITHGRPA
+          INTEGER, DIMENSION(:), ALLOCATABLE :: ITHGRPB
+          INTEGER  SITHGRPB
+          INTEGER, DIMENSION(:), ALLOCATABLE :: ITHGRPC
+          INTEGER  SITHGRPC
+          INTEGER, DIMENSION(:), ALLOCATABLE :: ITHGRPD
+          INTEGER  SITHGRPD
+          INTEGER, DIMENSION(:), ALLOCATABLE :: ITHGRPE
+          INTEGER  SITHGRPE
+          INTEGER, DIMENSION(:), ALLOCATABLE :: ITHGRPF
+          INTEGER  SITHGRPF
+          INTEGER, DIMENSION(:), ALLOCATABLE :: ITHGRPG
+          INTEGER  SITHGRPG
+          INTEGER, DIMENSION(:), ALLOCATABLE :: ITHGRPH
+          INTEGER  SITHGRPH
+          INTEGER, DIMENSION(:), ALLOCATABLE :: ITHGRPI
+          INTEGER  SITHGRPI
+          !
+          REAL(KIND=8) :: THIS    ! time of next TH file
+          REAL(KIND=8), DIMENSION(9) :: THIS1 ! time of next TH files (aTH,bTH,...)
+          REAL(KIND=8) :: DTHIS   ! time step of TH file
+          REAL(KIND=8), DIMENSION(9) :: DTHIS1 ! time step of TH files (aTH,bTH,...)
+
+          TYPE (TH_SURF_) TH_SURF
+
 C
-            INTEGER  DUMP_THNMS1_FILE
+          INTEGER  DUMP_THNMS1_FILE
 C
-         END TYPE TH_
+        END TYPE TH_
 
 
-         CONTAINS
+      CONTAINS
 
 !||====================================================================
 !||    th_alloc          ../common_source/modules/output/time_history_mod.F
@@ -106,21 +106,21 @@ C
 !||--- uses       -----------------------------------------------------
 !||    message_mod       ../engine/share/message_module/message_mod.F
 !||====================================================================
-      SUBROUTINE TH_ALLOC(TH,
-     .                       SITHGRP,  SITHBUF ,
-     .                       SITHGRPA, SITHBUFA,
-     .                       SITHGRPB, SITHBUFB,
-     .                       SITHGRPC, SITHBUFC,
-     .                       SITHGRPD, SITHBUFD,
-     .                       SITHGRPE, SITHBUFE,
-     .                       SITHGRPF, SITHBUFF,
-     .                       SITHGRPG, SITHBUFG,
-     .                       SITHGRPH, SITHBUFH,
-     .                       SITHGRPI, SITHBUFI )
+        SUBROUTINE TH_ALLOC(TH,
+     .                         SITHGRP,  SITHBUF ,
+     .                         SITHGRPA, SITHBUFA,
+     .                         SITHGRPB, SITHBUFB,
+     .                         SITHGRPC, SITHBUFC,
+     .                         SITHGRPD, SITHBUFD,
+     .                         SITHGRPE, SITHBUFE,
+     .                         SITHGRPF, SITHBUFF,
+     .                         SITHGRPG, SITHBUFG,
+     .                         SITHGRPH, SITHBUFH,
+     .                         SITHGRPI, SITHBUFI )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE MESSAGE_MOD
+          USE MESSAGE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -128,49 +128,49 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-           TYPE(TH_),INTENT(INOUT)  :: TH
-           INTEGER, INTENT(IN) :: SITHGRP,  SITHBUF 
-           INTEGER, INTENT(IN) :: SITHGRPA, SITHBUFA
-           INTEGER, INTENT(IN) :: SITHGRPB, SITHBUFB
-           INTEGER, INTENT(IN) :: SITHGRPC, SITHBUFC
-           INTEGER, INTENT(IN) :: SITHGRPD, SITHBUFD
-           INTEGER, INTENT(IN) :: SITHGRPE, SITHBUFE
-           INTEGER, INTENT(IN) :: SITHGRPF, SITHBUFF
-           INTEGER, INTENT(IN) :: SITHGRPG, SITHBUFG
-           INTEGER, INTENT(IN) :: SITHGRPH, SITHBUFH
-           INTEGER, INTENT(IN) :: SITHGRPI, SITHBUFI 
+          TYPE(TH_),INTENT(INOUT)  :: TH
+          INTEGER, INTENT(IN) :: SITHGRP,  SITHBUF
+          INTEGER, INTENT(IN) :: SITHGRPA, SITHBUFA
+          INTEGER, INTENT(IN) :: SITHGRPB, SITHBUFB
+          INTEGER, INTENT(IN) :: SITHGRPC, SITHBUFC
+          INTEGER, INTENT(IN) :: SITHGRPD, SITHBUFD
+          INTEGER, INTENT(IN) :: SITHGRPE, SITHBUFE
+          INTEGER, INTENT(IN) :: SITHGRPF, SITHBUFF
+          INTEGER, INTENT(IN) :: SITHGRPG, SITHBUFG
+          INTEGER, INTENT(IN) :: SITHGRPH, SITHBUFH
+          INTEGER, INTENT(IN) :: SITHGRPI, SITHBUFI
 C-----------------------------------------------
-           ALLOCATE(TH%ITHGRP (TH%SITHGRP))
-           ALLOCATE(TH%ITHBUF (TH%SITHBUF))
+          ALLOCATE(TH%ITHGRP (TH%SITHGRP))
+          ALLOCATE(TH%ITHBUF (TH%SITHBUF))
 
-           ALLOCATE(TH%ITHGRPA(TH%SITHGRPA))
-           ALLOCATE(TH%ITHBUFA(TH%SITHBUFA))
+          ALLOCATE(TH%ITHGRPA(TH%SITHGRPA))
+          ALLOCATE(TH%ITHBUFA(TH%SITHBUFA))
 
-           ALLOCATE(TH%ITHGRPB(TH%SITHGRPB))
-           ALLOCATE(TH%ITHBUFB(TH%SITHBUFB))
+          ALLOCATE(TH%ITHGRPB(TH%SITHGRPB))
+          ALLOCATE(TH%ITHBUFB(TH%SITHBUFB))
 
-           ALLOCATE(TH%ITHGRPC(TH%SITHGRPC))
-           ALLOCATE(TH%ITHBUFC(TH%SITHBUFC))
+          ALLOCATE(TH%ITHGRPC(TH%SITHGRPC))
+          ALLOCATE(TH%ITHBUFC(TH%SITHBUFC))
 
-           ALLOCATE(TH%ITHGRPD(TH%SITHGRPD))
-           ALLOCATE(TH%ITHBUFD(TH%SITHBUFD))
+          ALLOCATE(TH%ITHGRPD(TH%SITHGRPD))
+          ALLOCATE(TH%ITHBUFD(TH%SITHBUFD))
 
-           ALLOCATE(TH%ITHGRPE(TH%SITHGRPE))
-           ALLOCATE(TH%ITHBUFE(TH%SITHBUFE))
+          ALLOCATE(TH%ITHGRPE(TH%SITHGRPE))
+          ALLOCATE(TH%ITHBUFE(TH%SITHBUFE))
 
-           ALLOCATE(TH%ITHGRPF(TH%SITHGRPF))
-           ALLOCATE(TH%ITHBUFF(TH%SITHBUFF))
+          ALLOCATE(TH%ITHGRPF(TH%SITHGRPF))
+          ALLOCATE(TH%ITHBUFF(TH%SITHBUFF))
 
-           ALLOCATE(TH%ITHGRPG(TH%SITHGRPG))
-           ALLOCATE(TH%ITHBUFG(TH%SITHBUFG))
+          ALLOCATE(TH%ITHGRPG(TH%SITHGRPG))
+          ALLOCATE(TH%ITHBUFG(TH%SITHBUFG))
 
-           ALLOCATE(TH%ITHGRPH(TH%SITHGRPH))
-           ALLOCATE(TH%ITHBUFH(TH%SITHBUFH))
+          ALLOCATE(TH%ITHGRPH(TH%SITHGRPH))
+          ALLOCATE(TH%ITHBUFH(TH%SITHBUFH))
 
-           ALLOCATE(TH%ITHGRPI(TH%SITHGRPI))
-           ALLOCATE(TH%ITHBUFI(TH%SITHBUFI))
+          ALLOCATE(TH%ITHGRPI(TH%SITHGRPI))
+          ALLOCATE(TH%ITHBUFI(TH%SITHBUFI))
 
-         END SUBROUTINE TH_ALLOC
+        END SUBROUTINE TH_ALLOC
 
 
 !||====================================================================
@@ -179,7 +179,7 @@ C-----------------------------------------------
 !||    radioss2   ../engine/source/engine/radioss2.F
 !||    starter0   ../starter/source/starter/starter0.F
 !||====================================================================
-      SUBROUTINE TH_CLEAN(TH )
+        SUBROUTINE TH_CLEAN(TH )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -187,69 +187,69 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-         TYPE(TH_),INTENT(INOUT)  :: TH
+          TYPE(TH_),INTENT(INOUT)  :: TH
 C-----------------------------------------------
-         TH%SITHGRP = 0
-         TH%SITHBUF = 0
+          TH%SITHGRP = 0
+          TH%SITHBUF = 0
 
-         TH%SITHGRPA = 0
-         TH%SITHBUFA = 0
+          TH%SITHGRPA = 0
+          TH%SITHBUFA = 0
 
-         TH%SITHGRPB = 0
-         TH%SITHBUFB = 0
+          TH%SITHGRPB = 0
+          TH%SITHBUFB = 0
 
-         TH%SITHGRPC = 0
-         TH%SITHBUFC = 0
+          TH%SITHGRPC = 0
+          TH%SITHBUFC = 0
 
-         TH%SITHGRPD = 0
-         TH%SITHBUFD = 0
+          TH%SITHGRPD = 0
+          TH%SITHBUFD = 0
 
-         TH%SITHGRPE = 0
-         TH%SITHBUFE = 0
+          TH%SITHGRPE = 0
+          TH%SITHBUFE = 0
 
-         TH%SITHGRPF = 0
-         TH%SITHBUFF = 0
+          TH%SITHGRPF = 0
+          TH%SITHBUFF = 0
 
-         TH%SITHGRPG = 0
-         TH%SITHBUFG = 0
+          TH%SITHGRPG = 0
+          TH%SITHBUFG = 0
 
-         TH%SITHGRPH = 0
-         TH%SITHBUFH = 0
+          TH%SITHGRPH = 0
+          TH%SITHBUFH = 0
 
-         TH%SITHGRPI = 0
-         TH%SITHBUFI = 0
+          TH%SITHGRPI = 0
+          TH%SITHBUFI = 0
 
 
-         DEALLOCATE(TH%ITHGRP)
-         DEALLOCATE(TH%ITHBUF)
+          DEALLOCATE(TH%ITHGRP)
+          DEALLOCATE(TH%ITHBUF)
 
-         DEALLOCATE(TH%ITHGRPA)
-         DEALLOCATE(TH%ITHBUFA)
+          DEALLOCATE(TH%ITHGRPA)
+          DEALLOCATE(TH%ITHBUFA)
 
-         DEALLOCATE(TH%ITHGRPB)
-         DEALLOCATE(TH%ITHBUFB)
+          DEALLOCATE(TH%ITHGRPB)
+          DEALLOCATE(TH%ITHBUFB)
 
-         DEALLOCATE(TH%ITHGRPC)
-         DEALLOCATE(TH%ITHBUFC)
+          DEALLOCATE(TH%ITHGRPC)
+          DEALLOCATE(TH%ITHBUFC)
 
-         DEALLOCATE(TH%ITHGRPD)
-         DEALLOCATE(TH%ITHBUFD)
+          DEALLOCATE(TH%ITHGRPD)
+          DEALLOCATE(TH%ITHBUFD)
 
-         DEALLOCATE(TH%ITHGRPE)
-         DEALLOCATE(TH%ITHBUFE)
+          DEALLOCATE(TH%ITHGRPE)
+          DEALLOCATE(TH%ITHBUFE)
 
-         DEALLOCATE(TH%ITHGRPF)
-         DEALLOCATE(TH%ITHBUFF)
+          DEALLOCATE(TH%ITHGRPF)
+          DEALLOCATE(TH%ITHBUFF)
 
-         DEALLOCATE(TH%ITHGRPG)
-         DEALLOCATE(TH%ITHBUFG)
+          DEALLOCATE(TH%ITHGRPG)
+          DEALLOCATE(TH%ITHBUFG)
 
-         DEALLOCATE(TH%ITHGRPH)
-         DEALLOCATE(TH%ITHBUFH)
+          DEALLOCATE(TH%ITHGRPH)
+          DEALLOCATE(TH%ITHBUFH)
 
-         DEALLOCATE(TH%ITHGRPI)
-         DEALLOCATE(TH%ITHBUFI)
+          DEALLOCATE(TH%ITHGRPI)
+          DEALLOCATE(TH%ITHBUFI)
 
-       END SUBROUTINE TH_CLEAN
+        END SUBROUTINE TH_CLEAN
 
       END MODULE TIME_HISTORY_MOD

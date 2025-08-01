@@ -54,7 +54,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-       IMPLICIT NONE
+        IMPLICIT NONE
 #include      "my_real.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -68,80 +68,80 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER MAT(NEL), IFLAG, NEL
-      my_real PM(NPROPM,NUMMAT),
-     .        OFF(NEL)  ,EINT(NEL) ,MU(NEL)   ,
-     .        MU2(NEL)  ,ESPE(NEL) ,DVOL(NEL) ,DF(NEL)  ,
-     .        VNEW(NEL) ,PSH(NEL)  ,PNEW(NEL) ,DPDM(NEL),
-     .        DPDE(NEL)
+        INTEGER MAT(NEL), IFLAG, NEL
+        my_real PM(NPROPM,NUMMAT),
+     .          OFF(NEL)  ,EINT(NEL) ,MU(NEL)   ,
+     .          MU2(NEL)  ,ESPE(NEL) ,DVOL(NEL) ,DF(NEL)  ,
+     .          VNEW(NEL) ,PSH(NEL)  ,PNEW(NEL) ,DPDM(NEL),
+     .          DPDE(NEL)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: I, MX
-      my_real :: AA, BB, DVV, PP
-      my_real :: C0,C1,C2,C3,C4,C5,PC,SPH
+        INTEGER :: I, MX
+        my_real :: AA, BB, DVV, PP
+        my_real :: C0,C1,C2,C3,C4,C5,PC,SPH
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
-      IF(IFLAG == 0) THEN
-        MX         = MAT(1)
-        C0         = PM(104,MX)
-        C1         = PM( 32,MX)
-        C2         = PM( 33,MX)
-        C3         = PM( 34,MX)
-        C4         = PM( 35,MX)
-        C5         = PM( 36,MX)
-        SPH        = PM( 69,MX)
-        PSH(1:NEL) = PM( 88,MX)
-        PC         = PM( 37,MX)
-        DO I=1,NEL
-          PP      = C0 +(C1 +C3 *MU(I)*MU(I))*MU(I)+C2 *MU2(I) + (C4 +C5 *MU(I))*ESPE(I)
-          DPDM(I) = C1 + TWO*C2 *MAX(ZERO,MU(I))+THREE*C3 *MU(I)*MU(I) + C5 *ESPE(I)+(C4 +C5 *MU(I))*DF(I)*DF(I)*(PP+PSH(I) )
-          DPDE(I) = C4 +C5 *MU(I)
-          PNEW(I) = MAX(PP,PC)*OFF(I)! P(mu[n+1],E[n])
-        ENDDO
+        IF(IFLAG == 0) THEN
+          MX         = MAT(1)
+          C0         = PM(104,MX)
+          C1         = PM( 32,MX)
+          C2         = PM( 33,MX)
+          C3         = PM( 34,MX)
+          C4         = PM( 35,MX)
+          C5         = PM( 36,MX)
+          SPH        = PM( 69,MX)
+          PSH(1:NEL) = PM( 88,MX)
+          PC         = PM( 37,MX)
+          DO I=1,NEL
+            PP      = C0 +(C1 +C3 *MU(I)*MU(I))*MU(I)+C2 *MU2(I) + (C4 +C5 *MU(I))*ESPE(I)
+            DPDM(I) = C1 + TWO*C2 *MAX(ZERO,MU(I))+THREE*C3 *MU(I)*MU(I) + C5 *ESPE(I)+(C4 +C5 *MU(I))*DF(I)*DF(I)*(PP+PSH(I) )
+            DPDE(I) = C4 +C5 *MU(I)
+            PNEW(I) = MAX(PP,PC)*OFF(I)! P(mu[n+1],E[n])
+          ENDDO
 
-      ELSEIF(IFLAG == 1) THEN
-        MX  = MAT(1)
-        C0  = PM(104,MX)
-        C1  = PM( 32,MX)
-        C2  = PM( 33,MX)
-        C3  = PM( 34,MX)
-        C4  = PM( 35,MX)
-        C5  = PM( 36,MX)
-        PC  = PM( 37,MX)
-        PSH(1:NEL) = PM(88,MX)
-        DO I=1,NEL
-          AA      = C0 +MU(I)*(C1 +C3 *MU(I)*MU(I))+C2 *MU2(I)
-          BB      = C4 +C5 *MU(I)
-          DVV     = HALF*DVOL(I)*DF(I) / MAX(EM15,VNEW(I))
-          PNEW(I) = (AA+BB*(ESPE(I)-PSH(I) *DVV))/(ONE+BB*DVV)
-          PNEW(I) = MAX(PNEW(I),PC )*OFF(I) ! P(mu[n+1],E[n+1])
-          EINT(I) = EINT(I) - HALF*DVOL(I)*(PNEW(I)+PSH(I))
-          DPDE(I) = C4 +C5 *MU(I)
-        ENDDO
+        ELSEIF(IFLAG == 1) THEN
+          MX  = MAT(1)
+          C0  = PM(104,MX)
+          C1  = PM( 32,MX)
+          C2  = PM( 33,MX)
+          C3  = PM( 34,MX)
+          C4  = PM( 35,MX)
+          C5  = PM( 36,MX)
+          PC  = PM( 37,MX)
+          PSH(1:NEL) = PM(88,MX)
+          DO I=1,NEL
+            AA      = C0 +MU(I)*(C1 +C3 *MU(I)*MU(I))+C2 *MU2(I)
+            BB      = C4 +C5 *MU(I)
+            DVV     = HALF*DVOL(I)*DF(I) / MAX(EM15,VNEW(I))
+            PNEW(I) = (AA+BB*(ESPE(I)-PSH(I) *DVV))/(ONE+BB*DVV)
+            PNEW(I) = MAX(PNEW(I),PC )*OFF(I) ! P(mu[n+1],E[n+1])
+            EINT(I) = EINT(I) - HALF*DVOL(I)*(PNEW(I)+PSH(I))
+            DPDE(I) = C4 +C5 *MU(I)
+          ENDDO
 
-      ELSEIF(IFLAG == 2) THEN
-         MX  = MAT(1)
-         C0  = PM(104,MX)
-         C1  = PM( 32,MX)
-         C2  = PM( 33,MX)
-         C3  = PM( 34,MX)
-         C4  = PM( 35,MX)
-         C5  = PM( 36,MX)
-         SPH = PM( 69,MX)
-         PSH(1:NEL) = PM(88,MX)
-         PC  = PM(37,MX)
-         DO I=1, NEL
-           IF (VNEW(I) > ZERO) THEN
-             PNEW(I) = C0 +(C1 +C3 *MU(I)*MU(I))*MU(I)+C2 *MU2(I) + (C4 +C5 *MU(I))*ESPE(I)
-             DPDM(I) = C1 + TWO*C2 *MAX(ZERO,MU(I))+THREE*C3 *MU(I)*MU(I) +
-     .            C5 *ESPE(I)+(C4 +C5 *MU(I))*DF(I)*DF(I)*(PNEW(I)+PSH(I) )
-             DPDE(I) = C4 +C5 *MU(I)
-             PNEW(I) = MAX(PNEW(I),PC )*OFF(I)
-           ENDIF
-         ENDDO
-       ENDIF
-C------------------------      
-      RETURN
+        ELSEIF(IFLAG == 2) THEN
+          MX  = MAT(1)
+          C0  = PM(104,MX)
+          C1  = PM( 32,MX)
+          C2  = PM( 33,MX)
+          C3  = PM( 34,MX)
+          C4  = PM( 35,MX)
+          C5  = PM( 36,MX)
+          SPH = PM( 69,MX)
+          PSH(1:NEL) = PM(88,MX)
+          PC  = PM(37,MX)
+          DO I=1, NEL
+            IF (VNEW(I) > ZERO) THEN
+              PNEW(I) = C0 +(C1 +C3 *MU(I)*MU(I))*MU(I)+C2 *MU2(I) + (C4 +C5 *MU(I))*ESPE(I)
+              DPDM(I) = C1 + TWO*C2 *MAX(ZERO,MU(I))+THREE*C3 *MU(I)*MU(I) +
+     .             C5 *ESPE(I)+(C4 +C5 *MU(I))*DF(I)*DF(I)*(PNEW(I)+PSH(I) )
+              DPDE(I) = C4 +C5 *MU(I)
+              PNEW(I) = MAX(PNEW(I),PC )*OFF(I)
+            ENDIF
+          ENDDO
+        ENDIF
+C------------------------
+        RETURN
       END

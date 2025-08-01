@@ -32,38 +32,38 @@
 !! \brief data structure for state files output
 !! \details
 ! ======================================================================================================================
-         implicit none
+        implicit none
 
-         type state_
-            integer  :: stat_numelsph,stat_numelsph_g
-            logical :: is_stat_sph
+        type state_
+          integer  :: stat_numelsph,stat_numelsph_g
+          logical :: is_stat_sph
 
-            integer, dimension(:), allocatable :: stat_sph
-         end type state_
+          integer, dimension(:), allocatable :: stat_sph
+        end type state_
 
 
-         contains
+      contains
 
-         
+
 !||====================================================================
 !||    state_init   ../common_source/modules/output/state_file_mod.F90
 !||--- called by ------------------------------------------------------
 !||    frestat      ../engine/source/input/frestat.F
 !||====================================================================
-         subroutine state_init(state,mx_stat)
-            
+        subroutine state_init(state,mx_stat)
 
-           type(state_),intent(inout)  :: state
-           integer, intent(in) :: mx_stat
 
-           state%stat_numelsph = 0
-           state%stat_numelsph_g = 0
-           state%is_stat_sph = .false.
+          type(state_),intent(inout)  :: state
+          integer, intent(in) :: mx_stat
 
-           allocate(state%stat_sph(mx_stat))
-           state%stat_sph(1:mx_stat) = 0
-           
-         end subroutine state_init
+          state%stat_numelsph = 0
+          state%stat_numelsph_g = 0
+          state%is_stat_sph = .false.
+
+          allocate(state%stat_sph(mx_stat))
+          state%stat_sph(1:mx_stat) = 0
+
+        end subroutine state_init
 
 
       end module state_file_mod

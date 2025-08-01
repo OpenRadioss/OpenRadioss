@@ -137,39 +137,39 @@
 !||    prop_param_mod            ../common_source/modules/mat_elem/prop_param_mod.F90
 !||====================================================================
       module mat_elem_mod
-      
+
 ! ======================================================================================================================
 !! \brief module to host the top level material, property and element datatype
-!! \details 
+!! \details
 
-      use elbufdef_mod
-      use matparam_def_mod
-      use prop_param_mod
-      use group_param_mod
+        use elbufdef_mod
+        use matparam_def_mod
+        use prop_param_mod
+        use group_param_mod
 
 ! ----------------------------------------------------------------------------------------------------------------------
-      implicit none
+        implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
 
         type mat_elem_
-           integer :: ngroup       !< number of element groups
-           integer :: nummat       !< number of /mat  cards
-           integer :: numgeo       !< number of /prop cards
-           integer :: numsubstack  !< number of substack created from /prop/type17, type51 or type52 => ns_stack (see stackgroup.F)
-           integer :: numstack     !< number of /stack  used with /pcompp
-           integer :: numply       !< number of /ply    used with /pcompp
+          integer :: ngroup       !< number of element groups
+          integer :: nummat       !< number of /mat  cards
+          integer :: numgeo       !< number of /prop cards
+          integer :: numsubstack  !< number of substack created from /prop/type17, type51 or type52 => ns_stack (see stackgroup.F)
+          integer :: numstack     !< number of /stack  used with /pcompp
+          integer :: numply       !< number of /ply    used with /pcompp
 
-           type (elbuf_struct_)    ,dimension(:)   ,allocatable :: elbuf          !< global element group buffer structure
-           type (elbuf_struct_)    ,dimension(:,:) ,allocatable :: xfem_tab       !< element buffer for xfem elements      
-           type (group_param_)     ,dimension(:)   ,allocatable :: group_param    !< common element group data
-        
-           type (matparam_struct_) ,dimension(:)   ,pointer     :: mat_param      !< material model data structure
-        
+          type (elbuf_struct_)    ,dimension(:)   ,allocatable :: elbuf          !< global element group buffer structure
+          type (elbuf_struct_)    ,dimension(:,:) ,allocatable :: xfem_tab       !< element buffer for xfem elements
+          type (group_param_)     ,dimension(:)   ,allocatable :: group_param    !< common element group data
+
+          type (matparam_struct_) ,dimension(:)   ,pointer     :: mat_param      !< material model data structure
+
 !           type (prop_param_)      ,dimension(:)   ,allocatable :: prop_param     !< element property data structure
 !           type (prop_param_)      ,dimension(:)   ,allocatable :: prop_stack     !< element stack data
 !           type (prop_param_)      ,dimension(:)   ,allocatable :: prop_ply       !< element ply data
-!           type (prop_param_)      ,dimension(:)   ,allocatable :: prop_substack  !< element substack data      
-     
+!           type (prop_param_)      ,dimension(:)   ,allocatable :: prop_substack  !< element substack data
+
         end type mat_elem_
 
       end module mat_elem_mod

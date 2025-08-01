@@ -36,50 +36,50 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER I, J, N2
+        INTEGER I, J, N2
 C     REAL
-      my_real
-     .   TAB(*)
+        my_real
+     .     TAB(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER MILIEU, U, V
+        INTEGER MILIEU, U, V
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
-      INTEGER ICOMPC
-      IPARTI=I
-      IF(J>I) THEN
+        INTEGER ICOMPC
+        IPARTI=I
+        IF(J>I) THEN
           MILIEU=(I+J)/2
           U=I
           V=J+1
 C
           IF(ICOMPC(J,MILIEU,TAB)<0) THEN
-             CALL ECHANG(J,MILIEU,TAB)
-             CALL ECHANG(N2+J,N2+MILIEU,TAB)
+            CALL ECHANG(J,MILIEU,TAB)
+            CALL ECHANG(N2+J,N2+MILIEU,TAB)
           ENDIF
           IF(ICOMPC(J,I,TAB)<0) THEN
-             CALL ECHANG(J,I,TAB)
-             CALL ECHANG(N2+J,N2+I,TAB)
+            CALL ECHANG(J,I,TAB)
+            CALL ECHANG(N2+J,N2+I,TAB)
           ENDIF
           IF(ICOMPC(I,MILIEU,TAB)<0) THEN
-             CALL ECHANG(I,MILIEU,TAB)
-             CALL ECHANG(N2+I,N2+MILIEU,TAB)
+            CALL ECHANG(I,MILIEU,TAB)
+            CALL ECHANG(N2+I,N2+MILIEU,TAB)
           ENDIF
 C
  1000     IF(U<V) THEN
 C
  1100       CONTINUE
-                U=U+1
-                IF(ICOMPC(U,I,TAB)<0) GO TO 1100
+            U=U+1
+            IF(ICOMPC(U,I,TAB)<0) GO TO 1100
 C
  1200       CONTINUE
-                V=V-1
-                IF(ICOMPC(V,I,TAB)>0) GO TO 1200
+            V=V-1
+            IF(ICOMPC(V,I,TAB)>0) GO TO 1200
 C
-             CALL ECHANG(U,V,TAB)
-             CALL ECHANG(N2+U,N2+V,TAB)
-             GO TO 1000
+            CALL ECHANG(U,V,TAB)
+            CALL ECHANG(N2+U,N2+V,TAB)
+            GO TO 1000
           ENDIF
           IF(U>V) CALL ECHANG(U,V,TAB)
           IF(U>V) CALL ECHANG(N2+U,N2+V,TAB)
@@ -87,6 +87,6 @@ C
           CALL ECHANG(I,U,TAB)
           CALL ECHANG(N2+I,N2+U,TAB)
           IPARTI=U
-       ENDIF
-       RETURN
-       END
+        ENDIF
+        RETURN
+      END

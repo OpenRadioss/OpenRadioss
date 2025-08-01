@@ -995,32 +995,32 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||====================================================================
       MODULE NAMES_AND_TITLES_MOD
 C-----------------------------------------------
-            ! Global parameters for strings
-            INTEGER, PARAMETER :: NCHARKEY      = 20                      ! Max lengths of KEY input
-            INTEGER, PARAMETER :: NCHARLINE     = 500                     ! Line read & write for Starter. Includes & titles can have up to 500 chars
-            INTEGER, PARAMETER :: NCHARLINE100  = 100                     ! Line Read & write for Engine. Must be kept at size 100
-            INTEGER, PARAMETER :: NCHARTITLE    = 500                     ! Titles / and path
-            INTEGER, PARAMETER :: LINE120       = 120                     ! Line of size 120 / exists in some parts of code
-            INTEGER, PARAMETER :: NCHARFIELD    = 20                      ! lengths of a field for Float input storage / 20
-            ! Parameters for NAMES_AND_TITLES type
-            INTEGER, PARAMETER :: LTITLE        = 100
-            INTEGER, PARAMETER :: LROOTNAME     = 80
-            INTEGER, PARAMETER :: LCHRUN        = 4
-            INTEGER, PARAMETER :: LCHRUN0       = 2
-            INTEGER, PARAMETER :: LPATH         = 2048
-            INTEGER, PARAMETER :: LVERS         = 32
-            INTEGER, PARAMETER :: LIMVW_REFPATH = 100
+        ! Global parameters for strings
+        INTEGER, PARAMETER :: NCHARKEY      = 20                      ! Max lengths of KEY input
+        INTEGER, PARAMETER :: NCHARLINE     = 500                     ! Line read & write for Starter. Includes & titles can have up to 500 chars
+        INTEGER, PARAMETER :: NCHARLINE100  = 100                     ! Line Read & write for Engine. Must be kept at size 100
+        INTEGER, PARAMETER :: NCHARTITLE    = 500                     ! Titles / and path
+        INTEGER, PARAMETER :: LINE120       = 120                     ! Line of size 120 / exists in some parts of code
+        INTEGER, PARAMETER :: NCHARFIELD    = 20                      ! lengths of a field for Float input storage / 20
+        ! Parameters for NAMES_AND_TITLES type
+        INTEGER, PARAMETER :: LTITLE        = 100
+        INTEGER, PARAMETER :: LROOTNAME     = 80
+        INTEGER, PARAMETER :: LCHRUN        = 4
+        INTEGER, PARAMETER :: LCHRUN0       = 2
+        INTEGER, PARAMETER :: LPATH         = 2048
+        INTEGER, PARAMETER :: LVERS         = 32
+        INTEGER, PARAMETER :: LIMVW_REFPATH = 100
 
 C-----------------------------------------------
-            TYPE NAMES_AND_TITLES_
-                CHARACTER(LEN=LTITLE)        :: TITLE           ! Title of Model from /TITLE option.
-                CHARACTER(LEN=LROOTNAME)     :: ROOTNAME        ! ROOTNAME : Name of Input Deck
-                CHARACTER(LEN=LCHRUN)        :: CHRUN           ! Run Number : 0 in starter [1-N] in Engine
-                CHARACTER(LEN=LCHRUN0)       :: CHRUN0          ! Run Number0 
-                CHARACTER(LEN=LVERS)         :: VERS            ! Radioss version number
-                CHARACTER(LEN=LIMVW_REFPATH) :: IMVW_REFPATH    ! Refsta Directory
-                INTEGER                      :: ROOTNAME_LENGTH ! LEN of ROOTNAME as in input
-            END TYPE NAMES_AND_TITLES_
+        TYPE NAMES_AND_TITLES_
+          CHARACTER(LEN=LTITLE)        :: TITLE           ! Title of Model from /TITLE option.
+          CHARACTER(LEN=LROOTNAME)     :: ROOTNAME        ! ROOTNAME : Name of Input Deck
+          CHARACTER(LEN=LCHRUN)        :: CHRUN           ! Run Number : 0 in starter [1-N] in Engine
+          CHARACTER(LEN=LCHRUN0)       :: CHRUN0          ! Run Number0
+          CHARACTER(LEN=LVERS)         :: VERS            ! Radioss version number
+          CHARACTER(LEN=LIMVW_REFPATH) :: IMVW_REFPATH    ! Refsta Directory
+          INTEGER                      :: ROOTNAME_LENGTH ! LEN of ROOTNAME as in input
+        END TYPE NAMES_AND_TITLES_
 
 
       CONTAINS
@@ -1046,4 +1046,4 @@ C-----------------------------------------------
 
       END MODULE NAMES_AND_TITLES_MOD
 
-      
+

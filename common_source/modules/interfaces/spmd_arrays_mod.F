@@ -27,12 +27,12 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    interfaces_mod               ../common_source/modules/interfaces/interfaces_mod.F90
 !||    spmd_update_frontier_int25   ../engine/source/mpi/interfaces/spmd_update_frontier_int25.F90
 !||====================================================================
-        MODULE SPMD_ARRAYS_MOD
+      MODULE SPMD_ARRAYS_MOD
 C-----------------------------------------------
 C   m y _ r e a l
 C-----------------------------------------------
 #include      "my_real.inc"
-       implicit none
+        implicit none
 !   -----------------------------------------------
 !   D e r i v e d   T y p e   D e f i n i t i o n s
 !   -----------------------------------------------
@@ -43,10 +43,10 @@ C----------------------------------------------
 C   Global SPMD_ARRAYS activated by Contact
 C---------------------------------------------
 
-          TYPE SPMD_ARRAYS_
-             INTEGER , DIMENSION(:), ALLOCATABLE :: FR_EDG      ! List of frontier edges of main segments of int25 contacts
-             INTEGER , DIMENSION(:), ALLOCATABLE :: IAD_FREDG   ! Adress of frontier edges of main segments of int25 contacts per proc spmd
-          END TYPE SPMD_ARRAYS_
+        TYPE SPMD_ARRAYS_
+          INTEGER , DIMENSION(:), ALLOCATABLE :: FR_EDG      ! List of frontier edges of main segments of int25 contacts
+          INTEGER , DIMENSION(:), ALLOCATABLE :: IAD_FREDG   ! Adress of frontier edges of main segments of int25 contacts per proc spmd
+        END TYPE SPMD_ARRAYS_
 
 C
-        END MODULE SPMD_ARRAYS_MOD
+      END MODULE SPMD_ARRAYS_MOD

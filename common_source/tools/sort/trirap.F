@@ -35,51 +35,51 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER N, N2
+        INTEGER N, N2
 C     REAL
-      my_real
-     .   TAB(*)
+        my_real
+     .     TAB(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER SEUIL, SEPAR, I, J, ISUIV, JSUIV, NIVPIL, PILE(40)
+        INTEGER SEUIL, SEPAR, I, J, ISUIV, JSUIV, NIVPIL, PILE(40)
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
-      INTEGER IPARTI
-      DATA SEUIL/15/
+        INTEGER IPARTI
+        DATA SEUIL/15/
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
 C
-      NIVPIL=0
-      IF(N-1>SEUIL) THEN
+        NIVPIL=0
+        IF(N-1>SEUIL) THEN
           I=1
           J=N
  100      CONTINUE
-             SEPAR=IPARTI(I,J,TAB,N2)
-             IF(SEPAR-I<=J-SEPAR) THEN
-                ISUIV=SEPAR+1
-                JSUIV=J
-                J=SEPAR-1
-              ELSE
-                ISUIV=I
-                JSUIV=SEPAR-1
-                I=SEPAR+1
-              ENDIF
-              IF(JSUIV-ISUIV>SEUIL) THEN
-                NIVPIL=NIVPIL+2
-                PILE(NIVPIL)=ISUIV
-                PILE(NIVPIL-1)=JSUIV
-             ENDIF
-             IF(J-I>SEUIL) GO TO 100
-             IF(NIVPIL/=0) THEN
-                I=PILE(NIVPIL)
-                J=PILE(NIVPIL-1)
-                NIVPIL=NIVPIL-2
-                GO TO 100
-             ENDIF
-      ENDIF
-      CALL TRIINS(N,TAB,N2)
-      RETURN
+          SEPAR=IPARTI(I,J,TAB,N2)
+          IF(SEPAR-I<=J-SEPAR) THEN
+            ISUIV=SEPAR+1
+            JSUIV=J
+            J=SEPAR-1
+          ELSE
+            ISUIV=I
+            JSUIV=SEPAR-1
+            I=SEPAR+1
+          ENDIF
+          IF(JSUIV-ISUIV>SEUIL) THEN
+            NIVPIL=NIVPIL+2
+            PILE(NIVPIL)=ISUIV
+            PILE(NIVPIL-1)=JSUIV
+          ENDIF
+          IF(J-I>SEUIL) GO TO 100
+          IF(NIVPIL/=0) THEN
+            I=PILE(NIVPIL)
+            J=PILE(NIVPIL-1)
+            NIVPIL=NIVPIL-2
+            GO TO 100
+          ENDIF
+        ENDIF
+        CALL TRIINS(N,TAB,N2)
+        RETURN
       END

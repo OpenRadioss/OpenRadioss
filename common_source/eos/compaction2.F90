@@ -54,51 +54,51 @@
 !||    eos_param_mod   ../common_source/modules/mat_elem/eos_param_mod.F90
 !||    precision_mod   ../common_source/modules/precision_mod.F90
 !||====================================================================
-      subroutine compaction2(&
-                            iflag, nel  , pm   , off   , eint  , mu    , &
-                            dvol , mat  , psh  , &
-                            pnew , dpdm , dpde , mu_bak,&
-                            npf  , tf   , snpc , stf   , npropm, nummat,&
-                            eos_param)
+        subroutine compaction2(&
+          iflag, nel  , pm   , off   , eint  , mu    , &
+          dvol , mat  , psh  , &
+          pnew , dpdm , dpde , mu_bak,&
+          npf  , tf   , snpc , stf   , npropm, nummat,&
+          eos_param)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
-       use constant_mod , only : zero, half, one, two, three, three100
-       use eos_param_mod , only : eos_param_
-       use precision_mod , only : WP
+          use constant_mod , only : zero, half, one, two, three, three100
+          use eos_param_mod , only : eos_param_
+          use precision_mod , only : WP
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
-       implicit none
+          implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Included files
 ! ----------------------------------------------------------------------------------------------------------------------
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
-      integer,intent(in) :: nel !< number of element in the currenbt group
-      integer,intent(in) :: npropm, nummat !< array sizes
-      integer,intent(in) :: mat(nel), iflag
-      real(kind=WP),intent(inout) :: pm(npropm,nummat) !< material data (real parameters)
-      real(kind=WP),intent(inout) :: off(nel),eint(nel),mu(nel),dvol(nel)
-      real(kind=WP),intent(inout) :: pnew(nel),dpdm(nel),dpde(nel)
-      integer,intent(in) :: snpc, stf !< array sizes
-      integer,intent(in)::npf(snpc) !< data structure for /FUNCT
-      real(kind=WP),intent(in)::tf(stf) !< data structure for /FUNCT
-      type(eos_param_),intent(in) :: eos_param !< data structure for EoS parameters
-      real(kind=WP),intent(inout) :: mu_bak(nel) !< backup of mu for unloading
+          integer,intent(in) :: nel !< number of element in the currenbt group
+          integer,intent(in) :: npropm, nummat !< array sizes
+          integer,intent(in) :: mat(nel), iflag
+          real(kind=WP),intent(inout) :: pm(npropm,nummat) !< material data (real parameters)
+          real(kind=WP),intent(inout) :: off(nel),eint(nel),mu(nel),dvol(nel)
+          real(kind=WP),intent(inout) :: pnew(nel),dpdm(nel),dpde(nel)
+          integer,intent(in) :: snpc, stf !< array sizes
+          integer,intent(in)::npf(snpc) !< data structure for /FUNCT
+          real(kind=WP),intent(in)::tf(stf) !< data structure for /FUNCT
+          type(eos_param_),intent(in) :: eos_param !< data structure for EoS parameters
+          real(kind=WP),intent(inout) :: mu_bak(nel) !< backup of mu for unloading
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local Variables
 ! ----------------------------------------------------------------------------------------------------------------------
-      integer :: i, mx, iform, p_func_id
-      real(kind=WP) :: p0,psh(nel),e0,sph, b(nel),pne1,pfrac
-      real(kind=WP) :: p(nel),p_
-      real(kind=WP) :: alpha
-      real(kind=WP) :: bmin, bmax, mumin, mumax,Fscale,Xscale
+          integer :: i, mx, iform, p_func_id
+          real(kind=WP) :: p0,psh(nel),e0,sph, b(nel),pne1,pfrac
+          real(kind=WP) :: p(nel),p_
+          real(kind=WP) :: alpha
+          real(kind=WP) :: bmin, bmax, mumin, mumax,Fscale,Xscale
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   External
 ! ----------------------------------------------------------------------------------------------------------------------
-      real(kind=WP), external :: finter
+          real(kind=WP), external :: finter
 ! In order to get : y <- f(x)  and dydx <- f'(x) :
 ! Use :             y = FINTER(func_id,x,NPF,TF,dydx)
 !                       where - NPF,TF are constant arrays automatically built by Starter (/FUNCT data).
@@ -109,122 +109,122 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
-       mx         = mat(1)
-       e0         = pm(23,mx)
-       psh(1:nel) = pm(88,mx)
-       sph        = pm(69,mx)
-       p0         = pm(31,mx)
-       pfrac      = pm(37,mx)
+          mx         = mat(1)
+          e0         = pm(23,mx)
+          psh(1:nel) = pm(88,mx)
+          sph        = pm(69,mx)
+          p0         = pm(31,mx)
+          pfrac      = pm(37,mx)
 
-       bmin  = eos_param%uparam(1)
-       bmax  = eos_param%uparam(2)
-       mumin = eos_param%uparam(3)
-       mumax = eos_param%uparam(4)
-       Fscale= eos_param%uparam(5)
-       Xscale= eos_param%uparam(6)
-       psh   = eos_param%uparam(7)
-       iform = eos_param%iparam(1)
-       p_func_id = eos_param%func(1)
+          bmin  = eos_param%uparam(1)
+          bmax  = eos_param%uparam(2)
+          mumin = eos_param%uparam(3)
+          mumax = eos_param%uparam(4)
+          Fscale= eos_param%uparam(5)
+          Xscale= eos_param%uparam(6)
+          psh   = eos_param%uparam(7)
+          iform = eos_param%iparam(1)
+          p_func_id = eos_param%func(1)
 
-      !----------------------------------------------------------------!
-      !  COMPACTION EOS                                                !
-      !----------------------------------------------------------------!
-      !--- constant unload slope ---!
-      if(iform == 1)then
-        do i=1,nel
-          p(i) = finter(p_func_id,xscale*mu(i),npf,tf,dpdm(i))
-          p(i) = fscale * p(i)
-          p_   = finter(p_func_id,xscale*mu_bak(i),npf,tf,dpdm(i))
-          p_   = p_ * Fscale
-          b(i) = bmax
-          pne1 = p_-(mu_bak(i)-mu(i))*b(i)
-          if(mu_bak(i) > mumin) p(i) = min(pne1, p(i))
-          p(i) = max(p(i),pfrac)*off(i)
-        enddo !next i
-      !--- continuous unload slope (increases with compaction) ---!
-      elseif(iform == 2)then
-        do i=1,nel
-          p(i) = finter(p_func_id,xscale*mu(i),npf,tf,dpdm(i))
-          p(i) = fscale * p(i)
-          p_   = finter(p_func_id,xscale*mu_bak(i),npf,tf,dpdm(i))
-          p_   = p_ * Fscale
-          !linear unload modulus
-          alpha = one
-          if(mumax > zero)then
-            alpha=mu_bak(i)/mumax
+          !----------------------------------------------------------------!
+          !  COMPACTION EOS                                                !
+          !----------------------------------------------------------------!
+          !--- constant unload slope ---!
+          if(iform == 1)then
+            do i=1,nel
+              p(i) = finter(p_func_id,xscale*mu(i),npf,tf,dpdm(i))
+              p(i) = fscale * p(i)
+              p_   = finter(p_func_id,xscale*mu_bak(i),npf,tf,dpdm(i))
+              p_   = p_ * Fscale
+              b(i) = bmax
+              pne1 = p_-(mu_bak(i)-mu(i))*b(i)
+              if(mu_bak(i) > mumin) p(i) = min(pne1, p(i))
+              p(i) = max(p(i),pfrac)*off(i)
+            enddo !next i
+            !--- continuous unload slope (increases with compaction) ---!
+          elseif(iform == 2)then
+            do i=1,nel
+              p(i) = finter(p_func_id,xscale*mu(i),npf,tf,dpdm(i))
+              p(i) = fscale * p(i)
+              p_   = finter(p_func_id,xscale*mu_bak(i),npf,tf,dpdm(i))
+              p_   = p_ * Fscale
+              !linear unload modulus
+              alpha = one
+              if(mumax > zero)then
+                alpha=mu_bak(i)/mumax
+              endif
+              b(i) = alpha*bmax+(one-alpha)*bmin
+              pne1 = p_-(mu_bak(i)-mu(i))*b(i)
+              if(mu_bak(i) > mumin) p(i) = min(pne1, p(i))
+              p(i) = max(p(i),pfrac)  *off(i)
+            enddo !next i
           endif
-          b(i) = alpha*bmax+(one-alpha)*bmin
-          pne1 = p_-(mu_bak(i)-mu(i))*b(i)
-          if(mu_bak(i) > mumin) p(i) = min(pne1, p(i))
-          p(i) = max(p(i),pfrac)  *off(i)
-        enddo !next i
-      endif
-      !----------------------------------------------------------------!
-      !  SOUND SPEED                                                   !
-      !----------------------------------------------------------------!
-      do i=1,nel
-        dpdm(i) = max(b(i),dpdm(i))
-        dpde(i) = zero
-      enddo !next i
-      !----------------------------------------------------------------!
-      !  OUTPUT                                                        !
-      !----------------------------------------------------------------!
-      do i=1,nel
-        p(i)=max(pfrac,p(i))*off(i)
-        pnew(i) = p(i)-psh(i)   ! P(mu[n+1],E[n+1])
-      enddo !next i
+          !----------------------------------------------------------------!
+          !  SOUND SPEED                                                   !
+          !----------------------------------------------------------------!
+          do i=1,nel
+            dpdm(i) = max(b(i),dpdm(i))
+            dpde(i) = zero
+          enddo !next i
+          !----------------------------------------------------------------!
+          !  OUTPUT                                                        !
+          !----------------------------------------------------------------!
+          do i=1,nel
+            p(i)=max(pfrac,p(i))*off(i)
+            pnew(i) = p(i)-psh(i)   ! P(mu[n+1],E[n+1])
+          enddo !next i
 
-      IF(iflag == 1) THEN
-        !----------------------------------------------------------------!
-        !  FRACTURE  - MU_BAK                                            !
-        !----------------------------------------------------------------!
-        do i=1,nel
-          eint(i) = eint(i) - half*dvol(i)*(pnew(i)+psh(i) )
-        enddo !next i
-        !----------------------------------------------------------------!
-        !  FRACTURE  - MU_BAK                                            !
-        !----------------------------------------------------------------!
-        do i=1,nel
-          if(mu(i) > mu_bak(i)) mu_bak(i) = min(mumax,mu(i))
-        enddo !next i
-        !----------------------------------------------------------------!
-        !  OUTPUT                                                        !
-        !----------------------------------------------------------------!
-        do i=1,nel
-          p(i)=max(pfrac,p(i))*off(i)
-          pnew(i) = p(i)-psh(i)
-        enddo !next i
-        !----------------------------------------------------------------!
-        !  PARTIAL DERIVATIE                                             !
-        !----------------------------------------------------------------!
-        do i=1,nel
-          dpde(i) = zero
-        end do
+          IF(iflag == 1) THEN
+            !----------------------------------------------------------------!
+            !  FRACTURE  - MU_BAK                                            !
+            !----------------------------------------------------------------!
+            do i=1,nel
+              eint(i) = eint(i) - half*dvol(i)*(pnew(i)+psh(i) )
+            enddo !next i
+            !----------------------------------------------------------------!
+            !  FRACTURE  - MU_BAK                                            !
+            !----------------------------------------------------------------!
+            do i=1,nel
+              if(mu(i) > mu_bak(i)) mu_bak(i) = min(mumax,mu(i))
+            enddo !next i
+            !----------------------------------------------------------------!
+            !  OUTPUT                                                        !
+            !----------------------------------------------------------------!
+            do i=1,nel
+              p(i)=max(pfrac,p(i))*off(i)
+              pnew(i) = p(i)-psh(i)
+            enddo !next i
+            !----------------------------------------------------------------!
+            !  PARTIAL DERIVATIE                                             !
+            !----------------------------------------------------------------!
+            do i=1,nel
+              dpde(i) = zero
+            end do
 
-      elseif(iflag == 2) then
-        !----------------------------------------------------------------!
-        !  FRACTURE  - MU_BAK                                            !
-        !----------------------------------------------------------------!
-        do i=1,nel
-          if(mu(i) > mu_bak(i)) mu_bak(i) = min(mumax,mu(i))
-        enddo !next i
-        !----------------------------------------------------------------!
-        !  OUTPUT                                                        !
-        !----------------------------------------------------------------!
-        do i=1,nel
-          p(i)=max(pfrac,p(i))*off(i)
-          pnew(i) = p(i)-psh(i)
-        enddo !next i
-        !----------------------------------------------------------------!
-        !  PARTIAL DERIVATIE                                             !
-        !----------------------------------------------------------------!
-        do i=1,nel
-          dpde(i) = zero
-        end do
-      endif
+          elseif(iflag == 2) then
+            !----------------------------------------------------------------!
+            !  FRACTURE  - MU_BAK                                            !
+            !----------------------------------------------------------------!
+            do i=1,nel
+              if(mu(i) > mu_bak(i)) mu_bak(i) = min(mumax,mu(i))
+            enddo !next i
+            !----------------------------------------------------------------!
+            !  OUTPUT                                                        !
+            !----------------------------------------------------------------!
+            do i=1,nel
+              p(i)=max(pfrac,p(i))*off(i)
+              pnew(i) = p(i)-psh(i)
+            enddo !next i
+            !----------------------------------------------------------------!
+            !  PARTIAL DERIVATIE                                             !
+            !----------------------------------------------------------------!
+            do i=1,nel
+              dpde(i) = zero
+            end do
+          endif
 
 !------------------------
-      return
-      end subroutine compaction2
+          return
+        end subroutine compaction2
 !------------------------
       end module compaction2_mod

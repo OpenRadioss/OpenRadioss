@@ -102,12 +102,12 @@
         use precision_mod, only : WP
 
         type output_
-           type (th_) :: th
-           type (state_) :: state
-           type (checksum_option_) :: checksum !< checksum option from Starter
-           double precision :: wfext           !< external force work (global value)
-           double precision :: wfext_md        !< specific to r2r method
-           character(len=2048) :: out_filename !< output file name
+          type (th_) :: th
+          type (state_) :: state
+          type (checksum_option_) :: checksum !< checksum option from Starter
+          double precision :: wfext           !< external force work (global value)
+          double precision :: wfext_md        !< specific to r2r method
+          character(len=2048) :: out_filename !< output file name
         end type output_
 
         double precision, pointer :: wfext

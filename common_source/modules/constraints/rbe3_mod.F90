@@ -46,62 +46,62 @@
 !||    precision_mod    ../common_source/modules/precision_mod.F90
 !||====================================================================
       module rbe3_mod
-         use precision_mod, only: WP
-         implicit none
-         private :: WP
-         ! ----------------------------------------------------------------------------------------------------------------------
-         
-                  integer, parameter :: irbe3_variables = 10      !< first dimension of irbe3
-                  integer, parameter :: rrpen_variables = 10      !< dimension of all rrbe3pen_* variables
-         
-         ! ----------------------------------------------------------------------------------------------------------------------
-         ! T y p e s
-         ! ----------------------------------------------------------------------------------------------------------------------
-         
-                  type rbe3_mpi
-                     integer :: fr_rbe3_sz
-                     integer, DIMENSION(:), ALLOCATABLE :: iad_rbe3  !< #entities to communicate / points to fr_rbe3
-                     integer, DIMENSION(:), ALLOCATABLE :: fr_rbe3   !< entities to communicate
-                     real(kind=WP) ,dimension(:), allocatable :: fr_rbe3mp !< entities to communicate
+        use precision_mod, only: WP
+        implicit none
+        private :: WP
+        ! ----------------------------------------------------------------------------------------------------------------------
 
-                  end type rbe3_mpi
-                  type rbe3_pen
-                    integer :: nrbe3_lp                                        !< number of RBE3 of penalty formulation (local)                           
-                    real(kind=WP) , dimension(:)   , allocatable ::  rrbe3pen_vi  !< damp(nrbe3_lp)
-                    real(kind=WP) , dimension(:,:) , allocatable ::  rrbe3pen_d   !< disp(3*nrbe3_lp)
-                    real(kind=WP) , dimension(:,:) , allocatable ::  rrbe3pen_m   !< mom(3*nrbe3_lp)
-                    real(kind=WP) , dimension(:,:) , allocatable ::  rrbe3pen_stf !< stif(2*nrbe3_lp)
-                    real(kind=WP) , dimension(:)   , allocatable ::  rrbe3pen_fac !< stif_fac(nrbe3_lp) stif factor stability
+        integer, parameter :: irbe3_variables = 10      !< first dimension of irbe3
+        integer, parameter :: rrpen_variables = 10      !< dimension of all rrbe3pen_* variables
 
-                  end type rbe3_pen
-         
-                  type rbe3_
-                    integer :: nrbe3                                  !< Number of RBE3
-                    integer :: lrbe3_sz                               !< size of lrbe3
-                    integer :: frbe3_sz                               !< size of frbe3
+        ! ----------------------------------------------------------------------------------------------------------------------
+        ! T y p e s
+        ! ----------------------------------------------------------------------------------------------------------------------
+
+        type rbe3_mpi
+          integer :: fr_rbe3_sz
+          integer, DIMENSION(:), ALLOCATABLE :: iad_rbe3  !< #entities to communicate / points to fr_rbe3
+          integer, DIMENSION(:), ALLOCATABLE :: fr_rbe3   !< entities to communicate
+          real(kind=WP) ,dimension(:), allocatable :: fr_rbe3mp !< entities to communicate
+
+        end type rbe3_mpi
+        type rbe3_pen
+          integer :: nrbe3_lp                                        !< number of RBE3 of penalty formulation (local)
+          real(kind=WP) , dimension(:)   , allocatable ::  rrbe3pen_vi  !< damp(nrbe3_lp)
+          real(kind=WP) , dimension(:,:) , allocatable ::  rrbe3pen_d   !< disp(3*nrbe3_lp)
+          real(kind=WP) , dimension(:,:) , allocatable ::  rrbe3pen_m   !< mom(3*nrbe3_lp)
+          real(kind=WP) , dimension(:,:) , allocatable ::  rrbe3pen_stf !< stif(2*nrbe3_lp)
+          real(kind=WP) , dimension(:)   , allocatable ::  rrbe3pen_fac !< stif_fac(nrbe3_lp) stif factor stability
+
+        end type rbe3_pen
+
+        type rbe3_
+          integer :: nrbe3                                  !< Number of RBE3
+          integer :: lrbe3_sz                               !< size of lrbe3
+          integer :: frbe3_sz                               !< size of frbe3
 !                    integer nrbe3_gp                               !< number of RBE3 of penalty formulation (global)
-                    integer,dimension(:,:),allocatable ::  irbe3   !< irbe3(irbe3_variables,nrbe3)  IRBE3 main array
-                    integer,dimension(:),allocatable   ::  lrbe3   !< lrbe3 array IRBE3 main array
-                    real(kind=WP) ,dimension(:), allocatable ::  frbe3   !< RBE3 Float variables
-                    integer :: irotg                               !< Global Rotational flag, >0 if one RBE3 has rot option, 0 else.
-                    integer :: irotg_sz                            !< Number of values to communicate : if irotg==0 -> 5,  else -> 10.
-                    ! Buffers for RBE3
-                    integer :: nmt                                    !< Number of unique main nodes
-                    integer :: rrbe3_sz
-                    real(kind=WP), dimension(:), allocatable :: rrbe3
-                    integer :: rrbe3_pon_sz
-                    double precision, dimension(:), allocatable :: rrbe3_pon
+          integer,dimension(:,:),allocatable ::  irbe3   !< irbe3(irbe3_variables,nrbe3)  IRBE3 main array
+          integer,dimension(:),allocatable   ::  lrbe3   !< lrbe3 array IRBE3 main array
+          real(kind=WP) ,dimension(:), allocatable ::  frbe3   !< RBE3 Float variables
+          integer :: irotg                               !< Global Rotational flag, >0 if one RBE3 has rot option, 0 else.
+          integer :: irotg_sz                            !< Number of values to communicate : if irotg==0 -> 5,  else -> 10.
+          ! Buffers for RBE3
+          integer :: nmt                                    !< Number of unique main nodes
+          integer :: rrbe3_sz
+          real(kind=WP), dimension(:), allocatable :: rrbe3
+          integer :: rrbe3_pon_sz
+          double precision, dimension(:), allocatable :: rrbe3_pon
 !
-                    ! MPI structures
-                    type (rbe3_mpi) :: mpi
-                    ! penalty structures
-                    type (rbe3_pen) :: pen
-                  end type rbe3_
-         
-               contains
-         
-               !! \brief allocate rbe3 type
-               !! \details
+          ! MPI structures
+          type (rbe3_mpi) :: mpi
+          ! penalty structures
+          type (rbe3_pen) :: pen
+        end type rbe3_
+
+      contains
+
+        !! \brief allocate rbe3 type
+        !! \details
 !||====================================================================
 !||    allocate_rbe3   ../common_source/modules/constraints/rbe3_mod.F90
 !||--- called by ------------------------------------------------------
@@ -110,24 +110,24 @@
 !||--- uses       -----------------------------------------------------
 !||    my_alloc_mod    ../common_source/tools/memory/my_alloc.F90
 !||====================================================================
-               subroutine allocate_rbe3( rbe3,nspmd )
-                  use my_alloc_mod
-                  implicit none
-                  type(rbe3_),INTENT(INOUT) :: rbe3
-                  integer,INTENT(IN) :: nspmd
+        subroutine allocate_rbe3( rbe3,nspmd )
+          use my_alloc_mod
+          implicit none
+          type(rbe3_),INTENT(INOUT) :: rbe3
+          integer,INTENT(IN) :: nspmd
 
-                  ! General RBE3 Buffer
-                  call my_alloc( rbe3%irbe3,irbe3_variables,rbe3%nrbe3)
-                  call my_alloc( rbe3%lrbe3,rbe3%lrbe3_sz)
-                  call my_alloc( rbe3%frbe3,rbe3%frbe3_sz)
-                  ! MPI RBE3 Buffer
-                  call my_alloc( rbe3%mpi%iad_rbe3,nspmd+1)
-                  call my_alloc( rbe3%mpi%fr_rbe3,rbe3%mpi%fr_rbe3_sz)
-                  call my_alloc( rbe3%mpi%fr_rbe3mp,rbe3%mpi%fr_rbe3_sz)
+          ! General RBE3 Buffer
+          call my_alloc( rbe3%irbe3,irbe3_variables,rbe3%nrbe3)
+          call my_alloc( rbe3%lrbe3,rbe3%lrbe3_sz)
+          call my_alloc( rbe3%frbe3,rbe3%frbe3_sz)
+          ! MPI RBE3 Buffer
+          call my_alloc( rbe3%mpi%iad_rbe3,nspmd+1)
+          call my_alloc( rbe3%mpi%fr_rbe3,rbe3%mpi%fr_rbe3_sz)
+          call my_alloc( rbe3%mpi%fr_rbe3mp,rbe3%mpi%fr_rbe3_sz)
 
-               end subroutine allocate_rbe3
+        end subroutine allocate_rbe3
 !
-               !! \brief allocate rbe3%pen type
+        !! \brief allocate rbe3%pen type
 !||====================================================================
 !||    allocate_rbe3pen   ../common_source/modules/constraints/rbe3_mod.F90
 !||--- called by ------------------------------------------------------
@@ -136,18 +136,18 @@
 !||--- uses       -----------------------------------------------------
 !||    my_alloc_mod       ../common_source/tools/memory/my_alloc.F90
 !||====================================================================
-               subroutine allocate_rbe3pen(rbe3pen)
-                  use my_alloc_mod
-                  implicit none
-                  type(rbe3_pen),INTENT(INOUT) :: rbe3pen
+        subroutine allocate_rbe3pen(rbe3pen)
+          use my_alloc_mod
+          implicit none
+          type(rbe3_pen),INTENT(INOUT) :: rbe3pen
 
-                  call my_alloc( rbe3pen%rrbe3pen_vi,rbe3pen%nrbe3_lp)
-                  call my_alloc( rbe3pen%rrbe3pen_d,3,rbe3pen%nrbe3_lp)
-                  call my_alloc( rbe3pen%rrbe3pen_m,3,rbe3pen%nrbe3_lp)
-                  call my_alloc( rbe3pen%rrbe3pen_stf,2,rbe3pen%nrbe3_lp)
-                  call my_alloc( rbe3pen%rrbe3pen_fac,rbe3pen%nrbe3_lp)
+          call my_alloc( rbe3pen%rrbe3pen_vi,rbe3pen%nrbe3_lp)
+          call my_alloc( rbe3pen%rrbe3pen_d,3,rbe3pen%nrbe3_lp)
+          call my_alloc( rbe3pen%rrbe3pen_m,3,rbe3pen%nrbe3_lp)
+          call my_alloc( rbe3pen%rrbe3pen_stf,2,rbe3pen%nrbe3_lp)
+          call my_alloc( rbe3pen%rrbe3pen_fac,rbe3pen%nrbe3_lp)
 
-               end subroutine allocate_rbe3pen
-!         
-               end module rbe3_mod
-         
+        end subroutine allocate_rbe3pen
+!
+      end module rbe3_mod
+

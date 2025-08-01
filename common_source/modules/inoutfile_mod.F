@@ -93,7 +93,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    writemesh                  ../starter/source/airbag/writeMesh.F
 !||    wrrestp                    ../engine/source/output/restart/wrrestp.F
 !||====================================================================
-        MODULE INOUTFILE_MOD
+      MODULE INOUTFILE_MOD
 
 !--------------------------------------------------------------------
 !       INOUTFILE MOD :
@@ -115,4 +115,4 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
         INTEGER, PARAMETER :: INFILE_CHAR_LEN=2048
         CHARACTER(len=INFILE_CHAR_LEN) :: INFILE_NAME
 
-        END MODULE INOUTFILE_MOD
+      END MODULE INOUTFILE_MOD

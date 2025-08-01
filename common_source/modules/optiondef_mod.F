@@ -88,9 +88,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    names_and_titles_mod            ../common_source/modules/names_and_titles_mod.F
 !||====================================================================
       MODULE OPTIONDEF_MOD
-!----------------------------------------------------------------------- 
-      USE NAMES_AND_TITLES_MOD, ONLY: NCHARTITLE
-!----------------------------------------------------------------------- 
+!-----------------------------------------------------------------------
+        USE NAMES_AND_TITLES_MOD, ONLY: NCHARTITLE
+!-----------------------------------------------------------------------
 #include "my_real.inc"
 !-----------------------------------------------------------------------
 !--------------
@@ -98,33 +98,33 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !      /INICRACK
 !--------------
 !--------------
-      TYPE SEG_
-        INTEGER, DIMENSION(:),ALLOCATABLE :: NODES   ! - 2 nodes of the segment for /SURF
-        my_real   :: RATIO ! - INICRACK RATIO OF ONE SEGMENT
-      END TYPE SEG_
+        TYPE SEG_
+          INTEGER, DIMENSION(:),ALLOCATABLE :: NODES   ! - 2 nodes of the segment for /SURF
+          my_real   :: RATIO ! - INICRACK RATIO OF ONE SEGMENT
+        END TYPE SEG_
 !--------------
-      TYPE INICRACK_
-        INTEGER   :: ID ! - INICRACK IDENTIFIER
-        CHARACTER(LEN=NCHARTITLE) :: TITLE ! INICRACK title
-        INTEGER   :: NSEG  ! - INICRACK NUMBER OF SEGMENTS
+        TYPE INICRACK_
+          INTEGER   :: ID ! - INICRACK IDENTIFIER
+          CHARACTER(LEN=NCHARTITLE) :: TITLE ! INICRACK title
+          INTEGER   :: NSEG  ! - INICRACK NUMBER OF SEGMENTS
 !
-        TYPE (SEG_) ,DIMENSION(:) ,ALLOCATABLE :: SEG     ! SEGMENTS OF INICRACK
+          TYPE (SEG_) ,DIMENSION(:) ,ALLOCATABLE :: SEG     ! SEGMENTS OF INICRACK
 !--------------
-      END TYPE INICRACK_
+        END TYPE INICRACK_
 !-----------------------------------------------------------------------
 !--------------
 !--------------
 !      /ADMAS
 !--------------
 !--------------
-      TYPE PART_
-        my_real   :: RPMAS ! ADMAS added to PARTS (or NODES)
-      END TYPE PART_
+        TYPE PART_
+          my_real   :: RPMAS ! ADMAS added to PARTS (or NODES)
+        END TYPE PART_
 !--------------
-      TYPE ADMAS_
-        INTEGER   :: ID ! - ADMAS IDENTIFIER
-        CHARACTER(LEN=NCHARTITLE) :: TITLE ! ADMAS title
-        INTEGER   :: TYPE ! ADMAS type
+        TYPE ADMAS_
+          INTEGER   :: ID ! - ADMAS IDENTIFIER
+          CHARACTER(LEN=NCHARTITLE) :: TITLE ! ADMAS title
+          INTEGER   :: TYPE ! ADMAS type
 !                    = 0 ! Mass is added to each node of node group
 !                    = 1 ! Mass/N is added to each node of node group.
 !                          N being the total number of nodes in the node group
@@ -134,43 +134,43 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !                    = 5 ! Mass is added to each single node
 !                    = 6 ! Additional mass distributed on each single part
 !                    = 7 ! Final mass distributed on each single part
-        INTEGER   :: WEIGHT_FLAG  ! Flag to switch between area weighted distribution and volume 
+          INTEGER   :: WEIGHT_FLAG  ! Flag to switch between area weighted distribution and volume
 !                                   weighted distribution of the added mass to parts)
 !                    = 0 ! Volume weighted distribution (shell and solid parts) (default)
 !                    = 1 ! Area weighted distribution (shell parts only)
-        INTEGER   :: NPART ! NUMBER of parts to get ADMAS
-        INTEGER, DIMENSION(:),ALLOCATABLE :: PARTID ! PART_ID to get ADMAS
-        TYPE (PART_) ,DIMENSION(:) ,ALLOCATABLE :: PART  ! PARTS get ADMAS
-      END TYPE ADMAS_
+          INTEGER   :: NPART ! NUMBER of parts to get ADMAS
+          INTEGER, DIMENSION(:),ALLOCATABLE :: PARTID ! PART_ID to get ADMAS
+          TYPE (PART_) ,DIMENSION(:) ,ALLOCATABLE :: PART  ! PARTS get ADMAS
+        END TYPE ADMAS_
 !-----------------------------------------------------------------------
 !--------------
 !      /BOX
 !--------------
 !--------------
-      TYPE BOX_
-        INTEGER   :: ID ! - BOX IDENTIFIER
-        CHARACTER(LEN=NCHARTITLE) :: TITLE ! BOX title
-        INTEGER   :: ISKBOX ! BOX SKEW_ID (RECTA + CYLIN)
-        INTEGER   :: NOD1 ! FIRST NODE for box limit definition  - N1 -
-        INTEGER   :: NOD2 ! SECOND NODE for box limit definition - N2 -
-        INTEGER   :: TYPE ! BOX SHAPE (1='RECTA',2='CYLIN' ,3='SPHER')
-        INTEGER   :: NBLEVELS ! TEMPORARY LEVEL NB OF BOXES
-        INTEGER   :: LEVEL ! FLAG "SUBLEVEL DONE" FOR BOX OF BOXES
-        INTEGER   :: ACTIBOX ! FLAG FOR ACTIVATED BOX FOR (GRNOD,GRSHEL,LINE,SURF...)
-        INTEGER   :: SURFIAD !  temporary address for solid external surface (in box)
-        INTEGER   :: BOXIAD !  temporary address
-        my_real   :: DIAM ! BOX diameter (CYLIN + SPHER)
-        my_real   :: X1 ! coord. for  - N1 -
-        my_real   :: Y1 ! coord. for  - N1 -
-        my_real   :: Z1 ! coord. for  - N1 -
-        my_real   :: X2 ! coord. for  - N2 -
-        my_real   :: Y2 ! coord. for  - N2 -
-        my_real   :: Z2 ! coord. for  - N2 -
-        INTEGER   :: NBOXBOX ! NUMBER OF SUB BOXES (BOXES OF BOXES)
-        INTEGER ,DIMENSION(:) ,ALLOCATABLE :: IBOXBOX ! SUB BOXES (BOX OF BOXES)
-        INTEGER   :: NENTITY ! NUMBER OF BOX ENTITIES (NODES,ELEMS,LINES,SURF)
+        TYPE BOX_
+          INTEGER   :: ID ! - BOX IDENTIFIER
+          CHARACTER(LEN=NCHARTITLE) :: TITLE ! BOX title
+          INTEGER   :: ISKBOX ! BOX SKEW_ID (RECTA + CYLIN)
+          INTEGER   :: NOD1 ! FIRST NODE for box limit definition  - N1 -
+          INTEGER   :: NOD2 ! SECOND NODE for box limit definition - N2 -
+          INTEGER   :: TYPE ! BOX SHAPE (1='RECTA',2='CYLIN' ,3='SPHER')
+          INTEGER   :: NBLEVELS ! TEMPORARY LEVEL NB OF BOXES
+          INTEGER   :: LEVEL ! FLAG "SUBLEVEL DONE" FOR BOX OF BOXES
+          INTEGER   :: ACTIBOX ! FLAG FOR ACTIVATED BOX FOR (GRNOD,GRSHEL,LINE,SURF...)
+          INTEGER   :: SURFIAD !  temporary address for solid external surface (in box)
+          INTEGER   :: BOXIAD !  temporary address
+          my_real   :: DIAM ! BOX diameter (CYLIN + SPHER)
+          my_real   :: X1 ! coord. for  - N1 -
+          my_real   :: Y1 ! coord. for  - N1 -
+          my_real   :: Z1 ! coord. for  - N1 -
+          my_real   :: X2 ! coord. for  - N2 -
+          my_real   :: Y2 ! coord. for  - N2 -
+          my_real   :: Z2 ! coord. for  - N2 -
+          INTEGER   :: NBOXBOX ! NUMBER OF SUB BOXES (BOXES OF BOXES)
+          INTEGER ,DIMENSION(:) ,ALLOCATABLE :: IBOXBOX ! SUB BOXES (BOX OF BOXES)
+          INTEGER   :: NENTITY ! NUMBER OF BOX ENTITIES (NODES,ELEMS,LINES,SURF)
 !                              WITHIN ACTIVATED BOX
-        INTEGER ,DIMENSION(:) ,ALLOCATABLE :: ENTITY ! BOX entity storage
-      END TYPE BOX_
+          INTEGER ,DIMENSION(:) ,ALLOCATABLE :: ENTITY ! BOX entity storage
+        END TYPE BOX_
 !--------------
       END MODULE OPTIONDEF_MOD

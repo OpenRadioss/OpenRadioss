@@ -28,15 +28,15 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    cr_spline_interpol   ../common_source/tools/interpolation/cr_spline_interpol.F
 !||    cr_spline_knots      ../common_source/tools/interpolation/cr_spline_knots.F
 !||====================================================================
-       SUBROUTINE CR_SPLINE_LENGTH(LOCAL_PT,ALPHA,T,LEN)
+      SUBROUTINE CR_SPLINE_LENGTH(LOCAL_PT,ALPHA,T,LEN)
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
-       !compute SPLINE length with third order method (SIMPSON)
-       !  INPUT  - LOCAL_PT : 4 control points P0,P1,P2,P3
-       !  INPUT  - ALPHA : CCR SPLINE PARAMETER
-       !  INPUT  - T : position [0,1] on SPLINE [T1,T2].  1.0 means full spline length
-       !  OUTPUT - LEN : length of the curve parametrised with t in [0,T]  T<=1.0
+        !compute SPLINE length with third order method (SIMPSON)
+        !  INPUT  - LOCAL_PT : 4 control points P0,P1,P2,P3
+        !  INPUT  - ALPHA : CCR SPLINE PARAMETER
+        !  INPUT  - T : position [0,1] on SPLINE [T1,T2].  1.0 means full spline length
+        !  OUTPUT - LEN : length of the curve parametrised with t in [0,T]  T<=1.0
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -58,7 +58,7 @@ C-----------------------------------------------
         CALL CR_SPLINE_KNOTS(LOCAL_PT, KNOTS, ALPHA)
         LEN = 0.
         NITER=20
-         DO ITER=1,NITER-1
+        DO ITER=1,NITER-1
           !first point
           T_=T*(1.*ITER-1.)/(NITER-1.)
           CALL CR_SPLINE_INTERPOL(LOCAL_PT,KNOTS,T_,C,C_D,C_DD)
@@ -77,4 +77,4 @@ C-----------------------------------------------
           !length
           LEN = LEN+(K(2)-K(1))/6. * (VAL(1)+4.*VAL(2)+VAL(3))
         ENDDO
-       END SUBROUTINE CR_SPLINE_LENGTH
+      END SUBROUTINE CR_SPLINE_LENGTH

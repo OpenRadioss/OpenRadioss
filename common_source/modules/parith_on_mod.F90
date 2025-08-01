@@ -32,49 +32,49 @@
       module parith_on_mod
 #include "my_real.inc"
 
-        type element_pon_ 
-            integer :: SFSKY !< second dimension of FSKY 
-            integer :: SADSKY !< size of ADSKY (numnod + 1 ?)
-            integer :: MAX_SFSKY  !< max size of FSKY (allocated)
-            my_real, dimension(:,:), allocatable :: FSKY !< 8xSFSKY array of the skyline Forces
-            my_real, dimension(:), allocatable :: FSKYM !< mass (solid only?) 
-            my_real, dimension(:), allocatable :: FTHESKY !<        
-            my_real, dimension(:), allocatable :: CONDNSKY !< 
-            my_real, dimension(:), allocatable :: FSKYD !< sph ?
-            integer, dimension(:), allocatable :: ADSKY !< pointers to FSKY
-             !spmd:
-            integer, dimension(:), allocatable :: PROCNE !< processor ID of each contribution to FSKY
-            integer, dimension(:), allocatable :: IADRCP !< reception of forces
-            integer, dimension(:), allocatable :: IRECVP !< reception of forces
-            integer, dimension(:), allocatable :: IADSDP !< send forces
-            integer, dimension(:), allocatable :: ISENDP !< send forces
+        type element_pon_
+          integer :: SFSKY !< second dimension of FSKY
+          integer :: SADSKY !< size of ADSKY (numnod + 1 ?)
+          integer :: MAX_SFSKY  !< max size of FSKY (allocated)
+          my_real, dimension(:,:), allocatable :: FSKY !< 8xSFSKY array of the skyline Forces
+          my_real, dimension(:), allocatable :: FSKYM !< mass (solid only?)
+          my_real, dimension(:), allocatable :: FTHESKY !<
+          my_real, dimension(:), allocatable :: CONDNSKY !<
+          my_real, dimension(:), allocatable :: FSKYD !< sph ?
+          integer, dimension(:), allocatable :: ADSKY !< pointers to FSKY
+          !spmd:
+          integer, dimension(:), allocatable :: PROCNE !< processor ID of each contribution to FSKY
+          integer, dimension(:), allocatable :: IADRCP !< reception of forces
+          integer, dimension(:), allocatable :: IRECVP !< reception of forces
+          integer, dimension(:), allocatable :: IADSDP !< send forces
+          integer, dimension(:), allocatable :: ISENDP !< send forces
 
 
-            integer, dimension(:,:), allocatable :: IADS !< 1 ; 8xNUMELS  solid indexes to FSKY
-            integer, dimension(:,:), allocatable :: IADS10 !< 6* NUMELS10 
-            integer, dimension(:,:), allocatable :: IADS20 ! 12*NUMELS20
-            integer, dimension(:,:), allocatable :: IADS16 ! 8*NUMELS16
-            integer, dimension(:,:), allocatable :: IADQ !<i87b ; quad i87b 
-            integer, dimension(:,:), allocatable :: IADC !<i87C shell (4 nodes) indexes to FSKY
-            integer, dimension(:,:), allocatable :: IAD_TRUSS !< I87D 2xNUMELT
-            integer, dimension(:,:), allocatable :: IAD_BEAM !< I87E 2xNUMELP
-            integer, dimension(:,:), allocatable :: IAD_SPRING !<F 3xNUMELR
-            integer, dimension(:,:), allocatable :: IAD_TG !<G 3xNUMELTG
-            integer, dimension(:,:), allocatable :: IAD_TG6 !<H 3xNUMELTG6
-            integer, dimension(:,:), allocatable :: IAD_MV !I 4xNSKYMV0
-            integer, dimension(:,:), allocatable :: IAD_CONLD !<J 4xNCONLD
-            integer, dimension(:,:), allocatable :: IAD_CONV !<K 4x glob_therm%NCONV
-            integer, dimension(:,:), allocatable :: IAD_RADIA !<L 4x glob_therm%Numrada
-            integer, dimension(:), allocatable :: IAD_LOADP !<M SLLOADP
-            integer, dimension(:,:), allocatable :: IAD_FXFLUX !<N 4x glob_therm%nfxflux
+          integer, dimension(:,:), allocatable :: IADS !< 1 ; 8xNUMELS  solid indexes to FSKY
+          integer, dimension(:,:), allocatable :: IADS10 !< 6* NUMELS10
+          integer, dimension(:,:), allocatable :: IADS20 ! 12*NUMELS20
+          integer, dimension(:,:), allocatable :: IADS16 ! 8*NUMELS16
+          integer, dimension(:,:), allocatable :: IADQ !<i87b ; quad i87b
+          integer, dimension(:,:), allocatable :: IADC !<i87C shell (4 nodes) indexes to FSKY
+          integer, dimension(:,:), allocatable :: IAD_TRUSS !< I87D 2xNUMELT
+          integer, dimension(:,:), allocatable :: IAD_BEAM !< I87E 2xNUMELP
+          integer, dimension(:,:), allocatable :: IAD_SPRING !<F 3xNUMELR
+          integer, dimension(:,:), allocatable :: IAD_TG !<G 3xNUMELTG
+          integer, dimension(:,:), allocatable :: IAD_TG6 !<H 3xNUMELTG6
+          integer, dimension(:,:), allocatable :: IAD_MV !I 4xNSKYMV0
+          integer, dimension(:,:), allocatable :: IAD_CONLD !<J 4xNCONLD
+          integer, dimension(:,:), allocatable :: IAD_CONV !<K 4x glob_therm%NCONV
+          integer, dimension(:,:), allocatable :: IAD_RADIA !<L 4x glob_therm%Numrada
+          integer, dimension(:), allocatable :: IAD_LOADP !<M SLLOADP
+          integer, dimension(:,:), allocatable :: IAD_FXFLUX !<N 4x glob_therm%nfxflux
         end type element_pon_
-    
+
 
         type interface_pon_
           my_real, dimension(:,:), allocatable :: FSKYI
-          integer, dimension(:), allocatable :: ISKY    
+          integer, dimension(:), allocatable :: ISKY
           integer, dimension(:), allocatable :: ADSKYI
         end type
 
-        contains 
+      contains
       end module parith_on_mod

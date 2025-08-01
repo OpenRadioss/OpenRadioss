@@ -34,39 +34,39 @@
 !||====================================================================
       module prop_param_mod
 
-!=======================================================================================      
+!=======================================================================================
 !! \brief  module to define element property data structure
-!! \details 
+!! \details
 
         use ply_param_mod
         use names_and_titles_mod, only: nchartitle
         use precision_mod, only: WP
 
 
-      implicit none
-      private :: WP
-!----------------------------------------------------------------------- 
+        implicit none
+        private :: WP
+!-----------------------------------------------------------------------
 
-!----------------------------------------------------------------------- 
+!-----------------------------------------------------------------------
 
-      integer ,parameter  :: n_var_iparg = 100    ! number of iparg variables = nparg
-      integer ,parameter  :: n_var_pm    = 250    ! number of pm variables    = mpropm
-      integer ,parameter  :: n_var_ipm   = 467    ! number of ipm variables   = mpropmi
-      integer ,parameter  :: n_var_igeo  = 917    ! number of igeo variables  = npropgi
-      integer ,parameter  :: n_var_geo   = 1000   ! number of geo variables   = npropg
-!----------------------------------------------------------------------- 
-! 
-      type prop_param_                      ! (numgeo)
-        character(len=nchartitle) :: title  ! Property title
-        integer     :: prop_id
-        integer     :: nlay   
-        
-        type (ply_param_) ,dimension(:) ,allocatable :: ply_param !< nlay
-        
-        integer  ,dimension(:) ,allocatable :: igeo               !< npropg
-        real(kind=WP)  ,dimension(:) ,allocatable :: geo                !< npropgi
-        
-      end type prop_param_
+        integer ,parameter  :: n_var_iparg = 100    ! number of iparg variables = nparg
+        integer ,parameter  :: n_var_pm    = 250    ! number of pm variables    = mpropm
+        integer ,parameter  :: n_var_ipm   = 467    ! number of ipm variables   = mpropmi
+        integer ,parameter  :: n_var_igeo  = 917    ! number of igeo variables  = npropgi
+        integer ,parameter  :: n_var_geo   = 1000   ! number of geo variables   = npropg
+!-----------------------------------------------------------------------
+!
+        type prop_param_                      ! (numgeo)
+          character(len=nchartitle) :: title  ! Property title
+          integer     :: prop_id
+          integer     :: nlay
+
+          type (ply_param_) ,dimension(:) ,allocatable :: ply_param !< nlay
+
+          integer  ,dimension(:) ,allocatable :: igeo               !< npropg
+          real(kind=WP)  ,dimension(:) ,allocatable :: geo                !< npropgi
+
+        end type prop_param_
 !
 !---------------
       end module prop_param_mod

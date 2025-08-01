@@ -29,7 +29,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    mintp_re    ../common_source/eos/mintp_re.F
 !||    mintp_rt    ../common_source/eos/mintp_rt.F
 !||====================================================================
-      SUBROUTINE SESAME(IFLAG,NEL, PM   ,OFF  ,EINT ,RHO  ,RHO0  , 
+      SUBROUTINE SESAME(IFLAG,NEL, PM   ,OFF  ,EINT ,RHO  ,RHO0  ,
      2                  ESPE ,DVOL ,MAT  ,PNEW ,DPDM ,DPDE  ,THETA ,
      3                  BUFMAT)
 C-----------------------------------------------
@@ -64,74 +64,74 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER MAT(NEL), IFLAG, NEL
-      my_real PM(NPROPM,NUMMAT), BUFMAT(SBUFMAT), 
-     .        OFF(NEL) , EINT(NEL), RHO(NEL) , RHO0(NEL),
-     .        ESPE(NEL), DVOL(NEL), PNEW(NEL), 
-     .        DPDM(NEL), DPDE(NEL), THETA(NEL)
+        INTEGER MAT(NEL), IFLAG, NEL
+        my_real PM(NPROPM,NUMMAT), BUFMAT(SBUFMAT),
+     .          OFF(NEL) , EINT(NEL), RHO(NEL) , RHO0(NEL),
+     .          ESPE(NEL), DVOL(NEL), PNEW(NEL),
+     .          DPDM(NEL), DPDE(NEL), THETA(NEL)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, MX, NR, NT, IDR, IDT, IDP, IDE
-      my_real ESPEM, PRES, DTDE, DPDR, DPDT
-      my_real PC(NEL)
+        INTEGER I, MX, NR, NT, IDR, IDT, IDP, IDE
+        my_real ESPEM, PRES, DTDE, DPDR, DPDT
+        my_real PC(NEL)
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
-      IF(IFLAG == 0) THEN
-        DO I=1,NEL
-          MX  = MAT(I)
-          PC(I)   = PM(37,MX)
-          NR  = NINT(PM(33,MX))
-          NT  = NINT(PM(34,MX))
-          IDR = NINT(PM(35,MX))
-          IDT = IDR + NR
-          IDP = IDT + NT
-          IDE = IDP + NR * NT
-          ESPEM = ESPE(I)/RHO0(I)
-          DTDE = ZERO
-          CALL MINTP_RE(BUFMAT(IDR),NR,BUFMAT(IDT),NT,BUFMAT(IDE),RHO(I),THETA(I),ESPEM,DTDE)
-          CALL MINTP1_RT(BUFMAT(IDR),NR,BUFMAT(IDT),NT,BUFMAT(IDP),RHO(I),THETA(I),PRES,DPDR,DPDT)
-          DPDM(I) = RHO0(I)*DPDR
-          DPDE(I) = DPDT*DTDE/RHO0(I)
-          PNEW(I) = MAX(PRES,PC(I))*OFF(I)! P(mu[n+1],E[n])
-        ENDDO
+        IF(IFLAG == 0) THEN
+          DO I=1,NEL
+            MX  = MAT(I)
+            PC(I)   = PM(37,MX)
+            NR  = NINT(PM(33,MX))
+            NT  = NINT(PM(34,MX))
+            IDR = NINT(PM(35,MX))
+            IDT = IDR + NR
+            IDP = IDT + NT
+            IDE = IDP + NR * NT
+            ESPEM = ESPE(I)/RHO0(I)
+            DTDE = ZERO
+            CALL MINTP_RE(BUFMAT(IDR),NR,BUFMAT(IDT),NT,BUFMAT(IDE),RHO(I),THETA(I),ESPEM,DTDE)
+            CALL MINTP1_RT(BUFMAT(IDR),NR,BUFMAT(IDT),NT,BUFMAT(IDP),RHO(I),THETA(I),PRES,DPDR,DPDT)
+            DPDM(I) = RHO0(I)*DPDR
+            DPDE(I) = DPDT*DTDE/RHO0(I)
+            PNEW(I) = MAX(PRES,PC(I))*OFF(I)! P(mu[n+1],E[n])
+          ENDDO
 
-      ELSEIF(IFLAG == 1) THEN
-        DO I=1,NEL
-          MX      = MAT(I)
-          PC(I)   = PM(37,MX)
-          NR  = NINT(PM(33,MX))
-          NT  = NINT(PM(34,MX))
-          IDR = NINT(PM(35,MX))
-          IDT = IDR + NR
-          IDP = IDT + NT
-          IDE = IDP + NR * NT
-          ESPEM=ESPE(I)/RHO0(I)
-          CALL MINTP_RE(BUFMAT(IDR),NR,BUFMAT(IDT),NT,BUFMAT(IDE),RHO(I),THETA(I),ESPEM,DTDE)
-          CALL MINTP_RT(BUFMAT(IDR),NR,BUFMAT(IDT),NT,BUFMAT(IDP),RHO(I),THETA(I),PNEW(I),DPDR)
-          PNEW(I)= MAX(PNEW(I),PC(I))*OFF(I)! P(mu[n+1],E[n+1])
-          EINT(I)= EINT(I)-HALF*DVOL(I)*PNEW(I)
-        ENDDO
+        ELSEIF(IFLAG == 1) THEN
+          DO I=1,NEL
+            MX      = MAT(I)
+            PC(I)   = PM(37,MX)
+            NR  = NINT(PM(33,MX))
+            NT  = NINT(PM(34,MX))
+            IDR = NINT(PM(35,MX))
+            IDT = IDR + NR
+            IDP = IDT + NT
+            IDE = IDP + NR * NT
+            ESPEM=ESPE(I)/RHO0(I)
+            CALL MINTP_RE(BUFMAT(IDR),NR,BUFMAT(IDT),NT,BUFMAT(IDE),RHO(I),THETA(I),ESPEM,DTDE)
+            CALL MINTP_RT(BUFMAT(IDR),NR,BUFMAT(IDT),NT,BUFMAT(IDP),RHO(I),THETA(I),PNEW(I),DPDR)
+            PNEW(I)= MAX(PNEW(I),PC(I))*OFF(I)! P(mu[n+1],E[n+1])
+            EINT(I)= EINT(I)-HALF*DVOL(I)*PNEW(I)
+          ENDDO
 
-      ELSEIF(IFLAG == 2) THEN
-        DO I=1, NEL
-          MX  = MAT(I)
-          NR  = NINT(PM(33,MX))
-          NT  = NINT(PM(34,MX))
-          PC(I)   = PM(37,MX)
-          IDR = NINT(PM(35,MX))
-          IDT = IDR + NR
-          IDP = IDT + NT
-          IDE = IDP + NR * NT
-          ESPEM = ESPE(I)/RHO0(I)
-          CALL MINTP_RE(BUFMAT(IDR),NR,BUFMAT(IDT),NT,BUFMAT(IDE),RHO(I),THETA(I),ESPEM,DTDE)
-          CALL MINTP1_RT(BUFMAT(IDR),NR,BUFMAT(IDT),NT,BUFMAT(IDP),RHO(I),THETA(I),PRES,DPDR,DPDT)
-          DPDM(I) = RHO0(I)*DPDR
-          DPDE(I) = DPDT*DTDE/RHO0(I)
-          PNEW(I) = MAX(PRES,PC(I))*OFF(I)
-        ENDDO
-      ENDIF
+        ELSEIF(IFLAG == 2) THEN
+          DO I=1, NEL
+            MX  = MAT(I)
+            NR  = NINT(PM(33,MX))
+            NT  = NINT(PM(34,MX))
+            PC(I)   = PM(37,MX)
+            IDR = NINT(PM(35,MX))
+            IDT = IDR + NR
+            IDP = IDT + NT
+            IDE = IDP + NR * NT
+            ESPEM = ESPE(I)/RHO0(I)
+            CALL MINTP_RE(BUFMAT(IDR),NR,BUFMAT(IDT),NT,BUFMAT(IDE),RHO(I),THETA(I),ESPEM,DTDE)
+            CALL MINTP1_RT(BUFMAT(IDR),NR,BUFMAT(IDT),NT,BUFMAT(IDP),RHO(I),THETA(I),PRES,DPDR,DPDT)
+            DPDM(I) = RHO0(I)*DPDR
+            DPDE(I) = DPDT*DTDE/RHO0(I)
+            PNEW(I) = MAX(PRES,PC(I))*OFF(I)
+          ENDDO
+        ENDIF
 C-----------------------------------------------
-      RETURN
+        RETURN
       END

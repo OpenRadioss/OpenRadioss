@@ -110,7 +110,7 @@
           integer, dimension(:), allocatable :: work_array_node ! working array to mark nodes (connected to active element or deleted element)
           integer, dimension(:), allocatable :: parent_node
           integer, dimension(:), allocatable :: nchilds
-          integer, dimension(:), allocatable :: nodglob !<global internal id (starter id?) 
+          integer, dimension(:), allocatable :: nodglob !<global internal id (starter id?)
 
           real(kind=wp), dimension(:,:), allocatable :: A !< accelerations: 3 x numnod (x nthreads if parith/off)
           real(kind=wp), dimension(:,:), allocatable :: AR !< accelerations
@@ -156,7 +156,7 @@
 ! ======================================================================================================================
 !                                                   procedures
 ! ======================================================================================================================
-       !\details Assign the pointer to the coordinates
+        !\details Assign the pointer to the coordinates
 !||====================================================================
 !||    assign_ptrx   ../common_source/modules/nodal_arrays.F90
 !||--- called by ------------------------------------------------------
@@ -180,7 +180,7 @@
         end subroutine assign_ptrX
 
 
-!! \brief Allocate nodal arrays                                                              
+!! \brief Allocate nodal arrays
 !||====================================================================
 !||    allocate_nodal_arrays   ../common_source/modules/nodal_arrays.F90
 !||--- called by ------------------------------------------------------
@@ -337,7 +337,7 @@
 
 ! ----------------------------------------------------------------------------------------------------------------------
         end subroutine allocate_nodal_arrays
-!! \brief extend nodal arrays                                                              
+!! \brief extend nodal arrays
 !||====================================================================
 !||    extend_nodal_arrays   ../common_source/modules/nodal_arrays.F90
 !||--- called by ------------------------------------------------------
@@ -452,7 +452,7 @@
         end subroutine extend_nodal_arrays
 
 
-!! \brief extend nodal arrays                                                              
+!! \brief extend nodal arrays
 !||====================================================================
 !||    init_global_node_id   ../common_source/modules/nodal_arrays.F90
 !||--- called by ------------------------------------------------------
