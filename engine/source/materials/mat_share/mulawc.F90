@@ -740,25 +740,19 @@
                 !       ismstr=10 + foam laws
                 !       -----------
                 if (ismstr==10 .and. (mtn == 1 .or. mtn == 42 .or.&
-                &                                  mtn == 69.or. mtn == 71 .or. mtn == 88)) then
+                    mtn == 69.or. mtn == 71 .or. mtn == 88)) then
                   do i=jft,jlt
                     zt=posly(i,ipt) *thk0(i)
                     depsxx(i)=exx(i)+zt*kxx(i)
                     depsyy(i)=eyy(i)+zt*kyy(i)
-                    depsxy(i)=exy(i)+zt*kxy(i)
-!       not it dependant
-!              depsyz(i)=eyz(i)
-!              depszx(i)=exz(i)
+                    depsxy(i)=exy(i)+zt*kxy(i)      
 !
                     tens(i,1)= f_def(i,1)+zt*f_def(i,6)
                     tens(i,2)= f_def(i,2)+zt*f_def(i,7)
                     tens(i,3)= f_def(i,3)+zt*f_def(i,8)
                     tens(i,4)= f_def(i,4)+zt*f_def(i,5)
-!       not it dependant
-!              epsyz(i)= gstr(i,4)
-!              epszx(i)= gstr(i,5)
                   enddo
-!---------  [f]=[f_def]+[1]; [b]=[f][f]^t strain-----
+!---------        [f]=[f_def]+[1]; [b]=[f][f]^t strain-----
                   do i=jft,jlt
                     epsxx(i)=tens(i,1)*(two+tens(i,1))+&
                     &tens(i,3)*tens(i,3)
@@ -1256,18 +1250,18 @@
 
               elseif (ilaw == 44) then
                 call sigeps44c(&
-                &jlt    ,nuparam0,nuvar   ,nfunc    ,ifunc   ,&
-                &npf    ,tf     ,tt      ,dt1      ,uparam0  ,&
-                &rho    ,thklyl ,off     ,etse     ,&
-                &epspxx ,epspyy ,epspxy  ,epspyz   ,epspzx ,&
-                &depsxx ,depsyy ,depsxy  ,depsyz   ,depszx ,&
-                &epsxx  ,epsyy  ,epsxy   ,epsyz    ,epszx  ,&
-                &sigoxx,sigoyy,sigoxy,sigoyz,sigozx,&
-                &signxx ,signyy ,signxy  ,signyz   ,signzx ,&
-                &ssp    ,viscmx ,thkn    ,lbuf%pla ,uvar   ,&
-                &gs     ,sigy   ,lbuf%epsd,dpla    ,asrate ,&
-                &nvartmp,vartmp ,lbuf%sigb,inloc   ,varnl(1,it),&
-                &lbuf%off)
+                 jlt    ,nuparam0,nuvar  ,nfunc    ,ifunc  ,    &
+                 npf    ,tf     ,tt      ,dt1      ,uparam0,    &
+                 rho    ,thklyl ,off     ,etse     ,epsd_pg,    &
+                 epspxx ,epspyy ,epspxy  ,epspyz   ,epspzx ,    &
+                 depsxx ,depsyy ,depsxy  ,depsyz   ,depszx ,    &
+                 epsxx  ,epsyy  ,epsxy   ,epsyz    ,epszx  ,    &
+                 sigoxx ,sigoyy ,sigoxy  ,sigoyz   ,sigozx ,    &
+                 signxx ,signyy ,signxy  ,signyz   ,signzx ,    &
+                 ssp    ,viscmx ,thkn    ,lbuf%pla ,uvar   ,    &
+                 gs     ,sigy   ,lbuf%epsd,dpla    ,asrate ,    &
+                 nvartmp,vartmp ,lbuf%sigb,inloc   ,varnl(1,it),&
+                 lbuf%off)
 
               elseif (ilaw == 45) then
                 call sigeps45c(&
@@ -1467,19 +1461,19 @@
 !
               elseif (ilaw == 65) then
                 call sigeps65c(&
-                &jlt    ,nuparam0,nuvar   ,nfunc   ,ifunc   ,&
-                &npf    ,npt    ,ipt,iflag   ,&
-                &tf     ,tt     ,dt1c    ,bufmat  ,rho,&
-                &area   ,eint   ,thklyl   ,&
-                &epspxx ,epspyy ,epspxy  ,epspyz   ,epspzx ,&
-                &depsxx ,depsyy ,depsxy  ,depsyz   ,depszx ,&
-                &epsxx  ,epsyy  ,epsxy   ,epsyz    ,epszx  ,&
-                &sigoxx,sigoyy,sigoxy,sigoyz,sigozx,&
-                &signxx ,signyy ,signxy  ,signyz   ,signzx ,&
-                &sigvxx ,sigvyy ,sigvxy  ,sigvyz   ,sigvzx ,&
-                &ssp    ,viscmx ,thkn    ,lbuf%pla ,uvar   ,&
-                &off    ,ngl    ,ipm     ,matly(jmly),etse ,&
-                &gs     ,sigy   ,lbuf%epsd,dpla   )
+                 jlt    ,nuparam0,nuvar   ,nfunc   ,ifunc  ,&
+                 npf    ,npt    ,ipt,iflag   ,&
+                 tf     ,tt     ,dt1c    ,bufmat   ,rho,&
+                 area   ,eint   ,thklyl  ,israte   ,asrate ,&
+                 epspxx ,epspyy ,epspxy  ,epspyz   ,epspzx ,&
+                 depsxx ,depsyy ,depsxy  ,depsyz   ,depszx ,&
+                 epsxx  ,epsyy  ,epsxy   ,epsyz    ,epszx  ,&
+                 sigoxx,sigoyy,sigoxy,sigoyz,sigozx,&
+                 signxx ,signyy ,signxy  ,signyz   ,signzx ,&
+                 sigvxx ,sigvyy ,sigvxy  ,sigvyz   ,sigvzx ,&
+                 ssp    ,viscmx ,thkn    ,lbuf%pla ,uvar   ,&
+                 off    ,ngl    ,ipm     ,matly(jmly),etse ,&
+                 gs     ,sigy   ,lbuf%epsd,dpla   )
 !
               elseif (ilaw == 66) then
                 call sigeps66c(&

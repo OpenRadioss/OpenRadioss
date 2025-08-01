@@ -31,9 +31,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||====================================================================
       SUBROUTINE SIGEPS65C(
      1     NEL    ,NUPARAM,NUVAR   ,MFUNC   ,KFUNC  ,
-     2     NPF    ,NPT0    ,IPT     ,IFLAG   ,
+     2     NPF    ,NPT0   ,IPT     ,IFLAG   ,
      2     TF     ,TIME   ,TIMESTEP,UPARAM  ,RHO0   ,
-     3     AREA   ,EINT   ,THKLY   ,
+     3     AREA   ,EINT   ,THKLY   ,ISRATE  ,ASRATE ,
      4     EPSPXX ,EPSPYY ,EPSPXY  ,EPSPYZ  ,EPSPZX ,
      5     DEPSXX ,DEPSYY ,DEPSXY  ,DEPSYZ  ,DEPSZX ,
      6     EPSXX  ,EPSYY  ,EPSXY   ,EPSYZ   ,EPSZX  ,
@@ -103,8 +103,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I N P U T   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NEL, NUPARAM, NUVAR, NPT0, IPT,IFLAG(*),
-     .   NGL(NEL),MAT(NEL),IPM(NPROPMI,*)
+      INTEGER NEL, NUPARAM, NUVAR, NPT0, IPT,ISRATE,
+     .   IFLAG(*),NGL(NEL),MAT(NEL),IPM(NPROPMI,*)
+      my_real ,INTENT(IN) :: ASRATE
       my_real ,DIMENSION(NEL) ,INTENT(INOUT) :: EPSP    !< local strain rate used in equations
       my_real TIME,TIMESTEP,UPARAM(*),
      .   AREA(NEL),RHO0(NEL),EINT(NEL,2),
@@ -158,7 +159,7 @@ C-----------------------------------------------
      .   IPOSD2(NEL),IADD2(NEL),ILEND2(NEL)
       my_real
      .   R,DEZZ,DPLA,A11,A22,RATE1,RATE2,SIGY1,SIGY2,DYDX,DTDS,ALPHA,
-     .   S1,S2,SX,T1,T2,TY,X1,X2,Y1,Y2,A,B,C,EPSEFF,SFC,SFD
+     .   S1,S2,SX,T1,T2,TY,X1,X2,Y1,Y2,A,B,C,EPSEFF,SFC,SFD,EPSPL
       my_real 
      .   E(NEL),A1(NEL),A2(NEL),G(NEL),G3(NEL),HC(NEL),HD(NEL),
      .   NU(NEL),NNU1(NEL),NU3(NEL),EPSMAX(NEL),FAC(NEL),DEPLZZ(NEL),
@@ -262,12 +263,12 @@ c---
        ENDDO
       ENDIF                  
 C-------------------
-C     STRAIN RATE - NON FILTERED
+C     STRAIN RATE
 C-------------------
       DO I=1,NEL
-        EPSP(I) = HALF*(ABS(EPSPXX(I)+EPSPYY(I))
-     .          + SQRT( (EPSPXX(I)-EPSPYY(I))*(EPSPXX(I)-EPSPYY(I))
-     .          + EPSPXY(I)*EPSPXY(I) ) )
+        EPSPL = HALF*(ABS(EPSPXX(I)+EPSPYY(I))
+     .        + SQRT((EPSPXX(I)-EPSPYY(I))**2 + EPSPXY(I)**2))
+        EPSP(I) = ASRATE*EPSPL + (ONE-ASRATE)*EPSP(I)
       ENDDO                                                           
 C-------------------
 C        STRAIN 

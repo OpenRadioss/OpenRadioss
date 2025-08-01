@@ -30,7 +30,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       SUBROUTINE SIGEPS44C( 
      1     NEL     ,NUPARAM,NUVAR   ,MFUNC   ,KFUNC  ,
      2     NPF     ,TF     ,TIME    ,TIMESTEP,UPARAM ,
-     2     RHO0    ,THKLY  ,OFF     ,ETSE    ,
+     2     RHO0    ,THKLY  ,OFF     ,ETSE    ,EPSD_PG,
      3     EPSPXX  ,EPSPYY ,EPSPXY  ,EPSPYZ  ,EPSPZX ,
      4     DEPSXX  ,DEPSYY ,DEPSXY  ,DEPSYZ  ,DEPSZX ,
      5     EPSXX   ,EPSYY  ,EPSXY   ,EPSYZ   ,EPSZX  ,
@@ -95,6 +95,7 @@ C-----------------------------------------------
       INTEGER ,INTENT(IN) :: NEL,NUPARAM, NUVAR,NVARTMP,INLOC
       my_real ,INTENT(IN) :: TIME,TIMESTEP,ASRATE
       my_real ,DIMENSION(NUPARAM) ,INTENT(IN) :: UPARAM
+      my_real ,DIMENSION(NEL)     ,INTENT(IN) :: EPSD_PG
       my_real ,DIMENSION(NEL)     ,INTENT(IN) :: RHO0,THKLY,GS,DPLANL,
      .   EPSPXX,EPSPYY,EPSPXY,EPSPYZ,EPSPZX,
      .   DEPSXX,DEPSYY,DEPSXY,DEPSYZ,DEPSZX,
@@ -212,6 +213,11 @@ C-----------------------------------------------
               EPSP(I)   = ASRATE*EPSP(I) + (ONE - ASRATE)*UVAR(I,1)
               UVAR(I,1) = EPSP(I)
             ENDDO
+         ELSEIF (VFLAG == 2) THEN
+           DO I=1,NEL
+             EPSP(I)   = ASRATE*EPSD_PG(I) + (ONE - ASRATE)*UVAR(I,1)
+             UVAR(I,1) = EPSP(I)
+           ENDDO
          ENDIF
        ELSEIF (ISRATE == 0) THEN
          IF (VFLAG == 3) THEN
