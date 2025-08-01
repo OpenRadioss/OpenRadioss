@@ -660,56 +660,56 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    names_and_titles_mod              ../common_source/modules/names_and_titles_mod.F
 !||====================================================================
       MODULE GROUPDEF_MOD
-C----------------------------------------------------------------------- 
-      USE NAMES_AND_TITLES_MOD, ONLY: NCHARTITLE
-c=======================================================================      
+C-----------------------------------------------------------------------
+        USE NAMES_AND_TITLES_MOD, ONLY: NCHARTITLE
+c=======================================================================
 !---------
 !   NEW DATA STRUCTURE
 !---------
-c=======================================================================   
-c=======================================================================   
+c=======================================================================
+c=======================================================================
 !                               SUBSETS
-c=======================================================================   
+c=======================================================================
 C=======================================================================
-      TYPE SUBSET_
-        INTEGER   :: ID       ! - SUBSET identifier
-        INTEGER   :: LEVEL    ! - Hierarchy level
-        INTEGER   :: TH_FLAG  ! - TIME HISTORY flag
-        INTEGER   :: PARENT   ! - SUBSET PARENT
-        INTEGER   :: NCHILD   ! - SUBSETS number of childs
-        INTEGER   :: NPART    ! - SUBSET number of part (within one subset)
-        INTEGER   :: NTPART   ! - Total number of parts (within parent subset)
-        INTEGER   :: THIAD    ! - IAD for global ITHBUF storage variables
-        INTEGER, DIMENSION(:)   ,ALLOCATABLE :: CHILD ! - SUBSET's child
-        INTEGER, DIMENSION(:)   ,ALLOCATABLE :: PART  ! - SUBSET's part
-        INTEGER, DIMENSION(:)   ,ALLOCATABLE :: TPART ! - PARTS  (parts of the parent SUBSET)
+        TYPE SUBSET_
+          INTEGER   :: ID       ! - SUBSET identifier
+          INTEGER   :: LEVEL    ! - Hierarchy level
+          INTEGER   :: TH_FLAG  ! - TIME HISTORY flag
+          INTEGER   :: PARENT   ! - SUBSET PARENT
+          INTEGER   :: NCHILD   ! - SUBSETS number of childs
+          INTEGER   :: NPART    ! - SUBSET number of part (within one subset)
+          INTEGER   :: NTPART   ! - Total number of parts (within parent subset)
+          INTEGER   :: THIAD    ! - IAD for global ITHBUF storage variables
+          INTEGER, DIMENSION(:)   ,ALLOCATABLE :: CHILD ! - SUBSET's child
+          INTEGER, DIMENSION(:)   ,ALLOCATABLE :: PART  ! - SUBSET's part
+          INTEGER, DIMENSION(:)   ,ALLOCATABLE :: TPART ! - PARTS  (parts of the parent SUBSET)
 !---TIME HISTORY ( /TH et /ATH )
-        INTEGER, DIMENSION(:)   ,ALLOCATABLE :: NVARTH ! - ! nb of subset TH/ATH variable
+          INTEGER, DIMENSION(:)   ,ALLOCATABLE :: NVARTH ! - ! nb of subset TH/ATH variable
 !---
-        CHARACTER(LEN=NCHARTITLE) :: TITLE ! SUBSET title
-      END TYPE SUBSET_
+          CHARACTER(LEN=NCHARTITLE) :: TITLE ! SUBSET title
+        END TYPE SUBSET_
 C-----------------------------------------------------------------------
 
-c=======================================================================   
-c=======================================================================   
+c=======================================================================
+c=======================================================================
 !                               GROUPS
-c=======================================================================   
+c=======================================================================
 C=======================================================================
 
 C-----------------------------------------------------------------------
-      TYPE GROUP_
-        INTEGER   :: ID ! - GROUP identifier
-        CHARACTER(LEN=NCHARTITLE) :: TITLE ! GROUP title
-        INTEGER   :: SET_GROUP ! need to not printout empty set groups
-        INTEGER   :: NENTITY ! - Entities' number of one the GROUP (NODES, ELEMENTS, PARTS)
-        INTEGER, DIMENSION(:),ALLOCATABLE :: ENTITY   ! -Entity identifier (node, element or part)
-        INTEGER   :: GRTYPE ! TYPE ( 0-NOEUDS, 1-BRIC, 2-QUAD,   3-SHELL_4N,
+        TYPE GROUP_
+          INTEGER   :: ID ! - GROUP identifier
+          CHARACTER(LEN=NCHARTITLE) :: TITLE ! GROUP title
+          INTEGER   :: SET_GROUP ! need to not printout empty set groups
+          INTEGER   :: NENTITY ! - Entities' number of one the GROUP (NODES, ELEMENTS, PARTS)
+          INTEGER, DIMENSION(:),ALLOCATABLE :: ENTITY   ! -Entity identifier (node, element or part)
+          INTEGER   :: GRTYPE ! TYPE ( 0-NOEUDS, 1-BRIC, 2-QUAD,   3-SHELL_4N,
 !                                    4-TRUSS,  5-BEAM, 6-SPRINGS,7-SHELL_3N )
 !!                   GRTYPE --- > OBSOLETE
-        INTEGER   :: SORTED ! FLAG for sorted/unsorted nodes
+          INTEGER   :: SORTED ! FLAG for sorted/unsorted nodes
 !                    = 0 ! sorted
 !                    = 1 ! unsorted
-        INTEGER   :: GRPGRP ! TYPE OF nodal (element, part) GROUP
+          INTEGER   :: GRPGRP ! TYPE OF nodal (element, part) GROUP
 !  For node group:
 !                                 = 1 FOR /GRNOD/NOD
 !                                 = 2 FOR /GRNOD/GNROD
@@ -720,7 +720,7 @@ C-----------------------------------------------------------------------
 !                                 = 3 SUBSET,PART,MAT,PROP
 !                                 = 4 BOX,GENE
 !                                 = 5 SUBMOD
-        INTEGER   :: LEVEL ! Hierarchy level
+          INTEGER   :: LEVEL ! Hierarchy level
 !                             (FLAG 'SUBLEVEL DONE' FOR GROUPS OF GROUPS)
 !                            = 0 ---> not yet initialized
 !                            = 1 ---> done
@@ -729,56 +729,56 @@ C-----------------------------------------------------------------------
 !  - R2R -
 !                              ! R2R_ALL <--- IGROUP2(8,I) = IGROUP2(2,I) -- before splitting
 !                              ! R2R_SHARE <--- IGROUP2(9,I)   (shared on boundary subdomain)
-        INTEGER   :: R2R_ALL   ! Multidomaines -> number of node(elems, parts) before split
-        INTEGER   :: R2R_SHARE ! shared on boundary subdomain
+          INTEGER   :: R2R_ALL   ! Multidomaines -> number of node(elems, parts) before split
+          INTEGER   :: R2R_SHARE ! shared on boundary subdomain
 !--------------
-      END TYPE GROUP_
+        END TYPE GROUP_
 C-----------------------------------------------------------------------
 
-c=======================================================================   
-c=======================================================================   
+c=======================================================================
+c=======================================================================
 !                               SURFS
-c=======================================================================   
+c=======================================================================
 C=======================================================================
 
 C-----------------------------------------------------------------------
-      TYPE SURF_
-        INTEGER   :: ID ! - SURFACE (or LINE) identifier
-        CHARACTER(LEN=NCHARTITLE) :: TITLE ! SURF title
-        INTEGER   :: NSEG ! - Number of surfaces (lines) within  /SURF
-        INTEGER   :: NSEG_IGE    ! Number of iso-surfaces
-        INTEGER   :: IAD_IGE    ! Pointer to fictive node in IGA tabulars
-        INTEGER   :: SET_GROUP ! need to not printout empty set groups
-        INTEGER   :: EXT_ALL !< /SURF/PART/EXT : = 1, /SURF/PART/ALL : = 2
-        INTEGER   :: TYPE ! OPEN / CLOSED surface flag
+        TYPE SURF_
+          INTEGER   :: ID ! - SURFACE (or LINE) identifier
+          CHARACTER(LEN=NCHARTITLE) :: TITLE ! SURF title
+          INTEGER   :: NSEG ! - Number of surfaces (lines) within  /SURF
+          INTEGER   :: NSEG_IGE    ! Number of iso-surfaces
+          INTEGER   :: IAD_IGE    ! Pointer to fictive node in IGA tabulars
+          INTEGER   :: SET_GROUP ! need to not printout empty set groups
+          INTEGER   :: EXT_ALL !< /SURF/PART/EXT : = 1, /SURF/PART/ALL : = 2
+          INTEGER   :: TYPE ! OPEN / CLOSED surface flag
 !                        SURF_TYPE = 0         : SEGMENTS
 !                        SURF_TYPE = 100       : HYPER-ELLIPSOIDE MADYMO.
 !                        SURF_TYPE = 101       : HYPER-ELLIPSOIDE RADIOSS.
 !                        SURF_TYPE = 200       : INFINITE PLANE
-        INTEGER   :: ID_MADYMO  ! Coupled madimo surface identifier
+          INTEGER   :: ID_MADYMO  ! Coupled madimo surface identifier
 !                                 (computed in Radioss Engine, when receiving Datas from MaDyMo).
 !                                 ID MaDyMo - for entity type which impose surface movement:
 !                                 No systeme MaDyMo for entity type which impose surface movement
-        INTEGER   :: IAD_BUFR   ! Analytical Surfaces address (reals BUFSF - temp)
-        INTEGER   :: NB_MADYMO  ! No de l'entite qui impose le mvt de la surface.
+          INTEGER   :: IAD_BUFR   ! Analytical Surfaces address (reals BUFSF - temp)
+          INTEGER   :: NB_MADYMO  ! No de l'entite qui impose le mvt de la surface.
 !                                --> No systeme Radioss ou MaDyMO.
-        INTEGER   :: TYPE_MADYMO  ! Entity type which impose surface movement.
+          INTEGER   :: TYPE_MADYMO  ! Entity type which impose surface movement.
 !                                  = 1 : Rigid Body.
 !                                  = 2 : MADYMO Hyper-ellipsoide.
-        INTEGER   :: LEVEL        ! FLAG "SUBLEVEL DONE" FOR SURFACES OF SURFACES
+          INTEGER   :: LEVEL        ! FLAG "SUBLEVEL DONE" FOR SURFACES OF SURFACES
 !                                 = 0 ! initialized surface
 !                                 = 1 ! uninitialized surface
-        INTEGER   :: TH_SURF      ! FLAG for /TH/SURF
+          INTEGER   :: TH_SURF      ! FLAG for /TH/SURF
 !                                 = 0 ! unsaved surface for /TH/SURF
 !                                 = 1 ! saved surface for /TH/SURF
-        INTEGER   :: ISH4N3N      ! FLAG = 1 (only SH4N and SH3N considered - for airbags)
+          INTEGER   :: ISH4N3N      ! FLAG = 1 (only SH4N and SH3N considered - for airbags)
 !
-        INTEGER   :: NSEG_R2R_ALL   ! Multidomaines -> number of segments before split
-        INTEGER   :: NSEG_R2R_SHARE ! shared on boundary subdomain segments
+          INTEGER   :: NSEG_R2R_ALL   ! Multidomaines -> number of segments before split
+          INTEGER   :: NSEG_R2R_SHARE ! shared on boundary subdomain segments
 !
-        INTEGER       , DIMENSION(:) , ALLOCATABLE :: REVERSED
-        INTEGER   , DIMENSION(:),   ALLOCATABLE :: ELTYP  ! dim = (NSEG)
- ! - type of element attached to the segment of the surface
+          INTEGER       , DIMENSION(:) , ALLOCATABLE :: REVERSED
+          INTEGER   , DIMENSION(:),   ALLOCATABLE :: ELTYP  ! dim = (NSEG)
+          ! - type of element attached to the segment of the surface
 !                           ITYP = 0  - surf of segments
 !                           ITYP = 1  - surf of solids
 !                           ITYP = 2  - surf of quads
@@ -789,25 +789,25 @@ C-----------------------------------------------------------------------
 !                           ITYP = 7  - surf of SH3N
 !                           ITYP = 8  - line of XELEM (nstrand element)
 !                           ITYP = 101 - ISOGEOMETRIQUE
-        INTEGER   , DIMENSION(:),   ALLOCATABLE :: ELEM   ! dim = (NSEG)
-        INTEGER   , DIMENSION(:,:), ALLOCATABLE :: NODES  ! dim =(NSEG,4) -SURF
+          INTEGER   , DIMENSION(:),   ALLOCATABLE :: ELEM   ! dim = (NSEG)
+          INTEGER   , DIMENSION(:,:), ALLOCATABLE :: NODES  ! dim =(NSEG,4) -SURF
 !                                                         ! dim =(NSEG,2) -LINE
-        INTEGER   , DIMENSION(:),   ALLOCATABLE :: PROC   ! dim = (NSEG)
-        INTEGER   , DIMENSION(:),   ALLOCATABLE :: LOCAL_SEG   ! dim = (NSEG)
+          INTEGER   , DIMENSION(:),   ALLOCATABLE :: PROC   ! dim = (NSEG)
+          INTEGER   , DIMENSION(:),   ALLOCATABLE :: LOCAL_SEG   ! dim = (NSEG)
 !                               field to store the processor ID  (/LINE only)
 !
 !   1. Set processor only when no element is set in lines
 !   2. Split lines accordingly
 !
 !  ISOGEOMETRIQUE :
-        INTEGER   , DIMENSION(:),   ALLOCATABLE :: ELTYP_IGE  ! dim = (NSEG)
-        INTEGER   , DIMENSION(:),   ALLOCATABLE :: ELEM_IGE   ! dim = (NSEG)
-        INTEGER   , DIMENSION(:,:), ALLOCATABLE :: NODES_IGE  ! dim =(NSEG,4) -SURF
+          INTEGER   , DIMENSION(:),   ALLOCATABLE :: ELTYP_IGE  ! dim = (NSEG)
+          INTEGER   , DIMENSION(:),   ALLOCATABLE :: ELEM_IGE   ! dim = (NSEG)
+          INTEGER   , DIMENSION(:,:), ALLOCATABLE :: NODES_IGE  ! dim =(NSEG,4) -SURF
 !                                                             ! dim =(NSEG,2) -LINE
 !!        TYPE (SEG_)   , DIMENSION(:) , ALLOCATABLE :: SEG     ! - segments of the surface
 !!        TYPE (SEG_)   , DIMENSION(:) , ALLOCATABLE :: SEG_IGE ! - ISOGEOMETRIQUES segments of the surface
 !--------------
-      END TYPE SURF_
+        END TYPE SURF_
 !--------------
 !!      TYPE SEG_
 !!        INTEGER   :: ELTYP ! - type of element attached to the segment of the surface

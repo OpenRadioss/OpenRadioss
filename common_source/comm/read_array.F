@@ -40,29 +40,29 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-       INTEGER,INTENT(INOUT) :: ARRAY(*),LVARINT
-       INTEGER,INTENT(IN)    :: TABVINT(*),M_CHECK
+        INTEGER,INTENT(INOUT) :: ARRAY(*),LVARINT
+        INTEGER,INTENT(IN)    :: TABVINT(*),M_CHECK
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NUM
-      INTEGER I
+        INTEGER NUM
+        INTEGER I
 C-----------------------------------------------
-C   S o u r c e   L i n e s 
+C   S o u r c e   L i n e s
 C-----------------------------------------------
-      LVARINT=LVARINT+1
-      NUM=TABVINT(LVARINT)
-      
-      IF(M_CHECK/=0)THEN
-        DO I=1,NUM
-          LVARINT=LVARINT+1
-          ARRAY(TABVINT(LVARINT))=1
-        ENDDO
-      ELSE
-        LVARINT=LVARINT+NUM      
-      ENDIF
+        LVARINT=LVARINT+1
+        NUM=TABVINT(LVARINT)
 
-      RETURN 
+        IF(M_CHECK/=0)THEN
+          DO I=1,NUM
+            LVARINT=LVARINT+1
+            ARRAY(TABVINT(LVARINT))=1
+          ENDDO
+        ELSE
+          LVARINT=LVARINT+NUM
+        ENDIF
+
+        RETURN
 
 C-----------------------------------------------
       END SUBROUTINE READ_ARRAY

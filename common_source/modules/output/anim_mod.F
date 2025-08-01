@@ -22,7 +22,7 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C Temporary requested module to introduce TANIM_STOP and TANIM_STOP0
 C All REAL VARIABLES related to ANIM were moved in this module
-C       (initially located in ./engine/share/includes/com04_c.inc and engine/share/includes/scr_14.inc) 
+C       (initially located in ./engine/share/includes/com04_c.inc and engine/share/includes/scr_14.inc)
 C COMMON BLOCK are no longer maintened
 !||====================================================================
 !||    anim_mod                     ../common_source/modules/output/anim_mod.F
@@ -94,13 +94,13 @@ C COMMON BLOCK are no longer maintened
 !||    wrcomr                       ../engine/source/output/restart/wrcomm.F
 !||====================================================================
       MODULE ANIM_MOD
-                  
-#include "my_real.inc"              
+
+#include "my_real.inc"
 
         !REAL VARIABLES FOR ANIMATION FILES
         my_real TANIM, TANIM0            !start time
         my_real DTANIM, DTANIM0          !time frequency
         my_real TANIM_STOP, TANIM_STOP0  !stop time
-        my_real TANIMSENS  
+        my_real TANIMSENS
 
       END MODULE ANIM_MOD

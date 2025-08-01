@@ -22,34 +22,34 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 
 ! These subroutines are not called by radioss, but are used by the QA
-! team.  Do not modify them. 
+! team.  Do not modify them.
 !||====================================================================
 !||    get_env_variable_zombi   ../common_source/qa/kill_zombi.F
 !||--- called by ------------------------------------------------------
 !||    walking_dead_mode        ../common_source/qa/kill_zombi.F
 !||--- calls      -----------------------------------------------------
 !||====================================================================
-        subroutine get_env_variable_zombi(zombi_activation)
+      subroutine get_env_variable_zombi(zombi_activation)
 #include "implicit_f.inc"
         character(len=100) env
         logical, intent(inout) :: zombi_activation
 
         env(1:len(env)) = ''
-        call getenv ( 'ENABLE_PID_PRINT', env ) 
-        zombi_activation = .false.           
+        call getenv ( 'ENABLE_PID_PRINT', env )
+        zombi_activation = .false.
         if ( env(1:2)=='ON' ) then
-            zombi_activation = .true.
+          zombi_activation = .true.
         endif
 
         return
-        end subroutine get_env_variable_zombi
-        !   -----------------------------------
+      end subroutine get_env_variable_zombi
+      !   -----------------------------------
 !||====================================================================
 !||    get_process_pid_zombi   ../common_source/qa/kill_zombi.F
 !||--- called by ------------------------------------------------------
 !||    walking_dead_mode       ../common_source/qa/kill_zombi.F
 !||====================================================================
-        subroutine get_process_pid_zombi(current_process_pid)
+      subroutine get_process_pid_zombi(current_process_pid)
 #include "implicit_f.inc"
         integer, intent(inout) :: current_process_pid
         integer :: GETPID
@@ -57,39 +57,39 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
         current_process_pid = GETPID()
 
         return
-        end subroutine get_process_pid_zombi
-        !   -----------------------------------
+      end subroutine get_process_pid_zombi
+      !   -----------------------------------
 !||====================================================================
 !||    write_process_pid_zombi   ../common_source/qa/kill_zombi.F
 !||--- called by ------------------------------------------------------
 !||    walking_dead_mode         ../common_source/qa/kill_zombi.F
 !||====================================================================
-        subroutine write_process_pid_zombi( current_process_pid,
-     .              radflex_process_pid ,nspmd,list_process)
+      subroutine write_process_pid_zombi( current_process_pid,
+     .            radflex_process_pid ,nspmd,list_process)
 #include "implicit_f.inc"
         integer, intent(in) :: radflex_process_pid
         integer, intent(in) :: current_process_pid
         integer, intent(in) :: nspmd
-        integer, dimension(nspmd+1), intent(in) :: list_process        
+        integer, dimension(nspmd+1), intent(in) :: list_process
         integer :: i
 
         open(file="running_pids",unit=666,access="append",
      .       status="unknown",action="readwrite")
         do i=1,nspmd+1
-            if(list_process(i)/=0) write(666,*) list_process(i) 
+          if(list_process(i)/=0) write(666,*) list_process(i)
         enddo
         close(666)
         return
-        end subroutine write_process_pid_zombi
-        !   -----------------------------------
+      end subroutine write_process_pid_zombi
+      !   -----------------------------------
 !||====================================================================
 !||    init_list_process_pid   ../common_source/qa/kill_zombi.F
 !||--- called by ------------------------------------------------------
 !||    walking_dead_mode       ../common_source/qa/kill_zombi.F
 !||--- calls      -----------------------------------------------------
 !||====================================================================
-        subroutine init_list_process_pid( radflex_process_pid,
-     .               current_process_pid,nspmd,list_process )
+      subroutine init_list_process_pid( radflex_process_pid,
+     .             current_process_pid,nspmd,list_process )
 
 #include "implicit_f.inc"
 #ifdef MPI
@@ -98,10 +98,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
         integer, intent(in) :: radflex_process_pid,nspmd
         integer, dimension(nspmd+1), intent(inout) :: list_process
         integer, intent(in) :: current_process_pid
-        
+
         integer :: i
         integer :: ierror
-        
+
         list_process(1:nspmd+1 ) = 0
 #ifdef MPI
         call MPI_GATHER(current_process_pid,1,MPI_INTEGER,
@@ -109,13 +109,13 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
         list_process(nspmd+1) = radflex_process_pid
 #endif
         if(nspmd==1) then
-            list_process(1) = current_process_pid
-            list_process(2) = radflex_process_pid
+          list_process(1) = current_process_pid
+          list_process(2) = radflex_process_pid
         endif
 
         return
-        end subroutine init_list_process_pid
-        !   -----------------------------------
+      end subroutine init_list_process_pid
+      !   -----------------------------------
 !||====================================================================
 !||    walking_dead_mode         ../common_source/qa/kill_zombi.F
 !||--- calls      -----------------------------------------------------
@@ -124,7 +124,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    init_list_process_pid     ../common_source/qa/kill_zombi.F
 !||    write_process_pid_zombi   ../common_source/qa/kill_zombi.F
 !||====================================================================
-        subroutine walking_dead_mode(radflex_process_pid,ispmd,nspmd)
+      subroutine walking_dead_mode(radflex_process_pid,ispmd,nspmd)
 #include "implicit_f.inc"
 #ifdef MPI
 #include "mpif.h"
@@ -133,19 +133,19 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
         logical :: zombi_activation
         integer :: current_process_pid
         integer, dimension(nspmd+1) :: list_process
-        
+
 
         call get_env_variable_zombi(zombi_activation)
 
         if(zombi_activation) then
 
-            call get_process_pid_zombi(current_process_pid)
-            call init_list_process_pid( radflex_process_pid,
-     .            current_process_pid,nspmd,list_process )
-            if(ispmd==0) call write_process_pid_zombi( 
+          call get_process_pid_zombi(current_process_pid)
+          call init_list_process_pid( radflex_process_pid,
+     .          current_process_pid,nspmd,list_process )
+          if(ispmd==0) call write_process_pid_zombi(
      .    current_process_pid,radflex_process_pid,nspmd,list_process )
         endif
-        
+
         return
-        end subroutine walking_dead_mode
-        !   -----------------------------------
+      end subroutine walking_dead_mode
+      !   -----------------------------------

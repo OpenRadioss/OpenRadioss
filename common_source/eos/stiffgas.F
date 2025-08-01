@@ -69,76 +69,76 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER MAT(NEL), IFLAG, NEL
-      my_real PM(NPROPM,NUMMAT), 
-     .        OFF(NEL)  ,EINT(NEL) ,MU(NEL)   , 
-     .        MU2(NEL)  ,ESPE(NEL) ,DVOL(NEL) ,DF(NEL)  , 
-     .        VNEW(NEL) ,PNEW(NEL) ,DPDM(NEL),
-     .        DPDE(NEL)
-      my_real, INTENT(INOUT) :: PSH(NEL)
+        INTEGER MAT(NEL), IFLAG, NEL
+        my_real PM(NPROPM,NUMMAT),
+     .          OFF(NEL)  ,EINT(NEL) ,MU(NEL)   ,
+     .          MU2(NEL)  ,ESPE(NEL) ,DVOL(NEL) ,DF(NEL)  ,
+     .          VNEW(NEL) ,PNEW(NEL) ,DPDM(NEL),
+     .          DPDE(NEL)
+        my_real, INTENT(INOUT) :: PSH(NEL)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, MX
-      my_real :: P0,GAMMA,T0,E0,SPH,AA, BB, DVV, PP, PSTAR, PC
+        INTEGER I, MX
+        my_real :: P0,GAMMA,T0,E0,SPH,AA, BB, DVV, PP, PSTAR, PC
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
-      IF(IFLAG == 0) THEN
-        MX         = MAT(1)
-        E0         = PM(23,MX)
-        GAMMA      = PM(34,MX)
-        P0         = PM(32,MX)
-        PSH(1:NEL) = PM(88,MX)
-        PSTAR      = PM(35,MX)
-        SPH        = PM(69,MX)
-        PC         = PM(37,MX)
-        DO I=1,NEL
-          PP      = -GAMMA*PSTAR-PSH(I) + (GAMMA-ONE)*(ONE+MU(I))*ESPE(I)
-          DPDM(I) =  (GAMMA-ONE) *ESPE(I)+(GAMMA-ONE)*(ONE+MU(I))*DF(I)*DF(I)*(PP+PSH(I) )
-          DPDE(I) = (GAMMA-ONE)*(ONE+MU(I))
-          PNEW(I) = MAX(PP,PC-PSH(I))*OFF(I) ! P(mu[n+1],E[n])
-        ENDDO
+        IF(IFLAG == 0) THEN
+          MX         = MAT(1)
+          E0         = PM(23,MX)
+          GAMMA      = PM(34,MX)
+          P0         = PM(32,MX)
+          PSH(1:NEL) = PM(88,MX)
+          PSTAR      = PM(35,MX)
+          SPH        = PM(69,MX)
+          PC         = PM(37,MX)
+          DO I=1,NEL
+            PP      = -GAMMA*PSTAR-PSH(I) + (GAMMA-ONE)*(ONE+MU(I))*ESPE(I)
+            DPDM(I) =  (GAMMA-ONE) *ESPE(I)+(GAMMA-ONE)*(ONE+MU(I))*DF(I)*DF(I)*(PP+PSH(I) )
+            DPDE(I) = (GAMMA-ONE)*(ONE+MU(I))
+            PNEW(I) = MAX(PP,PC-PSH(I))*OFF(I) ! P(mu[n+1],E[n])
+          ENDDO
 
-      ELSEIF(IFLAG == 1) THEN
-        MX         = MAT(1)
-        E0         = PM(23,MX)
-        GAMMA      = PM(34,MX)
-        P0         = PM(32,MX)
-        PSH(1:NEL) = PM(88,MX)
-        PSTAR      = PM(35,MX)
-        SPH        = PM(69,MX)
-        PC         = PM(37,MX)
-        DO I=1,NEL
-          AA      = -GAMMA*PSTAR-PSH(I)
-          BB      = (GAMMA-ONE)*(ONE+MU(I))
-          DPDE(I) = (GAMMA-ONE)*(ONE+MU(I))
-          DVV     = HALF*DVOL(I)*DF(I) / MAX(EM15,VNEW(I))
-          PNEW(I) = (AA+BB*(ESPE(I)-PSH(I) *DVV))/(ONE+BB*DVV)
-          PNEW(I) = MAX(PNEW(I),PC-PSH(I) )*OFF(I)  ! P(mu[n+1],E[n+1])
-          EINT(I) = EINT(I) - HALF*DVOL(I)*(PNEW(I)+PSH(I) )
-        ENDDO
+        ELSEIF(IFLAG == 1) THEN
+          MX         = MAT(1)
+          E0         = PM(23,MX)
+          GAMMA      = PM(34,MX)
+          P0         = PM(32,MX)
+          PSH(1:NEL) = PM(88,MX)
+          PSTAR      = PM(35,MX)
+          SPH        = PM(69,MX)
+          PC         = PM(37,MX)
+          DO I=1,NEL
+            AA      = -GAMMA*PSTAR-PSH(I)
+            BB      = (GAMMA-ONE)*(ONE+MU(I))
+            DPDE(I) = (GAMMA-ONE)*(ONE+MU(I))
+            DVV     = HALF*DVOL(I)*DF(I) / MAX(EM15,VNEW(I))
+            PNEW(I) = (AA+BB*(ESPE(I)-PSH(I) *DVV))/(ONE+BB*DVV)
+            PNEW(I) = MAX(PNEW(I),PC-PSH(I) )*OFF(I)  ! P(mu[n+1],E[n+1])
+            EINT(I) = EINT(I) - HALF*DVOL(I)*(PNEW(I)+PSH(I) )
+          ENDDO
 
-      ELSEIF(IFLAG == 2) THEN
-        MX           = MAT(1)
-        E0           = PM(23,MX)
-        GAMMA        = PM(34,MX)
-        P0           = PM(32,MX)
-        PSH(1:NEL) = PM(88,MX)
-        PSTAR        = PM(35,MX)
-        SPH          = PM(69,MX)
-        PC = PM(37, MX)
-        DO I=1, NEL
-          IF (VNEW(I) > ZERO) THEN
-            PNEW(I) = (GAMMA-ONE)*(ONE+MU(I))*ESPE(I) - GAMMA*PSTAR
-            PNEW(I) = MAX(PNEW(I),PC)*OFF(I)
-            !EINT(I) = (PNEW(I) + PSH(I) + GAMMA * PSTAR) / (GAMMA - ONE)
-            DPDM(I) = (GAMMA-ONE)*(ESPE(I)+PNEW(I)*DF(I)) !total derivative
-            DPDE(I) = (GAMMA-ONE)*(ONE+MU(I)) !partial derivative
-            PNEW(I) = PNEW(I)-PSH(I)
-          ENDIF
-        ENDDO
-      ENDIF
+        ELSEIF(IFLAG == 2) THEN
+          MX           = MAT(1)
+          E0           = PM(23,MX)
+          GAMMA        = PM(34,MX)
+          P0           = PM(32,MX)
+          PSH(1:NEL) = PM(88,MX)
+          PSTAR        = PM(35,MX)
+          SPH          = PM(69,MX)
+          PC = PM(37, MX)
+          DO I=1, NEL
+            IF (VNEW(I) > ZERO) THEN
+              PNEW(I) = (GAMMA-ONE)*(ONE+MU(I))*ESPE(I) - GAMMA*PSTAR
+              PNEW(I) = MAX(PNEW(I),PC)*OFF(I)
+              !EINT(I) = (PNEW(I) + PSH(I) + GAMMA * PSTAR) / (GAMMA - ONE)
+              DPDM(I) = (GAMMA-ONE)*(ESPE(I)+PNEW(I)*DF(I)) !total derivative
+              DPDE(I) = (GAMMA-ONE)*(ONE+MU(I)) !partial derivative
+              PNEW(I) = PNEW(I)-PSH(I)
+            ENDIF
+          ENDDO
+        ENDIF
 C-----------------------------------------------
-      RETURN
+        RETURN
       END

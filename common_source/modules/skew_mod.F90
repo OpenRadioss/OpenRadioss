@@ -51,26 +51,26 @@
         use precision_mod, only : WP
         implicit none
         private :: WP
-  ! ======================================================================================================================
-  !                                                   TYPES
-  ! ======================================================================================================================
-  !! \brief module to host the skew datatype
-  !! \details 
+        ! ======================================================================================================================
+        !                                                   TYPES
+        ! ======================================================================================================================
+        !! \brief module to host the skew datatype
+        !! \details
 
-          !< List of processors for each skew
-          type plist_skew_
-               integer, dimension(:), allocatable :: plist  !< list of MPI domains for each skew
-          end type plist_skew_
+        !< List of processors for each skew
+        type plist_skew_
+          integer, dimension(:), allocatable :: plist  !< list of MPI domains for each skew
+        end type plist_skew_
 
-          type skew_
-             integer :: total_skew_number                    !< Total number of skews : deck skews + 1 + SPH + NSUBMOD 
-             integer :: skew_number                          !< input deck skew
-             integer :: n_skew_var                           !< Number of variables per Skew for Skew array
-             real(kind=WP), dimension(:,:),  allocatable :: skew   !< Float variables for skew
-             ! integer :: s_iskew                              !< size of iskew
-             ! integer, dimension (:,:), allocatable :: iskwn  !< iskwn array
-             ! integer, dimension (:), allocatable :: iskew    !< node skew 
-             type(plist_skew_), dimension(:), allocatable :: multiple_skew
-          end type skew_
+        type skew_
+          integer :: total_skew_number                    !< Total number of skews : deck skews + 1 + SPH + NSUBMOD
+          integer :: skew_number                          !< input deck skew
+          integer :: n_skew_var                           !< Number of variables per Skew for Skew array
+          real(kind=WP), dimension(:,:),  allocatable :: skew   !< Float variables for skew
+          ! integer :: s_iskew                              !< size of iskew
+          ! integer, dimension (:,:), allocatable :: iskwn  !< iskwn array
+          ! integer, dimension (:), allocatable :: iskew    !< node skew
+          type(plist_skew_), dimension(:), allocatable :: multiple_skew
+        end type skew_
 
       end module skew_mod

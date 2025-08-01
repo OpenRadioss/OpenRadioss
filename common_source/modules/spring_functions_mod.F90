@@ -26,7 +26,7 @@
 !||--- uses       -----------------------------------------------------
 !||    precision_mod          ../common_source/modules/precision_mod.F90
 !||====================================================================
-       module spring_functions_mod
+      module spring_functions_mod
         use precision_mod, only : WP
         implicit none
         private :: WP

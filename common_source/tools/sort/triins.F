@@ -37,31 +37,31 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER N, N2
+        INTEGER N, N2
 C     REAL
-      my_real
-     .   TAB(*)
+        my_real
+     .     TAB(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER K, L
+        INTEGER K, L
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
-      INTEGER ICOMPC
+        INTEGER ICOMPC
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
-      DO 10 K=2,N
+        DO 10 K=2,N
           L=K-1
  150      IF(L>=1) THEN
-               IF(ICOMPC(L,L+1,TAB)>0) THEN
-               CALL ECHANG(L,L+1,TAB)
-               CALL ECHANG(N2+L,N2+L+1,TAB)
-               L=L-1
-               GO TO 150
-               ENDIF
+            IF(ICOMPC(L,L+1,TAB)>0) THEN
+              CALL ECHANG(L,L+1,TAB)
+              CALL ECHANG(N2+L,N2+L+1,TAB)
+              L=L-1
+              GO TO 150
+            ENDIF
           ENDIF
-   10     CONTINUE
-      RETURN
+   10   CONTINUE
+        RETURN
       END

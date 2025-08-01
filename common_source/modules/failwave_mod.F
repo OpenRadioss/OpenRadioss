@@ -65,27 +65,27 @@ C=======================================================================
 c Structure for failure propagation info between elements
 c---------------------------------------------
 c
-      TYPE FAILWAVE_STR_   
-           INTEGER :: WAVE_MOD                 ! activation / mode switch flag   
-           INTEGER :: NNOD                     ! number of nodes using frontwave
-           INTEGER :: NDDL                     ! number of degrees of freedom per node
-           INTEGER :: SIZE                     ! number of stack levels per node
-           INTEGER, DIMENSION(:)     ,ALLOCATABLE :: INDX    ! (NNOD)   nodal index table
-           INTEGER, DIMENSION(:)     ,ALLOCATABLE :: IDXI    ! (NUMNOD) inversed nodal index table
-           INTEGER, DIMENSION(:)     ,ALLOCATABLE :: MAXLEV  ! max number of used levels
-           INTEGER, DIMENSION(:)     ,ALLOCATABLE :: MAXLEV_STACK
-           INTEGER, DIMENSION(:,:,:) ,ALLOCATABLE :: FWAVE_NOD        ! nodal table
-           INTEGER, DIMENSION(:,:,:) ,ALLOCATABLE :: FWAVE_NOD_STACK  ! nodal table
+        TYPE FAILWAVE_STR_
+          INTEGER :: WAVE_MOD                 ! activation / mode switch flag
+          INTEGER :: NNOD                     ! number of nodes using frontwave
+          INTEGER :: NDDL                     ! number of degrees of freedom per node
+          INTEGER :: SIZE                     ! number of stack levels per node
+          INTEGER, DIMENSION(:)     ,ALLOCATABLE :: INDX    ! (NNOD)   nodal index table
+          INTEGER, DIMENSION(:)     ,ALLOCATABLE :: IDXI    ! (NUMNOD) inversed nodal index table
+          INTEGER, DIMENSION(:)     ,ALLOCATABLE :: MAXLEV  ! max number of used levels
+          INTEGER, DIMENSION(:)     ,ALLOCATABLE :: MAXLEV_STACK
+          INTEGER, DIMENSION(:,:,:) ,ALLOCATABLE :: FWAVE_NOD        ! nodal table
+          INTEGER, DIMENSION(:,:,:) ,ALLOCATABLE :: FWAVE_NOD_STACK  ! nodal table
 C
-           INTEGER, DIMENSION(:)     ,ALLOCATABLE :: FWAVE_IAD
-           INTEGER, DIMENSION(:)     ,ALLOCATABLE :: FWAVE_FR          
-      END TYPE FAILWAVE_STR_
+          INTEGER, DIMENSION(:)     ,ALLOCATABLE :: FWAVE_IAD
+          INTEGER, DIMENSION(:)     ,ALLOCATABLE :: FWAVE_FR
+        END TYPE FAILWAVE_STR_
 c
 c----------------------------
 c     starter allocation : FWAVE_NOD(NDDL,NUMNOD,SIZE)
 c                          MAXLEV(NUMNOD)
 c     engine allocation  : FWAVE_NOD(NDDL,NNOD,SIZE)
-c                          FWAVE_NOD_STACK(NDDL,NNOD,SIZE)   
+c                          FWAVE_NOD_STACK(NDDL,NNOD,SIZE)
 c                          MAXLEV(NNOD)
 c                          MAXLEV_STACK(NNOD)
 c     index tables :

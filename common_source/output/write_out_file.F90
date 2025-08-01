@@ -26,7 +26,7 @@
 !||====================================================================
 !||    write_out_file   ../common_source/output/write_out_file.F90
 !||====================================================================
-        subroutine write_out_file(fd,line,len1)
+      subroutine write_out_file(fd,line,len1)
 !----------------------------------------------
 !   i m p l i c i t   t y p e s
 !-----------------------------------------------
@@ -38,5 +38,5 @@
         integer len1               ! Length of line to write
         character(len=len1)  line  ! Line to write
 !-----------------------------------------------
-                write(fd,'(a)') line(1:len1)
-        end
+        write(fd,'(a)') line(1:len1)
+      end

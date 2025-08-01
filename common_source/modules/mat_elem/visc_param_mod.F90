@@ -44,40 +44,40 @@
 
 ! ======================================================================================================================
 !! \brief module to define data structure for viscosity model parameters in materials
-!! \details 
+!! \details
 
-      use table4d_mod
-      use names_and_titles_mod
-      use precision_mod, only : WP 
+        use table4d_mod
+        use names_and_titles_mod
+        use precision_mod, only : WP
 
-!----------------------------------------------------------------------- 
+!-----------------------------------------------------------------------
 !     included files
-!----------------------------------------------------------------------- 
+!-----------------------------------------------------------------------
 
-      implicit none
-      private :: WP
+        implicit none
+        private :: WP
 !
 !
-!=======================================================================      
-      
-      type visc_param_
-        integer     :: ilaw                   !< viscosity model type (number)
-        character(len=nchartitle) :: title    !< viscosity model input name
-        integer     :: nuparam                !< number of real value paraameters
-        integer     :: niparam                !< number of int value parameters
-        integer     :: nuvar                  !< number of internal state variables
-        integer     :: nfunc                  !< number of local functions in material
-        integer     :: ntable                 !< number of local function tables
-        
-        real(kind=WP)        ,dimension(:) ,allocatable :: uparam  !< real value viscosity parameter table
-        integer        ,dimension(:) ,allocatable :: iparam  !< int  value viscosity parameter table
-        integer        ,dimension(:) ,allocatable :: func    !< function table in viscosity models
-        type(table_4d_),dimension(:) ,allocatable :: table   !< local function tables
+!=======================================================================
+
+        type visc_param_
+          integer     :: ilaw                   !< viscosity model type (number)
+          character(len=nchartitle) :: title    !< viscosity model input name
+          integer     :: nuparam                !< number of real value paraameters
+          integer     :: niparam                !< number of int value parameters
+          integer     :: nuvar                  !< number of internal state variables
+          integer     :: nfunc                  !< number of local functions in material
+          integer     :: ntable                 !< number of local function tables
+
+          real(kind=WP)        ,dimension(:) ,allocatable :: uparam  !< real value viscosity parameter table
+          integer        ,dimension(:) ,allocatable :: iparam  !< int  value viscosity parameter table
+          integer        ,dimension(:) ,allocatable :: func    !< function table in viscosity models
+          type(table_4d_),dimension(:) ,allocatable :: table   !< local function tables
 
         contains
           procedure :: destruct => destruct_visc_param
 
-      end type visc_param_
+        end type visc_param_
 
 
       contains

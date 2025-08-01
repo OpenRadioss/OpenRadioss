@@ -49,7 +49,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    wrcomip              ../starter/source/restart/ddsplit/wrcommp.F
 !||    wrrestp              ../engine/source/output/restart/wrrestp.F
 !||====================================================================
-        MODULE OUTMAX_MOD
+      MODULE OUTMAX_MOD
 
 #include "my_real.inc"
 !--------------------------------------------------------------------
@@ -62,27 +62,27 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
         integer  LMAX_NSIG  ! noda p1&p3 for 3D
         integer  LMAX_NSTRA ! noda p1&p3 for 3D
 C------ used to initialize LMAX_* (for elementary only)
-        integer :: NKEYMAX = 6  
-        integer :: NCY_GPS, NCY_GPSTR 
-C---------Output Max contact force and pressure 
-        integer :: SFCONT_MAX, SPCONT_MAX 
+        integer :: NKEYMAX = 6
+        integer :: NCY_GPS, NCY_GPSTR
+C---------Output Max contact force and pressure
+        integer :: SFCONT_MAX, SPCONT_MAX
         integer :: IFCONTMAX,IFCONTPMAX, IFCONT2MAX,IFCONTP2MAX,IFCONT2MIN,IFCONTP2MIN
 C        /VONM;/SIGEQ; /ENER ; /DAMA, /TENS/STRESS ;/TENS/STRAIN
         integer, DIMENSION(:) ,  ALLOCATABLE :: IKEYMAX,IGPSTAG,IGPSTRATAG
-        integer, DIMENSION(:,:) ,ALLOCATABLE :: IPART_OK 
+        integer, DIMENSION(:,:) ,ALLOCATABLE :: IPART_OK
         my_real, DIMENSION(:) , ALLOCATABLE ::  TM_DIS,TM_VEL  ! 3*NUMNOD
         my_real, DIMENSION(:) , ALLOCATABLE ::   TM_NSIG1 ,TM_NSIG3 ! 6*NUMNOD
         my_real, DIMENSION(:) , ALLOCATABLE ::   TM_NSTRA1,TM_NSTRA3
-C------ work arrays        
+C------ work arrays
         my_real, DIMENSION(:) , ALLOCATABLE ::   TM_PDIS,TM_PVEL
         my_real, DIMENSION(:) , ALLOCATABLE ::   TM_PNSIG,TM_PNSTRA
         my_real, DIMENSION(:) , ALLOCATABLE ::   GPSTMP,P2TMP
-C---------Output Max contact force and pressure 
+C---------Output Max contact force and pressure
         my_real, DIMENSION(:) , ALLOCATABLE ::   FNCONT_MAX,FTCONT_MAX
         my_real, DIMENSION(:) , ALLOCATABLE ::   FCONT2_MAX,FNCONT2_MAX,FTCONT2_MAX
         my_real, DIMENSION(:) , ALLOCATABLE ::   FCONT2_MIN,FNCONT2_MIN,FTCONT2_MIN
         my_real, DIMENSION(:) , ALLOCATABLE ::   NPCONT2_MIN,NPCONT2_MAX
 C---------Output of moment for int type2
-        my_real, DIMENSION(:,:) , ALLOCATABLE ::  MCONT2       
+        my_real, DIMENSION(:,:) , ALLOCATABLE ::  MCONT2
 
-        END MODULE OUTMAX_MOD
+      END MODULE OUTMAX_MOD

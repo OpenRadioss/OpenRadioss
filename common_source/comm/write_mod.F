@@ -40,18 +40,18 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-        IMPLICIT NONE
+          IMPLICIT NONE
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-        INTEGER, INTENT(IN) :: A !< value to be written in a file
+          INTEGER, INTENT(IN) :: A !< value to be written in a file
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
-        INTEGER :: ONE
+          INTEGER :: ONE
 C-----------------------------------------------
-        ONE = 1
-        CALL WRITE_I_C(A,ONE)
+          ONE = 1
+          CALL WRITE_I_C(A,ONE)
         END SUBROUTINE
 !||====================================================================
 !||    write_integer_1d   ../common_source/comm/write_mod.F
@@ -62,13 +62,13 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-        IMPLICIT NONE
+          IMPLICIT NONE
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-        INTEGER, INTENT(IN) :: A(N) !< value to be written in a file
-        INTEGER, INTENT(IN) :: N !< Dimension1
-        CALL WRITE_I_C(A,N)
+          INTEGER, INTENT(IN) :: A(N) !< value to be written in a file
+          INTEGER, INTENT(IN) :: N !< Dimension1
+          CALL WRITE_I_C(A,N)
         END SUBROUTINE
 !||====================================================================
 !||    write_integer_2d   ../common_source/comm/write_mod.F
@@ -79,19 +79,19 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-        IMPLICIT NONE
+          IMPLICIT NONE
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-        INTEGER, INTENT(IN) :: A(N,M) !< value to be written in a file
-        INTEGER, INTENT(IN) :: N,M !< Dimensions
+          INTEGER, INTENT(IN) :: A(N,M) !< value to be written in a file
+          INTEGER, INTENT(IN) :: N,M !< Dimensions
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
-        INTEGER :: D
+          INTEGER :: D
 C-----------------------------------------------
-        D = M * N
-        CALL WRITE_I_C(A,D)
+          D = M * N
+          CALL WRITE_I_C(A,D)
         END SUBROUTINE
 !||====================================================================
 !||    write_integer_3d   ../common_source/comm/write_mod.F
@@ -102,19 +102,19 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-        IMPLICIT NONE
+          IMPLICIT NONE
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-        INTEGER, INTENT(IN) :: A(L,N,M) !< value to be written in a file
-        INTEGER, INTENT(IN) :: L,N,M !< Dimensions
+          INTEGER, INTENT(IN) :: A(L,N,M) !< value to be written in a file
+          INTEGER, INTENT(IN) :: L,N,M !< Dimensions
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
-        INTEGER :: D
+          INTEGER :: D
 C-----------------------------------------------
-        D = L * M * N
-        CALL WRITE_I_C(A,D)
+          D = L * M * N
+          CALL WRITE_I_C(A,D)
         END SUBROUTINE
 
 !! \brief Wrapper routine to WRITE_DB, to be used in order to avoid dummy-argument mismatch at error at compile tile
@@ -129,18 +129,18 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-        IMPLICIT NONE
+          IMPLICIT NONE
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-        my_real , INTENT(IN) :: A  !< value to be written
+          my_real , INTENT(IN) :: A  !< value to be written
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
-        INTEGER :: ONE
+          INTEGER :: ONE
 C-----------------------------------------------
-        ONE = 1
-        CALL WRITE_DB(A,ONE)
+          ONE = 1
+          CALL WRITE_DB(A,ONE)
         END SUBROUTINE
 !! \brief Wrapper routine to WRITE_DB, to be used in order to avoid dummy-argument mismatch at error at compile tile
 !||====================================================================
@@ -152,19 +152,19 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-        IMPLICIT NONE
+          IMPLICIT NONE
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-        my_real , INTENT(IN) :: A(N)  !< value to be written
-        INTEGER , INTENT(IN) :: N  !<  size
+          my_real , INTENT(IN) :: A(N)  !< value to be written
+          INTEGER , INTENT(IN) :: N  !<  size
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
-        INTEGER :: D
+          INTEGER :: D
 C-----------------------------------------------
-        D = N
-        CALL WRITE_DB(A,D)
+          D = N
+          CALL WRITE_DB(A,D)
         END SUBROUTINE
 !! \brief Wrapper routine to WRITE_DB, to be used in order to avoid dummy-argument mismatch at error at compile tile
 !||====================================================================
@@ -176,19 +176,19 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-        IMPLICIT NONE
+          IMPLICIT NONE
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-        my_real , INTENT(IN) :: A(M,N)  !< value to be written
-        INTEGER, INTENT(IN) :: N,M  !<  size
+          my_real , INTENT(IN) :: A(M,N)  !< value to be written
+          INTEGER, INTENT(IN) :: N,M  !<  size
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
-        INTEGER :: D
+          INTEGER :: D
 C-----------------------------------------------
-        D = M * N
-        CALL WRITE_DB(A,D)
+          D = M * N
+          CALL WRITE_DB(A,D)
         END SUBROUTINE
 !! \brief Wrapper routine to WRITE_DB, to be used in order to avoid dummy-argument mismatch at error at compile tile
 !||====================================================================
@@ -200,19 +200,19 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-        IMPLICIT NONE
+          IMPLICIT NONE
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-        my_real , INTENT(IN) :: A(L,M,N)  !< value to be written
-        INTEGER , INTENT(IN) :: L,N,M  !<  size
+          my_real , INTENT(IN) :: A(L,M,N)  !< value to be written
+          INTEGER , INTENT(IN) :: L,N,M  !<  size
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
-        INTEGER :: D
+          INTEGER :: D
 C-----------------------------------------------
-        D = L * M * N
-        CALL WRITE_DB(A,D)
+          D = L * M * N
+          CALL WRITE_DB(A,D)
         END SUBROUTINE
 !! \brief Wrapper routine to WRITE_DPDB, to be used in order to avoid dummy-argument mismatch at error at compile tile
 !||====================================================================
@@ -224,18 +224,18 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-        IMPLICIT NONE
+          IMPLICIT NONE
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-        DOUBLE PRECISION , INTENT(IN) :: A  !< value to be written
+          DOUBLE PRECISION , INTENT(IN) :: A  !< value to be written
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
-        INTEGER :: ONE
+          INTEGER :: ONE
 C-----------------------------------------------
-        ONE = 1
-        CALL WRITE_DPDB(A,ONE)
+          ONE = 1
+          CALL WRITE_DPDB(A,ONE)
         END SUBROUTINE
 
 !! \brief Wrapper routine to WRITE_DPDB, to be used in order to avoid dummy-argument mismatch at error at compile tile
@@ -248,19 +248,19 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-        IMPLICIT NONE
+          IMPLICIT NONE
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-        DOUBLE PRECISION , INTENT(IN) :: A(N)  !< value to be written
-        INTEGER, INTENT(IN) :: N  !<  size
+          DOUBLE PRECISION , INTENT(IN) :: A(N)  !< value to be written
+          INTEGER, INTENT(IN) :: N  !<  size
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
-        INTEGER :: D
+          INTEGER :: D
 C-----------------------------------------------
-        D = N
-        CALL WRITE_DPDB(A,D)
+          D = N
+          CALL WRITE_DPDB(A,D)
         END SUBROUTINE
 !! \brief Wrapper routine to WRITE_DPDB, to be used in order to avoid dummy-argument mismatch at error at compile tile
 !||====================================================================
@@ -272,19 +272,19 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-        IMPLICIT NONE
+          IMPLICIT NONE
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-        DOUBLE PRECISION , INTENT(IN) :: A(M,N)  !< value to be written
-        INTEGER, INTENT(IN) :: N,M  !<  size
+          DOUBLE PRECISION , INTENT(IN) :: A(M,N)  !< value to be written
+          INTEGER, INTENT(IN) :: N,M  !<  size
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
-        INTEGER :: D
+          INTEGER :: D
 C-----------------------------------------------
-        D = M * N
-        CALL WRITE_DPDB(A,D)
+          D = M * N
+          CALL WRITE_DPDB(A,D)
         END SUBROUTINE
 !! \brief Wrapper routine to WRITE_DPDB, to be used in order to avoid dummy-argument mismatch at error at compile tile
 !||====================================================================
@@ -296,18 +296,18 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-        IMPLICIT NONE
+          IMPLICIT NONE
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-        DOUBLE PRECISION , INTENT(IN) :: A(L,M,N)  !< value to be written
-        INTEGER , INTENT(IN) :: L,N,M  !<  size
+          DOUBLE PRECISION , INTENT(IN) :: A(L,M,N)  !< value to be written
+          INTEGER , INTENT(IN) :: L,N,M  !<  size
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
-        INTEGER :: D
+          INTEGER :: D
 C-----------------------------------------------
-        D = L * M * N
-        CALL WRITE_DPDB(A,D)
+          D = L * M * N
+          CALL WRITE_DPDB(A,D)
         END SUBROUTINE
       END MODULE
