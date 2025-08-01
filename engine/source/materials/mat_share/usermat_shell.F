@@ -223,7 +223,7 @@ c
      .   FPSXX(MVSIZ),FPSYY(MVSIZ),FPSZZ(MVSIZ),FPSXY(MVSIZ),FPSYX(MVSIZ),
      .   EPCHK(MVSIZ),EPSPDT(MVSIZ)
       my_real 
-     .   ZT,DTINV, VOL2,FCUT,ASRATE,EPS_M2,EPS_K2,T0,TM,
+     .   ZT,DTINV,VOL2,FCUT,ASRATE,EPS_M2,EPS_K2,T0,TM,
      .   R1,R2,S1,S2,R12A,R22A,S12B,S22B,RS1,RS2,RS3,
      .   T1,T2,T3,FACT,R3R3,S3S3,TRELAX, 
      .   BIDON1,BIDON2,BIDON3,BIDON4,BIDON5,VV,AA
@@ -360,8 +360,8 @@ c
       EPCHK(1:MVSIZ)  = ZERO
       VISCMX(1:MVSIZ) = ZERO
 !
-!       compute the inverse of dt and save the result 
       dtinv = dt1 / max(dt1**2,em20)  ! inverse of dt
+
 c-----------------------------------------------------------
 c---- intermediate buffer for GET_U_VAR function
       IF (TT == ZERO) THEN
