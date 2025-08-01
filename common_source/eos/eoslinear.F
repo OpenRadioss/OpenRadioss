@@ -57,12 +57,12 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER MAT(NEL), IFLAG, NEL
-      my_real PM(NPROPM,NUMMAT), 
-     .        OFF(NEL) ,EINT(NEL) ,MU(NEL)   , 
-     .        DVOL(NEL) ,VNEW(NEL),
-     .        PNEW(NEL),DPDM(NEL) ,DPDE(NEL)
-      my_real,INTENT(INOUT) :: PSH(NEL)
+        INTEGER MAT(NEL), IFLAG, NEL
+        my_real PM(NPROPM,NUMMAT),
+     .          OFF(NEL) ,EINT(NEL) ,MU(NEL)   ,
+     .          DVOL(NEL) ,VNEW(NEL),
+     .          PNEW(NEL),DPDM(NEL) ,DPDE(NEL)
+        my_real,INTENT(INOUT) :: PSH(NEL)
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -73,64 +73,64 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, MX
-      my_real BULK(NEL),PC(NEL),C0(NEL)
+        INTEGER I, MX
+        my_real BULK(NEL),PC(NEL),C0(NEL)
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
 
-      IF(IFLAG == 0) THEN
-        DO I=1,NEL
-          MX = MAT(I)
-          BULK(I) = PM(32,MX)
-          C0(I) = PM(104,MX)
-          PC(I) = PM(37,MX)
-          PSH(I) = PM(88,MX)
-        ENDDO
-        DO I=1,NEL
-          DPDM(I) = BULK(I)
-          DPDE(I) = ZERO
-          PNEW(I) = C0(I)+BULK(I)*MU(I)
-          PNEW(I) = MAX(PC(I)-PSH(I),PNEW(I))  !law10 : yield criteria depends on P
-          PNEW(I) = PNEW(I)*OFF(I)  ! P(mu[n+1],E[n]) = P(mu[n+1],E[n+1]) since there is no energy depedency
-        ENDDO
-
-      ELSEIF(IFLAG == 1) THEN
-        DO I=1,NEL
-          MX     = MAT(I)
-          BULK(I)= PM(32,MX)
-          PC(I)  = PM(37,MX)
-          C0(I)  = PM(104,MX)
-          PSH(I) = PM(88,MX)
-        ENDDO
-        DO I=1,NEL
-          PNEW(I) = C0(I)+BULK(I)*MU(I)
-          PNEW(I) = MAX(PNEW(I),PC(I)-PSH(I))
-          PNEW(I) = PNEW(I)*OFF(I)  ! P(mu[n+1],E[n+1])
-          EINT(I) = EINT(I) - HALF*DVOL(I)*(PNEW(I)+PSH(I))
-          DPDE(I) = ZERO
-        ENDDO
-
-
-      ELSEIF (IFLAG == 2) THEN
-        DO I=1, NEL                                
-           MX = MAT(I)  
-           C0(I) = PM(104,MX)                                    
-           BULK(I) = PM(32,MX)
-           PC(I) = PM(37,MX)
-           PSH(I) = PM(88,MX)                       
-        ENDDO                                      
-        DO I=1, NEL                                
-          IF (VNEW(I) > ZERO) THEN
-            PNEW(I) = C0(I)+BULK(I)*MU(I)
-            PNEW(I) = MAX(PNEW(I),PC(I)-PSH(I))
-            PNEW(I) = PNEW(I)*OFF(I)
+        IF(IFLAG == 0) THEN
+          DO I=1,NEL
+            MX = MAT(I)
+            BULK(I) = PM(32,MX)
+            C0(I) = PM(104,MX)
+            PC(I) = PM(37,MX)
+            PSH(I) = PM(88,MX)
+          ENDDO
+          DO I=1,NEL
             DPDM(I) = BULK(I)
             DPDE(I) = ZERO
-          ENDIF
-        ENDDO                                      
+            PNEW(I) = C0(I)+BULK(I)*MU(I)
+            PNEW(I) = MAX(PC(I)-PSH(I),PNEW(I))  !law10 : yield criteria depends on P
+            PNEW(I) = PNEW(I)*OFF(I)  ! P(mu[n+1],E[n]) = P(mu[n+1],E[n+1]) since there is no energy depedency
+          ENDDO
 
-      ENDIF
+        ELSEIF(IFLAG == 1) THEN
+          DO I=1,NEL
+            MX     = MAT(I)
+            BULK(I)= PM(32,MX)
+            PC(I)  = PM(37,MX)
+            C0(I)  = PM(104,MX)
+            PSH(I) = PM(88,MX)
+          ENDDO
+          DO I=1,NEL
+            PNEW(I) = C0(I)+BULK(I)*MU(I)
+            PNEW(I) = MAX(PNEW(I),PC(I)-PSH(I))
+            PNEW(I) = PNEW(I)*OFF(I)  ! P(mu[n+1],E[n+1])
+            EINT(I) = EINT(I) - HALF*DVOL(I)*(PNEW(I)+PSH(I))
+            DPDE(I) = ZERO
+          ENDDO
+
+
+        ELSEIF (IFLAG == 2) THEN
+          DO I=1, NEL
+            MX = MAT(I)
+            C0(I) = PM(104,MX)
+            BULK(I) = PM(32,MX)
+            PC(I) = PM(37,MX)
+            PSH(I) = PM(88,MX)
+          ENDDO
+          DO I=1, NEL
+            IF (VNEW(I) > ZERO) THEN
+              PNEW(I) = C0(I)+BULK(I)*MU(I)
+              PNEW(I) = MAX(PNEW(I),PC(I)-PSH(I))
+              PNEW(I) = PNEW(I)*OFF(I)
+              DPDM(I) = BULK(I)
+              DPDE(I) = ZERO
+            ENDIF
+          ENDDO
+
+        ENDIF
 C-----------------------------------------------
-      RETURN
+        RETURN
       END

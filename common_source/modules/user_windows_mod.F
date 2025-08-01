@@ -56,47 +56,47 @@ C-----------------------------------------------
 #include "my_real.inc"
 C-----------------------------------------------
         TYPE USER_WINDOWS_
-           INTEGER :: HAS_USER_WINDOW
-           INTEGER :: USER_WINDOWS_ID
-           INTEGER :: NUVAR
-           INTEGER :: NUVARI
-           INTEGER :: S_IUSER
-           INTEGER :: S_USER
-           INTEGER :: N_USERNODS
-           my_real :: USREINT
-           INTEGER, DIMENSION(:),ALLOCATABLE :: IUSER
-           my_real, DIMENSION(:),ALLOCATABLE :: USER
-           INTEGER, DIMENSION(:),ALLOCATABLE :: USERNODS
-           ! SPMD Structures
-           INTEGER :: S_FR_USERW
-           INTEGER, DIMENSION(:),ALLOCATABLE :: IAD_USERW
-           INTEGER, DIMENSION(:),ALLOCATABLE :: FR_USERW
-           
-           ! UserWindows SAV_ARRAYS
-           my_real, DIMENSION(:,:),ALLOCATABLE :: A_SAV
-           my_real, DIMENSION(:,:),ALLOCATABLE :: AR_SAV
-           
-           INTEGER :: S_WA
-           INTEGER, DIMENSION(:),ALLOCATABLE :: WA
+          INTEGER :: HAS_USER_WINDOW
+          INTEGER :: USER_WINDOWS_ID
+          INTEGER :: NUVAR
+          INTEGER :: NUVARI
+          INTEGER :: S_IUSER
+          INTEGER :: S_USER
+          INTEGER :: N_USERNODS
+          my_real :: USREINT
+          INTEGER, DIMENSION(:),ALLOCATABLE :: IUSER
+          my_real, DIMENSION(:),ALLOCATABLE :: USER
+          INTEGER, DIMENSION(:),ALLOCATABLE :: USERNODS
+          ! SPMD Structures
+          INTEGER :: S_FR_USERW
+          INTEGER, DIMENSION(:),ALLOCATABLE :: IAD_USERW
+          INTEGER, DIMENSION(:),ALLOCATABLE :: FR_USERW
+
+          ! UserWindows SAV_ARRAYS
+          my_real, DIMENSION(:,:),ALLOCATABLE :: A_SAV
+          my_real, DIMENSION(:,:),ALLOCATABLE :: AR_SAV
+
+          INTEGER :: S_WA
+          INTEGER, DIMENSION(:),ALLOCATABLE :: WA
         END TYPE USER_WINDOWS_
 
-        CONTAINS 
-        
+      CONTAINS
+
 !||====================================================================
 !||    user_windows_init   ../common_source/modules/user_windows_mod.F
 !||--- called by ------------------------------------------------------
 !||    starter0            ../starter/source/starter/starter0.F
 !||====================================================================
         SUBROUTINE USER_WINDOWS_INIT(USER_WINDOW)
-            TYPE(USER_WINDOWS_) :: USER_WINDOW
-            USER_WINDOW%HAS_USER_WINDOW = 0
-            USER_WINDOW%NUVAR           = 0
-            USER_WINDOW%NUVARI          = 0
-            USER_WINDOW%N_USERNODS      = 0
-            USER_WINDOW%S_FR_USERW      = 0
-            USER_WINDOW%S_IUSER         = 0
-            USER_WINDOW%S_USER          = 0
-            USER_WINDOW%USREINT         = 0
+          TYPE(USER_WINDOWS_) :: USER_WINDOW
+          USER_WINDOW%HAS_USER_WINDOW = 0
+          USER_WINDOW%NUVAR           = 0
+          USER_WINDOW%NUVARI          = 0
+          USER_WINDOW%N_USERNODS      = 0
+          USER_WINDOW%S_FR_USERW      = 0
+          USER_WINDOW%S_IUSER         = 0
+          USER_WINDOW%S_USER          = 0
+          USER_WINDOW%USREINT         = 0
         END SUBROUTINE  USER_WINDOWS_INIT
 
 
@@ -109,26 +109,26 @@ C-----------------------------------------------
 !||    starter0             ../starter/source/starter/starter0.F
 !||====================================================================
         SUBROUTINE USER_WINDOWS_CLEAN(USER_WINDOW)
-            TYPE(USER_WINDOWS_) :: USER_WINDOW
+          TYPE(USER_WINDOWS_) :: USER_WINDOW
 
-            IF(USER_WINDOW%HAS_USER_WINDOW == 1)THEN
-              IF(ALLOCATED(USER_WINDOW%IUSER))     DEALLOCATE(USER_WINDOW%IUSER)
-              IF(ALLOCATED(USER_WINDOW%USER))      DEALLOCATE(USER_WINDOW%USER)
-              IF(ALLOCATED(USER_WINDOW%USERNODS))  DEALLOCATE(USER_WINDOW%USERNODS)
-              IF(ALLOCATED(USER_WINDOW%IAD_USERW)) DEALLOCATE(USER_WINDOW%IAD_USERW)
-              IF(ALLOCATED(USER_WINDOW%FR_USERW))  DEALLOCATE(USER_WINDOW%FR_USERW)
-              IF(ALLOCATED(USER_WINDOW%A_SAV))     DEALLOCATE(USER_WINDOW%A_SAV)
-              IF(ALLOCATED(USER_WINDOW%AR_SAV))    DEALLOCATE(USER_WINDOW%AR_SAV)
-              IF(ALLOCATED(USER_WINDOW%WA))    DEALLOCATE(USER_WINDOW%WA)
-            ENDIF
-            USER_WINDOW%HAS_USER_WINDOW = 0
-            USER_WINDOW%NUVAR           = 0
-            USER_WINDOW%NUVARI          = 0
-            USER_WINDOW%N_USERNODS      = 0
-            USER_WINDOW%S_FR_USERW      = 0
-            USER_WINDOW%S_IUSER         = 0
-            USER_WINDOW%S_USER          = 0
-            USER_WINDOW%USREINT         = 0
+          IF(USER_WINDOW%HAS_USER_WINDOW == 1)THEN
+            IF(ALLOCATED(USER_WINDOW%IUSER))     DEALLOCATE(USER_WINDOW%IUSER)
+            IF(ALLOCATED(USER_WINDOW%USER))      DEALLOCATE(USER_WINDOW%USER)
+            IF(ALLOCATED(USER_WINDOW%USERNODS))  DEALLOCATE(USER_WINDOW%USERNODS)
+            IF(ALLOCATED(USER_WINDOW%IAD_USERW)) DEALLOCATE(USER_WINDOW%IAD_USERW)
+            IF(ALLOCATED(USER_WINDOW%FR_USERW))  DEALLOCATE(USER_WINDOW%FR_USERW)
+            IF(ALLOCATED(USER_WINDOW%A_SAV))     DEALLOCATE(USER_WINDOW%A_SAV)
+            IF(ALLOCATED(USER_WINDOW%AR_SAV))    DEALLOCATE(USER_WINDOW%AR_SAV)
+            IF(ALLOCATED(USER_WINDOW%WA))    DEALLOCATE(USER_WINDOW%WA)
+          ENDIF
+          USER_WINDOW%HAS_USER_WINDOW = 0
+          USER_WINDOW%NUVAR           = 0
+          USER_WINDOW%NUVARI          = 0
+          USER_WINDOW%N_USERNODS      = 0
+          USER_WINDOW%S_FR_USERW      = 0
+          USER_WINDOW%S_IUSER         = 0
+          USER_WINDOW%S_USER          = 0
+          USER_WINDOW%USREINT         = 0
         END SUBROUTINE  USER_WINDOWS_CLEAN
 
       END MODULE USER_WINDOWS_MOD

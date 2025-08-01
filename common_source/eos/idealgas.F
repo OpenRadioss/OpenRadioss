@@ -68,55 +68,55 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER MAT(NEL), IFLAG, NEL
-      my_real PM(NPROPM,NUMMAT), 
-     .     OFF(NEL)  ,EINT(NEL) ,MU(NEL)  ,
-     .     ESPE(NEL) ,DVOL(NEL) ,DF(NEL)  ,
-     .     VNEW(NEL) ,PNEW(NEL) ,DPDM(NEL),
-     .     DPDE(NEL)
-      my_real, INTENT(INOUT) :: PSH(NEL)
+        INTEGER MAT(NEL), IFLAG, NEL
+        my_real PM(NPROPM,NUMMAT),
+     .       OFF(NEL)  ,EINT(NEL) ,MU(NEL)  ,
+     .       ESPE(NEL) ,DVOL(NEL) ,DF(NEL)  ,
+     .       VNEW(NEL) ,PNEW(NEL) ,DPDM(NEL),
+     .       DPDE(NEL)
+        my_real, INTENT(INOUT) :: PSH(NEL)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, MX
-      my_real :: P0,GAMMA,T0,E0,SPH,BB,DVV,PP
+        INTEGER I, MX
+        my_real :: P0,GAMMA,T0,E0,SPH,BB,DVV,PP
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
-      IF(IFLAG == 0) THEN
-         MX         = MAT(1)
-         E0         = PM(23,MX)         
-         GAMMA      = PM(32,MX)
-         P0         = PM(31,MX)
-         PSH(1:NEL) = PM(88,MX)
-         T0         = PM(35,MX)
-         SPH        = PM(69,MX)
-         DO I=1,NEL
-           PP      = (GAMMA-ONE)*(ONE+MU(I))*ESPE(I)
-           DPDM(I) = (GAMMA-ONE)*(ESPE(I)+PP*DF(I))     !total derivative
-           DPDE(I) = (GAMMA-ONE)*(ONE+MU(I))            !partial derivative
-           PNEW(I) = (MAX(PP,ZERO)-PSH(I))*OFF(I)       ! P(mu[n+1],E[n])
-         ENDDO
+        IF(IFLAG == 0) THEN
+          MX         = MAT(1)
+          E0         = PM(23,MX)
+          GAMMA      = PM(32,MX)
+          P0         = PM(31,MX)
+          PSH(1:NEL) = PM(88,MX)
+          T0         = PM(35,MX)
+          SPH        = PM(69,MX)
+          DO I=1,NEL
+            PP      = (GAMMA-ONE)*(ONE+MU(I))*ESPE(I)
+            DPDM(I) = (GAMMA-ONE)*(ESPE(I)+PP*DF(I))     !total derivative
+            DPDE(I) = (GAMMA-ONE)*(ONE+MU(I))            !partial derivative
+            PNEW(I) = (MAX(PP,ZERO)-PSH(I))*OFF(I)       ! P(mu[n+1],E[n])
+          ENDDO
 C-----------------------------------------------
-      ELSEIF(IFLAG == 1) THEN
-         MX         = MAT(1)
-         E0         = PM(23,MX)
-         GAMMA      = PM(32,MX)
-         P0         = PM(31,MX)
-         PSH(1:NEL) = PM(88,MX)
-         T0         = PM(35,MX)
-         SPH        = PM(69,MX)
-         ! p1 = p(mu,E+dE) = (g-1)*(1+mu)*(E-dvv*(p0+p1))    where p1,p0 are total pressure (no pshift), dvv = DVOL/2/V0                                               
-         DO I=1,NEL
-           BB          = (GAMMA-ONE)*(ONE+MU(I))
-           DPDE(I)     = BB  !partial derivative
-           DVV         = HALF*DVOL(I)*DF(I) / MAX(EM15,VNEW(I))
-           PNEW(I)     = BB*ESPE(I) / (ONE+BB*DVV) ! P(mu[n+1],E[n+1])
-           PNEW(I)     = (MAX(PNEW(I),ZERO)-PSH(I))*OFF(I)
-           EINT(I)     = EINT(I) - HALF*DVOL(I)*(PNEW(I)+PSH(I))
-         ENDDO
+        ELSEIF(IFLAG == 1) THEN
+          MX         = MAT(1)
+          E0         = PM(23,MX)
+          GAMMA      = PM(32,MX)
+          P0         = PM(31,MX)
+          PSH(1:NEL) = PM(88,MX)
+          T0         = PM(35,MX)
+          SPH        = PM(69,MX)
+          ! p1 = p(mu,E+dE) = (g-1)*(1+mu)*(E-dvv*(p0+p1))    where p1,p0 are total pressure (no pshift), dvv = DVOL/2/V0
+          DO I=1,NEL
+            BB          = (GAMMA-ONE)*(ONE+MU(I))
+            DPDE(I)     = BB  !partial derivative
+            DVV         = HALF*DVOL(I)*DF(I) / MAX(EM15,VNEW(I))
+            PNEW(I)     = BB*ESPE(I) / (ONE+BB*DVV) ! P(mu[n+1],E[n+1])
+            PNEW(I)     = (MAX(PNEW(I),ZERO)-PSH(I))*OFF(I)
+            EINT(I)     = EINT(I) - HALF*DVOL(I)*(PNEW(I)+PSH(I))
+          ENDDO
 C-----------------------------------------------
-       ELSEIF (IFLAG == 2) THEN
+        ELSEIF (IFLAG == 2) THEN
           MX           = MAT(1)
           E0           = PM(23,MX)
           GAMMA        = PM(32,MX)
@@ -125,14 +125,14 @@ C-----------------------------------------------
           T0           = PM(35,MX)
           SPH          = PM(69,MX)
           DO I=1, NEL
-             IF (VNEW(I) > ZERO) THEN
-                PP      = (GAMMA-ONE)*(ONE+MU(I))*ESPE(I) - PSH(I)
-                DPDM(I) = (GAMMA-ONE)*(ESPE(I)+(PP+PSH(I))*DF(I)) !total derivative
-                DPDE(I) = (GAMMA-ONE)*(ONE+MU(I)) !partial derivative
-                PNEW(I) = PP
-             ENDIF
+            IF (VNEW(I) > ZERO) THEN
+              PP      = (GAMMA-ONE)*(ONE+MU(I))*ESPE(I) - PSH(I)
+              DPDM(I) = (GAMMA-ONE)*(ESPE(I)+(PP+PSH(I))*DF(I)) !total derivative
+              DPDE(I) = (GAMMA-ONE)*(ONE+MU(I)) !partial derivative
+              PNEW(I) = PP
+            ENDIF
           ENDDO
-      ENDIF
+        ENDIF
 C-----------------------------------------------
-      RETURN
+        RETURN
       END

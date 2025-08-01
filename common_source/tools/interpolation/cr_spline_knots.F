@@ -27,7 +27,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    cr_spline_point_proj   ../common_source/tools/interpolation/cr_spline_point_proj.F
 !||    detcord                ../starter/source/initial_conditions/detonation/detcord.F
 !||====================================================================
-       SUBROUTINE CR_SPLINE_KNOTS( PTS , KNOTS, ALPHA)
+      SUBROUTINE CR_SPLINE_KNOTS( PTS , KNOTS, ALPHA)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -35,37 +35,37 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
-       ! computes knots for solving 4-point spline path. 
-       ! CATMULL-ROM PARAMETER
-       !  ALPHA = 0.0 : uniform
-       !  ALPHA = 0.5 : centripetal
-       !  ALPHA = 1.0 : chordal   
-       !      INPUT  - PTS(0:3,:) are 4 control points
-       !      INPUT  - ALPHA CCR SPLINE PARAMETER
-       !      OUTPU  - KNOTS() : t0,t1,t2,t3
+        ! computes knots for solving 4-point spline path.
+        ! CATMULL-ROM PARAMETER
+        !  ALPHA = 0.0 : uniform
+        !  ALPHA = 0.5 : centripetal
+        !  ALPHA = 1.0 : chordal
+        !      INPUT  - PTS(0:3,:) are 4 control points
+        !      INPUT  - ALPHA CCR SPLINE PARAMETER
+        !      OUTPU  - KNOTS() : t0,t1,t2,t3
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-         my_real, INTENT(IN)    :: PTS(0:3,3),  ALPHA
-         my_real, INTENT(INOUT) :: KNOTS(0:3)
+        my_real, INTENT(IN)    :: PTS(0:3,3),  ALPHA
+        my_real, INTENT(INOUT) :: KNOTS(0:3)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-         my_real :: X,Y,Z
+        my_real :: X,Y,Z
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
-          KNOTS(0)=0.0
-          X=PTS(1-1,1)-PTS(1,1)
-          Y=PTS(1-1,2)-PTS(1,2)
-          Z=PTS(1-1,3)-PTS(1,3)  
-          KNOTS(1)=KNOTS(0)+ EXP(ALPHA*LOG(SQRT(X*X+Y*Y+Z*Z)))
-          X=PTS(1,1)-PTS(1+1,1)
-          Y=PTS(1,2)-PTS(1+1,2)
-          Z=PTS(1,3)-PTS(1+1,3)  
-          KNOTS(2)=KNOTS(1)+ EXP(ALPHA*LOG(SQRT(X*X+Y*Y+Z*Z)))
-          X=PTS(1+1,1)-PTS(1+2,1)
-          Y=PTS(1+1,2)-PTS(1+2,2)
-          Z=PTS(1+1,3)-PTS(1+2,3)  
-          KNOTS(3)=KNOTS(2)+ EXP(ALPHA*LOG(SQRT(X*X+Y*Y+Z*Z)))
-       END SUBROUTINE CR_SPLINE_KNOTS     
+        KNOTS(0)=0.0
+        X=PTS(1-1,1)-PTS(1,1)
+        Y=PTS(1-1,2)-PTS(1,2)
+        Z=PTS(1-1,3)-PTS(1,3)
+        KNOTS(1)=KNOTS(0)+ EXP(ALPHA*LOG(SQRT(X*X+Y*Y+Z*Z)))
+        X=PTS(1,1)-PTS(1+1,1)
+        Y=PTS(1,2)-PTS(1+1,2)
+        Z=PTS(1,3)-PTS(1+1,3)
+        KNOTS(2)=KNOTS(1)+ EXP(ALPHA*LOG(SQRT(X*X+Y*Y+Z*Z)))
+        X=PTS(1+1,1)-PTS(1+2,1)
+        Y=PTS(1+1,2)-PTS(1+2,2)
+        Z=PTS(1+1,3)-PTS(1+2,3)
+        KNOTS(3)=KNOTS(2)+ EXP(ALPHA*LOG(SQRT(X*X+Y*Y+Z*Z)))
+      END SUBROUTINE CR_SPLINE_KNOTS

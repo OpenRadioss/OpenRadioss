@@ -115,65 +115,65 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    write_nloc_struct      ../engine/source/output/restart/write_nloc_struct.F
 !||====================================================================
       MODULE NLOCAL_REG_MOD
-C----------------------------------------------------------------------- 
+C-----------------------------------------------------------------------
 #include "my_real.inc"
-c=======================================================================      
+c=======================================================================
 c define type NLOCAL_STRUCT_ for nodal variable regularization
-c=======================================================================      
-c 
-      TYPE NLOCAL_STR_
-        integer  :: IMOD                                  ! Non-local regularization flag  
-        integer  :: NNOD                                  ! Number of nodes with additional d.o.fs 
-        integer  :: L_NLOC                                ! Length of non-local vectors
-        integer  :: NUMELS_NL                             ! Number of non-local solids elements
-        integer  :: NUMELC_NL                             ! Number of non-local shell elements
-        integer  :: NUMELTG_NL                            ! Number of non-local triangle shell elements
-        integer  :: NDDMAX                                ! Maximum number of additional d.o.fs
-        integer  :: LCNE_NL                               ! Length of the PROCNE table
-        my_real, DIMENSION(:)   , ALLOCATABLE :: DENS     ! (NUMMAT) Non-local 'density' parameter  
-        my_real, DIMENSION(:)   , ALLOCATABLE :: DAMP     ! (NUMMAT) Non-local 'damping' coefficient      
-        my_real, DIMENSION(:)   , ALLOCATABLE :: LEN      ! (NUMMAT) Non-local internal length
-        my_real, DIMENSION(:)   , ALLOCATABLE :: LE_MAX   ! (NUMMAT) Maximal element length target
-        my_real, DIMENSION(:)   , ALLOCATABLE :: SSPNL    ! (NUMMAT) Non-local "sound speed"
-        integer, DIMENSION(:)   , ALLOCATABLE :: INDX     ! (NNOD)   Nodal index table
-        integer, DIMENSION(:)   , ALLOCATABLE :: POSI     ! (NNOD+1) Node first d.o.f position in non-local vectors
-        integer, DIMENSION(:)   , ALLOCATABLE :: IDXI     ! (NUMNOD) Inversed nodal index table
-        integer, DIMENSION(:)   , ALLOCATABLE :: ADDCNE   ! (0:NNOD+1) Addresses of non-local nodes in the FSKY vector
-        integer, DIMENSION(:)   , ALLOCATABLE :: CNE      ! ADDCNE(NNOD+1)-1 Element attached to nodes in the FSKY vector
-        integer, DIMENSION(:)   , ALLOCATABLE :: PROCNE   ! LCNE_NL Number of the processor on which the element is located
-        integer, DIMENSION(:,:) , ALLOCATABLE :: IADS     ! Addresses sky for solids non-local elements
-        integer, DIMENSION(:,:) , ALLOCATABLE :: IADC     ! Addresses sky for shells non-local elements
-        integer, DIMENSION(:,:) , ALLOCATABLE :: IADTG    ! Addresses sky for triangle shells non-local elements
-        my_real, DIMENSION(:)   , ALLOCATABLE :: MASS     ! (L_NLOC)  Non-local mass
-        my_real, DIMENSION(:)   , ALLOCATABLE :: MASS0    ! (L_NLOC)  Non-local mass initial
-        my_real, DIMENSION(:,:) , ALLOCATABLE :: FNL      ! (L_NLOC,NTHREAD)  Non-local force/accelerations
-        my_real, DIMENSION(:)   , ALLOCATABLE :: VNL      ! (L_NLOC)  Non-local variable velocities
-        my_real, DIMENSION(:)   , ALLOCATABLE :: VNL_OLD  ! (L_NLOC)  Old Non-local variable velocities
-        my_real, DIMENSION(:)   , ALLOCATABLE :: DNL      ! (L_NLOC)  Non-local variable increment
-        my_real, DIMENSION(:)   , ALLOCATABLE :: UNL      ! (L_NLOC)  Non-local cumulated variable
-        my_real, DIMENSION(:,:) , ALLOCATABLE :: STIFNL   ! (L_NLOC,NTHREAD)  Non-local nodal stiffness
-        my_real, DIMENSION(:,:) , ALLOCATABLE :: FSKY     ! (ADDCNE(NNOD+1),NDDMAX)  Non-local skyline vector for PARITH/ON
-        my_real, DIMENSION(:,:) , ALLOCATABLE :: STSKY    ! (ADDCNE(NNOD+1),NDDMAX)  Non-local skyline vector for stiffness in PARITH/ON
-        integer, DIMENSION(:)   , ALLOCATABLE :: IAD_ELEM ! (NSPMD+1) Non-local IAD_ELEM vector for SPMD boundaries
-        integer, DIMENSION(:)   , ALLOCATABLE :: IAD_SIZE ! (NSPMD+1) Non-local size of the buffer at the domains boundaries
-        integer, DIMENSION(:)   , ALLOCATABLE :: FR_ELEM  ! (TOTAL_NODES) Non-local FR_ELEM vector for SPMD boundaries
+c=======================================================================
+c
+        TYPE NLOCAL_STR_
+          integer  :: IMOD                                  ! Non-local regularization flag
+          integer  :: NNOD                                  ! Number of nodes with additional d.o.fs
+          integer  :: L_NLOC                                ! Length of non-local vectors
+          integer  :: NUMELS_NL                             ! Number of non-local solids elements
+          integer  :: NUMELC_NL                             ! Number of non-local shell elements
+          integer  :: NUMELTG_NL                            ! Number of non-local triangle shell elements
+          integer  :: NDDMAX                                ! Maximum number of additional d.o.fs
+          integer  :: LCNE_NL                               ! Length of the PROCNE table
+          my_real, DIMENSION(:)   , ALLOCATABLE :: DENS     ! (NUMMAT) Non-local 'density' parameter
+          my_real, DIMENSION(:)   , ALLOCATABLE :: DAMP     ! (NUMMAT) Non-local 'damping' coefficient
+          my_real, DIMENSION(:)   , ALLOCATABLE :: LEN      ! (NUMMAT) Non-local internal length
+          my_real, DIMENSION(:)   , ALLOCATABLE :: LE_MAX   ! (NUMMAT) Maximal element length target
+          my_real, DIMENSION(:)   , ALLOCATABLE :: SSPNL    ! (NUMMAT) Non-local "sound speed"
+          integer, DIMENSION(:)   , ALLOCATABLE :: INDX     ! (NNOD)   Nodal index table
+          integer, DIMENSION(:)   , ALLOCATABLE :: POSI     ! (NNOD+1) Node first d.o.f position in non-local vectors
+          integer, DIMENSION(:)   , ALLOCATABLE :: IDXI     ! (NUMNOD) Inversed nodal index table
+          integer, DIMENSION(:)   , ALLOCATABLE :: ADDCNE   ! (0:NNOD+1) Addresses of non-local nodes in the FSKY vector
+          integer, DIMENSION(:)   , ALLOCATABLE :: CNE      ! ADDCNE(NNOD+1)-1 Element attached to nodes in the FSKY vector
+          integer, DIMENSION(:)   , ALLOCATABLE :: PROCNE   ! LCNE_NL Number of the processor on which the element is located
+          integer, DIMENSION(:,:) , ALLOCATABLE :: IADS     ! Addresses sky for solids non-local elements
+          integer, DIMENSION(:,:) , ALLOCATABLE :: IADC     ! Addresses sky for shells non-local elements
+          integer, DIMENSION(:,:) , ALLOCATABLE :: IADTG    ! Addresses sky for triangle shells non-local elements
+          my_real, DIMENSION(:)   , ALLOCATABLE :: MASS     ! (L_NLOC)  Non-local mass
+          my_real, DIMENSION(:)   , ALLOCATABLE :: MASS0    ! (L_NLOC)  Non-local mass initial
+          my_real, DIMENSION(:,:) , ALLOCATABLE :: FNL      ! (L_NLOC,NTHREAD)  Non-local force/accelerations
+          my_real, DIMENSION(:)   , ALLOCATABLE :: VNL      ! (L_NLOC)  Non-local variable velocities
+          my_real, DIMENSION(:)   , ALLOCATABLE :: VNL_OLD  ! (L_NLOC)  Old Non-local variable velocities
+          my_real, DIMENSION(:)   , ALLOCATABLE :: DNL      ! (L_NLOC)  Non-local variable increment
+          my_real, DIMENSION(:)   , ALLOCATABLE :: UNL      ! (L_NLOC)  Non-local cumulated variable
+          my_real, DIMENSION(:,:) , ALLOCATABLE :: STIFNL   ! (L_NLOC,NTHREAD)  Non-local nodal stiffness
+          my_real, DIMENSION(:,:) , ALLOCATABLE :: FSKY     ! (ADDCNE(NNOD+1),NDDMAX)  Non-local skyline vector for PARITH/ON
+          my_real, DIMENSION(:,:) , ALLOCATABLE :: STSKY    ! (ADDCNE(NNOD+1),NDDMAX)  Non-local skyline vector for stiffness in PARITH/ON
+          integer, DIMENSION(:)   , ALLOCATABLE :: IAD_ELEM ! (NSPMD+1) Non-local IAD_ELEM vector for SPMD boundaries
+          integer, DIMENSION(:)   , ALLOCATABLE :: IAD_SIZE ! (NSPMD+1) Non-local size of the buffer at the domains boundaries
+          integer, DIMENSION(:)   , ALLOCATABLE :: FR_ELEM  ! (TOTAL_NODES) Non-local FR_ELEM vector for SPMD boundaries
 C       SPMD PON BOUNDARIES
-        integer, DIMENSION(:)   , ALLOCATABLE :: ISENDSP  ! Skyline PON Send index
-        integer, DIMENSION(:)   , ALLOCATABLE :: IRECSP   ! Skyline PON Receive index
+          integer, DIMENSION(:)   , ALLOCATABLE :: ISENDSP  ! Skyline PON Send index
+          integer, DIMENSION(:)   , ALLOCATABLE :: IRECSP   ! Skyline PON Receive index
 
-! --------------------------------   
-!       communication for parith/on 
-        integer, DIMENSION(:)   , ALLOCATABLE :: IADSDP  ! dim = NSPMD+1
-        integer, DIMENSION(:)   , ALLOCATABLE :: IADRCP  ! dim = NSPMD+1
-        integer, dimension(:,:) , allocatable :: FR_NBCC ! dim = 2,NSPMD
-        integer, DIMENSION(:)   , ALLOCATABLE :: FR_ELEM_S
-        integer, DIMENSION(:)   , ALLOCATABLE :: FR_ELEM_R
-! --------------------------------  
-      END TYPE NLOCAL_STR_
-      CONTAINS 
-c=======================================================================      
+! --------------------------------
+!       communication for parith/on
+          integer, DIMENSION(:)   , ALLOCATABLE :: IADSDP  ! dim = NSPMD+1
+          integer, DIMENSION(:)   , ALLOCATABLE :: IADRCP  ! dim = NSPMD+1
+          integer, dimension(:,:) , allocatable :: FR_NBCC ! dim = 2,NSPMD
+          integer, DIMENSION(:)   , ALLOCATABLE :: FR_ELEM_S
+          integer, DIMENSION(:)   , ALLOCATABLE :: FR_ELEM_R
+! --------------------------------
+        END TYPE NLOCAL_STR_
+      CONTAINS
+c=======================================================================
 c define routine GET_LEMAX to automatically determine the maximal element length
-c======================================================================= 
+c=======================================================================
 !||====================================================================
 !||    get_lemax             ../common_source/modules/nlocal_reg_mod.F
 !||--- called by ------------------------------------------------------
@@ -187,9 +187,9 @@ c=======================================================================
           my_real, INTENT(OUT) :: LE_MAX
           LE_MAX = SQRT(PI)*NLOC_LENGTH/THREE
         END SUBROUTINE GET_LEMAX
-c=======================================================================      
+c=======================================================================
 c define routine GET_LENGTH to automatically determine the maximal element length
-c======================================================================= 
+c=======================================================================
 !||====================================================================
 !||    get_length            ../common_source/modules/nlocal_reg_mod.F
 !||--- called by ------------------------------------------------------
@@ -201,6 +201,6 @@ c=======================================================================
           my_real, INTENT(IN)  :: LE_MAX
           my_real, INTENT(OUT) :: NLOC_LENGTH
           NLOC_LENGTH = THREE*LE_MAX/SQRT(PI)
-      END SUBROUTINE GET_LENGTH
-c=======================================================================       
+        END SUBROUTINE GET_LENGTH
+c=======================================================================
       END MODULE NLOCAL_REG_MOD

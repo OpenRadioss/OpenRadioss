@@ -28,7 +28,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- calls      -----------------------------------------------------
 !||    read_i_c           ../common_source/tools/input_output/write_routtines.c
 !||====================================================================
-       SUBROUTINE DECOMPRESS_I_NNZ(ARRAY,LEN)
+      SUBROUTINE DECOMPRESS_I_NNZ(ARRAY,LEN)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -36,26 +36,26 @@ C-----------------------------------------------
 C---------------------------------------------
 C         Arguments
 C---------------------------------------------
-       INTEGER, INTENT(IN) :: LEN
-       INTEGER, INTENT(INOUT) :: ARRAY(LEN)
+        INTEGER, INTENT(IN) :: LEN
+        INTEGER, INTENT(INOUT) :: ARRAY(LEN)
 C---------------------------------------------
 C        Local Variables
 C---------------------------------------------
 
-       INTEGER I,J,IBEGIN, NNZ
-       
-       CALL READ_I_C(IBEGIN,1)
-       J = 2
-       DO WHILE(IBEGIN > 0)
-         CALL READ_I_C(NNZ,1)
-         J = J +1
-         CALL READ_I_C(ARRAY(IBEGIN:IBEGIN+NNZ-1),NNZ)
-         J = J + NNZ
-         CALL READ_I_C(IBEGIN,1)
-         J = J + 1
-       END DO
+        INTEGER I,J,IBEGIN, NNZ
 
-       END SUBROUTINE
+        CALL READ_I_C(IBEGIN,1)
+        J = 2
+        DO WHILE(IBEGIN > 0)
+          CALL READ_I_C(NNZ,1)
+          J = J +1
+          CALL READ_I_C(ARRAY(IBEGIN:IBEGIN+NNZ-1),NNZ)
+          J = J + NNZ
+          CALL READ_I_C(IBEGIN,1)
+          J = J + 1
+        END DO
+
+      END SUBROUTINE
 
 
 !||====================================================================
@@ -67,7 +67,7 @@ C---------------------------------------------
 !||    read_db            ../common_source/tools/input_output/read_db.F
 !||    read_i_c           ../common_source/tools/input_output/write_routtines.c
 !||====================================================================
-       SUBROUTINE DECOMPRESS_R_NNZ(ARRAY,LEN)
+      SUBROUTINE DECOMPRESS_R_NNZ(ARRAY,LEN)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -75,24 +75,24 @@ C-----------------------------------------------
 C---------------------------------------------
 C         Arguments
 C---------------------------------------------
-       INTEGER, INTENT(IN) :: LEN
-       my_real, INTENT(INOUT) :: ARRAY(LEN)
+        INTEGER, INTENT(IN) :: LEN
+        my_real, INTENT(INOUT) :: ARRAY(LEN)
 C---------------------------------------------
 C        Local Variables
 C---------------------------------------------
 
-       INTEGER I,J,IBEGIN, NNZ
-       
-       CALL READ_I_C(IBEGIN,1)
-       J = 2
-       DO WHILE(IBEGIN > 0)
-         CALL READ_I_C(NNZ,1)
-         J = J +1
-         CALL READ_DB(ARRAY(IBEGIN:IBEGIN+NNZ-1),NNZ)
-         J = J + NNZ
-         CALL READ_I_C(IBEGIN,1)
-         J = J + 1
-       END DO
+        INTEGER I,J,IBEGIN, NNZ
 
-       END SUBROUTINE
+        CALL READ_I_C(IBEGIN,1)
+        J = 2
+        DO WHILE(IBEGIN > 0)
+          CALL READ_I_C(NNZ,1)
+          J = J +1
+          CALL READ_DB(ARRAY(IBEGIN:IBEGIN+NNZ-1),NNZ)
+          J = J + NNZ
+          CALL READ_I_C(IBEGIN,1)
+          J = J + 1
+        END DO
+
+      END SUBROUTINE
 

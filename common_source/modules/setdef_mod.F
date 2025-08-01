@@ -106,125 +106,125 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||====================================================================
       MODULE SETDEF_MOD
         USE NAMES_AND_TITLES_MOD, ONLY: NCHARTITLE
-C----------------------------------------------------------------------- 
-#include "my_real.inc"   
-c=======================================================================      
+C-----------------------------------------------------------------------
+#include "my_real.inc"
+c=======================================================================
 !---------
 !   SET DATA STRUCTURE
 !---------
-c=======================================================================   
-c=======================================================================   
+c=======================================================================
+c=======================================================================
 !                               SET
-c=======================================================================   
+c=======================================================================
 C=======================================================================
-      INTEGER :: NSETS
+        INTEGER :: NSETS
 
 C-----------------------------------------------------------------------
-      TYPE SET_
-        INTEGER   :: SET_ID               ! SET identifier
-        CHARACTER(LEN=NCHARTITLE) :: TITLE ! SET title
-        INTEGER   :: SET_TYPE         ! SET type      (1-GENERAL, 2-COLLECT)
-        INTEGER   :: SET_ACTIV         
-        INTEGER   :: KEYTYPE          ! SET KEY type (all keys)
-        INTEGER   :: SURF_SET_ID      ! SET surface ID
-        INTEGER   :: LINE_SET_ID      ! SET line ID
-        INTEGER   :: SURF_SET_FLAG    ! SET surface activation flag
-        INTEGER   :: LINE_SET_FLAG    ! SET line activation flag
-        INTEGER   :: NSEG             ! SET surface segments
-        INTEGER   :: NSEG_1D          ! SET line/edge segments
-        INTEGER   :: EXT_ALL          ! type of the surface : /EXT or /ALL
+        TYPE SET_
+          INTEGER   :: SET_ID               ! SET identifier
+          CHARACTER(LEN=NCHARTITLE) :: TITLE ! SET title
+          INTEGER   :: SET_TYPE         ! SET type      (1-GENERAL, 2-COLLECT)
+          INTEGER   :: SET_ACTIV
+          INTEGER   :: KEYTYPE          ! SET KEY type (all keys)
+          INTEGER   :: SURF_SET_ID      ! SET surface ID
+          INTEGER   :: LINE_SET_ID      ! SET line ID
+          INTEGER   :: SURF_SET_FLAG    ! SET surface activation flag
+          INTEGER   :: LINE_SET_FLAG    ! SET line activation flag
+          INTEGER   :: NSEG             ! SET surface segments
+          INTEGER   :: NSEG_1D          ! SET line/edge segments
+          INTEGER   :: EXT_ALL          ! type of the surface : /EXT or /ALL
 !==============================================================
 !        INTEGER   :: LEVEL ! Hierarchy level
 !                             (FLAG 'SUBLEVEL DONE' FOR SET OF SET)
 !                            = 0 ---> not yet initialized
 !                            = 1 ---> done
-        INTEGER   :: SET_GRNOD_ID        ! SET grnod identifier
-        INTEGER   :: SET_GRPART_ID       ! SET grpart identifier
-        INTEGER   :: SET_GRSOLID_ID      ! SET grsolid identifier
-        INTEGER   :: SET_GRSH4N_ID       ! SET grsh4n identifier
-        INTEGER   :: SET_GRSH3N_ID       ! SET grsh3n identifier
-        INTEGER   :: SET_GRQUAD_ID       ! SET grquad identifier
-        INTEGER   :: SET_GRTRIA_ID       ! SET grtria identifier
-        INTEGER   :: SET_GRBEAM_ID       ! SET grbeam identifier
-        INTEGER   :: SET_GRTRUSS_ID      ! SET grtruss identifier
-        INTEGER   :: SET_GRSPRING_ID     ! SET grspring identifier
-        INTEGER   :: SET_NSURF_ID        ! SET grsurf identifier
-        INTEGER   :: SET_NSLIN_ID        ! SET grslin identifier
+          INTEGER   :: SET_GRNOD_ID        ! SET grnod identifier
+          INTEGER   :: SET_GRPART_ID       ! SET grpart identifier
+          INTEGER   :: SET_GRSOLID_ID      ! SET grsolid identifier
+          INTEGER   :: SET_GRSH4N_ID       ! SET grsh4n identifier
+          INTEGER   :: SET_GRSH3N_ID       ! SET grsh3n identifier
+          INTEGER   :: SET_GRQUAD_ID       ! SET grquad identifier
+          INTEGER   :: SET_GRTRIA_ID       ! SET grtria identifier
+          INTEGER   :: SET_GRBEAM_ID       ! SET grbeam identifier
+          INTEGER   :: SET_GRTRUSS_ID      ! SET grtruss identifier
+          INTEGER   :: SET_GRSPRING_ID     ! SET grspring identifier
+          INTEGER   :: SET_NSURF_ID        ! SET grsurf identifier
+          INTEGER   :: SET_NSLIN_ID        ! SET grslin identifier
 !
-        INTEGER   :: NB_NODE          ! SET nb of nodes
-        INTEGER   :: NB_PART          ! SET nb of parts
-        INTEGER   :: NB_SOLID         ! SET nb of solids
-        INTEGER   :: NB_SH4N          ! SET nb of sh4n
-        INTEGER   :: NB_SH3N          ! SET nb of sh3n
-        INTEGER   :: NB_QUAD          ! SET nb of quads
-        INTEGER   :: NB_TRIA          ! SET nb of trias
-        INTEGER   :: NB_BEAM          ! SET nb of beams
-        INTEGER   :: NB_TRUSS         ! SET nb of truss
-        INTEGER   :: NB_SPRING        ! SET nb of spring
-        INTEGER   :: HAS_SURF_SEG     ! Flag indicating if a surface was created even if NB_SURF_SEG = 0
-        INTEGER   :: NB_SURF_SEG      ! SET nb of surfacce's segments
-        INTEGER   :: HAS_LINE_SEG     ! Flag indicating if a line was created even if NB_SURF_SEG = 0
-        INTEGER   :: NB_LINE_SEG      ! SET nb of line/edge's segments
+          INTEGER   :: NB_NODE          ! SET nb of nodes
+          INTEGER   :: NB_PART          ! SET nb of parts
+          INTEGER   :: NB_SOLID         ! SET nb of solids
+          INTEGER   :: NB_SH4N          ! SET nb of sh4n
+          INTEGER   :: NB_SH3N          ! SET nb of sh3n
+          INTEGER   :: NB_QUAD          ! SET nb of quads
+          INTEGER   :: NB_TRIA          ! SET nb of trias
+          INTEGER   :: NB_BEAM          ! SET nb of beams
+          INTEGER   :: NB_TRUSS         ! SET nb of truss
+          INTEGER   :: NB_SPRING        ! SET nb of spring
+          INTEGER   :: HAS_SURF_SEG     ! Flag indicating if a surface was created even if NB_SURF_SEG = 0
+          INTEGER   :: NB_SURF_SEG      ! SET nb of surfacce's segments
+          INTEGER   :: HAS_LINE_SEG     ! Flag indicating if a line was created even if NB_SURF_SEG = 0
+          INTEGER   :: NB_LINE_SEG      ! SET nb of line/edge's segments
 !
-        INTEGER   :: NB_RBODY         ! SET nb of Rbody
-        INTEGER   :: NB_SPHCEL        ! SET nb of sphcel
+          INTEGER   :: NB_RBODY         ! SET nb of Rbody
+          INTEGER   :: NB_SPHCEL        ! SET nb of sphcel
 
-        INTEGER   :: NB_ELLIPSE       ! CLAUSE nb of Ellipses within a SET (max = 1, one per /SET)
-        INTEGER   :: ELLIPSE_IAD_BUFR
-        INTEGER   :: ELLIPSE_ID_MADYMO
-        INTEGER   :: ELLIPSE_N
-        MY_REAL   :: ELLIPSE_XC
-        MY_REAL   :: ELLIPSE_YC
-        MY_REAL   :: ELLIPSE_ZC
-        MY_REAL   :: ELLIPSE_A
-        MY_REAL   :: ELLIPSE_B
-        MY_REAL   :: ELLIPSE_C
+          INTEGER   :: NB_ELLIPSE       ! CLAUSE nb of Ellipses within a SET (max = 1, one per /SET)
+          INTEGER   :: ELLIPSE_IAD_BUFR
+          INTEGER   :: ELLIPSE_ID_MADYMO
+          INTEGER   :: ELLIPSE_N
+          MY_REAL   :: ELLIPSE_XC
+          MY_REAL   :: ELLIPSE_YC
+          MY_REAL   :: ELLIPSE_ZC
+          MY_REAL   :: ELLIPSE_A
+          MY_REAL   :: ELLIPSE_B
+          MY_REAL   :: ELLIPSE_C
 
-        INTEGER   :: NB_PLANE       ! CLAUSE nb of Planes within a SET (max = 1, one per /SET)
-        INTEGER   :: PLANE_IAD_BUFR
-        MY_REAL   :: PLANE_XM
-        MY_REAL   :: PLANE_YM
-        MY_REAL   :: PLANE_ZM
-        MY_REAL   :: PLANE_XM1
-        MY_REAL   :: PLANE_YM1
-        MY_REAL   :: PLANE_ZM1
+          INTEGER   :: NB_PLANE       ! CLAUSE nb of Planes within a SET (max = 1, one per /SET)
+          INTEGER   :: PLANE_IAD_BUFR
+          MY_REAL   :: PLANE_XM
+          MY_REAL   :: PLANE_YM
+          MY_REAL   :: PLANE_ZM
+          MY_REAL   :: PLANE_XM1
+          MY_REAL   :: PLANE_YM1
+          MY_REAL   :: PLANE_ZM1
 
-        INTEGER   :: NB_NODENS      ! CLAUSE nb of NODENS -> unsortable node list
+          INTEGER   :: NB_NODENS      ! CLAUSE nb of NODENS -> unsortable node list
 !
-        INTEGER, DIMENSION(:), ALLOCATABLE  ::   NODE
-        INTEGER, DIMENSION(:), ALLOCATABLE  ::   PART
-        INTEGER, DIMENSION(:), ALLOCATABLE  ::   SOLID
-        INTEGER, DIMENSION(:), ALLOCATABLE  ::   SH4N
-        INTEGER, DIMENSION(:), ALLOCATABLE  ::   SH3N
-        INTEGER, DIMENSION(:), ALLOCATABLE  ::   QUAD
-        INTEGER, DIMENSION(:), ALLOCATABLE  ::   TRIA
-        INTEGER, DIMENSION(:), ALLOCATABLE  ::   BEAM
-        INTEGER, DIMENSION(:), ALLOCATABLE  ::   TRUSS
-        INTEGER, DIMENSION(:), ALLOCATABLE  ::   SPRING
-        INTEGER, DIMENSION(:), ALLOCATABLE  ::   NODENS
-        INTEGER, DIMENSION(:), ALLOCATABLE  ::   SPHCEL
+          INTEGER, DIMENSION(:), ALLOCATABLE  ::   NODE
+          INTEGER, DIMENSION(:), ALLOCATABLE  ::   PART
+          INTEGER, DIMENSION(:), ALLOCATABLE  ::   SOLID
+          INTEGER, DIMENSION(:), ALLOCATABLE  ::   SH4N
+          INTEGER, DIMENSION(:), ALLOCATABLE  ::   SH3N
+          INTEGER, DIMENSION(:), ALLOCATABLE  ::   QUAD
+          INTEGER, DIMENSION(:), ALLOCATABLE  ::   TRIA
+          INTEGER, DIMENSION(:), ALLOCATABLE  ::   BEAM
+          INTEGER, DIMENSION(:), ALLOCATABLE  ::   TRUSS
+          INTEGER, DIMENSION(:), ALLOCATABLE  ::   SPRING
+          INTEGER, DIMENSION(:), ALLOCATABLE  ::   NODENS
+          INTEGER, DIMENSION(:), ALLOCATABLE  ::   SPHCEL
 !
-        INTEGER, DIMENSION(:), ALLOCATABLE  ::   RBODY
+          INTEGER, DIMENSION(:), ALLOCATABLE  ::   RBODY
 !
-        INTEGER, DIMENSION(:,:), ALLOCATABLE  :: SURF_NODES ! dim = (NB_SURF_SEG,4)
-        INTEGER, DIMENSION(:)  , ALLOCATABLE  :: SURF_ELTYP ! dim = (NB_SURF_SEG)
-        INTEGER, DIMENSION(:)  , ALLOCATABLE  :: SURF_ELEM  ! dim = (NB_SURF_SEG)
+          INTEGER, DIMENSION(:,:), ALLOCATABLE  :: SURF_NODES ! dim = (NB_SURF_SEG,4)
+          INTEGER, DIMENSION(:)  , ALLOCATABLE  :: SURF_ELTYP ! dim = (NB_SURF_SEG)
+          INTEGER, DIMENSION(:)  , ALLOCATABLE  :: SURF_ELEM  ! dim = (NB_SURF_SEG)
 !
-        INTEGER, DIMENSION(:,:), ALLOCATABLE  :: LINE_NODES ! dim = (NB_LINE_SEG,2)
-        INTEGER, DIMENSION(:)  , ALLOCATABLE  :: LINE_ELTYP ! dim = (NB_LINE_SEG)
-        INTEGER, DIMENSION(:)  , ALLOCATABLE  :: LINE_ELEM  ! dim = (NB_LINE_SEG)
+          INTEGER, DIMENSION(:,:), ALLOCATABLE  :: LINE_NODES ! dim = (NB_LINE_SEG,2)
+          INTEGER, DIMENSION(:)  , ALLOCATABLE  :: LINE_ELTYP ! dim = (NB_LINE_SEG)
+          INTEGER, DIMENSION(:)  , ALLOCATABLE  :: LINE_ELEM  ! dim = (NB_LINE_SEG)
 
-        MY_REAL, DIMENSION(:)  , ALLOCATABLE  :: ELLIPSE_SKEW
+          MY_REAL, DIMENSION(:)  , ALLOCATABLE  :: ELLIPSE_SKEW
 !==============================================================
 !       SET HIERARCHY
-        INTEGER   :: FATHER
-        INTEGER   :: NCHILD
+          INTEGER   :: FATHER
+          INTEGER   :: NCHILD
 !
-        INTEGER, DIMENSION(:)  , ALLOCATABLE  :: CHILD
-        INTEGER, DIMENSION(:)  , ALLOCATABLE  :: CHILD_OP ! =0 add ; =1 remove
+          INTEGER, DIMENSION(:)  , ALLOCATABLE  :: CHILD
+          INTEGER, DIMENSION(:)  , ALLOCATABLE  :: CHILD_OP ! =0 add ; =1 remove
 !==============================================================
 !--------------
-      END TYPE SET_
+        END TYPE SET_
 C-----------------------------------------------------------------------
 c---------------
       END MODULE SETDEF_MOD
@@ -245,24 +245,24 @@ c---------------
 !||    insert_clause_in_set               ../starter/source/model/sets/insert_clause_in_set.F
 !||====================================================================
       MODULE SET_SCRATCH_MOD
-C----------------------------------------------------------------------- 
-c=======================================================================      
+C-----------------------------------------------------------------------
+c=======================================================================
 !---------
 !   SET DATA STRUCTURE
 !---------
-c=======================================================================   
-c=======================================================================   
+c=======================================================================
+c=======================================================================
 !                               SET
-c=======================================================================   
+c=======================================================================
 C=======================================================================
 C-----------------------------------------------------------------------
-      TYPE SET_SCRATCH
-        INTEGER   :: SZ_SURF,SZ_LINE
-        INTEGER, DIMENSION(:,:), ALLOCATABLE  ::  SURF
-        INTEGER, DIMENSION(:,:), ALLOCATABLE  ::  LINE
+        TYPE SET_SCRATCH
+          INTEGER   :: SZ_SURF,SZ_LINE
+          INTEGER, DIMENSION(:,:), ALLOCATABLE  ::  SURF
+          INTEGER, DIMENSION(:,:), ALLOCATABLE  ::  LINE
 !==============================================================
 !--------------
-      END TYPE SET_SCRATCH
+        END TYPE SET_SCRATCH
 C-----------------------------------------------------------------------
 c---------------
       END MODULE SET_SCRATCH_MOD

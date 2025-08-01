@@ -147,7 +147,7 @@ C-----------------------------------------------
 !||    wrrestp                         ../engine/source/output/restart/wrrestp.F
 !||====================================================================
       MODULE ALE_MOD
-      
+
         IMPLICIT NONE
 #include      "my_real.inc"
 
@@ -179,7 +179,7 @@ C-----------------------------------------------
           my_real VGY
           my_real VGZ
           my_real VGY0
-          my_real VGZ0          
+          my_real VGZ0
           INTEGER NWALE_ENGINE       !        read from Engine input file with /ALE/GRID/...
           INTEGER NWALE_RST          !        read from RESTART FILE
           INTEGER NWALE              !        effective value used in numerical scheme
@@ -189,7 +189,7 @@ C-----------------------------------------------
         ! UPWIND PARAMETERS
         TYPE ALE_UPWIND_
           my_real UPWMG
-          my_real UPWOG           
+          my_real UPWOG
           my_real UPWSM
           my_real CUPWM
           my_real UPWMG2
@@ -241,78 +241,78 @@ C-----------------------------------------------
           TYPE(ALE_GLOBAL_) :: GLOBAL
           TYPE(ALE_SUB_)    :: SUB
           TYPE(ALE_REZON_)  :: REZON
-          contains
-            procedure, pass :: init         
+        contains
+          procedure, pass :: init
         END TYPE ALE_
-        
-C-----------------------------------------------        
+
+C-----------------------------------------------
         TYPE(ALE_) :: ALE
-C-----------------------------------------------                
-        
-        CONTAINS        
+C-----------------------------------------------
+
+      CONTAINS
 !||====================================================================
 !||    init   ../common_source/modules/ale/ale_mod.F
 !||====================================================================
-          subroutine init(this)
-            !initialization is done : - during Starter before reading Starter input file
-            !                         - during Engine before reading Restart file and Engine input file.
-            implicit none
-#include "constant.inc"            
-            class(ALE_), intent(inout) :: this
-            !---ALE%GRID
-            this%GRID%ALPHA = ZERO
-            this%GRID%GAMMA = ZERO
-            this%GRID%VGX = ZERO
-            this%GRID%VGY = ZERO
-            this%GRID%VGZ = ZERO
-            this%GRID%VGY0 = ZERO
-            this%GRID%VGZ0 = ZERO            
-            this%GRID%NWALE_ENGINE = -1
-            this%GRID%NWALE_RST = 0
-            this%GRID%NWALE = 0
-            this%GRID%flow_tracking_data%EP(1:9) = ZERO
-            this%GRID%flow_tracking_data%LD(1:6) = ZERO
-            this%GRID%flow_tracking_data%LW(1:3) = ZERO
-            this%GRID%flow_tracking_data%MOM_L(1:3) = ZERO
-            this%GRID%flow_tracking_data%COG_L(1:3) = ZERO
-            this%GRID%flow_tracking_data%SUM_M = ZERO
-            !---ALE%UPWIND
-            this%UPWIND%UPWMG = ZERO
-            this%UPWIND%UPWOG = ZERO           
-            this%UPWIND%UPWSM = ZERO
-            this%UPWIND%CUPWM = ZERO
-            this%UPWIND%UPWMG2 = ZERO
-            this%UPWIND%UPWOG2 = ZERO
-            this%UPWIND%UPWSM2 = ZERO
-            this%UPWIND%I_SUPG_ON_OFF = 0
-            this%UPWIND%UPWM = 0
-            this%UPWIND%UPW_UPDATE = 0
-            !---ALE%GLOBAL
-            this%GLOBAL%NALENOVS = 0
-            this%GLOBAL%ICAA = 0
-            this%GLOBAL%INCOMP = 0
-            this%GLOBAL%ISFINT = 3
-            this%GLOBAL%I_DT_NODA_ALE_ON = 0
-            this%GLOBAL%I_DT_NODA_ALE_ON_KEY = 0
-            this%GLOBAL%IDT_ALE = 0
-            this%GLOBAL%IS_BOUNDARY_MATERIAL = .FALSE.
-            this%GLOBAL%LCONV = 10
-            this%GLOBAL%CODV(1:10) = 0
-            this%GLOBAL%NVCONV = 0
-            this%GLOBAL%SNALE = 0
-            this%GLOBAL%SIELVS = 0
-            !---ALE%SUB
-            this%SUB%IALESUB = 0
-            this%SUB%IFSUB = 0
-            this%SUB%IFSUBM = 0
-            this%SUB%NODSUBDT = 0
-            this%SUB%DT1SAVE = ZERO
-            this%SUB%DTFSUB = ZERO
-            this%SUB%DTMSUB = ZERO
-            !---ALE%REZON
-            this%REZON%NUM_NUVAR_MAT = 0
-            this%REZON%NUM_NUVAR_EOS = 0
-          end subroutine    
-               
+        subroutine init(this)
+          !initialization is done : - during Starter before reading Starter input file
+          !                         - during Engine before reading Restart file and Engine input file.
+          implicit none
+#include "constant.inc"
+          class(ALE_), intent(inout) :: this
+          !---ALE%GRID
+          this%GRID%ALPHA = ZERO
+          this%GRID%GAMMA = ZERO
+          this%GRID%VGX = ZERO
+          this%GRID%VGY = ZERO
+          this%GRID%VGZ = ZERO
+          this%GRID%VGY0 = ZERO
+          this%GRID%VGZ0 = ZERO
+          this%GRID%NWALE_ENGINE = -1
+          this%GRID%NWALE_RST = 0
+          this%GRID%NWALE = 0
+          this%GRID%flow_tracking_data%EP(1:9) = ZERO
+          this%GRID%flow_tracking_data%LD(1:6) = ZERO
+          this%GRID%flow_tracking_data%LW(1:3) = ZERO
+          this%GRID%flow_tracking_data%MOM_L(1:3) = ZERO
+          this%GRID%flow_tracking_data%COG_L(1:3) = ZERO
+          this%GRID%flow_tracking_data%SUM_M = ZERO
+          !---ALE%UPWIND
+          this%UPWIND%UPWMG = ZERO
+          this%UPWIND%UPWOG = ZERO
+          this%UPWIND%UPWSM = ZERO
+          this%UPWIND%CUPWM = ZERO
+          this%UPWIND%UPWMG2 = ZERO
+          this%UPWIND%UPWOG2 = ZERO
+          this%UPWIND%UPWSM2 = ZERO
+          this%UPWIND%I_SUPG_ON_OFF = 0
+          this%UPWIND%UPWM = 0
+          this%UPWIND%UPW_UPDATE = 0
+          !---ALE%GLOBAL
+          this%GLOBAL%NALENOVS = 0
+          this%GLOBAL%ICAA = 0
+          this%GLOBAL%INCOMP = 0
+          this%GLOBAL%ISFINT = 3
+          this%GLOBAL%I_DT_NODA_ALE_ON = 0
+          this%GLOBAL%I_DT_NODA_ALE_ON_KEY = 0
+          this%GLOBAL%IDT_ALE = 0
+          this%GLOBAL%IS_BOUNDARY_MATERIAL = .FALSE.
+          this%GLOBAL%LCONV = 10
+          this%GLOBAL%CODV(1:10) = 0
+          this%GLOBAL%NVCONV = 0
+          this%GLOBAL%SNALE = 0
+          this%GLOBAL%SIELVS = 0
+          !---ALE%SUB
+          this%SUB%IALESUB = 0
+          this%SUB%IFSUB = 0
+          this%SUB%IFSUBM = 0
+          this%SUB%NODSUBDT = 0
+          this%SUB%DT1SAVE = ZERO
+          this%SUB%DTFSUB = ZERO
+          this%SUB%DTMSUB = ZERO
+          !---ALE%REZON
+          this%REZON%NUM_NUVAR_MAT = 0
+          this%REZON%NUM_NUVAR_EOS = 0
+        end subroutine
+
       END MODULE ALE_MOD
 

@@ -32,7 +32,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE NAMES_AND_TITLES_MOD, ONLY: NCHARLINE100      
+        USE NAMES_AND_TITLES_MOD, ONLY: NCHARLINE100
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -44,22 +44,22 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      CHARACTER(LEN=NCHARLINE100):: TEXT
+        CHARACTER(LEN=NCHARLINE100):: TEXT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER N, I, J
-      CHARACTER TEXT1*101
+        INTEGER N, I, J
+        CHARACTER TEXT1*101
 C-----------------------------------------------
-      TEXT1(1:1)=' '
-      TEXT1(2:101)=TEXT
-      N=0
-      DO I=2,101
-        J=I-1
-        IF(TEXT1(I:I) /= ' ' .AND. TEXT1(J:J) == ' ') THEN
-          N=N+1
-        ENDIF
-      ENDDO
-      NVAR=N
-      RETURN
+        TEXT1(1:1)=' '
+        TEXT1(2:101)=TEXT
+        N=0
+        DO I=2,101
+          J=I-1
+          IF(TEXT1(I:I) /= ' ' .AND. TEXT1(J:J) == ' ') THEN
+            N=N+1
+          ENDIF
+        ENDDO
+        NVAR=N
+        RETURN
       END

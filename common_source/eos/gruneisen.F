@@ -57,141 +57,141 @@ C
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER,INTENT(IN) :: NUMMAT            !< number of material laws  (size for PM array)
-      INTEGER,INTENT(IN) :: NPROPM            !< size for PM array
-      INTEGER,INTENT(IN) :: IFLAG             !< flag for the operation (staggered scheme IFLAG=0,1 ; collocated scheme IFLAG=2)
-      INTEGER,INTENT(IN) :: NEL               !< number of elements in the current group
-      INTEGER,INTENT(IN) :: MAT(NEL)          !< material identifier of each element
-      my_real,INTENT(IN) :: PM(NPROPM,NUMMAT) !< material buffer
-      my_real,INTENT(IN) :: OFF(NEL)          !< OFF=1 if element is active, OFF=0 if element is inactive
-      my_real,INTENT(IN) :: MU(NEL)           !< volumetric strain : rho/rho0-1
-      my_real,INTENT(IN) :: MU2(NEL)          !< MU**2 IF MU > 0 , 0 otherwise
-      my_real,INTENT(IN) :: ESPE(NEL)         !< specific internal energy
-      my_real,INTENT(IN)  :: DVOL(NEL)        !< volume change
-      my_real,INTENT(IN) :: VNEW(NEL)         !< current volume
-      my_real,INTENT(IN) :: RHO0(NEL)         !< reference density
-      my_real,INTENT(IN) :: DF(NEL)           !< relative volume (v/v0 = rho0/rho)
-      my_real,INTENT(INOUT) :: EINT(NEL)      !< internal energy
-      my_real,INTENT(INOUT) :: PSH(NEL)       !< pressure shift (for relative pressure modeling)
-      my_real,INTENT(INOUT) :: PNEW(NEL)      !< current pressure
-      my_real,INTENT(INOUT) :: DPDE(NEL)      !< partial derivative dP/dE where E=Eint/V0
-      my_real,INTENT(INOUT) :: DPDM(NEL)      !< total derivative : DP/Dmu = dPdmu + dPdE* P/(1+mu)**2
+        INTEGER,INTENT(IN) :: NUMMAT            !< number of material laws  (size for PM array)
+        INTEGER,INTENT(IN) :: NPROPM            !< size for PM array
+        INTEGER,INTENT(IN) :: IFLAG             !< flag for the operation (staggered scheme IFLAG=0,1 ; collocated scheme IFLAG=2)
+        INTEGER,INTENT(IN) :: NEL               !< number of elements in the current group
+        INTEGER,INTENT(IN) :: MAT(NEL)          !< material identifier of each element
+        my_real,INTENT(IN) :: PM(NPROPM,NUMMAT) !< material buffer
+        my_real,INTENT(IN) :: OFF(NEL)          !< OFF=1 if element is active, OFF=0 if element is inactive
+        my_real,INTENT(IN) :: MU(NEL)           !< volumetric strain : rho/rho0-1
+        my_real,INTENT(IN) :: MU2(NEL)          !< MU**2 IF MU > 0 , 0 otherwise
+        my_real,INTENT(IN) :: ESPE(NEL)         !< specific internal energy
+        my_real,INTENT(IN)  :: DVOL(NEL)        !< volume change
+        my_real,INTENT(IN) :: VNEW(NEL)         !< current volume
+        my_real,INTENT(IN) :: RHO0(NEL)         !< reference density
+        my_real,INTENT(IN) :: DF(NEL)           !< relative volume (v/v0 = rho0/rho)
+        my_real,INTENT(INOUT) :: EINT(NEL)      !< internal energy
+        my_real,INTENT(INOUT) :: PSH(NEL)       !< pressure shift (for relative pressure modeling)
+        my_real,INTENT(INOUT) :: PNEW(NEL)      !< current pressure
+        my_real,INTENT(INOUT) :: DPDE(NEL)      !< partial derivative dP/dE where E=Eint/V0
+        my_real,INTENT(INOUT) :: DPDM(NEL)      !< total derivative : DP/Dmu = dPdmu + dPdE* P/(1+mu)**2
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, MX
-      my_real AA, BB, DVV, FF, FG, FAC, XX, DFF, DFG, FAC1, PP
-      my_real CC(NEL),S1(NEL),S2(NEL),S3(NEL),G0(NEL),GA(NEL),PC(NEL)
+        INTEGER I, MX
+        my_real AA, BB, DVV, FF, FG, FAC, XX, DFF, DFG, FAC1, PP
+        my_real CC(NEL),S1(NEL),S2(NEL),S3(NEL),G0(NEL),GA(NEL),PC(NEL)
 C-----------------------------------------------
 C   B o d y
 C-----------------------------------------------
-      IF(IFLAG == 0) THEN !--- SOUND SPEED DERIVATIVE (DPDE is partial derivative, DPDM is total derivative)
-       ! user parameters
-       DO I=1,NEL
-        MX = MAT(I)
-        CC(I) = PM(33,MX)
-        S1(I) = PM(34,MX)
-        S2(I) = PM(160,MX)
-        S3(I) = PM(161,MX)
-        G0(I) = PM(35,MX)
-        GA(I) = PM(36,MX)
-        PC(I) = PM(37,MX)
-        PSH(I) = PM(88,MX)
-       ENDDO
+        IF(IFLAG == 0) THEN !--- SOUND SPEED DERIVATIVE (DPDE is partial derivative, DPDM is total derivative)
+          ! user parameters
+          DO I=1,NEL
+            MX = MAT(I)
+            CC(I) = PM(33,MX)
+            S1(I) = PM(34,MX)
+            S2(I) = PM(160,MX)
+            S3(I) = PM(161,MX)
+            G0(I) = PM(35,MX)
+            GA(I) = PM(36,MX)
+            PC(I) = PM(37,MX)
+            PSH(I) = PM(88,MX)
+          ENDDO
 
-       ! Derivative
-       DO I=1,NEL
-        FAC=ONE
-        FAC1=ONE
-        IF(MU(I) > ZERO) THEN
-         XX= MU(I)/(ONE+MU(I))
-         FF=ONE+(ONE-HALF*G0(I))*MU(I)-HALF*GA(I)*MU2(I)
-         FG=ONE-(S1(I)-ONE+S2(I)*XX+S3(I)*XX*XX)*MU(I)
-         FAC=FF/(FG*FG)
-         DFF=ONE-HALF*G0(I)-GA(I)*MU(I)
-         DFG=ONE-S1(I)+XX*(-TWO*S2(I)+XX*(S2(I)-THREE*S3(I))+TWO*S3(I)*XX*XX)
-         FAC1=FAC*(ONE+MU(I)*(DFF/FF-TWO*DFG/FG))
-        ENDIF
-        AA=FAC*RHO0(I)*CC(I)*CC(I)*MU(I)
-        BB=G0(I)+GA(I)*MU(I)
-        PP=MAX(AA+BB*ESPE(I),PC(I))*OFF(I) ! total pressure need for sound speed calculation (=> no pressure shift)
-        DPDM(I)=FAC1*RHO0(I)*CC(I)*CC(I)+PP*DF(I)*DF(I)*BB+GA(I)*ESPE(I)
-        DPDE(I)=BB
-        PNEW(I) = MAX(PP,PC(I))*OFF(I)! P(mu[n+1],E[n])
-        PNEW(I) = PNEW(I) - PSH(I)
-       ENDDO
-
-      ELSEIF(IFLAG == 1) THEN  !--- P[n+1] and EINT[n+1]
-       ! user parameters
-       DO I=1,NEL
-        MX = MAT(I)
-        CC(I) = PM(33,MX)
-        S1(I) = PM(34,MX)
-        S2(I) = PM(160,MX)
-        S3(I) = PM(161,MX)
-        G0(I) = PM(35,MX)
-        GA(I) = PM(36,MX)
-        PC(I) = PM(37,MX)
-        PSH(I) = PM(88,MX)
-       ENDDO
-
-       ! Pressure P[n+1]
-       ! Internal Energy Eint[n+1] (2nd order integration requires P[n+1])
-       DO I=1,NEL
-        FAC=ONE
-        IF(MU(I) > ZERO) THEN
-         XX= MU(I)/(ONE+MU(I))
-         FF=ONE+(ONE-HALF*G0(I))*MU(I)-HALF*GA(I)*MU2(I)
-         FG=ONE-(S1(I)-ONE+S2(I)*XX+S3(I)*XX*XX)*MU(I)
-         FAC=FF/(FG*FG)
-        ENDIF
-        AA=FAC*RHO0(I)*CC(I)*CC(I)*MU(I)
-        BB=G0(I)+GA(I)*MU(I)
-        DPDE(I) = BB
-        DVV=HALF*DVOL(I)*DF(I) / MAX(EM15,VNEW(I))
-        PNEW(I)=(AA+BB*ESPE(I))/(ONE+BB*DVV)
-        PNEW(I)= MAX(PNEW(I),PC(I))*OFF(I) ! P(mu[n+1],E[n+1])
-        EINT(I)=EINT(I) - HALF*DVOL(I)*PNEW(I) !total pressure for energy integration
-        PNEW(I) = PNEW(I) - PSH(I)
-       ENDDO
-
-      ELSEIF(IFLAG == 2) THEN  !--- collocated scheme (law151)
-        ! user parameters
-        DO I=1, NEL
-          MX = MAT(I)
-          CC(I) = PM(33,MX)
-          S1(I) = PM(34,MX)
-          S2(I) = PM(160,MX)
-          S3(I) = PM(161,MX)
-          G0(I) = PM(35,MX)
-          GA(I) = PM(36,MX)
-          PC(I) = PM(37,MX)
-          PSH(I) = PM(88,MX)
-        ENDDO
-        ! pressure and sound speed derivatives
-        DO I=1,NEL
-          IF (VNEW(I) > ZERO) THEN
+          ! Derivative
+          DO I=1,NEL
             FAC=ONE
             FAC1=ONE
             IF(MU(I) > ZERO) THEN
-               XX= MU(I)/(ONE+MU(I))
-               FF=ONE+(ONE-HALF*G0(I))*MU(I)-HALF*GA(I)*MU2(I)
-               FG=ONE-(S1(I)-ONE+S2(I)*XX+S3(I)*XX*XX)*MU(I)
-               FAC=FF/(FG*FG)
-               DFF=ONE-HALF*G0(I)-GA(I)*MU(I)
-               DFG=ONE-S1(I)+XX*(-TWO*S2(I)+XX*(S2(I)-THREE*S3(I))+TWO*S3(I)*XX*XX)
-               FAC1=FAC*(ONE+MU(I)*(DFF/FF-TWO*DFG/FG))
+              XX= MU(I)/(ONE+MU(I))
+              FF=ONE+(ONE-HALF*G0(I))*MU(I)-HALF*GA(I)*MU2(I)
+              FG=ONE-(S1(I)-ONE+S2(I)*XX+S3(I)*XX*XX)*MU(I)
+              FAC=FF/(FG*FG)
+              DFF=ONE-HALF*G0(I)-GA(I)*MU(I)
+              DFG=ONE-S1(I)+XX*(-TWO*S2(I)+XX*(S2(I)-THREE*S3(I))+TWO*S3(I)*XX*XX)
+              FAC1=FAC*(ONE+MU(I)*(DFF/FF-TWO*DFG/FG))
             ENDIF
             AA=FAC*RHO0(I)*CC(I)*CC(I)*MU(I)
             BB=G0(I)+GA(I)*MU(I)
-            PNEW(I)=MAX(AA+BB*ESPE(I),PC(I))*OFF(I)
-            DPDM(I)=FAC1*RHO0(I)*CC(I)*CC(I)+PNEW(I)*DF(I)*DF(I)*BB+GA(I)*ESPE(I)
+            PP=MAX(AA+BB*ESPE(I),PC(I))*OFF(I) ! total pressure need for sound speed calculation (=> no pressure shift)
+            DPDM(I)=FAC1*RHO0(I)*CC(I)*CC(I)+PP*DF(I)*DF(I)*BB+GA(I)*ESPE(I)
             DPDE(I)=BB
-            PNEW(I)=PNEW(I)-PSH(I)
-          ENDIF
-        ENDDO
+            PNEW(I) = MAX(PP,PC(I))*OFF(I)! P(mu[n+1],E[n])
+            PNEW(I) = PNEW(I) - PSH(I)
+          ENDDO
 
-      ENDIF
+        ELSEIF(IFLAG == 1) THEN  !--- P[n+1] and EINT[n+1]
+          ! user parameters
+          DO I=1,NEL
+            MX = MAT(I)
+            CC(I) = PM(33,MX)
+            S1(I) = PM(34,MX)
+            S2(I) = PM(160,MX)
+            S3(I) = PM(161,MX)
+            G0(I) = PM(35,MX)
+            GA(I) = PM(36,MX)
+            PC(I) = PM(37,MX)
+            PSH(I) = PM(88,MX)
+          ENDDO
 
-      RETURN
+          ! Pressure P[n+1]
+          ! Internal Energy Eint[n+1] (2nd order integration requires P[n+1])
+          DO I=1,NEL
+            FAC=ONE
+            IF(MU(I) > ZERO) THEN
+              XX= MU(I)/(ONE+MU(I))
+              FF=ONE+(ONE-HALF*G0(I))*MU(I)-HALF*GA(I)*MU2(I)
+              FG=ONE-(S1(I)-ONE+S2(I)*XX+S3(I)*XX*XX)*MU(I)
+              FAC=FF/(FG*FG)
+            ENDIF
+            AA=FAC*RHO0(I)*CC(I)*CC(I)*MU(I)
+            BB=G0(I)+GA(I)*MU(I)
+            DPDE(I) = BB
+            DVV=HALF*DVOL(I)*DF(I) / MAX(EM15,VNEW(I))
+            PNEW(I)=(AA+BB*ESPE(I))/(ONE+BB*DVV)
+            PNEW(I)= MAX(PNEW(I),PC(I))*OFF(I) ! P(mu[n+1],E[n+1])
+            EINT(I)=EINT(I) - HALF*DVOL(I)*PNEW(I) !total pressure for energy integration
+            PNEW(I) = PNEW(I) - PSH(I)
+          ENDDO
+
+        ELSEIF(IFLAG == 2) THEN  !--- collocated scheme (law151)
+          ! user parameters
+          DO I=1, NEL
+            MX = MAT(I)
+            CC(I) = PM(33,MX)
+            S1(I) = PM(34,MX)
+            S2(I) = PM(160,MX)
+            S3(I) = PM(161,MX)
+            G0(I) = PM(35,MX)
+            GA(I) = PM(36,MX)
+            PC(I) = PM(37,MX)
+            PSH(I) = PM(88,MX)
+          ENDDO
+          ! pressure and sound speed derivatives
+          DO I=1,NEL
+            IF (VNEW(I) > ZERO) THEN
+              FAC=ONE
+              FAC1=ONE
+              IF(MU(I) > ZERO) THEN
+                XX= MU(I)/(ONE+MU(I))
+                FF=ONE+(ONE-HALF*G0(I))*MU(I)-HALF*GA(I)*MU2(I)
+                FG=ONE-(S1(I)-ONE+S2(I)*XX+S3(I)*XX*XX)*MU(I)
+                FAC=FF/(FG*FG)
+                DFF=ONE-HALF*G0(I)-GA(I)*MU(I)
+                DFG=ONE-S1(I)+XX*(-TWO*S2(I)+XX*(S2(I)-THREE*S3(I))+TWO*S3(I)*XX*XX)
+                FAC1=FAC*(ONE+MU(I)*(DFF/FF-TWO*DFG/FG))
+              ENDIF
+              AA=FAC*RHO0(I)*CC(I)*CC(I)*MU(I)
+              BB=G0(I)+GA(I)*MU(I)
+              PNEW(I)=MAX(AA+BB*ESPE(I),PC(I))*OFF(I)
+              DPDM(I)=FAC1*RHO0(I)*CC(I)*CC(I)+PNEW(I)*DF(I)*DF(I)*BB+GA(I)*ESPE(I)
+              DPDE(I)=BB
+              PNEW(I)=PNEW(I)-PSH(I)
+            ENDIF
+          ENDDO
+
+        ENDIF
+
+        RETURN
       END

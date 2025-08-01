@@ -27,7 +27,7 @@
 !||    w_bcs_proc           ../starter/source/restart/ddsplit/w_bcs_proc.F90
 !||    wrrestp              ../engine/source/output/restart/wrrestp.F
 !||====================================================================
-     module write_bcs_wall_mod
+      module write_bcs_wall_mod
       contains
 ! ======================================================================================================================
 !                                                   PROCEDURES
@@ -47,56 +47,56 @@
 !||    bcs_mod          ../common_source/modules/boundary_conditions/bcs_mod.F90
 !||    precision_mod    ../common_source/modules/precision_mod.F90
 !||====================================================================
-      subroutine write_bcs_wall(bcsw)
+        subroutine write_bcs_wall(bcsw)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
-        use bcs_mod , only : bcs_wall_struct_
-        use precision_mod , only : WP
+          use bcs_mod , only : bcs_wall_struct_
+          use precision_mod , only : WP
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Included files
 ! ----------------------------------------------------------------------------------------------------------------------
-        implicit none
+          implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
-        type(bcs_wall_struct_),intent(in) :: bcsw  !< global data structure for bcs
+          type(bcs_wall_struct_),intent(in) :: bcsw  !< global data structure for bcs
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-        real(kind=WP), dimension(2) :: rtmp
-        integer, dimension(7) :: itmp
-        integer :: ilen
+          real(kind=WP), dimension(2) :: rtmp
+          integer, dimension(7) :: itmp
+          integer :: ilen
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
 
-        ! /BCS/WALL
-        !   when starting from a restart file we need to read these values
+          ! /BCS/WALL
+          !   when starting from a restart file we need to read these values
 
-        itmp(1:3) = 0
-        if(bcsw%is_enabled) itmp(1) = 1
-        if(bcsw%is_depending_on_time) itmp(2) = 1
-        if(bcsw%is_depending_on_sensor) itmp(3) = 1
-        itmp(4) = bcsw%user_id
-        itmp(5) = bcsw%grnod_id
-        itmp(6) = bcsw%sensor_id
-        itmp(7) = bcsw%list%size
-        call write_i_c(itmp,7)
+          itmp(1:3) = 0
+          if(bcsw%is_enabled) itmp(1) = 1
+          if(bcsw%is_depending_on_time) itmp(2) = 1
+          if(bcsw%is_depending_on_sensor) itmp(3) = 1
+          itmp(4) = bcsw%user_id
+          itmp(5) = bcsw%grnod_id
+          itmp(6) = bcsw%sensor_id
+          itmp(7) = bcsw%list%size
+          call write_i_c(itmp,7)
 
-        ilen = bcsw%list%size
-        if(ilen > 0)then
-          call write_i_c(bcsw%list%elem,ilen)
-          call write_i_c(bcsw%list%face,ilen)
-          call write_i_c(bcsw%list%adjacent_elem,ilen)
-        end if
+          ilen = bcsw%list%size
+          if(ilen > 0)then
+            call write_i_c(bcsw%list%elem,ilen)
+            call write_i_c(bcsw%list%face,ilen)
+            call write_i_c(bcsw%list%adjacent_elem,ilen)
+          end if
 
-        rtmp(1) = bcsw%tstart
-        rtmp(2) = bcsw%tstop
-        call write_db(rtmp,2)
+          rtmp(1) = bcsw%tstart
+          rtmp(2) = bcsw%tstop
+          call write_db(rtmp,2)
 
 
 ! ----------------------------------------------------------------------------------------------------------------------
-        return
-      end subroutine write_bcs_wall
-end module write_bcs_wall_mod
+          return
+        end subroutine write_bcs_wall
+      end module write_bcs_wall_mod

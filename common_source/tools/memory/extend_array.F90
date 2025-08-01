@@ -65,7 +65,7 @@
         end interface extend_array
         !\reallocate the array to a larger size if necessary, fill with zeros
         interface reallocate_array
-          module procedure reallocate_array_integer_1d 
+          module procedure reallocate_array_integer_1d
         end interface reallocate_array
 
       contains
@@ -182,7 +182,7 @@
         end subroutine check_error_and_write
 
 
-!! \brief resize a 1D array of integer, copy the values 
+!! \brief resize a 1D array of integer, copy the values
 !||====================================================================
 !||    extend_array_integer_1d   ../common_source/tools/memory/extend_array.F90
 !||--- calls      -----------------------------------------------------
@@ -206,7 +206,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                      Body
 ! ----------------------------------------------------------------------------------------------------------------------
-          if(newsize > oldsize) then  
+          if(newsize > oldsize) then
             allocate(temp(newsize), stat=ierr)
             if(.not. present(stat)) then
               if(present(msg)) then
@@ -247,7 +247,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
           integer :: ierr, i, j
           integer, allocatable :: temp(:,:)
- ! ----------------------------------------------------------------------------------------------------------------------
+          ! ----------------------------------------------------------------------------------------------------------------------
 !                                                      Body
 ! ----------------------------------------------------------------------------------------------------------------------
           ! Check if the array needs to be extended
@@ -294,16 +294,16 @@
               a = temp
               deallocate(temp, stat=ierr)
             endif
-            else if (newsize1 == oldsize1 .and. newsize2 == oldsize2 .and. &
-                 newsize1 == 0 .and. newsize2 == 0 .and. .not. allocated(a)) then
+          else if (newsize1 == oldsize1 .and. newsize2 == oldsize2 .and. &
+            newsize1 == 0 .and. newsize2 == 0 .and. .not. allocated(a)) then
             ! Special case for unallocated arrays
             allocate(a(1, 1), stat=ierr)
             if (present(stat)) stat = ierr
           endif
-        
+
           ! Set the status to success if no errors occurred
           if (present(stat)) stat = 0
-        
+
         end subroutine extend_array_integer_2d
 
 !||====================================================================
@@ -315,75 +315,75 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                     Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
-        integer, allocatable, dimension(:,:,:) :: a  !< The allocated 3D array
-        integer, intent(in) :: oldsize1  !< The old size of the first dimension
-        integer, intent(in) :: oldsize2  !< The old size of the second dimension
-        integer, intent(in) :: oldsize3  !< The old size of the third dimension
-        integer, intent(in) :: newsize1  !< The new size of the first dimension
-        integer, intent(in) :: newsize2  !< The new size of the second dimension
-        integer, intent(in) :: newsize3  !< The new size of the third dimension
-        character(len=*), optional, intent(in) :: msg  !< The error message to print if the allocation fails
-        integer, optional, intent(out) :: stat  !< The error code returned by the allocation
+          integer, allocatable, dimension(:,:,:) :: a  !< The allocated 3D array
+          integer, intent(in) :: oldsize1  !< The old size of the first dimension
+          integer, intent(in) :: oldsize2  !< The old size of the second dimension
+          integer, intent(in) :: oldsize3  !< The old size of the third dimension
+          integer, intent(in) :: newsize1  !< The new size of the first dimension
+          integer, intent(in) :: newsize2  !< The new size of the second dimension
+          integer, intent(in) :: newsize3  !< The new size of the third dimension
+          character(len=*), optional, intent(in) :: msg  !< The error message to print if the allocation fails
+          integer, optional, intent(out) :: stat  !< The error code returned by the allocation
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-        integer :: ierr, i, j, k
-        integer, allocatable :: temp(:,:,:)
+          integer :: ierr, i, j, k
+          integer, allocatable :: temp(:,:,:)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                      Body
 ! ----------------------------------------------------------------------------------------------------------------------
-        ! Check if the array needs to be extended
-        if (newsize1 > oldsize1 .or. newsize2 > oldsize2 .or. newsize3 > oldsize3) then
-      
-          if (newsize1 == oldsize1 .and. newsize2 == oldsize2) then
-            ! Extend only the third dimension (use move_alloc)
-            allocate(temp(size(a, 1), size(a, 2), newsize3), stat=ierr)
-            if (ierr /= 0) then
-              if (present(msg)) call check_error_and_write(ierr, msg=msg)
-              if (present(stat)) stat = ierr
-              return
-            endif
-            temp(:, :, 1:oldsize3) = a(:, :, 1:oldsize3)
-            call move_alloc(temp, a)
-          else
-            allocate(temp(newsize1, newsize2, newsize3), stat=ierr)
-            if (ierr /= 0) then
-              if (present(msg)) call check_error_and_write(ierr, msg=msg)
-              if (present(stat)) stat = ierr
-              return
-            endif
-            temp = 0
-            ! Copy existing data to the new array
-            do i = 1, min(oldsize1, newsize1)
-              do j = 1, min(oldsize2, newsize2)
-                do k = 1, min(oldsize3, newsize3)
-                  temp(i, j, k) = a(i, j, k)
+          ! Check if the array needs to be extended
+          if (newsize1 > oldsize1 .or. newsize2 > oldsize2 .or. newsize3 > oldsize3) then
+
+            if (newsize1 == oldsize1 .and. newsize2 == oldsize2) then
+              ! Extend only the third dimension (use move_alloc)
+              allocate(temp(size(a, 1), size(a, 2), newsize3), stat=ierr)
+              if (ierr /= 0) then
+                if (present(msg)) call check_error_and_write(ierr, msg=msg)
+                if (present(stat)) stat = ierr
+                return
+              endif
+              temp(:, :, 1:oldsize3) = a(:, :, 1:oldsize3)
+              call move_alloc(temp, a)
+            else
+              allocate(temp(newsize1, newsize2, newsize3), stat=ierr)
+              if (ierr /= 0) then
+                if (present(msg)) call check_error_and_write(ierr, msg=msg)
+                if (present(stat)) stat = ierr
+                return
+              endif
+              temp = 0
+              ! Copy existing data to the new array
+              do i = 1, min(oldsize1, newsize1)
+                do j = 1, min(oldsize2, newsize2)
+                  do k = 1, min(oldsize3, newsize3)
+                    temp(i, j, k) = a(i, j, k)
+                  end do
                 end do
               end do
-            end do
-            ! Deallocate old array and assign the new array
-            deallocate(a, stat=ierr)
-            if (ierr /= 0) then
-              if (present(stat)) stat = ierr
-              return
+              ! Deallocate old array and assign the new array
+              deallocate(a, stat=ierr)
+              if (ierr /= 0) then
+                if (present(stat)) stat = ierr
+                return
+              endif
+              allocate(a(newsize1, newsize2, newsize3), stat=ierr)
+              if (ierr /= 0) then
+                if (present(stat)) stat = ierr
+                return
+              endif
+              a = temp
+              deallocate(temp, stat=ierr)
             endif
-            allocate(a(newsize1, newsize2, newsize3), stat=ierr)
-            if (ierr /= 0) then
-              if (present(stat)) stat = ierr
-              return
-            endif
-            a = temp
-            deallocate(temp, stat=ierr)
+          else if (newsize1 == oldsize1 .and. newsize2 == oldsize2 .and. newsize3 == oldsize3 .and. &
+            newsize1 == 0 .and. newsize2 == 0 .and. newsize3 == 0 .and. .not. allocated(a)) then
+            ! Special case for unallocated arrays
+            allocate(a(1, 1, 1), stat=ierr)
+            if (present(stat)) stat = ierr
           endif
-        else if (newsize1 == oldsize1 .and. newsize2 == oldsize2 .and. newsize3 == oldsize3 .and. &
-           newsize1 == 0 .and. newsize2 == 0 .and. newsize3 == 0 .and. .not. allocated(a)) then
-          ! Special case for unallocated arrays
-          allocate(a(1, 1, 1), stat=ierr)
-          if (present(stat)) stat = ierr
-        endif
-        ! Set the status to success if no errors occurred
-        if (present(stat)) stat = 0
-      end subroutine extend_array_integer_3d
+          ! Set the status to success if no errors occurred
+          if (present(stat)) stat = 0
+        end subroutine extend_array_integer_3d
 
 !||====================================================================
 !||    extend_array_real_1d    ../common_source/tools/memory/extend_array.F90
@@ -408,7 +408,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                      Body
 ! ----------------------------------------------------------------------------------------------------------------------
-          if(newsize > oldsize) then  
+          if(newsize > oldsize) then
             allocate(temp(newsize), stat=ierr)
             if(.not. present(stat)) then
               if(present(msg)) then
@@ -449,7 +449,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
           integer :: ierr, i, j
           real, allocatable :: temp(:,:)
- ! ----------------------------------------------------------------------------------------------------------------------
+          ! ----------------------------------------------------------------------------------------------------------------------
 !                                                      Body
 ! ----------------------------------------------------------------------------------------------------------------------
           ! Check if the array needs to be extended
@@ -496,16 +496,16 @@
               a = temp
               deallocate(temp, stat=ierr)
             endif
-            else if (newsize1 == oldsize1 .and. newsize2 == oldsize2 .and. &
-                 newsize1 == 0 .and. newsize2 == 0 .and. .not. allocated(a)) then
+          else if (newsize1 == oldsize1 .and. newsize2 == oldsize2 .and. &
+            newsize1 == 0 .and. newsize2 == 0 .and. .not. allocated(a)) then
             ! Special case for unallocated arrays
             allocate(a(1, 1), stat=ierr)
             if (present(stat)) stat = ierr
           endif
-        
+
           ! Set the status to success if no errors occurred
           if (present(stat)) stat = 0
-        
+
         end subroutine extend_array_real_2d
 
 !||====================================================================
@@ -517,75 +517,75 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                     Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
-        real, allocatable, dimension(:,:,:) :: a  !< The allocated 3D array
-        integer, intent(in) :: oldsize1  !< The old size of the first dimension
-        integer, intent(in) :: oldsize2  !< The old size of the second dimension
-        integer, intent(in) :: oldsize3  !< The old size of the third dimension
-        integer, intent(in) :: newsize1  !< The new size of the first dimension
-        integer, intent(in) :: newsize2  !< The new size of the second dimension
-        integer, intent(in) :: newsize3  !< The new size of the third dimension
-        character(len=*), optional, intent(in) :: msg  !< The error message to print if the allocation fails
-        integer, optional, intent(out) :: stat  !< The error code returned by the allocation
+          real, allocatable, dimension(:,:,:) :: a  !< The allocated 3D array
+          integer, intent(in) :: oldsize1  !< The old size of the first dimension
+          integer, intent(in) :: oldsize2  !< The old size of the second dimension
+          integer, intent(in) :: oldsize3  !< The old size of the third dimension
+          integer, intent(in) :: newsize1  !< The new size of the first dimension
+          integer, intent(in) :: newsize2  !< The new size of the second dimension
+          integer, intent(in) :: newsize3  !< The new size of the third dimension
+          character(len=*), optional, intent(in) :: msg  !< The error message to print if the allocation fails
+          integer, optional, intent(out) :: stat  !< The error code returned by the allocation
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-        integer :: ierr, i, j, k
-        real, allocatable :: temp(:,:,:)
+          integer :: ierr, i, j, k
+          real, allocatable :: temp(:,:,:)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                      Body
 ! ----------------------------------------------------------------------------------------------------------------------
-        ! Check if the array needs to be extended
-        if (newsize1 > oldsize1 .or. newsize2 > oldsize2 .or. newsize3 > oldsize3) then
-      
-          if (newsize1 == oldsize1 .and. newsize2 == oldsize2) then
-            ! Extend only the third dimension (use move_alloc)
-            allocate(temp(size(a, 1), size(a, 2), newsize3), stat=ierr)
-            if (ierr /= 0) then
-              if (present(msg)) call check_error_and_write(ierr, msg=msg)
-              if (present(stat)) stat = ierr
-              return
-            endif
-            temp(:, :, 1:oldsize3) = a(:, :, 1:oldsize3)
-            call move_alloc(temp, a)
-          else
-            allocate(temp(newsize1, newsize2, newsize3), stat=ierr)
-            if (ierr /= 0) then
-              if (present(msg)) call check_error_and_write(ierr, msg=msg)
-              if (present(stat)) stat = ierr
-              return
-            endif
-            temp = 0
-            ! Copy existing data to the new array
-            do i = 1, min(oldsize1, newsize1)
-              do j = 1, min(oldsize2, newsize2)
-                do k = 1, min(oldsize3, newsize3)
-                  temp(i, j, k) = a(i, j, k)
+          ! Check if the array needs to be extended
+          if (newsize1 > oldsize1 .or. newsize2 > oldsize2 .or. newsize3 > oldsize3) then
+
+            if (newsize1 == oldsize1 .and. newsize2 == oldsize2) then
+              ! Extend only the third dimension (use move_alloc)
+              allocate(temp(size(a, 1), size(a, 2), newsize3), stat=ierr)
+              if (ierr /= 0) then
+                if (present(msg)) call check_error_and_write(ierr, msg=msg)
+                if (present(stat)) stat = ierr
+                return
+              endif
+              temp(:, :, 1:oldsize3) = a(:, :, 1:oldsize3)
+              call move_alloc(temp, a)
+            else
+              allocate(temp(newsize1, newsize2, newsize3), stat=ierr)
+              if (ierr /= 0) then
+                if (present(msg)) call check_error_and_write(ierr, msg=msg)
+                if (present(stat)) stat = ierr
+                return
+              endif
+              temp = 0
+              ! Copy existing data to the new array
+              do i = 1, min(oldsize1, newsize1)
+                do j = 1, min(oldsize2, newsize2)
+                  do k = 1, min(oldsize3, newsize3)
+                    temp(i, j, k) = a(i, j, k)
+                  end do
                 end do
               end do
-            end do
-            ! Deallocate old array and assign the new array
-            deallocate(a, stat=ierr)
-            if (ierr /= 0) then
-              if (present(stat)) stat = ierr
-              return
+              ! Deallocate old array and assign the new array
+              deallocate(a, stat=ierr)
+              if (ierr /= 0) then
+                if (present(stat)) stat = ierr
+                return
+              endif
+              allocate(a(newsize1, newsize2, newsize3), stat=ierr)
+              if (ierr /= 0) then
+                if (present(stat)) stat = ierr
+                return
+              endif
+              a = temp
+              deallocate(temp, stat=ierr)
             endif
-            allocate(a(newsize1, newsize2, newsize3), stat=ierr)
-            if (ierr /= 0) then
-              if (present(stat)) stat = ierr
-              return
-            endif
-            a = temp
-            deallocate(temp, stat=ierr)
+          else if (newsize1 == oldsize1 .and. newsize2 == oldsize2 .and. newsize3 == oldsize3 .and. &
+            newsize1 == 0 .and. newsize2 == 0 .and. newsize3 == 0 .and. .not. allocated(a)) then
+            ! Special case for unallocated arrays
+            allocate(a(1, 1, 1), stat=ierr)
+            if (present(stat)) stat = ierr
           endif
-        else if (newsize1 == oldsize1 .and. newsize2 == oldsize2 .and. newsize3 == oldsize3 .and. &
-           newsize1 == 0 .and. newsize2 == 0 .and. newsize3 == 0 .and. .not. allocated(a)) then
-          ! Special case for unallocated arrays
-          allocate(a(1, 1, 1), stat=ierr)
-          if (present(stat)) stat = ierr
-        endif
-        ! Set the status to success if no errors occurred
-        if (present(stat)) stat = 0
-      end subroutine extend_array_real_3d
+          ! Set the status to success if no errors occurred
+          if (present(stat)) stat = 0
+        end subroutine extend_array_real_3d
 
 
 
@@ -612,7 +612,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                      Body
 ! ----------------------------------------------------------------------------------------------------------------------
-          if(newsize > oldsize) then  
+          if(newsize > oldsize) then
             allocate(temp(newsize), stat=ierr)
             if(.not. present(stat)) then
               if(present(msg)) then
@@ -653,7 +653,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
           integer :: ierr, i, j
           double precision, allocatable :: temp(:,:)
- ! ----------------------------------------------------------------------------------------------------------------------
+          ! ----------------------------------------------------------------------------------------------------------------------
 !                                                      Body
 ! ----------------------------------------------------------------------------------------------------------------------
           ! Check if the array needs to be extended
@@ -700,16 +700,16 @@
               a = temp
               deallocate(temp, stat=ierr)
             endif
-            else if (newsize1 == oldsize1 .and. newsize2 == oldsize2 .and. &
-                 newsize1 == 0 .and. newsize2 == 0 .and. .not. allocated(a)) then
+          else if (newsize1 == oldsize1 .and. newsize2 == oldsize2 .and. &
+            newsize1 == 0 .and. newsize2 == 0 .and. .not. allocated(a)) then
             ! Special case for unallocated arrays
             allocate(a(1, 1), stat=ierr)
             if (present(stat)) stat = ierr
           endif
-        
+
           ! Set the status to success if no errors occurred
           if (present(stat)) stat = 0
-        
+
         end subroutine extend_array_double_2d
 
 !||====================================================================
@@ -721,75 +721,75 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                     Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
-        double precision, allocatable, dimension(:,:,:) :: a  !< The allocated 3D array
-        integer, intent(in) :: oldsize1  !< The old size of the first dimension
-        integer, intent(in) :: oldsize2  !< The old size of the second dimension
-        integer, intent(in) :: oldsize3  !< The old size of the third dimension
-        integer, intent(in) :: newsize1  !< The new size of the first dimension
-        integer, intent(in) :: newsize2  !< The new size of the second dimension
-        integer, intent(in) :: newsize3  !< The new size of the third dimension
-        character(len=*), optional, intent(in) :: msg  !< The error message to print if the allocation fails
-        integer, optional, intent(out) :: stat  !< The error code returned by the allocation
+          double precision, allocatable, dimension(:,:,:) :: a  !< The allocated 3D array
+          integer, intent(in) :: oldsize1  !< The old size of the first dimension
+          integer, intent(in) :: oldsize2  !< The old size of the second dimension
+          integer, intent(in) :: oldsize3  !< The old size of the third dimension
+          integer, intent(in) :: newsize1  !< The new size of the first dimension
+          integer, intent(in) :: newsize2  !< The new size of the second dimension
+          integer, intent(in) :: newsize3  !< The new size of the third dimension
+          character(len=*), optional, intent(in) :: msg  !< The error message to print if the allocation fails
+          integer, optional, intent(out) :: stat  !< The error code returned by the allocation
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-        integer :: ierr, i, j, k
-        double precision, allocatable :: temp(:,:,:)
+          integer :: ierr, i, j, k
+          double precision, allocatable :: temp(:,:,:)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                      Body
 ! ----------------------------------------------------------------------------------------------------------------------
-        ! Check if the array needs to be extended
-        if (newsize1 > oldsize1 .or. newsize2 > oldsize2 .or. newsize3 > oldsize3) then
-      
-          if (newsize1 == oldsize1 .and. newsize2 == oldsize2) then
-            ! Extend only the third dimension (use move_alloc)
-            allocate(temp(size(a, 1), size(a, 2), newsize3), stat=ierr)
-            if (ierr /= 0) then
-              if (present(msg)) call check_error_and_write(ierr, msg=msg)
-              if (present(stat)) stat = ierr
-              return
-            endif
-            temp(:, :, 1:oldsize3) = a(:, :, 1:oldsize3)
-            call move_alloc(temp, a)
-          else
-            allocate(temp(newsize1, newsize2, newsize3), stat=ierr)
-            if (ierr /= 0) then
-              if (present(msg)) call check_error_and_write(ierr, msg=msg)
-              if (present(stat)) stat = ierr
-              return
-            endif
-            temp = 0
-            ! Copy existing data to the new array
-            do i = 1, min(oldsize1, newsize1)
-              do j = 1, min(oldsize2, newsize2)
-                do k = 1, min(oldsize3, newsize3)
-                  temp(i, j, k) = a(i, j, k)
+          ! Check if the array needs to be extended
+          if (newsize1 > oldsize1 .or. newsize2 > oldsize2 .or. newsize3 > oldsize3) then
+
+            if (newsize1 == oldsize1 .and. newsize2 == oldsize2) then
+              ! Extend only the third dimension (use move_alloc)
+              allocate(temp(size(a, 1), size(a, 2), newsize3), stat=ierr)
+              if (ierr /= 0) then
+                if (present(msg)) call check_error_and_write(ierr, msg=msg)
+                if (present(stat)) stat = ierr
+                return
+              endif
+              temp(:, :, 1:oldsize3) = a(:, :, 1:oldsize3)
+              call move_alloc(temp, a)
+            else
+              allocate(temp(newsize1, newsize2, newsize3), stat=ierr)
+              if (ierr /= 0) then
+                if (present(msg)) call check_error_and_write(ierr, msg=msg)
+                if (present(stat)) stat = ierr
+                return
+              endif
+              temp = 0
+              ! Copy existing data to the new array
+              do i = 1, min(oldsize1, newsize1)
+                do j = 1, min(oldsize2, newsize2)
+                  do k = 1, min(oldsize3, newsize3)
+                    temp(i, j, k) = a(i, j, k)
+                  end do
                 end do
               end do
-            end do
-            ! Deallocate old array and assign the new array
-            deallocate(a, stat=ierr)
-            if (ierr /= 0) then
-              if (present(stat)) stat = ierr
-              return
+              ! Deallocate old array and assign the new array
+              deallocate(a, stat=ierr)
+              if (ierr /= 0) then
+                if (present(stat)) stat = ierr
+                return
+              endif
+              allocate(a(newsize1, newsize2, newsize3), stat=ierr)
+              if (ierr /= 0) then
+                if (present(stat)) stat = ierr
+                return
+              endif
+              a = temp
+              deallocate(temp, stat=ierr)
             endif
-            allocate(a(newsize1, newsize2, newsize3), stat=ierr)
-            if (ierr /= 0) then
-              if (present(stat)) stat = ierr
-              return
-            endif
-            a = temp
-            deallocate(temp, stat=ierr)
+          else if (newsize1 == oldsize1 .and. newsize2 == oldsize2 .and. newsize3 == oldsize3 .and. &
+            newsize1 == 0 .and. newsize2 == 0 .and. newsize3 == 0 .and. .not. allocated(a)) then
+            ! Special case for unallocated arrays
+            allocate(a(1, 1, 1), stat=ierr)
+            if (present(stat)) stat = ierr
           endif
-        else if (newsize1 == oldsize1 .and. newsize2 == oldsize2 .and. newsize3 == oldsize3 .and. &
-           newsize1 == 0 .and. newsize2 == 0 .and. newsize3 == 0 .and. .not. allocated(a)) then
-          ! Special case for unallocated arrays
-          allocate(a(1, 1, 1), stat=ierr)
-          if (present(stat)) stat = ierr
-        endif
-        ! Set the status to success if no errors occurred
-        if (present(stat)) stat = 0
-      end subroutine extend_array_double_3d
+          ! Set the status to success if no errors occurred
+          if (present(stat)) stat = 0
+        end subroutine extend_array_double_3d
 
 
 !||====================================================================
@@ -833,7 +833,7 @@
             endif
           endif
           if(newsize > 0) a(1:newsize) = 0
-        end subroutine reallocate_array_integer_1d 
+        end subroutine reallocate_array_integer_1d
 
 
       end module extend_array_mod

@@ -48,22 +48,22 @@
         private :: WP
 ! ----------------------------------------------------------------------------------------------------------------------
 ! ----------------------------------------------------------------------------------------------------------------------
-      type brokmann_elem_
-        integer :: id                    ! element id
-        integer :: elnum                 ! element number
-        integer :: nix                   ! number of shell nodes (3/4)
-        real(kind=WP) :: random(6)             ! generated random numbers
-      end type brokmann_elem_
+        type brokmann_elem_
+          integer :: id                    ! element id
+          integer :: elnum                 ! element number
+          integer :: nix                   ! number of shell nodes (3/4)
+          real(kind=WP) :: random(6)             ! generated random numbers
+        end type brokmann_elem_
 
-      type brokmann_
-        integer :: imat
-        integer :: nelem
-        type (brokmann_elem_), dimension(:), allocatable :: brokmann_elem  ! (nelem)
-      end type brokmann_
+        type brokmann_
+          integer :: imat
+          integer :: nelem
+          type (brokmann_elem_), dimension(:), allocatable :: brokmann_elem  ! (nelem)
+        end type brokmann_
 
-      type fail_brokmann_               ! (nfail_fractal)
-        integer :: nfail                ! number of brokmann dmg models (global)
-        type (brokmann_) ,dimension(:), allocatable :: brokmann   ! (nfail)
-      end type fail_brokmann_
+        type fail_brokmann_               ! (nfail_fractal)
+          integer :: nfail                ! number of brokmann dmg models (global)
+          type (brokmann_) ,dimension(:), allocatable :: brokmann   ! (nfail)
+        end type fail_brokmann_
 ! ----------------------------------------------------------------------------------------------------------------------
       end module brokmann_random_def_mod

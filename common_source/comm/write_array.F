@@ -47,40 +47,40 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-       INTEGER,INTENT(IN)    :: ARRAY(*)
-       INTEGER,INTENT(IN)    :: IDX1,IDX2   
-       INTEGER,INTENT(INOUT) :: LVARINT,TABVINT(*)
+        INTEGER,INTENT(IN)    :: ARRAY(*)
+        INTEGER,INTENT(IN)    :: IDX1,IDX2
+        INTEGER,INTENT(INOUT) :: LVARINT,TABVINT(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NUM
-      INTEGER I
+        INTEGER NUM
+        INTEGER I
 C-----------------------------------------------
 C   P r e - C o n d i t i o n
 C-----------------------------------------------
-      !IF (SIZE(ARRAY)<=0)RETURN
-      !LB=LBOUND(ARRAY)
-      !UB=UBOUND(ARRAY)
-      !IF(IDX1<LB)IDX1=LB
-      !IF(IDX2>UB)IDX2=UB
-      !IF (IDX2<IDX1)RETURN
+        !IF (SIZE(ARRAY)<=0)RETURN
+        !LB=LBOUND(ARRAY)
+        !UB=UBOUND(ARRAY)
+        !IF(IDX1<LB)IDX1=LB
+        !IF(IDX2>UB)IDX2=UB
+        !IF (IDX2<IDX1)RETURN
 C-----------------------------------------------
-C   S o u r c e   L i n e s 
+C   S o u r c e   L i n e s
 C-----------------------------------------------
-      NUM=0
-      DO I=IDX1,IDX2
-        IF(ARRAY(I)/=0)NUM=NUM+1
-      ENDDO
-      LVARINT=LVARINT+1
-      TABVINT(LVARINT)=NUM
-      
-      DO I=IDX1,IDX2
-        IF(ARRAY(I)/=0)THEN
-          LVARINT=LVARINT+1
-          TABVINT(LVARINT)=I
-        ENDIF
-      ENDDO
-      
-      RETURN 
+        NUM=0
+        DO I=IDX1,IDX2
+          IF(ARRAY(I)/=0)NUM=NUM+1
+        ENDDO
+        LVARINT=LVARINT+1
+        TABVINT(LVARINT)=NUM
+
+        DO I=IDX1,IDX2
+          IF(ARRAY(I)/=0)THEN
+            LVARINT=LVARINT+1
+            TABVINT(LVARINT)=I
+          ENDIF
+        ENDDO
+
+        RETURN
 C-----------------------------------------------
       END SUBROUTINE WRITE_ARRAY

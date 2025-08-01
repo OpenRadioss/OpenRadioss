@@ -56,12 +56,12 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    wrcomr                    ../engine/source/output/restart/wrcomm.F
 !||    wrrestp                   ../engine/source/output/restart/wrrestp.F
 !||====================================================================
-        MODULE OUTPUTS_MOD
+      MODULE OUTPUTS_MOD
 #include "my_real.inc"
 !--------------------------------------------------------------------
 !       OUTPUTS_MOD : for outputs tabs
 !--------------------------------------------------------------------
-        integer  S_EFRICINT, S_EFRICINTG, S_EFRIC, S_EFRICG     
+        integer  S_EFRICINT, S_EFRICINTG, S_EFRIC, S_EFRICG
         integer  NINEFRIC_STAMP,NINEFRIC ! number of interfaces defined for output fricional energy
         my_real, DIMENSION(:,:) , ALLOCATABLE ::   EFRIC, EFRIC_STAMP
         my_real, DIMENSION(:) , ALLOCATABLE ::   EFRICG, EFRICG_STAMP
@@ -69,4 +69,4 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
         my_real :: YI_RES = 0.
         my_real :: ZI_RES = 0.
 
-        END MODULE OUTPUTS_MOD
+      END MODULE OUTPUTS_MOD

@@ -52,57 +52,57 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      my_real X1, X2, X3, X4, Y1, Y2, Y3, Y4, Z1, Z2, Z3, Z4, E1X, E1Y, E1Z, E2X,E2Y, E2Z, E3X, E3Y, E3Z
-      INTEGER NIR
+        my_real X1, X2, X3, X4, Y1, Y2, Y3, Y4, Z1, Z2, Z3, Z4, E1X, E1Y, E1Z, E2X,E2Y, E2Z, E3X, E3Y, E3Z
+        INTEGER NIR
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      my_real :: SUM_,S1,S2
+        my_real :: SUM_,S1,S2
 C-----------------------------------------------
 
         IF(NIR==4)THEN
-          E1X = (X2 + X3 - X1 - X4)                          
-          E1Y = (Y2 + Y3 - Y1 - Y4)                          
-          E1Z = (Z2 + Z3 - Z1 - Z4)                          
-          E2X = (X3 + X4 - X1 - X2)                          
-          E2Y = (Y3 + Y4 - Y1 - Y2)                          
-          E2Z = (Z3 + Z4 - Z1 - Z2)                          
+          E1X = (X2 + X3 - X1 - X4)
+          E1Y = (Y2 + Y3 - Y1 - Y4)
+          E1Z = (Z2 + Z3 - Z1 - Z4)
+          E2X = (X3 + X4 - X1 - X2)
+          E2Y = (Y3 + Y4 - Y1 - Y2)
+          E2Z = (Z3 + Z4 - Z1 - Z2)
         ELSE
-          E1X = (X2 + X3 - TWO * X1)                          
-          E1Y = (Y2 + Y3 - TWO * Y1)                          
-          E1Z = (Z2 + Z3 - TWO * Z1)                          
-          E2X = (TWO * X3 - X1 - X2)                          
-          E2Y = (TWO * Y3 - Y1 - Y2)                          
-          E2Z = (TWO * Z3 - Z1 - Z2)                          
+          E1X = (X2 + X3 - TWO * X1)
+          E1Y = (Y2 + Y3 - TWO * Y1)
+          E1Z = (Z2 + Z3 - TWO * Z1)
+          E2X = (TWO * X3 - X1 - X2)
+          E2Y = (TWO * Y3 - Y1 - Y2)
+          E2Z = (TWO * Z3 - Z1 - Z2)
         END IF
-        E3X = E1Y*E2Z - E1Z*E2Y                           
-        E3Y = E1Z*E2X - E1X*E2Z                           
-        E3Z = E1X*E2Y - E1Y*E2X                           
+        E3X = E1Y*E2Z - E1Z*E2Y
+        E3Y = E1Z*E2X - E1X*E2Z
+        E3Z = E1X*E2Y - E1Y*E2X
 C
-        SUM_ = E3X*E3X+E3Y*E3Y+E3Z*E3Z                      
-        SUM_ = ONE / MAX(SQRT(SUM_),EM20)                     
-        E3X = E3X * SUM_                                    
-        E3Y = E3Y * SUM_                                    
-        E3Z = E3Z * SUM_                                    
+        SUM_ = E3X*E3X+E3Y*E3Y+E3Z*E3Z
+        SUM_ = ONE / MAX(SQRT(SUM_),EM20)
+        E3X = E3X * SUM_
+        E3Y = E3Y * SUM_
+        E3Z = E3Z * SUM_
 C
         IF (NIR == 4) THEN
-          S1  = E1X*E1X+E1Y*E1Y+E1Z*E1Z                      
-          S2  = E2X*E2X+E2Y*E2Y+E2Z*E2Z                      
-          SUM_ = SQRT(S1/S2)                                  
-          E1X = E1X + (E2Y*E3Z-E2Z*E3Y)*SUM_                  
-          E1Y = E1Y + (E2Z*E3X-E2X*E3Z)*SUM_                  
+          S1  = E1X*E1X+E1Y*E1Y+E1Z*E1Z
+          S2  = E2X*E2X+E2Y*E2Y+E2Z*E2Z
+          SUM_ = SQRT(S1/S2)
+          E1X = E1X + (E2Y*E3Z-E2Z*E3Y)*SUM_
+          E1Y = E1Y + (E2Z*E3X-E2X*E3Z)*SUM_
           E1Z = E1Z + (E2X*E3Y-E2Y*E3X)*SUM_
-        ENDIF                  
+        ENDIF
 C
-        SUM_ = E1X*E1X+E1Y*E1Y+E1Z*E1Z                      
-        SUM_ = ONE / MAX(SQRT(SUM_),EM20)                     
-        E1X = E1X * SUM_                                    
-        E1Y = E1Y * SUM_                                    
-        E1Z = E1Z * SUM_                                    
+        SUM_ = E1X*E1X+E1Y*E1Y+E1Z*E1Z
+        SUM_ = ONE / MAX(SQRT(SUM_),EM20)
+        E1X = E1X * SUM_
+        E1Y = E1Y * SUM_
+        E1Z = E1Z * SUM_
 C
-        E2X = E3Y * E1Z - E3Z * E1Y                        
-        E2Y = E3Z * E1X - E3X * E1Z                        
-        E2Z = E3X * E1Y - E3Y * E1X                
+        E2X = E3Y * E1Z - E3Z * E1Y
+        E2Y = E3Z * E1X - E3X * E1Z
+        E2Z = E3X * E1Y - E3Y * E1X
 C---
-      RETURN
+        RETURN
       END SUBROUTINE I2REP

@@ -68,72 +68,72 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER MAT(NEL), IFLAG, NEL
-      my_real PM(NPROPM,NUMMAT), 
-     .        OFF(NEL)  ,EINT(NEL) ,MU(NEL)   , 
-     .        ESPE(NEL) ,DVOL(NEL) ,DF(NEL)  ,
-     .        VNEW(NEL) ,PSH(NEL)  ,PNEW(NEL) ,DPDM(NEL),
-     .        DPDE(NEL)
+        INTEGER MAT(NEL), IFLAG, NEL
+        my_real PM(NPROPM,NUMMAT),
+     .          OFF(NEL)  ,EINT(NEL) ,MU(NEL)   ,
+     .          ESPE(NEL) ,DVOL(NEL) ,DF(NEL)  ,
+     .          VNEW(NEL) ,PSH(NEL)  ,PNEW(NEL) ,DPDM(NEL),
+     .          DPDE(NEL)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, MX
-      my_real GM1(NEL), DVV, PP,BB_(NEL),RHO0(NEL)
-      my_real DENOM,BB
+        INTEGER I, MX
+        my_real GM1(NEL), DVV, PP,BB_(NEL),RHO0(NEL)
+        my_real DENOM,BB
 C-----------------------------------------------
-      IF(IFLAG == 0) THEN
-        DO I=1,NEL
-          MX      = MAT(I)
-          BB_(I)  = PM(32,MX)
-          GM1(I)  = PM(33,MX)
-          RHO0(I) = PM(34,MX)
-          PSH(I)  = PM(88,MX)
-        ENDDO
-        DO I=1,NEL
-          DENOM   = ONE-BB_(I)*RHO0(I)*(ONE+MU(I))
-          PP      = ESPE(I)*GM1(I)*(MU(I)+ONE)/DENOM
-          DPDE(I) = GM1(I)*(ONE+MU(I))/DENOM
-          DPDM(I) = GM1(I)*ESPE(I)/DENOM + PP/DENOM*BB_(I)*RHO0(I) + PP*DF(I)*DF(I)*DPDE(I)
-          PNEW(I) = MAX(PP,ZERO)*OFF(I)! P(mu[n+1],E[n])
-          PNEW(I) = PNEW(I)-PSH(I)
-        ENDDO
-
-      ELSEIF(IFLAG == 1) THEN
-        DO I=1,NEL
-          MX      = MAT(I)
-          BB_(I)  = PM(32,MX)
-          GM1(I)  = PM(33,MX)
-          RHO0(I) = PM(34,MX)
-          PSH(I)  = PM(88,MX)
-        ENDDO
-        DO I=1,NEL
-          DENOM   = ONE-BB_(I)*RHO0(I)*(ONE+MU(I))
-          BB      = GM1(I)*(ONE+MU(I))/DENOM
-          DPDE(I) = BB
-          DVV     = HALF*DVOL(I)*DF(I) / MAX(EM15,VNEW(I))
-          PNEW(I) = (BB*ESPE(I))/(ONE+BB*DVV)
-          PNEW(I) = PNEW(I)*OFF(I)! P(mu[n+1],E[n])
-          EINT(I) = EINT(I) - HALF*DVOL(I)*PNEW(I)
-          PNEW(I) = PNEW(I)-PSH(I)
-        ENDDO
-
-      ELSEIF(IFLAG == 2) THEN
-        DO I=1, NEL
-          MX      = MAT(I)
-          BB_(I)  = PM(32,MX)
-          GM1(I)  = PM(33,MX)
-          RHO0(I) = PM(34,MX)
-          PSH(I)  = PM(88,MX)
-        ENDDO
-        DO I=1, NEL
-          IF (VNEW(I) > ZERO) THEN
+        IF(IFLAG == 0) THEN
+          DO I=1,NEL
+            MX      = MAT(I)
+            BB_(I)  = PM(32,MX)
+            GM1(I)  = PM(33,MX)
+            RHO0(I) = PM(34,MX)
+            PSH(I)  = PM(88,MX)
+          ENDDO
+          DO I=1,NEL
             DENOM   = ONE-BB_(I)*RHO0(I)*(ONE+MU(I))
             PP      = ESPE(I)*GM1(I)*(MU(I)+ONE)/DENOM
             DPDE(I) = GM1(I)*(ONE+MU(I))/DENOM
             DPDM(I) = GM1(I)*ESPE(I)/DENOM + PP/DENOM*BB_(I)*RHO0(I) + PP*DF(I)*DF(I)*DPDE(I)
-            PNEW(I) = PP-PSH(I)
-          ENDIF
-        ENDDO
-      ENDIF
-      RETURN
+            PNEW(I) = MAX(PP,ZERO)*OFF(I)! P(mu[n+1],E[n])
+            PNEW(I) = PNEW(I)-PSH(I)
+          ENDDO
+
+        ELSEIF(IFLAG == 1) THEN
+          DO I=1,NEL
+            MX      = MAT(I)
+            BB_(I)  = PM(32,MX)
+            GM1(I)  = PM(33,MX)
+            RHO0(I) = PM(34,MX)
+            PSH(I)  = PM(88,MX)
+          ENDDO
+          DO I=1,NEL
+            DENOM   = ONE-BB_(I)*RHO0(I)*(ONE+MU(I))
+            BB      = GM1(I)*(ONE+MU(I))/DENOM
+            DPDE(I) = BB
+            DVV     = HALF*DVOL(I)*DF(I) / MAX(EM15,VNEW(I))
+            PNEW(I) = (BB*ESPE(I))/(ONE+BB*DVV)
+            PNEW(I) = PNEW(I)*OFF(I)! P(mu[n+1],E[n])
+            EINT(I) = EINT(I) - HALF*DVOL(I)*PNEW(I)
+            PNEW(I) = PNEW(I)-PSH(I)
+          ENDDO
+
+        ELSEIF(IFLAG == 2) THEN
+          DO I=1, NEL
+            MX      = MAT(I)
+            BB_(I)  = PM(32,MX)
+            GM1(I)  = PM(33,MX)
+            RHO0(I) = PM(34,MX)
+            PSH(I)  = PM(88,MX)
+          ENDDO
+          DO I=1, NEL
+            IF (VNEW(I) > ZERO) THEN
+              DENOM   = ONE-BB_(I)*RHO0(I)*(ONE+MU(I))
+              PP      = ESPE(I)*GM1(I)*(MU(I)+ONE)/DENOM
+              DPDE(I) = GM1(I)*(ONE+MU(I))/DENOM
+              DPDM(I) = GM1(I)*ESPE(I)/DENOM + PP/DENOM*BB_(I)*RHO0(I) + PP*DF(I)*DF(I)*DPDE(I)
+              PNEW(I) = PP-PSH(I)
+            ENDIF
+          ENDDO
+        ENDIF
+        RETURN
       END

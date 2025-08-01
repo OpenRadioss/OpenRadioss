@@ -27,18 +27,18 @@ c-----------------------------------------------------------------------
 !||--- called by ------------------------------------------------------
 !||    loads_mod         ../common_source/modules/loads/loads_mod.F90
 !||====================================================================
-        MODULE DOMDEC_LOAD_MOD
+      MODULE DOMDEC_LOAD_MOD
 c-----------------------------------------------------------------------
         TYPE DOMDEC_PROC_LOAD_
-            INTEGER :: LOCAL_SEGMENT_NUMBER ! number of segment on the proc I
-            INTEGER :: S_LOCAL_SEGMENT ! size of LOCAL_SEGMENT array
-            INTEGER ,DIMENSION(:) ,ALLOCATABLE :: LOCAL_SEGMENT ! list of segments defined on the proc I
+          INTEGER :: LOCAL_SEGMENT_NUMBER ! number of segment on the proc I
+          INTEGER :: S_LOCAL_SEGMENT ! size of LOCAL_SEGMENT array
+          INTEGER ,DIMENSION(:) ,ALLOCATABLE :: LOCAL_SEGMENT ! list of segments defined on the proc I
         END TYPE DOMDEC_PROC_LOAD_
         TYPE DOMDEC_LOAD_
-            ! ---------
-            INTEGER, DIMENSION(:), ALLOCATABLE :: SEGMENT_TO_PROC ! processor where the segment is defined
-            TYPE(DOMDEC_PROC_LOAD_) ,DIMENSION(:) ,ALLOCATABLE :: PROC ! data structure to save the segment per proc
-            ! ---------
+          ! ---------
+          INTEGER, DIMENSION(:), ALLOCATABLE :: SEGMENT_TO_PROC ! processor where the segment is defined
+          TYPE(DOMDEC_PROC_LOAD_) ,DIMENSION(:) ,ALLOCATABLE :: PROC ! data structure to save the segment per proc
+          ! ---------
         END TYPE DOMDEC_LOAD_
 c-----------------------------------------------------------------------
       END MODULE DOMDEC_LOAD_MOD

@@ -93,10 +93,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER N
+        INTEGER N
 C     REAL
-      my_real
-     .   A(*)
+        my_real
+     .     A(*)
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -104,52 +104,52 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,N1,N2
-      DOUBLE PRECISION R8(1000)
-      REAL R4(1000)
+        INTEGER I,J,K,N1,N2
+        DOUBLE PRECISION R8(1000)
+        REAL R4(1000)
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
-      K=0
-      N1=N/1000
-      IF(ICRAY==1)THEN
+        K=0
+        N1=N/1000
+        IF(ICRAY==1)THEN
 C fortran double precision : 128 bits C double : 64 bits
 C fortran real : 64 bits C double : 64 bits
-       DO I = 1, N1
-         CALL READ_DB_C(R4,1000)
-         DO J = 1, 1000
-           K=K+1
-           A(K) = R4(J)
-         ENDDO
-       ENDDO
-       N2=N1*1000
-       IF(N2/=N)THEN
-         CALL READ_DB_C(R4,N-N2)
-         DO J = 1, N-N2
-           K=K+1
-           A(K) = R4(J)
-         ENDDO
-       ENDIF
-      ELSE
+          DO I = 1, N1
+            CALL READ_DB_C(R4,1000)
+            DO J = 1, 1000
+              K=K+1
+              A(K) = R4(J)
+            ENDDO
+          ENDDO
+          N2=N1*1000
+          IF(N2/=N)THEN
+            CALL READ_DB_C(R4,N-N2)
+            DO J = 1, N-N2
+              K=K+1
+              A(K) = R4(J)
+            ENDDO
+          ENDIF
+        ELSE
 C fortran double precision : 64 bits C double : 64 bits
-       DO I = 1, N1
-        CALL READ_DB_C(R8,1000)
-        DO J = 1, 1000
-          K=K+1
-          A(K) = R8(J)
-        ENDDO
-       ENDDO
-       N2=N1*1000
-       IF(N2/=N)THEN
-        CALL READ_DB_C(R8,N-N2)
-        DO J = 1, N-N2
-          K=K+1
-          A(K) = R8(J)
-        ENDDO
-       ENDIF
-      ENDIF
+          DO I = 1, N1
+            CALL READ_DB_C(R8,1000)
+            DO J = 1, 1000
+              K=K+1
+              A(K) = R8(J)
+            ENDDO
+          ENDDO
+          N2=N1*1000
+          IF(N2/=N)THEN
+            CALL READ_DB_C(R8,N-N2)
+            DO J = 1, N-N2
+              K=K+1
+              A(K) = R8(J)
+            ENDDO
+          ENDIF
+        ENDIF
 C
-      RETURN
+        RETURN
       END
 !||====================================================================
 !||    read_db_array         ../common_source/tools/input_output/read_db.F
@@ -179,10 +179,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-            INTEGER N
+        INTEGER N
 C     REAL
-            my_real
-     .   A(*)
+        my_real
+     .  A(*)
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -190,53 +190,53 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-            INTEGER I,J,K,N1,N2
-            DOUBLE PRECISION R8(1000)
-            REAL R4(1000)
+        INTEGER I,J,K,N1,N2
+        DOUBLE PRECISION R8(1000)
+        REAL R4(1000)
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
-            K=0
-            N1=N/1000
-            IF(ICRAY==1)THEN
+        K=0
+        N1=N/1000
+        IF(ICRAY==1)THEN
 C fortran double precision : 128 bits C double : 64 bits
 C fortran real : 64 bits C double : 64 bits
-             DO I = 1, N1
-               CALL READ_DB_ARRAY_C(R4,1000)
-               DO J = 1, 1000
-                 K=K+1
-                 A(K) = R4(J)
-               ENDDO
-             ENDDO
-             N2=N1*1000
-             IF(N2/=N)THEN
-               CALL READ_DB_ARRAY_C(R4,N-N2)
-               DO J = 1, N-N2
-                 K=K+1
-                 A(K) = R4(J)
-               ENDDO
-             ENDIF
-            ELSE
+          DO I = 1, N1
+            CALL READ_DB_ARRAY_C(R4,1000)
+            DO J = 1, 1000
+              K=K+1
+              A(K) = R4(J)
+            ENDDO
+          ENDDO
+          N2=N1*1000
+          IF(N2/=N)THEN
+            CALL READ_DB_ARRAY_C(R4,N-N2)
+            DO J = 1, N-N2
+              K=K+1
+              A(K) = R4(J)
+            ENDDO
+          ENDIF
+        ELSE
 C fortran double precision : 64 bits C double : 64 bits
-             DO I = 1, N1
-              CALL READ_DB_ARRAY_C(R8,1000)
-              DO J = 1, 1000
-                K=K+1
-                A(K) = R8(J)
-              ENDDO
-             ENDDO
-             N2=N1*1000
-             IF(N2/=N)THEN
-              CALL READ_DB_ARRAY_C(R8,N-N2)
-              DO J = 1, N-N2
-                K=K+1
-                A(K) = R8(J)
-              ENDDO
-             ENDIF
-            ENDIF
+          DO I = 1, N1
+            CALL READ_DB_ARRAY_C(R8,1000)
+            DO J = 1, 1000
+              K=K+1
+              A(K) = R8(J)
+            ENDDO
+          ENDDO
+          N2=N1*1000
+          IF(N2/=N)THEN
+            CALL READ_DB_ARRAY_C(R8,N-N2)
+            DO J = 1, N-N2
+              K=K+1
+              A(K) = R8(J)
+            ENDDO
+          ENDIF
+        ENDIF
 C
-            RETURN
-            END    
+        RETURN
+      END
 !||====================================================================
 !||    read_dpdb         ../common_source/tools/input_output/read_db.F
 !||--- called by ------------------------------------------------------
@@ -256,34 +256,34 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER N
-      DOUBLE PRECISION A(*)
+        INTEGER N
+        DOUBLE PRECISION A(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,N1,N2
-      DOUBLE PRECISION R8(1000)
+        INTEGER I,J,K,N1,N2
+        DOUBLE PRECISION R8(1000)
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
-      K=0
-      N1=N/1000
+        K=0
+        N1=N/1000
 C fortran double precision : 64 bits C double : 64 bits
-       DO I = 1, N1
-        CALL READ_DB_C(R8,1000)
-        DO J = 1, 1000
-          K=K+1
-          A(K) = R8(J)
+        DO I = 1, N1
+          CALL READ_DB_C(R8,1000)
+          DO J = 1, 1000
+            K=K+1
+            A(K) = R8(J)
+          ENDDO
         ENDDO
-       ENDDO
-       N2=N1*1000
-       IF(N2/=N)THEN
-        CALL READ_DB_C(R8,N-N2)
-        DO J = 1, N-N2
-          K=K+1
-          A(K) = R8(J)
-        ENDDO
-       ENDIF
+        N2=N1*1000
+        IF(N2/=N)THEN
+          CALL READ_DB_C(R8,N-N2)
+          DO J = 1, N-N2
+            K=K+1
+            A(K) = R8(J)
+          ENDDO
+        ENDIF
 C
-      RETURN
+        RETURN
       END

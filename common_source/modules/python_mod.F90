@@ -148,7 +148,7 @@
           subroutine python_finalize() bind(c, name="cpp_python_finalize")
           end subroutine python_finalize
 
-          ! run the python code that initializes the environment (if defined as /FUNCT_PYTHON/ with the name initialize_environment) 
+          ! run the python code that initializes the environment (if defined as /FUNCT_PYTHON/ with the name initialize_environment)
           subroutine python_load_environment() bind(c, name="cpp_python_load_environment")
           end subroutine python_load_environment
 
@@ -274,7 +274,7 @@
             use iso_c_binding
             type(c_ptr), value, intent(in) :: context
             integer(kind=c_int), value, intent(in) :: nvalues
-            character(kind=c_char), dimension(len_name), intent(in) :: name 
+            character(kind=c_char), dimension(len_name), intent(in) :: name
             type(c_ptr), value :: values
           end subroutine python_add_doubles_to_dict
 
@@ -288,7 +288,7 @@
             type(c_ptr), value, intent(in) :: context
           end subroutine python_free_context
 
- !/             void cpp_python_sync(void* pcontext, int num_args)
+          !/             void cpp_python_sync(void* pcontext, int num_args)
           subroutine python_sync(pcontext) bind(c, name="cpp_python_sync")
             use iso_c_binding
             type(c_ptr), value, intent(in) :: pcontext
@@ -338,7 +338,7 @@
 !||====================================================================
 !||    python_funct_id   ../common_source/modules/python_mod.F90
 !||====================================================================
-           integer function python_funct_id(nfunct, funct_id, npc) result(id)
+        integer function python_funct_id(nfunct, funct_id, npc) result(id)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                     Module
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -349,11 +349,11 @@
 ! ----------------------------------------------------------------------------------------------------------------------
           integer, intent(in) :: nfunct
           integer, intent(in) :: funct_id !< the id of the function
-          integer, intent(in) :: npc(3*nfunct+1) 
+          integer, intent(in) :: npc(3*nfunct+1)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-          integer :: i 
+          integer :: i
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                      Body
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -361,16 +361,16 @@
           id = 0
           if (funct_id> 0) i = npc(2*nfunct+funct_id+1)
           if(i < 0) id = -i
-        end function python_funct_id 
+        end function python_funct_id
 
-      !! \brief copy a python function
+        !! \brief copy a python function
 !||====================================================================
 !||    copy_python_function   ../common_source/modules/python_mod.F90
 !||--- called by ------------------------------------------------------
 !||    read_sensor_python     ../starter/source/tools/sensor/hm_read_sensor_python.F90
 !||    read_sensors           ../engine/source/output/restart/read_sensors.F
 !||====================================================================
-      subroutine copy_python_function(src, dest)
+        subroutine copy_python_function(src, dest)
           implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                     Arguments
@@ -385,7 +385,7 @@
           allocate(dest%code(size(src%code)))
           dest%name = src%name
           dest%code = src%code
-      
+
           ! Copy scalar components
           dest%len_name = src%len_name
           dest%len_code = src%len_code
@@ -393,7 +393,7 @@
           dest%num_args = src%num_args
           dest%num_return = src%num_return
           dest%user_id = src%user_id
-      end subroutine copy_python_function
+        end subroutine copy_python_function
 
 
 
@@ -797,31 +797,31 @@
           if (present(tol_f)) tol_f_val = tol_f
           if (present(tol_x)) tol_x_val = tol_x
           if (present(max_iter)) max_iter_val = max_iter
-        
+
           ! Initialize x with the value of root
           x = root
           iter = 0
-        
+
           do while (iter < max_iter_val)
             iter = iter + 1
             ! Evaluate the function value f(x)
-             call python_call_funct1D_dp(py, funct_id, x, fx)
+            call python_call_funct1D_dp(py, funct_id, x, fx)
             ! Subtract the right-hand side to compute f(x) - rhs
             fx = fx - rhs
             ! Evaluate the derivative df(x)/dx
             call python_deriv_funct1D_dp(py, funct_id, x, dfx)
-        
+
             ! Check if the function value is sufficiently close to the target
             if (abs(fx) < tol_f_val) then
               root = x
               return
             end if
-        
+
             ! Ensure the derivative is not too small
             if (abs(dfx) < epsilon) then
               return
             end if
-        
+
             ! Perform the Newton's step
             x_prev = x
             if(abs(dfx) > epsilon) then
@@ -829,19 +829,19 @@
             else
               x = x - fx / epsilon
             endif
-        
+
             ! Check if the solution converged
             if (abs(x - x_prev) < tol_x_val) then
               root = x
               return
             end if
           end do
-        
+
           ! If the loop exits without convergence, return the last value of x
           root = x
           return
         end subroutine python_solve
-  
+
 
 
 !! \brief update variables known by python functions

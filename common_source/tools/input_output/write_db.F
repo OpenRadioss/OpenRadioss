@@ -145,10 +145,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER N
+        INTEGER N
 C     REAL
-      my_real
-     .   A(*)
+        my_real
+     .     A(*)
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -156,52 +156,52 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,N1,N2
-      DOUBLE PRECISION R8(1000)
-      REAL R4(1000)
+        INTEGER I,J,K,N1,N2
+        DOUBLE PRECISION R8(1000)
+        REAL R4(1000)
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
-      K=0
-      N1=N/1000
-      IF(ICRAY==1)THEN
+        K=0
+        N1=N/1000
+        IF(ICRAY==1)THEN
 C fortran double precision : 128 bits C double : 64 bits
 C fortran real : 64 bits C double : 64 bits
-       DO I = 1, N1
-        DO J = 1, 1000
-          K=K+1
-          R4(J) = A(K)
-        ENDDO
-        CALL WRITE_DB_C(R4,1000)
-       ENDDO
-       N2=N1*1000
-       IF(N2/=N)THEN
-        DO J = 1, N-N2
-          K=K+1
-          R4(J) = A(K)
-        ENDDO
-        CALL WRITE_DB_C(R4,N-N2)
-       ENDIF
-      ELSE
+          DO I = 1, N1
+            DO J = 1, 1000
+              K=K+1
+              R4(J) = A(K)
+            ENDDO
+            CALL WRITE_DB_C(R4,1000)
+          ENDDO
+          N2=N1*1000
+          IF(N2/=N)THEN
+            DO J = 1, N-N2
+              K=K+1
+              R4(J) = A(K)
+            ENDDO
+            CALL WRITE_DB_C(R4,N-N2)
+          ENDIF
+        ELSE
 C fortran double precision : 64 bits C double : 64 bits
-       DO I = 1, N1
-        DO J = 1, 1000
-          K=K+1
-          R8(J) = A(K)
-        ENDDO
-        CALL WRITE_DB_C(R8,1000)
-       ENDDO
-       N2=N1*1000
-       IF(N2/=N)THEN
-        DO J = 1, N-N2
-          K=K+1
-          R8(J) = A(K)
-        ENDDO
-        CALL WRITE_DB_C(R8,N-N2)
-       ENDIF
-      ENDIF
+          DO I = 1, N1
+            DO J = 1, 1000
+              K=K+1
+              R8(J) = A(K)
+            ENDDO
+            CALL WRITE_DB_C(R8,1000)
+          ENDDO
+          N2=N1*1000
+          IF(N2/=N)THEN
+            DO J = 1, N-N2
+              K=K+1
+              R8(J) = A(K)
+            ENDDO
+            CALL WRITE_DB_C(R8,N-N2)
+          ENDIF
+        ENDIF
 C
-      RETURN
+        RETURN
       END
 !||====================================================================
 !||    write_db_array         ../common_source/tools/input_output/write_db.F
@@ -223,10 +223,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-            INTEGER N
+        INTEGER N
 C     REAL
-            my_real
-     .   A(*)
+        my_real
+     .  A(*)
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -234,53 +234,53 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-            INTEGER I,J,K,N1,N2
-            DOUBLE PRECISION R8(1000)
-            REAL R4(1000)
+        INTEGER I,J,K,N1,N2
+        DOUBLE PRECISION R8(1000)
+        REAL R4(1000)
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
-            K=0
-            N1=N/1000
-            IF(ICRAY==1)THEN
+        K=0
+        N1=N/1000
+        IF(ICRAY==1)THEN
 C fortran double precision : 128 bits C double : 64 bits
 C fortran real : 64 bits C double : 64 bits
-             DO I = 1, N1
-              DO J = 1, 1000
-                K=K+1
-                R4(J) = A(K)
-              ENDDO
-              CALL WRITE_DB_ARRAY_C(R4,1000)
-             ENDDO
-             N2=N1*1000
-             IF(N2/=N)THEN
-              DO J = 1, N-N2
-                K=K+1
-                R4(J) = A(K)
-              ENDDO
-              CALL WRITE_DB_ARRAY_C(R4,N-N2)
-             ENDIF
-            ELSE
+          DO I = 1, N1
+            DO J = 1, 1000
+              K=K+1
+              R4(J) = A(K)
+            ENDDO
+            CALL WRITE_DB_ARRAY_C(R4,1000)
+          ENDDO
+          N2=N1*1000
+          IF(N2/=N)THEN
+            DO J = 1, N-N2
+              K=K+1
+              R4(J) = A(K)
+            ENDDO
+            CALL WRITE_DB_ARRAY_C(R4,N-N2)
+          ENDIF
+        ELSE
 C fortran double precision : 64 bits C double : 64 bits
-             DO I = 1, N1
-              DO J = 1, 1000
-                K=K+1
-                R8(J) = A(K)
-              ENDDO
-              CALL WRITE_DB_C(R8,1000)
-             ENDDO
-             N2=N1*1000
-             IF(N2/=N)THEN
-              DO J = 1, N-N2
-                K=K+1
-                R8(J) = A(K)
-              ENDDO
-              CALL WRITE_DB_C(R8,N-N2)
-             ENDIF
-            ENDIF
+          DO I = 1, N1
+            DO J = 1, 1000
+              K=K+1
+              R8(J) = A(K)
+            ENDDO
+            CALL WRITE_DB_C(R8,1000)
+          ENDDO
+          N2=N1*1000
+          IF(N2/=N)THEN
+            DO J = 1, N-N2
+              K=K+1
+              R8(J) = A(K)
+            ENDDO
+            CALL WRITE_DB_C(R8,N-N2)
+          ENDIF
+        ENDIF
 C
-            RETURN
-            END
+        RETURN
+      END
 !||====================================================================
 !||    write_dpdb                 ../common_source/tools/input_output/write_db.F
 !||--- called by ------------------------------------------------------
@@ -307,36 +307,36 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER N
-      DOUBLE PRECISION
-     .   A(*)
+        INTEGER N
+        DOUBLE PRECISION
+     .     A(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,N1,N2
-      DOUBLE PRECISION R8(1000)
-      REAL R4(1000)
+        INTEGER I,J,K,N1,N2
+        DOUBLE PRECISION R8(1000)
+        REAL R4(1000)
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
-      K=0
-      N1=N/1000
+        K=0
+        N1=N/1000
 C fortran double precision : 64 bits C double : 64 bits
-       DO I = 1, N1
-        DO J = 1, 1000
-          K=K+1
-          R8(J) = A(K)
+        DO I = 1, N1
+          DO J = 1, 1000
+            K=K+1
+            R8(J) = A(K)
+          ENDDO
+          CALL WRITE_DB_C(R8,1000)
         ENDDO
-        CALL WRITE_DB_C(R8,1000)
-       ENDDO
-       N2=N1*1000
-       IF(N2/=N)THEN
-        DO J = 1, N-N2
-          K=K+1
-          R8(J) = A(K)
-        ENDDO
-        CALL WRITE_DB_C(R8,N-N2)
-       ENDIF
+        N2=N1*1000
+        IF(N2/=N)THEN
+          DO J = 1, N-N2
+            K=K+1
+            R8(J) = A(K)
+          ENDDO
+          CALL WRITE_DB_C(R8,N-N2)
+        ENDIF
 C
-      RETURN
+        RETURN
       END

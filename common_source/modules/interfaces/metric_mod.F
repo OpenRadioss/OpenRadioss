@@ -22,7 +22,7 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C  Part of interface buffer:
 C  Monitoring information for interface
-C----------------------------------------------------------------------- 
+C-----------------------------------------------------------------------
 !||====================================================================
 !||    metric_mod                     ../common_source/modules/interfaces/metric_mod.F
 !||--- called by ------------------------------------------------------
@@ -39,53 +39,53 @@ C-----------------------------------------------------------------------
 !||    open_interf_time               ../engine/source/system/timer_interf.F
 !||    printime_interf                ../engine/source/system/timer_interf.F
 !||====================================================================
-      MODULE METRIC_MOD 
+      MODULE METRIC_MOD
 C----------------------------------------
 
-#include "my_real.inc"      
+#include "my_real.inc"
 C  Flag 2 names
-      INTEGER, PARAMETER :: ALGO_VOXEL        = 1
-      INTEGER, PARAMETER :: ALGO_BUCKET       = 2
-      INTEGER, PARAMETER :: TRY_ALGO_VOXEL    =-1
-      INTEGER, PARAMETER :: TRY_ALGO_BUCKET   = 0
+        INTEGER, PARAMETER :: ALGO_VOXEL        = 1
+        INTEGER, PARAMETER :: ALGO_BUCKET       = 2
+        INTEGER, PARAMETER :: TRY_ALGO_VOXEL    =-1
+        INTEGER, PARAMETER :: TRY_ALGO_BUCKET   = 0
 
 C Indexes
-      INTEGER, PARAMETER ::  I_MAIN_CRIT_TRI  = 1
-      INTEGER, PARAMETER ::  I_MAIN_TRI       = 2
-      INTEGER, PARAMETER ::  I_MAIN_OPT_TRI   = 3
-      INTEGER, PARAMETER ::  I_MAIN_FORCES    = 4
-      INTEGER, PARAMETER ::  I_NOINT          = 5
-      INTEGER, PARAMETER ::  I_MULTIMP        = 6
-      INTEGER, PARAMETER ::  I_NSN            = 7 
-      INTEGER, PARAMETER ::  I_NSNR           = 8 
-      INTEGER, PARAMETER ::  I_NCONT          = 9
+        INTEGER, PARAMETER ::  I_MAIN_CRIT_TRI  = 1
+        INTEGER, PARAMETER ::  I_MAIN_TRI       = 2
+        INTEGER, PARAMETER ::  I_MAIN_OPT_TRI   = 3
+        INTEGER, PARAMETER ::  I_MAIN_FORCES    = 4
+        INTEGER, PARAMETER ::  I_NOINT          = 5
+        INTEGER, PARAMETER ::  I_MULTIMP        = 6
+        INTEGER, PARAMETER ::  I_NSN            = 7
+        INTEGER, PARAMETER ::  I_NSNR           = 8
+        INTEGER, PARAMETER ::  I_NCONT          = 9
 C Sizes
-      INTEGER, PARAMETER ::  SIZE_TIMER       = 4
-      INTEGER, PARAMETER ::  SIZE_METRIC      = 9
+        INTEGER, PARAMETER ::  SIZE_TIMER       = 4
+        INTEGER, PARAMETER ::  SIZE_METRIC      = 9
 
 C Debug
-      INTEGER, PARAMETER ::  FILE_ID= 4999
- 
-      INTEGER :: GLOBAL_INTERFACE_SORTING_ALGO 
+        INTEGER, PARAMETER ::  FILE_ID= 4999
 
-      TYPE METRIC_STRUCT_ 
-        INTEGER :: NOINT
-        INTEGER :: MULTIMP
-        INTEGER :: NSN
-        INTEGER :: NSNR
-        INTEGER :: IMPACT 
-        INTEGER :: NCONT
-        INTEGER :: CYCLE0
-        INTEGER :: ALGO ! 1: definitive voxel, 2:definitive bucket , -1:test voxel, 0: test bucket
-        DOUBLE PRECISION :: TIC,TOC, TOLD ! timers use choose algo
-        DOUBLE PRECISION, DIMENSION(SIZE_TIMER,2) ::  TIME
-      END TYPE
+        INTEGER :: GLOBAL_INTERFACE_SORTING_ALGO
+
+        TYPE METRIC_STRUCT_
+          INTEGER :: NOINT
+          INTEGER :: MULTIMP
+          INTEGER :: NSN
+          INTEGER :: NSNR
+          INTEGER :: IMPACT
+          INTEGER :: NCONT
+          INTEGER :: CYCLE0
+          INTEGER :: ALGO ! 1: definitive voxel, 2:definitive bucket , -1:test voxel, 0: test bucket
+          DOUBLE PRECISION :: TIC,TOC, TOLD ! timers use choose algo
+          DOUBLE PRECISION, DIMENSION(SIZE_TIMER,2) ::  TIME
+        END TYPE
       CONTAINS
 
 !||====================================================================
 !||    int_printime   ../common_source/modules/interfaces/metric_mod.F
 !||====================================================================
-      SUBROUTINE INT_PRINTIME(THIS)
+        SUBROUTINE INT_PRINTIME(THIS)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -93,25 +93,25 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE(METRIC_STRUCT_) :: THIS
+          TYPE(METRIC_STRUCT_) :: THIS
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-       WRITE(4999,'(6I10,4F12.5)') 
-     . THIS%NOINT,
-     . THIS%CYCLE0,
-     . THIS%NCONT,
-     . THIS%IMPACT,
-     . THIS%MULTIMP,
-     . THIS%NSNR,
-     . THIS%TIME(I_MAIN_CRIT_TRI,1),
+          WRITE(4999,'(6I10,4F12.5)')
+     .    THIS%NOINT,
+     .    THIS%CYCLE0,
+     .    THIS%NCONT,
+     .    THIS%IMPACT,
+     .    THIS%MULTIMP,
+     .    THIS%NSNR,
+     .    THIS%TIME(I_MAIN_CRIT_TRI,1),
 c    . THIS%TIME(I_COMMCRIT,1),
 c    . THIS%TIME(I_GFRONT,1),
-     . THIS%TIME(I_MAIN_TRI,1),
-     . THIS%TIME(I_MAIN_OPT_TRI,1)
+     .    THIS%TIME(I_MAIN_TRI,1),
+     .    THIS%TIME(I_MAIN_OPT_TRI,1)
 c      CALL INT_FLUSHTIME(THIS)
-      RETURN
-      END SUBROUTINE
+          RETURN
+        END SUBROUTINE
 
 
 !||====================================================================
@@ -119,7 +119,7 @@ c      CALL INT_FLUSHTIME(THIS)
 !||--- called by ------------------------------------------------------
 !||    resol_init      ../engine/source/engine/resol_init.F
 !||====================================================================
-      SUBROUTINE INT_FLUSHTIME(THIS)
+        SUBROUTINE INT_FLUSHTIME(THIS)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -127,10 +127,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE(METRIC_STRUCT_) :: THIS
+          TYPE(METRIC_STRUCT_) :: THIS
 
-      THIS%TIME(1:SIZE_TIMER,1:2) = 0.0D0
-      RETURN
-      END SUBROUTINE
+          THIS%TIME(1:SIZE_TIMER,1:2) = 0.0D0
+          RETURN
+        END SUBROUTINE
 
       END MODULE

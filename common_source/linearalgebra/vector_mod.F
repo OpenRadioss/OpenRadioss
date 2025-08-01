@@ -35,28 +35,28 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    norm                ../common_source/linearalgebra/vector_mod.F
 !||====================================================================
       MODULE VECTOR_MOD
-      implicit none
+        implicit none
 #include      "my_real.inc"
 
 !     ******     !
 !     Vector     !
 !     ******     !
-      
-      type :: t_vector
-      integer, private :: dim
-      integer, dimension(:), allocatable :: irow
-      double precision, dimension(:), allocatable :: val
-      contains
-      procedure, pass :: create
-      procedure, pass :: destroy
-      procedure, pass :: associate
-      procedure, pass :: get_dim
-      procedure, pass :: set_dim
-      procedure, pass :: norm
-      end type t_vector
+
+        type :: t_vector
+          integer, private :: dim
+          integer, dimension(:), allocatable :: irow
+          double precision, dimension(:), allocatable :: val
+        contains
+          procedure, pass :: create
+          procedure, pass :: destroy
+          procedure, pass :: associate
+          procedure, pass :: get_dim
+          procedure, pass :: set_dim
+          procedure, pass :: norm
+        end type t_vector
 
       contains
-      
+
 !     ********************     !
 !     Get Vector dimension     !
 !     ********************     !
@@ -68,11 +68,11 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    prod_vec     ../common_source/linearalgebra/matrix_mod.F
 !||    vector_mod   ../common_source/linearalgebra/vector_mod.F
 !||====================================================================
-      function get_dim(this)
-      class(t_vector), intent(in) :: this
-      integer :: get_dim
-      get_dim = this%dim
-      end function get_dim
+        function get_dim(this)
+          class(t_vector), intent(in) :: this
+          integer :: get_dim
+          get_dim = this%dim
+        end function get_dim
 
 !     ********************     !
 !     Set Vector dimension     !
@@ -81,11 +81,11 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||====================================================================
 !||    set_dim   ../common_source/linearalgebra/vector_mod.F
 !||====================================================================
-      subroutine set_dim(this, dim)
-      class(t_vector), intent(inout) :: this
-      integer :: dim
-      this%dim = dim
-      end subroutine set_dim
+        subroutine set_dim(this, dim)
+          class(t_vector), intent(inout) :: this
+          integer :: dim
+          this%dim = dim
+        end subroutine set_dim
 
 !     ***************     !
 !     Allocate arrays     !
@@ -94,16 +94,16 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||====================================================================
 !||    create   ../common_source/modules/boundary_conditions/ebcs_mod.F90
 !||====================================================================
-      subroutine create(this, nn)
+        subroutine create(this, nn)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-      class(t_vector), intent(inout) :: this
-      integer, intent(in) :: nn
-      this%dim = nn
-      allocate(this%irow(nn), this%val(nn))
-      end subroutine create
+          class(t_vector), intent(inout) :: this
+          integer, intent(in) :: nn
+          this%dim = nn
+          allocate(this%irow(nn), this%val(nn))
+        end subroutine create
 
 !     *********************     !
 !     Free allocated memory     !
@@ -112,16 +112,16 @@ C-----------------------------------------------
 !||====================================================================
 !||    destroy   ../common_source/modules/boundary_conditions/ebcs_mod.F90
 !||====================================================================
-      subroutine destroy(this)
+        subroutine destroy(this)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-      class(t_vector), intent(inout) :: this
-      if (allocated(this%irow)) deallocate(this%irow)
-      if (allocated(this%val)) deallocate(this%val)
-      end subroutine destroy
-      
+          class(t_vector), intent(inout) :: this
+          if (allocated(this%irow)) deallocate(this%irow)
+          if (allocated(this%val)) deallocate(this%val)
+        end subroutine destroy
+
 !     *******************     !
 !     Pointer association     !
 !     *******************     !
@@ -129,17 +129,17 @@ C-----------------------------------------------
 !||====================================================================
 !||    associate   ../common_source/linearalgebra/vector_mod.F
 !||====================================================================
-      subroutine associate(this, ptr_irow, ptr_val)
+        subroutine associate(this, ptr_irow, ptr_val)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-      class(t_vector), intent(inout), target :: this
-      integer, dimension(:), pointer :: ptr_irow
-      double precision, dimension(:), pointer :: ptr_val
-      ptr_irow => this%irow 
-      ptr_val => this%val
-      end subroutine associate
+          class(t_vector), intent(inout), target :: this
+          integer, dimension(:), pointer :: ptr_irow
+          double precision, dimension(:), pointer :: ptr_val
+          ptr_irow => this%irow
+          ptr_val => this%val
+        end subroutine associate
 
 !     *******************     !
 !     Compute Vector norm     !
@@ -150,19 +150,19 @@ C-----------------------------------------------
 !||--- called by ------------------------------------------------------
 !||    vector_mod   ../common_source/linearalgebra/vector_mod.F
 !||====================================================================
-      function norm(this)
+        function norm(this)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-      class(t_vector), intent(in) :: this
-      my_real :: norm
-      integer :: ii
-      norm = zero
-      do ii = 1, this%dim
-         norm = norm + abs(this%val(ii))
-      enddo
-      end function norm
+          class(t_vector), intent(in) :: this
+          my_real :: norm
+          integer :: ii
+          norm = zero
+          do ii = 1, this%dim
+            norm = norm + abs(this%val(ii))
+          enddo
+        end function norm
 
 !     **********     !
 !     End module     !

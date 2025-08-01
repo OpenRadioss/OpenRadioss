@@ -46,12 +46,12 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    wrcomip                ../starter/source/restart/ddsplit/wrcommp.F
 !||    wrcomr                 ../engine/source/output/restart/wrcomm.F
 !||====================================================================
-        MODULE PARAMETERS_MOD
+      MODULE PARAMETERS_MOD
 C-----------------------------------------------
 C   m y _ r e a l
 C-----------------------------------------------
 #include      "my_real.inc"
-       implicit  none
+        implicit  none
 !   -----------------------------------------------
 !   D e r i v e d   T y p e   D e f i n i t i o n s
 !   -----------------------------------------------
@@ -62,13 +62,13 @@ C----------------------------------------------
 C   Global Parameters activated by Contact
 C---------------------------------------------
 
-          TYPE PARAMETERS_
-             integer  ISTIF_DT      ! stiffness based on Mass and DT computation flag
-             integer  INTCAREA      ! flag for contact area computation for output
-             integer  INT25_EROSION_SOLID ! flag for considering erosion of solids for Inter25
-             my_real  DT_STIFINT    ! time step for stiffness based on Mass and DT computation 
-             my_real, DIMENSION(:) , ALLOCATABLE ::   INTAREAN ! nodal areas for total contact area output
-          END TYPE PARAMETERS_
+        TYPE PARAMETERS_
+          integer  ISTIF_DT      ! stiffness based on Mass and DT computation flag
+          integer  INTCAREA      ! flag for contact area computation for output
+          integer  INT25_EROSION_SOLID ! flag for considering erosion of solids for Inter25
+          my_real  DT_STIFINT    ! time step for stiffness based on Mass and DT computation
+          my_real, DIMENSION(:) , ALLOCATABLE ::   INTAREAN ! nodal areas for total contact area output
+        END TYPE PARAMETERS_
 
 C
-        END MODULE PARAMETERS_MOD
+      END MODULE PARAMETERS_MOD

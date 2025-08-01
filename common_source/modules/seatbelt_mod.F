@@ -56,144 +56,144 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE TABLE_MOD
-C----------------------------------------------------------------------- 
+        USE TABLE_MOD
+C-----------------------------------------------------------------------
 #include "my_real.inc"
 
-c=======================================================================      
+c=======================================================================
 c define structure for slipring
-c=======================================================================      
-c 
-      TYPE SLIPRING_FRAM_STRUCT
-        INTEGER  UPDATE
-        INTEGER  ANCHOR_NODE
-        INTEGER  NODE(3)
-        INTEGER  ORIENTATION_NODE
-        INTEGER  NODE_NEXT(3)
-        INTEGER  NODE2_PREV
-        INTEGER  STRAND_DIRECTION(2)
-        INTEGER  LOCKED
-        INTEGER  N_REMOTE_PROC
-        my_real  VECTOR(6)
-        my_real  ORIENTATION_ANGLE
-        my_real  MATERIAL_FLOW 
-        my_real  MATERIAL_FLOW_OLD        
-        my_real  DFS
-        my_real  RESIDUAL_LENGTH(2)
-        my_real  CURRENT_LENGTH(2)
-        my_real  RINGSLIP
-        my_real  BETA
-        my_real  GAMMA
-        my_real  SLIP_FORCE(3)
-        my_real  PREV_REF_LENGTH
-        my_real  INTVAR_STR1(8)
-        my_real  INTVAR_STR2(8)
-      END TYPE SLIPRING_FRAM_STRUCT
+c=======================================================================
+c
+        TYPE SLIPRING_FRAM_STRUCT
+          INTEGER  UPDATE
+          INTEGER  ANCHOR_NODE
+          INTEGER  NODE(3)
+          INTEGER  ORIENTATION_NODE
+          INTEGER  NODE_NEXT(3)
+          INTEGER  NODE2_PREV
+          INTEGER  STRAND_DIRECTION(2)
+          INTEGER  LOCKED
+          INTEGER  N_REMOTE_PROC
+          my_real  VECTOR(6)
+          my_real  ORIENTATION_ANGLE
+          my_real  MATERIAL_FLOW
+          my_real  MATERIAL_FLOW_OLD
+          my_real  DFS
+          my_real  RESIDUAL_LENGTH(2)
+          my_real  CURRENT_LENGTH(2)
+          my_real  RINGSLIP
+          my_real  BETA
+          my_real  GAMMA
+          my_real  SLIP_FORCE(3)
+          my_real  PREV_REF_LENGTH
+          my_real  INTVAR_STR1(8)
+          my_real  INTVAR_STR2(8)
+        END TYPE SLIPRING_FRAM_STRUCT
 C
-      TYPE SLIPRING_STRUCT
-        INTEGER  ID
-        INTEGER  IDG
-        INTEGER  NFRAM
-        INTEGER  IFUNC(4)
-        INTEGER  SENSID
-        INTEGER  FL_FLAG
-        INTEGER  RBODY
-        my_real  DC
-        my_real  A
-        my_real  FRIC
-        my_real  FAC_D(3)
-        my_real  FRICS
-        my_real  FAC_S(3)
-        TYPE(SLIPRING_FRAM_STRUCT),ALLOCATABLE,DIMENSION(:) :: FRAM
-      END TYPE SLIPRING_STRUCT
+        TYPE SLIPRING_STRUCT
+          INTEGER  ID
+          INTEGER  IDG
+          INTEGER  NFRAM
+          INTEGER  IFUNC(4)
+          INTEGER  SENSID
+          INTEGER  FL_FLAG
+          INTEGER  RBODY
+          my_real  DC
+          my_real  A
+          my_real  FRIC
+          my_real  FAC_D(3)
+          my_real  FRICS
+          my_real  FAC_S(3)
+          TYPE(SLIPRING_FRAM_STRUCT),ALLOCATABLE,DIMENSION(:) :: FRAM
+        END TYPE SLIPRING_STRUCT
 C
-      TYPE(SLIPRING_STRUCT),ALLOCATABLE,DIMENSION(:) :: SLIPRING
+        TYPE(SLIPRING_STRUCT),ALLOCATABLE,DIMENSION(:) :: SLIPRING
 
-c=======================================================================      
+c=======================================================================
 c define structure for retractor
-c=======================================================================      
-c 
-      TYPE RETRACTOR_STRUCT
-        INTEGER  ID
-        INTEGER  IDG
-        INTEGER  UPDATE
-        INTEGER  ANCHOR_NODE
-        INTEGER  NODE(2)
-        INTEGER  NODE_NEXT(2)
-        INTEGER  STRAND_DIRECTION
-        INTEGER  IFUNC(3)
-        INTEGER  ISENS(2)
-        INTEGER  TENS_TYP
-        INTEGER  LOCKED
-        INTEGER  LOCKED_FREEZE
-        INTEGER  PRETENS_ACTIV
-        INTEGER  INACTI_NNOD
-        INTEGER  INACTI_NNOD_MAX
-        INTEGER, DIMENSION(:)   , ALLOCATABLE :: INACTI_NODE
-        INTEGER  S_TABLE(2)
-        TYPE(TTABLE), DIMENSION(2) :: TABLE
-        INTEGER  N_REMOTE_PROC
-        my_real  VECTOR(3)
-        my_real  ELEMENT_SIZE
-        my_real  FORCE
-        my_real  MATERIAL_FLOW
-        my_real  RESIDUAL_LENGTH
-        my_real  FAC(4)
-        my_real  PULLOUT
-        my_real  UNLOCK_FORCE
-        my_real  LOCK_PULL
-        my_real  LOCK_OFFSET
-        my_real  LOCK_YIELD_FORCE
-        my_real  LOCK_PULL_SAV
-        my_real  RINGSLIP
-        my_real  PRETENS_TIME
-        my_real  PRETENS_PULL
-        my_real  PRETENS_PULLMAX
-        my_real  RET_FORCE
-      END TYPE RETRACTOR_STRUCT
+c=======================================================================
+c
+        TYPE RETRACTOR_STRUCT
+          INTEGER  ID
+          INTEGER  IDG
+          INTEGER  UPDATE
+          INTEGER  ANCHOR_NODE
+          INTEGER  NODE(2)
+          INTEGER  NODE_NEXT(2)
+          INTEGER  STRAND_DIRECTION
+          INTEGER  IFUNC(3)
+          INTEGER  ISENS(2)
+          INTEGER  TENS_TYP
+          INTEGER  LOCKED
+          INTEGER  LOCKED_FREEZE
+          INTEGER  PRETENS_ACTIV
+          INTEGER  INACTI_NNOD
+          INTEGER  INACTI_NNOD_MAX
+          INTEGER, DIMENSION(:)   , ALLOCATABLE :: INACTI_NODE
+          INTEGER  S_TABLE(2)
+          TYPE(TTABLE), DIMENSION(2) :: TABLE
+          INTEGER  N_REMOTE_PROC
+          my_real  VECTOR(3)
+          my_real  ELEMENT_SIZE
+          my_real  FORCE
+          my_real  MATERIAL_FLOW
+          my_real  RESIDUAL_LENGTH
+          my_real  FAC(4)
+          my_real  PULLOUT
+          my_real  UNLOCK_FORCE
+          my_real  LOCK_PULL
+          my_real  LOCK_OFFSET
+          my_real  LOCK_YIELD_FORCE
+          my_real  LOCK_PULL_SAV
+          my_real  RINGSLIP
+          my_real  PRETENS_TIME
+          my_real  PRETENS_PULL
+          my_real  PRETENS_PULLMAX
+          my_real  RET_FORCE
+        END TYPE RETRACTOR_STRUCT
 
-      TYPE(RETRACTOR_STRUCT),ALLOCATABLE,DIMENSION(:) :: RETRACTOR
+        TYPE(RETRACTOR_STRUCT),ALLOCATABLE,DIMENSION(:) :: RETRACTOR
 
-c=======================================================================      
+c=======================================================================
 c define structure for seatbelts (starter only)
-c=======================================================================      
-c 
-      TYPE SEATBELT_STRUCT
-        INTEGER  NFRAM
-        INTEGER  NSPRING
-        INTEGER  NSHELL
-        INTEGER  NNOD
-        INTEGER, DIMENSION(:)   , ALLOCATABLE :: SPRING
-        my_real  SECTION
-        my_real  ELEM_SIZE
-      END TYPE SEATBELT_STRUCT
+c=======================================================================
+c
+        TYPE SEATBELT_STRUCT
+          INTEGER  NFRAM
+          INTEGER  NSPRING
+          INTEGER  NSHELL
+          INTEGER  NNOD
+          INTEGER, DIMENSION(:)   , ALLOCATABLE :: SPRING
+          my_real  SECTION
+          my_real  ELEM_SIZE
+        END TYPE SEATBELT_STRUCT
 
-      TYPE(SEATBELT_STRUCT),ALLOCATABLE,DIMENSION(:) :: SEATBELT_TAB
-      INTEGER  N_COMN_1D2D
-      INTEGER, DIMENSION(:)   , ALLOCATABLE :: COMN_1D2D
+        TYPE(SEATBELT_STRUCT),ALLOCATABLE,DIMENSION(:) :: SEATBELT_TAB
+        INTEGER  N_COMN_1D2D
+        INTEGER, DIMENSION(:)   , ALLOCATABLE :: COMN_1D2D
 
-c======================================================================= 
+c=======================================================================
 C define structure for remote anchor node
-c======================================================================= 
-      TYPE SEATBELT_REMOTE_NODES_STRUCT
-        INTEGER, DIMENSION(:)   , ALLOCATABLE :: ADD_PROC
-        INTEGER, DIMENSION(:)   , ALLOCATABLE :: NODE
-      END TYPE SEATBELT_REMOTE_NODES_STRUCT
+c=======================================================================
+        TYPE SEATBELT_REMOTE_NODES_STRUCT
+          INTEGER, DIMENSION(:)   , ALLOCATABLE :: ADD_PROC
+          INTEGER, DIMENSION(:)   , ALLOCATABLE :: NODE
+        END TYPE SEATBELT_REMOTE_NODES_STRUCT
 
-      TYPE(SEATBELT_REMOTE_NODES_STRUCT) ANCHOR_REMOTE,ANCHOR_REMOTE_SEND
+        TYPE(SEATBELT_REMOTE_NODES_STRUCT) ANCHOR_REMOTE,ANCHOR_REMOTE_SEND
 C
-      INTEGER NSEATBELT_TH_PROC
+        INTEGER NSEATBELT_TH_PROC
 C
-      TYPE SEATBELT_TH_EXCH_STRUCT
-        INTEGER ID_PROC
-        INTEGER ADD_PROC
-        INTEGER NSLIPRING
-        INTEGER NRETRACTOR
-      END TYPE SEATBELT_TH_EXCH_STRUCT
+        TYPE SEATBELT_TH_EXCH_STRUCT
+          INTEGER ID_PROC
+          INTEGER ADD_PROC
+          INTEGER NSLIPRING
+          INTEGER NRETRACTOR
+        END TYPE SEATBELT_TH_EXCH_STRUCT
 C
-      TYPE(SEATBELT_TH_EXCH_STRUCT),ALLOCATABLE,DIMENSION(:) :: SEATBELT_TH_EXCH
+        TYPE(SEATBELT_TH_EXCH_STRUCT),ALLOCATABLE,DIMENSION(:) :: SEATBELT_TH_EXCH
 C
-      my_real  , DIMENSION(:,:), ALLOCATABLE:: TH_SLIPRING,TH_RETRACTOR
+        my_real  , DIMENSION(:,:), ALLOCATABLE:: TH_SLIPRING,TH_RETRACTOR
 C
 c---------------
       END MODULE  SEATBELT_MOD

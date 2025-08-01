@@ -27,11 +27,11 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    outrin           ../starter/source/materials/time_step/outri.F
 !||====================================================================
       MODULE PLOT_CURVE_MOD
-      INTERFACE
-      SUBROUTINE PLOT_CURVE(X, Y, NB_POINTS, INPUT_SIZE_X, INPUT_SIZE_Y, 
-     .                      INPUT_X_MINVALUE, INPUT_Y_MINVALUE, INPUT_X_MAXVALUE, 
-     .                      INPUT_Y_MAXVALUE, INPUT_SYMBOL, INPUT_CURVE_TYPE,
-     .                      INPUT_TXT_X, INPUT_TXT_Y)   
+        INTERFACE
+          SUBROUTINE PLOT_CURVE(X, Y, NB_POINTS, INPUT_SIZE_X, INPUT_SIZE_Y,
+     .                          INPUT_X_MINVALUE, INPUT_Y_MINVALUE, INPUT_X_MAXVALUE,
+     .                          INPUT_Y_MAXVALUE, INPUT_SYMBOL, INPUT_CURVE_TYPE,
+     .                          INPUT_TXT_X, INPUT_TXT_Y)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -39,20 +39,20 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      my_real
-     . X(NB_POINTS),Y(NB_POINTS)
-      INTEGER NB_POINTS,NB_GRADUATION,INPUT_SIZE_X, INPUT_SIZE_Y, INPUT_CURVE_TYPE
-      my_real
-     . INPUT_X_MINVALUE, INPUT_Y_MINVALUE, 
-     . INPUT_X_MAXVALUE, INPUT_Y_MAXVALUE
-      CHARACTER*1 INPUT_SYMBOL
-      CHARACTER(*) INPUT_TXT_X, INPUT_TXT_Y
+            my_real
+     .       X(NB_POINTS),Y(NB_POINTS)
+            INTEGER NB_POINTS,NB_GRADUATION,INPUT_SIZE_X, INPUT_SIZE_Y, INPUT_CURVE_TYPE
+            my_real
+     .       INPUT_X_MINVALUE, INPUT_Y_MINVALUE,
+     .       INPUT_X_MAXVALUE, INPUT_Y_MAXVALUE
+            CHARACTER*1 INPUT_SYMBOL
+            CHARACTER(*) INPUT_TXT_X, INPUT_TXT_Y
 C-----------------------------------------------
-      OPTIONAL ::
-     .   INPUT_SIZE_X, INPUT_SIZE_Y, INPUT_X_MINVALUE, INPUT_Y_MINVALUE, 
-     .   INPUT_X_MAXVALUE, INPUT_Y_MAXVALUE, INPUT_SYMBOL, 
-     .   INPUT_CURVE_TYPE, INPUT_TXT_X, INPUT_TXT_Y
-      END SUBROUTINE
-      END INTERFACE
+            OPTIONAL ::
+     .         INPUT_SIZE_X, INPUT_SIZE_Y, INPUT_X_MINVALUE, INPUT_Y_MINVALUE,
+     .         INPUT_X_MAXVALUE, INPUT_Y_MAXVALUE, INPUT_SYMBOL,
+     .         INPUT_CURVE_TYPE, INPUT_TXT_X, INPUT_TXT_Y
+          END SUBROUTINE
+        END INTERFACE
 C=======================================================================
-      END MODULE 
+      END MODULE
