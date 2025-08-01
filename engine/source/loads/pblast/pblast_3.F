@@ -167,7 +167,7 @@ C-----------------------------------------------
       TT_STAR = TT + PBLAST%PBLAST_DT%TA_INF
       IZ_UPDATE = ILOADP(06,NL)
       TDET = FAC(01,NL)
-      TA_FIRST = FAC(07,NL) ! arrival time for first segment to be loaded
+      TA_FIRST = FAC(07,NL) + PBLAST%PBLAST_DT%TA_INF ! arrival time for first segment to be loaded
       IF(IZ_UPDATE ==1)THEN
         !if no update during engine
         DTMIN_LOC = (ONE+EM06)*(TA_FIRST - TT)

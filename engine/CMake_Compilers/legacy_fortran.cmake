@@ -90,6 +90,7 @@ set_source_files_properties( ${source_directory}/source/mpi/output/spmd_collect.
 set_source_files_properties( ${source_directory}/source/mpi/output/spmd_printcpuinfo.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
 set_source_files_properties( ${source_directory}/source/mpi/output/spmd_collectd.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
 set_source_files_properties( ${source_directory}/source/mpi/output/spmd_gather.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
+set_source_files_properties( ${source_directory}/source/mpi/nodes/spmd_gather_nodal_scalar.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
 set_source_files_properties( ${source_directory}/source/mpi/output/spmd_exch_failwave.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
 set_source_files_properties( ${source_directory}/source/mpi/output/spmd_sd_sens.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
 set_source_files_properties( ${source_directory}/source/mpi/output/spmd_collectx.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
