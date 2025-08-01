@@ -167,60 +167,60 @@
 
 ! ======================================================================================================================
 !! \brief module to define data structure for global thermal model parameters and flags
-!! \details 
+!! \details
 
-      use precision_mod, only : WP
-      implicit none
-      private :: WP
+        use precision_mod, only : WP
+        implicit none
+        private :: WP
 !
-!=======================================================================      
-      
-      type glob_therm_
+!=======================================================================
 
-        integer     :: itherm_fe     !< thermal option flag for lagrangial analysis   
-        integer     :: itherm        !< thermal option flag for ale/eulerian analysis 
-        integer     :: intheat       !< thermal option in interfaces
-!
-        integer     :: nimtemp       !< number of /imptemp   input cards
-        integer     :: nintemp       !< number of /initemp   input cards
-        integer     :: nimpflux      !< number of /impflux   input cards
-        integer     :: nconvec       !< number of /convec    input cards
-        integer     :: nradia        !< number of /radiation input cards
-!
-        integer     :: nfxtemp       !< number of nodes with imposed temperature
-        integer     :: nfxflux       !< number of entities with imposed thermal flux
-        integer     :: numconv       !< number of segments subject to convection
-        integer     :: numradia      !< number of segments subject to radiation
+        type glob_therm_
 
-        integer     :: nift          !< size of IBFT table for imposed nodal temperature
-        integer     :: nitflux       !< size of IB table for imposed thermal flux IB(NITFLUX,*)
-        integer     :: niconv        !< size of convection data table : IB 
-        integer     :: niradia       !< size of IBCR table for imposed radiation
-        integer     :: lfacther      !< 
+          integer     :: itherm_fe     !< thermal option flag for lagrangial analysis
+          integer     :: itherm        !< thermal option flag for ale/eulerian analysis
+          integer     :: intheat       !< thermal option in interfaces
 !
-        integer     :: nodadt_therm  !< nodal thermal time step flag
-        integer     :: idt_therm     !< thermal time step flag
+          integer     :: nimtemp       !< number of /imptemp   input cards
+          integer     :: nintemp       !< number of /initemp   input cards
+          integer     :: nimpflux      !< number of /impflux   input cards
+          integer     :: nconvec       !< number of /convec    input cards
+          integer     :: nradia        !< number of /radiation input cards
 !
-        real(kind=WP)     :: dt_therm      !< thermal time step value
-        real(kind=WP)     :: theaccfact    !< thermal model acceleration factor
-        real(kind=WP)     :: dtfactherm    !< thermal time step reduction factor
+          integer     :: nfxtemp       !< number of nodes with imposed temperature
+          integer     :: nfxflux       !< number of entities with imposed thermal flux
+          integer     :: numconv       !< number of segments subject to convection
+          integer     :: numradia      !< number of segments subject to radiation
+
+          integer     :: nift          !< size of IBFT table for imposed nodal temperature
+          integer     :: nitflux       !< size of IB table for imposed thermal flux IB(NITFLUX,*)
+          integer     :: niconv        !< size of convection data table : IB
+          integer     :: niradia       !< size of IBCR table for imposed radiation
+          integer     :: lfacther      !<
 !
-        real(kind=WP)     :: heat_meca     !< cumulated mechanical heat flux
-        real(kind=WP)     :: heat_conv     !< cumulated convection heat flux
-        real(kind=WP)     :: heat_radia    !< cumulated radiation heat flux
-        real(kind=WP)     :: heat_fflux    !< cumulated fixed heat flux      
-        real(kind=WP)     :: heat_stored   !< cumulated total heat flux
+          integer     :: nodadt_therm  !< nodal thermal time step flag
+          integer     :: idt_therm     !< thermal time step flag
+!
+          real(kind=WP)     :: dt_therm      !< thermal time step value
+          real(kind=WP)     :: theaccfact    !< thermal model acceleration factor
+          real(kind=WP)     :: dtfactherm    !< thermal time step reduction factor
+!
+          real(kind=WP)     :: heat_meca     !< cumulated mechanical heat flux
+          real(kind=WP)     :: heat_conv     !< cumulated convection heat flux
+          real(kind=WP)     :: heat_radia    !< cumulated radiation heat flux
+          real(kind=WP)     :: heat_fflux    !< cumulated fixed heat flux
+          real(kind=WP)     :: heat_stored   !< cumulated total heat flux
 !
 !         real(kind=WP), dimension(:), allocatable :: FTHE
 !         real(kind=WP), dimension(:), allocatable :: FTHESKYI
 !         real(kind=WP), dimension(:), allocatable :: FTHESKY
 !         real(kind=WP), dimension(:), allocatable :: TEMP_FTHESKYI
 !         real(kind=WP), dimension(:), allocatable :: CONDN
-!         real(kind=WP), dimension(:), allocatable :: CONDNSKY 
+!         real(kind=WP), dimension(:), allocatable :: CONDNSKY
 !         real(kind=WP), dimension(:), allocatable :: CONDNSKYI
 !         real(kind=WP), dimension(:), allocatable :: TEMP_CONDNSKYI
 
-      end type glob_therm_   
+        end type glob_therm_
 !
 !------------------------------
       end module glob_therm_mod

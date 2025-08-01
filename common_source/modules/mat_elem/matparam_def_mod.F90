@@ -339,96 +339,96 @@
 !||====================================================================
       module matparam_def_mod
 !
-      use table4d_mod
-      use visc_param_mod
-      use fail_param_mod
-      use therm_param_mod
-      use names_and_titles_mod
-      use multimat_param_mod
-      use eos_param_mod
-      use precision_mod, only : WP
-      use ale_mod , only : ale_rezon_
-      implicit none
+        use table4d_mod
+        use visc_param_mod
+        use fail_param_mod
+        use therm_param_mod
+        use names_and_titles_mod
+        use multimat_param_mod
+        use eos_param_mod
+        use precision_mod, only : WP
+        use ale_mod , only : ale_rezon_
+        implicit none
 
-      private :: WP
-      
+        private :: WP
 
-!=======================================================================      
-  !! \brief module to define data structure for all material model parameters 
-  !! \details  allocatable dimension : nummat
-!=======================================================================      
+
+!=======================================================================
+        !! \brief module to define data structure for all material model parameters
+        !! \details  allocatable dimension : nummat
+!=======================================================================
 !
-      type matparam_struct_
-      
-        character(len=nchartitle) :: title  !< material law title
-        integer     :: ilaw                 !< material model (type)
-        integer     :: mat_id               !< user id
-        integer     :: nuparam              !< number of real value material paraameters
-        integer     :: niparam              !< number of int value material parameters
-        integer     :: nfunc                !< number of local functions in material
-        integer     :: ntable               !< number of local function tables
-        integer     :: nsubmat              !< number of submaterials (multi-mat law51)
-        integer     :: nfail                !< number of failure models
-        integer     :: ivisc                !< viscosity model number
-        integer     :: ieos                 !< eos model (type)
-        integer     :: itherm               !< thermal option activation flag (/heat/mat)
-        integer     :: iexpan               !< thermal volumic expansion flag (/therm_stress)
-        integer     :: iale                 !< ale formulation flag
-        integer     :: iturb                !< turbulent flow flag
-        integer     :: heat_flag            !< dissipated energy (heat source) is output by material law
-        ! -------  material characteristics flags
-        integer     :: compressibility      !< "compressible","incompressible","elasto_plastic"
-        integer     :: smstr                !< "small_strain", "large_strain"
-        integer     :: strain_formulation   !< "total", "incremental"
-        integer     :: ipres                !< "hydrostatic",hydro_eos","hook"
-        integer     :: orthotropy           !< "isotropic", "orthotropic", "anisotropic"
-        ! ------- compatibility flags - not written in restart file, for starter check only
-        integer     :: prop_solid           !< "solid_isotropic","solid_orthotropic","solid_composite","solid_cohesive"   ,"solid_porous","solid_all"
-        integer     :: prop_shell           !< "shell_isotropic","shell_orthotropic","shell_composite","shell_anisotropic","shell_all"
-        integer     :: prop_beam            !< "beam_classic"   ,"beam_integrated"  ,"beam_all"
-        integer     :: prop_spring          !< "spring_predit"  ,"spring_material"  ,"spring_all"
-        integer     :: prop_truss           !< "truss"
-        integer     :: prop_sph             !< "sph"
-        integer     :: compatibility_eos    !< "eos"
-        integer     :: compatibility_visc   !< "visc"
-        integer     :: compatibility_therm  !< "therm"
+        type matparam_struct_
+
+          character(len=nchartitle) :: title  !< material law title
+          integer     :: ilaw                 !< material model (type)
+          integer     :: mat_id               !< user id
+          integer     :: nuparam              !< number of real value material paraameters
+          integer     :: niparam              !< number of int value material parameters
+          integer     :: nfunc                !< number of local functions in material
+          integer     :: ntable               !< number of local function tables
+          integer     :: nsubmat              !< number of submaterials (multi-mat law51)
+          integer     :: nfail                !< number of failure models
+          integer     :: ivisc                !< viscosity model number
+          integer     :: ieos                 !< eos model (type)
+          integer     :: itherm               !< thermal option activation flag (/heat/mat)
+          integer     :: iexpan               !< thermal volumic expansion flag (/therm_stress)
+          integer     :: iale                 !< ale formulation flag
+          integer     :: iturb                !< turbulent flow flag
+          integer     :: heat_flag            !< dissipated energy (heat source) is output by material law
+          ! -------  material characteristics flags
+          integer     :: compressibility      !< "compressible","incompressible","elasto_plastic"
+          integer     :: smstr                !< "small_strain", "large_strain"
+          integer     :: strain_formulation   !< "total", "incremental"
+          integer     :: ipres                !< "hydrostatic",hydro_eos","hook"
+          integer     :: orthotropy           !< "isotropic", "orthotropic", "anisotropic"
+          ! ------- compatibility flags - not written in restart file, for starter check only
+          integer     :: prop_solid           !< "solid_isotropic","solid_orthotropic","solid_composite","solid_cohesive"   ,"solid_porous","solid_all"
+          integer     :: prop_shell           !< "shell_isotropic","shell_orthotropic","shell_composite","shell_anisotropic","shell_all"
+          integer     :: prop_beam            !< "beam_classic"   ,"beam_integrated"  ,"beam_all"
+          integer     :: prop_spring          !< "spring_predit"  ,"spring_material"  ,"spring_all"
+          integer     :: prop_truss           !< "truss"
+          integer     :: prop_sph             !< "sph"
+          integer     :: compatibility_eos    !< "eos"
+          integer     :: compatibility_visc   !< "visc"
+          integer     :: compatibility_therm  !< "therm"
 !        integer     :: compatibility_nloc   !< "nloc"
-        ! --------------------------------- !<  
-        integer     :: nloc                 !< non-local variable regularization flag
-        integer     :: ifailwave            !< failwave propagation flag
-        integer     :: ixfem                !< xfem flag
-        ! --------------------------------- !<
-        integer     :: nmod                 !< number of rupture/damage modes
-        ! --------------------------------- !
-        real(kind=WP) :: rho                !< reference density
-        real(kind=WP) :: rho0               !< initial density        
-        real(kind=WP) :: young              !< Young modulus        
-        real(kind=WP) :: bulk               !< bulk modulus      
-        real(kind=WP) :: shear              !< shear modulus 
-        real(kind=WP) :: nu                 !< Poisson's ratio     
-        real(kind=WP) :: stiff_contact      !< initial contact stiffness 
-        real(kind=WP) :: stiff_hglass       !< initial hourglass stiffness      
-        real(kind=WP) :: stiff_tstep        !< initial stiffness for time step stability
+          ! --------------------------------- !<
+          integer     :: nloc                 !< non-local variable regularization flag
+          integer     :: ifailwave            !< failwave propagation flag
+          integer     :: ixfem                !< xfem flag
+          ! --------------------------------- !<
+          integer     :: nmod                 !< number of rupture/damage modes
+          ! --------------------------------- !
+          real(kind=WP) :: rho                !< reference density
+          real(kind=WP) :: rho0               !< initial density
+          real(kind=WP) :: young              !< Young modulus
+          real(kind=WP) :: bulk               !< bulk modulus
+          real(kind=WP) :: shear              !< shear modulus
+          real(kind=WP) :: nu                 !< Poisson's ratio
+          real(kind=WP) :: stiff_contact      !< initial contact stiffness
+          real(kind=WP) :: stiff_hglass       !< initial hourglass stiffness
+          real(kind=WP) :: stiff_tstep        !< initial stiffness for time step stability
 !
-        real(kind=WP)             ,dimension(:) ,allocatable :: uparam !< real value material parameter table (nuparam)
-        integer                   ,dimension(:) ,allocatable :: iparam !< integer value material parameter table (niparam)
-        type (table_4d_)          ,dimension(:) ,allocatable :: table  !< local function tables
-        character(len=nchartitle) ,dimension(:) ,allocatable :: mode   !< damage mode keywords
-!                
-        type (fail_param_),dimension(:) ,allocatable :: fail     !< failure models data structure (nfail)
-        type (visc_param_)                           :: visc     !< viscosity model data structure
-        type (therm_param_)                          :: therm    !< thermal model data structure (/heat/mat + /therm_stress)         
-        type (eos_param_)                            :: eos      !< eos model data structure
-        type (multimat_param_)                       :: multimat !< buffer scpecific to multimaterial laws (51,151) : vfrac and mat internal identifiers
-        type (ale_rezon_)                            :: rezon
+          real(kind=WP)             ,dimension(:) ,allocatable :: uparam !< real value material parameter table (nuparam)
+          integer                   ,dimension(:) ,allocatable :: iparam !< integer value material parameter table (niparam)
+          type (table_4d_)          ,dimension(:) ,allocatable :: table  !< local function tables
+          character(len=nchartitle) ,dimension(:) ,allocatable :: mode   !< damage mode keywords
+!
+          type (fail_param_),dimension(:) ,allocatable :: fail     !< failure models data structure (nfail)
+          type (visc_param_)                           :: visc     !< viscosity model data structure
+          type (therm_param_)                          :: therm    !< thermal model data structure (/heat/mat + /therm_stress)
+          type (eos_param_)                            :: eos      !< eos model data structure
+          type (multimat_param_)                       :: multimat !< buffer scpecific to multimaterial laws (51,151) : vfrac and mat internal identifiers
+          type (ale_rezon_)                            :: rezon
 
-!        type (submat_)  ,dimension(:) ,allocatable :: submat    !< multi material data structure (to be defined) 
+!        type (submat_)  ,dimension(:) ,allocatable :: submat    !< multi material data structure (to be defined)
 
         contains
           procedure :: destruct => destruct_matparam
           procedure :: zeroing => zeroing_matparam
 
-      end type matparam_struct_
+        end type matparam_struct_
 
 
 
@@ -444,57 +444,57 @@
           implicit none
           class(matparam_struct_), intent(inout) :: this
 
-            !initialize to 0 integer and real from data structure
+          !initialize to 0 integer and real from data structure
 
-            this%rho = zero
-            this%rho0 = zero
-            this%young = zero
-            this%bulk = zero
-            this%shear = zero
-            this%nu = zero
-            this%stiff_contact = zero
-            this%stiff_hglass = zero
-            this%stiff_tstep = zero
+          this%rho = zero
+          this%rho0 = zero
+          this%young = zero
+          this%bulk = zero
+          this%shear = zero
+          this%nu = zero
+          this%stiff_contact = zero
+          this%stiff_hglass = zero
+          this%stiff_tstep = zero
 
-            !VISC
-            this%visc%ilaw = 0
-            this%visc%title = ''
-            this%visc%nuparam = 0
-            this%visc%niparam = 0
-            this%visc%nuvar = 0
-            this%visc%nfunc = 0
-            this%visc%ntable = 0
+          !VISC
+          this%visc%ilaw = 0
+          this%visc%title = ''
+          this%visc%nuparam = 0
+          this%visc%niparam = 0
+          this%visc%nuvar = 0
+          this%visc%nfunc = 0
+          this%visc%ntable = 0
 
-            !THERM
-            this%therm%iform = 0
-            this%therm%func_thexp = 0
-            this%therm%tini  = zero
-            this%therm%tref  = zero
-            this%therm%tmelt = zero
-            this%therm%rhocp = zero
-            this%therm%as = zero
-            this%therm%bs = zero
-            this%therm%al = zero
-            this%therm%bl = zero
-            this%therm%efrac = zero
-            this%therm%scale_thexp = zero
+          !THERM
+          this%therm%iform = 0
+          this%therm%func_thexp = 0
+          this%therm%tini  = zero
+          this%therm%tref  = zero
+          this%therm%tmelt = zero
+          this%therm%rhocp = zero
+          this%therm%as = zero
+          this%therm%bs = zero
+          this%therm%al = zero
+          this%therm%bl = zero
+          this%therm%efrac = zero
+          this%therm%scale_thexp = zero
 
-            !EOS
-            this%eos%title = ''
-            this%eos%nuparam = 0
-            this%eos%niparam = 0
-            this%eos%nfunc = 0
-            this%eos%ntable = 0
-            this%eos%isfluid = 0
-            this%eos%cv = zero
-            this%eos%cp = zero
+          !EOS
+          this%eos%title = ''
+          this%eos%nuparam = 0
+          this%eos%niparam = 0
+          this%eos%nfunc = 0
+          this%eos%ntable = 0
+          this%eos%isfluid = 0
+          this%eos%cv = zero
+          this%eos%cp = zero
 
-            !MULTIMAT
-            this%multimat%nb = 0
+          !MULTIMAT
+          this%multimat%nb = 0
 
-            !ALE ZERONING
-            this%rezon%num_nuvar_mat = 0
-            this%rezon%num_nuvar_eos = 0
+          !ALE ZERONING
+          this%rezon%num_nuvar_mat = 0
+          this%rezon%num_nuvar_eos = 0
 
         end subroutine zeroing_matparam
 
@@ -523,7 +523,7 @@
           end if
 
           if(this%nsubmat > 0)then
-             call this%multimat%destruct
+            call this%multimat%destruct
           end if
 
           if(this%ieos > 0)then

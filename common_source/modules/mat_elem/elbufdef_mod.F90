@@ -701,621 +701,621 @@
 !||====================================================================
       Module elbufdef_mod
 
-!=======================================================================================      
+!=======================================================================================
 !! \brief  module to define data structure for internal state variables by element group
-!! \details 
+!! \details
 
-      use precision_mod, only : WP
-      implicit none
-      private :: WP
+        use precision_mod, only : WP
+        implicit none
+        private :: WP
 !
 
-!=======================================================================      
+!=======================================================================
 !
-      Type g_bufel_          ! material and property variables (mean values for each element)
-        integer  :: nvar_glob   
-        integer  :: g_noff   
-        integer  :: g_ierr
-        integer  :: g_off    
-        integer  :: g_gama   
-        integer  :: g_smstr  
-        integer  :: g_hourg  
-        integer  :: g_bfrac  
-        integer  :: g_eint   
-        integer  :: g_eins   
-        integer  :: g_rho    
-        integer  :: g_qvis   
-        integer  :: g_deltax 
-        integer  :: g_vol    
-        integer  :: g_epsd   
-        integer  :: g_epsq
-        integer  :: g_pla    
-        integer  :: g_wpla
-        integer  :: g_temp   
-        integer  :: g_tb     
-        integer  :: g_rk     
-        integer  :: g_re     
-        integer  :: g_sig    
-        integer  :: g_for    
-        integer  :: g_mom    
-        integer  :: g_thk    
-        integer  :: g_tag22
-        integer  :: g_stra  
-        integer  :: g_sigi   
-        integer  :: g_dmg   
-        integer  :: g_forpg    
-        integer  :: g_mompg
-        integer  :: g_gama_r   
-        integer  :: g_for_g    ! used for resultant stress (global modeling)
-        integer  :: g_forpg_g    
+        Type g_bufel_          ! material and property variables (mean values for each element)
+          integer  :: nvar_glob
+          integer  :: g_noff
+          integer  :: g_ierr
+          integer  :: g_off
+          integer  :: g_gama
+          integer  :: g_smstr
+          integer  :: g_hourg
+          integer  :: g_bfrac
+          integer  :: g_eint
+          integer  :: g_eins
+          integer  :: g_rho
+          integer  :: g_qvis
+          integer  :: g_deltax
+          integer  :: g_vol
+          integer  :: g_epsd
+          integer  :: g_epsq
+          integer  :: g_pla
+          integer  :: g_wpla
+          integer  :: g_temp
+          integer  :: g_tb
+          integer  :: g_rk
+          integer  :: g_re
+          integer  :: g_sig
+          integer  :: g_for
+          integer  :: g_mom
+          integer  :: g_thk
+          integer  :: g_tag22
+          integer  :: g_stra
+          integer  :: g_sigi
+          integer  :: g_dmg
+          integer  :: g_forpg
+          integer  :: g_mompg
+          integer  :: g_gama_r
+          integer  :: g_for_g    ! used for resultant stress (global modeling)
+          integer  :: g_forpg_g
 !
-        integer  :: g_forpgpinch  
-        integer  :: g_mompgpinch 
-        integer  :: g_epgpinchxz
-        integer  :: g_epgpinchyz 
-        integer  :: g_epgpinchzz
-!    
-        integer  :: g_strpg
-        integer  :: g_uelr
-        integer  :: g_uelr1
-        integer  :: g_damdl
-        integer  :: g_forth    
-        integer  :: g_eintth    
-        integer  :: g_fill
-        integer  :: g_seq
-        integer  :: g_strw  
-        integer  :: g_strwpg  
-        integer  :: g_thk_i    
-        integer  :: g_jac_i   
-        integer  :: g_dt
-        integer  :: g_isms 
-        integer  :: g_strhg
-        integer  :: g_bpreld        ! bolt preloading
-        integer  :: g_aburn
-        integer  :: g_mu
-        integer  :: g_planl
-        integer  :: g_epsdnl
-        integer  :: g_tempg
-        integer  :: g_cor_nf        ! nodal forces for corotational formulation
-        integer  :: g_cor_fr        ! local frame for corotational formulation
-        integer  :: g_cor_xr        ! reference local coordinates for corotational formulation
-        integer  :: g_maxfrac 
-        integer  :: g_maxeps 
-        integer  :: g_betaorth
-        integer  :: g_amu
-        integer  :: g_tsaiwu
-        integer  :: g_dmgscl
-        integer  :: g_sh_ioffset
-        integer  :: g_eint_distor
-!---
-!    - 1d - elem (truss, beam, spring) 
-        integer  :: g_area
-        integer  :: g_skew
-        integer  :: g_length
-        integer  :: g_totdepl
-        integer  :: g_totrot
-        integer  :: g_forep
-        integer  :: g_momep
-        integer  :: g_dep_in_tens
-        integer  :: g_dep_in_comp
-        integer  :: g_rot_in_tens
-        integer  :: g_rot_in_comp
-        integer  :: g_posx
-        integer  :: g_posy
-        integer  :: g_posz
-        integer  :: g_posxx
-        integer  :: g_posyy
-        integer  :: g_poszz
-        integer  :: g_yield
-        integer  :: g_length_err
-        integer  :: g_dv
-        integer  :: g_dfs
-        integer  :: g_skew_err
-        integer  :: g_e6
-        integer  :: g_ruptcrit
-        integer  :: g_mass
-        integer  :: g_v_repcvt
-        integer  :: g_vr_repcvt
-        integer  :: g_nuvar
-        integer  :: g_nuvarn
-        integer  :: g_defini
-        integer  :: g_forini
-        integer  :: g_inifric
-        integer  :: g_etotsh
-        integer  :: g_skew_id
-        integer  :: g_yield_in_comp
-        integer  :: g_xxold_in_comp
+          integer  :: g_forpgpinch
+          integer  :: g_mompgpinch
+          integer  :: g_epgpinchxz
+          integer  :: g_epgpinchyz
+          integer  :: g_epgpinchzz
 !
-!    -  for seatbelt elements
-        integer  :: g_slipring_id
-        integer  :: g_slipring_fram_id
-        integer  :: g_slipring_strand
-        integer  :: g_retractor_id
-        integer  :: g_ringslip
-        integer  :: g_add_node
-        integer  :: g_update
-        integer  :: g_fram_factor
-        integer  :: g_intvar
-!---
-        integer  :: g_dt_piter
-!---
-        integer  :: g_idt_tsh
-!-------  max_historic variables     
-        integer  :: g_tm_yield
-        integer  :: g_tm_seq
-        integer  :: g_tm_eint
-        integer  :: g_tm_dmg
-        integer  :: g_tm_sig  ! max(p1)&min(p3) 3 for 2d, 6 for 3d
-        integer  :: g_tm_stra ! max(p1)&min(p3)
-!---
-        integer, dimension(:) , pointer ::   noff  
-        integer, dimension(:) , pointer ::   ierr  
-        real(kind=WP), dimension(:) , pointer ::   off   
-        real(kind=WP), dimension(:) , pointer ::   gama  
-        double precision, dimension(:) , pointer ::   smstr 
-        real(kind=WP), dimension(:) , pointer ::   hourg 
-        real(kind=WP), dimension(:) , pointer ::   bfrac    
-        real(kind=WP), dimension(:) , pointer ::   eint  
-        real(kind=WP), dimension(:) , pointer ::   eins  
-        real(kind=WP), dimension(:) , pointer ::   rho   
-        real(kind=WP), dimension(:) , pointer ::   qvis       
-        real(kind=WP), dimension(:) , pointer ::   deltax                 
-        real(kind=WP), dimension(:) , pointer ::   vol                            
-        real(kind=WP), dimension(:) , pointer ::   epsd  
-        real(kind=WP), dimension(:) , pointer ::   epsq
-        real(kind=WP), dimension(:) , pointer ::   pla   
-        real(kind=WP), dimension(:) , pointer ::   wpla
-        real(kind=WP), dimension(:) , pointer ::   temp  
-        real(kind=WP), dimension(:) , pointer ::   tb    
-        real(kind=WP), dimension(:) , pointer ::   rk    
-        real(kind=WP), dimension(:) , pointer ::   re    
-        real(kind=WP), dimension(:) , pointer ::   sig                          
-        real(kind=WP), dimension(:) , pointer ::   for                        
-        real(kind=WP), dimension(:) , pointer ::   mom                        
-        real(kind=WP), dimension(:) , pointer ::   thk                        
-        real(kind=WP), dimension(:) , pointer ::   tag22                    
-        real(kind=WP), dimension(:) , pointer ::   stra                     
-        real(kind=WP), dimension(:) , pointer ::   sigi                     
-        real(kind=WP), dimension(:) , pointer ::   dmg                     
-        real(kind=WP), dimension(:) , pointer ::   forpg   ! mean gauss point value    
-        real(kind=WP), dimension(:) , pointer ::   mompg
-        real(kind=WP), dimension(:) , pointer ::   gama_r  ! co-rotational local sys  
-        real(kind=WP), dimension(:) , pointer ::   for_g       
-        real(kind=WP), dimension(:) , pointer ::   forpg_g       
-!
-        real(kind=WP), dimension(:) , pointer ::   forpgpinch 
-        real(kind=WP), dimension(:) , pointer ::   mompgpinch
-        real(kind=WP), dimension(:) , pointer ::   epgpinchxz
-        real(kind=WP), dimension(:) , pointer ::   epgpinchyz
-        real(kind=WP), dimension(:) , pointer ::   epgpinchzz
-!                        
-        real(kind=WP), dimension(:) , pointer ::   strpg                  
-        real(kind=WP), dimension(:) , pointer ::   tempg   
-        real(kind=WP), dimension(:) , pointer ::   uelr   !  failure global variable
-        real(kind=WP), dimension(:) , pointer ::   uelr1  !  failure global variable
-        real(kind=WP), dimension(:) , pointer ::   damdl  !  delamination failure (law25)
-        real(kind=WP), dimension(:) , pointer ::   forth
-        real(kind=WP), dimension(:) , pointer ::   eintth                                                
-        real(kind=WP), dimension(:) , pointer ::   fill
-        real(kind=WP), dimension(:) , pointer ::   seq
-        real(kind=WP), dimension(:) , pointer ::   thk_i   !---- add for ismstr=10 shell (xfem not done) strwpg total anti-symme curvature                         
-        real(kind=WP), dimension(:) , pointer ::   strw 
-        real(kind=WP), dimension(:) , pointer ::   strwpg
-        real(kind=WP), dimension(:) , pointer ::   jac_i   !--------inversed [j]
-        real(kind=WP), dimension(:) , pointer ::   dt
-        real(kind=WP), dimension(:) , pointer ::   aburn 
-        real(kind=WP), dimension(:) , pointer ::   mu 
-        integer, dimension(:) , pointer ::   isms 
-        integer, dimension(:) , pointer ::   sh_ioffset 
-        real(kind=WP), dimension(:) , pointer ::   bpreld  ! bolt preloading 
-        real(kind=WP), dimension(:) , pointer ::   cor_nf  ! corotational nodal forces 
-        real(kind=WP), dimension(:) , pointer ::   cor_fr  ! corotational frame 
-        real(kind=WP), dimension(:) , pointer ::   cor_xr  ! corotational reference coordinates 
-        real(kind=WP), dimension(:) , pointer ::   maxfrac
-        real(kind=WP), dimension(:) , pointer ::   maxeps 
-        real(kind=WP), dimension(:) , pointer ::   betaorth 
-        real(kind=WP), dimension(:) , pointer ::   amu
-        real(kind=WP), dimension(:) , pointer ::   eint_distor  
+          integer  :: g_strpg
+          integer  :: g_uelr
+          integer  :: g_uelr1
+          integer  :: g_damdl
+          integer  :: g_forth
+          integer  :: g_eintth
+          integer  :: g_fill
+          integer  :: g_seq
+          integer  :: g_strw
+          integer  :: g_strwpg
+          integer  :: g_thk_i
+          integer  :: g_jac_i
+          integer  :: g_dt
+          integer  :: g_isms
+          integer  :: g_strhg
+          integer  :: g_bpreld        ! bolt preloading
+          integer  :: g_aburn
+          integer  :: g_mu
+          integer  :: g_planl
+          integer  :: g_epsdnl
+          integer  :: g_tempg
+          integer  :: g_cor_nf        ! nodal forces for corotational formulation
+          integer  :: g_cor_fr        ! local frame for corotational formulation
+          integer  :: g_cor_xr        ! reference local coordinates for corotational formulation
+          integer  :: g_maxfrac
+          integer  :: g_maxeps
+          integer  :: g_betaorth
+          integer  :: g_amu
+          integer  :: g_tsaiwu
+          integer  :: g_dmgscl
+          integer  :: g_sh_ioffset
+          integer  :: g_eint_distor
 !---
 !    - 1d - elem (truss, beam, spring)
-        real(kind=WP), dimension(:) , pointer ::   dmgscl ! damage scaling
-        real(kind=WP), dimension(:) , pointer ::   area
-        real(kind=WP), dimension(:) , pointer ::   skew
-        real(kind=WP), dimension(:) , pointer ::   length
-        real(kind=WP), dimension(:) , pointer ::   totdepl
-        real(kind=WP), dimension(:) , pointer ::   totrot
-        real(kind=WP), dimension(:) , pointer ::   forep
-        real(kind=WP), dimension(:) , pointer ::   momep
-        real(kind=WP), dimension(:) , pointer ::   dep_in_tens
-        real(kind=WP), dimension(:) , pointer ::   dep_in_comp
-        real(kind=WP), dimension(:) , pointer ::   rot_in_tens
-        real(kind=WP), dimension(:) , pointer ::   rot_in_comp
-        real(kind=WP), dimension(:) , pointer ::   posx
-        real(kind=WP), dimension(:) , pointer ::   posy
-        real(kind=WP), dimension(:) , pointer ::   posz
-        real(kind=WP), dimension(:) , pointer ::   posxx
-        real(kind=WP), dimension(:) , pointer ::   posyy
-        real(kind=WP), dimension(:) , pointer ::   poszz
-        real(kind=WP), dimension(:) , pointer ::   yield
-        real(kind=WP), dimension(:) , pointer ::   length_err
-        real(kind=WP), dimension(:) , pointer ::   dv
-        real(kind=WP), dimension(:) , pointer ::   dfs
-        real(kind=WP), dimension(:) , pointer ::   skew_err
-        real(kind=WP), dimension(:) , pointer ::   e6
-        real(kind=WP), dimension(:) , pointer ::   ruptcrit
-        real(kind=WP), dimension(:) , pointer ::   mass
-        real(kind=WP), dimension(:) , pointer ::   v_repcvt
-        real(kind=WP), dimension(:) , pointer ::   vr_repcvt
-        real(kind=WP), dimension(:) , pointer ::   var
-        real(kind=WP), dimension(:) , pointer ::   varn
-        real(kind=WP), dimension(:) , pointer ::   defini
-        real(kind=WP), dimension(:) , pointer ::   forini
-        real(kind=WP), dimension(:) , pointer ::   inifric
-        real(kind=WP), dimension(:) , pointer ::   strhg
-        real(kind=WP), dimension(:) , pointer ::   etotsh
-        integer, dimension(:) , pointer ::   skew_id
-        real(kind=WP), dimension(:) , pointer ::   yield_in_comp
-        real(kind=WP), dimension(:) , pointer ::   xxold_in_comp
-        type (fail_loc_) , dimension(:) , pointer ::   fail
+          integer  :: g_area
+          integer  :: g_skew
+          integer  :: g_length
+          integer  :: g_totdepl
+          integer  :: g_totrot
+          integer  :: g_forep
+          integer  :: g_momep
+          integer  :: g_dep_in_tens
+          integer  :: g_dep_in_comp
+          integer  :: g_rot_in_tens
+          integer  :: g_rot_in_comp
+          integer  :: g_posx
+          integer  :: g_posy
+          integer  :: g_posz
+          integer  :: g_posxx
+          integer  :: g_posyy
+          integer  :: g_poszz
+          integer  :: g_yield
+          integer  :: g_length_err
+          integer  :: g_dv
+          integer  :: g_dfs
+          integer  :: g_skew_err
+          integer  :: g_e6
+          integer  :: g_ruptcrit
+          integer  :: g_mass
+          integer  :: g_v_repcvt
+          integer  :: g_vr_repcvt
+          integer  :: g_nuvar
+          integer  :: g_nuvarn
+          integer  :: g_defini
+          integer  :: g_forini
+          integer  :: g_inifric
+          integer  :: g_etotsh
+          integer  :: g_skew_id
+          integer  :: g_yield_in_comp
+          integer  :: g_xxold_in_comp
 !
 !    -  for seatbelt elements
-        integer, dimension(:) , pointer ::   slipring_id
-        integer, dimension(:) , pointer ::   slipring_fram_id
-        integer, dimension(:) , pointer ::   slipring_strand
-        integer, dimension(:) , pointer ::   retractor_id
-        real(kind=WP), dimension(:) , pointer ::   ringslip
-        integer, dimension(:) , pointer ::   add_node
-        integer, dimension(:) , pointer ::   update
-        real(kind=WP), dimension(:) , pointer ::   fram_factor
-        real(kind=WP), dimension(:) , pointer ::   intvar
+          integer  :: g_slipring_id
+          integer  :: g_slipring_fram_id
+          integer  :: g_slipring_strand
+          integer  :: g_retractor_id
+          integer  :: g_ringslip
+          integer  :: g_add_node
+          integer  :: g_update
+          integer  :: g_fram_factor
+          integer  :: g_intvar
 !---
-        real(kind=WP), dimension(:) , pointer ::   dt_piter ! tetra10 iterative power for time step computation
-        integer, dimension(:) , pointer ::   idt_tsh  
-!-------  max_historic variables     
-        real(kind=WP), dimension(:) , pointer ::   tm_yield   
-        real(kind=WP), dimension(:) , pointer ::   tm_seq   
-        real(kind=WP), dimension(:) , pointer ::   tm_eint   
-        real(kind=WP), dimension(:) , pointer ::   tm_dmg   
-        real(kind=WP), dimension(:) , pointer ::   tm_sig1
-        real(kind=WP), dimension(:) , pointer ::   tm_stra1
-        real(kind=WP), dimension(:) , pointer ::   tm_sig3
-        real(kind=WP), dimension(:) , pointer ::   tm_stra3
+          integer  :: g_dt_piter
+!---
+          integer  :: g_idt_tsh
+!-------  max_historic variables
+          integer  :: g_tm_yield
+          integer  :: g_tm_seq
+          integer  :: g_tm_eint
+          integer  :: g_tm_dmg
+          integer  :: g_tm_sig  ! max(p1)&min(p3) 3 for 2d, 6 for 3d
+          integer  :: g_tm_stra ! max(p1)&min(p3)
+!---
+          integer, dimension(:) , pointer ::   noff
+          integer, dimension(:) , pointer ::   ierr
+          real(kind=WP), dimension(:) , pointer ::   off
+          real(kind=WP), dimension(:) , pointer ::   gama
+          double precision, dimension(:) , pointer ::   smstr
+          real(kind=WP), dimension(:) , pointer ::   hourg
+          real(kind=WP), dimension(:) , pointer ::   bfrac
+          real(kind=WP), dimension(:) , pointer ::   eint
+          real(kind=WP), dimension(:) , pointer ::   eins
+          real(kind=WP), dimension(:) , pointer ::   rho
+          real(kind=WP), dimension(:) , pointer ::   qvis
+          real(kind=WP), dimension(:) , pointer ::   deltax
+          real(kind=WP), dimension(:) , pointer ::   vol
+          real(kind=WP), dimension(:) , pointer ::   epsd
+          real(kind=WP), dimension(:) , pointer ::   epsq
+          real(kind=WP), dimension(:) , pointer ::   pla
+          real(kind=WP), dimension(:) , pointer ::   wpla
+          real(kind=WP), dimension(:) , pointer ::   temp
+          real(kind=WP), dimension(:) , pointer ::   tb
+          real(kind=WP), dimension(:) , pointer ::   rk
+          real(kind=WP), dimension(:) , pointer ::   re
+          real(kind=WP), dimension(:) , pointer ::   sig
+          real(kind=WP), dimension(:) , pointer ::   for
+          real(kind=WP), dimension(:) , pointer ::   mom
+          real(kind=WP), dimension(:) , pointer ::   thk
+          real(kind=WP), dimension(:) , pointer ::   tag22
+          real(kind=WP), dimension(:) , pointer ::   stra
+          real(kind=WP), dimension(:) , pointer ::   sigi
+          real(kind=WP), dimension(:) , pointer ::   dmg
+          real(kind=WP), dimension(:) , pointer ::   forpg   ! mean gauss point value
+          real(kind=WP), dimension(:) , pointer ::   mompg
+          real(kind=WP), dimension(:) , pointer ::   gama_r  ! co-rotational local sys
+          real(kind=WP), dimension(:) , pointer ::   for_g
+          real(kind=WP), dimension(:) , pointer ::   forpg_g
+!
+          real(kind=WP), dimension(:) , pointer ::   forpgpinch
+          real(kind=WP), dimension(:) , pointer ::   mompgpinch
+          real(kind=WP), dimension(:) , pointer ::   epgpinchxz
+          real(kind=WP), dimension(:) , pointer ::   epgpinchyz
+          real(kind=WP), dimension(:) , pointer ::   epgpinchzz
+!
+          real(kind=WP), dimension(:) , pointer ::   strpg
+          real(kind=WP), dimension(:) , pointer ::   tempg
+          real(kind=WP), dimension(:) , pointer ::   uelr   !  failure global variable
+          real(kind=WP), dimension(:) , pointer ::   uelr1  !  failure global variable
+          real(kind=WP), dimension(:) , pointer ::   damdl  !  delamination failure (law25)
+          real(kind=WP), dimension(:) , pointer ::   forth
+          real(kind=WP), dimension(:) , pointer ::   eintth
+          real(kind=WP), dimension(:) , pointer ::   fill
+          real(kind=WP), dimension(:) , pointer ::   seq
+          real(kind=WP), dimension(:) , pointer ::   thk_i   !---- add for ismstr=10 shell (xfem not done) strwpg total anti-symme curvature
+          real(kind=WP), dimension(:) , pointer ::   strw
+          real(kind=WP), dimension(:) , pointer ::   strwpg
+          real(kind=WP), dimension(:) , pointer ::   jac_i   !--------inversed [j]
+          real(kind=WP), dimension(:) , pointer ::   dt
+          real(kind=WP), dimension(:) , pointer ::   aburn
+          real(kind=WP), dimension(:) , pointer ::   mu
+          integer, dimension(:) , pointer ::   isms
+          integer, dimension(:) , pointer ::   sh_ioffset
+          real(kind=WP), dimension(:) , pointer ::   bpreld  ! bolt preloading
+          real(kind=WP), dimension(:) , pointer ::   cor_nf  ! corotational nodal forces
+          real(kind=WP), dimension(:) , pointer ::   cor_fr  ! corotational frame
+          real(kind=WP), dimension(:) , pointer ::   cor_xr  ! corotational reference coordinates
+          real(kind=WP), dimension(:) , pointer ::   maxfrac
+          real(kind=WP), dimension(:) , pointer ::   maxeps
+          real(kind=WP), dimension(:) , pointer ::   betaorth
+          real(kind=WP), dimension(:) , pointer ::   amu
+          real(kind=WP), dimension(:) , pointer ::   eint_distor
+!---
+!    - 1d - elem (truss, beam, spring)
+          real(kind=WP), dimension(:) , pointer ::   dmgscl ! damage scaling
+          real(kind=WP), dimension(:) , pointer ::   area
+          real(kind=WP), dimension(:) , pointer ::   skew
+          real(kind=WP), dimension(:) , pointer ::   length
+          real(kind=WP), dimension(:) , pointer ::   totdepl
+          real(kind=WP), dimension(:) , pointer ::   totrot
+          real(kind=WP), dimension(:) , pointer ::   forep
+          real(kind=WP), dimension(:) , pointer ::   momep
+          real(kind=WP), dimension(:) , pointer ::   dep_in_tens
+          real(kind=WP), dimension(:) , pointer ::   dep_in_comp
+          real(kind=WP), dimension(:) , pointer ::   rot_in_tens
+          real(kind=WP), dimension(:) , pointer ::   rot_in_comp
+          real(kind=WP), dimension(:) , pointer ::   posx
+          real(kind=WP), dimension(:) , pointer ::   posy
+          real(kind=WP), dimension(:) , pointer ::   posz
+          real(kind=WP), dimension(:) , pointer ::   posxx
+          real(kind=WP), dimension(:) , pointer ::   posyy
+          real(kind=WP), dimension(:) , pointer ::   poszz
+          real(kind=WP), dimension(:) , pointer ::   yield
+          real(kind=WP), dimension(:) , pointer ::   length_err
+          real(kind=WP), dimension(:) , pointer ::   dv
+          real(kind=WP), dimension(:) , pointer ::   dfs
+          real(kind=WP), dimension(:) , pointer ::   skew_err
+          real(kind=WP), dimension(:) , pointer ::   e6
+          real(kind=WP), dimension(:) , pointer ::   ruptcrit
+          real(kind=WP), dimension(:) , pointer ::   mass
+          real(kind=WP), dimension(:) , pointer ::   v_repcvt
+          real(kind=WP), dimension(:) , pointer ::   vr_repcvt
+          real(kind=WP), dimension(:) , pointer ::   var
+          real(kind=WP), dimension(:) , pointer ::   varn
+          real(kind=WP), dimension(:) , pointer ::   defini
+          real(kind=WP), dimension(:) , pointer ::   forini
+          real(kind=WP), dimension(:) , pointer ::   inifric
+          real(kind=WP), dimension(:) , pointer ::   strhg
+          real(kind=WP), dimension(:) , pointer ::   etotsh
+          integer, dimension(:) , pointer ::   skew_id
+          real(kind=WP), dimension(:) , pointer ::   yield_in_comp
+          real(kind=WP), dimension(:) , pointer ::   xxold_in_comp
+          type (fail_loc_) , dimension(:) , pointer ::   fail
+!
+!    -  for seatbelt elements
+          integer, dimension(:) , pointer ::   slipring_id
+          integer, dimension(:) , pointer ::   slipring_fram_id
+          integer, dimension(:) , pointer ::   slipring_strand
+          integer, dimension(:) , pointer ::   retractor_id
+          real(kind=WP), dimension(:) , pointer ::   ringslip
+          integer, dimension(:) , pointer ::   add_node
+          integer, dimension(:) , pointer ::   update
+          real(kind=WP), dimension(:) , pointer ::   fram_factor
+          real(kind=WP), dimension(:) , pointer ::   intvar
+!---
+          real(kind=WP), dimension(:) , pointer ::   dt_piter ! tetra10 iterative power for time step computation
+          integer, dimension(:) , pointer ::   idt_tsh
+!-------  max_historic variables
+          real(kind=WP), dimension(:) , pointer ::   tm_yield
+          real(kind=WP), dimension(:) , pointer ::   tm_seq
+          real(kind=WP), dimension(:) , pointer ::   tm_eint
+          real(kind=WP), dimension(:) , pointer ::   tm_dmg
+          real(kind=WP), dimension(:) , pointer ::   tm_sig1
+          real(kind=WP), dimension(:) , pointer ::   tm_stra1
+          real(kind=WP), dimension(:) , pointer ::   tm_sig3
+          real(kind=WP), dimension(:) , pointer ::   tm_stra3
 !---  work array
-        real(kind=WP), dimension(:) , pointer ::   tm_psig
-        real(kind=WP), dimension(:) , pointer ::   tm_pstra
+          real(kind=WP), dimension(:) , pointer ::   tm_psig
+          real(kind=WP), dimension(:) , pointer ::   tm_pstra
 !---
-      end type g_bufel_
+        end type g_bufel_
 
 
-      Type l_bufel_      ! element variables per integration point
-        integer  :: mlaw    ! material law type          
-        integer  :: lawid   ! material law id    
-        real(kind=WP), dimension(:) , pointer ::   off    
-        real(kind=WP), dimension(:) , pointer ::   gama   
-        real(kind=WP), dimension(:) , pointer ::   stra   
-        real(kind=WP), dimension(:) , pointer ::   frac          
-        real(kind=WP), dimension(:) , pointer ::   bfrac
-        real(kind=WP), dimension(:) , pointer ::   eint   
-        real(kind=WP), dimension(:) , pointer ::   eins   
-        real(kind=WP), dimension(:) , pointer ::   rho    
-        real(kind=WP), dimension(:) , pointer ::   dp_drho
-        real(kind=WP), dimension(:) , pointer ::   qvis   
-        real(kind=WP), dimension(:) , pointer ::   deltax 
-        real(kind=WP), dimension(:) , pointer ::   vol    
-        real(kind=WP), dimension(:) , pointer ::   epsa   
-        real(kind=WP), dimension(:) , pointer ::   epsd   
-        real(kind=WP), dimension(:) , pointer ::   epsq   
-        real(kind=WP), dimension(:) , pointer ::   epsf   
-        real(kind=WP), dimension(:) , pointer ::   pla    
-        real(kind=WP), dimension(:) , pointer ::   wpla    
-        real(kind=WP), dimension(:) , pointer ::   temp   
-        real(kind=WP), dimension(:) , pointer ::   tb     
-        real(kind=WP), dimension(:) , pointer ::   rk     
-        real(kind=WP), dimension(:) , pointer ::   re         
-        real(kind=WP), dimension(:) , pointer ::   vk     
-        real(kind=WP), dimension(:) , pointer ::   sf     
-        real(kind=WP), dimension(:) , pointer ::   rob    
-        real(kind=WP), dimension(:) , pointer ::   dam    
-        real(kind=WP), dimension(:) , pointer ::   dsum   
-        real(kind=WP), dimension(:) , pointer ::   dglo   
-        real(kind=WP), dimension(:) , pointer ::   crak   
-        real(kind=WP), dimension(:) , pointer ::   ang    
-        real(kind=WP), dimension(:) , pointer ::   epe    
-        real(kind=WP), dimension(:) , pointer ::   epc    
-        real(kind=WP), dimension(:) , pointer ::   xst    
-        real(kind=WP), dimension(:) , pointer ::   ssp    
-        real(kind=WP), dimension(:) , pointer ::   z      
-        real(kind=WP), dimension(:) , pointer ::   visc   
-        real(kind=WP), dimension(:) , pointer ::   sigl   
-        real(kind=WP), dimension(:) , pointer ::   sigv   
-        real(kind=WP), dimension(:) , pointer ::   siga   
-        real(kind=WP), dimension(:) , pointer ::   sigb   
-        real(kind=WP), dimension(:) , pointer ::   sigc   
-        real(kind=WP), dimension(:) , pointer ::   sigd   
-        real(kind=WP), dimension(:) , pointer ::   sigf   
-        real(kind=WP), dimension(:) , pointer ::   sig    
-        real(kind=WP), dimension(:) , pointer ::   sigply    
-        real(kind=WP), dimension(:) , pointer ::   for    
-        real(kind=WP), dimension(:) , pointer ::   mom
-        real(kind=WP), dimension(:) , pointer ::   thk    
-        double precision, dimension(:) , pointer ::   smstr    
-        real(kind=WP), dimension(:) , pointer ::   dmg 
-        real(kind=WP), dimension(:) , pointer ::   forth
-        real(kind=WP), dimension(:) , pointer ::   eintth    
-        real(kind=WP), dimension(:) , pointer ::   seq
-        real(kind=WP), dimension(:) , pointer ::   jac_i    
-        real(kind=WP), dimension(:) , pointer ::   fac_yld  
-        real(kind=WP), dimension(:) , pointer ::   aburn
-        real(kind=WP), dimension(:) , pointer ::   mu
-        real(kind=WP), dimension(:) , pointer ::   pij   !--------[ni,j] for imstr10
-        double precision, dimension(:) , pointer ::   vol0dp
-        real(kind=WP), dimension(:) , pointer ::   planl
-        real(kind=WP), dimension(:) , pointer ::   epsdnl            
-        real(kind=WP), dimension(:) , pointer ::   dmgscl
-        real(kind=WP), dimension(:) , pointer ::   tsaiwu
-      end type l_bufel_                             
+        Type l_bufel_      ! element variables per integration point
+          integer  :: mlaw    ! material law type
+          integer  :: lawid   ! material law id
+          real(kind=WP), dimension(:) , pointer ::   off
+          real(kind=WP), dimension(:) , pointer ::   gama
+          real(kind=WP), dimension(:) , pointer ::   stra
+          real(kind=WP), dimension(:) , pointer ::   frac
+          real(kind=WP), dimension(:) , pointer ::   bfrac
+          real(kind=WP), dimension(:) , pointer ::   eint
+          real(kind=WP), dimension(:) , pointer ::   eins
+          real(kind=WP), dimension(:) , pointer ::   rho
+          real(kind=WP), dimension(:) , pointer ::   dp_drho
+          real(kind=WP), dimension(:) , pointer ::   qvis
+          real(kind=WP), dimension(:) , pointer ::   deltax
+          real(kind=WP), dimension(:) , pointer ::   vol
+          real(kind=WP), dimension(:) , pointer ::   epsa
+          real(kind=WP), dimension(:) , pointer ::   epsd
+          real(kind=WP), dimension(:) , pointer ::   epsq
+          real(kind=WP), dimension(:) , pointer ::   epsf
+          real(kind=WP), dimension(:) , pointer ::   pla
+          real(kind=WP), dimension(:) , pointer ::   wpla
+          real(kind=WP), dimension(:) , pointer ::   temp
+          real(kind=WP), dimension(:) , pointer ::   tb
+          real(kind=WP), dimension(:) , pointer ::   rk
+          real(kind=WP), dimension(:) , pointer ::   re
+          real(kind=WP), dimension(:) , pointer ::   vk
+          real(kind=WP), dimension(:) , pointer ::   sf
+          real(kind=WP), dimension(:) , pointer ::   rob
+          real(kind=WP), dimension(:) , pointer ::   dam
+          real(kind=WP), dimension(:) , pointer ::   dsum
+          real(kind=WP), dimension(:) , pointer ::   dglo
+          real(kind=WP), dimension(:) , pointer ::   crak
+          real(kind=WP), dimension(:) , pointer ::   ang
+          real(kind=WP), dimension(:) , pointer ::   epe
+          real(kind=WP), dimension(:) , pointer ::   epc
+          real(kind=WP), dimension(:) , pointer ::   xst
+          real(kind=WP), dimension(:) , pointer ::   ssp
+          real(kind=WP), dimension(:) , pointer ::   z
+          real(kind=WP), dimension(:) , pointer ::   visc
+          real(kind=WP), dimension(:) , pointer ::   sigl
+          real(kind=WP), dimension(:) , pointer ::   sigv
+          real(kind=WP), dimension(:) , pointer ::   siga
+          real(kind=WP), dimension(:) , pointer ::   sigb
+          real(kind=WP), dimension(:) , pointer ::   sigc
+          real(kind=WP), dimension(:) , pointer ::   sigd
+          real(kind=WP), dimension(:) , pointer ::   sigf
+          real(kind=WP), dimension(:) , pointer ::   sig
+          real(kind=WP), dimension(:) , pointer ::   sigply
+          real(kind=WP), dimension(:) , pointer ::   for
+          real(kind=WP), dimension(:) , pointer ::   mom
+          real(kind=WP), dimension(:) , pointer ::   thk
+          double precision, dimension(:) , pointer ::   smstr
+          real(kind=WP), dimension(:) , pointer ::   dmg
+          real(kind=WP), dimension(:) , pointer ::   forth
+          real(kind=WP), dimension(:) , pointer ::   eintth
+          real(kind=WP), dimension(:) , pointer ::   seq
+          real(kind=WP), dimension(:) , pointer ::   jac_i
+          real(kind=WP), dimension(:) , pointer ::   fac_yld
+          real(kind=WP), dimension(:) , pointer ::   aburn
+          real(kind=WP), dimension(:) , pointer ::   mu
+          real(kind=WP), dimension(:) , pointer ::   pij   !--------[ni,j] for imstr10
+          double precision, dimension(:) , pointer ::   vol0dp
+          real(kind=WP), dimension(:) , pointer ::   planl
+          real(kind=WP), dimension(:) , pointer ::   epsdnl
+          real(kind=WP), dimension(:) , pointer ::   dmgscl
+          real(kind=WP), dimension(:) , pointer ::   tsaiwu
+        end type l_bufel_
 
-      Type buf_prop_
-        real(kind=WP), dimension(:)  , pointer ::  var
-        real(kind=WP), dimension(:)  , pointer ::  varn
-      end type buf_prop_
+        Type buf_prop_
+          real(kind=WP), dimension(:)  , pointer ::  var
+          real(kind=WP), dimension(:)  , pointer ::  varn
+        end type buf_prop_
 
-!--------------------------------------------------------------------------------      
+!--------------------------------------------------------------------------------
 !     Non-local buffer for regularization in the shell thickness
-      Type buf_nloc_
-        real(kind=WP), dimension(:,:), pointer :: massth ! embedded wire nodal masses
-        real(kind=WP), dimension(:,:), pointer :: unlth  ! non-local cumulated variable at nodes
-        real(kind=WP), dimension(:,:), pointer :: vnlth  ! non-local velocities
-        real(kind=WP), dimension(:,:), pointer :: fnlth  ! non-local forces
-      end type buf_nloc_
+        Type buf_nloc_
+          real(kind=WP), dimension(:,:), pointer :: massth ! embedded wire nodal masses
+          real(kind=WP), dimension(:,:), pointer :: unlth  ! non-local cumulated variable at nodes
+          real(kind=WP), dimension(:,:), pointer :: vnlth  ! non-local velocities
+          real(kind=WP), dimension(:,:), pointer :: fnlth  ! non-local forces
+        end type buf_nloc_
 !     Non-local buffer for regularization in the thickshell thickness
-      Type buf_nlocts_
-        real(kind=WP), dimension(:,:), pointer :: massth ! embedded wire nodal masses
-        real(kind=WP), dimension(:,:), pointer :: unlth  ! non-local cumulated variable at nodes
-        real(kind=WP), dimension(:,:), pointer :: vnlth  ! non-local velocities
-        real(kind=WP), dimension(:,:), pointer :: fnlth  ! non-local forces
-      end type buf_nlocts_
+        Type buf_nlocts_
+          real(kind=WP), dimension(:,:), pointer :: massth ! embedded wire nodal masses
+          real(kind=WP), dimension(:,:), pointer :: unlth  ! non-local cumulated variable at nodes
+          real(kind=WP), dimension(:,:), pointer :: vnlth  ! non-local velocities
+          real(kind=WP), dimension(:,:), pointer :: fnlth  ! non-local forces
+        end type buf_nlocts_
 !     Non-local buffer for brick elements geometry configuration
-      Type buf_nlocs_
-        integer, dimension(:)  , allocatable :: nl_isolnod ! number of effective nodes (nel)
-        integer, dimension(:,:), allocatable :: nl_solnod  ! identifiers of effectives nodes (8,nel)
-      end type buf_nlocs_
+        Type buf_nlocs_
+          integer, dimension(:)  , allocatable :: nl_isolnod ! number of effective nodes (nel)
+          integer, dimension(:,:), allocatable :: nl_solnod  ! identifiers of effectives nodes (8,nel)
+        end type buf_nlocs_
 !--------------------------------------------------------------------------------
 !     buffer for damping frequency range
-      Type buf_damp_range_
-        real(kind=WP), dimension(:), pointer :: alpha ! alpha parameter of maxwell damping components
-        real(kind=WP), dimension(:), pointer :: tau   ! tau parameter of maxwell damping components
-      end type buf_damp_range_
+        Type buf_damp_range_
+          real(kind=WP), dimension(:), pointer :: alpha ! alpha parameter of maxwell damping components
+          real(kind=WP), dimension(:), pointer :: tau   ! tau parameter of maxwell damping components
+        end type buf_damp_range_
 !-------------------------------------------------------------------------------
 
-      Type buf_eos_
-        real(kind=WP), dimension(:)  , pointer ::  var
-        integer, dimension(:)  , pointer ::  vartmp
-      end type buf_eos_
+        Type buf_eos_
+          real(kind=WP), dimension(:)  , pointer ::  var
+          integer, dimension(:)  , pointer ::  vartmp
+        end type buf_eos_
 
-      Type buf_poro_
-        real(kind=WP), dimension(:)  , pointer ::  var 
-      end type buf_poro_
+        Type buf_poro_
+          real(kind=WP), dimension(:)  , pointer ::  var
+        end type buf_poro_
 
-      Type buf_visc_
+        Type buf_visc_
 !        integer  ilaw    ! type de loi de viscosite
 !        integer  nvar
-        real(kind=WP), dimension(:)  , pointer ::  var 
-      end type buf_visc_
+          real(kind=WP), dimension(:)  , pointer ::  var
+        end type buf_visc_
 
-      Type buf_xfem_       ! buffer des elements xfem crees par la fissuration
-!-------  layer variables     
-        integer  :: ly_smstr
-        integer  :: ly_hourg
-        real(kind=WP), dimension(:) , pointer ::   dmg
-        real(kind=WP), dimension(:) , pointer ::   gama
-        real(kind=WP), dimension(:) , pointer ::   dira
-        real(kind=WP), dimension(:) , pointer ::   dirb
-        real(kind=WP), dimension(:) , pointer ::   plapt
-        real(kind=WP), dimension(:) , pointer ::   sigpt
-        real(kind=WP), dimension(:) , pointer ::   smstr
-        real(kind=WP), dimension(:) , pointer ::   hourg
-        type (g_bufel_)                                :: xgbuf   ! global variables
-        type (l_bufel_)  , dimension(:,:,:)  , pointer :: xlbuf   ! local variables (nptr,npts,nptt)
-        type (buf_mat_)  , dimension(:,:,:)  , pointer :: xmat    ! material buffer
-        type (buf_fail_) , dimension(:,:,:)  , pointer :: xfail   ! failure models
-      end type buf_xfem_
- 
-      Type fail_loc_
-        integer  :: ilawf    ! type de loi de rupture
-        integer  :: idfail
-        integer  :: nvar
-        integer  :: lf_dam
-        integer  :: lf_dammx
-        integer  :: lf_damini
-        integer  :: lf_tdel
-        integer  :: lf_indx
-        integer  :: lf_off
-        integer, dimension(:)  , pointer ::  indx
-        integer, dimension(:)  , pointer ::  off
-        real(kind=WP), dimension(:)  , pointer ::  dam
-        real(kind=WP), dimension(:)  , pointer ::  var 
-        real(kind=WP), dimension(:)  , pointer ::  dammx 
-        real(kind=WP), dimension(:)  , pointer ::  damini
-        real(kind=WP), dimension(:)  , pointer ::  tdel
-      end type fail_loc_
+        Type buf_xfem_       ! buffer des elements xfem crees par la fissuration
+!-------  layer variables
+          integer  :: ly_smstr
+          integer  :: ly_hourg
+          real(kind=WP), dimension(:) , pointer ::   dmg
+          real(kind=WP), dimension(:) , pointer ::   gama
+          real(kind=WP), dimension(:) , pointer ::   dira
+          real(kind=WP), dimension(:) , pointer ::   dirb
+          real(kind=WP), dimension(:) , pointer ::   plapt
+          real(kind=WP), dimension(:) , pointer ::   sigpt
+          real(kind=WP), dimension(:) , pointer ::   smstr
+          real(kind=WP), dimension(:) , pointer ::   hourg
+          type (g_bufel_)                                :: xgbuf   ! global variables
+          type (l_bufel_)  , dimension(:,:,:)  , pointer :: xlbuf   ! local variables (nptr,npts,nptt)
+          type (buf_mat_)  , dimension(:,:,:)  , pointer :: xmat    ! material buffer
+          type (buf_fail_) , dimension(:,:,:)  , pointer :: xfail   ! failure models
+        end type buf_xfem_
 
-      Type buf_fail_
-        type(fail_loc_), dimension(:)  , pointer ::  floc 
-      end type buf_fail_
+        Type fail_loc_
+          integer  :: ilawf    ! type de loi de rupture
+          integer  :: idfail
+          integer  :: nvar
+          integer  :: lf_dam
+          integer  :: lf_dammx
+          integer  :: lf_damini
+          integer  :: lf_tdel
+          integer  :: lf_indx
+          integer  :: lf_off
+          integer, dimension(:)  , pointer ::  indx
+          integer, dimension(:)  , pointer ::  off
+          real(kind=WP), dimension(:)  , pointer ::  dam
+          real(kind=WP), dimension(:)  , pointer ::  var
+          real(kind=WP), dimension(:)  , pointer ::  dammx
+          real(kind=WP), dimension(:)  , pointer ::  damini
+          real(kind=WP), dimension(:)  , pointer ::  tdel
+        end type fail_loc_
 
-      Type buf_mat_
-        real(kind=WP), dimension(:)  , pointer ::  var 
-        integer, dimension(:)  , pointer ::  vartmp
-      end type buf_mat_
-!     
-      Type l_bufel_dir_      ! element variables per slice in each layer
-        real(kind=WP), dimension(:) , pointer ::   dira
-        real(kind=WP), dimension(:) , pointer ::   dirb
-      end type l_bufel_dir_                             
+        Type buf_fail_
+          type(fail_loc_), dimension(:)  , pointer ::  floc
+        end type buf_fail_
 
-      Type buf_lay_
-        integer  :: ilaw     
-        integer  :: imat 
-        integer  :: ieos
-        integer  :: ivisc
-        integer  :: iporo
-        integer  :: nfail
-        integer  :: nvar_mat
-        integer  :: nvar_eos        
-        integer  :: nvartmp
-        integer  :: nvartmp_eos
-        integer  :: nvar_visc
-        integer  :: nvar_lay   ! max nb of layer variables = 9
-        integer  :: nvar_loc   ! max nb of local variables in lbuf = 51 (below)
-        integer  :: nptt       ! nb of integration points through layer (pid_51)
-!-------
-        integer  :: ly_dmg  
-        integer  :: ly_gama   
-        integer  :: ly_dira   
-        integer  :: ly_dirb   
-        integer  :: ly_crkdir   
-        integer  :: ly_plapt  ! mean plastic strain value between gauss points 
-        integer  :: ly_sigpt  ! mean stress value between gauss points
-        integer  :: ly_hourg
-        integer  :: ly_uelr
-        integer  :: ly_uelr1
-        integer  :: ly_offpg
-        integer  :: ly_off
-!-------
-        integer  :: l_off    
-        integer  :: l_gama   
-        integer  :: l_stra   
-        integer  :: l_frac   
-        integer  :: l_bfrac
-        integer  :: l_eint   
-        integer  :: l_eins   
-        integer  :: l_rho    
-        integer  :: l_dp_drho
-        integer  :: l_qvis   
-        integer  :: l_deltax 
-        integer  :: l_vol                        
-        integer  :: l_epsa   
-        integer  :: l_epsd                    
-        integer  :: l_epsq   
-        integer  :: l_epsf   
-        integer  :: l_pla           
-        integer  :: l_wpla  
-        integer  :: l_temp   
-        integer  :: l_tb     
-        integer  :: l_rk     
-        integer  :: l_re     
-        integer  :: l_vk     
-        integer  :: l_sf     
-        integer  :: l_rob    
-        integer  :: l_dam    
-        integer  :: l_dsum   
-        integer  :: l_dglo   
-        integer  :: l_crak   
-        integer  :: l_ang    
-        integer  :: l_epe    
-        integer  :: l_epc    
-        integer  :: l_xst         
-        integer  :: l_ssp    
-        integer  :: l_z          
-        integer  :: l_visc   
-        integer  :: l_sigl   
-        integer  :: l_sigv   
-        integer  :: l_siga   
-        integer  :: l_sigb   
-        integer  :: l_sigc   
-        integer  :: l_sigd   
-        integer  :: l_sigf   
-        integer  :: l_sig    
-        integer  :: l_sigply ! plyxfem
-        integer  :: l_for    
-        integer  :: l_mom
-        integer  :: l_thk 
-        integer  :: l_smstr      
-        integer  :: l_dmg  
-        integer  :: l_forth
-        integer  :: l_eintth  
-        integer  :: l_seq
-        integer  :: l_jac_i
-        integer  :: l_fac_yld
-        integer  :: l_aburn
-        integer  :: l_mu
-        integer  :: l_pij
-        integer  :: l_vol0dp
-        integer  :: l_planl
-        integer  :: l_epsdnl
-        integer  :: l_dmgscl
-        integer  :: l_tsaiwu
-!-------  layer variables     
-        real(kind=WP), dimension(:) , pointer ::   dmg
-        real(kind=WP), dimension(:) , pointer ::   gama
-        real(kind=WP), dimension(:) , pointer ::   dira
-        real(kind=WP), dimension(:) , pointer ::   dirb
-        real(kind=WP), dimension(:) , pointer ::   crkdir
-        real(kind=WP), dimension(:) , pointer ::   plapt
-        real(kind=WP), dimension(:) , pointer ::   sigpt
-        real(kind=WP), dimension(:) , pointer ::   hourg
-        real(kind=WP), dimension(:) , pointer ::   uelr   !  failure layer variable
-        real(kind=WP), dimension(:) , pointer ::   uelr1  !  failure layer variable
-        integer, dimension(:) , pointer ::   offpg  !  failure of gauss point
-        integer, dimension(:) , pointer ::   off    !  layer failure flag
-!-------       
-        type (l_bufel_)  , dimension(:,:,:)  , pointer :: lbuf   ! local variables - per integration point
-        type (buf_mat_)  , dimension(:,:,:)  , pointer :: mat    ! material buffer - per integration point
-        type (buf_fail_) , dimension(:,:,:)  , pointer :: fail  
-        type (buf_prop_) , dimension(:,:,:)  , pointer :: prop 
-        type (buf_eos_)  , dimension(:,:,:)  , pointer :: eos  
-        type (buf_visc_) , dimension(:,:,:)  , pointer :: visc  
-        type (buf_poro_) , dimension(:,:,:)  , pointer :: poro  
-        type (buf_xfem_) , dimension(:)      , pointer :: xfem      ! xfem (nxel)
-        type (l_bufel_dir_) , dimension(:)  , pointer :: lbuf_dir   ! local direction by int point in the thickness for slice)
-      end type buf_lay_
+        Type buf_mat_
+          real(kind=WP), dimension(:)  , pointer ::  var
+          integer, dimension(:)  , pointer ::  vartmp
+        end type buf_mat_
 !
-!--------------------       
-! 
-      Type buf_intloc_      ! element variables per integration point
-        real(kind=WP), dimension(:) , pointer ::   eps   ! (length=3)
-        real(kind=WP), dimension(:) , pointer ::   sig   ! (length=3)
-      end type buf_intloc_                             
+        Type l_bufel_dir_      ! element variables per slice in each layer
+          real(kind=WP), dimension(:) , pointer ::   dira
+          real(kind=WP), dimension(:) , pointer ::   dirb
+        end type l_bufel_dir_
 
-      Type buf_intlay_
-        integer  :: ilaw       ! inter ply material law type     
-        integer  :: imat       ! inter ply material number
-        integer  :: nfail
-        integer  :: nvar_mat   ! number of user variables (uvar) in the material buffer
-        integer  :: nvartmp    ! number of temp storage variables (vartmp) in material laws
-!------ interlayer variables par couche   (length=1) 
-        real(kind=WP), dimension(:) , pointer ::   eint         
-        real(kind=WP), dimension(:) , pointer ::   count
-      
-        type (buf_intloc_) , dimension(:,:) , pointer :: ilbuf
-        type (buf_mat_)    , dimension(:,:) , pointer :: mat
-        type (buf_fail_)   , dimension(:,:) , pointer :: fail  
-      end type buf_intlay_
-!--------------------       
- 
-      Type elbuf_struct_
-        integer     :: igtyp    
-        integer     :: nel      
-        integer     :: nlay     
-        integer     :: nintlay  
-        integer     :: nptr     
-        integer     :: npts     
-        integer     :: nptt   
-        integer     :: ixfem
-        integer     :: nxel       ! number of xfem parts created after element crack
-        integer     :: idrape
-       
-        type (g_bufel_)                              :: gbuf   ! global variables - mean element values
-        type (buf_lay_)   , dimension(:)   , pointer :: bufly  ! bufly(nlay) layer variables 
-        type (buf_intlay_), dimension(:)   , pointer :: intlay ! inter-layer (nlay-1)
-        type (buf_xfem_)  , dimension(:)   , pointer :: xfem   ! xfem (nxel)
-        type (buf_nloc_)  , dimension(:,:) , pointer :: nloc   ! non-local thickness specific structure for shells
-        type (buf_nlocts_), dimension(:,:) , pointer :: nlocts ! non-local thickness specific structure for thickshells
-        type (buf_nlocs_)                            :: nlocs  ! non-local structure of brick element geometry configuration
-        type (buf_damp_range_)                       :: damp_range  ! structure for damping parameters of damping freq range
+        Type buf_lay_
+          integer  :: ilaw
+          integer  :: imat
+          integer  :: ieos
+          integer  :: ivisc
+          integer  :: iporo
+          integer  :: nfail
+          integer  :: nvar_mat
+          integer  :: nvar_eos
+          integer  :: nvartmp
+          integer  :: nvartmp_eos
+          integer  :: nvar_visc
+          integer  :: nvar_lay   ! max nb of layer variables = 9
+          integer  :: nvar_loc   ! max nb of local variables in lbuf = 51 (below)
+          integer  :: nptt       ! nb of integration points through layer (pid_51)
+!-------
+          integer  :: ly_dmg
+          integer  :: ly_gama
+          integer  :: ly_dira
+          integer  :: ly_dirb
+          integer  :: ly_crkdir
+          integer  :: ly_plapt  ! mean plastic strain value between gauss points
+          integer  :: ly_sigpt  ! mean stress value between gauss points
+          integer  :: ly_hourg
+          integer  :: ly_uelr
+          integer  :: ly_uelr1
+          integer  :: ly_offpg
+          integer  :: ly_off
+!-------
+          integer  :: l_off
+          integer  :: l_gama
+          integer  :: l_stra
+          integer  :: l_frac
+          integer  :: l_bfrac
+          integer  :: l_eint
+          integer  :: l_eins
+          integer  :: l_rho
+          integer  :: l_dp_drho
+          integer  :: l_qvis
+          integer  :: l_deltax
+          integer  :: l_vol
+          integer  :: l_epsa
+          integer  :: l_epsd
+          integer  :: l_epsq
+          integer  :: l_epsf
+          integer  :: l_pla
+          integer  :: l_wpla
+          integer  :: l_temp
+          integer  :: l_tb
+          integer  :: l_rk
+          integer  :: l_re
+          integer  :: l_vk
+          integer  :: l_sf
+          integer  :: l_rob
+          integer  :: l_dam
+          integer  :: l_dsum
+          integer  :: l_dglo
+          integer  :: l_crak
+          integer  :: l_ang
+          integer  :: l_epe
+          integer  :: l_epc
+          integer  :: l_xst
+          integer  :: l_ssp
+          integer  :: l_z
+          integer  :: l_visc
+          integer  :: l_sigl
+          integer  :: l_sigv
+          integer  :: l_siga
+          integer  :: l_sigb
+          integer  :: l_sigc
+          integer  :: l_sigd
+          integer  :: l_sigf
+          integer  :: l_sig
+          integer  :: l_sigply ! plyxfem
+          integer  :: l_for
+          integer  :: l_mom
+          integer  :: l_thk
+          integer  :: l_smstr
+          integer  :: l_dmg
+          integer  :: l_forth
+          integer  :: l_eintth
+          integer  :: l_seq
+          integer  :: l_jac_i
+          integer  :: l_fac_yld
+          integer  :: l_aburn
+          integer  :: l_mu
+          integer  :: l_pij
+          integer  :: l_vol0dp
+          integer  :: l_planl
+          integer  :: l_epsdnl
+          integer  :: l_dmgscl
+          integer  :: l_tsaiwu
+!-------  layer variables
+          real(kind=WP), dimension(:) , pointer ::   dmg
+          real(kind=WP), dimension(:) , pointer ::   gama
+          real(kind=WP), dimension(:) , pointer ::   dira
+          real(kind=WP), dimension(:) , pointer ::   dirb
+          real(kind=WP), dimension(:) , pointer ::   crkdir
+          real(kind=WP), dimension(:) , pointer ::   plapt
+          real(kind=WP), dimension(:) , pointer ::   sigpt
+          real(kind=WP), dimension(:) , pointer ::   hourg
+          real(kind=WP), dimension(:) , pointer ::   uelr   !  failure layer variable
+          real(kind=WP), dimension(:) , pointer ::   uelr1  !  failure layer variable
+          integer, dimension(:) , pointer ::   offpg  !  failure of gauss point
+          integer, dimension(:) , pointer ::   off    !  layer failure flag
+!-------
+          type (l_bufel_)  , dimension(:,:,:)  , pointer :: lbuf   ! local variables - per integration point
+          type (buf_mat_)  , dimension(:,:,:)  , pointer :: mat    ! material buffer - per integration point
+          type (buf_fail_) , dimension(:,:,:)  , pointer :: fail
+          type (buf_prop_) , dimension(:,:,:)  , pointer :: prop
+          type (buf_eos_)  , dimension(:,:,:)  , pointer :: eos
+          type (buf_visc_) , dimension(:,:,:)  , pointer :: visc
+          type (buf_poro_) , dimension(:,:,:)  , pointer :: poro
+          type (buf_xfem_) , dimension(:)      , pointer :: xfem      ! xfem (nxel)
+          type (l_bufel_dir_) , dimension(:)  , pointer :: lbuf_dir   ! local direction by int point in the thickness for slice)
+        end type buf_lay_
+!
+!--------------------
+!
+        Type buf_intloc_      ! element variables per integration point
+          real(kind=WP), dimension(:) , pointer ::   eps   ! (length=3)
+          real(kind=WP), dimension(:) , pointer ::   sig   ! (length=3)
+        end type buf_intloc_
 
-      end type elbuf_struct_
+        Type buf_intlay_
+          integer  :: ilaw       ! inter ply material law type
+          integer  :: imat       ! inter ply material number
+          integer  :: nfail
+          integer  :: nvar_mat   ! number of user variables (uvar) in the material buffer
+          integer  :: nvartmp    ! number of temp storage variables (vartmp) in material laws
+!------ interlayer variables par couche   (length=1)
+          real(kind=WP), dimension(:) , pointer ::   eint
+          real(kind=WP), dimension(:) , pointer ::   count
+
+          type (buf_intloc_) , dimension(:,:) , pointer :: ilbuf
+          type (buf_mat_)    , dimension(:,:) , pointer :: mat
+          type (buf_fail_)   , dimension(:,:) , pointer :: fail
+        end type buf_intlay_
+!--------------------
+
+        Type elbuf_struct_
+          integer     :: igtyp
+          integer     :: nel
+          integer     :: nlay
+          integer     :: nintlay
+          integer     :: nptr
+          integer     :: npts
+          integer     :: nptt
+          integer     :: ixfem
+          integer     :: nxel       ! number of xfem parts created after element crack
+          integer     :: idrape
+
+          type (g_bufel_)                              :: gbuf   ! global variables - mean element values
+          type (buf_lay_)   , dimension(:)   , pointer :: bufly  ! bufly(nlay) layer variables
+          type (buf_intlay_), dimension(:)   , pointer :: intlay ! inter-layer (nlay-1)
+          type (buf_xfem_)  , dimension(:)   , pointer :: xfem   ! xfem (nxel)
+          type (buf_nloc_)  , dimension(:,:) , pointer :: nloc   ! non-local thickness specific structure for shells
+          type (buf_nlocts_), dimension(:,:) , pointer :: nlocts ! non-local thickness specific structure for thickshells
+          type (buf_nlocs_)                            :: nlocs  ! non-local structure of brick element geometry configuration
+          type (buf_damp_range_)                       :: damp_range  ! structure for damping parameters of damping freq range
+
+        end type elbuf_struct_
 !
 !---------------
       end module elbufdef_mod

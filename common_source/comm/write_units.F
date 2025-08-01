@@ -35,7 +35,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C============================================================================
 C   M o d u l e s
 C-----------------------------------------------
-      USE UNITAB_MOD
+        USE UNITAB_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -45,37 +45,37 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
-C----------------------------------------------- 
+C-----------------------------------------------
 C INPUT ARGUMENTS
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+        TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,UID
-      my_real FAC_M,FAC_L,FAC_T
-C----------------------------------------------- 
-      CALL WRITE_I_C(UNITAB%NUNITS,1)
-      CALL WRITE_I_C(UNITAB%NUNIT0,1)
-      CALL WRITE_DB(UNITAB%FAC_M_WORK,1)
-      CALL WRITE_DB(UNITAB%FAC_L_WORK,1)
-      CALL WRITE_DB(UNITAB%FAC_T_WORK,1)
-      CALL WRITE_DB(UNITAB%FAC_MASS,1)
-      CALL WRITE_DB(UNITAB%FAC_LENGTH,1)
-      CALL WRITE_DB(UNITAB%FAC_TIME,1)
+        INTEGER I,UID
+        my_real FAC_M,FAC_L,FAC_T
+C-----------------------------------------------
+        CALL WRITE_I_C(UNITAB%NUNITS,1)
+        CALL WRITE_I_C(UNITAB%NUNIT0,1)
+        CALL WRITE_DB(UNITAB%FAC_M_WORK,1)
+        CALL WRITE_DB(UNITAB%FAC_L_WORK,1)
+        CALL WRITE_DB(UNITAB%FAC_T_WORK,1)
+        CALL WRITE_DB(UNITAB%FAC_MASS,1)
+        CALL WRITE_DB(UNITAB%FAC_LENGTH,1)
+        CALL WRITE_DB(UNITAB%FAC_TIME,1)
 
-      DO I=1,UNITAB%NUNITS
-        UID = UNITAB%UNIT_ID(I)
-        FAC_M = UNITAB%FAC_M(I)
-        FAC_L = UNITAB%FAC_L(I)
-        FAC_T = UNITAB%FAC_T(I)
+        DO I=1,UNITAB%NUNITS
+          UID = UNITAB%UNIT_ID(I)
+          FAC_M = UNITAB%FAC_M(I)
+          FAC_L = UNITAB%FAC_L(I)
+          FAC_T = UNITAB%FAC_T(I)
 
-        CALL WRITE_I_C(UID,1)
-        CALL WRITE_DB(FAC_M,1)
-        CALL WRITE_DB(FAC_L,1)
-        CALL WRITE_DB(FAC_T,1)
+          CALL WRITE_I_C(UID,1)
+          CALL WRITE_DB(FAC_M,1)
+          CALL WRITE_DB(FAC_L,1)
+          CALL WRITE_DB(FAC_T,1)
 
-      ENDDO
-C----------------------------------------------- 
+        ENDDO
+C-----------------------------------------------
       END
 !||====================================================================
 !||    read_units    ../common_source/comm/write_units.F
@@ -92,8 +92,8 @@ C-----------------------------------------------
 C============================================================================
 C   M o d u l e s
 C-----------------------------------------------
-      USE UNITAB_MOD
-      USE MESSAGE_MOD
+        USE UNITAB_MOD
+        USE MESSAGE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -104,41 +104,41 @@ C-----------------------------------------------
 #include      "warn_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
-C----------------------------------------------- 
+C-----------------------------------------------
 C INPUT ARGUMENTS
-      TYPE (UNIT_TYPE_) ::UNITAB 
+        TYPE (UNIT_TYPE_) ::UNITAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,UID
-      my_real FAC_M,FAC_L,FAC_T
-      INTEGER :: NUNITS 
-C----------------------------------------------- 
-      CALL READ_I_C(NUNITS,1)
-      UNITAB%NUNITS = NUNITS 
-      CALL READ_I_C(UNITAB%NUNIT0,1)
-      ALLOCATE(UNITAB%UNIT_ID(NUNITS))
-      ALLOCATE(UNITAB%FAC_M(NUNITS))
-      ALLOCATE(UNITAB%FAC_L(NUNITS))
-      ALLOCATE(UNITAB%FAC_T(NUNITS))
-      CALL READ_DB(UNITAB%FAC_M_WORK,1)
-      CALL READ_DB(UNITAB%FAC_L_WORK,1)
-      CALL READ_DB(UNITAB%FAC_T_WORK,1)
-      CALL READ_DB(UNITAB%FAC_MASS,1)
-      CALL READ_DB(UNITAB%FAC_LENGTH,1)
-      CALL READ_DB(UNITAB%FAC_TIME,1)
+        INTEGER I,UID
+        my_real FAC_M,FAC_L,FAC_T
+        INTEGER :: NUNITS
+C-----------------------------------------------
+        CALL READ_I_C(NUNITS,1)
+        UNITAB%NUNITS = NUNITS
+        CALL READ_I_C(UNITAB%NUNIT0,1)
+        ALLOCATE(UNITAB%UNIT_ID(NUNITS))
+        ALLOCATE(UNITAB%FAC_M(NUNITS))
+        ALLOCATE(UNITAB%FAC_L(NUNITS))
+        ALLOCATE(UNITAB%FAC_T(NUNITS))
+        CALL READ_DB(UNITAB%FAC_M_WORK,1)
+        CALL READ_DB(UNITAB%FAC_L_WORK,1)
+        CALL READ_DB(UNITAB%FAC_T_WORK,1)
+        CALL READ_DB(UNITAB%FAC_MASS,1)
+        CALL READ_DB(UNITAB%FAC_LENGTH,1)
+        CALL READ_DB(UNITAB%FAC_TIME,1)
 
-      DO I=1,NUNITS
+        DO I=1,NUNITS
 
-        CALL READ_I_C(UID,1)
-        CALL READ_DB(FAC_M,1)
-        CALL READ_DB(FAC_L,1)
-        CALL READ_DB(FAC_T,1)
+          CALL READ_I_C(UID,1)
+          CALL READ_DB(FAC_M,1)
+          CALL READ_DB(FAC_L,1)
+          CALL READ_DB(FAC_T,1)
 
-        UNITAB%UNIT_ID(I) = UID
-        UNITAB%FAC_M(I) = FAC_M
-        UNITAB%FAC_L(I) = FAC_L
-        UNITAB%FAC_T(I) = FAC_T
-      ENDDO
-C----------------------------------------------- 
+          UNITAB%UNIT_ID(I) = UID
+          UNITAB%FAC_M(I) = FAC_M
+          UNITAB%FAC_L(I) = FAC_L
+          UNITAB%FAC_T(I) = FAC_T
+        ENDDO
+C-----------------------------------------------
       END

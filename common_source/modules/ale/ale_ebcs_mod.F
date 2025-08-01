@@ -40,6 +40,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       MODULE ALE_EBCS_MOD
         IMPLICIT NONE
 #include      "my_real.inc"
-      INTEGER NEBCS   
+        INTEGER NEBCS
 
       END MODULE ALE_EBCS_MOD

@@ -94,12 +94,12 @@ C-----------------------------------------------
         TYPE ALEFVM_BUFFER_
           my_real, DIMENSION(:)    , ALLOCATABLE :: WFEXT_CELL
           my_real, DIMENSION(:,:)  , ALLOCATABLE :: FCELL, FEXT_CELL
-          my_real, DIMENSION(:,:)  , ALLOCATABLE :: VERTEX, FINT_CELL      
+          my_real, DIMENSION(:,:)  , ALLOCATABLE :: VERTEX, FINT_CELL
           my_real, DIMENSION(:,:,:), ALLOCATABLE :: F_FACE
         END TYPE ALEFVM_BUFFER_
-        
+
         TYPE ALEFVM_PARAM_
-          INTEGER IEnabled     
+          INTEGER IEnabled
           INTEGER ISOLVER
           INTEGER IOUTP
           INTEGER IOUTP_GRAV
@@ -114,10 +114,10 @@ C-----------------------------------------------
           INTEGER IOUTP_WFEXT
           INTEGER IWFEXT
           INTEGER IPRINT_1
-          INTEGER IPRINT_2                
+          INTEGER IPRINT_2
         END TYPE ALEFVM_PARAM_
-        
+
         TYPE(ALEFVM_BUFFER_),TARGET :: ALEFVM_Buffer
-        TYPE(ALEFVM_PARAM_),TARGET :: ALEFVM_Param      
-      
+        TYPE(ALEFVM_PARAM_),TARGET :: ALEFVM_Param
+
       END MODULE ALEFVM_MOD

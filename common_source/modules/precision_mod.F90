@@ -325,7 +325,7 @@
 !||    xyz16                                    ../engine/source/output/anim/generate/monvol_anim.F90
 !||====================================================================
       MODULE precision_mod
-      IMPLICIT NONE
+        IMPLICIT NONE
 #ifdef MYREAL8
         INTEGER, PARAMETER :: WP = 8
 #else

@@ -25,56 +25,56 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- calls      -----------------------------------------------------
 !||    write_i_c        ../common_source/tools/input_output/write_routtines.c
 !||====================================================================
-       SUBROUTINE COMPRESS_C_NNZ(ARRAY,LEN)
-       IMPLICIT NONE
+      SUBROUTINE COMPRESS_C_NNZ(ARRAY,LEN)
+        IMPLICIT NONE
 C---------------------------------------------
 C         Arguments
 C---------------------------------------------
-       INTEGER, INTENT(IN) :: LEN
-       INTEGER, INTENT(IN) :: ARRAY(LEN)
+        INTEGER, INTENT(IN) :: LEN
+        INTEGER, INTENT(IN) :: ARRAY(LEN)
 C      INTEGER, INTENT(INOUT) :: COMPR(*)
 C---------------------------------------------
 C        Local Variables
 C---------------------------------------------
-       INTEGER I,J,IBEGIN, NNZ
-       LOGICAL continue_loop 
-        
+        INTEGER I,J,IBEGIN, NNZ
+        LOGICAL continue_loop
 
-         IBEGIN = 1
-         J = 1
-         DO WHILE (IBEGIN <= LEN)
-           I = IBEGIN
-           NNZ = 0
-           continue_loop = (ARRAY(I) /= ICHAR(' '))
-           DO WHILE(continue_loop)
-              IF(I <= LEN) THEN
-                 IF(ARRAY(I) /= ICHAR(' ')) THEN
-                   continue_loop = .true.
-                   NNZ = NNZ + 1
-                   I = I + 1
-                 ELSE
-                   continue_loop = .false.
-                 ENDIF
+
+        IBEGIN = 1
+        J = 1
+        DO WHILE (IBEGIN <= LEN)
+          I = IBEGIN
+          NNZ = 0
+          continue_loop = (ARRAY(I) /= ICHAR(' '))
+          DO WHILE(continue_loop)
+            IF(I <= LEN) THEN
+              IF(ARRAY(I) /= ICHAR(' ')) THEN
+                continue_loop = .true.
+                NNZ = NNZ + 1
+                I = I + 1
               ELSE
                 continue_loop = .false.
               ENDIF
-           ENDDO
-           IF(NNZ > 0) THEN
+            ELSE
+              continue_loop = .false.
+            ENDIF
+          ENDDO
+          IF(NNZ > 0) THEN
 C            COMPR(J) = IBEGIN
 C            COMPR(J+1) = NNZ
-             CALL WRITE_I_C(IBEGIN,1)
-             CALL WRITE_I_C(NNZ,1)
-             J = J + 2
-             CALL WRITE_I_C(ARRAY(IBEGIN:IBEGIN+NNZ-1),NNZ)
-             J = J + NNZ
-           ENDIF
-           IBEGIN = I + 1
-         ENDDO
+            CALL WRITE_I_C(IBEGIN,1)
+            CALL WRITE_I_C(NNZ,1)
+            J = J + 2
+            CALL WRITE_I_C(ARRAY(IBEGIN:IBEGIN+NNZ-1),NNZ)
+            J = J + NNZ
+          ENDIF
+          IBEGIN = I + 1
+        ENDDO
 C        COMPR(J) = -1
-         I = -1
-         CALL WRITE_I_C(I,1) 
+        I = -1
+        CALL WRITE_I_C(I,1)
 C        WRITE(6,*) LEN,"compressed into ",J, dble(J)/dble(LEN)
-       END SUBROUTINE 
+      END SUBROUTINE
 
 
 !||====================================================================
@@ -87,55 +87,55 @@ C        WRITE(6,*) LEN,"compressed into ",J, dble(J)/dble(LEN)
 !||--- calls      -----------------------------------------------------
 !||    write_i_c         ../common_source/tools/input_output/write_routtines.c
 !||====================================================================
-       SUBROUTINE COMPRESS_I_NNZ(ARRAY,LEN)
-       IMPLICIT NONE
+      SUBROUTINE COMPRESS_I_NNZ(ARRAY,LEN)
+        IMPLICIT NONE
 C---------------------------------------------
 C         Arguments
 C---------------------------------------------
-       INTEGER, INTENT(IN) :: LEN
-       INTEGER, INTENT(IN) :: ARRAY(LEN)
+        INTEGER, INTENT(IN) :: LEN
+        INTEGER, INTENT(IN) :: ARRAY(LEN)
 C      INTEGER, INTENT(INOUT) :: COMPR(*)
 C---------------------------------------------
 C        Local Variables
 C---------------------------------------------
-       INTEGER I,J,IBEGIN, NNZ
-       LOGICAL continue_loop 
+        INTEGER I,J,IBEGIN, NNZ
+        LOGICAL continue_loop
 
-         IBEGIN = 1
-         J = 1
-         DO WHILE (IBEGIN <= LEN)
-           I = IBEGIN
-           NNZ = 0
-           continue_loop = (ARRAY(I) /= 0)
-           DO WHILE(continue_loop)
-              IF(I <= LEN) THEN
-                 IF(ARRAY(I) /= 0) THEN
-                   continue_loop = .true.
-                   NNZ = NNZ + 1
-                   I = I + 1
-                 ELSE
-                   continue_loop = .false.
-                 ENDIF
+        IBEGIN = 1
+        J = 1
+        DO WHILE (IBEGIN <= LEN)
+          I = IBEGIN
+          NNZ = 0
+          continue_loop = (ARRAY(I) /= 0)
+          DO WHILE(continue_loop)
+            IF(I <= LEN) THEN
+              IF(ARRAY(I) /= 0) THEN
+                continue_loop = .true.
+                NNZ = NNZ + 1
+                I = I + 1
               ELSE
                 continue_loop = .false.
               ENDIF
-           ENDDO
-           IF(NNZ > 0) THEN
+            ELSE
+              continue_loop = .false.
+            ENDIF
+          ENDDO
+          IF(NNZ > 0) THEN
 C            COMPR(J) = IBEGIN
 C            COMPR(J+1) = NNZ
-             CALL WRITE_I_C(IBEGIN,1)
-             CALL WRITE_I_C(NNZ,1)
-             J = J + 2
-             CALL WRITE_I_C(ARRAY(IBEGIN:IBEGIN+NNZ-1),NNZ)
-             J = J + NNZ
-           ENDIF
-           IBEGIN = I + 1
-         ENDDO
+            CALL WRITE_I_C(IBEGIN,1)
+            CALL WRITE_I_C(NNZ,1)
+            J = J + 2
+            CALL WRITE_I_C(ARRAY(IBEGIN:IBEGIN+NNZ-1),NNZ)
+            J = J + NNZ
+          ENDIF
+          IBEGIN = I + 1
+        ENDDO
 C        COMPR(J) = -1
-         I = -1
-         CALL WRITE_I_C(I,1) 
+        I = -1
+        CALL WRITE_I_C(I,1)
 C        WRITE(6,*) LEN,"I compressed into ",J, dble(J)/dble(LEN)
-       END SUBROUTINE 
+      END SUBROUTINE
 
 !||====================================================================
 !||    compress_r_nnz          ../common_source/comm/compress_nnz.F
@@ -150,52 +150,52 @@ C        WRITE(6,*) LEN,"I compressed into ",J, dble(J)/dble(LEN)
 !||    write_db                ../common_source/tools/input_output/write_db.F
 !||    write_i_c               ../common_source/tools/input_output/write_routtines.c
 !||====================================================================
-       SUBROUTINE COMPRESS_R_NNZ(ARRAY,LEN)
+      SUBROUTINE COMPRESS_R_NNZ(ARRAY,LEN)
 #include      "implicit_f.inc"
 C---------------------------------------------
 C         Arguments
 C---------------------------------------------
-       INTEGER, INTENT(IN) :: LEN
-       my_real , INTENT(IN) :: ARRAY(LEN)
+        INTEGER, INTENT(IN) :: LEN
+        my_real , INTENT(IN) :: ARRAY(LEN)
 C      INTEGER, INTENT(INOUT) :: COMPR(*)
 C---------------------------------------------
 C        Local Variables
 C---------------------------------------------
-       INTEGER I,J,IBEGIN, NNZ
-       LOGICAL continue_loop 
+        INTEGER I,J,IBEGIN, NNZ
+        LOGICAL continue_loop
 
-         IBEGIN = 1
-         J = 1
-         DO WHILE (IBEGIN <= LEN)
-           I = IBEGIN
-           NNZ = 0
-           continue_loop = (ARRAY(I) /= 0)
-           DO WHILE(continue_loop)
-              IF(I <= LEN) THEN
-                 IF(ARRAY(I) /= 0) THEN
-                   continue_loop = .true.
-                   NNZ = NNZ + 1
-                   I = I + 1
-                 ELSE
-                   continue_loop = .false.
-                 ENDIF
+        IBEGIN = 1
+        J = 1
+        DO WHILE (IBEGIN <= LEN)
+          I = IBEGIN
+          NNZ = 0
+          continue_loop = (ARRAY(I) /= 0)
+          DO WHILE(continue_loop)
+            IF(I <= LEN) THEN
+              IF(ARRAY(I) /= 0) THEN
+                continue_loop = .true.
+                NNZ = NNZ + 1
+                I = I + 1
               ELSE
                 continue_loop = .false.
               ENDIF
-           ENDDO
-           IF(NNZ > 0) THEN
+            ELSE
+              continue_loop = .false.
+            ENDIF
+          ENDDO
+          IF(NNZ > 0) THEN
 C            COMPR(J) = IBEGIN
 C            COMPR(J+1) = NNZ
-             CALL WRITE_I_C(IBEGIN,1)
-             CALL WRITE_I_C(NNZ,1)
-             J = J + 2
-             CALL WRITE_DB(ARRAY(IBEGIN:IBEGIN+NNZ-1),NNZ)
-             J = J + NNZ
-           ENDIF
-           IBEGIN = I + 1
-         ENDDO
+            CALL WRITE_I_C(IBEGIN,1)
+            CALL WRITE_I_C(NNZ,1)
+            J = J + 2
+            CALL WRITE_DB(ARRAY(IBEGIN:IBEGIN+NNZ-1),NNZ)
+            J = J + NNZ
+          ENDIF
+          IBEGIN = I + 1
+        ENDDO
 C        COMPR(J) = -1
-         I = -1
-         CALL WRITE_I_C(I,1) 
+        I = -1
+        CALL WRITE_I_C(I,1)
 C        WRITE(6,*) LEN,"R compressed into ",J, dble(J)/dble(LEN)
-       END SUBROUTINE 
+      END SUBROUTINE

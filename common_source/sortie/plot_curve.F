@@ -29,14 +29,14 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    message_mod            ../engine/share/message_module/message_mod.F
 !||    names_and_titles_mod   ../common_source/modules/names_and_titles_mod.F
 !||====================================================================
-      SUBROUTINE PLOT_CURVE(X, Y, NB_POINTS, INPUT_SIZE_X, INPUT_SIZE_Y, 
-     .                      INPUT_X_MINVALUE, INPUT_Y_MINVALUE, INPUT_X_MAXVALUE, 
+      SUBROUTINE PLOT_CURVE(X, Y, NB_POINTS, INPUT_SIZE_X, INPUT_SIZE_Y,
+     .                      INPUT_X_MINVALUE, INPUT_Y_MINVALUE, INPUT_X_MAXVALUE,
      .                      INPUT_Y_MAXVALUE, INPUT_SYMBOL, INPUT_CURVE_TYPE,
      .                      INPUT_TXT_X, INPUT_TXT_Y)
 c
 C-----------------------------------------------
-      USE MESSAGE_MOD
-      USE NAMES_AND_TITLES_MOD, ONLY: NCHARLINE
+        USE MESSAGE_MOD
+        USE NAMES_AND_TITLES_MOD, ONLY: NCHARLINE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -59,36 +59,36 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      my_real X(NB_POINTS),Y(NB_POINTS)
-      INTEGER NB_POINTS,INPUT_SIZE_X,INPUT_SIZE_Y, INPUT_CURVE_TYPE
-      my_real INPUT_X_MINVALUE, INPUT_X_MAXVALUE, INPUT_Y_MINVALUE, INPUT_Y_MAXVALUE
-      CHARACTER*1 INPUT_SYMBOL
-      CHARACTER(*) INPUT_TXT_X, INPUT_TXT_Y
+        my_real X(NB_POINTS),Y(NB_POINTS)
+        INTEGER NB_POINTS,INPUT_SIZE_X,INPUT_SIZE_Y, INPUT_CURVE_TYPE
+        my_real INPUT_X_MINVALUE, INPUT_X_MAXVALUE, INPUT_Y_MINVALUE, INPUT_Y_MAXVALUE
+        CHARACTER*1 INPUT_SYMBOL
+        CHARACTER(*) INPUT_TXT_X, INPUT_TXT_Y
 C-----------------------------------------------
-      OPTIONAL :: INPUT_SIZE_X, INPUT_SIZE_Y, INPUT_X_MINVALUE, INPUT_Y_MINVALUE,
-     .            INPUT_X_MAXVALUE, INPUT_Y_MAXVALUE, INPUT_SYMBOL,
-     .            INPUT_CURVE_TYPE, INPUT_TXT_X, INPUT_TXT_Y
+        OPTIONAL :: INPUT_SIZE_X, INPUT_SIZE_Y, INPUT_X_MINVALUE, INPUT_Y_MINVALUE,
+     .              INPUT_X_MAXVALUE, INPUT_Y_MAXVALUE, INPUT_SYMBOL,
+     .              INPUT_CURVE_TYPE, INPUT_TXT_X, INPUT_TXT_Y
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      CHARACTER(len=60) :: FMTA
-      INTEGER I,J,II,CURVE(NB_POINTS),SIZE_X,SIZE_Y,CURVE_TYPE,COORDX,COORDY,LENA
-      my_real INCR_X,INCR_Y,X_MINVALUE, X_MAXVALUE, Y_MINVALUE, Y_MAXVALUE
-      CHARACTER(LEN=NCHARLINE) :: CHAR(100)
-      CHARACTER(LEN=NCHARLINE) :: CHAR1(100)
-      CHARACTER(LEN=NCHARLINE) :: CHAR2
-      CHARACTER(LEN=NCHARLINE) :: TXT_X
-      CHARACTER(LEN=NCHARLINE) :: TXT_Y
-      CHARACTER*1 SYMBOL
-      INTEGER, DIMENSION(:,:),  ALLOCATABLE :: GRID
+        CHARACTER(len=60) :: FMTA
+        INTEGER I,J,II,CURVE(NB_POINTS),SIZE_X,SIZE_Y,CURVE_TYPE,COORDX,COORDY,LENA
+        my_real INCR_X,INCR_Y,X_MINVALUE, X_MAXVALUE, Y_MINVALUE, Y_MAXVALUE
+        CHARACTER(LEN=NCHARLINE) :: CHAR(100)
+        CHARACTER(LEN=NCHARLINE) :: CHAR1(100)
+        CHARACTER(LEN=NCHARLINE) :: CHAR2
+        CHARACTER(LEN=NCHARLINE) :: TXT_X
+        CHARACTER(LEN=NCHARLINE) :: TXT_Y
+        CHARACTER*1 SYMBOL
+        INTEGER, DIMENSION(:,:),  ALLOCATABLE :: GRID
 C--------------------------------------------------------------
 C GENERIC ROUTINE TO PLOT CURVES OR HISTOGRAMS IN .out files
 C--------------------------------------------------------------
-C    MANDATORY 
+C    MANDATORY
 C       NB_POINTS  : NUMBER OF POINTS OF THE CURVE TO PLOT
 C       X          : X COORDS
 C       Y          : Y COORDS
-C    OPTIONAL : 
+C    OPTIONAL :
 C       INPUT_SIZE_X : X SIZE (NUMBER OF CHAR) OF THE PLOT, DEFAULT = 100
 C       INPUT_SIZE_Y : Y SIZE (NUMBER OF CHAR) OF THE PLOT, DEFAULT = 30
 C       INPUT_X_MINVALUE : MIN VALUE OF THE ABSCISSA , DEFAULT : VALUE IS SET AUTOMATICALLY
@@ -102,176 +102,176 @@ C             1 : PLOT HISTOGRAM
 C       INPUT_TXT_X : ABSCISSA LEGEND , DEFAULT : NONE
 C       INPUT_TXT_Y : ORDINATE LEGEND , DEFAULT : NONE
 C=======================================================================
-       IF ( .NOT. PRESENT(INPUT_SIZE_X)) THEN 
-         SIZE_X = 100
-       ELSE
-         SIZE_X = INPUT_SIZE_X
-       ENDIF
+        IF ( .NOT. PRESENT(INPUT_SIZE_X)) THEN
+          SIZE_X = 100
+        ELSE
+          SIZE_X = INPUT_SIZE_X
+        ENDIF
 c
-       IF ( .NOT. PRESENT(INPUT_SIZE_Y)) THEN
-         SIZE_Y = 30
-       ELSE
-         SIZE_Y = INPUT_SIZE_Y
-       ENDIF
+        IF ( .NOT. PRESENT(INPUT_SIZE_Y)) THEN
+          SIZE_Y = 30
+        ELSE
+          SIZE_Y = INPUT_SIZE_Y
+        ENDIF
 c
-       IF ( .NOT. PRESENT(INPUT_X_MINVALUE)) THEN
-         X_MINVALUE = EP20
-         DO I=1,NB_POINTS
-           X_MINVALUE = MIN(X(I),X_MINVALUE)
-         ENDDO
-       ELSE
-         X_MINVALUE = INPUT_X_MINVALUE
-       ENDIF
+        IF ( .NOT. PRESENT(INPUT_X_MINVALUE)) THEN
+          X_MINVALUE = EP20
+          DO I=1,NB_POINTS
+            X_MINVALUE = MIN(X(I),X_MINVALUE)
+          ENDDO
+        ELSE
+          X_MINVALUE = INPUT_X_MINVALUE
+        ENDIF
 c
-       IF ( .NOT. PRESENT(INPUT_Y_MINVALUE)) THEN
-         Y_MINVALUE = EP20
-         DO I=1,NB_POINTS
-           Y_MINVALUE = MIN(Y(I),Y_MINVALUE)
-         ENDDO
-       ELSE
-         Y_MINVALUE = INPUT_Y_MINVALUE
-       ENDIF
+        IF ( .NOT. PRESENT(INPUT_Y_MINVALUE)) THEN
+          Y_MINVALUE = EP20
+          DO I=1,NB_POINTS
+            Y_MINVALUE = MIN(Y(I),Y_MINVALUE)
+          ENDDO
+        ELSE
+          Y_MINVALUE = INPUT_Y_MINVALUE
+        ENDIF
 c
-       IF ( .NOT. PRESENT(INPUT_X_MAXVALUE)) THEN
-         X_MAXVALUE = -EP20
-         DO I=1,NB_POINTS
-           X_MAXVALUE = MAX(X(I),X_MAXVALUE)
-         ENDDO
-       ELSE
-         X_MAXVALUE = INPUT_X_MAXVALUE
-       ENDIF
+        IF ( .NOT. PRESENT(INPUT_X_MAXVALUE)) THEN
+          X_MAXVALUE = -EP20
+          DO I=1,NB_POINTS
+            X_MAXVALUE = MAX(X(I),X_MAXVALUE)
+          ENDDO
+        ELSE
+          X_MAXVALUE = INPUT_X_MAXVALUE
+        ENDIF
 c
-       IF ( .NOT. PRESENT(INPUT_Y_MAXVALUE)) THEN
-         Y_MAXVALUE = -EP20
-         DO I=1,NB_POINTS
-           Y_MAXVALUE = MAX(Y(I),Y_MAXVALUE)
-         ENDDO
-       ELSE
-         Y_MAXVALUE = INPUT_Y_MAXVALUE
-       ENDIF
+        IF ( .NOT. PRESENT(INPUT_Y_MAXVALUE)) THEN
+          Y_MAXVALUE = -EP20
+          DO I=1,NB_POINTS
+            Y_MAXVALUE = MAX(Y(I),Y_MAXVALUE)
+          ENDDO
+        ELSE
+          Y_MAXVALUE = INPUT_Y_MAXVALUE
+        ENDIF
 c
-       IF ( .NOT. PRESENT(INPUT_SYMBOL)) THEN
-         SYMBOL(1:1) = '#'
-       ELSE
-         SYMBOL(1:1) = INPUT_SYMBOL(1:1)
-       ENDIF
+        IF ( .NOT. PRESENT(INPUT_SYMBOL)) THEN
+          SYMBOL(1:1) = '#'
+        ELSE
+          SYMBOL(1:1) = INPUT_SYMBOL(1:1)
+        ENDIF
 c
-       IF ( .NOT. PRESENT(INPUT_CURVE_TYPE)) THEN
-         CURVE_TYPE = 0
-       ELSE
-         CURVE_TYPE = INPUT_CURVE_TYPE
-       ENDIF
+        IF ( .NOT. PRESENT(INPUT_CURVE_TYPE)) THEN
+          CURVE_TYPE = 0
+        ELSE
+          CURVE_TYPE = INPUT_CURVE_TYPE
+        ENDIF
 c
-       IF ( .NOT. PRESENT(INPUT_TXT_X)) THEN
-         TXT_X = ''
-       ELSE
-         TXT_X = ''
-         TXT_X(1:LEN_TRIM(INPUT_TXT_X)) = INPUT_TXT_X(1:LEN_TRIM(INPUT_TXT_X))
-       ENDIF
+        IF ( .NOT. PRESENT(INPUT_TXT_X)) THEN
+          TXT_X = ''
+        ELSE
+          TXT_X = ''
+          TXT_X(1:LEN_TRIM(INPUT_TXT_X)) = INPUT_TXT_X(1:LEN_TRIM(INPUT_TXT_X))
+        ENDIF
 c
-       IF ( .NOT. PRESENT(INPUT_TXT_Y)) THEN
-         TXT_Y = ''
-       ELSE
-         TXT_Y = ''
-         TXT_Y(1:LEN_TRIM(INPUT_TXT_Y)) = INPUT_TXT_Y(1:LEN_TRIM(INPUT_TXT_Y))
-       ENDIF
+        IF ( .NOT. PRESENT(INPUT_TXT_Y)) THEN
+          TXT_Y = ''
+        ELSE
+          TXT_Y = ''
+          TXT_Y(1:LEN_TRIM(INPUT_TXT_Y)) = INPUT_TXT_Y(1:LEN_TRIM(INPUT_TXT_Y))
+        ENDIF
 C=======================================================================
-       CHAR=''
-       CHAR1=''
-       CHAR2=''
-       CURVE(1:NB_POINTS) = 0
-       INCR_X = (X_MAXVALUE-X_MINVALUE)/(SIZE_X-1)
-       INCR_Y = (Y_MAXVALUE-Y_MINVALUE)/(SIZE_Y-1)
+        CHAR=''
+        CHAR1=''
+        CHAR2=''
+        CURVE(1:NB_POINTS) = 0
+        INCR_X = (X_MAXVALUE-X_MINVALUE)/(SIZE_X-1)
+        INCR_Y = (Y_MAXVALUE-Y_MINVALUE)/(SIZE_Y-1)
 c
-       ALLOCATE(GRID(SIZE_X,SIZE_Y))
-       DO J = 1, SIZE_Y
-         DO I = 1, SIZE_X
-           GRID(I,J) = 0
-         ENDDO
-       ENDDO
+        ALLOCATE(GRID(SIZE_X,SIZE_Y))
+        DO J = 1, SIZE_Y
+          DO I = 1, SIZE_X
+            GRID(I,J) = 0
+          ENDDO
+        ENDDO
 c
-       IF(CURVE_TYPE == 0)THEN
-         DO I=1,NB_POINTS
-           COORDX = MIN(SIZE_X,MAX(1,INT((X(I) - X_MINVALUE)/INCR_X)))
-           COORDY = MIN(SIZE_Y,MAX(1,INT((Y(I) - Y_MINVALUE)/INCR_Y)))
-           GRID(COORDX,COORDY) = 1
-         ENDDO
-       ELSEIF(CURVE_TYPE == 1)THEN
-         DO I=1,NB_POINTS
-           COORDX = MIN(SIZE_X,MAX(1,INT((X(I) - X_MINVALUE)/INCR_X)))
-           COORDY = MIN(SIZE_Y,MAX(1,INT((Y(I) - Y_MINVALUE)/INCR_Y)))
-           DO J=1,COORDY
-             GRID(COORDX,J) = 1
-           ENDDO
-         ENDDO
-       ENDIF
+        IF(CURVE_TYPE == 0)THEN
+          DO I=1,NB_POINTS
+            COORDX = MIN(SIZE_X,MAX(1,INT((X(I) - X_MINVALUE)/INCR_X)))
+            COORDY = MIN(SIZE_Y,MAX(1,INT((Y(I) - Y_MINVALUE)/INCR_Y)))
+            GRID(COORDX,COORDY) = 1
+          ENDDO
+        ELSEIF(CURVE_TYPE == 1)THEN
+          DO I=1,NB_POINTS
+            COORDX = MIN(SIZE_X,MAX(1,INT((X(I) - X_MINVALUE)/INCR_X)))
+            COORDY = MIN(SIZE_Y,MAX(1,INT((Y(I) - Y_MINVALUE)/INCR_Y)))
+            DO J=1,COORDY
+              GRID(COORDX,J) = 1
+            ENDDO
+          ENDDO
+        ENDIF
 c
-       DO J = 1, SIZE_Y
-         CHAR(J)= " "
-       ENDDO
-       DO J = 1, SIZE_Y
-         DO I = 1, SIZE_X
-           IF( GRID(I,SIZE_Y+1-J) == 1) CHAR(J)(I:I)= SYMBOL(1:1)
-         ENDDO
-       ENDDO
+        DO J = 1, SIZE_Y
+          CHAR(J)= " "
+        ENDDO
+        DO J = 1, SIZE_Y
+          DO I = 1, SIZE_X
+            IF( GRID(I,SIZE_Y+1-J) == 1) CHAR(J)(I:I)= SYMBOL(1:1)
+          ENDDO
+        ENDDO
 
-       DEALLOCATE(GRID)
+        DEALLOCATE(GRID)
 
-       IF(PRESENT(INPUT_TXT_Y)) THEN
-         WRITE(IOUT,'(12X,A)') TXT_Y(1:LEN_TRIM(TXT_Y))
-       ENDIF
+        IF(PRESENT(INPUT_TXT_Y)) THEN
+          WRITE(IOUT,'(12X,A)') TXT_Y(1:LEN_TRIM(TXT_Y))
+        ENDIF
 C
-       WRITE(IOUT,'(19X,A)') '^'
-       WRITE(IOUT,'(19X,A,A)') '|',CHAR(1)(1:SIZE_X)
-       WRITE(IOUT,'(9X,F7.3,1X,A,A,A)')   Y_MAXVALUE,'--','|',CHAR(2)(1:SIZE_X)
-       DO I = 3,SIZE_Y-1
-         WRITE(IOUT,'(19X,A,A)') '|',CHAR(I)(1:SIZE_X)
-       ENDDO
-       WRITE(IOUT,'(9X,F7.3,1X,A,A,A)')   Y_MINVALUE,'--','|',CHAR(SIZE_Y)(1:SIZE_X)
+        WRITE(IOUT,'(19X,A)') '^'
+        WRITE(IOUT,'(19X,A,A)') '|',CHAR(1)(1:SIZE_X)
+        WRITE(IOUT,'(9X,F7.3,1X,A,A,A)')   Y_MAXVALUE,'--','|',CHAR(2)(1:SIZE_X)
+        DO I = 3,SIZE_Y-1
+          WRITE(IOUT,'(19X,A,A)') '|',CHAR(I)(1:SIZE_X)
+        ENDDO
+        WRITE(IOUT,'(9X,F7.3,1X,A,A,A)')   Y_MINVALUE,'--','|',CHAR(SIZE_Y)(1:SIZE_X)
 C
-       DO II = 1,SIZE_X+2
+        DO II = 1,SIZE_X+2
           CHAR2(II:II) = '-'
-       ENDDO
-       CHAR2(SIZE_X+2:SIZE_X+3) = '>'
-       IF(PRESENT(INPUT_TXT_X) ) THEN
-         CHAR2(SIZE_X+4:SIZE_X+3+LEN_TRIM(TXT_X)) = TXT_X(1:LEN_TRIM(TXT_X))
-       ENDIF
+        ENDDO
+        CHAR2(SIZE_X+2:SIZE_X+3) = '>'
+        IF(PRESENT(INPUT_TXT_X) ) THEN
+          CHAR2(SIZE_X+4:SIZE_X+3+LEN_TRIM(TXT_X)) = TXT_X(1:LEN_TRIM(TXT_X))
+        ENDIF
 C
-       LENA = LEN_TRIM(CHAR2)
-       WRITE(IOUT,'(20X,A)') CHAR2(1:LENA)
+        LENA = LEN_TRIM(CHAR2)
+        WRITE(IOUT,'(20X,A)') CHAR2(1:LENA)
 c
-       CHAR2 = ' '
-       CHAR2(1:1)=  '|'
-       CHAR2(SIZE_X:SIZE_X)=  '|'
-       LENA = LEN_TRIM(CHAR2)
-       WRITE(IOUT,'(20X,A)') CHAR2(1:LENA)
+        CHAR2 = ' '
+        CHAR2(1:1)=  '|'
+        CHAR2(SIZE_X:SIZE_X)=  '|'
+        LENA = LEN_TRIM(CHAR2)
+        WRITE(IOUT,'(20X,A)') CHAR2(1:LENA)
 C
-       IF (SIZE_X <= 10) THEN 
-         FMTA='(14X,1PG11.3,5X,1PG11.3)'
-       ELSEIF (SIZE_X <= 20) THEN 
-         FMTA='(14X,1PG11.3,8X,1PG11.3)'
-       ELSEIF (SIZE_X <= 30) THEN 
-         FMTA='(14X,1PG11.3,18X,1PG11.3)'
-       ELSEIF (SIZE_X <= 40) THEN 
-         FMTA='(14X,1PG11.3,28X,1PG11.3)'
-       ELSEIF (SIZE_X <= 50) THEN 
-         FMTA='(14X,1PG11.3,38X,1PG11.3)'
-       ELSEIF (SIZE_X <= 60) THEN 
-         FMTA='(14X,1PG11.3,48X,1PG11.3)'
-       ELSEIF (SIZE_X <= 70) THEN 
-         FMTA='(14X,1PG11.3,58X,1PG11.3)'
-       ELSEIF (SIZE_X <= 80) THEN 
-         FMTA='(14X,1PG11.3,68X,1PG11.3)'
-       ELSEIF (SIZE_X <= 90) THEN 
-         FMTA='(14X,1PG11.3,78X,1PG11.3)'
-       ELSE
-         FMTA='(14 X,1PG11.3,85X,1PG11.3)'
-       ENDIF
+        IF (SIZE_X <= 10) THEN
+          FMTA='(14X,1PG11.3,5X,1PG11.3)'
+        ELSEIF (SIZE_X <= 20) THEN
+          FMTA='(14X,1PG11.3,8X,1PG11.3)'
+        ELSEIF (SIZE_X <= 30) THEN
+          FMTA='(14X,1PG11.3,18X,1PG11.3)'
+        ELSEIF (SIZE_X <= 40) THEN
+          FMTA='(14X,1PG11.3,28X,1PG11.3)'
+        ELSEIF (SIZE_X <= 50) THEN
+          FMTA='(14X,1PG11.3,38X,1PG11.3)'
+        ELSEIF (SIZE_X <= 60) THEN
+          FMTA='(14X,1PG11.3,48X,1PG11.3)'
+        ELSEIF (SIZE_X <= 70) THEN
+          FMTA='(14X,1PG11.3,58X,1PG11.3)'
+        ELSEIF (SIZE_X <= 80) THEN
+          FMTA='(14X,1PG11.3,68X,1PG11.3)'
+        ELSEIF (SIZE_X <= 90) THEN
+          FMTA='(14X,1PG11.3,78X,1PG11.3)'
+        ELSE
+          FMTA='(14 X,1PG11.3,85X,1PG11.3)'
+        ENDIF
 c
-       WRITE(IOUT,FMT=FMTA) X_MINVALUE,X_MAXVALUE
+        WRITE(IOUT,FMT=FMTA) X_MINVALUE,X_MAXVALUE
 c
-       WRITE(IOUT,*) ' '
-       WRITE(IOUT,*) ' '
-C------------------------------ 
-      RETURN
+        WRITE(IOUT,*) ' '
+        WRITE(IOUT,*) ' '
+C------------------------------
+        RETURN
       END

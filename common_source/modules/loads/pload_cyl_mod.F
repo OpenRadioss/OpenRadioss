@@ -34,27 +34,27 @@ c-----------------------------------------------------------------------
 !||====================================================================
       MODULE PLOAD_CYL_MOD
 c-----------------------------------------------------------------------
-      TYPE PRESS_CYL_
-        INTEGER   :: ID                !  option ID
-        INTEGER   :: IFRAME            !  moving frame 
-        INTEGER   :: ISENS             !  sensor number
-        INTEGER   :: ITABLE            !  table number
-        INTEGER   :: NSEG              !  number of surface segments
-        INTEGER ,DIMENSION(:,:) ,ALLOCATABLE :: SEGNOD ! segment nodes(NSEG,4)
-        my_real   :: XSCALE_R
-        my_real   :: XSCALE_T
-        my_real   :: YSCALE
-        ! ---------
-        ! starter only
-        INTEGER ,DIMENSION(:) ,ALLOCATABLE :: NUMBER_SEG_PER_PROC ! number of segment defined on a proc
-        INTEGER ,DIMENSION(:) ,ALLOCATABLE :: PROC_ID ! processor id where the segment is defined 
-        ! ---------
+        TYPE PRESS_CYL_
+          INTEGER   :: ID                !  option ID
+          INTEGER   :: IFRAME            !  moving frame
+          INTEGER   :: ISENS             !  sensor number
+          INTEGER   :: ITABLE            !  table number
+          INTEGER   :: NSEG              !  number of surface segments
+          INTEGER ,DIMENSION(:,:) ,ALLOCATABLE :: SEGNOD ! segment nodes(NSEG,4)
+          my_real   :: XSCALE_R
+          my_real   :: XSCALE_T
+          my_real   :: YSCALE
+          ! ---------
+          ! starter only
+          INTEGER ,DIMENSION(:) ,ALLOCATABLE :: NUMBER_SEG_PER_PROC ! number of segment defined on a proc
+          INTEGER ,DIMENSION(:) ,ALLOCATABLE :: PROC_ID ! processor id where the segment is defined
+          ! ---------
 
-        ! ---------
-        ! parith/on option : starter and engine
-        INTEGER :: S_SEGMENT_ADRESS ! second dimension of SEGMENT_ADRESS
-        INTEGER, DIMENSION(:,:), ALLOCATABLE :: SEGMENT_ADRESS ! adress to point to the adsky array, dim =(4,S_SEGMENT_ADRESS) (parith/on option)
-        ! ---------
-      END TYPE PRESS_CYL_
+          ! ---------
+          ! parith/on option : starter and engine
+          INTEGER :: S_SEGMENT_ADRESS ! second dimension of SEGMENT_ADRESS
+          INTEGER, DIMENSION(:,:), ALLOCATABLE :: SEGMENT_ADRESS ! adress to point to the adsky array, dim =(4,S_SEGMENT_ADRESS) (parith/on option)
+          ! ---------
+        END TYPE PRESS_CYL_
 c-----------------------------------------------------------------------
       END MODULE PLOAD_CYL_MOD

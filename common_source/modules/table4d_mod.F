@@ -51,13 +51,13 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||====================================================================
       MODULE TABLE4D_MOD
 c
-      USE TABLE_MOD
+        USE TABLE_MOD
 C-----------------------------------------------
 #include      "my_real.inc"
 C-----------------------------------------------
 C   D e r i v e d   T y p e   D e f i n i t i o n s
 C=======================================================================
-      TYPE TABLE_4D_
+        TYPE TABLE_4D_
           INTEGER :: NOTABLE
           INTEGER :: NDIM
           TYPE(TTABLE_XY), DIMENSION(:) ,ALLOCATABLE :: X
@@ -65,6 +65,6 @@ C=======================================================================
           my_real, DIMENSION(:,:)       ,ALLOCATABLE :: Y2D
           my_real, DIMENSION(:,:,:)     ,ALLOCATABLE :: Y3D
           my_real, DIMENSION(:,:,:,:)   ,ALLOCATABLE :: Y4D
-      END TYPE TABLE_4D_
+        END TYPE TABLE_4D_
 C-----------------------------------------------
       END MODULE TABLE4D_MOD

@@ -39,14 +39,14 @@
         use precision_mod, only: WP
         implicit none
         private :: WP
-  ! ======================================================================================================================
-  !                                                   TYPES
-  ! ======================================================================================================================
-  !! \brief module for /INIVEL using T_start or sensor
-  
+        ! ======================================================================================================================
+        !                                                   TYPES
+        ! ======================================================================================================================
+        !! \brief module for /INIVEL using T_start or sensor
+
         ! type for /INIVEL
         type general_inivel_
-          integer ::  type       !< type 
+          integer ::  type       !< type
           integer ::  id         !< user_id
           integer ::  skew_id    !< skew_id
           integer ::  grnd_id    !< grnd_id
@@ -57,7 +57,7 @@
 
         ! type for /INIVEL/AXIS
         type axis_inivel_
-          integer ::  dir        !< 1:3 x,y,z 
+          integer ::  dir        !< 1:3 x,y,z
           integer ::  id         !< user_id
           integer ::  frame_id   !< frame_id
           integer ::  grnd_id    !< grnd_id
@@ -79,12 +79,12 @@
           real(kind=WP) ::  tstart     !< t_start
         end type  fvm_inivel_
 
-        ! not available for /INIVEL/NODE 
+        ! not available for /INIVEL/NODE
 
         ! /INIVEL using T_start or sensor will be inside type loads_
         type inivel_
           integer                    :: id            !< user's id
-          integer                    :: itype         !< type 
+          integer                    :: itype         !< type
           type (general_inivel_)     :: general       !< /INIVEL
           type (axis_inivel_)        :: axis          !< /INIVEL/AXIS
           type (fvm_inivel_)         :: fvm           !< /INIVEL/FVM

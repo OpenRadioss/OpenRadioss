@@ -44,27 +44,27 @@
       module group_param_mod
 
 ! ======================================================================================================================
-!! \brief module to define data structure for common parameters in element groups 
-!! \details 
+!! \brief module to define data structure for common parameters in element groups
+!! \details
 
-      use precision_mod, only: WP
-      implicit none
-      private :: WP
+        use precision_mod, only: WP
+        implicit none
+        private :: WP
 !
 !
-!=======================================================================      
-! 
-      type group_param_               ! (ngroup)
-        integer     :: imat           !< global material model number   
-        integer     :: iprop          !< property number
-        integer     :: nparg          !< number of group parameters
-        real(kind=WP)     :: visc_dn        !< numerical viscosity coefficient
-        real(kind=WP)     :: visc_dm        !< membrane  viscosity coefficient (for shells)
-        integer     :: ismstr         !< small/large strain formulation flag
-        
-        integer ,dimension(:) ,allocatable :: iparg  !< table of group parameters
+!=======================================================================
+!
+        type group_param_               ! (ngroup)
+          integer     :: imat           !< global material model number
+          integer     :: iprop          !< property number
+          integer     :: nparg          !< number of group parameters
+          real(kind=WP)     :: visc_dn        !< numerical viscosity coefficient
+          real(kind=WP)     :: visc_dm        !< membrane  viscosity coefficient (for shells)
+          integer     :: ismstr         !< small/large strain formulation flag
 
-      end type group_param_
+          integer ,dimension(:) ,allocatable :: iparg  !< table of group parameters
+
+        end type group_param_
 !
 !---------------
       end module group_param_mod

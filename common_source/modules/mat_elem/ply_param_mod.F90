@@ -29,29 +29,29 @@
 !||====================================================================
       module ply_param_mod
 
-!=======================================================================================      
+!=======================================================================================
 !! \brief  module to define composite ply data structure
-!! \details 
-      use precision_mod, only : WP
+!! \details
+        use precision_mod, only : WP
 
-      implicit none
-      private :: WP
+        implicit none
+        private :: WP
 !
 
-!=======================================================================      
+!=======================================================================
 
-      type ply_param_                    
-        real(kind=WP) :: alpha                
-        real(kind=WP) :: phi
-        real(kind=WP) :: thick
-        real(kind=WP) :: pos
-        real(kind=WP) :: p_thkly
-        real(kind=WP) :: p_weight
-        integer :: pid
-        integer :: mid_ply
-        integer :: mid_intply
-        integer :: npt_ply
-      end type ply_param_
+        type ply_param_
+          real(kind=WP) :: alpha
+          real(kind=WP) :: phi
+          real(kind=WP) :: thick
+          real(kind=WP) :: pos
+          real(kind=WP) :: p_thkly
+          real(kind=WP) :: p_weight
+          integer :: pid
+          integer :: mid_ply
+          integer :: mid_intply
+          integer :: npt_ply
+        end type ply_param_
 
 !---------------
       end module ply_param_mod

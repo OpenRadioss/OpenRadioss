@@ -70,22 +70,22 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 
 #include "my_real.inc"
 
-      INTEGER  :: NPINCH
-      INTEGER  :: NPLOADPINCH 
+        INTEGER  :: NPINCH
+        INTEGER  :: NPLOADPINCH
 
-      TYPE PINCH 
-        INTEGER :: SAPINCH  ! since acceleration size is 3*NUMNOD*NTHREAD                              
-c       INTEGER ,DIMENSION(:), ALLOCATABLE :: INDEXPINCH  
+        TYPE PINCH
+          INTEGER :: SAPINCH  ! since acceleration size is 3*NUMNOD*NTHREAD
+c       INTEGER ,DIMENSION(:), ALLOCATABLE :: INDEXPINCH
 C       [PM] future : mapping of NUMNOD to NUMPINCH
-        my_real ,DIMENSION(:,:), ALLOCATABLE :: XPINCH   
-        my_real ,DIMENSION(:,:), ALLOCATABLE :: DPINCH    
-        my_real ,DIMENSION(:,:), ALLOCATABLE :: VPINCH    
-        my_real ,DIMENSION(:,:), ALLOCATABLE :: APINCH  
-        my_real ,DIMENSION(:)  , ALLOCATABLE :: STIFPINCH  
-        my_real ,DIMENSION(:)  , ALLOCATABLE :: MSPINCH      
-      END TYPE PINCH  
+          my_real ,DIMENSION(:,:), ALLOCATABLE :: XPINCH
+          my_real ,DIMENSION(:,:), ALLOCATABLE :: DPINCH
+          my_real ,DIMENSION(:,:), ALLOCATABLE :: VPINCH
+          my_real ,DIMENSION(:,:), ALLOCATABLE :: APINCH
+          my_real ,DIMENSION(:)  , ALLOCATABLE :: STIFPINCH
+          my_real ,DIMENSION(:)  , ALLOCATABLE :: MSPINCH
+        END TYPE PINCH
 
-      
+
       END MODULE PINCHTYPE_MOD
 
 !||====================================================================
@@ -98,19 +98,19 @@ C       [PM] future : mapping of NUMNOD to NUMPINCH
       SUBROUTINE FREE_PINCH(PINCH_DATA)
 C-----------------------------------------------
 C   M o d u l e s
-C----------------------------------------------- 
-      USE PINCHTYPE_MOD
+C-----------------------------------------------
+        USE PINCHTYPE_MOD
 C----6---------------------------------------------------------------7---------8
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
         TYPE(PINCH) :: PINCH_DATA
 
-         IF(ALLOCATED(PINCH_DATA%XPINCH    )) DEALLOCATE(PINCH_DATA%XPINCH   ) 
-         IF(ALLOCATED(PINCH_DATA%DPINCH    )) DEALLOCATE(PINCH_DATA%DPINCH   )  
-         IF(ALLOCATED(PINCH_DATA%VPINCH    )) DEALLOCATE(PINCH_DATA%VPINCH   )   
-         IF(ALLOCATED(PINCH_DATA%APINCH    )) DEALLOCATE(PINCH_DATA%APINCH   )  
-         IF(ALLOCATED(PINCH_DATA%STIFPINCH )) DEALLOCATE(PINCH_DATA%STIFPINCH)   
-         IF(ALLOCATED(PINCH_DATA%MSPINCH   )) DEALLOCATE(PINCH_DATA%MSPINCH  )  
+        IF(ALLOCATED(PINCH_DATA%XPINCH    )) DEALLOCATE(PINCH_DATA%XPINCH   )
+        IF(ALLOCATED(PINCH_DATA%DPINCH    )) DEALLOCATE(PINCH_DATA%DPINCH   )
+        IF(ALLOCATED(PINCH_DATA%VPINCH    )) DEALLOCATE(PINCH_DATA%VPINCH   )
+        IF(ALLOCATED(PINCH_DATA%APINCH    )) DEALLOCATE(PINCH_DATA%APINCH   )
+        IF(ALLOCATED(PINCH_DATA%STIFPINCH )) DEALLOCATE(PINCH_DATA%STIFPINCH)
+        IF(ALLOCATED(PINCH_DATA%MSPINCH   )) DEALLOCATE(PINCH_DATA%MSPINCH  )
       END SUBROUTINE FREE_PINCH
 

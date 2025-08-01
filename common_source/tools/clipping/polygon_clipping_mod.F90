@@ -34,22 +34,22 @@
         implicit none
         private :: WP
 
-          !pointer to a list of data structure below
-          type pointer_to_point_
-            integer :: id_edge  ! 1 or 2
-            integer :: id_point ! from 1 to n where n= #endpoints + #intersection_points    
-          end type pointer_to_point_
+        !pointer to a list of data structure below
+        type pointer_to_point_
+          integer :: id_edge  ! 1 or 2
+          integer :: id_point ! from 1 to n where n= #endpoints + #intersection_points
+        end type pointer_to_point_
 
-          !data structure for Weiler Atherton algorithm
-          type points_on_edge_
-            real(kind=WP), allocatable, dimension(:) :: alpha !position on edge 0.0:first endpoint, ]0.,1.[:intersection point, 1.0:second edge endpoint
-            type(polygon_point_), allocatable, dimension(:) :: coor ! coordinates in global frame
-            integer,dimension(:),allocatable :: point_id !identifier for intersection point (same id for Clipped polygon and Clipping polygon)
-            integer :: numpoints !number of points on the edge : min is 2 for both edge endpoints
-            integer, allocatable, dimension(:) :: iorient
-            integer, allocatable, dimension(:) :: num_inter_pt
-            type(pointer_to_point_),allocatable,dimension(:) :: ptr
-           end type points_on_edge_
+        !data structure for Weiler Atherton algorithm
+        type points_on_edge_
+          real(kind=WP), allocatable, dimension(:) :: alpha !position on edge 0.0:first endpoint, ]0.,1.[:intersection point, 1.0:second edge endpoint
+          type(polygon_point_), allocatable, dimension(:) :: coor ! coordinates in global frame
+          integer,dimension(:),allocatable :: point_id !identifier for intersection point (same id for Clipped polygon and Clipping polygon)
+          integer :: numpoints !number of points on the edge : min is 2 for both edge endpoints
+          integer, allocatable, dimension(:) :: iorient
+          integer, allocatable, dimension(:) :: num_inter_pt
+          type(pointer_to_point_),allocatable,dimension(:) :: ptr
+        end type points_on_edge_
 
       contains
 
@@ -57,72 +57,72 @@
 ! ======================================================================================================================
 !                                                   FUNCTION
 ! ======================================================================================================================
-  function intersectPt(P1, P2, Q1, Q2, tol, alpha, beta) result(intersection)
+        function intersectPt(P1, P2, Q1, Q2, tol, alpha, beta) result(intersection)
 !! \brief Compute intersection point [P1,P2[ and {Q1,Q2[
 !! \details On [P1 P2[ : position is alpha in \[0,1[ and On [Q1 Q2[ : position is beta in \[0,1[
-   use constant_mod , only : zero, one, ep20
-    implicit none
-    type(polygon_point_), intent(in) :: P1, P2, Q1, Q2
-    real(kind=WP), intent(inout) :: alpha, beta
-    real(kind=WP), intent(in) :: tol
-    type(polygon_point_) :: intersection
-    real(kind=WP) :: denom, numer_a, numer_b
+          use constant_mod , only : zero, one, ep20
+          implicit none
+          type(polygon_point_), intent(in) :: P1, P2, Q1, Q2
+          real(kind=WP), intent(inout) :: alpha, beta
+          real(kind=WP), intent(in) :: tol
+          type(polygon_point_) :: intersection
+          real(kind=WP) :: denom, numer_a, numer_b
 
-    intersection%y = ep20  ! Initialize with NaN (or use other convention)
-    intersection%z = ep20
-    alpha = -one
-    beta = -one
+          intersection%y = ep20  ! Initialize with NaN (or use other convention)
+          intersection%z = ep20
+          alpha = -one
+          beta = -one
 
-    denom = (Q2%z - Q1%z) * (P2%y - P1%y) - (Q2%y - Q1%y) * (P2%z - P1%z)
+          denom = (Q2%z - Q1%z) * (P2%y - P1%y) - (Q2%y - Q1%y) * (P2%z - P1%z)
 
-    if (abs(denom) < tol) then
-      return  ! Segments are parallel or coincident
-    end if
+          if (abs(denom) < tol) then
+            return  ! Segments are parallel or coincident
+          end if
 
-    numer_a = (Q2%y - Q1%y) * (P1%z - Q1%z) - (Q2%z - Q1%z) * (P1%y - Q1%y)
+          numer_a = (Q2%y - Q1%y) * (P1%z - Q1%z) - (Q2%z - Q1%z) * (P1%y - Q1%y)
 
-    numer_b = (P2%y - P1%y) * (P1%z - Q1%z) - (P2%z - P1%z) * (P1%y - Q1%y)
+          numer_b = (P2%y - P1%y) * (P1%z - Q1%z) - (P2%z - P1%z) * (P1%y - Q1%y)
 
-    alpha = numer_a / denom
-    beta = numer_b / denom
+          alpha = numer_a / denom
+          beta = numer_b / denom
 
-    if (alpha >= zero .and. alpha <= one .and. beta >= zero .and. beta <= one) then
-      intersection%y = P1%y + alpha * (P2%y - P1%y)
-      intersection%z = P1%z + alpha * (P2%z - P1%z)
-    end if
+          if (alpha >= zero .and. alpha <= one .and. beta >= zero .and. beta <= one) then
+            intersection%y = P1%y + alpha * (P2%y - P1%y)
+            intersection%z = P1%z + alpha * (P2%z - P1%z)
+          end if
 
-  end function intersectPt
+        end function intersectPt
 
 ! ======================================================================================================================
 !                                                   FUNCTION
 ! ======================================================================================================================
-  function GetEdgeFromPointId (List_Edge, point_id, list_size, out_point_pos) result(out_edge_pos)
-    !output : ii : edge number in the list
-    !output : jj : point number on this list
-    implicit none
-    integer,intent(in) :: list_size
-    integer,intent(in) :: point_id
-    integer,intent(inout) :: out_point_pos
-    integer :: out_edge_pos
-    type(points_on_edge_), dimension(list_size) :: List_Edge
-    integer :: ii, jj
-    logical :: is_found
-    is_found = .false.
-    out_edge_pos = -HUGE(out_edge_pos)
-    do ii=1,list_size
-      do jj=2,List_Edge(ii)%numpoints-1
-        if(List_Edge(ii)%point_id(jj) == point_id)then
-          is_found = .true.
-          exit
-        end if
-      end do
-      if(is_found)then
-        out_edge_pos = ii
-        out_point_pos = jj
-        exit
-      end if
-    end do
-  end function GetEdgeFromPointId
+        function GetEdgeFromPointId (List_Edge, point_id, list_size, out_point_pos) result(out_edge_pos)
+          !output : ii : edge number in the list
+          !output : jj : point number on this list
+          implicit none
+          integer,intent(in) :: list_size
+          integer,intent(in) :: point_id
+          integer,intent(inout) :: out_point_pos
+          integer :: out_edge_pos
+          type(points_on_edge_), dimension(list_size) :: List_Edge
+          integer :: ii, jj
+          logical :: is_found
+          is_found = .false.
+          out_edge_pos = -HUGE(out_edge_pos)
+          do ii=1,list_size
+            do jj=2,List_Edge(ii)%numpoints-1
+              if(List_Edge(ii)%point_id(jj) == point_id)then
+                is_found = .true.
+                exit
+              end if
+            end do
+            if(is_found)then
+              out_edge_pos = ii
+              out_point_pos = jj
+              exit
+            end if
+          end do
+        end function GetEdgeFromPointId
 
 
 ! ======================================================================================================================
@@ -133,98 +133,98 @@
 !||--- called by ------------------------------------------------------
 !||    clipping_weiler_atherton   ../common_source/tools/clipping/polygon_clipping_mod.F90
 !||====================================================================
-    subroutine NextPoint ( currentPoint, icur_list, list1, size1, list2, size2)
-      implicit none
-      type(pointer_to_point_), intent(inout) :: currentPoint
-      integer,intent(inout) :: icur_list !< current list : 1 or 2
-      integer,intent(in) :: size1
-      integer,intent(in) :: size2
-      type(points_on_edge_), target, dimension(size1) :: list1
-      type(points_on_edge_), target, dimension(size2) :: list2
-      integer :: ii , jj !< edge local id
-      integer :: kk !< point local id
-      integer :: iorient !< flag for entering (1) or leaving point (-1) or summit (0)
-      integer :: num_pt_on_edge
-      integer :: size_ !size1 or size2 depending on icur_list=1|2
-      !!!!type(points_on_edge_), dimension(:), pointer :: list
+        subroutine NextPoint ( currentPoint, icur_list, list1, size1, list2, size2)
+          implicit none
+          type(pointer_to_point_), intent(inout) :: currentPoint
+          integer,intent(inout) :: icur_list !< current list : 1 or 2
+          integer,intent(in) :: size1
+          integer,intent(in) :: size2
+          type(points_on_edge_), target, dimension(size1) :: list1
+          type(points_on_edge_), target, dimension(size2) :: list2
+          integer :: ii , jj !< edge local id
+          integer :: kk !< point local id
+          integer :: iorient !< flag for entering (1) or leaving point (-1) or summit (0)
+          integer :: num_pt_on_edge
+          integer :: size_ !size1 or size2 depending on icur_list=1|2
+          !!!!type(points_on_edge_), dimension(:), pointer :: list
 
-      ii = currentPoint%id_edge
-      kk = currentPoint%id_point
-      num_pt_on_edge = 2
-      size_ = 0
-      iorient = -1
-      if(icur_list == 1)then
-        size_ = size1
-        iorient = list1(ii)%iorient(kk)
-      elseif(icur_list == 2)then
-        size_ = size2
-        iorient = list2(ii)%iorient(kk)
-      endif
+          ii = currentPoint%id_edge
+          kk = currentPoint%id_point
+          num_pt_on_edge = 2
+          size_ = 0
+          iorient = -1
+          if(icur_list == 1)then
+            size_ = size1
+            iorient = list1(ii)%iorient(kk)
+          elseif(icur_list == 2)then
+            size_ = size2
+            iorient = list2(ii)%iorient(kk)
+          endif
 
-      !if we had to remain on current list
+          !if we had to remain on current list
 
-      if(iorient /=-1)then  ! if not a leaving point, remain on current list
-        if(icur_list==1)num_pt_on_edge = 2 + list1(ii)%num_inter_pt(kk)
-        if(icur_list==2)num_pt_on_edge = 2 + list2(ii)%num_inter_pt(kk)
-        if(kk < num_pt_on_edge)then
-          !next point on current edge
-          kk = kk + 1
-        elseif(ii < size_)then
-          !first point on next edge
-          ii = ii + 1
-          kk = 1
-        else
-          !rewind to first point of first edge
-          ii = 1
-          kk = 1
-        end if
-        jj = ii
+          if(iorient /=-1)then  ! if not a leaving point, remain on current list
+            if(icur_list==1)num_pt_on_edge = 2 + list1(ii)%num_inter_pt(kk)
+            if(icur_list==2)num_pt_on_edge = 2 + list2(ii)%num_inter_pt(kk)
+            if(kk < num_pt_on_edge)then
+              !next point on current edge
+              kk = kk + 1
+            elseif(ii < size_)then
+              !first point on next edge
+              ii = ii + 1
+              kk = 1
+            else
+              !rewind to first point of first edge
+              ii = 1
+              kk = 1
+            end if
+            jj = ii
 
-      else
-        !leaving point : move to the other list
-        if(icur_list == 1)then
-          jj = list1(ii)%ptr(kk)%id_edge;
-          kk = list1(ii)%ptr(kk)%id_point;
-        else
-          jj = list2(ii)%ptr(kk)%id_edge;
-          kk = list2(ii)%ptr(kk)%id_point;
-        end if
+          else
+            !leaving point : move to the other list
+            if(icur_list == 1)then
+              jj = list1(ii)%ptr(kk)%id_edge;
+              kk = list1(ii)%ptr(kk)%id_point;
+            else
+              jj = list2(ii)%ptr(kk)%id_edge;
+              kk = list2(ii)%ptr(kk)%id_point;
+            end if
 
-        icur_list = 3 - icur_list  ! switch : 1 becomes 2 and 2 becomes 1
+            icur_list = 3 - icur_list  ! switch : 1 becomes 2 and 2 becomes 1
 
-        if(icur_list == 1)then
-          size_ = size1
-          num_pt_on_edge = 2 + list1(jj)%num_inter_pt(kk) ! then increment to next point (do not stay on same point)
-        elseif(icur_list == 2)then
-          size_ = size2
-          num_pt_on_edge = 2 + list2(jj)%num_inter_pt(kk) ! then increment to next point (do not stay on same point)
-        end if
+            if(icur_list == 1)then
+              size_ = size1
+              num_pt_on_edge = 2 + list1(jj)%num_inter_pt(kk) ! then increment to next point (do not stay on same point)
+            elseif(icur_list == 2)then
+              size_ = size2
+              num_pt_on_edge = 2 + list2(jj)%num_inter_pt(kk) ! then increment to next point (do not stay on same point)
+            end if
 
-        if(kk < num_pt_on_edge)then
-          !next point on current edge
-          kk = kk + 1
-          ! last point is first point on next edge
-          if(kk == num_pt_on_edge)then
-            kk = 1
-            jj = jj +1
-            if (jj > size_)jj=1
-          end if
-        elseif(ii < size_)then
-          !first point on next edge
-          jj = jj + 1
-          kk = 1
-        else
-          !rewind to first point of first edge
-          jj = 1
-          kk = 1
-        end if
+            if(kk < num_pt_on_edge)then
+              !next point on current edge
+              kk = kk + 1
+              ! last point is first point on next edge
+              if(kk == num_pt_on_edge)then
+                kk = 1
+                jj = jj +1
+                if (jj > size_)jj=1
+              end if
+            elseif(ii < size_)then
+              !first point on next edge
+              jj = jj + 1
+              kk = 1
+            else
+              !rewind to first point of first edge
+              jj = 1
+              kk = 1
+            end if
 
-       endif
+          endif
 
-      currentPoint%id_edge = jj
-      currentPoint%id_point = kk
+          currentPoint%id_edge = jj
+          currentPoint%id_point = kk
 
-    end subroutine NextPoint
+        end subroutine NextPoint
 
 
 ! ======================================================================================================================
@@ -326,9 +326,9 @@
             allocate(list_edges_1(ii)%iorient(2+num_edges_2)) ; list_edges_1(ii)%iorient(:) = 0
             allocate(list_edges_1(ii)%num_inter_pt(2+num_edges_2)) ; list_edges_1(ii)%num_inter_pt(:) = 0
             allocate(list_edges_1(ii)%ptr(2+num_edges_2)) ;
-              list_edges_1(ii)%ptr(:)%id_edge=0;
-              list_edges_1(ii)%ptr(:)%id_point=0;
-              list_edges_1(ii)%numpoints = 0
+            list_edges_1(ii)%ptr(:)%id_edge=0;
+            list_edges_1(ii)%ptr(:)%id_point=0;
+            list_edges_1(ii)%numpoints = 0
           end do
 
           ! init. list 2 (Clipping polygon)
@@ -340,9 +340,9 @@
             allocate(list_edges_2(jj)%iorient(2+num_edges_1)) ; list_edges_2(jj)%iorient(:) = 0
             allocate(list_edges_2(jj)%num_inter_pt(2+num_edges_1)) ; list_edges_2(jj)%num_inter_pt(:) = 0
             allocate(list_edges_2(jj)%ptr(2+num_edges_1)) ;
-              list_edges_2(jj)%ptr(:)%id_edge=0;
-              list_edges_2(jj)%ptr(:)%id_point=0;
-              list_edges_2(jj)%numpoints = 0
+            list_edges_2(jj)%ptr(:)%id_edge=0;
+            list_edges_2(jj)%ptr(:)%id_point=0;
+            list_edges_2(jj)%numpoints = 0
           end do
 
           allocate(icur_2(num_edges_2)) ! cursor for each edge of current elem
@@ -391,8 +391,8 @@
               end if
 
               if(alpha < em10 .or. beta < em10 .or. alpha > one-em10 .or. beta > one-em10)then
-                 vertice_on_edge = .true.
-                 exit
+                vertice_on_edge = .true.
+                exit
               end if
 
               total_int_pt = total_int_pt + 1 !numbering to affect a global identifier and make relation between the two lists
@@ -600,26 +600,26 @@
             ierr = polygon_addpoint(result_list%polygon(ipoly), list_edges_1(ii)%coor(kk))   !  starting point
             do while(.not.finished .and. ierr == 0 )
               call  NextPoint ( current_Point, icur_list, list_edges_1 , num_edges_1, list_edges_2 , num_edges_2)
-               ii = current_point%id_edge
-               kk = current_point%id_point
-                 if(icur_list == 1)current_point_gid = list_edges_1(ii)%point_id(kk)
-                 if(icur_list == 2)current_point_gid = list_edges_2(ii)%point_id(kk)
-                 if (current_point_gid == starting_point_gid)then
-                     finished = .true.
-                 else
-                   if(icur_list == 1)then
-                     if(list_edges_1(ii)%iorient(kk)==1)then
-                       counter_entering_point=counter_entering_point+1
-                     end if
-                   elseif(icur_list == 2)then
-                     if(list_edges_2(ii)%iorient(kk)==-1)then
-                       counter_entering_point=counter_entering_point+1
-                     end if
-                   end if
-                 end if
-                 if(icur_list == 1) ierr=polygon_addpoint(result_list%polygon(ipoly), list_edges_1(ii)%coor(kk))
-                 if(icur_list == 2) ierr=polygon_addpoint(result_list%polygon(ipoly), list_edges_2(ii)%coor(kk))
-                 !  go on with next point
+              ii = current_point%id_edge
+              kk = current_point%id_point
+              if(icur_list == 1)current_point_gid = list_edges_1(ii)%point_id(kk)
+              if(icur_list == 2)current_point_gid = list_edges_2(ii)%point_id(kk)
+              if (current_point_gid == starting_point_gid)then
+                finished = .true.
+              else
+                if(icur_list == 1)then
+                  if(list_edges_1(ii)%iorient(kk)==1)then
+                    counter_entering_point=counter_entering_point+1
+                  end if
+                elseif(icur_list == 2)then
+                  if(list_edges_2(ii)%iorient(kk)==-1)then
+                    counter_entering_point=counter_entering_point+1
+                  end if
+                end if
+              end if
+              if(icur_list == 1) ierr=polygon_addpoint(result_list%polygon(ipoly), list_edges_1(ii)%coor(kk))
+              if(icur_list == 2) ierr=polygon_addpoint(result_list%polygon(ipoly), list_edges_2(ii)%coor(kk))
+              !  go on with next point
             enddo
 
             !write( *,*) "  poly id:",ipoly
@@ -630,10 +630,10 @@
             !end do
 
             if (counter_entering_point == numEnteringPoints1) then
-                !all entering points (from elem point of view) were used.
-                !no more polygon to build
-                total_number_poly = ipoly
-                exit
+              !all entering points (from elem point of view) were used.
+              !no more polygon to build
+              total_number_poly = ipoly
+              exit
             end if
 
           end do
@@ -708,7 +708,7 @@
             enddo
           endif
           deallocate(point)
-      end subroutine polygon_SetClockWise
+        end subroutine polygon_SetClockWise
 
 
 
@@ -776,7 +776,7 @@
             is_inside = .true.
           end if
 
-      end function polygon_is_point_inside
+        end function polygon_is_point_inside
 
 
 ! ======================================================================================================================
@@ -791,33 +791,33 @@
 !||--- called by ------------------------------------------------------
 !||    clipping_weiler_atherton   ../common_source/tools/clipping/polygon_clipping_mod.F90
 !||====================================================================
-      subroutine points_array_reindex(array, index, n)
-        implicit none
+        subroutine points_array_reindex(array, index, n)
+          implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
-        integer, intent(in) :: n
-        type(polygon_point_), intent(inout) :: array(n)
-        integer, intent(inout) :: index(n)
+          integer, intent(in) :: n
+          type(polygon_point_), intent(inout) :: array(n)
+          integer, intent(inout) :: index(n)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local Variables
 ! ----------------------------------------------------------------------------------------------------------------------
-        integer :: ii
-        type(polygon_point_) :: temp_array(n)
+          integer :: ii
+          type(polygon_point_) :: temp_array(n)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
-        do ii=1,n
-          temp_array(ii)%y=array(ii)%y
-          temp_array(ii)%z=array(ii)%z
-        end do
-        do ii = 1, n
-          array(ii)%y = temp_array(index(ii))%y
-          array(ii)%z = temp_array(index(ii))%z
-        end do
-      end subroutine points_array_reindex
+          do ii=1,n
+            temp_array(ii)%y=array(ii)%y
+            temp_array(ii)%z=array(ii)%z
+          end do
+          do ii = 1, n
+            array(ii)%y = temp_array(index(ii))%y
+            array(ii)%z = temp_array(index(ii))%z
+          end do
+        end subroutine points_array_reindex
 
 
 
 
-    end module polygon_clipping_mod
+      end module polygon_clipping_mod

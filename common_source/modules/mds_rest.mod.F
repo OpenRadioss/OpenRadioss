@@ -26,10 +26,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    radioss2          ../engine/source/engine/radioss2.F
 !||    resol             ../engine/source/engine/resol.F
 !||====================================================================
-      MODULE MDS_RESTART_MOD 
-         INTEGER MDS_NMAT
-         INTEGER, DIMENSION(:), ALLOCATABLE ::   MDS_MATID
-         INTEGER, DIMENSION(:), ALLOCATABLE :: MDS_NDEPSVAR
-         CHARACTER (LEN=64), DIMENSION(:,:), ALLOCATABLE ::  MDS_LABEL
-         CHARACTER, DIMENSION(:,:,:), ALLOCATABLE :: MDS_FILES
+      MODULE MDS_RESTART_MOD
+        INTEGER MDS_NMAT
+        INTEGER, DIMENSION(:), ALLOCATABLE ::   MDS_MATID
+        INTEGER, DIMENSION(:), ALLOCATABLE :: MDS_NDEPSVAR
+        CHARACTER (LEN=64), DIMENSION(:,:), ALLOCATABLE ::  MDS_LABEL
+        CHARACTER, DIMENSION(:,:,:), ALLOCATABLE :: MDS_FILES
       END MODULE

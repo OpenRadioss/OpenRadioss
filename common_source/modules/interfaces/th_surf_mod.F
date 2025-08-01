@@ -21,7 +21,7 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 
-!> \brief OPTION /TH/SURF outputs of Pressure and Area needed Tabs 
+!> \brief OPTION /TH/SURF outputs of Pressure and Area needed Tabs
 
 !||====================================================================
 !||    th_surf_mod               ../common_source/modules/interfaces/th_surf_mod.F
@@ -57,50 +57,50 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    w_th_surf_loadp           ../starter/source/restart/ddsplit/w_th_surf_loadp.F
 !||    w_th_surf_pload           ../starter/source/restart/ddsplit/w_th_surf_pload.F
 !||====================================================================
-        MODULE TH_SURF_MOD
+      MODULE TH_SURF_MOD
 C-----------------------------------------------
 C   m y _ r e a l
 C-----------------------------------------------
 #include      "my_real.inc"
-       implicit  none
+        implicit  none
 !   -----------------------------------------------
 !   D e r i v e d   T y p e   D e f i n i t i o n s
 !   -----------------------------------------------
 
 C----------------------------------------------
 C   /TH/SURF outputs of Pressure and Area
-C           needed Tabs 
+C           needed Tabs
 C---------------------------------------------
 
-          TYPE TH_SURF_
-            INTEGER  IOK         !< Flag for /TH/SURF + Load pressure
-            INTEGER  NSURF       !< Number of surfaces /TH/SURF
-            INTEGER  PLOAD_FLAG  !< Flag if th surface include segments where /PLOAD is applied
-            INTEGER  LOADP_FLAG  !< Flag if th surface include segments where /PFLUID or /PBLAST or /LOADP_HYD is applied
+        TYPE TH_SURF_
+          INTEGER  IOK         !< Flag for /TH/SURF + Load pressure
+          INTEGER  NSURF       !< Number of surfaces /TH/SURF
+          INTEGER  PLOAD_FLAG  !< Flag if th surface include segments where /PLOAD is applied
+          INTEGER  LOADP_FLAG  !< Flag if th surface include segments where /PFLUID or /PBLAST or /LOADP_HYD is applied
 
-            INTEGER  NSEGLOADP   !< Number of segments for which loadp Load_Pressure is applied
-            INTEGER  NSEGLOADPF  !< Number of segments for which loadp Pfluid is applied
-            INTEGER  NSEGLOADPB  !< Number of segments for which loadp Pblast is applied
+          INTEGER  NSEGLOADP   !< Number of segments for which loadp Load_Pressure is applied
+          INTEGER  NSEGLOADPF  !< Number of segments for which loadp Pfluid is applied
+          INTEGER  NSEGLOADPB  !< Number of segments for which loadp Pblast is applied
 
-            INTEGER  S_PLOAD_KSEGS  !< Size table of ids of th surfaces to which each segment of pload is included 
-            INTEGER  S_PLOAD_SEGS   !< Size table of ids of th surfaces to which each segment of pload is included 
-            INTEGER, DIMENSION(:), ALLOCATABLE :: PLOAD_KSEGS  !< ids of th surfaces to which each segment of pload is included 
-            INTEGER, DIMENSION(:), ALLOCATABLE :: PLOAD_SEGS   !< list of th surfaces to which each segment of pload is included 
+          INTEGER  S_PLOAD_KSEGS  !< Size table of ids of th surfaces to which each segment of pload is included
+          INTEGER  S_PLOAD_SEGS   !< Size table of ids of th surfaces to which each segment of pload is included
+          INTEGER, DIMENSION(:), ALLOCATABLE :: PLOAD_KSEGS  !< ids of th surfaces to which each segment of pload is included
+          INTEGER, DIMENSION(:), ALLOCATABLE :: PLOAD_SEGS   !< list of th surfaces to which each segment of pload is included
 
-            INTEGER  S_LOADP_KSEGS  !< Size table of ids of th surfaces to which each segment of load pressure is included 
-            INTEGER  S_LOADP_SEGS   !< Size table of ids of th surfaces to which each segment of load pressure is included 
-            INTEGER, DIMENSION(:), ALLOCATABLE :: LOADP_KSEGS  !< ids of th surfaces to which each segment of load pressure is included 
-            INTEGER, DIMENSION(:), ALLOCATABLE :: LOADP_SEGS   !< list of th surfaces to which each segment of load pressure is included 
+          INTEGER  S_LOADP_KSEGS  !< Size table of ids of th surfaces to which each segment of load pressure is included
+          INTEGER  S_LOADP_SEGS   !< Size table of ids of th surfaces to which each segment of load pressure is included
+          INTEGER, DIMENSION(:), ALLOCATABLE :: LOADP_KSEGS  !< ids of th surfaces to which each segment of load pressure is included
+          INTEGER, DIMENSION(:), ALLOCATABLE :: LOADP_SEGS   !< list of th surfaces to which each segment of load pressure is included
 
-            my_real, DIMENSION(:,:), ALLOCATABLE :: CHANNELS   !< channels for /TH/SURF output (1:TH_SURF_NUM_CHANNEL, 1:NSURF)
-                                                               !
-          END TYPE TH_SURF_
+          my_real, DIMENSION(:,:), ALLOCATABLE :: CHANNELS   !< channels for /TH/SURF output (1:TH_SURF_NUM_CHANNEL, 1:NSURF)
+          !
+        END TYPE TH_SURF_
 
-          INTEGER, PARAMETER :: TH_SURF_NUM_CHANNEL = 6        !< number of /TH/SURF channels : AREA, VELOCITY, MASSFLOW, P A, MASS
+        INTEGER, PARAMETER :: TH_SURF_NUM_CHANNEL = 6        !< number of /TH/SURF channels : AREA, VELOCITY, MASSFLOW, P A, MASS
 
-        CONTAINS
+      CONTAINS
 
-!> \brief Writing TH/SURF tabs in restart file 
+!> \brief Writing TH/SURF tabs in restart file
 
 !||====================================================================
 !||    thsurf_write_restart   ../common_source/modules/interfaces/th_surf_mod.F
@@ -110,7 +110,7 @@ C---------------------------------------------
 !||--- calls      -----------------------------------------------------
 !||    write_i_c              ../common_source/tools/input_output/write_routtines.c
 !||====================================================================
-      SUBROUTINE THSURF_WRITE_RESTART(TH_SURF,IFLAG)
+        SUBROUTINE THSURF_WRITE_RESTART(TH_SURF,IFLAG)
 
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -119,48 +119,48 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (TH_SURF_) , INTENT(IN) :: TH_SURF
-      INTEGER , INTENT(IN) :: IFLAG
+          TYPE (TH_SURF_) , INTENT(IN) :: TH_SURF
+          INTEGER , INTENT(IN) :: IFLAG
 C-----------------------------------------------
 C         Writing TH/SURF tabs in restart file
 C-----------------------------------------------
 
-      CALL WRITE_I_C(TH_SURF%IOK,1)
+          CALL WRITE_I_C(TH_SURF%IOK,1)
 
-      IF(TH_SURF%IOK > 0) THEN
+          IF(TH_SURF%IOK > 0) THEN
 
-        CALL WRITE_I_C(TH_SURF%NSURF,1)
+            CALL WRITE_I_C(TH_SURF%NSURF,1)
 C
-        CALL WRITE_I_C(TH_SURF%PLOAD_FLAG,1)
-        CALL WRITE_I_C(TH_SURF%LOADP_FLAG,1)
+            CALL WRITE_I_C(TH_SURF%PLOAD_FLAG,1)
+            CALL WRITE_I_C(TH_SURF%LOADP_FLAG,1)
 C
-        CALL WRITE_I_C(TH_SURF%NSEGLOADP,1)
-        CALL WRITE_I_C(TH_SURF%NSEGLOADPF,1)
-        CALL WRITE_I_C(TH_SURF%NSEGLOADPB,1)
+            CALL WRITE_I_C(TH_SURF%NSEGLOADP,1)
+            CALL WRITE_I_C(TH_SURF%NSEGLOADPF,1)
+            CALL WRITE_I_C(TH_SURF%NSEGLOADPB,1)
 C
 
-        IF(IFLAG == 2 ) THEN
-          IF(TH_SURF%PLOAD_FLAG > 0) THEN
-            CALL WRITE_I_C(TH_SURF%S_PLOAD_KSEGS,1)
-            IF(TH_SURF%S_PLOAD_KSEGS > 0) CALL WRITE_I_C(TH_SURF%PLOAD_KSEGS,TH_SURF%S_PLOAD_KSEGS)
-            CALL WRITE_I_C(TH_SURF%S_PLOAD_SEGS,1)
-            IF(TH_SURF%S_PLOAD_SEGS  > 0) CALL WRITE_I_C(TH_SURF%PLOAD_SEGS,TH_SURF%S_PLOAD_SEGS)
+            IF(IFLAG == 2 ) THEN
+              IF(TH_SURF%PLOAD_FLAG > 0) THEN
+                CALL WRITE_I_C(TH_SURF%S_PLOAD_KSEGS,1)
+                IF(TH_SURF%S_PLOAD_KSEGS > 0) CALL WRITE_I_C(TH_SURF%PLOAD_KSEGS,TH_SURF%S_PLOAD_KSEGS)
+                CALL WRITE_I_C(TH_SURF%S_PLOAD_SEGS,1)
+                IF(TH_SURF%S_PLOAD_SEGS  > 0) CALL WRITE_I_C(TH_SURF%PLOAD_SEGS,TH_SURF%S_PLOAD_SEGS)
+              ENDIF
+              IF(TH_SURF%LOADP_FLAG > 0) THEN
+                CALL WRITE_I_C(TH_SURF%S_LOADP_KSEGS,1)
+                IF(TH_SURF%S_LOADP_KSEGS > 0) CALL WRITE_I_C(TH_SURF%LOADP_KSEGS,TH_SURF%S_LOADP_KSEGS)
+                CALL WRITE_I_C(TH_SURF%S_LOADP_SEGS,1)
+                IF(TH_SURF%S_LOADP_SEGS > 0 ) CALL WRITE_I_C(TH_SURF%LOADP_SEGS,TH_SURF%S_LOADP_SEGS)
+              ENDIF
+            ENDIF
+
           ENDIF
-          IF(TH_SURF%LOADP_FLAG > 0) THEN
-            CALL WRITE_I_C(TH_SURF%S_LOADP_KSEGS,1)
-            IF(TH_SURF%S_LOADP_KSEGS > 0) CALL WRITE_I_C(TH_SURF%LOADP_KSEGS,TH_SURF%S_LOADP_KSEGS)
-            CALL WRITE_I_C(TH_SURF%S_LOADP_SEGS,1)
-            IF(TH_SURF%S_LOADP_SEGS > 0 ) CALL WRITE_I_C(TH_SURF%LOADP_SEGS,TH_SURF%S_LOADP_SEGS)
-          ENDIF
-        ENDIF
-
-      ENDIF
 
 C-----------------------------------------------
-      RETURN
-      END SUBROUTINE THSURF_WRITE_RESTART
+          RETURN
+        END SUBROUTINE THSURF_WRITE_RESTART
 
-!> \brief Reading TH/SURF tabs in restart file 
+!> \brief Reading TH/SURF tabs in restart file
 
 !||====================================================================
 !||    thsurf_read_restart   ../common_source/modules/interfaces/th_surf_mod.F
@@ -171,11 +171,11 @@ C-----------------------------------------------
 !||--- uses       -----------------------------------------------------
 !||    message_mod           ../engine/share/message_module/message_mod.F
 !||====================================================================
-      SUBROUTINE THSURF_READ_RESTART(TH_SURF)
+        SUBROUTINE THSURF_READ_RESTART(TH_SURF)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE MESSAGE_MOD
+          USE MESSAGE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -183,61 +183,61 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (TH_SURF_) , INTENT(INOUT) :: TH_SURF
+          TYPE (TH_SURF_) , INTENT(INOUT) :: TH_SURF
 C-----------------------------------------------
 C         READ TH/SURF tabs in restart file
 C-----------------------------------------------
 
-      CALL READ_I_C(TH_SURF%IOK,1)
+          CALL READ_I_C(TH_SURF%IOK,1)
 
-      IF(TH_SURF%IOK > 0) THEN
+          IF(TH_SURF%IOK > 0) THEN
 
-        CALL READ_I_C(TH_SURF%NSURF,1)
-        CALL READ_I_C(TH_SURF%PLOAD_FLAG,1)
-        CALL READ_I_C(TH_SURF%LOADP_FLAG,1)
+            CALL READ_I_C(TH_SURF%NSURF,1)
+            CALL READ_I_C(TH_SURF%PLOAD_FLAG,1)
+            CALL READ_I_C(TH_SURF%LOADP_FLAG,1)
 
-        CALL READ_I_C(TH_SURF%NSEGLOADP,1)
-        CALL READ_I_C(TH_SURF%NSEGLOADPF,1)
-        CALL READ_I_C(TH_SURF%NSEGLOADPB,1)
+            CALL READ_I_C(TH_SURF%NSEGLOADP,1)
+            CALL READ_I_C(TH_SURF%NSEGLOADPF,1)
+            CALL READ_I_C(TH_SURF%NSEGLOADPB,1)
 
-        IF(TH_SURF%PLOAD_FLAG > 0) THEN
-          CALL READ_I_C(TH_SURF%S_PLOAD_KSEGS,1)
-          IF(TH_SURF%S_PLOAD_KSEGS > 0) THEN
-            ALLOCATE(TH_SURF%PLOAD_KSEGS(TH_SURF%S_PLOAD_KSEGS))
-            CALL READ_I_C(TH_SURF%PLOAD_KSEGS,TH_SURF%S_PLOAD_KSEGS)
+            IF(TH_SURF%PLOAD_FLAG > 0) THEN
+              CALL READ_I_C(TH_SURF%S_PLOAD_KSEGS,1)
+              IF(TH_SURF%S_PLOAD_KSEGS > 0) THEN
+                ALLOCATE(TH_SURF%PLOAD_KSEGS(TH_SURF%S_PLOAD_KSEGS))
+                CALL READ_I_C(TH_SURF%PLOAD_KSEGS,TH_SURF%S_PLOAD_KSEGS)
+              ENDIF
+              CALL READ_I_C(TH_SURF%S_PLOAD_SEGS,1)
+              IF(TH_SURF%S_PLOAD_SEGS > 0) THEN
+                ALLOCATE(TH_SURF%PLOAD_SEGS(TH_SURF%S_PLOAD_SEGS))
+                CALL READ_I_C(TH_SURF%PLOAD_SEGS,TH_SURF%S_PLOAD_SEGS)
+              ENDIF
+            ENDIF
+
+            IF(TH_SURF%LOADP_FLAG > 0) THEN
+              CALL READ_I_C(TH_SURF%S_LOADP_KSEGS,1)
+              IF(TH_SURF%S_LOADP_KSEGS > 0) THEN
+                ALLOCATE(TH_SURF%LOADP_KSEGS(TH_SURF%S_LOADP_KSEGS))
+                CALL READ_I_C(TH_SURF%LOADP_KSEGS,TH_SURF%S_LOADP_KSEGS)
+              ENDIF
+              CALL READ_I_C(TH_SURF%S_LOADP_SEGS,1)
+              IF(TH_SURF%S_LOADP_SEGS > 0) THEN
+                ALLOCATE(TH_SURF%LOADP_SEGS(TH_SURF%S_LOADP_SEGS))
+                CALL READ_I_C(TH_SURF%LOADP_SEGS,TH_SURF%S_LOADP_SEGS)
+              ENDIF
+            ENDIF
+          ELSE ! initialization to 0
+            TH_SURF%NSURF = 0
+            TH_SURF%PLOAD_FLAG = 0
+            TH_SURF%LOADP_FLAG = 0
+            TH_SURF%NSEGLOADP = 0
+            TH_SURF%NSEGLOADPF = 0
+            TH_SURF%NSEGLOADPB = 0
+
           ENDIF
-          CALL READ_I_C(TH_SURF%S_PLOAD_SEGS,1)
-          IF(TH_SURF%S_PLOAD_SEGS > 0) THEN
-            ALLOCATE(TH_SURF%PLOAD_SEGS(TH_SURF%S_PLOAD_SEGS))
-            CALL READ_I_C(TH_SURF%PLOAD_SEGS,TH_SURF%S_PLOAD_SEGS)
-          ENDIF
-        ENDIF
-
-        IF(TH_SURF%LOADP_FLAG > 0) THEN
-          CALL READ_I_C(TH_SURF%S_LOADP_KSEGS,1)
-          IF(TH_SURF%S_LOADP_KSEGS > 0) THEN
-            ALLOCATE(TH_SURF%LOADP_KSEGS(TH_SURF%S_LOADP_KSEGS))
-            CALL READ_I_C(TH_SURF%LOADP_KSEGS,TH_SURF%S_LOADP_KSEGS)
-          ENDIF
-          CALL READ_I_C(TH_SURF%S_LOADP_SEGS,1)
-          IF(TH_SURF%S_LOADP_SEGS > 0) THEN
-            ALLOCATE(TH_SURF%LOADP_SEGS(TH_SURF%S_LOADP_SEGS))
-            CALL READ_I_C(TH_SURF%LOADP_SEGS,TH_SURF%S_LOADP_SEGS)
-          ENDIF
-        ENDIF
-      ELSE ! initialization to 0
-        TH_SURF%NSURF = 0
-        TH_SURF%PLOAD_FLAG = 0
-        TH_SURF%LOADP_FLAG = 0
-        TH_SURF%NSEGLOADP = 0
-        TH_SURF%NSEGLOADPF = 0
-        TH_SURF%NSEGLOADPB = 0
-
-      ENDIF
 
 C-----------------------------------------------
-      RETURN
-      END  SUBROUTINE THSURF_READ_RESTART
+          RETURN
+        END  SUBROUTINE THSURF_READ_RESTART
 
 C
       END MODULE TH_SURF_MOD
