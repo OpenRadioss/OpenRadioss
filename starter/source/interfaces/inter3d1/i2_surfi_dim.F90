@@ -41,9 +41,9 @@
 !||    select_s2s_mod   ../starter/source/interfaces/inter3d1/select_s2s.F90
 !||====================================================================
         subroutine i2_surfi_dim(                                             &
-                         npari   ,ipari   ,nsurf   ,igrsurf ,                &
-                         nsn     ,nrtm    ,nmn     ,dsearch ,                &
-                         x       ,numnod  )
+          npari   ,ipari   ,nsurf   ,igrsurf ,                &
+          nsn     ,nrtm    ,nmn     ,dsearch ,                &
+          x       ,numnod  )
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -82,61 +82,61 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
-      isu1  = ipari(45)
-      isu2  = ipari(46)
-      nsu1  = igrsurf(isu1)%nseg
-      nsu2  = igrsurf(isu2)%nseg
-      id  = ipari(15)
-      allocate(itags1(nsu1))
-      allocate(itags2(nsu2))
-      itags1 = 1
-      itags2 = 1
-! 
-    call select_s2s(nsu1,nsu2,igrsurf(isu1)%nodes,igrsurf(isu2)%nodes,itags1,itags2,x,numnod,dsearch)
-    allocate(itagn(numnod))
-    itagn = 0
-    l = 0
-    do i=1,igrsurf(isu1)%nseg
-      if (itags1(i)>0) l = l + 1
-    end do
-    nrtm = l
-    l = 0
-    do i=1,igrsurf(isu2)%nseg
-      if (itags2(i)>0) l = l + 1
-    end do
-    nrtm = nrtm + l
+          isu1  = ipari(45)
+          isu2  = ipari(46)
+          nsu1  = igrsurf(isu1)%nseg
+          nsu2  = igrsurf(isu2)%nseg
+          id  = ipari(15)
+          allocate(itags1(nsu1))
+          allocate(itags2(nsu2))
+          itags1 = 1
+          itags2 = 1
+!
+          call select_s2s(nsu1,nsu2,igrsurf(isu1)%nodes,igrsurf(isu2)%nodes,itags1,itags2,x,numnod,dsearch)
+          allocate(itagn(numnod))
+          itagn = 0
+          l = 0
+          do i=1,igrsurf(isu1)%nseg
+            if (itags1(i)>0) l = l + 1
+          end do
+          nrtm = l
+          l = 0
+          do i=1,igrsurf(isu2)%nseg
+            if (itags2(i)>0) l = l + 1
+          end do
+          nrtm = nrtm + l
 ! nsn
-    ns = 0
-    do i=1,igrsurf(isu1)%nseg
-      if (itags1(i)==0) cycle
-        do k=1,4
-          n=igrsurf(isu1)%nodes(i,k)
-          if(itagn(n) == 0)then
-            ns = ns + 1
-            itagn(n) = 1
-          endif
-        enddo
-    enddo
-    nsn = ns
-    ns = 0
-    do i=1,igrsurf(isu2)%nseg
-      if (itags2(i)==0) cycle
-      do k=1,4
-        n=igrsurf(isu2)%nodes(i,k)
-        if(itagn(n) == 0)then
-          ns = ns + 1
-          itagn(n) = 2
-        endif
-      enddo
-    enddo
-    nsn = nsn + ns
-    nmn = nsn
-    deallocate(itags1)
-    deallocate(itags2)
-    deallocate(itagn)
+          ns = 0
+          do i=1,igrsurf(isu1)%nseg
+            if (itags1(i)==0) cycle
+            do k=1,4
+              n=igrsurf(isu1)%nodes(i,k)
+              if(itagn(n) == 0)then
+                ns = ns + 1
+                itagn(n) = 1
+              endif
+            enddo
+          enddo
+          nsn = ns
+          ns = 0
+          do i=1,igrsurf(isu2)%nseg
+            if (itags2(i)==0) cycle
+            do k=1,4
+              n=igrsurf(isu2)%nodes(i,k)
+              if(itagn(n) == 0)then
+                ns = ns + 1
+                itagn(n) = 2
+              endif
+            enddo
+          enddo
+          nsn = nsn + ns
+          nmn = nsn
+          deallocate(itags1)
+          deallocate(itags2)
+          deallocate(itagn)
 
 ! ----------------------------------------------------------------------------------------------------------------------
-        end subroutine i2_surfi_dim        
+        end subroutine i2_surfi_dim
       end module i2_surfi_dim_mod
 
 

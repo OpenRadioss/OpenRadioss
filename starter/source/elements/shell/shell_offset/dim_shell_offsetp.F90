@@ -26,7 +26,7 @@
 !||    shell_offsetp           ../starter/source/elements/shell/shell_offset/shell_offsetp.F90
 !||====================================================================
       module dim_shell_offsetp_mod
-       
+
       contains
 ! ======================================================================================================================
 !                                                   PROCEDURES

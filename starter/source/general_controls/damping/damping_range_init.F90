@@ -61,9 +61,9 @@
           integer,                                intent(in   ) :: nrdamp                 !< first dimension of idampr
           integer,                                intent(in   ) :: ndamp                  !< number of damping conditions
           integer,                                intent(in   ) :: ngroup                 !< number of groups
-          integer,                                intent(in   ) :: nparg                  !< number of groups          
+          integer,                                intent(in   ) :: nparg                  !< number of groups
           integer,                                intent(in   ) :: iparg(nparg,ngroup)    !< structure of integer per group
-          real(kind=WP),                                intent(in   ) :: dampr(nrdamp,ndamp)    !< structure of damping parameters           
+          real(kind=WP),                                intent(in   ) :: dampr(nrdamp,ndamp)    !< structure of damping parameters
           type (elbuf_struct_), target, dimension(ngroup), intent(inout) :: elbuf_tab     !< structure of group buffer
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
@@ -74,14 +74,14 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
-!          
-          do ng=1,ngroup  
+!
+          do ng=1,ngroup
             idamp_freq_range = iparg(93,ng)
             if (idamp_freq_range > 0) then
               elbuf_tab(ng)%damp_range%alpha(1:3) = dampr(32:34,idamp_freq_range)
-              elbuf_tab(ng)%damp_range%tau(1:3)   = dampr(35:37,idamp_freq_range) 
+              elbuf_tab(ng)%damp_range%tau(1:3)   = dampr(35:37,idamp_freq_range)
             endif
-          enddo       
+          enddo
 !
 ! ----------------------------------------------------------------------------------------------------------------------
         end subroutine damping_range_init

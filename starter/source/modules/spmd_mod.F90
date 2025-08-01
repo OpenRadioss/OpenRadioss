@@ -24,7 +24,7 @@
 !||    spmd_mod              ../starter/source/modules/spmd_mod.F90
 !||--- called by ------------------------------------------------------
 !||====================================================================
-         module spmd_mod
-                 ! empty module fo spmd_mod, that can be used in common_source
+      module spmd_mod
+        ! empty module fo spmd_mod, that can be used in common_source
 
-         end module spmd_mod
+      end module spmd_mod

@@ -27,8 +27,8 @@
 !||    lectur                       ../starter/source/starter/lectur.F
 !||====================================================================
       module python_duplicate_nodes_mod
-         implicit none
-         contains
+        implicit none
+        contains
 !||====================================================================
 !||    python_duplicate_nodes       ../starter/source/spmd/domain_decomposition/python_duplicate_nodes.F90
 !||--- called by ------------------------------------------------------
@@ -37,7 +37,7 @@
 !||    ifrontplus                   ../starter/source/spmd/node/frontplus.F
 !||--- uses       -----------------------------------------------------
 !||====================================================================
-     subroutine python_duplicate_nodes(itab, numnod, nspmd)
+        subroutine python_duplicate_nodes(itab, numnod, nspmd)
 
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                     Modules
@@ -78,4 +78,4 @@
           enddo
         end do
       end subroutine python_duplicate_nodes
-      end module python_duplicate_nodes_mod
+    end module python_duplicate_nodes_mod

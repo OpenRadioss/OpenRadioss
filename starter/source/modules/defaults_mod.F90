@@ -68,14 +68,14 @@
 
         ! Variables from /DEF/SHELL Option.
         type shell_defaults_
-          integer ::  ioffset    !< offset support contact 
+          integer ::  ioffset    !< offset support contact
           integer ::  ishell     !< 4n shell formulations     old :IHBE_D
           integer ::  ish3n      !< 3n shell formulations
           integer ::  ismstr     !< small/large strain flag   old :ISST_D
           integer ::  iplas      !< plastic strain flag       old :IPLA_D
           integer ::  ithick     !< thickness flag
           integer ::  idrill     !< drilling dof flag
-! old obsolet flags : ISTRA_D: fixed to 1,NPTS_D ,ISHEA_D : fixed to 0      
+! old obsolet flags : ISTRA_D: fixed to 1,NPTS_D ,ISHEA_D : fixed to 0
         end type  shell_defaults_
 
         ! --------------------------------
@@ -89,7 +89,7 @@
           integer ::  imas      !< nodal mass distribution method
           integer ::  iframe    !< elementary coordinate system
           integer ::  icontrol  !< distortion control
-! old obsolet flags : IPLA_DS: fixed to 2     
+! old obsolet flags : IPLA_DS: fixed to 2
         end type  solid_defaults_
 
         ! --------------------------------
@@ -106,7 +106,7 @@
           type (interface_defaults_) :: interface   !< /DEFAULT/INTER option
         end type  defaults_
 
-        contains        
+      contains
 !=======================================================================================================================
 !!\brief initialize first to zero all flag value of /DEF_*
 !=======================================================================================================================
@@ -115,30 +115,30 @@
 !||--- called by ------------------------------------------------------
 !||    contrl          ../starter/source/starter/contrl.F
 !||====================================================================
-          subroutine init_def_zero(this)
-            implicit none
-           
-            type (defaults_), intent(inout) :: this
+        subroutine init_def_zero(this)
+          implicit none
 
-            this%shell%ioffset = 0
-            this%shell%ishell  = 0
-            this%shell%ish3n   = 0
-            this%shell%ismstr  = 0
-            this%shell%iplas   = 0
-            this%shell%ithick  = 0
-            this%shell%idrill  = 0
-! solid                                                            
-            this%solid%isolid   = 0
-            this%solid%ismstr   = 0
-            this%solid%icpre    = 0
-            this%solid%itetra4  = 0
-            this%solid%itetra10 = 0
-            this%solid%imas     = 0
-            this%solid%iframe   = 0
-            this%solid%icontrol = 0
-! interf                                                           
-            this%interface%DEF_INTER(1:100)   = 0
-          end subroutine init_def_zero                  
+          type (defaults_), intent(inout) :: this
+
+          this%shell%ioffset = 0
+          this%shell%ishell  = 0
+          this%shell%ish3n   = 0
+          this%shell%ismstr  = 0
+          this%shell%iplas   = 0
+          this%shell%ithick  = 0
+          this%shell%idrill  = 0
+! solid
+          this%solid%isolid   = 0
+          this%solid%ismstr   = 0
+          this%solid%icpre    = 0
+          this%solid%itetra4  = 0
+          this%solid%itetra10 = 0
+          this%solid%imas     = 0
+          this%solid%iframe   = 0
+          this%solid%icontrol = 0
+! interf
+          this%interface%DEF_INTER(1:100)   = 0
+        end subroutine init_def_zero
 !=======================================================================================================================
 !!\brief initialize to default values of /DEF_SHELL,
 !=======================================================================================================================
@@ -147,29 +147,29 @@
 !||--- called by ------------------------------------------------------
 !||    contrl          ../starter/source/starter/contrl.F
 !||====================================================================
-          subroutine init_def_elem(n2d,iimplicit,this)
-            implicit none
-           
-            integer,  intent(in)            :: n2d          !< 2d analy option
-            integer,  intent(in)            :: iimplicit    !< /IMPLICIT option
-            type (defaults_), intent(inout) :: this
+        subroutine init_def_elem(n2d,iimplicit,this)
+          implicit none
 
-            if (iimplicit == 1) then
-              if (this%shell%iplas==0) this%shell%iplas   = 1
-              if (this%shell%ishell==0) this%shell%ishell  = 24
-              if (this%shell%idrill==0) this%shell%idrill  = 1
-            end if
-            if (this%shell%ishell==0) this%shell%ishell  = 1
-            if (this%shell%ish3n==0) this%shell%ish3n  = 2
-! solid                                                            
-            if (iimplicit == 1) then
-              if (this%solid%isolid==0) this%solid%isolid   = 14
-            end if
-            if (this%solid%isolid==0) this%solid%isolid   = 1
-            if (this%solid%itetra4==0) this%solid%itetra4   = 1000
-            if (this%solid%itetra10==0) this%solid%itetra10   = 1000
-            if (this%solid%iframe==0) this%solid%iframe   = 1
-            if (n2d/=0.and.this%solid%isolid/=17) this%solid%isolid = 2
-          end subroutine init_def_elem
-!          
-       end module defaults_mod
+          integer,  intent(in)            :: n2d          !< 2d analy option
+          integer,  intent(in)            :: iimplicit    !< /IMPLICIT option
+          type (defaults_), intent(inout) :: this
+
+          if (iimplicit == 1) then
+            if (this%shell%iplas==0) this%shell%iplas   = 1
+            if (this%shell%ishell==0) this%shell%ishell  = 24
+            if (this%shell%idrill==0) this%shell%idrill  = 1
+          end if
+          if (this%shell%ishell==0) this%shell%ishell  = 1
+          if (this%shell%ish3n==0) this%shell%ish3n  = 2
+! solid
+          if (iimplicit == 1) then
+            if (this%solid%isolid==0) this%solid%isolid   = 14
+          end if
+          if (this%solid%isolid==0) this%solid%isolid   = 1
+          if (this%solid%itetra4==0) this%solid%itetra4   = 1000
+          if (this%solid%itetra10==0) this%solid%itetra10   = 1000
+          if (this%solid%iframe==0) this%solid%iframe   = 1
+          if (n2d/=0.and.this%solid%isolid/=17) this%solid%isolid = 2
+        end subroutine init_def_elem
+!
+      end module defaults_mod

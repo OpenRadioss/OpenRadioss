@@ -26,9 +26,9 @@
 !||    lectur                  ../starter/source/starter/lectur.F
 !||====================================================================
       module hm_preread_inivel_mod
-!        
-       contains
-  !! \brief subroutine to get number of /INIVEL using T_start or sensor
+!
+      contains
+        !! \brief subroutine to get number of /INIVEL using T_start or sensor
 !||====================================================================
 !||    hm_preread_inivel      ../starter/source/initial_conditions/general/inivel/hm_preread_inivel.F90
 !||--- called by ------------------------------------------------------
@@ -64,35 +64,35 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) :: UNITAB
-      TYPE(SUBMODEL_DATA)          :: LSUBMODEL(*)
-      integer, intent(in   )       :: hm_ninvel
-      integer, intent(inout)       :: ninivelt
+          TYPE (UNIT_TYPE_),INTENT(IN) :: UNITAB
+          TYPE(SUBMODEL_DATA)          :: LSUBMODEL(*)
+          integer, intent(in   )       :: hm_ninvel
+          integer, intent(inout)       :: ninivelt
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-      integer  :: i,id,sens_id
-      logical :: is_available
-      character(len=ncharkey) :: key
-      real(kind=WP)  :: tstart
+          integer  :: i,id,sens_id
+          logical :: is_available
+          character(len=ncharkey) :: key
+          real(kind=WP)  :: tstart
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
-      is_available = .false.
-       
+          is_available = .false.
 
-      call hm_option_start('/INIVEL')
-      ninivelt = 0 
 
-      do i =1,hm_ninvel
-        !---set cursor on next inivel option
-        call hm_option_read_key(lsubmodel,OPTION_ID = id,KEYWORD2 = key)
+          call hm_option_start('/INIVEL')
+          ninivelt = 0
+
+          do i =1,hm_ninvel
+            !---set cursor on next inivel option
+            call hm_option_read_key(lsubmodel,OPTION_ID = id,KEYWORD2 = key)
 !
-        if(key(1:4)=='NODE') cycle
-        call hm_get_intv('sensor_id',sens_id,is_available,lsubmodel)
-        call hm_get_floatv('tstart',tstart,is_available,lsubmodel,unitab)
-        if (tstart>zero .or. sens_id>0) ninivelt = ninivelt + 1
-      end do
+            if(key(1:4)=='NODE') cycle
+            call hm_get_intv('sensor_id',sens_id,is_available,lsubmodel)
+            call hm_get_floatv('tstart',tstart,is_available,lsubmodel,unitab)
+            if (tstart>zero .or. sens_id>0) ninivelt = ninivelt + 1
+          end do
 ! ----------------------------------------------------------------------------------------------------------------------
         end subroutine hm_preread_inivel
       end module hm_preread_inivel_mod

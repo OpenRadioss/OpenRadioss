@@ -41,20 +41,20 @@
 !||--- uses       -----------------------------------------------------
 !||    message_mod                ../starter/share/message_module/message_mod.F
 !||====================================================================
-      subroutine iniebcs_propergol(ixs,ixq,ixtg,multi_fvm_is_used,ebcs_tab,mat_param,sixs,sixq,sixtg,nummat)
+        subroutine iniebcs_propergol(ixs,ixq,ixtg,multi_fvm_is_used,ebcs_tab,mat_param,sixs,sixq,sixtg,nummat)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
-       ! use groupdef_mod
-      use message_mod
-      use ale_ebcs_mod
-      use ebcs_mod
-      use matparam_def_mod, only : matparam_struct_
-      use precision_mod, only : WP
+          ! use groupdef_mod
+          use message_mod
+          use ale_ebcs_mod
+          use ebcs_mod
+          use matparam_def_mod, only : matparam_struct_
+          use precision_mod, only : WP
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
-      implicit none
+          implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Included files
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -62,36 +62,36 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
-      integer,intent(in) :: nummat                                                          !< number of material law (size for mat_param data structure)
-      integer,intent(in) :: sixs,sixq,sixtg                                                 !<   array size
-      integer,intent(in) :: ixs(nixs,sixs/nixs),ixq(nixq,sixq/nixq),ixtg(nixtg,sixtg/nixtg) !< element connectivity (brick,quad,triangles)
-      logical, intent(in) :: multi_fvm_is_used                                              !< law151 buffer (collocated scheme)
-      type(t_ebcs_tab), target, intent(inout) :: ebcs_tab                                   !< data structure for /EBCS options
-      type(matparam_struct_) ,dimension(nummat) ,intent(in) :: mat_param                    !< data structure for material parameters
+          integer,intent(in) :: nummat                                                          !< number of material law (size for mat_param data structure)
+          integer,intent(in) :: sixs,sixq,sixtg                                                 !<   array size
+          integer,intent(in) :: ixs(nixs,sixs/nixs),ixq(nixq,sixq/nixq),ixtg(nixtg,sixtg/nixtg) !< element connectivity (brick,quad,triangles)
+          logical, intent(in) :: multi_fvm_is_used                                              !< law151 buffer (collocated scheme)
+          type(t_ebcs_tab), target, intent(inout) :: ebcs_tab                                   !< data structure for /EBCS options
+          type(matparam_struct_) ,dimension(nummat) ,intent(in) :: mat_param                    !< data structure for material parameters
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local Variables
 ! ----------------------------------------------------------------------------------------------------------------------
-      INTEGER :: II !< loop
-      INTEGER :: TYP,ISU !< ebcs data
-      CLASS (T_EBCS), POINTER :: EBCS
+          INTEGER :: II !< loop
+          INTEGER :: TYP,ISU !< ebcs data
+          CLASS (T_EBCS), POINTER :: EBCS
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
-      do ii = 1, nebcs
-        ebcs => ebcs_tab%tab(ii)%poly
-        typ = ebcs%type
-        isu = ebcs%surf_id
-        if(multi_fvm_is_used )then; ;end if
-        if(isu>0)then
-          !/EBCS/PROPERGOL (TYP=11) : retrieve Cv parameter in adjacent (sub)material
-          !  warn user if adjacent elem is not matching an Ideal Gas EoS
-          select type (twf => ebcs_tab%tab(ii)%poly)
-            type is (t_ebcs_propergol)
-              call iniebcs_propergol_get_cv(twf,mat_param,nummat,twf%title,ixs,ixq,ixtg,sixs,sixq,sixtg)
-          end select
-         end if
-      end do
-      end subroutine iniebcs_propergol
+          do ii = 1, nebcs
+            ebcs => ebcs_tab%tab(ii)%poly
+            typ = ebcs%type
+            isu = ebcs%surf_id
+            if(multi_fvm_is_used )then; ;end if
+            if(isu>0)then
+              !/EBCS/PROPERGOL (TYP=11) : retrieve Cv parameter in adjacent (sub)material
+              !  warn user if adjacent elem is not matching an Ideal Gas EoS
+              select type (twf => ebcs_tab%tab(ii)%poly)
+               type is (t_ebcs_propergol)
+                call iniebcs_propergol_get_cv(twf,mat_param,nummat,twf%title,ixs,ixq,ixtg,sixs,sixq,sixtg)
+              end select
+            end if
+          end do
+        end subroutine iniebcs_propergol
 
 ! ======================================================================================================================
 !                                                   procedures
@@ -107,21 +107,21 @@
 !||--- uses       -----------------------------------------------------
 !||    message_mod                ../starter/share/message_module/message_mod.F
 !||====================================================================
-      subroutine iniebcs_propergol_get_cv(ebcs,mat_param,nummat,title,ixs,ixq,ixtg,sixs,sixq,sixtg)
+        subroutine iniebcs_propergol_get_cv(ebcs,mat_param,nummat,title,ixs,ixq,ixtg,sixs,sixq,sixtg)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
-      use ebcs_mod
-      use matparam_def_mod, only : matparam_struct_
-      use message_mod
-      use names_and_titles_mod , only : nchartitle
-      use constant_mod , only : em06, zero
-      use array_reindex_mod, only : real_array_reindex
-      use precision_mod, only : WP
+          use ebcs_mod
+          use matparam_def_mod, only : matparam_struct_
+          use message_mod
+          use names_and_titles_mod , only : nchartitle
+          use constant_mod , only : em06, zero
+          use array_reindex_mod, only : real_array_reindex
+          use precision_mod, only : WP
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
-      implicit none
+          implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Included files
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -129,90 +129,90 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
-      type(t_ebcs_propergol), target, intent(inout) :: ebcs                !< ebcs propergol data structure
-      integer,intent(in) :: nummat                                         !< number of material law (size for mat_param data structure)
-      type(matparam_struct_) ,dimension(nummat) ,intent(in) :: mat_param   !< data structure for material parameters
-      character(len=nchartitle) :: title
-      integer,intent(in) :: sixs,sixq,sixtg
-      integer,intent(in) :: ixs(nixs,sixs/nixs),ixq(nixq,sixq/nixq),ixtg(nixtg,sixtg/nixtg)
+          type(t_ebcs_propergol), target, intent(inout) :: ebcs                !< ebcs propergol data structure
+          integer,intent(in) :: nummat                                         !< number of material law (size for mat_param data structure)
+          type(matparam_struct_) ,dimension(nummat) ,intent(in) :: mat_param   !< data structure for material parameters
+          character(len=nchartitle) :: title
+          integer,intent(in) :: sixs,sixq,sixtg
+          integer,intent(in) :: ixs(nixs,sixs/nixs),ixq(nixq,sixq/nixq),ixtg(nixtg,sixtg/nixtg)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local Variables
 ! ----------------------------------------------------------------------------------------------------------------------
-      integer :: EOSid, imat, mlw    !< material & eos data
-      integer :: kk, icell              !< loop
-      real(kind=WP) :: T_combust           !< parameter for combustion model
-      real(kind=WP) :: Cv0,Cv              !< Specific Heat parameter (Cv0 : first segment)
-      real(kind=WP),allocatable,dimension(:) :: tmp  !< Cv parameters for each segment
-      integer,allocatable,dimension(:) :: indx !< array for sorting algorithm
-      logical :: MULTIPLE_CV_DETECTED
+          integer :: EOSid, imat, mlw    !< material & eos data
+          integer :: kk, icell              !< loop
+          real(kind=WP) :: T_combust           !< parameter for combustion model
+          real(kind=WP) :: Cv0,Cv              !< Specific Heat parameter (Cv0 : first segment)
+          real(kind=WP),allocatable,dimension(:) :: tmp  !< Cv parameters for each segment
+          integer,allocatable,dimension(:) :: indx !< array for sorting algorithm
+          logical :: MULTIPLE_CV_DETECTED
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
-              allocate (tmp(ebcs%nb_elem))
-              allocate (indx(ebcs%nb_elem))
-              do kk = 1, ebcs%nb_elem
-               indx(kk) = kk
-              end do
-              tmp(1:) = zero
-              MULTIPLE_CV_DETECTED = .false.
-              imat = 0
-              cv = zero
+          allocate (tmp(ebcs%nb_elem))
+          allocate (indx(ebcs%nb_elem))
+          do kk = 1, ebcs%nb_elem
+            indx(kk) = kk
+          end do
+          tmp(1:) = zero
+          MULTIPLE_CV_DETECTED = .false.
+          imat = 0
+          cv = zero
 
-              do kk=1,ebcs%nb_elem
+          do kk=1,ebcs%nb_elem
 
-                icell = ebcs%ielem(kk)
-                if(ebcs%itype(kk) == 8)then
-                  imat = ixs(1,icell)
-                elseif(ebcs%itype(kk) == 4)then
-                  imat = ixq(1,icell)
-                elseif(ebcs%itype(kk) == 3)then
-                  imat = ixtg(1,icell)
-                endif
+            icell = ebcs%ielem(kk)
+            if(ebcs%itype(kk) == 8)then
+              imat = ixs(1,icell)
+            elseif(ebcs%itype(kk) == 4)then
+              imat = ixq(1,icell)
+            elseif(ebcs%itype(kk) == 3)then
+              imat = ixtg(1,icell)
+            endif
 
-                !multimaterial case
-                mlw = mat_param(imat)%ilaw
-                if(mlw == 51 .or. mlw == 151) then
-                   imat = mat_param(imat)%multimat%mid( ebcs%submat_id )
-                endif
+            !multimaterial case
+            mlw = mat_param(imat)%ilaw
+            if(mlw == 51 .or. mlw == 151) then
+              imat = mat_param(imat)%multimat%mid( ebcs%submat_id )
+            endif
 
-                !eos parameters
-                Cv0=Cv
-                eosid = mat_param(imat)%ieos
-                cv = mat_param(imat)%eos%cv
-                tmp(kk) = Cv
-                if(kk==1)Cv0=Cv
+            !eos parameters
+            Cv0=Cv
+            eosid = mat_param(imat)%ieos
+            cv = mat_param(imat)%eos%cv
+            tmp(kk) = Cv
+            if(kk==1)Cv0=Cv
 
-                if(abs(Cv0-Cv)/Cv0 > em06 )then
-                   MULTIPLE_CV_DETECTED = .TRUE.
-                end if
+            if(abs(Cv0-Cv)/Cv0 > em06 )then
+              MULTIPLE_CV_DETECTED = .TRUE.
+            end if
 
-                T_combust = ebcs%q
+            T_combust = ebcs%q
 
-                if(eosid /= 7)then
-                  CALL ANCMSG(MSGID = 1602, MSGTYPE = MSGERROR, ANMODE = ANINFO, &
-                         I1 = ebcs%ebcs_id, C1 = title(1:len_trim(title)), &
-                         C2 = "EBCS PROPERGOL ONLY COMPATIBLE WITH IDEAL-GAS EOS")
-                end if
+            if(eosid /= 7)then
+              CALL ANCMSG(MSGID = 1602, MSGTYPE = MSGERROR, ANMODE = ANINFO, &
+                I1 = ebcs%ebcs_id, C1 = title(1:len_trim(title)), &
+                C2 = "EBCS PROPERGOL ONLY COMPATIBLE WITH IDEAL-GAS EOS")
+            end if
 
-              enddo
+          enddo
 
-              if (ebcs%nb_elem >=2 .and. multiple_cv_detected)then
-                call real_array_reindex(tmp, indx, ebcs%nb_elem)
-                Cv = tmp( int(ebcs%nb_elem/2) )     !median value
-                  call ancmsg(msgid = 3083, msgtype = msgwarning, anmode = aninfo, &
-                         i1 = ebcs%ebcs_id, c1 = title(1:len_trim(title)), &
-                         C2 = "EBCS PROPERGOL IS FACING DIFFERENT GAS EOS : CHECK Cv PARAMETER (Cv=E0/RHO0/T0)", &
-                         C3 = "RETAINED Cv VALUE FROM EOS ID :", &
-                         I2 = MAT_param(imat)%mat_id )
-              end if
+          if (ebcs%nb_elem >=2 .and. multiple_cv_detected)then
+            call real_array_reindex(tmp, indx, ebcs%nb_elem)
+            Cv = tmp( int(ebcs%nb_elem/2) )     !median value
+            call ancmsg(msgid = 3083, msgtype = msgwarning, anmode = aninfo, &
+              i1 = ebcs%ebcs_id, c1 = title(1:len_trim(title)), &
+              C2 = "EBCS PROPERGOL IS FACING DIFFERENT GAS EOS : CHECK Cv PARAMETER (Cv=E0/RHO0/T0)", &
+              C3 = "RETAINED Cv VALUE FROM EOS ID :", &
+              I2 = MAT_param(imat)%mat_id )
+          end if
 
-              !Setting Heat of combustion (q)
-              ebcs%q = Cv * ebcs%q    !q = Cv * Tcomb
+          !Setting Heat of combustion (q)
+          ebcs%q = Cv * ebcs%q    !q = Cv * Tcomb
 
-              if (allocated(tmp)) deallocate(tmp)
-              if (allocated(indx)) deallocate(indx)
+          if (allocated(tmp)) deallocate(tmp)
+          if (allocated(indx)) deallocate(indx)
 
-      end subroutine iniebcs_propergol_get_cv
+        end subroutine iniebcs_propergol_get_cv
 
 
 ! ----------------------------------------------------------------------------------------------------------------------

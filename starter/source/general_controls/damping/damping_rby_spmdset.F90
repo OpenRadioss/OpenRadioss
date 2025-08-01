@@ -79,12 +79,12 @@
 !
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
-! ----------------------------------------------------------------------------------------------------------------------                    
+! ----------------------------------------------------------------------------------------------------------------------
 !
 !         Rbody id replaced by id or main rigid body in case of rigid body merge
 !
           do nd=1,ndamp
-            id_damp = nint(dampr(1,nd)) 
+            id_damp = nint(dampr(1,nd))
             id_rby_user = nint(dampr(25,nd))
             if (id_rby_user > 0) then
               id_rby = 0
@@ -92,7 +92,7 @@
                 if (id_rby_user == npby(6,j)) then
                   if (nrbmerge == 0) then
                     id_rby = j
-                  else  
+                  else
                     if (npby(12,j)==0) then
                       !         main rbody
                       id_rby = j
@@ -100,16 +100,16 @@
                       !         secondary rbody - switch to main
                       id_rby = npby(13,j)
                     endif
-                  endif  
-                endif 
+                  endif
+                endif
               enddo
-              if (id_rby == 0) then!  rbody not found    
+              if (id_rby == 0) then!  rbody not found
                 call ancmsg(msgid=3048,                   &
-                            msgtype=msgerror,             &
-                            anmode=aninfo,                &
-                            i1=id_damp,                   &
-                            i2=id_rby_user)
-              endif 
+                  msgtype=msgerror,             &
+                  anmode=aninfo,                &
+                  i1=id_damp,                   &
+                  i2=id_rby_user)
+              endif
               dampr(25,nd) = id_rby
             endif
           enddo

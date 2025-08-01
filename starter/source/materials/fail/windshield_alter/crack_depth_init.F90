@@ -49,13 +49,13 @@
 !||    fail_windshield_init   ../starter/source/materials/fail/windshield_alter/fail_windshield_init.F
 !||--- uses       -----------------------------------------------------
 !||====================================================================
-      subroutine crack_depth_init(nel,ipt,npt,nuparam,nuvar,uparam,uvar,dfmax,dadv)
+        subroutine crack_depth_init(nel,ipt,npt,nuparam,nuvar,uparam,uvar,dfmax,dadv)
 
 !-----------------------------------------------
 !   M o d u l e s
 !-----------------------------------------------
-      use constant_mod ,only : zero,one,two,pi
-      use precision_mod ,only : WP
+          use constant_mod ,only : zero,one,two,pi
+          use precision_mod ,only : WP
 ! ---------------------------------------------------------------------------------------------
           implicit none
 ! ---------------------------------------------------------------------------------------------
@@ -66,69 +66,69 @@
 !-----------------------------------------------
 !    D u m m y   A r g u m e n t s
 !-----------------------------------------------
-      integer ,intent(in)  :: nel                             !< size of element group
-      integer ,intent(in)  :: ipt                             !< current integration point in thickness
-      integer ,intent(in)  :: npt                             !< number of integration points in thickness
-      integer ,intent(in)  :: nuparam                         !< number of failure model parameters
-      integer ,intent(in)  :: nuvar                           !< number of state variables
-      real(kind=WP) ,dimension(nuparam)   ,intent(in)    :: uparam  !< failure model parameter table
-      real(kind=WP) ,dimension(nel,nuvar) ,intent(inout) :: uvar    !< state variables of failure model
-      real(kind=WP) ,dimension(nel)       ,intent(in)    :: dfmax   !< initial damage
-      real(kind=WP) ,dimension(nel)       ,intent(inout) :: dadv    !< reduction factor for crack propagation
+          integer ,intent(in)  :: nel                             !< size of element group
+          integer ,intent(in)  :: ipt                             !< current integration point in thickness
+          integer ,intent(in)  :: npt                             !< number of integration points in thickness
+          integer ,intent(in)  :: nuparam                         !< number of failure model parameters
+          integer ,intent(in)  :: nuvar                           !< number of state variables
+          real(kind=WP) ,dimension(nuparam)   ,intent(in)    :: uparam  !< failure model parameter table
+          real(kind=WP) ,dimension(nel,nuvar) ,intent(inout) :: uvar    !< state variables of failure model
+          real(kind=WP) ,dimension(nel)       ,intent(in)    :: dfmax   !< initial damage
+          real(kind=WP) ,dimension(nel)       ,intent(inout) :: dadv    !< reduction factor for crack propagation
 !-----------------------------------------------
 !    L o c a l   v a r i a b l e s
 !-----------------------------------------------
-      integer :: i,iedge
-      real(kind=WP) :: aa,bb,ai,formf
-      real(kind=WP) :: cr_foil,cr_air,cr_core,cr_edge
-      real(kind=WP) :: k_ic,k_th,v0,exp_n,exp_m
-      real(kind=WP) :: sigp_akt,sigp_min,sigp_max
+          integer :: i,iedge
+          real(kind=WP) :: aa,bb,ai,formf
+          real(kind=WP) :: cr_foil,cr_air,cr_core,cr_edge
+          real(kind=WP) :: k_ic,k_th,v0,exp_n,exp_m
+          real(kind=WP) :: sigp_akt,sigp_min,sigp_max
 !=======================================================================
-      cr_foil  = uparam(2)
-      cr_air   = uparam(3)
-      cr_core  = uparam(4)
-      cr_edge  = uparam(5)
-      exp_n    = uparam(1)
-      k_ic     = uparam(6)
-      k_th     = uparam(7)
-      v0       = uparam(8)
-      exp_m    = one / (one + exp_n)
+          cr_foil  = uparam(2)
+          cr_air   = uparam(3)
+          cr_core  = uparam(4)
+          cr_edge  = uparam(5)
+          exp_n    = uparam(1)
+          k_ic     = uparam(6)
+          k_th     = uparam(7)
+          v0       = uparam(8)
+          exp_m    = one / (one + exp_n)
 !
-      do i =1,nel
-        iedge = INT(uvar(i,10))
-        if (iedge == 1) then   ! edge element
-          ai    = cr_edge
-          formf = 1.12
-        else
-          formf = one
-          if (ipt == 1) then
-            ai = cr_foil  ! crack depth at foil side in mm (unit system: length)
-          elseif (ipt == npt) then
-            ai = cr_air   ! crack depth at top side in mm (unit system: length)
-          else
-            ai = cr_core  ! crack depth inside glass
-          endif
-        end if
-        ai = ai * (one - dfmax(i))    ! take into account the initial damage
+          do i =1,nel
+            iedge = INT(uvar(i,10))
+            if (iedge == 1) then   ! edge element
+              ai    = cr_edge
+              formf = 1.12
+            else
+              formf = one
+              if (ipt == 1) then
+                ai = cr_foil  ! crack depth at foil side in mm (unit system: length)
+              elseif (ipt == npt) then
+                ai = cr_air   ! crack depth at top side in mm (unit system: length)
+              else
+                ai = cr_core  ! crack depth inside glass
+              endif
+            end if
+            ai = ai * (one - dfmax(i))    ! take into account the initial damage
 !
-        aa = two*(exp_n + one)*k_ic**exp_n
-        bb = (exp_n - two)*v0*(formf*sqrt(pi))**exp_n*ai**((EXP_N-TWO)/TWO)
-        sigp_akt = (aa / bb)**exp_m
-        sigp_min = k_th / (formf*sqrt(pi*ai))
-        sigp_max = k_ic / (formf*sqrt(pi*ai))
+            aa = two*(exp_n + one)*k_ic**exp_n
+            bb = (exp_n - two)*v0*(formf*sqrt(pi))**exp_n*ai**((EXP_N-TWO)/TWO)
+            sigp_akt = (aa / bb)**exp_m
+            sigp_min = k_th / (formf*sqrt(pi*ai))
+            sigp_max = k_ic / (formf*sqrt(pi*ai))
 !
-        uvar(i,5) = sigp_min
-        uvar(i,6) = sigp_max
-        uvar(i,7) = formf
-        uvar(i,8) = ai
-        uvar(i,9) = sigp_akt      
-        uvar(i,11)= one   ! dam1
-        uvar(i,12)= one   ! dam2
-        uvar(i,15)= one   ! fail alter formulation flag
-        dadv(i)   = one
-      end do
+            uvar(i,5) = sigp_min
+            uvar(i,6) = sigp_max
+            uvar(i,7) = formf
+            uvar(i,8) = ai
+            uvar(i,9) = sigp_akt
+            uvar(i,11)= one   ! dam1
+            uvar(i,12)= one   ! dam2
+            uvar(i,15)= one   ! fail alter formulation flag
+            dadv(i)   = one
+          end do
 !-----------
-      return
-      end subroutine crack_depth_init
+          return
+        end subroutine crack_depth_init
 !-----------
       end module crack_depth_init_mod

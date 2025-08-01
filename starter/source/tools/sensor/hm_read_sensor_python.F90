@@ -25,7 +25,7 @@
 !||--- called by ------------------------------------------------------
 !||    hm_read_sensors          ../starter/source/tools/sensor/hm_read_sensors.F
 !||====================================================================
-      module read_sensor_python_mod                
+      module read_sensor_python_mod
         implicit none
       contains
 !! \details Read the python function defined by /FUNCT_PYTHON/
@@ -81,17 +81,17 @@
 !                                                      body
 ! ----------------------------------------------------------------------------------------------------------------------
           allocate(character(kind=c_char, len=max_code_length) :: code)
-          sensor_ptr%type    = sensor_type_python 
+          sensor_ptr%type    = sensor_type_python
           sensor_ptr%sens_id = sens_id
           sensor_ptr%status  = 0        ! status = deactivated
           sensor_ptr%tstart  = zero
-          sensor_ptr%tcrit   = infinity 
+          sensor_ptr%tcrit   = infinity
           sensor_ptr%tmin    = zero         ! tmin global
           sensor_ptr%tdelay  = zero ! time delay before activation
           sensor_ptr%value   = zero ! stop time
-          sensor_ptr%npari  = 0 
-          sensor_ptr%nparr  = 0 
-          sensor_ptr%nvar   = 0 
+          sensor_ptr%npari  = 0
+          sensor_ptr%nparr  = 0
+          sensor_ptr%nvar   = 0
           call my_alloc(sensor_ptr%iparam,sensor_ptr%npari)
           call my_alloc(sensor_ptr%rparam,sensor_ptr%nparr)
           call my_alloc(sensor_ptr%var,sensor_ptr%nvar)
@@ -134,9 +134,9 @@
             call copy_python_function(python%functs(i), sensor_ptr%python_function)
 
           else
-              ! missing code for /SENSOR/PYTHON
+            ! missing code for /SENSOR/PYTHON
           endif
-           ! enddo
+          ! enddo
           deallocate(code)
           return
         end subroutine read_sensor_python

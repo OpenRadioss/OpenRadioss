@@ -26,10 +26,10 @@
 !||    lectur                 ../starter/source/starter/lectur.F
 !||====================================================================
       module stifint_icontrol_mod
-      
+
       contains
 !=======================================================================================================================
-!!\brief This subroutine do the initialization of stiffness contact interface for solid distortion control 
+!!\brief This subroutine do the initialization of stiffness contact interface for solid distortion control
 !=======================================================================================================================
 !||====================================================================
 !||    stifint_icontrol   ../starter/source/interfaces/interf1/stifint_icontrol.F90
@@ -37,18 +37,18 @@
 !||    lectur             ../starter/source/starter/lectur.F
 !||--- uses       -----------------------------------------------------
 !||====================================================================
-        subroutine stifint_icontrol(                                           &                                    
-                       numnod,    stifint,      npari,        ninter,          &
-                        ipari,    npropgi,     numgeo,          igeo,          &
-                       numels,       nixs,        ixs,       numels8,          &
-                     numels10,      ixs10,   numels16,         ixs16,          &
-                     numels20,      ixs20,     npropm,        nummat,          &
-                           pm, intbuf_tab)
+        subroutine stifint_icontrol(                                           &
+          numnod,    stifint,      npari,        ninter,          &
+          ipari,    npropgi,     numgeo,          igeo,          &
+          numels,       nixs,        ixs,       numels8,          &
+          numels10,      ixs10,   numels16,         ixs16,          &
+          numels20,      ixs20,     npropm,        nummat,          &
+          pm, intbuf_tab)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
           use constant_mod,             only: zero,em20,one
-          use intbufdef_mod   
+          use intbufdef_mod
           use precision_mod, only : WP
 ! ----------------------------------------------------------------------------------------------------------------------
           implicit none
@@ -77,128 +77,128 @@
           integer, intent (in   ) ,dimension(6,numels10)   :: ixs10            !< tet10 connectivity supp
           integer, intent (in   ) ,dimension(8,numels16)   :: ixs16            !< s16 connectivity supp
           integer, intent (in   ) ,dimension(12,numels20)  :: ixs20            !< s20 connectivity supp
-          real(kind=WP), intent (in   ) ,dimension(npropm,nummat):: pm               !< material data array 
+          real(kind=WP), intent (in   ) ,dimension(npropm,nummat):: pm               !< material data array
           real(kind=WP), intent (inout) ,dimension(numnod)       :: stifint          !< nodal stiffness for interface
           type(intbuf_struct_),  dimension(ninter)         :: intbuf_tab       !< interface structure
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-        integer :: i,j,n,ii,mid,pid,icontr,nty,igsti,nsn,ns
-        integer, dimension(:)  ,  allocatable :: itag    
-        real(kind=WP) :: sfac,sfac_max
+          integer :: i,j,n,ii,mid,pid,icontr,nty,igsti,nsn,ns
+          integer, dimension(:)  ,  allocatable :: itag
+          real(kind=WP) :: sfac,sfac_max
 !
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
-         sfac_max = one
-         allocate(itag(numnod))
-         sfac = -HUGE(sfac)
-         itag = 0
-         do i = 1, numels8 
-           mid = ixs(1,i)
-           pid = ixs(nixs-1,i)
-           icontr = igeo(97,pid)
-           if (icontr/=1) cycle
-           sfac = pm(107,mid)/max(em20,pm(32,mid))
-           sfac_max=max(sfac_max,sfac)
-           do j = 1, 8
-             n = ixs(1+j,i)
-             if (itag(n)==0) then 
+          sfac_max = one
+          allocate(itag(numnod))
+          sfac = -HUGE(sfac)
+          itag = 0
+          do i = 1, numels8
+            mid = ixs(1,i)
+            pid = ixs(nixs-1,i)
+            icontr = igeo(97,pid)
+            if (icontr/=1) cycle
+            sfac = pm(107,mid)/max(em20,pm(32,mid))
+            sfac_max=max(sfac_max,sfac)
+            do j = 1, 8
+              n = ixs(1+j,i)
+              if (itag(n)==0) then
                 stifint(n) =  sfac*stifint(n)
                 itag(n) = 1
-             end if
-           end do
-         end do
-! tet10       
-         do ii = 1, numels10 
-           i = numels8 + ii
-           mid = ixs(1,i)
-           pid = ixs(nixs-1,i)
-           icontr = igeo(97,pid)
-           if (icontr/=1) cycle
-           sfac = pm(107,mid)/max(em20,pm(32,mid))
-           sfac_max=max(sfac_max,sfac)
-           do j = 1, 8
-             n = ixs(1+j,i)
-             if (itag(n)==0) then 
+              end if
+            end do
+          end do
+! tet10
+          do ii = 1, numels10
+            i = numels8 + ii
+            mid = ixs(1,i)
+            pid = ixs(nixs-1,i)
+            icontr = igeo(97,pid)
+            if (icontr/=1) cycle
+            sfac = pm(107,mid)/max(em20,pm(32,mid))
+            sfac_max=max(sfac_max,sfac)
+            do j = 1, 8
+              n = ixs(1+j,i)
+              if (itag(n)==0) then
                 stifint(n) =  sfac*stifint(n)
                 itag(n) = 1
-             end if
-           end do
-           do j = 1, 6
-             n = ixs10(j,ii)
-             if (itag(n)==0) then 
+              end if
+            end do
+            do j = 1, 6
+              n = ixs10(j,ii)
+              if (itag(n)==0) then
                 stifint(n) =  sfac*stifint(n)
                 itag(n) = 1
-             end if
-           end do
-         end do
-! s20         
-         do ii = 1, numels20 
-           i = numels8 +numels10 + ii
-           mid = ixs(1,i)
-           pid = ixs(nixs-1,i)
-           icontr = igeo(97,pid)
-           if (icontr/=1) cycle
-           sfac = pm(107,mid)/max(em20,pm(32,mid))
-           sfac_max=max(sfac_max,sfac)
-           do j = 1, 8
-             n = ixs(1+j,i)
-             if (itag(n)==0) then 
+              end if
+            end do
+          end do
+! s20
+          do ii = 1, numels20
+            i = numels8 +numels10 + ii
+            mid = ixs(1,i)
+            pid = ixs(nixs-1,i)
+            icontr = igeo(97,pid)
+            if (icontr/=1) cycle
+            sfac = pm(107,mid)/max(em20,pm(32,mid))
+            sfac_max=max(sfac_max,sfac)
+            do j = 1, 8
+              n = ixs(1+j,i)
+              if (itag(n)==0) then
                 stifint(n) =  sfac*stifint(n)
                 itag(n) = 1
-             end if
-           end do
-           do j = 1, 12
-             n = ixs20(j,ii)
-             if (itag(n)==0) then 
+              end if
+            end do
+            do j = 1, 12
+              n = ixs20(j,ii)
+              if (itag(n)==0) then
                 stifint(n) =  sfac*stifint(n)
                 itag(n) = 1
-             end if
-           end do
-         end do
-! s16         
-         do ii = 1, numels16 
-           i = numels8 +numels10 + ii
-           mid = ixs(1,i)
-           pid = ixs(nixs-1,i)
-           icontr = igeo(97,pid)
-           if (icontr/=1) cycle
-           sfac = pm(107,mid)/max(em20,pm(32,mid))
-           sfac_max=max(sfac_max,sfac)
-           do j = 1, 8
-             n = ixs(1+j,i)
-             if (itag(n)==0) then 
+              end if
+            end do
+          end do
+! s16
+          do ii = 1, numels16
+            i = numels8 +numels10 + ii
+            mid = ixs(1,i)
+            pid = ixs(nixs-1,i)
+            icontr = igeo(97,pid)
+            if (icontr/=1) cycle
+            sfac = pm(107,mid)/max(em20,pm(32,mid))
+            sfac_max=max(sfac_max,sfac)
+            do j = 1, 8
+              n = ixs(1+j,i)
+              if (itag(n)==0) then
                 stifint(n) =  sfac*stifint(n)
                 itag(n) = 1
-             end if
-           end do
-           do j = 1, 8
-             n = ixs16(j,ii)
-             if (itag(n)==0) then 
+              end if
+            end do
+            do j = 1, 8
+              n = ixs16(j,ii)
+              if (itag(n)==0) then
                 stifint(n) =  sfac*stifint(n)
                 itag(n) = 1
-             end if
-           end do
-         end do
-!         
-         do n=1,ninter
-          nty=ipari(7,n)
-          if (nty==24)then
-            igsti=ipari(34,n)
-            if(igsti==-1)then
-              nsn=ipari(5,n)
-              do j = 1, nsn
-                ns = intbuf_tab(n)%nsv(j)
-                if (ns>numnod) cycle
-                if (itag(ns)==0) stifint(ns) =  sfac_max*stifint(ns)
-              end do
-            endif
-          end if
-         end do
-!         
-         deallocate(itag)
-!         
+              end if
+            end do
+          end do
+!
+          do n=1,ninter
+            nty=ipari(7,n)
+            if (nty==24)then
+              igsti=ipari(34,n)
+              if(igsti==-1)then
+                nsn=ipari(5,n)
+                do j = 1, nsn
+                  ns = intbuf_tab(n)%nsv(j)
+                  if (ns>numnod) cycle
+                  if (itag(ns)==0) stifint(ns) =  sfac_max*stifint(ns)
+                end do
+              endif
+            end if
+          end do
+!
+          deallocate(itag)
+!
         end subroutine stifint_icontrol
 !
       end module stifint_icontrol_mod

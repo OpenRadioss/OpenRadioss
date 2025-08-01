@@ -58,42 +58,42 @@
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
           integer :: ie,ie1,ie2,ied,ns1,ns2,ip
-          integer :: ik1(4),ik2(4) 
+          integer :: ik1(4),ik2(4)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
-         ie = 0
-         ie1 = 0
-         ie2 = 0
-         ied = 0
-         ns1 = 0
-         ns2 = 0
-         ip = 0
-         ik1 = (/1, 2, 3, 4/)
-         ik2 = (/2, 3, 4, 1/)
-         if (ns >= 0) THEN
+          ie = 0
+          ie1 = 0
+          ie2 = 0
+          ied = 0
+          ns1 = 0
+          ns2 = 0
+          ip = 0
+          ik1 = (/1, 2, 3, 4/)
+          ik2 = (/2, 3, 4, 1/)
+          if (ns >= 0) THEN
             ik1 = (/1, 2, 3, 4/)
             ik2 = (/2, 3, 4, 1/)
             ip = is2pt(ns)
             ie1 = is2se(1, ns)
             ie2 = is2se(2, ns)
             if (ie1 /= 0) then
-               ie = ie1
-               ied = irtse(5, ie)
-               ns1 = ik1(ied)
-               ns2 = ik2(ied)
-             else if (ie2 /= 0) then
-               ie = ie2
-               ied = irtse(5, ie)
-               ns1 = ik2(ied)
-               ns2 = ik1(ied)
-             else
-                print *, 'probleme EDGES,IE1,IE2=', ns, ie1, ie2
-             end if
-             is1 = irtse(ns1, ie)
-             is2 = irtse(ns2, ie)
-           endif
-           return
+              ie = ie1
+              ied = irtse(5, ie)
+              ns1 = ik1(ied)
+              ns2 = ik2(ied)
+            else if (ie2 /= 0) then
+              ie = ie2
+              ied = irtse(5, ie)
+              ns1 = ik2(ied)
+              ns2 = ik1(ied)
+            else
+              print *, 'probleme EDGES,IE1,IE2=', ns, ie1, ie2
+            end if
+            is1 = irtse(ns1, ie)
+            is2 = irtse(ns2, ie)
+          endif
+          return
 ! ----------------------------------------------------------------------------------------------------------------------
         end subroutine get_edge_fic_node
       end module get_edge_fic_node_mod

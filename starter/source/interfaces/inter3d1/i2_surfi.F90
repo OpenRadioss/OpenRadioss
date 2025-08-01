@@ -46,17 +46,17 @@
 !||    select_s2s_mod          ../starter/source/interfaces/inter3d1/select_s2s.F90
 !||====================================================================
         subroutine i2_surfi(                                                 &
-                         npari   ,ipari   ,nsurf   ,igrsurf ,                &
-                         nsn     ,nsv     ,nrtm    ,irect   ,                &
-                         nmn     ,msr     ,msegtyp ,dsearch ,                &
-                         x       ,numnod  ,itab    ,ipri    ,                &
-                         iout    ,ixs     ,numels  ,noint   ,                &
-                         irtl    ,st      ,dmin    ,ixc     ,                &
-                         ixtg    ,knod2elc,knod2eltg,nod2elc,                &
-                         nod2eltg,knod2els,nod2els  ,ixs10  ,                &
-                         ixs16   ,ixs20   ,s_nod2els,s_nod2eltg,             &
-                         numelc  ,numeltg ,numels10 ,numels16,               &
-                         numels20,int_ID  ,TITR)
+          npari   ,ipari   ,nsurf   ,igrsurf ,                &
+          nsn     ,nsv     ,nrtm    ,irect   ,                &
+          nmn     ,msr     ,msegtyp ,dsearch ,                &
+          x       ,numnod  ,itab    ,ipri    ,                &
+          iout    ,ixs     ,numels  ,noint   ,                &
+          irtl    ,st      ,dmin    ,ixc     ,                &
+          ixtg    ,knod2elc,knod2eltg,nod2elc,                &
+          nod2eltg,knod2els,nod2els  ,ixs10  ,                &
+          ixs16   ,ixs20   ,s_nod2els,s_nod2eltg,             &
+          numelc  ,numeltg ,numels10 ,numels16,               &
+          numels20,int_ID  ,TITR)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -93,8 +93,8 @@
           integer,   dimension(nmn),              intent(inout) :: msr                 !< main node array
           integer,   dimension(4,nrtm),           intent(inout) :: irect               !< main seg array
           integer,   dimension(nrtm),             intent(inout) :: msegtyp             !< main seg type array
-          integer,                                   intent(in) :: ipri                !< message out flag 
-          integer,                                   intent(in) :: iout                !< outfile unit  
+          integer,                                   intent(in) :: ipri                !< message out flag
+          integer,                                   intent(in) :: iout                !< outfile unit
           integer,                                   intent(in) :: numels              !< number of solid elements
           integer,    dimension(numnod),             intent(in) :: itab                !< number user_id
           real(kind=WP),                                   intent(in) :: dsearch             !< search distance
@@ -109,9 +109,9 @@
           integer,    dimension(6,numels10)      ,intent(in)    :: ixs10               !< solid tet10 connectivity
           integer,    dimension(8,numels16)      ,intent(in)    :: ixs16               !< solid s16 connectivity
           integer,    dimension(12,numels20)     ,intent(in)    :: ixs20               !< solid s20 connectivity
-          integer,    dimension(numnod+1)        ,intent(in)    :: knod2elc            !< node to element shell 4n connectivity index 
-          integer,    dimension(numnod+1)        ,intent(in)    :: knod2eltg           !< node to element shell 3n connectivity index 
-          integer,    dimension(numnod+1)        ,intent(in)    :: knod2els            !< node to element solid connectivity index 
+          integer,    dimension(numnod+1)        ,intent(in)    :: knod2elc            !< node to element shell 4n connectivity index
+          integer,    dimension(numnod+1)        ,intent(in)    :: knod2eltg           !< node to element shell 3n connectivity index
+          integer,    dimension(numnod+1)        ,intent(in)    :: knod2els            !< node to element solid connectivity index
           integer,                                intent(in)    :: s_nod2els           !< size of nod2els
           integer,                                intent(in)    :: s_nod2eltg          !< size of nod2eltg
           integer,    dimension(s_nod2els)       ,intent(in)    :: nod2els             !< node to element solid connectivity
@@ -132,169 +132,169 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
-      isu1  = ipari(45)
-      isu2  = ipari(46)
-      nsu1  = igrsurf(isu1)%nseg
-      nsu2  = igrsurf(isu2)%nseg
-      allocate(itags1(nsu1))
-      allocate(itags2(nsu2))
-      allocate(igrelem(nrtm))
-      itags1 = 1
-      itags2 = 1
-! 
-    call select_s2s(nsu1,nsu2,igrsurf(isu1)%nodes,igrsurf(isu2)%nodes,itags1,itags2,x,numnod,dsearch)
-    l = 0
-    do i=1,igrsurf(isu1)%nseg
-      if (itags1(i)>0) then 
-        l = l + 1
-        irect(1:4,l) = igrsurf(isu1)%nodes(i,1:4)
-        msegtyp(l) = igrsurf(isu1)%eltyp(i)
-        if (msegtyp(l)==0) msegtyp(l) = i+nrtm
-        igrelem(l) = igrsurf(isu1)%elem(i)
-      end if
-    end do
-    l1 = l
-    if (l1>0.and.ipri>=1) then 
-      rem = 100*l/nsu1
-      write(iout,1000) l,rem
-      if (ipri>=5) then
-        write(iout,'(/,A/)') 'Remain surface 1 list'
-        do i=1,l
-          write(iout,*) 'id,irect(1:4)=',i,itab(irect(1:4,i))
-        end do
-      end if
-    end if 
+          isu1  = ipari(45)
+          isu2  = ipari(46)
+          nsu1  = igrsurf(isu1)%nseg
+          nsu2  = igrsurf(isu2)%nseg
+          allocate(itags1(nsu1))
+          allocate(itags2(nsu2))
+          allocate(igrelem(nrtm))
+          itags1 = 1
+          itags2 = 1
 !
-    do i=1,igrsurf(isu2)%nseg
-      if (itags2(i)>0) then 
-        l = l + 1
-        irect(1:4,l) = igrsurf(isu2)%nodes(i,1:4)
-        msegtyp(l) = igrsurf(isu2)%eltyp(i)
-        if (msegtyp(l)==0) msegtyp(l) = i+nrtm
-        igrelem(l) = igrsurf(isu2)%elem(i)
-      end if
-    end do
-    l2 = l-l1
-    if (l2>0.and.ipri>=1) then 
-      rem = 100*(l2)/nsu2
-      write(iout,2000) l2,rem
-      if (ipri>=5) then
-        write(iout,'(/,A/)') 'Remain surface 2 list'
-        do i=l1+1,l
-          id = i-l1
-          write(iout,*) 'id,irect(1:4)=',id,itab(irect(1:4,i))
-        end do
-      end if
-    end if
+          call select_s2s(nsu1,nsu2,igrsurf(isu1)%nodes,igrsurf(isu2)%nodes,itags1,itags2,x,numnod,dsearch)
+          l = 0
+          do i=1,igrsurf(isu1)%nseg
+            if (itags1(i)>0) then
+              l = l + 1
+              irect(1:4,l) = igrsurf(isu1)%nodes(i,1:4)
+              msegtyp(l) = igrsurf(isu1)%eltyp(i)
+              if (msegtyp(l)==0) msegtyp(l) = i+nrtm
+              igrelem(l) = igrsurf(isu1)%elem(i)
+            end if
+          end do
+          l1 = l
+          if (l1>0.and.ipri>=1) then
+            rem = 100*l/nsu1
+            write(iout,1000) l,rem
+            if (ipri>=5) then
+              write(iout,'(/,A/)') 'Remain surface 1 list'
+              do i=1,l
+                write(iout,*) 'id,irect(1:4)=',i,itab(irect(1:4,i))
+              end do
+            end if
+          end if
+!
+          do i=1,igrsurf(isu2)%nseg
+            if (itags2(i)>0) then
+              l = l + 1
+              irect(1:4,l) = igrsurf(isu2)%nodes(i,1:4)
+              msegtyp(l) = igrsurf(isu2)%eltyp(i)
+              if (msegtyp(l)==0) msegtyp(l) = i+nrtm
+              igrelem(l) = igrsurf(isu2)%elem(i)
+            end if
+          end do
+          l2 = l-l1
+          if (l2>0.and.ipri>=1) then
+            rem = 100*(l2)/nsu2
+            write(iout,2000) l2,rem
+            if (ipri>=5) then
+              write(iout,'(/,A/)') 'Remain surface 2 list'
+              do i=l1+1,l
+                id = i-l1
+                write(iout,*) 'id,irect(1:4)=',id,itab(irect(1:4,i))
+              end do
+            end if
+          end if
 !    if (l/=nrtm) print *,'error dimensionning: l,nrtm',l,nrtm
 ! nsn
-    allocate(itagn(numnod))
-    itagn = 0
-    ns = 0
-    do i=1,igrsurf(isu1)%nseg
-      if (itags1(i)==0) cycle
-      do k=1,4
-        n=igrsurf(isu1)%nodes(i,k)
-        if (itagn(n) == 0) then
-          ns = ns + 1
-          itagn(n) = 1
-          nsv(ns) = n
-        endif
-      enddo
-    enddo
-!    
-    do i=1,igrsurf(isu2)%nseg
-      if (itags2(i)==0) cycle
-      do k=1,4
-        n=igrsurf(isu2)%nodes(i,k)
-        if(itagn(n) == 0)then
-          ns = ns + 1
-          itagn(n) = 2
-          nsv(ns) = n 
-        endif
-      enddo
-    enddo
-!---i2chk3 done here
-    nint = 1  ! not used
-    do i=1,nrtm
-        inrt=i
-        nels=0
-        nelc=0
-        neltg=0
-        if (msegtyp(i)==1) then
-          call inelts(x           ,irect,ixs  ,nint,nels         ,           &
-                      inrt        ,area ,noint,0   ,msegtyp      ,           &
-                      igrelem     )
-        else
-          call ineltc(nelc ,neltg ,inrt ,msegtyp, igrelem)
-        end if
-        if(nels+nelc+neltg/=0) cycle
-!      
-        call insol3(x,irect,ixs,nint,nels,inrt,                             &
-                   area,noint,knod2els ,nod2els ,0 ,ixs10,                  &
-                   ixs16,ixs20)
-        nelc=0
-        neltg=0
-        ix(1:4) = irect(1:4,i)
-        if(ix(3)==ix(4).and.numeltg/=0)then
-          do iad=knod2eltg(ix(1))+1,knod2eltg(ix(1)+1)
-            n = nod2eltg(iad)
-            do 220 j=1,3
-              ii=ix(j)
-              do k=1,3
-                if(ixtg(k+1,n)==ii) goto 220
-              end do
-              goto 230
-  220       continue
-            neltg = n
-  230       continue
-          end do
-        endif
+          allocate(itagn(numnod))
+          itagn = 0
+          ns = 0
+          do i=1,igrsurf(isu1)%nseg
+            if (itags1(i)==0) cycle
+            do k=1,4
+              n=igrsurf(isu1)%nodes(i,k)
+              if (itagn(n) == 0) then
+                ns = ns + 1
+                itagn(n) = 1
+                nsv(ns) = n
+              endif
+            enddo
+          enddo
 !
-        if(numelc/=0) then
-          do iad=knod2elc(ix(1))+1,knod2elc(ix(1)+1)
-            n = nod2elc(iad)
-            do 240 j=1,4
-              ii=ix(j)
-              do k=1,4
-                if(ixc(k+1,n)==ii) goto 240
+          do i=1,igrsurf(isu2)%nseg
+            if (itags2(i)==0) cycle
+            do k=1,4
+              n=igrsurf(isu2)%nodes(i,k)
+              if(itagn(n) == 0)then
+                ns = ns + 1
+                itagn(n) = 2
+                nsv(ns) = n
+              endif
+            enddo
+          enddo
+!---i2chk3 done here
+          nint = 1  ! not used
+          do i=1,nrtm
+            inrt=i
+            nels=0
+            nelc=0
+            neltg=0
+            if (msegtyp(i)==1) then
+              call inelts(x           ,irect,ixs  ,nint,nels         ,           &
+                inrt        ,area ,noint,0   ,msegtyp      ,           &
+                igrelem     )
+            else
+              call ineltc(nelc ,neltg ,inrt ,msegtyp, igrelem)
+            end if
+            if(nels+nelc+neltg/=0) cycle
+!
+            call insol3(x,irect,ixs,nint,nels,inrt,                             &
+              area,noint,knod2els ,nod2els ,0 ,ixs10,                  &
+              ixs16,ixs20)
+            nelc=0
+            neltg=0
+            ix(1:4) = irect(1:4,i)
+            if(ix(3)==ix(4).and.numeltg/=0)then
+              do iad=knod2eltg(ix(1))+1,knod2eltg(ix(1)+1)
+                n = nod2eltg(iad)
+                do 220 j=1,3
+                  ii=ix(j)
+                  do k=1,3
+                    if(ixtg(k+1,n)==ii) goto 220
+                  end do
+                  goto 230
+220             continue
+                neltg = n
+230             continue
               end do
-              goto 250
-  240       continue
-            nelc = n
-  250       continue
+            endif
+!
+            if(numelc/=0) then
+              do iad=knod2elc(ix(1))+1,knod2elc(ix(1)+1)
+                n = nod2elc(iad)
+                do 240 j=1,4
+                  ii=ix(j)
+                  do k=1,4
+                    if(ixc(k+1,n)==ii) goto 240
+                  end do
+                  goto 250
+240             continue
+                nelc = n
+250             continue
+              end do
+            endif
+            if(nels+nelc+neltg==0) then
+              seg_n = msegtyp(i) - nrtm
+              if(i<=l1) then ! 1er surf
+                call ancmsg(msgid=3092,msgtype=msgwarning,                          &
+                  anmode=aninfo_blind_2,i1=int_id,c1=titr,i2=seg_n)
+              else
+                call ancmsg(msgid=3093,msgtype=msgwarning,                          &
+                  anmode=aninfo_blind_2,i1=int_id,c1=titr,i2=seg_n)
+              end if
+            endif
           end do
-        endif
-        if(nels+nelc+neltg==0) then
-            seg_n = msegtyp(i) - nrtm
-           if(i<=l1) then ! 1er surf
-             call ancmsg(msgid=3092,msgtype=msgwarning,                          &
-                       anmode=aninfo_blind_2,i1=int_id,c1=titr,i2=seg_n)
-           else
-             call ancmsg(msgid=3093,msgtype=msgwarning,                          &
-                       anmode=aninfo_blind_2,i1=int_id,c1=titr,i2=seg_n)
-           end if
-        endif
-    end do
 ! ns
-    do i=1,nsn
-        irtl(i)=0
-        st(1,i)=nine
-        st(2,i)=nine
-        dmin(i)=ep20
-    enddo
+          do i=1,nsn
+            irtl(i)=0
+            st(1,i)=nine
+            st(2,i)=nine
+            dmin(i)=ep20
+          enddo
 !    if (nsn/=ns) print *,'***error dimensionning: nsn,ns',nsn,ns
 !    if (nsn/=nmn) print *,'***error dimensionning: nsn,nmn',nsn,nmn
-    msr(1:nsn) = nsv(1:nsn)
-    deallocate(itags1)
-    deallocate(itags2)
-    deallocate(itagn)
-    deallocate(igrelem)
- 1000  FORMAT(/1X,'SURFACE 1: Number of remain seg and % = ',I10,F10.1)
- 2000  FORMAT(/1X,'SURFACE 2: Number of remain seg and % = ',I10,F10.1)
+          msr(1:nsn) = nsv(1:nsn)
+          deallocate(itags1)
+          deallocate(itags2)
+          deallocate(itagn)
+          deallocate(igrelem)
+1000      FORMAT(/1X,'SURFACE 1: Number of remain seg and % = ',I10,F10.1)
+2000      FORMAT(/1X,'SURFACE 2: Number of remain seg and % = ',I10,F10.1)
 
 ! ----------------------------------------------------------------------------------------------------------------------
-        end subroutine i2_surfi        
+        end subroutine i2_surfi
       end module i2_surfi_mod
 
 
