@@ -35,7 +35,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      1   X        ,IRECT   ,NSV          ,INACTI      ,CAND_P  ,
      2   NMN      ,NRTM    ,NSN          ,CAND_E      ,CAND_N  ,
      3   GAP      ,NOINT   ,II_STOK      ,NCONTACT    ,BMINMA  ,
-     4   TZINF    ,MAXBOX  ,MINBOX       ,MWAG        ,CURV_MAX,
+     4   TZINF    ,MAXBOX  ,MINBOX       ,CAND_A        ,CURV_MAX,
      5   NB_N_B   ,ESHIFT  ,ILD          ,IFQ         ,IFPEN   ,
      8   STFN     ,NIN     ,STF          ,IGAP        ,GAP_S   ,
      A   NSNR     ,NCONT   ,RENUM        ,NSNROLD     ,GAP_M   ,
@@ -62,7 +62,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NMN, NRTM, NSN, NOINT,IDT,INACTI,IFQ, NIN, NSNR, NSNROLD
-      INTEGER IRECT(4,*),NSV(*),MWAG(*), RENUM(*),NUM_IMP, ITASK
+      INTEGER IRECT(4,*),NSV(*),CAND_A(*), RENUM(*),NUM_IMP, ITASK
       INTEGER CAND_E(*),CAND_N(*),IFPEN(*),KREMNOD(*),REMNOD(*),ITAB(*)
       INTEGER NCONTACT,ESHIFT,ILD,NB_N_B, IGAP, NCONT,INTTH,I_MEM,
      *        II_STOK, FLAGREMNODE, ITIED
@@ -85,7 +85,7 @@ C-----------------------------------------------
       PARAMETER (I_ADD_MAX = 1001) 
       INTEGER ADD(2,I_ADD_MAX)
 
-      INTEGER I, J, IP0, IP1,
+      INTEGER I, J, 
      .        LOC_PROC, N, ISZNSNR,
      .        NSNFIOLD(NSPMD)
 C     REAL
@@ -126,8 +126,6 @@ C     P1........Elt Bas Pile        NRTM
 C     P2........Elt PILE            2*NRTM
 
 C 
-      IP0 = 1
-      IP1 = IP0 + NSN + NSNROLD + 3
 C
 C-----INITIALISATION 
 
@@ -157,7 +155,7 @@ C
      3      I_ADD ,NSV    ,MAXSIZ ,II_STOK  ,CAND_N   ,
      4      CAND_E,NCONTACT,NOINT  ,TZINF    ,MAXBOX   ,
      5      MINBOX,I_MEM  ,NB_N_B ,I_ADD_MAX,ESHIFT   ,
-     6      INACTI,IFQ    ,MWAG(IP0), CAND_P   ,IFPEN    ,
+     6      INACTI,IFQ    ,CAND_A, CAND_P   ,IFPEN    ,
      7      NRTM  ,NSNROLD,IGAP   ,GAP      ,GAP_S    ,
      8      GAP_M ,GAPMIN ,GAPMAX ,MARGE    ,CURV_MAX ,
      9      NIN    ,GAP_S_L,GAP_M_L,INTTH, DRAD  ,ITIED    ,
@@ -195,7 +193,7 @@ C
      1   X        ,IRECT   ,NSV     ,INACTI   ,CAND_P  ,
      2   NMN      ,NRTM    ,NSN     ,CAND_E   ,CAND_N  ,
      3   GAP      ,NOINT   ,II_STOK ,NCONTACT ,BMINMA  ,
-     4   TZINF    ,MAXBOX  ,MINBOX  ,MWAG     ,CURV_MAX,
+     4   TZINF    ,MAXBOX  ,MINBOX  ,CAND_A     ,CURV_MAX,
      5   NB_N_B   ,ESHIFT  ,ILD     ,IFQ      ,IFPEN   ,
      8   STFN     ,NIN     ,STF     ,IGAP     ,GAP_S   ,
      A   NSNR     ,NCONT   ,RENUM   ,NSNROLD  ,GAP_M   ,
@@ -226,7 +224,7 @@ C-----------------------------------------------
       INTEGER NMN,NSN, NOINT,IDT,INACTI,IFQ, NIN, NSNR, NSNROLD
       INTEGER, INTENT(in) :: NRTM !< number of segments per threads
       INTEGER, INTENT(in) :: TOTAL_NB_NRTM !< total number of segments
-      INTEGER IRECT(4,*),NSV(*),MWAG(*), RENUM(*),NUM_IMP, ITASK
+      INTEGER IRECT(4,*),NSV(*),CAND_A(*), RENUM(*),NUM_IMP, ITASK
       INTEGER CAND_E(*),CAND_N(*),IFPEN(*),KREMNOD(*),REMNOD(*),ITAB(*)
       INTEGER NCONTACT,ESHIFT,ILD,NB_N_B, IGAP, NCONT,INTTH,I_MEM,
      *        II_STOK, FLAGREMNODE, ITIED
@@ -247,7 +245,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, IP0, IP1,
+      INTEGER I, J,
      .        LOC_PROC, N, ISZNSNR,
      .        NSNFIOLD(NSPMD)
 C     REAL
@@ -278,8 +276,6 @@ C     P1........Elt Bas Pile        NRTM
 C     P2........Elt PILE            2*NRTM
 
 C 
-      IP0 = 1
-      IP1 = IP0 + NSN + NSNROLD + 3
 C
 C-----INITIALISATION 
 
@@ -384,7 +380,7 @@ C (en // SMP il y a possibilite de redondance de traitement mais no pb)
      3   NSV     ,II_STOK  ,CAND_N   ,ESHIFT   ,CAND_E  ,
      4   NCONTACT,NOINT    ,TZINF    ,GAP_S_L  ,GAP_M_L ,
      5   VOXEL1  ,NBX      ,NBY      ,NBZ      ,INTTH   ,
-     6   INACTI  ,IFQ      ,MWAG(IP0),CAND_P   ,IFPEN   ,
+     6   INACTI  ,IFQ      ,CAND_A,CAND_P   ,IFPEN   ,
      7   NRTM    ,NSNROLD  ,IGAP     ,GAP      ,GAP_S   ,
      8   GAP_M   ,GAPMIN   ,GAPMAX   ,MARGE    ,CURV_MAX,
      9   NIN     ,ITASK    ,BGAPSMX  ,KREMNOD  ,REMNOD  ,

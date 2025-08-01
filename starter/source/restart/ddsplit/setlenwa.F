@@ -30,7 +30,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      1      LENWA0 ,NTHWA0  ,NAIRWA0   ,NUMELS0  ,NUMELQ0,
      2      NUMELC0,NUMELTG0,NUMELT0   ,NUMELP0  ,NUMELR0,
      3      NUMNOD0,NMNT0   ,L_MUL_LAG1,L_MUL_LAG,MAXNX0 ,
-     4      LWASPH0,NUMSPH0   ,LWASPIO  , NRCVVOIS0 ,
+     4      LWASPH0,NUMSPH0   ,LWASPIO  , NRCVVOIS0 ,NGROUP_L,
      5      LWAMP_L, LWANMP_L ,ITHERM   )
 C Attention les dummy peuvent etre soit locaux soit globaux suivant appel
 C-----------------------------------------------
@@ -50,6 +50,7 @@ C-----------------------------------------------
       INTEGER, INTENT(INOUT) :: LWAMP_L
       INTEGER, INTENT(INOUT) :: LWANMP_L
       INTEGER, INTENT(IN)    :: ITHERM
+      INTEGER, INTENT(IN)    :: NGROUP_L
       INTEGER LENWA0,NTHWA0,NAIRWA0,
      .        NUMELS0,NUMELQ0,NUMELC0,NUMELTG0,NUMELT0,NUMELP0,
      .        NUMELR0,NUMNOD0,NMNT0,L_MUL_LAG1,L_MUL_LAG,MAXNX0,
@@ -92,9 +93,8 @@ C---------------------------------------------------------------------
 C lenwa parallele
       LWAMP_L    = MAX(NAIRWA,NINTWA,NFLUWA+NBHOLWA,NASSMP,NXELWA,NSPHWA,
      +               NIDELWA,LENVOISWA)
-C
 C MSPR utilise dans le starter
-      MSPR    = MAX(4*NUMELR0,NPARG*NGROUP)
+      MSPR    = MAX(4*NUMELR0,NPARG*NGROUP_L)
 C
       LENWA0  = MAX(LWAMP_L,LWANMP_L,MSPR)
 C
