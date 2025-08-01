@@ -51,114 +51,114 @@
 !||    message_mod            ../starter/share/message_module/message_mod.F
 !||    submodel_mod           ../starter/share/modules1/submodel_mod.F
 !||====================================================================
-      subroutine hm_read_therm_stress(nummat   ,mat_param ,mlaw_tag ,unitab   ,lsubmodel ,   &
-                                      iout     ,npropm   ,npropmi   ,ipm      ,pm       )
+        subroutine hm_read_therm_stress(nummat   ,mat_param ,mlaw_tag ,unitab   ,lsubmodel ,   &
+          iout     ,npropm   ,npropmi   ,ipm      ,pm       )
 !-----------------------------------------------
 !   M o d u l e s
 !-----------------------------------------------
-      use unitab_mod
-      use message_mod
-      use submodel_mod
-      use hm_option_read_mod
-      use elbuftag_mod
-      use names_and_titles_mod , only : nchartitle
-      use matparam_def_mod
-      use constant_mod, only : zero, one
-      use precision_mod, only : WP
+          use unitab_mod
+          use message_mod
+          use submodel_mod
+          use hm_option_read_mod
+          use elbuftag_mod
+          use names_and_titles_mod , only : nchartitle
+          use matparam_def_mod
+          use constant_mod, only : zero, one
+          use precision_mod, only : WP
 !============================================================================
 !                                                   Implicit none
 ! --------------------------------------------------------------------------------------------------
-      implicit none
+          implicit none
 ! --------------------------------------------------------------------------------------------------
 !                                                   Included files
 ! --------------------------------------------------------------------------------------------------
 ! --------------------------------------------------------------------------------------------------
 !   D u m m y   A r g u m e n t s
 !-----------------------------------------------
-      integer ,intent(in) :: nummat
-      integer ,intent(in) :: npropm
-      integer ,intent(in) :: npropmi
-      integer ,intent(in) :: iout
-      integer ,dimension(npropmi,nummat)  ,intent(inout) :: ipm
-      real(kind=WP) ,dimension(npropm ,nummat)  ,intent(inout) :: pm
-      type (unit_type_)                   ,intent(in)    :: unitab 
-      type(mlaw_tag_)        ,dimension(nummat) ,intent(inout) :: mlaw_tag
-      type(submodel_data)    ,dimension(*)      ,intent(in)    :: lsubmodel
-      type(matparam_struct_) ,dimension(nummat) ,intent(inout) :: mat_param
+          integer ,intent(in) :: nummat
+          integer ,intent(in) :: npropm
+          integer ,intent(in) :: npropmi
+          integer ,intent(in) :: iout
+          integer ,dimension(npropmi,nummat)  ,intent(inout) :: ipm
+          real(kind=WP) ,dimension(npropm ,nummat)  ,intent(inout) :: pm
+          type (unit_type_)                   ,intent(in)    :: unitab
+          type(mlaw_tag_)        ,dimension(nummat) ,intent(inout) :: mlaw_tag
+          type(submodel_data)    ,dimension(*)      ,intent(in)    :: lsubmodel
+          type(matparam_struct_) ,dimension(nummat) ,intent(inout) :: mat_param
 !-----------------------------------------------
 !   L o c a l   V a r i a b l e s
 !-----------------------------------------------
-      integer :: ith,mat_id,imat,ilaw,jthe,ntherm_st,ifunc_alpha
-      real(kind=WP) ::  fscal_alpha
-      character(len=nchartitle) :: titr
-      character :: key*80
-      logical :: is_available
+          integer :: ith,mat_id,imat,ilaw,jthe,ntherm_st,ifunc_alpha
+          real(kind=WP) ::  fscal_alpha
+          character(len=nchartitle) :: titr
+          character :: key*80
+          logical :: is_available
 !=======================================================================
 
 !--------------------------------------------------
 !     count eos models using cfg files
 !--------------------------------------------------
-!      
-      call hm_option_count('/THERM_STRESS',ntherm_st)
+!
+          call hm_option_count('/THERM_STRESS',ntherm_st)
 !
 !--------------------------------------------------
 !     start browsing /therm_stress models
 !--------------------------------------------------
 !
-      call hm_option_start('/THERM_STRESS')
+          call hm_option_start('/THERM_STRESS')
 !
 !--------------------------------------------------
-      do ith = 1,ntherm_st
+          do ith = 1,ntherm_st
 !
-        call hm_option_read_key(lsubmodel, option_id = mat_id , option_titr = titr , keyword2 = key )
+            call hm_option_read_key(lsubmodel, option_id = mat_id , option_titr = titr , keyword2 = key )
 
-        if (key(1:3) == 'MAT') then   
-          call hm_get_intv  ('FUNCT_ID'      ,ifunc_alpha    ,is_available, lsubmodel) 
-          call hm_get_floatv('CLOAD_SCALE_Y' ,fscal_alpha    ,is_available, lsubmodel, unitab)
+            if (key(1:3) == 'MAT') then
+              call hm_get_intv  ('FUNCT_ID'      ,ifunc_alpha    ,is_available, lsubmodel)
+              call hm_get_floatv('CLOAD_SCALE_Y' ,fscal_alpha    ,is_available, lsubmodel, unitab)
 
-          if (fscal_alpha == zero) fscal_alpha=one
-          do imat=1,nummat-1
-            if (mat_id == mat_param(imat)%mat_id) then
-              titr = mat_param(imat)%title
-              ilaw = mat_param(imat)%ilaw
-              jthe = mat_param(imat)%itherm
-              if (jthe == 0) then
-                 call ancmsg(msgid=1129, msgtype=msgerror, anmode=aninfo, i1=mat_id, c1=titr)
-              endif
-              mat_param(imat)%iexpan = 1
-              mat_param(imat)%therm%func_thexp  = ifunc_alpha
-              mat_param(imat)%therm%scale_thexp = fscal_alpha
-!              
-              mlaw_tag(imat)%g_temp  = 1
-              mlaw_tag(imat)%l_temp  = 1
-              
-              ! tmp double parameter storage - to be cleaned
-              ipm(218,imat)  = 1
-              ipm(219,imat)  = ifunc_alpha
-              pm(191 ,imat)  = fscal_alpha
+              if (fscal_alpha == zero) fscal_alpha=one
+              do imat=1,nummat-1
+                if (mat_id == mat_param(imat)%mat_id) then
+                  titr = mat_param(imat)%title
+                  ilaw = mat_param(imat)%ilaw
+                  jthe = mat_param(imat)%itherm
+                  if (jthe == 0) then
+                    call ancmsg(msgid=1129, msgtype=msgerror, anmode=aninfo, i1=mat_id, c1=titr)
+                  endif
+                  mat_param(imat)%iexpan = 1
+                  mat_param(imat)%therm%func_thexp  = ifunc_alpha
+                  mat_param(imat)%therm%scale_thexp = fscal_alpha
+!
+                  mlaw_tag(imat)%g_temp  = 1
+                  mlaw_tag(imat)%l_temp  = 1
 
-              !-------------------------------------------------
-              write(iout,4000) mat_id,ifunc_alpha,fscal_alpha
-              if (pm(72, imat) > one) then
-                 ! euler or ale material
-                 call ancmsg(msgid=1723,msgtype=msgerror,anmode=aninfo,      &
-                             i1=imat,c1=titr)
-              endif
-              
-            endif  
-          enddo    ! nummat
-        endif
-      enddo        ! ith = 1,ntherm_st
-!-----------------------------------------      
- 4000 format(                                                         &
-      5x,'    THERMAL MATERIAL EXPANSION  ',/,                        &
-      5x,'    --------------------------  ',/,                        &
-      5x,'MATERIAL NUMBER . . . . . . . . . . . . .=',i10/,           &
-      5x,'CURVE ID DEFINING THERMAL EXPANSION COEFFICIENT '/,         &
-      5x,'   AS A FUNCTION OF TEMPERATURE         .=',i10/,           &
-      5x,'THERMAL EXPANSION FUNCTION SCALE FACTOR .=',1pg20.13//)
-!-----------------------------------------      
-      return
-      end subroutine hm_read_therm_stress
-!-----------------------------------------      
+                  ! tmp double parameter storage - to be cleaned
+                  ipm(218,imat)  = 1
+                  ipm(219,imat)  = ifunc_alpha
+                  pm(191 ,imat)  = fscal_alpha
+
+                  !-------------------------------------------------
+                  write(iout,4000) mat_id,ifunc_alpha,fscal_alpha
+                  if (pm(72, imat) > one) then
+                    ! euler or ale material
+                    call ancmsg(msgid=1723,msgtype=msgerror,anmode=aninfo,      &
+                      i1=imat,c1=titr)
+                  endif
+
+                endif
+              enddo    ! nummat
+            endif
+          enddo        ! ith = 1,ntherm_st
+!-----------------------------------------
+4000      format(                                                         &
+            5x,'    THERMAL MATERIAL EXPANSION  ',/,                        &
+            5x,'    --------------------------  ',/,                        &
+            5x,'MATERIAL NUMBER . . . . . . . . . . . . .=',i10/,           &
+            5x,'CURVE ID DEFINING THERMAL EXPANSION COEFFICIENT '/,         &
+            5x,'   AS A FUNCTION OF TEMPERATURE         .=',i10/,           &
+            5x,'THERMAL EXPANSION FUNCTION SCALE FACTOR .=',1pg20.13//)
+!-----------------------------------------
+          return
+        end subroutine hm_read_therm_stress
+!-----------------------------------------
       end module hm_read_therm_stress_mod

@@ -22,17 +22,17 @@
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 ! ----------------------------------------------------------------------------------------------------------------------
 !
-module simple_checksum_mod
-   use iso_c_binding, only: c_int, c_double, c_ptr
-   implicit none
+      module simple_checksum_mod
+        use iso_c_binding, only: c_int, c_double, c_ptr
+        implicit none
 
-   interface
-      subroutine simple_checksum(vector,length,hash) bind(C)
-        import :: c_int, c_double
-        integer(c_int), intent(in)  :: length
-        real(c_double), intent(in) ,dimension(length) :: vector
-        real(c_double), intent(out) :: hash
-      end subroutine simple_checksum
-   end interface
+        interface
+          subroutine simple_checksum(vector,length,hash) bind(C)
+            import :: c_int, c_double
+            integer(c_int), intent(in)  :: length
+            real(c_double), intent(in) ,dimension(length) :: vector
+            real(c_double), intent(out) :: hash
+          end subroutine simple_checksum
+        end interface
 
-end module simple_checksum_mod
+      end module simple_checksum_mod

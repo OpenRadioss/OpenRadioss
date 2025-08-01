@@ -39,7 +39,7 @@
 !||--- uses       -----------------------------------------------------
 !||====================================================================
         subroutine detonation_times_printout(NPARG,NGROUP,IPARG,N2D,IPRI,ELBUF_TAB, &
-                                              NIXS,NIXQ,NIXTG,NUMELS,NUMELQ,NUMELTG,IXS,IXQ,IXTG)
+          NIXS,NIXQ,NIXTG,NUMELS,NUMELQ,NUMELTG,IXS,IXQ,IXTG)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -61,7 +61,7 @@
           integer,intent(in) :: nparg   !< array size
           integer,intent(in) :: iparg(nparg,ngroup) !<group parameters
           integer,intent(in) :: n2d     !< 2d/3d flag (/ANALY)
-          integer,intent(in) :: ipri    !< printout flag (/IOFLAG)          
+          integer,intent(in) :: ipri    !< printout flag (/IOFLAG)
           integer,intent(in) :: nixs    !< array size ixs
           integer,intent(in) :: nixq    !< array size ixq
           integer,intent(in) :: nixtg   !< array size ixtg
@@ -87,65 +87,65 @@
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
 
-       !---------------------------------!
-       !   UNINT. ELEMS (NO DETONATOR)   !
-       !---------------------------------!
-       do ng = 1,ngroup
-         nel = iparg(2,ng)
-         mlw = iparg(1,ng)
-         if(elbuf_tab(ng)%gbuf%g_tb > 0)then
-           do i=1,nel
-             tdet = elbuf_tab(ng)%gbuf%tb(i)
-             if(tdet == ep21 .or. tdet == -ep21)then
-               elbuf_tab(ng)%gbuf%tb(i) = zero
-             end if
-           enddo
-         endif
-       end do
+          !---------------------------------!
+          !   UNINT. ELEMS (NO DETONATOR)   !
+          !---------------------------------!
+          do ng = 1,ngroup
+            nel = iparg(2,ng)
+            mlw = iparg(1,ng)
+            if(elbuf_tab(ng)%gbuf%g_tb > 0)then
+              do i=1,nel
+                tdet = elbuf_tab(ng)%gbuf%tb(i)
+                if(tdet == ep21 .or. tdet == -ep21)then
+                  elbuf_tab(ng)%gbuf%tb(i) = zero
+                end if
+              enddo
+            endif
+          end do
 
-       !---------------------------------!
-       !            PRINTOUT             !
-       !---------------------------------!
-       if(n2d == 0)then
-          ix => ixs(1:nixs,1:numels)
-          nix = nixs
-        elseif(numelq > 0)then
-          ix => ixq(1:nixq,1:numelq)
-          nix = nixq
-        else
-          ix => ixtg(1:nixtg,1:numeltg)
-          nix = nixq
-        end if
+          !---------------------------------!
+          !            PRINTOUT             !
+          !---------------------------------!
+          if(n2d == 0)then
+            ix => ixs(1:nixs,1:numels)
+            nix = nixs
+          elseif(numelq > 0)then
+            ix => ixq(1:nixq,1:numelq)
+            nix = nixq
+          else
+            ix => ixtg(1:nixtg,1:numeltg)
+            nix = nixq
+          end if
 
-       if(ipri >= 3)then
-         mpr =0
-         write(iout,500)         
-         do ng = 1,ngroup
-           nel = iparg(2,ng)
-           nft = iparg(3,ng)
-           if(elbuf_tab(ng)%gbuf%g_tb > 0)then           
-             do i=1,nel
-               mpr = mpr+1
-               iel = ix(nix,i+nft)
-               tdet=-elbuf_tab(ng)%gbuf%tb(i)
-               write(iout,510) nel,tdet
-               if(mpr == 50) mpr=0
-             end do
-           endif
-         end do
-       endif
-       
-       return
+          if(ipri >= 3)then
+            mpr =0
+            write(iout,500)
+            do ng = 1,ngroup
+              nel = iparg(2,ng)
+              nft = iparg(3,ng)
+              if(elbuf_tab(ng)%gbuf%g_tb > 0)then
+                do i=1,nel
+                  mpr = mpr+1
+                  iel = ix(nix,i+nft)
+                  tdet=-elbuf_tab(ng)%gbuf%tb(i)
+                  write(iout,510) nel,tdet
+                  if(mpr == 50) mpr=0
+                end do
+              endif
+            end do
+          endif
+
+          return
 
 ! ----------------------------------------------------------------------------------------------------------------------
-  500 FORMAT(//, &
-       5X, 'DETONATION TIMES FOR JWL ELEMENTS' /, &
-       5X, '---------------------------------' //, &
-       5X, 'ELEMENT DETONATION TIME' /)
-  510 FORMAT(5X,I10,E15.5)
-  
+500       FORMAT(//, &
+            5X, 'DETONATION TIMES FOR JWL ELEMENTS' /, &
+            5X, '---------------------------------' //, &
+            5X, 'ELEMENT DETONATION TIME' /)
+510       FORMAT(5X,I10,E15.5)
+
 ! ----------------------------------------------------------------------------------------------------------------------
-      end subroutine detonation_times_printout
+        end subroutine detonation_times_printout
 ! ----------------------------------------------------------------------------------------------------------------------
 
       end module detonation_times_printout_mod

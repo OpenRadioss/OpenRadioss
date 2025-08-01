@@ -44,15 +44,15 @@
 !||    eikonal_fast_marching_method_mod   ../starter/source/initial_conditions/detonation/eikonal_fast_marching_method.F90
 !||====================================================================
         subroutine eikonal_solver(ixq      , nixq     , numelq  , &
-                                  ixs      , nixs     , numels  , &
-                                  ixtg     , nixtg    , numeltg , &
-                                  x        , numnod   , title55 , &
-                                  elbuf_tab, ngroup   , nparg   , &
-                                  nod2eltg , knod2eltg, &
-                                  nod2elq  , knod2elq , &
-                                  nod2els  , knod2els , &
-                                  iparg    , ale_connectivity, npropm, nummat, pm, n2d, detonators,&
-                                  npropmi  , ipm)
+          ixs      , nixs     , numels  , &
+          ixtg     , nixtg    , numeltg , &
+          x        , numnod   , title55 , &
+          elbuf_tab, ngroup   , nparg   , &
+          nod2eltg , knod2eltg, &
+          nod2elq  , knod2elq , &
+          nod2els  , knod2els , &
+          iparg    , ale_connectivity, npropm, nummat, pm, n2d, detonators,&
+          npropmi  , ipm)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -131,26 +131,26 @@
             ! FAST MARCHING METHOD
             if(n2d == 0) then
               call eikonal_fast_marching_method(&
-                                     ixs,nixs,numels,x,numnod, &
-                                     elbuf_tab,ngroup,nparg,iparg,ale_connectivity,npropm,nummat,pm,&
-                                     detonators, idet, 6, nod2els, knod2els, npropmi, ipm)
+                ixs,nixs,numels,x,numnod, &
+                elbuf_tab,ngroup,nparg,iparg,ale_connectivity,npropm,nummat,pm,&
+                detonators, idet, 6, nod2els, knod2els, npropmi, ipm)
 
             elseif(numelq > 0)then
               call eikonal_fast_marching_method(&
-                                     ixq,nixq,numelq,x,numnod, &
-                                     elbuf_tab,ngroup,nparg,iparg,ale_connectivity,npropm,nummat,pm,&
-                                     detonators, idet, 4, nod2elq, knod2elq, npropmi, ipm)
+                ixq,nixq,numelq,x,numnod, &
+                elbuf_tab,ngroup,nparg,iparg,ale_connectivity,npropm,nummat,pm,&
+                detonators, idet, 4, nod2elq, knod2elq, npropmi, ipm)
 
             elseif(numeltg > 0)then
               call eikonal_fast_marching_method(&
-                                     ixtg,nixtg,numeltg,x,numnod, &
-                                     elbuf_tab,ngroup,nparg,iparg,ale_connectivity,npropm,nummat,pm,&
-                                     detonators, idet, 3, nod2eltg, knod2eltg, npropmi, ipm)
+                ixtg,nixtg,numeltg,x,numnod, &
+                elbuf_tab,ngroup,nparg,iparg,ale_connectivity,npropm,nummat,pm,&
+                detonators, idet, 3, nod2eltg, knod2eltg, npropmi, ipm)
             end if
 
           end do
 
-      end subroutine eikonal_solver
+        end subroutine eikonal_solver
 ! ----------------------------------------------------------------------------------------------------------------------
 
       end module eikonal_solver_mod

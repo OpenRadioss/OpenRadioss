@@ -75,10 +75,10 @@
           real(kind=WP) :: max_abc
           real(kind=WP) :: D2
           real(kind=WP) :: u(3), norm_u, v(3), norm_v, xel2d(3,3), k_proj, l_proj_u, l_proj_v
-          
+
           real(kind=WP) :: x10,x20,x30, y10,y20,y30, z10,z20,z30
           real(kind=WP) :: invA(3,3)
-          
+
           real(kind=WP) :: T1,T2,T3
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
@@ -148,7 +148,7 @@
 
             !P : node to treat (xel2d(1:3,1))
             !K,L : ajdacent points. xel2d(1:3,2) and xel2d(1:3,3)
-            
+
             ! u is PK vector
             u = xel_adj(:,k) - xel
             norm_u = sqrt(sum(u**2))  ! Norme de u
@@ -214,11 +214,11 @@
             if(b == tt_adj(4))l=4
             m=5
             if(c == tt_adj(6))m=6
-            
+
             x10 = xel_adj(1,K)-xel(1)
             x20 = xel_adj(1,L)-xel(1)
             x30 = xel_adj(1,M)-xel(1)
-            
+
             y10 = xel_adj(2,K)-xel(2)
             y20 = xel_adj(2,L)-xel(2)
             y30 = xel_adj(2,M)-xel(2)
@@ -226,32 +226,32 @@
             z10 = xel_adj(3,K)-xel(3)
             z20 = xel_adj(3,L)-xel(3)
             z30 = xel_adj(3,M)-xel(3)
-            
+
             T1 = tt_adj(k)
             T2 = tt_adj(l)
             T3 = tt_adj(m)
-            
+
             DENOM =  x10*y20*z30 - x10*z20*y30 - x20*y10*z30 + x20*z10*y30 + x30*y10*z20 - x30*z10*y20
 
             invA(1,1:3) = [ y20*z30-z20*y30, -y10*z30+z10*y30,  y10*z20-z10*y20]
             invA(2,1:3) = [-x20*z30+z20*x30,  x10*z30-x30*z10, -x10*z20+x20*z10]
             invA(3,1:3) = [ x20*y30-y20*x30, -x10*y30+x30*y10,  x10*y20-x20*y10]
-            
+
             D2 = DENOM*DENOM
-            
+
             AA = (-invA(2,1) - invA(2,2) - invA(2,3))**2 &
-               + (-invA(1,1) - invA(1,2) - invA(1,3))**2 &
-               + (-invA(3,1) - invA(3,2) - invA(3,3))**2
-               
+              + (-invA(1,1) - invA(1,2) - invA(1,3))**2 &
+              + (-invA(3,1) - invA(3,2) - invA(3,3))**2
+
             BB = two*(invA(1,1)*T1 + invA(1,2)*T2 + invA(1,3)*T3) * (-invA(1,1)- invA(1,2) - invA(1,3)) &
-               + two*(invA(2,1)*T1 + invA(2,2)*T2 + invA(2,3)*T3) * (-invA(2,1) -invA(2,2) - invA(2,3)) &
-               + two*(invA(3,1)*T1 + invA(3,2)*T2 + invA(3,3)*T3) * (-invA(3,1)- invA(3,2) - invA(3,3))
-           
+              + two*(invA(2,1)*T1 + invA(2,2)*T2 + invA(2,3)*T3) * (-invA(2,1) -invA(2,2) - invA(2,3)) &
+              + two*(invA(3,1)*T1 + invA(3,2)*T2 + invA(3,3)*T3) * (-invA(3,1)- invA(3,2) - invA(3,3))
+
             CC = (invA(1,1)*T1 + invA(1,2)*T2 + invA(1,3)*T3)**2 &
-               + (invA(3,1)*T1 + invA(3,2)*T2 + invA(3,3)*T3)**2 &
-               + (invA(2,1)*T1 + invA(2,2)*T2 + invA(2,3)*T3)**2 &
-               - s*s*D2
-            
+              + (invA(3,1)*T1 + invA(3,2)*T2 + invA(3,3)*T3)**2 &
+              + (invA(2,1)*T1 + invA(2,2)*T2 + invA(2,3)*T3)**2 &
+              - s*s*D2
+
             delta = BB*BB-FOUR*AA*CC
 
             if(delta >= zero)then

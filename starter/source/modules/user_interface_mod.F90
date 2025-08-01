@@ -32,8 +32,8 @@
 !||--- uses       -----------------------------------------------------
 !||====================================================================
       module user_interface_mod
-         use user_windows_mod
-         use sensor_mod
+        use user_windows_mod
+        use sensor_mod
 #include "my_real.inc"
 !-----------------------------------------------------------------------------------
 !     module dedicated to pass arrays from radioss to user routines.
@@ -57,7 +57,7 @@
 !||--- uses       -----------------------------------------------------
 !||====================================================================
       module user_sensor_mod
-         use sensor_mod
+        use sensor_mod
 #include "my_real.inc"
 !-----------------------------------------------------------------------------------
 !     MODULE dedicated to pass sensors arrays

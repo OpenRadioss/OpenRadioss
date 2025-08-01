@@ -39,66 +39,66 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
-      use unitab_mod
-      use submodel_mod
-      use constant_mod , only : three100, em20, zero
-      use precision_mod, only : WP
+        use unitab_mod
+        use submodel_mod
+        use constant_mod , only : three100, em20, zero
+        use precision_mod, only : WP
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
-      implicit none
+        implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Included files
 ! ----------------------------------------------------------------------------------------------------------------------
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
-      integer,intent(in) :: npropm                                     !< size for pm array
-      integer,intent(in) :: iout                                       !< file unit of starter listing
-      type (unit_type_),intent(in) :: unitab                           !< data structure for unit systems required by reader subroutines
-      real(kind=WP), intent(inout) :: pm(npropm)                             !< material parameters
-      type(submodel_data), dimension(nsubmod), intent(in) :: lsubmodel !< submodel data structure required for reader subroutines
+        integer,intent(in) :: npropm                                     !< size for pm array
+        integer,intent(in) :: iout                                       !< file unit of starter listing
+        type (unit_type_),intent(in) :: unitab                           !< data structure for unit systems required by reader subroutines
+        real(kind=WP), intent(inout) :: pm(npropm)                             !< material parameters
+        type(submodel_data), dimension(nsubmod), intent(in) :: lsubmodel !< submodel data structure required for reader subroutines
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-      real(kind=WP) :: p0, alpha, psh,ssp0
-      logical :: is_encrypted, is_available
+        real(kind=WP) :: p0, alpha, psh,ssp0
+        logical :: is_encrypted, is_available
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
-      is_encrypted = .false.
-      is_available = .false.
+        is_encrypted = .false.
+        is_available = .false.
 
-      call hm_option_is_encrypted(is_encrypted)
+        call hm_option_is_encrypted(is_encrypted)
 
-      call hm_get_floatv('MAT_C0', p0, is_available,lsubmodel,unitab)
-      call hm_get_floatv('Alpha', alpha, is_available,lsubmodel,unitab)
-      call hm_get_floatv('MAT_PSH', psh, is_available,lsubmodel,unitab)
+        call hm_get_floatv('MAT_C0', p0, is_available,lsubmodel,unitab)
+        call hm_get_floatv('Alpha', alpha, is_available,lsubmodel,unitab)
+        call hm_get_floatv('MAT_PSH', psh, is_available,lsubmodel,unitab)
 
-      pm(104)=p0-psh
-      pm( 31)=p0-psh
-      pm( 32)=alpha
-      pm( 88)=psh
-      if(pm(79)==zero)pm(79)=three100
-      ssp0 = em20
-      pm(27)=ssp0
+        pm(104)=p0-psh
+        pm( 31)=p0-psh
+        pm( 32)=alpha
+        pm( 88)=psh
+        if(pm(79)==zero)pm(79)=three100
+        ssp0 = em20
+        pm(27)=ssp0
 
-      write(iout,1000)
-      if(is_encrypted)then
-        write(iout,'(5X,A,//)')'CONFIDENTIAL DATA'
-      else
-        write(iout,1500)p0,alpha,psh
-      endif
+        write(iout,1000)
+        if(is_encrypted)then
+          write(iout,'(5X,A,//)')'CONFIDENTIAL DATA'
+        else
+          write(iout,1500)p0,alpha,psh
+        endif
 
-      return
- 1000 format(&
-      5X,'  EXPONENTIAL EOS',/,&
-      5X,'  ---------------')
- 1500 format(&
-      5X,'INITIAL PRESSURE (P0) . . . . . . . . . .=',1PG20.13/,&
-      5X,'DECAY PARAMETER (ALPHA) . . . . . . . . .=',1PG20.13/,&
-      5X,'PRESSURE SHIFT (PSH)  . . . . . . . . . .=',1PG20.13/)
+        return
+1000    format(&
+          5X,'  EXPONENTIAL EOS',/,&
+          5X,'  ---------------')
+1500    format(&
+          5X,'INITIAL PRESSURE (P0) . . . . . . . . . .=',1PG20.13/,&
+          5X,'DECAY PARAMETER (ALPHA) . . . . . . . . .=',1PG20.13/,&
+          5X,'PRESSURE SHIFT (PSH)  . . . . . . . . . .=',1PG20.13/)
 
-      return
+        return
       end subroutine hm_read_eos_exponential
 

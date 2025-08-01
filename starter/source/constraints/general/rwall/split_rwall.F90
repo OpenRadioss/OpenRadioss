@@ -26,7 +26,7 @@
 !||    lectur            ../starter/source/starter/lectur.F
 !||====================================================================
       module split_rwall_mod
-      implicit none
+        implicit none
       contains
 ! ======================================================================================================================
 !                                                   PROCEDURES
@@ -59,7 +59,7 @@
           integer, intent(in) :: nnprw !< 2nd dim of nprw
           integer, intent(in) :: slprw !< dim of lprw
           integer, dimension(nrwall*nnprw), intent(in) :: nprw !<  rwall data
-          integer, dimension(slprw), intent(in) :: lprw !< list of S node 
+          integer, dimension(slprw), intent(in) :: lprw !< list of S node
           type(constraint_), intent(inout) :: constraint_struct !< constraint structure for the splitting
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
@@ -95,7 +95,7 @@
               enddo
               ! ---------
 
-              ! ---------            
+              ! ---------
               do i=1,s_node_number
                 proc_number = 0
                 node_id = lprw(index_lprw+i)
@@ -106,9 +106,9 @@
                   constraint_struct%rwall%dd(proc_id,n) = constraint_struct%rwall%dd(proc_id,n) + 1
                 enddo
               enddo
-              ! ---------              
+              ! ---------
             endif
-        
+
             ! ---------
             ! get the main processor of the current rwall
             proc_main = 1
@@ -124,7 +124,7 @@
               endif
             enddo
             ! ---------
- 
+
 
             constraint_struct%rwall%dd(nspmd+1,n) = s_node_number
             constraint_struct%rwall%dd(nspmd+2,n) = proc_main

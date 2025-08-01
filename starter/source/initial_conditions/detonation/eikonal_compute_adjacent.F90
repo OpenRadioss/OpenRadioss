@@ -42,9 +42,9 @@
 !||    eikonal_godunov_operator_3d_mod   ../starter/source/initial_conditions/detonation/eikonal_godunov_operator_3d.F90
 !||====================================================================
         subroutine eikonal_compute_adjacent(ie, ALE_CONNECTIVITY,neldet, &
-                                              tdet, tdet_adj, vel,vel_adj, xel,xel_adj, numel,elem_list_bij, &
-                                              updown,num_new_activated, list_new_activated,  mat_det, &
-                                              nix,ix,nvois)
+          tdet, tdet_adj, vel,vel_adj, xel,xel_adj, numel,elem_list_bij, &
+          updown,num_new_activated, list_new_activated,  mat_det, &
+          nix,ix,nvois)
 !! \brief In order to apply Godunov operator the adjacent data must be used. This subroutine is collecting these data (positions, velocities, arrival times)
 !! \details ALE_EE_CONNECT is used to retrive data from adjacent element (ALE,EULER only)
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -93,52 +93,52 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
-           num_new_activated = 0
-           list_new_activated(1:nvois)=0
-           iad1 = ale_connectivity%ee_connect%iad_connect(ie)
-           lgth = ale_connectivity%ee_connect%iad_connect(ie+1) - iad1
-           do jj=1,lgth
-             iev = ale_connectivity%ee_connect%connected(iad1 + jj - 1)
-             if(iev == 0)cycle
-             iel = elem_list_bij(iev)
-             if(updown(iel) == 1)cycle ! already computed
-             if(updown(iel) == -1) then ! add in narrow band
-               if(mat_det /= 0)then
-                 mid = ix(1,iev)
-                 if(mid /= mat_det) cycle
-               end if
-               updown(iel) = 0
-               num_new_activated = num_new_activated + 1
-               list_new_activated(num_new_activated) = iel
-             endif
+          num_new_activated = 0
+          list_new_activated(1:nvois)=0
+          iad1 = ale_connectivity%ee_connect%iad_connect(ie)
+          lgth = ale_connectivity%ee_connect%iad_connect(ie+1) - iad1
+          do jj=1,lgth
+            iev = ale_connectivity%ee_connect%connected(iad1 + jj - 1)
+            if(iev == 0)cycle
+            iel = elem_list_bij(iev)
+            if(updown(iel) == 1)cycle ! already computed
+            if(updown(iel) == -1) then ! add in narrow band
+              if(mat_det /= 0)then
+                mid = ix(1,iev)
+                if(mid /= mat_det) cycle
+              end if
+              updown(iel) = 0
+              num_new_activated = num_new_activated + 1
+              list_new_activated(num_new_activated) = iel
+            endif
 
-             !update arrival time this adjacent elem (whatever is updown for the adjacent elem)
-             iad2 = ale_connectivity%ee_connect%iad_connect(iev)
-             lgth2 = ale_connectivity%ee_connect%iad_connect(iev+1) - iad2
-             tdet_adj(1:nvois) = ep21
-             xel_adj(1:3,1:nvois) = zero
-             do kk=1,lgth2
-                vel_adj(kk) = vel(iev)
-                iev_v = ale_connectivity%ee_connect%connected(iad2 + kk - 1)
-                if(iev_v == 0)cycle
-                iel_v = elem_list_bij(iev_v)
-                tdet_adj(kk) = tdet(iel_v)
-                vel_adj(kk) = vel(iel_v)
-                xel_adj(1:3,kk) = xel(1:3,iel_v)
-             end do
+            !update arrival time this adjacent elem (whatever is updown for the adjacent elem)
+            iad2 = ale_connectivity%ee_connect%iad_connect(iev)
+            lgth2 = ale_connectivity%ee_connect%iad_connect(iev+1) - iad2
+            tdet_adj(1:nvois) = ep21
+            xel_adj(1:3,1:nvois) = zero
+            do kk=1,lgth2
+              vel_adj(kk) = vel(iev)
+              iev_v = ale_connectivity%ee_connect%connected(iad2 + kk - 1)
+              if(iev_v == 0)cycle
+              iel_v = elem_list_bij(iev_v)
+              tdet_adj(kk) = tdet(iel_v)
+              vel_adj(kk) = vel(iel_v)
+              xel_adj(1:3,kk) = xel(1:3,iel_v)
+            end do
 
-             if(nvois == 4)then
-               call eikonal_Godunov_Operator_2d(xel(1,iel), tdet(iel), xel_adj, tdet_adj, 4, Vel(iel), Vel_adj)
-             elseif (nvois == 3)then
-               tdet_adj(4) = ep21
-               call eikonal_Godunov_Operator_2d(xel(1,iel), tdet(iel), xel_adj, tdet_adj, 3, Vel(iel), Vel_adj)
-             else
-               call eikonal_Godunov_Operator_3d(xel(1,iel), tdet(iel), xel_adj, tdet_adj, 6, Vel(iel), Vel_adj)
-             end if
+            if(nvois == 4)then
+              call eikonal_Godunov_Operator_2d(xel(1,iel), tdet(iel), xel_adj, tdet_adj, 4, Vel(iel), Vel_adj)
+            elseif (nvois == 3)then
+              tdet_adj(4) = ep21
+              call eikonal_Godunov_Operator_2d(xel(1,iel), tdet(iel), xel_adj, tdet_adj, 3, Vel(iel), Vel_adj)
+            else
+              call eikonal_Godunov_Operator_3d(xel(1,iel), tdet(iel), xel_adj, tdet_adj, 6, Vel(iel), Vel_adj)
+            end if
 
 
 
-           ENDDO
+          ENDDO
         end subroutine eikonal_compute_adjacent
 ! ----------------------------------------------------------------------------------------------------------------------
-        end module eikonal_compute_adjacent_mod
+      end module eikonal_compute_adjacent_mod

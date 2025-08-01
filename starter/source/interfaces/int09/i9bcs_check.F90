@@ -34,32 +34,32 @@
 !||--- uses       -----------------------------------------------------
 !||    message_mod   ../starter/share/message_module/message_mod.F
 !||====================================================================
-        subroutine i9bcs_check(icode, sicode, nsn , nsv, siloc, iloc)
+      subroutine i9bcs_check(icode, sicode, nsn , nsv, siloc, iloc)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
-          use message_mod
+        use message_mod
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
-          implicit none
+        implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
-          integer,                  intent(in) :: siloc, sicode    !< the size of array ICODE
-          integer,                  intent(in) :: icode(sicode)           !< bcs codes for nodes
-          integer,                  intent(in) :: iloc(siloc)             !< working array for interface type9
-          integer,                  intent(in) :: nsn                     !< number of secnd nodes
-          integer,                  intent(in) :: nsv(nsn)                !< list of secnd nodes
+        integer,                  intent(in) :: siloc, sicode    !< the size of array ICODE
+        integer,                  intent(in) :: icode(sicode)           !< bcs codes for nodes
+        integer,                  intent(in) :: iloc(siloc)             !< working array for interface type9
+        integer,                  intent(in) :: nsn                     !< number of secnd nodes
+        integer,                  intent(in) :: nsv(nsn)                !< list of secnd nodes
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-          integer :: ii      !< loop
-          integer :: num_bcs !< number of boundary conditions
-          integer :: jbc(3)  !< working array
-          integer :: icodt   !< current code (translation)
-          integer :: lcod    !< code in [1,7] which is a 3-bit-integer
-          integer :: inod    !< current node
+        integer :: ii      !< loop
+        integer :: num_bcs !< number of boundary conditions
+        integer :: jbc(3)  !< working array
+        integer :: icodt   !< current code (translation)
+        integer :: lcod    !< code in [1,7] which is a 3-bit-integer
+        integer :: inod    !< current node
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -83,13 +83,13 @@
               if(jbc(1) /= 0) num_bcs = num_bcs+1
               if(jbc(2) /= 0) num_bcs = num_bcs+1
               if(jbc(3) /= 0)then
-               if(num_bcs == 4)then
-                 ! bcs check also in engine, since engine options /bcs, /bcsr may update nodal bcs
-                 !call ancmsg(msgid=3065, anmode = aninfo, msgtype = msgerror, i1=interf_uid, i2=nty, i3=itab(inod), c1=title)
-                 exit
-               else
-                 num_bcs=num_bcs+1
-               endif
+                if(num_bcs == 4)then
+                  ! bcs check also in engine, since engine options /bcs, /bcsr may update nodal bcs
+                  !call ancmsg(msgid=3065, anmode = aninfo, msgtype = msgerror, i1=interf_uid, i2=nty, i3=itab(inod), c1=title)
+                  exit
+                else
+                  num_bcs=num_bcs+1
+                endif
               endif
 
             elseif(lcod == 0)then
@@ -101,4 +101,4 @@
 
         enddo  !next ii
 
-        end subroutine i9bcs_check
+      end subroutine i9bcs_check

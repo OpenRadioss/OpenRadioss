@@ -27,10 +27,10 @@
 !||====================================================================
       module law129_upd_mod
       contains
-      ! ======================================================================================================================
-      ! \brief Updating material parameters of /MAT/law129
-      ! \details converting sensor_id to internal sensor number
-      ! ======================================================================================================================
+        ! ======================================================================================================================
+        ! \brief Updating material parameters of /MAT/law129
+        ! \details converting sensor_id to internal sensor number
+        ! ======================================================================================================================
 !||====================================================================
 !||    law129_upd         ../starter/source/materials/mat/mat129/law129_upd.F90
 !||--- called by ------------------------------------------------------
@@ -40,43 +40,43 @@
 !||--- uses       -----------------------------------------------------
 !||    message_mod        ../starter/share/message_module/message_mod.F
 !||====================================================================
-      subroutine law129_upd(mat_param,sensors)
+        subroutine law129_upd(mat_param,sensors)
 !-----------------------------------------------
 !   M o d u l e s
 !-----------------------------------------------
-        use matparam_def_mod
-        use sensor_mod
-        use message_mod
+          use matparam_def_mod
+          use sensor_mod
+          use message_mod
 !-----------------------------------------------
 !   I m p l i c i t   T y p e s
 !-----------------------------------------------
-        implicit none
+          implicit none
 !-----------------------------------------------
 !   D u m m y   A r g u m e n t s
 !-----------------------------------------------
-      type(matparam_struct_) ,intent(inout) :: mat_param !< Material parameters data structure
-      type(sensors_)         ,intent(in)    :: sensors   !< sensor structure
+          type(matparam_struct_) ,intent(inout) :: mat_param !< Material parameters data structure
+          type(sensors_)         ,intent(in)    :: sensors   !< sensor structure
 !-----------------------------------------------
 !   L o c a l   V a r i a b l e s
 !-----------------------------------------------
-      integer :: i,sens_id,isens
+          integer :: i,sens_id,isens
 !=======================================================================
-      isens   = 0
-      sens_id = mat_param%iparam(2)
-      if (sens_id > 0) then
-        do i=1,sensors%nsensor
-          if (sens_id == sensors%sensor_tab(i)%sens_id) then
-            isens = i
-            exit
+          isens   = 0
+          sens_id = mat_param%iparam(2)
+          if (sens_id > 0) then
+            do i=1,sensors%nsensor
+              if (sens_id == sensors%sensor_tab(i)%sens_id) then
+                isens = i
+                exit
+              end if
+            end do
+            if (isens == 0) then
+              call ancmsg(MSGID=1240,ANMODE=ANINFO,MSGTYPE=MSGWARNING,    &
+                I1=mat_param%mat_id,C1=mat_param%title,I2=sens_id)
+            end if
           end if
-        end do
-        if (isens == 0) then
-          call ancmsg(MSGID=1240,ANMODE=ANINFO,MSGTYPE=MSGWARNING,    &   
-                      I1=mat_param%mat_id,C1=mat_param%title,I2=sens_id) 
-        end if
-      end if
 
-      mat_param%iparam(2) = isens
+          mat_param%iparam(2) = isens
 !------------------------------------------------------------------------------------
-      end subroutine law129_upd
+        end subroutine law129_upd
       end module law129_upd_mod

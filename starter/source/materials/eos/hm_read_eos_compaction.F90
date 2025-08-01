@@ -49,222 +49,222 @@
 !||    message_mod              ../starter/share/message_module/message_mod.F
 !||    submodel_mod             ../starter/share/modules1/submodel_mod.F
 !||====================================================================
-      subroutine hm_read_eos_compaction(iout,pm,unitab,lsubmodel,imideos,eos_tag,ieos,npropm,maxeos,eos_param)
+        subroutine hm_read_eos_compaction(iout,pm,unitab,lsubmodel,imideos,eos_tag,ieos,npropm,maxeos,eos_param)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
-      use message_mod
-      use unitab_mod , only : unit_type_
-      use submodel_mod , only : nsubmod, submodel_data
-      use elbuftag_mod , only : eos_tag_
-      use constant_mod , only : zero, two_third, one, two, three, three100
-      use eos_param_mod , only : eos_param_
-      use precision_mod, only : WP
+          use message_mod
+          use unitab_mod , only : unit_type_
+          use submodel_mod , only : nsubmod, submodel_data
+          use elbuftag_mod , only : eos_tag_
+          use constant_mod , only : zero, two_third, one, two, three, three100
+          use eos_param_mod , only : eos_param_
+          use precision_mod, only : WP
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
-      implicit none
+          implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Included files
 ! ----------------------------------------------------------------------------------------------------------------------
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
-      integer,intent(in) :: npropm, maxeos  !< array sizes
-      type (unit_type_),intent(in) ::unitab !< data structure for units (/UNIT)
-      integer, intent(in) :: iout !< file units
-      real(kind=WP), intent(inout) :: pm(npropm)  !< data structure for material laws
-      type(submodel_data), dimension(nsubmod), intent(in) :: lsubmodel !< data structure for sumobeling method (//SUBMODEL)
-      integer,intent(in) :: imideos
-      type(eos_tag_),dimension(0:maxeos) ,intent(inout) :: eos_tag !< data structure for EoS
-      integer,intent(in) :: ieos !< EoS (internal) identifier
-      type(eos_param_), intent(inout) :: eos_param !< eos data structure (specific parameters)
+          integer,intent(in) :: npropm, maxeos  !< array sizes
+          type (unit_type_),intent(in) ::unitab !< data structure for units (/UNIT)
+          integer, intent(in) :: iout !< file units
+          real(kind=WP), intent(inout) :: pm(npropm)  !< data structure for material laws
+          type(submodel_data), dimension(nsubmod), intent(in) :: lsubmodel !< data structure for sumobeling method (//SUBMODEL)
+          integer,intent(in) :: imideos
+          type(eos_tag_),dimension(0:maxeos) ,intent(inout) :: eos_tag !< data structure for EoS
+          integer,intent(in) :: ieos !< EoS (internal) identifier
+          type(eos_param_), intent(inout) :: eos_param !< eos data structure (specific parameters)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-      real(kind=WP)  :: p0, e0, psh, rho0,rhoi,rhor
-      real(kind=WP)  :: c0,c1,c2,c3,bunl,mu,mumin,mumax
-      real(kind=WP)  :: mu0,ssp0,df, g0, bulk,bulk2, bb, pold, mu2, muold, alpha,dpdmu
-      real(kind=WP) :: dpdmu_mumax
-      integer :: iform, ioutp
-      logical :: is_encrypted, is_available, is_available_rho0
+          real(kind=WP)  :: p0, e0, psh, rho0,rhoi,rhor
+          real(kind=WP)  :: c0,c1,c2,c3,bunl,mu,mumin,mumax
+          real(kind=WP)  :: mu0,ssp0,df, g0, bulk,bulk2, bb, pold, mu2, muold, alpha,dpdmu
+          real(kind=WP) :: dpdmu_mumax
+          integer :: iform, ioutp
+          logical :: is_encrypted, is_available, is_available_rho0
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
-      is_encrypted = .false.
-      is_available = .false.
-      is_available_rho0 = .false.
-      iform=0
-      ioutp=1
+          is_encrypted = .false.
+          is_available = .false.
+          is_available_rho0 = .false.
+          iform=0
+          ioutp=1
 
-      eos_tag(ieos)%g_mu = 1
-      eos_tag(ieos)%l_mu = 1
-           
-      call hm_option_is_encrypted(is_encrypted)
+          eos_tag(ieos)%g_mu = 1
+          eos_tag(ieos)%l_mu = 1
 
-      call hm_get_floatv('EOS_COM_C0', c0, is_available,lsubmodel,unitab)
-      call hm_get_floatv('EOS_COM_C1', c1, is_available,lsubmodel,unitab)
-      call hm_get_floatv('EOS_COM_C2', c2, is_available,lsubmodel,unitab)
-      call hm_get_floatv('EOS_COM_C3', c3, is_available,lsubmodel,unitab)
-      call hm_get_intv('IFORM', IFORM, is_available,lsubmodel)
+          call hm_option_is_encrypted(is_encrypted)
 
-      call hm_get_floatv('EOS_COM_Mue_min', mumin, is_available,lsubmodel,unitab)
-      call hm_get_floatv('EOS_COM_Mue_max', mumax, is_available,lsubmodel,unitab)
-      call hm_get_floatv('EOS_COM_B', bunl, is_available,lsubmodel,unitab)
+          call hm_get_floatv('EOS_COM_C0', c0, is_available,lsubmodel,unitab)
+          call hm_get_floatv('EOS_COM_C1', c1, is_available,lsubmodel,unitab)
+          call hm_get_floatv('EOS_COM_C2', c2, is_available,lsubmodel,unitab)
+          call hm_get_floatv('EOS_COM_C3', c3, is_available,lsubmodel,unitab)
+          call hm_get_intv('IFORM', IFORM, is_available,lsubmodel)
 
-      call hm_get_floatv('LAW5_PSH', psh, is_available,lsubmodel,unitab)
-      call hm_get_floatv('Refer_Rho', rho0, is_available_rho0,lsubmodel,unitab)
+          call hm_get_floatv('EOS_COM_Mue_min', mumin, is_available,lsubmodel,unitab)
+          call hm_get_floatv('EOS_COM_Mue_max', mumax, is_available,lsubmodel,unitab)
+          call hm_get_floatv('EOS_COM_B', bunl, is_available,lsubmodel,unitab)
 
-      rhor = pm(1)
-      rhoi = pm(89)
+          call hm_get_floatv('LAW5_PSH', psh, is_available,lsubmodel,unitab)
+          call hm_get_floatv('Refer_Rho', rho0, is_available_rho0,lsubmodel,unitab)
 
-      if(rho0 > zero) then
-        rhor = rho0
-        pm(1)= rho0
-      else
-        rho0=rhor
-      endif
+          rhor = pm(1)
+          rhoi = pm(89)
 
-      if(c1 <= zero)then
-         call ancmsg(MSGID=67,MSGTYPE=msgerror,ANMODE=aninfo,I1=imideos,C1='/EOS/COMPACTION',C2='C1 MUST BE POSITIVE')
-      endif
+          if(rho0 > zero) then
+            rhor = rho0
+            pm(1)= rho0
+          else
+            rho0=rhor
+          endif
 
-      !iform=1 : constant unload modulus bunl
-      !iform=2 : linear uload modulus from c1 to bunl (default)
-      if(iform /= 1 .and. iform /= 2)then
-        iform=2 !default
-        ioutp=0
-      endif
+          if(c1 <= zero)then
+            call ancmsg(MSGID=67,MSGTYPE=msgerror,ANMODE=aninfo,I1=imideos,C1='/EOS/COMPACTION',C2='C1 MUST BE POSITIVE')
+          endif
 
-      mu = rho0/rhor-one
-      p0 = c0+min(c1*mu,c1*mu+c2*mu*mu+c3*mu*mu*mu)
-      e0 = zero
+          !iform=1 : constant unload modulus bunl
+          !iform=2 : linear uload modulus from c1 to bunl (default)
+          if(iform /= 1 .and. iform /= 2)then
+            iform=2 !default
+            ioutp=0
+          endif
 
-      !check unload modulus regarding C1
-      if(Bunl < C1)then
-        call ancmsg(MSGID=67,MSGTYPE=msgerror,ANMODE=aninfo,I1=imideos, &
-        C1='/EOS/COMPACTION',C2='BUNL MUST BE GREATER THAN C1')
-      end if
+          mu = rho0/rhor-one
+          p0 = c0+min(c1*mu,c1*mu+c2*mu*mu+c3*mu*mu*mu)
+          e0 = zero
 
-      !check unload modulus regarding point of maximum compaction
-      if(mumax > zero .and. mumax < 1000.)then
-        dpdmu_mumax = c1 + two*c2*mumax + three*c3*mumax**2
-        if(Bunl < dpdmu_mumax)  then
-          call ancmsg(MSGID=67,MSGTYPE=msgerror,ANMODE=aninfo,I1=imideos, &
-          C1='/EOS/COMPACTION',C2='BUNL MUST BE GREATER THAN DERIVATIVE OF P(MU) AT MUMAX')
-        end if
-      end if
+          !check unload modulus regarding C1
+          if(Bunl < C1)then
+            call ancmsg(MSGID=67,MSGTYPE=msgerror,ANMODE=aninfo,I1=imideos, &
+              C1='/EOS/COMPACTION',C2='BUNL MUST BE GREATER THAN C1')
+          end if
 
-      eos_param%nuparam = 3
-      eos_param%niparam = 1
-      eos_param%nfunc = 0
-      eos_param%ntable = 0
-      call eos_param%construct() !allocations
+          !check unload modulus regarding point of maximum compaction
+          if(mumax > zero .and. mumax < 1000.)then
+            dpdmu_mumax = c1 + two*c2*mumax + three*c3*mumax**2
+            if(Bunl < dpdmu_mumax)  then
+              call ancmsg(MSGID=67,MSGTYPE=msgerror,ANMODE=aninfo,I1=imideos, &
+                C1='/EOS/COMPACTION',C2='BUNL MUST BE GREATER THAN DERIVATIVE OF P(MU) AT MUMAX')
+            end if
+          end if
 
-      eos_param%uparam(1) = mumax
-      eos_param%uparam(2) = mumin
-      eos_param%uparam(3) = bunl
+          eos_param%nuparam = 3
+          eos_param%niparam = 1
+          eos_param%nfunc = 0
+          eos_param%ntable = 0
+          call eos_param%construct() !allocations
 
-      eos_param%iparam(1) = iform
+          eos_param%uparam(1) = mumax
+          eos_param%uparam(2) = mumin
+          eos_param%uparam(3) = bunl
 
-      pm(49) = c0
-      pm(32) = c1
-      pm(33) = c2
-      pm(34) = c3
-      pm(88) = psh
-      pm(45) = bunl
-      pm(46) = mumax
-      pm(47) = mumin
-      pm(48) = iform
-      if(pm(79)==zero)pm(79)=three100
+          eos_param%iparam(1) = iform
 
-      pm(23) = e0
-      pm(31) = p0-psh
-      pm(104)= p0-psh
+          pm(49) = c0
+          pm(32) = c1
+          pm(33) = c2
+          pm(34) = c3
+          pm(88) = psh
+          pm(45) = bunl
+          pm(46) = mumax
+          pm(47) = mumin
+          pm(48) = iform
+          if(pm(79)==zero)pm(79)=three100
 
-      if(rhoi == zero)then
-        mu0 = zero ! error 683 already displayed
-      else
-        if(rhor /= zero)then
-          mu0 = rhoi/rhor-one
-        else
-          mu0 = zero ! error 683 already displayed
-        endif
-      endif
+          pm(23) = e0
+          pm(31) = p0-psh
+          pm(104)= p0-psh
 
-      if(rhoi /= zero)then
-        df = rhor/rhoi
-      else
-        df = zero
-      endif
+          if(rhoi == zero)then
+            mu0 = zero ! error 683 already displayed
+          else
+            if(rhor /= zero)then
+              mu0 = rhoi/rhor-one
+            else
+              mu0 = zero ! error 683 already displayed
+            endif
+          endif
 
-      mu2=mu0*mu0
-      muold=mu0
-      pold=p0
-      bulk = bunl
-      bulk2 = bunl
+          if(rhoi /= zero)then
+            df = rhor/rhoi
+          else
+            df = zero
+          endif
 
-      !ssp0
-      ssp0 = zero
-      g0 = pm(22)
-      rhoi = pm(89)
-        if(iform == 1)then
+          mu2=mu0*mu0
+          muold=mu0
+          pold=p0
+          bulk = bunl
+          bulk2 = bunl
+
+          !ssp0
+          ssp0 = zero
+          g0 = pm(22)
+          rhoi = pm(89)
+          if(iform == 1)then
             bb=bunl
-        elseif(iform == 2)then
-          alpha = one
-          if(mumax > zero)then
-            alpha=muold/mumax
+          elseif(iform == 2)then
+            alpha = one
+            if(mumax > zero)then
+              alpha=muold/mumax
+            endif
+            bb = alpha*bunl+(one-alpha)*c1
           endif
-          bb = alpha*bunl+(one-alpha)*c1
-        endif
-        dpdmu = c1 + two*c2*mu0+three*c3*mu2   !can be discussed in expansion...
-        dpdmu = max(bb,dpdmu)
+          dpdmu = c1 + two*c2*mu0+three*c3*mu2   !can be discussed in expansion...
+          dpdmu = max(bb,dpdmu)
 
-      dpdmu=max(zero,dpdmu)
-      if(rhor > zero) ssp0 = sqrt((dpdmu + two_third*g0)/rhor)
-      pm(27)=ssp0
+          dpdmu=max(zero,dpdmu)
+          if(rhor > zero) ssp0 = sqrt((dpdmu + two_third*g0)/rhor)
+          pm(27)=ssp0
 
-      write(iout,1000)
+          write(iout,1000)
 
-      if(is_encrypted)then
-        WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
-      else
-        write(iout,1500)c0,c1,c2,c3,psh,bunl,mumin,mumax
-        if(is_available_rho0)write(iout,1503)pm(1)
-        if(ioutp == 1)then
-          if(iform==1)then
-             write(iout,1501)
-          elseif(iform==2)then
-             write(iout,1502)
+          if(is_encrypted)then
+            WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
+          else
+            write(iout,1500)c0,c1,c2,c3,psh,bunl,mumin,mumax
+            if(is_available_rho0)write(iout,1503)pm(1)
+            if(ioutp == 1)then
+              if(iform==1)then
+                write(iout,1501)
+              elseif(iform==2)then
+                write(iout,1502)
+              endif
+            endif
           endif
-        endif
-      endif
 
-      return
+          return
 ! ----------------------------------------------------------------------------------------------------------------------
 
- 1000 FORMAT(&
-      5X,'  COMPACTION EOS    ',/,&
-      5X,'  --------------    ',/)
- 1500 FORMAT(&
-      5X,'C0. . . . . . . . . . . . . . . . . . . . .=',1PG20.13/,&
-      5X,'C1. . . . . . . . . . . . . . . . . . . . .=',1PG20.13/,&
-      5X,'C2. . . . . . . . . . . . . . . . . . . . .=',1PG20.13/,&
-      5X,'C3. . . . . . . . . . . . . . . . . . . . .=',1PG20.13/,&
-      5X,'PRESSURE SHIFT. . . . . . . . . . . . . . .=',1PG20.13/,&
-      5X,'BUNL : UNLOADING MODULUS. . . . . . . . . .=',1PG20.13/,&
-      5X,'MU_MIN : ELASTIC LIMIT. . . . . . . . . . .=',1PG20.13/,&
-      5X,'MU_MAX : MAXIMUM COMPACTION . . . . . . . .=',1PG20.13)
- 1501 FORMAT(&
-      5X,'CONSTANT UNLOAD MODULUS'/)
- 1502 FORMAT(&
-      5X,'CONTINUOUS UNLOAD MODULUS FROM C1 TO BUNL IN RANGE [MUMIN,MUMAX]'/)
- 1503 FORMAT(&
-      5X,'EOS REFERENCE DENSITY . . . . . . . . . .=',1PG20.13)
+1000      FORMAT(&
+            5X,'  COMPACTION EOS    ',/,&
+            5X,'  --------------    ',/)
+1500      FORMAT(&
+            5X,'C0. . . . . . . . . . . . . . . . . . . . .=',1PG20.13/,&
+            5X,'C1. . . . . . . . . . . . . . . . . . . . .=',1PG20.13/,&
+            5X,'C2. . . . . . . . . . . . . . . . . . . . .=',1PG20.13/,&
+            5X,'C3. . . . . . . . . . . . . . . . . . . . .=',1PG20.13/,&
+            5X,'PRESSURE SHIFT. . . . . . . . . . . . . . .=',1PG20.13/,&
+            5X,'BUNL : UNLOADING MODULUS. . . . . . . . . .=',1PG20.13/,&
+            5X,'MU_MIN : ELASTIC LIMIT. . . . . . . . . . .=',1PG20.13/,&
+            5X,'MU_MAX : MAXIMUM COMPACTION . . . . . . . .=',1PG20.13)
+1501      FORMAT(&
+            5X,'CONSTANT UNLOAD MODULUS'/)
+1502      FORMAT(&
+            5X,'CONTINUOUS UNLOAD MODULUS FROM C1 TO BUNL IN RANGE [MUMIN,MUMAX]'/)
+1503      FORMAT(&
+            5X,'EOS REFERENCE DENSITY . . . . . . . . . .=',1PG20.13)
 
 
-  
-      END SUBROUTINE HM_READ_EOS_COMPACTION
+
+        END SUBROUTINE HM_READ_EOS_COMPACTION
 ! ----------------------------------------------------------------------------------------------------------------------
-      
+
       END MODULE hm_read_eos_compaction_mod

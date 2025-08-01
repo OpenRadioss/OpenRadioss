@@ -41,117 +41,117 @@
 !||    message_mod              ../starter/share/message_module/message_mod.F
 !||    submodel_mod             ../starter/share/modules1/submodel_mod.F
 !||====================================================================
-      subroutine hm_read_fail_lemaitre(                                       &
-                  fail     ,fail_id  ,irupt    ,lsubmodel,unitab   ,iout     ) 
+        subroutine hm_read_fail_lemaitre(                                       &
+          fail     ,fail_id  ,irupt    ,lsubmodel,unitab   ,iout     )
 !-----------------------------------------------
 !   M o d u l e s
 !-----------------------------------------------
-      use fail_param_mod
-      use unitab_mod
-      use message_mod 
-      use submodel_mod
-      use hm_option_read_mod 
-      use elbuftag_mod
-      use constant_mod
-      use precision_mod, only : WP
+          use fail_param_mod
+          use unitab_mod
+          use message_mod
+          use submodel_mod
+          use hm_option_read_mod
+          use elbuftag_mod
+          use constant_mod
+          use precision_mod, only : WP
 !-----------------------------------------------
 !   I m p l i c i t   T y p e s
 !-----------------------------------------------
-      implicit none 
+          implicit none
 !-----------------------------------------------
 !   D u m m y   A r g u m e n t s
 !-----------------------------------------------
-      integer             ,INTENT(IN)    :: fail_id      !< failure model ID
-      integer             ,INTENT(IN)    :: irupt        !< failure model number
-      type (unit_type_)   ,INTENT(IN)    :: unitab       !< table of input units
-      type (submodel_data),INTENT(IN)    :: lsubmodel(*) !< submodel table
-      type (fail_param_)  ,INTENT(INOUT) :: fail         !< failure model data structure
-      integer             ,INTENT(IN)    :: iout         !< output unit number
+          integer             ,INTENT(IN)    :: fail_id      !< failure model ID
+          integer             ,INTENT(IN)    :: irupt        !< failure model number
+          type (unit_type_)   ,INTENT(IN)    :: unitab       !< table of input units
+          type (submodel_data),INTENT(IN)    :: lsubmodel(*) !< submodel table
+          type (fail_param_)  ,INTENT(INOUT) :: fail         !< failure model data structure
+          integer             ,INTENT(IN)    :: iout         !< output unit number
 !-----------------------------------------------
 !   L o c a l   V a r i a b l e s
 !-----------------------------------------------
-      integer :: failip
-      real(kind=WP) :: epsd,s,dc,pthk
-      logical :: is_available,is_encrypted
+          integer :: failip
+          real(kind=WP) :: epsd,s,dc,pthk
+          logical :: is_available,is_encrypted
 !-----------------------------------------------
 !   S o u r c e   L i n e s
 !-----------------------------------------------
-      is_encrypted = .false.
-      is_available = .false.
+          is_encrypted = .false.
+          is_available = .false.
 !----------------------------------------------------------------
-      call hm_option_is_encrypted(is_encrypted)
+          call hm_option_is_encrypted(is_encrypted)
 !----------------------------------------------------------------
-      !< Lemaitre damage model parameters
-      call hm_get_floatv('FAIL_EPSD'  ,epsd   ,is_available,lsubmodel,unitab)
-      call hm_get_floatv('FAIL_S'     ,s      ,is_available,lsubmodel,unitab)
-      call hm_get_floatv('FAIL_DC'    ,dc     ,is_available,lsubmodel,unitab)
-      call hm_get_intv  ('FAILIP'     ,failip ,is_available,lsubmodel)
-      call hm_get_floatv('P_thickfail',pthk   ,is_available,lsubmodel,unitab)
+          !< Lemaitre damage model parameters
+          call hm_get_floatv('FAIL_EPSD'  ,epsd   ,is_available,lsubmodel,unitab)
+          call hm_get_floatv('FAIL_S'     ,s      ,is_available,lsubmodel,unitab)
+          call hm_get_floatv('FAIL_DC'    ,dc     ,is_available,lsubmodel,unitab)
+          call hm_get_intv  ('FAILIP'     ,failip ,is_available,lsubmodel)
+          call hm_get_floatv('P_thickfail',pthk   ,is_available,lsubmodel,unitab)
 !--------------------------
-      !< Check values and set default values
-      if (epsd == zero) epsd = infinity
-      if (s    == zero) s = infinity
-      dc = max(dc,zero)
-      dc = min(dc, one)
-      if (dc   == zero) dc = one 
-      failip = max(failip,1)
-      pthk = max(pthk,-one)
-      pthk = min(pthk, one)
-      if (pthk == zero) pthk = one
+          !< Check values and set default values
+          if (epsd == zero) epsd = infinity
+          if (s    == zero) s = infinity
+          dc = max(dc,zero)
+          dc = min(dc, one)
+          if (dc   == zero) dc = one
+          failip = max(failip,1)
+          pthk = max(pthk,-one)
+          pthk = min(pthk, one)
+          if (pthk == zero) pthk = one
 !--------------------------
 !     Filling buffer tables
-!--------------------------   
-      !< Failure tables size
-      fail%keyword = 'LEMAITRE' 
-      fail%irupt   = irupt 
-      fail%fail_id = fail_id 
-      fail%niparam = 1
-      fail%nuparam = 3
-      fail%nuvar   = 0
-      fail%nfunc   = 0
-      fail%ntable  = 0
-      fail%nmod    = 0
-      fail%pthk    = pthk
-!      
-      !< Allocation of failure parameters tables      
-      allocate (fail%iparam(fail%niparam))
-      allocate (fail%uparam(fail%nuparam))
+!--------------------------
+          !< Failure tables size
+          fail%keyword = 'LEMAITRE'
+          fail%irupt   = irupt
+          fail%fail_id = fail_id
+          fail%niparam = 1
+          fail%nuparam = 3
+          fail%nuvar   = 0
+          fail%nfunc   = 0
+          fail%ntable  = 0
+          fail%nmod    = 0
+          fail%pthk    = pthk
 !
-      !< Integer material parameter
-      fail%iparam(1) = failip
-!      
-      !< Real material parameters
-      fail%uparam(1) = epsd
-      fail%uparam(2) = s
-      fail%uparam(3) = dc
+          !< Allocation of failure parameters tables
+          allocate (fail%iparam(fail%niparam))
+          allocate (fail%uparam(fail%nuparam))
+!
+          !< Integer material parameter
+          fail%iparam(1) = failip
+!
+          !< Real material parameters
+          fail%uparam(1) = epsd
+          fail%uparam(2) = s
+          fail%uparam(3) = dc
 !
 !--------------------------
 !     Parameters printout
 !--------------------------
-      if (is_encrypted)then
-        write(iout,'(5X,A,//)')'CONFIDENTIAL DATA'
-      else       
-        write(iout, 1000) epsd,s,dc
-        write(iout, 1100) pthk,failip 
-      endif
+          if (is_encrypted)then
+            write(iout,'(5X,A,//)')'CONFIDENTIAL DATA'
+          else
+            write(iout, 1000) epsd,s,dc
+            write(iout, 1100) pthk,failip
+          endif
 !---------------------------
- 1000 format(/                                                                 &
-     & 5X,'---------------------------------------------------------',/,       &
-     & 5X,'     LEMAITRE CONTINUUM DAMAGE MECHANICS (CDM) MODEL     ',/,       &
-     & 5X,'---------------------------------------------------------',/,       & 
-     & 5X,'                                                         ',/,       &
-     & 5X,'DAMAGE SOFTENING PARAMETERS:                             ',/,       &
-     & 5X,'----------------------------                             ',/,       &
-     & 5X,'EFFECTIVE PLASTIC STRAIN THRESHOLD (EPSD). . . . . . . .=',1pg20.13/&
-     & 5X,'SOFTENING PARAMETER (S). . . . . . . . . . . . . . . . .=',1pg20.13/&
-     & 5X,'CRITICAL DAMAGE AT FAILURE (DC). . . . . . . . . . . . .=',1pg20.13/)
- 1100 format(/                                                                 &
-     & 5X,'ELEMENT DELETION:                                        ',/,       &
-     & 5X,'-----------------                                        ',/,       &
-     & 5X,'SHELL ELEMENT DELETION PARAMETER PTHICKFAIL. . . . . . .=',1pg20.13/&
-     & 5X,'   > 0.0: FRACTION OF FAILED THICKNESS                   ',/,       &
-     & 5X,'   < 0.0: FRACTION OF FAILED INTG. POINTS                ',/,       &
-     & 5X,'NUMBER OF FAILED INTG. POINTS PRIOR TO ELEM DELETION . .=',i10/)    
-!    
-      end subroutine hm_read_fail_lemaitre
+1000      format(/                                                                 &
+          & 5X,'---------------------------------------------------------',/,       &
+          & 5X,'     LEMAITRE CONTINUUM DAMAGE MECHANICS (CDM) MODEL     ',/,       &
+          & 5X,'---------------------------------------------------------',/,       &
+          & 5X,'                                                         ',/,       &
+          & 5X,'DAMAGE SOFTENING PARAMETERS:                             ',/,       &
+          & 5X,'----------------------------                             ',/,       &
+          & 5X,'EFFECTIVE PLASTIC STRAIN THRESHOLD (EPSD). . . . . . . .=',1pg20.13/&
+          & 5X,'SOFTENING PARAMETER (S). . . . . . . . . . . . . . . . .=',1pg20.13/&
+          & 5X,'CRITICAL DAMAGE AT FAILURE (DC). . . . . . . . . . . . .=',1pg20.13/)
+1100      format(/                                                                 &
+          & 5X,'ELEMENT DELETION:                                        ',/,       &
+          & 5X,'-----------------                                        ',/,       &
+          & 5X,'SHELL ELEMENT DELETION PARAMETER PTHICKFAIL. . . . . . .=',1pg20.13/&
+          & 5X,'   > 0.0: FRACTION OF FAILED THICKNESS                   ',/,       &
+          & 5X,'   < 0.0: FRACTION OF FAILED INTG. POINTS                ',/,       &
+          & 5X,'NUMBER OF FAILED INTG. POINTS PRIOR TO ELEM DELETION . .=',i10/)
+!
+        end subroutine hm_read_fail_lemaitre
       end module hm_read_fail_lemaitre_mod

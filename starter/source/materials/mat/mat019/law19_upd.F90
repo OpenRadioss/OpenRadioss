@@ -26,7 +26,7 @@
 !||    updmat          ../starter/source/materials/updmat.F
 !||====================================================================
       module law19_upd_mod
-      implicit none
+        implicit none
       contains
 
 ! ======================================================================================================================
@@ -44,41 +44,41 @@
 !||--- uses       -----------------------------------------------------
 !||    message_mod        ../starter/share/message_module/message_mod.F
 !||====================================================================
-      subroutine law19_upd(mat_param,sensors)
+        subroutine law19_upd(mat_param,sensors)
 
 !-----------------------------------------------
 !     M o d u l e s
 !-----------------------------------------------
-      use matparam_def_mod
-      use sensor_mod
-      use message_mod   
+          use matparam_def_mod
+          use sensor_mod
+          use message_mod
 ! ----------------------------------------------------------------------------------------------------------------------
           implicit none
 !-----------------------------------------------
 !     D u m m y   A r g u m e n t s
 !-----------------------------------------------
-      type (matparam_struct_) ,intent(inout) :: mat_param  !< material law parameter module
-      type (sensors_)         ,intent(in)    :: sensors    !< sensor structure
+          type (matparam_struct_) ,intent(inout) :: mat_param  !< material law parameter module
+          type (sensors_)         ,intent(in)    :: sensors    !< sensor structure
 !-----------------------------------------------
 !     L o c a l   V a r i a b l e s
 !-----------------------------------------------
-      integer :: i,isens,sens_id
+          integer :: i,isens,sens_id
 !=======================================================================
-      sens_id = mat_param%iparam(1)
-      isens   = 0
-      if (sens_id > 0) then
-        do i=1,sensors%nsensor
-          if (sens_id == sensors%sensor_tab(i)%sens_id) then
-            isens = i
-            exit
+          sens_id = mat_param%iparam(1)
+          isens   = 0
+          if (sens_id > 0) then
+            do i=1,sensors%nsensor
+              if (sens_id == sensors%sensor_tab(i)%sens_id) then
+                isens = i
+                exit
+              end if
+            enddo
+            if (isens == 0)                                               &
+              call ancmsg(msgid=1240,anmode=aninfo,msgtype=msgwarning,    &
+              i1=mat_param%mat_id,c1=mat_param%title,i2=isens)
           end if
-        enddo
-        if (isens == 0)                                               &
-          call ancmsg(msgid=1240,anmode=aninfo,msgtype=msgwarning,    &
-                i1=mat_param%mat_id,c1=mat_param%title,i2=isens) 
-      end if
-      mat_param%iparam(1) = isens
+          mat_param%iparam(1) = isens
 !-----------
-      return
-      end subroutine law19_upd
+          return
+        end subroutine law19_upd
       end module law19_upd_mod

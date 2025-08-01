@@ -20,9 +20,9 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-module checksum_check_mod
+      module checksum_check_mod
 
-    contains
+      contains
 !! \brief Grab all checksums from execution directory & write them in output file.
 !! \details All checksums from .out, Animation & TimeHistory are grabbed.
 !||====================================================================
@@ -35,68 +35,68 @@ module checksum_check_mod
 !||--- uses       -----------------------------------------------------
 !||    file_descriptor_mod   ../starter/source/modules/file_descriptor_mod.F90
 !||====================================================================
-       subroutine checksum_check(rootname,PATH,cpunam,archtitle,iresp)
+        subroutine checksum_check(rootname,PATH,cpunam,archtitle,iresp)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
-        use file_descriptor_mod
+          use file_descriptor_mod
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
-        implicit none
+          implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
-        character(len=80), intent(in)   :: rootname
-        character(len=2048), intent(in) :: path
-        integer, intent(in)             :: iresp    ! single or double precision
-        character(len=20),intent(in)    :: cpunam
-        character(len=66),intent(in)    :: archtitle 
-! ----------------------------------------------------------------------------------------------------------------------     
+          character(len=80), intent(in)   :: rootname
+          character(len=2048), intent(in) :: path
+          integer, intent(in)             :: iresp    ! single or double precision
+          character(len=20),intent(in)    :: cpunam
+          character(len=66),intent(in)    :: archtitle
+! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-        ! Variables for get_file_name_info
-        integer :: lenp    ! path length
-        integer :: lenr    ! length deck rootname
-        ! Checksum output file
-        character(len=2048) :: checksum_file
-        character(len=2028) :: titl_filename
-        character(len=4) :: runn    ! run nummber
+          ! Variables for get_file_name_info
+          integer :: lenp    ! path length
+          integer :: lenr    ! length deck rootname
+          ! Checksum output file
+          character(len=2048) :: checksum_file
+          character(len=2028) :: titl_filename
+          character(len=4) :: runn    ! run nummber
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
-        titl_filename=''
-        checksum_file=''
-        runn='0000'
-        lenr=len_trim(rootname)
+          titl_filename=''
+          checksum_file=''
+          runn='0000'
+          lenr=len_trim(rootname)
 
-        call  radioss_title(istdo,cpunam,archtitle,rootname,len_trim(rootname),runn,iresp,1)
-        write(istdo,'(A)')' .. CHECKSUMS FROM INPUT DECK AND RESULT FILES'
+          call  radioss_title(istdo,cpunam,archtitle,rootname,len_trim(rootname),runn,iresp,1)
+          write(istdo,'(A)')' .. CHECKSUMS FROM INPUT DECK AND RESULT FILES'
 
-        ! Open checksum file
-        checksum_file  = trim(rootname)//'.report'
-        open(unit=fchecksum,file=trim(checksum_file),access='sequential',form='formatted',status='unknown')
+          ! Open checksum file
+          checksum_file  = trim(rootname)//'.report'
+          open(unit=fchecksum,file=trim(checksum_file),access='sequential',form='formatted',status='unknown')
 
-        ! Write checksum file header
-        call  radioss_title(fchecksum,cpunam,archtitle,rootname,len_trim(rootname),runn,iresp,1)
+          ! Write checksum file header
+          call  radioss_title(fchecksum,cpunam,archtitle,rootname,len_trim(rootname),runn,iresp,1)
 
-        write(fchecksum,'(A)')' '
-        write(fchecksum,'(A)')'    DECK AND OUTPUT CHECKSUM REPORT'
-        write(fchecksum,'(A)')'    -------------------------------'
-        write(fchecksum,'(A)')'    ROOTNAME. . . . . . . . . . . . .     '//trim(rootname)
-        write(fchecksum,'(A)')'    DIRECTORY . . . . . . . . . . . .     '//trim(path)
-        write(fchecksum,'(A)')' '
+          write(fchecksum,'(A)')' '
+          write(fchecksum,'(A)')'    DECK AND OUTPUT CHECKSUM REPORT'
+          write(fchecksum,'(A)')'    -------------------------------'
+          write(fchecksum,'(A)')'    ROOTNAME. . . . . . . . . . . . .     '//trim(rootname)
+          write(fchecksum,'(A)')'    DIRECTORY . . . . . . . . . . . .     '//trim(path)
+          write(fchecksum,'(A)')' '
 
-        lenp=len_trim(path)
-        call grab_checksums(fchecksum,rootname,lenr,path,lenp);
+          lenp=len_trim(path)
+          call grab_checksums(fchecksum,rootname,lenr,path,lenp);
 
-        close(unit=fchecksum)
+          close(unit=fchecksum)
 
-        ! Write output file footer
-        write(istdo,'(A)')' .. DONE'
-        write(istdo,'(A)')'------------------------------------------------------------------------'
-        write(istdo,'(A)')' '
-        write(istdo,'(A)')'    CHECKSUMS ARE WRITTEN IN '//trim(checksum_file)
-        write(istdo,'(A)')' '       
-       end subroutine checksum_check
-end module checksum_check_mod
+          ! Write output file footer
+          write(istdo,'(A)')' .. DONE'
+          write(istdo,'(A)')'------------------------------------------------------------------------'
+          write(istdo,'(A)')' '
+          write(istdo,'(A)')'    CHECKSUMS ARE WRITTEN IN '//trim(checksum_file)
+          write(istdo,'(A)')' '
+        end subroutine checksum_check
+      end module checksum_check_mod

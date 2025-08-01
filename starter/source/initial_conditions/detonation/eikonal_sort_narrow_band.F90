@@ -80,4 +80,4 @@
           deallocate(itmp)
         end subroutine eikonal_sort_narrow_band
 ! ----------------------------------------------------------------------------------------------------------------------
-        end module eikonal_sort_narrow_band_mod
+      end module eikonal_sort_narrow_band_mod

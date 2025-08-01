@@ -26,7 +26,7 @@
 !||    lectur                  ../starter/source/starter/lectur.F
 !||====================================================================
       module read_funct_python_mod
-      implicit none
+        implicit none
       contains
 !||====================================================================
 !||    array_to_string        ../starter/source/tools/curve/hm_read_funct_python.F90

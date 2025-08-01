@@ -42,53 +42,53 @@
 !||    message_mod            ../starter/share/message_module/message_mod.F
 !||    table_mod              ../starter/share/modules1/table_mod.F
 !||====================================================================
-      SUBROUTINE EOSFUN_USR2SYS(TITR, EOS_ID, NFUNC  ,IFUNC  ,FUNC_ID, NFUNCT  )
+        SUBROUTINE EOSFUN_USR2SYS(TITR, EOS_ID, NFUNC  ,IFUNC  ,FUNC_ID, NFUNCT  )
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
-      USE MESSAGE_MOD
-      USE TABLE_MOD
-      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
+          USE MESSAGE_MOD
+          USE TABLE_MOD
+          USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit None
 ! ----------------------------------------------------------------------------------------------------------------------
-      IMPLICIT NONE
+          IMPLICIT NONE
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
-      INTEGER,INTENT(IN) :: NFUNCT !< number of /FUNCT
-      INTEGER,INTENT(IN) :: EOS_ID !< EoS id
-      INTEGER,INTENT(IN) :: NFUNC !< number of function to convert (uder id -> internal id)
-      INTEGER, DIMENSION(NFUNC),INTENT(INOUT) :: IFUNC !< array of function identifiers to convert
-      INTEGER,INTENT(IN), DIMENSION(NFUNCT) :: FUNC_ID !< data structure for /FUNCT
-      CHARACTER(LEN=NCHARTITLE),INTENT(IN) :: TITR !< EoS title
+          INTEGER,INTENT(IN) :: NFUNCT !< number of /FUNCT
+          INTEGER,INTENT(IN) :: EOS_ID !< EoS id
+          INTEGER,INTENT(IN) :: NFUNC !< number of function to convert (uder id -> internal id)
+          INTEGER, DIMENSION(NFUNC),INTENT(INOUT) :: IFUNC !< array of function identifiers to convert
+          INTEGER,INTENT(IN), DIMENSION(NFUNCT) :: FUNC_ID !< data structure for /FUNCT
+          CHARACTER(LEN=NCHARTITLE),INTENT(IN) :: TITR !< EoS title
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Variables
 ! ----------------------------------------------------------------------------------------------------------------------
-      INTEGER :: I,J,ID,OK
+          INTEGER :: I,J,ID,OK
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
-      DO I=1,NFUNC                           
-        ID = IFUNC(I)
-        OK = 0
-        IF (ID > 0) THEN
-          DO J=1,NFUNCT     ! total number of functions                   
-           IF (ID == FUNC_ID(J)) THEN           
-              IFUNC(I) = J
-              OK = 1
-              EXIT                            
-            ENDIF                              
-          ENDDO                                
-          IF (OK == 0) THEN
-            !eos error with function identifier
-            CALL ANCMSG(MSGID=135,MSGTYPE=MSGERROR,ANMODE=ANINFO_BLIND_1,I1=EOS_ID,C1=TITR,I2=ID)
-          ENDIF                                 
-        ENDIF                                 
-      ENDDO  ! I=1,NFUNC 
+          DO I=1,NFUNC
+            ID = IFUNC(I)
+            OK = 0
+            IF (ID > 0) THEN
+              DO J=1,NFUNCT     ! total number of functions
+                IF (ID == FUNC_ID(J)) THEN
+                  IFUNC(I) = J
+                  OK = 1
+                  EXIT
+                ENDIF
+              ENDDO
+              IF (OK == 0) THEN
+                !eos error with function identifier
+                CALL ANCMSG(MSGID=135,MSGTYPE=MSGERROR,ANMODE=ANINFO_BLIND_1,I1=EOS_ID,C1=TITR,I2=ID)
+              ENDIF
+            ENDIF
+          ENDDO  ! I=1,NFUNC
 
-      RETURN
-      END SUBROUTINE EOSFUN_USR2SYS
+          RETURN
+        END SUBROUTINE EOSFUN_USR2SYS
 ! ----------------------------------------------------------------------------------------------------------------------
-      
+
       END MODULE EOSFUN_USR2SYS_MOD

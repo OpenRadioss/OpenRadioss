@@ -73,4 +73,4 @@
           n_queue = n_queue - 1
         end subroutine eikonal_remove_first
 ! ----------------------------------------------------------------------------------------------------------------------
-        end module eikonal_remove_first_mod
+      end module eikonal_remove_first_mod

@@ -46,59 +46,59 @@
 !||    cinit3          ../starter/source/elements/shell/coque/cinit3.F
 !||--- uses       -----------------------------------------------------
 !||====================================================================
-      subroutine initemp_shell(                                                     &
-                 elbuf_str, temp  ,nel ,numnod ,numsh  ,nshnod ,nix  ,ix   )
+        subroutine initemp_shell(                                                     &
+          elbuf_str, temp  ,nel ,numnod ,numsh  ,nshnod ,nix  ,ix   )
 !-----------------------------------------------
 !   M o d u l e s
 !-----------------------------------------------
-      use elbufdef_mod
-      use constant_mod, only : zero
-      use precision_mod, only : WP
+          use elbufdef_mod
+          use constant_mod, only : zero
+          use precision_mod, only : WP
 !============================================================================
-      implicit none
+          implicit none
 ! ----------------------------------------------------------------------------------------
 !     Included files
 ! ----------------------------------------------------------------------------------------
 ! ----------------------------------------------------------------------------------------
 !   D u m m y   A r g u m e n t s
 !-----------------------------------------------
-      integer ,intent(in) :: numnod
-      integer ,intent(in) :: nshnod
-      integer ,intent(in) :: nel
-      integer ,intent(in) :: nix
-      integer ,intent(in) :: numsh
-      integer ,dimension(nix,numsh) ,intent(in)    :: ix   
-      real(kind=WP) ,dimension(numnod)    ,intent(in)    :: temp
-      type(elbuf_struct_)           ,intent(inout) :: elbuf_str
+          integer ,intent(in) :: numnod
+          integer ,intent(in) :: nshnod
+          integer ,intent(in) :: nel
+          integer ,intent(in) :: nix
+          integer ,intent(in) :: numsh
+          integer ,dimension(nix,numsh) ,intent(in)    :: ix
+          real(kind=WP) ,dimension(numnod)    ,intent(in)    :: temp
+          type(elbuf_struct_)           ,intent(inout) :: elbuf_str
 !-----------------------------------------------
 !   L o c a l   V a r i a b l e s
 !-----------------------------------------------
-      integer :: i,j,ilay,ir,is,it
-      real(kind=WP) ,dimension(nel) :: tempel
+          integer :: i,j,ilay,ir,is,it
+          real(kind=WP) ,dimension(nel) :: tempel
 !=========================================================================================
-      ! calculate mean element temperature from nodal temperature   
-      tempel(1:nel) = zero
-      do j = 1,nshnod
-        do i = 1,nel
-          tempel(i) = tempel(i) + temp(ix(j+1,i)) / nshnod
-        end do
-      end do
-!
-      !  distribute element temperature to integration points  
-!
-      do ilay=1,elbuf_str%nlay
-        if (elbuf_str%bufly(ilay)%l_temp > 0) then
-          do ir=1,elbuf_str%nptr
-            do is=1,elbuf_str%npts
-              do it=1,elbuf_str%bufly(ilay)%nptt
-                elbuf_str%bufly(ilay)%lbuf(ir,is,it)%temp(1:nel) = tempel(1:nel)
-              end do
+          ! calculate mean element temperature from nodal temperature
+          tempel(1:nel) = zero
+          do j = 1,nshnod
+            do i = 1,nel
+              tempel(i) = tempel(i) + temp(ix(j+1,i)) / nshnod
             end do
           end do
-        end if
-      end do
+!
+          !  distribute element temperature to integration points
+!
+          do ilay=1,elbuf_str%nlay
+            if (elbuf_str%bufly(ilay)%l_temp > 0) then
+              do ir=1,elbuf_str%nptr
+                do is=1,elbuf_str%npts
+                  do it=1,elbuf_str%bufly(ilay)%nptt
+                    elbuf_str%bufly(ilay)%lbuf(ir,is,it)%temp(1:nel) = tempel(1:nel)
+                  end do
+                end do
+              end do
+            end if
+          end do
 !-----------
-      return
-      end  subroutine initemp_shell      
-      end  module initemp_shell_mod      
+          return
+        end  subroutine initemp_shell
+      end  module initemp_shell_mod
 

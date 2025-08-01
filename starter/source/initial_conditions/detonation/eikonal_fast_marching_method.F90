@@ -53,9 +53,9 @@
 !||    eikonal_sort_narrow_band_mod     ../starter/source/initial_conditions/detonation/eikonal_sort_narrow_band.F90
 !||====================================================================
         subroutine eikonal_fast_marching_method(&
-                                     ix,nix,numel,x,numnod, &
-                                     elbuf_tab,ngroup,nparg,iparg,ale_connectivity,npropm,nummat,pm,&
-                                     detonators, idet, nvois, nod2el, knod2el, npropmi, ipm)
+          ix,nix,numel,x,numnod, &
+          elbuf_tab,ngroup,nparg,iparg,ale_connectivity,npropm,nummat,pm,&
+          detonators, idet, nvois, nod2el, knod2el, npropmi, ipm)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -141,234 +141,234 @@
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
 
-         mat_det = detonators%point(idet)%mat
+          mat_det = detonators%point(idet)%mat
 
-         !numbering
-         neldet = 0
-         do ng=1,ngroup
-           mlw = iparg(1,ng)
-           nel = iparg(2,ng)
-           nft = iparg(3,ng)
-           ity = iparg(5,ng)
-           mid = ix(1,nft+1)
-           ishadow = nint(pm(96,mid))
-           if(ishadow == 0)cycle
-           if(ity == 1 .or. ity == 2 .or. ity == 7)then
-             if(mlw == 5 .or. mlw == 97 .or. mlw == 51 .or. mlw == 151)then
-               if(mat_det == 0 .or. ix(1,nft+1) == mat_det)then
-                 neldet = neldet + nel
+          !numbering
+          neldet = 0
+          do ng=1,ngroup
+            mlw = iparg(1,ng)
+            nel = iparg(2,ng)
+            nft = iparg(3,ng)
+            ity = iparg(5,ng)
+            mid = ix(1,nft+1)
+            ishadow = nint(pm(96,mid))
+            if(ishadow == 0)cycle
+            if(ity == 1 .or. ity == 2 .or. ity == 7)then
+              if(mlw == 5 .or. mlw == 97 .or. mlw == 51 .or. mlw == 151)then
+                if(mat_det == 0 .or. ix(1,nft+1) == mat_det)then
+                  neldet = neldet + nel
                 end if
-             end if
-           endif
-         enddo
+              end if
+            endif
+          enddo
 
-         ! size neldet
-         allocate(elem_list(neldet)) ; elem_list(:) = 0
-         allocate(idx_ng(neldet))    ; idx_ng(:) = 0
-         allocate(idx_i(neldet))     ; idx_i(:) = 0
-         allocate(updown(neldet))    ; updown(:) = -1
-         allocate(tdet(neldet))      ; tdet(:) = ep21
-         allocate(vel(neldet))       ; vel(:) = ep20 !lowest chosen for stability
-         allocate(Xel(3,neldet))     ; Xel(:,:) = zero
-         allocate(priority_queue_id(neldet)) ; priority_queue_id(:) = 0
-         allocate(priority_queue_tt(neldet)) ; priority_queue_tt(:) = ep21
+          ! size neldet
+          allocate(elem_list(neldet)) ; elem_list(:) = 0
+          allocate(idx_ng(neldet))    ; idx_ng(:) = 0
+          allocate(idx_i(neldet))     ; idx_i(:) = 0
+          allocate(updown(neldet))    ; updown(:) = -1
+          allocate(tdet(neldet))      ; tdet(:) = ep21
+          allocate(vel(neldet))       ; vel(:) = ep20 !lowest chosen for stability
+          allocate(Xel(3,neldet))     ; Xel(:,:) = zero
+          allocate(priority_queue_id(neldet)) ; priority_queue_id(:) = 0
+          allocate(priority_queue_tt(neldet)) ; priority_queue_tt(:) = ep21
 
-         ! size numel
-         allocate(elem_list_bij(numel)) ; elem_list_bij = 0
+          ! size numel
+          allocate(elem_list_bij(numel)) ; elem_list_bij = 0
 
-         ! list of relevant centroids
-         !   and group id and local id in this group : elem_list(k) -> (idx_ng(k), idx_i(k))   ! used to set burning time ELBUF_TAB(NG)MGBUF%TB(I)
-         neldet = 0
-         iad1 = neldet + 1
-         lgth = 0
-         do ng=1,ngroup
-           multimat_id = 0
-           mlw = iparg(1,ng)
-           nel = iparg(2,ng)
-           nft = iparg(3,ng)
-           ity = iparg(5,ng)
-           mid = ix(1,nft+1)
-           ishadow = nint(pm(96,mid))
-           if(ishadow == 0)cycle
-           if(ity /=1 .and. ity /= 2 .and. ity /= 7)cycle
-           if(mid /= mat_det .and. mat_det /= 0)cycle
-           Dcj = pm(38,mid)
-           if(mlw == 51)then
-             multimat_id = 51
-           elseif(mlw == 151)then
-             multimat_id = 151
-           elseif(mlw /= 5 .and. mlw /= 97)then
-             cycle
-           endif
-           if(ity == 2)then
-             fac = fourth
-           elseif(ity == 7)then
-             fac = third
-           else !ity == 1
-             fac = one_over_8
-           end if
-           if(nvois < 6)then !2d
-             do i=1,nel
-               !building list
-               neldet = neldet + 1
-               lgth = lgth + 1
-               elem_list(neldet) = i+nft       ! elem_list     : [1..neldet] -> [1..numel]
-               idx_ng(neldet) = ng
-               idx_i(neldet) = i
-               elem_list_bij(i+nft) = neldet   ! elem_list_inv : [1..numel] -> [1..neldet]
-               !centroid coordinates
-               inod(1:nvois) = ix(2:nvois+1, i+nft)
-               xel(1, neldet) = zero ! x-center
-               xel(2, neldet) = fac * sum(x(2,inod(1:nvois))) ! y-center
-               xel(3, neldet) = fac * sum(x(3,inod(1:nvois))) ! z-center
-               !medium velocity
-               vel(neldet) = Dcj ! chapman jouget velocity
-             enddo
-           else ! 3d
-             do i=1,nel
-               !building list
-               neldet = neldet + 1
-               lgth = lgth + 1
-               elem_list(neldet) = i+nft       ! elem_list     : [1..neldet] -> [1..numel]
-               idx_ng(neldet) = ng
-               idx_i(neldet) = i
-               elem_list_bij(i+nft) = neldet   ! elem_list_inv : [1..numel] -> [1..neldet]
-               !centroid coordinates
-               inod(1:8) = ix(2:9, i+nft)
-               xel(1, neldet) = fac * sum(x(1,inod(1:8))) ! x-center
-               xel(2, neldet) = fac * sum(x(2,inod(1:8))) ! y-center
-               xel(3, neldet) = fac * sum(x(3,inod(1:8))) ! z-center
-               !medium velocity
-               vel(neldet) = Dcj ! chapman jouget velocity
-             enddo
-           end if
-           if(multimat_id /= 0)then
-             ! Dcj not initialized for multimaterial law
-             ! it has no sens since there is a possible mixture
-             call eikonal_init_mixture_vel(lgth,vel(iad1),idx_ng(iad1),idx_i(iad1),multimat_id,mid,&
-                                           ngroup,nummat,npropm,pm,npropmi,ipm,elbuf_tab, &
-                                           nparg, iparg)
-             iad1 = neldet + 1
-             lgth = 0
-           end if
-         enddo
+          ! list of relevant centroids
+          !   and group id and local id in this group : elem_list(k) -> (idx_ng(k), idx_i(k))   ! used to set burning time ELBUF_TAB(NG)MGBUF%TB(I)
+          neldet = 0
+          iad1 = neldet + 1
+          lgth = 0
+          do ng=1,ngroup
+            multimat_id = 0
+            mlw = iparg(1,ng)
+            nel = iparg(2,ng)
+            nft = iparg(3,ng)
+            ity = iparg(5,ng)
+            mid = ix(1,nft+1)
+            ishadow = nint(pm(96,mid))
+            if(ishadow == 0)cycle
+            if(ity /=1 .and. ity /= 2 .and. ity /= 7)cycle
+            if(mid /= mat_det .and. mat_det /= 0)cycle
+            Dcj = pm(38,mid)
+            if(mlw == 51)then
+              multimat_id = 51
+            elseif(mlw == 151)then
+              multimat_id = 151
+            elseif(mlw /= 5 .and. mlw /= 97)then
+              cycle
+            endif
+            if(ity == 2)then
+              fac = fourth
+            elseif(ity == 7)then
+              fac = third
+            else !ity == 1
+              fac = one_over_8
+            end if
+            if(nvois < 6)then !2d
+              do i=1,nel
+                !building list
+                neldet = neldet + 1
+                lgth = lgth + 1
+                elem_list(neldet) = i+nft       ! elem_list     : [1..neldet] -> [1..numel]
+                idx_ng(neldet) = ng
+                idx_i(neldet) = i
+                elem_list_bij(i+nft) = neldet   ! elem_list_inv : [1..numel] -> [1..neldet]
+                !centroid coordinates
+                inod(1:nvois) = ix(2:nvois+1, i+nft)
+                xel(1, neldet) = zero ! x-center
+                xel(2, neldet) = fac * sum(x(2,inod(1:nvois))) ! y-center
+                xel(3, neldet) = fac * sum(x(3,inod(1:nvois))) ! z-center
+                !medium velocity
+                vel(neldet) = Dcj ! chapman jouget velocity
+              enddo
+            else ! 3d
+              do i=1,nel
+                !building list
+                neldet = neldet + 1
+                lgth = lgth + 1
+                elem_list(neldet) = i+nft       ! elem_list     : [1..neldet] -> [1..numel]
+                idx_ng(neldet) = ng
+                idx_i(neldet) = i
+                elem_list_bij(i+nft) = neldet   ! elem_list_inv : [1..numel] -> [1..neldet]
+                !centroid coordinates
+                inod(1:8) = ix(2:9, i+nft)
+                xel(1, neldet) = fac * sum(x(1,inod(1:8))) ! x-center
+                xel(2, neldet) = fac * sum(x(2,inod(1:8))) ! y-center
+                xel(3, neldet) = fac * sum(x(3,inod(1:8))) ! z-center
+                !medium velocity
+                vel(neldet) = Dcj ! chapman jouget velocity
+              enddo
+            end if
+            if(multimat_id /= 0)then
+              ! Dcj not initialized for multimaterial law
+              ! it has no sens since there is a possible mixture
+              call eikonal_init_mixture_vel(lgth,vel(iad1),idx_ng(iad1),idx_i(iad1),multimat_id,mid,&
+                ngroup,nummat,npropm,pm,npropmi,ipm,elbuf_tab, &
+                nparg, iparg)
+              iad1 = neldet + 1
+              lgth = 0
+            end if
+          enddo
 
-         call eikonal_init_start_list_2d(nstart, start_elem_list, start_elem_tdet, detonators, numel, numnod, &
-                                         nvois, nod2el, knod2el, ale_connectivity, elem_list_bij, neldet, xel, x,&
-                                         nix, ix, mat_det, vel)
+          call eikonal_init_start_list_2d(nstart, start_elem_list, start_elem_tdet, detonators, numel, numnod, &
+            nvois, nod2el, knod2el, ale_connectivity, elem_list_bij, neldet, xel, x,&
+            nix, ix, mat_det, vel)
 
-         if(nstart == 0)then
-           !DEALLOCATE
-           if(allocated(start_elem_list))deallocate(start_elem_list)
-           if(allocated(start_elem_tdet))deallocate(start_elem_tdet)
-           if(allocated(elem_list))deallocate(elem_list)
-           if(allocated(idx_ng))deallocate(idx_ng)
-           if(allocated(idx_i))deallocate(idx_i)
-           if(allocated(updown))deallocate(updown)
-           if(allocated(tdet))deallocate(tdet)
-           if(allocated(vel))deallocate(vel)
-           if(allocated(Xel))deallocate(Xel)
-           if(allocated(priority_queue_id))deallocate(priority_queue_id)
-           if(allocated(priority_queue_tt))deallocate(priority_queue_tt)
-           if(allocated(elem_list_bij))deallocate(elem_list_bij)
-           return
-         end if
+          if(nstart == 0)then
+            !DEALLOCATE
+            if(allocated(start_elem_list))deallocate(start_elem_list)
+            if(allocated(start_elem_tdet))deallocate(start_elem_tdet)
+            if(allocated(elem_list))deallocate(elem_list)
+            if(allocated(idx_ng))deallocate(idx_ng)
+            if(allocated(idx_i))deallocate(idx_i)
+            if(allocated(updown))deallocate(updown)
+            if(allocated(tdet))deallocate(tdet)
+            if(allocated(vel))deallocate(vel)
+            if(allocated(Xel))deallocate(Xel)
+            if(allocated(priority_queue_id))deallocate(priority_queue_id)
+            if(allocated(priority_queue_tt))deallocate(priority_queue_tt)
+            if(allocated(elem_list_bij))deallocate(elem_list_bij)
+            return
+          end if
 
-         ! initial detonation locations
-         ! mark first upwind points (centroids)
-         do jj=1,nstart
-           updown(start_elem_list(jj)) = 1
-           tdet(start_elem_list(jj)) = start_elem_tdet(jj)
-         enddo ! next jj
+          ! initial detonation locations
+          ! mark first upwind points (centroids)
+          do jj=1,nstart
+            updown(start_elem_list(jj)) = 1
+            tdet(start_elem_list(jj)) = start_elem_tdet(jj)
+          enddo ! next jj
 
-         ! initial narrow band
-         !    mark first points in the narrow band (close)
-         !    by the way list their detonation time
-         n_queue = 0
-         do ii=1,neldet
-           if(updown(ii) == 1)then
-             !tag adjacent cells with updown -1
-             ie = elem_list(ii)
-             IAD1 = ALE_CONNECTIVITY%ee_connect%iad_connect(IE)
-             LGTH = ALE_CONNECTIVITY%ee_connect%iad_connect(IE+1) - IAD1
-             DO JJ=1,LGTH
-               IEV = ALE_CONNECTIVITY%ee_connect%connected(IAD1 + JJ - 1)
-               IF(IEV == 0)CYCLE
-               iel = elem_list_bij(iev)
-               if(updown(iel) == -1) then
-                 if(mat_det /= 0 .and. ix(1,iev) /= mat_det)cycle
-                 updown(iel) = 0
-                 n_queue = n_queue + 1
-                 s=max(vel(iel),vel(ie))
-                 s=one/s
-                 dx = xel(1,ie)-xel(1,iel)
-                 dy = xel(2,ie)-xel(2,iel)
-                 dz = xel(3,ie)-xel(3,iel)
-                 dl = sqrt(dx*dx + dy*dy + dz*dz)
-                 priority_queue_id(n_queue) = iel
-                 priority_queue_tt(n_queue) = tdet(ie) + dl*s
-                 tdet(iel) = priority_queue_tt(n_queue)
-               end if
-             ENDDO
-           end if
-         enddo ! next ii
-         call eikonal_sort_narrow_band(priority_queue_id,priority_queue_tt,n_queue)
+          ! initial narrow band
+          !    mark first points in the narrow band (close)
+          !    by the way list their detonation time
+          n_queue = 0
+          do ii=1,neldet
+            if(updown(ii) == 1)then
+              !tag adjacent cells with updown -1
+              ie = elem_list(ii)
+              IAD1 = ALE_CONNECTIVITY%ee_connect%iad_connect(IE)
+              LGTH = ALE_CONNECTIVITY%ee_connect%iad_connect(IE+1) - IAD1
+              DO JJ=1,LGTH
+                IEV = ALE_CONNECTIVITY%ee_connect%connected(IAD1 + JJ - 1)
+                IF(IEV == 0)CYCLE
+                iel = elem_list_bij(iev)
+                if(updown(iel) == -1) then
+                  if(mat_det /= 0 .and. ix(1,iev) /= mat_det)cycle
+                  updown(iel) = 0
+                  n_queue = n_queue + 1
+                  s=max(vel(iel),vel(ie))
+                  s=one/s
+                  dx = xel(1,ie)-xel(1,iel)
+                  dy = xel(2,ie)-xel(2,iel)
+                  dz = xel(3,ie)-xel(3,iel)
+                  dl = sqrt(dx*dx + dy*dy + dz*dz)
+                  priority_queue_id(n_queue) = iel
+                  priority_queue_tt(n_queue) = tdet(ie) + dl*s
+                  tdet(iel) = priority_queue_tt(n_queue)
+                end if
+              ENDDO
+            end if
+          enddo ! next ii
+          call eikonal_sort_narrow_band(priority_queue_id,priority_queue_tt,n_queue)
 
-         ! main loop -------------------------------------------------------------------------
-         ! FAST MARCHING ALGORIHTM
-         do while (n_queue > 0)
+          ! main loop -------------------------------------------------------------------------
+          ! FAST MARCHING ALGORIHTM
+          do while (n_queue > 0)
 
-           !freeze minimum
-           ie = priority_queue_id(1) ! list of  priority_queue_tt is already sorted
-           updown(ie) = 1
-           call eikonal_remove_first(priority_queue_id,priority_queue_tt,n_queue)
+            !freeze minimum
+            ie = priority_queue_id(1) ! list of  priority_queue_tt is already sorted
+            updown(ie) = 1
+            call eikonal_remove_first(priority_queue_id,priority_queue_tt,n_queue)
 
-           !compute adjacent (might be far)
-           call eikonal_compute_adjacent(ie, ALE_CONNECTIVITY,neldet, &
-                                           tdet,tdet_adj,vel,vel_adj,xel,xel_adj,numel,elem_list_bij, &
-                                           updown, num_new_activated, list_new_activated,  mat_det, &
-                                           nix,ix, nvois )
+            !compute adjacent (might be far)
+            call eikonal_compute_adjacent(ie, ALE_CONNECTIVITY,neldet, &
+              tdet,tdet_adj,vel,vel_adj,xel,xel_adj,numel,elem_list_bij, &
+              updown, num_new_activated, list_new_activated,  mat_det, &
+              nix,ix, nvois )
 
-           !we may init only updated tdet from previous call above
-           do ii=1,n_queue
-             priority_queue_tt(ii) = tdet(elem_list_bij(priority_queue_id(ii)))
-           end do
+            !we may init only updated tdet from previous call above
+            do ii=1,n_queue
+              priority_queue_tt(ii) = tdet(elem_list_bij(priority_queue_id(ii)))
+            end do
 
-           do ii=1,num_new_activated
-             n_queue = n_queue + 1
-             ie = list_new_activated(ii)
-             priority_queue_id(n_queue) = ie
-             priority_queue_tt(n_queue) = tdet(ie)
-           end do
+            do ii=1,num_new_activated
+              n_queue = n_queue + 1
+              ie = list_new_activated(ii)
+              priority_queue_id(n_queue) = ie
+              priority_queue_tt(n_queue) = tdet(ie)
+            end do
 
-           ! reorder priority queue
-           call eikonal_sort_narrow_band(priority_queue_id,priority_queue_tt,n_queue)
+            ! reorder priority queue
+            call eikonal_sort_narrow_band(priority_queue_id,priority_queue_tt,n_queue)
 
-         enddo !wend
-         ! end of main loop -------------------------------------------------------------------------
+          enddo !wend
+          ! end of main loop -------------------------------------------------------------------------
 
-         ! initialize element buffer (arrival times)
-         do ii=1,neldet
-           ng = idx_ng(ii)
-           i  = idx_i(ii)
-           tmp = -elbuf_tab(ng)%gbuf%tb(i)
-           tmp = min (tmp, tdet(ii))
-           elbuf_tab(ng)%gbuf%tb(i) = -tmp
-         end do
+          ! initialize element buffer (arrival times)
+          do ii=1,neldet
+            ng = idx_ng(ii)
+            i  = idx_i(ii)
+            tmp = -elbuf_tab(ng)%gbuf%tb(i)
+            tmp = min (tmp, tdet(ii))
+            elbuf_tab(ng)%gbuf%tb(i) = -tmp
+          end do
 
-         !DEALLOCATE
-         if(allocated(start_elem_list))deallocate(start_elem_list)
-         if(allocated(start_elem_tdet))deallocate(start_elem_tdet)
-         if(allocated(elem_list))deallocate(elem_list)
-         if(allocated(idx_ng))deallocate(idx_ng)
-         if(allocated(idx_i))deallocate(idx_i)
-         if(allocated(updown))deallocate(updown)
-         if(allocated(tdet))deallocate(tdet)
-         if(allocated(vel))deallocate(vel)
-         if(allocated(Xel))deallocate(Xel)
-         if(allocated(priority_queue_id))deallocate(priority_queue_id)
-         if(allocated(priority_queue_tt))deallocate(priority_queue_tt)
-         if(allocated(elem_list_bij))deallocate(elem_list_bij)
+          !DEALLOCATE
+          if(allocated(start_elem_list))deallocate(start_elem_list)
+          if(allocated(start_elem_tdet))deallocate(start_elem_tdet)
+          if(allocated(elem_list))deallocate(elem_list)
+          if(allocated(idx_ng))deallocate(idx_ng)
+          if(allocated(idx_i))deallocate(idx_i)
+          if(allocated(updown))deallocate(updown)
+          if(allocated(tdet))deallocate(tdet)
+          if(allocated(vel))deallocate(vel)
+          if(allocated(Xel))deallocate(Xel)
+          if(allocated(priority_queue_id))deallocate(priority_queue_id)
+          if(allocated(priority_queue_tt))deallocate(priority_queue_tt)
+          if(allocated(elem_list_bij))deallocate(elem_list_bij)
 
         end subroutine eikonal_fast_marching_method
 ! ----------------------------------------------------------------------------------------------------------------------
