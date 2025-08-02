@@ -244,6 +244,7 @@ c
 !||    my_exit                       ../starter/source/output/analyse/analyse.c
 !||    st_checksum_file_print        ../starter/source/output/checksum/checksum_option.F90
 !||--- uses       -----------------------------------------------------
+!||    checksum_starter_option_mod   ../starter/source/output/checksum/checksum_option.F90
 !||    message_mod                   ../starter/share/message_module/message_mod.F
 !||====================================================================
       SUBROUTINE F_ANEND(FILENAME,LEN_FILENAME,ROOTNAME,ROOTLEN,ENDDATE,ENDTIME,OUTPUT)

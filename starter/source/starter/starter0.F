@@ -64,6 +64,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    trace_in1                         ../starter/source/system/trace_back.F
 !||    trace_out1                        ../starter/source/system/trace_back.F
 !||--- uses       -----------------------------------------------------
+!||    checksum_check_mod                ../starter/source/output/checksum/checksum_check.F90
+!||    checksum_starter_option_mod       ../starter/source/output/checksum/checksum_option.F90
 !||    defaults_mod                      ../starter/source/modules/defaults_mod.F90
 !||    detonators_mod                    ../starter/share/modules1/detonators_mod.F
 !||    glob_therm_init_mod               ../starter/source/constraints/thermic/glob_therm_init.F90

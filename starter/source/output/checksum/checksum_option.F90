@@ -20,6 +20,17 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+!||====================================================================
+!||    checksum_starter_option_mod   ../starter/source/output/checksum/checksum_option.F90
+!||--- called by ------------------------------------------------------
+!||    ddsplit                       ../starter/source/restart/ddsplit/ddsplit.F
+!||    f_anend                       ../starter/source/output/analyse/analyse_arret.F
+!||    hm_read_prethgrou             ../starter/source/output/th/hm_read_prethgrou.F
+!||    hm_read_thchecksum            ../starter/source/output/th/hm_read_thchecksum.F90
+!||    hm_read_thgrou                ../starter/source/output/th/hm_read_thgrou.F
+!||    starter0                      ../starter/source/starter/starter0.F
+!||--- uses       -----------------------------------------------------
+!||====================================================================
       module checksum_starter_option_mod
         implicit none
 

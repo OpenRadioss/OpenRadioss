@@ -20,6 +20,11 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+!||====================================================================
+!||    hm_read_th_checksum_mod   ../starter/source/output/th/hm_read_thchecksum.F90
+!||--- called by ------------------------------------------------------
+!||    hm_read_thgrou            ../starter/source/output/th/hm_read_thgrou.F
+!||====================================================================
       module hm_read_th_checksum_mod
 
       contains
@@ -36,6 +41,7 @@
 !||    fretitl2                      ../starter/source/starter/freform.F
 !||    r2r_exist                     ../starter/source/coupling/rad2rad/routines_r2r.F
 !||--- uses       -----------------------------------------------------
+!||    checksum_starter_option_mod   ../starter/source/output/checksum/checksum_option.F90
 !||    file_descriptor_mod           ../starter/source/modules/file_descriptor_mod.F90
 !||    format_mod                    ../starter/share/modules1/format_mod.F90
 !||    hm_option_read_mod            ../starter/share/modules1/hm_option_read_mod.F

@@ -48,7 +48,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    usr2sys                       ../starter/source/system/sysfus.F
 !||    write_thnms1                  ../starter/source/output/th/write_thnms1.F90
 !||--- uses       -----------------------------------------------------
+!||    checksum_starter_option_mod   ../starter/source/output/checksum/checksum_option.F90
 !||    hm_option_read_mod            ../starter/share/modules1/hm_option_read_mod.F
+!||    hm_read_th_checksum_mod       ../starter/source/output/th/hm_read_thchecksum.F90
 !||    mapping_option_mod            ../starter/share/modules1/dichotomy_mod.F
 !||    message_mod                   ../starter/share/message_module/message_mod.F
 !||    monvol_struct_mod             ../starter/share/modules1/monvol_struct_mod.F

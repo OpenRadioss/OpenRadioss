@@ -30,6 +30,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    hm_option_read_key            ../starter/source/devtools/hm_reader/hm_option_read_key.F
 !||    hm_option_start               ../starter/source/devtools/hm_reader/hm_option_start.F
 !||--- uses       -----------------------------------------------------
+!||    checksum_starter_option_mod   ../starter/source/output/checksum/checksum_option.F90
 !||    hm_option_read_mod            ../starter/share/modules1/hm_option_read_mod.F
 !||    submodel_mod                  ../starter/share/modules1/submodel_mod.F
 !||====================================================================
