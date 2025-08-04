@@ -119,6 +119,10 @@ public: /**@name Creation*/
   virtual void addObjectArray(MvDomain_e domain,object_type_e otype,int ikw,const string &skw,const string &comment,
 		      attribute_type_e array_type,
                       const MvSizeVector & sizeArrayVector)=0;
+    /// Add default values in STATIC array attribute
+  virtual void addValueArrayDefault(int ikeyword, int nb_row, int nb_col, double** values)=0;
+  /// Gets default array values in STATIC array attribute
+  virtual void getStaticArrayDefaultAttributeValue(int ikeyword, vector<vector<double>>& default_vect)=0;
   //@}
 
 public: /**@name Acces to descriptor*/
