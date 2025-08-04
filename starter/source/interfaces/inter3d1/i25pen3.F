@@ -79,12 +79,11 @@ C-----------------------------------------------
      .        FAR(MVSIZ,4), SUBTRIA(MVSIZ), I1, I2, ITRIA(2,4), JJ
       INTEGER IB1, IB2, IB3, IBX, IX, IY, IZ, NBORD, KBORD(MVSIZ)
       my_real
-     .   UNP,ZEROM,EPS,UNPT,ZEROMT,AAA,BB(MVSIZ,4)
+     .   AAA,BB(MVSIZ,4)
       my_real
      .     XIJ(MVSIZ,4),  XI0V(MVSIZ), 
      .     YIJ(MVSIZ,4),  YI0V(MVSIZ), 
      .     ZIJ(MVSIZ,4),  ZI0V(MVSIZ), 
-     .     LBH(MVSIZ,4), LCH(MVSIZ,4), LAH(MVSIZ,4), 
      .     DX, DY, DZ, DD(MVSIZ,4), 
      .     XP, YP, ZP,
      .     GAP_MM(MVSIZ), GAPV(MVSIZ,4), GAP2,NORM
@@ -94,12 +93,10 @@ C-----------------------------------------------
      .     SY1,SY2,SY3,SY4,
      .     SZ1,SZ2,SZ3,SZ4,
      .     X0N(MVSIZ,4), Y0N(MVSIZ,4), Z0N(MVSIZ,4), 
-     .     XN(MVSIZ,4),YN(MVSIZ,4),ZN(MVSIZ,4),HH(MVSIZ),
+     .     XN(MVSIZ,4),YN(MVSIZ,4),ZN(MVSIZ,4),
      .     SIDE(MVSIZ,4), 
      .     X12(MVSIZ), Y12(MVSIZ), Z12(MVSIZ), 
      .     PX, PY, PZ, PP, LL, NN, PN, VX, VY, VZ,
-     .     NY1, NY2, NY3, NY4,
-     .     NZ1, NZ2, NZ3, NZ4,
      .     XX(MVSIZ,5),YY(MVSIZ,5),ZZ(MVSIZ,5), 
      .     PENT(MVSIZ,4), DIST(MVSIZ), LB(MVSIZ,4), LC(MVSIZ,4),
      .     LAP, LBP(MVSIZ,4), LCP(MVSIZ,4), HLA, HLB(MVSIZ,4), HLC(MVSIZ,4),

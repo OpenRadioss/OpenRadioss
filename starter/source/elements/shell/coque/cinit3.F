@@ -672,10 +672,7 @@ C-----------------------------------------------
       my_real
      .   E1X(MVSIZ), E1Y(MVSIZ), E1Z(MVSIZ),
      .   E2X(MVSIZ), E2Y(MVSIZ), E2Z(MVSIZ),
-     .   E3X(MVSIZ), E3Y(MVSIZ), E3Z(MVSIZ),
-     .   X31(MVSIZ), Y31(MVSIZ), Z31(MVSIZ),
-     .   X42(MVSIZ), Y42(MVSIZ), Z42(MVSIZ),
-     .   X21(MVSIZ), Y21(MVSIZ), Z21(MVSIZ)
+     .   E3X(MVSIZ), E3Y(MVSIZ), E3Z(MVSIZ)
 C---------------------------------------------------------------
        DO I=JFT,JLT
          X1(I)=ZERO

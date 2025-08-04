@@ -111,17 +111,17 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NDX, I, J, INRT, NELS, MT, JJ, JJJ, NELC,
      .   MG, NUM, NPT, LL, L, NN, NELTG,N1,N2,N3,N4,IE,
-     .   IP, NLEV, MYLEV, K, P, R, T,IAD,NRT1,NRT2,NSHIF,
-     .   TAGB(NUMNOD),NS,IGTYP,NRTT,ISUBSTACK,IPL,IPFMAX,
+     .   IP, NLEV, MYLEV, K, P, R, T,NRT1,NRT2,NSHIF,
+     .   NS,IGTYP,NRTT,IPL,IPFMAX,
      .   IPFLMAX,NM,NEL,FC,PERM,NSHIFF,N,IPG
      
-      INTEGER JPERM(4) ,FACES(4,6),TAB1(4),TAB2(4),FACES10(3,16),FACES20(4,24)
+      INTEGER JPERM(4) ,FACES(4,6),TAB1(4),TAB2(4),FACES10(3,16)
 C     REAL
       my_real
      .   DXM, GAPMX, GAPMN, AREA, VOL, DX,GAPS1,GAPS2, GAPM, DDX, 
      .   GAPTMP, GAPSCALE,SX1,SY1,SZ1,SX2,SY2,SZ2,SX3,SY3,SZ3,
      .   SLSFAC,XL,GAPS_MN
-      INTEGER, DIMENSION(:),ALLOCATABLE ::TAGNOD
+      INTEGER, DIMENSION(:),ALLOCATABLE ::TAGNOD,TAGB
       DATA JPERM/2,3,4,1/
       DATA FACES/1,2,3,4,
      .           1,2,6,5,
@@ -170,6 +170,7 @@ C     NRT_SH nb of shells before symetrization, NRT nb of MAIN segments before s
 C------------------------------------
 C     GAP NOEUDS SECONDS
 C------------------------------------
+      ALLOCATE(TAGB(NUMNOD))
       DO I=1,NUMNOD
         WA(I)=ZERO
       ENDDO
@@ -940,8 +941,9 @@ C-------shell elements
        END DO
       END IF
 
+      DEALLOCATE(TAGB)
       RETURN
- 1300 FORMAT(2X,'GAP MIN = ',1PG20.13)
+
  1400 FORMAT(2X,'MIN,MAX OF SECONDARY GAP: ',2(1PG20.13))
  1500 FORMAT(2X,'MIN,MAX OF MAIN GAP: ',2(1PG20.13)/)
       END
@@ -976,11 +978,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER IY(4), N, JJ, II, K, NN, KK, IC, IAD,
+      INTEGER N, JJ, II, K, IC, IAD,
      .        NUSER, NUSERM
 C     REAL
-      my_real
-     .   N1, N2, N3, DDS
+
+
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
@@ -1152,15 +1154,14 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, INRT, NELS, MT, JJ, JJJ, NELC,
-     .   MG, NUM, NPT, LL, L, NN, NELTG,N1,N2,N3,N4,IE,
-     .   IP, NLEV, MYLEV, K, P, R, T,IAD,NREV,IGTYP,IPGMAT,IGMAT,
+     .   MG,  NELTG,
+     .   IP, NREV,IGTYP,IPGMAT,IGMAT,
      .   ISUBSTACK,IPL,IPG,NINV,ICONTR,NIN25
       INTEGER, DIMENSION(:),ALLOCATABLE  :: TAGELEMS,INDEXE
 C     REAL
       my_real
      .   AREA, VOL, DX, GAPM, DDX, 
-     .   GAPTMP, SX1,SY1,SZ1,SX2,SY2,SZ2,SX3,SY3,SZ3,
-     .   XL,STIFC,ST,BULK
+     .   ST,BULK
       INTEGER :: IELEM(2)
       LOGICAL :: PRINT_ERROR
       INTEGER, DIMENSION(4) :: NODE_ID
@@ -1792,8 +1793,8 @@ C----due to Cycle       -------
       END DO
 C-----------------------------------------------
       RETURN
- 1400 FORMAT(I10,' MAIN SEGMENTS',' OF INTERFACE',I10,
-     +                      ' ARE REVERSED THE NORMAL DIRECTION')
+ !1400 FORMAT(I10,' MAIN SEGMENTS',' OF INTERFACE',I10,
+ !    +                      ' ARE REVERSED THE NORMAL DIRECTION')
       END
 !||====================================================================
 !||    i24bord     ../starter/source/interfaces/inter3d1/i24sti3.F
@@ -1923,7 +1924,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J,NN(4),NJ,NS
+      INTEGER I, J,NN(4),NS
 C     REAL
       my_real
      .   R(3),S(3),T(3),DET
@@ -2024,7 +2025,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I
+
       my_real
      .   DET
 C~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -2087,12 +2088,12 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, N, MT, JJ, JJJ, NELC,
-     .   MG, NUM, NPT, LL, L, NN, NELTG,N1,N2,N3,N4,IE,
-     .   IP, NLEV, MYLEV, K, P, R, T,IAD,IGTYP
+      INTEGER I, N, JJ, JJJ, 
+     .   MG, IE,
+     .   IP,  K, IGTYP
 C     REAL
       my_real
-     .   AREA, VOL, DX, GAPM, DDX
+     .   VOL, DX
 C----------------------
       DO I=1,NUMNOD
         WA(I)=EP10
@@ -2326,7 +2327,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,N,NC4(4),NC8(8)
+      INTEGER J,N,NC4(4),NC8(8)
 C     REAL
       my_real
      .   XI,YI,ZI,XMIN,YMIN,ZMIN,XMAX,YMAX,ZMAX

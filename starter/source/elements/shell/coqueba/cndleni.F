@@ -69,8 +69,8 @@ C-----------------------------------------------
      .        I1,I3,IPTHK,IPPOS,I2,MATLY,IPGMAT,IGMAT,IPOS,NIP,MLAWLY
       my_real
      .   AREA(MVSIZ),SSP(MVSIZ), AL1(MVSIZ), 
-     .   AL2(MVSIZ), AL3(MVSIZ), AL4(MVSIZ), AL5(MVSIZ),
-     .   AL6(MVSIZ), AL(MVSIZ), ALMIN(MVSIZ),LXYZ0(2),COREL(2,4)
+     .   AL2(MVSIZ),
+     .   ALMIN(MVSIZ),LXYZ0(2),COREL(2,4)
       my_real
      .   VISCMX,A11,A11R,A12,B1,B2,VV,STI,STIR,VISCDEF,RHO,YOUNG,NU,
      .   X13,X24,Y13,Y24,L13,L24,C1,C2,THKLY,POSLY,

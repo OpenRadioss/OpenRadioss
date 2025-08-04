@@ -123,7 +123,7 @@ C-----------------------------------------------
      .   XX(MVSIZ,10), YY(MVSIZ,10), ZZ(MVSIZ,10) 
       my_real
      .   BID, FV,
-     .   V8LOC(51,MVSIZ), VOLU(MVSIZ), MASS(MVSIZ),VOLG(MVSIZ),
+     .   VOLU(MVSIZ), MASS(MVSIZ),VOLG(MVSIZ),
      .   VOLP(MVSIZ,5), STI(MVSIZ),DELTAX(MVSIZ),DELTAX2(MVSIZ),
      .   VX(MVSIZ,10), VY(MVSIZ,10), VZ(MVSIZ,10),
      .   PX(MVSIZ,10,5),PY(MVSIZ,10,5),PZ(MVSIZ,10,5),

@@ -76,7 +76,6 @@ C------------------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, NT, I1, I2, I3,IDRAPE,IGTYP
-      INTEGER PID(MVSIZ)
       my_real FAC
       my_real ECOS(MVSIZ),ESIN(MVSIZ),
      .   E1X(MVSIZ), E1Y(MVSIZ), E1Z(MVSIZ),

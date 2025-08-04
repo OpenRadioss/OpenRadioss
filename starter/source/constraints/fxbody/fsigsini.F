@@ -559,7 +559,7 @@ C-----------------------------------------------
       INTEGER I,MX
       my_real
      .   RHO0(MVSIZ), G1(MVSIZ), G2(MVSIZ), C1(MVSIZ), AMU(MVSIZ),
-     .   DAV, PNEW(MVSIZ), E1, E2, E3, E4, E5, E6, NU1(MVSIZ),
+     .   DAV,  E1, E2, E3, E4, E5, E6, NU1(MVSIZ),
      .   CNU1(MVSIZ)
 C
       DO I=1,NEL

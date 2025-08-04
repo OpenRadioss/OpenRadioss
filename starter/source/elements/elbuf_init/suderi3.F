@@ -69,8 +69,7 @@ C     REAL
      .   X17(MVSIZ), X28(MVSIZ), X35(MVSIZ), X46(MVSIZ),
      .   Y17(MVSIZ), Y28(MVSIZ), Y35(MVSIZ), Y46(MVSIZ),
      .   Z17(MVSIZ), Z28(MVSIZ), Z35(MVSIZ), Z46(MVSIZ),
-     .   JAC_59_68(MVSIZ), JAC_67_49(MVSIZ), JAC_48_57(MVSIZ),
-     .   JAC12(MVSIZ),   JAC45(MVSIZ),   JAC78(MVSIZ)
+     .   JAC_59_68(MVSIZ), JAC_67_49(MVSIZ), JAC_48_57(MVSIZ)
 C=======================================================================
       DO I=1,NEL
         XD1(I)=X1(I)

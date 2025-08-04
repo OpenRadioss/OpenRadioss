@@ -71,9 +71,6 @@ C-----------------------------------------------
       INTEGER I,II,J,N,ILAW,IDIR,IT,NPTT
 C     REAL
       my_real
-     .  X31(MVSIZ), Y31(MVSIZ), Z31(MVSIZ),
-     .  X32(MVSIZ), Y32(MVSIZ), Z32(MVSIZ),
-     .  X21(MVSIZ), Y21(MVSIZ), Z21(MVSIZ),
      .  E11(MVSIZ),E12(MVSIZ),E13(MVSIZ),
      .  E21(MVSIZ),E22(MVSIZ),E23(MVSIZ)
       my_real
