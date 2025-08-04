@@ -553,9 +553,8 @@ C-----------------------------------------------
       my_real VX1(MVSIZ) , VX2(MVSIZ) , VX3(MVSIZ) ,
      .        VY1(MVSIZ) , VY2(MVSIZ) , VY3(MVSIZ) ,
      .        VZ1(MVSIZ) , VZ2(MVSIZ) , VZ3(MVSIZ) ,
-     .        VX12(MVSIZ), VX13(MVSIZ), VX23(MVSIZ),
-     .        VY12(MVSIZ), VY13(MVSIZ), VY23(MVSIZ),
-     .        VZ12(MVSIZ), VZ13(MVSIZ), VZ23(MVSIZ)
+     .        VX12(MVSIZ), VX13(MVSIZ),
+     .        VY12(MVSIZ), VY13(MVSIZ)
       my_real TMP1, TMP2, FAC1
 C=======================================================================
       DO I=JFT,JLT

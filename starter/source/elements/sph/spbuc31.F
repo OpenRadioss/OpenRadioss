@@ -170,7 +170,7 @@ C-----------------------------------------------
      .   NVOIS, KL, K, JK, L, NVOIS1, NVOIS2, IERROR , ig
 C     REAL
       my_real
-     .   CMS2(MVSIZ),XJJ, YJJ, ZJJ,DK, DL   
+     .   XJJ, YJJ, ZJJ,DK, DL   
 
 
 C-----------------

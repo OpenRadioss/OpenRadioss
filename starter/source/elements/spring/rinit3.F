@@ -118,17 +118,13 @@ C
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,I2, IGTYP, NDEPAR, NB1, NB2, NB3, NB4, NB5,NB5A,NB5B,
-     .   NB6, NB7, NB8, NB9, NB10, NB11, NB12, NB13, NB14, 
-     .   NB15, NB15A, NB15B, NB15C, NB15D, NB15E, NB16, NBFI,
-     .   NEL4,K,KK,KK1,ITMP,NEL5,
+      INTEGER I,J,I2, IGTYP, NDEPAR, 
+     .   K,KK,KK1,ITMP,
      .   I1, I0, I3,NEL3,NUVAR,NUPARAM,NFUNC,IADFUN,
-     .   NMAT,IADMAT,NJPID,IADPID,ILENG,NFUND,
+     .   NMAT,IADMAT,NJPID,ILENG,NFUND,
      3   UIX(4,MVSIZ),
-     .   NB2A ,NB2B ,NB4A ,NB4B ,NB6A ,NB6B,NB7A,NB7B,NB8A ,NB8B,NB9A, 
-     .    NB9B ,NB10A,NB10B,NB11A,NB11B,NB12A,NB12B,NB13A,NB13B,NB18,
-     .    IMAT,K1,K11,K14,K12,K13,IADBUF,IMASS,SLIP,FRA,IH,NKIN,
-     .    KCOND1,KCOND2
+     .   IMAT,K1,K11,K14,K12,K13,IADBUF,IMASS,SLIP,FRA,IH,NKIN,
+     .   KCOND1,KCOND2
 C     REAL
       my_real
      .   DT, DTC, XKM, XCM, XKR, XCR, XM, XINE,  EX, EY, EZ,
@@ -155,6 +151,7 @@ C     REAL
 C
       TYPE(G_BUFEL_),POINTER :: GBUF
       INTEGER II(6)
+      my_real :: DFS(2), DV(2)
 C=======================================================================
       BIDON = ZERO
 C
@@ -609,7 +606,7 @@ C----
        IF (INISPRI /= 0) 
      .   CALL R4INI(SIGRS        ,IXR        ,NSIGRS           ,GBUF%EINT       ,GBUF%FOR   ,
      2              GBUF%TOTDEPL ,GBUF%FOREP ,GBUF%DEP_IN_TENS ,GBUF%DEP_IN_COMP,GBUF%LENGTH,
-     3              BIDON        ,BIDON      ,IGTYP            ,PTSPRI   ,GBUF%DEFINI(II(1)),
+     3              DFS , DV,IGTYP            ,PTSPRI   ,GBUF%DEFINI(II(1)),
      4              GBUF%FORINI(II(1)))
       ELSEIF (IGTYP == 26) THEN
         CALL RMASS(IXR         ,GEO  ,XMAS        ,XIN ,PARTSAV     ,
@@ -621,7 +618,7 @@ C----
         IF (INISPRI /= 0) 
      .    CALL R4INI(SIGRS        ,IXR        ,NSIGRS          ,GBUF%EINT       ,GBUF%FOR   ,
      2               GBUF%TOTDEPL ,GBUF%FOREP ,BIDON           ,BIDON           ,GBUF%LENGTH,
-     3               BIDON        ,GBUF%DV    ,IGTYP           ,PTSPRI          ,GBUF%DEFINI,
+     3               DFS ,GBUF%DV    ,IGTYP           ,PTSPRI          ,GBUF%DEFINI,
      4               GBUF%FORINI  )
 c------     
 C=======================================================================
@@ -662,7 +659,7 @@ C=======================================================================
         IF (INISPRI /= 0) 
      .    CALL R4INI(SIGRS        ,IXR        ,NSIGRS          ,GBUF%EINT       ,GBUF%FOR   ,
      2               GBUF%TOTDEPL ,GBUF%FOREP ,GBUF%DEP_IN_TENS,GBUF%DEP_IN_TENS,GBUF%LENGTH,
-     3               GBUF%DFS     ,BIDON      ,IGTYP           ,PTSPRI          ,GBUF%DEFINI,
+     3               GBUF%DFS     ,DV,IGTYP           ,PTSPRI          ,GBUF%DEFINI,
      4               GBUF%FORINI  )
 C=======================================================================
       ELSEIF (IGTYP == 13) THEN
@@ -778,7 +775,7 @@ C----
        IF (INISPRI /= 0) 
      .   CALL R4INI(SIGRS        ,IXR        ,NSIGRS           ,GBUF%EINT       ,GBUF%FOR   ,
      2              GBUF%TOTDEPL ,GBUF%FOREP ,GBUF%DEP_IN_TENS ,GBUF%DEP_IN_COMP,GBUF%LENGTH,
-     3              BIDON        ,BIDON      ,IGTYP            ,PTSPRI   ,GBUF%DEFINI(II(1)),
+     3              DFS,DV,IGTYP            ,PTSPRI   ,GBUF%DEFINI(II(1)),
      4              GBUF%FORINI(II(1)))
 C=======================================================================
       ELSEIF (IGTYP == 32 .OR. IGTYP == 33 .OR. IGTYP == 45) THEN
@@ -852,16 +849,16 @@ C
         ENDDO
 C
         CALL RINI2U(
-     1    IXR         ,GBUF%MASS,UINER,XMAS        ,XIN         ,
+     1    IXR         ,GBUF%MASS,UINER,
      2    PARTSAV     ,X        ,V    ,IPART(NFT+1),MSR(1,NFT+1),
      3    INR(1,NFT+1),MSRT     ,EMS  )
         IF (INISPRI /= 0) 
      .    CALL RUINI(
-     2 SIGRS                ,IXR                 ,NSIGRS              ,NUVAR                ,GBUF%FOR(II(1))      ,
+     2 SIGRS                ,NSIGRS              ,NUVAR                ,GBUF%FOR(II(1))      ,
      3 GBUF%FOR(II(2))      ,GBUF%FOR(II(3))     ,GBUF%MOM(II(1))     ,GBUF%MOM(II(2))      ,GBUF%MOM(II(3))      ,
      4 GBUF%V_REPCVT(II(1)) ,GBUF%V_REPCVT(II(2)),GBUF%V_REPCVT(II(3)),GBUF%VR_REPCVT(II(1)),GBUF%VR_REPCVT(II(2)),
-     5 GBUF%VR_REPCVT(II(3)),GBUF%VAR            ,GBUF%EINT           ,BIDON                ,BIDON                ,
-     6 IGTYP                ,PTSPRI)
+     5 GBUF%VR_REPCVT(II(3)),GBUF%VAR            ,GBUF%EINT           ,
+     6 PTSPRI)
 C=======================================================================
       ELSEIF (IGTYP == 35 .OR. IGTYP == 36) THEN
 C=======================================================================
@@ -914,16 +911,16 @@ C---
           DTELEM(NDEPAR+I)= DT
         ENDDO
         CALL RINI2U(
-     1    IXR         ,GBUF%MASS,UINER,XMAS        ,XIN         ,
+     1    IXR         ,GBUF%MASS,UINER,
      2    PARTSAV     ,X        ,V    ,IPART(NFT+1),MSR(1,NFT+1),
      3    INR(1,NFT+1),MSRT     ,EMS  )
         IF (INISPRI /= 0) 
      +    CALL RUINI(
-     2  SIGRS                ,IXR                 ,NSIGRS              ,NUVAR                ,GBUF%FOR(II(1))      ,
+     2  SIGRS                ,NSIGRS              ,NUVAR                ,GBUF%FOR(II(1))      ,
      3  GBUF%FOR(II(2))      ,GBUF%FOR(II(3))     ,GBUF%MOM(II(1))     ,GBUF%MOM(II(2))      ,GBUF%MOM(II(3))      ,
      4  GBUF%V_REPCVT(II(1)) ,GBUF%V_REPCVT(II(2)),GBUF%V_REPCVT(II(3)),GBUF%VR_REPCVT(II(1)),GBUF%VR_REPCVT(II(2)),
-     5  GBUF%VR_REPCVT(II(3)),GBUF%VAR            ,GBUF%EINT           ,BIDON                ,BIDON                ,
-     6  IGTYP                ,PTSPRI)
+     5  GBUF%VR_REPCVT(II(3)),GBUF%VAR            ,GBUF%EINT          ,
+     6  PTSPRI)
 C
 C=======================================================================
       ELSEIF (IGTYP > 28 .AND. IGTYP < 43) THEN  ! reserved for user properties
@@ -1094,16 +1091,16 @@ C
         ENDDO
 C
         CALL RINI2U(
-     1    IXR         ,GBUF%MASS,UINER,XMAS        ,XIN         ,
+     1    IXR         ,GBUF%MASS,UINER,
      2    PARTSAV     ,X        ,V    ,IPART(NFT+1),MSR(1,NFT+1),
      3    INR(1,NFT+1),MSRT     ,EMS  )
         IF (INISPRI /= 0) 
      .    CALL RUINI(
-     2  SIGRS                ,IXR                 ,NSIGRS              ,NUVAR                ,GBUF%FOR(II(1))      ,
+     2  SIGRS                ,NSIGRS              ,NUVAR                ,GBUF%FOR(II(1))      ,
      3  GBUF%FOR(II(2))      ,GBUF%FOR(II(3))     ,GBUF%MOM(II(1))     ,GBUF%MOM(II(2))      ,GBUF%MOM(II(3))      ,
      4  GBUF%V_REPCVT(II(1)) ,GBUF%V_REPCVT(II(2)),GBUF%V_REPCVT(II(3)),GBUF%VR_REPCVT(II(1)),GBUF%VR_REPCVT(II(2)),
-     5  GBUF%VR_REPCVT(II(3)),GBUF%VAR            ,GBUF%EINT           ,BIDON                ,BIDON                ,
-     6  IGTYP                ,PTSPRI)
+     5  GBUF%VR_REPCVT(II(3)),GBUF%VAR            ,GBUF%EINT          ,
+     6  PTSPRI)
 C=======================================================================
       ELSEIF (IGTYP == 44) THEN
 C=======================================================================
@@ -1148,16 +1145,16 @@ C
           DTELEM(NDEPAR+I)= DT
         ENDDO
         CALL RINI2U(
-     1    IXR         ,GBUF%MASS,UINER,XMAS        ,XIN         ,
+     1    IXR         ,GBUF%MASS,UINER,
      2    PARTSAV     ,X        ,V    ,IPART(NFT+1),MSR(1,NFT+1),
      3    INR(1,NFT+1),MSRT     ,EMS  )
         IF (INISPRI /= 0) 
      .    CALL RUINI(
-     2  SIGRS                ,IXR                 ,NSIGRS              ,NUVAR                ,GBUF%FOR(II(1))      ,
+     2  SIGRS                ,NSIGRS              ,NUVAR                ,GBUF%FOR(II(1))      ,
      3  GBUF%FOR(II(2))      ,GBUF%FOR(II(3))     ,GBUF%MOM(II(1))     ,GBUF%MOM(II(2))      ,GBUF%MOM(II(3))      ,
      4  GBUF%V_REPCVT(II(1)) ,GBUF%V_REPCVT(II(2)),GBUF%V_REPCVT(II(3)),GBUF%VR_REPCVT(II(1)),GBUF%VR_REPCVT(II(2)),
-     5  GBUF%VR_REPCVT(II(3)),GBUF%VAR            ,GBUF%EINT           ,BIDON                ,BIDON                ,
-     6  IGTYP                ,PTSPRI)
+     5  GBUF%VR_REPCVT(II(3)),GBUF%VAR            ,GBUF%EINT     ,
+     6  PTSPRI)
 C=======================================================================
       ELSEIF (IGTYP == 46) THEN
 C=======================================================================
@@ -1203,17 +1200,17 @@ C
         ENDDO
 C
         CALL RINI2U(
-     1    IXR         ,GBUF%MASS,UINER,XMAS        ,XIN         ,
+     1    IXR         ,GBUF%MASS,UINER,
      2    PARTSAV     ,X        ,V    ,IPART(NFT+1),MSR(1,NFT+1),
      3    INR(1,NFT+1),MSRT     ,EMS  )
 C
         IF (INISPRI /= 0) 
      .   CALL RUINI(
-     2  SIGRS                ,IXR                 ,NSIGRS              ,NUVAR                ,GBUF%FOR(II(1))      ,
+     2  SIGRS                ,NSIGRS              ,NUVAR                ,GBUF%FOR(II(1))      ,
      3  GBUF%FOR(II(2))      ,GBUF%FOR(II(3))     ,GBUF%MOM(II(1))     ,GBUF%MOM(II(2))      ,GBUF%MOM(II(3))      ,
      4  GBUF%V_REPCVT(II(1)) ,GBUF%V_REPCVT(II(2)),GBUF%V_REPCVT(II(3)),GBUF%VR_REPCVT(II(1)),GBUF%VR_REPCVT(II(2)),
-     5  GBUF%VR_REPCVT(II(3)),GBUF%VAR            ,GBUF%EINT           ,BIDON                ,BIDON                ,
-     6  IGTYP                ,PTSPRI)
+     5  GBUF%VR_REPCVT(II(3)),GBUF%VAR            ,GBUF%EINT     ,
+     6  PTSPRI)
 C-----
       ENDIF  ! IGTYP
 C------------------------------------------
@@ -1694,7 +1691,7 @@ C-----------------------------------------------
       INTEGER I, J, NG, I1, I2, I3, ISK
 C     REAL
       my_real
-     .   X1, Y1, Z1, IDIR
+     .   X1, Y1, Z1
 C-----------------------------------------------
       DO I=LFT,LLT
         OFF(I) = ONE
@@ -1851,7 +1848,7 @@ C-----------------------------------------------
 !||--- called by ------------------------------------------------------
 !||    rinit3   ../starter/source/elements/spring/rinit3.F
 !||====================================================================
-      SUBROUTINE RINI2U(IXR     ,UMASS ,UINER ,MS    ,XIN,
+      SUBROUTINE RINI2U(IXR     ,UMASS ,UINER,
      .                  PARTSAV ,X     ,V     ,IPART ,MSR,
      .                  INR     ,MSRT  ,EMS   )
 C----------------------------------------------
@@ -1870,7 +1867,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IXR(NIXR,*),IPART(*)
-      my_real :: UMASS(*),UINER(*), MS(*), XIN(*),X(3,*),V(3,*)
+      my_real :: UMASS(*),UINER(*), X(3,*),V(3,*)
       my_real :: PARTSAV(20,*), MSR(3,*), INR(3,*), MSRT(*),EMS(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -1956,7 +1953,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NIX,N,NSIGI,NUVAR,NEL,IGTYP
+      INTEGER NSIGI,NUVAR,IGTYP
       INTEGER IXR(NIXR,*),PTSPRI(*)
 C     REAL
       my_real
@@ -1965,7 +1962,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,II,JJ,K
+      INTEGER I,II,JJ
 C----------------------------------------------------------------------- 
 C---
 C     CONTRAINTES INITIALES + OTHERS
@@ -2030,7 +2027,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NIX,N
+
       INTEGER IXR(NIXR,*),NSIGI,NUVAR,NEL,IGTYP,PTSPRI(*)
 C     REAL
       my_real
@@ -2045,7 +2042,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,II,JJ,K
+      INTEGER I,II,JJ
 C----------------------------------------------------------------------- 
 C---
 C     CONTRAINTES INITIALES + OTHERS
@@ -2061,40 +2058,27 @@ C---
           JJ = PTSPRI(II)
           IF (JJ == 0) GOTO 200
 C---
-!          FX(I)     = SIGRS(2, JJ)
-!          DX(I)     = SIGRS(3, JJ)
           FXEP(I)  = SIGRS(4, JJ)
           DXPL(I)  = SIGRS(5, JJ)
           DXPL2(I) = SIGRS(6, JJ)
-!          FY(I)    = SIGRS(7, JJ)
-!          DY(I)    = SIGRS(8, JJ)
           FYEP(I)  = SIGRS(9,JJ)
           DYPL(I)  = SIGRS(10,JJ) 
           DYPL2(I) = SIGRS(11,JJ)
-!          FZ(I)    = SIGRS(12,JJ)
-!          DZ(I)    = SIGRS(13,JJ)
           FZEP(I)  = SIGRS(14,JJ)
           DZPL(I)  = SIGRS(15,JJ)
           DZPL2(I) = SIGRS(16,JJ)
-!          MX(I)     = SIGRS(17,JJ)
-!          RX(I)     = SIGRS(18,JJ)
           XMEP(I)  = SIGRS(19,JJ)
           RPX(I)   = SIGRS(20,JJ)
           RPX2(I)  = SIGRS(21,JJ)
-!          MY(I)    = SIGRS(22,JJ)
-!          RY(I)    = SIGRS(23,JJ)
           YMEP(I)  = SIGRS(24,JJ) 
           RPY(I)   = SIGRS(25,JJ)
           RPY2(I)  = SIGRS(26,JJ)
-!          MZ(I)     = SIGRS(27,JJ) 
-!          RZ(I)     = SIGRS(28,JJ)
           ZMEP(I)  = SIGRS(29,JJ)
           RPZ(I)   = SIGRS(30,JJ)
           RPZ2(I)  = SIGRS(31,JJ)
           XL0(I)   = SIGRS(32,JJ)
           YL0(I)   = SIGRS(33,JJ)
           ZL0(I)   = SIGRS(34,JJ)
-!!          EINT(I)  = SIGRS(35,JJ)
           IF (IGTYP == 8  .OR. IGTYP == 13 .OR.
      .        IGTYP == 23 .OR. IGTYP == 25) THEN
             DX0(I) = SIGRS(3, JJ)
@@ -2130,11 +2114,11 @@ C---
 !||    rinit3   ../starter/source/elements/spring/rinit3.F
 !||====================================================================
       SUBROUTINE RUINI(
-     .                 SIGRS,IXR   ,NSIGI,NUVAR,FX   ,
+     .                 SIGRS  ,NSIGI,NUVAR,FX   ,
      .                 FY   ,FZ    ,XMOM ,YMOM ,ZMOM ,
      .                 DX   ,DY    ,DZ   ,RX   ,RY   ,
-     .                 RZ   ,UVAR  ,EINT ,YMOM1,ZMOM1,
-     .                 IGTYP,PTSPRI)
+     .                 RZ   ,UVAR  ,EINT ,
+     .                 PTSPRI)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -2147,17 +2131,17 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NIX,N,NUVAR,IGTYP,NSIGI,NEL
-      INTEGER IXR(NIXR,*),PTSPRI(*)
+      INTEGER NUVAR,NSIGI
+      INTEGER PTSPRI(*)
 C     REAL
       my_real
      .   FX(*),FY(*),FZ(*),XMOM(*),YMOM(*),ZMOM(*),
-     .   EINT(*),SIGRS(NSIGI,*),YMOM1(*),ZMOM1(*),
+     .   EINT(*),SIGRS(NSIGI,*),
      .   UVAR(NUVAR,*),DX(*),DY(*),DZ(*),RX(*),RY(*),RZ(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,II,JJ,K,PT
+      INTEGER I,II,JJ,K,PT
 C-----------------------------------------------
 C---
 C     CONTRAINTES INITIALES + OTHERS
@@ -2184,14 +2168,6 @@ C---
           EINT(I) = SIGRS(14,JJ)
 C
           PT = 14
-!!   no real need for initialisation, since they are computed at cycle = 0
-!!   within engine (overwriting initial values)
-!!          IF (IGTYP /= 32 .AND. IGTYP /= 33 .AND. IGTYP /= 45) THEN
-!!            YMOM1(I) = SIGRS(PT+1,JJ)
-!!            ZMOM1(I) = SIGRS(PT+2,JJ)
-!!            PT = PT + 2
-!!          ENDIF
-C  -- UVAR --
           DO K=1,NUVAR
             UVAR(K,I) = SIGRS(PT + K ,JJ)
           ENDDO

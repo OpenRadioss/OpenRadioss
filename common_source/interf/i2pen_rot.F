@@ -27,7 +27,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    i2for25     ../engine/source/interfaces/interf/i2for25.F
 !||    i2for25p    ../engine/source/interfaces/interf/i2for25p.F
 !||====================================================================
-      SUBROUTINE I2PEN_ROT(SKEW    ,TT      ,DT1  ,STIF ,
+      SUBROUTINE I2PEN_ROT(SKEW    ,TT  ,DT1  ,STIF ,
      .         RS   ,RM   ,V1   ,V2   ,V3   ,
      .         RX   ,RY   ,RZ   ,VA   ,VB   ,
      .         VC   ,VD   )
@@ -44,22 +44,19 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
 C     REAL
         my_real
-     .     TT,DT1,STIF,V1,V2,V3
+     .     TT,STIF,V1,V2,V3,DT1
         my_real
      .     SKEW(9),RS(3),RM(3),RX(4),RY(4),RZ(4),
      .     VA(3), VB(3), VC(3), VD(3)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-        INTEGER I,IREP1,J
 C     REAL
-        my_real
-     .     CS,SN,KSI
         my_real
      .     R(3),DWDU,
      .     X12,X22,X32,X42,Y12,Y22,Y32,Y42,Z12,Z22,Z32,Z42,
      .     XX,YY,ZZ,XXX,YYY,ZZZ,XY,YZ,ZX,XY2,YZ2,ZX2,
-     .     A1,A2,A3,B1,B2,B3,C1,C2,C3,MR,MRX,MRY,MRZ,DET,
+     .     B1,B2,B3,C1,C2,C3,DET,
      .     BB1,BB2,BB3,CC1,CC2,CC3,
      .     VRX,VRY,VRZ,MGX,MGY,MGZ
 C=======================================================================
@@ -169,15 +166,12 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-        INTEGER I,IREP1,J
 C     REAL
         my_real
-     .     CS,SN,KSI
-        my_real
-     .     R(3),DWDU,
+     .     DWDU,
      .     X12,X22,X32,X42,Y12,Y22,Y32,Y42,Z12,Z22,Z32,Z42,
      .     XX,YY,ZZ,XXX,YYY,ZZZ,XY,YZ,ZX,XY2,YZ2,ZX2,
-     .     A1,A2,A3,B1,B2,B3,C1,C2,C3,MR,MRX,MRY,MRZ,DET,
+     .     B1,B2,B3,C1,C2,C3,DET,
      .     BB1,BB2,BB3,CC1,CC2,CC3,
      .     MGX,MGY,MGZ
 C=======================================================================
@@ -294,15 +288,11 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-        INTEGER I,IREP1,J
 C     REAL
-        my_real
-     .     CS,SN,KSI
         my_real
      .     R(3),DWDU,
      .     X12,X22,X32,X42,Y12,Y22,Y32,Y42,Z12,Z22,Z32,Z42,
      .     XX,YY,ZZ,XXX,YYY,ZZZ,XY,YZ,ZX,XY2,YZ2,ZX2,
-     .     A1,A2,A3,MR,MRX,MRY,MRZ,
      .     BB1,BB2,BB3,CC1,CC2,CC3,
      .     MGX,MGY,MGZ,WX,WY,WZ,IN_SECND
 C=======================================================================
@@ -431,15 +421,11 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-        INTEGER I,IREP1,J
 C     REAL
-        my_real
-     .     CS,SN,KSI
         my_real
      .     R(3),DWDU,
      .     X12,X22,X32,X42,Y12,Y22,Y32,Y42,Z12,Z22,Z32,Z42,
      .     XX,YY,ZZ,XXX,YYY,ZZZ,XY,YZ,ZX,XY2,YZ2,ZX2,
-     .     A1,A2,A3,MR,MRX,MRY,MRZ,
      .     BB1,BB2,BB3,CC1,CC2,CC3,
      .     MGX,MGY,MGZ,WX,WY,WZ,IN_SECND
 C=======================================================================

@@ -94,9 +94,8 @@ C-----------------------------------------------
      .   X1(MVSIZ),X2(MVSIZ),X3(MVSIZ),
      .   Y1(MVSIZ),Y2(MVSIZ),Y3(MVSIZ), 
      .   Z1(MVSIZ),Z2(MVSIZ),Z3(MVSIZ),
-     .   E1X(MVSIZ),E1Y(MVSIZ),E1Z(MVSIZ), 
-     .   E2X(MVSIZ),E2Y(MVSIZ),E2Z(MVSIZ),AREA(MVSIZ) , 
-     .   E3X(MVSIZ),E3Y(MVSIZ),E3Z(MVSIZ),DELTAX(MVSIZ),DTX(MVSIZ),
+     .   AREA(MVSIZ) , 
+     .   DELTAX(MVSIZ),DTX(MVSIZ),
      .   VECT(3,MVSIZ) 
       INTEGER IDMIN,IDMAX
       DATA IDMIN /-1/,IDMAX /-1/

@@ -75,7 +75,6 @@ C------------------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, NT, I1, I2, I3, I4,IDRAPE,IGTYP
-      INTEGER PID(MVSIZ)
       my_real
      .   FAC
       my_real
@@ -87,14 +86,7 @@ C-----------------------------------------------
      .   E1X(MVSIZ), E1Y(MVSIZ), E1Z(MVSIZ),
      .   E2X(MVSIZ), E2Y(MVSIZ), E2Z(MVSIZ),
      .   E3X(MVSIZ), E3Y(MVSIZ), E3Z(MVSIZ),
-     .   X2I(MVSIZ), Y2I(MVSIZ), Z2I(MVSIZ),
-     .   X3I(MVSIZ), Y3I(MVSIZ), Z3I(MVSIZ),
      .   X4I(MVSIZ), Y4I(MVSIZ), Z4I(MVSIZ),
-     .   X2H(MVSIZ), Y2H(MVSIZ), X3H(MVSIZ), Y3H(MVSIZ),
-     .   X2R(MVSIZ), Y2R(MVSIZ), Z2R(MVSIZ),
-     .   X3R(MVSIZ), Y3R(MVSIZ), Z3R(MVSIZ),
-     .   X4R(MVSIZ), Y4R(MVSIZ), Z4R(MVSIZ),
-     .   X4H(MVSIZ), Y4H(MVSIZ),
      .   EXX(MVSIZ),EYY(MVSIZ),EXY(MVSIZ),EYZ(MVSIZ),EZX(MVSIZ)
       my_real, 
      .   DIMENSION(:) , POINTER :: DIR1, DIR2
