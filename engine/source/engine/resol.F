@@ -696,7 +696,8 @@ C-----------------------------------------------
               USE STATE_MOD
               USE USER_WINDOWS_MOD
               USE ALE_MOD
-              USE OUTPUT_MOD , ONLY : OUTPUT_, WFEXT, WFEXT_MD, NODA_SURF, NODA_PEXT
+              USE OUTPUT_MOD , ONLY : OUTPUT_, WFEXT, WFEXT_MD
+              USE OUTPUT_MOD , ONLY : NODA_PEXT, NODA_SURF, OUTPUT_ALLOCATE_NODA_PEXT, OUTPUT_DEALLOCATE_NODA_PEXT
               USE INTERFACES_MOD
               USE DEBUG_CHKSM_MOD ,  ONLY : SPMD_FLUSH_ACCEL
               USE DT_MOD
@@ -734,8 +735,6 @@ C-----------------------------------------------
               USE UPDATE_PON_MOD
               USE DEBUG_MOD
               use inter_init_component_mod , only : inter_init_component
-              use th_mod , only : th_has_noda_pext
-              use output_mod , only : anim_has_noda_pext, h3d_has_noda_pext
               use damping_vref_compute_dampa_mod
               use coupling_adapter_mod
               use damping_funct_ini_mod    , only : damping_funct_ini
@@ -2408,17 +2407,7 @@ C ---------------------
 C ---------------------
 C Allocating PEXT Array
 C ---------------------
-              IF(TH_HAS_NODA_PEXT > 0 .OR. ANIM_HAS_NODA_PEXT > 0 .OR. H3D_HAS_NODA_PEXT > 0) THEN
-                ALLOCATE(NODA_SURF(NUMNOD))
-                ALLOCATE(NODA_PEXT(NUMNOD))
-                NODA_SURF(1:NUMNOD)=ZERO
-                NODA_PEXT(1:NUMNOD)=ZERO
-              ELSE
-                ALLOCATE(NODA_SURF(3))
-                ALLOCATE(NODA_PEXT(3))
-                NODA_SURF(1:3)=ZERO
-                NODA_PEXT(1:3)=ZERO
-              ENDIF
+              CALL OUTPUT_ALLOCATE_NODA_PEXT(NUMNOD, NUMNODG)
 C ---------------------
               IF (ANIM_V(19) + H3D_DATA%N_VECT_CLUST_FORCE > 0) THEN
                 ALLOCATE(FCLUSTER(3*NUMNOD))
@@ -7546,7 +7535,7 @@ C----------------------
                     ENDIF
                   ENDIF
                   IF(NSPMD > 1)THEN
-                    ! transmit updated valued on domain ispmd=0 to other domains (values may be used by parallelized ebcs options)
+                    ! transmit updated values on domain ispmd=0 to other domains (values may be used by parallelized ebcs options)
                     call spmd_xv_inter_type1(numnod, NODES%BOUNDARY_SIZE, ispmd, nspmd, NODES%BOUNDARY_ADD, NODES%BOUNDARY,
      1                                       nodes%a, nodes%v, ninter, ipari, npari)
                   ENDIF
@@ -8728,56 +8717,56 @@ C Regular animation
                 ENDIF
 
                 CALL SORTIE_MAIN(TIMERS,
-     1          PM            ,NODES%D        ,NODES%V           ,ALE_CONNECTIVITY          ,W             ,
-     2          ELBUF         ,IPARG          ,IXS            ,IXQ            ,ELEMENT%SHELL%IXC,
-     3          IXT           ,IXP            ,IXR            ,IXTG           ,WA            ,
-     4          NODES%ITAB    ,ptrX         ,GEO           ,NODES%MS       ,NODES%A       ,
-     5          FANI          ,PARTSAV        ,ICUT           ,XCUT           ,
-     6          FANI(1,1+NFIA),FANI(1,1+NFEA) ,FANI(1,1+NFOA) ,ANIN           ,LPBY          ,
-     7          NPBY          ,NSTRF          ,RWBUF          ,NPRW           ,EBCS_TAB      ,
-     8          TANI          ,INOISE         ,BUFNOIS        ,RBY            ,NEFLSW        ,
-     9          NNFLSW        ,CRFLSW         ,FLSW           ,LOUT           ,
-     B          FSAV          ,SKEWS%SKEW     ,ELBUF_TAB      ,CLUSTER        ,
-     C          NODES%VR      ,NODES%IN       ,NODES%WEIGHT   ,FCLUSTER       ,MCLUSTER      ,
-     D          DD_IAD        ,DMAS           ,ACCELM         ,GAUGE         ,
-     E          IPARI         ,EANI           ,IPART          ,MAT_ELEM%MAT_PARAM   ,
+     1          PM            ,NODES%D        ,NODES%V        ,ALE_CONNECTIVITY   ,W                ,
+     2          ELBUF         ,IPARG          ,IXS            ,IXQ                ,ELEMENT%SHELL%IXC,
+     3          IXT           ,IXP            ,IXR            ,IXTG               ,WA               ,
+     4          NODES%ITAB    ,ptrX           ,GEO            ,NODES%MS           ,NODES%A          ,
+     5          FANI          ,PARTSAV        ,ICUT           ,XCUT               ,
+     6          FANI(1,1+NFIA),FANI(1,1+NFEA) ,FANI(1,1+NFOA) ,ANIN               ,LPBY             ,
+     7          NPBY          ,NSTRF          ,RWBUF          ,NPRW               ,EBCS_TAB         ,
+     8          TANI          ,INOISE         ,BUFNOIS        ,RBY                ,NEFLSW           ,
+     9          NNFLSW        ,CRFLSW         ,FLSW           ,LOUT               ,NODES            ,
+     B          FSAV          ,SKEWS%SKEW     ,ELBUF_TAB      ,CLUSTER            ,
+     C          NODES%VR      ,NODES%IN       ,NODES%WEIGHT   ,FCLUSTER           ,MCLUSTER         ,
+     D          DD_IAD        ,DMAS           ,ACCELM         ,GAUGE              ,
+     E          IPARI         ,EANI           ,IPART          ,MAT_ELEM%MAT_PARAM ,
      F          IGRNOD        ,SUBSETS        ,
-     G          NOM_OPT       ,NODES%AR             ,IGRSURF        ,BUFSF          ,IDATA         ,
-     H          RDATA         ,KXX            ,IXX            ,BUFMAT         ,BUFGEO        ,
-     I          KXSP          ,IXSP           ,NOD2SP         ,SPBUF          ,NODES%DR,
-     J          FSAVD         ,LRIVET         ,RIVET          ,ISKWN          ,IFRAME        ,
-     M          XFRAME        ,IXS(L1)        ,IXS(L2)        ,IXS(L3)        ,NDMA          ,
-     N          MONVOL        ,VOLMON         ,IPM            ,IGEO           ,NODES%NODGLOB       ,
+     G          NOM_OPT       ,NODES%AR       ,IGRSURF        ,BUFSF              ,IDATA            ,
+     H          RDATA         ,KXX            ,IXX            ,BUFMAT             ,BUFGEO           ,
+     I          KXSP          ,IXSP           ,NOD2SP         ,SPBUF              ,NODES%DR,
+     J          FSAVD         ,LRIVET         ,RIVET          ,ISKWN              ,IFRAME           ,
+     M          XFRAME        ,IXS(L1)        ,IXS(L2)        ,IXS(L3)            ,NDMA             ,
+     N          MONVOL        ,VOLMON         ,IPM            ,IGEO               ,NODES%NODGLOB       ,
      .          NODES%BOUNDARY_ADD      ,NODES%BOUNDARY        ,
-     U          FR_RBY2       ,IAD_RBY2       ,FR_WALL        ,FR_SEC         ,FXBIPM        ,FXBRPM   ,
-     V          NDIN          ,FXBDEP         ,FXBVIT         ,FXBACC         ,IFLOW         ,
-     W          RFLOW         ,IPARTL         ,NPARTL         ,IACCP          ,NACCP         ,
-     X          FASOLFR       ,FANI(1,NFNCA+1),FANI(1,NFTCA+1),IPART(I15ATH)  ,
-     Y          FR_MV         ,IPART_STATE    ,SH4TREE        ,SH3TREE,NODES%TEMP   ,
+     U          FR_RBY2       ,IAD_RBY2       ,FR_WALL        ,FR_SEC             ,FXBIPM        ,FXBRPM   ,
+     V          NDIN          ,FXBDEP         ,FXBVIT         ,FXBACC             ,IFLOW         ,
+     W          RFLOW         ,IPARTL         ,NPARTL         ,IACCP              ,NACCP         ,
+     X          FASOLFR       ,FANI(1,NFNCA+1),FANI(1,NFTCA+1),IPART(I15ATH)      ,
+     Y          FR_MV         ,IPART_STATE    ,SH4TREE        ,SH3TREE            ,NODES%TEMP    ,
      Z          THKE          ,ERR_THK_SH4    ,ERR_THK_SH3,
-     a          INOD_PXFEM    ,FTHREAC        ,NODREAC        ,GRESAV,
-     b          DIAG_SMS      ,SH4TRIM        ,SH3TRIM        ,FANI(1,1+NFT2) ,XMOM_SMS      ,
-     c          IRBE2         ,RBE3%IRBE3     ,LRBE2          ,RBE3%LRBE3     ,FR_RBE2       ,
-     d          RBE3%mpi%FR_RBE3 ,IAD_RBE2       ,DXANCG         ,IEL_PXFEM      ,ZI_PLY        ,
-     e          VFLOW         ,FCONTG         ,FNCONTG        ,FTCONTG        ,FREAC         ,
-     f          INOD_CRK      ,IEL_CRK        ,ELCUTC         ,IADC_CRK       ,ANIN(NDAMA2+1),
+     a          INOD_PXFEM    ,FTHREAC        ,NODREAC        ,GRESAV             ,
+     b          DIAG_SMS      ,SH4TRIM        ,SH3TRIM        ,FANI(1,1+NFT2)     ,XMOM_SMS      ,
+     c          IRBE2         ,RBE3%IRBE3     ,LRBE2          ,RBE3%LRBE3         ,FR_RBE2       ,
+     d          RBE3%mpi%FR_RBE3 ,IAD_RBE2    ,DXANCG         ,IEL_PXFEM          ,ZI_PLY        ,
+     e          VFLOW         ,FCONTG         ,FNCONTG        ,FTCONTG            ,FREAC         ,
+     f          INOD_CRK      ,IEL_CRK        ,ELCUTC         ,IADC_CRK           ,ANIN(NDAMA2+1),
      g          RES_SMS       ,SENSORS        ,
-     h          QFRICINT      ,IGAUP          ,NGAUP          ,NODES%WEIGHT_MD      ,NCONT         ,
-     i          INDEXCONT     ,NODGLOBXFE     ,NODEDGE        ,XFEM_TAB       ,
-     j          NV46          ,RTHBUF         ,KXIG3D         ,IXIG3D         ,KNOT          ,
-     k          WIGE          ,NERCVOIS       ,NESDVOIS       ,LERCVOIS       ,LESDVOIS      ,
-     l          CRKEDGE       ,STACK          ,ISPHIO         ,VSPHIO         ,NODES%ICODE         ,
-     m          INDX_CRK      ,XEDGE4N        ,XEDGE3N        ,SPH2SOL        ,STIFN_TMP     ,
-     n          STIFR_TMP     ,DRAPE_SH4N     ,DRAPE_SH3N      ,MS_2D          ,MULTI_FVM     ,
-     o          SEGQUADFR     ,H3D_DATA       ,NODES%ISKEW          ,PSKIDS         ,ISKWP         ,
-     p          KNOTLOCPC     ,KNOTLOCEL      ,PINCH_DATA     ,TAG_SKINS6     ,IRUNN_BIS     ,
-     q          TF            ,NPC            ,DYNAIN_DATA    ,FCONT_MAX      ,MDS_MATID     ,
-     r          FANI(1,NFNCA2+1),FANI(1,NFTCA2+1),IBCL        ,ILOADP         ,LLOADP        ,
-     s          LOADP         ,TAGNCONT       ,LOADP_HYD_INTER,FORC           ,DRAPEG        ,
-     t          USER_WINDOWS  ,OUTPUT         ,DT             ,OUTPUT%TH%TH_SURF%CHANNELS    ,
-     u          TABLE         ,LOADS          ,SFANI          ,IPARIT         ,ptrX_offset   ,
-     v          SZ_NPCONT2    ,NPCONT2        ,GLOB_THERM     ,PBLAST         ,OUTPUT%WFEXT)
-C
+     h          QFRICINT      ,IGAUP          ,NGAUP          ,NODES%WEIGHT_MD    ,NCONT         ,
+     i          INDEXCONT     ,NODGLOBXFE     ,NODEDGE        ,XFEM_TAB           ,
+     j          NV46          ,RTHBUF         ,KXIG3D         ,IXIG3D             ,KNOT          ,
+     k          WIGE          ,NERCVOIS       ,NESDVOIS       ,LERCVOIS           ,LESDVOIS      ,
+     l          CRKEDGE       ,STACK          ,ISPHIO         ,VSPHIO             ,NODES%ICODE   ,
+     m          INDX_CRK      ,XEDGE4N        ,XEDGE3N        ,SPH2SOL            ,STIFN_TMP     ,
+     n          STIFR_TMP     ,DRAPE_SH4N     ,DRAPE_SH3N     ,MS_2D              ,MULTI_FVM     ,
+     o          SEGQUADFR     ,H3D_DATA       ,NODES%ISKEW    ,PSKIDS             ,ISKWP         ,
+     p          KNOTLOCPC     ,KNOTLOCEL      ,PINCH_DATA     ,TAG_SKINS6         ,IRUNN_BIS     ,
+     q          TF            ,NPC            ,DYNAIN_DATA    ,FCONT_MAX          ,MDS_MATID     ,
+     r          FANI(1,NFNCA2+1),FANI(1,NFTCA2+1),IBCL        ,ILOADP             ,LLOADP        ,
+     s          LOADP         ,TAGNCONT       ,LOADP_HYD_INTER,FORC               ,DRAPEG        ,
+     t          USER_WINDOWS  ,OUTPUT         ,DT             ,OUTPUT%TH%TH_SURF%CHANNELS        ,
+     u          TABLE         ,LOADS          ,SFANI          ,IPARIT             ,ptrX_offset   ,
+     v          SZ_NPCONT2    ,NPCONT2        ,GLOB_THERM     ,PBLAST             ,OUTPUT%WFEXT)
+
                 IF((MSTOP == 1 .AND. ICTLSTOP == 0) .OR. MSTOP == 2 .OR. DT2<=ZERO)THEN
                   CALL SORTIE_ERROR(
      1             NODES%V        ,NODES%NODGLOB    ,NODES%WEIGHT     ,NODES%ITAB       ,NODES%MS          ,
@@ -10053,8 +10042,7 @@ C
                 IF(INTPLYXFEM > 0)DEALLOCATE(PLYSKYI%FSKYI)
                 DEALLOCATE(PLY, PLYSKY)
                 IF(ALLOCATED(NODA_FEXT))DEALLOCATE(NODA_FEXT)
-                IF(ALLOCATED(NODA_SURF))DEALLOCATE(NODA_SURF)
-                IF(ALLOCATED(NODA_PEXT))DEALLOCATE(NODA_PEXT)
+                CALL OUTPUT_DEALLOCATE_NODA_PEXT()
                 DEALLOCATE(NPCONT2)
 C
 C Deallocte AMS / POFF

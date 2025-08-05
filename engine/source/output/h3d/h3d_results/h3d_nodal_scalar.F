@@ -360,8 +360,8 @@ c
          ENDIF
          ! Nodal External Pressure (Elements to Nodes -> Averaged)
          IF (KEYWORD == 'PEXT')THEN
+           VALUE(1:NUMNOD) = ZERO
            IF(H3D_HAS_NODA_PEXT == 1) THEN
-             VALUE(1:NUMNOD) = ZERO
              DO I=1,NUMNOD
                IF(NODA_SURF(I) > ZERO)THEN
                  VALUE_NUMNOD_REAL(I)=NODA_PEXT(I)/NODA_SURF(I)
