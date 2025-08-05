@@ -93,7 +93,7 @@
           integer :: i,ii,nindx,nindxc
           integer :: icomp,irate,iflag1,iflag2
           real(kind=WP) :: emx11,emx22,emx33,emx12,emx23,emx31
-          real(kind=WP) :: muold,dmudt,asrate
+          real(kind=WP) :: asrate
           real(kind=WP) :: ecomp,gcomp,bulk,sigy,hcomp,vcomp
           real(kind=WP) :: depsv,pres,svm,rfact,yld
           real(kind=WP) :: stxx,styy,stzz,stxy,styz,stzx

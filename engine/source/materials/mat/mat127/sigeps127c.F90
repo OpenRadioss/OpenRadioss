@@ -114,21 +114,19 @@
 !-----------------------------------------------
 !   L o c a l   V a r i a b l e s
 !-----------------------------------------------
-      integer ::  fs, i,damage,updat,updat1,updat2,nkey,                  &
-                  ncyred, n,ndex,twoway, ncy0,ndel_ply,ndex0
+      integer ::  i,updat2,                  &
+                  ncyred, n,ndex,ndel_ply,ndex0
       integer , dimension(nel) :: index,iad,ipos,ilen,index0
       real(kind=WP)                                                             &
         :: e1, e2, nu12, nu21, xt0, slimt1, xc0, slimc1,                     &
-        yt0, slimt2, yc0, slimc2s, sc0, d, damt, damc,                    &
-        slims, invd, m2c, m2t, slimc2, alpha, beta, dfailt, dfailc,       &
-        e21d, g12, limit_sig, eint, deint, a11, g13, g23, ycfac, dfailm,  &
-        dfails, dfc, dft, efs, epsf, epsr, et, fbrt, tsmd, yc_over_sc,    &
+        yt0, slimt2, yc0, sc0, d,                    &
+        slims, invd, slimc2, alpha, beta, dfailt, dfailc,       &
+        g12, limit_sig, eint, deint, a11, g13, g23, ycfac, dfailm,  &
+        dfails, efs, epsf, epsr, fbrt, tsmd, yc_over_sc,    &
         yfac_xt, yfac_xc, yfac_yc, yfac_yt, yfac_sc, eft, efc, emt, emc,  &
-        scale,dam, ratio,del_ratio,eps_ef,tau2,sc2,tau_bar
+        scale,dam,ratio,del_ratio,eps_ef,tau2,sc2,tau_bar
 
       real(kind=WP), dimension(nel) :: dezz, check, xc, xt, yc, yt, sc, dydx
-      !
-      logical :: abit_t,abit_c,abit_s,abit_check
 !!======================================================================
       e1    = mat_param%uparam(1)   ! Young's modulus in the longitudinal direction (1-direction)
       e2    = mat_param%uparam(2)   ! Young's modulus in the transverse direction (2-direction)

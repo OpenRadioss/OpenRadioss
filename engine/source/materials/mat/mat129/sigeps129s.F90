@@ -119,11 +119,11 @@
 !-----------------------------------------------
 !   l o c a l   v a r i a b l e s
 !-----------------------------------------------
-      integer :: i,ii,iter,niter,nindx,crp_law,isens,ndim
+      integer :: i,ii,niter,nindx,crp_law,isens,ndim
       integer ,dimension(nel) :: indx
-      my_real :: dlam,dphi_dlam,dpla_dlam,dpdt 
-      my_real :: epsp0,depsv,lame,ldav,epsc,deps,p
-      my_real :: facp,rc                           
+      my_real :: dpdt 
+      my_real :: epsp0,lame,ldav,epsc,deps,p
+      my_real :: facp                           
       my_real :: asrate,dtime,tstart       
       my_real :: cr1,cr2,cx1,cx2
       my_real :: j2,g2,g3,rho0
@@ -451,8 +451,6 @@
         enddo
       end if
       soundsp(1:nel) = sqrt((bulk(1:nel) + four_over_3*shear(1:nel)) / rho0)
-!-----------------------------------------------------------------
-    1000 format(1x,'CREEP DEACTIVATED IN MATERIAL ID ',i10,1x,'AT TIME :',g11.4)     
 !-----------
       return
       end

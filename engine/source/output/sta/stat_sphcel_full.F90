@@ -96,10 +96,10 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-          integer :: i,j,k,n,jj,len,ioff,ie,ng,nel,nft,lft,llt,ity,id,iprt0,iprt,igtyp,iprop,g_pla,mlw,ivar,my_nuvar,mt
+          integer :: i,j,k,n,jj,len,ioff,ie,ng,nel,nft,lft,llt,ity,id,iprt0,iprt,iprop,mlw,ivar,my_nuvar,mt
           integer :: ii(6)
           integer :: ptwa(stat_numelsph),ptwa_p0(0:max(1,stat_numelsph_g))
-          character(len=100) :: delimit,line
+          character(len=100) :: delimit
           data delimit(1:60) &
            /'#---1----|----2----|----3----|----4----|----5----|----6----|'/
           data delimit(61:100) &

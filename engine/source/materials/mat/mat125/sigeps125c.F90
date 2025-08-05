@@ -109,22 +109,15 @@
 !-----------------------------------------------
 !   L o c a l   V a r i a b l e s
 !-----------------------------------------------
-      integer :: fs, i,updat1,updat2,nkey
-      integer , dimension(nel) :: index,iad,ipos,ilen
+      integer :: fs, i
+      integer , dimension(nel) :: iad,ipos,ilen
       real(kind=WP)                                                       &
        :: e1,e2,nu12,nu21,em11t0,xt0,slimt1,em11c0,xc0,slimc1,         &
        em22t0,yt0,slimt2,em22c0,yc0,slimc2,gamma0,tau0,ems0,sc0,    &
        slims,gammaf,gammar, tsdm, erods,tsize,e1d,e2d,g12d,d,       &
        w11,w22,w12,e12d,invd, ems013,ems023,sc013,sc023,           &
        gamma02,gamma03,tau02,tau03,                                 &
-       e21d,g12,limit_sig, eint, deint,a11,tauxy,g13,g23,&
-       eft,efc,emt,emc,ec,et,sig(3),em,ef 
-       !
-       real(kind=WP)  &
-       :: xt_new , ef11t_new ,m1t_new ,al1t_new,  &
-       xc_new , ef11c_new ,m1c_new ,al1c_new,  &
-       yt_new, ef22t_new ,m2t_new ,al2t_new,   &
-       yc_new, ef22c_new ,m2c_new ,al2c_new 
+       e21d,g12, eint, deint,a11,tauxy,g13,g23
       !
       real(kind=WP) , dimension(nel) ::  dezz,check,xc_r, em11t,xt,em11c,xc
       real(kind=WP) , dimension(nel) ::  em22t,yt,em22c,yc,gamma,tau,ems,sc
@@ -134,8 +127,6 @@
       real(kind=WP) , dimension(nel) ::  ef22t,m2t,al2t,ef22c,m2c,al2c
       real(kind=WP) , dimension(nel) ::  efs,ms,als
       real(kind=WP) , dimension(nel) ::  yy, dydx
-      !
-      logical :: abit_t,abit_c,abit_s
 !!======================================================================
 !
        ! FS ! type of failure yield surface loading 

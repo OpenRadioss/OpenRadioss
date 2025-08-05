@@ -130,7 +130,7 @@
             dsigyy_dlam,dsigxy_dlam,dphidsig_dsigbdlam,dphi_dsigbxx,dphi_dsigbyy,&
             dphi_dsigbxy,dsigbxx_dlam,dsigbyy_dlam,dsigbxy_dlam,epst
           real(kind=WP) :: deelzz(nel),deplzz(nel),normsig(nel),xvec(nel,2),yld_i(nel),&
-            dyld_dp(nel),dyld_dp_i(nel),hardr(nel),phi(nel),depszz(nel),k1(nel), &
+            dyld_dp(nel),dyld_dp_i(nel),phi(nel),depszz(nel),k1(nel), &
             k2(nel),dyoung_dp(nel),yld0(nel),dyld0_dp(nel),hk(nel)
           !< Number of plastic return mapping iterations
           integer, parameter :: niter = 3

@@ -152,22 +152,19 @@
           &c10,c01,c20,c11,c02,c30,c21,c12,c03,d1,d2,d3,tauy0,ff, epshat,&
           &temp1,facpl,hh,r3r3,&
 !
-          &bi1(nel),bi2(nel),jdet(nel),i1(nel),ip1(nel),gammaold(nel),stiff(nel),&
-          &ta1(nel), ta2(nel),ta3(nel),t1(nel), t2(nel),t3(nel),lpchain(nel),&
-          &tb1(nel), tb2(nel),tb3(nel),trace(nel),traceb(nel),eta(nel),etb(nel),&
+          &bi1(nel),bi2(nel),jdet(nel),gammaold(nel),stiff(nel),&
+          &traceb(nel),&
           &sb1(nel), sb2(nel),sb3(nel),sb4(nel), sb5(nel),sb6(nel),ww(nel),&
           &sa1(nel), sa2(nel),sa3(nel),sa4(nel), sa5(nel),sa6(nel),tanorm(nel),&
-          &tbnorm(nel),dgamma(nel),pla(nel),dydx(nel),yld(nel), tauy(nel),&
+          &tbnorm(nel),dgamma(nel),pla(nel),yld(nel), tauy(nel),&
           &tracea(nel),plap(nel),dpla(nel),munh(nel),dnh(nel),dydx1(nel),dydx2(nel),&
           &r1x(nel),r1y(nel),r1z(nel),r2x(nel),r2y(nel),r2z(nel),r3x(nel),r3y(nel),r3z(nel),&
-!
-          &nb(nel,3),sninv(nel,3,3),&
-          &f(nel,3,3),ft(nel,3,3),fe(nel,3,3),fet(nel,3,3),fp(nel,3,3),&
+          &f(nel,3,3),ft(nel,3,3),fe(nel,3,3),fp(nel,3,3),&
           &fft(nel,3,3),invfpo(nel,3,3),matb(nel,3,3),fpo(nel,3,3),&
           &sig(nel,3,3),sigb(nel,3,3),siga(nel,3,3),sn(nel,3,3),&
           &fth(nel,3,3), ftot(nel,3,3),fmec(nel,3,3),invfth(nel,3,3),&
           &fftn(nel,3,3),fpeq(nel,3,3),fpeqo(nel,3,3),s(nel,3,3),fedp(nel,3,3),&
-          &dfp(nel,3,3),lb(nel,3,3),dfp2(nel,3,3),fpdot(nel,3,3),invfe(nel,3,3)
+          &dfp(nel,3,3),lb(nel,3,3),dfp2(nel,3,3),invfe(nel,3,3)
           !
           real(kind=WP) :: a1(10),expc(10),expm(10),ksi(10),a10(10),stiffn(10),&
           &b0(10),expn(10),tauref(10)

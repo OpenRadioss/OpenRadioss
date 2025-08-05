@@ -530,35 +530,25 @@
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
           real(kind=wp), dimension(:), allocatable :: detach_shell
-          integer :: ig,ng,numnod0,i,j,k,l,m,n,n1,n2,n3,n4,nel,nft,p
-          double precision :: discrepancy,max_discrepancy
-          integer :: crack_root, next_root
+          integer :: ig,ng,numnod0,i,j,k,l,n,n1,n2,n3,n4,nel,nft,p
           integer, dimension(20) :: crack !< id of the noodes that are part of the crack
           integer :: ncrack
           integer, dimension(:), allocatable :: shell_list
           integer :: shells_to_detach
-          integer :: shell_id
           double precision :: normal(3),  vec(3), distance
           double precision, dimension(:), allocatable :: nodal_damage
-          double precision, dimension(3) :: shell_centroid
-          double precision :: d1, d2, d4, v(3)
+          double precision :: v(3)
           double precision, parameter :: treshold = 1.04D0
-          double precision :: ratio,dmax
-          logical :: skip
+          double precision :: dmax
           integer :: nGhostShells
           real(kind=wp), dimension(:), allocatable :: ghostShellDamage
-          real(kind=wp), dimension(:), allocatable :: ghostShellCoordinates,shellCoordinates
-          logical :: is_new_crack
-          integer :: c
           integer, dimension(:), allocatable :: detached_nodes, detached_nodes_local
           integer, dimension(:), allocatable :: nb_detached_nodes_global
           integer, dimension(:), allocatable :: nb_detached_nodes
           integer :: nb_detached_nodes_local
           logical, dimension(:), allocatable :: is_unique 
-          integer :: total_new_nodes, total_new_unique_nodes
-          logical :: is_new, boundary_node_detached
+          integer :: total_new_nodes
           integer :: displ(nspmd)
-          integer :: ierr
           integer :: old_max_uid
           integer :: numnodg0
           integer, dimension(:), allocatable :: permutation, processor, local_pos
@@ -662,8 +652,6 @@
           allocate(shell_list(numelc))
           shell_list = 0
           shells_to_detach = 0
-          max_discrepancy = -1.0d0
-          crack_root = 0
 
           ! detach nodes based on simple 
           dmax = 0.0

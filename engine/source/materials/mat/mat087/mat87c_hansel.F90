@@ -103,7 +103,7 @@
 !-----------------------------------------------
 !   L o c a l   V a r i a b l e s
 !-----------------------------------------------
-      integer :: i,ii,j,k,nindx,indx(nel),iter,iflagsr,ikin
+      integer :: i,ii,j,k,nindx,indx(nel),iter,ikin
       real(kind=WP) ::                                                               &
         young,nu,a1,a2,g,al1,al2,al3,al4,al5,al6,al7,al8,fisokin,expa,ckh(4),  &
         akh(4),lp11,lp12,lp21,lp22,lp66,lpp11,lpp12,lpp21,lpp22,lpp66,akck,    &
@@ -125,8 +125,8 @@
         deplzz(nel),sigbxx(nel),sigbyy(nel),sigbxy(nel),normsig(nel),          &
         xp1(nel),xp2(nel),xpp1(nel),xpp2(nel),phip(nel),phipp(nel),phi(nel),   &
         deelzz(nel),dylddp(nel),xpxx(nel),xpyy(nel),xpxy(nel),xppxx(nel),      &
-        xppyy(nel),xppxy(nel),depszz(nel),yld0(nel),dyld0dp(nel),voce(nel),    &
-        dvocedp(nel),swift(nel),dswiftdp(nel),frate(nel),vm(nel),expo(nel),    &
+        xppyy(nel),xppxy(nel),depszz(nel),yld0(nel),    &
+        vm(nel),expo(nel),    &
         dexpo(nel),aexp(nel),atemp(nel),dsigbxxdp(nel),dsigbyydp(nel),         &
         dsigbxydp(nel),hk(nel)
       integer, parameter :: niter = 3 !< Number of return mapping iterations

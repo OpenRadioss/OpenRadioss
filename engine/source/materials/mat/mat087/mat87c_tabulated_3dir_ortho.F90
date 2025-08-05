@@ -135,8 +135,8 @@
         dyld45dp(nel),yld90(nel),dyld90dp(nel),phi(nel),xvec(nel,6),           &
         deelzz(nel),dylddp(nel),dylddcs2theta(nel),xpxx(nel),xpyy(nel),        &
         xpxy(nel),xppxx(nel),xppyy(nel),xppxy(nel),depszz(nel),yld_0(nel),     &
-        yld0_0(nel),dyld0_0(nel),yld45_0(nel),dyld45_0(nel),yld90_0(nel),      &
-        dyld90_0(nel),dyld_0dcs2theta(nel),yld0_i(nel),dyld0dp_i(nel),         &
+        yld0_0(nel),yld45_0(nel),yld90_0(nel),      &
+        dyld_0dcs2theta(nel),yld0_i(nel),dyld0dp_i(nel),         &
         yld45_i(nel),dyld45dp_i(nel),yld90_i(nel),dyld90dp_i(nel),             &
         q1_0(nel),q2_0(nel),q3_0(nel),dsigbxxdp(nel),dsigbyydp(nel),           &
         dsigbxydp(nel),hk(nel)

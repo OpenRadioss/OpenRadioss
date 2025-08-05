@@ -130,7 +130,7 @@
 !-----------------------------------------------
 !  L o c a l   V a r i a b l e s
 !-----------------------------------------------
-          integer :: i,j,ncycle,nrs,nindx,indx(nel),iter,ndim
+          integer :: i,j,ncycle,nrs
           real(kind=WP) :: young,nu,g,bulk,cii,cij,tsc,damp,srclmt,alpha,ldav,a
           real(kind=WP), dimension(nel) :: dgamdt,gama,dsdgam,le,seq,epst
           real(kind=WP), dimension(mvsiz,6) :: sig,eps
