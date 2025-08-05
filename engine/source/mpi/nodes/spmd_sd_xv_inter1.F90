@@ -85,9 +85,6 @@
         integer, parameter :: my_tag = 18001
         integer :: my_request
         integer, dimension(nspmd) :: my_request_0
-#ifdef MPI        
-        integer, dimension(MPI_STATUS_SIZE) :: my_status
-#endif
         type(array_type) :: rcv_buff
         type(array_type), dimension(nspmd) :: send_buff
         
@@ -97,7 +94,9 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Pre-Condition
 ! ----------------------------------------------------------------------------------------------------------------------
-#ifdef MPI
+#ifndef MPI
+      return
+#endif
       if(is_present_inter1 == 0)return  !no /inter/type1 in input file
       !initialize 'is_present_inter1'
       if(is_present_inter1 == -1)then
@@ -123,7 +122,7 @@
               call alloc_my_real_2D_array(rcv_buff) ! allocate the R buffer
               array_size = rcv_buff%size_my_real_array_2d(1) * rcv_buff%size_my_real_array_2d(2)
               call spmd_irecv(rcv_buff%my_real_array_2d(:,1),array_size,0,my_tag,my_request,SPMD_COMM_WORLD) ! post the R comm, sent by the processor 0
-              call spmd_wait(my_request, my_status) ! wait the R comm, sent by the processor 0
+              call spmd_wait(my_request) ! wait the R comm, sent by the processor 0
               do k=1,my_size
                 ! index pour noeuds frontieres appartement au interface /TYPE1
                 a(1:3,FR_ELEM(IAD_ELEM(1,0+1)-1+k)) = rcv_buff%my_real_array_2d(1:3,k)
@@ -154,14 +153,13 @@
 
             do j=2,nspmd
               if(my_size_0(j) /= 0) then
-                call spmd_wait(my_request_0(j), my_status)  ! wait the S comm for the processor "j"
+                call spmd_wait(my_request_0(j))  ! wait the S comm for the processor "j"
                 call dealloc_my_real_2D_array(send_buff(j)) ! allocate the S buffer
               endif
             enddo
 
           endif
         endif
-#endif
         return
         end subroutine spmd_xv_inter_type1
       end module spmd_xv_inter_type1_mod

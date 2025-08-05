@@ -27,7 +27,7 @@
 !||    offset_nproj          ../engine/source/interfaces/shell_offset/offset_nproj.F90
 !||====================================================================
       module spmd_exch_vnpon_mod
-        contains
+      contains
 !=======================================================================================================================
 !!\brief This subroutine do nodal exchange vn6 in P/ON; ndim1=6*3,ndim2=numnod for vn6->nodal normal
 !=======================================================================================================================
@@ -40,127 +40,129 @@
 !||--- uses       -----------------------------------------------------
 !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
 !||====================================================================
-      subroutine spmd_exch_vnpon(ndim1,ndim2,vn6,iad_offset,fr_offset,nspmd,lenr )
+         subroutine spmd_exch_vnpon(ndim1,ndim2,vn6,iad_offset,fr_offset,nspmd,lenr )
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
-          use spmd_comm_world_mod, only : SPMD_COMM_WORLD
+            use spmd_mod
 ! ----------------------------------------------------------------------------------------------------------------------
-          implicit none
+            implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Included files
 ! ----------------------------------------------------------------------------------------------------------------------
-#include "task_c.inc"
 #include "spmd.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
-          integer, intent (in   )                           :: nspmd            !< number of spmd domain
-          integer, intent (in   )                           :: lenr             !< toal number of front node
-          integer, intent (in   )                           :: ndim1            !< 1er dim of vn6
-          integer, intent (in   )                           :: ndim2            !< 2nd dim of vn6
-          integer, intent (in   ) ,dimension(2,nspmd+1)     :: iad_offset       !< index array for comm
-          integer, intent (in   ) ,dimension(lenr)          :: fr_offset        !< front node array
-      double precision,intent (inout),dimension(ndim1,ndim2):: vn6              !< exchange nodal array
+            integer, intent (in   )                           :: nspmd            !< number of spmd domain
+            integer, intent (in   )                           :: lenr             !< toal number of front node
+            integer, intent (in   )                           :: ndim1            !< 1er dim of vn6
+            integer, intent (in   )                           :: ndim2            !< 2nd dim of vn6
+            integer, intent (in   ) ,dimension(2,nspmd+1)     :: iad_offset       !< index array for comm
+            integer, intent (in   ) ,dimension(lenr)          :: fr_offset        !< front node array
+            double precision,intent (inout),dimension(ndim1,ndim2):: vn6              !< exchange nodal array
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-#ifdef MPI
-      integer :: msgtyp,i,nod,loc_proc,ierror,msgoff,                     &
-              siz,j,l,nb_nod,siz6,len,                                 &
-              status(mpi_status_size),                                 &
-              iad_send(nspmd+1),                                       &
-              iad_recv(nspmd+1),                                       &
-              req_r(nspmd),req_s(nspmd)
-      data msgoff/231/
+            integer :: msgtyp,i,nod,loc_proc,ierror,                    &
+               siz,j,l,nb_nod,siz6,len,                                 &
+               iad_send(nspmd+1),                                       &
+               iad_recv(nspmd+1),                                       &
+               req_r(nspmd),req_s(nspmd)
+            integer, parameter :: msgoff = 231
 
-      double precision, dimension(:,:),allocatable :: rbuf, sbuf 
+            double precision, dimension(:,:),allocatable :: rbuf, sbuf
+            integer :: it_spmd
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
-      allocate(rbuf(ndim1,lenr))
-      allocate(sbuf(ndim1,lenr))
 
-      siz6 = ndim1
+#ifndef MPI
+            return
+#endif
+            allocate(rbuf(ndim1,lenr))
+            allocate(sbuf(ndim1,lenr))
 
-      l = 1
-      iad_recv(1)  = 1
+            siz6 = ndim1
 
-      do i=1,nspmd
-        len = iad_offset(1,i+1)-iad_offset(1,i)
-        siz = siz6 *  len
-        if(siz/=0)then
-          msgtyp = msgoff
-          call mpi_irecv(                               &
-            rbuf(1,l),siz,mpi_double_precision,         &
-            it_spmd(i),msgtyp,SPMD_COMM_WORLD,           &
-            req_r(i),ierror)
-          l = l  + len
-        endif
-        iad_recv(i+1)  = l
-      end do
+            l = 1
+            iad_recv(1)  = 1
 
-      l  = 1
-      iad_send(1)  = l
+            do i=1,nspmd
+               it_spmd = i - 1
+               len = iad_offset(1,i+1)-iad_offset(1,i)
+               siz = siz6 *  len
+               if(siz/=0)then
+                  msgtyp = msgoff
+                  call spmd_irecv(                               &
+                     rbuf(1,l),siz,         &
+                     it_spmd,msgtyp,           &
+                     req_r(i))
+                  l = l  + len
+               endif
+               iad_recv(i+1)  = l
+            end do
 
-      do i=1,nspmd
-        nb_nod = iad_offset(1,i+1)-iad_offset(1,i)
-        do j=iad_offset(1,i),iad_offset(1,i+1)-1
-          nod = fr_offset(j)
-          if(nod > 0) then 
-            sbuf(1:ndim1, l)   =  vn6(1:ndim1,nod)
-          else
-            sbuf(1:ndim1, l)   =  0.0D0
-          endif
-          l  = l  + 1
-        end do
-        iad_send(i+1)  = l
-      enddo
+            l  = 1
+            iad_send(1)  = l
+
+            do i=1,nspmd
+               nb_nod = iad_offset(1,i+1)-iad_offset(1,i)
+               do j=iad_offset(1,i),iad_offset(1,i+1)-1
+                  nod = fr_offset(j)
+                  if(nod > 0) then
+                     sbuf(1:ndim1, l)   =  vn6(1:ndim1,nod)
+                  else
+                     sbuf(1:ndim1, l)   =  0.0D0
+                  endif
+                  l  = l  + 1
+               end do
+               iad_send(i+1)  = l
+            enddo
 !
 !   echange messages
 !
-      do i=1,nspmd
+            do i=1,nspmd
+              it_spmd = i - 1
 ! send
-       nb_nod = iad_offset(1,i+1)-iad_offset(1,i)
-       if(nb_nod>0)then
-          msgtyp = msgoff 
-          len = iad_offset(1,i+1)-iad_offset(1,i)
+               nb_nod = iad_offset(1,i+1)-iad_offset(1,i)
+               if(nb_nod>0)then
+                  msgtyp = msgoff
+                  len = iad_offset(1,i+1)-iad_offset(1,i)
 
-          siz = len *  siz6       
-          l = iad_send(i)
-          call mpi_isend(                               &
-            sbuf(1,l),siz,mpi_double_precision,         &
-            it_spmd(i),msgtyp,SPMD_COMM_WORLD,           &
-            req_s(i),ierror)
-       endif
+                  siz = len *  siz6
+                  l = iad_send(i)
+                  call spmd_isend(                               &
+                     sbuf(1,l),siz,         &
+                     it_spmd,msgtyp,           &
+                     req_s(i))
+               endif
 !
-      enddo
+            enddo
 !
 ! assemblage
 !
-      do i = 1, nspmd
-        nb_nod = iad_offset(1,i+1)-iad_offset(1,i)
-        if(nb_nod>0)then
-          call mpi_wait(req_r(i),status,ierror)
-          l  = iad_recv(i)
-          do j=iad_offset(1,i),iad_offset(1,i+1)-1
-            nod = fr_offset(j)
-            vn6(1:ndim1,nod) = vn6(1:ndim1,nod) + rbuf(1:ndim1,l)
-            l  = l  + 1
-          end do
-        endif
-      end do
+            do i = 1, nspmd
+               nb_nod = iad_offset(1,i+1)-iad_offset(1,i)
+               if(nb_nod>0)then
+                  call spmd_wait(req_r(i))
+                  l  = iad_recv(i)
+                  do j=iad_offset(1,i),iad_offset(1,i+1)-1
+                     nod = fr_offset(j)
+                     vn6(1:ndim1,nod) = vn6(1:ndim1,nod) + rbuf(1:ndim1,l)
+                     l  = l  + 1
+                  end do
+               endif
+            end do
 !
 !   wait for isend
 !
-      do i = 1, nspmd
-        if(iad_offset(1,i+1)-iad_offset(1,i)>0)then
-          call mpi_wait(req_s(i),status,ierror)
-        endif
-      enddo
+            do i = 1, nspmd
+               if(iad_offset(1,i+1)-iad_offset(1,i)>0)then
+                  call spmd_wait(req_s(i))
+               endif
+            enddo
+            return
+         end subroutine spmd_exch_vnpon
+      end module spmd_exch_vnpon_mod
 !
-#endif
-      return
-      end subroutine spmd_exch_vnpon
-    end module spmd_exch_vnpon_mod
-!    
