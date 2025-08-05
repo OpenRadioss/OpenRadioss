@@ -20,6 +20,11 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+!||====================================================================
+!||    eosexponential_mod   ../common_source/eos/eosexponential.F90
+!||--- called by ------------------------------------------------------
+!||    eosmain              ../common_source/eos/eosmain.F
+!||====================================================================
       module eosexponential_mod
       contains
 ! ======================================================================================================================

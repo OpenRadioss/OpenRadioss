@@ -49,6 +49,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    checkmp                           ../starter/source/elements/initia/initia.F
 !||    checkrby                          ../starter/source/constraints/general/rbody/checkrby.F
 !||    checksum_option_checksum_file     ../common_source/modules/output/checksum_mod.F90
+!||    checksum_output_option_mod        ../common_source/modules/output/checksum_mod.F90
 !||    checksum_restart_read             ../common_source/modules/output/checksum_mod.F90
 !||    checksum_restart_write            ../common_source/modules/output/checksum_mod.F90
 !||    chekmp2                           ../starter/source/elements/initia/initia.F

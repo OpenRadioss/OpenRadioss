@@ -181,6 +181,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    ale_connectivity_mod         ../common_source/modules/ale/ale_connectivity_mod.F
 !||    aleanim_mod                  ../engine/share/modules/aleanim_mod.F
 !||    anim_monvol_mod              ../engine/source/output/anim/generate/monvol_anim.F90
+!||    checksum_output_option_mod   ../common_source/modules/output/checksum_mod.F90
 !||    cluster_mod                  ../engine/share/modules/cluster_mod.F
 !||    crackxfem_mod                ../engine/share/modules/crackxfem_mod.F
 !||    drape_mod                    ../engine/share/modules/drape_mod.F

@@ -90,6 +90,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    alefvm_mod                   ../common_source/modules/ale/alefvm_mod.F
 !||    alemuscl_mod                 ../common_source/modules/ale/alemuscl_mod.F
 !||    check_mod                    ../common_source/modules/check_mod.F
+!||    checksum_output_option_mod   ../common_source/modules/output/checksum_mod.F90
 !||    connectivity_mod             ../common_source/modules/connectivity.F90
 !||    coupling_adapter_mod         ../engine/source/coupling/coupling_adapter.F90
 !||    diffusion_mod                ../engine/share/modules/diffusion_mod.F

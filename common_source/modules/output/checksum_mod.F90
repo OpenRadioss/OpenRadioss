@@ -20,6 +20,19 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+!||====================================================================
+!||    checksum_output_option_mod   ../common_source/modules/output/checksum_mod.F90
+!||--- called by ------------------------------------------------------
+!||    genani                       ../engine/source/output/anim/generate/genani.F
+!||    hm_read_thchecksum           ../starter/source/output/th/hm_read_thchecksum.F90
+!||    hm_read_thgrou               ../starter/source/output/th/hm_read_thgrou.F
+!||    output_mod                   ../common_source/modules/output/output_mod.F90
+!||    radioss2                     ../engine/source/engine/radioss2.F
+!||    rdresb                       ../engine/source/output/restart/rdresb.F
+!||    wrrestp                      ../engine/source/output/restart/wrrestp.F
+!||--- uses       -----------------------------------------------------
+!||    names_and_titles_mod         ../common_source/modules/names_and_titles_mod.F
+!||====================================================================
       module checksum_output_option_mod
 
         use iso_c_binding

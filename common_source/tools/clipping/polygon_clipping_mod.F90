@@ -57,6 +57,13 @@
 ! ======================================================================================================================
 !                                                   FUNCTION
 ! ======================================================================================================================
+!||====================================================================
+!||    intersectpt                ../common_source/tools/clipping/polygon_clipping_mod.F90
+!||--- called by ------------------------------------------------------
+!||    clipping_weiler_atherton   ../common_source/tools/clipping/polygon_clipping_mod.F90
+!||--- uses       -----------------------------------------------------
+!||    constant_mod               ../common_source/modules/constant_mod.F
+!||====================================================================
         function intersectPt(P1, P2, Q1, Q2, tol, alpha, beta) result(intersection)
 !! \brief Compute intersection point [P1,P2[ and {Q1,Q2[
 !! \details On [P1 P2[ : position is alpha in \[0,1[ and On [Q1 Q2[ : position is beta in \[0,1[
@@ -96,6 +103,11 @@
 ! ======================================================================================================================
 !                                                   FUNCTION
 ! ======================================================================================================================
+!||====================================================================
+!||    getedgefrompointid         ../common_source/tools/clipping/polygon_clipping_mod.F90
+!||--- called by ------------------------------------------------------
+!||    clipping_weiler_atherton   ../common_source/tools/clipping/polygon_clipping_mod.F90
+!||====================================================================
         function GetEdgeFromPointId (List_Edge, point_id, list_size, out_point_pos) result(out_edge_pos)
           !output : ii : edge number in the list
           !output : jj : point number on this list
@@ -238,7 +250,9 @@
 !||--- called by ------------------------------------------------------
 !||    init_inivol_2d_polygons          ../starter/source/initial_conditions/inivol/init_inivol_2D_polygons.F90
 !||--- calls      -----------------------------------------------------
+!||    getedgefrompointid               ../common_source/tools/clipping/polygon_clipping_mod.F90
 !||    integer_array_reindex            ../common_source/tools/sort/array_reindex.F90
+!||    intersectpt                      ../common_source/tools/clipping/polygon_clipping_mod.F90
 !||    nextpoint                        ../common_source/tools/clipping/polygon_clipping_mod.F90
 !||    points_array_reindex             ../common_source/tools/clipping/polygon_clipping_mod.F90
 !||    polygon_addpoint                 ../common_source/tools/clipping/polygon_mod.F90

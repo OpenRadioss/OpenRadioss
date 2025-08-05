@@ -91,6 +91,7 @@
 !||    wrcomr                             ../engine/source/output/restart/wrcomm.F
 !||    wrrestp                            ../engine/source/output/restart/wrrestp.F
 !||--- uses       -----------------------------------------------------
+!||    checksum_output_option_mod         ../common_source/modules/output/checksum_mod.F90
 !||    precision_mod                      ../common_source/modules/precision_mod.F90
 !||    state_file_mod                     ../common_source/modules/output/state_file_mod.F90
 !||    time_history_mod                   ../common_source/modules/output/time_history_mod.F

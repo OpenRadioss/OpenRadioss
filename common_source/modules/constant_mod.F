@@ -166,6 +166,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    inter_init_node_color                    ../engine/source/interfaces/generic/inter_init_node_color.F90
 !||    inter_save_candidate                     ../starter/source/interfaces/inter3d1/inter_save_candidate.F90
 !||    inter_sh_offset_ini                      ../engine/source/interfaces/shell_offset/inter_offset_ini.F90
+!||    intersectpt                              ../common_source/tools/clipping/polygon_clipping_mod.F90
 !||    jcook51                                  ../engine/source/materials/mat/mat051/jcook51.F90
 !||    jwl_eos_delta                            ../engine/source/materials/mat/mat041/jwl_eos_mod.F90
 !||    law133_upd                               ../starter/source/materials/mat/mat133/law133_upd.F90
