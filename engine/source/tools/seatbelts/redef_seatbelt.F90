@@ -127,7 +127,7 @@
           integer :: nfunct
 
           real(kind=WP) ::x1,x2,y1,y2,dt11
-          real(kind=WP) :: xi1,xi2,yi1,yi2,ddxt,ddxc
+          real(kind=WP) :: xi1,xi2,yi1,yi2
           real(kind=WP) :: damp,damm,fxb,xxb,x1s,x2s
           real(kind=WP),dimension(mvsiz) :: an3y0
           real(kind=WP),dimension(mvsiz) :: xn3fy0

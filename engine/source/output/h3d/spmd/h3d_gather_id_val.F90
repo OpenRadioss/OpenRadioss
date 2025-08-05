@@ -79,14 +79,9 @@
       integer :: rec_dim
       integer :: msgtag
       integer :: pos
-      integer msgtyp,nod,loc_proc,ierror,msgoff,                     &
-              siz,j,nb_nod,siz6,len,                               &
-              status(mpi_status_size),                               &
-              iad_send(nspmd+1),                                     &
-              req_r(nspmd),req_s(nspmd)
-      data msgoff/231/
-
-      double precision, dimension(:,:),allocatable :: rbuf, sbuf 
+      integer ierror,msgoff,                     &
+              status(mpi_status_size)
+      data msgoff/231/ 
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------

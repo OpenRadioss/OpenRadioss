@@ -107,7 +107,7 @@
           integer :: fail_old(mvsiz),index(mvsiz),icas(mvsiz),isoft(mvsiz)
           real(kind=WP) :: e11,e22,e33,nu12,nu21,g12,g23,g31,wplaref,cc,epdr
           real(kind=WP) :: scale, cnn, scale1, scale2, dam1, dam2,b1,b2
-          real(kind=WP) :: strp12,coefa,coefb,delta,dwpla,e1,e2,e3,e4,e5,e6 
+          real(kind=WP) :: coefa,coefb,delta,dwpla,e1,e2,e3,e4,e5,e6 
           real(kind=WP)                                                            &
             :: dp1(mvsiz), dp2(mvsiz), dp3(mvsiz),cb(mvsiz),cn(mvsiz),          &
             fmax(mvsiz),ds1(mvsiz), ds2(mvsiz), ds3(mvsiz),                  &
@@ -116,11 +116,6 @@
             a11(mvsiz), a12(mvsiz), a22(mvsiz),a21(mvsiz),                   &
             so1(mvsiz), so2(mvsiz), so3(mvsiz),wplamx(mvsiz),                &
             epst1(mvsiz),epst2(mvsiz),epsm1(mvsiz),epsm2(mvsiz),             &
-            eps1t1(mvsiz), eps2t1(mvsiz), sigrst1(mvsiz),                    &
-            eps1t2(mvsiz), eps2t2(mvsiz), sigrst2(mvsiz),                    &
-            eps1c1(mvsiz), eps2c1(mvsiz), sigrsc1(mvsiz),                    &
-            eps1c2(mvsiz), eps2c2(mvsiz), sigrsc2(mvsiz),                    &
-            eps1t12(mvsiz), eps2t12(mvsiz), sigrst12(mvsiz),                 &
             dmax(mvsiz),fyld(mvsiz),                                         &
             f1(mvsiz), f2(mvsiz), f12(mvsiz), f11(mvsiz), f22(mvsiz),        &
             f33(mvsiz),epsf1(mvsiz),epsf2(mvsiz),eps(mvsiz,6)

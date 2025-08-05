@@ -98,7 +98,7 @@
        tau2, gamma2, tauyz,c11,c12,c13,c21,c22,c23,c31,c32,c33,     &
        e3, ef33c,ef33t, efs13,efs23, em33c,em33t, ems13,ems23,      &
        sc13,sc23,zc,zt, slims13,slims23
-      real(kind=WP) , dimension(nel) ::  dezz,check
+      real(kind=WP) , dimension(nel) ::  check
 !!======================================================================
 !
        FS = 0 ! type of failure yield surface method

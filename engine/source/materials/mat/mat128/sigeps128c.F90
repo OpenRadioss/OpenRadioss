@@ -122,7 +122,7 @@
       real(kind=WP) ,dimension(nel)   :: phi               !< plastic yield criterion
       real(kind=WP) ,dimension(nel)   :: yld0              !< initial yield stress
       real(kind=WP) ,dimension(nel)   :: dphi_dlam,dpla_dlam
-      real(kind=WP) ,dimension(nel)   :: dpxx,dpyy,dpzz,dpxy,dpyz,dpzx
+      real(kind=WP) ,dimension(nel)   :: dpxx,dpyy,dpzz,dpxy
       real(kind=WP) ,dimension(nel,1) :: xvec1
       real(kind=WP) ,dimension(nel,2) :: xvec2
 !===============================================================================    

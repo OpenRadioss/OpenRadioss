@@ -81,8 +81,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-          integer :: i,l,k,m ! small integers can be declared in the same line
-          integer :: pos ! more complex variable should be declared in separate lines, and described 
+          integer :: i,k ! small integers can be declared in the same line
           integer :: n,jj,iprt0,iprt,ii
           integer :: ng,nel,nft,lft,llt,ity,ioff
           integer :: np(4*numsph),work(70000),clef(2,numsph)

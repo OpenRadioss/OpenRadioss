@@ -81,19 +81,17 @@
 !-----------------------------------------------
 !   l o c a l   v a r i a b l e s
 !-----------------------------------------------
-        integer :: i,ii,k,nindf,tempi,nindxd
+        integer :: i,ii,nindf,nindxd
         integer :: iel
         integer :: pwrt,pwrs
         integer ,dimension(nel) :: indxd,indf
-
         real(kind=WP) :: young,nu, wave,gcten,gcshr,shrp,sht_sl,taumax,tau_n
-        real(kind=WP) :: dlam, dpla_dlam,shear,dp,g1,g2,sigeq,dtb,norm,nxz,nyz,d0fn,d0fs
-        real(kind=WP), dimension(nel) :: dstrnz, dstrnxz, dstrnyz,strs_tr_sh,fyld,strn_pl,dstr_sh,eps_n0
-        real(kind=WP), dimension(nel) :: normzz, normxz, normyz, df,dpzx,dpyz,dpzz,ddpla,dpla,dmg_n,dmg_s
-        real(kind=WP), dimension(nel) :: fdam_n,fdam_s,thick,stf,tempr,normyz_norm,normxz_norm,normzz_norm
+        real(kind=WP) :: shear,dp,g1,g2,sigeq,dtb,d0fn,d0fs
+        real(kind=WP), dimension(nel) :: strs_tr_sh,fyld,dstr_sh,eps_n0
+        real(kind=WP), dimension(nel) :: dpla,dmg_n,dmg_s
+        real(kind=WP), dimension(nel) :: fdam_n,fdam_s,stf
         real(kind=WP), dimension(nel) :: eps_s0,eps_sh,dfn,dfs
         real(kind=WP), dimension(nel) :: tenmax,shrmax
-
 !--------------------------------------------------------
 !    uvar(1) = dmg_n 
 !    uvar(2) = dmg_s 

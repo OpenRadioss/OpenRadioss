@@ -856,8 +856,6 @@
 !-------------------
 !     plasticity end
 !------------------------------------------------------------------------
-3000      format(' ** WARNING : MATERIAL LAW 25 - ELEMENT ID =',i10)
-3010      format('cannot project stresses on criteria')
 !------------------------------------------------------------------------
           return
         end subroutine mat25_crasurv_s

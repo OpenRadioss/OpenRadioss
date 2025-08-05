@@ -97,7 +97,7 @@
 !c   l o c a l   v a r i a b l e s
 !c-----------------------------------------------
     integer :: i, j, nindx, ninievo, ilen
-    integer, dimension(nel) :: indx, nrot
+    integer, dimension(nel) :: indx
     integer, dimension(nel, 2) :: ipos
     integer, dimension(:), allocatable :: initype, evotype, evoshap, comptyp, tab_id, &
                              tab_el, fcrit
@@ -107,8 +107,6 @@
                devsp1, devsp2, radius, sigp1, sigp2
     real(kind=WP), dimension(nel) :: l0, triax, epsf, depsf, sizefac, epsmod, p, svm, &
                                dmgmax, dmgmul, maxshear, sigpmaj, alpha, dsize
-    real(kind=WP), dimension(nel, 3, 3) :: sigtens, vect_pr
-    real(kind=WP), dimension(nel, 3) :: sig_pr
     real(kind=WP), dimension(nel, 2) :: xvec
     real(kind=WP), dimension(:,:), allocatable :: dmgini, dmgevo
 !c=======================================================================

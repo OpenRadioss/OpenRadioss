@@ -129,7 +129,7 @@
       real(kind=WP) ::                                                               &
         deplzz(nel),sigbxx(nel),sigbyy(nel),sigbxy(nel),normsig(nel),          &
         xp1(nel),xp2(nel),xpp1(nel),xpp2(nel),phip(nel),phipp(nel),phi(nel),   &
-        xvec(nel,2),deelzz(nel),dylddp(nel),hardr(nel),xpxx(nel),              &
+        xvec(nel,2),deelzz(nel),dylddp(nel),xpxx(nel),              &
         xpyy(nel),xpxy(nel),xppxx(nel),xppyy(nel),xppxy(nel),depszz(nel),      &
         yld_i(nel),dylddp_i(nel),yld0(nel),dyld0dp(nel),dsigbxxdp(nel),        &
         dsigbyydp(nel),dsigbxydp(nel),hk(nel)
