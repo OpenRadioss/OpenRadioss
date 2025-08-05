@@ -44,13 +44,12 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
-          use spmd_comm_world_mod, only : SPMD_COMM_WORLD
+          use spmd_mod
 ! ----------------------------------------------------------------------------------------------------------------------
           implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Included files
 ! ----------------------------------------------------------------------------------------------------------------------
-#include "task_c.inc"
 #include "spmd.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
@@ -65,19 +64,22 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-#ifdef MPI
-          integer :: msgtyp,i,nod,loc_proc,ierror,msgoff,                     &
+          integer :: msgtyp,i,nod,loc_proc,ierror,                    &
             siz,j,l,nb_nod,siz6,len,                                 &
-            status(mpi_status_size),                                 &
             iad_send(nspmd+1),                                       &
             iad_recv(nspmd+1),                                       &
             req_r(nspmd),req_s(nspmd)
-          data msgoff/231/
+          integer, parameter :: msgoff = 231
 
           double precision, dimension(:,:),allocatable :: rbuf, sbuf
+          integer :: it_spmd
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
+
+#ifndef MPI
+          return
+#endif
           allocate(rbuf(ndim1,lenr))
           allocate(sbuf(ndim1,lenr))
 
@@ -87,14 +89,15 @@
           iad_recv(1)  = 1
 
           do i=1,nspmd
+            it_spmd = i - 1
             len = iad_offset(1,i+1)-iad_offset(1,i)
             siz = siz6 *  len
             if(siz/=0)then
               msgtyp = msgoff
-              call mpi_irecv(                               &
-                rbuf(1,l),siz,mpi_double_precision,         &
-                it_spmd(i),msgtyp,SPMD_COMM_WORLD,           &
-                req_r(i),ierror)
+              call spmd_irecv(                               &
+                rbuf(1,l),siz,         &
+                it_spmd,msgtyp,           &
+                req_r(i))
               l = l  + len
             endif
             iad_recv(i+1)  = l
@@ -120,6 +123,7 @@
 !   echange messages
 !
           do i=1,nspmd
+            it_spmd = i - 1
 ! send
             nb_nod = iad_offset(1,i+1)-iad_offset(1,i)
             if(nb_nod>0)then
@@ -128,10 +132,10 @@
 
               siz = len *  siz6
               l = iad_send(i)
-              call mpi_isend(                               &
-                sbuf(1,l),siz,mpi_double_precision,         &
-                it_spmd(i),msgtyp,SPMD_COMM_WORLD,           &
-                req_s(i),ierror)
+              call spmd_isend(                               &
+                sbuf(1,l),siz,         &
+                it_spmd,msgtyp,           &
+                req_s(i))
             endif
 !
           enddo
@@ -141,7 +145,7 @@
           do i = 1, nspmd
             nb_nod = iad_offset(1,i+1)-iad_offset(1,i)
             if(nb_nod>0)then
-              call mpi_wait(req_r(i),status,ierror)
+              call spmd_wait(req_r(i))
               l  = iad_recv(i)
               do j=iad_offset(1,i),iad_offset(1,i+1)-1
                 nod = fr_offset(j)
@@ -155,12 +159,9 @@
 !
           do i = 1, nspmd
             if(iad_offset(1,i+1)-iad_offset(1,i)>0)then
-              call mpi_wait(req_s(i),status,ierror)
+              call spmd_wait(req_s(i))
             endif
           enddo
-!
-#endif
           return
         end subroutine spmd_exch_vnpon
       end module spmd_exch_vnpon_mod
-!
