@@ -151,6 +151,8 @@
         use spmd_wait_mod, only: spmd_wait, spmd_waitall, spmd_waitany
         use spmd_allgatherv_mod, only: spmd_allgatherv
         use spmd_alltoall_mod, only: spmd_alltoall 
+        use spmd_pack_mod, only: spmd_pack
+        use spmd_unpack_mod, only: spmd_unpack
         implicit none
         ! Define the interface for spmd_send
 ! dummy tags for MPI calls that do not have a tag
@@ -213,6 +215,8 @@
         public :: SPMD_COMM_WORLD
         public :: spmd_allgatherv
         public :: spmd_alltoall
+        public :: spmd_pack
+        public :: spmd_unpack
 
       contains
 ! ======================================================================================================================
