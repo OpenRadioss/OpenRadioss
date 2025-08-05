@@ -98,7 +98,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      6            FINT      ,FEXT        ,FOPT       ,ANIN      ,LPBY     ,         
      7            NPBY      ,NSTRF       ,RWBUF      ,NPRW      ,EBCS_TAB ,
      8            TANI      ,INOISE      ,BUFNOIS    ,RBY       ,NEFLSW   ,         
-     9            NNFLSW    ,CRFLSW      ,FLSW       ,LOUT      ,                
+     9            NNFLSW    ,CRFLSW      ,FLSW       ,LOUT      ,NODES    ,
      B            FSAV      ,SKEW        ,ELBUF_TAB  ,CLUSTER   ,                   
      C            VR        ,IN          ,WEIGHT     ,FCLUSTER  ,MCLUSTER ,         
      D            DD_IAD    ,DMAS        ,ACCELM     ,GAUGE,             
@@ -167,7 +167,11 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE STATE_MOD
       USE USER_WINDOWS_MOD
-      USE OUTPUT_MOD , ONLY : OUTPUT_, NODA_SURF, NODA_PEXT
+      USE OUTPUT_MOD , ONLY : OUTPUT_
+      USE OUTPUT_MOD , ONLY : NODA_SURF, NODA_PEXT, NODA_PEXT_G, NODA_SURF_G
+      USE OUTPUT_MOD , ONLY : ANIM_HAS_NODA_PEXT, H3D_HAS_NODA_PEXT
+      USE SPMD_EXCH_OUTPUT_NODA_PEXT_MOD , ONLY : SPMD_EXCH_OUTPUT_NODA_PEXT
+      USE TH_MOD , ONLY : TH_HAS_NODA_PEXT
       USE DT_MOD
       USE TABLE_MOD
       USE LOADS_MOD
@@ -176,11 +180,10 @@ C-----------------------------------------------
       USE ELBUFDEF_MOD
       use FPCONT2_MAX_OUTPUT_MOD
       use FPCONT2_MIN_OUTPUT_MOD
-      use glob_therm_mod
+      USE GLOB_THERM_MOD
       use PBLAST_MOD
-      use th_mod , only : TH_HAS_NODA_PEXT
-      USE OUTPUT_MOD , ONLY : ANIM_HAS_NODA_PEXT, H3D_HAS_NODA_PEXT
       USE HIST2_MOD , ONLY : HIST2
+      USE NODAL_ARRAYS_MOD , ONLY : NODAL_ARRAYS_
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -217,6 +220,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      TYPE(NODAL_ARRAYS_), INTENT(INOUT) :: NODES
       TYPE(TIMER_), INTENT(INOUT) :: TIMERS 
       TYPE(t_ebcs_tab), TARGET, INTENT(IN) :: EBCS_TAB
       LOGICAL LOUT
@@ -304,6 +308,7 @@ C-----------------------------------------------
       type (PBLAST_) ,intent(in)            :: PBLAST
       INTEGER,INTENT(IN) ::  IPARIT
       DOUBLE PRECISION,INTENT(INOUT) :: WFEXT
+      LOGICAL :: TRIGGER_ANIM, TRIGGER_TH, TRIGGER_H3D
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -405,6 +410,22 @@ C-----------------------------------------------
         CALL SPMD_EXCH_ADM(ANIN(NDIN+1),IAD_ELEM,FR_ELEM,LENR,WEIGHT)
       ENDIF
 C----------------------
+      ! /TH/NODE (PEXT) or /H3D/NODA/PEXT or /ANIM/NODA/PEXT
+      ! gathering NODA_SURF and NODA_PEXT on domain 0
+C----------------------
+        TRIGGER_TH = TT >= OUTPUT%TH%THIS
+        TRIGGER_H3D = (ILASTH3D==1.OR.(TT>=H3D_DATA%TH3D.AND.TT<=H3D_DATA%TH3D_STOP) .OR. H3D_DATA%MH3D ==1 .OR.
+     .                 (MSTOP == 1  .AND. ICTLSTOP == 0 .AND. H3D_DATA%IH3D/= 0) .OR.
+     .                 (MSTOP == 2  .AND. H3D_DATA%IH3D/= 0) .OR.
+     .                 (DT2<=ZERO .AND. H3D_DATA%IH3D/= 0) )
+        TRIGGER_ANIM = (TT>=TANIM .AND. TT<=TANIM_STOP).OR.
+     .                  MANIM==4 .OR.MANIM==5 .OR.MANIM==6 .OR.MANIM==7.OR.
+     .                  MANIM==12.OR.MANIM==13.OR.MANIM==14.OR.MANIM==15 .OR.
+     .                  (MSTOP == 1 .AND. TANIM < EP30 .AND. ICTLSTOP == 0) .OR.
+     .                  MSTOP == 2 .OR. DT2<=ZERO
+       CALL SPMD_EXCH_OUTPUT_NODA_PEXT(NSPMD, NODES, NUMNOD, NUMNODG,
+     .                                 TRIGGER_TH, TRIGGER_ANIM, TRIGGER_H3D )
+C----------------------
 C       Compute contact pressures from normal + tangential contact forces.
 C       Tied Contact : Inter type2
 C----------------------
@@ -501,12 +522,8 @@ C----------------------------------------------------
          CALL FPCONT2_MIN_OUTPUT(FTCONTP2,FTCONT2_MIN,SZ_NPCONT2,NPCONT2,WEIGHT,
      .                           NPCONT2_MIN,NUMNOD)
       ENDIF 
-  
-      IF ((TT>=TANIM .AND. TT<=TANIM_STOP).OR. ! NUMELCRK > NUMELCRK2 .or.   !  => ANIM par fissure avance
-     .   MANIM==4 .OR.MANIM==5 .OR.MANIM==6 .OR.MANIM==7.OR.
-     .   MANIM==12.OR.MANIM==13.OR.MANIM==14.OR.MANIM==15 .OR.
-     .   (MSTOP == 1 .AND. TANIM < EP30 .AND. ICTLSTOP == 0) .OR.   ! If MSTOP==1 + TANIM == EP30, no animation file should be written.
-     .   MSTOP == 2 .OR. DT2<=ZERO )THEN
+
+      IF ( TRIGGER_ANIM )THEN
        IANIM=IANIM+1
 C      N1 = 1
 C      N2 = N1 + NUMNOD

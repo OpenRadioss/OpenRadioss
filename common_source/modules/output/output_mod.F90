@@ -115,9 +115,44 @@
         double precision, pointer :: wfext_md
 
         ! /H3D/NODA/PEXT and /ANIM/NODA/PEXT and /TH/NODE(PEXT)
-        real(kind=WP), dimension(:), allocatable :: NODA_SURF, NODA_PEXT
+        real(kind=WP), dimension(:), allocatable :: NODA_SURF, NODA_PEXT       !domain array
+        real(kind=WP), dimension(:), allocatable :: NODA_SURF_G, NODA_PEXT_G   !global array (proc 0) for animation files
         integer :: H3D_HAS_NODA_PEXT
         integer :: ANIM_HAS_NODA_PEXT
 
         type(output_),pointer :: output_ptr      ! pointer to output structure (need for arret)
+
+
+        contains
+
+          SUBROUTINE OUTPUT_ALLOCATE_NODA_PEXT(NUMNOD, NUMNODG)
+              use th_mod , only : th_has_noda_pext
+              use constant_mod , only : zero
+              !use output_mod , only : anim_has_noda_pext, h3d_has_noda_pext
+              !use output_mod , only : NODA_SURF,NODA_PEXT
+              !use output_mod , only : NODA_SURF_G,NODA_PEXT_G
+              implicit none
+              INTEGER,INTENT(IN) :: NUMNOD  ! number of nodes per domain
+              INTEGER,INTENT(IN) :: NUMNODG ! number of nodes (proc 0 only)
+              IF(TH_HAS_NODA_PEXT > 0 .OR. ANIM_HAS_NODA_PEXT > 0 .OR. H3D_HAS_NODA_PEXT > 0) THEN
+                ALLOCATE(NODA_SURF(NUMNOD))
+                ALLOCATE(NODA_PEXT(NUMNOD))
+                NODA_SURF(1:NUMNOD)=ZERO
+                NODA_PEXT(1:NUMNOD)=ZERO
+             END IF
+              IF(ANIM_HAS_NODA_PEXT > 0) THEN
+                ALLOCATE(NODA_SURF_G(NUMNODG))
+                ALLOCATE(NODA_PEXT_G(NUMNODG))
+                NODA_SURF_G(1:NUMNODG)=ZERO
+                NODA_PEXT_G(1:NUMNODG)=ZERO
+             END IF
+          END SUBROUTINE OUTPUT_ALLOCATE_NODA_PEXT
+
+          SUBROUTINE OUTPUT_DEALLOCATE_NODA_PEXT
+            IF(ALLOCATED(NODA_SURF_G)) DEALLOCATE(NODA_SURF_G)
+            IF(ALLOCATED(NODA_PEXT_G)) DEALLOCATE(NODA_PEXT_G)
+            IF(ALLOCATED(NODA_SURF))DEALLOCATE(NODA_SURF)
+            IF(ALLOCATED(NODA_PEXT))DEALLOCATE(NODA_PEXT)
+          END SUBROUTINE OUTPUT_DEALLOCATE_NODA_PEXT
+
       end module output_mod
