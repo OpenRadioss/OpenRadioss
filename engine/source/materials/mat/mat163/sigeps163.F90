@@ -34,7 +34,7 @@
 !          and the change of volumetric strain rate is capped. The volumetric strain rate is
 !          computed according to the user choice (engineering or true strain rate).
 !          A viscous damping is added to the stress tensor.
-! ======================================================================================================================       
+! ======================================================================================================================
 !||====================================================================
 !||    sigeps163               ../engine/source/materials/mat/mat163/sigeps163.F90
 !||--- called by ------------------------------------------------------
@@ -59,21 +59,21 @@
           signxx   ,signyy   ,signzz   ,signxy   ,signyz   ,signzx   ,         &
           sigvxx   ,sigvyy   ,sigvzz   ,sigvxy   ,sigvyz   ,sigvzx   ,         &
           aldt     ,rho      ,iresp    ,plas     ,epsd     )
-!-----------------------------------------------
-!   M o d u l e s
-!-----------------------------------------------
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                        Modules
+! ----------------------------------------------------------------------------------------------------------------------
           use matparam_def_mod 
           use constant_mod      
           use table_mat_vinterp_mod
           use precision_mod, only : WP
-!-----------------------------------------------
-!   I m p l i c i t   T y p e s
-!-----------------------------------------------
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                 implicit none 
+! ----------------------------------------------------------------------------------------------------------------------
           implicit none 
 #include  "units_c.inc"
-!-----------------------------------------------
-!   D u m m y   A r g u m e n t s
-!-----------------------------------------------
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   arguments 
+! ----------------------------------------------------------------------------------------------------------------------
           integer, intent(in)                    :: nel        !< number of elements in the group
           integer, intent(in)                    :: nuvar      !< number of user variables
           real(kind=WP), dimension(nel,nuvar), intent(inout) :: uvar !< user variables
@@ -127,9 +127,9 @@
           integer, intent(in)                    :: iresp      !< precision flag
           real(kind=WP), dimension(nel), intent(inout) :: plas       !< effective volumetric true strain
           real(kind=WP), dimension(nel), intent(inout) :: epsd       !< effective volumetric strain rate
-!-----------------------------------------------
-!  L o c a l   V a r i a b l e s
-!-----------------------------------------------
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   local variables 
+! ----------------------------------------------------------------------------------------------------------------------
           integer :: i,j,ncycle,nrs
           real(kind=WP) :: young,nu,g,bulk,cii,cij,tsc,damp,srclmt,alpha,ldav,a
           real(kind=WP), dimension(nel) :: dgamdt,gama,dsdgam,le,seq,epst

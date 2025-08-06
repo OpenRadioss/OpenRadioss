@@ -101,11 +101,11 @@
           USE COLLISION_MOD , ONLY : GROUP_SIZE
           USE INTER7_FILTER_CAND_MOD
           USE CONSTANT_MOD
-!-----------------------------------------------
+! ----------------------------------------------------------------------------------------------------------------------
           implicit none
-!-----------------------------------------------
-!   D u m m y   A r g u m e n t s
-!-----------------------------------------------
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   arguments 
+! ----------------------------------------------------------------------------------------------------------------------
           integer, intent(inout) :: i_mem !< error code when not enough memory
           integer, intent(in), value :: eshift !< openmp shift for main segments
           integer, intent(in), value :: nsn !< number of secondary nodes
@@ -165,9 +165,9 @@
           real(kind=WP), intent(in) :: stf(nrtm) !< stiffness of segments (quadrangles or triangles)
           real(kind=WP), intent(inout) :: xrem(s_xrem,nsnr) !< remote (spmd) real data
 
-!-----------------------------------------------
-!   L o c a l   V a r i a b l e s
-!-----------------------------------------------
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   local variables 
+! ----------------------------------------------------------------------------------------------------------------------
           integer :: i,j, nn, ne, k, l, j_stok, jj, delnod, m
           integer, dimension(:), allocatable :: tagremnode
           real(kind=WP) :: xs, ys, zs, sx, sy, sz, s2
@@ -209,9 +209,9 @@
 
 
 
-!=======================================================================
+! ======================================================================================================================
 ! 3   FACE RECOVERY AND ENUMERATION OF CANDIDATE COUPLES
-!=======================================================================
+! ======================================================================================================================
           j_stok = 0
           if(flagremnode == 2) then
             allocate(tagremnode(numnod))
@@ -434,9 +434,9 @@
 !            enddo
 !          endif
 !$OMP BARRIER
-!=======================================================================
+! ======================================================================================================================
 ! 7   DEALLOCATE
-!=======================================================================
+! ======================================================================================================================
           if(flagremnode == 2) then
             if(allocated(tagremnode)) deallocate(tagremnode)
           endif
@@ -552,9 +552,9 @@
      &                                    numnod       )
           USE PRECISION_MOD, ONLY : WP
           implicit none
-!-----------------------------------------------
-!   D u m m y   A r g u m e n t s
-!-----------------------------------------------
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   arguments 
+! ----------------------------------------------------------------------------------------------------------------------
           character(len =*), intent(in) :: filename
 
           integer, intent(in), value :: nsn !< number of secondary nodes
@@ -606,9 +606,9 @@
           real(kind=WP), intent(in) :: xyzm(12) !< bounding box
           real(kind=WP), intent(in) :: stf(nrtm) !< stiffness of segments (quadrangles or triangles)
           real(kind=WP), intent(in) :: stfn(nsn) !< stiffness secondary nodes
-!-----------------------------------------------
-!   L o c a l   V a r i a b l e s
-!-----------------------------------------------
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   local variables 
+! ----------------------------------------------------------------------------------------------------------------------
           integer :: i, j, iostat, unitNum
           integer :: pos
 
@@ -753,9 +753,9 @@
      &                                    numnod       )
           USE PRECISION_MOD, ONLY : WP
           implicit none
-!-----------------------------------------------
-!   D u m m y   A r g u m e n t s
-!-----------------------------------------------
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   arguments 
+! ----------------------------------------------------------------------------------------------------------------------
           character(len =*), intent(in) :: filename
           integer, intent(out) :: nsn !< number of secondary nodes
           integer, intent(out) :: nsnr !< current number of remote secondary nodes
@@ -808,9 +808,9 @@
           real(kind=WP), intent(out), dimension(:), allocatable :: stfn !< stiffness secondary nodes
           real(kind=WP), intent(out) :: xyzm(12) !< bounding box
 
-!-----------------------------------------------
-!   L o c a l   V a r i a b l e s
-!-----------------------------------------------
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   local variables 
+! ----------------------------------------------------------------------------------------------------------------------
           integer :: i, j, iostat, unitNum
           integer :: pos
           open(NEWUNIT=unitNum, FILE=filename, FORM='UNFORMATTED', STATUS='OLD', IOSTAT=iostat)
@@ -935,7 +935,7 @@
 !      !||====================================================================
 !        subroutine test_candidates(filename)
 !          use iso_c_binding , only : c_int
-!          implicit none
+!                                                     Implicit none
 !          interface
 !          subroutine compare_cand(cand_n, cand_e, ii_stok, cand_n_ref, cand_e_ref, ii_stok_ref) bind(C, name="compare_cand")
 !              import :: c_int

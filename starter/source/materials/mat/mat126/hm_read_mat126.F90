@@ -49,9 +49,9 @@
         subroutine hm_read_mat126(                                 &
           nuvar    ,mtag     ,matparam ,iout     ,parmat   ,      &
           unitab   ,lsubmodel,israte   ,mat_id   ,titr     )
-!-----------------------------------------------
-!   M o d u l e s
-!-----------------------------------------------
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                        Modules
+! ----------------------------------------------------------------------------------------------------------------------
           use unitab_mod
           use message_mod
           use submodel_mod
@@ -59,13 +59,13 @@
           use elbuftag_mod
           use constant_mod
           use precision_mod, only : WP
-!-----------------------------------------------
-!   I m p l i c i t   T y p e s
-!-----------------------------------------------
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                 implicit none 
+! ----------------------------------------------------------------------------------------------------------------------
           implicit none
-!-----------------------------------------------
-!   D u m m y   A r g u m e n t s
-!-----------------------------------------------
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   arguments 
+! ----------------------------------------------------------------------------------------------------------------------
           integer, intent(inout)                :: nuvar             !< number of material law user variables
           type(mlaw_tag_), intent(inout)        :: mtag              !< material tag for internal variables in element buffer
           real(kind=WP), intent(inout)                :: parmat(100)       !< material parameter global table 1
@@ -76,54 +76,54 @@
           character(len=nchartitle),intent(in)  :: titr              !< material law user title
           type(matparam_struct_) ,intent(inout) :: matparam          !< matparam data structure
           integer, intent(in)                   :: iout              !< output file number
-!-----------------------------------------------
-!   L o c a l   V a r i a b l e s
-!-----------------------------------------------
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   local variables 
+! ----------------------------------------------------------------------------------------------------------------------
           integer :: idel,ifailso
           real(kind=WP)                                                  &
             :: rho0,shear,aa,bb,nn,fc,t0,cc,eps0,asrate,sfmax,        &
             efmin,pc,muc,pl,mul,k0,k1,k2,k3,d1,d2,young,nu,        &
             eps_max,h
           logical :: is_encrypted, is_available
-!-----------------------------------------------
-!     S o u r c e
-!-----------------------------------------------
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                      body
+! ----------------------------------------------------------------------------------------------------------------------
           is_encrypted = .false.
           is_available = .false.
-!----------------------------------------------------------------
+! ----------------------------------------------------------------------------------------------------------------------
           call hm_option_is_encrypted(is_encrypted)
-!----------------------------------------------------------------
+! ----------------------------------------------------------------------------------------------------------------------
 !         #rhoo
           call hm_get_floatv('MAT_RHO'   ,rho0   ,is_available,lsubmodel, unitab)
-!----------------------------------------------------------------
+! ----------------------------------------------------------------------------------------------------------------------
 !         #g
           call hm_get_floatv('MAT_G'     ,shear  ,is_available,lsubmodel, unitab)
-!----------------------------------------------------------------
+! ----------------------------------------------------------------------------------------------------------------------
 !         #a b m n fc t
           call hm_get_floatv('MAT_A'     ,aa     ,is_available, lsubmodel, unitab)
           call hm_get_floatv('MAT_B'     ,bb     ,is_available, lsubmodel, unitab)
           call hm_get_floatv('MAT_N'     ,nn     ,is_available, lsubmodel, unitab)
           call hm_get_floatv('MAT_FC'    ,fc     ,is_available, lsubmodel, unitab)
           call hm_get_floatv('MAT_T0'    ,t0     ,is_available, lsubmodel, unitab)
-!----------------------------------------------------------------
+! ----------------------------------------------------------------------------------------------------------------------
 !         #c epsp_0 sigma_f_max
           call hm_get_floatv('MAT_C'     ,cc     ,is_available, lsubmodel, unitab)
           call hm_get_floatv('MAT_EPS0'  ,eps0   ,is_available, lsubmodel, unitab)
           call hm_get_floatv('MAT_FCUT'  ,asrate ,is_available, lsubmodel, unitab)
           call hm_get_floatv('MAT_SFMAX' ,sfmax  ,is_available, lsubmodel, unitab)
           call hm_get_floatv('MAT_EFMIN' ,efmin  ,is_available, lsubmodel, unitab)
-!----------------------------------------------------------------
+! ----------------------------------------------------------------------------------------------------------------------
 !         #pc muc p1 mu1
           call hm_get_floatv('MAT_PC'    ,pc     ,is_available, lsubmodel, unitab)
           call hm_get_floatv('MAT_MUC'   ,muc    ,is_available, lsubmodel, unitab)
           call hm_get_floatv('MAT_PL'    ,pl     ,is_available, lsubmodel, unitab)
           call hm_get_floatv('MAT_MUL'   ,mul    ,is_available, lsubmodel, unitab)
-!----------------------------------------------------------------
+! ----------------------------------------------------------------------------------------------------------------------
 !         #k1 k2 k3
           call hm_get_floatv('MAT_K1'    ,k1     ,is_available, lsubmodel, unitab)
           call hm_get_floatv('MAT_K2'    ,k2     ,is_available, lsubmodel, unitab)
           call hm_get_floatv('MAT_K3'    ,k3     ,is_available, lsubmodel, unitab)
-!----------------------------------------------------------------
+! ----------------------------------------------------------------------------------------------------------------------
 !         #d1 d2 idel
           call hm_get_floatv('MAT_D1'    ,d1     ,is_available, lsubmodel, unitab)
           call hm_get_floatv('MAT_D2'    ,d2     ,is_available, lsubmodel, unitab)
@@ -157,9 +157,9 @@
           if (sfmax   == zero) sfmax   = infinity
           if (eps_max == zero) eps_max = infinity
 !
-!--------------------------
+! ----------------------------------------------------------------------------------------------------------------------
 !     Filling buffer tables
-!--------------------------
+! ----------------------------------------------------------------------------------------------------------------------
           !< Number of integer material parameters
           matparam%niparam = 2
           !< Number of real material parameters
@@ -231,9 +231,9 @@
           call init_mat_keyword(matparam ,"HYDRO_EOS")
           call init_mat_keyword(matparam ,"ISOTROPIC")
 !
-!--------------------------
+! ----------------------------------------------------------------------------------------------------------------------
 !     Parameters printout
-!--------------------------
+! ----------------------------------------------------------------------------------------------------------------------
           write(iout, 900) trim(titr),mat_id,126
           write(iout,1000)
           if (is_encrypted) then
@@ -250,7 +250,7 @@
             write(iout,1600) pc,muc,pl,mul,k0,k1,k2,k3
             write(iout,1700) d1,d2,idel,eps_max,ifailso
           endif
-!-----------------------------------------------------------------------
+! ----------------------------------------------------------------------------------------------------------------------
 900       format(/                                                        &
             5X,A,/,                                                       &
             5X,'MATERIAL NUMBER. . . . . . . . . . . . . . .=',I10/,      &
@@ -309,6 +309,6 @@
             5X,'  IFAILSO = 4: STRESS TENSOR IS VANISHED',/)
 !
         end subroutine hm_read_mat126
-!-------------------
+! ----------------------------------------------------------------------------------------------------------------------
       end module hm_read_mat126_mod
 

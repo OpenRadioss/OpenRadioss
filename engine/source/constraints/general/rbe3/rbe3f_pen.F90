@@ -48,18 +48,18 @@
             rrbe3pen_stf,rrbe3pen_fac,rrbe3pen_vi ,rrbe3pen_m ,         &
                 dt1     ,iroddl      )
 ! ----------------------------------------------------------------------------------------------------------------------
-!                                                   Modules
+!                                                        Modules
 ! ----------------------------------------------------------------------------------------------------------------------
           use constant_mod,          only : one,two,zero,zep05,em20,third,fourth,ten,em6,em12
           use precision_mod, only : WP
 ! ----------------------------------------------------------------------------------------------------------------------
           implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
-!                                                   Included files
+!                                                    Included files
 ! ----------------------------------------------------------------------------------------------------------------------
-!-----------------------------------------------
-!   d u m m y   a r g u m e n t s
-!-----------------------------------------------
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   arguments 
+! ----------------------------------------------------------------------------------------------------------------------
           integer, intent(in)                                :: ns              !< reference node id
           integer, intent(in)                                :: numnod          !< number of nodes
           integer, intent(in)                                :: nmt             !< dimension of master AM,ARM
@@ -91,9 +91,9 @@
           real(kind=WP), dimension(nmt),     intent(inout)         :: stifrm          !< local rotational stifness of ind
           real(kind=WP), dimension(lskew,numskw),intent(in)        :: skew            !< local skew 
 !
-!-----------------------------------------------
-!   l o c a l   v a r i a b l e s
-!-----------------------------------------------
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   local variables 
+! ----------------------------------------------------------------------------------------------------------------------
           integer :: i,j,k,m,icoline,iel,el(3,3,nml)
           real(kind=WP), dimension(3) :: xbar,vts,wrv,dwrv,omgRb,tmrn,vit,disp,          &
                                    for,mom,drot,rR,rn,vl,vrl,gminvmR,              &
@@ -102,7 +102,7 @@
           real(kind=WP) :: wri(3,nml),stfn,stfr,facn,facr,fac_vi,fac_ref,rdummy,lms2 
           real(kind=WP) :: srR(3,3),srRT(3,3),srn(3,3),omgsrn(3,3),aa(3,3),aar(3,3)
           double precision :: disdp(3)
-!=======================================================================
+! ======================================================================================================================
 !! specifications for penalty method :
 !! 1.  only transtional dof of indepenent nodes are used for calculate rotation excepting for colinear case
 !! 2.  partial transtional dof of indepenent nodes is forbenden and error out : to do

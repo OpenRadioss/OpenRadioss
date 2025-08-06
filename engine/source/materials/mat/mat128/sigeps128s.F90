@@ -20,7 +20,7 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-!===============================================================================
+! ======================================================================================================================
 
 !||====================================================================
 !||    sigeps128s_mod   ../engine/source/materials/mat/mat128/sigeps128s.F90
@@ -52,12 +52,12 @@
            sighl    ,yld      ,et       ,pla      ,dpla     ,epsd     ,         &
            soundsp  ,off      ,l_sigb   ,sigb     )
 !
-! =================================================================================
+! ======================================================================================================================
 ! \brief orthotropic hill material with plastic strain rate dependency for solids
 
-! =================================================================================
-!   m o d u l e s
-!-----------------------------------------------
+! ======================================================================================================================
+!                                                        Modules
+! ----------------------------------------------------------------------------------------------------------------------
       use matparam_def_mod
       use constant_mod ,only : pi,zero,one,half,third,two_third,two,three,four
       use constant_mod ,only : four_over_3,four_over_5
@@ -65,11 +65,11 @@
       use table4d_mod
       use table_mat_vinterp_mod
       use precision_mod, only : WP
-! ---------------------------------------------------------------------------------
+! ----------------------------------------------------------------------------------------------------------------------
           implicit none
-!-----------------------------------------------
-!   d u m m y   a r g u m e n t s
-!-----------------------------------------------
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   arguments 
+! ----------------------------------------------------------------------------------------------------------------------
       integer ,intent(in) :: nel                           !< element group size
       integer ,intent(in) :: nuvar                         !< number of state variables
       integer ,intent(in) :: nvartmp                       !< number of temporary internal variables
@@ -105,9 +105,9 @@
       real(kind=WP) ,dimension(nel,nuvar)   ,intent(inout) :: uvar      !< state variables
       integer ,dimension(nel,nvartmp) ,intent(inout) :: vartmp    !< temporary internal variables
       type (matparam_struct_)         ,intent(in)    :: mat_param !< material parameter structure
-!-----------------------------------------------
-!   l o c a l   v a r i a b l e s
-!-----------------------------------------------
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   local variables 
+! ----------------------------------------------------------------------------------------------------------------------
       integer :: i,ii,iter,niter,nindx,ifunc,ndim
       integer ,dimension(nel) :: indx
       real(kind=WP) :: dlam,ddep,sig_dfdsig,dsig_dlam,dpdt,seq                                 
@@ -127,7 +127,7 @@
       real(kind=WP) ,dimension(nel)   :: dpxx,dpyy,dpzz,dpxy,dpyz,dpzx
       real(kind=WP) ,dimension(nel,1) :: xvec1
       real(kind=WP) ,dimension(nel,2) :: xvec2
-!===============================================================================    
+! ======================================================================================================================
       niter  = 3   ! max number of newton iterations
       dtime  = max(timestep, em20)
       young  = mat_param%young
@@ -166,7 +166,7 @@
       dpla(1:nel) = zero
       epsd(1:nel) = uvar(1:nel,1)  ! filtered plastic strain rate from previous time step
       soundsp(1:nel) = sqrt((bulk + four_over_3*shear) / rho0)     ! sound-speed
-!---------------------------------------------------------------------
+! ----------------------------------------------------------------------------------------------------------------------
       ! element deletion condition
       do i=1,nel
         if (off(i) < one)  off(i) = four_over_5*off(i)
@@ -195,7 +195,7 @@
           end if       
         end if
       endif
-!---------------------------------------------------------------------
+! ----------------------------------------------------------------------------------------------------------------------
       !< trial stress tensor 
       do i=1,nel      
         signxx(i) = sigoxx(i) + cii*depsxx(i) + cij*depsyy(i) + cij*depszz(i)
@@ -211,7 +211,7 @@
                  + two*mm*signzx(i)**2 + two*nn*signxy(i)**2
         sighl(i) = sqrt(max(zero,sighl(i)))
       enddo 
-!---------------------------------------------------------------------
+! ----------------------------------------------------------------------------------------------------------------------
       ! computing yield stress
 !
       if (mat_param%ntable == 0) then     ! analytical yield formulation
@@ -436,8 +436,8 @@
         epsd(i) = asrate * dpdt + (one - asrate) * uvar(i,1)
         uvar(i,1) = max(cc, epsd(i))  ! strain rate effect below static limit is ignored
       enddo 
-!-----------
+! ----------------------------------------------------------------------------------------------------------------------
       return
       end subroutine sigeps128s
-!-----------
+! ----------------------------------------------------------------------------------------------------------------------
       end module sigeps128s_mod

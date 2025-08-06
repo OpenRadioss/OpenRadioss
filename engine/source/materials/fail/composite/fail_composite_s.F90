@@ -44,20 +44,20 @@
            ip        ,ilay      ,npg       ,tdele     ,off       ,loff      ,  &             
            signxx    ,signyy    ,signzz    ,signxy    ,signyz    ,signzx    ,  &
            dmgscl    ,lf_dammx  ,dfmax     ,noff      )  
-!-----------------------------------------------
-!   M o d u l e s
-!-----------------------------------------------
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                        Modules
+! ----------------------------------------------------------------------------------------------------------------------
       use constant_mod
       use fail_param_mod
-!-----------------------------------------------
-!   I m p l i c i t   T y p e s
-!-----------------------------------------------
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                 implicit none 
+! ----------------------------------------------------------------------------------------------------------------------
       implicit none
 #include "my_real.inc"
 #include "units_c.inc"
-!-----------------------------------------------
-!   I N P U T   A r g u m e n t s
-!-----------------------------------------------
+! ----------------------------------------------------------------------------------------------------------------------
+!                                              Arguments s
+! ----------------------------------------------------------------------------------------------------------------------
       integer, intent(in)                     :: nel      !< Number of elements
       type(fail_param_), intent(in)           :: fail     !< Failure parameters data structure
       integer, intent(in)                     :: nuvar    !< Number of user variables
@@ -80,9 +80,9 @@
       integer, intent(in)                     :: lf_dammx !< Flag for damage max value
       my_real, dimension(nel,lf_dammx), intent(inout) :: dfmax !< Damage variable
       integer, dimension(nel), intent(inout)  :: noff     !< Number of failed integration points
-!-----------------------------------------------
-!   L o c a l   V a r i a b l e s
-!-----------------------------------------------
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   local variables 
+! ----------------------------------------------------------------------------------------------------------------------
       integer :: i,j,k,indx(nel),nindx,ifail_so,indx0(nel),nindx0
       my_real :: sigt1,sigc1,sigt2,sigc2,sig12,sigt3,sigc3,sig23,sig31,beta,   &
          expn,tmax
@@ -233,7 +233,7 @@
           write(istdo,1200) ngl(i),time
         end do
       endif  
-!------------------------   
+! ----------------------------------------------------------------------------------------------------------------------
  1000 format(1X,'FAILURE (COMPOSITE) OF SOLID ELEMENT ',I10,1X,                &
       ',GAUSS PT',I5,1X,',LAYER',I5)
  1100 format(1X,'FAILURE (COMPOSITE) OF SOLID ELEMENT ',I10,1X,                &
@@ -241,6 +241,6 @@
  1200 format(1X,'-- RUPTURE OF SOLID ELEMENT : ',I10,1X,                       &
       'AT TIME :',1PE20.13)  
  2000 format(1X,'---- MODE ',I2,':',1X,A)
-!------------------------
+! ----------------------------------------------------------------------------------------------------------------------
       end subroutine fail_composite_s
       end module fail_composite_s_mod

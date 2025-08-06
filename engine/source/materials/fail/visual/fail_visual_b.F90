@@ -52,14 +52,14 @@
                  nvar     ,                                   &
                  uvar     ,ismstr   ,timestep                 )
 !c-----------------------------------------------
-!c   i m p l i c i t   t y p e s
+!                                              c   implicit none 
 !c-----------------------------------------------
           use constant_mod      
           use precision_mod, only: WP
           implicit none
 #include  "comlock.inc"
 !c-----------------------------------------------
-!c   d u m m y   a r g u m e n t s
+!                                                  arguments s 
 !c-----------------------------------------------
       integer                     ,intent(in)    :: nel     !< size of element group
       integer                     ,intent(in)    :: nuparam !< size of parameter array
@@ -78,7 +78,7 @@
       real(kind=WP) ,dimension(nel,nvar),intent(inout) :: uvar    !< user variable / user element variable array
       integer                     ,intent(in)    :: ismstr  !< 
       real(kind=WP)                     ,intent(in)    :: timestep!< time increment!c-----------------------------------------------
-!c   l o c a l   v a r i a b l e s
+!                                                  local variables  
 !c-----------------------------------------------
       integer :: i,j,nindx,type_max,f_flag,strdef,strflag
       integer ,dimension(nel) :: indx
@@ -123,7 +123,7 @@
       f         = min(ff,zep4/max(em20,timestep))
       e11       = -huge(e11)
 !c----------------------------------------------
-!c     strain transformation flag following input definition
+!                                c strain transformation flag following input definition
 !c-------------------
 
       do i=1,nel
@@ -236,7 +236,7 @@
 
         
 !c-----------------------------------------------
-!c butterworth filtering
+!                                                c butterworth filtering
 !c-----------------------------------------------
 
             a0(1) = uvar(i,3)*uvar(i,9) 
