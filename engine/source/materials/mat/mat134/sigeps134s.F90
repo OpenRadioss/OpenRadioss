@@ -20,7 +20,7 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-!===============================================================================
+! ======================================================================================================================
 
 !||====================================================================
 !||    sigeps134s_mod   ../engine/source/materials/mat/mat134/sigeps134s.F90
@@ -47,21 +47,21 @@
            signxx   ,signyy   ,signzz   ,signxy   ,signyz   ,signzx   ,         &
            soundsp  ,off      )
 !
-! =================================================================================
+! ======================================================================================================================
 ! \brief orthotropic hill material with plastic strain rate dependancy for solids
 
-! =================================================================================
-!   m o d u l e s
-!-----------------------------------------------
+! ======================================================================================================================
+!                                                        Modules
+! ----------------------------------------------------------------------------------------------------------------------
       use matparam_def_mod
       use constant_mod ,only : pi,zero,one,half,third,two,three,four,em20
       use constant_mod ,only : four_over_3,four_over_5,em10
       use precision_mod, only : WP
-! ---------------------------------------------------------------------------------
+! ----------------------------------------------------------------------------------------------------------------------
           implicit none
-!-----------------------------------------------
-!   d u m m y   a r g u m e n t s
-!-----------------------------------------------
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   arguments 
+! ----------------------------------------------------------------------------------------------------------------------
       integer ,intent(in) :: nel                           !< element group size
       integer ,intent(in) :: nuvar                         !< number of state variables
       real(kind=WP) ,intent(in) :: timestep                      !< time step
@@ -92,16 +92,16 @@
       real(kind=WP) ,dimension(nel,nuvar)   ,intent(inout) :: uvar      !< state variables
       type (matparam_struct_)         ,intent(in)    :: mat_param !< material parameter structure
       target :: mat_param
-!-----------------------------------------------
-!   l o c a l   v a r i a b l e s
-!-----------------------------------------------
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   local variables 
+! ----------------------------------------------------------------------------------------------------------------------
       integer :: i
       real(kind=WP) ,dimension(nel) :: aa,bb,e1t,v2t
       real(kind=WP) ,dimension(6) :: sigv_old,sigv,dsig,dsige
       real(kind=WP) ::       &
         young, shear, bulk, nu, rho0, nu_shear, e1, n1, e2, v2, n2,   &
         r, dtime, nu_c  ,beta, cc      
-!===============================================================================    
+! ======================================================================================================================
       dtime  = max(timestep, em20)
       young  = mat_param%young
       shear  = mat_param%shear
@@ -128,7 +128,7 @@
         bb(i) = e2*exp(-beta*half*dtime)
       enddo 
       soundsp(1:nel) = sqrt((bulk + four_over_3*shear) / rho0)     ! sound-speed
-!---------------------------------------------------------------------
+! ----------------------------------------------------------------------------------------------------------------------
       !  elastic and viscous stress
        do i=1,nel
         ! incremental formulation for elastic and viscouss stress 
@@ -181,8 +181,8 @@
         signyz(i) = signyz(i)*off(i)
         signzx(i) = signzx(i)*off(i)
       enddo  
-!-----------
+! ----------------------------------------------------------------------------------------------------------------------
       return
       end subroutine sigeps134s
-!-----------
+! ----------------------------------------------------------------------------------------------------------------------
       end module sigeps134s_mod

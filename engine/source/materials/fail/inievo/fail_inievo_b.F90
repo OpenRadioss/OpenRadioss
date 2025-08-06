@@ -54,7 +54,7 @@
       damini  ,                                                      &
       ntable  ,dmgscl )           
 !c-----------------------------------------------
-!c   m o d u l e s
+!                                                    modules
 !c-----------------------------------------------
       use table_mod
       use interface_table_mod
@@ -63,12 +63,12 @@
       use message_mod
       use precision_mod, only : WP
 !c-----------------------------------------------
-!c   i m p l i c i t   t y p e 
+!                                               c i m p l i c i t t y p e
 !c-----------------------------------------------    
       implicit none
 #include      "units_c.inc" 
 !c-----------------------------------------------
-!c   d u m m y   a r g u m e n t s
+!                                                  arguments s 
 !c-----------------------------------------------
       integer                     ,intent(in)     :: nel         ! size of element group 
       integer                     ,intent(in)     :: nuparam     ! size of parameter array 
@@ -94,7 +94,7 @@
       real(kind=WP), dimension(nel)     ,intent(inout)  :: dmgscl
       integer ,intent(in) :: ntable
 !c-----------------------------------------------
-!c   l o c a l   v a r i a b l e s
+!                                                  local variables  
 !c-----------------------------------------------
     integer :: i, j, nindx, ninievo, ilen
     integer, dimension(nel) :: indx

@@ -20,7 +20,7 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-!===============================================================================
+! ======================================================================================================================
 
 !||====================================================================
 !||    sigeps128c_mod   ../engine/source/materials/mat/mat128/sigeps128c.F90
@@ -52,12 +52,12 @@
                  off      ,et       ,thkly    ,shf      ,yld      ,          &
                  hardm    ,sighl    ,l_sigb   ,sigb     )
 !
-! =================================================================================
+! ======================================================================================================================
 ! \brief orthotropic hill material with plastic strain rate dependency for shells
 
-! =================================================================================
-!   m o d u l e s
-!-----------------------------------------------
+! ======================================================================================================================
+!                                                        Modules
+! ----------------------------------------------------------------------------------------------------------------------
       use matparam_def_mod
       use constant_mod ,only : pi,zero,one,half,third,two_third,two,three,four
       use constant_mod ,only : four_over_3,four_over_5
@@ -65,11 +65,11 @@
       use table4d_mod
       use table_mat_vinterp_mod
       use precision_mod, only : WP
-! ---------------------------------------------------------------------------------
+! ----------------------------------------------------------------------------------------------------------------------
           implicit none
-!-----------------------------------------------
-!   d u m m y   a r g u m e n t s
-!-----------------------------------------------
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   arguments 
+! ----------------------------------------------------------------------------------------------------------------------
       integer ,intent(in) :: nel                           !< element group size
       integer ,intent(in) :: nvartmp                       !< number of temporary internal variables
       integer ,intent(in) :: l_sigb                        !< size of backstress tensor
@@ -104,9 +104,9 @@
       real(kind=WP) ,dimension(nel,l_sigb)  ,intent(inout) :: sigb      !< backstress tensor
       integer ,dimension(nel,nvartmp) ,intent(inout) :: vartmp    !< temporary internal variables
       type (matparam_struct_) ,intent(in) :: mat_param !< material parameter structure
-!-----------------------------------------------
-!   l o c a l   v a r i a b l e s
-!-----------------------------------------------
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   local variables 
+! ----------------------------------------------------------------------------------------------------------------------
       integer :: i,ii,iter,niter,nindx,ifunc,ndim
       integer ,dimension(nel) :: indx
       real(kind=WP) :: sigy,young,shear,bulk,nu,a11,a12,rho0
@@ -125,7 +125,7 @@
       real(kind=WP) ,dimension(nel)   :: dpxx,dpyy,dpzz,dpxy
       real(kind=WP) ,dimension(nel,1) :: xvec1
       real(kind=WP) ,dimension(nel,2) :: xvec2
-!===============================================================================    
+! ======================================================================================================================
       niter  = 3   ! max number of newton iterations
       dtime  = max(timestep, em20)
       !< Elastic parameters
@@ -165,13 +165,13 @@
       et(1:nel)     = one
       yld0(1:nel)   = sigy
       soundsp(1:nel)= sqrt(a11/rho0)
-!---------------------------------------------------------------------
+! ----------------------------------------------------------------------------------------------------------------------
       !< element deletion condition
       do i=1,nel
         if (off(i) < one)  off(i) = four_over_5*off(i)
         if (off(i) < em01) off(i) = zero
       enddo 
-!---------------------------------------------------------------------
+! ----------------------------------------------------------------------------------------------------------------------
       !< Backstress tensor computation
       if (fisokin > zero) then 
         !< Add the kinematic hardening contribution to stress tensor
@@ -191,7 +191,7 @@
           end if       
         end if
       endif
-!---------------------------------------------------------------------
+! ----------------------------------------------------------------------------------------------------------------------
       !< trial stress tensor 
       do i=1,nel 
         signxx(i) = sigoxx(i) + a11*depsxx(i) + a12*depsyy(i)
@@ -205,9 +205,9 @@
                  - two*hh*signxx(i)*signyy(i) + two*nn*signxy(i)**2        
         sighl(i) = sqrt(max(zero,sighl(i)))
       enddo 
-!---------------------------------------------------------------------
+! ----------------------------------------------------------------------------------------------------------------------
       ! computing yield stress
-!---------------------------------------------------------------------
+! ----------------------------------------------------------------------------------------------------------------------
       if (mat_param%ntable == 0) then     ! analytical yield formulation
         if (cc > zero)  then
           cowp(1:nel) = (epsd(1:nel)/cc)**cp
@@ -416,9 +416,9 @@
         epsd(i) = asrate * dpdt + (one - asrate) * epsd(i)
         epsd(i) = max(cc, epsd(i))  ! strain rate effect below static limit is ignored
       enddo 
-!-----------
+! ----------------------------------------------------------------------------------------------------------------------
       return 
       end subroutine sigeps128c
-!-----------
+! ----------------------------------------------------------------------------------------------------------------------
       end module sigeps128c_mod
 

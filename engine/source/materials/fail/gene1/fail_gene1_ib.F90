@@ -60,7 +60,7 @@
            itablf   ,lf_dammx ,niparam  ,iparam   ,    &
            snpc     ,stf      ,ntable   ,foff     , uelr, npg,  tdel)
 !c-----------------------------------------------
-!c   m o d u l e s
+!                                                    modules
 !c-----------------------------------------------
       use table_mod
       use interface_table_mod
@@ -68,12 +68,12 @@
       use constant_mod  
       use precision_mod, only : WP
 !c-----------------------------------------------
-!c   i m p l i c i t   t y p e 
+!                                               c i m p l i c i t t y p e
 !c-----------------------------------------------    
       implicit none
 #include      "units_c.inc" 
 !c-----------------------------------------------
-!c   d u m m y   a r g u m e n t s
+!                                                  arguments s 
 !c-----------------------------------------------
       integer                     ,intent(in)     :: nel      ! size of element group
       integer                     ,intent(in)     :: nuparam  ! size of parameter array
@@ -120,7 +120,7 @@
       real(kind=WP), dimension(stf), intent(in) :: tf
       real(kind=WP), external :: finter
 !c-----------------------------------------------
-!c   l o c a l   v a r i a b l e s
+!                                                  local variables  
 !c-----------------------------------------------
   integer :: i, j, nindx, nstep, crit, nmod, &
      fct_ism, fct_ips, fct_idg12, fct_idg13, fct_ide1c, fct_idel, &
