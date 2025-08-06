@@ -3604,7 +3604,7 @@ C---
      8           IPARTX  ,KXX     ,IXX     ,IADBOXMAX,SUBSETS,
      9           IGRTRUSS,IGRBEAM,IGRSPRING,NSETS   ,MAP_TABLES)
 C-------
-C       LECTURE DES LIGNES DES LIGNES
+C       READING LINES OF LINES
 C-------
         ICOUNT = 1
         ITER   = 0
@@ -3621,7 +3621,7 @@ C---
         ENDDO
       ENDIF
 C--------------------------------------------
-C     LECTURE DES INIITAL CRACKS
+C     READING INITIAL CRACKS
 C--------------------------------------------
       IF(NINICRACK > 0) THEN
         WRITE(ISTDO,'(A)')' .. INITIAL CRACK '
@@ -3640,7 +3640,7 @@ C---
       ENDIF
 C
 C--------------------------------------------
-C     LECTURE DES GROUPES DE NOEUDS
+C     READING NODE GROUPS
 C--------------------------------------------
       IF(NGRNOD > 0)THEN
         WRITE(ISTDO,'(A)')' .. NODE GROUP'
@@ -3680,7 +3680,7 @@ C--------------------------------------------
      C           IGRBEAM ,IGRSPRING,IGRSURF,NSETS   )
 
 C-------
-C       LECTURE DES GROUPES DES GROUPES
+C       READING GROUPS OF GROUPS
         ICOUNT = 1
         ITER   = 0
         DO WHILE (ICOUNT == 1)
@@ -3742,7 +3742,7 @@ C        IF(ALLOCATED(RBY_MSN)) DEALLOCATE(RBY_MSN)
 C--------------------------------------------
       CALL STOPTIME(17,1)
 C--------------------------------------------
-C     LECTURE DES DRAPES
+C     READING DRAPES
 C--------------------------------------------
       ERR_MSG='DRAPE'
       ERR_CATEGORY='DRAPE'
@@ -3924,7 +3924,7 @@ C---
 
          FLAGG = 1
 
-C---  Deuxieme Passe -> creation des interfaces
+C---  Second Pass -> interface creation
          CALL R2R_GROUP(NGRNOD,
      1        INNOD,FLAGG,IPARTS,IPARTQ,IPARTC,IPARTT,IPARTP,
      2        IPARTR,IPARTG,IPARTSP,IXS10,IXS20,IXS16,2,
@@ -3936,7 +3936,7 @@ C---  Deuxieme Passe -> creation des interfaces
      8        NLOC_DMG ,DETONATORS,SENSORS%NSENSOR,SEATBELT_SHELL_TO_SPRING,
      9        NB_SEATBELT_SHELLS,MAT_ELEM%MAT_PARAM)
 C--------------------------------------------
-C     MULTIDOMAINS - SPLIT DES TABLEAUX
+C     MULTIDOMAINS - ARRAY SPLITTING
 C--------------------------------------------
          WRITE(ISTDO,'(A)')' .. MULTIDOMAINS DATA SPLIT '
 C---  Premiere Passe -> comptage
@@ -3959,7 +3959,7 @@ C---  Deuxieme Passe -> split
      7             SEATBELT_SHELL_TO_SPRING,NB_SEATBELT_SHELLS)
          DEALLOCATE(IBUFTMP(IDX2)%ptr)
 C--------------------------------------------
-C     MULTIDOMAINS - MISE A JOUR DES STRUCTURES DE DONNEES
+C     MULTIDOMAINS - DATA STRUCTURE UPDATE
 C--------------------------------------------
 
          WRITE(ISTDO,'(A)')' .. MULTIDOMAINS DATA UPDATE '
@@ -3972,7 +3972,7 @@ C--------------------------------------------
      .                         C1='XYZREF')
          FLAG_GOTO = 1
 
-C-----on realloue le tableau FRONT-------------
+C-----reallocating FRONT array-------------
          CALL INI_IFRONT()
          IENTRY2(1:NUMNOD) = -1
          FLAGKIN(1:NUMNOD) = 0
@@ -4002,19 +4002,19 @@ C----- OPTION name update ----------
 211      CONTINUE
          CALL R2R_NOM_OPT(NOM_OPT,INOM_OPT,IN10,IN20,SNOM_OPT_OLD)
 
-C-----on repointe les tableaux IXS10,20,16--
+C-----repointing IXS10,20,16 arrays--
          GOTO 212
 213      CONTINUE
 
-C-----on realloue les NOD2EL----------------
+C-----reallocating NOD2EL----------------
          GOTO 214
 215      CONTINUE
 
-C-----on repointe les tableaux IPART--------
+C-----repointing IPART arrays--------
          GOTO 216
 217      CONTINUE
 
-C-----on recalcule les connectivit   s inverses--------
+C-----recalculating inverse connectivities--------
 
          CALL BUILD_CNEL(
      2   IXS        ,IXQ        ,IXC        ,IXT      ,IXP      ,
@@ -4026,7 +4026,7 @@ C-----on recalcule les connectivit   s inverses--------
      8   NOD2ELQ    )
          IF(ALLOCATED(IWORK)) DEALLOCATE(IWORK)
 
-C-----on reinitialise les pointeurs utilisateurs-------
+C-----reinitializing user pointers-------
          CALL SAV_BUF_POINT(PM     ,1)
          CALL SAV_BUF_POINT(BUFMAT ,2)
          CALL SAV_BUF_POINT(GEO    ,3)
@@ -4042,7 +4042,7 @@ C--------------------------------------------
          IF(.NOT. ALLOCATED(NALE_R2R)) ALLOCATE(NALE_R2R(0))
          IF(.NOT. ALLOCATED(DT_R2R)) ALLOCATE(DT_R2R(0))
 C--------------------------------------------
-C     MULTIDOMAINS - CHECK DES INTERFACES
+C     MULTIDOMAINS - INTERFACE CHECK
 C--------------------------------------------
 
 C---  Check multidomains datas
@@ -4176,7 +4176,7 @@ C
       ENDIF
       CALL TRACE_OUT1()
 C--------------------------------------------
-C     LECTURE DE RANDOM NOISE
+C     READING RANDOM NOISE
 C--------------------------------------------
       ERR_MSG='RANDOM NOISE'
       ERR_CATEGORY='RANDOM NOISE'
@@ -4194,7 +4194,7 @@ C--------------------------------------------
 
       CALL TRACE_OUT1()
 C--------------------------------------------
-C     LECTURE DES SLIPRINGS AND RETRACTORS
+C     READING SLIPRINGS AND RETRACTORS
 C--------------------------------------------
       ERR_MSG='SEATBELTS'
       ERR_CATEGORY='SEATBELTS'
@@ -4220,7 +4220,7 @@ C
      2                                           X,NPC1,NOM_OPT(LNOPT1*INOM_OPT(32)+1),ALEA,IPM)
       CALL TRACE_OUT1()
 C--------------------------------------------
-C     LECTURE DES CONDITIONS LIMITES
+C     READING BOUNDARY CONDITIONS
 C--------------------------------------------
       ERR_MSG='BCS'
       ERR_CATEGORY='BCS'
@@ -4267,7 +4267,7 @@ C     Adaptive meshing : Sending down the bcs
       END IF
       CALL TRACE_OUT1()
 C--------------------------------------------------------------------------
-C     TRI DES BRICK ET QUAD, CLASSEMENT PAR LOI
+C     SORTING BRICKS AND QUADS, CLASSIFICATION BY LAW
 C--------------------------------------------------------------------------
       ERR_MSG='SOLIDS SORT'
       ERR_CATEGORY='INTERNAL'
@@ -4308,7 +4308,7 @@ C--------------------------------------------
       IF(SRBMPC > 0) RBMPC = ZERO
       CALL TRACE_OUT1()
 C--------------------------------------------
-C     STOCKAGE DYNAMIQUE REEL
+C     DYNAMIC REAL STORAGE
 C--------------------------------------------
       ERR_MSG='DYNAMIC STORAGE REAL'
       ERR_CATEGORY='INTERNAL'
@@ -4387,7 +4387,7 @@ C
       IF(SASAVE > 0)   ASAVE   = ZERO
       CALL TRACE_OUT1()
 C--------------------------------------------
-C     LECTURE DES JOINTS COMPLEXES (GJOINT)
+C     READING COMPLEX JOINTS (GJOINT)
 C--------------------------------------------
       ERR_MSG='GJOINTS'
       ERR_CATEGORY='GJOINTS'
@@ -4412,8 +4412,8 @@ C--------------------------------------------
       CALL TRACE_OUT1()
 C--------------------------------------------
 C     A.L.E.
-C     TABLEAUX DE VOISINS (OU FACETTES) DES ELEMENTS
-C     TABLEAUX DES NOEUDS VOISINS
+C     ELEMENT NEIGHBOR (OR FACET) ARRAYS
+C     NEIGHBOR NODE ARRAYS
 C--------------------------------------------
       CALL ALE_CONNECTIVITY%ALE_CONNECTIVITY_INIT()
       ERR_MSG='ALE LINKS'
@@ -4464,7 +4464,7 @@ C--------------------------------------------
       ENDIF
       CALL TRACE_OUT1()
 C---------------------------------------------------
-C     DETECTION DES ELEMENTS LOIS 6 PAROI---->LOI 17
+C     DETECTION OF ELEMENT LAW 6 WALL---->LAW 17
 C---------------------------------------------------
       ERR_MSG='CFD BOUNDARY ELEMENTS'
       ERR_CATEGORY='CFD BOUNDARY ELEMENTS'
@@ -4473,9 +4473,9 @@ C---------------------------------------------------
      +   CALL PAROI(PM     ,IXS    ,IXQ    ,ICODE  ,ALE_CONNECTIVITY%NALE   )
       CALL TRACE_OUT1()
 C--------------------------------------------
-C     STOCKAGE DYNAMIQUE (CHARGEMENT) ENTIER
+C     DYNAMIC INTEGER STORAGE (LOADING)
 C--------------------------------------------
-C      LECTURE DES ELEMENTS MULTI-PURPOSE.
+C      READING MULTI-PURPOSE ELEMENTS.
 C---------------------------------------------
       ERR_MSG='MULTI-PURPOSE ELEMENTS'
       ERR_CATEGORY='MULTI-PURPOSE ELEMENTS'
@@ -4512,7 +4512,7 @@ C---------------------------------------------
       ENDIF
       CALL TRACE_OUT1()
 C--------------------------------------------
-C     LECTURE DES CONDITIONS DE SYMETRIE SPH.
+C     READING SPH SYMMETRY CONDITIONS.
 C---------------------------------------------
       ERR_MSG='SPH SYM'
       ERR_CATEGORY='SPH SYM'
@@ -4537,7 +4537,7 @@ C---------------------------------------------
       ENDIF
       CALL TRACE_OUT1()
 C---------------------------------------------
-C      LECTURE DES INLET/OUTLET SPH.
+C      READING SPH INLET/OUTLET.
 C---------------------------------------------
       ERR_MSG='SPH I/O'
       ERR_CATEGORY='SPH I/O'
@@ -4575,7 +4575,7 @@ c         VSPHIO2(1:SVSPHIO2)=ZERO
      .                      LVSPHIO  ,LWASPIO  ,ITABM1   ,UNITAB   ,
      .                      LSUBMODEL,RTRANS   ,NRTRANS )
 C---- -----------------------------------------
-C        PREPARATION de la LISTE TRIEE des PARTICULES ON/OFF par PART.
+C        PREPARING SORTED LIST of ON/OFF PARTICLES by PART.
 C---------------------------------------------
          SLPRTSPH = 2*(NPART+1)
          SLONFSPH = NUMSPH
@@ -4608,13 +4608,13 @@ c         ALLOCATE(VSPHIO2(SVSPHIO2)      ,STAT=stat)
       ENDIF
       IF(NUMSPH > 0)THEN
 C---------------------------------------------
-C       REMPLISSAGE de SPBUF(2) = H
+C       FILLING SPBUF(2) = H
 C---------------------------------------------
         CALL SPINIH(KXSP    ,IPART  ,IPARTSP ,SPBUF  ,PM,
      .              IXSP    ,NOD2SP ,X       ,LPRTSPH,LONFSPH,
      .              SNOD2SP ,SLONFSPH,NUMNOD,NPART,ITAB)
 C---------------------------------------------
-C        TRI STARTER : Remplissage de IXSP
+C        STARTER SORTING : Filling IXSP
 C---------------------------------------------
         PRE_SEARCH = 0
         SZ_INTP_DIST = 1     ! Array MAX_INTP_DIST_PART not used for full search siz=1
@@ -4637,7 +4637,7 @@ C---------------------------------------------
       MSNF = ZERO
       CALL TRACE_OUT1()
 C--------------------------------------------
-C     PRE-LECTURE DES FORCES CONCENTREES & PRESSIONS
+C     PRE-READING CONCENTRATED FORCES & PRESSURES
 C--------------------------------------------
       ERR_MSG='CONCENTRED LOADS'
       ERR_CATEGORY='CONCENTRED LOADS'
@@ -4677,11 +4677,11 @@ C--------------------------------------------
       DPL0CLD = ZERO
       VEL0CLD = ZERO
 C--------------------------------------------
-C     LECTURE DES FORCES CONCENTREES
+C     READING CONCENTRATED FORCES
 C--------------------------------------------
       IF(NCONLD/=0) THEN
         WRITE(ISTDO,'(A)')TITRE(33)
-C       NCONLD ET NPRELD sont modifies dans LECCLD et LECPRE
+C       NCONLD AND NPRELD are modified in LECCLD and LECPRE
         CALL HM_READ_CLOAD(IBCL   ,FORC   ,NCONLD,ITAB   ,ITABM1 ,
      .                     IGRNOD ,IBCL   ,UNITAB,ISKWN ,LSUBMODEL,
      .                     LOADS  )
@@ -4698,7 +4698,7 @@ C       NCONLD ET NPRELD sont modifies dans LECCLD et LECPRE
       END IF
       CALL TRACE_OUT1()
 C--------------------------------------------
-C     LECTURE DES PRESSIONS
+C     READING PRESSURES
 C--------------------------------------------
       ERR_MSG='PRESSURE LOADS'
       ERR_CATEGORY='PRESSURE LOADS'
@@ -4709,7 +4709,7 @@ C--------------------------------------------
      .                     IGRSURF ,UNITAB ,LSUBMODEL ,LOADS   )
         NCONLD=NCONLD+NPRELD
       ENDIF
-C NCONLD ET NPRELD sont modifies dans LECCLD et LECPRE
+C NCONLD AND NPRELD are modified in LECCLD and LECPRE
       CALL TRACE_OUT1()
       IF(NSUBDOM>0) DEALLOCATE(NNCL)
 c
@@ -4927,7 +4927,7 @@ C--------------------------------------------
       ALLOCATE(FZERO(SFZERO)  ,STAT=stat)
       IF(SFZERO > 0) FZERO = ZERO
 C--------------------------------------------
-C     LECTURE DES IMPACT LASER
+C     READING LASER IMPACTS
 C--------------------------------------------
       ERR_MSG='LASER IMPACTS'
       ERR_CATEGORY='LASER IMPACTS'
@@ -4935,7 +4935,7 @@ C--------------------------------------------
       CALL LECLAS(LSUBMODEL)
       CALL TRACE_OUT1()
 C-------------------------------------------------
-C     GENERATION FACETTES EXTERNES (FICHIERS ANIM)
+C     GENERATING EXTERNAL FACETS (ANIM FILES)
 C     ALE-EULER SEULEMENT
 C-------------------------------------------------
       NFACX=0
@@ -4954,7 +4954,7 @@ C-------------------------------------------------
       ENDIF
       CALL TRACE_OUT1()
 C--------------------------------------------
-C     LECTURE DES ACCELEROMETRES
+C     READING ACCELEROMETERS
 C--------------------------------------------
       ERR_MSG='ACCELEROMETERS'
       ERR_CATEGORY='ACCELEROMETERS'
@@ -4967,7 +4967,7 @@ C--------------------------------------------
      2          ISKWN,NOM_OPT(LNOPT1*INOM_OPT(1)+1), LSUBMODEL)
       CALL TRACE_OUT1()
 C--------------------------------------------
-C     LECTURE DES GAUGES
+C     READING GAUGES
 C--------------------------------------------
       ERR_MSG='GAUGES'
       ERR_CATEGORY='GAUGES'
@@ -4985,7 +4985,7 @@ C--------------------------------------------
       IF(NBGAUGE > 0) CALL HM_READ_GAUGE(LGAUGE,GAUGE,ITABM1,UNITAB,IXC,NOM_OPT(LNOPT1*INOM_OPT(27)+1),LSUBMODEL)
       CALL TRACE_OUT1()
 C--------------------------------------------
-C     LECTURE DES SENSORS
+C     READING SENSORS
 C--------------------------------------------
       ERR_MSG='SENSORS'
       ERR_CATEGORY='SENSORS'
@@ -5017,7 +5017,7 @@ c
       CALL TRACE_OUT1()
 
 C--------------------------------------------
-C     LECTURE DES VITESSES INITIALES
+C     READING INITIAL VELOCITIES
 C--------------------------------------------
       ERR_MSG='INITIAL VELOCITIES'
       ERR_CATEGORY='INITIAL VELOCITIES'
@@ -5073,7 +5073,7 @@ C READ /BCS/WALL
       ENDIF
 
 C--------------------------------------------
-C     LECTURE DES PRELOADS
+C     READING PRELOADS
 C--------------------------------------------
       ERR_MSG='BOLT PRELOADING'
       ERR_CATEGORY='BOLT PRELOADING'
@@ -5163,7 +5163,7 @@ c
        END IF 
       CALL TRACE_OUT1()
 C-------------------------------------------------
-C     LECTURE DES LIENS RIGIDES
+C     READING RIGID LINKS
 C--------------------------------------------
       ERR_MSG='RIGID LINKS'
       ERR_CATEGORY='RIGID LINKS'
@@ -5196,7 +5196,7 @@ C
 c--------------------------------------------
       CALL TRACE_OUT1()
 C--------------------------------------------
-C     LECTURE DES ANCIENS POIDS
+C     READING OLD WEIGHTS
 C--------------------------------------------
       CALL PRELEC_DDW(FILNAM,LEN_FILNAM,MARQUEUR3)
       IF(MARQUEUR3) THEN
@@ -5244,7 +5244,7 @@ C
       ENDIF
       CALL TRACE_OUT1()
 C---------------------------
-C Calcul ELEM RBY ON/OFF pour domdec
+C Calculate ELEM RBY ON/OFF for domdec
 C---------------------------
       ERR_MSG='RIGID BODIES ON'
       ERR_CATEGORY='RIGID BODIES'
@@ -5263,7 +5263,7 @@ C---------------------------
      6   IQUAOFF  ,KNOD2ELQ,NOD2ELQ,LSUBMODEL)
       CALL TRACE_OUT1()
 C---------------------------
-C Calcul ELEM OFF (RBE2) pour domdec
+C Calculate ELEM OFF (RBE2) for domdec
 C---------------------------
       ERR_MSG='RBE2 ON'
       ERR_CATEGORY='RBE2'
@@ -5274,7 +5274,7 @@ C---------------------------
      3   LSUBMODEL)
       CALL TRACE_OUT1()
 C---------------------------------------------
-C Calcul FLEXIBLE BODY - ELEM OFF pour domdec
+C Calculate FLEXIBLE BODY - ELEM OFF for domdec
 C---------------------------------------------
       ERR_MSG='FLEXIBLE BODIES ON'
       ERR_CATEGORY='FLEXIBLE BODIES'
@@ -5287,7 +5287,7 @@ C---------------------------------------------
       ENDIF
       CALL TRACE_OUT1()
 C--------------------------------------------
-C     LECTURE DES CLUSTERS DES ELEMENTS
+C     READING ELEMENT CLUSTERS
 C--------------------------------------------
       ERR_MSG='CLUSTERS'
       ERR_CATEGORY='CLUSTERS'
@@ -5297,7 +5297,7 @@ C--------------------------------------------
      .       IXS      ,IXR      ,NOM_OPT(LNOPT1*INOM_OPT(28)+1),
      .       LSUBMODEL)
 C--------------------------------------------
-C     LECTURE DES INITIAL VOLUME FRACTIONS
+C     READING INITIAL VOLUME FRACTIONS
 C--------------------------------------------
       CALL HM_READ_INIVOL(INIVOL, KVOL, IGRSURF ,IPART, MULTI_FVM, BUFMAT, 
      *                    IPM, NBSUBMAT, LSUBMODEL, UNITAB,
@@ -5384,7 +5384,7 @@ C----------------------------------
       ENDIF
       CALL TRACE_OUT1()
 C---------------------------
-C Calcul de DOF pour domdec implicite
+C Calculate DOF for implicit domdec
 C---------------------------
       ERR_MSG='IMPLICIT DOMAIN DECOMPOSITION'
       ERR_CATEGORY='IMPLICIT DOMAIN DECOMPOSITION'
@@ -5394,13 +5394,13 @@ C---------------------------
      2    IXP  ,IXR , IXTG, KXX,
      3    IXX  ,GEO )
 C---------------------------
-C DOMAIN DECOMPOSITION SUR MODELE COMPLET
-C CEP tableau donnant pour chaque element le proc associe.
+C DOMAIN DECOMPOSITION ON COMPLETE MODEL
+C CEP array giving the associated processor for each element.
 C allocation de taille NELEM
 C---------------------------
-C IDDLEVEL indique le niveau de la domdec :
-C 0 == niveau 1) non prise en compte des interfaces (input v31)
-C 1 == niveau 2) prise en compte des interfaces dans la dd (input v41)
+C IDDLEVEL indicates the domdec level :
+C 0 == level 1) interfaces not taken into account (input v31)
+C 1 == level 2) interfaces taken into account in dd (input v41)
 C---------------------------
       IDDLEVEL = 0
       NELEMINT = 0
@@ -5441,7 +5441,7 @@ c FRONT(I,NSPMD+1) = FRONT(I,1)
           TRITELT(I)=ZERO
         ENDDO
         TPSREF = ZERO
-C       Sauvegarde longueurs tableaux lagmult
+C       Save lagmult array lengths
         LAG_NCF0 = LAG_NCF
         LAG_NKF0 = LAG_NKF
         LAG_NHF0 = LAG_NHF
@@ -5456,7 +5456,7 @@ C-------------------------
      .                     IGEO      ,IWORKSH     ,DRAPEG%INDX)
       ENDIF
 C-----------------------------------------------------
-C     LECTURE DES /PERTURB( random noise sur les epaisseurs des shells/part )
+C     READING /PERTURB( random noise on shell/part thicknesses )
 C-----------------------------------------------------
       ERR_MSG='PERTURB'
       ERR_CATEGORY='PERTURB'
@@ -5508,7 +5508,7 @@ C PERMUTATION%SOLID(NUMELS+1:2*NUMELS) : INDEX(OLD)=NEW_ID
       PERMUTATION%SOLID = 0
 
 C------------------------------------------------------------------------
-C     REMPLACEMENT DES NOS EXTERNES DES FCTS ET SKEW PAR LES NOS SYSTEMES
+C     REPLACING EXTERNAL IDS OF FCTS AND SKEW BY SYSTEM IDS
 C------------------------------------------------------------------------
       ERR_MSG='USER TO SYSTEM RENUMBERING'
       ERR_CATEGORY='INTERNAL'
@@ -5537,7 +5537,7 @@ C
       CALL TRACE_OUT1()
 C------------------------------------------------------------------------
 C     OPTIONS SPH:
-C     REMPLACEMENT DES NOS EXTERNES DES FCTS
+C     REPLACING EXTERNAL IDS OF FCTS
 C------------------------------------------------------------------------
       CALL TRACE_IN1(ERR_MSG,LEN_TRIM(ERR_MSG))
       IF(NSPHIO/=0)
