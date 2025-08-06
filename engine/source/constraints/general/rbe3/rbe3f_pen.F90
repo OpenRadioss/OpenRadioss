@@ -44,9 +44,9 @@
                 a       ,ar          ,am         ,arm         ,         &
                 stifn   ,stifr       ,stifnm      ,stifrm     ,         &
                 v       ,vr          ,frbe3       ,x          ,         &
-                lskew   ,numskw      ,skew        ,rrbe3pen_d ,         &
+                lskew   ,numskw      ,skew        ,rrbe3pen_f ,         &
             rrbe3pen_stf,rrbe3pen_fac,rrbe3pen_vi ,rrbe3pen_m ,         &
-                dt1     ,iroddl      )
+                dt1     ,in          ,iroddl      )
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                        Modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -75,7 +75,7 @@
           real(kind=WP), dimension(3,numnod),intent(in   )         :: v               !< velocity
           real(kind=WP), dimension(3,numnod),intent(in   )         :: vr              !< rotational velocity
           real(kind=WP), dimension(6,nml),   intent(in)            :: frbe3           !< normalized weight 
-          real(kind=WP), dimension(3),       intent(in   )         :: rrbe3pen_d      !< initial displacement
+          real(kind=WP), dimension(3),       intent(inout)         :: rrbe3pen_f      !< force
           real(kind=WP), dimension(2),       intent(in   )         :: rrbe3pen_stf    !< stiffness
           real(kind=WP),                     intent(in   )         :: dt1             !< time step
           real(kind=WP),                     intent(in   )         :: rrbe3pen_fac    !< stiffness factor
@@ -90,14 +90,15 @@
           real(kind=WP), dimension(nmt),     intent(inout)         :: stifnm          !< local stifness of ind
           real(kind=WP), dimension(nmt),     intent(inout)         :: stifrm          !< local rotational stifness of ind
           real(kind=WP), dimension(lskew,numskw),intent(in)        :: skew            !< local skew 
+          real(kind=WP), dimension(numnod),  intent(in   )         :: in              !< nodal inertia
 !
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   local variables 
 ! ----------------------------------------------------------------------------------------------------------------------
           integer :: i,j,k,m,icoline,iel,el(3,3,nml)
           real(kind=WP), dimension(3) :: xbar,vts,wrv,dwrv,omgRb,tmrn,vit,disp,          &
-                                   for,mom,drot,rR,rn,vl,vrl,gminvmR,              &
-                                   frefb,mrefb,mrefr,mrefbr,mref0,fn,vrg
+                                   for,mom,drot,rR,rn,vl,vrl,gminvmR,                    &
+                                   frefb,mrefb,mrefr,mrefbr,mref0,fn,vrg,vrt
           real(kind=WP) :: wi(nml),rndotrn,det,gamma(9),gminv(9),gamma_max,jgamma,wmax
           real(kind=WP) :: wri(3,nml),stfn,stfr,facn,facr,fac_vi,fac_ref,rdummy,lms2 
           real(kind=WP) :: srR(3,3),srRT(3,3),srn(3,3),omgsrn(3,3),aa(3,3),aar(3,3)
@@ -217,32 +218,32 @@
            omgRb(1:3)  = omgRb(1:3)+vrg(1:3) 
         enddo     
        endif
-! force,moment
-          disp(1:3) = disdp(1:3) - rrbe3pen_d(1:3)
-          lms2=disdp(1)*disdp(1)+disdp(2)*disdp(2)+disdp(3)*disdp(3)
-          vit(1:3) = v(1:3,ns)-vts(1:3)
-          for(1:3) = rrbe3pen_stf(1)*disp(1:3)
-          for(1:3) = rrbe3pen_stf(1)*disp(1:3)+rrbe3pen_vi*vit(1:3)
-          if (lms2>em12) then
-            rdummy = (for(1)*disp(1)+for(2)*disp(2)+for(3)*disp(3))/lms2
-            for(1:3) = rdummy*disp(1:3)
-          end if
-          vrg(1:3) = zero
-          if (iroddl>0) vrg(1:3) =vr(1:3,ns)
-          drot(1:3) = (vrg(1:3)-omgRb(1:3))*dt1
-          mom(1:3) = rrbe3pen_m(1:3)+ rrbe3pen_stf(2)*drot(1:3)
-          rrbe3pen_m(1:3) = mom(1:3)
-          frefb(1:3) = for(1:3)  ! will be distributed to ind nodes
-          mrefb(1:3) = mom(1:3)  ! will be distributed to ind nodes
-!
+! incre. force,moment
+!          disp(1:3) = disdp(1:3) - rrbe3pen_d(1:3)
+!          lms2=disdp(1)*disdp(1)+disdp(2)*disdp(2)+disdp(3)*disdp(3)
+          vrt(1) = rR(2)*omgRb(3)-rR(3)*omgRb(2)
+          vrt(2) = rR(3)*omgRb(1)-rR(1)*omgRb(3)
+          vrt(3) = rR(1)*omgRb(2)-rR(2)*omgRb(1)
+          vit(1:3) = v(1:3,ns)-vts(1:3) + vrt(1:3) !remove rotational part : -omgRb x rR
+          for(1:3) = rrbe3pen_f(1:3) + rrbe3pen_stf(1)*vit(1:3)*dt1
+          rrbe3pen_f(1:3) = for(1:3)
+          for(1:3) = for(1:3)+rrbe3pen_vi*vit(1:3) ! add damping
+          mom(1:3) = zero
 !-------forces distributions & stifn,stifr update
         fac_vi = one + two*zep05
         fac_ref = fac_vi*rrbe3pen_fac
         stifn(ns) = stifn(ns)+fac_ref*rrbe3pen_stf(1)
-        if (iroddl>0) then 
-          stifr(ns) = stifr(ns)+rrbe3pen_stf(2) 
-          ar(1:3,ns) = ar(1:3,ns) - mom(1:3) ! a(1:3,ns) will be updated at the end
+        if (iroddl>0) then
+          if (in(ns)>zero) then
+            drot(1:3) = (vr(1:3,ns)-omgRb(1:3))*dt1
+            mom(1:3) = rrbe3pen_m(1:3)+ rrbe3pen_stf(2)*drot(1:3)
+            rrbe3pen_m(1:3) = mom(1:3)
+            stifr(ns) = stifr(ns)+rrbe3pen_stf(2) 
+            ar(1:3,ns) = ar(1:3,ns) - mom(1:3) ! a(1:3,ns) will be updated at the end
+          end if 
         end if
+        frefb(1:3) = for(1:3)  ! will be distributed to ind nodes
+        mrefb(1:3) = mom(1:3)  ! will be distributed to ind nodes
 ! forces distributed to ind nodes and get balance forces for ref node
         for(1:3) = zero
 ! for ind nodes :
@@ -261,7 +262,7 @@
           for(1:3) = for(1:3) + fn(1:3)
           am(1:3,k) = am(1:3,k) + fn(1:3)    
 !
-          mrefr(1:3) = mrefbr(1)*el(1,1:3,i)+mrefbr(2)*el(2,1:3,i)+mrefbr(3)*el(3,1:3,i)
+          mrefr(1:3) = mrefb(1)*el(1,1:3,i)+mrefb(2)*el(2,1:3,i)+mrefb(3)*el(3,1:3,i)
           mrefr(1:3) = wri(1:3,i)*mrefr(1:3)
           mref0(1:3) = mrefr(1)*el(1:3,1,i)+mrefr(2)*el(1:3,2,i)+mrefr(3)*el(1:3,3,i)
           arm(1:3,k) = arm(1:3,k) + mref0(1:3)    
