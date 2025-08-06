@@ -289,9 +289,12 @@
           real(kind=WP) :: fisokin
           real(kind=WP), dimension(nel), target :: vecnul
           real(kind=WP), dimension(:), pointer  :: sigbxx,sigbyy,sigbzz,sigbxy,sigbyz,sigbzx
+          real(kind=WP), target :: nothing(1)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
+          nothing = zero
+          siglp => nothing
           dta = -huge(dta)
           imat = mat(lft)
           inloc   = mat_param(imat)%nloc

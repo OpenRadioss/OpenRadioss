@@ -801,7 +801,7 @@ c-----------------------------------------------------------------------
           ENDIF
        CALL I7MAIN_TRI(TIMERS,
      1 IPARI   ,PTR_X   ,PTR_V   ,
-     2 PTR_MS  ,N            ,ITASK        ,WAG     ,WEIGHT  ,
+     2 PTR_MS  ,N            ,ITASK        ,WEIGHT  ,
      3 ISENDTO ,IRECVFROM    ,RETRI        ,IAD_ELEM,FR_ELEM ,
      4 ITAB    ,PTR_KINET    ,TEMP         ,NRTM_T ,RENUM   ,
      5 NSNFIOLD,ESHIFT       ,IDUM         ,IDUM    ,NODNX_SMS ,
@@ -1064,7 +1064,7 @@ C-----------------------------------------------------------------------
           ENDIF
       CALL I7MAIN_TRI(TIMERS,
      1 IPARI   ,PTR_X   ,PTR_V   ,
-     2 PTR_MS  ,N            ,ITASK        ,WAG     ,WEIGHT  ,
+     2 PTR_MS  ,N            ,ITASK        ,WEIGHT  ,
      3 ISENDTO ,IRECVFROM    ,RETRI        ,IAD_ELEM,FR_ELEM ,
      4 ITAB    ,PTR_KINET    ,TEMP         ,NRTM_T        ,RENUM     ,
      5 NSNFIOLD,ESHIFT       ,NUM_IMP(N)   ,IND_IMP(IADI) ,NODNX_SMS ,

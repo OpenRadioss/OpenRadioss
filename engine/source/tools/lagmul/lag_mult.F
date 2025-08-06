@@ -57,8 +57,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||====================================================================
       SUBROUTINE LAG_MULT(
      1       IPARI  ,X        ,A        ,
-     2       WAT    ,V       ,MS      ,IN       ,VR       ,
-     3       ITASK  ,WAG     ,ITAB    ,IXS      ,IXS20    ,
+     2       V       ,MS      ,IN       ,VR       ,
+     3       ITASK  ,ITAB    ,IXS      ,IXS20    ,
      4       IXS16  ,IGRNOD  ,FANI    ,FSAV     ,
      5       SKEW   ,AR      ,LAMBDA  ,LAGBUF   ,IBCSLAG  ,
      6       IXS10  ,GJBUFI  ,GJBUFR  ,IBMPC    ,RBMPC    ,
@@ -77,6 +77,7 @@ C-----------------------------------------------
       USE GROUPDEF_MOD
       USE SENSOR_MOD
       USE nodal_arrays_mod
+      USE extend_array_mod
 C----------------------------------------------- 
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -102,7 +103,7 @@ C     REAL
       my_real
      .   X(3,*), D(3,*), DR(3,*), A(3,*), AR(3,*), V(3,*), VR(3,*),
      .   MS(*), IN(*), LAMBDA(*),FANI(3,*),FSAV(NTHVKI,*),
-     .   SKEW(LSKEW,*),WAG(*),WAT(*),GJBUFR(LKJNR,*),RBMPC(*),
+     .   SKEW(LSKEW,*),GJBUFR(LKJNR,*),RBMPC(*),
      .   VEL(LFXVELR,*),TF(*),RWBUF(NRWLP,*),RBYL(NRBY,*)
 
       TYPE(INTBUF_STRUCT_) INTBUF_TAB(*)
@@ -124,6 +125,7 @@ C-----------------------------------------------
      .        NUM_ISTOCK,KINDEX2,
      .        ILAGM, ISENS
       my_real TS
+      my_real, dimension(:), allocatable :: WAG, WAT
 C======================================================================|
       N_MUL_MX = LAG_NCF + LAG_NCL
       NKMAX    = LAG_NKF + LAG_NKL
@@ -131,6 +133,7 @@ C======================================================================|
       N_MULT   = 0
       NUM_ISTOCK = 4*NUMNOD
       LWAT     = MAX(6*(NUMELS16+NUMELS20),NRWLAG,2*NUMNOD+NUM_ISTOCK)
+      ALLOCATE(WAT(LWAT))
 C
       IP0 = 1
       IP1 = IP0 + N_MUL_MX
@@ -143,6 +146,7 @@ C
       IP8 = IP7 + LWAT
       IP8A= IP7 + NUMNOD
       IP8B= IP8A+ NUMNOD
+      ALLOCATE(WAG(IP8B))
       IF(ITASK==0)THEN
         KINDEX2=IP8B
       ELSE
@@ -226,7 +230,7 @@ C---
      1         N         ,IPARI     ,INTBUF_TAB,X   ,
      2         V         ,A         ,ITASK     ,MS          ,
      3         WAG(IP1)  ,WAG(IP2)  ,WAG(IP3)  ,WAG(IP4)    ,WAG(IP5)  ,
-     4         N_MUL_MX  ,NKMAX     ,ITAB      ,WAT(KINDEX2),NB_JLT    ,
+     4         N_MUL_MX  ,NKMAX     ,ITAB      ,WAT,NB_JLT    ,
      5         NB_JLT_NEW,NB_STOK_N ,NEWFRONT  ,ICONTACT    ,WAG(IP7)  ,
      6         WAG(IP8A) ,WAG(IP6)  ,KINET     )
             ENDIF
@@ -236,7 +240,7 @@ C---
           ILAGM  =IPARI(33,N)
           IF(ILAGM /= 0)CALL I16MAIN(
      1         N         ,IPARI     ,INTBUF_TAB,X         ,V         ,
-     2         A         ,ITASK     ,IGRNOD    ,WAG(IP7)  ,WAT(IP8)  ,
+     2         A         ,ITASK     ,IGRNOD    ,WAG(IP7)  ,WAT  ,
      3         MS        ,WAG(IP1)  ,WAG(IP2)  ,WAG(IP3)  ,WAG(IP4)  ,
      4         WAG(IP5)  ,N_MUL_MX  ,IXS       ,IXS16     ,IXS20     ,
      5         NKMAX     ,IXS10     ,WAG(IP6)  ,IGRBRIC)
@@ -264,7 +268,7 @@ C -------------------
         N6=N5+NRWALL
         IF(NPRW(N6)==1)THEN
           CALL LAG_RWALL(RWBUF(1,N),LPRW(K),NPRW(N),NPRW(N2),NPRW(N3),
-     2                   WAT(IP8),X       ,V       ,A       ,WAG(IP1),
+     2                   WAT,X       ,V       ,A       ,WAG(IP1),
      3                   WAG(IP2),WAG(IP3),WAG(IP4),WAG(IP5),WAG(IP6),
      4                   N_MUL_MX,NKMAX   ,N_MULT  )
         ENDIF
@@ -367,6 +371,7 @@ C---
         IP18 = IP17 + N_MULT
         IP19 = IP18 + N_MULT
         IP20 = IP19 + N_MULT
+        CALL EXTEND_ARRAY(WAG,SIZE(WAG),IP20)
 C---
         DO N=IP13,IP14-1
           WAG(N) = ZERO
@@ -399,6 +404,7 @@ C-------------------
 c      IF(ITASK==0 .AND. NRBYLAG>0)
 c     .  CALL LAGTH_RBY(LPBYL ,NPBYL ,FANI  ,FSAV  ,A     ,AR    ,X     )
 C---
+      DEALLOCATE(WAG,WAT) 
       RETURN
       END
 C
@@ -430,8 +436,8 @@ C
 !||====================================================================
       SUBROUTINE LAG_MULTP(
      1       IPARI  ,X        ,A        ,
-     2       WAT    ,V       ,MS      ,IN       ,VR       ,
-     3               WAG     ,ITAB    ,IXS      ,IXS20    ,
+     2       V       ,MS      ,IN       ,VR       ,
+     3       ITAB    ,IXS      ,IXS20    ,
      4       IXS16  ,FANI    ,FSAV    ,
      5       SKEW   ,AR      ,LAMBDA  ,LAGBUF   ,IBCSLAG  ,
      6       IXS10  ,GJBUFI  ,GJBUFR  ,IBMPC    ,RBMPC    ,
@@ -449,6 +455,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE INTBUFDEF_MOD
       USE H3D_MOD
+      USE extend_array_mod
 C======================================================================|
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -479,7 +486,7 @@ C     REAL
       my_real
      .   X(3,*), D(3,*), DR(3,*), A(3,*), AR(3,*), V(3,*), VR(3,*),
      .   MS(*), IN(*), LAMBDA(*),FANI(3,*),FSAV(6,*),
-     .   SKEW(LSKEW,*),WAG(*),WAT(*),GJBUFR(LKJNR,*),RBMPC(*),
+     .   SKEW(LSKEW,*),GJBUFR(LKJNR,*),RBMPC(*),
      .   VEL(LFXVELR,*),TF(*),RWBUF(NRWLP,*),RBYL(NRBY,*)
 
       TYPE(INTBUF_STRUCT_) INTBUF_TAB(*)
@@ -502,6 +509,8 @@ C-----------------------------------------------
      .        LAGCOM(2*NBNCL+4*NBIKL),
      .        AG(3,NBNODL),VG(3,NBNODL),MSG(NBNODL),
      .        ARG(3,NBNODLR),VRG(3,NBNODLR),ING(NBNODLR)   ! NBNODLR = NBNODL ou 0 suivant iroddl
+      my_real, dimension(:), allocatable :: WAG, WAT
+
 C======================================================================|
 C
       NLAGF = FR_LAGF(3,ISPMD+1)
@@ -513,6 +522,7 @@ C
       N_IK = 0
       NUM_ISTOCK = 4*NUMNODG
       LWAT     = MAX(6*(NUMELS16+NUMELS20),NRWLAG,2*NUMNODG+NUM_ISTOCK)
+      ALLOCATE(WAT(LWAT))
 C
       IF(ISPMD==0) THEN
        IP0 = 1
@@ -532,6 +542,7 @@ C
        J3   = J2   + LAG_NHF       ! ICFTAG
        J4   = J3   + LAG_NCF       ! JCFTAG
        J5   = J4   + LAG_NCF
+       ALLOCATE(WAG(MAX(IP8+NUMNODG,IP8B+NUMNODG)))
 C---
        DO N=0,LAG_NCF-1
         LAGBUF(J3+N) = 0
@@ -562,24 +573,13 @@ C----------------------------------------------------
        IP8A= IP7
        IP8B= IP8A
        KINDEX2=IP8B
+       ALLOCATE(WAG(IP8B))
        J1   = 1
        J2   = J1
        J3   = J2
        J4   = J3
        J5   = J4
       END IF
-C----------------------------------------------------
-C ---------------------
-C -------------------
-C -------------------
-C ---------------------
-C -------------------
-C -------------------
-C -------------------
-C -------------------
-C -------------------
-C -------------------
-C -------------------
 C----------------------------------------------------
 C     Construct L matrix for interfaces and rigid walls
 C----------------------------------------------------
@@ -727,7 +727,7 @@ C---
         IP18 = IP17 + N_MULT
         IP19 = IP18 + N_MULT
         IP20 = IP19 + N_MULT
-C---
+        call extend_array(WAG,SIZE(WAG),IP20)
         DO N=IP13,IP14-1
           WAG(N) = ZERO
         ENDDO
@@ -805,6 +805,9 @@ C AG => FANIG
       CALL LAG_ANITHP(WAG(IP1),WAG(IP2),WAG(IP3),WAG(IP4),WAG(IP5),
      2                FANI    ,FSAV    ,N_MULT  ,INDEXLAG,AG      ,
      3                FR_LAGF ,NBNODL  ,LLAGF   ,NLAGF   ,H3D_DATA)
+
+
+      deallocate(WAT,WAG)
 C---
       RETURN
       END
