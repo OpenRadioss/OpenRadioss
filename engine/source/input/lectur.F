@@ -233,7 +233,7 @@ C-----------------------------------------------
      .   IDEL2,IS,
      .   STEXT1,MULTIREST1,NLPRI1,LOWMACH_OPT,IERROR,
      .   NINTERSKID,IVOLU,IFV,IFV_TYPE,ISTATG_P,
-     .   K3,K4,K5,K6,K7,K8,K9,NINEFRICG,NS,NI,NPARTOF,IFT,ILT,K10,K11
+     .   K3,K4,K5,K6,K7,K8,K9,NINEFRICG,NS,NI,NPARTOF,K10,K11
 
       INTEGER :: NBPARTALEON, NBPARTALEOFF, PARTID, ISON, ION, IOFF, NBALEON_PART, NBALEOFF_PART
       INTEGER, DIMENSION(:), ALLOCATABLE :: ALEOFF_PARTIDS_TMP, ALEOFF_PARTIDS,
@@ -1789,61 +1789,6 @@ C
              IWIOUT = 0
            ENDIF
          ENDIF
-!     OFF of each element in Part
-        K1=1+LIPART1*(NPART+NTHPART)+2*9*(NPART+NTHPART)
-        K2=K1+NUMELS
-        K3=K2+NUMELQ
-        K4=K3+NUMELC
-        K5=K4+NUMELT
-        K6=K5+NUMELP
-        K7=K6+NUMELR
-        K8=K7
-        K9=K8+NUMELTG
-        K10= K9 + NUMELX
-        K11= K10+ NUMSPH
-        DO NG = 1, NGROUP
-           ITY = IPARG(5, NG)
-           NEL = IPARG(2, NG)
-           NFT = IPARG(3, NG)
-           IFT = NFT + 1
-           ILT = NFT + NEL
-           IF (NEL == 0) CYCLE
-           SELECT CASE (ITY)
-             CASE(1)                                             
-!       1. SOLID ELEMS
-              PARTID = IPART(K1 + NFT)
-              IF (IPARTOF(PARTID)==1) IXS(1,IFT:ILT)=-IABS(IXS(1,IFT:ILT))
-             CASE(2)                                             
-!       2. 2D ELEMS
-              PARTID = IPART(K2 + NFT)
-              IF (IPARTOF(PARTID)==1) IXQ(1,IFT:ILT)=-IABS(IXQ(1,IFT:ILT))
-             CASE(3)                                             
-!       3. SHELL ELEMS
-              PARTID = IPART(K3 + NFT)
-              IF (IPARTOF(PARTID)==1) IXC(1,IFT:ILT)=-IABS(IXC(1,IFT:ILT))
-             CASE(4)                                             
-!       4. ROD ELEMS
-              PARTID = IPART(K4 + NFT)
-              IF (IPARTOF(PARTID)==1) IXT(1,IFT:ILT)=-IABS(IXT(1,IFT:ILT))
-             CASE(5)                                             
-!       5. BEAM ELEMS
-              PARTID = IPART(K5 + NFT)
-              IF (IPARTOF(PARTID)==1) IXP(1,IFT:ILT)=-IABS(IXP(1,IFT:ILT))
-             CASE(6)                                             
-!       6. ELEMENTS RESSORTS
-              PARTID = IPART(K6 + NFT)
-              IF (IPARTOF(PARTID)==1) IXR(1,IFT:ILT)=-IABS(IXR(1,IFT:ILT))
-             CASE(7)                                             
-!       7. 3N-SHELL-ELEMS
-              PARTID = IPART(K8 + NFT)
-              IF (IPARTOF(PARTID)==1) IXTG(1,IFT:ILT)=-IABS(IXTG(1,IFT:ILT))
-             CASE(51)                                             
-!       8. SPH PARTICLES
-              PARTID = IPART(K10 + NFT)
-              IF (IPARTOF(PARTID)==1) KXSP(2,IFT:ILT) = 0
-            END SELECT 
-        ENDDO
-        IF (ALLOCATED(IPARTOF)) DEALLOCATE(IPARTOF)
 !
       END IF
 
@@ -2066,6 +2011,88 @@ C     CHECK FOR GROUP CLEANING
 C----------------------------------------
          IPARG(8,NG)=MAX0(IPARG(8,NG),IGOF)
         ENDDO ! next NG
+      END IF
+! /DEL/PART       
+      IF(NPARTOF > 0)THEN
+!     per group
+        K1=1+LIPART1*(NPART+NTHPART)+2*9*(NPART+NTHPART)
+        K2=K1+NUMELS
+        K3=K2+NUMELQ
+        K4=K3+NUMELC
+        K5=K4+NUMELT
+        K6=K5+NUMELP
+        K7=K6+NUMELR
+        K8=K7
+        K9=K8+NUMELTG
+        K10= K9 + NUMELX
+        K11= K10+ NUMSPH
+        DO NG = 1, NGROUP
+           OFFG => ELBUF_STR(NG)%GBUF%OFF
+           MLW=IPARG(1,NG)
+           ITY = IPARG(5, NG)
+           NEL = IPARG(2, NG)
+           NFT = IPARG(3, NG)
+           IF (NEL == 0) CYCLE
+           SELECT CASE (ITY)
+             CASE(1)                                             
+!       1. SOLID ELEMS
+              PARTID = IPART(K1 + NFT)
+              IF (IPARTOF(PARTID)==1) THEN
+                IF (MLW/=0)  OFFG(1:NEL) = ZERO 
+                IPARG(8,NG)=1
+              END IF
+             CASE(2)                                             
+!       2. 2D ELEMS
+              PARTID = IPART(K2 + NFT)
+              IF (IPARTOF(PARTID)==1) THEN
+                OFFG(1:NEL) = ZERO 
+                IPARG(8,NG)=1
+              END IF
+             CASE(3)                                             
+!       3. SHELL ELEMS
+              PARTID = IPART(K3 + NFT)
+              IF (IPARTOF(PARTID)==1) THEN
+                IF (MLW/=0)  OFFG(1:NEL) = ZERO 
+                IPARG(8,NG)=1
+              END IF
+             CASE(4)                                             
+!       4. ROD ELEMS
+              PARTID = IPART(K4 + NFT)
+              IF (IPARTOF(PARTID)==1) THEN
+                OFFG(1:NEL) = ZERO 
+                IPARG(8,NG)=1
+              END IF
+             CASE(5)                                             
+!       5. BEAM ELEMS
+              PARTID = IPART(K5 + NFT)
+              IF (IPARTOF(PARTID)==1) THEN
+                OFFG(1:NEL) = ZERO 
+                IPARG(8,NG)=1
+              END IF
+             CASE(6)                                             
+!       6. ELEMENTS RESSORTS
+              PARTID = IPART(K6 + NFT)
+              IF (IPARTOF(PARTID)==1) THEN
+                OFFG(1:NEL) = ZERO 
+                IPARG(8,NG)=1
+              END IF
+             CASE(7)                                             
+!       7. 3N-SHELL-ELEMS
+              PARTID = IPART(K8 + NFT)
+              IF (IPARTOF(PARTID)==1) THEN
+                IF (MLW/=0)  OFFG(1:NEL) = ZERO 
+                IPARG(8,NG)=1
+              END IF
+             CASE(51)                                             
+!       8. SPH PARTICLES
+              PARTID = IPART(K10 + NFT)
+              IF (IPARTOF(PARTID)==1) THEN
+                OFFG(1:NEL) = ZERO 
+                IPARG(8,NG)=1
+              END IF
+            END SELECT 
+        ENDDO
+        IF (ALLOCATED(IPARTOF)) DEALLOCATE(IPARTOF)
       END IF
 C-------------------------------------------
 C     ADDING RIGID LINK BETWEEN NODES
