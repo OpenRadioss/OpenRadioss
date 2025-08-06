@@ -481,9 +481,10 @@ C  MS(NS) = ZERO
      .          STIFN   ,STIFR       ,STIFNM      ,STIFRM      ,         
      .          V       ,VR          ,FRBE3(6*IAD+1),X         ,         
      .         LSKEW    ,NUMSKW      ,SKEW          ,
-     .         PEN%RRBE3PEN_D(1,N_P) ,PEN%RRBE3PEN_STF(1,N_P) ,         
+     .         PEN%RRBE3PEN_F(1,N_P) ,PEN%RRBE3PEN_STF(1,N_P) ,         
      .         PEN%RRBE3PEN_FAC(N_P) ,PEN%RRBE3PEN_VI(N_P)    ,
-     .         PEN%RRBE3PEN_M(1,N_P) ,DT1           ,IRODDL )
+     .         PEN%RRBE3PEN_M(1,N_P) ,DT1           ,IN       ,
+     .         IRODDL )
         ENDIF
       ENDDO
 C

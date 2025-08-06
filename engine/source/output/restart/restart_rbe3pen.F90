@@ -106,7 +106,7 @@
        rbe3pen%nrbe3_lp = nrbe3pen_l
        call allocate_rbe3pen(rbe3pen)
        call read_db ( rbe3pen%rrbe3pen_vi,nrbe3pen_l)
-       call read_db ( rbe3pen%rrbe3pen_d,3*nrbe3pen_l)
+       call read_db ( rbe3pen%rrbe3pen_f,3*nrbe3pen_l)
        call read_db ( rbe3pen%rrbe3pen_m,3*nrbe3pen_l)
        call read_db ( rbe3pen%rrbe3pen_stf,2*nrbe3pen_l)
        call read_db ( rbe3pen%rrbe3pen_fac,nrbe3pen_l)
@@ -148,7 +148,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
        nrbe3pen_l = rbe3pen%nrbe3_lp 
        call write_db ( rbe3pen%rrbe3pen_vi,nrbe3pen_l)
-       call write_db ( rbe3pen%rrbe3pen_d,3*nrbe3pen_l)
+       call write_db ( rbe3pen%rrbe3pen_f,3*nrbe3pen_l)
        call write_db ( rbe3pen%rrbe3pen_m,3*nrbe3pen_l)
        call write_db ( rbe3pen%rrbe3pen_stf,2*nrbe3pen_l)
        call write_db ( rbe3pen%rrbe3pen_fac,nrbe3pen_l)

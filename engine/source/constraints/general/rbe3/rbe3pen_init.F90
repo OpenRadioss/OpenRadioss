@@ -91,7 +91,7 @@
                   ns               ,irot          ,numnod       ,nml       ,         &
                   ms               ,in            ,stifn        ,stifr     ,         &
                   rbe3%lrbe3(iad+1)     ,rbe3%frbe3(6*iad+1)    ,x         ,         &
-              rbe3%pen%rrbe3pen_d(1,n_p), rbe3%pen%rrbe3pen_stf(1,n_p)     ,         &
+              rbe3%pen%rrbe3pen_f(1,n_p), rbe3%pen%rrbe3pen_stf(1,n_p)     ,         &
               rbe3%pen%rrbe3pen_fac(n_p), rbe3%pen%rrbe3pen_vi(n_p )       ,         &
               rbe3%pen%rrbe3pen_m(1,n_p))
 !       
@@ -125,7 +125,7 @@
         subroutine rbe3fpen_ininp(                                      &
                 ns      ,irot        ,numnod     ,nml         ,         &
                 ms      ,in          ,stifn      ,stifr       ,         &
-                iml     ,frbe3       ,x          ,rrbe3pen_d  ,         &
+                iml     ,frbe3       ,x          ,rrbe3pen_f  ,         &
             rrbe3pen_stf,rrbe3pen_fac,rrbe3pen_vi,rrbe3pen_m  )
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                        Modules
@@ -148,7 +148,7 @@
           real(kind=WP), dimension(numnod),  intent(in   )         :: in              !< nodal inertia
           real(kind=WP), dimension(numnod),  intent(in   )         :: stifn           !< nodal stifness
           real(kind=WP), dimension(numnod),  intent(in   )         :: stifr           !< nodal rotational stifness
-          real(kind=WP), dimension(3),       intent(inout)         :: rrbe3pen_d      !< initial displacement
+          real(kind=WP), dimension(3),       intent(inout)         :: rrbe3pen_f      !< force
           real(kind=WP), dimension(2),       intent(inout)         :: rrbe3pen_stf    !< stiffness
           real(kind=WP),                     intent(inout)         :: rrbe3pen_fac    !< stiffness factor
           real(kind=WP),                     intent(inout)         :: rrbe3pen_vi     !< damping coefficient
@@ -187,7 +187,7 @@
 !
         disdp(1:3)= x(1:3,ns) - xbar(1:3)
         rR(1:3)   = disdp(1:3)
-        rrbe3pen_d(1:3) = disdp(1:3)  
+        rrbe3pen_f(1:3) = zero  
         rrbe3pen_m(1:3) = zero  
         lsm2 = rR(1)*rR(1)+rR(2)*rR(2)+rR(3)*rR(3)
 !-------set up rrbe3pen_stf 
@@ -307,9 +307,12 @@
         end do
 !       
       endif !if (icoline>0) then
-      rrbe3pen_fac = max(one,(facn+facr))  ! used for ref node
+      if (in(ns)>zero) then
+        rrbe3pen_fac = max(one,(facn+facr))  ! solid/solid(shell)
+      else
+        rrbe3pen_fac = max(one,facn)         ! shell/solid(shell)
+      end if
 !-------set up rrbe3pen_vi
-      ins = in(ns) 
       damp= zep05
       rdummy = one/ms(ns)+one/msbar
       dk_m = rrbe3pen_stf(1)/rdummy

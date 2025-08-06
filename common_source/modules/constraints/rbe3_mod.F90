@@ -68,7 +68,7 @@
         type rbe3_pen
           integer :: nrbe3_lp                                        !< number of RBE3 of penalty formulation (local)
           real(kind=WP) , dimension(:)   , allocatable ::  rrbe3pen_vi  !< damp(nrbe3_lp)
-          real(kind=WP) , dimension(:,:) , allocatable ::  rrbe3pen_d   !< disp(3*nrbe3_lp)
+          real(kind=WP) , dimension(:,:) , allocatable ::  rrbe3pen_f   !< force(3*nrbe3_lp)
           real(kind=WP) , dimension(:,:) , allocatable ::  rrbe3pen_m   !< mom(3*nrbe3_lp)
           real(kind=WP) , dimension(:,:) , allocatable ::  rrbe3pen_stf !< stif(2*nrbe3_lp)
           real(kind=WP) , dimension(:)   , allocatable ::  rrbe3pen_fac !< stif_fac(nrbe3_lp) stif factor stability
@@ -142,7 +142,7 @@
           type(rbe3_pen),INTENT(INOUT) :: rbe3pen
 
           call my_alloc( rbe3pen%rrbe3pen_vi,rbe3pen%nrbe3_lp)
-          call my_alloc( rbe3pen%rrbe3pen_d,3,rbe3pen%nrbe3_lp)
+          call my_alloc( rbe3pen%rrbe3pen_f,3,rbe3pen%nrbe3_lp)
           call my_alloc( rbe3pen%rrbe3pen_m,3,rbe3pen%nrbe3_lp)
           call my_alloc( rbe3pen%rrbe3pen_stf,2,rbe3pen%nrbe3_lp)
           call my_alloc( rbe3pen%rrbe3pen_fac,rbe3pen%nrbe3_lp)
