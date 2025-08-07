@@ -412,15 +412,23 @@ c
         DO II = 1, NINDX 
           I = INDEX(II)
           ET(I)  = HARDP(I) / (HARDP(I) + YOUNG)
-        ENDDO                      
+        ENDDO  
 !
-        !< Update the temperature
-        IF (JTHE == 0 .AND. ETA > ZERO .AND. INLOC == 0) THEN 
-          DO II = 1, NINDX 
-            I = INDEX(II)
-            TEMP(I) = TEMP(I) + FTHERM(I)*YLD(I)*DPLA(I)
-          ENDDO                      
-        ENDIF 
+        ! Update the temperature or heat energy due to plastic work
+        IF (ETA > ZERO .AND. INLOC == 0) THEN 
+          IF (JTHE /= 0 .AND. JLAG /= 0) THEN
+            DO II = 1, NINDX 
+              I = INDEX(II)
+              FHEAT(I) = FHEAT(I) + FTHERM(I)*YLD(I)*DPLA(I) * VOLUME(I)
+            ENDDO
+          ELSE IF (CP > ZERO) THEN
+            DO II = 1, NINDX 
+              I = INDEX(II)
+              TEMP(I) = TEMP(I) + FTHERM(I)*YLD(I)*DPLA(I) / (CP*RHO(I))
+            ENDDO
+          ENDIF
+        ENDIF
+!
       ENDIF
 !
       !< Non-local thickness variation and temperature update
