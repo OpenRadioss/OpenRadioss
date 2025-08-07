@@ -359,6 +359,7 @@ C--------------------------------------------------
      .                  I2=FUNC_ID)                           
             ENDIF
           ENDIF
+          DAMPR(4:NRDAMP,I) = ZERO
           WRITE(IOUT,2100)
         ELSE
 C--------------------------------------------------
@@ -520,7 +521,6 @@ C
               ALPHA_X = ALPHA
               DAMPR(3,I) = ALPHA_X
               ALPHA = FACTB
-              DAMPR(4:NRDAMP,I) = ZERO
               DAMPR(5,I) = ALPHA_Y
               DAMPR(7,I) = ALPHA_Z
               DAMPR(9,I)  = ALPHA_XX
