@@ -233,6 +233,7 @@
 !||    spmd_gath_collective            ../engine/source/mpi/generic/spmd_gath_collective.F
 !||    spmd_gather_dtnoda              ../engine/source/mpi/generic/spmd_gather_dtnoda.F
 !||    spmd_gather_int                 ../engine/source/mpi/generic/spmd_gather_int.F
+!||    spmd_gather_nodal_scalar        ../engine/source/mpi/nodes/spmd_gather_nodal_scalar.F
 !||    spmd_gather_sph                 ../engine/source/mpi/anim/spmd_gather_sph.F
 !||    spmd_gather_wa                  ../engine/source/mpi/anim/spmd_gather_wa.F
 !||    spmd_gather_xyz16               ../engine/source/mpi/anim/spmd_gather_xyz16.F

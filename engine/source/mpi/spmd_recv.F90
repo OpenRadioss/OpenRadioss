@@ -21,9 +21,10 @@
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    spmd_recv_mod   ../engine/source/mpi/spmd_recv.F90
+!||    spmd_recv_mod              ../engine/source/mpi/spmd_recv.F90
 !||--- called by ------------------------------------------------------
-!||    spmd_mod        ../engine/source/mpi/spmd_mod.F90
+!||    spmd_gather_nodal_scalar   ../engine/source/mpi/nodes/spmd_gather_nodal_scalar.F
+!||    spmd_mod                   ../engine/source/mpi/spmd_mod.F90
 !||====================================================================
       module spmd_recv_mod
         implicit none

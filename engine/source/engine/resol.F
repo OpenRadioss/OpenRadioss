@@ -243,6 +243,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    offset_nproj                                 ../engine/source/interfaces/shell_offset/offset_nproj.F90
 !||    omp_get_thread_num                           ../engine/source/engine/openmp_stub.F90
 !||    omp_set_num_threads                          ../engine/source/engine/openmp_stub.F90
+!||    output_allocate_noda_pext                    ../common_source/modules/output/output_mod.F90
+!||    output_deallocate_noda_pext                  ../common_source/modules/output/output_mod.F90
 !||    pblast_deallocate                            ../common_source/modules/loads/pblast_mod.F90
 !||    pblast_load_computation                      ../engine/source/loads/pblast/pblast.F
 !||    pfluid                                       ../engine/source/loads/general/pfluid/pfluid.F
@@ -528,7 +530,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    stack_mod                                    ../engine/share/modules/stack_mod.F
 !||    state_mod                                    ../common_source/modules/state_mod.F
 !||    table_mod                                    ../engine/share/modules/table_mod.F
-!||    th_mod                                       ../engine/share/modules/th_mod.F
 !||    th_surf_mod                                  ../common_source/modules/interfaces/th_surf_mod.F
 !||    thgrelem_mod                                 ../engine/share/modules/thgrelem_mod.F
 !||    thk_mod                                      ../engine/share/modules/thk_mod.F

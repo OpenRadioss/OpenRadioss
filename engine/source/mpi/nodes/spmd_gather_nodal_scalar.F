@@ -20,6 +20,11 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+!||====================================================================
+!||    spmd_gather_nodal_scalar_mod   ../engine/source/mpi/nodes/spmd_gather_nodal_scalar.F
+!||--- called by ------------------------------------------------------
+!||    spmd_exch_output_noda_pext     ../engine/source/mpi/output/spmd_exch_output_noda_pext.F
+!||====================================================================
       module spmd_gather_nodal_scalar_mod
       contains
 ! ======================================================================================================================
@@ -27,6 +32,18 @@
 ! ======================================================================================================================
 !! \brief generic subroutine gather all domain array to domain 0 in a global array v_glob(num)
 !! \details
+!||====================================================================
+!||    spmd_gather_nodal_scalar     ../engine/source/mpi/nodes/spmd_gather_nodal_scalar.F
+!||--- called by ------------------------------------------------------
+!||    spmd_exch_output_noda_pext   ../engine/source/mpi/output/spmd_exch_output_noda_pext.F
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||    constant_mod                 ../common_source/modules/constant_mod.F
+!||    precision_mod                ../common_source/modules/precision_mod.F90
+!||    spmd_comm_world_mod          ../engine/source/mpi/spmd_comm_world.F90
+!||    spmd_recv_mod                ../engine/source/mpi/spmd_recv.F90
+!||    spmd_send_mod                ../engine/source/mpi/spmd_send.F90
+!||====================================================================
        subroutine spmd_gather_nodal_scalar(v_glob,num,v,numnod,weight,nodglob)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules

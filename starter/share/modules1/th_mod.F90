@@ -21,11 +21,11 @@
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    th_mod      ../starter/share/modules1/th_mod.F90
+!||    th_mod                      ../starter/share/modules1/th_mod.F90
 !||--- called by ------------------------------------------------------
-!||    hm_thvarc   ../starter/source/output/th/hm_read_thvarc.F
-!||    starter0    ../starter/source/starter/starter0.F
-!||    wrcomip     ../starter/source/restart/ddsplit/wrcommp.F
+!||    hm_thvarc                   ../starter/source/output/th/hm_read_thvarc.F
+!||    starter0                    ../starter/source/starter/starter0.F
+!||    wrcomip                     ../starter/source/restart/ddsplit/wrcommp.F
 !||====================================================================
       module th_mod
 

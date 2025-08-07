@@ -23,9 +23,10 @@
 
 
 !||====================================================================
-!||    spmd_send_mod   ../engine/source/mpi/spmd_send.F90
+!||    spmd_send_mod              ../engine/source/mpi/spmd_send.F90
 !||--- called by ------------------------------------------------------
-!||    spmd_mod        ../engine/source/mpi/spmd_mod.F90
+!||    spmd_gather_nodal_scalar   ../engine/source/mpi/nodes/spmd_gather_nodal_scalar.F
+!||    spmd_mod                   ../engine/source/mpi/spmd_mod.F90
 !||====================================================================
       module spmd_send_mod
 

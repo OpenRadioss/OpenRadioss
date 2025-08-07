@@ -76,6 +76,7 @@
 !||    sigeps41                           ../engine/source/materials/mat/mat041/sigeps41.F
 !||    sms_encin_2                        ../engine/source/ams/sms_encin_2.F
 !||    sortie_main                        ../engine/source/output/sortie_main.F
+!||    spmd_exch_output_noda_pext         ../engine/source/mpi/output/spmd_exch_output_noda_pext.F
 !||    spstres                            ../engine/source/elements/sph/spstres.F
 !||    st_checksum_file_print             ../starter/source/output/checksum/checksum_option.F90
 !||    st_qaprint_driver                  ../starter/source/output/qaprint/st_qaprint_driver.F
@@ -125,6 +126,14 @@
 
         contains
 
+!||====================================================================
+!||    output_allocate_noda_pext   ../common_source/modules/output/output_mod.F90
+!||--- called by ------------------------------------------------------
+!||    resol                       ../engine/source/engine/resol.F
+!||--- uses       -----------------------------------------------------
+!||    constant_mod                ../common_source/modules/constant_mod.F
+!||    th_mod                      ../engine/share/modules/th_mod.F
+!||====================================================================
           SUBROUTINE OUTPUT_ALLOCATE_NODA_PEXT(NUMNOD, NUMNODG)
               use th_mod , only : th_has_noda_pext
               use constant_mod , only : zero
@@ -148,6 +157,11 @@
              END IF
           END SUBROUTINE OUTPUT_ALLOCATE_NODA_PEXT
 
+!||====================================================================
+!||    output_deallocate_noda_pext   ../common_source/modules/output/output_mod.F90
+!||--- called by ------------------------------------------------------
+!||    resol                         ../engine/source/engine/resol.F
+!||====================================================================
           SUBROUTINE OUTPUT_DEALLOCATE_NODA_PEXT
             IF(ALLOCATED(NODA_SURF_G)) DEALLOCATE(NODA_SURF_G)
             IF(ALLOCATED(NODA_PEXT_G)) DEALLOCATE(NODA_PEXT_G)

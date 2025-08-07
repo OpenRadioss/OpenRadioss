@@ -202,6 +202,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    multifluid_global_tdet                   ../starter/source/multifluid/multifluid_global_tdet.F
 !||    newman_raju                              ../common_source/fail/newman_raju.F90
 !||    offset_nproj                             ../engine/source/interfaces/shell_offset/offset_nproj.F90
+!||    output_allocate_noda_pext                ../common_source/modules/output/output_mod.F90
 !||    pblast_load                              ../common_source/modules/loads/pblast_mod.F90
 !||    pblast_parameters__air_burst             ../common_source/modules/loads/pblast_mod.F90
 !||    pblast_parameters__free_air              ../common_source/modules/loads/pblast_mod.F90
@@ -272,7 +273,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    spmd_exch_flow_tracking_data2            ../engine/source/ale/grid/spmd_exch_flow_tracking_data2.F90
 !||    spmd_exch_flow_tracking_data3            ../engine/source/ale/grid/spmd_exch_flow_tracking_data3.F90
 !||    spmd_exch_flow_tracking_data4            ../engine/source/ale/grid/spmd_exch_flow_tracking_data4.F90
+!||    spmd_exch_output_noda_pext               ../engine/source/mpi/output/spmd_exch_output_noda_pext.F
 !||    spmd_exchange_component                  ../engine/source/mpi/interfaces/spmd_exch_component.F90
+!||    spmd_gather_nodal_scalar                 ../engine/source/mpi/nodes/spmd_gather_nodal_scalar.F
 !||    spmd_update_frontier_int25               ../engine/source/mpi/interfaces/spmd_update_frontier_int25.F90
 !||    spmd_xv_inter_type1                      ../engine/source/mpi/nodes/spmd_sd_xv_inter1.F90
 !||    stifint_icontrol                         ../starter/source/interfaces/interf1/stifint_icontrol.F90

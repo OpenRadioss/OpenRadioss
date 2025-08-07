@@ -22,18 +22,19 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 
 !||====================================================================
-!||    spmd_exch_nodarea     ../engine/source/mpi/anim/spmd_exch_nodarea.F
+!||    spmd_exch_nodarea            ../engine/source/mpi/anim/spmd_exch_nodarea.F
 !||--- called by ------------------------------------------------------
-!||    admthke               ../engine/source/model/remesh/admthke.F
-!||    ani_pcont             ../engine/source/output/anim/generate/ani_pcont.F
-!||    ani_pcont21           ../engine/source/output/anim/generate/ani_pcont.F
-!||    err_thk               ../engine/source/elements/shell/err_thk.F
-!||    genani                ../engine/source/output/anim/generate/genani.F
-!||    inter_nodal_areas     ../engine/source/output/inter_nodal_areas.F
-!||    inter_sh_offset_ini   ../engine/source/interfaces/shell_offset/inter_offset_ini.F90
+!||    admthke                      ../engine/source/model/remesh/admthke.F
+!||    ani_pcont                    ../engine/source/output/anim/generate/ani_pcont.F
+!||    ani_pcont21                  ../engine/source/output/anim/generate/ani_pcont.F
+!||    err_thk                      ../engine/source/elements/shell/err_thk.F
+!||    genani                       ../engine/source/output/anim/generate/genani.F
+!||    inter_nodal_areas            ../engine/source/output/inter_nodal_areas.F
+!||    inter_sh_offset_ini          ../engine/source/interfaces/shell_offset/inter_offset_ini.F90
+!||    spmd_exch_output_noda_pext   ../engine/source/mpi/output/spmd_exch_output_noda_pext.F
 !||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
-!||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
+!||    spmd_comm_world_mod          ../engine/source/mpi/spmd_comm_world.F90
 !||====================================================================
       SUBROUTINE SPMD_EXCH_NODAREA(
      .           NODAREA,IAD_ELEM,FR_ELEM,LENR,WEIGHT)

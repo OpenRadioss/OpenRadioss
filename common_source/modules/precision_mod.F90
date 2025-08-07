@@ -303,6 +303,7 @@
 !||    spmd_exch_flow_tracking_data4            ../engine/source/ale/grid/spmd_exch_flow_tracking_data4.F90
 !||    spmd_exch_neighbour_segment              ../engine/source/mpi/interfaces/spmd_exch_neighbour_segment.F90
 !||    spmd_exchange_ghost_shells               ../engine/source/engine/node_spliting/ghost_shells.F90
+!||    spmd_gather_nodal_scalar                 ../engine/source/mpi/nodes/spmd_gather_nodal_scalar.F
 !||    spmd_xv_inter_type1                      ../engine/source/mpi/nodes/spmd_sd_xv_inter1.F90
 !||    spring_functions_mod                     ../common_source/modules/spring_functions_mod.F90
 !||    stat_sphcel_full                         ../engine/source/output/sta/stat_sphcel_full.F90

@@ -20,6 +20,11 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+!||====================================================================
+!||    spmd_exch_output_noda_pext_mod   ../engine/source/mpi/output/spmd_exch_output_noda_pext.F
+!||--- called by ------------------------------------------------------
+!||    sortie_main                      ../engine/source/output/sortie_main.F
+!||====================================================================
           module spmd_exch_output_noda_pext_mod
           contains
 ! ======================================================================================================================
@@ -27,6 +32,20 @@
 ! ======================================================================================================================
 !! \brief spmd exchange between domain which have comon nodes
 !! \details
+!||====================================================================
+!||    spmd_exch_output_noda_pext     ../engine/source/mpi/output/spmd_exch_output_noda_pext.F
+!||--- called by ------------------------------------------------------
+!||    sortie_main                    ../engine/source/output/sortie_main.F
+!||--- calls      -----------------------------------------------------
+!||    spmd_exch_nodarea              ../engine/source/mpi/anim/spmd_exch_nodarea.F
+!||    spmd_gather_nodal_scalar       ../engine/source/mpi/nodes/spmd_gather_nodal_scalar.F
+!||--- uses       -----------------------------------------------------
+!||    constant_mod                   ../common_source/modules/constant_mod.F
+!||    nodal_arrays_mod               ../common_source/modules/nodal_arrays.F90
+!||    output_mod                     ../common_source/modules/output/output_mod.F90
+!||    spmd_gather_nodal_scalar_mod   ../engine/source/mpi/nodes/spmd_gather_nodal_scalar.F
+!||    th_mod                         ../engine/share/modules/th_mod.F
+!||====================================================================
           SUBROUTINE spmd_exch_output_noda_pext(NSPMD, NODES, NUMNOD, NUMNODG,
      .                                           TRIGGER_TH,
      .                                           TRIGGER_ANIM,

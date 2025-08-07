@@ -62,8 +62,10 @@
 !||    resol_head                               ../engine/source/engine/resol_head.F
 !||    restalloc                                ../engine/source/output/restart/arralloc.F
 !||    set_new_node_values                      ../engine/source/engine/node_spliting/detach_node.F90
+!||    sortie_main                              ../engine/source/output/sortie_main.F
 !||    spmd_exch_deleted_surf_edge              ../engine/source/mpi/interfaces/spmd_exch_deleted_surf_edge.F
 !||    spmd_exch_neighbour_segment              ../engine/source/mpi/interfaces/spmd_exch_neighbour_segment.F90
+!||    spmd_exch_output_noda_pext               ../engine/source/mpi/output/spmd_exch_output_noda_pext.F
 !||    spmd_exchange_ghost_shells               ../engine/source/engine/node_spliting/ghost_shells.F90
 !||    spmd_exchmsr_idel                        ../engine/source/mpi/interfaces/spmd_exchmsr_idel.F
 !||    spmd_exchseg_idel                        ../engine/source/mpi/kinematic_conditions/spmd_exchseg_idel.F
