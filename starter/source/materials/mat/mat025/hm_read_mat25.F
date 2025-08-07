@@ -80,7 +80,7 @@ C-----------------------------------------------
       CHARACTER(LEN=NCHARTITLE) ,INTENT(IN)             :: TITR
 c
       INTEGER, INTENT(INOUT)                         :: ISRATE
-      my_real, DIMENSION(100)       ,INTENT(INOUT)   :: PARMAT     
+      my_real, DIMENSION(128)       ,INTENT(INOUT)   :: PARMAT     
       my_real, DIMENSION(NPROPM)    ,INTENT(INOUT)   :: PM     
       TYPE(MLAW_TAG_)               ,INTENT(INOUT) :: MTAG
       TYPE(MATPARAM_STRUCT_) ,INTENT(INOUT) :: MATPARAM
