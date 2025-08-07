@@ -400,6 +400,7 @@ c-------------------------------------------
         eps_m2 = four_over_3*(exx(i)**2+eyy(i)**2+exx(i)*eyy(i) + fourth*exy(i)**2)
         epsd_pg(i) = sqrt(eps_k2 + eps_m2)*dtinv
       end do
+      gbuf%epsd(1:nel) = asrate * epsd_pg(1:nel) + (one - asrate) * gbuf%epsd(1:nel)      
 !-------------------------------------------------------------------------------
        CALL CMAIN3(TIMERS,
      1   ELBUF_STR ,JFT       ,JLT       ,NFT       ,IPARG      ,
